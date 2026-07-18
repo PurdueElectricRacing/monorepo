@@ -24,7 +24,10 @@ The **FIL bus** field selects the virtual bus used by Message Sender frames. Its
 default is `vehicle`, matching the committed PER network configuration.
 
 The selected paths are saved in `settings.json`. Disconnecting or switching the
-source terminates the child emulator process.
+source terminates the child emulator process. DAQApp2 launches the simulation
+without a time limit; it continues until disconnected, the application closes, or
+firmware reaches a genuine terminal failure. The instruction budget is set to the
+largest supported value and is therefore not a practical runtime boundary.
 
 Message Sender frames are written to FIL's live control channel and injected at
 the next safe shared simulation frontier. CAN 2.0 standard and extended data
