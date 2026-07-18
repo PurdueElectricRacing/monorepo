@@ -149,6 +149,16 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
                 }
+                Command::SetFilAdc {
+                    board,
+                    instance,
+                    channel,
+                    value,
+                } => {
+                    if let Err(error) = connection.set_adc(&board, &instance, channel, value) {
+                        emit!(Event::Diagnostic(error.to_string()));
+                    }
+                }
             }
         }
 

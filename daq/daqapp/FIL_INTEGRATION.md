@@ -33,3 +33,12 @@ Message Sender frames are written to FIL's live control channel and injected at
 the next safe shared simulation frontier. CAN 2.0 standard and extended data
 frames are supported in both directions. CAN FD and remote-frame injection remain
 unsupported and report an explicit send error.
+
+## Live ADC inputs
+
+Expand **FIL ADC injection** in the sidebar, then enter a board name, ADC instance,
+channel, and raw 12-bit value. **Inject** applies the value at FIL's next safe
+shared simulation frontier. Valid instances are `ADC1` through `ADC4`, channels
+are 0 through 19, and values are 0 through 4095. For example, dashboard `ADC1`,
+channel `3`, value `2048` sets that input to mid-scale without restarting the
+simulation.

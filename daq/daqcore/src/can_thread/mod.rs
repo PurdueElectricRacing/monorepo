@@ -63,6 +63,12 @@ pub enum CanThreadCommand {
     StartFirmwareUpdate(firmware::protocol::FirmwarePackage),
     ArmFirmwareUpdate(firmware::protocol::FirmwarePackage),
     CancelFirmwareUpdate,
+    SetFilAdc {
+        board: String,
+        instance: String,
+        channel: u8,
+        value: u16,
+    },
 }
 
 pub enum CanThreadEvent {
