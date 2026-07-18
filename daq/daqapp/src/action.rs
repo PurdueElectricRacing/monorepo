@@ -7,11 +7,27 @@ pub enum AppAction {
     CloseActiveWidget,
     IncreaseScale,
     DecreaseScale,
+    UpdateFilConfig {
+        executable: Option<std::path::PathBuf>,
+        network: Option<std::path::PathBuf>,
+        bus: String,
+    },
+    ConnectFil(crate::connection::ConnectionSource),
+    UpdateFilAdc {
+        board: String,
+        instance: String,
+        channel: u8,
+        value: u16,
+    },
 }
 
 impl AppAction {
     pub fn cmd_palette_list() -> Vec<(&'static str, widget_constructor::WidgetConstructor)> {
         vec![
+            (
+                "Spawn FIL Control",
+                widget_constructor::WidgetConstructor::FilControl,
+            ),
             (
                 "Spawn CAN Table",
                 widget_constructor::WidgetConstructor::ViewerTable,

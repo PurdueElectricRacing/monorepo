@@ -15,6 +15,23 @@ pub enum MsgFromUi {
         channel: u8,
         value: u16,
     },
+    SetFilGpio {
+        board: String,
+        port: String,
+        pin: u8,
+        value: Option<bool>,
+    },
+    DisconnectFil {
+        executable: std::path::PathBuf,
+        network: std::path::PathBuf,
+    },
+    Disconnect,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum FilGpioDirection {
+    Input,
+    Output,
 }
 
 pub enum MsgFromCan {
@@ -36,6 +53,13 @@ pub enum MsgFromCan {
     },
     Hil(hil::engine::HilSnapshot),
     FirmwareProgress(FirmwareProgress),
+    FilGpio {
+        board: String,
+        port: String,
+        pin: u8,
+        value: Option<bool>,
+        direction: FilGpioDirection,
+    },
 }
 
 #[derive(Clone, Copy, Debug)]

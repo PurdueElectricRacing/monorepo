@@ -51,6 +51,12 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 ));
             }
 
+            if ui.button("Add FIL Control").clicked() {
+                app.action_queue.push(action::AppAction::SpawnWidget(
+                    widget_constructor::WidgetConstructor::FilControl,
+                ));
+            }
+
             if ui.button("Add CAN Viewer List").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::ViewerList,
@@ -308,69 +314,6 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 if ui.button("🔄").clicked() {
                     app.serial_ports = util::get_available_serial_ports();
                 }
-            });
-
-            ui.horizontal(|ui| {
-                ui.label("FIL bus:");
-                if ui.text_edit_singleline(&mut app.fil_bus).changed() {
-                    app.save_settings();
-                }
-            });
-            ui.collapsing("FIL ADC injection", |ui| {
-                ui.horizontal(|ui| {
-                    ui.label("Board:");
-                    ui.text_edit_singleline(&mut app.fil_adc_board);
-                    ui.label("Instance:");
-                    ui.text_edit_singleline(&mut app.fil_adc_instance);
-                });
-                ui.horizontal(|ui| {
-                    ui.label("Channel:");
-                    ui.add(egui::DragValue::new(&mut app.fil_adc_channel).range(0..=19));
-                    ui.label("Value:");
-                    ui.add(egui::DragValue::new(&mut app.fil_adc_value).range(0..=4095));
-                    if ui.button("Inject").clicked() {
-                        let _ = app.ui_to_can_tx.send(messages::MsgFromUi::SetFilAdc {
-                            board: app.fil_adc_board.clone(),
-                            instance: app.fil_adc_instance.clone(),
-                            channel: app.fil_adc_channel,
-                            value: app.fil_adc_value,
-                        });
-                        app.save_settings();
-                    }
-                });
-            });
-            ui.horizontal(|ui| {
-                if ui.button("Select FIL executable").clicked() {
-                    if let Some(path) = rfd::FileDialog::new().pick_file() {
-                        app.fil_executable = Some(path);
-                        app.save_settings();
-                    }
-                }
-                ui.label(
-                    app.fil_executable
-                        .as_ref()
-                        .and_then(|path| path.file_name())
-                        .map(|name| name.to_string_lossy())
-                        .unwrap_or_else(|| "None".into()),
-                );
-            });
-            ui.horizontal(|ui| {
-                if ui.button("Select FIL network").clicked() {
-                    if let Some(path) = rfd::FileDialog::new()
-                        .add_filter("JSON network config", &["json"])
-                        .pick_file()
-                    {
-                        app.fil_network_config = Some(path);
-                        app.save_settings();
-                    }
-                }
-                ui.label(
-                    app.fil_network_config
-                        .as_ref()
-                        .and_then(|path| path.file_name())
-                        .map(|name| name.to_string_lossy())
-                        .unwrap_or_else(|| "None".into()),
-                );
             });
 
             ui.horizontal(|ui| {

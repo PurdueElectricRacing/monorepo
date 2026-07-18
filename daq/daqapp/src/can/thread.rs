@@ -177,6 +177,50 @@ pub fn start_can_thread(
                             log::warn!("Cannot inject ADC value without an active connection");
                         }
                     }
+                    messages::MsgFromUi::SetFilGpio {
+                        board,
+                        port,
+                        pin,
+                        value,
+                    } => {
+                        if let Some(driver) = state.driver.as_mut() {
+                            if let Err(error) = driver.set_gpio(&board, &port, pin, value) {
+                                log::error!("Failed to control FIL GPIO: {error:?}");
+                            }
+                        } else {
+                            log::warn!("Cannot control GPIO without an active connection");
+                        }
+                    }
+                    messages::MsgFromUi::DisconnectFil {
+                        executable,
+                        network,
+                    } => {
+                        let is_requested_fil_source = matches!(
+                            state.current_source.as_ref(),
+                            Some(connection::ConnectionSource::Fil {
+                                executable: active_executable,
+                                network: active_network,
+                                ..
+                            }) if active_executable == &executable && active_network == &network
+                        );
+                        if is_requested_fil_source {
+                            state.cancel_firmware_update();
+                            if let Some(mut driver) = state.driver.take() {
+                                let _ = driver.close();
+                            }
+                            state.current_source = None;
+                            state.is_connected = false;
+                            let _ = state.can_to_ui_tx.send(messages::MsgFromCan::Disconnection);
+                        }
+                    }
+                    messages::MsgFromUi::Disconnect => {
+                        if let Some(mut driver) = state.driver.take() {
+                            let _ = driver.close();
+                        }
+                        state.current_source = None;
+                        state.is_connected = false;
+                        let _ = state.can_to_ui_tx.send(messages::MsgFromCan::Disconnection);
+                    }
                 }
             }
 
@@ -332,6 +376,22 @@ pub fn start_can_thread(
                 std::thread::sleep(std::time::Duration::from_millis(NO_CONNECTION_SLEEP_MS));
                 continue;
             };
+
+            if let Some(active_driver) = state.driver.as_mut() {
+                for event in active_driver.take_fil_gpio_events() {
+                    let _ = state.can_to_ui_tx.send(messages::MsgFromCan::FilGpio {
+                        board: event.board,
+                        port: event.port,
+                        pin: event.pin,
+                        value: event.value,
+                        direction: if event.output {
+                            messages::FilGpioDirection::Output
+                        } else {
+                            messages::FilGpioDirection::Input
+                        },
+                    });
+                }
+            }
 
             match read_result {
                 Ok(frames) => {

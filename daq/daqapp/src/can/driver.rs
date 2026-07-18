@@ -23,6 +23,15 @@ const UDP_MAX_PACKET_SIZE: usize = 2048;
 pub type DriverResult<T> = Result<T, DriverError>;
 
 #[derive(Debug)]
+pub struct FilGpioEvent {
+    pub board: String,
+    pub port: String,
+    pub pin: u8,
+    pub value: Option<bool>,
+    pub output: bool,
+}
+
+#[derive(Debug)]
 pub enum DriverReadError {
     Timeout,
     IoError(String),
@@ -47,6 +56,10 @@ pub trait Driver {
 
     fn close(&mut self) -> DriverResult<()>;
 
+    fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
+        Vec::new()
+    }
+
     fn set_adc(
         &mut self,
         _board: &str,
@@ -56,6 +69,18 @@ pub trait Driver {
     ) -> DriverResult<()> {
         Err(DriverError::WriteError(
             "The active CAN source does not support ADC injection".into(),
+        ))
+    }
+
+    fn set_gpio(
+        &mut self,
+        _board: &str,
+        _port: &str,
+        _pin: u8,
+        _value: Option<bool>,
+    ) -> DriverResult<()> {
+        Err(DriverError::WriteError(
+            "The active CAN source does not support GPIO control".into(),
         ))
     }
 }
@@ -322,6 +347,7 @@ struct FilDriver {
     child: Child,
     input: BufWriter<ChildStdin>,
     output: Receiver<Result<CanFrame, String>>,
+    gpio_output: Receiver<FilGpioEvent>,
     bus: String,
     connected: bool,
 }
@@ -359,6 +385,10 @@ impl FilDriver {
                 "18446744073709551615",
                 "--live-filter",
                 "can_tx",
+                "--live-filter",
+                "gpio_input",
+                "--live-filter",
+                "gpio_output",
                 "--control-stdin",
             ])
             .stdin(Stdio::piped())
@@ -376,6 +406,7 @@ impl FilDriver {
             DriverError::ConnectionFailed("Failed to open FIL control input".into())
         })?;
         let (output_tx, output) = mpsc::channel();
+        let (gpio_output_tx, gpio_output) = mpsc::channel();
         thread::spawn(move || {
             let mut reader = BufReader::new(stdout);
             let mut line = String::new();
@@ -387,10 +418,16 @@ impl FilDriver {
                         break;
                     }
                     Ok(_) => {
-                        if let Some(frame) = parse_fil_can_tx(&line)
-                            && output_tx.send(Ok(frame)).is_err()
-                        {
-                            break;
+                        if let Some(event) = parse_fil_gpio(&line) {
+                            if gpio_output_tx.send(event).is_err() {
+                                break;
+                            }
+                            continue;
+                        }
+                        if let Some(frame) = parse_fil_can_tx(&line) {
+                            if output_tx.send(Ok(frame)).is_err() {
+                                break;
+                            }
                         }
                     }
                     Err(error) => {
@@ -404,6 +441,7 @@ impl FilDriver {
             child,
             input: BufWriter::new(stdin),
             output,
+            gpio_output,
             bus: bus.into(),
             connected: true,
         })
@@ -454,6 +492,42 @@ fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
         slcan::StandardId::new(u16::try_from(id).ok()?).map(slcan::Id::Standard)?
     };
     slcan::Can2Frame::new_data(frame_id, &data).map(Into::into)
+}
+
+fn parse_fil_gpio(line: &str) -> Option<FilGpioEvent> {
+    let mut fields = line.split_ascii_whitespace();
+    let _time = fields.next()?;
+    let _unit = fields.next()?;
+    let source = fields.next()?;
+    let kind = fields.next()?;
+    if kind != "gpio_input" && kind != "gpio_output" {
+        return None;
+    }
+    let (board, port) = source.rsplit_once('.')?;
+    let mut pin = None;
+    let mut value = None;
+    for field in fields {
+        let (key, raw) = field.split_once('=')?;
+        match key {
+            "pin" => pin = raw.parse::<u8>().ok(),
+            "value" => {
+                value = match raw {
+                    "0" => Some(Some(false)),
+                    "1" => Some(Some(true)),
+                    "release" => Some(None),
+                    _ => return None,
+                }
+            }
+            _ => {}
+        }
+    }
+    Some(FilGpioEvent {
+        board: board.into(),
+        port: port.into(),
+        pin: pin?,
+        value: value?,
+        output: kind == "gpio_output",
+    })
 }
 
 fn format_fil_injection(bus: &str, frame: CanFrame) -> DriverResult<String> {
@@ -540,6 +614,10 @@ impl Driver for FilDriver {
         Ok(())
     }
 
+    fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
+        self.gpio_output.try_iter().take(256).collect()
+    }
+
     fn set_adc(
         &mut self,
         board: &str,
@@ -564,6 +642,36 @@ impl Driver for FilDriver {
             .map_err(|error| {
                 self.connected = false;
                 DriverError::WriteError(format!("Failed to send ADC value to FIL: {error}"))
+            })
+    }
+
+    fn set_gpio(
+        &mut self,
+        board: &str,
+        port: &str,
+        pin: u8,
+        value: Option<bool>,
+    ) -> DriverResult<()> {
+        if board.is_empty()
+            || port.is_empty()
+            || pin > 15
+            || board.contains(char::is_whitespace)
+            || port.contains(char::is_whitespace)
+        {
+            return Err(DriverError::WriteError(
+                "GPIO control requires a board, GPIO port, and pin 0..15".into(),
+            ));
+        }
+        let value = match value {
+            Some(false) => "0",
+            Some(true) => "1",
+            None => "release",
+        };
+        writeln!(self.input, "gpio {board} {port} {pin} {value}")
+            .and_then(|_| self.input.flush())
+            .map_err(|error| {
+                self.connected = false;
+                DriverError::WriteError(format!("Failed to control FIL GPIO: {error}"))
             })
     }
 }
@@ -716,7 +824,8 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
 #[cfg(test)]
 mod fil_tests {
     use super::{
-        DriverError, DriverReadError, format_fil_injection, parse_fil_can_tx, receive_fil_frames,
+        DriverError, DriverReadError, format_fil_injection, parse_fil_can_tx, parse_fil_gpio,
+        receive_fil_frames,
     };
     use std::sync::mpsc;
     use std::time::Duration;
@@ -782,5 +891,21 @@ mod fil_tests {
         let frames = receive_fil_frames(&receiver, Duration::ZERO).expect("receive FIL frames");
         assert_eq!(frames.len(), super::FIL_MAX_FRAMES_PER_POLL);
         assert!(receiver.try_recv().is_ok(), "leaves excess traffic queued");
+    }
+
+    #[test]
+    fn parses_fil_gpio_records() {
+        let output = parse_fil_gpio("[12.000 ms] dashboard.GPIOA  gpio_output pin=3 value=1")
+            .expect("GPIO output");
+        assert_eq!(output.board, "dashboard");
+        assert_eq!(output.port, "GPIOA");
+        assert_eq!(output.pin, 3);
+        assert_eq!(output.value, Some(true));
+        assert!(output.output);
+
+        let input = parse_fil_gpio("[13.000 ms] dashboard.GPIOA  gpio_input pin=3 value=release")
+            .expect("GPIO input release");
+        assert_eq!(input.value, None);
+        assert!(!input.output);
     }
 }
