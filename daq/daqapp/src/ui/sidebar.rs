@@ -248,6 +248,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                             let fil_source = daqcore::connection::ConnectionSource::Fil {
                                 executable: executable.clone(),
                                 network: network.clone(),
+                                bus: app.fil_bus.clone(),
                             };
                             if ui
                                 .selectable_value(
@@ -284,6 +285,12 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 }
             });
 
+            ui.horizontal(|ui| {
+                ui.label("FIL bus:");
+                if ui.text_edit_singleline(&mut app.fil_bus).changed() {
+                    app.save_settings();
+                }
+            });
             ui.horizontal(|ui| {
                 if ui.button("Select FIL executable").clicked() {
                     if let Some(path) = rfd::FileDialog::new().pick_file() {

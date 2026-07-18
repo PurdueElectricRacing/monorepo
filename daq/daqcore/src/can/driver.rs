@@ -54,7 +54,8 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
         ConnectionSource::Fil {
             executable,
             network,
-        } => Ok(Box::new(FilDriver::new(executable, network)?)),
+            bus,
+        } => Ok(Box::new(FilDriver::new(executable, network, bus)?)),
         ConnectionSource::Simulated(true, path) => {
             let parser = path
                 .as_ref()
@@ -81,10 +82,16 @@ struct LoopbackDriver {
 
 struct FilDriver {
     child: std::process::Child,
+    input: std::io::BufWriter<std::process::ChildStdin>,
     output: std::io::BufReader<std::process::ChildStdout>,
+    bus: String,
 }
 impl FilDriver {
-    fn new(executable: &std::path::Path, network: &std::path::Path) -> DriverResult<Self> {
+    fn new(
+        executable: &std::path::Path,
+        network: &std::path::Path,
+        bus: &str,
+    ) -> DriverResult<Self> {
         if !executable.is_file() {
             return Err(DriverError::ConnectionFailed(format!(
                 "FIL executable does not exist: {}",
@@ -97,6 +104,11 @@ impl FilDriver {
                 network.display()
             )));
         }
+        if bus.is_empty() || bus.contains([':', '\n', '\r']) {
+            return Err(DriverError::ConnectionFailed(
+                "FIL bus name is empty or contains an invalid character".into(),
+            ));
+        }
         let mut child = std::process::Command::new(executable)
             .arg("watch-network")
             .arg(network)
@@ -107,7 +119,9 @@ impl FilDriver {
                 "2000000000000",
                 "--live-filter",
                 "can_tx",
+                "--control-stdin",
             ])
+            .stdin(std::process::Stdio::piped())
             .stdout(std::process::Stdio::piped())
             .stderr(std::process::Stdio::null())
             .spawn()
@@ -116,9 +130,14 @@ impl FilDriver {
             .stdout
             .take()
             .ok_or_else(|| DriverError::ConnectionFailed("Failed to capture FIL output".into()))?;
+        let stdin = child.stdin.take().ok_or_else(|| {
+            DriverError::ConnectionFailed("Failed to open FIL control input".into())
+        })?;
         Ok(Self {
             child,
+            input: std::io::BufWriter::new(stdin),
             output: std::io::BufReader::new(stdout),
+            bus: bus.into(),
         })
     }
 }
@@ -162,6 +181,19 @@ fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
     let identity = crate::frame::CanIdentity::new(id?, extended).ok()?;
     CanFrame::data(identity, data?).ok()
 }
+fn format_fil_injection(bus: &str, frame: CanFrame) -> DriverResult<String> {
+    use crate::frame::FrameKind;
+    if frame.kind != FrameKind::Data {
+        return Err(DriverError::Write(
+            "FIL injection supports only CAN 2.0 data frames".into(),
+        ));
+    }
+    let mut command = format!("{bus}:0x{:x}:", frame.identity.raw_id());
+    for byte in frame.data {
+        command.push_str(&format!("{byte:02x}"));
+    }
+    Ok(command)
+}
 impl Driver for FilDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         use std::io::BufRead;
@@ -178,10 +210,12 @@ impl Driver for FilDriver {
             }
         }
     }
-    fn write_frame(&mut self, _: CanFrame) -> DriverResult<()> {
-        Err(DriverError::Unsupported(
-            "The FIL live connection is receive-only".into(),
-        ))
+    fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
+        use std::io::Write;
+        let command = format_fil_injection(&self.bus, frame)?;
+        writeln!(self.input, "{command}")
+            .and_then(|_| self.input.flush())
+            .map_err(|e| DriverError::Write(format!("Failed to send frame to FIL: {e}")))
     }
     fn close(&mut self) -> DriverResult<()> {
         let _ = self.child.kill();

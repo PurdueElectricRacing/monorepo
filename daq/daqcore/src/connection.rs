@@ -6,6 +6,7 @@ pub enum ConnectionSource {
     Fil {
         executable: std::path::PathBuf,
         network: std::path::PathBuf,
+        bus: String,
     },
     Loopback,
 }
@@ -59,11 +60,17 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
             let network = values
                 .get("network")
                 .ok_or_else(|| serde::de::Error::custom("FIL network is missing"))?;
+            let bus = values
+                .get("bus")
+                .and_then(serde_json::Value::as_str)
+                .unwrap_or("vehicle")
+                .to_owned();
             return Ok(Self::Fil {
                 executable: serde_json::from_value(executable.clone())
                     .map_err(serde::de::Error::custom)?,
                 network: serde_json::from_value(network.clone())
                     .map_err(serde::de::Error::custom)?,
+                bus,
             });
         }
         if object.get("Loopback").is_some() {

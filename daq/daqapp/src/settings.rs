@@ -11,9 +11,11 @@ pub fn dbc_dir() -> Option<std::path::PathBuf> {
 const DEFAULT_UDP_PORT: u16 = 5005;
 const DEFAULT_CAN_SPEED: daqcore::connection::CanBusSpeed =
     daqcore::connection::CanBusSpeed::Kbps500;
-
 fn default_window_secs() -> f64 {
     30.0
+}
+fn default_fil_bus() -> String {
+    "vehicle".into()
 }
 
 #[derive(serde::Serialize, serde::Deserialize)]
@@ -31,6 +33,8 @@ pub struct Settings {
     pub fil_executable: Option<std::path::PathBuf>,
     #[serde(default)]
     pub fil_network_config: Option<std::path::PathBuf>,
+    #[serde(default = "default_fil_bus")]
+    pub fil_bus: String,
 }
 
 impl Default for Settings {
@@ -46,6 +50,7 @@ impl Default for Settings {
             window_secs: 30.0,
             fil_executable: None,
             fil_network_config: None,
+            fil_bus: default_fil_bus(),
         }
     }
 }
