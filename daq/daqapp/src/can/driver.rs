@@ -5,9 +5,9 @@ use serialport::{ClearBuffer, SerialPort};
 use slcan::sync::CanSocket;
 use slcan::{CanFrame, OperatingMode};
 use std::collections::VecDeque;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, BufWriter, Write};
 use std::net::UdpSocket;
-use std::process::{Child, ChildStdout, Command, Stdio};
+use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
 use std::time::Duration;
 
 const SERIAL_BAUD_RATE: u32 = 115_200;
@@ -304,12 +304,18 @@ struct LoopbackDriver {
 
 struct FilDriver {
     child: Child,
+    input: BufWriter<ChildStdin>,
     output: BufReader<ChildStdout>,
+    bus: String,
     connected: bool,
 }
 
 impl FilDriver {
-    fn new(executable: &std::path::Path, network: &std::path::Path) -> DriverResult<Self> {
+    fn new(
+        executable: &std::path::Path,
+        network: &std::path::Path,
+        bus: &str,
+    ) -> DriverResult<Self> {
         if !executable.is_file() {
             return Err(DriverError::ConnectionFailed(format!(
                 "FIL executable does not exist: {}",
@@ -322,6 +328,11 @@ impl FilDriver {
                 network.display()
             )));
         }
+        if bus.is_empty() || bus.contains([':', '\n', '\r']) {
+            return Err(DriverError::ConnectionFailed(
+                "FIL bus name is empty or contains an invalid character".into(),
+            ));
+        }
         let mut child = Command::new(executable)
             .arg("watch-network")
             .arg(network)
@@ -332,7 +343,9 @@ impl FilDriver {
                 "2000000000000",
                 "--live-filter",
                 "can_tx",
+                "--control-stdin",
             ])
+            .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::null())
             .spawn()
@@ -343,9 +356,14 @@ impl FilDriver {
             .stdout
             .take()
             .ok_or_else(|| DriverError::ConnectionFailed("Failed to capture FIL output".into()))?;
+        let stdin = child.stdin.take().ok_or_else(|| {
+            DriverError::ConnectionFailed("Failed to open FIL control input".into())
+        })?;
         Ok(Self {
             child,
+            input: BufWriter::new(stdin),
             output: BufReader::new(stdout),
+            bus: bus.into(),
             connected: true,
         })
     }
@@ -397,6 +415,26 @@ fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
     slcan::Can2Frame::new_data(frame_id, &data).map(Into::into)
 }
 
+fn format_fil_injection(bus: &str, frame: CanFrame) -> DriverResult<String> {
+    let CanFrame::Can2(frame) = frame else {
+        return Err(DriverError::WriteError(
+            "FIL injection does not yet support CAN FD frames".into(),
+        ));
+    };
+    let id = match frame.id() {
+        slcan::Id::Standard(id) => u32::from(id.as_raw()),
+        slcan::Id::Extended(id) => id.as_raw(),
+    };
+    let data = frame.data().ok_or_else(|| {
+        DriverError::WriteError("FIL injection does not support remote frames".into())
+    })?;
+    let mut command = format!("{bus}:0x{id:x}:");
+    for byte in data {
+        command.push_str(&format!("{byte:02x}"));
+    }
+    Ok(command)
+}
+
 impl Driver for FilDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         loop {
@@ -423,10 +461,14 @@ impl Driver for FilDriver {
         }
     }
 
-    fn write_frame(&mut self, _frame: CanFrame) -> DriverResult<()> {
-        Err(DriverError::WriteError(
-            "The FIL live connection is receive-only".into(),
-        ))
+    fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
+        let command = format_fil_injection(&self.bus, frame)?;
+        writeln!(self.input, "{command}")
+            .and_then(|_| self.input.flush())
+            .map_err(|error| {
+                self.connected = false;
+                DriverError::WriteError(format!("Failed to send frame to FIL: {error}"))
+            })
     }
 
     fn is_connected(&self) -> bool {
@@ -584,14 +626,15 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
         ConnectionSource::Fil {
             executable,
             network,
-        } => Ok(Box::new(FilDriver::new(executable, network)?)),
+            bus,
+        } => Ok(Box::new(FilDriver::new(executable, network, bus)?)),
         ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::new())),
     }
 }
 
 #[cfg(test)]
 mod fil_tests {
-    use super::parse_fil_can_tx;
+    use super::{format_fil_injection, parse_fil_can_tx};
 
     #[test]
     fn parses_fil_live_can_tx_records() {
@@ -616,6 +659,16 @@ mod fil_tests {
                 "[5.000 ms] bus can_tx id=0x123 extended=false fd=true data=000102030405060708",
             )
             .is_none()
+        );
+    }
+
+    #[test]
+    fn formats_frames_for_fil_stdin_control() {
+        let id = slcan::StandardId::new(0x123).expect("standard id");
+        let frame = slcan::Can2Frame::new_data(id, &[1, 2, 0xab, 0xcd]).expect("data frame");
+        assert_eq!(
+            format_fil_injection("vehicle", frame.into()).expect("valid injection"),
+            "vehicle:0x123:0102abcd"
         );
     }
 }
