@@ -59,6 +59,7 @@ pub struct DAQApp {
     pub log_folder: Option<path::PathBuf>,
     pub fil_executable: Option<path::PathBuf>,
     pub fil_network_config: Option<path::PathBuf>,
+    pub fil_bus: String,
 }
 
 impl DAQApp {
@@ -79,6 +80,7 @@ impl DAQApp {
             window_secs: self.session.timeline().window_secs(),
             fil_executable: self.fil_executable.clone(),
             fil_network_config: self.fil_network_config.clone(),
+            fil_bus: self.fil_bus.clone(),
         };
         settings.save();
     }
@@ -132,6 +134,7 @@ impl DAQApp {
             log_folder: settings.log_folder,
             fil_executable: settings.fil_executable,
             fil_network_config: settings.fil_network_config,
+            fil_bus: settings.fil_bus,
         };
         if let Some(path) = settings.superdbc_path {
             app.request_database(&path, settings.bus_id);
