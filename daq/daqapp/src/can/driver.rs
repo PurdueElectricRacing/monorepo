@@ -14,7 +14,7 @@ use std::time::Duration;
 
 const SERIAL_BAUD_RATE: u32 = 115_200;
 const SERIAL_TIMEOUT_MS: u64 = 10;
-const FIL_OUTPUT_POLL_MS: u64 = 10;
+const FIL_OUTPUT_POLL_MS: u64 = 1;
 
 const UDP_RAW_FRAME_SIZE: usize = 16; // 4 bytes ticks_ms + 4 bytes identity + 8 bytes payload
 const UDP_MAX_PACKET_SIZE: usize = 2048;
