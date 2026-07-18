@@ -22,6 +22,9 @@ pub struct Settings {
     pub pixels_per_point: Option<f32>,
     #[serde(default)]
     pub log_folder: Option<std::path::PathBuf>,
+    pub fil_executable: Option<std::path::PathBuf>,
+    #[serde(default)]
+    pub fil_network_config: Option<std::path::PathBuf>,
 }
 
 impl Default for Settings {
@@ -35,6 +38,8 @@ impl Default for Settings {
             theme: theme::ThemeSelection::Default,
             pixels_per_point: None,
             log_folder: None,
+            fil_executable: None,
+            fil_network_config: None,
         }
     }
 }

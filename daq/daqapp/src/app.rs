@@ -54,6 +54,8 @@ pub struct DAQApp {
     pub udp_port: u16,
     pub can_messages: Vec<messages::MsgFromCan>,
     pub log_folder: Option<std::path::PathBuf>,
+    pub fil_executable: Option<std::path::PathBuf>,
+    pub fil_network_config: Option<std::path::PathBuf>,
 }
 
 impl DAQApp {
@@ -67,6 +69,8 @@ impl DAQApp {
             theme: self.theme_selection,
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
+            fil_executable: self.fil_executable.clone(),
+            fil_network_config: self.fil_network_config.clone(),
         };
         settings.save();
     }
@@ -104,6 +108,8 @@ impl DAQApp {
             udp_port: settings.udp_port,
             can_messages: Vec::new(),
             log_folder: settings.log_folder,
+            fil_executable: settings.fil_executable,
+            fil_network_config: settings.fil_network_config,
         }
     }
 

@@ -5,7 +5,9 @@ use serialport::{ClearBuffer, SerialPort};
 use slcan::sync::CanSocket;
 use slcan::{CanFrame, OperatingMode};
 use std::collections::VecDeque;
+use std::io::{BufRead, BufReader};
 use std::net::UdpSocket;
+use std::process::{Child, ChildStdout, Command, Stdio};
 use std::time::Duration;
 
 const SERIAL_BAUD_RATE: u32 = 115_200;
@@ -300,6 +302,156 @@ struct LoopbackDriver {
     queued_frames: VecDeque<CanFrame>,
 }
 
+struct FilDriver {
+    child: Child,
+    output: BufReader<ChildStdout>,
+    connected: bool,
+}
+
+impl FilDriver {
+    fn new(executable: &std::path::Path, network: &std::path::Path) -> DriverResult<Self> {
+        if !executable.is_file() {
+            return Err(DriverError::ConnectionFailed(format!(
+                "FIL executable does not exist: {}",
+                executable.display()
+            )));
+        }
+        if !network.is_file() {
+            return Err(DriverError::ConnectionFailed(format!(
+                "FIL network config does not exist: {}",
+                network.display()
+            )));
+        }
+        let mut child = Command::new(executable)
+            .arg("watch-network")
+            .arg(network)
+            .args([
+                "--duration-ms",
+                "86400000",
+                "--max-instructions",
+                "2000000000000",
+                "--live-filter",
+                "can_tx",
+            ])
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .spawn()
+            .map_err(|error| {
+                DriverError::ConnectionFailed(format!("Failed to launch FIL: {error}"))
+            })?;
+        let stdout = child
+            .stdout
+            .take()
+            .ok_or_else(|| DriverError::ConnectionFailed("Failed to capture FIL output".into()))?;
+        Ok(Self {
+            child,
+            output: BufReader::new(stdout),
+            connected: true,
+        })
+    }
+}
+
+fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
+    let mut fields = line.split_ascii_whitespace();
+    if !fields.any(|field| field == "can_tx") {
+        return None;
+    }
+    let mut id = None;
+    let mut extended = false;
+    let mut fd = false;
+    let mut data = None;
+    for field in fields {
+        let (key, value) = field.split_once('=')?;
+        match key {
+            "id" => id = u32::from_str_radix(value.trim_start_matches("0x"), 16).ok(),
+            "extended" => extended = value == "true",
+            "fd" => fd = value == "true",
+            "data" => {
+                let bytes = value.as_bytes();
+                if !bytes.len().is_multiple_of(2) || bytes.len() > 16 {
+                    return None;
+                }
+                let decoded = bytes
+                    .chunks_exact(2)
+                    .map(|pair| {
+                        std::str::from_utf8(pair)
+                            .ok()
+                            .and_then(|hex| u8::from_str_radix(hex, 16).ok())
+                    })
+                    .collect::<Option<Vec<_>>>()?;
+                data = Some(decoded);
+            }
+            _ => {}
+        }
+    }
+    let id = id?;
+    let data = data?;
+    if fd {
+        return None;
+    }
+    let frame_id = if extended {
+        slcan::ExtendedId::new(id).map(slcan::Id::Extended)?
+    } else {
+        slcan::StandardId::new(u16::try_from(id).ok()?).map(slcan::Id::Standard)?
+    };
+    slcan::Can2Frame::new_data(frame_id, &data).map(Into::into)
+}
+
+impl Driver for FilDriver {
+    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+        loop {
+            let mut line = String::new();
+            match self.output.read_line(&mut line) {
+                Ok(0) => {
+                    self.connected = false;
+                    return Err(DriverError::ReadError(DriverReadError::IoError(
+                        "FIL process exited".into(),
+                    )));
+                }
+                Ok(_) => {
+                    if let Some(frame) = parse_fil_can_tx(&line) {
+                        return Ok(vec![frame]);
+                    }
+                }
+                Err(error) => {
+                    self.connected = false;
+                    return Err(DriverError::ReadError(DriverReadError::IoError(format!(
+                        "Failed to read FIL output: {error}"
+                    ))));
+                }
+            }
+        }
+    }
+
+    fn write_frame(&mut self, _frame: CanFrame) -> DriverResult<()> {
+        Err(DriverError::WriteError(
+            "The FIL live connection is receive-only".into(),
+        ))
+    }
+
+    fn is_connected(&self) -> bool {
+        self.connected
+    }
+
+    fn bus_speed(&self) -> Option<CanBusSpeed> {
+        Some(CanBusSpeed::Kbps500)
+    }
+
+    fn close(&mut self) -> DriverResult<()> {
+        self.connected = false;
+        let _ = self.child.kill();
+        let _ = self.child.wait();
+        Ok(())
+    }
+}
+
+impl Drop for FilDriver {
+    fn drop(&mut self) {
+        let _ = self.child.kill();
+        let _ = self.child.wait();
+    }
+}
+
 impl LoopbackDriver {
     fn new() -> Self {
         Self {
@@ -429,6 +581,41 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
             *connected,
             dbc_path.clone(),
         )?)),
+        ConnectionSource::Fil {
+            executable,
+            network,
+        } => Ok(Box::new(FilDriver::new(executable, network)?)),
         ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::new())),
+    }
+}
+
+#[cfg(test)]
+mod fil_tests {
+    use super::parse_fil_can_tx;
+
+    #[test]
+    fn parses_fil_live_can_tx_records() {
+        let frame = parse_fil_can_tx(
+            "[5.000 ms] vehicle/main.FDCAN1  can_tx id=0x123 extended=false fd=false brs=false dlc=4 length=4 data=01020304",
+        ).expect("valid FIL frame");
+        let slcan::CanFrame::Can2(frame) = frame else {
+            panic!("expected CAN 2.0 frame")
+        };
+        assert!(matches!(
+            frame.id(),
+            slcan::Id::Standard(id) if id.as_raw() == 0x123
+        ));
+        assert_eq!(frame.data(), Some(&[1, 2, 3, 4][..]));
+    }
+
+    #[test]
+    fn ignores_non_can_and_rejects_can_fd_payloads() {
+        assert!(parse_fil_can_tx("[1.000 ms] world world_start boards=6").is_none());
+        assert!(
+            parse_fil_can_tx(
+                "[5.000 ms] bus can_tx id=0x123 extended=false fd=true data=000102030405060708",
+            )
+            .is_none()
+        );
     }
 }
