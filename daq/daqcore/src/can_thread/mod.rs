@@ -22,13 +22,21 @@ pub enum CanThreadCommand {
     Connect(Option<ConnectionSource>),
     DbcSelected(PathBuf),
     AddSendMessage(AddSendMessage),
-    DeleteSendMessage { identity: CanIdentity },
+    DeleteSendMessage {
+        identity: CanIdentity,
+    },
     UpdateLogFolder(PathBuf),
     Stop,
     Hil(hil::engine::HilCommand),
     StartFirmwareUpdate(firmware::FirmwarePackage),
     ArmFirmwareUpdate(firmware::FirmwarePackage),
     CancelFirmwareUpdate,
+    SetFilAdc {
+        board: String,
+        instance: String,
+        channel: u8,
+        value: u16,
+    },
 }
 
 pub enum CanThreadEvent {

@@ -35,6 +35,17 @@ pub trait Driver {
     fn close(&mut self) -> DriverResult<()> {
         Ok(())
     }
+    fn set_adc(
+        &mut self,
+        _board: &str,
+        _instance: &str,
+        _channel: u8,
+        _value: u16,
+    ) -> DriverResult<()> {
+        Err(DriverError::Unsupported(
+            "ADC injection is not supported by this source".into(),
+        ))
+    }
 }
 
 pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>> {
@@ -221,6 +232,30 @@ impl Driver for FilDriver {
         let _ = self.child.kill();
         let _ = self.child.wait();
         Ok(())
+    }
+    fn set_adc(
+        &mut self,
+        board: &str,
+        instance: &str,
+        channel: u8,
+        value: u16,
+    ) -> DriverResult<()> {
+        use std::io::Write;
+        if board.is_empty()
+            || instance.is_empty()
+            || channel > 19
+            || value > 4095
+            || board.contains(char::is_whitespace)
+            || instance.contains(char::is_whitespace)
+        {
+            return Err(DriverError::Write(
+                "ADC injection requires a board, ADC instance, channel 0..19, and value 0..4095"
+                    .into(),
+            ));
+        }
+        writeln!(self.input, "adc {board} {instance} {channel} {value}")
+            .and_then(|_| self.input.flush())
+            .map_err(|e| DriverError::Write(format!("Failed to send ADC value to FIL: {e}")))
     }
 }
 impl Drop for FilDriver {

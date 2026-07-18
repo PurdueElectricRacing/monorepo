@@ -17,6 +17,12 @@ fn default_window_secs() -> f64 {
 fn default_fil_bus() -> String {
     "vehicle".into()
 }
+fn default_fil_adc_board() -> String {
+    "dashboard".into()
+}
+fn default_fil_adc_instance() -> String {
+    "ADC1".into()
+}
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Settings {
@@ -35,6 +41,14 @@ pub struct Settings {
     pub fil_network_config: Option<std::path::PathBuf>,
     #[serde(default = "default_fil_bus")]
     pub fil_bus: String,
+    #[serde(default = "default_fil_adc_board")]
+    pub fil_adc_board: String,
+    #[serde(default = "default_fil_adc_instance")]
+    pub fil_adc_instance: String,
+    #[serde(default)]
+    pub fil_adc_channel: u8,
+    #[serde(default)]
+    pub fil_adc_value: u16,
 }
 
 impl Default for Settings {
@@ -51,6 +65,10 @@ impl Default for Settings {
             fil_executable: None,
             fil_network_config: None,
             fil_bus: default_fil_bus(),
+            fil_adc_board: default_fil_adc_board(),
+            fil_adc_instance: default_fil_adc_instance(),
+            fil_adc_channel: 0,
+            fil_adc_value: 0,
         }
     }
 }

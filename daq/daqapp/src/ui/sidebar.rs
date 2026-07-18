@@ -291,6 +291,31 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                     app.save_settings();
                 }
             });
+            ui.collapsing("FIL ADC injection", |ui| {
+                ui.horizontal(|ui| {
+                    ui.label("Board:");
+                    ui.text_edit_singleline(&mut app.fil_adc_board);
+                    ui.label("Instance:");
+                    ui.text_edit_singleline(&mut app.fil_adc_instance);
+                });
+                ui.horizontal(|ui| {
+                    ui.label("Channel:");
+                    ui.add(eframe::egui::DragValue::new(&mut app.fil_adc_channel).range(0..=19));
+                    ui.label("Value:");
+                    ui.add(eframe::egui::DragValue::new(&mut app.fil_adc_value).range(0..=4095));
+                    if ui.button("Inject").clicked() {
+                        let _ = app.ui_to_can_tx.send(
+                            daqcore::can_thread::CanThreadCommand::SetFilAdc {
+                                board: app.fil_adc_board.clone(),
+                                instance: app.fil_adc_instance.clone(),
+                                channel: app.fil_adc_channel,
+                                value: app.fil_adc_value,
+                            },
+                        );
+                        app.save_settings();
+                    }
+                });
+            });
             ui.horizontal(|ui| {
                 if ui.button("Select FIL executable").clicked() {
                     if let Some(path) = rfd::FileDialog::new().pick_file() {

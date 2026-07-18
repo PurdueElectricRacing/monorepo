@@ -60,6 +60,10 @@ pub struct DAQApp {
     pub fil_executable: Option<std::path::PathBuf>,
     pub fil_network_config: Option<std::path::PathBuf>,
     pub fil_bus: String,
+    pub fil_adc_board: String,
+    pub fil_adc_instance: String,
+    pub fil_adc_channel: u8,
+    pub fil_adc_value: u16,
 }
 
 impl DAQApp {
@@ -76,6 +80,10 @@ impl DAQApp {
             fil_executable: self.fil_executable.clone(),
             fil_network_config: self.fil_network_config.clone(),
             fil_bus: self.fil_bus.clone(),
+            fil_adc_board: self.fil_adc_board.clone(),
+            fil_adc_instance: self.fil_adc_instance.clone(),
+            fil_adc_channel: self.fil_adc_channel,
+            fil_adc_value: self.fil_adc_value,
         };
         settings.save();
     }
@@ -128,6 +136,10 @@ impl DAQApp {
             fil_executable: settings.fil_executable,
             fil_network_config: settings.fil_network_config,
             fil_bus: settings.fil_bus,
+            fil_adc_board: settings.fil_adc_board,
+            fil_adc_instance: settings.fil_adc_instance,
+            fil_adc_channel: settings.fil_adc_channel.min(19),
+            fil_adc_value: settings.fil_adc_value.min(4095),
         })
     }
 
