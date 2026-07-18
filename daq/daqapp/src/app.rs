@@ -1,6 +1,7 @@
 use crate::{
     action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
 };
+const MAX_CAN_EVENTS_PER_UPDATE: usize = 2_048;
 
 const UI_SCALE_STEP: f32 = 0.2;
 pub struct ParserInfo {
@@ -257,13 +258,15 @@ impl DAQApp {
 
 impl eframe::App for DAQApp {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
-        while let Ok(event) = self.can_to_ui_rx.try_recv() {
+        for _ in 0..MAX_CAN_EVENTS_PER_UPDATE {
+            let Ok(event) = self.can_to_ui_rx.try_recv() else {
+                break;
+            };
             for tile in self.tile_tree.tiles.tiles_mut() {
                 if let egui_tiles::Tile::Pane(widget) = tile {
                     widget.handle_operational_event(&event);
                 }
             }
-
             match event {
                 daqcore::can_thread::CanThreadEvent::Frame(frame) => {
                     self.session.ingest_frame(frame);
