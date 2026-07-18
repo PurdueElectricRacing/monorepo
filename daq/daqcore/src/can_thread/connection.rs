@@ -65,6 +65,20 @@ impl ConnectionManager {
         driver.read_frames()
     }
 
+    pub fn set_adc(
+        &mut self,
+        board: &str,
+        instance: &str,
+        channel: u8,
+        value: u16,
+    ) -> can::driver::DriverResult<()> {
+        let driver = self
+            .driver
+            .as_mut()
+            .ok_or_else(|| can::driver::DriverError::Write("disconnected".into()))?;
+        driver.set_adc(board, instance, channel, value)
+    }
+
     pub fn write(&mut self, frame: frame::CanFrame) -> can::driver::DriverResult<()> {
         let driver = self
             .driver
