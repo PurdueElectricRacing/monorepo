@@ -94,7 +94,7 @@ struct LoopbackDriver {
 struct FilDriver {
     child: std::process::Child,
     input: std::io::BufWriter<std::process::ChildStdin>,
-    output: std::io::BufReader<std::process::ChildStdout>,
+    output: std::sync::mpsc::Receiver<Result<CanFrame, String>>,
     bus: String,
 }
 impl FilDriver {
@@ -144,10 +144,36 @@ impl FilDriver {
         let stdin = child.stdin.take().ok_or_else(|| {
             DriverError::ConnectionFailed("Failed to open FIL control input".into())
         })?;
+        let (output_tx, output) = std::sync::mpsc::channel();
+        std::thread::spawn(move || {
+            use std::io::BufRead;
+            let mut reader = std::io::BufReader::new(stdout);
+            let mut line = String::new();
+            loop {
+                line.clear();
+                match reader.read_line(&mut line) {
+                    Ok(0) => {
+                        let _ = output_tx.send(Err("FIL process exited".into()));
+                        break;
+                    }
+                    Ok(_) => {
+                        if let Some(frame) = parse_fil_can_tx(&line)
+                            && output_tx.send(Ok(frame)).is_err()
+                        {
+                            break;
+                        }
+                    }
+                    Err(error) => {
+                        let _ = output_tx.send(Err(format!("Failed to read FIL output: {error}")));
+                        break;
+                    }
+                }
+            }
+        });
         Ok(Self {
             child,
             input: std::io::BufWriter::new(stdin),
-            output: std::io::BufReader::new(stdout),
+            output,
             bus: bus.into(),
         })
     }
@@ -207,19 +233,27 @@ fn format_fil_injection(bus: &str, frame: CanFrame) -> DriverResult<String> {
 }
 impl Driver for FilDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
-        use std::io::BufRead;
-        loop {
-            let mut line = String::new();
-            match self.output.read_line(&mut line) {
-                Ok(0) => return Err(DriverError::Read("FIL process exited".into())),
-                Ok(_) => {
-                    if let Some(frame) = parse_fil_can_tx(&line) {
-                        return Ok(vec![frame]);
-                    }
-                }
-                Err(e) => return Err(DriverError::Read(format!("Failed to read FIL output: {e}"))),
+        use std::sync::mpsc::RecvTimeoutError;
+        let first = match self.output.recv_timeout(Duration::from_millis(10)) {
+            Ok(frame) => frame,
+            Err(RecvTimeoutError::Timeout) => return Err(DriverError::Timeout),
+            Err(RecvTimeoutError::Disconnected) => {
+                return Err(DriverError::Read("FIL output reader stopped".into()));
+            }
+        };
+        let mut frames = match first {
+            Ok(frame) => vec![frame],
+            Err(error) => return Err(DriverError::Read(error)),
+        };
+        while frames.len() < 256 {
+            let Ok(next) = self.output.try_recv() else {
+                break;
+            };
+            if let Ok(frame) = next {
+                frames.push(frame);
             }
         }
+        Ok(frames)
     }
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
         use std::io::Write;
