@@ -147,6 +147,7 @@ pub fn start_can_thread(
                     messages::MsgFromUi::UpdateLogFolder(path) => {
                         daq_logger.update_folder(path);
                     }
+
                     messages::MsgFromUi::Hil(command) => {
                         state.hil_engine.handle_command(command);
                         state.hil_finished_sent = false;
@@ -161,6 +162,20 @@ pub fn start_can_thread(
                     }
                     messages::MsgFromUi::CancelFirmwareUpdate => {
                         state.cancel_firmware_update();
+                    }
+                    messages::MsgFromUi::SetFilAdc {
+                        board,
+                        instance,
+                        channel,
+                        value,
+                    } => {
+                        if let Some(driver) = state.driver.as_mut() {
+                            if let Err(error) = driver.set_adc(&board, &instance, channel, value) {
+                                log::error!("Failed to inject FIL ADC value: {error:?}");
+                            }
+                        } else {
+                            log::warn!("Cannot inject ADC value without an active connection");
+                        }
                     }
                 }
             }

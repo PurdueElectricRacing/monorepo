@@ -9,6 +9,12 @@ pub enum MsgFromUi {
     Hil(hil::engine::HilCommand),
     StartFirmwareUpdate(bootloader_protocol::FirmwarePackage),
     CancelFirmwareUpdate,
+    SetFilAdc {
+        board: String,
+        instance: String,
+        channel: u8,
+        value: u16,
+    },
 }
 
 pub enum MsgFromCan {

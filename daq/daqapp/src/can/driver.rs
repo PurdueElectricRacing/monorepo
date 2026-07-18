@@ -42,6 +42,18 @@ pub trait Driver {
     fn bus_speed(&self) -> Option<CanBusSpeed>;
 
     fn close(&mut self) -> DriverResult<()>;
+
+    fn set_adc(
+        &mut self,
+        _board: &str,
+        _instance: &str,
+        _channel: u8,
+        _value: u16,
+    ) -> DriverResult<()> {
+        Err(DriverError::WriteError(
+            "The active CAN source does not support ADC injection".into(),
+        ))
+    }
 }
 
 /// Serial CAN driver using SLCAN protocol
@@ -484,6 +496,33 @@ impl Driver for FilDriver {
         let _ = self.child.kill();
         let _ = self.child.wait();
         Ok(())
+    }
+
+    fn set_adc(
+        &mut self,
+        board: &str,
+        instance: &str,
+        channel: u8,
+        value: u16,
+    ) -> DriverResult<()> {
+        if board.is_empty()
+            || instance.is_empty()
+            || channel > 19
+            || value > 4095
+            || board.contains(char::is_whitespace)
+            || instance.contains(char::is_whitespace)
+        {
+            return Err(DriverError::WriteError(
+                "ADC injection requires a board, ADC instance, channel 0..19, and value 0..4095"
+                    .into(),
+            ));
+        }
+        writeln!(self.input, "adc {board} {instance} {channel} {value}")
+            .and_then(|_| self.input.flush())
+            .map_err(|error| {
+                self.connected = false;
+                DriverError::WriteError(format!("Failed to send ADC value to FIL: {error}"))
+            })
     }
 }
 
