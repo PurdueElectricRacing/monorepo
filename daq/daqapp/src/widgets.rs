@@ -16,6 +16,7 @@ pub enum Widget {
     Dynamics(ui::dynamics::Dynamics),
     Jitter(ui::jitter::Jitter),
     Hil(ui::hil::Hil),
+    FilControl(ui::fil::FilControl),
 }
 
 pub struct WidgetContext<'a> {
@@ -44,6 +45,7 @@ impl Widget {
             Widget::Dynamics(w) => &w.title,
             Widget::Jitter(w) => &w.title,
             Widget::Hil(w) => &w.title,
+            Widget::FilControl(w) => &w.title,
         }
     }
 
@@ -63,6 +65,7 @@ impl Widget {
             Widget::Dynamics(_) => widget_constructor::WidgetKind::Dynamics,
             Widget::Jitter(_) => widget_constructor::WidgetKind::Jitter,
             Widget::Hil(_) => widget_constructor::WidgetKind::Hil,
+            Widget::FilControl(_) => widget_constructor::WidgetKind::FilControl,
         }
     }
 
@@ -70,6 +73,7 @@ impl Widget {
         &mut self,
         ui: &mut eframe::egui::Ui,
         context: WidgetContext<'_>,
+        connection_status: &app::ConnectionStatus,
     ) -> egui_tiles::UiResponse {
         match self {
             Widget::ViewerTable(w) => w.show(
@@ -92,6 +96,12 @@ impl Widget {
             Widget::Dynamics(w) => w.show(ui, context.view),
             Widget::Jitter(w) => w.show(ui, context.database, context.view),
             Widget::Hil(w) => w.show(ui),
+            Widget::FilControl(w) => w.show(
+                ui,
+                context.action_queue,
+                &context.ui_to_can_tx,
+                connection_status,
+            ),
         }
     }
 
@@ -110,6 +120,7 @@ impl Widget {
             Widget::Bootloader(w) => w.handle_can_message(event),
             Widget::SendUi(w) => w.handle_can_message(event),
             Widget::Hil(w) => w.handle_can_message(event),
+            Widget::FilControl(w) => w.handle_can_message(event),
             _ => {}
         }
     }

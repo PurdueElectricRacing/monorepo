@@ -17,6 +17,7 @@ pub enum WidgetKind {
     Dynamics,
     Jitter,
     Hil,
+    FilControl,
 }
 
 impl WidgetKind {
@@ -49,6 +50,7 @@ pub enum WidgetConstructor {
     Dynamics,
     Jitter,
     Hil,
+    FilControl,
 }
 
 impl WidgetConstructor {
@@ -69,6 +71,7 @@ impl WidgetConstructor {
             WidgetConstructor::Dynamics => WidgetKind::Dynamics,
             WidgetConstructor::Jitter => WidgetKind::Jitter,
             WidgetConstructor::Hil => WidgetKind::Hil,
+            WidgetConstructor::FilControl => WidgetKind::FilControl,
         }
     }
 
@@ -122,6 +125,9 @@ impl WidgetConstructor {
             }
             WidgetConstructor::Jitter => widgets::Widget::Jitter(ui::jitter::Jitter::new(id)),
             WidgetConstructor::Hil => widgets::Widget::Hil(ui::hil::Hil::new(ui_to_can_tx)),
+            WidgetConstructor::FilControl => {
+                widgets::Widget::FilControl(ui::fil::FilControl::new(id))
+            }
         })
     }
 }
