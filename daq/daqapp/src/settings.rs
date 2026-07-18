@@ -12,6 +12,10 @@ const DEFAULT_UDP_PORT: u16 = 5005;
 const DEFAULT_CAN_SPEED: daqcore::connection::CanBusSpeed =
     daqcore::connection::CanBusSpeed::Kbps500;
 
+fn default_window_secs() -> f64 {
+    30.0
+}
+
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Settings {
     pub dbc_path: Option<std::path::PathBuf>,
@@ -21,7 +25,12 @@ pub struct Settings {
     pub theme: theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
     pub log_folder: Option<std::path::PathBuf>,
+    #[serde(default = "default_window_secs")]
     pub window_secs: f64,
+    #[serde(default)]
+    pub fil_executable: Option<std::path::PathBuf>,
+    #[serde(default)]
+    pub fil_network_config: Option<std::path::PathBuf>,
 }
 
 impl Default for Settings {
@@ -35,6 +44,8 @@ impl Default for Settings {
             pixels_per_point: None,
             log_folder: None,
             window_secs: 30.0,
+            fil_executable: None,
+            fil_network_config: None,
         }
     }
 }

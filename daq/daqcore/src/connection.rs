@@ -3,6 +3,10 @@ pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
     Udp(u16),
     Simulated(bool, Option<std::path::PathBuf>), // true for connected, false for disconnected, path to dbc file for sim
+    Fil {
+        executable: std::path::PathBuf,
+        network: std::path::PathBuf,
+    },
     Loopback,
 }
 
@@ -45,7 +49,23 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                 serde_json::from_value(simulated.clone()).map_err(serde::de::Error::custom)?;
             return Ok(Self::Simulated(values.0, values.1));
         }
-
+        if let Some(fil) = object.get("Fil") {
+            let values = fil.as_object().ok_or_else(|| {
+                serde::de::Error::custom("FIL connection source must contain an object")
+            })?;
+            let executable = values
+                .get("executable")
+                .ok_or_else(|| serde::de::Error::custom("FIL executable is missing"))?;
+            let network = values
+                .get("network")
+                .ok_or_else(|| serde::de::Error::custom("FIL network is missing"))?;
+            return Ok(Self::Fil {
+                executable: serde_json::from_value(executable.clone())
+                    .map_err(serde::de::Error::custom)?,
+                network: serde_json::from_value(network.clone())
+                    .map_err(serde::de::Error::custom)?,
+            });
+        }
         if object.get("Loopback").is_some() {
             return Ok(Self::Loopback);
         }
@@ -74,6 +94,13 @@ impl ConnectionSource {
                     "Simulated (disconnected)".into()
                 }
             }
+            ConnectionSource::Fil { network, .. } => format!(
+                "FIL: {}",
+                network
+                    .file_name()
+                    .unwrap_or(network.as_os_str())
+                    .to_string_lossy()
+            ),
             ConnectionSource::Loopback => "Loopback".into(),
         }
     }

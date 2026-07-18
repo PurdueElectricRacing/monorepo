@@ -51,6 +51,10 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
             Ok(Box::new(UdpDriver(socket)))
         }
         ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
+        ConnectionSource::Fil {
+            executable,
+            network,
+        } => Ok(Box::new(FilDriver::new(executable, network)?)),
         ConnectionSource::Simulated(true, path) => {
             let parser = path
                 .as_ref()
@@ -73,6 +77,123 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
 #[derive(Default)]
 struct LoopbackDriver {
     queued: Vec<CanFrame>,
+}
+
+struct FilDriver {
+    child: std::process::Child,
+    output: std::io::BufReader<std::process::ChildStdout>,
+}
+impl FilDriver {
+    fn new(executable: &std::path::Path, network: &std::path::Path) -> DriverResult<Self> {
+        if !executable.is_file() {
+            return Err(DriverError::ConnectionFailed(format!(
+                "FIL executable does not exist: {}",
+                executable.display()
+            )));
+        }
+        if !network.is_file() {
+            return Err(DriverError::ConnectionFailed(format!(
+                "FIL network config does not exist: {}",
+                network.display()
+            )));
+        }
+        let mut child = std::process::Command::new(executable)
+            .arg("watch-network")
+            .arg(network)
+            .args([
+                "--duration-ms",
+                "86400000",
+                "--max-instructions",
+                "2000000000000",
+                "--live-filter",
+                "can_tx",
+            ])
+            .stdout(std::process::Stdio::piped())
+            .stderr(std::process::Stdio::null())
+            .spawn()
+            .map_err(|e| DriverError::ConnectionFailed(format!("Failed to launch FIL: {e}")))?;
+        let stdout = child
+            .stdout
+            .take()
+            .ok_or_else(|| DriverError::ConnectionFailed("Failed to capture FIL output".into()))?;
+        Ok(Self {
+            child,
+            output: std::io::BufReader::new(stdout),
+        })
+    }
+}
+fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
+    let mut fields = line.split_ascii_whitespace();
+    if !fields.any(|field| field == "can_tx") {
+        return None;
+    }
+    let mut id = None;
+    let mut extended = false;
+    let mut fd = false;
+    let mut data = None;
+    for field in fields {
+        let (key, value) = field.split_once('=')?;
+        match key {
+            "id" => id = u32::from_str_radix(value.trim_start_matches("0x"), 16).ok(),
+            "extended" => extended = value == "true",
+            "fd" => fd = value == "true",
+            "data" => {
+                if value.len() % 2 != 0 || value.len() > 16 {
+                    return None;
+                }
+                data = Some(
+                    value
+                        .as_bytes()
+                        .chunks_exact(2)
+                        .map(|pair| {
+                            std::str::from_utf8(pair)
+                                .ok()
+                                .and_then(|hex| u8::from_str_radix(hex, 16).ok())
+                        })
+                        .collect::<Option<Vec<_>>>()?,
+                );
+            }
+            _ => {}
+        }
+    }
+    if fd {
+        return None;
+    }
+    let identity = crate::frame::CanIdentity::new(id?, extended).ok()?;
+    CanFrame::data(identity, data?).ok()
+}
+impl Driver for FilDriver {
+    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+        use std::io::BufRead;
+        loop {
+            let mut line = String::new();
+            match self.output.read_line(&mut line) {
+                Ok(0) => return Err(DriverError::Read("FIL process exited".into())),
+                Ok(_) => {
+                    if let Some(frame) = parse_fil_can_tx(&line) {
+                        return Ok(vec![frame]);
+                    }
+                }
+                Err(e) => return Err(DriverError::Read(format!("Failed to read FIL output: {e}"))),
+            }
+        }
+    }
+    fn write_frame(&mut self, _: CanFrame) -> DriverResult<()> {
+        Err(DriverError::Unsupported(
+            "The FIL live connection is receive-only".into(),
+        ))
+    }
+    fn close(&mut self) -> DriverResult<()> {
+        let _ = self.child.kill();
+        let _ = self.child.wait();
+        Ok(())
+    }
+}
+impl Drop for FilDriver {
+    fn drop(&mut self) {
+        let _ = self.child.kill();
+        let _ = self.child.wait();
+    }
 }
 
 impl Driver for LoopbackDriver {

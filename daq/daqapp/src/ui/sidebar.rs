@@ -241,6 +241,29 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                             }
                         }
                         ui.separator();
+                        ui.label("Firmware emulator");
+                        if let (Some(executable), Some(network)) =
+                            (&app.fil_executable, &app.fil_network_config)
+                        {
+                            let fil_source = daqcore::connection::ConnectionSource::Fil {
+                                executable: executable.clone(),
+                                network: network.clone(),
+                            };
+                            if ui
+                                .selectable_value(
+                                    &mut app.selected_source,
+                                    Some(fil_source),
+                                    "FIL real-time network",
+                                )
+                                .changed()
+                            {
+                                app.connect_can();
+                                app.save_settings();
+                            }
+                        } else {
+                            ui.label("Select FIL and network paths below");
+                        }
+                        ui.separator();
                         ui.label("Development");
                         let loopback_source = daqcore::connection::ConnectionSource::Loopback;
                         if ui
@@ -259,6 +282,40 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 if ui.button("🔄").clicked() {
                     app.serial_ports = util::get_available_serial_ports();
                 }
+            });
+
+            ui.horizontal(|ui| {
+                if ui.button("Select FIL executable").clicked() {
+                    if let Some(path) = rfd::FileDialog::new().pick_file() {
+                        app.fil_executable = Some(path);
+                        app.save_settings();
+                    }
+                }
+                ui.label(
+                    app.fil_executable
+                        .as_ref()
+                        .and_then(|path| path.file_name())
+                        .map(|name| name.to_string_lossy())
+                        .unwrap_or_else(|| "None".into()),
+                );
+            });
+            ui.horizontal(|ui| {
+                if ui.button("Select FIL network").clicked() {
+                    if let Some(path) = rfd::FileDialog::new()
+                        .add_filter("JSON network config", &["json"])
+                        .pick_file()
+                    {
+                        app.fil_network_config = Some(path);
+                        app.save_settings();
+                    }
+                }
+                ui.label(
+                    app.fil_network_config
+                        .as_ref()
+                        .and_then(|path| path.file_name())
+                        .map(|name| name.to_string_lossy())
+                        .unwrap_or_else(|| "None".into()),
+                );
             });
 
             ui.horizontal(|ui| {
