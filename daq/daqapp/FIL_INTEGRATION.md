@@ -20,12 +20,13 @@ feeds transmitted CAN 2.0 frames into the existing DBC decoder and widgets.
 5. Open **Source** and choose **FIL real-time network**.
 6. Select the matching DBC file to decode the emulated traffic.
 
+The **FIL bus** field selects the virtual bus used by Message Sender frames. Its
+default is `vehicle`, matching the committed PER network configuration.
+
 The selected paths are saved in `settings.json`. Disconnecting or switching the
 source terminates the child emulator process.
 
-## Current boundary
-
-The live FIL CLI stream is outbound-only. DAQApp2 receives `can_tx` records from
-the emulated network, but Message Sender frames cannot yet be injected into an
-already-running FIL process. Attempting to send reports a receive-only driver
-error instead of silently discarding the frame.
+Message Sender frames are written to FIL's live control channel and injected at
+the next safe shared simulation frontier. CAN 2.0 standard and extended data
+frames are supported in both directions. CAN FD and remote-frame injection remain
+unsupported and report an explicit send error.
