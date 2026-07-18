@@ -57,6 +57,8 @@ pub struct DAQApp {
     active_source: Option<daqcore::connection::ConnectionSource>,
     pub diagnostic: Option<String>,
     pub log_folder: Option<path::PathBuf>,
+    pub fil_executable: Option<path::PathBuf>,
+    pub fil_network_config: Option<path::PathBuf>,
 }
 
 impl DAQApp {
@@ -75,6 +77,8 @@ impl DAQApp {
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
             window_secs: self.session.timeline().window_secs(),
+            fil_executable: self.fil_executable.clone(),
+            fil_network_config: self.fil_network_config.clone(),
         };
         settings.save();
     }
@@ -126,6 +130,8 @@ impl DAQApp {
             active_source: None,
             diagnostic: None,
             log_folder: settings.log_folder,
+            fil_executable: settings.fil_executable,
+            fil_network_config: settings.fil_network_config,
         };
         if let Some(path) = settings.superdbc_path {
             app.request_database(&path, settings.bus_id);
