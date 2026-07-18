@@ -15,6 +15,7 @@ use std::time::Duration;
 const SERIAL_BAUD_RATE: u32 = 115_200;
 const SERIAL_TIMEOUT_MS: u64 = 10;
 const FIL_OUTPUT_POLL_MS: u64 = 1;
+const FIL_MAX_FRAMES_PER_POLL: usize = 256;
 
 const UDP_RAW_FRAME_SIZE: usize = 16; // 4 bytes ticks_ms + 4 bytes identity + 8 bytes payload
 const UDP_MAX_PACKET_SIZE: usize = 2048;
@@ -490,7 +491,10 @@ fn receive_fil_frames(
         Ok(frame) => vec![frame],
         Err(error) => return Err(DriverError::ReadError(DriverReadError::IoError(error))),
     };
-    while let Ok(result) = output.try_recv() {
+    while frames.len() < FIL_MAX_FRAMES_PER_POLL {
+        let Ok(result) = output.try_recv() else {
+            break;
+        };
         match result {
             Ok(frame) => frames.push(frame),
             Err(_) => break,
@@ -762,5 +766,21 @@ mod fil_tests {
             Err(DriverError::ReadError(DriverReadError::Timeout))
         ));
         assert!(started.elapsed() < Duration::from_millis(100));
+    }
+
+    #[test]
+    fn sustained_fil_output_is_processed_in_bounded_batches() {
+        let (sender, receiver) = mpsc::channel();
+        let id = slcan::StandardId::new(0x123).expect("standard id");
+        let frame = slcan::Can2Frame::new_data(id, &[1]).expect("data frame");
+        for _ in 0..(super::FIL_MAX_FRAMES_PER_POLL + 1) {
+            sender
+                .send(Ok(frame.clone().into()))
+                .expect("queue FIL frame");
+        }
+
+        let frames = receive_fil_frames(&receiver, Duration::ZERO).expect("receive FIL frames");
+        assert_eq!(frames.len(), super::FIL_MAX_FRAMES_PER_POLL);
+        assert!(receiver.try_recv().is_ok(), "leaves excess traffic queued");
     }
 }

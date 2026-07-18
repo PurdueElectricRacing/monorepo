@@ -2,6 +2,8 @@ use crate::{
     action, connection, formatter, messages, settings, shortcuts, ui, util, widget_ids, widgets,
     workspace,
 };
+
+const MAX_CAN_MESSAGES_PER_UPDATE: usize = 2_048;
 use eframe::egui;
 
 const UI_SCALE_STEP: f32 = 0.2;
@@ -236,7 +238,10 @@ impl DAQApp {
 impl eframe::App for DAQApp {
     fn update(&mut self, ctx: &egui::Context, _: &mut eframe::Frame) {
         self.can_messages.clear();
-        while let Ok(msg) = self.can_to_ui_rx.try_recv() {
+        while self.can_messages.len() < MAX_CAN_MESSAGES_PER_UPDATE {
+            let Ok(msg) = self.can_to_ui_rx.try_recv() else {
+                break;
+            };
             match &msg {
                 messages::MsgFromCan::ConnectionFailed(port) => {
                     self.connection_status =
