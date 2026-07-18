@@ -234,6 +234,33 @@ impl DAQApp {
                 self.pixels_per_point = Some(current_scale - UI_SCALE_STEP);
                 self.save_settings();
             }
+            action::AppAction::UpdateFilConfig {
+                executable,
+                network,
+                bus,
+            } => {
+                self.fil_executable = executable;
+                self.fil_network_config = network;
+                self.fil_bus = bus;
+                self.save_settings();
+            }
+            action::AppAction::ConnectFil(source) => {
+                self.selected_source = Some(source);
+                self.connect_can();
+                self.save_settings();
+            }
+            action::AppAction::UpdateFilAdc {
+                board,
+                instance,
+                channel,
+                value,
+            } => {
+                self.fil_adc_board = board;
+                self.fil_adc_instance = instance;
+                self.fil_adc_channel = channel;
+                self.fil_adc_value = value;
+                self.save_settings();
+            }
         }
     }
 

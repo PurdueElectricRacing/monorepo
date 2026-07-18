@@ -24,6 +24,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 parser: app.parser.as_ref(),
                 ui_to_can_tx: app.ui_to_can_tx.clone(),
                 formatter: &app.value_formatter,
+                connection_status: &app.connection_status,
             };
             app.tile_tree.ui(&mut behavior, ui);
         }
@@ -37,6 +38,7 @@ struct WorkspaceTileBehavior<'a> {
     parser: Option<&'a app::ParserInfo>,
     ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
     formatter: &'a Option<daqcore::formatter::Formatter>,
+    connection_status: &'a app::ConnectionStatus,
 }
 
 impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
@@ -56,6 +58,7 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
                 ui_to_can_tx: self.ui_to_can_tx.clone(),
                 formatter: self.formatter,
             },
+            self.connection_status,
         )
     }
 
