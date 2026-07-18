@@ -2,6 +2,7 @@ use crate::{
     action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
 };
 use std::{error, mem, path, sync::mpsc};
+const MAX_CAN_EVENTS_PER_UPDATE: usize = 2_048;
 
 const UI_SCALE_STEP: f32 = 0.2;
 
@@ -349,13 +350,15 @@ impl DAQApp {
 
 impl eframe::App for DAQApp {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
-        while let Ok(event) = self.can_to_ui_rx.try_recv() {
+        for _ in 0..MAX_CAN_EVENTS_PER_UPDATE {
+            let Ok(event) = self.can_to_ui_rx.try_recv() else {
+                break;
+            };
             for tile in self.tile_tree.tiles.tiles_mut() {
                 if let egui_tiles::Tile::Pane(widget) = tile {
                     widget.handle_operational_event(&event);
                 }
             }
-
             match event {
                 daqcore::can_thread::CanThreadEvent::DatabaseSelected { request_id, result } => {
                     if self.apply_database_result(request_id, result) {
