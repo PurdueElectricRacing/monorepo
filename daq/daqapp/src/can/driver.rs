@@ -338,9 +338,9 @@ impl FilDriver {
             .arg(network)
             .args([
                 "--duration-ms",
-                "86400000",
+                "0",
                 "--max-instructions",
-                "2000000000000",
+                "18446744073709551615",
                 "--live-filter",
                 "can_tx",
                 "--control-stdin",
