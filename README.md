@@ -50,6 +50,16 @@ To build DaqApp only:
 python3 per_build.py daqapp
 ```
 
+To run host tests and generate an HTML coverage report:
+```bash
+python3 per_build.py tests
+```
+
+Coverage and AddressSanitizer/UBSan are enabled by default; coverage requires
+`gcov`, `lcov`, and `genhtml`, and the report is written to
+`firmware/build/host-tests/coverage/html/index.html`. See
+[tests/ARCHITECTURE.md](tests/ARCHITECTURE.md) for details.
+
 ## Hardware Debugging 
 
 In VS Code, go to **View → Run and Debug**, select the appropriate MCU target from the dropdown, then press the green ▶️ arrow to flash and live-debug the firmware.
