@@ -50,6 +50,9 @@ void PHAL_DMA_priv_setMemAddress(DMA_Channel_TypeDef *channel, uint32_t address)
 /// Write the transfer length (CNDTR)
 void PHAL_DMA_priv_setLength(DMA_Channel_TypeDef *channel, uint16_t length);
 
+/// Read how many elements are still outstanding (CNDTR)
+uint16_t PHAL_DMA_priv_getLength(DMA_Channel_TypeDef *channel);
+
 /// True if the transfer-complete flag is currently set for (periph, channel_idx)
 bool PHAL_DMA_priv_readCompleteFlag(DMA_TypeDef *periph, uint8_t channel_idx);
 

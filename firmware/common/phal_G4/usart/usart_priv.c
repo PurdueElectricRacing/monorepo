@@ -36,6 +36,22 @@ static const PHAL_USART_HwMap_t USART_MAP[NUM_USART] = {
     },
 };
 
+// Every RX error flag, plus IDLE. ICR is write-1-to-clear, so clearing a flag
+// that is not set is harmless (RM0440, USART_ICR).
+static constexpr uint32_t USART_PRIV_RX_FLAG_CLEAR_MSK =
+      USART_ICR_IDLECF | USART_ICR_ORECF | USART_ICR_NECF
+    | USART_ICR_FECF | USART_ICR_PECF;
+
+static inline uint32_t enterCritical(void) {
+    uint32_t previous_interrupt_mask = __get_PRIMASK();
+    __disable_irq();
+    return previous_interrupt_mask;
+}
+
+static inline void exitCritical(uint32_t previous_interrupt_mask) {
+    __set_PRIMASK(previous_interrupt_mask);
+}
+
 USART_TypeDef *PHAL_USART_priv_periph(ssize_t idx) {
     return USART_MAP[idx].periph;
 }
@@ -64,11 +80,17 @@ void PHAL_USART_priv_configure(ssize_t idx, uint32_t baud_rate, uint32_t clock_r
     // Per original source code
     periph->BRR = (clock_rate + (baud_rate / 2U)) / baud_rate;
 
-    // IDLE-line interrupt signals RX frame completion.
+    // IDLE-line interrupt signals RX frame completion. TCIE stays off until a
+    // transmission is actually armed, so an idle transmitter cannot raise the
+    // shared USART interrupt.
     periph->CR1 |= USART_CR1_IDLEIE;
 
-    // Enable USART 
+    // Enable USART
     periph->CR1 |= USART_CR1_UE;
+
+    // ISR comes out of reset with TC already set; drop it (and any RX flags)
+    // so the first startTx does not see a completion that never happened.
+    periph->ICR = USART_PRIV_RX_FLAG_CLEAR_MSK | USART_ICR_TCCF;
 
     NVIC_ClearPendingIRQ(map->irq);
     NVIC_EnableIRQ(map->irq);
@@ -102,36 +124,65 @@ void PHAL_USART_priv_buildDma(ssize_t idx, PHAL_DMA_Handle_t *tx_dma, PHAL_DMA_H
 }
 
 void PHAL_USART_priv_startTx(USART_TypeDef *periph) {
+    uint32_t mask = enterCritical();
+
+    // Drop the previous frame's TC before arming TCIE, otherwise enabling the
+    // interrupt would immediately re-report a completion that already happened.
+    periph->ICR = USART_ICR_TCCF;
+    periph->CR1 |= USART_CR1_TE | USART_CR1_TCIE;
+
+    // Last: the channel is already enabled, so this is the point the first
+    // byte can actually move.
     periph->CR3 |= USART_CR3_DMAT;
-    periph->CR1 |= USART_CR1_TE;
+
+    exitCritical(mask);
+}
+
+bool PHAL_USART_priv_txCompleteActive(USART_TypeDef *periph) {
+    return (periph->ISR & USART_ISR_TC) != 0U && (periph->CR1 & USART_CR1_TCIE) != 0U;
+}
+
+void PHAL_USART_priv_finishTx(USART_TypeDef *periph) {
+    uint32_t mask = enterCritical();
+
+    periph->CR1 &= ~USART_CR1_TCIE;
+    periph->ICR = USART_ICR_TCCF;
+
+    exitCritical(mask);
 }
 
 void PHAL_USART_priv_startRx(USART_TypeDef *periph) {
-    // clear RXNE and discard the byte in data register
-    periph->RQR |= USART_RQR_RXFRQ; 
-
-    // write-1-to-clear status & error flags
-    periph->ICR = USART_ICR_ORECF;
+    uint32_t mask = enterCritical();
 
     periph->CR1 |= USART_CR1_RE;
     periph->CR3 |= USART_CR3_DMAR;
+
+    exitCritical(mask);
 }
 
 void PHAL_USART_priv_stopRx(USART_TypeDef *periph) {
+    uint32_t mask = enterCritical();
+
     periph->CR1 &= ~USART_CR1_RE;
     periph->CR3 &= ~USART_CR3_DMAR;
 
-    (void)periph->RDR;
+    exitCritical(mask);
+}
+
+void PHAL_USART_priv_flushRx(USART_TypeDef *periph) {
+    // RQR is write-only; RXFRQ discards whatever is in RDR and clears RXNE so
+    // no stale byte is waiting when the DMA channel is enabled.
+    periph->RQR = USART_RQR_RXFRQ;
+
+    periph->ICR = USART_PRIV_RX_FLAG_CLEAR_MSK;
 }
 
 bool PHAL_USART_priv_idleActive(USART_TypeDef *periph) {
     return (periph->ISR & USART_ISR_IDLE) != 0U;
 }
 
-void PHAL_USART_priv_clearStatusFlags(USART_TypeDef *periph) {
-    // ICR is write-1-to-clear; clearing a flag that is not set is harmless.
-    periph->ICR = USART_ICR_IDLECF | USART_ICR_ORECF | USART_ICR_NECF
-                | USART_ICR_FECF | USART_ICR_PECF;
+void PHAL_USART_priv_clearIdle(USART_TypeDef *periph) {
+    periph->ICR = USART_ICR_IDLECF;
 }
 
 bool PHAL_USART_priv_txDmaComplete(ssize_t idx) {

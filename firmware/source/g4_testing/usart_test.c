@@ -41,10 +41,11 @@ static constexpr uint32_t USART1_TEST_BAUD = 115200u;
 static constexpr uint32_t USART2_TEST_BAUD = 9600u;
 static constexpr uint32_t USART3_TEST_BAUD = 500000u;
 
-static constexpr uint32_t FRAME_LEN = 16;
+static constexpr uint16_t FRAME_LEN = 16;
 static uint8_t tx_buf[FRAME_LEN];
 static uint8_t rx_buf[FRAME_LEN];
 static volatile uint32_t rx_frame_success_count;
+static volatile uint16_t rx_frame_len; //!< length reported by the last rxCallback
 
 // Every subtest below except the per-peripheral roundtrips runs on USART2.
 static constexpr PHAL_USART_Idx_t TEST_PERIPH = USART2_IDX;
@@ -67,6 +68,8 @@ volatile uint32_t usart_failed_expected;
 volatile uint32_t usart_failed_actual;
 
 static constexpr uint32_t TIMEOUT_MARKER = 0xFFFFFFFFu;
+// Distinguishes "wrong frame length" from a byte-index mismatch in usart_failed_detail.
+static constexpr uint32_t LENGTH_MARKER = 0xFFFFFFFEu;
 
 // These spin loops are raw instruction counts, not a hardware timer, so their
 // real-world duration is inversely proportional to core clock. Scale the
@@ -121,8 +124,14 @@ static bool record_failure(usart_subtest_id_t id, uint32_t detail, uint32_t expe
     return false;
 }
 
-static bool buffers_equal(usart_subtest_id_t id, const uint8_t *expected, const uint8_t *actual, uint32_t len) {
-    for (uint32_t i = 0; i < len; i++) {
+static bool buffers_equal(usart_subtest_id_t id, const uint8_t *expected, const uint8_t *actual, uint16_t len) {
+    // The HAL reports how many bytes actually landed, so a short frame (or one
+    // shifted by a stale byte) is caught here instead of silently comparing
+    // against leftovers from the previous subtest.
+    if (rx_frame_len != len)
+        return record_failure(id, LENGTH_MARKER, len, rx_frame_len);
+
+    for (uint16_t i = 0; i < len; i++) {
         if (expected[i] != actual[i])
             return record_failure(id, i, expected[i], actual[i]);
     }
@@ -329,8 +338,9 @@ int main(void) {
     return 0;
 }
 
-void PHAL_USART_rxCallback(PHAL_USART_Idx_t periph) {
+void PHAL_USART_rxCallback(PHAL_USART_Idx_t periph, uint16_t len) {
     (void)periph;
+    rx_frame_len = len;
     rx_frame_success_count++;
 }
 
