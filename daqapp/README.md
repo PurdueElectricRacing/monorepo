@@ -2,11 +2,6 @@
 
 DaqApp is PER's complete trackside data acquisition and analysis desktop application/tooling.
 
-
-The PER DAQ App is the desktop application used to connect to the vehicle CAN
-network, inspect live data, record sessions, and analyze logs after a run. It
-is a native Rust application built with `eframe`/`egui`.
-
 ## What it does
 
 - Connects to supported CAN sources and decodes traffic with a selected DBC
@@ -17,6 +12,10 @@ is a native Rust application built with `eframe`/`egui`.
 - Fully support for CAN-message sending
 - Hardware-in-the-loop configuration, test running, and results viewing
 - Full PER Bootloader workflow
+
+## Screenshots
+
+
 
 ## Using the app
 
@@ -57,7 +56,7 @@ cargo run
 
 ## Development
 
-Useful checks from `daqapp/`:
+Useful commands:
 
 ```bash
 cargo fmt
@@ -72,6 +71,11 @@ The app's source is organized by responsibility:
 - `src/daq_log_parse/` - recorded-log parsing and correlation.
 - `src/hil/` and `hil_config/` - hardware-in-the-loop support and presets.
 - `themes/` - user-selectable visual themes.
+
+### Thread overview
+
+![daqapp_overview](../docs/daqapp/daqapp_overview.drawio.png)
+![daqapp_threads](../docs/daqapp/daqapp_threads.drawio.png)
 
 ### Testing
 
