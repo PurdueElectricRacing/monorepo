@@ -1,4 +1,4 @@
-# PER Firmware Setup Instructions
+# PER Monorepo Setup Instructions
 
 # 1. Tools
 
@@ -56,6 +56,28 @@ sudo apt install git cmake python3 python3-pip ninja-build gcc-arm-none-eabi ope
 ```
 2. Visual Studio Code requires some special attention, install from [here](https://code.visualstudio.com/docs/setup/linux).
 
+## DAQ App Tools Setup
+
+The DAQ app is written in Rust. Install the stable Rust toolchain with
+[rustup](https://rustup.rs/); this also installs `cargo`, Rust's build tool and
+package manager.
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+rustup default stable
+cargo --version
+```
+
+On Linux, install the development files used to enumerate serial devices:
+
+```bash
+sudo apt install libudev-dev pkg-config
+```
+
+On Windows, follow these steps inside WSL. macOS needs no additional DAQ app
+system packages.
+
 
 # 2. VSCode Setup (All OS)
 
@@ -96,18 +118,18 @@ pwd
 ```
 
 ## Clone PER repo
-1. Once you're in your home directory, clone the PER firmware repository with the following command:
+1. Once you're in your home directory, clone the PER monorepo with the following command:
 ```bash
-git clone https://github.com/PurdueElectricRacing/firmware.git
+git clone https://github.com/PurdueElectricRacing/monorepo.git
 ```
 
-2. Enter the firmware repository:
+2. Enter the repository:
 ```bash
-cd firmware
+cd monorepo
 ```
 
 ## Setup & Build
-1. Install the required Python packages.
+1. To build firmware, install the required Python packages.
 
 You can install the dependencies in one of two ways:
 
@@ -133,11 +155,19 @@ pip3 install -r requirements.txt
 > ```
 
 
-2. Launch Visual Studio Code:
+2. Build one project or both projects from the repository root:
+
+```bash
+python3 per_build.py firmware  # embedded firmware only
+python3 per_build.py daqapp    # desktop DAQ app only
+python3 per_build.py           # both projects
+```
+
+3. Launch Visual Studio Code:
 ```bash
 code .
 ```
-3. Try running a build by doing `CTRL/CMD + Shift + B` in your VSCode window
+4. Try running a build by doing `CTRL/CMD + Shift + B` in your VSCode window
 
 ```
 Ctrl + Shift + B on Windows/Linux
