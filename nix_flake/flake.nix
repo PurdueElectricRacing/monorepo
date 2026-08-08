@@ -1,5 +1,5 @@
 {
-  description = "Dev shell for PurdueElectricRacing/daqapp2";
+  description = "Dev shell for PurdueElectricRacing/monorepo";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -11,12 +11,44 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [ (import rust-overlay) ];
+
         pkgs = import nixpkgs {
           inherit system overlays;
         };
+
+        python = pkgs.python312.withPackages (ps: with ps; [
+          cantools
+          jsonschema
+          pyusb
+          jinja2
+        ]);
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            cmake
+            gnumake
+            ninja
+
+            gcc
+            clang
+            libclang
+            clang-tools
+
+            gcc-arm-embedded
+            openocd
+            stlink-tool
+
+            (rust-bin.stable.latest.default.override {
+              extensions = [
+                "rust-src"
+                "clippy"
+                "rustfmt"
+                "rust-analyzer"
+              ];
+            })
+
+            python
+
             pkg-config
             systemd
             udev
@@ -26,10 +58,6 @@
             mesa
             libGL
             dbus
-
-            (rust-bin.stable.latest.default.override {
-              extensions = [ "rust-src" "clippy" "rustfmt" "rust-analyzer" ];
-            })
           ];
 
           shellHook = ''
@@ -40,6 +68,14 @@
               pkgs.libGL
               pkgs.dbus
             ]}:$LD_LIBRARY_PATH
+
+            echo "Purdue Electric Racing development environment"
+            echo "  CMake:      $(cmake --version | head -n1)"
+            echo "  Ninja:      $(ninja --version)"
+            echo "  ARM GCC:    $(arm-none-eabi-gcc --version | head -n1)"
+            echo "  OpenOCD:    $(openocd --version 2>&1 | head -n1)"
+            echo "  Python:     $(python --version)"
+            echo "  Rust:       $(rustc --version)"
           '';
         };
       });
