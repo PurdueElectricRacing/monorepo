@@ -19,7 +19,6 @@
         python = pkgs.python312.withPackages (ps: with ps; [
           cantools
           jsonschema
-          pyusb
           jinja2
         ]);
       in {
