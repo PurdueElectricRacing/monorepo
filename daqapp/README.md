@@ -15,7 +15,16 @@ DaqApp is PER's complete trackside data acquisition and analysis desktop applica
 
 ## Screenshots
 
-
+<table>
+  <tr>
+    <td><img src="./showcase/table.png" width="500"></td>
+    <td><img src="./showcase/battery_charging_workflow.png" width="500"></td>
+  </tr>
+  <tr>
+    <td><img src="./showcase/hil.png" width="500"></td>
+    <td><img src="./showcase/scope.png" width="500"></td>
+  </tr>
+</table>
 
 ## Using the app
 
