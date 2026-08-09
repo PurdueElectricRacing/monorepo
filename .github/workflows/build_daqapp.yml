@@ -6,17 +6,35 @@ on:
     branches: ["master"]
 
 jobs:
-  daqapp:
+  fmt:
+    name: Check formatting
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install system dependencies (libudev)
-        run: sudo apt-get update && sudo apt-get install -y libudev-dev
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
 
-      - name: Set toolchain env
-        run: echo "toolchain=stable" >> $GITHUB_ENV
+      - name: Cargo Format
+        working-directory: daqapp
+        run: cargo fmt --all --check
+
+  build:
+    name: Build DAQApp
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libudev-dev
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
@@ -24,16 +42,20 @@ jobs:
           toolchain: stable
 
       - name: Cache Cargo
-        uses: Swatinem/rust-cache@v2
-
-      - name: Cargo Format (fail on bad formatting)
-        working-directory: daqapp
-        run: cargo fmt --all --check
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            daqapp/target
+          key: ${{ runner.os }}-daqapp-${{ hashFiles('daqapp/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-daqapp-
 
       - name: Build DAQ app
         run: python3 per_build.py daqapp --all-targets
 
-      - name: Show compiler warnings (does not stop CI)
+      - name: Show compiler warnings
         working-directory: daqapp
         run: |
           echo "Compiler warnings:"
