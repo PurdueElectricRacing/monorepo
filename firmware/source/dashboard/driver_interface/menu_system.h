@@ -62,6 +62,6 @@ void MS_incrementValue(menu_element_t* element);
 void MS_decrementValue(menu_element_t* element);
 
 void MS_refreshPage(menu_page_t* page);
-int8_t MS_listGetSelected(menu_page_t* page);
+int8_t MS_listGetSelected(const menu_page_t* page);
 
 #endif // MENU_SYSTEM_H

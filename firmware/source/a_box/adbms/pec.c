@@ -75,10 +75,10 @@ static const uint16_t adbms_pec10_table[256] = {
 *
 */
 uint16_t adbms_pec_get_pec15(uint8_t len, const uint8_t *data) {
-    uint16_t remainder, addr;
+    uint16_t remainder;
     remainder = 16;                                        /* initialize the PEC */
     for (uint8_t i = 0; i < len; i++) {                    /* loops for each byte in data array */
-        addr      = (((remainder >> 7) ^ data[i]) & 0xff); /* calculate PEC table address */
+        uint16_t addr = (((remainder >> 7) ^ data[i]) & 0xff); /* calculate PEC table address */
         remainder = ((remainder << 8) ^ adbms_pec15_table[addr]);
     }
     return (remainder
@@ -90,11 +90,10 @@ uint16_t adbms_pec_get_pec10(bool bIsRxCmd, uint8_t nLength, const uint8_t *pDat
     /* x10 + x7 + x3 + x2 + x + 1 <- the CRC10 polynomial 100 1000 1111 */
     uint16_t nPolynomial = 0x8Fu;
     uint8_t nByteIndex, nBitIndex;
-    uint16_t nTableAddr;
 
     for (nByteIndex = 0u; nByteIndex < nLength; ++nByteIndex) {
         /* calculate PEC table address */
-        nTableAddr = (uint16_t)(((uint16_t)(nRemainder >> 2) ^ (uint8_t)pDataBuf[nByteIndex])
+        uint16_t nTableAddr = (uint16_t)(((uint16_t)(nRemainder >> 2) ^ (uint8_t)pDataBuf[nByteIndex])
                                 & (uint8_t)0xff);
         nRemainder = (uint16_t)(((uint16_t)(nRemainder << 8)) ^ adbms_pec10_table[nTableAddr]);
     }
