@@ -1,5 +1,9 @@
 var NAVTREEINDEX18 =
 {
+"structpdu__rail__fault__map__t.html#adfe3728efdb6dc12eef17fa0bbfd33dc":[29,0,56,1],
+"structpdu__rail__fault__map__t.html#ae397e43572e77e19f331e64a0250d2d8":[29,0,56,0],
+"structpdu__rail__fault__map__t.html#af21a2744c83c68454f2d006445c96204":[29,0,56,2],
+"structpdu__rail__voltage__mv__t.html":[29,0,57],
 "structpdu__rail__voltage__mv__t.html#a4d926035780bebe716579e34d7d2086d":[29,0,57,0],
 "structpdu__rail__voltage__mv__t.html#a519db007dd8e4ac3328eeea46868567e":[29,0,57,1],
 "structpdu__rail__voltage__mv__t.html#a665a842e96fbbf91ba4cce59a26ca702":[29,0,57,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX18 =
 "syscalls_8c.html#a7a61311bdf1cb025fc07dc2bdae22ce4":[30,0,1,1,11,0,8],
 "syscalls_8c.html#a945e539df8e0f66d3c73c533fe1968ee":[30,0,1,1,11,0,3],
 "syscalls_8c.html#aa025a12d45f60c7d0eae249e61f0c7f9":[30,0,1,1,11,0,11],
-"syscalls_8c.html#ac694b0c9c3f6b77ce439a5f088658f5f":[30,0,1,1,11,0,7],
-"syscalls_8c.html#ad3134a3dc296622b8d1c5456e481505b":[30,0,1,1,11,0,5],
-"syscalls_8h.html":[30,0,1,1,11,1],
-"syscalls_8h.html#a062a5101199c3128edd5170f2575bb10":[30,0,1,1,11,1,6],
-"syscalls_8h.html#a38f8394eee3a086b87ff6d431e1e5343":[30,0,1,1,11,1,10]
+"syscalls_8c.html#ac694b0c9c3f6b77ce439a5f088658f5f":[30,0,1,1,11,0,7]
 };

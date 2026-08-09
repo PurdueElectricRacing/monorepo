@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PER Firmware: PER Firmware Setup Instructions</title>
+<title>PER Firmware: PER Monorepo Setup Instructions</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,7 +97,7 @@ $(function(){initNavTree('md_docs_2setup.html',''); initResizable(true); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">PER Firmware Setup Instructions</div></div>
+  <div class="headertitle"><div class="title">PER Monorepo Setup Instructions</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="autotoc_md89"></a></p>
@@ -152,37 +152,47 @@ Linux Tools Setup</h2>
 </div><!-- fragment --></li>
 <li>Visual Studio Code requires some special attention, install from <a href="https://code.visualstudio.com/docs/setup/linux">here</a>.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md94"></a>
+<h2><a class="anchor" id="autotoc_md94"></a>
+DAQ App Tools Setup</h2>
+<p>The DAQ app is written in Rust. Install the stable Rust toolchain with <a href="https://rustup.rs/">rustup</a>; this also installs <code>cargo</code>, Rust's build tool and package manager.</p>
+<div class="fragment"><div class="line">curl --proto &#39;=https&#39; --tlsv1.2 -sSf https://sh.rustup.rs | sh</div>
+<div class="line">source &quot;$HOME/.cargo/env&quot;</div>
+<div class="line">rustup default stable</div>
+<div class="line">cargo --version</div>
+</div><!-- fragment --><p>On Linux, install the development files used to enumerate serial devices:</p>
+<div class="fragment"><div class="line">sudo apt install libudev-dev pkg-config</div>
+</div><!-- fragment --><p>On Windows, follow these steps inside WSL. macOS needs no additional DAQ app system packages.</p>
+<h1><a class="anchor" id="autotoc_md95"></a>
 2. VSCode Setup (All OS)</h1>
 <p>VS Code is the recommended editor for firmware development.</p>
-<h2><a class="anchor" id="autotoc_md95"></a>
+<h2><a class="anchor" id="autotoc_md96"></a>
 Install Extensions</h2>
 <p>Open the Extensions view (Ctrl+Shift+X or Cmd+Shift+X) and install the <a href="https://marketplace.visualstudio.com/items?itemName=irvingywang.per-pack">PER extension pack</a> by searching the extension marketplace for "PER-Pack". </p><dl class="section warning"><dt>Warning</dt><dd>PER-Pack is required! Dont skip this step.</dd></dl>
-<h2><a class="anchor" id="autotoc_md96"></a>
+<h2><a class="anchor" id="autotoc_md97"></a>
 Turn on Autosave</h2>
 <p>Go to <code>File -&gt; Autosave</code> and click check to turn on autosave.</p>
-<h1><a class="anchor" id="autotoc_md97"></a>
+<h1><a class="anchor" id="autotoc_md98"></a>
 3. Repository Setup (All OS)</h1>
 <p>Follow these steps to download the PER codebase and get started on development:</p>
-<h2><a class="anchor" id="autotoc_md98"></a>
+<h2><a class="anchor" id="autotoc_md99"></a>
 Open a new terminal</h2>
 <p>Open a new terminal. Just use your regular user account.</p>
 <p>For Windows, open your terminal or WSL.</p>
 <p>You should land in your home directory: </p><div class="fragment"><div class="line">/home/{USER}</div>
 </div><!-- fragment --><p>For MacOS: </p><div class="fragment"><div class="line">/Users/{username}</div>
 </div><!-- fragment --><p>You can confirm with: </p><div class="fragment"><div class="line">pwd</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md99"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md100"></a>
 Clone PER repo</h2>
 <ol type="1">
-<li>Once you're in your home directory, clone the PER firmware repository with the following command: <div class="fragment"><div class="line">git clone https://github.com/PurdueElectricRacing/firmware.git</div>
+<li>Once you're in your home directory, clone the PER monorepo with the following command: <div class="fragment"><div class="line">git clone https://github.com/PurdueElectricRacing/monorepo.git</div>
 </div><!-- fragment --></li>
-<li>Enter the firmware repository: <div class="fragment"><div class="line">cd firmware</div>
+<li>Enter the repository: <div class="fragment"><div class="line">cd monorepo</div>
 </div><!-- fragment --></li>
 </ol>
-<h2><a class="anchor" id="autotoc_md100"></a>
+<h2><a class="anchor" id="autotoc_md101"></a>
 Setup &amp; Build</h2>
 <ol type="1">
-<li>Install the required Python packages.</li>
+<li>To build firmware, install the required Python packages.</li>
 </ol>
 <p>You can install the dependencies in one of two ways:</p>
 <p><b>Option A</b> — Use a virtual environment to isolate dependencies </p><div class="fragment"><div class="line">python3 -m venv .venv</div>
@@ -193,6 +203,12 @@ Setup &amp; Build</h2>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>If you encounter an “externally managed environment” error when using Option B, run: <div class="fragment"><div class="line">pip3 install -r requirements.txt --break-system-packages</div>
 </div><!-- fragment --></dd></dl>
 <ol type="1">
+<li>Build one project or both projects from the repository root:</li>
+</ol>
+<div class="fragment"><div class="line">python3 per_build.py firmware  # embedded firmware only</div>
+<div class="line">python3 per_build.py daqapp    # desktop DAQ app only</div>
+<div class="line">python3 per_build.py           # both projects</div>
+</div><!-- fragment --><ol type="1">
 <li>Launch Visual Studio Code: <div class="fragment"><div class="line">code .</div>
 </div><!-- fragment --></li>
 <li>Try running a build by doing <code>CTRL/CMD + Shift + B</code> in your VSCode window</li>

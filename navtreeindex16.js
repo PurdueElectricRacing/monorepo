@@ -1,5 +1,9 @@
 var NAVTREEINDEX16 =
 {
+"structCanMsgTypeDef__t.html#a4aa42f4d25313b588ecb4323723d2ef6":[29,0,17,1],
+"structCanMsgTypeDef__t.html#a54fcfb1b9e4c743c50169c7d6fcafb45":[29,0,17,3],
+"structCanMsgTypeDef__t.html#a6b77a8cc916e8ddd9a3619f0a30c8655":[29,0,17,6],
+"structCanMsgTypeDef__t.html#a8ef176b7cb7b77511a9c477ed03004b5":[29,0,17,5],
 "structClockRateConfig__t.html":[29,0,21],
 "structClockRateConfig__t.html#a29d43da9b57d20740f0e7d6dbe4b3144":[29,0,21,1],
 "structClockRateConfig__t.html#a4039a07f33b4924b422fe5b318399698":[29,0,21,8],
@@ -245,9 +249,5 @@ var NAVTREEINDEX16 =
 "struct____attribute____.html#a781481fa7f8d848a95300af6fae80339":[29,0,5,2],
 "struct____attribute____.html#a8b251fbc8bc16d6880d38d970c5a2a55":[29,0,5,9],
 "struct____attribute____.html#a8dcc03e3021924f43243fbff95ef3207":[29,0,5,7],
-"struct____attribute____.html#a946af54796fcc626af6bc0625ff94b80":[29,0,5,14],
-"struct____attribute____.html#aa789bd99d41fdf549b0a23c81b689144":[29,0,5,8],
-"struct____attribute____.html#ac422016e48a5ed3e37c08cfe6cee6010":[29,0,5,13],
-"struct____attribute____.html#ad59b0cb9b369657cb11983576aea1937":[29,0,5,6],
-"struct____attribute____.html#ae07a1fcd4fc985a2e55814dfac2690ee":[29,0,5,10]
+"struct____attribute____.html#a946af54796fcc626af6bc0625ff94b80":[29,0,5,14]
 };

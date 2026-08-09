@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['setup_20instructions_0',['PER Firmware Setup Instructions',['../md_docs_2setup.html',1,'']]],
+  ['setup_20instructions_0',['PER Monorepo Setup Instructions',['../md_docs_2setup.html',1,'']]],
   ['software_20⚡️_1',['PER Software ⚡️',['../md_README.html',1,'']]],
   ['source_2',['Source',['../md_firmware_2source_2README.html',1,'']]],
   ['string_20buffer_3',['String Buffer',['../md_firmware_2common_2strbuf_2README.html',1,'']]],

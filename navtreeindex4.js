@@ -98,6 +98,8 @@ var NAVTREEINDEX4 =
 "daq_2main_8h.html#afb17ee7288cff3ea95ff86218c1a57b7":[30,0,1,2,1,8,22],
 "daq_2main_8h_source.html":[30,0,1,2,1,8],
 "daq_8drawio_8png.html":[30,0,1,2,1,5],
+"daqapp__overview_8drawio_8png.html":[30,0,0,0,0],
+"daqapp__threads_8drawio_8png.html":[30,0,0,0,1],
 "dashboard_2driver__interface_2pages_2faults_8c.html":[30,0,1,2,2,1,0,4],
 "dashboard_2driver__interface_2pages_2faults_8c.html#a598e836117e5c44672d55d79bcfecbb4":[30,0,1,2,2,1,0,4,5],
 "dashboard_2driver__interface_2pages_2faults_8c.html#acaa4a1748f184b5a2c6bca42f8dfbf7a":[30,0,1,2,2,1,0,4,4],
@@ -244,10 +246,8 @@ var NAVTREEINDEX4 =
 "dbcgen_8py.html#ade6a2af6da26f68e915bc94a74b68515":[30,0,1,0,0,3,0],
 "dir_0109ea6118e5149d930a4b2527e111b3.html":[30,0,1,1,7,7],
 "dir_0135013837585a82fc320aa5a9d6a4c9.html":[30,0,1,1,8,9],
+"dir_01381fe9c7bfb253250851b95af54a18.html":[30,0,0,0],
 "dir_030464cf51c76e72703553a6aa200c37.html":[30,0,1,2,3,0],
 "dir_05e217f700315e70ae47203d567fe0c9.html":[30,0,1,2],
-"dir_0b7ba9d1126e7055548a4c42d49dca8e.html":[30,0,1,2,2,3],
-"dir_1978081598fb094899477a0797371d29.html":[30,0,1,1,0],
-"dir_209f55976407301598a7452eeedb6676.html":[30,0,1,2,1,0],
-"dir_20d1b1921b6828b0c943053a628ca4e2.html":[30,0,1,1,7,9]
+"dir_0b7ba9d1126e7055548a4c42d49dca8e.html":[30,0,1,2,2,3]
 };
