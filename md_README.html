@@ -122,7 +122,8 @@ Building</h1>
 <p><code>per_build.py</code> is the repository-level build entry point. It invokes each project's own build system from the appropriate directory.</p>
 <p>From the repository root, build all projects with: </p><div class="fragment"><div class="line">python3 per_build.py</div>
 </div><!-- fragment --><p>To build only firmware: </p><div class="fragment"><div class="line">python3 per_build.py firmware --package</div>
-</div><!-- fragment --><p>To build DaqApp only only: </p><div class="fragment"><div class="line">python3 per_build.py daqapp</div>
+</div><!-- fragment --><p>To run cppcheck static analysis over firmware (<code>firmware/source</code> and <code>firmware/common</code>): </p><div class="fragment"><div class="line">python3 per_build.py firmware --check</div>
+</div><!-- fragment --><p>To build DaqApp only: </p><div class="fragment"><div class="line">python3 per_build.py daqapp</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md5"></a>
 Hardware Debugging</h1>
 <p>In VS Code, go to <b>View → Run and Debug</b>, select the appropriate MCU target from the dropdown, then press the green ▶️ arrow to flash and live-debug the firmware.</p>
