@@ -119,6 +119,7 @@ def run_cppcheck():
         "--suppress=*:*/firmware/source/torque_vector/vcu/*",
         "--suppress=preprocessorErrorDirective",
         "--inline-suppr",
+        "--quiet",
         f"-j{os.cpu_count() or 1}",
         f"--error-exitcode=1"
     ]
