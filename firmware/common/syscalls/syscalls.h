@@ -8,8 +8,8 @@ extern "C" {
 #endif
 
 int *__errno(void);
-int _write(int file, const char* ptr, int len);
-int _read(int file, const char* ptr, int len);
+int _write(int file, char* ptr, int len);
+int _read(int file, char* ptr, int len);
 int _close(int file);
 int _fstat(int file, struct stat* st);
 int _isatty(int file);
