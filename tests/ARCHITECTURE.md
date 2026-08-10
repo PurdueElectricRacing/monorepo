@@ -10,6 +10,25 @@ The host test suite uses GoogleTest and CTest for firmware unit tests.
 - GoogleTest installed locally and discoverable by CMake
 - `gcov`, `lcov`, and `genhtml` on `PATH` (`sudo apt-get install gcc g++ lcov libgtest-dev` on Ubuntu or `brew install lcov googletest` on macOS)
 
+Coverage requires a tool from the same compiler family as the host compiler,
+because GCC and LLVM emit incompatible `.gcno`/`.gcda` files. The configure
+step selects the coverage frontend from the configured C compiler and fails if
+that frontend, `lcov`, or `genhtml` is unavailable.
+
+- GCC host builds prefer `gcov-<major>` for the newer of the configured C and
+  C++ compiler majors (for example, `gcov-16` for GCC 16), then fall back to
+  `gcov`. The search also looks next to the C compiler, which handles layouts
+  such as Homebrew's `gcc-16` and `gcov-16`.
+- Clang/AppleClang builds use `llvm-cov gcov`, preferring a matching
+  `llvm-cov-<major>` executable before falling back to `llvm-cov`.
+- C and C++ compilers must both be GCC or Clang-family compilers. The selected
+  frontend is based on the C compiler, so mixed compiler families should be
+  avoided.
+- On macOS `/usr/bin/gcc` is AppleClang in disguise. For GCC coverage builds,
+  install real GCC (`brew install gcc`) and run with
+  `CC=gcc-<version> CXX=g++-<version> python3 per_build.py tests` (e.g.
+  `CC=gcc-16 CXX=g++-16`).
+
 ## Running the tests
 
 Run tests through `per_build.py` from the repository root:

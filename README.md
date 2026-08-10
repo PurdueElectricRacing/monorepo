@@ -57,8 +57,15 @@ python3 per_build.py tests
 
 Coverage and AddressSanitizer/UBSan are enabled by default; coverage requires
 `gcov`, `lcov`, and `genhtml`, and the report is written to
-`firmware/build/host-tests/coverage/html/index.html`. See
-[tests/ARCHITECTURE.md](tests/ARCHITECTURE.md) for details.
+`firmware/build/host-tests/coverage/html/index.html`. The configure step
+automatically selects the coverage frontend that matches the configured
+compiler (GCC picks `gcov-<major>`; Clang/AppleClang invokes `llvm-cov gcov`),
+so there is no need to match a tool to the toolchain by hand; CI uses
+`gcc`/`g++`. On macOS
+`/usr/bin/gcc` is AppleClang, so for GCC coverage builds install real GCC
+(`brew install gcc`) and run with `CC=gcc-<version> CXX=g++-<version>
+python3 per_build.py tests`. See [tests/ARCHITECTURE.md](tests/ARCHITECTURE.md)
+for details.
 
 ## Hardware Debugging 
 
