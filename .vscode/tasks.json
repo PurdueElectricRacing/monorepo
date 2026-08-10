@@ -19,6 +19,14 @@
             }
         },
         {
+            "label": "check firmware",
+            "type": "shell",
+            "command": "clear && python3 per_build.py firmware --check",
+            "group": {
+                "kind": "test",
+        }
+        },
+        {
             "label": "build daqapp",
             "type": "shell",
             "command": "clear && python3 per_build.py daqapp",
