@@ -4,7 +4,7 @@ RUN apt update
 
 # Install dev dependencies
 RUN apt -y install --no-install-recommends gcc-arm-none-eabi \
-    libnewlib-arm-none-eabi ninja-build cmake git ssh clang-format
+    libnewlib-arm-none-eabi ninja-build cmake git ssh clang-format cppcheck
 
 # Setup python virtual environment
 # This is required because some packages (python-can) don't get installed properly when running as root

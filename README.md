@@ -40,7 +40,12 @@ To build only firmware:
 python3 per_build.py firmware --package
 ```
 
-To build DaqApp only only:
+To run cppcheck static analysis over firmware (`firmware/source` and `firmware/common`): 
+```bash
+python3 per_build.py firmware --check
+```
+
+To build DaqApp only:
 ```bash
 python3 per_build.py daqapp
 ```

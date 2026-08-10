@@ -243,7 +243,7 @@ void MS_refreshPage(menu_page_t* page) {
  * @param page Pointer to the menu page structure
  * @return Index of the selected element, -1 if no element is selected
  */
-int8_t MS_listGetSelected(menu_page_t* page) {
+int8_t MS_listGetSelected(const menu_page_t* page) {
     for (uint8_t i = 0; i < page->num_elements; i++) {
         if (page->elements[i].current_value) {
             return i;

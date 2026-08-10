@@ -2,6 +2,7 @@
 
 # Wrapper for command line tools to build, clean, and debug firmware modules
 from optparse import OptionParser
+import os
 import pathlib
 import subprocess
 import sys
@@ -79,6 +80,12 @@ parser.add_option("-p", "--package",
     help="package build output into tarball with CRCs, suffixed by Git hash"
 )
 
+parser.add_option("-c", "--check",
+    dest="check",
+    action="store_true", default=False,
+    help="run cppcheck static analysis instead of building"
+)
+
 def print_available_targets():
     modules = [
         "main_module",
@@ -96,6 +103,33 @@ def print_available_targets():
     print("Available targets to build:")
     for m in modules_sorted:
         print(f'\t{m}')
+
+def run_cppcheck():
+    compile_db = BUILD_DIR/"compile_commands.json"
+    if not compile_db.exists():
+        log_error(f"compile_commands.json not found at {compile_db}. Please run the build first.")
+        sys.exit(1)
+
+    cppcheck_command = [
+        "cppcheck",
+        f"--project={compile_db}",
+        "--enable=warning,style,performance,portability",
+        "--file-filter=*/firmware/source/*",
+        "--file-filter=*/firmware/common/*",
+        "--suppress=*:*/firmware/source/torque_vector/vcu/*",
+        "--suppress=preprocessorErrorDirective",
+        "--inline-suppr",
+        "--quiet",
+        f"-j{os.cpu_count() or 1}",
+        f"--error-exitcode=1"
+    ]
+
+    print(f"Running cppcheck command: {' '.join(cppcheck_command)}")
+    result = subprocess.run(cppcheck_command)
+    if result.returncode != 0:
+        log_error("cppcheck found issues in the code. Please review the output above.")
+        sys.exit(result.returncode)
+    log_success("cppcheck completed successfully.")
 
 (options, args) = parser.parse_args()
 if options.list:
@@ -137,6 +171,11 @@ except subprocess.CalledProcessError as e:
     sys.exit(1)
 
 log_success("Sucessfully generated build files.")
+
+if options.check:
+    run_cppcheck()
+    sys.exit(0)
+
 print(f"Running Build command {' '.join(NINJA_COMMAND)}")
 
 try:

@@ -5,10 +5,12 @@ int* __errno(void) {
     return &errno_val;
 }
 
+// cppcheck-suppress constParameterPointer
 int _write(int file, char* ptr, int len) {
     return len;
 }
 
+// cppcheck-suppress constParameterPointer
 int _read(int file, char* ptr, int len) {
     return 0;
 }
@@ -48,6 +50,7 @@ int _kill(int pid, int sig) {
     return -1;
 }
 
+// cppcheck-suppress constParameterPointer  // newlib _reent syscall signature
 int _kill_r(struct _reent* r, int pid, int sig) {
     return _kill(pid, sig);
 }
@@ -56,6 +59,7 @@ int _getpid(void) {
     return 1;
 }
 
+// cppcheck-suppress constParameterPointer  // newlib _reent syscall signature
 int _getpid_r(struct _reent* r) {
     return _getpid();
 }

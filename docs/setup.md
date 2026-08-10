@@ -13,7 +13,7 @@ The PER firmware development environment relies on several tools -- such as `cma
 
 2. Run the following commands in your terminal to install the other tools (you can copy and paste them all at once).
 ```bash
-brew install git cmake ninja openocd stlink python3
+brew install git cmake ninja openocd stlink python3 cppcheck
 brew install --cask gcc-arm-embedded
 ```
 
@@ -35,7 +35,7 @@ Native Windows is still possible:
 2. In your administrator powershell, paste the following commands (right click to paste in powershell terminal).
 
 ```bash
-choco install git cmake ninja python3 openocd 
+choco install git cmake ninja python3 openocd cppcheck
 ```
 - Enter (`A`) on the first prompt to select 'Yes to All'
 
@@ -52,7 +52,7 @@ choco install git cmake ninja python3 openocd
 1. You probably already know what you're doing, so here are the commands for `apt` (Ubuntu, Debian, Pop!, etc.):
 ```bash
 sudo apt update && sudo apt upgrade
-sudo apt install git cmake python3 python3-pip ninja-build gcc-arm-none-eabi openocd stlink-tools
+sudo apt install git cmake python3 python3-pip ninja-build gcc-arm-none-eabi openocd stlink-tools cppcheck
 ```
 2. Visual Studio Code requires some special attention, install from [here](https://code.visualstudio.com/docs/setup/linux).
 
