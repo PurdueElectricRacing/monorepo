@@ -44,6 +44,18 @@ The firmware helper creates these local build products:
 > [!WARNING]
 > Every build preforms a clean build!
 
+## Static Analysis
+
+Run cppcheck over firmware (`source/` and `common/`):
+
+```bash
+python3 per_build.py firmware --check
+```
+
+This configures the build to generate `compile_commands.json`, then runs cppcheck.
+It runs automatically in CI on every push(after the firmware build passes) and fails on any finding. 
+Requires `cppcheck` to be installed (see the [setup guide](../docs/setup.md)).
+
 ## Debugging and editor support
 
 Open the repository root in VS Code. The supplied tasks build firmware through
