@@ -1,9 +1,5 @@
-//! CAN-side state machine for one validated firmware package.
-//!
-//! The target acknowledges erase and CRC boundaries, but intentionally does not
-//! acknowledge every data word. This updater therefore streams ordered words,
-//! waits at the three command boundaries, and treats the absence of a response
-//! after `JUMP` as the expected successful application hand-off.
+//! CAN-side firmware updater. Data words are streamed without acknowledgements;
+//! erase and CRC commands provide synchronization boundaries.
 
 use crate::{bootloader_protocol::FirmwarePackage, messages};
 
@@ -17,69 +13,46 @@ const READY: u8 = 0x00;
 const ACK: u8 = 0x01;
 const CRC_ERROR: u8 = 0x03;
 
-// Erase can take longer than an ordinary response, while command retries are
-// bounded so a disconnected node cannot leave the CAN thread busy forever.
+// Erase gets a longer timeout; all retries remain bounded.
 const BOOT_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(5);
 const COMMAND_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(2);
-// A successful JUMP resets the node and produces no response; this is the
-// grace period before advancing to the next board in a multi-board package.
 const JUMP_DELAY: std::time::Duration = std::time::Duration::from_millis(700);
 const MAX_RETRIES: u8 = 3;
 
-/// A validated classic-CAN frame ready for the CAN driver.
 #[derive(Clone, Debug)]
 pub struct OutboundFrame {
-    /// Standard 11-bit ID; validation happens again at the driver boundary.
     pub id: u32,
-    /// Five-byte command or six-byte indexed data payload.
     pub data: Vec<u8>,
 }
 
 #[derive(Debug)]
 enum Stage {
-    /// Initial START is requesting an already-running application to reset.
     WaitReady,
-    /// Bootloader is erasing staging after the second START.
     WaitStartAck,
-    /// Ordered data words are streamed without per-word responses.
     SendingData,
-    /// Target is calculating CRC, copying, and committing metadata.
     WaitCrcAck,
-    /// JUMP was sent; target should now be running the application.
     WaitJump,
-    /// Terminal success, cancellation, or error.
     Finished,
 }
 
-/// Progress-aware updater for all images in one validated package.
 pub struct FirmwareUpdater {
     package: FirmwarePackage,
-    /// Index of the board currently being updated.
     board_index: usize,
-    /// Number of image bytes already converted into outbound data frames.
     byte_offset: usize,
     stage: Stage,
-    /// A handshake frame that should be sent before normal tick processing.
     pending_frame: Option<OutboundFrame>,
     deadline: std::time::Instant,
     retries: u8,
 }
 
-/// Work and UI information returned to the CAN thread on each tick.
 pub struct TickResult {
-    /// At most one frame is emitted per call; the thread may batch calls.
     pub frame: Option<OutboundFrame>,
-    /// Optional phase transition/progress event for the UI.
     pub progress: Option<messages::FirmwareProgress>,
 }
 
 impl FirmwareUpdater {
-    /// Start the first board by sending the application-side START request.
-    ///
-    /// The initial frame is queued immediately. If the board is already in its
-    /// bootloader (for example, because no valid app exists), its ACK is also a
-    /// valid transition into data streaming; otherwise READY causes the
-    /// updater to send the erase START a second time.
+    /// Start with a request that either resets the application or begins an
+    /// update directly when the board is already in its bootloader.
     pub fn new(package: FirmwarePackage) -> (Self, messages::FirmwareProgress) {
         let now = std::time::Instant::now();
         let mut updater = Self {
@@ -101,7 +74,6 @@ impl FirmwareUpdater {
         &self.package.images[self.board_index]
     }
 
-    /// START carries the exact padded image length expected by the target.
     fn start_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.command_id,
@@ -109,7 +81,6 @@ impl FirmwareUpdater {
         }
     }
 
-    /// CRC carries the host CRC already verified while loading the package.
     fn crc_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.command_id,
@@ -117,7 +88,6 @@ impl FirmwareUpdater {
         }
     }
 
-    /// JUMP has no meaningful argument and normally has no response.
     fn jump_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.command_id,
@@ -125,7 +95,6 @@ impl FirmwareUpdater {
         }
     }
 
-    /// Build a snapshot for the UI without exposing the internal stage enum.
     fn progress(
         &self,
         phase: impl Into<String>,
@@ -143,13 +112,11 @@ impl FirmwareUpdater {
         }
     }
 
-    /// Make failure terminal and emit exactly one error snapshot.
     fn fail(&mut self, error: String) -> messages::FirmwareProgress {
         self.stage = Stage::Finished;
         self.progress("failed", Some(error))
     }
 
-    /// Whether the updater will produce any more frames or progress events.
     pub fn is_finished(&self) -> bool {
         matches!(self.stage, Stage::Finished)
     }
@@ -161,11 +128,7 @@ impl FirmwareUpdater {
         self.fail("cancelled by user".to_string())
     }
 
-    /// Advance timers/state and return the next frame, if one is due.
-    ///
-    /// Data frames are generated one word at a time and have no individual
-    /// deadline. The CAN thread batches these calls to keep a serial adapter
-    /// responsive while command stages remain bounded by `deadline`.
+    /// Advance the state machine and return at most one frame.
     pub fn tick(&mut self, now: std::time::Instant) -> TickResult {
         if self.is_finished() {
             return TickResult {
@@ -175,8 +138,6 @@ impl FirmwareUpdater {
         }
 
         if let Some(frame) = self.pending_frame.take() {
-            // Handshake frames take priority over data generation. This keeps
-            // a retry/phase transition from being delayed by a large image.
             return TickResult {
                 frame: Some(frame),
                 progress: None,
@@ -195,8 +156,7 @@ impl FirmwareUpdater {
                 ),
                 Stage::WaitCrcAck => (Some(Self::crc_frame(self.current_image())), "retrying CRC"),
                 Stage::WaitJump => {
-                    // No response is expected after JUMP. Once the grace
-                    // period expires, either start the next board or finish.
+                    // JUMP resets the node and has no response.
                     if self.board_index + 1 < self.package.images.len() {
                         self.board_index += 1;
                         self.byte_offset = 0;
@@ -243,8 +203,6 @@ impl FirmwareUpdater {
 
         if matches!(self.stage, Stage::SendingData) {
             if self.byte_offset >= self.current_image().bytes.len() {
-                // The target has already accepted every word; CRC is the next
-                // response-bearing boundary and commits only on success.
                 let crc_frame = Self::crc_frame(self.current_image());
                 self.stage = Stage::WaitCrcAck;
                 self.deadline = now + COMMAND_TIMEOUT;
@@ -292,11 +250,7 @@ impl FirmwareUpdater {
         }
     }
 
-    /// Consume a response from the current board, if its ID and payload are valid.
-    ///
-    /// Responses for other nodes are ignored because the CAN bus can contain
-    /// unrelated traffic. A target CRC error or protocol error is terminal for
-    /// this package; the host does not attempt to guess which words were lost.
+    /// Consume a response from the active board; unrelated traffic is ignored.
     pub fn on_response(
         &mut self,
         id: u32,
@@ -333,8 +287,7 @@ impl FirmwareUpdater {
 
         match self.stage {
             Stage::WaitReady if status == READY => {
-                // A running application has reset into the bootloader. Send a
-                // fresh START now that READY proves the recovery image is up.
+                // READY confirms the application reset; START now erases staging.
                 let start_frame = Self::start_frame(self.current_image());
                 self.stage = Stage::WaitStartAck;
                 self.deadline = now + COMMAND_TIMEOUT;
@@ -343,8 +296,6 @@ impl FirmwareUpdater {
                 Some(self.progress("erasing staging flash", None))
             }
             Stage::WaitReady if status == ACK => {
-                // A node already in the bootloader accepted the initial START,
-                // so no second erase request is needed.
                 self.stage = Stage::SendingData;
                 self.retries = 0;
                 Some(self.progress("uploading", None))
@@ -355,8 +306,6 @@ impl FirmwareUpdater {
                 Some(self.progress("uploading", None))
             }
             Stage::WaitCrcAck if status == ACK => {
-                // ACK detail must echo the validated CRC. Only then is JUMP
-                // allowed to hand the node back to application code.
                 let jump_frame = Self::jump_frame(self.current_image());
                 self.stage = Stage::WaitJump;
                 self.deadline = now + JUMP_DELAY;
@@ -368,7 +317,6 @@ impl FirmwareUpdater {
     }
 }
 
-/// Encode a five-byte command frame payload in the target's wire order.
 fn command(command: u8, argument: u32) -> Vec<u8> {
     let bytes = argument.to_le_bytes();
     vec![command, bytes[0], bytes[1], bytes[2], bytes[3]]
