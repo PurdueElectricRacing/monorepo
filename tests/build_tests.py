@@ -2,6 +2,7 @@
 """Configure, build, and run the host test suite."""
 
 from pathlib import Path
+import shutil
 import subprocess
 
 
@@ -15,6 +16,10 @@ def run(command: list[str]) -> None:
 
 
 def main() -> int:
+    if TEST_BUILD.exists():
+        print(f"Removing previous test build: {TEST_BUILD}", flush=True)
+        shutil.rmtree(TEST_BUILD)
+
     configure = [
         "cmake",
         "-S",
