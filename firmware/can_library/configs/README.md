@@ -56,6 +56,10 @@ Validated by `node.schema.json`. Maps a firmware node onto hardware peripherals 
 > **Scaling Constants:** Node headers generate directional `static constexpr float` constants for every local signal with a scale != 1.0.
 > Use `PACK_COEFF_<MSG>_<SIG>` before passing physical values to local `CAN_SEND_*` TX helpers, and use `UNPACK_COEFF_<MSG>_<SIG>` when interpreting raw `can_data` values from local RX messages.
 
+> [!TIP]
+> **Offset Constants:** Node headers generate a `static constexpr float OFFSET_<MSG>_<SIG>` constant for every local signal with a non-zero offset. Apply it alongside the scaling coefficient: `physical = raw * UNPACK_COEFF_<MSG>_<SIG> + OFFSET_<MSG>_<SIG>` on RX, and `raw = (physical - OFFSET_<MSG>_<SIG>) * PACK_COEFF_<MSG>_<SIG>` on TX.
+
+
 ### Message Priority
 Lower = higher priority.
 Range: [0-5].
