@@ -1,0 +1,81 @@
+/**
+ * @file node_defs.h
+ * @brief Compile-time transport configuration for each G4 bootloader image.
+ * @author Ronak Jain (jain717@purdue.edu)
+ *
+ * APP_ID selects generated message IDs, the FDCAN peripheral, and physical
+ * VCAN pins. Board discovery is intentionally not part of the recovery image.
+ */
+
+#ifndef PER_BOOTLOADER_NODE_DEFS_H
+#define PER_BOOTLOADER_NODE_DEFS_H
+
+#include "can_library/generated/VCAN.h"
+#include "common/phal_G4/fdcan/fdcan.h"
+
+#define APP_MAIN_MODULE 1
+#define APP_DASHBOARD 2
+#define APP_A_BOX 3
+#define APP_TORQUE_VECTOR 4
+#define APP_FRONT_DRIVELINE 5
+#define APP_REAR_DRIVELINE 6
+
+#if (APP_ID == APP_MAIN_MODULE)
+#define BL_FDCAN_PERIPH FDCAN2
+#define BL_CMD_MSG_ID BL_MAIN_MODULE_CMD_MSG_ID
+#define BL_DATA_MSG_ID BL_MAIN_MODULE_DATA_MSG_ID
+#define BL_RESP_MSG_ID BL_MAIN_MODULE_RESP_MSG_ID
+#define BL_RESP_DLC BL_MAIN_MODULE_RESP_DLC
+#elif (APP_ID == APP_DASHBOARD)
+#define BL_FDCAN_PERIPH FDCAN2
+#define BL_CMD_MSG_ID BL_DASHBOARD_CMD_MSG_ID
+#define BL_DATA_MSG_ID BL_DASHBOARD_DATA_MSG_ID
+#define BL_RESP_MSG_ID BL_DASHBOARD_RESP_MSG_ID
+#define BL_RESP_DLC BL_DASHBOARD_RESP_DLC
+#elif (APP_ID == APP_A_BOX)
+#define BL_FDCAN_PERIPH FDCAN1
+#define BL_CMD_MSG_ID BL_A_BOX_CMD_MSG_ID
+#define BL_DATA_MSG_ID BL_A_BOX_DATA_MSG_ID
+#define BL_RESP_MSG_ID BL_A_BOX_RESP_MSG_ID
+#define BL_RESP_DLC BL_A_BOX_RESP_DLC
+#elif (APP_ID == APP_TORQUE_VECTOR)
+#define BL_FDCAN_PERIPH FDCAN2
+#define BL_CMD_MSG_ID BL_TORQUE_VECTOR_CMD_MSG_ID
+#define BL_DATA_MSG_ID BL_TORQUE_VECTOR_DATA_MSG_ID
+#define BL_RESP_MSG_ID BL_TORQUE_VECTOR_RESP_MSG_ID
+#define BL_RESP_DLC BL_TORQUE_VECTOR_RESP_DLC
+#elif (APP_ID == APP_FRONT_DRIVELINE)
+#define BL_FDCAN_PERIPH FDCAN2
+#define BL_CMD_MSG_ID BL_FRONT_DRIVELINE_CMD_MSG_ID
+#define BL_DATA_MSG_ID BL_FRONT_DRIVELINE_DATA_MSG_ID
+#define BL_RESP_MSG_ID BL_FRONT_DRIVELINE_RESP_MSG_ID
+#define BL_RESP_DLC BL_FRONT_DRIVELINE_RESP_DLC
+#elif (APP_ID == APP_REAR_DRIVELINE)
+#define BL_FDCAN_PERIPH FDCAN2
+#define BL_CMD_MSG_ID BL_REAR_DRIVELINE_CMD_MSG_ID
+#define BL_DATA_MSG_ID BL_REAR_DRIVELINE_DATA_MSG_ID
+#define BL_RESP_MSG_ID BL_REAR_DRIVELINE_RESP_MSG_ID
+#define BL_RESP_DLC BL_REAR_DRIVELINE_RESP_DLC
+#else
+#error "APP_ID is missing or is not a supported G4 bootloader node"
+#endif
+
+#define BL_FDCAN_BAUD FDCAN_BAUD_500K
+
+/* A-Box uses FDCAN1 on PA11/PA12. */
+#if (APP_ID == APP_A_BOX)
+#define BL_CAN_RX_GPIO GPIO_INIT_FDCAN1RX_PA11
+#define BL_CAN_TX_GPIO GPIO_INIT_FDCAN1TX_PA12
+#elif (APP_ID == APP_DASHBOARD) \
+    || (APP_ID == APP_FRONT_DRIVELINE) \
+    || (APP_ID == APP_REAR_DRIVELINE)
+/* Dashboard and driveline controllers use FDCAN2 on PB5/PB6. */
+#define BL_CAN_RX_GPIO GPIO_INIT_FDCAN2RX_PB5
+#define BL_CAN_TX_GPIO GPIO_INIT_FDCAN2TX_PB6
+#else
+/* Main module and torque vector use FDCAN2 on PB12/PB13. */
+#define BL_CAN_RX_GPIO GPIO_INIT_FDCAN2RX_PB12
+#define BL_CAN_TX_GPIO GPIO_INIT_FDCAN2TX_PB13
+#endif
+
+#endif /* PER_BOOTLOADER_NODE_DEFS_H */

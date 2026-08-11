@@ -1,13 +1,25 @@
 # Helper for generating common CMake targets in the components directroy
 
-function(postbuild_target TARGET_NAME COMPONENT_NAME OUTPUT_DIR_OVERRIDE MAP_FILE)
-    if(BOOTLOADER_BUILD)
-      set(OUTPUT_FILE_NAME BL_${COMPONENT_NAME})
+# Archive one linked target and derive address-aware HEX plus contiguous BIN.
+# IS_BOOTLOADER and BOOTLOADER_LAYOUT select the expected first load address:
+# resident/standalone MCU images start at 0x08000000, while bootloader-aware
+# applications start at 0x08008000. hex_to_bin.py rejects a mismatched linker
+# layout, fills internal HEX gaps with erased bytes, and word-aligns the BIN
+# consumed by firmware packaging and its CRC contract.
+function(postbuild_target TARGET_NAME COMPONENT_NAME OUTPUT_DIR_OVERRIDE MAP_FILE IS_BOOTLOADER BOOTLOADER_LAYOUT LINKER_SCRIPT_NAME)
+    set(OUTPUT_FILE_NAME ${COMPONENT_NAME})
+
+    # HEX conversion avoids objcopy's absolute-address prefix in raw binaries.
+    if(BOOTLOADER_LAYOUT AND NOT IS_BOOTLOADER
+       AND (LINKER_SCRIPT_NAME MATCHES "STM32G4" OR LINKER_SCRIPT_NAME MATCHES "STM32F4"))
+        set(BINARY_EXPECTED_START 0x08008000)
+    elseif(LINKER_SCRIPT_NAME MATCHES "STM32G4" OR LINKER_SCRIPT_NAME MATCHES "STM32F4")
+        set(BINARY_EXPECTED_START 0x08000000)
     else()
-      set(OUTPUT_FILE_NAME ${COMPONENT_NAME})
+        set(BINARY_EXPECTED_START 0x00000000)
     endif()
 
-    # Archive generated image and perform post-processing output
+    # Archive address-aware HEX and contiguous BIN artifacts.
     if(OUTPUT_DIR_OVERRIDE)
         set(COMPONENT_OUTPUT_DIR ${OUTPUT_DIR_OVERRIDE})
     else()
@@ -24,6 +36,14 @@ function(postbuild_target TARGET_NAME COMPONENT_NAME OUTPUT_DIR_OVERRIDE MAP_FIL
     add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -S -O ihex ${TARGET_NAME} ${COMPONENT_OUTPUT_DIR}/${OUTPUT_FILE_NAME}.hex
         COMMENT "Generating HEX file"
+    )
+
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/hex_to_bin.py
+                ${COMPONENT_OUTPUT_DIR}/${OUTPUT_FILE_NAME}.hex
+                ${COMPONENT_OUTPUT_DIR}/${OUTPUT_FILE_NAME}.bin
+                ${BINARY_EXPECTED_START}
+        COMMENT "Generating contiguous binary image"
     )
 
     add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
