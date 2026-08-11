@@ -1,12 +1,15 @@
 cmake_minimum_required(VERSION 3.31 FATAL_ERROR)
 
+option(BOOTLOADER_BUILD "Use the bootloader application layout" OFF)
+
 # Check for bootloader generation
 if (NOT BOOTLOADER_BUILD)
     message(STATUS "Not building applications for bootloaders.")
 else()
     message(STATUS
-    "Building applications and bootloaders! "
-    "Your application will NOT work if you are NOT using the bootloader download tool.") # You have been warned
+        "Building resident bootloaders and applications that use the bootloader flash layout. "
+        "These applications require a compatible resident bootloader."
+    )
 endif()
 
 # Setup arm-none-eabi as our compile toolcahin
@@ -15,7 +18,6 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain.cmake)
 # Setup project
 project(PER_FIRMWARE VERSION 26.0 LANGUAGES C ASM)
 
-# Common Variables
 set(PROJECT_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/output)
 set(SUPPORT_DIR ${CMAKE_SOURCE_DIR}/support)
 
@@ -57,6 +59,16 @@ set(SOURCE_MODULES
     source/main_module
     source/pdu
     source/torque_vector
+    source/bootloader
+)
+
+set(BOOTLOADER_APPLICATION_TARGETS
+    a_box
+    dashboard
+    front_driveline
+    main_module
+    rear_driveline
+    torque_vector
 )
 
 foreach(MODULE IN LISTS COMMON_MODULES EXTERNAL_MODULES SOURCE_MODULES)
