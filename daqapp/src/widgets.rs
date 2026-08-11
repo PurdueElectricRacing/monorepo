@@ -79,6 +79,9 @@ impl Widget {
 
     fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
         match self {
+            // Progress is delivered through the normal CAN->UI message path,
+            // alongside decoded traffic and connection events.
+            Widget::Bootloader(w) => w.handle_can_message(msg),
             Widget::ViewerTable(w) => w.handle_can_message(msg),
             Widget::ViewerList(w) => w.handle_can_message(msg),
             Widget::Scope(w) => w.handle_can_message(msg),
