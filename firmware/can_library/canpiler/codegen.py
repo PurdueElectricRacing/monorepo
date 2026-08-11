@@ -43,6 +43,10 @@ class ScalingMessage:
     emit_unpack: bool = False
     emit_pack: bool = False
 
+@dataclass
+class OffsetMessage:
+    msg: Message
+    signals: List[Any]
 
 @dataclass
 class PeripheralContext:
@@ -115,6 +119,7 @@ class NodeRenderContext:
     peripheral_entries: List[PeripheralContext]
     node_busses: List[str]
     scaling_messages: List[ScalingMessage]
+    offset_messages: List[OffsetMessage]
     stale_rx_entries: List[RxEntry]
     filters: FilterRenderContext
 
@@ -174,6 +179,24 @@ def build_scaling_messages(rx_entries: List[RxEntry], tx_entries: List[TxEntry])
         register_msg(entry.msg, emit_unpack=True)
 
     return sorted(by_name.values(), key=lambda scaling: scaling.msg.name)
+
+
+def build_offset_messages(rx_entries: List[RxEntry], tx_entries: List[TxEntry]) -> List[OffsetMessage]:
+    by_name: Dict[str, OffsetMessage] = {}
+
+    def register_msg(msg: Message) -> None:
+        signals = [sig for sig in msg.signals if sig.offset != 0.0]
+        if not signals:
+            return
+
+        by_name.setdefault(msg.name, OffsetMessage(msg=msg, signals=signals))
+
+    for entry in tx_entries:
+        register_msg(entry.msg)
+    for entry in rx_entries:
+        register_msg(entry.msg)
+
+    return sorted(by_name.values(), key=lambda offset: offset.msg.name)
 
 
 def build_filter_render_context(mapping, peripherals: List[str]) -> FilterRenderContext:
@@ -300,6 +323,7 @@ def build_node_render_context(node: Node, context: SystemContext) -> NodeRenderC
         peripheral_entries=peripheral_entries,
         node_busses=node_busses,
         scaling_messages=build_scaling_messages(rx_entries, tx_entries),
+        offset_messages=build_offset_messages(rx_entries, tx_entries),
         stale_rx_entries=[entry for entry in rx_entries if entry.msg.period > 0],
         filters=build_filter_render_context(mapping, peripherals),
     )

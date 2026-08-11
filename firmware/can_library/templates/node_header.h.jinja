@@ -49,6 +49,14 @@ static constexpr float PACK_COEFF_{{ scaling.msg.macro_name }}_{{ sig.macro_name
 {% endfor %}
 {% endfor %}
 
+// Offset Macros
+{% for offset in ctx.offset_messages %}
+// {{ offset.msg.name }}
+{% for sig in offset.signals %}
+static constexpr float OFFSET_{{ offset.msg.macro_name }}_{{ sig.macro_name }} = {{ sig.offset|format_float }};
+{% endfor %}
+{% endfor %}
+
 // Data Structures
 typedef struct {
 {% for entry in ctx.rx_entries %}
