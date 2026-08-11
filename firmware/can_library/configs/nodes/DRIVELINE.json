@@ -143,7 +143,16 @@
                     "msg_period": 5000
                 }
             ],
-            "rx": []
+            "rx": [
+                {
+                    "msg_name": "bl_front_driveline_cmd",
+                    "callback": true
+                },
+                {
+                    "msg_name": "bl_rear_driveline_cmd",
+                    "callback": true
+                }
+            ]
         }
     },
     "fault_library_enabled": false
