@@ -1,13 +1,15 @@
 #!/usr/bin/python3
+"""Build firmware and optionally package G4 bootloader applications."""
 
 # Wrapper for command line tools to build, clean, and debug firmware modules
 from optparse import OptionParser
+import gzip
+import json
 import os
 import pathlib
 import subprocess
 import sys
 import tarfile
-import zlib
 
 # Logging helper functions
 class bcolors:
@@ -24,37 +26,46 @@ class bcolors:
 def log_error(phrase):
     print(f"{bcolors.FAIL}ERROR: {phrase}{bcolors.ENDC}")
 
-def log_warning(phrase):
-    print(f"{bcolors.WARNING}WARNING: {phrase}{bcolors.ENDC}")
-
 def log_success(phrase):
     print(f"{bcolors.OKGREEN}{phrase}{bcolors.ENDC}")
 
+# Complete package order. Driveline source produces two physical board images.
 BOARD_TARGETS = [
-        "main_module",
-        "a_box",
-        "torque_vector",
-        "dashboard",
-        "pdu",
-        "daq",
-        "front_driveline",
-        "rear_driveline"
-    ]
+    "main_module",
+    "dashboard",
+    "torque_vector",
+    "a_box",
+    "front_driveline",
+    "rear_driveline",
+]
 
+# Manifest copies of IDs defined by can_library/configs. DaqApp independently
+# verifies every board/ID tuple, so configuration drift fails before CAN writes.
+BOOTLOADER_PROTOCOL_IDS = {
+    "main_module": {"command_id": "0x180", "data_id": "0x181", "response_id": "0x182"},
+    "dashboard": {"command_id": "0x183", "data_id": "0x184", "response_id": "0x185"},
+    "torque_vector": {"command_id": "0x186", "data_id": "0x187", "response_id": "0x188"},
+    "a_box": {"command_id": "0x189", "data_id": "0x18A", "response_id": "0x18B"},
+    "front_driveline": {"command_id": "0x18C", "data_id": "0x18D", "response_id": "0x18E"},
+    "rear_driveline": {"command_id": "0x18F", "data_id": "0x190", "response_id": "0x191"},
+}
 
-# Get build directory path
-CWD = pathlib.Path.cwd()
-BUILD_DIR = CWD/"build"
+PACKAGE_FORMAT = "per-firmware-package-v1"
+STM32_CRC_INIT = 0xFFFFFFFF
+
+# Resolve paths relative to this script, not the caller's working directory.
+CWD = pathlib.Path(__file__).resolve().parent
+BUILD_DIR = CWD / "build"
 SOURCE_DIR = CWD
-OUT_DIR = CWD/"output"
-CAN_GEN_DIR = SOURCE_DIR/"can_library"/"generated"
+OUT_DIR = CWD / "output"
+CAN_GEN_DIR = SOURCE_DIR / "can_library" / "generated"
 
 # Setup cli arguments
 parser = OptionParser()
 
 parser.add_option("-t", "--target",
     type="string",
-    help="Space-separated list of boards targets to build"
+    help="Space-separated list of firmware targets to build"
 )
 
 parser.add_option("-l", "--list",
@@ -65,7 +76,7 @@ parser.add_option("-l", "--list",
 parser.add_option("-b", "--bootloader",
     dest="bootloader",
     action="store_true", default=False,
-    help="build bootloader components"
+    help="build bootloaders and use the bootloader application layout"
 )
 
 parser.add_option("-v", "--verbose",
@@ -77,7 +88,7 @@ parser.add_option("-v", "--verbose",
 parser.add_option("-p", "--package",
     dest="package",
     action="store_true", default=False,
-    help="package build output into tarball with CRCs, suffixed by Git hash"
+    help="build six VCAN G4 applications and package them with STM32 CRCs"
 )
 
 parser.add_option("-c", "--check",
@@ -131,25 +142,42 @@ def run_cppcheck():
         sys.exit(result.returncode)
     log_success("cppcheck completed successfully.")
 
-(options, args) = parser.parse_args()
+(options, _) = parser.parse_args()
+if options.package:
+    if options.target:
+        parser.error("--package does not accept --target")
+    options.bootloader = True
 if options.list:
     # User ran `-t` with no argument: print available targets
     print_available_targets()
     sys.exit(0)
 
-VERBOSE = "--verbose" if options.verbose else ""
-
-# Prepare MODULES string for CMake
+# Map physical driveline targets back to their shared CMake source module.
 if options.target:
     target_list = options.target.split()
-    cmake_modules_str = ";".join(target_list)
-    ninja_targets = [t + ".elf" for t in target_list]
+    if options.bootloader and any(target not in BOARD_TARGETS for target in target_list):
+        parser.error("bootloader builds support only G4 VCAN applications")
+    cmake_modules = [
+        "driveline" if target in {"front_driveline", "rear_driveline"} else target
+        for target in target_list
+    ]
+    cmake_modules_str = ";".join(dict.fromkeys(cmake_modules))
+    ninja_targets = [f"{target}.elf" for target in target_list]
+elif options.bootloader:
+    cmake_modules_str = "main_module;dashboard;torque_vector;a_box;driveline"
+    ninja_targets = [f"{board}.elf" for board in BOARD_TARGETS]
+    if not options.package:
+        ninja_targets.append("bootloader.elf")
 else:
     cmake_modules_str = ""
     ninja_targets = ["all"]
 
-# Always clean for a fresh build environment
-subprocess.run(["cmake", "-E", "rm", "-rf", str(BUILD_DIR), str(OUT_DIR), str(CAN_GEN_DIR)])
+# Always clean for a reproducible package/build environment. In particular,
+# stale HEX files must not be mistaken for a board selected by --package.
+subprocess.run(
+    ["cmake", "-E", "rm", "-rf", str(BUILD_DIR), str(OUT_DIR), str(CAN_GEN_DIR)],
+    check=True,
+)
 print("Build, output, and generated CAN directories clean.")
 
 # Configure and Build
@@ -166,7 +194,7 @@ NINJA_COMMAND = ["ninja"] + NINJA_OPTIONS
 
 try:
     subprocess.run(["cmake"] + CMAKE_OPTIONS, check=True)
-except subprocess.CalledProcessError as e:
+except subprocess.CalledProcessError:
     log_error("Unable to configure CMake, see the CMake output above.")
     sys.exit(1)
 
@@ -180,7 +208,7 @@ print(f"Running Build command {' '.join(NINJA_COMMAND)}")
 
 try:
     ninja_build = subprocess.run(NINJA_COMMAND)
-except subprocess.CalledProcessError as e:
+except subprocess.CalledProcessError:
     log_error("Unable to configure compile sources, see the Ninja output above.")
     sys.exit(1)
 
@@ -190,8 +218,9 @@ if ninja_build.returncode != 0:
 else:
     log_success("Sucessfully built targets.")
 
-# package logic
+# Package helpers.
 def get_git_hash_or_tag():
+    """Return a stable package suffix: exact tag, otherwise short commit ID."""
     try:
         # Check if current commit has a tag
         tag = subprocess.check_output(
@@ -205,45 +234,115 @@ def get_git_hash_or_tag():
             ["git", "rev-parse", "--short", "HEAD"]
         ).strip().decode()
 
-def add_crc_to_files():
-    if not OUT_DIR.exists():
-        log_error(f"Output directory does not exist: {OUT_DIR}")
-        sys.exit(1)
-    for board in BOARD_TARGETS:
-        hex_path = OUT_DIR / board / f"{board}.hex"
-        if hex_path.exists():
-            with open(hex_path, "rb") as f:
-                data = f.read()
-                crc = format(zlib.crc32(data) & 0xFFFFFFFF, '08X')
-            crc_file = hex_path.with_suffix(".crc")
-            with open(crc_file, "w") as cf:
-                cf.write(crc + "\n")
-            log_success(f"CRC written for {hex_path.name}: {crc}")
-        else:
-            print(f"[WARNING] HEX not found for {board}: {hex_path}")
+def stm32_crc32_words(data: bytes) -> int:
+    """Match ``PHAL_CRC_calculate()`` on STM32G4 exactly.
 
-def create_tarball():
+    The hardware consumes 32-bit words from memory. Package bytes therefore
+    use little-endian word interpretation, the MPEG-2 polynomial, an all-one
+    initial value, and no reflection/final XOR. Padding is erased-flash ``0xFF``
+    and is part of the CRC when the input is not word aligned.
+    """
+    if len(data) % 4:
+        data += b"\xff" * (4 - len(data) % 4)
+
+    lut = (
+        0x00000000, 0x04C11DB7, 0x09823B6E, 0x0D4326D9,
+        0x130476DC, 0x17C56B6B, 0x1A864DB2, 0x1E475005,
+        0x2608EDB8, 0x22C9F00F, 0x2F8AD6D6, 0x2B4BCB61,
+        0x350C9B64, 0x31CD86D3, 0x3C8EA00A, 0x384FBDBD,
+    )
+    crc = STM32_CRC_INIT
+    for offset in range(0, len(data), 4):
+        crc ^= int.from_bytes(data[offset:offset + 4], "little")
+        for _ in range(8):
+            crc = ((crc << 4) & 0xFFFFFFFF) ^ lut[(crc >> 28) & 0xF]
+    return crc
+
+
+def selected_boards() -> list[str]:
+    """Require the complete six-board package produced by the package build."""
+    missing = [
+        board for board in BOARD_TARGETS
+        if not (OUT_DIR / board / f"{board}.bin").exists()
+    ]
+    if missing:
+        raise RuntimeError(f"missing application binaries: {', '.join(missing)}")
+    return BOARD_TARGETS
+
+
+def build_manifest(boards: list[str]) -> pathlib.Path:
+    """Copy CMake-generated binaries and write their validated manifest."""
+    images_dir = OUT_DIR / "images"
+    images_dir.mkdir(parents=True, exist_ok=True)
+    manifest_boards = []
+
+    for board in boards:
+        source = OUT_DIR / board / f"{board}.bin"
+        data = source.read_bytes()
+        if not data or len(data) % 4 or len(data) > 160 * 1024:
+            raise RuntimeError(f"invalid bootloader image size for {board}: {len(data)}")
+        destination = images_dir / f"{board}.bin"
+        destination.write_bytes(data)
+        crc = stm32_crc32_words(data)
+        (OUT_DIR / board / f"{board}.crc").write_text(
+            f"0x{crc:08X}\n", encoding="ascii"
+        )
+
+        manifest_boards.append({
+            "name": board,
+            "binary": f"images/{board}.bin",
+            "size_bytes": len(data),
+            "crc32": f"0x{crc:08X}",
+            "application_address": "0x08008000",
+            "can_bus": "VCAN",
+            **BOOTLOADER_PROTOCOL_IDS[board],
+        })
+        log_success(f"Packaged {board}: {len(data)} bytes, STM32 CRC 0x{crc:08X}")
+
+    manifest = {
+        "format": PACKAGE_FORMAT,
+        "protocol_version": 1,
+        "crc_algorithm": "STM32_CRC32_MPEG2_WORD_LE",
+        "can_bus": "VCAN",
+        "boards": manifest_boards,
+    }
+    manifest_path = OUT_DIR / "manifest.json"
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+    )
+    log_success(f"Manifest written: {manifest_path}")
+    return manifest_path
+
+
+def _deterministic_tarinfo(tarinfo: tarfile.TarInfo) -> tarfile.TarInfo:
+    """Remove host ownership and timestamps from one archive entry."""
+    tarinfo.uid = 0
+    tarinfo.gid = 0
+    tarinfo.uname = ""
+    tarinfo.gname = ""
+    tarinfo.mtime = 0
+    return tarinfo
+
+
+def create_tarball(manifest_path: pathlib.Path, boards: list[str]) -> pathlib.Path:
+    """Create a reproducible archive with normalized tar and gzip metadata."""
     git_hash = get_git_hash_or_tag()
     tarball_name = OUT_DIR / f"firmware_{git_hash}.tar.gz"
-
-    with tarfile.open(tarball_name, "w:gz") as tar:
-        for board in BOARD_TARGETS:
-            hex_path = OUT_DIR / board / f"{board}.hex"
-            crc_path = OUT_DIR / board / f"{board}.crc"
-
-            if hex_path.exists():
-                tar.add(hex_path, arcname=f"{board}.hex")
-                log_success(f"Added {hex_path.name} to tarball.")
-
-            if crc_path.exists():
-                tar.add(crc_path, arcname=f"{board}.crc")
-                log_success(f"Added {crc_path.name} to tarball.")
-
+    with tarball_name.open("wb") as output:
+        with gzip.GzipFile(filename="", mode="wb", fileobj=output, mtime=0) as compressed:
+            with tarfile.open(fileobj=compressed, mode="w") as tar:
+                tar.add(manifest_path, arcname="manifest.json", filter=_deterministic_tarinfo)
+                for board in boards:
+                    binary_path = OUT_DIR / "images" / f"{board}.bin"
+                    tar.add(binary_path, arcname=f"images/{board}.bin", filter=_deterministic_tarinfo)
+                    hex_path = OUT_DIR / board / f"{board}.hex"
+                    tar.add(hex_path, arcname=f"hex/{board}.hex", filter=_deterministic_tarinfo)
     log_success(f"Tarball created: {tarball_name}")
     return tarball_name
 
 # Package output if requested
 if options.package:
     log_success("Packaging firmware...")
-    add_crc_to_files()
-    create_tarball()
+    package_boards = selected_boards()
+    package_manifest = build_manifest(package_boards)
+    create_tarball(package_manifest, package_boards)
