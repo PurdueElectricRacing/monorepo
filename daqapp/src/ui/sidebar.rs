@@ -63,6 +63,8 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
             }
 
             if ui.button("Add Bootloader").clicked() {
+                // The widget is intentionally opt-in: it can interrupt normal
+                // VCAN application traffic while an update is active.
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::Bootloader,
                 ));
