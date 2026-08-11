@@ -283,6 +283,10 @@
                 },
                 {
                     "message_name": "pack_stats"
+                },
+                {
+                    "message_name": "bl_main_module_cmd",
+                    "callback": true
                 }
             ]
         },

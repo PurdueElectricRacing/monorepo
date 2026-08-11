@@ -101,6 +101,12 @@ Define reusable signal types (enums and aliases) in `configs/system/common_types
 - `base_type`: One of `uint8_t` ... `uint64_t`, `int8_t` ... `int64_t`, `bool`.
 - `choices`: (Optional) Enum value list, generated as a C `enum`.
 
+## G4 CAN bootloader
+
+`external_nodes/BOOTLOADER.json` and `nodes/BL_*.json` are the CAN source of
+truth. Regenerate artifacts after changes; see the
+[bootloader guide](../../source/bootloader/README.md) for the update flow.
+
 ## Fault Configuration
 Node-specific faults are defined directly in the node JSON under the `"faults"` key. The library automatically generates bitfield-sync and event messages for fault communication based on these definitions.
 

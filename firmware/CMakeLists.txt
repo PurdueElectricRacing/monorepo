@@ -27,6 +27,7 @@ include(cmake/can_library.cmake)
 
 set(COMMON_MODULES
     common/amk
+    common/bootloader
     common/bangbang
     common/rtos
     common/heartbeat

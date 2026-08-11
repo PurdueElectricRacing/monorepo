@@ -1,8 +1,16 @@
-/* Linker script for STM32G474 application region (160 KB)
- * Based on bootloader layout:
- *   0x08000000 - 0x08003FFF : bootloader
- *   0x08004000 - 0x08007FFF : metadata / CRC
- *   0x08008000 - 0x0802FFFF : application
+/*
+ * Linker script for a bootloader-aware STM32G474 application (160 KiB).
+ *
+ * The vector table is intentionally placed at 0x08008000. The resident
+ * bootloader validates that table and the image CRC before setting VTOR/MSP
+ * and calling the application's reset handler.
+ *
+ *   0x08000000 - 0x08003FFF : resident bootloader
+ *   0x08004000 - 0x08007FFF : metadata / reserved space
+ *   0x08008000 - 0x0802FFFF : application image (this file)
+ *
+ * Do not use this layout without the matching bootloader image. For a normal
+ * standalone G4 image, use STM32G474RETX_FLASH.ld instead.
  */
 
 ENTRY(Reset_Handler)
@@ -87,9 +95,7 @@ SECTIONS
     PROVIDE_HIDDEN(__fini_array_end = .);
   } >FLASH
 
-  _sidata = LOADADDR(.data);
-
-  .data : AT (_sidata)
+  .data :
   {
     . = ALIGN(4);
     _sdata = .;
@@ -97,7 +103,8 @@ SECTIONS
     *(.data*)
     . = ALIGN(4);
     _edata = .;
-  } >RAM
+  } >RAM AT>FLASH
+  _sidata = LOADADDR(.data);
 
   .bss :
   {
@@ -108,6 +115,16 @@ SECTIONS
     *(COMMON)
     . = ALIGN(4);
     _ebss = .;
+  } >RAM
+
+  /* Retain the one-shot bootloader request without a startup initializer. */
+  .noinit (NOLOAD) :
+  {
+    . = ALIGN(4);
+    _snoinit = .;
+    *(.noinit*)
+    . = ALIGN(4);
+    _enoinit = .;
   } >RAM
 
   ._user_heap_stack :

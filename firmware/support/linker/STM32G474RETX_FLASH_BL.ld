@@ -3,15 +3,19 @@
 **
 ** @file        : STM32G474_BL.ld
 **
-** @brief       : Linker script for STM32G474 Bootloader
+** @brief       : Linker script for STM32G474 resident CAN bootloader
 **                - 512 KB FLASH (2 KB pages)
 **                - 128 KB RAM
 **
-** Bootloader Region:
-**   0x08000000 – 0x08003FFF : bootloader (16 KB)
-**   0x08004000 – 0x08007FFF : metadata (16 KB)
+** Only the first 16 KiB is linked into this image. The bootloader still reads
+** metadata and stages application bytes in the fixed addresses below:
 **
-** Application starts at: 0x08008000
+**   0x08000000 – 0x08003FFF : bootloader (16 KiB)
+**   0x08004000 – 0x08007FFF : metadata / reserved area (16 KiB)
+**   0x08008000 – 0x0802FFFF : application slot (160 KiB)
+**   0x08030000 – 0x08057FFF : staging slot (160 KiB)
+**
+** Application vector table starts at: 0x08008000
 **
 ******************************************************************************
 */
@@ -32,7 +36,7 @@ PROVIDE(_eboot_flash = 0x08008000);
 MEMORY
 {
   RAM    (xrw) : ORIGIN = 0x20000000, LENGTH = 128K
-  FLASH  (rx)  : ORIGIN = 0x08000000, LENGTH = 32K  /* Bootloader + Metadata */
+  FLASH  (rx)  : ORIGIN = 0x08000000, LENGTH = 16K  /* Bootloader only; metadata starts at 0x08004000 */
 }
 
 /* Sections */
@@ -102,9 +106,7 @@ SECTIONS
     PROVIDE_HIDDEN(__fini_array_end = .);
   } >FLASH
 
-  _sidata = LOADADDR(.data);
-
-  .data : AT(_sidata)
+  .data :
   {
     . = ALIGN(4);
     _sdata = .;
@@ -114,7 +116,8 @@ SECTIONS
     *(.RamFunc*)
     . = ALIGN(4);
     _edata = .;
-  } >RAM
+  } >RAM AT>FLASH
+  _sidata = LOADADDR(.data);
 
   .bss :
   {
@@ -127,6 +130,16 @@ SECTIONS
     . = ALIGN(4);
     _ebss = .;
     __bss_end__ = _ebss;
+  } >RAM
+
+  /* Read the application reset marker before bootloader startup clears it. */
+  .noinit (NOLOAD) :
+  {
+    . = ALIGN(4);
+    _snoinit = .;
+    *(.noinit*)
+    . = ALIGN(4);
+    _enoinit = .;
   } >RAM
 
   ._user_heap_stack :

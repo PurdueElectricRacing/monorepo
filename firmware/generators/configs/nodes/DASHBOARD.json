@@ -190,6 +190,10 @@
                 },
                 {
                     "message_name": "vcu_torque_request"
+                },
+                {
+                    "message_name": "bl_dashboard_cmd",
+                    "callback": true
                 }
             ]
         },
