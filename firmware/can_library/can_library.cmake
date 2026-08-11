@@ -11,7 +11,7 @@ set(CAN_GEN_DIR ${CAN_LIB_DIR}/generated)
 # This fixes the cases where CMake fails because generated source files are missing
 message(STATUS "Running CAN generator (configuration phase)...")
 execute_process(
-    COMMAND python3 ${CAN_LIB_DIR}/canpiler/build.py
+    COMMAND ${Python3_EXECUTABLE} ${CAN_LIB_DIR}/canpiler/build.py
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     RESULT_VARIABLE CAN_GEN_RESULT
 )
