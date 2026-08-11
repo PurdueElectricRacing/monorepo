@@ -35,6 +35,10 @@ bool PHAL_USART_init(PHAL_USART_Idx_t periph, uint32_t baud_rate, const uint32_t
     bool tx_ready = PHAL_DMA_init(&usart_state[idx].tx_dma);
     bool rx_ready = PHAL_DMA_init(&usart_state[idx].rx_dma);
 
+    if (tx_ready && rx_ready) {
+        PHAL_USART_priv_enableIrqs(idx);
+    }
+
     return tx_ready && rx_ready;
 }
 
@@ -54,7 +58,6 @@ bool PHAL_USART_tx(PHAL_USART_Idx_t periph, uint8_t *data, uint16_t len) {
         return false;
     }
 
-    // Ensure flags are cleared & DMA configured
     PHAL_DMA_Handle_t *tx_dma = &usart_state[idx].tx_dma;
     bool stopped     = PHAL_DMA_stop(tx_dma);
     bool length_set  = PHAL_DMA_setLength(tx_dma, len);
@@ -65,10 +68,8 @@ bool PHAL_USART_tx(PHAL_USART_Idx_t periph, uint8_t *data, uint16_t len) {
         return false;
     }
 
-    // After DMA enabled, mark channel as busy
     usart_state[idx].tx_busy = true;
 
-    // Start transmission
     PHAL_USART_priv_startTx(PHAL_USART_priv_periph(idx));
 
     return true;
@@ -89,17 +90,12 @@ bool PHAL_USART_rx(PHAL_USART_Idx_t periph, uint8_t *data, uint16_t len, bool co
     ssize_t idx = periph;
     USART_TypeDef *hw = PHAL_USART_priv_periph(idx);
 
-    // Quiesce the receiver before touching the channel. With RE and DMAR off,
-    // no byte can be latched while we retarget it, which is what makes the
-    // flush below safe from a byte arriving mid-sequence.
     PHAL_USART_priv_stopRx(hw);
 
     usart_state[idx].cont_rx = cont;
     usart_state[idx].rxfer_size = len;
     usart_state[idx].rx_len = 0;
 
-    // Channel must be disabled to set address/length. Same reasoning as txDMA
-    // above: run every step, then report whether they all actually succeeded.
     PHAL_DMA_Handle_t *rx_dma = &usart_state[idx].rx_dma;
     bool stopped     = PHAL_DMA_stop(rx_dma);
     bool address_set = PHAL_DMA_setMemAddress(rx_dma, (uint32_t)data);
@@ -175,15 +171,9 @@ bool PHAL_USART_rxBlocking(PHAL_USART_Idx_t periph, uint8_t *data, uint16_t len)
     return true;
 }
 
-/// Service the USART's own interrupt: transmission complete and/or IDLE line.
 static void PHAL_USART_HandleIRQ(PHAL_USART_Idx_t idx) {
     USART_TypeDef *periph = PHAL_USART_priv_periph(idx);
 
-    // TX completion comes from the USART, not from the DMA. The DMA reports
-    // done once its last write reaches TDR, with one byte still in TDR and
-    // another mid-shift - up to two frame times before the wire goes quiet.
-    // Releasing the caller there lets it overwrite the buffer or re-enable RE
-    // while data is still going out.
     if (PHAL_USART_priv_txCompleteActive(periph)) {
         PHAL_USART_priv_finishTx(periph);
         usart_state[idx].tx_busy = false;
@@ -193,11 +183,6 @@ static void PHAL_USART_HandleIRQ(PHAL_USART_Idx_t idx) {
         return;
     }
 
-    // Clear IDLE up front. The re-arm below plus an application callback of
-    // arbitrary length can easily outlast the gap to the next frame, and an
-    // IDLE latched during that window has to survive this handler - clearing
-    // at the end would discard it, leaving the channel un-rearmed so the next
-    // frame lands at a stale offset.
     PHAL_USART_priv_clearIdle(periph);
 
     PHAL_DMA_Handle_t *rx_dma = &usart_state[idx].rx_dma;
@@ -210,30 +195,20 @@ static void PHAL_USART_HandleIRQ(PHAL_USART_Idx_t idx) {
     usart_state[idx].rx_busy = false;
 
     if (usart_state[idx].cont_rx) {
-        // Same ordering rule as PHAL_USART_rx: receiver off, retarget, flush,
-        // then live again. Leaving RE and DMAR on across the re-arm lets a
-        // byte land in RDR while the channel is disabled (and a second one
-        // raise ORE, which stalls the receiver entirely); that byte would then
-        // be handed to data[0] of the next frame.
         PHAL_USART_priv_stopRx(periph);
         PHAL_DMA_setLength(rx_dma, usart_state[idx].rxfer_size);
         PHAL_USART_priv_flushRx(periph);
-        // restart clears stale channel flags so a prior TEIF can't stall re-arm.
         PHAL_DMA_restart(rx_dma);
+
         usart_state[idx].rx_busy = true;
         PHAL_USART_priv_startRx(periph);
     } else {
         PHAL_USART_priv_stopRx(periph);
     }
 
-    // Last, so the channel is already armed for the next frame and a slow
-    // callback costs reception time rather than a whole frame.
     PHAL_USART_rxCallback(idx, received);
 }
 
-/// On TX DMA completion, release the channel. tx_busy is left alone - it is
-/// cleared by the USART's transmission-complete interrupt, which is the point
-/// the frame has actually finished going out.
 static void PHAL_USART_HandleDMA(PHAL_USART_Idx_t idx) {
     if (PHAL_USART_priv_txDmaComplete(idx)) {
         PHAL_DMA_stop(&usart_state[idx].tx_dma);

@@ -28,13 +28,12 @@ void PHAL_USART_priv_configure(ssize_t idx, uint32_t baud_rate, uint32_t clock_r
 /// Fill the TX and RX DMA handles from the hardware map.
 void PHAL_USART_priv_buildDma(ssize_t idx, PHAL_DMA_Handle_t *tx_dma, PHAL_DMA_Handle_t *rx_dma);
 
-
 void PHAL_USART_priv_startTx(USART_TypeDef *periph);
-
-bool PHAL_USART_priv_txCompleteActive(USART_TypeDef *periph);
 
 /// Acknowledge transmission-complete: disable TCIE and clear ISR.TC.
 void PHAL_USART_priv_finishTx(USART_TypeDef *periph);
+
+bool PHAL_USART_priv_txCompleteActive(USART_TypeDef *periph);
 
 /// Enable the receiver and its DMA request line (CR1.RE, CR3.DMAR).
 void PHAL_USART_priv_startRx(USART_TypeDef *periph);
@@ -56,5 +55,7 @@ bool PHAL_USART_priv_txDmaComplete(ssize_t idx);
 
 /// Clear all interrupt flags for the slot's TX DMA channel.
 void PHAL_USART_priv_clearTxDmaFlags(ssize_t idx);
+
+void PHAL_USART_priv_enableIrqs(ssize_t idx);
 
 #endif // __PHAL_G4_USART_PRIV_H__
