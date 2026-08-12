@@ -11,13 +11,21 @@ The PER firmware development environment relies on several tools -- such as `cma
 	- After installation, ensure brew is installed by running:
 	`brew --version`
 
-2. Run the following commands in your terminal to install the other tools (you can copy and paste them all at once).
+2. Install Apple’s Command Line Tools if they are not already installed:
 ```bash
-brew install git cmake ninja openocd stlink python3 cppcheck
+2. Install Apple’s Command Line Tools if they are not already installed:
+```bash
+xcode-select --install
+```
+The Command Line Tools provide the host compiler and `gcov` used for coverage.
+
+3. Run the following commands in your terminal to install the other tools (you can copy and paste them all at once).
+```bash
+brew install git cmake ninja openocd stlink python3 lcov googletest cppcheck
 brew install --cask gcc-arm-embedded
 ```
 
-3. Download VSCode from the website: https://code.visualstudio.com/docs/setup/mac
+4. Download VSCode from the website: https://code.visualstudio.com/docs/setup/mac
 
 ## Windows Tools Setup
 You should use WSL if possible, the choco toolchain for Windows is too old. Install [here](https://learn.microsoft.com/en-us/windows/wsl/install).
@@ -52,7 +60,7 @@ choco install git cmake ninja python3 openocd cppcheck
 1. You probably already know what you're doing, so here are the commands for `apt` (Ubuntu, Debian, Pop!, etc.):
 ```bash
 sudo apt update && sudo apt upgrade
-sudo apt install git cmake python3 python3-pip ninja-build gcc-arm-none-eabi openocd stlink-tools cppcheck
+sudo apt install git cmake python3 python3-pip ninja-build gcc g++ lcov libgtest-dev gcc-arm-none-eabi openocd stlink-tools cppcheck
 ```
 2. Visual Studio Code requires some special attention, install from [here](https://code.visualstudio.com/docs/setup/linux).
 
