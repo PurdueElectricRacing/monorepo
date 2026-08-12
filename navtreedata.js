@@ -136,56 +136,44 @@ var NAVTREE =
     ] ],
     [ "PER Monorepo Setup Instructions", "md_docs_2setup.html", [
       [ "Tools", "md_docs_2setup.html#autotoc_md90", [
-        [ "MacOS Tools Setup", "md_docs_2setup.html#autotoc_md91", null ],
-        [ "Windows Tools Setup", "md_docs_2setup.html#autotoc_md92", null ],
-        [ "Linux Tools Setup", "md_docs_2setup.html#autotoc_md93", null ],
-        [ "DAQ App Tools Setup", "md_docs_2setup.html#autotoc_md94", null ]
-      ] ],
-      [ "VSCode Setup (All OS)", "md_docs_2setup.html#autotoc_md95", [
-        [ "Install Extensions", "md_docs_2setup.html#autotoc_md96", null ],
-        [ "Turn on Autosave", "md_docs_2setup.html#autotoc_md97", null ]
-      ] ],
-      [ "Repository Setup (All OS)", "md_docs_2setup.html#autotoc_md98", [
-        [ "Open a new terminal", "md_docs_2setup.html#autotoc_md99", null ],
-        [ "Clone PER repo", "md_docs_2setup.html#autotoc_md100", null ],
-        [ "Setup & Build", "md_docs_2setup.html#autotoc_md101", null ]
+        [ "MacOS Tools Setup", "md_docs_2setup.html#autotoc_md91", null ]
       ] ]
     ] ],
     [ "CANpiler", "md_firmware_2can__library_2canpiler_2README.html", [
-      [ "Software Architecture", "md_firmware_2can__library_2canpiler_2README.html#autotoc_md103", null ]
+      [ "Software Architecture", "md_firmware_2can__library_2canpiler_2README.html#autotoc_md93", null ]
     ] ],
     [ "CAN Configs", "md_firmware_2can__library_2configs_2README.html", [
-      [ "Bus Definition (configs/system/bus_configs.json)", "md_firmware_2can__library_2configs_2README.html#autotoc_md112", null ],
-      [ "Node-to-Bus Mapping (per node JSON, under busses)", "md_firmware_2can__library_2configs_2README.html#autotoc_md113", null ],
-      [ "Node Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md114", null ],
-      [ "CAN Message Attributes (TX)", "md_firmware_2can__library_2configs_2README.html#autotoc_md115", null ],
-      [ "RX Message Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md116", null ],
-      [ "Signal Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md117", [
-        [ "Message Priority", "md_firmware_2can__library_2configs_2README.html#autotoc_md118", null ]
+      [ "Bus Definition (configs/system/bus_configs.json)", "md_firmware_2can__library_2configs_2README.html#autotoc_md102", null ],
+      [ "Node-to-Bus Mapping (per node JSON, under busses)", "md_firmware_2can__library_2configs_2README.html#autotoc_md103", null ],
+      [ "Node Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md104", null ],
+      [ "CAN Message Attributes (TX)", "md_firmware_2can__library_2configs_2README.html#autotoc_md105", null ],
+      [ "RX Message Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md106", null ],
+      [ "Signal Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md107", [
+        [ "Message Priority", "md_firmware_2can__library_2configs_2README.html#autotoc_md108", null ]
       ] ],
-      [ "External Nodes", "md_firmware_2can__library_2configs_2README.html#autotoc_md119", [
-        [ "Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md120", null ]
+      [ "External Nodes", "md_firmware_2can__library_2configs_2README.html#autotoc_md109", [
+        [ "Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md110", null ]
       ] ],
-      [ "Custom Types", "md_firmware_2can__library_2configs_2README.html#autotoc_md121", [
-        [ "Type Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md122", null ]
+      [ "Custom Types", "md_firmware_2can__library_2configs_2README.html#autotoc_md111", [
+        [ "Type Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md112", null ]
       ] ],
-      [ "Fault Configuration", "md_firmware_2can__library_2configs_2README.html#autotoc_md123", [
-        [ "Node Level", "md_firmware_2can__library_2configs_2README.html#autotoc_md124", null ],
-        [ "Fault Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md125", null ]
+      [ "Fault Configuration", "md_firmware_2can__library_2configs_2README.html#autotoc_md113", [
+        [ "Node Level", "md_firmware_2can__library_2configs_2README.html#autotoc_md114", null ],
+        [ "Fault Attributes", "md_firmware_2can__library_2configs_2README.html#autotoc_md115", null ]
       ] ]
     ] ],
     [ "PER CAN Library", "md_firmware_2can__library_2README.html", [
-      [ "Logic", "md_firmware_2can__library_2README.html#autotoc_md127", null ],
-      [ "Stale Detection", "md_firmware_2can__library_2README.html#autotoc_md128", null ],
-      [ "Usage", "md_firmware_2can__library_2README.html#autotoc_md129", null ],
-      [ "Fault System", "md_firmware_2can__library_2README.html#autotoc_md130", [
-        [ "Usage:", "md_firmware_2can__library_2README.html#autotoc_md131", null ]
+      [ "Logic", "md_firmware_2can__library_2README.html#autotoc_md117", null ],
+      [ "Stale Detection", "md_firmware_2can__library_2README.html#autotoc_md118", null ],
+      [ "Usage", "md_firmware_2can__library_2README.html#autotoc_md119", null ],
+      [ "Fault System", "md_firmware_2can__library_2README.html#autotoc_md120", [
+        [ "Usage:", "md_firmware_2can__library_2README.html#autotoc_md121", null ]
       ] ]
     ] ],
     [ "Support", "md_firmware_2support_2README.html", [
-      [ "linker/", "md_firmware_2support_2README.html#autotoc_md133", null ],
-      [ "svd/", "md_firmware_2support_2README.html#autotoc_md134", null ],
-      [ "openocd/", "md_firmware_2support_2README.html#autotoc_md135", null ]
+      [ "linker/", "md_firmware_2support_2README.html#autotoc_md123", null ],
+      [ "svd/", "md_firmware_2support_2README.html#autotoc_md124", null ],
+      [ "openocd/", "md_firmware_2support_2README.html#autotoc_md125", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -223,25 +211,25 @@ var NAVTREEINDEX =
 [
 "AMK_8png.html",
 "adc__priv_8c.html#a54285aeb010313cf359e3ceee0e47f93",
-"classcodegen_1_1RxPeripheralContext.html",
-"codegen_8py.html",
-"cooling__fsm_8c.html#a99db11cfba36fbf851a6151ecef00160",
-"dir_1978081598fb094899477a0797371d29.html",
-"ethernet_8h.html#a41694caa7c2afa9fa0f9b3eae96246e5a86c4cbcbc1b21a6e73d0ee4a98ad3209",
-"freertos_8h.html#ac8f86b7c2a6ffa587ffc3820484f9c5a",
-"izze__imu_8h.html#a044be3dd587ce19e0580925a67234a2fa634475950ad15487960c0803a040ecda",
-"md_firmware_2can__library_2configs_2README.html#autotoc_md118",
-"nav__pvt_8h.html#aab0b940e0c2b2f588ef823a759194126ae34be36e48c4c5f44d2fdacf6e8858bf",
-"pdu_2main_8h.html#aa9a545b0ee102c4526440d61911b9ce8",
-"phal__F4_2rcc_2rcc_8h.html#a2e83112285247a22f8b4caa6740395b4",
-"phal__G4_2gpio_2gpio_8h.html#a976b33799b2b8c4fe7d2a4415a88991b",
-"rcc__priv_8h.html#ae7edf50cab55402f3287f70eba65a280",
-"sdio_8h.html#ac37389a0323f1a04aec2b59c905f0f6a",
-"structCanMsgTypeDef__t.html#a4aa42f4d25313b588ecb4323723d2ef6",
-"struct____attribute____.html#aa789bd99d41fdf549b0a23c81b689144",
-"structpdu__rail__fault__map__t.html#adfe3728efdb6dc12eef17fa0bbfd33dc",
-"syscalls_8c.html#ad3134a3dc296622b8d1c5456e481505b",
-"utils_8py.html#aa464792903a6e58a565329818163930a"
+"classcodegen_1_1ScalingMessage.html#aa551c9409e09e8e26370e15981d6fe1b",
+"codegen_8py.html#a6d6adf0f6f8c602da41a0cb38b946eaf",
+"cooling__fsm_8c.html#ab8dff0eb5455ecaa806c3de5e295912faf273be1841e37a72b4d7851044dd5e7b",
+"dir_2b02b501065b23f92c4fe933d9aa551d.html",
+"f4__testing_2canpiler_8c.html#a2c40deeaa6aeb002bafb0bc892484e0c",
+"functions.html",
+"izze__imu_8h.html#a2e28fa7e9cd5b450b5d139ba2b7069dca491f7eaec12b4cfc50beff4e482985bf",
+"md_firmware_2common_2strbuf_2README.html",
+"nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5",
+"pdu_2main_8h.html#ac5aef4cafbc69e9849d33c4c4cfa5e31",
+"phal__F4_2rcc_2rcc_8h.html#ab6f8f367c97e6af2cbbd58fed3d29e49a4c8f52a1fc27b2921fdf63639ccae65c",
+"phal__G4_2gpio_2gpio_8h.html#ae395785147afb18096f8082644e49641",
+"rtc_8h.html#a543d1397ac774876c1389cc6ca782fe3abd2d9d9c88f533e42cf45463717fdd34",
+"sdio_8h.html#acdc2533a9bff7dc10def0945f5915398aed9c89d9fc0101e995ae957f132af14c",
+"structFREERTOS__queue__params__t.html",
+"structadbms__bms__t.html#a9ae7b72a5ac37a212c39ce2c0b69f6af",
+"structpdu__switch__output__t.html#afc14160fd008589f935d7020f9698f54",
+"thermistor_8c.html#ad4ca3d95f36229506cf0e7e27ca26784",
+"vcu_8c.html#a6caabd0f1b9de183fbb9454dd432bbc7"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -112,96 +112,96 @@ MacOS Tools Setup</h2>
 <li>After installation, ensure brew is installed by running: <code>brew --version</code></li>
 </ul>
 </li>
-<li>Run the following commands in your terminal to install the other tools (you can copy and paste them all at once). <div class="fragment"><div class="line">brew install git cmake ninja openocd stlink python3 cppcheck</div>
-<div class="line">brew install --cask gcc-arm-embedded</div>
-</div><!-- fragment --></li>
-<li>Download VSCode from the website: <a href="https://code.visualstudio.com/docs/setup/mac">https://code.visualstudio.com/docs/setup/mac</a></li>
-</ol>
-<h2><a class="anchor" id="autotoc_md92"></a>
-Windows Tools Setup</h2>
-<p>You should use WSL if possible, the choco toolchain for Windows is too old. Install <a href="https://learn.microsoft.com/en-us/windows/wsl/install">here</a>.</p>
-<ol type="1">
-<li>If you are using Ubuntu version, use the newest version as Ubuntu is a bit weird with package versions as well. You may need to update it.</li>
-<li>Follow the Linux steps after this</li>
-<li>VSCode should have good integration with WSL, you can use the windows version of VSCode with WSL extension.</li>
-<li>You will have to setup USB on WSL (it is a bit weird). You can do this when you are done with onboarding, and you can build the repository. <a href="https://learn.microsoft.com/en-us/windows/wsl/connect-usb">Instructions</a></li>
-</ol>
-<p>Native Windows is still possible:</p><ol type="1">
-<li><a href="https://chocolatey.org/install#install-step2">Chocolatey</a>: Windows package manager Paste and run the installation command provided on the Chocolatey install page.<ul>
-<li>Open the Start Menu, scroll to W, and locate Windows PowerShell. Right-click on PowerShell and select "Run as Administrator".</li>
-<li>After installation, confirm choco is installed by running: <code>choco --version</code></li>
-</ul>
+<li>Install Apple’s Command Line Tools if they are not already installed: <div class="fragment"><div class="line">2. Install Apple’s Command Line Tools if they are not already installed:</div>
+</div><!-- fragment --> bash xcode-select &ndash;install <div class="fragment"><div class="line">The Command Line Tools provide the host compiler and `gcov` used for coverage.</div>
+<div class="line"> </div>
+<div class="line">3. Run the following commands in your terminal to install the other tools (you can copy and paste them all at once).</div>
+</div><!-- fragment --> bash brew install git cmake ninja openocd stlink python3 lcov googletest cppcheck brew install &ndash;cask gcc-arm-embedded <div class="fragment"><div class="line">4. Download VSCode from the website: https://code.visualstudio.com/docs/setup/mac</div>
+<div class="line"> </div>
+<div class="line">## Windows Tools Setup</div>
+<div class="line">You should use WSL if possible, the choco toolchain for Windows is too old. Install [here](https://learn.microsoft.com/en-us/windows/wsl/install).</div>
+<div class="line"> </div>
+<div class="line">1. If you are using Ubuntu version, use the newest version as Ubuntu is a bit weird with package versions as well. You may need to update it. </div>
+<div class="line">2. Follow the Linux steps after this</div>
+<div class="line">3. VSCode should have good integration with WSL, you can use the windows version of VSCode with WSL extension.</div>
+<div class="line">4. You will have to setup USB on WSL (it is a bit weird). You can do this when you are done with onboarding, and you can build the repository. [Instructions](https://learn.microsoft.com/en-us/windows/wsl/connect-usb)</div>
+<div class="line"> </div>
+<div class="line">Native Windows is still possible:</div>
+<div class="line">1. [Chocolatey](https://chocolatey.org/install#install-step2): Windows package manager Paste and run the installation command provided on the Chocolatey install page.</div>
+<div class="line">    - Open the Start Menu, scroll to W, and locate Windows PowerShell. Right-click on PowerShell and select &quot;Run as Administrator&quot;.</div>
+<div class="line">    - After installation, confirm choco is installed by running:</div>
+<div class="line">    `choco --version`</div>
+<div class="line">2. In your administrator powershell, paste the following commands (right click to paste in powershell terminal).</div>
+</div><!-- fragment --> bash choco install git cmake ninja python3 openocd cppcheck <div class="fragment"><div class="line">- Enter (`A`) on the first prompt to select &#39;Yes to All&#39;</div>
+<div class="line"> </div>
+<div class="line">&gt; [!NOTE]</div>
+<div class="line">&gt; Make sure to run these in PowerShell as Administrator!</div>
+<div class="line"> </div>
+<div class="line">3. STLink drivers need to be manually installed from [here](https://www.st.com/en/development-tools/stsw-link009.html).</div>
+<div class="line"> </div>
+<div class="line">4. gcc-arm-embedded needs to be manually installed from [here](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads) (Download and install arm-gnu-toolchain-15.2.rel1-mingw-w64-x86_64-arm-none-eabi.msi)</div>
+<div class="line"> </div>
+<div class="line">5. Download VSCode from the website: https://code.visualstudio.com/download</div>
+<div class="line"> </div>
+<div class="line">## Linux Tools Setup</div>
+<div class="line">1. You probably already know what you&#39;re doing, so here are the commands for `apt` (Ubuntu, Debian, Pop!, etc.):</div>
+</div><!-- fragment --> bash sudo apt update &amp;&amp; sudo apt upgrade sudo apt install git cmake python3 python3-pip ninja-build gcc g++ lcov libgtest-dev gcc-arm-none-eabi openocd stlink-tools cppcheck <div class="fragment"><div class="line">2. Visual Studio Code requires some special attention, install from [here](https://code.visualstudio.com/docs/setup/linux).</div>
+<div class="line"> </div>
+<div class="line">## DAQ App Tools Setup</div>
+<div class="line"> </div>
+<div class="line">The DAQ app is written in Rust. Install the stable Rust toolchain with</div>
+<div class="line">[rustup](https://rustup.rs/); this also installs `cargo`, Rust&#39;s build tool and</div>
+<div class="line">package manager.</div>
+</div><!-- fragment --> bash curl &ndash;proto '=https' &ndash;tlsv1.2 -sSf <a href="https://sh.rustup.rs">https://sh.rustup.rs</a> | sh source "$HOME/.cargo/env" rustup default stable cargo &ndash;version <div class="fragment"><div class="line">On Linux, install the development files used to enumerate serial devices:</div>
+</div><!-- fragment --> bash sudo apt install libudev-dev pkg-config <div class="fragment"><div class="line">On Windows, follow these steps inside WSL. macOS needs no additional DAQ app</div>
+<div class="line">system packages.</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"># 2. VSCode Setup (All OS)</div>
+<div class="line"> </div>
+<div class="line">VS Code is the recommended editor for firmware development.</div>
+<div class="line"> </div>
+<div class="line">## Install Extensions</div>
+<div class="line">Open the Extensions view (Ctrl+Shift+X or Cmd+Shift+X) and install the [PER extension pack](https://marketplace.visualstudio.com/items?itemName=irvingywang.per-pack) by searching the extension marketplace for &quot;PER-Pack&quot;.</div>
+<div class="line">&gt; [!WARNING]</div>
+<div class="line">&gt; PER-Pack is required! Dont skip this step.</div>
+<div class="line"> </div>
+<div class="line">## Turn on Autosave</div>
+<div class="line">Go to `File -&gt; Autosave` and click check to turn on autosave.</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"># 3. Repository Setup (All OS)</div>
+<div class="line"> </div>
+<div class="line">Follow these steps to download the PER codebase and get started on development:</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">## Open a new terminal</div>
+<div class="line">Open a new terminal. Just use your regular user account. </div>
+<div class="line"> </div>
+<div class="line">For Windows, open your terminal or WSL.</div>
+<div class="line"> </div>
+<div class="line">You should land in your home directory:</div>
+</div><!-- fragment --> bash /home/{USER} <div class="fragment"><div class="line">For MacOS:</div>
+</div><!-- fragment --> bash /Users/{username} <div class="fragment"><div class="line">You can confirm with:</div>
+</div><!-- fragment --> bash pwd <div class="fragment"><div class="line">## Clone PER repo</div>
+<div class="line">1. Once you&#39;re in your home directory, clone the PER monorepo with the following command:</div>
+</div><!-- fragment --> bash git clone <a href="https://github.com/PurdueElectricRacing/monorepo.git">https://github.com/PurdueElectricRacing/monorepo.git</a> <div class="fragment"><div class="line">2. Enter the repository:</div>
+</div><!-- fragment --> bash cd monorepo <div class="fragment"><div class="line">## Setup &amp; Build</div>
+<div class="line">1. To build firmware, install the required Python packages.</div>
+<div class="line"> </div>
+<div class="line">You can install the dependencies in one of two ways:</div>
+<div class="line"> </div>
+<div class="line">**Option A** — Use a virtual environment to isolate dependencies</div>
+</div><!-- fragment --> bash python3 -m venv .venv source .venv/bin/activate # On Windows: .venv\Scripts\activate pip3 install -r requirements.txt <div class="fragment"><div class="line">Before running any build commands, make sure to activate the virtual environment each time by running:</div>
+</div><!-- fragment --> bash source .venv/bin/activate # On Windows: .venv\Scripts\activate <div class="fragment"><div class="line">**Option B (Simpler)** — Install directly to your system Python</div>
+</div><!-- fragment --> bash pip3 install -r requirements.txt <div class="fragment"><div class="line">&gt; [!NOTE]</div>
+<div class="line">&gt; If you encounter an “externally managed environment” error when using Option B, run:</div>
+<div class="line">&gt; </div>
+</div><!-- fragment --> bash <blockquote class="doxtable">
+<p>&zwj;pip3 install -r requirements.txt &ndash;break-system-packages ``` </p>
+</blockquote>
 </li>
-<li>In your administrator powershell, paste the following commands (right click to paste in powershell terminal).</li>
 </ol>
-<div class="fragment"><div class="line">choco install git cmake ninja python3 openocd cppcheck</div>
-</div><!-- fragment --><ul>
-<li>Enter (<code>A</code>) on the first prompt to select 'Yes to All'</li>
-</ul>
-<dl class="section note"><dt>Note</dt><dd>Make sure to run these in PowerShell as Administrator!</dd></dl>
-<ol type="1">
-<li>STLink drivers need to be manually installed from <a href="https://www.st.com/en/development-tools/stsw-link009.html">here</a>.</li>
-<li>gcc-arm-embedded needs to be manually installed from <a href="https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads">here</a> (Download and install arm-gnu-toolchain-15.2.rel1-mingw-w64-x86_64-arm-none-eabi.msi)</li>
-<li>Download VSCode from the website: <a href="https://code.visualstudio.com/download">https://code.visualstudio.com/download</a></li>
-</ol>
-<h2><a class="anchor" id="autotoc_md93"></a>
-Linux Tools Setup</h2>
-<ol type="1">
-<li>You probably already know what you're doing, so here are the commands for <code>apt</code> (Ubuntu, Debian, Pop!, etc.): <div class="fragment"><div class="line">sudo apt update &amp;&amp; sudo apt upgrade</div>
-<div class="line">sudo apt install git cmake python3 python3-pip ninja-build gcc-arm-none-eabi openocd stlink-tools cppcheck</div>
-</div><!-- fragment --></li>
-<li>Visual Studio Code requires some special attention, install from <a href="https://code.visualstudio.com/docs/setup/linux">here</a>.</li>
-</ol>
-<h2><a class="anchor" id="autotoc_md94"></a>
-DAQ App Tools Setup</h2>
-<p>The DAQ app is written in Rust. Install the stable Rust toolchain with <a href="https://rustup.rs/">rustup</a>; this also installs <code>cargo</code>, Rust's build tool and package manager.</p>
-<div class="fragment"><div class="line">curl --proto &#39;=https&#39; --tlsv1.2 -sSf https://sh.rustup.rs | sh</div>
-<div class="line">source &quot;$HOME/.cargo/env&quot;</div>
-<div class="line">rustup default stable</div>
-<div class="line">cargo --version</div>
-</div><!-- fragment --><p>On Linux, install the development files used to enumerate serial devices:</p>
-<div class="fragment"><div class="line">sudo apt install libudev-dev pkg-config</div>
-</div><!-- fragment --><p>On Windows, follow these steps inside WSL. macOS needs no additional DAQ app system packages.</p>
-<h1><a class="anchor" id="autotoc_md95"></a>
-2. VSCode Setup (All OS)</h1>
-<p>VS Code is the recommended editor for firmware development.</p>
-<h2><a class="anchor" id="autotoc_md96"></a>
-Install Extensions</h2>
-<p>Open the Extensions view (Ctrl+Shift+X or Cmd+Shift+X) and install the <a href="https://marketplace.visualstudio.com/items?itemName=irvingywang.per-pack">PER extension pack</a> by searching the extension marketplace for "PER-Pack". </p><dl class="section warning"><dt>Warning</dt><dd>PER-Pack is required! Dont skip this step.</dd></dl>
-<h2><a class="anchor" id="autotoc_md97"></a>
-Turn on Autosave</h2>
-<p>Go to <code>File -&gt; Autosave</code> and click check to turn on autosave.</p>
-<h1><a class="anchor" id="autotoc_md98"></a>
-3. Repository Setup (All OS)</h1>
-<p>Follow these steps to download the PER codebase and get started on development:</p>
-<h2><a class="anchor" id="autotoc_md99"></a>
-Open a new terminal</h2>
-<p>Open a new terminal. Just use your regular user account.</p>
-<p>For Windows, open your terminal or WSL.</p>
-<p>You should land in your home directory: </p><div class="fragment"><div class="line">/home/{USER}</div>
-</div><!-- fragment --><p>For MacOS: </p><div class="fragment"><div class="line">/Users/{username}</div>
-</div><!-- fragment --><p>You can confirm with: </p><div class="fragment"><div class="line">pwd</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md100"></a>
-Clone PER repo</h2>
-<ol type="1">
-<li>Once you're in your home directory, clone the PER monorepo with the following command: <div class="fragment"><div class="line">git clone https://github.com/PurdueElectricRacing/monorepo.git</div>
-</div><!-- fragment --></li>
-<li>Enter the repository: <div class="fragment"><div class="line">cd monorepo</div>
-</div><!-- fragment --></li>
-</ol>
-<h2><a class="anchor" id="autotoc_md101"></a>
-Setup &amp; Build</h2>
-<ol type="1">
-<li>To build firmware, install the required Python packages.</li>
-</ol>
-<p>You can install the dependencies in one of two ways:</p>
-<p><b>Option A</b> — Use a virtual environment to isolate dependencies </p><div class="fragment"><div class="line">python3 -m venv .venv</div>
-<div class="line">source .venv/bin/activate  # On Windows: .venv\Scripts\activate</div>
-<div class="line">pip3 install -r requirements.txt</div>
-</div><!-- fragment --><p> Before running any build commands, make sure to activate the virtual environment each time by running: </p><div class="fragment"><div class="line">source .venv/bin/activate  # On Windows: .venv\Scripts\activate</div>
-</div><!-- fragment --><p><b>Option B (Simpler)</b> — Install directly to your system Python </p><div class="fragment"><div class="line">pip3 install -r requirements.txt</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>If you encounter an “externally managed environment” error when using Option B, run: <div class="fragment"><div class="line">pip3 install -r requirements.txt --break-system-packages</div>
-</div><!-- fragment --></dd></dl>
 <ol type="1">
 <li>Build one project or both projects from the repository root:</li>
 </ol>

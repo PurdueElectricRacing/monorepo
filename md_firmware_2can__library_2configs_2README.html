@@ -100,8 +100,8 @@ $(function(){initNavTree('md_firmware_2can__library_2configs_2README.html',''); 
   <div class="headertitle"><div class="title">CAN Configs</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md111"></a></p>
-<h1><a class="anchor" id="autotoc_md112"></a>
+<div class="textblock"><p><a class="anchor" id="autotoc_md101"></a></p>
+<h1><a class="anchor" id="autotoc_md102"></a>
 Bus Definition (<code>configs/system/bus_configs.json</code>)</h1>
 <p>Validated by <code>bus.schema.json</code>. Describes each logical CAN bus (not how a node attaches to it).</p>
 <ul>
@@ -111,7 +111,7 @@ Bus Definition (<code>configs/system/bus_configs.json</code>)</h1>
 <li><code>is_flexible_data_rate</code>: Boolean. Whether this bus uses CAN FD.</li>
 <li><code>host_fault_library</code>: Boolean. If true, this bus is the primary uplink for fault communication (usually VCAN).</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md113"></a>
+<h1><a class="anchor" id="autotoc_md103"></a>
 Node-to-Bus Mapping (per node JSON, under <code>busses</code>)</h1>
 <p>Validated by <code>node.schema.json</code>. Maps a firmware node onto hardware peripherals and message lists.</p>
 <ul>
@@ -120,14 +120,14 @@ Node-to-Bus Mapping (per node JSON, under <code>busses</code>)</h1>
 <li><code>tx</code>: Array of TX message definitions for this node on this bus.</li>
 <li><code>rx</code>: Array of RX message definitions for this node on this bus.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md114"></a>
+<h1><a class="anchor" id="autotoc_md104"></a>
 Node Attributes</h1>
 <ul>
 <li><code>node_name</code>: Name of the node. Must be unique.</li>
 <li><code>fault_library_enabled</code>: Required boolean. If true, this node participates in the FIDR fault sync system.</li>
 <li><code>faults</code>: (Optional) Array of fault definitions specific to this node.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md115"></a>
+<h1><a class="anchor" id="autotoc_md105"></a>
 CAN Message Attributes (TX)</h1>
 <ul>
 <li><code>msg_name</code>: Unique identifier.</li>
@@ -137,13 +137,13 @@ CAN Message Attributes (TX)</h1>
 <li><code>byte_order</code>: Optional. <code>little_endian</code> (default) or <code>big_endian</code> for multi-byte signal packing within the frame.</li>
 <li><code>msg_id_override</code>: Optional. Manual ID (supports hex <code>0x...</code>). Overrides automatic linking. Must respect the bus framing limits.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md116"></a>
+<h1><a class="anchor" id="autotoc_md106"></a>
 RX Message Attributes</h1>
 <ul>
 <li><code>msg_name</code>: Name of the message to receive (must exist on the bus).</li>
 <li><code>callback</code>: Boolean. If true, the generated driver declares and calls <code>&lt;msg_name&gt;_CALLBACK()</code> after RX unpacking. Application code must define this function or the firmware link will fail.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md117"></a>
+<h1><a class="anchor" id="autotoc_md107"></a>
 Signal Attributes</h1>
 <ul>
 <li><code>sig_name</code>: Signal name. Must be unique within the message.</li>
@@ -161,7 +161,7 @@ Signal Attributes</h1>
 <dd>
 Signals named <code>reserved</code>, <code>reserved1</code>, etc. remain part of the message layout, RX data structs, and DBC output. For local TX helpers, reserved signals are omitted from the <code>CAN_SEND_*</code> arguments and automatically packed as zero.</dd></dl>
 <dl class="section remark"><dt>Remarks</dt><dd><b>Scaling Constants:</b> Node headers generate directional <code>static constexpr float</code> constants for every local signal with a scale != 1.0. Use <code>PACK_COEFF_&lt;MSG&gt;_&lt;SIG&gt;</code> before passing physical values to local <code>CAN_SEND_*</code> TX helpers, and use <code>UNPACK_COEFF_&lt;MSG&gt;_&lt;SIG&gt;</code> when interpreting raw <code>can_data</code> values from local RX messages.</dd></dl>
-<h2><a class="anchor" id="autotoc_md118"></a>
+<h2><a class="anchor" id="autotoc_md108"></a>
 Message Priority</h2>
 <p>Lower = higher priority. Range: [0-5]. PER vehicle convention:</p>
 <ol type="1">
@@ -190,10 +190,10 @@ Message Priority</h2>
 </ul>
 </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md119"></a>
+<h1><a class="anchor" id="autotoc_md109"></a>
 External Nodes</h1>
 <p>External nodes (non-PER devices such as chargers or inverters) are defined in <code>configs/external_nodes/</code> and validated by <code>external_node.schema.json</code>.</p>
-<h2><a class="anchor" id="autotoc_md120"></a>
+<h2><a class="anchor" id="autotoc_md110"></a>
 Attributes</h2>
 <ul>
 <li><code>node_name</code>: Name of the external device. Must be unique.</li>
@@ -201,25 +201,25 @@ Attributes</h2>
 <li><code>tx</code>: Array of messages this device sends toward PER nodes.</li>
 <li><code>rx</code>: Array of messages this device expects to receive.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md121"></a>
+<h1><a class="anchor" id="autotoc_md111"></a>
 Custom Types</h1>
 <p>Define reusable signal types (enums and aliases) in <code>configs/system/common_types.json</code>. Validated by <code>type_registry.schema.json</code>.</p>
-<h2><a class="anchor" id="autotoc_md122"></a>
+<h2><a class="anchor" id="autotoc_md112"></a>
 Type Attributes</h2>
 <ul>
 <li><code>name</code>: Type name. Must end in <code>_t</code> (e.g. <code>car_state_t</code>).</li>
 <li><code>base_type</code>: One of <code>uint8_t</code> ... <code>uint64_t</code>, <code>int8_t</code> ... <code>int64_t</code>, <code>bool</code>.</li>
 <li><code>choices</code>: (Optional) Enum value list, generated as a C <code>enum</code>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md123"></a>
+<h1><a class="anchor" id="autotoc_md113"></a>
 Fault Configuration</h1>
 <p>Node-specific faults are defined directly in the node JSON under the <code>"faults"</code> key. The library automatically generates bitfield-sync and event messages for fault communication based on these definitions.</p>
-<h2><a class="anchor" id="autotoc_md124"></a>
+<h2><a class="anchor" id="autotoc_md114"></a>
 Node Level</h2>
 <ul>
 <li><code>generate_fault_messages</code>: Boolean. If true, generates LCD string arrays for the node (usually only true for nodes with displays like the Dashboard).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md125"></a>
+<h2><a class="anchor" id="autotoc_md115"></a>
 Fault Attributes</h2>
 <ul>
 <li><code>fault_name</code>: Unique name within the node.</li>

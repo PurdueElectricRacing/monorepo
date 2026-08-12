@@ -100,9 +100,9 @@ $(function(){initNavTree('md_firmware_2can__library_2canpiler_2README.html','');
   <div class="headertitle"><div class="title">CANpiler</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md102"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md92"></a></p>
 <p>The CANpiler is the centralized code generation authority. It handles CAN message generation, fault library, and (soon) daq variable generation.</p>
-<h1><a class="anchor" id="autotoc_md103"></a>
+<h1><a class="anchor" id="autotoc_md93"></a>
 Software Architecture</h1>
 <p>Modeled After the traditional compiler pipeline.</p>
 <div class="image">
@@ -111,21 +111,21 @@ Software Architecture</h1>
 canpiler system diagram</div></div>
     <p><code><a class="el" href="build_8py.html">build.py</a></code>: Main entry point for CANpiler. Coordinates the top-level data flow.</p>
 <p><code><a class="el" href="utils_8py.html">utils.py</a></code>: Shared helpers (<code>format_float</code>, <code>print_as_success</code>, etc.) used across the pipeline.</p>
-<h3><a class="anchor" id="autotoc_md104"></a>
+<h3><a class="anchor" id="autotoc_md94"></a>
 1. Schema Validation</h3>
 <p><code><a class="el" href="validator_8py.html">validator.py</a></code>: Catches syntax errors in the configuration files using the <code>jsonschema</code> library (Draft 2020-12 validator).</p><ul>
 <li>typos, missing fields, etc</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md105"></a>
+<h3><a class="anchor" id="autotoc_md95"></a>
 2. Parsing and Semantic Validation</h3>
 <p><code><a class="el" href="parser_8py.html">parser.py</a></code>: Parses configurations into IR <code>@dataclasses</code>. "Logical" config errors are caught during this phase.</p><ul>
 <li>Invalid types, signals exceeding 64 bits, etc.</li>
 <li>Produces parsed IR consumed by later stages; the unified <code>SystemContext</code> is assembled by <code><a class="el" href="build_8py.html">build.py</a></code> after linking and mapping.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md106"></a>
+<h3><a class="anchor" id="autotoc_md96"></a>
 2.5. Fault Message Injection</h3>
 <p><code><a class="el" href="namespacefaultgen.html#ab996a6dd47c2529b9a739520011f0843">faultgen.augment_system_with_faults</a></code>: Walks each fault-library-enabled node and injects <code>&lt;node&gt;_fault_event</code> + <code>&lt;node&gt;_fault_sync</code> TX messages before linking. This ensures fault messages get IDs assigned alongside everything else.</p>
-<h3><a class="anchor" id="autotoc_md107"></a>
+<h3><a class="anchor" id="autotoc_md97"></a>
 3. Linker</h3>
 <p><code><a class="el" href="linker_8py.html">linker.py</a></code>: Transforms the IR into a linked IR with resolved message IDs using a two-pass "Water Level" algorithm.</p><ul>
 <li><b>Pass 1: Constraint Verification</b>: Ensures manual <code>msg_id_override</code> values respect priority monotonicity (messages in priority $N$ cannot have IDs higher than messages in priority $N+1$).</li>
@@ -138,7 +138,7 @@ canpiler system diagram</div></div>
 <li><b>Single producer per bus</b>: For each <code>(bus_name, msg_name)</code> there must be exactly one transmitting node on that bus. Duplicate TX definitions (two nodes, or two entries in one node) fail the build.</li>
 <li><b>Foreign TX for RX</b>: A node may not subscribe on a bus to a message that only it transmits on that bus. Every RX entry requires another node to transmit that <code>msg_name</code> on that bus (hardware nodes are not configured to receive their own frames).</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md108"></a>
+<h3><a class="anchor" id="autotoc_md98"></a>
 4. Mapper</h3>
 <p><code><a class="el" href="mapper_8py.html">mapper.py</a></code>: Maps CAN IDs to physical hardware resources.</p><ul>
 <li><b>bxCAN Filter Groups</b>: Optimizes STM32 bxCAN filter bank usage. It groups messages into 32-bit identifier-mask pairs to maximize throughput while respecting bxCAN's <b>14 filter banks per peripheral</b> limit.</li>
@@ -146,7 +146,7 @@ canpiler system diagram</div></div>
 <li><b>Promiscuous Mode</b>: Configures all-pass filters for buses where <code>accept_all_messages</code> is enabled.</li>
 <li><b>Initialization Code</b>: Generates the bitmasks required for hardware filter initialization.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md109"></a>
+<h3><a class="anchor" id="autotoc_md99"></a>
 5. Generation</h3>
 <p>Produces the final build artifacts from the <code>SystemContext</code> using the <b>Jinja2</b> templating engine.</p><ul>
 <li><b>C23 Standard</b>: All generated code targets the C23 standard, specifically utilizing <code>static constexpr</code> for type-safe constants and identifiers.</li>
@@ -155,7 +155,7 @@ canpiler system diagram</div></div>
 <li><code><a class="el" href="dbcgen_8py.html">dbcgen.py</a></code>: Produces deterministic, versioned DBC files using the <code>cantools</code> library.</li>
 <li><code><a class="el" href="faultgen_8py.html">faultgen.py</a></code>: Injects <code>FAULT_SYNC</code> and <code>FAULT_EVENT</code> messages into node configurations and generates global fault tracking maps (<code>fault_data.c</code> / <code>fault_data.h</code>).</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md110"></a>
+<h3><a class="anchor" id="autotoc_md100"></a>
 6. Analysis</h3>
 <p><code><a class="el" href="load__calc_8py.html">load_calc.py</a></code>: Performs post-generation capacity analysis for each bus in the system.</p><ul>
 <li><b>Frame Estimation</b>: Calculates total bits per frame based on protocol overhead (Standard: 47 bits, Extended: 67 bits) and signal DLC.</li>
