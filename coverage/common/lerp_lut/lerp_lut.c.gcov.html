@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - common/lerp_lut/lerp_lut.c</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory common/lerp_lut">common/lerp_lut</a> - lerp_lut.c<span style="font-size: 80%;"> (source / <a href="lerp_lut.c.func-c.html" title="Click to go to function table">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntry">15</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-08-12 01:52:06</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+          </tr>
+                  <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : /**</span>
+<span id="L2"><span class="lineNum">       2</span>              :  * @file lerp_lut.c</span>
+<span id="L3"><span class="lineNum">       3</span>              :  * @brief Linear interpolation lookup table (LUT).</span>
+<span id="L4"><span class="lineNum">       4</span>              :  *</span>
+<span id="L5"><span class="lineNum">       5</span>              :  * @author Irving Wang (irvingw@purdue.edu)</span>
+<span id="L6"><span class="lineNum">       6</span>              :  */</span>
+<span id="L7"><span class="lineNum">       7</span>              : </span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &quot;lerp_lut.h&quot;</span>
+<span id="L9"><span class="lineNum">       9</span>              : </span>
+<span id="L10"><span class="lineNum">      10</span>              : /**</span>
+<span id="L11"><span class="lineNum">      11</span>              :  * @brief Lookup a value in a linear interpolation lookup table (LUT).</span>
+<span id="L12"><span class="lineNum">      12</span>              :  *</span>
+<span id="L13"><span class="lineNum">      13</span>              :  * This function performs a binary search to find the appropriate interval</span>
+<span id="L14"><span class="lineNum">      14</span>              :  * in the LUT and then linearly interpolates between the two nearest entries.</span>
+<span id="L15"><span class="lineNum">      15</span>              :  *</span>
+<span id="L16"><span class="lineNum">      16</span>              :  * @param lut Pointer to the LUT.</span>
+<span id="L17"><span class="lineNum">      17</span>              :  * @param key The key to look up.</span>
+<span id="L18"><span class="lineNum">      18</span>              :  * @return The interpolated value.</span>
+<span id="L19"><span class="lineNum">      19</span>              :  */</span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           8 : float lut_lookup(const lerp_lut_t* lut, float key) {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           8 :     const lut_entry_t *entries = lut-&gt;entries;</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           8 :     const int size = lut-&gt;size;</span></span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span>              :     // &quot;out of bounds&quot; keys get clamped to the nearest value</span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           8 :     if (key &lt;= entries[0].key) { return entries[0].value; }</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           6 :     if (key &gt;= entries[size - 1].key) { return entries[size - 1].value; }</span></span>
+<span id="L27"><span class="lineNum">      27</span>              : </span>
+<span id="L28"><span class="lineNum">      28</span>              :     // binary search for the correct interval</span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           4 :     int low = 1;</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           4 :     int high = size - 1;</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">          10 :     while (low &lt; high) {</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           6 :         int mid = low + (high - low) / 2;</span></span>
+<span id="L33"><span class="lineNum">      33</span>              : </span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           6 :         if (key &lt; entries[mid].key) {</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           3 :             high = mid;</span></span>
+<span id="L36"><span class="lineNum">      36</span>              :         } else {</span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           3 :             low = mid + 1;</span></span>
+<span id="L38"><span class="lineNum">      38</span>              :         }</span>
+<span id="L39"><span class="lineNum">      39</span>              :     }</span>
+<span id="L40"><span class="lineNum">      40</span>              : </span>
+<span id="L41"><span class="lineNum">      41</span>              :     // keys[i] &lt;= key &lt; keys[i + 1]</span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           4 :     int i = low - 1;</span></span>
+<span id="L43"><span class="lineNum">      43</span>              : </span>
+<span id="L44"><span class="lineNum">      44</span>              :     // lerp between values[i] and values[i + 1]</span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">           4 :     float t = (key - entries[i].key) / (entries[i + 1].key - entries[i].key);</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           4 :     return entries[i].value + (entries[i + 1].value - entries[i].value) * t;</span></span>
+<span id="L47"><span class="lineNum">      47</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
