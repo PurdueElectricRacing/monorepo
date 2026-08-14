@@ -169,7 +169,7 @@ uint16_t PHAL_DMA_getRemaining(PHAL_DMA_Handle_t *handle);
  *
  * @return true if the channel is enabled, false if disabled
  */
-bool PHAL_DMA_isBusy(PHAL_DMA_Handle_t *handle);
+bool PHAL_DMA_isBusy(const PHAL_DMA_Handle_t *handle);
 
 /**
  * @brief Check whether the channel has finished its transfer (TC flag set)
@@ -181,7 +181,7 @@ bool PHAL_DMA_isBusy(PHAL_DMA_Handle_t *handle);
  * @param handle initialized DMA handle
  * @return true if the transfer-complete flag is set, false otherwise
  */
-bool PHAL_DMA_isComplete(PHAL_DMA_Handle_t *handle);
+bool PHAL_DMA_isComplete(const PHAL_DMA_Handle_t *handle);
 
 /**
  * @brief Check whether the channel reported a transfer error (TE flag set)
@@ -191,7 +191,7 @@ bool PHAL_DMA_isComplete(PHAL_DMA_Handle_t *handle);
  * @param handle initialized DMA handle
  * @return true if the transfer-error flag is set, false otherwise
  */
-bool PHAL_DMA_isError(PHAL_DMA_Handle_t *handle);
+bool PHAL_DMA_isError(const PHAL_DMA_Handle_t *handle);
 
 /**
  * @brief Clear every latched status flag (complete/error/global) for the

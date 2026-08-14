@@ -7,7 +7,7 @@
 
 #include "common/phal_G4/dma/dma_priv.h"
 
-void PHAL_DMA_priv_enableClock(DMA_TypeDef *periph) {
+void PHAL_DMA_priv_enableClock(const DMA_TypeDef *periph) {
     // AHB1ENR = AHB1 peripheral clock Enable Register
     // DMAMUX1EN = DMAMUX1 clock Enable bit
     // - DMAMUX1 routes peripheral requests to DMA channels
@@ -22,7 +22,7 @@ void PHAL_DMA_priv_enableClock(DMA_TypeDef *periph) {
     }
 }
 
-DMA_Channel_TypeDef *PHAL_DMA_priv_getChannel(DMA_TypeDef *periph, uint8_t channel_idx) {
+DMA_Channel_TypeDef *PHAL_DMA_priv_getChannel(const DMA_TypeDef *periph, uint8_t channel_idx) {
     // Channels sit back-to-back in memory, PHAL_DMA_PRIV_DMA_CHANNEL_MEM_STRIDE apart
     // Channel numbering is 1-based in the manual, so subtract 1 to get index
     DMA_Channel_TypeDef *base = (periph == DMA1) ? DMA1_Channel1 : DMA2_Channel1;
@@ -53,7 +53,7 @@ void PHAL_DMA_priv_enableChannel(DMA_Channel_TypeDef *channel) {
     channel->CCR |= DMA_CCR_EN;
 }
 
-bool PHAL_DMA_priv_isChannelEnabled(DMA_Channel_TypeDef *channel) {
+bool PHAL_DMA_priv_isChannelEnabled(const DMA_Channel_TypeDef *channel) {
     return (channel->CCR & DMA_CCR_EN) != 0;
 }
 
@@ -68,14 +68,14 @@ void PHAL_DMA_priv_clearFlags(DMA_TypeDef *periph, uint8_t channel_idx) {
     periph->IFCR = (DMA_ISR_GIF1 | DMA_ISR_TCIF1 | DMA_ISR_HTIF1 | DMA_ISR_TEIF1) << shift;
 }
 
-bool PHAL_DMA_priv_readCompleteFlag(DMA_TypeDef *periph, uint8_t channel_idx) {
+bool PHAL_DMA_priv_readCompleteFlag(const DMA_TypeDef *periph, uint8_t channel_idx) {
     // TCIF = Transfer-Complete Interrupt Flag
     // - set by hardware once the channel's element count reaches zero
     uint32_t shift = 4U * (channel_idx - 1U);
     return (periph->ISR & (DMA_ISR_TCIF1 << shift)) != 0;
 }
 
-bool PHAL_DMA_priv_readErrorFlag(DMA_TypeDef *periph, uint8_t channel_idx) {
+bool PHAL_DMA_priv_readErrorFlag(const DMA_TypeDef *periph, uint8_t channel_idx) {
     // TEIF = Transfer-Error Interrupt Flag
     // - set by hardware on a bus error during the transfer
     uint32_t shift = 4U * (channel_idx - 1U);
