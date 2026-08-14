@@ -1,3 +1,5 @@
+# Third-party firmware dependency setup (CMSIS Core, CMSIS device headers, FreeRTOS kernel)
+
 set(PER_CMSIS_CORE_DIR "${CMAKE_SOURCE_DIR}/external/CMSIS_6/CMSIS/Core/Include")
 set(PER_FREERTOS_DIR "${CMAKE_SOURCE_DIR}/external/FreeRTOS-Kernel")
 
