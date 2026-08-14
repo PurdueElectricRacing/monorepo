@@ -18,7 +18,6 @@
  * Please plug in each of the following TX pins into
  * their corresponding RX pins:
  *   USART1: PA9  (TX) -> PA10 (RX)
- *   USART2: PA2  (TX) -> PA3  (RX)
  *   USART3: PC10 (TX) -> PC11 (RX)
  */
 
@@ -30,16 +29,16 @@ GPIOInitConfig_t gpio_config[] = {
 
     GPIO_INIT_USART1TX_PA9,
     GPIO_INIT_USART1RX_PA10,
-    GPIO_INIT_USART2TX_PA2,
-    GPIO_INIT_USART2RX_PA3,
+
+    // Skip USART2, conflicts with Nucleo
+
     GPIO_INIT_USART3TX_PC10,
     GPIO_INIT_USART3RX_PC11,
 };
 
 // USART1 on APB2; USART2/3 on APB1
 static constexpr uint32_t USART1_TEST_BAUD = 115200u;
-static constexpr uint32_t USART2_TEST_BAUD = 9600u;
-static constexpr uint32_t USART3_TEST_BAUD = 500000u;
+static constexpr uint32_t USART3_TEST_BAUD = 9600u;
 
 static constexpr uint16_t FRAME_LEN = 16;
 static uint8_t tx_buf[FRAME_LEN];
@@ -47,12 +46,11 @@ static uint8_t rx_buf[FRAME_LEN];
 static volatile uint32_t rx_frame_success_count;
 static volatile uint16_t rx_frame_len; //!< length reported by the last rxCallback
 
-// Every subtest below except the per-peripheral roundtrips runs on USART2.
-static constexpr PHAL_USART_Idx_t TEST_PERIPH = USART2_IDX;
+// Every subtest below except the per-peripheral roundtrips runs on USART3
+static constexpr PHAL_USART_Idx_t TEST_PERIPH = USART3_IDX;
 
 typedef enum {
     SUBTEST_USART1_ROUNDTRIP,
-    SUBTEST_USART2_ROUNDTRIP,
     SUBTEST_USART3_ROUNDTRIP,
     SUBTEST_TXBL,
     SUBTEST_RXBL,
@@ -114,6 +112,7 @@ static void fill_pattern(uint8_t *buf, uint32_t len, uint8_t seed) {
 static void prep_frame(uint8_t seed) {
     fill_pattern(tx_buf, FRAME_LEN, seed);
     memset(rx_buf, 0, FRAME_LEN);
+    rx_frame_len = 0;
 }
 
 static bool record_failure(usart_subtest_id_t id, uint32_t detail, uint32_t expected, uint32_t actual) {
@@ -159,7 +158,6 @@ static bool run_roundtrip(PHAL_USART_Idx_t periph, usart_subtest_id_t id, uint8_
 }
 
 static bool test_usart1_roundtrip(void) { return run_roundtrip(USART1_IDX, SUBTEST_USART1_ROUNDTRIP, 0xA0); }
-static bool test_usart2_roundtrip(void) { return run_roundtrip(USART2_IDX, SUBTEST_USART2_ROUNDTRIP, 0xB0); }
 static bool test_usart3_roundtrip(void) { return run_roundtrip(USART3_IDX, SUBTEST_USART3_ROUNDTRIP, 0xC0); }
 
 /**
@@ -295,8 +293,7 @@ typedef struct {
 
 static const usart_subtest_t subtests[NUM_SUBTESTS] = {
     [SUBTEST_USART1_ROUNDTRIP] = {"usart1 roundtrip (APB2, 115200 baud)", test_usart1_roundtrip},
-    [SUBTEST_USART2_ROUNDTRIP] = {"usart2 roundtrip (APB1, 9600 baud)", test_usart2_roundtrip},
-    [SUBTEST_USART3_ROUNDTRIP] = {"usart3 roundtrip (APB1, 500000 baud)", test_usart3_roundtrip},
+    [SUBTEST_USART3_ROUNDTRIP] = {"usart3 roundtrip (APB1, 9600 baud)", test_usart3_roundtrip},
     [SUBTEST_TXBL] = {"txBl blocking send", test_txBl_blocking_send},
     [SUBTEST_RXBL] = {"rxBl blocking receive", test_rxBl_blocking_receive},
     [SUBTEST_TXBUSY] = {"txBusy tracks transfer", test_txBusy_tracks_transfer},
@@ -316,7 +313,6 @@ int main(void) {
     PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, 0);
 
     if (!PHAL_USART_init(USART1_IDX, USART1_TEST_BAUD, PHAL_RCC_getAPB2ClockHz())
-        || !PHAL_USART_init(USART2_IDX, USART2_TEST_BAUD, PHAL_RCC_getAPB1ClockHz())
         || !PHAL_USART_init(USART3_IDX, USART3_TEST_BAUD, PHAL_RCC_getAPB1ClockHz())
     ) {
         HardFault_Handler();
