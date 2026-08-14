@@ -32,6 +32,9 @@
             clang
             libclang
             clang-tools
+            lcov
+            gtest
+            cppcheck
 
             gcc-arm-embedded
             openocd
@@ -47,6 +50,7 @@
             })
 
             python
+            mypy
 
             pkg-config
             systemd
@@ -57,6 +61,9 @@
             mesa
             libGL
             dbus
+
+            direnv
+            nix-direnv
           ];
 
           shellHook = ''
@@ -68,9 +75,14 @@
               pkgs.dbus
             ]}:$LD_LIBRARY_PATH
 
+            export CC="${pkgs.gcc}/bin/gcc"
+            export CXX="${pkgs.gcc}/bin/g++"
+
             echo "Purdue Electric Racing development environment"
             echo "  CMake:      $(cmake --version | head -n1)"
             echo "  Ninja:      $(ninja --version)"
+            echo "  GCC:        $($CC --version | head -n1)"
+            echo "  G++:        $($CXX --version | head -n1)"
             echo "  ARM GCC:    $(arm-none-eabi-gcc --version | head -n1)"
             echo "  OpenOCD:    $(openocd --version 2>&1 | head -n1)"
             echo "  Python:     $(python --version)"
