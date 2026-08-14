@@ -116,7 +116,7 @@ def run_cppcheck():
     cppcheck_command = [
         "cppcheck",
         f"--project={compile_db}",
-        "--enable=warning,performance,portability",
+        "--enable=warning,style,performance,portability",
         "--check-level=exhaustive",
         "--max-ctu-depth=4",
         "--safety",
