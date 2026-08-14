@@ -53,7 +53,7 @@ void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf) {
     };
 }
 
-bool adbms_write_rega(adbms_bms_t *bms) {
+void adbms_write_rega(adbms_bms_t *bms) {
     strbuf_clear(&bms->tx_strbuf);
     adbms6380_prepare_command(&bms->tx_strbuf, WRCFGA);
     // i must be signed
@@ -66,10 +66,9 @@ bool adbms_write_rega(adbms_bms_t *bms) {
     PHAL_SPI_transferBlocking(bms->spi, bms->tx_strbuf.data, NULL, bms->tx_strbuf.length);
     adbms6380_set_cs_high(bms->spi);
 
-    return true;
 }
 
-bool adbms_write_regb(adbms_bms_t *bms) {
+void adbms_write_regb(adbms_bms_t *bms) {
     strbuf_clear(&bms->tx_strbuf);
     adbms6380_prepare_command(&bms->tx_strbuf, WRCFGB);
     // i must be signed
@@ -84,7 +83,6 @@ bool adbms_write_regb(adbms_bms_t *bms) {
     adbms6380_set_cs_low(bms->spi);
     PHAL_SPI_transferBlocking(bms->spi, bms->tx_strbuf.data, NULL, bms->tx_strbuf.length);
     adbms6380_set_cs_high(bms->spi);
-    return true;
 }
 
 bool adbms_read_and_check_rega(adbms_bms_t *bms) {
@@ -110,7 +108,7 @@ bool adbms_read_and_check_rega(adbms_bms_t *bms) {
     }
     bms->err_rega_mismatch = false;
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
-        uint8_t *module_data = &bms->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        const uint8_t *module_data = &bms->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
         if (memcmp(&module_data[0], bms->modules[i].rega, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0) {
             bms->err_rega_mismatch            = true;
             bms->modules[i].err_rega_mismatch = true;
@@ -144,7 +142,7 @@ bool adbms_read_and_check_regb(adbms_bms_t *bms) {
     }
     bms->err_regb_mismatch = false;
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
-        uint8_t *module_data = &bms->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        const uint8_t *module_data = &bms->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
         if (memcmp(&module_data[0], bms->modules[i].regb, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0) {
             bms->err_regb_mismatch            = true;
             bms->modules[i].err_regb_mismatch = true;
@@ -156,16 +154,8 @@ bool adbms_read_and_check_regb(adbms_bms_t *bms) {
 }
 
 void adbms_connect(adbms_bms_t *bms) {
-    if (!adbms_write_rega(bms)) {
-        bms->state       = ADBMS_STATE_IDLE;
-        bms->err_connect = true;
-        return;
-    }
-    if (!adbms_write_regb(bms)) {
-        bms->state       = ADBMS_STATE_IDLE;
-        bms->err_connect = true;
-        return;
-    }
+    adbms_write_rega(bms);
+    adbms_write_regb(bms);
     if (!adbms_read_and_check_rega(bms)) {
         bms->state       = ADBMS_STATE_IDLE;
         bms->err_connect = true;
@@ -231,10 +221,7 @@ void adbms_calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float mi
 void adbms_balance_and_update_regb(adbms_bms_t *bms, float min_voltage, float min_delta) {
     adbms_calculate_balance_cells(bms, min_voltage, min_delta);
 
-    if (!adbms_write_regb(bms)) {
-        bms->state = ADBMS_STATE_IDLE;
-        return;
-    }
+    adbms_write_regb(bms);
     if (!adbms_read_and_check_regb(bms)) {
         bms->state = ADBMS_STATE_IDLE;
         return;

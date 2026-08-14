@@ -169,9 +169,8 @@ void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf);
  * @brief Calculate and write REGA configuration to all modules.
  *
  * @param bms Pointer to driver state.
- * @return True on successful SPI transfer, false on failure.
  */
-bool adbms_write_rega(adbms_bms_t *bms);
+void adbms_write_rega(adbms_bms_t *bms);
 /**
  * @brief Calculate and write REGB configuration to all modules.
  *
@@ -179,9 +178,8 @@ bool adbms_write_rega(adbms_bms_t *bms);
  * the configuration to all modules.
  *
  * @param bms Pointer to driver state.
- * @return True on successful SPI transfer, false on failure.
  */
-bool adbms_write_regb(adbms_bms_t *bms);
+void adbms_write_regb(adbms_bms_t *bms);
 /**
  * @brief Read back REGA and compare with cached configuration.
  *
