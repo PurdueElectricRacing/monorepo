@@ -186,6 +186,12 @@ static void PHAL_USART_HandleIRQ(PHAL_USART_Idx_t idx) {
     PHAL_USART_priv_clearIdle(periph);
 
     PHAL_DMA_Handle_t *rx_dma = &usart_state[idx].rx_dma;
+
+    // Enabling RE on an already-idle line can raise IDLE before the first byte reaches DMA
+    if (PHAL_DMA_getRemaining(rx_dma) == usart_state[idx].rxfer_size) {
+        return;
+    }
+
     PHAL_DMA_stop(rx_dma);
 
     // CNDTR counts down, so the shortfall against the configured length is
