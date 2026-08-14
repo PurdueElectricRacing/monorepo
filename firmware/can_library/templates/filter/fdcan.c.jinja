@@ -5,7 +5,7 @@ static inline void {{ fdcan_ctx.periph }}_set_filters() {
     (void)0;
     {% elif fdcan_ctx.has_filters %}
     {% if fdcan_ctx.std_ids %}
-    static uint32_t sid_list[] = {
+    static const uint32_t sid_list[] = {
         {% for msg in fdcan_ctx.std_ids %}
         {{ msg.macro_name }}_MSG_ID{{ "," if not loop.last }}
         {% endfor %}
@@ -13,7 +13,7 @@ static inline void {{ fdcan_ctx.periph }}_set_filters() {
     {% endif %}
 
     {% if fdcan_ctx.ext_ids %}
-    static uint32_t xid_list[] = {
+    static const uint32_t xid_list[] = {
         {% for msg in fdcan_ctx.ext_ids %}
         {{ msg.macro_name }}_MSG_ID{{ "," if not loop.last }}
         {% endfor %}
