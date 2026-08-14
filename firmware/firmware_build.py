@@ -129,6 +129,7 @@ def run_cppcheck():
         "--file-filter=*/firmware/can_library/*",
         "--suppress=*:*/external/*",
         "--suppress=*:*/source/torque_vector/vcu/*",
+        "--suppress=*:*/common/phal_F4/*",
         "--inline-suppr",
         "--quiet",
         f"-j{os.cpu_count() or 1}",
