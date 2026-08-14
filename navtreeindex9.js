@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"md_firmware_2common_2heartbeat_2README.html":[15],
+"md_firmware_2common_2lerp__lut_2README.html":[16],
 "md_firmware_2common_2strbuf_2README.html":[18],
 "md_firmware_2common_2utils_2README.html":[19],
 "md_firmware_2common_2utils_2README.html#autotoc_md69":[19,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX9 =
 "nav__relposned_8h.html#a79c2857f59c5dea67d012a912b37000d":[30,0,1,1,12,3,4],
 "nav__relposned_8h.html#a7b6c636104f5f9aba3048f49030e4389":[30,0,1,1,12,3,5],
 "nav__relposned_8h.html#a8343ef3aaa0932ccc23c634d3cf5fb4c":[30,0,1,1,12,3,7],
-"nav__relposned_8h.html#aa7260c780f418e6d3987ffe9703ec6e9":[30,0,1,1,12,3,3],
-"nav__relposned_8h.html#ac1beca0752f374e987c7ab5552eafe9c":[30,0,1,1,12,3,2],
-"nav__relposned_8h.html#ac84bcc2ef10f3660ac77ee25757c8145":[30,0,1,1,12,3,6]
+"nav__relposned_8h.html#aa7260c780f418e6d3987ffe9703ec6e9":[30,0,1,1,12,3,3]
 };

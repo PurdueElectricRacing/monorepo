@@ -49,7 +49,7 @@
 <script type="application/ecmascript">
 var viewWidth = 934;
 var viewHeight = 249;
-var sectionId = 'dynsection-10';
+var sectionId = 'dynsection-11';
 </script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
 <svg id="graph" class="graph">
@@ -157,7 +157,7 @@ var sectionId = 'dynsection-10';
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="phal__G4_2usart_2usart_8c.html#a27c45d01ef8393b2dbfdf1d31f74799d" target="_top" xlink:title="On the IDLE line, finish the frame, re&#45;arm if continuous, and notify the app.">
+<g id="a_Node000005"><a xlink:href="phal__G4_2usart_2usart_8c.html#a27c45d01ef8393b2dbfdf1d31f74799d" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="534.25,-185.25 399,-185.25 399,-166 534.25,-166 534.25,-185.25"/>
 <text text-anchor="middle" x="466.62" y="-171.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_HandleIRQ</text>
 </a>
@@ -175,7 +175,7 @@ var sectionId = 'dynsection-10';
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="phal__G4_2usart_2usart_8c.html#af1ae0dd646b0734a12ba38e4a47f40bc" target="_top" xlink:title="Start a DMA&#45;based reception, completed on the IDLE line.">
+<g id="a_Node000009"><a xlink:href="phal__G4_2usart_2usart_8c.html#a27947ba873516867132ffea0f99b4b2f" target="_top" xlink:title="Start a DMA&#45;based reception, completed on the IDLE line.">
 <polygon fill="white" stroke="#666666" points="514,-93.25 419.25,-93.25 419.25,-74 514,-74 514,-93.25"/>
 <text text-anchor="middle" x="466.62" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_rx</text>
 </a>
@@ -193,7 +193,7 @@ var sectionId = 'dynsection-10';
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="phal__G4_2usart_2usart_8c.html#a672de6b26342923923f57cb89300c9e0" target="_top" xlink:title="Start a DMA&#45;based transmission.">
+<g id="a_Node000012"><a xlink:href="phal__G4_2usart_2usart_8c.html#a33943e8be6febc697e21490055402832" target="_top" xlink:title="Start a DMA&#45;based transmission.">
 <polygon fill="white" stroke="#666666" points="514,-56.25 419.25,-56.25 419.25,-37 514,-37 514,-56.25"/>
 <text text-anchor="middle" x="466.62" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_tx</text>
 </a>
@@ -283,7 +283,7 @@ var sectionId = 'dynsection-10';
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="phal__G4_2usart_2usart_8c.html#ad2db9efef368135a8f151683e2a957e1" target="_top" xlink:title="Receive data, blocking until a one&#45;shot reception completes.">
+<g id="a_Node000011"><a xlink:href="phal__G4_2usart_2usart_8c.html#a95a3699af2ac8f96cffbfb71d9debccd" target="_top" xlink:title="Receive data, blocking until a one&#45;shot reception completes.">
 <polygon fill="white" stroke="#666666" points="363,-93.25 230.75,-93.25 230.75,-74 363,-74 363,-93.25"/>
 <text text-anchor="middle" x="296.88" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_rxBlocking</text>
 </a>
@@ -319,7 +319,7 @@ var sectionId = 'dynsection-10';
 <!-- Node16 -->
 <g id="Node000016" class="node">
 <title>Node16</title>
-<g id="a_Node000016"><a xlink:href="phal__G4_2usart_2usart_8c.html#ad11bf42d69736d0413541a2e4957a486" target="_top" xlink:title="Transmit data, blocking until the transfer completes.">
+<g id="a_Node000016"><a xlink:href="phal__G4_2usart_2usart_8c.html#a2ce62e7525c96728747c19d990872d76" target="_top" xlink:title="Transmit data, blocking until the transfer completes.">
 <polygon fill="white" stroke="#666666" points="363,-19.25 230.75,-19.25 230.75,0 363,0 363,-19.25"/>
 <text text-anchor="middle" x="296.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_txBlocking</text>
 </a>

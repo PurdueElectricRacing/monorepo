@@ -1,5 +1,7 @@
 var NAVTREEINDEX8 =
 {
+"izze__imu_8h.html#a2e28fa7e9cd5b450b5d139ba2b7069dc":[30,0,1,1,4,0,1],
+"izze__imu_8h.html#a2e28fa7e9cd5b450b5d139ba2b7069dca2f86fd9ac0869845d51024344c14701a":[30,0,1,1,4,0,1,1],
 "izze__imu_8h.html#a2e28fa7e9cd5b450b5d139ba2b7069dca491f7eaec12b4cfc50beff4e482985bf":[30,0,1,1,4,0,1,0],
 "izze__imu_8h.html#a2e28fa7e9cd5b450b5d139ba2b7069dca5a74a6eb7cd343977105ac363fbf5acf":[30,0,1,1,4,0,1,3],
 "izze__imu_8h.html#a2e28fa7e9cd5b450b5d139ba2b7069dcafcf3fcd5a46cbc7fa3e442a54c3316e5":[30,0,1,1,4,0,1,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX8 =
 "md_firmware_2common_2README.html#autotoc_md65":[17,3],
 "md_firmware_2common_2amk_2README.html":[13],
 "md_firmware_2common_2amk_2README.html#autotoc_md56":[13,0],
-"md_firmware_2common_2freertos_2README.html":[14],
-"md_firmware_2common_2heartbeat_2README.html":[15],
-"md_firmware_2common_2lerp__lut_2README.html":[16]
+"md_firmware_2common_2freertos_2README.html":[14]
 };

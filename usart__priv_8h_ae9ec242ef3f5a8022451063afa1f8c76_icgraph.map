@@ -1,0 +1,17 @@
+<map id="PHAL_USART_priv_flushRx" name="PHAL_USART_priv_flushRx">
+<area shape="rect" id="Node000001" title="Discard anything sitting in RDR and clear IDLE plus every RX error flag." alt="" coords="458,129,644,155"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2usart_2usart_8c.html#a27c45d01ef8393b2dbfdf1d31f74799d" title=" " alt="" coords="230,80,410,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="472,128,383,109,384,104,473,123"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2usart_2usart_8c.html#a27947ba873516867132ffea0f99b4b2f" title="Start a DMA&#45;based reception, completed on the IDLE line." alt="" coords="257,153,383,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="443,156,384,162,383,157,442,151"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2usart_2usart_8c.html#a7139cd4baabbbcbab0c1fe6d7d4ae1cc" title=" " alt="" coords="19,5,168,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="270,77,181,45,146,34,147,29,182,40,272,72"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2usart_2usart_8c.html#a0ca6fd0e6f77921dd1123539857ba0a8" title=" " alt="" coords="19,55,168,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="214,84,168,78,168,73,215,78"/>
+<area shape="rect" id="Node000005" href="$phal__G4_2usart_2usart_8c.html#a0d108a3468b2051548183ee5ca2158a0" title=" " alt="" coords="19,104,168,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="215,107,168,112,168,106,214,101"/>
+<area shape="rect" id="Node000007" href="$torque__vector_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="69,153,118,179"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="241,169,118,169,118,164,241,164"/>
+<area shape="rect" id="Node000008" href="$phal__G4_2usart_2usart_8c.html#a95a3699af2ac8f96cffbfb71d9debccd" title="Receive data, blocking until a one&#45;shot reception completes." alt="" coords="5,203,182,228"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="243,186,156,205,155,199,242,180"/>
+</map>

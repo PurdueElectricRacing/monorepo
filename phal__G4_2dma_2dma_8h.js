@@ -17,6 +17,7 @@ var phal__G4_2dma_2dma_8h =
     [ "PHAL_DMA_deinit", "phal__G4_2dma_2dma_8h.html#ae95c78d15b5cc38fc0d8efcc006c7106", null ],
     [ "PHAL_DMA_getChannelIdx", "phal__G4_2dma_2dma_8h.html#a536791c4fb7895e2c7a118bea07e0ca1", null ],
     [ "PHAL_DMA_getPeriph", "phal__G4_2dma_2dma_8h.html#a587d74a4667a9047e033a39a3a2bb11a", null ],
+    [ "PHAL_DMA_getRemaining", "phal__G4_2dma_2dma_8h.html#a8bb96df324a35a7917d5f061bda8ba00", null ],
     [ "PHAL_DMA_init", "phal__G4_2dma_2dma_8h.html#a44be3f4d5e3f90d9fa73d1b808185d53", null ],
     [ "PHAL_DMA_isBusy", "phal__G4_2dma_2dma_8h.html#acdcba34798f0fd085322e73f08f3a687", null ],
     [ "PHAL_DMA_isComplete", "phal__G4_2dma_2dma_8h.html#a18b74faf02571f50b8893ebb38b34c68", null ],

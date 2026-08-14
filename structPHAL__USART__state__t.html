@@ -115,8 +115,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aa7fb836f3a96b6d7c057eaccf48853d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96ea6d157ab360cedf0b58dcb7111373" id="r_a96ea6d157ab360cedf0b58dcb7111373"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96ea6d157ab360cedf0b58dcb7111373">rx_dma</a></td></tr>
 <tr class="separator:a96ea6d157ab360cedf0b58dcb7111373"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6be722a0c8b0081e7b7a1d2e24aa3dea" id="r_a6be722a0c8b0081e7b7a1d2e24aa3dea"><td class="memItemLeft" align="right" valign="top">volatile uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6be722a0c8b0081e7b7a1d2e24aa3dea">rxfer_size</a></td></tr>
-<tr class="separator:a6be722a0c8b0081e7b7a1d2e24aa3dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a562c206e2d6b73839262f4b0843da50f" id="r_a562c206e2d6b73839262f4b0843da50f"><td class="memItemLeft" align="right" valign="top">volatile uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a562c206e2d6b73839262f4b0843da50f">rxfer_size</a></td></tr>
+<tr class="separator:a562c206e2d6b73839262f4b0843da50f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9e14e9fd77d107ddcc29ce74cef25e7" id="r_ad9e14e9fd77d107ddcc29ce74cef25e7"><td class="memItemLeft" align="right" valign="top">volatile uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9e14e9fd77d107ddcc29ce74cef25e7">rx_len</a></td></tr>
+<tr class="separator:ad9e14e9fd77d107ddcc29ce74cef25e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17e3b155d6780b797706b3b252e92fec" id="r_a17e3b155d6780b797706b3b252e92fec"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17e3b155d6780b797706b3b252e92fec">tx_busy</a></td></tr>
 <tr class="separator:a17e3b155d6780b797706b3b252e92fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ba75044fbc3e820e9af3ac57866bf0a" id="r_a8ba75044fbc3e820e9af3ac57866bf0a"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ba75044fbc3e820e9af3ac57866bf0a">rx_busy</a></td></tr>
@@ -170,14 +172,29 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a6be722a0c8b0081e7b7a1d2e24aa3dea" name="a6be722a0c8b0081e7b7a1d2e24aa3dea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6be722a0c8b0081e7b7a1d2e24aa3dea">&#9670;&#160;</a></span>rxfer_size</h2>
+<a id="ad9e14e9fd77d107ddcc29ce74cef25e7" name="ad9e14e9fd77d107ddcc29ce74cef25e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9e14e9fd77d107ddcc29ce74cef25e7">&#9670;&#160;</a></span>rx_len</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">volatile uint32_t PHAL_USART_state_t::rxfer_size</td>
+          <td class="memname">volatile uint16_t PHAL_USART_state_t::rx_len</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>bytes actually received in the last completed frame </p>
+
+</div>
+</div>
+<a id="a562c206e2d6b73839262f4b0843da50f" name="a562c206e2d6b73839262f4b0843da50f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a562c206e2d6b73839262f4b0843da50f">&#9670;&#160;</a></span>rxfer_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">volatile uint16_t PHAL_USART_state_t::rxfer_size</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -196,7 +213,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>set when a TX is in flight, cleared by the DMA ISR </p>
+<p>set when a TX is in flight, cleared by the USART TC ISR </p>
 
 </div>
 </div>

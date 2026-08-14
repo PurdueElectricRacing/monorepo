@@ -155,6 +155,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa6b45775bb2ff8ed4bcb8e5bb1177521" id="r_aa6b45775bb2ff8ed4bcb8e5bb1177521"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6b45775bb2ff8ed4bcb8e5bb1177521">PHAL_DMA_priv_setLength</a> (DMA_Channel_TypeDef *channel, uint16_t length)</td></tr>
 <tr class="memdesc:aa6b45775bb2ff8ed4bcb8e5bb1177521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the transfer length (CNDTR)  <br /></td></tr>
 <tr class="separator:aa6b45775bb2ff8ed4bcb8e5bb1177521"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ca5883893809b211a84e7dbeeb3d30c" id="r_a1ca5883893809b211a84e7dbeeb3d30c"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ca5883893809b211a84e7dbeeb3d30c">PHAL_DMA_priv_getRemainingLength</a> (DMA_Channel_TypeDef *channel)</td></tr>
+<tr class="memdesc:a1ca5883893809b211a84e7dbeeb3d30c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read how many elements are still outstanding (CNDTR)  <br /></td></tr>
+<tr class="separator:a1ca5883893809b211a84e7dbeeb3d30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adeedf49b3d3fa7538445993d9127ba4e" id="r_adeedf49b3d3fa7538445993d9127ba4e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adeedf49b3d3fa7538445993d9127ba4e">PHAL_DMA_priv_readCompleteFlag</a> (DMA_TypeDef *periph, uint8_t channel_idx)</td></tr>
 <tr class="memdesc:adeedf49b3d3fa7538445993d9127ba4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the transfer-complete flag is currently set for (periph, channel_idx)  <br /></td></tr>
 <tr class="separator:adeedf49b3d3fa7538445993d9127ba4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -359,6 +362,30 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_ae2f74296c8912f0000fa614d49bd1ab8_icgraph.svg" width="648" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a1ca5883893809b211a84e7dbeeb3d30c" name="a1ca5883893809b211a84e7dbeeb3d30c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ca5883893809b211a84e7dbeeb3d30c">&#9670;&#160;</a></span>PHAL_DMA_priv_getRemainingLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t PHAL_DMA_priv_getRemainingLength </td>
+          <td>(</td>
+          <td class="paramtype">DMA_Channel_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>channel</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read how many elements are still outstanding (CNDTR) </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_a1ca5883893809b211a84e7dbeeb3d30c_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

@@ -1,5 +1,5 @@
 <map id="PHAL_USART_HandleDMA" name="PHAL_USART_HandleDMA">
-<area shape="rect" id="Node000001" title="On TX DMA completion, mark the transmitter free and clear the channel flags." alt="" coords="5,63,192,88"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,192,88"/>
 <area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" title="Disable the channel, stopping the transfer immediately." alt="" coords="295,5,420,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,59,239,41,279,32,280,37,240,46,159,65"/>
 <area shape="rect" id="Node000004" href="$usart__priv_8c.html#a4c8350b8935806d7ba0e20aa4430afbf" title="Clear all interrupt flags for the slot&#39;s TX DMA channel." alt="" coords="251,55,464,96"/>

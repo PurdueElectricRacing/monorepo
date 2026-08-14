@@ -141,6 +141,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ae67bbe03bc5a38db2301053b6d13ff54" id="r_ae67bbe03bc5a38db2301053b6d13ff54"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae67bbe03bc5a38db2301053b6d13ff54">PHAL_DMA_setLength</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle, uint16_t length)</td></tr>
 <tr class="memdesc:ae67bbe03bc5a38db2301053b6d13ff54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the transfer length (element count) for the next transfer.  <br /></td></tr>
 <tr class="separator:ae67bbe03bc5a38db2301053b6d13ff54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bb96df324a35a7917d5f061bda8ba00" id="r_a8bb96df324a35a7917d5f061bda8ba00"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bb96df324a35a7917d5f061bda8ba00">PHAL_DMA_getRemaining</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
+<tr class="memdesc:a8bb96df324a35a7917d5f061bda8ba00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of elements still left to transfer on this channel.  <br /></td></tr>
+<tr class="separator:a8bb96df324a35a7917d5f061bda8ba00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdcba34798f0fd085322e73f08f3a687" id="r_acdcba34798f0fd085322e73f08f3a687"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdcba34798f0fd085322e73f08f3a687">PHAL_DMA_isBusy</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
 <tr class="memdesc:acdcba34798f0fd085322e73f08f3a687"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the channel is currently enabled (transfer in progress, or in circular mode, running continuously)  <br /></td></tr>
 <tr class="separator:acdcba34798f0fd085322e73f08f3a687"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -347,6 +350,36 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8c_a587d74a4667a9047e033a39a3a2bb11a_icgraph.svg" width="352" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a8bb96df324a35a7917d5f061bda8ba00" name="a8bb96df324a35a7917d5f061bda8ba00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bb96df324a35a7917d5f061bda8ba00">&#9670;&#160;</a></span>PHAL_DMA_getRemaining()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t PHAL_DMA_getRemaining </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Number of elements still left to transfer on this channel. </p>
+<dl class="section return"><dt>Returns</dt><dd>elements outstanding, or 0 if handle was never successfully init-ed </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8c_a8bb96df324a35a7917d5f061bda8ba00_cgraph.svg" width="446" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8c_a8bb96df324a35a7917d5f061bda8ba00_icgraph.svg" width="615" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

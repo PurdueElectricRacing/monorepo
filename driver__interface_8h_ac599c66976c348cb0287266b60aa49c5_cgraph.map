@@ -1,108 +1,112 @@
 <map id="driver_interface_periodic" name="driver_interface_periodic">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,547,168,572"/>
-<area shape="rect" id="Node000002" href="$driver__interface_8c.html#a6ec7bb211c49e211d008f7c9bcdb2b8d" title=" " alt="" coords="231,203,354,228"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,545,274,240,278,243,98,547"/>
-<area shape="rect" id="Node000020" href="$freertos_8h.html#a124f0cbb3a309bf493cf9ffba7f27bc4" title="Delays the current task for the specified number of milliseconds." alt="" coords="217,472,369,498"/>
-<area shape="poly" id="edge29_Node000001_Node000020" title=" " alt="" coords="119,544,215,506,232,500,234,505,217,511,121,549"/>
-<area shape="rect" id="Node000021" href="$driver__interface_8c.html#a8699128e5c732cfae429638ad9986d71" title=" " alt="" coords="249,521,337,547"/>
-<area shape="poly" id="edge30_Node000001_Node000021" title=" " alt="" coords="168,547,233,539,234,544,169,552"/>
-<area shape="rect" id="Node000022" href="$lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece" title=" " alt="" coords="460,403,531,428"/>
-<area shape="poly" id="edge31_Node000001_Node000022" title=" " alt="" coords="98,544,146,500,179,477,215,457,274,437,336,424,444,413,445,419,337,429,276,442,217,462,182,481,149,505,102,548"/>
-<area shape="rect" id="Node000025" href="$lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9" title="Called periodically to send commands to the Nextion LCD display via USART." alt="" coords="238,571,348,596"/>
-<area shape="poly" id="edge39_Node000001_Node000025" title=" " alt="" coords="169,566,223,573,222,578,168,572"/>
-<area shape="rect" id="Node000040" href="$driver__interface_8c.html#ac7b90a0489ad0ee285e2ddbc1d76de4a" title=" " alt="" coords="232,644,354,670"/>
-<area shape="poly" id="edge56_Node000001_Node000040" title=" " alt="" coords="117,570,251,634,248,639,115,575"/>
-<area shape="rect" id="Node000044" href="$lcd_8c.html#a9ceeac8764aca15be67680bddfe70704" title="Updates current telemetry page by calling its handler if available." alt="" coords="216,693,370,719"/>
-<area shape="poly" id="edge60_Node000001_Node000044" title=" " alt="" coords="100,571,147,623,180,654,217,680,226,685,223,689,214,684,177,658,143,627,96,574"/>
-<area shape="rect" id="Node000045" href="$watchdog_8c.html#a9474fe50e70aad5e46b407a2cb66cfbf" title=" " alt="" coords="223,743,362,768"/>
-<area shape="poly" id="edge61_Node000001_Node000045" title=" " alt="" coords="96,572,113,604,140,646,175,691,217,729,223,733,220,737,214,734,171,695,136,649,109,606,92,574"/>
-<area shape="rect" id="Node000003" href="$lcd_8c.html#a685b031373d6540844434c69377f10d2" title="Advances to the next selectable page." alt="" coords="446,252,546,278"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="350,226,431,246,429,252,348,232"/>
-<area shape="rect" id="Node000004" href="$lcd_8c.html#aa13fa254ddd44573fd2a83874763cae8" title="Updates LCD display page." alt="" coords="674,252,764,278"/>
-<area shape="poly" id="edge12_Node000002_Node000004" title=" " alt="" coords="305,227,322,253,348,284,381,314,419,337,461,352,495,356,530,351,572,337,587,329,596,318,605,306,620,295,658,278,660,282,623,299,609,310,600,321,590,333,574,342,531,356,495,361,459,357,417,342,378,319,344,288,318,256,300,230"/>
-<area shape="rect" id="Node000008" href="$lcd_8c.html#ab328996325a24df855157cc23430de3d" title="Moves to the previous selectable page." alt="" coords="456,301,535,327"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="315,227,361,257,419,288,442,297,440,302,417,293,358,261,312,231"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,584,168,610"/>
+<area shape="rect" id="Node000002" href="$driver__interface_8c.html#a6ec7bb211c49e211d008f7c9bcdb2b8d" title=" " alt="" coords="231,252,354,278"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,582,273,290,278,292,98,585"/>
+<area shape="rect" id="Node000020" href="$freertos_8h.html#a124f0cbb3a309bf493cf9ffba7f27bc4" title="Delays the current task for the specified number of milliseconds." alt="" coords="217,509,369,535"/>
+<area shape="poly" id="edge29_Node000001_Node000020" title=" " alt="" coords="119,581,215,544,232,538,234,543,217,549,121,586"/>
+<area shape="rect" id="Node000021" href="$driver__interface_8c.html#a8699128e5c732cfae429638ad9986d71" title=" " alt="" coords="249,559,337,584"/>
+<area shape="poly" id="edge30_Node000001_Node000021" title=" " alt="" coords="168,584,233,576,234,581,169,589"/>
+<area shape="rect" id="Node000022" href="$lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece" title=" " alt="" coords="460,5,531,31"/>
+<area shape="poly" id="edge31_Node000001_Node000022" title=" " alt="" coords="88,583,100,525,125,438,162,336,186,286,213,238,259,172,300,123,349,83,417,40,444,27,446,32,419,45,352,87,304,127,263,175,218,241,191,288,167,338,130,439,106,527,93,584"/>
+<area shape="rect" id="Node000025" href="$lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9" title="Called periodically to send commands to the Nextion LCD display via USART." alt="" coords="238,608,348,634"/>
+<area shape="poly" id="edge39_Node000001_Node000025" title=" " alt="" coords="169,604,223,610,222,615,168,609"/>
+<area shape="rect" id="Node000042" href="$driver__interface_8c.html#ac7b90a0489ad0ee285e2ddbc1d76de4a" title=" " alt="" coords="232,657,354,683"/>
+<area shape="poly" id="edge58_Node000001_Node000042" title=" " alt="" coords="122,608,217,644,234,650,232,655,215,649,120,613"/>
+<area shape="rect" id="Node000046" href="$lcd_8c.html#a9ceeac8764aca15be67680bddfe70704" title="Updates current telemetry page by calling its handler if available." alt="" coords="216,707,370,732"/>
+<area shape="poly" id="edge62_Node000001_Node000046" title=" " alt="" coords="103,608,152,650,183,673,217,693,227,698,225,703,214,698,180,677,148,654,100,612"/>
+<area shape="rect" id="Node000047" href="$watchdog_8c.html#a9474fe50e70aad5e46b407a2cb66cfbf" title=" " alt="" coords="223,756,362,782"/>
+<area shape="poly" id="edge63_Node000001_Node000047" title=" " alt="" coords="98,609,143,673,177,710,217,743,224,747,222,752,214,747,174,714,139,676,93,612"/>
+<area shape="rect" id="Node000003" href="$lcd_8c.html#a685b031373d6540844434c69377f10d2" title="Advances to the next selectable page." alt="" coords="446,104,546,130"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="302,250,347,196,380,165,417,139,430,132,432,136,419,143,383,169,351,200,306,253"/>
+<area shape="rect" id="Node000004" href="$lcd_8c.html#aa13fa254ddd44573fd2a83874763cae8" title="Updates LCD display page." alt="" coords="674,197,764,223"/>
+<area shape="poly" id="edge12_Node000002_Node000004" title=" " alt="" coords="340,276,389,287,447,295,510,296,573,288,605,277,635,262,687,230,690,235,638,267,607,282,574,293,511,302,447,300,388,292,339,281"/>
+<area shape="rect" id="Node000008" href="$lcd_8c.html#ab328996325a24df855157cc23430de3d" title="Moves to the previous selectable page." alt="" coords="456,252,535,278"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="355,262,440,262,440,268,355,268"/>
 <area shape="rect" id="Node000009" href="$lcd_8c.html#a486267210dfc8118e23e6b1bc6090286" title=" " alt="" coords="452,153,539,179"/>
-<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="348,199,437,178,438,183,350,205"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="312,249,358,219,417,188,437,180,439,185,419,193,361,224,315,254"/>
 <area shape="rect" id="Node000010" href="$lcd_8c.html#a75e03afeaf9e13a6399279ed36c0c59f" title=" " alt="" coords="460,203,531,228"/>
-<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="355,213,445,213,445,218,355,218"/>
-<area shape="rect" id="Node000011" href="$lcd_8c.html#ac609e22e16c9e8ab1b73acd57e5b7664" title=" " alt="" coords="454,5,537,31"/>
-<area shape="poly" id="edge11_Node000002_Node000011" title=" " alt="" coords="297,201,314,169,339,125,374,80,416,40,439,28,441,33,420,44,378,83,344,128,318,171,302,204"/>
-<area shape="rect" id="Node000012" href="$vcu_8c.html#aad23511a3a78342b43962d7c16820964" title=" " alt="" coords="434,55,557,80"/>
-<area shape="poly" id="edge13_Node000002_Node000012" title=" " alt="" coords="302,200,347,147,380,116,417,89,425,85,428,89,419,94,383,120,351,151,306,204"/>
-<area shape="rect" id="Node000018" href="$vcu_8c.html#a151705cf194320d602ae7dc3e2e25a8e" title=" " alt="" coords="433,104,558,130"/>
-<area shape="poly" id="edge25_Node000002_Node000018" title=" " alt="" coords="312,200,358,170,417,138,431,133,433,138,419,143,361,174,315,204"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="546,262,658,262,658,268,546,268"/>
-<area shape="rect" id="Node000005" href="$nextion_8c.html#ac5753abcb75fb40221a51bcdec98bbd4" title="Sets the current page on the Nextion display." alt="" coords="929,205,1032,231"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="764,254,913,227,914,233,765,259"/>
-<area shape="rect" id="Node000006" href="$strbuf_8c.html#a15380dc153a462b38a9b54f274c9c3b5" title="Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended." alt="" coords="1144,205,1247,231"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1033,216,1128,216,1128,221,1033,221"/>
-<area shape="rect" id="Node000007" href="$strbuf_8c.html#a52ce36e86451c208f1846411e1f67dcf" title="Appends formatted data to the buffer using printf&#45;style formatting. !" alt="" coords="1150,156,1241,182"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1032,205,1095,192,1135,182,1136,187,1097,197,1033,211"/>
-<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="535,303,658,275,659,281,537,308"/>
-<area shape="rect" id="Node000013" href="$vcu_8c.html#a9ed43192c6ad8509d1fdfcf32ab26a4c" title=" " alt="" coords="650,56,788,82"/>
-<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="558,65,634,66,634,71,558,71"/>
-<area shape="rect" id="Node000017" href="$vcu_8c.html#a6caabd0f1b9de183fbb9454dd432bbc7" title=" " alt="" coords="636,105,802,131"/>
-<area shape="poly" id="edge24_Node000012_Node000017" title=" " alt="" coords="556,78,645,99,644,104,555,84"/>
-<area shape="rect" id="Node000014" href="$nextion_8c.html#ab2a89fd8e292338a6e570a41a698ad3a" title="Sets the text of a Nextion display object." alt="" coords="931,156,1030,182"/>
-<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="790,78,818,91,834,104,843,118,851,131,866,143,891,153,917,160,915,165,889,158,863,147,847,134,838,120,830,107,815,95,788,83"/>
-<area shape="rect" id="Node000015" href="$nextion_8c.html#a8af8629d8160abf996231ff267e43564" title="Sets the text of a Nextion display object using printf&#45;style formatting." alt="" coords="902,57,1059,83"/>
-<area shape="poly" id="edge18_Node000013_Node000015" title=" " alt="" coords="789,67,886,67,886,72,789,72"/>
-<area shape="rect" id="Node000016" href="$nextion_8c.html#ac7e3e9fc4674d17281069e97b8a5384d" title="Sets a value to a specified object on the Nextion display." alt="" coords="927,107,1034,132"/>
-<area shape="poly" id="edge21_Node000013_Node000016" title=" " alt="" coords="789,80,913,104,912,109,788,85"/>
-<area shape="poly" id="edge16_Node000014_Node000006" title=" " alt="" coords="1030,176,1097,190,1130,198,1129,204,1095,195,1029,181"/>
-<area shape="poly" id="edge17_Node000014_Node000007" title=" " alt="" coords="1030,166,1135,166,1135,172,1030,172"/>
-<area shape="poly" id="edge19_Node000015_Node000006" title=" " alt="" coords="1060,74,1080,81,1098,92,1110,104,1117,117,1124,142,1130,167,1146,192,1148,194,1144,198,1142,196,1125,169,1119,143,1112,119,1106,107,1094,96,1077,86,1058,79"/>
-<area shape="poly" id="edge20_Node000015_Node000007" title=" " alt="" coords="1060,79,1097,92,1138,116,1172,143,1168,147,1135,120,1095,97,1059,84"/>
-<area shape="poly" id="edge22_Node000016_Node000006" title=" " alt="" coords="1035,121,1066,128,1097,141,1113,153,1123,166,1132,179,1146,192,1150,195,1147,200,1142,196,1128,182,1119,169,1110,157,1095,146,1065,133,1034,126"/>
-<area shape="poly" id="edge23_Node000016_Node000007" title=" " alt="" coords="1035,127,1097,141,1136,151,1135,156,1095,146,1034,133"/>
-<area shape="poly" id="edge27_Node000018_Node000013" title=" " alt="" coords="558,101,641,83,642,88,559,106"/>
-<area shape="poly" id="edge28_Node000018_Node000017" title=" " alt="" coords="558,115,620,115,620,120,558,120"/>
-<area shape="rect" id="Node000019" href="$vcu_8c.html#aee9c1d376f08e7b4159c70ada5b8c4ab" title=" " alt="" coords="652,155,786,196"/>
-<area shape="poly" id="edge26_Node000018_Node000019" title=" " alt="" coords="548,128,638,151,636,157,547,133"/>
-<area shape="poly" id="edge38_Node000022_Node000004" title=" " alt="" coords="531,404,552,395,571,382,588,360,594,339,602,317,620,295,638,283,658,274,660,279,641,287,623,299,606,319,599,341,592,363,575,385,555,399,533,409"/>
-<area shape="rect" id="Node000023" href="$nextion_8c.html#ae7d537c10e1e85e6537850a02a315fd7" title="Sets the baud rate for the Nextion display." alt="" coords="929,255,1032,280"/>
-<area shape="poly" id="edge32_Node000022_Node000023" title=" " alt="" coords="518,400,564,374,620,349,698,324,776,303,913,275,914,280,778,308,699,329,622,354,567,379,520,404"/>
-<area shape="rect" id="Node000024" href="$nextion_8c.html#acab8846ee36ca76ce5019adef4d04faf" title="Sets the brightness of the Nextion display." alt="" coords="913,304,1048,330"/>
-<area shape="poly" id="edge35_Node000022_Node000024" title=" " alt="" coords="531,406,898,331,899,336,532,411"/>
-<area shape="poly" id="edge33_Node000023_Node000006" title=" " alt="" coords="1032,255,1095,241,1129,233,1130,238,1097,246,1033,260"/>
-<area shape="poly" id="edge34_Node000023_Node000007" title=" " alt="" coords="1032,261,1064,254,1095,241,1110,230,1119,218,1128,205,1142,191,1147,187,1150,192,1146,195,1132,208,1123,221,1113,234,1097,246,1066,259,1033,266"/>
-<area shape="poly" id="edge36_Node000024_Node000006" title=" " alt="" coords="1048,305,1095,290,1135,267,1168,240,1172,244,1138,271,1097,295,1049,310"/>
-<area shape="poly" id="edge37_Node000024_Node000007" title=" " alt="" coords="1048,311,1072,303,1094,291,1106,280,1112,268,1119,244,1125,218,1142,191,1144,189,1148,193,1146,195,1130,220,1124,245,1117,270,1110,283,1098,295,1074,308,1049,316"/>
-<area shape="rect" id="Node000026" href="$phal__G4_2usart_2usart_8c.html#a672de6b26342923923f57cb89300c9e0" title="Start a DMA&#45;based transmission." alt="" coords="432,499,559,524"/>
-<area shape="poly" id="edge40_Node000025_Node000026" title=" " alt="" coords="340,568,369,557,417,533,432,527,434,532,419,538,371,562,342,573"/>
-<area shape="rect" id="Node000038" href="$phal__G4_2usart_2usart_8c.html#ae06f65156a95d60d0a0e851ee88ce77b" title="Check whether a DMA transmission is still in progress." alt="" coords="418,548,573,574"/>
-<area shape="poly" id="edge54_Node000025_Node000038" title=" " alt="" coords="348,575,402,569,403,574,349,580"/>
-<area shape="rect" id="Node000039" href="$strbuf_8c.html#a64d216f0276598d2d7f68c8a0c453fb7" title="Clears the buffer by resetting length to 0." alt="" coords="451,597,540,623"/>
-<area shape="poly" id="edge55_Node000025_Node000039" title=" " alt="" coords="349,588,436,600,435,605,348,593"/>
-<area shape="rect" id="Node000027" href="$phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="650,453,788,479"/>
-<area shape="poly" id="edge41_Node000026_Node000027" title=" " alt="" coords="559,496,637,480,638,485,560,501"/>
-<area shape="rect" id="Node000032" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="640,503,798,528"/>
-<area shape="poly" id="edge46_Node000026_Node000032" title=" " alt="" coords="559,510,625,511,624,516,559,515"/>
-<area shape="rect" id="Node000034" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="621,552,817,578"/>
-<area shape="poly" id="edge49_Node000026_Node000034" title=" " alt="" coords="553,522,648,545,647,550,552,528"/>
-<area shape="rect" id="Node000035" href="$phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" title="Disable the channel, stopping the transfer immediately." alt="" coords="656,404,782,430"/>
-<area shape="poly" id="edge50_Node000026_Node000035" title=" " alt="" coords="515,496,562,467,620,438,641,431,642,436,622,443,564,472,518,501"/>
-<area shape="rect" id="Node000036" href="$usart__priv_8c.html#a5d0be78aa73766f8ccbd81cdf1e9e583" title=" " alt="" coords="629,601,809,627"/>
-<area shape="poly" id="edge52_Node000026_Node000036" title=" " alt="" coords="554,523,575,533,590,547,599,562,608,575,623,588,631,592,628,597,620,592,604,579,595,565,586,551,572,538,551,527"/>
-<area shape="rect" id="Node000037" href="$usart__priv_8c.html#ab926b671232d93cec48ab8f7b1b19887" title="Enable the transmitter and its DMA request line (CR3.DMAT, CR1.TE)." alt="" coords="627,651,811,676"/>
-<area shape="poly" id="edge53_Node000026_Node000037" title=" " alt="" coords="559,523,575,533,587,547,594,560,600,587,605,613,612,626,623,638,627,640,624,645,620,641,607,629,600,615,594,588,589,562,583,550,572,538,556,527"/>
-<area shape="rect" id="Node000028" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="886,453,1074,479"/>
-<area shape="poly" id="edge42_Node000027_Node000028" title=" " alt="" coords="788,464,870,464,870,469,788,469"/>
-<area shape="rect" id="Node000029" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="872,355,1088,380"/>
-<area shape="poly" id="edge43_Node000027_Node000029" title=" " alt="" coords="787,452,815,440,830,428,838,415,848,402,863,389,874,384,876,389,866,394,851,405,843,418,834,432,818,444,789,457"/>
-<area shape="rect" id="Node000030" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="874,404,1087,430"/>
-<area shape="poly" id="edge44_Node000027_Node000030" title=" " alt="" coords="788,451,893,431,894,436,789,456"/>
-<area shape="rect" id="Node000031" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="887,503,1074,528"/>
-<area shape="poly" id="edge45_Node000027_Node000031" title=" " alt="" coords="789,477,894,497,893,502,788,482"/>
-<area shape="poly" id="edge48_Node000032_Node000031" title=" " alt="" coords="799,513,872,513,872,518,799,518"/>
-<area shape="rect" id="Node000033" href="$dma__priv_8c.html#a6a38d32b32c9d8a52740339bf2cb1e19" title="True if the channel is currently enabled." alt="" coords="865,552,1096,578"/>
-<area shape="poly" id="edge47_Node000032_Node000033" title=" " alt="" coords="792,526,894,546,893,551,791,532"/>
-<area shape="poly" id="edge51_Node000035_Node000029" title=" " alt="" coords="782,402,893,381,894,386,783,408"/>
-<area shape="rect" id="Node000041" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="462,647,529,672"/>
-<area shape="poly" id="edge57_Node000040_Node000041" title=" " alt="" coords="354,655,447,656,447,662,354,660"/>
-<area shape="rect" id="Node000042" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="456,696,536,722"/>
-<area shape="poly" id="edge58_Node000040_Node000042" title=" " alt="" coords="346,668,441,692,440,697,345,673"/>
-<area shape="rect" id="Node000043" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="433,745,558,771"/>
-<area shape="poly" id="edge59_Node000040_Node000043" title=" " alt="" coords="350,668,371,679,387,692,396,706,405,719,420,732,427,736,424,741,416,736,401,723,392,709,383,696,369,683,348,673"/>
+<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="348,249,444,225,446,230,350,254"/>
+<area shape="rect" id="Node000011" href="$lcd_8c.html#ac609e22e16c9e8ab1b73acd57e5b7664" title=" " alt="" coords="454,55,537,80"/>
+<area shape="poly" id="edge11_Node000002_Node000011" title=" " alt="" coords="297,251,314,218,339,175,374,129,416,89,439,77,441,82,420,94,378,132,344,178,318,221,302,253"/>
+<area shape="rect" id="Node000012" href="$vcu_8c.html#aad23511a3a78342b43962d7c16820964" title=" " alt="" coords="434,353,557,379"/>
+<area shape="poly" id="edge13_Node000002_Node000012" title=" " alt="" coords="317,276,419,332,448,345,445,350,417,337,315,280"/>
+<area shape="rect" id="Node000018" href="$vcu_8c.html#a151705cf194320d602ae7dc3e2e25a8e" title=" " alt="" coords="433,403,558,428"/>
+<area shape="poly" id="edge25_Node000002_Node000018" title=" " alt="" coords="306,276,351,331,383,362,419,389,427,394,425,398,417,394,380,366,347,334,301,280"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="544,128,574,138,680,187,678,192,572,143,543,133"/>
+<area shape="rect" id="Node000005" href="$nextion_8c.html#ac5753abcb75fb40221a51bcdec98bbd4" title="Sets the current page on the Nextion display." alt="" coords="929,197,1032,223"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="765,208,913,208,913,213,765,213"/>
+<area shape="rect" id="Node000006" href="$strbuf_8c.html#a15380dc153a462b38a9b54f274c9c3b5" title="Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended." alt="" coords="1144,197,1247,223"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1033,208,1128,208,1128,213,1033,213"/>
+<area shape="rect" id="Node000007" href="$strbuf_8c.html#a52ce36e86451c208f1846411e1f67dcf" title="Appends formatted data to the buffer using printf&#45;style formatting. !" alt="" coords="1150,247,1241,272"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1033,218,1097,232,1136,241,1135,246,1095,237,1032,223"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="535,253,658,222,659,227,537,258"/>
+<area shape="rect" id="Node000013" href="$vcu_8c.html#a9ed43192c6ad8509d1fdfcf32ab26a4c" title=" " alt="" coords="650,345,788,371"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="558,361,634,359,634,364,558,367"/>
+<area shape="rect" id="Node000017" href="$vcu_8c.html#a6caabd0f1b9de183fbb9454dd432bbc7" title=" " alt="" coords="636,296,802,322"/>
+<area shape="poly" id="edge24_Node000012_Node000017" title=" " alt="" coords="545,350,621,330,648,323,649,328,622,335,547,355"/>
+<area shape="rect" id="Node000014" href="$nextion_8c.html#ab2a89fd8e292338a6e570a41a698ad3a" title="Sets the text of a Nextion display object." alt="" coords="931,247,1030,272"/>
+<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="788,344,815,332,830,320,838,307,848,294,863,281,889,270,915,263,916,268,890,275,866,286,851,297,843,310,834,324,818,336,790,349"/>
+<area shape="rect" id="Node000015" href="$nextion_8c.html#a8af8629d8160abf996231ff267e43564" title="Sets the text of a Nextion display object using printf&#45;style formatting." alt="" coords="902,296,1059,322"/>
+<area shape="poly" id="edge18_Node000013_Node000015" title=" " alt="" coords="788,343,893,322,894,328,789,348"/>
+<area shape="rect" id="Node000016" href="$nextion_8c.html#ac7e3e9fc4674d17281069e97b8a5384d" title="Sets a value to a specified object on the Nextion display." alt="" coords="927,345,1034,371"/>
+<area shape="poly" id="edge21_Node000013_Node000016" title=" " alt="" coords="789,356,912,356,912,361,789,361"/>
+<area shape="poly" id="edge16_Node000014_Node000006" title=" " alt="" coords="1029,247,1095,233,1129,225,1130,230,1097,238,1030,253"/>
+<area shape="poly" id="edge17_Node000014_Node000007" title=" " alt="" coords="1030,257,1135,257,1135,262,1030,262"/>
+<area shape="poly" id="edge19_Node000015_Node000006" title=" " alt="" coords="1059,297,1095,283,1110,271,1119,259,1128,246,1142,232,1147,229,1150,233,1146,236,1132,249,1123,262,1113,275,1097,287,1061,302"/>
+<area shape="poly" id="edge20_Node000015_Node000007" title=" " alt="" coords="1048,293,1095,282,1135,273,1136,278,1097,287,1049,298"/>
+<area shape="poly" id="edge22_Node000016_Node000006" title=" " alt="" coords="1033,354,1065,347,1094,332,1106,321,1112,310,1119,285,1125,259,1142,232,1144,230,1148,234,1146,236,1130,261,1124,286,1117,312,1110,324,1098,336,1067,352,1034,360"/>
+<area shape="poly" id="edge23_Node000016_Node000007" title=" " alt="" coords="1033,350,1064,343,1095,332,1135,308,1168,281,1172,285,1138,312,1097,337,1066,348,1034,355"/>
+<area shape="poly" id="edge27_Node000018_Node000013" title=" " alt="" coords="548,399,651,373,652,378,549,405"/>
+<area shape="poly" id="edge28_Node000018_Node000017" title=" " alt="" coords="552,400,572,389,586,375,595,361,604,345,620,331,628,326,630,331,623,335,608,349,599,363,591,379,575,394,554,404"/>
+<area shape="rect" id="Node000019" href="$vcu_8c.html#aee9c1d376f08e7b4159c70ada5b8c4ab" title=" " alt="" coords="652,395,786,436"/>
+<area shape="poly" id="edge26_Node000018_Node000019" title=" " alt="" coords="558,413,637,413,637,418,558,418"/>
+<area shape="poly" id="edge38_Node000022_Node000004" title=" " alt="" coords="533,21,555,28,575,40,594,62,602,84,609,107,623,131,654,161,686,186,682,191,650,165,619,134,604,109,597,86,589,65,572,44,552,33,531,26"/>
+<area shape="rect" id="Node000023" href="$nextion_8c.html#ae7d537c10e1e85e6537850a02a315fd7" title="Sets the baud rate for the Nextion display." alt="" coords="929,99,1032,124"/>
+<area shape="poly" id="edge32_Node000022_Node000023" title=" " alt="" coords="532,22,914,96,913,101,531,27"/>
+<area shape="rect" id="Node000024" href="$nextion_8c.html#acab8846ee36ca76ce5019adef4d04faf" title="Sets the brightness of the Nextion display." alt="" coords="913,148,1048,174"/>
+<area shape="poly" id="edge35_Node000022_Node000024" title=" " alt="" coords="533,23,575,40,589,51,599,61,608,72,623,81,687,107,740,117,795,123,865,134,900,142,899,147,864,139,795,128,739,123,685,112,620,86,605,76,595,65,586,55,572,45,531,28"/>
+<area shape="poly" id="edge33_Node000023_Node000006" title=" " alt="" coords="1033,115,1065,122,1097,133,1138,157,1172,185,1168,189,1135,162,1095,138,1064,127,1032,120"/>
+<area shape="poly" id="edge34_Node000023_Node000007" title=" " alt="" coords="1033,110,1067,117,1098,133,1110,145,1117,158,1124,183,1130,208,1146,234,1148,235,1144,239,1142,237,1125,210,1119,184,1112,160,1106,149,1094,138,1065,122,1032,115"/>
+<area shape="poly" id="edge36_Node000024_Node000006" title=" " alt="" coords="1049,172,1097,182,1130,190,1129,196,1095,187,1048,177"/>
+<area shape="poly" id="edge37_Node000024_Node000007" title=" " alt="" coords="1049,165,1074,172,1097,183,1113,195,1123,207,1132,220,1146,233,1150,237,1147,241,1142,238,1128,224,1119,211,1110,198,1095,187,1072,177,1047,170"/>
+<area shape="rect" id="Node000026" href="$phal__G4_2usart_2usart_8c.html#a33943e8be6febc697e21490055402832" title="Start a DMA&#45;based transmission." alt="" coords="432,533,559,559"/>
+<area shape="poly" id="edge40_Node000025_Node000026" title=" " alt="" coords="341,605,369,594,417,568,431,562,433,567,419,573,371,599,343,610"/>
+<area shape="rect" id="Node000040" href="$phal__G4_2usart_2usart_8c.html#ae06f65156a95d60d0a0e851ee88ce77b" title="Check whether a transmission is still in progress." alt="" coords="418,583,573,608"/>
+<area shape="poly" id="edge56_Node000025_Node000040" title=" " alt="" coords="348,611,402,604,403,610,349,617"/>
+<area shape="rect" id="Node000041" href="$strbuf_8c.html#a64d216f0276598d2d7f68c8a0c453fb7" title="Clears the buffer by resetting length to 0." alt="" coords="451,632,540,658"/>
+<area shape="poly" id="edge57_Node000025_Node000041" title=" " alt="" coords="349,625,436,635,435,640,348,630"/>
+<area shape="rect" id="Node000027" href="$phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="650,509,788,535"/>
+<area shape="poly" id="edge41_Node000026_Node000027" title=" " alt="" coords="559,537,635,529,635,534,559,542"/>
+<area shape="rect" id="Node000032" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="640,559,798,584"/>
+<area shape="poly" id="edge46_Node000026_Node000032" title=" " alt="" coords="559,551,625,558,624,563,559,556"/>
+<area shape="rect" id="Node000034" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="621,608,817,634"/>
+<area shape="poly" id="edge49_Node000026_Node000034" title=" " alt="" coords="546,557,574,568,599,581,622,594,640,601,638,606,620,599,596,586,572,573,544,562"/>
+<area shape="rect" id="Node000035" href="$phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" title="Disable the channel, stopping the transfer immediately." alt="" coords="656,460,782,486"/>
+<area shape="poly" id="edge50_Node000026_Node000035" title=" " alt="" coords="526,530,620,494,643,488,644,493,622,499,528,535"/>
+<area shape="rect" id="Node000036" href="$usart__priv_8c.html#a5d0be78aa73766f8ccbd81cdf1e9e583" title=" " alt="" coords="629,657,809,683"/>
+<area shape="poly" id="edge52_Node000026_Node000036" title=" " alt="" coords="556,557,575,568,592,588,600,608,607,626,623,644,628,648,626,652,620,648,602,629,595,609,587,590,572,572,554,562"/>
+<area shape="rect" id="Node000037" href="$usart__priv_8c.html#ab926b671232d93cec48ab8f7b1b19887" title=" " alt="" coords="627,707,811,732"/>
+<area shape="poly" id="edge53_Node000026_Node000037" title=" " alt="" coords="559,557,575,568,588,584,595,601,600,633,604,664,610,679,623,694,626,696,623,700,619,697,606,682,599,666,594,634,590,602,584,587,572,572,556,562"/>
+<area shape="rect" id="Node000028" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="886,509,1074,535"/>
+<area shape="poly" id="edge42_Node000027_Node000028" title=" " alt="" coords="788,520,870,520,870,525,788,525"/>
+<area shape="rect" id="Node000029" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="872,411,1088,436"/>
+<area shape="poly" id="edge43_Node000027_Node000029" title=" " alt="" coords="787,508,815,496,830,484,838,471,848,458,863,445,874,440,876,445,866,450,851,461,843,474,834,488,818,500,789,513"/>
+<area shape="rect" id="Node000030" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="874,460,1087,486"/>
+<area shape="poly" id="edge44_Node000027_Node000030" title=" " alt="" coords="788,507,893,487,894,492,789,512"/>
+<area shape="rect" id="Node000031" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="887,559,1074,584"/>
+<area shape="poly" id="edge45_Node000027_Node000031" title=" " alt="" coords="789,533,894,553,893,558,788,538"/>
+<area shape="poly" id="edge48_Node000032_Node000031" title=" " alt="" coords="799,569,872,569,872,574,799,574"/>
+<area shape="rect" id="Node000033" href="$dma__priv_8c.html#a6a38d32b32c9d8a52740339bf2cb1e19" title="True if the channel is currently enabled." alt="" coords="865,608,1096,634"/>
+<area shape="poly" id="edge47_Node000032_Node000033" title=" " alt="" coords="792,582,894,602,893,607,791,588"/>
+<area shape="poly" id="edge51_Node000035_Node000029" title=" " alt="" coords="782,458,893,437,894,442,783,464"/>
+<area shape="rect" id="Node000038" href="$usart__priv_8c.html#a426fc303e25b8516df9cd1a926f628ff" title=" " alt="" coords="935,731,1026,756"/>
+<area shape="poly" id="edge54_Node000037_Node000038" title=" " alt="" coords="812,725,920,735,919,741,811,731"/>
+<area shape="rect" id="Node000039" href="$usart__priv_8c.html#aa00be98e4959c28c2d915d3159cb65fd" title=" " alt="" coords="940,681,1021,707"/>
+<area shape="poly" id="edge55_Node000037_Node000039" title=" " alt="" coords="811,708,924,697,924,702,812,713"/>
+<area shape="rect" id="Node000043" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="462,681,529,707"/>
+<area shape="poly" id="edge59_Node000042_Node000043" title=" " alt="" coords="355,675,448,686,447,691,354,680"/>
+<area shape="rect" id="Node000044" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="456,731,536,756"/>
+<area shape="poly" id="edge60_Node000042_Node000044" title=" " alt="" coords="342,681,371,692,419,717,441,725,440,730,417,722,369,697,340,686"/>
+<area shape="rect" id="Node000045" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="433,780,558,806"/>
+<area shape="poly" id="edge61_Node000042_Node000045" title=" " alt="" coords="353,681,372,692,389,711,396,731,404,749,420,767,424,770,421,774,416,771,399,752,392,733,384,714,368,696,350,686"/>
 </map>

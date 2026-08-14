@@ -131,24 +131,27 @@ Functions</h2></td></tr>
 <tr class="memitem:a111a81e667da7f8dfcf9d39836664970" id="r_a111a81e667da7f8dfcf9d39836664970"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a111a81e667da7f8dfcf9d39836664970">PHAL_USART_init</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint32_t baud_rate, const uint32_t clock_rate)</td></tr>
 <tr class="memdesc:a111a81e667da7f8dfcf9d39836664970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a USART peripheral for DMA-driven communication.  <br /></td></tr>
 <tr class="separator:a111a81e667da7f8dfcf9d39836664970"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a672de6b26342923923f57cb89300c9e0" id="r_a672de6b26342923923f57cb89300c9e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a672de6b26342923923f57cb89300c9e0">PHAL_USART_tx</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint8_t *data, uint32_t len)</td></tr>
-<tr class="memdesc:a672de6b26342923923f57cb89300c9e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a transmission using DMA.  <br /></td></tr>
-<tr class="separator:a672de6b26342923923f57cb89300c9e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1ae0dd646b0734a12ba38e4a47f40bc" id="r_af1ae0dd646b0734a12ba38e4a47f40bc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1ae0dd646b0734a12ba38e4a47f40bc">PHAL_USART_rx</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint8_t *data, uint32_t len, bool cont)</td></tr>
-<tr class="memdesc:af1ae0dd646b0734a12ba38e4a47f40bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a reception using DMA of a specific length.  <br /></td></tr>
-<tr class="separator:af1ae0dd646b0734a12ba38e4a47f40bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33943e8be6febc697e21490055402832" id="r_a33943e8be6febc697e21490055402832"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33943e8be6febc697e21490055402832">PHAL_USART_tx</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint8_t *data, uint16_t len)</td></tr>
+<tr class="memdesc:a33943e8be6febc697e21490055402832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a transmission using DMA.  <br /></td></tr>
+<tr class="separator:a33943e8be6febc697e21490055402832"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27947ba873516867132ffea0f99b4b2f" id="r_a27947ba873516867132ffea0f99b4b2f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27947ba873516867132ffea0f99b4b2f">PHAL_USART_rx</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint8_t *data, uint16_t len, bool cont)</td></tr>
+<tr class="memdesc:a27947ba873516867132ffea0f99b4b2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a reception using DMA of a specific length.  <br /></td></tr>
+<tr class="separator:a27947ba873516867132ffea0f99b4b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae06f65156a95d60d0a0e851ee88ce77b" id="r_ae06f65156a95d60d0a0e851ee88ce77b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae06f65156a95d60d0a0e851ee88ce77b">PHAL_USART_txBusy</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph)</td></tr>
 <tr class="memdesc:ae06f65156a95d60d0a0e851ee88ce77b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the USART peripheral is currently transmitting data.  <br /></td></tr>
 <tr class="separator:ae06f65156a95d60d0a0e851ee88ce77b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad11bf42d69736d0413541a2e4957a486" id="r_ad11bf42d69736d0413541a2e4957a486"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad11bf42d69736d0413541a2e4957a486">PHAL_USART_txBlocking</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint8_t *data, uint32_t len)</td></tr>
-<tr class="memdesc:ad11bf42d69736d0413541a2e4957a486"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmit data, blocking until the transfer completes.  <br /></td></tr>
-<tr class="separator:ad11bf42d69736d0413541a2e4957a486"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2db9efef368135a8f151683e2a957e1" id="r_ad2db9efef368135a8f151683e2a957e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2db9efef368135a8f151683e2a957e1">PHAL_USART_rxBlocking</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint8_t *data, uint32_t len)</td></tr>
-<tr class="memdesc:ad2db9efef368135a8f151683e2a957e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive data, blocking until a one-shot reception completes.  <br /></td></tr>
-<tr class="separator:ad2db9efef368135a8f151683e2a957e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4c0efbb65db6709eacaa4144e7a60a5" id="r_ad4c0efbb65db6709eacaa4144e7a60a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4c0efbb65db6709eacaa4144e7a60a5">PHAL_USART_rxCallback</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph)</td></tr>
-<tr class="memdesc:ad4c0efbb65db6709eacaa4144e7a60a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weak callback invoked when a full RX frame is received. Override in application code. Runs in ISR context, so keep it light.  <br /></td></tr>
-<tr class="separator:ad4c0efbb65db6709eacaa4144e7a60a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39be48969b0b82c7a5378ceed1c157e5" id="r_a39be48969b0b82c7a5378ceed1c157e5"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39be48969b0b82c7a5378ceed1c157e5">PHAL_USART_rxCount</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph)</td></tr>
+<tr class="memdesc:a39be48969b0b82c7a5378ceed1c157e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of bytes received in the last completed frame.  <br /></td></tr>
+<tr class="separator:a39be48969b0b82c7a5378ceed1c157e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ce62e7525c96728747c19d990872d76" id="r_a2ce62e7525c96728747c19d990872d76"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ce62e7525c96728747c19d990872d76">PHAL_USART_txBlocking</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint8_t *data, uint16_t len)</td></tr>
+<tr class="memdesc:a2ce62e7525c96728747c19d990872d76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmit data, blocking until the transfer completes.  <br /></td></tr>
+<tr class="separator:a2ce62e7525c96728747c19d990872d76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95a3699af2ac8f96cffbfb71d9debccd" id="r_a95a3699af2ac8f96cffbfb71d9debccd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95a3699af2ac8f96cffbfb71d9debccd">PHAL_USART_rxBlocking</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint8_t *data, uint16_t len)</td></tr>
+<tr class="memdesc:a95a3699af2ac8f96cffbfb71d9debccd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive data, blocking until a one-shot reception completes.  <br /></td></tr>
+<tr class="separator:a95a3699af2ac8f96cffbfb71d9debccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32215dc8454a824e8643f91e0e7d17e0" id="r_a32215dc8454a824e8643f91e0e7d17e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32215dc8454a824e8643f91e0e7d17e0">PHAL_USART_rxCallback</a> (<a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph, uint16_t len)</td></tr>
+<tr class="memdesc:a32215dc8454a824e8643f91e0e7d17e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weak callback invoked when a full RX frame is received. Override in application code. Runs in ISR context, so keep it light.  <br /></td></tr>
+<tr class="separator:a32215dc8454a824e8643f91e0e7d17e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a5a99a5b20a6e9a0b6aa2a54103a94252" name="a5a99a5b20a6e9a0b6aa2a54103a94252"></a>
@@ -234,8 +237,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="af1ae0dd646b0734a12ba38e4a47f40bc" name="af1ae0dd646b0734a12ba38e4a47f40bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1ae0dd646b0734a12ba38e4a47f40bc">&#9670;&#160;</a></span>PHAL_USART_rx()</h2>
+<a id="a27947ba873516867132ffea0f99b4b2f" name="a27947ba873516867132ffea0f99b4b2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27947ba873516867132ffea0f99b4b2f">&#9670;&#160;</a></span>PHAL_USART_rx()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -253,7 +256,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>, </td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -268,8 +271,8 @@ Here is the caller graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">periph</td><td>Which USART peripheral to receive on </td></tr>
     <tr><td class="paramname">data</td><td>The address to put the received data </td></tr>
-    <tr><td class="paramname">len</td><td>Number of bytes </td></tr>
-    <tr><td class="paramname">cont</td><td>Enable continuous RX using the IDLE-line interrupt. When set, call this function once and the HAL keeps receiving frames of the same length, invoking PHAL_USART_rxCallback after each. </td></tr>
+    <tr><td class="paramname">len</td><td>Maximum number of bytes (the buffer size). A frame shorter than this still completes on the IDLE line; the actual count is reported to PHAL_USART_rxCallback. uint16_t because that is the DMA's transfer counter width. </td></tr>
+    <tr><td class="paramname">cont</td><td>Enable continuous RX using the IDLE-line interrupt. When set, call this function once and the HAL keeps receiving frames of the same maximum length, invoking PHAL_USART_rxCallback after each. </td></tr>
   </table>
   </dd>
 </dl>
@@ -288,18 +291,18 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_af1ae0dd646b0734a12ba38e4a47f40bc_cgraph.svg" width="660" height="332"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_a27947ba873516867132ffea0f99b4b2f_cgraph.svg" width="660" height="431"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_af1ae0dd646b0734a12ba38e4a47f40bc_icgraph.svg" width="362" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_a27947ba873516867132ffea0f99b4b2f_icgraph.svg" width="362" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="ad2db9efef368135a8f151683e2a957e1" name="ad2db9efef368135a8f151683e2a957e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2db9efef368135a8f151683e2a957e1">&#9670;&#160;</a></span>PHAL_USART_rxBlocking()</h2>
+<a id="a95a3699af2ac8f96cffbfb71d9debccd" name="a95a3699af2ac8f96cffbfb71d9debccd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95a3699af2ac8f96cffbfb71d9debccd">&#9670;&#160;</a></span>PHAL_USART_rxBlocking()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -317,18 +320,18 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Receive data, blocking until a one-shot reception completes. </p>
-<p>Starts a one-shot DMA reception (see PHAL_USART_rx) and busy-waits until the IDLE-line ISR signals the frame is complete. Do not call from an ISR.</p>
+<p>Starts a one-shot DMA reception (see PHAL_USART_rx) and busy-waits until the IDLE-line ISR signals the frame is complete. Call <a class="el" href="phal__G4_2usart_2usart_8c.html#a39be48969b0b82c7a5378ceed1c157e5" title="Number of bytes received in the last completed frame.">PHAL_USART_rxCount()</a> afterwards for the byte count. Do not call from an ISR.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">periph</td><td>Which USART peripheral to receive on </td></tr>
     <tr><td class="paramname">data</td><td>Buffer to receive into </td></tr>
-    <tr><td class="paramname">len</td><td>Number of bytes to receive </td></tr>
+    <tr><td class="paramname">len</td><td>Maximum number of bytes to receive </td></tr>
   </table>
   </dd>
 </dl>
@@ -345,13 +348,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_ad2db9efef368135a8f151683e2a957e1_cgraph.svg" width="100%" height="549"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_a95a3699af2ac8f96cffbfb71d9debccd_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="ad4c0efbb65db6709eacaa4144e7a60a5" name="ad4c0efbb65db6709eacaa4144e7a60a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4c0efbb65db6709eacaa4144e7a60a5">&#9670;&#160;</a></span>PHAL_USART_rxCallback()</h2>
+<a id="a32215dc8454a824e8643f91e0e7d17e0" name="a32215dc8454a824e8643f91e0e7d17e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32215dc8454a824e8643f91e0e7d17e0">&#9670;&#160;</a></span>PHAL_USART_rxCallback()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,8 +365,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">void PHAL_USART_rxCallback </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a></td>          <td class="paramname"><span class="paramname"><em>periph</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a></td>          <td class="paramname"><span class="paramname"><em>periph</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -377,19 +384,54 @@ Here is the call graph for this function:</div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">periph</td><td>Which USART peripheral received the frame </td></tr>
+    <tr><td class="paramname">len</td><td>Number of bytes in this frame. Bytes past this offset in the buffer are stale and must not be decoded. </td></tr>
   </table>
   </dd>
 </dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_ad4c0efbb65db6709eacaa4144e7a60a5_icgraph.svg" width="612" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_a32215dc8454a824e8643f91e0e7d17e0_icgraph.svg" width="612" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a672de6b26342923923f57cb89300c9e0" name="a672de6b26342923923f57cb89300c9e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a672de6b26342923923f57cb89300c9e0">&#9670;&#160;</a></span>PHAL_USART_tx()</h2>
+<a id="a39be48969b0b82c7a5378ceed1c157e5" name="a39be48969b0b82c7a5378ceed1c157e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39be48969b0b82c7a5378ceed1c157e5">&#9670;&#160;</a></span>PHAL_USART_rxCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t PHAL_USART_rxCount </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a></td>          <td class="paramname"><span class="paramname"><em>periph</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Number of bytes received in the last completed frame. </p>
+<p>The IDLE line ends a frame whenever the sender stops, which may be short of the length passed to PHAL_USART_rx. Anything past this count in the buffer is leftover from an earlier frame.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">periph</td><td>Which USART peripheral to query </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>byte count, valid once PHAL_USART_rxCallback has fired (or PHAL_USART_rxBlocking has returned)</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">periph</td><td>Which USART peripheral to query </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>byte count, valid once PHAL_USART_rxCallback has fired </dd></dl>
+
+</div>
+</div>
+<a id="a33943e8be6febc697e21490055402832" name="a33943e8be6febc697e21490055402832"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33943e8be6febc697e21490055402832">&#9670;&#160;</a></span>PHAL_USART_tx()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -407,21 +449,22 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Start a transmission using DMA. </p>
+<p>Fails rather than truncating a transfer already in flight - poll <a class="el" href="#ae06f65156a95d60d0a0e851ee88ce77b" title="Returns whether the USART peripheral is currently transmitting data.">PHAL_USART_txBusy()</a> (or use PHAL_USART_txBlocking) before calling again.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">periph</td><td>Which USART peripheral to transmit on </td></tr>
     <tr><td class="paramname">data</td><td>The address of the data to send </td></tr>
-    <tr><td class="paramname">len</td><td>Number of bytes </td></tr>
+    <tr><td class="paramname">len</td><td>Number of bytes. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if every DMA reconfiguration step succeeded, false otherwise</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if every DMA reconfiguration step succeeded, false if a transmission is already in flight or a step failed</dd></dl>
 <p>Start a transmission using DMA.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -431,22 +474,22 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if every DMA reconfiguration step succeeded, false otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if every DMA reconfiguration step succeeded, false if a transmission is already in flight or a step failed </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_a672de6b26342923923f57cb89300c9e0_cgraph.svg" width="660" height="332"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_a33943e8be6febc697e21490055402832_cgraph.svg" width="660" height="332"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_a672de6b26342923923f57cb89300c9e0_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_a33943e8be6febc697e21490055402832_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="ad11bf42d69736d0413541a2e4957a486" name="ad11bf42d69736d0413541a2e4957a486"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad11bf42d69736d0413541a2e4957a486">&#9670;&#160;</a></span>PHAL_USART_txBlocking()</h2>
+<a id="a2ce62e7525c96728747c19d990872d76" name="a2ce62e7525c96728747c19d990872d76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ce62e7525c96728747c19d990872d76">&#9670;&#160;</a></span>PHAL_USART_txBlocking()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -464,13 +507,13 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Transmit data, blocking until the transfer completes. </p>
-<p>Starts a DMA transmission (see PHAL_USART_tx) and busy-waits until it finishes. Do not call from an ISR.</p>
+<p>Starts a DMA transmission (see PHAL_USART_tx) and busy-waits until the USART reports the frame fully shifted out. Do not call from an ISR.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">periph</td><td>Which USART peripheral to transmit on </td></tr>
@@ -492,7 +535,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_ad11bf42d69736d0413541a2e4957a486_cgraph.svg" width="100%" height="549"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2usart_2usart_8h_a2ce62e7525c96728747c19d990872d76_cgraph.svg" width="100%" height="549"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -513,6 +556,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Returns whether the USART peripheral is currently transmitting data. </p>
+<p>Tracks the USART's own transmission-complete flag, so it stays true until the last bit has left the wire - not merely until the DMA has finished writing to the data register.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">periph</td><td>Which USART peripheral to check </td></tr>

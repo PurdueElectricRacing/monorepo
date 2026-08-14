@@ -2,11 +2,11 @@
 <area shape="rect" id="Node000001" title="Change the transfer length (element count) for the next transfer." alt="" coords="766,129,924,155"/>
 <area shape="rect" id="Node000002" href="$phal__G4_2spi_2spi_8c.html#a9af893d97bde29796f60bc6df9b05fd0" title="Start a DMA&#45;backed SPI transfer." alt="" coords="559,55,696,80"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="798,125,717,94,682,84,683,78,719,89,800,120"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2usart_2usart_8c.html#a27c45d01ef8393b2dbfdf1d31f74799d" title="On the IDLE line, finish the frame, re&#45;arm if continuous, and notify the app." alt="" coords="537,104,718,130"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2usart_2usart_8c.html#a27c45d01ef8393b2dbfdf1d31f74799d" title=" " alt="" coords="537,104,718,130"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="750,134,718,130,718,125,751,129"/>
-<area shape="rect" id="Node000007" href="$phal__G4_2usart_2usart_8c.html#af1ae0dd646b0734a12ba38e4a47f40bc" title="Start a DMA&#45;based reception, completed on the IDLE line." alt="" coords="564,153,691,179"/>
+<area shape="rect" id="Node000007" href="$phal__G4_2usart_2usart_8c.html#a27947ba873516867132ffea0f99b4b2f" title="Start a DMA&#45;based reception, completed on the IDLE line." alt="" coords="564,153,691,179"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="751,155,691,162,691,157,750,150"/>
-<area shape="rect" id="Node000010" href="$phal__G4_2usart_2usart_8c.html#a672de6b26342923923f57cb89300c9e0" title="Start a DMA&#45;based transmission." alt="" coords="564,252,691,278"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2usart_2usart_8c.html#a33943e8be6febc697e21490055402832" title="Start a DMA&#45;based transmission." alt="" coords="564,252,691,278"/>
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="808,165,654,254,651,249,806,161"/>
 <area shape="rect" id="Node000004" href="$phal__G4_2usart_2usart_8c.html#a7139cd4baabbbcbab0c1fe6d7d4ae1cc" title=" " alt="" coords="327,5,475,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="545,100,536,95,520,82,511,69,502,56,488,44,466,34,468,29,491,40,506,53,516,66,524,79,539,91,547,95"/>
@@ -16,11 +16,11 @@
 <area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="522,120,476,120,476,114,522,114"/>
 <area shape="rect" id="Node000008" href="$torque__vector_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="376,153,426,179"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="549,169,426,169,426,164,549,164"/>
-<area shape="rect" id="Node000009" href="$phal__G4_2usart_2usart_8c.html#ad2db9efef368135a8f151683e2a957e1" title="Receive data, blocking until a one&#45;shot reception completes." alt="" coords="313,203,489,228"/>
+<area shape="rect" id="Node000009" href="$phal__G4_2usart_2usart_8c.html#a95a3699af2ac8f96cffbfb71d9debccd" title="Receive data, blocking until a one&#45;shot reception completes." alt="" coords="313,203,489,228"/>
 <area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="551,186,464,205,463,199,550,180"/>
 <area shape="rect" id="Node000011" href="$lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9" title="Called periodically to send commands to the Nextion LCD display via USART." alt="" coords="346,252,456,278"/>
 <area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="549,268,457,268,457,262,549,262"/>
-<area shape="rect" id="Node000014" href="$phal__G4_2usart_2usart_8c.html#ad11bf42d69736d0413541a2e4957a486" title="Transmit data, blocking until the transfer completes." alt="" coords="313,301,489,327"/>
+<area shape="rect" id="Node000014" href="$phal__G4_2usart_2usart_8c.html#a2ce62e7525c96728747c19d990872d76" title="Transmit data, blocking until the transfer completes." alt="" coords="313,301,489,327"/>
 <area shape="poly" id="edge13_Node000010_Node000014" title=" " alt="" coords="551,284,464,303,463,298,550,279"/>
 <area shape="rect" id="Node000012" href="$driver__interface_8c.html#ac599c66976c348cb0287266b60aa49c5" title=" " alt="" coords="103,252,265,278"/>
 <area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="331,268,265,268,265,262,331,262"/>
