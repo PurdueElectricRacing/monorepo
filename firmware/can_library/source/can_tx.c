@@ -141,7 +141,7 @@ static void CAN_drain_tx_bus(CAN_TypeDef *bus, QueueHandle_t tx_queue) {
 #endif
 
 #if defined(USE_FDCAN1) || defined(USE_FDCAN2) || defined(USE_FDCAN3)
-static void CAN_drain_tx_bus(FDCAN_GlobalTypeDef *bus, QueueHandle_t tx_queue) {
+static void CAN_drain_tx_bus(const FDCAN_GlobalTypeDef *bus, QueueHandle_t tx_queue) {
     CanMsgTypeDef_t tx_msg;
 
     while (PHAL_FDCAN_txFifoFree(bus)) {
