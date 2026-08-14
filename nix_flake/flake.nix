@@ -61,6 +61,9 @@
             mesa
             libGL
             dbus
+
+            direnv
+            nix-direnv
           ];
 
           shellHook = ''
