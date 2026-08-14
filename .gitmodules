@@ -1,0 +1,12 @@
+[submodule "firmware/external/cmsis-device-g4"]
+	path = firmware/external/cmsis-device-g4
+	url = https://github.com/STMicroelectronics/cmsis-device-g4.git
+[submodule "firmware/external/cmsis-device-f4"]
+	path = firmware/external/cmsis-device-f4
+	url = https://github.com/STMicroelectronics/cmsis-device-f4.git
+[submodule "firmware/external/FreeRTOS-Kernel"]
+	path = firmware/external/FreeRTOS-Kernel
+	url = https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+[submodule "firmware/external/CMSIS_6"]
+	path = firmware/external/CMSIS_6
+	url = https://github.com/ARM-software/CMSIS_6.git
