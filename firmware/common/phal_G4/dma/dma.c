@@ -131,7 +131,7 @@ uint16_t PHAL_DMA_getRemaining(PHAL_DMA_Handle_t *handle) {
         return 0;
     }
 
-    return PHAL_DMA_priv_getLength(handle->channel);
+    return PHAL_DMA_priv_getRemainingLength(handle->channel);
 }
 
 bool PHAL_DMA_isBusy(PHAL_DMA_Handle_t *handle) {

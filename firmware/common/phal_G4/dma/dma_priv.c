@@ -135,7 +135,7 @@ void PHAL_DMA_priv_setLength(DMA_Channel_TypeDef *channel, uint16_t length) {
     channel->CNDTR = length;
 }
 
-uint16_t PHAL_DMA_priv_getLength(DMA_Channel_TypeDef *channel) {
+uint16_t PHAL_DMA_priv_getRemainingLength(DMA_Channel_TypeDef *channel) {
     // Hardware decrements CNDTR after every element, so it reads back as the
     // count still outstanding rather than the count originally programmed
     return (uint16_t)channel->CNDTR;
