@@ -50,6 +50,7 @@
             })
 
             python
+            mypy
 
             pkg-config
             systemd
