@@ -62,7 +62,7 @@ void SPMC_init(SPMC_t *spmc) {
  *
  * @return true if the frame was enqueued successfully, or false if the buffer is full and the frame was dropped.
  */
-bool SPMC_enqueue_from_ISR(SPMC_t *spmc, timestamped_frame_t *incoming_frame) {
+bool SPMC_enqueue_from_ISR(SPMC_t *spmc, const timestamped_frame_t *incoming_frame) {
     if (spmc->is_full) { // atomic load
         spmc->overflows++;
         spmc->follower_drops++;

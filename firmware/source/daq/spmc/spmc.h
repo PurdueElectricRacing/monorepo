@@ -51,7 +51,7 @@ static_assert(
 );
 
 void SPMC_init(SPMC_t *spmc);
-bool SPMC_enqueue_from_ISR(SPMC_t *spmc, timestamped_frame_t *incoming_frame);
+bool SPMC_enqueue_from_ISR(SPMC_t *spmc, const timestamped_frame_t *incoming_frame);
 
 bool SPMC_master_peek_chunk(SPMC_t *spmc, timestamped_frame_t **first_item);
 void SPMC_master_advance_tail(SPMC_t *spmc);
