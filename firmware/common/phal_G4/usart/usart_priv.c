@@ -82,6 +82,10 @@ void PHAL_USART_priv_configure(ssize_t idx, uint32_t baud_rate, uint32_t clock_r
     periph->CR1 |= USART_CR1_IDLEIE;
     periph->CR1 |= USART_CR1_UE;
 
+    // Keep TX enabled once the USART is initialized
+    // Establishes the required idle-high (mark) level on a TX pin
+    periph->CR1 |= USART_CR1_TE;
+
     // writing to TCCF clears TC in ISR, which we use to determine
     // if a byte has finished shifting out on the wire
     periph->ICR = USART_PRIV_RX_FLAG_CLEAR_MSK | USART_ICR_TCCF;
