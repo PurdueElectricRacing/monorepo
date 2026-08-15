@@ -14,6 +14,7 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain.cmake)
 
 # Setup project
 project(PER_FIRMWARE VERSION 26.0 LANGUAGES C ASM)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
 # Archive to new outut directory
 set(PROJECT_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/output)
@@ -38,6 +39,7 @@ include(can_library/can_library.cmake)
 
 set(COMMON_MODULES
     common/amk
+    common/bootloader
     common/bangbang
     common/freertos
     common/heartbeat
@@ -71,21 +73,39 @@ include(cmake/common_component.cmake)
 # Make MODULES overridable from the command line
 set(MODULES "" CACHE STRING "Semicolon-separated list of source modules to build")
 
+# Five source modules produce the six supported applications because driveline
+# emits independent front/rear images. Bootloader mode also configures the
+# complete resident-image target set; Ninja selection decides whether a package
+# build compiles applications only or --bootloader compiles both image classes.
+set(BOOTLOADER_APP_MODULES a_box dashboard driveline main_module torque_vector)
 if(MODULES STREQUAL "")
-    set(MODULES
-        f4_testing
-        g4_testing
-        a_box
-        dashboard
-        daq
-        driveline
-        main_module
-        pdu
-        torque_vector
-    )
+    if(BOOTLOADER_BUILD)
+        set(MODULES ${BOOTLOADER_APP_MODULES})
+    else()
+        set(MODULES
+            f4_testing
+            g4_testing
+            a_box
+            dashboard
+            daq
+            driveline
+            main_module
+            pdu
+            torque_vector
+        )
+    endif()
 endif()
 
-# Loop over and add source modules
+if(BOOTLOADER_BUILD)
+    foreach(MODULE IN LISTS MODULES)
+        if(NOT MODULE IN_LIST BOOTLOADER_APP_MODULES AND NOT MODULE STREQUAL "bootloader")
+            message(FATAL_ERROR "${MODULE} does not support the G4 bootloader layout")
+        endif()
+    endforeach()
+    list(APPEND MODULES bootloader)
+    list(REMOVE_DUPLICATES MODULES)
+endif()
+
 foreach(MODULE ${MODULES})
     message(STATUS "Adding module: ${MODULE}")
     add_subdirectory(source/${MODULE})

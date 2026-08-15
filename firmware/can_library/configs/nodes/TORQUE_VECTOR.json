@@ -300,6 +300,10 @@
                 {
                     "msg_name": "vcu_driver_request",
                     "callback": true
+                },
+                {
+                    "msg_name": "bl_torque_vector_cmd",
+                    "callback": true
                 }
             ]
         }

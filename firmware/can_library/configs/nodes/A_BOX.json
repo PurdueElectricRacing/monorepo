@@ -84,7 +84,12 @@
                     "msg_period": 5000
                 }
             ],
-            "rx": [],
+            "rx": [
+                {
+                    "msg_name": "bl_a_box_cmd",
+                    "callback": true
+                }
+            ],
             "accept_all_messages": false
         },
         "CCAN": {

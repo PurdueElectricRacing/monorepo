@@ -1,0 +1,25 @@
+{
+    "node_name": "BL_A_BOX",
+    "busses": {
+        "VCAN": {
+            "peripheral": "FDCAN1",
+            "tx": [
+                {
+                    "msg_name": "bl_a_box_resp",
+                    "msg_desc": "CAN bootloader response for A-Box",
+                    "signals": [
+                        {"sig_name": "status", "type": "uint8_t"},
+                        {"sig_name": "detail", "type": "uint32_t"}
+                    ],
+                    "msg_id_override": "0x18B",
+                    "msg_priority": 0
+                }
+            ],
+            "rx": [
+                {"msg_name": "bl_a_box_cmd"},
+                {"msg_name": "bl_a_box_data"}
+            ]
+        }
+    },
+    "fault_library_enabled": false
+}
