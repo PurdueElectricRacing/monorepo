@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #if defined(STM32F407xx)
 #include "common/phal_F4/can/can.h"
 #elif defined(STM32G474xx)

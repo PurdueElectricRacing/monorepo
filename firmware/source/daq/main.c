@@ -11,7 +11,7 @@
 /* System Includes */
 #include "can_library/generated/MCAN.h"
 #include "can_library/generated/VCAN.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_F4/can/can.h"
 #include "common/phal_F4/gpio/gpio.h"

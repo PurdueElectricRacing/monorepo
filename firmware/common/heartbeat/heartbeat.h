@@ -15,7 +15,7 @@
 #else
 #error "Unsupported heartbeat target"
 #endif
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 
 static constexpr uint32_t PREFLIGHT_DURATION_MS = 1500;
 static constexpr uint32_t HEARTBEAT_PERIOD_MS = 100;

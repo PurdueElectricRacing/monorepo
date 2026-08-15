@@ -2,8 +2,9 @@
 #define PER_FREERTOS_H
 
 /**
- * @file freertos.h
- * @brief Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocation and initialization.
+ * @file rtos.h
+ * @brief Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to
+ *        simplify static memory allocation and initialization.
  * 
  * @author Irving Wang (irvingw@purdue.edu)
  * @author Millan Kumar (kumar798@purdue.edu)

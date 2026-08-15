@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/phal_F4/gpio/gpio.h"
 #include "common/phal_F4/rtc/rtc.h"
 #include "common/sdio/sdio.h"

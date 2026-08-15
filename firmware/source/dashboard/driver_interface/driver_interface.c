@@ -10,7 +10,7 @@
 #include "can_library/faults_common.h"
 #include "can_library/generated/DASHBOARD.h"
 #include "can_library/generated/can_types.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/watchdog/watchdog.h"

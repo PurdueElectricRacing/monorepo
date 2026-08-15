@@ -54,7 +54,7 @@ function(per_add_freertos_target target cmsis_target)
     target_include_directories(${target} PUBLIC
         "${PER_FREERTOS_DIR}/include"
         "${PER_FREERTOS_DIR}/portable/GCC/ARM_CM4F"
-        "${CMAKE_SOURCE_DIR}/common/freertos"
+        "${CMAKE_SOURCE_DIR}/common/rtos"
     )
     target_link_libraries(${target} PUBLIC ${cmsis_target})
     target_compile_options(${target} PRIVATE -fno-analyzer)

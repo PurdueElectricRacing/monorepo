@@ -1,13 +1,14 @@
 /**
- * @file freertos.c
- * @brief Native FreeRTOS wrapper implementation.
+ * @file rtos.c
+ * @brief Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to
+ *        simplify static memory allocation and initialization.
  *
  * @author Irving Wang (irvingw@purdue.edu)
  * @author Millan Kumar (kumar798@purdue.edu)
  * @author Ronak Jain (jain717@purdue.edu)
  */
 
-#include "freertos.h"
+#include "rtos.h"
 
 void FREERTOS_periodic_task_runner(void *arg) {
     FREERTOS_periodic_task_params_t *wrapper = (FREERTOS_periodic_task_params_t *)arg;

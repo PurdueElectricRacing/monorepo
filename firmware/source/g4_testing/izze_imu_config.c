@@ -5,7 +5,7 @@
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/izze_imu/izze_imu.h"
 #include "common/utils/countof.h"
 

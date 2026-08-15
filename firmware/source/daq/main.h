@@ -9,7 +9,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "sd_card.h"
 #include "spmc.h"
 

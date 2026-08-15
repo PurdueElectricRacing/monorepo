@@ -9,7 +9,7 @@
 #define WATCHDOG_H
 
 #include <stdint.h>
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 
 void WDG_init(void);
 void WDG_pet(void);

@@ -7,7 +7,7 @@
 #include "common/phal_F4/dma/dma.h"
 #include "common/phal_F4/gpio/gpio.h"
 #include "common/phal_F4/rcc/rcc.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/utils/countof.h"
 
 GPIOInitConfig_t gpio_config[] = {

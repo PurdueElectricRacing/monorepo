@@ -7,7 +7,7 @@
 
 #if (F4_TESTING_CHOSEN == TEST_PWM)
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/phal_F4/gpio/gpio.h"
 #include "common/phal_F4/rcc/rcc.h"
 #include "common/utils/countof.h"

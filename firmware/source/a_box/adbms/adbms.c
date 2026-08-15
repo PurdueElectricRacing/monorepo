@@ -17,7 +17,7 @@
 #include "common/phal_G4/spi/spi.h"
 #include "common/strbuf/strbuf.h"
 #include "thermistor.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 
 void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf) {
     bms->spi   = spi;

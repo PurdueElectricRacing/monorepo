@@ -12,7 +12,7 @@
 /* System Includes */
 #include "can_library/faults_common.h"
 #include "can_library/generated/PDU.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_F4/adc/adc.h"
 #include "common/phal_F4/can/can.h"

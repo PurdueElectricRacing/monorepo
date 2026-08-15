@@ -9,7 +9,7 @@
 #include "common/phal_G4/dma/dma.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "main.h"
 #include "can_library/faults_common.h"
 #include "common/utils/countof.h"

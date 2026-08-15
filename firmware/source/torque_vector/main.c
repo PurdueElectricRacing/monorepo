@@ -9,7 +9,7 @@
 
 /* System Includes */
 #include "can_library/generated/TORQUE_VECTOR.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
