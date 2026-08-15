@@ -7,7 +7,7 @@
 #include "common/phal_F4/dma/dma.h"
 #include "common/phal_F4/gpio/gpio.h"
 #include "common/phal_F4/rcc/rcc.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/utils/countof.h"
 
 GPIOInitConfig_t gpio_config[] = {
@@ -40,7 +40,7 @@ void send_periodic() {
 }
 
 DEFINE_CAN_TASKS();
-FREERTOS_DEFINE_TASK(send_periodic, 100, TASK_PRIORITY_NORMAL, 1024);
+RTOS_DEFINE_TASK(send_periodic, 100, TASK_PRIORITY_NORMAL, 1024);
 
 int main() {
     if (PHAL_configureClockRates(&clock_config)) {
@@ -57,7 +57,7 @@ int main() {
     CAN_init();
 
     START_CAN_TASKS();
-    FREERTOS_START_TASK(send_periodic);
+    RTOS_START_TASK(send_periodic);
     
     vTaskStartScheduler();
 

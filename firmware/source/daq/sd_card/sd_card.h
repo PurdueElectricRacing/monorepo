@@ -9,7 +9,7 @@
 #define SD_CARD_H
 
 #include <stdint.h>
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 
 typedef enum {
     SD_STATE_DISABLED     = 0,

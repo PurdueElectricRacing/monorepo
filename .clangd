@@ -3,6 +3,7 @@ Completion:
 
 CompileFlags:
   CompilationDatabase: firmware/build
+  Remove: [-fanalyzer]
 
 Index:
   Background: Build

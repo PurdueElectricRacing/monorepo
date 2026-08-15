@@ -112,6 +112,12 @@ bool PHAL_DMA_setMemAddress(PHAL_DMA_Handle_t *handle, uint32_t address);
 bool PHAL_DMA_setLength(PHAL_DMA_Handle_t *handle, uint16_t length);
 
 /**
+ * @brief Number of elements still left to transfer on this channel
+ * @return elements outstanding, or 0 if handle was never successfully init-ed
+ */
+uint16_t PHAL_DMA_getRemaining(PHAL_DMA_Handle_t *handle);
+
+/**
  * @brief Check whether the channel is currently enabled (transfer in
  * progress, or in circular mode, running continuously)
  *

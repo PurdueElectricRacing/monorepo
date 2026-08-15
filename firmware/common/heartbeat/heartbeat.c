@@ -6,7 +6,7 @@
  */
 
 #include "heartbeat.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 
 extern volatile uint32_t last_can_rx_time_ms;
 
