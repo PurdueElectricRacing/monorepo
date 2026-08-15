@@ -165,7 +165,7 @@ def build_scaling_messages(rx_entries: List[RxEntry], tx_entries: List[TxEntry])
     by_name: Dict[str, ScalingMessage] = {}
 
     def register_msg(msg: Message, *, emit_unpack: bool = False, emit_pack: bool = False) -> None:
-        signals = [sig for sig in msg.signals if sig.scale != 1.0]
+        signals = [sig for sig in msg.signals if sig.scale is not None and sig.scale != 1.0]
         if not signals:
             return
 
@@ -185,7 +185,7 @@ def build_offset_messages(rx_entries: List[RxEntry], tx_entries: List[TxEntry]) 
     by_name: Dict[str, OffsetMessage] = {}
 
     def register_msg(msg: Message) -> None:
-        signals = [sig for sig in msg.signals if sig.offset != 0.0]
+        signals = [sig for sig in msg.signals if sig.offset is not None and sig.offset != 0.0]
         if not signals:
             return
 
