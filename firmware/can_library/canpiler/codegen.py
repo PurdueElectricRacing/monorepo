@@ -165,7 +165,7 @@ def build_scaling_messages(rx_entries: List[RxEntry], tx_entries: List[TxEntry])
     by_name: Dict[str, ScalingMessage] = {}
 
     def register_msg(msg: Message, *, emit_unpack: bool = False, emit_pack: bool = False) -> None:
-        signals = [sig for sig in msg.signals if sig.scale is not None and sig.scale != 1.0]
+        signals = [sig for sig in msg.signals if sig.scale is not None]
         if not signals:
             return
 
