@@ -105,7 +105,7 @@ $(function(){initNavTree('can__common_8h_source.html',''); initResizable(true); 
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="freertos_8h.html">common/freertos/freertos.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="rtos_8h.html">common/rtos/rtos.h</a>&quot;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#if defined(STM32F407xx)</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;<a class="code" href="can_8h.html">common/phal_F4/can/can.h</a>&quot;</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#elif defined(STM32G474xx)</span></div>
@@ -142,14 +142,14 @@ $(function(){initNavTree('can__common_8h_source.html',''); initResizable(true); 
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="foldopen" id="foldopen00046" data-start="" data-end="">
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="can__common_8h.html#a35dcd4b006eb1dd53b4e6fdd725b0e31">   46</a></span><span class="preprocessor">#define DEFINE_CAN_TASKS() \</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">    FREERTOS_DEFINE_TASK(CAN_rx_update, 0, TASK_PRIORITY_HIGH, STACK_2048); \</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">    FREERTOS_DEFINE_TASK(CAN_tx_update, 0, TASK_PRIORITY_HIGH, STACK_1024);</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">    RTOS_DEFINE_TASK(CAN_rx_update, 0, TASK_PRIORITY_HIGH, STACK_2048); \</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">    RTOS_DEFINE_TASK(CAN_tx_update, 0, TASK_PRIORITY_HIGH, STACK_1024);</span></div>
 </div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
 <div class="foldopen" id="foldopen00050" data-start="" data-end="">
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="can__common_8h.html#ac317291d89637f7774465ae715792e48">   50</a></span><span class="preprocessor">#define START_CAN_TASKS() \</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">    FREERTOS_START_TASK(CAN_rx_update); \</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">    FREERTOS_START_TASK(CAN_tx_update); \</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">    RTOS_START_TASK(CAN_rx_update); \</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">    RTOS_START_TASK(CAN_tx_update); \</span></div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">    CAN_enable_IRQs();</span></div>
 </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
@@ -182,7 +182,7 @@ $(function(){initNavTree('can__common_8h_source.html',''); initResizable(true); 
 <div class="ttc" id="acan__common_8h_html_acb614f4b76cd9ed45ad02f050b892a52"><div class="ttname"><a href="can__common_8h.html#acb614f4b76cd9ed45ad02f050b892a52">can_stats</a></div><div class="ttdeci">volatile can_stats_t can_stats</div><div class="ttdef"><b>Definition</b> can_tx.c:13</div></div>
 <div class="ttc" id="acan__common_8h_html_aecd3668d7c5e693e061db7650203b304"><div class="ttname"><a href="can__common_8h.html#aecd3668d7c5e693e061db7650203b304">CAN_init</a></div><div class="ttdeci">bool CAN_init(void)</div><div class="ttdef"><b>Definition</b> can_init.c:146</div></div>
 <div class="ttc" id="afdcan_8h_html"><div class="ttname"><a href="fdcan_8h.html">fdcan.h</a></div><div class="ttdoc">G4 FDCAN public API implementation.</div></div>
-<div class="ttc" id="afreertos_8h_html"><div class="ttname"><a href="freertos_8h.html">freertos.h</a></div><div class="ttdoc">Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati...</div></div>
+<div class="ttc" id="artos_8h_html"><div class="ttname"><a href="rtos_8h.html">rtos.h</a></div><div class="ttdoc">Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati...</div></div>
 <div class="ttc" id="astructcan__stats__t_html"><div class="ttname"><a href="structcan__stats__t.html">can_stats_t</a></div><div class="ttdef"><b>Definition</b> can_common.h:22</div></div>
 <div class="ttc" id="astructcan__stats__t_html_a07cf1c833776e4f3576e5b15756361a8"><div class="ttname"><a href="structcan__stats__t.html#a07cf1c833776e4f3576e5b15756361a8">can_stats_t::tx_callback_count</a></div><div class="ttdeci">uint32_t tx_callback_count</div><div class="ttdef"><b>Definition</b> can_common.h:28</div></div>
 <div class="ttc" id="astructcan__stats__t_html_a34c4636b8727a0a0c3ac56e25bccfa8b"><div class="ttname"><a href="structcan__stats__t.html#a34c4636b8727a0a0c3ac56e25bccfa8b">can_stats_t::tx_enqueue_count</a></div><div class="ttdeci">uint32_t tx_enqueue_count</div><div class="ttdef"><b>Definition</b> can_common.h:25</div></div>

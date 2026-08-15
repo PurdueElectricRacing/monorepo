@@ -56,7 +56,7 @@ var searchData=
   ['design_20files_53',['Design Files',['../md_firmware_2source_2dashboard_2README.html#autotoc_md31',1,'']]],
   ['detection_54',['Stale Detection',['../md_firmware_2can__library_2README.html#autotoc_md118',1,'']]],
   ['dev_20nodes_55',['Bench / dev nodes',['../md_firmware_2source_2README.html#autotoc_md43',1,'']]],
-  ['device_20protocol_20drivers_56',['Device / protocol drivers',['../md_firmware_2common_2README.html#autotoc_md63',1,'']]],
+  ['device_20protocol_20drivers_56',['Device / protocol drivers',['../md_firmware_2common_2README.html#autotoc_md62',1,'']]],
   ['devicesize_57',['DeviceSize',['../structSD__CSD.html#a5b1631f7a792245664c1deb0af3d7191',1,'SD_CSD']]],
   ['devicesizemul_58',['DeviceSizeMul',['../structSD__CSD.html#ac349ed1725e44755b3cedd7149d119c6',1,'SD_CSD']]],
   ['di_5fstate_59',['di_state',['../driver__interface_8c.html#a36d04d1347b8677b0acc106e46f52614',1,'driver_interface.c']]],
@@ -162,6 +162,6 @@ var searchData=
   ['driver_5finterface_5fperiod_5fms_159',['DRIVER_INTERFACE_PERIOD_MS',['../driver__interface_8h.html#ae018e4f4f0007e56a28debba30f30fa5',1,'driver_interface.h']]],
   ['driver_5finterface_5fperiodic_160',['driver_interface_periodic',['../driver__interface_8c.html#ac599c66976c348cb0287266b60aa49c5',1,'driver_interface_periodic(void):&#160;driver_interface.c'],['../driver__interface_8h.html#ac599c66976c348cb0287266b60aa49c5',1,'driver_interface_periodic(void):&#160;driver_interface.c']]],
   ['driver_5finterface_5fstate_5ft_161',['driver_interface_state_t',['../driver__interface_8h.html#a0b28b74cdc60e16623b48a65bf3e3f41',1,'driver_interface.h']]],
-  ['drivers_162',['Device / protocol drivers',['../md_firmware_2common_2README.html#autotoc_md63',1,'']]],
+  ['drivers_162',['Device / protocol drivers',['../md_firmware_2common_2README.html#autotoc_md62',1,'']]],
   ['dsrimpl_163',['DSRImpl',['../structSD__CSD.html#a1a3df7f40e9afd86c1f811a54e2c63c9',1,'SD_CSD']]]
 ];

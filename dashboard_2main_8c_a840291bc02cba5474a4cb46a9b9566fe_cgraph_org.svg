@@ -362,9 +362,9 @@
 <!-- Node25 -->
 <g id="Node000025" class="node">
 <title>Node25</title>
-<g id="a_Node000025"><a xlink:href="freertos_8h.html#a124f0cbb3a309bf493cf9ffba7f27bc4" target="_top" xlink:title="Delays the current task for the specified number of milliseconds.">
-<polygon fill="white" stroke="#666666" points="397.88,-1044.25 283.62,-1044.25 283.62,-1025 397.88,-1025 397.88,-1044.25"/>
-<text text-anchor="middle" x="340.75" y="-1030.75" font-family="Helvetica,sans-Serif" font-size="10.00">FREERTOS_delay_ms</text>
+<g id="a_Node000025"><a xlink:href="driver__interface_8c.html#a8699128e5c732cfae429638ad9986d71" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="373.88,-1044.25 307.62,-1044.25 307.62,-1025 373.88,-1025 373.88,-1044.25"/>
+<text text-anchor="middle" x="340.75" y="-1030.75" font-family="Helvetica,sans-Serif" font-size="10.00">init_buttons</text>
 </a>
 </g>
 </g>
@@ -372,17 +372,17 @@
 <g id="edge7_Node000006_Node000025" class="edge">
 <title>Node6&#45;&gt;Node25</title>
 <g id="a_edge7_Node000006_Node000025"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M157.31,-933.56C174.45,-952.79 215.1,-995.09 258.5,-1016.62 262.99,-1018.85 267.75,-1020.81 272.64,-1022.52"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="271.42,-1025.81 282.01,-1025.45 273.51,-1019.13 271.42,-1025.81"/>
+<path fill="none" stroke="#63b8ff" d="M157.31,-933.56C174.45,-952.79 215.1,-995.09 258.5,-1016.62 270.09,-1022.38 283.52,-1026.31 296.08,-1028.99"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="295.33,-1032.41 305.81,-1030.83 296.63,-1025.53 295.33,-1032.41"/>
 </a>
 </g>
 </g>
 <!-- Node26 -->
 <g id="Node000026" class="node">
 <title>Node26</title>
-<g id="a_Node000026"><a xlink:href="driver__interface_8c.html#a8699128e5c732cfae429638ad9986d71" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="373.88,-1007.25 307.62,-1007.25 307.62,-988 373.88,-988 373.88,-1007.25"/>
-<text text-anchor="middle" x="340.75" y="-993.75" font-family="Helvetica,sans-Serif" font-size="10.00">init_buttons</text>
+<g id="a_Node000026"><a xlink:href="lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="367.5,-1007.25 314,-1007.25 314,-988 367.5,-988 367.5,-1007.25"/>
+<text text-anchor="middle" x="340.75" y="-993.75" font-family="Helvetica,sans-Serif" font-size="10.00">LCD_init</text>
 </a>
 </g>
 </g>
@@ -390,44 +390,44 @@
 <g id="edge8_Node000006_Node000026" class="edge">
 <title>Node6&#45;&gt;Node26</title>
 <g id="a_edge8_Node000006_Node000026"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M165.26,-933.74C186.23,-946.18 223.87,-967.18 258.5,-979.62 270.47,-983.93 283.82,-987.4 296.18,-990.1"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="295.2,-993.47 305.71,-992.07 296.62,-986.62 295.2,-993.47"/>
+<path fill="none" stroke="#63b8ff" d="M165.26,-933.74C186.23,-946.18 223.87,-967.18 258.5,-979.62 272.52,-984.66 288.43,-988.56 302.43,-991.42"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="301.69,-994.85 312.18,-993.3 303.02,-987.97 301.69,-994.85"/>
 </a>
 </g>
 </g>
-<!-- Node27 -->
-<g id="Node000027" class="node">
-<title>Node27</title>
-<g id="a_Node000027"><a xlink:href="lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="367.5,-970.25 314,-970.25 314,-951 367.5,-951 367.5,-970.25"/>
-<text text-anchor="middle" x="340.75" y="-956.75" font-family="Helvetica,sans-Serif" font-size="10.00">LCD_init</text>
+<!-- Node29 -->
+<g id="Node000029" class="node">
+<title>Node29</title>
+<g id="a_Node000029"><a xlink:href="lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9" target="_top" xlink:title="Called periodically to send commands to the Nextion LCD display via USART.">
+<polygon fill="#fff0f0" stroke="red" points="382.12,-970.25 299.38,-970.25 299.38,-951 382.12,-951 382.12,-970.25"/>
+<text text-anchor="middle" x="340.75" y="-956.75" font-family="Helvetica,sans-Serif" font-size="10.00">LCD_tx_update</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node27 -->
-<g id="edge9_Node000006_Node000027" class="edge">
-<title>Node6&#45;&gt;Node27</title>
-<g id="a_edge9_Node000006_Node000027"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M200.94,-933.74C233.07,-939.96 273.51,-947.79 302.43,-953.4"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="301.71,-956.82 312.19,-955.29 303.04,-949.95 301.71,-956.82"/>
+<!-- Node6&#45;&gt;Node29 -->
+<g id="edge9_Node000006_Node000029" class="edge">
+<title>Node6&#45;&gt;Node29</title>
+<g id="a_edge9_Node000006_Node000029"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M200.94,-933.74C228,-938.98 260.95,-945.36 287.95,-950.59"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="287.16,-954 297.64,-952.47 288.49,-947.13 287.16,-954"/>
 </a>
 </g>
 </g>
-<!-- Node30 -->
-<g id="Node000030" class="node">
-<title>Node30</title>
-<g id="a_Node000030"><a xlink:href="lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9" target="_top" xlink:title="Called periodically to send commands to the Nextion LCD display via USART.">
-<polygon fill="#fff0f0" stroke="red" points="382.12,-933.25 299.38,-933.25 299.38,-914 382.12,-914 382.12,-933.25"/>
-<text text-anchor="middle" x="340.75" y="-919.75" font-family="Helvetica,sans-Serif" font-size="10.00">LCD_tx_update</text>
+<!-- Node46 -->
+<g id="Node000046" class="node">
+<title>Node46</title>
+<g id="a_Node000046"><a xlink:href="rtos_8h.html#a64ba4e53e622e76814f4390d9d7b2cd3" target="_top" xlink:title="Delays the current task for the specified number of milliseconds.">
+<polygon fill="white" stroke="#666666" points="385.5,-933.25 296,-933.25 296,-914 385.5,-914 385.5,-933.25"/>
+<text text-anchor="middle" x="340.75" y="-919.75" font-family="Helvetica,sans-Serif" font-size="10.00">RTOS_delay_ms</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node30 -->
-<g id="edge10_Node000006_Node000030" class="edge">
-<title>Node6&#45;&gt;Node30</title>
-<g id="a_edge10_Node000006_Node000030"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M208.92,-923.62C234.11,-923.62 263.11,-923.62 287.39,-923.62"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="287.38,-927.13 297.38,-923.63 287.38,-920.13 287.38,-927.13"/>
+<!-- Node6&#45;&gt;Node46 -->
+<g id="edge10_Node000006_Node000046" class="edge">
+<title>Node6&#45;&gt;Node46</title>
+<g id="a_edge10_Node000006_Node000046"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M208.92,-923.62C233.07,-923.62 260.73,-923.62 284.38,-923.62"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="284.12,-927.13 294.12,-923.63 284.12,-920.13 284.12,-927.13"/>
 </a>
 </g>
 </g>
@@ -728,37 +728,37 @@
 </a>
 </g>
 </g>
-<!-- Node32 -->
-<g id="Node000032" class="node">
-<title>Node32</title>
-<g id="a_Node000032"><a xlink:href="phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" target="_top" xlink:title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again.">
+<!-- Node31 -->
+<g id="Node000031" class="node">
+<title>Node31</title>
+<g id="a_Node000031"><a xlink:href="phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" target="_top" xlink:title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again.">
 <polygon fill="#fff0f0" stroke="red" points="392.25,-413.25 289.25,-413.25 289.25,-394 392.25,-394 392.25,-413.25"/>
 <text text-anchor="middle" x="340.75" y="-399.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_restart</text>
 </a>
 </g>
 </g>
-<!-- Node87&#45;&gt;Node32 -->
-<g id="edge34_Node000087_Node000032" class="edge">
-<title>Node87&#45;&gt;Node32</title>
-<g id="a_edge34_Node000087_Node000032"><a xlink:title=" ">
+<!-- Node87&#45;&gt;Node31 -->
+<g id="edge34_Node000087_Node000031" class="edge">
+<title>Node87&#45;&gt;Node31</title>
+<g id="a_edge34_Node000087_Node000031"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M205.28,-416.3C228.06,-414.15 254.42,-411.67 277.73,-409.47"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="277.76,-412.98 287.39,-408.56 277.1,-406.01 277.76,-412.98"/>
 </a>
 </g>
 </g>
-<!-- Node39 -->
-<g id="Node000039" class="node">
-<title>Node39</title>
-<g id="a_Node000039"><a xlink:href="phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" target="_top" xlink:title=" ">
+<!-- Node38 -->
+<g id="Node000038" class="node">
+<title>Node38</title>
+<g id="a_Node000038"><a xlink:href="phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="414,-376.25 267.5,-376.25 267.5,-357 414,-357 414,-376.25"/>
 <text text-anchor="middle" x="340.75" y="-362.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_setMemAddress</text>
 </a>
 </g>
 </g>
-<!-- Node87&#45;&gt;Node39 -->
-<g id="edge35_Node000087_Node000039" class="edge">
-<title>Node87&#45;&gt;Node39</title>
-<g id="a_edge35_Node000087_Node000039"><a xlink:title=" ">
+<!-- Node87&#45;&gt;Node38 -->
+<g id="edge35_Node000087_Node000038" class="edge">
+<title>Node87&#45;&gt;Node38</title>
+<g id="a_edge35_Node000087_Node000038"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M176.01,-411.53C198.06,-403.58 230.03,-392.55 258.5,-384.62 265.09,-382.79 272.02,-381.02 278.94,-379.35"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="279.71,-382.76 288.65,-377.08 278.12,-375.95 279.71,-382.76"/>
 </a>

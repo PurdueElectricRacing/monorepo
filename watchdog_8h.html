@@ -108,11 +108,11 @@ $(function(){initNavTree('watchdog_8h.html',''); initResizable(true); });
 <p>Basic watchdog implementation.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="freertos_8h_source.html">common/freertos/freertos.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for watchdog.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="watchdog_8h__incl.svg" width="256" height="199"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="watchdog_8h__incl.svg" width="624" height="199"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -165,10 +165,10 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="freertos_8h.html#a5cf4a3cffdbcee009fb985a5c44738c3">FREERTOS_DEFINE_TASK</a>(<a class="code hl_function" href="#ac9f50b5ca658e88bed2fced52ca1789f">WDG_pet</a>, <a class="code hl_variable" href="#ae9d77b28b3ce449e8e33d9879332d407">WATCHDOG_PET_PERIOD_MS</a>, <a class="code hl_enumvalue" href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="code hl_enumvalue" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aa435fef8f51358101988c069f6d05c191">STACK_256</a>)</div>
-<div class="ttc" id="afreertos_8h_html_a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514"><div class="ttname"><a href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></div><div class="ttdeci">@ TASK_PRIORITY_LOW</div><div class="ttdef"><b>Definition</b> freertos.h:50</div></div>
-<div class="ttc" id="afreertos_8h_html_a5cf4a3cffdbcee009fb985a5c44738c3"><div class="ttname"><a href="freertos_8h.html#a5cf4a3cffdbcee009fb985a5c44738c3">FREERTOS_DEFINE_TASK</a></div><div class="ttdeci">#define FREERTOS_DEFINE_TASK(NAME, PERIOD_MS, PRIORITY, STACK_SIZE)</div><div class="ttdoc">Defines a statically allocated periodic FreeRTOS task.</div><div class="ttdef"><b>Definition</b> freertos.h:95</div></div>
-<div class="ttc" id="afreertos_8h_html_a7a58aa2d3913543d996a0de1fadd2f6aa435fef8f51358101988c069f6d05c191"><div class="ttname"><a href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aa435fef8f51358101988c069f6d05c191">STACK_256</a></div><div class="ttdeci">@ STACK_256</div><div class="ttdef"><b>Definition</b> freertos.h:41</div></div>
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="rtos_8h.html#adba1c306f3b331e572b145519c0afdaf">RTOS_DEFINE_TASK</a>(<a class="code hl_function" href="#ac9f50b5ca658e88bed2fced52ca1789f">WDG_pet</a>, <a class="code hl_variable" href="#ae9d77b28b3ce449e8e33d9879332d407">WATCHDOG_PET_PERIOD_MS</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89a435fef8f51358101988c069f6d05c191">STACK_256</a>)</div>
+<div class="ttc" id="artos_8h_html_a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514"><div class="ttname"><a href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></div><div class="ttdeci">@ TASK_PRIORITY_LOW</div><div class="ttdef"><b>Definition</b> rtos.h:34</div></div>
+<div class="ttc" id="artos_8h_html_a957d69639fa86650c6d7ebf00f1f1f89a435fef8f51358101988c069f6d05c191"><div class="ttname"><a href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89a435fef8f51358101988c069f6d05c191">STACK_256</a></div><div class="ttdeci">@ STACK_256</div><div class="ttdef"><b>Definition</b> rtos.h:25</div></div>
+<div class="ttc" id="artos_8h_html_adba1c306f3b331e572b145519c0afdaf"><div class="ttname"><a href="rtos_8h.html#adba1c306f3b331e572b145519c0afdaf">RTOS_DEFINE_TASK</a></div><div class="ttdeci">#define RTOS_DEFINE_TASK(NAME, PERIOD_MS, PRIORITY, STACK_SIZE)</div><div class="ttdoc">Defines a statically allocated periodic FreeRTOS task.</div><div class="ttdef"><b>Definition</b> rtos.h:79</div></div>
 <div class="ttc" id="awatchdog_8h_html_ac9f50b5ca658e88bed2fced52ca1789f"><div class="ttname"><a href="#ac9f50b5ca658e88bed2fced52ca1789f">WDG_pet</a></div><div class="ttdeci">void WDG_pet(void)</div><div class="ttdef"><b>Definition</b> watchdog.c:41</div></div>
 <div class="ttc" id="awatchdog_8h_html_ae9d77b28b3ce449e8e33d9879332d407"><div class="ttname"><a href="#ae9d77b28b3ce449e8e33d9879332d407">WATCHDOG_PET_PERIOD_MS</a></div><div class="ttdeci">static constexpr uint32_t WATCHDOG_PET_PERIOD_MS</div><div class="ttdef"><b>Definition</b> watchdog.h:20</div></div>
 </div><!-- fragment -->
@@ -188,8 +188,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="freertos_8h.html#a104de5f26cf1f5055419e92dcb119afe">FREERTOS_START_TASK</a>(<a class="code hl_function" href="#ac9f50b5ca658e88bed2fced52ca1789f">WDG_pet</a>)</div>
-<div class="ttc" id="afreertos_8h_html_a104de5f26cf1f5055419e92dcb119afe"><div class="ttname"><a href="freertos_8h.html#a104de5f26cf1f5055419e92dcb119afe">FREERTOS_START_TASK</a></div><div class="ttdeci">#define FREERTOS_START_TASK(NAME)</div><div class="ttdoc">Creates and starts a previously defined task.</div><div class="ttdef"><b>Definition</b> freertos.h:125</div></div>
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d">RTOS_START_TASK</a>(<a class="code hl_function" href="#ac9f50b5ca658e88bed2fced52ca1789f">WDG_pet</a>)</div>
+<div class="ttc" id="artos_8h_html_a439cda3df5fb52f9ee2c1a8366b7394d"><div class="ttname"><a href="rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d">RTOS_START_TASK</a></div><div class="ttdeci">#define RTOS_START_TASK(NAME)</div><div class="ttdoc">Creates and starts a previously defined task.</div><div class="ttdef"><b>Definition</b> rtos.h:109</div></div>
 </div><!-- fragment -->
 </div>
 </div>

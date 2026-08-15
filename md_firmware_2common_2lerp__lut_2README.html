@@ -100,7 +100,7 @@ $(function(){initNavTree('md_firmware_2common_2lerp__lut_2README.html',''); init
   <div class="headertitle"><div class="title">Linearly Interpolating Lookup Table</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md59"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md58"></a></p>
 <p>The <code>lerp_lut</code> module provides a simple way to create and use lookup tables (LUTs) for linear interpolation in C.</p><ul>
 <li>keys outside the LUT range will be clamped to the nearest endpoint</li>
 <li>the LUT must have at least 2 entries to be valid</li>
@@ -108,7 +108,7 @@ $(function(){initNavTree('md_firmware_2common_2lerp__lut_2README.html',''); init
 <li>binary search is used to find the interval for interpolation to remain efficient for larger LUTs</li>
 <li>of course, accuracy depends on the size of the LUT and the range of keys.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md60"></a>
+<h3><a class="anchor" id="autotoc_md59"></a>
 Usage Example:</h3>
 <p>This example demonstrates a LUT being created for the exponential function. It is much faster to look up values from the LUT than to compute the exponential function directly, especially on our target platforms (Cortex-M4 with FPU). </p><div class="fragment"><div class="line"> ++</div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="lerp__lut_8h.html">lerp_lut.h</a>&quot;</span></div>

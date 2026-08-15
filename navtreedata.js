@@ -99,15 +99,15 @@ var NAVTREE =
     [ "AMK Documentation", "md_firmware_2common_2amk_2README.html", [
       [ "2026 AMK CAN ID Assignment Scheme", "md_firmware_2common_2amk_2README.html#autotoc_md56", null ]
     ] ],
-    [ "FreeRTOS", "md_firmware_2common_2freertos_2README.html", null ],
     [ "Heartbeat Module", "md_firmware_2common_2heartbeat_2README.html", null ],
     [ "Linearly Interpolating Lookup Table", "md_firmware_2common_2lerp__lut_2README.html", null ],
     [ "Common Modules", "md_firmware_2common_2README.html", [
-      [ "Core platform layers", "md_firmware_2common_2README.html#autotoc_md62", null ],
-      [ "Device / protocol drivers", "md_firmware_2common_2README.html#autotoc_md63", null ],
-      [ "System services", "md_firmware_2common_2README.html#autotoc_md64", null ],
-      [ "Utility libraries", "md_firmware_2common_2README.html#autotoc_md65", null ]
+      [ "Core platform layers", "md_firmware_2common_2README.html#autotoc_md61", null ],
+      [ "Device / protocol drivers", "md_firmware_2common_2README.html#autotoc_md62", null ],
+      [ "System services", "md_firmware_2common_2README.html#autotoc_md63", null ],
+      [ "Utility libraries", "md_firmware_2common_2README.html#autotoc_md64", null ]
     ] ],
+    [ "FreeRTOS", "md_firmware_2common_2rtos_2README.html", null ],
     [ "String Buffer", "md_firmware_2common_2strbuf_2README.html", null ],
     [ "PER Utility Functions", "md_firmware_2common_2utils_2README.html", [
       [ "max.h / min.h", "md_firmware_2common_2utils_2README.html#autotoc_md69", null ],
@@ -216,20 +216,20 @@ var NAVTREEINDEX =
 "cooling__fsm_8c.html#ab8dff0eb5455ecaa806c3de5e295912faf273be1841e37a72b4d7851044dd5e7b",
 "dir_2b02b501065b23f92c4fe933d9aa551d.html",
 "f4__testing_2canpiler_8c.html#a041cbdf351ae1da6f864d0d249c93008",
-"freertos__demo_8c.html",
-"izze__imu_8h.html#a2e28fa7e9cd5b450b5d139ba2b7069dc",
-"md_firmware_2common_2heartbeat_2README.html",
-"nav__relposned_8h.html#ac1beca0752f374e987c7ab5552eafe9c",
-"pdu_2main_8h.html#ac0d7dd70bc2f34ab54b96c7a9522db9e",
-"phal__F4_2rcc_2rcc_8h.html#aa3380d024468d5f414c910a81b965c58",
-"phal__G4_2gpio_2gpio_8h.html#ad3f38a7d8e668787c901b45734cf14a2",
-"rtc_8h.html",
-"sdio_8h.html#acdc2533a9bff7dc10def0945f5915398a23dec93b22009b39f7b7311f22a7c396",
-"structClockRateConfig__t.html#acac53bfa913d0aee434ec90f5acdc394",
-"structadbms__bms__t.html#a5b2b1769ea04b93271a037d87444bb03",
-"structpdu__state__t.html#a8cb7ae120abb62009906ecf2bf6dd3e8",
-"syscalls_8h.html#aa025a12d45f60c7d0eae249e61f0c7f9",
-"utils_8py.html#aa464792903a6e58a565329818163930a"
+"functions_vars_i.html",
+"lcd_8h.html#a01e1155ac8c59efbb3929773127175ec",
+"md_firmware_2source_2daq_2README.html#autotoc_md24",
+"nextion_8h.html#a63ace6fa3e7fca3ec048d6c160e9a182",
+"pdu_2main_8h.html#af194b2d05ecbe51d2be069860777aa9a",
+"phal__F4_2spi_2spi_8h.html#a06e18d5b51b4646a94248ccb2ad3d083",
+"phal__G4_2rcc_2rcc_8c.html#af54790732c9560e8d675f78a03486d58",
+"rtc__sync_8c.html#a4137e6409c902491154da4b630740e6c",
+"sdio_8h.html#acdc2533a9bff7dc10def0945f5915398ac5dd213f085b94ecd3735f15d6a257ec",
+"structGPIOInitConfig__t.html#a5cccb3d6f1fc7d1ade98fcec56390452",
+"structadbms__bms__t.html#a888891baf62b77d0c0ecdf617d736f79",
+"structpdu__switch__output__t.html#a98708f6af920374c35e1925fce6d7d91",
+"thermistor_8c.html#a71b269e80da00ecac21cc1487056621c",
+"utils_8py.html#ad7bbb0dc8a7cb57dac35a35820ca48b2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

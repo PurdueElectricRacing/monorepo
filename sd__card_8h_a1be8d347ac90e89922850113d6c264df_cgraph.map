@@ -1,24 +1,24 @@
 <map id="sd_card_periodic" name="sd_card_periodic">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,181,125,207"/>
-<area shape="rect" id="Node000002" href="$freertos_8h.html#a124f0cbb3a309bf493cf9ffba7f27bc4" title="Delays the current task for the specified number of milliseconds." alt="" coords="190,5,342,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,180,105,113,134,73,171,40,178,36,181,40,174,44,138,77,109,116,74,182"/>
-<area shape="rect" id="Node000003" href="$sd__card_8c.html#ac8e3e1c6c9d36eada7e3938c604a37ad" title=" " alt="" coords="203,55,328,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="76,179,116,139,171,97,200,84,202,88,174,102,119,143,80,183"/>
-<area shape="rect" id="Node000005" href="$phal__F4_2gpio_2gpio_8h.html#a613ebbfff35a56132e58a75c773d7876" title="Read the state of the input register for the specific GPIO pin." alt="" coords="414,180,537,206"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="86,178,125,158,172,141,224,131,266,128,307,131,360,141,401,154,439,170,436,175,399,159,358,146,307,137,266,133,225,136,173,146,127,163,89,183"/>
-<area shape="rect" id="Node000006" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="203,156,328,182"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="125,184,188,176,188,181,126,189"/>
-<area shape="rect" id="Node000007" href="$sd__card_8c.html#aa396c25b76f99d1569bf0b5a674df5ca" title=" " alt="" coords="202,205,330,231"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="126,199,187,206,187,211,125,204"/>
+<area shape="rect" id="Node000002" href="$sd__card_8c.html#ac8e3e1c6c9d36eada7e3938c604a37ad" title=" " alt="" coords="203,5,328,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,180,107,117,136,80,171,48,193,35,196,40,174,52,140,84,112,120,75,182"/>
+<area shape="rect" id="Node000004" href="$phal__F4_2gpio_2gpio_8h.html#a613ebbfff35a56132e58a75c773d7876" title="Read the state of the input register for the specific GPIO pin." alt="" coords="414,156,537,182"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="73,179,111,134,139,110,172,92,223,75,265,71,308,77,360,92,410,115,450,144,447,148,407,119,358,97,307,83,265,77,224,81,174,97,142,114,115,137,77,183"/>
+<area shape="rect" id="Node000005" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="203,107,328,132"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="90,178,172,141,191,135,193,140,174,146,92,183"/>
+<area shape="rect" id="Node000006" href="$sd__card_8c.html#aa396c25b76f99d1569bf0b5a674df5ca" title=" " alt="" coords="202,156,330,182"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="125,184,187,176,187,181,126,189"/>
+<area shape="rect" id="Node000007" href="$rtos_8h.html#a64ba4e53e622e76814f4390d9d7b2cd3" title="Delays the current task for the specified number of milliseconds." alt="" coords="206,205,326,231"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="126,199,191,207,191,212,125,204"/>
 <area shape="rect" id="Node000008" href="$sdio_8c.html#acb7415873dffa26068c5e46025efebfa" title="Detect if SD card is correctly plugged in the memory slot." alt="" coords="224,255,308,280"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="93,205,174,241,209,252,208,257,172,246,91,210"/>
 <area shape="rect" id="Node000009" href="$spmc_8c.html#a87e903c37208248544ce3feaa583e7a4" title="Advances the master tail pointer by one chunk." alt="" coords="173,304,359,330"/>
 <area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="79,206,118,248,145,271,174,291,184,296,182,300,171,295,141,275,114,252,75,209"/>
 <area shape="rect" id="Node000010" href="$spmc_8c.html#a59e1e77dc52c3fdf1fedb2f0525287ff" title="Peeks at the next chunk for the master (SD logging) without committing the tail." alt="" coords="174,353,358,379"/>
 <area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="74,206,110,271,139,308,174,340,181,344,178,349,171,344,135,312,106,274,70,209"/>
-<area shape="rect" id="Node000004" href="$rtc_8c.html#a1b8e8424127b55110e79bbbc834f8978" title=" " alt="" coords="407,55,544,80"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="329,65,391,65,391,70,329,70"/>
-<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="308,256,358,241,433,210,435,215,360,246,309,261"/>
+<area shape="rect" id="Node000003" href="$rtc_8c.html#a1b8e8424127b55110e79bbbc834f8978" title=" " alt="" coords="407,5,544,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="329,16,391,16,391,21,329,21"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="308,257,358,241,404,216,444,189,447,194,407,221,360,246,309,262"/>
 <area shape="rect" id="Node000011" href="$spmc_8c.html#a881ea749d2dbf855d34372a7313f0495" title="Helper function to compute the number of items in the buffer given head and tail indices,..." alt="" coords="436,353,515,379"/>
 <area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="358,364,421,364,421,369,358,369"/>
 </map>

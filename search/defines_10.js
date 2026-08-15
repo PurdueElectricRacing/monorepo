@@ -24,5 +24,17 @@ var searchData=
   ['rr_5fbar_21',['RR_BAR',['../race_8h.html#a6f4deff86b034f68083e782d0acbd8af',1,'race.h']]],
   ['rtc_5fasync_5fprescal_22',['RTC_ASYNC_PRESCAL',['../rtc_8h.html#a23265a91627f354343a8bf32bdcab608',1,'rtc.h']]],
   ['rtc_5fconv_5fto_5fbcd_23',['RTC_CONV_TO_BCD',['../rtc_8h.html#a3056be58546c4e25fed72a5eb743f94a',1,'rtc.h']]],
-  ['rtc_5fsync_5fprescal_24',['RTC_SYNC_PRESCAL',['../rtc_8h.html#a74e42a61f38d2bc8242923e3ce6a68f8',1,'rtc.h']]]
+  ['rtc_5fsync_5fprescal_24',['RTC_SYNC_PRESCAL',['../rtc_8h.html#a74e42a61f38d2bc8242923e3ce6a68f8',1,'rtc.h']]],
+  ['rtos_5fdefine_5fbinary_5fsemaphore_25',['RTOS_DEFINE_BINARY_SEMAPHORE',['../rtos_8h.html#a69e1c6061b88d4fa4e5854fa67964e0d',1,'rtos.h']]],
+  ['rtos_5fdefine_5fcounting_5fsemaphore_26',['RTOS_DEFINE_COUNTING_SEMAPHORE',['../rtos_8h.html#a62cc0b597e52bd6ff562217a953534c3',1,'rtos.h']]],
+  ['rtos_5fdefine_5fmutex_27',['RTOS_DEFINE_MUTEX',['../rtos_8h.html#ac55a51c3081162b27987acb7625276cb',1,'rtos.h']]],
+  ['rtos_5fdefine_5fqueue_28',['RTOS_DEFINE_QUEUE',['../rtos_8h.html#a301dabc7c37b6982e939210d19496cb7',1,'rtos.h']]],
+  ['rtos_5fdefine_5fsemaphore_29',['RTOS_DEFINE_SEMAPHORE',['../rtos_8h.html#a7fbdafad353b3e7f1c0c8040dcae9b40',1,'rtos.h']]],
+  ['rtos_5fdefine_5ftask_30',['RTOS_DEFINE_TASK',['../rtos_8h.html#adba1c306f3b331e572b145519c0afdaf',1,'rtos.h']]],
+  ['rtos_5fhandle_5fof_31',['RTOS_HANDLE_OF',['../rtos_8h.html#ab4ed4b8af2da6fb2fbbbf4d63912e38a',1,'rtos.h']]],
+  ['rtos_5finit_5fbinary_5fsemaphore_32',['RTOS_INIT_BINARY_SEMAPHORE',['../rtos_8h.html#ad9711edb12dfba58eb382ea80a5d8212',1,'rtos.h']]],
+  ['rtos_5finit_5fcounting_5fsemaphore_33',['RTOS_INIT_COUNTING_SEMAPHORE',['../rtos_8h.html#a85d85cd365bb58d06716989f281dce04',1,'rtos.h']]],
+  ['rtos_5finit_5fmutex_34',['RTOS_INIT_MUTEX',['../rtos_8h.html#af1f062a402a01a2b8124701ba874cd0f',1,'rtos.h']]],
+  ['rtos_5finit_5fqueue_35',['RTOS_INIT_QUEUE',['../rtos_8h.html#a5e330845d868267d15a68bac2bd476ff',1,'rtos.h']]],
+  ['rtos_5fstart_5ftask_36',['RTOS_START_TASK',['../rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d',1,'rtos.h']]]
 ];

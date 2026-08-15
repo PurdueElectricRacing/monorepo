@@ -1,8 +1,20 @@
 <map id="firmware/common/watchdog/watchdog.h" name="firmware/common/watchdog/watchdog.h">
-<area shape="rect" id="Node000001" title="Basic watchdog implementation." alt="" coords="5,5,190,46"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="66,168,129,193"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,48,66,81,61,100,63,119,81,154,76,157,58,120,56,100,61,79,79,45"/>
-<area shape="rect" id="Node000003" href="$freertos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="73,94,250,120"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="115,45,144,80,140,83,111,48"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="153,122,120,158,116,154,149,118"/>
+<area shape="rect" id="Node000001" title="Basic watchdog implementation." alt="" coords="84,5,268,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,168,69,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,48,60,158,56,154,156,44"/>
+<area shape="rect" id="Node000003" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="208,94,341,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,44,249,82,246,86,198,48"/>
+<area shape="poly" id="edge9_Node000003_Node000002" title=" " alt="" coords="235,123,84,168,83,163,233,118"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="93,168,186,193"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="253,123,177,162,175,158,250,118"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="210,168,258,193"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="270,121,251,155,246,153,265,119"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="282,168,349,193"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="283,119,303,153,299,156,279,121"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="373,168,448,193"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="299,118,375,158,373,162,296,123"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="472,168,528,193"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="313,118,457,163,456,168,312,123"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="551,168,619,193"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="331,118,537,164,536,170,330,123"/>
 </map>

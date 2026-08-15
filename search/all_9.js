@@ -204,7 +204,7 @@ var searchData=
   ['cooling_5fstate_5fmanual_201',['COOLING_STATE_MANUAL',['../cooling__fsm_8c.html#ab8dff0eb5455ecaa806c3de5e295912faf273be1841e37a72b4d7851044dd5e7b',1,'cooling_fsm.c']]],
   ['cooling_5fstate_5ft_202',['cooling_state_t',['../cooling__fsm_8c.html#ab8dff0eb5455ecaa806c3de5e295912f',1,'cooling_fsm.c']]],
   ['copyflag_203',['CopyFlag',['../structSD__CSD.html#aecf2de9d5c963a45409b5d56eadb40cb',1,'SD_CSD']]],
-  ['core_20platform_20layers_204',['Core platform layers',['../md_firmware_2common_2README.html#autotoc_md62',1,'']]],
+  ['core_20platform_20layers_204',['Core platform layers',['../md_firmware_2common_2README.html#autotoc_md61',1,'']]],
   ['countof_205',['countof',['../countof_8h.html#ab317c73e51fb8a68f86165ac831f7b8c',1,'countof.h']]],
   ['countof_20h_20tt_206',['&lt;tt&gt;countof.h&lt;/tt&gt;',['../md_firmware_2common_2utils_2README.html#autotoc_md73',1,'']]],
   ['countof_2eh_207',['countof.h',['../countof_8h.html',1,'']]],

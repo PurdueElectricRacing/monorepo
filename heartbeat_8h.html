@@ -109,11 +109,11 @@ $(function(){initNavTree('heartbeat_8h.html',''); initResizable(true); });
 
 <p>Shared heartbeat task implementation for status LEDs.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="freertos_8h_source.html">common/freertos/freertos.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for heartbeat.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="heartbeat_8h__incl.svg" width="194" height="199"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="heartbeat_8h__incl.svg" width="624" height="199"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -186,7 +186,7 @@ Variables</h2></td></tr>
 <div class="line">        .state = <a class="code hl_enumvalue" href="#a0bcf4de1e57ca5568f188b209f8ee7a5a3475881b5f396c0498fdb19f5aeeac58">HEARTBEAT_STATE_PREFLIGHT</a> \</div>
 <div class="line">    }; \</div>
 <div class="line">    <span class="keywordtype">void</span> heartbeat_wrapper(<span class="keywordtype">void</span>) { <a class="code hl_function" href="#ab2681be62cc27208946c262df62f4a06">heartbeat_task</a>(&amp;<a class="code hl_variable" href="driver__interface_8c.html#ab358b4de0d227c3352c7bad61fd1dc9c">status_leds</a>); }; \</div>
-<div class="line">    FREERTOS_DEFINE_TASK(heartbeat_wrapper, <a class="code hl_variable" href="#aba882a54e761d19d12cc40b3a2a91d8b">HEARTBEAT_PERIOD_MS</a>, <a class="code hl_enumvalue" href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="code hl_enumvalue" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</div>
+<div class="line">    RTOS_DEFINE_TASK(heartbeat_wrapper, <a class="code hl_variable" href="#aba882a54e761d19d12cc40b3a2a91d8b">HEARTBEAT_PERIOD_MS</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</div>
 <div class="ttc" id="aa__box_2main_8h_html_a16617de3bb2ca54675ae2515d8515e12"><div class="ttname"><a href="a__box_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12">ERROR_LED_PIN</a></div><div class="ttdeci">#define ERROR_LED_PIN</div><div class="ttdef"><b>Definition</b> main.h:20</div></div>
 <div class="ttc" id="aa__box_2main_8h_html_a5e9e4203b861d671cdcd3bf5f08655a3"><div class="ttname"><a href="a__box_2main_8h.html#a5e9e4203b861d671cdcd3bf5f08655a3">HEARTBEAT_LED_PIN</a></div><div class="ttdeci">#define HEARTBEAT_LED_PIN</div><div class="ttdef"><b>Definition</b> main.h:18</div></div>
 <div class="ttc" id="aa__box_2main_8h_html_a84357dafca10c0bedd27ddf562ec038f"><div class="ttname"><a href="a__box_2main_8h.html#a84357dafca10c0bedd27ddf562ec038f">ERROR_LED_PORT</a></div><div class="ttdeci">#define ERROR_LED_PORT</div><div class="ttdef"><b>Definition</b> main.h:19</div></div>
@@ -194,11 +194,11 @@ Variables</h2></td></tr>
 <div class="ttc" id="aa__box_2main_8h_html_a8a762e1254b034eba6b4993ae11cee50"><div class="ttname"><a href="a__box_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50">HEARTBEAT_LED_PORT</a></div><div class="ttdeci">#define HEARTBEAT_LED_PORT</div><div class="ttdef"><b>Definition</b> main.h:17</div></div>
 <div class="ttc" id="aa__box_2main_8h_html_aa5bf4e4a187f66b98a273bb051ec3877"><div class="ttname"><a href="a__box_2main_8h.html#aa5bf4e4a187f66b98a273bb051ec3877">CONNECTION_LED_PORT</a></div><div class="ttdeci">#define CONNECTION_LED_PORT</div><div class="ttdef"><b>Definition</b> main.h:21</div></div>
 <div class="ttc" id="adriver__interface_8c_html_ab358b4de0d227c3352c7bad61fd1dc9c"><div class="ttname"><a href="driver__interface_8c.html#ab358b4de0d227c3352c7bad61fd1dc9c">status_leds</a></div><div class="ttdeci">status_leds_t status_leds</div></div>
-<div class="ttc" id="afreertos_8h_html_a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514"><div class="ttname"><a href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></div><div class="ttdeci">@ TASK_PRIORITY_LOW</div><div class="ttdef"><b>Definition</b> freertos.h:50</div></div>
-<div class="ttc" id="afreertos_8h_html_a7a58aa2d3913543d996a0de1fadd2f6aae705b06e4f237bdce971224dd27bbd0d"><div class="ttname"><a href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aae705b06e4f237bdce971224dd27bbd0d">STACK_512</a></div><div class="ttdeci">@ STACK_512</div><div class="ttdef"><b>Definition</b> freertos.h:42</div></div>
 <div class="ttc" id="aheartbeat_8h_html_a0bcf4de1e57ca5568f188b209f8ee7a5a3475881b5f396c0498fdb19f5aeeac58"><div class="ttname"><a href="#a0bcf4de1e57ca5568f188b209f8ee7a5a3475881b5f396c0498fdb19f5aeeac58">HEARTBEAT_STATE_PREFLIGHT</a></div><div class="ttdeci">@ HEARTBEAT_STATE_PREFLIGHT</div><div class="ttdef"><b>Definition</b> heartbeat.h:25</div></div>
 <div class="ttc" id="aheartbeat_8h_html_ab2681be62cc27208946c262df62f4a06"><div class="ttname"><a href="#ab2681be62cc27208946c262df62f4a06">heartbeat_task</a></div><div class="ttdeci">void heartbeat_task(status_leds_t *leds)</div><div class="ttdef"><b>Definition</b> heartbeat.c:35</div></div>
 <div class="ttc" id="aheartbeat_8h_html_aba882a54e761d19d12cc40b3a2a91d8b"><div class="ttname"><a href="#aba882a54e761d19d12cc40b3a2a91d8b">HEARTBEAT_PERIOD_MS</a></div><div class="ttdeci">static constexpr uint32_t HEARTBEAT_PERIOD_MS</div><div class="ttdef"><b>Definition</b> heartbeat.h:21</div></div>
+<div class="ttc" id="artos_8h_html_a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514"><div class="ttname"><a href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></div><div class="ttdeci">@ TASK_PRIORITY_LOW</div><div class="ttdef"><b>Definition</b> rtos.h:34</div></div>
+<div class="ttc" id="artos_8h_html_a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d"><div class="ttname"><a href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a></div><div class="ttdeci">@ STACK_512</div><div class="ttdef"><b>Definition</b> rtos.h:26</div></div>
 <div class="ttc" id="astructstatus__leds__t_html"><div class="ttname"><a href="structstatus__leds__t.html">status_leds_t</a></div><div class="ttdef"><b>Definition</b> heartbeat.h:29</div></div>
 </div><!-- fragment -->
 <p>Macro to define a heartbeat task with predefined behavior for status LEDs. </p>
@@ -231,8 +231,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="freertos_8h.html#a104de5f26cf1f5055419e92dcb119afe">FREERTOS_START_TASK</a>(heartbeat_wrapper)</div>
-<div class="ttc" id="afreertos_8h_html_a104de5f26cf1f5055419e92dcb119afe"><div class="ttname"><a href="freertos_8h.html#a104de5f26cf1f5055419e92dcb119afe">FREERTOS_START_TASK</a></div><div class="ttdeci">#define FREERTOS_START_TASK(NAME)</div><div class="ttdoc">Creates and starts a previously defined task.</div><div class="ttdef"><b>Definition</b> freertos.h:125</div></div>
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d">RTOS_START_TASK</a>(heartbeat_wrapper)</div>
+<div class="ttc" id="artos_8h_html_a439cda3df5fb52f9ee2c1a8366b7394d"><div class="ttname"><a href="rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d">RTOS_START_TASK</a></div><div class="ttdeci">#define RTOS_START_TASK(NAME)</div><div class="ttdoc">Creates and starts a previously defined task.</div><div class="ttdef"><b>Definition</b> rtos.h:109</div></div>
 </div><!-- fragment -->
 </div>
 </div>

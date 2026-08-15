@@ -111,7 +111,7 @@ $(function(){initNavTree('driver__interface_8c.html',''); initResizable(true); }
 <code>#include &quot;<a class="el" href="faults__common_8h_source.html">can_library/faults_common.h</a>&quot;</code><br />
 <code>#include &quot;can_library/generated/DASHBOARD.h&quot;</code><br />
 <code>#include &quot;can_library/generated/can_types.h&quot;</code><br />
-<code>#include &quot;<a class="el" href="freertos_8h_source.html">common/freertos/freertos.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="heartbeat_8h_source.html">common/heartbeat/heartbeat.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2gpio_2gpio_8h_source.html">common/phal_G4/gpio/gpio.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="watchdog_8h_source.html">common/watchdog/watchdog.h</a>&quot;</code><br />
@@ -133,8 +133,8 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a79dded9d3ad36a3fb1e00c884968d4e9" id="r_a79dded9d3ad36a3fb1e00c884968d4e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79dded9d3ad36a3fb1e00c884968d4e9">FREERTOS_DEFINE_QUEUE</a> (action_queue, <a class="el" href="driver__interface_8h.html#a229e398c86c302f6e87d5be9a8570f89">driver_interface_action_t</a>, <a class="el" href="#aaf8ae7422c5c767ad5166f2df8fe25c0">ACTION_QUEUE_LENGTH</a>)</td></tr>
-<tr class="separator:a79dded9d3ad36a3fb1e00c884968d4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bef746343c552c1e0067eb4ed06896b" id="r_a3bef746343c552c1e0067eb4ed06896b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3bef746343c552c1e0067eb4ed06896b">RTOS_DEFINE_QUEUE</a> (action_queue, <a class="el" href="driver__interface_8h.html#a229e398c86c302f6e87d5be9a8570f89">driver_interface_action_t</a>, <a class="el" href="#aaf8ae7422c5c767ad5166f2df8fe25c0">ACTION_QUEUE_LENGTH</a>)</td></tr>
+<tr class="separator:a3bef746343c552c1e0067eb4ed06896b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac40e3efd9598191869ae6e4677df48ba" id="r_ac40e3efd9598191869ae6e4677df48ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac40e3efd9598191869ae6e4677df48ba">EXTI0_IRQHandler</a> ()</td></tr>
 <tr class="separator:ac40e3efd9598191869ae6e4677df48ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e9055d1f4a14ef6eb3990a77efc8983" id="r_a7e9055d1f4a14ef6eb3990a77efc8983"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e9055d1f4a14ef6eb3990a77efc8983">EXTI1_IRQHandler</a> ()</td></tr>
@@ -345,32 +345,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a79dded9d3ad36a3fb1e00c884968d4e9" name="a79dded9d3ad36a3fb1e00c884968d4e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79dded9d3ad36a3fb1e00c884968d4e9">&#9670;&#160;</a></span>FREERTOS_DEFINE_QUEUE()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">FREERTOS_DEFINE_QUEUE </td>
-          <td>(</td>
-          <td class="paramtype">action_queue</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="driver__interface_8h.html#a229e398c86c302f6e87d5be9a8570f89">driver_interface_action_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="#aaf8ae7422c5c767ad5166f2df8fe25c0">ACTION_QUEUE_LENGTH</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a8699128e5c732cfae429638ad9986d71" name="a8699128e5c732cfae429638ad9986d71"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8699128e5c732cfae429638ad9986d71">&#9670;&#160;</a></span>init_buttons()</h2>
 
@@ -398,6 +372,32 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="driver__interface_8c_a8699128e5c732cfae429638ad9986d71_icgraph.svg" width="407" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+
+</div>
+</div>
+<a id="a3bef746343c552c1e0067eb4ed06896b" name="a3bef746343c552c1e0067eb4ed06896b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bef746343c552c1e0067eb4ed06896b">&#9670;&#160;</a></span>RTOS_DEFINE_QUEUE()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RTOS_DEFINE_QUEUE </td>
+          <td>(</td>
+          <td class="paramtype">action_queue</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="driver__interface_8h.html#a229e398c86c302f6e87d5be9a8570f89">driver_interface_action_t</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#aaf8ae7422c5c767ad5166f2df8fe25c0">ACTION_QUEUE_LENGTH</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

@@ -1,12 +1,24 @@
 <map id="firmware/can_library/source/can_tx.c" name="firmware/can_library/source/can_tx.c">
-<area shape="rect" id="Node000001" title="Common CAN TX queue, task, and callback handling." alt="" coords="117,5,253,46"/>
-<area shape="rect" id="Node000002" href="$can__common_8h.html" title="Common functions and data structures used in every node in the CAN library." alt="" coords="5,102,181,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,48,119,93,115,89,162,45"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="205,94,349,135"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="208,45,247,81,243,85,204,48"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="61,256,125,282"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="85,129,63,164,57,186,58,208,76,243,71,245,53,209,52,185,58,162,81,126"/>
-<area shape="rect" id="Node000004" href="$freertos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="68,183,246,208"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="105,126,140,169,135,172,101,129"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="148,210,116,247,112,243,144,207"/>
+<area shape="rect" id="Node000001" title="Common CAN TX queue, task, and callback handling." alt="" coords="200,5,336,46"/>
+<area shape="rect" id="Node000002" href="$can__common_8h.html" title="Common functions and data structures used in every node in the CAN library." alt="" coords="88,102,263,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="249,48,201,93,198,89,245,45"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="288,94,432,135"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="290,45,330,81,326,85,287,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,256,69,282"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="167,129,60,247,56,243,163,126"/>
+<area shape="rect" id="Node000004" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="208,183,341,208"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="192,126,249,171,246,175,189,130"/>
+<area shape="poly" id="edge10_Node000004_Node000003" title=" " alt="" coords="235,211,84,256,83,251,233,206"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="93,256,186,282"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="253,211,177,251,175,246,250,207"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="210,256,258,282"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="270,210,251,244,246,242,265,207"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="282,256,349,282"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="283,207,303,241,299,244,279,210"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="373,256,448,282"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="299,207,375,246,373,251,296,211"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="472,256,528,282"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="313,206,457,252,456,257,312,211"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="551,256,619,282"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="331,206,537,253,536,258,330,212"/>
 </map>

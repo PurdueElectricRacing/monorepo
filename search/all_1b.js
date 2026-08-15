@@ -38,7 +38,7 @@ var searchData=
   ['updatetelemetrypages_35',['updateTelemetryPages',['../lcd_8c.html#a9ceeac8764aca15be67680bddfe70704',1,'updateTelemetryPages():&#160;lcd.c'],['../lcd_8h.html#af43eed5065a4456cc5013ee59b7a2ce7',1,'updateTelemetryPages(void):&#160;lcd.c']]],
   ['upper_5fbound_36',['upper_bound',['../structbangbang__t.html#a8893cb5a9934f8791fadc5f27a9e9d72',1,'bangbang_t']]],
   ['usage_37',['Usage',['../md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md7',1,'Usage'],['../md_firmware_2can__library_2README.html#autotoc_md119',1,'Usage']]],
-  ['usage_20example_3a_38',['Usage Example:',['../md_firmware_2common_2lerp__lut_2README.html#autotoc_md60',1,'Usage Example:'],['../md_firmware_2common_2strbuf_2README.html#autotoc_md67',1,'Usage Example:']]],
+  ['usage_20example_3a_38',['Usage Example:',['../md_firmware_2common_2lerp__lut_2README.html#autotoc_md59',1,'Usage Example:'],['../md_firmware_2common_2strbuf_2README.html#autotoc_md67',1,'Usage Example:']]],
   ['usage_3a_39',['Usage:',['../md_firmware_2can__library_2README.html#autotoc_md121',1,'']]],
   ['usart_2ec_40',['usart.c',['../phal__F4_2usart_2usart_8c.html',1,'(Global Namespace)'],['../phal__G4_2usart_2usart_8c.html',1,'(Global Namespace)']]],
   ['usart_2eh_41',['usart.h',['../phal__F4_2usart_2usart_8h.html',1,'(Global Namespace)'],['../phal__G4_2usart_2usart_8h.html',1,'(Global Namespace)']]],
@@ -134,7 +134,7 @@ var searchData=
   ['use_5fpll_131',['use_pll',['../structClockRateConfig__t.html#acac53bfa913d0aee434ec90f5acdc394',1,'ClockRateConfig_t']]],
   ['using_20the_20debugging_20tools_132',['Using the Debugging Tools',['../md_docs_2deploy__n__debug.html#autotoc_md82',1,'']]],
   ['utility_20functions_133',['PER Utility Functions',['../md_firmware_2common_2utils_2README.html',1,'']]],
-  ['utility_20libraries_134',['Utility libraries',['../md_firmware_2common_2README.html#autotoc_md65',1,'']]],
+  ['utility_20libraries_134',['Utility libraries',['../md_firmware_2common_2README.html#autotoc_md64',1,'']]],
   ['utils_135',['utils',['../namespaceutils.html',1,'']]],
   ['utils_2epy_136',['utils.py',['../utils_8py.html',1,'']]]
 ];

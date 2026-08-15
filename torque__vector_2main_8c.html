@@ -108,7 +108,7 @@ $(function(){initNavTree('torque__vector_2main_8c.html',''); initResizable(true)
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="torque__vector_2main_8h_source.html">main.h</a>&quot;</code><br />
 <code>#include &quot;can_library/generated/TORQUE_VECTOR.h&quot;</code><br />
-<code>#include &quot;<a class="el" href="freertos_8h_source.html">common/freertos/freertos.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="heartbeat_8h_source.html">common/heartbeat/heartbeat.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="fdcan_8h_source.html">common/phal_G4/fdcan/fdcan.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2gpio_2gpio_8h_source.html">common/phal_G4/gpio/gpio.h</a>&quot;</code><br />
@@ -131,14 +131,14 @@ Functions</h2></td></tr>
 <tr class="separator:a2bffc10d5bd4106753b7c30e86903bea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a577e29103ef4d1e1121dc63cfb074498" id="r_a577e29103ef4d1e1121dc63cfb074498"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a577e29103ef4d1e1121dc63cfb074498">DEFINE_CAN_TASKS</a> ()</td></tr>
 <tr class="separator:a577e29103ef4d1e1121dc63cfb074498"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c25e8782117b185708701f4a5e60adc" id="r_a1c25e8782117b185708701f4a5e60adc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c25e8782117b185708701f4a5e60adc">FREERTOS_DEFINE_TASK</a> (<a class="el" href="control__loop_8c.html#a0c80a804f63cdf1b40bca055d0b2d77d">control_loop</a>, <a class="el" href="control__loop_8h.html#a41c613c22d8a10408faafe935789ac56">CONTROL_LOOP_PERIOD_MS</a>, <a class="el" href="freertos_8h.html#a3013e468406586335b248c478350a33eaf3669a8c0116561e2fdb5a7f3ea9b136">TASK_PRIORITY_NORMAL</a>, <a class="el" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aa00b7ae515d6733894f27cac357fd4c54">STACK_4096</a>)</td></tr>
-<tr class="separator:a1c25e8782117b185708701f4a5e60adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fa836ae2656bd24e0a503c0e099f209" id="r_a3fa836ae2656bd24e0a503c0e099f209"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fa836ae2656bd24e0a503c0e099f209">FREERTOS_DEFINE_TASK</a> (<a class="el" href="gps_8c.html#a161c126f960b2347813a4616b1609cda">gps_periodic</a>, <a class="el" href="sensors_8h.html#a2acc69061a033de980eb623fbef7fbea">GPS_THREAD_PERIOD_MS</a>, <a class="el" href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</td></tr>
-<tr class="separator:a3fa836ae2656bd24e0a503c0e099f209"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bb645d6878a3685f2c506d1ede7dfd6" id="r_a5bb645d6878a3685f2c506d1ede7dfd6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bb645d6878a3685f2c506d1ede7dfd6">FREERTOS_DEFINE_TASK</a> (<a class="el" href="torque__vector_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1">report_telemetry_25hz</a>, <a class="el" href="torque__vector_2telemetry_2telemetry_8h.html#a2e5d792065c1034b16b562a9900de9e0">TELEMETRY_25HZ_PERIOD_MS</a>, <a class="el" href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</td></tr>
-<tr class="separator:a5bb645d6878a3685f2c506d1ede7dfd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4007ee100805120861135ffeff77f678" id="r_a4007ee100805120861135ffeff77f678"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4007ee100805120861135ffeff77f678">FREERTOS_DEFINE_TASK</a> (<a class="el" href="main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968">report_telemetry_1hz</a>, <a class="el" href="main__module_2telemetry_2telemetry_8h.html#a80e49f2161ae570d3daff89c3451bea7">TELEMETRY_1HZ_PERIOD_MS</a>, <a class="el" href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</td></tr>
-<tr class="separator:a4007ee100805120861135ffeff77f678"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29e56ad636fc1275985a43ca4406495a" id="r_a29e56ad636fc1275985a43ca4406495a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29e56ad636fc1275985a43ca4406495a">RTOS_DEFINE_TASK</a> (<a class="el" href="control__loop_8c.html#a0c80a804f63cdf1b40bca055d0b2d77d">control_loop</a>, <a class="el" href="control__loop_8h.html#a41c613c22d8a10408faafe935789ac56">CONTROL_LOOP_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064af3669a8c0116561e2fdb5a7f3ea9b136">TASK_PRIORITY_NORMAL</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89a00b7ae515d6733894f27cac357fd4c54">STACK_4096</a>)</td></tr>
+<tr class="separator:a29e56ad636fc1275985a43ca4406495a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16bbe215283a666d33c4fb82605696a6" id="r_a16bbe215283a666d33c4fb82605696a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16bbe215283a666d33c4fb82605696a6">RTOS_DEFINE_TASK</a> (<a class="el" href="gps_8c.html#a161c126f960b2347813a4616b1609cda">gps_periodic</a>, <a class="el" href="sensors_8h.html#a2acc69061a033de980eb623fbef7fbea">GPS_THREAD_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</td></tr>
+<tr class="separator:a16bbe215283a666d33c4fb82605696a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8999bb473ba368e6b2643fa45b4b8e39" id="r_a8999bb473ba368e6b2643fa45b4b8e39"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8999bb473ba368e6b2643fa45b4b8e39">RTOS_DEFINE_TASK</a> (<a class="el" href="torque__vector_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1">report_telemetry_25hz</a>, <a class="el" href="torque__vector_2telemetry_2telemetry_8h.html#a2e5d792065c1034b16b562a9900de9e0">TELEMETRY_25HZ_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</td></tr>
+<tr class="separator:a8999bb473ba368e6b2643fa45b4b8e39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17ff201e061985b43f264859600d87c7" id="r_a17ff201e061985b43f264859600d87c7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17ff201e061985b43f264859600d87c7">RTOS_DEFINE_TASK</a> (<a class="el" href="main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968">report_telemetry_1hz</a>, <a class="el" href="main__module_2telemetry_2telemetry_8h.html#a80e49f2161ae570d3daff89c3451bea7">TELEMETRY_1HZ_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</td></tr>
+<tr class="separator:a17ff201e061985b43f264859600d87c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11a067a3a0541dc1ed61e5c9bb7591b5" id="r_a11a067a3a0541dc1ed61e5c9bb7591b5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11a067a3a0541dc1ed61e5c9bb7591b5">DEFINE_WATCHDOG_TASK</a> ()</td></tr>
 <tr class="separator:a11a067a3a0541dc1ed61e5c9bb7591b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a845eaf447179a8baf75c69794c49856d" id="r_a845eaf447179a8baf75c69794c49856d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a845eaf447179a8baf75c69794c49856d">DEFINE_HEARTBEAT_TASK</a> (nullptr)</td></tr>
@@ -210,130 +210,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a1c25e8782117b185708701f4a5e60adc" name="a1c25e8782117b185708701f4a5e60adc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c25e8782117b185708701f4a5e60adc">&#9670;&#160;</a></span>FREERTOS_DEFINE_TASK() <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">FREERTOS_DEFINE_TASK </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="control__loop_8c.html#a0c80a804f63cdf1b40bca055d0b2d77d">control_loop</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="control__loop_8h.html#a41c613c22d8a10408faafe935789ac56">CONTROL_LOOP_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="freertos_8h.html#a3013e468406586335b248c478350a33eaf3669a8c0116561e2fdb5a7f3ea9b136">TASK_PRIORITY_NORMAL</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aa00b7ae515d6733894f27cac357fd4c54">STACK_4096</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3fa836ae2656bd24e0a503c0e099f209" name="a3fa836ae2656bd24e0a503c0e099f209"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fa836ae2656bd24e0a503c0e099f209">&#9670;&#160;</a></span>FREERTOS_DEFINE_TASK() <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">FREERTOS_DEFINE_TASK </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="gps_8c.html#a161c126f960b2347813a4616b1609cda">gps_periodic</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="sensors_8h.html#a2acc69061a033de980eb623fbef7fbea">GPS_THREAD_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4007ee100805120861135ffeff77f678" name="a4007ee100805120861135ffeff77f678"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4007ee100805120861135ffeff77f678">&#9670;&#160;</a></span>FREERTOS_DEFINE_TASK() <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">FREERTOS_DEFINE_TASK </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968">report_telemetry_1hz</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="main__module_2telemetry_2telemetry_8h.html#a80e49f2161ae570d3daff89c3451bea7">TELEMETRY_1HZ_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aae705b06e4f237bdce971224dd27bbd0d">STACK_512</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5bb645d6878a3685f2c506d1ede7dfd6" name="a5bb645d6878a3685f2c506d1ede7dfd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bb645d6878a3685f2c506d1ede7dfd6">&#9670;&#160;</a></span>FREERTOS_DEFINE_TASK() <span class="overload">[4/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">FREERTOS_DEFINE_TASK </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="torque__vector_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1">report_telemetry_25hz</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="torque__vector_2telemetry_2telemetry_8h.html#a2e5d792065c1034b16b562a9900de9e0">TELEMETRY_25HZ_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="freertos_8h.html#a3013e468406586335b248c478350a33ea579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="freertos_8h.html#a7a58aa2d3913543d996a0de1fadd2f6aae705b06e4f237bdce971224dd27bbd0d">STACK_512</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a2bffc10d5bd4106753b7c30e86903bea" name="a2bffc10d5bd4106753b7c30e86903bea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2bffc10d5bd4106753b7c30e86903bea">&#9670;&#160;</a></span>HardFault_Handler()</h2>
 
@@ -378,6 +254,130 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="torque__vector_2main_8c_a840291bc02cba5474a4cb46a9b9566fe_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
+
+</div>
+</div>
+<a id="a29e56ad636fc1275985a43ca4406495a" name="a29e56ad636fc1275985a43ca4406495a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29e56ad636fc1275985a43ca4406495a">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RTOS_DEFINE_TASK </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="control__loop_8c.html#a0c80a804f63cdf1b40bca055d0b2d77d">control_loop</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="control__loop_8h.html#a41c613c22d8a10408faafe935789ac56">CONTROL_LOOP_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064af3669a8c0116561e2fdb5a7f3ea9b136">TASK_PRIORITY_NORMAL</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89a00b7ae515d6733894f27cac357fd4c54">STACK_4096</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a16bbe215283a666d33c4fb82605696a6" name="a16bbe215283a666d33c4fb82605696a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16bbe215283a666d33c4fb82605696a6">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RTOS_DEFINE_TASK </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gps_8c.html#a161c126f960b2347813a4616b1609cda">gps_periodic</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="sensors_8h.html#a2acc69061a033de980eb623fbef7fbea">GPS_THREAD_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a17ff201e061985b43f264859600d87c7" name="a17ff201e061985b43f264859600d87c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17ff201e061985b43f264859600d87c7">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RTOS_DEFINE_TASK </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968">report_telemetry_1hz</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="main__module_2telemetry_2telemetry_8h.html#a80e49f2161ae570d3daff89c3451bea7">TELEMETRY_1HZ_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8999bb473ba368e6b2643fa45b4b8e39" name="a8999bb473ba368e6b2643fa45b4b8e39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8999bb473ba368e6b2643fa45b4b8e39">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RTOS_DEFINE_TASK </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="torque__vector_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1">report_telemetry_25hz</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="torque__vector_2telemetry_2telemetry_8h.html#a2e5d792065c1034b16b562a9900de9e0">TELEMETRY_25HZ_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

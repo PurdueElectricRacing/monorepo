@@ -181,8 +181,5 @@ var searchData=
   ['mux_5fout_5fadc_5fchnl_178',['MUX_OUT_ADC_CHNL',['../pdu_2main_8h.html#a0735ab6b9d93e1e80bacb0c13cde49d4',1,'main.h']]],
   ['mux_5fout_5fgpio_5fport_179',['MUX_OUT_GPIO_Port',['../pdu_2main_8h.html#afaccd01290460dcdb99c33610aa50823',1,'main.h']]],
   ['mux_5fout_5fpin_180',['MUX_OUT_Pin',['../pdu_2main_8h.html#aaa1dbc1b7324caf09ce28e75b8897302',1,'main.h']]],
-  ['mux_5frequest_181',['mux_request',['../structPHAL__DMA__Wiring__t.html#aece37e77cec4cf216ed5ee0b16dc95d4',1,'PHAL_DMA_Wiring_t']]],
-  ['myident_182',['myIDENT',['../freertos_8h.html#abca5333b90b00f973c6491246378f0ef',1,'freertos.h']]],
-  ['mystr_183',['mySTR',['../freertos_8h.html#aa0106d66c910122f42a397e25121651f',1,'freertos.h']]],
-  ['myxstr_184',['myXSTR',['../freertos_8h.html#ae76e8808b78573773246b2ce3f1849d5',1,'freertos.h']]]
+  ['mux_5frequest_181',['mux_request',['../structPHAL__DMA__Wiring__t.html#aece37e77cec4cf216ed5ee0b16dc95d4',1,'PHAL_DMA_Wiring_t']]]
 ];

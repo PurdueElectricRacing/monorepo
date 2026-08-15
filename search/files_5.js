@@ -19,9 +19,7 @@ var searchData=
   ['flash_5fpriv_2eh_16',['flash_priv.h',['../flash__priv_8h.html',1,'']]],
   ['flow_5frate_2ec_17',['flow_rate.c',['../flow__rate_8c.html',1,'']]],
   ['flow_5frate_2eh_18',['flow_rate.h',['../flow__rate_8h.html',1,'']]],
-  ['freertos_2ec_19',['freertos.c',['../freertos_8c.html',1,'']]],
-  ['freertos_2eh_20',['freertos.h',['../freertos_8h.html',1,'']]],
-  ['freertos_5fdemo_2ec_21',['freertos_demo.c',['../freertos__demo_8c.html',1,'']]],
-  ['freertos_5ftest_2ec_22',['freertos_test.c',['../freertos__test_8c.html',1,'']]],
-  ['freertosconfig_2eh_23',['FreeRTOSConfig.h',['../FreeRTOSConfig_8h.html',1,'']]]
+  ['freertos_5fdemo_2ec_19',['freertos_demo.c',['../freertos__demo_8c.html',1,'']]],
+  ['freertos_5ftest_2ec_20',['freertos_test.c',['../freertos__test_8c.html',1,'']]],
+  ['freertosconfig_2eh_21',['FreeRTOSConfig.h',['../FreeRTOSConfig_8h.html',1,'']]]
 ];

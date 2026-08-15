@@ -9,7 +9,5 @@ var searchData=
   ['feet_5ft_6',['feet_t',['../structfeet__t.html',1,'']]],
   ['filterbank_7',['FilterBank',['../classmapper_1_1FilterBank.html',1,'mapper']]],
   ['filterrendercontext_8',['FilterRenderContext',['../classcodegen_1_1FilterRenderContext.html',1,'codegen']]],
-  ['flash_5foperation_5fcontext_5ft_9',['flash_operation_context_t',['../structflash__operation__context__t.html',1,'']]],
-  ['freertos_5fperiodic_5ftask_5fparams_5ft_10',['FREERTOS_periodic_task_params_t',['../structFREERTOS__periodic__task__params__t.html',1,'']]],
-  ['freertos_5fqueue_5fparams_5ft_11',['FREERTOS_queue_params_t',['../structFREERTOS__queue__params__t.html',1,'']]]
+  ['flash_5foperation_5fcontext_5ft_9',['flash_operation_context_t',['../structflash__operation__context__t.html',1,'']]]
 ];

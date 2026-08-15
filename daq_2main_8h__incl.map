@@ -1,19 +1,31 @@
 <map id="firmware/source/daq/main.h" name="firmware/source/daq/main.h">
-<area shape="rect" id="Node000001" title="&quot;DAQ&quot; node source code" alt="" coords="129,5,267,46"/>
-<area shape="rect" id="Node000002" href="$freertos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="5,168,183,193"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,48,150,96,111,156,106,153,145,92,180,45"/>
-<area shape="rect" id="Node000004" href="$sd__card_8h.html" title="Logging of received bus messages onto an SD card." alt="" coords="159,94,237,120"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="201,46,201,78,195,78,195,46"/>
-<area shape="rect" id="Node000005" href="$spmc_8h.html" title="Custom SPMC designed for high throughput handling of CAN message streams." alt="" coords="262,94,326,120"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="223,44,269,82,266,86,220,48"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="214,241,278,267"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="121,191,207,232,205,237,119,196"/>
-<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="182,122,126,161,123,156,179,118"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="204,119,240,226,235,227,199,121"/>
-<area shape="poly" id="edge8_Node000005_Node000003" title=" " alt="" coords="293,121,257,227,252,226,288,119"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="308,168,376,193"/>
-<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="304,118,328,153,323,156,300,121"/>
-<area shape="rect" id="Node000007" href="$timestamped__frame_8h.html" title="Definition for timestamped CAN frames." alt="" coords="400,168,546,193"/>
-<area shape="poly" id="edge9_Node000005_Node000007" title=" " alt="" coords="325,118,429,159,427,164,323,123"/>
-<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="435,196,293,241,292,236,433,191"/>
+<area shape="rect" id="Node000001" title="&quot;DAQ&quot; node source code" alt="" coords="394,5,532,46"/>
+<area shape="rect" id="Node000002" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="300,168,433,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="449,48,414,95,381,155,376,153,410,93,445,45"/>
+<area shape="rect" id="Node000010" href="$sd__card_8h.html" title="Logging of received bus messages onto an SD card." alt="" coords="424,94,501,120"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="465,46,465,78,460,78,460,46"/>
+<area shape="rect" id="Node000011" href="$spmc_8h.html" title="Custom SPMC designed for high throughput handling of CAN message streams." alt="" coords="543,94,606,120"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="492,44,546,82,543,87,489,49"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,241,99,267"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="314,197,114,242,113,236,312,191"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="122,241,171,267"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="330,196,186,243,185,238,329,191"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="195,241,261,267"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="344,196,266,236,264,231,342,192"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="286,241,360,267"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="362,195,340,229,336,226,357,192"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="384,241,440,267"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="376,192,399,227,394,230,372,195"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="464,241,531,267"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="390,192,463,231,461,236,388,196"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="555,241,618,267"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="405,191,541,235,539,240,403,196"/>
+<area shape="poly" id="edge11_Node000010_Node000002" title=" " alt="" coords="448,122,396,161,393,156,445,118"/>
+<area shape="poly" id="edge10_Node000010_Node000009" title=" " alt="" coords="475,118,569,228,565,231,471,122"/>
+<area shape="poly" id="edge14_Node000011_Node000009" title=" " alt="" coords="568,121,552,154,547,173,549,193,568,228,563,230,544,194,542,173,547,152,563,119"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="558,168,626,193"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="580,119,588,152,583,153,575,121"/>
+<area shape="rect" id="Node000013" href="$timestamped__frame_8h.html" title="Definition for timestamped CAN frames." alt="" coords="650,168,796,193"/>
+<area shape="poly" id="edge15_Node000011_Node000013" title=" " alt="" coords="601,118,685,158,682,163,599,123"/>
+<area shape="poly" id="edge16_Node000013_Node000009" title=" " alt="" coords="701,196,624,236,622,231,698,192"/>
 </map>

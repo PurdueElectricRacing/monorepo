@@ -38,14 +38,14 @@
 <area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="240,94,400,109,399,114,239,99"/>
 <area shape="rect" id="Node000007" href="$driver__interface_8c.html#a6ec7bb211c49e211d008f7c9bcdb2b8d" title=" " alt="" coords="398,153,521,179"/>
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="209,349,228,316,259,272,300,226,349,188,382,174,384,179,351,192,304,230,264,275,233,318,213,351"/>
-<area shape="rect" id="Node000025" href="$freertos_8h.html#a124f0cbb3a309bf493cf9ffba7f27bc4" title="Delays the current task for the specified number of milliseconds." alt="" coords="384,203,536,228"/>
-<area shape="poly" id="edge7_Node000006_Node000025" title=" " alt="" coords="213,348,268,294,306,263,349,237,368,229,370,234,351,242,309,267,271,298,217,352"/>
-<area shape="rect" id="Node000026" href="$driver__interface_8c.html#a8699128e5c732cfae429638ad9986d71" title=" " alt="" coords="416,252,504,278"/>
-<area shape="poly" id="edge8_Node000006_Node000026" title=" " alt="" coords="224,348,280,317,349,286,400,272,401,277,351,291,282,322,227,352"/>
-<area shape="rect" id="Node000027" href="$lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece" title=" " alt="" coords="424,301,495,327"/>
-<area shape="poly" id="edge9_Node000006_Node000027" title=" " alt="" coords="273,347,408,321,409,326,274,353"/>
-<area shape="rect" id="Node000030" href="$lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9" title="Called periodically to send commands to the Nextion LCD display via USART." alt="" coords="404,351,515,376"/>
-<area shape="poly" id="edge10_Node000006_Node000030" title=" " alt="" coords="284,361,389,361,389,366,284,366"/>
+<area shape="rect" id="Node000025" href="$driver__interface_8c.html#a8699128e5c732cfae429638ad9986d71" title=" " alt="" coords="416,203,504,228"/>
+<area shape="poly" id="edge7_Node000006_Node000025" title=" " alt="" coords="213,348,268,294,306,263,349,237,399,220,401,226,351,242,309,267,271,298,217,352"/>
+<area shape="rect" id="Node000026" href="$lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece" title=" " alt="" coords="424,252,495,278"/>
+<area shape="poly" id="edge8_Node000006_Node000026" title=" " alt="" coords="224,348,280,317,349,286,408,271,409,276,351,291,282,322,227,352"/>
+<area shape="rect" id="Node000029" href="$lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9" title="Called periodically to send commands to the Nextion LCD display via USART." alt="" coords="404,301,515,327"/>
+<area shape="poly" id="edge9_Node000006_Node000029" title=" " alt="" coords="273,347,389,325,390,330,274,353"/>
+<area shape="rect" id="Node000046" href="$rtos_8h.html#a64ba4e53e622e76814f4390d9d7b2cd3" title="Delays the current task for the specified number of milliseconds." alt="" coords="400,351,519,376"/>
+<area shape="poly" id="edge10_Node000006_Node000046" title=" " alt="" coords="284,361,385,361,385,366,284,366"/>
 <area shape="rect" id="Node000047" href="$driver__interface_8c.html#ac7b90a0489ad0ee285e2ddbc1d76de4a" title=" " alt="" coords="398,400,521,426"/>
 <area shape="poly" id="edge11_Node000006_Node000047" title=" " alt="" coords="274,374,383,396,382,401,273,380"/>
 <area shape="rect" id="Node000051" href="$lcd_8c.html#a9ceeac8764aca15be67680bddfe70704" title="Updates current telemetry page by calling its handler if available." alt="" coords="382,449,537,475"/>
@@ -79,10 +79,10 @@
 <area shape="poly" id="edge32_Node000087_Node000088" title=" " alt="" coords="238,1017,349,980,377,972,378,978,351,985,240,1022"/>
 <area shape="rect" id="Node000089" href="$adc__priv_8c.html#aaf23796e92dc20c862ddd81a578f5275" title="Start the configured regular conversion sequence." alt="" coords="365,995,554,1020"/>
 <area shape="poly" id="edge33_Node000087_Node000089" title=" " alt="" coords="279,1023,349,1016,350,1021,279,1028"/>
-<area shape="rect" id="Node000032" href="$phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="391,1044,528,1070"/>
-<area shape="poly" id="edge34_Node000087_Node000032" title=" " alt="" coords="279,1037,376,1046,375,1052,279,1043"/>
-<area shape="rect" id="Node000039" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="362,1093,557,1119"/>
-<area shape="poly" id="edge35_Node000087_Node000039" title=" " alt="" coords="241,1044,351,1080,378,1087,377,1092,349,1085,239,1049"/>
+<area shape="rect" id="Node000031" href="$phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="391,1044,528,1070"/>
+<area shape="poly" id="edge34_Node000087_Node000031" title=" " alt="" coords="279,1037,376,1046,375,1052,279,1043"/>
+<area shape="rect" id="Node000038" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="362,1093,557,1119"/>
+<area shape="poly" id="edge35_Node000087_Node000038" title=" " alt="" coords="241,1044,351,1080,378,1087,377,1092,349,1085,239,1049"/>
 <area shape="rect" id="Node000091" href="$fdcan__priv_8c.html#a5989bf0267b012b516dea18271539715" title=" " alt="" coords="350,1143,569,1168"/>
 <area shape="poly" id="edge37_Node000090_Node000091" title=" " alt="" coords="269,1171,334,1164,335,1170,269,1176"/>
 <area shape="rect" id="Node000092" href="$fdcan__priv_8c.html#a405fe02c05033e421fb70515453be08d" title="Enable FDCAN kernel + peripheral clocks (PCLK1)" alt="" coords="352,1192,567,1218"/>

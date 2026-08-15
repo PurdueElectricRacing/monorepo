@@ -1,24 +1,36 @@
 <map id="firmware/source/daq/rtc_sync/rtc_sync.c" name="firmware/source/daq/rtc_sync/rtc_sync.c">
-<area shape="rect" id="Node000001" title="Synchronization of the RTC peripheral with the GPS UTC time." alt="" coords="317,5,456,46"/>
-<area shape="rect" id="Node000002" href="$rtc__sync_8h.html" title="Synchronization of the RTC peripheral with the GPS UTC time." alt="" coords="209,102,289,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="357,49,283,95,280,91,354,44"/>
-<area shape="rect" id="Node000005" href="$rtc_8h.html" title="RTC Configuration Driver for STM32F4 Devices." alt="" coords="310,183,450,223"/>
-<area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="386,47,381,94,381,167,375,167,376,94,381,46"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="390,102,450,127"/>
-<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="397,46,412,86,407,88,392,47"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="473,94,617,135"/>
-<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="424,44,497,84,495,89,421,49"/>
-<area shape="rect" id="Node000003" href="$timestamped__frame_8h.html" title="Definition for timestamped CAN frames." alt="" coords="5,271,152,297"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="209,125,151,145,123,162,99,184,90,201,84,220,80,256,74,256,78,218,85,199,95,181,120,158,149,140,208,120"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="269,125,339,172,336,176,266,130"/>
-<area shape="rect" id="Node000008" href="$freertos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="108,190,286,216"/>
-<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="244,129,214,178,210,176,240,126"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="166,345,229,371"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="100,295,165,334,163,339,97,300"/>
-<area shape="rect" id="Node000006" href="$phal__F4_8h.html" title=" " alt="" coords="261,271,442,297"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="375,225,364,257,359,256,370,223"/>
-<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="327,300,238,341,236,336,324,295"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="315,345,388,371"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="354,297,354,329,349,329,349,297"/>
-<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="200,216,200,329,194,329,194,216"/>
+<area shape="rect" id="Node000001" title="Synchronization of the RTC peripheral with the GPS UTC time." alt="" coords="446,5,584,46"/>
+<area shape="rect" id="Node000002" href="$rtc__sync_8h.html" title="Synchronization of the RTC peripheral with the GPS UTC time." alt="" coords="343,102,423,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="487,49,415,95,413,91,484,44"/>
+<area shape="rect" id="Node000005" href="$rtc_8h.html" title="RTC Configuration Driver for STM32F4 Devices." alt="" coords="433,183,573,223"/>
+<area shape="poly" id="edge16_Node000001_Node000005" title=" " alt="" coords="515,47,510,94,506,168,501,167,505,94,510,46"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="519,102,578,127"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="525,46,541,86,536,88,520,47"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="602,94,746,135"/>
+<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="553,44,626,84,623,89,550,49"/>
+<area shape="rect" id="Node000003" href="$timestamped__frame_8h.html" title="Definition for timestamped CAN frames." alt="" coords="10,190,156,216"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,130,141,188,139,183,342,125"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="401,125,465,171,462,176,398,130"/>
+<area shape="rect" id="Node000008" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="275,190,409,216"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="380,129,357,177,352,175,375,126"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="556,345,619,371"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="64,218,41,235,20,255,9,276,9,286,14,295,41,308,92,319,240,336,407,347,540,352,540,358,407,352,240,342,91,325,39,313,11,299,4,287,3,275,16,252,38,231,61,214"/>
+<area shape="rect" id="Node000006" href="$phal__F4_8h.html" title=" " alt="" coords="625,271,806,297"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="557,221,669,263,667,268,555,226"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="695,300,624,339,621,335,692,295"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="679,345,752,371"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="718,297,718,329,713,329,713,297"/>
+<area shape="poly" id="edge15_Node000008_Node000004" title=" " alt="" coords="391,214,495,243,540,257,564,269,581,298,588,329,583,330,576,300,560,273,537,262,494,248,390,219"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="25,271,118,297"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="301,219,128,269,127,264,299,214"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="142,271,190,297"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="316,219,205,268,203,263,314,214"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="214,271,280,297"/>
+<area shape="poly" id="edge11_Node000008_Node000011" title=" " alt="" coords="329,218,275,263,272,259,326,214"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="305,271,379,297"/>
+<area shape="poly" id="edge12_Node000008_Node000012" title=" " alt="" coords="345,216,345,255,339,255,339,216"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="403,271,459,297"/>
+<area shape="poly" id="edge13_Node000008_Node000013" title=" " alt="" coords="357,214,408,259,404,263,354,218"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="483,271,550,297"/>
+<area shape="poly" id="edge14_Node000008_Node000014" title=" " alt="" coords="370,214,477,262,475,267,368,219"/>
 </map>
