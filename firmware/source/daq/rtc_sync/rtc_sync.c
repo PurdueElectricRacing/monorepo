@@ -26,7 +26,7 @@ RTC_timestamp_t fallback_timestamp ={
     },
 };
 
-FREERTOS_DEFINE_QUEUE(gps_time_queue, timestamped_frame_t, 1);
+RTOS_DEFINE_QUEUE(gps_time_queue, timestamped_frame_t, 1);
 volatile uint32_t last_RTC_sync_time = 0;
 volatile bool is_RTC_sync_complete = false;
 
@@ -80,7 +80,7 @@ static RTC_timestamp_t RTC_from_gps(timestamped_frame_t gps_time) {
 }
 
 void RTC_sync_init(void) {
-    FREERTOS_INIT_QUEUE(gps_time_queue);
+    RTOS_INIT_QUEUE(gps_time_queue);
 }
 
 // static constexpr uint32_t RTC_SYNC_PERIOD_MS = 30 * 1000;

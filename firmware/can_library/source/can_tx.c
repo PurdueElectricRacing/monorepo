@@ -28,39 +28,39 @@ volatile can_stats_t can_stats;
 
 // Allocate TX queues
 #ifdef USE_CAN1
-FREERTOS_DEFINE_QUEUE(can1_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
+RTOS_DEFINE_QUEUE(can1_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
 #endif
 #ifdef USE_CAN2
-FREERTOS_DEFINE_QUEUE(can2_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
+RTOS_DEFINE_QUEUE(can2_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
 #endif
 #ifdef USE_FDCAN1
-FREERTOS_DEFINE_QUEUE(can1_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
+RTOS_DEFINE_QUEUE(can1_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
 #endif
 #ifdef USE_FDCAN2
-FREERTOS_DEFINE_QUEUE(can2_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
+RTOS_DEFINE_QUEUE(can2_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
 #endif
 #ifdef USE_FDCAN3
-FREERTOS_DEFINE_QUEUE(can3_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
+RTOS_DEFINE_QUEUE(can3_tx_queue, CanMsgTypeDef_t, CAN_TX_QUEUE_LENGTH);
 #endif
 
 
 void CAN_tx_init(void) {
 #ifdef USE_CAN1
-    FREERTOS_INIT_QUEUE(can1_tx_queue);
+    RTOS_INIT_QUEUE(can1_tx_queue);
     CAN1->IER &= ~CAN_IER_TMEIE;
 #endif
 #ifdef USE_CAN2
-    FREERTOS_INIT_QUEUE(can2_tx_queue);
+    RTOS_INIT_QUEUE(can2_tx_queue);
     CAN2->IER &= ~CAN_IER_TMEIE;
 #endif
 #ifdef USE_FDCAN1
-    FREERTOS_INIT_QUEUE(can1_tx_queue);
+    RTOS_INIT_QUEUE(can1_tx_queue);
 #endif
 #ifdef USE_FDCAN2
-    FREERTOS_INIT_QUEUE(can2_tx_queue);
+    RTOS_INIT_QUEUE(can2_tx_queue);
 #endif
 #ifdef USE_FDCAN3
-    FREERTOS_INIT_QUEUE(can3_tx_queue);
+    RTOS_INIT_QUEUE(can3_tx_queue);
 #endif
 }
 

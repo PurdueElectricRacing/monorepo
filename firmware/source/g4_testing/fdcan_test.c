@@ -4,7 +4,7 @@
 
 #include <string.h>
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/phal_G4/adc/adc.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/dma/dma.h"
@@ -28,10 +28,10 @@ static void can_rx_1khz(void);
 static uint32_t rx_count = 0;
 static uint32_t tx_count = 0;
 
-FREERTOS_DEFINE_TASK(can_tx_100hz, 10, TASK_PRIORITY_HIGH, STACK_256);
-FREERTOS_DEFINE_TASK(can_rx_1khz, 1, TASK_PRIORITY_HIGH, STACK_256);
+RTOS_DEFINE_TASK(can_tx_100hz, 10, TASK_PRIORITY_HIGH, STACK_256);
+RTOS_DEFINE_TASK(can_rx_1khz, 1, TASK_PRIORITY_HIGH, STACK_256);
 
-FREERTOS_DEFINE_QUEUE(q_can_rx, CanMsgTypeDef_t, 256);
+RTOS_DEFINE_QUEUE(q_can_rx, CanMsgTypeDef_t, 256);
 
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
@@ -50,10 +50,10 @@ int main() {
     PHAL_FDCAN_setFilters(FDCAN3, sids, 2, xids, 3);
 
     // Create threads
-    FREERTOS_START_TASK(can_tx_100hz);
-    FREERTOS_START_TASK(can_rx_1khz);
+    RTOS_START_TASK(can_tx_100hz);
+    RTOS_START_TASK(can_rx_1khz);
 
-    FREERTOS_INIT_QUEUE(q_can_rx);
+    RTOS_INIT_QUEUE(q_can_rx);
 
     // NVIC
     NVIC_SetPriority(FDCAN2_IT0_IRQn, 6);

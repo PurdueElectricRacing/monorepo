@@ -24,14 +24,7 @@ set(SUPPORT_DIR ${CMAKE_SOURCE_DIR}/support)
 
 # Add Libraries
 include(cmake/utils.cmake)
-include(cmake/FindCMSIS.cmake)
-include(cmake/FindSTM32HAL.cmake)
-
-# See cmake/FindCMSIS.cmake and cmake/FindSTM32HAL.cmake for constructing additional libraries
-make_cmsis_library(CMSIS_F407 STM32F4xx STM32F407xx ${CMAKE_SOURCE_DIR}/external/STM32CubeF4/Drivers/CMSIS)
-make_cmsis_library(CMSIS_G474 STM32G4xx STM32G474xx ${CMAKE_SOURCE_DIR}/external/STM32CubeG4/Drivers/CMSIS)
-
-include(cmake/FindFreeRTOS.cmake)
+include(cmake/dependencies.cmake)
 
 # Include new CAN Library
 include(can_library/can_library.cmake)
@@ -39,7 +32,7 @@ include(can_library/can_library.cmake)
 set(COMMON_MODULES
     common/amk
     common/bangbang
-    common/freertos
+    common/rtos
     common/heartbeat
     common/lerp_lut
     common/nextion

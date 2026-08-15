@@ -1,0 +1,37 @@
+name: Deploy Coverage
+
+on:
+  workflow_run:
+    workflows: ["Host Tests"]
+    types: [completed]
+    branches: [master]
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish_coverage:
+    name: Publish coverage to GitHub Pages
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+
+    steps:
+      - name: Download coverage report
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          name: host-test-coverage
+          path: coverage
+
+      - name: Deploy coverage report
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: coverage/html
+          destination_dir: coverage
+          keep_files: true

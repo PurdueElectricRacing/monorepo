@@ -11,7 +11,7 @@
 
 #include "timestamped_frame.h"
 #include "common/phal_F4/rtc/rtc.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 
 extern volatile uint32_t last_RTC_sync_time;
 extern QueueHandle_t gps_time_queue;

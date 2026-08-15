@@ -1,4 +1,8 @@
 # label: globs (relative to repo root) that trigger it
+"tests":
+  - changed-files:
+      - any-glob-to-any-file: ['tests/**']
+
 "firmware":
   - changed-files:
       - any-glob-to-any-file: ['firmware/**']

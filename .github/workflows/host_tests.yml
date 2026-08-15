@@ -1,0 +1,40 @@
+name: Host Tests
+
+on:
+  pull_request:
+  push:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+jobs:
+  unit_tests:
+    name: Unit tests and coverage
+    runs-on: ubuntu-latest
+    container:
+      image: irvingywang/per-firmware:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install host test dependencies
+        run: |
+          apt-get update
+          apt-get install -y gcc g++ lcov libgtest-dev
+
+      - name: Build, test, and generate coverage
+        env:
+          CC: gcc
+          CXX: g++
+          CMAKE_GENERATOR: Ninja
+        run: python3 per_build.py tests
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: host-test-coverage
+          path: firmware/build/host-tests/coverage
+          if-no-files-found: error
+          retention-days: 14

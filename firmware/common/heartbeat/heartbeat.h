@@ -15,7 +15,7 @@
 #else
 #error "Unsupported heartbeat target"
 #endif
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 
 static constexpr uint32_t PREFLIGHT_DURATION_MS = 1500;
 static constexpr uint32_t HEARTBEAT_PERIOD_MS = 100;
@@ -62,8 +62,8 @@ extern void heartbeat_task(status_leds_t *leds);
         .state = HEARTBEAT_STATE_PREFLIGHT \
     }; \
     void heartbeat_wrapper(void) { heartbeat_task(&status_leds); }; \
-    FREERTOS_DEFINE_TASK(heartbeat_wrapper, HEARTBEAT_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512)
+    RTOS_DEFINE_TASK(heartbeat_wrapper, HEARTBEAT_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512)
 
-#define START_HEARTBEAT_TASK() FREERTOS_START_TASK(heartbeat_wrapper)
+#define START_HEARTBEAT_TASK() RTOS_START_TASK(heartbeat_wrapper)
 
 #endif // HEARTBEAT_H

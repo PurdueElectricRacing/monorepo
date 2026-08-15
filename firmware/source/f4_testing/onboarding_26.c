@@ -13,7 +13,7 @@
 
 #if (F4_TESTING_CHOSEN == TEST_ONBOARDING_26)
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/phal_F4/gpio/gpio.h"
 #include "common/phal_F4/rcc/rcc.h"
 #include "common/utils/countof.h"
@@ -43,7 +43,7 @@ void HardFault_Handler();
 void ledblink1();
 // TODO add more function definitions here
 
-FREERTOS_DEFINE_TASK(ledblink1, 250, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(ledblink1, 250, TASK_PRIORITY_NORMAL, 64);
 
 // TODO add thread definitions here
 
@@ -57,7 +57,7 @@ int main() {
     }
 
     // Create threads
-    FREERTOS_START_TASK(ledblink1);
+    RTOS_START_TASK(ledblink1);
     // TODO: Create threads here
 
     vTaskStartScheduler();

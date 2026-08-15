@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/utils/countof.h"
@@ -23,10 +23,10 @@ static void ledblink2(void);
 static void ledblink3(void);
 static void ledblink4(void);
 
-FREERTOS_DEFINE_TASK(ledblink1, 250, TASK_PRIORITY_NORMAL, 64);
-FREERTOS_DEFINE_TASK(ledblink2, 300, TASK_PRIORITY_NORMAL, 64);
-FREERTOS_DEFINE_TASK(ledblink3, 500, TASK_PRIORITY_NORMAL, 64);
-FREERTOS_DEFINE_TASK(ledblink4, 1000, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(ledblink1, 250, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(ledblink2, 300, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(ledblink3, 500, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(ledblink4, 1000, TASK_PRIORITY_NORMAL, 64);
 
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
@@ -41,10 +41,10 @@ int main() {
     PHAL_writeGPIO(LED_ORANGE_PORT, LED_ORANGE_PIN, 1);
 
     // Create threads
-    FREERTOS_START_TASK(ledblink1);
-    FREERTOS_START_TASK(ledblink2);
-    FREERTOS_START_TASK(ledblink3);
-    FREERTOS_START_TASK(ledblink4);
+    RTOS_START_TASK(ledblink1);
+    RTOS_START_TASK(ledblink2);
+    RTOS_START_TASK(ledblink3);
+    RTOS_START_TASK(ledblink4);
 
     vTaskStartScheduler();
 

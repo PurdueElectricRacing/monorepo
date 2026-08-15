@@ -17,7 +17,7 @@
 #include "common/phal_G4/spi/spi.h"
 #include "common/strbuf/strbuf.h"
 #include "thermistor.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 
 void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf) {
     bms->spi   = spi;
@@ -394,7 +394,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
         }
         case ADBMS_STATE_RECOVERING: {
             // Do a full sleep-wake cycle
-            FREERTOS_delay_ms(2500); // ADBMS6380 chips sleep after 2.2s of inactivity
+            RTOS_delay_ms(2500); // ADBMS6380 chips sleep after 2.2s of inactivity
             connect_attempts = 0;
             bms->state = ADBMS_STATE_IDLE;
             break;

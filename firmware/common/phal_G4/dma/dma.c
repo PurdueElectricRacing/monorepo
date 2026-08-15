@@ -126,6 +126,14 @@ bool PHAL_DMA_setLength(PHAL_DMA_Handle_t *handle, uint16_t length) {
     return true;
 }
 
+uint16_t PHAL_DMA_getRemaining(PHAL_DMA_Handle_t *handle) {
+    if (handle == nullptr || handle->channel == nullptr) {
+        return 0;
+    }
+
+    return PHAL_DMA_priv_getRemainingLength(handle->channel);
+}
+
 bool PHAL_DMA_isBusy(PHAL_DMA_Handle_t *handle) {
     if (handle == nullptr || handle->channel == nullptr) {
         return false;

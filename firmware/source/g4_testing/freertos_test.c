@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/utils/countof.h"
@@ -27,16 +27,16 @@ static void monitor_task(void);
 static void fail(void);
 void HardFault_Handler(void);
 
-FREERTOS_DEFINE_TASK(startup_task, 1000, TASK_PRIORITY_HIGH,   STACK_512);
-FREERTOS_DEFINE_TASK(producer_task, 100, TASK_PRIORITY_NORMAL, STACK_512);
-FREERTOS_DEFINE_TASK(consumer_task, 100, TASK_PRIORITY_NORMAL, STACK_512);
-FREERTOS_DEFINE_TASK(monitor_task,  500, TASK_PRIORITY_LOW,    STACK_512);
+RTOS_DEFINE_TASK(startup_task, 1000, TASK_PRIORITY_HIGH,   STACK_512);
+RTOS_DEFINE_TASK(producer_task, 100, TASK_PRIORITY_NORMAL, STACK_512);
+RTOS_DEFINE_TASK(consumer_task, 100, TASK_PRIORITY_NORMAL, STACK_512);
+RTOS_DEFINE_TASK(monitor_task,  500, TASK_PRIORITY_LOW,    STACK_512);
 
-FREERTOS_DEFINE_QUEUE(message_queue, uint32_t, 16);
+RTOS_DEFINE_QUEUE(message_queue, uint32_t, 16);
 
-FREERTOS_DEFINE_MUTEX(counter_mutex);
-FREERTOS_DEFINE_BINARY_SEMAPHORE(start_sem);
-FREERTOS_DEFINE_COUNTING_SEMAPHORE(work_sem);
+RTOS_DEFINE_MUTEX(counter_mutex);
+RTOS_DEFINE_BINARY_SEMAPHORE(start_sem);
+RTOS_DEFINE_COUNTING_SEMAPHORE(work_sem);
 
 
 int main() {
@@ -47,16 +47,16 @@ int main() {
         HardFault_Handler();
     }
 
-    FREERTOS_INIT_QUEUE(message_queue);
+    RTOS_INIT_QUEUE(message_queue);
 
-    FREERTOS_INIT_MUTEX(counter_mutex);
-    FREERTOS_INIT_BINARY_SEMAPHORE(start_sem);
-    FREERTOS_INIT_COUNTING_SEMAPHORE(work_sem, 16);
+    RTOS_INIT_MUTEX(counter_mutex);
+    RTOS_INIT_BINARY_SEMAPHORE(start_sem);
+    RTOS_INIT_COUNTING_SEMAPHORE(work_sem, 16);
 
-    FREERTOS_START_TASK(startup_task);
-    FREERTOS_START_TASK(producer_task);
-    FREERTOS_START_TASK(consumer_task);
-    FREERTOS_START_TASK(monitor_task);
+    RTOS_START_TASK(startup_task);
+    RTOS_START_TASK(producer_task);
+    RTOS_START_TASK(consumer_task);
+    RTOS_START_TASK(monitor_task);
 
     vTaskStartScheduler();
 
@@ -68,7 +68,7 @@ int main() {
 
 
 static void startup_task(void) {
-    FREERTOS_delay_ms(1000);
+    RTOS_delay_ms(1000);
 
     xSemaphoreGive(start_sem);
 
@@ -142,7 +142,7 @@ static void monitor_task(void) {
 static void fail(void) {
     while (true) {
         PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, 1);
-        FREERTOS_delay_ms(100);
+        RTOS_delay_ms(100);
     }
 }
 

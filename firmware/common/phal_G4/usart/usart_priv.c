@@ -36,6 +36,23 @@ static const PHAL_USART_HwMap_t USART_MAP[NUM_USART] = {
     },
 };
 
+static constexpr uint32_t USART_PRIV_RX_FLAG_CLEAR_MSK =
+      USART_ICR_IDLECF | USART_ICR_ORECF | USART_ICR_NECF
+    | USART_ICR_FECF | USART_ICR_PECF;
+
+static inline uint32_t enterCritical(void) {
+    uint32_t previous_interrupt_mask = __get_PRIMASK();
+
+    // sets PRIMASK to 1
+    __disable_irq();
+
+    return previous_interrupt_mask;
+}
+
+static inline void exitCritical(uint32_t previous_interrupt_mask) {
+    __set_PRIMASK(previous_interrupt_mask);
+}
+
 USART_TypeDef *PHAL_USART_priv_periph(ssize_t idx) {
     return USART_MAP[idx].periph;
 }
@@ -46,35 +63,32 @@ void PHAL_USART_priv_configure(ssize_t idx, uint32_t baud_rate, uint32_t clock_r
 
     // Pulse the peripheral reset
     *map->rcc_reset_rg |= map->rcc_reset_msk;
+    (void)*map->rcc_reset_rg;
     *map->rcc_reset_rg &= ~map->rcc_reset_msk;
 
     // Enable the register clock
     *map->rcc_enable_rg |= map->rcc_enable_msk;
-
-    // Dummy read to ensure the register write has taken effect
     (void)*map->rcc_enable_rg;
 
-    // Reset control registers. We want:
+    // Reset control registers.
     // 8 data bits, no parity, 1 stop bit,
     // 16x oversampling, disabled peripheral
     periph->CR1 = 0U;
     periph->CR2 = 0U;
     periph->CR3 = 0U;
 
-    // Per original source code
     periph->BRR = (clock_rate + (baud_rate / 2U)) / baud_rate;
 
-    // IDLE-line interrupt signals RX frame completion.
     periph->CR1 |= USART_CR1_IDLEIE;
-
-    // Enable USART 
     periph->CR1 |= USART_CR1_UE;
 
-    NVIC_ClearPendingIRQ(map->irq);
-    NVIC_EnableIRQ(map->irq);
+    // Keep TX enabled once the USART is initialized
+    // Establishes the required idle-high (mark) level on a TX pin
+    periph->CR1 |= USART_CR1_TE;
 
-    NVIC_ClearPendingIRQ(map->tx_dma_irq);
-    NVIC_EnableIRQ(map->tx_dma_irq);
+    // writing to TCCF clears TC in ISR, which we use to determine
+    // if a byte has finished shifting out on the wire
+    periph->ICR = USART_PRIV_RX_FLAG_CLEAR_MSK | USART_ICR_TCCF;
 }
 
 void PHAL_USART_priv_buildDma(ssize_t idx, PHAL_DMA_Handle_t *tx_dma, PHAL_DMA_Handle_t *rx_dma) {
@@ -102,36 +116,70 @@ void PHAL_USART_priv_buildDma(ssize_t idx, PHAL_DMA_Handle_t *tx_dma, PHAL_DMA_H
 }
 
 void PHAL_USART_priv_startTx(USART_TypeDef *periph) {
+    // dont let interrupt occur during this code
+    uint32_t mask = enterCritical();
+
+    // clear TC
+    periph->ICR = USART_ICR_TCCF;
+
+    // rearm TC and enable transmitter
+    periph->CR1 |= USART_CR1_TE | USART_CR1_TCIE;
+
+    // enable dmat
     periph->CR3 |= USART_CR3_DMAT;
-    periph->CR1 |= USART_CR1_TE;
+
+    exitCritical(mask);
+}
+
+void PHAL_USART_priv_finishTx(USART_TypeDef *periph) {
+    uint32_t mask = enterCritical();
+
+    // disarm TC interrupt
+    periph->CR1 &= ~USART_CR1_TCIE;
+
+    // clear TC
+    periph->ICR = USART_ICR_TCCF;
+
+    exitCritical(mask);
+}
+
+
+bool PHAL_USART_priv_txCompleteActive(USART_TypeDef *periph) {
+    return (periph->ISR & USART_ISR_TC) != 0U && (periph->CR1 & USART_CR1_TCIE) != 0U;
 }
 
 void PHAL_USART_priv_startRx(USART_TypeDef *periph) {
-    // clear RXNE and discard the byte in data register
-    periph->RQR |= USART_RQR_RXFRQ; 
-
-    // write-1-to-clear status & error flags
-    periph->ICR = USART_ICR_ORECF;
+    uint32_t mask = enterCritical();
 
     periph->CR1 |= USART_CR1_RE;
     periph->CR3 |= USART_CR3_DMAR;
+
+    exitCritical(mask);
 }
 
 void PHAL_USART_priv_stopRx(USART_TypeDef *periph) {
+    uint32_t mask = enterCritical();
+
     periph->CR1 &= ~USART_CR1_RE;
     periph->CR3 &= ~USART_CR3_DMAR;
 
-    (void)periph->RDR;
+    exitCritical(mask);
+}
+
+void PHAL_USART_priv_flushRx(USART_TypeDef *periph) {
+    // RQR is write-only; RXFRQ discards whatever is in RDR and clears RXNE so
+    // no stale byte is waiting when the DMA channel is enabled.
+    periph->RQR = USART_RQR_RXFRQ;
+
+    periph->ICR = USART_PRIV_RX_FLAG_CLEAR_MSK;
 }
 
 bool PHAL_USART_priv_idleActive(USART_TypeDef *periph) {
     return (periph->ISR & USART_ISR_IDLE) != 0U;
 }
 
-void PHAL_USART_priv_clearStatusFlags(USART_TypeDef *periph) {
-    // ICR is write-1-to-clear; clearing a flag that is not set is harmless.
-    periph->ICR = USART_ICR_IDLECF | USART_ICR_ORECF | USART_ICR_NECF
-                | USART_ICR_FECF | USART_ICR_PECF;
+void PHAL_USART_priv_clearIdle(USART_TypeDef *periph) {
+    periph->ICR = USART_ICR_IDLECF;
 }
 
 bool PHAL_USART_priv_txDmaComplete(ssize_t idx) {
@@ -143,6 +191,15 @@ bool PHAL_USART_priv_txDmaComplete(ssize_t idx) {
 void PHAL_USART_priv_clearTxDmaFlags(ssize_t idx) {
     const PHAL_DMA_Wiring_t *wiring = USART_MAP[idx].tx_wiring;
     uint32_t shift = 4U * (wiring->channel_idx - 1U);
-    // CGIF clears TCIF/HTIF/TEIF/GIF for the channel (RM0440, DMA_IFCR).
     wiring->periph->IFCR = DMA_IFCR_CGIF1 << shift;
+}
+
+void PHAL_USART_priv_enableIrqs(ssize_t idx) {
+    const PHAL_USART_HwMap_t *map = &USART_MAP[idx];
+    
+    NVIC_ClearPendingIRQ(map->irq);
+    NVIC_EnableIRQ(map->irq);
+
+    NVIC_ClearPendingIRQ(map->tx_dma_irq);
+    NVIC_EnableIRQ(map->tx_dma_irq);
 }

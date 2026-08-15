@@ -8,7 +8,7 @@
 #include "can_irq.h"
 
 #include "can_library/generated/VCAN.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "spmc.h"
 #include "timestamped_frame.h"
 #include "rtc_sync.h"

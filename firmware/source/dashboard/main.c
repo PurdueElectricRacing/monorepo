@@ -12,7 +12,7 @@
 /* System Includes */
 #include "can_library/faults_common.h"
 #include "can_library/generated/DASHBOARD.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/adc/adc.h"
 #include "common/phal_G4/fdcan/fdcan.h"
@@ -114,11 +114,11 @@ void calibrate_LWS();
 
 // Thread Defines
 DEFINE_CAN_TASKS();
-FREERTOS_DEFINE_TASK(pedals_periodic, PEDALS_PERIOD_MS, TASK_PRIORITY_HIGH, STACK_1024);
-FREERTOS_DEFINE_TASK(fault_library_periodic, DASHBOARD_FAULT_SYNC_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
-FREERTOS_DEFINE_TASK(driver_interface_periodic, DRIVER_INTERFACE_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024);
-FREERTOS_DEFINE_TASK(report_telemetry_02hz, TELEMETRY_02HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
-// FREERTOS_DEFINE_TASK(calibrate_LWS, 0, TASK_PRIORITY_LOW, STACK_512); // ! only enable for calibration
+RTOS_DEFINE_TASK(pedals_periodic, PEDALS_PERIOD_MS, TASK_PRIORITY_HIGH, STACK_1024);
+RTOS_DEFINE_TASK(fault_library_periodic, DASHBOARD_FAULT_SYNC_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
+RTOS_DEFINE_TASK(driver_interface_periodic, DRIVER_INTERFACE_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024);
+RTOS_DEFINE_TASK(report_telemetry_02hz, TELEMETRY_02HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
+// RTOS_DEFINE_TASK(calibrate_LWS, 0, TASK_PRIORITY_LOW, STACK_512); // ! only enable for calibration
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(sweep_external_leds);
 
@@ -148,11 +148,11 @@ int main(void) {
     // Software Initialization
     START_CAN_TASKS();
     CAN_SEND_dash_init(WDG_get_CSR());
-    FREERTOS_START_TASK(pedals_periodic);
-    FREERTOS_START_TASK(fault_library_periodic);
-    FREERTOS_START_TASK(driver_interface_periodic);
-    FREERTOS_START_TASK(report_telemetry_02hz);
-    // FREERTOS_START_TASK(calibrate_LWS); // ! only enable for calibration
+    RTOS_START_TASK(pedals_periodic);
+    RTOS_START_TASK(fault_library_periodic);
+    RTOS_START_TASK(driver_interface_periodic);
+    RTOS_START_TASK(report_telemetry_02hz);
+    // RTOS_START_TASK(calibrate_LWS); // ! only enable for calibration
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 
@@ -200,7 +200,7 @@ void calibrate_LWS() {
     static constexpr uint8_t CONFIG_CCW_RESET = 0x5;
     CAN_SEND_LWS_Config(CONFIG_CCW_RESET);
     
-    FREERTOS_delay_ms(200);
+    RTOS_delay_ms(200);
 
     // CCW = command code word
     static constexpr uint8_t CONFIG_CCW_ZERO = 0x3;

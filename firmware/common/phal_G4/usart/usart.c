@@ -6,8 +6,9 @@
 typedef struct {
     PHAL_DMA_Handle_t tx_dma;    /*!< TX DMA handle (built in init) */
     PHAL_DMA_Handle_t rx_dma;    /*!< RX DMA handle (built in init) */
-    volatile uint32_t rxfer_size; /*!< configured RX length (for continuous re-arm) */
-    volatile bool tx_busy;       /*!< set when a TX is in flight, cleared by the DMA ISR */
+    volatile uint16_t rxfer_size; /*!< configured RX length (for continuous re-arm) */
+    volatile uint16_t rx_len;    /*!< bytes actually received in the last completed frame */
+    volatile bool tx_busy;       /*!< set when a TX is in flight, cleared by the USART TC ISR */
     volatile bool rx_busy;       /*!< set while a frame is in flight, cleared by the IDLE-line ISR */
     bool cont_rx;                /*!< continuous vs one-shot reception */
 } PHAL_USART_state_t;
@@ -28,11 +29,17 @@ bool PHAL_USART_init(PHAL_USART_Idx_t periph, uint32_t baud_rate, const uint32_t
     PHAL_USART_priv_configure(idx, baud_rate, clock_rate);
     PHAL_USART_priv_buildDma(idx, &usart_state[idx].tx_dma, &usart_state[idx].rx_dma);
 
-    if (!PHAL_DMA_init(&usart_state[idx].tx_dma) || !PHAL_DMA_init(&usart_state[idx].rx_dma)) {
-        return false;
+    // Both, not short-circuited: a failed TX claim must not leave the RX
+    // handle uninitialized, since that failure mode is silent until the first
+    // rx call returns false for no visible reason.
+    bool tx_ready = PHAL_DMA_init(&usart_state[idx].tx_dma);
+    bool rx_ready = PHAL_DMA_init(&usart_state[idx].rx_dma);
+
+    if (tx_ready && rx_ready) {
+        PHAL_USART_priv_enableIrqs(idx);
     }
 
-    return true;
+    return tx_ready && rx_ready;
 }
 
 /**
@@ -41,27 +48,31 @@ bool PHAL_USART_init(PHAL_USART_Idx_t periph, uint32_t baud_rate, const uint32_t
  * @param periph Which USART peripheral to transmit on
  * @param data Buffer to send
  * @param len Number of bytes to send
- * @return true if every DMA reconfiguration step succeeded, false otherwise
+ * @return true if every DMA reconfiguration step succeeded, false if a
+ *         transmission is already in flight or a step failed
  */
-bool PHAL_USART_tx(PHAL_USART_Idx_t periph, uint8_t *data, uint32_t len) {
+bool PHAL_USART_tx(PHAL_USART_Idx_t periph, uint8_t *data, uint16_t len) {
     ssize_t idx = periph;
 
-    usart_state[idx].tx_busy = true;
+    if (usart_state[idx].tx_busy) {
+        return false;
+    }
 
-    // Re-target the TX channel at this buffer (channel must be disabled to set
-    // length/address); restart clears stale flags and starts the transfer.
-    // Run every step regardless of earlier ones failing - skipping restart
-    // after a partial reconfiguration would leave the channel worse off, not
-    // better - then report whether they all actually succeeded.
     PHAL_DMA_Handle_t *tx_dma = &usart_state[idx].tx_dma;
     bool stopped     = PHAL_DMA_stop(tx_dma);
     bool length_set  = PHAL_DMA_setLength(tx_dma, len);
     bool address_set = PHAL_DMA_setMemAddress(tx_dma, (uint32_t)data);
     bool restarted   = PHAL_DMA_restart(tx_dma);
 
+    if (!(stopped && length_set && address_set && restarted)) {
+        return false;
+    }
+
+    usart_state[idx].tx_busy = true;
+
     PHAL_USART_priv_startTx(PHAL_USART_priv_periph(idx));
 
-    return stopped && length_set && address_set && restarted;
+    return true;
 }
 
 /**
@@ -75,35 +86,53 @@ bool PHAL_USART_tx(PHAL_USART_Idx_t periph, uint8_t *data, uint32_t len) {
  *             PHAL_USART_rxCallback after each.
  * @return true if every DMA reconfiguration step succeeded, false otherwise
  */
-bool PHAL_USART_rx(PHAL_USART_Idx_t periph, uint8_t *data, uint32_t len, bool cont) {
+bool PHAL_USART_rx(PHAL_USART_Idx_t periph, uint8_t *data, uint16_t len, bool cont) {
     ssize_t idx = periph;
+    USART_TypeDef *hw = PHAL_USART_priv_periph(idx);
+
+    PHAL_USART_priv_stopRx(hw);
 
     usart_state[idx].cont_rx = cont;
     usart_state[idx].rxfer_size = len;
-    usart_state[idx].rx_busy = true;
+    usart_state[idx].rx_len = 0;
 
-    // Channel must be disabled to set address/length; restart clears stale
-    // flags and starts reception. Same reasoning as txDMA above: run every
-    // step, then report whether they all actually succeeded.
     PHAL_DMA_Handle_t *rx_dma = &usart_state[idx].rx_dma;
     bool stopped     = PHAL_DMA_stop(rx_dma);
     bool address_set = PHAL_DMA_setMemAddress(rx_dma, (uint32_t)data);
     bool length_set  = PHAL_DMA_setLength(rx_dma, len);
-    bool restarted   = PHAL_DMA_restart(rx_dma);
 
-    PHAL_USART_priv_startRx(PHAL_USART_priv_periph(idx));
+    PHAL_USART_priv_flushRx(hw);
 
-    return stopped && address_set && length_set && restarted;
+    bool restarted = PHAL_DMA_restart(rx_dma);
+
+    if (!(stopped && address_set && length_set && restarted)) {
+        return false;
+    }
+
+    usart_state[idx].rx_busy = true;
+    PHAL_USART_priv_startRx(hw);
+
+    return true;
 }
 
 /**
- * @brief Check whether a DMA transmission is still in progress.
+ * @brief Check whether a transmission is still in progress.
  *
  * @param periph Which USART peripheral to check
  * @return true if a transmission is in flight, false otherwise
  */
 bool PHAL_USART_txBusy(PHAL_USART_Idx_t periph) {
     return usart_state[periph].tx_busy;
+}
+
+/**
+ * @brief Number of bytes received in the last completed frame.
+ *
+ * @param periph Which USART peripheral to query
+ * @return byte count, valid once PHAL_USART_rxCallback has fired
+ */
+uint16_t PHAL_USART_rxCount(PHAL_USART_Idx_t periph) {
+    return usart_state[periph].rx_len;
 }
 
 /**
@@ -114,7 +143,7 @@ bool PHAL_USART_txBusy(PHAL_USART_Idx_t periph) {
  * @param len Number of bytes to send
  * @return true if the transfer completed, false if it failed to start
  */
-bool PHAL_USART_txBlocking(PHAL_USART_Idx_t periph, uint8_t *data, uint32_t len) {
+bool PHAL_USART_txBlocking(PHAL_USART_Idx_t periph, uint8_t *data, uint16_t len) {
     if (!PHAL_USART_tx(periph, data, len)) return false;
 
     while (PHAL_USART_txBusy(periph)) {
@@ -132,7 +161,7 @@ bool PHAL_USART_txBlocking(PHAL_USART_Idx_t periph, uint8_t *data, uint32_t len)
  * @param len Number of bytes to receive
  * @return true if the reception completed, false if it failed to start
  */
-bool PHAL_USART_rxBlocking(PHAL_USART_Idx_t periph, uint8_t *data, uint32_t len) {
+bool PHAL_USART_rxBlocking(PHAL_USART_Idx_t periph, uint8_t *data, uint16_t len) {
     if (!PHAL_USART_rx(periph, data, len, false)) return false;
 
     while (usart_state[periph].rx_busy) {
@@ -142,42 +171,60 @@ bool PHAL_USART_rxBlocking(PHAL_USART_Idx_t periph, uint8_t *data, uint32_t len)
     return true;
 }
 
-/// On the IDLE line, finish the frame, re-arm if continuous, and notify the app.
 static void PHAL_USART_HandleIRQ(PHAL_USART_Idx_t idx) {
     USART_TypeDef *periph = PHAL_USART_priv_periph(idx);
 
-    if (PHAL_USART_priv_idleActive(periph)) {
-        PHAL_DMA_Handle_t *rx_dma = &usart_state[idx].rx_dma;
-        PHAL_DMA_stop(rx_dma);
-        usart_state[idx].rx_busy = false;
-
-        if (usart_state[idx].cont_rx) {
-            // The transfer length has counted down to 0; reload it and re-arm.
-            // restart clears stale channel flags so a prior TEIF can't stall re-arm.
-            PHAL_DMA_setLength(rx_dma, usart_state[idx].rxfer_size);
-            PHAL_DMA_restart(rx_dma);
-        } else {
-            PHAL_USART_priv_stopRx(periph);
-        }
-
-        PHAL_USART_rxCallback(idx);
+    if (PHAL_USART_priv_txCompleteActive(periph)) {
+        PHAL_USART_priv_finishTx(periph);
+        usart_state[idx].tx_busy = false;
     }
 
-    PHAL_USART_priv_clearStatusFlags(periph);
+    if (!PHAL_USART_priv_idleActive(periph)) {
+        return;
+    }
+
+    PHAL_USART_priv_clearIdle(periph);
+
+    PHAL_DMA_Handle_t *rx_dma = &usart_state[idx].rx_dma;
+
+    // Enabling RE on an already-idle line can raise IDLE before the first byte reaches DMA
+    if (PHAL_DMA_getRemaining(rx_dma) == usart_state[idx].rxfer_size) {
+        return;
+    }
+
+    PHAL_DMA_stop(rx_dma);
+
+    // CNDTR counts down, so the shortfall against the configured length is
+    // what actually landed. Read it before the re-arm reloads the count.
+    uint16_t received = (uint16_t)(usart_state[idx].rxfer_size - PHAL_DMA_getRemaining(rx_dma));
+    usart_state[idx].rx_len = received;
+    usart_state[idx].rx_busy = false;
+
+    if (usart_state[idx].cont_rx) {
+        PHAL_USART_priv_stopRx(periph);
+        PHAL_DMA_setLength(rx_dma, usart_state[idx].rxfer_size);
+        PHAL_USART_priv_flushRx(periph);
+        PHAL_DMA_restart(rx_dma);
+
+        usart_state[idx].rx_busy = true;
+        PHAL_USART_priv_startRx(periph);
+    } else {
+        PHAL_USART_priv_stopRx(periph);
+    }
+
+    PHAL_USART_rxCallback(idx, received);
 }
 
-/// On TX DMA completion, mark the transmitter free and clear the channel flags.
 static void PHAL_USART_HandleDMA(PHAL_USART_Idx_t idx) {
     if (PHAL_USART_priv_txDmaComplete(idx)) {
         PHAL_DMA_stop(&usart_state[idx].tx_dma);
-        usart_state[idx].tx_busy = false;
     }
     PHAL_USART_priv_clearTxDmaFlags(idx);
 }
 
-[[gnu::weak]]
-void PHAL_USART_rxCallback(PHAL_USART_Idx_t periph) {
+[[gnu::weak]] void PHAL_USART_rxCallback(PHAL_USART_Idx_t periph, uint16_t len) {
     (void)periph;
+    (void)len;
 }
 
 /* DMA transfer-complete interrupt handlers (TX channels) */
@@ -209,7 +256,7 @@ void DMA1_Channel2_IRQHandler(void) {
     PHAL_USART_HandleDMA(USART3_IDX);
 }
 
-/* USART interrupt handlers (IDLE line) */
+/* USART interrupt handlers (IDLE line + transmission complete) */
 void USART1_IRQHandler(void) {
     PHAL_USART_HandleIRQ(USART1_IDX);
 }

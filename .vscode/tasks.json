@@ -15,7 +15,7 @@
             "type": "shell",
             "command": "clear && python3 per_build.py firmware",
             "group": {
-                "kind": "build",
+                "kind": "build"
             }
         },
         {
@@ -31,7 +31,7 @@
             "type": "shell",
             "command": "clear && python3 per_build.py daqapp",
             "group": {
-                "kind": "build",
+                "kind": "build"
             }
         },
         {
@@ -40,6 +40,15 @@
             "command": "python3 ./firmware/can_library/canpiler/build.py",
             "group": {
                 "kind": "build"
+            }
+        },
+        {
+            "label": "run unit tests",
+            "type": "shell",
+            "command": "clear && python3 per_build.py tests",
+            "group": {
+                "kind": "test",
+                "isDefault": true
             }
         },
         {
