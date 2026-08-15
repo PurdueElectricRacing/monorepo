@@ -185,7 +185,7 @@ def build_offset_messages(rx_entries: List[RxEntry], tx_entries: List[TxEntry]) 
     by_name: Dict[str, OffsetMessage] = {}
 
     def register_msg(msg: Message) -> None:
-        signals = [sig for sig in msg.signals if sig.offset is not None and sig.offset != 0.0]
+        signals = [sig for sig in msg.signals if sig.offset is not None]
         if not signals:
             return
 
