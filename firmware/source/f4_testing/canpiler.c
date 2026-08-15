@@ -40,7 +40,7 @@ void send_periodic() {
 }
 
 DEFINE_CAN_TASKS();
-FREERTOS_DEFINE_TASK(send_periodic, 100, TASK_PRIORITY_NORMAL, 1024);
+RTOS_DEFINE_TASK(send_periodic, 100, TASK_PRIORITY_NORMAL, 1024);
 
 int main() {
     if (PHAL_configureClockRates(&clock_config)) {
@@ -57,7 +57,7 @@ int main() {
     CAN_init();
 
     START_CAN_TASKS();
-    FREERTOS_START_TASK(send_periodic);
+    RTOS_START_TASK(send_periodic);
     
     vTaskStartScheduler();
 

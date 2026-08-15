@@ -29,9 +29,9 @@ void adbms6380_set_cs_high(SPI_InitConfig_t *spi) {
 void adbms6380_wake(SPI_InitConfig_t *spi, size_t module_count) {
     for (size_t i = 0; i < module_count; i++) {
         adbms6380_set_cs_low(spi);
-        FREERTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
+        RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
         adbms6380_set_cs_high(spi);
-        FREERTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
+        RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
     }
 }
 

@@ -6,8 +6,8 @@ usage as drop-in replacement for psched:
 #include "common/rtos/rtos.h" // also add FREERTOS to cmake.txt LIBS =
 
 void heartbeat_LED() { PHAL_toggleGPIO(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN); }
-FREERTOS_DEFINE_TASK(heartbeat_LED, 500, TASK_PRIORITY_NORMAL, STACK_256); // define up here so it is global
-FREERTOS_DEFINE_QUEUE(tcp_tx_queue, timestamped_frame_t, TCP_TX_ITEM_COUNT);
+RTOS_DEFINE_TASK(heartbeat_LED, 500, TASK_PRIORITY_NORMAL, STACK_256); // define up here so it is global
+RTOS_DEFINE_QUEUE(tcp_tx_queue, timestamped_frame_t, TCP_TX_ITEM_COUNT);
 
 int main(void)
 {
@@ -16,8 +16,8 @@ int main(void)
 
     NVIC_SetPriority(CAN1_RX0_IRQn, 6); // set priority >= 6, see configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY in FreeRTOSConfig.h
 
-    FREERTOS_START_TASK(heartbeat_LED); // s/taskCreate/FREERTOS_START_TASK/
-    FREERTOS_INIT_QUEUE(tcp_tx_queue, timestamped_frame_t, TCP_TX_ITEM_COUNT);
+    RTOS_START_TASK(heartbeat_LED); // s/taskCreate/RTOS_START_TASK/
+    RTOS_INIT_QUEUE(tcp_tx_queue, timestamped_frame_t, TCP_TX_ITEM_COUNT);
 
     vTaskStartScheduler(); // s/schedStart/vTaskStartScheduler
 }
@@ -27,7 +27,7 @@ Very good resource: Mastering the FreeRTOS™ Real Time Kernel
 https://www.freertos.org/Documentation/02-Kernel/07-Books-and-manual/01-RTOS_book
 
 Key notes:
-- under the freertos kernel, a task can either be in running or blocked state. you can only block a task (in the freertos sense) by calling an rtos blocking function, e.g. FREERTOS_delay_ms, semaphore wait, queue receive, etc.
+- under the freertos kernel, a task can either be in running or blocked state. you can only block a task (in the freertos sense) by calling an rtos blocking function, e.g. RTOS_delay_ms, semaphore wait, queue receive, etc.
 - blocking in the freertos sense does not mean it blocks in the usual sense (i.e. polls and waits within that function), it will switch to another task.
 - specifically freertos will always execute the highest priority task that can run (i.e. not in blocked state)
 

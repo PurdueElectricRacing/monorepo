@@ -10,8 +10,8 @@
 
 #include "rtos.h"
 
-void FREERTOS_periodic_task_runner(void *arg) {
-    FREERTOS_periodic_task_params_t *wrapper = (FREERTOS_periodic_task_params_t *)arg;
+void RTOS_periodic_task_runner(void *arg) {
+    RTOS_periodic_task_params_t *wrapper = (RTOS_periodic_task_params_t *)arg;
 
     TickType_t lastWakeTime = xTaskGetTickCount();
     const TickType_t period = pdMS_TO_TICKS(wrapper->period_ms);

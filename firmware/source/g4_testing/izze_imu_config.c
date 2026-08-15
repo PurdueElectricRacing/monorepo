@@ -50,7 +50,7 @@ void config_imu() {
 }
 
 DEFINE_CAN_TASKS();
-FREERTOS_DEFINE_TASK(config_imu, IZZE_IMU_CONFIG_PERIOD_MS, TASK_PRIORITY_NORMAL, 1024);
+RTOS_DEFINE_TASK(config_imu, IZZE_IMU_CONFIG_PERIOD_MS, TASK_PRIORITY_NORMAL, 1024);
 
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
@@ -68,7 +68,7 @@ int main() {
     CAN_init();
 
     START_CAN_TASKS();
-    FREERTOS_START_TASK(config_imu);
+    RTOS_START_TASK(config_imu);
 
     vTaskStartScheduler();
 

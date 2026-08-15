@@ -121,8 +121,8 @@ void shockpots_periodic();
 void oil_temps_periodic();
 
 DEFINE_CAN_TASKS();
-FREERTOS_DEFINE_TASK(shockpots_periodic, FRONT_SHOCKPOTS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
-FREERTOS_DEFINE_TASK(oil_temps_periodic, FRONT_OIL_TEMPS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
+RTOS_DEFINE_TASK(shockpots_periodic, FRONT_SHOCKPOTS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
+RTOS_DEFINE_TASK(oil_temps_periodic, FRONT_OIL_TEMPS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -159,8 +159,8 @@ int main(void) {
     // Software Initalization
     START_CAN_TASKS();
     SEND_INIT(WDG_get_CSR());
-    FREERTOS_START_TASK(shockpots_periodic);
-    FREERTOS_START_TASK(oil_temps_periodic);
+    RTOS_START_TASK(shockpots_periodic);
+    RTOS_START_TASK(oil_temps_periodic);
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 

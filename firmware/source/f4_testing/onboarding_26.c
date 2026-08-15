@@ -43,7 +43,7 @@ void HardFault_Handler();
 void ledblink1();
 // TODO add more function definitions here
 
-FREERTOS_DEFINE_TASK(ledblink1, 250, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(ledblink1, 250, TASK_PRIORITY_NORMAL, 64);
 
 // TODO add thread definitions here
 
@@ -57,7 +57,7 @@ int main() {
     }
 
     // Create threads
-    FREERTOS_START_TASK(ledblink1);
+    RTOS_START_TASK(ledblink1);
     // TODO: Create threads here
 
     vTaskStartScheduler();

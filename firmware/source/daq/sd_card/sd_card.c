@@ -176,7 +176,7 @@ void sd_card_periodic(void) {
                 next_sd_state = SD_STATE_FATAL;
             } else {
                 release_resources();
-                FREERTOS_delay_ms(200); // wait a bit before trying again
+                RTOS_delay_ms(200); // wait a bit before trying again
                 next_sd_state = SD_STATE_DISABLED;
             }
             break;

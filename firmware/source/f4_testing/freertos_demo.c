@@ -72,14 +72,14 @@ void ledblink4();
 void usartSend();
 
 // Define up here so they're global
-FREERTOS_DEFINE_TASK(ledblink1, 250, TASK_PRIORITY_NORMAL, 64);
-FREERTOS_DEFINE_TASK(ledblink2, 300, TASK_PRIORITY_NORMAL, 64);
-FREERTOS_DEFINE_TASK(ledblink3, 500, TASK_PRIORITY_NORMAL, 64);
-FREERTOS_DEFINE_TASK(ledblink4, 1000, TASK_PRIORITY_NORMAL, 64);
-FREERTOS_DEFINE_TASK(usartSend, 1000, TASK_PRIORITY_NORMAL, 1024);
+RTOS_DEFINE_TASK(ledblink1, 250, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(ledblink2, 300, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(ledblink3, 500, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(ledblink4, 1000, TASK_PRIORITY_NORMAL, 64);
+RTOS_DEFINE_TASK(usartSend, 1000, TASK_PRIORITY_NORMAL, 1024);
 
-FREERTOS_DEFINE_QUEUE(myQueue, uint32_t, 0x45);
-FREERTOS_DEFINE_MUTEX(mutex);
+RTOS_DEFINE_QUEUE(myQueue, uint32_t, 0x45);
+RTOS_DEFINE_MUTEX(mutex);
 
 int main() {
     // Initialize hardware
@@ -95,15 +95,15 @@ int main() {
     log_yellow("PER PER PER\n");
 
     // Create threads
-    FREERTOS_START_TASK(ledblink1);
-    FREERTOS_START_TASK(ledblink2);
-    FREERTOS_START_TASK(ledblink3);
-    FREERTOS_START_TASK(ledblink4);
-    FREERTOS_START_TASK(usartSend);
+    RTOS_START_TASK(ledblink1);
+    RTOS_START_TASK(ledblink2);
+    RTOS_START_TASK(ledblink3);
+    RTOS_START_TASK(ledblink4);
+    RTOS_START_TASK(usartSend);
 
     // Create objects
-    FREERTOS_INIT_QUEUE(myQueue);
-    FREERTOS_INIT_MUTEX(mutex);
+    RTOS_INIT_QUEUE(myQueue);
+    RTOS_INIT_MUTEX(mutex);
 
     vTaskStartScheduler();
 

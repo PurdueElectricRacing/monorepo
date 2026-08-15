@@ -24,7 +24,7 @@ void HardFault_Handler(void);
 /// Cycle through PWM duty-cycle values every two seconds.
 static void pwm_update_2s(void);
 
-FREERTOS_DEFINE_TASK(pwm_update_2s, 2'000, TASK_PRIORITY_HIGH, STACK_256);
+RTOS_DEFINE_TASK(pwm_update_2s, 2'000, TASK_PRIORITY_HIGH, STACK_256);
 
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
@@ -37,7 +37,7 @@ int main() {
         HardFault_Handler();
     }
 
-    FREERTOS_START_TASK(pwm_update_2s);
+    RTOS_START_TASK(pwm_update_2s);
 
     vTaskStartScheduler();
 

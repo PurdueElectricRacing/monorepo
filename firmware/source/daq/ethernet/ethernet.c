@@ -51,9 +51,9 @@ static bool init_w5500(void) {
 
     // hold and release ETH reset pin
     PHAL_writeGPIO(ETH_RST_PORT, ETH_RST_PIN, 0);
-    FREERTOS_delay_ms(10);
+    RTOS_delay_ms(10);
     PHAL_writeGPIO(ETH_RST_PORT, ETH_RST_PIN, 1);
-    FREERTOS_delay_ms(50);
+    RTOS_delay_ms(50);
 
     // Read back the version register
     if (getVERSIONR() != EXPECTED_W5500_VERSION_ID) {
@@ -123,21 +123,21 @@ void ethernet_periodic(void) {
 
     switch (current_state) {
         case ETHERNET_STATE_HW_INIT:
-            FREERTOS_delay_ms(200); // block for a bit between each init attempt
+            RTOS_delay_ms(200); // block for a bit between each init attempt
             
             if (init_w5500()) {
                 next_state = ETHERNET_STATE_UDP_INIT;
             }
             break;
         case ETHERNET_STATE_UDP_INIT:
-            FREERTOS_delay_ms(200); // block for a bit between each init attempt
+            RTOS_delay_ms(200); // block for a bit between each init attempt
 
             if (init_udp()) {
                 next_state = ETHERNET_STATE_LINKING;
             }
             break;
         case ETHERNET_STATE_LINKING:
-            FREERTOS_delay_ms(200); // block for a bit between each link check
+            RTOS_delay_ms(200); // block for a bit between each link check
 
             if (is_linked()) {
                 next_state = ETHERNET_STATE_READY2TX;
@@ -145,7 +145,7 @@ void ethernet_periodic(void) {
             break;
         case ETHERNET_STATE_READY2TX:
             eth_ready_periodic();
-            FREERTOS_delay_ms(10); // 100 Hz tx rate
+            RTOS_delay_ms(10); // 100 Hz tx rate
 
             if (!is_linked()) {
                 next_state = ETHERNET_STATE_LINKING; // Link lost, try to relink
