@@ -1,5 +1,5 @@
-#ifndef PER_RTOS_H
-#define PER_RTOS_H
+#ifndef RTOS_H
+#define RTOS_H
 
 /**
  * @file rtos.h
@@ -185,4 +185,4 @@ typedef struct {
 #define RTOS_INIT_BINARY_SEMAPHORE(NAME)                                   \
     (NAME = xSemaphoreCreateBinaryStatic(&(NAME##_cb)))
 
-#endif // PER_RTOS_H
+#endif // RTOS_H
