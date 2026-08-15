@@ -19,11 +19,6 @@ GPIOInitConfig_t gpio_config[] = {
 
 void HardFault_Handler();
 
-/// Rounds to nearest int. 
-static inline int32_t round_to_int32(float f) {
-    return (int32_t)(f + (f >= 0.0f ? 0.5f : -0.5f));
-}
-
 /** 
  * @brief Encode and transmit canpiler_test message
  *
@@ -39,10 +34,10 @@ static inline int32_t round_to_int32(float f) {
  * status       phys (no scale/offset)         165                      165, no scale/offset
  */
 void send_periodic() {
-    uint8_t temperature = (uint8_t)round_to_int32(25.0f - OFFSET_CANPILER_TEST_TEMPERATURE);
-    int16_t current = (int16_t)round_to_int32(-125.5f * PACK_COEFF_CANPILER_TEST_CURRENT);
-    uint16_t voltage = (uint16_t)round_to_int32((3.700f - OFFSET_CANPILER_TEST_VOLTAGE) * PACK_COEFF_CANPILER_TEST_VOLTAGE);
-    uint8_t pressure = (uint8_t)round_to_int32((300.0f - OFFSET_CANPILER_TEST_PRESSURE) * PACK_COEFF_CANPILER_TEST_PRESSURE);
+    uint8_t temperature = (uint8_t)(25.0f - OFFSET_CANPILER_TEST_TEMPERATURE);
+    int16_t current = (int16_t)(-125.5f * PACK_COEFF_CANPILER_TEST_CURRENT);
+    uint16_t voltage = (uint16_t)((3.700f - OFFSET_CANPILER_TEST_VOLTAGE) * PACK_COEFF_CANPILER_TEST_VOLTAGE);
+    uint8_t pressure = (uint8_t)((300.0f - OFFSET_CANPILER_TEST_PRESSURE) * PACK_COEFF_CANPILER_TEST_PRESSURE);
     uint8_t status = 165;
 
     CAN_SEND_canpiler_test(temperature, current, voltage, pressure, status);
