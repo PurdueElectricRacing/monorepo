@@ -3,7 +3,7 @@ Eileen Yoon (eyn@purdue.edu)
 
 usage as drop-in replacement for psched:
 ```c
-#include "common/rtos/rtos.h" // also add FREERTOS to cmake.txt LIBS =
+#include "common/rtos/rtos.h" // also add RTOS to cmake.txt LIBS =
 
 void heartbeat_LED() { PHAL_toggleGPIO(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN); }
 RTOS_DEFINE_TASK(heartbeat_LED, 500, TASK_PRIORITY_NORMAL, STACK_256); // define up here so it is global
