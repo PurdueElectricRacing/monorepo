@@ -8,7 +8,7 @@
 #include "sdc.h"
 
 #include "can_library/faults_common.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "main.h"
 
@@ -55,7 +55,7 @@ void SDC_task_periodic(void) {
         PHAL_writeGPIO(SDC_MUX_S3_PORT, SDC_MUX_S3_PIN, (mux_addr >> 3) & 0x1);
         
         // delay to allow mux signals to stabilize
-        FREERTOS_delay_ms(1);
+        RTOS_delay_ms(1);
 
         // ! reading the input pin as 1 = closed, 0 = open
         bool is_node_open = !PHAL_readGPIO(SDC_MUX_PORT, SDC_MUX_PIN);

@@ -7,7 +7,7 @@
 
 #include "spmc.h"
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "stm32f407xx.h"
 
 // Singleton global allocation

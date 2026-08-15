@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/phal_F4/gpio/gpio.h"
 #include "common/phal_F4/rtc/rtc.h"
 #include "common/sdio/sdio.h"
@@ -176,7 +176,7 @@ void sd_card_periodic(void) {
                 next_sd_state = SD_STATE_FATAL;
             } else {
                 release_resources();
-                FREERTOS_delay_ms(200); // wait a bit before trying again
+                RTOS_delay_ms(200); // wait a bit before trying again
                 next_sd_state = SD_STATE_DISABLED;
             }
             break;

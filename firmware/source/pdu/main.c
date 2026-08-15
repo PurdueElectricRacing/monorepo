@@ -12,7 +12,7 @@
 /* System Includes */
 #include "can_library/faults_common.h"
 #include "can_library/generated/PDU.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_F4/adc/adc.h"
 #include "common/phal_F4/can/can.h"
@@ -267,20 +267,20 @@ static void heartbeat_led_sweep(void) {
 }
 
 static void tsal_delayed_start() {
-    FREERTOS_delay_ms(1000);
+    RTOS_delay_ms(1000);
     switches_set_state(SW_MAIN, true);
     vTaskDelete(NULL);
 }
 
 // Thread Defines
 DEFINE_CAN_TASKS();
-FREERTOS_DEFINE_TASK(switches_periodic, 15, TASK_PRIORITY_NORMAL, STACK_512);
-FREERTOS_DEFINE_TASK(tsal_delayed_start, 1000, TASK_PRIORITY_LOW, STACK_512);
-FREERTOS_DEFINE_TASK(cooling_fsm_periodic, COOLING_FSM_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
-FREERTOS_DEFINE_TASK(LED_periodic, 500, TASK_PRIORITY_LOW, STACK_512);
-FREERTOS_DEFINE_TASK(faults_periodic, 100, TASK_PRIORITY_LOW, STACK_512);
-FREERTOS_DEFINE_TASK(fault_library_periodic, 100, TASK_PRIORITY_LOW, STACK_1024);
-FREERTOS_DEFINE_TASK(telemetry_10hz, 100, TASK_PRIORITY_LOW, STACK_1024);
+RTOS_DEFINE_TASK(switches_periodic, 15, TASK_PRIORITY_NORMAL, STACK_512);
+RTOS_DEFINE_TASK(tsal_delayed_start, 1000, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(cooling_fsm_periodic, COOLING_FSM_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
+RTOS_DEFINE_TASK(LED_periodic, 500, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(faults_periodic, 100, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(fault_library_periodic, 100, TASK_PRIORITY_LOW, STACK_1024);
+RTOS_DEFINE_TASK(telemetry_10hz, 100, TASK_PRIORITY_LOW, STACK_1024);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(heartbeat_led_sweep);
 
@@ -324,13 +324,13 @@ int main() {
 
     START_CAN_TASKS();
     CAN_SEND_pdu_init(WDG_get_CSR());
-    FREERTOS_START_TASK(switches_periodic);
-    FREERTOS_START_TASK(tsal_delayed_start);
-    FREERTOS_START_TASK(cooling_fsm_periodic);
-    FREERTOS_START_TASK(LED_periodic);
-    FREERTOS_START_TASK(faults_periodic);
-    FREERTOS_START_TASK(fault_library_periodic);
-    FREERTOS_START_TASK(telemetry_10hz);
+    RTOS_START_TASK(switches_periodic);
+    RTOS_START_TASK(tsal_delayed_start);
+    RTOS_START_TASK(cooling_fsm_periodic);
+    RTOS_START_TASK(LED_periodic);
+    RTOS_START_TASK(faults_periodic);
+    RTOS_START_TASK(fault_library_periodic);
+    RTOS_START_TASK(telemetry_10hz);
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 

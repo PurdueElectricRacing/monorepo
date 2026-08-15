@@ -5,7 +5,7 @@
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/izze_imu/izze_imu.h"
 #include "common/utils/countof.h"
 
@@ -50,7 +50,7 @@ void config_imu() {
 }
 
 DEFINE_CAN_TASKS();
-FREERTOS_DEFINE_TASK(config_imu, IZZE_IMU_CONFIG_PERIOD_MS, TASK_PRIORITY_NORMAL, 1024);
+RTOS_DEFINE_TASK(config_imu, IZZE_IMU_CONFIG_PERIOD_MS, TASK_PRIORITY_NORMAL, 1024);
 
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
@@ -68,7 +68,7 @@ int main() {
     CAN_init();
 
     START_CAN_TASKS();
-    FREERTOS_START_TASK(config_imu);
+    RTOS_START_TASK(config_imu);
 
     vTaskStartScheduler();
 

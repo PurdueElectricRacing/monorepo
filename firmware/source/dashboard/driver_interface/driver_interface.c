@@ -10,7 +10,7 @@
 #include "can_library/faults_common.h"
 #include "can_library/generated/DASHBOARD.h"
 #include "can_library/generated/can_types.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/watchdog/watchdog.h"
@@ -22,7 +22,7 @@ static driver_interface_state_t di_state = DI_STATE_LCD_INIT;
 static driver_interface_state_t next_di_state = DI_STATE_LCD_INIT;
 
 #define ACTION_QUEUE_LENGTH (10)
-FREERTOS_DEFINE_QUEUE(action_queue, driver_interface_action_t, ACTION_QUEUE_LENGTH);
+RTOS_DEFINE_QUEUE(action_queue, driver_interface_action_t, ACTION_QUEUE_LENGTH);
 volatile uint16_t data_mark_index = 0;
 
 static constexpr uint32_t INTERRUPT_DEBOUNCE_MS = 150;
@@ -152,7 +152,7 @@ void EXTI15_10_IRQHandler() {
                           EXTI_IMR1_IM14 | EXTI_IMR1_IM15)
 
 static void init_buttons() {
-    FREERTOS_INIT_QUEUE(action_queue);
+    RTOS_INIT_QUEUE(action_queue);
 
     // Enable SYSCFG clock
     RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
@@ -305,7 +305,7 @@ void driver_interface_periodic(void) {
     switch (di_state) {
         case DI_STATE_LCD_INIT: {
             if (!was_reset_by_WDG()) {
-                FREERTOS_delay_ms(1000); // wait a bit for LCD to power-on
+                RTOS_delay_ms(1000); // wait a bit for LCD to power-on
             }
             LCD_init(LCD_BAUD_RATE);
             next_di_state = DI_STATE_BUTTONS_INIT;

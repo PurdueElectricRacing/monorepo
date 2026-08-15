@@ -6,7 +6,7 @@
  */
 
 #include "can_library/faults_common.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "sensors.h"
 
 volatile uint8_t rover_rx_buffer[ROVER_TX_SIZE] = {0}; // updated by DMA stream

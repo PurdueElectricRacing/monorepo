@@ -2,10 +2,9 @@
 Libraries, drivers, generic data structures, and other utilities.
 
 ## Core platform layers
-- `phal` Shared PHAL interface layer and common headers.
 - `phal_F4` PHAL implementations for STM32F4 targets.
 - `phal_G4` PHAL implementations for STM32G4 targets.
-- `freertos` FreeRTOS configuration and wrapper functions.
+- `rtos` FreeRTOS configuration and wrapper functions.
 
 ## Device / protocol drivers
 - `amk` AMK motor controller helpers.

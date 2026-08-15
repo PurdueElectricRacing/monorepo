@@ -1,10 +1,10 @@
-create_can_node_lib(DRIVELINE "CMSIS_G474;FREERTOS_G474")
+create_can_node_lib(DRIVELINE "CMSIS_G474;RTOS_G474")
 
 foreach(SIDE front rear)
     add_firmware_component(
         NAME ${SIDE}_driveline
         LINKER_SCRIPT "STM32G474RETX_FLASH"
-        LIBS "can_node_DRIVELINE;CMSIS_G474;FREERTOS_G474;PHAL_G474;HEARTBEAT;LERP_LUT;WATCHDOG"
+        LIBS "can_node_DRIVELINE;CMSIS_G474;RTOS_G474;PHAL_G474;HEARTBEAT;LERP_LUT;WATCHDOG"
     )
 
     # Pass the location define to the compiler

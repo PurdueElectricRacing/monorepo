@@ -9,7 +9,7 @@
 #include "common/phal_G4/dma/dma.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "main.h"
 #include "can_library/faults_common.h"
 #include "common/utils/countof.h"
@@ -32,9 +32,9 @@ void send_periodic() {
     CAN_SEND_abox_version(GIT_HASH);
 }
 
-FREERTOS_DEFINE_TASK(CAN_rx_update, 0, TASK_PRIORITY_HIGH, STACK_2048);
-FREERTOS_DEFINE_TASK(CAN_tx_update, 2, TASK_PRIORITY_NORMAL, STACK_2048);
-FREERTOS_DEFINE_TASK(send_periodic, 10, TASK_PRIORITY_NORMAL, 1024);
+RTOS_DEFINE_TASK(CAN_rx_update, 0, TASK_PRIORITY_HIGH, STACK_2048);
+RTOS_DEFINE_TASK(CAN_tx_update, 2, TASK_PRIORITY_NORMAL, STACK_2048);
+RTOS_DEFINE_TASK(send_periodic, 10, TASK_PRIORITY_NORMAL, 1024);
 
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
@@ -51,9 +51,9 @@ int main() {
     NVIC_SetPriority(FDCAN1_IT0_IRQn, 6);
     NVIC_EnableIRQ(FDCAN1_IT0_IRQn);
 
-    FREERTOS_START_TASK(CAN_rx_update);
-    FREERTOS_START_TASK(CAN_tx_update);
-    FREERTOS_START_TASK(send_periodic);
+    RTOS_START_TASK(CAN_rx_update);
+    RTOS_START_TASK(CAN_tx_update);
+    RTOS_START_TASK(send_periodic);
 
     vTaskStartScheduler();
 

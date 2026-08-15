@@ -31,7 +31,7 @@ void ff_memfree(
 /* Definitions of Mutex                                                   */
 /*------------------------------------------------------------------------*/
 
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 static SemaphoreHandle_t Mutex[FF_VOLUMES + 1]; /* Table of mutex handle */
 static StaticSemaphore_t MutexControlBlocks[FF_VOLUMES + 1]; /* Table of mutex control blocks */
 
