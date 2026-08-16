@@ -39,6 +39,10 @@ bool PHAL_USART_init(PHAL_USART_Idx_t periph, uint32_t baud_rate, const uint32_t
     bool tx_ready = PHAL_DMA_initWithCallback(&usart_state[idx].tx_dma, usart_tx_dma_callback, (void *)(intptr_t)idx);
     bool rx_ready = PHAL_DMA_init(&usart_state[idx].rx_dma);
 
+    if (tx_ready && rx_ready) {
+        PHAL_USART_priv_enableIrq(idx);
+    }
+
     return tx_ready && rx_ready;
 }
 
