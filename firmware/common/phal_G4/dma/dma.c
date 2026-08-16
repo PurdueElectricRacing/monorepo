@@ -182,9 +182,13 @@ void DMA1_Channel4_IRQHandler(void) { dma_dispatch(DMA1, 4); }
 void DMA1_Channel5_IRQHandler(void) { dma_dispatch(DMA1, 5); }
 void DMA1_Channel6_IRQHandler(void) { dma_dispatch(DMA1, 6); }
 void DMA1_Channel7_IRQHandler(void) { dma_dispatch(DMA1, 7); }
+void DMA1_Channel8_IRQHandler(void) { dma_dispatch(DMA1, 8); }
 
 void DMA2_Channel1_IRQHandler(void) { dma_dispatch(DMA2, 1); }
 void DMA2_Channel2_IRQHandler(void) { dma_dispatch(DMA2, 2); }
 void DMA2_Channel3_IRQHandler(void) { dma_dispatch(DMA2, 3); }
 void DMA2_Channel4_IRQHandler(void) { dma_dispatch(DMA2, 4); }
 void DMA2_Channel5_IRQHandler(void) { dma_dispatch(DMA2, 5); }
+void DMA2_Channel6_IRQHandler(void) { dma_dispatch(DMA2, 6); }
+void DMA2_Channel7_IRQHandler(void) { dma_dispatch(DMA2, 7); }
+void DMA2_Channel8_IRQHandler(void) { dma_dispatch(DMA2, 8); }
