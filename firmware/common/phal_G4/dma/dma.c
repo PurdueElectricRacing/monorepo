@@ -81,11 +81,7 @@ bool PHAL_DMA_initWithCallback(PHAL_DMA_Handle_t *handle, PHAL_DMA_IRQCallbackFn
     return PHAL_DMA_init(handle);
 }
 
-bool PHAL_DMA_deinit(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return false;
-    }
-
+void PHAL_DMA_deinit(PHAL_DMA_Handle_t *handle) {
     PHAL_DMA_priv_disableChannel(handle->channel);
 
     if (handle->callback.irq_fn != nullptr) {
@@ -97,42 +93,25 @@ bool PHAL_DMA_deinit(PHAL_DMA_Handle_t *handle) {
     handle->channel = nullptr;
     handle->callback.irq_fn = nullptr;
     handle->callback.ctx = nullptr;
-    
-    return true;
 }
 
-bool PHAL_DMA_start(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return false;
-    }
-
+void PHAL_DMA_start(PHAL_DMA_Handle_t *handle) {
     PHAL_DMA_priv_enableChannel(handle->channel);
-    return true;
 }
 
-bool PHAL_DMA_stop(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return false;
-    }
-
+void PHAL_DMA_stop(PHAL_DMA_Handle_t *handle) {
     PHAL_DMA_priv_disableChannel(handle->channel);
-    return true;
 }
 
-bool PHAL_DMA_restart(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return false;
-    }
-
+void PHAL_DMA_restart(PHAL_DMA_Handle_t *handle) {
     PHAL_DMA_priv_disableChannel(handle->channel);
     PHAL_DMA_priv_clearFlags(handle->wiring->periph, handle->wiring->channel_idx);
     PHAL_DMA_priv_setLength(handle->channel, handle->params.tx_size);
     PHAL_DMA_priv_enableChannel(handle->channel);
-    return true;
 }
 
 bool PHAL_DMA_setMemAddress(PHAL_DMA_Handle_t *handle, uint32_t address) {
-    if (handle == nullptr || handle->channel == nullptr || PHAL_DMA_priv_isChannelEnabled(handle->channel)) {
+    if (PHAL_DMA_priv_isChannelEnabled(handle->channel)) {
         return false;
     }
 
@@ -142,7 +121,7 @@ bool PHAL_DMA_setMemAddress(PHAL_DMA_Handle_t *handle, uint32_t address) {
 }
 
 bool PHAL_DMA_setLength(PHAL_DMA_Handle_t *handle, uint16_t length) {
-    if (handle == nullptr || handle->channel == nullptr || PHAL_DMA_priv_isChannelEnabled(handle->channel)) {
+    if (PHAL_DMA_priv_isChannelEnabled(handle->channel)) {
         return false;
     }
 
@@ -151,70 +130,41 @@ bool PHAL_DMA_setLength(PHAL_DMA_Handle_t *handle, uint16_t length) {
     return true;
 }
 
-uint16_t PHAL_DMA_getRemaining(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return 0;
-    }
-
-    return PHAL_DMA_priv_getRemainingLength(handle->channel);
-}
-
-bool PHAL_DMA_isBusy(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return false;
-    }
-
-    return PHAL_DMA_priv_isChannelEnabled(handle->channel);
-}
-
-bool PHAL_DMA_isComplete(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return false;
-    }
-
-    return PHAL_DMA_priv_readCompleteFlag(handle->wiring->periph, handle->wiring->channel_idx);
-}
-
-bool PHAL_DMA_isError(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return false;
-    }
-
-    return PHAL_DMA_priv_readErrorFlag(handle->wiring->periph, handle->wiring->channel_idx);
-}
-
-bool PHAL_DMA_clearFlags(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return false;
-    }
-
-    PHAL_DMA_priv_clearFlags(handle->wiring->periph, handle->wiring->channel_idx);
-    return true;
-}
-
-DMA_TypeDef *PHAL_DMA_getPeriph(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return nullptr;
-    }
-
-    return handle->wiring->periph;
-}
-
-uint8_t PHAL_DMA_getChannelIdx(PHAL_DMA_Handle_t *handle) {
-    if (handle == nullptr || handle->channel == nullptr) {
-        return 0;
-    }
-
-    return handle->wiring->channel_idx;
-}
-
 void PHAL_DMA_setMemInc(PHAL_DMA_Handle_t *handle, bool mem_inc) {
-    if (handle == nullptr || handle->channel == nullptr || PHAL_DMA_priv_isChannelEnabled(handle->channel)) {
+    if (PHAL_DMA_priv_isChannelEnabled(handle->channel)) {
         return;
     }
 
     handle->params.mem_inc = mem_inc;
     PHAL_DMA_priv_configChannel(handle->channel, handle->wiring, &handle->params);
+}
+
+uint16_t PHAL_DMA_getRemaining(PHAL_DMA_Handle_t *handle) {
+    return PHAL_DMA_priv_getRemainingLength(handle->channel);
+}
+
+bool PHAL_DMA_isBusy(PHAL_DMA_Handle_t *handle) {
+    return PHAL_DMA_priv_isChannelEnabled(handle->channel);
+}
+
+bool PHAL_DMA_isComplete(PHAL_DMA_Handle_t *handle) {
+    return PHAL_DMA_priv_readCompleteFlag(handle->wiring->periph, handle->wiring->channel_idx);
+}
+
+bool PHAL_DMA_isError(PHAL_DMA_Handle_t *handle) {
+    return PHAL_DMA_priv_readErrorFlag(handle->wiring->periph, handle->wiring->channel_idx);
+}
+
+void PHAL_DMA_clearFlags(PHAL_DMA_Handle_t *handle) {
+    PHAL_DMA_priv_clearFlags(handle->wiring->periph, handle->wiring->channel_idx);
+}
+
+DMA_TypeDef *PHAL_DMA_getPeriph(PHAL_DMA_Handle_t *handle) {
+    return handle->wiring->periph;
+}
+
+uint8_t PHAL_DMA_getChannelIdx(PHAL_DMA_Handle_t *handle) {
+    return handle->wiring->channel_idx;
 }
 
 

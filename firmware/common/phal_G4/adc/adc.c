@@ -140,10 +140,11 @@ bool PHAL_ADC_readDMA(PHAL_ADC_Handle_t *handle, uint16_t *buffer, uint16_t leng
 
     // (Re)arm the DMA channel: fresh flags, new buffer/length, channel enabled
     handle->dma.params.tx_size = length;
-    if (!PHAL_DMA_setMemAddress(&handle->dma, (uint32_t)buffer)
-        || !PHAL_DMA_restart(&handle->dma)) {
+    if (!PHAL_DMA_setMemAddress(&handle->dma, (uint32_t)buffer)) {
         return false;
     }
+
+    PHAL_DMA_restart(&handle->dma);
 
     handle->busy           = true;
     handle->transfer_error = false;

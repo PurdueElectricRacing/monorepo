@@ -60,14 +60,11 @@ bool PHAL_USART_tx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len) {
     }
 
     PHAL_DMA_Handle_t *tx_dma = &usart_state[periph_idx].tx_dma;
-    bool stopped     = PHAL_DMA_stop(tx_dma);
-    bool length_set  = PHAL_DMA_setLength(tx_dma, len);
-    bool address_set = PHAL_DMA_setMemAddress(tx_dma, (uint32_t)data);
-    bool restarted   = PHAL_DMA_restart(tx_dma);
-
-    if (!(stopped && length_set && address_set && restarted)) {
+    PHAL_DMA_stop(tx_dma);
+    if (!PHAL_DMA_setLength(tx_dma, len) || !PHAL_DMA_setMemAddress(tx_dma, (uint32_t)data)) {
         return false;
     }
+    PHAL_DMA_restart(tx_dma);
 
     usart_state[periph_idx].tx_busy = true;
 
@@ -97,17 +94,14 @@ bool PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, boo
     usart_state[periph_idx].rx_len = 0;
 
     PHAL_DMA_Handle_t *rx_dma = &usart_state[periph_idx].rx_dma;
-    bool stopped     = PHAL_DMA_stop(rx_dma);
-    bool address_set = PHAL_DMA_setMemAddress(rx_dma, (uint32_t)data);
-    bool length_set  = PHAL_DMA_setLength(rx_dma, len);
+    PHAL_DMA_stop(rx_dma);
+    if (!PHAL_DMA_setMemAddress(rx_dma, (uint32_t)data) || !PHAL_DMA_setLength(rx_dma, len)) {
+        return false;
+    }
 
     PHAL_USART_priv_flushRx(periph);
 
-    bool restarted = PHAL_DMA_restart(rx_dma);
-
-    if (!(stopped && address_set && length_set && restarted)) {
-        return false;
-    }
+    PHAL_DMA_restart(rx_dma);
 
     usart_state[periph_idx].rx_busy = true;
     PHAL_USART_priv_startRx(periph);

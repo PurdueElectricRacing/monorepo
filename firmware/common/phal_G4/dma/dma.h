@@ -119,26 +119,22 @@ bool PHAL_DMA_init(PHAL_DMA_Handle_t *handle);
 bool PHAL_DMA_initWithCallback(PHAL_DMA_Handle_t *handle, PHAL_DMA_IRQCallbackFn_t irq_fn, void *ctx);
 
 /**
- * @brief Disable the channel and release its claim so another handle can
- * use the periph/channel_idx afterward
- * @return true on success, false if handle was never successfully init-ed
+ * @brief Disable the channel and release its claim/handle so another handle can
+ * use the periph/channel_idx afterward. Also disables the NVIC line if a callback was registered.
  */
-bool PHAL_DMA_deinit(PHAL_DMA_Handle_t *handle);
+void PHAL_DMA_deinit(PHAL_DMA_Handle_t *handle);
 
 /**
  * @brief Enable the channel, starting the transfer configured by PHAL_DMA_init()
- * @return true on success, false if handle was never successfully init-ed
  */
-bool PHAL_DMA_start(PHAL_DMA_Handle_t *handle);
+void PHAL_DMA_start(PHAL_DMA_Handle_t *handle);
 
 /**
  * @brief Disable the channel, stopping the transfer immediately
  * 
  * Whatever hasn't transferred yet is left un-transferred
- * 
- * @return true on success, false if handle was never successfully init-ed
  */
-bool PHAL_DMA_stop(PHAL_DMA_Handle_t *handle);
+void PHAL_DMA_stop(PHAL_DMA_Handle_t *handle);
 
 /**
  * @brief Reload the transfer count from handle->params.tx_size and start again
@@ -148,25 +144,32 @@ bool PHAL_DMA_stop(PHAL_DMA_Handle_t *handle);
  *
  * @return true on success, false if handle was never successfully init-ed
  */
-bool PHAL_DMA_restart(PHAL_DMA_Handle_t *handle);
+void PHAL_DMA_restart(PHAL_DMA_Handle_t *handle);
 
 /**
  * @brief Change the memory address for the next transfer
- * @return true on success, false if handle was never successfully
- * init-ed or the channel is currently enabled
+ * @return true on success, false if the channel is currently enabled
  */
 bool PHAL_DMA_setMemAddress(PHAL_DMA_Handle_t *handle, uint32_t address);
 
 /**
  * @brief Change the transfer length (element count) for the next transfer
- * @return true on success, false if handle was never successfully
- * init-ed, or the channel is currently enabled
+ * @return true on success, false if the channel is currently enabled
  */
 bool PHAL_DMA_setLength(PHAL_DMA_Handle_t *handle, uint16_t length);
 
 /**
+ * @brief Set whether the memory address increments after each transfer and rebuild the channel configuration
+ *
+ * If the channel is currently enabled, this function will not change the configuration
+ * 
+ * @param mem_inc true to increment memory address after each transfer, false to keep it constant
+ */
+void PHAL_DMA_setMemInc(PHAL_DMA_Handle_t *handle, bool mem_inc);
+
+/**
  * @brief Number of elements still left to transfer on this channel
- * @return elements outstanding, or 0 if handle was never successfully init-ed
+ * @return Elements outstanding
  */
 uint16_t PHAL_DMA_getRemaining(PHAL_DMA_Handle_t *handle);
 
@@ -174,8 +177,7 @@ uint16_t PHAL_DMA_getRemaining(PHAL_DMA_Handle_t *handle);
  * @brief Check whether the channel is currently enabled (transfer in
  * progress, or in circular mode, running continuously)
  *
- * @return true if the channel is enabled, false if disabled or handle
- * was never successfully init-ed
+ * @return true if the channel is enabled, false if disabled
  */
 bool PHAL_DMA_isBusy(PHAL_DMA_Handle_t *handle);
 
@@ -206,32 +208,22 @@ bool PHAL_DMA_isError(PHAL_DMA_Handle_t *handle);
  * channel, so a finished transfer can be reused
  *
  * @param handle initialized DMA handle
- * @return true on success, false if handle was never successfully initialized
  */
-bool PHAL_DMA_clearFlags(PHAL_DMA_Handle_t *handle);
+void PHAL_DMA_clearFlags(PHAL_DMA_Handle_t *handle);
 
 /**
  * @brief Get the DMA peripheral (DMA1 or DMA2) for a given handle
  * 
- * @return Return nullptr if handle is null otherwise return the DMA peripheral for the given handle
+ * @return the DMA peripheral for the given handle
  */
 DMA_TypeDef *PHAL_DMA_getPeriph(PHAL_DMA_Handle_t *handle);
 
 /**
  * @brief Get the channel number (1-8) for a given handle
  * 
- * @return uint8_t Return 0 if handle is null otherwise return the channel number for the given handle
+ * @return the channel number for the given handle
  */
 uint8_t PHAL_DMA_getChannelIdx(PHAL_DMA_Handle_t *handle);
-
-/**
- * @brief Set whether the memory address increments after each transfer and rebuild the channel configuration
- *
- * If the channel is currently enabled, this function will not change the configuration
- * 
- * @param mem_inc true to increment memory address after each transfer, false to keep it constant
- */
-void PHAL_DMA_setMemInc(PHAL_DMA_Handle_t *handle, bool mem_inc);
 
 
 #endif // PHAL_G4_DMA_H
