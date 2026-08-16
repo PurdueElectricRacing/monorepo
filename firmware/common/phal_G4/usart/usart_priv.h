@@ -13,8 +13,6 @@ typedef struct {
     volatile uint32_t *rcc_reset_rg;    /*!< RCC reset register for this UART */
     uint32_t rcc_reset_msk;             /*!< reset bit within rcc_reset_rg */
     USART_TypeDef *periph;              /*!< peripheral instance */
-    IRQn_Type irq;                      /*!< USART global interrupt (carries IDLE and TC) */
-    IRQn_Type tx_dma_irq;               /*!< NVIC line for the TX DMA channel */
     const PHAL_DMA_Wiring_t *tx_wiring; /*!< fixed DMA wiring for TX (see dma_wiring.h) */
     const PHAL_DMA_Wiring_t *rx_wiring; /*!< fixed DMA wiring for RX (see dma_wiring.h) */
 } PHAL_USART_HwMap_t;
@@ -55,7 +53,5 @@ bool PHAL_USART_priv_txDmaComplete(ssize_t idx);
 
 /// Clear all interrupt flags for the slot's TX DMA channel.
 void PHAL_USART_priv_clearTxDmaFlags(ssize_t idx);
-
-void PHAL_USART_priv_enableIrqs(ssize_t idx);
 
 #endif // __PHAL_G4_USART_PRIV_H__

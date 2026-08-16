@@ -7,8 +7,6 @@ static const PHAL_USART_HwMap_t USART_MAP[NUM_USART] = {
         .rcc_reset_rg   = &RCC->APB2RSTR,
         .rcc_reset_msk  = RCC_APB2RSTR_USART1RST,
         .periph         = USART1,
-        .irq            = USART1_IRQn,
-        .tx_dma_irq     = DMA1_Channel7_IRQn,
         .tx_wiring      = &USART1_TX_DMA_WIRING,
         .rx_wiring      = &USART1_RX_DMA_WIRING,
     },
@@ -18,8 +16,6 @@ static const PHAL_USART_HwMap_t USART_MAP[NUM_USART] = {
         .rcc_reset_rg   = &RCC->APB1RSTR1,
         .rcc_reset_msk  = RCC_APB1RSTR1_USART2RST,
         .periph         = USART2,
-        .irq            = USART2_IRQn,
-        .tx_dma_irq     = DMA1_Channel4_IRQn,
         .tx_wiring      = &USART2_TX_DMA_WIRING,
         .rx_wiring      = &USART2_RX_DMA_WIRING,
     },
@@ -29,8 +25,6 @@ static const PHAL_USART_HwMap_t USART_MAP[NUM_USART] = {
         .rcc_reset_rg   = &RCC->APB1RSTR1,
         .rcc_reset_msk  = RCC_APB1RSTR1_USART3RST,
         .periph         = USART3,
-        .irq            = USART3_IRQn,
-        .tx_dma_irq     = DMA1_Channel2_IRQn,
         .tx_wiring      = &USART3_TX_DMA_WIRING,
         .rx_wiring      = &USART3_RX_DMA_WIRING,
     },
@@ -192,14 +186,4 @@ void PHAL_USART_priv_clearTxDmaFlags(ssize_t idx) {
     const PHAL_DMA_Wiring_t *wiring = USART_MAP[idx].tx_wiring;
     uint32_t shift = 4U * (wiring->channel_idx - 1U);
     wiring->periph->IFCR = DMA_IFCR_CGIF1 << shift;
-}
-
-void PHAL_USART_priv_enableIrqs(ssize_t idx) {
-    const PHAL_USART_HwMap_t *map = &USART_MAP[idx];
-    
-    NVIC_ClearPendingIRQ(map->irq);
-    NVIC_EnableIRQ(map->irq);
-
-    NVIC_ClearPendingIRQ(map->tx_dma_irq);
-    NVIC_EnableIRQ(map->tx_dma_irq);
 }

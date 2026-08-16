@@ -3,6 +3,8 @@
 
 #include "common/phal_G4/dma/dma.h"
 
+static void usart_tx_dma_callback(void *ctx);
+
 typedef struct {
     PHAL_DMA_Handle_t tx_dma;    /*!< TX DMA handle (built in init) */
     PHAL_DMA_Handle_t rx_dma;    /*!< RX DMA handle (built in init) */
@@ -32,12 +34,10 @@ bool PHAL_USART_init(PHAL_USART_Idx_t periph, uint32_t baud_rate, const uint32_t
     // Both, not short-circuited: a failed TX claim must not leave the RX
     // handle uninitialized, since that failure mode is silent until the first
     // rx call returns false for no visible reason.
-    bool tx_ready = PHAL_DMA_init(&usart_state[idx].tx_dma);
+    // TX completion -> PHAL_USART_HandleDMA
+    // RX completion comes from the USART IDLE-line interrupt
+    bool tx_ready = PHAL_DMA_initWithCallback(&usart_state[idx].tx_dma, usart_tx_dma_callback, (void *)(intptr_t)idx);
     bool rx_ready = PHAL_DMA_init(&usart_state[idx].rx_dma);
-
-    if (tx_ready && rx_ready) {
-        PHAL_USART_priv_enableIrqs(idx);
-    }
 
     return tx_ready && rx_ready;
 }
@@ -227,35 +227,6 @@ static void PHAL_USART_HandleDMA(PHAL_USART_Idx_t idx) {
     (void)len;
 }
 
-/* DMA transfer-complete interrupt handlers (TX channels) */
-[[gnu::weak]]
-void DMA1_Channel7_IRQHandler(void) {
-    PHAL_USART_HandleDMA(USART1_IDX);
-}
-
-[[gnu::weak]]
-void DMA1_Channel4_IRQHandler(void) {
-    PHAL_USART_HandleDMA(USART2_IDX);
-}
-
-/// Service USART3 RX when it owns DMA1 channel 1.
-void PHAL_USART_DMA1_Channel1_IRQHandler(void) {
-    PHAL_USART_HandleDMA(USART3_IDX);
-}
-
-// ADC provides the strong shared vector when linked and delegates here when
-// ADC1 does not own the channel. This weak vector covers USART-only builds.
-[[gnu::weak]]
-void DMA1_Channel1_IRQHandler(void) {
-    PHAL_USART_DMA1_Channel1_IRQHandler();
-}
-
-/* USART Interrupt Handlers */
-[[gnu::weak]]
-void DMA1_Channel2_IRQHandler(void) {
-    PHAL_USART_HandleDMA(USART3_IDX);
-}
-
 /* USART interrupt handlers (IDLE line + transmission complete) */
 void USART1_IRQHandler(void) {
     PHAL_USART_HandleIRQ(USART1_IDX);
@@ -267,4 +238,8 @@ void USART2_IRQHandler(void) {
 
 void USART3_IRQHandler(void) {
     PHAL_USART_HandleIRQ(USART3_IDX);
+}
+
+static void usart_tx_dma_callback(void *ctx) {
+    PHAL_USART_HandleDMA((PHAL_USART_Idx_t)(intptr_t)ctx);
 }
