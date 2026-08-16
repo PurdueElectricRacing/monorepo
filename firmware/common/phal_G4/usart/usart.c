@@ -87,9 +87,9 @@ bool PHAL_USART_tx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len) {
  * @return true if every DMA reconfiguration step succeeded, false otherwise
  */
 bool PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, bool cont) {
-    USART_TypeDef *hw = PHAL_USART_priv_periph(periph_idx);
+    USART_TypeDef *periph = PHAL_USART_priv_periph(periph_idx);
 
-    PHAL_USART_priv_stopRx(hw);
+    PHAL_USART_priv_stopRx(periph);
 
     usart_state[periph_idx].cont_rx = cont;
     usart_state[periph_idx].rxfer_size = len;
@@ -100,7 +100,7 @@ bool PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, boo
     bool address_set = PHAL_DMA_setMemAddress(rx_dma, (uint32_t)data);
     bool length_set  = PHAL_DMA_setLength(rx_dma, len);
 
-    PHAL_USART_priv_flushRx(hw);
+    PHAL_USART_priv_flushRx(periph);
 
     bool restarted = PHAL_DMA_restart(rx_dma);
 
@@ -109,7 +109,7 @@ bool PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, boo
     }
 
     usart_state[periph_idx].rx_busy = true;
-    PHAL_USART_priv_startRx(hw);
+    PHAL_USART_priv_startRx(periph);
 
     return true;
 }
@@ -170,24 +170,24 @@ bool PHAL_USART_rxBlocking(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t 
     return true;
 }
 
-static void PHAL_USART_HandleIRQ(PHAL_USART_Idx_t idx) {
-    USART_TypeDef *periph_idx = PHAL_USART_priv_periph(idx);
+static void usart_handle_irq(PHAL_USART_Idx_t periph_idx) {
+    USART_TypeDef *periph = PHAL_USART_priv_periph(periph_idx);
 
-    if (PHAL_USART_priv_txCompleteActive(periph_idx)) {
-        PHAL_USART_priv_finishTx(periph_idx);
-        usart_state[idx].tx_busy = false;
+    if (PHAL_USART_priv_txCompleteActive(periph)) {
+        PHAL_USART_priv_finishTx(periph);
+        usart_state[periph_idx].tx_busy = false;
     }
 
-    if (!PHAL_USART_priv_idleActive(periph_idx)) {
+    if (!PHAL_USART_priv_idleActive(periph)) {
         return;
     }
 
-    PHAL_USART_priv_clearIdle(periph_idx);
+    PHAL_USART_priv_clearIdle(periph);
 
-    PHAL_DMA_Handle_t *rx_dma = &usart_state[idx].rx_dma;
+    PHAL_DMA_Handle_t *rx_dma = &usart_state[periph_idx].rx_dma;
 
     // Enabling RE on an already-idle line can raise IDLE before the first byte reaches DMA
-    if (PHAL_DMA_getRemaining(rx_dma) == usart_state[idx].rxfer_size) {
+    if (PHAL_DMA_getRemaining(rx_dma) == usart_state[periph_idx].rxfer_size) {
         return;
     }
 
@@ -195,30 +195,30 @@ static void PHAL_USART_HandleIRQ(PHAL_USART_Idx_t idx) {
 
     // CNDTR counts down, so the shortfall against the configured length is
     // what actually landed. Read it before the re-arm reloads the count.
-    uint16_t received = (uint16_t)(usart_state[idx].rxfer_size - PHAL_DMA_getRemaining(rx_dma));
-    usart_state[idx].rx_len = received;
-    usart_state[idx].rx_busy = false;
+    uint16_t received = (uint16_t)(usart_state[periph_idx].rxfer_size - PHAL_DMA_getRemaining(rx_dma));
+    usart_state[periph_idx].rx_len = received;
+    usart_state[periph_idx].rx_busy = false;
 
-    if (usart_state[idx].cont_rx) {
-        PHAL_USART_priv_stopRx(periph_idx);
-        PHAL_DMA_setLength(rx_dma, usart_state[idx].rxfer_size);
-        PHAL_USART_priv_flushRx(periph_idx);
+    if (usart_state[periph_idx].cont_rx) {
+        PHAL_USART_priv_stopRx(periph);
+        PHAL_DMA_setLength(rx_dma, usart_state[periph_idx].rxfer_size);
+        PHAL_USART_priv_flushRx(periph);
         PHAL_DMA_restart(rx_dma);
 
-        usart_state[idx].rx_busy = true;
-        PHAL_USART_priv_startRx(periph_idx);
+        usart_state[periph_idx].rx_busy = true;
+        PHAL_USART_priv_startRx(periph);
     } else {
-        PHAL_USART_priv_stopRx(periph_idx);
+        PHAL_USART_priv_stopRx(periph);
     }
 
-    PHAL_USART_rxCallback(idx, received);
+    PHAL_USART_rxCallback(periph_idx, received);
 }
 
-static void PHAL_USART_HandleDMA(PHAL_USART_Idx_t idx) {
-    if (PHAL_USART_priv_txDmaComplete(idx)) {
-        PHAL_DMA_stop(&usart_state[idx].tx_dma);
+static void usart_handle_dma(PHAL_USART_Idx_t periph_idx) {
+    if (PHAL_USART_priv_txDmaComplete(periph_idx)) {
+        PHAL_DMA_stop(&usart_state[periph_idx].tx_dma);
     }
-    PHAL_USART_priv_clearTxDmaFlags(idx);
+    PHAL_USART_priv_clearTxDmaFlags(periph_idx);
 }
 
 [[gnu::weak]] void PHAL_USART_rxCallback(PHAL_USART_Idx_t periph_idx, uint16_t len) {
@@ -228,17 +228,17 @@ static void PHAL_USART_HandleDMA(PHAL_USART_Idx_t idx) {
 
 /* USART interrupt handlers (IDLE line + transmission complete) */
 void USART1_IRQHandler(void) {
-    PHAL_USART_HandleIRQ(USART1_IDX);
+    usart_handle_irq(USART1_IDX);
 }
 
 void USART2_IRQHandler(void) {
-    PHAL_USART_HandleIRQ(USART2_IDX);
+    usart_handle_irq(USART2_IDX);
 }
 
 void USART3_IRQHandler(void) {
-    PHAL_USART_HandleIRQ(USART3_IDX);
+    usart_handle_irq(USART3_IDX);
 }
 
 static void usart_tx_dma_callback(void *ctx) {
-    PHAL_USART_HandleDMA((PHAL_USART_Idx_t)(intptr_t)ctx);
+    usart_handle_dma((PHAL_USART_Idx_t)(intptr_t)ctx);
 }
