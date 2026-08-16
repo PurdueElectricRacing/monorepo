@@ -21,6 +21,10 @@ impl AppAction {
                 widget_constructor::WidgetConstructor::ViewerList,
             ),
             (
+                "Spawn Scope",
+                widget_constructor::WidgetConstructor::ScopeEmpty,
+            ),
+            (
                 "Spawn Bootloader",
                 widget_constructor::WidgetConstructor::Bootloader,
             ),
