@@ -13,6 +13,19 @@
                     ],
                     "msg_id_override": "0x188",
                     "msg_priority": 0
+                },
+                {
+                    "msg_name": "bl_torque_vector_info",
+                    "msg_desc": "CAN bootloader identity and capabilities for torque vector",
+                    "signals": [
+                        {"sig_name": "protocol_version", "type": "uint8_t"},
+                        {"sig_name": "git_hash", "type": "uint32_t"},
+                        {"sig_name": "target_id", "type": "uint8_t"},
+                        {"sig_name": "flags", "type": "uint8_t"}
+                    ],
+                    "msg_id_override": "0x1A9",
+                    "msg_period": 5000,
+                    "msg_priority": 4
                 }
             ],
             "rx": [

@@ -94,8 +94,9 @@ External nodes (non-PER devices such as chargers or inverters) are defined in `c
 - `tx`: Array of messages this device sends toward PER nodes.
 - `rx`: Array of messages this device expects to receive.
 
-`BOOTLOADER.json` uses the multi-bus form. The bootloader resident image
-selects its physical bus in `source/bootloader/node_defs.h`.
+`BOOTLOADER.json` uses the multi-bus form so different targets may place their
+protocol messages on different buses. Each resident image selects exactly one
+physical bus in `source/bootloader/node_defs.h`.
 
 ## Custom Types
 Define reusable signal types (enums and aliases) in `configs/system/common_types.json`. Validated by `type_registry.schema.json`.

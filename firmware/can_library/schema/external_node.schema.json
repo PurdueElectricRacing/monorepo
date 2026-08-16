@@ -29,7 +29,13 @@
         },
         {
             "required": ["busses"],
-            "not": { "required": ["bus_name"] }
+            "not": {
+                "anyOf": [
+                    { "required": ["bus_name"] },
+                    { "required": ["tx"] },
+                    { "required": ["rx"] }
+                ]
+            }
         }
     ],
     "$defs": {

@@ -130,7 +130,13 @@
         {"msg_name": "bl_torque_vector_resp"},
         {"msg_name": "bl_a_box_resp"},
         {"msg_name": "bl_front_driveline_resp"},
-        {"msg_name": "bl_rear_driveline_resp"}
+        {"msg_name": "bl_rear_driveline_resp"},
+        {"msg_name": "bl_main_module_info"},
+        {"msg_name": "bl_dashboard_info"},
+        {"msg_name": "bl_torque_vector_info"},
+        {"msg_name": "bl_a_box_info"},
+        {"msg_name": "bl_front_driveline_info"},
+        {"msg_name": "bl_rear_driveline_info"}
             ]
         }
     }
