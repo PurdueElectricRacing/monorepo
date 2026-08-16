@@ -6,7 +6,7 @@
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
-#include "common/freertos/freertos.h"
+#include "common/rtos/rtos.h"
 #include "common/utils/countof.h"
 #include "can_library/can_common.h"
 #include "can_library/generated/G4_TESTING.h"
@@ -44,7 +44,7 @@ void send_periodic() {
 }
 
 DEFINE_CAN_TASKS();
-FREERTOS_DEFINE_TASK(send_periodic, 100, TASK_PRIORITY_NORMAL, 512);
+RTOS_DEFINE_TASK(send_periodic, 100, TASK_PRIORITY_NORMAL, 512);
 
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
@@ -57,7 +57,7 @@ int main() {
     CAN_init();
 
     START_CAN_TASKS();  
-    FREERTOS_START_TASK(send_periodic);
+    RTOS_START_TASK(send_periodic);
 
     vTaskStartScheduler();
 
