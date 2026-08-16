@@ -4,11 +4,9 @@
 
 #include <stdint.h>
 
-#include "can_library/generated/CCAN.h"
-#include "can_library/generated/GCAN.h"
-#include "can_library/generated/MCAN.h"
-#include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
+#include "can_library/generated/can_version.h"
+#include "common/bootloader/bootloader_common.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 
@@ -30,6 +28,9 @@ typedef struct {
     uint32_t data_id;
     uint32_t response_id;
     uint8_t response_dlc;
+    uint32_t info_id;
+    uint8_t info_dlc;
+    uint8_t target_id;
 } BLTransportConfig_t;
 
 #define APP_MAIN_MODULE 1
@@ -40,8 +41,9 @@ typedef struct {
 #define APP_REAR_DRIVELINE 6
 
 #if (APP_ID == APP_MAIN_MODULE)
+#define BL_TARGET_ID BOOTLOADER_TARGET_MAIN_MODULE
 /* VCAN: FDCAN2 on PB12/PB13. */
-#define BL_TRANSPORT_TABLE \
+#define BL_TRANSPORT_CONFIG \
     { \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
@@ -52,10 +54,14 @@ typedef struct {
         .data_id = BL_MAIN_MODULE_DATA_MSG_ID, \
         .response_id = BL_MAIN_MODULE_RESP_MSG_ID, \
         .response_dlc = BL_MAIN_MODULE_RESP_DLC, \
+        .info_id = BL_MAIN_MODULE_INFO_MSG_ID, \
+        .info_dlc = BL_MAIN_MODULE_INFO_DLC, \
+        .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_DASHBOARD)
+#define BL_TARGET_ID BOOTLOADER_TARGET_DASHBOARD
 /* VCAN: FDCAN2 on PB5/PB6. */
-#define BL_TRANSPORT_TABLE \
+#define BL_TRANSPORT_CONFIG \
     { \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
@@ -66,10 +72,14 @@ typedef struct {
         .data_id = BL_DASHBOARD_DATA_MSG_ID, \
         .response_id = BL_DASHBOARD_RESP_MSG_ID, \
         .response_dlc = BL_DASHBOARD_RESP_DLC, \
+        .info_id = BL_DASHBOARD_INFO_MSG_ID, \
+        .info_dlc = BL_DASHBOARD_INFO_DLC, \
+        .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_A_BOX)
+#define BL_TARGET_ID BOOTLOADER_TARGET_A_BOX
 /* VCAN: FDCAN1 on PA11/PA12. */
-#define BL_TRANSPORT_TABLE \
+#define BL_TRANSPORT_CONFIG \
     { \
         .peripheral = FDCAN1, \
         .baud_rate = FDCAN_BAUD_500K, \
@@ -80,10 +90,14 @@ typedef struct {
         .data_id = BL_A_BOX_DATA_MSG_ID, \
         .response_id = BL_A_BOX_RESP_MSG_ID, \
         .response_dlc = BL_A_BOX_RESP_DLC, \
+        .info_id = BL_A_BOX_INFO_MSG_ID, \
+        .info_dlc = BL_A_BOX_INFO_DLC, \
+        .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_TORQUE_VECTOR)
+#define BL_TARGET_ID BOOTLOADER_TARGET_TORQUE_VECTOR
 /* VCAN: FDCAN2 on PB12/PB13. */
-#define BL_TRANSPORT_TABLE \
+#define BL_TRANSPORT_CONFIG \
     { \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
@@ -94,10 +108,14 @@ typedef struct {
         .data_id = BL_TORQUE_VECTOR_DATA_MSG_ID, \
         .response_id = BL_TORQUE_VECTOR_RESP_MSG_ID, \
         .response_dlc = BL_TORQUE_VECTOR_RESP_DLC, \
+        .info_id = BL_TORQUE_VECTOR_INFO_MSG_ID, \
+        .info_dlc = BL_TORQUE_VECTOR_INFO_DLC, \
+        .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_FRONT_DRIVELINE)
+#define BL_TARGET_ID BOOTLOADER_TARGET_FRONT_DRIVELINE
 /* VCAN: FDCAN2 on PB5/PB6. */
-#define BL_TRANSPORT_TABLE \
+#define BL_TRANSPORT_CONFIG \
     { \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
@@ -108,10 +126,14 @@ typedef struct {
         .data_id = BL_FRONT_DRIVELINE_DATA_MSG_ID, \
         .response_id = BL_FRONT_DRIVELINE_RESP_MSG_ID, \
         .response_dlc = BL_FRONT_DRIVELINE_RESP_DLC, \
+        .info_id = BL_FRONT_DRIVELINE_INFO_MSG_ID, \
+        .info_dlc = BL_FRONT_DRIVELINE_INFO_DLC, \
+        .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_REAR_DRIVELINE)
+#define BL_TARGET_ID BOOTLOADER_TARGET_REAR_DRIVELINE
 /* VCAN: FDCAN2 on PB5/PB6. */
-#define BL_TRANSPORT_TABLE \
+#define BL_TRANSPORT_CONFIG \
     { \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
@@ -122,15 +144,14 @@ typedef struct {
         .data_id = BL_REAR_DRIVELINE_DATA_MSG_ID, \
         .response_id = BL_REAR_DRIVELINE_RESP_MSG_ID, \
         .response_dlc = BL_REAR_DRIVELINE_RESP_DLC, \
+        .info_id = BL_REAR_DRIVELINE_INFO_MSG_ID, \
+        .info_dlc = BL_REAR_DRIVELINE_INFO_DLC, \
+        .target_id = BL_TARGET_ID, \
     }
 #else
 #error "APP_ID is missing or is not a supported G4 bootloader node"
 #endif
 
-static const BLTransportConfig_t bl_transports[] = {
-    BL_TRANSPORT_TABLE,
-};
-
-#define BL_TRANSPORT_COUNT (sizeof(bl_transports) / sizeof(bl_transports[0]))
+static const BLTransportConfig_t bl_transport = BL_TRANSPORT_CONFIG;
 
 #endif
