@@ -41,6 +41,26 @@ typedef struct {
     bool tx_isr_en;            /*!< Enable transfer-complete and transfer-error interrupts */
 } PHAL_DMA_Params_t;
 
+
+/**
+ * Invoked from the DMA PHAL's own ISR when this handle's channel fires.
+ * Runs in interrupt context. ctx is whatever was passed to PHAL_DMA_registerCallback.
+ * ctx must remain valid for as long as the channel could still raise an interrupt naming this handle
+ */
+typedef void (*PHAL_DMA_IRQCallbackFn_t)(void *ctx);
+
+/**
+ * @brief Optional callback for DMA interrupts
+ *
+ * If the user wants to handle DMA interrupts, they can register a callback function and context pointer.
+ * The callback will be invoked from the DMA PHAL's own ISR when this handle's channel fires.
+ * The context pointer must remain valid for as long as the channel could still raise an interrupt naming this handle.
+ */
+typedef struct {
+    PHAL_DMA_IRQCallbackFn_t irq_fn;
+    void *ctx;
+} PHAL_DMA_Callback_t;
+
 /**
  * @brief A configured DMA transfer: fixed wiring + chosen parameters
  *
@@ -50,8 +70,20 @@ typedef struct {
     const PHAL_DMA_Wiring_t *wiring;
     PHAL_DMA_Params_t params;
     DMA_Channel_TypeDef *channel; /**< Populated by PHAL_DMA_init()!! */
+    PHAL_DMA_Callback_t callback; /**< Optional callback for DMA interupts.
+                                       Populated by PHAL_DMA_registerCallback() */
 } PHAL_DMA_Handle_t;
 
+
+/**
+ * @brief Register a callback for this handle's channel interrupt.
+ *
+ * Call before PHAL_DMA_init. The DMA PHAL owns every DMAx_ChannelN_IRQHandler
+ * vector; this is how another HAL gets notified instead of defining (and
+ * fighting over) that vector itself. PHAL_DMA_init also arms the NVIC line
+ * for this channel automatically once a callback is registered.
+ */
+bool PHAL_DMA_initWithCallback(PHAL_DMA_Handle_t *handle, PHAL_DMA_IRQCallbackFn_t irq_fn, void *ctx);
 
 /**
  * @brief Claim a DMA channel and configure it from handle->wiring and handle->params
