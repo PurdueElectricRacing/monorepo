@@ -1,11 +1,18 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
-    "required": ["node_name", "bus_name"],
+    "required": ["node_name"],
     "additionalProperties": false,
     "properties": {
         "node_name": { "type": "string" },
         "bus_name": { "type": "string" },
+        "busses": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/$defs/bus_messages"
+            },
+            "minProperties": 1
+        },
         "tx": {
             "type": "array",
             "items": { "$ref": "https://github.com/PER/canpiler/message.schema.json#/$defs/tx_message" }
@@ -13,6 +20,32 @@
         "rx": {
             "type": "array",
             "items": { "$ref": "https://github.com/PER/canpiler/message.schema.json#/$defs/rx_message" }
+        }
+    },
+    "oneOf": [
+        {
+            "required": ["bus_name"],
+            "not": { "required": ["busses"] }
+        },
+        {
+            "required": ["busses"],
+            "not": { "required": ["bus_name"] }
+        }
+    ],
+    "$defs": {
+        "bus_messages": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "tx": {
+                    "type": "array",
+                    "items": { "$ref": "https://github.com/PER/canpiler/message.schema.json#/$defs/tx_message" }
+                },
+                "rx": {
+                    "type": "array",
+                    "items": { "$ref": "https://github.com/PER/canpiler/message.schema.json#/$defs/rx_message" }
+                }
+            }
         }
     }
 }

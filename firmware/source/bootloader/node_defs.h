@@ -3,15 +3,54 @@
  * @brief Compile-time transport configuration for each G4 bootloader image.
  * @author Ronak Jain (jain717@purdue.edu)
  *
- * APP_ID selects generated message IDs, the FDCAN peripheral, and physical
- * VCAN pins. Board discovery is intentionally not part of the recovery image.
+ * A resident image can listen on one or more logical CAN buses.  The table
+ * below is deliberately independent of the update state machine: adding a
+ * transport only requires another table entry and the corresponding generated
+ * message definitions.
  */
 
 #ifndef PER_BOOTLOADER_NODE_DEFS_H
 #define PER_BOOTLOADER_NODE_DEFS_H
 
+#include <stdbool.h>
+#include <stdint.h>
+
+#include "can_library/generated/CCAN.h"
+#include "can_library/generated/GCAN.h"
+#include "can_library/generated/MCAN.h"
+#include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
 #include "common/phal_G4/fdcan/fdcan.h"
+#include "common/phal_G4/gpio/gpio.h"
+
+typedef enum {
+    BL_BUS_VCAN,
+    BL_BUS_MCAN,
+    BL_BUS_CCAN,
+    BL_BUS_SCAN,
+    BL_BUS_GCAN,
+} BLBus_t;
+
+/**
+ * @brief All board-specific details needed by the bootloader transport.
+ *
+ * IDs are kept as raw CAN IDs; is_extended_id determines whether they are
+ * placed in the standard or extended field of a FDCAN frame. GPIO entries
+ * are values rather than pointers so every entry can be initialized in the
+ * same table without transport-specific code in bootloader.c.
+ */
+typedef struct {
+    BLBus_t bus;
+    FDCAN_GlobalTypeDef *peripheral;
+    PHAL_FDCAN_BaudRate_t baud_rate;
+    GPIOInitConfig_t rx_gpio;
+    GPIOInitConfig_t tx_gpio;
+    bool is_extended_id;
+    uint32_t command_id;
+    uint32_t data_id;
+    uint32_t response_id;
+    uint8_t response_dlc;
+} BLTransportConfig_t;
 
 #define APP_MAIN_MODULE 1
 #define APP_DASHBOARD 2
@@ -21,61 +60,103 @@
 #define APP_REAR_DRIVELINE 6
 
 #if (APP_ID == APP_MAIN_MODULE)
-#define BL_FDCAN_PERIPH FDCAN2
-#define BL_CMD_MSG_ID BL_MAIN_MODULE_CMD_MSG_ID
-#define BL_DATA_MSG_ID BL_MAIN_MODULE_DATA_MSG_ID
-#define BL_RESP_MSG_ID BL_MAIN_MODULE_RESP_MSG_ID
-#define BL_RESP_DLC BL_MAIN_MODULE_RESP_DLC
+/* VCAN: FDCAN2 on PB12/PB13. */
+#define BL_TRANSPORT_TABLE \
+    { \
+        .bus = BL_BUS_VCAN, \
+        .peripheral = FDCAN2, \
+        .baud_rate = FDCAN_BAUD_500K, \
+        .rx_gpio = GPIO_INIT_FDCAN2RX_PB12, \
+        .tx_gpio = GPIO_INIT_FDCAN2TX_PB13, \
+        .is_extended_id = false, \
+        .command_id = BL_MAIN_MODULE_CMD_MSG_ID, \
+        .data_id = BL_MAIN_MODULE_DATA_MSG_ID, \
+        .response_id = BL_MAIN_MODULE_RESP_MSG_ID, \
+        .response_dlc = BL_MAIN_MODULE_RESP_DLC, \
+    }
 #elif (APP_ID == APP_DASHBOARD)
-#define BL_FDCAN_PERIPH FDCAN2
-#define BL_CMD_MSG_ID BL_DASHBOARD_CMD_MSG_ID
-#define BL_DATA_MSG_ID BL_DASHBOARD_DATA_MSG_ID
-#define BL_RESP_MSG_ID BL_DASHBOARD_RESP_MSG_ID
-#define BL_RESP_DLC BL_DASHBOARD_RESP_DLC
+/* VCAN: FDCAN2 on PB5/PB6. */
+#define BL_TRANSPORT_TABLE \
+    { \
+        .bus = BL_BUS_VCAN, \
+        .peripheral = FDCAN2, \
+        .baud_rate = FDCAN_BAUD_500K, \
+        .rx_gpio = GPIO_INIT_FDCAN2RX_PB5, \
+        .tx_gpio = GPIO_INIT_FDCAN2TX_PB6, \
+        .is_extended_id = false, \
+        .command_id = BL_DASHBOARD_CMD_MSG_ID, \
+        .data_id = BL_DASHBOARD_DATA_MSG_ID, \
+        .response_id = BL_DASHBOARD_RESP_MSG_ID, \
+        .response_dlc = BL_DASHBOARD_RESP_DLC, \
+    }
 #elif (APP_ID == APP_A_BOX)
-#define BL_FDCAN_PERIPH FDCAN1
-#define BL_CMD_MSG_ID BL_A_BOX_CMD_MSG_ID
-#define BL_DATA_MSG_ID BL_A_BOX_DATA_MSG_ID
-#define BL_RESP_MSG_ID BL_A_BOX_RESP_MSG_ID
-#define BL_RESP_DLC BL_A_BOX_RESP_DLC
+/* VCAN: FDCAN1 on PA11/PA12. */
+#define BL_TRANSPORT_TABLE \
+    { \
+        .bus = BL_BUS_VCAN, \
+        .peripheral = FDCAN1, \
+        .baud_rate = FDCAN_BAUD_500K, \
+        .rx_gpio = GPIO_INIT_FDCAN1RX_PA11, \
+        .tx_gpio = GPIO_INIT_FDCAN1TX_PA12, \
+        .is_extended_id = false, \
+        .command_id = BL_A_BOX_CMD_MSG_ID, \
+        .data_id = BL_A_BOX_DATA_MSG_ID, \
+        .response_id = BL_A_BOX_RESP_MSG_ID, \
+        .response_dlc = BL_A_BOX_RESP_DLC, \
+    }
 #elif (APP_ID == APP_TORQUE_VECTOR)
-#define BL_FDCAN_PERIPH FDCAN2
-#define BL_CMD_MSG_ID BL_TORQUE_VECTOR_CMD_MSG_ID
-#define BL_DATA_MSG_ID BL_TORQUE_VECTOR_DATA_MSG_ID
-#define BL_RESP_MSG_ID BL_TORQUE_VECTOR_RESP_MSG_ID
-#define BL_RESP_DLC BL_TORQUE_VECTOR_RESP_DLC
+/* VCAN: FDCAN2 on PB12/PB13. */
+#define BL_TRANSPORT_TABLE \
+    { \
+        .bus = BL_BUS_VCAN, \
+        .peripheral = FDCAN2, \
+        .baud_rate = FDCAN_BAUD_500K, \
+        .rx_gpio = GPIO_INIT_FDCAN2RX_PB12, \
+        .tx_gpio = GPIO_INIT_FDCAN2TX_PB13, \
+        .is_extended_id = false, \
+        .command_id = BL_TORQUE_VECTOR_CMD_MSG_ID, \
+        .data_id = BL_TORQUE_VECTOR_DATA_MSG_ID, \
+        .response_id = BL_TORQUE_VECTOR_RESP_MSG_ID, \
+        .response_dlc = BL_TORQUE_VECTOR_RESP_DLC, \
+    }
 #elif (APP_ID == APP_FRONT_DRIVELINE)
-#define BL_FDCAN_PERIPH FDCAN2
-#define BL_CMD_MSG_ID BL_FRONT_DRIVELINE_CMD_MSG_ID
-#define BL_DATA_MSG_ID BL_FRONT_DRIVELINE_DATA_MSG_ID
-#define BL_RESP_MSG_ID BL_FRONT_DRIVELINE_RESP_MSG_ID
-#define BL_RESP_DLC BL_FRONT_DRIVELINE_RESP_DLC
+/* VCAN: FDCAN2 on PB5/PB6. */
+#define BL_TRANSPORT_TABLE \
+    { \
+        .bus = BL_BUS_VCAN, \
+        .peripheral = FDCAN2, \
+        .baud_rate = FDCAN_BAUD_500K, \
+        .rx_gpio = GPIO_INIT_FDCAN2RX_PB5, \
+        .tx_gpio = GPIO_INIT_FDCAN2TX_PB6, \
+        .is_extended_id = false, \
+        .command_id = BL_FRONT_DRIVELINE_CMD_MSG_ID, \
+        .data_id = BL_FRONT_DRIVELINE_DATA_MSG_ID, \
+        .response_id = BL_FRONT_DRIVELINE_RESP_MSG_ID, \
+        .response_dlc = BL_FRONT_DRIVELINE_RESP_DLC, \
+    }
 #elif (APP_ID == APP_REAR_DRIVELINE)
-#define BL_FDCAN_PERIPH FDCAN2
-#define BL_CMD_MSG_ID BL_REAR_DRIVELINE_CMD_MSG_ID
-#define BL_DATA_MSG_ID BL_REAR_DRIVELINE_DATA_MSG_ID
-#define BL_RESP_MSG_ID BL_REAR_DRIVELINE_RESP_MSG_ID
-#define BL_RESP_DLC BL_REAR_DRIVELINE_RESP_DLC
+/* VCAN: FDCAN2 on PB5/PB6. */
+#define BL_TRANSPORT_TABLE \
+    { \
+        .bus = BL_BUS_VCAN, \
+        .peripheral = FDCAN2, \
+        .baud_rate = FDCAN_BAUD_500K, \
+        .rx_gpio = GPIO_INIT_FDCAN2RX_PB5, \
+        .tx_gpio = GPIO_INIT_FDCAN2TX_PB6, \
+        .is_extended_id = false, \
+        .command_id = BL_REAR_DRIVELINE_CMD_MSG_ID, \
+        .data_id = BL_REAR_DRIVELINE_DATA_MSG_ID, \
+        .response_id = BL_REAR_DRIVELINE_RESP_MSG_ID, \
+        .response_dlc = BL_REAR_DRIVELINE_RESP_DLC, \
+    }
 #else
 #error "APP_ID is missing or is not a supported G4 bootloader node"
 #endif
 
-#define BL_FDCAN_BAUD FDCAN_BAUD_500K
+static const BLTransportConfig_t bl_transports[] = {
+    BL_TRANSPORT_TABLE,
+};
 
-/* A-Box uses FDCAN1 on PA11/PA12. */
-#if (APP_ID == APP_A_BOX)
-#define BL_CAN_RX_GPIO GPIO_INIT_FDCAN1RX_PA11
-#define BL_CAN_TX_GPIO GPIO_INIT_FDCAN1TX_PA12
-#elif (APP_ID == APP_DASHBOARD) \
-    || (APP_ID == APP_FRONT_DRIVELINE) \
-    || (APP_ID == APP_REAR_DRIVELINE)
-/* Dashboard and driveline controllers use FDCAN2 on PB5/PB6. */
-#define BL_CAN_RX_GPIO GPIO_INIT_FDCAN2RX_PB5
-#define BL_CAN_TX_GPIO GPIO_INIT_FDCAN2TX_PB6
-#else
-/* Main module and torque vector use FDCAN2 on PB12/PB13. */
-#define BL_CAN_RX_GPIO GPIO_INIT_FDCAN2RX_PB12
-#define BL_CAN_TX_GPIO GPIO_INIT_FDCAN2TX_PB13
-#endif
+#define BL_TRANSPORT_COUNT (sizeof(bl_transports) / sizeof(bl_transports[0]))
 
 #endif /* PER_BOOTLOADER_NODE_DEFS_H */

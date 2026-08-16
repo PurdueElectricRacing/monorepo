@@ -535,23 +535,40 @@ def parse_internal_node(filepath: Path, bus_configs: Dict) -> Node:
 
 def parse_external_node(filepath: Path, bus_configs: Dict) -> Node:
     data = load_json(filepath)
-    bus_name = data['bus_name']
     node_name = data.get("node_name", filepath.name)
-    bus_config = _require_bus_in_system(bus_name, bus_configs, f"External node '{node_name}'")
-    rx_items = data.get("rx", [])
-    _rx_msg_names_unique(bus_name, rx_items)
+    busses = {}
 
-    # Create a single bus from the flattened structure
-    bus = Bus(
-        name=bus_name,
-        peripheral="UNKNOWN",
-        tx_messages=[parse_message(m, bus_config) for m in data.get('tx', [])],
-        rx_messages=[parse_rx_message(m) for m in rx_items]
-    )
-    
+    # External nodes may describe one bus with bus_name/tx/rx or one or more
+    # buses with the per-bus shape used by internal node configurations.
+    if "busses" in data:
+        bus_data_by_name = data["busses"]
+    else:
+        bus_data_by_name = {
+            data["bus_name"]: {
+                "tx": data.get("tx", []),
+                "rx": data.get("rx", []),
+            }
+        }
+
+    for bus_name, bus_data in bus_data_by_name.items():
+        bus_config = _require_bus_in_system(
+            bus_name, bus_configs, f"External node '{node_name}'"
+        )
+        rx_items = bus_data.get("rx", [])
+        _rx_msg_names_unique(bus_name, rx_items)
+        busses[bus_name] = Bus(
+            name=bus_name,
+            peripheral="UNKNOWN",
+            tx_messages=[
+                parse_message(message, bus_config)
+                for message in bus_data.get("tx", [])
+            ],
+            rx_messages=[parse_rx_message(message) for message in rx_items],
+        )
+
     return Node(
         name=data['node_name'],
-        busses={bus_name: bus},
+        busses=busses,
         is_external=True,
         faults=[],
         generate_fault_strings=False,

@@ -1,7 +1,8 @@
 {
     "node_name": "BOOTLOADER",
-    "bus_name": "VCAN",
-    "tx": [
+    "busses": {
+        "VCAN": {
+            "tx": [
         {
             "msg_name": "bl_main_module_cmd",
             "msg_desc": "CAN bootloader command for main module",
@@ -130,5 +131,7 @@
         {"msg_name": "bl_a_box_resp"},
         {"msg_name": "bl_front_driveline_resp"},
         {"msg_name": "bl_rear_driveline_resp"}
-    ]
+            ]
+        }
+    }
 }

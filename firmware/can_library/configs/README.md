@@ -89,9 +89,13 @@ External nodes (non-PER devices such as chargers or inverters) are defined in `c
 
 ### Attributes
 - `node_name`: Name of the external device. Must be unique.
-- `bus_name`: The logical bus this device sits on (must match a bus in `bus_configs.json`).
+- A single-bus file may use `bus_name`, `tx`, and `rx`.
+- A multi-bus file uses `busses`, whose keys are logical buses listed in `bus_configs.json`; each value contains `tx` and `rx` arrays.
 - `tx`: Array of messages this device sends toward PER nodes.
 - `rx`: Array of messages this device expects to receive.
+
+`BOOTLOADER.json` uses the multi-bus form. The bootloader resident image
+selects its physical bus in `source/bootloader/node_defs.h`.
 
 ## Custom Types
 Define reusable signal types (enums and aliases) in `configs/system/common_types.json`. Validated by `type_registry.schema.json`.
