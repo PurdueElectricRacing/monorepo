@@ -65,7 +65,9 @@ bool PHAL_DMA_init(PHAL_DMA_Handle_t *handle) {
 
     // If the user registered a callback, arm the NVIC line for this channel
     if (handle->callback.irq_fn != nullptr) {
-        NVIC_EnableIRQ(PHAL_DMA_priv_getIRQn(wiring->periph, wiring->channel_idx));
+        IRQn_Type irq = PHAL_DMA_priv_getIRQn(wiring->periph, wiring->channel_idx);
+        NVIC_ClearPendingIRQ(irq);
+        NVIC_EnableIRQ(irq);
     }
 
     return true;
