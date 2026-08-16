@@ -13,9 +13,10 @@ var searchData=
   ['build_5ffault_5frender_5fcontext_10',['build_fault_render_context',['../namespacefaultgen.html#ab183ecd097f0767c70c2829185995add',1,'faultgen']]],
   ['build_5ffilter_5frender_5fcontext_11',['build_filter_render_context',['../namespacecodegen.html#abfa4f309e7c7850819e64eacfedc5079',1,'codegen']]],
   ['build_5fnode_5frender_5fcontext_12',['build_node_render_context',['../namespacecodegen.html#a17bf37c0bd0aa8e242882881cac4a16a',1,'codegen']]],
-  ['build_5fperipheral_5fcontexts_13',['build_peripheral_contexts',['../namespacecodegen.html#a6d6adf0f6f8c602da41a0cb38b946eaf',1,'codegen']]],
-  ['build_5frx_5fperipheral_5fentries_14',['build_rx_peripheral_entries',['../namespacecodegen.html#a9cd0696879855870f25d565a2b224853',1,'codegen']]],
-  ['build_5fscaling_5fmessages_15',['build_scaling_messages',['../namespacecodegen.html#ad8631d9e42453c41f2cbd2e268ef1277',1,'codegen']]],
-  ['build_5fsignal_5fcodec_16',['build_signal_codec',['../namespacecodegen.html#af1baf895127cda9249014694418d1d13',1,'codegen']]],
-  ['build_5ftype_5frender_5fcontext_17',['build_type_render_context',['../namespacecodegen.html#a078d2d0ad6f1c24b6f182e859f56c148',1,'codegen']]]
+  ['build_5foffset_5fmessages_13',['build_offset_messages',['../namespacecodegen.html#af8660635d08afd7b8247a905e4a5c66d',1,'codegen']]],
+  ['build_5fperipheral_5fcontexts_14',['build_peripheral_contexts',['../namespacecodegen.html#a6d6adf0f6f8c602da41a0cb38b946eaf',1,'codegen']]],
+  ['build_5frx_5fperipheral_5fentries_15',['build_rx_peripheral_entries',['../namespacecodegen.html#a9cd0696879855870f25d565a2b224853',1,'codegen']]],
+  ['build_5fscaling_5fmessages_16',['build_scaling_messages',['../namespacecodegen.html#ad8631d9e42453c41f2cbd2e268ef1277',1,'codegen']]],
+  ['build_5fsignal_5fcodec_17',['build_signal_codec',['../namespacecodegen.html#af1baf895127cda9249014694418d1d13',1,'codegen']]],
+  ['build_5ftype_5frender_5fcontext_18',['build_type_render_context',['../namespacecodegen.html#a078d2d0ad6f1c24b6f182e859f56c148',1,'codegen']]]
 ];

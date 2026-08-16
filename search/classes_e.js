@@ -1,26 +1,4 @@
 var searchData=
 [
-  ['page_5fhandler_5ft_0',['page_handler_t',['../structpage__handler__t.html',1,'']]],
-  ['pascals_5ft_1',['pascals_t',['../structpascals__t.html',1,'']]],
-  ['pdu_5frail_5ffault_5fmap_5ft_2',['pdu_rail_fault_map_t',['../structpdu__rail__fault__map__t.html',1,'']]],
-  ['pdu_5frail_5fvoltage_5fmv_5ft_3',['pdu_rail_voltage_mv_t',['../structpdu__rail__voltage__mv__t.html',1,'']]],
-  ['pdu_5fstate_5ft_4',['pdu_state_t',['../structpdu__state__t.html',1,'']]],
-  ['pdu_5fswitch_5foutput_5ft_5',['pdu_switch_output_t',['../structpdu__switch__output__t.html',1,'']]],
-  ['peripheralcontext_6',['PeripheralContext',['../classcodegen_1_1PeripheralContext.html',1,'codegen']]],
-  ['phal_5fadc_5fchannelconfig_5ft_7',['PHAL_ADC_ChannelConfig_t',['../structPHAL__ADC__ChannelConfig__t.html',1,'']]],
-  ['phal_5fadc_5fconfig_5ft_8',['PHAL_ADC_Config_t',['../structPHAL__ADC__Config__t.html',1,'']]],
-  ['phal_5fadc_5fhandle_5ft_9',['PHAL_ADC_Handle_t',['../structPHAL__ADC__Handle__t.html',1,'']]],
-  ['phal_5fdma_5fhandle_5ft_10',['PHAL_DMA_Handle_t',['../structPHAL__DMA__Handle__t.html',1,'']]],
-  ['phal_5fdma_5fparams_5ft_11',['PHAL_DMA_Params_t',['../structPHAL__DMA__Params__t.html',1,'']]],
-  ['phal_5fdma_5fwiring_5ft_12',['PHAL_DMA_Wiring_t',['../structPHAL__DMA__Wiring__t.html',1,'']]],
-  ['phal_5fsd_5fcmd_5ft_13',['PHAL_SD_Cmd_t',['../structPHAL__SD__Cmd__t.html',1,'']]],
-  ['phal_5fusart_5fhwmap_5ft_14',['PHAL_USART_HwMap_t',['../structPHAL__USART__HwMap__t.html',1,'']]],
-  ['phal_5fusart_5fstate_5ft_15',['PHAL_USART_state_t',['../structPHAL__USART__state__t.html',1,'']]],
-  ['phal_5fusb_5fevent_5ft_16',['PHAL_USB_Event_t',['../structPHAL__USB__Event__t.html',1,'']]],
-  ['phal_5fusb_5ftransferevent_5ft_17',['PHAL_USB_TransferEvent_t',['../structPHAL__USB__TransferEvent__t.html',1,'']]],
-  ['pounds_5ft_18',['pounds_t',['../structpounds__t.html',1,'']]],
-  ['powertrain_5ft_19',['powertrain_t',['../structpowertrain__t.html',1,'']]],
-  ['psi_5ft_20',['psi_t',['../structpsi__t.html',1,'']]],
-  ['pvcu_5fstruct_21',['pVCU_struct',['../structpVCU__struct.html',1,'']]],
-  ['pwm_5fpriv_5ftimerinfo_5ft_22',['PWM_PRIV_TimerInfo_t',['../structPWM__PRIV__TimerInfo__t.html',1,'']]]
+  ['offsetmessage_0',['OffsetMessage',['../classcodegen_1_1OffsetMessage.html',1,'codegen']]]
 ];

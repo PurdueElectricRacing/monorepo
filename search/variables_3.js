@@ -25,7 +25,7 @@ var searchData=
   ['cid_5fcrc_22',['CID_CRC',['../structSD__CID.html#aeb0f4e1667fc29797463b10ee79f35e2',1,'SD_CID']]],
   ['cid_5ftab_23',['CID_Tab',['../sdio_8c.html#a11ddf9e2e0081e7746d09f40a9ecdf18',1,'sdio.c']]],
   ['circular_24',['circular',['../structdma__init__t.html#acea8f26e966c16fff425fb473175767b',1,'dma_init_t']]],
-  ['clock_5fconfig_25',['clock_config',['../daq_2main_8c.html#a2e372d6fcb26e99141502c56d908f788',1,'clock_config:&#160;main.c'],['../f4__testing_2canpiler_8c.html#a2e372d6fcb26e99141502c56d908f788',1,'clock_config:&#160;canpiler.c'],['../pdu_2main_8c.html#a2e372d6fcb26e99141502c56d908f788',1,'clock_config:&#160;main.c']]],
+  ['clock_5fconfig_25',['clock_config',['../daq_2main_8c.html#a2e372d6fcb26e99141502c56d908f788',1,'clock_config:&#160;main.c'],['../canpiler_8c.html#a2e372d6fcb26e99141502c56d908f788',1,'clock_config:&#160;canpiler.c'],['../pdu_2main_8c.html#a2e372d6fcb26e99141502c56d908f788',1,'clock_config:&#160;main.c']]],
   ['clock_5fprescaler_26',['clock_prescaler',['../structADCInitConfig__t.html#a98cfe1ae5295bc565cdc6e83285917b7',1,'ADCInitConfig_t']]],
   ['clock_5fsource_27',['clock_source',['../structClockRateConfig__t.html#aaca9dfb7526b6302669a469f1a1d8092',1,'ClockRateConfig_t']]],
   ['clovuv_28',['CLOVUV',['../commands_8c.html#a72e269a6ed3d84736c3d558be8a59d31',1,'CLOVUV:&#160;commands.c'],['../commands_8h.html#a72e269a6ed3d84736c3d558be8a59d31',1,'CLOVUV:&#160;commands.c']]],

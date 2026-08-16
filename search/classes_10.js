@@ -1,16 +1,17 @@
 var searchData=
 [
-  ['scalingmessage_0',['ScalingMessage',['../classcodegen_1_1ScalingMessage.html',1,'codegen']]],
-  ['sd_5fcardinfo_1',['SD_CardInfo',['../structSD__CardInfo.html',1,'']]],
-  ['sd_5fcid_2',['SD_CID',['../structSD__CID.html',1,'']]],
-  ['sd_5fcsd_3',['SD_CSD',['../structSD__CSD.html',1,'']]],
-  ['sdc_5fnode_5ft_4',['sdc_node_t',['../structsdc__node__t.html',1,'']]],
-  ['seconds_5ft_5',['seconds_t',['../structseconds__t.html',1,'']]],
-  ['signal_6',['Signal',['../classparser_1_1Signal.html',1,'parser']]],
-  ['signalcodec_7',['SignalCodec',['../classcodegen_1_1SignalCodec.html',1,'codegen']]],
-  ['spi_5finitconfig_5ft_8',['SPI_InitConfig_t',['../structSPI__InitConfig__t.html',1,'']]],
-  ['spmc_5ft_9',['SPMC_t',['../structSPMC__t.html',1,'']]],
-  ['status_5fleds_5ft_10',['status_leds_t',['../structstatus__leds__t.html',1,'']]],
-  ['strbuf_5ft_11',['strbuf_t',['../structstrbuf__t.html',1,'']]],
-  ['systemcontext_12',['SystemContext',['../classparser_1_1SystemContext.html',1,'parser']]]
+  ['radians_5ft_0',['radians_t',['../structradians__t.html',1,'']]],
+  ['raw_5fadc1_5fvalues_5ft_1',['raw_adc1_values_t',['../structraw__adc1__values__t.html',1,'']]],
+  ['raw_5fadc2_5fvalues_5ft_2',['raw_adc2_values_t',['../structraw__adc2__values__t.html',1,'']]],
+  ['raw_5fadc3_5fvalues_5ft_3',['raw_adc3_values_t',['../structraw__adc3__values__t.html',1,'']]],
+  ['raw_5fadc4_5fvalues_5ft_4',['raw_adc4_values_t',['../structraw__adc4__values__t.html',1,'']]],
+  ['raw_5fadc_5fvalues_5ft_5',['raw_adc_values_t',['../structraw__adc__values__t.html',1,'']]],
+  ['rtc_5fdate_5ft_6',['RTC_date_t',['../structRTC__date__t.html',1,'']]],
+  ['rtc_5ftime_5ft_7',['RTC_time_t',['../structRTC__time__t.html',1,'']]],
+  ['rtc_5ftimestamp_5ft_8',['RTC_timestamp_t',['../structRTC__timestamp__t.html',1,'']]],
+  ['rtos_5fperiodic_5ftask_5fparams_5ft_9',['RTOS_periodic_task_params_t',['../structRTOS__periodic__task__params__t.html',1,'']]],
+  ['rtos_5fqueue_5fparams_5ft_10',['RTOS_queue_params_t',['../structRTOS__queue__params__t.html',1,'']]],
+  ['rxentry_11',['RxEntry',['../classcodegen_1_1RxEntry.html',1,'codegen']]],
+  ['rxmessage_12',['RxMessage',['../classparser_1_1RxMessage.html',1,'parser']]],
+  ['rxperipheralcontext_13',['RxPeripheralContext',['../classcodegen_1_1RxPeripheralContext.html',1,'codegen']]]
 ];

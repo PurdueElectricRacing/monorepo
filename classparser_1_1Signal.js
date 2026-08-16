@@ -17,7 +17,7 @@ var classparser_1_1Signal =
     [ "max_val", "classparser_1_1Signal.html#a755a3b1971f172f7895f83089e5239ab", null ],
     [ "min_val", "classparser_1_1Signal.html#a8be87f94d74eeebadcd0f3fb1b0e148a", null ],
     [ "name", "classparser_1_1Signal.html#aab91a9456e673501395671026c3f6577", null ],
-    [ "offset", "classparser_1_1Signal.html#a1573891bbb60839e83db9a2a964e6f69", null ],
-    [ "scale", "classparser_1_1Signal.html#a48b9c80a37a6d884b521433b6ac572af", null ],
+    [ "offset", "classparser_1_1Signal.html#a2611802d6101af3ea4710cad93f99ff2", null ],
+    [ "scale", "classparser_1_1Signal.html#a06502a54f8cb96c4925bc7fb1f9ddff1", null ],
     [ "unit", "classparser_1_1Signal.html#a833da1d996ffff3f6cb0ea36bc7b092e", null ]
 ];

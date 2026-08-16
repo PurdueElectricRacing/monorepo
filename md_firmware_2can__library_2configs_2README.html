@@ -160,7 +160,17 @@ Signal Attributes</h1>
 <dl class="section note"><dt>Note</dt><dd>If <code>scale</code> is present, <code>unit</code> is required by the schema.</dd>
 <dd>
 Signals named <code>reserved</code>, <code>reserved1</code>, etc. remain part of the message layout, RX data structs, and DBC output. For local TX helpers, reserved signals are omitted from the <code>CAN_SEND_*</code> arguments and automatically packed as zero.</dd></dl>
-<dl class="section remark"><dt>Remarks</dt><dd><b>Scaling Constants:</b> Node headers generate directional <code>static constexpr float</code> constants for every local signal with a scale != 1.0. Use <code>PACK_COEFF_&lt;MSG&gt;_&lt;SIG&gt;</code> before passing physical values to local <code>CAN_SEND_*</code> TX helpers, and use <code>UNPACK_COEFF_&lt;MSG&gt;_&lt;SIG&gt;</code> when interpreting raw <code>can_data</code> values from local RX messages.</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd><b>Scaling Constants:</b> Node headers generate directional <code>static constexpr float</code> constants for every local signal with a scale != 1.0. Use <code>PACK_COEFF_&lt;MSG&gt;_&lt;SIG&gt;</code> before passing physical values to local <code>CAN_SEND_*</code> TX helpers, and use <code>UNPACK_COEFF_&lt;MSG&gt;_&lt;SIG&gt;</code> when interpreting raw <code>can_data</code> values from local RX messages.</dd>
+<dd>
+<b>Offset Constants:</b> Node headers generate a <code>static constexpr float OFFSET_&lt;MSG&gt;_&lt;SIG&gt;</code> constant for every local signal with an offset. When the signal is also scaled, apply the offset alongside the coefficient:<ul>
+<li>RX: <code>physical = raw * UNPACK_COEFF_&lt;MSG&gt;_&lt;SIG&gt; + OFFSET_&lt;MSG&gt;_&lt;SIG&gt;</code></li>
+<li>TX: <code>raw = (physical - OFFSET_&lt;MSG&gt;_&lt;SIG&gt;) * PACK_COEFF_&lt;MSG&gt;_&lt;SIG&gt;</code> <br  />
+<br  />
+ For an offset-only signal (no scale), no coefficient is generated, so apply the offset directly:</li>
+<li>RX: <code>physical = raw + OFFSET_&lt;MSG&gt;_&lt;SIG&gt;</code></li>
+<li>TX: <code>raw = physical - OFFSET_&lt;MSG&gt;_&lt;SIG&gt;</code></li>
+</ul>
+</dd></dl>
 <h2><a class="anchor" id="autotoc_md108"></a>
 Message Priority</h2>
 <p>Lower = higher priority. Range: [0-5]. PER vehicle convention:</p>

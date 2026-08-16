@@ -2,7 +2,7 @@ var dir_4d47efa3f286fa89179db6ae5f16d59d =
 [
     [ "adc_test.c", "adc__test_8c.html", null ],
     [ "blinky.c", "blinky_8c.html", "blinky_8c" ],
-    [ "canpiler.c", "g4__testing_2canpiler_8c.html", null ],
+    [ "canpiler_test.c", "canpiler__test_8c.html", null ],
     [ "crc_test.c", "crc__test_8c.html", null ],
     [ "fdcan_test.c", "fdcan__test_8c.html", null ],
     [ "freertos_test.c", "freertos__test_8c.html", null ],

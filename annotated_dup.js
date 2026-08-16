@@ -6,6 +6,7 @@ var annotated_dup =
       [ "FdcanFilterContext", "classcodegen_1_1FdcanFilterContext.html", "classcodegen_1_1FdcanFilterContext" ],
       [ "FilterRenderContext", "classcodegen_1_1FilterRenderContext.html", "classcodegen_1_1FilterRenderContext" ],
       [ "NodeRenderContext", "classcodegen_1_1NodeRenderContext.html", "classcodegen_1_1NodeRenderContext" ],
+      [ "OffsetMessage", "classcodegen_1_1OffsetMessage.html", "classcodegen_1_1OffsetMessage" ],
       [ "PeripheralContext", "classcodegen_1_1PeripheralContext.html", null ],
       [ "RxEntry", "classcodegen_1_1RxEntry.html", "classcodegen_1_1RxEntry" ],
       [ "RxPeripheralContext", "classcodegen_1_1RxPeripheralContext.html", "classcodegen_1_1RxPeripheralContext" ],

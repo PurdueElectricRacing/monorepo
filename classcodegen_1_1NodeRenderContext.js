@@ -1,6 +1,7 @@
 var classcodegen_1_1NodeRenderContext =
 [
     [ "node_busses", "classcodegen_1_1NodeRenderContext.html#a8a25297c97106d28b576293328d7f6f8", null ],
+    [ "offset_messages", "classcodegen_1_1NodeRenderContext.html#aa3fa8c8833a395c5a255a6d68078ad50", null ],
     [ "peripheral_entries", "classcodegen_1_1NodeRenderContext.html#ac8d36ef891b28f755bf78e83f7e50a16", null ],
     [ "peripherals", "classcodegen_1_1NodeRenderContext.html#abf12254af0241a474a50b89eed70e515", null ],
     [ "rx_entries", "classcodegen_1_1NodeRenderContext.html#aa425578767a8e88524a67b3489122dd7", null ],
