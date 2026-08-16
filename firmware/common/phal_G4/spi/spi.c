@@ -72,27 +72,29 @@ void PHAL_SPI_transfer(SPI_InitConfig_t *spi,
     spi->_busy = true;
 
     // TX DMA enable
+    PHAL_DMA_stop(spi->tx_dma);
     PHAL_SPI_priv_enableDMA_TX(spi);
     if (!out_data) {
         PHAL_DMA_setMemInc(spi->tx_dma, false);
-        PHAL_DMA_setMemAddress(spi->tx_dma, (uint32_t)&zero);
+        (void)PHAL_DMA_setMemAddress(spi->tx_dma, (uint32_t)&zero);
     } else {
         PHAL_DMA_setMemInc(spi->tx_dma, true);
-        PHAL_DMA_setMemAddress(spi->tx_dma, (uint32_t)out_data);
+        (void)PHAL_DMA_setMemAddress(spi->tx_dma, (uint32_t)out_data);
     }
-    PHAL_DMA_setLength(spi->tx_dma, data_len);
+    (void)PHAL_DMA_setLength(spi->tx_dma, data_len);
 
     // RX DMA
+    PHAL_DMA_stop(spi->rx_dma);
     PHAL_SPI_priv_enableDMA_RX(spi);
 
     if (!in_data) {
         PHAL_DMA_setMemInc(spi->rx_dma, false);
-        PHAL_DMA_setMemAddress(spi->rx_dma, (uint32_t)&trash_can);
+        (void)PHAL_DMA_setMemAddress(spi->rx_dma, (uint32_t)&trash_can);
     } else {
         PHAL_DMA_setMemInc(spi->rx_dma, true);
-        PHAL_DMA_setMemAddress(spi->rx_dma, (uint32_t)in_data);
+        (void)PHAL_DMA_setMemAddress(spi->rx_dma, (uint32_t)in_data);
     }
-    PHAL_DMA_setLength(spi->rx_dma, data_len);
+    (void)PHAL_DMA_setLength(spi->rx_dma, data_len);
     PHAL_DMA_restart(spi->rx_dma);
 
     // Start SPI and kick TX DMA

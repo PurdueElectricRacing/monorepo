@@ -141,8 +141,6 @@ void PHAL_DMA_stop(PHAL_DMA_Handle_t *handle);
  * 
  * Safe to call regardless of whether the channel state (enabled, mid-transfer, or stopped on an error),
  * it always disables first.
- *
- * @return true on success, false if handle was never successfully init-ed
  */
 void PHAL_DMA_restart(PHAL_DMA_Handle_t *handle);
 
