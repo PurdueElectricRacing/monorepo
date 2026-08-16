@@ -10,6 +10,7 @@ pub enum WidgetConstructor {
         msg_name: String,
         signal_name: String,
     },
+    ScopeEmpty,
     LogParser,
     SendUi,
     BusLoad,
@@ -50,6 +51,9 @@ impl WidgetConstructor {
                 msg_name,
                 signal_name,
             } => widgets::Widget::Scope(ui::scope::Scope::new(id, msg_id, msg_name, signal_name)),
+            WidgetConstructor::ScopeEmpty => {
+                widgets::Widget::Scope(ui::scope::Scope::new_empty(id))
+            }
             WidgetConstructor::LogParser => {
                 widgets::Widget::LogParser(ui::log_parser::LogParser::new(id))
             }

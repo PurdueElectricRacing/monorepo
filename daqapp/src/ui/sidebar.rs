@@ -56,6 +56,12 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 ));
             }
 
+            if ui.button("Add Scope").clicked() {
+                app.action_queue.push(action::AppAction::SpawnWidget(
+                    widget_constructor::WidgetConstructor::ScopeEmpty,
+                ));
+            }
+
             if ui.button("Add Bootloader").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::Bootloader,
