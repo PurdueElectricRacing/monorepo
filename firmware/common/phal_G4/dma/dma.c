@@ -10,17 +10,16 @@
 #include "common/phal_G4/dma/dma_priv.h"
 
 // Tracks which (periph, channel_idx) pairs are owned by a live handle.
-// Doubles as (a) conflict prevention when claiming a channel and (b) the
-// DMA PHAL's dispatch table for its own IRQ vectors below — this is what
-// lets DMA own every DMAx_ChannelN_IRQHandler while other HALs just
-// register a callback instead of defining competing vectors.
-// Index 0 is unused (channel numbering is 1-8).
-static PHAL_DMA_Handle_t *g_dma1_channel_owner[9];
-static PHAL_DMA_Handle_t *g_dma2_channel_owner[9];
+// Provides conflict prevention when claiming a channel and route IRQs/
+// dispatch registered DMA callbacks.
+// Index is channel number - 1
+static PHAL_DMA_Handle_t *g_dma1_channel_owner[8];
+static PHAL_DMA_Handle_t *g_dma2_channel_owner[8];
 
 static PHAL_DMA_Handle_t **dma_channel_owner_slot(DMA_TypeDef *periph, uint8_t channel_idx) {
     PHAL_DMA_Handle_t **table = (periph == DMA1) ? g_dma1_channel_owner : g_dma2_channel_owner;
-    return &table[channel_idx];
+    uint8_t table_idx = channel_idx - 1;
+    return &table[table_idx];
 }
 
 static bool dma_wiring_is_valid(const PHAL_DMA_Wiring_t *wiring) {
