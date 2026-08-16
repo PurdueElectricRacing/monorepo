@@ -2,6 +2,15 @@
 
 use crate::{bootloader_protocol::FirmwarePackage, messages};
 use eframe::egui;
+use std::collections::{HashMap, HashSet};
+
+const CAPABILITY_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(12);
+
+#[derive(Clone, Copy)]
+struct TargetCapability {
+    bootloadable: bool,
+    last_seen: std::time::Instant,
+}
 
 pub struct Bootloader {
     pub title: String,
@@ -10,6 +19,8 @@ pub struct Bootloader {
     status: String,
     progress: Option<messages::FirmwareProgress>,
     running: bool,
+    capabilities: HashMap<String, TargetCapability>,
+    selected_targets: HashSet<String>,
 }
 
 impl Bootloader {
@@ -22,6 +33,8 @@ impl Bootloader {
                 .to_string(),
             progress: None,
             running: false,
+            capabilities: HashMap::new(),
+            selected_targets: HashSet::new(),
         }
     }
 
@@ -68,11 +81,64 @@ impl Bootloader {
 
         if let Some(package) = &self.package {
             ui.label(format!("Verified images: {}", package.images.len()));
+            ui.label("Available targets:");
+
+            for image in &package.images {
+                let available = self
+                    .capabilities
+                    .get(&image.name)
+                    .is_some_and(|capability| {
+                        capability.bootloadable
+                            && capability.last_seen.elapsed() <= CAPABILITY_TIMEOUT
+                    });
+                if !available {
+                    self.selected_targets.remove(&image.name);
+                }
+                let mut selected = self.selected_targets.contains(&image.name);
+                if ui
+                    .add_enabled(
+                        !self.running && available,
+                        egui::Checkbox::new(&mut selected, &image.name),
+                    )
+                    .changed()
+                {
+                    if selected {
+                        self.selected_targets.insert(image.name.clone());
+                    } else {
+                        self.selected_targets.remove(&image.name);
+                    }
+                }
+                if !available {
+                    ui.small("Not bootloadable or no recent capability telemetry");
+                }
+            }
+
+            let selected_images: Vec<_> = package
+                .images
+                .iter()
+                .filter(|image| {
+                    self.selected_targets.contains(&image.name)
+                        && self
+                            .capabilities
+                            .get(&image.name)
+                            .is_some_and(|capability| {
+                                capability.bootloadable
+                                    && capability.last_seen.elapsed() <= CAPABILITY_TIMEOUT
+                            })
+                })
+                .cloned()
+                .collect();
+            let selected_count = selected_images.len();
             if ui
-                .add_enabled(!self.running, egui::Button::new("Upload all boards"))
+                .add_enabled(
+                    !self.running && selected_count > 0,
+                    egui::Button::new(format!("Upload selected ({selected_count})")),
+                )
                 .clicked()
                 && ui_to_can_tx
-                    .send(messages::MsgFromUi::StartFirmwareUpdate(package.clone()))
+                    .send(messages::MsgFromUi::StartFirmwareUpdate(FirmwarePackage {
+                        images: selected_images,
+                    }))
                     .is_ok()
             {
                 self.running = true;
@@ -116,6 +182,44 @@ impl Bootloader {
     }
 
     pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+        if let messages::MsgFromCan::ParsedMessage(parsed) = msg {
+            let (target, capability_signal) = match parsed.decoded.name.as_str() {
+                "main_version" => ("main_module", "bootloadable"),
+                "dash_version" => ("dashboard", "bootloadable"),
+                "torque_vector_version" => ("torque_vector", "bootloadable"),
+                "abox_version" => ("a_box", "bootloadable"),
+                "front_driveline_version" => ("front_driveline", "bootloadable"),
+                "rear_driveline_version" => ("rear_driveline", "bootloadable"),
+                "bl_main_module_info" => ("main_module", "flags"),
+                "bl_dashboard_info" => ("dashboard", "flags"),
+                "bl_torque_vector_info" => ("torque_vector", "flags"),
+                "bl_a_box_info" => ("a_box", "flags"),
+                "bl_front_driveline_info" => ("front_driveline", "flags"),
+                "bl_rear_driveline_info" => ("rear_driveline", "flags"),
+                _ => return,
+            };
+
+            if let Some(signal) = parsed.decoded.signals.get(capability_signal) {
+                let raw_value = signal.value.physical.round() as u32;
+                let bootloadable = if capability_signal == "flags" {
+                    (raw_value & 1) != 0
+                } else {
+                    raw_value != 0
+                };
+                self.capabilities.insert(
+                    target.to_string(),
+                    TargetCapability {
+                        bootloadable,
+                        last_seen: std::time::Instant::now(),
+                    },
+                );
+                if !bootloadable {
+                    self.selected_targets.remove(target);
+                }
+            }
+            return;
+        }
+
         let messages::MsgFromCan::FirmwareProgress(progress) = msg else {
             return;
         };

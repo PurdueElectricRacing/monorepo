@@ -75,8 +75,11 @@
                     "signals": [
                         {
                             "sig_name": "git_hash",
-                            "type": "uint32_t",
-                            "sig_desc": "int representation of git short hash"
+                            "type": "uint32_t"
+                        },
+                        {
+                            "sig_name": "bootloadable",
+                            "type": "bool"
                         }
                     ],
                     "msg_priority": 5,
