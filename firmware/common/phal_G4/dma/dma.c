@@ -63,6 +63,11 @@ bool PHAL_DMA_init(PHAL_DMA_Handle_t *handle) {
 
     *owner = handle;
 
+    // If the user registered a callback, arm the NVIC line for this channel
+    if (handle->callback.irq_fn != nullptr) {
+        NVIC_EnableIRQ(PHAL_DMA_priv_getIRQn(wiring->periph, wiring->channel_idx));
+    }
+
     return true;
 }
 
@@ -82,6 +87,9 @@ bool PHAL_DMA_deinit(PHAL_DMA_Handle_t *handle) {
 
     PHAL_DMA_priv_disableChannel(handle->channel);
 
+    if (handle->callback.irq_fn != nullptr) {
+        NVIC_DisableIRQ(PHAL_DMA_priv_getIRQn(handle->wiring->periph, handle->wiring->channel_idx));
+    }
 
     *dma_channel_owner_slot(handle->wiring->periph, handle->wiring->channel_idx) = nullptr;
     
