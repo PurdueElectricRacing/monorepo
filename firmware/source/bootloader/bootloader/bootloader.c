@@ -4,9 +4,8 @@
  * @author Ronak Jain (jain717@purdue.edu)
  *
  * The FDCAN ISR only queues frames; BL_poll() performs flash and CRC operations
- * in main context.  Transport selection is data-driven by node_defs.h so the
- * same update state machine can serve standard or extended frames on any
- * configured FDCAN peripheral.
+ * in main context. Transport selection is data-driven by node_defs.h, while
+ * each resident image accepts updates on exactly one configured CAN bus.
  */
 
 #include "bootloader/bootloader.h"
@@ -19,6 +18,7 @@
 #include "common/phal_G4/flash/flash.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/phal_G4.h"
+#include "common/phal_G4/rcc/rcc.h"
 
 #include <string.h>
 
@@ -30,21 +30,18 @@
  */
 #define BL_RX_QUEUE_LENGTH 16U
 
-typedef struct {
-    CanMsgTypeDef_t message;
-    const BLTransportConfig_t *transport;
-} BLQueuedFrame_t;
-
 /* SRAM bounds used to reject an application with an implausible initial MSP. */
 #define BL_RAM_START 0x20000000U
 #define BL_RAM_END 0x2001FFFFU
 
-static volatile BLQueuedFrame_t bl_rx_queue[BL_RX_QUEUE_LENGTH];
+static volatile CanMsgTypeDef_t bl_rx_queue[BL_RX_QUEUE_LENGTH];
 static volatile uint8_t bl_rx_head;
 static volatile uint8_t bl_rx_tail;
 
 static bool bl_update_active;
-static const BLTransportConfig_t *bl_update_transport;
+static volatile uint32_t bl_millis;
+static uint32_t bl_last_info_ms;
+static bool bl_info_sent;
 static uint32_t bl_firmware_size;
 static uint32_t bl_total_words;
 static uint32_t bl_next_word;
@@ -71,47 +68,30 @@ static uint32_t bl_message_id(const CanMsgTypeDef_t *message) {
     return message->IDE ? message->ExtId : message->StdId;
 }
 
-/* Find the configured transport that received a bootloader command/data frame. */
-static const BLTransportConfig_t *bl_find_transport(const CanMsgTypeDef_t *message) {
-    if (message == NULL) {
-        return NULL;
+/* Accept bootloader traffic only from this target's single configured bus. */
+static bool bl_message_is_bootloader_traffic(const CanMsgTypeDef_t *message) {
+    if (message == NULL || message->Bus != bl_transport.peripheral
+        || message->IDE != bl_transport.is_extended_id) {
+        return false;
     }
 
     uint32_t message_id = bl_message_id(message);
-    for (size_t i = 0U; i < BL_TRANSPORT_COUNT; i++) {
-        const BLTransportConfig_t *transport = &bl_transports[i];
-        if (message->Bus != transport->peripheral
-            || message->IDE != transport->is_extended_id) {
-            continue;
-        }
-
-        if (message_id == transport->command_id || message_id == transport->data_id) {
-            return transport;
-        }
-    }
-
-    return NULL;
+    return message_id == bl_transport.command_id || message_id == bl_transport.data_id;
 }
 
-/* Send status and detail on the transport that supplied the request. */
-static void bl_send_status(const BLTransportConfig_t *transport,
-                           uint8_t status,
-                           uint32_t detail) {
-    if (transport == NULL) {
-        return;
-    }
-
+/* Send status and detail on this target's configured transport. */
+static void bl_send_status(uint8_t status, uint32_t detail) {
     CanMsgTypeDef_t response = {
-        .Bus = transport->peripheral,
-        .IDE = transport->is_extended_id,
-        .DLC = transport->response_dlc,
+        .Bus = bl_transport.peripheral,
+        .IDE = bl_transport.is_extended_id,
+        .DLC = bl_transport.response_dlc,
         .Data = {0},
     };
 
-    if (transport->is_extended_id) {
-        response.ExtId = transport->response_id;
+    if (bl_transport.is_extended_id) {
+        response.ExtId = bl_transport.response_id;
     } else {
-        response.StdId = (uint16_t)transport->response_id;
+        response.StdId = (uint16_t)bl_transport.response_id;
     }
 
     response.Data[0] = status;
@@ -122,9 +102,29 @@ static void bl_send_status(const BLTransportConfig_t *transport,
     (void)PHAL_FDCAN_send(&response);
 }
 
-/* Check that a frame belongs to the active update transport. */
-static bool bl_is_active_transport(const BLTransportConfig_t *transport) {
-    return bl_update_active && transport == bl_update_transport;
+/* Announce the resident image and its update capability. */
+static void bl_send_info(void) {
+    CanMsgTypeDef_t info = {
+        .Bus = bl_transport.peripheral,
+        .IDE = bl_transport.is_extended_id,
+        .DLC = bl_transport.info_dlc,
+        .Data = {0},
+    };
+
+    if (bl_transport.is_extended_id) {
+        info.ExtId = bl_transport.info_id;
+    } else {
+        info.StdId = (uint16_t)bl_transport.info_id;
+    }
+
+    info.Data[0] = BOOTLOADER_PROTOCOL_VERSION;
+    info.Data[1] = (uint8_t)(CAN_LIBRARY_GIT_HASH >> 0U);
+    info.Data[2] = (uint8_t)(CAN_LIBRARY_GIT_HASH >> 8U);
+    info.Data[3] = (uint8_t)(CAN_LIBRARY_GIT_HASH >> 16U);
+    info.Data[4] = (uint8_t)(CAN_LIBRARY_GIT_HASH >> 24U);
+    info.Data[5] = bl_transport.target_id;
+    info.Data[6] = BOOTLOADER_INFO_FLAG_BOOTLOADABLE | BOOTLOADER_INFO_FLAG_READY;
+    (void)PHAL_FDCAN_send(&info);
 }
 
 /*
@@ -147,21 +147,19 @@ static bool bl_flush_pending_word(void) {
     );
     bl_pending_word_valid = false;
     if (!success) {
-        bl_send_status(bl_update_transport, BLSTAT_ERROR, BLERROR_FLASH);
+        bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
     }
     return success;
 }
 
 /* Duplicate words are harmless; gaps cancel the sequential transfer. */
-static bool bl_write_word(const BLTransportConfig_t *transport,
-                          uint16_t index,
-                          uint32_t word) {
+static bool bl_write_word(uint16_t index, uint32_t word) {
     if (!bl_update_active) {
-        bl_send_status(transport, BLSTAT_ERROR, BLERROR_LOCKED);
+        bl_send_status(BLSTAT_ERROR, BLERROR_LOCKED);
         return false;
     }
     if ((uint32_t)index >= bl_total_words) {
-        bl_send_status(transport, BLSTAT_ERROR, BLERROR_ADDRESS);
+        bl_send_status(BLSTAT_ERROR, BLERROR_ADDRESS);
         return false;
     }
 
@@ -172,8 +170,7 @@ static bool bl_write_word(const BLTransportConfig_t *transport,
     }
     if ((uint32_t)index != bl_next_word) {
         bl_update_active = false;
-        bl_update_transport = NULL;
-        bl_send_status(transport, BLSTAT_ERROR, BLERROR_SEQUENCE);
+        bl_send_status(BLSTAT_ERROR, BLERROR_SEQUENCE);
         return false;
     }
 
@@ -189,8 +186,7 @@ static bool bl_write_word(const BLTransportConfig_t *transport,
                 double_word,
                 sizeof(double_word))) {
             bl_update_active = false;
-            bl_update_transport = NULL;
-            bl_send_status(transport, BLSTAT_ERROR, BLERROR_FLASH);
+            bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
             return false;
         }
         bl_pending_word_valid = false;
@@ -205,27 +201,25 @@ static bool bl_write_word(const BLTransportConfig_t *transport,
  * Staging begins on an erase-page boundary; PHAL_FLASH_erase() rounds the
  * requested image range to complete pages inside the dedicated staging slot.
  */
-static bool bl_begin_update(const BLTransportConfig_t *transport, uint32_t size_bytes) {
+static bool bl_begin_update(uint32_t size_bytes) {
     if (!bl_size_is_valid(size_bytes)) {
-        bl_send_status(transport, BLSTAT_ERROR, BLERROR_SIZE);
+        bl_send_status(BLSTAT_ERROR, BLERROR_SIZE);
         return false;
     }
 
     bl_update_active = false;
-    bl_update_transport = NULL;
     bl_pending_word_valid = false;
 
     if (!PHAL_FLASH_erase(BL_STAGING_ADDRESS, size_bytes)) {
-        bl_send_status(transport, BLSTAT_ERROR, BLERROR_FLASH);
+        bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
         return false;
     }
 
     bl_firmware_size = size_bytes;
     bl_total_words = size_bytes / BL_WORD_SIZE;
     bl_next_word = 0U;
-    bl_update_transport = transport;
     bl_update_active = true;
-    bl_send_status(transport, BLSTAT_ACK, size_bytes);
+    bl_send_status(BLSTAT_ACK, size_bytes);
     return true;
 }
 
@@ -234,15 +228,14 @@ static bool bl_begin_update(const BLTransportConfig_t *transport, uint32_t size_
  * image word is physically padded with 0xFF; metadata retains size_bytes so
  * validation and CRC ignore that padding.
  */
-static bool bl_copy_staging_to_application(const BLTransportConfig_t *transport,
-                                           uint32_t size_bytes) {
+static bool bl_copy_staging_to_application(uint32_t size_bytes) {
     if (!bl_range_is_valid(BL_APP_ADDRESS, size_bytes)) {
-        bl_send_status(transport, BLSTAT_ERROR, BLERROR_ADDRESS);
+        bl_send_status(BLSTAT_ERROR, BLERROR_ADDRESS);
         return false;
     }
 
     if (!PHAL_FLASH_erase(BL_APP_ADDRESS, size_bytes)) {
-        bl_send_status(transport, BLSTAT_ERROR, BLERROR_FLASH);
+        bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
         return false;
     }
 
@@ -254,7 +247,7 @@ static bool bl_copy_staging_to_application(const BLTransportConfig_t *transport,
         memcpy(double_word, (const void *)(BL_STAGING_ADDRESS + offset), copy_size);
 
         if (!PHAL_FLASH_write(BL_APP_ADDRESS + offset, double_word, sizeof(double_word))) {
-            bl_send_status(transport, BLSTAT_ERROR, BLERROR_FLASH);
+            bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
             return false;
         }
     }
@@ -282,15 +275,14 @@ static bool bl_write_metadata(uint32_t crc32, uint32_t size_bytes) {
 }
 
 /* Verify staging, install it, and commit metadata. */
-static bool bl_commit_update(const BLTransportConfig_t *transport, uint32_t expected_crc) {
-    if (!bl_is_active_transport(transport) || bl_next_word != bl_total_words) {
-        bl_send_status(transport, BLSTAT_ERROR, BLERROR_SEQUENCE);
+static bool bl_commit_update(uint32_t expected_crc) {
+    if (!bl_update_active || bl_next_word != bl_total_words) {
+        bl_send_status(BLSTAT_ERROR, BLERROR_SEQUENCE);
         return false;
     }
 
     if (!bl_flush_pending_word()) {
         bl_update_active = false;
-        bl_update_transport = NULL;
         return false;
     }
 
@@ -300,22 +292,19 @@ static bool bl_commit_update(const BLTransportConfig_t *transport, uint32_t expe
     );
     if (actual_crc != expected_crc) {
         bl_update_active = false;
-        bl_update_transport = NULL;
-        bl_send_status(transport, BLSTAT_CRC_ERROR, actual_crc);
+        bl_send_status(BLSTAT_CRC_ERROR, actual_crc);
         return false;
     }
 
-    if (!bl_copy_staging_to_application(transport, bl_firmware_size)
+    if (!bl_copy_staging_to_application(bl_firmware_size)
         || !bl_write_metadata(actual_crc, bl_firmware_size)) {
         bl_update_active = false;
-        bl_update_transport = NULL;
-        bl_send_status(transport, BLSTAT_ERROR, BLERROR_FLASH);
+        bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
         return false;
     }
 
     bl_update_active = false;
-    bl_update_transport = NULL;
-    bl_send_status(transport, BLSTAT_ACK, actual_crc);
+    bl_send_status(BLSTAT_ACK, actual_crc);
     return true;
 }
 
@@ -378,16 +367,13 @@ bool BL_checkAndBoot(void) {
 }
 
 /* Decode the small wire format without linking application CAN drivers. */
-static void bl_process_message(const BLQueuedFrame_t *queued) {
-    if (queued == NULL || queued->transport == NULL) {
+static void bl_process_message(const CanMsgTypeDef_t *message) {
+    if (message == NULL) {
         return;
     }
 
-    const BLTransportConfig_t *transport = queued->transport;
-    const CanMsgTypeDef_t *message = &queued->message;
     uint32_t message_id = bl_message_id(message);
-
-    if (message_id == transport->command_id && message->DLC >= 5U) {
+    if (message_id == bl_transport.command_id && message->DLC >= 5U) {
         uint32_t argument = ((uint32_t)message->Data[1] << 0U)
             | ((uint32_t)message->Data[2] << 8U)
             | ((uint32_t)message->Data[3] << 16U)
@@ -395,45 +381,57 @@ static void bl_process_message(const BLQueuedFrame_t *queued) {
 
         switch ((BLCmd_t)message->Data[0]) {
             case BLCMD_START:
-                (void)bl_begin_update(transport, argument);
+                (void)bl_begin_update(argument);
                 break;
             case BLCMD_CRC:
-                (void)bl_commit_update(transport, argument);
+                (void)bl_commit_update(argument);
                 break;
             case BLCMD_JUMP:
                 if (!BL_checkAndBoot()) {
-                    bl_send_status(transport, BLSTAT_ERROR, BLERROR_ADDRESS);
+                    bl_send_status(BLSTAT_ERROR, BLERROR_ADDRESS);
                 }
                 break;
             default:
-                bl_send_status(transport, BLSTAT_UNKNOWN_CMD, message->Data[0]);
+                bl_send_status(BLSTAT_UNKNOWN_CMD, message->Data[0]);
                 break;
         }
         return;
     }
 
-    if (message_id == transport->data_id && message->DLC >= 6U) {
+    if (message_id == bl_transport.data_id && message->DLC >= 6U) {
         uint16_t index = (uint16_t)(((uint16_t)message->Data[1] << 8U) | message->Data[0]);
         uint32_t word = ((uint32_t)message->Data[2] << 0U)
             | ((uint32_t)message->Data[3] << 8U)
             | ((uint32_t)message->Data[4] << 16U)
             | ((uint32_t)message->Data[5] << 24U);
-        (void)bl_write_word(transport, index, word);
+        (void)bl_write_word(index, word);
     }
+}
+
+void SysTick_Handler(void) {
+    bl_millis++;
 }
 
 /* Drain frames in main context, where flash operations are safe. */
 void BL_poll(void) {
     while (bl_rx_tail != bl_rx_head) {
-        BLQueuedFrame_t queued;
+        CanMsgTypeDef_t message;
 
         /* Keep the ISR from advancing head while the volatile frame is copied. */
         __disable_irq();
-        queued = bl_rx_queue[bl_rx_tail];
+        message = bl_rx_queue[bl_rx_tail];
         bl_rx_tail = (uint8_t)((bl_rx_tail + 1U) % BL_RX_QUEUE_LENGTH);
         __enable_irq();
 
-        bl_process_message(&queued);
+        bl_process_message(&message);
+    }
+
+    if (!bl_update_active
+        && (!bl_info_sent
+            || (uint32_t)(bl_millis - bl_last_info_ms) >= BOOTLOADER_INFO_PERIOD_MS)) {
+        bl_send_info();
+        bl_last_info_ms = bl_millis;
+        bl_info_sent = true;
     }
 }
 
@@ -451,42 +449,44 @@ static void bl_enable_irq(FDCAN_GlobalTypeDef *peripheral) {
     NVIC_EnableIRQ(irq);
 }
 
-/* Initialize every configured transport and announce readiness on each one. */
+/* Initialize this target's single configured transport and announce readiness. */
 void BL_init(void) {
     bl_rx_head = 0U;
     bl_rx_tail = 0U;
 
-    for (size_t i = 0U; i < BL_TRANSPORT_COUNT; i++) {
-        const BLTransportConfig_t *transport = &bl_transports[i];
-        GPIOInitConfig_t can_gpio[] = {transport->rx_gpio, transport->tx_gpio};
-        (void)PHAL_initGPIO(can_gpio, sizeof(can_gpio) / sizeof(can_gpio[0]));
+    GPIOInitConfig_t can_gpio[] = {bl_transport.rx_gpio, bl_transport.tx_gpio};
+    (void)PHAL_initGPIO(can_gpio, sizeof(can_gpio) / sizeof(can_gpio[0]));
 
-        PHAL_FDCAN_init(transport->peripheral, transport->baud_rate);
-        uint32_t filter_ids[] = {transport->command_id, transport->data_id};
-        if (transport->is_extended_id) {
-            (void)PHAL_FDCAN_setFilters(
-                transport->peripheral,
-                NULL,
-                0U,
-                filter_ids,
-                sizeof(filter_ids) / sizeof(filter_ids[0])
-            );
-        } else {
-            (void)PHAL_FDCAN_setFilters(
-                transport->peripheral,
-                filter_ids,
-                sizeof(filter_ids) / sizeof(filter_ids[0]),
-                NULL,
-                0U
-            );
-        }
-        bl_enable_irq(transport->peripheral);
+    PHAL_FDCAN_init(bl_transport.peripheral, bl_transport.baud_rate);
+    uint32_t filter_ids[] = {bl_transport.command_id, bl_transport.data_id};
+    if (bl_transport.is_extended_id) {
+        (void)PHAL_FDCAN_setFilters(
+            bl_transport.peripheral,
+            NULL,
+            0U,
+            filter_ids,
+            sizeof(filter_ids) / sizeof(filter_ids[0])
+        );
+    } else {
+        (void)PHAL_FDCAN_setFilters(
+            bl_transport.peripheral,
+            filter_ids,
+            sizeof(filter_ids) / sizeof(filter_ids[0]),
+            NULL,
+            0U
+        );
     }
+    bl_enable_irq(bl_transport.peripheral);
 
     PHAL_CRC_init();
-    for (size_t i = 0U; i < BL_TRANSPORT_COUNT; i++) {
-        bl_send_status(&bl_transports[i], BLSTAT_READY, BOOTLOADER_PROTOCOL_VERSION);
-    }
+    (void)SysTick_Config(PHAL_RCC_getAHBClockHz() / 1000U);
+    bl_millis = 0U;
+    bl_last_info_ms = 0U;
+    bl_info_sent = false;
+    bl_send_status(BLSTAT_READY, BOOTLOADER_PROTOCOL_VERSION);
+    bl_send_info();
+    bl_last_info_ms = bl_millis;
+    bl_info_sent = true;
 }
 
 /*
@@ -495,8 +495,7 @@ void BL_init(void) {
  * transmitting, blocking, or performing flash work in interrupt context.
  */
 void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *message) {
-    const BLTransportConfig_t *transport = bl_find_transport(message);
-    if (transport == NULL) {
+    if (!bl_message_is_bootloader_traffic(message)) {
         return;
     }
 
@@ -505,7 +504,6 @@ void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *message) {
         return;
     }
 
-    bl_rx_queue[bl_rx_head].message = *message;
-    bl_rx_queue[bl_rx_head].transport = transport;
+    bl_rx_queue[bl_rx_head] = *message;
     bl_rx_head = next_head;
 }

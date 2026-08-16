@@ -16,6 +16,12 @@
 
 /** Bootloader wire-protocol version reported with BLSTAT_READY. */
 #define BOOTLOADER_PROTOCOL_VERSION 1U
+/** Period between resident bootloader information frames. */
+#define BOOTLOADER_INFO_PERIOD_MS 5000U
+/** Information-frame flag indicating that the bootloader accepts updates. */
+#define BOOTLOADER_INFO_FLAG_BOOTLOADABLE (1U << 0U)
+/** Information-frame flag indicating that the resident image is ready. */
+#define BOOTLOADER_INFO_FLAG_READY (1U << 1U)
 /** Magic identifying a committed BootloaderMetadata_t record (ASCII "PERB"). */
 #define BOOTLOADER_METADATA_MAGIC 0x50455242U
 /** Magic identifying a valid .noinit reset request. */
@@ -101,8 +107,18 @@ typedef enum {
 /** @brief Reasons retained across an application-requested system reset. */
 typedef enum {
     RESET_REASON_INVALID = 0,      /**< No valid application reset request. */
-    RESET_REASON_DOWNLOAD_FW,     /**< Stay resident and accept an update. */
+    RESET_REASON_DOWNLOAD_FW,      /**< Stay resident and accept an update. */
 } ResetReason_t;
+
+/** Stable target identifiers carried by bootloader information frames. */
+typedef enum {
+    BOOTLOADER_TARGET_MAIN_MODULE = 1,
+    BOOTLOADER_TARGET_DASHBOARD,
+    BOOTLOADER_TARGET_A_BOX,
+    BOOTLOADER_TARGET_TORQUE_VECTOR,
+    BOOTLOADER_TARGET_FRONT_DRIVELINE,
+    BOOTLOADER_TARGET_REAR_DRIVELINE,
+} BootloaderTarget_t;
 
 /**
  * @brief One-shot application-to-bootloader request stored in .noinit RAM.

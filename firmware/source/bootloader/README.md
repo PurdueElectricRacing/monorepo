@@ -13,7 +13,7 @@ corruption but does not authenticate firmware.
 | --- | --- |
 | [`main.c`](main.c) | Boot decision and recovery loop. |
 | [`bootloader/`](bootloader/) | Update state machine, flash, CRC, and application hand-off. |
-| [`node_defs.h`](node_defs.h) | Per-board transport table. |
+| [`node_defs.h`](node_defs.h) | Per-board single-transport configuration. |
 | [`../../common/bootloader/`](../../common/bootloader/) | Shared protocol, metadata, and application reset callback. |
 
 At startup, the bootloader clears the one-shot `.noinit` marker. Unless an
