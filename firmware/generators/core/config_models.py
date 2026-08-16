@@ -160,9 +160,7 @@ class InternalNodeConfig(ConfigModel):
         return self
 
 
-class ExternalNodeConfig(ConfigModel):
-    node_name: str
-    bus_name: str
+class ExternalBusConfig(ConfigModel):
     tx: list[TxMessageConfig] = Field(default_factory=list)
     rx: list[RxMessageConfig] = Field(default_factory=list)
 
@@ -172,6 +170,18 @@ class ExternalNodeConfig(ConfigModel):
         duplicate = _duplicate_value(names)
         if duplicate is not None:
             raise ValueError(f"duplicate RX message '{duplicate}'")
+        return self
+
+
+class ExternalNodeConfig(ExternalBusConfig):
+    node_name: str
+    bus_name: str | None = None
+    busses: Annotated[dict[str, ExternalBusConfig], Field(min_length=1)] | None = None
+
+    @model_validator(mode="after")
+    def exactly_one_bus_layout(self) -> Self:
+        if (self.bus_name is None) == (self.busses is None):
+            raise ValueError("exactly one of bus_name or busses must be configured")
         return self
 
 
