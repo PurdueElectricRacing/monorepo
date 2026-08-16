@@ -25,7 +25,10 @@ def generate_headers(
 ) -> list[Artifact]:
     print("Generating headers...")
     env = get_jinja_env()
-    artifacts = [generate_types_header(env, linked.custom_types)]
+    artifacts = [
+        generate_version_header(env, version),
+        generate_types_header(env, linked.custom_types),
+    ]
 
     bus_names = sorted({
         bus_name
@@ -68,6 +71,12 @@ def generate_headers(
     print_as_success("Successfully generated C headers")
 
     return artifacts
+
+
+def generate_version_header(env: Environment, version: str) -> Artifact:
+    content = render_template(env, "can_version.h.jinja", version=version)
+    print_as_ok("Generated can_version.h")
+    return Artifact("generated", "can_version.h", content)
 
 
 def generate_types_header(
