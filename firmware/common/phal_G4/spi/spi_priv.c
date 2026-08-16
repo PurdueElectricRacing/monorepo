@@ -92,34 +92,23 @@ void PHAL_SPI_priv_handleTxComplete(SPI_InitConfig_t *transfer) {
         return;
     }
 
-    DMA_TypeDef *dma_periph = transfer->tx_dma->wiring->periph;
-    uint8_t channel         = transfer->tx_dma->wiring->channel_idx;
-
-    if (channel < 1 || channel > 8) {
-        return;
-    }
-    
-    if (dma_periph->ISR & DMA_TEIF_MASK(channel)) {
-        dma_periph->IFCR |= DMA_TEIF_MASK(channel);
+    if (PHAL_DMA_isError(transfer->tx_dma)) {
         transfer->_error = true;
     }
 
-    if (dma_periph->ISR & DMA_TCIF_MASK(channel)) {
+    if (PHAL_DMA_isComplete(transfer->tx_dma)) {
         // Wait for TXE and not busy
         while (!(transfer->periph->SR & SPI_SR_TXE) || (transfer->periph->SR & SPI_SR_BSY)) {
             __NOP();
         }
         // If RX DMA is used, wait until its TC flag also asserts before teardown
         if (transfer->rx_dma) {
-            DMA_TypeDef *rx_dma = transfer->rx_dma->wiring->periph;
-            uint8_t rx_ch       = transfer->rx_dma->wiring->channel_idx;
-            uint32_t rx_tc_mask = DMA_FLAG_MASK(DMA_ISR_TCIF1, rx_ch);
             // Busy-wait for RX complete
-            while (!(rx_dma->ISR & rx_tc_mask)) {
+            while (!PHAL_DMA_isComplete(transfer->rx_dma)) {
                 __NOP();
             }
             // Clear RX flags and stop RX
-            rx_dma->IFCR |= rx_tc_mask;
+            PHAL_DMA_clearFlags(transfer->rx_dma);
             PHAL_DMA_stop(transfer->rx_dma);
         }
 
@@ -137,15 +126,10 @@ void PHAL_SPI_priv_handleTxComplete(SPI_InitConfig_t *transfer) {
 
         PHAL_SPI_priv_resetTransferState(transfer);
 
-        dma_periph->IFCR |= DMA_TCIF_MASK(channel);
-        dma_periph->IFCR |= DMA_GIF_MASK(channel);
-
         PHAL_SPI_txCallback(transfer);
     }
 
-    if (dma_periph->ISR & DMA_HTIF_MASK(channel)) {
-        dma_periph->IFCR |= DMA_HTIF_MASK(channel);
-    }
+    PHAL_DMA_clearFlags(transfer->tx_dma);
 }
 
 void PHAL_SPI_priv_resetTransferState(SPI_InitConfig_t *cfg) {

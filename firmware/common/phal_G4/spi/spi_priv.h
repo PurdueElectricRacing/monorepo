@@ -13,22 +13,6 @@
 #include "common/phal_G4/gpio/gpio.h"
 
 
-/// Compute the DMA flag mask for a channel
-#define DMA_FLAG_MASK(flag_base, channel) (((uint32_t)(flag_base)) << (4 * ((uint32_t)(channel) - 1)))
-
-/// DMA transfer-complete flag mask
-#define DMA_TCIF_MASK(channel) DMA_FLAG_MASK(DMA_ISR_TCIF1, (channel))
-
-/// DMA transfer-error flag mask
-#define DMA_TEIF_MASK(channel) DMA_FLAG_MASK(DMA_ISR_TEIF1, (channel))
-
-/// DMA half-transfer flag mask
-#define DMA_HTIF_MASK(channel) DMA_FLAG_MASK(DMA_ISR_HTIF1, (channel))
-
-/// DMA global interrupt flag mask
-#define DMA_GIF_MASK(channel)  DMA_FLAG_MASK(DMA_ISR_GIF1,  (channel))
-
-
 /// Enable the peripheral clock for an SPI instance.
 void PHAL_SPI_priv_enableClock(SPI_TypeDef *periph);
 
