@@ -18,7 +18,7 @@ typedef struct {
     const PHAL_DMA_Wiring_t *rx_wiring; /*!< fixed DMA wiring for RX (see dma_wiring.h) */
 } PHAL_USART_HwMap_t;
 
-/// get the peripheral instance for a slot (used by the interrupt handlers)
+/// Get the peripheral instance for a slot (used by the interrupt handlers)
 USART_TypeDef *PHAL_USART_priv_periph(PHAL_USART_Idx_t periph_idx);
 
 /// Enable the clock, program 8N1 + baud, and enable the USART + TX-DMA interrupts.
@@ -43,13 +43,13 @@ void PHAL_USART_priv_stopRx(USART_TypeDef *periph);
 /// Discard anything sitting in RDR and clear IDLE plus every RX error flag.
 void PHAL_USART_priv_flushRx(USART_TypeDef *periph);
 
-/// @return true if the IDLE-line flag is set (an RX frame just completed).
+/// return true if the IDLE-line flag is set (an RX frame just completed).
 bool PHAL_USART_priv_idleActive(USART_TypeDef *periph);
 
 /// Clear the IDLE flag alone (write-1-to-clear).
 void PHAL_USART_priv_clearIdle(USART_TypeDef *periph);
 
-/// @return true if the slot's TX DMA channel signalled transfer complete.
+/// return true if the slot's TX DMA channel signalled transfer complete.
 bool PHAL_USART_priv_txDmaComplete(PHAL_USART_Idx_t periph_idx);
 
 /// Clear all interrupt flags for the slot's TX DMA channel.
