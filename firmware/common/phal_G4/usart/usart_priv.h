@@ -49,9 +49,7 @@ bool PHAL_USART_priv_idleActive(USART_TypeDef *periph);
 /// Clear the IDLE flag alone (write-1-to-clear).
 void PHAL_USART_priv_clearIdle(USART_TypeDef *periph);
 
-/// Clear all interrupt flags for the slot's TX DMA channel.
-void PHAL_USART_priv_clearTxDmaFlags(PHAL_USART_Idx_t periph_idx);
-
+/// Enable the USART global interrupt (carries IDLE and TC)
 void PHAL_USART_priv_enableIrq(PHAL_USART_Idx_t periph_idx);
 
 #endif // __PHAL_G4_USART_PRIV_H__

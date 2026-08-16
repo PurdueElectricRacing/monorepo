@@ -37,9 +37,6 @@ void PHAL_SPI_priv_handleTxComplete(SPI_InitConfig_t *transfer);
 /// Reset the internal SPI transfer state.
 void PHAL_SPI_priv_resetTransferState(SPI_InitConfig_t *cfg);
 
-/// Register an active SPI transmit transfer.
-void PHAL_SPI_priv_registerActiveTx(SPI_InitConfig_t *spi);
-
 /// Enable the SPI peripheral.
 void PHAL_SPI_priv_Enable(SPI_InitConfig_t *spi);
 
