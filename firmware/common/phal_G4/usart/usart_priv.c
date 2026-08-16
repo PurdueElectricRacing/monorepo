@@ -179,18 +179,6 @@ void PHAL_USART_priv_clearIdle(USART_TypeDef *periph) {
     periph->ICR = USART_ICR_IDLECF;
 }
 
-bool PHAL_USART_priv_txDmaComplete(PHAL_USART_Idx_t periph_idx) {
-    const PHAL_DMA_Wiring_t *wiring = USART_MAP[periph_idx].tx_wiring;
-    uint32_t shift = 4U * (wiring->channel_idx - 1U);
-    return (wiring->periph->ISR & (DMA_ISR_TCIF1 << shift)) != 0U;
-}
-
-void PHAL_USART_priv_clearTxDmaFlags(PHAL_USART_Idx_t periph_idx) {
-    const PHAL_DMA_Wiring_t *wiring = USART_MAP[periph_idx].tx_wiring;
-    uint32_t shift = 4U * (wiring->channel_idx - 1U);
-    wiring->periph->IFCR = DMA_IFCR_CGIF1 << shift;
-}
-
 void PHAL_USART_priv_enableIrq(PHAL_USART_Idx_t periph_idx) {
     const PHAL_USART_HwMap_t *map = &USART_MAP[periph_idx];
     

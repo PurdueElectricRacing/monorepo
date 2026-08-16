@@ -210,10 +210,11 @@ static void usart_handle_irq(PHAL_USART_Idx_t periph_idx) {
 }
 
 static void usart_handle_dma(PHAL_USART_Idx_t periph_idx) {
-    if (PHAL_USART_priv_txDmaComplete(periph_idx)) {
+    PHAL_DMA_Handle_t *tx_dma = &usart_state[periph_idx].tx_dma;
+    if (PHAL_DMA_isComplete(tx_dma)) {
         PHAL_DMA_stop(&usart_state[periph_idx].tx_dma);
     }
-    PHAL_USART_priv_clearTxDmaFlags(periph_idx);
+    PHAL_DMA_clearFlags(tx_dma);
 }
 
 static void usart_tx_dma_callback(void *ctx) {

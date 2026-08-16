@@ -49,9 +49,6 @@ bool PHAL_USART_priv_idleActive(USART_TypeDef *periph);
 /// Clear the IDLE flag alone (write-1-to-clear).
 void PHAL_USART_priv_clearIdle(USART_TypeDef *periph);
 
-/// return true if the slot's TX DMA channel signalled transfer complete.
-bool PHAL_USART_priv_txDmaComplete(PHAL_USART_Idx_t periph_idx);
-
 /// Clear all interrupt flags for the slot's TX DMA channel.
 void PHAL_USART_priv_clearTxDmaFlags(PHAL_USART_Idx_t periph_idx);
 
