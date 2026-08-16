@@ -6,13 +6,13 @@
 static void usart_tx_dma_callback(void *ctx);
 
 typedef struct {
-    PHAL_DMA_Handle_t tx_dma;    /*!< TX DMA handle (built in init) */
-    PHAL_DMA_Handle_t rx_dma;    /*!< RX DMA handle (built in init) */
+    PHAL_DMA_Handle_t tx_dma;     /*!< TX DMA handle (built in init) */
+    PHAL_DMA_Handle_t rx_dma;     /*!< RX DMA handle (built in init) */
     volatile uint16_t rxfer_size; /*!< configured RX length (for continuous re-arm) */
-    volatile uint16_t rx_len;    /*!< bytes actually received in the last completed frame */
-    volatile bool tx_busy;       /*!< set when a TX is in flight, cleared by the USART TC ISR */
-    volatile bool rx_busy;       /*!< set while a frame is in flight, cleared by the IDLE-line ISR */
-    bool cont_rx;                /*!< continuous vs one-shot reception */
+    volatile uint16_t rx_len;     /*!< bytes actually received in the last completed frame */
+    volatile bool tx_busy;        /*!< set when a TX is in flight, cleared by the USART TC ISR */
+    volatile bool rx_busy;        /*!< set while a frame is in flight, cleared by the IDLE-line ISR */
+    bool cont_rx;                 /*!< continuous vs one-shot reception */
 } PHAL_USART_state_t;
 
 static PHAL_USART_state_t usart_state[NUM_USART];
