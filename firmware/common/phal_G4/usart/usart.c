@@ -3,6 +3,7 @@
 
 #include "common/phal_G4/dma/dma.h"
 
+// Forward declaration of the DMA callback handler for TX completion
 static void usart_tx_dma_callback(void *ctx);
 
 typedef struct {
@@ -221,6 +222,10 @@ static void usart_handle_dma(PHAL_USART_Idx_t periph_idx) {
     PHAL_USART_priv_clearTxDmaFlags(periph_idx);
 }
 
+static void usart_tx_dma_callback(void *ctx) {
+    usart_handle_dma((PHAL_USART_Idx_t)(intptr_t)ctx);
+}
+
 [[gnu::weak]] void PHAL_USART_rxCallback(PHAL_USART_Idx_t periph_idx, uint16_t len) {
     (void)periph_idx;
     (void)len;
@@ -237,8 +242,4 @@ void USART2_IRQHandler(void) {
 
 void USART3_IRQHandler(void) {
     usart_handle_irq(USART3_IDX);
-}
-
-static void usart_tx_dma_callback(void *ctx) {
-    usart_handle_dma((PHAL_USART_Idx_t)(intptr_t)ctx);
 }

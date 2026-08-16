@@ -14,6 +14,7 @@
 static PHAL_ADC_Handle_t *g_active_adc[4];
 
 
+// Forward declaration of the DMA callback handler for ADC completion
 static void adc_dma_callback(void *ctx);
 
 

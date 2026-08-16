@@ -21,6 +21,7 @@ void PHAL_SPI_txCallback(SPI_InitConfig_t *spi) {
     (void)spi;
 }
 
+// DMA callback handler for TX completion
 static void spi_tx_dma_callback(void *ctx) {
     PHAL_SPI_priv_handleTxComplete((SPI_InitConfig_t *)ctx);
 }
