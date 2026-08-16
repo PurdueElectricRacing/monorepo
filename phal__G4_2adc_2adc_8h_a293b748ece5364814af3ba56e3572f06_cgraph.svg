@@ -121,7 +121,7 @@ var sectionId = 'dynsection-8';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="phal__G4_2dma_2dma_8c.html#a1308cdd88736a6cd7d72f8665bea5f29" target="_top" xlink:title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b...">
+<g id="a_Node000006"><a xlink:href="phal__G4_2dma_2dma_8c.html#a1261cc1a26fcb06f8cebc00c95ffd55a" target="_top" xlink:title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b...">
 <polygon fill="white" stroke="#666666" points="408,-56.25 287.75,-56.25 287.75,-37 408,-37 408,-56.25"/>
 <text text-anchor="middle" x="347.88" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_clearFlags</text>
 </a>
@@ -139,7 +139,7 @@ var sectionId = 'dynsection-8';
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" target="_top" xlink:title="Disable the channel, stopping the transfer immediately.">
+<g id="a_Node000008"><a xlink:href="phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" target="_top" xlink:title="Disable the channel, stopping the transfer immediately.">
 <polygon fill="white" stroke="#666666" points="394.88,-19.25 300.88,-19.25 300.88,0 394.88,0 394.88,-19.25"/>
 <text text-anchor="middle" x="347.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_stop</text>
 </a>

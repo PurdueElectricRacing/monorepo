@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['callback_0',['callback',['../classparser_1_1RxMessage.html#aff93076fd2eef78a4cdedee6417d9359',1,'parser::RxMessage']]],
+  ['callback_0',['callback',['../structPHAL__DMA__Handle__t.html#a292a166e1f77f9b84bc9553287d21091',1,'PHAL_DMA_Handle_t::callback'],['../classparser_1_1RxMessage.html#aff93076fd2eef78a4cdedee6417d9359',1,'parser.RxMessage.callback']]],
   ['can_5fdata_1',['can_data',['../can__rx_8c.html#a9cc3168cebc21b033138ae90b755e5a8',1,'can_rx.c']]],
   ['can_5frx_5firq_5fprio_2',['CAN_RX_IRQ_PRIO',['../spmc_8c.html#aba59e7da3f2ab8a7e4ba029e5cf24c87',1,'spmc.c']]],
   ['can_5frx_5fqueue_3',['can_rx_queue',['../can__common_8h.html#a85bbec7878e1ba477036c7e0ad229906',1,'can_common.h']]],
@@ -61,11 +61,12 @@ var searchData=
   ['csdstruct_58',['CSDStruct',['../structSD__CSD.html#a7969da024916fa6a90017289e8aae62e',1,'SD_CSD']]],
   ['ctrl_5fpin_59',['ctrl_pin',['../structpdu__switch__output__t.html#afc14160fd008589f935d7020f9698f54',1,'pdu_switch_output_t']]],
   ['ctrl_5fport_60',['ctrl_port',['../structpdu__switch__output__t.html#a98708f6af920374c35e1925fce6d7d91',1,'pdu_switch_output_t']]],
-  ['ctype_5fsizes_61',['CTYPE_SIZES',['../namespaceutils.html#a8aa4cccf32230d860b4ad0b214922e9a',1,'utils']]],
-  ['curr_5fpage_62',['curr_page',['../lcd_8c.html#af64f99df8657acc696aa097fce871251',1,'curr_page:&#160;lcd.c'],['../lcd_8h.html#af64f99df8657acc696aa097fce871251',1,'curr_page:&#160;lcd.c']]],
-  ['current_5findex_63',['current_index',['../structmenu__page__t.html#a82271a2b4009a92268ea984d5d6b53cc',1,'menu_page_t']]],
-  ['current_5fstate_64',['current_state',['../structcar__t.html#a33be29b7942689454a448a0805acba8b',1,'car_t::current_state'],['../ethernet_8c.html#aaa97b19c7e27d42aa017b67ffbeac797',1,'current_state:&#160;ethernet.c']]],
-  ['current_5fvalue_65',['current_value',['../structmenu__element__t.html#a33d8619be7bef642d1f2e02bd628cc8e',1,'menu_element_t']]],
-  ['custom_5ftypes_66',['custom_types',['../classparser_1_1SystemContext.html#ac0c5477026e35e083627a77187652fcb',1,'parser::SystemContext']]],
-  ['cyan_67',['CYAN',['../classutils_1_1bcolors.html#aba4a255fea08c1dee4d1a8c228ba2425',1,'utils::bcolors']]]
+  ['ctx_61',['ctx',['../structPHAL__DMA__Callback__t.html#afcf8ae67e70bb30584fc5ca3d01d8bac',1,'PHAL_DMA_Callback_t']]],
+  ['ctype_5fsizes_62',['CTYPE_SIZES',['../namespaceutils.html#a8aa4cccf32230d860b4ad0b214922e9a',1,'utils']]],
+  ['curr_5fpage_63',['curr_page',['../lcd_8c.html#af64f99df8657acc696aa097fce871251',1,'curr_page:&#160;lcd.c'],['../lcd_8h.html#af64f99df8657acc696aa097fce871251',1,'curr_page:&#160;lcd.c']]],
+  ['current_5findex_64',['current_index',['../structmenu__page__t.html#a82271a2b4009a92268ea984d5d6b53cc',1,'menu_page_t']]],
+  ['current_5fstate_65',['current_state',['../structcar__t.html#a33be29b7942689454a448a0805acba8b',1,'car_t::current_state'],['../ethernet_8c.html#aaa97b19c7e27d42aa017b67ffbeac797',1,'current_state:&#160;ethernet.c']]],
+  ['current_5fvalue_66',['current_value',['../structmenu__element__t.html#a33d8619be7bef642d1f2e02bd628cc8e',1,'menu_element_t']]],
+  ['custom_5ftypes_67',['custom_types',['../classparser_1_1SystemContext.html#ac0c5477026e35e083627a77187652fcb',1,'parser::SystemContext']]],
+  ['cyan_68',['CYAN',['../classutils_1_1bcolors.html#aba4a255fea08c1dee4d1a8c228ba2425',1,'utils::bcolors']]]
 ];

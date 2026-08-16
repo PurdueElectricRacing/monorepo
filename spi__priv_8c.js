@@ -9,9 +9,6 @@ var spi__priv_8c =
     [ "PHAL_SPI_priv_enableClock", "spi__priv_8c.html#a0faef94248879a2692c32c5d28c08f85", null ],
     [ "PHAL_SPI_priv_enableDMA_RX", "spi__priv_8c.html#af26bdd68e047cde3da712ab3928ea4c1", null ],
     [ "PHAL_SPI_priv_enableDMA_TX", "spi__priv_8c.html#a13a5d883a06088ab8338aed283f01a37", null ],
-    [ "PHAL_SPI_priv_handleTxComplete", "spi__priv_8c.html#afb1b248213526fe30a8ad9f689e43f28", null ],
-    [ "PHAL_SPI_priv_registerActiveTx", "spi__priv_8c.html#aa122d6455832fcf98713b8cda32f6a0d", null ],
-    [ "PHAL_SPI_priv_resetTransferState", "spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542", null ],
-    [ "g_dma1_active_tx", "spi__priv_8c.html#abbca6900b520aa7857aba6e05df293cd", null ],
-    [ "g_dma2_active_tx", "spi__priv_8c.html#a79fadaf4e6917e001250960d8da1c493", null ]
+    [ "PHAL_SPI_priv_handleTxComplete", "spi__priv_8c.html#a3e96e7e3bd320ca9791c8d7b10ee9e7d", null ],
+    [ "PHAL_SPI_priv_resetTransferState", "spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542", null ]
 ];

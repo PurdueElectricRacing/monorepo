@@ -99,6 +99,7 @@ $(function(){initNavTree('phal__G4_2dma_2dma_8h.html',''); initResizable(true); 
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">dma.h File Reference</div></div>
@@ -128,9 +129,18 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPHAL__DMA__Params__t.html">PHAL_DMA_Params_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-transfer parameters (user can configure)  <a href="structPHAL__DMA__Params__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPHAL__DMA__Callback__t.html">PHAL_DMA_Callback_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A DMA channel interrupt callback and the context passed to it.  <a href="structPHAL__DMA__Callback__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A configured DMA transfer: fixed wiring + chosen parameters.  <a href="structPHAL__DMA__Handle__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a47182eb920187041fc5017b8b848e6d5" id="r_a47182eb920187041fc5017b8b848e6d5"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47182eb920187041fc5017b8b848e6d5">PHAL_DMA_IRQCallbackFn_t</a>) (void *ctx)</td></tr>
+<tr class="memdesc:a47182eb920187041fc5017b8b848e6d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signature for a DMA channel interrupt callback.  <br /></td></tr>
+<tr class="separator:a47182eb920187041fc5017b8b848e6d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -153,24 +163,30 @@ Functions</h2></td></tr>
 <tr class="memitem:a44be3f4d5e3f90d9fa73d1b808185d53" id="r_a44be3f4d5e3f90d9fa73d1b808185d53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44be3f4d5e3f90d9fa73d1b808185d53">PHAL_DMA_init</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
 <tr class="memdesc:a44be3f4d5e3f90d9fa73d1b808185d53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.  <br /></td></tr>
 <tr class="separator:a44be3f4d5e3f90d9fa73d1b808185d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae95c78d15b5cc38fc0d8efcc006c7106" id="r_ae95c78d15b5cc38fc0d8efcc006c7106"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae95c78d15b5cc38fc0d8efcc006c7106">PHAL_DMA_deinit</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
-<tr class="memdesc:ae95c78d15b5cc38fc0d8efcc006c7106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the channel and release its claim so another handle can use the periph/channel_idx afterward.  <br /></td></tr>
-<tr class="separator:ae95c78d15b5cc38fc0d8efcc006c7106"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca5737ccefc60cb097e682e5f0f9c8e5" id="r_aca5737ccefc60cb097e682e5f0f9c8e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca5737ccefc60cb097e682e5f0f9c8e5">PHAL_DMA_start</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
-<tr class="memdesc:aca5737ccefc60cb097e682e5f0f9c8e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the channel, starting the transfer configured by <a class="el" href="#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.">PHAL_DMA_init()</a>  <br /></td></tr>
-<tr class="separator:aca5737ccefc60cb097e682e5f0f9c8e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11e3f2f9fb30872d1d48264d91d614e7" id="r_a11e3f2f9fb30872d1d48264d91d614e7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11e3f2f9fb30872d1d48264d91d614e7">PHAL_DMA_stop</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
-<tr class="memdesc:a11e3f2f9fb30872d1d48264d91d614e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the channel, stopping the transfer immediately.  <br /></td></tr>
-<tr class="separator:a11e3f2f9fb30872d1d48264d91d614e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a255ed862b5b1ce7cb71408a8f9dc5627" id="r_a255ed862b5b1ce7cb71408a8f9dc5627"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a255ed862b5b1ce7cb71408a8f9dc5627">PHAL_DMA_restart</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
-<tr class="memdesc:a255ed862b5b1ce7cb71408a8f9dc5627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reload the transfer count from handle-&gt;params.tx_size and start again.  <br /></td></tr>
-<tr class="separator:a255ed862b5b1ce7cb71408a8f9dc5627"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a113bf99c3b1cc73c92d466d94ea88dad" id="r_a113bf99c3b1cc73c92d466d94ea88dad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a113bf99c3b1cc73c92d466d94ea88dad">PHAL_DMA_initWithCallback</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle, <a class="el" href="#a47182eb920187041fc5017b8b848e6d5">PHAL_DMA_IRQCallbackFn_t</a> irq_fn, void *ctx)</td></tr>
+<tr class="memdesc:a113bf99c3b1cc73c92d466d94ea88dad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup DMA callback then call <a class="el" href="#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.">PHAL_DMA_init()</a>  <br /></td></tr>
+<tr class="separator:a113bf99c3b1cc73c92d466d94ea88dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f4a9683baae2eb24b6b4a9ccc05da2b" id="r_a6f4a9683baae2eb24b6b4a9ccc05da2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f4a9683baae2eb24b6b4a9ccc05da2b">PHAL_DMA_deinit</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
+<tr class="memdesc:a6f4a9683baae2eb24b6b4a9ccc05da2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the channel and release its claim/handle so another handle can use the periph/channel_idx afterward. Also disables the NVIC line if a callback was registered.  <br /></td></tr>
+<tr class="separator:a6f4a9683baae2eb24b6b4a9ccc05da2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3d40041988a21c34b66e9d32b67dee6" id="r_aa3d40041988a21c34b66e9d32b67dee6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3d40041988a21c34b66e9d32b67dee6">PHAL_DMA_start</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
+<tr class="memdesc:aa3d40041988a21c34b66e9d32b67dee6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the channel, starting the transfer configured by <a class="el" href="#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.">PHAL_DMA_init()</a>  <br /></td></tr>
+<tr class="separator:aa3d40041988a21c34b66e9d32b67dee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dd2eb889d9017f8a9512b08a21a15c8" id="r_a9dd2eb889d9017f8a9512b08a21a15c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9dd2eb889d9017f8a9512b08a21a15c8">PHAL_DMA_stop</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
+<tr class="memdesc:a9dd2eb889d9017f8a9512b08a21a15c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the channel, stopping the transfer immediately.  <br /></td></tr>
+<tr class="separator:a9dd2eb889d9017f8a9512b08a21a15c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f7660cdfc7790e503aedb99a5e2f126" id="r_a6f7660cdfc7790e503aedb99a5e2f126"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f7660cdfc7790e503aedb99a5e2f126">PHAL_DMA_restart</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
+<tr class="memdesc:a6f7660cdfc7790e503aedb99a5e2f126"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reload the transfer count from handle-&gt;params.tx_size and start again.  <br /></td></tr>
+<tr class="separator:a6f7660cdfc7790e503aedb99a5e2f126"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9eb43b945a57050823579c2ec84d4ba5" id="r_a9eb43b945a57050823579c2ec84d4ba5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9eb43b945a57050823579c2ec84d4ba5">PHAL_DMA_setMemAddress</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle, uint32_t address)</td></tr>
 <tr class="memdesc:a9eb43b945a57050823579c2ec84d4ba5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the memory address for the next transfer.  <br /></td></tr>
 <tr class="separator:a9eb43b945a57050823579c2ec84d4ba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae67bbe03bc5a38db2301053b6d13ff54" id="r_ae67bbe03bc5a38db2301053b6d13ff54"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae67bbe03bc5a38db2301053b6d13ff54">PHAL_DMA_setLength</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle, uint16_t length)</td></tr>
 <tr class="memdesc:ae67bbe03bc5a38db2301053b6d13ff54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the transfer length (element count) for the next transfer.  <br /></td></tr>
 <tr class="separator:ae67bbe03bc5a38db2301053b6d13ff54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49368bc3e4395c69ec2fae7db5551b68" id="r_a49368bc3e4395c69ec2fae7db5551b68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49368bc3e4395c69ec2fae7db5551b68">PHAL_DMA_setMemInc</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle, bool mem_inc)</td></tr>
+<tr class="memdesc:a49368bc3e4395c69ec2fae7db5551b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set whether the memory address increments after each transfer and rebuild the channel configuration.  <br /></td></tr>
+<tr class="separator:a49368bc3e4395c69ec2fae7db5551b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bb96df324a35a7917d5f061bda8ba00" id="r_a8bb96df324a35a7917d5f061bda8ba00"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bb96df324a35a7917d5f061bda8ba00">PHAL_DMA_getRemaining</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
 <tr class="memdesc:a8bb96df324a35a7917d5f061bda8ba00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of elements still left to transfer on this channel.  <br /></td></tr>
 <tr class="separator:a8bb96df324a35a7917d5f061bda8ba00"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,25 +199,46 @@ Functions</h2></td></tr>
 <tr class="memitem:a8cf5974ead7304601becd26d9ae9d6c4" id="r_a8cf5974ead7304601becd26d9ae9d6c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cf5974ead7304601becd26d9ae9d6c4">PHAL_DMA_isError</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
 <tr class="memdesc:a8cf5974ead7304601becd26d9ae9d6c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the channel reported a transfer error (TE flag set)  <br /></td></tr>
 <tr class="separator:a8cf5974ead7304601becd26d9ae9d6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1308cdd88736a6cd7d72f8665bea5f29" id="r_a1308cdd88736a6cd7d72f8665bea5f29"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1308cdd88736a6cd7d72f8665bea5f29">PHAL_DMA_clearFlags</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
-<tr class="memdesc:a1308cdd88736a6cd7d72f8665bea5f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can be reused.  <br /></td></tr>
-<tr class="separator:a1308cdd88736a6cd7d72f8665bea5f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1261cc1a26fcb06f8cebc00c95ffd55a" id="r_a1261cc1a26fcb06f8cebc00c95ffd55a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1261cc1a26fcb06f8cebc00c95ffd55a">PHAL_DMA_clearFlags</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
+<tr class="memdesc:a1261cc1a26fcb06f8cebc00c95ffd55a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can be reused.  <br /></td></tr>
+<tr class="separator:a1261cc1a26fcb06f8cebc00c95ffd55a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a587d74a4667a9047e033a39a3a2bb11a" id="r_a587d74a4667a9047e033a39a3a2bb11a"><td class="memItemLeft" align="right" valign="top">DMA_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a587d74a4667a9047e033a39a3a2bb11a">PHAL_DMA_getPeriph</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
 <tr class="memdesc:a587d74a4667a9047e033a39a3a2bb11a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the DMA peripheral (DMA1 or DMA2) for a given handle.  <br /></td></tr>
 <tr class="separator:a587d74a4667a9047e033a39a3a2bb11a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a536791c4fb7895e2c7a118bea07e0ca1" id="r_a536791c4fb7895e2c7a118bea07e0ca1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a536791c4fb7895e2c7a118bea07e0ca1">PHAL_DMA_getChannelIdx</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
 <tr class="memdesc:a536791c4fb7895e2c7a118bea07e0ca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the channel number (1-8) for a given handle.  <br /></td></tr>
 <tr class="separator:a536791c4fb7895e2c7a118bea07e0ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49368bc3e4395c69ec2fae7db5551b68" id="r_a49368bc3e4395c69ec2fae7db5551b68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49368bc3e4395c69ec2fae7db5551b68">PHAL_DMA_setMemInc</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle, bool mem_inc)</td></tr>
-<tr class="memdesc:a49368bc3e4395c69ec2fae7db5551b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set whether the memory address increments after each transfer and rebuild the channel configuration.  <br /></td></tr>
-<tr class="separator:a49368bc3e4395c69ec2fae7db5551b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>G4 DMA Peripheral public API implementation. </p>
 <dl class="section author"><dt>Author</dt><dd>Shriya Balu (<a href="#" onclick="location.href='mai'+'lto:'+'bal'+'u@'+'pur'+'du'+'e.e'+'du'; return false;">balu@<span class="obfuscator">.nosp@m.</span>purd<span class="obfuscator">.nosp@m.</span>ue.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd>
 <dd>
 Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'@p'+'urd'+'ue'+'.ed'+'u'; return false;">kumar<span class="obfuscator">.nosp@m.</span>798@<span class="obfuscator">.nosp@m.</span>purdu<span class="obfuscator">.nosp@m.</span>e.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd></dl>
-</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+</div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a47182eb920187041fc5017b8b848e6d5" name="a47182eb920187041fc5017b8b848e6d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47182eb920187041fc5017b8b848e6d5">&#9670;&#160;</a></span>PHAL_DMA_IRQCallbackFn_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef void(* PHAL_DMA_IRQCallbackFn_t) (void *ctx)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Signature for a DMA channel interrupt callback. </p>
+<p>Invoked from the DMA PHAL's own ISR when the channel bound to this callback fires. Runs in interrupt context.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ctx</td><td>Opaque pointer supplied to <a class="el" href="#a113bf99c3b1cc73c92d466d94ea88dad" title="Setup DMA callback then call PHAL_DMA_init()">PHAL_DMA_initWithCallback()</a>, passed back unexamined. Must remain valid for as long as the channel could still raise an interrupt referencing it. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a86c80a85f36932193bad2d032cff626e" name="a86c80a85f36932193bad2d032cff626e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a86c80a85f36932193bad2d032cff626e">&#9670;&#160;</a></span>PHAL_DMA_Mode_t</h2>
 
@@ -216,7 +253,7 @@ Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'
 
 <p>What a channel does once its transfer count reaches zero. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a86c80a85f36932193bad2d032cff626ea712d4572ce85937168ea1e885ecbf763" name="a86c80a85f36932193bad2d032cff626ea712d4572ce85937168ea1e885ecbf763"></a>DMA_MODE_NORMAL&#160;</td><td class="fielddoc"><p>Stops (call <a class="el" href="#a255ed862b5b1ce7cb71408a8f9dc5627" title="Reload the transfer count from handle-&gt;params.tx_size and start again.">PHAL_DMA_restart()</a> to re-run) </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a86c80a85f36932193bad2d032cff626ea712d4572ce85937168ea1e885ecbf763" name="a86c80a85f36932193bad2d032cff626ea712d4572ce85937168ea1e885ecbf763"></a>DMA_MODE_NORMAL&#160;</td><td class="fielddoc"><p>Stops (call <a class="el" href="#a6f7660cdfc7790e503aedb99a5e2f126" title="Reload the transfer count from handle-&gt;params.tx_size and start again.">PHAL_DMA_restart()</a> to re-run) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a86c80a85f36932193bad2d032cff626ea0541b0c83083cd2c18ba14900f338368" name="a86c80a85f36932193bad2d032cff626ea0541b0c83083cd2c18ba14900f338368"></a>DMA_MODE_CIRCULAR&#160;</td><td class="fielddoc"><p>Automatically reload the count and restart </p>
 </td></tr>
@@ -249,14 +286,14 @@ Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1308cdd88736a6cd7d72f8665bea5f29" name="a1308cdd88736a6cd7d72f8665bea5f29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1308cdd88736a6cd7d72f8665bea5f29">&#9670;&#160;</a></span>PHAL_DMA_clearFlags()</h2>
+<a id="a1261cc1a26fcb06f8cebc00c95ffd55a" name="a1261cc1a26fcb06f8cebc00c95ffd55a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1261cc1a26fcb06f8cebc00c95ffd55a">&#9670;&#160;</a></span>PHAL_DMA_clearFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool PHAL_DMA_clearFlags </td>
+          <td class="memname">void PHAL_DMA_clearFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
           <td></td>
@@ -271,28 +308,27 @@ Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true on success, false if handle was never successfully initialized </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a1308cdd88736a6cd7d72f8665bea5f29_cgraph.svg" width="408" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a1261cc1a26fcb06f8cebc00c95ffd55a_cgraph.svg" width="408" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a1308cdd88736a6cd7d72f8665bea5f29_icgraph.svg" width="100%" height="456"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a1261cc1a26fcb06f8cebc00c95ffd55a_icgraph.svg" width="100%" height="438"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="ae95c78d15b5cc38fc0d8efcc006c7106" name="ae95c78d15b5cc38fc0d8efcc006c7106"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae95c78d15b5cc38fc0d8efcc006c7106">&#9670;&#160;</a></span>PHAL_DMA_deinit()</h2>
+<a id="a6f4a9683baae2eb24b6b4a9ccc05da2b" name="a6f4a9683baae2eb24b6b4a9ccc05da2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f4a9683baae2eb24b6b4a9ccc05da2b">&#9670;&#160;</a></span>PHAL_DMA_deinit()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool PHAL_DMA_deinit </td>
+          <td class="memname">void PHAL_DMA_deinit </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
           <td></td>
@@ -300,12 +336,11 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Disable the channel and release its claim so another handle can use the periph/channel_idx afterward. </p>
-<dl class="section return"><dt>Returns</dt><dd>true on success, false if handle was never successfully init-ed </dd></dl>
+<p>Disable the channel and release its claim/handle so another handle can use the periph/channel_idx afterward. Also disables the NVIC line if a callback was registered. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_ae95c78d15b5cc38fc0d8efcc006c7106_cgraph.svg" width="407" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a6f4a9683baae2eb24b6b4a9ccc05da2b_cgraph.svg" width="407" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -326,12 +361,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Get the channel number (1-8) for a given handle. </p>
-<dl class="section return"><dt>Returns</dt><dd>uint8_t Return 0 if handle is null otherwise return the channel number for the given handle </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a536791c4fb7895e2c7a118bea07e0ca1_icgraph.svg" width="379" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<dl class="section return"><dt>Returns</dt><dd>the channel number for the given handle </dd></dl>
 
 </div>
 </div>
@@ -351,12 +381,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Get the DMA peripheral (DMA1 or DMA2) for a given handle. </p>
-<dl class="section return"><dt>Returns</dt><dd>Return nullptr if handle is null otherwise return the DMA peripheral for the given handle </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a587d74a4667a9047e033a39a3a2bb11a_icgraph.svg" width="352" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<dl class="section return"><dt>Returns</dt><dd>the DMA peripheral for the given handle </dd></dl>
 
 </div>
 </div>
@@ -376,7 +401,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Number of elements still left to transfer on this channel. </p>
-<dl class="section return"><dt>Returns</dt><dd>elements outstanding, or 0 if handle was never successfully init-ed </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Elements outstanding </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -385,7 +410,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a8bb96df324a35a7917d5f061bda8ba00_icgraph.svg" width="615" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a8bb96df324a35a7917d5f061bda8ba00_icgraph.svg" width="551" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -406,10 +431,11 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params. </p>
-<p>Does not start the transfer (call <a class="el" href="#aca5737ccefc60cb097e682e5f0f9c8e5" title="Enable the channel, starting the transfer configured by PHAL_DMA_init()">PHAL_DMA_start()</a> afterward).</p>
+<p>Does not start the transfer (call <a class="el" href="#aa3d40041988a21c34b66e9d32b67dee6" title="Enable the channel, starting the transfer configured by PHAL_DMA_init()">PHAL_DMA_start()</a> afterward).</p>
+<p>Does not register an interrupt callback, handle-&gt;callback is left untouched (and should be zeroed).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>wiring + params to configure. handle-&gt;channel is populated in on success </td></tr>
+    <tr><td class="paramname">handle</td><td>wiring + params to configure. handle-&gt;channel is populated on success </td></tr>
   </table>
   </dd>
 </dl>
@@ -417,12 +443,60 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a44be3f4d5e3f90d9fa73d1b808185d53_cgraph.svg" width="532" height="530"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a44be3f4d5e3f90d9fa73d1b808185d53_cgraph.svg" width="532" height="579"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a44be3f4d5e3f90d9fa73d1b808185d53_icgraph.svg" width="407" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a44be3f4d5e3f90d9fa73d1b808185d53_icgraph.svg" width="648" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a113bf99c3b1cc73c92d466d94ea88dad" name="a113bf99c3b1cc73c92d466d94ea88dad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a113bf99c3b1cc73c92d466d94ea88dad">&#9670;&#160;</a></span>PHAL_DMA_initWithCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PHAL_DMA_initWithCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a47182eb920187041fc5017b8b848e6d5">PHAL_DMA_IRQCallbackFn_t</a></td>          <td class="paramname"><span class="paramname"><em>irq_fn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Setup DMA callback then call <a class="el" href="#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.">PHAL_DMA_init()</a> </p>
+<p>Additional behavior: On success, handle-&gt;callback is set and this channel's NVIC line is enabled</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handle</td><td>wiring + params to configure. handle-&gt;channel and handle-&gt;callback are populated on success </td></tr>
+    <tr><td class="paramname">irq_fn</td><td>callback to invoke when this channel's interrupt fires; must not be nullptr </td></tr>
+    <tr><td class="paramname">ctx</td><td>opaque pointer passed to irq_fn unexamined. See PHAL_DMA_IRQCallbackFn_t for its lifetime requirement </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success; false under the same conditions as <a class="el" href="#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.">PHAL_DMA_init()</a>, or if irq_fn is nullptr </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a113bf99c3b1cc73c92d466d94ea88dad_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a113bf99c3b1cc73c92d466d94ea88dad_icgraph.svg" width="483" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -443,7 +517,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Check whether the channel is currently enabled (transfer in progress, or in circular mode, running continuously) </p>
-<dl class="section return"><dt>Returns</dt><dd>true if the channel is enabled, false if disabled or handle was never successfully init-ed </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the channel is enabled, false if disabled </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -484,7 +558,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a18b74faf02571f50b8893ebb38b34c68_icgraph.svg" width="639" height="184"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a18b74faf02571f50b8893ebb38b34c68_icgraph.svg" width="100%" height="438"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -521,19 +595,19 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a8cf5974ead7304601becd26d9ae9d6c4_icgraph.svg" width="611" height="184"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a8cf5974ead7304601becd26d9ae9d6c4_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a255ed862b5b1ce7cb71408a8f9dc5627" name="a255ed862b5b1ce7cb71408a8f9dc5627"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a255ed862b5b1ce7cb71408a8f9dc5627">&#9670;&#160;</a></span>PHAL_DMA_restart()</h2>
+<a id="a6f7660cdfc7790e503aedb99a5e2f126" name="a6f7660cdfc7790e503aedb99a5e2f126"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f7660cdfc7790e503aedb99a5e2f126">&#9670;&#160;</a></span>PHAL_DMA_restart()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool PHAL_DMA_restart </td>
+          <td class="memname">void PHAL_DMA_restart </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
           <td></td>
@@ -542,17 +616,16 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Reload the transfer count from handle-&gt;params.tx_size and start again. </p>
-<p>Safe to call regardless of whether the channel state (enabled, mid-transfer, or stopped on an error), it always disables first.</p>
-<dl class="section return"><dt>Returns</dt><dd>true on success, false if handle was never successfully init-ed </dd></dl>
+<p>Safe to call regardless of whether the channel state (enabled, mid-transfer, or stopped on an error), it always disables first. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a255ed862b5b1ce7cb71408a8f9dc5627_cgraph.svg" width="412" height="184"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a6f7660cdfc7790e503aedb99a5e2f126_cgraph.svg" width="412" height="184"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a255ed862b5b1ce7cb71408a8f9dc5627_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a6f7660cdfc7790e503aedb99a5e2f126_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -577,7 +650,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Change the transfer length (element count) for the next transfer. </p>
-<dl class="section return"><dt>Returns</dt><dd>true on success, false if handle was never successfully init-ed, or the channel is currently enabled </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, false if the channel is currently enabled </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -611,7 +684,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Change the memory address for the next transfer. </p>
-<dl class="section return"><dt>Returns</dt><dd>true on success, false if handle was never successfully init-ed or the channel is currently enabled </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, false if the channel is currently enabled </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -660,14 +733,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aca5737ccefc60cb097e682e5f0f9c8e5" name="aca5737ccefc60cb097e682e5f0f9c8e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca5737ccefc60cb097e682e5f0f9c8e5">&#9670;&#160;</a></span>PHAL_DMA_start()</h2>
+<a id="aa3d40041988a21c34b66e9d32b67dee6" name="aa3d40041988a21c34b66e9d32b67dee6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3d40041988a21c34b66e9d32b67dee6">&#9670;&#160;</a></span>PHAL_DMA_start()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool PHAL_DMA_start </td>
+          <td class="memname">void PHAL_DMA_start </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
           <td></td>
@@ -676,23 +749,22 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Enable the channel, starting the transfer configured by <a class="el" href="#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.">PHAL_DMA_init()</a> </p>
-<dl class="section return"><dt>Returns</dt><dd>true on success, false if handle was never successfully init-ed </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_aca5737ccefc60cb097e682e5f0f9c8e5_cgraph.svg" width="399" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_aa3d40041988a21c34b66e9d32b67dee6_cgraph.svg" width="399" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a11e3f2f9fb30872d1d48264d91d614e7" name="a11e3f2f9fb30872d1d48264d91d614e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11e3f2f9fb30872d1d48264d91d614e7">&#9670;&#160;</a></span>PHAL_DMA_stop()</h2>
+<a id="a9dd2eb889d9017f8a9512b08a21a15c8" name="a9dd2eb889d9017f8a9512b08a21a15c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dd2eb889d9017f8a9512b08a21a15c8">&#9670;&#160;</a></span>PHAL_DMA_stop()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool PHAL_DMA_stop </td>
+          <td class="memname">void PHAL_DMA_stop </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
           <td></td>
@@ -701,17 +773,16 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Disable the channel, stopping the transfer immediately. </p>
-<p>Whatever hasn't transferred yet is left un-transferred</p>
-<dl class="section return"><dt>Returns</dt><dd>true on success, false if handle was never successfully init-ed </dd></dl>
+<p>Whatever hasn't transferred yet is left un-transferred </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a11e3f2f9fb30872d1d48264d91d614e7_cgraph.svg" width="400" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a9dd2eb889d9017f8a9512b08a21a15c8_cgraph.svg" width="400" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a11e3f2f9fb30872d1d48264d91d614e7_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a9dd2eb889d9017f8a9512b08a21a15c8_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

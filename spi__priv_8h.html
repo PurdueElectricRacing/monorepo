@@ -98,7 +98,6 @@ $(function(){initNavTree('spi__priv_8h.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">spi_priv.h File Reference</div></div>
 </div><!--header-->
@@ -122,24 +121,6 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="spi__priv_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a2fef2942a3e48a69a75dd218d23bb18b" id="r_a2fef2942a3e48a69a75dd218d23bb18b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fef2942a3e48a69a75dd218d23bb18b">DMA_FLAG_MASK</a>(flag_base,  channel)</td></tr>
-<tr class="memdesc:a2fef2942a3e48a69a75dd218d23bb18b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the DMA flag mask for a channel.  <br /></td></tr>
-<tr class="separator:a2fef2942a3e48a69a75dd218d23bb18b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3dcac5dd72d2d5a78225bd58b538e47" id="r_ab3dcac5dd72d2d5a78225bd58b538e47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3dcac5dd72d2d5a78225bd58b538e47">DMA_TCIF_MASK</a>(channel)</td></tr>
-<tr class="memdesc:ab3dcac5dd72d2d5a78225bd58b538e47"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA transfer-complete flag mask.  <br /></td></tr>
-<tr class="separator:ab3dcac5dd72d2d5a78225bd58b538e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa80765b20d4bdf639071836bd2199994" id="r_aa80765b20d4bdf639071836bd2199994"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa80765b20d4bdf639071836bd2199994">DMA_TEIF_MASK</a>(channel)</td></tr>
-<tr class="memdesc:aa80765b20d4bdf639071836bd2199994"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA transfer-error flag mask.  <br /></td></tr>
-<tr class="separator:aa80765b20d4bdf639071836bd2199994"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a632f2b89dc82b8d1e309d7fdecab88c3" id="r_a632f2b89dc82b8d1e309d7fdecab88c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a632f2b89dc82b8d1e309d7fdecab88c3">DMA_HTIF_MASK</a>(channel)</td></tr>
-<tr class="memdesc:a632f2b89dc82b8d1e309d7fdecab88c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA half-transfer flag mask.  <br /></td></tr>
-<tr class="separator:a632f2b89dc82b8d1e309d7fdecab88c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6909d0b467fe6193d07e2183b582c4d5" id="r_a6909d0b467fe6193d07e2183b582c4d5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6909d0b467fe6193d07e2183b582c4d5">DMA_GIF_MASK</a>(channel)</td></tr>
-<tr class="memdesc:a6909d0b467fe6193d07e2183b582c4d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA global interrupt flag mask.  <br /></td></tr>
-<tr class="separator:a6909d0b467fe6193d07e2183b582c4d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a0faef94248879a2692c32c5d28c08f85" id="r_a0faef94248879a2692c32c5d28c08f85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0faef94248879a2692c32c5d28c08f85">PHAL_SPI_priv_enableClock</a> (SPI_TypeDef *periph)</td></tr>
@@ -160,15 +141,12 @@ Functions</h2></td></tr>
 <tr class="memitem:af26bdd68e047cde3da712ab3928ea4c1" id="r_af26bdd68e047cde3da712ab3928ea4c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af26bdd68e047cde3da712ab3928ea4c1">PHAL_SPI_priv_enableDMA_RX</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *cfg)</td></tr>
 <tr class="memdesc:af26bdd68e047cde3da712ab3928ea4c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable SPI receive DMA requests.  <br /></td></tr>
 <tr class="separator:af26bdd68e047cde3da712ab3928ea4c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb1b248213526fe30a8ad9f689e43f28" id="r_afb1b248213526fe30a8ad9f689e43f28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb1b248213526fe30a8ad9f689e43f28">PHAL_SPI_priv_handleTxComplete</a> (DMA_TypeDef *dma_periph, uint8_t channel)</td></tr>
-<tr class="memdesc:afb1b248213526fe30a8ad9f689e43f28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle DMA transmit-complete interrupts.  <br /></td></tr>
-<tr class="separator:afb1b248213526fe30a8ad9f689e43f28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e96e7e3bd320ca9791c8d7b10ee9e7d" id="r_a3e96e7e3bd320ca9791c8d7b10ee9e7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e96e7e3bd320ca9791c8d7b10ee9e7d">PHAL_SPI_priv_handleTxComplete</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *transfer)</td></tr>
+<tr class="memdesc:a3e96e7e3bd320ca9791c8d7b10ee9e7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle DMA transmit-complete interrupts.  <br /></td></tr>
+<tr class="separator:a3e96e7e3bd320ca9791c8d7b10ee9e7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d7f8001830958cc705ff4de1b130542" id="r_a7d7f8001830958cc705ff4de1b130542"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d7f8001830958cc705ff4de1b130542">PHAL_SPI_priv_resetTransferState</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *cfg)</td></tr>
 <tr class="memdesc:a7d7f8001830958cc705ff4de1b130542"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the internal SPI transfer state.  <br /></td></tr>
 <tr class="separator:a7d7f8001830958cc705ff4de1b130542"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa122d6455832fcf98713b8cda32f6a0d" id="r_aa122d6455832fcf98713b8cda32f6a0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa122d6455832fcf98713b8cda32f6a0d">PHAL_SPI_priv_registerActiveTx</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
-<tr class="memdesc:aa122d6455832fcf98713b8cda32f6a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register an active SPI transmit transfer.  <br /></td></tr>
-<tr class="separator:aa122d6455832fcf98713b8cda32f6a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af89def543ea5c1f819bc2f4f57c37942" id="r_af89def543ea5c1f819bc2f4f57c37942"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af89def543ea5c1f819bc2f4f57c37942">PHAL_SPI_priv_Enable</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
 <tr class="memdesc:af89def543ea5c1f819bc2f4f57c37942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the SPI peripheral.  <br /></td></tr>
 <tr class="separator:af89def543ea5c1f819bc2f4f57c37942"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,113 +159,7 @@ Functions</h2></td></tr>
 <dl class="section author"><dt>Author</dt><dd>Shriya Balu (<a href="#" onclick="location.href='mai'+'lto:'+'bal'+'u@'+'pur'+'du'+'e.e'+'du'; return false;">balu@<span class="obfuscator">.nosp@m.</span>purd<span class="obfuscator">.nosp@m.</span>ue.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd>
 <dd>
 Ronak Jain (<a href="#" onclick="location.href='mai'+'lto:'+'jai'+'n7'+'17@'+'pu'+'rdu'+'e.'+'edu'; return false;">jain7<span class="obfuscator">.nosp@m.</span>17@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a2fef2942a3e48a69a75dd218d23bb18b" name="a2fef2942a3e48a69a75dd218d23bb18b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fef2942a3e48a69a75dd218d23bb18b">&#9670;&#160;</a></span>DMA_FLAG_MASK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DMA_FLAG_MASK</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>flag_base</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>channel</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">(((uint32_t)(flag_base)) &lt;&lt; (4 * ((uint32_t)(channel) - 1)))</div>
-</div><!-- fragment -->
-<p>Compute the DMA flag mask for a channel. </p>
-
-</div>
-</div>
-<a id="a6909d0b467fe6193d07e2183b582c4d5" name="a6909d0b467fe6193d07e2183b582c4d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6909d0b467fe6193d07e2183b582c4d5">&#9670;&#160;</a></span>DMA_GIF_MASK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DMA_GIF_MASK</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>channel</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#a2fef2942a3e48a69a75dd218d23bb18b">DMA_FLAG_MASK</a>(DMA_ISR_GIF1,  (channel))</div>
-<div class="ttc" id="aspi__priv_8h_html_a2fef2942a3e48a69a75dd218d23bb18b"><div class="ttname"><a href="#a2fef2942a3e48a69a75dd218d23bb18b">DMA_FLAG_MASK</a></div><div class="ttdeci">#define DMA_FLAG_MASK(flag_base, channel)</div><div class="ttdoc">Compute the DMA flag mask for a channel.</div><div class="ttdef"><b>Definition</b> spi_priv.h:17</div></div>
-</div><!-- fragment -->
-<p>DMA global interrupt flag mask. </p>
-
-</div>
-</div>
-<a id="a632f2b89dc82b8d1e309d7fdecab88c3" name="a632f2b89dc82b8d1e309d7fdecab88c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a632f2b89dc82b8d1e309d7fdecab88c3">&#9670;&#160;</a></span>DMA_HTIF_MASK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DMA_HTIF_MASK</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>channel</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#a2fef2942a3e48a69a75dd218d23bb18b">DMA_FLAG_MASK</a>(DMA_ISR_HTIF1, (channel))</div>
-</div><!-- fragment -->
-<p>DMA half-transfer flag mask. </p>
-
-</div>
-</div>
-<a id="ab3dcac5dd72d2d5a78225bd58b538e47" name="ab3dcac5dd72d2d5a78225bd58b538e47"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3dcac5dd72d2d5a78225bd58b538e47">&#9670;&#160;</a></span>DMA_TCIF_MASK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DMA_TCIF_MASK</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>channel</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#a2fef2942a3e48a69a75dd218d23bb18b">DMA_FLAG_MASK</a>(DMA_ISR_TCIF1, (channel))</div>
-</div><!-- fragment -->
-<p>DMA transfer-complete flag mask. </p>
-
-</div>
-</div>
-<a id="aa80765b20d4bdf639071836bd2199994" name="aa80765b20d4bdf639071836bd2199994"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa80765b20d4bdf639071836bd2199994">&#9670;&#160;</a></span>DMA_TEIF_MASK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DMA_TEIF_MASK</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>channel</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#a2fef2942a3e48a69a75dd218d23bb18b">DMA_FLAG_MASK</a>(DMA_ISR_TEIF1, (channel))</div>
-</div><!-- fragment -->
-<p>DMA transfer-error flag mask. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="a7b8f558ba30544fcae726c02b845dde5" name="a7b8f558ba30544fcae726c02b845dde5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b8f558ba30544fcae726c02b845dde5">&#9670;&#160;</a></span>PHAL_SPI_priv_calcBaudRatePrescaler()</h2>
 
@@ -489,8 +361,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="afb1b248213526fe30a8ad9f689e43f28" name="afb1b248213526fe30a8ad9f689e43f28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb1b248213526fe30a8ad9f689e43f28">&#9670;&#160;</a></span>PHAL_SPI_priv_handleTxComplete()</h2>
+<a id="a3e96e7e3bd320ca9791c8d7b10ee9e7d" name="a3e96e7e3bd320ca9791c8d7b10ee9e7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e96e7e3bd320ca9791c8d7b10ee9e7d">&#9670;&#160;</a></span>PHAL_SPI_priv_handleTxComplete()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -498,12 +370,8 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void PHAL_SPI_priv_handleTxComplete </td>
           <td>(</td>
-          <td class="paramtype">DMA_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>dma_periph</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>transfer</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>channel</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -512,31 +380,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="spi__priv_8h_afb1b248213526fe30a8ad9f689e43f28_cgraph.svg" width="100%" height="450"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="aa122d6455832fcf98713b8cda32f6a0d" name="aa122d6455832fcf98713b8cda32f6a0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa122d6455832fcf98713b8cda32f6a0d">&#9670;&#160;</a></span>PHAL_SPI_priv_registerActiveTx()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PHAL_SPI_priv_registerActiveTx </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Register an active SPI transmit transfer. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="spi__priv_8h_aa122d6455832fcf98713b8cda32f6a0d_icgraph.svg" width="412" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="spi__priv_8h_a3e96e7e3bd320ca9791c8d7b10ee9e7d_cgraph.svg" width="100%" height="561"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

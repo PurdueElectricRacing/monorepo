@@ -1,7 +1,9 @@
 <map id="PHAL_DMA_Handle_t" name="PHAL_DMA_Handle_t">
-<area shape="rect" id="Node000001" title="A configured DMA transfer: fixed wiring + chosen parameters." alt="" coords="91,94,243,120"/>
+<area shape="rect" id="Node000001" title="A configured DMA transfer: fixed wiring + chosen parameters." alt="" coords="179,94,331,120"/>
 <area shape="rect" id="Node000002" href="$structPHAL__DMA__Wiring__t.html" title="Fixed hardware wiring for one peripheral + direction&#39;s DMA use." alt="" coords="5,5,153,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,40,157,92,153,96,100,44"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,36,231,91,229,96,116,41"/>
 <area shape="rect" id="Node000003" href="$structPHAL__DMA__Params__t.html" title="Per&#45;transfer parameters (user can configure)" alt="" coords="177,5,333,31"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="234,44,181,96,177,92,230,40"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="258,47,258,94,252,94,252,47"/>
+<area shape="rect" id="Node000004" href="$structPHAL__DMA__Callback__t.html" title="A DMA channel interrupt callback and the context passed to it." alt="" coords="357,5,518,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="399,41,282,96,280,91,397,36"/>
 </map>

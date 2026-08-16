@@ -1,5 +1,7 @@
 var NAVTREEINDEX8 =
 {
+"lcd_8c.html#a8b71ea5d4f043abfa893e1d47cb51c06":[30,0,1,2,2,1,4,12],
+"lcd_8c.html#a9ceeac8764aca15be67680bddfe70704":[30,0,1,2,2,1,4,9],
 "lcd_8c.html#aa13fa254ddd44573fd2a83874763cae8":[30,0,1,2,2,1,4,8],
 "lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9":[30,0,1,2,2,1,4,4],
 "lcd_8c.html#ab328996325a24df855157cc23430de3d":[30,0,1,2,2,1,4,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX8 =
 "md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md10":[1,0,1,0],
 "md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md11":[1,0,2],
 "md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md12":[1,0,3],
-"md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md13":[1,0,3,0],
-"md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md14":[1,1],
-"md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md15":[1,2]
+"md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md13":[1,0,3,0]
 };

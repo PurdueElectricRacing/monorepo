@@ -1,37 +1,32 @@
 <map id="adc_wait_for_register" name="adc_wait_for_register">
-<area shape="rect" id="Node000001" title="Wait for masked register bits to reach the requested state." alt="" coords="984,81,1129,107"/>
-<area shape="rect" id="Node000002" href="$adc__priv_8c.html#aa9f503d5c4306dfcbeebd828b786b0c4" title="Run single&#45;ended ADC calibration and wait for completion." alt="" coords="583,5,682,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="995,79,935,65,798,41,682,26,683,21,799,36,937,60,996,74"/>
-<area shape="rect" id="Node000006" href="$adc__priv_8c.html#aa3afc5f94f7567e81486566389fea45c" title="Stop and disable an ADC instance." alt="" coords="565,56,700,82"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="968,92,700,75,700,70,969,86"/>
-<area shape="rect" id="Node000007" href="$adc__priv_8c.html#a8e85a281e3dedc7c442e4f95a9d2be3c" title="Enable an ADC instance and wait for it to become ready." alt="" coords="776,181,908,207"/>
-<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="1014,117,873,183,871,178,1012,112"/>
-<area shape="rect" id="Node000008" href="$adc__priv_8c.html#a01d9929d1c92f9a3ad55a90edd7ffa04" title="Stop an active regular conversion sequence." alt="" coords="748,107,936,132"/>
-<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="969,107,937,111,936,106,968,102"/>
-<area shape="rect" id="Node000003" href="$adc__priv_8c.html#a868732f1ad2fa5633d69573ed92e68d7" title="Configure and calibrate a disabled ADC instance." alt="" coords="358,5,503,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="568,21,504,21,504,16,568,16"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="142,56,257,82"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="355,37,258,59,257,54,353,32"/>
-<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,56,55,82"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="126,72,55,72,55,66,126,66"/>
-<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="563,54,484,34,485,29,564,49"/>
-<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="550,72,257,72,257,66,550,66"/>
-<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="764,213,676,225,569,231,512,230,455,224,398,213,343,197,299,173,260,142,229,110,208,84,212,80,233,106,264,138,302,169,345,192,399,208,455,219,512,224,569,226,676,220,764,208"/>
-<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="770,105,688,85,689,80,771,100"/>
-<area shape="rect" id="Node000009" href="$phal__G4_2adc_2adc_8c.html#a125ced4dc8f5f9e7dee7cbbefcd125b7" title="Stop the ADC and DMA channel, then clear the DMA status flags." alt="" coords="581,131,684,156"/>
-<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="733,135,684,140,684,135,732,129"/>
-<area shape="rect" id="Node000010" href="$phal__G4_2adc_2adc_8c.html#a88783c4b103049de64fc356c016ccae2" title="Process DMA completion or error status for an ADC handle." alt="" coords="358,257,503,283"/>
-<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="599,167,454,259,451,255,596,163"/>
-<area shape="rect" id="Node000015" href="$phal__G4_2adc_2adc_8c.html#a182c3e08bcff1970109448d9c24cb39c" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="344,107,517,132"/>
-<area shape="poly" id="edge18_Node000009_Node000015" title=" " alt="" coords="566,138,518,132,518,127,566,133"/>
-<area shape="rect" id="Node000016" href="$phal__G4_2adc_2adc_8c.html#a293b748ece5364814af3ba56e3572f06" title="Abort any transfer in flight and leave the ADC idle." alt="" coords="369,156,492,182"/>
-<area shape="poly" id="edge19_Node000009_Node000016" title=" " alt="" coords="566,154,493,164,493,158,566,149"/>
-<area shape="rect" id="Node000011" href="$phal__G4_2adc_2adc_8c.html#a7b6fac3d670a4860ebec8a961d5c4a73" title="Dispatch DMA1 channel 1 to ADC1 or its USART3 RX fallback owner." alt="" coords="103,331,296,356"/>
-<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="383,292,297,322,259,333,258,327,295,317,381,287"/>
-<area shape="rect" id="Node000012" href="$phal__G4_2adc_2adc_8c.html#a51ffa654c18679a6e437027eeaea5bed" title="Dispatch the ADC2 DMA transfer interrupt." alt="" coords="103,183,296,208"/>
-<area shape="poly" id="edge15_Node000010_Node000012" title=" " alt="" coords="378,254,343,241,295,222,258,212,260,206,297,217,345,236,380,249"/>
-<area shape="rect" id="Node000013" href="$phal__G4_2adc_2adc_8c.html#a5387957d667639fdc36a98493fc6a121" title="Dispatch the ADC3 DMA transfer interrupt." alt="" coords="103,232,296,258"/>
-<area shape="poly" id="edge16_Node000010_Node000013" title=" " alt="" coords="343,263,296,258,297,253,344,258"/>
-<area shape="rect" id="Node000014" href="$phal__G4_2adc_2adc_8c.html#a66857fec7bb282eed8204a690f4ce5ae" title="Dispatch DMA2 channel 3 to ADC4 or its SPI3 TX fallback owner." alt="" coords="103,281,296,307"/>
-<area shape="poly" id="edge17_Node000010_Node000014" title=" " alt="" coords="344,282,297,287,296,281,343,277"/>
+<area shape="rect" id="Node000001" title="Wait for masked register bits to reach the requested state." alt="" coords="1085,81,1231,107"/>
+<area shape="rect" id="Node000002" href="$adc__priv_8c.html#aa9f503d5c4306dfcbeebd828b786b0c4" title="Run single&#45;ended ADC calibration and wait for completion." alt="" coords="685,5,783,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1096,79,1037,65,899,41,783,26,784,21,900,36,1038,60,1098,74"/>
+<area shape="rect" id="Node000006" href="$adc__priv_8c.html#aa3afc5f94f7567e81486566389fea45c" title="Stop and disable an ADC instance." alt="" coords="667,56,801,82"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1070,92,801,75,802,70,1070,86"/>
+<area shape="rect" id="Node000007" href="$adc__priv_8c.html#a8e85a281e3dedc7c442e4f95a9d2be3c" title="Enable an ADC instance and wait for it to become ready." alt="" coords="266,205,397,231"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="1116,116,1038,147,923,185,832,211,739,230,619,246,532,253,445,246,381,234,382,229,446,241,532,247,618,241,738,225,830,206,921,180,1036,142,1114,112"/>
+<area shape="rect" id="Node000008" href="$adc__priv_8c.html#a01d9929d1c92f9a3ad55a90edd7ffa04" title="Stop an active regular conversion sequence." alt="" coords="849,107,1037,132"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="1070,107,1038,111,1037,106,1069,102"/>
+<area shape="rect" id="Node000003" href="$adc__priv_8c.html#a868732f1ad2fa5633d69573ed92e68d7" title="Configure and calibrate a disabled ADC instance." alt="" coords="459,5,605,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="669,21,605,21,605,16,669,16"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="103,81,218,107"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="444,25,358,35,267,53,225,67,189,83,186,78,223,62,265,48,357,29,444,20"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,81,55,107"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="87,97,55,97,55,92,87,92"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="664,54,585,34,587,29,666,49"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="651,75,219,94,218,89,651,70"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="298,198,178,109,181,105,302,194"/>
+<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="871,105,789,85,791,80,873,100"/>
+<area shape="rect" id="Node000009" href="$phal__G4_2adc_2adc_8c.html#a125ced4dc8f5f9e7dee7cbbefcd125b7" title="Stop the ADC and DMA channel, then clear the DMA status flags." alt="" coords="683,131,785,156"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="834,135,786,140,785,135,834,129"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2adc_2adc_8c.html#a88783c4b103049de64fc356c016ccae2" title="Process DMA completion or error status for an ADC handle." alt="" coords="460,107,604,132"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="667,138,604,131,605,125,668,133"/>
+<area shape="rect" id="Node000012" href="$phal__G4_2adc_2adc_8c.html#a182c3e08bcff1970109448d9c24cb39c" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="445,156,619,182"/>
+<area shape="poly" id="edge16_Node000009_Node000012" title=" " alt="" coords="668,154,620,161,619,155,667,149"/>
+<area shape="rect" id="Node000013" href="$phal__G4_2adc_2adc_8c.html#a293b748ece5364814af3ba56e3572f06" title="Abort any transfer in flight and leave the ADC idle." alt="" coords="470,205,594,231"/>
+<area shape="poly" id="edge17_Node000009_Node000013" title=" " alt="" coords="693,166,620,197,586,207,585,202,618,192,690,161"/>
+<area shape="rect" id="Node000011" href="$phal__G4_2adc_2adc_8c.html#ab1d3e1e78099bd0f30e345ce46dd626a" title=" " alt="" coords="267,107,396,132"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="444,122,396,122,396,117,444,117"/>
+<area shape="poly" id="edge15_Node000011_Node000004" title=" " alt="" coords="251,110,218,105,219,100,252,105"/>
 </map>

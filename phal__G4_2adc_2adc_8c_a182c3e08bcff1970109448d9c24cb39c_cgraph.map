@@ -1,49 +1,52 @@
 <map id="PHAL_ADC_readBlocking" name="PHAL_ADC_readBlocking">
-<area shape="rect" id="Node000001" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="5,252,179,278"/>
+<area shape="rect" id="Node000001" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="5,228,179,254"/>
 <area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#af6cce18a4976eccdba32230d0d21fdfd" title="Atomically claim transfer completion for either polling or interrupt code." alt="" coords="260,55,410,80"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,250,115,217,142,173,180,128,225,89,244,80,246,84,228,94,183,131,147,176,119,220,102,253"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,226,146,160,183,121,225,89,244,80,246,85,228,94,186,125,150,163,103,229"/>
 <area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#a673448506d450deed0ef83eaf02abbf1" title="Return the NVIC interrupt assigned to an ADC instance&#39;s DMA channel." alt="" coords="284,104,386,130"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="101,250,150,195,186,164,225,138,268,123,269,128,228,143,189,169,154,199,105,253"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2adc_2adc_8c.html#a125ced4dc8f5f9e7dee7cbbefcd125b7" title="Stop the ADC and DMA channel, then clear the DMA status flags." alt="" coords="284,153,386,179"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="125,249,286,183,288,188,127,254"/>
-<area shape="rect" id="Node000012" href="$phal__G4_2adc_2adc_8c.html#a556d456a145f5c43b8a05caed0ce6ff0" title="Weak callback fired once per completed DMA buffer." alt="" coords="227,302,443,342"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="150,276,231,295,230,300,149,281"/>
-<area shape="rect" id="Node000013" href="$phal__G4_2adc_2adc_8c.html#a429677cda7cd755ee9c4148b73159e76" title="Start an asynchronous circular&#45;DMA conversion into buffer" alt="" coords="259,252,411,278"/>
-<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="179,262,243,262,243,268,179,268"/>
-<area shape="rect" id="Node000020" href="$phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="252,384,418,410"/>
-<area shape="poly" id="edge21_Node000001_Node000020" title=" " alt="" coords="112,276,163,312,228,352,281,376,279,380,225,357,160,317,109,280"/>
-<area shape="rect" id="Node000022" href="$phal__G4_2dma_2dma_8c.html#a8cf5974ead7304601becd26d9ae9d6c4" title="Check whether the channel reported a transfer error (TE flag set)" alt="" coords="266,433,404,459"/>
-<area shape="poly" id="edge23_Node000001_Node000022" title=" " alt="" coords="103,276,121,307,149,346,185,386,228,420,252,431,250,436,225,424,181,390,145,349,116,310,98,279"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="105,226,155,182,189,159,226,138,267,124,269,129,228,143,192,163,159,187,109,230"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2adc_2adc_8c.html#a125ced4dc8f5f9e7dee7cbbefcd125b7" title="Stop the ADC and DMA channel, then clear the DMA status flags." alt="" coords="284,153,386,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="135,225,275,182,276,187,137,230"/>
+<area shape="rect" id="Node000013" href="$phal__G4_2adc_2adc_8c.html#a556d456a145f5c43b8a05caed0ce6ff0" title="Weak callback fired once per completed DMA buffer." alt="" coords="227,278,443,318"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="150,252,231,271,230,276,149,257"/>
+<area shape="rect" id="Node000014" href="$phal__G4_2adc_2adc_8c.html#a429677cda7cd755ee9c4148b73159e76" title="Start an asynchronous circular&#45;DMA conversion into buffer" alt="" coords="259,228,411,254"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="179,238,243,238,243,244,179,244"/>
+<area shape="rect" id="Node000021" href="$phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="252,384,418,410"/>
+<area shape="poly" id="edge23_Node000001_Node000021" title=" " alt="" coords="114,252,228,328,300,373,297,378,225,332,111,256"/>
+<area shape="rect" id="Node000023" href="$phal__G4_2dma_2dma_8c.html#a8cf5974ead7304601becd26d9ae9d6c4" title="Check whether the channel reported a transfer error (TE flag set)" alt="" coords="266,433,404,459"/>
+<area shape="poly" id="edge25_Node000001_Node000023" title=" " alt="" coords="101,253,118,287,145,333,182,380,204,402,228,420,252,432,250,436,225,424,201,406,178,384,141,336,113,289,97,255"/>
 <area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#ab758a7dfb798e8808f5ae938b7637aa6" title="Return the fixed DMA wiring assigned to an ADC instance." alt="" coords="550,5,665,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="386,109,414,102,442,91,456,79,465,66,474,52,490,40,534,24,535,29,492,44,478,56,469,69,460,82,444,95,416,107,387,114"/>
-<area shape="rect" id="Node000006" href="$adc__priv_8c.html#a01d9929d1c92f9a3ad55a90edd7ffa04" title="Stop an active regular conversion sequence." alt="" coords="514,55,702,80"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="386,159,414,152,442,140,456,128,465,115,474,102,490,89,500,84,503,89,492,94,478,105,469,118,460,132,444,144,416,157,387,164"/>
-<area shape="rect" id="Node000008" href="$phal__G4_2dma_2dma_8c.html#a1308cdd88736a6cd7d72f8665bea5f29" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="528,153,688,179"/>
-<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="386,164,512,164,512,169,386,169"/>
-<area shape="rect" id="Node000010" href="$phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" title="Disable the channel, stopping the transfer immediately." alt="" coords="545,104,670,130"/>
-<area shape="poly" id="edge9_Node000005_Node000010" title=" " alt="" coords="386,154,530,128,531,133,387,160"/>
-<area shape="rect" id="Node000007" href="$adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" title="Wait for masked register bits to reach the requested state." alt="" coords="808,55,953,80"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="702,65,792,65,792,70,702,70"/>
-<area shape="rect" id="Node000009" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="786,227,975,252"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="680,177,725,188,827,219,826,224,724,193,679,182"/>
-<area shape="rect" id="Node000011" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="772,128,989,154"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="671,120,757,127,757,133,671,125"/>
-<area shape="rect" id="Node000014" href="$adc__priv_8c.html#aee9cc80f61cd1c4aee4bc2df006f29e3" title="Clear transfer flags and select single or continuous DMA requests." alt="" coords="514,351,701,376"/>
-<area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="412,274,444,288,460,300,469,313,478,326,492,337,503,342,500,347,490,342,474,330,465,317,456,304,442,292,410,279"/>
-<area shape="rect" id="Node000015" href="$adc__priv_8c.html#aaf23796e92dc20c862ddd81a578f5275" title="Start the configured regular conversion sequence." alt="" coords="513,203,702,228"/>
-<area shape="poly" id="edge14_Node000013_Node000015" title=" " alt="" coords="410,249,517,229,518,234,410,254"/>
-<area shape="rect" id="Node000016" href="$phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="539,301,676,327"/>
-<area shape="poly" id="edge15_Node000013_Node000016" title=" " alt="" coords="410,276,524,297,523,302,410,281"/>
-<area shape="rect" id="Node000019" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="510,252,705,278"/>
-<area shape="poly" id="edge20_Node000013_Node000019" title=" " alt="" coords="411,262,495,262,495,268,411,268"/>
-<area shape="poly" id="edge16_Node000016_Node000009" title=" " alt="" coords="676,299,724,288,827,255,828,261,725,293,678,304"/>
-<area shape="poly" id="edge17_Node000016_Node000011" title=" " alt="" coords="676,307,701,300,723,288,740,271,748,253,755,234,770,212,805,183,840,159,843,164,808,187,774,216,760,236,753,255,744,274,726,292,703,305,677,312"/>
-<area shape="rect" id="Node000017" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="774,339,987,364"/>
-<area shape="poly" id="edge18_Node000016_Node000017" title=" " alt="" coords="677,321,767,333,766,339,676,326"/>
-<area shape="rect" id="Node000018" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="787,289,974,315"/>
-<area shape="poly" id="edge19_Node000016_Node000018" title=" " alt="" coords="677,308,772,304,772,310,677,314"/>
-<area shape="rect" id="Node000021" href="$dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="491,400,724,426"/>
-<area shape="poly" id="edge22_Node000020_Node000021" title=" " alt="" coords="418,399,476,402,475,408,418,404"/>
-<area shape="rect" id="Node000023" href="$dma__priv_8c.html#ada0695302c27bdff977fe6ec4fbd902f" title="True if the transfer&#45;error flag is currently set for (periph, channel_idx)" alt="" coords="505,449,710,475"/>
-<area shape="poly" id="edge24_Node000022_Node000023" title=" " alt="" coords="404,448,490,453,489,458,404,453"/>
+<area shape="rect" id="Node000005" href="$phal__G4_2adc_2adc_8c.html#a9225d89f89aa3f074fe94e2b7061e864" title="Map a supported ADC instance to its zero&#45;based active&#45;handle slot." alt="" coords="813,5,948,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="666,16,797,16,797,21,666,21"/>
+<area shape="rect" id="Node000007" href="$adc__priv_8c.html#a01d9929d1c92f9a3ad55a90edd7ffa04" title="Stop an active regular conversion sequence." alt="" coords="514,55,702,80"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="386,159,414,152,442,140,456,128,465,115,474,102,490,89,500,84,503,89,492,94,478,105,469,118,460,132,444,144,416,157,387,164"/>
+<area shape="rect" id="Node000009" href="$phal__G4_2dma_2dma_8c.html#a1261cc1a26fcb06f8cebc00c95ffd55a" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="528,104,688,130"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="386,154,517,130,518,136,387,160"/>
+<area shape="rect" id="Node000011" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="545,153,670,179"/>
+<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="386,164,529,164,529,169,386,169"/>
+<area shape="rect" id="Node000008" href="$adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" title="Wait for masked register bits to reach the requested state." alt="" coords="808,55,953,80"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="702,65,792,65,792,70,702,70"/>
+<area shape="rect" id="Node000010" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="786,128,975,154"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="688,121,771,129,771,134,688,127"/>
+<area shape="rect" id="Node000012" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="772,227,989,252"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="672,175,725,188,827,219,826,224,724,193,670,180"/>
+<area shape="poly" id="edge22_Node000014_Node000011" title=" " alt="" coords="373,225,490,188,529,178,530,184,492,193,374,230"/>
+<area shape="rect" id="Node000015" href="$adc__priv_8c.html#aee9cc80f61cd1c4aee4bc2df006f29e3" title="Clear transfer flags and select single or continuous DMA requests." alt="" coords="514,351,701,376"/>
+<area shape="poly" id="edge14_Node000014_Node000015" title=" " alt="" coords="412,249,445,264,462,283,469,302,477,321,493,337,501,343,498,347,489,342,472,323,464,304,457,285,441,268,410,253"/>
+<area shape="rect" id="Node000016" href="$adc__priv_8c.html#aaf23796e92dc20c862ddd81a578f5275" title="Start the configured regular conversion sequence." alt="" coords="513,203,702,228"/>
+<area shape="poly" id="edge15_Node000014_Node000016" title=" " alt="" coords="411,231,497,223,498,228,412,236"/>
+<area shape="rect" id="Node000017" href="$phal__G4_2dma_2dma_8c.html#a6f7660cdfc7790e503aedb99a5e2f126" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="539,301,676,327"/>
+<area shape="poly" id="edge16_Node000014_Node000017" title=" " alt="" coords="404,252,444,264,468,276,492,288,525,297,523,302,490,293,466,281,442,269,403,257"/>
+<area shape="rect" id="Node000020" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="510,252,705,278"/>
+<area shape="poly" id="edge21_Node000014_Node000020" title=" " alt="" coords="412,245,495,252,495,258,411,250"/>
+<area shape="poly" id="edge17_Node000017_Node000010" title=" " alt="" coords="676,307,701,300,723,288,740,271,748,253,755,234,770,212,805,183,840,159,843,164,808,187,774,216,760,236,753,255,744,274,726,292,703,305,677,312"/>
+<area shape="poly" id="edge18_Node000017_Node000012" title=" " alt="" coords="676,299,724,288,827,255,828,261,725,293,678,304"/>
+<area shape="rect" id="Node000018" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="774,289,987,315"/>
+<area shape="poly" id="edge19_Node000017_Node000018" title=" " alt="" coords="677,308,758,305,759,310,677,314"/>
+<area shape="rect" id="Node000019" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="787,339,974,364"/>
+<area shape="poly" id="edge20_Node000017_Node000019" title=" " alt="" coords="677,321,772,334,771,339,676,326"/>
+<area shape="rect" id="Node000022" href="$dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="491,400,724,426"/>
+<area shape="poly" id="edge24_Node000021_Node000022" title=" " alt="" coords="418,399,476,402,475,408,418,404"/>
+<area shape="rect" id="Node000024" href="$dma__priv_8c.html#ada0695302c27bdff977fe6ec4fbd902f" title="True if the transfer&#45;error flag is currently set for (periph, channel_idx)" alt="" coords="505,449,710,475"/>
+<area shape="poly" id="edge26_Node000023_Node000024" title=" " alt="" coords="404,448,490,453,489,458,404,453"/>
 </map>

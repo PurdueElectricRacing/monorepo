@@ -1,11 +1,9 @@
 <map id="adc_dma_irq_handler" name="adc_dma_irq_handler">
-<area shape="rect" id="Node000001" title="Process DMA completion or error status for an ADC handle." alt="" coords="247,80,391,106"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#a7b6fac3d670a4860ebec8a961d5c4a73" title="Dispatch DMA1 channel 1 to ADC1 or its USART3 RX fallback owner." alt="" coords="5,5,199,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="275,76,198,45,162,34,163,29,200,40,277,71"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#a51ffa654c18679a6e437027eeaea5bed" title="Dispatch the ADC2 DMA transfer interrupt." alt="" coords="5,55,199,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,85,199,81,199,76,231,80"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#a5387957d667639fdc36a98493fc6a121" title="Dispatch the ADC3 DMA transfer interrupt." alt="" coords="5,104,199,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="231,105,199,109,199,103,231,100"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2adc_2adc_8c.html#a66857fec7bb282eed8204a690f4ce5ae" title="Dispatch DMA2 channel 3 to ADC4 or its SPI3 TX fallback owner." alt="" coords="5,153,199,179"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="276,115,200,145,163,155,161,150,198,140,274,110"/>
+<area shape="rect" id="Node000001" title="Process DMA completion or error status for an ADC handle." alt="" coords="443,5,588,31"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#ab1d3e1e78099bd0f30e345ce46dd626a" title=" " alt="" coords="266,5,395,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="428,21,396,21,396,16,428,16"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="103,5,218,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="250,21,218,21,218,16,250,16"/>
+<area shape="rect" id="Node000004" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
 </map>

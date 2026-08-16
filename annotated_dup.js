@@ -93,6 +93,7 @@ var annotated_dup =
     [ "PHAL_ADC_ChannelConfig_t", "structPHAL__ADC__ChannelConfig__t.html", "structPHAL__ADC__ChannelConfig__t" ],
     [ "PHAL_ADC_Config_t", "structPHAL__ADC__Config__t.html", "structPHAL__ADC__Config__t" ],
     [ "PHAL_ADC_Handle_t", "structPHAL__ADC__Handle__t.html", "structPHAL__ADC__Handle__t" ],
+    [ "PHAL_DMA_Callback_t", "structPHAL__DMA__Callback__t.html", "structPHAL__DMA__Callback__t" ],
     [ "PHAL_DMA_Handle_t", "structPHAL__DMA__Handle__t.html", "structPHAL__DMA__Handle__t" ],
     [ "PHAL_DMA_Params_t", "structPHAL__DMA__Params__t.html", "structPHAL__DMA__Params__t" ],
     [ "PHAL_DMA_Wiring_t", "structPHAL__DMA__Wiring__t.html", "structPHAL__DMA__Wiring__t" ],

@@ -1,0 +1,39 @@
+<map id="PHAL_USART_rxBlocking" name="PHAL_USART_rxBlocking">
+<area shape="rect" id="Node000001" title="Receive data, blocking until a one&#45;shot reception completes." alt="" coords="5,228,182,254"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2usart_2usart_8c.html#a0e754ee2f497cea8b6df31d13e5e1365" title="Start a DMA&#45;based reception, completed on the IDLE line." alt="" coords="230,228,356,254"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,238,214,238,214,244,182,244"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2dma_2dma_8c.html#a6f7660cdfc7790e503aedb99a5e2f126" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="433,104,570,130"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="303,226,343,183,372,159,403,138,417,132,419,137,405,143,375,163,347,187,307,229"/>
+<area shape="rect" id="Node000008" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="422,153,581,179"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="319,225,403,188,424,181,426,186,405,193,321,230"/>
+<area shape="rect" id="Node000010" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="404,203,599,228"/>
+<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="356,231,388,227,389,232,357,236"/>
+<area shape="rect" id="Node000011" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="439,31,564,56"/>
+<area shape="poly" id="edge11_Node000002_Node000011" title=" " alt="" coords="299,226,338,163,367,124,402,89,448,61,451,65,406,94,371,128,342,166,303,229"/>
+<area shape="rect" id="Node000012" href="$usart__priv_8c.html#ae9ec242ef3f5a8022451063afa1f8c76" title="Discard anything sitting in RDR and clear IDLE plus every RX error flag." alt="" coords="408,252,595,278"/>
+<area shape="poly" id="edge13_Node000002_Node000012" title=" " alt="" coords="357,245,393,250,393,255,356,251"/>
+<area shape="rect" id="Node000013" href="$usart__priv_8c.html#adfea2ebe57fa759879589f6a70374ae5" title="Get the peripheral instance for a slot (used by the interrupt handlers)" alt="" coords="412,301,591,327"/>
+<area shape="poly" id="edge14_Node000002_Node000013" title=" " alt="" coords="321,252,405,288,426,294,424,299,403,293,319,257"/>
+<area shape="rect" id="Node000014" href="$usart__priv_8c.html#ab2668e6988568645355b350f7f5a5319" title="Enable the receiver and its DMA request line (CR1.RE, CR3.DMAR)." alt="" coords="409,351,594,376"/>
+<area shape="poly" id="edge15_Node000002_Node000014" title=" " alt="" coords="307,252,348,295,375,318,405,337,416,342,414,347,403,342,372,322,344,299,303,256"/>
+<area shape="rect" id="Node000017" href="$usart__priv_8c.html#a4edd0eb379f648beac337495998fe36a" title="Disable the receiver and its DMA request line (CR1.RE, CR3.DMAR)." alt="" coords="410,400,594,426"/>
+<area shape="poly" id="edge18_Node000002_Node000017" title=" " alt="" coords="303,253,340,318,369,355,406,387,412,391,409,395,402,391,365,359,335,321,298,256"/>
+<area shape="rect" id="Node000004" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="669,104,857,130"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="571,114,653,114,653,120,571,120"/>
+<area shape="rect" id="Node000005" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="655,5,871,31"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="529,101,598,67,622,52,646,40,667,33,669,38,648,45,624,57,601,71,532,106"/>
+<area shape="rect" id="Node000006" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="656,55,870,80"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="570,101,676,81,677,86,571,106"/>
+<area shape="rect" id="Node000007" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="670,153,856,179"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="571,127,677,147,676,152,570,132"/>
+<area shape="poly" id="edge9_Node000008_Node000007" title=" " alt="" coords="581,164,654,164,654,169,581,169"/>
+<area shape="rect" id="Node000009" href="$dma__priv_8c.html#a6a38d32b32c9d8a52740339bf2cb1e19" title="True if the channel is currently enabled." alt="" coords="647,203,879,228"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="574,177,677,197,676,202,573,182"/>
+<area shape="poly" id="edge12_Node000011_Node000005" title=" " alt="" coords="565,35,639,28,639,33,565,40"/>
+<area shape="rect" id="Node000015" href="$usart__priv_8c.html#a426fc303e25b8516df9cd1a926f628ff" title=" " alt="" coords="718,400,808,426"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="574,374,703,399,702,404,573,380"/>
+<area shape="rect" id="Node000016" href="$usart__priv_8c.html#aa00be98e4959c28c2d915d3159cb65fd" title=" " alt="" coords="722,351,804,376"/>
+<area shape="poly" id="edge17_Node000014_Node000016" title=" " alt="" coords="595,361,707,361,707,366,595,366"/>
+<area shape="poly" id="edge19_Node000017_Node000015" title=" " alt="" coords="594,410,702,410,702,416,594,416"/>
+<area shape="poly" id="edge20_Node000017_Node000016" title=" " alt="" coords="573,397,707,371,708,376,574,402"/>
+</map>

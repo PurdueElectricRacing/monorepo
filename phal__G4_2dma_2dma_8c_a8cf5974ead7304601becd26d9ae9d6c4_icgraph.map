@@ -1,15 +1,15 @@
 <map id="PHAL_DMA_isError" name="PHAL_DMA_isError">
-<area shape="rect" id="Node000001" title="Check whether the channel reported a transfer error (TE flag set)" alt="" coords="468,105,605,131"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#a88783c4b103049de64fc356c016ccae2" title="Process DMA completion or error status for an ADC handle." alt="" coords="261,80,406,106"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="452,110,406,104,406,99,453,105"/>
-<area shape="rect" id="Node000007" href="$phal__G4_2adc_2adc_8c.html#a182c3e08bcff1970109448d9c24cb39c" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="247,129,420,155"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="453,131,421,135,420,129,452,125"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#a7b6fac3d670a4860ebec8a961d5c4a73" title="Dispatch DMA1 channel 1 to ADC1 or its USART3 RX fallback owner." alt="" coords="5,5,199,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="285,76,198,45,160,34,162,29,199,40,287,71"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#a51ffa654c18679a6e437027eeaea5bed" title="Dispatch the ADC2 DMA transfer interrupt." alt="" coords="5,55,199,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="246,86,199,81,199,75,246,81"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2adc_2adc_8c.html#a5387957d667639fdc36a98493fc6a121" title="Dispatch the ADC3 DMA transfer interrupt." alt="" coords="5,104,199,130"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="246,105,199,109,199,104,246,99"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2adc_2adc_8c.html#a66857fec7bb282eed8204a690f4ce5ae" title="Dispatch DMA2 channel 3 to ADC4 or its SPI3 TX fallback owner." alt="" coords="5,153,199,179"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="264,113,248,119,224,132,200,145,166,155,165,150,198,140,221,127,246,114,263,108"/>
+<area shape="rect" id="Node000001" title="Check whether the channel reported a transfer error (TE flag set)" alt="" coords="720,55,857,80"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#a88783c4b103049de64fc356c016ccae2" title="Process DMA completion or error status for an ADC handle." alt="" coords="485,5,630,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="711,53,671,45,622,34,623,29,672,40,712,48"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2adc_2adc_8c.html#a182c3e08bcff1970109448d9c24cb39c" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="471,55,644,80"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="704,70,645,70,645,65,704,65"/>
+<area shape="rect" id="Node000007" href="$spi__priv_8c.html#a3e96e7e3bd320ca9791c8d7b10ee9e7d" title="Handle DMA transmit&#45;complete interrupts." alt="" coords="443,104,672,130"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="712,87,672,95,623,106,622,101,671,90,711,82"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#ab1d3e1e78099bd0f30e345ce46dd626a" title=" " alt="" coords="266,5,395,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="470,21,396,21,396,16,470,16"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="103,5,218,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="250,21,218,21,218,16,250,16"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
 </map>

@@ -1,0 +1,31 @@
+<map id="PHAL_USART_tx" name="PHAL_USART_tx">
+<area shape="rect" id="Node000001" title="Start a transmission using DMA." alt="" coords="5,179,132,204"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a6f7660cdfc7790e503aedb99a5e2f126" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="209,104,346,130"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,176,179,138,200,132,201,137,181,143,97,180"/>
+<area shape="rect" id="Node000007" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="198,153,356,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="132,181,182,175,183,180,133,186"/>
+<area shape="rect" id="Node000009" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="180,203,375,228"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="133,196,165,200,164,205,132,201"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="215,31,340,56"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="80,176,122,135,178,89,228,61,231,66,181,94,125,139,84,180"/>
+<area shape="rect" id="Node000011" href="$usart__priv_8c.html#adfea2ebe57fa759879589f6a70374ae5" title="Get the peripheral instance for a slot (used by the interrupt handlers)" alt="" coords="188,252,367,278"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="97,202,181,238,201,245,200,250,179,243,95,207"/>
+<area shape="rect" id="Node000012" href="$usart__priv_8c.html#ab926b671232d93cec48ab8f7b1b19887" title=" " alt="" coords="185,301,370,327"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="83,203,123,245,151,268,181,288,192,293,190,298,178,292,148,273,120,249,79,207"/>
+<area shape="rect" id="Node000003" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="444,55,633,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="346,101,451,81,452,86,347,106"/>
+<area shape="rect" id="Node000004" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="430,5,647,31"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="305,101,374,67,397,52,422,40,443,33,444,38,424,45,400,57,376,71,307,106"/>
+<area shape="rect" id="Node000005" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="432,104,645,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="347,114,417,114,417,120,347,120"/>
+<area shape="rect" id="Node000006" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="446,153,632,179"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="347,127,452,147,451,152,346,132"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="357,164,430,164,430,169,357,169"/>
+<area shape="rect" id="Node000008" href="$dma__priv_8c.html#a6a38d32b32c9d8a52740339bf2cb1e19" title="True if the channel is currently enabled." alt="" coords="423,203,654,228"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="350,177,452,197,451,202,349,182"/>
+<area shape="poly" id="edge11_Node000010_Node000004" title=" " alt="" coords="340,35,415,28,415,33,341,40"/>
+<area shape="rect" id="Node000013" href="$usart__priv_8c.html#a426fc303e25b8516df9cd1a926f628ff" title=" " alt="" coords="494,252,584,278"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="349,298,478,273,479,279,350,303"/>
+<area shape="rect" id="Node000014" href="$usart__priv_8c.html#aa00be98e4959c28c2d915d3159cb65fd" title=" " alt="" coords="498,301,579,327"/>
+<area shape="poly" id="edge15_Node000012_Node000014" title=" " alt="" coords="370,312,482,312,482,317,370,317"/>
+</map>

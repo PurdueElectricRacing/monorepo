@@ -7,6 +7,5 @@ var structPHAL__USART__HwMap__t =
     [ "rcc_reset_msk", "structPHAL__USART__HwMap__t.html#ab965ede81b0fa449e1ae57b7d3d9aa64", null ],
     [ "rcc_reset_rg", "structPHAL__USART__HwMap__t.html#a955e1115d79f9ba09e3316cecb2ae1de", null ],
     [ "rx_wiring", "structPHAL__USART__HwMap__t.html#a5d9c88201e8f72641598076fa8342074", null ],
-    [ "tx_dma_irq", "structPHAL__USART__HwMap__t.html#a4ee884427de167bfe2a6085d6a8c2540", null ],
     [ "tx_wiring", "structPHAL__USART__HwMap__t.html#a29b153dbafbd43dd1edd0ba1455b78b7", null ]
 ];

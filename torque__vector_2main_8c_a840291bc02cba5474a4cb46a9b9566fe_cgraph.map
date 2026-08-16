@@ -20,20 +20,20 @@
 <area shape="poly" id="edge30_Node000001_Node000034" title=" " alt="" coords="55,1034,87,1034,87,1040,55,1040"/>
 <area shape="rect" id="Node000035" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="145,1073,260,1099"/>
 <area shape="poly" id="edge31_Node000001_Node000035" title=" " alt="" coords="56,1043,103,1060,131,1067,129,1072,102,1065,54,1048"/>
-<area shape="rect" id="Node000047" href="$phal__G4_2usart_2usart_8c.html#a111a81e667da7f8dfcf9d39836664970" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="136,1172,269,1198"/>
-<area shape="poly" id="edge33_Node000001_Node000047" title=" " alt="" coords="45,1048,104,1110,171,1161,167,1165,101,1113,41,1052"/>
-<area shape="rect" id="Node000064" href="$phal__G4_2usart_2usart_8c.html#a27947ba873516867132ffea0f99b4b2f" title="Start a DMA&#45;based reception, completed on the IDLE line." alt="" coords="139,1271,266,1296"/>
-<area shape="poly" id="edge38_Node000001_Node000064" title=" " alt="" coords="37,1049,59,1121,78,1166,105,1209,133,1237,165,1260,162,1265,130,1241,101,1212,74,1169,54,1123,32,1051"/>
-<area shape="rect" id="Node000077" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="140,1320,265,1346"/>
-<area shape="poly" id="edge45_Node000001_Node000077" title=" " alt="" coords="36,1050,59,1183,79,1259,91,1288,105,1307,126,1321,123,1326,101,1311,87,1290,74,1260,53,1185,30,1051"/>
-<area shape="rect" id="Node000078" href="$main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968" title="Reports telemetry data at 1 Hz rate Includes: AMK diagnostics." alt="" coords="132,1369,273,1395"/>
-<area shape="poly" id="edge46_Node000001_Node000078" title=" " alt="" coords="35,1050,42,1115,55,1207,76,1298,90,1333,105,1356,119,1367,116,1371,101,1360,85,1335,71,1300,50,1208,37,1116,30,1051"/>
-<area shape="rect" id="Node000080" href="$torque__vector_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1" title="Reports telemetry data at 25HZ rate Includes: GPS coordinates, velocity, speed, heading." alt="" coords="128,1419,276,1444"/>
-<area shape="poly" id="edge47_Node000001_Node000080" title=" " alt="" coords="35,1050,40,1124,52,1231,73,1337,88,1378,105,1406,116,1415,113,1419,101,1409,83,1381,68,1338,47,1232,35,1124,29,1050"/>
-<area shape="rect" id="Node000082" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="147,1468,258,1494"/>
-<area shape="poly" id="edge48_Node000001_Node000082" title=" " alt="" coords="34,1050,38,1132,49,1255,58,1318,70,1376,86,1423,105,1455,117,1465,133,1472,131,1477,115,1470,101,1459,81,1426,65,1377,53,1319,44,1255,33,1133,29,1050"/>
-<area shape="rect" id="Node000083" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="164,1517,240,1543"/>
-<area shape="poly" id="edge49_Node000001_Node000083" title=" " alt="" coords="34,1050,37,1140,46,1278,55,1349,67,1415,84,1468,105,1504,125,1519,149,1526,148,1531,123,1523,101,1508,79,1471,62,1416,50,1350,41,1278,31,1141,29,1050"/>
+<area shape="rect" id="Node000047" href="$phal__G4_2usart_2usart_8c.html#a6a2d7bc858fa90a11e983e615fde1f7c" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="136,1175,269,1200"/>
+<area shape="poly" id="edge33_Node000001_Node000047" title=" " alt="" coords="45,1048,104,1110,171,1163,168,1167,101,1113,41,1052"/>
+<area shape="rect" id="Node000072" href="$phal__G4_2usart_2usart_8c.html#a0e754ee2f497cea8b6df31d13e5e1365" title="Start a DMA&#45;based reception, completed on the IDLE line." alt="" coords="139,1224,266,1250"/>
+<area shape="poly" id="edge41_Node000001_Node000072" title=" " alt="" coords="35,1050,41,1083,53,1127,73,1172,87,1193,104,1211,126,1224,123,1228,101,1215,83,1196,68,1175,48,1128,36,1084,30,1051"/>
+<area shape="rect" id="Node000084" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="140,1273,265,1299"/>
+<area shape="poly" id="edge46_Node000001_Node000084" title=" " alt="" coords="34,1050,36,1091,46,1148,67,1208,84,1236,104,1260,126,1274,123,1278,101,1264,79,1239,63,1211,41,1149,31,1091,29,1050"/>
+<area shape="rect" id="Node000085" href="$main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968" title="Reports telemetry data at 1 Hz rate Includes: AMK diagnostics." alt="" coords="132,1323,273,1348"/>
+<area shape="poly" id="edge47_Node000001_Node000085" title=" " alt="" coords="36,1050,58,1185,79,1261,91,1290,105,1310,119,1320,116,1324,101,1313,87,1293,74,1262,53,1186,30,1050"/>
+<area shape="rect" id="Node000087" href="$torque__vector_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1" title="Reports telemetry data at 25HZ rate Includes: GPS coordinates, velocity, speed, heading." alt="" coords="128,1372,276,1398"/>
+<area shape="poly" id="edge48_Node000001_Node000087" title=" " alt="" coords="35,1050,42,1115,55,1208,76,1300,89,1335,105,1359,116,1368,113,1372,101,1363,85,1338,71,1301,50,1209,36,1116,30,1050"/>
+<area shape="rect" id="Node000089" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="147,1421,258,1447"/>
+<area shape="poly" id="edge49_Node000001_Node000089" title=" " alt="" coords="35,1050,40,1124,52,1232,73,1339,88,1381,105,1408,117,1418,133,1425,131,1430,115,1423,101,1412,83,1383,68,1340,47,1233,35,1124,29,1050"/>
+<area shape="rect" id="Node000090" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="164,1471,240,1496"/>
+<area shape="poly" id="edge50_Node000001_Node000090" title=" " alt="" coords="34,1050,38,1132,49,1255,58,1319,70,1378,86,1426,105,1458,125,1472,149,1479,148,1484,123,1477,101,1461,81,1428,65,1379,53,1320,44,1256,33,1133,29,1050"/>
 <area shape="rect" id="Node000003" href="$can__rx_8c.html#a41290208a3af5ab8710a8eacc7bd76c8" title=" " alt="" coords="414,5,505,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="238,77,349,40,399,27,400,33,351,45,240,82"/>
 <area shape="rect" id="Node000004" href="$can__init_8c.html#a3b585e92c28e68093702e7d507555fad" title=" " alt="" coords="397,55,522,80"/>
@@ -78,24 +78,25 @@
 <area shape="poly" id="edge28_Node000024_Node000032" title=" " alt="" coords="224,897,304,960,327,987,336,998,351,1009,365,1016,362,1020,349,1014,333,1002,323,991,300,964,221,902"/>
 <area shape="rect" id="Node000036" href="$phal__G4_2rcc_2rcc_8c.html#af54790732c9560e8d675f78a03486d58" title=" " alt="" coords="386,1073,534,1099"/>
 <area shape="poly" id="edge32_Node000035_Node000036" title=" " alt="" coords="260,1084,370,1084,370,1089,260,1089"/>
-<area shape="rect" id="Node000048" href="$phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle&#45;&gt;wiring and handle&#45;&gt;params." alt="" coords="401,1123,518,1148"/>
-<area shape="poly" id="edge34_Node000047_Node000048" title=" " alt="" coords="269,1170,385,1147,386,1152,270,1175"/>
-<area shape="rect" id="Node000061" href="$usart__priv_8c.html#ae5dde09b3f94cf11fdf68976beb8288e" title="Fill the TX and RX DMA handles from the hardware map." alt="" coords="360,1172,559,1198"/>
-<area shape="poly" id="edge35_Node000047_Node000061" title=" " alt="" coords="269,1182,345,1182,345,1188,269,1188"/>
-<area shape="rect" id="Node000062" href="$usart__priv_8c.html#a6effeddfc26f53a30dace58a43fce781" title="Enable the clock, program 8N1 + baud, and enable the USART + TX&#45;DMA interrupts." alt="" coords="362,1221,558,1247"/>
-<area shape="poly" id="edge36_Node000047_Node000062" title=" " alt="" coords="270,1195,375,1215,374,1220,269,1200"/>
-<area shape="rect" id="Node000063" href="$usart__priv_8c.html#a68a3184b6a488df3707f6060460491e9" title=" " alt="" coords="358,1271,562,1296"/>
-<area shape="poly" id="edge37_Node000047_Node000063" title=" " alt="" coords="227,1196,282,1227,351,1257,372,1264,370,1269,349,1262,280,1231,224,1201"/>
-<area shape="rect" id="Node000065" href="$phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="391,1320,528,1346"/>
-<area shape="poly" id="edge39_Node000064_Node000065" title=" " alt="" coords="266,1293,376,1314,375,1319,265,1298"/>
-<area shape="rect" id="Node000067" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="380,1369,539,1395"/>
-<area shape="poly" id="edge40_Node000064_Node000067" title=" " alt="" coords="267,1291,303,1305,319,1318,328,1331,337,1344,351,1356,367,1363,364,1368,349,1360,333,1348,324,1334,315,1322,301,1310,265,1296"/>
-<area shape="rect" id="Node000069" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="362,1419,557,1444"/>
-<area shape="poly" id="edge41_Node000064_Node000069" title=" " alt="" coords="267,1287,286,1295,304,1305,316,1318,323,1331,328,1357,334,1382,341,1394,352,1405,356,1408,352,1413,348,1410,336,1397,329,1384,323,1358,318,1333,311,1321,300,1310,284,1299,265,1292"/>
-<area shape="rect" id="Node000070" href="$phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" title="Disable the channel, stopping the transfer immediately." alt="" coords="397,1468,522,1494"/>
-<area shape="poly" id="edge42_Node000064_Node000070" title=" " alt="" coords="267,1286,287,1294,304,1306,319,1324,326,1344,328,1382,331,1420,338,1438,352,1455,366,1465,383,1472,380,1477,363,1470,348,1459,333,1440,325,1421,323,1383,321,1345,314,1327,300,1309,284,1298,265,1291"/>
-<area shape="rect" id="Node000071" href="$usart__priv_8c.html#ae9ec242ef3f5a8022451063afa1f8c76" title="Discard anything sitting in RDR and clear IDLE plus every RX error flag." alt="" coords="366,1517,553,1543"/>
-<area shape="poly" id="edge43_Node000064_Node000071" title=" " alt="" coords="267,1286,287,1293,304,1306,322,1331,330,1356,331,1382,328,1407,326,1432,327,1457,334,1481,352,1504,356,1508,352,1512,348,1508,330,1483,322,1458,321,1432,323,1407,326,1382,325,1357,317,1333,300,1309,284,1298,265,1291"/>
-<area shape="rect" id="Node000072" href="$usart__priv_8c.html#a5d0be78aa73766f8ccbd81cdf1e9e583" title=" " alt="" coords="370,1567,549,1592"/>
-<area shape="poly" id="edge44_Node000064_Node000072" title=" " alt="" coords="267,1285,287,1293,304,1306,326,1337,334,1369,333,1401,328,1432,323,1463,323,1494,331,1524,352,1554,359,1560,355,1564,348,1557,326,1526,318,1495,318,1463,323,1431,328,1400,329,1370,321,1339,300,1309,284,1298,265,1290"/>
+<area shape="rect" id="Node000048" href="$phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle&#45;&gt;wiring and handle&#45;&gt;params." alt="" coords="617,1149,735,1175"/>
+<area shape="poly" id="edge34_Node000047_Node000048" title=" " alt="" coords="267,1171,350,1160,484,1154,602,1156,602,1161,484,1159,350,1165,268,1177"/>
+<area shape="rect" id="Node000062" href="$phal__G4_2dma_2dma_8c.html#a113bf99c3b1cc73c92d466d94ea88dad" title="Setup DMA callback then call PHAL_DMA_init()" alt="" coords="363,1175,556,1200"/>
+<area shape="poly" id="edge35_Node000047_Node000062" title=" " alt="" coords="269,1185,348,1185,348,1190,269,1190"/>
+<area shape="rect" id="Node000063" href="$usart__priv_8c.html#a6fa7c72c81bfe24466b4ce8be60399b4" title="Fill the TX and RX DMA handles from the hardware map." alt="" coords="360,1224,559,1250"/>
+<area shape="poly" id="edge37_Node000047_Node000063" title=" " alt="" coords="270,1198,375,1218,374,1223,269,1203"/>
+<area shape="rect" id="Node000064" href="$usart__priv_8c.html#ad3aa18fe42bd6c60bdfe79dffb265713" title="Enable the clock, program 8N1 + baud, and enable the USART + TX&#45;DMA interrupts." alt="" coords="362,1273,558,1299"/>
+<area shape="poly" id="edge38_Node000047_Node000064" title=" " alt="" coords="270,1195,303,1209,319,1222,328,1235,337,1248,351,1260,361,1265,359,1270,349,1264,333,1252,324,1238,315,1226,301,1214,268,1200"/>
+<area shape="rect" id="Node000065" href="$usart__priv_8c.html#a9efa9faa19dddb18191ce775507e8f34" title="Enable the USART global interrupt (carries IDLE and TC)" alt="" coords="361,1323,558,1348"/>
+<area shape="poly" id="edge39_Node000047_Node000065" title=" " alt="" coords="271,1193,304,1209,316,1222,323,1235,328,1261,334,1286,341,1298,352,1309,356,1312,352,1317,348,1314,336,1301,329,1288,323,1262,318,1237,311,1225,300,1214,268,1197"/>
+<area shape="rect" id="Node000066" href="$phal__G4_2usart_2usart_8c.html#a43e252bd62d3d5e76f2e50ebc399abe5" title=" " alt="" coords="382,1372,537,1398"/>
+<area shape="poly" id="edge40_Node000047_Node000066" title=" " alt="" coords="270,1191,288,1198,304,1210,319,1228,326,1248,328,1286,331,1324,338,1342,352,1359,370,1371,367,1375,348,1363,333,1344,325,1325,323,1287,321,1249,314,1231,300,1213,285,1203,268,1196"/>
+<area shape="poly" id="edge36_Node000062_Node000048" title=" " alt="" coords="556,1174,602,1168,603,1173,557,1179"/>
+<area shape="rect" id="Node000073" href="$phal__G4_2dma_2dma_8c.html#a6f7660cdfc7790e503aedb99a5e2f126" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="391,1421,528,1447"/>
+<area shape="poly" id="edge42_Node000072_Node000073" title=" " alt="" coords="267,1240,287,1247,304,1259,319,1278,326,1297,328,1336,331,1373,338,1391,352,1408,378,1424,375,1428,348,1412,333,1394,325,1374,323,1336,321,1298,314,1280,300,1263,284,1252,265,1245"/>
+<area shape="rect" id="Node000075" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="380,1471,539,1496"/>
+<area shape="poly" id="edge43_Node000072_Node000075" title=" " alt="" coords="267,1239,287,1247,304,1259,322,1284,330,1310,331,1335,328,1361,326,1386,327,1410,334,1434,352,1458,368,1469,365,1474,348,1461,330,1437,322,1411,321,1386,323,1360,326,1335,325,1310,317,1286,300,1263,284,1251,265,1244"/>
+<area shape="rect" id="Node000077" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="362,1520,557,1546"/>
+<area shape="poly" id="edge44_Node000072_Node000077" title=" " alt="" coords="267,1238,287,1246,304,1259,326,1290,334,1322,333,1354,328,1386,323,1417,323,1447,331,1477,352,1507,353,1508,350,1512,348,1511,326,1480,318,1448,318,1416,323,1385,328,1354,329,1323,321,1293,300,1263,284,1251,265,1243"/>
+<area shape="rect" id="Node000071" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="397,1569,522,1595"/>
+<area shape="poly" id="edge45_Node000072_Node000071" title=" " alt="" coords="267,1238,287,1246,304,1259,319,1278,329,1297,338,1335,336,1373,328,1410,321,1448,319,1484,328,1521,338,1538,352,1556,366,1568,383,1575,381,1580,364,1572,348,1560,333,1541,323,1522,314,1485,316,1447,323,1409,330,1372,332,1335,324,1299,314,1281,300,1263,284,1251,265,1243"/>
 </map>

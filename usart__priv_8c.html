@@ -116,14 +116,15 @@ Functions</h2></td></tr>
 <tr class="separator:a426fc303e25b8516df9cd1a926f628ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa00be98e4959c28c2d915d3159cb65fd" id="r_aa00be98e4959c28c2d915d3159cb65fd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa00be98e4959c28c2d915d3159cb65fd">exitCritical</a> (uint32_t previous_interrupt_mask)</td></tr>
 <tr class="separator:aa00be98e4959c28c2d915d3159cb65fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d0be78aa73766f8ccbd81cdf1e9e583" id="r_a5d0be78aa73766f8ccbd81cdf1e9e583"><td class="memItemLeft" align="right" valign="top">USART_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d0be78aa73766f8ccbd81cdf1e9e583">PHAL_USART_priv_periph</a> (ssize_t idx)</td></tr>
-<tr class="separator:a5d0be78aa73766f8ccbd81cdf1e9e583"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6effeddfc26f53a30dace58a43fce781" id="r_a6effeddfc26f53a30dace58a43fce781"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6effeddfc26f53a30dace58a43fce781">PHAL_USART_priv_configure</a> (ssize_t idx, uint32_t baud_rate, uint32_t clock_rate)</td></tr>
-<tr class="memdesc:a6effeddfc26f53a30dace58a43fce781"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the clock, program 8N1 + baud, and enable the USART + TX-DMA interrupts.  <br /></td></tr>
-<tr class="separator:a6effeddfc26f53a30dace58a43fce781"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5dde09b3f94cf11fdf68976beb8288e" id="r_ae5dde09b3f94cf11fdf68976beb8288e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5dde09b3f94cf11fdf68976beb8288e">PHAL_USART_priv_buildDma</a> (ssize_t idx, <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *tx_dma, <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *rx_dma)</td></tr>
-<tr class="memdesc:ae5dde09b3f94cf11fdf68976beb8288e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the TX and RX DMA handles from the hardware map.  <br /></td></tr>
-<tr class="separator:ae5dde09b3f94cf11fdf68976beb8288e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfea2ebe57fa759879589f6a70374ae5" id="r_adfea2ebe57fa759879589f6a70374ae5"><td class="memItemLeft" align="right" valign="top">USART_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfea2ebe57fa759879589f6a70374ae5">PHAL_USART_priv_periph</a> (<a class="el" href="phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph_idx)</td></tr>
+<tr class="memdesc:adfea2ebe57fa759879589f6a70374ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the peripheral instance for a slot (used by the interrupt handlers)  <br /></td></tr>
+<tr class="separator:adfea2ebe57fa759879589f6a70374ae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3aa18fe42bd6c60bdfe79dffb265713" id="r_ad3aa18fe42bd6c60bdfe79dffb265713"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3aa18fe42bd6c60bdfe79dffb265713">PHAL_USART_priv_configure</a> (<a class="el" href="phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph_idx, uint32_t baud_rate, uint32_t clock_rate)</td></tr>
+<tr class="memdesc:ad3aa18fe42bd6c60bdfe79dffb265713"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the clock, program 8N1 + baud, and enable the USART + TX-DMA interrupts.  <br /></td></tr>
+<tr class="separator:ad3aa18fe42bd6c60bdfe79dffb265713"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fa7c72c81bfe24466b4ce8be60399b4" id="r_a6fa7c72c81bfe24466b4ce8be60399b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6fa7c72c81bfe24466b4ce8be60399b4">PHAL_USART_priv_buildDma</a> (<a class="el" href="phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph_idx, <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *tx_dma, <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *rx_dma)</td></tr>
+<tr class="memdesc:a6fa7c72c81bfe24466b4ce8be60399b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill the TX and RX DMA handles from the hardware map.  <br /></td></tr>
+<tr class="separator:a6fa7c72c81bfe24466b4ce8be60399b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab926b671232d93cec48ab8f7b1b19887" id="r_ab926b671232d93cec48ab8f7b1b19887"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab926b671232d93cec48ab8f7b1b19887">PHAL_USART_priv_startTx</a> (USART_TypeDef *periph)</td></tr>
 <tr class="separator:ab926b671232d93cec48ab8f7b1b19887"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a3bdbc81cdf6880249195eb31dff9e9" id="r_a7a3bdbc81cdf6880249195eb31dff9e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a3bdbc81cdf6880249195eb31dff9e9">PHAL_USART_priv_finishTx</a> (USART_TypeDef *periph)</td></tr>
@@ -141,17 +142,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:ae9ec242ef3f5a8022451063afa1f8c76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Discard anything sitting in RDR and clear IDLE plus every RX error flag.  <br /></td></tr>
 <tr class="separator:ae9ec242ef3f5a8022451063afa1f8c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14cbd92366d998b6d2d782218bebc199" id="r_a14cbd92366d998b6d2d782218bebc199"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14cbd92366d998b6d2d782218bebc199">PHAL_USART_priv_idleActive</a> (USART_TypeDef *periph)</td></tr>
+<tr class="memdesc:a14cbd92366d998b6d2d782218bebc199"><td class="mdescLeft">&#160;</td><td class="mdescRight">return true if the IDLE-line flag is set (an RX frame just completed).  <br /></td></tr>
 <tr class="separator:a14cbd92366d998b6d2d782218bebc199"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1212ef1dceef204ae9b1d21396ce121a" id="r_a1212ef1dceef204ae9b1d21396ce121a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1212ef1dceef204ae9b1d21396ce121a">PHAL_USART_priv_clearIdle</a> (USART_TypeDef *periph)</td></tr>
 <tr class="memdesc:a1212ef1dceef204ae9b1d21396ce121a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the IDLE flag alone (write-1-to-clear).  <br /></td></tr>
 <tr class="separator:a1212ef1dceef204ae9b1d21396ce121a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f34d6da32b05ba300f0d6a1de171cd9" id="r_a5f34d6da32b05ba300f0d6a1de171cd9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f34d6da32b05ba300f0d6a1de171cd9">PHAL_USART_priv_txDmaComplete</a> (ssize_t idx)</td></tr>
-<tr class="separator:a5f34d6da32b05ba300f0d6a1de171cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c8350b8935806d7ba0e20aa4430afbf" id="r_a4c8350b8935806d7ba0e20aa4430afbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c8350b8935806d7ba0e20aa4430afbf">PHAL_USART_priv_clearTxDmaFlags</a> (ssize_t idx)</td></tr>
-<tr class="memdesc:a4c8350b8935806d7ba0e20aa4430afbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear all interrupt flags for the slot's TX DMA channel.  <br /></td></tr>
-<tr class="separator:a4c8350b8935806d7ba0e20aa4430afbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68a3184b6a488df3707f6060460491e9" id="r_a68a3184b6a488df3707f6060460491e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68a3184b6a488df3707f6060460491e9">PHAL_USART_priv_enableIrqs</a> (ssize_t idx)</td></tr>
-<tr class="separator:a68a3184b6a488df3707f6060460491e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9efa9faa19dddb18191ce775507e8f34" id="r_a9efa9faa19dddb18191ce775507e8f34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9efa9faa19dddb18191ce775507e8f34">PHAL_USART_priv_enableIrq</a> (<a class="el" href="phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a> periph_idx)</td></tr>
+<tr class="memdesc:a9efa9faa19dddb18191ce775507e8f34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the USART global interrupt (carries IDLE and TC)  <br /></td></tr>
+<tr class="separator:a9efa9faa19dddb18191ce775507e8f34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -221,8 +219,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ae5dde09b3f94cf11fdf68976beb8288e" name="ae5dde09b3f94cf11fdf68976beb8288e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5dde09b3f94cf11fdf68976beb8288e">&#9670;&#160;</a></span>PHAL_USART_priv_buildDma()</h2>
+<a id="a6fa7c72c81bfe24466b4ce8be60399b4" name="a6fa7c72c81bfe24466b4ce8be60399b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fa7c72c81bfe24466b4ce8be60399b4">&#9670;&#160;</a></span>PHAL_USART_priv_buildDma()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -230,7 +228,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void PHAL_USART_priv_buildDma </td>
           <td>(</td>
-          <td class="paramtype">ssize_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span>, </td>
+          <td class="paramtype"><a class="el" href="phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a></td>          <td class="paramname"><span class="paramname"><em>periph_idx</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -249,7 +247,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_ae5dde09b3f94cf11fdf68976beb8288e_icgraph.svg" width="488" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a6fa7c72c81bfe24466b4ce8be60399b4_icgraph.svg" width="488" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -273,37 +271,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a1212ef1dceef204ae9b1d21396ce121a_icgraph.svg" width="630" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a1212ef1dceef204ae9b1d21396ce121a_icgraph.svg" width="566" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a4c8350b8935806d7ba0e20aa4430afbf" name="a4c8350b8935806d7ba0e20aa4430afbf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c8350b8935806d7ba0e20aa4430afbf">&#9670;&#160;</a></span>PHAL_USART_priv_clearTxDmaFlags()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PHAL_USART_priv_clearTxDmaFlags </td>
-          <td>(</td>
-          <td class="paramtype">ssize_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Clear all interrupt flags for the slot's TX DMA channel. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a4c8350b8935806d7ba0e20aa4430afbf_icgraph.svg" width="100%" height="450"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="a6effeddfc26f53a30dace58a43fce781" name="a6effeddfc26f53a30dace58a43fce781"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6effeddfc26f53a30dace58a43fce781">&#9670;&#160;</a></span>PHAL_USART_priv_configure()</h2>
+<a id="ad3aa18fe42bd6c60bdfe79dffb265713" name="ad3aa18fe42bd6c60bdfe79dffb265713"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3aa18fe42bd6c60bdfe79dffb265713">&#9670;&#160;</a></span>PHAL_USART_priv_configure()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,7 +285,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void PHAL_USART_priv_configure </td>
           <td>(</td>
-          <td class="paramtype">ssize_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span>, </td>
+          <td class="paramtype"><a class="el" href="phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a></td>          <td class="paramname"><span class="paramname"><em>periph_idx</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -330,29 +304,31 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a6effeddfc26f53a30dace58a43fce781_icgraph.svg" width="486" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_ad3aa18fe42bd6c60bdfe79dffb265713_icgraph.svg" width="486" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a68a3184b6a488df3707f6060460491e9" name="a68a3184b6a488df3707f6060460491e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68a3184b6a488df3707f6060460491e9">&#9670;&#160;</a></span>PHAL_USART_priv_enableIrqs()</h2>
+<a id="a9efa9faa19dddb18191ce775507e8f34" name="a9efa9faa19dddb18191ce775507e8f34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9efa9faa19dddb18191ce775507e8f34">&#9670;&#160;</a></span>PHAL_USART_priv_enableIrq()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void PHAL_USART_priv_enableIrqs </td>
+          <td class="memname">void PHAL_USART_priv_enableIrq </td>
           <td>(</td>
-          <td class="paramtype">ssize_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a></td>          <td class="paramname"><span class="paramname"><em>periph_idx</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Enable the USART global interrupt (carries IDLE and TC) </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a68a3184b6a488df3707f6060460491e9_icgraph.svg" width="494" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a9efa9faa19dddb18191ce775507e8f34_icgraph.svg" width="487" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -381,7 +357,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a7a3bdbc81cdf6880249195eb31dff9e9_icgraph.svg" width="624" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a7a3bdbc81cdf6880249195eb31dff9e9_icgraph.svg" width="560" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -405,7 +381,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_ae9ec242ef3f5a8022451063afa1f8c76_icgraph.svg" width="650" height="234"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_ae9ec242ef3f5a8022451063afa1f8c76_icgraph.svg" width="596" height="234"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -424,17 +400,18 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>true if the IDLE-line flag is set (an RX frame just completed). </dd></dl>
+
+<p>return true if the IDLE-line flag is set (an RX frame just completed). </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a14cbd92366d998b6d2d782218bebc199_icgraph.svg" width="638" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a14cbd92366d998b6d2d782218bebc199_icgraph.svg" width="574" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a5d0be78aa73766f8ccbd81cdf1e9e583" name="a5d0be78aa73766f8ccbd81cdf1e9e583"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d0be78aa73766f8ccbd81cdf1e9e583">&#9670;&#160;</a></span>PHAL_USART_priv_periph()</h2>
+<a id="adfea2ebe57fa759879589f6a70374ae5" name="adfea2ebe57fa759879589f6a70374ae5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfea2ebe57fa759879589f6a70374ae5">&#9670;&#160;</a></span>PHAL_USART_priv_periph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -442,16 +419,17 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">USART_TypeDef * PHAL_USART_priv_periph </td>
           <td>(</td>
-          <td class="paramtype">ssize_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252">PHAL_USART_Idx_t</a></td>          <td class="paramname"><span class="paramname"><em>periph_idx</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>the peripheral instance for a slot (used by the interrupt handlers). </dd></dl>
+
+<p>Get the peripheral instance for a slot (used by the interrupt handlers) </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a5d0be78aa73766f8ccbd81cdf1e9e583_icgraph.svg" width="100%" height="549"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_adfea2ebe57fa759879589f6a70374ae5_icgraph.svg" width="100%" height="549"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -480,7 +458,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_ab2668e6988568645355b350f7f5a5319_icgraph.svg" width="650" height="234"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_ab2668e6988568645355b350f7f5a5319_icgraph.svg" width="595" height="234"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -536,7 +514,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a4edd0eb379f648beac337495998fe36a_icgraph.svg" width="648" height="234"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a4edd0eb379f648beac337495998fe36a_icgraph.svg" width="594" height="234"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -558,30 +536,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a425263fa112eeabf57bd57b9e7475133_icgraph.svg" width="646" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="a5f34d6da32b05ba300f0d6a1de171cd9" name="a5f34d6da32b05ba300f0d6a1de171cd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f34d6da32b05ba300f0d6a1de171cd9">&#9670;&#160;</a></span>PHAL_USART_priv_txDmaComplete()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool PHAL_USART_priv_txDmaComplete </td>
-          <td>(</td>
-          <td class="paramtype">ssize_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>true if the slot's TX DMA channel signalled transfer complete. </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a5f34d6da32b05ba300f0d6a1de171cd9_icgraph.svg" width="100%" height="450"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a425263fa112eeabf57bd57b9e7475133_icgraph.svg" width="582" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

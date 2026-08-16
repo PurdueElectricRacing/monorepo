@@ -1,17 +1,15 @@
 <map id="adc_claim_completion" name="adc_claim_completion">
-<area shape="rect" id="Node000001" title="Atomically claim transfer completion for either polling or interrupt code." alt="" coords="468,128,618,154"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#a88783c4b103049de64fc356c016ccae2" title="Process DMA completion or error status for an ADC handle." alt="" coords="261,79,406,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="470,126,391,108,392,102,471,121"/>
-<area shape="rect" id="Node000007" href="$phal__G4_2adc_2adc_8c.html#a182c3e08bcff1970109448d9c24cb39c" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="247,128,420,154"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="452,144,420,144,420,138,452,138"/>
-<area shape="rect" id="Node000008" href="$phal__G4_2adc_2adc_8c.html#a293b748ece5364814af3ba56e3572f06" title="Abort any transfer in flight and leave the ADC idle." alt="" coords="272,177,395,203"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="471,160,392,179,391,174,470,155"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#a7b6fac3d670a4860ebec8a961d5c4a73" title="Dispatch DMA1 channel 1 to ADC1 or its USART3 RX fallback owner." alt="" coords="5,5,199,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="284,75,198,45,160,34,162,29,199,40,286,70"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#a51ffa654c18679a6e437027eeaea5bed" title="Dispatch the ADC2 DMA transfer interrupt." alt="" coords="5,55,199,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="246,85,199,80,199,75,246,80"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2adc_2adc_8c.html#a5387957d667639fdc36a98493fc6a121" title="Dispatch the ADC3 DMA transfer interrupt." alt="" coords="5,104,199,130"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="246,104,199,109,199,104,246,98"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2adc_2adc_8c.html#a66857fec7bb282eed8204a690f4ce5ae" title="Dispatch DMA2 channel 3 to ADC4 or its SPI3 TX fallback owner." alt="" coords="5,153,199,179"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="264,112,248,118,224,131,200,145,167,155,166,150,198,140,221,127,246,113,262,107"/>
+<area shape="rect" id="Node000001" title="Atomically claim transfer completion for either polling or interrupt code." alt="" coords="665,55,815,80"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#a88783c4b103049de64fc356c016ccae2" title="Process DMA completion or error status for an ADC handle." alt="" coords="458,5,602,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="666,53,587,34,588,29,668,48"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2adc_2adc_8c.html#a182c3e08bcff1970109448d9c24cb39c" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="443,55,617,80"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="649,70,617,70,617,65,649,65"/>
+<area shape="rect" id="Node000007" href="$phal__G4_2adc_2adc_8c.html#a293b748ece5364814af3ba56e3572f06" title="Abort any transfer in flight and leave the ADC idle." alt="" coords="468,104,592,130"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="668,87,588,106,587,101,666,82"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#ab1d3e1e78099bd0f30e345ce46dd626a" title=" " alt="" coords="266,5,395,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="443,21,396,21,396,16,443,16"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="103,5,218,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="250,21,218,21,218,16,250,16"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
 </map>

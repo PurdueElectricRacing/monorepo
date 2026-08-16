@@ -2,9 +2,9 @@
 <area shape="rect" id="Node000001" title="Stop the ADC and DMA channel, then clear the DMA status flags." alt="" coords="5,55,108,80"/>
 <area shape="rect" id="Node000002" href="$adc__priv_8c.html#a01d9929d1c92f9a3ad55a90edd7ffa04" title="Stop an active regular conversion sequence." alt="" coords="156,5,344,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,52,155,40,181,33,183,38,156,45,109,57"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2dma_2dma_8c.html#a1308cdd88736a6cd7d72f8665bea5f29" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="170,55,330,80"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2dma_2dma_8c.html#a1261cc1a26fcb06f8cebc00c95ffd55a" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="170,55,330,80"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="108,65,154,65,154,70,108,70"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" title="Disable the channel, stopping the transfer immediately." alt="" coords="187,104,312,130"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="187,104,312,130"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="109,78,156,90,183,97,181,102,155,95,107,83"/>
 <area shape="rect" id="Node000003" href="$adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" title="Wait for masked register bits to reach the requested state." alt="" coords="428,5,573,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,16,412,16,412,21,344,21"/>

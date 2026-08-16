@@ -1,11 +1,5 @@
 <map id="adc_dma_irqn" name="adc_dma_irqn">
-<area shape="rect" id="Node000001" title="Return the NVIC interrupt assigned to an ADC instance&#39;s DMA channel." alt="" coords="487,31,590,56"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#a747fc15f3d84d988db154dd86193cf75" title="Enable the NVIC interrupt for an ADC instance&#39;s DMA channel." alt="" coords="294,5,412,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="472,37,412,29,413,24,472,32"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2adc_2adc_8c.html#a182c3e08bcff1970109448d9c24cb39c" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="266,55,439,80"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="473,55,440,59,440,54,472,49"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="103,5,218,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="278,21,218,21,218,16,278,16"/>
-<area shape="rect" id="Node000004" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
+<area shape="rect" id="Node000001" title="Return the NVIC interrupt assigned to an ADC instance&#39;s DMA channel." alt="" coords="227,5,329,31"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#a182c3e08bcff1970109448d9c24cb39c" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="5,5,179,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,21,179,21,179,16,211,16"/>
 </map>

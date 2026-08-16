@@ -1,0 +1,15 @@
+<map id="usart_handle_dma" name="usart_handle_dma">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,133,80"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a1261cc1a26fcb06f8cebc00c95ffd55a" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="183,5,344,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,51,194,33,196,38,123,57"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="181,55,346,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="133,65,165,65,165,70,133,70"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="201,104,326,130"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="123,78,196,97,194,102,122,84"/>
+<area shape="rect" id="Node000003" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="416,5,605,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,16,401,16,401,21,344,21"/>
+<area shape="rect" id="Node000005" href="$dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="394,55,627,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="346,65,378,65,378,70,346,70"/>
+<area shape="rect" id="Node000007" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="402,104,619,130"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="326,114,387,114,387,120,326,120"/>
+</map>

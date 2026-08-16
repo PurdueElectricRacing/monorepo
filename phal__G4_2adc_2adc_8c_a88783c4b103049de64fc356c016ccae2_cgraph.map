@@ -4,7 +4,7 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,132,132,87,162,61,196,40,215,32,217,37,199,45,166,65,135,90,92,136"/>
 <area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#a125ced4dc8f5f9e7dee7cbbefcd125b7" title="Stop the ADC and DMA channel, then clear the DMA status flags." alt="" coords="255,55,357,80"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="109,132,197,97,241,83,243,88,199,102,111,137"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2dma_2dma_8c.html#a1308cdd88736a6cd7d72f8665bea5f29" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="498,105,659,131"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2dma_2dma_8c.html#a1261cc1a26fcb06f8cebc00c95ffd55a" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="498,105,659,131"/>
 <area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="150,141,483,121,483,126,150,146"/>
 <area shape="rect" id="Node000010" href="$phal__G4_2adc_2adc_8c.html#a556d456a145f5c43b8a05caed0ce6ff0" title="Weak callback fired once per completed DMA buffer." alt="" coords="198,155,414,196"/>
 <area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="151,154,183,158,182,163,150,159"/>
@@ -15,7 +15,7 @@
 <area shape="rect" id="Node000004" href="$adc__priv_8c.html#a01d9929d1c92f9a3ad55a90edd7ffa04" title="Stop an active regular conversion sequence." alt="" coords="484,56,673,82"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="357,65,469,66,469,71,357,70"/>
 <area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="358,74,491,99,490,105,357,80"/>
-<area shape="rect" id="Node000008" href="$phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" title="Disable the channel, stopping the transfer immediately." alt="" coords="516,7,641,32"/>
+<area shape="rect" id="Node000008" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="516,7,641,32"/>
 <area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="357,56,500,31,501,36,358,61"/>
 <area shape="rect" id="Node000005" href="$adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" title="Wait for masked register bits to reach the requested state." alt="" coords="779,56,924,82"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="673,66,763,66,763,72,673,72"/>

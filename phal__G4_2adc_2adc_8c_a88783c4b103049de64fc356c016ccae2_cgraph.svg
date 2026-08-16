@@ -49,7 +49,7 @@
 <script type="application/ecmascript">
 var viewWidth = 724;
 var viewHeight = 225;
-var sectionId = 'dynsection-4';
+var sectionId = 'dynsection-6';
 </script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
 <svg id="graph" class="graph">
@@ -103,7 +103,7 @@ var sectionId = 'dynsection-4';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="phal__G4_2dma_2dma_8c.html#a1308cdd88736a6cd7d72f8665bea5f29" target="_top" xlink:title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b...">
+<g id="a_Node000006"><a xlink:href="phal__G4_2dma_2dma_8c.html#a1261cc1a26fcb06f8cebc00c95ffd55a" target="_top" xlink:title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b...">
 <polygon fill="white" stroke="#666666" points="490.12,-142.25 369.88,-142.25 369.88,-123 490.12,-123 490.12,-142.25"/>
 <text text-anchor="middle" x="430" y="-128.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_clearFlags</text>
 </a>
@@ -203,7 +203,7 @@ var sectionId = 'dynsection-4';
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" target="_top" xlink:title="Disable the channel, stopping the transfer immediately.">
+<g id="a_Node000008"><a xlink:href="phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" target="_top" xlink:title="Disable the channel, stopping the transfer immediately.">
 <polygon fill="white" stroke="#666666" points="477,-216.25 383,-216.25 383,-197 477,-197 477,-216.25"/>
 <text text-anchor="middle" x="430" y="-202.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_stop</text>
 </a>

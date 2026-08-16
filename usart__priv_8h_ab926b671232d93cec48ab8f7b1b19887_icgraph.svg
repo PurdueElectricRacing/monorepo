@@ -49,7 +49,7 @@
 <script type="application/ecmascript">
 var viewWidth = 676;
 var viewHeight = 64;
-var sectionId = 'dynsection-15';
+var sectionId = 'dynsection-14';
 </script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
 <svg id="graph" class="graph">
@@ -67,7 +67,7 @@ var sectionId = 'dynsection-15';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="phal__G4_2usart_2usart_8c.html#a33943e8be6febc697e21490055402832" target="_top" xlink:title="Start a DMA&#45;based transmission.">
+<g id="a_Node000002"><a xlink:href="phal__G4_2usart_2usart_8c.html#a8ebdece2db12916cdbf6bc22f9ae52de" target="_top" xlink:title="Start a DMA&#45;based transmission.">
 <polygon fill="white" stroke="#666666" points="493.75,-37.25 399,-37.25 399,-18 493.75,-18 493.75,-37.25"/>
 <text text-anchor="middle" x="446.38" y="-23.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_tx</text>
 </a>
@@ -103,7 +103,7 @@ var sectionId = 'dynsection-15';
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="phal__G4_2usart_2usart_8c.html#a2ce62e7525c96728747c19d990872d76" target="_top" xlink:title="Transmit data, blocking until the transfer completes.">
+<g id="a_Node000006"><a xlink:href="phal__G4_2usart_2usart_8c.html#a0cab3e67136e4026131605acf63593c8" target="_top" xlink:title="Transmit data, blocking until the transfer completes.">
 <polygon fill="white" stroke="#666666" points="363,-19.25 230.75,-19.25 230.75,0 363,0 363,-19.25"/>
 <text text-anchor="middle" x="296.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_txBlocking</text>
 </a>

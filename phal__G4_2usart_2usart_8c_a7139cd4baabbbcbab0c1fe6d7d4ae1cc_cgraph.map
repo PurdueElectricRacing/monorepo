@@ -1,53 +1,53 @@
 <map id="USART1_IRQHandler" name="USART1_IRQHandler">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,341,154,366"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2usart_2usart_8c.html#a27c45d01ef8393b2dbfdf1d31f74799d" title=" " alt="" coords="202,341,382,366"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2usart_2usart_8c.html#a2d95d4283889fd97f020c1cbe8cb4b00" title=" " alt="" coords="202,341,318,366"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,351,186,351,186,356,154,356"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2dma_2dma_8c.html#a8bb96df324a35a7917d5f061bda8ba00" title="Number of elements still left to transfer on this channel." alt="" coords="445,17,624,42"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="293,340,306,290,332,217,372,138,398,101,428,68,461,47,464,51,432,72,402,104,376,141,337,219,311,291,299,341"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="466,144,603,169"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="297,339,315,306,344,262,382,216,429,178,450,168,452,172,431,183,386,220,348,265,320,309,302,342"/>
-<area shape="rect" id="Node000010" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="456,193,614,218"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="302,339,352,284,388,253,429,227,440,222,442,227,431,232,392,258,356,288,306,342"/>
-<area shape="rect" id="Node000012" href="$phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" title="Disable the channel, stopping the transfer immediately." alt="" coords="472,82,597,108"/>
-<area shape="poly" id="edge12_Node000002_Node000012" title=" " alt="" coords="295,339,311,299,339,243,378,182,402,154,428,129,457,112,460,116,432,133,405,157,382,185,343,245,316,301,300,341"/>
-<area shape="rect" id="Node000013" href="$usart__priv_8c.html#a1212ef1dceef204ae9b1d21396ce121a" title="Clear the IDLE flag alone (write&#45;1&#45;to&#45;clear)." alt="" coords="438,242,631,268"/>
-<area shape="poly" id="edge14_Node000002_Node000013" title=" " alt="" coords="312,338,364,307,429,277,448,270,450,275,431,281,367,312,315,342"/>
-<area shape="rect" id="Node000014" href="$usart__priv_8c.html#a7a3bdbc81cdf6880249195eb31dff9e9" title="Acknowledge transmission&#45;complete: disable TCIE and clear ISR.TC." alt="" coords="440,292,629,317"/>
-<area shape="poly" id="edge15_Node000002_Node000014" title=" " alt="" coords="358,338,453,318,454,323,359,343"/>
-<area shape="rect" id="Node000017" href="$usart__priv_8c.html#ae9ec242ef3f5a8022451063afa1f8c76" title="Discard anything sitting in RDR and clear IDLE plus every RX error flag." alt="" coords="442,440,628,465"/>
-<area shape="poly" id="edge18_Node000002_Node000017" title=" " alt="" coords="315,365,367,395,431,426,450,432,448,437,429,431,364,400,312,369"/>
-<area shape="rect" id="Node000018" href="$usart__priv_8c.html#a14cbd92366d998b6d2d782218bebc199" title=" " alt="" coords="434,489,635,514"/>
-<area shape="poly" id="edge19_Node000002_Node000018" title=" " alt="" coords="306,365,356,419,392,450,431,475,442,481,440,485,429,480,388,454,352,423,302,369"/>
-<area shape="rect" id="Node000019" href="$usart__priv_8c.html#a5d0be78aa73766f8ccbd81cdf1e9e583" title=" " alt="" coords="445,538,624,564"/>
-<area shape="poly" id="edge20_Node000002_Node000019" title=" " alt="" coords="302,366,320,399,348,442,386,487,432,525,439,529,436,534,428,529,382,491,344,445,315,401,297,368"/>
-<area shape="rect" id="Node000020" href="$usart__priv_8c.html#ab2668e6988568645355b350f7f5a5319" title="Enable the receiver and its DMA request line (CR1.RE, CR3.DMAR)." alt="" coords="442,341,627,366"/>
-<area shape="poly" id="edge21_Node000002_Node000020" title=" " alt="" coords="383,351,426,351,426,356,383,356"/>
-<area shape="rect" id="Node000021" href="$usart__priv_8c.html#a4edd0eb379f648beac337495998fe36a" title="Disable the receiver and its DMA request line (CR1.RE, CR3.DMAR)." alt="" coords="442,390,627,416"/>
-<area shape="poly" id="edge24_Node000002_Node000021" title=" " alt="" coords="359,365,454,384,453,389,358,370"/>
-<area shape="rect" id="Node000022" href="$usart__priv_8c.html#a425263fa112eeabf57bd57b9e7475133" title=" " alt="" coords="430,588,639,629"/>
-<area shape="poly" id="edge27_Node000002_Node000022" title=" " alt="" coords="300,366,316,407,343,463,382,523,405,550,432,574,436,578,433,582,428,578,401,554,377,526,338,466,311,409,295,368"/>
-<area shape="rect" id="Node000023" href="$phal__G4_2usart_2usart_8c.html#a32215dc8454a824e8643f91e0e7d17e0" title="Weak callback invoked when a full RX frame is received. Override in application code...." alt="" coords="446,653,623,678"/>
-<area shape="poly" id="edge28_Node000002_Node000023" title=" " alt="" coords="298,366,310,418,334,492,351,532,373,571,400,607,432,638,438,643,435,647,428,642,396,611,369,574,347,534,329,494,304,419,293,368"/>
-<area shape="rect" id="Node000004" href="$dma__priv_8c.html#a1ca5883893809b211a84e7dbeeb3d30c" title="Read how many elements are still outstanding (CNDTR)" alt="" coords="699,5,907,46"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="625,26,684,25,684,30,625,31"/>
-<area shape="rect" id="Node000006" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="709,120,897,145"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="603,148,693,139,694,145,604,153"/>
-<area shape="rect" id="Node000007" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="695,70,911,96"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="572,140,687,104,717,97,718,102,688,110,574,146"/>
-<area shape="rect" id="Node000008" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="696,169,910,194"/>
-<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="604,160,681,167,681,173,603,165"/>
-<area shape="rect" id="Node000009" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="710,218,896,244"/>
-<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="604,167,640,178,665,191,688,205,709,211,707,216,686,209,662,196,638,183,603,172"/>
-<area shape="poly" id="edge11_Node000010_Node000009" title=" " alt="" coords="615,210,695,218,694,223,614,216"/>
-<area shape="rect" id="Node000011" href="$dma__priv_8c.html#a6a38d32b32c9d8a52740339bf2cb1e19" title="True if the channel is currently enabled." alt="" coords="687,268,919,293"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="607,217,640,227,665,241,688,254,709,260,707,266,686,259,662,245,638,232,605,222"/>
-<area shape="poly" id="edge13_Node000012_Node000007" title=" " alt="" coords="598,90,679,86,679,91,598,95"/>
-<area shape="rect" id="Node000015" href="$usart__priv_8c.html#a426fc303e25b8516df9cd1a926f628ff" title=" " alt="" coords="758,329,848,354"/>
-<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="630,315,743,331,742,336,629,320"/>
-<area shape="rect" id="Node000016" href="$usart__priv_8c.html#aa00be98e4959c28c2d915d3159cb65fd" title=" " alt="" coords="762,378,844,404"/>
-<area shape="poly" id="edge17_Node000014_Node000016" title=" " alt="" coords="613,315,641,326,655,336,665,346,675,356,689,365,718,375,748,382,746,388,716,380,686,369,671,360,661,350,652,340,638,331,611,320"/>
-<area shape="poly" id="edge22_Node000020_Node000015" title=" " alt="" coords="628,347,742,342,742,347,628,352"/>
-<area shape="poly" id="edge23_Node000020_Node000016" title=" " alt="" coords="628,364,747,381,746,386,627,369"/>
-<area shape="poly" id="edge25_Node000021_Node000015" title=" " alt="" coords="595,387,639,376,687,363,742,351,744,356,688,368,640,382,596,392"/>
-<area shape="poly" id="edge26_Node000021_Node000016" title=" " alt="" coords="627,396,747,391,747,396,628,402"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2dma_2dma_8c.html#a8bb96df324a35a7917d5f061bda8ba00" title="Number of elements still left to transfer on this channel." alt="" coords="381,17,560,42"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="260,340,267,290,283,218,297,178,315,138,337,101,364,68,394,47,397,51,368,72,341,104,319,141,302,180,289,219,272,291,265,341"/>
+<area shape="rect" id="Node000005" href="$phal__G4_2dma_2dma_8c.html#a6f7660cdfc7790e503aedb99a5e2f126" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="402,144,539,169"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="263,339,275,306,295,263,325,217,344,196,364,178,386,166,389,171,368,183,347,200,329,220,300,265,280,308,268,341"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="392,193,550,218"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="266,339,303,284,331,253,365,227,376,221,378,226,367,232,335,257,307,288,271,342"/>
+<area shape="rect" id="Node000012" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="408,82,533,108"/>
+<area shape="poly" id="edge12_Node000002_Node000012" title=" " alt="" coords="261,340,271,299,290,243,321,182,341,154,364,129,392,111,395,116,368,133,345,157,325,185,295,245,276,301,266,341"/>
+<area shape="rect" id="Node000013" href="$usart__priv_8c.html#a1212ef1dceef204ae9b1d21396ce121a" title="Clear the IDLE flag alone (write&#45;1&#45;to&#45;clear)." alt="" coords="374,242,567,268"/>
+<area shape="poly" id="edge14_Node000002_Node000013" title=" " alt="" coords="274,338,313,307,365,277,380,271,382,276,367,281,317,311,278,342"/>
+<area shape="rect" id="Node000014" href="$usart__priv_8c.html#a7a3bdbc81cdf6880249195eb31dff9e9" title="Acknowledge transmission&#45;complete: disable TCIE and clear ISR.TC." alt="" coords="376,292,565,317"/>
+<area shape="poly" id="edge15_Node000002_Node000014" title=" " alt="" coords="315,338,365,326,396,319,397,324,367,331,317,343"/>
+<area shape="rect" id="Node000017" href="$usart__priv_8c.html#ae9ec242ef3f5a8022451063afa1f8c76" title="Discard anything sitting in RDR and clear IDLE plus every RX error flag." alt="" coords="378,440,564,465"/>
+<area shape="poly" id="edge18_Node000002_Node000017" title=" " alt="" coords="278,365,317,396,367,426,382,432,380,437,365,431,313,400,274,369"/>
+<area shape="rect" id="Node000018" href="$usart__priv_8c.html#a14cbd92366d998b6d2d782218bebc199" title="return true if the IDLE&#45;line flag is set (an RX frame just completed)." alt="" coords="370,489,571,514"/>
+<area shape="poly" id="edge19_Node000002_Node000018" title=" " alt="" coords="271,365,307,420,335,450,367,475,376,480,373,485,365,480,331,454,303,423,266,368"/>
+<area shape="rect" id="Node000019" href="$usart__priv_8c.html#adfea2ebe57fa759879589f6a70374ae5" title="Get the peripheral instance for a slot (used by the interrupt handlers)" alt="" coords="381,538,560,564"/>
+<area shape="poly" id="edge20_Node000002_Node000019" title=" " alt="" coords="268,366,280,399,300,442,329,487,347,507,368,525,373,529,370,533,364,529,344,511,325,490,295,445,275,401,263,368"/>
+<area shape="rect" id="Node000020" href="$usart__priv_8c.html#ab2668e6988568645355b350f7f5a5319" title="Enable the receiver and its DMA request line (CR1.RE, CR3.DMAR)." alt="" coords="378,341,563,366"/>
+<area shape="poly" id="edge21_Node000002_Node000020" title=" " alt="" coords="319,351,363,351,363,356,319,356"/>
+<area shape="rect" id="Node000021" href="$usart__priv_8c.html#a4edd0eb379f648beac337495998fe36a" title="Disable the receiver and its DMA request line (CR1.RE, CR3.DMAR)." alt="" coords="378,390,563,416"/>
+<area shape="poly" id="edge24_Node000002_Node000021" title=" " alt="" coords="317,364,367,376,397,383,396,389,365,382,315,370"/>
+<area shape="rect" id="Node000022" href="$usart__priv_8c.html#a425263fa112eeabf57bd57b9e7475133" title=" " alt="" coords="366,588,575,629"/>
+<area shape="poly" id="edge27_Node000002_Node000022" title=" " alt="" coords="266,366,276,407,295,463,325,523,345,550,368,574,372,577,368,582,364,578,340,554,320,526,290,465,271,408,261,368"/>
+<area shape="rect" id="Node000023" href="$phal__G4_2usart_2usart_8c.html#a10e1e17882fa5ba6231c2bbb41eff416" title="Weak callback invoked when a full RX frame is received. Override in application code...." alt="" coords="382,653,559,678"/>
+<area shape="poly" id="edge28_Node000002_Node000023" title=" " alt="" coords="264,367,270,418,286,491,299,531,317,571,339,607,368,638,373,643,370,647,364,642,335,610,312,573,294,533,280,493,265,418,259,367"/>
+<area shape="rect" id="Node000004" href="$dma__priv_8c.html#a1ca5883893809b211a84e7dbeeb3d30c" title="Read how many elements are still outstanding (CNDTR)" alt="" coords="635,5,843,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="561,26,620,25,620,30,561,31"/>
+<area shape="rect" id="Node000006" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="645,120,833,145"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="539,148,629,139,630,145,540,153"/>
+<area shape="rect" id="Node000007" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="631,70,847,96"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="508,140,623,104,653,97,654,102,624,110,510,146"/>
+<area shape="rect" id="Node000008" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="632,169,846,194"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="540,160,617,167,617,173,539,165"/>
+<area shape="rect" id="Node000009" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="646,218,832,244"/>
+<area shape="poly" id="edge8_Node000005_Node000009" title=" " alt="" coords="540,167,576,178,601,191,624,205,645,211,643,216,622,209,598,196,574,183,539,172"/>
+<area shape="poly" id="edge11_Node000010_Node000009" title=" " alt="" coords="551,210,631,218,630,223,550,216"/>
+<area shape="rect" id="Node000011" href="$dma__priv_8c.html#a6a38d32b32c9d8a52740339bf2cb1e19" title="True if the channel is currently enabled." alt="" coords="623,268,855,293"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="543,217,576,227,601,241,624,254,645,260,643,266,622,259,598,245,574,232,541,222"/>
+<area shape="poly" id="edge13_Node000012_Node000007" title=" " alt="" coords="534,90,615,86,615,91,534,95"/>
+<area shape="rect" id="Node000015" href="$usart__priv_8c.html#a426fc303e25b8516df9cd1a926f628ff" title=" " alt="" coords="694,329,784,354"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="566,315,679,331,678,336,565,320"/>
+<area shape="rect" id="Node000016" href="$usart__priv_8c.html#aa00be98e4959c28c2d915d3159cb65fd" title=" " alt="" coords="698,378,780,404"/>
+<area shape="poly" id="edge17_Node000014_Node000016" title=" " alt="" coords="549,315,577,326,591,336,601,346,611,356,625,365,654,375,684,382,682,388,652,380,622,369,607,360,597,350,588,340,574,331,547,320"/>
+<area shape="poly" id="edge22_Node000020_Node000015" title=" " alt="" coords="564,347,678,342,678,347,564,352"/>
+<area shape="poly" id="edge23_Node000020_Node000016" title=" " alt="" coords="564,364,683,381,682,386,563,369"/>
+<area shape="poly" id="edge25_Node000021_Node000015" title=" " alt="" coords="531,387,575,376,623,363,678,351,680,356,624,368,576,382,532,392"/>
+<area shape="poly" id="edge26_Node000021_Node000016" title=" " alt="" coords="563,396,683,391,683,396,564,402"/>
 </map>

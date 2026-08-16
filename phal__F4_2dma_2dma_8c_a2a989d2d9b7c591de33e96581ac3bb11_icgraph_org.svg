@@ -74,7 +74,7 @@
 <!-- Node40 -->
 <g id="Node000040" class="node">
 <title>Node40</title>
-<g id="a_Node000040"><a xlink:href="phal__G4_2usart_2usart_8c.html#a27947ba873516867132ffea0f99b4b2f" target="_top" xlink:title="Start a DMA&#45;based reception, completed on the IDLE line.">
+<g id="a_Node000040"><a xlink:href="phal__G4_2usart_2usart_8c.html#a0e754ee2f497cea8b6df31d13e5e1365" target="_top" xlink:title="Start a DMA&#45;based reception, completed on the IDLE line.">
 <polygon fill="white" stroke="#666666" points="1258.5,-237.25 1163.75,-237.25 1163.75,-218 1258.5,-218 1258.5,-237.25"/>
 <text text-anchor="middle" x="1211.12" y="-223.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_rx</text>
 </a>
@@ -92,7 +92,7 @@
 <!-- Node43 -->
 <g id="Node000043" class="node">
 <title>Node43</title>
-<g id="a_Node000043"><a xlink:href="phal__G4_2usart_2usart_8c.html#a33943e8be6febc697e21490055402832" target="_top" xlink:title="Start a DMA&#45;based transmission.">
+<g id="a_Node000043"><a xlink:href="phal__G4_2usart_2usart_8c.html#a8ebdece2db12916cdbf6bc22f9ae52de" target="_top" xlink:title="Start a DMA&#45;based transmission.">
 <polygon fill="white" stroke="#666666" points="1258.5,-200.25 1163.75,-200.25 1163.75,-181 1258.5,-181 1258.5,-200.25"/>
 <text text-anchor="middle" x="1211.12" y="-186.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_tx</text>
 </a>
@@ -942,7 +942,7 @@
 <!-- Node42 -->
 <g id="Node000042" class="node">
 <title>Node42</title>
-<g id="a_Node000042"><a xlink:href="phal__G4_2usart_2usart_8c.html#a95a3699af2ac8f96cffbfb71d9debccd" target="_top" xlink:title="Receive data, blocking until a one&#45;shot reception completes.">
+<g id="a_Node000042"><a xlink:href="phal__G4_2usart_2usart_8c.html#ad68b1ee17b4dc08e9070bf93e9f20e00" target="_top" xlink:title="Receive data, blocking until a one&#45;shot reception completes.">
 <polygon fill="white" stroke="#666666" points="1113.88,-218.25 981.62,-218.25 981.62,-199 1113.88,-199 1113.88,-218.25"/>
 <text text-anchor="middle" x="1047.75" y="-204.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_rxBlocking</text>
 </a>
@@ -978,7 +978,7 @@
 <!-- Node47 -->
 <g id="Node000047" class="node">
 <title>Node47</title>
-<g id="a_Node000047"><a xlink:href="phal__G4_2usart_2usart_8c.html#a2ce62e7525c96728747c19d990872d76" target="_top" xlink:title="Transmit data, blocking until the transfer completes.">
+<g id="a_Node000047"><a xlink:href="phal__G4_2usart_2usart_8c.html#a0cab3e67136e4026131605acf63593c8" target="_top" xlink:title="Transmit data, blocking until the transfer completes.">
 <polygon fill="white" stroke="#666666" points="1113.88,-144.25 981.62,-144.25 981.62,-125 1113.88,-125 1113.88,-144.25"/>
 <text text-anchor="middle" x="1047.75" y="-130.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_txBlocking</text>
 </a>

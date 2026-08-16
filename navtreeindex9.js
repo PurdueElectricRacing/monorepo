@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md14":[1,1],
+"md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md15":[1,2],
 "md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md16":[1,3],
 "md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md7":[1,0],
 "md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md8":[1,0,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX9 =
 "nextion_8c.html#ac5753abcb75fb40221a51bcdec98bbd4":[30,0,1,1,5,0,7],
 "nextion_8c.html#ac7e3e9fc4674d17281069e97b8a5384d":[30,0,1,1,5,0,10],
 "nextion_8c.html#acab8846ee36ca76ce5019adef4d04faf":[30,0,1,1,5,0,4],
-"nextion_8c.html#ae7d537c10e1e85e6537850a02a315fd7":[30,0,1,1,5,0,1],
-"nextion_8c.html#ae995d182561a5fa3087569539bb551d2":[30,0,1,1,5,0,3],
-"nextion_8c.html#af603b7d431ae4f94d55bf04b2034a8cc":[30,0,1,1,5,0,6]
+"nextion_8c.html#ae7d537c10e1e85e6537850a02a315fd7":[30,0,1,1,5,0,1]
 };

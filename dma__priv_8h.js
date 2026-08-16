@@ -7,6 +7,7 @@ var dma__priv_8h =
     [ "PHAL_DMA_priv_enableChannel", "dma__priv_8h.html#ae948bf5c53156406d3e6c99af5f16ac6", null ],
     [ "PHAL_DMA_priv_enableClock", "dma__priv_8h.html#a98c01cf2ce77f94763ff918f7f939e0e", null ],
     [ "PHAL_DMA_priv_getChannel", "dma__priv_8h.html#ae2f74296c8912f0000fa614d49bd1ab8", null ],
+    [ "PHAL_DMA_priv_getIRQn", "dma__priv_8h.html#a73f7770b98ebe2b4ca15995393187782", null ],
     [ "PHAL_DMA_priv_getRemainingLength", "dma__priv_8h.html#a1ca5883893809b211a84e7dbeeb3d30c", null ],
     [ "PHAL_DMA_priv_isChannelEnabled", "dma__priv_8h.html#a6a38d32b32c9d8a52740339bf2cb1e19", null ],
     [ "PHAL_DMA_priv_readCompleteFlag", "dma__priv_8h.html#adeedf49b3d3fa7538445993d9127ba4e", null ],

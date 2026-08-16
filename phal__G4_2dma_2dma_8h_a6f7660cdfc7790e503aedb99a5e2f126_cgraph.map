@@ -1,0 +1,11 @@
+<map id="PHAL_DMA_restart" name="PHAL_DMA_restart">
+<area shape="rect" id="Node000001" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="5,80,143,106"/>
+<area shape="rect" id="Node000002" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="205,5,393,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,77,190,40,213,33,215,38,192,45,103,82"/>
+<area shape="rect" id="Node000003" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="191,55,407,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,82,175,79,176,84,143,88"/>
+<area shape="rect" id="Node000004" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="192,104,406,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="143,98,177,101,176,106,143,103"/>
+<area shape="rect" id="Node000005" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="206,153,392,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="104,104,192,140,215,147,214,152,190,145,102,109"/>
+</map>

@@ -1,0 +1,54 @@
+<map id="PHAL_USART_init" name="PHAL_USART_init">
+<area shape="rect" id="Node000001" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="5,429,139,455"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle&#45;&gt;wiring and handle&#45;&gt;params." alt="" coords="438,404,555,430"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,426,136,406,186,389,241,380,285,378,385,389,433,397,432,403,385,394,285,384,242,385,187,394,138,411,97,431"/>
+<area shape="rect" id="Node000016" href="$phal__G4_2dma_2dma_8c.html#a113bf99c3b1cc73c92d466d94ea88dad" title="Setup DMA callback then call PHAL_DMA_init()" alt="" coords="189,404,382,430"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="139,432,173,427,174,433,139,437"/>
+<area shape="rect" id="Node000017" href="$usart__priv_8c.html#a6fa7c72c81bfe24466b4ce8be60399b4" title="Fill the TX and RX DMA handles from the hardware map." alt="" coords="187,453,385,479"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="139,447,172,451,171,456,139,452"/>
+<area shape="rect" id="Node000018" href="$usart__priv_8c.html#ad3aa18fe42bd6c60bdfe79dffb265713" title="Enable the clock, program 8N1 + baud, and enable the USART + TX&#45;DMA interrupts." alt="" coords="188,503,384,528"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="101,453,188,489,209,496,208,501,186,494,99,458"/>
+<area shape="rect" id="Node000019" href="$usart__priv_8c.html#a9efa9faa19dddb18191ce775507e8f34" title="Enable the USART global interrupt (carries IDLE and TC)" alt="" coords="187,552,384,578"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="87,454,129,496,157,519,188,538,200,544,197,549,185,543,154,523,125,500,83,457"/>
+<area shape="rect" id="Node000020" href="$phal__G4_2usart_2usart_8c.html#a43e252bd62d3d5e76f2e50ebc399abe5" title=" " alt="" coords="209,191,363,216"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="83,427,261,226,265,230,87,431"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2dma_2dma_8c.html#ae1601cda89ed5dd23e8e6e085c74be32" title=" " alt="" coords="640,552,808,578"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="508,429,547,483,576,513,610,539,627,547,624,551,607,543,572,517,543,486,504,432"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2dma_2dma_8c.html#a3355394f66e080a191644b3aa05bb7e6" title=" " alt="" coords="655,601,793,627"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="505,429,518,462,540,506,570,551,589,571,610,588,641,603,639,607,607,592,585,575,566,554,535,508,513,464,500,431"/>
+<area shape="rect" id="Node000005" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="910,180,1098,206"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="500,403,512,369,534,324,565,279,585,258,607,241,629,231,658,222,731,208,814,199,895,194,895,199,814,205,732,214,659,227,631,236,610,246,588,262,569,282,538,327,517,371,505,405"/>
+<area shape="rect" id="Node000006" href="$dma__priv_8c.html#a3f0c9d4036cc06c7b22d99ca7f542d2b" title="Configure CCR (data sizes, priority, increment modes, mode, ISR enables) from wiring+params." alt="" coords="619,305,829,331"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="512,401,553,370,607,340,624,333,626,338,609,345,556,375,515,406"/>
+<area shape="rect" id="Node000008" href="$dma__priv_8c.html#a8587b5521d3115d25b6bfe0bdca3848b" title="Route wiring&#45;&gt;mux_request to (periph, channel_idx)&#39;s DMAMUX channel." alt="" coords="631,256,817,282"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="504,402,543,347,572,316,607,291,617,285,619,290,610,295,576,320,547,351,508,405"/>
+<area shape="rect" id="Node000009" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="896,105,1112,131"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="498,403,509,363,529,308,561,250,582,224,607,201,649,185,726,167,908,132,909,137,727,172,651,190,610,206,586,228,566,253,534,311,514,365,503,404"/>
+<area shape="rect" id="Node000010" href="$dma__priv_8c.html#a98c01cf2ce77f94763ff918f7f939e0e" title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock." alt="" coords="624,355,824,380"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="555,401,608,389,642,382,643,387,609,394,556,406"/>
+<area shape="rect" id="Node000011" href="$dma__priv_8c.html#ae2f74296c8912f0000fa614d49bd1ab8" title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8." alt="" coords="627,404,821,430"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="556,414,612,414,612,420,556,420"/>
+<area shape="rect" id="Node000012" href="$dma__priv_8c.html#a73f7770b98ebe2b4ca15995393187782" title=" " alt="" coords="636,453,812,479"/>
+<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="556,428,609,440,643,447,642,452,608,445,555,433"/>
+<area shape="rect" id="Node000013" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="631,503,817,528"/>
+<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="515,428,556,459,609,489,626,495,624,500,607,494,553,463,512,432"/>
+<area shape="rect" id="Node000014" href="$dma__priv_8c.html#a2449fa9f613108935c398de08de96014" title="Write the memory&#45;side address (CMAR)" alt="" coords="612,651,836,676"/>
+<area shape="poly" id="edge13_Node000002_Node000014" title=" " alt="" coords="503,429,513,470,533,527,564,587,585,614,610,637,615,641,612,645,607,642,581,618,560,590,528,529,508,472,498,431"/>
+<area shape="rect" id="Node000015" href="$dma__priv_8c.html#a2deaccb19340858592ae93d61e6847c4" title="Write the peripheral&#45;side address (CPAR)" alt="" coords="608,700,840,726"/>
+<area shape="poly" id="edge14_Node000002_Node000015" title=" " alt="" coords="502,430,509,479,526,549,540,587,559,624,582,658,610,687,613,689,610,694,607,691,578,661,554,626,536,589,521,551,504,480,496,431"/>
+<area shape="rect" id="Node000007" href="$dma__priv_8c.html#a3ee5d0a2c1258bd0a664abd82aa1f60e" title=" " alt="" coords="966,305,1042,331"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="829,316,950,316,950,321,829,321"/>
+<area shape="poly" id="edge16_Node000016_Node000002" title=" " alt="" coords="383,414,423,414,423,420,383,420"/>
+<area shape="rect" id="Node000021" href="$phal__G4_2usart_2usart_8c.html#a52698641ece10b0458377d015a3a07e7" title=" " alt="" coords="433,80,560,106"/>
+<area shape="poly" id="edge21_Node000020_Node000021" title=" " alt="" coords="311,188,456,111,458,116,314,193"/>
+<area shape="rect" id="Node000022" href="$phal__G4_2dma_2dma_8c.html#a1261cc1a26fcb06f8cebc00c95ffd55a" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="644,104,804,130"/>
+<area shape="poly" id="edge22_Node000021_Node000022" title=" " alt="" coords="561,97,629,104,628,109,560,102"/>
+<area shape="rect" id="Node000023" href="$phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="641,5,807,31"/>
+<area shape="poly" id="edge24_Node000021_Node000023" title=" " alt="" coords="522,77,561,58,607,40,632,33,633,38,609,45,563,63,524,82"/>
+<area shape="rect" id="Node000025" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="661,55,787,80"/>
+<area shape="poly" id="edge26_Node000021_Node000025" title=" " alt="" coords="560,83,645,74,646,79,561,88"/>
+<area shape="poly" id="edge23_Node000022_Node000005" title=" " alt="" coords="775,128,940,173,939,178,774,133"/>
+<area shape="rect" id="Node000024" href="$dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="888,5,1121,31"/>
+<area shape="poly" id="edge25_Node000023_Node000024" title=" " alt="" coords="807,16,872,16,872,21,807,21"/>
+<area shape="poly" id="edge27_Node000025_Node000009" title=" " alt="" coords="788,76,915,99,914,105,787,81"/>
+</map>

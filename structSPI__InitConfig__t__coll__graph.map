@@ -1,11 +1,13 @@
 <map id="SPI_InitConfig_t" name="SPI_InitConfig_t">
-<area shape="rect" id="Node000001" title="Configuration entry for SPI initilization." alt="" coords="39,198,154,223"/>
-<area shape="rect" id="Node000002" href="$structdma__init__t.html" title=" " alt="" coords="5,94,87,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="55,134,70,172,88,196,83,199,66,175,50,136"/>
-<area shape="rect" id="Node000003" href="$structPHAL__DMA__Handle__t.html" title="A configured DMA transfer: fixed wiring + chosen parameters." alt="" coords="111,94,264,120"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,134,140,175,114,199,111,195,136,172,169,131"/>
-<area shape="rect" id="Node000004" href="$structPHAL__DMA__Wiring__t.html" title="Fixed hardware wiring for one peripheral + direction&#39;s DMA use." alt="" coords="26,5,173,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="124,40,177,92,173,96,120,44"/>
-<area shape="rect" id="Node000005" href="$structPHAL__DMA__Params__t.html" title="Per&#45;transfer parameters (user can configure)" alt="" coords="197,5,354,31"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="254,44,201,96,198,92,251,40"/>
+<area shape="rect" id="Node000001" title="Configuration entry for SPI initilization." alt="" coords="107,198,222,223"/>
+<area shape="rect" id="Node000002" href="$structdma__init__t.html" title=" " alt="" coords="73,94,154,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,134,138,172,155,196,151,199,133,175,118,136"/>
+<area shape="rect" id="Node000003" href="$structPHAL__DMA__Handle__t.html" title="A configured DMA transfer: fixed wiring + chosen parameters." alt="" coords="179,94,331,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="241,134,208,175,182,199,178,195,204,172,237,131"/>
+<area shape="rect" id="Node000004" href="$structPHAL__DMA__Wiring__t.html" title="Fixed hardware wiring for one peripheral + direction&#39;s DMA use." alt="" coords="5,5,153,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="119,36,231,91,229,96,116,41"/>
+<area shape="rect" id="Node000005" href="$structPHAL__DMA__Params__t.html" title="Per&#45;transfer parameters (user can configure)" alt="" coords="177,5,333,31"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="258,47,258,94,252,94,252,47"/>
+<area shape="rect" id="Node000006" href="$structPHAL__DMA__Callback__t.html" title="A DMA channel interrupt callback and the context passed to it." alt="" coords="357,5,518,31"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="399,41,282,96,280,91,397,36"/>
 </map>

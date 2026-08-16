@@ -1,43 +1,40 @@
 <map id="PHAL_SPI_transfer" name="PHAL_SPI_transfer">
 <area shape="rect" id="Node000001" title="Start a DMA&#45;backed SPI transfer." alt="" coords="5,277,143,303"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a536791c4fb7895e2c7a118bea07e0ca1" title="Get the channel number (1&#45;8) for a given handle." alt="" coords="207,5,390,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,276,84,231,105,167,120,132,138,98,161,67,189,40,193,37,196,41,192,44,165,71,143,101,124,135,110,169,90,232,80,277"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2dma_2dma_8c.html#a587d74a4667a9047e033a39a3a2bb11a" title="Get the DMA peripheral (DMA1 or DMA2) for a given handle." alt="" coords="221,55,376,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="76,276,89,239,111,188,144,135,165,110,189,89,205,80,208,85,192,94,169,114,149,138,116,190,94,241,81,278"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="230,104,367,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="79,276,119,209,150,171,189,139,214,127,216,132,192,143,154,175,123,213,84,278"/>
-<area shape="rect" id="Node000009" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="219,153,378,179"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="85,275,128,232,157,208,189,188,203,182,205,187,192,193,160,212,131,236,89,279"/>
-<area shape="rect" id="Node000011" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="201,203,396,228"/>
-<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="101,274,190,237,213,230,215,235,192,242,103,279"/>
-<area shape="rect" id="Node000012" href="$phal__G4_2dma_2dma_8c.html#a49368bc3e4395c69ec2fae7db5551b68" title="Set whether the memory address increments after each transfer and rebuild the channel configuration." alt="" coords="216,252,381,278"/>
-<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="143,280,200,273,200,279,143,285"/>
-<area shape="rect" id="Node000015" href="$phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" title="Check for current SPI transaction to complete." alt="" coords="238,301,358,327"/>
-<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="143,295,223,303,222,309,143,300"/>
-<area shape="rect" id="Node000016" href="$spi__priv_8c.html#af89def543ea5c1f819bc2f4f57c37942" title="Enable the SPI peripheral." alt="" coords="218,351,378,376"/>
-<area shape="poly" id="edge17_Node000001_Node000016" title=" " alt="" coords="104,301,192,337,215,344,214,349,190,342,102,306"/>
-<area shape="rect" id="Node000017" href="$spi__priv_8c.html#af26bdd68e047cde3da712ab3928ea4c1" title="Enable SPI receive DMA requests." alt="" coords="192,400,405,426"/>
-<area shape="poly" id="edge18_Node000001_Node000017" title=" " alt="" coords="89,301,131,344,160,367,192,386,204,392,202,397,189,391,157,371,128,348,85,305"/>
-<area shape="rect" id="Node000018" href="$spi__priv_8c.html#a13a5d883a06088ab8338aed283f01a37" title="Enable SPI transmit DMA requests." alt="" coords="192,449,404,475"/>
-<area shape="poly" id="edge19_Node000001_Node000018" title=" " alt="" coords="84,302,123,367,154,405,192,436,200,440,197,445,189,440,151,408,119,370,79,305"/>
-<area shape="rect" id="Node000019" href="$spi__priv_8c.html#aa122d6455832fcf98713b8cda32f6a0d" title="Register an active SPI transmit transfer." alt="" coords="191,499,406,524"/>
-<area shape="poly" id="edge20_Node000001_Node000019" title=" " alt="" coords="81,302,94,339,116,389,149,442,169,465,192,485,198,489,195,493,189,490,165,469,144,445,111,392,89,341,76,304"/>
-<area shape="rect" id="Node000020" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="236,548,361,574"/>
-<area shape="poly" id="edge21_Node000001_Node000020" title=" " alt="" coords="80,303,90,348,110,411,125,445,143,478,166,509,192,535,222,550,220,555,189,539,162,512,139,481,120,447,105,413,84,349,75,304"/>
-<area shape="rect" id="Node000005" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="476,5,664,31"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="366,105,405,91,419,79,428,66,437,53,453,40,463,35,466,39,455,44,441,56,432,69,423,82,407,95,368,110"/>
-<area shape="rect" id="Node000006" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="462,55,678,80"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="367,102,480,81,481,86,368,107"/>
-<area shape="rect" id="Node000007" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="463,104,676,130"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="367,114,447,114,447,120,367,120"/>
-<area shape="rect" id="Node000008" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="476,153,663,179"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="368,127,481,147,480,153,367,132"/>
-<area shape="poly" id="edge10_Node000009_Node000008" title=" " alt="" coords="378,164,461,164,461,169,378,169"/>
-<area shape="rect" id="Node000010" href="$dma__priv_8c.html#a6a38d32b32c9d8a52740339bf2cb1e19" title="True if the channel is currently enabled." alt="" coords="454,203,685,228"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="374,177,480,197,479,202,373,182"/>
-<area shape="poly" id="edge15_Node000012_Node000010" title=" " alt="" coords="373,249,479,229,480,234,374,254"/>
-<area shape="rect" id="Node000013" href="$dma__priv_8c.html#a3f0c9d4036cc06c7b22d99ca7f542d2b" title="Configure CCR (data sizes, priority, increment modes, mode, ISR enables) from wiring+params." alt="" coords="465,252,674,278"/>
-<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="381,262,450,262,450,268,381,268"/>
-<area shape="rect" id="Node000014" href="$dma__priv_8c.html#a3ee5d0a2c1258bd0a664abd82aa1f60e" title=" " alt="" coords="733,252,810,278"/>
-<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="675,262,717,262,717,268,675,268"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a6f7660cdfc7790e503aedb99a5e2f126" title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again." alt="" coords="229,104,366,130"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,276,119,210,150,171,189,139,212,127,215,132,192,143,154,175,123,213,84,278"/>
+<area shape="rect" id="Node000007" href="$phal__G4_2dma_2dma_8c.html#ae67bbe03bc5a38db2301053b6d13ff54" title="Change the transfer length (element count) for the next transfer." alt="" coords="218,153,376,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="85,275,128,232,157,208,189,188,202,182,205,187,192,193,160,212,131,236,89,279"/>
+<area shape="rect" id="Node000009" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="200,252,395,278"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="142,280,184,275,185,280,143,285"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2dma_2dma_8c.html#a49368bc3e4395c69ec2fae7db5551b68" title="Set whether the memory address increments after each transfer and rebuild the channel configuration." alt="" coords="215,203,380,228"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="101,274,190,237,212,230,214,235,192,242,103,279"/>
+<area shape="rect" id="Node000013" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="235,31,360,56"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="77,276,91,240,115,190,147,137,189,90,211,73,236,60,239,65,214,78,192,93,152,140,119,193,96,242,82,278"/>
+<area shape="rect" id="Node000014" href="$phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" title="Check for current SPI transaction to complete." alt="" coords="237,301,358,327"/>
+<area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="143,295,222,303,221,309,142,300"/>
+<area shape="rect" id="Node000015" href="$spi__priv_8c.html#af89def543ea5c1f819bc2f4f57c37942" title="Enable the SPI peripheral." alt="" coords="217,351,378,376"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="104,301,192,337,215,344,213,349,190,342,102,306"/>
+<area shape="rect" id="Node000016" href="$spi__priv_8c.html#af26bdd68e047cde3da712ab3928ea4c1" title="Enable SPI receive DMA requests." alt="" coords="191,400,404,426"/>
+<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="89,301,131,344,160,367,192,386,204,392,202,397,189,391,157,371,128,348,85,305"/>
+<area shape="rect" id="Node000017" href="$spi__priv_8c.html#a13a5d883a06088ab8338aed283f01a37" title="Enable SPI transmit DMA requests." alt="" coords="191,449,404,475"/>
+<area shape="poly" id="edge19_Node000001_Node000017" title=" " alt="" coords="84,302,123,367,154,405,192,436,200,440,197,445,189,440,151,408,119,370,79,305"/>
+<area shape="rect" id="Node000018" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="235,499,360,524"/>
+<area shape="poly" id="edge20_Node000001_Node000018" title=" " alt="" coords="81,302,94,339,116,389,149,442,169,465,192,485,221,500,218,504,189,490,165,469,144,445,111,392,89,341,76,304"/>
+<area shape="rect" id="Node000003" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="474,55,662,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,102,478,81,479,86,367,107"/>
+<area shape="rect" id="Node000004" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="460,5,676,31"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="329,101,403,66,426,52,451,40,472,33,473,38,453,45,429,57,405,71,331,106"/>
+<area shape="rect" id="Node000005" href="$dma__priv_8c.html#ae948bf5c53156406d3e6c99af5f16ac6" title="Enable a channel, starting its transfer." alt="" coords="461,104,674,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="367,114,445,114,445,120,367,120"/>
+<area shape="rect" id="Node000006" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="474,153,661,179"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="367,127,479,147,478,153,366,132"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="377,164,459,164,459,169,377,169"/>
+<area shape="rect" id="Node000008" href="$dma__priv_8c.html#a6a38d32b32c9d8a52740339bf2cb1e19" title="True if the channel is currently enabled." alt="" coords="452,203,683,228"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="372,177,479,197,478,202,371,182"/>
+<area shape="poly" id="edge13_Node000010_Node000008" title=" " alt="" coords="380,213,436,213,436,218,380,218"/>
+<area shape="rect" id="Node000011" href="$dma__priv_8c.html#a3f0c9d4036cc06c7b22d99ca7f542d2b" title="Configure CCR (data sizes, priority, increment modes, mode, ISR enables) from wiring+params." alt="" coords="463,252,672,278"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="372,226,479,246,478,251,371,232"/>
+<area shape="rect" id="Node000012" href="$dma__priv_8c.html#a3ee5d0a2c1258bd0a664abd82aa1f60e" title=" " alt="" coords="731,252,808,278"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="673,262,715,262,715,268,673,268"/>
+<area shape="poly" id="edge15_Node000013_Node000004" title=" " alt="" coords="360,35,444,27,444,32,361,40"/>
 </map>

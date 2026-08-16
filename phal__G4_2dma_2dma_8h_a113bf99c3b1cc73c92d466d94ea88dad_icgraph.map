@@ -1,0 +1,13 @@
+<map id="PHAL_DMA_initWithCallback" name="PHAL_DMA_initWithCallback">
+<area shape="rect" id="Node000001" title="Setup DMA callback then call PHAL_DMA_init()" alt="" coords="284,55,477,80"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="112,5,227,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="307,53,227,34,228,29,308,48"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2spi_2spi_8c.html#a0a4524eb6715f19d2d2128ad7f410269" title="Initilize SPI peripheral with the configuired structure." alt="" coords="114,55,224,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="268,70,225,70,225,65,268,65"/>
+<area shape="rect" id="Node000005" href="$phal__G4_2usart_2usart_8c.html#a6a2d7bc858fa90a11e983e615fde1f7c" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="103,104,236,130"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="308,87,228,106,227,101,307,82"/>
+<area shape="rect" id="Node000003" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,21,55,21,55,16,96,16"/>
+<area shape="rect" id="Node000006" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,104,55,130"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="87,120,55,120,55,114,87,114"/>
+</map>

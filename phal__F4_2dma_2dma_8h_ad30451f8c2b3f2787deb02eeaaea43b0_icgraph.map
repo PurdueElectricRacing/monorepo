@@ -1,19 +1,15 @@
 <map id="PHAL_DMA_stopTxfer" name="PHAL_DMA_stopTxfer">
-<area shape="rect" id="Node000001" title=" " alt="" coords="764,55,919,80"/>
-<area shape="rect" id="Node000002" href="$phal__F4_2usart_2usart_8c.html#a668005fd868c0e9c0c9318ca6685ad87" title="Handle DMA interrupts." alt="" coords="528,5,677,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="760,54,668,34,669,29,761,48"/>
-<area shape="rect" id="Node000003" href="$phal__F4_2usart_2usart_8c.html#a7bb78a5ea8399c2c2fd4ca94be3ffed3" title=" " alt="" coords="545,55,659,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="749,70,660,70,660,65,749,65"/>
-<area shape="rect" id="Node000004" href="$phal__F4_2spi_2spi_8c.html#ae45aa58f4fed151ef2f982b1ae226f3e" title="Handle TCIF interrupt signaling end of TX transaction." alt="" coords="488,104,716,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="761,87,669,106,668,101,760,81"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2spi_2spi_8c.html#aadb8937353693c94b0d8e32fc6f18fc2" title=" " alt="" coords="247,29,440,55"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="508,102,487,95,463,82,439,69,407,58,409,53,441,64,465,77,489,90,509,97"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2spi_2spi_8c.html#abd16b3391557c4a3a8020d675e2c452f" title=" " alt="" coords="247,79,440,104"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="472,107,440,104,441,98,473,101"/>
-<area shape="rect" id="Node000007" href="$phal__F4_2spi_2spi_8c.html#a69ff6bfb4062ba171cfaeb45ed976b95" title=" " alt="" coords="249,128,438,154"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="472,132,438,135,438,129,472,126"/>
-<area shape="rect" id="Node000008" href="$phal__G4_2spi_2spi_8c.html#a3ebb0af23eba13325910e187f2810778" title="Service SPI3 TX when it owns DMA2 channel 3." alt="" coords="248,178,438,218"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="545,137,411,180,410,175,543,132"/>
-<area shape="rect" id="Node000009" href="$phal__G4_2adc_2adc_8c.html#a66857fec7bb282eed8204a690f4ce5ae" title="Dispatch DMA2 channel 3 to ADC4 or its SPI3 TX fallback owner." alt="" coords="5,185,199,211"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="233,201,199,201,199,196,233,196"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="676,55,831,80"/>
+<area shape="rect" id="Node000002" href="$phal__F4_2usart_2usart_8c.html#a668005fd868c0e9c0c9318ca6685ad87" title="Handle DMA interrupts." alt="" coords="440,5,589,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="672,54,580,34,581,29,673,48"/>
+<area shape="rect" id="Node000003" href="$phal__F4_2usart_2usart_8c.html#a7bb78a5ea8399c2c2fd4ca94be3ffed3" title=" " alt="" coords="457,55,571,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="661,70,572,70,572,65,661,65"/>
+<area shape="rect" id="Node000004" href="$phal__F4_2spi_2spi_8c.html#ae45aa58f4fed151ef2f982b1ae226f3e" title="Handle TCIF interrupt signaling end of TX transaction." alt="" coords="400,104,628,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="673,87,581,106,580,101,672,81"/>
+<area shape="rect" id="Node000005" href="$phal__F4_2spi_2spi_8c.html#a69ff6bfb4062ba171cfaeb45ed976b95" title=" " alt="" coords="164,79,352,104"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="384,107,352,103,353,98,384,101"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2spi_2spi_8c.html#a62359d3216b693b8424ea18e74724d5a" title=" " alt="" coords="187,128,329,154"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="385,132,330,137,329,132,384,126"/>
+<area shape="rect" id="Node000007" href="$phal__G4_2spi_2spi_8c.html#a0a4524eb6715f19d2d2128ad7f410269" title="Initilize SPI peripheral with the configuired structure." alt="" coords="5,128,116,154"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="171,144,116,144,116,138,171,138"/>
 </map>

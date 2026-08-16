@@ -1,5 +1,7 @@
 var NAVTREEINDEX6 =
 {
+"ethernet_8c.html":[30,0,1,2,1,1,0],
+"ethernet_8c.html#a1ea4f11f8d51c291e709aa8730f23910":[30,0,1,2,1,1,0,1],
 "ethernet_8c.html#a35a615d9efc9dc590f030ac374d57931":[30,0,1,2,1,1,0,3],
 "ethernet_8c.html#a77807f986a651fa5f99e24be94bcc8c5":[30,0,1,2,1,1,0,9],
 "ethernet_8c.html#a9a9bbd2fef3bdfaf79ba88e72f95c976":[30,0,1,2,1,1,0,7],
@@ -247,7 +249,5 @@ var NAVTREEINDEX6 =
 "functions_s.html":[29,2,0,17],
 "functions_t.html":[29,2,0,18],
 "functions_u.html":[29,2,0,19],
-"functions_v.html":[29,2,0,20],
-"functions_vars.html":[29,2,2],
-"functions_vars.html":[29,2,2,0]
+"functions_v.html":[29,2,0,20]
 };

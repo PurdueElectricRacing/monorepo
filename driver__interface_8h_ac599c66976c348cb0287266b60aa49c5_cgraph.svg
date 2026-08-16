@@ -689,7 +689,7 @@ var sectionId = 'dynsection-2';
 <!-- Node25 -->
 <g id="Node000025" class="node">
 <title>Node25</title>
-<g id="a_Node000025"><a xlink:href="phal__G4_2usart_2usart_8c.html#a33943e8be6febc697e21490055402832" target="_top" xlink:title="Start a DMA&#45;based transmission.">
+<g id="a_Node000025"><a xlink:href="phal__G4_2usart_2usart_8c.html#a8ebdece2db12916cdbf6bc22f9ae52de" target="_top" xlink:title="Start a DMA&#45;based transmission.">
 <polygon fill="white" stroke="#666666" points="415.12,-204.25 320.38,-204.25 320.38,-185 415.12,-185 415.12,-204.25"/>
 <text text-anchor="middle" x="367.75" y="-190.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_tx</text>
 </a>
@@ -707,7 +707,7 @@ var sectionId = 'dynsection-2';
 <!-- Node39 -->
 <g id="Node000039" class="node">
 <title>Node39</title>
-<g id="a_Node000039"><a xlink:href="phal__G4_2usart_2usart_8c.html#ae06f65156a95d60d0a0e851ee88ce77b" target="_top" xlink:title="Check whether a transmission is still in progress.">
+<g id="a_Node000039"><a xlink:href="phal__G4_2usart_2usart_8c.html#acbe9c8a44caaafcaec868d68d69b3766" target="_top" xlink:title="Check whether a transmission is still in progress.">
 <polygon fill="white" stroke="#666666" points="426,-167.25 309.5,-167.25 309.5,-148 426,-148 426,-167.25"/>
 <text text-anchor="middle" x="367.75" y="-153.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_txBusy</text>
 </a>
@@ -743,7 +743,7 @@ var sectionId = 'dynsection-2';
 <!-- Node26 -->
 <g id="Node000026" class="node">
 <title>Node26</title>
-<g id="a_Node000026"><a xlink:href="phal__G4_2dma_2dma_8c.html#a255ed862b5b1ce7cb71408a8f9dc5627" target="_top" xlink:title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again.">
+<g id="a_Node000026"><a xlink:href="phal__G4_2dma_2dma_8c.html#a6f7660cdfc7790e503aedb99a5e2f126" target="_top" xlink:title="Reload the transfer count from handle&#45;&gt;params.tx_size and start again.">
 <polygon fill="white" stroke="#666666" points="586.75,-222.25 483.75,-222.25 483.75,-203 586.75,-203 586.75,-222.25"/>
 <text text-anchor="middle" x="535.25" y="-208.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_restart</text>
 </a>
@@ -797,7 +797,7 @@ var sectionId = 'dynsection-2';
 <!-- Node34 -->
 <g id="Node000034" class="node">
 <title>Node34</title>
-<g id="a_Node000034"><a xlink:href="phal__G4_2dma_2dma_8c.html#a11e3f2f9fb30872d1d48264d91d614e7" target="_top" xlink:title="Disable the channel, stopping the transfer immediately.">
+<g id="a_Node000034"><a xlink:href="phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" target="_top" xlink:title="Disable the channel, stopping the transfer immediately.">
 <polygon fill="white" stroke="#666666" points="582.25,-259.25 488.25,-259.25 488.25,-240 582.25,-240 582.25,-259.25"/>
 <text text-anchor="middle" x="535.25" y="-245.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_stop</text>
 </a>
@@ -815,7 +815,7 @@ var sectionId = 'dynsection-2';
 <!-- Node35 -->
 <g id="Node000035" class="node">
 <title>Node35</title>
-<g id="a_Node000035"><a xlink:href="usart__priv_8c.html#a5d0be78aa73766f8ccbd81cdf1e9e583" target="_top" xlink:title=" ">
+<g id="a_Node000035"><a xlink:href="usart__priv_8c.html#adfea2ebe57fa759879589f6a70374ae5" target="_top" xlink:title="Get the peripheral instance for a slot (used by the interrupt handlers)">
 <polygon fill="white" stroke="#666666" points="602.5,-111.25 468,-111.25 468,-92 602.5,-92 602.5,-111.25"/>
 <text text-anchor="middle" x="535.25" y="-97.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_USART_priv_periph</text>
 </a>

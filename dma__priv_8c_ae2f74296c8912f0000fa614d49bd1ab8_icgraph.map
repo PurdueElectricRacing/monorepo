@@ -1,15 +1,19 @@
 <map id="PHAL_DMA_priv_getChannel" name="PHAL_DMA_priv_getChannel">
-<area shape="rect" id="Node000001" title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8." alt="" coords="449,55,643,80"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle&#45;&gt;wiring and handle&#45;&gt;params." alt="" coords="284,55,401,80"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="434,70,402,70,402,65,434,65"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="112,5,227,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="279,52,217,34,218,29,281,47"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2spi_2spi_8c.html#a0a4524eb6715f19d2d2128ad7f410269" title="Initilize SPI peripheral with the configuired structure." alt="" coords="114,55,224,80"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="269,70,225,70,225,65,269,65"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2usart_2usart_8c.html#a111a81e667da7f8dfcf9d39836664970" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="103,104,236,130"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="281,88,218,106,217,101,279,83"/>
-<area shape="rect" id="Node000004" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="96,21,55,21,55,16,96,16"/>
-<area shape="rect" id="Node000007" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,104,55,130"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="87,120,55,120,55,114,87,114"/>
+<area shape="rect" id="Node000001" title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8." alt="" coords="691,55,884,80"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle&#45;&gt;wiring and handle&#45;&gt;params." alt="" coords="525,55,643,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="675,70,643,70,643,65,675,65"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2dma_2dma_8c.html#a113bf99c3b1cc73c92d466d94ea88dad" title="Setup DMA callback then call PHAL_DMA_init()" alt="" coords="284,55,477,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="510,70,478,70,478,65,510,65"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2spi_2spi_8c.html#a0a4524eb6715f19d2d2128ad7f410269" title="Initilize SPI peripheral with the configuired structure." alt="" coords="114,5,224,31"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="519,53,477,45,341,29,225,22,225,17,341,24,478,40,520,48"/>
+<area shape="rect" id="Node000007" href="$phal__G4_2usart_2usart_8c.html#a6a2d7bc858fa90a11e983e615fde1f7c" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="103,104,236,130"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="520,87,478,95,349,110,236,117,236,112,349,105,477,90,519,82"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="112,55,227,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="269,70,227,70,227,65,269,65"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="307,53,224,34,226,28,308,48"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="308,87,228,106,227,101,307,82"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,55,55,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="96,70,55,70,55,65,96,65"/>
+<area shape="rect" id="Node000008" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,104,55,130"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="87,120,55,120,55,114,87,114"/>
 </map>

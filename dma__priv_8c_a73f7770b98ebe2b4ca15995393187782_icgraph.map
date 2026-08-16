@@ -1,0 +1,21 @@
+<map id="PHAL_DMA_priv_getIRQn" name="PHAL_DMA_priv_getIRQn">
+<area shape="rect" id="Node000001" title=" " alt="" coords="705,31,881,56"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a6f4a9683baae2eb24b6b4a9ccc05da2b" title="Disable the channel and release its claim/handle so another handle can use the periph/channel_idx aft..." alt="" coords="525,5,657,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="689,33,657,29,657,24,690,28"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle&#45;&gt;wiring and handle&#45;&gt;params." alt="" coords="532,55,650,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="689,59,650,63,650,58,689,53"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2dma_2dma_8c.html#a113bf99c3b1cc73c92d466d94ea88dad" title="Setup DMA callback then call PHAL_DMA_init()" alt="" coords="284,55,477,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="517,70,478,70,478,65,517,65"/>
+<area shape="rect" id="Node000007" href="$phal__G4_2spi_2spi_8c.html#a0a4524eb6715f19d2d2128ad7f410269" title="Initilize SPI peripheral with the configuired structure." alt="" coords="114,5,224,31"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="522,53,477,45,341,30,225,23,225,17,341,24,478,40,523,48"/>
+<area shape="rect" id="Node000008" href="$phal__G4_2usart_2usart_8c.html#a6a2d7bc858fa90a11e983e615fde1f7c" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="103,104,236,130"/>
+<area shape="poly" id="edge10_Node000003_Node000008" title=" " alt="" coords="523,87,478,95,349,110,236,117,236,112,349,105,477,90,522,82"/>
+<area shape="rect" id="Node000005" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="112,55,227,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="269,70,227,70,227,65,269,65"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="307,53,224,34,226,28,308,48"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="308,87,228,106,227,101,307,82"/>
+<area shape="rect" id="Node000006" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,55,55,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="96,70,55,70,55,65,96,65"/>
+<area shape="rect" id="Node000009" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,104,55,130"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="87,120,55,120,55,114,87,114"/>
+</map>

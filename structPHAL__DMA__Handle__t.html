@@ -111,7 +111,7 @@ $(function(){initNavTree('structPHAL__DMA__Handle__t.html',''); initResizable(tr
 <div class="dynheader">
 Collaboration diagram for PHAL_DMA_Handle_t:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structPHAL__DMA__Handle__t__coll__graph.svg" width="339" height="126"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structPHAL__DMA__Handle__t__coll__graph.svg" width="524" height="126"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -122,11 +122,28 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ae5fba49b3bc085c028b53e92b4922013"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84210146d3506e2b9dd2299a08dead70" id="r_a84210146d3506e2b9dd2299a08dead70"><td class="memItemLeft" align="right" valign="top">DMA_Channel_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84210146d3506e2b9dd2299a08dead70">channel</a></td></tr>
 <tr class="separator:a84210146d3506e2b9dd2299a08dead70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a292a166e1f77f9b84bc9553287d21091" id="r_a292a166e1f77f9b84bc9553287d21091"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structPHAL__DMA__Callback__t.html">PHAL_DMA_Callback_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a292a166e1f77f9b84bc9553287d21091">callback</a></td></tr>
+<tr class="separator:a292a166e1f77f9b84bc9553287d21091"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A configured DMA transfer: fixed wiring + chosen parameters. </p>
-<p>channel is populated by <a class="el" href="phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.">PHAL_DMA_init()</a>, do not specify when constructing <a class="el" href="structPHAL__DMA__Handle__t.html" title="A configured DMA transfer: fixed wiring + chosen parameters.">PHAL_DMA_Handle_t</a>. </p>
+<p>channel and callback are populated by <a class="el" href="phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.">PHAL_DMA_init()</a>/PHAL_DMA_initWithCallback(), do not directly set either when constructing a <a class="el" href="structPHAL__DMA__Handle__t.html" title="A configured DMA transfer: fixed wiring + chosen parameters.">PHAL_DMA_Handle_t</a>. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a292a166e1f77f9b84bc9553287d21091" name="a292a166e1f77f9b84bc9553287d21091"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a292a166e1f77f9b84bc9553287d21091">&#9670;&#160;</a></span>callback</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structPHAL__DMA__Callback__t.html">PHAL_DMA_Callback_t</a> PHAL_DMA_Handle_t::callback</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Populated by <a class="el" href="phal__G4_2dma_2dma_8c.html#a113bf99c3b1cc73c92d466d94ea88dad" title="Setup DMA callback then call PHAL_DMA_init()">PHAL_DMA_initWithCallback()</a> </p>
+
+</div>
+</div>
 <a id="a84210146d3506e2b9dd2299a08dead70" name="a84210146d3506e2b9dd2299a08dead70"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a84210146d3506e2b9dd2299a08dead70">&#9670;&#160;</a></span>channel</h2>
 
@@ -138,7 +155,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Populated by <a class="el" href="phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle-&gt;wiring and handle-&gt;params.">PHAL_DMA_init()</a>!! </p>
+<p>Populated by PHAL_DMA_init[WithCallback]() </p>
 
 </div>
 </div>

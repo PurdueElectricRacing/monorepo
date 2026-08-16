@@ -122,15 +122,8 @@ Functions</h2></td></tr>
 <tr class="memitem:acf04b58bde10df9ab774c8e4b776bb06" id="r_acf04b58bde10df9ab774c8e4b776bb06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf04b58bde10df9ab774c8e4b776bb06">PHAL_SPI_txCallback</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
 <tr class="memdesc:acf04b58bde10df9ab774c8e4b776bb06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weak callback fired when a DMA-backed SPI transfer completes.  <br /></td></tr>
 <tr class="separator:acf04b58bde10df9ab774c8e4b776bb06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadb8937353693c94b0d8e32fc6f18fc2" id="r_aadb8937353693c94b0d8e32fc6f18fc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadb8937353693c94b0d8e32fc6f18fc2">DMA1_Channel3_IRQHandler</a> (void)</td></tr>
-<tr class="separator:aadb8937353693c94b0d8e32fc6f18fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd16b3391557c4a3a8020d675e2c452f" id="r_abd16b3391557c4a3a8020d675e2c452f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd16b3391557c4a3a8020d675e2c452f">DMA1_Channel5_IRQHandler</a> (void)</td></tr>
-<tr class="separator:abd16b3391557c4a3a8020d675e2c452f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ebb0af23eba13325910e187f2810778" id="r_a3ebb0af23eba13325910e187f2810778"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ebb0af23eba13325910e187f2810778">PHAL_SPI_DMA2_Channel3_IRQHandler</a> (void)</td></tr>
-<tr class="memdesc:a3ebb0af23eba13325910e187f2810778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Service SPI3 TX when it owns DMA2 channel 3.  <br /></td></tr>
-<tr class="separator:a3ebb0af23eba13325910e187f2810778"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66857fec7bb282eed8204a690f4ce5ae" id="r_a66857fec7bb282eed8204a690f4ce5ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66857fec7bb282eed8204a690f4ce5ae">DMA2_Channel3_IRQHandler</a> (void)</td></tr>
-<tr class="separator:a66857fec7bb282eed8204a690f4ce5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62359d3216b693b8424ea18e74724d5a" id="r_a62359d3216b693b8424ea18e74724d5a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62359d3216b693b8424ea18e74724d5a">spi_tx_dma_callback</a> (void *ctx)</td></tr>
+<tr class="separator:a62359d3216b693b8424ea18e74724d5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a4524eb6715f19d2d2128ad7f410269" id="r_a0a4524eb6715f19d2d2128ad7f410269"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a4524eb6715f19d2d2128ad7f410269">PHAL_SPI_init</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *cfg)</td></tr>
 <tr class="memdesc:a0a4524eb6715f19d2d2128ad7f410269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initilize SPI peripheral with the configuired structure.  <br /></td></tr>
 <tr class="separator:a0a4524eb6715f19d2d2128ad7f410269"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,72 +151,6 @@ Variables</h2></td></tr>
 Shriya Balu (<a href="#" onclick="location.href='mai'+'lto:'+'bal'+'u@'+'pur'+'du'+'e.e'+'du'; return false;">balu@<span class="obfuscator">.nosp@m.</span>purd<span class="obfuscator">.nosp@m.</span>ue.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="aadb8937353693c94b0d8e32fc6f18fc2" name="aadb8937353693c94b0d8e32fc6f18fc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadb8937353693c94b0d8e32fc6f18fc2">&#9670;&#160;</a></span>DMA1_Channel3_IRQHandler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void DMA1_Channel3_IRQHandler </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2spi_2spi_8c_aadb8937353693c94b0d8e32fc6f18fc2_cgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="abd16b3391557c4a3a8020d675e2c452f" name="abd16b3391557c4a3a8020d675e2c452f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd16b3391557c4a3a8020d675e2c452f">&#9670;&#160;</a></span>DMA1_Channel5_IRQHandler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void DMA1_Channel5_IRQHandler </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2spi_2spi_8c_abd16b3391557c4a3a8020d675e2c452f_cgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="a66857fec7bb282eed8204a690f4ce5ae" name="a66857fec7bb282eed8204a690f4ce5ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66857fec7bb282eed8204a690f4ce5ae">&#9670;&#160;</a></span>DMA2_Channel3_IRQHandler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void DMA2_Channel3_IRQHandler </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2spi_2spi_8c_a66857fec7bb282eed8204a690f4ce5ae_cgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
 <a id="a35fd94eb02f487e09065ddc0ecb92e53" name="a35fd94eb02f487e09065ddc0ecb92e53"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a35fd94eb02f487e09065ddc0ecb92e53">&#9670;&#160;</a></span>PHAL_SPI_busy()</h2>
 
@@ -250,35 +177,6 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>true </dd>
 <dd>
 false </dd></dl>
-
-</div>
-</div>
-<a id="a3ebb0af23eba13325910e187f2810778" name="a3ebb0af23eba13325910e187f2810778"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ebb0af23eba13325910e187f2810778">&#9670;&#160;</a></span>PHAL_SPI_DMA2_Channel3_IRQHandler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PHAL_SPI_DMA2_Channel3_IRQHandler </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Service SPI3 TX when it owns DMA2 channel 3. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2spi_2spi_8c_a3ebb0af23eba13325910e187f2810778_cgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2spi_2spi_8c_a3ebb0af23eba13325910e187f2810778_icgraph.svg" width="443" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -448,6 +346,41 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2spi_2spi_8c_acf04b58bde10df9ab774c8e4b776bb06_icgraph.svg" width="440" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a62359d3216b693b8424ea18e74724d5a" name="a62359d3216b693b8424ea18e74724d5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62359d3216b693b8424ea18e74724d5a">&#9670;&#160;</a></span>spi_tx_dma_callback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void spi_tx_dma_callback </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2spi_2spi_8c_a62359d3216b693b8424ea18e74724d5a_cgraph.svg" width="632" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2spi_2spi_8c_a62359d3216b693b8424ea18e74724d5a_icgraph.svg" width="312" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
