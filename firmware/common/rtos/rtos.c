@@ -18,7 +18,9 @@ void RTOS_periodic_task_runner(void *arg) {
 
     while (true) {
         wrapper->taskFunction();
-        vTaskDelayUntil(&lastWakeTime, period);
+        if (period > 0) {
+            vTaskDelayUntil(&lastWakeTime, period);
+        }
     }
 
     // Unreachable!
