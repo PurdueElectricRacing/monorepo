@@ -1,0 +1,12 @@
+
+#ifndef PER_APPLICATION_VERSION_H
+#define PER_APPLICATION_VERSION_H
+
+
+#if defined(BOOTLOADER_ENABLED)
+#define APPLICATION_BOOTLOADABLE true
+#else
+#define APPLICATION_BOOTLOADABLE false
+#endif
+
+#endif

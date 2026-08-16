@@ -23,12 +23,14 @@
 #define SEND_SHOCKPOTS CAN_SEND_front_shockpots
 #define SEND_OIL_TEMPS CAN_SEND_front_oil_temps
 #define SEND_INIT CAN_SEND_front_driveline_init
+#define SEND_VERSION CAN_SEND_front_driveline_version
 #endif
 
 #ifdef IS_REAR_DRIVELINE
 #define SEND_SHOCKPOTS CAN_SEND_rear_shockpots
 #define SEND_OIL_TEMPS CAN_SEND_rear_oil_temps
 #define SEND_INIT CAN_SEND_rear_driveline_init
+#define SEND_VERSION CAN_SEND_rear_driveline_version
 #endif
 
 #endif // CONFIG_H
