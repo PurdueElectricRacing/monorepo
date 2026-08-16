@@ -29,6 +29,11 @@ DMA_Channel_TypeDef *PHAL_DMA_priv_getChannel(DMA_TypeDef *periph, uint8_t chann
     return (DMA_Channel_TypeDef *)((uint8_t *)base + PHAL_DMA_PRIV_DMA_CHANNEL_MEM_STRIDE * (channel_idx - 1U));
 }
 
+IRQn_Type PHAL_DMA_priv_getIRQn(DMA_TypeDef *periph, uint8_t channel_idx) {
+    IRQn_Type base = (periph == DMA1) ? DMA1_Channel1_IRQn : DMA2_Channel1_IRQn;
+    return (IRQn_Type)(base + channel_idx - 1);
+}
+
 void PHAL_DMA_priv_disableChannel(DMA_Channel_TypeDef *channel) {
     // CCR = Channel Configuration Register
     // EN = channel Enable bit

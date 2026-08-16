@@ -7,7 +7,6 @@
 #include "common/phal_G4/dma/dma.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
-#include "common/phal_G4/spi/spi_priv.h"
 #include "common/phal_G4/spi/spi.h"
 #include "common/utils/countof.h"
 
@@ -47,8 +46,6 @@ static uint8_t slave_rx[XFER_LEN];
 static PHAL_DMA_Handle_t spi1_rx_dma = {
     .wiring = &SPI1_RX_DMA_WIRING,
     .params = {
-        .mem_addr  = (uint32_t)master_rx,
-        .tx_size   = XFER_LEN,
         .priority  = DMA_PRIORITY_HIGH,
         .mode      = DMA_MODE_NORMAL,
         .mem_inc   = true,
@@ -59,8 +56,6 @@ static PHAL_DMA_Handle_t spi1_rx_dma = {
 static PHAL_DMA_Handle_t spi1_tx_dma = {
     .wiring = &SPI1_TX_DMA_WIRING,
     .params = {
-        .mem_addr  = (uint32_t)master_tx,
-        .tx_size   = XFER_LEN,
         .priority  = DMA_PRIORITY_HIGH,
         .mode      = DMA_MODE_NORMAL,
         .mem_inc   = true,
@@ -71,8 +66,6 @@ static PHAL_DMA_Handle_t spi1_tx_dma = {
 static PHAL_DMA_Handle_t spi2_rx_dma = {
     .wiring = &SPI2_RX_DMA_WIRING,
     .params = {
-        .mem_addr  = (uint32_t)slave_rx,
-        .tx_size   = XFER_LEN,
         .priority  = DMA_PRIORITY_HIGH,
         .mode      = DMA_MODE_NORMAL,
         .mem_inc   = true,
@@ -83,8 +76,6 @@ static PHAL_DMA_Handle_t spi2_rx_dma = {
 static PHAL_DMA_Handle_t spi2_tx_dma = {
     .wiring = &SPI2_TX_DMA_WIRING,
     .params = {
-        .mem_addr  = (uint32_t)slave_tx,
-        .tx_size   = XFER_LEN,
         .priority  = DMA_PRIORITY_HIGH,
         .mode      = DMA_MODE_NORMAL,
         .mem_inc   = true,

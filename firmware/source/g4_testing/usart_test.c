@@ -1,5 +1,4 @@
 #include "g4_testing.h"
-#include "stm32g474xx.h"
 #if (G4_TESTING_CHOSEN == TEST_USART)
 
 #include <stdint.h>
@@ -155,9 +154,7 @@ static bool buffers_equal(usart_subtest_id_t id, const uint8_t *expected, const 
 static bool run_roundtrip(PHAL_USART_Idx_t periph, usart_subtest_id_t id, uint8_t seed) {
     prep_frame(seed);
 
-    if (!PHAL_USART_rx(periph, rx_buf, FRAME_LEN, false)) {
-        return record_failure(id, TIMEOUT_MARKER, 0, 0); // rxDMA failed to arm
-    }
+    PHAL_USART_rx(periph, rx_buf, FRAME_LEN, false);
 
     uint32_t before = rx_frame_success_count;
     if (!PHAL_USART_tx(periph, tx_buf, FRAME_LEN)) {
@@ -182,9 +179,7 @@ static bool test_usart3_roundtrip(void) { return run_roundtrip(USART3_IDX, SUBTE
 static bool test_txBl_blocking_send(void) {
     prep_frame(0xD0);
 
-    if (!PHAL_USART_rx(TEST_PERIPH, rx_buf, FRAME_LEN, false)) {
-        return record_failure(SUBTEST_TXBL, TIMEOUT_MARKER, 0, 0);
-    }
+    PHAL_USART_rx(TEST_PERIPH, rx_buf, FRAME_LEN, false);
 
     uint32_t before = rx_frame_success_count;
     if (!PHAL_USART_txBlocking(TEST_PERIPH, tx_buf, FRAME_LEN)) {
@@ -208,9 +203,7 @@ static bool test_rxBl_blocking_receive(void) {
     if (!PHAL_USART_tx(TEST_PERIPH, tx_buf, FRAME_LEN)) {
         return record_failure(SUBTEST_RXBL, TIMEOUT_MARKER, 0, 0);
     }
-    if (!PHAL_USART_rxBlocking(TEST_PERIPH, rx_buf, FRAME_LEN)) {
-        return record_failure(SUBTEST_RXBL, TIMEOUT_MARKER, 0, 1); // rxBl reported failure to start
-    }
+    PHAL_USART_rxBlocking(TEST_PERIPH, rx_buf, FRAME_LEN);
 
     return buffers_equal(SUBTEST_RXBL, tx_buf, rx_buf, FRAME_LEN);
 }
@@ -244,9 +237,7 @@ static bool test_txBusy_tracks_transfer(void) {
  */
 static bool test_oneshot_rx_does_not_rearm(void) {
     prep_frame(0x10);
-    if (!PHAL_USART_rx(TEST_PERIPH, rx_buf, FRAME_LEN, false)) {
-        return record_failure(SUBTEST_ONESHOT, TIMEOUT_MARKER, 0, 0);
-    }
+    PHAL_USART_rx(TEST_PERIPH, rx_buf, FRAME_LEN, false);
 
     uint32_t before = rx_frame_success_count;
     if (!PHAL_USART_tx(TEST_PERIPH, tx_buf, FRAME_LEN)) {
@@ -275,9 +266,8 @@ static bool test_oneshot_rx_does_not_rearm(void) {
 
     // Re-arming should cleanly capture the next frame.
     memset(rx_buf, 0, FRAME_LEN);
-    if (!PHAL_USART_rx(TEST_PERIPH, rx_buf, FRAME_LEN, false)) {
-        return record_failure(SUBTEST_ONESHOT, TIMEOUT_MARKER, 0, 5);
-    }
+    PHAL_USART_rx(TEST_PERIPH, rx_buf, FRAME_LEN, false);
+
     fill_pattern(tx_buf, FRAME_LEN, 0x12);
     if (!PHAL_USART_tx(TEST_PERIPH, tx_buf, FRAME_LEN)) {
         return record_failure(SUBTEST_ONESHOT, TIMEOUT_MARKER, 0, 6);
@@ -299,9 +289,7 @@ static constexpr uint32_t CONT_RX_FRAMES = 8;
  */
 static bool test_continuous_rx_multiframe(void) {
     memset(rx_buf, 0, FRAME_LEN);
-    if (!PHAL_USART_rx(TEST_PERIPH, rx_buf, FRAME_LEN, true)) {
-        return record_failure(SUBTEST_CONTINUOUS, TIMEOUT_MARKER, 0, 0);
-    }
+    PHAL_USART_rx(TEST_PERIPH, rx_buf, FRAME_LEN, true);
 
     for (uint32_t frame = 0; frame < CONT_RX_FRAMES; frame++) {
         uint32_t before = rx_frame_success_count;

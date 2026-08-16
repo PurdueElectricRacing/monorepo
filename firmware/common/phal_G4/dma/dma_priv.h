@@ -21,6 +21,9 @@ void PHAL_DMA_priv_enableClock(DMA_TypeDef *periph);
 /// Look up the channel instance for (periph, channel_idx). channel_idx must be 1-8
 DMA_Channel_TypeDef *PHAL_DMA_priv_getChannel(DMA_TypeDef *periph, uint8_t channel_idx);
 
+// Get the NVIC IRQn for (periph, channel_idx). channel_idx must be 1-8
+IRQn_Type PHAL_DMA_priv_getIRQn(DMA_TypeDef *periph, uint8_t channel_idx);
+
 /// Disable a channel and block until hardware confirms it is off
 void PHAL_DMA_priv_disableChannel(DMA_Channel_TypeDef *channel);
 
