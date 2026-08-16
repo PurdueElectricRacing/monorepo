@@ -22,8 +22,12 @@
 #define BOOTLOADER_INFO_FLAG_BOOTLOADABLE (1U << 0U)
 /** Information-frame flag indicating that the resident image is ready. */
 #define BOOTLOADER_INFO_FLAG_READY (1U << 1U)
-/** Magic identifying a committed BootloaderMetadata_t record (ASCII "PERB"). */
+/** Magic identifying a BootloaderMetadata_t record (ASCII "PERB"). */
 #define BOOTLOADER_METADATA_MAGIC 0x50455242U
+/** Metadata layout version accepted by resident bootloaders. */
+#define BOOTLOADER_METADATA_FORMAT_VERSION 1U
+/** Metadata flag set only by the final installation write. */
+#define BOOTLOADER_METADATA_FLAG_INSTALLED_BY_BOOTLOADER (1U << 0U)
 /** Magic identifying a valid .noinit reset request. */
 #define BOOTLOADER_SHARED_MEMORY_MAGIC 0xABCDBEEFU
 
@@ -34,7 +38,7 @@
  * are written to the equally sized staging slot and copied only after CRC
  * validation. All three regions begin on 2 KiB erase-page boundaries and do
  * not overlap; PHAL_FLASH_erase() erases complete pages even when passed the
- * 16-byte metadata record. Programming addresses are 8-byte aligned.
+ * metadata record. Programming addresses are 8-byte aligned.
  *
  * Images and CRC input are 32-bit-word aligned. An odd number of image words is
  * padded with one erased 32-bit word for the final 8-byte flash write, but that
@@ -51,7 +55,7 @@
 #endif
 
 /** Size of the committed metadata record. */
-#define BL_METADATA_SIZE 16U
+#define BL_METADATA_SIZE 24U
 /** Wire and CRC payload granularity. */
 #define BL_WORD_SIZE 4U
 /** STM32G4 flash programming granularity. */
@@ -64,15 +68,19 @@
  * has been copied to BL_APP_ADDRESS. A missing or inconsistent record prevents
  * application launch.
  */
-typedef struct __attribute__((packed)) {
-    uint32_t magic;      /**< Must equal BOOTLOADER_METADATA_MAGIC. */
-    uint32_t crc32;      /**< CRC-32/MPEG-2 over the application words. */
-    uint32_t address;    /**< Must equal BL_APP_ADDRESS. */
-    uint32_t size_bytes; /**< Non-zero, word-aligned application length. */
+typedef struct __attribute__((aligned(BL_FLASH_WRITE_SIZE))) {
+    uint32_t magic;          /**< Must equal BOOTLOADER_METADATA_MAGIC. */
+    uint32_t format_version; /**< Must equal BOOTLOADER_METADATA_FORMAT_VERSION. */
+    uint32_t flags;          /**< Must include INSTALLED_BY_BOOTLOADER. */
+    uint32_t crc32;          /**< CRC-32/MPEG-2 over the application words. */
+    uint32_t address;        /**< Must equal BL_APP_ADDRESS. */
+    uint32_t size_bytes;     /**< Non-zero, word-aligned application length. */
 } BootloaderMetadata_t;
 
 _Static_assert(sizeof(BootloaderMetadata_t) == BL_METADATA_SIZE,
-               "Bootloader metadata must occupy one 16-byte record");
+               "Bootloader metadata must occupy one 24-byte record");
+_Static_assert((sizeof(BootloaderMetadata_t) % BL_FLASH_WRITE_SIZE) == 0U,
+               "Bootloader metadata must be flash-write aligned");
 
 /** @brief Commands carried in byte 0 of a five-byte command frame. */
 typedef enum {

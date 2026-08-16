@@ -255,23 +255,37 @@ static bool bl_copy_staging_to_application(uint32_t size_bytes) {
     return true;
 }
 
-/*
- * Metadata is the commit marker and is written after the application. Erasing
- * BL_METADATA_SIZE clears the complete dedicated 2 KiB metadata page; no other
- * persistent data may share that page.
- */
+/* Erase the complete dedicated metadata page to invalidate the application. */
+static bool bl_invalidate_metadata(void) {
+    return PHAL_FLASH_erase(BL_METADATA_ADDRESS, BL_METADATA_SIZE);
+}
+
+/* Write the commit record after the application has been copied and verified. */
 static bool bl_write_metadata(uint32_t crc32, uint32_t size_bytes) {
     BootloaderMetadata_t metadata = {
         .magic = BOOTLOADER_METADATA_MAGIC,
+        .format_version = BOOTLOADER_METADATA_FORMAT_VERSION,
+        .flags = BOOTLOADER_METADATA_FLAG_INSTALLED_BY_BOOTLOADER,
         .crc32 = crc32,
         .address = BL_APP_ADDRESS,
         .size_bytes = size_bytes,
     };
 
-    if (!PHAL_FLASH_erase(BL_METADATA_ADDRESS, BL_METADATA_SIZE)) {
+    return PHAL_FLASH_write(BL_METADATA_ADDRESS, &metadata, sizeof(metadata));
+}
+
+static bool bl_application_crc_is_valid(uint32_t address,
+                                        uint32_t size_bytes,
+                                        uint32_t expected_crc) {
+    if (!bl_range_is_valid(address, size_bytes)) {
         return false;
     }
-    return PHAL_FLASH_write(BL_METADATA_ADDRESS, &metadata, sizeof(metadata));
+
+    uint32_t actual_crc = PHAL_CRC_calculate(
+        (const uint32_t *)(uintptr_t)address,
+        size_bytes / BL_WORD_SIZE
+    );
+    return actual_crc == expected_crc;
 }
 
 /* Verify staging, install it, and commit metadata. */
@@ -296,7 +310,9 @@ static bool bl_commit_update(uint32_t expected_crc) {
         return false;
     }
 
-    if (!bl_copy_staging_to_application(bl_firmware_size)
+    if (!bl_invalidate_metadata()
+        || !bl_copy_staging_to_application(bl_firmware_size)
+        || !bl_application_crc_is_valid(BL_APP_ADDRESS, bl_firmware_size, actual_crc)
         || !bl_write_metadata(actual_crc, bl_firmware_size)) {
         bl_update_active = false;
         bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
@@ -332,6 +348,8 @@ bool BL_checkAndBoot(void) {
     }
 
     if (metadata.magic != BOOTLOADER_METADATA_MAGIC
+        || metadata.format_version != BOOTLOADER_METADATA_FORMAT_VERSION
+        || (metadata.flags & BOOTLOADER_METADATA_FLAG_INSTALLED_BY_BOOTLOADER) == 0U
         || metadata.address != BL_APP_ADDRESS
         || !bl_vector_is_valid(metadata.address, metadata.size_bytes)) {
         return false;
