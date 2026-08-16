@@ -18,14 +18,14 @@ typedef struct {
     const PHAL_DMA_Wiring_t *rx_wiring; /*!< fixed DMA wiring for RX (see dma_wiring.h) */
 } PHAL_USART_HwMap_t;
 
-/// @return the peripheral instance for a slot (used by the interrupt handlers).
-USART_TypeDef *PHAL_USART_priv_periph(ssize_t idx);
+/// get the peripheral instance for a slot (used by the interrupt handlers)
+USART_TypeDef *PHAL_USART_priv_periph(PHAL_USART_Idx_t periph_idx);
 
 /// Enable the clock, program 8N1 + baud, and enable the USART + TX-DMA interrupts.
-void PHAL_USART_priv_configure(ssize_t idx, uint32_t baud_rate, uint32_t clock_rate);
+void PHAL_USART_priv_configure(PHAL_USART_Idx_t periph_idx, uint32_t baud_rate, uint32_t clock_rate);
 
 /// Fill the TX and RX DMA handles from the hardware map.
-void PHAL_USART_priv_buildDma(ssize_t idx, PHAL_DMA_Handle_t *tx_dma, PHAL_DMA_Handle_t *rx_dma);
+void PHAL_USART_priv_buildDma(PHAL_USART_Idx_t periph_idx, PHAL_DMA_Handle_t *tx_dma, PHAL_DMA_Handle_t *rx_dma);
 
 void PHAL_USART_priv_startTx(USART_TypeDef *periph);
 
@@ -50,11 +50,11 @@ bool PHAL_USART_priv_idleActive(USART_TypeDef *periph);
 void PHAL_USART_priv_clearIdle(USART_TypeDef *periph);
 
 /// @return true if the slot's TX DMA channel signalled transfer complete.
-bool PHAL_USART_priv_txDmaComplete(ssize_t idx);
+bool PHAL_USART_priv_txDmaComplete(PHAL_USART_Idx_t periph_idx);
 
 /// Clear all interrupt flags for the slot's TX DMA channel.
-void PHAL_USART_priv_clearTxDmaFlags(ssize_t idx);
+void PHAL_USART_priv_clearTxDmaFlags(PHAL_USART_Idx_t periph_idx);
 
-void PHAL_USART_priv_enableIrq(ssize_t idx);
+void PHAL_USART_priv_enableIrq(PHAL_USART_Idx_t periph_idx);
 
 #endif // __PHAL_G4_USART_PRIV_H__
