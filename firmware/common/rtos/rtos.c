@@ -20,6 +20,11 @@ void RTOS_periodic_task_runner(void *arg) {
         wrapper->taskFunction();
         if (period_ticks > 0) {
             vTaskDelayUntil(&last_wake_time, period_ticks);
+        } else {
+            // Yields only to tasks with equal priority
+            // If the task is high priority and has no delay, it must block internally
+            // (ex: on a queue or notification)
+            taskYIELD();
         }
     }
 
