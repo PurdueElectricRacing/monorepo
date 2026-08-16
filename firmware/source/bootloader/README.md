@@ -1,8 +1,9 @@
 # G4 CAN bootloader
 
 The resident STM32G474RE bootloader receives, validates, and installs
-application images over VCAN. Each board has a dedicated image for its CAN IDs
-and pin mapping. CRC detects corruption but does not authenticate firmware.
+application images over the transport configured for its board. Each board has
+a dedicated image for its CAN IDs, bus, baud rate, and pin mapping. CRC detects
+corruption but does not authenticate firmware.
 
 ## Architecture
 
@@ -12,7 +13,7 @@ and pin mapping. CRC detects corruption but does not authenticate firmware.
 | --- | --- |
 | [`main.c`](main.c) | Boot decision and recovery loop. |
 | [`bootloader/`](bootloader/) | Update state machine, flash, CRC, and application hand-off. |
-| [`node_defs.h`](node_defs.h) | Per-board transport configuration. |
+| [`node_defs.h`](node_defs.h) | Per-board transport table. |
 | [`../../common/bootloader/`](../../common/bootloader/) | Shared protocol, metadata, and application reset callback. |
 
 At startup, the bootloader clears the one-shot `.noinit` marker. Unless an

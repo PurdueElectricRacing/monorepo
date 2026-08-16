@@ -4,7 +4,8 @@
 
 
 /**
- * @brief Configure the node-specific VCAN transport and announce readiness.
+ * @brief Configure every transport in the node-specific transport table and
+ * announce readiness on each one.
  *
  * The system clock must be configured before this function is called.
  */
@@ -14,8 +15,8 @@ void BL_init(void);
  * @brief Process every frame currently queued by the FDCAN receive interrupt.
  *
  * Call repeatedly from main context. This function is the sole queue consumer
- * and owns all flash and CRC work; the receive ISR only copies frames into the
- * bounded software queue.
+ * and owns all flash and CRC work; the receive ISR only copies frames and their
+ * receiving transport into the bounded software queue.
  */
 void BL_poll(void);
 
