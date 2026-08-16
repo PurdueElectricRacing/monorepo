@@ -207,3 +207,25 @@ void PHAL_DMA_setMemInc(PHAL_DMA_Handle_t *handle, bool mem_inc) {
     handle->params.mem_inc = mem_inc;
     PHAL_DMA_priv_configChannel(handle->channel, handle->wiring, &handle->params);
 }
+
+
+static void dma_dispatch(DMA_TypeDef *periph, uint8_t channel_idx) {
+    PHAL_DMA_Handle_t *handle = *dma_channel_owner_slot(periph, channel_idx);
+    if (handle != nullptr && handle->callback.irq_fn != nullptr) {
+        handle->callback.irq_fn(handle->callback.ctx);
+    }
+}
+
+void DMA1_Channel1_IRQHandler(void) { dma_dispatch(DMA1, 1); }
+void DMA1_Channel2_IRQHandler(void) { dma_dispatch(DMA1, 2); }
+void DMA1_Channel3_IRQHandler(void) { dma_dispatch(DMA1, 3); }
+void DMA1_Channel4_IRQHandler(void) { dma_dispatch(DMA1, 4); }
+void DMA1_Channel5_IRQHandler(void) { dma_dispatch(DMA1, 5); }
+void DMA1_Channel6_IRQHandler(void) { dma_dispatch(DMA1, 6); }
+void DMA1_Channel7_IRQHandler(void) { dma_dispatch(DMA1, 7); }
+
+void DMA2_Channel1_IRQHandler(void) { dma_dispatch(DMA2, 1); }
+void DMA2_Channel2_IRQHandler(void) { dma_dispatch(DMA2, 2); }
+void DMA2_Channel3_IRQHandler(void) { dma_dispatch(DMA2, 3); }
+void DMA2_Channel4_IRQHandler(void) { dma_dispatch(DMA2, 4); }
+void DMA2_Channel5_IRQHandler(void) { dma_dispatch(DMA2, 5); }
