@@ -57,9 +57,8 @@ bool PHAL_USART_tx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len);
  * @param cont Enable continuous RX using the IDLE-line interrupt. When set, call
  *             this function once and the HAL keeps receiving frames of the same
  *             maximum length, invoking PHAL_USART_rxCallback after each.
- * @return true if every DMA reconfiguration step succeeded, false otherwise
  */
-bool PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, bool cont);
+void PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, bool cont);
 
 /**
  * @brief Returns whether the USART peripheral is currently transmitting data.
@@ -109,9 +108,8 @@ bool PHAL_USART_txBlocking(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t 
  * @param periph_idx Which USART peripheral to receive on
  * @param data Buffer to receive into
  * @param len Maximum number of bytes to receive
- * @return true if the reception completed, false if it failed to start
  */
-bool PHAL_USART_rxBlocking(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len);
+void PHAL_USART_rxBlocking(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len);
 
 /**
  * @brief Weak callback invoked when a full RX frame is received. Override in

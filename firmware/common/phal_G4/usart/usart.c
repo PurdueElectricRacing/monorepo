@@ -61,9 +61,8 @@ bool PHAL_USART_tx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len) {
 
     PHAL_DMA_Handle_t *tx_dma = &usart_state[periph_idx].tx_dma;
     PHAL_DMA_stop(tx_dma);
-    if (!PHAL_DMA_setLength(tx_dma, len) || !PHAL_DMA_setMemAddress(tx_dma, (uint32_t)data)) {
-        return false;
-    }
+    (void)PHAL_DMA_setLength(tx_dma, len);
+    (void)PHAL_DMA_setMemAddress(tx_dma, (uint32_t)data);
     PHAL_DMA_restart(tx_dma);
 
     usart_state[periph_idx].tx_busy = true;
@@ -82,9 +81,8 @@ bool PHAL_USART_tx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len) {
  * @param cont Enable continuous RX. When set, call this once and the HAL keeps
  *             receiving frames of the same maximum length, invoking
  *             PHAL_USART_rxCallback after each.
- * @return true if every DMA reconfiguration step succeeded, false otherwise
  */
-bool PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, bool cont) {
+void PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, bool cont) {
     USART_TypeDef *periph = PHAL_USART_priv_periph(periph_idx);
 
     PHAL_USART_priv_stopRx(periph);
@@ -95,9 +93,8 @@ bool PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, boo
 
     PHAL_DMA_Handle_t *rx_dma = &usart_state[periph_idx].rx_dma;
     PHAL_DMA_stop(rx_dma);
-    if (!PHAL_DMA_setMemAddress(rx_dma, (uint32_t)data) || !PHAL_DMA_setLength(rx_dma, len)) {
-        return false;
-    }
+    (void)PHAL_DMA_setMemAddress(rx_dma, (uint32_t)data);
+    (void)PHAL_DMA_setLength(rx_dma, len);
 
     PHAL_USART_priv_flushRx(periph);
 
@@ -105,8 +102,6 @@ bool PHAL_USART_rx(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len, boo
 
     usart_state[periph_idx].rx_busy = true;
     PHAL_USART_priv_startRx(periph);
-
-    return true;
 }
 
 /**
@@ -153,16 +148,13 @@ bool PHAL_USART_txBlocking(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t 
  * @param periph_idx Which USART peripheral to receive on
  * @param data Buffer to receive into
  * @param len Number of bytes to receive
- * @return true if the reception completed, false if it failed to start
  */
-bool PHAL_USART_rxBlocking(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len) {
-    if (!PHAL_USART_rx(periph_idx, data, len, false)) return false;
+void PHAL_USART_rxBlocking(PHAL_USART_Idx_t periph_idx, uint8_t *data, uint16_t len) {
+    PHAL_USART_rx(periph_idx, data, len, false);
 
     while (usart_state[periph_idx].rx_busy) {
         __asm__("nop");
     }
-
-    return true;
 }
 
 static void usart_handle_irq(PHAL_USART_Idx_t periph_idx) {
@@ -196,7 +188,7 @@ static void usart_handle_irq(PHAL_USART_Idx_t periph_idx) {
 
     if (usart_state[periph_idx].cont_rx) {
         PHAL_USART_priv_stopRx(periph);
-        PHAL_DMA_setLength(rx_dma, usart_state[periph_idx].rxfer_size);
+        (void)PHAL_DMA_setLength(rx_dma, usart_state[periph_idx].rxfer_size);
         PHAL_USART_priv_flushRx(periph);
         PHAL_DMA_restart(rx_dma);
 

@@ -76,9 +76,7 @@ int main(void) {
     if (false == PHAL_USART_init(GPS_USART, GPS_BAUD_RATE, PHAL_RCC_getAPB1ClockHz())) {
         HardFault_Handler();
     }
-    if (false == PHAL_USART_rx(GPS_USART, (uint8_t *)rover_rx_buffer, sizeof(rover_rx_buffer), true)) {
-        HardFault_Handler();
-    }
+    PHAL_USART_rx(GPS_USART, (uint8_t *)rover_rx_buffer, sizeof(rover_rx_buffer), true);
     PHAL_FDCAN_init(FDCAN2, VCAN_BAUD_RATE);
     CAN_init();
 
