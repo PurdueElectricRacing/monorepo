@@ -13,13 +13,13 @@
 void RTOS_periodic_task_runner(void *arg) {
     RTOS_periodic_task_params_t *wrapper = (RTOS_periodic_task_params_t *)arg;
 
-    TickType_t lastWakeTime = xTaskGetTickCount();
-    const TickType_t period = pdMS_TO_TICKS(wrapper->period_ms);
+    TickType_t last_wake_time = xTaskGetTickCount();
+    const TickType_t period_ticks = pdMS_TO_TICKS(wrapper->period_ms);
 
     while (true) {
         wrapper->taskFunction();
-        if (period > 0) {
-            vTaskDelayUntil(&lastWakeTime, period);
+        if (period_ticks > 0) {
+            vTaskDelayUntil(&last_wake_time, period_ticks);
         }
     }
 
