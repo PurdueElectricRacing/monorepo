@@ -74,7 +74,7 @@ bool PHAL_DMA_init(PHAL_DMA_Handle_t *handle) {
 }
 
 bool PHAL_DMA_initWithCallback(PHAL_DMA_Handle_t *handle, PHAL_DMA_IRQCallbackFn_t irq_fn, void *ctx) {
-    if (handle == nullptr) {
+    if (handle == nullptr || irq_fn == nullptr) {
         return false;
     }
     handle->callback.irq_fn = irq_fn;
