@@ -38,8 +38,7 @@
                             "sig_name": "max_temp",
                             "sig_desc": "Max thermistor reading in the pack",
                             "type": "int16_t",
-                            "unit": "C",
-                            "scale": 1
+                            "unit": "C"
                         }
                     ],
                     "msg_priority": 5,

@@ -22,8 +22,8 @@ class Signal:
     length: int = 0
     unit: Optional[str] = None
     choices: Optional[List[str]] = None
-    scale: float = 1.0
-    offset: float = 0.0
+    scale: Optional[float] = None
+    offset: Optional[float] = None
     min_val: Optional[float] = None
     max_val: Optional[float] = None
     byte_order: Literal["little_endian", "big_endian"] = "little_endian"
@@ -422,8 +422,8 @@ def parse_signal(data: Dict) -> Signal:
         length=data.get('length', 0),
         unit=data.get('unit'),
         choices=data.get('choices'),
-        scale=data.get('scale', 1.0),
-        offset=data.get('offset', 0.0),
+        scale=data.get('scale'),
+        offset=data.get('offset'),
         min_val=data.get('min'),
         max_val=data.get('max')
     )

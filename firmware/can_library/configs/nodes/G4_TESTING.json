@@ -40,6 +40,58 @@
                     "msg_period": 1000,
                     "msg_priority": 3,
                     "msg_id_override": "0x4EC"
+                },
+                {
+                    "msg_name": "canpiler_test",
+                    "msg_desc": "CANpiler offset/scale validation. Includes offset-only, scale-only, both, and neither for g4_testing <-> daqapp testing.", 
+                    "signals": [
+                        {
+                            "sig_name": "temperature",
+                            "sig_desc": "Offset-only: signed range packed in unsigned u8. Offset: -40C.",
+                            "type": "uint8_t",
+                            "unit": "C",
+                            "offset": -40.0,
+                            "min": -40,
+                            "max": 215
+                        },
+                        {
+                            "sig_name": "current",
+                            "sig_desc": "Scale-only: signed range packed in int16. Scale: 0.1A.",
+                            "type": "int16_t",
+                            "unit": "A",
+                            "scale": 0.1,
+                            "min": -200, 
+                            "max": 200
+                        },
+                        {
+                            "sig_name": "voltage",
+                            "sig_desc": "Scale and offset: unsigned range packed in u16. Scale: 0.001V, Offset: 2.5V.",
+                            "type": "uint16_t",
+                            "unit": "V",
+                            "scale": 0.001,
+                            "offset": 2.5,
+                            "min": 2.5,
+                            "max": 5.0
+                        },
+                        {
+                            "sig_name": "pressure",
+                            "sig_desc": "Scale and offset: unsigned range packed in u8. Scale: 2kPa, Offset: 20kPa.",
+                            "type": "uint8_t",
+                            "unit": "kPa",
+                            "scale": 2.0,
+                            "offset": 20.0,
+                            "min": 20,
+                            "max": 510
+                        },
+                        {
+                            "sig_name": "status",
+                            "sig_desc": "No scale or offset: packed in u8.",
+                            "type": "uint8_t",
+                            "unit": "none"
+                        }
+                    ],
+                    "msg_period": 100,
+                    "msg_priority": 3
                 }
             ],
             "rx": []

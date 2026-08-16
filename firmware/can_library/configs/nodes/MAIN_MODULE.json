@@ -100,26 +100,22 @@
                         {
                             "sig_name": "front_right",
                             "type": "int16_t",
-                            "unit": "rpm",
-                            "scale": 1
+                            "unit": "rpm"
                         },
                         {
                             "sig_name": "front_left",
                             "type": "int16_t",
-                            "unit": "rpm",
-                            "scale": 1
+                            "unit": "rpm"
                         },
                         {
                             "sig_name": "rear_left",
                             "type": "int16_t",
-                            "unit": "rpm",
-                            "scale": 1
+                            "unit": "rpm"
                         },
                         {
                             "sig_name": "rear_right",
                             "type": "int16_t",
-                            "unit": "rpm",
-                            "scale": 1
+                            "unit": "rpm"
                         }
                     ],
                     "msg_period": 20,

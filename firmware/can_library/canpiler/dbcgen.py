@@ -53,8 +53,8 @@ def generate_dbcs(context: SystemContext):
                     choices = OrderedDict({0: "OFF", 1: "ON"})
 
                 conversion = BaseConversion.factory(
-                    scale=sig.scale,
-                    offset=sig.offset,
+                    scale=sig.scale if sig.scale is not None else 1.0,
+                    offset=sig.offset if sig.offset is not None else 0.0,
                     choices=choices,
                     is_float=(sig.datatype == 'float')
                 )
