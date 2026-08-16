@@ -11,8 +11,6 @@
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/utils/clamp.h"
 
-static volatile SPI_InitConfig_t *g_dma1_active_tx[8] = {0};
-static volatile SPI_InitConfig_t *g_dma2_active_tx[8] = {0};
 
 static inline uint32_t LOG2_DOWN(uint32_t x) {
     return 31U - (uint32_t)__builtin_clz(x);
@@ -50,10 +48,12 @@ void PHAL_SPI_priv_configCR1(SPI_InitConfig_t *cfg, uint32_t f_div) {
         // BR ignored in slave
     }
     cfg->periph->CR1 &= ~(SPI_CR1_CPOL | SPI_CR1_CPHA);
-    if (cfg->cpol)
+    if (cfg->cpol) {
         cfg->periph->CR1 |= SPI_CR1_CPOL;
-    if (cfg->cpha)
+    }
+    if (cfg->cpha) {
         cfg->periph->CR1 |= SPI_CR1_CPHA;
+    }
 }
 
 uint32_t PHAL_SPI_priv_calcBaudRatePrescaler(uint32_t data_rate, SPI_TypeDef *periph) {
@@ -61,10 +61,11 @@ uint32_t PHAL_SPI_priv_calcBaudRatePrescaler(uint32_t data_rate, SPI_TypeDef *pe
     // BR prescaler in CR1 takes values 0b000 to 0b111, which correspond to divisors of 2, 4, 8, 16, 32, 64, 128, and 256.
     // This function calculates the BR value for a given data rate and SPI peripheral.
     uint32_t f_div;
-    if ((uint32_t)periph == SPI1_BASE)
+    if ((uint32_t)periph == SPI1_BASE) {
         f_div = LOG2_DOWN(PHAL_RCC_getAPB2ClockHz() / data_rate) - 1;
-    else
+    } else {
         f_div = LOG2_DOWN(PHAL_RCC_getAPB1ClockHz() / data_rate) - 1;
+    }
     f_div = CLAMP(f_div, 0, 0b111);
     return f_div;
 } 
@@ -86,25 +87,27 @@ void PHAL_SPI_priv_enableDMA_RX(SPI_InitConfig_t *cfg) {
     cfg->periph->CR2 |= SPI_CR2_RXDMAEN;
 }
 
-void PHAL_SPI_priv_handleTxComplete(DMA_TypeDef *dma_periph, uint8_t channel) {
-    if (channel < 1 || channel > 8) return;
-    volatile SPI_InitConfig_t **active_table =
-        (dma_periph == DMA1) ? g_dma1_active_tx : g_dma2_active_tx;
-    
-    SPI_InitConfig_t *transfer = (SPI_InitConfig_t *)active_table[channel - 1];
-
-    if (transfer == NULL) {
-        dma_periph->IFCR = DMA_GIF_MASK(channel); // clear unhandled interrupt flags
+void PHAL_SPI_priv_handleTxComplete(SPI_InitConfig_t *transfer) {
+    if (transfer == NULL || transfer->tx_dma == NULL) {
         return;
     }
+
+    DMA_TypeDef *dma_periph = transfer->tx_dma->wiring->periph;
+    uint8_t channel         = transfer->tx_dma->wiring->channel_idx;
+
+    if (channel < 1 || channel > 8) {
+        return;
+    }
+    
     if (dma_periph->ISR & DMA_TEIF_MASK(channel)) {
         dma_periph->IFCR |= DMA_TEIF_MASK(channel);
         transfer->_error = true;
     }
+
     if (dma_periph->ISR & DMA_TCIF_MASK(channel)) {
         // Wait for TXE and not busy
         while (!(transfer->periph->SR & SPI_SR_TXE) || (transfer->periph->SR & SPI_SR_BSY)) {
-            __asm__("nop");
+            __NOP();
         }
         // If RX DMA is used, wait until its TC flag also asserts before teardown
         if (transfer->rx_dma) {
@@ -113,7 +116,7 @@ void PHAL_SPI_priv_handleTxComplete(DMA_TypeDef *dma_periph, uint8_t channel) {
             uint32_t rx_tc_mask = DMA_FLAG_MASK(DMA_ISR_TCIF1, rx_ch);
             // Busy-wait for RX complete
             while (!(rx_dma->ISR & rx_tc_mask)) {
-                __asm__("nop");
+                __NOP();
             }
             // Clear RX flags and stop RX
             rx_dma->IFCR |= rx_tc_mask;
@@ -121,11 +124,13 @@ void PHAL_SPI_priv_handleTxComplete(DMA_TypeDef *dma_periph, uint8_t channel) {
         }
 
         // Deassert CS after both TX and RX complete
-        if (transfer->nss_sw)
+        if (transfer->nss_sw) {
             PHAL_writeGPIO(transfer->nss_gpio_port, transfer->nss_gpio_pin, 1);
+        }
 
-        if (transfer->tx_dma)
+        if (transfer->tx_dma) {
             PHAL_DMA_stop(transfer->tx_dma);
+        }
 
         transfer->periph->CR1 &= ~SPI_CR1_SPE;
         transfer->periph->CR2 &= ~(SPI_CR2_TXDMAEN | SPI_CR2_RXDMAEN);
@@ -134,7 +139,6 @@ void PHAL_SPI_priv_handleTxComplete(DMA_TypeDef *dma_periph, uint8_t channel) {
 
         dma_periph->IFCR |= DMA_TCIF_MASK(channel);
         dma_periph->IFCR |= DMA_GIF_MASK(channel);
-        active_table[channel - 1] = NULL;
 
         PHAL_SPI_txCallback(transfer);
     }
@@ -151,19 +155,6 @@ void PHAL_SPI_priv_resetTransferState(SPI_InitConfig_t *cfg) {
     cfg->_fifo_overrun      = false;
 }
 
-
-void PHAL_SPI_priv_registerActiveTx(SPI_InitConfig_t *spi) {
-    if (!spi || !spi->tx_dma) return;
-
-    uint8_t ch = spi->tx_dma->wiring->channel_idx;
-    if (ch < 1 || ch > 8) return;
-
-    if (spi->tx_dma->wiring->periph == DMA1) {
-        g_dma1_active_tx[ch - 1] = spi; 
-    } else if (spi->tx_dma->wiring->periph == DMA2) {
-        g_dma2_active_tx[ch - 1] = spi;
-    }
-}
 
 void PHAL_SPI_priv_Enable(SPI_InitConfig_t *spi) {
     spi->periph->CR1 |= SPI_CR1_SPE;

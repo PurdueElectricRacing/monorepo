@@ -61,7 +61,7 @@ void PHAL_SPI_priv_enableDMA_RX(SPI_InitConfig_t *cfg);
 /**
  * @brief Handle DMA transmit-complete interrupts.
  */
-void PHAL_SPI_priv_handleTxComplete(DMA_TypeDef *dma_periph, uint8_t channel);
+void PHAL_SPI_priv_handleTxComplete(SPI_InitConfig_t *transfer);
 
 /**
  * @brief Reset the internal SPI transfer state.

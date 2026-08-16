@@ -21,26 +21,8 @@ void PHAL_SPI_txCallback(SPI_InitConfig_t *spi) {
     (void)spi;
 }
 
-/* Map DMA channel IRQs to handler for common SPI usage. Adjust as needed per project. */
-[[gnu::weak]]
-void DMA1_Channel3_IRQHandler(void) { // example: SPI1_TX on DMA1 Ch3
-    PHAL_SPI_priv_handleTxComplete(DMA1, 3);
-}
-
-[[gnu::weak]]
-void DMA1_Channel5_IRQHandler(void) { // example: SPI2_TX on DMA1 Ch5
-    PHAL_SPI_priv_handleTxComplete(DMA1, 5);
-}
-
-/// Service SPI3 TX when it owns DMA2 channel 3.
-void PHAL_SPI_DMA2_Channel3_IRQHandler(void) {
-    PHAL_SPI_priv_handleTxComplete(DMA2, 3);
-}
-
-// ADC4 provides the strong shared vector when it owns DMA2 channel 3.
-[[gnu::weak]]
-void DMA2_Channel3_IRQHandler(void) {
-    PHAL_SPI_DMA2_Channel3_IRQHandler();
+static void spi_tx_dma_callback(void *ctx) {
+    PHAL_SPI_priv_handleTxComplete((SPI_InitConfig_t *)ctx);
 }
 
 bool PHAL_SPI_init(SPI_InitConfig_t *cfg) {
@@ -57,13 +39,14 @@ bool PHAL_SPI_init(SPI_InitConfig_t *cfg) {
     PHAL_SPI_priv_configCR2(cfg);
 
     // DMA setup is required 
-    if (!PHAL_DMA_init(cfg->rx_dma) || !PHAL_DMA_init(cfg->tx_dma)) {
+    if (!PHAL_DMA_init(cfg->rx_dma) || !PHAL_DMA_initWithCallback(cfg->tx_dma, spi_tx_dma_callback, cfg)) {
         return false;
     }
 
     // Deassert CS in master when using software NSS
-    if (cfg->mode == SPI_MODE_MASTER && cfg->nss_sw)
+    if (cfg->mode == SPI_MODE_MASTER && cfg->nss_sw) {
         PHAL_writeGPIO(cfg->nss_gpio_port, cfg->nss_gpio_pin, 1);
+    }
 
     PHAL_SPI_priv_resetTransferState(cfg);
 
@@ -98,7 +81,7 @@ void PHAL_SPI_transfer(SPI_InitConfig_t *spi,
     }
     PHAL_DMA_setLength(spi->tx_dma, data_len);
 
-    // RX DMA  
+    // RX DMA
     PHAL_SPI_priv_enableDMA_RX(spi);
 
     if (!in_data) {
@@ -110,16 +93,6 @@ void PHAL_SPI_transfer(SPI_InitConfig_t *spi,
     }
     PHAL_DMA_setLength(spi->rx_dma, data_len);
     PHAL_DMA_restart(spi->rx_dma);
-
-    PHAL_SPI_priv_registerActiveTx(spi);
-
-    if (PHAL_DMA_getPeriph(spi->tx_dma) == DMA1) {
-        NVIC_EnableIRQ(DMA1_Channel1_IRQn + (PHAL_DMA_getChannelIdx(spi->tx_dma) - 1));
-    } else if (PHAL_DMA_getPeriph(spi->tx_dma) == DMA2) {
-        NVIC_EnableIRQ(DMA2_Channel1_IRQn + (PHAL_DMA_getChannelIdx(spi->tx_dma) - 1));
-    } else {
-        __builtin_trap();
-    }
 
     // Start SPI and kick TX DMA
     PHAL_SPI_priv_Enable(spi);
@@ -135,7 +108,7 @@ void PHAL_SPI_transferBlocking(SPI_InitConfig_t *spi,
     PHAL_SPI_transfer(spi, out_data, in_data, data_len);
     // Wait for this transfer to complete
     while (PHAL_SPI_busy(spi)) {
-        __asm__("nop");
+        __NOP();
     }
 }
 
