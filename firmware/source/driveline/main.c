@@ -8,6 +8,7 @@
 
 /* System Includes */
 #include "can_library/generated/DRIVELINE.h"
+#include "common/bootloader/application_version.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/adc/adc.h"
@@ -119,10 +120,12 @@ static PHAL_ADC_Handle_t adc4_handle;
 extern void HardFault_Handler();
 void shockpots_periodic();
 void oil_temps_periodic();
+void version_periodic();
 
 DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(shockpots_periodic, FRONT_SHOCKPOTS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
 RTOS_DEFINE_TASK(oil_temps_periodic, FRONT_OIL_TEMPS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
+RTOS_DEFINE_TASK(version_periodic, FRONT_DRIVELINE_VERSION_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -161,6 +164,7 @@ int main(void) {
     SEND_INIT(WDG_get_CSR());
     RTOS_START_TASK(shockpots_periodic);
     RTOS_START_TASK(oil_temps_periodic);
+    RTOS_START_TASK(version_periodic);
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 
@@ -172,6 +176,12 @@ int main(void) {
 // globals for GDB
 uint16_t left_length_scaled = 0;
 uint16_t right_length_scaled = 0;
+void version_periodic() {
+    static_assert(FRONT_DRIVELINE_VERSION_PERIOD_MS == 5000U);
+    static_assert(REAR_DRIVELINE_VERSION_PERIOD_MS == 5000U);
+    SEND_VERSION(GIT_HASH, APPLICATION_BOOTLOADABLE);
+}
+
 void shockpots_periodic() {
     static_assert(FRONT_SHOCKPOTS_LAYOUT_HASH == REAR_SHOCKPOTS_LAYOUT_HASH, "Shockpot messages should be the same");
     static constexpr float ADC_MAX         = 4095.0f;

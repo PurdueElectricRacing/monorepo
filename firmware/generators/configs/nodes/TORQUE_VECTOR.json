@@ -262,6 +262,22 @@
                     ],
                     "period_ms": 15,
                     "priority": 2
+                },
+                {
+                    "message_name": "torque_vector_version",
+                    "description": "Torque Vector version",
+                    "signals": [
+                        {
+                            "signal_name": "git_hash",
+                            "data_type": "uint32_t"
+                        },
+                        {
+                            "signal_name": "bootloadable",
+                            "data_type": "bool"
+                        }
+                    ],
+                    "period_ms": 5000,
+                    "priority": 4
                 }
             ],
             "rx": [
