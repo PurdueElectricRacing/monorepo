@@ -97,14 +97,6 @@ typedef struct {
 bool PHAL_DMA_init(PHAL_DMA_Handle_t *handle);
 
 /**
- * @brief Register a callback for this handle's channel interrupt.
- *
- * Call before PHAL_DMA_init. The DMA PHAL owns every DMAx_ChannelN_IRQHandler
- * vector; this is how another HAL gets notified instead of defining (and
- * fighting over) that vector itself. PHAL_DMA_init also arms the NVIC line
- * for this channel automatically once a callback is registered.
- */
-/**
  * @brief Setup DMA callback then call PHAL_DMA_init()
  *
  * Additional behavior:
