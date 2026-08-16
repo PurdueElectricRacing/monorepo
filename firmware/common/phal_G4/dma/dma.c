@@ -9,17 +9,17 @@
 
 #include "common/phal_G4/dma/dma_priv.h"
 
-// Tracks which (periph, channel_idx) pairs are currently claimed by a live handle,
-// so two handles can never conflict fight over the same channel.
+// Tracks which (periph, channel_idx) pairs are owned by a live handle.
+// Doubles as (a) conflict prevention when claiming a channel and (b) the
+// DMA PHAL's dispatch table for its own IRQ vectors below — this is what
+// lets DMA own every DMAx_ChannelN_IRQHandler while other HALs just
+// register a callback instead of defining competing vectors.
 // Index 0 is unused (channel numbering is 1-8).
+static PHAL_DMA_Handle_t *g_dma1_channel_owner[9];
+static PHAL_DMA_Handle_t *g_dma2_channel_owner[9];
 
-static bool g_dma1_channel_claimed[9];
-static bool g_dma2_channel_claimed[9];
-
-
-
-static bool *dma_channel_claim_slot(DMA_TypeDef *periph, uint8_t channel_idx) {
-    bool *table = (periph == DMA1) ? g_dma1_channel_claimed : g_dma2_channel_claimed;
+static PHAL_DMA_Handle_t **dma_channel_owner_slot(DMA_TypeDef *periph, uint8_t channel_idx) {
+    PHAL_DMA_Handle_t **table = (periph == DMA1) ? g_dma1_channel_owner : g_dma2_channel_owner;
     return &table[channel_idx];
 }
 
@@ -39,8 +39,8 @@ bool PHAL_DMA_init(PHAL_DMA_Handle_t *handle) {
     }
 
     const PHAL_DMA_Wiring_t *wiring = handle->wiring;
-    bool *claimed = dma_channel_claim_slot(wiring->periph, wiring->channel_idx);
-    if (*claimed) {
+    PHAL_DMA_Handle_t **owner = dma_channel_owner_slot(wiring->periph, wiring->channel_idx);
+    if (*owner != nullptr) {
         // Already claimed by another handle
         return false;
     }
@@ -61,8 +61,18 @@ bool PHAL_DMA_init(PHAL_DMA_Handle_t *handle) {
         PHAL_DMA_priv_configMux(wiring);
     }
 
-    *claimed = true;
+    *owner = handle;
+
     return true;
+}
+
+bool PHAL_DMA_initWithCallback(PHAL_DMA_Handle_t *handle, PHAL_DMA_IRQCallbackFn_t irq_fn, void *ctx) {
+    if (handle == nullptr) {
+        return false;
+    }
+    handle->callback.irq_fn = irq_fn;
+    handle->callback.ctx    = ctx;
+    return PHAL_DMA_init(handle);
 }
 
 bool PHAL_DMA_deinit(PHAL_DMA_Handle_t *handle) {
@@ -71,8 +81,14 @@ bool PHAL_DMA_deinit(PHAL_DMA_Handle_t *handle) {
     }
 
     PHAL_DMA_priv_disableChannel(handle->channel);
-    *dma_channel_claim_slot(handle->wiring->periph, handle->wiring->channel_idx) = false;
+
+
+    *dma_channel_owner_slot(handle->wiring->periph, handle->wiring->channel_idx) = nullptr;
+    
     handle->channel = nullptr;
+    handle->callback.irq_fn = nullptr;
+    handle->callback.ctx = nullptr;
+    
     return true;
 }
 
