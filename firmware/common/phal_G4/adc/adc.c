@@ -13,11 +13,9 @@
 // handle that owns the channel that fired.
 static PHAL_ADC_Handle_t *g_active_adc[4];
 
-/// USART DMA fallback used when DMA1 channel 1 is not owned by ADC1.
-extern void PHAL_USART_DMA1_Channel1_IRQHandler(void) __attribute__((weak));
 
-/// SPI DMA fallback used when DMA2 channel 3 is not owned by ADC4.
-extern void PHAL_SPI_DMA2_Channel3_IRQHandler(void) __attribute__((weak));
+static void adc_dma_callback(void *ctx);
+
 
 /// Map a supported ADC instance to its zero-based active-handle slot.
 static uint8_t adc_instance_index(ADC_TypeDef *instance) {
@@ -71,11 +69,6 @@ static IRQn_Type adc_dma_irqn(ADC_TypeDef *instance) {
     return (IRQn_Type)(base + wiring->channel_idx - 1);
 }
 
-/// Enable the NVIC interrupt for an ADC instance's DMA channel.
-static void adc_nvic_enable(ADC_TypeDef *instance) {
-    NVIC_EnableIRQ(adc_dma_irqn(instance));
-}
-
 // --- transfer plumbing -------------------------------------------------------
 
 /// Atomically claim transfer completion for either polling or interrupt code.
@@ -125,14 +118,14 @@ bool PHAL_ADC_init(PHAL_ADC_Handle_t *handle, const PHAL_ADC_Config_t *config) {
         .mem_inc    = true,
         .tx_isr_en  = true, // transfer-complete interrupt drives the callback
     };
-    if (!PHAL_DMA_init(&handle->dma)) {
+
+    if (!PHAL_DMA_initWithCallback(&handle->dma, adc_dma_callback, handle)) {
         ADC_PRIV_disable(config->instance);
         handle->config = nullptr;
         return false;
     }
 
     g_active_adc[index] = handle;
-    adc_nvic_enable(config->instance);
     return true;
 }
 
@@ -257,35 +250,8 @@ static void adc_dma_irq_handler(PHAL_ADC_Handle_t *handle) {
     }
 }
 
-// These vectors are strong so ADC completion is deterministic. Contested
-// channels delegate to the other PHAL only when no ADC owns that DMA channel;
-// DMA channel claiming prevents both peripherals from being active at once.
-/// Dispatch DMA1 channel 1 to ADC1 or its USART3 RX fallback owner.
-void DMA1_Channel1_IRQHandler(void) {
-    if (g_active_adc[0] != nullptr) {
-        adc_dma_irq_handler(g_active_adc[0]);
-    } else if (PHAL_USART_DMA1_Channel1_IRQHandler != nullptr) {
-        PHAL_USART_DMA1_Channel1_IRQHandler();
-    }
-}
-
-/// Dispatch the ADC2 DMA transfer interrupt.
-void DMA2_Channel1_IRQHandler(void) {
-    adc_dma_irq_handler(g_active_adc[1]);
-}
-
-/// Dispatch the ADC3 DMA transfer interrupt.
-void DMA2_Channel2_IRQHandler(void) {
-    adc_dma_irq_handler(g_active_adc[2]);
-}
-
-/// Dispatch DMA2 channel 3 to ADC4 or its SPI3 TX fallback owner.
-void DMA2_Channel3_IRQHandler(void) {
-    if (g_active_adc[3] != nullptr) {
-        adc_dma_irq_handler(g_active_adc[3]);
-    } else if (PHAL_SPI_DMA2_Channel3_IRQHandler != nullptr) {
-        PHAL_SPI_DMA2_Channel3_IRQHandler();
-    }
+static void adc_dma_callback(void *ctx) {
+    adc_dma_irq_handler((PHAL_ADC_Handle_t *)ctx);
 }
 
 [[gnu::weak]] void PHAL_ADC_conversionCompleteCallback(PHAL_ADC_Handle_t *handle) {
