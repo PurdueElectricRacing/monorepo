@@ -161,9 +161,7 @@ class NodeDeclaration(DeclarationModel):
         return self
 
 
-class ExternalNodeDeclaration(DeclarationModel):
-    node_name: str
-    bus_name: str
+class ExternalBusDeclaration(DeclarationModel):
     tx: list[MessageDeclaration] = Field(default_factory=list)
     rx: list[RxSubscriptionDeclaration] = Field(default_factory=list)
 
@@ -173,6 +171,18 @@ class ExternalNodeDeclaration(DeclarationModel):
         duplicate = _duplicate_value(names)
         if duplicate is not None:
             raise ValueError(f"duplicate RX message '{duplicate}'")
+        return self
+
+
+class ExternalNodeDeclaration(ExternalBusDeclaration):
+    node_name: str
+    bus_name: str | None = None
+    busses: Annotated[dict[str, ExternalBusDeclaration], Field(min_length=1)] | None = None
+
+    @model_validator(mode="after")
+    def exactly_one_bus_layout(self) -> Self:
+        if (self.bus_name is None) == (self.busses is None):
+            raise ValueError("exactly one of bus_name or busses must be configured")
         return self
 
 
