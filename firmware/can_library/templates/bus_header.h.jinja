@@ -9,9 +9,10 @@
  */
 
 #include <stdint.h>
+#include "can_library/can_common.h"
 #include "can_library/generated/can_types.h"
 
-static constexpr uint32_t {{ bus_name|upper }}_BAUD_RATE = {{ config.baud_rate }};
+static constexpr PHAL_FDCAN_BaudRate_t {{ bus_name|upper }}_BAUD_RATE = {{ baud_label }};
 
 {% for msg in messages %}
 static constexpr uint32_t {{ msg.macro_name }}_MSG_ID = {{ msg.final_id|to_c_hex }};

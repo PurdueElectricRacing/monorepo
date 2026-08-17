@@ -9,6 +9,11 @@ from typing import List, Dict, Optional, Any
 from parser import Node, Message, SystemContext
 from utils import GENERATED_DIR, print_as_success, print_as_ok, get_jinja_env, render_template
 
+BAUD_RATE_LABELS = {
+    250000: "FDCAN_BAUD_250K",
+    500000: "FDCAN_BAUD_500K",
+    1000000: "FDCAN_BAUD_1M",
+}
 
 @dataclass
 class SignalCodec:
@@ -380,10 +385,17 @@ def generate_node_header(env, node: Node, context: SystemContext):
                     ctx=render_context)
     print_as_ok(f"Generated {filename.name}")
 
+def baud_rate_label(bus_name: str, baud_rate: int) -> str:
+    if baud_rate not in BAUD_RATE_LABELS:
+        raise ValueError(f"Bus '{bus_name}' has unsupported baud rate {baud_rate}")
+    return BAUD_RATE_LABELS[baud_rate]
+
 def generate_bus_header(env, bus_name: str, config: Dict, messages: List[Message]):
+    baud_label = baud_rate_label(bus_name, config["baud_rate"])
     render_template(env, 'bus_header.h.jinja',
                     GENERATED_DIR / f"{bus_name}.h",
                     bus_name=bus_name,
                     config=config,
+                    baud_label=baud_label,
                     messages=messages)
     print_as_ok(f"Generated {bus_name}.h")
