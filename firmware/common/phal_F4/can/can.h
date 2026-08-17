@@ -33,7 +33,7 @@
 #define PHAL_CAN_24MHz_250k (0x003a0005) // sample point = 75%
 #define PHAL_CAN_36MHz_250k (0x003a0008) // sample point = 75%
 /**
- * @brief Supported baud rates for PER F4 FDCAN HAL.
+ * @brief Supported baud rates for PER F4 CAN HAL.
  */
 typedef enum : uint32_t {
     FDCAN_BAUD_250K = 250000U,

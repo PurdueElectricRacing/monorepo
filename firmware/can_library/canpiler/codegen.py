@@ -9,6 +9,9 @@ from typing import List, Dict, Optional, Any
 from parser import Node, Message, SystemContext
 from utils import GENERATED_DIR, print_as_success, print_as_ok, get_jinja_env, render_template
 
+# Supported CAN baud rates. Keep in sync with:
+# - baud_rate enum in bus.schema.json
+# - PHAL_FDCAN_BaudRate_t in phal_F4/can/can.h and phal_G4/can/can.h
 BAUD_RATE_LABELS = {
     250000: "FDCAN_BAUD_250K",
     500000: "FDCAN_BAUD_500K",
