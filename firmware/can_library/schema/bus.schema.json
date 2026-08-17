@@ -18,7 +18,7 @@
             "additionalProperties": false,
             "properties": {
                 "name": { "type": "string" },
-                "baud_rate": { "type": "integer" },
+                "baud_rate": { "type": "integer", "enum": [250000, 500000, 1000000] },
                 "is_extended_id": { "type": "boolean" },
                 "is_flexible_data_rate": { "type": "boolean" },
                 "host_fault_library": { "type": "boolean" }
