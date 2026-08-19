@@ -1,5 +1,13 @@
 var NAVTREEINDEX19 =
 {
+"syscalls_8c.html#a727b166113490efb1291e2255fe34700":[30,0,1,1,11,0,4],
+"syscalls_8c.html#a7a61311bdf1cb025fc07dc2bdae22ce4":[30,0,1,1,11,0,8],
+"syscalls_8c.html#a945e539df8e0f66d3c73c533fe1968ee":[30,0,1,1,11,0,3],
+"syscalls_8c.html#aa025a12d45f60c7d0eae249e61f0c7f9":[30,0,1,1,11,0,11],
+"syscalls_8c.html#ac694b0c9c3f6b77ce439a5f088658f5f":[30,0,1,1,11,0,7],
+"syscalls_8c.html#ad3134a3dc296622b8d1c5456e481505b":[30,0,1,1,11,0,5],
+"syscalls_8h.html":[30,0,1,1,11,1],
+"syscalls_8h.html#a062a5101199c3128edd5170f2575bb10":[30,0,1,1,11,1,6],
 "syscalls_8h.html#a38f8394eee3a086b87ff6d431e1e5343":[30,0,1,1,11,1,10],
 "syscalls_8h.html#a39b9754c96beda392bdb080bc5653e9e":[30,0,1,1,11,1,0],
 "syscalls_8h.html#a41eef54307912a82d20e71c3d47315aa":[30,0,1,1,11,1,2],
@@ -241,13 +249,5 @@ var NAVTREEINDEX19 =
 "usb__priv_8h.html#ae29a55bc0c87c71b9820e6b8ef9c7780":[30,0,1,1,7,10,3,9],
 "usb__priv_8h_source.html":[30,0,1,1,7,10,3],
 "usb__test_8c.html":[30,0,1,2,5,13],
-"utils_8py.html":[30,0,1,0,0,9],
-"utils_8py.html#a0978fa33a1b01da796b16e2ac1a1d0d5":[30,0,1,0,0,9,14],
-"utils_8py.html#a108b2584ebc0ab1afbafdf87e07d4a2d":[30,0,1,0,0,9,8],
-"utils_8py.html#a16b94f0d7e84a12470ef1807860b9a2a":[30,0,1,0,0,9,7],
-"utils_8py.html#a2a954ebd949f995dc4b81e28220bfe3d":[30,0,1,0,0,9,17],
-"utils_8py.html#a4cb58ea9f8c39930361007b88dc23128":[30,0,1,0,0,9,13],
-"utils_8py.html#a4f35b07617a1e95fc5141f807889221f":[30,0,1,0,0,9,11],
-"utils_8py.html#a5ea003cf13d4e3bb99f6df674fb22a21":[30,0,1,0,0,9,1],
-"utils_8py.html#a673d645eea2981b1aed0db6a0228f625":[30,0,1,0,0,9,3]
+"utils_8py.html":[30,0,1,0,0,9]
 };

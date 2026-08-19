@@ -164,7 +164,7 @@ var searchData=
   ['phal_5fdma_5fwiring_5ft_161',['PHAL_DMA_Wiring_t',['../structPHAL__DMA__Wiring__t.html',1,'']]],
   ['phal_5fenablemco1_162',['PHAL_enableMCO1',['../phal__F4_2rcc_2rcc_8c.html#aa3380d024468d5f414c910a81b965c58',1,'PHAL_enableMCO1(GPIO_TypeDef *bank, uint8_t pin, MCO1Source_t source, MCODivisor_t division):&#160;rcc.c'],['../phal__F4_2rcc_2rcc_8h.html#aa3380d024468d5f414c910a81b965c58',1,'PHAL_enableMCO1(GPIO_TypeDef *bank, uint8_t pin, MCO1Source_t source, MCODivisor_t division):&#160;rcc.c']]],
   ['phal_5ff4_2eh_163',['phal_F4.h',['../phal__F4_8h.html',1,'']]],
-  ['phal_5ffdcan_5fbaudrate_5ft_164',['PHAL_FDCAN_BaudRate_t',['../fdcan_8h.html#ab8c9770487a14259388dcada74c65d52',1,'fdcan.h']]],
+  ['phal_5ffdcan_5fbaudrate_5ft_164',['PHAL_FDCAN_BaudRate_t',['../can_8h.html#ab8c9770487a14259388dcada74c65d52',1,'PHAL_FDCAN_BaudRate_t:&#160;can.h'],['../fdcan_8h.html#ab8c9770487a14259388dcada74c65d52',1,'PHAL_FDCAN_BaudRate_t:&#160;fdcan.h']]],
   ['phal_5ffdcan_5fdefaultfilteraction_5ft_165',['PHAL_FDCAN_DefaultFilterAction_t',['../fdcan__priv_8h.html#a0fed4338eaa5e76c37bdbb72648c1de9',1,'fdcan_priv.h']]],
   ['phal_5ffdcan_5finit_166',['PHAL_FDCAN_init',['../fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d',1,'PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate):&#160;fdcan.c'],['../fdcan_8h.html#aba16c779399bc36e855cefa3df29c74d',1,'PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate):&#160;fdcan.c']]],
   ['phal_5ffdcan_5fmax_5fnum_5fsid_5ffilter_167',['PHAL_FDCAN_MAX_NUM_SID_FILTER',['../fdcan_8h.html#a510b9be40bbfb85b648899f915e6c0f2',1,'fdcan.h']]],

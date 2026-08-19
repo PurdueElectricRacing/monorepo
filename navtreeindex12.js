@@ -1,5 +1,13 @@
 var NAVTREEINDEX12 =
 {
+"phal__F4_2rcc_2rcc_8h_source.html":[30,0,1,1,6,7,1],
+"phal__F4_2spi_2spi_8c.html":[30,0,1,1,6,9,0],
+"phal__F4_2spi_2spi_8c.html#a0a4524eb6715f19d2d2128ad7f410269":[30,0,1,1,6,9,0,4],
+"phal__F4_2spi_2spi_8c.html#a214be7044d1c8a6193ccf7f3e883fab2":[30,0,1,1,6,9,0,9],
+"phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53":[30,0,1,1,6,9,0,2],
+"phal__F4_2spi_2spi_8c.html#a6785b1678cf5a69fb8f24742f2c82fb4":[30,0,1,1,6,9,0,10],
+"phal__F4_2spi_2spi_8c.html#a69ff6bfb4062ba171cfaeb45ed976b95":[30,0,1,1,6,9,0,0],
+"phal__F4_2spi_2spi_8c.html#a7412b93c6525c9c9e53677b29cc9f5aa":[30,0,1,1,6,9,0,14],
 "phal__F4_2spi_2spi_8c.html#a756235ee84f91148d0e0d83b3bf8396f":[30,0,1,1,6,9,0,13],
 "phal__F4_2spi_2spi_8c.html#a7593e1c8be8711c7bda6d7de43913816":[30,0,1,1,6,9,0,8],
 "phal__F4_2spi_2spi_8c.html#a8e9e5ef753602ac9e7822dee0923dd38":[30,0,1,1,6,9,0,1],
@@ -241,13 +249,5 @@ var NAVTREEINDEX12 =
 "phal__G4_2gpio_2gpio_8h.html#aaf8245f8a02295e529be4f20212f7239":[30,0,1,1,7,5,1,19],
 "phal__G4_2gpio_2gpio_8h.html#ac136253d4f95327bdfc8de3e3566f66a":[30,0,1,1,7,5,1,25],
 "phal__G4_2gpio_2gpio_8h.html#acae4e483ea4e2309b2b0f536440e5a7d":[30,0,1,1,7,5,1,18],
-"phal__G4_2gpio_2gpio_8h.html#ad3f38a7d8e668787c901b45734cf14a2":[30,0,1,1,7,5,1,28],
-"phal__G4_2gpio_2gpio_8h.html#ad75de767e481ca632d7f8a3f952a4ee8":[30,0,1,1,7,5,1,32],
-"phal__G4_2gpio_2gpio_8h.html#ad939a56e7460f63ef37d6562ce43373c":[30,0,1,1,7,5,1,4],
-"phal__G4_2gpio_2gpio_8h.html#ae07cde77ad92538f5b12aa3359762399":[30,0,1,1,7,5,1,39],
-"phal__G4_2gpio_2gpio_8h.html#ae395785147afb18096f8082644e49641":[30,0,1,1,7,5,1,1],
-"phal__G4_2gpio_2gpio_8h.html#ae55c4a0103f207b80bce6ee4413b8a23":[30,0,1,1,7,5,1,33],
-"phal__G4_2gpio_2gpio_8h.html#ae55c4a0103f207b80bce6ee4413b8a23a50ef5b89bbd5942e2df573b784793cef":[30,0,1,1,7,5,1,33,1],
-"phal__G4_2gpio_2gpio_8h.html#ae55c4a0103f207b80bce6ee4413b8a23a7dfaecf9a2876e9573415842538af8d8":[30,0,1,1,7,5,1,33,0],
-"phal__G4_2gpio_2gpio_8h.html#ae55c4a0103f207b80bce6ee4413b8a23aae87f6bb5af54ad09b302360cec2c3c3":[30,0,1,1,7,5,1,33,2]
+"phal__G4_2gpio_2gpio_8h.html#ad3f38a7d8e668787c901b45734cf14a2":[30,0,1,1,7,5,1,28]
 };

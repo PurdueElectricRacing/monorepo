@@ -106,7 +106,7 @@ Bus Definition (<code>configs/system/bus_configs.json</code>)</h1>
 <p>Validated by <code>bus.schema.json</code>. Describes each logical CAN bus (not how a node attaches to it).</p>
 <ul>
 <li><code>name</code>: Logical bus name (referenced by nodes and external nodes).</li>
-<li><code>baud_rate</code>: CAN bitrate for this bus.</li>
+<li><code>baud_rate</code>: CAN bitrate for this bus. Must be '250000', '500000', or '1000000' (250k, 500k, 1M).</li>
 <li><code>is_extended_id</code>: Boolean. Mixed-ID buses are not supported; all messages on a bus share this framing.</li>
 <li><code>is_flexible_data_rate</code>: Boolean. Whether this bus uses CAN FD.</li>
 <li><code>host_fault_library</code>: Boolean. If true, this bus is the primary uplink for fault communication (usually VCAN).</li>

@@ -1,5 +1,9 @@
 var NAVTREEINDEX7 =
 {
+"functions_s.html":[29,2,0,17],
+"functions_t.html":[29,2,0,18],
+"functions_u.html":[29,2,0,19],
+"functions_v.html":[29,2,0,20],
 "functions_vars.html":[29,2,2],
 "functions_vars.html":[29,2,2,0],
 "functions_vars_a.html":[29,2,2,1],
@@ -245,9 +249,5 @@ var NAVTREEINDEX7 =
 "izze__imu_8h_source.html":[30,0,1,1,3,0],
 "izze__imu__config_8c.html":[30,0,1,2,5,8],
 "lcd_8c.html":[30,0,1,2,2,1,4],
-"lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece":[30,0,1,2,2,1,4,3],
-"lcd_8c.html#a486267210dfc8118e23e6b1bc6090286":[30,0,1,2,2,1,4,5],
-"lcd_8c.html#a685b031373d6540844434c69377f10d2":[30,0,1,2,2,1,4,0],
-"lcd_8c.html#a70b38ce0660d25aa6a9381518e9ac622":[30,0,1,2,2,1,4,1],
-"lcd_8c.html#a75e03afeaf9e13a6399279ed36c0c59f":[30,0,1,2,2,1,4,6]
+"lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece":[30,0,1,2,2,1,4,3]
 };

@@ -12,6 +12,7 @@ var parser_8py =
     [ "_priority_period_convention_warning_reason", "parser_8py.html#abd7610fd54fdb6342a797c79528d5326", null ],
     [ "_require_bus_in_system", "parser_8py.html#a39dd231499813df1a4ab5cec0c23271b", null ],
     [ "_rx_msg_names_unique", "parser_8py.html#a7ae34e9906160780bae31c785075dc74", null ],
+    [ "baud_rate_label", "parser_8py.html#a395a00f4ca0570a345d290a7fd5cc347", null ],
     [ "create_system_context", "parser_8py.html#ac084676a30f9ea8eaec1ff9ca6509db5", null ],
     [ "load_bus_configs", "parser_8py.html#ab5cd10e7b003490287356ed390368b65", null ],
     [ "load_custom_types", "parser_8py.html#a93720c5cd2352c25b61ee5783cfe2096", null ],
@@ -24,5 +25,6 @@ var parser_8py =
     [ "parse_rx_message", "parser_8py.html#a9f6ddb691e003d5ce6b742fd95ad912e", null ],
     [ "parse_signal", "parser_8py.html#a90baad7778cf81ec13770fcab78f00ec", null ],
     [ "validate_node", "parser_8py.html#abe8bf0da5b89288baa73812d14e60f11", null ],
-    [ "warn_priority_period_convention", "parser_8py.html#a2689fefb020652c8c1cd58838d3d525d", null ]
+    [ "warn_priority_period_convention", "parser_8py.html#a2689fefb020652c8c1cd58838d3d525d", null ],
+    [ "BAUD_RATE_LABELS", "parser_8py.html#a54651c52e1a9aa70f31b54364f74229f", null ]
 ];

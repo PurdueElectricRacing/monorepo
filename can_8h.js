@@ -14,6 +14,11 @@ var can_8h =
     [ "PHAL_CAN_42MHz_500k", "can_8h.html#a899a2cc55a44f32a548a72013a8e87a4", null ],
     [ "PHAL_CAN_INIT_TIMEOUT", "can_8h.html#aab8c59dae5913bfc4a7aafc3812ef975", null ],
     [ "PHAL_CAN_TX_TIMEOUT", "can_8h.html#a4c48763fa1d6597fc262204b862f04a6", null ],
+    [ "PHAL_FDCAN_BaudRate_t", "can_8h.html#ab8c9770487a14259388dcada74c65d52", [
+      [ "FDCAN_BAUD_250K", "can_8h.html#ab8c9770487a14259388dcada74c65d52aec5f29d942fce50530aac5a3dbccc7e4", null ],
+      [ "FDCAN_BAUD_500K", "can_8h.html#ab8c9770487a14259388dcada74c65d52aaf9eb6196a8f422761e84b93f97205ed", null ],
+      [ "FDCAN_BAUD_1M", "can_8h.html#ab8c9770487a14259388dcada74c65d52a9cd01de5a2633a9af521f37c3519f54c", null ]
+    ] ],
     [ "PHAL_anyTxMailboxFree", "can_8h.html#a07deff2679c94082b43b04caa1c391cf", null ],
     [ "PHAL_CAN_rxCallback", "can_8h.html#af35b2b3e9e95b56cdedbc9e86b628303", null ],
     [ "PHAL_CAN_txCallback", "can_8h.html#abea544fd85dbc838418e27db4c2842df", null ],
