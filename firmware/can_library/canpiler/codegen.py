@@ -9,6 +9,7 @@ from typing import List, Dict, Optional, Any
 from parser import Node, Message, SystemContext
 from utils import GENERATED_DIR, print_as_success, print_as_ok, get_jinja_env, render_template
 
+
 @dataclass
 class SignalCodec:
     signal: Any
