@@ -14,6 +14,15 @@ from utils import (
     get_git_hash, get_layout_hash, print_as_warning
 )
 
+# Supported CAN baud rates. Keep in sync with:
+# - baud_rate enum in bus.schema.json
+# - PHAL_FDCAN_BaudRate_t in phal_F4/can/can.h and phal_G4/fdcan/fdcan.h
+BAUD_RATE_LABELS = {
+    250000: "FDCAN_BAUD_250K",
+    500000: "FDCAN_BAUD_500K",
+    1000000: "FDCAN_BAUD_1M",
+}
+
 @dataclass
 class Signal:
     name: str
@@ -325,11 +334,19 @@ def load_custom_types() -> Dict:
     except FileNotFoundError:
         return {}
 
+def baud_rate_label(bus_name: str, baud_rate: int) -> str:
+    if baud_rate not in BAUD_RATE_LABELS:
+        raise ValueError(f"Bus '{bus_name}' has unsupported baud rate {baud_rate}.")
+    return BAUD_RATE_LABELS[baud_rate]
+
 def load_bus_configs() -> Dict:
     """Load bus configurations from bus_configs.json"""
     try:
         data = load_json(BUS_CONFIG_PATH)
-        return {b["name"]: b for b in data.get("busses", [])}
+        configs = {b["name"]: b for b in data.get("busses", [])}
+        for name, cfg in configs.items():
+            cfg["baud_label"] = baud_rate_label(name, cfg["baud_rate"])
+        return configs
     except FileNotFoundError:
         return {}
 
