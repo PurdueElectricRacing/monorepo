@@ -384,6 +384,5 @@ def generate_bus_header(env, bus_name: str, config: Dict, messages: List[Message
                     GENERATED_DIR / f"{bus_name}.h",
                     bus_name=bus_name,
                     config=config,
-                    baud_label=config["baud_label"],
                     messages=messages)
     print_as_ok(f"Generated {bus_name}.h")

@@ -340,7 +340,7 @@ def baud_rate_label(bus_name: str, baud_rate: int) -> str:
     return BAUD_RATE_LABELS[baud_rate]
 
 def load_bus_configs() -> Dict:
-    """Load bus configurations from bus_configs.json"""
+    """Load bus configurations from bus_configs.json and attach each bus's baud rate enum label."""
     try:
         data = load_json(BUS_CONFIG_PATH)
         configs = {b["name"]: b for b in data.get("busses", [])}
