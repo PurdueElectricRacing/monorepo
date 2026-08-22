@@ -19,11 +19,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install host test dependencies
-        run: |
-          apt-get update
-          apt-get install -y gcc g++ lcov libgtest-dev
-
       - name: Build, test, and generate coverage
         env:
           CC: gcc

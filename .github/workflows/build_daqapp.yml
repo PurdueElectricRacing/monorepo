@@ -9,15 +9,12 @@ jobs:
   fmt:
     name: Check formatting
     runs-on: ubuntu-latest
+    container:
+      image: irvingywang/per-firmware:latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: stable
 
       - name: Cargo Format
         working-directory: daqapp
@@ -26,27 +23,19 @@ jobs:
   build:
     name: Build DAQApp
     runs-on: ubuntu-latest
+    container:
+      image: irvingywang/per-firmware:latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libudev-dev
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: stable
-
       - name: Cache Cargo
         uses: actions/cache@v4
         with:
           path: |
-            ~/.cargo/registry
-            ~/.cargo/git
+            /opt/cargo/registry
+            /opt/cargo/git
             daqapp/target
           key: ${{ runner.os }}-daqapp-${{ hashFiles('daqapp/Cargo.lock') }}
           restore-keys: |
