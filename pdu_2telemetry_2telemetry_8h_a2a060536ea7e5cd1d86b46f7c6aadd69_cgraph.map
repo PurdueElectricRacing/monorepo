@@ -1,11 +1,7 @@
 <map id="telemetry_10hz" name="telemetry_10hz">
-<area shape="rect" id="Node000001" title="Reports telemetry data at 10 Hz rate Includes: Rail Voltages and Currents, Flow Rates." alt="" coords="5,84,114,110"/>
-<area shape="rect" id="Node000002" href="$flow__rate_8c.html#a18ce00ce5146e9ad55ffa75bbaadc671" title=" " alt="" coords="173,5,274,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,81,160,40,171,35,174,40,163,45,85,86"/>
-<area shape="rect" id="Node000003" href="$flow__rate_8c.html#a741b10091a7e4da3b7de70531d41b7ad" title=" " alt="" coords="173,55,274,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="114,85,157,77,158,82,115,90"/>
-<area shape="rect" id="Node000004" href="$pdu_2telemetry_2telemetry_8c.html#a9e4124d7d440f39f40b30e81c1a718fc" title=" " alt="" coords="162,104,285,145"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="115,103,146,109,145,114,114,109"/>
-<area shape="rect" id="Node000005" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="177,169,270,195"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="83,108,163,154,175,160,173,165,160,159,80,112"/>
+<area shape="rect" id="Node000001" title="Reports telemetry data at 10 Hz rate Includes: Rail Voltages and Currents." alt="" coords="5,42,114,68"/>
+<area shape="rect" id="Node000002" href="$pdu_2telemetry_2telemetry_8c.html#a9e4124d7d440f39f40b30e81c1a718fc" title=" " alt="" coords="162,5,285,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,43,145,37,146,42,115,48"/>
+<area shape="rect" id="Node000003" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="177,70,270,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="115,62,163,70,162,75,114,67"/>
 </map>

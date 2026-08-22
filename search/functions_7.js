@@ -17,7 +17,5 @@ var searchData=
   ['get_5fled_5fstatus_14',['get_LED_status',['../led_8c.html#ab2644007c0a1014ac3229035bd76a257',1,'get_LED_status(int led):&#160;led.c'],['../led_8h.html#ab2644007c0a1014ac3229035bd76a257',1,'get_LED_status(int led):&#160;led.c']]],
   ['get_5fnext_5ffilename_15',['get_next_filename',['../sd__card_8c.html#ac8e3e1c6c9d36eada7e3938c604a37ad',1,'sd_card.c']]],
   ['get_5ftotal_5fbit_5flength_16',['get_total_bit_length',['../classparser_1_1Message.html#a3dad1a041ac061010a4661e5d458d301',1,'parser::Message']]],
-  ['getflowrate1_17',['getFlowRate1',['../flow__rate_8c.html#a18ce00ce5146e9ad55ffa75bbaadc671',1,'getFlowRate1():&#160;flow_rate.c'],['../flow__rate_8h.html#a18ce00ce5146e9ad55ffa75bbaadc671',1,'getFlowRate1():&#160;flow_rate.c']]],
-  ['getflowrate2_18',['getFlowRate2',['../flow__rate_8c.html#a741b10091a7e4da3b7de70531d41b7ad',1,'getFlowRate2():&#160;flow_rate.c'],['../flow__rate_8h.html#a741b10091a7e4da3b7de70531d41b7ad',1,'getFlowRate2():&#160;flow_rate.c']]],
-  ['gps_5fperiodic_19',['gps_periodic',['../gps_8c.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c'],['../sensors_8h.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c']]]
+  ['gps_5fperiodic_17',['gps_periodic',['../gps_8c.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c'],['../sensors_8h.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c']]]
 ];
