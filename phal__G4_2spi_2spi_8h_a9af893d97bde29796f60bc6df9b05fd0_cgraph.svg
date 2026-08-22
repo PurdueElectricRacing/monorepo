@@ -49,7 +49,7 @@
 <script type="application/ecmascript">
 var viewWidth = 610;
 var viewHeight = 397;
-var sectionId = 'dynsection-5';
+var sectionId = 'dynsection-4';
 </script>
 <script type="application/ecmascript" xlink:href="svg.min.js"/>
 <svg id="graph" class="graph">
@@ -328,7 +328,7 @@ var sectionId = 'dynsection-5';
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="dma__priv_8c.html#a6a38d32b32c9d8a52740339bf2cb1e19" target="_top" xlink:title="True if the channel is currently enabled.">
+<g id="a_Node000008"><a xlink:href="dma__priv_8c.html#a373215c7b544651748d4877fb7d787dd" target="_top" xlink:title="True if the channel is currently enabled.">
 <polygon fill="white" stroke="#666666" points="508.5,-241.25 335,-241.25 335,-222 508.5,-222 508.5,-241.25"/>
 <text text-anchor="middle" x="421.75" y="-227.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_isChannelEnabled</text>
 </a>

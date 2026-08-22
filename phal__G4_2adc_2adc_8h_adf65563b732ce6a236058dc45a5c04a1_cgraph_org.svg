@@ -164,7 +164,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="adc__priv_8c.html#a1cfb0af3466d2b09a77acffade668854" target="_top" xlink:title="Return whether an ADC instance is supported by this driver.">
+<g id="a_Node000003"><a xlink:href="adc__priv_8c.html#a4dfd17ae40b5131a2f5e4c92814dafad" target="_top" xlink:title="Return whether an ADC instance is supported by this driver.">
 <polygon fill="white" stroke="#666666" points="423,-810.88 303.5,-810.88 303.5,-780.38 423,-780.38 423,-810.88"/>
 <text text-anchor="start" x="311.5" y="-797.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADC_PRIV_instance_is</text>
 <text text-anchor="middle" x="363.25" y="-786.12" font-family="Helvetica,sans-Serif" font-size="10.00">_supported</text>
@@ -274,7 +274,7 @@
 <!-- Node15 -->
 <g id="Node000015" class="node">
 <title>Node15</title>
-<g id="a_Node000015"><a xlink:href="phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" target="_top" xlink:title="Check whether the channel has finished its transfer (TC flag set)">
+<g id="a_Node000015"><a xlink:href="phal__G4_2dma_2dma_8c.html#a8b762b52851e14b6724a69695a8a1e5a" target="_top" xlink:title="Check whether the channel has finished its transfer (TC flag set)">
 <polygon fill="white" stroke="#666666" points="602.12,-302.25 478.12,-302.25 478.12,-283 602.12,-283 602.12,-302.25"/>
 <text text-anchor="middle" x="540.12" y="-288.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_isComplete</text>
 </a>
@@ -292,7 +292,7 @@
 <!-- Node17 -->
 <g id="Node000017" class="node">
 <title>Node17</title>
-<g id="a_Node000017"><a xlink:href="phal__G4_2dma_2dma_8c.html#a8cf5974ead7304601becd26d9ae9d6c4" target="_top" xlink:title="Check whether the channel reported a transfer error (TE flag set)">
+<g id="a_Node000017"><a xlink:href="phal__G4_2dma_2dma_8c.html#afdefd9fd419dba197e3c754056e50f69" target="_top" xlink:title="Check whether the channel reported a transfer error (TE flag set)">
 <polygon fill="white" stroke="#666666" points="591.62,-265.25 488.62,-265.25 488.62,-246 591.62,-246 591.62,-265.25"/>
 <text text-anchor="middle" x="540.12" y="-251.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_isError</text>
 </a>
@@ -355,7 +355,7 @@
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" target="_top" xlink:title="Wait for masked register bits to reach the requested state.">
+<g id="a_Node000009"><a xlink:href="adc__priv_8c.html#ad76bcc9338ec2464412b8e0fcd2bd1b3" target="_top" xlink:title="Wait for masked register bits to reach the requested state.">
 <polygon fill="white" stroke="#666666" points="1009.5,-632.25 900.5,-632.25 900.5,-613 1009.5,-613 1009.5,-632.25"/>
 <text text-anchor="middle" x="955" y="-618.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_wait_for_register</text>
 </a>
@@ -409,7 +409,7 @@
 <!-- Node16 -->
 <g id="Node000016" class="node">
 <title>Node16</title>
-<g id="a_Node000016"><a xlink:href="dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" target="_top" xlink:title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)">
+<g id="a_Node000016"><a xlink:href="dma__priv_8c.html#adf33cac6892b314e0d5db3149d6e79fd" target="_top" xlink:title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)">
 <polygon fill="white" stroke="#666666" points="832.25,-302.25 657.25,-302.25 657.25,-283 832.25,-283 832.25,-302.25"/>
 <text text-anchor="middle" x="744.75" y="-288.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_readCompleteFlag</text>
 </a>
@@ -427,7 +427,7 @@
 <!-- Node18 -->
 <g id="Node000018" class="node">
 <title>Node18</title>
-<g id="a_Node000018"><a xlink:href="dma__priv_8c.html#ada0695302c27bdff977fe6ec4fbd902f" target="_top" xlink:title="True if the transfer&#45;error flag is currently set for (periph, channel_idx)">
+<g id="a_Node000018"><a xlink:href="dma__priv_8c.html#a4ba00b16b3b76187b0e14da65914c6df" target="_top" xlink:title="True if the transfer&#45;error flag is currently set for (periph, channel_idx)">
 <polygon fill="white" stroke="#666666" points="821.75,-265.25 667.75,-265.25 667.75,-246 821.75,-246 821.75,-265.25"/>
 <text text-anchor="middle" x="744.75" y="-251.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_readErrorFlag</text>
 </a>
@@ -472,7 +472,7 @@
 <!-- Node23 -->
 <g id="Node000023" class="node">
 <title>Node23</title>
-<g id="a_Node000023"><a xlink:href="adc__priv_8c.html#a497a62c24dd03f65a68b0c11d7483cc1" target="_top" xlink:title="Select the synchronous HCLK/4 ADC clock if it is not already configured.">
+<g id="a_Node000023"><a xlink:href="adc__priv_8c.html#a0f0f05de0cffac36f6034d0091ac79c4" target="_top" xlink:title="Select the synchronous HCLK/4 ADC clock if it is not already configured.">
 <polygon fill="white" stroke="#666666" points="592.38,-687.25 487.88,-687.25 487.88,-668 592.38,-668 592.38,-687.25"/>
 <text text-anchor="middle" x="540.12" y="-673.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_configure_clock</text>
 </a>
@@ -526,7 +526,7 @@
 <!-- Node29 -->
 <g id="Node000029" class="node">
 <title>Node29</title>
-<g id="a_Node000029"><a xlink:href="adc__priv_8c.html#ad3262ac785543c903e694fc6e3e19d73" target="_top" xlink:title="Enable and synchronize the peripheral clock for an ADC instance.">
+<g id="a_Node000029"><a xlink:href="adc__priv_8c.html#ab48aaf81821ed3c52caa0bc5060d61b7" target="_top" xlink:title="Enable and synchronize the peripheral clock for an ADC instance.">
 <polygon fill="white" stroke="#666666" points="587.12,-539.25 493.12,-539.25 493.12,-520 587.12,-520 587.12,-539.25"/>
 <text text-anchor="middle" x="540.12" y="-525.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_enable_clock</text>
 </a>
@@ -580,7 +580,7 @@
 <!-- Node24 -->
 <g id="Node000024" class="node">
 <title>Node24</title>
-<g id="a_Node000024"><a xlink:href="adc__priv_8c.html#afb224045594ce20e2052c6807f88868a" target="_top" xlink:title="Return the common register bank containing an ADC instance.">
+<g id="a_Node000024"><a xlink:href="adc__priv_8c.html#aa9a612b40213f953aa4169c1f6a0b6f2" target="_top" xlink:title="Return the common register bank containing an ADC instance.">
 <polygon fill="white" stroke="#666666" points="803.38,-686.25 686.12,-686.25 686.12,-667 803.38,-667 803.38,-686.25"/>
 <text text-anchor="middle" x="744.75" y="-672.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_common_registers</text>
 </a>
@@ -769,7 +769,7 @@
 <!-- Node40 -->
 <g id="Node000040" class="node">
 <title>Node40</title>
-<g id="a_Node000040"><a xlink:href="dma__priv_8c.html#a98c01cf2ce77f94763ff918f7f939e0e" target="_top" xlink:title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock.">
+<g id="a_Node000040"><a xlink:href="dma__priv_8c.html#a8170a3136b79b3e63455133955dd3c18" target="_top" xlink:title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock.">
 <polygon fill="white" stroke="#666666" points="1029.75,-130.25 880.25,-130.25 880.25,-111 1029.75,-111 1029.75,-130.25"/>
 <text text-anchor="middle" x="955" y="-116.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_enableClock</text>
 </a>
@@ -787,7 +787,7 @@
 <!-- Node41 -->
 <g id="Node000041" class="node">
 <title>Node41</title>
-<g id="a_Node000041"><a xlink:href="dma__priv_8c.html#ae2f74296c8912f0000fa614d49bd1ab8" target="_top" xlink:title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8.">
+<g id="a_Node000041"><a xlink:href="dma__priv_8c.html#a28c2eff8a85e591630df54f2fa239c0d" target="_top" xlink:title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8.">
 <polygon fill="white" stroke="#666666" points="1027.5,-93.25 882.5,-93.25 882.5,-74 1027.5,-74 1027.5,-93.25"/>
 <text text-anchor="middle" x="955" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_getChannel</text>
 </a>

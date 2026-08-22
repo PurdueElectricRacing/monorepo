@@ -55,7 +55,7 @@ var phal__G4_2gpio_2gpio_8h =
       [ "GPIO_TYPE_ANALOG", "phal__G4_2gpio_2gpio_8h.html#a976b33799b2b8c4fe7d2a4415a88991baf0d3c2f5e6b6a52247a85482f03476bc", null ]
     ] ],
     [ "PHAL_initGPIO", "phal__G4_2gpio_2gpio_8h.html#a9f473c8a74e27d069fa4de69fcbb4d60", null ],
-    [ "PHAL_readGPIO", "phal__G4_2gpio_2gpio_8h.html#a613ebbfff35a56132e58a75c773d7876", null ],
+    [ "PHAL_readGPIO", "phal__G4_2gpio_2gpio_8h.html#a706250edb16aab8be81b6eaa631b39bd", null ],
     [ "PHAL_toggleGPIO", "phal__G4_2gpio_2gpio_8h.html#ae07cde77ad92538f5b12aa3359762399", null ],
     [ "PHAL_writeGPIO", "phal__G4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b", null ]
 ];

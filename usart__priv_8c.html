@@ -141,9 +141,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ae9ec242ef3f5a8022451063afa1f8c76" id="r_ae9ec242ef3f5a8022451063afa1f8c76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9ec242ef3f5a8022451063afa1f8c76">PHAL_USART_priv_flushRx</a> (USART_TypeDef *periph)</td></tr>
 <tr class="memdesc:ae9ec242ef3f5a8022451063afa1f8c76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Discard anything sitting in RDR and clear IDLE plus every RX error flag.  <br /></td></tr>
 <tr class="separator:ae9ec242ef3f5a8022451063afa1f8c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14cbd92366d998b6d2d782218bebc199" id="r_a14cbd92366d998b6d2d782218bebc199"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14cbd92366d998b6d2d782218bebc199">PHAL_USART_priv_idleActive</a> (USART_TypeDef *periph)</td></tr>
-<tr class="memdesc:a14cbd92366d998b6d2d782218bebc199"><td class="mdescLeft">&#160;</td><td class="mdescRight">return true if the IDLE-line flag is set (an RX frame just completed).  <br /></td></tr>
-<tr class="separator:a14cbd92366d998b6d2d782218bebc199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47cef2efad7d81207fb666eaa6940dc5" id="r_a47cef2efad7d81207fb666eaa6940dc5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47cef2efad7d81207fb666eaa6940dc5">PHAL_USART_priv_idleActive</a> (const USART_TypeDef *periph)</td></tr>
+<tr class="memdesc:a47cef2efad7d81207fb666eaa6940dc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">return true if the IDLE-line flag is set (an RX frame just completed).  <br /></td></tr>
+<tr class="separator:a47cef2efad7d81207fb666eaa6940dc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1212ef1dceef204ae9b1d21396ce121a" id="r_a1212ef1dceef204ae9b1d21396ce121a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1212ef1dceef204ae9b1d21396ce121a">PHAL_USART_priv_clearIdle</a> (USART_TypeDef *periph)</td></tr>
 <tr class="memdesc:a1212ef1dceef204ae9b1d21396ce121a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the IDLE flag alone (write-1-to-clear).  <br /></td></tr>
 <tr class="separator:a1212ef1dceef204ae9b1d21396ce121a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -386,8 +386,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a14cbd92366d998b6d2d782218bebc199" name="a14cbd92366d998b6d2d782218bebc199"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14cbd92366d998b6d2d782218bebc199">&#9670;&#160;</a></span>PHAL_USART_priv_idleActive()</h2>
+<a id="a47cef2efad7d81207fb666eaa6940dc5" name="a47cef2efad7d81207fb666eaa6940dc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47cef2efad7d81207fb666eaa6940dc5">&#9670;&#160;</a></span>PHAL_USART_priv_idleActive()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -395,7 +395,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_USART_priv_idleActive </td>
           <td>(</td>
-          <td class="paramtype">USART_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span></td><td>)</td>
+          <td class="paramtype">const USART_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -405,7 +405,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a14cbd92366d998b6d2d782218bebc199_icgraph.svg" width="574" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usart__priv_8c_a47cef2efad7d81207fb666eaa6940dc5_icgraph.svg" width="574" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

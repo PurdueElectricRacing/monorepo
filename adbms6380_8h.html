@@ -172,9 +172,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a7dba9c62715355f360c6e4f1b150d334" id="r_a7dba9c62715355f360c6e4f1b150d334"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7dba9c62715355f360c6e4f1b150d334">adbms6380_get_threshold_voltage_cfg</a> (float threshold_voltage)</td></tr>
 <tr class="memdesc:a7dba9c62715355f360c6e4f1b150d334"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a voltage threshold (V) into 12-bit REG_B threshold encoding.  <br /></td></tr>
 <tr class="separator:a7dba9c62715355f360c6e4f1b150d334"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5015be743738347dcf5a108a0fd276d6" id="r_a5015be743738347dcf5a108a0fd276d6"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5015be743738347dcf5a108a0fd276d6">adbms6380_extract_i16</a> (uint8_t *data, int idx)</td></tr>
-<tr class="memdesc:a5015be743738347dcf5a108a0fd276d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a little-endian 16-bit signed value from a byte buffer.  <br /></td></tr>
-<tr class="separator:a5015be743738347dcf5a108a0fd276d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc87384e4826eb04ff2bd3edb00888da" id="r_acc87384e4826eb04ff2bd3edb00888da"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc87384e4826eb04ff2bd3edb00888da">adbms6380_extract_i16</a> (const uint8_t *data, int idx)</td></tr>
+<tr class="memdesc:acc87384e4826eb04ff2bd3edb00888da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a little-endian 16-bit signed value from a byte buffer.  <br /></td></tr>
+<tr class="separator:acc87384e4826eb04ff2bd3edb00888da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e9f567aae9798e09e92280c8919a184" id="r_a2e9f567aae9798e09e92280c8919a184"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e9f567aae9798e09e92280c8919a184">adbms6380_raw_to_v</a> (int16_t raw)</td></tr>
 <tr class="memdesc:a2e9f567aae9798e09e92280c8919a184"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert raw voltage measurement from the ADBMS6380 to volts.  <br /></td></tr>
 <tr class="separator:a2e9f567aae9798e09e92280c8919a184"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -673,8 +673,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a5015be743738347dcf5a108a0fd276d6" name="a5015be743738347dcf5a108a0fd276d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5015be743738347dcf5a108a0fd276d6">&#9670;&#160;</a></span>adbms6380_extract_i16()</h2>
+<a id="acc87384e4826eb04ff2bd3edb00888da" name="acc87384e4826eb04ff2bd3edb00888da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc87384e4826eb04ff2bd3edb00888da">&#9670;&#160;</a></span>adbms6380_extract_i16()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -682,7 +682,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">int16_t adbms6380_extract_i16 </td>
           <td>(</td>
-          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+          <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -704,7 +704,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a5015be743738347dcf5a108a0fd276d6_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_acc87384e4826eb04ff2bd3edb00888da_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

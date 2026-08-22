@@ -127,12 +127,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a5cc683403abbabe7a848dd389b42489a" id="r_a5cc683403abbabe7a848dd389b42489a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cc683403abbabe7a848dd389b42489a">adbms_init</a> (<a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, <a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, uint8_t *tx_buf)</td></tr>
 <tr class="memdesc:a5cc683403abbabe7a848dd389b42489a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the ADBMS driver instance and TX buffer.  <br /></td></tr>
 <tr class="separator:a5cc683403abbabe7a848dd389b42489a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ceab739f8b66723399246ee5b0e7e8d" id="r_a6ceab739f8b66723399246ee5b0e7e8d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ceab739f8b66723399246ee5b0e7e8d">adbms_write_rega</a> (<a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
-<tr class="memdesc:a6ceab739f8b66723399246ee5b0e7e8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate and write REGA configuration to all modules.  <br /></td></tr>
-<tr class="separator:a6ceab739f8b66723399246ee5b0e7e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a1de4cc72e92ed7719f251886fad5e4" id="r_a3a1de4cc72e92ed7719f251886fad5e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a1de4cc72e92ed7719f251886fad5e4">adbms_write_regb</a> (<a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
-<tr class="memdesc:a3a1de4cc72e92ed7719f251886fad5e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate and write REGB configuration to all modules.  <br /></td></tr>
-<tr class="separator:a3a1de4cc72e92ed7719f251886fad5e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a710830115ef52a6def439f645d0fc57d" id="r_a710830115ef52a6def439f645d0fc57d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a710830115ef52a6def439f645d0fc57d">adbms_write_rega</a> (<a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a710830115ef52a6def439f645d0fc57d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate and write REGA configuration to all modules.  <br /></td></tr>
+<tr class="separator:a710830115ef52a6def439f645d0fc57d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0833cbe8198d911a52d6a4f24dda2a38" id="r_a0833cbe8198d911a52d6a4f24dda2a38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0833cbe8198d911a52d6a4f24dda2a38">adbms_write_regb</a> (<a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a0833cbe8198d911a52d6a4f24dda2a38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate and write REGB configuration to all modules.  <br /></td></tr>
+<tr class="separator:a0833cbe8198d911a52d6a4f24dda2a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68601bac2f608a0cb78fa1f018c22b1d" id="r_a68601bac2f608a0cb78fa1f018c22b1d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68601bac2f608a0cb78fa1f018c22b1d">adbms_read_and_check_rega</a> (<a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
 <tr class="memdesc:a68601bac2f608a0cb78fa1f018c22b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read back REGA and compare with cached configuration.  <br /></td></tr>
 <tr class="separator:a68601bac2f608a0cb78fa1f018c22b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -522,14 +522,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a6ceab739f8b66723399246ee5b0e7e8d" name="a6ceab739f8b66723399246ee5b0e7e8d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ceab739f8b66723399246ee5b0e7e8d">&#9670;&#160;</a></span>adbms_write_rega()</h2>
+<a id="a710830115ef52a6def439f645d0fc57d" name="a710830115ef52a6def439f645d0fc57d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a710830115ef52a6def439f645d0fc57d">&#9670;&#160;</a></span>adbms_write_rega()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool adbms_write_rega </td>
+          <td class="memname">void adbms_write_rega </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
           <td></td>
@@ -544,28 +544,27 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True on successful SPI transfer, false on failure. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8c_a6ceab739f8b66723399246ee5b0e7e8d_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8c_a710830115ef52a6def439f645d0fc57d_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8c_a6ceab739f8b66723399246ee5b0e7e8d_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8c_a710830115ef52a6def439f645d0fc57d_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a3a1de4cc72e92ed7719f251886fad5e4" name="a3a1de4cc72e92ed7719f251886fad5e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a1de4cc72e92ed7719f251886fad5e4">&#9670;&#160;</a></span>adbms_write_regb()</h2>
+<a id="a0833cbe8198d911a52d6a4f24dda2a38" name="a0833cbe8198d911a52d6a4f24dda2a38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0833cbe8198d911a52d6a4f24dda2a38">&#9670;&#160;</a></span>adbms_write_regb()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool adbms_write_regb </td>
+          <td class="memname">void adbms_write_regb </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
           <td></td>
@@ -581,16 +580,15 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True on successful SPI transfer, false on failure. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8c_a3a1de4cc72e92ed7719f251886fad5e4_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8c_a0833cbe8198d911a52d6a4f24dda2a38_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8c_a3a1de4cc72e92ed7719f251886fad5e4_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8c_a0833cbe8198d911a52d6a4f24dda2a38_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

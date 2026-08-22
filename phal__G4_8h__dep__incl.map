@@ -1,147 +1,145 @@
 <map id="firmware/common/phal_G4/phal_G4.h" name="firmware/common/phal_G4/phal_G4.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="1524,5,1676,46"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8h.html" title="G4 ADC public API. DMA&#45;only, DMA&#45;first conversions." alt="" coords="1114,271,1267,312"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1509,42,1449,62,1420,77,1395,96,1381,111,1373,127,1366,158,1359,191,1351,208,1338,225,1300,253,1259,273,1257,268,1298,249,1334,221,1347,205,1354,189,1361,157,1368,125,1377,108,1391,92,1418,72,1447,57,1508,37"/>
-<area shape="rect" id="Node000011" href="$phal__G4_2crc_2crc_8h.html" title="STM32G4 CRC public API." alt="" coords="996,94,1148,135"/>
-<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="1509,42,1346,66,1160,97,1149,99,1148,94,1159,91,1345,60,1508,37"/>
-<area shape="rect" id="Node000013" href="$crc__priv_8h.html" title="STM32G4 CRC register&#45;level implementation interface." alt="" coords="1172,94,1324,135"/>
-<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="1509,52,1325,97,1324,92,1507,47"/>
-<area shape="rect" id="Node000015" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="724,183,876,223"/>
-<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="1508,35,1227,57,1085,75,1028,85,985,96,949,114,916,137,835,184,832,180,913,132,947,109,983,92,1027,80,1085,70,1226,52,1508,30"/>
-<area shape="rect" id="Node000029" href="$usart__priv_8h.html" title=" " alt="" coords="1449,271,1601,312"/>
-<area shape="poly" id="edge94_Node000001_Node000029" title=" " alt="" coords="1580,60,1562,95,1548,143,1538,193,1529,271,1524,270,1533,192,1543,142,1557,93,1575,58"/>
-<area shape="rect" id="Node000031" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="748,94,902,135"/>
-<area shape="poly" id="edge36_Node000001_Node000031" title=" " alt="" coords="1508,37,1249,60,933,97,903,101,902,96,933,91,1249,55,1508,31"/>
-<area shape="rect" id="Node000032" href="$fdcan_8h.html" title="G4 FDCAN public API implementation." alt="" coords="1760,368,1912,408"/>
-<area shape="poly" id="edge38_Node000001_Node000032" title=" " alt="" coords="1692,31,1759,39,1828,51,1886,68,1908,79,1923,92,1942,127,1948,165,1943,205,1930,244,1912,282,1892,316,1854,369,1850,366,1887,313,1908,279,1925,242,1938,204,1942,165,1937,129,1919,96,1905,84,1884,73,1827,56,1759,44,1691,36"/>
-<area shape="rect" id="Node000037" href="$fdcan__priv_8h.html" title="G4 FDCAN private/register level implementation." alt="" coords="1354,368,1509,408"/>
-<area shape="poly" id="edge46_Node000001_Node000037" title=" " alt="" coords="1573,59,1539,99,1501,150,1466,209,1440,272,1432,323,1433,367,1427,367,1427,322,1435,271,1461,206,1497,147,1535,95,1568,56"/>
-<area shape="rect" id="Node000038" href="$phal__G4_2flash_2flash_8c.html" title="STM32G4 internal&#45;flash public&#45;layer implementation." alt="" coords="1581,94,1733,135"/>
-<area shape="poly" id="edge49_Node000001_Node000038" title=" " alt="" coords="1623,57,1646,92,1642,95,1619,60"/>
-<area shape="rect" id="Node000039" href="$flash__priv_8c.html" title="STM32G4 internal&#45;flash register&#45;level implementation." alt="" coords="1757,94,1909,135"/>
-<area shape="poly" id="edge50_Node000001_Node000039" title=" " alt="" coords="1668,49,1781,91,1779,96,1666,54"/>
-<area shape="rect" id="Node000040" href="$phal__G4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="2312,271,2464,312"/>
-<area shape="poly" id="edge51_Node000001_Node000040" title=" " alt="" coords="1691,29,1808,38,1940,51,2062,68,2111,79,2149,92,2185,110,2221,131,2285,181,2337,230,2373,269,2370,273,2333,234,2281,185,2218,136,2183,114,2147,96,2110,84,2061,74,1939,56,1808,43,1691,35"/>
-<area shape="rect" id="Node000049" href="$phal__G4_2pwm_2pwm_8h.html" title="PWM driver for STM32G4." alt="" coords="1984,94,2136,135"/>
-<area shape="poly" id="edge73_Node000001_Node000049" title=" " alt="" coords="1692,41,1966,91,1984,95,1983,100,1965,97,1691,46"/>
-<area shape="rect" id="Node000051" href="$phal__G4_2rcc_2rcc_8h.html" title="G4 RCC public API implementation." alt="" coords="3577,368,3729,408"/>
-<area shape="poly" id="edge75_Node000001_Node000051" title=" " alt="" coords="1692,32,1923,55,2201,91,2588,151,2888,204,3185,266,3566,357,3592,364,3590,369,3564,363,3184,272,2887,209,2587,157,2201,97,1923,61,1691,38"/>
-<area shape="rect" id="Node000054" href="$rcc__priv_8h.html" title="G4 RCC private/register level implementation." alt="" coords="3869,464,4021,504"/>
-<area shape="poly" id="edge88_Node000001_Node000054" title=" " alt="" coords="1692,26,2247,40,2632,53,3036,71,3419,94,3741,122,3868,139,3964,157,4026,178,4043,189,4049,201,4049,293,4047,319,4040,345,4018,393,3991,435,3966,465,3962,462,3987,431,4014,391,4035,343,4041,318,4044,293,4044,202,4039,192,4024,182,3963,163,3867,144,3741,128,3418,99,3036,76,2632,58,2247,45,1691,31"/>
-<area shape="rect" id="Node000056" href="$phal__G4_2usart_2usart_8h.html" title=" " alt="" coords="1562,183,1715,223"/>
-<area shape="poly" id="edge89_Node000001_Node000056" title=" " alt="" coords="1582,61,1569,97,1567,116,1572,134,1589,159,1611,180,1607,184,1584,163,1567,136,1562,116,1564,96,1577,59"/>
-<area shape="rect" id="Node000060" href="$usb__priv_8c.html" title="STM32G4 USB register and packet&#45;memory implementation." alt="" coords="4084,94,4236,135"/>
-<area shape="poly" id="edge95_Node000001_Node000060" title=" " alt="" coords="1692,25,2160,28,2847,39,3549,59,3843,73,4065,91,4083,94,4083,99,4065,97,3843,79,3549,64,2847,44,2160,34,1692,30"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html" title="G4 ADC public API implementation. All register&#45;level detail lives in adc_priv.c; this file only coord..." alt="" coords="666,464,819,504"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1099,298,943,305,766,317,615,336,563,348,536,362,528,375,525,387,528,400,537,414,563,440,595,458,631,470,666,477,665,482,629,475,593,463,559,444,532,417,523,402,520,387,523,373,533,358,561,343,614,331,766,312,943,300,1099,293"/>
-<area shape="rect" id="Node000004" href="$adc__priv_8h.html" title="Private register&#45;level API for the STM32G4 ADC PHAL." alt="" coords="773,368,925,408"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1104,319,944,363,920,369,918,364,943,357,1103,314"/>
-<area shape="rect" id="Node000006" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="1987,464,2138,504"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="1282,311,1350,319,1406,322,1460,331,1489,341,1523,358,1539,372,1549,387,1557,401,1573,413,1634,428,1745,445,1987,473,1986,478,1744,450,1633,434,1571,418,1553,404,1544,390,1535,375,1520,362,1487,346,1458,336,1405,327,1350,324,1281,316"/>
-<area shape="rect" id="Node000007" href="$a__box_2main_8h.html" title="&quot;Abox&quot; node source code" alt="" coords="1987,368,2138,408"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="1282,298,1687,331,1968,357,1999,364,1998,370,1967,363,1687,337,1282,303"/>
-<area shape="rect" id="Node000008" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="1102,464,1279,504"/>
-<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="1100,304,1071,312,1043,323,1017,340,997,362,989,375,986,388,989,400,997,414,1018,436,1044,453,1072,465,1102,473,1101,478,1071,470,1041,457,1014,440,992,417,984,402,981,388,984,373,992,358,1014,336,1040,319,1069,307,1099,298"/>
-<area shape="rect" id="Node000009" href="$dashboard_2main_8h.html" title=" " alt="" coords="1102,368,1279,408"/>
-<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="1193,328,1193,367,1188,367,1188,328"/>
-<area shape="rect" id="Node000010" href="$driveline_2main_8c.html" title="&quot;Driveline&quot; node source code" alt="" coords="2178,464,2344,504"/>
-<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="1283,298,1671,331,1845,347,1925,358,1942,371,1952,386,1961,400,1976,413,2054,436,2178,463,2177,468,2053,441,1973,418,1957,404,1947,388,1938,374,1923,362,1844,353,1670,336,1282,303"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="817,421,766,465,763,461,814,417"/>
-<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="2065,424,2065,463,2060,463,2060,424"/>
-<area shape="poly" id="edge10_Node000009_Node000008" title=" " alt="" coords="1193,424,1193,463,1188,463,1188,424"/>
-<area shape="rect" id="Node000012" href="$phal__G4_2crc_2crc_8c.html" title="STM32G4 CRC public&#45;layer implementation." alt="" coords="996,183,1148,223"/>
-<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="1074,150,1074,182,1069,182,1069,150"/>
-<area shape="poly" id="edge15_Node000013_Node000012" title=" " alt="" coords="1195,144,1113,185,1110,180,1193,140"/>
-<area shape="rect" id="Node000014" href="$crc__priv_8c.html" title="STM32G4 CRC register&#45;level implementation." alt="" coords="1172,183,1324,223"/>
-<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="1250,150,1250,182,1245,182,1245,150"/>
-<area shape="poly" id="edge18_Node000015_Node000002" title=" " alt="" coords="892,222,1114,271,1113,276,891,227"/>
-<area shape="poly" id="edge34_Node000015_Node000008" title=" " alt="" coords="782,238,762,278,747,325,744,349,745,372,751,394,763,414,785,430,817,444,859,455,906,464,1007,475,1102,479,1101,485,1007,480,905,469,857,460,816,449,782,435,759,417,746,396,739,373,738,349,742,324,757,276,777,236"/>
-<area shape="poly" id="edge35_Node000015_Node000010" title=" " alt="" coords="892,212,984,221,1244,234,1579,251,1749,265,1909,286,1981,300,2046,317,2103,336,2152,358,2184,381,2212,409,2252,462,2247,465,2208,412,2181,385,2149,362,2101,341,2044,322,1979,306,1908,292,1749,271,1579,256,1243,240,984,226,891,217"/>
-<area shape="rect" id="Node000016" href="$phal__G4_2dma_2dma_8c.html" title="G4 DMA Peripheral public API implementation." alt="" coords="42,368,195,408"/>
-<area shape="poly" id="edge19_Node000015_Node000016" title=" " alt="" coords="708,212,629,219,537,231,440,249,345,274,289,295,236,321,150,369,147,365,233,316,287,290,343,269,439,243,536,225,628,213,708,206"/>
-<area shape="rect" id="Node000017" href="$dma__priv_8h.html" title="G4 DMA Peripheral private/register level implementation." alt="" coords="58,271,211,312"/>
-<area shape="poly" id="edge20_Node000015_Node000017" title=" " alt="" coords="709,218,260,274,211,281,210,276,259,269,708,212"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="1511,5,1664,46"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8h.html" title="G4 ADC public API. DMA&#45;only, DMA&#45;first conversions." alt="" coords="1178,271,1330,312"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1553,58,1280,273,1277,269,1549,54"/>
+<area shape="rect" id="Node000011" href="$phal__G4_2crc_2crc_8h.html" title="STM32G4 CRC public API." alt="" coords="775,94,928,135"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="1496,36,1244,58,1092,75,940,97,928,99,928,93,939,91,1091,70,1244,53,1495,31"/>
+<area shape="rect" id="Node000013" href="$crc__priv_8h.html" title="STM32G4 CRC register&#45;level implementation interface." alt="" coords="951,94,1104,135"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="1496,41,1322,65,1122,97,1104,100,1103,95,1122,91,1321,60,1495,36"/>
+<area shape="rect" id="Node000015" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="403,183,556,223"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="1496,29,1353,31,1170,41,967,61,864,77,764,97,531,185,529,180,763,91,863,72,966,56,1169,35,1353,26,1495,23"/>
+<area shape="rect" id="Node000029" href="$usart__priv_8h.html" title=" " alt="" coords="1405,271,1557,312"/>
+<area shape="poly" id="edge92_Node000001_Node000029" title=" " alt="" coords="1571,60,1551,95,1528,139,1509,184,1495,231,1487,271,1481,270,1490,229,1503,182,1523,136,1546,93,1566,58"/>
+<area shape="rect" id="Node000031" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="485,94,639,135"/>
+<area shape="poly" id="edge34_Node000001_Node000031" title=" " alt="" coords="1496,35,1146,58,924,75,700,97,640,104,639,99,699,91,923,70,1146,52,1495,29"/>
+<area shape="rect" id="Node000032" href="$fdcan_8h.html" title="G4 FDCAN public API implementation." alt="" coords="1885,368,2037,408"/>
+<area shape="poly" id="edge36_Node000001_Node000032" title=" " alt="" coords="1680,32,1746,41,1814,53,1872,70,1895,80,1911,92,1924,113,1935,144,1950,223,1959,305,1963,367,1957,367,1954,305,1945,224,1930,146,1919,116,1907,96,1892,85,1870,75,1813,58,1746,46,1679,37"/>
+<area shape="rect" id="Node000037" href="$fdcan__priv_8h.html" title="G4 FDCAN private/register level implementation." alt="" coords="948,368,1104,408"/>
+<area shape="poly" id="edge44_Node000001_Node000037" title=" " alt="" coords="1533,55,1453,96,1307,179,1168,273,1102,324,1049,369,1046,365,1099,320,1164,269,1304,175,1450,92,1530,51"/>
+<area shape="rect" id="Node000038" href="$phal__G4_2flash_2flash_8c.html" title="STM32G4 internal&#45;flash public&#45;layer implementation." alt="" coords="1569,94,1721,135"/>
+<area shape="poly" id="edge47_Node000001_Node000038" title=" " alt="" coords="1611,57,1634,92,1630,95,1606,60"/>
+<area shape="rect" id="Node000039" href="$flash__priv_8c.html" title="STM32G4 internal&#45;flash register&#45;level implementation." alt="" coords="1745,94,1897,135"/>
+<area shape="poly" id="edge48_Node000001_Node000039" title=" " alt="" coords="1656,49,1768,91,1767,96,1654,54"/>
+<area shape="rect" id="Node000040" href="$phal__G4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="2213,271,2365,312"/>
+<area shape="poly" id="edge49_Node000001_Node000040" title=" " alt="" coords="1679,27,1797,33,1930,45,2052,64,2100,77,2137,92,2164,110,2189,132,2231,182,2262,231,2282,270,2278,272,2258,234,2226,185,2185,136,2161,114,2134,96,2099,82,2051,69,1929,51,1797,39,1679,32"/>
+<area shape="rect" id="Node000049" href="$phal__G4_2pwm_2pwm_8h.html" title="PWM driver for STM32G4." alt="" coords="1971,94,2124,135"/>
+<area shape="poly" id="edge71_Node000001_Node000049" title=" " alt="" coords="1679,41,1953,91,1971,95,1970,100,1952,97,1678,46"/>
+<area shape="rect" id="Node000051" href="$phal__G4_2rcc_2rcc_8h.html" title="G4 RCC public API implementation." alt="" coords="3425,368,3577,408"/>
+<area shape="poly" id="edge73_Node000001_Node000051" title=" " alt="" coords="1679,32,1907,55,2180,91,2530,152,2800,206,3069,270,3413,357,3439,364,3437,369,3412,363,3068,275,2799,211,2529,157,2179,97,1907,60,1679,37"/>
+<area shape="rect" id="Node000054" href="$rcc__priv_8h.html" title="G4 RCC private/register level implementation." alt="" coords="3871,464,4024,504"/>
+<area shape="poly" id="edge86_Node000001_Node000054" title=" " alt="" coords="1679,26,2216,41,2586,55,2974,73,3342,96,3652,125,3773,141,3866,159,3925,178,3941,189,3947,201,3947,293,3950,463,3944,463,3942,293,3942,202,3937,193,3923,183,3864,164,3772,146,3651,130,3342,101,2974,78,2586,60,2216,46,1679,32"/>
+<area shape="rect" id="Node000056" href="$phal__G4_2usart_2usart_8h.html" title=" " alt="" coords="1518,183,1670,223"/>
+<area shape="poly" id="edge87_Node000001_Node000056" title=" " alt="" coords="1572,60,1559,95,1556,114,1559,134,1569,159,1582,181,1577,184,1564,161,1554,135,1551,114,1554,93,1567,59"/>
+<area shape="rect" id="Node000060" href="$usb__priv_8c.html" title="STM32G4 USB register and packet&#45;memory implementation." alt="" coords="3982,94,4134,135"/>
+<area shape="poly" id="edge93_Node000001_Node000060" title=" " alt="" coords="1679,25,2132,29,2793,40,3468,59,3750,74,3964,91,3982,94,3981,99,3963,97,3750,79,3468,65,2793,45,2132,34,1679,30"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html" title="G4 ADC public API implementation. All register&#45;level detail lives in adc_priv.c; this file only coord..." alt="" coords="671,464,824,504"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1163,306,1053,327,994,342,938,362,890,386,844,414,772,465,769,461,841,409,887,381,936,358,993,337,1052,321,1162,301"/>
+<area shape="rect" id="Node000004" href="$adc__priv_8h.html" title="Private register&#45;level API for the STM32G4 ADC PHAL." alt="" coords="495,368,648,408"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1162,301,933,321,796,339,660,363,632,370,630,364,659,357,795,334,932,316,1162,296"/>
+<area shape="rect" id="Node000006" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="1518,464,1670,504"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="1208,323,1189,341,1175,361,1165,389,1167,401,1174,414,1213,422,1303,437,1518,469,1518,474,1302,442,1212,427,1171,418,1162,403,1160,389,1170,359,1185,337,1204,319"/>
+<area shape="rect" id="Node000007" href="$a__box_2main_8h.html" title="&quot;Abox&quot; node source code" alt="" coords="1229,368,1380,408"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="1274,324,1297,366,1292,368,1269,327"/>
+<area shape="rect" id="Node000008" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="1815,464,1992,504"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="1232,326,1219,348,1210,372,1209,394,1218,413,1448,438,1815,472,1814,477,1448,444,1215,418,1204,395,1205,370,1214,346,1227,323"/>
+<area shape="rect" id="Node000009" href="$dashboard_2main_8h.html" title=" " alt="" coords="1632,368,1809,408"/>
+<area shape="poly" id="edge9_Node000002_Node000009" title=" " alt="" coords="1346,309,1632,366,1631,371,1345,314"/>
+<area shape="rect" id="Node000010" href="$driveline_2main_8c.html" title="&quot;Driveline&quot; node source code" alt="" coords="2093,464,2258,504"/>
+<area shape="poly" id="edge11_Node000002_Node000010" title=" " alt="" coords="1346,304,1393,309,1538,315,1725,317,1821,320,1911,327,1989,339,2050,358,2086,379,2119,407,2164,461,2160,465,2115,411,2083,384,2048,362,1988,344,1910,332,1821,325,1725,322,1538,320,1392,315,1345,309"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="623,413,712,461,709,465,620,418"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="1381,411,1534,461,1533,466,1379,416"/>
+<area shape="poly" id="edge10_Node000009_Node000008" title=" " alt="" coords="1774,413,1866,461,1864,465,1771,418"/>
+<area shape="rect" id="Node000012" href="$phal__G4_2crc_2crc_8c.html" title="STM32G4 CRC public&#45;layer implementation." alt="" coords="775,183,928,223"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="854,150,854,182,849,182,849,150"/>
+<area shape="poly" id="edge15_Node000013_Node000012" title=" " alt="" coords="975,144,892,185,890,180,972,140"/>
+<area shape="rect" id="Node000014" href="$crc__priv_8c.html" title="STM32G4 CRC register&#45;level implementation." alt="" coords="951,183,1104,223"/>
+<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="1030,150,1030,182,1025,182,1025,150"/>
+<area shape="poly" id="edge18_Node000015_Node000002" title=" " alt="" coords="571,212,1178,279,1177,285,571,217"/>
+<area shape="rect" id="Node000016" href="$phal__G4_2dma_2dma_8c.html" title="G4 DMA Peripheral public API implementation." alt="" coords="42,368,194,408"/>
+<area shape="poly" id="edge19_Node000015_Node000016" title=" " alt="" coords="428,233,347,274,158,369,156,365,345,269,426,228"/>
+<area shape="rect" id="Node000017" href="$dma__priv_8h.html" title="G4 DMA Peripheral private/register level implementation." alt="" coords="58,271,210,312"/>
+<area shape="poly" id="edge20_Node000015_Node000017" title=" " alt="" coords="389,230,211,274,210,269,387,225"/>
 <area shape="rect" id="Node000019" href="$phal__G4_2spi_2spi_8c.html" title="G4 SPI." alt="" coords="181,464,333,504"/>
-<area shape="poly" id="edge22_Node000015_Node000019" title=" " alt="" coords="708,209,532,215,324,227,144,246,82,259,48,273,21,306,9,341,9,358,12,377,32,414,55,431,91,445,181,467,180,473,90,450,52,435,28,417,7,378,3,359,3,340,16,304,45,269,80,254,143,241,324,222,531,210,708,204"/>
-<area shape="rect" id="Node000020" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="382,271,535,312"/>
-<area shape="poly" id="edge23_Node000015_Node000020" title=" " alt="" coords="709,230,535,274,534,269,708,225"/>
+<area shape="poly" id="edge22_Node000015_Node000019" title=" " alt="" coords="388,209,294,215,193,226,104,245,71,258,48,273,21,307,9,341,9,359,12,377,32,414,54,431,91,445,181,467,179,473,89,450,52,435,28,417,7,379,3,359,4,341,16,304,44,269,68,253,103,240,192,221,293,209,387,204"/>
+<area shape="rect" id="Node000020" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="382,271,534,312"/>
+<area shape="poly" id="edge23_Node000015_Node000020" title=" " alt="" coords="473,239,465,272,460,270,468,238"/>
 <area shape="rect" id="Node000022" href="$spi__priv_8h.html" title="Internal G4 SPI helpers and DMA configuration macros." alt="" coords="269,368,421,408"/>
-<area shape="poly" id="edge30_Node000015_Node000022" title=" " alt="" coords="708,209,615,215,516,227,428,246,395,258,372,273,357,294,349,319,346,367,341,367,344,318,353,292,369,269,393,254,427,241,515,222,615,210,708,204"/>
-<area shape="rect" id="Node000028" href="$phal__G4_2usart_2usart_8c.html" title=" " alt="" coords="1584,368,1736,408"/>
-<area shape="poly" id="edge31_Node000015_Node000028" title=" " alt="" coords="892,210,1072,232,1176,249,1279,269,1370,291,1459,317,1606,364,1604,370,1458,322,1368,296,1278,274,1175,254,1071,238,891,216"/>
-<area shape="poly" id="edge32_Node000015_Node000029" title=" " alt="" coords="891,213,1449,279,1448,284,891,218"/>
+<area shape="poly" id="edge30_Node000015_Node000022" title=" " alt="" coords="418,233,393,251,372,273,360,296,352,321,347,367,342,367,347,320,355,294,368,270,389,247,415,229"/>
+<area shape="rect" id="Node000028" href="$phal__G4_2usart_2usart_8c.html" title=" " alt="" coords="1405,368,1557,408"/>
+<area shape="poly" id="edge31_Node000015_Node000028" title=" " alt="" coords="571,208,1032,241,1245,258,1343,269,1460,365,1456,369,1341,274,1245,264,1032,247,571,213"/>
+<area shape="poly" id="edge32_Node000015_Node000029" title=" " alt="" coords="571,208,1029,240,1386,269,1405,272,1404,277,1386,274,1029,245,571,213"/>
 <area shape="poly" id="edge21_Node000017_Node000016" title=" " alt="" coords="131,328,124,368,119,367,126,327"/>
-<area shape="poly" id="edge24_Node000020_Node000019" title=" " alt="" coords="368,302,337,310,308,322,281,339,259,361,248,386,246,413,253,463,248,464,240,413,243,385,255,359,278,335,305,317,336,305,367,297"/>
-<area shape="rect" id="Node000021" href="$spi__priv_8c.html" title="G4 SPI Peripheral private/register level implementation." alt="" coords="382,464,535,504"/>
-<area shape="poly" id="edge25_Node000020_Node000021" title=" " alt="" coords="461,328,461,463,456,463,456,328"/>
-<area shape="poly" id="edge26_Node000020_Node000022" title=" " alt="" coords="425,324,370,369,367,365,422,320"/>
-<area shape="rect" id="Node000026" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="547,368,698,408"/>
-<area shape="poly" id="edge29_Node000020_Node000026" title=" " alt="" coords="507,318,589,365,587,369,505,322"/>
-<area shape="poly" id="edge27_Node000022_Node000019" title=" " alt="" coords="319,421,277,465,273,461,315,418"/>
-<area shape="poly" id="edge28_Node000022_Node000021" title=" " alt="" coords="382,416,437,461,433,465,379,420"/>
-<area shape="poly" id="edge33_Node000029_Node000028" title=" " alt="" coords="1567,319,1633,365,1630,369,1564,323"/>
-<area shape="poly" id="edge37_Node000031_Node000015" title=" " alt="" coords="818,151,808,183,803,181,812,149"/>
-<area shape="poly" id="edge41_Node000032_Node000006" title=" " alt="" coords="1898,412,2016,461,2014,466,1896,417"/>
-<area shape="poly" id="edge42_Node000032_Node000008" title=" " alt="" coords="1761,415,1748,418,1657,433,1531,449,1280,477,1279,471,1531,444,1656,428,1747,413,1760,410"/>
-<area shape="poly" id="edge43_Node000032_Node000010" title=" " alt="" coords="1919,410,1931,413,2178,465,2177,470,1930,418,1917,415"/>
-<area shape="rect" id="Node000033" href="$fdcan_8c.html" title="G4 FDCAN public API implementation." alt="" coords="1412,464,1564,504"/>
-<area shape="poly" id="edge39_Node000032_Node000033" title=" " alt="" coords="1758,415,1748,418,1565,466,1564,461,1747,413,1757,410"/>
-<area shape="rect" id="Node000034" href="$fdcan__priv_8c.html" title="G4 FDCAN private/register level implementation." alt="" coords="1645,464,1800,504"/>
-<area shape="poly" id="edge40_Node000032_Node000034" title=" " alt="" coords="1802,420,1748,465,1744,461,1799,416"/>
-<area shape="rect" id="Node000035" href="$main__module_2main_8c.html" title="&quot;Main Module&quot; node source code" alt="" coords="2922,464,3067,504"/>
-<area shape="poly" id="edge44_Node000032_Node000035" title=" " alt="" coords="1928,406,1975,413,2248,442,2517,461,2752,472,2921,478,2921,484,2752,478,2517,466,2247,447,1974,418,1927,411"/>
-<area shape="rect" id="Node000036" href="$torque__vector_2main_8c.html" title="&quot;Torque Vector&quot; node source code" alt="" coords="3691,464,3844,504"/>
-<area shape="poly" id="edge45_Node000032_Node000036" title=" " alt="" coords="1928,406,1975,413,2225,436,2438,446,2626,447,2800,444,2975,440,3163,439,3376,445,3628,461,3691,468,3690,473,3628,466,3376,450,3163,445,2975,446,2800,450,2626,453,2438,451,2225,441,1974,418,1927,411"/>
-<area shape="poly" id="edge47_Node000037_Node000033" title=" " alt="" coords="1454,420,1478,462,1474,465,1449,423"/>
-<area shape="poly" id="edge48_Node000037_Node000034" title=" " alt="" coords="1508,411,1662,461,1661,466,1506,416"/>
-<area shape="poly" id="edge56_Node000040_Node000006" title=" " alt="" coords="2342,322,2273,362,2097,465,2094,461,2270,358,2339,318"/>
-<area shape="poly" id="edge57_Node000040_Node000007" title=" " alt="" coords="2306,319,2131,369,2130,364,2304,314"/>
-<area shape="poly" id="edge59_Node000040_Node000008" title=" " alt="" coords="2296,298,2058,304,1761,317,1494,336,1398,348,1344,362,1327,374,1318,387,1308,401,1294,418,1226,465,1223,461,1290,414,1304,398,1313,384,1324,370,1341,358,1397,343,1493,331,1761,312,2058,299,2296,292"/>
-<area shape="poly" id="edge60_Node000040_Node000009" title=" " alt="" coords="2296,296,2112,299,1864,309,1583,329,1439,344,1299,363,1263,369,1262,364,1298,357,1439,339,1582,324,1864,304,2112,294,2296,290"/>
-<area shape="poly" id="edge61_Node000040_Node000010" title=" " alt="" coords="2345,323,2324,341,2306,362,2291,387,2280,415,2267,464,2262,463,2275,413,2286,385,2302,358,2320,337,2341,319"/>
-<area shape="poly" id="edge53_Node000040_Node000019" title=" " alt="" coords="2296,297,2032,302,1683,314,1339,333,1197,346,1090,363,1046,375,1014,390,982,405,938,418,853,435,780,444,655,451,530,453,457,457,371,466,334,472,333,466,370,461,456,452,530,448,655,446,779,439,852,429,936,413,980,400,1012,385,1045,370,1089,357,1196,341,1339,328,1683,308,2032,297,2296,292"/>
-<area shape="poly" id="edge54_Node000040_Node000022" title=" " alt="" coords="2296,298,1424,322,911,341,535,363,422,377,422,371,534,357,911,335,1424,316,2296,292"/>
-<area shape="poly" id="edge55_Node000040_Node000026" title=" " alt="" coords="2296,298,1530,320,1086,339,901,350,761,363,699,373,698,367,761,357,901,345,1086,333,1530,314,2296,292"/>
-<area shape="poly" id="edge65_Node000040_Node000035" title=" " alt="" coords="2480,293,2593,299,2720,310,2836,329,2882,342,2916,358,2943,381,2964,409,2990,462,2985,464,2959,412,2939,384,2913,362,2880,347,2835,335,2719,316,2593,304,2479,298"/>
-<area shape="poly" id="edge70_Node000040_Node000036" title=" " alt="" coords="2480,292,2795,299,3204,311,3566,331,3686,343,3723,350,3743,358,3761,382,3770,410,3773,439,3773,463,3767,463,3768,439,3765,411,3756,384,3740,362,3722,355,3685,348,3565,336,3203,317,2795,304,2479,297"/>
-<area shape="rect" id="Node000041" href="$phal__G4_2gpio_2gpio_8c.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="3198,368,3351,408"/>
-<area shape="poly" id="edge52_Node000040_Node000041" title=" " alt="" coords="2480,292,2616,298,2791,310,2986,329,3180,357,3211,364,3210,369,3179,363,2985,334,2791,315,2616,304,2479,298"/>
-<area shape="rect" id="Node000042" href="$driver__interface_8c.html" title="thread to manage driver&#45;facing LCD, buttons, LEDs" alt="" coords="3375,360,3552,416"/>
-<area shape="poly" id="edge58_Node000040_Node000042" title=" " alt="" coords="2479,291,2645,295,2865,305,3113,325,3240,339,3363,357,3375,360,3374,365,3362,363,3239,345,3113,330,2865,311,2645,300,2479,296"/>
-<area shape="rect" id="Node000043" href="$pin__defs_8h.html" title="&quot;Driveline&quot; node pin definitions and related constants" alt="" coords="2737,368,2902,408"/>
-<area shape="poly" id="edge62_Node000040_Node000043" title=" " alt="" coords="2480,307,2726,357,2753,364,2752,369,2725,363,2479,312"/>
-<area shape="rect" id="Node000044" href="$blinky_8c.html" title=" " alt="" coords="3202,464,3333,504"/>
-<area shape="poly" id="edge64_Node000040_Node000044" title=" " alt="" coords="2480,290,2640,293,2831,303,2925,312,3011,323,3083,339,3137,358,3155,370,3165,383,3175,398,3188,414,3244,461,3240,465,3185,418,3170,401,3161,386,3151,374,3135,362,3082,344,3010,329,2924,317,2830,309,2640,299,2480,296"/>
-<area shape="rect" id="Node000045" href="$main__module_2main_8h.html" title="&quot;Main Module&quot; node source code" alt="" coords="2978,368,3123,408"/>
-<area shape="poly" id="edge66_Node000040_Node000045" title=" " alt="" coords="2480,296,2699,318,2829,335,2959,357,2988,364,2987,369,2958,363,2829,340,2699,323,2479,302"/>
-<area shape="rect" id="Node000046" href="$sdc_8c.html" title="SDC task implementation." alt="" coords="2315,368,2460,408"/>
-<area shape="poly" id="edge68_Node000040_Node000046" title=" " alt="" coords="2390,328,2390,367,2385,367,2385,328"/>
-<area shape="rect" id="Node000047" href="$vehicle__fsm_8c.html" title="Master vehicle state machine implementation." alt="" coords="2484,368,2713,408"/>
-<area shape="poly" id="edge69_Node000040_Node000047" title=" " alt="" coords="2447,316,2555,364,2553,369,2445,321"/>
-<area shape="rect" id="Node000048" href="$torque__vector_2main_8h.html" title="&quot;Torque Vector&quot; node source code" alt="" coords="3804,368,3958,408"/>
-<area shape="poly" id="edge71_Node000040_Node000048" title=" " alt="" coords="2480,292,2762,299,3139,312,3512,331,3668,343,3786,357,3819,364,3817,370,3785,363,3667,348,3512,336,3138,317,2761,304,2479,297"/>
-<area shape="poly" id="edge63_Node000043_Node000010" title=" " alt="" coords="2740,415,2726,418,2521,454,2345,477,2344,471,2520,449,2725,413,2739,410"/>
-<area shape="poly" id="edge67_Node000045_Node000035" title=" " alt="" coords="3033,423,3008,465,3004,462,3029,420"/>
-<area shape="poly" id="edge72_Node000048_Node000036" title=" " alt="" coords="3848,420,3793,465,3790,461,3844,416"/>
-<area shape="rect" id="Node000050" href="$phal__G4_2pwm_2pwm_8c.html" title="Public PWM driver interface for STM32G4." alt="" coords="1984,183,2136,223"/>
-<area shape="poly" id="edge74_Node000049_Node000050" title=" " alt="" coords="2062,150,2062,182,2057,182,2057,150"/>
-<area shape="poly" id="edge82_Node000051_Node000006" title=" " alt="" coords="3582,415,3566,418,3354,447,3175,459,3016,460,2867,455,2719,448,2560,445,2379,449,2167,466,2139,470,2138,465,2166,461,2379,444,2560,440,2719,443,2868,450,3016,455,3175,454,3354,441,3565,413,3581,410"/>
-<area shape="poly" id="edge83_Node000051_Node000008" title=" " alt="" coords="3582,415,3566,418,3468,431,3355,441,3094,454,2798,460,2484,460,1874,458,1611,460,1400,466,1280,476,1279,471,1400,461,1611,454,1874,453,2484,455,2798,454,3094,449,3355,436,3467,426,3565,413,3581,410"/>
-<area shape="poly" id="edge84_Node000051_Node000010" title=" " alt="" coords="3581,415,3565,418,3362,436,3011,454,2344,482,2344,477,3010,449,3361,430,3565,413,3580,410"/>
-<area shape="poly" id="edge81_Node000051_Node000021" title=" " alt="" coords="3582,415,3566,418,3484,427,3362,434,3021,444,2111,454,1201,458,859,461,655,466,535,476,535,471,654,461,859,456,1201,453,2111,449,3021,439,3361,429,3483,422,3565,413,3581,410"/>
-<area shape="poly" id="edge86_Node000051_Node000035" title=" " alt="" coords="3579,415,3566,418,3467,434,3331,451,3068,478,3067,473,3330,445,3466,429,3565,413,3577,410"/>
-<area shape="poly" id="edge87_Node000051_Node000036" title=" " alt="" coords="3690,416,3746,461,3742,465,3687,420"/>
-<area shape="poly" id="edge85_Node000051_Node000044" title=" " alt="" coords="3576,415,3566,418,3334,472,3333,467,3564,413,3575,410"/>
-<area shape="rect" id="Node000052" href="$pwm__priv_8c.html" title="Private STM32G4 PWM register implementation." alt="" coords="3464,464,3616,504"/>
-<area shape="poly" id="edge76_Node000051_Node000052" title=" " alt="" coords="3620,420,3565,465,3562,461,3616,416"/>
-<area shape="rect" id="Node000053" href="$phal__G4_2rcc_2rcc_8c.html" title="G4 RCC public API implementation." alt="" coords="3636,552,3788,593"/>
-<area shape="poly" id="edge77_Node000051_Node000053" title=" " alt="" coords="3662,423,3682,503,3704,551,3699,553,3677,505,3656,424"/>
-<area shape="poly" id="edge78_Node000051_Node000054" title=" " alt="" coords="3730,411,3885,461,3883,466,3728,416"/>
-<area shape="poly" id="edge79_Node000054_Node000053" title=" " alt="" coords="3879,513,3766,554,3764,549,3877,508"/>
-<area shape="rect" id="Node000055" href="$rcc__priv_8c.html" title="G4 RCC private/register level implementation." alt="" coords="3869,552,4021,593"/>
-<area shape="poly" id="edge80_Node000054_Node000055" title=" " alt="" coords="3948,520,3948,552,3942,552,3942,520"/>
-<area shape="poly" id="edge92_Node000056_Node000008" title=" " alt="" coords="1643,239,1637,278,1628,298,1615,314,1595,327,1569,335,1505,342,1429,341,1347,335,1266,330,1192,330,1131,339,1108,348,1091,362,1083,374,1081,386,1091,414,1114,441,1143,461,1141,465,1110,445,1087,417,1076,387,1078,372,1087,358,1106,344,1130,334,1192,324,1266,324,1348,330,1429,335,1505,337,1568,330,1592,322,1611,310,1624,295,1631,277,1637,238"/>
-<area shape="poly" id="edge90_Node000056_Node000028" title=" " alt="" coords="1652,238,1660,271,1664,323,1663,367,1658,367,1658,323,1654,272,1647,239"/>
-<area shape="poly" id="edge91_Node000056_Node000029" title=" " alt="" coords="1602,235,1552,273,1549,269,1599,231"/>
-<area shape="poly" id="edge93_Node000056_Node000036" title=" " alt="" coords="1730,207,3004,284,3673,329,3886,346,3972,358,3982,372,3985,387,3981,402,3972,418,3956,428,3924,440,3841,466,3840,460,3922,435,3953,423,3969,414,3976,400,3980,387,3977,375,3969,362,3886,351,3672,334,3004,289,1730,212"/>
+<area shape="poly" id="edge24_Node000020_Node000019" title=" " alt="" coords="367,302,337,310,307,322,281,339,259,361,248,386,245,413,253,463,248,464,240,413,243,385,254,359,277,335,305,317,335,305,366,297"/>
+<area shape="rect" id="Node000021" href="$spi__priv_8c.html" title="G4 SPI Peripheral private/register level implementation." alt="" coords="382,464,534,504"/>
+<area shape="poly" id="edge25_Node000020_Node000021" title=" " alt="" coords="461,328,461,463,455,463,455,328"/>
+<area shape="poly" id="edge26_Node000020_Node000022" title=" " alt="" coords="425,324,370,369,366,365,421,320"/>
+<area shape="rect" id="Node000026" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="672,368,823,408"/>
+<area shape="poly" id="edge29_Node000020_Node000026" title=" " alt="" coords="534,315,688,364,686,369,532,320"/>
+<area shape="poly" id="edge27_Node000022_Node000019" title=" " alt="" coords="318,421,277,465,273,461,314,418"/>
+<area shape="poly" id="edge28_Node000022_Node000021" title=" " alt="" coords="382,416,436,461,433,465,378,420"/>
+<area shape="poly" id="edge33_Node000029_Node000028" title=" " alt="" coords="1483,328,1483,367,1478,367,1478,328"/>
+<area shape="poly" id="edge35_Node000031_Node000015" title=" " alt="" coords="535,148,500,184,496,180,531,144"/>
+<area shape="poly" id="edge39_Node000032_Node000006" title=" " alt="" coords="1870,415,1671,466,1670,461,1869,410"/>
+<area shape="poly" id="edge40_Node000032_Node000008" title=" " alt="" coords="1943,423,1917,465,1913,462,1939,420"/>
+<area shape="poly" id="edge41_Node000032_Node000010" title=" " alt="" coords="2021,412,2131,461,2129,466,2019,417"/>
+<area shape="rect" id="Node000033" href="$fdcan_8c.html" title="G4 FDCAN public API implementation." alt="" coords="1291,464,1444,504"/>
+<area shape="poly" id="edge37_Node000032_Node000033" title=" " alt="" coords="1870,410,1822,418,1445,474,1444,469,1822,413,1869,405"/>
+<area shape="rect" id="Node000034" href="$fdcan__priv_8c.html" title="G4 FDCAN private/register level implementation." alt="" coords="1011,464,1166,504"/>
+<area shape="poly" id="edge38_Node000032_Node000034" title=" " alt="" coords="1870,411,1822,418,1670,437,1551,446,1280,466,1167,477,1166,472,1279,461,1551,441,1670,431,1822,413,1869,405"/>
+<area shape="rect" id="Node000035" href="$main__module_2main_8c.html" title="&quot;Main Module&quot; node source code" alt="" coords="3141,464,3287,504"/>
+<area shape="poly" id="edge42_Node000032_Node000035" title=" " alt="" coords="2052,398,2201,413,2740,453,3141,476,3141,482,2740,458,2200,418,2052,403"/>
+<area shape="rect" id="Node000036" href="$torque__vector_2main_8c.html" title="&quot;Torque Vector&quot; node source code" alt="" coords="3539,464,3692,504"/>
+<area shape="poly" id="edge43_Node000032_Node000036" title=" " alt="" coords="2052,398,2201,413,2395,425,2559,431,2838,434,3117,439,3282,447,3476,461,3538,468,3538,473,3475,466,3281,452,3117,444,2838,440,2559,437,2394,430,2200,418,2052,403"/>
+<area shape="poly" id="edge45_Node000037_Node000033" title=" " alt="" coords="1112,410,1123,413,1296,461,1295,466,1121,418,1111,415"/>
+<area shape="poly" id="edge46_Node000037_Node000034" title=" " alt="" coords="1050,420,1078,462,1073,465,1045,423"/>
+<area shape="poly" id="edge54_Node000040_Node000006" title=" " alt="" coords="2197,299,2040,307,1860,319,1705,338,1651,349,1622,362,1606,384,1597,412,1594,439,1595,463,1589,463,1589,439,1592,410,1601,382,1619,358,1650,344,1704,333,1860,314,2040,301,2197,294"/>
+<area shape="poly" id="edge55_Node000040_Node000007" title=" " alt="" coords="2197,296,2044,300,1843,310,1618,330,1504,344,1393,363,1364,369,1363,364,1392,357,1504,339,1618,324,1843,305,2044,294,2197,291"/>
+<area shape="poly" id="edge57_Node000040_Node000008" title=" " alt="" coords="2239,322,2050,418,1948,466,1946,461,2048,413,2237,317"/>
+<area shape="poly" id="edge58_Node000040_Node000009" title=" " alt="" coords="2198,310,1873,363,1810,373,1809,368,1872,357,2197,305"/>
+<area shape="poly" id="edge59_Node000040_Node000010" title=" " alt="" coords="2241,323,2220,341,2203,361,2191,387,2183,415,2178,464,2173,463,2178,414,2186,385,2198,359,2216,337,2238,319"/>
+<area shape="poly" id="edge51_Node000040_Node000019" title=" " alt="" coords="2197,298,1506,320,1145,339,1014,350,937,363,908,375,887,390,866,405,836,418,767,437,708,448,655,453,606,455,502,456,441,459,370,466,334,472,333,466,370,461,441,453,502,450,605,450,655,448,708,443,766,432,834,413,864,400,884,385,906,370,936,357,1013,345,1144,334,1505,315,2197,292"/>
+<area shape="poly" id="edge52_Node000040_Node000022" title=" " alt="" coords="2197,298,1275,327,775,346,484,363,422,372,421,367,483,357,774,340,1275,322,2197,293"/>
+<area shape="poly" id="edge53_Node000040_Node000026" title=" " alt="" coords="2197,298,1540,323,1166,342,893,363,824,373,823,368,892,357,1166,336,1539,317,2197,293"/>
+<area shape="poly" id="edge63_Node000040_Node000035" title=" " alt="" coords="2380,291,2591,295,2845,305,2966,313,3071,325,3149,339,3176,348,3193,358,3210,382,3219,410,3221,439,3220,463,3214,463,3216,439,3213,411,3206,384,3190,362,3174,353,3148,345,3070,330,2966,319,2845,310,2590,300,2380,296"/>
+<area shape="poly" id="edge68_Node000040_Node000036" title=" " alt="" coords="2381,292,2685,299,3076,312,3421,331,3536,344,3571,350,3590,358,3608,382,3618,410,3621,439,3620,463,3615,463,3615,439,3612,411,3604,384,3587,362,3570,355,3535,349,3421,337,3076,318,2685,305,2381,297"/>
+<area shape="rect" id="Node000041" href="$phal__G4_2gpio_2gpio_8c.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="2213,368,2365,408"/>
+<area shape="poly" id="edge50_Node000040_Node000041" title=" " alt="" coords="2291,328,2291,367,2286,367,2286,328"/>
+<area shape="rect" id="Node000042" href="$driver__interface_8c.html" title="thread to manage driver&#45;facing LCD, buttons, LEDs" alt="" coords="2389,360,2567,416"/>
+<area shape="poly" id="edge56_Node000040_Node000042" title=" " alt="" coords="2343,317,2424,357,2422,362,2341,322"/>
+<area shape="rect" id="Node000043" href="$pin__defs_8h.html" title="&quot;Driveline&quot; node pin definitions and related constants" alt="" coords="2591,368,2757,408"/>
+<area shape="poly" id="edge60_Node000040_Node000043" title=" " alt="" coords="2381,310,2580,357,2606,364,2605,369,2579,363,2380,316"/>
+<area shape="rect" id="Node000044" href="$blinky_8c.html" title=" " alt="" coords="3716,464,3848,504"/>
+<area shape="poly" id="edge62_Node000040_Node000044" title=" " alt="" coords="2381,291,2734,295,3202,305,3427,314,3618,325,3756,340,3798,348,3820,358,3828,370,3832,384,3828,413,3815,441,3800,465,3795,462,3811,439,3823,412,3826,385,3823,373,3816,362,3796,353,3755,345,3618,331,3426,319,3202,311,2734,300,2381,296"/>
+<area shape="rect" id="Node000045" href="$main__module_2main_8h.html" title="&quot;Main Module&quot; node source code" alt="" coords="3255,368,3400,408"/>
+<area shape="poly" id="edge64_Node000040_Node000045" title=" " alt="" coords="2381,290,2543,294,2756,304,2995,324,3117,339,3236,357,3266,364,3265,369,3235,363,3116,344,2995,329,2755,309,2542,299,2381,296"/>
+<area shape="rect" id="Node000046" href="$sdc_8c.html" title="SDC task implementation." alt="" coords="2781,368,2927,408"/>
+<area shape="poly" id="edge66_Node000040_Node000046" title=" " alt="" coords="2381,299,2561,321,2666,337,2769,357,2796,364,2794,369,2768,363,2665,342,2561,326,2380,304"/>
+<area shape="rect" id="Node000047" href="$vehicle__fsm_8c.html" title="Master vehicle state machine implementation." alt="" coords="2951,368,3179,408"/>
+<area shape="poly" id="edge67_Node000040_Node000047" title=" " alt="" coords="2381,297,2633,319,2787,336,2940,357,2978,364,2977,369,2939,363,2786,341,2633,324,2380,302"/>
+<area shape="rect" id="Node000048" href="$torque__vector_2main_8h.html" title="&quot;Torque Vector&quot; node source code" alt="" coords="3652,368,3805,408"/>
+<area shape="poly" id="edge69_Node000040_Node000048" title=" " alt="" coords="2381,292,2653,300,3014,312,3372,332,3520,344,3633,357,3666,364,3665,369,3632,363,3520,349,3372,337,3014,318,2653,305,2380,298"/>
+<area shape="poly" id="edge61_Node000043_Node000010" title=" " alt="" coords="2594,415,2580,418,2409,451,2259,474,2258,469,2408,446,2579,413,2592,410"/>
+<area shape="poly" id="edge65_Node000045_Node000035" title=" " alt="" coords="3294,420,3239,465,3236,461,3290,416"/>
+<area shape="poly" id="edge70_Node000048_Node000036" title=" " alt="" coords="3695,420,3640,465,3637,461,3692,416"/>
+<area shape="rect" id="Node000050" href="$phal__G4_2pwm_2pwm_8c.html" title="Public PWM driver interface for STM32G4." alt="" coords="1971,183,2124,223"/>
+<area shape="poly" id="edge72_Node000049_Node000050" title=" " alt="" coords="2050,150,2050,182,2045,182,2045,150"/>
+<area shape="poly" id="edge80_Node000051_Node000006" title=" " alt="" coords="3430,415,3413,418,3257,436,3063,447,2843,453,2610,456,2156,458,1961,460,1804,466,1670,477,1670,472,1803,461,1960,455,2156,452,2609,450,2842,448,3062,442,3257,431,3412,413,3428,410"/>
+<area shape="poly" id="edge81_Node000051_Node000008" title=" " alt="" coords="3430,415,3413,418,3212,446,3041,461,2890,465,2749,463,2456,455,2284,456,2081,466,1993,475,1992,469,2080,461,2284,451,2456,449,2749,457,2890,460,3041,455,3212,441,3412,413,3428,410"/>
+<area shape="poly" id="edge82_Node000051_Node000010" title=" " alt="" coords="3429,415,3413,418,3309,432,3172,444,2842,463,2509,476,2259,483,2258,478,2509,471,2842,458,3172,439,3309,427,3412,413,3427,410"/>
+<area shape="poly" id="edge79_Node000051_Node000021" title=" " alt="" coords="3430,415,3413,418,3289,434,3146,446,2813,461,2437,466,2038,465,1262,458,928,458,659,466,535,477,534,471,659,461,928,453,1262,452,2038,460,2437,461,2813,456,3146,441,3289,429,3412,413,3429,410"/>
+<area shape="poly" id="edge84_Node000051_Node000035" title=" " alt="" coords="3427,416,3275,466,3273,461,3426,411"/>
+<area shape="poly" id="edge85_Node000051_Node000036" title=" " alt="" coords="3538,416,3593,461,3590,465,3535,420"/>
+<area shape="poly" id="edge83_Node000051_Node000044" title=" " alt="" coords="3574,411,3724,461,3722,466,3573,416"/>
+<area shape="rect" id="Node000052" href="$pwm__priv_8c.html" title="Private STM32G4 PWM register implementation." alt="" coords="3311,464,3464,504"/>
+<area shape="poly" id="edge74_Node000051_Node000052" title=" " alt="" coords="3467,420,3412,465,3409,461,3464,416"/>
+<area shape="rect" id="Node000053" href="$phal__G4_2rcc_2rcc_8c.html" title="G4 RCC public API implementation." alt="" coords="3561,552,3713,593"/>
+<area shape="poly" id="edge75_Node000051_Node000053" title=" " alt="" coords="3504,423,3512,464,3519,484,3529,503,3557,530,3589,550,3586,554,3554,534,3525,506,3514,486,3506,465,3499,424"/>
+<area shape="poly" id="edge76_Node000051_Node000054" title=" " alt="" coords="3593,405,3860,461,3871,463,3870,469,3859,466,3592,411"/>
+<area shape="poly" id="edge77_Node000054_Node000053" title=" " alt="" coords="3862,512,3708,554,3707,549,3861,506"/>
+<area shape="rect" id="Node000055" href="$rcc__priv_8c.html" title="G4 RCC private/register level implementation." alt="" coords="3871,552,4024,593"/>
+<area shape="poly" id="edge78_Node000054_Node000055" title=" " alt="" coords="3950,520,3950,552,3945,552,3945,520"/>
+<area shape="poly" id="edge90_Node000056_Node000008" title=" " alt="" coords="1646,229,1733,284,1780,319,1824,358,1867,412,1896,462,1891,465,1862,415,1820,362,1777,323,1730,288,1643,234"/>
+<area shape="poly" id="edge88_Node000056_Node000028" title=" " alt="" coords="1594,239,1587,276,1571,313,1545,345,1515,369,1511,365,1541,341,1566,311,1582,274,1589,238"/>
+<area shape="poly" id="edge89_Node000056_Node000029" title=" " alt="" coords="1558,235,1508,273,1505,269,1555,231"/>
+<area shape="poly" id="edge91_Node000056_Node000036" title=" " alt="" coords="1685,206,2188,233,2893,275,3528,320,3733,340,3793,349,3820,358,3830,372,3832,387,3829,402,3820,418,3803,428,3772,440,3689,466,3687,460,3770,435,3801,423,3816,414,3824,400,3827,387,3825,375,3816,362,3792,355,3732,346,3527,325,2893,280,2188,239,1685,212"/>
 </map>

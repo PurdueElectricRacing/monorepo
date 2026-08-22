@@ -38,7 +38,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="adc__priv_8c.html#a497a62c24dd03f65a68b0c11d7483cc1" target="_top" xlink:title="Select the synchronous HCLK/4 ADC clock if it is not already configured.">
+<g id="a_Node000004"><a xlink:href="adc__priv_8c.html#a0f0f05de0cffac36f6034d0091ac79c4" target="_top" xlink:title="Select the synchronous HCLK/4 ADC clock if it is not already configured.">
 <polygon fill="white" stroke="#666666" points="261.5,-204.25 157,-204.25 157,-185 261.5,-185 261.5,-204.25"/>
 <text text-anchor="middle" x="209.25" y="-190.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_configure_clock</text>
 </a>
@@ -92,7 +92,7 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="adc__priv_8c.html#ad3262ac785543c903e694fc6e3e19d73" target="_top" xlink:title="Enable and synchronize the peripheral clock for an ADC instance.">
+<g id="a_Node000010"><a xlink:href="adc__priv_8c.html#ab48aaf81821ed3c52caa0bc5060d61b7" target="_top" xlink:title="Enable and synchronize the peripheral clock for an ADC instance.">
 <polygon fill="white" stroke="#666666" points="256.25,-93.25 162.25,-93.25 162.25,-74 256.25,-74 256.25,-93.25"/>
 <text text-anchor="middle" x="209.25" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_enable_clock</text>
 </a>
@@ -146,7 +146,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" target="_top" xlink:title="Wait for masked register bits to reach the requested state.">
+<g id="a_Node000003"><a xlink:href="adc__priv_8c.html#ad76bcc9338ec2464412b8e0fcd2bd1b3" target="_top" xlink:title="Wait for masked register bits to reach the requested state.">
 <polygon fill="white" stroke="#666666" points="595.75,-92.25 486.75,-92.25 486.75,-73 595.75,-73 595.75,-92.25"/>
 <text text-anchor="middle" x="541.25" y="-78.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_wait_for_register</text>
 </a>
@@ -164,7 +164,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="adc__priv_8c.html#afb224045594ce20e2052c6807f88868a" target="_top" xlink:title="Return the common register bank containing an ADC instance.">
+<g id="a_Node000005"><a xlink:href="adc__priv_8c.html#aa9a612b40213f953aa4169c1f6a0b6f2" target="_top" xlink:title="Return the common register bank containing an ADC instance.">
 <polygon fill="white" stroke="#666666" points="438.75,-204.25 321.5,-204.25 321.5,-185 438.75,-185 438.75,-204.25"/>
 <text text-anchor="middle" x="380.12" y="-190.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_common_registers</text>
 </a>

@@ -4,13 +4,13 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,65,192,65,192,70,160,70"/>
 <area shape="rect" id="Node000003" href="$phal__G4_2dma_2dma_8c.html#a1261cc1a26fcb06f8cebc00c95ffd55a" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="386,5,546,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="324,51,397,33,398,38,326,57"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="383,55,548,80"/>
+<area shape="rect" id="Node000005" href="$phal__G4_2dma_2dma_8c.html#a8b762b52851e14b6724a69695a8a1e5a" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="383,55,548,80"/>
 <area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="335,65,367,65,367,70,335,70"/>
 <area shape="rect" id="Node000007" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="403,104,528,130"/>
 <area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="326,78,398,97,397,102,324,84"/>
 <area shape="rect" id="Node000004" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="619,5,807,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="546,16,603,16,603,21,546,21"/>
-<area shape="rect" id="Node000006" href="$dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="596,55,830,80"/>
+<area shape="rect" id="Node000006" href="$dma__priv_8c.html#adf33cac6892b314e0d5db3149d6e79fd" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="596,55,830,80"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="549,65,581,65,581,70,549,70"/>
 <area shape="rect" id="Node000008" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="605,104,821,130"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="529,114,589,114,589,120,529,120"/>

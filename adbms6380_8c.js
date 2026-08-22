@@ -6,7 +6,7 @@ var adbms6380_8c =
     [ "adbms6380_calculate_cfg_rega", "adbms6380_8c.html#ad6309659e70a91acde06af856a1ff7c3", null ],
     [ "adbms6380_calculate_cfg_regb", "adbms6380_8c.html#a7edc17528da09597a1ba5cd6d5e9671e", null ],
     [ "adbms6380_check_data_pec", "adbms6380_8c.html#ad065e19e0b9ff761f14abe8bf654750d", null ],
-    [ "adbms6380_extract_i16", "adbms6380_8c.html#a5015be743738347dcf5a108a0fd276d6", null ],
+    [ "adbms6380_extract_i16", "adbms6380_8c.html#acc87384e4826eb04ff2bd3edb00888da", null ],
     [ "adbms6380_get_threshold_voltage_cfg", "adbms6380_8c.html#a7dba9c62715355f360c6e4f1b150d334", null ],
     [ "adbms6380_prepare_command", "adbms6380_8c.html#a87779ad64f4a74f4550870855d30d4a2", null ],
     [ "adbms6380_prepare_data_packet", "adbms6380_8c.html#a8c34ef8839dcd0f491ade5e2f7146e9b", null ],

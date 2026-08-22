@@ -24,9 +24,9 @@
 <area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="504,402,543,347,572,316,607,291,617,285,619,290,610,295,576,320,547,351,508,405"/>
 <area shape="rect" id="Node000009" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="896,105,1112,131"/>
 <area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="498,403,509,363,529,308,561,250,582,224,607,201,649,185,726,167,908,132,909,137,727,172,651,190,610,206,586,228,566,253,534,311,514,365,503,404"/>
-<area shape="rect" id="Node000010" href="$dma__priv_8c.html#a98c01cf2ce77f94763ff918f7f939e0e" title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock." alt="" coords="624,355,824,380"/>
+<area shape="rect" id="Node000010" href="$dma__priv_8c.html#a8170a3136b79b3e63455133955dd3c18" title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock." alt="" coords="624,355,824,380"/>
 <area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="555,401,608,389,642,382,643,387,609,394,556,406"/>
-<area shape="rect" id="Node000011" href="$dma__priv_8c.html#ae2f74296c8912f0000fa614d49bd1ab8" title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8." alt="" coords="627,404,821,430"/>
+<area shape="rect" id="Node000011" href="$dma__priv_8c.html#a28c2eff8a85e591630df54f2fa239c0d" title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8." alt="" coords="627,404,821,430"/>
 <area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="556,414,612,414,612,420,556,420"/>
 <area shape="rect" id="Node000012" href="$dma__priv_8c.html#a73f7770b98ebe2b4ca15995393187782" title=" " alt="" coords="636,453,812,479"/>
 <area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="556,428,609,440,643,447,642,452,608,445,555,433"/>
@@ -43,12 +43,12 @@
 <area shape="poly" id="edge21_Node000020_Node000021" title=" " alt="" coords="311,188,456,111,458,116,314,193"/>
 <area shape="rect" id="Node000022" href="$phal__G4_2dma_2dma_8c.html#a1261cc1a26fcb06f8cebc00c95ffd55a" title="Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can b..." alt="" coords="644,104,804,130"/>
 <area shape="poly" id="edge22_Node000021_Node000022" title=" " alt="" coords="561,97,629,104,628,109,560,102"/>
-<area shape="rect" id="Node000023" href="$phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="641,5,807,31"/>
+<area shape="rect" id="Node000023" href="$phal__G4_2dma_2dma_8c.html#a8b762b52851e14b6724a69695a8a1e5a" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="641,5,807,31"/>
 <area shape="poly" id="edge24_Node000021_Node000023" title=" " alt="" coords="522,77,561,58,607,40,632,33,633,38,609,45,563,63,524,82"/>
 <area shape="rect" id="Node000025" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="661,55,787,80"/>
 <area shape="poly" id="edge26_Node000021_Node000025" title=" " alt="" coords="560,83,645,74,646,79,561,88"/>
 <area shape="poly" id="edge23_Node000022_Node000005" title=" " alt="" coords="775,128,940,173,939,178,774,133"/>
-<area shape="rect" id="Node000024" href="$dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="888,5,1121,31"/>
+<area shape="rect" id="Node000024" href="$dma__priv_8c.html#adf33cac6892b314e0d5db3149d6e79fd" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="888,5,1121,31"/>
 <area shape="poly" id="edge25_Node000023_Node000024" title=" " alt="" coords="807,16,872,16,872,21,807,21"/>
 <area shape="poly" id="edge27_Node000025_Node000009" title=" " alt="" coords="788,76,915,99,914,105,787,81"/>
 </map>

@@ -1,0 +1,23 @@
+<map id="PHAL_DMA_isComplete" name="PHAL_DMA_isComplete">
+<area shape="rect" id="Node000001" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="763,80,928,106"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8c.html#a88783c4b103049de64fc356c016ccae2" title="Process DMA completion or error status for an ADC handle." alt="" coords="528,5,673,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="799,76,714,45,673,34,674,29,715,40,801,71"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2adc_2adc_8c.html#a182c3e08bcff1970109448d9c24cb39c" title="Synchronous one&#45;buffer conversion using the DMA engine." alt="" coords="514,55,687,80"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="747,85,687,79,688,74,747,80"/>
+<area shape="rect" id="Node000007" href="$spi__priv_8c.html#a3e96e7e3bd320ca9791c8d7b10ee9e7d" title="Handle DMA transmit&#45;complete interrupts." alt="" coords="486,104,715,130"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="747,105,715,108,715,103,747,100"/>
+<area shape="rect" id="Node000008" href="$phal__G4_2usart_2usart_8c.html#a52698641ece10b0458377d015a3a07e7" title=" " alt="" coords="537,153,664,179"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="800,114,715,145,665,157,664,152,714,140,798,109"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html#ab1d3e1e78099bd0f30e345ce46dd626a" title=" " alt="" coords="296,5,426,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="513,21,426,21,426,16,513,16"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="112,5,227,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="281,21,227,21,227,16,281,16"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="96,21,55,21,55,16,96,16"/>
+<area shape="rect" id="Node000009" href="$phal__G4_2usart_2usart_8c.html#a43e252bd62d3d5e76f2e50ebc399abe5" title=" " alt="" coords="284,153,438,179"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="521,169,439,169,439,164,521,164"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2usart_2usart_8c.html#a6a2d7bc858fa90a11e983e615fde1f7c" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="103,153,236,179"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="268,169,236,169,236,164,268,164"/>
+<area shape="rect" id="Node000011" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,153,55,179"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="87,169,55,169,55,164,87,164"/>
+</map>

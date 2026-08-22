@@ -283,7 +283,7 @@ var sectionId = 'dynsection-1';
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="dma__priv_8c.html#a98c01cf2ce77f94763ff918f7f939e0e" target="_top" xlink:title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock.">
+<g id="a_Node000010"><a xlink:href="dma__priv_8c.html#a8170a3136b79b3e63455133955dd3c18" target="_top" xlink:title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock.">
 <polygon fill="white" stroke="#666666" points="613.75,-278.25 464.25,-278.25 464.25,-259 613.75,-259 613.75,-278.25"/>
 <text text-anchor="middle" x="539" y="-264.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_enableClock</text>
 </a>
@@ -301,7 +301,7 @@ var sectionId = 'dynsection-1';
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="dma__priv_8c.html#ae2f74296c8912f0000fa614d49bd1ab8" target="_top" xlink:title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8.">
+<g id="a_Node000011"><a xlink:href="dma__priv_8c.html#a28c2eff8a85e591630df54f2fa239c0d" target="_top" xlink:title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8.">
 <polygon fill="white" stroke="#666666" points="611.5,-241.25 466.5,-241.25 466.5,-222 611.5,-222 611.5,-241.25"/>
 <text text-anchor="middle" x="539" y="-227.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_getChannel</text>
 </a>
@@ -454,7 +454,7 @@ var sectionId = 'dynsection-1';
 <!-- Node23 -->
 <g id="Node000023" class="node">
 <title>Node23</title>
-<g id="a_Node000023"><a xlink:href="phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" target="_top" xlink:title="Check whether the channel has finished its transfer (TC flag set)">
+<g id="a_Node000023"><a xlink:href="phal__G4_2dma_2dma_8c.html#a8b762b52851e14b6724a69695a8a1e5a" target="_top" xlink:title="Check whether the channel has finished its transfer (TC flag set)">
 <polygon fill="white" stroke="#666666" points="601,-540.25 477,-540.25 477,-521 601,-521 601,-540.25"/>
 <text text-anchor="middle" x="539" y="-526.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_isComplete</text>
 </a>
@@ -499,7 +499,7 @@ var sectionId = 'dynsection-1';
 <!-- Node24 -->
 <g id="Node000024" class="node">
 <title>Node24</title>
-<g id="a_Node000024"><a xlink:href="dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" target="_top" xlink:title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)">
+<g id="a_Node000024"><a xlink:href="dma__priv_8c.html#adf33cac6892b314e0d5db3149d6e79fd" target="_top" xlink:title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)">
 <polygon fill="white" stroke="#666666" points="836.75,-540.25 661.75,-540.25 661.75,-521 836.75,-521 836.75,-540.25"/>
 <text text-anchor="middle" x="749.25" y="-526.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_readCompleteFlag</text>
 </a>

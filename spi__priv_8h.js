@@ -1,11 +1,11 @@
 var spi__priv_8h =
 [
-    [ "PHAL_SPI_priv_calcBaudRatePrescaler", "spi__priv_8h.html#a7b8f558ba30544fcae726c02b845dde5", null ],
+    [ "PHAL_SPI_priv_calcBaudRatePrescaler", "spi__priv_8h.html#a98dfc2957eb2c5832e8f31f72c480a15", null ],
     [ "PHAL_SPI_priv_configCR1", "spi__priv_8h.html#aa09f1173859fac598f1129e0e69d48ba", null ],
     [ "PHAL_SPI_priv_configCR2", "spi__priv_8h.html#a4d834d39ddd3930669d00c3b96ae34fc", null ],
     [ "PHAL_SPI_priv_Disable", "spi__priv_8h.html#ae8cc6e8bfe06c4d571136c82e916811d", null ],
     [ "PHAL_SPI_priv_Enable", "spi__priv_8h.html#af89def543ea5c1f819bc2f4f57c37942", null ],
-    [ "PHAL_SPI_priv_enableClock", "spi__priv_8h.html#a0faef94248879a2692c32c5d28c08f85", null ],
+    [ "PHAL_SPI_priv_enableClock", "spi__priv_8h.html#aac98401cd7c0f0107bd10b9653aa669e", null ],
     [ "PHAL_SPI_priv_enableDMA_RX", "spi__priv_8h.html#af26bdd68e047cde3da712ab3928ea4c1", null ],
     [ "PHAL_SPI_priv_enableDMA_TX", "spi__priv_8h.html#a13a5d883a06088ab8338aed283f01a37", null ],
     [ "PHAL_SPI_priv_handleTxComplete", "spi__priv_8h.html#a3e96e7e3bd320ca9791c8d7b10ee9e7d", null ],

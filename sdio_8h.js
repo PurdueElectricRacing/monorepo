@@ -194,7 +194,7 @@ var sdio_8h =
       [ "SD_TRANSFER_ERROR", "sdio_8h.html#ace0484a459648257c3eae8ea60f64fbfa1c06f1ea5cd5d5f2ecb715654384b047", null ]
     ] ],
     [ "PHAL_SDIO_init", "sdio_8h.html#a7b441f99db323528145ce61011b5b204", null ],
-    [ "PHAL_SDIO_SendCommand", "sdio_8h.html#a4b480281586b4fd1ccf150129fe21120", null ],
+    [ "PHAL_SDIO_SendCommand", "sdio_8h.html#a3e4fe525a02f74c64e92474c32490e41", null ],
     [ "SD_DeInit", "sdio_8h.html#ad469cc842f03b1d49e08e91b515b7ded", null ],
     [ "SD_Detect", "sdio_8h.html#acb7415873dffa26068c5e46025efebfa", null ],
     [ "SD_EnableWideBusOperation", "sdio_8h.html#a6569e73a229e639d2043549942d58d11", null ],
@@ -204,7 +204,7 @@ var sdio_8h =
     [ "SD_Init", "sdio_8h.html#a3c927d4d98ffb6f3cc2442b09c19926c", null ],
     [ "SD_InitializeCards", "sdio_8h.html#ab39f671413ee824a13bf1bd833f724e9", null ],
     [ "SD_LowLevel_DMA_RxConfig", "sdio_8h.html#ad6c4df3070c195bbc2067e19a702f495", null ],
-    [ "SD_LowLevel_DMA_TxConfig", "sdio_8h.html#ab5b450ca3307efda90446fe2a8cca8f4", null ],
+    [ "SD_LowLevel_DMA_TxConfig", "sdio_8h.html#ac9ea7d624e0f216c27188ecadd1a3cbe", null ],
     [ "SD_PowerON", "sdio_8h.html#a9fbd4dd6187701cbe286ddb163e9c312", null ],
     [ "SD_ReadMultiBlocks", "sdio_8h.html#a56b7336165f2631d9142a513ea2d0d17", null ],
     [ "SD_SelectDeselect", "sdio_8h.html#a849eb0b385337453139a7567898dacb7", null ],

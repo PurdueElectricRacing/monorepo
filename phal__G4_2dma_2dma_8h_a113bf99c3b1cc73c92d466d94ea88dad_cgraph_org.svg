@@ -146,7 +146,7 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="dma__priv_8c.html#a98c01cf2ce77f94763ff918f7f939e0e" target="_top" xlink:title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock.">
+<g id="a_Node000010"><a xlink:href="dma__priv_8c.html#a8170a3136b79b3e63455133955dd3c18" target="_top" xlink:title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock.">
 <polygon fill="white" stroke="#666666" points="466.5,-204.25 317,-204.25 317,-185 466.5,-185 466.5,-204.25"/>
 <text text-anchor="middle" x="391.75" y="-190.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_enableClock</text>
 </a>
@@ -164,7 +164,7 @@
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="dma__priv_8c.html#ae2f74296c8912f0000fa614d49bd1ab8" target="_top" xlink:title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8.">
+<g id="a_Node000011"><a xlink:href="dma__priv_8c.html#a28c2eff8a85e591630df54f2fa239c0d" target="_top" xlink:title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8.">
 <polygon fill="white" stroke="#666666" points="464.25,-167.25 319.25,-167.25 319.25,-148 464.25,-148 464.25,-167.25"/>
 <text text-anchor="middle" x="391.75" y="-153.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_getChannel</text>
 </a>

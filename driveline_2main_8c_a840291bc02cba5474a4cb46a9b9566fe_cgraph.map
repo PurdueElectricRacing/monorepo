@@ -48,25 +48,25 @@
 <area shape="poly" id="edge30_Node000010_Node000041" title=" " alt="" coords="206,452,251,474,304,496,364,511,413,517,462,524,523,540,547,552,571,562,631,575,692,583,803,589,803,594,691,588,630,580,570,567,545,556,521,545,461,529,412,523,363,516,302,501,248,479,203,457"/>
 <area shape="rect" id="Node000042" href="$phal__G4_2dma_2dma_8c.html#a113bf99c3b1cc73c92d466d94ea88dad" title="Setup DMA callback then call PHAL_DMA_init()" alt="" coords="316,555,509,580"/>
 <area shape="poly" id="edge32_Node000010_Node000042" title=" " alt="" coords="195,452,242,492,272,514,304,533,338,547,336,552,302,538,269,518,238,496,192,456"/>
-<area shape="rect" id="Node000012" href="$adc__priv_8c.html#a1cfb0af3466d2b09a77acffade668854" title="Return whether an ADC instance is supported by this driver." alt="" coords="576,64,736,105"/>
+<area shape="rect" id="Node000012" href="$adc__priv_8c.html#a4dfd17ae40b5131a2f5e4c92814dafad" title="Return whether an ADC instance is supported by this driver." alt="" coords="576,64,736,105"/>
 <area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="480,207,501,200,521,189,537,172,545,154,552,134,568,115,573,111,576,116,572,119,557,137,549,156,541,175,524,194,503,205,481,212"/>
 <area shape="rect" id="Node000014" href="$phal__G4_2adc_2adc_8c.html#a88783c4b103049de64fc356c016ccae2" title="Process DMA completion or error status for an ADC handle." alt="" coords="584,129,728,155"/>
 <area shape="poly" id="edge13_Node000013_Node000014" title=" " alt="" coords="477,257,500,250,521,239,537,222,544,203,552,183,569,164,574,160,577,165,572,168,556,186,549,205,541,224,524,243,502,255,478,262"/>
 <area shape="poly" id="edge15_Node000028_Node000029" title=" " alt="" coords="470,307,496,300,521,288,536,273,545,256,553,239,569,221,590,209,593,213,572,226,557,242,549,259,541,276,524,292,498,305,471,312"/>
 <area shape="rect" id="Node000031" href="$adc__priv_8c.html#aa9f503d5c4306dfcbeebd828b786b0c4" title="Run single&#45;ended ADC calibration and wait for completion." alt="" coords="835,328,933,354"/>
 <area shape="poly" id="edge18_Node000030_Node000031" title=" " alt="" coords="485,402,504,393,521,382,532,368,538,353,542,323,547,293,555,278,569,265,605,248,644,242,683,245,723,254,796,284,853,317,850,321,794,289,722,259,683,250,644,247,606,253,572,270,559,282,552,294,547,323,543,355,537,370,524,385,506,398,487,407"/>
-<area shape="rect" id="Node000032" href="$adc__priv_8c.html#a497a62c24dd03f65a68b0c11d7483cc1" title="Select the synchronous HCLK/4 ADC clock if it is not already configured." alt="" coords="586,280,726,306"/>
+<area shape="rect" id="Node000032" href="$adc__priv_8c.html#a0f0f05de0cffac36f6034d0091ac79c4" title="Select the synchronous HCLK/4 ADC clock if it is not already configured." alt="" coords="586,280,726,306"/>
 <area shape="poly" id="edge20_Node000030_Node000032" title=" " alt="" coords="483,400,521,381,536,366,544,349,552,332,569,315,575,311,578,315,572,319,557,335,549,351,540,369,524,386,485,405"/>
 <area shape="rect" id="Node000034" href="$adc__priv_8c.html#ace7087980070b4763edf77c577fb91bb" title="Apply the driver&#39;s fixed resolution, trigger, and DMA conversion settings." alt="" coords="570,329,742,355"/>
 <area shape="poly" id="edge21_Node000030_Node000034" title=" " alt="" coords="461,400,521,381,569,364,590,357,592,362,571,369,523,386,462,405"/>
 <area shape="rect" id="Node000035" href="$adc__priv_8c.html#a54285aeb010313cf359e3ceee0e47f93" title="Program the configured channel order and sampling times." alt="" coords="574,379,738,404"/>
 <area shape="poly" id="edge22_Node000030_Node000035" title=" " alt="" coords="485,406,558,398,558,404,486,411"/>
-<area shape="rect" id="Node000038" href="$adc__priv_8c.html#ad3262ac785543c903e694fc6e3e19d73" title="Enable and synchronize the peripheral clock for an ADC instance." alt="" coords="593,428,719,454"/>
+<area shape="rect" id="Node000038" href="$adc__priv_8c.html#ab48aaf81821ed3c52caa0bc5060d61b7" title="Enable and synchronize the peripheral clock for an ADC instance." alt="" coords="593,428,719,454"/>
 <area shape="poly" id="edge23_Node000030_Node000038" title=" " alt="" coords="486,420,578,430,577,435,485,426"/>
 <area shape="poly" id="edge24_Node000030_Node000039" title=" " alt="" coords="486,427,524,445,540,463,549,480,557,497,572,513,578,517,575,522,569,518,552,500,544,483,536,466,521,450,484,431"/>
 <area shape="rect" id="Node000040" href="$adc__priv_8c.html#aaae9006c12e90aa9625c64017e059c75" title="Wait at least the ADC regulator startup interval." alt="" coords="588,477,724,503"/>
 <area shape="poly" id="edge28_Node000030_Node000040" title=" " alt="" coords="464,426,523,445,571,464,591,470,589,475,569,469,521,450,462,432"/>
-<area shape="rect" id="Node000018" href="$adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" title="Wait for masked register bits to reach the requested state." alt="" coords="1026,503,1171,528"/>
+<area shape="rect" id="Node000018" href="$adc__priv_8c.html#ad76bcc9338ec2464412b8e0fcd2bd1b3" title="Wait for masked register bits to reach the requested state." alt="" coords="1026,503,1171,528"/>
 <area shape="poly" id="edge19_Node000031_Node000018" title=" " alt="" coords="903,352,1072,491,1068,495,900,356"/>
 <area shape="poly" id="edge27_Node000039_Node000018" title=" " alt="" coords="718,523,789,513,905,508,1011,509,1010,514,905,513,790,518,719,529"/>
 <area shape="rect" id="Node000017" href="$adc__priv_8c.html#a01d9929d1c92f9a3ad55a90edd7ffa04" title="Stop an active regular conversion sequence." alt="" coords="790,528,978,554"/>

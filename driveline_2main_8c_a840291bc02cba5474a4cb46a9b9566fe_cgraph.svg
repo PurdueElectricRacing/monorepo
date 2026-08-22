@@ -499,7 +499,7 @@ var sectionId = 'dynsection-1';
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="adc__priv_8c.html#a1cfb0af3466d2b09a77acffade668854" target="_top" xlink:title="Return whether an ADC instance is supported by this driver.">
+<g id="a_Node000012"><a xlink:href="adc__priv_8c.html#a4dfd17ae40b5131a2f5e4c92814dafad" target="_top" xlink:title="Return whether an ADC instance is supported by this driver.">
 <polygon fill="white" stroke="#666666" points="547.75,-928.88 428.25,-928.88 428.25,-898.38 547.75,-898.38 547.75,-928.88"/>
 <text text-anchor="start" x="436.25" y="-915.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADC_PRIV_instance_is</text>
 <text text-anchor="middle" x="488" y="-904.12" font-family="Helvetica,sans-Serif" font-size="10.00">_supported</text>
@@ -563,7 +563,7 @@ var sectionId = 'dynsection-1';
 <!-- Node32 -->
 <g id="Node000032" class="node">
 <title>Node32</title>
-<g id="a_Node000032"><a xlink:href="adc__priv_8c.html#a497a62c24dd03f65a68b0c11d7483cc1" target="_top" xlink:title="Select the synchronous HCLK/4 ADC clock if it is not already configured.">
+<g id="a_Node000032"><a xlink:href="adc__priv_8c.html#a0f0f05de0cffac36f6034d0091ac79c4" target="_top" xlink:title="Select the synchronous HCLK/4 ADC clock if it is not already configured.">
 <polygon fill="#fff0f0" stroke="red" points="540.25,-767.25 435.75,-767.25 435.75,-748 540.25,-748 540.25,-767.25"/>
 <text text-anchor="middle" x="488" y="-753.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_configure_clock</text>
 </a>
@@ -617,7 +617,7 @@ var sectionId = 'dynsection-1';
 <!-- Node38 -->
 <g id="Node000038" class="node">
 <title>Node38</title>
-<g id="a_Node000038"><a xlink:href="adc__priv_8c.html#ad3262ac785543c903e694fc6e3e19d73" target="_top" xlink:title="Enable and synchronize the peripheral clock for an ADC instance.">
+<g id="a_Node000038"><a xlink:href="adc__priv_8c.html#ab48aaf81821ed3c52caa0bc5060d61b7" target="_top" xlink:title="Enable and synchronize the peripheral clock for an ADC instance.">
 <polygon fill="white" stroke="#666666" points="535,-656.25 441,-656.25 441,-637 535,-637 535,-656.25"/>
 <text text-anchor="middle" x="488" y="-642.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_enable_clock</text>
 </a>
@@ -662,7 +662,7 @@ var sectionId = 'dynsection-1';
 <!-- Node18 -->
 <g id="Node000018" class="node">
 <title>Node18</title>
-<g id="a_Node000018"><a xlink:href="adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" target="_top" xlink:title="Wait for masked register bits to reach the requested state.">
+<g id="a_Node000018"><a xlink:href="adc__priv_8c.html#ad76bcc9338ec2464412b8e0fcd2bd1b3" target="_top" xlink:title="Wait for masked register bits to reach the requested state.">
 <polygon fill="white" stroke="#666666" points="874.5,-600.25 765.5,-600.25 765.5,-581 874.5,-581 874.5,-600.25"/>
 <text text-anchor="middle" x="820" y="-586.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_wait_for_register</text>
 </a>

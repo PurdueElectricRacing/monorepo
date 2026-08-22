@@ -490,17 +490,17 @@ Functions</h2></td></tr>
 <tr class="memitem:a7b441f99db323528145ce61011b5b204" id="r_a7b441f99db323528145ce61011b5b204"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b441f99db323528145ce61011b5b204">PHAL_SDIO_init</a> (void)</td></tr>
 <tr class="memdesc:a7b441f99db323528145ce61011b5b204"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize SDIO peripheral with the configuired structure.  <br /></td></tr>
 <tr class="separator:a7b441f99db323528145ce61011b5b204"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5b450ca3307efda90446fe2a8cca8f4" id="r_ab5b450ca3307efda90446fe2a8cca8f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5b450ca3307efda90446fe2a8cca8f4">SD_LowLevel_DMA_TxConfig</a> (uint32_t *BufferSRC, uint32_t BufferSize)</td></tr>
-<tr class="memdesc:ab5b450ca3307efda90446fe2a8cca8f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the DMA 2 Channel 6 for SDIO Tx request.  <br /></td></tr>
-<tr class="separator:ab5b450ca3307efda90446fe2a8cca8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9ea7d624e0f216c27188ecadd1a3cbe" id="r_ac9ea7d624e0f216c27188ecadd1a3cbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9ea7d624e0f216c27188ecadd1a3cbe">SD_LowLevel_DMA_TxConfig</a> (const uint32_t *BufferSRC, uint32_t BufferSize)</td></tr>
+<tr class="memdesc:ac9ea7d624e0f216c27188ecadd1a3cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the DMA 2 Channel 6 for SDIO Tx request.  <br /></td></tr>
+<tr class="separator:ac9ea7d624e0f216c27188ecadd1a3cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6c4df3070c195bbc2067e19a702f495" id="r_ad6c4df3070c195bbc2067e19a702f495"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6c4df3070c195bbc2067e19a702f495">SD_LowLevel_DMA_RxConfig</a> (uint32_t *BufferDST, uint32_t BufferSize)</td></tr>
 <tr class="memdesc:ad6c4df3070c195bbc2067e19a702f495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the DMA2 Channel4 for SDIO Rx request.  <br /></td></tr>
 <tr class="separator:ad6c4df3070c195bbc2067e19a702f495"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad469cc842f03b1d49e08e91b515b7ded" id="r_ad469cc842f03b1d49e08e91b515b7ded"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad469cc842f03b1d49e08e91b515b7ded">SD_DeInit</a> (void)</td></tr>
 <tr class="separator:ad469cc842f03b1d49e08e91b515b7ded"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b480281586b4fd1ccf150129fe21120" id="r_a4b480281586b4fd1ccf150129fe21120"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b480281586b4fd1ccf150129fe21120">PHAL_SDIO_SendCommand</a> (<a class="el" href="structPHAL__SD__Cmd__t.html">PHAL_SD_Cmd_t</a> *cmd)</td></tr>
-<tr class="memdesc:a4b480281586b4fd1ccf150129fe21120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command.  <br /></td></tr>
-<tr class="separator:a4b480281586b4fd1ccf150129fe21120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e4fe525a02f74c64e92474c32490e41" id="r_a3e4fe525a02f74c64e92474c32490e41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e4fe525a02f74c64e92474c32490e41">PHAL_SDIO_SendCommand</a> (const <a class="el" href="structPHAL__SD__Cmd__t.html">PHAL_SD_Cmd_t</a> *cmd)</td></tr>
+<tr class="memdesc:a3e4fe525a02f74c64e92474c32490e41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command.  <br /></td></tr>
+<tr class="separator:a3e4fe525a02f74c64e92474c32490e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c927d4d98ffb6f3cc2442b09c19926c" id="r_a3c927d4d98ffb6f3cc2442b09c19926c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#acff91fa68daa1d1ee967b5b3fb3dbd8c">SD_Error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c927d4d98ffb6f3cc2442b09c19926c">SD_Init</a> (void)</td></tr>
 <tr class="memdesc:a3c927d4d98ffb6f3cc2442b09c19926c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the SD Card and put it into StandBy State (Ready for data transfer).  <br /></td></tr>
 <tr class="separator:a3c927d4d98ffb6f3cc2442b09c19926c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2537,8 +2537,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a4b480281586b4fd1ccf150129fe21120" name="a4b480281586b4fd1ccf150129fe21120"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b480281586b4fd1ccf150129fe21120">&#9670;&#160;</a></span>PHAL_SDIO_SendCommand()</h2>
+<a id="a3e4fe525a02f74c64e92474c32490e41" name="a3e4fe525a02f74c64e92474c32490e41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e4fe525a02f74c64e92474c32490e41">&#9670;&#160;</a></span>PHAL_SDIO_SendCommand()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2546,7 +2546,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">void PHAL_SDIO_SendCommand </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structPHAL__SD__Cmd__t.html">PHAL_SD_Cmd_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cmd</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structPHAL__SD__Cmd__t.html">PHAL_SD_Cmd_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cmd</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -2562,7 +2562,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="sdio_8h_a4b480281586b4fd1ccf150129fe21120_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="sdio_8h_a3e4fe525a02f74c64e92474c32490e41_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2964,8 +2964,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ab5b450ca3307efda90446fe2a8cca8f4" name="ab5b450ca3307efda90446fe2a8cca8f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5b450ca3307efda90446fe2a8cca8f4">&#9670;&#160;</a></span>SD_LowLevel_DMA_TxConfig()</h2>
+<a id="ac9ea7d624e0f216c27188ecadd1a3cbe" name="ac9ea7d624e0f216c27188ecadd1a3cbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9ea7d624e0f216c27188ecadd1a3cbe">&#9670;&#160;</a></span>SD_LowLevel_DMA_TxConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2973,7 +2973,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void SD_LowLevel_DMA_TxConfig </td>
           <td>(</td>
-          <td class="paramtype">uint32_t *</td>          <td class="paramname"><span class="paramname"><em>BufferSRC</em></span>, </td>
+          <td class="paramtype">const uint32_t *</td>          <td class="paramname"><span class="paramname"><em>BufferSRC</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -3000,12 +3000,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="sdio_8h_ab5b450ca3307efda90446fe2a8cca8f4_cgraph.svg" width="646" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="sdio_8h_ac9ea7d624e0f216c27188ecadd1a3cbe_cgraph.svg" width="646" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="sdio_8h_ab5b450ca3307efda90446fe2a8cca8f4_icgraph.svg" width="400" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="sdio_8h_ac9ea7d624e0f216c27188ecadd1a3cbe_icgraph.svg" width="400" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

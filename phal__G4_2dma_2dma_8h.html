@@ -190,15 +190,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a8bb96df324a35a7917d5f061bda8ba00" id="r_a8bb96df324a35a7917d5f061bda8ba00"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bb96df324a35a7917d5f061bda8ba00">PHAL_DMA_getRemaining</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
 <tr class="memdesc:a8bb96df324a35a7917d5f061bda8ba00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of elements still left to transfer on this channel.  <br /></td></tr>
 <tr class="separator:a8bb96df324a35a7917d5f061bda8ba00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdcba34798f0fd085322e73f08f3a687" id="r_acdcba34798f0fd085322e73f08f3a687"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdcba34798f0fd085322e73f08f3a687">PHAL_DMA_isBusy</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
-<tr class="memdesc:acdcba34798f0fd085322e73f08f3a687"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the channel is currently enabled (transfer in progress, or in circular mode, running continuously)  <br /></td></tr>
-<tr class="separator:acdcba34798f0fd085322e73f08f3a687"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18b74faf02571f50b8893ebb38b34c68" id="r_a18b74faf02571f50b8893ebb38b34c68"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18b74faf02571f50b8893ebb38b34c68">PHAL_DMA_isComplete</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
-<tr class="memdesc:a18b74faf02571f50b8893ebb38b34c68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the channel has finished its transfer (TC flag set)  <br /></td></tr>
-<tr class="separator:a18b74faf02571f50b8893ebb38b34c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cf5974ead7304601becd26d9ae9d6c4" id="r_a8cf5974ead7304601becd26d9ae9d6c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cf5974ead7304601becd26d9ae9d6c4">PHAL_DMA_isError</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
-<tr class="memdesc:a8cf5974ead7304601becd26d9ae9d6c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the channel reported a transfer error (TE flag set)  <br /></td></tr>
-<tr class="separator:a8cf5974ead7304601becd26d9ae9d6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a451702e9e7dba5667019b3fb2ae75040" id="r_a451702e9e7dba5667019b3fb2ae75040"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a451702e9e7dba5667019b3fb2ae75040">PHAL_DMA_isBusy</a> (const <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
+<tr class="memdesc:a451702e9e7dba5667019b3fb2ae75040"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the channel is currently enabled (transfer in progress, or in circular mode, running continuously)  <br /></td></tr>
+<tr class="separator:a451702e9e7dba5667019b3fb2ae75040"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b762b52851e14b6724a69695a8a1e5a" id="r_a8b762b52851e14b6724a69695a8a1e5a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b762b52851e14b6724a69695a8a1e5a">PHAL_DMA_isComplete</a> (const <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
+<tr class="memdesc:a8b762b52851e14b6724a69695a8a1e5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the channel has finished its transfer (TC flag set)  <br /></td></tr>
+<tr class="separator:a8b762b52851e14b6724a69695a8a1e5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdefd9fd419dba197e3c754056e50f69" id="r_afdefd9fd419dba197e3c754056e50f69"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdefd9fd419dba197e3c754056e50f69">PHAL_DMA_isError</a> (const <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
+<tr class="memdesc:afdefd9fd419dba197e3c754056e50f69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the channel reported a transfer error (TE flag set)  <br /></td></tr>
+<tr class="separator:afdefd9fd419dba197e3c754056e50f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1261cc1a26fcb06f8cebc00c95ffd55a" id="r_a1261cc1a26fcb06f8cebc00c95ffd55a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1261cc1a26fcb06f8cebc00c95ffd55a">PHAL_DMA_clearFlags</a> (<a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *handle)</td></tr>
 <tr class="memdesc:a1261cc1a26fcb06f8cebc00c95ffd55a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear every latched status flag (complete/error/global) for the channel, so a finished transfer can be reused.  <br /></td></tr>
 <tr class="separator:a1261cc1a26fcb06f8cebc00c95ffd55a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -501,8 +501,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="acdcba34798f0fd085322e73f08f3a687" name="acdcba34798f0fd085322e73f08f3a687"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdcba34798f0fd085322e73f08f3a687">&#9670;&#160;</a></span>PHAL_DMA_isBusy()</h2>
+<a id="a451702e9e7dba5667019b3fb2ae75040" name="a451702e9e7dba5667019b3fb2ae75040"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a451702e9e7dba5667019b3fb2ae75040">&#9670;&#160;</a></span>PHAL_DMA_isBusy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -510,7 +510,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_DMA_isBusy </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -521,13 +521,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_acdcba34798f0fd085322e73f08f3a687_cgraph.svg" width="430" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a451702e9e7dba5667019b3fb2ae75040_cgraph.svg" width="430" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a18b74faf02571f50b8893ebb38b34c68" name="a18b74faf02571f50b8893ebb38b34c68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18b74faf02571f50b8893ebb38b34c68">&#9670;&#160;</a></span>PHAL_DMA_isComplete()</h2>
+<a id="a8b762b52851e14b6724a69695a8a1e5a" name="a8b762b52851e14b6724a69695a8a1e5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b762b52851e14b6724a69695a8a1e5a">&#9670;&#160;</a></span>PHAL_DMA_isComplete()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -535,7 +535,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_DMA_isComplete </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -553,18 +553,18 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a18b74faf02571f50b8893ebb38b34c68_cgraph.svg" width="458" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a8b762b52851e14b6724a69695a8a1e5a_cgraph.svg" width="458" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a18b74faf02571f50b8893ebb38b34c68_icgraph.svg" width="100%" height="438"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a8b762b52851e14b6724a69695a8a1e5a_icgraph.svg" width="100%" height="438"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a8cf5974ead7304601becd26d9ae9d6c4" name="a8cf5974ead7304601becd26d9ae9d6c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8cf5974ead7304601becd26d9ae9d6c4">&#9670;&#160;</a></span>PHAL_DMA_isError()</h2>
+<a id="afdefd9fd419dba197e3c754056e50f69" name="afdefd9fd419dba197e3c754056e50f69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdefd9fd419dba197e3c754056e50f69">&#9670;&#160;</a></span>PHAL_DMA_isError()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -572,7 +572,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_DMA_isError </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structPHAL__DMA__Handle__t.html">PHAL_DMA_Handle_t</a> *</td>          <td class="paramname"><span class="paramname"><em>handle</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -590,12 +590,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a8cf5974ead7304601becd26d9ae9d6c4_cgraph.svg" width="402" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_afdefd9fd419dba197e3c754056e50f69_cgraph.svg" width="402" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_a8cf5974ead7304601becd26d9ae9d6c4_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2dma_2dma_8h_afdefd9fd419dba197e3c754056e50f69_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

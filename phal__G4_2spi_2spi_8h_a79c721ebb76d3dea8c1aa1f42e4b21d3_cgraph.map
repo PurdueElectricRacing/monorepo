@@ -8,13 +8,13 @@
 <area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="65,477,100,415,128,379,162,349,170,345,172,349,165,354,132,383,104,418,70,480"/>
 <area shape="rect" id="Node000018" href="$phal__F4_2dma_2dma_8c.html#a5eef9fdb02d8b29dc11d7e69328e7504" title=" " alt="" coords="210,364,320,390"/>
 <area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="71,477,109,438,134,418,162,400,194,387,196,392,165,405,138,422,112,442,75,480"/>
-<area shape="rect" id="Node000020" href="$spi__priv_8c.html#a7b8f558ba30544fcae726c02b845dde5" title="Calculate the SPI baud&#45;rate prescaler." alt="" coords="164,414,366,454"/>
+<area shape="rect" id="Node000020" href="$spi__priv_8c.html#a98dfc2957eb2c5832e8f31f72c480a15" title="Calculate the SPI baud&#45;rate prescaler." alt="" coords="164,414,366,454"/>
 <area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="108,475,174,457,176,462,110,481"/>
 <area shape="rect" id="Node000024" href="$spi__priv_8c.html#aa09f1173859fac598f1129e0e69d48ba" title="Configure the SPI CR1 register." alt="" coords="175,479,355,504"/>
 <area shape="poly" id="edge24_Node000001_Node000024" title=" " alt="" coords="116,489,159,489,159,494,116,494"/>
 <area shape="rect" id="Node000025" href="$spi__priv_8c.html#a4d834d39ddd3930669d00c3b96ae34fc" title="Configure the SPI CR2 register." alt="" coords="175,528,355,554"/>
 <area shape="poly" id="edge25_Node000001_Node000025" title=" " alt="" coords="116,502,164,514,193,521,192,527,163,519,115,508"/>
-<area shape="rect" id="Node000026" href="$spi__priv_8c.html#a0faef94248879a2692c32c5d28c08f85" title="Enable the peripheral clock for an SPI instance." alt="" coords="169,577,361,603"/>
+<area shape="rect" id="Node000026" href="$spi__priv_8c.html#aac98401cd7c0f0107bd10b9653aa669e" title="Enable the peripheral clock for an SPI instance." alt="" coords="169,577,361,603"/>
 <area shape="poly" id="edge26_Node000001_Node000026" title=" " alt="" coords="78,503,115,533,165,564,179,570,177,575,162,569,112,538,74,507"/>
 <area shape="rect" id="Node000027" href="$spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542" title="Reset the internal SPI transfer state." alt="" coords="166,627,364,668"/>
 <area shape="poly" id="edge27_Node000001_Node000027" title=" " alt="" coords="71,503,107,557,134,587,165,613,172,617,169,622,162,618,130,591,103,560,67,506"/>
@@ -34,9 +34,9 @@
 <area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="567,274,690,237,720,230,721,235,691,242,569,279"/>
 <area shape="rect" id="Node000010" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="698,252,914,278"/>
 <area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="587,282,682,273,683,279,587,288"/>
-<area shape="rect" id="Node000011" href="$dma__priv_8c.html#a98c01cf2ce77f94763ff918f7f939e0e" title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock." alt="" coords="706,301,906,327"/>
+<area shape="rect" id="Node000011" href="$dma__priv_8c.html#a8170a3136b79b3e63455133955dd3c18" title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock." alt="" coords="706,301,906,327"/>
 <area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="587,293,691,302,691,307,587,298"/>
-<area shape="rect" id="Node000012" href="$dma__priv_8c.html#ae2f74296c8912f0000fa614d49bd1ab8" title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8." alt="" coords="709,351,903,376"/>
+<area shape="rect" id="Node000012" href="$dma__priv_8c.html#a28c2eff8a85e591630df54f2fa239c0d" title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8." alt="" coords="709,351,903,376"/>
 <area shape="poly" id="edge11_Node000003_Node000012" title=" " alt="" coords="570,301,691,337,721,344,720,349,690,342,569,306"/>
 <area shape="rect" id="Node000013" href="$dma__priv_8c.html#a73f7770b98ebe2b4ca15995393187782" title=" " alt="" coords="718,400,894,426"/>
 <area shape="poly" id="edge12_Node000003_Node000013" title=" " alt="" coords="571,301,607,317,644,337,659,351,668,364,677,375,692,387,704,393,702,397,689,391,673,379,664,367,655,354,641,342,605,321,569,306"/>

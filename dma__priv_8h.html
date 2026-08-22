@@ -122,12 +122,12 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a98c01cf2ce77f94763ff918f7f939e0e" id="r_a98c01cf2ce77f94763ff918f7f939e0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98c01cf2ce77f94763ff918f7f939e0e">PHAL_DMA_priv_enableClock</a> (DMA_TypeDef *periph)</td></tr>
-<tr class="memdesc:a98c01cf2ce77f94763ff918f7f939e0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable DMAMUX1's clock plus the given DMA peripheral's clock.  <br /></td></tr>
-<tr class="separator:a98c01cf2ce77f94763ff918f7f939e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2f74296c8912f0000fa614d49bd1ab8" id="r_ae2f74296c8912f0000fa614d49bd1ab8"><td class="memItemLeft" align="right" valign="top">DMA_Channel_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2f74296c8912f0000fa614d49bd1ab8">PHAL_DMA_priv_getChannel</a> (DMA_TypeDef *periph, uint8_t channel_idx)</td></tr>
-<tr class="memdesc:ae2f74296c8912f0000fa614d49bd1ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Look up the channel instance for (periph, channel_idx). channel_idx must be 1-8.  <br /></td></tr>
-<tr class="separator:ae2f74296c8912f0000fa614d49bd1ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8170a3136b79b3e63455133955dd3c18" id="r_a8170a3136b79b3e63455133955dd3c18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8170a3136b79b3e63455133955dd3c18">PHAL_DMA_priv_enableClock</a> (const DMA_TypeDef *periph)</td></tr>
+<tr class="memdesc:a8170a3136b79b3e63455133955dd3c18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable DMAMUX1's clock plus the given DMA peripheral's clock.  <br /></td></tr>
+<tr class="separator:a8170a3136b79b3e63455133955dd3c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28c2eff8a85e591630df54f2fa239c0d" id="r_a28c2eff8a85e591630df54f2fa239c0d"><td class="memItemLeft" align="right" valign="top">DMA_Channel_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a28c2eff8a85e591630df54f2fa239c0d">PHAL_DMA_priv_getChannel</a> (const DMA_TypeDef *periph, uint8_t channel_idx)</td></tr>
+<tr class="memdesc:a28c2eff8a85e591630df54f2fa239c0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Look up the channel instance for (periph, channel_idx). channel_idx must be 1-8.  <br /></td></tr>
+<tr class="separator:a28c2eff8a85e591630df54f2fa239c0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73f7770b98ebe2b4ca15995393187782" id="r_a73f7770b98ebe2b4ca15995393187782"><td class="memItemLeft" align="right" valign="top">IRQn_Type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73f7770b98ebe2b4ca15995393187782">PHAL_DMA_priv_getIRQn</a> (DMA_TypeDef *periph, uint8_t channel_idx)</td></tr>
 <tr class="separator:a73f7770b98ebe2b4ca15995393187782"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5120208650c6c1774fe79c46127ea4c2" id="r_a5120208650c6c1774fe79c46127ea4c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5120208650c6c1774fe79c46127ea4c2">PHAL_DMA_priv_disableChannel</a> (DMA_Channel_TypeDef *channel)</td></tr>
@@ -136,9 +136,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ae948bf5c53156406d3e6c99af5f16ac6" id="r_ae948bf5c53156406d3e6c99af5f16ac6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae948bf5c53156406d3e6c99af5f16ac6">PHAL_DMA_priv_enableChannel</a> (DMA_Channel_TypeDef *channel)</td></tr>
 <tr class="memdesc:ae948bf5c53156406d3e6c99af5f16ac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable a channel, starting its transfer.  <br /></td></tr>
 <tr class="separator:ae948bf5c53156406d3e6c99af5f16ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a38d32b32c9d8a52740339bf2cb1e19" id="r_a6a38d32b32c9d8a52740339bf2cb1e19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a38d32b32c9d8a52740339bf2cb1e19">PHAL_DMA_priv_isChannelEnabled</a> (DMA_Channel_TypeDef *channel)</td></tr>
-<tr class="memdesc:a6a38d32b32c9d8a52740339bf2cb1e19"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the channel is currently enabled.  <br /></td></tr>
-<tr class="separator:a6a38d32b32c9d8a52740339bf2cb1e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a373215c7b544651748d4877fb7d787dd" id="r_a373215c7b544651748d4877fb7d787dd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a373215c7b544651748d4877fb7d787dd">PHAL_DMA_priv_isChannelEnabled</a> (const DMA_Channel_TypeDef *channel)</td></tr>
+<tr class="memdesc:a373215c7b544651748d4877fb7d787dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the channel is currently enabled.  <br /></td></tr>
+<tr class="separator:a373215c7b544651748d4877fb7d787dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2abd80aa58bd274ede649605c608987" id="r_af2abd80aa58bd274ede649605c608987"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2abd80aa58bd274ede649605c608987">PHAL_DMA_priv_clearFlags</a> (DMA_TypeDef *periph, uint8_t channel_idx)</td></tr>
 <tr class="memdesc:af2abd80aa58bd274ede649605c608987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear every latched status flag (global/complete/half/error) for one channel.  <br /></td></tr>
 <tr class="separator:af2abd80aa58bd274ede649605c608987"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,12 +160,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a1ca5883893809b211a84e7dbeeb3d30c" id="r_a1ca5883893809b211a84e7dbeeb3d30c"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ca5883893809b211a84e7dbeeb3d30c">PHAL_DMA_priv_getRemainingLength</a> (DMA_Channel_TypeDef *channel)</td></tr>
 <tr class="memdesc:a1ca5883893809b211a84e7dbeeb3d30c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read how many elements are still outstanding (CNDTR)  <br /></td></tr>
 <tr class="separator:a1ca5883893809b211a84e7dbeeb3d30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adeedf49b3d3fa7538445993d9127ba4e" id="r_adeedf49b3d3fa7538445993d9127ba4e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adeedf49b3d3fa7538445993d9127ba4e">PHAL_DMA_priv_readCompleteFlag</a> (DMA_TypeDef *periph, uint8_t channel_idx)</td></tr>
-<tr class="memdesc:adeedf49b3d3fa7538445993d9127ba4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the transfer-complete flag is currently set for (periph, channel_idx)  <br /></td></tr>
-<tr class="separator:adeedf49b3d3fa7538445993d9127ba4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada0695302c27bdff977fe6ec4fbd902f" id="r_ada0695302c27bdff977fe6ec4fbd902f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada0695302c27bdff977fe6ec4fbd902f">PHAL_DMA_priv_readErrorFlag</a> (DMA_TypeDef *periph, uint8_t channel_idx)</td></tr>
-<tr class="memdesc:ada0695302c27bdff977fe6ec4fbd902f"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the transfer-error flag is currently set for (periph, channel_idx)  <br /></td></tr>
-<tr class="separator:ada0695302c27bdff977fe6ec4fbd902f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf33cac6892b314e0d5db3149d6e79fd" id="r_adf33cac6892b314e0d5db3149d6e79fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf33cac6892b314e0d5db3149d6e79fd">PHAL_DMA_priv_readCompleteFlag</a> (const DMA_TypeDef *periph, uint8_t channel_idx)</td></tr>
+<tr class="memdesc:adf33cac6892b314e0d5db3149d6e79fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the transfer-complete flag is currently set for (periph, channel_idx)  <br /></td></tr>
+<tr class="separator:adf33cac6892b314e0d5db3149d6e79fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ba00b16b3b76187b0e14da65914c6df" id="r_a4ba00b16b3b76187b0e14da65914c6df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ba00b16b3b76187b0e14da65914c6df">PHAL_DMA_priv_readErrorFlag</a> (const DMA_TypeDef *periph, uint8_t channel_idx)</td></tr>
+<tr class="memdesc:a4ba00b16b3b76187b0e14da65914c6df"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the transfer-error flag is currently set for (periph, channel_idx)  <br /></td></tr>
+<tr class="separator:a4ba00b16b3b76187b0e14da65914c6df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -316,8 +316,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a98c01cf2ce77f94763ff918f7f939e0e" name="a98c01cf2ce77f94763ff918f7f939e0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98c01cf2ce77f94763ff918f7f939e0e">&#9670;&#160;</a></span>PHAL_DMA_priv_enableClock()</h2>
+<a id="a8170a3136b79b3e63455133955dd3c18" name="a8170a3136b79b3e63455133955dd3c18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8170a3136b79b3e63455133955dd3c18">&#9670;&#160;</a></span>PHAL_DMA_priv_enableClock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -325,7 +325,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void PHAL_DMA_priv_enableClock </td>
           <td>(</td>
-          <td class="paramtype">DMA_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span></td><td>)</td>
+          <td class="paramtype">const DMA_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -335,13 +335,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_a98c01cf2ce77f94763ff918f7f939e0e_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_a8170a3136b79b3e63455133955dd3c18_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="ae2f74296c8912f0000fa614d49bd1ab8" name="ae2f74296c8912f0000fa614d49bd1ab8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2f74296c8912f0000fa614d49bd1ab8">&#9670;&#160;</a></span>PHAL_DMA_priv_getChannel()</h2>
+<a id="a28c2eff8a85e591630df54f2fa239c0d" name="a28c2eff8a85e591630df54f2fa239c0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28c2eff8a85e591630df54f2fa239c0d">&#9670;&#160;</a></span>PHAL_DMA_priv_getChannel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -349,7 +349,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">DMA_Channel_TypeDef * PHAL_DMA_priv_getChannel </td>
           <td>(</td>
-          <td class="paramtype">DMA_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span>, </td>
+          <td class="paramtype">const DMA_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -363,7 +363,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_ae2f74296c8912f0000fa614d49bd1ab8_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_a28c2eff8a85e591630df54f2fa239c0d_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -418,8 +418,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a6a38d32b32c9d8a52740339bf2cb1e19" name="a6a38d32b32c9d8a52740339bf2cb1e19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a38d32b32c9d8a52740339bf2cb1e19">&#9670;&#160;</a></span>PHAL_DMA_priv_isChannelEnabled()</h2>
+<a id="a373215c7b544651748d4877fb7d787dd" name="a373215c7b544651748d4877fb7d787dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a373215c7b544651748d4877fb7d787dd">&#9670;&#160;</a></span>PHAL_DMA_priv_isChannelEnabled()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -427,7 +427,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_DMA_priv_isChannelEnabled </td>
           <td>(</td>
-          <td class="paramtype">DMA_Channel_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>channel</em></span></td><td>)</td>
+          <td class="paramtype">const DMA_Channel_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>channel</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -437,13 +437,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_a6a38d32b32c9d8a52740339bf2cb1e19_icgraph.svg" width="100%" height="549"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_a373215c7b544651748d4877fb7d787dd_icgraph.svg" width="100%" height="549"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="adeedf49b3d3fa7538445993d9127ba4e" name="adeedf49b3d3fa7538445993d9127ba4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adeedf49b3d3fa7538445993d9127ba4e">&#9670;&#160;</a></span>PHAL_DMA_priv_readCompleteFlag()</h2>
+<a id="adf33cac6892b314e0d5db3149d6e79fd" name="adf33cac6892b314e0d5db3149d6e79fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf33cac6892b314e0d5db3149d6e79fd">&#9670;&#160;</a></span>PHAL_DMA_priv_readCompleteFlag()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -451,7 +451,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_DMA_priv_readCompleteFlag </td>
           <td>(</td>
-          <td class="paramtype">DMA_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span>, </td>
+          <td class="paramtype">const DMA_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -465,13 +465,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_adeedf49b3d3fa7538445993d9127ba4e_icgraph.svg" width="100%" height="438"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_adf33cac6892b314e0d5db3149d6e79fd_icgraph.svg" width="100%" height="438"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="ada0695302c27bdff977fe6ec4fbd902f" name="ada0695302c27bdff977fe6ec4fbd902f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada0695302c27bdff977fe6ec4fbd902f">&#9670;&#160;</a></span>PHAL_DMA_priv_readErrorFlag()</h2>
+<a id="a4ba00b16b3b76187b0e14da65914c6df" name="a4ba00b16b3b76187b0e14da65914c6df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ba00b16b3b76187b0e14da65914c6df">&#9670;&#160;</a></span>PHAL_DMA_priv_readErrorFlag()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -479,7 +479,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_DMA_priv_readErrorFlag </td>
           <td>(</td>
-          <td class="paramtype">DMA_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span>, </td>
+          <td class="paramtype">const DMA_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>periph</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -493,7 +493,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_ada0695302c27bdff977fe6ec4fbd902f_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dma__priv_8h_a4ba00b16b3b76187b0e14da65914c6df_icgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

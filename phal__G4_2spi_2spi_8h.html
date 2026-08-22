@@ -157,9 +157,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a4f2d185a5b44a18fb9a1d7fe225a7581" id="r_a4f2d185a5b44a18fb9a1d7fe225a7581"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f2d185a5b44a18fb9a1d7fe225a7581">PHAL_SPI_transferBlocking</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, const uint8_t *out_data, uint8_t *in_data, uint32_t data_len)</td></tr>
 <tr class="memdesc:a4f2d185a5b44a18fb9a1d7fe225a7581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a blocking DMA-backed SPI transfer. (Wrapper around PHAL_SPI_transfer.)  <br /></td></tr>
 <tr class="separator:a4f2d185a5b44a18fb9a1d7fe225a7581"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35fd94eb02f487e09065ddc0ecb92e53" id="r_a35fd94eb02f487e09065ddc0ecb92e53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35fd94eb02f487e09065ddc0ecb92e53">PHAL_SPI_busy</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *cfg)</td></tr>
-<tr class="memdesc:a35fd94eb02f487e09065ddc0ecb92e53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the SPI peripheral is busy.  <br /></td></tr>
-<tr class="separator:a35fd94eb02f487e09065ddc0ecb92e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3633b9f319913eee947a94b7c9a4e2d4" id="r_a3633b9f319913eee947a94b7c9a4e2d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3633b9f319913eee947a94b7c9a4e2d4">PHAL_SPI_busy</a> (const <a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *cfg)</td></tr>
+<tr class="memdesc:a3633b9f319913eee947a94b7c9a4e2d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the SPI peripheral is busy.  <br /></td></tr>
+<tr class="separator:a3633b9f319913eee947a94b7c9a4e2d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf04b58bde10df9ab774c8e4b776bb06" id="r_acf04b58bde10df9ab774c8e4b776bb06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf04b58bde10df9ab774c8e4b776bb06">PHAL_SPI_txCallback</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
 <tr class="memdesc:acf04b58bde10df9ab774c8e4b776bb06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weak callback fired when a DMA-backed SPI transfer completes.  <br /></td></tr>
 <tr class="separator:acf04b58bde10df9ab774c8e4b776bb06"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -231,8 +231,8 @@ Shriya Balu (<a href="#" onclick="location.href='mai'+'lto:'+'bal'+'u@'+'pur'+'d
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a35fd94eb02f487e09065ddc0ecb92e53" name="a35fd94eb02f487e09065ddc0ecb92e53"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35fd94eb02f487e09065ddc0ecb92e53">&#9670;&#160;</a></span>PHAL_SPI_busy()</h2>
+<a id="a3633b9f319913eee947a94b7c9a4e2d4" name="a3633b9f319913eee947a94b7c9a4e2d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3633b9f319913eee947a94b7c9a4e2d4">&#9670;&#160;</a></span>PHAL_SPI_busy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,7 +240,7 @@ Shriya Balu (<a href="#" onclick="location.href='mai'+'lto:'+'bal'+'u@'+'pur'+'d
         <tr>
           <td class="memname">bool PHAL_SPI_busy </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -253,22 +253,7 @@ Shriya Balu (<a href="#" onclick="location.href='mai'+'lto:'+'bal'+'u@'+'pur'+'d
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if a transfer is currently in progress.</dd></dl>
-<p>Check whether the SPI peripheral is busy.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cfg</td><td>Spi config</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true </dd>
-<dd>
-false </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__G4_2spi_2spi_8h_a35fd94eb02f487e09065ddc0ecb92e53_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
+<dl class="section return"><dt>Returns</dt><dd>true if a transfer is currently in progress. </dd></dl>
 
 </div>
 </div>

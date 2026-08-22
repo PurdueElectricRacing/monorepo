@@ -133,9 +133,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a89cd8310ea92fcf7779b939853f6f6fc" id="r_a89cd8310ea92fcf7779b939853f6f6fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89cd8310ea92fcf7779b939853f6f6fc">SPMC_init</a> (<a class="el" href="structSPMC__t.html">SPMC_t</a> *spmc)</td></tr>
 <tr class="memdesc:a89cd8310ea92fcf7779b939853f6f6fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the SPMC instance and configures CAN RX interrupts.  <br /></td></tr>
 <tr class="separator:a89cd8310ea92fcf7779b939853f6f6fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cceacc1cc78c112192bb84aaee313aa" id="r_a1cceacc1cc78c112192bb84aaee313aa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cceacc1cc78c112192bb84aaee313aa">SPMC_enqueue_from_ISR</a> (<a class="el" href="structSPMC__t.html">SPMC_t</a> *spmc, <a class="el" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *incoming_frame)</td></tr>
-<tr class="memdesc:a1cceacc1cc78c112192bb84aaee313aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enqueues a received CAN message into the SPMC buffer from an ISR context. ! the two producer ISRs must have the same NVIC priority to prevent preemption of each other in the middle of a write.  <br /></td></tr>
-<tr class="separator:a1cceacc1cc78c112192bb84aaee313aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5d44422fa9926dd46517b00c1416841" id="r_aa5d44422fa9926dd46517b00c1416841"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5d44422fa9926dd46517b00c1416841">SPMC_enqueue_from_ISR</a> (<a class="el" href="structSPMC__t.html">SPMC_t</a> *spmc, const <a class="el" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *incoming_frame)</td></tr>
+<tr class="memdesc:aa5d44422fa9926dd46517b00c1416841"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enqueues a received CAN message into the SPMC buffer from an ISR context. ! the two producer ISRs must have the same NVIC priority to prevent preemption of each other in the middle of a write.  <br /></td></tr>
+<tr class="separator:aa5d44422fa9926dd46517b00c1416841"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59e1e77dc52c3fdf1fedb2f0525287ff" id="r_a59e1e77dc52c3fdf1fedb2f0525287ff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59e1e77dc52c3fdf1fedb2f0525287ff">SPMC_master_peek_chunk</a> (<a class="el" href="structSPMC__t.html">SPMC_t</a> *spmc, <a class="el" href="structtimestamped__frame__t.html">timestamped_frame_t</a> **first_item)</td></tr>
 <tr class="memdesc:a59e1e77dc52c3fdf1fedb2f0525287ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peeks at the next chunk for the master (SD logging) without committing the tail.  <br /></td></tr>
 <tr class="separator:a59e1e77dc52c3fdf1fedb2f0525287ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,8 +168,8 @@ Variables</h2></td></tr>
 <div class="textblock"><p>Custom SPMC designed for high throughput handling of CAN message streams. </p>
 <dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a1cceacc1cc78c112192bb84aaee313aa" name="a1cceacc1cc78c112192bb84aaee313aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cceacc1cc78c112192bb84aaee313aa">&#9670;&#160;</a></span>SPMC_enqueue_from_ISR()</h2>
+<a id="aa5d44422fa9926dd46517b00c1416841" name="aa5d44422fa9926dd46517b00c1416841"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5d44422fa9926dd46517b00c1416841">&#9670;&#160;</a></span>SPMC_enqueue_from_ISR()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +182,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *</td>          <td class="paramname"><span class="paramname"><em>incoming_frame</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *</td>          <td class="paramname"><span class="paramname"><em>incoming_frame</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -199,7 +199,7 @@ Variables</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="spmc_8h_a1cceacc1cc78c112192bb84aaee313aa_icgraph.svg" width="578" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="spmc_8h_aa5d44422fa9926dd46517b00c1416841_icgraph.svg" width="578" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

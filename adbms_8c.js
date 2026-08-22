@@ -9,6 +9,6 @@ var adbms_8c =
     [ "adbms_read_and_check_regb", "adbms_8c.html#ac10a3c0ceb09b1955434d8fc35cf8400", null ],
     [ "adbms_read_cells", "adbms_8c.html#a94fb74abf77c3ba46fb8e3babb734939", null ],
     [ "adbms_read_therms", "adbms_8c.html#a26b82e2eae1b0d9c34d5666901f29bce", null ],
-    [ "adbms_write_rega", "adbms_8c.html#a6ceab739f8b66723399246ee5b0e7e8d", null ],
-    [ "adbms_write_regb", "adbms_8c.html#a3a1de4cc72e92ed7719f251886fad5e4", null ]
+    [ "adbms_write_rega", "adbms_8c.html#a710830115ef52a6def439f645d0fc57d", null ],
+    [ "adbms_write_regb", "adbms_8c.html#a0833cbe8198d911a52d6a4f24dda2a38", null ]
 ];

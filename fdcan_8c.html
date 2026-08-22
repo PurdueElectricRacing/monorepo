@@ -118,12 +118,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aba16c779399bc36e855cefa3df29c74d" id="r_aba16c779399bc36e855cefa3df29c74d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba16c779399bc36e855cefa3df29c74d">PHAL_FDCAN_init</a> (FDCAN_GlobalTypeDef *fdcan, <a class="el" href="can_8h.html#ab8c9770487a14259388dcada74c65d52">PHAL_FDCAN_BaudRate_t</a> bit_rate)</td></tr>
 <tr class="memdesc:aba16c779399bc36e855cefa3df29c74d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize an FDCAN peripheral for classic (non-FD) CAN operation.  <br /></td></tr>
 <tr class="separator:aba16c779399bc36e855cefa3df29c74d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5baf953f25f85d9453e19e35a3b800cb" id="r_a5baf953f25f85d9453e19e35a3b800cb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5baf953f25f85d9453e19e35a3b800cb">PHAL_FDCAN_setFilters</a> (FDCAN_GlobalTypeDef *fdcan, uint32_t *sid_list, uint32_t num_sid, uint32_t *xid_list, uint32_t num_xid)</td></tr>
-<tr class="memdesc:a5baf953f25f85d9453e19e35a3b800cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure exact-match acceptance filters for RX FIFO0.  <br /></td></tr>
-<tr class="separator:a5baf953f25f85d9453e19e35a3b800cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14cb7899d33aebd0249c38d22c906fad" id="r_a14cb7899d33aebd0249c38d22c906fad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14cb7899d33aebd0249c38d22c906fad">PHAL_FDCAN_txFifoFree</a> (FDCAN_GlobalTypeDef *fdcan)</td></tr>
-<tr class="memdesc:a14cb7899d33aebd0249c38d22c906fad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the TX FIFO has at least one free slot.  <br /></td></tr>
-<tr class="separator:a14cb7899d33aebd0249c38d22c906fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac89d6a90c4f53644b4189ddb0e1fea18" id="r_ac89d6a90c4f53644b4189ddb0e1fea18"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac89d6a90c4f53644b4189ddb0e1fea18">PHAL_FDCAN_setFilters</a> (FDCAN_GlobalTypeDef *fdcan, const uint32_t *sid_list, uint32_t num_sid, const uint32_t *xid_list, uint32_t num_xid)</td></tr>
+<tr class="memdesc:ac89d6a90c4f53644b4189ddb0e1fea18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure exact-match acceptance filters for RX FIFO0.  <br /></td></tr>
+<tr class="separator:ac89d6a90c4f53644b4189ddb0e1fea18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26df92531762951c8f1d6d84493cee1b" id="r_a26df92531762951c8f1d6d84493cee1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26df92531762951c8f1d6d84493cee1b">PHAL_FDCAN_txFifoFree</a> (const FDCAN_GlobalTypeDef *fdcan)</td></tr>
+<tr class="memdesc:a26df92531762951c8f1d6d84493cee1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the TX FIFO has at least one free slot.  <br /></td></tr>
+<tr class="separator:a26df92531762951c8f1d6d84493cee1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60b2ed63ebdff4e98f2eca10a4961dda" id="r_a60b2ed63ebdff4e98f2eca10a4961dda"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60b2ed63ebdff4e98f2eca10a4961dda">PHAL_FDCAN_send</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
 <tr class="memdesc:a60b2ed63ebdff4e98f2eca10a4961dda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue a frame for transmission.  <br /></td></tr>
 <tr class="separator:a60b2ed63ebdff4e98f2eca10a4961dda"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -472,8 +472,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a5baf953f25f85d9453e19e35a3b800cb" name="a5baf953f25f85d9453e19e35a3b800cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5baf953f25f85d9453e19e35a3b800cb">&#9670;&#160;</a></span>PHAL_FDCAN_setFilters()</h2>
+<a id="ac89d6a90c4f53644b4189ddb0e1fea18" name="ac89d6a90c4f53644b4189ddb0e1fea18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac89d6a90c4f53644b4189ddb0e1fea18">&#9670;&#160;</a></span>PHAL_FDCAN_setFilters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -486,7 +486,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t *</td>          <td class="paramname"><span class="paramname"><em>sid_list</em></span>, </td>
+          <td class="paramtype">const uint32_t *</td>          <td class="paramname"><span class="paramname"><em>sid_list</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -496,7 +496,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t *</td>          <td class="paramname"><span class="paramname"><em>xid_list</em></span>, </td>
+          <td class="paramtype">const uint32_t *</td>          <td class="paramname"><span class="paramname"><em>xid_list</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -523,7 +523,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a5baf953f25f85d9453e19e35a3b800cb_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="fdcan_8c_ac89d6a90c4f53644b4189ddb0e1fea18_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -560,8 +560,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a14cb7899d33aebd0249c38d22c906fad" name="a14cb7899d33aebd0249c38d22c906fad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14cb7899d33aebd0249c38d22c906fad">&#9670;&#160;</a></span>PHAL_FDCAN_txFifoFree()</h2>
+<a id="a26df92531762951c8f1d6d84493cee1b" name="a26df92531762951c8f1d6d84493cee1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26df92531762951c8f1d6d84493cee1b">&#9670;&#160;</a></span>PHAL_FDCAN_txFifoFree()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -569,7 +569,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_FDCAN_txFifoFree </td>
           <td>(</td>
-          <td class="paramtype">FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>fdcan</em></span></td><td>)</td>
+          <td class="paramtype">const FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>fdcan</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -586,12 +586,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a14cb7899d33aebd0249c38d22c906fad_cgraph.svg" width="439" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a26df92531762951c8f1d6d84493cee1b_cgraph.svg" width="439" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a14cb7899d33aebd0249c38d22c906fad_icgraph.svg" width="378" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a26df92531762951c8f1d6d84493cee1b_icgraph.svg" width="378" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

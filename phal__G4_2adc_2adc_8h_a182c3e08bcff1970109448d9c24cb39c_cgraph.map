@@ -10,9 +10,9 @@
 <area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="150,252,231,271,230,276,149,257"/>
 <area shape="rect" id="Node000014" href="$phal__G4_2adc_2adc_8c.html#a429677cda7cd755ee9c4148b73159e76" title="Start an asynchronous circular&#45;DMA conversion into buffer" alt="" coords="259,228,411,254"/>
 <area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="179,238,243,238,243,244,179,244"/>
-<area shape="rect" id="Node000021" href="$phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="252,384,418,410"/>
+<area shape="rect" id="Node000021" href="$phal__G4_2dma_2dma_8c.html#a8b762b52851e14b6724a69695a8a1e5a" title="Check whether the channel has finished its transfer (TC flag set)" alt="" coords="252,384,418,410"/>
 <area shape="poly" id="edge23_Node000001_Node000021" title=" " alt="" coords="114,252,228,328,300,373,297,378,225,332,111,256"/>
-<area shape="rect" id="Node000023" href="$phal__G4_2dma_2dma_8c.html#a8cf5974ead7304601becd26d9ae9d6c4" title="Check whether the channel reported a transfer error (TE flag set)" alt="" coords="266,433,404,459"/>
+<area shape="rect" id="Node000023" href="$phal__G4_2dma_2dma_8c.html#afdefd9fd419dba197e3c754056e50f69" title="Check whether the channel reported a transfer error (TE flag set)" alt="" coords="266,433,404,459"/>
 <area shape="poly" id="edge25_Node000001_Node000023" title=" " alt="" coords="101,253,118,287,145,333,182,380,204,402,228,420,252,432,250,436,225,424,201,406,178,384,141,336,113,289,97,255"/>
 <area shape="rect" id="Node000004" href="$phal__G4_2adc_2adc_8c.html#ab758a7dfb798e8808f5ae938b7637aa6" title="Return the fixed DMA wiring assigned to an ADC instance." alt="" coords="550,5,665,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="386,109,414,102,442,91,456,79,465,66,474,52,490,40,534,24,535,29,492,44,478,56,469,69,460,82,444,95,416,107,387,114"/>
@@ -24,7 +24,7 @@
 <area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="386,154,517,130,518,136,387,160"/>
 <area shape="rect" id="Node000011" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="545,153,670,179"/>
 <area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="386,164,529,164,529,169,386,169"/>
-<area shape="rect" id="Node000008" href="$adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" title="Wait for masked register bits to reach the requested state." alt="" coords="808,55,953,80"/>
+<area shape="rect" id="Node000008" href="$adc__priv_8c.html#ad76bcc9338ec2464412b8e0fcd2bd1b3" title="Wait for masked register bits to reach the requested state." alt="" coords="808,55,953,80"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="702,65,792,65,792,70,702,70"/>
 <area shape="rect" id="Node000010" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="786,128,975,154"/>
 <area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="688,121,771,129,771,134,688,127"/>
@@ -45,8 +45,8 @@
 <area shape="poly" id="edge19_Node000017_Node000018" title=" " alt="" coords="677,308,758,305,759,310,677,314"/>
 <area shape="rect" id="Node000019" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="787,339,974,364"/>
 <area shape="poly" id="edge20_Node000017_Node000019" title=" " alt="" coords="677,321,772,334,771,339,676,326"/>
-<area shape="rect" id="Node000022" href="$dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="491,400,724,426"/>
+<area shape="rect" id="Node000022" href="$dma__priv_8c.html#adf33cac6892b314e0d5db3149d6e79fd" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="491,400,724,426"/>
 <area shape="poly" id="edge24_Node000021_Node000022" title=" " alt="" coords="418,399,476,402,475,408,418,404"/>
-<area shape="rect" id="Node000024" href="$dma__priv_8c.html#ada0695302c27bdff977fe6ec4fbd902f" title="True if the transfer&#45;error flag is currently set for (periph, channel_idx)" alt="" coords="505,449,710,475"/>
+<area shape="rect" id="Node000024" href="$dma__priv_8c.html#a4ba00b16b3b76187b0e14da65914c6df" title="True if the transfer&#45;error flag is currently set for (periph, channel_idx)" alt="" coords="505,449,710,475"/>
 <area shape="poly" id="edge26_Node000023_Node000024" title=" " alt="" coords="404,448,490,453,489,458,404,453"/>
 </map>

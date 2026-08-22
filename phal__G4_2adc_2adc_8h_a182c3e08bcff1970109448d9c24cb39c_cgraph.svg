@@ -158,7 +158,7 @@ var sectionId = 'dynsection-5';
 <!-- Node21 -->
 <g id="Node000021" class="node">
 <title>Node21</title>
-<g id="a_Node000021"><a xlink:href="phal__G4_2dma_2dma_8c.html#a18b74faf02571f50b8893ebb38b34c68" target="_top" xlink:title="Check whether the channel has finished its transfer (TC flag set)">
+<g id="a_Node000021"><a xlink:href="phal__G4_2dma_2dma_8c.html#a8b762b52851e14b6724a69695a8a1e5a" target="_top" xlink:title="Check whether the channel has finished its transfer (TC flag set)">
 <polygon fill="white" stroke="#666666" points="309.12,-68.25 185.12,-68.25 185.12,-49 309.12,-49 309.12,-68.25"/>
 <text text-anchor="middle" x="247.12" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_isComplete</text>
 </a>
@@ -176,7 +176,7 @@ var sectionId = 'dynsection-5';
 <!-- Node23 -->
 <g id="Node000023" class="node">
 <title>Node23</title>
-<g id="a_Node000023"><a xlink:href="phal__G4_2dma_2dma_8c.html#a8cf5974ead7304601becd26d9ae9d6c4" target="_top" xlink:title="Check whether the channel reported a transfer error (TE flag set)">
+<g id="a_Node000023"><a xlink:href="phal__G4_2dma_2dma_8c.html#afdefd9fd419dba197e3c754056e50f69" target="_top" xlink:title="Check whether the channel reported a transfer error (TE flag set)">
 <polygon fill="white" stroke="#666666" points="298.62,-31.25 195.62,-31.25 195.62,-12 298.62,-12 298.62,-31.25"/>
 <text text-anchor="middle" x="247.12" y="-17.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_isError</text>
 </a>
@@ -284,7 +284,7 @@ var sectionId = 'dynsection-5';
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="adc__priv_8c.html#a1f3fd5c3bc414a1a102e8c12c2ee18fa" target="_top" xlink:title="Wait for masked register bits to reach the requested state.">
+<g id="a_Node000008"><a xlink:href="adc__priv_8c.html#ad76bcc9338ec2464412b8e0fcd2bd1b3" target="_top" xlink:title="Wait for masked register bits to reach the requested state.">
 <polygon fill="white" stroke="#666666" points="710.88,-315.25 601.88,-315.25 601.88,-296 710.88,-296 710.88,-315.25"/>
 <text text-anchor="middle" x="656.38" y="-301.75" font-family="Helvetica,sans-Serif" font-size="10.00">adc_wait_for_register</text>
 </a>
@@ -473,7 +473,7 @@ var sectionId = 'dynsection-5';
 <!-- Node22 -->
 <g id="Node000022" class="node">
 <title>Node22</title>
-<g id="a_Node000022"><a xlink:href="dma__priv_8c.html#adeedf49b3d3fa7538445993d9127ba4e" target="_top" xlink:title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)">
+<g id="a_Node000022"><a xlink:href="dma__priv_8c.html#adf33cac6892b314e0d5db3149d6e79fd" target="_top" xlink:title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)">
 <polygon fill="white" stroke="#666666" points="539.25,-56.25 364.25,-56.25 364.25,-37 539.25,-37 539.25,-56.25"/>
 <text text-anchor="middle" x="451.75" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_readCompleteFlag</text>
 </a>
@@ -491,7 +491,7 @@ var sectionId = 'dynsection-5';
 <!-- Node24 -->
 <g id="Node000024" class="node">
 <title>Node24</title>
-<g id="a_Node000024"><a xlink:href="dma__priv_8c.html#ada0695302c27bdff977fe6ec4fbd902f" target="_top" xlink:title="True if the transfer&#45;error flag is currently set for (periph, channel_idx)">
+<g id="a_Node000024"><a xlink:href="dma__priv_8c.html#a4ba00b16b3b76187b0e14da65914c6df" target="_top" xlink:title="True if the transfer&#45;error flag is currently set for (periph, channel_idx)">
 <polygon fill="white" stroke="#666666" points="528.75,-19.25 374.75,-19.25 374.75,0 528.75,0 528.75,-19.25"/>
 <text text-anchor="middle" x="451.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_DMA_priv_readErrorFlag</text>
 </a>

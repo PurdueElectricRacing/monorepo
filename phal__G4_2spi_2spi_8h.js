@@ -13,7 +13,7 @@ var phal__G4_2spi_2spi_8h =
       [ "SPI_MODE_MASTER", "phal__G4_2spi_2spi_8h.html#a60a7e3d74577b38aa79ea6983362f942ae68a8adf6e5b67a7bdbe9526b15dae99", null ],
       [ "SPI_MODE_SLAVE", "phal__G4_2spi_2spi_8h.html#a60a7e3d74577b38aa79ea6983362f942ad1131ed33ad43ab3f667070b04454439", null ]
     ] ],
-    [ "PHAL_SPI_busy", "phal__G4_2spi_2spi_8h.html#a35fd94eb02f487e09065ddc0ecb92e53", null ],
+    [ "PHAL_SPI_busy", "phal__G4_2spi_2spi_8h.html#a3633b9f319913eee947a94b7c9a4e2d4", null ],
     [ "PHAL_SPI_init", "phal__G4_2spi_2spi_8h.html#a79c721ebb76d3dea8c1aa1f42e4b21d3", null ],
     [ "PHAL_SPI_transfer", "phal__G4_2spi_2spi_8h.html#a9af893d97bde29796f60bc6df9b05fd0", null ],
     [ "PHAL_SPI_transferBlocking", "phal__G4_2spi_2spi_8h.html#a4f2d185a5b44a18fb9a1d7fe225a7581", null ],

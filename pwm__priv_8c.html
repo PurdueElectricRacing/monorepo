@@ -119,12 +119,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aeb29bc7c3bf081df5267c196ce112afc" id="r_aeb29bc7c3bf081df5267c196ce112afc"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb29bc7c3bf081df5267c196ce112afc">PHAL_PWM_priv_enableChannel</a> (TIM_TypeDef *tim, uint8_t channel)</td></tr>
 <tr class="memdesc:aeb29bc7c3bf081df5267c196ce112afc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure and enable a timer channel for PWM output.  <br /></td></tr>
 <tr class="separator:aeb29bc7c3bf081df5267c196ce112afc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eb5094e1f6ca9e94bb0fe31a397a683" id="r_a7eb5094e1f6ca9e94bb0fe31a397a683"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7eb5094e1f6ca9e94bb0fe31a397a683">PHAL_PWM_priv_getTimerInfo</a> (TIM_TypeDef *tim, <a class="el" href="structPWM__PRIV__TimerInfo__t.html">PWM_PRIV_TimerInfo_t</a> *info)</td></tr>
-<tr class="memdesc:a7eb5094e1f6ca9e94bb0fe31a397a683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get timer specific information.  <br /></td></tr>
-<tr class="separator:a7eb5094e1f6ca9e94bb0fe31a397a683"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace689c9f5f5e57456346ea156e1d2780" id="r_ace689c9f5f5e57456346ea156e1d2780"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace689c9f5f5e57456346ea156e1d2780">PHAL_PWM_priv_enableTimerClock</a> (TIM_TypeDef *tim)</td></tr>
-<tr class="memdesc:ace689c9f5f5e57456346ea156e1d2780"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the peripheral clock for a timer.  <br /></td></tr>
-<tr class="separator:ace689c9f5f5e57456346ea156e1d2780"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adea811c2d8c8bfe32ee881a88d33da1c" id="r_adea811c2d8c8bfe32ee881a88d33da1c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adea811c2d8c8bfe32ee881a88d33da1c">PHAL_PWM_priv_getTimerInfo</a> (const TIM_TypeDef *tim, <a class="el" href="structPWM__PRIV__TimerInfo__t.html">PWM_PRIV_TimerInfo_t</a> *info)</td></tr>
+<tr class="memdesc:adea811c2d8c8bfe32ee881a88d33da1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get timer specific information.  <br /></td></tr>
+<tr class="separator:adea811c2d8c8bfe32ee881a88d33da1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9115a6c98aca3228487a56661ebd279" id="r_ac9115a6c98aca3228487a56661ebd279"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9115a6c98aca3228487a56661ebd279">PHAL_PWM_priv_enableTimerClock</a> (const TIM_TypeDef *tim)</td></tr>
+<tr class="memdesc:ac9115a6c98aca3228487a56661ebd279"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the peripheral clock for a timer.  <br /></td></tr>
+<tr class="separator:ac9115a6c98aca3228487a56661ebd279"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a7ea8da3bcdc9a58e0b37c9d1297c51" id="r_a4a7ea8da3bcdc9a58e0b37c9d1297c51"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a7ea8da3bcdc9a58e0b37c9d1297c51">PHAL_PWM_priv_initTimer</a> (TIM_TypeDef *tim, uint16_t prescaler, uint16_t auto_reload, uint8_t channels_en, bool requires_main_out_en)</td></tr>
 <tr class="memdesc:a4a7ea8da3bcdc9a58e0b37c9d1297c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure timer registers for PWM operation.  <br /></td></tr>
 <tr class="separator:a4a7ea8da3bcdc9a58e0b37c9d1297c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,8 +175,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ace689c9f5f5e57456346ea156e1d2780" name="ace689c9f5f5e57456346ea156e1d2780"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace689c9f5f5e57456346ea156e1d2780">&#9670;&#160;</a></span>PHAL_PWM_priv_enableTimerClock()</h2>
+<a id="ac9115a6c98aca3228487a56661ebd279" name="ac9115a6c98aca3228487a56661ebd279"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9115a6c98aca3228487a56661ebd279">&#9670;&#160;</a></span>PHAL_PWM_priv_enableTimerClock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -184,7 +184,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_PWM_priv_enableTimerClock </td>
           <td>(</td>
-          <td class="paramtype">TIM_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>tim</em></span></td><td>)</td>
+          <td class="paramtype">const TIM_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>tim</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -194,7 +194,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="pwm__priv_8c_ace689c9f5f5e57456346ea156e1d2780_icgraph.svg" width="611" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="pwm__priv_8c_ac9115a6c98aca3228487a56661ebd279_icgraph.svg" width="611" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -223,8 +223,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a7eb5094e1f6ca9e94bb0fe31a397a683" name="a7eb5094e1f6ca9e94bb0fe31a397a683"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7eb5094e1f6ca9e94bb0fe31a397a683">&#9670;&#160;</a></span>PHAL_PWM_priv_getTimerInfo()</h2>
+<a id="adea811c2d8c8bfe32ee881a88d33da1c" name="adea811c2d8c8bfe32ee881a88d33da1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adea811c2d8c8bfe32ee881a88d33da1c">&#9670;&#160;</a></span>PHAL_PWM_priv_getTimerInfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -232,7 +232,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool PHAL_PWM_priv_getTimerInfo </td>
           <td>(</td>
-          <td class="paramtype">TIM_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>tim</em></span>, </td>
+          <td class="paramtype">const TIM_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>tim</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -246,12 +246,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="pwm__priv_8c_a7eb5094e1f6ca9e94bb0fe31a397a683_cgraph.svg" width="463" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="pwm__priv_8c_adea811c2d8c8bfe32ee881a88d33da1c_cgraph.svg" width="463" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="pwm__priv_8c_a7eb5094e1f6ca9e94bb0fe31a397a683_icgraph.svg" width="384" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="pwm__priv_8c_adea811c2d8c8bfe32ee881a88d33da1c_icgraph.svg" width="384" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

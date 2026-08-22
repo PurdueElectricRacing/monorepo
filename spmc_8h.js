@@ -1,7 +1,7 @@
 var spmc_8h =
 [
     [ "SPMC_t", "structSPMC__t.html", "structSPMC__t" ],
-    [ "SPMC_enqueue_from_ISR", "spmc_8h.html#a1cceacc1cc78c112192bb84aaee313aa", null ],
+    [ "SPMC_enqueue_from_ISR", "spmc_8h.html#aa5d44422fa9926dd46517b00c1416841", null ],
     [ "SPMC_follower_advance_tail", "spmc_8h.html#acac386d9c3934e6da2b92c20b4646247", null ],
     [ "SPMC_follower_peek_minis", "spmc_8h.html#a9ce4d496b1d03859046de565bb84b542", null ],
     [ "SPMC_init", "spmc_8h.html#a89cd8310ea92fcf7779b939853f6f6fc", null ],

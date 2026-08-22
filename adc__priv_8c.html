@@ -115,18 +115,18 @@ Include dependency graph for adc_priv.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afb224045594ce20e2052c6807f88868a" id="r_afb224045594ce20e2052c6807f88868a"><td class="memItemLeft" align="right" valign="top">static ADC_Common_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb224045594ce20e2052c6807f88868a">adc_common_registers</a> (ADC_TypeDef *instance)</td></tr>
-<tr class="memdesc:afb224045594ce20e2052c6807f88868a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the common register bank containing an ADC instance.  <br /></td></tr>
-<tr class="separator:afb224045594ce20e2052c6807f88868a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3262ac785543c903e694fc6e3e19d73" id="r_ad3262ac785543c903e694fc6e3e19d73"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3262ac785543c903e694fc6e3e19d73">adc_enable_clock</a> (ADC_TypeDef *instance)</td></tr>
-<tr class="memdesc:ad3262ac785543c903e694fc6e3e19d73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable and synchronize the peripheral clock for an ADC instance.  <br /></td></tr>
-<tr class="separator:ad3262ac785543c903e694fc6e3e19d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a497a62c24dd03f65a68b0c11d7483cc1" id="r_a497a62c24dd03f65a68b0c11d7483cc1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a497a62c24dd03f65a68b0c11d7483cc1">adc_configure_clock</a> (ADC_TypeDef *instance)</td></tr>
-<tr class="memdesc:a497a62c24dd03f65a68b0c11d7483cc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select the synchronous HCLK/4 ADC clock if it is not already configured.  <br /></td></tr>
-<tr class="separator:a497a62c24dd03f65a68b0c11d7483cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f3fd5c3bc414a1a102e8c12c2ee18fa" id="r_a1f3fd5c3bc414a1a102e8c12c2ee18fa"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f3fd5c3bc414a1a102e8c12c2ee18fa">adc_wait_for_register</a> (volatile uint32_t *reg, uint32_t mask, bool expected_set)</td></tr>
-<tr class="memdesc:a1f3fd5c3bc414a1a102e8c12c2ee18fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for masked register bits to reach the requested state.  <br /></td></tr>
-<tr class="separator:a1f3fd5c3bc414a1a102e8c12c2ee18fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9a612b40213f953aa4169c1f6a0b6f2" id="r_aa9a612b40213f953aa4169c1f6a0b6f2"><td class="memItemLeft" align="right" valign="top">static ADC_Common_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9a612b40213f953aa4169c1f6a0b6f2">adc_common_registers</a> (const ADC_TypeDef *instance)</td></tr>
+<tr class="memdesc:aa9a612b40213f953aa4169c1f6a0b6f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the common register bank containing an ADC instance.  <br /></td></tr>
+<tr class="separator:aa9a612b40213f953aa4169c1f6a0b6f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab48aaf81821ed3c52caa0bc5060d61b7" id="r_ab48aaf81821ed3c52caa0bc5060d61b7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab48aaf81821ed3c52caa0bc5060d61b7">adc_enable_clock</a> (const ADC_TypeDef *instance)</td></tr>
+<tr class="memdesc:ab48aaf81821ed3c52caa0bc5060d61b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable and synchronize the peripheral clock for an ADC instance.  <br /></td></tr>
+<tr class="separator:ab48aaf81821ed3c52caa0bc5060d61b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f0f05de0cffac36f6034d0091ac79c4" id="r_a0f0f05de0cffac36f6034d0091ac79c4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f0f05de0cffac36f6034d0091ac79c4">adc_configure_clock</a> (const ADC_TypeDef *instance)</td></tr>
+<tr class="memdesc:a0f0f05de0cffac36f6034d0091ac79c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select the synchronous HCLK/4 ADC clock if it is not already configured.  <br /></td></tr>
+<tr class="separator:a0f0f05de0cffac36f6034d0091ac79c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad76bcc9338ec2464412b8e0fcd2bd1b3" id="r_ad76bcc9338ec2464412b8e0fcd2bd1b3"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad76bcc9338ec2464412b8e0fcd2bd1b3">adc_wait_for_register</a> (const volatile uint32_t *reg, uint32_t mask, bool expected_set)</td></tr>
+<tr class="memdesc:ad76bcc9338ec2464412b8e0fcd2bd1b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for masked register bits to reach the requested state.  <br /></td></tr>
+<tr class="separator:ad76bcc9338ec2464412b8e0fcd2bd1b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaae9006c12e90aa9625c64017e059c75" id="r_aaae9006c12e90aa9625c64017e059c75"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaae9006c12e90aa9625c64017e059c75">adc_regulator_delay</a> (void)</td></tr>
 <tr class="memdesc:aaae9006c12e90aa9625c64017e059c75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait at least the ADC regulator startup interval.  <br /></td></tr>
 <tr class="separator:aaae9006c12e90aa9625c64017e059c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,9 +145,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa9f503d5c4306dfcbeebd828b786b0c4" id="r_aa9f503d5c4306dfcbeebd828b786b0c4"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9f503d5c4306dfcbeebd828b786b0c4">adc_calibrate</a> (ADC_TypeDef *instance)</td></tr>
 <tr class="memdesc:aa9f503d5c4306dfcbeebd828b786b0c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run single-ended ADC calibration and wait for completion.  <br /></td></tr>
 <tr class="separator:aa9f503d5c4306dfcbeebd828b786b0c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cfb0af3466d2b09a77acffade668854" id="r_a1cfb0af3466d2b09a77acffade668854"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cfb0af3466d2b09a77acffade668854">ADC_PRIV_instance_is_supported</a> (ADC_TypeDef *instance)</td></tr>
-<tr class="memdesc:a1cfb0af3466d2b09a77acffade668854"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether an ADC instance is supported by this driver.  <br /></td></tr>
-<tr class="separator:a1cfb0af3466d2b09a77acffade668854"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dfd17ae40b5131a2f5e4c92814dafad" id="r_a4dfd17ae40b5131a2f5e4c92814dafad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4dfd17ae40b5131a2f5e4c92814dafad">ADC_PRIV_instance_is_supported</a> (const ADC_TypeDef *instance)</td></tr>
+<tr class="memdesc:a4dfd17ae40b5131a2f5e4c92814dafad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether an ADC instance is supported by this driver.  <br /></td></tr>
+<tr class="separator:a4dfd17ae40b5131a2f5e4c92814dafad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a868732f1ad2fa5633d69573ed92e68d7" id="r_a868732f1ad2fa5633d69573ed92e68d7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a868732f1ad2fa5633d69573ed92e68d7">ADC_PRIV_configure</a> (ADC_TypeDef *instance, const <a class="el" href="structPHAL__ADC__ChannelConfig__t.html">PHAL_ADC_ChannelConfig_t</a> *channels, size_t channel_count)</td></tr>
 <tr class="memdesc:a868732f1ad2fa5633d69573ed92e68d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure and calibrate a disabled ADC instance.  <br /></td></tr>
 <tr class="separator:a868732f1ad2fa5633d69573ed92e68d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,8 +221,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="afb224045594ce20e2052c6807f88868a" name="afb224045594ce20e2052c6807f88868a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb224045594ce20e2052c6807f88868a">&#9670;&#160;</a></span>adc_common_registers()</h2>
+<a id="aa9a612b40213f953aa4169c1f6a0b6f2" name="aa9a612b40213f953aa4169c1f6a0b6f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9a612b40213f953aa4169c1f6a0b6f2">&#9670;&#160;</a></span>adc_common_registers()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -233,7 +233,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static ADC_Common_TypeDef * adc_common_registers </td>
           <td>(</td>
-          <td class="paramtype">ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>instance</em></span></td><td>)</td>
+          <td class="paramtype">const ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>instance</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -248,13 +248,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_afb224045594ce20e2052c6807f88868a_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_aa9a612b40213f953aa4169c1f6a0b6f2_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a497a62c24dd03f65a68b0c11d7483cc1" name="a497a62c24dd03f65a68b0c11d7483cc1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a497a62c24dd03f65a68b0c11d7483cc1">&#9670;&#160;</a></span>adc_configure_clock()</h2>
+<a id="a0f0f05de0cffac36f6034d0091ac79c4" name="a0f0f05de0cffac36f6034d0091ac79c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f0f05de0cffac36f6034d0091ac79c4">&#9670;&#160;</a></span>adc_configure_clock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -265,7 +265,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static void adc_configure_clock </td>
           <td>(</td>
-          <td class="paramtype">ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>instance</em></span></td><td>)</td>
+          <td class="paramtype">const ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>instance</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -280,12 +280,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_a497a62c24dd03f65a68b0c11d7483cc1_cgraph.svg" width="355" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_a0f0f05de0cffac36f6034d0091ac79c4_cgraph.svg" width="355" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_a497a62c24dd03f65a68b0c11d7483cc1_icgraph.svg" width="604" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_a0f0f05de0cffac36f6034d0091ac79c4_icgraph.svg" width="604" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -368,8 +368,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ad3262ac785543c903e694fc6e3e19d73" name="ad3262ac785543c903e694fc6e3e19d73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3262ac785543c903e694fc6e3e19d73">&#9670;&#160;</a></span>adc_enable_clock()</h2>
+<a id="ab48aaf81821ed3c52caa0bc5060d61b7" name="ab48aaf81821ed3c52caa0bc5060d61b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab48aaf81821ed3c52caa0bc5060d61b7">&#9670;&#160;</a></span>adc_enable_clock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -380,7 +380,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static void adc_enable_clock </td>
           <td>(</td>
-          <td class="paramtype">ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>instance</em></span></td><td>)</td>
+          <td class="paramtype">const ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>instance</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -395,7 +395,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_ad3262ac785543c903e694fc6e3e19d73_icgraph.svg" width="591" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_ab48aaf81821ed3c52caa0bc5060d61b7_icgraph.svg" width="591" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -496,8 +496,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a1cfb0af3466d2b09a77acffade668854" name="a1cfb0af3466d2b09a77acffade668854"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cfb0af3466d2b09a77acffade668854">&#9670;&#160;</a></span>ADC_PRIV_instance_is_supported()</h2>
+<a id="a4dfd17ae40b5131a2f5e4c92814dafad" name="a4dfd17ae40b5131a2f5e4c92814dafad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dfd17ae40b5131a2f5e4c92814dafad">&#9670;&#160;</a></span>ADC_PRIV_instance_is_supported()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -505,7 +505,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool ADC_PRIV_instance_is_supported </td>
           <td>(</td>
-          <td class="paramtype">ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>instance</em></span></td><td>)</td>
+          <td class="paramtype">const ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>instance</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -515,7 +515,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_a1cfb0af3466d2b09a77acffade668854_icgraph.svg" width="614" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_a4dfd17ae40b5131a2f5e4c92814dafad_icgraph.svg" width="614" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -729,8 +729,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a1f3fd5c3bc414a1a102e8c12c2ee18fa" name="a1f3fd5c3bc414a1a102e8c12c2ee18fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f3fd5c3bc414a1a102e8c12c2ee18fa">&#9670;&#160;</a></span>adc_wait_for_register()</h2>
+<a id="ad76bcc9338ec2464412b8e0fcd2bd1b3" name="ad76bcc9338ec2464412b8e0fcd2bd1b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad76bcc9338ec2464412b8e0fcd2bd1b3">&#9670;&#160;</a></span>adc_wait_for_register()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -741,7 +741,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static bool adc_wait_for_register </td>
           <td>(</td>
-          <td class="paramtype">volatile uint32_t *</td>          <td class="paramname"><span class="paramname"><em>reg</em></span>, </td>
+          <td class="paramtype">const volatile uint32_t *</td>          <td class="paramname"><span class="paramname"><em>reg</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -765,7 +765,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_a1f3fd5c3bc414a1a102e8c12c2ee18fa_icgraph.svg" width="100%" height="492"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adc__priv_8c_ad76bcc9338ec2464412b8e0fcd2bd1b3_icgraph.svg" width="100%" height="492"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

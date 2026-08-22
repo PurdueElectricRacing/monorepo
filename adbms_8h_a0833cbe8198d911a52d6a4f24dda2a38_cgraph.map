@@ -1,0 +1,41 @@
+<map id="adbms_write_regb" name="adbms_write_regb">
+<area shape="rect" id="Node000001" title="Calculate and write REGB configuration to all modules." alt="" coords="5,218,133,244"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a7edc17528da09597a1ba5cd6d5e9671e" title="Calculate the REG_B configuration register value." alt="" coords="208,23,356,63"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,216,115,157,145,121,179,89,211,68,214,73,182,93,149,125,120,160,80,219"/>
+<area shape="rect" id="Node000004" href="$adbms6380_8c.html#a87779ad64f4a74f4550870855d30d4a2" title="Append a command and its PEC to an output buffer." alt="" coords="181,104,383,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="81,216,122,178,150,157,179,139,196,132,198,137,182,144,153,162,125,182,84,220"/>
+<area shape="rect" id="Node000007" href="$adbms6380_8c.html#a8c34ef8839dcd0f491ade5e2f7146e9b" title="Append a data payload and its PEC to an output buffer." alt="" coords="197,153,367,194"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="119,215,188,196,190,201,120,220"/>
+<area shape="rect" id="Node000009" href="$adbms6380_8c.html#ae50a5200f4ab61124ab070e8898f0cc9" title="Drive the ADBMS CS line to high." alt="" coords="435,218,600,244"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="133,228,419,228,419,234,133,234"/>
+<area shape="rect" id="Node000011" href="$adbms6380_8c.html#a12a7403f2f6b47af40cc7d278909ebe7" title="Drive the ADBMS CS line low." alt="" coords="201,269,362,294"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="127,242,211,262,209,267,125,247"/>
+<area shape="rect" id="Node000012" href="$phal__G4_2spi_2spi_8c.html#a4f2d185a5b44a18fb9a1d7fe225a7581" title="Perform a blocking DMA&#45;backed SPI transfer. (Wrapper around PHAL_SPI_transfer.)" alt="" coords="188,320,376,345"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="87,242,128,273,182,305,201,312,199,317,180,309,126,278,84,246"/>
+<area shape="rect" id="Node000018" href="$strbuf_8c.html#a64d216f0276598d2d7f68c8a0c453fb7" title="Clears the buffer by resetting length to 0." alt="" coords="237,369,326,394"/>
+<area shape="poly" id="edge21_Node000001_Node000018" title=" " alt="" coords="80,243,119,298,148,329,182,355,223,372,221,377,179,360,144,333,115,301,76,246"/>
+<area shape="rect" id="Node000003" href="$adbms6380_8c.html#a7dba9c62715355f360c6e4f1b150d334" title="Convert a voltage threshold (V) into 12&#45;bit REG_B threshold encoding." alt="" coords="431,5,604,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="355,35,415,31,415,36,356,40"/>
+<area shape="rect" id="Node000005" href="$pec_8c.html#acf61d2142265cf21d2a680bff41883b9" title="CRC15 Pec Calculation Function." alt="" coords="440,70,595,96"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="377,100,424,94,425,99,378,106"/>
+<area shape="rect" id="Node000006" href="$strbuf_8c.html#a15380dc153a462b38a9b54f274c9c3b5" title="Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended." alt="" coords="466,120,569,145"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="384,121,451,125,451,131,383,126"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="367,156,450,141,451,147,368,161"/>
+<area shape="rect" id="Node000008" href="$pec_8c.html#af26a3fb59c4ae59fb10ac19030eef174" title=" " alt="" coords="440,169,595,194"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="367,174,425,176,425,181,367,179"/>
+<area shape="rect" id="Node000010" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="687,269,813,294"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="581,242,674,262,672,268,579,247"/>
+<area shape="poly" id="edge12_Node000011_Node000010" title=" " alt="" coords="363,279,672,279,672,284,363,284"/>
+<area shape="rect" id="Node000013" href="$phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" title="Check for current SPI transaction to complete." alt="" coords="690,320,810,345"/>
+<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="376,330,674,330,674,335,376,335"/>
+<area shape="rect" id="Node000014" href="$phal__F4_2spi_2spi_8c.html#aa44c022e7bafc2f33240d3fa837a4244" title="Transfer data_len bytes from out_data to SPI device and place MISO data in in_data This function just..." alt="" coords="449,370,586,396"/>
+<area shape="poly" id="edge15_Node000012_Node000014" title=" " alt="" coords="346,343,440,364,439,369,344,348"/>
+<area shape="poly" id="edge20_Node000014_Node000010" title=" " alt="" coords="537,367,588,336,651,305,672,297,674,302,653,309,590,341,540,372"/>
+<area shape="poly" id="edge19_Node000014_Node000013" title=" " alt="" coords="579,367,674,346,675,351,581,372"/>
+<area shape="rect" id="Node000015" href="$phal__F4_2dma_2dma_8c.html#a87b11fd9c27f60363585940890fd2343" title=" " alt="" coords="675,369,825,394"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="587,380,659,380,659,385,587,385"/>
+<area shape="rect" id="Node000016" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="652,418,848,444"/>
+<area shape="poly" id="edge17_Node000014_Node000016" title=" " alt="" coords="584,394,670,412,669,417,583,399"/>
+<area shape="rect" id="Node000017" href="$phal__F4_2dma_2dma_8c.html#a14faecce0cd8bd38b14c987e17ce1033" title=" " alt="" coords="656,468,844,493"/>
+<area shape="poly" id="edge18_Node000014_Node000017" title=" " alt="" coords="541,394,591,424,653,454,671,460,669,465,651,459,588,429,538,399"/>
+</map>
