@@ -16,10 +16,10 @@
 static constexpr uint32_t PHAL_DMA_PRIV_DMA_CHANNEL_MEM_STRIDE = 0x14U;
 
 /// Enable DMAMUX1's clock plus the given DMA peripheral's clock
-void PHAL_DMA_priv_enableClock(DMA_TypeDef *periph);
+void PHAL_DMA_priv_enableClock(const DMA_TypeDef *periph);
 
 /// Look up the channel instance for (periph, channel_idx). channel_idx must be 1-8
-DMA_Channel_TypeDef *PHAL_DMA_priv_getChannel(DMA_TypeDef *periph, uint8_t channel_idx);
+DMA_Channel_TypeDef *PHAL_DMA_priv_getChannel(const DMA_TypeDef *periph, uint8_t channel_idx);
 
 // Get the NVIC IRQn for (periph, channel_idx). channel_idx must be 1-8
 IRQn_Type PHAL_DMA_priv_getIRQn(DMA_TypeDef *periph, uint8_t channel_idx);
@@ -31,7 +31,7 @@ void PHAL_DMA_priv_disableChannel(DMA_Channel_TypeDef *channel);
 void PHAL_DMA_priv_enableChannel(DMA_Channel_TypeDef *channel);
 
 /// True if the channel is currently enabled
-bool PHAL_DMA_priv_isChannelEnabled(DMA_Channel_TypeDef *channel);
+bool PHAL_DMA_priv_isChannelEnabled(const DMA_Channel_TypeDef *channel);
 
 /// Clear every latched status flag (global/complete/half/error) for one channel
 void PHAL_DMA_priv_clearFlags(DMA_TypeDef *periph, uint8_t channel_idx);
@@ -57,9 +57,9 @@ void PHAL_DMA_priv_setLength(DMA_Channel_TypeDef *channel, uint16_t length);
 uint16_t PHAL_DMA_priv_getRemainingLength(DMA_Channel_TypeDef *channel);
 
 /// True if the transfer-complete flag is currently set for (periph, channel_idx)
-bool PHAL_DMA_priv_readCompleteFlag(DMA_TypeDef *periph, uint8_t channel_idx);
+bool PHAL_DMA_priv_readCompleteFlag(const DMA_TypeDef *periph, uint8_t channel_idx);
 
 /// True if the transfer-error flag is currently set for (periph, channel_idx)
-bool PHAL_DMA_priv_readErrorFlag(DMA_TypeDef *periph, uint8_t channel_idx);
+bool PHAL_DMA_priv_readErrorFlag(const DMA_TypeDef *periph, uint8_t channel_idx);
 
 #endif // PHAL_G4_DMA_PRIV_H
