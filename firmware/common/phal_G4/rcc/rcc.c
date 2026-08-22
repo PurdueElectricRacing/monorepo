@@ -37,6 +37,8 @@ static void rcc_initFromOscillator(bool use_hse, bool use_pll) {
         } else {
             PHAL_RCC_priv_switchSysclkToHSI();
         }
+        // HSE and HSI could be different Hz
+        // cppcheck-suppress duplicateExpressionTernary
         g_system_clock_hz = use_hse ? RCC_PRIV_HSE_CLOCK_RATE_HZ : RCC_PRIV_HSI_CLOCK_RATE_HZ;
     }
 
