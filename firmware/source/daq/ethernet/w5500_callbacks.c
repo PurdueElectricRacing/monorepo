@@ -116,6 +116,8 @@ static void spi_rb_burst(uint32_t addr, uint8_t* pBuf, uint16_t len) {
     PHAL_SPI_transfer_noDMA_DAQW5500Only(&eth_spi_config, addr, NULL, 0, len, pBuf);
 }
 
+// WIZnet callback ABI does not mark pBuf as const, even though it is read only
+// cppcheck-suppress constParameterCallback
 static void spi_wb_burst(uint32_t addr, uint8_t* pBuf, uint16_t len) {
     // SPI TX Burst, must block! (uses local pointer)
     PHAL_SPI_transfer_noDMA_DAQW5500Only(&eth_spi_config, addr, pBuf, len, 0, NULL);
