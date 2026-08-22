@@ -60,9 +60,6 @@ jobs:
             - name: Fix git ownership
               run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-            - name: Install cppcheck
-              run: apt-get update && apt-get install -y cppcheck
-
             - name: Run cppcheck
               run: python3 per_build.py firmware --check
               
