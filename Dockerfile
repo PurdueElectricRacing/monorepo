@@ -47,7 +47,7 @@ RUN curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
         https://sh.rustup.rs \
         --output /tmp/rustup-init.sh \
     && sh /tmp/rustup-init.sh \
-        --yes \
+        -y \
         --no-modify-path \
         --profile minimal \
         --default-toolchain stable \
