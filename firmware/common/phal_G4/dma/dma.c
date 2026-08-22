@@ -143,15 +143,15 @@ uint16_t PHAL_DMA_getRemaining(PHAL_DMA_Handle_t *handle) {
     return PHAL_DMA_priv_getRemainingLength(handle->channel);
 }
 
-bool PHAL_DMA_isBusy(PHAL_DMA_Handle_t *handle) {
+bool PHAL_DMA_isBusy(const PHAL_DMA_Handle_t *handle) {
     return PHAL_DMA_priv_isChannelEnabled(handle->channel);
 }
 
-bool PHAL_DMA_isComplete(PHAL_DMA_Handle_t *handle) {
+bool PHAL_DMA_isComplete(const PHAL_DMA_Handle_t *handle) {
     return PHAL_DMA_priv_readCompleteFlag(handle->wiring->periph, handle->wiring->channel_idx);
 }
 
-bool PHAL_DMA_isError(PHAL_DMA_Handle_t *handle) {
+bool PHAL_DMA_isError(const PHAL_DMA_Handle_t *handle) {
     return PHAL_DMA_priv_readErrorFlag(handle->wiring->periph, handle->wiring->channel_idx);
 }
 
