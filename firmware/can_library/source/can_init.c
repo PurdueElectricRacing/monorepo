@@ -154,6 +154,8 @@ bool CAN_init(void) {
 
     CAN_setup_IRQs();
 
+    // todo: remove this check and suppress once F4 CAN support is dropped
+    // cppcheck-suppress knownConditionTrueFalse
     if (!CAN_setup_filters()) {
         return false;
     }
