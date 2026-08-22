@@ -55,10 +55,14 @@ bool PHAL_SPI_init(SPI_InitConfig_t *cfg) {
 }
 
 
-void PHAL_SPI_transfer(SPI_InitConfig_t *spi,
-                       const uint8_t *out_data,
-                       uint8_t *in_data,
-                       uint32_t data_len) {
+void PHAL_SPI_transfer(
+    SPI_InitConfig_t *spi,
+    const uint8_t *out_data,
+    // DMA writes rx'd bytes into in_data async
+    // cppcheck-suppress constParameterPointer
+    uint8_t *in_data,
+    uint32_t data_len
+) {
 
     // Wait for any previous transfer to complete
     while (PHAL_SPI_busy(spi)) {
@@ -115,6 +119,6 @@ void PHAL_SPI_transferBlocking(SPI_InitConfig_t *spi,
     }
 }
 
-bool PHAL_SPI_busy(SPI_InitConfig_t *cfg) {
+bool PHAL_SPI_busy(const SPI_InitConfig_t *cfg) {
     return cfg->_busy;
 }
