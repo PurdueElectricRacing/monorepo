@@ -25,7 +25,6 @@
 /* Module Includes */
 #include "cooling_fsm.h"
 #include "faults.h"
-#include "flow_rate.h"
 #include "led.h"
 #include "state.h"
 #include "switches.h"
@@ -317,8 +316,6 @@ int main() {
     state_init_defaults();
     switches_init();
     faults_init();
-
-    flowRateInit();
 
     switches_enable_default_rails();
 

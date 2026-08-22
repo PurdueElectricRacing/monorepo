@@ -3,7 +3,6 @@
 #include "can_library/faults_common.h"
 #include "can_library/generated/PDU.h"
 #include "can_library/generated/VCAN.h"
-#include "flow_rate.h"
 #include "main.h"
 #include "source/a_box/telemetry/telemetry.h"
 #include "state.h"
@@ -67,6 +66,4 @@ void telemetry_10hz(void) {
     );
 
     CAN_SEND_pdu_temps(telemetry_internal_temp_c(adc_readings.internal_therm));
-
-    CAN_SEND_flowrates(getFlowRate1(), getFlowRate2());
 }
