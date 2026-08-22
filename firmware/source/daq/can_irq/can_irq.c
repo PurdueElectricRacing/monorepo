@@ -34,7 +34,7 @@ static inline void can_rx_irq_handler(CAN_TypeDef *peripheral) {
     // CAN1 = VCAN = bus 0
     set_bus_id(&rx, (peripheral == CAN1) ? 0 : 1);
 
-    CAN_FIFOMailBox_TypeDef *mailbox = &peripheral->sFIFOMailBox[0];
+    const CAN_FIFOMailBox_TypeDef *mailbox = &peripheral->sFIFOMailBox[0];
     bool is_xid = (mailbox->RIR & CAN_RI0R_IDE) != 0;
     set_xid(&rx, is_xid);
 

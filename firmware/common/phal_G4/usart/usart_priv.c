@@ -171,7 +171,7 @@ void PHAL_USART_priv_flushRx(USART_TypeDef *periph) {
     periph->ICR = USART_PRIV_RX_FLAG_CLEAR_MSK;
 }
 
-bool PHAL_USART_priv_idleActive(USART_TypeDef *periph) {
+bool PHAL_USART_priv_idleActive(const USART_TypeDef *periph) {
     return (periph->ISR & USART_ISR_IDLE) != 0U;
 }
 

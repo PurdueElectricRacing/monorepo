@@ -207,7 +207,6 @@ uint8_t SD_Detect(void) {
  */
 SD_Error SD_PowerON(void) {
     __IO SD_Error errorstatus = SD_OK;
-    uint32_t response = 0, count = 0, validvoltage = 0;
     uint32_t SDType = SD_STD_CAPACITY;
     PHAL_SD_Cmd_t cmd;
 
@@ -265,6 +264,9 @@ SD_Error SD_PowerON(void) {
     /*!< If errorstatus is SD_OK it is a SD card: SD card 2.0 (voltage range mismatch)
 	or SD card 1.x */
     if (errorstatus == SD_OK) {
+        uint32_t response = 0;
+        uint32_t count = 0;
+        uint32_t validvoltage = 0;
         /*!< SD CARD */
         /*!< Send ACMD41 SD_APP_OP_COND with Argument 0x80100000 */
         while ((!validvoltage) && (count < SD_MAX_VOLT_TRIAL)) {
@@ -299,7 +301,7 @@ SD_Error SD_PowerON(void) {
             return (errorstatus);
         }
 
-        if (response &= SD_HIGH_CAPACITY) {
+        if ((response & SD_HIGH_CAPACITY) != 0) {
             CardType = SDIO_HIGH_CAPACITY_SD_CARD;
         }
 
@@ -315,14 +317,13 @@ SD_Error SD_PowerON(void) {
  * @retval SD_Error: SD Card Error code.
  */
 SD_Error SD_InitializeCards(void) {
-    SD_Error errorstatus = SD_OK;
+    SD_Error errorstatus;
     uint16_t rca         = 0x01;
     PHAL_SD_Cmd_t cmd;
 
     // Check that SDIO peripheral is powered
     if ((SDIO->POWER & SDIO_POWER_PWRCTRL) == 0) {
-        errorstatus = SD_REQUEST_NOT_APPLICABLE;
-        return (errorstatus);
+        return SD_REQUEST_NOT_APPLICABLE;
     }
 
     if (SDIO_SECURE_DIGITAL_IO_CARD != CardType) {
@@ -659,7 +660,7 @@ SD_Error SD_SelectDeselect(uint64_t addr) {
  *
  * @param cmd
  */
-void PHAL_SDIO_SendCommand(PHAL_SD_Cmd_t* cmd) {
+void PHAL_SDIO_SendCommand(const PHAL_SD_Cmd_t* cmd) {
     SDIO->ARG = cmd->arg;
     SDIO->CMD = ((cmd->idx & SDIO_CMD_CMDINDEX_Msk)) | ((cmd->res << SDIO_CMD_WAITRESP_Pos) & SDIO_CMD_WAITRESP_Msk) | SDIO_CMD_CPSMEN;
 }
@@ -1546,7 +1547,7 @@ static dma_init_t sdio_tx_config = SDIO_TXDMA_CONFIG(NULL, 3);
  * @param  BufferSize: buffer size
  * @retval None
  */
-void SD_LowLevel_DMA_TxConfig(uint32_t* BufferSRC, uint32_t BufferSize) {
+void SD_LowLevel_DMA_TxConfig(const uint32_t* BufferSRC, uint32_t BufferSize) {
     // TODO: convert DMA stuff to PHAL
     sdio_tx_config.mem_addr = (uint32_t)BufferSRC;
     PHAL_initDMA(&sdio_tx_config);
@@ -1587,6 +1588,8 @@ static dma_init_t sdio_rx_config = SDIO_RXDMA_CONFIG(NULL, 3);
  * @param  BufferSize: buffer size
  * @retval None
  */
+// DMA writes rx'd blocks into BufferDST async
+// cppcheck-suppress constParameterPointer
 void SD_LowLevel_DMA_RxConfig(uint32_t* BufferDST, uint32_t BufferSize) {
     // TODO: convert DMA stuff to PHAL
     sdio_rx_config.mem_addr = (uint32_t)BufferDST;

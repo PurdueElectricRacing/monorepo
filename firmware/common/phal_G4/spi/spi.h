@@ -117,7 +117,7 @@ void PHAL_SPI_transferBlocking(SPI_InitConfig_t *spi,
  * @param cfg SPI configuration.
  * @return true if a transfer is currently in progress.
  */
-bool PHAL_SPI_busy(SPI_InitConfig_t *cfg);
+bool PHAL_SPI_busy(const SPI_InitConfig_t *cfg);
 
 /**
  * @brief Weak callback fired when a DMA-backed SPI transfer completes.

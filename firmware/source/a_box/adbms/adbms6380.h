@@ -95,7 +95,7 @@ uint16_t adbms6380_get_threshold_voltage_cfg(float threshold_voltage);
  * @param idx Index of the 16-bit word to extract.
  * @return Signed 16-bit value.
  */
-int16_t adbms6380_extract_i16(uint8_t *data, int idx);
+int16_t adbms6380_extract_i16(const uint8_t *data, int idx);
 /**
  * @brief Convert raw voltage measurement from the ADBMS6380 to volts.
  *

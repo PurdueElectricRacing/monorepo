@@ -7,7 +7,7 @@
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/fdcan/fdcan_priv.h"
  
-uint32_t PHAL_FDCAN_priv_ramBase(FDCAN_GlobalTypeDef *fdcan) {
+uint32_t PHAL_FDCAN_priv_ramBase(const FDCAN_GlobalTypeDef *fdcan) {
     // SRAMCAN_BASE = start address of the single block of SRAM
     // It is shared by all FDCAN instances for their Message RAM (filters/FIFOs/TX buffers)
     if (fdcan == FDCAN1) {
@@ -218,7 +218,7 @@ uint32_t PHAL_FDCAN_priv_getNBTP(PHAL_FDCAN_BaudRate_t bit_rate) {
     }
 }
  
-void PHAL_FDCAN_priv_writeStandardFilters(FDCAN_GlobalTypeDef *fdcan, uint32_t *sid_list, uint32_t num_sid) {
+void PHAL_FDCAN_priv_writeStandardFilters(FDCAN_GlobalTypeDef *fdcan, const uint32_t *sid_list, uint32_t num_sid) {
     volatile uint32_t *ram = (volatile uint32_t *)(PHAL_FDCAN_priv_ramBase(fdcan)
                                  + FDCAN_PRIV_SRAMCAN_FLSSA);
  
@@ -247,7 +247,7 @@ void PHAL_FDCAN_priv_writeStandardFilters(FDCAN_GlobalTypeDef *fdcan, uint32_t *
     fdcan->RXGFC |= (num_sid << FDCAN_RXGFC_LSS_Pos);
 }
  
-void PHAL_FDCAN_priv_writeExtendedFilters(FDCAN_GlobalTypeDef *fdcan, uint32_t *xid_list, uint32_t num_xid) {
+void PHAL_FDCAN_priv_writeExtendedFilters(FDCAN_GlobalTypeDef *fdcan, const uint32_t *xid_list, uint32_t num_xid) {
     volatile uint32_t *ram = (volatile uint32_t *)(PHAL_FDCAN_priv_ramBase(fdcan)
                                  + FDCAN_PRIV_SRAMCAN_FLESA);
  
@@ -389,14 +389,14 @@ bool PHAL_FDCAN_priv_readRxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t *
     return true;
 }
 
-bool PHAL_FDCAN_priv_readTxFifoQueueStatusFullFlag(FDCAN_GlobalTypeDef *fdcan) {
+bool PHAL_FDCAN_priv_readTxFifoQueueStatusFullFlag(const FDCAN_GlobalTypeDef *fdcan) {
     // TXFQS = Tx FIFO/Queue Status register
     // TFQF = Tx FIFO/Queue Full flag
     // - 1 when every TX FIFO/queue element is currently occupied by a pending/queued frame
     return (fdcan->TXFQS & FDCAN_TXFQS_TFQF) != 0;
 }
 
-bool PHAL_FDCAN_priv_readReceiveFifo0NewMessageInterruptFlag(FDCAN_GlobalTypeDef *fdcan) {
+bool PHAL_FDCAN_priv_readReceiveFifo0NewMessageInterruptFlag(const FDCAN_GlobalTypeDef *fdcan) {
     // IR = Interrupt Register
     // - latched interrupt flags
     // RF0N = Receive FIFO 0 New message flag
@@ -410,7 +410,7 @@ void PHAL_FDCAN_priv_clearReceiveFifo0NewMessageInterruptFlag(FDCAN_GlobalTypeDe
     fdcan->IR = FDCAN_IR_RF0N;
 }
 
-bool PHAL_FDCAN_priv_readTransmitCompleteInterruptFlag(FDCAN_GlobalTypeDef *fdcan) {
+bool PHAL_FDCAN_priv_readTransmitCompleteInterruptFlag(const FDCAN_GlobalTypeDef *fdcan) {
     // TC = Transmission Completed flag within IR
     // - set by hardware once a queued TX element has finished transmitting successfully
     return (fdcan->IR & FDCAN_IR_TC) != 0;

@@ -62,7 +62,7 @@ static bool PHAL_PWM_priv_enableChannel(TIM_TypeDef *tim, uint8_t channel) {
     }
 }
 
-bool PHAL_PWM_priv_getTimerInfo(TIM_TypeDef *tim, PWM_PRIV_TimerInfo_t *info) {
+bool PHAL_PWM_priv_getTimerInfo(const TIM_TypeDef *tim, PWM_PRIV_TimerInfo_t *info) {
     if (tim == NULL || info == NULL) {
         return false;
     }
@@ -123,7 +123,7 @@ bool PHAL_PWM_priv_getTimerInfo(TIM_TypeDef *tim, PWM_PRIV_TimerInfo_t *info) {
     }
 }
 
-bool PHAL_PWM_priv_enableTimerClock(TIM_TypeDef *tim) {
+bool PHAL_PWM_priv_enableTimerClock(const TIM_TypeDef *tim) {
     if (tim == NULL) {
         return false;
     }

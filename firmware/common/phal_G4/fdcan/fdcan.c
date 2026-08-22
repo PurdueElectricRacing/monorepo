@@ -35,9 +35,9 @@ void PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate)
 }
 
 bool PHAL_FDCAN_setFilters(FDCAN_GlobalTypeDef *fdcan,
-                           uint32_t *sid_list,
+                           const uint32_t *sid_list,
                            uint32_t num_sid,
-                           uint32_t *xid_list,
+                           const uint32_t *xid_list,
                            uint32_t num_xid) {
     bool sid_exceeded = num_sid > PHAL_FDCAN_MAX_NUM_SID_FILTER;
     bool xid_exceeded = num_xid > PHAL_FDCAN_MAX_NUM_XID_FILTER;
@@ -63,7 +63,7 @@ bool PHAL_FDCAN_setFilters(FDCAN_GlobalTypeDef *fdcan,
     return true;
 }
 
-bool PHAL_FDCAN_txFifoFree(FDCAN_GlobalTypeDef *fdcan) {
+bool PHAL_FDCAN_txFifoFree(const FDCAN_GlobalTypeDef *fdcan) {
     return !PHAL_FDCAN_priv_readTxFifoQueueStatusFullFlag(fdcan);
 }
  

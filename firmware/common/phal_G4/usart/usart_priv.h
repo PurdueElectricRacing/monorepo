@@ -44,7 +44,7 @@ void PHAL_USART_priv_stopRx(USART_TypeDef *periph);
 void PHAL_USART_priv_flushRx(USART_TypeDef *periph);
 
 /// return true if the IDLE-line flag is set (an RX frame just completed).
-bool PHAL_USART_priv_idleActive(USART_TypeDef *periph);
+bool PHAL_USART_priv_idleActive(const USART_TypeDef *periph);
 
 /// Clear the IDLE flag alone (write-1-to-clear).
 void PHAL_USART_priv_clearIdle(USART_TypeDef *periph);

@@ -60,7 +60,7 @@ void control_init(void) {
 }
 
 static inline void report_vcu_settings() {
-    volatile vcu_settings_data_t *current_settings = &vcu_settings[vcu_mode];
+    const volatile vcu_settings_data_t *current_settings = &vcu_settings[vcu_mode];
 
     CAN_SEND_vcu_settings(
         vcu_mode,
@@ -150,7 +150,7 @@ void control_loop() {
     xVCU.BT_RAW = 30.0f; // ! hardcoded to 30C for now
 
     // load up driver settings
-    volatile vcu_settings_data_t *current_settings = &vcu_settings[vcu_mode];
+    const volatile vcu_settings_data_t *current_settings = &vcu_settings[vcu_mode];
     xVCU.RG_FR_split_RAW = current_settings->electronic_brake_bias;
     xVCU.SK_LR_gain_RAW  = vcu_settings[VCU_MODE_SKIDPAD].lateral_gain;
     xVCU.SK_FR_split_RAW = vcu_settings[VCU_MODE_SKIDPAD].longitudinal_gain;

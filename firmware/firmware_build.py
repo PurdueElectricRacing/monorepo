@@ -110,13 +110,26 @@ def run_cppcheck():
         log_error(f"compile_commands.json not found at {compile_db}. Please run the build first.")
         sys.exit(1)
 
+    cppcheck_build_dir = SOURCE_DIR/".cache"/"cppcheck"
+    cppcheck_build_dir.mkdir(parents=True, exist_ok=True)
+
     cppcheck_command = [
         "cppcheck",
         f"--project={compile_db}",
         "--enable=warning,style,performance,portability",
+        "--check-level=exhaustive",
+        "--max-ctu-depth=4",
+        "--safety",
+        f"--cppcheck-build-dir={cppcheck_build_dir}",
+        "-D__GNUC__",
+        "--platform=unix32",
+        "--funsigned-char",
         "--file-filter=*/firmware/source/*",
         "--file-filter=*/firmware/common/*",
-        "--suppress=*:*/firmware/source/torque_vector/vcu/*",
+        "--file-filter=*/firmware/can_library/*",
+        "--suppress=*:*/external/*",
+        "--suppress=*:*/source/torque_vector/vcu/*",
+        "--suppress=*:*/common/phal_F4/*", # it sucks but purposely ignoring
         "--suppress=preprocessorErrorDirective",
         "--inline-suppr",
         "--quiet",

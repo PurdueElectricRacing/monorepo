@@ -74,9 +74,9 @@ void PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate)
  */
 bool PHAL_FDCAN_setFilters(
     FDCAN_GlobalTypeDef *fdcan,
-    uint32_t *sid_list,
+    const uint32_t *sid_list,
     uint32_t num_sid,
-    uint32_t *xid_list,
+    const uint32_t *xid_list,
     uint32_t num_xid
 );
 
@@ -96,7 +96,7 @@ bool PHAL_FDCAN_send(CanMsgTypeDef_t *msg);
  * @param fdcan peripheral instance
  * @return true if a slot is free
  */
-bool PHAL_FDCAN_txFifoFree(FDCAN_GlobalTypeDef *fdcan);
+bool PHAL_FDCAN_txFifoFree(const FDCAN_GlobalTypeDef *fdcan);
 
 /**
  * @brief Weak callback fired once per received frame

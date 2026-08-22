@@ -75,7 +75,7 @@ static constexpr uint32_t FDCAN_PRIV_SRAMCAN_SIZE  = FDCAN_PRIV_SRAMCAN_TFQSA + 
 
 
 /// Base address of this peripheral's slice of shared message RAM
-uint32_t PHAL_FDCAN_priv_ramBase(FDCAN_GlobalTypeDef *fdcan);
+uint32_t PHAL_FDCAN_priv_ramBase(const FDCAN_GlobalTypeDef *fdcan);
 
 /// Enable FDCAN kernel + peripheral clocks (PCLK1)
 void PHAL_FDCAN_priv_enableClock(void);
@@ -104,10 +104,10 @@ void PHAL_FDCAN_priv_writeFilterAction(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_De
 uint32_t PHAL_FDCAN_priv_getNBTP(PHAL_FDCAN_BaudRate_t bit_rate);
 
 /// Set num_sid exact-match standard filters and forward to RX FIFO0
-void PHAL_FDCAN_priv_writeStandardFilters(FDCAN_GlobalTypeDef *fdcan, uint32_t *sid_list, uint32_t num_sid);
+void PHAL_FDCAN_priv_writeStandardFilters(FDCAN_GlobalTypeDef *fdcan, const uint32_t *sid_list, uint32_t num_sid);
 
 /// Set num_xid exact-match extended filters and forward to RX FIFO0 
-void PHAL_FDCAN_priv_writeExtendedFilters(FDCAN_GlobalTypeDef *fdcan, uint32_t *xid_list, uint32_t num_xid);
+void PHAL_FDCAN_priv_writeExtendedFilters(FDCAN_GlobalTypeDef *fdcan, const uint32_t *xid_list, uint32_t num_xid);
 
 /// Write one classic-CAN TX element for msg into the next free TX FIFO slot
 /// Not safe to call if the TX FIFO is full
@@ -118,16 +118,16 @@ void PHAL_FDCAN_priv_writeTxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t 
 bool PHAL_FDCAN_priv_readRxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t *msg);
 
 /// Check whether the TX FIFO/Queue is full
-bool PHAL_FDCAN_priv_readTxFifoQueueStatusFullFlag(FDCAN_GlobalTypeDef *fdcan);
+bool PHAL_FDCAN_priv_readTxFifoQueueStatusFullFlag(const FDCAN_GlobalTypeDef *fdcan);
 
 /// Check whether the RX FIFO0 new message interrupt flag is set
-bool PHAL_FDCAN_priv_readReceiveFifo0NewMessageInterruptFlag(FDCAN_GlobalTypeDef *fdcan);
+bool PHAL_FDCAN_priv_readReceiveFifo0NewMessageInterruptFlag(const FDCAN_GlobalTypeDef *fdcan);
 
 /// Clear the RX FIFO0 new message interrupt flag
 void PHAL_FDCAN_priv_clearReceiveFifo0NewMessageInterruptFlag(FDCAN_GlobalTypeDef *fdcan);
 
 /// Check whether the TX complete interrupt flag is set
-bool PHAL_FDCAN_priv_readTransmitCompleteInterruptFlag(FDCAN_GlobalTypeDef *fdcan);
+bool PHAL_FDCAN_priv_readTransmitCompleteInterruptFlag(const FDCAN_GlobalTypeDef *fdcan);
 
 /// Clear the TX complete interrupt flag
 void PHAL_FDCAN_priv_clearTransmitCompleteInterruptFlag(FDCAN_GlobalTypeDef *fdcan);

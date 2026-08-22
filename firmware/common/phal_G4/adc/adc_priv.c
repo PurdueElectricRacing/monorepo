@@ -18,12 +18,12 @@ static constexpr uint32_t ADC_PRIV_WAIT_ITERATIONS = 100'000U;
 static constexpr uint32_t ADC_PRIV_SAMPLE_TIME_MAX = 7U;
 
 /// Return the common register bank containing an ADC instance.
-static ADC_Common_TypeDef *adc_common_registers(ADC_TypeDef *instance) {
+static ADC_Common_TypeDef *adc_common_registers(const ADC_TypeDef *instance) {
     return (instance == ADC1 || instance == ADC2) ? ADC12_COMMON : ADC345_COMMON;
 }
 
 /// Enable and synchronize the peripheral clock for an ADC instance.
-static void adc_enable_clock(ADC_TypeDef *instance) {
+static void adc_enable_clock(const ADC_TypeDef *instance) {
     if (instance == ADC1 || instance == ADC2) {
         RCC->AHB2ENR |= RCC_AHB2ENR_ADC12EN;
     } else {
@@ -33,7 +33,7 @@ static void adc_enable_clock(ADC_TypeDef *instance) {
 }
 
 /// Select the synchronous HCLK/4 ADC clock if it is not already configured.
-static void adc_configure_clock(ADC_TypeDef *instance) {
+static void adc_configure_clock(const ADC_TypeDef *instance) {
     // CKMODE = 0b11 selects HCLK / 4. In synchronous mode PRESC is unused.
     // Avoid rewriting the shared ADC12/ADC345 common clock while a sibling ADC
     // may already be enabled.
@@ -51,7 +51,7 @@ static void adc_configure_clock(ADC_TypeDef *instance) {
 
 /// Wait for masked register bits to reach the requested state.
 static bool adc_wait_for_register(
-    volatile uint32_t *reg,
+    const volatile uint32_t *reg,
     uint32_t mask,
     bool expected_set
 ) {
@@ -155,7 +155,7 @@ static bool adc_calibrate(ADC_TypeDef *instance) {
     return adc_wait_for_register(&instance->CR, ADC_CR_ADCAL, false);
 }
 
-bool ADC_PRIV_instance_is_supported(ADC_TypeDef *instance) {
+bool ADC_PRIV_instance_is_supported(const ADC_TypeDef *instance) {
     return instance == ADC1 || instance == ADC2 || instance == ADC3 || instance == ADC4;
 }
 

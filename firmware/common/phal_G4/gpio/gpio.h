@@ -163,7 +163,7 @@ bool PHAL_initGPIO(GPIOInitConfig_t config[], uint8_t config_len);
  * @return true GPIO Input true
  * @return false GPIO Input false
  */
-static inline bool PHAL_readGPIO(GPIO_TypeDef *bank, uint8_t pin) {
+static inline bool PHAL_readGPIO(const GPIO_TypeDef *bank, uint8_t pin) {
     return (bank->IDR >> pin) & 0b1;
 }
 

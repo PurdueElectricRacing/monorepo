@@ -24,7 +24,7 @@ bool flowRateInit() {
     RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
     FLOW_RATE_1_TIM->CR1 &= ~TIM_CR1_CEN; // Disable counter (turn off timer)
 
-    FLOW_RATE_1_TIM->PSC = 1 - 1;
+    FLOW_RATE_1_TIM->PSC = 0;
     FLOW_RATE_1_TIM->ARR = 0xFFFF - 1;
 
     /* Set input capture mode */
@@ -67,7 +67,7 @@ bool flowRateInit() {
 
     FLOW_RATE_2_TIM->CR1 &= ~TIM_CR1_CEN; // Disable counter (turn off timer)
 
-    FLOW_RATE_2_TIM->PSC = 1 - 1;
+    FLOW_RATE_2_TIM->PSC = 0;
     FLOW_RATE_2_TIM->ARR = 0xFFFF - 1;
 
     FLOW_RATE_2_TIM->CCR1 = 0;

@@ -18,7 +18,7 @@
 #include "common/phal_G4/adc/adc.h"
 
 /// Return whether an ADC instance is supported by this driver.
-bool ADC_PRIV_instance_is_supported(ADC_TypeDef *instance);
+bool ADC_PRIV_instance_is_supported(const ADC_TypeDef *instance);
 
 /// Configure and calibrate a disabled ADC instance.
 bool ADC_PRIV_configure(

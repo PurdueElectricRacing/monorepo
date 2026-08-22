@@ -103,5 +103,10 @@ uint8_t get_LED_status(int led) {
         offset = -8;
     }
 
-    return (LED_control_data & (1 << (led + offset)) ? LED_ON : LED_OFF);
+    const uint16_t led_mask = (uint16_t)(1U << (led + offset));
+    if ((LED_control_data & led_mask) != 0U) {
+        return LED_ON;
+    }
+
+    return LED_OFF;
 }

@@ -378,11 +378,11 @@ bool PHAL_SDIO_init(void);
 
 #define SD_DMA_MODE ((uint32_t)0x00000000)
 
-void SD_LowLevel_DMA_TxConfig(uint32_t* BufferSRC, uint32_t BufferSize);
+void SD_LowLevel_DMA_TxConfig(const uint32_t* BufferSRC, uint32_t BufferSize);
 void SD_LowLevel_DMA_RxConfig(uint32_t* BufferDST, uint32_t BufferSize);
 
 void SD_DeInit(void);
-void PHAL_SDIO_SendCommand(PHAL_SD_Cmd_t* cmd);
+void PHAL_SDIO_SendCommand(const PHAL_SD_Cmd_t* cmd);
 SD_Error SD_Init(void);
 SDTransferState SD_GetStatus(void);
 SDCardState SD_GetState(void);

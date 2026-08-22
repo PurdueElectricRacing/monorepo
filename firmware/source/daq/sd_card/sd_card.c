@@ -29,7 +29,6 @@ static int recovery_attempts = 0;
 static uint32_t last_open_time_ms = 0;
 
 static void get_next_filename(char *buffer, size_t buffer_size) {
-    static int log_num = 0;
     RTC_timestamp_t time = {0};
 
     if (PHAL_getTimeRTC(&time)) {
@@ -46,6 +45,7 @@ static void get_next_filename(char *buffer, size_t buffer_size) {
             time.time.seconds_bcd
         );
     } else {
+        static int log_num = 0;
         snprintf(buffer, buffer_size, "log-%d.log", log_num);
         log_num++;
     }
