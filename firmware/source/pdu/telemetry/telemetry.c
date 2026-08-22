@@ -3,7 +3,6 @@
 #include "can_library/faults_common.h"
 #include "can_library/generated/PDU.h"
 #include "can_library/generated/VCAN.h"
-#include "flow_rate.h"
 #include "main.h"
 #include "source/a_box/telemetry/telemetry.h"
 #include "state.h"
@@ -25,14 +24,13 @@ static uint16_t telemetry_internal_temp_c(uint16_t internal_therm_adc_counts) {
 
 /**
  * @brief Reports telemetry data at 10 Hz rate
- * Includes: Rail Voltages and Currents, Flow Rates
+ * Includes: Rail Voltages and Currents
  */
 static_assert(V_RAILS_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
 static_assert(OTHER_CURRENTS_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
 static_assert(PUMP_AND_FAN_CURRENT_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
 static_assert(V_RAILS_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
 static_assert(FAN_CURRENT2_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
-static_assert(FLOWRATES_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
 static_assert(RAIL_CURRENTS_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
 static_assert(PDU_TEMPS_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
 
@@ -67,6 +65,4 @@ void telemetry_10hz(void) {
     );
 
     CAN_SEND_pdu_temps(telemetry_internal_temp_c(adc_readings.internal_therm));
-
-    CAN_SEND_flowrates(getFlowRate1(), getFlowRate2());
 }

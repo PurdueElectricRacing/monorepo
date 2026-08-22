@@ -25,7 +25,6 @@
 /* Module Includes */
 #include "cooling_fsm.h"
 #include "faults.h"
-#include "flow_rate.h"
 #include "led.h"
 #include "state.h"
 #include "switches.h"
@@ -48,21 +47,6 @@ GPIOInitConfig_t gpio_config[] = {
     GPIO_INIT_SPI1_MOSI_PB5,
     GPIO_INIT_OUTPUT(LED_CTRL_LAT_GPIO_Port, LED_CTRL_LAT_Pin, GPIO_OUTPUT_LOW_SPEED),
     GPIO_INIT_OUTPUT(LED_CTRL_BLANK_GPIO_Port, LED_CTRL_BLANK_Pin, GPIO_OUTPUT_LOW_SPEED),
-    // Flow Rate
-    GPIO_INIT_AF(
-        FLOW_RATE_1_GPIO_Port,
-        FLOW_RATE_1_Pin,
-        FLOW_RATE_1_AF,
-        GPIO_OUTPUT_HIGH_SPEED,
-        GPIO_OUTPUT_OPEN_DRAIN,
-        GPIO_INPUT_PULL_DOWN),
-    GPIO_INIT_AF(
-        FLOW_RATE_2_GPIO_Port,
-        FLOW_RATE_2_Pin,
-        FLOW_RATE_2_AF,
-        GPIO_OUTPUT_HIGH_SPEED,
-        GPIO_OUTPUT_OPEN_DRAIN,
-        GPIO_INPUT_PULL_DOWN),
     // Fan Control
     GPIO_INIT_AF(
         FAN_1_PWM_GPIO_Port,
@@ -317,8 +301,6 @@ int main() {
     state_init_defaults();
     switches_init();
     faults_init();
-
-    flowRateInit();
 
     switches_enable_default_rails();
 
