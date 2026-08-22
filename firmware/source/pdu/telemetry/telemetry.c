@@ -24,7 +24,7 @@ static uint16_t telemetry_internal_temp_c(uint16_t internal_therm_adc_counts) {
 
 /**
  * @brief Reports telemetry data at 10 Hz rate
- * Includes: Rail Voltages and Currents, Flow Rates
+ * Includes: Rail Voltages and Currents
  */
 static_assert(V_RAILS_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
 static_assert(OTHER_CURRENTS_PERIOD_MS == TELEMETRY_10HZ_PERIOD_MS);
