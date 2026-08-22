@@ -3,15 +3,35 @@ use eframe::egui;
 use egui_plot::{Line, Plot, PlotPoints};
 use std::collections::VecDeque;
 
-use super::dbc_msg_picker::{DbcMsgPickerState, no_dbc_placeholder};
+use crate::ui::dbc_msg_picker::{DbcMsgPickerState, no_dbc_placeholder};
+
+// Makes invalid combinations of id/name/signal name unrepresentable
+enum ScopeState {
+    PickingMessage {
+        picker: DbcMsgPickerState,
+    },
+    PickingSignal {
+        picker: DbcMsgPickerState,
+        selected_msg: can_dbc::Message,
+    },
+    Configured {
+        msg_id: u32,
+        msg_name: String,
+        signal_name: String,
+    },
+}
+
+impl Default for ScopeState {
+    fn default() -> Self {
+        ScopeState::PickingMessage {
+            picker: DbcMsgPickerState::default(),
+        }
+    }
+}
 
 pub struct Scope {
     pub title: String,
-    msg_id: Option<u32>,
-    msg_name: Option<String>,
-    signal_name: Option<String>,
-    msg_picker: DbcMsgPickerState, // Picker state, only relevant while msg_id/signal_name are None (or user hit "Change Signal")
-    selected_msg: Option<can_dbc::Message>,
+    state: ScopeState,
     window: VecDeque<(f64, f64)>, // (time, value)
     window_duration_seconds: f64,
     decimation_factor: u64,
@@ -26,11 +46,11 @@ impl Scope {
         let title = format!("Scope #{}", instance_num);
         Self {
             title,
-            msg_id: Some(msg_id),
-            msg_name: Some(msg_name),
-            signal_name: Some(signal_name),
-            msg_picker: DbcMsgPickerState::default(),
-            selected_msg: None,
+            state: ScopeState::Configured {
+                msg_id,
+                msg_name,
+                signal_name,
+            },
             window: VecDeque::new(),
             window_duration_seconds: 10.0, // Default 10 seconds
             decimation_factor: 0,
@@ -45,11 +65,7 @@ impl Scope {
         let title = format!("Scope #{}", instance_num);
         Self {
             title,
-            msg_id: None,
-            msg_name: None,
-            signal_name: None,
-            msg_picker: DbcMsgPickerState::default(),
-            selected_msg: None,
+            state: ScopeState::default(),
             window: VecDeque::new(),
             window_duration_seconds: 10.0, // Default 10 seconds
             decimation_factor: 0,
@@ -57,26 +73,6 @@ impl Scope {
             reference_time: None,
             is_paused: false,
         }
-    }
-
-    // Clears signal assignment and buffered data and goes back to picker ui so new signal can b chosen
-    fn reset_to_picker(&mut self) {
-        self.msg_id = None;
-        self.msg_name = None;
-        self.signal_name = None;
-        self.selected_msg = None;
-        self.window.clear();
-        self.reference_time = None;
-    }
-
-    // Called once the user has picked a message and signal, assigns scopes target and resets plot buffer
-    fn assign_signal(&mut self, msg_id: u32, msg_name: String, signal_name: String) {
-        self.msg_id = Some(msg_id);
-        self.msg_name = Some(msg_name);
-        self.signal_name = Some(signal_name);
-        self.selected_msg = None;
-        self.window.clear();
-        self.reference_time = None;
     }
 
     pub fn add_point(&mut self, timestamp: chrono::DateTime<chrono::Local>, value: f64) {
@@ -131,40 +127,74 @@ impl Scope {
         }
     }
 
-    // Renders picker ui when there's no specific signal selected
-    fn show_picker(&mut self, ui: &mut egui::Ui, parser: &app::ParserInfo) {
-        if let Some(msg) = self
-            .msg_picker
-            .show(ui, &parser.parser, self.selected_msg.is_none())
-        {
-            self.selected_msg = Some(msg);
-        }
+    // Takes self.state so we can check/update it w/o causing borrower checker issues while ui is being used, returns true if state changes to Configured, so show() knows to reset plot buffer
+    fn show_picker(&mut self, ui: &mut egui::Ui, parser: &app::ParserInfo) -> bool {
+        let state = std::mem::take(&mut self.state);
 
-        let Some(selected_msg) = self.selected_msg.clone() else {
-            return;
+        let (new_state, just_configured) = match state {
+            ScopeState::PickingMessage { mut picker } => {
+                let picked = picker.show(ui, &parser.parser, true);
+                match picked {
+                    Some(msg) => (
+                        ScopeState::PickingSignal {
+                            picker,
+                            selected_msg: msg,
+                        },
+                        false,
+                    ),
+                    None => (ScopeState::PickingMessage { picker }, false),
+                }
+            }
+            ScopeState::PickingSignal {
+                picker,
+                selected_msg,
+            } => {
+                ui.separator();
+                ui.label(
+                    egui::RichText::new(format!(
+                        "Selected Message: {} (0x{:03X}) — pick a signal:",
+                        selected_msg.name,
+                        util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
+                    ))
+                    .strong(),
+                );
+
+                let msg_id = util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id);
+                let mut picked_signal = None;
+                for sig in &selected_msg.signals {
+                    if ui.button(&sig.name).clicked() {
+                        picked_signal = Some(sig.name.clone());
+                        break;
+                    }
+                }
+
+                // When the user picks a message + signal it assigns the target and resets plot buffer
+                if let Some(signal_name) = picked_signal {
+                    (
+                        ScopeState::Configured {
+                            msg_id,
+                            msg_name: selected_msg.name.clone(),
+                            signal_name,
+                        },
+                        true,
+                    )
+                } else if ui.button("← Back to message search").clicked() {
+                    (ScopeState::PickingMessage { picker }, false)
+                } else {
+                    (
+                        ScopeState::PickingSignal {
+                            picker,
+                            selected_msg,
+                        },
+                        false,
+                    )
+                }
+            }
+            configured @ ScopeState::Configured { .. } => (configured, false),
         };
 
-        ui.separator();
-        ui.label(
-            egui::RichText::new(format!(
-                "Selected Message: {} (0x{:03X}) — pick a signal:",
-                selected_msg.name,
-                util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
-            ))
-            .strong(),
-        );
-
-        let msg_id = util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id);
-        for sig in &selected_msg.signals {
-            if ui.button(&sig.name).clicked() {
-                self.assign_signal(msg_id, selected_msg.name.clone(), sig.name.clone());
-                break;
-            }
-        }
-
-        if ui.button("← Back to message search").clicked() {
-            self.selected_msg = None;
-        }
+        self.state = new_state;
+        just_configured
     }
 
     pub fn show(
@@ -173,7 +203,7 @@ impl Scope {
         parser: Option<&app::ParserInfo>,
     ) -> egui_tiles::UiResponse {
         // Since no signal is assigned ask the user to pick a signal
-        if self.msg_id.is_none() || self.msg_name.is_none() || self.signal_name.is_none() {
+        if !matches!(self.state, ScopeState::Configured { .. }) {
             ui.heading(format!("📊 {}: No signal selected", self.title));
             ui.separator();
 
@@ -182,25 +212,39 @@ impl Scope {
                 return egui_tiles::UiResponse::None;
             };
 
-            self.show_picker(ui, parser);
+            // Clears buffered data and goes back to picker ui so new signal can b chosen
+            if self.show_picker(ui, parser) {
+                self.window.clear();
+                self.reference_time = None;
+            }
             return egui_tiles::UiResponse::None;
         }
 
-        let msg_name = self.msg_name.clone().unwrap();
-        let signal_name = self.signal_name.clone().unwrap();
+        let ScopeState::Configured {
+            msg_name,
+            signal_name,
+            ..
+        } = &self.state
+        else {
+            unreachable!("checked above");
+        };
+        let msg_name = msg_name.clone();
+        let signal_name = signal_name.clone();
 
         // Horizontal container (heading + new Change Signal button)
         ui.horizontal(|ui| {
             ui.heading(format!("📊 {}: {} - {}", self.title, msg_name, signal_name));
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 if ui.button("🔀 Change Signal").clicked() {
-                    self.reset_to_picker();
+                    self.state = ScopeState::default();
+                    self.window.clear();
+                    self.reference_time = None;
                 }
             });
         });
 
         // When change signal is clicked go back to the picker ui
-        if self.msg_id.is_none() {
+        if !matches!(self.state, ScopeState::Configured { .. }) {
             let Some(parser) = parser else {
                 no_dbc_placeholder(ui);
                 return egui_tiles::UiResponse::None;
@@ -287,12 +331,17 @@ impl Scope {
 
     pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
         // If no signal is assigned, there's nothing to plot
-        let (Some(target_msg_id), Some(signal_name)) = (self.msg_id, &self.signal_name) else {
+        let ScopeState::Configured {
+            msg_id: target_msg_id,
+            signal_name,
+            ..
+        } = &self.state
+        else {
             return;
         };
 
         if let messages::MsgFromCan::ParsedMessage(parsed_msg) = msg {
-            if parsed_msg.decoded.msg_id != target_msg_id {
+            if parsed_msg.decoded.msg_id != *target_msg_id {
                 return;
             }
 
