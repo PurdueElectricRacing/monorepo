@@ -104,7 +104,7 @@ $(function(){initNavTree('crc__priv_8h_source.html',''); initResizable(true); })
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef __PHAL_G4_CRC_PRIV_H__</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define __PHAL_G4_CRC_PRIV_H__</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="phal__G4_8h.html">common/phal_G4/phal_G4.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;stm32g474xx.h&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="crc__priv_8h.html#a4c0ef2e4a1fcf222aff3d8a7ef9b1a32">   13</a></span><span class="keyword">static</span> <span class="keyword">constexpr</span> uint32_t <a class="code hl_variable" href="crc__priv_8h.html#a4c0ef2e4a1fcf222aff3d8a7ef9b1a32">CRC_PRIV_POLY_CRC32</a> = 0x04C11DB7;</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
@@ -128,7 +128,6 @@ $(function(){initNavTree('crc__priv_8h_source.html',''); initResizable(true); })
 <div class="ttc" id="acrc__priv_8h_html_ab1a0cc118e77cdc921bc336740e34772"><div class="ttname"><a href="crc__priv_8h.html#ab1a0cc118e77cdc921bc336740e34772">CRC_PRIV_feedWord</a></div><div class="ttdeci">void CRC_PRIV_feedWord(uint32_t word)</div><div class="ttdoc">Feed one 32-bit word into the CRC data register.</div><div class="ttdef"><b>Definition</b> crc_priv.c:29</div></div>
 <div class="ttc" id="acrc__priv_8h_html_ac1a6c7dbe0062acdba1f9fe6a482c759"><div class="ttname"><a href="crc__priv_8h.html#ac1a6c7dbe0062acdba1f9fe6a482c759">CRC_PRIV_readResult</a></div><div class="ttdeci">uint32_t CRC_PRIV_readResult(void)</div><div class="ttdoc">Read the accumulated CRC result from the data register.</div><div class="ttdef"><b>Definition</b> crc_priv.c:33</div></div>
 <div class="ttc" id="acrc__priv_8h_html_acbafcab947e4273b7982c026fd3bc1d4"><div class="ttname"><a href="crc__priv_8h.html#acbafcab947e4273b7982c026fd3bc1d4">CRC_PRIV_INIT_VALUE</a></div><div class="ttdeci">static constexpr uint32_t CRC_PRIV_INIT_VALUE</div><div class="ttdoc">Initial CRC value loaded into the data register on reset.</div><div class="ttdef"><b>Definition</b> crc_priv.h:16</div></div>
-<div class="ttc" id="aphal__G4_8h_html"><div class="ttname"><a href="phal__G4_8h.html">phal_G4.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

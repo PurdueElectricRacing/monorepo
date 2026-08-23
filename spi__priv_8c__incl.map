@@ -1,33 +1,31 @@
 <map id="firmware/common/phal_G4/spi/spi_priv.c" name="firmware/common/phal_G4/spi/spi_priv.c">
-<area shape="rect" id="Node000001" title="G4 SPI Peripheral private/register level implementation." alt="" coords="320,5,472,46"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="46,183,190,223"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="321,44,259,64,229,79,201,96,164,132,137,171,133,168,160,128,197,92,226,74,257,60,319,39"/>
-<area shape="rect" id="Node000009" href="$spi__priv_8h.html" title="Internal G4 SPI helpers and DMA configuration macros." alt="" coords="211,94,355,135"/>
-<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="372,49,322,87,319,82,369,44"/>
-<area shape="rect" id="Node000011" href="$phal__G4_2rcc_2rcc_8h.html" title="G4 RCC public API implementation." alt="" coords="381,360,526,401"/>
-<area shape="poly" id="edge15_Node000001_Node000011" title=" " alt="" coords="403,46,431,182,453,344,447,345,426,183,398,47"/>
-<area shape="rect" id="Node000012" href="$clamp_8h.html" title="Utility header to clamp a value to a bounded range." alt="" coords="492,102,640,127"/>
-<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="436,44,530,92,527,97,434,49"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,279,73,304"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="102,226,62,269,58,265,98,222"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="96,271,248,312"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="132,222,154,257,150,260,128,225"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="241,522,304,548"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="158,314,143,336,132,361,129,380,132,400,145,440,170,472,199,496,229,513,227,518,195,500,166,476,140,442,127,401,123,380,127,359,139,333,153,311"/>
-<area shape="rect" id="Node000006" href="$phal__G4_8h.html" title=" " alt="" coords="180,449,365,474"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="160,314,149,333,140,355,137,378,144,399,168,424,199,440,196,445,165,428,139,402,132,379,135,354,144,331,156,311"/>
-<area shape="rect" id="Node000008" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="154,360,306,401"/>
-<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="188,311,211,346,206,349,183,314"/>
-<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="275,475,275,507,270,507,270,475"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="372,522,445,548"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="297,473,373,512,371,517,294,477"/>
-<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="243,400,261,433,256,436,238,402"/>
-<area shape="poly" id="edge12_Node000009_Node000002" title=" " alt="" coords="247,138,170,178,167,173,244,133"/>
-<area shape="poly" id="edge11_Node000009_Node000004" title=" " alt="" coords="273,136,195,260,190,257,268,134"/>
-<area shape="rect" id="Node000010" href="$phal__G4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="265,183,416,223"/>
-<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="298,134,321,168,317,171,294,137"/>
-<area shape="poly" id="edge14_Node000010_Node000006" title=" " alt="" coords="344,224,342,303,335,353,320,402,297,438,292,436,315,400,329,352,337,303,339,223"/>
-<area shape="poly" id="edge17_Node000011_Node000005" title=" " alt="" coords="443,403,416,439,379,476,347,499,315,517,312,513,345,495,376,472,412,435,439,400"/>
-<area shape="poly" id="edge18_Node000011_Node000006" title=" " alt="" coords="409,404,315,445,313,440,407,399"/>
-<area shape="poly" id="edge16_Node000011_Node000007" title=" " alt="" coords="450,402,419,508,414,507,445,400"/>
+<area shape="rect" id="Node000001" title="G4 SPI Peripheral private/register level implementation." alt="" coords="281,5,434,46"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="5,183,150,223"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="295,49,244,69,194,96,145,134,106,173,102,170,142,130,191,92,242,65,293,44"/>
+<area shape="rect" id="Node000008" href="$spi__priv_8h.html" title="Internal G4 SPI helpers and DMA configuration macros." alt="" coords="204,94,348,135"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="341,48,307,84,303,81,337,45"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2rcc_2rcc_8h.html" title="G4 RCC public API implementation." alt="" coords="452,271,597,312"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="372,45,506,257,502,260,368,48"/>
+<area shape="rect" id="Node000012" href="$clamp_8h.html" title="Utility header to clamp a value to a bounded range." alt="" coords="451,102,600,127"/>
+<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="397,44,490,92,487,97,394,49"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="44,279,111,304"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="80,224,80,263,75,263,75,224"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="275,271,427,312"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="141,221,275,264,273,269,139,226"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="423,368,486,393"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="376,310,431,356,427,360,373,315"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="274,449,382,474"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="359,312,366,353,366,377,363,401,348,436,343,434,358,400,361,377,360,354,354,313"/>
+<area shape="rect" id="Node000007" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="196,360,348,401"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="335,314,302,350,298,346,331,311"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="288,400,313,434,309,437,284,403"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="232,138,138,179,136,174,230,133"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="302,133,323,155,340,182,351,219,354,255,349,256,346,220,335,184,318,158,298,137"/>
+<area shape="rect" id="Node000009" href="$phal__G4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="174,183,325,223"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="273,136,263,169,257,167,268,134"/>
+<area shape="poly" id="edge12_Node000009_Node000006" title=" " alt="" coords="235,225,209,260,185,305,177,330,174,354,177,377,186,399,201,416,219,429,260,447,258,451,216,434,197,420,182,402,171,379,169,354,172,329,180,303,205,257,230,222"/>
+<area shape="poly" id="edge15_Node000010_Node000005" title=" " alt="" coords="511,314,476,357,472,354,506,311"/>
+<area shape="poly" id="edge16_Node000010_Node000006" title=" " alt="" coords="528,313,523,357,515,381,501,402,478,422,452,437,398,455,396,450,450,432,475,418,497,399,510,379,517,356,522,312"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="562,368,636,393"/>
+<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="543,311,581,354,577,358,539,314"/>
 </map>

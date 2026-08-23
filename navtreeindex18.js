@@ -1,7 +1,5 @@
 var NAVTREEINDEX18 =
 {
-"structpdu__state__t.html":[29,0,56],
-"structpdu__state__t.html#a2b7ff36d57eaa1695e12d3fcf9c17ab4":[29,0,56,4],
 "structpdu__state__t.html#a510f2a4a992a194e12202d8b8a13fa34":[29,0,56,3],
 "structpdu__state__t.html#a729b23206940cdbec8cde436e60aa5e0":[29,0,56,0],
 "structpdu__state__t.html#a8cb7ae120abb62009906ecf2bf6dd3e8":[29,0,56,1],
@@ -249,5 +247,7 @@ var NAVTREEINDEX18 =
 "syscalls_8h.html#a38f8394eee3a086b87ff6d431e1e5343":[30,0,1,1,11,1,10],
 "syscalls_8h.html#a39b9754c96beda392bdb080bc5653e9e":[30,0,1,1,11,1,0],
 "syscalls_8h.html#a41eef54307912a82d20e71c3d47315aa":[30,0,1,1,11,1,2],
-"syscalls_8h.html#a4f9bf1e1602f2828e0a54e70c3b2dccb":[30,0,1,1,11,1,9]
+"syscalls_8h.html#a4f9bf1e1602f2828e0a54e70c3b2dccb":[30,0,1,1,11,1,9],
+"syscalls_8h.html#a5aab5e2acfd600e3667dc915a2bbc7cb":[30,0,1,1,11,1,1],
+"syscalls_8h.html#a727b166113490efb1291e2255fe34700":[30,0,1,1,11,1,4]
 };

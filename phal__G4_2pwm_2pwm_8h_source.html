@@ -104,7 +104,7 @@ $(function(){initNavTree('phal__G4_2pwm_2pwm_8h_source.html',''); initResizable(
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef PHAL_PWM_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define PHAL_PWM_H</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="phal__G4_8h.html">common/phal_G4/phal_G4.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;stm32g474xx.h&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
@@ -116,7 +116,6 @@ $(function(){initNavTree('phal__G4_2pwm_2pwm_8h_source.html',''); initResizable(
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aphal__G4_2pwm_2pwm_8h_html_a8dfd9bea13ee093add3d12b69100eda4"><div class="ttname"><a href="phal__G4_2pwm_2pwm_8h.html#a8dfd9bea13ee093add3d12b69100eda4">PHAL_PWM_init</a></div><div class="ttdeci">bool PHAL_PWM_init(TIM_TypeDef *tim, uint32_t frequency_hz, uint8_t channels_en)</div><div class="ttdoc">Initialize consecutive PWM channels beginning at channel 1.</div><div class="ttdef"><b>Definition</b> pwm.c:12</div></div>
 <div class="ttc" id="aphal__G4_2pwm_2pwm_8h_html_af64e20c068902d60cff3cbc911c43b5a"><div class="ttname"><a href="phal__G4_2pwm_2pwm_8h.html#af64e20c068902d60cff3cbc911c43b5a">PHAL_PWM_setPercent</a></div><div class="ttdeci">bool PHAL_PWM_setPercent(TIM_TypeDef *tim, uint8_t channel, uint8_t percent)</div><div class="ttdoc">Set a PWM channel's duty cycle.</div><div class="ttdef"><b>Definition</b> pwm.c:65</div></div>
-<div class="ttc" id="aphal__G4_8h_html"><div class="ttname"><a href="phal__G4_8h.html">phal_G4.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

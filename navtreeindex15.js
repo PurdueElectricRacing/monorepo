@@ -1,7 +1,5 @@
 var NAVTREEINDEX15 =
 {
-"sdio_8h.html#ac8319cdb71748237d00c937f0fa47fda":[30,0,1,1,9,1,23],
-"sdio_8h.html#ac89f6043b27673973f4a2b7e106a5f63":[30,0,1,1,9,1,32],
 "sdio_8h.html#ac93a99c6a0f8999f37e690d6955872ac":[30,0,1,1,9,1,12],
 "sdio_8h.html#ac99ee44931ecbf64e04623c442c00916":[30,0,1,1,9,1,117],
 "sdio_8h.html#ac9a82e52cc83dd23035bc0fdd9a88cf4":[30,0,1,1,9,1,98],
@@ -249,5 +247,7 @@ var NAVTREEINDEX15 =
 "structClockRateConfig__t.html#a4bcd01af800a1ff65cf10ee4c699dcf9":[29,0,21,6],
 "structClockRateConfig__t.html#a62f94ecec01cdf05a1f607668557fe0d":[29,0,21,2],
 "structClockRateConfig__t.html#a7b80a70da3f019c97b3c28043c04710b":[29,0,21,5],
-"structClockRateConfig__t.html#a91cd53f101a121f6780767521beab1a4":[29,0,21,4]
+"structClockRateConfig__t.html#a91cd53f101a121f6780767521beab1a4":[29,0,21,4],
+"structClockRateConfig__t.html#aaca9dfb7526b6302669a469f1a1d8092":[29,0,21,3],
+"structClockRateConfig__t.html#acac53bfa913d0aee434ec90f5acdc394":[29,0,21,7]
 };
