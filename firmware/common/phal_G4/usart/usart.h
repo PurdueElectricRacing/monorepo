@@ -1,7 +1,7 @@
 #ifndef __PHAL_G4_USART_H__
 #define __PHAL_G4_USART_H__
 
-#include "common/phal_G4/phal_G4.h"
+#include "stm32g474xx.h"
 
 typedef enum {
     USART1_IDX = 0,

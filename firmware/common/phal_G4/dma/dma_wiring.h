@@ -7,7 +7,7 @@
 #ifndef PHAL_G4_DMA_WIRING_H
 #define PHAL_G4_DMA_WIRING_H
 
-#include "common/phal_G4/phal_G4.h"
+#include "stm32g474xx.h"
 
 /// Width of each DMA data element
 typedef enum {
