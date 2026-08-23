@@ -19,58 +19,43 @@
   - changed-files:
       - any-glob-to-any-file: ['firmware/source/a_box/**']
 
-"a_box config":
-  - changed-files:
-      - any-glob-to-any-file: ['firmware/can_library/configs/**/A_BOX.json']
-
 "daq":
   - changed-files:
       - any-glob-to-any-file: ['firmware/source/daq/**']
-
-"daq config":
-  - changed-files:
-      - any-glob-to-any-file: ['firmware/can_library/configs/**/DAQ.json']
 
 "dashboard":
   - changed-files:
       - any-glob-to-any-file: ['firmware/source/dashboard/**']
 
-"dashboard config":
-  - changed-files:
-      - any-glob-to-any-file: ['firmware/can_library/configs/**/DASHBOARD.json']
-
 "driveline":
   - changed-files:
       - any-glob-to-any-file: ['firmware/source/driveline/**']
-
-"driveline config":
-  - changed-files:
-      - any-glob-to-any-file: ['firmware/can_library/configs/**/DRIVELINE.json']
 
 "main_module":
   - changed-files:
       - any-glob-to-any-file: ['firmware/source/main_module/**']
 
-"main_module config":
-  - changed-files:
-      - any-glob-to-any-file: ['firmware/can_library/configs/**/MAIN_MODULE.json']
-
 "pdu":
   - changed-files:
       - any-glob-to-any-file: ['firmware/source/pdu/**']
 
-"pdu config":
-  - changed-files:
-      - any-glob-to-any-file: ['firmware/can_library/configs/**/PDU.json']
 
 "torque_vector":
   - changed-files:
       - any-glob-to-any-file: ['firmware/source/torque_vector/**']
 
-"torque_vector config":
-  - changed-files:
-      - any-glob-to-any-file: ['firmware/can_library/configs/**/TORQUE_VECTOR.json']
-
 "phal":
   - changed-files:
       - any-glob-to-any-file: ['firmware/common/phal*/**']
+
+"common":
+  - changed-files:
+      - any-glob-to-any-file: ['firmware/common/**']
+
+"ci/cd":
+  - changed-files:
+      - any-glob-to-any-file: ['.github/workflows/**']
+
+"docs":
+  - changed-files:
+      - any-glob-to-any-file: ['docs/**']
