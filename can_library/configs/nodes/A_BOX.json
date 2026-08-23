@@ -335,7 +335,7 @@
         },
         {
             "fault_name": "PACK_FULL",
-            "max": 470,
+            "max": 537,
             "min": 0,
             "priority": "warning",
             "time_to_latch": 10000,
@@ -345,7 +345,7 @@
         {
             "fault_name": "PACK_EMPTY",
             "max": 1000,
-            "min": 302,
+            "min": 380,
             "priority": "warning",
             "time_to_latch": 10000,
             "time_to_unlatch": 10000,
