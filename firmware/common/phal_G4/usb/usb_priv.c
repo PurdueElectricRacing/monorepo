@@ -6,7 +6,7 @@
 
 #include "common/phal_G4/usb/usb_priv.h"
 
-#include "common/phal_G4/phal_G4.h"
+#include "stm32g474xx.h"
 
 // BTABLE occupies the first 64 bytes of packet memory: eight 8-byte endpoint
 // descriptors. Starting packet buffers at byte 64 leaves the table isolated

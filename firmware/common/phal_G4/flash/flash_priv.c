@@ -9,7 +9,7 @@
 
 #include "common/phal_G4/flash/flash_priv.h"
 
-#include "common/phal_G4/phal_G4.h"
+#include "stm32g474xx.h"
 
 // FLASH controller unlock sequence from the STM32G4 reference manual.
 static constexpr uint32_t PHAL_FLASH_KEY_1 = 0x45670123U;

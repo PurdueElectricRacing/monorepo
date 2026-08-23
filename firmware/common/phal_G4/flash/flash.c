@@ -10,7 +10,7 @@
 #include "common/phal_G4/flash/flash.h"
 
 #include "common/phal_G4/flash/flash_priv.h"
-#include "common/phal_G4/phal_G4.h"
+#include "stm32g474xx.h"
 
 /** Validate an absolute flash address range without wrapping arithmetic. */
 static bool flash_range_is_valid(uint32_t address, uint32_t length_bytes) {

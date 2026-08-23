@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 
-#include "common/phal_G4/phal_G4.h"
+#include "stm32g474xx.h"
 
 static constexpr uint32_t PHAL_FDCAN_MAX_NUM_SID_FILTER = 28;
 static constexpr uint32_t PHAL_FDCAN_MAX_NUM_XID_FILTER = 8;

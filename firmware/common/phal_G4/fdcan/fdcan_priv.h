@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 
-#include "common/phal_G4/phal_G4.h"
+#include "stm32g474xx.h"
 
 
 /// The FDCAN kernel clock frequency (the clock NBTP's prescaler divides down.

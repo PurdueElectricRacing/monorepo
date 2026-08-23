@@ -13,7 +13,7 @@
 #ifndef __PHAL_G4_GPIO_H__
 #define __PHAL_G4_GPIO_H__
 
-#include "common/phal_G4/phal_G4.h"
+#include "stm32g474xx.h"
 
 /**
  * @brief Configuration type for GPIO Pin
