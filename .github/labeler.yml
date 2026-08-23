@@ -54,8 +54,12 @@
 
 "ci/cd":
   - changed-files:
-      - any-glob-to-any-file: ['.github/workflows/**']
+      - any-glob-to-any-file: ['.github/**']
 
 "docs":
   - changed-files:
       - any-glob-to-any-file: ['docs/**']
+
+"vscode":
+  - changed-files:
+      - any-glob-to-any-file: ['.vscode/**']
