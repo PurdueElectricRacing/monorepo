@@ -50,6 +50,7 @@ pub struct DAQApp {
     pub serial_ports: Vec<serialport::SerialPortInfo>,
     pub parser: Option<ParserInfo>,
     pub can_bus_speed: connection::CanBusSpeed,
+    pub can_bus: connection::CanBus,
     pub udp_port: u16,
     pub can_messages: Vec<messages::MsgFromCan>,
     pub log_folder: Option<std::path::PathBuf>,
@@ -61,6 +62,7 @@ impl DAQApp {
             dbc_path: self.parser.as_ref().map(|p| p.dbc_path.clone()),
             selected_source: self.selected_source.clone(),
             selected_speed: self.can_bus_speed,
+            selected_bus: self.can_bus,
             udp_port: self.udp_port,
             theme: self.theme_selection,
             pixels_per_point: self.pixels_per_point,
@@ -90,13 +92,18 @@ impl DAQApp {
             can_to_ui_rx,
             ui_to_can_tx,
             action_queue: Vec::new(),
-            selected_source: settings.selected_source,
+            selected_source: settings.selected_source.clone(),
             theme: theme_style,
             theme_selection,
             pixels_per_point: settings.pixels_per_point,
             serial_ports: util::get_available_serial_ports(),
             parser: ParserInfo::new_maybe(settings.dbc_path),
             can_bus_speed: settings.selected_speed,
+            can_bus: settings
+                .selected_source
+                .as_ref()
+                .and_then(connection::ConnectionSource::can_bus)
+                .unwrap_or(settings.selected_bus),
             udp_port: settings.udp_port,
             can_messages: Vec::new(),
             log_folder: settings.log_folder,
