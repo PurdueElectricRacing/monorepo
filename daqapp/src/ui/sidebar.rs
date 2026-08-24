@@ -64,7 +64,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
 
             if ui.button("Add Bootloader").clicked() {
                 // The widget is intentionally opt-in: it can interrupt normal
-                // VCAN application traffic while an update is active.
+                // CAN application traffic while an update is active.
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::Bootloader,
                 ));
@@ -132,6 +132,30 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
             ui.heading("Connection Settings");
 
             ui.horizontal(|ui| {
+                ui.label("CAN Bus:");
+                egui::ComboBox::from_id_salt("can_bus_combo")
+                    .selected_text(app.can_bus.display_name())
+                    .show_ui(ui, |ui| {
+                        for bus in connection::CanBus::options() {
+                            if ui
+                                .selectable_value(&mut app.can_bus, bus, bus.display_name())
+                                .changed()
+                            {
+                                if let Some(connection::ConnectionSource::Serial(path, speed, _)) =
+                                    app.selected_source.clone()
+                                {
+                                    app.selected_source = Some(
+                                        connection::ConnectionSource::Serial(path, speed, bus),
+                                    );
+                                    app.connect_can();
+                                }
+                                app.save_settings();
+                            }
+                        }
+                    });
+            });
+
+            ui.horizontal(|ui| {
                 ui.label("CAN Speed:");
                 let speed_options = connection::CanBusSpeed::options();
                 let selected_speed = app.can_bus_speed;
@@ -183,12 +207,18 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                             let source = connection::ConnectionSource::Serial(
                                 port_name.clone(),
                                 app.can_bus_speed,
+                                app.can_bus,
                             );
                             if ui
                                 .selectable_value(
                                     &mut app.selected_source,
                                     Some(source.clone()),
-                                    format!("{} ({})", port_name, app.can_bus_speed.display_name()),
+                                    format!(
+                                        "{} ({} {})",
+                                        port_name,
+                                        app.can_bus.display_name(),
+                                        app.can_bus_speed.display_name()
+                                    ),
                                 )
                                 .changed()
                             {

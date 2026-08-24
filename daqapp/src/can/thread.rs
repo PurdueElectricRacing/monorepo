@@ -143,8 +143,8 @@ pub fn start_can_thread(
                     messages::MsgFromUi::UpdateLogFolder(path) => {
                         daq_logger.update_folder(path);
                     }
-                    messages::MsgFromUi::StartFirmwareUpdate(package) => {
-                        state.start_firmware_update(package);
+                    messages::MsgFromUi::StartFirmwareUpdate(package, bus) => {
+                        state.start_firmware_update(package, bus);
                     }
                     messages::MsgFromUi::CancelFirmwareUpdate => {
                         state.cancel_firmware_update();

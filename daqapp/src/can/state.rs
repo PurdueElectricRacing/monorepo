@@ -46,8 +46,36 @@ impl State {
         }
     }
 
-    pub fn start_firmware_update(&mut self, package: bootloader_protocol::FirmwarePackage) {
-        if self.firmware_updater.is_some() {
+    pub fn start_firmware_update(
+        &mut self,
+        package: bootloader_protocol::FirmwarePackage,
+        bus: connection::CanBus,
+    ) {
+        let error = if self.firmware_updater.is_some() {
+            Some("another firmware update is already running".to_string())
+        } else if !self.is_connected || self.driver.is_none() {
+            Some("CANable is not connected".to_string())
+        } else if self
+            .current_source
+            .as_ref()
+            .and_then(connection::ConnectionSource::can_bus)
+            != Some(bus)
+        {
+            Some(format!(
+                "CANable is not connected to the selected {} bus; reconnect/select that bus",
+                bus.display_name()
+            ))
+        } else if package.images.iter().any(|image| image.bus != bus) {
+            Some(format!(
+                "firmware selection contains an image for the other CAN bus; select/reconnect {} before updating it",
+                bus.display_name()
+            ))
+        } else if package.bus() != Some(bus) {
+            Some("a firmware update session may contain one CAN bus only".to_string())
+        } else {
+            None
+        };
+        if let Some(error) = error {
             let _ = self
                 .can_to_ui_tx
                 .send(messages::MsgFromCan::FirmwareProgress(
@@ -58,7 +86,7 @@ impl State {
                         phase: "failed".to_string(),
                         sent_bytes: 0,
                         total_bytes: 0,
-                        error: Some("another firmware update is already running".to_string()),
+                        error: Some(error),
                     },
                 ));
             return;

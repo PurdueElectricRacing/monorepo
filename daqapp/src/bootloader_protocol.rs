@@ -3,6 +3,7 @@
 //! Manifests, image paths, sizes, CRCs, and board CAN IDs are checked before the
 //! CAN thread receives a package.
 
+use crate::connection::CanBus;
 use serde::Deserialize;
 use std::{
     collections::HashSet,
@@ -10,12 +11,12 @@ use std::{
 };
 
 pub const PACKAGE_FORMAT: &str = "per-firmware-package-v1";
-pub const CAN_BUS: &str = "VCAN";
 
 /// A validated application payload and its bootloader CAN IDs.
 #[derive(Clone, Debug)]
 pub struct FirmwareImage {
     pub name: String,
+    pub bus: CanBus,
     pub bytes: Vec<u8>,
     pub crc32: u32,
     pub start_id: u32,
@@ -45,7 +46,6 @@ struct Manifest {
     format: String,
     protocol_version: u32,
     crc_algorithm: String,
-    can_bus: String,
     boards: Vec<ManifestBoard>,
 }
 
@@ -126,12 +126,6 @@ impl FirmwarePackage {
                 manifest.crc_algorithm
             ));
         }
-        if manifest.can_bus != CAN_BUS {
-            return Err(format!(
-                "package is for {}, not {}",
-                manifest.can_bus, CAN_BUS
-            ));
-        }
         const BOARDS: [&str; 6] = [
             "main_module",
             "dashboard",
@@ -162,9 +156,7 @@ impl FirmwarePackage {
             {
                 return Err(format!("duplicate board {}", board.name));
             }
-            if board.can_bus != CAN_BUS {
-                return Err(format!("board {} is not on VCAN", board.name));
-            }
+            let bus = parse_bus(&board.can_bus)?;
             if board.application_address.to_ascii_uppercase() != "0X08008000" {
                 return Err(format!(
                     "board {} has an invalid application address",
@@ -224,6 +216,7 @@ impl FirmwarePackage {
 
             images.push(FirmwareImage {
                 name: board.name,
+                bus,
                 bytes,
                 crc32: expected_crc,
                 start_id,
@@ -248,6 +241,25 @@ fn expected_ids(name: &str) -> Option<(u32, u32, u32, u32, u32)> {
         "front_driveline" => Some((0x18C, 0x196, 0x19C, 0x18D, 0x18E)),
         "rear_driveline" => Some((0x18F, 0x197, 0x19D, 0x190, 0x191)),
         _ => None,
+    }
+}
+
+fn parse_bus(value: &str) -> Result<CanBus, String> {
+    match value.to_ascii_uppercase().as_str() {
+        "VCAN" => Ok(CanBus::Vcan),
+        "SCAN" => Ok(CanBus::Scan),
+        other => Err(format!("invalid CAN bus {other:?}; expected VCAN or SCAN")),
+    }
+}
+
+impl FirmwarePackage {
+    /// Return the bus shared by all images, if this package selection is single-bus.
+    pub fn bus(&self) -> Option<CanBus> {
+        let first = self.images.first()?.bus;
+        self.images
+            .iter()
+            .all(|image| image.bus == first)
+            .then_some(first)
     }
 }
 

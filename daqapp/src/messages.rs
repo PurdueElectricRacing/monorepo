@@ -6,7 +6,7 @@ pub enum MsgFromUi {
     AddSendMessage(AddSendMessage),
     DeleteSendMessage { msg_id: u32 },
     UpdateLogFolder(std::path::PathBuf),
-    StartFirmwareUpdate(bootloader_protocol::FirmwarePackage),
+    StartFirmwareUpdate(bootloader_protocol::FirmwarePackage, connection::CanBus),
     CancelFirmwareUpdate,
 }
 

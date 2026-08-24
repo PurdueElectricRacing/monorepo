@@ -283,10 +283,26 @@ def selected_boards() -> list[str]:
     return BOARD_TARGETS
 
 
+def configured_board_buses() -> dict[str, str]:
+    """Read each resident target's authoritative CAN bus assignment."""
+    buses = {}
+    for board in BOARD_TARGETS:
+        config_path = CAN_GEN_DIR.parent / "configs" / "nodes" / f"BL_{board.upper()}.json"
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+        configured = config.get("busses", {})
+        if len(configured) != 1:
+            raise RuntimeError(
+                f"bootloader config for {board} must define exactly one bus"
+            )
+        buses[board] = next(iter(configured))
+    return buses
+
+
 def build_manifest(boards: list[str]) -> pathlib.Path:
     """Copy CMake-generated binaries and write their validated manifest."""
     images_dir = OUT_DIR / "images"
     images_dir.mkdir(parents=True, exist_ok=True)
+    board_buses = configured_board_buses()
     manifest_boards = []
 
     for board in boards:
@@ -307,7 +323,7 @@ def build_manifest(boards: list[str]) -> pathlib.Path:
             "size_bytes": len(data),
             "crc32": f"0x{crc:08X}",
             "application_address": "0x08008000",
-            "can_bus": "VCAN",
+            "can_bus": board_buses[board],
             **BOOTLOADER_PROTOCOL_IDS[board],
         })
         log_success(f"Packaged {board}: {len(data)} bytes, STM32 CRC 0x{crc:08X}")
@@ -316,7 +332,11 @@ def build_manifest(boards: list[str]) -> pathlib.Path:
         "format": PACKAGE_FORMAT,
         "protocol_version": 1,
         "crc_algorithm": "STM32_CRC32_MPEG2_WORD_LE",
-        "can_bus": "VCAN",
+        "can_bus": (
+            next(iter(set(board_buses.values())))
+            if len(set(board_buses.values())) == 1
+            else "MIXED"
+        ),
         "boards": manifest_boards,
     }
     manifest_path = OUT_DIR / "manifest.json"
