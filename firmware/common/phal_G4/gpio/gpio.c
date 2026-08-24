@@ -21,22 +21,22 @@ bool PHAL_GPIO_init(PHAL_GPIO_InitConfig_t config[], size_t config_len) {
         }
 
         switch (config[i].type) {
-            case GPIO_TYPE_OUTPUT:
-                PHAL_GPIO_priv_setOutputSpeed(bank, pin, config[i].config.ospeed);
-                PHAL_GPIO_priv_setOutputType(bank, pin, config[i].config.otype);
-                PHAL_GPIO_priv_setMode(bank, pin, GPIO_TYPE_OUTPUT);
-                break;
-
             case GPIO_TYPE_INPUT:
-                PHAL_GPIO_priv_setPull(bank, pin, config[i].config.pull);
+                PHAL_GPIO_priv_setPull(bank, pin, config[i].config.input.pull);
                 PHAL_GPIO_priv_setMode(bank, pin, GPIO_TYPE_INPUT);
                 break;
 
+            case GPIO_TYPE_OUTPUT:
+                PHAL_GPIO_priv_setOutputSpeed(bank, pin, config[i].config.output.ospeed);
+                PHAL_GPIO_priv_setOutputType(bank, pin, config[i].config.output.otype);
+                PHAL_GPIO_priv_setMode(bank, pin, GPIO_TYPE_OUTPUT);
+                break;
+
             case GPIO_TYPE_AF:
-                PHAL_GPIO_priv_setAltFunction(bank, pin, config[i].config.af_num);
-                PHAL_GPIO_priv_setOutputSpeed(bank, pin, config[i].config.ospeed);
-                PHAL_GPIO_priv_setOutputType(bank, pin, config[i].config.otype);
-                PHAL_GPIO_priv_setPull(bank, pin, config[i].config.pull);
+                PHAL_GPIO_priv_setAltFunction(bank, pin, config[i].config.af.af_num);
+                PHAL_GPIO_priv_setOutputSpeed(bank, pin, config[i].config.af.ospeed);
+                PHAL_GPIO_priv_setOutputType(bank, pin, config[i].config.af.otype);
+                PHAL_GPIO_priv_setPull(bank, pin, config[i].config.af.pull);
                 PHAL_GPIO_priv_setMode(bank, pin, GPIO_TYPE_AF);
                 break;
 

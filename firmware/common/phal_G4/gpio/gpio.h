@@ -65,15 +65,24 @@ typedef struct {
     uint8_t pin;              /*!< Pin Number for configuration, 0-15 */
     PHAL_GPIO_PinType_t type; /*!< Mode of pin */
 
-    struct {
-        // INPUT ONLY FIELDS
-        PHAL_GPIO_InputPull_t pull; /*!< Push/Pull selection */
+    union {
+        struct {
+            PHAL_GPIO_InputPull_t pull;
+        } input; /*!< GPIO_TYPE_INPUT configuration */
 
-        // OUTPUT ONLY FIELDS
-        PHAL_GPIO_OutputSpeed_t ospeed; /*!< Output speed (slew rate) */
-        PHAL_GPIO_OutputPull_t otype;   /*!< Output push/pull */
-        // AF ONLY FIELDS
-        uint8_t af_num; /*!< Alternate function number */
+        struct {
+            PHAL_GPIO_OutputSpeed_t ospeed;
+            PHAL_GPIO_OutputPull_t otype;
+        } output; /*!< GPIO_TYPE_OUTPUT configuration */
+
+        struct {
+            uint8_t af_num;
+            PHAL_GPIO_OutputSpeed_t ospeed;
+            PHAL_GPIO_OutputPull_t otype;
+            PHAL_GPIO_InputPull_t pull;
+        } af; /*!< GPIO_TYPE_AF configuration */
+    
+        // GPIO_TYPE_ANALOG needs no additional configuration
     } config; /*!< Type specific configuration for pins */
 } PHAL_GPIO_InitConfig_t;
 
