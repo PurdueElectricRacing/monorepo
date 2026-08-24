@@ -5,7 +5,7 @@ usage as drop-in replacement for psched:
 ```c
 #include "common/rtos/rtos.h" // also add RTOS to cmake.txt LIBS =
 
-void heartbeat_LED() { PHAL_toggleGPIO(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN); }
+void heartbeat_LED() { PHAL_GPIO_toggle(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN); }
 RTOS_DEFINE_TASK(heartbeat_LED, 500, TASK_PRIORITY_NORMAL, STACK_256); // define up here so it is global
 RTOS_DEFINE_QUEUE(tcp_tx_queue, timestamped_frame_t, TCP_TX_ITEM_COUNT);
 
