@@ -82,13 +82,6 @@ _Static_assert(sizeof(BootloaderMetadata_t) == BL_METADATA_SIZE,
 _Static_assert((sizeof(BootloaderMetadata_t) % BL_FLASH_WRITE_SIZE) == 0U,
                "Bootloader metadata must be flash-write aligned");
 
-/** @brief Commands carried in byte 0 of a five-byte command frame. */
-typedef enum {
-    BLCMD_START = 0x01, /**< Erase staging and begin an ordered word stream. */
-    BLCMD_CRC = 0x03,   /**< Validate staging, install it, and commit metadata. */
-    BLCMD_JUMP = 0x04,  /**< Validate and launch the committed application. */
-} BLCmd_t;
-
 /**
  * @brief Status values carried in byte 0 of a five-byte response frame.
  *
@@ -99,13 +92,12 @@ typedef enum {
     BLSTAT_ACK = 0x01,       /**< Accepted; detail depends on the command. */
     BLSTAT_ERROR = 0x02,     /**< Rejected; detail is a BLError_t. */
     BLSTAT_CRC_ERROR = 0x03, /**< CRC mismatch; detail is the calculated CRC. */
-    BLSTAT_UNKNOWN_CMD = 0x04, /**< Command byte is not recognized. */
 } BLStatus_t;
 
 /** @brief Detail values accompanying BLSTAT_ERROR. */
 typedef enum {
     BLERROR_NONE = 0x00,
-    BLERROR_LOCKED = 0x01,   /**< Data arrived before BLCMD_START. */
+    BLERROR_LOCKED = 0x01,   /**< Data arrived before START. */
     BLERROR_SEQUENCE = 0x02, /**< A word was skipped or commit was premature. */
     BLERROR_FLASH = 0x03,    /**< Flash erase, programming, or verify failed. */
     BLERROR_SIZE = 0x04,     /**< Image size is empty, unaligned, or too large. */

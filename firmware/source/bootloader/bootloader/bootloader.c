@@ -76,7 +76,8 @@ static bool bl_message_is_bootloader_traffic(const CanMsgTypeDef_t *message) {
     }
 
     uint32_t message_id = bl_message_id(message);
-    return message_id == bl_transport.command_id || message_id == bl_transport.data_id;
+    return message_id == bl_transport.start_id || message_id == bl_transport.crc_id
+        || message_id == bl_transport.jump_id || message_id == bl_transport.data_id;
 }
 
 /* Send status and detail on this target's configured transport. */
@@ -385,33 +386,30 @@ bool BL_checkAndBoot(void) {
 }
 
 /* Decode the small wire format without linking application CAN drivers. */
+static uint32_t bl_uint32_data(const CanMsgTypeDef_t *message) {
+    return ((uint32_t)message->Data[0] << 0U)
+        | ((uint32_t)message->Data[1] << 8U)
+        | ((uint32_t)message->Data[2] << 16U)
+        | ((uint32_t)message->Data[3] << 24U);
+}
+
 static void bl_process_message(const CanMsgTypeDef_t *message) {
     if (message == NULL) {
         return;
     }
 
     uint32_t message_id = bl_message_id(message);
-    if (message_id == bl_transport.command_id && message->DLC >= 5U) {
-        uint32_t argument = ((uint32_t)message->Data[1] << 0U)
-            | ((uint32_t)message->Data[2] << 8U)
-            | ((uint32_t)message->Data[3] << 16U)
-            | ((uint32_t)message->Data[4] << 24U);
-
-        switch ((BLCmd_t)message->Data[0]) {
-            case BLCMD_START:
-                (void)bl_begin_update(argument);
-                break;
-            case BLCMD_CRC:
-                (void)bl_commit_update(argument);
-                break;
-            case BLCMD_JUMP:
-                if (!BL_checkAndBoot()) {
-                    bl_send_status(BLSTAT_ERROR, BLERROR_ADDRESS);
-                }
-                break;
-            default:
-                bl_send_status(BLSTAT_UNKNOWN_CMD, message->Data[0]);
-                break;
+    if (message_id == bl_transport.start_id && message->DLC >= 4U) {
+        (void)bl_begin_update(bl_uint32_data(message));
+        return;
+    }
+    if (message_id == bl_transport.crc_id && message->DLC >= 4U) {
+        (void)bl_commit_update(bl_uint32_data(message));
+        return;
+    }
+    if (message_id == bl_transport.jump_id && message->DLC >= 4U) {
+        if (!BL_checkAndBoot()) {
+            bl_send_status(BLSTAT_ERROR, BLERROR_ADDRESS);
         }
         return;
     }
@@ -476,7 +474,12 @@ void BL_init(void) {
     (void)PHAL_initGPIO(can_gpio, sizeof(can_gpio) / sizeof(can_gpio[0]));
 
     PHAL_FDCAN_init(bl_transport.peripheral, bl_transport.baud_rate);
-    uint32_t filter_ids[] = {bl_transport.command_id, bl_transport.data_id};
+    uint32_t filter_ids[] = {
+        bl_transport.start_id,
+        bl_transport.crc_id,
+        bl_transport.jump_id,
+        bl_transport.data_id,
+    };
     if (bl_transport.is_extended_id) {
         (void)PHAL_FDCAN_setFilters(
             bl_transport.peripheral,

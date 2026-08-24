@@ -13,13 +13,9 @@ __attribute__((section(".noinit")))
 BootloaderSharedMemory_t bootloader_shared_memory;
 
 /* Generated CAN callbacks share this protocol adapter. */
-static void __attribute__((unused)) bootloader_request_from_command(uint8_t command) {
+static void __attribute__((unused)) bootloader_request_from_start(void) {
 #if defined(BOOTLOADER_ENABLED)
-    if (command == BLCMD_START) {
-        Bootloader_ResetForFirmwareDownload();
-    }
-#else
-    (void)command;
+    Bootloader_ResetForFirmwareDownload();
 #endif
 }
 
@@ -33,34 +29,34 @@ void Bootloader_ResetForFirmwareDownload(void) {
 /* CANpiler generates the declarations and can_data fields used below. */
 #if defined(CAN_NODE_MAIN_MODULE)
 #include "can_library/generated/MAIN_MODULE.h"
-void bl_main_module_cmd_CALLBACK(void) {
-    bootloader_request_from_command((uint8_t)can_data.bl_main_module_cmd.cmd);
+void bl_main_module_start_CALLBACK(void) {
+    bootloader_request_from_start();
 }
 #elif defined(CAN_NODE_DASHBOARD)
 #include "can_library/generated/DASHBOARD.h"
-void bl_dashboard_cmd_CALLBACK(void) {
-    bootloader_request_from_command((uint8_t)can_data.bl_dashboard_cmd.cmd);
+void bl_dashboard_start_CALLBACK(void) {
+    bootloader_request_from_start();
 }
 #elif defined(CAN_NODE_A_BOX)
 #include "can_library/generated/A_BOX.h"
-void bl_a_box_cmd_CALLBACK(void) {
-    bootloader_request_from_command((uint8_t)can_data.bl_a_box_cmd.cmd);
+void bl_a_box_start_CALLBACK(void) {
+    bootloader_request_from_start();
 }
 #elif defined(CAN_NODE_TORQUE_VECTOR)
 #include "can_library/generated/TORQUE_VECTOR.h"
-void bl_torque_vector_cmd_CALLBACK(void) {
-    bootloader_request_from_command((uint8_t)can_data.bl_torque_vector_cmd.cmd);
+void bl_torque_vector_start_CALLBACK(void) {
+    bootloader_request_from_start();
 }
 #elif defined(CAN_NODE_DRIVELINE)
 #include "can_library/generated/DRIVELINE.h"
-void bl_front_driveline_cmd_CALLBACK(void) {
+void bl_front_driveline_start_CALLBACK(void) {
 #if defined(IS_FRONT_DRIVELINE)
-    bootloader_request_from_command((uint8_t)can_data.bl_front_driveline_cmd.cmd);
+    bootloader_request_from_start();
 #endif
 }
-void bl_rear_driveline_cmd_CALLBACK(void) {
+void bl_rear_driveline_start_CALLBACK(void) {
 #if defined(IS_REAR_DRIVELINE)
-    bootloader_request_from_command((uint8_t)can_data.bl_rear_driveline_cmd.cmd);
+    bootloader_request_from_start();
 #endif
 }
 #endif
