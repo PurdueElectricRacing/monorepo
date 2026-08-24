@@ -17,66 +17,131 @@
  * Values match MODER's own 2-bit field encoding
  */
 typedef enum {
-    GPIO_TYPE_INPUT  = 0b00, /* Pin input mode */
-    GPIO_TYPE_OUTPUT = 0b01, /* Pin output mode */
-    GPIO_TYPE_AF     = 0b10, /* Pin alternate function mode */
-    GPIO_TYPE_ANALOG = 0b11, /* Pin alternate function mode */
-} GPIOPinType_t;
+    GPIO_TYPE_INPUT  = 0b00, /*!< Pin input mode */
+    GPIO_TYPE_OUTPUT = 0b01, /*!< Pin output mode */
+    GPIO_TYPE_AF     = 0b10, /*!< Pin alternate function mode */
+    GPIO_TYPE_ANALOG = 0b11, /*!< Pin analog mode */
+} PHAL_GPIO_PinType_t;
 
 /**
- * @brief Slew rate control for output pins
+ * @brief Output pin slew rate / maximum toggle frequency
+ * 
+ * Values match OSPEEDR's 2-bit field encoding
  */
 typedef enum {
-    GPIO_OUTPUT_LOW_SPEED   = 0b00, /* Slew rate control, max 8Mhz */
-    GPIO_OUTPUT_MED_SPEED   = 0b01, /* Slew rate control, max 50Mhz */
-    GPIO_OUTPUT_HIGH_SPEED  = 0b10, /* Slew rate control, max 100Mhz */
-    GPIO_OUTPUT_ULTRA_SPEED = 0b11, /* Slew rate control, max 180Mhz */
-} GPIOOutputSpeed_t;
+    GPIO_OUTPUT_LOW_SPEED   = 0b00, /*!< Slew rate control, max 8Mhz */
+    GPIO_OUTPUT_MED_SPEED   = 0b01, /*!< Slew rate control, max 50Mhz */
+    GPIO_OUTPUT_HIGH_SPEED  = 0b10, /*!< Slew rate control, max 100Mhz */
+    GPIO_OUTPUT_ULTRA_SPEED = 0b11, /*!< Slew rate control, max 180Mhz */
+} PHAL_GPIO_OutputSpeed_t;
 
+// /** @brief Output pin drive mode. */
 /**
- * @brief Output drive mode selection
+ * @brief Output pin drive type
+ * 
+ * Values match OTYPER's 1-bit field encoding
  */
 typedef enum {
-    GPIO_OUTPUT_PUSH_PULL  = 0b0, /* Drive the output pin high and low */
-    GPIO_OUTPUT_OPEN_DRAIN = 0b1, /* Drive the output pin low, high-z otherwise */
-} GPIOOutputPull_t;
+    GPIO_OUTPUT_PUSH_PULL  = 0b0, /*!< Drive the output pin high and low */
+    GPIO_OUTPUT_OPEN_DRAIN = 0b1, /*!< Drive the output pin low, high-z otherwise */
+} PHAL_GPIO_OutputPull_t;
 
 /**
- * @brief Enable internal pullup/down resistors
+ * @brief Input pin pull-up/pull-down resistor selection
+ * 
+ * Values match PUPDR's 2-bit field encoding
  */
 typedef enum {
-    GPIO_INPUT_OPEN_DRAIN = 0b00, /* No internal pull up/down */
-    GPIO_INPUT_PULL_UP    = 0b01, /* Weak internal pull-up enabled */
-    GPIO_INPUT_PULL_DOWN  = 0b10, /* Weak internal pull-down enabled */
-} GPIOInputPull_t;
+    GPIO_INPUT_OPEN_DRAIN = 0b00, /*!< No internal pull up/down */
+    GPIO_INPUT_PULL_UP    = 0b01, /*!< Weak internal pull-up enabled */
+    GPIO_INPUT_PULL_DOWN  = 0b10, /*!< Weak internal pull-down enabled */
+} PHAL_GPIO_InputPull_t;
 
 /**
- * @brief Configuration entry for GPIO initilization
+ * @brief Configuration entry for GPIO initialization.
  */
 typedef struct {
-    GPIO_TypeDef *bank; /* GPIO Bank for configuration */
-    uint8_t pin;        /* Pin Number for configruation */
-    GPIOPinType_t type; /* Output type of pin */
+    GPIO_TypeDef *bank;       /*!< GPIO Bank for configuration */
+    uint8_t pin;              /*!< Pin Number for configuration, 0-15 */
+    PHAL_GPIO_PinType_t type; /*!< Mode of pin */
 
     struct {
         // INPUT ONLY FIELDS
-        GPIOInputPull_t pull; /* Push/Pull selection */
+        PHAL_GPIO_InputPull_t pull; /*!< Push/Pull selection */
 
         // OUTPUT ONLY FIELDS
-        GPIOOutputSpeed_t ospeed; /* Output speed (slew rate) */
-        GPIOOutputPull_t otype;   /* Output push/pull */
-
+        PHAL_GPIO_OutputSpeed_t ospeed; /*!< Output speed (slew rate) */
+        PHAL_GPIO_OutputPull_t otype;   /*!< Output push/pull */
         // AF ONLY FIELDS
-        uint8_t af_num; /* Anternate function type */
-    } config;           /* Type specific configuration for pins */
-} GPIOInitConfig_t;
+        uint8_t af_num; /*!< Alternate function number */
+    } config; /*!< Type specific configuration for pins */
+} PHAL_GPIO_InitConfig_t;
 
 /**
- * @brief Create GPIO Init struct to intilize a GPIO pin for input
+ * @brief Initialize a set of GPIO pins from a configuration table
  *
- * @param gpio_bank GPIO_TypeDef* reference to the GPIO bank for the pin
- * @param pin_num Pin number from GPIO bank to configure
- * @param input_pull_sel Input pullup/pulldown/high-z selection
+ * Enables each pin's port clock, then configures mode, speed, drive type,
+ * pull, and alternate function per entry as applicable to that entry's
+ * PHAL_GPIO_PinType_t
+ * 
+ * Register fields that don't apply to a given type (ex: pull for an output pin)
+ * are left untouched.
+ *
+ * When encountering an unknown bank, pin outside 0-15, or unrecognized type,
+ * stops and returns false. Already configured pins remain configured.
+ *
+ * @param config Array of pin configurations
+ * @param config_len Number of entries in config
+ * @return true if every entry was valid (bank, pin #, type) and configured; false otherwise
+ */
+bool PHAL_GPIO_init(PHAL_GPIO_InitConfig_t config[], size_t config_len);
+
+/**
+ * @brief Read the current input state of a pin.
+ * @param bank GPIO port
+ * @param pin Pin number, 0-15
+ * @return true if the pin currently reads high
+ */
+static inline bool PHAL_readGPIO(const GPIO_TypeDef *bank, uint8_t pin) {
+    return (bank->IDR >> pin) & 0b1;
+}
+
+/**
+ * @brief Drive an output pin high or low.
+ *
+ * Safe to call from an ISR concurrently with other threads/etc touching other
+ * pins on the same port
+ *
+ * @param bank GPIO port
+ * @param pin Pin number, 0-15
+ * @param value true to drive high, false to drive low
+ */
+static inline void PHAL_writeGPIO(GPIO_TypeDef *bank, uint8_t pin, bool value) {
+    // BSRR's low 16 bits SET the corresponding pin
+    // bits [31:16] RESET it
+    // value=true  -> !value=0 -> shift = pin      - > sets bit `pin` (SET)
+    // value=false -> !value=1 -> shift = 16 + pin  -> sets bit `pin+16` (RESET)
+    bank->BSRR |= 1 << ((!value << 4) | pin);
+}
+
+// /** @brief Flip an output pin's current state. */
+/**
+ * @brief Flip an output pin's current state.
+ * 
+ * Works by reading the pin's current state and writing the opposite value.
+ *
+ * @param bank GPIO port
+ * @param pin Pin number, 0-15
+ */
+static inline void PHAL_toggleGPIO(GPIO_TypeDef *bank, uint8_t pin) {
+    PHAL_writeGPIO(bank, pin, !PHAL_readGPIO(bank, pin));
+}
+
+/**
+ * @brief Create a GPIO Init struct entry to initialize a pin for input.
+ * @param gpio_bank GPIO_TypeDef* for the pin's port
+ * @param pin_num Pin number, 0-15
+ * @param input_pull_sel Pull-up/pull-down/high-z selection
  */
 #define GPIO_INIT_INPUT(gpio_bank, pin_num, input_pull_sel) \
     { \
@@ -86,11 +151,10 @@ typedef struct {
     }
 
 /**
- * @brief Create GPIO Init struct to intilize a GPIO pin for output
- *
- * @param gpio_bank GPIO_TypeDef* reference to the GPIO bank for the pin
- * @param pin_num Pin number from GPIO bank to configure
- * @param ospeed_sel Pin output speed selection
+ * @brief Create a GPIO Init struct entry to initialize a pin for output.
+ * @param gpio_bank GPIO_TypeDef* for the pin's port
+ * @param pin_num Pin number, 0-15
+ * @param ospeed_sel Output speed selection
  */
 #define GPIO_INIT_OUTPUT(gpio_bank, pin_num, ospeed_sel) \
     { \
@@ -107,24 +171,23 @@ typedef struct {
             .otype  = GPIO_OUTPUT_OPEN_DRAIN \
         } \
     }
+
 /**
- * @brief Create GPIO Init struct to intilize a GPIO pin for analog
- *
- * @param gpio_bank GPIO_TypeDef* reference to the GPIO bank for the pin
- * @param pin_num Pin number from GPIO bank to configure
+ * @brief Create a GPIO Init struct entry to initialize a pin for analog.
+ * @param gpio_bank GPIO_TypeDef* for the pin's port
+ * @param pin_num Pin number, 0-15
  */
 #define GPIO_INIT_ANALOG(gpio_bank, pin_num) \
     {.bank = gpio_bank, .pin = pin_num, .type = GPIO_TYPE_ANALOG}
 
 /**
- * @brief Create GPIO Init struct to intilize a GPIO pin for alternate function
- *
- * @param gpio_bank GPIO_TypeDef* reference to the GPIO bank for the pin
- * @param pin_num Pin number from GPIO bank to configure
+ * @brief Create a GPIO Init struct entry to initialize a pin for alternate function.
+ * @param gpio_bank GPIO_TypeDef* for the pin's port
+ * @param pin_num Pin number, 0-15
  * @param alt_func_num Alternate function selection
- * @param ospeed_sel Pin output speed selection
- * @param otype_sel Pin output type selection
- * @param input_pull_sel Input pullup/pulldown/high-z selection
+ * @param ospeed_sel Output speed selection
+ * @param otype_sel Output drive type selection
+ * @param input_pull_sel Pull-up/pull-down/high-z selection
  */
 #define GPIO_INIT_AF(gpio_bank, pin_num, alt_func_num, ospeed_sel, otype_sel, input_pull_sel) \
     { \
@@ -141,29 +204,6 @@ typedef struct {
     If you find yourself adding the same pin mappings to multiple devices, add a macro below
     to cut down on duplication.
 */
-
-/**
- * @brief Initilize the GPIO perpheral given a list of configuration fields for all of the GPIO pins.
- *        Will also enable the GPIO RCC clock
- *
- * @param config A list of GPIOs to config
- * @param config_len Number of GPIOs in the config list
- * @return true All GPIOs were a valid configuration format
- * @return false Some of the GPIOs had an invalid configuration format
- */
-bool PHAL_initGPIO(GPIOInitConfig_t config[], uint8_t config_len);
-
-/**
- * @brief Read the state of the input register for the specific GPIO pin
- *
- * @param bank GPIO Bank of the pin
- * @param pin GPIO pin number
- * @return true GPIO Input true
- * @return false GPIO Input false
- */
-static inline bool PHAL_readGPIO(const GPIO_TypeDef *bank, uint8_t pin) {
-    return (bank->IDR >> pin) & 0b1;
-}
 
 #define GPIO_INIT_USART3TX_PC10 \
     GPIO_INIT_AF(GPIOC, \
@@ -251,7 +291,7 @@ static inline bool PHAL_readGPIO(const GPIO_TypeDef *bank, uint8_t pin) {
                  GPIO_INPUT_OPEN_DRAIN)
 
 /* * SPI1 Pins (Standard for both RET and CET)
- * PA5=SCK, PA6=MISO, PA7=MOSI, PA4 or PA15=NSS (AF5) 
+ * PA5=SCK, PA6=MISO, PA7=MOSI, PA4 or PA15=NSS (AF5)
  */
 #define GPIO_INIT_SPI1SCK_PA5 \
     GPIO_INIT_AF(GPIOA, 5, 5, GPIO_OUTPUT_ULTRA_SPEED, GPIO_OUTPUT_PUSH_PULL, GPIO_INPUT_OPEN_DRAIN)
@@ -323,20 +363,4 @@ static inline bool PHAL_readGPIO(const GPIO_TypeDef *bank, uint8_t pin) {
 #define GPIO_INIT_SPI2NSS_CET_PA8 \
     GPIO_INIT_AF(GPIOA, 8, 5, GPIO_OUTPUT_ULTRA_SPEED, GPIO_OUTPUT_PUSH_PULL, GPIO_INPUT_OPEN_DRAIN)
 
-/**
- * @brief Write a logic value to an output pin
- *
- * @param bank GPIO Bank of the pin
- * @param pin GPIO pin number
- * @param value Logical value to write
- */
-static inline void PHAL_writeGPIO(GPIO_TypeDef *bank, uint8_t pin, bool value) {
-    bank->BSRR |=
-        1 << ((!value << 4) | pin); // BSRR has "set" as bottom 16 bits and "reset" as top 16
-}
-
-static inline void PHAL_toggleGPIO(GPIO_TypeDef *bank, uint8_t pin) {
-    PHAL_writeGPIO(bank, pin, !PHAL_readGPIO(bank, pin));
-}
-
-#endif // __PHAL_G4_GPIO_H__
+#endif // PHAL_G4_GPIO_H
