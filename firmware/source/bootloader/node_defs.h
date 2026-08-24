@@ -43,7 +43,9 @@ typedef struct {
     GPIOInitConfig_t rx_gpio;
     GPIOInitConfig_t tx_gpio;
     bool is_extended_id;
-    uint32_t command_id;
+    uint32_t start_id;
+    uint32_t crc_id;
+    uint32_t jump_id;
     uint32_t data_id;
     uint32_t response_id;
     uint8_t response_dlc;
@@ -70,7 +72,9 @@ typedef struct {
         .rx_gpio = GPIO_INIT_FDCAN2RX_PB12, \
         .tx_gpio = GPIO_INIT_FDCAN2TX_PB13, \
         .is_extended_id = false, \
-        .command_id = BL_MAIN_MODULE_CMD_MSG_ID, \
+        .start_id = BL_MAIN_MODULE_START_MSG_ID, \
+        .crc_id = BL_MAIN_MODULE_CRC_MSG_ID, \
+        .jump_id = BL_MAIN_MODULE_JUMP_MSG_ID, \
         .data_id = BL_MAIN_MODULE_DATA_MSG_ID, \
         .response_id = BL_MAIN_MODULE_RESP_MSG_ID, \
         .response_dlc = BL_MAIN_MODULE_RESP_DLC, \
@@ -89,7 +93,9 @@ typedef struct {
         .rx_gpio = GPIO_INIT_FDCAN2RX_PB5, \
         .tx_gpio = GPIO_INIT_FDCAN2TX_PB6, \
         .is_extended_id = false, \
-        .command_id = BL_DASHBOARD_CMD_MSG_ID, \
+        .start_id = BL_DASHBOARD_START_MSG_ID, \
+        .crc_id = BL_DASHBOARD_CRC_MSG_ID, \
+        .jump_id = BL_DASHBOARD_JUMP_MSG_ID, \
         .data_id = BL_DASHBOARD_DATA_MSG_ID, \
         .response_id = BL_DASHBOARD_RESP_MSG_ID, \
         .response_dlc = BL_DASHBOARD_RESP_DLC, \
@@ -108,7 +114,9 @@ typedef struct {
         .rx_gpio = GPIO_INIT_FDCAN1RX_PA11, \
         .tx_gpio = GPIO_INIT_FDCAN1TX_PA12, \
         .is_extended_id = false, \
-        .command_id = BL_A_BOX_CMD_MSG_ID, \
+        .start_id = BL_A_BOX_START_MSG_ID, \
+        .crc_id = BL_A_BOX_CRC_MSG_ID, \
+        .jump_id = BL_A_BOX_JUMP_MSG_ID, \
         .data_id = BL_A_BOX_DATA_MSG_ID, \
         .response_id = BL_A_BOX_RESP_MSG_ID, \
         .response_dlc = BL_A_BOX_RESP_DLC, \
@@ -127,7 +135,9 @@ typedef struct {
         .rx_gpio = GPIO_INIT_FDCAN2RX_PB12, \
         .tx_gpio = GPIO_INIT_FDCAN2TX_PB13, \
         .is_extended_id = false, \
-        .command_id = BL_TORQUE_VECTOR_CMD_MSG_ID, \
+        .start_id = BL_TORQUE_VECTOR_START_MSG_ID, \
+        .crc_id = BL_TORQUE_VECTOR_CRC_MSG_ID, \
+        .jump_id = BL_TORQUE_VECTOR_JUMP_MSG_ID, \
         .data_id = BL_TORQUE_VECTOR_DATA_MSG_ID, \
         .response_id = BL_TORQUE_VECTOR_RESP_MSG_ID, \
         .response_dlc = BL_TORQUE_VECTOR_RESP_DLC, \
@@ -146,7 +156,9 @@ typedef struct {
         .rx_gpio = GPIO_INIT_FDCAN2RX_PB5, \
         .tx_gpio = GPIO_INIT_FDCAN2TX_PB6, \
         .is_extended_id = false, \
-        .command_id = BL_FRONT_DRIVELINE_CMD_MSG_ID, \
+        .start_id = BL_FRONT_DRIVELINE_START_MSG_ID, \
+        .crc_id = BL_FRONT_DRIVELINE_CRC_MSG_ID, \
+        .jump_id = BL_FRONT_DRIVELINE_JUMP_MSG_ID, \
         .data_id = BL_FRONT_DRIVELINE_DATA_MSG_ID, \
         .response_id = BL_FRONT_DRIVELINE_RESP_MSG_ID, \
         .response_dlc = BL_FRONT_DRIVELINE_RESP_DLC, \
@@ -165,7 +177,9 @@ typedef struct {
         .rx_gpio = GPIO_INIT_FDCAN2RX_PB5, \
         .tx_gpio = GPIO_INIT_FDCAN2TX_PB6, \
         .is_extended_id = false, \
-        .command_id = BL_REAR_DRIVELINE_CMD_MSG_ID, \
+        .start_id = BL_REAR_DRIVELINE_START_MSG_ID, \
+        .crc_id = BL_REAR_DRIVELINE_CRC_MSG_ID, \
+        .jump_id = BL_REAR_DRIVELINE_JUMP_MSG_ID, \
         .data_id = BL_REAR_DRIVELINE_DATA_MSG_ID, \
         .response_id = BL_REAR_DRIVELINE_RESP_MSG_ID, \
         .response_dlc = BL_REAR_DRIVELINE_RESP_DLC, \

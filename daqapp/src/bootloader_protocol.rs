@@ -18,7 +18,9 @@ pub struct FirmwareImage {
     pub name: String,
     pub bytes: Vec<u8>,
     pub crc32: u32,
-    pub command_id: u32,
+    pub start_id: u32,
+    pub crc_id: u32,
+    pub jump_id: u32,
     pub data_id: u32,
     pub response_id: u32,
 }
@@ -55,7 +57,9 @@ struct ManifestBoard {
     crc32: String,
     application_address: String,
     can_bus: String,
-    command_id: String,
+    start_id: String,
+    crc_id: String,
+    jump_id: String,
     data_id: String,
     response_id: String,
 }
@@ -206,10 +210,12 @@ impl FirmwarePackage {
                 ));
             }
 
-            let command_id = parse_hex_u32(&board.command_id, "command_id")?;
+            let start_id = parse_hex_u32(&board.start_id, "start_id")?;
+            let crc_id = parse_hex_u32(&board.crc_id, "crc_id")?;
+            let jump_id = parse_hex_u32(&board.jump_id, "jump_id")?;
             let data_id = parse_hex_u32(&board.data_id, "data_id")?;
             let response_id = parse_hex_u32(&board.response_id, "response_id")?;
-            if Some((command_id, data_id, response_id)) != expected_ids(&board.name) {
+            if Some((start_id, crc_id, jump_id, data_id, response_id)) != expected_ids(&board.name) {
                 return Err(format!(
                     "board {} has unexpected VCAN bootloader IDs",
                     board.name
@@ -220,7 +226,9 @@ impl FirmwarePackage {
                 name: board.name,
                 bytes,
                 crc32: expected_crc,
-                command_id,
+                start_id,
+                crc_id,
+                jump_id,
                 data_id,
                 response_id,
             });
@@ -231,14 +239,14 @@ impl FirmwarePackage {
     }
 }
 
-fn expected_ids(name: &str) -> Option<(u32, u32, u32)> {
+fn expected_ids(name: &str) -> Option<(u32, u32, u32, u32, u32)> {
     match name {
-        "main_module" => Some((0x180, 0x181, 0x182)),
-        "dashboard" => Some((0x183, 0x184, 0x185)),
-        "torque_vector" => Some((0x186, 0x187, 0x188)),
-        "a_box" => Some((0x189, 0x18A, 0x18B)),
-        "front_driveline" => Some((0x18C, 0x18D, 0x18E)),
-        "rear_driveline" => Some((0x18F, 0x190, 0x191)),
+        "main_module" => Some((0x180, 0x192, 0x198, 0x181, 0x182)),
+        "dashboard" => Some((0x183, 0x193, 0x199, 0x184, 0x185)),
+        "torque_vector" => Some((0x186, 0x194, 0x19A, 0x187, 0x188)),
+        "a_box" => Some((0x189, 0x195, 0x19B, 0x18A, 0x18B)),
+        "front_driveline" => Some((0x18C, 0x196, 0x19C, 0x18D, 0x18E)),
+        "rear_driveline" => Some((0x18F, 0x197, 0x19D, 0x190, 0x191)),
         _ => None,
     }
 }

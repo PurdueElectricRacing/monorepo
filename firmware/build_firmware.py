@@ -42,12 +42,12 @@ BOARD_TARGETS = [
 # Manifest copies of IDs defined by can_library/configs. DaqApp independently
 # verifies every board/ID tuple, so configuration drift fails before CAN writes.
 BOOTLOADER_PROTOCOL_IDS = {
-    "main_module": {"command_id": "0x180", "data_id": "0x181", "response_id": "0x182"},
-    "dashboard": {"command_id": "0x183", "data_id": "0x184", "response_id": "0x185"},
-    "torque_vector": {"command_id": "0x186", "data_id": "0x187", "response_id": "0x188"},
-    "a_box": {"command_id": "0x189", "data_id": "0x18A", "response_id": "0x18B"},
-    "front_driveline": {"command_id": "0x18C", "data_id": "0x18D", "response_id": "0x18E"},
-    "rear_driveline": {"command_id": "0x18F", "data_id": "0x190", "response_id": "0x191"},
+    "main_module": {"start_id": "0x180", "crc_id": "0x192", "jump_id": "0x198", "data_id": "0x181", "response_id": "0x182"},
+    "dashboard": {"start_id": "0x183", "crc_id": "0x193", "jump_id": "0x199", "data_id": "0x184", "response_id": "0x185"},
+    "torque_vector": {"start_id": "0x186", "crc_id": "0x194", "jump_id": "0x19A", "data_id": "0x187", "response_id": "0x188"},
+    "a_box": {"start_id": "0x189", "crc_id": "0x195", "jump_id": "0x19B", "data_id": "0x18A", "response_id": "0x18B"},
+    "front_driveline": {"start_id": "0x18C", "crc_id": "0x196", "jump_id": "0x19C", "data_id": "0x18D", "response_id": "0x18E"},
+    "rear_driveline": {"start_id": "0x18F", "crc_id": "0x197", "jump_id": "0x19D", "data_id": "0x190", "response_id": "0x191"},
 }
 
 PACKAGE_FORMAT = "per-firmware-package-v1"

@@ -151,11 +151,11 @@
             ],
             "rx": [
                 {
-                    "msg_name": "bl_front_driveline_cmd",
+                    "msg_name": "bl_front_driveline_start",
                     "callback": true
                 },
                 {
-                    "msg_name": "bl_rear_driveline_cmd",
+                    "msg_name": "bl_rear_driveline_start",
                     "callback": true
                 }
             ]

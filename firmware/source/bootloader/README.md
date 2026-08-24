@@ -33,14 +33,16 @@ partial image from launching.
 
 ## Protocol
 
-Command/data IDs come from [`can_library/configs`](../../can_library/configs/);
-front and rear driveline use separate IDs. Multi-byte fields are little-endian.
+START, CRC, JUMP, DATA, and response IDs come from
+[`can_library/configs`](../../can_library/configs/); front and rear driveline use
+separate IDs. Each command is a separate CAN message with a four-byte
+little-endian argument; DATA remains a six-byte word frame.
 
-| Command | Argument | Result |
+| Message | Argument | Result |
 | --- | --- | --- |
-| `START (0x01)` | Word-aligned image size. | Erases staging and returns `ACK(size)`. |
-| `CRC (0x03)` | Expected CRC. | Installs and returns `ACK(calculated_crc)`. |
-| `JUMP (0x04)` | Ignored. | Launches or returns `ERROR/ADDRESS`. |
+| `START` | Word-aligned image size. | Erases staging and returns `ACK(size)`. |
+| `CRC` | Expected CRC. | Installs and returns `ACK(calculated_crc)`. |
+| `JUMP` | Zero argument. | Launches or returns `ERROR/ADDRESS`. |
 
 | Status | Meaning |
 | --- | --- |
@@ -48,7 +50,6 @@ front and rear driveline use separate IDs. Multi-byte fields are little-endian.
 | `ACK` | Command accepted. |
 | `ERROR` | Locked, sequence, flash, size, or address failure. |
 | `CRC_ERROR` | Staged image CRC mismatch. |
-| `UNKNOWN_CMD` | Unrecognized command byte. |
 
 Words must arrive in order. Duplicate accepted indices are ignored; gaps cancel
 the transfer. The receive interrupt only queues frames, while `BL_poll()` owns

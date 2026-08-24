@@ -3,12 +3,9 @@
 
 use crate::{bootloader_protocol::FirmwarePackage, messages};
 
-// Values mirror BLCmd_t/BLStatus_t in firmware/common/bootloader. Keeping the
-// wire constants here avoids coupling the host updater to generated C headers.
+// Values mirror BLStatus_t in firmware/common/bootloader. Keeping the wire
+// constants here avoids coupling the host updater to generated C headers.
 const PROTOCOL_VERSION: u32 = 1;
-const START: u8 = 0x01;
-const CRC: u8 = 0x03;
-const JUMP: u8 = 0x04;
 const READY: u8 = 0x00;
 const ACK: u8 = 0x01;
 const CRC_ERROR: u8 = 0x03;
@@ -76,22 +73,22 @@ impl FirmwareUpdater {
 
     fn start_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
-            id: image.command_id,
-            data: command(START, image.bytes.len() as u32),
+            id: image.start_id,
+            data: argument(image.bytes.len() as u32),
         }
     }
 
     fn crc_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
-            id: image.command_id,
-            data: command(CRC, image.crc32),
+            id: image.crc_id,
+            data: argument(image.crc32),
         }
     }
 
     fn jump_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
-            id: image.command_id,
-            data: command(JUMP, 0),
+            id: image.jump_id,
+            data: argument(0),
         }
     }
 
@@ -317,7 +314,6 @@ impl FirmwareUpdater {
     }
 }
 
-fn command(command: u8, argument: u32) -> Vec<u8> {
-    let bytes = argument.to_le_bytes();
-    vec![command, bytes[0], bytes[1], bytes[2], bytes[3]]
+fn argument(argument: u32) -> Vec<u8> {
+    argument.to_le_bytes().to_vec()
 }

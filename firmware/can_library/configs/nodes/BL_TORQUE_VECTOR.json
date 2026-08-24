@@ -23,13 +23,15 @@
                         {"sig_name": "target_id", "type": "uint8_t"},
                         {"sig_name": "flags", "type": "uint8_t"}
                     ],
-                    "msg_id_override": "0x1A9",
+                    "msg_id_override": "0x1C2",
                     "msg_period": 5000,
                     "msg_priority": 4
                 }
             ],
             "rx": [
-                {"msg_name": "bl_torque_vector_cmd"},
+                {"msg_name": "bl_torque_vector_start"},
+                {"msg_name": "bl_torque_vector_crc"},
+                {"msg_name": "bl_torque_vector_jump"},
                 {"msg_name": "bl_torque_vector_data"}
             ]
         }
