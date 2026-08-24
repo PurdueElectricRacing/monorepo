@@ -1,22 +1,20 @@
 /**
  * @file gpio.h
- * @author Adam Busch (busch8@purdue.edu)
- * @brief GPIO Driver for STM32L432 Devices
- * @version 0.1
- * @date 2021-09-20
- *
- *
- * @copyright Copyright (c) 2021
- *
- *
+ * @brief G4 GPIO public API
+ * @author Millan Kumar (kumar798@purdue.edu)
  */
-#ifndef __PHAL_G4_GPIO_H__
-#define __PHAL_G4_GPIO_H__
+#ifndef PHAL_G4_GPIO_H
+#define PHAL_G4_GPIO_H
+
+#include <stddef.h>
+#include <stdint.h>
 
 #include "stm32g474xx.h"
 
 /**
- * @brief Configuration type for GPIO Pin
+ * @brief GPIO pin mode.
+ *
+ * Values match MODER's own 2-bit field encoding
  */
 typedef enum {
     GPIO_TYPE_INPUT  = 0b00, /* Pin input mode */
