@@ -6,7 +6,7 @@
  */
 
 #include "can_library/generated/TORQUE_VECTOR.h"
-#include "common/utils/linear_algebra.h"
+#include "common/utils/orientation.h"
 #include "sensors.h"
 // #include <math.h>
 #include "common/utils/units.h"
@@ -51,7 +51,7 @@ void initialize_calibration(void) {
 
     float pi_2 = PI_F / 2.0f;
     euler_angles_t mounting_offset = {2.2689280276f, 0, -pi_2};
-    mounting_offset_matrix = tait_bryan(mounting_offset);
+    mounting_offset_matrix = DCM_from_euler(mounting_offset);
 
     // decoupling_state = DECOUPLING_STATE_CALIBRATING;
 }
