@@ -7,6 +7,7 @@
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/usart/usart.h"
+#include "common/phal_G4/pin_defs/g474ret6.h"
 #include "common/utils/countof.h"
 #include "main.h"
 
@@ -22,17 +23,17 @@
 
 void HardFault_Handler(void);
 
-GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
 
-    GPIO_INIT_USART1TX_PA9,
-    GPIO_INIT_USART1RX_PA10,
+    PHAL_PIN_DEFS_USART1_TX_PA9,
+    PHAL_PIN_DEFS_USART1_RX_PA10,
 
     // Skip USART2, conflicts with Nucleo
 
-    GPIO_INIT_USART3TX_PC10,
-    GPIO_INIT_USART3RX_PC11,
+    PHAL_PIN_DEFS_USART3_TX_PC10,
+    PHAL_PIN_DEFS_USART3_RX_PC11,
 };
 
 // USART1 on APB2; USART2/3 on APB1
@@ -333,7 +334,7 @@ int main(void) {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
     usart_test_timeout_iters = compute_timeout_iters(PHAL_RCC_getAHBClockHz());
 
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 

@@ -15,8 +15,8 @@
 #include "common/phal_G4/pwm/pwm.h"
 #include "common/utils/countof.h"
 
-GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_AF(GPIOA, 8, 6, GPIO_OUTPUT_HIGH_SPEED, GPIO_OUTPUT_PUSH_PULL, GPIO_INPUT_OPEN_DRAIN),
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_GPIO_INIT_AF(GPIOA, 8, 6, GPIO_OUTPUT_HIGH_SPEED, GPIO_OUTPUT_PUSH_PULL, GPIO_INPUT_OPEN_DRAIN),
 };
 
 void HardFault_Handler(void);
@@ -29,7 +29,7 @@ RTOS_DEFINE_TASK(pwm_update_2s, 2'000, TASK_PRIORITY_HIGH, STACK_256);
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
     
-    if(!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if(!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 

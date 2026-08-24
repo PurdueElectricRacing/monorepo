@@ -13,9 +13,9 @@ void HardFault_Handler();
 
 #define FLASH_TEST_PAGE (FLASH_BASE + (508U * 1024U))
 
-GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
 static const uint8_t g_flash_patterns[][13] = {
@@ -54,7 +54,7 @@ int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
 
 
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 

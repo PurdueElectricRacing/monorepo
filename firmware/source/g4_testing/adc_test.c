@@ -31,11 +31,11 @@ static constexpr uint32_t ADC_TEST_DAC_SETTLE_CYCLES  = 10'000U;
 static constexpr uint16_t ADC_TEST_ALLOWED_ERROR      = 48U;
 static constexpr uint8_t ADC_TEST_INPUT_CHANNEL       = 1U;
 
-static GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_ANALOG(GPIOA, 0),
-    GPIO_INIT_ANALOG(GPIOA, 4),
-    GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
+static PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_GPIO_INIT_ANALOG(GPIOA, 0),
+    PHAL_GPIO_INIT_ANALOG(GPIOA, 4),
+    PHAL_GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
 static const PHAL_ADC_ChannelConfig_t adc_channels[] = {
@@ -170,7 +170,7 @@ int main(void) {
     // 16 MHz system clock, no PLL
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
 
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 

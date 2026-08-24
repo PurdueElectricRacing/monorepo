@@ -6,15 +6,16 @@
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
+#include "common/phal_G4/pin_defs/g474ret6.h"
 #include "common/rtos/rtos.h"
 #include "common/utils/countof.h"
 #include "can_library/can_common.h"
 #include "can_library/generated/G4_TESTING.h"
 
 
-GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_FDCAN2RX_PB12,
-    GPIO_INIT_FDCAN2TX_PB13
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_PIN_DEFS_FDCAN2_RX_PB12,
+    PHAL_PIN_DEFS_FDCAN2_TX_PB13
 };
 
 void HardFault_Handler();
@@ -49,7 +50,7 @@ RTOS_DEFINE_TASK(send_periodic, 100, TASK_PRIORITY_NORMAL, 512);
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
 
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 

@@ -5,19 +5,17 @@
 #include <string.h>
 
 #include "common/rtos/rtos.h"
-#include "common/phal_G4/adc/adc.h"
 #include "common/phal_G4/fdcan/fdcan.h"
-#include "common/phal_G4/dma/dma.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
+#include "common/phal_G4/pin_defs/g474ret6.h"
 #include "common/utils/countof.h"
-#include "main.h"
 
-GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_FDCAN2RX_PB12,
-    GPIO_INIT_FDCAN2TX_PB13,
-    GPIO_INIT_FDCAN3RX_PA8,
-    GPIO_INIT_FDCAN3TX_PB4,
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_PIN_DEFS_FDCAN2_RX_PB12,
+    PHAL_PIN_DEFS_FDCAN2_TX_PB13,
+    PHAL_PIN_DEFS_FDCAN3_RX_PA8,
+    PHAL_PIN_DEFS_FDCAN3_TX_PB4,
 };
 
 void HardFault_Handler();
@@ -36,7 +34,7 @@ RTOS_DEFINE_QUEUE(q_can_rx, CanMsgTypeDef_t, 256);
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
 
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 
