@@ -59,31 +59,33 @@ typedef enum {
 
 /**
  * @brief Configuration entry for GPIO initialization.
+ *
+ * `config` is a tagged union keyed by PHAL_GPIO_PinType_t type
  */
 typedef struct {
     GPIO_TypeDef *bank;       /*!< GPIO Bank for configuration */
     uint8_t pin;              /*!< Pin Number for configuration, 0-15 */
     PHAL_GPIO_PinType_t type; /*!< Mode of pin */
-
+ 
     union {
         struct {
-            PHAL_GPIO_InputPull_t pull;
-        } input; /*!< GPIO_TYPE_INPUT configuration */
-
+            PHAL_GPIO_InputPull_t pull; /*!< Pull-up/pull-down selection */
+        } input; /*!< Valid when type == GPIO_TYPE_INPUT */
+ 
         struct {
-            PHAL_GPIO_OutputSpeed_t ospeed;
-            PHAL_GPIO_OutputPull_t otype;
-        } output; /*!< GPIO_TYPE_OUTPUT configuration */
-
+            PHAL_GPIO_OutputSpeed_t ospeed; /*!< Output speed (slew rate) */
+            PHAL_GPIO_OutputPull_t otype;   /*!< Output push/pull */
+        } output; /*!< Valid when type == GPIO_TYPE_OUTPUT */
+ 
         struct {
-            uint8_t af_num;
-            PHAL_GPIO_OutputSpeed_t ospeed;
-            PHAL_GPIO_OutputPull_t otype;
-            PHAL_GPIO_InputPull_t pull;
-        } af; /*!< GPIO_TYPE_AF configuration */
-    
+            uint8_t af_num;                 /*!< Alternate function number */
+            PHAL_GPIO_OutputSpeed_t ospeed; /*!< Output speed (slew rate) */
+            PHAL_GPIO_OutputPull_t otype;   /*!< Output push/pull */
+            PHAL_GPIO_InputPull_t pull;     /*!< Pull-up/pull-down selection */
+        } af; /*!< Valid when type == GPIO_TYPE_AF */
+ 
         // GPIO_TYPE_ANALOG needs no additional configuration
-    } config; /*!< Type specific configuration for pins */
+    } config; /*!< Type-specific configuration for the pin */
 } PHAL_GPIO_InitConfig_t;
 
 /**
