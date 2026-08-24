@@ -1,15 +1,44 @@
 //! Firmware package selection and CAN update progress.
 
-use crate::{bootloader_protocol::FirmwarePackage, messages};
+use crate::{bootloader_protocol::FirmwarePackage, connection, messages};
 use eframe::egui;
 use std::collections::{HashMap, HashSet};
+use std::time::{Duration, Instant};
 
-const CAPABILITY_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(12);
+const CAPABILITY_TIMEOUT: Duration = Duration::from_secs(12);
 
 #[derive(Clone, Copy)]
-struct TargetCapability {
-    bootloadable: bool,
-    last_seen: std::time::Instant,
+struct TelemetryObservation {
+    git_hash: Option<u32>,
+    bootloadable: Option<bool>,
+    last_seen: Instant,
+}
+
+#[derive(Default)]
+struct TargetObservations {
+    application: Option<TelemetryObservation>,
+    bootloader: Option<TelemetryObservation>,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+enum BoardUpdateStatus {
+    Idle,
+    Pending,
+    Uploading {
+        phase: String,
+        sent_bytes: usize,
+        total_bytes: usize,
+    },
+    Completed,
+    Failed(String),
+    Cancelled,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum CapabilityState {
+    Available,
+    NotBootloadable,
+    NoRecentTelemetry,
 }
 
 pub struct Bootloader {
@@ -17,10 +46,11 @@ pub struct Bootloader {
     manifest_path: Option<std::path::PathBuf>,
     package: Option<FirmwarePackage>,
     status: String,
-    progress: Option<messages::FirmwareProgress>,
     running: bool,
-    capabilities: HashMap<String, TargetCapability>,
+    observations: HashMap<String, TargetObservations>,
     selected_targets: HashSet<String>,
+    board_statuses: HashMap<String, BoardUpdateStatus>,
+    run_board_names: Vec<String>,
 }
 
 impl Bootloader {
@@ -31,10 +61,11 @@ impl Bootloader {
             package: None,
             status: "Select manifest.json or firmware_*.tar.gz from per_build.py --package"
                 .to_string(),
-            progress: None,
             running: false,
-            capabilities: HashMap::new(),
+            observations: HashMap::new(),
             selected_targets: HashSet::new(),
+            board_statuses: HashMap::new(),
+            run_board_names: Vec::new(),
         }
     }
 
@@ -42,6 +73,7 @@ impl Bootloader {
         &mut self,
         ui: &mut egui::Ui,
         ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
+        active_bus: Option<connection::CanBus>,
     ) -> egui_tiles::UiResponse {
         ui.heading(format!("🔧 {}", self.title));
         ui.separator();
@@ -61,13 +93,19 @@ impl Bootloader {
                         self.manifest_path = Some(path);
                         self.status = format!("{} board images verified", package.images.len());
                         self.package = Some(package);
-                        self.progress = None;
+                        self.selected_targets.clear();
+                        self.board_statuses.clear();
+                        self.run_board_names.clear();
+                        self.running = false;
                     }
                     Err(error) => {
                         self.status = format!("Invalid package: {error}");
                         self.manifest_path = None;
                         if !self.running {
                             self.package = None;
+                            self.selected_targets.clear();
+                            self.board_statuses.clear();
+                            self.run_board_names.clear();
                         }
                     }
                 }
@@ -81,50 +119,80 @@ impl Bootloader {
 
         if let Some(package) = &self.package {
             ui.label(format!("Verified images: {}", package.images.len()));
-            ui.label("Available targets:");
+            let images = package.images.clone();
+            let now = Instant::now();
 
-            for image in &package.images {
-                let available = self
-                    .capabilities
-                    .get(&image.name)
-                    .is_some_and(|capability| {
-                        capability.bootloadable
-                            && capability.last_seen.elapsed() <= CAPABILITY_TIMEOUT
-                    });
-                if !available {
-                    self.selected_targets.remove(&image.name);
-                }
-                let mut selected = self.selected_targets.contains(&image.name);
-                if ui
-                    .add_enabled(
-                        !self.running && available,
-                        egui::Checkbox::new(&mut selected, &image.name),
-                    )
-                    .changed()
-                {
-                    if selected {
-                        self.selected_targets.insert(image.name.clone());
-                    } else {
-                        self.selected_targets.remove(&image.name);
+            egui::Grid::new(egui::Id::new(("bootloader-targets", &self.title)))
+                .striped(true)
+                .num_columns(7)
+                .spacing([8.0, 3.0])
+                .show(ui, |ui| {
+                    ui.strong("Node");
+                    ui.strong("Bus");
+                    ui.strong("Application git hash");
+                    ui.strong("Bootloader git hash");
+                    ui.strong("Availability");
+                    ui.strong("Select");
+                    ui.strong("Update status");
+                    ui.end_row();
+
+                    for image in &images {
+                        let bus_matches = active_bus == Some(image.bus);
+                        let capability = self.capability_state(&image.name, now);
+                        let available = capability == CapabilityState::Available && bus_matches;
+                        if !available {
+                            self.selected_targets.remove(&image.name);
+                        }
+
+                        ui.label(&image.name);
+                        ui.label(image.bus.display_name());
+                        ui.label(self.hash_label(&image.name, true, now));
+                        ui.label(self.hash_label(&image.name, false, now));
+
+                        let availability = if !bus_matches {
+                            format!("Inactive bus (need {})", image.bus.display_name())
+                        } else {
+                            match capability {
+                                CapabilityState::Available => "Available".to_string(),
+                                CapabilityState::NotBootloadable => "Not bootloadable".to_string(),
+                                CapabilityState::NoRecentTelemetry => {
+                                    "No recent telemetry".to_string()
+                                }
+                            }
+                        };
+                        ui.label(availability);
+
+                        let mut selected = self.selected_targets.contains(&image.name);
+                        if ui
+                            .add_enabled(
+                                !self.running && available,
+                                egui::Checkbox::without_text(&mut selected),
+                            )
+                            .changed()
+                        {
+                            if selected {
+                                self.selected_targets.insert(image.name.clone());
+                            } else {
+                                self.selected_targets.remove(&image.name);
+                            }
+                        }
+
+                        show_board_status(
+                            ui,
+                            self.board_statuses
+                                .get(&image.name)
+                                .unwrap_or(&BoardUpdateStatus::Idle),
+                        );
+                        ui.end_row();
                     }
-                }
-                if !available {
-                    ui.small("Not bootloadable or no recent capability telemetry");
-                }
-            }
+                });
 
-            let selected_images: Vec<_> = package
-                .images
+            let selected_images: Vec<_> = images
                 .iter()
                 .filter(|image| {
                     self.selected_targets.contains(&image.name)
-                        && self
-                            .capabilities
-                            .get(&image.name)
-                            .is_some_and(|capability| {
-                                capability.bootloadable
-                                    && capability.last_seen.elapsed() <= CAPABILITY_TIMEOUT
-                            })
+                        && self.capability_state(&image.name, now) == CapabilityState::Available
+                        && active_bus == Some(image.bus)
                 })
                 .cloned()
                 .collect();
@@ -136,11 +204,15 @@ impl Bootloader {
                 )
                 .clicked()
                 && ui_to_can_tx
-                    .send(messages::MsgFromUi::StartFirmwareUpdate(FirmwarePackage {
-                        images: selected_images,
-                    }))
+                    .send(messages::MsgFromUi::StartFirmwareUpdate(
+                        FirmwarePackage {
+                            images: selected_images.clone(),
+                        },
+                        active_bus.expect("selected firmware requires an active CAN bus"),
+                    ))
                     .is_ok()
             {
+                self.begin_run(&images, &selected_images);
                 self.running = true;
                 self.status = "Starting update...".to_string();
             }
@@ -154,68 +226,112 @@ impl Bootloader {
             self.status = "Cancelling...".to_string();
         }
 
-        if let Some(progress) = &self.progress {
-            ui.separator();
-            ui.label(format!(
-                "Board {}/{}: {} ({})",
-                progress.board_index + 1,
-                progress.board_count,
-                progress.board,
-                progress.phase
-            ));
-            let fraction = if progress.total_bytes == 0 {
-                0.0
-            } else {
-                progress.sent_bytes as f32 / progress.total_bytes as f32
-            };
-            ui.add(egui::ProgressBar::new(fraction.clamp(0.0, 1.0)).show_percentage());
-            ui.label(format!(
-                "{} / {} bytes",
-                progress.sent_bytes, progress.total_bytes
-            ));
-            if let Some(error) = &progress.error {
-                ui.colored_label(egui::Color32::RED, error);
-            }
-        }
-
         egui_tiles::UiResponse::None
+    }
+
+    fn begin_run(
+        &mut self,
+        package_images: &[crate::bootloader_protocol::FirmwareImage],
+        selected_images: &[crate::bootloader_protocol::FirmwareImage],
+    ) {
+        self.board_statuses = package_images
+            .iter()
+            .map(|image| (image.name.clone(), BoardUpdateStatus::Idle))
+            .collect();
+        self.run_board_names = selected_images
+            .iter()
+            .map(|image| image.name.clone())
+            .collect();
+        for image in selected_images {
+            self.board_statuses
+                .insert(image.name.clone(), BoardUpdateStatus::Pending);
+        }
+    }
+
+    fn capability_state(&self, target: &str, now: Instant) -> CapabilityState {
+        capability_state(self.observations.get(target), now, CAPABILITY_TIMEOUT)
+    }
+
+    fn hash_label(&self, target: &str, application: bool, now: Instant) -> String {
+        let observation = self.observations.get(target).and_then(|observations| {
+            if application {
+                observations.application
+            } else {
+                observations.bootloader
+            }
+        });
+        let Some(observation) = observation else {
+            return "—".to_string();
+        };
+        let Some(git_hash) = observation.git_hash else {
+            return "—".to_string();
+        };
+        let suffix = if now.duration_since(observation.last_seen) > CAPABILITY_TIMEOUT {
+            " (stale)"
+        } else {
+            ""
+        };
+        format!("0x{git_hash:08X}{suffix}")
     }
 
     pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
         if let messages::MsgFromCan::ParsedMessage(parsed) = msg {
-            let (target, capability_signal) = match parsed.decoded.name.as_str() {
-                "main_version" => ("main_module", "bootloadable"),
-                "dash_version" => ("dashboard", "bootloadable"),
-                "torque_vector_version" => ("torque_vector", "bootloadable"),
-                "abox_version" => ("a_box", "bootloadable"),
-                "front_driveline_version" => ("front_driveline", "bootloadable"),
-                "rear_driveline_version" => ("rear_driveline", "bootloadable"),
-                "bl_main_module_info" => ("main_module", "flags"),
-                "bl_dashboard_info" => ("dashboard", "flags"),
-                "bl_torque_vector_info" => ("torque_vector", "flags"),
-                "bl_a_box_info" => ("a_box", "flags"),
-                "bl_front_driveline_info" => ("front_driveline", "flags"),
-                "bl_rear_driveline_info" => ("rear_driveline", "flags"),
+            let (target, application) = match parsed.decoded.name.as_str() {
+                "main_version" => ("main_module", true),
+                "dash_version" => ("dashboard", true),
+                "torque_vector_version" => ("torque_vector", true),
+                "abox_version" => ("a_box", true),
+                "front_driveline_version" => ("front_driveline", true),
+                "rear_driveline_version" => ("rear_driveline", true),
+                "bl_main_module_info" => ("main_module", false),
+                "bl_dashboard_info" => ("dashboard", false),
+                "bl_torque_vector_info" => ("torque_vector", false),
+                "bl_a_box_info" => ("a_box", false),
+                "bl_front_driveline_info" => ("front_driveline", false),
+                "bl_rear_driveline_info" => ("rear_driveline", false),
                 _ => return,
             };
 
-            if let Some(signal) = parsed.decoded.signals.get(capability_signal) {
-                let raw_value = signal.value.physical.round() as u32;
-                let bootloadable = if capability_signal == "flags" {
-                    (raw_value & 1) != 0
-                } else {
-                    raw_value != 0
-                };
-                self.capabilities.insert(
-                    target.to_string(),
-                    TargetCapability {
-                        bootloadable,
-                        last_seen: std::time::Instant::now(),
-                    },
-                );
-                if !bootloadable {
-                    self.selected_targets.remove(target);
-                }
+            let git_hash = parsed
+                .decoded
+                .signals
+                .get("git_hash")
+                .map(|signal| signal.value.physical.round() as u32);
+            let bootloadable = parsed
+                .decoded
+                .signals
+                .get(if application { "bootloadable" } else { "flags" })
+                .map(|signal| {
+                    let raw_value = signal.value.physical.round() as u32;
+                    if application {
+                        raw_value != 0
+                    } else {
+                        (raw_value & 1) != 0
+                    }
+                });
+            if git_hash.is_none() && bootloadable.is_none() {
+                return;
+            }
+
+            let observations = self.observations.entry(target.to_string()).or_default();
+            let previous = if application {
+                observations.application
+            } else {
+                observations.bootloader
+            };
+            let observation = TelemetryObservation {
+                git_hash: git_hash.or_else(|| previous.and_then(|previous| previous.git_hash)),
+                bootloadable: bootloadable
+                    .or_else(|| previous.and_then(|previous| previous.bootloadable)),
+                last_seen: Instant::now(),
+            };
+            if application {
+                observations.application = Some(observation);
+            } else {
+                observations.bootloader = Some(observation);
+            }
+            if self.capability_state(target, Instant::now()) == CapabilityState::NotBootloadable {
+                self.selected_targets.remove(target);
             }
             return;
         }
@@ -223,7 +339,7 @@ impl Bootloader {
         let messages::MsgFromCan::FirmwareProgress(progress) = msg else {
             return;
         };
-        self.progress = Some(progress.clone());
+        apply_progress(&mut self.board_statuses, &self.run_board_names, progress);
         self.running = progress.error.is_none() && progress.phase != "complete";
         self.status = if let Some(error) = &progress.error {
             format!("Update failed: {error}")
@@ -231,4 +347,130 @@ impl Bootloader {
             progress.phase.clone()
         };
     }
+}
+
+fn capability_state(
+    observations: Option<&TargetObservations>,
+    now: Instant,
+    timeout: Duration,
+) -> CapabilityState {
+    let Some(observations) = observations else {
+        return CapabilityState::NoRecentTelemetry;
+    };
+    let recent_application = observations
+        .application
+        .filter(|observation| now.duration_since(observation.last_seen) <= timeout);
+    let recent_bootloader = observations
+        .bootloader
+        .filter(|observation| now.duration_since(observation.last_seen) <= timeout);
+    let Some(observation) = recent_application.or(recent_bootloader) else {
+        return CapabilityState::NoRecentTelemetry;
+    };
+    if observation.bootloadable == Some(true) {
+        CapabilityState::Available
+    } else {
+        CapabilityState::NotBootloadable
+    }
+}
+
+fn apply_progress(
+    statuses: &mut HashMap<String, BoardUpdateStatus>,
+    board_names: &[String],
+    progress: &messages::FirmwareProgress,
+) {
+    if progress.phase == "complete" {
+        for status in statuses.values_mut() {
+            if !matches!(status, BoardUpdateStatus::Idle) {
+                *status = BoardUpdateStatus::Completed;
+            }
+        }
+        return;
+    }
+
+    if progress.board.is_empty() {
+        if let Some(error) = &progress.error {
+            for name in board_names {
+                if matches!(statuses.get(name), Some(BoardUpdateStatus::Pending)) {
+                    statuses.insert(name.clone(), BoardUpdateStatus::Failed(error.clone()));
+                }
+            }
+        }
+        return;
+    }
+
+    for name in board_names.iter().take(progress.board_index) {
+        if matches!(
+            statuses.get(name),
+            Some(BoardUpdateStatus::Pending | BoardUpdateStatus::Uploading { .. })
+        ) {
+            statuses.insert(name.clone(), BoardUpdateStatus::Completed);
+        }
+    }
+
+    let cancelled = progress
+        .error
+        .as_deref()
+        .is_some_and(|error| error.contains("cancelled"));
+    if let Some(status) = statuses.get_mut(&progress.board) {
+        *status = if let Some(error) = &progress.error {
+            if cancelled {
+                BoardUpdateStatus::Cancelled
+            } else {
+                BoardUpdateStatus::Failed(error.clone())
+            }
+        } else {
+            BoardUpdateStatus::Uploading {
+                phase: progress.phase.clone(),
+                sent_bytes: progress.sent_bytes,
+                total_bytes: progress.total_bytes,
+            }
+        };
+    }
+
+    if cancelled {
+        for name in board_names.iter().skip(progress.board_index + 1) {
+            if matches!(statuses.get(name), Some(BoardUpdateStatus::Pending)) {
+                statuses.insert(name.clone(), BoardUpdateStatus::Cancelled);
+            }
+        }
+    }
+}
+
+fn show_board_status(ui: &mut egui::Ui, status: &BoardUpdateStatus) {
+    match status {
+        BoardUpdateStatus::Idle => {
+            ui.label("Not selected");
+        }
+        BoardUpdateStatus::Pending => {
+            ui.label("Pending");
+        }
+        BoardUpdateStatus::Uploading {
+            phase,
+            sent_bytes,
+            total_bytes,
+        } => {
+            ui.vertical(|ui| {
+                ui.label(phase);
+                let fraction = if *total_bytes == 0 {
+                    0.0
+                } else {
+                    *sent_bytes as f32 / *total_bytes as f32
+                };
+                ui.add(
+                    egui::ProgressBar::new(fraction.clamp(0.0, 1.0))
+                        .desired_width(115.0)
+                        .show_percentage(),
+                );
+            });
+        }
+        BoardUpdateStatus::Completed => {
+            ui.label("Completed");
+        }
+        BoardUpdateStatus::Failed(error) => {
+            ui.colored_label(egui::Color32::RED, format!("Failed: {error}"));
+        }
+        BoardUpdateStatus::Cancelled => {
+            ui.label("Cancelled");
+        }
+    };
 }
