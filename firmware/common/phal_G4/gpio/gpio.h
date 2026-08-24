@@ -113,7 +113,7 @@ bool PHAL_GPIO_init(PHAL_GPIO_InitConfig_t config[], size_t config_len);
  * @param pin Pin number, 0-15
  * @return true if the pin currently reads high
  */
-static inline bool PHAL_readGPIO(const GPIO_TypeDef *bank, uint8_t pin) {
+static inline bool PHAL_GPIO_read(const GPIO_TypeDef *bank, uint8_t pin) {
     return (bank->IDR >> pin) & 0b1;
 }
 
@@ -127,7 +127,7 @@ static inline bool PHAL_readGPIO(const GPIO_TypeDef *bank, uint8_t pin) {
  * @param pin Pin number, 0-15
  * @param value true to drive high, false to drive low
  */
-static inline void PHAL_writeGPIO(GPIO_TypeDef *bank, uint8_t pin, bool value) {
+static inline void PHAL_GPIO_write(GPIO_TypeDef *bank, uint8_t pin, bool value) {
     // BSRR's low 16 bits SET the corresponding pin
     // bits [31:16] RESET it
     // value=true  -> !value=0 -> shift = pin      -> sets bit `pin` (SET)
