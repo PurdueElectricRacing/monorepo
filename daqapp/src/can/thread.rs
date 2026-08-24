@@ -153,8 +153,8 @@ pub fn start_can_thread(
                             .expect("Failed to send HIL snapshot");
                         state.last_hil_update = std::time::Instant::now();
                     }
-                    messages::MsgFromUi::StartFirmwareUpdate(package) => {
-                        state.start_firmware_update(package);
+                    messages::MsgFromUi::StartFirmwareUpdate(package, bus) => {
+                        state.start_firmware_update(package, bus);
                     }
                     messages::MsgFromUi::CancelFirmwareUpdate => {
                         state.cancel_firmware_update();

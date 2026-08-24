@@ -10,6 +10,8 @@ pub struct Settings {
     pub dbc_path: Option<std::path::PathBuf>,
     pub selected_source: Option<connection::ConnectionSource>,
     pub selected_speed: connection::CanBusSpeed,
+    #[serde(default)]
+    pub selected_bus: connection::CanBus,
     pub udp_port: u16,
     pub theme: theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
@@ -23,6 +25,7 @@ impl Default for Settings {
             dbc_path: None,
             selected_source: None,
             selected_speed: DEFAULT_CAN_SPEED,
+            selected_bus: connection::CanBus::Vcan,
             udp_port: DEFAULT_UDP_PORT,
             theme: theme::ThemeSelection::Default,
             pixels_per_point: None,
