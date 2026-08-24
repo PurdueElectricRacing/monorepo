@@ -185,8 +185,8 @@ int main(void) {
             result = run_adc_dac_test_step();
             if (result != ADC_TEST_RUNNING) {
                 adc_test_passed = result == ADC_TEST_PASS;
-                PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, adc_test_passed);
-                PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, !adc_test_passed);
+                PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, adc_test_passed);
+                PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, !adc_test_passed);
             }
         }
         __NOP();

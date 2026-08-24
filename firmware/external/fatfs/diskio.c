@@ -84,9 +84,9 @@ DRESULT disk_read(
     if (!count) {
         return RES_PARERR;
     }
-    PHAL_writeGPIO(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 1);
+    PHAL_GPIO_write(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 1);
     DRESULT res = _sdio_disk_read(buff, sector, count);
-    PHAL_writeGPIO(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 0);
+    PHAL_GPIO_write(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 0);
     if (res != RES_OK) {
         // TODO: Log disk read error
         // DISKIO_LOG_RED("Disk read failed with res %d.\n", res);

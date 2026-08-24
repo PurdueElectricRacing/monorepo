@@ -64,8 +64,8 @@ int main() {
         match = flash_copy(source_address, FLASH_TEST_PAGE, sizeof(g_flash_patterns[0])) && match;
     }
 
-    PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, match ? 1 : 0);
-    PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, match ? 0 : 1);
+    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, match ? 1 : 0);
+    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, match ? 0 : 1);
 
     return 0;
 }

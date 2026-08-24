@@ -92,7 +92,7 @@ void vehicle_fsm_periodic(void) {
     update_tsal();
 
     // update precharge status
-    bool precharge_pin = PHAL_readGPIO(NOT_PRECHARGE_COMPLETE_PORT, NOT_PRECHARGE_COMPLETE_PIN);
+    bool precharge_pin = PHAL_GPIO_read(NOT_PRECHARGE_COMPLETE_PORT, NOT_PRECHARGE_COMPLETE_PIN);
     update_fault(FAULT_ID_PRECHARGE_INCOMPLETE, precharge_pin == true);
 
     // any SDCs latched 1-15 faults will cause a fatal state
@@ -164,8 +164,8 @@ void vehicle_fsm_periodic(void) {
 
     CAN_SEND_main_hb(g_car.current_state);
 
-    PHAL_writeGPIO(BRAKE_LIGHT_PORT, BRAKE_LIGHT_PIN, g_car.brake_light);
-    PHAL_writeGPIO(TSAL_GREEN_CTRL_PORT, TSAL_GREEN_CTRL_PIN, g_car.tsal_green_enable);
-    PHAL_writeGPIO(TSAL_RED_CTRL_PORT, TSAL_RED_CTRL_PIN, g_car.tsal_red_enable);
-    PHAL_writeGPIO(BUZZER_PORT, BUZZER_PIN, g_car.buzzer_enable);
+    PHAL_GPIO_write(BRAKE_LIGHT_PORT, BRAKE_LIGHT_PIN, g_car.brake_light);
+    PHAL_GPIO_write(TSAL_GREEN_CTRL_PORT, TSAL_GREEN_CTRL_PIN, g_car.tsal_green_enable);
+    PHAL_GPIO_write(TSAL_RED_CTRL_PORT, TSAL_RED_CTRL_PIN, g_car.tsal_red_enable);
+    PHAL_GPIO_write(BUZZER_PORT, BUZZER_PIN, g_car.buzzer_enable);
 }

@@ -50,9 +50,9 @@ static bool init_w5500(void) {
     w5500_register_callbacks(); // register custom SPI callbacks for W5500 driver
 
     // hold and release ETH reset pin
-    PHAL_writeGPIO(ETH_RST_PORT, ETH_RST_PIN, 0);
+    PHAL_GPIO_write(ETH_RST_PORT, ETH_RST_PIN, 0);
     RTOS_delay_ms(10);
-    PHAL_writeGPIO(ETH_RST_PORT, ETH_RST_PIN, 1);
+    PHAL_GPIO_write(ETH_RST_PORT, ETH_RST_PIN, 1);
     RTOS_delay_ms(50);
 
     // Read back the version register

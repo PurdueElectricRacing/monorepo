@@ -84,8 +84,8 @@ int main(void) {
 
    bool pass = run_crc_test();
 
-   PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, pass ? 1 : 0);
-   PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, pass ? 0 : 1);
+   PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, pass ? 1 : 0);
+   PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, pass ? 0 : 1);
 
     while (1) {
         __asm__("nop");

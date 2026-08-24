@@ -280,22 +280,22 @@ void set_external_leds(void) {
     }
 
     bool precharge_complete = is_clear(FAULT_ID_PRECHARGE_INCOMPLETE);
-    PHAL_writeGPIO(PRCHG_LED_PORT, PRCHG_LED_PIN, precharge_complete);
+    PHAL_GPIO_write(PRCHG_LED_PORT, PRCHG_LED_PIN, precharge_complete);
 
     bool imd_faulted = is_latched(FAULT_ID_SDC1_IMD);
-    PHAL_writeGPIO(IMD_LED_PORT, IMD_LED_PIN, imd_faulted);
+    PHAL_GPIO_write(IMD_LED_PORT, IMD_LED_PIN, imd_faulted);
 
     bool bms_faulted = is_latched(FAULT_ID_BMS_DISCONNECTED);
-    PHAL_writeGPIO(BMS_LED_PORT, BMS_LED_PIN, bms_faulted);
+    PHAL_GPIO_write(BMS_LED_PORT, BMS_LED_PIN, bms_faulted);
     
     if (can_data.vcu_settings.is_stale) {
         // default off
-        PHAL_writeGPIO(REGEN_LED_PORT, REGEN_LED_PIN, false);
+        PHAL_GPIO_write(REGEN_LED_PORT, REGEN_LED_PIN, false);
         return;
     }
 
     bool is_regen_enabled = can_data.vcu_settings.is_regen_enabled;
-    PHAL_writeGPIO(REGEN_LED_PORT, REGEN_LED_PIN, is_regen_enabled);
+    PHAL_GPIO_write(REGEN_LED_PORT, REGEN_LED_PIN, is_regen_enabled);
 }
 
 void driver_interface_periodic(void) {

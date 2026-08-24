@@ -290,8 +290,8 @@ int main() {
         HardFault_Handler();
     }
 
-    PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, true);
-    PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, false);
+    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, true);
+    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, false);
 
     // USB work is interrupt-driven through PHAL_USB_callback(). The main loop
     // has no polling requirement and can sleep until the next peripheral event.
@@ -301,8 +301,8 @@ int main() {
 }
 
 void HardFault_Handler(void) {
-    PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, false);
-    PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, true);
+    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, false);
+    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, true);
     while (true) {
         __NOP();
     }

@@ -9,11 +9,11 @@
 #include "common/utils/countof.h"
 #include "main.h"
 
-GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(LED_ORANGE_PORT, LED_ORANGE_PIN, GPIO_OUTPUT_LOW_SPEED),
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(LED_ORANGE_PORT, LED_ORANGE_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
 void HardFault_Handler();
@@ -31,14 +31,14 @@ RTOS_DEFINE_TASK(ledblink4, 1000, TASK_PRIORITY_NORMAL, 64);
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
 
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 
-    PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, 1);
-    PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, 1);
-    PHAL_writeGPIO(LED_BLUE_PORT, LED_BLUE_PIN, 1);
-    PHAL_writeGPIO(LED_ORANGE_PORT, LED_ORANGE_PIN, 1);
+    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, 1);
+    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, 1);
+    PHAL_GPIO_write(LED_BLUE_PORT, LED_BLUE_PIN, 1);
+    PHAL_GPIO_write(LED_ORANGE_PORT, LED_ORANGE_PIN, 1);
 
     // Create threads
     RTOS_START_TASK(ledblink1);
@@ -52,19 +52,19 @@ int main() {
 }
 
 static void ledblink1(void) {
-    PHAL_toggleGPIO(LED_GREEN_PORT, LED_GREEN_PIN);
+    PHAL_GPIO_toggle(LED_GREEN_PORT, LED_GREEN_PIN);
 }
 
 static void ledblink2(void) {
-    PHAL_toggleGPIO(LED_RED_PORT, LED_RED_PIN);
+    PHAL_GPIO_toggle(LED_RED_PORT, LED_RED_PIN);
 }
 
 static void ledblink3(void) {
-    PHAL_toggleGPIO(LED_BLUE_PORT, LED_BLUE_PIN);
+    PHAL_GPIO_toggle(LED_BLUE_PORT, LED_BLUE_PIN);
 }
 
 static void ledblink4(void) {
-    PHAL_toggleGPIO(LED_ORANGE_PORT, LED_ORANGE_PIN);
+    PHAL_GPIO_toggle(LED_ORANGE_PORT, LED_ORANGE_PIN);
 }
 
 void HardFault_Handler() {

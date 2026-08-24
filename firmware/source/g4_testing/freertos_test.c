@@ -94,7 +94,7 @@ static void producer_task(void) {
 
     xSemaphoreGive(work_sem);
 
-    PHAL_toggleGPIO(LED_GREEN_PORT, LED_GREEN_PIN);
+    PHAL_GPIO_toggle(LED_GREEN_PORT, LED_GREEN_PIN);
 }
 
 
@@ -116,7 +116,7 @@ static void consumer_task(void) {
 
     xSemaphoreGive(counter_mutex);
 
-    PHAL_toggleGPIO(LED_GREEN_PORT, LED_GREEN_PIN);
+    PHAL_GPIO_toggle(LED_GREEN_PORT, LED_GREEN_PIN);
 }
 
 
@@ -135,13 +135,13 @@ static void monitor_task(void) {
         fail();
     }
 
-    PHAL_toggleGPIO(LED_GREEN_PORT, LED_GREEN_PIN);
+    PHAL_GPIO_toggle(LED_GREEN_PORT, LED_GREEN_PIN);
 }
 
 
 static void fail(void) {
     while (true) {
-        PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, 1);
+        PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, 1);
         RTOS_delay_ms(100);
     }
 }

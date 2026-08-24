@@ -337,8 +337,8 @@ int main(void) {
         HardFault_Handler();
     }
 
-    PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, 1);
-    PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, 0);
+    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, 1);
+    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, 0);
 
     if (!PHAL_USART_init(USART1_IDX, USART1_TEST_BAUD, PHAL_RCC_getAPB2ClockHz())
         || !PHAL_USART_init(USART3_IDX, USART3_TEST_BAUD, PHAL_RCC_getAPB1ClockHz())
@@ -352,8 +352,8 @@ int main(void) {
         pass = subtests[i].fn();
     }
 
-    PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, pass ? 1 : 0);
-    PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, pass ? 0 : 1);
+    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, pass ? 1 : 0);
+    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, pass ? 0 : 1);
 
     while (1) {
         __NOP();
