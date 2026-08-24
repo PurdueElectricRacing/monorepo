@@ -130,8 +130,8 @@ static inline bool PHAL_readGPIO(const GPIO_TypeDef *bank, uint8_t pin) {
 static inline void PHAL_writeGPIO(GPIO_TypeDef *bank, uint8_t pin, bool value) {
     // BSRR's low 16 bits SET the corresponding pin
     // bits [31:16] RESET it
-    // value=true  -> !value=0 -> shift = pin      - > sets bit `pin` (SET)
-    // value=false -> !value=1 -> shift = 16 + pin  -> sets bit `pin+16` (RESET)
+    // value=true  -> !value=0 -> shift = pin      -> sets bit `pin` (SET)
+    // value=false -> !value=1 -> shift = 16 + pin -> sets bit `pin+16` (RESET)
     bank->BSRR |= 1 << ((!value << 4) | pin);
 }
 
@@ -144,55 +144,78 @@ static inline void PHAL_writeGPIO(GPIO_TypeDef *bank, uint8_t pin, bool value) {
  * @param bank GPIO port
  * @param pin Pin number, 0-15
  */
-static inline void PHAL_toggleGPIO(GPIO_TypeDef *bank, uint8_t pin) {
-    PHAL_writeGPIO(bank, pin, !PHAL_readGPIO(bank, pin));
+static inline void PHAL_GPIO_toggle(GPIO_TypeDef *bank, uint8_t pin) {
+    PHAL_GPIO_write(bank, pin, !PHAL_GPIO_read(bank, pin));
 }
 
 /**
- * @brief Create a GPIO Init struct entry to initialize a pin for input.
+ * @brief Construct PHAL_GPIO_InitConfig_t for an input pin
  * @param gpio_bank GPIO_TypeDef* for the pin's port
  * @param pin_num Pin number, 0-15
  * @param input_pull_sel Pull-up/pull-down/high-z selection
  */
-#define GPIO_INIT_INPUT(gpio_bank, pin_num, input_pull_sel) \
-    { \
-        .bank = gpio_bank, .pin = pin_num, .type = GPIO_TYPE_INPUT, .config = { \
-            .pull = input_pull_sel \
-        } \
+#define PHAL_GPIO_INIT_INPUT(gpio_bank, pin_num, input_pull_sel)                    \
+    {                                                                          \
+        .bank = gpio_bank,                                                     \
+        .pin = pin_num,                                                        \
+        .type = GPIO_TYPE_INPUT,                                               \
+        .config = {                                                            \
+            .input = {                                                         \
+                .pull = input_pull_sel                                         \
+            }                                                                  \
+        }                                                                      \
     }
 
 /**
- * @brief Create a GPIO Init struct entry to initialize a pin for output.
+ * @brief Construct PHAL_GPIO_InitConfig_t for an output (push-pull) pin
  * @param gpio_bank GPIO_TypeDef* for the pin's port
  * @param pin_num Pin number, 0-15
  * @param ospeed_sel Output speed selection
  */
-#define GPIO_INIT_OUTPUT(gpio_bank, pin_num, ospeed_sel) \
-    { \
-        .bank = gpio_bank, .pin = pin_num, .type = GPIO_TYPE_OUTPUT, .config = { \
-            .ospeed = ospeed_sel, \
-            .otype  = GPIO_OUTPUT_PUSH_PULL \
-        } \
-    }
-
-#define GPIO_INIT_OUTPUT_OPEN_DRAIN(gpio_bank, pin_num, ospeed_sel) \
-    { \
-        .bank = gpio_bank, .pin = pin_num, .type = GPIO_TYPE_OUTPUT, .config = { \
-            .ospeed = ospeed_sel, \
-            .otype  = GPIO_OUTPUT_OPEN_DRAIN \
-        } \
+#define PHAL_GPIO_INIT_OUTPUT(gpio_bank, pin_num, ospeed_sel)                  \
+    {                                                                          \
+        .bank = gpio_bank,                                                     \
+        .pin = pin_num,                                                        \
+        .type = GPIO_TYPE_OUTPUT,                                              \
+        .config = {                                                            \
+            .output = {                                                        \
+                .ospeed = ospeed_sel,                                          \
+                .otype  = GPIO_OUTPUT_PUSH_PULL                                \
+            }                                                                  \
+        }                                                                      \
     }
 
 /**
- * @brief Create a GPIO Init struct entry to initialize a pin for analog.
+ * @brief Construct PHAL_GPIO_InitConfig_t for an output (open-drain) pin
+ * @param gpio_bank GPIO_TypeDef* for the pin's port
+ * @param pin_num Pin number, 0-15
+ * @param ospeed_sel Output speed selection
+ */
+#define PHAL_GPIO_INIT_OUTPUT_OPEN_DRAIN(gpio_bank, pin_num, ospeed_sel)       \
+    {                                                                          \
+        .bank = gpio_bank,                                                     \
+        .pin = pin_num,                                                        \
+        .type = GPIO_TYPE_OUTPUT,                                              \
+        .config = {                                                            \
+            .ospeed = ospeed_sel,                                              \
+            .otype  = GPIO_OUTPUT_OPEN_DRAIN                                   \
+        }                                                                      \
+    }
+
+/**
+ * @brief Construct PHAL_GPIO_InitConfig_t for an analog pin
  * @param gpio_bank GPIO_TypeDef* for the pin's port
  * @param pin_num Pin number, 0-15
  */
-#define GPIO_INIT_ANALOG(gpio_bank, pin_num) \
-    {.bank = gpio_bank, .pin = pin_num, .type = GPIO_TYPE_ANALOG}
+#define PHAL_GPIO_INIT_ANALOG(gpio_bank, pin_num)                              \
+    {                                                                          \
+        .bank = gpio_bank,                                                     \
+        .pin = pin_num,                                                        \
+        .type = GPIO_TYPE_ANALOG                                               \
+    }
 
 /**
- * @brief Create a GPIO Init struct entry to initialize a pin for alternate function.
+ * @brief Construct PHAL_GPIO_InitConfig_t for an alternate function pin
  * @param gpio_bank GPIO_TypeDef* for the pin's port
  * @param pin_num Pin number, 0-15
  * @param alt_func_num Alternate function selection
@@ -200,14 +223,19 @@ static inline void PHAL_toggleGPIO(GPIO_TypeDef *bank, uint8_t pin) {
  * @param otype_sel Output drive type selection
  * @param input_pull_sel Pull-up/pull-down/high-z selection
  */
-#define GPIO_INIT_AF(gpio_bank, pin_num, alt_func_num, ospeed_sel, otype_sel, input_pull_sel) \
-    { \
-        .bank = gpio_bank, .pin = pin_num, .type = GPIO_TYPE_AF, .config = { \
-            .af_num = alt_func_num, \
-            .ospeed = ospeed_sel, \
-            .otype  = otype_sel, \
-            .pull   = input_pull_sel \
-        } \
+#define PHAL_GPIO_INIT_AF(gpio_bank, pin_num, alt_func_num, ospeed_sel, otype_sel, input_pull_sel) \
+    {                                                                                              \
+        .bank = gpio_bank,                                                                         \
+        .pin = pin_num,                                                                            \
+        .type = GPIO_TYPE_AF,                                                                      \
+        .config = {                                                                                \
+            .af = {                                                                                \
+                .af_num = alt_func_num,                                                            \
+                .ospeed = ospeed_sel,                                                              \
+                .otype  = otype_sel,                                                               \
+                .pull   = input_pull_sel                                                           \
+            }                                                                                      \
+        }                                                                                          \
     }
 
 /*
