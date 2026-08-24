@@ -197,8 +197,10 @@ static inline void PHAL_GPIO_toggle(GPIO_TypeDef *bank, uint8_t pin) {
         .pin = pin_num,                                                        \
         .type = GPIO_TYPE_OUTPUT,                                              \
         .config = {                                                            \
-            .ospeed = ospeed_sel,                                              \
-            .otype  = GPIO_OUTPUT_OPEN_DRAIN                                   \
+            .output = {                                                        \
+                .ospeed = ospeed_sel,                                          \
+                .otype  = GPIO_OUTPUT_OPEN_DRAIN                               \
+            }                                                                  \
         }                                                                      \
     }
 
