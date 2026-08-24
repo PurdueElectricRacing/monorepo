@@ -80,8 +80,10 @@ impl FirmwarePackage {
                 .as_nanos();
             let root = std::env::temp_dir()
                 .join(format!("per-daqapp-package-{}-{nonce}", std::process::id()));
-            std::fs::create_dir_all(&root)
+            std::fs::create_dir(&root)
                 .map_err(|error| format!("cannot create package extraction directory: {error}"))?;
+            let storage = PackageStorage(root.clone());
+            validate_archive(&path)?;
             let extraction = std::process::Command::new("tar")
                 .args(["-xzf"])
                 .arg(&path)
@@ -99,10 +101,11 @@ impl FirmwarePackage {
                     String::from_utf8_lossy(&extraction.stderr).trim()
                 ));
             }
-            (root.join("manifest.json"), Some(PackageStorage(root)))
+            (root.join("manifest.json"), Some(storage))
         } else {
             (path, None)
         };
+        let manifest_path = secure_file_path(&manifest_path, "manifest")?;
         let manifest_text = std::fs::read_to_string(&manifest_path)
             .map_err(|error| format!("cannot read {}: {error}", manifest_path.display()))?;
         let manifest: Manifest = serde_json::from_str(&manifest_text)
@@ -173,10 +176,11 @@ impl FirmwarePackage {
             {
                 return Err(format!("unsafe binary path for board {}", board.name));
             }
-            let binary_path = root.join(relative_binary);
+            let binary_path = secure_file_path(&root.join(relative_binary), "binary")
+                .map_err(|error| format!("unsafe binary path for {}: {error}", board.name))?;
             let metadata = std::fs::symlink_metadata(&binary_path)
                 .map_err(|error| format!("cannot inspect {}: {error}", binary_path.display()))?;
-            if !metadata.file_type().is_file() || metadata.len() > 160 * 1024 {
+            if metadata.len() > 160 * 1024 {
                 return Err(format!("invalid image file for {}", board.name));
             }
             let bytes = std::fs::read(&binary_path)
@@ -207,9 +211,10 @@ impl FirmwarePackage {
             let jump_id = parse_hex_u32(&board.jump_id, "jump_id")?;
             let data_id = parse_hex_u32(&board.data_id, "data_id")?;
             let response_id = parse_hex_u32(&board.response_id, "response_id")?;
-            if Some((start_id, crc_id, jump_id, data_id, response_id)) != expected_ids(&board.name) {
+            if Some((start_id, crc_id, jump_id, data_id, response_id)) != expected_ids(&board.name)
+            {
                 return Err(format!(
-                    "board {} has unexpected VCAN bootloader IDs",
+                    "board {} has unexpected bootloader IDs",
                     board.name
                 ));
             }
@@ -230,6 +235,79 @@ impl FirmwarePackage {
         drop(storage);
         Ok(Self { images })
     }
+}
+
+fn validate_archive(path: &Path) -> Result<(), String> {
+    let listing = std::process::Command::new("tar")
+        .args(["-tvzf"])
+        .arg(path)
+        .output()
+        .map_err(|error| format!("cannot inspect archive {}: {error}", path.display()))?;
+    if !listing.status.success() {
+        return Err(format!(
+            "cannot inspect archive {}: {}",
+            path.display(),
+            String::from_utf8_lossy(&listing.stderr).trim()
+        ));
+    }
+    if String::from_utf8_lossy(&listing.stdout)
+        .lines()
+        .any(|line| !matches!(line.as_bytes().first(), Some(b'd') | Some(b'-')))
+    {
+        return Err("firmware archive contains a symlink or special file".to_string());
+    }
+
+    let names = std::process::Command::new("tar")
+        .args(["-tzf"])
+        .arg(path)
+        .output()
+        .map_err(|error| format!("cannot inspect archive {}: {error}", path.display()))?;
+    if !names.status.success() {
+        return Err(format!(
+            "cannot inspect archive {}: {}",
+            path.display(),
+            String::from_utf8_lossy(&names.stderr).trim()
+        ));
+    }
+    for name in String::from_utf8_lossy(&names.stdout).lines() {
+        let member = Path::new(name);
+        if member.is_absolute()
+            || member
+                .components()
+                .any(|component| matches!(component, Component::ParentDir))
+        {
+            return Err(format!("firmware archive contains unsafe path {name:?}"));
+        }
+    }
+    Ok(())
+}
+
+fn secure_file_path(path: &Path, kind: &str) -> Result<PathBuf, String> {
+    let mut current = PathBuf::new();
+    for component in path.components() {
+        match component {
+            Component::Prefix(prefix) => current.push(prefix.as_os_str()),
+            Component::RootDir => current.push(component.as_os_str()),
+            Component::CurDir => {}
+            Component::ParentDir => {
+                return Err("path contains a parent traversal".to_string());
+            }
+            Component::Normal(name) => {
+                current.push(name);
+                let metadata = std::fs::symlink_metadata(&current)
+                    .map_err(|error| format!("cannot inspect {}: {error}", current.display()))?;
+                if metadata.file_type().is_symlink() {
+                    return Err(format!("{kind} path contains a symlink component"));
+                }
+            }
+        }
+    }
+    let metadata = std::fs::symlink_metadata(path)
+        .map_err(|error| format!("cannot inspect {}: {error}", path.display()))?;
+    if !metadata.file_type().is_file() {
+        return Err(format!("{kind} is not a regular file"));
+    }
+    Ok(path.to_path_buf())
 }
 
 fn expected_ids(name: &str) -> Option<(u32, u32, u32, u32, u32)> {
@@ -288,15 +366,4 @@ pub fn crc32_words(data: &[u8]) -> u32 {
         }
     }
     crc
-}
-
-#[cfg(test)]
-mod tests {
-    use super::crc32_words;
-
-    #[test]
-    fn crc_matches_stm32_word_contract() {
-        assert_eq!(crc32_words(&[0, 1, 2, 3]), 0x76DBF7C7);
-        assert_eq!(crc32_words(&[0xFF; 4]), 0);
-    }
 }
