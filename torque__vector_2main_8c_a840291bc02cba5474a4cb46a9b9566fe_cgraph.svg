@@ -589,9 +589,9 @@ var sectionId = 'dynsection-1';
 <!-- Node23 -->
 <g id="Node000023" class="node">
 <title>Node23</title>
-<g id="a_Node000023"><a xlink:href="linear__algebra_8h.html#ab1ebdaa071a93ea81ce907ca9b1ffcb6" target="_top" xlink:title="Perform Tait&#45;Bryan ZYX Euler angle to rotation matrix conversion.">
-<polygon fill="white" stroke="#666666" points="369.75,-748.25 311.75,-748.25 311.75,-729 369.75,-729 369.75,-748.25"/>
-<text text-anchor="middle" x="340.75" y="-734.75" font-family="Helvetica,sans-Serif" font-size="10.00">tait_bryan</text>
+<g id="a_Node000023"><a xlink:href="orientation_8h.html#ab3105266d6fe9e70000ece9a65ebaf1b" target="_top" xlink:title="Convert Euler angles to a direction cosine matrix.">
+<polygon fill="white" stroke="#666666" points="385.12,-748.25 296.38,-748.25 296.38,-729 385.12,-729 385.12,-748.25"/>
+<text text-anchor="middle" x="340.75" y="-734.75" font-family="Helvetica,sans-Serif" font-size="10.00">DCM_from_euler</text>
 </a>
 </g>
 </g>
@@ -599,8 +599,8 @@ var sectionId = 'dynsection-1';
 <g id="edge19_Node000022_Node000023" class="edge">
 <title>Node22&#45;&gt;Node23</title>
 <g id="a_edge19_Node000022_Node000023"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M198.14,-572.99C207.15,-575.79 215.81,-580.08 222.5,-586.62 266.61,-629.72 213.94,-678 258.5,-720.62 269.65,-731.29 285.63,-736.19 300.48,-738.28"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="299.71,-741.72 310.01,-739.23 300.4,-734.75 299.71,-741.72"/>
+<path fill="none" stroke="#63b8ff" d="M198.14,-572.99C207.15,-575.79 215.81,-580.08 222.5,-586.62 266.61,-629.72 213.94,-678 258.5,-720.62 265.78,-727.59 275.13,-732.1 284.87,-734.97"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="283.95,-738.34 294.48,-737.21 285.54,-731.53 283.95,-738.34"/>
 </a>
 </g>
 </g>

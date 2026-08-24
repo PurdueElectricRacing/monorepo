@@ -1,6 +1,5 @@
 var NAVTREEINDEX9 =
 {
-"md_firmware_2source_2daq_2README.html#autotoc_md23":[3,1],
 "md_firmware_2source_2daq_2README.html#autotoc_md24":[3,2],
 "md_firmware_2source_2daq_2README.html#autotoc_md25":[3,3],
 "md_firmware_2source_2daq_2README.html#autotoc_md26":[3,4],
@@ -249,5 +248,6 @@ var NAVTREEINDEX9 =
 "nextion_8h.html":[30,0,1,1,5,1],
 "nextion_8h.html#a03b977180b40a84a35a22cec5211d146":[30,0,1,1,5,1,16],
 "nextion_8h.html#a19c3df8972af2eaea366cb65fad34d43":[30,0,1,1,5,1,11],
-"nextion_8h.html#a38f805984c721410f8cb5bcd140d39b7":[30,0,1,1,5,1,5]
+"nextion_8h.html#a38f805984c721410f8cb5bcd140d39b7":[30,0,1,1,5,1,5],
+"nextion_8h.html#a3a521680a4e7c63d0cbdd8d8f85c09fd":[30,0,1,1,5,1,15]
 };

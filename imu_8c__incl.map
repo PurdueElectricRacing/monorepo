@@ -1,26 +1,28 @@
 <map id="firmware/source/torque_vector/sensors/imu.c" name="firmware/source/torque_vector/sensors/imu.c">
-<area shape="rect" id="Node000001" title="IMU calibration and coordinate transformations." alt="" coords="300,5,453,46"/>
+<area shape="rect" id="Node000001" title="IMU calibration and coordinate transformations." alt="" coords="338,5,492,46"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,94,156,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="310,49,163,92,162,87,308,44"/>
-<area shape="rect" id="Node000003" href="$linear__algebra_8h.html" title="Linear algebra functions utility header." alt="" coords="180,94,314,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="349,49,290,87,287,83,346,44"/>
-<area shape="rect" id="Node000005" href="$sensors_8h.html" title="TV Managed sensor header." alt="" coords="338,102,415,127"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="379,47,379,86,374,86,374,47"/>
-<area shape="rect" id="Node000010" href="$units_8h.html" title="SI and Imperial unit defs and conversion functions." alt="" coords="439,102,580,127"/>
-<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="408,44,480,91,477,95,405,49"/>
-<area shape="rect" id="Node000011" href="$clamp_8h.html" title="Utility header to clamp a value to a bounded range." alt="" coords="605,102,753,127"/>
-<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="446,44,623,94,622,99,445,49"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="105,183,165,208"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="221,137,166,175,163,171,218,133"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="449,256,512,282"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="408,125,428,132,454,139,478,141,521,142,541,144,560,150,578,162,596,181,602,194,602,206,586,226,559,243,528,256,526,251,557,239,583,223,597,204,597,195,592,184,575,166,557,155,539,149,520,147,477,146,453,144,426,137,407,130"/>
-<area shape="rect" id="Node000007" href="$nav__pvt_8h.html" title="UBX NAV&#45;PVT message definition and decoder function." alt="" coords="190,183,355,208"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="362,130,302,175,299,171,359,125"/>
-<area shape="rect" id="Node000009" href="$nav__relposned_8h.html" title="UBX NAV&#45;RELPOSNED message definition and decoder function." alt="" coords="379,183,582,208"/>
-<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="394,125,454,171,451,175,391,130"/>
-<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="309,206,435,249,433,255,307,211"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="299,256,366,282"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="284,207,315,243,311,246,280,210"/>
-<area shape="poly" id="edge10_Node000009_Node000006" title=" " alt="" coords="483,209,483,241,478,241,478,209"/>
-<area shape="poly" id="edge11_Node000009_Node000008" title=" " alt="" coords="457,211,373,252,370,247,454,206"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="339,49,171,92,170,87,338,44"/>
+<area shape="rect" id="Node000003" href="$orientation_8h.html" title=" " alt="" coords="179,102,352,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="383,49,301,96,299,91,380,44"/>
+<area shape="rect" id="Node000006" href="$sensors_8h.html" title="TV Managed sensor header." alt="" coords="376,102,454,127"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="418,47,418,86,412,86,412,47"/>
+<area shape="rect" id="Node000011" href="$units_8h.html" title="SI and Imperial unit defs and conversion functions." alt="" coords="478,102,619,127"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="447,44,519,91,516,95,444,49"/>
+<area shape="rect" id="Node000012" href="$clamp_8h.html" title="Utility header to clamp a value to a bounded range." alt="" coords="644,102,792,127"/>
+<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="485,44,662,94,660,99,483,49"/>
+<area shape="rect" id="Node000004" href="$linear__algebra_8h.html" title="Linear algebra functions utility header." alt="" coords="74,183,186,208"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="247,130,165,177,163,172,244,125"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="100,256,160,282"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="132,209,132,241,127,241,127,209"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="488,256,551,282"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="448,125,467,132,511,141,549,144,584,152,600,163,616,181,621,192,622,203,611,222,591,239,566,252,563,247,588,234,607,219,616,202,616,193,612,184,597,167,582,157,549,149,510,147,465,137,446,130"/>
+<area shape="rect" id="Node000008" href="$nav__pvt_8h.html" title="UBX NAV&#45;PVT message definition and decoder function." alt="" coords="436,183,602,208"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="433,125,493,171,490,175,429,130"/>
+<area shape="rect" id="Node000010" href="$nav__relposned_8h.html" title="UBX NAV&#45;RELPOSNED message definition and decoder function." alt="" coords="210,183,413,208"/>
+<area shape="poly" id="edge10_Node000006_Node000010" title=" " alt="" coords="401,130,340,175,337,171,398,125"/>
+<area shape="poly" id="edge8_Node000008_Node000007" title=" " alt="" coords="522,209,522,241,516,241,516,209"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="336,256,404,282"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="495,211,410,252,408,247,493,206"/>
+<area shape="poly" id="edge11_Node000010_Node000007" title=" " alt="" coords="347,206,474,249,472,255,346,211"/>
+<area shape="poly" id="edge12_Node000010_Node000009" title=" " alt="" coords="323,207,352,243,348,246,319,210"/>
 </map>

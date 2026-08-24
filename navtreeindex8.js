@@ -61,11 +61,10 @@ var NAVTREEINDEX8 =
 "lerp__lut_8h.html#aa6730914e04aa912dcb777e28f9e4004":[30,0,1,1,4,2,3],
 "lerp__lut_8h_source.html":[30,0,1,1,4,2],
 "linear__algebra_8h.html":[30,0,1,1,13,3],
-"linear__algebra_8h.html#a83aa13dae3f1ae7daf0505603258da34":[30,0,1,1,13,3,4],
-"linear__algebra_8h.html#a93c54d7aa80562d69744ad203cdc698d":[30,0,1,1,13,3,7],
-"linear__algebra_8h.html#ab1ebdaa071a93ea81ce907ca9b1ffcb6":[30,0,1,1,13,3,5],
-"linear__algebra_8h.html#ac4a5a364956f491f1bbc973cac823959":[30,0,1,1,13,3,3],
-"linear__algebra_8h.html#acb3467d45efe252749a36d093d6d575d":[30,0,1,1,13,3,6],
+"linear__algebra_8h.html#a83aa13dae3f1ae7daf0505603258da34":[30,0,1,1,13,3,3],
+"linear__algebra_8h.html#a93c54d7aa80562d69744ad203cdc698d":[30,0,1,1,13,3,5],
+"linear__algebra_8h.html#ac4a5a364956f491f1bbc973cac823959":[30,0,1,1,13,3,2],
+"linear__algebra_8h.html#acb3467d45efe252749a36d093d6d575d":[30,0,1,1,13,3,4],
 "linear__algebra_8h_source.html":[30,0,1,1,13,3],
 "linker_8py.html":[30,0,1,0,0,5],
 "linker_8py.html#a7ee3b4eaa57a1af2475ac40ee7270f68":[30,0,1,0,0,5,3],
@@ -249,5 +248,6 @@ var NAVTREEINDEX8 =
 "md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md8":[1,0,0],
 "md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md9":[1,0,1],
 "md_firmware_2source_2daq_2README.html":[3],
-"md_firmware_2source_2daq_2README.html#autotoc_md22":[3,0]
+"md_firmware_2source_2daq_2README.html#autotoc_md22":[3,0],
+"md_firmware_2source_2daq_2README.html#autotoc_md23":[3,1]
 };

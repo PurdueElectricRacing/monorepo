@@ -1,5 +1,7 @@
 var NAVTREEINDEX16 =
 {
+"structClockRateConfig__t.html#aaca9dfb7526b6302669a469f1a1d8092":[29,0,21,3],
+"structClockRateConfig__t.html#acac53bfa913d0aee434ec90f5acdc394":[29,0,21,7],
 "structClockRateConfig__t.html#adab496a2d868acbceaedfbfd335d23f8":[29,0,21,0],
 "structGPIOInitConfig__t.html":[29,0,31],
 "structGPIOInitConfig__t.html#a1754a3977a0df8a75a29b4960910cdb2":[29,0,31,8],
@@ -247,7 +249,5 @@ var NAVTREEINDEX16 =
 "struct____attribute____.html#ae07a1fcd4fc985a2e55814dfac2690ee":[29,0,5,10],
 "structadbms__bms__t.html":[29,0,6],
 "structadbms__bms__t.html#a02a24766efa845b293ffeb298f0e4971":[29,0,6,14],
-"structadbms__bms__t.html#a0cddb3b0c704e3f172d4fa7653276acc":[29,0,6,16],
-"structadbms__bms__t.html#a18b6c94b1c0a31a05056466e4e86d595":[29,0,6,15],
-"structadbms__bms__t.html#a2bb229e3800846e87da3e599b5f7526e":[29,0,6,7]
+"structadbms__bms__t.html#a0cddb3b0c704e3f172d4fa7653276acc":[29,0,6,16]
 };
