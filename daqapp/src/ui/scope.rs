@@ -1,17 +1,14 @@
-use crate::{app, messages, util};
+use crate::{app, messages, ui::dbc_msg_picker, util};
 use eframe::egui;
 use egui_plot::{Line, Plot, PlotPoints};
 use std::collections::VecDeque;
 
-use crate::ui::dbc_msg_picker::{DbcMsgPickerState, no_dbc_placeholder};
-
 // Makes invalid combinations of id/name/signal name unrepresentable
 enum ScopeState {
     PickingMessage {
-        picker: DbcMsgPickerState,
+        picker: dbc_msg_picker::DbcMsgPickerState,
     },
     PickingSignal {
-        picker: DbcMsgPickerState,
         selected_msg: can_dbc::Message,
     },
     Configured {
@@ -24,14 +21,13 @@ enum ScopeState {
 impl Default for ScopeState {
     fn default() -> Self {
         ScopeState::PickingMessage {
-            picker: DbcMsgPickerState::default(),
+            picker: dbc_msg_picker::DbcMsgPickerState::default(),
         }
     }
 }
 
 pub struct Scope {
     pub title: String,
-    // Keeps Scope N as the title until a signal is selected
     instance_num: usize,
     state: ScopeState,
     window: VecDeque<(f64, f64)>, // (time, value)
@@ -44,7 +40,6 @@ pub struct Scope {
 
 impl Scope {
     pub fn new(instance_num: usize, msg_id: u32, msg_name: String, signal_name: String) -> Self {
-        // Uses the construction time signal so the title can show it immediately instead of Scope N
         let title = format!("Scope: {}", signal_name);
         Self {
             title,
@@ -139,20 +134,11 @@ impl Scope {
             ScopeState::PickingMessage { mut picker } => {
                 let picked = picker.show(ui, &parser.parser, true);
                 match picked {
-                    Some(msg) => (
-                        ScopeState::PickingSignal {
-                            picker,
-                            selected_msg: msg,
-                        },
-                        false,
-                    ),
+                    Some(msg) => (ScopeState::PickingSignal { selected_msg: msg }, false),
                     None => (ScopeState::PickingMessage { picker }, false),
                 }
             }
-            ScopeState::PickingSignal {
-                picker,
-                selected_msg,
-            } => {
+            ScopeState::PickingSignal { selected_msg } => {
                 ui.separator();
                 ui.label(
                     egui::RichText::new(format!(
@@ -183,15 +169,14 @@ impl Scope {
                         true,
                     )
                 } else if ui.button("← Back to message search").clicked() {
-                    (ScopeState::PickingMessage { picker }, false)
-                } else {
                     (
-                        ScopeState::PickingSignal {
-                            picker,
-                            selected_msg,
+                        ScopeState::PickingMessage {
+                            picker: dbc_msg_picker::DbcMsgPickerState::default(),
                         },
                         false,
                     )
+                } else {
+                    (ScopeState::PickingSignal { selected_msg }, false)
                 }
             }
             configured @ ScopeState::Configured { .. } => (configured, false),
@@ -199,7 +184,6 @@ impl Scope {
 
         self.state = new_state;
 
-        // Refreshes the title with the signal name once configured
         if just_configured {
             if let ScopeState::Configured { signal_name, .. } = &self.state {
                 self.title = format!("Scope: {}", signal_name);
@@ -220,7 +204,7 @@ impl Scope {
             ui.separator();
 
             let Some(parser) = parser else {
-                no_dbc_placeholder(ui);
+                dbc_msg_picker::no_dbc_placeholder(ui);
                 return egui_tiles::UiResponse::None;
             };
 
@@ -244,26 +228,23 @@ impl Scope {
         let signal_name = signal_name.clone();
 
         // Horizontal container (heading + new Change Signal button)
+        let mut signal_changed = false;
         ui.horizontal(|ui| {
             ui.heading(format!("📊 {}: {} - {}", self.title, msg_name, signal_name));
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 if ui.button("🔀 Change Signal").clicked() {
                     self.state = ScopeState::default();
-                    // Falls back to the instance number title when the signal is removed
+                    // Signal is gone so fall back until a new one is picked
                     self.title = format!("Scope #{}", self.instance_num);
                     self.window.clear();
                     self.reference_time = None;
+                    signal_changed = true;
                 }
             });
         });
 
-        // When change signal is clicked go back to the picker ui
-        if !matches!(self.state, ScopeState::Configured { .. }) {
-            let Some(parser) = parser else {
-                no_dbc_placeholder(ui);
-                return egui_tiles::UiResponse::None;
-            };
-            self.show_picker(ui, parser);
+        // If button clicked, stop here for the frame and let next frame handle showing the picker
+        if signal_changed {
             return egui_tiles::UiResponse::None;
         }
 
