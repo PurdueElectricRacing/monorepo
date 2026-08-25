@@ -179,8 +179,9 @@ if options.target:
 elif options.bootloader:
     cmake_modules_str = "main_module;dashboard;torque_vector;a_box;driveline"
     ninja_targets = [f"{board}.elf" for board in BOARD_TARGETS]
-    if not options.package:
-        ninja_targets.append("bootloader.elf")
+    # Package builds also produce resident images for provisioning, but the
+    # archive below intentionally contains only application payloads for DaqApp.
+    ninja_targets.append("bootloader.elf")
 else:
     cmake_modules_str = ""
     ninja_targets = ["all"]
