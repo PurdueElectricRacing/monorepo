@@ -30,6 +30,7 @@ enum BoardUpdateStatus {
     Completed,
     Failed(String),
     Cancelled,
+    Skipped,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -201,18 +202,22 @@ impl Bootloader {
                     egui::Button::new(format!("Upload selected ({selected_count})")),
                 )
                 .clicked()
-                && ui_to_can_tx
-                    .send(messages::MsgFromUi::StartFirmwareUpdate(
-                        FirmwarePackage {
-                            images: selected_images.clone(),
-                        },
-                        active_bus.expect("selected firmware requires an active CAN bus"),
-                    ))
-                    .is_ok()
             {
-                self.begin_run(&images, &selected_images);
-                self.running = true;
-                self.status = "Starting update...".to_string();
+                if let Some(active_bus) = active_bus {
+                    if ui_to_can_tx
+                        .send(messages::MsgFromUi::StartFirmwareUpdate(
+                            FirmwarePackage {
+                                images: selected_images.clone(),
+                            },
+                            active_bus,
+                        ))
+                        .is_ok()
+                    {
+                        self.begin_run(&images, &selected_images);
+                        self.running = true;
+                        self.status = "Starting update...".to_string();
+                    }
+                }
             }
         }
         // Cancellation stops the host state machine; it cannot undo target writes.
@@ -425,10 +430,15 @@ fn apply_progress(
         };
     }
 
-    if cancelled {
+    if progress.error.is_some() {
+        let trailing_status = if cancelled {
+            BoardUpdateStatus::Cancelled
+        } else {
+            BoardUpdateStatus::Skipped
+        };
         for name in board_names.iter().skip(progress.board_index + 1) {
             if matches!(statuses.get(name), Some(BoardUpdateStatus::Pending)) {
-                statuses.insert(name.clone(), BoardUpdateStatus::Cancelled);
+                statuses.insert(name.clone(), trailing_status.clone());
             }
         }
     }
@@ -469,6 +479,9 @@ fn show_board_status(ui: &mut egui::Ui, status: &BoardUpdateStatus) {
         }
         BoardUpdateStatus::Cancelled => {
             ui.label("Cancelled");
+        }
+        BoardUpdateStatus::Skipped => {
+            ui.label("Skipped");
         }
     };
 }
