@@ -10,9 +10,8 @@ const READY: u8 = 0x00;
 const ACK: u8 = 0x01;
 const CRC_ERROR: u8 = 0x03;
 
-// Erase gets a longer timeout; all retries remain bounded.
+// Flash erase/install operations get a longer timeout; all retries remain bounded.
 const BOOT_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(5);
-const COMMAND_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(2);
 const JUMP_DELAY: std::time::Duration = std::time::Duration::from_millis(700);
 const MAX_RETRIES: u8 = 3;
 
@@ -185,12 +184,7 @@ impl FirmwareUpdater {
                     };
                 }
                 self.retries += 1;
-                self.deadline = now
-                    + if matches!(self.stage, Stage::WaitReady) {
-                        BOOT_TIMEOUT
-                    } else {
-                        COMMAND_TIMEOUT
-                    };
+                self.deadline = now + BOOT_TIMEOUT;
                 return TickResult {
                     frame: Some(frame),
                     progress: Some(self.progress(phase, None)),
@@ -202,7 +196,7 @@ impl FirmwareUpdater {
             if self.byte_offset >= self.current_image().bytes.len() {
                 let crc_frame = Self::crc_frame(self.current_image());
                 self.stage = Stage::WaitCrcAck;
-                self.deadline = now + COMMAND_TIMEOUT;
+                self.deadline = now + BOOT_TIMEOUT;
                 self.retries = 0;
                 return TickResult {
                     frame: Some(crc_frame),
@@ -287,7 +281,7 @@ impl FirmwareUpdater {
                 // READY confirms the application reset; START now erases staging.
                 let start_frame = Self::start_frame(self.current_image());
                 self.stage = Stage::WaitStartAck;
-                self.deadline = now + COMMAND_TIMEOUT;
+                self.deadline = now + BOOT_TIMEOUT;
                 self.retries = 0;
                 self.pending_frame = Some(start_frame);
                 Some(self.progress("erasing staging flash", None))
