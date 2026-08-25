@@ -32,7 +32,7 @@ typedef struct {
     uint8_t response_dlc;
     uint32_t info_id;
     uint8_t info_dlc;
-    uint8_t target_id;
+    bootloader_target_id_t target_id;
 } BLTransportConfig_t;
 
 #define APP_MAIN_MODULE 1
@@ -43,7 +43,7 @@ typedef struct {
 #define APP_REAR_DRIVELINE 6
 
 #if (APP_ID == APP_MAIN_MODULE)
-#define BL_TARGET_ID BOOTLOADER_TARGET_MAIN_MODULE
+#define BL_TARGET_ID BOOTLOADER_TARGET_ID_MAIN_MODULE
 /* VCAN: FDCAN2 on PB12/PB13. */
 #define BL_TRANSPORT_CONFIG \
     { \
@@ -63,7 +63,7 @@ typedef struct {
         .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_DASHBOARD)
-#define BL_TARGET_ID BOOTLOADER_TARGET_DASHBOARD
+#define BL_TARGET_ID BOOTLOADER_TARGET_ID_DASHBOARD
 /* VCAN: FDCAN2 on PB5/PB6. */
 #define BL_TRANSPORT_CONFIG \
     { \
@@ -83,7 +83,7 @@ typedef struct {
         .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_A_BOX)
-#define BL_TARGET_ID BOOTLOADER_TARGET_A_BOX
+#define BL_TARGET_ID BOOTLOADER_TARGET_ID_A_BOX
 /* VCAN: FDCAN1 on PA11/PA12. */
 #define BL_TRANSPORT_CONFIG \
     { \
@@ -103,7 +103,7 @@ typedef struct {
         .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_TORQUE_VECTOR)
-#define BL_TARGET_ID BOOTLOADER_TARGET_TORQUE_VECTOR
+#define BL_TARGET_ID BOOTLOADER_TARGET_ID_TORQUE_VECTOR
 /* VCAN: FDCAN2 on PB12/PB13. */
 #define BL_TRANSPORT_CONFIG \
     { \
@@ -123,7 +123,7 @@ typedef struct {
         .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_FRONT_DRIVELINE)
-#define BL_TARGET_ID BOOTLOADER_TARGET_FRONT_DRIVELINE
+#define BL_TARGET_ID BOOTLOADER_TARGET_ID_FRONT_DRIVELINE
 /* VCAN: FDCAN2 on PB5/PB6. */
 #define BL_TRANSPORT_CONFIG \
     { \
@@ -143,7 +143,7 @@ typedef struct {
         .target_id = BL_TARGET_ID, \
     }
 #elif (APP_ID == APP_REAR_DRIVELINE)
-#define BL_TARGET_ID BOOTLOADER_TARGET_REAR_DRIVELINE
+#define BL_TARGET_ID BOOTLOADER_TARGET_ID_REAR_DRIVELINE
 /* VCAN: FDCAN2 on PB5/PB6. */
 #define BL_TRANSPORT_CONFIG \
     { \
