@@ -121,11 +121,14 @@ bool PHAL_GPIO_priv_read(const GPIO_TypeDef *bank, uint8_t pin) {
 }
  
 void PHAL_GPIO_priv_write(GPIO_TypeDef *bank, uint8_t pin, bool value) {
-    // BSRR's low 16 bits SET the corresponding pin
-    // bits [31:16] RESET it
-    // value=true  -> !value=0 -> shift = pin      -> sets bit `pin` (SET)
-    // value=false -> !value=1 -> shift = 16 + pin -> sets bit `pin+16` (RESET)
-    bank->BSRR |= 1U << ((!value << 4) | pin);
+    // BSRR = port Bit Set/Reset Register
+    // - BSRR's low 16 bits SET the corresponding pin, bits [31:16] RESET it
+    // - value=true  -> !value=0 -> shift = pin      -> sets bit `pin` (SET)
+    // - value=false -> !value=1 -> shift = 16 + pin -> sets bit `pin+16` (RESET)
+    // - BSRR is write to trigger action so just set the register to the shifted value
+    uint32_t bit_group = (!value << 4);
+    uint32_t shift = bit_group | pin;
+    bank->BSRR = 1U << shift;
 }
  
 void PHAL_GPIO_priv_toggle(GPIO_TypeDef *bank, uint8_t pin) {
