@@ -71,8 +71,13 @@ python3 per_build.py firmware --package
 ```
 
 `--bootloader` builds resident images and relocated applications. `--package`
-emits the six application images, manifest, CRC files, and archive. Flash the
-matching `bootloader_<NODE>` before using a service package.
+also builds all six resident bootloader ELF/HEX/BIN images for provisioning;
+these are emitted under `output/bootloader_<NODE>/`. The update archive still
+contains only the six relocated application payloads, manifest, CRC sidecars,
+and application HEX files consumed by DaqApp. Flash the matching resident
+`bootloader_<NODE>.bin` before using a service package. If objcopy emits a
+partial final word, the packaged binary is padded with erased `0xFF` bytes
+before its manifest size and CRC are computed.
 
 ## Recovery
 

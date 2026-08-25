@@ -42,9 +42,10 @@
  * not overlap; PHAL_FLASH_erase() erases complete pages even when passed the
  * metadata record. Programming addresses are 8-byte aligned.
  *
- * Images and CRC input are 32-bit-word aligned. An odd number of image words is
- * padded with one erased 32-bit word for the final 8-byte flash write, but that
- * physical padding is outside size_bytes and is not included in the image CRC.
+ * Images and CRC input are 32-bit-word aligned. The package builder pads a
+ * partial final word with erased bytes before recording size_bytes and crc32.
+ * An odd number of image words is then padded with one erased 32-bit word for
+ * the final 8-byte flash write; that physical padding is outside size_bytes.
  * The metadata page is written last and acts as the commit marker.
  */
 #if defined(STM32G474xx)

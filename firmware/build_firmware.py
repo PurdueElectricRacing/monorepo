@@ -7,6 +7,7 @@ import gzip
 import json
 import os
 import pathlib
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -52,6 +53,9 @@ BOOTLOADER_PROTOCOL_IDS = {
 
 PACKAGE_FORMAT = "per-firmware-package-v1"
 STM32_CRC_INIT = 0xFFFFFFFF
+BL_APP_ADDRESS = 0x08008000
+BL_APP_SLOT_SIZE = 160 * 1024
+ERASED_FLASH_BYTE = 0xFF
 
 # Resolve paths relative to this script, not the caller's working directory.
 CWD = pathlib.Path(__file__).resolve().parent
@@ -284,6 +288,59 @@ def selected_boards() -> list[str]:
     return BOARD_TARGETS
 
 
+def verify_application_vector_address(elf_path: pathlib.Path) -> None:
+    """Verify the ELF vector section's VMA and load address independently."""
+    objdump = shutil.which("arm-none-eabi-objdump")
+    if objdump is None:
+        raise RuntimeError(
+            "arm-none-eabi-objdump is required to verify application ELF sections"
+        )
+
+    command = [objdump, "-h", "--wide", str(elf_path)]
+    try:
+        result = subprocess.run(command, capture_output=True, text=True)
+    except OSError as error:
+        raise RuntimeError(
+            f"cannot run arm-none-eabi-objdump for {elf_path}: {error}"
+        ) from error
+    if result.returncode != 0:
+        details = result.stderr.strip() or result.stdout.strip() or "no diagnostic"
+        raise RuntimeError(
+            f"cannot inspect {elf_path} with arm-none-eabi-objdump "
+            f"(exit {result.returncode}): {details}"
+        )
+
+    vector_rows = []
+    for line in result.stdout.splitlines():
+        fields = line.split()
+        if len(fields) > 1 and fields[1] == ".isr_vector":
+            vector_rows.append((line, fields))
+
+    if len(vector_rows) != 1:
+        raise RuntimeError(
+            f"expected exactly one .isr_vector section in {elf_path}, "
+            f"found {len(vector_rows)}"
+        )
+
+    line, fields = vector_rows[0]
+    if len(fields) < 7:
+        raise RuntimeError(f"malformed .isr_vector row in {elf_path}: {line!r}")
+    try:
+        int(fields[0], 10)       # section index
+        int(fields[2], 16)       # section size
+        vector_vma = int(fields[3], 16)
+        vector_lma = int(fields[4], 16)
+        int(fields[5], 16)       # file offset
+    except ValueError as error:
+        raise RuntimeError(f"malformed .isr_vector row in {elf_path}: {line!r}") from error
+
+    if vector_vma != BL_APP_ADDRESS or vector_lma != BL_APP_ADDRESS:
+        raise RuntimeError(
+            f"{elf_path} .isr_vector starts at VMA 0x{vector_vma:08X}, "
+            f"LMA 0x{vector_lma:08X}; expected 0x{BL_APP_ADDRESS:08X}"
+        )
+
+
 def configured_board_buses() -> dict[str, str]:
     """Read each resident target's authoritative CAN bus assignment."""
     buses = {}
@@ -300,21 +357,36 @@ def configured_board_buses() -> dict[str, str]:
 
 
 def build_manifest(boards: list[str]) -> pathlib.Path:
-    """Copy CMake-generated binaries and write their validated manifest."""
+    """Copy validated, word-aligned application payloads and write the manifest."""
     images_dir = OUT_DIR / "images"
     images_dir.mkdir(parents=True, exist_ok=True)
     board_buses = configured_board_buses()
     manifest_boards = []
 
     for board in boards:
+        elf = OUT_DIR / board / f"{board}.elf"
+        verify_application_vector_address(elf)
+
         source = OUT_DIR / board / f"{board}.bin"
-        data = source.read_bytes()
-        if not data or len(data) % 4 or len(data) > 160 * 1024:
-            raise RuntimeError(f"invalid bootloader image size for {board}: {len(data)}")
+        source_data = source.read_bytes()
+        if not source_data or len(source_data) > BL_APP_SLOT_SIZE:
+            raise RuntimeError(
+                f"invalid bootloader image size for {board}: {len(source_data)}"
+            )
+
+        # CMake preserves objcopy's source artifact. Package payloads must be
+        # complete words because the target receives and CRCs 32-bit words.
+        padding = (-len(source_data)) % 4
+        data = source_data + bytes([ERASED_FLASH_BYTE]) * padding
+        if not data or len(data) % 4 or len(data) > BL_APP_SLOT_SIZE:
+            raise RuntimeError(
+                f"invalid packaged image size for {board}: {len(data)}"
+            )
+
         destination = images_dir / f"{board}.bin"
         destination.write_bytes(data)
         crc = stm32_crc32_words(data)
-        (OUT_DIR / board / f"{board}.crc").write_text(
+        (images_dir / f"{board}.crc").write_text(
             f"0x{crc:08X}\n", encoding="ascii"
         )
 
@@ -323,7 +395,7 @@ def build_manifest(boards: list[str]) -> pathlib.Path:
             "binary": f"images/{board}.bin",
             "size_bytes": len(data),
             "crc32": f"0x{crc:08X}",
-            "application_address": "0x08008000",
+            "application_address": f"0x{BL_APP_ADDRESS:08X}",
             "can_bus": board_buses[board],
             **BOOTLOADER_PROTOCOL_IDS[board],
         })
@@ -369,6 +441,8 @@ def create_tarball(manifest_path: pathlib.Path, boards: list[str]) -> pathlib.Pa
                 for board in boards:
                     binary_path = OUT_DIR / "images" / f"{board}.bin"
                     tar.add(binary_path, arcname=f"images/{board}.bin", filter=_deterministic_tarinfo)
+                    crc_path = OUT_DIR / "images" / f"{board}.crc"
+                    tar.add(crc_path, arcname=f"crc/{board}.crc", filter=_deterministic_tarinfo)
                     hex_path = OUT_DIR / board / f"{board}.hex"
                     tar.add(hex_path, arcname=f"hex/{board}.hex", filter=_deterministic_tarinfo)
     log_success(f"Tarball created: {tarball_name}")
