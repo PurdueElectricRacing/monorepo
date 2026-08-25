@@ -14,48 +14,41 @@
 /**
  * @brief GPIO pin mode.
  *
- * Values match MODER's own 2-bit field encoding
+ * Is the key for the config tagged union in PHAL_GPIO_PinType_t
  */
 typedef enum {
-    GPIO_TYPE_INPUT  = 0b00, /*!< Pin input mode */
-    GPIO_TYPE_OUTPUT = 0b01, /*!< Pin output mode */
-    GPIO_TYPE_AF     = 0b10, /*!< Pin alternate function mode */
-    GPIO_TYPE_ANALOG = 0b11, /*!< Pin analog mode */
+    GPIO_TYPE_INPUT,
+    GPIO_TYPE_OUTPUT,
+    GPIO_TYPE_AF,
+    GPIO_TYPE_ANALOG,
 } PHAL_GPIO_PinType_t;
 
 /**
- * @brief Output pin slew rate / maximum toggle frequency
- * 
- * Values match OSPEEDR's 2-bit field encoding
+ * @brief Output pin slew rate / maximum toggle frequency.
  */
 typedef enum {
-    GPIO_OUTPUT_LOW_SPEED   = 0b00, /*!< Slew rate control, max 8Mhz */
-    GPIO_OUTPUT_MED_SPEED   = 0b01, /*!< Slew rate control, max 50Mhz */
-    GPIO_OUTPUT_HIGH_SPEED  = 0b10, /*!< Slew rate control, max 100Mhz */
-    GPIO_OUTPUT_ULTRA_SPEED = 0b11, /*!< Slew rate control, max 180Mhz */
+    GPIO_OUTPUT_LOW_SPEED,   /*!< Slew rate control, max 8Mhz */
+    GPIO_OUTPUT_MED_SPEED,   /*!< Slew rate control, max 50Mhz */
+    GPIO_OUTPUT_HIGH_SPEED,  /*!< Slew rate control, max 100Mhz */
+    GPIO_OUTPUT_ULTRA_SPEED, /*!< Slew rate control, max 180Mhz */
 } PHAL_GPIO_OutputSpeed_t;
-
-// /** @brief Output pin drive mode. */
 /**
- * @brief Output pin drive type
- * 
- * Values match OTYPER's 1-bit field encoding
+ * @brief Output pin drive type.
  */
 typedef enum {
-    GPIO_OUTPUT_PUSH_PULL  = 0b0, /*!< Drive the output pin high and low */
-    GPIO_OUTPUT_OPEN_DRAIN = 0b1, /*!< Drive the output pin low, high-z otherwise */
+    GPIO_OUTPUT_PUSH_PULL,  /*!< Drive the output pin high and low */
+    GPIO_OUTPUT_OPEN_DRAIN, /*!< Drive the output pin low, high-z otherwise */
 } PHAL_GPIO_OutputPull_t;
 
 /**
- * @brief Input pin pull-up/pull-down resistor selection
- * 
- * Values match PUPDR's 2-bit field encoding
+ * @brief Input pin pull-up/pull-down resistor selection.
  */
 typedef enum {
-    GPIO_INPUT_OPEN_DRAIN = 0b00, /*!< No internal pull up/down */
-    GPIO_INPUT_PULL_UP    = 0b01, /*!< Weak internal pull-up enabled */
-    GPIO_INPUT_PULL_DOWN  = 0b10, /*!< Weak internal pull-down enabled */
+    GPIO_INPUT_OPEN_DRAIN, /*!< No internal pull up/down */
+    GPIO_INPUT_PULL_UP,    /*!< Weak internal pull-up enabled */
+    GPIO_INPUT_PULL_DOWN,  /*!< Weak internal pull-down enabled */
 } PHAL_GPIO_InputPull_t;
+
 
 /**
  * @brief Configuration entry for GPIO initialization.
