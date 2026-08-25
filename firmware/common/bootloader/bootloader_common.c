@@ -8,55 +8,45 @@
 
 #include "stm32g474xx.h"
 
-/* Survives NVIC_SystemReset() without being initialized by startup code. */
-__attribute__((section(".noinit")))
-BootloaderSharedMemory_t bootloader_shared_memory;
-
-/* Generated CAN callbacks share this protocol adapter. */
-static void __attribute__((unused)) bootloader_request_from_start(void) {
-#if defined(BOOTLOADER_ENABLED)
-    Bootloader_ResetForFirmwareDownload();
-#endif
-}
-
-/** @brief Store a one-shot download request and reset the MCU. */
-void Bootloader_ResetForFirmwareDownload(void) {
-    bootloader_shared_memory.magic_word = BOOTLOADER_SHARED_MEMORY_MAGIC;
-    bootloader_shared_memory.reset_reason = RESET_REASON_DOWNLOAD_FW;
-    NVIC_SystemReset();
-}
-
 /* CANpiler generates the declarations and can_data fields used below. */
 #if defined(CAN_NODE_MAIN_MODULE)
 #include "can_library/generated/MAIN_MODULE.h"
 void bl_main_module_start_CALLBACK(void) {
-    bootloader_request_from_start();
+#if defined(BOOTLOADER_ENABLED)
+    NVIC_SystemReset();
+#endif
 }
 #elif defined(CAN_NODE_DASHBOARD)
 #include "can_library/generated/DASHBOARD.h"
 void bl_dashboard_start_CALLBACK(void) {
-    bootloader_request_from_start();
+#if defined(BOOTLOADER_ENABLED)
+    NVIC_SystemReset();
+#endif
 }
 #elif defined(CAN_NODE_A_BOX)
 #include "can_library/generated/A_BOX.h"
 void bl_a_box_start_CALLBACK(void) {
-    bootloader_request_from_start();
+#if defined(BOOTLOADER_ENABLED)
+    NVIC_SystemReset();
+#endif
 }
 #elif defined(CAN_NODE_TORQUE_VECTOR)
 #include "can_library/generated/TORQUE_VECTOR.h"
 void bl_torque_vector_start_CALLBACK(void) {
-    bootloader_request_from_start();
+#if defined(BOOTLOADER_ENABLED)
+    NVIC_SystemReset();
+#endif
 }
 #elif defined(CAN_NODE_DRIVELINE)
 #include "can_library/generated/DRIVELINE.h"
 void bl_front_driveline_start_CALLBACK(void) {
-#if defined(IS_FRONT_DRIVELINE)
-    bootloader_request_from_start();
+#if defined(BOOTLOADER_ENABLED) && defined(IS_FRONT_DRIVELINE)
+    NVIC_SystemReset();
 #endif
 }
 void bl_rear_driveline_start_CALLBACK(void) {
-#if defined(IS_REAR_DRIVELINE)
-    bootloader_request_from_start();
+#if defined(BOOTLOADER_ENABLED) && defined(IS_REAR_DRIVELINE)
+    NVIC_SystemReset();
 #endif
 }
 #endif

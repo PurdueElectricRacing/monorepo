@@ -17,7 +17,6 @@
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/flash/flash.h"
 #include "common/phal_G4/gpio/gpio.h"
-#include "common/phal_G4/phal_G4.h"
 #include "common/phal_G4/rcc/rcc.h"
 
 #include <string.h>
@@ -449,6 +448,23 @@ void BL_poll(void) {
         bl_last_info_ms = bl_millis;
         bl_info_sent = true;
     }
+}
+
+/*
+ * Give DaqApp time to receive READY and resend START after the application
+ * reset. The window is bounded so a valid installed application starts without
+ * waiting indefinitely; BL_poll() remains the only queue consumer.
+ */
+bool BL_waitForUpdate(void) {
+    uint32_t window_start = bl_millis;
+    do {
+        BL_poll();
+        if (bl_update_active) {
+            return true;
+        }
+    } while ((uint32_t)(bl_millis - window_start) < BL_STARTUP_WINDOW_MS);
+
+    return false;
 }
 
 static void bl_enable_irq(FDCAN_GlobalTypeDef *peripheral) {
