@@ -81,7 +81,7 @@ static bool bl_message_is_bootloader_traffic(const CanMsgTypeDef_t *message) {
 }
 
 /* Send status and detail on this target's configured transport. */
-static void bl_send_status(uint8_t status, uint32_t detail) {
+static void bl_send_status(bootloader_status_t status, uint32_t detail) {
     CanMsgTypeDef_t response = {
         .Bus = bl_transport.peripheral,
         .IDE = bl_transport.is_extended_id,
@@ -95,7 +95,7 @@ static void bl_send_status(uint8_t status, uint32_t detail) {
         response.StdId = (uint16_t)bl_transport.response_id;
     }
 
-    response.Data[0] = status;
+    response.Data[0] = (uint8_t)status;
     response.Data[1] = (uint8_t)(detail >> 0U);
     response.Data[2] = (uint8_t)(detail >> 8U);
     response.Data[3] = (uint8_t)(detail >> 16U);
@@ -148,7 +148,7 @@ static bool bl_flush_pending_word(void) {
     );
     bl_pending_word_valid = false;
     if (!success) {
-        bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_FLASH);
     }
     return success;
 }
@@ -156,11 +156,11 @@ static bool bl_flush_pending_word(void) {
 /* Duplicate words are harmless; gaps cancel the sequential transfer. */
 static bool bl_write_word(uint16_t index, uint32_t word) {
     if (!bl_update_active) {
-        bl_send_status(BLSTAT_ERROR, BLERROR_LOCKED);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_LOCKED);
         return false;
     }
     if ((uint32_t)index >= bl_total_words) {
-        bl_send_status(BLSTAT_ERROR, BLERROR_ADDRESS);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_ADDRESS);
         return false;
     }
 
@@ -171,7 +171,7 @@ static bool bl_write_word(uint16_t index, uint32_t word) {
     }
     if ((uint32_t)index != bl_next_word) {
         bl_update_active = false;
-        bl_send_status(BLSTAT_ERROR, BLERROR_SEQUENCE);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_SEQUENCE);
         return false;
     }
 
@@ -187,7 +187,7 @@ static bool bl_write_word(uint16_t index, uint32_t word) {
                 double_word,
                 sizeof(double_word))) {
             bl_update_active = false;
-            bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
+            bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_FLASH);
             return false;
         }
         bl_pending_word_valid = false;
@@ -204,7 +204,7 @@ static bool bl_write_word(uint16_t index, uint32_t word) {
  */
 static bool bl_begin_update(uint32_t size_bytes) {
     if (!bl_size_is_valid(size_bytes)) {
-        bl_send_status(BLSTAT_ERROR, BLERROR_SIZE);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_SIZE);
         return false;
     }
 
@@ -212,7 +212,7 @@ static bool bl_begin_update(uint32_t size_bytes) {
     bl_pending_word_valid = false;
 
     if (!PHAL_FLASH_erase(BL_STAGING_ADDRESS, size_bytes)) {
-        bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_FLASH);
         return false;
     }
 
@@ -220,7 +220,7 @@ static bool bl_begin_update(uint32_t size_bytes) {
     bl_total_words = size_bytes / BL_WORD_SIZE;
     bl_next_word = 0U;
     bl_update_active = true;
-    bl_send_status(BLSTAT_ACK, size_bytes);
+    bl_send_status(BOOTLOADER_STATUS_ACK, size_bytes);
     return true;
 }
 
@@ -231,12 +231,12 @@ static bool bl_begin_update(uint32_t size_bytes) {
  */
 static bool bl_copy_staging_to_application(uint32_t size_bytes) {
     if (!bl_range_is_valid(BL_APP_ADDRESS, size_bytes)) {
-        bl_send_status(BLSTAT_ERROR, BLERROR_ADDRESS);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_ADDRESS);
         return false;
     }
 
     if (!PHAL_FLASH_erase(BL_APP_ADDRESS, size_bytes)) {
-        bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_FLASH);
         return false;
     }
 
@@ -248,7 +248,7 @@ static bool bl_copy_staging_to_application(uint32_t size_bytes) {
         memcpy(double_word, (const void *)(BL_STAGING_ADDRESS + offset), copy_size);
 
         if (!PHAL_FLASH_write(BL_APP_ADDRESS + offset, double_word, sizeof(double_word))) {
-            bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
+            bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_FLASH);
             return false;
         }
     }
@@ -292,7 +292,7 @@ static bool bl_application_crc_is_valid(uint32_t address,
 /* Verify staging, install it, and commit metadata. */
 static bool bl_commit_update(uint32_t expected_crc) {
     if (!bl_update_active || bl_next_word != bl_total_words) {
-        bl_send_status(BLSTAT_ERROR, BLERROR_SEQUENCE);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_SEQUENCE);
         return false;
     }
 
@@ -307,7 +307,7 @@ static bool bl_commit_update(uint32_t expected_crc) {
     );
     if (actual_crc != expected_crc) {
         bl_update_active = false;
-        bl_send_status(BLSTAT_CRC_ERROR, actual_crc);
+        bl_send_status(BOOTLOADER_STATUS_CRC_ERROR, actual_crc);
         return false;
     }
 
@@ -316,12 +316,12 @@ static bool bl_commit_update(uint32_t expected_crc) {
         || !bl_application_crc_is_valid(BL_APP_ADDRESS, bl_firmware_size, actual_crc)
         || !bl_write_metadata(actual_crc, bl_firmware_size)) {
         bl_update_active = false;
-        bl_send_status(BLSTAT_ERROR, BLERROR_FLASH);
+        bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_FLASH);
         return false;
     }
 
     bl_update_active = false;
-    bl_send_status(BLSTAT_ACK, actual_crc);
+    bl_send_status(BOOTLOADER_STATUS_ACK, actual_crc);
     return true;
 }
 
@@ -409,7 +409,7 @@ static void bl_process_message(const CanMsgTypeDef_t *message) {
     }
     if (message_id == bl_transport.jump_id && message->DLC >= 4U) {
         if (!BL_checkAndBoot()) {
-            bl_send_status(BLSTAT_ERROR, BLERROR_ADDRESS);
+            bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_ADDRESS);
         }
         return;
     }
@@ -504,7 +504,7 @@ void BL_init(void) {
     bl_millis = 0U;
     bl_last_info_ms = 0U;
     bl_info_sent = false;
-    bl_send_status(BLSTAT_READY, BOOTLOADER_PROTOCOL_VERSION);
+    bl_send_status(BOOTLOADER_STATUS_READY, BOOTLOADER_PROTOCOL_VERSION);
     bl_send_info();
     bl_last_info_ms = bl_millis;
     bl_info_sent = true;

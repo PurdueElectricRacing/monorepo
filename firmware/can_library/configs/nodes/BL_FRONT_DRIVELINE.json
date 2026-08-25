@@ -8,7 +8,7 @@
                     "msg_name": "bl_front_driveline_resp",
                     "msg_desc": "CAN bootloader response for front driveline",
                     "signals": [
-                        {"sig_name": "status", "type": "uint8_t"},
+                        {"sig_name": "status", "type": "bootloader_status_t"},
                         {"sig_name": "detail", "type": "uint32_t"}
                     ],
                     "msg_id_override": "0x18E",
@@ -20,7 +20,7 @@
                     "signals": [
                         {"sig_name": "protocol_version", "type": "uint8_t"},
                         {"sig_name": "git_hash", "type": "uint32_t"},
-                        {"sig_name": "target_id", "type": "uint8_t"},
+                        {"sig_name": "target_id", "type": "bootloader_target_id_t"},
                         {"sig_name": "flags", "type": "uint8_t"}
                     ],
                     "msg_id_override": "0x1C4",

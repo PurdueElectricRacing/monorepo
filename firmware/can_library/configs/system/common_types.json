@@ -49,6 +49,29 @@
                 "RECOVERING",
                 "FATAL"
              ]
+        },
+        {
+            "name": "bootloader_status_t",
+            "base_type": "uint8_t",
+            "choices": [
+                "READY",
+                "ACK",
+                "ERROR",
+                "CRC_ERROR"
+            ]
+        },
+        {
+            "name": "bootloader_target_id_t",
+            "base_type": "uint8_t",
+            "choices": [
+                "INVALID",
+                "MAIN_MODULE",
+                "DASHBOARD",
+                "A_BOX",
+                "TORQUE_VECTOR",
+                "FRONT_DRIVELINE",
+                "REAR_DRIVELINE"
+            ]
         }
     ]
 }
