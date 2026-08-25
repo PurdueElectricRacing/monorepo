@@ -4,7 +4,7 @@
  * @author Ronak Jain (jain717@purdue.edu)
  *
  * Resident bootloaders and bootloader-aware applications include this header so
- * wire values, flash addresses, metadata, and reset markers remain identical.
+ * wire values, flash addresses, and metadata remain identical.
  * CRC protects against corruption; it does not authenticate firmware.
  */
 
@@ -30,9 +30,6 @@
 #define BOOTLOADER_METADATA_FORMAT_VERSION 1U
 /** Metadata flag set only by the final installation write. */
 #define BOOTLOADER_METADATA_FLAG_INSTALLED_BY_BOOTLOADER (1U << 0U)
-/** Magic identifying a valid .noinit reset request. */
-#define BOOTLOADER_SHARED_MEMORY_MAGIC 0xABCDBEEFU
-
 /**
  * @brief STM32G474RE flash layout shared with the linker scripts.
  *
@@ -95,42 +92,6 @@ typedef enum {
     BLERROR_ADDRESS = 0x05,  /**< Image, vector, or metadata address is invalid. */
 } BLError_t;
 
-/** @brief Reasons retained across an application-requested system reset. */
-typedef enum {
-    RESET_REASON_INVALID = 0,      /**< No valid application reset request. */
-    RESET_REASON_DOWNLOAD_FW,      /**< Stay resident and accept an update. */
-} ResetReason_t;
-
-/** Stable target identifiers carried by bootloader information frames. */
-typedef enum {
-    BOOTLOADER_TARGET_MAIN_MODULE = 1,
-    BOOTLOADER_TARGET_DASHBOARD,
-    BOOTLOADER_TARGET_A_BOX,
-    BOOTLOADER_TARGET_TORQUE_VECTOR,
-    BOOTLOADER_TARGET_FRONT_DRIVELINE,
-    BOOTLOADER_TARGET_REAR_DRIVELINE,
-} BootloaderTarget_t;
-
-/**
- * @brief One-shot application-to-bootloader request stored in .noinit RAM.
- *
- * The bootloader requires both fields to match and clears them before deciding
- * whether to launch the installed application.
- */
-typedef struct {
-    uint32_t magic_word;        /**< BOOTLOADER_SHARED_MEMORY_MAGIC when valid. */
-    ResetReason_t reset_reason; /**< Requested action after reset. */
-} BootloaderSharedMemory_t;
-
-/** Shared .noinit request record defined by bootloader_common.c. */
-extern BootloaderSharedMemory_t bootloader_shared_memory;
-
-/**
- * @brief Reset into the resident CAN bootloader.
- *
- * Writes the one-shot download marker, then calls NVIC_SystemReset(). The
- * resident image consumes and clears the marker during startup.
- */
-void Bootloader_ResetForFirmwareDownload(void);
+/** Stable target identifiers are defined by the generated CAN types. */
 
 #endif /* PER_BOOTLOADER_COMMON_H */

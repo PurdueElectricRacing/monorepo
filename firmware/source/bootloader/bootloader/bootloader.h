@@ -12,12 +12,24 @@
 
 #include <stdbool.h>
 
+/** Bound the post-READY startup handshake before normal application launch. */
+#define BL_STARTUP_WINDOW_MS 500U
+
 /**
  * @brief Configure the node-specific transport and announce readiness.
  *
  * The system clock must be configured before this function is called.
  */
 void BL_init(void);
+
+/**
+ * @brief Poll the post-READY startup window for a valid START command.
+ *
+ * This calls BL_poll() for BL_STARTUP_WINDOW_MS after BL_init() has announced
+ * READY. It returns true once START has activated an update, allowing the
+ * caller to remain resident; false permits normal application validation.
+ */
+bool BL_waitForUpdate(void);
 
 /**
  * @brief Process every frame currently queued by the FDCAN receive interrupt.

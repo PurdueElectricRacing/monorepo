@@ -117,16 +117,6 @@ SECTIONS
     _ebss = .;
   } >RAM
 
-  /* Retain the one-shot bootloader request without a startup initializer. */
-  .noinit (NOLOAD) :
-  {
-    . = ALIGN(4);
-    _snoinit = .;
-    *(.noinit*)
-    . = ALIGN(4);
-    _enoinit = .;
-  } >RAM
-
   ._user_heap_stack :
   {
     . = ALIGN(8);

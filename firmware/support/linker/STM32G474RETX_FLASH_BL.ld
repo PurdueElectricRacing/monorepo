@@ -132,16 +132,6 @@ SECTIONS
     __bss_end__ = _ebss;
   } >RAM
 
-  /* Read the application reset marker before bootloader startup clears it. */
-  .noinit (NOLOAD) :
-  {
-    . = ALIGN(4);
-    _snoinit = .;
-    *(.noinit*)
-    . = ALIGN(4);
-    _enoinit = .;
-  } >RAM
-
   ._user_heap_stack :
   {
     . = ALIGN(8);
