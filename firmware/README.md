@@ -31,11 +31,14 @@ python3 per_build.py firmware --bootloader # resident images + relocated apps
 python3 per_build.py firmware --package    # six application images + manifest
 ```
 
-`--package` emits contiguous word-aligned binaries, STM32 CRCs,
+`--package` emits contiguous application binaries, STM32 CRCs,
 `output/manifest.json`, and a reproducible `firmware_<git-ref>.tar.gz`. The
-archive contains applications only; flash each matching `bootloader_<NODE>`
-resident image first. The manifest version, CRC algorithm, address, board
-names, and CAN IDs form one contract shared with DaqApp.
+objcopy source binaries remain unchanged; package copies under `output/images/`
+pad a final partial word with erased `0xFF` before recording size and CRC. The
+archive contains application binaries, CRC sidecars, HEX files, and the
+manifest; flash each matching `bootloader_<NODE>` resident image first. The
+manifest version, CRC algorithm, address, board names, and CAN IDs form one
+contract shared with DaqApp.
 
 ## Building
 
