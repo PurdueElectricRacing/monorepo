@@ -61,8 +61,5 @@ function(add_firmware_component)
         ${ARG_NAME}
         "${ARG_OUTPUT_DIR}"
         ${MAP_FILE}
-        ${ARG_IS_BOOTLOADER}
-        ${BOOTLOADER_BUILD}
-        ${ARG_LINKER_SCRIPT}
     )
 endfunction()
