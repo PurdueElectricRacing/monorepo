@@ -14,7 +14,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-/** Bootloader wire-protocol version reported with BLSTAT_READY. */
+#include "can_library/generated/can_types.h"
+
+/** Bootloader wire-protocol version reported with BOOTLOADER_STATUS_READY. */
 #define BOOTLOADER_PROTOCOL_VERSION 1U
 /** Period between resident bootloader information frames. */
 #define BOOTLOADER_INFO_PERIOD_MS 5000U
@@ -82,19 +84,7 @@ _Static_assert(sizeof(BootloaderMetadata_t) == BL_METADATA_SIZE,
 _Static_assert((sizeof(BootloaderMetadata_t) % BL_FLASH_WRITE_SIZE) == 0U,
                "Bootloader metadata must be flash-write aligned");
 
-/**
- * @brief Status values carried in byte 0 of a five-byte response frame.
- *
- * Response detail occupies bytes 1 through 4 as a little-endian uint32_t.
- */
-typedef enum {
-    BLSTAT_READY = 0x00,     /**< Listening; detail is the protocol version. */
-    BLSTAT_ACK = 0x01,       /**< Accepted; detail depends on the command. */
-    BLSTAT_ERROR = 0x02,     /**< Rejected; detail is a BLError_t. */
-    BLSTAT_CRC_ERROR = 0x03, /**< CRC mismatch; detail is the calculated CRC. */
-} BLStatus_t;
-
-/** @brief Detail values accompanying BLSTAT_ERROR. */
+/** @brief Detail values accompanying BOOTLOADER_STATUS_ERROR. */
 typedef enum {
     BLERROR_NONE = 0x00,
     BLERROR_LOCKED = 0x01,   /**< Data arrived before START. */

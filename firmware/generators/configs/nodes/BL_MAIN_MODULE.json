@@ -8,7 +8,7 @@
                     "message_name": "bl_main_module_resp",
                     "description": "CAN bootloader response for main module",
                     "signals": [
-                        {"signal_name": "status", "data_type": "uint8_t"},
+                        {"signal_name": "status", "data_type": "bootloader_status_t"},
                         {"signal_name": "detail", "data_type": "uint32_t"}
                     ],
                     "id_override": "0x182",
@@ -20,7 +20,7 @@
                     "signals": [
                         {"signal_name": "protocol_version", "data_type": "uint8_t"},
                         {"signal_name": "git_hash", "data_type": "uint32_t"},
-                        {"signal_name": "target_id", "data_type": "uint8_t"},
+                        {"signal_name": "target_id", "data_type": "bootloader_target_id_t"},
                         {"signal_name": "flags", "data_type": "uint8_t"}
                     ],
                     "id_override": "0x1C0",
