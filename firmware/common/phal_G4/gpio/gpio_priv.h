@@ -32,6 +32,7 @@ static constexpr uint32_t GPIO_PRIV_RCC_ENABLE_BITS[] = {
 };
 static constexpr uint32_t GPIO_PRIV_NUM_PORTS = sizeof(GPIO_PRIV_RCC_ENABLE_BITS) / sizeof(GPIO_PRIV_RCC_ENABLE_BITS[0]);
 
+
 /**
  * @brief Enable the AHB2 clock for bank's port (GPIOA-GPIOG).
  * @return true on success; false if bank is not a recognized GPIO port
@@ -52,6 +53,16 @@ void PHAL_GPIO_priv_setPull(GPIO_TypeDef *bank, uint8_t pin, PHAL_GPIO_InputPull
 
 /// Set AFR's field for pin. Caller must have validated pin <= 15.
 void PHAL_GPIO_priv_setAltFunction(GPIO_TypeDef *bank, uint8_t pin, uint8_t af_num);
+
+
+/// Read IDR's bit for pin. Caller must have validated pin <= 15.
+bool PHAL_GPIO_priv_read(const GPIO_TypeDef *bank, uint8_t pin);
+ 
+/// Write BSRR to atomically set/reset pin. Caller must have validated pin <= 15.
+void PHAL_GPIO_priv_write(GPIO_TypeDef *bank, uint8_t pin, bool value);
+ 
+/// Read then invert pin via BSRR. Caller must have validated pin <= 15.
+void PHAL_GPIO_priv_toggle(GPIO_TypeDef *bank, uint8_t pin);
 
 
 static_assert(GPIO_MODER_MODE1_Pos - GPIO_MODER_MODE0_Pos == GPIO_PRIV_MODER_FIELD_BITS,

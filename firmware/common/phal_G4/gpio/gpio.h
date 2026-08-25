@@ -113,9 +113,7 @@ bool PHAL_GPIO_init(PHAL_GPIO_InitConfig_t config[], size_t config_len);
  * @param pin Pin number, 0-15
  * @return true if the pin currently reads high
  */
-static inline bool PHAL_GPIO_read(const GPIO_TypeDef *bank, uint8_t pin) {
-    return (bank->IDR >> pin) & 0b1;
-}
+bool PHAL_GPIO_read(const GPIO_TypeDef *bank, uint8_t pin);
 
 /**
  * @brief Drive an output pin high or low.
@@ -127,26 +125,14 @@ static inline bool PHAL_GPIO_read(const GPIO_TypeDef *bank, uint8_t pin) {
  * @param pin Pin number, 0-15
  * @param value true to drive high, false to drive low
  */
-static inline void PHAL_GPIO_write(GPIO_TypeDef *bank, uint8_t pin, bool value) {
-    // BSRR's low 16 bits SET the corresponding pin
-    // bits [31:16] RESET it
-    // value=true  -> !value=0 -> shift = pin      -> sets bit `pin` (SET)
-    // value=false -> !value=1 -> shift = 16 + pin -> sets bit `pin+16` (RESET)
-    bank->BSRR |= 1 << ((!value << 4) | pin);
-}
+void PHAL_GPIO_write(GPIO_TypeDef *bank, uint8_t pin, bool value);
 
-// /** @brief Flip an output pin's current state. */
 /**
  * @brief Flip an output pin's current state.
- * 
- * Works by reading the pin's current state and writing the opposite value.
- *
  * @param bank GPIO port
  * @param pin Pin number, 0-15
  */
-static inline void PHAL_GPIO_toggle(GPIO_TypeDef *bank, uint8_t pin) {
-    PHAL_GPIO_write(bank, pin, !PHAL_GPIO_read(bank, pin));
-}
+void PHAL_GPIO_toggle(GPIO_TypeDef *bank, uint8_t pin);
 
 /**
  * @brief Construct PHAL_GPIO_InitConfig_t for an input pin

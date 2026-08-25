@@ -59,3 +59,21 @@ void PHAL_GPIO_priv_setAltFunction(GPIO_TypeDef *bank, uint8_t pin, uint8_t af_n
     uint32_t shift = GPIO_PRIV_AFR_FIELD_BITS * (pin % 8U);
     bank->AFR[reg] = (bank->AFR[reg] & ~(GPIO_AFRL_AFSEL0_Msk << shift)) | ((uint32_t)af_num << shift);
 }
+
+
+bool PHAL_GPIO_priv_read(const GPIO_TypeDef *bank, uint8_t pin) {
+    // IDR = port Input Data Register 
+    return (bank->IDR >> pin) & 0b1;
+}
+ 
+void PHAL_GPIO_priv_write(GPIO_TypeDef *bank, uint8_t pin, bool value) {
+    // BSRR's low 16 bits SET the corresponding pin
+    // bits [31:16] RESET it
+    // value=true  -> !value=0 -> shift = pin      -> sets bit `pin` (SET)
+    // value=false -> !value=1 -> shift = 16 + pin -> sets bit `pin+16` (RESET)
+    bank->BSRR |= 1U << ((!value << 4) | pin);
+}
+ 
+void PHAL_GPIO_priv_toggle(GPIO_TypeDef *bank, uint8_t pin) {
+    PHAL_GPIO_priv_write(bank, pin, !PHAL_GPIO_priv_read(bank, pin));
+}

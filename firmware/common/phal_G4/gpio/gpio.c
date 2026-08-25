@@ -52,3 +52,15 @@ bool PHAL_GPIO_init(PHAL_GPIO_InitConfig_t config[], size_t config_len) {
 
     return true;
 }
+
+bool PHAL_GPIO_read(const GPIO_TypeDef *bank, uint8_t pin) {
+    return PHAL_GPIO_priv_read(bank, pin);
+}
+ 
+void PHAL_GPIO_write(GPIO_TypeDef *bank, uint8_t pin, bool value) {
+    PHAL_GPIO_priv_write(bank, pin, value);
+}
+ 
+void PHAL_GPIO_toggle(GPIO_TypeDef *bank, uint8_t pin) {
+    PHAL_GPIO_priv_toggle(bank, pin);
+}
