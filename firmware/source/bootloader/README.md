@@ -16,14 +16,17 @@ corruption but does not authenticate firmware.
 | [`node_defs.h`](node_defs.h) | Per-board single-transport configuration. |
 | [`../../common/bootloader/`](../../common/bootloader/) | Shared protocol, metadata, and application reset callback. |
 
-At startup, the bootloader clears the one-shot `.noinit` marker. Unless an
-application requested recovery, it validates metadata, vectors, and CRC before
-launch. An invalid image or explicit update request enters the CAN loop.
+At startup, the bootloader initializes CAN and advertises READY, then polls
+for START for a bounded 500 ms startup window. This gives DaqApp time to resend
+START after the application reset without delaying normal boot indefinitely. If
+no valid START activates an update, it validates metadata, vectors, and CRC
+before launch. An invalid image remains resident in the CAN loop.
 
 ## Update flow
 
-1. DaqApp sends `START`; the application records the update request and resets.
-2. The bootloader accepts `START(image_size)`, erases staging, and receives indexed words.
+1. DaqApp sends `START`; the application only calls `NVIC_SystemReset()`.
+2. The bootloader advertises READY, accepts DaqApp's resent `START(image_size)`
+   during the 500 ms startup window, erases staging, and receives indexed words.
 3. `CRC(expected_crc)` validates staging, copies it to the active slot, and writes metadata last.
 4. `JUMP` validates the committed image again and launches it.
 
@@ -52,8 +55,10 @@ little-endian argument; DATA remains a six-byte word frame.
 | `CRC_ERROR` | Staged image CRC mismatch. |
 
 Words must arrive in order. Duplicate accepted indices are ignored; gaps cancel
-the transfer. The receive interrupt only queues frames, while `BL_poll()` owns
-flash and CRC operations.
+the transfer. The receive interrupt only queues frames, while `BL_poll()` owns flash and
+CRC operations. `BL_waitForUpdate()` provides the startup handshake wait and
+reports whether START activated an update; no reset-cause flags or RTOS are
+required.
 
 ## Flash validation
 
