@@ -1,5 +1,23 @@
 use crate::{messages, ui, widget_ids, widgets};
 
+#[derive(Eq, PartialEq, Hash, Clone, Copy)]
+pub enum WidgetKind {
+    ViewerTable,
+    ViewerList,
+    Bootloader,
+    Scope,
+    LogParser,
+    SendUi,
+    BusLoad,
+    BatteryVoltage,
+    BatteryTemps,
+    GgPlot,
+    GpsPlot,
+    Dynamics,
+    Jitter,
+    Hil,
+}
+
 #[derive(Eq, PartialEq, Clone)]
 pub enum WidgetConstructor {
     ViewerTable,
@@ -23,19 +41,33 @@ pub enum WidgetConstructor {
     Hil,
 }
 
-impl std::hash::Hash for WidgetConstructor {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        std::mem::discriminant(self).hash(state);
-    }
-}
-
 impl WidgetConstructor {
+    // Maps constructor variants to widget kinds with Scope and ScopeEmpty sharing WidgetKind Scope and the same instance counter
+    pub fn kind(&self) -> WidgetKind {
+        match self {
+            WidgetConstructor::ViewerTable => WidgetKind::ViewerTable,
+            WidgetConstructor::ViewerList => WidgetKind::ViewerList,
+            WidgetConstructor::Bootloader => WidgetKind::Bootloader,
+            WidgetConstructor::Scope { .. } | WidgetConstructor::ScopeEmpty => WidgetKind::Scope,
+            WidgetConstructor::LogParser => WidgetKind::LogParser,
+            WidgetConstructor::SendUi => WidgetKind::SendUi,
+            WidgetConstructor::BusLoad => WidgetKind::BusLoad,
+            WidgetConstructor::BatteryVoltage => WidgetKind::BatteryVoltage,
+            WidgetConstructor::BatteryTemps => WidgetKind::BatteryTemps,
+            WidgetConstructor::GgPlot => WidgetKind::GgPlot,
+            WidgetConstructor::GpsPlot => WidgetKind::GpsPlot,
+            WidgetConstructor::Dynamics => WidgetKind::Dynamics,
+            WidgetConstructor::Jitter => WidgetKind::Jitter,
+            WidgetConstructor::Hil => WidgetKind::Hil,
+        }
+    }
+
     pub fn create(
         self,
         widget_ids: &mut widget_ids::WidgetIds,
         ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
     ) -> widgets::Widget {
-        let id = widget_ids.next(self.clone());
+        let id = widget_ids.next(self.kind());
         match self {
             WidgetConstructor::ViewerTable => {
                 widgets::Widget::ViewerTable(ui::viewer_table::ViewerTable::new(id))

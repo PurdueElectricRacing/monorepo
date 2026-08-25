@@ -31,6 +31,8 @@ impl Default for ScopeState {
 
 pub struct Scope {
     pub title: String,
+    // Keeps Scope N as the title until a signal is selected
+    instance_num: usize,
     state: ScopeState,
     window: VecDeque<(f64, f64)>, // (time, value)
     window_duration_seconds: f64,
@@ -41,11 +43,12 @@ pub struct Scope {
 }
 
 impl Scope {
-    // Og constructor, unchanged
     pub fn new(instance_num: usize, msg_id: u32, msg_name: String, signal_name: String) -> Self {
-        let title = format!("Scope #{}", instance_num);
+        // Uses the construction time signal so the title can show it immediately instead of Scope N
+        let title = format!("Scope: {}", signal_name);
         Self {
             title,
+            instance_num,
             state: ScopeState::Configured {
                 msg_id,
                 msg_name,
@@ -65,6 +68,7 @@ impl Scope {
         let title = format!("Scope #{}", instance_num);
         Self {
             title,
+            instance_num,
             state: ScopeState::default(),
             window: VecDeque::new(),
             window_duration_seconds: 10.0, // Default 10 seconds
@@ -194,6 +198,14 @@ impl Scope {
         };
 
         self.state = new_state;
+
+        // Refreshes the title with the signal name once configured
+        if just_configured {
+            if let ScopeState::Configured { signal_name, .. } = &self.state {
+                self.title = format!("Scope: {}", signal_name);
+            }
+        }
+
         just_configured
     }
 
@@ -237,6 +249,8 @@ impl Scope {
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 if ui.button("🔀 Change Signal").clicked() {
                     self.state = ScopeState::default();
+                    // Falls back to the instance number title when the signal is removed
+                    self.title = format!("Scope #{}", self.instance_num);
                     self.window.clear();
                     self.reference_time = None;
                 }
