@@ -184,10 +184,8 @@ impl Scope {
 
         self.state = new_state;
 
-        if just_configured {
-            if let ScopeState::Configured { signal_name, .. } = &self.state {
-                self.title = format!("Scope: {}", signal_name);
-            }
+        if just_configured && let ScopeState::Configured { signal_name, .. } = &self.state {
+            self.title = format!("Scope: {}", signal_name);
         }
 
         just_configured
