@@ -312,7 +312,7 @@ impl Scope {
                 let line = Line::new(&signal_name, points)
                     .color(egui::Color32::from_rgb(100, 200, 100))
                     .stroke(egui::Stroke::new(
-                        2.0,
+                        2.0_f32,
                         egui::Color32::from_rgb(100, 200, 100),
                     ));
 
