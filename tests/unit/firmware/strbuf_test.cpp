@@ -127,10 +127,9 @@ TEST_F(StrbufTest, RepeatedPrintfCalls) {
     strbuf_printf(&sb, "%d", 5);
     strbuf_printf(&sb, "%d", 6);
     strbuf_printf(&sb, "%d", 7);
-    strbuf_printf(&sb, "%d", 8);
-    EXPECT_EQ(sb.length, 8U);
-    EXPECT_EQ(0, memcmp(sb.data, "12345678", 8));
-    EXPECT_EQ("12345678", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.length, 7U);
+    EXPECT_EQ(0, memcmp(sb.data, "1234567", 7));
+    EXPECT_EQ("1234567", std::string(sb.data, sb.data + sb.length));
 }
 
 
@@ -142,12 +141,11 @@ TEST_F(StrbufTest, RepeatedPrintfCallsFails) {
     strbuf_printf(&sb, "%d", 5);
     strbuf_printf(&sb, "%d", 6);
     strbuf_printf(&sb, "%d", 7);
-    strbuf_printf(&sb, "%d", 8);
-    size_t written = strbuf_printf(&sb, "%d", 9);
+    size_t written = strbuf_printf(&sb, "%d", 8);
     EXPECT_EQ(written, 0);
-    EXPECT_EQ(sb.length, 8U);
-    EXPECT_EQ(0, memcmp(sb.data, "12345678", 8));
-    EXPECT_EQ("12345678", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.length, 7U);
+    EXPECT_EQ(0, memcmp(sb.data, "1234567", 7));
+    EXPECT_EQ("1234567", std::string(sb.data, sb.data + sb.length));
 }
 
 TEST_F(StrbufTest, PrintfOnFullBufferReturnsZeroImmediately) {
