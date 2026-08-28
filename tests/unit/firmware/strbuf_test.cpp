@@ -67,6 +67,7 @@ TEST_F(StrbufTest, AppendOverCapacityFailsAndLeavesBufferUnchanged) {
     size_t written = strbuf_append(&sb, "123456789", BUF_SIZE + 1);
     EXPECT_EQ(written, 0U);
     EXPECT_EQ(sb.length, 0U);
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, AppendToFullBufferFails) {
@@ -74,6 +75,7 @@ TEST_F(StrbufTest, AppendToFullBufferFails) {
     size_t written = strbuf_append(&sb, "x", 1);
     EXPECT_EQ(written, 0U);
     EXPECT_EQ(sb.length, BUF_SIZE);
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, AppendZeroLengthReturnsZeroWithoutChangingState) {
@@ -81,6 +83,7 @@ TEST_F(StrbufTest, AppendZeroLengthReturnsZeroWithoutChangingState) {
     size_t written = strbuf_append(&sb, "x", 0);
     EXPECT_EQ(written, 0U);
     EXPECT_EQ(sb.length, 2U);
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, RepeatedAppendCalls) {
@@ -95,6 +98,7 @@ TEST_F(StrbufTest, RepeatedAppendCalls) {
     EXPECT_EQ(sb.length, 8U);
     EXPECT_EQ(0, memcmp(sb.data, "12345678", 8));
     EXPECT_EQ("12345678", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 
@@ -112,6 +116,7 @@ TEST_F(StrbufTest, RepeatedAppendCallsFails) {
     EXPECT_EQ(sb.length, 8U);
     EXPECT_EQ(0, memcmp(sb.data, "12345678", 8));
     EXPECT_EQ("12345678", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, PrintfWritesFormattedDataAndReturnsLength) {
@@ -120,6 +125,7 @@ TEST_F(StrbufTest, PrintfWritesFormattedDataAndReturnsLength) {
     EXPECT_EQ(sb.length, 2U);
     EXPECT_EQ(0, memcmp(sb.data, "42", 2));
     EXPECT_EQ("42", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, PrintfAccumulatesAcrossCalls) {
@@ -128,6 +134,7 @@ TEST_F(StrbufTest, PrintfAccumulatesAcrossCalls) {
     EXPECT_EQ(sb.length, 2U);
     EXPECT_EQ(0, memcmp(sb.data, "12", 2));
     EXPECT_EQ("12", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, RepeatedPrintfCalls) {
@@ -141,6 +148,7 @@ TEST_F(StrbufTest, RepeatedPrintfCalls) {
     EXPECT_EQ(sb.length, 7U);
     EXPECT_EQ(0, memcmp(sb.data, "1234567", 7));
     EXPECT_EQ("1234567", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 
@@ -157,6 +165,7 @@ TEST_F(StrbufTest, RepeatedPrintfCallsFails) {
     EXPECT_EQ(sb.length, 7U);
     EXPECT_EQ(0, memcmp(sb.data, "1234567", 7));
     EXPECT_EQ("1234567", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, PrintfOnFullBufferReturnsZeroImmediately) {
@@ -164,6 +173,7 @@ TEST_F(StrbufTest, PrintfOnFullBufferReturnsZeroImmediately) {
     size_t written = strbuf_printf(&sb, "x");
     EXPECT_EQ(written, 0U);
     EXPECT_EQ(sb.length, BUF_SIZE);
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, PrintfExceedingRemainingSpaceFailsAndLeavesBufferUnchanged) {
@@ -172,6 +182,7 @@ TEST_F(StrbufTest, PrintfExceedingRemainingSpaceFailsAndLeavesBufferUnchanged) {
     size_t written = strbuf_printf(&sb, "%s", "12345678");
     EXPECT_EQ(written, 0U);
     EXPECT_EQ(sb.length, 1U);
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, PrintfExactlyFillingRemainingSpaceFails) {
@@ -181,6 +192,7 @@ TEST_F(StrbufTest, PrintfExactlyFillingRemainingSpaceFails) {
     size_t written = strbuf_printf(&sb, "%s", "1234567");
     EXPECT_EQ(written, 0U);
     EXPECT_EQ(sb.length, 1U);
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 
@@ -191,6 +203,7 @@ TEST_F(StrbufTest, PrintfFillCapacity) {
     size_t written = strbuf_printf(&sb, "%s", "123456");
     EXPECT_EQ(written, 6U);
     EXPECT_EQ(sb.length, 7U);
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, PrintfFillingAllButOneByteSucceeds) {
@@ -201,6 +214,7 @@ TEST_F(StrbufTest, PrintfFillingAllButOneByteSucceeds) {
     EXPECT_EQ(written, 5U);
     EXPECT_EQ(sb.length, 6U);
     EXPECT_EQ(0, memcmp(sb.data + 1, "12345", 5));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST(StrbufAllocateMacro, InitializesFieldsCorrectly) {
@@ -213,4 +227,5 @@ TEST(StrbufAllocateMacro, InitializesFieldsCorrectly) {
     EXPECT_EQ(local.length, 2U);
     EXPECT_EQ(0, memcmp(local.data, "hi", 2));
     EXPECT_EQ("hi", std::string(local.data, local.data + local.length));
+    EXPECT_EQ(local.max_len, 16);
 }
