@@ -22,6 +22,9 @@ void strbuf_clear(strbuf_t *sb) {
 /**
  * @brief Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended.
  * @return Num bytes written to the buffer
+ *
+ * ! @warning Data is purely a buffer, not a C-string,
+ *      meaning null terminators do not need to be considered
  */
 size_t strbuf_append(strbuf_t *sb, const void *data, size_t length) {
     if (sb->length + length > sb->max_len) {
@@ -38,9 +41,12 @@ size_t strbuf_append(strbuf_t *sb, const void *data, size_t length) {
 /**
  * @brief Appends formatted data to the buffer using printf-style formatting.
  * ! @warning This function is unsafe if the formatted string exceeds the remaining buffer space.
+ * ! @warning The arguments provided may be C-strings and thus, 
+ *      because of the internal use of vsnprintf, you might have 
+ *      to account for a null terminator.
  */
-size_t strbuf_printf(strbuf_t *str_buf, const char *format, ...) {
-    size_t remaining_space = str_buf->max_len - str_buf->length;
+size_t strbuf_printf(strbuf_t *sb, const char *format, ...) {
+    size_t remaining_space = sb->max_len - sb->length;
 
     if (remaining_space == 0) {
         return 0;
@@ -57,10 +63,10 @@ size_t strbuf_printf(strbuf_t *str_buf, const char *format, ...) {
     }
 
     va_start(args, format);
-    char *buf_end = (char *)(str_buf->data + str_buf->length);
+    char *buf_end = (char *)(sb->data + sb->length);
     vsnprintf(buf_end, remaining_space + 1, format, args);
     va_end(args);
 
-    str_buf->length += (size_t)len;
+    sb->length += (size_t)len;
     return (size_t)len;
 }
