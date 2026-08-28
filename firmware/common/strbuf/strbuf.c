@@ -4,6 +4,7 @@
  * Useful for building large CMD strings before transmission.
  *
  * @author Irving Wang (irvingw@purdue.edu)
+ * @author Daniel Proano (dproano@purdue.edu)
  */
 
 #include "strbuf.h"
@@ -38,8 +39,8 @@ size_t strbuf_append(strbuf_t *sb, const void *data, size_t length) {
  * @brief Appends formatted data to the buffer using printf-style formatting.
  * ! @warning This function is unsafe if the formatted string exceeds the remaining buffer space.
  */
-size_t strbuf_printf(strbuf_t *sb, const char *format, ...) {
-    size_t remaining_space = sb->max_len - sb->length;
+size_t strbuf_printf(strbuf_t *str_buf, const char *format, ...) {
+    size_t remaining_space = str_buf->max_len - str_buf->length;
 
     if (remaining_space == 0) {
         return 0;
@@ -51,15 +52,15 @@ size_t strbuf_printf(strbuf_t *sb, const char *format, ...) {
     int len = vsnprintf(NULL, 0, format, args);
     va_end(args);
 
-    if ((size_t)len > remaining_space) {
+    if ((size_t)len >= remaining_space) {
         return 0;
     }
 
     va_start(args, format);
-    char *buf_end = (char *)(sb->data + sb->length);
+    char *buf_end = (char *)(str_buf->data + str_buf->length);
     vsnprintf(buf_end, remaining_space + 1, format, args);
     va_end(args);
 
-    sb->length += (size_t)len;
+    str_buf->length += (size_t)len;
     return (size_t)len;
 }
