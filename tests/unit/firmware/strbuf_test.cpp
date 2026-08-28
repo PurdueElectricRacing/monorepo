@@ -2,7 +2,6 @@
 
 extern "C" {
 #include "strbuf.h"
-#include "strbuf_test_shim.h"
 }
 
 #include <cstring>
@@ -121,11 +120,12 @@ TEST_F(StrbufTest, PrintfFillingAllButOneByteSucceeds) {
 }
 
 TEST(StrbufAllocateMacro, InitializesFieldsCorrectly) {
-    uint8_t out_data[16] = {};
-    allocate_strbuf_result_t result = test_allocate_strbuf_and_append("hi", 2, out_data, sizeof(out_data));
+    ALLOCATE_STRBUF(local, 16);
+    EXPECT_EQ(local.length, 0U);
+    EXPECT_EQ(local.max_len, 16U);
+    ASSERT_NE(local.data, nullptr);
 
-    EXPECT_EQ(result.max_len, 16U);
-    EXPECT_FALSE(result.data_ptr_is_null);
-    EXPECT_EQ(result.length, 2U);
-    EXPECT_EQ(0, memcmp(out_data, "hi", 2));
+    strbuf_append(&local, "hi", 2);
+    EXPECT_EQ(local.length, 2U);
+    EXPECT_EQ(0, memcmp(local.data, "hi", 2));
 }

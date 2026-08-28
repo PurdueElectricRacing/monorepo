@@ -18,11 +18,7 @@ add_firmware_unit_test(
 
 add_firmware_unit_test(
     NAME strbuf_test
-    SOURCES
-        "${CMAKE_CURRENT_LIST_DIR}/../../firmware/common/strbuf/strbuf.c"
-        "${CMAKE_CURRENT_LIST_DIR}/firmware/strbuf_test_shim.c"
+    SOURCES "${CMAKE_CURRENT_LIST_DIR}/../../firmware/common/strbuf/strbuf.c"
     TEST_SOURCES "${CMAKE_CURRENT_LIST_DIR}/firmware/strbuf_test.cpp"
-    INCLUDE_DIRECTORIES
-        "${CMAKE_CURRENT_LIST_DIR}/../../firmware/common/strbuf"
-        "${CMAKE_CURRENT_LIST_DIR}/firmware"
+    INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/../../firmware/common/strbuf"
 )
