@@ -1,3 +1,10 @@
+/**
+ * @file strbuf_test.cpp
+ * @brief String Buffer Function Unit Tests
+ * 
+ * @author Daniel Proano (dproano@purdue.edu)
+ */
+
 #include <gtest/gtest.h>
 
 extern "C" {
@@ -26,6 +33,7 @@ TEST_F(StrbufTest, ClearResetsLength) {
     strbuf_append(&sb, "abc", 3);
     strbuf_clear(&sb);
     EXPECT_EQ(sb.length, 0);
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, AppendWritesDataAndReturnsLength) {
@@ -34,6 +42,7 @@ TEST_F(StrbufTest, AppendWritesDataAndReturnsLength) {
     EXPECT_EQ(sb.length, 3U);
     EXPECT_EQ(0, memcmp(sb.data, "abc", 3));
     EXPECT_EQ("abc", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, AppendAccumulatesAcrossCalls) {
@@ -42,6 +51,7 @@ TEST_F(StrbufTest, AppendAccumulatesAcrossCalls) {
     EXPECT_EQ(sb.length, 4U);
     EXPECT_EQ(0, memcmp(sb.data, "abcd", 4));
     EXPECT_EQ("abcd", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, AppendExactCapacitySucceeds) {
@@ -50,6 +60,7 @@ TEST_F(StrbufTest, AppendExactCapacitySucceeds) {
     EXPECT_EQ(sb.length, BUF_SIZE);
     EXPECT_EQ(0, memcmp(sb.data, "12345678", BUF_SIZE));
     EXPECT_EQ("12345678", std::string(sb.data, sb.data + sb.length));
+    EXPECT_EQ(sb.max_len, BUF_SIZE);
 }
 
 TEST_F(StrbufTest, AppendOverCapacityFailsAndLeavesBufferUnchanged) {
