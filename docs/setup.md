@@ -163,12 +163,14 @@ pip3 install -r requirements.txt
 > ```
 
 
-2. Build one project or both projects from the repository root:
+2. Build the complete repository or run a component's fixed build workflow:
 
 ```bash
-python3 per_build.py firmware  # embedded firmware only
-python3 per_build.py daqapp    # desktop DAQ app only
-python3 per_build.py           # both projects
+python3 build_all.py                     # firmware, DAQ app, and host tests
+python3 firmware/build_firmware.py       # all embedded firmware
+python3 firmware/check_firmware.py       # firmware static analysis
+cargo build --manifest-path daqapp/Cargo.toml
+python3 tests/build_tests.py            # host tests and coverage
 ```
 
 3. Launch Visual Studio Code:

@@ -46,7 +46,7 @@ Install Rust/Cargo and the platform prerequisites described in the repository
 From the repository root:
 
 ```bash
-python3 per_build.py daqapp
+cargo build --manifest-path daqapp/Cargo.toml
 ```
 
 From the `daqapp/` directory, you can also build with Cargo directly:

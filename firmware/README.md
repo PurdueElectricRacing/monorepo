@@ -1,6 +1,6 @@
 # PER Firmware
 
-This directory contains the embedded software for PER vehicle controllers
+This directory contains the embedded software for PER vehicle controllers.
 
 ## Directory layout
 
@@ -12,7 +12,8 @@ This directory contains the embedded software for PER vehicle controllers
 | `cmake/` | Toolchain, dependency discovery, and common CMake helpers. |
 | `external/` | Third-party libraries and STM32 vendor dependencies. |
 | `support/` | Linker scripts, SVD files, and OpenOCD configuration. |
-| `firmware_build.py` | Firmware-specific CMake/Ninja build and packaging helper. |
+| `build_firmware.py` | Fixed workflow that builds and packages all firmware. |
+| `check_firmware.py` | Fixed workflow that runs static analysis on all firmware. |
 
 ## Targets
 
@@ -28,39 +29,38 @@ repository [setup guide](../docs/setup.md).
 From the repository root:
 
 ```bash
-python3 per_build.py firmware
+python3 firmware/build_firmware.py
 ```
 
 The firmware helper creates these local build products:
 
 - `build/` — CMake/Ninja build tree and `compile_commands.json`.
 - `output/` — target `.elf` and `.hex` files.
-- `output/firmware_<git-ref>.tar.gz` — packaged firmware, when `--package` is
-  requested.
-- `can_library/generated/` and `can_library/dbc/` - generated CAN artifacts
-   - Header files for CAN message packing, unpacking, stale, and more
-   - DBC files for use in the DAQ app and other tools
+- `output/firmware_<git-ref>.tar.gz` — packaged firmware.
+- `can_library/generated/` and `can_library/dbc/` — generated CAN artifacts:
+  - Header files for CAN message packing, unpacking, stale, and more
+  - DBC files for use in the DAQ app and other tools
 
 > [!WARNING]
-> Every build preforms a clean build!
+> Every invocation performs a clean build.
 
 ## Static Analysis
 
-Run cppcheck over firmware (`source/` and `common/`):
+Run cppcheck over `source/`, `common/`, and `can_library/` with:
 
 ```bash
-python3 per_build.py firmware --check
+python3 firmware/check_firmware.py
 ```
 
-This configures the build to generate `compile_commands.json`, then runs cppcheck.
-It runs automatically in CI on every push(after the firmware build passes) and fails on any finding. 
-Requires `cppcheck` to be installed (see the [setup guide](../docs/setup.md)).
+The check runs automatically in CI on every push and fails on any finding.
+`cppcheck` must be installed; see the [setup guide](../docs/setup.md).
 
 ## Debugging and editor support
 
-Open the repository root in VS Code. The supplied tasks build firmware through
-the root build script, and `.vscode/launch.json` points Cortex-Debug at the
-target output files.
+Open the repository root in VS Code. The supplied tasks run the fixed firmware
+workflow, and `.vscode/launch.json` points Cortex-Debug at the target output
+files.
 
-Clangd reads `build/compile_commands.json` through the repository's `.clangd` configuration.
-Run a firmware build to update the compile commands before using code navigation or diagnostics.
+Clangd reads `build/compile_commands.json` through the repository's `.clangd`
+configuration. Run a firmware build to update the compile commands before using
+code navigation or diagnostics.

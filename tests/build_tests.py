@@ -10,32 +10,34 @@ ROOT = Path(__file__).resolve().parent.parent
 TEST_BUILD = ROOT / "firmware" / "build" / "host-tests"
 
 
-def run(command: list[str]) -> None:
-    print(f"$ (cd {ROOT} && {' '.join(command)})", flush=True)
-    subprocess.run(command, cwd=ROOT, check=True)
-
-
-def main() -> int:
+def build() -> None:
+    """Create a clean host-test build and generate its coverage report."""
     if TEST_BUILD.exists():
-        print(f"Removing previous test build: {TEST_BUILD}", flush=True)
         shutil.rmtree(TEST_BUILD)
 
-    configure = [
-        "cmake",
-        "-S",
-        "tests",
-        "-B",
-        str(TEST_BUILD),
-        "-DPER_TEST_SANITIZERS=ON",
-        "-DPER_TEST_COVERAGE=ON",
-    ]
-    run(configure)
-    run(["cmake", "--build", str(TEST_BUILD)])
+    subprocess.run(
+        [
+            "cmake",
+            "-S",
+            "tests",
+            "-B",
+            str(TEST_BUILD),
+            "-DPER_TEST_SANITIZERS=ON",
+            "-DPER_TEST_COVERAGE=ON",
+        ],
+        cwd=ROOT,
+        check=True,
+    )
+    subprocess.run(
+        ["cmake", "--build", str(TEST_BUILD)],
+        cwd=ROOT,
+        check=True,
+    )
+    subprocess.run(
+        ["cmake", "--build", str(TEST_BUILD), "--target", "coverage"],
+        cwd=ROOT,
+        check=True,
+    )
 
-    run(["cmake", "--build", str(TEST_BUILD), "--target", "coverage"])
 
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+build()

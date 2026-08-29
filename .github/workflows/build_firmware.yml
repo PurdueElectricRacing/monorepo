@@ -32,7 +32,7 @@ jobs:
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
       - name: Build firmware
-        run: python3 per_build.py firmware --package
+        run: python3 firmware/build_firmware.py
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -46,20 +46,15 @@ jobs:
           retention-days: ${{ github.ref == 'refs/heads/master' && 90 || 7 }}
 
   cppcheck:
-        needs: firmware_build
-        runs-on: ubuntu-latest
-        container:
-            image: irvingywang/per-firmware:latest
-            
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-              with:
-                  submodules: recursive
+    runs-on: ubuntu-latest
+    container:
+      image: irvingywang/per-firmware:latest
 
-            - name: Fix git ownership
-              run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-            - name: Run cppcheck
-              run: python3 per_build.py firmware --check
-              
+      - name: Run cppcheck
+        run: python3 firmware/check_firmware.py

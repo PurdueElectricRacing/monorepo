@@ -27,32 +27,33 @@ To compile software for the PER vehicle, make sure your system is set up by foll
 
 ## Building
 
-`per_build.py` is the repository-level build entry point. It invokes each
-project's own build system from the appropriate directory.
+`build_all.py` is the repository-level build entry point. It runs the complete
+firmware, DAQ app, and host-test workflows in order.
 
 From the repository root, build all projects and run tests with:
 ```bash
-python3 per_build.py
+python3 build_all.py
 ```
 
-To build only firmware:
+Each component also has a fixed build command. To build and package all firmware
+boards:
 ```bash
-python3 per_build.py firmware --package
+python3 firmware/build_firmware.py
 ```
 
-To run cppcheck static analysis over firmware (`firmware/source` and `firmware/common`): 
+To run static analysis over all firmware boards:
 ```bash
-python3 per_build.py firmware --check
+python3 firmware/check_firmware.py
 ```
 
-To build DaqApp only:
+To build DaqApp:
 ```bash
-python3 per_build.py daqapp
+cargo build --manifest-path daqapp/Cargo.toml
 ```
 
 To run host tests and generate an HTML coverage report:
 ```bash
-python3 per_build.py tests
+python3 tests/build_tests.py
 ```
 
 ## Hardware Debugging 
