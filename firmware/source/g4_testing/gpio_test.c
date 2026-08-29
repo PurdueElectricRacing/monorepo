@@ -145,4 +145,4 @@ void HardFault_Handler(void) {
     }
 }
 
-#endif // G4_TESTING_CHOSEN == TEST_GPIO_LOOPBACK
+#endif // G4_TESTING_CHOSEN == TEST_GPIO
