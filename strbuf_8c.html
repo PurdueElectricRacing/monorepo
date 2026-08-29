@@ -129,7 +129,9 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Fixed-size string builder. Useful for building large CMD strings before transmission. </p>
-<dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
+<dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd>
+<dd>
+Daniel Proano (<a href="#" onclick="location.href='mai'+'lto:'+'dpr'+'oa'+'no@'+'pu'+'rdu'+'e.'+'edu'; return false;">dproa<span class="obfuscator">.nosp@m.</span>no@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a15380dc153a462b38a9b54f274c9c3b5" name="a15380dc153a462b38a9b54f274c9c3b5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a15380dc153a462b38a9b54f274c9c3b5">&#9670;&#160;</a></span>strbuf_append()</h2>
@@ -156,7 +158,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended. </p>
-<dl class="section return"><dt>Returns</dt><dd>Num bytes written to the buffer </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Num bytes written to the buffer</dd></dl>
+<p>! </p><dl class="section warning"><dt>Warning</dt><dd>Data is purely a buffer, not a C-string, meaning null terminators do not need to be considered </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -214,7 +217,9 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Appends formatted data to the buffer using printf-style formatting. ! </p>
-<dl class="section warning"><dt>Warning</dt><dd>This function is unsafe if the formatted string exceeds the remaining buffer space. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>This function is unsafe if the formatted string exceeds the remaining buffer space. ! </dd>
+<dd>
+The arguments provided may be C-strings and thus, because of the internal use of vsnprintf, you might have to account for a null terminator. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

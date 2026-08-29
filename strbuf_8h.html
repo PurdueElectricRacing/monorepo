@@ -213,7 +213,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended. </p>
-<dl class="section return"><dt>Returns</dt><dd>Num bytes written to the buffer </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Num bytes written to the buffer</dd></dl>
+<p>! </p><dl class="section warning"><dt>Warning</dt><dd>Data is purely a buffer, not a C-string, meaning null terminators do not need to be considered </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -271,7 +272,9 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Appends formatted data to the buffer using printf-style formatting. ! </p>
-<dl class="section warning"><dt>Warning</dt><dd>This function is unsafe if the formatted string exceeds the remaining buffer space. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>This function is unsafe if the formatted string exceeds the remaining buffer space. ! </dd>
+<dd>
+The arguments provided may be C-strings and thus, because of the internal use of vsnprintf, you might have to account for a null terminator. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
