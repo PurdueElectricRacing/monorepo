@@ -15,7 +15,7 @@ function(add_firmware_unit_test)
         set_target_properties(${TEST_NAME}_firmware PROPERTIES C_STANDARD 23 C_STANDARD_REQUIRED YES C_EXTENSIONS OFF)
         target_link_libraries(${TEST_NAME} PRIVATE ${TEST_NAME}_firmware)
     endif()
-    set_target_properties(${TEST_NAME} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS OFF)
+    set_target_properties(${TEST_NAME} PROPERTIES CXX_STANDARD 20 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS OFF)
 
     if(MSVC)
         target_compile_options(${TEST_NAME} PRIVATE /W4 /WX)
