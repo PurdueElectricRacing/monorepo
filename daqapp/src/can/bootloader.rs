@@ -3,14 +3,15 @@
 
 use crate::{bootloader_protocol::FirmwarePackage, messages};
 
-// Values mirror BLStatus_t in firmware/common/bootloader. Keeping the wire
-// constants here avoids coupling the host updater to generated C headers.
+// Values mirror bootloader_status_t in firmware/can_library/generated/can_types.h.
+// Keeping the wire constants here avoids coupling the host updater to generated
+// C headers.
 const PROTOCOL_VERSION: u32 = 1;
 const READY: u8 = 0x00;
 const ACK: u8 = 0x01;
 const CRC_ERROR: u8 = 0x03;
 
-// Flash erase/install operations get a longer timeout; all retries remain bounded.
+// Flash erase/verification operations get a longer timeout; all retries remain bounded.
 const BOOT_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(5);
 const JUMP_DELAY: std::time::Duration = std::time::Duration::from_millis(700);
 const MAX_RETRIES: u8 = 3;
@@ -152,7 +153,7 @@ impl FirmwareUpdater {
                 ),
                 Stage::WaitCrcAck => (Some(Self::crc_frame(self.current_image())), "retrying CRC"),
                 Stage::WaitJump => {
-                    // JUMP resets the node and has no response.
+                    // JUMP transfers control to the application and has no response.
                     if self.board_index + 1 < self.package.images.len() {
                         self.board_index += 1;
                         self.byte_offset = 0;
@@ -278,13 +279,14 @@ impl FirmwareUpdater {
 
         match self.stage {
             Stage::WaitReady if status == READY => {
-                // READY confirms the application reset; START now erases staging.
+                // READY confirms the bootloader is listening; START now erases
+                // the pages covering the requested application image.
                 let start_frame = Self::start_frame(self.current_image());
                 self.stage = Stage::WaitStartAck;
                 self.deadline = now + BOOT_TIMEOUT;
                 self.retries = 0;
                 self.pending_frame = Some(start_frame);
-                Some(self.progress("erasing staging flash", None))
+                Some(self.progress("erasing application pages", None))
             }
             Stage::WaitReady if status == ACK => {
                 self.stage = Stage::SendingData;
@@ -301,7 +303,7 @@ impl FirmwareUpdater {
                 self.stage = Stage::WaitJump;
                 self.deadline = now + JUMP_DELAY;
                 self.pending_frame = Some(jump_frame);
-                Some(self.progress("restarting application", None))
+                Some(self.progress("launching application", None))
             }
             _ => None,
         }
@@ -310,4 +312,124 @@ impl FirmwareUpdater {
 
 fn argument(argument: u32) -> Vec<u8> {
     argument.to_le_bytes().to_vec()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::bootloader_protocol::{APPLICATION_SLOT_SIZE, FirmwareImage};
+
+    const START_ID: u32 = 0x180;
+    const CRC_ID: u32 = 0x192;
+    const JUMP_ID: u32 = 0x198;
+    const DATA_ID: u32 = 0x181;
+    const RESPONSE_ID: u32 = 0x182;
+
+    fn package_with_bytes(bytes: Vec<u8>) -> FirmwarePackage {
+        let crc32 = crate::bootloader_protocol::crc32_words(&bytes);
+        FirmwarePackage {
+            images: vec![FirmwareImage {
+                name: "main_module".to_string(),
+                bus: crate::connection::CanBus::Vcan,
+                bytes,
+                crc32,
+                start_id: START_ID,
+                crc_id: CRC_ID,
+                jump_id: JUMP_ID,
+                data_id: DATA_ID,
+                response_id: RESPONSE_ID,
+            }],
+        }
+    }
+
+    fn package_with_size(size: usize) -> FirmwarePackage {
+        package_with_bytes(vec![0; size])
+    }
+
+    fn package() -> FirmwarePackage {
+        package_with_bytes(vec![0x00, 0x20, 0x00, 0x08, 0x09, 0x00, 0x00, 0x08])
+    }
+
+    fn response(status: u8, detail: u32) -> Vec<u8> {
+        let mut data = vec![status];
+        data.extend_from_slice(&detail.to_le_bytes());
+        data
+    }
+
+    #[test]
+    fn streams_direct_update_with_compatible_frames() {
+        let package = package();
+        let crc32 = package.images[0].crc32;
+        let (mut updater, progress) = FirmwareUpdater::new(package);
+        assert_eq!(progress.phase, "requesting bootloader");
+
+        let start = updater.tick(std::time::Instant::now()).frame.unwrap();
+        assert_eq!(start.id, START_ID);
+        assert_eq!(start.data, 8u32.to_le_bytes().to_vec());
+
+        let now = std::time::Instant::now();
+        assert_eq!(
+            updater
+                .on_response(RESPONSE_ID, &response(ACK, 8), now)
+                .unwrap()
+                .phase,
+            "uploading"
+        );
+
+        let first_word = updater.tick(now).frame.unwrap();
+        assert_eq!(first_word.id, DATA_ID);
+        assert_eq!(first_word.data, vec![0, 0, 0x00, 0x20, 0x00, 0x08]);
+        let second_word = updater.tick(now).frame.unwrap();
+        assert_eq!(second_word.data, vec![1, 0, 0x09, 0x00, 0x00, 0x08]);
+
+        let crc = updater.tick(now).frame.unwrap();
+        assert_eq!(crc.id, CRC_ID);
+        assert_eq!(crc.data, crc32.to_le_bytes().to_vec());
+
+        assert_eq!(
+            updater
+                .on_response(RESPONSE_ID, &response(ACK, crc32), now)
+                .unwrap()
+                .phase,
+            "launching application"
+        );
+        let jump = updater.tick(now).frame.unwrap();
+        assert_eq!(jump.id, JUMP_ID);
+        assert_eq!(jump.data, 0u32.to_le_bytes().to_vec());
+    }
+
+    #[test]
+    fn preserves_16_bit_word_index_at_maximum_slot_size() {
+        let (mut updater, _) = FirmwareUpdater::new(package_with_size(APPLICATION_SLOT_SIZE));
+        let now = std::time::Instant::now();
+        let _ = updater.tick(now);
+        updater
+            .on_response(
+                RESPONSE_ID,
+                &response(ACK, APPLICATION_SLOT_SIZE as u32),
+                now,
+            )
+            .unwrap();
+        updater.byte_offset = (u16::MAX as usize) * 4;
+
+        let frame = updater.tick(now).frame.unwrap();
+        assert_eq!(frame.data[..2], [0xFF, 0xFF]);
+        assert_eq!(updater.byte_offset, APPLICATION_SLOT_SIZE);
+    }
+
+    #[test]
+    fn ready_handshake_still_resends_start_before_data() {
+        let (mut updater, _) = FirmwareUpdater::new(package());
+        let _ = updater.tick(std::time::Instant::now());
+
+        let now = std::time::Instant::now();
+        let progress = updater
+            .on_response(RESPONSE_ID, &response(READY, PROTOCOL_VERSION), now)
+            .unwrap();
+        assert_eq!(progress.phase, "erasing application pages");
+
+        let start = updater.tick(now).frame.unwrap();
+        assert_eq!(start.id, START_ID);
+        assert_eq!(start.data, 8u32.to_le_bytes().to_vec());
+    }
 }

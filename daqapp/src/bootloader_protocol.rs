@@ -11,6 +11,10 @@ use std::{
 };
 
 pub const PACKAGE_FORMAT: &str = "per-firmware-package-v1";
+/// Start of the single application slot in the STM32G474 flash map.
+pub const APPLICATION_ADDRESS: u32 = 0x0800_8000;
+/// Maximum application payload accepted by the bootloader and package loader.
+pub const APPLICATION_SLOT_SIZE: usize = 256 * 1024;
 
 /// A validated application payload and its bootloader CAN IDs.
 #[derive(Clone, Debug)]
@@ -160,7 +164,9 @@ impl FirmwarePackage {
                 return Err(format!("duplicate board {}", board.name));
             }
             let bus = parse_bus(&board.can_bus)?;
-            if board.application_address.to_ascii_uppercase() != "0X08008000" {
+            if parse_hex_u32(&board.application_address, "application_address")?
+                != APPLICATION_ADDRESS
+            {
                 return Err(format!(
                     "board {} has an invalid application address",
                     board.name
@@ -180,7 +186,7 @@ impl FirmwarePackage {
                 .map_err(|error| format!("unsafe binary path for {}: {error}", board.name))?;
             let metadata = std::fs::symlink_metadata(&binary_path)
                 .map_err(|error| format!("cannot inspect {}: {error}", binary_path.display()))?;
-            if metadata.len() > 160 * 1024 {
+            if metadata.len() > APPLICATION_SLOT_SIZE as u64 {
                 return Err(format!("invalid image file for {}", board.name));
             }
             let bytes = std::fs::read(&binary_path)
@@ -193,7 +199,7 @@ impl FirmwarePackage {
                     board.size_bytes
                 ));
             }
-            if bytes.is_empty() || bytes.len() % 4 != 0 || bytes.len() > 160 * 1024 {
+            if !valid_application_size(bytes.len()) {
                 return Err(format!("invalid image size for {}", board.name));
             }
 
@@ -310,6 +316,10 @@ fn secure_file_path(path: &Path, kind: &str) -> Result<PathBuf, String> {
     Ok(path.to_path_buf())
 }
 
+fn valid_application_size(size_bytes: usize) -> bool {
+    size_bytes != 0 && size_bytes % 4 == 0 && size_bytes <= APPLICATION_SLOT_SIZE
+}
+
 fn expected_ids(name: &str) -> Option<(u32, u32, u32, u32, u32)> {
     match name {
         "main_module" => Some((0x180, 0x192, 0x198, 0x181, 0x182)),
@@ -366,4 +376,19 @@ pub fn crc32_words(data: &[u8]) -> u32 {
         }
     }
     crc
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn application_slot_accepts_exact_maximum_and_rejects_next_word() {
+        assert_eq!(
+            APPLICATION_ADDRESS + APPLICATION_SLOT_SIZE as u32 - 1,
+            0x0804_7FFF
+        );
+        assert!(valid_application_size(APPLICATION_SLOT_SIZE));
+        assert!(!valid_application_size(APPLICATION_SLOT_SIZE + 4));
+    }
 }
