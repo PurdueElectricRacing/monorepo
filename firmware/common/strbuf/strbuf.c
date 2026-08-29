@@ -28,7 +28,6 @@ void strbuf_clear(strbuf_t *sb) {
  */
 size_t strbuf_append(strbuf_t *sb, const void *data, size_t length) {
     size_t remaining_space = sb->max_len - sb->length;
-
     if (length > remaining_space) {
         return 0;
     }
