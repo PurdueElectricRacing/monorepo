@@ -14,6 +14,7 @@
 #define TEST_USB        9
 #define TEST_PWM        10
 #define TEST_ADC        11
+#define TEST_GPIO       12
 
 // Change this define to set the test compiled
 #define G4_TESTING_CHOSEN TEST_BLINKY

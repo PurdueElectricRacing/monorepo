@@ -5,6 +5,7 @@
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
+#include "common/phal_G4/pin_defs/g474ret6.h"
 #include "common/rtos/rtos.h"
 #include "common/izze_imu/izze_imu.h"
 #include "common/utils/countof.h"
@@ -17,12 +18,12 @@
 #define CONNECTION_LED_PORT (GPIOB)
 #define CONNECTION_LED_PIN  (3)
 
-GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_OUTPUT(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(CONNECTION_LED_PORT, CONNECTION_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_FDCAN2RX_PB12,
-    GPIO_INIT_FDCAN2TX_PB13
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_GPIO_INIT_OUTPUT(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(CONNECTION_LED_PORT, CONNECTION_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_PIN_DEFS_FDCAN2_RX_PB12,
+    PHAL_PIN_DEFS_FDCAN2_TX_PB13
 };
 
 void HardFault_Handler();
@@ -36,12 +37,12 @@ static constexpr uint32_t IMU_CONFIG_TIME_MS = 12'000; // "at least 10 seconds"
 void config_imu() {
     if (xTaskGetTickCount() >= IMU_CONFIG_TIME_MS) {
         // set LED
-        PHAL_writeGPIO(CONNECTION_LED_PORT, CONNECTION_LED_PIN, 1);
+        PHAL_GPIO_write(CONNECTION_LED_PORT, CONNECTION_LED_PIN, 1);
         // Delete task
         vTaskDelete(NULL);
     }
 
-    PHAL_toggleGPIO(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN);
+    PHAL_GPIO_toggle(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN);
     CAN_SEND_IZZE_IMU_config(
         IZZE_IMU_PROGRAMMING_CONSTANT,
         NEW_CAN_BASE_ID,
@@ -55,13 +56,13 @@ RTOS_DEFINE_TASK(config_imu, IZZE_IMU_CONFIG_PERIOD_MS, TASK_PRIORITY_NORMAL, 10
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
 
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 
-    PHAL_writeGPIO(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, 0);
-    PHAL_writeGPIO(ERROR_LED_PORT, ERROR_LED_PIN, 0);
-    PHAL_writeGPIO(CONNECTION_LED_PORT, CONNECTION_LED_PIN, 0);
+    PHAL_GPIO_write(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, 0);
+    PHAL_GPIO_write(ERROR_LED_PORT, ERROR_LED_PIN, 0);
+    PHAL_GPIO_write(CONNECTION_LED_PORT, CONNECTION_LED_PIN, 0);
 
     PHAL_FDCAN_init(FDCAN2, GCAN_BAUD_RATE);
 

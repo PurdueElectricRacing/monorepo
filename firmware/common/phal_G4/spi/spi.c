@@ -46,7 +46,7 @@ bool PHAL_SPI_init(SPI_InitConfig_t *cfg) {
 
     // Deassert CS in master when using software NSS
     if (cfg->mode == SPI_MODE_MASTER && cfg->nss_sw) {
-        PHAL_writeGPIO(cfg->nss_gpio_port, cfg->nss_gpio_pin, 1);
+        PHAL_GPIO_write(cfg->nss_gpio_port, cfg->nss_gpio_pin, 1);
     }
 
     PHAL_SPI_priv_resetTransferState(cfg);
@@ -71,7 +71,7 @@ void PHAL_SPI_transfer(
 
     // Assert CS for master only
     if (spi->mode == SPI_MODE_MASTER && spi->nss_sw)
-        PHAL_writeGPIO(spi->nss_gpio_port, spi->nss_gpio_pin, 0);
+        PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, 0);
 
     spi->_busy = true;
 

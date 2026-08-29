@@ -32,12 +32,12 @@ static void PHAL_SPI_transfer_noDMA_DAQW5500Only(SPI_InitConfig_t* spi, uint32_t
  */
 static void cs_sel(void) {
     eth_spi_config.periph->CR1 |= SPI_CR1_SPE;
-    PHAL_writeGPIO(ETH_CS_PORT, ETH_CS_PIN, 0);
+    PHAL_GPIO_write(ETH_CS_PORT, ETH_CS_PIN, 0);
 }
 
 static void cs_desel(void) {
     eth_spi_config.periph->CR1 &= ~SPI_CR1_SPE;
-    PHAL_writeGPIO(ETH_CS_PORT, ETH_CS_PIN, 1);
+    PHAL_GPIO_write(ETH_CS_PORT, ETH_CS_PIN, 1);
 }
 
 // DAQ W5500 uses a custom framed multi-byte SPI format + software CS that makes this necessary
@@ -134,7 +134,7 @@ static void crit_exit(void) {
 }
 
 void w5500_register_callbacks(void) {
-    PHAL_writeGPIO(ETH_CS_PORT, ETH_CS_PIN, 1);
+    PHAL_GPIO_write(ETH_CS_PORT, ETH_CS_PIN, 1);
     reg_wizchip_cs_cbfunc(cs_sel, cs_desel);
     reg_wizchip_spi_cbfunc(spi_rb, spi_wb);
     reg_wizchip_spiburst_cbfunc(spi_rb_burst, spi_wb_burst);

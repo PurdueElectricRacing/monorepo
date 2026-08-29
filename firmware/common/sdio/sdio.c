@@ -191,7 +191,7 @@ uint8_t SD_Detect(void) {
     __IO uint8_t status = SD_PRESENT;
 
     /* Check status */
-    if (PHAL_readGPIO(SD_CD_PORT, SD_CD_PIN)) {
+    if (PHAL_GPIO_read(SD_CD_PORT, SD_CD_PIN)) {
         status = SD_NOT_PRESENT;
     }
 

@@ -10,8 +10,8 @@
 #include "main.h"
 
 
-GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
 static volatile uint32_t produced       = 0;
@@ -43,7 +43,7 @@ int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
 
 
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 
@@ -94,7 +94,7 @@ static void producer_task(void) {
 
     xSemaphoreGive(work_sem);
 
-    PHAL_toggleGPIO(LED_GREEN_PORT, LED_GREEN_PIN);
+    PHAL_GPIO_toggle(LED_GREEN_PORT, LED_GREEN_PIN);
 }
 
 
@@ -116,7 +116,7 @@ static void consumer_task(void) {
 
     xSemaphoreGive(counter_mutex);
 
-    PHAL_toggleGPIO(LED_GREEN_PORT, LED_GREEN_PIN);
+    PHAL_GPIO_toggle(LED_GREEN_PORT, LED_GREEN_PIN);
 }
 
 
@@ -135,13 +135,13 @@ static void monitor_task(void) {
         fail();
     }
 
-    PHAL_toggleGPIO(LED_GREEN_PORT, LED_GREEN_PIN);
+    PHAL_GPIO_toggle(LED_GREEN_PORT, LED_GREEN_PIN);
 }
 
 
 static void fail(void) {
     while (true) {
-        PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, 1);
+        PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, 1);
         RTOS_delay_ms(100);
     }
 }

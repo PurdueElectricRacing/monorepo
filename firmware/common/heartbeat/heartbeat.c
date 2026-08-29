@@ -15,19 +15,19 @@ static void preflight_led_sweep(status_leds_t *leds) {
 
     switch (sweep_index++ % 3) {
         case 0:
-            PHAL_writeGPIO(leds->heartbeat_port, leds->heartbeat_pin, 1);
-            PHAL_writeGPIO(leds->connection_port, leds->connection_pin, 0);
-            PHAL_writeGPIO(leds->error_port, leds->error_pin, 0);
+            PHAL_GPIO_write(leds->heartbeat_port, leds->heartbeat_pin, 1);
+            PHAL_GPIO_write(leds->connection_port, leds->connection_pin, 0);
+            PHAL_GPIO_write(leds->error_port, leds->error_pin, 0);
             break;
         case 1:
-            PHAL_writeGPIO(leds->heartbeat_port, leds->heartbeat_pin, 0);
-            PHAL_writeGPIO(leds->connection_port, leds->connection_pin, 1);
-            PHAL_writeGPIO(leds->error_port, leds->error_pin, 0);
+            PHAL_GPIO_write(leds->heartbeat_port, leds->heartbeat_pin, 0);
+            PHAL_GPIO_write(leds->connection_port, leds->connection_pin, 1);
+            PHAL_GPIO_write(leds->error_port, leds->error_pin, 0);
             break;
         case 2:
-            PHAL_writeGPIO(leds->heartbeat_port, leds->heartbeat_pin, 0);
-            PHAL_writeGPIO(leds->connection_port, leds->connection_pin, 0);
-            PHAL_writeGPIO(leds->error_port, leds->error_pin, 1);
+            PHAL_GPIO_write(leds->heartbeat_port, leds->heartbeat_pin, 0);
+            PHAL_GPIO_write(leds->connection_port, leds->connection_pin, 0);
+            PHAL_GPIO_write(leds->error_port, leds->error_pin, 1);
             break;
     }
 }
@@ -43,17 +43,17 @@ void heartbeat_task(status_leds_t *leds) {
 
             // exit preflight after a certain time has elapsed
             if (xTaskGetTickCount() > PREFLIGHT_DURATION_MS) {
-                PHAL_writeGPIO(leds->heartbeat_port, leds->heartbeat_pin, 0);
-                PHAL_writeGPIO(leds->connection_port, leds->connection_pin, 0);
-                PHAL_writeGPIO(leds->error_port, leds->error_pin, 0);
+                PHAL_GPIO_write(leds->heartbeat_port, leds->heartbeat_pin, 0);
+                PHAL_GPIO_write(leds->connection_port, leds->connection_pin, 0);
+                PHAL_GPIO_write(leds->error_port, leds->error_pin, 0);
                 leds->state = HEARTBEAT_STATE_NORMAL;
             }
             break;
         case HEARTBEAT_STATE_NORMAL:
-            PHAL_toggleGPIO(leds->heartbeat_port, leds->heartbeat_pin);
+            PHAL_GPIO_toggle(leds->heartbeat_port, leds->heartbeat_pin);
 
             bool is_can_ok = (xTaskGetTickCount() - last_can_rx_time_ms) < CONN_LED_TIMEOUT_MS;
-            PHAL_writeGPIO(leds->connection_port, leds->connection_pin, is_can_ok);
+            PHAL_GPIO_write(leds->connection_port, leds->connection_pin, is_can_ok);
             break;
     }    
 }

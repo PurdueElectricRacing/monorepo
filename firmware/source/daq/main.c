@@ -128,7 +128,7 @@ int main() {
         HardFault_Handler();
     }
 
-    PHAL_writeGPIO(ETH_RST_PORT, ETH_RST_PIN, 1);
+    PHAL_GPIO_write(ETH_RST_PORT, ETH_RST_PIN, 1);
 
     RTC_sync_init();
     SPMC_init(&g_spmc); // also enables CAN interrupts
@@ -161,15 +161,15 @@ static void configure_interrupts(void) {
 // disables high power devices to give time for the SD card to flush
 void power_loss_callback(void) {
     // hold W5500 in reset
-    PHAL_writeGPIO(ETH_RST_PORT, ETH_RST_PIN, 0);
+    PHAL_GPIO_write(ETH_RST_PORT, ETH_RST_PIN, 0);
 
     // turn off LEDs
-    PHAL_writeGPIO(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, 0);
-    PHAL_writeGPIO(CONNECTION_LED_PORT, CONNECTION_LED_PIN, 0);
-    PHAL_writeGPIO(ERROR_LED_PORT, ERROR_LED_PIN, 0);
-    PHAL_writeGPIO(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 0);
-    PHAL_writeGPIO(SD_ERROR_LED_PORT, SD_ERROR_LED_PIN, 0);
-    PHAL_writeGPIO(SD_DETECT_LED_PORT, SD_DETECT_LED_PIN, 0);
+    PHAL_GPIO_write(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, 0);
+    PHAL_GPIO_write(CONNECTION_LED_PORT, CONNECTION_LED_PIN, 0);
+    PHAL_GPIO_write(ERROR_LED_PORT, ERROR_LED_PIN, 0);
+    PHAL_GPIO_write(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 0);
+    PHAL_GPIO_write(SD_ERROR_LED_PORT, SD_ERROR_LED_PIN, 0);
+    PHAL_GPIO_write(SD_DETECT_LED_PORT, SD_DETECT_LED_PIN, 0);
 }
 
 // Interrupt handler for power loss detection
