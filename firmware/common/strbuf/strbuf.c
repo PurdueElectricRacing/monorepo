@@ -27,7 +27,7 @@ void strbuf_clear(strbuf_t *sb) {
  *      meaning null terminators do not need to be considered
  */
 size_t strbuf_append(strbuf_t *sb, const void *data, size_t length) {
-    if (sb->length + length > sb->max_len) {
+    if (length > sb->max_len - sb->length) {
         return 0;
     }
 
