@@ -356,7 +356,9 @@ static void PHAL_SPI_priv_handleTxComplete() {
             ;
         // Raise CS to end transaction
         if (active_transfer->nss_sw)
-            PHAL_GPIO_write(active_transfer->nss_gpio_port, (uint8_t)active_transfer->nss_gpio_pin, 1);
+            PHAL_GPIO_write(active_transfer->nss_gpio_port,
+                            (uint8_t)active_transfer->nss_gpio_pin,
+                            1);
 
         // Disable DMA channels
         PHAL_DMA_stopTxfer(active_transfer->rx_dma_cfg);

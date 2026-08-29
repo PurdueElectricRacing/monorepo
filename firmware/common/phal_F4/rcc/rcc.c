@@ -108,8 +108,10 @@ bool PHAL_configurePLLVCO(PLLSrc_t pll_source, uint32_t vco_output_rate_target_h
     if (!valid_rate)
         return false; // Unable to find a valid clock rate!
 
-    RCC->PLLCFGR |= ((uint32_t)pll_input_divisor << RCC_PLLCFGR_PLLM_Pos) & RCC_PLLCFGR_PLLM_Msk; // Set PLLM
-    RCC->PLLCFGR |= ((uint32_t)pll_output_multiplier << RCC_PLLCFGR_PLLN_Pos) & RCC_PLLCFGR_PLLN_Msk; // Set PLLN
+    RCC->PLLCFGR |=
+        ((uint32_t)pll_input_divisor << RCC_PLLCFGR_PLLM_Pos) & RCC_PLLCFGR_PLLM_Msk; // Set PLLM
+    RCC->PLLCFGR |= ((uint32_t)pll_output_multiplier << RCC_PLLCFGR_PLLN_Pos)
+        & RCC_PLLCFGR_PLLN_Msk; // Set PLLN
 
     // Update global variable used to reference the PLL
     PLLClockRateHz = ((pll_input_f_hz / pll_input_divisor) * pll_output_multiplier);
@@ -137,7 +139,8 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
 
     // Set the PLLP and PLLQ divisors
     RCC->PLLCFGR &= ~(RCC_PLLCFGR_PLLP_Msk | RCC_PLLCFGR_PLLQ_Msk);
-    RCC->PLLCFGR |= (((uint32_t)(pll_p_divisor / 2) - 1) << RCC_PLLCFGR_PLLP_Pos) & RCC_PLLCFGR_PLLP_Msk; // Divisor value to PLLP bits (Pg. 227)
+    RCC->PLLCFGR |= (((uint32_t)(pll_p_divisor / 2) - 1) << RCC_PLLCFGR_PLLP_Pos)
+        & RCC_PLLCFGR_PLLP_Msk; // Divisor value to PLLP bits (Pg. 227)
     RCC->PLLCFGR |= ((uint32_t)pll_q_divisor << RCC_PLLCFGR_PLLQ_Pos) & RCC_PLLCFGR_PLLQ_Msk;
 
     __DSB(); // Wait for explicit memory accesses to finish

@@ -207,7 +207,9 @@ void vcu_wheel_adjust(bool is_right_wheel, int8_t delta) {
     const uint8_t target_index = binding_to_element_index(binding);
     menu_element_t* target = &vcu_elements[target_index];
 
-    target->current_value = (uint16_t)CLAMP((int32_t)target->current_value + delta, target->min_value, target->max_value);
+    target->current_value = (uint16_t)CLAMP((int32_t)target->current_value + delta,
+                                            target->min_value,
+                                            target->max_value);
 
     if (curr_page == PAGE_VCU) {
         render_vcu_element(target);

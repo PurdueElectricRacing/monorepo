@@ -123,7 +123,7 @@ void control_loop() {
     xVCU.WM_RAW[1] = can_data.wheel_speeds.front_right * RPM_TO_RADS;
     xVCU.WM_RAW[2] = can_data.wheel_speeds.rear_left * RPM_TO_RADS;
     xVCU.WM_RAW[3] = can_data.wheel_speeds.rear_right * RPM_TO_RADS;
-    xVCU.GS_RAW = (float)nav_pvt.groundSpeed * 1E-3f; // convert mm/s to m/s
+    xVCU.GS_RAW                        = (float)nav_pvt.groundSpeed * 1E-3f; // convert mm/s to m/s
 
     static constexpr float DEG_TO_RAD = 3.14f / 180.0f;
     xVCU.AV_RAW[0] = imu_data.gyro_x * DEG_TO_RAD;
@@ -169,10 +169,8 @@ void control_loop() {
     float torque_rear_right_pct  = yVCU.TORQUE_OUT[3] * NM_TO_PCT;
 
     // send outputs on CAN
-    CAN_SEND_vcu_torque_request(
-        (int16_t)torque_front_right_pct,
-        (int16_t)torque_front_left_pct,
-        (int16_t)torque_rear_left_pct,
-        (int16_t)torque_rear_right_pct
-    );
+    CAN_SEND_vcu_torque_request((int16_t)torque_front_right_pct,
+                                (int16_t)torque_front_left_pct,
+                                (int16_t)torque_rear_left_pct,
+                                (int16_t)torque_rear_right_pct);
 }

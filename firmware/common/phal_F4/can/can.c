@@ -194,7 +194,8 @@ bool PHAL_txCANMessage(CanMsgTypeDef_t* msg, uint8_t txMbox) {
     // else
     //     return false;   // Unable to find Mailbox
     if (!msg->IDE) {
-        msg->Bus->sTxMailBox[txMbox].TIR = ((uint32_t)msg->StdId << CAN_TI0R_STID_Pos); // Standard ID
+        msg->Bus->sTxMailBox[txMbox].TIR =
+            ((uint32_t)msg->StdId << CAN_TI0R_STID_Pos); // Standard ID
     } else {
         msg->Bus->sTxMailBox[txMbox].TIR = (msg->ExtId << CAN_TI0R_EXID_Pos) | 4; // Extended ID
     }

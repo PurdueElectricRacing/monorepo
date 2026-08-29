@@ -463,12 +463,12 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
     } else if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
         /*!< Byte 7 */
         tmp                         = (uint8_t)(CSD_Tab[1] & 0x000000FF);
-        cardinfo->SD_csd.DeviceSize = (uint32_t) ((tmp & 0x3F) << 16);
+        cardinfo->SD_csd.DeviceSize = (uint32_t)((tmp & 0x3F) << 16);
 
         /*!< Byte 8 */
         tmp = (uint8_t)((CSD_Tab[2] & 0xFF000000) >> 24);
 
-        cardinfo->SD_csd.DeviceSize |= (uint32_t) (tmp << 8);
+        cardinfo->SD_csd.DeviceSize |= (uint32_t)(tmp << 8);
 
         /*!< Byte 9 */
         tmp = (uint8_t)((CSD_Tab[2] & 0x00FF0000) >> 16);
@@ -482,8 +482,8 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
         cardinfo->CardBlockSize = 512;
     }
 
-    cardinfo->SD_csd.EraseGrSize = (uint8_t) ((tmp & 0x40) >> 6);
-    cardinfo->SD_csd.EraseGrMul  = (uint8_t) ((tmp & 0x3F) << 1);
+    cardinfo->SD_csd.EraseGrSize = (uint8_t)((tmp & 0x40) >> 6);
+    cardinfo->SD_csd.EraseGrMul  = (uint8_t)((tmp & 0x3F) << 1);
 
     /*!< Byte 11 */
     tmp = (uint8_t)(CSD_Tab[2] & 0x000000FF);
@@ -524,7 +524,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
 
     /*!< Byte 1 */
     tmp                          = (uint8_t)((CID_Tab[0] & 0x00FF0000) >> 16);
-    cardinfo->SD_cid.OEM_AppliID = (uint16_t) (tmp << 8);
+    cardinfo->SD_cid.OEM_AppliID = (uint16_t)(tmp << 8);
 
     /*!< Byte 2 */
     tmp = (uint8_t)((CID_Tab[0] & 0x000000FF00) >> 8);
@@ -532,15 +532,15 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
 
     /*!< Byte 3 */
     tmp                        = (uint8_t)(CID_Tab[0] & 0x000000FF);
-    cardinfo->SD_cid.ProdName1 = ((uint32_t) tmp) << 24;
+    cardinfo->SD_cid.ProdName1 = ((uint32_t)tmp) << 24;
 
     /*!< Byte 4 */
     tmp = (uint8_t)((CID_Tab[1] & 0xFF000000) >> 24);
-    cardinfo->SD_cid.ProdName1 |= (uint32_t) (tmp << 16);
+    cardinfo->SD_cid.ProdName1 |= (uint32_t)(tmp << 16);
 
     /*!< Byte 5 */
     tmp = (uint8_t)((CID_Tab[1] & 0x00FF0000) >> 16);
-    cardinfo->SD_cid.ProdName1 |= (uint32_t) (tmp << 8);
+    cardinfo->SD_cid.ProdName1 |= (uint32_t)(tmp << 8);
 
     /*!< Byte 6 */
     tmp = (uint8_t)((CID_Tab[1] & 0x0000FF00) >> 8);

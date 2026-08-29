@@ -68,7 +68,8 @@ void MS_moveUp(menu_page_t* page) {
     MS_setStyleNormal(&page->elements[page->current_index]);
 
     // Move to previous element
-    page->current_index = (uint8_t)((page->current_index - 1 + page->num_elements) % page->num_elements);
+    page->current_index =
+        (uint8_t)((page->current_index - 1 + page->num_elements) % page->num_elements);
 
     // Style new element as hovered
     MS_setStyleHover(&page->elements[page->current_index]);
