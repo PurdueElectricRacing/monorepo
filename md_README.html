@@ -119,12 +119,12 @@ Getting Started</h1>
 <dl class="section note"><dt>Note</dt><dd><a class="el" href="md_docs_2setup.html">setup.md</a> is here!</dd></dl>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Building</h1>
-<p><code>per_build.py</code> is the repository-level build entry point. It invokes each project's own build system from the appropriate directory.</p>
-<p>From the repository root, build all projects and run tests with: </p><div class="fragment"><div class="line">python3 per_build.py</div>
-</div><!-- fragment --><p>To build only firmware: </p><div class="fragment"><div class="line">python3 per_build.py firmware --package</div>
-</div><!-- fragment --><p>To run cppcheck static analysis over firmware (<code>firmware/source</code> and <code>firmware/common</code>): </p><div class="fragment"><div class="line">python3 per_build.py firmware --check</div>
-</div><!-- fragment --><p>To build DaqApp only: </p><div class="fragment"><div class="line">python3 per_build.py daqapp</div>
-</div><!-- fragment --><p>To run host tests and generate an HTML coverage report: </p><div class="fragment"><div class="line">python3 per_build.py tests</div>
+<p><code>build_all.py</code> is the repository-level build entry point. It runs the complete firmware, DAQ app, and host-test workflows in order.</p>
+<p>From the repository root, build all projects and run tests with: </p><div class="fragment"><div class="line">python3 build_all.py</div>
+</div><!-- fragment --><p>Each component also has a fixed build command. To build and package all firmware boards: </p><div class="fragment"><div class="line">python3 firmware/build_firmware.py</div>
+</div><!-- fragment --><p>To run static analysis over all firmware boards: </p><div class="fragment"><div class="line">python3 firmware/check_firmware.py</div>
+</div><!-- fragment --><p>To build DaqApp: </p><div class="fragment"><div class="line">cargo build --manifest-path daqapp/Cargo.toml</div>
+</div><!-- fragment --><p>To run host tests and generate an HTML coverage report: </p><div class="fragment"><div class="line">python3 tests/build_tests.py</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md5"></a>
 Hardware Debugging</h1>
 <p>In VS Code, go to <b>View → Run and Debug</b>, select the appropriate MCU target from the dropdown, then press the green ▶️ arrow to flash and live-debug the firmware.</p>
