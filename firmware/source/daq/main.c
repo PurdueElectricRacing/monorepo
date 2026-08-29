@@ -184,7 +184,7 @@ void EXTI15_10_IRQHandler() {
 }
 
 void HardFault_Handler() {
-    ERROR_LED_PORT->BSRR = (1 << ERROR_LED_PIN);
+    ERROR_LED_PORT->BSRR = (1U << ERROR_LED_PIN);
     while (1) {
         __asm__("nop");
     }

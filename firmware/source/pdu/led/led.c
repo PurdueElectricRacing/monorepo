@@ -39,16 +39,16 @@ bool LED_control(int led, enum LED_state state) {
     // Create 16-bit LED control data to write
     switch (state) {
         case LED_OFF: // Clear bit
-            LED_control_data_new = LED_control_data &= ~(1 << (led + offset));
-            LED_toggle &= ~(1 << led);
+            LED_control_data_new = LED_control_data &= (uint16_t)~(1U << (led + offset));
+            LED_toggle &= (uint16_t)~(1U << led);
             break;
         case LED_ON: // Set bit
-            LED_control_data_new = LED_control_data |= (1 << (led + offset));
-            LED_toggle &= ~(1 << led);
+            LED_control_data_new = LED_control_data |= (1U << (led + offset));
+            LED_toggle &= (uint16_t)~(1U << led);
             break;
         case LED_BLINK: // Toggle bit
-            LED_control_data_new = LED_control_data ^= (1 << (led + offset));
-            LED_toggle |= (1 << led);
+            LED_control_data_new = LED_control_data ^= (1U << (led + offset));
+            LED_toggle |= (1U << led);
             break;
     }
 
@@ -85,14 +85,14 @@ bool LED_control(int led, enum LED_state state) {
 
 void LED_periodic() {
     for (int i = 0; i < MAX_NUM_LED; i++) {
-        if (LED_toggle & (1 << i)) {
+        if (LED_toggle & (1U << i)) {
             LED_control(i, LED_BLINK);
         }
     }
 }
 
 uint8_t get_LED_status(int led) {
-    if (LED_toggle & (1 << led)) {
+    if (LED_toggle & (1U << led)) {
         return LED_BLINK;
     }
 

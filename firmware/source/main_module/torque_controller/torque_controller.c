@@ -31,7 +31,7 @@ static torque_request_t zero_torque_request(void) {
 
 static torque_request_t direct_mapped_regen(void) {
     // Map brake [0, 100] to torque [0, -100]
-    int16_t regen_torque = can_data.pedals.brake * -1.0f;
+    int16_t regen_torque = (int16_t)(can_data.pedals.brake * -1.0f);
 
     return (torque_request_t) {
         .front_left  = regen_torque,
@@ -43,10 +43,10 @@ static torque_request_t direct_mapped_regen(void) {
 
 static torque_request_t direct_mapped_throttle(void) {
     // Map throttle [0, 100] to torque [0, 210]
-    int16_t rear_torque = can_data.pedals.throttle * 2.1f;
+    int16_t rear_torque = (int16_t)(can_data.pedals.throttle * 2.1f);
 
     // Bias to feel like a 40% - 60% torque split
-    int16_t front_torque = (40.0f / 60.0f) * rear_torque;
+    int16_t front_torque = (int16_t)((40.0f / 60.0f) * rear_torque);
 
     return (torque_request_t) {
         .front_left  = front_torque,

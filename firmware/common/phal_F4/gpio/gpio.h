@@ -228,7 +228,7 @@ static inline bool PHAL_GPIO_read(GPIO_TypeDef* bank, uint8_t pin) {
  * @param value Logical value to write
  */
 static inline void PHAL_GPIO_write(GPIO_TypeDef* bank, uint8_t pin, bool value) {
-    bank->BSRR |= 1 << ((!value << 4) | pin); // BSRR has "set" as bottom 16 bits and "reset" as top 16
+    bank->BSRR |= 1U << ((!value << 4) | pin); // BSRR has "set" as bottom 16 bits and "reset" as top 16
 }
 
 static inline void PHAL_GPIO_toggle(GPIO_TypeDef* bank, uint8_t pin) {

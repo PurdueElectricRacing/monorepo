@@ -108,8 +108,8 @@ bool PHAL_configurePLLVCO(PLLSrc_t pll_source, uint32_t vco_output_rate_target_h
     if (!valid_rate)
         return false; // Unable to find a valid clock rate!
 
-    RCC->PLLCFGR |= ((pll_input_divisor) << RCC_PLLCFGR_PLLM_Pos) & RCC_PLLCFGR_PLLM_Msk; // Set PLLM
-    RCC->PLLCFGR |= ((pll_output_multiplier) << RCC_PLLCFGR_PLLN_Pos) & RCC_PLLCFGR_PLLN_Msk; // Set PLLN
+    RCC->PLLCFGR |= ((uint32_t)pll_input_divisor << RCC_PLLCFGR_PLLM_Pos) & RCC_PLLCFGR_PLLM_Msk; // Set PLLM
+    RCC->PLLCFGR |= ((uint32_t)pll_output_multiplier << RCC_PLLCFGR_PLLN_Pos) & RCC_PLLCFGR_PLLN_Msk; // Set PLLN
 
     // Update global variable used to reference the PLL
     PLLClockRateHz = ((pll_input_f_hz / pll_input_divisor) * pll_output_multiplier);
@@ -125,20 +125,20 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
     }
 
     // Valid number for PLLP divisor are 2,4,6,8 (2 bit encoded)
-    uint8_t pll_p_divisor = PLLClockRateHz / system_clock_target_hz;
+    uint8_t pll_p_divisor = (uint8_t)(PLLClockRateHz / system_clock_target_hz);
     if (pll_p_divisor == 0 || pll_p_divisor % 2 != 0 || pll_p_divisor > 8) {
         return false;
     }
 
-    uint8_t pll_q_divisor = PLLClockRateHz / 48000000;
+    uint8_t pll_q_divisor = (uint8_t)(PLLClockRateHz / 48000000);
     if (pll_q_divisor <= 1 || pll_q_divisor > 15) {
         return false;
     }
 
     // Set the PLLP and PLLQ divisors
     RCC->PLLCFGR &= ~(RCC_PLLCFGR_PLLP_Msk | RCC_PLLCFGR_PLLQ_Msk);
-    RCC->PLLCFGR |= (((pll_p_divisor / 2) - 1) << RCC_PLLCFGR_PLLP_Pos) & RCC_PLLCFGR_PLLP_Msk; // Divisor value to PLLP bits (Pg. 227)
-    RCC->PLLCFGR |= (pll_q_divisor << RCC_PLLCFGR_PLLQ_Pos) & RCC_PLLCFGR_PLLQ_Msk;
+    RCC->PLLCFGR |= (((uint32_t)(pll_p_divisor / 2) - 1) << RCC_PLLCFGR_PLLP_Pos) & RCC_PLLCFGR_PLLP_Msk; // Divisor value to PLLP bits (Pg. 227)
+    RCC->PLLCFGR |= ((uint32_t)pll_q_divisor << RCC_PLLCFGR_PLLQ_Pos) & RCC_PLLCFGR_PLLQ_Msk;
 
     __DSB(); // Wait for explicit memory accesses to finish
 
@@ -363,7 +363,7 @@ void PHAL_trimHSI(uint8_t trim_val) {
         return;
     uint32_t reg = RCC->CR;
     reg &= ~(RCC_CR_HSITRIM);
-    reg |= trim_val << RCC_CR_HSITRIM_Pos;
+    reg |= (uint32_t)trim_val << RCC_CR_HSITRIM_Pos;
     RCC->CR = reg;
 }
 
