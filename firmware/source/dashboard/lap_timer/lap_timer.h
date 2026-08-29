@@ -11,6 +11,9 @@
 
 #include <stdint.h>
 
+static constexpr uint32_t LAP_TIMER_PERIOD_MS = 200;
+
+void lap_timer_onpress(void);
 void lap_timer_periodic(void);
 
 #endif // LAP_TIMER_H
