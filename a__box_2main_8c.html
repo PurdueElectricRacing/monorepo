@@ -116,6 +116,7 @@ $(function(){initNavTree('a__box_2main_8c.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="fdcan_8h_source.html">common/phal_G4/fdcan/fdcan.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2gpio_2gpio_8h_source.html">common/phal_G4/gpio/gpio.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2rcc_2rcc_8h_source.html">common/phal_G4/rcc/rcc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="g474ret6_8h_source.html">common/phal_G4/pin_defs/g474ret6.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="adbms_8h_source.html">adbms.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="countof_8h_source.html">common/utils/countof.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="watchdog_8h_source.html">common/watchdog/watchdog.h</a>&quot;</code><br />
@@ -169,8 +170,8 @@ Variables</h2></td></tr>
 <tr class="separator:a8bc9fb223f56d390b7afb8df193b3aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae13307269d9ab97e7be91b0569eca21b" id="r_ae13307269d9ab97e7be91b0569eca21b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structPHAL__ADC__Handle__t.html">PHAL_ADC_Handle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae13307269d9ab97e7be91b0569eca21b">adc_handle</a></td></tr>
 <tr class="separator:ae13307269d9ab97e7be91b0569eca21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60563c6df24a123ae18e090bca85f555" id="r_a60563c6df24a123ae18e090bca85f555"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structGPIOInitConfig__t.html">GPIOInitConfig_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60563c6df24a123ae18e090bca85f555">gpio_config</a> []</td></tr>
-<tr class="separator:a60563c6df24a123ae18e090bca85f555"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0445edd8b78aacc940a1a3848a9b9166" id="r_a0445edd8b78aacc940a1a3848a9b9166"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structPHAL__GPIO__InitConfig__t.html">PHAL_GPIO_InitConfig_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0445edd8b78aacc940a1a3848a9b9166">gpio_config</a> []</td></tr>
+<tr class="separator:a0445edd8b78aacc940a1a3848a9b9166"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54910fb29db8c9eac2409cc73cc828c5" id="r_a54910fb29db8c9eac2409cc73cc828c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadbms__bms__t.html">adbms_bms_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54910fb29db8c9eac2409cc73cc828c5">g_bms</a> = {0}</td></tr>
 <tr class="separator:a54910fb29db8c9eac2409cc73cc828c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99b892b6086d375bba69c6a4985b3262" id="r_a99b892b6086d375bba69c6a4985b3262"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99b892b6086d375bba69c6a4985b3262">g_bms_tx_buf</a> [<a class="el" href="adbms_8h.html#aaffed04e34de14d78f2aa2d39f410520">ADBMS_SPI_TX_BUFFER_SIZE</a>] = {0}</td></tr>
@@ -569,7 +570,7 @@ Here is the call graph for this function:</div>
 <div class="line">    .channels      = <a class="code hl_variable" href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a>,</div>
 <div class="line">    .channel_count = <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a>) / <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a>[0]),</div>
 <div class="line">}</div>
-<div class="ttc" id="aa__box_2main_8c_html_aac4007a039922c17a75b7297b2cb0d72"><div class="ttname"><a href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc_channels[]</div><div class="ttdef"><b>Definition</b> main.c:64</div></div>
+<div class="ttc" id="aa__box_2main_8c_html_aac4007a039922c17a75b7297b2cb0d72"><div class="ttname"><a href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc_channels[]</div><div class="ttdef"><b>Definition</b> main.c:65</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -610,8 +611,8 @@ Here is the call graph for this function:</div>
 <div class="line">    .cpha = <a class="code hl_enumvalue" href="phal__G4_2spi_2spi_8h.html#a26da2bbd284e1fb8d8517cac6bd79bf4a938aa9bf0d6f5c65656fbc49b478b55f">SPI_CPHA_FIRST_EDGE</a>,</div>
 <div class="line">    .data_rate     = 500&#39;000, </div>
 <div class="line">}</div>
-<div class="ttc" id="aa__box_2main_8c_html_a40a59859bbadb9d8ab250430b7793916"><div class="ttname"><a href="#a40a59859bbadb9d8ab250430b7793916">spi1_tx_dma</a></div><div class="ttdeci">static PHAL_DMA_Handle_t spi1_tx_dma</div><div class="ttdef"><b>Definition</b> main.c:39</div></div>
-<div class="ttc" id="aa__box_2main_8c_html_a74b59d963c2e2e12058d027a4392f3e8"><div class="ttname"><a href="#a74b59d963c2e2e12058d027a4392f3e8">spi1_rx_dma</a></div><div class="ttdeci">static PHAL_DMA_Handle_t spi1_rx_dma</div><div class="ttdef"><b>Definition</b> main.c:29</div></div>
+<div class="ttc" id="aa__box_2main_8c_html_a40a59859bbadb9d8ab250430b7793916"><div class="ttname"><a href="#a40a59859bbadb9d8ab250430b7793916">spi1_tx_dma</a></div><div class="ttdeci">static PHAL_DMA_Handle_t spi1_tx_dma</div><div class="ttdef"><b>Definition</b> main.c:40</div></div>
+<div class="ttc" id="aa__box_2main_8c_html_a74b59d963c2e2e12058d027a4392f3e8"><div class="ttname"><a href="#a74b59d963c2e2e12058d027a4392f3e8">spi1_rx_dma</a></div><div class="ttdeci">static PHAL_DMA_Handle_t spi1_rx_dma</div><div class="ttdef"><b>Definition</b> main.c:30</div></div>
 <div class="ttc" id="aa__box_2main_8h_html_a28e3b9a83990e6c65c180a9c03d9747a"><div class="ttname"><a href="a__box_2main_8h.html#a28e3b9a83990e6c65c180a9c03d9747a">SPI1_CS_PIN</a></div><div class="ttdeci">#define SPI1_CS_PIN</div><div class="ttdef"><b>Definition</b> main.h:32</div></div>
 <div class="ttc" id="aa__box_2main_8h_html_a898214e0ac884181dd81f34d8821829f"><div class="ttname"><a href="a__box_2main_8h.html#a898214e0ac884181dd81f34d8821829f">SPI1_CS_PORT</a></div><div class="ttdeci">#define SPI1_CS_PORT</div><div class="ttdef"><b>Definition</b> main.h:31</div></div>
 <div class="ttc" id="aphal__G4_2spi_2spi_8h_html_a26da2bbd284e1fb8d8517cac6bd79bf4a938aa9bf0d6f5c65656fbc49b478b55f"><div class="ttname"><a href="phal__G4_2spi_2spi_8h.html#a26da2bbd284e1fb8d8517cac6bd79bf4a938aa9bf0d6f5c65656fbc49b478b55f">SPI_CPHA_FIRST_EDGE</a></div><div class="ttdeci">@ SPI_CPHA_FIRST_EDGE</div><div class="ttdef"><b>Definition</b> spi.h:35</div></div>
@@ -647,14 +648,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a60563c6df24a123ae18e090bca85f555" name="a60563c6df24a123ae18e090bca85f555"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60563c6df24a123ae18e090bca85f555">&#9670;&#160;</a></span>gpio_config</h2>
+<a id="a0445edd8b78aacc940a1a3848a9b9166" name="a0445edd8b78aacc940a1a3848a9b9166"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0445edd8b78aacc940a1a3848a9b9166">&#9670;&#160;</a></span>gpio_config</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structGPIOInitConfig__t.html">GPIOInitConfig_t</a> gpio_config[]</td>
+          <td class="memname"><a class="el" href="structPHAL__GPIO__InitConfig__t.html">PHAL_GPIO_InitConfig_t</a> gpio_config[]</td>
         </tr>
       </table>
 </div><div class="memdoc">

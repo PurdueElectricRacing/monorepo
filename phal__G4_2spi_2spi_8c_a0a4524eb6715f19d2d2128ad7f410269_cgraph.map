@@ -1,59 +1,59 @@
 <map id="PHAL_SPI_init" name="PHAL_SPI_init">
-<area shape="rect" id="Node000001" title="Initilize SPI peripheral with the configuired structure." alt="" coords="5,487,116,512"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle&#45;&gt;wiring and handle&#45;&gt;params." alt="" coords="470,277,587,303"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,486,71,449,90,399,119,349,139,326,162,308,197,290,234,277,273,268,313,264,389,264,455,272,454,277,388,270,313,269,274,274,236,282,199,295,165,312,143,330,124,352,95,402,76,451,67,487"/>
+<area shape="rect" id="Node000001" title="Initilize SPI peripheral with the configuired structure." alt="" coords="5,488,116,514"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8c.html#a44be3f4d5e3f90d9fa73d1b808185d53" title="Claim a DMA channel and configure it from handle&#45;&gt;wiring and handle&#45;&gt;params." alt="" coords="470,297,587,323"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,487,71,449,89,399,119,348,139,326,162,308,200,290,240,278,281,272,323,271,402,277,469,290,468,296,402,282,323,276,282,278,241,284,202,295,165,312,142,330,123,351,94,401,76,451,67,488"/>
 <area shape="rect" id="Node000016" href="$phal__G4_2dma_2dma_8c.html#a113bf99c3b1cc73c92d466d94ea88dad" title="Setup DMA callback then call PHAL_DMA_init()" alt="" coords="168,323,362,348"/>
-<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="65,485,100,424,128,389,162,359,172,353,174,358,165,363,132,392,105,427,70,487"/>
-<area shape="rect" id="Node000017" href="$spi__priv_8c.html#a98dfc2957eb2c5832e8f31f72c480a15" title="Calculate the SPI baud&#45;rate prescaler." alt="" coords="164,372,366,413"/>
-<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="75,484,113,454,162,422,174,417,176,422,165,427,116,458,78,488"/>
-<area shape="rect" id="Node000021" href="$spi__priv_8c.html#aa09f1173859fac598f1129e0e69d48ba" title="Configure the SPI CR1 register." alt="" coords="175,437,355,463"/>
-<area shape="poly" id="edge21_Node000001_Node000021" title=" " alt="" coords="115,483,163,472,192,464,193,470,164,477,116,489"/>
-<area shape="rect" id="Node000022" href="$spi__priv_8c.html#a4d834d39ddd3930669d00c3b96ae34fc" title="Configure the SPI CR2 register." alt="" coords="175,487,355,512"/>
-<area shape="poly" id="edge22_Node000001_Node000022" title=" " alt="" coords="116,497,159,497,159,502,116,502"/>
-<area shape="rect" id="Node000023" href="$spi__priv_8c.html#aac98401cd7c0f0107bd10b9653aa669e" title="Enable the peripheral clock for an SPI instance." alt="" coords="169,536,361,562"/>
-<area shape="poly" id="edge23_Node000001_Node000023" title=" " alt="" coords="116,510,164,522,193,529,192,535,163,527,115,516"/>
-<area shape="rect" id="Node000024" href="$spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542" title="Reset the internal SPI transfer state." alt="" coords="166,586,364,626"/>
-<area shape="poly" id="edge24_Node000001_Node000024" title=" " alt="" coords="78,511,116,541,165,572,176,577,174,582,162,577,113,545,75,515"/>
-<area shape="rect" id="Node000025" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="743,651,869,676"/>
-<area shape="poly" id="edge25_Node000001_Node000025" title=" " alt="" coords="69,512,82,540,102,574,130,609,165,636,210,652,272,663,345,670,426,673,590,672,728,666,728,671,590,677,426,678,345,675,271,668,209,657,162,641,126,613,98,577,77,542,64,514"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="66,486,101,428,129,395,162,365,186,352,189,357,165,370,133,398,106,432,71,489"/>
+<area shape="rect" id="Node000017" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="740,605,872,631"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="69,486,106,446,133,425,163,409,209,396,268,384,336,375,409,371,480,371,546,376,602,389,644,409,663,429,671,451,673,473,672,496,671,541,677,563,692,584,708,596,726,605,724,610,705,601,688,588,672,565,665,542,666,496,668,473,666,452,658,432,641,414,601,394,545,382,480,376,409,376,337,381,269,389,210,401,165,414,136,429,110,450,73,490"/>
+<area shape="rect" id="Node000018" href="$spi__priv_8c.html#a98dfc2957eb2c5832e8f31f72c480a15" title="Calculate the SPI baud&#45;rate prescaler." alt="" coords="164,423,366,464"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="108,485,174,466,176,471,110,490"/>
+<area shape="rect" id="Node000022" href="$spi__priv_8c.html#aa09f1173859fac598f1129e0e69d48ba" title="Configure the SPI CR1 register." alt="" coords="175,488,355,514"/>
+<area shape="poly" id="edge22_Node000001_Node000022" title=" " alt="" coords="116,498,159,498,159,504,116,504"/>
+<area shape="rect" id="Node000023" href="$spi__priv_8c.html#a4d834d39ddd3930669d00c3b96ae34fc" title="Configure the SPI CR2 register." alt="" coords="175,537,355,563"/>
+<area shape="poly" id="edge23_Node000001_Node000023" title=" " alt="" coords="116,512,164,524,193,531,192,536,163,529,115,517"/>
+<area shape="rect" id="Node000024" href="$spi__priv_8c.html#aac98401cd7c0f0107bd10b9653aa669e" title="Enable the peripheral clock for an SPI instance." alt="" coords="169,587,361,612"/>
+<area shape="poly" id="edge24_Node000001_Node000024" title=" " alt="" coords="78,512,115,543,165,573,179,579,177,584,162,578,112,547,74,516"/>
+<area shape="rect" id="Node000025" href="$spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542" title="Reset the internal SPI transfer state." alt="" coords="166,636,364,677"/>
+<area shape="poly" id="edge25_Node000001_Node000025" title=" " alt="" coords="71,513,107,566,134,596,165,623,172,627,169,631,162,627,130,600,103,569,67,516"/>
 <area shape="rect" id="Node000026" href="$phal__G4_2spi_2spi_8c.html#a62359d3216b693b8424ea18e74724d5a" title=" " alt="" coords="194,701,336,727"/>
-<area shape="poly" id="edge26_Node000001_Node000026" title=" " alt="" coords="68,512,79,546,99,591,128,639,165,680,185,693,182,697,162,684,123,642,94,594,74,548,63,514"/>
+<area shape="poly" id="edge26_Node000001_Node000026" title=" " alt="" coords="68,513,78,549,98,596,126,645,144,667,165,687,181,696,178,701,162,691,141,671,122,648,93,598,73,550,63,515"/>
 <area shape="rect" id="Node000003" href="$phal__G4_2dma_2dma_8c.html#ae1601cda89ed5dd23e8e6e085c74be32" title=" " alt="" coords="722,5,890,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="531,276,550,230,582,165,628,97,657,66,689,40,706,30,709,35,692,44,660,70,632,101,586,168,554,232,536,278"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="531,296,548,247,579,177,600,139,625,103,655,69,689,40,706,30,708,35,692,44,659,73,630,106,605,142,583,180,552,249,536,298"/>
 <area shape="rect" id="Node000004" href="$phal__G4_2dma_2dma_8c.html#a3355394f66e080a191644b3aa05bb7e6" title=" " alt="" coords="737,55,875,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="534,276,555,238,588,187,634,134,660,110,689,89,721,75,723,80,692,94,664,114,638,138,593,190,559,241,538,278"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="533,296,553,255,586,198,631,139,659,112,689,89,721,75,723,80,692,94,662,116,635,142,590,201,557,257,538,298"/>
 <area shape="rect" id="Node000005" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="712,104,900,130"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="538,275,596,209,640,171,689,138,701,133,703,138,692,143,643,175,600,213,541,279"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="536,296,558,263,593,220,637,176,689,139,699,133,702,138,692,143,641,180,597,224,562,266,540,299"/>
 <area shape="rect" id="Node000006" href="$dma__priv_8c.html#a3f0c9d4036cc06c7b22d99ca7f542d2b" title="Configure CCR (data sizes, priority, increment modes, mode, ISR enables) from wiring+params." alt="" coords="701,153,911,179"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="545,275,606,232,647,208,689,188,708,181,709,186,691,193,649,213,609,236,548,279"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="541,295,602,242,644,213,689,188,705,182,707,186,691,193,646,217,605,247,545,299"/>
 <area shape="rect" id="Node000008" href="$dma__priv_8c.html#a8587b5521d3115d25b6bfe0bdca3848b" title="Route wiring&#45;&gt;mux_request to (periph, channel_idx)&#39;s DMAMUX channel." alt="" coords="713,203,899,228"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="567,274,690,237,720,230,721,235,691,242,569,279"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="554,294,615,266,689,237,715,230,716,235,691,242,617,271,557,299"/>
 <area shape="rect" id="Node000009" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="698,252,914,278"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="587,282,682,273,683,279,587,288"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="587,298,708,278,709,283,588,303"/>
 <area shape="rect" id="Node000010" href="$dma__priv_8c.html#a8170a3136b79b3e63455133955dd3c18" title="Enable DMAMUX1&#39;s clock plus the given DMA peripheral&#39;s clock." alt="" coords="706,301,906,327"/>
-<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="587,293,691,302,691,307,587,298"/>
+<area shape="poly" id="edge9_Node000002_Node000010" title=" " alt="" coords="587,308,691,310,691,315,587,314"/>
 <area shape="rect" id="Node000011" href="$dma__priv_8c.html#a28c2eff8a85e591630df54f2fa239c0d" title="Look up the channel instance for (periph, channel_idx). channel_idx must be 1&#45;8." alt="" coords="709,351,903,376"/>
-<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="588,300,643,316,691,337,716,344,715,349,689,342,641,321,587,305"/>
+<area shape="poly" id="edge10_Node000002_Node000011" title=" " alt="" coords="588,319,721,345,720,350,587,324"/>
 <area shape="rect" id="Node000012" href="$dma__priv_8c.html#a73f7770b98ebe2b4ca15995393187782" title=" " alt="" coords="718,400,894,426"/>
-<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="588,294,617,302,644,316,661,334,669,353,676,370,692,387,705,394,702,399,689,391,672,373,664,355,656,337,641,320,615,307,587,299"/>
+<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="557,321,691,386,714,393,712,398,689,391,555,326"/>
 <area shape="rect" id="Node000013" href="$dma__priv_8c.html#aa6b45775bb2ff8ed4bcb8e5bb1177521" title="Write the transfer length (CNDTR)" alt="" coords="713,449,899,475"/>
-<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="588,291,617,300,644,316,657,331,664,347,669,378,673,408,680,422,692,436,700,442,697,446,689,440,675,425,668,410,663,379,659,348,653,334,641,320,615,305,586,296"/>
+<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="568,321,606,340,644,366,660,385,668,403,676,420,692,436,700,441,697,445,689,440,671,423,663,405,655,388,641,369,604,344,566,326"/>
 <area shape="rect" id="Node000014" href="$dma__priv_8c.html#a2449fa9f613108935c398de08de96014" title="Write the memory&#45;side address (CMAR)" alt="" coords="694,499,918,524"/>
-<area shape="poly" id="edge13_Node000002_Node000014" title=" " alt="" coords="588,290,618,299,644,316,661,338,668,360,669,403,669,446,676,466,692,486,694,487,691,491,688,489,672,468,664,447,663,403,663,361,656,340,641,320,616,304,587,295"/>
+<area shape="poly" id="edge13_Node000002_Node000014" title=" " alt="" coords="573,321,610,339,644,366,656,382,663,398,667,429,672,458,679,472,692,486,695,488,692,492,689,489,675,475,667,460,662,430,657,400,651,385,640,369,608,343,571,326"/>
 <area shape="rect" id="Node000015" href="$dma__priv_8c.html#a2deaccb19340858592ae93d61e6847c4" title="Write the peripheral&#45;side address (CPAR)" alt="" coords="690,548,922,574"/>
-<area shape="poly" id="edge14_Node000002_Node000015" title=" " alt="" coords="588,290,618,299,644,316,664,344,672,372,672,400,668,428,665,456,665,483,673,509,692,535,694,536,690,540,688,539,668,511,660,484,660,456,663,428,667,400,667,373,659,346,640,320,616,303,587,295"/>
+<area shape="poly" id="edge14_Node000002_Node000015" title=" " alt="" coords="576,321,613,339,644,366,659,389,665,412,666,455,668,496,676,515,692,535,694,537,691,541,688,539,672,518,663,497,661,455,660,412,654,391,640,369,610,343,574,326"/>
 <area shape="rect" id="Node000007" href="$dma__priv_8c.html#a3ee5d0a2c1258bd0a664abd82aa1f60e" title=" " alt="" coords="970,153,1046,179"/>
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="911,164,954,164,954,169,911,169"/>
-<area shape="poly" id="edge16_Node000016_Node000002" title=" " alt="" coords="343,319,454,300,455,305,344,325"/>
-<area shape="rect" id="Node000018" href="$spi__priv_8c.html#a8e9e5ef753602ac9e7822dee0923dd38" title=" " alt="" coords="476,331,580,356"/>
-<area shape="poly" id="edge18_Node000017_Node000018" title=" " alt="" coords="366,371,460,353,461,359,367,376"/>
-<area shape="rect" id="Node000019" href="$phal__G4_2rcc_2rcc_8c.html#aa351cc1ef8604fe3082fd812ad88a71b" title=" " alt="" coords="428,380,628,406"/>
-<area shape="poly" id="edge19_Node000017_Node000019" title=" " alt="" coords="367,390,413,390,413,396,367,396"/>
-<area shape="rect" id="Node000020" href="$phal__G4_2rcc_2rcc_8c.html#ab76710442224b6b571ada816cb46c840" title=" " alt="" coords="428,429,628,455"/>
-<area shape="poly" id="edge20_Node000017_Node000020" title=" " alt="" coords="367,409,441,423,440,428,366,414"/>
-<area shape="rect" id="Node000027" href="$phal__F4_2spi_2spi_8c.html#ae45aa58f4fed151ef2f982b1ae226f3e" title="Handle TCIF interrupt signaling end of TX transaction." alt="" coords="414,701,642,727"/>
-<area shape="poly" id="edge27_Node000026_Node000027" title=" " alt="" coords="336,712,399,712,399,717,336,717"/>
-<area shape="poly" id="edge29_Node000027_Node000025" title=" " alt="" coords="602,698,728,675,729,680,603,703"/>
-<area shape="rect" id="Node000028" href="$phal__F4_2dma_2dma_8c.html#ad30451f8c2b3f2787deb02eeaaea43b0" title=" " alt="" coords="729,701,883,727"/>
-<area shape="poly" id="edge28_Node000027_Node000028" title=" " alt="" coords="643,712,713,712,713,717,643,717"/>
+<area shape="poly" id="edge16_Node000016_Node000002" title=" " alt="" coords="362,324,453,315,454,320,362,329"/>
+<area shape="rect" id="Node000019" href="$spi__priv_8c.html#a8e9e5ef753602ac9e7822dee0923dd38" title=" " alt="" coords="476,424,580,450"/>
+<area shape="poly" id="edge19_Node000018_Node000019" title=" " alt="" coords="367,438,460,436,461,441,367,444"/>
+<area shape="rect" id="Node000020" href="$phal__G4_2rcc_2rcc_8c.html#aa351cc1ef8604fe3082fd812ad88a71b" title=" " alt="" coords="428,473,628,499"/>
+<area shape="poly" id="edge20_Node000018_Node000020" title=" " alt="" coords="367,457,430,468,429,473,366,463"/>
+<area shape="rect" id="Node000021" href="$phal__G4_2rcc_2rcc_8c.html#ab76710442224b6b571ada816cb46c840" title=" " alt="" coords="428,523,628,548"/>
+<area shape="poly" id="edge21_Node000018_Node000021" title=" " alt="" coords="342,462,367,473,391,492,415,509,430,515,428,520,413,514,388,496,365,478,340,467"/>
+<area shape="rect" id="Node000027" href="$phal__F4_2spi_2spi_8c.html#ae45aa58f4fed151ef2f982b1ae226f3e" title="Handle TCIF interrupt signaling end of TX transaction." alt="" coords="414,671,642,696"/>
+<area shape="poly" id="edge27_Node000026_Node000027" title=" " alt="" coords="336,703,399,696,399,701,337,709"/>
+<area shape="poly" id="edge29_Node000027_Node000017" title=" " alt="" coords="585,668,733,632,734,638,586,673"/>
+<area shape="rect" id="Node000028" href="$phal__F4_2dma_2dma_8c.html#ad30451f8c2b3f2787deb02eeaaea43b0" title=" " alt="" coords="729,671,883,696"/>
+<area shape="poly" id="edge28_Node000027_Node000028" title=" " alt="" coords="643,681,713,681,713,686,643,686"/>
 </map>

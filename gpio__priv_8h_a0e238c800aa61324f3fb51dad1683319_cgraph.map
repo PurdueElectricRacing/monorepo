@@ -1,0 +1,7 @@
+<map id="PHAL_GPIO_priv_toggle" name="PHAL_GPIO_priv_toggle">
+<area shape="rect" id="Node000001" title="Read then invert pin via BSRR. Caller must have validated pin &lt;= 15." alt="" coords="5,31,173,56"/>
+<area shape="rect" id="Node000002" href="$gpio__priv_8c.html#a1a107aaacbce8b2ab0a57869d63a064f" title="Read IDR&#39;s bit for pin. Caller must have validated pin &lt;= 15." alt="" coords="222,5,380,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,31,206,27,207,32,173,36"/>
+<area shape="rect" id="Node000003" href="$gpio__priv_8c.html#ac415ada3716ad8a6db474ee520da0e00" title="Write BSRR to atomically set/reset pin. Caller must have validated pin &lt;= 15." alt="" coords="221,55,381,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,50,205,54,205,59,173,56"/>
+</map>

@@ -54,9 +54,9 @@
 </g>
 </g>
 <!-- Node3&#45;&gt;Node2 -->
-<g id="edge6_Node000003_Node000002" class="edge">
+<g id="edge7_Node000003_Node000002" class="edge">
 <title>Node3&#45;&gt;Node2</title>
-<g id="a_edge6_Node000003_Node000002"><a xlink:title=" ">
+<g id="a_edge7_Node000003_Node000002"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M249.23,-111.69C266.52,-119.99 292.22,-131.67 315.5,-139.62 320.94,-141.48 326.67,-143.24 332.43,-144.87"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="331.44,-148.23 342,-147.46 333.26,-141.47 331.44,-148.23"/>
 </a>
@@ -119,18 +119,18 @@
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" target="_top" xlink:title="Write a logic value to an output pin.">
-<polygon fill="white" stroke="#666666" points="435.75,-19.25 341.75,-19.25 341.75,0 435.75,0 435.75,-19.25"/>
-<text text-anchor="middle" x="388.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_writeGPIO</text>
+<g id="a_Node000007"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" target="_top" xlink:title="Write a logic value to an output pin.">
+<polygon fill="white" stroke="#666666" points="438.38,-19.25 339.12,-19.25 339.12,0 438.38,0 438.38,-19.25"/>
+<text text-anchor="middle" x="388.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_GPIO_write</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node7 -->
-<g id="edge7_Node000003_Node000007" class="edge">
+<g id="edge6_Node000003_Node000007" class="edge">
 <title>Node3&#45;&gt;Node7</title>
-<g id="a_edge7_Node000003_Node000007"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M237.77,-91.57C252.3,-75.56 283,-44.38 315.5,-27.62 320.28,-25.16 325.41,-23.03 330.65,-21.17"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="331.56,-24.56 340.05,-18.21 329.46,-17.88 331.56,-24.56"/>
+<g id="a_edge6_Node000003_Node000007"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M237.77,-91.57C252.3,-75.56 283,-44.38 315.5,-27.62 319.46,-25.58 323.66,-23.77 327.97,-22.15"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="329,-25.49 337.38,-19.01 326.79,-18.85 329,-25.49"/>
 </a>
 </g>
 </g>

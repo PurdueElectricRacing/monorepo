@@ -10,16 +10,16 @@
 <area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="101,274,190,237,212,230,214,235,192,242,103,279"/>
 <area shape="rect" id="Node000013" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="235,31,360,56"/>
 <area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="77,276,91,240,115,190,147,137,189,90,211,73,236,60,239,65,214,78,192,93,152,140,119,193,96,242,82,278"/>
-<area shape="rect" id="Node000014" href="$phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" title="Check for current SPI transaction to complete." alt="" coords="237,301,358,327"/>
-<area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="143,295,222,303,221,309,142,300"/>
-<area shape="rect" id="Node000015" href="$spi__priv_8c.html#af89def543ea5c1f819bc2f4f57c37942" title="Enable the SPI peripheral." alt="" coords="217,351,378,376"/>
-<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="104,301,192,337,215,344,213,349,190,342,102,306"/>
-<area shape="rect" id="Node000016" href="$spi__priv_8c.html#af26bdd68e047cde3da712ab3928ea4c1" title="Enable SPI receive DMA requests." alt="" coords="191,400,404,426"/>
+<area shape="rect" id="Node000014" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="231,301,364,327"/>
+<area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="143,295,216,303,215,308,142,300"/>
+<area shape="rect" id="Node000015" href="$phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" title="Check for current SPI transaction to complete." alt="" coords="237,351,358,376"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="104,301,192,337,223,346,221,351,190,342,102,306"/>
+<area shape="rect" id="Node000016" href="$spi__priv_8c.html#af89def543ea5c1f819bc2f4f57c37942" title="Enable the SPI peripheral." alt="" coords="217,400,378,426"/>
 <area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="89,301,131,344,160,367,192,386,204,392,202,397,189,391,157,371,128,348,85,305"/>
-<area shape="rect" id="Node000017" href="$spi__priv_8c.html#a13a5d883a06088ab8338aed283f01a37" title="Enable SPI transmit DMA requests." alt="" coords="191,449,404,475"/>
+<area shape="rect" id="Node000017" href="$spi__priv_8c.html#af26bdd68e047cde3da712ab3928ea4c1" title="Enable SPI receive DMA requests." alt="" coords="191,449,404,475"/>
 <area shape="poly" id="edge19_Node000001_Node000017" title=" " alt="" coords="84,302,123,367,154,405,192,436,200,440,197,445,189,440,151,408,119,370,79,305"/>
-<area shape="rect" id="Node000018" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="235,499,360,524"/>
-<area shape="poly" id="edge20_Node000001_Node000018" title=" " alt="" coords="81,302,94,339,116,389,149,442,169,465,192,485,221,500,218,504,189,490,165,469,144,445,111,392,89,341,76,304"/>
+<area shape="rect" id="Node000018" href="$spi__priv_8c.html#a13a5d883a06088ab8338aed283f01a37" title="Enable SPI transmit DMA requests." alt="" coords="191,499,404,524"/>
+<area shape="poly" id="edge20_Node000001_Node000018" title=" " alt="" coords="81,302,94,339,116,389,149,442,169,465,192,485,198,489,195,493,189,490,165,469,144,445,111,392,89,341,76,304"/>
 <area shape="rect" id="Node000003" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="474,55,662,80"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,102,478,81,479,86,367,107"/>
 <area shape="rect" id="Node000004" href="$dma__priv_8c.html#a5120208650c6c1774fe79c46127ea4c2" title="Disable a channel and block until hardware confirms it is off." alt="" coords="460,5,676,31"/>

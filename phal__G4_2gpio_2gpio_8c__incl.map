@@ -1,7 +1,14 @@
 <map id="firmware/common/phal_G4/gpio/gpio.c" name="firmware/common/phal_G4/gpio/gpio.c">
-<area shape="rect" id="Node000001" title="GPIO Driver for STM32L432 Devices." alt="" coords="5,5,158,46"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="6,94,157,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,47,84,78,79,78,79,47"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="28,183,135,208"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="84,135,84,167,79,167,79,135"/>
+<area shape="rect" id="Node000001" title="G4 GPIO public API implementation." alt="" coords="52,5,204,46"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="53,183,204,223"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,47,108,70,100,95,97,114,100,134,113,168,108,170,95,135,92,114,95,93,104,68,114,45"/>
+<area shape="rect" id="Node000006" href="$gpio__priv_8h.html" title="G4 GPIO private/register level implementation." alt="" coords="110,94,261,135"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="144,45,167,80,162,83,139,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,271,73,297"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="108,226,66,263,62,259,104,222"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="97,271,160,297"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="131,224,131,256,126,256,126,224"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="184,271,291,297"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="157,222,210,260,207,264,154,226"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="175,137,152,171,147,168,170,134"/>
 </map>

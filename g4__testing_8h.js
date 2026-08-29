@@ -9,6 +9,7 @@ var g4__testing_8h =
     [ "TEST_FDCAN", "g4__testing_8h.html#adf39fdc7d1f3b76e7c361abdc7144e86", null ],
     [ "TEST_FLASH", "g4__testing_8h.html#ac35215710058cd839c06ad49f605ed37", null ],
     [ "TEST_FREERTOS", "g4__testing_8h.html#a7d88db7b498b49172144b8b489f4b99f", null ],
+    [ "TEST_GPIO", "g4__testing_8h.html#a2ba3e771b6d22e8f8443d048109e991f", null ],
     [ "TEST_PWM", "g4__testing_8h.html#a91a16cc33ca4d17845106e8082d84e61", null ],
     [ "TEST_SPI", "g4__testing_8h.html#a56a27255240e687884327372399cb508", null ],
     [ "TEST_USART", "g4__testing_8h.html#af34c78aee83aefb9cadaaecefdd0d45b", null ],

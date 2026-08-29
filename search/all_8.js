@@ -11,7 +11,7 @@ var searchData=
   ['bangbang_2eh_8',['bangbang.h',['../bangbang_8h.html',1,'']]],
   ['bangbang_5ft_9',['bangbang_t',['../structbangbang__t.html',1,'']]],
   ['bangbang_5fupdate_10',['bangbang_update',['../bangbang_8c.html#a6e64fa5703d5bbbc0b47d207bd44983c',1,'bangbang_update(bangbang_t *controller, float value, uint32_t current_time):&#160;bangbang.c'],['../bangbang_8h.html#a6e64fa5703d5bbbc0b47d207bd44983c',1,'bangbang_update(bangbang_t *controller, float value, uint32_t current_time):&#160;bangbang.c']]],
-  ['bank_11',['bank',['../structGPIOInitConfig__t.html#a3566715e37345acae7c2c7d33776b1c5',1,'GPIOInitConfig_t']]],
+  ['bank_11',['bank',['../structGPIOInitConfig__t.html#a9fec47b09fc90e799db443bdcffb53f4',1,'GPIOInitConfig_t::bank'],['../structPHAL__GPIO__InitConfig__t.html#a413387278738e0af3c4d9a19a4cc0d7a',1,'PHAL_GPIO_InitConfig_t::bank']]],
   ['banks_12',['banks',['../classcodegen_1_1BxcanFilterContext.html#a14597913f81f303284e50c7eb4624769',1,'codegen::BxcanFilterContext']]],
   ['bar_5ffrom_5fpascals_13',['bar_from_pascals',['../units_8h.html#a9ab2ad2b1b02f523213f889b5aa001a5',1,'units.h']]],
   ['bar_5ft_14',['bar_t',['../structbar__t.html',1,'']]],

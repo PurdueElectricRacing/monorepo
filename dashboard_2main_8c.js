@@ -15,6 +15,6 @@ var dashboard_2main_8c =
     [ "adc_channels", "dashboard_2main_8c.html#aac4007a039922c17a75b7297b2cb0d72", null ],
     [ "adc_config", "dashboard_2main_8c.html#a8bc9fb223f56d390b7afb8df193b3aec", null ],
     [ "adc_handle", "dashboard_2main_8c.html#ae13307269d9ab97e7be91b0569eca21b", null ],
-    [ "gpio_config", "dashboard_2main_8c.html#a60563c6df24a123ae18e090bca85f555", null ],
+    [ "gpio_config", "dashboard_2main_8c.html#a0445edd8b78aacc940a1a3848a9b9166", null ],
     [ "raw_adc_values", "dashboard_2main_8c.html#a29bc293670e53a11d854f35bca555254", null ]
 ];

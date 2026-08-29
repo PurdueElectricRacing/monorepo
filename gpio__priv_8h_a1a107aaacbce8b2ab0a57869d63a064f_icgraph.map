@@ -1,0 +1,9 @@
+<map id="PHAL_GPIO_priv_read" name="PHAL_GPIO_priv_read">
+<area shape="rect" id="Node000001" title="Read IDR&#39;s bit for pin. Caller must have validated pin &lt;= 15." alt="" coords="408,31,565,56"/>
+<area shape="rect" id="Node000002" href="$gpio__priv_8c.html#a0e238c800aa61324f3fb51dad1683319" title="Read then invert pin via BSRR. Caller must have validated pin &lt;= 15." alt="" coords="193,5,360,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="392,35,360,31,361,26,393,30"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2gpio_2gpio_8c.html#a1137300cd37c20dfef9c862571fe1f25" title="Read the current input state of a pin." alt="" coords="212,55,341,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="393,57,341,63,341,58,392,52"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2gpio_2gpio_8c.html#afc327d5a4a123df299e3ee7400ac78f5" title="Flip an output pin&#39;s current state." alt="" coords="5,5,145,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="177,21,145,21,145,16,177,16"/>
+</map>

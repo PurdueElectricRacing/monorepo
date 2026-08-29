@@ -118,22 +118,25 @@ $(function(){initNavTree('g4__testing_2main_8h_source.html',''); initResizable(t
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="g4__testing_2main_8h.html#aa0ded3a1f2fd446203c124bdda1e1998">   15</a></span><span class="preprocessor">#define LED_ORANGE_PORT GPIOB</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="g4__testing_2main_8h.html#aea00e65d8db15efe130e134943eec5a7">   16</a></span><span class="preprocessor">#define LED_ORANGE_PIN  1</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="struct____attribute____.html">__attribute__</a>((packed)) {</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="comment">// Do not modify this struct</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="comment">// unless you modify the ADC DMA config in main.h to match</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    uint16_t val1;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    uint16_t val2;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    uint16_t val3;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    uint16_t val4;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="g4__testing_2main_8h.html#af796e3555932af2c8dce8e497f1e4734">   25</a></span>} <a class="code hl_variable" href="g4__testing_2main_8h.html#af796e3555932af2c8dce8e497f1e4734">raw_adc_values_t</a>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="g4__testing_2main_8h.html#a8884bf63ba10903a15456ee0e46da4c4">   18</a></span><span class="preprocessor">#define LED_NUCLEO_GREEN_PORT GPIOA</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="g4__testing_2main_8h.html#aa4b3a09939df3620b7fd15632064139a">   19</a></span><span class="preprocessor">#define LED_NUCLEO_GREEN_PIN  5</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="struct____attribute____.html">__attribute__</a>((packed)) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="comment">// Do not modify this struct</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">// unless you modify the ADC DMA config in main.h to match</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    uint16_t val1;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    uint16_t val2;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    uint16_t val3;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    uint16_t val4;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="g4__testing_2main_8h.html#af796e3555932af2c8dce8e497f1e4734">   28</a></span>} <a class="code hl_variable" href="g4__testing_2main_8h.html#af796e3555932af2c8dce8e497f1e4734">raw_adc_values_t</a>;</div>
 </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">volatile</span> <span class="keyword">extern</span> <a class="code hl_struct" href="structraw__adc__values__t.html">raw_adc_values_t</a> <a class="code hl_variable" href="dashboard_2main_8h.html#a29bc293670e53a11d854f35bca555254">raw_adc_values</a>;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="g4__testing_2main_8h.html#ada9f09bbee2e15c2069f4c25ec74bed8">   28</a></span><span class="preprocessor">#define ADC_NUM_CHANNELS (sizeof(raw_adc_values) / sizeof(uint16_t))</span></div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#endif </span><span class="comment">// __G4_TESTING_MAIN_H__</span></div>
-<div class="ttc" id="adashboard_2main_8h_html_a29bc293670e53a11d854f35bca555254"><div class="ttname"><a href="dashboard_2main_8h.html#a29bc293670e53a11d854f35bca555254">raw_adc_values</a></div><div class="ttdeci">volatile raw_adc_values_t raw_adc_values</div><div class="ttdef"><b>Definition</b> main.c:104</div></div>
-<div class="ttc" id="ag4__testing_2main_8h_html_af796e3555932af2c8dce8e497f1e4734"><div class="ttname"><a href="g4__testing_2main_8h.html#af796e3555932af2c8dce8e497f1e4734">raw_adc_values_t</a></div><div class="ttdeci">raw_adc_values_t</div><div class="ttdef"><b>Definition</b> main.h:25</div></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">volatile</span> <span class="keyword">extern</span> <a class="code hl_struct" href="structraw__adc__values__t.html">raw_adc_values_t</a> <a class="code hl_variable" href="dashboard_2main_8h.html#a29bc293670e53a11d854f35bca555254">raw_adc_values</a>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="g4__testing_2main_8h.html#ada9f09bbee2e15c2069f4c25ec74bed8">   31</a></span><span class="preprocessor">#define ADC_NUM_CHANNELS (sizeof(raw_adc_values) / sizeof(uint16_t))</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#endif </span><span class="comment">// __G4_TESTING_MAIN_H__</span></div>
+<div class="ttc" id="adashboard_2main_8h_html_a29bc293670e53a11d854f35bca555254"><div class="ttname"><a href="dashboard_2main_8h.html#a29bc293670e53a11d854f35bca555254">raw_adc_values</a></div><div class="ttdeci">volatile raw_adc_values_t raw_adc_values</div><div class="ttdef"><b>Definition</b> main.c:105</div></div>
+<div class="ttc" id="ag4__testing_2main_8h_html_af796e3555932af2c8dce8e497f1e4734"><div class="ttname"><a href="g4__testing_2main_8h.html#af796e3555932af2c8dce8e497f1e4734">raw_adc_values_t</a></div><div class="ttdeci">raw_adc_values_t</div><div class="ttdef"><b>Definition</b> main.h:28</div></div>
 <div class="ttc" id="astruct____attribute_____html"><div class="ttname"><a href="struct____attribute____.html">__attribute__</a></div><div class="ttdef"><b>Definition</b> main.h:260</div></div>
 <div class="ttc" id="astructraw__adc__values__t_html"><div class="ttname"><a href="structraw__adc__values__t.html">raw_adc_values_t</a></div><div class="ttdef"><b>Definition</b> main.h:17</div></div>
 </div><!-- fragment --></div><!-- contents -->

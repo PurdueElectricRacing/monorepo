@@ -25,7 +25,7 @@ var driveline_2main_8c =
     [ "adc4_channels", "driveline_2main_8c.html#a5ce0e5543145fcdb5a4fbac46706f441", null ],
     [ "adc4_config", "driveline_2main_8c.html#a4bd69d9b4974a4a149e4e5a5e4d84efb", null ],
     [ "adc4_handle", "driveline_2main_8c.html#a0ddb28e8b5df6241c1627ae786f3798a", null ],
-    [ "gpio_config", "driveline_2main_8c.html#a60563c6df24a123ae18e090bca85f555", null ],
+    [ "gpio_config", "driveline_2main_8c.html#a0445edd8b78aacc940a1a3848a9b9166", null ],
     [ "left_celsius_scaled", "driveline_2main_8c.html#a70c7f30ff122b1b5c72e9a745c1ac17a", null ],
     [ "left_length_scaled", "driveline_2main_8c.html#ad2c8ff4638387ce48a0cc0dff1b8561f", null ],
     [ "raw_adc1_values", "driveline_2main_8c.html#a459a3946cf810b4181a32657c4baf0ef", null ],

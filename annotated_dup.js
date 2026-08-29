@@ -97,6 +97,7 @@ var annotated_dup =
     [ "PHAL_DMA_Handle_t", "structPHAL__DMA__Handle__t.html", "structPHAL__DMA__Handle__t" ],
     [ "PHAL_DMA_Params_t", "structPHAL__DMA__Params__t.html", "structPHAL__DMA__Params__t" ],
     [ "PHAL_DMA_Wiring_t", "structPHAL__DMA__Wiring__t.html", "structPHAL__DMA__Wiring__t" ],
+    [ "PHAL_GPIO_InitConfig_t", "structPHAL__GPIO__InitConfig__t.html", "structPHAL__GPIO__InitConfig__t" ],
     [ "PHAL_SD_Cmd_t", "structPHAL__SD__Cmd__t.html", "structPHAL__SD__Cmd__t" ],
     [ "PHAL_USART_HwMap_t", "structPHAL__USART__HwMap__t.html", "structPHAL__USART__HwMap__t" ],
     [ "PHAL_USART_state_t", "structPHAL__USART__state__t.html", "structPHAL__USART__state__t" ],

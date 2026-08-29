@@ -175,9 +175,9 @@ var sectionId = 'dynsection-7';
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a613ebbfff35a56132e58a75c773d7876" target="_top" xlink:title="Read the state of the input register for the specific GPIO pin.">
-<polygon fill="white" stroke="#666666" points="251.38,-352.25 159.62,-352.25 159.62,-333 251.38,-333 251.38,-352.25"/>
-<text text-anchor="middle" x="205.5" y="-338.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_readGPIO</text>
+<g id="a_Node000008"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" target="_top" xlink:title="Read the state of the input register for the specific GPIO pin.">
+<polygon fill="white" stroke="#666666" points="254,-352.25 157,-352.25 157,-333 254,-333 254,-352.25"/>
+<text text-anchor="middle" x="205.5" y="-338.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_GPIO_read</text>
 </a>
 </g>
 </g>
@@ -185,17 +185,17 @@ var sectionId = 'dynsection-7';
 <g id="edge7_Node000001_Node000008" class="edge">
 <title>Node1&#45;&gt;Node8</title>
 <g id="a_edge7_Node000001_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M107.97,-330.38C120.97,-332.03 134.93,-333.8 148.08,-335.47"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="147.52,-338.92 157.88,-336.71 148.4,-331.98 147.52,-338.92"/>
+<path fill="none" stroke="#63b8ff" d="M107.97,-330.38C120.2,-331.93 133.27,-333.59 145.72,-335.17"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="145.07,-338.61 155.43,-336.4 145.95,-331.67 145.07,-338.61"/>
 </a>
 </g>
 </g>
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" target="_top" xlink:title="Write a logic value to an output pin.">
-<polygon fill="white" stroke="#666666" points="252.5,-315.25 158.5,-315.25 158.5,-296 252.5,-296 252.5,-315.25"/>
-<text text-anchor="middle" x="205.5" y="-301.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_writeGPIO</text>
+<g id="a_Node000009"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" target="_top" xlink:title="Write a logic value to an output pin.">
+<polygon fill="white" stroke="#666666" points="255.12,-315.25 155.88,-315.25 155.88,-296 255.12,-296 255.12,-315.25"/>
+<text text-anchor="middle" x="205.5" y="-301.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_GPIO_write</text>
 </a>
 </g>
 </g>
@@ -203,8 +203,8 @@ var sectionId = 'dynsection-7';
 <g id="edge8_Node000001_Node000009" class="edge">
 <title>Node1&#45;&gt;Node9</title>
 <g id="a_edge8_Node000001_Node000009"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M107.97,-317.23C120.71,-315.7 134.37,-314.05 147.29,-312.5"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="147.39,-316.01 156.9,-311.35 146.56,-309.06 147.39,-316.01"/>
+<path fill="none" stroke="#63b8ff" d="M107.97,-317.23C119.69,-315.82 132.19,-314.32 144.17,-312.88"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="144.44,-316.37 153.95,-311.7 143.6,-309.42 144.44,-316.37"/>
 </a>
 </g>
 </g>

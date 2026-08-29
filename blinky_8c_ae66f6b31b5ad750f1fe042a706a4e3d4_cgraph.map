@@ -4,46 +4,66 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="32,178,53,113,73,74,101,40,104,37,108,41,105,44,77,77,58,115,37,179"/>
 <area shape="rect" id="Node000003" href="$blinky_8c.html#a26523b6d1f04edb5b46ea0fc23af8e96" title=" " alt="" coords="132,55,204,80"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="35,177,60,134,79,110,101,89,116,80,119,85,104,94,83,114,65,137,40,180"/>
-<area shape="rect" id="Node000006" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="530,153,655,179"/>
-<area shape="poly" id="edge25_Node000001_Node000006" title=" " alt="" coords="47,203,72,223,104,238,139,246,167,247,233,238,514,180,515,185,233,243,167,252,138,252,102,243,69,227,44,207"/>
+<area shape="rect" id="Node000006" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="595,228,728,254"/>
+<area shape="poly" id="edge23_Node000001_Node000006" title=" " alt="" coords="47,203,72,223,104,238,166,254,231,264,296,270,361,271,481,265,579,253,580,258,482,270,361,276,296,275,230,270,165,259,102,243,69,227,44,207"/>
 <area shape="rect" id="Node000007" href="$blinky_8c.html#af1732b68a532fd4dbaa6e34152c49585" title=" " alt="" coords="132,104,204,130"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="46,176,101,139,116,131,118,136,104,143,49,180"/>
 <area shape="rect" id="Node000008" href="$blinky_8c.html#a16a34b44b57ab33a01ec47aad586fae9" title=" " alt="" coords="132,153,204,179"/>
 <area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="54,184,116,173,117,178,55,190"/>
 <area shape="rect" id="Node000009" href="$blinky_8c.html#a6312dae81a730823b198c3005cfbc3b2" title=" " alt="" coords="132,203,204,228"/>
 <area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="55,193,117,204,116,209,54,198"/>
-<area shape="rect" id="Node000010" href="$phal__F4_2gpio_2gpio_8c.html#a9f473c8a74e27d069fa4de69fcbb4d60" title="Initilize the GPIO perpheral given a list of configuration fields for all of the GPIO pins...." alt="" coords="111,304,225,330"/>
-<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="41,203,66,241,104,283,121,294,118,299,101,287,62,245,36,206"/>
-<area shape="rect" id="Node000011" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="110,376,226,402"/>
-<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="38,204,61,266,80,305,105,340,133,365,129,369,101,344,76,307,56,269,33,206"/>
-<area shape="rect" id="Node000004" href="$phal__F4_2gpio_2gpio_8h.html#ae07cde77ad92538f5b12aa3359762399" title=" " alt="" coords="289,129,421,155"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="205,78,234,89,310,120,308,125,232,94,203,83"/>
-<area shape="rect" id="Node000005" href="$phal__F4_2gpio_2gpio_8h.html#a613ebbfff35a56132e58a75c773d7876" title="Read the state of the input register for the specific GPIO pin." alt="" coords="531,104,654,130"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="422,132,516,122,516,128,422,138"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="422,146,514,156,514,161,422,152"/>
-<area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="205,119,274,129,273,134,204,124"/>
-<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="204,159,273,150,274,155,205,164"/>
-<area shape="poly" id="edge11_Node000009_Node000004" title=" " alt="" coords="203,200,232,189,307,159,309,164,234,194,205,205"/>
-<area shape="rect" id="Node000012" href="$phal__G4_2rcc_2rcc_8c.html#af54790732c9560e8d675f78a03486d58" title=" " alt="" coords="281,400,429,426"/>
-<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="226,394,266,399,265,404,226,399"/>
-<area shape="rect" id="Node000013" href="$rcc__priv_8c.html#a50d76be796629d46a38a42d44eb66de8" title=" " alt="" coords="491,203,694,228"/>
-<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="362,398,414,312,447,267,476,237,483,233,486,237,479,242,451,270,419,315,366,401"/>
-<area shape="rect" id="Node000014" href="$rcc__priv_8c.html#af6a23fb139af68392809e9f4b6df780c" title="Disable HSI16 and block until it&#39;s off." alt="" coords="497,252,688,278"/>
-<area shape="poly" id="edge16_Node000012_Node000014" title=" " alt="" coords="363,398,407,343,439,312,476,287,487,281,489,286,479,291,442,316,411,347,367,401"/>
-<area shape="rect" id="Node000015" href="$rcc__priv_8c.html#abbb9fd124f523af3b6897e508f23d8df" title=" " alt="" coords="477,301,708,327"/>
-<area shape="poly" id="edge17_Node000012_Node000015" title=" " alt="" coords="372,397,418,366,476,336,495,329,497,334,478,341,421,371,375,402"/>
-<area shape="rect" id="Node000016" href="$rcc__priv_8c.html#a32fe0492b8a8d72fdcc5cddbdaa6fb83" title=" " alt="" coords="497,351,688,376"/>
-<area shape="poly" id="edge18_Node000012_Node000016" title=" " alt="" coords="420,397,512,377,513,383,421,402"/>
-<area shape="rect" id="Node000017" href="$rcc__priv_8c.html#a300d3d7b11d4d40bdede8cf6809054ed" title="Enable HSI16 and block until it&#39;s ready." alt="" coords="499,400,686,426"/>
-<area shape="poly" id="edge19_Node000012_Node000017" title=" " alt="" coords="429,410,483,410,483,416,429,416"/>
-<area shape="rect" id="Node000018" href="$rcc__priv_8c.html#aaa3c315b2d9914f1f4a08f6e90b20b14" title="Set the AHB, APB1, and APB2 prescalers to divide&#45;by&#45;1 (undivided)" alt="" coords="478,450,707,490"/>
-<area shape="poly" id="edge20_Node000012_Node000018" title=" " alt="" coords="412,424,491,443,490,448,411,429"/>
-<area shape="rect" id="Node000019" href="$rcc__priv_8c.html#a7132fb1976567126eda1d646d5004f4d" title=" " alt="" coords="481,515,704,540"/>
-<area shape="poly" id="edge21_Node000012_Node000019" title=" " alt="" coords="372,424,417,462,447,483,478,500,497,507,495,512,476,505,444,487,414,466,369,428"/>
-<area shape="rect" id="Node000020" href="$rcc__priv_8c.html#a22006c33eaa9815180109be23241efd7" title="Switch SYSCLK to HSE and block until the switch is confirmed." alt="" coords="491,564,694,605"/>
-<area shape="poly" id="edge22_Node000012_Node000020" title=" " alt="" coords="366,425,409,486,441,521,479,551,486,555,484,560,476,555,438,525,405,489,362,428"/>
-<area shape="rect" id="Node000021" href="$rcc__priv_8c.html#a9d764d1ad952cbde1cde6d794b88add7" title="Switch SYSCLK to HSI16 and block until the switch is confirmed." alt="" coords="491,630,694,670"/>
-<area shape="poly" id="edge23_Node000012_Node000021" title=" " alt="" coords="363,425,377,463,400,514,434,568,455,593,479,615,486,620,483,624,476,619,451,597,430,572,396,517,372,465,358,427"/>
-<area shape="rect" id="Node000022" href="$rcc__priv_8c.html#a8a440b6372df82c3f5e994b5fd41a6d4" title="Switch SYSCLK to the PLL and block until the switch is confirmed." alt="" coords="491,695,694,736"/>
-<area shape="poly" id="edge24_Node000012_Node000022" title=" " alt="" coords="361,425,371,473,392,542,407,579,427,616,451,650,479,680,485,685,482,689,476,684,447,654,422,619,403,582,387,544,366,475,356,426"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="107,403,228,428"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="42,203,153,388,149,391,37,206"/>
+<area shape="rect" id="Node000021" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="110,632,226,658"/>
+<area shape="poly" id="edge24_Node000001_Node000021" title=" " alt="" coords="37,204,105,440,160,616,155,618,100,442,32,205"/>
+<area shape="rect" id="Node000004" href="$phal__F4_2gpio_2gpio_8h.html#ad3c2ff627e4cd120d7ce84467503d888" title=" " alt="" coords="320,153,459,179"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="205,78,234,89,350,143,347,148,232,94,204,83"/>
+<area shape="rect" id="Node000005" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="597,153,726,179"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="460,164,582,164,582,169,460,169"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="440,177,598,221,596,226,438,182"/>
+<area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="205,122,314,147,313,152,204,127"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="204,164,304,164,304,169,204,169"/>
+<area shape="poly" id="edge11_Node000009_Node000004" title=" " alt="" coords="204,205,313,180,314,186,205,210"/>
+<area shape="rect" id="Node000011" href="$gpio__priv_8c.html#ac9a1d8411608b7f8b53d5348601ce43e" title="Enable the AHB2 clock for bank&#39;s port (GPIOA&#45;GPIOG)." alt="" coords="288,304,491,330"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="184,400,225,369,280,338,297,332,299,337,282,343,228,373,187,404"/>
+<area shape="rect" id="Node000012" href="$gpio__priv_8c.html#a396ed356814413b8113510a00d0bf88f" title="Set AFR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="282,353,498,379"/>
+<area shape="poly" id="edge14_Node000010_Node000012" title=" " alt="" coords="228,399,280,388,313,380,314,385,282,393,229,405"/>
+<area shape="rect" id="Node000013" href="$gpio__priv_8c.html#acb06a5a664412ca862f34d9ee58ddc4d" title="Set MODER&#39;s field for pin to type. Caller must have validated pin &lt;= 15." alt="" coords="298,403,481,428"/>
+<area shape="poly" id="edge15_Node000010_Node000013" title=" " alt="" coords="229,413,283,413,283,418,229,418"/>
+<area shape="rect" id="Node000015" href="$gpio__priv_8c.html#aaeae1cf9d29181e47f0fca4dcbaf4d98" title="Set OSPEEDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="295,452,484,493"/>
+<area shape="poly" id="edge17_Node000010_Node000015" title=" " alt="" coords="221,426,294,445,293,451,220,432"/>
+<area shape="rect" id="Node000017" href="$gpio__priv_8c.html#adf74462d771e41ca4d8373790d1ea8d7" title="Set OTYPER&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="281,517,498,543"/>
+<area shape="poly" id="edge19_Node000010_Node000017" title=" " alt="" coords="183,427,225,465,253,485,282,502,299,509,297,514,280,507,250,490,222,469,180,431"/>
+<area shape="rect" id="Node000019" href="$gpio__priv_8c.html#a5356a96ea085671fbdaa7521a08fbc6b" title="Set PUPDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="304,567,476,592"/>
+<area shape="poly" id="edge21_Node000010_Node000019" title=" " alt="" coords="178,427,216,489,246,524,283,553,291,558,288,562,279,558,243,528,212,492,173,430"/>
+<area shape="rect" id="Node000014" href="$gpio__priv_8c.html#a0c907ce193b55b7b744a4763218d14f4" title="Get the bit pattern for a pin&#39;s MODER field from its type." alt="" coords="605,403,718,428"/>
+<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="481,413,590,413,590,418,481,418"/>
+<area shape="rect" id="Node000016" href="$gpio__priv_8c.html#a44cc6c129f8a36940f86366078bf68a5" title="Get the bit pattern for a pin&#39;s OSPEEDR field from its speed." alt="" coords="604,460,719,486"/>
+<area shape="poly" id="edge18_Node000015_Node000016" title=" " alt="" coords="485,470,588,470,588,476,485,476"/>
+<area shape="rect" id="Node000018" href="$gpio__priv_8c.html#a90e78e8eb05b4cb35e422fe0cc03fe11" title="Get the bit pattern for a pin&#39;s OTYPER field from its output type." alt="" coords="606,517,717,543"/>
+<area shape="poly" id="edge20_Node000017_Node000018" title=" " alt="" coords="499,528,590,528,590,533,499,533"/>
+<area shape="rect" id="Node000020" href="$gpio__priv_8c.html#ab327360b29d2588b06a0687aa036e314" title="Get the bit pattern for a pin&#39;s PUPDR field from its pull selection." alt="" coords="611,567,712,592"/>
+<area shape="poly" id="edge22_Node000019_Node000020" title=" " alt="" coords="476,577,596,577,596,582,476,582"/>
+<area shape="rect" id="Node000022" href="$phal__G4_2rcc_2rcc_8c.html#af54790732c9560e8d675f78a03486d58" title=" " alt="" coords="316,813,464,839"/>
+<area shape="poly" id="edge25_Node000021_Node000022" title=" " alt="" coords="187,656,362,801,359,805,184,660"/>
+<area shape="rect" id="Node000023" href="$rcc__priv_8c.html#a50d76be796629d46a38a42d44eb66de8" title=" " alt="" coords="560,616,763,642"/>
+<area shape="poly" id="edge26_Node000022_Node000023" title=" " alt="" coords="397,811,418,778,451,734,494,689,545,651,555,645,557,650,548,655,498,693,455,738,422,781,401,814"/>
+<area shape="rect" id="Node000024" href="$rcc__priv_8c.html#af6a23fb139af68392809e9f4b6df780c" title="Disable HSI16 and block until it&#39;s off." alt="" coords="566,665,757,691"/>
+<area shape="poly" id="edge27_Node000022_Node000024" title=" " alt="" coords="401,811,460,757,500,726,545,700,559,694,561,699,548,705,503,730,463,761,405,815"/>
+<area shape="rect" id="Node000025" href="$rcc__priv_8c.html#abbb9fd124f523af3b6897e508f23d8df" title=" " alt="" coords="546,715,777,740"/>
+<area shape="poly" id="edge28_Node000022_Node000025" title=" " alt="" coords="413,810,472,780,545,749,569,742,571,747,547,754,474,784,416,815"/>
+<area shape="rect" id="Node000026" href="$rcc__priv_8c.html#a32fe0492b8a8d72fdcc5cddbdaa6fb83" title=" " alt="" coords="566,764,757,790"/>
+<area shape="poly" id="edge29_Node000022_Node000026" title=" " alt="" coords="464,810,571,790,572,796,465,815"/>
+<area shape="rect" id="Node000027" href="$rcc__priv_8c.html#a300d3d7b11d4d40bdede8cf6809054ed" title="Enable HSI16 and block until it&#39;s ready." alt="" coords="568,813,755,839"/>
+<area shape="poly" id="edge30_Node000022_Node000027" title=" " alt="" coords="464,824,552,824,552,829,464,829"/>
+<area shape="rect" id="Node000028" href="$rcc__priv_8c.html#aaa3c315b2d9914f1f4a08f6e90b20b14" title="Set the AHB, APB1, and APB2 prescalers to divide&#45;by&#45;1 (undivided)" alt="" coords="547,863,776,904"/>
+<area shape="poly" id="edge31_Node000022_Node000028" title=" " alt="" coords="455,837,547,857,546,862,454,842"/>
+<area shape="rect" id="Node000029" href="$rcc__priv_8c.html#a7132fb1976567126eda1d646d5004f4d" title=" " alt="" coords="550,928,773,954"/>
+<area shape="poly" id="edge32_Node000022_Node000029" title=" " alt="" coords="411,837,470,875,547,913,571,921,569,926,545,918,468,879,408,842"/>
+<area shape="rect" id="Node000030" href="$rcc__priv_8c.html#a22006c33eaa9815180109be23241efd7" title="Switch SYSCLK to HSE and block until the switch is confirmed." alt="" coords="560,978,763,1018"/>
+<area shape="poly" id="edge33_Node000022_Node000030" title=" " alt="" coords="404,838,461,898,502,934,548,964,558,969,555,974,545,968,499,938,458,902,400,841"/>
+<area shape="rect" id="Node000031" href="$rcc__priv_8c.html#a9d764d1ad952cbde1cde6d794b88add7" title="Switch SYSCLK to HSI16 and block until the switch is confirmed." alt="" coords="560,1043,763,1084"/>
+<area shape="poly" id="edge34_Node000022_Node000031" title=" " alt="" coords="400,838,420,876,452,927,495,982,521,1006,548,1028,557,1034,554,1038,545,1032,517,1010,491,985,448,930,415,879,395,841"/>
+<area shape="rect" id="Node000032" href="$rcc__priv_8c.html#a8a440b6372df82c3f5e994b5fd41a6d4" title="Switch SYSCLK to the PLL and block until the switch is confirmed." alt="" coords="560,1108,763,1149"/>
+<area shape="poly" id="edge35_Node000022_Node000032" title=" " alt="" coords="397,838,413,886,443,955,488,1030,516,1064,548,1093,555,1098,552,1103,545,1098,512,1067,484,1033,439,958,408,888,392,840"/>
 </map>

@@ -11,5 +11,5 @@ var main__module_2main_8c =
     [ "RTOS_DEFINE_TASK", "main__module_2main_8c.html#a2a35500deb3cebf63ce3ca3740ecd0f6", null ],
     [ "RTOS_DEFINE_TASK", "main__module_2main_8c.html#a11c45a0f1e96fd7d37bee91933b7b4a4", null ],
     [ "RTOS_DEFINE_TASK", "main__module_2main_8c.html#a2f93fb4232845d59201bb8eaca5ca1d8", null ],
-    [ "gpio_config", "main__module_2main_8c.html#a60563c6df24a123ae18e090bca85f555", null ]
+    [ "gpio_config", "main__module_2main_8c.html#a0445edd8b78aacc940a1a3848a9b9166", null ]
 ];

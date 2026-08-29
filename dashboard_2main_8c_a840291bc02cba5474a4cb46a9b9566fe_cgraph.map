@@ -16,20 +16,20 @@
 <area shape="poly" id="edge33_Node000001_Node000098" title=" " alt="" coords="55,1106,111,1106,111,1112,55,1112"/>
 <area shape="rect" id="Node000101" href="$fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d" title="Initialize an FDCAN peripheral for classic (non&#45;FD) CAN operation." alt="" coords="136,1195,269,1220"/>
 <area shape="poly" id="edge39_Node000001_Node000101" title=" " alt="" coords="56,1120,166,1184,164,1189,53,1124"/>
-<area shape="rect" id="Node000110" href="$phal__F4_2gpio_2gpio_8c.html#a9f473c8a74e27d069fa4de69fcbb4d60" title="Initilize the GPIO perpheral given a list of configuration fields for all of the GPIO pins...." alt="" coords="145,1244,260,1270"/>
-<area shape="poly" id="edge47_Node000001_Node000110" title=" " alt="" coords="38,1121,60,1175,79,1205,104,1231,132,1245,129,1249,101,1235,75,1209,55,1177,33,1123"/>
-<area shape="rect" id="Node000111" href="$phal__G4_2rcc_2rcc_8c.html#ab76710442224b6b571ada816cb46c840" title=" " alt="" coords="103,1293,302,1319"/>
-<area shape="poly" id="edge48_Node000001_Node000111" title=" " alt="" coords="35,1122,41,1154,53,1197,73,1242,87,1263,104,1280,108,1283,104,1287,101,1284,83,1266,69,1245,48,1199,36,1155,30,1122"/>
-<area shape="rect" id="Node000112" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="145,1343,260,1368"/>
-<area shape="poly" id="edge49_Node000001_Node000112" title=" " alt="" coords="34,1122,37,1163,47,1219,68,1279,84,1306,104,1329,131,1345,128,1350,101,1334,80,1309,63,1281,41,1220,31,1163,29,1122"/>
-<area shape="rect" id="Node000124" href="$phal__G4_2usart_2usart_8c.html#a6a2d7bc858fa90a11e983e615fde1f7c" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="136,997,269,1023"/>
-<area shape="poly" id="edge50_Node000001_Node000124" title=" " alt="" coords="53,1093,164,1029,166,1033,56,1098"/>
-<area shape="rect" id="Node000130" href="$a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash." alt="" coords="128,1392,276,1418"/>
-<area shape="poly" id="edge52_Node000001_Node000130" title=" " alt="" coords="36,1122,59,1255,79,1331,91,1360,105,1379,116,1387,112,1392,101,1383,87,1362,74,1332,53,1257,30,1123"/>
-<area shape="rect" id="Node000131" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="147,1441,258,1467"/>
-<area shape="poly" id="edge53_Node000001_Node000131" title=" " alt="" coords="35,1122,42,1187,55,1279,76,1370,90,1405,105,1428,117,1438,133,1445,131,1450,115,1443,101,1432,85,1407,71,1372,50,1280,37,1188,30,1123"/>
-<area shape="rect" id="Node000132" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="164,1491,240,1516"/>
-<area shape="poly" id="edge54_Node000001_Node000132" title=" " alt="" coords="35,1122,40,1196,52,1303,73,1409,88,1450,105,1478,125,1492,150,1499,148,1504,123,1497,101,1481,83,1453,68,1410,47,1304,35,1196,29,1122"/>
+<area shape="rect" id="Node000110" href="$phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="142,1244,263,1270"/>
+<area shape="poly" id="edge47_Node000001_Node000110" title=" " alt="" coords="38,1121,60,1175,79,1205,104,1231,129,1244,126,1248,101,1235,75,1209,55,1177,33,1123"/>
+<area shape="rect" id="Node000121" href="$phal__G4_2rcc_2rcc_8c.html#ab76710442224b6b571ada816cb46c840" title=" " alt="" coords="103,1293,302,1319"/>
+<area shape="poly" id="edge48_Node000001_Node000121" title=" " alt="" coords="35,1122,41,1154,53,1197,73,1242,87,1263,104,1280,108,1283,104,1287,101,1284,83,1266,69,1245,48,1199,36,1155,30,1122"/>
+<area shape="rect" id="Node000122" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="145,1343,260,1368"/>
+<area shape="poly" id="edge49_Node000001_Node000122" title=" " alt="" coords="34,1122,37,1163,47,1219,68,1279,84,1306,104,1329,131,1345,128,1350,101,1334,80,1309,63,1281,41,1220,31,1163,29,1122"/>
+<area shape="rect" id="Node000134" href="$phal__G4_2usart_2usart_8c.html#a6a2d7bc858fa90a11e983e615fde1f7c" title="Initialize a USART peripheral for DMA&#45;driven communication." alt="" coords="136,997,269,1023"/>
+<area shape="poly" id="edge50_Node000001_Node000134" title=" " alt="" coords="53,1093,164,1029,166,1033,56,1098"/>
+<area shape="rect" id="Node000140" href="$a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash." alt="" coords="128,1392,276,1418"/>
+<area shape="poly" id="edge52_Node000001_Node000140" title=" " alt="" coords="36,1122,59,1255,79,1331,91,1360,105,1379,116,1387,112,1392,101,1383,87,1362,74,1332,53,1257,30,1123"/>
+<area shape="rect" id="Node000141" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="147,1441,258,1467"/>
+<area shape="poly" id="edge53_Node000001_Node000141" title=" " alt="" coords="35,1122,42,1187,55,1279,76,1370,90,1405,105,1428,117,1438,133,1445,131,1450,115,1443,101,1432,85,1407,71,1372,50,1280,37,1188,30,1123"/>
+<area shape="rect" id="Node000142" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="164,1491,240,1516"/>
+<area shape="poly" id="edge54_Node000001_Node000142" title=" " alt="" coords="35,1122,40,1196,52,1303,73,1409,88,1450,105,1478,125,1492,150,1499,148,1504,123,1497,101,1481,83,1453,68,1410,47,1304,35,1196,29,1122"/>
 <area shape="rect" id="Node000003" href="$can__rx_8c.html#a41290208a3af5ab8710a8eacc7bd76c8" title=" " alt="" coords="414,5,505,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="238,77,349,40,399,27,400,33,351,45,240,82"/>
 <area shape="rect" id="Node000004" href="$can__init_8c.html#a3b585e92c28e68093702e7d507555fad" title=" " alt="" coords="397,55,522,80"/>
@@ -102,5 +102,5 @@
 <area shape="poly" id="edge45_Node000101_Node000107" title=" " alt="" coords="270,1211,288,1218,304,1230,319,1248,327,1267,329,1306,331,1343,338,1361,352,1379,354,1381,351,1385,348,1383,333,1364,326,1344,324,1306,321,1269,314,1251,300,1233,285,1223,268,1216"/>
 <area shape="rect" id="Node000108" href="$fdcan__priv_8c.html#a32bfa5f854b4e4c1744275bfbe7fbbcd" title="Write a filter action to RXGFC (accept/reject all)" alt="" coords="359,1458,560,1498"/>
 <area shape="poly" id="edge46_Node000101_Node000108" title=" " alt="" coords="270,1210,288,1218,304,1230,323,1256,332,1284,332,1311,329,1338,326,1364,327,1391,334,1417,352,1443,355,1446,351,1450,348,1447,329,1419,322,1392,321,1364,324,1337,327,1311,326,1284,319,1259,300,1233,286,1223,268,1215"/>
-<area shape="poly" id="edge51_Node000124_Node000086" title=" " alt="" coords="269,995,374,975,375,980,270,1000"/>
+<area shape="poly" id="edge51_Node000134_Node000086" title=" " alt="" coords="269,995,374,975,375,980,270,1000"/>
 </map>

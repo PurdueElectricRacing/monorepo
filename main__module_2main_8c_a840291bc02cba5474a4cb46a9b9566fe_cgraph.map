@@ -1,107 +1,106 @@
 <map id="main" name="main">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,729,55,755"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,1164,55,1190"/>
 <area shape="rect" id="Node000002" href="$can__init_8c.html#aecd3668d7c5e693e061db7650203b304" title=" " alt="" coords="140,80,214,106"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="30,729,53,564,74,444,100,320,132,208,163,119,168,121,138,210,105,321,79,445,58,565,36,729"/>
-<area shape="rect" id="Node000006" href="$faults__common_8h.html#af1f330045faf14dff0057e5b9e39a713" title=" " alt="" coords="107,333,246,359"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="29,729,35,655,48,547,69,440,83,398,101,369,102,367,106,371,105,372,88,400,74,442,53,548,41,655,35,729"/>
-<area shape="rect" id="Node000007" href="$a__box_2main_8c.html#a2bffc10d5bd4106753b7c30e86903bea" title=" " alt="" coords="112,383,242,408"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="30,728,37,664,51,571,72,479,85,443,101,418,102,416,106,420,105,421,90,445,77,481,56,572,42,664,35,729"/>
-<area shape="rect" id="Node000008" href="$fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d" title="Initialize an FDCAN peripheral for classic (non&#45;FD) CAN operation." alt="" coords="110,432,244,458"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="33,728,60,658,100,565,156,469,161,472,105,567,65,660,38,730"/>
-<area shape="rect" id="Node000017" href="$phal__F4_2gpio_2gpio_8c.html#a9f473c8a74e27d069fa4de69fcbb4d60" title="Initilize the GPIO perpheral given a list of configuration fields for all of the GPIO pins...." alt="" coords="120,579,234,604"/>
-<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="33,728,55,673,75,641,101,614,105,610,108,615,104,617,79,644,60,675,38,730"/>
-<area shape="rect" id="Node000018" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="119,628,234,654"/>
-<area shape="poly" id="edge17_Node000001_Node000018" title=" " alt="" coords="40,727,67,699,101,671,123,658,126,663,104,675,70,703,44,731"/>
-<area shape="rect" id="Node000030" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="346,679,471,704"/>
-<area shape="poly" id="edge21_Node000001_Node000030" title=" " alt="" coords="55,729,102,714,221,697,330,690,330,695,222,702,103,719,56,734"/>
-<area shape="rect" id="Node000031" href="$powertrain_8c.html#a02ec81ffc56b69d59884d5d0b95c33e9" title=" " alt="" coords="124,1216,230,1242"/>
-<area shape="poly" id="edge22_Node000001_Node000031" title=" " alt="" coords="37,755,64,862,105,1013,168,1200,163,1202,100,1015,58,863,32,756"/>
-<area shape="rect" id="Node000037" href="$a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash." alt="" coords="103,1265,251,1291"/>
-<area shape="poly" id="edge28_Node000001_Node000037" title=" " alt="" coords="34,755,36,853,45,1002,54,1080,66,1153,83,1212,105,1253,105,1253,101,1257,100,1256,78,1214,61,1154,49,1081,40,1003,31,853,29,755"/>
-<area shape="rect" id="Node000038" href="$main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968" title="Reports telemetry data at 1 Hz rate Includes: AMK diagnostics." alt="" coords="106,1315,248,1340"/>
-<area shape="poly" id="edge29_Node000001_Node000038" title=" " alt="" coords="34,756,35,861,42,1026,51,1112,64,1191,81,1257,92,1283,105,1302,105,1303,101,1306,101,1305,88,1285,76,1259,58,1193,46,1113,37,1026,29,862,29,756"/>
-<area shape="rect" id="Node000040" href="$main__module_2telemetry_2telemetry_8c.html#a14fa998ab27981c4409143eae0bde0e1" title="Reports telemetry data at 50 Hz rate Includes: AMK reported wheel_speeds." alt="" coords="103,1364,251,1390"/>
-<area shape="poly" id="edge31_Node000001_Node000040" title=" " alt="" coords="34,755,33,869,40,1048,48,1142,61,1230,80,1302,91,1330,105,1351,105,1352,101,1355,101,1354,87,1332,75,1304,56,1231,43,1143,34,1048,28,869,28,755"/>
-<area shape="rect" id="Node000041" href="$sdc_8c.html#abe061ee2b199bb82296440005e5d23fc" title=" " alt="" coords="111,729,243,755"/>
-<area shape="poly" id="edge32_Node000001_Node000041" title=" " alt="" coords="55,740,95,740,95,745,55,745"/>
-<area shape="rect" id="Node000045" href="$vehicle__fsm_8c.html#a17b274e6971a721080e708c8d6eed884" title=" " alt="" coords="105,976,248,1002"/>
-<area shape="poly" id="edge37_Node000001_Node000045" title=" " alt="" coords="41,754,162,961,158,964,37,757"/>
-<area shape="rect" id="Node000065" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="121,1413,232,1439"/>
-<area shape="poly" id="edge54_Node000001_Node000065" title=" " alt="" coords="35,755,41,886,56,1092,77,1291,90,1362,105,1401,110,1406,106,1410,100,1404,85,1364,72,1292,50,1093,36,887,29,755"/>
-<area shape="rect" id="Node000066" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="139,1463,215,1488"/>
-<area shape="poly" id="edge55_Node000001_Node000066" title=" " alt="" coords="34,755,41,895,54,1116,76,1331,89,1408,97,1434,105,1450,126,1465,122,1469,101,1453,92,1436,84,1410,70,1332,49,1117,35,895,29,755"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="28,1164,28,1042,35,827,43,697,56,561,75,423,100,288,129,194,160,119,165,121,134,196,105,289,80,424,61,562,48,698,40,827,33,1042,34,1164"/>
+<area shape="rect" id="Node000006" href="$faults__common_8h.html#af1f330045faf14dff0057e5b9e39a713" title=" " alt="" coords="107,301,246,327"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="29,1163,33,1001,45,738,55,602,67,481,82,388,91,357,100,337,101,336,105,339,105,340,96,358,87,389,72,482,60,602,51,738,39,1001,34,1164"/>
+<area shape="rect" id="Node000007" href="$a__box_2main_8c.html#a2bffc10d5bd4106753b7c30e86903bea" title=" " alt="" coords="112,351,242,376"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="29,1164,34,1010,47,762,56,635,68,521,83,434,91,405,100,386,101,385,105,388,105,389,96,407,88,436,73,522,61,635,52,763,39,1010,34,1164"/>
+<area shape="rect" id="Node000008" href="$fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d" title="Initialize an FDCAN peripheral for classic (non&#45;FD) CAN operation." alt="" coords="110,400,244,426"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="30,1163,56,991,100,731,136,566,166,440,171,442,141,567,105,732,61,992,36,1164"/>
+<area shape="rect" id="Node000017" href="$phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="116,744,238,770"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="32,1163,58,1067,100,935,161,783,166,785,105,936,64,1069,37,1164"/>
+<area shape="rect" id="Node000028" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="342,941,475,967"/>
+<area shape="poly" id="edge23_Node000001_Node000028" title=" " alt="" coords="29,1163,32,1125,43,1074,64,1021,80,997,101,977,126,961,154,949,213,935,273,932,327,936,327,941,272,938,214,941,156,954,129,966,104,982,84,1001,69,1024,48,1076,37,1126,34,1164"/>
+<area shape="rect" id="Node000029" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="119,1263,234,1288"/>
+<area shape="poly" id="edge24_Node000001_Node000029" title=" " alt="" coords="52,1188,145,1251,142,1256,49,1192"/>
+<area shape="rect" id="Node000041" href="$powertrain_8c.html#a02ec81ffc56b69d59884d5d0b95c33e9" title=" " alt="" coords="124,1412,230,1438"/>
+<area shape="poly" id="edge26_Node000001_Node000041" title=" " alt="" coords="41,1189,105,1299,162,1397,158,1400,100,1302,37,1192"/>
+<area shape="rect" id="Node000047" href="$a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash." alt="" coords="103,1461,251,1487"/>
+<area shape="poly" id="edge32_Node000001_Node000047" title=" " alt="" coords="33,1190,34,1238,42,1307,51,1345,63,1382,81,1417,105,1448,106,1450,103,1454,101,1452,77,1420,58,1384,45,1347,37,1308,29,1239,28,1190"/>
+<area shape="rect" id="Node000048" href="$main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968" title="Reports telemetry data at 1 Hz rate Includes: AMK diagnostics." alt="" coords="106,1511,248,1536"/>
+<area shape="poly" id="edge33_Node000001_Node000048" title=" " alt="" coords="35,1190,42,1255,56,1347,77,1438,90,1474,105,1498,106,1499,102,1503,101,1501,85,1476,72,1440,51,1348,37,1255,30,1191"/>
+<area shape="rect" id="Node000050" href="$main__module_2telemetry_2telemetry_8c.html#a14fa998ab27981c4409143eae0bde0e1" title="Reports telemetry data at 50 Hz rate Includes: AMK reported wheel_speeds." alt="" coords="103,1560,251,1586"/>
+<area shape="poly" id="edge35_Node000001_Node000050" title=" " alt="" coords="35,1190,41,1264,53,1371,74,1477,88,1519,105,1547,106,1548,102,1552,101,1550,83,1521,69,1479,48,1372,35,1264,29,1190"/>
+<area shape="rect" id="Node000051" href="$sdc_8c.html#abe061ee2b199bb82296440005e5d23fc" title=" " alt="" coords="111,992,243,1018"/>
+<area shape="poly" id="edge36_Node000001_Node000051" title=" " alt="" coords="41,1162,152,1028,157,1032,45,1165"/>
+<area shape="rect" id="Node000055" href="$vehicle__fsm_8c.html#a17b274e6971a721080e708c8d6eed884" title=" " alt="" coords="105,1164,248,1190"/>
+<area shape="poly" id="edge41_Node000001_Node000055" title=" " alt="" coords="55,1174,90,1174,90,1180,55,1180"/>
+<area shape="rect" id="Node000075" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="121,1609,232,1635"/>
+<area shape="poly" id="edge53_Node000001_Node000075" title=" " alt="" coords="34,1190,39,1272,50,1394,60,1458,71,1516,86,1564,105,1597,110,1602,106,1606,101,1600,82,1566,66,1517,54,1459,45,1395,34,1273,29,1190"/>
+<area shape="rect" id="Node000076" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="139,1659,215,1684"/>
+<area shape="poly" id="edge54_Node000001_Node000076" title=" " alt="" coords="34,1190,37,1280,47,1417,56,1489,69,1555,85,1609,105,1646,126,1660,123,1665,101,1649,80,1611,63,1556,51,1490,42,1418,32,1280,29,1190"/>
 <area shape="rect" id="Node000003" href="$can__rx_8c.html#a41290208a3af5ab8710a8eacc7bd76c8" title=" " alt="" coords="364,5,454,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="205,77,298,40,347,27,349,32,300,45,207,82"/>
 <area shape="rect" id="Node000004" href="$can__init_8c.html#a3b585e92c28e68093702e7d507555fad" title=" " alt="" coords="346,55,471,80"/>
 <area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="214,86,330,73,331,79,214,92"/>
 <area shape="rect" id="Node000005" href="$can__tx_8c.html#a4b594cd4b29fc669fcd91dbf783c47d8" title=" " alt="" coords="364,104,454,130"/>
 <area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="214,94,348,108,348,113,214,99"/>
-<area shape="rect" id="Node000009" href="$fdcan__priv_8c.html#a5989bf0267b012b516dea18271539715" title=" " alt="" coords="299,333,518,359"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="229,429,250,419,264,406,273,393,282,380,298,368,308,363,310,367,300,372,286,384,277,397,268,410,252,423,231,434"/>
-<area shape="rect" id="Node000010" href="$fdcan__priv_8c.html#a405fe02c05033e421fb70515453be08d" title="Enable FDCAN kernel + peripheral clocks (PCLK1)" alt="" coords="301,383,516,408"/>
-<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="240,429,329,410,331,415,241,434"/>
-<area shape="rect" id="Node000011" href="$fdcan__priv_8c.html#ab936d0060d65f2f18ed211714e7b0746" title="Enter INIT mode and unlock configuration registers. Blocks until entered." alt="" coords="304,432,513,458"/>
-<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="244,442,288,442,288,448,244,448"/>
-<area shape="rect" id="Node000012" href="$fdcan__priv_8c.html#ab58932032e5748d11d6fbcd04c68a322" title="Leave INIT mode, ending configuration. Blocks until left." alt="" coords="308,481,509,507"/>
-<area shape="poly" id="edge11_Node000008_Node000012" title=" " alt="" coords="241,456,331,475,329,480,240,461"/>
-<area shape="rect" id="Node000013" href="$fdcan__priv_8c.html#a200094d34b232f471ea5c829f0bdee4b" title=" " alt="" coords="310,531,508,556"/>
-<area shape="poly" id="edge12_Node000008_Node000013" title=" " alt="" coords="197,456,242,487,300,517,318,523,316,528,298,522,240,491,194,460"/>
-<area shape="rect" id="Node000014" href="$fdcan__priv_8c.html#a843742822e433814e97fe2ef38ae4bc6" title="Set TX FIFO/Queue mode to FIFO (not queue)" alt="" coords="302,154,515,194"/>
-<area shape="poly" id="edge13_Node000008_Node000014" title=" " alt="" coords="236,429,249,419,267,393,274,367,275,341,272,314,269,287,270,260,278,233,297,206,300,203,304,206,301,209,283,235,275,261,275,287,277,314,280,340,279,368,272,395,253,423,239,434"/>
-<area shape="rect" id="Node000015" href="$fdcan__priv_8c.html#a32bfa5f854b4e4c1744275bfbe7fbbcd" title="Write a filter action to RXGFC (accept/reject all)" alt="" coords="308,219,509,260"/>
-<area shape="poly" id="edge14_Node000008_Node000015" title=" " alt="" coords="235,429,249,419,263,401,270,383,272,346,275,308,282,289,297,270,300,267,303,271,301,273,287,291,280,309,277,346,275,384,267,404,253,423,238,434"/>
-<area shape="rect" id="Node000016" href="$fdcan__priv_8c.html#af69382ccb9d1b998edeece7d3403d74b" title="Set up RX new message &#45;&gt; line 0, TX complete &#45;&gt; line 1." alt="" coords="302,284,516,310"/>
-<area shape="poly" id="edge15_Node000008_Node000016" title=" " alt="" coords="233,429,249,419,260,407,266,395,272,370,278,344,285,331,297,319,301,316,305,320,301,323,289,334,283,346,277,371,271,397,264,410,253,423,236,434"/>
-<area shape="rect" id="Node000019" href="$phal__G4_2rcc_2rcc_8c.html#af54790732c9560e8d675f78a03486d58" title=" " alt="" coords="334,580,483,606"/>
-<area shape="poly" id="edge18_Node000018_Node000019" title=" " alt="" coords="234,626,328,607,329,612,235,632"/>
-<area shape="rect" id="Node000020" href="$rcc__priv_8c.html#a50d76be796629d46a38a42d44eb66de8" title=" " alt="" coords="566,556,770,582"/>
-<area shape="poly" id="edge19_Node000019_Node000020" title=" " alt="" coords="483,583,551,577,551,582,483,589"/>
-<area shape="rect" id="Node000021" href="$rcc__priv_8c.html#af6a23fb139af68392809e9f4b6df780c" title="Disable HSI16 and block until it&#39;s off." alt="" coords="573,605,763,631"/>
-<area shape="poly" id="edge20_Node000019_Node000021" title=" " alt="" coords="483,597,558,605,557,610,483,603"/>
-<area shape="rect" id="Node000032" href="$common_2amk_2amk_8c.html#a2a5717c3d7aab58c7cc942d1645b6f3f" title=" " alt="" coords="372,1604,446,1630"/>
-<area shape="poly" id="edge23_Node000031_Node000032" title=" " alt="" coords="232,1236,253,1251,269,1273,279,1296,288,1339,285,1383,275,1425,267,1467,264,1509,274,1550,285,1570,301,1591,326,1608,356,1615,355,1620,324,1613,297,1595,280,1573,269,1552,259,1509,261,1467,270,1424,279,1382,283,1340,274,1297,264,1276,249,1255,228,1240"/>
-<area shape="rect" id="Node000033" href="$powertrain_8c.html#aeb6b7b604856470fef999ceb660957bf" title=" " alt="" coords="369,1407,448,1432"/>
-<area shape="poly" id="edge24_Node000031_Node000033" title=" " alt="" coords="232,1237,253,1251,267,1269,274,1288,277,1325,280,1360,287,1377,301,1393,326,1408,354,1416,353,1421,324,1413,297,1398,282,1380,275,1362,271,1325,269,1289,262,1272,249,1255,229,1242"/>
-<area shape="rect" id="Node000034" href="$powertrain_8c.html#a059575ddd2df3c7c23a2ad1eb3ee564b" title=" " alt="" coords="369,1456,448,1482"/>
-<area shape="poly" id="edge25_Node000031_Node000034" title=" " alt="" coords="231,1236,253,1251,270,1276,278,1301,279,1326,276,1350,275,1374,276,1398,284,1420,301,1443,325,1458,354,1466,353,1471,323,1463,297,1447,279,1423,271,1399,269,1374,271,1350,273,1326,272,1302,265,1278,249,1255,228,1241"/>
-<area shape="rect" id="Node000035" href="$powertrain_8c.html#aea7059584fe4855b90d69f0398139819" title=" " alt="" coords="369,1505,448,1531"/>
-<area shape="poly" id="edge26_Node000031_Node000035" title=" " alt="" coords="232,1236,253,1251,273,1282,281,1314,281,1345,276,1375,272,1405,272,1435,280,1464,301,1492,326,1508,355,1516,353,1521,323,1513,297,1496,276,1466,267,1435,267,1405,271,1375,275,1344,276,1314,268,1285,249,1255,229,1241"/>
-<area shape="rect" id="Node000036" href="$powertrain_8c.html#a46968c6a8662915c4f3f34dd7086aece" title=" " alt="" coords="369,1555,448,1580"/>
-<area shape="poly" id="edge27_Node000031_Node000036" title=" " alt="" coords="231,1236,253,1251,276,1289,284,1327,283,1364,276,1400,269,1436,268,1472,277,1507,301,1542,325,1558,354,1565,353,1570,323,1563,297,1545,272,1509,263,1472,264,1436,271,1399,277,1363,279,1327,271,1291,249,1255,228,1240"/>
-<area shape="rect" id="Node000039" href="$main__module_2telemetry_2telemetry_8c.html#a1e675b11e095a533b972887a23771d5d" title=" " alt="" coords="324,1653,493,1679"/>
-<area shape="poly" id="edge30_Node000038_Node000039" title=" " alt="" coords="240,1339,253,1350,276,1388,284,1425,283,1462,276,1499,269,1535,268,1570,277,1605,301,1640,312,1650,309,1654,297,1644,272,1608,263,1571,264,1534,271,1498,277,1462,279,1426,271,1390,249,1353,236,1343"/>
-<area shape="poly" id="edge34_Node000041_Node000030" title=" " alt="" coords="238,726,331,706,332,711,240,731"/>
-<area shape="rect" id="Node000042" href="$phal__F4_2gpio_2gpio_8h.html#a613ebbfff35a56132e58a75c773d7876" title="Read the state of the input register for the specific GPIO pin." alt="" coords="348,777,470,803"/>
-<area shape="poly" id="edge33_Node000041_Node000042" title=" " alt="" coords="243,753,333,772,332,777,242,758"/>
-<area shape="rect" id="Node000043" href="$rtos_8h.html#a64ba4e53e622e76814f4390d9d7b2cd3" title="Delays the current task for the specified number of milliseconds." alt="" coords="349,629,468,655"/>
-<area shape="poly" id="edge35_Node000041_Node000043" title=" " alt="" coords="194,727,239,695,298,664,333,652,335,657,300,669,242,700,197,731"/>
-<area shape="rect" id="Node000044" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="362,728,455,754"/>
-<area shape="poly" id="edge36_Node000041_Node000044" title=" " alt="" coords="243,739,347,739,347,744,243,744"/>
-<area shape="poly" id="edge45_Node000045_Node000030" title=" " alt="" coords="177,975,186,925,207,854,223,816,243,778,267,743,297,713,330,697,332,701,301,718,271,747,247,781,227,818,212,856,192,927,182,976"/>
-<area shape="poly" id="edge44_Node000045_Node000042" title=" " alt="" coords="181,974,196,941,221,897,255,851,298,812,332,797,334,801,300,816,258,854,225,899,201,943,186,976"/>
-<area shape="poly" id="edge51_Node000045_Node000044" title=" " alt="" coords="179,975,191,933,213,876,248,815,271,787,297,763,321,750,346,742,348,747,323,755,301,767,275,790,253,818,218,878,196,935,184,976"/>
-<area shape="rect" id="Node000046" href="$vehicle__fsm_8c.html#ae0065caa202a41badfe63f49d8a1bdb6" title=" " alt="" coords="342,827,475,852"/>
-<area shape="poly" id="edge38_Node000045_Node000046" title=" " alt="" coords="185,974,229,919,261,887,298,861,326,849,328,854,300,866,264,891,232,922,189,977"/>
-<area shape="rect" id="Node000047" href="$vehicle__fsm_8c.html#ac21ffbc05e480a2884c934be58d38eb2" title=" " alt="" coords="326,876,491,902"/>
-<area shape="poly" id="edge39_Node000045_Node000047" title=" " alt="" coords="194,973,239,942,298,910,316,904,318,909,300,915,242,946,197,978"/>
-<area shape="rect" id="Node000048" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="635,951,701,976"/>
-<area shape="poly" id="edge40_Node000045_Node000048" title=" " alt="" coords="249,983,620,963,620,969,249,988"/>
-<area shape="rect" id="Node000049" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="628,1052,708,1078"/>
-<area shape="poly" id="edge41_Node000045_Node000049" title=" " alt="" coords="195,1000,240,1034,269,1050,300,1062,383,1078,469,1082,548,1079,612,1071,613,1077,548,1084,469,1088,383,1083,298,1067,266,1055,237,1038,192,1004"/>
-<area shape="rect" id="Node000050" href="$powertrain_8c.html#ab7e2db5a431b249dccc5755a63b25500" title=" " alt="" coords="340,1128,477,1154"/>
-<area shape="poly" id="edge42_Node000045_Node000050" title=" " alt="" coords="190,1000,234,1052,265,1081,300,1107,329,1120,327,1125,298,1111,262,1086,230,1056,186,1004"/>
-<area shape="rect" id="Node000051" href="$vehicle__fsm_8c.html#ab7318162392bf2c166e5f992b9053da2" title=" " alt="" coords="328,1177,489,1203"/>
-<area shape="poly" id="edge43_Node000045_Node000051" title=" " alt="" coords="186,1001,200,1035,225,1079,258,1125,278,1146,300,1164,315,1172,313,1177,298,1168,275,1150,254,1129,220,1082,196,1037,181,1003"/>
-<area shape="rect" id="Node000052" href="$powertrain_8c.html#abed3fa744fe602905132e7ef49701421" title=" " alt="" coords="342,925,475,951"/>
-<area shape="poly" id="edge46_Node000045_Node000052" title=" " alt="" coords="238,973,331,952,332,957,240,978"/>
-<area shape="rect" id="Node000057" href="$powertrain_8c.html#aab8a88dd8dded2b6c4dfdfbd6b2d8907" title=" " alt="" coords="334,1227,483,1268"/>
-<area shape="poly" id="edge48_Node000045_Node000057" title=" " alt="" coords="184,1001,196,1042,219,1100,253,1161,275,1189,301,1213,321,1226,318,1231,297,1218,271,1193,249,1164,214,1102,191,1044,179,1003"/>
-<area shape="rect" id="Node000058" href="$torque__controller_8c.html#a88fc0cd3cc59c087ab0e0f1518a81462" title=" " alt="" coords="338,1292,480,1333"/>
-<area shape="poly" id="edge49_Node000045_Node000058" title=" " alt="" coords="185,1001,232,1144,266,1225,284,1257,301,1278,325,1293,322,1298,297,1281,280,1260,262,1227,227,1146,179,1003"/>
-<area shape="rect" id="Node000063" href="$vehicle__fsm_8c.html#ae37dd8504e6f03e1119fb51155609de5" title=" " alt="" coords="344,1357,474,1383"/>
-<area shape="poly" id="edge50_Node000045_Node000063" title=" " alt="" coords="185,1001,301,1343,330,1360,327,1364,297,1347,180,1003"/>
-<area shape="rect" id="Node000064" href="$vehicle__fsm_8c.html#a18fe5546cd7ae011c084d5507646ea83" title=" " alt="" coords="364,1027,453,1052"/>
-<area shape="poly" id="edge52_Node000045_Node000064" title=" " alt="" coords="240,1000,350,1024,349,1029,238,1005"/>
-<area shape="poly" id="edge47_Node000052_Node000048" title=" " alt="" coords="476,942,619,956,619,961,475,947"/>
-<area shape="poly" id="edge53_Node000064_Node000049" title=" " alt="" coords="453,1041,612,1057,612,1062,453,1046"/>
+<area shape="rect" id="Node000009" href="$fdcan__priv_8c.html#a5989bf0267b012b516dea18271539715" title=" " alt="" coords="299,203,518,228"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="235,397,249,387,263,369,269,351,271,313,274,275,282,256,297,238,300,235,303,239,301,241,286,259,279,276,277,313,275,352,267,371,253,391,238,402"/>
+<area shape="rect" id="Node000010" href="$fdcan__priv_8c.html#a405fe02c05033e421fb70515453be08d" title="Enable FDCAN kernel + peripheral clocks (PCLK1)" alt="" coords="301,252,516,278"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="233,397,249,387,260,375,266,363,272,338,278,312,285,299,297,287,301,284,305,288,301,291,289,302,283,314,277,339,271,365,264,378,253,391,236,402"/>
+<area shape="rect" id="Node000011" href="$fdcan__priv_8c.html#ab936d0060d65f2f18ed211714e7b0746" title="Enter INIT mode and unlock configuration registers. Blocks until entered." alt="" coords="304,301,513,327"/>
+<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="229,397,250,387,264,374,273,361,282,348,298,336,308,331,310,335,300,340,286,352,277,365,268,378,252,391,231,402"/>
+<area shape="rect" id="Node000012" href="$fdcan__priv_8c.html#ab58932032e5748d11d6fbcd04c68a322" title="Leave INIT mode, ending configuration. Blocks until left." alt="" coords="308,351,509,376"/>
+<area shape="poly" id="edge11_Node000008_Node000012" title=" " alt="" coords="240,397,329,378,331,383,241,402"/>
+<area shape="rect" id="Node000013" href="$fdcan__priv_8c.html#a200094d34b232f471ea5c829f0bdee4b" title=" " alt="" coords="310,400,508,426"/>
+<area shape="poly" id="edge12_Node000008_Node000013" title=" " alt="" coords="244,410,294,410,294,416,244,416"/>
+<area shape="rect" id="Node000014" href="$fdcan__priv_8c.html#a843742822e433814e97fe2ef38ae4bc6" title="Set TX FIFO/Queue mode to FIFO (not queue)" alt="" coords="302,450,515,490"/>
+<area shape="poly" id="edge13_Node000008_Node000014" title=" " alt="" coords="233,424,310,443,308,448,231,429"/>
+<area shape="rect" id="Node000015" href="$fdcan__priv_8c.html#a32bfa5f854b4e4c1744275bfbe7fbbcd" title="Write a filter action to RXGFC (accept/reject all)" alt="" coords="308,515,509,556"/>
+<area shape="poly" id="edge14_Node000008_Node000015" title=" " alt="" coords="194,424,240,461,300,500,315,507,313,512,298,505,237,466,191,428"/>
+<area shape="rect" id="Node000016" href="$fdcan__priv_8c.html#af69382ccb9d1b998edeece7d3403d74b" title="Set up RX new message &#45;&gt; line 0, TX complete &#45;&gt; line 1." alt="" coords="302,153,516,179"/>
+<area shape="poly" id="edge15_Node000008_Node000016" title=" " alt="" coords="236,397,249,387,266,363,273,338,273,313,271,289,269,263,270,238,278,213,297,188,299,186,303,190,301,192,283,215,275,239,274,263,276,288,279,313,278,339,270,365,253,391,239,401"/>
+<area shape="rect" id="Node000018" href="$gpio__priv_8c.html#ac9a1d8411608b7f8b53d5348601ce43e" title="Enable the AHB2 clock for bank&#39;s port (GPIOA&#45;GPIOG)." alt="" coords="307,744,510,770"/>
+<area shape="poly" id="edge17_Node000017_Node000018" title=" " alt="" coords="238,754,292,754,292,760,238,760"/>
+<area shape="rect" id="Node000019" href="$gpio__priv_8c.html#a396ed356814413b8113510a00d0bf88f" title="Set AFR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="300,793,517,819"/>
+<area shape="poly" id="edge18_Node000017_Node000019" title=" " alt="" coords="238,767,331,787,329,792,237,772"/>
+<area shape="rect" id="Node000020" href="$gpio__priv_8c.html#acb06a5a664412ca862f34d9ee58ddc4d" title="Set MODER&#39;s field for pin to type. Caller must have validated pin &lt;= 15." alt="" coords="318,843,500,868"/>
+<area shape="poly" id="edge19_Node000017_Node000020" title=" " alt="" coords="197,768,242,799,300,829,318,835,316,840,298,834,240,803,194,772"/>
+<area shape="rect" id="Node000022" href="$gpio__priv_8c.html#aaeae1cf9d29181e47f0fca4dcbaf4d98" title="Set OSPEEDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="314,580,503,621"/>
+<area shape="poly" id="edge20_Node000017_Node000022" title=" " alt="" coords="185,742,230,688,261,657,298,631,307,626,309,630,300,635,265,661,233,692,190,745"/>
+<area shape="rect" id="Node000024" href="$gpio__priv_8c.html#adf74462d771e41ca4d8373790d1ea8d7" title="Set OTYPER&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="300,645,517,671"/>
+<area shape="poly" id="edge21_Node000017_Node000024" title=" " alt="" coords="194,741,240,710,298,680,316,673,318,678,300,685,242,715,197,746"/>
+<area shape="rect" id="Node000026" href="$gpio__priv_8c.html#a5356a96ea085671fbdaa7521a08fbc6b" title="Set PUPDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="322,695,495,720"/>
+<area shape="poly" id="edge22_Node000017_Node000026" title=" " alt="" coords="237,741,329,722,331,727,238,747"/>
+<area shape="rect" id="Node000030" href="$phal__G4_2rcc_2rcc_8c.html#af54790732c9560e8d675f78a03486d58" title=" " alt="" coords="334,1437,483,1463"/>
+<area shape="poly" id="edge25_Node000029_Node000030" title=" " alt="" coords="187,1288,203,1317,228,1354,261,1392,300,1424,321,1434,319,1439,298,1428,257,1396,224,1357,199,1319,182,1290"/>
+<area shape="rect" id="Node000042" href="$common_2amk_2amk_8c.html#a2a5717c3d7aab58c7cc942d1645b6f3f" title=" " alt="" coords="372,1487,446,1512"/>
+<area shape="poly" id="edge27_Node000041_Node000042" title=" " alt="" coords="224,1436,252,1446,276,1460,300,1473,357,1489,355,1494,298,1478,274,1465,250,1451,222,1441"/>
+<area shape="rect" id="Node000043" href="$powertrain_8c.html#aeb6b7b604856470fef999ceb660957bf" title=" " alt="" coords="369,1536,448,1562"/>
+<area shape="poly" id="edge28_Node000041_Node000043" title=" " alt="" coords="231,1435,253,1447,269,1466,277,1486,284,1505,301,1523,326,1536,354,1543,353,1548,324,1541,297,1527,280,1508,272,1488,265,1469,249,1451,228,1439"/>
+<area shape="rect" id="Node000044" href="$powertrain_8c.html#a059575ddd2df3c7c23a2ad1eb3ee564b" title=" " alt="" coords="369,1585,448,1611"/>
+<area shape="poly" id="edge29_Node000041_Node000044" title=" " alt="" coords="231,1433,253,1447,266,1463,273,1480,277,1512,281,1543,288,1558,301,1572,326,1587,354,1594,353,1599,324,1592,297,1576,284,1561,276,1545,272,1513,268,1481,261,1466,249,1451,229,1438"/>
+<area shape="rect" id="Node000045" href="$powertrain_8c.html#aea7059584fe4855b90d69f0398139819" title=" " alt="" coords="369,1635,448,1660"/>
+<area shape="poly" id="edge30_Node000041_Node000045" title=" " alt="" coords="232,1433,253,1447,269,1470,276,1493,277,1537,277,1581,285,1601,301,1622,326,1637,354,1644,353,1649,323,1642,297,1625,280,1604,272,1581,271,1537,271,1493,264,1472,249,1451,229,1437"/>
+<area shape="rect" id="Node000046" href="$powertrain_8c.html#a46968c6a8662915c4f3f34dd7086aece" title=" " alt="" coords="369,1684,448,1710"/>
+<area shape="poly" id="edge31_Node000041_Node000046" title=" " alt="" coords="232,1432,253,1447,272,1476,280,1505,280,1534,276,1562,273,1590,273,1618,282,1644,301,1671,325,1687,354,1694,353,1699,323,1691,297,1675,277,1647,268,1618,268,1590,271,1562,275,1534,274,1506,267,1478,249,1451,228,1437"/>
+<area shape="rect" id="Node000049" href="$main__module_2telemetry_2telemetry_8c.html#a1e675b11e095a533b972887a23771d5d" title=" " alt="" coords="324,1733,493,1759"/>
+<area shape="poly" id="edge34_Node000048_Node000049" title=" " alt="" coords="239,1535,253,1546,269,1568,276,1591,277,1636,277,1679,285,1700,301,1720,312,1729,309,1733,297,1724,280,1702,272,1680,271,1636,271,1592,264,1571,249,1549,235,1539"/>
+<area shape="poly" id="edge38_Node000051_Node000028" title=" " alt="" coords="238,989,331,968,332,973,240,994"/>
+<area shape="rect" id="Node000052" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="344,1040,473,1066"/>
+<area shape="poly" id="edge37_Node000051_Node000052" title=" " alt="" coords="243,1016,329,1034,328,1039,242,1021"/>
+<area shape="rect" id="Node000053" href="$rtos_8h.html#a64ba4e53e622e76814f4390d9d7b2cd3" title="Delays the current task for the specified number of milliseconds." alt="" coords="349,892,468,918"/>
+<area shape="poly" id="edge39_Node000051_Node000053" title=" " alt="" coords="194,989,239,958,298,926,333,915,335,920,300,931,242,962,197,994"/>
+<area shape="rect" id="Node000054" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="362,991,455,1016"/>
+<area shape="poly" id="edge40_Node000051_Node000054" title=" " alt="" coords="243,1002,347,1001,347,1007,243,1007"/>
+<area shape="poly" id="edge49_Node000055_Node000028" title=" " alt="" coords="182,1162,234,1064,267,1010,297,976,326,962,329,966,301,980,271,1014,238,1066,187,1165"/>
+<area shape="poly" id="edge48_Node000055_Node000052" title=" " alt="" coords="188,1162,233,1118,264,1095,298,1074,328,1063,330,1068,300,1079,267,1099,237,1122,192,1165"/>
+<area shape="poly" id="edge52_Node000055_Node000054" title=" " alt="" coords="183,1162,224,1096,258,1057,298,1025,321,1014,347,1007,348,1012,323,1019,300,1030,261,1061,229,1099,187,1165"/>
+<area shape="rect" id="Node000056" href="$vehicle__fsm_8c.html#ae0065caa202a41badfe63f49d8a1bdb6" title=" " alt="" coords="342,1089,475,1115"/>
+<area shape="poly" id="edge42_Node000055_Node000056" title=" " alt="" coords="205,1161,298,1124,326,1116,328,1121,300,1129,207,1166"/>
+<area shape="rect" id="Node000057" href="$vehicle__fsm_8c.html#ac21ffbc05e480a2884c934be58d38eb2" title=" " alt="" coords="326,1139,491,1164"/>
+<area shape="poly" id="edge43_Node000055_Node000057" title=" " alt="" coords="249,1166,310,1160,311,1165,249,1172"/>
+<area shape="rect" id="Node000058" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="566,1213,633,1239"/>
+<area shape="poly" id="edge44_Node000055_Node000058" title=" " alt="" coords="204,1188,248,1208,300,1224,367,1232,435,1235,551,1229,551,1234,435,1240,367,1238,298,1229,246,1213,202,1193"/>
+<area shape="rect" id="Node000059" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="368,1289,449,1315"/>
+<area shape="poly" id="edge45_Node000055_Node000059" title=" " alt="" coords="194,1188,239,1227,300,1268,354,1288,352,1293,298,1273,236,1232,190,1192"/>
+<area shape="rect" id="Node000060" href="$powertrain_8c.html#ab7e2db5a431b249dccc5755a63b25500" title=" " alt="" coords="340,1339,477,1364"/>
+<area shape="poly" id="edge46_Node000055_Node000060" title=" " alt="" coords="195,1188,223,1215,253,1249,267,1271,274,1291,283,1308,301,1325,327,1339,324,1343,297,1330,279,1312,270,1293,262,1274,249,1252,219,1219,191,1192"/>
+<area shape="rect" id="Node000061" href="$vehicle__fsm_8c.html#ab7318162392bf2c166e5f992b9053da2" title=" " alt="" coords="328,1388,489,1414"/>
+<area shape="poly" id="edge47_Node000055_Node000061" title=" " alt="" coords="196,1188,225,1214,253,1249,268,1285,273,1317,279,1347,287,1361,301,1375,316,1385,313,1389,297,1379,283,1364,274,1349,268,1318,263,1286,249,1252,221,1218,193,1192"/>
+<area shape="rect" id="Node000062" href="$powertrain_8c.html#abed3fa744fe602905132e7ef49701421" title=" " alt="" coords="342,1188,475,1214"/>
+<area shape="poly" id="edge50_Node000055_Node000062" title=" " alt="" coords="249,1182,327,1190,326,1195,249,1187"/>
+<area shape="poly" id="edge51_Node000062_Node000058" title=" " alt="" coords="476,1207,551,1217,551,1222,475,1212"/>
 </map>

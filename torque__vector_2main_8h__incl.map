@@ -1,9 +1,12 @@
 <map id="firmware/source/torque_vector/main.h" name="firmware/source/torque_vector/main.h">
-<area shape="rect" id="Node000001" title="&quot;Torque Vector&quot; node source code" alt="" coords="26,5,179,46"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,69,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,48,57,91,53,88,85,45"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="93,94,245,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="120,45,147,80,142,83,115,48"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="115,183,223,208"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="172,135,172,167,166,167,166,135"/>
+<area shape="rect" id="Node000001" title="&quot;Torque Vector&quot; node source code" alt="" coords="5,5,159,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="6,183,70,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,47,54,95,46,132,42,168,37,167,41,132,49,93,69,45"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="64,94,215,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="97,45,120,80,116,83,93,48"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="116,137,67,175,64,171,113,133"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="99,183,166,208"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="140,135,138,167,132,167,135,135"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="191,183,298,208"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="167,133,218,171,215,175,164,137"/>
 </map>

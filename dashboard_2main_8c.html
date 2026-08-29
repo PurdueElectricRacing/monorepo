@@ -116,6 +116,7 @@ $(function(){initNavTree('dashboard_2main_8c.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="phal__G4_2gpio_2gpio_8h_source.html">common/phal_G4/gpio/gpio.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2rcc_2rcc_8h_source.html">common/phal_G4/rcc/rcc.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2usart_2usart_8h_source.html">common/phal_G4/usart/usart.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="g474ret6_8h_source.html">common/phal_G4/pin_defs/g474ret6.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="countof_8h_source.html">common/utils/countof.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="watchdog_8h_source.html">common/watchdog/watchdog.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="driver__interface_8h_source.html">driver_interface.h</a>&quot;</code><br />
@@ -157,8 +158,8 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a60563c6df24a123ae18e090bca85f555" id="r_a60563c6df24a123ae18e090bca85f555"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structGPIOInitConfig__t.html">GPIOInitConfig_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60563c6df24a123ae18e090bca85f555">gpio_config</a> []</td></tr>
-<tr class="separator:a60563c6df24a123ae18e090bca85f555"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0445edd8b78aacc940a1a3848a9b9166" id="r_a0445edd8b78aacc940a1a3848a9b9166"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structPHAL__GPIO__InitConfig__t.html">PHAL_GPIO_InitConfig_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0445edd8b78aacc940a1a3848a9b9166">gpio_config</a> []</td></tr>
+<tr class="separator:a0445edd8b78aacc940a1a3848a9b9166"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac4007a039922c17a75b7297b2cb0d72" id="r_aac4007a039922c17a75b7297b2cb0d72"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structPHAL__ADC__ChannelConfig__t.html">PHAL_ADC_ChannelConfig_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a> []</td></tr>
 <tr class="separator:aac4007a039922c17a75b7297b2cb0d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bc9fb223f56d390b7afb8df193b3aec" id="r_a8bc9fb223f56d390b7afb8df193b3aec"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structPHAL__ADC__Config__t.html">PHAL_ADC_Config_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bc9fb223f56d390b7afb8df193b3aec">adc_config</a></td></tr>
@@ -454,7 +455,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dashboard_2main_8c_afde7bfa6b37748d965fb66a4803f2ced_cgraph.svg" width="327" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="dashboard_2main_8c_afde7bfa6b37748d965fb66a4803f2ced_cgraph.svg" width="334" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -520,7 +521,7 @@ Here is the call graph for this function:</div>
 <div class="line">    .channels      = <a class="code hl_variable" href="a__box_2main_8c.html#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a>,</div>
 <div class="line">    .channel_count = <span class="keyword">sizeof</span>(<a class="code hl_variable" href="a__box_2main_8c.html#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a>) / <span class="keyword">sizeof</span>(<a class="code hl_variable" href="a__box_2main_8c.html#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a>[0]),</div>
 <div class="line">}</div>
-<div class="ttc" id="aa__box_2main_8c_html_aac4007a039922c17a75b7297b2cb0d72"><div class="ttname"><a href="a__box_2main_8c.html#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc_channels[]</div><div class="ttdef"><b>Definition</b> main.c:64</div></div>
+<div class="ttc" id="aa__box_2main_8c_html_aac4007a039922c17a75b7297b2cb0d72"><div class="ttname"><a href="a__box_2main_8c.html#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc_channels[]</div><div class="ttdef"><b>Definition</b> main.c:65</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -538,14 +539,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a60563c6df24a123ae18e090bca85f555" name="a60563c6df24a123ae18e090bca85f555"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60563c6df24a123ae18e090bca85f555">&#9670;&#160;</a></span>gpio_config</h2>
+<a id="a0445edd8b78aacc940a1a3848a9b9166" name="a0445edd8b78aacc940a1a3848a9b9166"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0445edd8b78aacc940a1a3848a9b9166">&#9670;&#160;</a></span>gpio_config</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structGPIOInitConfig__t.html">GPIOInitConfig_t</a> gpio_config[]</td>
+          <td class="memname"><a class="el" href="structPHAL__GPIO__InitConfig__t.html">PHAL_GPIO_InitConfig_t</a> gpio_config[]</td>
         </tr>
       </table>
 </div><div class="memdoc">

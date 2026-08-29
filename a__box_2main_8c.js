@@ -19,7 +19,7 @@ var a__box_2main_8c =
     [ "bms_spi_config", "a__box_2main_8c.html#ad139ebffcf7f11feddfec40191b40aef", null ],
     [ "g_bms", "a__box_2main_8c.html#a54910fb29db8c9eac2409cc73cc828c5", null ],
     [ "g_bms_tx_buf", "a__box_2main_8c.html#a99b892b6086d375bba69c6a4985b3262", null ],
-    [ "gpio_config", "a__box_2main_8c.html#a60563c6df24a123ae18e090bca85f555", null ],
+    [ "gpio_config", "a__box_2main_8c.html#a0445edd8b78aacc940a1a3848a9b9166", null ],
     [ "MIN_DELTA_FOR_BALANCE", "a__box_2main_8c.html#af63a5e708a1a061eacf7c3437a371490", null ],
     [ "MIN_V_FOR_BALANCE", "a__box_2main_8c.html#aa3fb4752f26486b9d8283433f0d7a39e", null ],
     [ "spi1_rx_dma", "a__box_2main_8c.html#a74b59d963c2e2e12058d027a4392f3e8", null ],

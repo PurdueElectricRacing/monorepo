@@ -6,6 +6,7 @@ var dir_48b3ded520845e3cf7cf37478d1eb6dc =
     [ "fdcan", "dir_94822889f9db008d8ce392b34d9d4991.html", "dir_94822889f9db008d8ce392b34d9d4991" ],
     [ "flash", "dir_699a356264fe847af13fd0420372785e.html", "dir_699a356264fe847af13fd0420372785e" ],
     [ "gpio", "dir_68a33047963817f292b083d50bd21e56.html", "dir_68a33047963817f292b083d50bd21e56" ],
+    [ "pin_defs", "dir_90c431d9f9970ba2438add2e28938488.html", "dir_90c431d9f9970ba2438add2e28938488" ],
     [ "pwm", "dir_55e729327b25aed9d61e524ec858c9de.html", "dir_55e729327b25aed9d61e524ec858c9de" ],
     [ "rcc", "dir_66a9c88992d09c7c7e483703b2286fd9.html", "dir_66a9c88992d09c7c7e483703b2286fd9" ],
     [ "spi", "dir_a10ea9dbf42e682961abca7947372113.html", "dir_a10ea9dbf42e682961abca7947372113" ],

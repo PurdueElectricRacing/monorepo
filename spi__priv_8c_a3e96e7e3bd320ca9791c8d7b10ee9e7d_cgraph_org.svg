@@ -92,10 +92,9 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542" target="_top" xlink:title="Reset the internal SPI transfer state.">
-<polygon fill="white" stroke="#666666" points="356,-104.88 207.25,-104.88 207.25,-74.38 356,-74.38 356,-104.88"/>
-<text text-anchor="start" x="215.25" y="-91.38" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_SPI_priv_resetTransfer</text>
-<text text-anchor="middle" x="281.62" y="-80.12" font-family="Helvetica,sans-Serif" font-size="10.00">State</text>
+<g id="a_Node000010"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" target="_top" xlink:title="Write a logic value to an output pin.">
+<polygon fill="white" stroke="#666666" points="331.25,-105.25 232,-105.25 232,-86 331.25,-86 331.25,-105.25"/>
+<text text-anchor="middle" x="281.62" y="-91.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_GPIO_write</text>
 </a>
 </g>
 </g>
@@ -103,17 +102,18 @@
 <g id="edge9_Node000001_Node000010" class="edge">
 <title>Node1&#45;&gt;Node10</title>
 <g id="a_edge9_Node000001_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M132.11,-122.54C151.94,-118.15 175.81,-112.86 198.56,-107.82"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="199.13,-111.27 208.13,-105.69 197.61,-104.44 199.13,-111.27"/>
+<path fill="none" stroke="#63b8ff" d="M139.64,-122.51C164.65,-117.74 194.62,-112.03 220.49,-107.09"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="221.02,-110.56 230.18,-105.25 219.71,-103.68 221.02,-110.56"/>
 </a>
 </g>
 </g>
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="phal__G4_2spi_2spi_8c.html#acf04b58bde10df9ab774c8e4b776bb06" target="_top" xlink:title="Weak callback fired when a DMA&#45;backed SPI transfer completes.">
-<polygon fill="white" stroke="#666666" points="339.12,-56.25 224.12,-56.25 224.12,-37 339.12,-37 339.12,-56.25"/>
-<text text-anchor="middle" x="281.62" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_SPI_txCallback</text>
+<g id="a_Node000011"><a xlink:href="spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542" target="_top" xlink:title="Reset the internal SPI transfer state.">
+<polygon fill="white" stroke="#666666" points="356,-67.88 207.25,-67.88 207.25,-37.38 356,-37.38 356,-67.88"/>
+<text text-anchor="start" x="215.25" y="-54.38" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_SPI_priv_resetTransfer</text>
+<text text-anchor="middle" x="281.62" y="-43.12" font-family="Helvetica,sans-Serif" font-size="10.00">State</text>
 </a>
 </g>
 </g>
@@ -121,17 +121,17 @@
 <g id="edge10_Node000001_Node000011" class="edge">
 <title>Node1&#45;&gt;Node11</title>
 <g id="a_edge10_Node000001_Node000011"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M101.62,-122.65C123.84,-108.25 167.21,-81.63 207.25,-65.62 212.46,-63.54 217.97,-61.63 223.54,-59.88"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="224.2,-63.33 232.8,-57.15 222.22,-56.62 224.2,-63.33"/>
+<path fill="none" stroke="#63b8ff" d="M106.37,-122.57C130.01,-110.75 170.95,-90.93 207.25,-76.62 211.09,-75.11 215.07,-73.61 219.1,-72.15"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="220.13,-75.5 228.39,-68.88 217.8,-68.9 220.13,-75.5"/>
 </a>
 </g>
 </g>
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" target="_top" xlink:title="Write a logic value to an output pin.">
-<polygon fill="white" stroke="#666666" points="328.62,-19.25 234.62,-19.25 234.62,0 328.62,0 328.62,-19.25"/>
-<text text-anchor="middle" x="281.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_writeGPIO</text>
+<g id="a_Node000012"><a xlink:href="phal__G4_2spi_2spi_8c.html#acf04b58bde10df9ab774c8e4b776bb06" target="_top" xlink:title="Weak callback fired when a DMA&#45;backed SPI transfer completes.">
+<polygon fill="white" stroke="#666666" points="339.12,-19.25 224.12,-19.25 224.12,0 339.12,0 339.12,-19.25"/>
+<text text-anchor="middle" x="281.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_SPI_txCallback</text>
 </a>
 </g>
 </g>
@@ -139,8 +139,8 @@
 <g id="edge11_Node000001_Node000012" class="edge">
 <title>Node1&#45;&gt;Node12</title>
 <g id="a_edge11_Node000001_Node000012"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M94.88,-122.8C112.98,-101.9 158.45,-52.93 207.25,-27.62 212.36,-24.98 217.87,-22.71 223.5,-20.76"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="224.41,-24.14 232.94,-17.86 222.36,-17.45 224.41,-24.14"/>
+<path fill="none" stroke="#63b8ff" d="M95.2,-122.63C113.58,-101.86 159,-53.9 207.25,-28.62 210.9,-26.71 214.76,-24.98 218.72,-23.42"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="219.67,-26.8 227.94,-20.17 217.34,-20.19 219.67,-26.8"/>
 </a>
 </g>
 </g>

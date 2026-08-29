@@ -72,5 +72,5 @@ var searchData=
   ['tx_5ftask_5fwake_5fcount_69',['tx_task_wake_count',['../structcan__stats__t.html#aead2b3e3738d0fd194c92fd85ed70bf9',1,'can_stats_t']]],
   ['tx_5fwiring_70',['tx_wiring',['../structPHAL__USART__HwMap__t.html#a29b153dbafbd43dd1edd0ba1455b78b7',1,'PHAL_USART_HwMap_t']]],
   ['txproducerregistry_71',['TxProducerRegistry',['../namespacelinker.html#abae50414e837f5b650c77c4b96e905a8',1,'linker']]],
-  ['type_72',['type',['../structmenu__element__t.html#a48c019b36c431966683a03305236aa67',1,'menu_element_t::type'],['../structGPIOInitConfig__t.html#a1754a3977a0df8a75a29b4960910cdb2',1,'GPIOInitConfig_t::type']]]
+  ['type_72',['type',['../structmenu__element__t.html#a48c019b36c431966683a03305236aa67',1,'menu_element_t::type'],['../structGPIOInitConfig__t.html#a1754a3977a0df8a75a29b4960910cdb2',1,'GPIOInitConfig_t::type'],['../structPHAL__GPIO__InitConfig__t.html#a329670281ff0d0df076921b939d2feaa',1,'PHAL_GPIO_InitConfig_t::type']]]
 ];

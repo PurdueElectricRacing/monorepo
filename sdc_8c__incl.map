@@ -1,33 +1,36 @@
 <map id="firmware/source/main_module/sdc/sdc.c" name="firmware/source/main_module/sdc/sdc.c">
-<area shape="rect" id="Node000001" title="SDC task implementation." alt="" coords="390,5,536,46"/>
-<area shape="rect" id="Node000002" href="$sdc_8h.html" title="SDC task implementation." alt="" coords="309,102,361,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="435,49,367,95,364,90,432,44"/>
+<area shape="rect" id="Node000001" title="SDC task implementation." alt="" coords="398,5,544,46"/>
+<area shape="rect" id="Node000002" href="$sdc_8h.html" title="SDC task implementation." alt="" coords="314,102,366,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="443,49,373,95,370,90,440,44"/>
 <area shape="rect" id="Node000004" href="$faults__common_8h.html" title="Event&#45;based FIDR system." alt="" coords="146,94,265,135"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="405,49,279,91,278,86,404,44"/>
-<area shape="rect" id="Node000006" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="396,102,530,127"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="466,47,466,86,460,86,460,47"/>
-<area shape="rect" id="Node000013" href="$phal__G4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="554,94,705,135"/>
-<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="502,44,580,84,577,89,499,49"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="729,102,788,127"/>
-<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="536,40,624,62,718,91,721,92,719,97,717,97,623,67,535,45"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="411,49,280,92,279,86,410,44"/>
+<area shape="rect" id="Node000006" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="404,102,538,127"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="474,47,474,86,468,86,468,47"/>
+<area shape="rect" id="Node000013" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="562,94,713,135"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="510,44,588,84,585,89,507,49"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="737,102,796,127"/>
+<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="544,40,632,62,726,91,729,92,727,97,725,97,631,67,543,45"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="174,190,237,216"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="318,130,238,183,235,179,315,125"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="323,130,239,184,236,179,320,125"/>
 <area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="208,135,208,175,203,175,203,135"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="5,183,150,223"/>
 <area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="178,137,120,176,117,172,175,133"/>
-<area shape="poly" id="edge13_Node000006_Node000003" title=" " alt="" coords="421,130,341,154,250,185,247,186,245,181,249,180,339,149,419,125"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="531,190,624,216"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="480,125,551,178,548,183,477,130"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="648,190,696,216"/>
-<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="498,125,637,180,638,180,635,185,635,185,496,130"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="720,190,787,216"/>
-<area shape="poly" id="edge9_Node000006_Node000009" title=" " alt="" coords="511,125,709,180,713,182,711,187,707,185,509,130"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="262,190,336,216"/>
-<area shape="poly" id="edge10_Node000006_Node000010" title=" " alt="" coords="441,130,337,185,334,180,438,125"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="360,190,416,216"/>
-<area shape="poly" id="edge11_Node000006_Node000011" title=" " alt="" coords="454,129,410,180,406,177,450,126"/>
-<area shape="rect" id="Node000012" title=" " alt="" coords="440,190,507,216"/>
-<area shape="poly" id="edge12_Node000006_Node000012" title=" " alt="" coords="467,127,473,175,468,175,462,128"/>
-<area shape="rect" id="Node000014" title=" " alt="" coords="810,190,918,216"/>
-<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="684,133,818,182,816,187,682,138"/>
+<area shape="poly" id="edge13_Node000006_Node000003" title=" " alt="" coords="426,130,344,154,250,185,247,186,245,181,249,180,342,149,425,125"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="262,190,355,216"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="449,130,346,185,343,180,447,125"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="379,190,427,216"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="463,129,424,180,419,176,459,126"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="451,190,517,216"/>
+<area shape="poly" id="edge9_Node000006_Node000009" title=" " alt="" coords="475,127,483,175,477,175,470,128"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="542,190,616,216"/>
+<area shape="poly" id="edge10_Node000006_Node000010" title=" " alt="" coords="488,126,553,178,550,182,484,130"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="640,190,696,216"/>
+<area shape="poly" id="edge11_Node000006_Node000011" title=" " alt="" coords="501,125,629,180,631,181,628,186,627,185,499,130"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="720,190,787,216"/>
+<area shape="poly" id="edge12_Node000006_Node000012" title=" " alt="" coords="521,125,609,149,709,180,713,182,711,187,707,185,608,154,520,130"/>
+<area shape="poly" id="edge16_Node000013_Node000003" title=" " alt="" coords="562,135,550,137,465,150,399,157,333,165,250,185,246,187,244,182,249,180,332,160,398,151,465,145,549,132,561,130"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="812,190,879,216"/>
+<area shape="poly" id="edge15_Node000013_Node000014" title=" " alt="" coords="686,133,804,181,802,186,684,138"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="904,190,1011,216"/>
+<area shape="poly" id="edge17_Node000013_Node000015" title=" " alt="" coords="714,133,892,180,902,183,900,188,890,185,712,138"/>
 </map>

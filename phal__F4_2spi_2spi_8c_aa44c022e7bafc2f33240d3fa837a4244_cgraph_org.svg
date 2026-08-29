@@ -74,9 +74,9 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" target="_top" xlink:title="Check for current SPI transaction to complete.">
-<polygon fill="white" stroke="#666666" points="257.38,-56.25 167.12,-56.25 167.12,-37 257.38,-37 257.38,-56.25"/>
-<text text-anchor="middle" x="212.25" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_SPI_busy</text>
+<g id="a_Node000005"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" target="_top" xlink:title="Write a logic value to an output pin.">
+<polygon fill="white" stroke="#666666" points="261.88,-56.25 162.62,-56.25 162.62,-37 261.88,-37 261.88,-56.25"/>
+<text text-anchor="middle" x="212.25" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_GPIO_write</text>
 </a>
 </g>
 </g>
@@ -92,9 +92,9 @@
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" target="_top" xlink:title="Write a logic value to an output pin.">
-<polygon fill="white" stroke="#666666" points="259.25,-19.25 165.25,-19.25 165.25,0 259.25,0 259.25,-19.25"/>
-<text text-anchor="middle" x="212.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_writeGPIO</text>
+<g id="a_Node000006"><a xlink:href="phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" target="_top" xlink:title="Check for current SPI transaction to complete.">
+<polygon fill="white" stroke="#666666" points="257.38,-19.25 167.12,-19.25 167.12,0 257.38,0 257.38,-19.25"/>
+<text text-anchor="middle" x="212.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_SPI_busy</text>
 </a>
 </g>
 </g>
@@ -102,8 +102,8 @@
 <g id="edge5_Node000001_Node000006" class="edge">
 <title>Node1&#45;&gt;Node6</title>
 <g id="a_edge5_Node000001_Node000006"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M64.93,-73.67C81.09,-61.19 110.61,-39.94 139,-27.62 143.86,-25.52 149.01,-23.62 154.24,-21.93"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="154.98,-25.36 163.56,-19.16 152.98,-18.65 154.98,-25.36"/>
+<path fill="none" stroke="#63b8ff" d="M64.93,-73.67C81.09,-61.19 110.61,-39.94 139,-27.62 144.48,-25.25 150.35,-23.14 156.27,-21.28"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="156.83,-24.76 165.47,-18.63 154.89,-18.04 156.83,-24.76"/>
 </a>
 </g>
 </g>

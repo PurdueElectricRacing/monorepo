@@ -120,13 +120,12 @@ Getting Started</h1>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Building</h1>
 <p><code>per_build.py</code> is the repository-level build entry point. It invokes each project's own build system from the appropriate directory.</p>
-<p>From the repository root, build all projects with: </p><div class="fragment"><div class="line">python3 per_build.py</div>
+<p>From the repository root, build all projects and run tests with: </p><div class="fragment"><div class="line">python3 per_build.py</div>
 </div><!-- fragment --><p>To build only firmware: </p><div class="fragment"><div class="line">python3 per_build.py firmware --package</div>
 </div><!-- fragment --><p>To run cppcheck static analysis over firmware (<code>firmware/source</code> and <code>firmware/common</code>): </p><div class="fragment"><div class="line">python3 per_build.py firmware --check</div>
 </div><!-- fragment --><p>To build DaqApp only: </p><div class="fragment"><div class="line">python3 per_build.py daqapp</div>
 </div><!-- fragment --><p>To run host tests and generate an HTML coverage report: </p><div class="fragment"><div class="line">python3 per_build.py tests</div>
-</div><!-- fragment --><p>Coverage and AddressSanitizer/UBSan are enabled by default; coverage requires <code>gcov</code>, <code>lcov</code>, and <code>genhtml</code>, and the report is written to <code>firmware/build/host-tests/coverage/html/index.html</code>. The configure step automatically selects the coverage frontend that matches the configured compiler (GCC picks <code>gcov-&lt;major&gt;</code>; Clang/AppleClang invokes <code>llvm-cov gcov</code>), so there is no need to match a tool to the toolchain by hand; CI uses <code>gcc</code>/<code>g++</code>. On macOS <code>/usr/bin/gcc</code> is AppleClang, so for GCC coverage builds install real GCC (<code>brew install gcc</code>) and run with <code>CC=gcc-&lt;version&gt; CXX=g++-&lt;version&gt; python3 per_build.py tests</code>. See tests/ARCHITECTURE.md for details.</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md5"></a>
 Hardware Debugging</h1>
 <p>In VS Code, go to <b>View → Run and Debug</b>, select the appropriate MCU target from the dropdown, then press the green ▶️ arrow to flash and live-debug the firmware.</p>
 <p>Once everything is <a class="el" href="md_docs_2setup.html">set up</a>, open the repository with <code>code .</code>. You can then build all projects by pressing:</p>

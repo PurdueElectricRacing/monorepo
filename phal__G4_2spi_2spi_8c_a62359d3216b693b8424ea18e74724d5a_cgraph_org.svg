@@ -56,9 +56,9 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" target="_top" xlink:title="Write a logic value to an output pin.">
-<polygon fill="white" stroke="#666666" points="454.88,-19.25 360.88,-19.25 360.88,0 454.88,0 454.88,-19.25"/>
-<text text-anchor="middle" x="407.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_writeGPIO</text>
+<g id="a_Node000004"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" target="_top" xlink:title="Write a logic value to an output pin.">
+<polygon fill="white" stroke="#666666" points="457.5,-19.25 358.25,-19.25 358.25,0 457.5,0 457.5,-19.25"/>
+<text text-anchor="middle" x="407.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_GPIO_write</text>
 </a>
 </g>
 </g>
@@ -66,8 +66,8 @@
 <g id="edge3_Node000002_Node000004" class="edge">
 <title>Node2&#45;&gt;Node4</title>
 <g id="a_edge3_Node000002_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M314.49,-18.99C326.24,-17.8 338.08,-16.6 349.18,-15.48"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="349.34,-18.98 358.93,-14.49 348.63,-12.01 349.34,-18.98"/>
+<path fill="none" stroke="#63b8ff" d="M314.49,-18.99C325.35,-17.89 336.28,-16.78 346.63,-15.73"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="346.94,-19.22 356.54,-14.73 346.23,-12.26 346.94,-19.22"/>
 </a>
 </g>
 </g>

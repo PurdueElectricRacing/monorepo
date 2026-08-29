@@ -1,24 +1,24 @@
 <map id="switches_enable_default_rails" name="switches_enable_default_rails">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,196,170,237"/>
-<area shape="rect" id="Node000002" href="$switches_8c.html#ab353c152a3e71488b0fbdc922abbae0a" title=" " alt="" coords="218,204,352,230"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,214,202,214,202,220,170,220"/>
-<area shape="rect" id="Node000003" href="$led_8c.html#a25f4f6c595a65e2015d9d76af5fab4ac" title="Set, clear, or toggle a specified LED pin." alt="" coords="424,128,517,154"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="317,201,423,157,425,162,320,206"/>
-<area shape="rect" id="Node000009" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="810,203,935,228"/>
-<area shape="poly" id="edge11_Node000002_Node000009" title=" " alt="" coords="352,214,794,213,794,218,352,219"/>
-<area shape="rect" id="Node000010" href="$switches_8c.html#acea7adf6b3c7467cbfdc370909323858" title=" " alt="" coords="400,255,541,280"/>
-<area shape="poly" id="edge12_Node000002_Node000010" title=" " alt="" coords="335,228,407,248,406,253,334,233"/>
-<area shape="rect" id="Node000004" href="$phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" title="Check for current SPI transaction to complete." alt="" coords="812,5,932,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="498,125,588,88,681,61,774,40,801,33,803,38,775,45,682,66,590,93,501,130"/>
-<area shape="rect" id="Node000005" href="$phal__F4_2spi_2spi_8c.html#aa44c022e7bafc2f33240d3fa837a4244" title="Transfer data_len bytes from out_data to SPI device and place MISO data in in_data This function just..." alt="" coords="589,103,727,128"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="517,132,574,124,574,129,518,137"/>
-<area shape="poly" id="edge10_Node000003_Node000009" title=" " alt="" coords="518,147,795,199,794,204,517,152"/>
-<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="675,100,718,70,774,40,797,31,799,36,776,45,721,74,678,104"/>
-<area shape="rect" id="Node000006" href="$phal__F4_2dma_2dma_8c.html#a87b11fd9c27f60363585940890fd2343" title=" " alt="" coords="797,55,948,80"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="718,99,796,82,797,87,719,105"/>
-<area shape="rect" id="Node000007" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="775,104,970,130"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="727,113,759,113,759,119,727,119"/>
-<area shape="rect" id="Node000008" href="$phal__F4_2dma_2dma_8c.html#a14faecce0cd8bd38b14c987e17ce1033" title=" " alt="" coords="779,153,966,179"/>
-<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="716,126,801,147,799,152,715,132"/>
-<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="694,127,728,145,752,169,762,179,776,189,796,198,794,203,773,194,758,183,748,172,725,150,691,131"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,72,170,113"/>
+<area shape="rect" id="Node000002" href="$switches_8c.html#ab353c152a3e71488b0fbdc922abbae0a" title=" " alt="" coords="218,80,352,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,90,202,90,202,96,170,96"/>
+<area shape="rect" id="Node000003" href="$led_8c.html#a25f4f6c595a65e2015d9d76af5fab4ac" title="Set, clear, or toggle a specified LED pin." alt="" coords="424,80,517,106"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="352,90,409,90,409,96,352,96"/>
+<area shape="rect" id="Node000004" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="806,5,938,31"/>
+<area shape="poly" id="edge11_Node000002_Node000004" title=" " alt="" coords="342,77,400,65,494,49,589,37,791,20,791,25,590,42,495,54,400,70,343,82"/>
+<area shape="rect" id="Node000010" href="$switches_8c.html#acea7adf6b3c7467cbfdc370909323858" title=" " alt="" coords="400,129,541,155"/>
+<area shape="poly" id="edge12_Node000002_Node000010" title=" " alt="" coords="337,104,406,122,404,127,336,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="517,82,790,31,791,36,518,87"/>
+<area shape="rect" id="Node000005" href="$phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" title="Check for current SPI transaction to complete." alt="" coords="812,203,932,228"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="516,104,542,114,566,128,590,141,641,159,681,169,775,189,803,196,801,201,774,194,680,174,639,164,588,146,564,133,540,119,514,109"/>
+<area shape="rect" id="Node000006" href="$phal__F4_2spi_2spi_8c.html#aa44c022e7bafc2f33240d3fa837a4244" title="Transfer data_len bytes from out_data to SPI device and place MISO data in in_data This function just..." alt="" coords="589,105,727,131"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="518,96,574,104,574,109,517,102"/>
+<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="691,102,725,84,748,61,758,51,773,40,790,32,792,37,776,44,762,55,752,65,728,88,694,107"/>
+<area shape="poly" id="edge10_Node000006_Node000005" title=" " alt="" coords="678,129,721,159,776,189,799,197,797,202,774,194,718,164,675,134"/>
+<area shape="rect" id="Node000007" href="$phal__F4_2dma_2dma_8c.html#a87b11fd9c27f60363585940890fd2343" title=" " alt="" coords="797,104,948,130"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="727,115,782,115,782,120,727,120"/>
+<area shape="rect" id="Node000008" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="775,153,970,179"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="719,129,797,147,796,152,718,134"/>
+<area shape="rect" id="Node000009" href="$phal__F4_2dma_2dma_8c.html#a14faecce0cd8bd38b14c987e17ce1033" title=" " alt="" coords="779,55,966,80"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="715,102,799,82,801,87,716,107"/>
 </map>

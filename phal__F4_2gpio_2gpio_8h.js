@@ -34,8 +34,8 @@ var phal__F4_2gpio_2gpio_8h =
       [ "GPIO_TYPE_AF", "phal__F4_2gpio_2gpio_8h.html#a976b33799b2b8c4fe7d2a4415a88991ba2e971f8f1da5eb3ff891017f22c98927", null ],
       [ "GPIO_TYPE_ANALOG", "phal__F4_2gpio_2gpio_8h.html#a976b33799b2b8c4fe7d2a4415a88991baf0d3c2f5e6b6a52247a85482f03476bc", null ]
     ] ],
-    [ "PHAL_initGPIO", "phal__F4_2gpio_2gpio_8h.html#a9f473c8a74e27d069fa4de69fcbb4d60", null ],
-    [ "PHAL_readGPIO", "phal__F4_2gpio_2gpio_8h.html#a613ebbfff35a56132e58a75c773d7876", null ],
-    [ "PHAL_toggleGPIO", "phal__F4_2gpio_2gpio_8h.html#ae07cde77ad92538f5b12aa3359762399", null ],
-    [ "PHAL_writeGPIO", "phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b", null ]
+    [ "PHAL_GPIO_read", "phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690", null ],
+    [ "PHAL_GPIO_toggle", "phal__F4_2gpio_2gpio_8h.html#ad3c2ff627e4cd120d7ce84467503d888", null ],
+    [ "PHAL_GPIO_write", "phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f", null ],
+    [ "PHAL_initGPIO", "phal__F4_2gpio_2gpio_8h.html#a9f473c8a74e27d069fa4de69fcbb4d60", null ]
 ];

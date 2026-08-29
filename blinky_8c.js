@@ -10,5 +10,5 @@ var blinky_8c =
     [ "RTOS_DEFINE_TASK", "blinky_8c.html#a8faf7d7005c5ac00d259f7e91c16756a", null ],
     [ "RTOS_DEFINE_TASK", "blinky_8c.html#a2e02a89f8c56112c1d0e97d5e4de8a8c", null ],
     [ "RTOS_DEFINE_TASK", "blinky_8c.html#aae4b7a6d3dfd1d5d153861d90257f229", null ],
-    [ "gpio_config", "blinky_8c.html#a60563c6df24a123ae18e090bca85f555", null ]
+    [ "gpio_config", "blinky_8c.html#a0445edd8b78aacc940a1a3848a9b9166", null ]
 ];

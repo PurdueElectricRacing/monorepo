@@ -38,10 +38,7 @@ var searchData=
   ['adc1_5fdma_5fcont_5fconfig_35',['ADC1_DMA_CONT_CONFIG',['../phal__F4_2adc_2adc_8h.html#a9bf789bb8843fa4ab14a8f71510b8868',1,'adc.h']]],
   ['adc_5fnum_5fchannels_36',['ADC_NUM_CHANNELS',['../g4__testing_2main_8h.html#ada9f09bbee2e15c2069f4c25ec74bed8',1,'main.h']]],
   ['adc_5fref_5fmv_37',['ADC_REF_mV',['../pdu_2main_8h.html#a758bf2c56c1526e62cedfac01495abcc',1,'main.h']]],
-  ['af_5fnum_5ffdcan1_38',['AF_NUM_FDCAN1',['../fdcan_8h.html#ae5373db774cc3bc1a678829c3b8ebfac',1,'fdcan.h']]],
-  ['af_5fnum_5ffdcan2_39',['AF_NUM_FDCAN2',['../fdcan_8h.html#ab7d64fc3b002f6084f66cc7e08369dbc',1,'fdcan.h']]],
-  ['af_5fnum_5ffdcan3_40',['AF_NUM_FDCAN3',['../fdcan_8h.html#a782e915646123295ed00b832f8de816a',1,'fdcan.h']]],
-  ['allocate_5fstrbuf_41',['ALLOCATE_STRBUF',['../strbuf_8h.html#a30f1008dff6e5e81b5cfd515db9f8d9a',1,'strbuf.h']]],
-  ['amk_5fstring_42',['AMK_STRING',['../source_2dashboard_2driver__interface_2pages_2amk_8h.html#a52efb53c8ab613e21e6eed83c7f8e129',1,'amk.h']]],
-  ['ascii_5foffset_43',['ASCII_OFFSET',['../nextion_8h.html#ae3c47801ea3ac450ff9b877b1e008e1a',1,'nextion.h']]]
+  ['allocate_5fstrbuf_38',['ALLOCATE_STRBUF',['../strbuf_8h.html#a30f1008dff6e5e81b5cfd515db9f8d9a',1,'strbuf.h']]],
+  ['amk_5fstring_39',['AMK_STRING',['../source_2dashboard_2driver__interface_2pages_2amk_8h.html#a52efb53c8ab613e21e6eed83c7f8e129',1,'amk.h']]],
+  ['ascii_5foffset_40',['ASCII_OFFSET',['../nextion_8h.html#ae3c47801ea3ac450ff9b877b1e008e1a',1,'nextion.h']]]
 ];

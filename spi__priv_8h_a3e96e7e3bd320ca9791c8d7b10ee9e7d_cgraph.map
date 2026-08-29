@@ -8,12 +8,12 @@
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="191,150,296,130,297,135,192,155"/>
 <area shape="rect" id="Node000008" href="$phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8" title="Disable the channel, stopping the transfer immediately." alt="" coords="318,153,444,179"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="234,164,302,164,302,169,234,169"/>
-<area shape="rect" id="Node000010" href="$spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542" title="Reset the internal SPI transfer state." alt="" coords="282,203,480,244"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="182,177,271,197,269,202,181,182"/>
-<area shape="rect" id="Node000011" href="$phal__G4_2spi_2spi_8c.html#acf04b58bde10df9ab774c8e4b776bb06" title="Weak callback fired when a DMA&#45;backed SPI transfer completes." alt="" coords="304,268,458,294"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="142,177,204,214,283,253,304,261,303,266,281,258,201,219,139,182"/>
-<area shape="rect" id="Node000012" href="$phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" title="Write a logic value to an output pin." alt="" coords="318,317,444,343"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="134,177,193,239,236,274,283,304,304,313,302,318,280,309,233,278,190,242,130,181"/>
+<area shape="rect" id="Node000010" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="315,203,447,228"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="192,177,300,198,299,203,191,182"/>
+<area shape="rect" id="Node000011" href="$spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542" title="Reset the internal SPI transfer state." alt="" coords="282,252,480,293"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="148,177,209,207,283,238,298,244,297,249,281,243,207,211,146,182"/>
+<area shape="rect" id="Node000012" href="$phal__G4_2spi_2spi_8c.html#acf04b58bde10df9ab774c8e4b776bb06" title="Weak callback fired when a DMA&#45;backed SPI transfer completes." alt="" coords="304,317,458,343"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="134,178,194,238,236,273,283,302,298,309,296,314,280,307,233,277,190,242,130,181"/>
 <area shape="rect" id="Node000003" href="$dma__priv_8c.html#af2abd80aa58bd274ede649605c608987" title="Clear every latched status flag (global/complete/half/error) for one channel." alt="" coords="550,5,739,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="462,16,535,16,535,21,462,21"/>
 <area shape="rect" id="Node000005" href="$dma__priv_8c.html#adf33cac6892b314e0d5db3149d6e79fd" title="True if the transfer&#45;complete flag is currently set for (periph, channel_idx)" alt="" coords="528,55,761,80"/>

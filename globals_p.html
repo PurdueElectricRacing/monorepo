@@ -256,12 +256,73 @@ $(function(){initNavTree('globals_p.html',''); initResizable(true); });
 <li>PHAL_flashWriteU64()&#160;:&#160;<a class="el" href="phal__F4_2flash_2flash_8c.html#af9950da2f019f37020a9691d9c0da0bc">flash.c</a>, <a class="el" href="phal__F4_2flash_2flash_8h.html#a54016d163dff0d1c1dba3fc5db415fee">flash.h</a></li>
 <li>PHAL_getFreeTxMailbox()&#160;:&#160;<a class="el" href="can_8c.html#ad2843a06714bb3b31deba01618bd8727">can.c</a>, <a class="el" href="can_8h.html#ad2843a06714bb3b31deba01618bd8727">can.h</a></li>
 <li>PHAL_getTimeRTC()&#160;:&#160;<a class="el" href="rtc_8c.html#a1b8e8424127b55110e79bbbc834f8978">rtc.c</a>, <a class="el" href="rtc_8h.html#a1b8e8424127b55110e79bbbc834f8978">rtc.h</a></li>
+<li>PHAL_GPIO_init()&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b">gpio.c</a>, <a class="el" href="phal__G4_2gpio_2gpio_8h.html#ad81f5aaef34ccf69889ba1f67b32ae2b">gpio.h</a></li>
+<li>PHAL_GPIO_INIT_AF&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8h.html#abefd9d6e89f30c404fce768b51344680">gpio.h</a></li>
+<li>PHAL_GPIO_INIT_ANALOG&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8h.html#a87baf2bd54bd318535dea6b05ba7137f">gpio.h</a></li>
+<li>PHAL_GPIO_INIT_INPUT&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8h.html#a4b35649755b2dce497be19d60bbedeb7">gpio.h</a></li>
+<li>PHAL_GPIO_INIT_OUTPUT&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8h.html#a02e0fb7a1010d9c86e92c74a3e04881e">gpio.h</a></li>
+<li>PHAL_GPIO_INIT_OUTPUT_OPEN_DRAIN&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8h.html#aa0cc0a5090b4e7e00b35538a73b57377">gpio.h</a></li>
+<li>PHAL_GPIO_InputPull_t&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8h.html#aa9aadcc914ed77c89d60bd695717feeb">gpio.h</a></li>
+<li>PHAL_GPIO_OutputPull_t&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8h.html#ab43ce302ec9ece3aeb33f9cd404d4cba">gpio.h</a></li>
+<li>PHAL_GPIO_OutputSpeed_t&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8h.html#a1b1893c8c60a3466fd7c168a8ba40402">gpio.h</a></li>
+<li>PHAL_GPIO_PinType_t&#160;:&#160;<a class="el" href="phal__G4_2gpio_2gpio_8h.html#a900400448db55bb8395acf3ce69a6ca5">gpio.h</a></li>
+<li>PHAL_GPIO_priv_enableClock()&#160;:&#160;<a class="el" href="gpio__priv_8c.html#ac9a1d8411608b7f8b53d5348601ce43e">gpio_priv.c</a>, <a class="el" href="gpio__priv_8h.html#ac9a1d8411608b7f8b53d5348601ce43e">gpio_priv.h</a></li>
+<li>PHAL_GPIO_priv_read()&#160;:&#160;<a class="el" href="gpio__priv_8c.html#a1a107aaacbce8b2ab0a57869d63a064f">gpio_priv.c</a>, <a class="el" href="gpio__priv_8h.html#a1a107aaacbce8b2ab0a57869d63a064f">gpio_priv.h</a></li>
+<li>PHAL_GPIO_priv_setAltFunction()&#160;:&#160;<a class="el" href="gpio__priv_8c.html#a396ed356814413b8113510a00d0bf88f">gpio_priv.c</a>, <a class="el" href="gpio__priv_8h.html#a396ed356814413b8113510a00d0bf88f">gpio_priv.h</a></li>
+<li>PHAL_GPIO_priv_setMode()&#160;:&#160;<a class="el" href="gpio__priv_8c.html#acb06a5a664412ca862f34d9ee58ddc4d">gpio_priv.c</a>, <a class="el" href="gpio__priv_8h.html#acb06a5a664412ca862f34d9ee58ddc4d">gpio_priv.h</a></li>
+<li>PHAL_GPIO_priv_setOutputSpeed()&#160;:&#160;<a class="el" href="gpio__priv_8c.html#aaeae1cf9d29181e47f0fca4dcbaf4d98">gpio_priv.c</a>, <a class="el" href="gpio__priv_8h.html#aaeae1cf9d29181e47f0fca4dcbaf4d98">gpio_priv.h</a></li>
+<li>PHAL_GPIO_priv_setOutputType()&#160;:&#160;<a class="el" href="gpio__priv_8c.html#adf74462d771e41ca4d8373790d1ea8d7">gpio_priv.c</a>, <a class="el" href="gpio__priv_8h.html#adf74462d771e41ca4d8373790d1ea8d7">gpio_priv.h</a></li>
+<li>PHAL_GPIO_priv_setPull()&#160;:&#160;<a class="el" href="gpio__priv_8c.html#a5356a96ea085671fbdaa7521a08fbc6b">gpio_priv.c</a>, <a class="el" href="gpio__priv_8h.html#a5356a96ea085671fbdaa7521a08fbc6b">gpio_priv.h</a></li>
+<li>PHAL_GPIO_priv_toggle()&#160;:&#160;<a class="el" href="gpio__priv_8c.html#a0e238c800aa61324f3fb51dad1683319">gpio_priv.c</a>, <a class="el" href="gpio__priv_8h.html#a0e238c800aa61324f3fb51dad1683319">gpio_priv.h</a></li>
+<li>PHAL_GPIO_priv_write()&#160;:&#160;<a class="el" href="gpio__priv_8c.html#ac415ada3716ad8a6db474ee520da0e00">gpio_priv.c</a>, <a class="el" href="gpio__priv_8h.html#ac415ada3716ad8a6db474ee520da0e00">gpio_priv.h</a></li>
+<li>PHAL_GPIO_read()&#160;:&#160;<a class="el" href="phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690">gpio.h</a>, <a class="el" href="phal__G4_2gpio_2gpio_8c.html#a1137300cd37c20dfef9c862571fe1f25">gpio.c</a>, <a class="el" href="phal__G4_2gpio_2gpio_8h.html#a1137300cd37c20dfef9c862571fe1f25">gpio.h</a></li>
+<li>PHAL_GPIO_toggle()&#160;:&#160;<a class="el" href="phal__F4_2gpio_2gpio_8h.html#ad3c2ff627e4cd120d7ce84467503d888">gpio.h</a>, <a class="el" href="phal__G4_2gpio_2gpio_8c.html#afc327d5a4a123df299e3ee7400ac78f5">gpio.c</a>, <a class="el" href="phal__G4_2gpio_2gpio_8h.html#afc327d5a4a123df299e3ee7400ac78f5">gpio.h</a></li>
+<li>PHAL_GPIO_write()&#160;:&#160;<a class="el" href="phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f">gpio.h</a>, <a class="el" href="phal__G4_2gpio_2gpio_8c.html#a33cdf44c9826743a5d2902e91a4701e8">gpio.c</a>, <a class="el" href="phal__G4_2gpio_2gpio_8h.html#a33cdf44c9826743a5d2902e91a4701e8">gpio.h</a></li>
 <li>PHAL_initADC()&#160;:&#160;<a class="el" href="phal__F4_2adc_2adc_8c.html#af6535c258806559b8e64a6a26bf304a3">adc.c</a>, <a class="el" href="phal__F4_2adc_2adc_8h.html#af6535c258806559b8e64a6a26bf304a3">adc.h</a></li>
 <li>PHAL_initCAN()&#160;:&#160;<a class="el" href="can_8c.html#abd53152f7b205f76bfbfc43077f85251">can.c</a>, <a class="el" href="can_8h.html#abd53152f7b205f76bfbfc43077f85251">can.h</a></li>
 <li>PHAL_initDMA()&#160;:&#160;<a class="el" href="phal__F4_2dma_2dma_8c.html#a5eef9fdb02d8b29dc11d7e69328e7504">dma.c</a>, <a class="el" href="phal__F4_2dma_2dma_8h.html#a5eef9fdb02d8b29dc11d7e69328e7504">dma.h</a></li>
-<li>PHAL_initGPIO()&#160;:&#160;<a class="el" href="phal__F4_2gpio_2gpio_8c.html#a9f473c8a74e27d069fa4de69fcbb4d60">gpio.c</a>, <a class="el" href="phal__F4_2gpio_2gpio_8h.html#a9f473c8a74e27d069fa4de69fcbb4d60">gpio.h</a>, <a class="el" href="phal__G4_2gpio_2gpio_8c.html#a9f473c8a74e27d069fa4de69fcbb4d60">gpio.c</a>, <a class="el" href="phal__G4_2gpio_2gpio_8h.html#a9f473c8a74e27d069fa4de69fcbb4d60">gpio.h</a></li>
+<li>PHAL_initGPIO()&#160;:&#160;<a class="el" href="phal__F4_2gpio_2gpio_8c.html#a9f473c8a74e27d069fa4de69fcbb4d60">gpio.c</a>, <a class="el" href="phal__F4_2gpio_2gpio_8h.html#a9f473c8a74e27d069fa4de69fcbb4d60">gpio.h</a></li>
 <li>PHAL_initPWM()&#160;:&#160;<a class="el" href="phal__F4_2pwm_2pwm_8c.html#ab72396114a93e461ec3d59ba61aaa976">pwm.c</a>, <a class="el" href="phal__F4_2pwm_2pwm_8h.html#ab72396114a93e461ec3d59ba61aaa976">pwm.h</a></li>
 <li>PHAL_initUSART()&#160;:&#160;<a class="el" href="phal__F4_2usart_2usart_8c.html#a1e13f03e291a90dcd93ffccf1b8edf65">usart.c</a>, <a class="el" href="phal__F4_2usart_2usart_8h.html#a1e13f03e291a90dcd93ffccf1b8edf65">usart.h</a></li>
+<li>PHAL_PIN_DEFS_AF_NUM_FDCAN1&#160;:&#160;<a class="el" href="g474ret6_8h.html#a6d58a5ab59eec0000139220d12726959">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_AF_NUM_FDCAN2&#160;:&#160;<a class="el" href="g474ret6_8h.html#a6dd0d686ede224ec9b8e60e07a2b333b">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_AF_NUM_FDCAN3&#160;:&#160;<a class="el" href="g474ret6_8h.html#aa5db2d2a99964699d72248a51ef74313">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_AF_NUM_SPI1&#160;:&#160;<a class="el" href="g474ret6_8h.html#a9f14ef45ca8c610d1075fe262ee2159e">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_AF_NUM_SPI2&#160;:&#160;<a class="el" href="g474ret6_8h.html#a8272cb2d9c13c69b9bde183cbe7def42">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_AF_NUM_USART1&#160;:&#160;<a class="el" href="g474ret6_8h.html#ab094c2d126d2f46a214d018df7eda092">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_AF_NUM_USART2&#160;:&#160;<a class="el" href="g474ret6_8h.html#a6bf240b794dd0d72052207fa7a010705">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_AF_NUM_USART3&#160;:&#160;<a class="el" href="g474ret6_8h.html#a2dab5f2ffb94b734a1d9f397645a0dd1">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN1_RX_PA11&#160;:&#160;<a class="el" href="g474ret6_8h.html#ab052ee2c2ac2816db2c77312a03ff1db">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN1_RX_PB8&#160;:&#160;<a class="el" href="g474ret6_8h.html#a5065fa367d5b56d0700d89c344c97567">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN1_TX_PA12&#160;:&#160;<a class="el" href="g474ret6_8h.html#ad8911ab10a260e45ae358e3e5f21b8ff">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN1_TX_PB9&#160;:&#160;<a class="el" href="g474ret6_8h.html#a02de7e3aa5cc75c58bf2e4fad4b4a0f5">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN2_RX_PB12&#160;:&#160;<a class="el" href="g474ret6_8h.html#a237487dad384bd6df8ac87d7fe3a8bc6">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN2_RX_PB5&#160;:&#160;<a class="el" href="g474ret6_8h.html#a3d64ef46720374238af8f7abd2ed65db">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN2_TX_PB13&#160;:&#160;<a class="el" href="g474ret6_8h.html#a797effcb692ab1c6f3537d61ebe6ecec">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN2_TX_PB6&#160;:&#160;<a class="el" href="g474ret6_8h.html#abcda2703bb1b703fb67b6fed01c5dc43">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN3_RX_PA15&#160;:&#160;<a class="el" href="g474ret6_8h.html#ae59a479beae8dbbe546595dd2f518ce3">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN3_RX_PA8&#160;:&#160;<a class="el" href="g474ret6_8h.html#a5dec2c6873eb9915d0333866de60c40f">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN3_TX_PB3&#160;:&#160;<a class="el" href="g474ret6_8h.html#af3dd8c102e2e8e87990bafbabda3d8dc">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_FDCAN3_TX_PB4&#160;:&#160;<a class="el" href="g474ret6_8h.html#ad16523779b26989a54491cd8ccc7536b">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_SPI1_MISO_PA6&#160;:&#160;<a class="el" href="g474ret6_8h.html#a3301c562d34fab08fd3c6a4391ccf371">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_SPI1_MOSI_PA7&#160;:&#160;<a class="el" href="g474ret6_8h.html#a433218a5f9136053e1642d8d968d5d1c">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_SPI1_NSS_PA15&#160;:&#160;<a class="el" href="g474ret6_8h.html#a2221081e349916db9141372fba8b71ae">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_SPI1_NSS_PA4&#160;:&#160;<a class="el" href="g474ret6_8h.html#a2ad7fcfcc02d660611bff9572c270200">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_SPI1_SCK_PA5&#160;:&#160;<a class="el" href="g474ret6_8h.html#a51de31ce684ceab0eb6bee974782336c">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_SPI2_MISO_PB14&#160;:&#160;<a class="el" href="g474ret6_8h.html#aae19cfece8f2c636cba04e8255dbe9a8">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_SPI2_MOSI_PB15&#160;:&#160;<a class="el" href="g474ret6_8h.html#a615fa6d0fba62eb3fa19007cb77ff9eb">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_SPI2_NSS_PB12&#160;:&#160;<a class="el" href="g474ret6_8h.html#a4b86aedc3908424637ca48e59542cc65">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_SPI2_SCK_PB13&#160;:&#160;<a class="el" href="g474ret6_8h.html#a7689daf415bef66ea5ca89d1d5ab8045">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART1_RX_PA10&#160;:&#160;<a class="el" href="g474ret6_8h.html#aa489c2ed862fb5053c284cdd2ae82ee5">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART1_TX_PA9&#160;:&#160;<a class="el" href="g474ret6_8h.html#aaea51072e3ef2a60466f16c460419ba2">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART2_RX_PA3&#160;:&#160;<a class="el" href="g474ret6_8h.html#a81ed8f43e1a09320554edbe1746558db">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART2_RX_PD6&#160;:&#160;<a class="el" href="g474ret6_8h.html#a41b35e579e2684d834f5163def9556a7">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART2_TX_PA2&#160;:&#160;<a class="el" href="g474ret6_8h.html#ac7a46f5587d169b3fdbdbe435296cfd7">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART2_TX_PD5&#160;:&#160;<a class="el" href="g474ret6_8h.html#aa273020c1492b0099964cc06180dfacc">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART3_RX_PB11&#160;:&#160;<a class="el" href="g474ret6_8h.html#a916a1a910ce60d75471ef97ab1317a17">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART3_RX_PC11&#160;:&#160;<a class="el" href="g474ret6_8h.html#a5d23d08a1912e0ff8d5d3862c319e527">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART3_TX_PB10&#160;:&#160;<a class="el" href="g474ret6_8h.html#aa35a86c38274c4f2049b9c1379fac725">g474ret6.h</a></li>
+<li>PHAL_PIN_DEFS_USART3_TX_PC10&#160;:&#160;<a class="el" href="g474ret6_8h.html#af4d03b5f767fa6a382c7b0adb5c34459">g474ret6.h</a></li>
 <li>PHAL_PWM_init()&#160;:&#160;<a class="el" href="phal__G4_2pwm_2pwm_8c.html#a8dfd9bea13ee093add3d12b69100eda4">pwm.c</a>, <a class="el" href="phal__G4_2pwm_2pwm_8h.html#a8dfd9bea13ee093add3d12b69100eda4">pwm.h</a></li>
 <li>PHAL_PWM_priv_enableChannel()&#160;:&#160;<a class="el" href="pwm__priv_8c.html#aeb29bc7c3bf081df5267c196ce112afc">pwm_priv.c</a></li>
 <li>PHAL_PWM_priv_enableTimerClock()&#160;:&#160;<a class="el" href="pwm__priv_8c.html#ac9115a6c98aca3228487a56661ebd279">pwm_priv.c</a>, <a class="el" href="pwm__priv_8h.html#ac9115a6c98aca3228487a56661ebd279">pwm_priv.h</a></li>
@@ -292,7 +353,6 @@ $(function(){initNavTree('globals_p.html',''); initResizable(true); });
 <li>PHAL_RCC_priv_switchSysclkToHSI()&#160;:&#160;<a class="el" href="rcc__priv_8c.html#a9d764d1ad952cbde1cde6d794b88add7">rcc_priv.c</a>, <a class="el" href="rcc__priv_8h.html#a9d764d1ad952cbde1cde6d794b88add7">rcc_priv.h</a></li>
 <li>PHAL_RCC_priv_switchSysclkToPLL()&#160;:&#160;<a class="el" href="rcc__priv_8c.html#a8a440b6372df82c3f5e994b5fd41a6d4">rcc_priv.c</a>, <a class="el" href="rcc__priv_8h.html#a8a440b6372df82c3f5e994b5fd41a6d4">rcc_priv.h</a></li>
 <li>PHAL_readADC()&#160;:&#160;<a class="el" href="phal__F4_2adc_2adc_8c.html#a26bb2a11a3a7492c2e7ac2eb004234d8">adc.c</a>, <a class="el" href="phal__F4_2adc_2adc_8h.html#a26bb2a11a3a7492c2e7ac2eb004234d8">adc.h</a></li>
-<li>PHAL_readGPIO()&#160;:&#160;<a class="el" href="phal__F4_2gpio_2gpio_8h.html#a613ebbfff35a56132e58a75c773d7876">gpio.h</a></li>
 <li>PHAL_RX_CALLBACK()&#160;:&#160;<a class="el" href="can__rx_8c.html#ad145f059cfb89afdb69fbd8b10cd6998">can_rx.c</a></li>
 <li>PHAL_rxCANMessage()&#160;:&#160;<a class="el" href="can_8c.html#a1f302cb498ee6478f4ef4f184b36b01e">can.c</a>, <a class="el" href="can_8h.html#a1f302cb498ee6478f4ef4f184b36b01e">can.h</a></li>
 <li>PHAL_SD_CmdResp_t&#160;:&#160;<a class="el" href="sdio_8h.html#addc5cf2423f043d0ffbfc2c51e0fbc1c">sdio.h</a></li>
@@ -320,7 +380,6 @@ $(function(){initNavTree('globals_p.html',''); initResizable(true); });
 <li>PHAL_SPI_writeByte()&#160;:&#160;<a class="el" href="phal__F4_2spi_2spi_8c.html#a214be7044d1c8a6193ccf7f3e883fab2">spi.c</a>, <a class="el" href="phal__F4_2spi_2spi_8h.html#a214be7044d1c8a6193ccf7f3e883fab2">spi.h</a></li>
 <li>PHAL_startADC()&#160;:&#160;<a class="el" href="phal__F4_2adc_2adc_8c.html#a23932b8ec76a6b766af8b9036eb35e56">adc.c</a>, <a class="el" href="phal__F4_2adc_2adc_8h.html#a23932b8ec76a6b766af8b9036eb35e56">adc.h</a></li>
 <li>PHAL_stopADC()&#160;:&#160;<a class="el" href="phal__F4_2adc_2adc_8c.html#ab3db42e7d07d6b3ed2bbffd5d36627b5">adc.c</a>, <a class="el" href="phal__F4_2adc_2adc_8h.html#ab3db42e7d07d6b3ed2bbffd5d36627b5">adc.h</a></li>
-<li>PHAL_toggleGPIO()&#160;:&#160;<a class="el" href="phal__F4_2gpio_2gpio_8h.html#ae07cde77ad92538f5b12aa3359762399">gpio.h</a></li>
 <li>PHAL_trimHSI()&#160;:&#160;<a class="el" href="phal__F4_2rcc_2rcc_8c.html#af4ee0c309b609633dd82c31c95a11d61">rcc.c</a>, <a class="el" href="phal__F4_2rcc_2rcc_8h.html#af4ee0c309b609633dd82c31c95a11d61">rcc.h</a></li>
 <li>PHAL_TX_CALLBACK&#160;:&#160;<a class="el" href="can__tx_8c.html#a31e989e8ec6169b0e3016c552cd65ef7">can_tx.c</a></li>
 <li>PHAL_txCANAbort()&#160;:&#160;<a class="el" href="can_8c.html#a22269e3f8f5f895a2a2b8e2865814369">can.c</a>, <a class="el" href="can_8h.html#a22269e3f8f5f895a2a2b8e2865814369">can.h</a></li>
@@ -368,7 +427,6 @@ $(function(){initNavTree('globals_p.html',''); initResizable(true); });
 <li>PHAL_USB_setAddress()&#160;:&#160;<a class="el" href="usb_8c.html#a7b6c8df7b0328f18f6dab165592423ae">usb.c</a>, <a class="el" href="usb_8h.html#a7b6c8df7b0328f18f6dab165592423ae">usb.h</a></li>
 <li>PHAL_USB_stall()&#160;:&#160;<a class="el" href="usb_8c.html#ad334f9d5a0cf9ede82d354e1c17c02b3">usb.c</a>, <a class="el" href="usb_8h.html#ad334f9d5a0cf9ede82d354e1c17c02b3">usb.h</a></li>
 <li>PHAL_USB_write()&#160;:&#160;<a class="el" href="usb_8c.html#a47d401544e89e5c4e84a478fa6c581b5">usb.c</a>, <a class="el" href="usb_8h.html#a47d401544e89e5c4e84a478fa6c581b5">usb.h</a></li>
-<li>PHAL_writeGPIO()&#160;:&#160;<a class="el" href="phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b">gpio.h</a></li>
 <li>PI_F&#160;:&#160;<a class="el" href="units_8h.html#a2d6b12d3f019b61b427ec3c63270143d">units.h</a></li>
 <li>PLADC&#160;:&#160;<a class="el" href="commands_8c.html#ab369391094237eefe03a3bbd6f4df9e5">commands.c</a>, <a class="el" href="commands_8h.html#ab369391094237eefe03a3bbd6f4df9e5">commands.h</a></li>
 <li>PLAUT&#160;:&#160;<a class="el" href="commands_8c.html#af229e952623cbab0932eb8f816116961">commands.c</a>, <a class="el" href="commands_8h.html#af229e952623cbab0932eb8f816116961">commands.h</a></li>

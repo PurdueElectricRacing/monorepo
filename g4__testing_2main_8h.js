@@ -5,6 +5,8 @@ var g4__testing_2main_8h =
     [ "LED_BLUE_PORT", "g4__testing_2main_8h.html#af221b8e5f51eca1e53070bd462fff271", null ],
     [ "LED_GREEN_PIN", "g4__testing_2main_8h.html#a0539be032702009fb24beec89c6fa0c0", null ],
     [ "LED_GREEN_PORT", "g4__testing_2main_8h.html#a3ed8b1ac183679013d04fa3ebe0e44e5", null ],
+    [ "LED_NUCLEO_GREEN_PIN", "g4__testing_2main_8h.html#aa4b3a09939df3620b7fd15632064139a", null ],
+    [ "LED_NUCLEO_GREEN_PORT", "g4__testing_2main_8h.html#a8884bf63ba10903a15456ee0e46da4c4", null ],
     [ "LED_ORANGE_PIN", "g4__testing_2main_8h.html#aea00e65d8db15efe130e134943eec5a7", null ],
     [ "LED_ORANGE_PORT", "g4__testing_2main_8h.html#aa0ded3a1f2fd446203c124bdda1e1998", null ],
     [ "LED_RED_PIN", "g4__testing_2main_8h.html#ab9824ab080c30006c1baaa0dd7e863c5", null ],

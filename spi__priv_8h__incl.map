@@ -1,20 +1,22 @@
 <map id="firmware/common/phal_G4/spi/spi_priv.h" name="firmware/common/phal_G4/spi/spi_priv.h">
-<area shape="rect" id="Node000001" title="Internal G4 SPI helpers and DMA configuration macros." alt="" coords="100,5,252,46"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="17,183,169,223"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,49,114,69,94,95,88,113,86,131,88,167,82,168,80,131,83,111,89,93,110,65,136,44"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="104,94,248,135"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="178,47,178,78,173,78,173,47"/>
-<area shape="rect" id="Node000008" href="$phal__G4_2gpio_2gpio_8h.html" title="GPIO Driver for STM32L432 Devices." alt="" coords="272,94,423,135"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="216,44,297,84,294,89,214,49"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,279,69,304"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="83,225,55,267,51,265,78,222"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="166,360,273,386"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="99,223,110,266,120,289,134,310,156,332,182,350,179,354,153,337,130,314,116,291,105,267,94,224"/>
-<area shape="rect" id="Node000005" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="144,271,296,312"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="123,222,180,260,177,265,120,226"/>
-<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="222,312,222,344,217,344,217,312"/>
-<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="159,137,124,173,120,169,155,133"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="193,190,260,216"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="189,134,214,176,209,178,185,137"/>
-<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="351,135,350,170,345,217,332,267,310,313,288,337,263,355,260,350,285,333,305,311,327,265,340,216,345,170,346,135"/>
+<area shape="rect" id="Node000001" title="Internal G4 SPI helpers and DMA configuration macros." alt="" coords="63,5,215,46"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="5,183,158,223"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,49,77,69,57,95,52,113,53,132,65,168,60,170,48,133,47,112,52,93,73,65,99,44"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="67,94,211,135"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="142,47,142,78,136,78,136,47"/>
+<area shape="rect" id="Node000008" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="235,94,386,135"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="179,44,260,84,257,89,177,49"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="235,279,298,304"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="125,221,229,270,226,274,122,226"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="81,360,188,386"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="69,225,57,244,48,266,44,289,49,311,67,333,92,350,88,355,64,337,44,313,39,289,42,265,52,242,64,222"/>
+<area shape="rect" id="Node000005" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="59,271,211,312"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="96,222,117,257,113,260,91,225"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="138,312,138,344,132,344,132,312"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="128,137,105,171,101,168,124,134"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="181,190,248,216"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="158,133,196,177,192,180,154,137"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="309,136,276,264,271,263,303,134"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="320,135,330,171,336,218,332,268,325,292,313,314,291,336,264,352,234,363,204,370,203,365,232,358,261,347,288,332,309,310,320,289,327,267,330,218,324,172,315,136"/>
+<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="291,137,241,182,237,178,287,133"/>
 </map>

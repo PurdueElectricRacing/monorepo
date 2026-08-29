@@ -1,0 +1,23 @@
+<map id="PHAL_GPIO_init" name="PHAL_GPIO_init">
+<area shape="rect" id="Node000001" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="5,133,127,159"/>
+<area shape="rect" id="Node000002" href="$gpio__priv_8c.html#ac9a1d8411608b7f8b53d5348601ce43e" title="Enable the AHB2 clock for bank&#39;s port (GPIOA&#45;GPIOG)." alt="" coords="182,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,131,114,86,142,61,173,40,185,34,187,39,176,44,145,65,118,90,79,135"/>
+<area shape="rect" id="Node000003" href="$gpio__priv_8c.html#a396ed356814413b8113510a00d0bf88f" title="Set AFR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="175,55,392,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="88,130,127,109,174,89,195,82,196,87,176,94,130,114,91,135"/>
+<area shape="rect" id="Node000004" href="$gpio__priv_8c.html#acb06a5a664412ca862f34d9ee58ddc4d" title="Set MODER&#39;s field for pin to type. Caller must have validated pin &lt;= 15." alt="" coords="192,104,374,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="127,135,176,129,177,134,127,141"/>
+<area shape="rect" id="Node000006" href="$gpio__priv_8c.html#aaeae1cf9d29181e47f0fca4dcbaf4d98" title="Set OSPEEDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="189,154,378,194"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="127,151,174,157,173,163,127,157"/>
+<area shape="rect" id="Node000008" href="$gpio__priv_8c.html#adf74462d771e41ca4d8373790d1ea8d7" title="Set OTYPER&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="175,219,392,244"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="88,157,128,181,176,204,199,212,197,217,174,209,125,186,86,162"/>
+<area shape="rect" id="Node000010" href="$gpio__priv_8c.html#a5356a96ea085671fbdaa7521a08fbc6b" title="Set PUPDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="197,268,370,294"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="78,158,117,206,145,232,176,255,186,259,183,264,173,259,141,237,113,209,74,161"/>
+<area shape="rect" id="Node000005" href="$gpio__priv_8c.html#a0c907ce193b55b7b744a4763218d14f4" title="Get the bit pattern for a pin&#39;s MODER field from its type." alt="" coords="442,104,554,130"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="375,114,426,114,426,120,375,120"/>
+<area shape="rect" id="Node000007" href="$gpio__priv_8c.html#a44cc6c129f8a36940f86366078bf68a5" title="Get the bit pattern for a pin&#39;s OSPEEDR field from its speed." alt="" coords="440,161,555,187"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="378,172,425,172,425,177,378,177"/>
+<area shape="rect" id="Node000009" href="$gpio__priv_8c.html#a90e78e8eb05b4cb35e422fe0cc03fe11" title="Get the bit pattern for a pin&#39;s OTYPER field from its output type." alt="" coords="442,219,553,244"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="392,229,427,229,427,234,392,234"/>
+<area shape="rect" id="Node000011" href="$gpio__priv_8c.html#ab327360b29d2588b06a0687aa036e314" title="Get the bit pattern for a pin&#39;s PUPDR field from its pull selection." alt="" coords="448,268,548,294"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="370,278,432,278,432,284,370,284"/>
+</map>

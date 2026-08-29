@@ -219,9 +219,9 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a67db851520637ffa4de5968c9730220b" target="_top" xlink:title="Write a logic value to an output pin.">
-<polygon fill="white" stroke="#666666" points="981,-167.25 887,-167.25 887,-148 981,-148 981,-167.25"/>
-<text text-anchor="middle" x="934" y="-153.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_writeGPIO</text>
+<g id="a_Node000010"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" target="_top" xlink:title="Write a logic value to an output pin.">
+<polygon fill="white" stroke="#666666" points="983.62,-167.25 884.38,-167.25 884.38,-148 983.62,-148 983.62,-167.25"/>
+<text text-anchor="middle" x="934" y="-153.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_GPIO_write</text>
 </a>
 </g>
 </g>
@@ -229,8 +229,8 @@
 <g id="edge9_Node000009_Node000010" class="edge">
 <title>Node9&#45;&gt;Node10</title>
 <g id="a_edge9_Node000009_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M824.85,-158.26C841.23,-158.17 858.89,-158.06 875.1,-157.97"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="875.11,-161.47 885.08,-157.91 875.06,-154.47 875.11,-161.47"/>
+<path fill="none" stroke="#63b8ff" d="M824.85,-158.26C840.47,-158.17 857.25,-158.07 872.83,-157.98"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="872.43,-161.48 882.4,-157.92 872.38,-154.48 872.43,-161.48"/>
 </a>
 </g>
 </g>
@@ -238,8 +238,8 @@
 <g id="edge11_Node000011_Node000010" class="edge">
 <title>Node11&#45;&gt;Node10</title>
 <g id="a_edge11_Node000011_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M654.18,-124.2C700.76,-127.31 767,-132.45 824.75,-139.62 841.26,-141.68 859.11,-144.42 875.46,-147.15"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="874.56,-150.55 885.01,-148.78 875.74,-143.65 874.56,-150.55"/>
+<path fill="none" stroke="#63b8ff" d="M654.18,-124.2C700.76,-127.31 767,-132.45 824.75,-139.62 840.42,-141.57 857.29,-144.14 872.94,-146.73"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="872.15,-150.15 882.59,-148.36 873.32,-143.25 872.15,-150.15"/>
 </a>
 </g>
 </g>
@@ -280,18 +280,18 @@
 </g>
 </g>
 <!-- Node14&#45;&gt;Node10 -->
-<g id="edge19_Node000014_Node000010" class="edge">
+<g id="edge18_Node000014_Node000010" class="edge">
 <title>Node14&#45;&gt;Node10</title>
-<g id="a_edge19_Node000014_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M795.85,-92.72C805.49,-96.42 815.87,-101.08 824.75,-106.62 843.16,-118.12 841.63,-129.35 860.75,-139.62 865.48,-142.17 870.58,-144.36 875.81,-146.25"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="874.59,-149.53 885.18,-149.25 876.73,-142.87 874.59,-149.53"/>
+<g id="a_edge18_Node000014_Node000010"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M795.85,-92.72C805.49,-96.42 815.87,-101.08 824.75,-106.62 843.16,-118.12 841.63,-129.35 860.75,-139.62 864.67,-141.73 868.85,-143.6 873.14,-145.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="871.93,-148.54 882.52,-148.44 874.18,-141.91 871.93,-148.54"/>
 </a>
 </g>
 </g>
 <!-- Node14&#45;&gt;Node13 -->
-<g id="edge18_Node000014_Node000013" class="edge">
+<g id="edge19_Node000014_Node000013" class="edge">
 <title>Node14&#45;&gt;Node13</title>
-<g id="a_edge18_Node000014_Node000013"><a xlink:title=" ">
+<g id="a_edge19_Node000014_Node000013"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M778.56,-72.52C797.06,-60.32 830.01,-39.9 860.75,-27.62 866.09,-25.49 871.76,-23.56 877.47,-21.82"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="878.34,-25.21 887,-19.12 876.43,-18.47 878.34,-25.21"/>
 </a>

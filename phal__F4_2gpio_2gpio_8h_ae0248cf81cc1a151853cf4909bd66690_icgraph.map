@@ -1,0 +1,52 @@
+<map id="PHAL_GPIO_read" name="PHAL_GPIO_read">
+<area shape="rect" id="Node000001" title="Read the state of the input register for the specific GPIO pin." alt="" coords="517,351,647,376"/>
+<area shape="rect" id="Node000002" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="358,43,437,68"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="570,337,533,236,503,176,467,118,442,92,417,71,420,67,446,88,471,115,508,173,538,234,575,335"/>
+<area shape="rect" id="Node000004" href="$pdu_2faults_2faults_8c.html#a21486bc79420fd7ba6102993e8eb8ebf" title=" " alt="" coords="345,129,450,155"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="558,340,408,157,412,154,562,337"/>
+<area shape="rect" id="Node000006" href="$phal__F4_2gpio_2gpio_8h.html#ad3c2ff627e4cd120d7ce84467503d888" title=" " alt="" coords="328,252,467,278"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="542,345,422,281,425,276,544,341"/>
+<area shape="rect" id="Node000015" href="$sd__card_8c.html#a1be8d347ac90e89922850113d6c264df" title=" " alt="" coords="159,400,278,426"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="502,356,416,355,371,358,327,366,303,377,279,391,255,402,253,397,277,386,300,372,325,361,370,353,416,349,502,351"/>
+<area shape="rect" id="Node000017" href="$sdio_8c.html#acb7415873dffa26068c5e46025efebfa" title="Detect if SD card is correctly plugged in the memory slot." alt="" coords="356,376,440,402"/>
+<area shape="poly" id="edge19_Node000001_Node000017" title=" " alt="" coords="503,377,440,386,440,380,502,372"/>
+<area shape="rect" id="Node000020" href="$sdc_8c.html#abe061ee2b199bb82296440005e5d23fc" title=" " alt="" coords="332,425,464,451"/>
+<area shape="poly" id="edge23_Node000001_Node000020" title=" " alt="" coords="541,386,470,417,441,427,440,422,468,412,538,381"/>
+<area shape="rect" id="Node000022" href="$switches_8c.html#a2d9f39c10e6dfcb8da78ca2be37e2727" title=" " alt="" coords="326,475,469,500"/>
+<area shape="poly" id="edge25_Node000001_Node000022" title=" " alt="" coords="561,390,521,428,471,466,448,476,446,472,468,461,518,424,557,386"/>
+<area shape="rect" id="Node000023" href="$vehicle__fsm_8c.html#a17b274e6971a721080e708c8d6eed884" title=" " alt="" coords="326,524,469,550"/>
+<area shape="poly" id="edge26_Node000001_Node000023" title=" " alt="" coords="570,392,531,453,503,486,471,515,452,526,449,521,468,511,499,483,526,450,565,389"/>
+<area shape="rect" id="Node000003" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="194,5,243,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="343,47,243,26,244,21,344,42"/>
+<area shape="rect" id="Node000005" href="$pdu_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="194,55,243,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="350,125,277,94,243,80,245,75,279,89,353,120"/>
+<area shape="rect" id="Node000007" href="$heartbeat_8c.html#ab2681be62cc27208946c262df62f4a06" title=" " alt="" coords="165,104,272,130"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="375,241,333,192,306,166,277,143,257,132,260,128,279,139,309,162,337,188,379,238"/>
+<area shape="rect" id="Node000008" href="$blinky_8c.html#a26523b6d1f04edb5b46ea0fc23af8e96" title=" " alt="" coords="182,153,254,179"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="363,245,277,193,254,182,256,177,279,188,366,240"/>
+<area shape="rect" id="Node000010" href="$blinky_8c.html#af1732b68a532fd4dbaa6e34152c49585" title=" " alt="" coords="182,203,254,228"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="333,250,254,228,256,223,334,245"/>
+<area shape="rect" id="Node000011" href="$blinky_8c.html#a16a34b44b57ab33a01ec47aad586fae9" title=" " alt="" coords="182,252,254,278"/>
+<area shape="poly" id="edge11_Node000006_Node000011" title=" " alt="" coords="312,268,255,268,255,262,312,262"/>
+<area shape="rect" id="Node000012" href="$blinky_8c.html#a6312dae81a730823b198c3005cfbc3b2" title=" " alt="" coords="182,301,254,327"/>
+<area shape="poly" id="edge13_Node000006_Node000012" title=" " alt="" coords="334,285,256,307,254,302,333,280"/>
+<area shape="rect" id="Node000013" href="$canpiler_8c.html#acaa1e25c4d31d8a87cbecf968c4d6c57" title=" " alt="" coords="168,351,269,376"/>
+<area shape="poly" id="edge15_Node000006_Node000013" title=" " alt="" coords="366,289,279,342,256,353,254,348,277,337,363,285"/>
+<area shape="rect" id="Node000009" href="$blinky_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="33,228,83,254"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="170,188,160,193,84,230,82,226,158,188,168,183"/>
+<area shape="poly" id="edge10_Node000010_Node000009" title=" " alt="" coords="167,226,83,240,82,234,166,221"/>
+<area shape="poly" id="edge12_Node000011_Node000009" title=" " alt="" coords="166,260,82,247,83,242,167,255"/>
+<area shape="poly" id="edge14_Node000012_Node000009" title=" " alt="" coords="168,297,158,293,82,256,84,251,160,288,171,292"/>
+<area shape="rect" id="Node000014" href="$canpiler_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="33,351,83,376"/>
+<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="152,366,83,366,83,361,152,361"/>
+<area shape="rect" id="Node000016" href="$daq_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="33,400,83,426"/>
+<area shape="poly" id="edge18_Node000015_Node000016" title=" " alt="" coords="143,416,83,416,83,410,143,410"/>
+<area shape="poly" id="edge20_Node000017_Node000015" title=" " alt="" coords="340,399,279,407,278,402,339,394"/>
+<area shape="rect" id="Node000018" href="$sdio_8c.html#a1c49d266e4f9ba33b7a425361a30d227" title="Returns the current card&#39;s state." alt="" coords="169,449,268,475"/>
+<area shape="poly" id="edge21_Node000017_Node000018" title=" " alt="" coords="342,409,327,415,279,441,255,451,253,446,277,436,325,410,340,404"/>
+<area shape="rect" id="Node000019" href="$sdio_8c.html#af3f228aaee7b2b18acc056b2f27ca3f7" title="Gets the cuurent sd card data transfer status." alt="" coords="5,449,111,475"/>
+<area shape="poly" id="edge22_Node000018_Node000019" title=" " alt="" coords="154,465,111,465,111,460,154,460"/>
+<area shape="rect" id="Node000021" href="$main__module_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="194,511,243,536"/>
+<area shape="poly" id="edge24_Node000020_Node000021" title=" " alt="" coords="339,459,327,465,243,513,240,508,325,460,337,455"/>
+<area shape="poly" id="edge27_Node000023_Node000021" title=" " alt="" coords="310,533,243,528,244,523,310,528"/>
+</map>

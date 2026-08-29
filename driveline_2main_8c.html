@@ -114,6 +114,7 @@ $(function(){initNavTree('driveline_2main_8c.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="fdcan_8h_source.html">common/phal_G4/fdcan/fdcan.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2gpio_2gpio_8h_source.html">common/phal_G4/gpio/gpio.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2rcc_2rcc_8h_source.html">common/phal_G4/rcc/rcc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="g474ret6_8h_source.html">common/phal_G4/pin_defs/g474ret6.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="countof_8h_source.html">common/utils/countof.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="watchdog_8h_source.html">common/watchdog/watchdog.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="config_8h_source.html">config.h</a>&quot;</code><br />
@@ -159,8 +160,8 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a60563c6df24a123ae18e090bca85f555" id="r_a60563c6df24a123ae18e090bca85f555"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structGPIOInitConfig__t.html">GPIOInitConfig_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60563c6df24a123ae18e090bca85f555">gpio_config</a> []</td></tr>
-<tr class="separator:a60563c6df24a123ae18e090bca85f555"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0445edd8b78aacc940a1a3848a9b9166" id="r_a0445edd8b78aacc940a1a3848a9b9166"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structPHAL__GPIO__InitConfig__t.html">PHAL_GPIO_InitConfig_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0445edd8b78aacc940a1a3848a9b9166">gpio_config</a> []</td></tr>
+<tr class="separator:a0445edd8b78aacc940a1a3848a9b9166"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a855cda75692c284e6b359fc369d129a9" id="r_a855cda75692c284e6b359fc369d129a9"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structPHAL__ADC__ChannelConfig__t.html">PHAL_ADC_ChannelConfig_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a855cda75692c284e6b359fc369d129a9">adc1_channels</a> []</td></tr>
 <tr class="separator:a855cda75692c284e6b359fc369d129a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c930f9fe2623c01b2a1309966bfb741" id="r_a3c930f9fe2623c01b2a1309966bfb741"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structPHAL__ADC__Config__t.html">PHAL_ADC_Config_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c930f9fe2623c01b2a1309966bfb741">adc1_config</a></td></tr>
@@ -468,7 +469,7 @@ Here is the caller graph for this function:</div>
 <div class="line">    .channels      = <a class="code hl_variable" href="#a855cda75692c284e6b359fc369d129a9">adc1_channels</a>,</div>
 <div class="line">    .channel_count = <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a855cda75692c284e6b359fc369d129a9">adc1_channels</a>) / <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a855cda75692c284e6b359fc369d129a9">adc1_channels</a>[0]),</div>
 <div class="line">}</div>
-<div class="ttc" id="adriveline_2main_8c_html_a855cda75692c284e6b359fc369d129a9"><div class="ttname"><a href="#a855cda75692c284e6b359fc369d129a9">adc1_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc1_channels[]</div><div class="ttdef"><b>Definition</b> main.c:49</div></div>
+<div class="ttc" id="adriveline_2main_8c_html_a855cda75692c284e6b359fc369d129a9"><div class="ttname"><a href="#a855cda75692c284e6b359fc369d129a9">adc1_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc1_channels[]</div><div class="ttdef"><b>Definition</b> main.c:50</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -544,7 +545,7 @@ Here is the caller graph for this function:</div>
 <div class="line">    .channels      = <a class="code hl_variable" href="#a3f7f0ba1b5300ae13674ea48c86e5100">adc2_channels</a>,</div>
 <div class="line">    .channel_count = <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a3f7f0ba1b5300ae13674ea48c86e5100">adc2_channels</a>) / <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a3f7f0ba1b5300ae13674ea48c86e5100">adc2_channels</a>[0]),</div>
 <div class="line">}</div>
-<div class="ttc" id="adriveline_2main_8c_html_a3f7f0ba1b5300ae13674ea48c86e5100"><div class="ttname"><a href="#a3f7f0ba1b5300ae13674ea48c86e5100">adc2_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc2_channels[]</div><div class="ttdef"><b>Definition</b> main.c:65</div></div>
+<div class="ttc" id="adriveline_2main_8c_html_a3f7f0ba1b5300ae13674ea48c86e5100"><div class="ttname"><a href="#a3f7f0ba1b5300ae13674ea48c86e5100">adc2_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc2_channels[]</div><div class="ttdef"><b>Definition</b> main.c:66</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -620,7 +621,7 @@ Here is the caller graph for this function:</div>
 <div class="line">    .channels      = <a class="code hl_variable" href="#a54189ae0fa484979190c92e2dd63852d">adc3_channels</a>,</div>
 <div class="line">    .channel_count = <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a54189ae0fa484979190c92e2dd63852d">adc3_channels</a>) / <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a54189ae0fa484979190c92e2dd63852d">adc3_channels</a>[0]),</div>
 <div class="line">}</div>
-<div class="ttc" id="adriveline_2main_8c_html_a54189ae0fa484979190c92e2dd63852d"><div class="ttname"><a href="#a54189ae0fa484979190c92e2dd63852d">adc3_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc3_channels[]</div><div class="ttdef"><b>Definition</b> main.c:82</div></div>
+<div class="ttc" id="adriveline_2main_8c_html_a54189ae0fa484979190c92e2dd63852d"><div class="ttname"><a href="#a54189ae0fa484979190c92e2dd63852d">adc3_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc3_channels[]</div><div class="ttdef"><b>Definition</b> main.c:83</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -696,7 +697,7 @@ Here is the caller graph for this function:</div>
 <div class="line">    .channels      = <a class="code hl_variable" href="#a5ce0e5543145fcdb5a4fbac46706f441">adc4_channels</a>,</div>
 <div class="line">    .channel_count = <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a5ce0e5543145fcdb5a4fbac46706f441">adc4_channels</a>) / <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a5ce0e5543145fcdb5a4fbac46706f441">adc4_channels</a>[0]),</div>
 <div class="line">}</div>
-<div class="ttc" id="adriveline_2main_8c_html_a5ce0e5543145fcdb5a4fbac46706f441"><div class="ttname"><a href="#a5ce0e5543145fcdb5a4fbac46706f441">adc4_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc4_channels[]</div><div class="ttdef"><b>Definition</b> main.c:98</div></div>
+<div class="ttc" id="adriveline_2main_8c_html_a5ce0e5543145fcdb5a4fbac46706f441"><div class="ttname"><a href="#a5ce0e5543145fcdb5a4fbac46706f441">adc4_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc4_channels[]</div><div class="ttdef"><b>Definition</b> main.c:99</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -722,34 +723,34 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a60563c6df24a123ae18e090bca85f555" name="a60563c6df24a123ae18e090bca85f555"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60563c6df24a123ae18e090bca85f555">&#9670;&#160;</a></span>gpio_config</h2>
+<a id="a0445edd8b78aacc940a1a3848a9b9166" name="a0445edd8b78aacc940a1a3848a9b9166"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0445edd8b78aacc940a1a3848a9b9166">&#9670;&#160;</a></span>gpio_config</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structGPIOInitConfig__t.html">GPIOInitConfig_t</a> gpio_config[]</td>
+          <td class="memname"><a class="el" href="structPHAL__GPIO__InitConfig__t.html">PHAL_GPIO_InitConfig_t</a> gpio_config[]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
 <div class="line">    </div>
-<div class="line">    <a class="code hl_define" href="phal__F4_2gpio_2gpio_8h.html#a3e9b27b94f7c10702f9a82a6b87d31a5">GPIO_INIT_OUTPUT</a>(<a class="code hl_define" href="a__box_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50">HEARTBEAT_LED_PORT</a>, <a class="code hl_define" href="a__box_2main_8h.html#a5e9e4203b861d671cdcd3bf5f08655a3">HEARTBEAT_LED_PIN</a>, <a class="code hl_enumvalue" href="phal__F4_2gpio_2gpio_8h.html#af0a10c1de7415b34f63dc68acc168ce8a912bef37dd84a191580798f7606a74a0">GPIO_OUTPUT_LOW_SPEED</a>),</div>
-<div class="line">    <a class="code hl_define" href="phal__F4_2gpio_2gpio_8h.html#a3e9b27b94f7c10702f9a82a6b87d31a5">GPIO_INIT_OUTPUT</a>(<a class="code hl_define" href="a__box_2main_8h.html#a84357dafca10c0bedd27ddf562ec038f">ERROR_LED_PORT</a>, <a class="code hl_define" href="a__box_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12">ERROR_LED_PIN</a>, <a class="code hl_enumvalue" href="phal__F4_2gpio_2gpio_8h.html#af0a10c1de7415b34f63dc68acc168ce8a912bef37dd84a191580798f7606a74a0">GPIO_OUTPUT_LOW_SPEED</a>),</div>
-<div class="line">    <a class="code hl_define" href="phal__F4_2gpio_2gpio_8h.html#a3e9b27b94f7c10702f9a82a6b87d31a5">GPIO_INIT_OUTPUT</a>(<a class="code hl_define" href="a__box_2main_8h.html#aa5bf4e4a187f66b98a273bb051ec3877">CONNECTION_LED_PORT</a>, <a class="code hl_define" href="a__box_2main_8h.html#a8437cdc43b488d816a5e56f7b6457b86">CONNECTION_LED_PIN</a>, <a class="code hl_enumvalue" href="phal__F4_2gpio_2gpio_8h.html#af0a10c1de7415b34f63dc68acc168ce8a912bef37dd84a191580798f7606a74a0">GPIO_OUTPUT_LOW_SPEED</a>),</div>
+<div class="line">    <a class="code hl_define" href="phal__G4_2gpio_2gpio_8h.html#a02e0fb7a1010d9c86e92c74a3e04881e">PHAL_GPIO_INIT_OUTPUT</a>(<a class="code hl_define" href="a__box_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50">HEARTBEAT_LED_PORT</a>, <a class="code hl_define" href="a__box_2main_8h.html#a5e9e4203b861d671cdcd3bf5f08655a3">HEARTBEAT_LED_PIN</a>, <a class="code hl_enumvalue" href="phal__F4_2gpio_2gpio_8h.html#af0a10c1de7415b34f63dc68acc168ce8a912bef37dd84a191580798f7606a74a0">GPIO_OUTPUT_LOW_SPEED</a>),</div>
+<div class="line">    <a class="code hl_define" href="phal__G4_2gpio_2gpio_8h.html#a02e0fb7a1010d9c86e92c74a3e04881e">PHAL_GPIO_INIT_OUTPUT</a>(<a class="code hl_define" href="a__box_2main_8h.html#a84357dafca10c0bedd27ddf562ec038f">ERROR_LED_PORT</a>, <a class="code hl_define" href="a__box_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12">ERROR_LED_PIN</a>, <a class="code hl_enumvalue" href="phal__F4_2gpio_2gpio_8h.html#af0a10c1de7415b34f63dc68acc168ce8a912bef37dd84a191580798f7606a74a0">GPIO_OUTPUT_LOW_SPEED</a>),</div>
+<div class="line">    <a class="code hl_define" href="phal__G4_2gpio_2gpio_8h.html#a02e0fb7a1010d9c86e92c74a3e04881e">PHAL_GPIO_INIT_OUTPUT</a>(<a class="code hl_define" href="a__box_2main_8h.html#aa5bf4e4a187f66b98a273bb051ec3877">CONNECTION_LED_PORT</a>, <a class="code hl_define" href="a__box_2main_8h.html#a8437cdc43b488d816a5e56f7b6457b86">CONNECTION_LED_PIN</a>, <a class="code hl_enumvalue" href="phal__F4_2gpio_2gpio_8h.html#af0a10c1de7415b34f63dc68acc168ce8a912bef37dd84a191580798f7606a74a0">GPIO_OUTPUT_LOW_SPEED</a>),</div>
 <div class="line"> </div>
 <div class="line">    </div>
-<div class="line">    <a class="code hl_define" href="fdcan_8h.html#aa9f777d6865f1ec8cde41fe44c017d56">GPIO_INIT_FDCAN2TX_PB6</a>,</div>
-<div class="line">    <a class="code hl_define" href="fdcan_8h.html#ab3313bc37e4839c41063f82aeaa69bf8">GPIO_INIT_FDCAN2RX_PB5</a>,</div>
+<div class="line">    <a class="code hl_variable" href="g474ret6_8h.html#a3d64ef46720374238af8f7abd2ed65db">PHAL_PIN_DEFS_FDCAN2_RX_PB5</a>,</div>
+<div class="line">    <a class="code hl_variable" href="g474ret6_8h.html#abcda2703bb1b703fb67b6fed01c5dc43">PHAL_PIN_DEFS_FDCAN2_TX_PB6</a>,</div>
 <div class="line"> </div>
 <div class="line">    </div>
-<div class="line">    <a class="code hl_define" href="phal__F4_2gpio_2gpio_8h.html#a9f3e383e90eea420ba388b6041e6c866">GPIO_INIT_ANALOG</a>(<a class="code hl_define" href="pin__defs_8h.html#a679c018529d29f732fac994ac24abc6a">SHOCKPOT_LEFT_GPIO_PORT</a> , <a class="code hl_define" href="pin__defs_8h.html#aa277719996795ecb8dee70daca77d760">SHOCKPOT_LEFT_GPIO_PIN</a>),</div>
-<div class="line">    <a class="code hl_define" href="phal__F4_2gpio_2gpio_8h.html#a9f3e383e90eea420ba388b6041e6c866">GPIO_INIT_ANALOG</a>(<a class="code hl_define" href="pin__defs_8h.html#ad1f1b216b058db10be598edffc8e5fd1">SHOCKPOT_RIGHT_GPIO_PORT</a>, <a class="code hl_define" href="pin__defs_8h.html#ac2c531860587fb00c4c9e0925531155a">SHOCKPOT_RIGHT_GPIO_PIN</a>),</div>
+<div class="line">    <a class="code hl_define" href="phal__G4_2gpio_2gpio_8h.html#a87baf2bd54bd318535dea6b05ba7137f">PHAL_GPIO_INIT_ANALOG</a>(<a class="code hl_define" href="pin__defs_8h.html#a679c018529d29f732fac994ac24abc6a">SHOCKPOT_LEFT_GPIO_PORT</a> , <a class="code hl_define" href="pin__defs_8h.html#aa277719996795ecb8dee70daca77d760">SHOCKPOT_LEFT_GPIO_PIN</a>),</div>
+<div class="line">    <a class="code hl_define" href="phal__G4_2gpio_2gpio_8h.html#a87baf2bd54bd318535dea6b05ba7137f">PHAL_GPIO_INIT_ANALOG</a>(<a class="code hl_define" href="pin__defs_8h.html#ad1f1b216b058db10be598edffc8e5fd1">SHOCKPOT_RIGHT_GPIO_PORT</a>, <a class="code hl_define" href="pin__defs_8h.html#ac2c531860587fb00c4c9e0925531155a">SHOCKPOT_RIGHT_GPIO_PIN</a>),</div>
 <div class="line"> </div>
 <div class="line">    </div>
-<div class="line">    <a class="code hl_define" href="phal__F4_2gpio_2gpio_8h.html#a9f3e383e90eea420ba388b6041e6c866">GPIO_INIT_ANALOG</a>(<a class="code hl_define" href="pin__defs_8h.html#aed7730e25a3c469311b585879c0f3843">OIL_TEMP_L_GPIO_Port</a>, <a class="code hl_define" href="pin__defs_8h.html#add9abdac0fd48542704e3ff740610bbc">OIL_TEMP_L_Pin</a>),</div>
-<div class="line">    <a class="code hl_define" href="phal__F4_2gpio_2gpio_8h.html#a9f3e383e90eea420ba388b6041e6c866">GPIO_INIT_ANALOG</a>(<a class="code hl_define" href="pin__defs_8h.html#a677c48f9d4926aa42eeac87f0da7e570">OIL_TEMP_R_GPIO_Port</a>, <a class="code hl_define" href="pin__defs_8h.html#afe3a8d8b3bd952362b630787a6855212">OIL_TEMP_R_Pin</a>),</div>
+<div class="line">    <a class="code hl_define" href="phal__G4_2gpio_2gpio_8h.html#a87baf2bd54bd318535dea6b05ba7137f">PHAL_GPIO_INIT_ANALOG</a>(<a class="code hl_define" href="pin__defs_8h.html#aed7730e25a3c469311b585879c0f3843">OIL_TEMP_L_GPIO_Port</a>, <a class="code hl_define" href="pin__defs_8h.html#add9abdac0fd48542704e3ff740610bbc">OIL_TEMP_L_Pin</a>),</div>
+<div class="line">    <a class="code hl_define" href="phal__G4_2gpio_2gpio_8h.html#a87baf2bd54bd318535dea6b05ba7137f">PHAL_GPIO_INIT_ANALOG</a>(<a class="code hl_define" href="pin__defs_8h.html#a677c48f9d4926aa42eeac87f0da7e570">OIL_TEMP_R_GPIO_Port</a>, <a class="code hl_define" href="pin__defs_8h.html#afe3a8d8b3bd952362b630787a6855212">OIL_TEMP_R_Pin</a>),</div>
 <div class="line"> </div>
 <div class="line">}</div>
 <div class="ttc" id="aa__box_2main_8h_html_a16617de3bb2ca54675ae2515d8515e12"><div class="ttname"><a href="a__box_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12">ERROR_LED_PIN</a></div><div class="ttdeci">#define ERROR_LED_PIN</div><div class="ttdef"><b>Definition</b> main.h:20</div></div>
@@ -758,11 +759,11 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="aa__box_2main_8h_html_a8437cdc43b488d816a5e56f7b6457b86"><div class="ttname"><a href="a__box_2main_8h.html#a8437cdc43b488d816a5e56f7b6457b86">CONNECTION_LED_PIN</a></div><div class="ttdeci">#define CONNECTION_LED_PIN</div><div class="ttdef"><b>Definition</b> main.h:22</div></div>
 <div class="ttc" id="aa__box_2main_8h_html_a8a762e1254b034eba6b4993ae11cee50"><div class="ttname"><a href="a__box_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50">HEARTBEAT_LED_PORT</a></div><div class="ttdeci">#define HEARTBEAT_LED_PORT</div><div class="ttdef"><b>Definition</b> main.h:17</div></div>
 <div class="ttc" id="aa__box_2main_8h_html_aa5bf4e4a187f66b98a273bb051ec3877"><div class="ttname"><a href="a__box_2main_8h.html#aa5bf4e4a187f66b98a273bb051ec3877">CONNECTION_LED_PORT</a></div><div class="ttdeci">#define CONNECTION_LED_PORT</div><div class="ttdef"><b>Definition</b> main.h:21</div></div>
-<div class="ttc" id="afdcan_8h_html_aa9f777d6865f1ec8cde41fe44c017d56"><div class="ttname"><a href="fdcan_8h.html#aa9f777d6865f1ec8cde41fe44c017d56">GPIO_INIT_FDCAN2TX_PB6</a></div><div class="ttdeci">#define GPIO_INIT_FDCAN2TX_PB6</div><div class="ttdef"><b>Definition</b> fdcan.h:182</div></div>
-<div class="ttc" id="afdcan_8h_html_ab3313bc37e4839c41063f82aeaa69bf8"><div class="ttname"><a href="fdcan_8h.html#ab3313bc37e4839c41063f82aeaa69bf8">GPIO_INIT_FDCAN2RX_PB5</a></div><div class="ttdeci">#define GPIO_INIT_FDCAN2RX_PB5</div><div class="ttdef"><b>Definition</b> fdcan.h:175</div></div>
-<div class="ttc" id="aphal__F4_2gpio_2gpio_8h_html_a3e9b27b94f7c10702f9a82a6b87d31a5"><div class="ttname"><a href="phal__F4_2gpio_2gpio_8h.html#a3e9b27b94f7c10702f9a82a6b87d31a5">GPIO_INIT_OUTPUT</a></div><div class="ttdeci">#define GPIO_INIT_OUTPUT(gpio_bank, pin_num, ospeed_sel)</div><div class="ttdoc">Create GPIO Init struct to intilize a GPIO pin for output.</div><div class="ttdef"><b>Definition</b> gpio.h:97</div></div>
-<div class="ttc" id="aphal__F4_2gpio_2gpio_8h_html_a9f3e383e90eea420ba388b6041e6c866"><div class="ttname"><a href="phal__F4_2gpio_2gpio_8h.html#a9f3e383e90eea420ba388b6041e6c866">GPIO_INIT_ANALOG</a></div><div class="ttdeci">#define GPIO_INIT_ANALOG(gpio_bank, pin_num)</div><div class="ttdoc">Create GPIO Init struct to intilize a GPIO pin for analog.</div><div class="ttdef"><b>Definition</b> gpio.h:114</div></div>
+<div class="ttc" id="ag474ret6_8h_html_a3d64ef46720374238af8f7abd2ed65db"><div class="ttname"><a href="g474ret6_8h.html#a3d64ef46720374238af8f7abd2ed65db">PHAL_PIN_DEFS_FDCAN2_RX_PB5</a></div><div class="ttdeci">static const PHAL_GPIO_InitConfig_t PHAL_PIN_DEFS_FDCAN2_RX_PB5</div><div class="ttdef"><b>Definition</b> g474ret6.h:34</div></div>
+<div class="ttc" id="ag474ret6_8h_html_abcda2703bb1b703fb67b6fed01c5dc43"><div class="ttname"><a href="g474ret6_8h.html#abcda2703bb1b703fb67b6fed01c5dc43">PHAL_PIN_DEFS_FDCAN2_TX_PB6</a></div><div class="ttdeci">static const PHAL_GPIO_InitConfig_t PHAL_PIN_DEFS_FDCAN2_TX_PB6</div><div class="ttdef"><b>Definition</b> g474ret6.h:35</div></div>
 <div class="ttc" id="aphal__F4_2gpio_2gpio_8h_html_af0a10c1de7415b34f63dc68acc168ce8a912bef37dd84a191580798f7606a74a0"><div class="ttname"><a href="phal__F4_2gpio_2gpio_8h.html#af0a10c1de7415b34f63dc68acc168ce8a912bef37dd84a191580798f7606a74a0">GPIO_OUTPUT_LOW_SPEED</a></div><div class="ttdeci">@ GPIO_OUTPUT_LOW_SPEED</div><div class="ttdef"><b>Definition</b> gpio.h:32</div></div>
+<div class="ttc" id="aphal__G4_2gpio_2gpio_8h_html_a02e0fb7a1010d9c86e92c74a3e04881e"><div class="ttname"><a href="phal__G4_2gpio_2gpio_8h.html#a02e0fb7a1010d9c86e92c74a3e04881e">PHAL_GPIO_INIT_OUTPUT</a></div><div class="ttdeci">#define PHAL_GPIO_INIT_OUTPUT(gpio_bank, pin_num, ospeed_sel)</div><div class="ttdoc">Construct PHAL_GPIO_InitConfig_t for an output (push-pull) pin.</div><div class="ttdef"><b>Definition</b> gpio.h:154</div></div>
+<div class="ttc" id="aphal__G4_2gpio_2gpio_8h_html_a87baf2bd54bd318535dea6b05ba7137f"><div class="ttname"><a href="phal__G4_2gpio_2gpio_8h.html#a87baf2bd54bd318535dea6b05ba7137f">PHAL_GPIO_INIT_ANALOG</a></div><div class="ttdeci">#define PHAL_GPIO_INIT_ANALOG(gpio_bank, pin_num)</div><div class="ttdoc">Construct PHAL_GPIO_InitConfig_t for an analog pin.</div><div class="ttdef"><b>Definition</b> gpio.h:191</div></div>
 <div class="ttc" id="apin__defs_8h_html_a677c48f9d4926aa42eeac87f0da7e570"><div class="ttname"><a href="pin__defs_8h.html#a677c48f9d4926aa42eeac87f0da7e570">OIL_TEMP_R_GPIO_Port</a></div><div class="ttdeci">#define OIL_TEMP_R_GPIO_Port</div><div class="ttdef"><b>Definition</b> pin_defs.h:35</div></div>
 <div class="ttc" id="apin__defs_8h_html_a679c018529d29f732fac994ac24abc6a"><div class="ttname"><a href="pin__defs_8h.html#a679c018529d29f732fac994ac24abc6a">SHOCKPOT_LEFT_GPIO_PORT</a></div><div class="ttdeci">#define SHOCKPOT_LEFT_GPIO_PORT</div><div class="ttdef"><b>Definition</b> pin_defs.h:22</div></div>
 <div class="ttc" id="apin__defs_8h_html_aa277719996795ecb8dee70daca77d760"><div class="ttname"><a href="pin__defs_8h.html#aa277719996795ecb8dee70daca77d760">SHOCKPOT_LEFT_GPIO_PIN</a></div><div class="ttdeci">#define SHOCKPOT_LEFT_GPIO_PIN</div><div class="ttdef"><b>Definition</b> pin_defs.h:23</div></div>

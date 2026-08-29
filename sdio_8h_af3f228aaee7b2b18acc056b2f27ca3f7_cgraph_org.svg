@@ -74,9 +74,9 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#a613ebbfff35a56132e58a75c773d7876" target="_top" xlink:title="Read the state of the input register for the specific GPIO pin.">
-<polygon fill="white" stroke="#666666" points="464.5,-93.25 372.75,-93.25 372.75,-74 464.5,-74 464.5,-93.25"/>
-<text text-anchor="middle" x="418.62" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_readGPIO</text>
+<g id="a_Node000004"><a xlink:href="phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" target="_top" xlink:title="Read the state of the input register for the specific GPIO pin.">
+<polygon fill="white" stroke="#666666" points="467.12,-93.25 370.12,-93.25 370.12,-74 467.12,-74 467.12,-93.25"/>
+<text text-anchor="middle" x="418.62" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">PHAL_GPIO_read</text>
 </a>
 </g>
 </g>
@@ -84,8 +84,8 @@
 <g id="edge3_Node000003_Node000004" class="edge">
 <title>Node3&#45;&gt;Node4</title>
 <g id="a_edge3_Node000003_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M299.5,-83.62C317.26,-83.62 340.14,-83.62 361.02,-83.62"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="360.86,-87.13 370.86,-83.63 360.86,-80.13 360.86,-87.13"/>
+<path fill="none" stroke="#63b8ff" d="M299.5,-83.62C316.54,-83.62 338.27,-83.62 358.45,-83.62"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="358.26,-87.13 368.26,-83.63 358.26,-80.13 358.26,-87.13"/>
 </a>
 </g>
 </g>

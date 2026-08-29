@@ -192,14 +192,14 @@ Functions</h2></td></tr>
 <tr class="memitem:a9f473c8a74e27d069fa4de69fcbb4d60" id="r_a9f473c8a74e27d069fa4de69fcbb4d60"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f473c8a74e27d069fa4de69fcbb4d60">PHAL_initGPIO</a> (<a class="el" href="structGPIOInitConfig__t.html">GPIOInitConfig_t</a> <a class="el" href="ethernet_8c.html#afdcaea2c7210f2679ea25aefc7f9bfd4">config</a>[], uint8_t config_len)</td></tr>
 <tr class="memdesc:a9f473c8a74e27d069fa4de69fcbb4d60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initilize the GPIO perpheral given a list of configuration fields for all of the GPIO pins. Will also enable the GPIO RCC clock.  <br /></td></tr>
 <tr class="separator:a9f473c8a74e27d069fa4de69fcbb4d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a613ebbfff35a56132e58a75c773d7876" id="r_a613ebbfff35a56132e58a75c773d7876"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a613ebbfff35a56132e58a75c773d7876">PHAL_readGPIO</a> (GPIO_TypeDef *bank, uint8_t pin)</td></tr>
-<tr class="memdesc:a613ebbfff35a56132e58a75c773d7876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the state of the input register for the specific GPIO pin.  <br /></td></tr>
-<tr class="separator:a613ebbfff35a56132e58a75c773d7876"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67db851520637ffa4de5968c9730220b" id="r_a67db851520637ffa4de5968c9730220b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67db851520637ffa4de5968c9730220b">PHAL_writeGPIO</a> (GPIO_TypeDef *bank, uint8_t pin, bool value)</td></tr>
-<tr class="memdesc:a67db851520637ffa4de5968c9730220b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a logic value to an output pin.  <br /></td></tr>
-<tr class="separator:a67db851520637ffa4de5968c9730220b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae07cde77ad92538f5b12aa3359762399" id="r_ae07cde77ad92538f5b12aa3359762399"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae07cde77ad92538f5b12aa3359762399">PHAL_toggleGPIO</a> (GPIO_TypeDef *bank, uint8_t pin)</td></tr>
-<tr class="separator:ae07cde77ad92538f5b12aa3359762399"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0248cf81cc1a151853cf4909bd66690" id="r_ae0248cf81cc1a151853cf4909bd66690"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0248cf81cc1a151853cf4909bd66690">PHAL_GPIO_read</a> (GPIO_TypeDef *bank, uint8_t pin)</td></tr>
+<tr class="memdesc:ae0248cf81cc1a151853cf4909bd66690"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the state of the input register for the specific GPIO pin.  <br /></td></tr>
+<tr class="separator:ae0248cf81cc1a151853cf4909bd66690"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95bb9df725934f94cb3a2386c467fb2f" id="r_a95bb9df725934f94cb3a2386c467fb2f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95bb9df725934f94cb3a2386c467fb2f">PHAL_GPIO_write</a> (GPIO_TypeDef *bank, uint8_t pin, bool value)</td></tr>
+<tr class="memdesc:a95bb9df725934f94cb3a2386c467fb2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a logic value to an output pin.  <br /></td></tr>
+<tr class="separator:a95bb9df725934f94cb3a2386c467fb2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3c2ff627e4cd120d7ce84467503d888" id="r_ad3c2ff627e4cd120d7ce84467503d888"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3c2ff627e4cd120d7ce84467503d888">PHAL_GPIO_toggle</a> (GPIO_TypeDef *bank, uint8_t pin)</td></tr>
+<tr class="separator:ad3c2ff627e4cd120d7ce84467503d888"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>GPIO Driver for STM32F4 Devices. </p>
@@ -602,41 +602,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a9f473c8a74e27d069fa4de69fcbb4d60" name="a9f473c8a74e27d069fa4de69fcbb4d60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f473c8a74e27d069fa4de69fcbb4d60">&#9670;&#160;</a></span>PHAL_initGPIO()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool PHAL_initGPIO </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structGPIOInitConfig__t.html">GPIOInitConfig_t</a></td>          <td class="paramname"><span class="paramname"><em>config</em></span>[], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>config_len</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initilize the GPIO perpheral given a list of configuration fields for all of the GPIO pins. Will also enable the GPIO RCC clock. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">config</td><td>A list of GPIOs to config </td></tr>
-    <tr><td class="paramname">config_len</td><td>Number of GPIOs in the config list </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true All GPIOs were a valid configuration format </dd>
-<dd>
-false Some of the GPIOs had an invalid configuration format </dd></dl>
-
-</div>
-</div>
-<a id="a613ebbfff35a56132e58a75c773d7876" name="a613ebbfff35a56132e58a75c773d7876"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a613ebbfff35a56132e58a75c773d7876">&#9670;&#160;</a></span>PHAL_readGPIO()</h2>
+<a id="ae0248cf81cc1a151853cf4909bd66690" name="ae0248cf81cc1a151853cf4909bd66690"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0248cf81cc1a151853cf4909bd66690">&#9670;&#160;</a></span>PHAL_GPIO_read()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -645,7 +612,7 @@ false Some of the GPIOs had an invalid configuration format </dd></dl>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool PHAL_readGPIO </td>
+          <td class="memname">static bool PHAL_GPIO_read </td>
           <td>(</td>
           <td class="paramtype">GPIO_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>bank</em></span>, </td>
         </tr>
@@ -676,13 +643,13 @@ false GPIO Input false </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__F4_2gpio_2gpio_8h_a613ebbfff35a56132e58a75c773d7876_icgraph.svg" width="646" height="555"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__F4_2gpio_2gpio_8h_ae0248cf81cc1a151853cf4909bd66690_icgraph.svg" width="652" height="555"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="ae07cde77ad92538f5b12aa3359762399" name="ae07cde77ad92538f5b12aa3359762399"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae07cde77ad92538f5b12aa3359762399">&#9670;&#160;</a></span>PHAL_toggleGPIO()</h2>
+<a id="ad3c2ff627e4cd120d7ce84467503d888" name="ad3c2ff627e4cd120d7ce84467503d888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3c2ff627e4cd120d7ce84467503d888">&#9670;&#160;</a></span>PHAL_GPIO_toggle()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -691,7 +658,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void PHAL_toggleGPIO </td>
+          <td class="memname">static void PHAL_GPIO_toggle </td>
           <td>(</td>
           <td class="paramtype">GPIO_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>bank</em></span>, </td>
         </tr>
@@ -710,18 +677,18 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__F4_2gpio_2gpio_8h_ae07cde77ad92538f5b12aa3359762399_cgraph.svg" width="316" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__F4_2gpio_2gpio_8h_ad3c2ff627e4cd120d7ce84467503d888_cgraph.svg" width="331" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__F4_2gpio_2gpio_8h_ae07cde77ad92538f5b12aa3359762399_icgraph.svg" width="396" height="283"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__F4_2gpio_2gpio_8h_ad3c2ff627e4cd120d7ce84467503d888_icgraph.svg" width="403" height="283"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a67db851520637ffa4de5968c9730220b" name="a67db851520637ffa4de5968c9730220b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67db851520637ffa4de5968c9730220b">&#9670;&#160;</a></span>PHAL_writeGPIO()</h2>
+<a id="a95bb9df725934f94cb3a2386c467fb2f" name="a95bb9df725934f94cb3a2386c467fb2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95bb9df725934f94cb3a2386c467fb2f">&#9670;&#160;</a></span>PHAL_GPIO_write()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -730,7 +697,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void PHAL_writeGPIO </td>
+          <td class="memname">static void PHAL_GPIO_write </td>
           <td>(</td>
           <td class="paramtype">GPIO_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>bank</em></span>, </td>
         </tr>
@@ -764,7 +731,45 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__F4_2gpio_2gpio_8h_a67db851520637ffa4de5968c9730220b_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="phal__F4_2gpio_2gpio_8h_a95bb9df725934f94cb3a2386c467fb2f_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a9f473c8a74e27d069fa4de69fcbb4d60" name="a9f473c8a74e27d069fa4de69fcbb4d60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f473c8a74e27d069fa4de69fcbb4d60">&#9670;&#160;</a></span>PHAL_initGPIO()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PHAL_initGPIO </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structGPIOInitConfig__t.html">GPIOInitConfig_t</a></td>          <td class="paramname"><span class="paramname"><em>config</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>config_len</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initilize the GPIO perpheral given a list of configuration fields for all of the GPIO pins. Will also enable the GPIO RCC clock. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>A list of GPIOs to config </td></tr>
+    <tr><td class="paramname">config_len</td><td>Number of GPIOs in the config list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true All GPIOs were a valid configuration format </dd>
+<dd>
+false Some of the GPIOs had an invalid configuration format </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__F4_2gpio_2gpio_8h_a9f473c8a74e27d069fa4de69fcbb4d60_icgraph.svg" width="223" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
