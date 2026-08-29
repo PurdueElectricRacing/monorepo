@@ -101,7 +101,7 @@ static void monitor_task(void) {
     }
     g_total_failures = total_failures;
 
-	PHAL_GPIO_toggle(LED_NUCLEO_RED_PORT, LED_NUCLEO_RED_PIN);
+	PHAL_GPIO_toggle(LED_NUCLEO_GREEN_PORT, LED_NUCLEO_GREEN_PIN);
 }
 
 RTOS_DEFINE_TASK(writer_pair0,  1,   TASK_PRIORITY_HIGH, STACK_256);
