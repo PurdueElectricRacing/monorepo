@@ -73,8 +73,8 @@ uint32_t PHAL_SPI_priv_calcBaudRatePrescaler(uint32_t data_rate, const SPI_TypeD
 void PHAL_SPI_priv_configCR2(SPI_InitConfig_t *cfg) {
     // Frame size via CR2 DS[3:0] on G4
     cfg->periph->CR2 &= ~(SPI_CR2_DS_Msk);
-    uint32_t ds = (CLAMP(cfg->data_len, 4, 16) - 1) & 0xF; // DS = bits-1
-    cfg->periph->CR2 |= (ds << SPI_CR2_DS_Pos);
+    uint8_t ds = (CLAMP(cfg->data_len, 4, 16) - 1) & 0xF; // DS = bits-1
+    cfg->periph->CR2 |= ((uint32_t)ds << SPI_CR2_DS_Pos);
     // RX FIFO threshold: set FRXTH for 8-bit threshold
     cfg->periph->CR2 |= SPI_CR2_FRXTH;
 }
@@ -114,7 +114,7 @@ void PHAL_SPI_priv_handleTxComplete(SPI_InitConfig_t *transfer) {
 
         // Deassert CS after both TX and RX complete
         if (transfer->nss_sw) {
-            PHAL_GPIO_write(transfer->nss_gpio_port, transfer->nss_gpio_pin, 1);
+            PHAL_GPIO_write(transfer->nss_gpio_port, (uint8_t)transfer->nss_gpio_pin, 1);
         }
 
         if (transfer->tx_dma) {

@@ -19,7 +19,7 @@
  */
 float lut_lookup(const lerp_lut_t* lut, float key) {
     const lut_entry_t *entries = lut->entries;
-    const size_t size             = lut->size;
+    const int size = (int)lut->size;
 
     // "out of bounds" keys get clamped to the nearest value
     if (key <= entries[0].key) { return entries[0].value; }

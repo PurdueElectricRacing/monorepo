@@ -86,8 +86,7 @@ static inline void update_motor_telemetry() {
             can_data.motor_temps.rear_right
         );
 
-        int16_t scaled_motor_temp =
-            (int16_t)(max_motor_temp * UNPACK_COEFF_MOTOR_TEMPS_FRONT_RIGHT);
+        int16_t scaled_motor_temp = (int16_t)(max_motor_temp * UNPACK_COEFF_MOTOR_TEMPS_FRONT_RIGHT);
         NXT_setTextFormatted(MOTOR_TEMP, "%dC", scaled_motor_temp);
     }
 }
@@ -104,6 +103,7 @@ static inline void update_igbt_telemetry() {
         );
 
         int16_t scaled_igbt_temp = (int16_t)(max_igbt_temp * UNPACK_COEFF_IGBT_TEMPS_FRONT_RIGHT);
+        int16_t scaled_igbt_temp = (int16_t)(max_igbt_temp * UNPACK_COEFF_IGBT_TEMPS_FRONT_RIGHT);
         NXT_setTextFormatted(IGBT_TEMP, "%dC", scaled_igbt_temp);
     }
 }
@@ -114,10 +114,8 @@ static inline void update_pack_telemetry() {
         NXT_setText(BATT_CURR, "S");
         NXT_setText(BATT_TEMP, "S");
     } else {
-        uint16_t scaled_voltage =
-            (uint16_t)(can_data.pack_stats.pack_voltage * UNPACK_COEFF_PACK_STATS_PACK_VOLTAGE);
-        int16_t scaled_current =
-            (int16_t)(can_data.pack_stats.pack_current * UNPACK_COEFF_PACK_STATS_PACK_CURRENT);
+        uint16_t scaled_voltage = (uint16_t)(can_data.pack_stats.pack_voltage * UNPACK_COEFF_PACK_STATS_PACK_VOLTAGE);
+        int16_t scaled_current = (int16_t)(can_data.pack_stats.pack_current * UNPACK_COEFF_PACK_STATS_PACK_CURRENT);
         NXT_setTextFormatted(BATT_VOLT, "%dV", scaled_voltage);
         NXT_setTextFormatted(BATT_CURR, "%dA", scaled_current);
         NXT_setTextFormatted(BATT_TEMP, "%dC", can_data.pack_stats.max_temp);
@@ -160,6 +158,7 @@ static inline void update_tv_bar(char* obj_name, int16_t torque_req) {
         NXT_setFontColor(obj_name, GREEN);
         NXT_setValue(obj_name, regen_req);
     } else { // vector request
+        uint16_t scaled_req = (uint16_t)(torque_req / 2.1f);
         uint16_t scaled_req = (uint16_t)(torque_req / 2.1f);
         NXT_setFontColor(obj_name, BLUE);
         NXT_setValue(obj_name, scaled_req);

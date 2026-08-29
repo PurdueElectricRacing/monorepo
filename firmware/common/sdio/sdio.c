@@ -418,7 +418,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
 
     /*!< Byte 4 */
     tmp                              = (uint8_t)((CSD_Tab[1] & 0xFF000000) >> 24);
-    cardinfo->SD_csd.CardComdClasses = tmp << 4;
+    cardinfo->SD_csd.CardComdClasses = (uint16_t)(tmp << 4);
 
     /*!< Byte 5 */
     tmp = (uint8_t)((CSD_Tab[1] & 0x00FF0000) >> 16);
@@ -434,11 +434,11 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
     cardinfo->SD_csd.Reserved2       = 0; /*!< Reserved */
 
     if ((CardType == SDIO_STD_CAPACITY_SD_CARD_V1_1) || (CardType == SDIO_STD_CAPACITY_SD_CARD_V2_0)) {
-        cardinfo->SD_csd.DeviceSize = (tmp & 0x03) << 10;
+        cardinfo->SD_csd.DeviceSize = (uint32_t)((tmp & 0x03) << 10);
 
         /*!< Byte 7 */
         tmp = (uint8_t)(CSD_Tab[1] & 0x000000FF);
-        cardinfo->SD_csd.DeviceSize |= (tmp) << 2;
+        cardinfo->SD_csd.DeviceSize |= (uint32_t)((tmp) << 2);
 
         /*!< Byte 8 */
         tmp = (uint8_t)((CSD_Tab[2] & 0xFF000000) >> 24);
@@ -449,26 +449,26 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
 
         /*!< Byte 9 */
         tmp                                 = (uint8_t)((CSD_Tab[2] & 0x00FF0000) >> 16);
-        cardinfo->SD_csd.MaxWrCurrentVDDMin = (tmp & 0xE0) >> 5;
-        cardinfo->SD_csd.MaxWrCurrentVDDMax = (tmp & 0x1C) >> 2;
-        cardinfo->SD_csd.DeviceSizeMul      = (tmp & 0x03) << 1;
+        cardinfo->SD_csd.MaxWrCurrentVDDMin = (uint8_t)((tmp & 0xE0) >> 5);
+        cardinfo->SD_csd.MaxWrCurrentVDDMax = (uint8_t)((tmp & 0x1C) >> 2);
+        cardinfo->SD_csd.DeviceSizeMul      = (uint8_t)((tmp & 0x03) << 1);
         /*!< Byte 10 */
         tmp = (uint8_t)((CSD_Tab[2] & 0x0000FF00) >> 8);
         cardinfo->SD_csd.DeviceSizeMul |= (tmp & 0x80) >> 7;
 
         cardinfo->CardCapacity = (cardinfo->SD_csd.DeviceSize + 1);
-        cardinfo->CardCapacity *= (1 << (cardinfo->SD_csd.DeviceSizeMul + 2));
-        cardinfo->CardBlockSize = 1 << (cardinfo->SD_csd.RdBlockLen);
+        cardinfo->CardCapacity *= (1U << (cardinfo->SD_csd.DeviceSizeMul + 2));
+        cardinfo->CardBlockSize = 1U << (cardinfo->SD_csd.RdBlockLen);
         cardinfo->CardCapacity *= cardinfo->CardBlockSize;
     } else if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
         /*!< Byte 7 */
         tmp                         = (uint8_t)(CSD_Tab[1] & 0x000000FF);
-        cardinfo->SD_csd.DeviceSize = (tmp & 0x3F) << 16;
+        cardinfo->SD_csd.DeviceSize = (uint32_t) ((tmp & 0x3F) << 16);
 
         /*!< Byte 8 */
         tmp = (uint8_t)((CSD_Tab[2] & 0xFF000000) >> 24);
 
-        cardinfo->SD_csd.DeviceSize |= (tmp << 8);
+        cardinfo->SD_csd.DeviceSize |= (uint32_t) (tmp << 8);
 
         /*!< Byte 9 */
         tmp = (uint8_t)((CSD_Tab[2] & 0x00FF0000) >> 16);
@@ -482,8 +482,8 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
         cardinfo->CardBlockSize = 512;
     }
 
-    cardinfo->SD_csd.EraseGrSize = (tmp & 0x40) >> 6;
-    cardinfo->SD_csd.EraseGrMul  = (tmp & 0x3F) << 1;
+    cardinfo->SD_csd.EraseGrSize = (uint8_t) ((tmp & 0x40) >> 6);
+    cardinfo->SD_csd.EraseGrMul  = (uint8_t) ((tmp & 0x3F) << 1);
 
     /*!< Byte 11 */
     tmp = (uint8_t)(CSD_Tab[2] & 0x000000FF);
@@ -492,10 +492,10 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
 
     /*!< Byte 12 */
     tmp                                = (uint8_t)((CSD_Tab[3] & 0xFF000000) >> 24);
-    cardinfo->SD_csd.WrProtectGrEnable = (tmp & 0x80) >> 7;
-    cardinfo->SD_csd.ManDeflECC        = (tmp & 0x60) >> 5;
-    cardinfo->SD_csd.WrSpeedFact       = (tmp & 0x1C) >> 2;
-    cardinfo->SD_csd.MaxWrBlockLen     = (tmp & 0x03) << 2;
+    cardinfo->SD_csd.WrProtectGrEnable = (uint8_t)((tmp & 0x80) >> 7);
+    cardinfo->SD_csd.ManDeflECC        = (uint8_t)((tmp & 0x60) >> 5);
+    cardinfo->SD_csd.WrSpeedFact       = (uint8_t)((tmp & 0x1C) >> 2);
+    cardinfo->SD_csd.MaxWrBlockLen     = (uint8_t)((tmp & 0x03) << 2);
 
     /*!< Byte 13 */
     tmp = (uint8_t)((CSD_Tab[3] & 0x00FF0000) >> 16);
@@ -524,7 +524,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
 
     /*!< Byte 1 */
     tmp                          = (uint8_t)((CID_Tab[0] & 0x00FF0000) >> 16);
-    cardinfo->SD_cid.OEM_AppliID = tmp << 8;
+    cardinfo->SD_cid.OEM_AppliID = (uint16_t) (tmp << 8);
 
     /*!< Byte 2 */
     tmp = (uint8_t)((CID_Tab[0] & 0x000000FF00) >> 8);
@@ -532,15 +532,15 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
 
     /*!< Byte 3 */
     tmp                        = (uint8_t)(CID_Tab[0] & 0x000000FF);
-    cardinfo->SD_cid.ProdName1 = tmp << 24;
+    cardinfo->SD_cid.ProdName1 = ((uint32_t) tmp) << 24;
 
     /*!< Byte 4 */
     tmp = (uint8_t)((CID_Tab[1] & 0xFF000000) >> 24);
-    cardinfo->SD_cid.ProdName1 |= tmp << 16;
+    cardinfo->SD_cid.ProdName1 |= (uint32_t) (tmp << 16);
 
     /*!< Byte 5 */
     tmp = (uint8_t)((CID_Tab[1] & 0x00FF0000) >> 16);
-    cardinfo->SD_cid.ProdName1 |= tmp << 8;
+    cardinfo->SD_cid.ProdName1 |= (uint32_t) (tmp << 8);
 
     /*!< Byte 6 */
     tmp = (uint8_t)((CID_Tab[1] & 0x0000FF00) >> 8);
@@ -556,15 +556,15 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
 
     /*!< Byte 9 */
     tmp                     = (uint8_t)((CID_Tab[2] & 0x00FF0000) >> 16);
-    cardinfo->SD_cid.ProdSN = tmp << 24;
+    cardinfo->SD_cid.ProdSN = (uint32_t)tmp << 24;
 
     /*!< Byte 10 */
     tmp = (uint8_t)((CID_Tab[2] & 0x0000FF00) >> 8);
-    cardinfo->SD_cid.ProdSN |= tmp << 16;
+    cardinfo->SD_cid.ProdSN |= (uint32_t)(tmp << 16);
 
     /*!< Byte 11 */
     tmp = (uint8_t)(CID_Tab[2] & 0x000000FF);
-    cardinfo->SD_cid.ProdSN |= tmp << 8;
+    cardinfo->SD_cid.ProdSN |= (uint32_t)(tmp << 8);
 
     /*!< Byte 12 */
     tmp = (uint8_t)((CID_Tab[3] & 0xFF000000) >> 24);
@@ -573,7 +573,7 @@ SD_Error SD_GetCardInfo(SD_CardInfo* cardinfo) {
     /*!< Byte 13 */
     tmp = (uint8_t)((CID_Tab[3] & 0x00FF0000) >> 16);
     cardinfo->SD_cid.Reserved1 |= (tmp & 0xF0) >> 4;
-    cardinfo->SD_cid.ManufactDate = (tmp & 0x0F) << 8;
+    cardinfo->SD_cid.ManufactDate = (uint16_t)((tmp & 0x0F) << 8);
 
     /*!< Byte 14 */
     tmp = (uint8_t)((CID_Tab[3] & 0x0000FF00) >> 8);
@@ -624,7 +624,7 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode) {
 
             if (SD_OK == errorstatus) {
                 /*!< Configure the SDIO peripheral */
-                SDIO->CLKCR &= ~(0x7FFF); // clear
+                SDIO->CLKCR &= ~(0x7FFFU); // clear
                 SDIO->CLKCR |= (SDIO_TRANSFER_CLK_DIV)&SDIO_CLKCR_CLKDIV_Msk;
                 SDIO->POWER |= SDIO_POWER_PWRCTRL; // Power on (clock the card)
                 SDIO->CLKCR |= SDIO_CLKCR_CLKEN; // Enable clock
@@ -716,7 +716,7 @@ SD_Error SD_ReadMultiBlocks(uint8_t* readbuff, uint64_t ReadAddr, uint16_t Block
     SDIO->DTIMER = SD_DATATIMEOUT; // timeout
     SDIO->DLEN &= ~SDIO_DLEN_DATALENGTH; // length
     SDIO->DLEN |= NumberOfBlocks * BlockSize;
-    SDIO->DCTRL &= ~(0xFFF); // start read
+    SDIO->DCTRL &= ~(0xFFFU); // start read
     SDIO->DCTRL |= SDIO_DATABLOCKSIZE | SDIO_DCTRL_DTDIR | SDIO_DCTRL_DMAEN | SDIO_DCTRL_DTEN;
 
     // if (NumberOfBlocks > 1)
@@ -872,7 +872,7 @@ SD_Error SD_WriteMultiBlocks(uint8_t* writebuff, uint64_t WriteAddr, uint16_t Bl
     SDIO->DTIMER = SD_DATATIMEOUT; // timeout
     SDIO->DLEN &= ~SDIO_DLEN_DATALENGTH; // length
     SDIO->DLEN |= NumberOfBlocks * BlockSize;
-    SDIO->DCTRL &= ~(0xFFF); // clear DCTRL register 
+    SDIO->DCTRL &= ~(0xFFFU); // clear DCTRL register
     SDIO->DCTRL |= SDIO_DATABLOCKSIZE | SDIO_DCTRL_DMAEN | SDIO_DCTRL_DTEN;
 
     return (errorstatus);
@@ -1294,7 +1294,7 @@ static SD_Error SDEnWideBus(FunctionalState NewState) {
     }
 
     /*!< Get SCR Register */
-    errorstatus = FindSCR(RCA, scr);
+    errorstatus = FindSCR((uint16_t)RCA, scr);
 
     if (errorstatus != SD_OK) {
         return (errorstatus);
@@ -1407,7 +1407,7 @@ static SD_Error FindSCR(uint16_t rca, uint32_t* pscr) {
     SDIO->DTIMER = SD_DATATIMEOUT;
     SDIO->DLEN &= ~SDIO_DLEN_DATALENGTH;
     SDIO->DLEN |= 8;
-    SDIO->DCTRL &= ~(0xFFF);
+    SDIO->DCTRL &= ~(0xFFFU);
     SDIO->DCTRL |= (SDIO_DCTRL_DBLOCKSIZE_1 | SDIO_DCTRL_DBLOCKSIZE_0) | SDIO_DCTRL_DTDIR | SDIO_DCTRL_DTEN;
 
     /*!< Send ACMD51 SD_APP_SEND_SCR with argument as 0 */

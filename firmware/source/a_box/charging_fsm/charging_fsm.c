@@ -52,10 +52,8 @@ static inline void update_charge_command() {
         return;
     }
 
-    uint16_t requested_voltage = (uint16_t)(can_data.charge_request.charge_voltage
-                                            * UNPACK_COEFF_CHARGE_REQUEST_CHARGE_VOLTAGE);
-    uint16_t requested_current = (uint16_t)(can_data.charge_request.charge_current
-                                            * UNPACK_COEFF_CHARGE_REQUEST_CHARGE_CURRENT);
+    uint16_t requested_voltage = (uint16_t)(can_data.charge_request.charge_voltage * UNPACK_COEFF_CHARGE_REQUEST_CHARGE_VOLTAGE);
+    uint16_t requested_current = (uint16_t)(can_data.charge_request.charge_current * UNPACK_COEFF_CHARGE_REQUEST_CHARGE_CURRENT);
 
     // cap the charge command to max values
     if (requested_voltage > MAX_PACK_CHARGING_VOLTS) {
