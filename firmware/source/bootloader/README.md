@@ -1,13 +1,17 @@
 # G4 CAN bootloader
 
-The resident STM32G474RE bootloader receives, validates, and installs
-application images over the transport configured for its board. Each board has
-a dedicated image for its CAN IDs, bus, baud rate, and pin mapping. CRC detects
-corruption but does not authenticate firmware.
+The resident STM32G474RE bootloader receives and validates application images
+written directly to the application slot over the transport configured for its
+board. Each board has a dedicated image for its CAN IDs, bus, baud rate, and
+pin mapping. CRC detects corruption but does not authenticate firmware.
 
 ## Architecture
 
 ![Bootloader architecture](bootloader_architecture.drawio.png)
+
+## State machine
+
+![Bootloader state machine](bootloader_state_machine.drawio.png)
 
 | Path | Responsibility |
 | --- | --- |
@@ -18,21 +22,29 @@ corruption but does not authenticate firmware.
 
 At startup, the bootloader initializes CAN and advertises READY, then polls
 for START for a bounded 500 ms startup window. This gives DaqApp time to resend
-START after the application reset without delaying normal boot indefinitely. If
-no valid START activates an update, it validates metadata, vectors, and CRC
-before launch. An invalid image remains resident in the CAN loop.
+START after an application reset without delaying normal boot indefinitely. If
+startup is still active when the window expires, it validates metadata, vectors,
+and CRC before launch. A START that fails size or erase validation enters
+recovery; an invalid image remains resident in the CAN loop.
 
 ## Update flow
 
-1. DaqApp sends `START`; the application only calls `NVIC_SystemReset()`.
-2. The bootloader advertises READY, accepts DaqApp's resent `START(image_size)`
-   during the 500 ms startup window, erases staging, and receives indexed words.
-3. `CRC(expected_crc)` validates staging, copies it to the active slot, and writes metadata last.
+1. DaqApp sends `START`. A bootloader-aware application handles its START
+   callback by calling only `NVIC_SystemReset()`; a resident bootloader accepts
+   the same frame as an update request.
+2. After an application reset, the bootloader advertises READY and DaqApp
+   resends `START(image_size)` during the 500 ms startup window. START invalidates
+   metadata, erases the complete flash pages covering the requested image, and
+   receives indexed words directly in the application slot. If the bootloader
+   was already resident, the initial START performs this same operation and
+   returns `ACK(size)`.
+3. `CRC(expected_crc)` validates the complete application image, its vectors, and
+   its CRC before writing metadata as the commit record.
 4. `JUMP` validates the committed image again and launches it.
 
-An interrupted transfer leaves staging uncommitted. A reset during active-slot
-copy can invalidate the application, but vector and CRC checks prevent a
-partial image from launching.
+Once START succeeds, an interrupted transfer leaves the metadata record
+invalid. A reset during application programming therefore keeps the bootloader
+resident; vector and CRC checks also prevent a partial image from launching.
 
 ## Protocol
 
@@ -43,8 +55,8 @@ little-endian argument; DATA remains a six-byte word frame.
 
 | Message | Argument | Result |
 | --- | --- | --- |
-| `START` | Word-aligned image size. | Erases staging and returns `ACK(size)`. |
-| `CRC` | Expected CRC. | Installs and returns `ACK(calculated_crc)`. |
+| `START` | Word-aligned image size. | Invalidates metadata, erases the complete flash pages covering the image, and returns `ACK(size)`. |
+| `CRC` | Expected CRC. | Validates the application image in place and returns `ACK(calculated_crc)`. |
 | `JUMP` | Zero argument. | Launches or returns `ERROR/ADDRESS`. |
 
 | Status | Meaning |
@@ -52,17 +64,21 @@ little-endian argument; DATA remains a six-byte word frame.
 | `READY` | Bootloader is listening; detail is the protocol version. |
 | `ACK` | Command accepted. |
 | `ERROR` | Locked, sequence, flash, size, or address failure. |
-| `CRC_ERROR` | Staged image CRC mismatch. |
+| `CRC_ERROR` | Application image CRC mismatch. |
 
 Words must arrive in order. Duplicate accepted indices are ignored; gaps cancel
 the transfer. The receive interrupt only queues frames, while `BL_poll()` owns flash and
-CRC operations. `BL_waitForUpdate()` provides the startup handshake wait and
-reports whether START activated an update; no reset-cause flags or RTOS are
-required.
+CRC operations. Its explicit FSM handles the startup handshake without a blocking
+wait; no reset-cause flags or RTOS are required.
 
 ## Flash validation
 
 ![Bootloader flash layout](bootloader_flash_layout.drawio.png)
+
+The STM32G474RE map reserves 16 KiB for the resident bootloader and 16 KiB for
+metadata, followed by the 256 KiB application slot at `0x08008000` through
+`0x08047FFF`. The final 224 KiB, `0x08048000` through `0x0807FFFF`, remains
+reserved.
 
 Before launch, `BL_checkAndBoot()` requires valid metadata, a stack pointer in
 SRAM, a Thumb reset handler inside the image, and a matching application CRC.
@@ -79,10 +95,10 @@ python3 per_build.py firmware --package
 also builds all six resident bootloader ELF/HEX/BIN images for provisioning;
 these are emitted under `output/bootloader_<NODE>/`. The update archive still
 contains only the six relocated application payloads, manifest, CRC sidecars,
-and application HEX files consumed by DaqApp. Flash the matching resident
-`bootloader_<NODE>.bin` before using a service package. If objcopy emits a
-partial final word, the packaged binary is padded with erased `0xFF` bytes
-before its manifest size and CRC are computed.
+and application HEX files; DaqApp reads the manifest's binary paths. Flash the
+matching resident `bootloader_<NODE>.bin` before using a service package. If
+objcopy emits a partial final word, the packaged binary is padded with
+erased `0xFF` bytes before its manifest size and CRC are computed.
 
 ## Recovery
 

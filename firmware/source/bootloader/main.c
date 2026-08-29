@@ -10,15 +10,8 @@
 int main(void) {
     PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
 
-    /* Initialize CAN and announce READY before deciding whether to launch. */
+    /* BL_poll() owns the startup decision and resident recovery FSM. */
     BL_init();
-
-    /* DaqApp receives READY, then resends START to enter update mode. */
-    if (!BL_waitForUpdate()) {
-        (void)BL_checkAndBoot();
-    }
-
-    /* Invalid applications and active updates share the recovery loop. */
     for (;;) {
         BL_poll();
     }

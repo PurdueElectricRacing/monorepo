@@ -1,5 +1,5 @@
 /*
- * Linker script for a bootloader-aware STM32G474 application (160 KiB).
+ * Linker script for a bootloader-aware STM32G474 application (256 KiB).
  *
  * The vector table is intentionally placed at 0x08008000. The resident
  * bootloader validates that table and the image CRC before setting VTOR/MSP
@@ -7,7 +7,8 @@
  *
  *   0x08000000 - 0x08003FFF : resident bootloader
  *   0x08004000 - 0x08007FFF : metadata / reserved space
- *   0x08008000 - 0x0802FFFF : application image (this file)
+ *   0x08008000 - 0x08047FFF : application image (this file)
+ *   0x08048000 - 0x0807FFFF : reserved / unused flash (224 KiB)
  *
  * Do not use this layout without the matching bootloader image. For a normal
  * standalone G4 image, use STM32G474RETX_FLASH.ld instead.
@@ -18,7 +19,7 @@ ENTRY(Reset_Handler)
 /* Define memory regions */
 MEMORY
 {
-  FLASH (rx)  : ORIGIN = 0x08008000, LENGTH = 160K
+  FLASH (rx)  : ORIGIN = 0x08008000, LENGTH = 256K
   RAM   (xrw) : ORIGIN = 0x20000000, LENGTH = 128K
 }
 
@@ -94,6 +95,7 @@ SECTIONS
     KEEP(*(.fini_array*))
     PROVIDE_HIDDEN(__fini_array_end = .);
   } >FLASH
+  _flash_sections_end = .;
 
   .data :
   {
@@ -105,6 +107,8 @@ SECTIONS
     _edata = .;
   } >RAM AT>FLASH
   _sidata = LOADADDR(.data);
+  /* Include initialized data's load image in the explicit slot check. */
+  _flash_image_end = MAX(_flash_sections_end, LOADADDR(.data) + SIZEOF(.data));
 
   .bss :
   {
@@ -130,4 +134,8 @@ SECTIONS
   /DISCARD/ : { libc.a ( * ) libm.a ( * ) libgcc.a ( * ) }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
+
+  /* Fail clearly if the linked image exceeds the 256 KiB application slot. */
+  ASSERT(_flash_image_end <= ORIGIN(FLASH) + LENGTH(FLASH),
+         "bootloader-aware application exceeds 256 KiB application slot")
 }

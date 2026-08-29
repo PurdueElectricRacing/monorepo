@@ -33,25 +33,36 @@
 /**
  * @brief STM32G474RE flash layout shared with the linker scripts.
  *
- * Applications occupy a fixed 160 KiB slot at BL_APP_ADDRESS. Incoming images
- * are written to the equally sized staging slot and copied only after CRC
- * validation. All three regions begin on 2 KiB erase-page boundaries and do
- * not overlap; PHAL_FLASH_erase() erases complete pages even when passed the
- * metadata record. Programming addresses are 8-byte aligned.
+ * Applications occupy a fixed 256 KiB slot at BL_APP_ADDRESS. The metadata
+ * region and application slot begin on flash erase-page boundaries;
+ * PHAL_FLASH_erase() erases complete pages even when passed the metadata
+ * record. Programming addresses are 8-byte aligned.
  *
  * Images and CRC input are 32-bit-word aligned. The package builder pads a
  * partial final word with erased bytes before recording size_bytes and crc32.
  * An odd number of image words is then padded with one erased 32-bit word for
  * the final 8-byte flash write; that physical padding is outside size_bytes.
- * The metadata page is written last and acts as the commit marker.
+ * The metadata record is written last and acts as the commit marker.
  */
 #if defined(STM32G474xx)
-#define BL_FLASH_BASE 0x08000000U
-#define BL_FLASH_END 0x0807FFFFU
-#define BL_METADATA_ADDRESS 0x08004000U
-#define BL_APP_ADDRESS 0x08008000U
-#define BL_STAGING_ADDRESS 0x08030000U
-#define BL_APP_SLOT_SIZE (160U * 1024U)
+#define BL_FLASH_BASE         0x08000000U
+#define BL_FLASH_END          0x0807FFFFU
+#define BL_METADATA_ADDRESS   0x08004000U
+#define BL_METADATA_REGION_SIZE (16U * 1024U)
+#define BL_APP_ADDRESS        0x08008000U
+#define BL_APP_SLOT_SIZE      (256U * 1024U)
+#define BL_APP_END            (BL_APP_ADDRESS + BL_APP_SLOT_SIZE - 1U)
+#define BL_RESERVED_ADDRESS   (BL_APP_END + 1U)
+#define BL_RESERVED_SIZE      (BL_FLASH_END - BL_RESERVED_ADDRESS + 1U)
+
+_Static_assert(BL_METADATA_ADDRESS == (BL_FLASH_BASE + (16U * 1024U)),
+               "Bootloader metadata must follow the 16 KiB resident image");
+_Static_assert(BL_APP_ADDRESS == (BL_METADATA_ADDRESS + BL_METADATA_REGION_SIZE),
+               "Application must follow the 16 KiB metadata region");
+_Static_assert(BL_APP_END == 0x08047FFFU,
+               "Application slot must end at the 256 KiB protocol boundary");
+_Static_assert(BL_RESERVED_ADDRESS == 0x08048000U && BL_RESERVED_SIZE == (224U * 1024U),
+               "Remaining flash must be the 224 KiB reserved region");
 #endif
 
 /** Size of the committed metadata record. */
@@ -64,8 +75,8 @@
 /**
  * @brief Metadata describing the only application the bootloader may launch.
  *
- * This record is written after the staged image has passed CRC validation and
- * has been copied to BL_APP_ADDRESS. A missing or inconsistent record prevents
+ * This record is written after the image at BL_APP_ADDRESS has passed sequence,
+ * CRC, and vector validation. A missing or inconsistent record prevents
  * application launch.
  */
 typedef struct __attribute__((aligned(BL_FLASH_WRITE_SIZE))) {
@@ -84,12 +95,12 @@ _Static_assert((sizeof(BootloaderMetadata_t) % BL_FLASH_WRITE_SIZE) == 0U,
 
 /** @brief Detail values accompanying BOOTLOADER_STATUS_ERROR. */
 typedef enum {
-    BLERROR_NONE = 0x00,
-    BLERROR_LOCKED = 0x01,   /**< Data arrived before START. */
+    BLERROR_NONE     = 0x00,
+    BLERROR_LOCKED   = 0x01, /**< Data arrived before START. */
     BLERROR_SEQUENCE = 0x02, /**< A word was skipped or commit was premature. */
-    BLERROR_FLASH = 0x03,    /**< Flash erase, programming, or verify failed. */
-    BLERROR_SIZE = 0x04,     /**< Image size is empty, unaligned, or too large. */
-    BLERROR_ADDRESS = 0x05,  /**< Image, vector, or metadata address is invalid. */
+    BLERROR_FLASH    = 0x03, /**< Flash erase, programming, or verify failed. */
+    BLERROR_SIZE     = 0x04, /**< Image size is empty, unaligned, or too large. */
+    BLERROR_ADDRESS  = 0x05, /**< Image, vector, or metadata address is invalid. */
 } BLError_t;
 
 /** Stable target identifiers are defined by the generated CAN types. */
