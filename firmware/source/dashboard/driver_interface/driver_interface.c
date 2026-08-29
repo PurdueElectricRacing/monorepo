@@ -142,6 +142,11 @@ void EXTI15_10_IRQHandler() {
         xQueueSendFromISR(action_queue, &(driver_interface_action_t){SELECT_BUTTON}, NULL);
         EXTI->PR1 = EXTI_PR1_PIF15;
     }
+
+    if (EXTI->PR1 & EXTI_PR1_PIF16) {
+        xQueueSendFromISR(action_queue, &(driver_interface_action_t){LAP_BUTTON}, NULL);
+        EXTI->PR1 = EXTI_PR1_PIF16;
+    }
 }
 
 #define BUTTON_EXTI_MASK (EXTI_IMR1_IM0  | EXTI_IMR1_IM1  | \
@@ -266,6 +271,10 @@ void action_dispatcher(void) {
             }
             case LEFT_WHEEL_MINUS: {
                 vcu_wheel_adjust(false, -1);
+                break;
+            }
+            case LAP_BUTTON: {
+                
                 break;
             }
         }

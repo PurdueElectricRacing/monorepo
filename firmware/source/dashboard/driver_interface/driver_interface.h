@@ -23,7 +23,8 @@ typedef enum {
     RIGHT_WHEEL_MINUS,
     RIGHT_WHEEL_PLUS,
     LEFT_WHEEL_MINUS,
-    LEFT_WHEEL_PLUS
+    LEFT_WHEEL_PLUS,
+    LAP_BUTTON
 } driver_interface_action_t;
 
 typedef enum {
