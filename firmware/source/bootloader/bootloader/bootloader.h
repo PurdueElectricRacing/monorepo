@@ -23,15 +23,6 @@
 void BL_init(void);
 
 /**
- * @brief Poll the post-READY startup window for a valid START command.
- *
- * This calls BL_poll() for BL_STARTUP_WINDOW_MS after BL_init() has announced
- * READY. It returns true once START has activated an update, allowing the
- * caller to remain resident; false permits normal application validation.
- */
-bool BL_waitForUpdate(void);
-
-/**
  * @brief Process every frame currently queued by the FDCAN receive interrupt.
  *
  * Call repeatedly from main context. This function is the sole queue consumer

@@ -54,7 +54,7 @@ BOOTLOADER_PROTOCOL_IDS = {
 PACKAGE_FORMAT = "per-firmware-package-v1"
 STM32_CRC_INIT = 0xFFFFFFFF
 BL_APP_ADDRESS = 0x08008000
-BL_APP_SLOT_SIZE = 160 * 1024
+BL_APP_SLOT_SIZE = 256 * 1024
 ERASED_FLASH_BYTE = 0xFF
 
 # Resolve paths relative to this script, not the caller's working directory.
@@ -183,7 +183,7 @@ if options.target:
 elif options.bootloader:
     cmake_modules_str = "main_module;dashboard;torque_vector;a_box;driveline"
     ninja_targets = [f"{board}.elf" for board in BOARD_TARGETS]
-    # Package builds also produce resident images for provisioning, but the
+    # Bootloader builds also produce resident images for provisioning, but the
     # archive below intentionally contains only application payloads for DaqApp.
     ninja_targets.append("bootloader.elf")
 else:

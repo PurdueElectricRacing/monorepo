@@ -1,6 +1,6 @@
 /**
  * @file bootloader_common.c
- * @brief Application reset hand-off and generated bootloader CAN callbacks.
+ * @brief Application reset callbacks used by generated bootloader CAN drivers.
  * @author Ronak Jain (jain717@purdue.edu)
  */
 

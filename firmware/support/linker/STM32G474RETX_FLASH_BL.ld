@@ -7,13 +7,13 @@
 **                - 512 KB FLASH (2 KB pages)
 **                - 128 KB RAM
 **
-** Only the first 16 KiB is linked into this image. The bootloader still reads
-** metadata and stages application bytes in the fixed addresses below:
+** Only the first 16 KiB is linked into this image. The bootloader reads
+** metadata and writes application bytes to the fixed addresses below:
 **
 **   0x08000000 – 0x08003FFF : bootloader (16 KiB)
 **   0x08004000 – 0x08007FFF : metadata / reserved area (16 KiB)
-**   0x08008000 – 0x0802FFFF : application slot (160 KiB)
-**   0x08030000 – 0x08057FFF : staging slot (160 KiB)
+**   0x08008000 – 0x08047FFF : application slot (256 KiB)
+**   0x08048000 – 0x0807FFFF : reserved / unused flash (224 KiB)
 **
 ** Application vector table starts at: 0x08008000
 **
@@ -150,4 +150,8 @@ SECTIONS
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
+
+  /* Keep this resident image inside the first 16 KiB flash region. */
+  ASSERT(LOADADDR(.data) + SIZEOF(.data) <= ORIGIN(FLASH) + LENGTH(FLASH),
+         "resident bootloader exceeds its 16 KiB flash region")
 }
