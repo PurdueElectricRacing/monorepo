@@ -8,30 +8,19 @@ import sys
 
 ROOT = Path(__file__).resolve().parent
 
-def build_project(project_name: str, command: list[str], cwd: Path) -> None:
-    print("\nBuilding project:", project_name)
-    print("=" * 80)
-    print(f"$ (cd {cwd} && {' '.join(command)})", flush=True)
-    subprocess.run(command, cwd=cwd, check=True)
-
 
 def build() -> None:
     """Run the complete repository build in a fixed order."""
-
-    build_project(
-        "firmware",
+    subprocess.run(
         [sys.executable, "build_firmware.py"],
-        ROOT / "firmware",
+        cwd=ROOT / "firmware",
+        check=True,
     )
-    build_project(
-        "daqapp",
-        ["cargo", "build"],
-        ROOT / "daqapp",
-    )
-    build_project(
-        "host tests",
+    subprocess.run(["cargo", "build"], cwd=ROOT / "daqapp", check=True)
+    subprocess.run(
         [sys.executable, "tests/build_tests.py"],
-        ROOT,
+        cwd=ROOT,
+        check=True,
     )
 
 

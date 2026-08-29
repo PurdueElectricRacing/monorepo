@@ -105,7 +105,7 @@ tests/
 
 3. Use `SOURCES` for production `.c` files. For header-only C modules, add a
    `.c` shim to `SOURCES` and call it from the C++ test so inline implementation
-   code is compiled under C23 rather than C++20.
-4. Run `python3 per_build.py tests`.
+   code is compiled under C23 rather than C++17.
+4. Run `python3 tests/build_tests.py`.
 
 CTest discovers each GoogleTest case from the registered target automatically.

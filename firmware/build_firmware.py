@@ -11,15 +11,16 @@ ROOT = Path(__file__).resolve().parent
 BUILD_DIR = ROOT / "build"
 OUTPUT_DIR = ROOT / "output"
 CAN_GENERATED_DIR = ROOT / "can_library" / "generated"
-
-
-def firmware_images() -> list[Path]:
-    """Return generated production images in a stable order."""
-    return sorted(
-        image
-        for image in OUTPUT_DIR.glob("*/*.hex")
-        if not image.stem.endswith("_testing")
-    )
+BOARD_TARGETS = (
+    "main_module",
+    "a_box",
+    "torque_vector",
+    "dashboard",
+    "pdu",
+    "daq",
+    "front_driveline",
+    "rear_driveline",
+)
 
 
 def build() -> None:
@@ -47,6 +48,7 @@ def build() -> None:
             "-G",
             "Ninja",
             "-DBOOTLOADER_BUILD=OFF",
+            "-DMODULES=",
         ],
         cwd=ROOT,
         check=True,
@@ -56,8 +58,11 @@ def build() -> None:
         cwd=ROOT,
         check=True,
     )
-    images = firmware_images()
-    for hex_path in images:
+    for board in BOARD_TARGETS:
+        hex_path = OUTPUT_DIR / board / f"{board}.hex"
+        if not hex_path.exists():
+            continue
+
         checksum = f"{zlib.crc32(hex_path.read_bytes()) & 0xFFFFFFFF:08X}"
         hex_path.with_suffix(".crc").write_text(f"{checksum}\n", encoding="utf-8")
 
@@ -81,9 +86,11 @@ def build() -> None:
     git_ref = git_ref.replace("/", "-")
     tarball = OUTPUT_DIR / f"firmware_{git_ref}.tar.gz"
     with tarfile.open(tarball, "w:gz") as archive:
-        for hex_path in images:
-            for artifact in (hex_path, hex_path.with_suffix(".crc")):
-                archive.add(artifact, arcname=artifact.name)
+        for board in BOARD_TARGETS:
+            for suffix in (".hex", ".crc"):
+                artifact = OUTPUT_DIR / board / f"{board}{suffix}"
+                if artifact.exists():
+                    archive.add(artifact, arcname=artifact.name)
 
 
 build()
