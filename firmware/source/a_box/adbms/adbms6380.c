@@ -19,11 +19,11 @@
 #include "pec.h"
 
 void adbms6380_set_cs_low(SPI_InitConfig_t *spi) {
-    PHAL_writeGPIO(spi->nss_gpio_port, spi->nss_gpio_pin, false);
+    PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, false);
 }
 
 void adbms6380_set_cs_high(SPI_InitConfig_t *spi) {
-    PHAL_writeGPIO(spi->nss_gpio_port, spi->nss_gpio_pin, true);
+    PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, true);
 }
 
 void adbms6380_wake(SPI_InitConfig_t *spi, size_t module_count) {

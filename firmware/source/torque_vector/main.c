@@ -15,6 +15,7 @@
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/usart/usart.h"
+#include "common/phal_G4/pin_defs/g474ret6.h"
 #include "common/utils/countof.h"
 #include "common/watchdog/watchdog.h"
 
@@ -24,30 +25,30 @@
 #include "telemetry.h"
 
 /* PER HAL Initialization Structures */
-GPIOInitConfig_t gpio_config[] = {
+PHAL_GPIO_InitConfig_t gpio_config[] = {
     // Status LEDs
-    GPIO_INIT_OUTPUT(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(CONNECTION_LED_PORT, CONNECTION_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(CONNECTION_LED_PORT, CONNECTION_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
 
     // VCAN
-    GPIO_INIT_FDCAN2TX_PB13, // we fly swapped TX/RX
-    GPIO_INIT_FDCAN2RX_PB12,
+    PHAL_PIN_DEFS_FDCAN2_TX_PB13, // we fly swapped TX/RX
+    PHAL_PIN_DEFS_FDCAN2_RX_PB12,
 
     // GCAN
     // ! these pin are erroneously swapped on the schematic
     // GPIO_INIT_FDCAN1TX_PA12,
-    // GPIO_INIT_FDCAN1RX_PA11,
+    // PHAL_PIN_DEFS_FDCAN2_TX_PB13,
 
     // Rover GPS
-    GPIO_INIT_USART3RX_PB11,
-    GPIO_INIT_USART3TX_PB10,
-    GPIO_INIT_OUTPUT(ROVER_RESET_PORT, ROVER_RESET_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_PIN_DEFS_USART3_RX_PB11,
+    PHAL_PIN_DEFS_USART3_TX_PB10,
+    PHAL_GPIO_INIT_OUTPUT(ROVER_RESET_PORT, ROVER_RESET_PIN, GPIO_OUTPUT_LOW_SPEED),
 
     // Base GPS
-    GPIO_INIT_USART1TX_PA9,
-    GPIO_INIT_USART1RX_PA10,
-    GPIO_INIT_OUTPUT(BASE_RESET_PORT, BASE_RESET_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_PIN_DEFS_USART1_RX_PA10,
+    PHAL_PIN_DEFS_USART1_TX_PA9,
+    PHAL_GPIO_INIT_OUTPUT(BASE_RESET_PORT, BASE_RESET_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
 // USART Configuration for GPS
@@ -70,7 +71,7 @@ int main(void) {
     PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
 
     WDG_init();
-    if (false == PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
     if (false == PHAL_USART_init(GPS_USART, GPS_BAUD_RATE, PHAL_RCC_getAPB1ClockHz())) {
@@ -82,8 +83,8 @@ int main(void) {
 
     initialize_calibration();
 
-    PHAL_writeGPIO(ROVER_RESET_PORT, ROVER_RESET_PIN, 1);
-    PHAL_writeGPIO(BASE_RESET_PORT, BASE_RESET_PIN, 1);
+    PHAL_GPIO_write(ROVER_RESET_PORT, ROVER_RESET_PIN, 1);
+    PHAL_GPIO_write(BASE_RESET_PORT, BASE_RESET_PIN, 1);
 
     control_init();
 

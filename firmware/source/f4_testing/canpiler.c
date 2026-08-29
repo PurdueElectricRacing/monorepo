@@ -35,7 +35,7 @@ extern uint32_t PLLClockRateHz;
 void HardFault_Handler();
 
 void send_periodic() {
-    PHAL_toggleGPIO(GPIOC, 15);
+    PHAL_GPIO_toggle(GPIOC, 15);
     CAN_SEND_pdu_version(GIT_HASH);
 }
 

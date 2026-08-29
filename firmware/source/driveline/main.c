@@ -14,6 +14,7 @@
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
+#include "common/phal_G4/pin_defs/g474ret6.h"
 #include "common/utils/countof.h"
 #include "common/watchdog/watchdog.h"
 
@@ -23,23 +24,23 @@
 #include "pin_defs.h"
 
 /* PER HAL Initilization Structures */
-GPIOInitConfig_t gpio_config[] = {
+PHAL_GPIO_InitConfig_t gpio_config[] = {
     // Status LEDs
-    GPIO_INIT_OUTPUT(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(CONNECTION_LED_PORT, CONNECTION_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(CONNECTION_LED_PORT, CONNECTION_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
 
     // VCAN
-    GPIO_INIT_FDCAN2TX_PB6,
-    GPIO_INIT_FDCAN2RX_PB5,
+    PHAL_PIN_DEFS_FDCAN2_RX_PB5,
+    PHAL_PIN_DEFS_FDCAN2_TX_PB6,
 
     // Shock Pots
-    GPIO_INIT_ANALOG(SHOCKPOT_LEFT_GPIO_PORT , SHOCKPOT_LEFT_GPIO_PIN),
-    GPIO_INIT_ANALOG(SHOCKPOT_RIGHT_GPIO_PORT, SHOCKPOT_RIGHT_GPIO_PIN),
+    PHAL_GPIO_INIT_ANALOG(SHOCKPOT_LEFT_GPIO_PORT , SHOCKPOT_LEFT_GPIO_PIN),
+    PHAL_GPIO_INIT_ANALOG(SHOCKPOT_RIGHT_GPIO_PORT, SHOCKPOT_RIGHT_GPIO_PIN),
 
     //Oil temps
-    GPIO_INIT_ANALOG(OIL_TEMP_L_GPIO_Port, OIL_TEMP_L_Pin),
-    GPIO_INIT_ANALOG(OIL_TEMP_R_GPIO_Port, OIL_TEMP_R_Pin),
+    PHAL_GPIO_INIT_ANALOG(OIL_TEMP_L_GPIO_Port, OIL_TEMP_L_Pin),
+    PHAL_GPIO_INIT_ANALOG(OIL_TEMP_R_GPIO_Port, OIL_TEMP_R_Pin),
 
 };
 
@@ -130,7 +131,7 @@ int main(void) {
     PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
 
     WDG_init();
-    if (false == PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
     if (false == PHAL_ADC_init(&adc1_handle, &adc1_config)) {

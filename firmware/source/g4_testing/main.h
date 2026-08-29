@@ -15,6 +15,9 @@
 #define LED_ORANGE_PORT GPIOB
 #define LED_ORANGE_PIN  1
 
+#define LED_NUCLEO_GREEN_PORT GPIOA
+#define LED_NUCLEO_GREEN_PIN  5
+
 typedef struct __attribute__((packed)) {
     // Do not modify this struct
     // unless you modify the ADC DMA config in main.h to match

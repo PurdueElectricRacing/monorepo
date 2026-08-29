@@ -33,7 +33,7 @@ void faults_periodic(void) {
     const uint8_t index = g_pdu_state.next_rail_fault_index;
     const pdu_rail_fault_map_t *fault = &PDU_RAIL_FAULT_MAP[index];
 
-    const bool is_faulted = !PHAL_readGPIO(fault->nflt_port, fault->nflt_pin);
+    const bool is_faulted = !PHAL_GPIO_read(fault->nflt_port, fault->nflt_pin);
     update_fault(fault->fault_id, is_faulted);
     LED_control(fault->led_id, is_latched(fault->fault_id) ? LED_BLINK : LED_OFF);
 

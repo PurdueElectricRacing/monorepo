@@ -19,7 +19,6 @@
 #include "common/utils/countof.h"
 #include "main.h"
 
-static constexpr uint32_t kTargetCoreClockrateHz = 16'000'000U;
 static constexpr uint8_t CONFIGURATION_VALUE = 1U;
 static constexpr uint16_t NO_PENDING_ADDRESS = UINT16_MAX;
 static constexpr uint8_t USB_DEVICE_DESCRIPTOR_LENGTH = 18U;
@@ -57,18 +56,9 @@ typedef struct __attribute__((packed)) {
     uint16_t length;   /**< Maximum number of bytes in the data stage. */
 } USB_SetupPacket_t;
 
-ClockRateConfig_t clock_config = {
-    .clock_source = CLOCK_SOURCE_HSI,
-    .use_pll = false,
-    .system_clock_target_hz = kTargetCoreClockrateHz,
-    .ahb_clock_target_hz = kTargetCoreClockrateHz,
-    .apb1_clock_target_hz = kTargetCoreClockrateHz,
-    .apb2_clock_target_hz = kTargetCoreClockrateHz,
-};
-
-GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
 void HardFault_Handler(void);
@@ -277,10 +267,9 @@ void PHAL_USB_callback(const PHAL_USB_Event_t *event) {
 }
 
 int main() {
-    if (PHAL_configureClockRates(&clock_config)) {
-        HardFault_Handler();
-    }
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
+
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 
@@ -290,8 +279,8 @@ int main() {
         HardFault_Handler();
     }
 
-    PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, true);
-    PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, false);
+    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, true);
+    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, false);
 
     // USB work is interrupt-driven through PHAL_USB_callback(). The main loop
     // has no polling requirement and can sleep until the next peripheral event.
@@ -301,8 +290,8 @@ int main() {
 }
 
 void HardFault_Handler(void) {
-    PHAL_writeGPIO(LED_GREEN_PORT, LED_GREEN_PIN, false);
-    PHAL_writeGPIO(LED_RED_PORT, LED_RED_PIN, true);
+    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, false);
+    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, true);
     while (true) {
         __NOP();
     }

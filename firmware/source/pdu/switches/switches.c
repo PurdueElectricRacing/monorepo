@@ -86,9 +86,9 @@ static uint16_t switches_convert_voltage_mv(uint16_t adc_counts, int r1_ohm, int
 }
 
 static void switches_select_mux_channel(uint8_t channel) {
-    PHAL_writeGPIO(MUX_CTRL_A_GPIO_Port, MUX_CTRL_A_Pin, (channel & 0x01U) != 0U);
-    PHAL_writeGPIO(MUX_CTRL_B_GPIO_Port, MUX_CTRL_B_Pin, (channel & 0x02U) != 0U);
-    PHAL_writeGPIO(MUX_CTRL_C_GPIO_Port, MUX_CTRL_C_Pin, (channel & 0x04U) != 0U);
+    PHAL_GPIO_write(MUX_CTRL_A_GPIO_Port, MUX_CTRL_A_Pin, (channel & 0x01U) != 0U);
+    PHAL_GPIO_write(MUX_CTRL_B_GPIO_Port, MUX_CTRL_B_Pin, (channel & 0x02U) != 0U);
+    PHAL_GPIO_write(MUX_CTRL_C_GPIO_Port, MUX_CTRL_C_Pin, (channel & 0x04U) != 0U);
 }
 
 static void switches_update_mux_measurements(void) {
@@ -158,7 +158,7 @@ void switches_set_state(switches_t switch_id, bool enabled) {
     }
 
     if (output->has_ctrl_output) {
-        PHAL_writeGPIO(output->ctrl_port, output->ctrl_pin, enabled);
+        PHAL_GPIO_write(output->ctrl_port, output->ctrl_pin, enabled);
     }
 
     if (output->led_id != LED_NONE) {
@@ -172,7 +172,7 @@ bool switches_is_enabled(switches_t switch_id) {
         return true;
     }
 
-    return PHAL_readGPIO(output->ctrl_port, output->ctrl_pin);
+    return PHAL_GPIO_read(output->ctrl_port, output->ctrl_pin);
 }
 
 uint16_t switches_get_mux_adc_counts(uint8_t channel) {

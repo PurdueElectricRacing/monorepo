@@ -74,7 +74,7 @@ void sd_card_periodic(void) {
     sd_state = next_sd_state;
     next_sd_state = sd_state;
 
-    bool is_logging_enabled = PHAL_readGPIO(LOG_ENABLE_PORT, LOG_ENABLE_PIN);
+    bool is_logging_enabled = PHAL_GPIO_read(LOG_ENABLE_PORT, LOG_ENABLE_PIN);
 
     switch (sd_state) {
         case SD_STATE_DISABLED: {
@@ -122,11 +122,11 @@ void sd_card_periodic(void) {
             bool chunk_available = SPMC_master_peek_chunk(&g_spmc, &first_frame);
             if (chunk_available) {
                 // f_write() calls with DMA then blocks, no need to wait for completion notification
-                PHAL_writeGPIO(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 1);
+                PHAL_GPIO_write(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 1);
                 UINT bytes_to_write = SPMC_BYTES_PER_CHUNK;
                 UINT bytes_written  = 0; // updated to by f_write()
                 FRESULT result      = f_write(&file_object, first_frame, bytes_to_write, &bytes_written);
-                PHAL_writeGPIO(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 0);
+                PHAL_GPIO_write(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, 0);
                 if (result != FR_OK) {
                     // todo check bytes written
                     next_sd_state = SD_STATE_RECOVERING;
@@ -182,7 +182,7 @@ void sd_card_periodic(void) {
             break;
         }
         case SD_STATE_FATAL: {
-            PHAL_writeGPIO(SD_ERROR_LED_PORT, SD_ERROR_LED_PIN, 1);
+            PHAL_GPIO_write(SD_ERROR_LED_PORT, SD_ERROR_LED_PIN, 1);
             break;
         }
     }

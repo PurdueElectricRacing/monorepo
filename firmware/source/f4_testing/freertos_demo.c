@@ -111,19 +111,19 @@ int main() {
 }
 
 void ledblink1() {
-    PHAL_toggleGPIO(GPIOD, 12);
+    PHAL_GPIO_toggle(GPIOD, 12);
 }
 
 void ledblink2() {
-    PHAL_toggleGPIO(GPIOD, 13);
+    PHAL_GPIO_toggle(GPIOD, 13);
 }
 
 void ledblink3() {
-    PHAL_toggleGPIO(GPIOD, 14);
+    PHAL_GPIO_toggle(GPIOD, 14);
 }
 
 void ledblink4() {
-    PHAL_toggleGPIO(GPIOD, 15);
+    PHAL_GPIO_toggle(GPIOD, 15);
 }
 
 void usartSend() {

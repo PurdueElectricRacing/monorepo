@@ -8,6 +8,7 @@
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/spi/spi.h"
+#include "common/phal_G4/pin_defs/g474ret6.h"
 #include "common/utils/countof.h"
 
 // Prototypes
@@ -22,18 +23,18 @@ static bool verify_buffers(const uint8_t *tx, const uint8_t *rx, uint32_t len);
 #define TIMEOUT 100000
 
 // GPIO Configuration: SPI1 (Master) -> SPI2 (Slave)
-GPIOInitConfig_t gpio_config[] = {
+PHAL_GPIO_InitConfig_t gpio_config[] = {
     // SPI1 - Standard Pins (Master)
-    GPIO_INIT_SPI1SCK_PA5,
-    GPIO_INIT_SPI1MOSI_PA7,
-    GPIO_INIT_SPI1MISO_PA6,
-    GPIO_INIT_OUTPUT(GPIOA, 4, GPIO_OUTPUT_ULTRA_SPEED), // CS Software Master
+    PHAL_PIN_DEFS_SPI1_SCK_PA5,
+    PHAL_PIN_DEFS_SPI1_MISO_PA6,
+    PHAL_PIN_DEFS_SPI1_MOSI_PA7,
+    PHAL_GPIO_INIT_OUTPUT(GPIOA, 4, GPIO_OUTPUT_ULTRA_SPEED), // CS Software Master
 
     // SPI2 - RET Specific (Slave)
-    GPIO_INIT_SPI2SCK_RET_PB13,
-    GPIO_INIT_SPI2MOSI_RET_PB15,
-    GPIO_INIT_SPI2MISO_RET_PB14,
-    GPIO_INIT_SPI2NSS_RET_PB12,                          // CS Hardware Slave
+    PHAL_PIN_DEFS_SPI2_SCK_PB13,
+    PHAL_PIN_DEFS_SPI2_MISO_PB14,
+    PHAL_PIN_DEFS_SPI2_MOSI_PB15,
+    PHAL_PIN_DEFS_SPI2_NSS_PB12, // CS Hardware Slave
 };
 
 // Test Buffers
@@ -126,7 +127,7 @@ int main() {
     // Config systick for 1 ms
     SysTick_Config(SystemCoreClock / 1000);
 
-    if (!PHAL_initGPIO(gpio_config, countof(gpio_config))) {
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
 
