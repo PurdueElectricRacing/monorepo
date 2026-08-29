@@ -12,5 +12,5 @@ foreach(SIDE front rear)
     target_compile_definitions(${SIDE}_driveline.elf PRIVATE IS_${SIDE_UPPER}_DRIVELINE)
 endforeach()
 
-# Add a dummy target for 'per_build.py -t driveline' to build both
+# Group both driveline images under one CMake target.
 add_custom_target(driveline.elf DEPENDS front_driveline.elf rear_driveline.elf)
