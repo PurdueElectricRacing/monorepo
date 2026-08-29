@@ -83,6 +83,7 @@ def build() -> None:
             text=True,
         ).stdout.strip()
 
+    git_ref = git_ref.replace("/", "-")
     tarball = OUTPUT_DIR / f"firmware_{git_ref}.tar.gz"
     with tarfile.open(tarball, "w:gz") as archive:
         for board in BOARD_TARGETS:
