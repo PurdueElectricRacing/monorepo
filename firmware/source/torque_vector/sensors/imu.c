@@ -112,9 +112,9 @@ void IZZE_angular_rate_CALLBACK(void) {
     imu_data.gyro_z = calibrated_data.z;
 
     CAN_SEND_IMU_angular_rate(
-        imu_data.gyro_x * PACK_COEFF_IMU_ANGULAR_RATE_X_AXIS,
-        imu_data.gyro_y * PACK_COEFF_IMU_ANGULAR_RATE_Y_AXIS,
-        imu_data.gyro_z * PACK_COEFF_IMU_ANGULAR_RATE_Z_AXIS
+        (int16_t)(imu_data.gyro_x * PACK_COEFF_IMU_ANGULAR_RATE_X_AXIS),
+        (int16_t)(imu_data.gyro_y * PACK_COEFF_IMU_ANGULAR_RATE_Y_AXIS),
+        (int16_t)(imu_data.gyro_z * PACK_COEFF_IMU_ANGULAR_RATE_Z_AXIS)
     );
 }
 
@@ -133,7 +133,7 @@ void IZZE_acceleration_CALLBACK(void) {
 
     // raw_data = matrix_multiply_vector3(&mounting_offset_matrix, &raw_data);
 
-    uint16_t temperature = can_data.IZZE_acceleration.temperature * UNPACK_COEFF_IZZE_ACCELERATION_TEMPERATURE;
+    uint16_t temperature = (uint16_t)(can_data.IZZE_acceleration.temperature * UNPACK_COEFF_IZZE_ACCELERATION_TEMPERATURE);
 
     // if (decoupling_state == DECOUPLING_STATE_CALIBRATING) {
     //     accel_sum.x += raw_data.x;
@@ -156,9 +156,9 @@ void IZZE_acceleration_CALLBACK(void) {
     imu_data.accel_z = calibrated_data.z;
 
     CAN_SEND_IMU_acceleration(
-        imu_data.accel_x * PACK_COEFF_IMU_ACCELERATION_X_AXIS,
-        imu_data.accel_y * PACK_COEFF_IMU_ACCELERATION_Y_AXIS,
-        imu_data.accel_z * PACK_COEFF_IMU_ACCELERATION_Z_AXIS,
-        temperature * PACK_COEFF_IMU_ACCELERATION_TEMPERATURE
+        (int16_t)(imu_data.accel_x * PACK_COEFF_IMU_ACCELERATION_X_AXIS),
+        (int16_t)(imu_data.accel_y * PACK_COEFF_IMU_ACCELERATION_Y_AXIS),
+        (int16_t)(imu_data.accel_z * PACK_COEFF_IMU_ACCELERATION_Z_AXIS),
+        (int16_t)(temperature * PACK_COEFF_IMU_ACCELERATION_TEMPERATURE)
     );
 }

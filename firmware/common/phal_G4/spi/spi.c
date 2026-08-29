@@ -46,7 +46,7 @@ bool PHAL_SPI_init(SPI_InitConfig_t *cfg) {
 
     // Deassert CS in master when using software NSS
     if (cfg->mode == SPI_MODE_MASTER && cfg->nss_sw) {
-        PHAL_GPIO_write(cfg->nss_gpio_port, cfg->nss_gpio_pin, 1);
+        PHAL_GPIO_write(cfg->nss_gpio_port, (uint8_t)cfg->nss_gpio_pin, 1);
     }
 
     PHAL_SPI_priv_resetTransferState(cfg);
@@ -61,7 +61,7 @@ void PHAL_SPI_transfer(
     // DMA writes rx'd bytes into in_data async
     // cppcheck-suppress constParameterPointer
     uint8_t *in_data,
-    uint32_t data_len
+    uint16_t data_len
 ) {
 
     // Wait for any previous transfer to complete
@@ -71,7 +71,7 @@ void PHAL_SPI_transfer(
 
     // Assert CS for master only
     if (spi->mode == SPI_MODE_MASTER && spi->nss_sw)
-        PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, 0);
+        PHAL_GPIO_write(spi->nss_gpio_port, (uint8_t)spi->nss_gpio_pin, 0);
 
     spi->_busy = true;
 
@@ -110,7 +110,7 @@ void PHAL_SPI_transfer(
 void PHAL_SPI_transferBlocking(SPI_InitConfig_t *spi,
                        const uint8_t *out_data,
                        uint8_t *in_data,
-                       uint32_t data_len) {
+                       uint16_t data_len) {
     // Start the transfer
     PHAL_SPI_transfer(spi, out_data, in_data, data_len);
     // Wait for this transfer to complete

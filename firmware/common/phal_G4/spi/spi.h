@@ -91,7 +91,7 @@ bool PHAL_SPI_init(SPI_InitConfig_t *handle);
 void PHAL_SPI_transfer(SPI_InitConfig_t *spi,
                        const uint8_t *out_data,
                        uint8_t *in_data,
-                       uint32_t data_len);
+                       uint16_t data_len);
 
 /**
  * @brief Perform a blocking DMA-backed SPI transfer. (Wrapper around PHAL_SPI_transfer.)
@@ -109,7 +109,7 @@ void PHAL_SPI_transfer(SPI_InitConfig_t *spi,
 void PHAL_SPI_transferBlocking(SPI_InitConfig_t *spi,
                        const uint8_t *out_data,
                        uint8_t *in_data,
-                       uint32_t data_len);
+                       uint16_t data_len);
 
 /**
  * @brief Check whether the SPI peripheral is busy.
