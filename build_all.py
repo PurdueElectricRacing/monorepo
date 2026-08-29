@@ -8,8 +8,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parent
 
-def build_project(projct_name: str, command: list[str], cwd: Path) -> None:
-    print("\nBuilding project:", projct_name)
+def build_project(project_name: str, command: list[str], cwd: Path) -> None:
+    print("\nBuilding project:", project_name)
     print("=" * 80)
     print(f"$ (cd {cwd} && {' '.join(command)})", flush=True)
     subprocess.run(command, cwd=cwd, check=True)
