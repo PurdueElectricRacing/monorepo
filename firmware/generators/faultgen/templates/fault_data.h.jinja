@@ -1,0 +1,44 @@
+#ifndef FAULT_DATA_H
+#define FAULT_DATA_H
+
+/**
+ * @file fault_data.h
+ * @brief Auto-generated global fault definitions and limits.
+ * @note This file is auto-generated; do not modify manually.
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
+#include <stdint.h>
+#include "can_library/generated/can_types.h"
+
+// Node Configuration (Activation & Ownership)
+{% for node in owner_nodes %}
+#ifdef CAN_NODE_{{ node.name_upper }}
+#define FAULT_LIB_ENABLED
+{% if node.has_faults %}
+#define MY_FAULT_START (FAULT_ID_{{ node.start_fault_name_upper }})
+#define MY_FAULT_END (FAULT_ID_{{ node.end_fault_name_upper }})
+{% endif %}
+{% if node.generate_fault_strings %}
+#define HAS_FAULT_STRINGS
+{% endif %}
+#endif
+{% endfor %}
+
+#include "can_library/faults_common.h"
+
+#define TOTAL_NUM_FAULTS ({{ total_faults }}U)
+
+// Global fault state and attribute arrays
+extern fault_t faults[TOTAL_NUM_FAULTS];
+
+#ifdef HAS_FAULT_STRINGS
+extern const char* const fault_strings[TOTAL_NUM_FAULTS];
+#endif
+
+// Transmission Helpers
+void tx_fault_sync(void);
+void tx_fault_event(fault_id_t idx, uint16_t value);
+
+#endif // FAULT_DATA_H
+{# Fault generator template. #}

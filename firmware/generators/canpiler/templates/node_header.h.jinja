@@ -1,0 +1,108 @@
+#ifndef {{ ctx.node.name|upper }}_H
+#define {{ ctx.node.name|upper }}_H
+
+/**
+ * @file {{ ctx.node.name }}.h
+ * @brief Auto-generated CAN driver for {{ ctx.node.name }}.
+ * @note This file is auto-generated; do not modify manually.
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
+#include <stdint.h>
+#include <string.h>
+
+#include "can_library/can_codec.h"
+#include "can_library/can_common.h"
+#include "can_library/generated/can_types.h"
+{% for bus_name in ctx.node_busses %}
+#include "can_library/generated/{{ bus_name }}.h"
+{% endfor %}
+
+// System Version: {{ ctx.context.version }}
+static constexpr uint32_t GIT_HASH = 0x{{ ctx.context.version }};
+
+// Node CAN configuration
+#if !defined({{ ctx.peripheral_entries[0].arch_define }})
+#error "CAN_NODE_{{ ctx.node.macro_name }} uses peripherals for {{ ctx.peripheral_entries[0].arch_define }}"
+#endif
+
+{% for periph in ctx.peripheral_entries %}
+#define USE_{{ periph.name }}
+{% endfor %}
+
+typedef {{ ctx.peripheral_entries[0].bus_type }} CAN_bus_t;
+
+{% for periph in ctx.peripheral_entries %}
+void {{ periph.enqueue_func }}(CanMsgTypeDef_t *msg);
+{% endfor %}
+
+// Scaling Macros
+{% for scaling in ctx.scaling_messages %}
+// {{ scaling.msg.name }}
+{% for sig in scaling.signals %}
+{% if scaling.emit_unpack %}
+static constexpr float UNPACK_COEFF_{{ scaling.msg.macro_name }}_{{ sig.macro_name }} = {{ sig.scale|format_float }};
+{% endif %}
+{% if scaling.emit_pack %}
+static constexpr float PACK_COEFF_{{ scaling.msg.macro_name }}_{{ sig.macro_name }} = {{ (1.0/sig.scale)|format_float }};
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+// Offset Macros
+{% for offset in ctx.offset_messages %}
+// {{ offset.msg.name }}
+{% for sig in offset.signals %}
+static constexpr float OFFSET_{{ offset.msg.macro_name }}_{{ sig.macro_name }} = {{ sig.offset|format_float }};
+{% endfor %}
+{% endfor %}
+
+// Data Structures
+typedef struct {
+{% for entry in ctx.rx_entries %}
+    {{ entry.rx_msg.name }}_data_t {{ entry.msg.name }};
+{% endfor %}
+} can_data_t;
+
+extern volatile can_data_t can_data;
+
+// Callback Declarations
+{% for entry in ctx.rx_entries %}
+{% if entry.rx_msg.callback %}
+extern void {{ entry.rx_msg.name }}_CALLBACK();
+{% endif %}
+{% endfor %}
+
+{% include "node/rx_dispatcher.h.jinja" %}
+
+// Stale Checking
+{% for entry in ctx.stale_rx_entries %}
+static bool is_{{ entry.msg.name }}_stale() {
+    return (xTaskGetTickCount() - can_data.{{ entry.msg.name }}.last_rx) > {{ entry.msg.macro_name }}_STALE_TIMEOUT_MS;
+}
+{% endfor %}
+
+// Data initialization
+static inline void CAN_data_init() {
+    memset((void *)&can_data, 0, sizeof(can_data));
+    // Underflow the last_rx timers to ensure messages are stale until first rx
+    // Setup the stale function pointers
+    {% for entry in ctx.stale_rx_entries %}
+    can_data.{{ entry.msg.name }}.last_rx = (uint32_t) -({{ entry.msg.macro_name }}_STALE_TIMEOUT_MS + 1);
+    can_data.{{ entry.msg.name }}.is_stale = is_{{ entry.msg.name }}_stale;
+    {% endfor %}
+}
+
+{% include "node/tx_functions.h.jinja" %}
+
+// Filter configuration
+{% for fdcan_ctx in ctx.filters.fdcan %}
+{% include "filter/fdcan.c.jinja" %}
+{% endfor %}
+
+{% if ctx.filters.has_bxcan %}
+{% include "filter/bxcan.c.jinja" %}
+{% endif %}
+
+#endif // {{ ctx.node.name|upper }}_H
+{# CANpiler template. #}

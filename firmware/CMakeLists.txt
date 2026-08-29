@@ -23,7 +23,7 @@ set(SUPPORT_DIR ${CMAKE_SOURCE_DIR}/support)
 include(cmake/utils.cmake)
 include(cmake/dependencies.cmake)
 include(cmake/common_component.cmake) # Macro for defining the common build process
-include(can_library/can_library.cmake)
+include(cmake/can_library.cmake)
 
 set(COMMON_MODULES
     common/amk

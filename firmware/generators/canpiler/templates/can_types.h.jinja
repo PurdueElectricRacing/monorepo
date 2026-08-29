@@ -1,0 +1,22 @@
+#ifndef CAN_TYPES_H
+#define CAN_TYPES_H
+
+/**
+ * @file can_types.h
+ * @brief Auto-generated custom types and enums for the CAN library.
+ * @note This file is auto-generated; do not modify manually.
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
+#include <stdint.h>
+
+{% for type in types %}
+typedef enum {% if type.base_type %}: {{ type.base_type }}{% endif %} {
+{% for choice in type.choices %}
+    {{ type.prefix }}_{{ choice|upper }} = {{ loop.index0 }},
+{% endfor %}
+} {{ type.name }};
+
+{% endfor %}
+#endif // CAN_TYPES_H
+{# CANpiler template. #}

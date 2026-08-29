@@ -3,7 +3,7 @@ AMK helpers define message layout/conventions for inverter communication and doc
 
 ## 2026 AMK CAN ID Assignment Scheme
 AMK related messages have a CAN ID in the format `0xXYZ`, where:
-- `X` is the priority level (0-5, following the [standard convention](../../can_library/configs/README.md#message-priority)).
+- `X` is the priority level (0-5, following the [standard convention](../../generators/configs/README.md#message-priority)).
 - `Y` is the message number:
     - `1` SET
     - `2` CRIT

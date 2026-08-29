@@ -37,7 +37,7 @@
         {
             "label": "generate can library",
             "type": "shell",
-            "command": "python3 ./firmware/can_library/canpiler/build.py",
+            "command": "python3 ./firmware/generators/generate.py",
             "group": {
                 "kind": "build"
             }

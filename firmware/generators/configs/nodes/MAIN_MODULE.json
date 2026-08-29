@@ -1,0 +1,772 @@
+{
+    "node_name": "MAIN_MODULE",
+    "busses": {
+        "VCAN": {
+            "peripheral": "FDCAN2",
+            "tx": [
+                {
+                    "msg_name": "main_init",
+                    "msg_desc": "MAIN MODULE hardware initialized",
+                    "signals": [
+                        {
+                            "sig_name": "csr",
+                            "sig_desc": "RCC CSR register",
+                            "type": "uint32_t"
+                        }
+                    ],
+                    "msg_priority": 0
+                },
+                {
+                    "msg_name": "main_hb",
+                    "msg_desc": "Heart beat message for main module",
+                    "signals": [
+                        {
+                            "sig_name": "car_state",
+                            "sig_desc": "Main car state",
+                            "type": "car_state_t"
+                        }
+                    ],
+                    "msg_period": 500,
+                    "msg_priority": 2
+                },
+                {
+                    "msg_name": "motor_temps",
+                    "msg_desc": "Temperature of motors",
+                    "signals": [
+                        {
+                            "sig_name": "front_right",
+                            "type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "front_left",
+                            "type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "rear_left",
+                            "type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "rear_right",
+                            "type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        }
+                    ],
+                    "msg_period": 5000,
+                    "msg_priority": 4
+                },
+                {
+                    "msg_name": "igbt_temps",
+                    "msg_desc": "Temperature of igbts",
+                    "signals": [
+                        {
+                            "sig_name": "front_right",
+                            "type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "front_left",
+                            "type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "rear_left",
+                            "type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "rear_right",
+                            "type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        }
+                    ],
+                    "msg_period": 5000,
+                    "msg_priority": 4
+                },
+                {
+                    "msg_name": "wheel_speeds",
+                    "msg_desc": "Wheel speeds from motor controllers",
+                    "signals": [
+                        {
+                            "sig_name": "front_right",
+                            "type": "int16_t",
+                            "unit": "rpm"
+                        },
+                        {
+                            "sig_name": "front_left",
+                            "type": "int16_t",
+                            "unit": "rpm"
+                        },
+                        {
+                            "sig_name": "rear_left",
+                            "type": "int16_t",
+                            "unit": "rpm"
+                        },
+                        {
+                            "sig_name": "rear_right",
+                            "type": "int16_t",
+                            "unit": "rpm"
+                        }
+                    ],
+                    "msg_period": 20,
+                    "msg_priority": 5
+                },
+                {
+                    "msg_name": "main_version",
+                    "msg_desc": "Main version",
+                    "signals": [
+                        {
+                            "sig_name": "git_hash",
+                            "type": "uint32_t",
+                            "sig_desc": "int representation of git short hash"
+                        }
+                    ],
+                    "msg_priority": 5,
+                    "msg_period": 5000
+                },
+                {
+                    "msg_name": "inva_diagnostics",
+                    "msg_desc": "VCAN diagnostics for inverter A",
+                    "signals": [
+                        {
+                            "sig_name": "diagnostic_number",
+                            "sig_desc": "AMK diagnostic number",
+                            "type": "uint32_t"
+                        },
+                        {
+                            "sig_name": "amk_state",
+                            "sig_desc": "Current inverter state",
+                            "type": "AMK_state_t"
+                        },
+                        {
+                            "sig_name": "bError",
+                            "sig_desc": "AMK status error bit",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "InverterOn",
+                            "sig_desc": "AMK inverter on status",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "is_any_stale",
+                            "sig_desc": "any message from AMK is stale",
+                            "type": "bool"
+                        }
+                    ],
+                    "msg_period": 1000,
+                    "msg_priority": 4
+                },
+                {
+                    "msg_name": "invb_diagnostics",
+                    "msg_desc": "VCAN diagnostics for inverter B",
+                    "signals": [
+                        {
+                            "sig_name": "diagnostic_number",
+                            "sig_desc": "AMK diagnostic number",
+                            "type": "uint32_t"
+                        },
+                        {
+                            "sig_name": "amk_state",
+                            "sig_desc": "Current inverter state",
+                            "type": "AMK_state_t"
+                        },
+                        {
+                            "sig_name": "bError",
+                            "sig_desc": "AMK status error bit",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "InverterOn",
+                            "sig_desc": "AMK inverter on status",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "is_any_stale",
+                            "sig_desc": "any message from AMK is stale",
+                            "type": "bool"
+                        }
+                    ],
+                    "msg_period": 1000,
+                    "msg_priority": 4
+                },
+                {
+                    "msg_name": "invc_diagnostics",
+                    "msg_desc": "VCAN diagnostics for inverter C",
+                    "signals": [
+                        {
+                            "sig_name": "diagnostic_number",
+                            "sig_desc": "AMK diagnostic number",
+                            "type": "uint32_t"
+                        },
+                        {
+                            "sig_name": "amk_state",
+                            "sig_desc": "Current inverter state",
+                            "type": "AMK_state_t"
+                        },
+                        {
+                            "sig_name": "bError",
+                            "sig_desc": "AMK status error bit",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "InverterOn",
+                            "sig_desc": "AMK inverter on status",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "is_any_stale",
+                            "sig_desc": "any message from AMK is stale",
+                            "type": "bool"
+                        }
+                    ],
+                    "msg_period": 1000,
+                    "msg_priority": 4
+                },
+                {
+                    "msg_name": "invd_diagnostics",
+                    "msg_desc": "VCAN diagnostics for inverter D",
+                    "signals": [
+                        {
+                            "sig_name": "diagnostic_number",
+                            "sig_desc": "AMK diagnostic number",
+                            "type": "uint32_t"
+                        },
+                        {
+                            "sig_name": "amk_state",
+                            "sig_desc": "Current inverter state",
+                            "type": "AMK_state_t"
+                        },
+                        {
+                            "sig_name": "bError",
+                            "sig_desc": "AMK status error bit",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "InverterOn",
+                            "sig_desc": "AMK inverter on status",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "is_any_stale",
+                            "sig_desc": "any message from AMK is stale",
+                            "type": "bool"
+                        }
+                    ],
+                    "msg_period": 1000,
+                    "msg_priority": 4
+                }
+            ],
+            "rx": [
+                {
+                    "msg_name": "pedals"
+                },
+                {
+                    "msg_name": "start_button",
+                    "callback": false
+                },
+                {
+                    "msg_name": "vcu_settings"
+                },
+                {
+                    "msg_name": "vcu_torque_request"
+                },
+                {
+                    "msg_name": "pack_stats"
+                }
+            ]
+        },
+        "MCAN": {
+            "peripheral": "FDCAN3",
+            "tx": [
+                {
+                    "msg_name": "main_hb_amk",
+                    "msg_desc": "Heart beat message for main module",
+                    "signals": [
+                        {
+                            "sig_name": "car_state",
+                            "sig_desc": "Main car state",
+                            "type": "uint8_t",
+                            "length": 8
+                        },
+                        {
+                            "sig_name": "precharge_state",
+                            "type": "bool"
+                        }
+                    ],
+                    "msg_period": 500,
+                    "msg_priority": 3
+                },
+                {
+                    "msg_name": "INVA_SET",
+                    "msg_desc": "Contains control word and setpoints",
+                    "signals": [
+                        {
+                            "sig_name": "AMK_Control_bReserve",
+                            "sig_desc": "Control word: RESERVED",
+                            "type": "uint8_t",
+                            "length": 8
+                        },
+                        {
+                            "sig_name": "AMK_Control_bInverterOn",
+                            "sig_desc": "Control word: controller enable",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bDcOn",
+                            "sig_desc": "Control word: HV activation",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bEnable",
+                            "sig_desc": "Control word: driver enable",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bErrorReset",
+                            "sig_desc": "Control word: remove error",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bReserve2",
+                            "sig_desc": "Control word: RESERVED",
+                            "type": "uint8_t",
+                            "length": 4
+                        },
+                        {
+                            "sig_name": "AMK_TorqueSetpoint",
+                            "sig_desc": "Torque setpoint (percentage of nominal torque)",
+                            "type": "int16_t",
+                            "unit": "%",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "AMK_PositiveTorqueLimit",
+                            "sig_desc": "Positive Torque Limit",
+                            "type": "int16_t",
+                            "unit": "Nm",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "AMK_NegativeTorqueLimit",
+                            "sig_desc": "Negative Torque Limit",
+                            "type": "int16_t",
+                            "unit": "Nm",
+                            "scale": 0.1
+                        }
+                    ],
+                    "msg_period": 15,
+                    "msg_id_override": "0x111",
+                    "msg_priority": 1
+                },
+                {
+                    "msg_name": "INVB_SET",
+                    "msg_desc": "Contains control word and setpoints",
+                    "signals": [
+                        {
+                            "sig_name": "AMK_Control_bReserve",
+                            "sig_desc": "Control word: RESERVED",
+                            "type": "uint8_t",
+                            "length": 8
+                        },
+                        {
+                            "sig_name": "AMK_Control_bInverterOn",
+                            "sig_desc": "Control word: controller enable",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bDcOn",
+                            "sig_desc": "Control word: HV activation",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bEnable",
+                            "sig_desc": "Control word: driver enable",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bErrorReset",
+                            "sig_desc": "Control word: remove error",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bReserve2",
+                            "sig_desc": "Control word: RESERVED",
+                            "type": "uint8_t",
+                            "length": 4
+                        },
+                        {
+                            "sig_name": "AMK_TorqueSetpoint",
+                            "sig_desc": "Torque setpoint (percentage of nominal torque)",
+                            "type": "int16_t",
+                            "unit": "%",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "AMK_PositiveTorqueLimit",
+                            "sig_desc": "Positive Torque Limit",
+                            "type": "int16_t",
+                            "unit": "Nm",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "AMK_NegativeTorqueLimit",
+                            "sig_desc": "Negative Torque Limit",
+                            "type": "int16_t",
+                            "unit": "Nm",
+                            "scale": 0.1
+                        }
+                    ],
+                    "msg_period": 15,
+                    "msg_id_override": "0x112",
+                    "msg_priority": 1
+                },
+                {
+                    "msg_name": "INVC_SET",
+                    "msg_desc": "Contains control word and setpoints",
+                    "signals": [
+                        {
+                            "sig_name": "AMK_Control_bReserve",
+                            "sig_desc": "Control word: RESERVED",
+                            "type": "uint8_t",
+                            "length": 8
+                        },
+                        {
+                            "sig_name": "AMK_Control_bInverterOn",
+                            "sig_desc": "Control word: controller enable",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bDcOn",
+                            "sig_desc": "Control word: HV activation",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bEnable",
+                            "sig_desc": "Control word: driver enable",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bErrorReset",
+                            "sig_desc": "Control word: remove error",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bReserve2",
+                            "sig_desc": "Control word: RESERVED",
+                            "type": "uint8_t",
+                            "length": 4
+                        },
+                        {
+                            "sig_name": "AMK_TorqueSetpoint",
+                            "sig_desc": "Torque setpoint (percentage of nominal torque)",
+                            "type": "int16_t",
+                            "unit": "%",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "AMK_PositiveTorqueLimit",
+                            "sig_desc": "Positive Torque Limit",
+                            "type": "int16_t",
+                            "unit": "Nm",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "AMK_NegativeTorqueLimit",
+                            "sig_desc": "Negative Torque Limit",
+                            "type": "int16_t",
+                            "unit": "Nm",
+                            "scale": 0.1
+                        }
+                    ],
+                    "msg_period": 15,
+                    "msg_id_override": "0x113",
+                    "msg_priority": 1
+                },
+                {
+                    "msg_name": "INVD_SET",
+                    "msg_desc": "Contains control word and setpoints",
+                    "signals": [
+                        {
+                            "sig_name": "AMK_Control_bReserve",
+                            "sig_desc": "Control word: RESERVED",
+                            "type": "uint8_t",
+                            "length": 8
+                        },
+                        {
+                            "sig_name": "AMK_Control_bInverterOn",
+                            "sig_desc": "Control word: controller enable",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bDcOn",
+                            "sig_desc": "Control word: HV activation",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bEnable",
+                            "sig_desc": "Control word: driver enable",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bErrorReset",
+                            "sig_desc": "Control word: remove error",
+                            "type": "bool"
+                        },
+                        {
+                            "sig_name": "AMK_Control_bReserve2",
+                            "sig_desc": "Control word: RESERVED",
+                            "type": "uint8_t",
+                            "length": 4
+                        },
+                        {
+                            "sig_name": "AMK_TorqueSetpoint",
+                            "sig_desc": "Torque setpoint (percentage of nominal torque)",
+                            "type": "int16_t",
+                            "unit": "%",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "AMK_PositiveTorqueLimit",
+                            "sig_desc": "Positive Torque Limit",
+                            "type": "int16_t",
+                            "unit": "Nm",
+                            "scale": 0.1
+                        },
+                        {
+                            "sig_name": "AMK_NegativeTorqueLimit",
+                            "sig_desc": "Negative Torque Limit",
+                            "type": "int16_t",
+                            "unit": "Nm",
+                            "scale": 0.1
+                        }
+                    ],
+                    "msg_period": 15,
+                    "msg_id_override": "0x114",
+                    "msg_priority": 1
+                }
+            ],
+            "rx": [
+                {
+                    "msg_name": "INVA_CRIT"
+                },
+                {
+                    "msg_name": "INVA_INFO"
+                },
+                {
+                    "msg_name": "INVA_ERR_1"
+                },
+                {
+                    "msg_name": "INVA_ERR_2"
+                },
+                {
+                    "msg_name": "INVA_TEMPS"
+                },
+                {
+                    "msg_name": "INVB_CRIT"
+                },
+                {
+                    "msg_name": "INVB_INFO"
+                },
+                {
+                    "msg_name": "INVB_ERR_1"
+                },
+                {
+                    "msg_name": "INVB_ERR_2"
+                },
+                {
+                    "msg_name": "INVB_TEMPS"
+                },
+                {
+                    "msg_name": "INVC_CRIT"
+                },
+                {
+                    "msg_name": "INVC_INFO"
+                },
+                {
+                    "msg_name": "INVC_ERR_1"
+                },
+                {
+                    "msg_name": "INVC_ERR_2"
+                },
+                {
+                    "msg_name": "INVC_TEMPS"
+                },
+                {
+                    "msg_name": "INVD_CRIT"
+                },
+                {
+                    "msg_name": "INVD_INFO"
+                },
+                {
+                    "msg_name": "INVD_ERR_1"
+                },
+                {
+                    "msg_name": "INVD_ERR_2"
+                },
+                {
+                    "msg_name": "INVD_TEMPS"
+                }
+            ]
+        }
+    },
+    "fault_library_enabled": true,
+    "generate_fault_messages": false,
+    "faults": [
+        {
+            "fault_name": "SDC1_IMD",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC1 (IMD) is open"
+        },
+        {
+            "fault_name": "SDC2_BMS",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC2 (BMS) is open"
+        },
+        {
+            "fault_name": "SDC3_BSPD",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC3 (BSPD) is open"
+        },
+        {
+            "fault_name": "SDC4_MAIN_OK",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC4 (MAIN_OK) is open"
+        },
+        {
+            "fault_name": "SDC5_BOTS",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC5 (BOTS) is open"
+        },
+        {
+            "fault_name": "SDC6_INERTIA",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC6 (INERTIA) is open"
+        },
+        {
+            "fault_name": "SDC7_COCKPIT_ESTOP",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC7 (COCKPIT_ESTOP) is open"
+        },
+        {
+            "fault_name": "SDC9_FRONT_INTERLOCK",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC9 (FRONT_INTERLOCK) is open"
+        },
+        {
+            "fault_name": "SDC10_RIGHT_ESTOP",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC10 (RIGHT_ESTOP) is open"
+        },
+        {
+            "fault_name": "SDC11_LEFT_ESTOP",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC11 (LEFT_ESTOP) is open"
+        },
+        {
+            "fault_name": "SDC12_MSD",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC12 (MSD) is open"
+        },
+        {
+            "fault_name": "SDC13_E_METER",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC13 (E_METER) is open"
+        },
+        {
+            "fault_name": "SDC15_REAR_INTERLOCK",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC15 (REAR_INTERLOCK) is open"
+        },
+        {
+            "fault_name": "SDC16_TSMS",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC16 (TSMS) is open"
+        },
+        {
+            "fault_name": "SDC17_AIR_M",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC17 (AIR_M) is open"
+        },
+        {
+            "fault_name": "PRECHARGE_INCOMPLETE",
+            "max": 1,
+            "min": 0,
+            "priority": "error",
+            "time_to_latch": 500,
+            "time_to_unlatch": 500,
+            "lcd_message": "Precharge is not complete"
+        }
+
+    ]
+}
