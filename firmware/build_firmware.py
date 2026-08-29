@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+"""Build and package all PER firmware targets."""
+
+from pathlib import Path
+import subprocess
+import tarfile
+import zlib
+
+
+ROOT = Path(__file__).resolve().parent
+BUILD_DIR = ROOT / "build"
+OUTPUT_DIR = ROOT / "output"
+CAN_GENERATED_DIR = ROOT / "can_library" / "generated"
+BOARD_TARGETS = (
+    "main_module",
+    "a_box",
+    "torque_vector",
+    "dashboard",
+    "pdu",
+    "daq",
+    "front_driveline",
+    "rear_driveline",
+)
+
+
+def build() -> None:
+    """Clean, build, and package every firmware target."""
+    subprocess.run(
+        [
+            "cmake",
+            "-E",
+            "rm",
+            "-rf",
+            str(BUILD_DIR),
+            str(OUTPUT_DIR),
+            str(CAN_GENERATED_DIR),
+        ],
+        cwd=ROOT,
+        check=True,
+    )
+    subprocess.run(
+        [
+            "cmake",
+            "-S",
+            str(ROOT),
+            "-B",
+            str(BUILD_DIR),
+            "-G",
+            "Ninja",
+            "-DBOOTLOADER_BUILD=OFF",
+            "-DMODULES=",
+        ],
+        cwd=ROOT,
+        check=True,
+    )
+    subprocess.run(
+        ["ninja", "-C", str(BUILD_DIR), "all"],
+        cwd=ROOT,
+        check=True,
+    )
+    for board in BOARD_TARGETS:
+        hex_path = OUTPUT_DIR / board / f"{board}.hex"
+        if not hex_path.exists():
+            continue
+
+        checksum = f"{zlib.crc32(hex_path.read_bytes()) & 0xFFFFFFFF:08X}"
+        hex_path.with_suffix(".crc").write_text(f"{checksum}\n", encoding="utf-8")
+
+    try:
+        git_ref = subprocess.run(
+            ["git", "describe", "--tags", "--exact-match"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+    except subprocess.CalledProcessError:
+        git_ref = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+
+    tarball = OUTPUT_DIR / f"firmware_{git_ref}.tar.gz"
+    with tarfile.open(tarball, "w:gz") as archive:
+        for board in BOARD_TARGETS:
+            for suffix in (".hex", ".crc"):
+                artifact = OUTPUT_DIR / board / f"{board}{suffix}"
+                if artifact.exists():
+                    archive.add(artifact, arcname=artifact.name)
+
+
+build()

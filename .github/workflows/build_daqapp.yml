@@ -42,7 +42,8 @@ jobs:
             ${{ runner.os }}-daqapp-
 
       - name: Build DAQ app
-        run: python3 per_build.py daqapp --all-targets
+        working-directory: daqapp
+        run: cargo build --all-targets
 
       - name: Show compiler warnings
         working-directory: daqapp

@@ -24,7 +24,7 @@ jobs:
           CC: gcc
           CXX: g++
           CMAKE_GENERATOR: Ninja
-        run: python3 per_build.py tests
+        run: python3 tests/build_tests.py
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4

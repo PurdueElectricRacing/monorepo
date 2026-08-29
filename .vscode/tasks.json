@@ -4,7 +4,7 @@
         {
             "label": "build all",
             "type": "shell",
-            "command": "clear && python3 per_build.py",
+            "command": "clear && python3 build_all.py",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -13,7 +13,7 @@
         {
             "label": "build firmware",
             "type": "shell",
-            "command": "clear && python3 per_build.py firmware",
+            "command": "clear && python3 firmware/build_firmware.py",
             "group": {
                 "kind": "build"
             }
@@ -21,15 +21,15 @@
         {
             "label": "check firmware",
             "type": "shell",
-            "command": "clear && python3 per_build.py firmware --check",
+            "command": "clear && python3 firmware/check_firmware.py",
             "group": {
-                "kind": "test",
-        }
+                "kind": "test"
+            }
         },
         {
             "label": "build daqapp",
             "type": "shell",
-            "command": "clear && python3 per_build.py daqapp",
+            "command": "clear && cargo build --manifest-path daqapp/Cargo.toml",
             "group": {
                 "kind": "build"
             }
@@ -45,7 +45,7 @@
         {
             "label": "run unit tests",
             "type": "shell",
-            "command": "clear && python3 per_build.py tests",
+            "command": "clear && python3 tests/build_tests.py",
             "group": {
                 "kind": "test",
                 "isDefault": true
