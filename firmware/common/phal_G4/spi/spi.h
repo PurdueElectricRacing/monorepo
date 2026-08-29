@@ -107,9 +107,9 @@ void PHAL_SPI_transfer(SPI_InitConfig_t *spi,
  * @param data_len Number of bytes to transfer (includes both TX and RX).
  */
 void PHAL_SPI_transferBlocking(SPI_InitConfig_t *spi,
-                       const uint8_t *out_data,
-                       uint8_t *in_data,
-                       uint16_t data_len);
+                               const uint8_t *out_data,
+                               uint8_t *in_data,
+                               uint16_t data_len);
 
 /**
  * @brief Check whether the SPI peripheral is busy.

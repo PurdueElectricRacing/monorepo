@@ -49,8 +49,7 @@ static volatile uint16_t *usb_endpoint_register(uint8_t endpoint) {
 static volatile uint16_t *usb_descriptor_word(uint8_t endpoint, uint8_t word) {
     // Each BTABLE entry contains TX address/count followed by RX address/count.
     // USB_PMAADDR exposes packet memory as 16-bit words at byte-addressed offsets.
-    uint32_t offset = USB_PRIV_BTABLE_OFFSET
-        + (uint32_t)endpoint * USB_PRIV_BTABLE_ENTRY_SIZE_BYTES
+    uint32_t offset = USB_PRIV_BTABLE_OFFSET + (uint32_t)endpoint * USB_PRIV_BTABLE_ENTRY_SIZE_BYTES
         + (uint32_t)word * USB_PRIV_BTABLE_WORD_SIZE_BYTES;
     return (volatile uint16_t *)(USB_PMAADDR + offset);
 }
@@ -64,7 +63,8 @@ static volatile uint16_t *usb_pma(uint16_t address) {
 static uint16_t usb_transmit_address(uint8_t endpoint) {
     // Every bidirectional endpoint owns adjacent TX and RX packet buffers.
     return (uint16_t)(USB_PRIV_BUFFER_START
-        + (uint32_t)endpoint * PHAL_USB_PACKET_SIZE_BYTES * USB_PRIV_BUFFERS_PER_ENDPOINT);
+                      + (uint32_t)endpoint * PHAL_USB_PACKET_SIZE_BYTES
+                          * USB_PRIV_BUFFERS_PER_ENDPOINT);
 }
 
 /** Calculate the packet-memory byte address of an endpoint's OUT buffer. */

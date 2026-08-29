@@ -86,7 +86,8 @@ static inline void update_motor_telemetry() {
             can_data.motor_temps.rear_right
         );
 
-        int16_t scaled_motor_temp = (int16_t)(max_motor_temp * UNPACK_COEFF_MOTOR_TEMPS_FRONT_RIGHT);
+        int16_t scaled_motor_temp =
+            (int16_t)(max_motor_temp * UNPACK_COEFF_MOTOR_TEMPS_FRONT_RIGHT);
         NXT_setTextFormatted(MOTOR_TEMP, "%dC", scaled_motor_temp);
     }
 }
@@ -113,8 +114,10 @@ static inline void update_pack_telemetry() {
         NXT_setText(BATT_CURR, "S");
         NXT_setText(BATT_TEMP, "S");
     } else {
-        uint16_t scaled_voltage = (uint16_t)(can_data.pack_stats.pack_voltage * UNPACK_COEFF_PACK_STATS_PACK_VOLTAGE);
-        int16_t scaled_current = (int16_t)(can_data.pack_stats.pack_current * UNPACK_COEFF_PACK_STATS_PACK_CURRENT);
+        uint16_t scaled_voltage =
+            (uint16_t)(can_data.pack_stats.pack_voltage * UNPACK_COEFF_PACK_STATS_PACK_VOLTAGE);
+        int16_t scaled_current =
+            (int16_t)(can_data.pack_stats.pack_current * UNPACK_COEFF_PACK_STATS_PACK_CURRENT);
         NXT_setTextFormatted(BATT_VOLT, "%dV", scaled_voltage);
         NXT_setTextFormatted(BATT_CURR, "%dA", scaled_current);
         NXT_setTextFormatted(BATT_TEMP, "%dC", can_data.pack_stats.max_temp);

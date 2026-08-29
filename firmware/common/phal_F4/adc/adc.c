@@ -10,7 +10,8 @@
 
 bool PHAL_initADC(ADC_TypeDef* adc, ADCInitConfig_t* config, ADCChannelConfig_t channels[], uint8_t num_channels) {
     // Enable clock to the selected peripheral
-    RCC->APB2ENR |= (1U << (RCC_APB2ENR_ADC1EN_Pos + config->adc_number - 1)) & (0x7UL << RCC_APB2ENR_ADC1EN_Pos);
+    RCC->APB2ENR |= (1U << (RCC_APB2ENR_ADC1EN_Pos + config->adc_number - 1))
+        & (0x7UL << RCC_APB2ENR_ADC1EN_Pos);
 
     // Set prescaler (todo maintain acceptable bounds)
     ADC123_COMMON->CCR &= ~(ADC_CCR_ADCPRE_Msk);
@@ -37,7 +38,9 @@ bool PHAL_initADC(ADC_TypeDef* adc, ADCInitConfig_t* config, ADCChannelConfig_t 
     // DMA configuration
     if (config->dma_mode != ADC_DMA_OFF) {
         // Circular or one shot
-        adc->CR2 |= (ADC_CR2_DMA) | (((uint32_t)(config->dma_mode == ADC_DMA_CIRCULAR) << ADC_CR2_DDS_Pos) & ADC_CR2_DDS_Msk);
+        adc->CR2 |= (ADC_CR2_DMA)
+            | (((uint32_t)(config->dma_mode == ADC_DMA_CIRCULAR) << ADC_CR2_DDS_Pos)
+               & ADC_CR2_DDS_Msk);
     } else {
         // Disable ADC DMA Mode
         adc->CR2 &= ~(ADC_CR2_DMA);

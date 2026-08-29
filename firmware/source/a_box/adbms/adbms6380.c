@@ -45,7 +45,8 @@ uint16_t adbms6380_get_threshold_voltage_cfg(float threshold_voltage) {
 }
 
 int16_t adbms6380_extract_i16(const uint8_t *data, int idx) {
-    return (int16_t)((int16_t)(data[idx * 2 + 0] & 0xff) | ((int16_t)(data[idx * 2 + 1] & 0xff) << 8));
+    return (int16_t)((int16_t)(data[idx * 2 + 0] & 0xff)
+                     | ((int16_t)(data[idx * 2 + 1] & 0xff) << 8));
 }
 
 float adbms6380_raw_to_v(int16_t raw) {
@@ -60,8 +61,8 @@ void adbms6380_adcv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
                     uint8_t ow) {
     // 10-0: 0, 1, RD, CONT, 1, 1, DCP, 0, RSTF, OW[1], OW[0]
     output_cmd[0] = 0x02 | (uint8_t)rd;
-    output_cmd[1] =
-        (uint8_t)(((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | ((uint8_t)rstf << 2) | (ow & 0x03) | 0x60);
+    output_cmd[1] = (uint8_t)(((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | ((uint8_t)rstf << 2)
+                              | (ow & 0x03) | 0x60);
 }
 
 void adbms6380_adsv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
@@ -76,7 +77,8 @@ void adbms6380_adsv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
 void adbms6380_adax(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE], bool ow, bool pup, uint8_t ch) {
     // 10-0: 1 0 OW PUP CH[4] 0 1 CH[3] CH[2] CH[1] CH[0]
     output_cmd[0] = 0b100 | (uint8_t)ow;
-    output_cmd[1] = (uint8_t)((uint8_t)pup << 7 | ((ch >> 4) & 1) << 6 | 0b01 << 4 | (ch & 0b01111));
+    output_cmd[1] =
+        (uint8_t)((uint8_t)pup << 7 | ((ch >> 4) & 1) << 6 | 0b01 << 4 | (ch & 0b01111));
 }
 
 void adbms6380_prepare_command(strbuf_t *output_buffer,
@@ -149,7 +151,8 @@ bool adbms6380_check_data_pec(const uint8_t *rx_bytes, size_t rx_len) {
 
     uint8_t pec_msb_packed = rx_bytes[raw_data_len];
     uint8_t pec_lsb        = rx_bytes[raw_data_len + 1];
-    uint16_t received_pec  = (uint16_t)(((uint16_t)(pec_msb_packed & 0x03) << 8) | (uint16_t)pec_lsb);
+    uint16_t received_pec =
+        (uint16_t)(((uint16_t)(pec_msb_packed & 0x03) << 8) | (uint16_t)pec_lsb);
 
     return calculated_pec == received_pec;
 }
@@ -261,7 +264,7 @@ bool adbms6380_read_cell_voltages(SPI_InitConfig_t *spi,
                 if (cell_idx >= ADBMS6380_CELL_COUNT) {
                     break; // safety check
                 }
-                int16_t raw                             = adbms6380_extract_i16(module_data, (int)j);
+                int16_t raw = adbms6380_extract_i16(module_data, (int)j);
                 cell_voltages_raw[module_idx][cell_idx] = raw;
                 float cell_v                            = adbms6380_raw_to_v(raw);
                 cell_voltages[module_idx][cell_idx]     = cell_v;
