@@ -34,10 +34,6 @@ macro(create_can_node_lib NODE_NAME ARCH_LIB)
         ${CAN_GEN_DIR}/fault_data.c
     )
 
-    set_source_files_properties(
-        ${CAN_GEN_DIR}/fault_data.c PROPERTIES COMPILE_OPTIONS "-Wno-conversion;-Wno-float-conversion"
-    )
-
 	# Force use of full include paths relative to project root
 	target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_SOURCE_DIR})
 	
