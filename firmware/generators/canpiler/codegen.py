@@ -330,7 +330,7 @@ def build_node_render_context(node: Node, context: SystemContext) -> NodeRenderC
     )
 
 
-def generate_headers(context: SystemContext, template_dir) -> list[Artifact]:
+def generate_headers(context: SystemContext, template_dir: str) -> list[Artifact]:
     print("Generating headers...")
     env = get_jinja_env(template_dir)
     artifacts = []
