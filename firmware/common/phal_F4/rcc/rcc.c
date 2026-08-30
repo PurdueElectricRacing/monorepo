@@ -142,8 +142,8 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
 
     // Set the PLLP and PLLQ divisors
     RCC->PLLCFGR &= ~(RCC_PLLCFGR_PLLP_Msk | RCC_PLLCFGR_PLLQ_Msk);
-    RCC->PLLCFGR |= (((pll_p_divisor / 2) - 1) << RCC_PLLCFGR_PLLP_Pos)
-        & RCC_PLLCFGR_PLLP_Msk; // Divisor value to PLLP bits (Pg. 227)
+    // Divisor value to PLLP bits (Pg. 227)
+    RCC->PLLCFGR |= (((pll_p_divisor / 2) - 1) << RCC_PLLCFGR_PLLP_Pos) & RCC_PLLCFGR_PLLP_Msk;
     RCC->PLLCFGR |= (pll_q_divisor << RCC_PLLCFGR_PLLQ_Pos) & RCC_PLLCFGR_PLLQ_Msk;
 
     __DSB(); // Wait for explicit memory accesses to finish
