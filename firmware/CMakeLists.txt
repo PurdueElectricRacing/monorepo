@@ -64,12 +64,10 @@ foreach(MODULE IN LISTS COMMON_MODULES EXTERNAL_MODULES SOURCE_MODULES)
 endforeach()
 
 # Don't hold external modules to -Werror=conversion
-if("daq" IN_LIST MODULES)
-    foreach(EXTERNAL_MODULE IN LISTS EXTERNAL_MODULES)
-        file(GLOB_RECURSE EXTERNAL_MODULE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/${EXTERNAL_MODULE}/*.c")
-        set_source_files_properties(${EXTERNAL_MODULE_SOURCES}
-            DIRECTORY source/daq
-            PROPERTIES COMPILE_OPTIONS "-Wno-conversion;-Wno-sign-conversion;-Wno-float-conversion"
-        )
-    endforeach()
-endif()
+foreach(EXTERNAL_MODULE IN LISTS EXTERNAL_MODULES)
+    file(GLOB_RECURSE EXTERNAL_MODULE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/${EXTERNAL_MODULE}/*.c")
+    set_source_files_properties(${EXTERNAL_MODULE_SOURCES}
+        DIRECTORY source/daq
+        PROPERTIES COMPILE_OPTIONS "-Wno-conversion;-Wno-sign-conversion;-Wno-float-conversion"
+    )
+endforeach()
