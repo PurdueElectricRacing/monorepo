@@ -8,5 +8,5 @@ add_firmware_component(
 
 # vcu/* is generated from Matlab/Simulink and isn't hand-maintained for conversion warnings.
 file(GLOB VCU_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/vcu/*.c")
-set_source_files_properties(${VCU_SOURCES} PROPERTIES COMPILE_OPTIONS "-Wno-error=conversion;-Wno-error=float-conversion")
+set_source_files_properties(${VCU_SOURCES} PROPERTIES COMPILE_OPTIONS "-Wno-conversion;-Wno-float-conversion")
 
