@@ -10,12 +10,12 @@ if not validate_all(CONFIG_DIR, SCHEMA_DIR):
 canpiler = Canpiler()
 faultgen = FaultGenerator()
 
-can_model = canpiler.parse()
-fault_plan = faultgen.plan()
+can_model          = canpiler.parse()
+fault_plan         = faultgen.plan()
 fault_contribution = faultgen.contribute(fault_plan)
-compiled_can = canpiler.compile(can_model, [fault_contribution])
+compiled_can       = canpiler.compile(can_model, [fault_contribution])
 
-artifacts = canpiler.generate(compiled_can)
+artifacts  = canpiler.generate(compiled_can)
 artifacts += faultgen.generate(fault_plan, compiled_can)
 
 output_roots = {"generated": GENERATED_DIR, "dbc": DBC_DIR}
