@@ -1,4 +1,3 @@
-import argparse
 from pathlib import Path
 
 from core.artifacts import clear_artifacts, write_artifacts
@@ -9,40 +8,32 @@ from faultgen.api import FaultGenerator
 
 
 GENERATOR_DIR = Path(__file__).resolve().parent
-DEFAULT_CAN_LIBRARY_DIR = GENERATOR_DIR.parent / "can_library"
+CAN_LIBRARY_DIR = GENERATOR_DIR.parent / "can_library"
+
+paths = GenerationPaths(
+    config_dir=GENERATOR_DIR / "configs",
+    schema_dir=GENERATOR_DIR / "schema",
+    can_template_dir=GENERATOR_DIR / "canpiler" / "templates",
+    fault_template_dir=GENERATOR_DIR / "faultgen" / "templates",
+    generated_dir=CAN_LIBRARY_DIR / "generated",
+    dbc_dir=CAN_LIBRARY_DIR / "dbc",
+)
 
 
-def generate(paths: GenerationPaths):
-    canpiler, faultgen = Canpiler(paths), FaultGenerator(paths)
-    if not validate_all(paths.config_dir, paths.schema_dir):
-        raise ValueError("Configuration validation failed")
+if not validate_all(paths.config_dir, paths.schema_dir):
+    raise ValueError("Configuration validation failed")
 
-    can_model = canpiler.parse()
-    fault_plan = faultgen.plan()
-    compiled = canpiler.compile(can_model, [faultgen.contribute(fault_plan)])
+canpiler = Canpiler(paths)
+faultgen = FaultGenerator(paths)
 
-    artifacts = canpiler.generate(compiled) + faultgen.generate(fault_plan, compiled)
-    roots = {"generated": paths.generated_dir, "dbc": paths.dbc_dir}
-    clear_artifacts(roots, {"generated": "*", "dbc": "*.dbc"})
-    write_artifacts(roots, artifacts)
+can_model = canpiler.parse()
+fault_plan = faultgen.plan()
+fault_contribution = faultgen.contribute(fault_plan)
+compiled_can = canpiler.compile(can_model, [fault_contribution])
 
+artifacts = canpiler.generate(compiled_can)
+artifacts += faultgen.generate(fault_plan, compiled_can)
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--config-dir", type=Path, default=GENERATOR_DIR / "configs")
-    parser.add_argument("--schema-dir", type=Path, default=GENERATOR_DIR / "schema")
-    parser.add_argument("--generated-dir", type=Path, default=DEFAULT_CAN_LIBRARY_DIR / "generated")
-    parser.add_argument("--dbc-dir", type=Path, default=DEFAULT_CAN_LIBRARY_DIR / "dbc")
-    args = parser.parse_args()
-    generate(GenerationPaths(
-        config_dir=args.config_dir,
-        schema_dir=args.schema_dir,
-        can_template_dir=GENERATOR_DIR / "canpiler" / "templates",
-        fault_template_dir=GENERATOR_DIR / "faultgen" / "templates",
-        generated_dir=args.generated_dir,
-        dbc_dir=args.dbc_dir,
-    ))
-
-
-if __name__ == "__main__":
-    main()
+output_roots = {"generated": paths.generated_dir, "dbc": paths.dbc_dir}
+clear_artifacts(output_roots, {"generated": "*", "dbc": "*.dbc"})
+write_artifacts(output_roots, artifacts)
