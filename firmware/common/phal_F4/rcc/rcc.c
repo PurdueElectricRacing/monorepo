@@ -94,12 +94,13 @@ bool PHAL_configurePLLVCO(PLLSrc_t pll_source, uint32_t vco_output_rate_target_h
         }
 
         // VCO output frequency = VCO input * PLLN
-        for (; pll_output_multiplier <= RCC_MAX_PLL_OUTPUT_MULTIPLIER; pll_output_multiplier++) // PLLN must be 50 to 432 (Pg. 227)
+        while (1) // PLLN must be 50 to 432 (Pg. 227)
         {
             if ((pll_input_f_hz / pll_input_divisor) * pll_output_multiplier == vco_output_rate_target_hz) {
                 valid_rate = true;
                 break;
             }
+            pll_output_multiplier += 1;
         }
         if (valid_rate)
             break;
@@ -127,21 +128,21 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
     }
 
     // Valid number for PLLP divisor are 2,4,6,8 (2 bit encoded)
-    uint8_t pll_p_divisor = (uint8_t)(PLLClockRateHz / system_clock_target_hz);
+    uint32_t pll_p_divisor = PLLClockRateHz / system_clock_target_hz;
     if (pll_p_divisor == 0 || pll_p_divisor % 2 != 0 || pll_p_divisor > 8) {
         return false;
     }
 
-    uint8_t pll_q_divisor = (uint8_t)(PLLClockRateHz / 48000000);
+    uint32_t pll_q_divisor = PLLClockRateHz / 48000000;
     if (pll_q_divisor <= 1 || pll_q_divisor > 15) {
         return false;
     }
 
     // Set the PLLP and PLLQ divisors
     RCC->PLLCFGR &= ~(RCC_PLLCFGR_PLLP_Msk | RCC_PLLCFGR_PLLQ_Msk);
-    RCC->PLLCFGR |= (((uint32_t)(pll_p_divisor / 2) - 1) << RCC_PLLCFGR_PLLP_Pos)
+    RCC->PLLCFGR |= (((pll_p_divisor / 2) - 1) << RCC_PLLCFGR_PLLP_Pos)
         & RCC_PLLCFGR_PLLP_Msk; // Divisor value to PLLP bits (Pg. 227)
-    RCC->PLLCFGR |= ((uint32_t)pll_q_divisor << RCC_PLLCFGR_PLLQ_Pos) & RCC_PLLCFGR_PLLQ_Msk;
+    RCC->PLLCFGR |= (pll_q_divisor << RCC_PLLCFGR_PLLQ_Pos) & RCC_PLLCFGR_PLLQ_Msk;
 
     __DSB(); // Wait for explicit memory accesses to finish
 

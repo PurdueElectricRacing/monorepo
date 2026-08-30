@@ -19,11 +19,11 @@
 #include "pec.h"
 
 void adbms6380_set_cs_low(SPI_InitConfig_t *spi) {
-    PHAL_GPIO_write(spi->nss_gpio_port, (uint8_t)spi->nss_gpio_pin, false);
+    PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, false);
 }
 
 void adbms6380_set_cs_high(SPI_InitConfig_t *spi) {
-    PHAL_GPIO_write(spi->nss_gpio_port, (uint8_t)spi->nss_gpio_pin, true);
+    PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, true);
 }
 
 void adbms6380_wake(SPI_InitConfig_t *spi, size_t module_count) {
@@ -45,8 +45,8 @@ uint16_t adbms6380_get_threshold_voltage_cfg(float threshold_voltage) {
 }
 
 int16_t adbms6380_extract_i16(const uint8_t *data, int idx) {
-    return (int16_t)((int16_t)(data[idx * 2 + 0] & 0xff)
-                     | ((int16_t)(data[idx * 2 + 1] & 0xff) << 8));
+    return (int16_t)((data[idx * 2 + 0] & 0xff)
+                     | ((data[idx * 2 + 1] & 0xff) << 8));
 }
 
 float adbms6380_raw_to_v(int16_t raw) {

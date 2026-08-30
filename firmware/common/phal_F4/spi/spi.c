@@ -67,7 +67,7 @@ bool PHAL_SPI_init(SPI_InitConfig_t* cfg) {
         return false;
 
     // Ensure device CS is disabled
-    PHAL_GPIO_write(cfg->nss_gpio_port, (uint8_t)cfg->nss_gpio_pin, 1);
+    PHAL_GPIO_write(cfg->nss_gpio_port, cfg->nss_gpio_pin, 1);
 
     cfg->_busy              = false;
     cfg->_error             = false;
@@ -90,7 +90,7 @@ bool PHAL_SPI_transfer_noDMA(SPI_InitConfig_t* spi, const uint8_t* out_data, uin
 
     // Select peripheral
     if (spi->nss_sw)
-        PHAL_GPIO_write(spi->nss_gpio_port, (uint8_t)spi->nss_gpio_pin, 0);
+        PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, 0);
     // Add messages to TX FIFO
     for (uint32_t i = 0; i < txlen; i++) {
         while (!(spi->periph->SR & SPI_SR_TXE))
@@ -132,7 +132,7 @@ bool PHAL_SPI_transfer_noDMA(SPI_InitConfig_t* spi, const uint8_t* out_data, uin
 
     // Stop message by disabling CS
     if (spi->nss_sw)
-        PHAL_GPIO_write(spi->nss_gpio_port, (uint8_t)spi->nss_gpio_pin, 1);
+        PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, 1);
 
     spi->_busy = false;
 
@@ -156,7 +156,7 @@ bool PHAL_SPI_transfer(SPI_InitConfig_t* spi, const uint8_t* out_data, const uin
 
     // Enable CS to begin SPI transaction
     if (spi->nss_sw)
-        PHAL_GPIO_write(spi->nss_gpio_port, (uint8_t)spi->nss_gpio_pin, 0);
+        PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, 0);
 
     spi->_busy = true;
 
@@ -357,7 +357,7 @@ static void PHAL_SPI_priv_handleTxComplete() {
         // Raise CS to end transaction
         if (active_transfer->nss_sw)
             PHAL_GPIO_write(active_transfer->nss_gpio_port,
-                            (uint8_t)active_transfer->nss_gpio_pin,
+                            active_transfer->nss_gpio_pin,
                             1);
 
         // Disable DMA channels

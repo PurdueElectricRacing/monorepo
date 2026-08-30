@@ -27,7 +27,7 @@ typedef struct
     uint8_t data_len; //!< Number of bits per transaction
     bool nss_sw; //!< Save Select controlled by Software
     GPIO_TypeDef* nss_gpio_port; //!< GPIO Port of SPI CS Pin
-    uint32_t nss_gpio_pin; //!< GPIO Pin of SPI CS Pin
+    uint8_t nss_gpio_pin; //!< GPIO Pin of SPI CS Pin
 
     dma_init_t* rx_dma_cfg; //!< DMA initilization for RX transfer
     dma_init_t* tx_dma_cfg; //!< DMA initilization for TX transfer
