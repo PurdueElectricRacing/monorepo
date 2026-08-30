@@ -12,6 +12,7 @@
 
 #include <string.h>
 
+#include "can_library/generated/can_version.h"
 #include "common/bootloader/bootloader_common.h"
 #include "common/phal_G4/crc/crc.h"
 #include "common/phal_G4/fdcan/fdcan.h"
@@ -162,22 +163,22 @@ static bool bl_flush_pending_word(void) {
 }
 
 /* Duplicate words are harmless; gaps cancel the sequential transfer. */
-static bool bl_write_word(uint16_t index, uint32_t word) {
+static bool bl_write_word(uint32_t index, uint32_t word) {
     if (!bl_update_active) {
         bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_LOCKED);
         return false;
     }
-    if ((uint32_t)index >= bl_total_words) {
+    if (index >= bl_total_words) {
         bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_ADDRESS);
         return false;
     }
 
     /* CAN retransmission is harmless for an already accepted index; the
      * protocol is otherwise a sequential stream, not random-access flash. */
-    if ((uint32_t)index < bl_next_word) {
+    if (index < bl_next_word) {
         return true;
     }
-    if ((uint32_t)index != bl_next_word) {
+    if (index != bl_next_word) {
         bl_update_active = false;
         next_state       = BL_STATE_RECOVERY;
         bl_send_status(BOOTLOADER_STATUS_ERROR, BLERROR_SEQUENCE);
@@ -191,7 +192,7 @@ static bool bl_write_word(uint16_t index, uint32_t word) {
         uint8_t double_word[BL_FLASH_WRITE_SIZE] = {0};
         memcpy(double_word, &bl_pending_word, sizeof(bl_pending_word));
         memcpy(double_word + sizeof(bl_pending_word), &word, sizeof(word));
-        if (!PHAL_FLASH_write(BL_APP_ADDRESS + ((uint32_t)index - 1U) * BL_WORD_SIZE,
+        if (!PHAL_FLASH_write(BL_APP_ADDRESS + (index - 1U) * BL_WORD_SIZE,
                               double_word,
                               sizeof(double_word))) {
             bl_update_active = false;
@@ -406,10 +407,21 @@ static void bl_process_message(const CanMsgTypeDef_t *message) {
         return;
     }
 
-    if (message_id == bl_transport.data_id && message->DLC >= 6U) {
-        uint16_t index = (uint16_t)(((uint16_t)message->Data[1] << 8U) | message->Data[0]);
-        uint32_t word  = ((uint32_t)message->Data[2] << 0U) | ((uint32_t)message->Data[3] << 8U)
-            | ((uint32_t)message->Data[4] << 16U) | ((uint32_t)message->Data[5] << 24U);
+    if (message_id == bl_transport.data_id && (message->DLC == 6U || message->DLC == 7U)) {
+        /* DLC 6 is the legacy uint16 index layout; DLC 7 carries the new
+         * uint24 index needed for the full application slot. */
+        uint32_t index;
+        uint32_t word;
+        if (message->DLC == 7U) {
+            index = ((uint32_t)message->Data[0] << 0U) | ((uint32_t)message->Data[1] << 8U)
+                | ((uint32_t)message->Data[2] << 16U);
+            word = ((uint32_t)message->Data[3] << 0U) | ((uint32_t)message->Data[4] << 8U)
+                | ((uint32_t)message->Data[5] << 16U) | ((uint32_t)message->Data[6] << 24U);
+        } else {
+            index = ((uint32_t)message->Data[0] << 0U) | ((uint32_t)message->Data[1] << 8U);
+            word = ((uint32_t)message->Data[2] << 0U) | ((uint32_t)message->Data[3] << 8U)
+                | ((uint32_t)message->Data[4] << 16U) | ((uint32_t)message->Data[5] << 24U);
+        }
         (void)bl_write_word(index, word);
     }
 }
@@ -507,8 +519,8 @@ void BL_init(void) {
     bl_rx_head = 0U;
     bl_rx_tail = 0U;
 
-    GPIOInitConfig_t can_gpio[] = {bl_transport.rx_gpio, bl_transport.tx_gpio};
-    (void)PHAL_initGPIO(can_gpio, sizeof(can_gpio) / sizeof(can_gpio[0]));
+    PHAL_GPIO_InitConfig_t can_gpio[] = {bl_transport.rx_gpio, bl_transport.tx_gpio};
+    (void)PHAL_GPIO_init(can_gpio, sizeof(can_gpio) / sizeof(can_gpio[0]));
 
     PHAL_FDCAN_init(bl_transport.peripheral, bl_transport.baud_rate);
     uint32_t filter_ids[] = {

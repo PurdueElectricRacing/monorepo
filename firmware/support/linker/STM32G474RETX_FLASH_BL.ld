@@ -11,9 +11,8 @@
 ** metadata and writes application bytes to the fixed addresses below:
 **
 **   0x08000000 – 0x08003FFF : bootloader (16 KiB)
-**   0x08004000 – 0x08007FFF : metadata / reserved area (16 KiB)
-**   0x08008000 – 0x08047FFF : application slot (256 KiB)
-**   0x08048000 – 0x0807FFFF : reserved / unused flash (224 KiB)
+**   0x08004000 – 0x08007FFF : metadata region (16 KiB)
+**   0x08008000 – 0x0807FFFF : application slot (480 KiB)
 **
 ** Application vector table starts at: 0x08008000
 **

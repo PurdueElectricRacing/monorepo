@@ -33,8 +33,9 @@
 /**
  * @brief STM32G474RE flash layout shared with the linker scripts.
  *
- * Applications occupy a fixed 256 KiB slot at BL_APP_ADDRESS. The metadata
- * region and application slot begin on flash erase-page boundaries;
+ * Applications occupy the full 480 KiB remaining after the resident image and
+ * metadata at BL_APP_ADDRESS. The metadata region and application slot begin
+ * on flash erase-page boundaries;
  * PHAL_FLASH_erase() erases complete pages even when passed the metadata
  * record. Programming addresses are 8-byte aligned.
  *
@@ -50,19 +51,19 @@
 #define BL_METADATA_ADDRESS   0x08004000U
 #define BL_METADATA_REGION_SIZE (16U * 1024U)
 #define BL_APP_ADDRESS        0x08008000U
-#define BL_APP_SLOT_SIZE      (256U * 1024U)
+#define BL_APP_SLOT_SIZE      (480U * 1024U)
 #define BL_APP_END            (BL_APP_ADDRESS + BL_APP_SLOT_SIZE - 1U)
-#define BL_RESERVED_ADDRESS   (BL_APP_END + 1U)
-#define BL_RESERVED_SIZE      (BL_FLASH_END - BL_RESERVED_ADDRESS + 1U)
+#define BL_RESERVED_ADDRESS   (BL_FLASH_END + 1U)
+#define BL_RESERVED_SIZE      0U
 
 _Static_assert(BL_METADATA_ADDRESS == (BL_FLASH_BASE + (16U * 1024U)),
                "Bootloader metadata must follow the 16 KiB resident image");
 _Static_assert(BL_APP_ADDRESS == (BL_METADATA_ADDRESS + BL_METADATA_REGION_SIZE),
                "Application must follow the 16 KiB metadata region");
-_Static_assert(BL_APP_END == 0x08047FFFU,
-               "Application slot must end at the 256 KiB protocol boundary");
-_Static_assert(BL_RESERVED_ADDRESS == 0x08048000U && BL_RESERVED_SIZE == (224U * 1024U),
-               "Remaining flash must be the 224 KiB reserved region");
+_Static_assert(BL_APP_END == BL_FLASH_END && BL_APP_END == 0x0807FFFFU,
+               "Application slot must consume the remaining STM32G474 flash");
+_Static_assert(BL_RESERVED_ADDRESS == 0x08080000U && BL_RESERVED_SIZE == 0U,
+               "There must be no flash reserved after the application slot");
 #endif
 
 /** Size of the committed metadata record. */
