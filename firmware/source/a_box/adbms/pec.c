@@ -89,7 +89,8 @@ uint16_t adbms_pec_get_pec10(bool bIsRxCmd, size_t nLength, const uint8_t *pData
     uint16_t nRemainder = 16u; /* PEC_SEED */
     /* x10 + x7 + x3 + x2 + x + 1 <- the CRC10 polynomial 100 1000 1111 */
     uint16_t nPolynomial = 0x8Fu;
-    uint8_t nByteIndex, nBitIndex;
+    size_t nByteIndex;
+    uint8_t nBitIndex;
 
     for (nByteIndex = 0u; nByteIndex < nLength; ++nByteIndex) {
         /* calculate PEC table address */
