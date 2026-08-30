@@ -319,7 +319,7 @@ bool adbms6380_read_gpio_voltages(SPI_InitConfig_t *spi,
 
             for (size_t j = 0; j < gpios_read; j++) {
                 size_t gpio_idx                     = gpio_idx_base + j;
-                int16_t raw                         = adbms6380_extract_i16(module_data, (int)j);
+                int16_t raw                         = adbms6380_extract_i16(module_data, j);
                 float gpio_v                        = adbms6380_raw_to_v(raw);
                 gpio_voltages[module_idx][gpio_idx] = gpio_v;
             }
