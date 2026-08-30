@@ -10,15 +10,12 @@ for architecture, protocol, flash layout, and recovery.
 | [`bootloader_common.c`](bootloader_common.c) | Application START reset callback implementations. |
 | [`CMakeLists.txt`](CMakeLists.txt) | Shared interface target. |
 
-Applications paired with the resident image are linked at `0x08008000` and
-may occupy up to 256 KiB, ending at `0x08047FFF`. The remaining 224 KiB from
-`0x08048000` through `0x0807FFFF` is reserved. Metadata is written only after
-the application-slot image is validated. A successful START erases the
-complete flash pages covering the requested image, and DATA is written directly
-into that slot while the metadata record remains invalid until CRC and vector
-checks succeed.
-An application START callback only calls `NVIC_SystemReset()`; after reset the
-resident bootloader advertises READY and waits up to 500 ms for START on CAN.
+Applications use `0x08008000`–`0x0807FFFF` (480 KiB). Metadata is written only
+after image validation. START erases the image pages and DATA writes directly to
+the slot; metadata stays invalid until CRC and vector checks pass.
+
+An application START callback calls `NVIC_SystemReset()`. After reset, the
+resident bootloader advertises READY and waits 500 ms for START.
 
 ## Adding a G4 node
 
