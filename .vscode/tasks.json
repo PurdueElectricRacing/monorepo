@@ -35,7 +35,7 @@
             }
         },
         {
-            "label": "generate can library",
+            "label": "run generators",
             "type": "shell",
             "command": "python3 ./firmware/generators/generate.py",
             "group": {
