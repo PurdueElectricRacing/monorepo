@@ -84,25 +84,28 @@ bool PHAL_configurePLLVCO(PLLSrc_t pll_source, uint32_t vco_output_rate_target_h
     uint8_t pll_input_divisor     = RCC_MIN_PLL_INPUT_DIVISOR; // PLLM
     uint16_t pll_output_multiplier = RCC_MIN_PLL_OUTPUT_MULTIPLIER; // PLLN
     bool valid_rate               = false;
-    for (; pll_input_divisor <= RCC_MAX_PLL_INPUT_DIVISOR; pll_input_divisor++) // PLLM must be 2 to 63 (Pg. 227)
+    while (pll_input_divisor <= RCC_MAX_PLL_INPUT_DIVISOR) // PLLM must be 2 to 63 (Pg. 227)
     {
         // VCO input frequency = PLL input clock frequency / PLLM with 2 <= PLLM <= 63
         uint32_t pll_vco_in_rate = pll_input_f_hz / pll_input_divisor;
         if (pll_vco_in_rate < 1000000 || pll_vco_in_rate > 2000000) // VCO input rate must be 1MHz to 2MHz (Pg. 227 PLLM)
         {
+            pll_input_divisor++;
             continue;
         }
 
         // VCO output frequency = VCO input * PLLN
-        for (; pll_output_multiplier <= RCC_MAX_PLL_OUTPUT_MULTIPLIER; pll_output_multiplier++) // PLLN must be 50 to 432 (Pg. 227)
+        while (pll_output_multiplier <= RCC_MAX_PLL_OUTPUT_MULTIPLIER) // PLLN must be 50 to 432 (Pg. 227)
         {
             if ((pll_input_f_hz / pll_input_divisor) * pll_output_multiplier == vco_output_rate_target_hz) {
                 valid_rate = true;
                 break;
             }
+            pll_output_multiplier++;
         }
         if (valid_rate)
             break;
+        pll_input_divisor++;
     }
 
     if (!valid_rate)
