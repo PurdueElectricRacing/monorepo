@@ -5,15 +5,20 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Any
-from .parser import Node, Message, SystemContext
+from pathlib import Path
+from typing import Any, List, Dict, Optional
+
+from jinja2 import Environment
+
+from .mapper import NodeMapping
+from .parser import Node, Message, RxMessage, Signal, SystemContext
 from core.artifacts import Artifact
 from core.utils import print_as_success, print_as_ok, get_jinja_env, render_template
 
 
 @dataclass
 class SignalCodec:
-    signal: Any
+    signal: Signal
     bswap_width: str
     sign_extend_shift: Optional[int]
     is_float32: bool
@@ -21,7 +26,7 @@ class SignalCodec:
 
 @dataclass
 class RxEntry:
-    rx_msg: Any
+    rx_msg: RxMessage
     msg: Message
     periph: str
     bus_name: str
@@ -40,14 +45,14 @@ class TxEntry:
 @dataclass
 class ScalingMessage:
     msg: Message
-    signals: List[Any]
+    signals: List[Signal]
     emit_unpack: bool = False
     emit_pack: bool = False
 
 @dataclass
 class OffsetMessage:
     msg: Message
-    signals: List[Any]
+    signals: List[Signal]
 
 @dataclass
 class PeripheralContext:
@@ -112,7 +117,7 @@ class FilterRenderContext:
 class NodeRenderContext:
     node: Node
     context: SystemContext
-    mapping: Any
+    mapping: Optional[NodeMapping]
     rx_entries: List[RxEntry]
     rx_peripheral_entries: List[RxPeripheralContext]
     tx_entries: List[TxEntry]
@@ -133,7 +138,9 @@ class TypeRenderContext:
     choices: List[str]
 
 
-def build_type_render_context(custom_types: Dict) -> List[TypeRenderContext]:
+def build_type_render_context(
+    custom_types: Dict[str, Any]
+) -> List[TypeRenderContext]:
     rows = []
     for name, config in custom_types.items():
         prefix = name[:-2].upper() if name.endswith("_t") else name.upper()
@@ -146,7 +153,7 @@ def build_type_render_context(custom_types: Dict) -> List[TypeRenderContext]:
     return rows
 
 
-def build_signal_codec(sig, direction: str) -> SignalCodec:
+def build_signal_codec(sig: Signal, direction: str) -> SignalCodec:
     if direction not in ("rx", "tx"):
         raise ValueError(f"Unknown codec direction: {direction}")
 
@@ -200,7 +207,9 @@ def build_offset_messages(rx_entries: List[RxEntry], tx_entries: List[TxEntry]) 
     return sorted(by_name.values(), key=lambda offset: offset.msg.name)
 
 
-def build_filter_render_context(mapping, peripherals: List[str]) -> FilterRenderContext:
+def build_filter_render_context(
+    mapping: Optional[NodeMapping], peripherals: List[str]
+) -> FilterRenderContext:
     filters = FilterRenderContext()
     if mapping is None:
         return filters
@@ -330,7 +339,9 @@ def build_node_render_context(node: Node, context: SystemContext) -> NodeRenderC
     )
 
 
-def generate_headers(context: SystemContext, template_dir: str) -> list[Artifact]:
+def generate_headers(
+    context: SystemContext, template_dir: str | Path
+) -> list[Artifact]:
     print("Generating headers...")
     env = get_jinja_env(template_dir)
     artifacts = []
@@ -352,20 +363,24 @@ def generate_headers(context: SystemContext, template_dir: str) -> list[Artifact
     print_as_success("Successfully generated C headers")
     return artifacts
 
-def generate_types_header(env, custom_types: Dict):
+def generate_types_header(
+    env: Environment, custom_types: Dict[str, Any]
+) -> Artifact:
     content = render_template(env, 'can_types.h.jinja',
                               types=build_type_render_context(custom_types))
     print_as_ok("Generated can_types.h")
     return Artifact("generated", "can_types.h", content)
 
-def generate_router_header(env, nodes: List[Node]):
+def generate_router_header(env: Environment, nodes: List[Node]) -> Artifact:
     content = render_template(env, 'can_router.h.jinja',
                               nodes=nodes,
                               router_nodes=[node for node in nodes if not node.is_external])
     print_as_ok("Generated can_router.h")
     return Artifact("generated", "can_router.h", content)
 
-def generate_node_headers(env, context: SystemContext):
+def generate_node_headers(
+    env: Environment, context: SystemContext
+) -> list[Artifact]:
     artifacts = []
     for node in context.nodes:
         if node.is_external:
@@ -373,7 +388,9 @@ def generate_node_headers(env, context: SystemContext):
         artifacts.append(generate_node_header(env, node, context))
     return artifacts
 
-def generate_node_header(env, node: Node, context: SystemContext):
+def generate_node_header(
+    env: Environment, node: Node, context: SystemContext
+) -> Artifact:
     filename = f"{node.name}.h"
     render_context = build_node_render_context(node, context)
 
@@ -381,7 +398,12 @@ def generate_node_header(env, node: Node, context: SystemContext):
     print_as_ok(f"Generated {filename}")
     return Artifact("generated", filename, content)
 
-def generate_bus_header(env, bus_name: str, config: Dict, messages: List[Message]):
+def generate_bus_header(
+    env: Environment,
+    bus_name: str,
+    config: Dict[str, Any],
+    messages: List[Message],
+) -> Artifact:
     content = render_template(env, 'bus_header.h.jinja',
                               bus_name=bus_name,
                               config=config,

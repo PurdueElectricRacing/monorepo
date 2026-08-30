@@ -5,13 +5,16 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict, Set, Literal
+from typing import TYPE_CHECKING, Any, List, Optional, Dict, Set, Literal
 from pathlib import Path
 from core.utils import (
     load_json, CTYPE_SIZES,
     print_as_error, print_as_ok, print_as_success, to_macro_name, 
     get_git_hash, get_layout_hash, print_as_warning
 )
+
+if TYPE_CHECKING:
+    from .mapper import NodeMapping
 
 # Supported CAN baud rates. Keep in sync with:
 # - baud_rate enum in bus.schema.json
@@ -58,7 +61,9 @@ class Signal:
     def is_reserved(self) -> bool:
         return self.name.startswith('reserved')
 
-    def get_bit_length(self, custom_types: Optional[Dict] = None) -> int:
+    def get_bit_length(
+        self, custom_types: Optional[Dict[str, Any]] = None
+    ) -> int:
         if self.length > 0:
             return self.length
         
@@ -89,7 +94,7 @@ class Message:
     def macro_name(self) -> str:
         return to_macro_name(self.name)
 
-    def resolve_layout(self, custom_types: Dict) -> None:
+    def resolve_layout(self, custom_types: Dict[str, Any]) -> None:
         """
         Calculate bit offsets, shifts, and masks for all signals.
         This is intrinsic to the message definition.
@@ -147,7 +152,7 @@ class Message:
         self.dlc = (current_offset + 7) // 8
         self.layout_hash = get_layout_hash(self)
 
-    def validate_semantics(self, custom_types: Dict) -> None:
+    def validate_semantics(self, custom_types: Dict[str, Any]) -> None:
         """
         Perform semantic checks that require external context (like custom types).
         Raises ValueError if invalid.
@@ -184,10 +189,12 @@ class Message:
                 print_as_error(f"Message '{self.name}' has override ID {hex(raw_id)} which exceeds 29-bit limit (0x1FFFFFFF) for extended message.")
                 raise ValueError(f"ID override too large for extended message: {self.name}")
 
-    def get_total_bit_length(self, custom_types: Optional[Dict] = None) -> int:
+    def get_total_bit_length(
+        self, custom_types: Optional[Dict[str, Any]] = None
+    ) -> int:
         return sum(sig.get_bit_length(custom_types) for sig in self.signals)
 
-    def get_dlc(self, custom_types: Dict) -> int:
+    def get_dlc(self, custom_types: Dict[str, Any]) -> int:
         """Calculate the Data Length Code (DLC) in bytes."""
         total_bits = self.get_total_bit_length(custom_types)
         return (total_bits + 7) // 8
@@ -239,12 +246,17 @@ class BusView:
 class SystemContext:
     nodes: List[Node] = field(default_factory=list)
     busses: Dict[str, BusView] = field(default_factory=dict)
-    mappings: Dict = field(default_factory=dict)
-    bus_configs: Dict = field(default_factory=dict)
-    custom_types: Dict = field(default_factory=dict)
+    mappings: Dict[str, "NodeMapping"] = field(default_factory=dict)
+    bus_configs: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    custom_types: Dict[str, Any] = field(default_factory=dict)
     version: str = ""
 
-def create_system_context(nodes, mappings, bus_configs, custom_types) -> SystemContext:
+def create_system_context(
+    nodes: List[Node],
+    mappings: Dict[str, "NodeMapping"],
+    bus_configs: Dict[str, Dict[str, Any]],
+    custom_types: Dict[str, Any],
+) -> SystemContext:
     """Aggregates all system data into a single context object and performs final validation."""
     
     context = SystemContext(
@@ -278,7 +290,7 @@ def create_system_context(nodes, mappings, bus_configs, custom_types) -> SystemC
 
 # --- Parsing Logic ---
 
-def load_custom_types(config_dir: Path) -> Dict:
+def load_custom_types(config_dir: Path) -> Dict[str, Any]:
     """Load custom types from common_types.json"""
     try:
         data = load_json(config_dir / "system" / "common_types.json")
@@ -297,7 +309,7 @@ def baud_rate_label(bus_name: str, baud_rate: int) -> str:
         raise ValueError(f"Bus '{bus_name}' has unsupported baud rate {baud_rate}.")
     return BAUD_RATE_LABELS[baud_rate]
 
-def load_bus_configs(config_dir: Path) -> Dict:
+def load_bus_configs(config_dir: Path) -> Dict[str, Dict[str, Any]]:
     """Load bus configurations from bus_configs.json and attach each bus's baud rate enum label."""
     try:
         data = load_json(config_dir / "system" / "bus_configs.json")
@@ -341,7 +353,7 @@ def parse_all(config_dir: Path) -> List[Node]:
     print_as_success("All nodes parsed successfully");
     return nodes
 
-def validate_node(node: Node, custom_types: Dict):
+def validate_node(node: Node, custom_types: Dict[str, Any]) -> None:
     """Run semantic validation and resolve bit layouts for a node"""
     for bus in node.busses.values():
         for msg in bus.tx_messages:
@@ -391,7 +403,7 @@ def warn_priority_period_convention(node: Node, bus: Bus, msg: Message) -> None:
         f"period={msg.period} ms. {reason}."
     )
 
-def parse_signal(data: Dict) -> Signal:
+def parse_signal(data: Dict[str, Any]) -> Signal:
     return Signal(
         name=data['sig_name'],
         datatype=data['type'],
@@ -405,7 +417,9 @@ def parse_signal(data: Dict) -> Signal:
         max_val=data.get('max')
     )
 
-def parse_message(data: Dict, bus_config: Dict) -> Message:
+def parse_message(
+    data: Dict[str, Any], bus_config: Dict[str, Any]
+) -> Message:
     # Single source of truth: the bus configuration
     is_extended = bus_config.get('is_extended_id', False)
 
@@ -420,13 +434,15 @@ def parse_message(data: Dict, bus_config: Dict) -> Message:
         is_extended=is_extended
     )
 
-def parse_rx_message(data: Dict) -> RxMessage:
+def parse_rx_message(data: Dict[str, Any]) -> RxMessage:
     return RxMessage(
         name=data['msg_name'],
         callback=data.get('callback', False)
     )
 
-def _require_bus_in_system(bus_name: str, bus_configs: Dict, where: str) -> Dict:
+def _require_bus_in_system(
+    bus_name: str, bus_configs: Dict[str, Dict[str, Any]], where: str
+) -> Dict[str, Any]:
     """Ensure bus_name exists in bus_configs.json so ID mode / baud / schema stay consistent."""
     cfg = bus_configs.get(bus_name)
     if cfg is None:
@@ -439,7 +455,9 @@ def _require_bus_in_system(bus_name: str, bus_configs: Dict, where: str) -> Dict
     return cfg
 
 
-def _rx_msg_names_unique(bus_name: str, rx_items: List[Dict]) -> None:
+def _rx_msg_names_unique(
+    bus_name: str, rx_items: List[Dict[str, Any]]
+) -> None:
     """Reject duplicate msg_name in rx on the same bus (would break generated switch/cases)."""
     seen: Set[str] = set()
     for item in rx_items:
@@ -452,7 +470,12 @@ def _rx_msg_names_unique(bus_name: str, rx_items: List[Dict]) -> None:
         seen.add(mname)
 
 
-def parse_bus(name: str, data: Dict, bus_configs: Dict, where: str) -> Bus:
+def parse_bus(
+    name: str,
+    data: Dict[str, Any],
+    bus_configs: Dict[str, Dict[str, Any]],
+    where: str,
+) -> Bus:
     bus_config = _require_bus_in_system(name, bus_configs, where)
     rx_items = data.get("rx", [])
     _rx_msg_names_unique(name, rx_items)
@@ -464,7 +487,9 @@ def parse_bus(name: str, data: Dict, bus_configs: Dict, where: str) -> Bus:
         accept_all_messages=data.get('accept_all_messages', False)
     )
 
-def parse_internal_node(filepath: Path, bus_configs: Dict) -> Node:
+def parse_internal_node(
+    filepath: Path, bus_configs: Dict[str, Dict[str, Any]]
+) -> Node:
     data = load_json(filepath)
     node_name = data.get("node_name", filepath.name)
     busses = {}
@@ -478,7 +503,9 @@ def parse_internal_node(filepath: Path, bus_configs: Dict) -> Node:
     )
     return node
 
-def parse_external_node(filepath: Path, bus_configs: Dict) -> Node:
+def parse_external_node(
+    filepath: Path, bus_configs: Dict[str, Dict[str, Any]]
+) -> Node:
     data = load_json(filepath)
     bus_name = data['bus_name']
     node_name = data.get("node_name", filepath.name)

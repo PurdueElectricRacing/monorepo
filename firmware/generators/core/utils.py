@@ -7,7 +7,13 @@ Author: Irving Wang (irvingw@purdue.edu)
 import json
 import hashlib
 import subprocess
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
+
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+if TYPE_CHECKING:
+    from canpiler.parser import Message
 
 CTYPE_SIZES = {
     "uint8_t": 8, "int8_t": 8,
@@ -29,19 +35,19 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def print_as_error(message):
+def print_as_error(message: object) -> None:
     print(f"{bcolors.RED}[ERROR] {message}{bcolors.ENDC}")
 
-def print_as_warning(message):
+def print_as_warning(message: object) -> None:
     print(f"{bcolors.ORANGE}[WARNING] {message}{bcolors.ENDC}")
 
-def print_as_ok(message):
+def print_as_ok(message: object) -> None:
     print(f"[OK] {message}")
 
-def print_as_success(message):
+def print_as_success(message: object) -> None:
     print(f"{bcolors.GREEN}[SUCCESS] {message}{bcolors.ENDC}")
 
-def load_json(filepath):
+def load_json(filepath: str | Path) -> Any:
     """Load JSON file"""
     with open(filepath) as f:
         return json.load(f)
@@ -49,7 +55,7 @@ def load_json(filepath):
 def to_macro_name(name: str) -> str:
     return name.upper()
 
-def get_git_hash():
+def get_git_hash() -> str:
     """
     Returns the short git hash of the current commit
     """
@@ -60,7 +66,7 @@ def get_git_hash():
     except (subprocess.CalledProcessError, FileNotFoundError):
         return "unknown"
 
-def get_layout_hash(message):
+def get_layout_hash(message: "Message") -> str:
     """
     Calculates a fingerprint hash for a message layout
     """
@@ -75,7 +81,7 @@ def get_layout_hash(message):
     return f"0x{full_hash[:16]}" # take the first 16 chars (to fit in 64 bits)
 
 
-def get_jinja_env(template_dir):
+def get_jinja_env(template_dir: str | Path) -> Environment:
     env = Environment(
         loader=FileSystemLoader(str(template_dir)),
         autoescape=select_autoescape(),
@@ -99,6 +105,8 @@ def get_jinja_env(template_dir):
     
     return env
 
-def render_template(env, template_name, **context):
+def render_template(
+    env: Environment, template_name: str, **context: object
+) -> str:
     template = env.get_template(template_name)
     return template.render(**context)

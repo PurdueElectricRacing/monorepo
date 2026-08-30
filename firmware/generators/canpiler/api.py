@@ -1,3 +1,8 @@
+from collections.abc import Iterable
+
+from core.artifacts import Artifact
+from core.config import GenerationPaths
+from core.contracts import CanContribution
 from core.models import CanModel, CompiledCan
 from .codegen import generate_headers
 from .dbcgen import generate_dbcs
@@ -16,7 +21,7 @@ from .parser import (
 
 
 class Canpiler:
-    def __init__(self, paths):
+    def __init__(self, paths: GenerationPaths) -> None:
         self.paths = paths
 
     def parse(self) -> CanModel:
@@ -26,7 +31,9 @@ class Canpiler:
             custom_types=load_custom_types(self.paths.config_dir),
         )
 
-    def compile(self, model: CanModel, contributions) -> CompiledCan:
+    def compile(
+        self, model: CanModel, contributions: Iterable[CanContribution]
+    ) -> CompiledCan:
         self._apply_contributions(model, contributions)
         link_all(model.nodes)
         mappings = map_hardware(model.nodes, model.bus_configs)
@@ -34,7 +41,7 @@ class Canpiler:
             model.nodes, mappings, model.bus_configs, model.custom_types
         ))
 
-    def generate(self, compiled: CompiledCan) -> list:
+    def generate(self, compiled: CompiledCan) -> list[Artifact]:
         context = compiled.context
         artifacts = generate_headers(context, self.paths.can_template_dir)
         artifacts.extend(generate_dbcs(context))
@@ -42,7 +49,9 @@ class Canpiler:
         return artifacts
 
     @staticmethod
-    def _apply_contributions(model: CanModel, contributions) -> None:
+    def _apply_contributions(
+        model: CanModel, contributions: Iterable[CanContribution]
+    ) -> None:
         nodes = {node.name: node for node in model.nodes}
 
         for contribution in contributions:

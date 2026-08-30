@@ -5,11 +5,22 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from pathlib import Path
+from typing import Any, Mapping
+
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 from core.utils import load_json, print_as_error, print_as_ok, print_as_warning, print_as_success
 
-def validate_against_schema(data, schema, schema_store=None, filename="<unknown>") -> bool:
+Schema = Mapping[str, Any]
+SchemaStore = Mapping[str, Schema]
+
+
+def validate_against_schema(
+    data: object,
+    schema: Schema,
+    schema_store: SchemaStore | None = None,
+    filename: str = "<unknown>",
+) -> bool:
     """
     Validate data against schema and return success status.
     Prints all validation errors found in the file.
@@ -45,7 +56,9 @@ def validate_common_types(config_dir: Path, schema_dir: Path) -> bool:
         return True
     return False
     
-def validate_bus_config(config_dir: Path, schema_dir: Path, schema_store) -> bool:
+def validate_bus_config(
+    config_dir: Path, schema_dir: Path, schema_store: SchemaStore
+) -> bool:
     bus_schema = load_json(schema_dir / 'bus.schema.json')
     buses = load_json(config_dir / 'system' / 'bus_configs.json')
 
@@ -56,7 +69,9 @@ def validate_bus_config(config_dir: Path, schema_dir: Path, schema_store) -> boo
         print_as_error("Validation failed for bus_configs.json")
         return False
 
-def validate_internal_nodes(config_dir: Path, schema_dir: Path, schema_store) -> bool:
+def validate_internal_nodes(
+    config_dir: Path, schema_dir: Path, schema_store: SchemaStore
+) -> bool:
     node_schema = load_json(schema_dir / 'node.schema.json')
     all_valid = True
     
@@ -69,7 +84,9 @@ def validate_internal_nodes(config_dir: Path, schema_dir: Path, schema_store) ->
             all_valid = False
     return all_valid
 
-def validate_external_nodes(config_dir: Path, schema_dir: Path, schema_store) -> bool:
+def validate_external_nodes(
+    config_dir: Path, schema_dir: Path, schema_store: SchemaStore
+) -> bool:
     external_node_schema = load_json(schema_dir / 'external_node.schema.json')
     all_valid = True
 

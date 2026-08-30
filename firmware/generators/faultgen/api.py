@@ -1,11 +1,15 @@
+from typing import Any, Mapping
+
 from core.artifacts import Artifact
+from core.config import GenerationPaths
 from core.contracts import CanContribution, RxSubscriptionContribution, TxMessageContribution
+from core.models import CompiledCan
 from core.utils import get_jinja_env, load_json, print_as_ok, print_as_success, render_template
 from .models import Fault, FaultNode, FaultPlan
 
 
 class FaultGenerator:
-    def __init__(self, paths):
+    def __init__(self, paths: GenerationPaths) -> None:
         self.paths = paths
 
     def plan(self) -> FaultPlan:
@@ -89,7 +93,7 @@ class FaultGenerator:
                     ))
         return contribution
 
-    def generate(self, plan: FaultPlan, compiled_can) -> list[Artifact]:
+    def generate(self, plan: FaultPlan, compiled_can: CompiledCan) -> list[Artifact]:
         if not plan.modules:
             return []
         env = get_jinja_env(self.paths.fault_template_dir)
@@ -105,7 +109,7 @@ class FaultGenerator:
         return artifacts
 
     @staticmethod
-    def _parse_fault(data) -> Fault:
+    def _parse_fault(data: Mapping[str, Any]) -> Fault:
         return Fault(
             name=data["fault_name"], max_val=data["max"], min_val=data["min"],
             priority=data["priority"], time_to_latch=data["time_to_latch"],
@@ -137,7 +141,7 @@ class FaultGenerator:
                 names.add(upper)
 
     @staticmethod
-    def _render_context(plan: FaultPlan, version: str) -> dict:
+    def _render_context(plan: FaultPlan, version: str) -> dict[str, object]:
         owner_nodes = [{
             "name_upper": node.name.upper(),
             "has_faults": bool(node.faults),

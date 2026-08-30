@@ -6,7 +6,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from dataclasses import dataclass, field
 from collections import defaultdict
-from typing import List, Dict, Optional
+from typing import Any, List, Dict, Optional
 from .parser import Node, Message
 from core.utils import print_as_warning
 
@@ -45,7 +45,9 @@ class NodeMapping:
     accept_all: Dict[str, bool] = field(default_factory=dict)
 
 
-def map_hardware(nodes: List[Node], bus_configs: Dict) -> Dict[str, NodeMapping]:
+def map_hardware(
+    nodes: List[Node], bus_configs: Dict[str, Dict[str, Any]]
+) -> Dict[str, NodeMapping]:
     """
     Hardware Mapper stage.
     Assigns physical resources (like bxCAN filter banks or FDCAN filter lists) to nodes.
@@ -63,7 +65,9 @@ def is_fdcan_peripheral(periph: str) -> bool:
     return periph.startswith("FDCAN")
 
 
-def map_node_hardware(node: Node, bus_configs: Dict) -> NodeMapping:
+def map_node_hardware(
+    node: Node, bus_configs: Dict[str, Dict[str, Any]]
+) -> NodeMapping:
     mapping = NodeMapping(node_name=node.name)
 
     peripherals = sorted(list(set(bus.peripheral for bus in node.busses.values())))
@@ -108,7 +112,9 @@ def map_node_hardware(node: Node, bus_configs: Dict) -> NodeMapping:
     return mapping
 
 
-def map_fdcan_filters(node_name: str, periph: str, msgs: List) -> FDCANFilters:
+def map_fdcan_filters(
+    node_name: str, periph: str, msgs: List[tuple[Message, str]]
+) -> FDCANFilters:
     """Map messages to FDCAN standard and extended ID filter lists"""
     filters = FDCANFilters()
 

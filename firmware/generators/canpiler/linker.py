@@ -103,14 +103,14 @@ def _validate_standard_id_range(nodes: List[Node]) -> None:
 
 
 class BusLinker:
-    def __init__(self, bus_name: str):
+    def __init__(self, bus_name: str) -> None:
         self.bus_name = bus_name
         self.next_avail_id = 1
         self.msgs_by_prio: DefaultDict[int, List[Message]] = defaultdict(list)
         self.overrides_by_prio: DefaultDict[int, Set[int]] = defaultdict(set)
         self.all_used_ids: Set[int] = set()
 
-    def add_message(self, msg: Message):
+    def add_message(self, msg: Message) -> None:
         self.msgs_by_prio[msg.priority].append(msg)
         if msg.id_override:
             override_val = int(msg.id_override, 0)
@@ -119,7 +119,7 @@ class BusLinker:
             self.overrides_by_prio[msg.priority].add(override_val)
             self.all_used_ids.add(override_val)
 
-    def link(self):
+    def link(self) -> None:
         """Execute the two-pass linking algorithm"""
         self._validate_overrides() # Pass 1
         
@@ -129,7 +129,7 @@ class BusLinker:
         for prio in sorted_priorities:
             self._link_priority_group(prio)
 
-    def _validate_overrides(self):
+    def _validate_overrides(self) -> None:
         """
         Pass 1: Validate that overrides respect priority monotonicity.
         An override in Priority 0 (e.g. 0x10) must be < an override in Priority 1 (e.g. 0x20).
@@ -152,7 +152,7 @@ class BusLinker:
             
             max_override_seen = max(max_override_seen, current_max)
 
-    def _link_priority_group(self, priority: int):
+    def _link_priority_group(self, priority: int) -> None:
         """
         Pass 2: Assign IDs to dynamic messages in this priority group.
         Respects the 'Water Level' (next_avail_id) and skips reserved overrides.

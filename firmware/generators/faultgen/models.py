@@ -30,5 +30,5 @@ class FaultPlan:
     fault_id_base_type: str = "uint16_t"
 
     @property
-    def modules(self):
+    def modules(self) -> list[FaultNode]:
         return [node for node in self.nodes if node.enabled and node.faults]

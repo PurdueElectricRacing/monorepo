@@ -16,7 +16,7 @@ EXTENDED_OVERHEAD = 67
 # Typical bit-stuffing factor (varies by data, but 1.2 is a safe average)
 STUFFING_FACTOR = 1.2
 
-def calculate_bus_load(context: SystemContext):
+def calculate_bus_load(context: SystemContext) -> None:
     """
     Analyzes all busses in the system context and prints estimated bus load.
     Load calculation: (Total Bits Per Second / Baud Rate) * 100
