@@ -28,11 +28,11 @@ typedef enum : uint8_t {
 
 typedef struct {
     GPIO_TypeDef *heartbeat_port;
-    uint32_t heartbeat_pin;
+    uint8_t heartbeat_pin;
     GPIO_TypeDef *connection_port;
-    uint32_t connection_pin;
+    uint8_t connection_pin;
     GPIO_TypeDef *error_port;
-    uint32_t error_pin;
+    uint8_t error_pin;
     void (*preflight_callback)(void);
     heartbeat_state_t state;
 } status_leds_t;

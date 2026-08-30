@@ -46,7 +46,7 @@ typedef struct {
 
     bool nss_sw;                 /*!< true = software-controlled chip select */
     GPIO_TypeDef *nss_gpio_port; /*!< Chip select GPIO port (master only) */
-    uint32_t nss_gpio_pin;       /*!< Chip select GPIO pin (master only) */
+    uint8_t nss_gpio_pin;       /*!< Chip select GPIO pin (master only) */
 
     SPI_CPOL cpol;               /*!< Clock idle polarity */
     SPI_CPHA cpha;               /*!< Clock sampling phase */
