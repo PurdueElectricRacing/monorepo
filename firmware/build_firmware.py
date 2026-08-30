@@ -54,7 +54,7 @@ BOOTLOADER_PROTOCOL_IDS = {
 PACKAGE_FORMAT = "per-firmware-package-v1"
 STM32_CRC_INIT = 0xFFFFFFFF
 BL_APP_ADDRESS = 0x08008000
-BL_APP_SLOT_SIZE = 256 * 1024
+BL_APP_SLOT_SIZE = 480 * 1024
 ERASED_FLASH_BYTE = 0xFF
 
 # Resolve paths relative to this script, not the caller's working directory.

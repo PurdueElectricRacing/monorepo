@@ -15,10 +15,9 @@
 #include <stdint.h>
 
 #include "can_library/generated/VCAN.h"
-#include "can_library/generated/can_version.h"
-#include "common/bootloader/bootloader_common.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
+#include "common/phal_G4/pin_defs/g474ret6.h"
 
 typedef enum {
     BL_BUS_VCAN,
@@ -40,8 +39,8 @@ typedef struct {
     BLBus_t bus;
     FDCAN_GlobalTypeDef *peripheral;
     PHAL_FDCAN_BaudRate_t baud_rate;
-    GPIOInitConfig_t rx_gpio;
-    GPIOInitConfig_t tx_gpio;
+    PHAL_GPIO_InitConfig_t rx_gpio;
+    PHAL_GPIO_InitConfig_t tx_gpio;
     bool is_extended_id;
     uint32_t start_id;
     uint32_t crc_id;
@@ -69,8 +68,8 @@ typedef struct {
         .bus = BL_BUS_VCAN, \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
-        .rx_gpio = GPIO_INIT_FDCAN2RX_PB12, \
-        .tx_gpio = GPIO_INIT_FDCAN2TX_PB13, \
+        .rx_gpio = PHAL_PIN_DEFS_FDCAN2_RX_PB12, \
+        .tx_gpio = PHAL_PIN_DEFS_FDCAN2_TX_PB13, \
         .is_extended_id = false, \
         .start_id = BL_MAIN_MODULE_START_MSG_ID, \
         .crc_id = BL_MAIN_MODULE_CRC_MSG_ID, \
@@ -90,8 +89,8 @@ typedef struct {
         .bus = BL_BUS_VCAN, \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
-        .rx_gpio = GPIO_INIT_FDCAN2RX_PB5, \
-        .tx_gpio = GPIO_INIT_FDCAN2TX_PB6, \
+        .rx_gpio = PHAL_PIN_DEFS_FDCAN2_RX_PB5, \
+        .tx_gpio = PHAL_PIN_DEFS_FDCAN2_TX_PB6, \
         .is_extended_id = false, \
         .start_id = BL_DASHBOARD_START_MSG_ID, \
         .crc_id = BL_DASHBOARD_CRC_MSG_ID, \
@@ -111,8 +110,8 @@ typedef struct {
         .bus = BL_BUS_VCAN, \
         .peripheral = FDCAN1, \
         .baud_rate = FDCAN_BAUD_500K, \
-        .rx_gpio = GPIO_INIT_FDCAN1RX_PA11, \
-        .tx_gpio = GPIO_INIT_FDCAN1TX_PA12, \
+        .rx_gpio = PHAL_PIN_DEFS_FDCAN1_RX_PA11, \
+        .tx_gpio = PHAL_PIN_DEFS_FDCAN1_TX_PA12, \
         .is_extended_id = false, \
         .start_id = BL_A_BOX_START_MSG_ID, \
         .crc_id = BL_A_BOX_CRC_MSG_ID, \
@@ -132,8 +131,8 @@ typedef struct {
         .bus = BL_BUS_VCAN, \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
-        .rx_gpio = GPIO_INIT_FDCAN2RX_PB12, \
-        .tx_gpio = GPIO_INIT_FDCAN2TX_PB13, \
+        .rx_gpio = PHAL_PIN_DEFS_FDCAN2_RX_PB12, \
+        .tx_gpio = PHAL_PIN_DEFS_FDCAN2_TX_PB13, \
         .is_extended_id = false, \
         .start_id = BL_TORQUE_VECTOR_START_MSG_ID, \
         .crc_id = BL_TORQUE_VECTOR_CRC_MSG_ID, \
@@ -153,8 +152,8 @@ typedef struct {
         .bus = BL_BUS_VCAN, \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
-        .rx_gpio = GPIO_INIT_FDCAN2RX_PB5, \
-        .tx_gpio = GPIO_INIT_FDCAN2TX_PB6, \
+        .rx_gpio = PHAL_PIN_DEFS_FDCAN2_RX_PB5, \
+        .tx_gpio = PHAL_PIN_DEFS_FDCAN2_TX_PB6, \
         .is_extended_id = false, \
         .start_id = BL_FRONT_DRIVELINE_START_MSG_ID, \
         .crc_id = BL_FRONT_DRIVELINE_CRC_MSG_ID, \
@@ -174,8 +173,8 @@ typedef struct {
         .bus = BL_BUS_VCAN, \
         .peripheral = FDCAN2, \
         .baud_rate = FDCAN_BAUD_500K, \
-        .rx_gpio = GPIO_INIT_FDCAN2RX_PB5, \
-        .tx_gpio = GPIO_INIT_FDCAN2TX_PB6, \
+        .rx_gpio = PHAL_PIN_DEFS_FDCAN2_RX_PB5, \
+        .tx_gpio = PHAL_PIN_DEFS_FDCAN2_TX_PB6, \
         .is_extended_id = false, \
         .start_id = BL_REAR_DRIVELINE_START_MSG_ID, \
         .crc_id = BL_REAR_DRIVELINE_CRC_MSG_ID, \
