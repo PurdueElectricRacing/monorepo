@@ -613,7 +613,7 @@ SD_Error SD_EnableWideBusOperation(uint32_t WideMode) {
 
             if (SD_OK == errorstatus) {
                 /*!< Configure the SDIO peripheral */
-                // SDIO->CLKCR &= ~(0x7FFF); // clear
+                // SDIO->CLKCR &= ~(0x7FFFU); // clear
                 // SDIO->CLKCR |= (SDIO_TRANSFER_CLK_DIV) & SDIO_CLKCR_CLKDIV_Msk | SDIO_CLKCR_WIDBUS_0;
                 SDIO->POWER |= SDIO_POWER_PWRCTRL; // Power on (clock the card)
                 // SDIO->CLKCR |= SDIO_CLKCR_CLKEN;   // Enable clock
