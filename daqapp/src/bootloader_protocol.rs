@@ -14,7 +14,7 @@ pub const PACKAGE_FORMAT: &str = "per-firmware-package-v1";
 /// Start of the single application slot in the STM32G474 flash map.
 pub const APPLICATION_ADDRESS: u32 = 0x0800_8000;
 /// Maximum application payload accepted by the bootloader and package loader.
-pub const APPLICATION_SLOT_SIZE: usize = 256 * 1024;
+pub const APPLICATION_SLOT_SIZE: usize = 480 * 1024;
 
 /// A validated application payload and its bootloader CAN IDs.
 #[derive(Clone, Debug)]
@@ -386,9 +386,65 @@ mod tests {
     fn application_slot_accepts_exact_maximum_and_rejects_next_word() {
         assert_eq!(
             APPLICATION_ADDRESS + APPLICATION_SLOT_SIZE as u32 - 1,
-            0x0804_7FFF
+            0x0807_FFFF
         );
         assert!(valid_application_size(APPLICATION_SLOT_SIZE));
         assert!(!valid_application_size(APPLICATION_SLOT_SIZE + 4));
+    }
+
+    fn write_manifest_with_image_size(size_bytes: usize) -> std::path::PathBuf {
+        let base = std::env::current_dir().unwrap();
+        let root = (0..100)
+            .map(|attempt| {
+                base.join(format!(
+                    ".per-daqapp-package-test-{}-{attempt}",
+                    std::process::id()
+                ))
+            })
+            .find(|root| std::fs::create_dir(root).is_ok())
+            .expect("could not create a unique package test directory");
+        let image = vec![0; size_bytes];
+        std::fs::write(root.join("image.bin"), &image).unwrap();
+        let crc = crc32_words(&image);
+        let boards = [
+            ("main_module", "180", "192", "198", "181", "182"),
+            ("dashboard", "183", "193", "199", "184", "185"),
+            ("torque_vector", "186", "194", "19A", "187", "188"),
+            ("a_box", "189", "195", "19B", "18A", "18B"),
+            ("front_driveline", "18C", "196", "19C", "18D", "18E"),
+            ("rear_driveline", "18F", "197", "19D", "190", "191"),
+        ];
+        let board_entries: Vec<_> = boards
+            .iter()
+            .map(|(name, start, crc_id, jump, data, response)| {
+                format!(
+                    "{{\"name\":\"{name}\",\"binary\":\"image.bin\",\"size_bytes\":{size_bytes},\"crc32\":\"0x{crc:08X}\",\"application_address\":\"0x08008000\",\"can_bus\":\"VCAN\",\"start_id\":\"0x{start}\",\"crc_id\":\"0x{crc_id}\",\"jump_id\":\"0x{jump}\",\"data_id\":\"0x{data}\",\"response_id\":\"0x{response}\"}}"
+                )
+            })
+            .collect();
+        let manifest = format!(
+            "{{\"format\":\"{PACKAGE_FORMAT}\",\"protocol_version\":1,\"crc_algorithm\":\"STM32_CRC32_MPEG2_WORD_LE\",\"boards\":[{}]}}",
+            board_entries.join(",")
+        );
+        std::fs::write(root.join("manifest.json"), manifest).unwrap();
+        root.join("manifest.json")
+    }
+
+    #[test]
+    fn package_loader_accepts_exact_maximum_image() {
+        let manifest = write_manifest_with_image_size(APPLICATION_SLOT_SIZE);
+        let root = manifest.parent().unwrap().to_path_buf();
+        let result = FirmwarePackage::load(&manifest);
+        assert!(result.is_ok(), "{result:?}");
+        std::fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn package_loader_rejects_image_larger_than_slot() {
+        let manifest = write_manifest_with_image_size(APPLICATION_SLOT_SIZE + 4);
+        let root = manifest.parent().unwrap().to_path_buf();
+        let error = FirmwarePackage::load(&manifest).unwrap_err();
+        assert!(error.contains("invalid image file"), "{error}");
+        std::fs::remove_dir_all(root).unwrap();
     }
 }
