@@ -1,9 +1,9 @@
 # G4 CAN bootloader
 
-The resident STM32G474RE bootloader receives and validates application images
-written directly to the application slot over the transport configured for its
-board. Each board has a dedicated image for its CAN IDs, bus, baud rate, and
-pin mapping. CRC detects corruption but does not authenticate firmware.
+The resident STM32G474RE bootloader validates application images written to the
+application slot over each board's configured CAN transport. Board images define
+their CAN IDs, bus, baud rate, and pin mapping. CRC detects corruption; it does
+not authenticate firmware.
 
 ## Architecture
 
@@ -20,38 +20,33 @@ pin mapping. CRC detects corruption but does not authenticate firmware.
 | [`node_defs.h`](node_defs.h) | Per-board single-transport configuration. |
 | [`../../common/bootloader/`](../../common/bootloader/) | Shared protocol, metadata, and application reset callback. |
 
-At startup, the bootloader initializes CAN and advertises READY, then polls
-for START for a bounded 500 ms startup window. This gives DaqApp time to resend
-START after an application reset without delaying normal boot indefinitely. If
-startup is still active when the window expires, it validates metadata, vectors,
-and CRC before launch. A START that fails size or erase validation enters
-recovery; an invalid image remains resident in the CAN loop.
+At startup, the bootloader initializes CAN, advertises READY, and polls for
+START for 500 ms. On timeout it validates metadata, vectors, and CRC before
+launch. A START that fails size or erase validation enters recovery; an invalid
+image remains resident.
 
 ## Update flow
 
-1. DaqApp sends `START`. A bootloader-aware application handles its START
-   callback by calling only `NVIC_SystemReset()`; a resident bootloader accepts
-   the same frame as an update request.
-2. After an application reset, the bootloader advertises READY and DaqApp
-   resends `START(image_size)` during the 500 ms startup window. START invalidates
-   metadata, erases the complete flash pages covering the requested image, and
-   receives indexed words directly in the application slot. If the bootloader
-   was already resident, the initial START performs this same operation and
-   returns `ACK(size)`.
-3. `CRC(expected_crc)` validates the complete application image, its vectors, and
-   its CRC before writing metadata as the commit record.
-4. `JUMP` validates the committed image again and launches it.
+1. DaqApp sends `START`. A bootloader-aware application calls
+   `NVIC_SystemReset()`; a resident bootloader treats the frame as an update request.
+2. After reset, the bootloader advertises READY and DaqApp resends
+   `START(image_size)` within 500 ms. START invalidates metadata, erases the
+   image pages, and accepts indexed words. A resident bootloader performs the
+   same operation immediately and returns `ACK(size)`.
+3. `CRC(expected_crc)` validates the image, vectors, and CRC, then writes metadata.
+4. `JUMP` validates the committed image and launches it.
 
-Once START succeeds, an interrupted transfer leaves the metadata record
-invalid. A reset during application programming therefore keeps the bootloader
-resident; vector and CRC checks also prevent a partial image from launching.
+An interrupted transfer leaves metadata invalid. Resets during programming keep
+the bootloader resident; vector and CRC checks reject partial images.
 
 ## Protocol
 
 START, CRC, JUMP, DATA, and response IDs come from
 [`can_library/configs`](../../can_library/configs/); front and rear driveline use
 separate IDs. Each command is a separate CAN message with a four-byte
-little-endian argument; DATA remains a six-byte word frame.
+little-endian argument. DATA uses a 24-bit little-endian word index followed by
+four word bytes (DLC 7); resident firmware also accepts the legacy DLC 6 frame
+with a 16-bit index.
 
 | Message | Argument | Result |
 | --- | --- | --- |
@@ -66,39 +61,21 @@ little-endian argument; DATA remains a six-byte word frame.
 | `ERROR` | Locked, sequence, flash, size, or address failure. |
 | `CRC_ERROR` | Application image CRC mismatch. |
 
-Words must arrive in order. Duplicate accepted indices are ignored; gaps cancel
-the transfer. The receive interrupt only queues frames, while `BL_poll()` owns flash and
-CRC operations. Its explicit FSM handles the startup handshake without a blocking
-wait; no reset-cause flags or RTOS are required.
+Words are sequential; duplicate indices are ignored and gaps cancel the
+transfer. The receive interrupt queues frames; `BL_poll()` handles flash and CRC
+in main context. The FSM handles startup without blocking or reset-cause state.
 
 ## Flash validation
 
 ![Bootloader flash layout](bootloader_flash_layout.drawio.png)
 
 The STM32G474RE map reserves 16 KiB for the resident bootloader and 16 KiB for
-metadata, followed by the 256 KiB application slot at `0x08008000` through
-`0x08047FFF`. The final 224 KiB, `0x08048000` through `0x0807FFFF`, remains
-reserved.
+metadata, followed by the full 480 KiB application slot at `0x08008000`
+through `0x0807FFFF`. No flash remains reserved after the application slot.
 
 Before launch, `BL_checkAndBoot()` requires valid metadata, a stack pointer in
 SRAM, a Thumb reset handler inside the image, and a matching application CRC.
 The package builder, DaqApp, and target use the same word-based STM32 CRC.
-
-## Build
-
-```bash
-python3 per_build.py firmware --bootloader
-python3 per_build.py firmware --package
-```
-
-`--bootloader` builds resident images and relocated applications. `--package`
-also builds all six resident bootloader ELF/HEX/BIN images for provisioning;
-these are emitted under `output/bootloader_<NODE>/`. The update archive still
-contains only the six relocated application payloads, manifest, CRC sidecars,
-and application HEX files; DaqApp reads the manifest's binary paths. Flash the
-matching resident `bootloader_<NODE>.bin` before using a service package. If
-objcopy emits a partial final word, the packaged binary is padded with
-erased `0xFF` bytes before its manifest size and CRC are computed.
 
 ## Recovery
 
@@ -110,5 +87,5 @@ erased `0xFF` bytes before its manifest size and CRC are computed.
 | `ERROR/FLASH` | Power and flash protection. |
 | `ERROR/ADDRESS` | Linker layout, metadata, and vectors. |
 
-There is no image authentication or rollback. Keep power stable and retain a
-known-good resident bootloader for recovery.
+The protocol has no authentication or rollback. Keep power stable and retain
+a known-good resident bootloader.

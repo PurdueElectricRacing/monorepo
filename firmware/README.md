@@ -24,21 +24,13 @@ binaries. `f4_testing` and `g4_testing` are bench-testing targets.
 ## G4 bootloader
 
 The [bootloader guide](source/bootloader/README.md) documents architecture,
-wire protocol, flash layout, and recovery.
-
-```bash
-python3 per_build.py firmware --bootloader # resident images + relocated apps
-python3 per_build.py firmware --package    # six application images + manifest
-```
-
-`--package` emits contiguous application binaries, STM32 CRCs,
-`output/manifest.json`, and a reproducible `firmware_<git-ref>.tar.gz`. The
-objcopy source binaries remain unchanged; package copies under `output/images/`
-pad a final partial word with erased `0xFF` before recording size and CRC. The
-archive contains application binaries, CRC sidecars, HEX files, and the
-manifest; flash each matching `bootloader_<NODE>` resident image first. The
-manifest version, CRC algorithm, address, board names, and CAN IDs form one
-contract shared with DaqApp.
+wire protocol, flash layout, and recovery. Use the command in [Building](#building)
+to build the firmware and resident bootloader targets; the script then writes
+relocated application binaries, CRCs, `output/manifest.json`, and
+`firmware_<git-ref>.tar.gz`. Package copies under `output/images/` pad a final
+partial word with erased `0xFF` before recording its size and CRC. Flash the
+matching `bootloader_<NODE>` image first; DaqApp and the target share the
+manifest format, CRC algorithm, address, board names, and CAN IDs.
 
 ## Building
 
