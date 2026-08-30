@@ -1,7 +1,7 @@
 from typing import Any, Mapping
 
 from core.artifacts import Artifact
-from core.config import GenerationPaths
+from core.config import CONFIG_DIR, FAULT_TEMPLATE_DIR
 from core.contracts import CanContribution, RxSubscriptionContribution, TxMessageContribution
 from core.models import CompiledCan
 from core.utils import get_jinja_env, load_json, print_as_ok, print_as_success, render_template
@@ -9,17 +9,14 @@ from .models import Fault, FaultNode, FaultPlan
 
 
 class FaultGenerator:
-    def __init__(self, paths: GenerationPaths) -> None:
-        self.paths = paths
-
     def plan(self) -> FaultPlan:
-        buses = load_json(self.paths.config_dir / "system" / "bus_configs.json")["busses"]
+        buses = load_json(CONFIG_DIR / "system" / "bus_configs.json")["busses"]
         fault_bus = next((bus["name"] for bus in buses if bus.get("host_fault_library")), None)
-        types = load_json(self.paths.config_dir / "system" / "common_types.json").get("types", [])
+        types = load_json(CONFIG_DIR / "system" / "common_types.json").get("types", [])
         fault_id = next((item for item in types if item["name"] == "fault_id_t"), {})
 
         nodes = []
-        for path in sorted((self.paths.config_dir / "nodes").glob("*.json")):
+        for path in sorted((CONFIG_DIR / "nodes").glob("*.json")):
             data = load_json(path)
             nodes.append(FaultNode(
                 name=data["node_name"],
@@ -96,7 +93,7 @@ class FaultGenerator:
     def generate(self, plan: FaultPlan, compiled_can: CompiledCan) -> list[Artifact]:
         if not plan.modules:
             return []
-        env = get_jinja_env(self.paths.fault_template_dir)
+        env = get_jinja_env(FAULT_TEMPLATE_DIR)
         context = self._render_context(plan, compiled_can.context.version)
         print("Generating fault library implementation data...")
         artifacts = [

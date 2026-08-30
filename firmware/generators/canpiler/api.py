@@ -1,7 +1,7 @@
 from collections.abc import Iterable
 
 from core.artifacts import Artifact
-from core.config import GenerationPaths
+from core.config import CAN_TEMPLATE_DIR, CONFIG_DIR
 from core.contracts import CanContribution
 from core.models import CanModel, CompiledCan
 from .codegen import generate_headers
@@ -21,14 +21,11 @@ from .parser import (
 
 
 class Canpiler:
-    def __init__(self, paths: GenerationPaths) -> None:
-        self.paths = paths
-
     def parse(self) -> CanModel:
         return CanModel(
-            nodes=parse_all(self.paths.config_dir),
-            bus_configs=load_bus_configs(self.paths.config_dir),
-            custom_types=load_custom_types(self.paths.config_dir),
+            nodes=parse_all(CONFIG_DIR),
+            bus_configs=load_bus_configs(CONFIG_DIR),
+            custom_types=load_custom_types(CONFIG_DIR),
         )
 
     def compile(
@@ -43,7 +40,7 @@ class Canpiler:
 
     def generate(self, compiled: CompiledCan) -> list[Artifact]:
         context = compiled.context
-        artifacts = generate_headers(context, self.paths.can_template_dir)
+        artifacts = generate_headers(context, CAN_TEMPLATE_DIR)
         artifacts.extend(generate_dbcs(context))
         calculate_bus_load(context)
         return artifacts
