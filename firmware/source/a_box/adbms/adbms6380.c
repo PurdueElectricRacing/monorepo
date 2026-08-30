@@ -147,7 +147,7 @@ void adbms6380_calculate_cfg_regb(uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_
 
 bool adbms6380_check_data_pec(const uint8_t *rx_bytes, size_t rx_len) {
     size_t raw_data_len     = rx_len - ADBMS6380_PEC_SIZE;
-    uint16_t calculated_pec = adbms_pec_get_pec10(true, (uint8_t)raw_data_len, rx_bytes);
+    uint16_t calculated_pec = adbms_pec_get_pec10(true, raw_data_len, rx_bytes);
 
     uint8_t pec_msb_packed = rx_bytes[raw_data_len];
     uint8_t pec_lsb        = rx_bytes[raw_data_len + 1];
