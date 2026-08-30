@@ -51,7 +51,9 @@ resident; vector and CRC checks also prevent a partial image from launching.
 START, CRC, JUMP, DATA, and response IDs come from
 [`can_library/configs`](../../can_library/configs/); front and rear driveline use
 separate IDs. Each command is a separate CAN message with a four-byte
-little-endian argument; DATA remains a six-byte word frame.
+little-endian argument. DATA uses a 24-bit little-endian word index followed by
+four word bytes (DLC 7); resident firmware also accepts the legacy DLC 6 frame
+with a 16-bit index.
 
 | Message | Argument | Result |
 | --- | --- | --- |
@@ -76,9 +78,8 @@ wait; no reset-cause flags or RTOS are required.
 ![Bootloader flash layout](bootloader_flash_layout.drawio.png)
 
 The STM32G474RE map reserves 16 KiB for the resident bootloader and 16 KiB for
-metadata, followed by the 256 KiB application slot at `0x08008000` through
-`0x08047FFF`. The final 224 KiB, `0x08048000` through `0x0807FFFF`, remains
-reserved.
+metadata, followed by the full 480 KiB application slot at `0x08008000`
+through `0x0807FFFF`. No flash remains reserved after the application slot.
 
 Before launch, `BL_checkAndBoot()` requires valid metadata, a stack pointer in
 SRAM, a Thumb reset handler inside the image, and a matching application CRC.
@@ -87,8 +88,8 @@ The package builder, DaqApp, and target use the same word-based STM32 CRC.
 ## Build
 
 ```bash
-python3 per_build.py firmware --bootloader
-python3 per_build.py firmware --package
+python3 firmware/build_firmware.py --bootloader
+python3 firmware/build_firmware.py --package
 ```
 
 `--bootloader` builds resident images and relocated applications. `--package`

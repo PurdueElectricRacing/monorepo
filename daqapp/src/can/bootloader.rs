@@ -206,8 +206,9 @@ impl FirmwareUpdater {
             }
 
             // FirmwarePackage::load guarantees a four-byte boundary, so each
-            // slice below is exactly one target data word.
-            let index = (self.byte_offset / 4) as u16;
+            // slice below is exactly one target data word. The three-byte
+            // little-endian index covers every word in the 480 KiB slot.
+            let index = (self.byte_offset / 4) as u32;
             let frame = {
                 let image = self.current_image();
                 let word = &image.bytes[self.byte_offset..self.byte_offset + 4];
@@ -216,6 +217,7 @@ impl FirmwareUpdater {
                     data: vec![
                         (index & 0xFF) as u8,
                         (index >> 8) as u8,
+                        (index >> 16) as u8,
                         word[0],
                         word[1],
                         word[2],
@@ -378,9 +380,9 @@ mod tests {
 
         let first_word = updater.tick(now).frame.unwrap();
         assert_eq!(first_word.id, DATA_ID);
-        assert_eq!(first_word.data, vec![0, 0, 0x00, 0x20, 0x00, 0x08]);
+        assert_eq!(first_word.data, vec![0, 0, 0, 0x00, 0x20, 0x00, 0x08]);
         let second_word = updater.tick(now).frame.unwrap();
-        assert_eq!(second_word.data, vec![1, 0, 0x09, 0x00, 0x00, 0x08]);
+        assert_eq!(second_word.data, vec![1, 0, 0, 0x09, 0x00, 0x00, 0x08]);
 
         let crc = updater.tick(now).frame.unwrap();
         assert_eq!(crc.id, CRC_ID);
@@ -399,7 +401,22 @@ mod tests {
     }
 
     #[test]
-    fn preserves_16_bit_word_index_at_maximum_slot_size() {
+    fn emits_24_bit_word_index_above_16_bit_boundary() {
+        let (mut updater, _) = FirmwareUpdater::new(package_with_size((u16::MAX as usize + 2) * 4));
+        let now = std::time::Instant::now();
+        let _ = updater.tick(now);
+        updater
+            .on_response(RESPONSE_ID, &response(ACK, (u16::MAX as u32 + 2) * 4), now)
+            .unwrap();
+        updater.byte_offset = ((u16::MAX as usize) + 1) * 4;
+
+        let frame = updater.tick(now).frame.unwrap();
+        assert_eq!(frame.data[..3], [0, 0, 1]);
+        assert_eq!(frame.data.len(), 7);
+    }
+
+    #[test]
+    fn emits_24_bit_word_index_at_maximum_slot_size() {
         let (mut updater, _) = FirmwareUpdater::new(package_with_size(APPLICATION_SLOT_SIZE));
         let now = std::time::Instant::now();
         let _ = updater.tick(now);
@@ -410,10 +427,11 @@ mod tests {
                 now,
             )
             .unwrap();
-        updater.byte_offset = (u16::MAX as usize) * 4;
+        updater.byte_offset = ((APPLICATION_SLOT_SIZE / 4) - 1) * 4;
 
         let frame = updater.tick(now).frame.unwrap();
-        assert_eq!(frame.data[..2], [0xFF, 0xFF]);
+        assert_eq!(frame.data[..3], [0xFF, 0xDF, 0x01]);
+        assert_eq!(frame.data.len(), 7);
         assert_eq!(updater.byte_offset, APPLICATION_SLOT_SIZE);
     }
 

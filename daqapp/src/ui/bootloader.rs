@@ -59,7 +59,7 @@ impl Bootloader {
             title: format!("Bootloader #{}", instance_num),
             manifest_path: None,
             package: None,
-            status: "Select manifest.json or firmware_*.tar.gz from per_build.py --package"
+            status: "Select manifest.json or firmware_*.tar.gz from firmware/build_firmware.py --package"
                 .to_string(),
             running: false,
             observations: HashMap::new(),

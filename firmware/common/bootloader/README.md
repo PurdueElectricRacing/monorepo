@@ -11,8 +11,8 @@ for architecture, protocol, flash layout, and recovery.
 | [`CMakeLists.txt`](CMakeLists.txt) | Shared interface target. |
 
 Applications paired with the resident image are linked at `0x08008000` and
-may occupy up to 256 KiB, ending at `0x08047FFF`. The remaining 224 KiB from
-`0x08048000` through `0x0807FFFF` is reserved. Metadata is written only after
+may occupy the full 480 KiB from `0x08008000` through `0x0807FFFF`; no flash
+remains reserved after the application slot. Metadata is written only after
 the application-slot image is validated. A successful START erases the
 complete flash pages covering the requested image, and DATA is written directly
 into that slot while the metadata record remains invalid until CRC and vector

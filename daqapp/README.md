@@ -62,8 +62,9 @@ and terminal conditions.
    target telemetry.
 
 Selected boards update sequentially, with front and rear driveline treated
-separately. Each application image is limited to the 256 KiB slot at
-`0x08008000`. Each START accepted by the resident bootloader invalidates the
+separately. Each application image is limited to the 480 KiB slot at
+`0x08008000` through `0x0807FFFF`; DATA frames use a 24-bit little-endian word
+index and DLC 7. Each START accepted by the resident bootloader invalidates the
 committed metadata and erases the complete flash pages covering the target
 image; DATA is written there directly,
 and CRC commits metadata only after validation. **Cancel** stops only the host
@@ -126,6 +127,6 @@ The app's source is organized by responsibility:
 
 For easy testing, you can use the loopback or simulated CAN sources. The loopback source is a virtual CAN bus that echoes messages sent to it, while the simulated source generates random messages for testing purposes.
 
-Direct streaming, the 256 KiB boundary, the 16-bit word index, and the READY
+Direct streaming, the 480 KiB boundary, the 24-bit word index, and the READY
 handshake are covered by Rust unit tests. Run them from `daqapp/` with
 `cargo test`.

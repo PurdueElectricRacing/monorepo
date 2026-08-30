@@ -27,8 +27,8 @@ The [bootloader guide](source/bootloader/README.md) documents architecture,
 wire protocol, flash layout, and recovery.
 
 ```bash
-python3 per_build.py firmware --bootloader # resident images + relocated apps
-python3 per_build.py firmware --package    # six application images + manifest
+python3 firmware/build_firmware.py --bootloader # resident images + relocated apps
+python3 firmware/build_firmware.py --package    # six application images + manifest
 ```
 
 `--package` emits contiguous application binaries, STM32 CRCs,
