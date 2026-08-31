@@ -25,9 +25,8 @@ set(SUPPORT_DIR ${CMAKE_SOURCE_DIR}/support)
 # Add Libraries
 include(cmake/utils.cmake)
 include(cmake/dependencies.cmake)
-
-# Include new CAN Library
-include(can_library/can_library.cmake)
+include(cmake/common_component.cmake)
+include(can_library/can_library.cmake) # Macro for defining the common build process
 
 set(COMMON_MODULES
     common/amk
@@ -50,31 +49,19 @@ set(EXTERNAL_MODULES
     external/fatfs
 )
 
-foreach(MODULE IN LISTS COMMON_MODULES)
-    add_subdirectory(${MODULE})
-endforeach()
-
-foreach(MODULE IN LISTS EXTERNAL_MODULES)
-    add_subdirectory(${MODULE})
-endforeach()
-
-# Macro for defining the common build process across all firmware components
-include(cmake/common_component.cmake)
-
-# All source modules are always part of the build.
 set(SOURCE_MODULES
-    f4_testing
-    g4_testing
-    a_box
-    dashboard
-    daq
-    driveline
-    main_module
-    pdu
-    torque_vector
+    source/f4_testing
+    source/g4_testing
+    source/a_box
+    source/dashboard
+    source/daq
+    source/driveline
+    source/main_module
+    source/pdu
+    source/torque_vector
 )
 
-foreach(MODULE IN LISTS SOURCE_MODULES)
+foreach(MODULE IN LISTS COMMON_MODULES EXTERNAL_MODULES SOURCE_MODULES)
     message(STATUS "Adding module: ${MODULE}")
-    add_subdirectory(source/${MODULE})
+    add_subdirectory(${MODULE})
 endforeach()
