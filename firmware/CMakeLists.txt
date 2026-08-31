@@ -22,8 +22,8 @@ set(SUPPORT_DIR ${CMAKE_SOURCE_DIR}/support)
 # Add Libraries
 include(cmake/utils.cmake)
 include(cmake/dependencies.cmake)
-include(cmake/common_component.cmake)
-include(can_library/can_library.cmake) # Macro for defining the common build process
+include(cmake/common_component.cmake) # Macro for defining the common build process
+include(can_library/can_library.cmake)
 
 set(COMMON_MODULES
     common/amk
