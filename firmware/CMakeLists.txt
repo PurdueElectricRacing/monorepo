@@ -15,11 +15,8 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain.cmake)
 # Setup project
 project(PER_FIRMWARE VERSION 26.0 LANGUAGES C ASM)
 
-# Archive to new outut directory
-set(PROJECT_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/output)
-
 # Common Variables
-set(COMMON_SOURCE_DIR ${CMAKE_SOURCE_DIR}/common)
+set(PROJECT_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/output)
 set(SUPPORT_DIR ${CMAKE_SOURCE_DIR}/support)
 
 # Add Libraries
