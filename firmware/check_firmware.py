@@ -28,7 +28,6 @@ def check() -> None:
             "-G",
             "Ninja",
             "-DBOOTLOADER_BUILD=OFF",
-            "-DMODULES=",
         ],
         cwd=ROOT,
         check=True,

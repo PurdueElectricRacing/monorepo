@@ -61,25 +61,20 @@ endforeach()
 # Macro for defining the common build process across all firmware components
 include(cmake/common_component.cmake)
 
-# Make MODULES overridable from the command line
-set(MODULES "" CACHE STRING "Semicolon-separated list of source modules to build")
+# All source modules are always part of the build.
+set(SOURCE_MODULES
+    f4_testing
+    g4_testing
+    a_box
+    dashboard
+    daq
+    driveline
+    main_module
+    pdu
+    torque_vector
+)
 
-if(MODULES STREQUAL "")
-    set(MODULES
-        f4_testing
-        g4_testing
-        a_box
-        dashboard
-        daq
-        driveline
-        main_module
-        pdu
-        torque_vector
-    )
-endif()
-
-# Loop over and add source modules
-foreach(MODULE ${MODULES})
+foreach(MODULE IN LISTS SOURCE_MODULES)
     message(STATUS "Adding module: ${MODULE}")
     add_subdirectory(source/${MODULE})
 endforeach()
