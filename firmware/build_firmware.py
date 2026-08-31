@@ -14,8 +14,12 @@ CAN_GENERATED_DIR = ROOT / "can_library" / "generated"
 
 
 def firmware_images() -> list[Path]:
-    """Return generated firmware images in a stable order."""
-    return sorted(OUTPUT_DIR.glob("*/*.hex"))
+    """Return generated production images in a stable order."""
+    return sorted(
+        image
+        for image in OUTPUT_DIR.glob("*/*.hex")
+        if not image.stem.endswith("_testing")
+    )
 
 
 def build() -> None:
