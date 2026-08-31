@@ -43,11 +43,23 @@
                             "min": 0,
                             "max": 100,
                             "unit": "%"
+                        },
+                        
+                        {
+                            "sig_name": "brake_pressure",
+                            "sig_desc": "brake line hydraulic pressure in PSI",
+                            "type": "unit16_t",
+                            "min": 0,
+                            "max": 2000,
+                            "unit": "psi"
+
                         }
+
                     ],
                     "period_ms": 15,
                     "priority": 2
                 },
+
                 {
                     "message_name": "start_button",
                     "description": "Car start button",
