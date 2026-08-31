@@ -13,7 +13,7 @@
 #include "timestamped_frame.h"
 #include "rtc_sync.h"
 
-volatile uint32_t last_can_rx_time_ms = 0;
+volatile uint32_t daq_last_can_rx_time_ms = 0;
 
 [[gnu::always_inline]]
 static inline void can_rx_irq_handler(CAN_TypeDef *peripheral) {
@@ -29,7 +29,7 @@ static inline void can_rx_irq_handler(CAN_TypeDef *peripheral) {
 
     timestamped_frame_t rx = {0}; // temp stack allocated variable
     rx.ticks_ms            = xTaskGetTickCountFromISR();
-    last_can_rx_time_ms    = rx.ticks_ms;
+    daq_last_can_rx_time_ms = rx.ticks_ms;
 
     // CAN1 = VCAN = bus 0
     set_bus_id(&rx, (peripheral == CAN1) ? 0 : 1);

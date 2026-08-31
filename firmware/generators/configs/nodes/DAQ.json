@@ -1,0 +1,34 @@
+{
+    "node_name": "DAQ",
+    "busses": {
+        "VCAN": {
+            "peripheral": "CAN1",
+            "accept_all_messages": true,
+            "tx": [],
+            "rx": [
+                {
+                    "msg_name": "gps_time"
+                }
+            ]
+        },
+        "MCAN": {
+            "peripheral": "CAN2",
+            "accept_all_messages": true,
+            "tx": [],
+            "rx": []
+        }
+    },
+    "fault_library_enabled": true,
+    "generate_fault_messages": false,
+    "faults": [
+        {
+            "fault_name": "DAQ_LOGGING_DISABLED",
+            "max": 1,
+            "min": 0,
+            "priority": "warning",
+            "time_to_latch": 100,
+            "time_to_unlatch": 100,
+            "lcd_message": "SD Card Not Logging"
+        }
+    ]
+}
