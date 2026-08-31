@@ -9,6 +9,8 @@
 #include "main.h"
 
 /* System Includes */
+#include "can_library/faults_common.h"
+#include "can_library/generated/DAQ.h"
 #include "can_library/generated/MCAN.h"
 #include "can_library/generated/VCAN.h"
 #include "common/rtos/rtos.h"
@@ -102,6 +104,8 @@ void shutdown(void);
 RTOS_DEFINE_TASK(sd_card_periodic, SD_FSM_PERIOD_MS, TASK_PRIORITY_HIGH, STACK_4096); // SD WRITE
 RTOS_DEFINE_TASK(ethernet_periodic, 0, TASK_PRIORITY_NORMAL, STACK_4096); // BULLET COMMS 
 RTOS_DEFINE_TASK(RTC_sync, 0, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(CAN_tx_update, 0, TASK_PRIORITY_HIGH, STACK_1024);
+RTOS_DEFINE_TASK(fault_library_periodic, DAQ_FAULT_SYNC_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -127,6 +131,9 @@ int main() {
     if (!PHAL_initCAN(CAN2, false, MCAN_BAUD_RATE)) {
         HardFault_Handler();
     }
+    if (!CAN_init()) {
+        HardFault_Handler();
+    }
 
     PHAL_writeGPIO(ETH_RST_PORT, ETH_RST_PIN, 1);
 
@@ -139,8 +146,12 @@ int main() {
     RTOS_START_TASK(sd_card_periodic); // SD WRITE
     RTOS_START_TASK(ethernet_periodic); // BULLET COMMS
     RTOS_START_TASK(RTC_sync);
+    RTOS_START_TASK(CAN_tx_update);
+    RTOS_START_TASK(fault_library_periodic);
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
+
+    CAN_enable_IRQs();
 
     vTaskStartScheduler();
 

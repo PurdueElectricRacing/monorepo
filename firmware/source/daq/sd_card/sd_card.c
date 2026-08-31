@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+#include "can_library/faults_common.h"
+#include "can_library/generated/DAQ.h"
 #include "common/rtos/rtos.h"
 #include "common/phal_F4/gpio/gpio.h"
 #include "common/phal_F4/rtc/rtc.h"
@@ -75,6 +77,7 @@ void sd_card_periodic(void) {
     next_sd_state = sd_state;
 
     bool is_logging_enabled = PHAL_readGPIO(LOG_ENABLE_PORT, LOG_ENABLE_PIN);
+    update_fault(FAULT_ID_DAQ_LOGGING_DISABLED, !is_logging_enabled);
 
     switch (sd_state) {
         case SD_STATE_DISABLED: {
