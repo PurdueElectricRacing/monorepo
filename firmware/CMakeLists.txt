@@ -15,18 +15,14 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/toolchain.cmake)
 # Setup project
 project(PER_FIRMWARE VERSION 26.0 LANGUAGES C ASM)
 
-# Archive to new outut directory
-set(PROJECT_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/output)
-
 # Common Variables
-set(COMMON_SOURCE_DIR ${CMAKE_SOURCE_DIR}/common)
+set(PROJECT_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/output)
 set(SUPPORT_DIR ${CMAKE_SOURCE_DIR}/support)
 
 # Add Libraries
 include(cmake/utils.cmake)
 include(cmake/dependencies.cmake)
-
-# Include new CAN Library
+include(cmake/common_component.cmake) # Macro for defining the common build process
 include(can_library/can_library.cmake)
 
 set(COMMON_MODULES
@@ -50,36 +46,19 @@ set(EXTERNAL_MODULES
     external/fatfs
 )
 
-foreach(MODULE IN LISTS COMMON_MODULES)
-    add_subdirectory(${MODULE})
-endforeach()
+set(SOURCE_MODULES
+    source/f4_testing
+    source/g4_testing
+    source/a_box
+    source/dashboard
+    source/daq
+    source/driveline
+    source/main_module
+    source/pdu
+    source/torque_vector
+)
 
-foreach(MODULE IN LISTS EXTERNAL_MODULES)
-    add_subdirectory(${MODULE})
-endforeach()
-
-# Macro for defining the common build process across all firmware components
-include(cmake/common_component.cmake)
-
-# Make MODULES overridable from the command line
-set(MODULES "" CACHE STRING "Semicolon-separated list of source modules to build")
-
-if(MODULES STREQUAL "")
-    set(MODULES
-        f4_testing
-        g4_testing
-        a_box
-        dashboard
-        daq
-        driveline
-        main_module
-        pdu
-        torque_vector
-    )
-endif()
-
-# Loop over and add source modules
-foreach(MODULE ${MODULES})
+foreach(MODULE IN LISTS COMMON_MODULES EXTERNAL_MODULES SOURCE_MODULES)
     message(STATUS "Adding module: ${MODULE}")
-    add_subdirectory(source/${MODULE})
+    add_subdirectory(${MODULE})
 endforeach()

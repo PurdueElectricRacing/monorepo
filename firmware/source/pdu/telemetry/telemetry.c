@@ -4,7 +4,6 @@
 #include "can_library/generated/PDU.h"
 #include "can_library/generated/VCAN.h"
 #include "main.h"
-#include "source/a_box/telemetry/telemetry.h"
 #include "state.h"
 #include "switches.h"
 
