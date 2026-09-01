@@ -15,12 +15,13 @@ pub fn select_dbc(
         ui_to_can_tx
             .send(messages::MsgFromUi::DbcSelected(path.clone()))
             .expect("Failed to send DBC selected message");
-
-        if let Some(parser) = &mut app.bus_parsers[bus_name as usize] {
-            parser.dbc_path = path;
+        app.bus_parsers[bus_name as usize] = app::ParserInfo::new(path.clone());
+        if app.bus_parsers[bus_name as usize].is_some() {
+            ui_to_can_tx
+                .send(messages::MsgFromUi::DbcSelected(path))
+                .expect("Failed to send DBC selected message");
+            app.save_settings();
         }
-
-        app.save_settings();
     }
 }
 
@@ -40,8 +41,7 @@ pub fn dbc_selector(app: &mut app::DAQApp, ui: &mut egui::Ui, bus_name: messages
 
     // display selected dbc path
     if let Some(path) = app.bus_parsers[bus_name as usize].as_ref().map(|p| &p.dbc_path) {
-        let dbc_path_name = path.display().to_string(); 
-        log::info!("Selected DBC path: {}", dbc_path_name);
+        let dbc_path_name = util::middle_truncate(&path.display().to_string(), 50, "...");
         ui.label(format!("{}", dbc_path_name));
     } else {
         ui.label(format!("{} None selected", selection_label));
