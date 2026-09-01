@@ -321,13 +321,30 @@ impl Hil {
         if ipe.expect.signals.is_empty() {
             ui.label("—");
         } else {
-            let s: Vec<String> = ipe
-                .expect
-                .signals
-                .iter()
-                .map(|(n, r)| format!("{}: [{}, {}]", n, r[0], r[1]))
-                .collect();
-            ui.label(s.join(", "));
+            ui.vertical(|ui| {
+                for (name, range) in &ipe.expect.signals {
+                    match ipe.failures.iter().find(|f| f.name() == name) {
+                        Some(hil::run::SignalFailure::OutOfRange { value, range, .. }) => {
+                            ui.colored_label(
+                                egui::Color32::RED,
+                                format!("{}: {} outside [{}, {}]", name, value, range[0], range[1]),
+                            );
+                        }
+                        Some(hil::run::SignalFailure::MissingSignal { range, .. }) => {
+                            ui.colored_label(
+                                egui::Color32::RED,
+                                format!(
+                                    "{}: missing (expected [{}, {}])",
+                                    name, range[0], range[1]
+                                ),
+                            );
+                        }
+                        None => {
+                            ui.label(format!("{}: [{}, {}]", name, range[0], range[1]));
+                        }
+                    }
+                }
+            });
         }
         ui.end_row();
     }

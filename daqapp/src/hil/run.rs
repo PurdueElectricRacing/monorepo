@@ -11,9 +11,31 @@ pub enum ExpectResult {
     FailedValueOutOfRange,
 }
 
+/// Single signal failure, captured at evaluation used for displaying in the UI
+pub enum SignalFailure {
+    /// Signal present but value is out of range
+    OutOfRange {
+        name: String,
+        value: f64,
+        range: [f64; 2],
+    },
+    /// Signal missing from the message
+    MissingSignal { name: String, range: [f64; 2] },
+}
+
+impl SignalFailure {
+    pub fn name(&self) -> &str {
+        match self {
+            SignalFailure::OutOfRange { name, .. } => name,
+            SignalFailure::MissingSignal { name, .. } => name,
+        }
+    }
+}
+
 pub struct InProgressExpect {
     pub expect: hil::config::Expectation,
     pub result: ExpectResult,
+    pub failures: Vec<SignalFailure>,
 }
 
 pub struct HilRunningTest {
@@ -111,26 +133,32 @@ impl HilRunningTest {
                 if expect.expect.signals.is_empty() {
                     expect.result = ExpectResult::Passed;
                 } else {
-                    let mut all_signals_in_range = true;
+                    let mut failures = Vec::new();
                     for (sig_name, sig_range) in &expect.expect.signals {
-                        if let Some(sig_value) = parsed.decoded.signals.get(sig_name) {
-                            if sig_value.value.physical < sig_range[0]
-                                || sig_value.value.physical > sig_range[1]
-                            {
-                                all_signals_in_range = false;
-                                break;
+                        match parsed.decoded.signals.get(sig_name) {
+                            Some(sig_value) => {
+                                let value = sig_value.value.physical;
+                                if value < sig_range[0] || value > sig_range[1] {
+                                    failures.push(SignalFailure::OutOfRange {
+                                        name: sig_name.clone(),
+                                        value,
+                                        range: *sig_range,
+                                    });
+                                }
                             }
-                        } else {
-                            all_signals_in_range = false;
-                            break;
+                            None => failures.push(SignalFailure::MissingSignal {
+                                name: sig_name.clone(),
+                                range: *sig_range,
+                            }),
                         }
                     }
 
-                    expect.result = if all_signals_in_range {
+                    expect.result = if failures.is_empty() {
                         ExpectResult::Passed
                     } else {
                         ExpectResult::FailedValueOutOfRange
                     };
+                    expect.failures = failures;
                 }
             }
         }
@@ -164,6 +192,7 @@ impl InProgressExpect {
         Self {
             expect,
             result: ExpectResult::NotInWindow,
+            failures: Vec::new(),
         }
     }
 
