@@ -1,14 +1,14 @@
 // Read HIL config files (preset and tests)
 
+use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
 pub const PRESETS_FILE: &str = "hil_config/presets.json";
 pub const TESTS_FOLDER: &str = "hil_config/tests/";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(transparent)]
-pub struct PresetsFile(pub HashMap<String, Vec<String>>);
+pub struct PresetsFile(pub IndexMap<String, Vec<String>>);
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TestFile {
@@ -26,7 +26,7 @@ pub struct TxMessage {
     pub timestamp: f64,
     pub msg_name: String,
 
-    pub signals: HashMap<String, f64>,
+    pub signals: IndexMap<String, f64>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -36,7 +36,7 @@ pub struct Expectation {
     pub msg_name: String,
 
     #[serde(default)]
-    pub signals: HashMap<String, [f64; 2]>,
+    pub signals: IndexMap<String, [f64; 2]>,
 }
 
 #[derive(Clone)]
