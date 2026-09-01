@@ -45,7 +45,9 @@ impl State {
     }
 
     pub fn parser_for_bus(&self, bus_name: messages::BusName) -> Option<&can_decode::Parser> {
-        self.parsers.get(bus_name as usize).and_then(|parser| parser.as_ref())
+        self.parsers
+            .get(bus_name as usize)
+            .and_then(|parser| parser.as_ref())
     }
 
     pub fn add_send_message(&mut self, add_msg: messages::AddSendMessage) {

@@ -8,7 +8,9 @@ pub enum MsgFromUi {
     },
     Connect(connection::ConnectionSource),
     AddSendMessage(AddSendMessage),
-    DeleteSendMessage { msg_id: u32 },
+    DeleteSendMessage {
+        msg_id: u32,
+    },
     UpdateLogFolder(std::path::PathBuf),
 }
 

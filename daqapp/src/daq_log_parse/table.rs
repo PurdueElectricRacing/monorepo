@@ -1,7 +1,6 @@
 use crate::{
     daq_log_parse::{consts, correlate},
-    util,
-    messages,
+    messages, util,
 };
 
 const HEADER_ROW_COUNT: usize = 7;

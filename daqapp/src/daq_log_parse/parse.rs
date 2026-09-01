@@ -58,9 +58,7 @@ impl FileParseStats {
         if self.failed_frames == 0 {
             format!(
                 "- {}: {} parsed, 0 failed / {} total",
-                self.file_name,
-                self.parsed_frames,
-                self.total_frames,
+                self.file_name, self.parsed_frames, self.total_frames,
             )
         } else {
             format!(
@@ -107,9 +105,7 @@ impl LogParseStats {
 
         format!(
             "Total parsed: {}\nTotal failed: {}\nFailed files:\n{}",
-            self.total_parsed,
-            self.total_failed,
-            file_summaries,
+            self.total_parsed, self.total_failed, file_summaries,
         )
     }
 }

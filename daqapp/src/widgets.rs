@@ -58,7 +58,7 @@ impl Widget {
         if received_new_data {
             ui.ctx().request_repaint();
         }
-        
+
         let default_parser = bus_parsers[messages::BusName::XCAN as usize].as_ref();
         match self {
             Widget::ViewerTable(w) => w.show(ui, action_queue, formatter, default_parser),

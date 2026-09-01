@@ -110,7 +110,11 @@ pub fn start_can_thread(
                                 state.parsers[bus_name as usize] = Some(parser);
                                 log::info!("Loaded DBC for {} from {:?}", bus_name, path);
                             }
-                            Err(e) => log::error!("Failed to load DBC for {} from {:?}: {e}", bus_name, path),
+                            Err(e) => log::error!(
+                                "Failed to load DBC for {} from {:?}: {e}",
+                                bus_name,
+                                path
+                            ),
                         }
                     }
                     messages::MsgFromUi::Connect(source) => {

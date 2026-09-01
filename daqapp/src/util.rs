@@ -107,13 +107,20 @@ pub fn middle_truncate(s: &str, max_chars: usize, sep: &str) -> String {
     if count <= max_chars {
         return s.to_string();
     }
-    
+
     let target = max_chars.saturating_sub(sep.chars().count());
     let half = target / 2;
     let remainder = target - half;
-    
+
     let start: String = s.chars().take(half).collect();
-    let end: String = s.chars().rev().take(remainder).collect::<String>().chars().rev().collect();
-    
+    let end: String = s
+        .chars()
+        .rev()
+        .take(remainder)
+        .collect::<String>()
+        .chars()
+        .rev()
+        .collect();
+
     format!("{}{}{}", start, sep, end)
 }
