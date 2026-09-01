@@ -10,16 +10,6 @@
 
 #include "can_library/generated/DASHBOARD.h"
 
-typedef struct {
-    double x;
-    double y;
-} lap_timer_point_t;
-
-typedef struct {
-    double latitude_deg;
-    double longitude_deg;
-} lap_timer_origin_t;
-
 static bool lap_timer_active = false;
 static bool lap_timer_start_recorded = false;
 static bool lap_timer_l1_recorded = false;
