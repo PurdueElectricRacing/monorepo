@@ -1,3 +1,5 @@
+use crate::app::ParserInfo;
+use crate::can;
 use crate::{daq_log_parse::consts, util};
 use bytemuck::{Pod, Zeroable};
 
@@ -19,8 +21,7 @@ pub struct RawFrame {
 
 pub fn parse_log_files(
     in_folder: &std::path::Path,
-    parser_bus_0: &can_decode::Parser,
-    parser_bus_1: &can_decode::Parser,
+    bus_parsers: &Vec<can_decode::Parser>,
 ) -> Vec<ParsedMessage> {
     let mut all_parsed = Vec::new();
     let mut file_paths = std::fs::read_dir(in_folder)
@@ -34,7 +35,7 @@ pub fn parse_log_files(
     file_paths.sort();
     for path in file_paths {
         log::info!("Parsing log file: {}", path.display());
-        let parsed = parse_log_file(&path, parser_bus_0, parser_bus_1);
+        let parsed = parse_log_file(&path, bus_parsers);
         all_parsed.extend(parsed);
     }
 
@@ -42,10 +43,8 @@ pub fn parse_log_files(
 }
 
 fn parse_log_file(
-    in_file: &std::path::Path,
-    parser_bus_0: &can_decode::Parser,
-    parser_bus_1: &can_decode::Parser,
-) -> Vec<ParsedMessage> {
+    in_file: &std::path::Path, 
+    bus_parsers: &Vec<can_decode::Parser>) -> Vec<ParsedMessage> {
     let mut content = std::fs::read(in_file).unwrap();
 
     // add padding zeroes if content length is not multiple of raw frame size
@@ -82,25 +81,17 @@ fn parse_log_file(
             break;
         }
 
-        let arb_id = if (frame.identity & consts::IS_EID_MASK) != 0 {
-            frame.identity & util::can::EXTENDED_ID_MASK
+        let raw_can_id = consts::can_id_from_identity(frame.identity);
+        let decode_msg_id = if (frame.identity & consts::IS_EID_MASK) != 0 {
+            raw_can_id | 0x80000000
         } else {
-            frame.identity & util::can::STANDARD_ID_MASK
+            raw_can_id & util::can::STANDARD_ID_MASK
         };
 
-        let bus_id = if (frame.identity & consts::BUS_ID_MASK) != 0 {
-            1
-        } else {
-            0
-        };
-        let parser = if bus_id == 0 {
-            parser_bus_0
-        } else {
-            parser_bus_1
-        };
+        let bus_name = consts::bus_name_from_identity(frame.identity);
+        let bus_parser = &bus_parsers[bus_name as usize];
 
-        if let Some(decoded) = parser.decode_msg(arb_id, &frame.data) {
-            let bus_name = if bus_id == 0 { "VCAN" } else { "MCAN" };
+        if let Some(decoded) = bus_parser.decode_msg(decode_msg_id, &frame.data) {
             parsed.push(ParsedMessage {
                 timestamp: frame.ticks_ms,
                 decoded,
@@ -110,9 +101,9 @@ fn parse_log_file(
             log::error!(
                 "Failed to decode message at {} ms with CAN ID {:X} and data {:?} on bus {}",
                 frame.ticks_ms,
-                arb_id,
+                raw_can_id,
                 frame.data,
-                bus_id
+                bus_name
             );
         }
     }

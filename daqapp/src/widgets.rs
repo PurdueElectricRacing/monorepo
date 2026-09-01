@@ -43,7 +43,7 @@ impl Widget {
         ui: &mut egui::Ui,
         can_messages: &[messages::MsgFromCan],
         action_queue: &mut Vec<action::AppAction>,
-        parser: Option<&app::ParserInfo>,
+        bus_parsers: &Vec<Option<app::ParserInfo>>,
         _ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
         formatter: &Option<formatter::Formatter>,
     ) -> egui_tiles::UiResponse {
@@ -58,21 +58,22 @@ impl Widget {
         if received_new_data {
             ui.ctx().request_repaint();
         }
-
+        
+        let default_parser = bus_parsers[messages::BusName::XCAN as usize].as_ref();
         match self {
-            Widget::ViewerTable(w) => w.show(ui, action_queue, formatter, parser),
-            Widget::ViewerList(w) => w.show(ui, formatter, parser),
+            Widget::ViewerTable(w) => w.show(ui, action_queue, formatter, default_parser),
+            Widget::ViewerList(w) => w.show(ui, formatter, default_parser),
             Widget::Bootloader(w) => w.show(ui),
-            Widget::Scope(w) => w.show(ui, parser),
-            Widget::LogParser(w) => w.show(ui, parser),
-            Widget::SendUi(w) => w.show(ui, parser, formatter),
+            Widget::Scope(w) => w.show(ui, default_parser),
+            Widget::SendUi(w) => w.show(ui, default_parser, formatter),
+            Widget::LogParser(w) => w.show(ui, bus_parsers),
             Widget::BusLoad(w) => w.show(ui),
             Widget::BatteryVoltage(w) => w.show(ui),
             Widget::BatteryTemps(w) => w.show(ui),
             Widget::GgPlot(w) => w.show(ui),
             Widget::GpsPlot(w) => w.show(ui),
             Widget::Dynamics(w) => w.show(ui),
-            Widget::Jitter(w) => w.show(ui, parser),
+            Widget::Jitter(w) => w.show(ui, default_parser),
             Widget::Hil(w) => w.show(ui),
         }
     }

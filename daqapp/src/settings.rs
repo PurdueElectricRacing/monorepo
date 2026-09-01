@@ -7,7 +7,7 @@ const DEFAULT_CAN_SPEED: connection::CanBusSpeed = connection::CanBusSpeed::Kbps
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Settings {
-    pub dbc_path: Option<std::path::PathBuf>,
+    pub dbc_paths: Vec<Option<std::path::PathBuf>>, // default, VCAN, MCAN, SCAN
     pub selected_source: Option<connection::ConnectionSource>,
     pub selected_speed: connection::CanBusSpeed,
     pub udp_port: u16,
@@ -20,7 +20,7 @@ pub struct Settings {
 impl Default for Settings {
     fn default() -> Self {
         Self {
-            dbc_path: None,
+            dbc_paths: vec![None, None, None, None],
             selected_source: None,
             selected_speed: DEFAULT_CAN_SPEED,
             udp_port: DEFAULT_UDP_PORT,
