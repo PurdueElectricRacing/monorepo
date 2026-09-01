@@ -5,19 +5,46 @@ use eframe::egui;
 
 pub fn select_dbc(
     app: &mut app::DAQApp,
+    bus_name: messages::BusName,
     ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
 ) {
     if let Some(path) = rfd::FileDialog::new()
         .add_filter("DBC Files", &["dbc"])
         .pick_file()
     {
-        app.parser = app::ParserInfo::new(path.clone());
-        if app.parser.is_some() {
-            ui_to_can_tx
-                .send(messages::MsgFromUi::DbcSelected(path))
-                .expect("Failed to send DBC selected message");
-            app.save_settings();
+        ui_to_can_tx
+            .send(messages::MsgFromUi::DbcSelected(path.clone()))
+            .expect("Failed to send DBC selected message");
+
+        if let Some(parser) = &mut app.bus_parsers[bus_name as usize] {
+            parser.dbc_path = path;
         }
+
+        app.save_settings();
+    }
+}
+
+pub fn dbc_selector(app: &mut app::DAQApp, ui: &mut egui::Ui, bus_name: messages::BusName, ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>) {
+    // create button string 
+    let selection_label = match bus_name {
+        messages::BusName::XCAN => "DBC (default):",
+        messages::BusName::VCAN => "DBC (VCAN):",
+        messages::BusName::MCAN => "DBC (MCAN):",
+        messages::BusName::SCAN => "DBC (SCAN):",
+    };
+
+    // dbc select button
+    if ui.button(format!("📁 Select {}", selection_label)).clicked() {
+        select_dbc(app, bus_name, ui_to_can_tx);
+    }
+
+    // display selected dbc path
+    if let Some(path) = app.bus_parsers[bus_name as usize].as_ref().map(|p| &p.dbc_path) {
+        let dbc_path_name = path.display().to_string(); 
+        log::info!("Selected DBC path: {}", dbc_path_name);
+        ui.label(format!("{}", dbc_path_name));
+    } else {
+        ui.label(format!("{} None selected", selection_label));
     }
 }
 
@@ -210,7 +237,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         }
                         ui.separator();
                         ui.label("Simulated");
-                        let dbc_path = app.parser.as_ref().map(|p| p.dbc_path.clone());
+                        let dbc_path = app.bus_parsers[0].as_ref().map(|p| p.dbc_path.clone());
                         let sim_sources = [
                             connection::ConnectionSource::Simulated(true, dbc_path.clone()),
                             connection::ConnectionSource::Simulated(false, dbc_path.clone()),
@@ -278,19 +305,14 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 // Clone the sender so we don’t borrow app immutably yet
                 let ui_to_can_tx = app.ui_to_can_tx.clone();
 
-                if ui.button("📁 Select DBC").clicked() {
-                    select_dbc(app, &ui_to_can_tx); // mutable borrow is fine
-                }
+                ui.vertical(|ui| {
+                    ui.label("DBC Files:");
+                    dbc_selector(app, ui, messages::BusName::XCAN, &ui_to_can_tx);
+                    dbc_selector(app, ui, messages::BusName::VCAN, &ui_to_can_tx);
+                    dbc_selector(app, ui, messages::BusName::MCAN, &ui_to_can_tx);
+                    dbc_selector(app, ui, messages::BusName::SCAN, &ui_to_can_tx);
+                });
 
-                if let Some(path) = app.parser.as_ref().map(|p| &p.dbc_path) {
-                    let dbc_name = path
-                        .file_name()
-                        .map(|n| n.to_string_lossy())
-                        .unwrap_or_else(|| path.display().to_string().into());
-                    ui.label(format!("{}", dbc_name));
-                } else {
-                    ui.label("DBC: None selected");
-                }
             });
 
             ui.horizontal(|ui| {
