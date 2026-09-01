@@ -75,7 +75,7 @@ impl DAQApp {
     pub fn save_settings(&self) {
         let settings = settings::Settings {
             // vector of dbc paths for each bus, in order: default, VCAN, MCAN, SCAN
-            dbc_paths: Vec::from([ 
+            dbc_paths: Vec::from([
                 self.bus_parsers[0].as_ref().map(|p| p.dbc_path.clone()),
                 self.bus_parsers[1].as_ref().map(|p| p.dbc_path.clone()),
                 self.bus_parsers[2].as_ref().map(|p| p.dbc_path.clone()),

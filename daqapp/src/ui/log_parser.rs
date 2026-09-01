@@ -1,6 +1,6 @@
 use crate::app;
-use crate::messages;
 use crate::daq_log_parse;
+use crate::messages;
 use eframe::egui;
 use serde::de;
 
@@ -89,9 +89,18 @@ impl LogParser {
             .map(|parser| parser.dbc_path.clone())
             .collect();
         std::thread::spawn(move || {
-            log::info!("Using DBC: {:?} for BUS 1 (VCAN)", dbc_paths[messages::BusName::VCAN as usize]);
-            log::info!("Using DBC: {:?} for BUS 2 (MCAN)", dbc_paths[messages::BusName::MCAN as usize]);
-            log::info!("Using DBC: {:?} for BUS 3 (SCAN)", dbc_paths[messages::BusName::SCAN as usize]);
+            log::info!(
+                "Using DBC: {:?} for BUS 1 (VCAN)",
+                dbc_paths[messages::BusName::VCAN as usize]
+            );
+            log::info!(
+                "Using DBC: {:?} for BUS 2 (MCAN)",
+                dbc_paths[messages::BusName::MCAN as usize]
+            );
+            log::info!(
+                "Using DBC: {:?} for BUS 3 (SCAN)",
+                dbc_paths[messages::BusName::SCAN as usize]
+            );
             log::info!("Parsing logs from: {}", logs_dir.display());
             log::info!("Output to: {} (prefix: {})", output_dir.display(), prefix);
 
@@ -102,9 +111,10 @@ impl LogParser {
                     Ok(parser) => parsers.push(parser),
                     Err(e) => {
                         log::error!("Failed to create CAN parser from DBC file: {:?}", e);
-                        let _ = parse_to_ui_tx.send(MsgFromParserThread::FatalExit(
-                            format!("Failed to create CAN parser from DBC file: {:?}", e),
-                        ));
+                        let _ = parse_to_ui_tx.send(MsgFromParserThread::FatalExit(format!(
+                            "Failed to create CAN parser from DBC file: {:?}",
+                            e
+                        )));
                         return;
                     }
                 }
@@ -126,9 +136,18 @@ impl LogParser {
 
             let mut table_builder = daq_log_parse::table::TableBuilder::new();
 
-            table_builder.create_header(&parsers[messages::BusName::VCAN as usize], messages::BusName::VCAN);
-            table_builder.create_header(&parsers[messages::BusName::MCAN as usize], messages::BusName::MCAN);
-            table_builder.create_header(&parsers[messages::BusName::SCAN as usize], messages::BusName::SCAN);
+            table_builder.create_header(
+                &parsers[messages::BusName::VCAN as usize],
+                messages::BusName::VCAN,
+            );
+            table_builder.create_header(
+                &parsers[messages::BusName::MCAN as usize],
+                messages::BusName::MCAN,
+            );
+            table_builder.create_header(
+                &parsers[messages::BusName::SCAN as usize],
+                messages::BusName::SCAN,
+            );
 
             table_builder.create_and_write_tables(&output_dir, &prefix, correlated_chunks);
 
@@ -154,13 +173,13 @@ impl LogParser {
         };
 
         ui.horizontal(|ui| {
-            ui.checkbox(override_ref, format!("{} Override", bus_name)).on_hover_text(format!(
-                "BUS {} = {}.\n\
+            ui.checkbox(override_ref, format!("{} Override", bus_name))
+                .on_hover_text(format!(
+                    "BUS {} = {}.\n\
                      ☑ Use the bus specific DBC selected in the sidebar.\n\
                      ☐ Fall back to the default DBC selected in the sidebar.",
-                bus_name as u8,
-                bus_name
-            ));
+                    bus_name as u8, bus_name
+                ));
         });
     }
 
@@ -221,7 +240,7 @@ impl LogParser {
             .clicked()
         {
             // select log parsers based on overrides
-            
+
             let default_parser = match &bus_parsers[messages::BusName::XCAN as usize] {
                 Some(p) => p,
                 None => {
@@ -237,7 +256,9 @@ impl LogParser {
                     match &bus_parsers[messages::BusName::VCAN as usize] {
                         Some(p) => p,
                         None => {
-                            log::error!("VCAN override selected but no parser available for VCAN, using default parser");
+                            log::error!(
+                                "VCAN override selected but no parser available for VCAN, using default parser"
+                            );
                             default_parser
                         }
                     }
@@ -248,7 +269,9 @@ impl LogParser {
                     match &bus_parsers[messages::BusName::MCAN as usize] {
                         Some(p) => p,
                         None => {
-                            log::error!("MCAN override selected but no parser available for MCAN, using default parser");
+                            log::error!(
+                                "MCAN override selected but no parser available for MCAN, using default parser"
+                            );
                             default_parser
                         }
                     }
@@ -259,13 +282,15 @@ impl LogParser {
                     match &bus_parsers[messages::BusName::SCAN as usize] {
                         Some(p) => p,
                         None => {
-                            log::error!("SCAN override selected but no parser available for SCAN, using default parser");
+                            log::error!(
+                                "SCAN override selected but no parser available for SCAN, using default parser"
+                            );
                             default_parser
                         }
                     }
                 } else {
                     default_parser
-                }
+                },
             ]);
             self.parse_logs(&log_parsers);
         }

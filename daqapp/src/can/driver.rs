@@ -112,7 +112,12 @@ impl Driver for SerialDriver {
                     )))
                 }
             })
-            .map(|frame| vec![ReceivedFrame { frame, bus_name: BusName::XCAN }])
+            .map(|frame| {
+                vec![ReceivedFrame {
+                    frame,
+                    bus_name: BusName::XCAN,
+                }]
+            })
     }
 
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
@@ -337,7 +342,10 @@ impl Driver for LoopbackDriver {
         Ok(self
             .queued_frames
             .drain(..)
-            .map(|frame| ReceivedFrame { frame, bus_name: BusName::XCAN })
+            .map(|frame| ReceivedFrame {
+                frame,
+                bus_name: BusName::XCAN,
+            })
             .collect())
     }
 

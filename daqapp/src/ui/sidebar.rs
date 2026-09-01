@@ -22,8 +22,13 @@ pub fn select_dbc(
     }
 }
 
-pub fn dbc_selector(app: &mut app::DAQApp, ui: &mut egui::Ui, bus_name: messages::BusName, ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>) {
-    // create button string 
+pub fn dbc_selector(
+    app: &mut app::DAQApp,
+    ui: &mut egui::Ui,
+    bus_name: messages::BusName,
+    ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
+) {
+    // create button string
     let selection_label = match bus_name {
         messages::BusName::XCAN => "DBC (default):",
         messages::BusName::VCAN => "DBC (VCAN):",
@@ -32,12 +37,18 @@ pub fn dbc_selector(app: &mut app::DAQApp, ui: &mut egui::Ui, bus_name: messages
     };
 
     // dbc select button
-    if ui.button(format!("📁 Select {}", selection_label)).clicked() {
+    if ui
+        .button(format!("📁 Select {}", selection_label))
+        .clicked()
+    {
         select_dbc(app, bus_name, ui_to_can_tx);
     }
 
     // display selected dbc path
-    if let Some(path) = app.bus_parsers[bus_name as usize].as_ref().map(|p| &p.dbc_path) {
+    if let Some(path) = app.bus_parsers[bus_name as usize]
+        .as_ref()
+        .map(|p| &p.dbc_path)
+    {
         let dbc_path_name = util::middle_truncate(&path.display().to_string(), 50, "...");
         ui.label(format!("{}", dbc_path_name));
     } else {
@@ -309,7 +320,6 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                     dbc_selector(app, ui, messages::BusName::MCAN, &ui_to_can_tx);
                     dbc_selector(app, ui, messages::BusName::SCAN, &ui_to_can_tx);
                 });
-
             });
 
             ui.horizontal(|ui| {
