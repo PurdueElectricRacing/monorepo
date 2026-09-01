@@ -333,7 +333,10 @@ impl Hil {
                         Some(hil::run::SignalFailure::MissingSignal { range, .. }) => {
                             ui.colored_label(
                                 egui::Color32::RED,
-                                format!("{}: missing (expected [{}, {}])", name, range[0], range[1]),
+                                format!(
+                                    "{}: missing (expected [{}, {}])",
+                                    name, range[0], range[1]
+                                ),
                             );
                         }
                         None => {

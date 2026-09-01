@@ -20,17 +20,14 @@ pub enum SignalFailure {
         range: [f64; 2],
     },
     /// Signal missing from the message
-    MissingSignal {
-        name: String,
-        range: [f64; 2],
-    },
+    MissingSignal { name: String, range: [f64; 2] },
 }
 
 impl SignalFailure {
     pub fn name(&self) -> &str {
         match self {
             SignalFailure::OutOfRange { name, .. } => name,
-            SignalFailure::MissingSignal { name, ..} => name,
+            SignalFailure::MissingSignal { name, .. } => name,
         }
     }
 }
@@ -136,7 +133,7 @@ impl HilRunningTest {
                 if expect.expect.signals.is_empty() {
                     expect.result = ExpectResult::Passed;
                 } else {
-                    let mut failures =  Vec::new();
+                    let mut failures = Vec::new();
                     for (sig_name, sig_range) in &expect.expect.signals {
                         match parsed.decoded.signals.get(sig_name) {
                             Some(sig_value) => {
