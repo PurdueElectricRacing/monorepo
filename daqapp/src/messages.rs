@@ -2,7 +2,10 @@ use crate::connection;
 use std::fmt;
 
 pub enum MsgFromUi {
-    DbcSelected(std::path::PathBuf),
+    DbcSelected {
+        bus_name: BusName,
+        path: std::path::PathBuf,
+    },
     Connect(connection::ConnectionSource),
     AddSendMessage(AddSendMessage),
     DeleteSendMessage { msg_id: u32 },

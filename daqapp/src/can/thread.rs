@@ -21,8 +21,7 @@ fn process_can_frame(
             let raw_bytes = data.to_vec();
 
             let decoded = state
-                .parser
-                .as_ref()
+                .parser_for_bus(bus_name)
                 .and_then(|parser| parser.decode_msg(decode_msg_id, data));
 
             match decoded {
@@ -39,7 +38,8 @@ fn process_can_frame(
                         .expect("Failed to send parsed CAN message");
                 }
                 None => {
-                    if state.parser.is_some() {
+                    let has_parser = state.parser_for_bus(bus_name).is_some();
+                    if has_parser {
                         log::error!(
                             "Failed to parse on {} (bus {}): frame ID 0x{:X} ({}), data: {:02X?}",
                             bus_name,
@@ -50,7 +50,7 @@ fn process_can_frame(
                         );
                     } else {
                         log::warn!(
-                            "No DBC loaded. Received frame on {} (bus {}) ID 0x{:X} ({}), data: {:02X?}",
+                            "No DBC loaded for {} (bus {}). Received frame ID 0x{:X} ({}), data: {:02X?}",
                             bus_name,
                             bus_name as u8,
                             raw_msg_id,
@@ -104,13 +104,13 @@ pub fn start_can_thread(
             // Process UI messages first (DBC load, new message to send, etc.)
             while let Ok(msg) = state.ui_to_can_rx.try_recv() {
                 match msg {
-                    messages::MsgFromUi::DbcSelected(path) => {
+                    messages::MsgFromUi::DbcSelected { bus_name, path } => {
                         match can_decode::Parser::from_dbc_file(&path) {
                             Ok(parser) => {
-                                state.parser = Some(parser);
-                                log::info!("Loaded DBC from {:?}", path);
+                                state.parsers[bus_name as usize] = Some(parser);
+                                log::info!("Loaded DBC for {} from {:?}", bus_name, path);
                             }
-                            Err(e) => log::error!("Failed to load DBC {:?}: {e}", path),
+                            Err(e) => log::error!("Failed to load DBC for {} from {:?}: {e}", bus_name, path),
                         }
                     }
                     messages::MsgFromUi::Connect(source) => {
