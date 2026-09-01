@@ -112,9 +112,17 @@ impl LogParser {
 
             let _ = parse_to_ui_tx.send(MsgFromParserThread::Update("Parsing logs...".to_string()));
 
-            let parsed = daq_log_parse::parse::parse_log_files(&logs_dir, &parsers);
+            let (parsed, stats) = daq_log_parse::parse::parse_log_files(&logs_dir, &parsers);
             let chunked_parsed = daq_log_parse::parse::chunk_parsed(parsed);
             let correlated_chunks = daq_log_parse::correlate::time_correlate_chunks(chunked_parsed);
+
+            let stats_text = stats.summary();
+            log::info!("Log parse summary:\n{}", stats_text);
+
+            let _ = parse_to_ui_tx.send(MsgFromParserThread::Update(format!(
+                "Parse complete.\n\n{}",
+                stats_text,
+            )));
 
             let mut table_builder = daq_log_parse::table::TableBuilder::new();
 
@@ -126,8 +134,9 @@ impl LogParser {
 
             log::info!("Parsing completed successfully");
             let _ = parse_to_ui_tx.send(MsgFromParserThread::SuccessExit(format!(
-                "Parsing completed successfully. Output at: {}",
-                output_dir.display()
+                "Parsing completed successfully. Output at: {}\n\n{}",
+                output_dir.display(),
+                stats_text,
             )));
         });
     }
@@ -285,7 +294,12 @@ impl LogParser {
         }
 
         ui.separator();
-        ui.label(&self.parse_text);
+        ui.vertical(|ui| {
+            ui.label("Parse status:");
+            ui.add(egui::Label::new(
+                egui::RichText::new(&self.parse_text).monospace().size(12.0),
+            ));
+        });
 
         egui_tiles::UiResponse::None
     }

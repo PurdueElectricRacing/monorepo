@@ -10,6 +10,110 @@ pub struct ParsedMessage {
     pub bus_name: String,
 }
 
+#[derive(Debug, Default, Clone)]
+pub struct FileParseStats {
+    pub file_name: String,
+    pub total_frames: usize,
+    pub parsed_frames: usize,
+    pub failed_frames: usize,
+    pub failed_by_bus: std::collections::BTreeMap<String, usize>,
+    pub failed_can_ids: std::collections::BTreeMap<u32, usize>,
+}
+
+impl FileParseStats {
+    pub fn new(file_name: impl AsRef<std::path::Path>) -> Self {
+        Self {
+            file_name: file_name.as_ref().to_string_lossy().to_string(),
+            ..Default::default()
+        }
+    }
+
+    fn record_failure(&mut self, bus_name: &str, can_id: u32) {
+        self.failed_frames += 1;
+        *self.failed_by_bus.entry(bus_name.to_string()).or_insert(0) += 1;
+        *self.failed_can_ids.entry(can_id).or_insert(0) += 1;
+    }
+
+    pub fn summary(&self) -> String {
+        let bus_summary = if self.failed_by_bus.is_empty() {
+            "none".to_string()
+        } else {
+            self.failed_by_bus
+                .iter()
+                .map(|(bus, count)| format!("{bus}={count}"))
+                .collect::<Vec<_>>()
+                .join(", ")
+        };
+
+        let can_id_summary = if self.failed_can_ids.is_empty() {
+            "none".to_string()
+        } else {
+            self.failed_can_ids
+                .iter()
+                .map(|(id, count)| format!("0x{id:08X}={count}"))
+                .collect::<Vec<_>>()
+                .join(", ")
+        };
+
+        if self.failed_frames == 0 {
+            format!(
+                "- {}: {} parsed, 0 failed / {} total",
+                self.file_name,
+                self.parsed_frames,
+                self.total_frames,
+            )
+        } else {
+            format!(
+                "- {}: {} parsed, {} failed / {} total | buses: {} | CAN IDs: {}",
+                self.file_name,
+                self.parsed_frames,
+                self.failed_frames,
+                self.total_frames,
+                bus_summary,
+                can_id_summary,
+            )
+        }
+    }
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct LogParseStats {
+    pub files: Vec<FileParseStats>,
+    pub total_parsed: usize,
+    pub total_failed: usize,
+}
+
+impl LogParseStats {
+    pub fn summary(&self) -> String {
+        if self.files.is_empty() {
+            return "No log files found.".to_string();
+        }
+
+        if self.total_failed == 0 {
+            return format!(
+                "Total parsed: {}\nNo decode failures across {} file(s).",
+                self.total_parsed,
+                self.files.len(),
+            );
+        }
+
+        let file_summaries = self
+            .files
+            .iter()
+            .filter(|file| file.failed_frames > 0)
+            .map(FileParseStats::summary)
+            .collect::<Vec<_>>()
+            .join("\n");
+
+        format!(
+            "Total parsed: {}\nTotal failed: {}\nFailed files:\n{}",
+            self.total_parsed,
+            self.total_failed,
+            file_summaries,
+        )
+    }
+}
+
 #[repr(C)]
 #[derive(Pod, Zeroable, Copy, Clone)]
 // based on definition of timestamped_frame_t in timestamped_frame.h in firmware repo
@@ -22,8 +126,9 @@ pub struct RawFrame {
 pub fn parse_log_files(
     in_folder: &std::path::Path,
     bus_parsers: &Vec<can_decode::Parser>,
-) -> Vec<ParsedMessage> {
+) -> (Vec<ParsedMessage>, LogParseStats) {
     let mut all_parsed = Vec::new();
+    let mut stats = LogParseStats::default();
     let mut file_paths = std::fs::read_dir(in_folder)
         .unwrap()
         .filter_map(|entry| entry.ok())
@@ -35,16 +140,21 @@ pub fn parse_log_files(
     file_paths.sort();
     for path in file_paths {
         log::info!("Parsing log file: {}", path.display());
-        let parsed = parse_log_file(&path, bus_parsers);
+        let (parsed, file_stats) = parse_log_file(&path, bus_parsers);
+        stats.total_parsed += parsed.len();
+        stats.total_failed += file_stats.failed_frames;
+        stats.files.push(file_stats);
         all_parsed.extend(parsed);
     }
 
-    all_parsed
+    (all_parsed, stats)
 }
 
 fn parse_log_file(
-    in_file: &std::path::Path, 
-    bus_parsers: &Vec<can_decode::Parser>) -> Vec<ParsedMessage> {
+    in_file: &std::path::Path,
+    bus_parsers: &Vec<can_decode::Parser>,
+) -> (Vec<ParsedMessage>, FileParseStats) {
+    let mut file_stats = FileParseStats::new(in_file);
     let mut content = std::fs::read(in_file).unwrap();
 
     // add padding zeroes if content length is not multiple of raw frame size
@@ -81,6 +191,8 @@ fn parse_log_file(
             break;
         }
 
+        file_stats.total_frames += 1;
+
         let raw_can_id = consts::can_id_from_identity(frame.identity);
         let decode_msg_id = if (frame.identity & consts::IS_EID_MASK) != 0 {
             raw_can_id | 0x80000000
@@ -97,7 +209,9 @@ fn parse_log_file(
                 decoded,
                 bus_name: bus_name.to_string(),
             });
+            file_stats.parsed_frames += 1;
         } else {
+            file_stats.record_failure(&bus_name.to_string(), raw_can_id);
             log::error!(
                 "Failed to decode message at {} ms with CAN ID {:X} and data {:?} on bus {}",
                 frame.ticks_ms,
@@ -107,7 +221,7 @@ fn parse_log_file(
             );
         }
     }
-    parsed
+    (parsed, file_stats)
 }
 
 pub fn chunk_parsed(parsed: Vec<ParsedMessage>) -> Vec<Vec<ParsedMessage>> {
