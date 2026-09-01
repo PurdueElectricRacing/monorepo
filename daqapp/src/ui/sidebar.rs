@@ -12,13 +12,10 @@ pub fn select_dbc(
         .add_filter("DBC Files", &["dbc"])
         .pick_file()
     {
-        ui_to_can_tx
-            .send(messages::MsgFromUi::DbcSelected(path.clone()))
-            .expect("Failed to send DBC selected message");
         app.bus_parsers[bus_name as usize] = app::ParserInfo::new(path.clone());
         if app.bus_parsers[bus_name as usize].is_some() {
             ui_to_can_tx
-                .send(messages::MsgFromUi::DbcSelected(path))
+                .send(messages::MsgFromUi::DbcSelected { bus_name, path })
                 .expect("Failed to send DBC selected message");
             app.save_settings();
         }
