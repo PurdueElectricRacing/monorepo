@@ -1,6 +1,9 @@
 #ifndef LAP_TIMER_H
 #define LAP_TIMER_H
 
+#include <stdint.h>
+#include <stdbool.h>
+
 /**
  * @file lap_timer.h
  * @brief DASHBOARD lap timer task implementations
@@ -9,7 +12,11 @@
  * @author Aditya Saini (saini91@purdue.edu)
  */
 
-#include <stdint.h>
+#define LAP_TIMER_DEG_TO_RAD 0.017453292519943295
+#define LAP_TIMER_METERS_PER_DEG 111132.0
+#define LAP_TIMER_CAPTURE_DISTANCE_M 1.0
+#define LAP_TIMER_L2_HALF_LENGTH_M 1.0
+#define LAP_TIMER_EPSILON 1e-6
 
 static constexpr uint32_t LAP_TIMER_PERIOD_MS = 200;
 

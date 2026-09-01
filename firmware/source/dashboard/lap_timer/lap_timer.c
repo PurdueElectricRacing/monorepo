@@ -8,14 +8,7 @@
 
 #include "lap_timer.h"
 
-#include <stdbool.h>
 #include "can_library/generated/DASHBOARD.h"
-
-#define LAP_TIMER_DEG_TO_RAD 0.017453292519943295
-#define LAP_TIMER_METERS_PER_DEG 111132.0
-#define LAP_TIMER_CAPTURE_DISTANCE_M 1.0
-#define LAP_TIMER_L2_HALF_LENGTH_M 1.0
-#define LAP_TIMER_EPSILON 1e-6
 
 typedef struct {
     double x;
@@ -36,19 +29,19 @@ static lap_timer_point_t lap_timer_start_point = {0.0, 0.0};
 static lap_timer_point_t lap_timer_l1_end_point = {0.0, 0.0};
 static lap_timer_point_t lap_timer_last_point = {0.0, 0.0};
 
-static double lap_timer_abs(double value) {
+double lap_timer_abs(double value) {
     return value < 0.0 ? -value : value;
 }
 
-static double lap_timer_max(double a, double b) {
+double lap_timer_max(double a, double b) {
     return a > b ? a : b;
 }
 
-static double lap_timer_min(double a, double b) {
+double lap_timer_min(double a, double b) {
     return a < b ? a : b;
 }
 
-static double lap_timer_sqrt(double value) {
+double lap_timer_sqrt(double value) {
     if (value <= 0.0) {
         return 0.0;
     }
@@ -59,7 +52,7 @@ static double lap_timer_sqrt(double value) {
     }
 
     for (int i = 0; i < 10; ++i) {
-        const double next = 0.5 * (guess + (value / guess));
+        double next = 0.5 * (guess + (value / guess));
         if (lap_timer_abs(next - guess) <= 1e-9) {
             return next;
         }
@@ -69,17 +62,17 @@ static double lap_timer_sqrt(double value) {
     return guess;
 }
 
-static double lap_timer_cos(double radians) {
-    const double x2 = radians * radians;
+double lap_timer_cos(double radians) {
+    double x2 = radians * radians;
     return 1.0 - (x2 / 2.0) + (x2 * x2 / 24.0) - (x2 * x2 * x2 / 720.0);
 }
 
-static double lap_timer_hypot(double x, double y) {
+double lap_timer_hypot(double x, double y) {
     return lap_timer_sqrt((x * x) + (y * y));
 }
 
-static int lap_timer_orientation(const lap_timer_point_t *p, const lap_timer_point_t *q, const lap_timer_point_t *r) {
-    const double value = ((q->y - p->y) * (r->x - p->x)) - ((q->x - p->x) * (r->y - p->y));
+int lap_timer_orientation(lap_timer_point_t *p, lap_timer_point_t *q, lap_timer_point_t *r) {
+    double value = ((q->y - p->y) * (r->x - p->x)) - ((q->x - p->x) * (r->y - p->y));
 
     if (lap_timer_abs(value) <= LAP_TIMER_EPSILON) {
         return 0;
@@ -87,23 +80,23 @@ static int lap_timer_orientation(const lap_timer_point_t *p, const lap_timer_poi
     return value > 0.0 ? 1 : 2;
 }
 
-static bool lap_timer_on_segment(const lap_timer_point_t *p, const lap_timer_point_t *q, const lap_timer_point_t *r) {
+bool lap_timer_on_segment(lap_timer_point_t *p, lap_timer_point_t *q, lap_timer_point_t *r) {
     return (q->x <= lap_timer_max(p->x, r->x) + LAP_TIMER_EPSILON)
         && (q->x >= lap_timer_min(p->x, r->x) - LAP_TIMER_EPSILON)
         && (q->y <= lap_timer_max(p->y, r->y) + LAP_TIMER_EPSILON)
         && (q->y >= lap_timer_min(p->y, r->y) - LAP_TIMER_EPSILON);
 }
 
-static bool lap_timer_segments_intersect(
-    const lap_timer_point_t *p1,
-    const lap_timer_point_t *q1,
-    const lap_timer_point_t *p2,
-    const lap_timer_point_t *q2
+bool lap_timer_segments_intersect(
+    lap_timer_point_t *p1,
+    lap_timer_point_t *q1,
+    lap_timer_point_t *p2,
+    lap_timer_point_t *q2
 ) {
-    const int o1 = lap_timer_orientation(p1, q1, p2);
-    const int o2 = lap_timer_orientation(p1, q1, q2);
-    const int o3 = lap_timer_orientation(p2, q2, p1);
-    const int o4 = lap_timer_orientation(p2, q2, q1);
+    int o1 = lap_timer_orientation(p1, q1, p2);
+    int o2 = lap_timer_orientation(p1, q1, q2);
+    int o3 = lap_timer_orientation(p2, q2, p1);
+    int o4 = lap_timer_orientation(p2, q2, q1);
 
     if (o1 == 0 && lap_timer_on_segment(p1, p2, q1)) {
         return true;
@@ -121,14 +114,14 @@ static bool lap_timer_segments_intersect(
     return ((o1 != o2) && (o3 != o4));
 }
 
-static lap_timer_point_t lap_timer_gps_to_local(int32_t latitude, int32_t longitude) {
-    const double latitude_deg = (double)latitude * 1e-7;
-    const double longitude_deg = (double)longitude * 1e-7;
+lap_timer_point_t lap_timer_gps_to_local(int32_t latitude, int32_t longitude) {
+    double latitude_deg = (double)latitude * 1e-7;
+    double longitude_deg = (double)longitude * 1e-7;
 
-    const double lat_delta_deg = latitude_deg - lap_timer_origin.latitude_deg;
-    const double lon_delta_deg = longitude_deg - lap_timer_origin.longitude_deg;
-    const double origin_lat_rad = lap_timer_origin.latitude_deg * LAP_TIMER_DEG_TO_RAD;
-    const double cos_lat = lap_timer_cos(origin_lat_rad);
+    double lat_delta_deg = latitude_deg - lap_timer_origin.latitude_deg;
+    double lon_delta_deg = longitude_deg - lap_timer_origin.longitude_deg;
+    double origin_lat_rad = lap_timer_origin.latitude_deg * LAP_TIMER_DEG_TO_RAD;
+    double cos_lat = lap_timer_cos(origin_lat_rad);
 
     lap_timer_point_t point = {
         .x = lon_delta_deg * LAP_TIMER_METERS_PER_DEG * cos_lat,
@@ -138,32 +131,32 @@ static lap_timer_point_t lap_timer_gps_to_local(int32_t latitude, int32_t longit
     return point;
 }
 
-static bool lap_timer_l2_crossed(const lap_timer_point_t *previous_point, const lap_timer_point_t *current_point) {
-    const lap_timer_point_t l1_start = lap_timer_start_point;
-    const lap_timer_point_t l1_end = lap_timer_l1_end_point;
-    const lap_timer_point_t midpoint = {
+bool lap_timer_l2_crossed(lap_timer_point_t *previous_point, lap_timer_point_t *current_point) {
+    lap_timer_point_t l1_start = lap_timer_start_point;
+    lap_timer_point_t l1_end = lap_timer_l1_end_point;
+    lap_timer_point_t midpoint = {
         .x = (l1_start.x + l1_end.x) * 0.5,
         .y = (l1_start.y + l1_end.y) * 0.5,
     };
-    const lap_timer_point_t line_direction = {
+    lap_timer_point_t line_direction = {
         .x = l1_end.x - l1_start.x,
         .y = l1_end.y - l1_start.y,
     };
-    const double line_length = lap_timer_hypot(line_direction.x, line_direction.y);
+    double line_length = lap_timer_hypot(line_direction.x, line_direction.y);
 
     if (line_length <= LAP_TIMER_EPSILON) {
         return false;
     }
 
-    const lap_timer_point_t normal = {
+    lap_timer_point_t normal = {
         .x = -line_direction.y / line_length,
         .y = line_direction.x / line_length,
     };
-    const lap_timer_point_t l2_start = {
+    lap_timer_point_t l2_start = {
         .x = midpoint.x - (normal.x * LAP_TIMER_L2_HALF_LENGTH_M),
         .y = midpoint.y - (normal.y * LAP_TIMER_L2_HALF_LENGTH_M),
     };
-    const lap_timer_point_t l2_end = {
+    lap_timer_point_t l2_end = {
         .x = midpoint.x + (normal.x * LAP_TIMER_L2_HALF_LENGTH_M),
         .y = midpoint.y + (normal.y * LAP_TIMER_L2_HALF_LENGTH_M),
     };
@@ -197,7 +190,7 @@ void lap_timer_periodic(void) {
         return;
     }
 
-    const lap_timer_point_t current_point = lap_timer_gps_to_local(
+    lap_timer_point_t current_point = lap_timer_gps_to_local(
         can_data.gps_coordinates.latitude,
         can_data.gps_coordinates.longitude
     );
@@ -210,7 +203,7 @@ void lap_timer_periodic(void) {
     }
 
     if (!lap_timer_l1_recorded) {
-        const double delta = lap_timer_hypot(
+        double delta = lap_timer_hypot(
             current_point.x - lap_timer_start_point.x,
             current_point.y - lap_timer_start_point.y
         );
