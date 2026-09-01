@@ -66,7 +66,7 @@ set(MODULES "" CACHE STRING "Semicolon-separated list of source modules to build
 # emits independent front/rear images. Bootloader mode also configures the
 # complete resident-image target set; Ninja selection decides whether a package
 # build compiles applications only or --bootloader compiles both image classes.
-set(BOOTLOADER_APP_MODULES a_box dashboard driveline main_module torque_vector)
+set(BOOTLOADER_APP_MODULES a_box dashboard driveline g4_testing main_module torque_vector)
 if(MODULES STREQUAL "")
     if(BOOTLOADER_BUILD)
         set(MODULES ${BOOTLOADER_APP_MODULES})

@@ -9,8 +9,12 @@
 #include "stm32g474xx.h"
 
 /* CANpiler generates the declarations and can_data fields used below. */
+#if defined(CAN_NODE_MAIN_MODULE) || defined(CAN_NODE_BL_MAIN_MODULE)
 #if defined(CAN_NODE_MAIN_MODULE)
 #include "can_library/generated/MAIN_MODULE.h"
+#else
+#include "can_library/generated/BL_MAIN_MODULE.h"
+#endif
 void bl_main_module_start_CALLBACK(void) {
 #if defined(BOOTLOADER_ENABLED)
     NVIC_SystemReset();

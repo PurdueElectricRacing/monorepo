@@ -95,6 +95,12 @@ parser.add_option("-p", "--package",
     help="build six VCAN G4 applications and package them with STM32 CRCs"
 )
 
+parser.add_option("--package-g4-testing",
+    dest="package_g4_testing",
+    action="store_true", default=False,
+    help="package the G4 testing image as the existing main_module board"
+)
+
 parser.add_option("-c", "--check",
     dest="check",
     action="store_true", default=False,
@@ -160,6 +166,10 @@ def run_cppcheck():
     log_success("cppcheck completed successfully.")
 
 (options, _) = parser.parse_args()
+if options.package_g4_testing and options.package:
+    parser.error("--package-g4-testing cannot be combined with --package")
+if options.package_g4_testing:
+    options.package = True
 if options.package:
     if options.target:
         parser.error("--package does not accept --target")
@@ -181,8 +191,16 @@ if options.target:
     cmake_modules_str = ";".join(dict.fromkeys(cmake_modules))
     ninja_targets = [f"{target}.elf" for target in target_list]
 elif options.bootloader:
-    cmake_modules_str = "main_module;dashboard;torque_vector;a_box;driveline"
-    ninja_targets = [f"{board}.elf" for board in BOARD_TARGETS]
+    if options.package_g4_testing:
+        # Build the Nucleo smoke-test app in place of the production main module;
+        # build_manifest() gives it the existing main_module package identity.
+        cmake_modules_str = "g4_testing;dashboard;torque_vector;a_box;driveline"
+        ninja_targets = ["g4_testing.elf"] + [
+            f"{board}.elf" for board in BOARD_TARGETS if board != "main_module"
+        ]
+    else:
+        cmake_modules_str = "main_module;dashboard;torque_vector;a_box;driveline"
+        ninja_targets = [f"{board}.elf" for board in BOARD_TARGETS]
     # Bootloader builds also produce resident images for provisioning, but the
     # archive below intentionally contains only application payloads for DaqApp.
     ninja_targets.append("bootloader.elf")
@@ -277,11 +295,20 @@ def stm32_crc32_words(data: bytes) -> int:
     return crc
 
 
+def package_source_target(board: str) -> str:
+    """Return the build target whose image receives this package board identity."""
+    if options.package_g4_testing and board == "main_module":
+        return "g4_testing"
+    return board
+
+
 def selected_boards() -> list[str]:
     """Require the complete six-board package produced by the package build."""
     missing = [
         board for board in BOARD_TARGETS
-        if not (OUT_DIR / board / f"{board}.bin").exists()
+        if not (
+            OUT_DIR / package_source_target(board) / f"{package_source_target(board)}.bin"
+        ).exists()
     ]
     if missing:
         raise RuntimeError(f"missing application binaries: {', '.join(missing)}")
@@ -364,10 +391,11 @@ def build_manifest(boards: list[str]) -> pathlib.Path:
     manifest_boards = []
 
     for board in boards:
-        elf = OUT_DIR / board / f"{board}.elf"
+        source_target = package_source_target(board)
+        elf = OUT_DIR / source_target / f"{source_target}.elf"
         verify_application_vector_address(elf)
 
-        source = OUT_DIR / board / f"{board}.bin"
+        source = OUT_DIR / source_target / f"{source_target}.bin"
         source_data = source.read_bytes()
         if not source_data or len(source_data) > BL_APP_SLOT_SIZE:
             raise RuntimeError(
@@ -433,7 +461,8 @@ def _deterministic_tarinfo(tarinfo: tarfile.TarInfo) -> tarfile.TarInfo:
 def create_tarball(manifest_path: pathlib.Path, boards: list[str]) -> pathlib.Path:
     """Create a reproducible archive with normalized tar and gzip metadata."""
     git_hash = get_git_hash_or_tag()
-    tarball_name = OUT_DIR / f"firmware_{git_hash}.tar.gz"
+    package_prefix = "firmware_g4_testing_" if options.package_g4_testing else "firmware_"
+    tarball_name = OUT_DIR / f"{package_prefix}{git_hash}.tar.gz"
     with tarball_name.open("wb") as output:
         with gzip.GzipFile(filename="", mode="wb", fileobj=output, mtime=0) as compressed:
             with tarfile.open(fileobj=compressed, mode="w") as tar:
@@ -443,7 +472,8 @@ def create_tarball(manifest_path: pathlib.Path, boards: list[str]) -> pathlib.Pa
                     tar.add(binary_path, arcname=f"images/{board}.bin", filter=_deterministic_tarinfo)
                     crc_path = OUT_DIR / "images" / f"{board}.crc"
                     tar.add(crc_path, arcname=f"crc/{board}.crc", filter=_deterministic_tarinfo)
-                    hex_path = OUT_DIR / board / f"{board}.hex"
+                    source_target = package_source_target(board)
+                    hex_path = OUT_DIR / source_target / f"{source_target}.hex"
                     tar.add(hex_path, arcname=f"hex/{board}.hex", filter=_deterministic_tarinfo)
     log_success(f"Tarball created: {tarball_name}")
     return tarball_name

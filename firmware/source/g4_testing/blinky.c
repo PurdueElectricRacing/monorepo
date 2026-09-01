@@ -1,5 +1,5 @@
 #include "g4_testing.h"
-#if (G4_TESTING_CHOSEN == TEST_BLINKY)
+#if (G4_TESTING_CHOSEN == TEST_BLINKY) && !defined(BOOTLOADER_ENABLED)
 
 #include <stdint.h>
 
@@ -73,4 +73,4 @@ void HardFault_Handler() {
     }
 }
 
-#endif // G4_TESTING_CHOSEN == TEST_BLINKY
+#endif // G4_TESTING_CHOSEN == TEST_BLINKY && !defined(BOOTLOADER_ENABLED)

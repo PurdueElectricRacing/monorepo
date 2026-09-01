@@ -19,6 +19,29 @@ Additional Notes:
         - `preLaunchTask`: Comment it out to prevent automatic building before flashing.
         - `runToEntryPoint`: Comment it out to prevent automatic pausing at `main()`.
 
+## STM32G474RE Nucleo bootloader smoke test
+
+This uses the existing `main_module` bootloader identity so DaqApp requires no
+special target support.
+
+1. Build the test package and resident images:
+   `python3 firmware/build_firmware.py --package-g4-testing`
+2. Flash `firmware/output/bootloader_MAIN_MODULE/bootloader_MAIN_MODULE.hex`
+   to the Nucleo over its initial ST-Link/SWD connection. Reset the board after
+   programming.
+3. Connect a 3.3 V CAN transceiver to the Nucleo: `PB13 (FDCAN2_TX) -> TXD`,
+   `PB12 (FDCAN2_RX) <- RXD`, and connect 3V3 and GND. Connect transceiver
+   `CANH`, `CANL`, and GND to the CANable. Provide normal 120 ohm termination
+   at the two ends of the CAN bus.
+4. In DaqApp, select the generated `firmware/can_library/dbc/VCAN_*.dbc`, set
+   **CAN Bus** to **VCAN** and **CAN Speed** to **500k**, select the CANable
+   serial port, and connect it.
+5. Add the **Bootloader** widget, select
+   `firmware/output/firmware_g4_testing_<hash>.tar.gz`, and wait for the
+   `main_module` row to show **Available**. Select only that row and upload it.
+   The Nucleo LED on PA5 should blink after the update completes. A subsequent
+   upload exercises the application-to-bootloader reset handshake as well.
+
 ## Using the Debugging Tools
 **VSCode debugger GUI**:
 - Play/Pause: Start or pause execution.
