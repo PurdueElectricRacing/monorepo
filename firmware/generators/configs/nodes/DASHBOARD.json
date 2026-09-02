@@ -153,7 +153,8 @@
                         {
                             "sig_name": "brake_pressure",
                             "type": "uint16_t",
-                            "sig_desc": "brake line hydraulic pressure in PSI"
+                            "sig_desc": "brake line hydraulic pressure in PSI",
+                            "unit": "psi"
                         }
                     ],
                     "msg_priority": 5,
