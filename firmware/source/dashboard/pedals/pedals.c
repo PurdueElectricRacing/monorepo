@@ -106,3 +106,19 @@ void pedals_periodic(void) {
 
     CAN_SEND_pedals(throttle_command, pedal_values.regen, pedal_values.brake);
 }
+
+void process_and_send_brake_psi(unit16_t raw_brake_adc) {
+
+    const unit16_t BRAKE_ADC_MIN = 450;
+    const unit16_t BRAKE_ADC_MAX = 3800;
+    const unit16_t BRAKE_PSI_MIN = 0;
+    const unit16_t BRAKE_PSI_MAX = 2000;
+
+    unit16_t clamped_adc = CLAMP(raw_brake_adc, BRAKE_ADC_MIN, BRAKE_ADC_MAX);
+    unit16_t brake_psi = RESCALE(clamped_adc, BRAKE_ADC_MIN, BRAKE_ADC_MAX, BRAKE_PSI_MIN, BRAKE_PSI_MAX);
+
+    pedal_values.brake = brake_psi;
+    CAN_SEND_pedals(pedal_values.throttle, pedal_values.regen, brake_psi);
+    
+
+}
