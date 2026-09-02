@@ -43,7 +43,7 @@ bool PHAL_SPI_init(SPI_InitConfig_t* cfg) {
         return false;
     // Set data frame size for SPI transaction to 8/16 bits depending on user configuration
     cfg->periph->CR1 &= ~(SPI_CR1_DFF);
-    cfg->periph->CR1 |= (uint32_t)(cfg->data_len != 8) << SPI_CR1_DFF_Pos;
+    cfg->periph->CR1 |= (cfg->data_len != 8) << SPI_CR1_DFF_Pos;
 #endif
 
     // Data Rate
@@ -356,9 +356,7 @@ static void PHAL_SPI_priv_handleTxComplete() {
             ;
         // Raise CS to end transaction
         if (active_transfer->nss_sw)
-            PHAL_GPIO_write(active_transfer->nss_gpio_port,
-                            active_transfer->nss_gpio_pin,
-                            1);
+            PHAL_GPIO_write(active_transfer->nss_gpio_port, active_transfer->nss_gpio_pin, 1);
 
         // Disable DMA channels
         PHAL_DMA_stopTxfer(active_transfer->rx_dma_cfg);
@@ -410,7 +408,7 @@ void DMA2_Stream3_IRQHandler() {
 }
 
 uint8_t PHAL_SPI_readByte(SPI_InitConfig_t* spi, uint8_t address, bool skipDummy) {
-    static uint8_t tx_cmd[4] = {(1U << 7), 0, 0};
+    static uint8_t tx_cmd[4] = {(1 << 7), 0, 0};
     static uint8_t rx_dat[4] = {1, 1, 1, 1};
     tx_cmd[0] |= (address & 0x7F);
 

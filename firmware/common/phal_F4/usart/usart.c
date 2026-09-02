@@ -80,10 +80,10 @@ bool PHAL_initUSART(usart_init_t* handle, const uint32_t fck) {
 #endif
 
     // The following FBRG configuration is based off RM0090 p. 978 - 980
-    over8 = (uint8_t)(8 << !handle->ovsample);
+    over8 = 8 << !handle->ovsample;
     carry = 0;
     // Calculate USARTDIV constant for given baud rate, convert to fixed point for easy manipulation
-    div = (uint32_t)(((float)fck / (float)(handle->baud_rate * over8)) * 100);
+    div = (uint32_t)(((float)fck / (handle->baud_rate * over8)) * 100);
 
     //Calculate DIV_Fraction value, round to nearest real number, then acquire carry value if div_fraction > 4bits
     div_fraction = (over8 * (div % 100));
@@ -106,7 +106,7 @@ bool PHAL_initUSART(usart_init_t* handle, const uint32_t fck) {
 
     // Set CR1 parameters
     handle->periph->CR1 = 0U;
-    handle->periph->CR1 |= (uint32_t)(handle->parity != PT_NONE) << USART_CR1_PCE_Pos;
+    handle->periph->CR1 |= (handle->parity != PT_NONE) << USART_CR1_PCE_Pos;
     handle->periph->CR1 |= handle->word_length << USART_CR1_M_Pos;
     handle->periph->CR1 |= (handle->parity >> 2) << USART_CR1_PS_Pos;
     handle->periph->CR1 |= handle->ovsample << USART_CR1_OVER8_Pos;

@@ -92,13 +92,13 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
 
     uint32_t DR = 0;
 
-    DR |= ((uint32_t)yearUnits << RTC_DR_YU_Pos) & RTC_DR_YU_Msk;
-    DR |= ((uint32_t)yearTens << RTC_DR_YT_Pos) & RTC_DR_YT_Msk;
-    DR |= ((uint32_t)initial_time->date.weekday << RTC_DR_WDU_Pos) & RTC_DR_WDU_Msk;
-    DR |= ((uint32_t)monthUnits << RTC_DR_MU_Pos) & RTC_DR_MU_Msk;
-    DR |= ((uint32_t)monthTens << RTC_DR_MT_Pos) & RTC_DR_MT_Msk;
-    DR |= ((uint32_t)dayUnits << RTC_DR_DU_Pos) & RTC_DR_DU_Msk;
-    DR |= ((uint32_t)dayTens << RTC_DR_DT_Pos) & RTC_DR_DT_Msk;
+    DR |= (yearUnits << RTC_DR_YU_Pos) & RTC_DR_YU_Msk;
+    DR |= (yearTens << RTC_DR_YT_Pos) & RTC_DR_YT_Msk;
+    DR |= (initial_time->date.weekday << RTC_DR_WDU_Pos) & RTC_DR_WDU_Msk;
+    DR |= (monthUnits << RTC_DR_MU_Pos) & RTC_DR_MU_Msk;
+    DR |= (monthTens << RTC_DR_MT_Pos) & RTC_DR_MT_Msk;
+    DR |= (dayUnits << RTC_DR_DU_Pos) & RTC_DR_DU_Msk;
+    DR |= (dayTens << RTC_DR_DT_Pos) & RTC_DR_DT_Msk;
 
     RTC->DR = DR;
 
@@ -112,12 +112,12 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
     uint32_t TR = 0;
 
     TR |= (RTC_FORMAT_24_HOUR << RTC_TR_PM_Pos) & RTC_TR_PM_Msk;
-    TR |= ((uint32_t)hoursUnits << RTC_TR_HU_Pos) & RTC_TR_HU_Msk;
-    TR |= ((uint32_t)hoursTens << RTC_TR_HT_Pos) & RTC_TR_HT_Msk;
-    TR |= ((uint32_t)minutesUnits << RTC_TR_MNU_Pos) & RTC_TR_MNU_Msk;
-    TR |= ((uint32_t)minutesTens << RTC_TR_MNT_Pos) & RTC_TR_MNT_Msk;
-    TR |= ((uint32_t)secondsUnits << RTC_TR_SU_Pos) & RTC_TR_SU_Msk;
-    TR |= ((uint32_t)secondsTens << RTC_TR_ST_Pos) & RTC_TR_ST_Msk;
+    TR |= (hoursUnits << RTC_TR_HU_Pos) & RTC_TR_HU_Msk;
+    TR |= (hoursTens << RTC_TR_HT_Pos) & RTC_TR_HT_Msk;
+    TR |= (minutesUnits << RTC_TR_MNU_Pos) & RTC_TR_MNU_Msk;
+    TR |= (minutesTens << RTC_TR_MNT_Pos) & RTC_TR_MNT_Msk;
+    TR |= (secondsUnits << RTC_TR_SU_Pos) & RTC_TR_SU_Msk;
+    TR |= (secondsTens << RTC_TR_ST_Pos) & RTC_TR_ST_Msk;
 
     RTC->TR = TR;
 
@@ -140,22 +140,22 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
 bool PHAL_getTimeRTC(RTC_timestamp_t* currentTimestamp) {
     if (RTC->ISR & RTC_ISR_INITS) {
         uint8_t seconds = (RTC->TR & RTC_TR_SU_Msk) >> RTC_TR_SU_Pos;
-        seconds += (uint8_t)(((RTC->TR & RTC_TR_ST_Msk) >> RTC_TR_ST_Pos) * 10);
+        seconds += ((RTC->TR & RTC_TR_ST_Msk) >> RTC_TR_ST_Pos) * 10;
 
         uint8_t minutes = (RTC->TR & RTC_TR_MNU_Msk) >> RTC_TR_MNU_Pos;
-        minutes += (uint8_t)(((RTC->TR & RTC_TR_MNT_Msk) >> RTC_TR_MNT_Pos) * 10);
+        minutes += ((RTC->TR & RTC_TR_MNT_Msk) >> RTC_TR_MNT_Pos) * 10;
 
         uint8_t hours = (RTC->TR & RTC_TR_HU_Msk) >> RTC_TR_HU_Pos;
-        hours += (uint8_t)(((RTC->TR & RTC_TR_HT_Msk) >> RTC_TR_HT_Pos) * 10);
+        hours += ((RTC->TR & RTC_TR_HT_Msk) >> RTC_TR_HT_Pos) * 10;
 
         uint8_t day = (RTC->DR & RTC_DR_DU_Msk) >> RTC_DR_DU_Pos;
-        day += (uint8_t)(((RTC->DR & RTC_DR_DT_Msk) >> RTC_DR_DT_Pos) * 10);
+        day += ((RTC->DR & RTC_DR_DT_Msk) >> RTC_DR_DT_Pos) * 10;
 
         uint8_t month = (RTC->DR & RTC_DR_MU_Msk) >> RTC_DR_MU_Pos;
-        month += (uint8_t)(((RTC->DR & RTC_DR_MT_Msk) >> RTC_DR_MT_Pos) * 10);
+        month += ((RTC->DR & RTC_DR_MT_Msk) >> RTC_DR_MT_Pos) * 10;
 
         uint8_t year = (RTC->DR & RTC_DR_YU_Msk) >> RTC_DR_YU_Pos;
-        year += (uint8_t)(((RTC->DR & RTC_DR_YT_Msk) >> RTC_DR_YT_Pos) * 10);
+        year += ((RTC->DR & RTC_DR_YT_Msk) >> RTC_DR_YT_Pos) * 10;
 
         currentTimestamp->date.year_bcd    = year;
         currentTimestamp->date.month_bcd   = month;
