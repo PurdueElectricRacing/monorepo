@@ -112,16 +112,16 @@ bool PHAL_initCAN(CAN_TypeDef* bus, bool test_mode, uint32_t bit_rate) {
     if (bus == CAN1) {
         bus->FMR |= CAN_FMR_FINIT; // Enter init mode for filter banks
         bus->FM1R &= ~(CAN_FM1R_FBM0_Msk); // Set bank 0 to mask mode
-        bus->FS1R &= ~(1U << CAN_FS1R_FSC0_Pos); // Set bank 0 to 16bit mode
-        bus->FA1R |= (1U << CAN_FA1R_FACT0_Pos); // Activate bank 0
+        bus->FS1R &= ~(1 << CAN_FS1R_FSC0_Pos); // Set bank 0 to 16bit mode
+        bus->FA1R |= (1 << CAN_FA1R_FACT0_Pos); // Activate bank 0
         bus->sFilterRegister[0].FR1 = 0; // Set mask to 0
         bus->sFilterRegister[0].FR2 = 0;
 #ifdef CAN2
         bus->FMR &= ~(CAN_FMR_CAN2SB);
         bus->FMR |= (27 << CAN_FMR_CAN2SB_Pos);
         bus->FM1R &= ~(CAN_FM1R_FBM27_Msk); // Set bank 27 to mask mode
-        bus->FS1R &= ~(1U << CAN_FS1R_FSC27_Pos); // Set bank 27 to 16bit mode
-        bus->FA1R |= (1U << CAN_FA1R_FACT27_Pos); // Activate bank 0
+        bus->FS1R &= ~(1 << CAN_FS1R_FSC27_Pos); // Set bank 27 to 16bit mode
+        bus->FA1R |= (1 << CAN_FA1R_FACT27_Pos); // Activate bank 0
         bus->sFilterRegister[27].FR1 = 0; // Set mask to 0
         bus->sFilterRegister[27].FR2 = 0;
 #endif
@@ -194,16 +194,15 @@ bool PHAL_txCANMessage(CanMsgTypeDef_t* msg, uint8_t txMbox) {
     // else
     //     return false;   // Unable to find Mailbox
     if (!msg->IDE) {
-        msg->Bus->sTxMailBox[txMbox].TIR =
-            ((uint32_t)msg->StdId << CAN_TI0R_STID_Pos); // Standard ID
+        msg->Bus->sTxMailBox[txMbox].TIR = (msg->StdId << CAN_TI0R_STID_Pos); // Standard ID
     } else {
         msg->Bus->sTxMailBox[txMbox].TIR = (msg->ExtId << CAN_TI0R_EXID_Pos) | 4; // Extended ID
     }
-    msg->Bus->sTxMailBox[txMbox].TDTR = ((uint32_t)msg->DLC << CAN_TDT0R_DLC_Pos); // Data Length
+    msg->Bus->sTxMailBox[txMbox].TDTR = (msg->DLC << CAN_TDT0R_DLC_Pos); // Data Length
     msg->Bus->sTxMailBox[txMbox].TDLR = ((uint32_t)msg->Data[3] << 24) | ((uint32_t)msg->Data[2] << 16) | ((uint32_t)msg->Data[1] << 8) | ((uint32_t)msg->Data[0]);
     msg->Bus->sTxMailBox[txMbox].TDHR = ((uint32_t)msg->Data[7] << 24) | ((uint32_t)msg->Data[6] << 16) | ((uint32_t)msg->Data[5] << 8) | ((uint32_t)msg->Data[4]);
 
-    msg->Bus->sTxMailBox[txMbox].TIR |= (0b1U << CAN_TI0R_TXRQ_Pos); // Request TX
+    msg->Bus->sTxMailBox[txMbox].TIR |= (0b1 << CAN_TI0R_TXRQ_Pos); // Request TX
 
     // while(!(msg->Bus->TSR & txOkay) && ++timeout < PHAL_CAN_TX_TIMEOUT)      // Wait for message to be sent within specified timeout
     //     ;
@@ -271,22 +270,22 @@ bool PHAL_rxCANMessage(CAN_TypeDef *bus, uint8_t fifo, CanMsgTypeDef_t *msg) {
         msg->ExtId = bus->sFIFOMailBox[fifo].RIR >> CAN_RI0R_EXID_Pos;
     } else {
         msg->IDE = false;
-        msg->StdId = (uint16_t)(bus->sFIFOMailBox[fifo].RIR >> CAN_RI0R_STID_Pos);
+        msg->StdId = bus->sFIFOMailBox[fifo].RIR >> CAN_RI0R_STID_Pos;
     }
 
-    msg->DLC = (uint8_t)((bus->sFIFOMailBox[fifo].RDTR & CAN_RDT0R_DLC) >> CAN_RDT0R_DLC_Pos);
+    msg->DLC = (bus->sFIFOMailBox[fifo].RDTR & CAN_RDT0R_DLC) >> CAN_RDT0R_DLC_Pos;
 
     uint32_t low = bus->sFIFOMailBox[fifo].RDLR;
     uint32_t high = bus->sFIFOMailBox[fifo].RDHR;
 
-    msg->Data[0] = (uint8_t)((low >> 0) & 0xFF);
-    msg->Data[1] = (uint8_t)((low >> 8) & 0xFF);
-    msg->Data[2] = (uint8_t)((low >> 16) & 0xFF);
-    msg->Data[3] = (uint8_t)((low >> 24) & 0xFF);
-    msg->Data[4] = (uint8_t)((high >> 0) & 0xFF);
-    msg->Data[5] = (uint8_t)((high >> 8) & 0xFF);
-    msg->Data[6] = (uint8_t)((high >> 16) & 0xFF);
-    msg->Data[7] = (uint8_t)((high >> 24) & 0xFF);
+    msg->Data[0] = (low >> 0) & 0xFF;
+    msg->Data[1] = (low >> 8) & 0xFF;
+    msg->Data[2] = (low >> 16) & 0xFF;
+    msg->Data[3] = (low >> 24) & 0xFF;
+    msg->Data[4] = (high >> 0) & 0xFF;
+    msg->Data[5] = (high >> 8) & 0xFF;
+    msg->Data[6] = (high >> 16) & 0xFF;
+    msg->Data[7] = (high >> 24) & 0xFF;
 
     if (fifo == 0) bus->RF0R |= CAN_RF0R_RFOM0;
     else bus->RF1R |= CAN_RF1R_RFOM1;
