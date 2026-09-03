@@ -60,23 +60,24 @@ If you don't have `git`, see: [Section 3](#3-install-platform-tools).
 Open a terminal and move to the directory where you want to keep the PER code.
 (Recommended: your home directory.)
 
-Then clone the repository with its submodules:
+Then clone the repository:
 
 ```bash
-git clone --recurse-submodules https://github.com/PurdueElectricRacing/monorepo.git
+git clone --depth 1 https://github.com/PurdueElectricRacing/monorepo.git
 ```
 
-If you already cloned the repository without `--recurse-submodules`, initialize the submodules manually:
+Then initialize the submodules:
 
 ```bash
-git submodule update --init --recursive
+cd monorepo
+git submodule update --init --depth 1
 ```
 
 Check that it worked and submodules were also cloned:
 
 ```bash
-ls monorepo
-ls monorepo/firmware/external/cmsis-device-g4/
+ls
+ls firmware/external/cmsis-device-g4/
 ```
 
 You should see something like:
