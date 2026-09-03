@@ -232,7 +232,14 @@ openocd --version
 
 ### 3C. Windows - WSL
 
-It is highly advised to either use WSL 2 with Ubuntu or dual boot into Linux for PER development.
+If your primary OS is Windows, it is highly advised to use:
+* WSL 2 with Ubuntu or
+* Dual boot into Linux or
+* A Linux virtual machine
+
+for PER development.
+
+Below are the instructions for WSL 2.
 
 #### 3C.1 Install WSL
 
@@ -273,7 +280,6 @@ code .
 VS Code should open the repository using the WSL environment.
 
 You can also open the repository inside of WSL + VS Code by `Ctrl + Shift + P` -> "WSL: Reopen Folder in WSL".
-
 
 #### 3C.4 USB / ST-LINK Access
 
