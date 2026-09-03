@@ -234,12 +234,12 @@ openocd --version
 
 It is highly advised to either use WSL 2 with Ubuntu or dual boot into Linux for PER development.
 
-
 #### 3C.1 Install WSL
 
 Follow Microsoft's WSL installation guide: https://learn.microsoft.com/en-us/windows/wsl/install
 
 After installation, install the most recent Ubuntu distribution.
+(As of the time of writing, Ubuntu 26.04 is the latest version.)
 
 Open a WSL terminal and check:
 
