@@ -246,8 +246,8 @@ var NAVTREEINDEX8 =
 "md_docs_2library.html#autotoc_md87":[22,3],
 "md_docs_2library.html#autotoc_md88":[22,4],
 "md_docs_2setup.html":[23],
-"md_docs_2setup.html#autotoc_md90":[23,0],
-"md_docs_2setup.html#autotoc_md91":[23,0,0],
-"md_firmware_2can__library_2README.html":[26],
-"md_firmware_2can__library_2README.html#autotoc_md117":[26,0]
+"md_docs_2setup.html#autotoc_md100":[23,3,0,1],
+"md_docs_2setup.html#autotoc_md101":[23,3,0,2],
+"md_docs_2setup.html#autotoc_md102":[23,3,1],
+"md_docs_2setup.html#autotoc_md103":[23,3,1,0]
 };
