@@ -2,7 +2,6 @@
 
 This guide sets up the complete PER software development environment.
 
-
 ## Table of Contents
 
 - [1. Clone the Repository](#1-clone-the-repository)
@@ -39,8 +38,8 @@ This guide sets up the complete PER software development environment.
 ### Platforms supported
 
 It is possible to build the PER software on macOS, Linux, and Windows.
-However, if you are using Windows, you should use WSL 2 with Ubuntu
-or dual boot into Linux.
+However, if you are using Windows, you should either use WSL 2, a Linux virtual machine,
+or dual boot into Linux. (If you use a VM or dual boot, follow the Linux instructions.)
 
 ## 1. Clone the Repository
 
