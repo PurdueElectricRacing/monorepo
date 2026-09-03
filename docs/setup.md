@@ -30,7 +30,7 @@ This guide sets up the complete PER software development environment.
 - [7. Individual Build Commands](#7-individual-build-commands)
   - [7.1 Build All Firmware](#71-build-all-firmware)
   - [7.2 Run Firmware Static Analysis](#72-run-firmware-static-analysis)
-  - [7.3 Build the DAQ App](#73-build-the-daq-app)
+  - [7.3 DaqApp](#73-daqapp)
   - [7.4 Build and Run Host Tests](#74-build-and-run-host-tests)
 - [8. Build from VS Code](#8-build-from-vs-code)
 - [9. Hardware Debugging](#9-hardware-debugging)
@@ -373,11 +373,19 @@ python3 firmware/build_firmware.py
 python3 firmware/check_firmware.py
 ```
 
-### 7.3 Build the DAQ App
+### 7.3 DaqApp
 
+Build:
 ```bash
 cargo build --manifest-path daqapp/Cargo.toml
 ```
+
+Run:
+```bash
+cargo run --manifest-path daqapp/Cargo.toml
+```
+
+(You can also build/run from the `daqapp/` directory with just `cargo build` or `cargo run`.)
 
 ### 7.4 Build and Run Host Tests
 
