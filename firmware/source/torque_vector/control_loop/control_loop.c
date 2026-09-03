@@ -123,7 +123,7 @@ void control_loop() {
     xVCU.WM_RAW[1] = can_data.wheel_speeds.front_right * RPM_TO_RADS;
     xVCU.WM_RAW[2] = can_data.wheel_speeds.rear_left * RPM_TO_RADS;
     xVCU.WM_RAW[3] = can_data.wheel_speeds.rear_right * RPM_TO_RADS;
-    xVCU.GS_RAW                        = (float)nav_pvt.groundSpeed * 1E-3f; // convert mm/s to m/s
+    xVCU.GS_RAW = (float)nav_pvt.groundSpeed * 1E-3f; // convert mm/s to m/s
 
     static constexpr float DEG_TO_RAD = 3.14f / 180.0f;
     xVCU.AV_RAW[0] = imu_data.gyro_x * DEG_TO_RAD;
