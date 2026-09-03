@@ -363,7 +363,6 @@ python build_all.py
 
 If this completes successfully, your development environment is set up correctly.
 
-
 ## 7. Individual Build Commands
 
 You can also build individual parts of the repository.
