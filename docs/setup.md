@@ -53,7 +53,7 @@ Check that it is installed:
 git --version
 ```
 
-If you don't have `git`, see: [Section 3](#3-install-platform-tools).
+If you don't have `git`, see: [Section 3](#3-install-platform--unit-testing-tools).
 
 ### 1.2 Clone the Repository
 
