@@ -2,6 +2,40 @@
 
 This guide sets up the complete PER software development environment.
 
+
+## Table of Contents
+
+- [1. Clone the Repository](#1-clone-the-repository)
+  - [1.1 Install Git](#11-install-git)
+  - [1.2 Clone the Repository](#12-clone-the-repository)
+- [2. Install Visual Studio Code](#2-install-visual-studio-code)
+  - [2.1 Install Recommended Extensions](#21-install-recommended-extensions)
+- [3. Install Platform + Unit Testing Tools](#3-install-platform--unit-testing-tools)
+  - [3A. macOS](#3a-macos)
+    - [3A.1 Install Homebrew](#3a1-install-homebrew)
+    - [3A.2 Install Apple's Command Line Tools](#3a2-install-apple's-command-line-tools)
+    - [3A.3 Install Firmware and Test Tools](#3a3-install-firmware-and-test-tools)
+  - [3B. Linux](#3b-linux)
+    - [3B.1 Update the System](#3b1-update-the-system)
+    - [3B.2 Install Development Tools](#3b2-install-development-tools)
+  - [3C. Windows - WSL](#3c-windows---wsl)
+    - [3C.1 Install WSL](#3c1-install-wsl)
+    - [3C.2 Update Ubuntu](#3c2-update-ubuntu)
+    - [3C.3 Use VS Code inside of WSL](#3c3-use-vs-code-inside-of-wsl)
+    - [3C.4 USB / ST-LINK Access](#3c4-usb---st-link-access)
+- [4. Install Python Dependencies](#4-install-python-dependencies)
+- [5. Install Rust/DAQ Tools](#5-install-rustdaq-tools)
+  - [5.1 Rust](#51-rust)
+  - [5.2 Linux / WSL DAQ Dependencies](#52-linux---wsl-daq-dependencies)
+- [6. Build the Repository](#6-build-the-repository)
+- [7. Individual Build Commands](#7-individual-build-commands)
+  - [7.1 Build All Firmware](#71-build-all-firmware)
+  - [7.2 Run Firmware Static Analysis](#72-run-firmware-static-analysis)
+  - [7.3 Build the DAQ App](#73-build-the-daq-app)
+  - [7.4 Build and Run Host Tests](#74-build-and-run-host-tests)
+- [8. Build from VS Code](#8-build-from-vs-code)
+- [9. Hardware Debugging](#9-hardware-debugging)
+
 ### Platforms supported
 
 It is possible to build the PER software on macOS, Linux, and Windows.
