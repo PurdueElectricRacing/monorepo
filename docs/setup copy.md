@@ -2,12 +2,10 @@
 
 This guide sets up the complete PER software development environment.
 
-
-
 ### Platforms supported
 
 It is possible to build the PER software on macOS, Linux, and Windows.
-However, if you are using Windows, it is highly recommended to use WSL 2 with Ubuntu
+However, if you are using Windows, you should use WSL 2 with Ubuntu
 or dual boot into Linux.
 
 ## 1. Clone the Repository
@@ -252,79 +250,6 @@ However. You will need additional USB configuration to connect an ST-LINK debugg
 This can be configured like so:
 * Microsoft's WSL USB documentation:
 https://learn.microsoft.com/en-us/windows/wsl/connect-usb
-
----
-
-### 3D. Windows - Native
-
-#### 3D.1 Install Chocolatey
-
-Install [Chocolatey](https://chocolatey.org/install) from an Administrator PowerShell.
-
-Check:
-
-```powershell
-choco --version
-```
-
-#### 3D.2 Install Development Tools
-
-From Administrator PowerShell:
-
-```powershell
-choco install git cmake ninja python3 openjdk openocd cppcheck mingw lcov
-```
-
-#### 3D.3 Install Cppcheck
-
-You can download the latest Cppcheck release from:
-
-https://cppcheck.sourceforge.io/
-
-
-Check:
-
-```powershell
-cppcheck --version
-```
-
-#### 3D.4 Install GoogleTest
-
-First download and install vcpkg from Microsoft:
-
-```powershell
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-.\bootstrap.ps1
-```
-
-Then install GoogleTest:
-
-```powershell
-.\vcpkg install gtest:x64-windows
-```
-
-#### 3D.4 Install the ARM Compiler
-
-Download the Arm GNU Toolchain from Arm:
-
-https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads
-
-Install the Windows `arm-none-eabi` toolchain.
-Make sure it is added to your system PATH.
-
-Verify:
-
-```powershell
-arm-none-eabi-gcc --version
-```
-
-#### 3D.5 Install the ST-LINK Driver
-
-Install the Windows USB drivers from ST:
-
-https://www.st.com/en/development-tools/stsw-link009.html
-
 
 ## 4. Install Python Dependencies
 
