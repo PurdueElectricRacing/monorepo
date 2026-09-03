@@ -5,8 +5,7 @@ target_sources(${TARGET_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/sdio.c")
 
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-# sdio.c is daq-specific glue (includes daq's main.h); SDIO is currently daq-only.
-# Scoped PRIVATE so this coupling doesn't leak to other consumers of SDIO.
+# sdio.c needs daq specific files 
 target_include_directories(${TARGET_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/source/daq
     ${CMAKE_SOURCE_DIR}/source/daq/sd_card
