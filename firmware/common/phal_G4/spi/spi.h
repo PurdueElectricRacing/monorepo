@@ -41,7 +41,7 @@ typedef enum {
  */
 typedef struct {
     uint32_t data_rate;          /*!< Desired SPI clock frequency (Hz) */
-    uint8_t data_len;            /*!< Transfer width in bits */
+    uint32_t data_len;           /*!< Transfer width in bits */
     SPI_Mode mode;               /*!< Master or slave mode */
 
     bool nss_sw;                 /*!< true = software-controlled chip select */
