@@ -89,9 +89,9 @@ You can also open the Extensions panel:
 
 and select Install All under the recommended extensions.
 
-## 3. Install Platform Tools
+## 3. Install Platform + Unit Testing Tools
 
-Install the tools for your operating system before continuing.
+Install the tools for your operating system.
 
 ### 3A. macOS
 
@@ -268,30 +268,9 @@ python3 -m pip install -r requirements.txt
 > python3 -m pip install -r requirements.txt --break-system-packages
 > ```
 
+## 5. Install Rust/DAQ Tools
 
-## 5. Install Host Unit Testing Tools
-
-PER's host tests use GoogleTest and generate code-coverage reports.
-
-## macOS
-
-The required packages were installed in Section 3A:
-
-```bash
-brew install googletest lcov
-```
-
-## Linux / WSL
-
-The required packages were installed in Section 3B:
-
-```bash
-sudo apt install libgtest-dev lcov
-```
-
-## 6. Install Rust/DAQ Tools
-
-### 6.1 Rust
+### 5.1 Rust
 
 Install Rust using `rustup`.
 
@@ -316,7 +295,7 @@ rustc --version
 cargo --version
 ```
 
-### 6.2 Linux / WSL DAQ Dependencies
+### 5.2 Linux / WSL DAQ Dependencies
 
 Linux needs additional packages for serial-device enumeration:
 
@@ -326,7 +305,7 @@ sudo apt install libudev-dev pkg-config
 
 These were already installed in the Linux setup section.
 
-## 7. Build the Repository
+## 6. Build the Repository
 
 The repository's main build entry point is:
 
@@ -345,29 +324,29 @@ python build_all.py
 If this completes successfully, your development environment is set up correctly.
 
 
-## 8. Individual Build Commands
+## 7. Individual Build Commands
 
 You can also build individual parts of the repository.
 
-### 8.1 Build All Firmware
+### 7.1 Build All Firmware
 
 ```bash
 python firmware/build_firmware.py
 ```
 
-### 8.2 Run Firmware Static Analysis
+### 7.2 Run Firmware Static Analysis
 
 ```bash
 python firmware/check_firmware.py
 ```
 
-### 8.3 Build the DAQ App
+### 7.3 Build the DAQ App
 
 ```bash
 cargo build --manifest-path daqapp/Cargo.toml
 ```
 
-### 8.4 Build and Run Host Tests
+### 7.4 Build and Run Host Tests
 
 ```bash
 python tests/build_tests.py
@@ -375,7 +354,7 @@ python tests/build_tests.py
 
 This also generates the host-test coverage report.
 
-## 9. Build from VS Code
+## 8. Build from VS Code
 
 Once the repository is open in VS Code, use:
 
@@ -390,7 +369,7 @@ You can also use:
 
 Then select the individual build task you want to run.
 
-## 10. Hardware Debugging
+## 9. Hardware Debugging
 
 Once your software build works, you can connect an ST-LINK debugger and flash firmware.
 
