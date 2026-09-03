@@ -8,10 +8,6 @@
  * Projects GPS latitude/longitude onto a local cartesian plane so that planar
  * geometry can be used on it.
  *
- * ! Coordinates are held as double on purpose. An absolute position at 1e-7
- * ! degree resolution needs ~9 significant digits, which a float cannot hold.
- * ! Offsets from a local origin are small enough that float is plenty.
- *
  * @author Amruth Nadimpally (nadimpaa@purdue.edu)
  * @author Aditya Saini (saini91@purdue.edu)
  */

@@ -19,8 +19,6 @@
 #include "common/utils/max.h"
 #include "common/utils/min.h"
 
-// ! cross products scale with segment length, so this tolerance is an area,
-// ! not a distance. Sized for segments on the order of meters.
 static constexpr float GEOMETRY_EPSILON = 1e-6f;
 
 typedef struct {

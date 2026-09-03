@@ -2,6 +2,10 @@
 #define LAP_TIMER_H
 
 #include <stdint.h>
+#include <stdbool.h>
+#include "common/utils/geodetic.h"
+#include "common/utils/geometry.h"
+#include "common/utils/linear_algebra.h"
 
 /**
  * @file lap_timer.h

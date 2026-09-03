@@ -7,13 +7,7 @@
  */
 
 #include "lap_timer.h"
-
-#include <stdbool.h>
-
 #include "can_library/generated/DASHBOARD.h"
-#include "common/utils/geodetic.h"
-#include "common/utils/geometry.h"
-#include "common/utils/linear_algebra.h"
 
 static bool is_timing = false;
 static bool is_finish_line_set = false;
@@ -26,6 +20,9 @@ static vector2_t last_point = {0.0f, 0.0f};
 static segment2_t finish_line = {0};
 
 static inline vector2_t current_position(void) {
+    if (can_data.gps_coordinates.is_stale()) {
+        return last_point;
+    }
     geodetic_coord_t fix = geodetic_from_scaled(
         can_data.gps_coordinates.latitude,
         can_data.gps_coordinates.longitude
