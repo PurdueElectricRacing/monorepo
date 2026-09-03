@@ -73,7 +73,7 @@ uint32_t PHAL_SPI_priv_calcBaudRatePrescaler(uint32_t data_rate, const SPI_TypeD
 void PHAL_SPI_priv_configCR2(SPI_InitConfig_t *cfg) {
     // Frame size via CR2 DS[3:0] on G4
     cfg->periph->CR2 &= ~(SPI_CR2_DS_Msk);
-    uint32_t ds = (CLAMP((uint32_t)cfg->data_len, 4, 16) - 1) & 0xF; // DS = bits-1
+    uint32_t ds = (CLAMP(cfg->data_len, 4, 16) - 1) & 0xF; // DS = bits-1
     cfg->periph->CR2 |= (ds << SPI_CR2_DS_Pos);
     // RX FIFO threshold: set FRXTH for 8-bit threshold
     cfg->periph->CR2 |= SPI_CR2_FRXTH;
