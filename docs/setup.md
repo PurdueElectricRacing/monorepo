@@ -350,16 +350,10 @@ These were already installed in the Linux setup section.
 The repository's main build entry point is:
 
 ```bash
-python build_all.py
+python3 build_all.py
 ```
 
 This builds the firmware, DAQ App, and host tests.
-
-Run it from the repository root:
-
-```bash
-python build_all.py
-```
 
 If this completes successfully, your development environment is set up correctly.
 
@@ -370,13 +364,13 @@ You can also build individual parts of the repository.
 ### 7.1 Build All Firmware
 
 ```bash
-python firmware/build_firmware.py
+python3 firmware/build_firmware.py
 ```
 
 ### 7.2 Run Firmware Static Analysis
 
 ```bash
-python firmware/check_firmware.py
+python3 firmware/check_firmware.py
 ```
 
 ### 7.3 Build the DAQ App
@@ -388,7 +382,7 @@ cargo build --manifest-path daqapp/Cargo.toml
 ### 7.4 Build and Run Host Tests
 
 ```bash
-python tests/build_tests.py
+python3 tests/build_tests.py
 ```
 
 This also generates the host-test coverage report.
