@@ -11,7 +11,7 @@
                         {
                             "signal_name": "csr",
                             "description": "RCC CSR register",
-                            "type": "uint32_t"
+                            "data_type": "uint32_t"
                         }
                     ],
                     "priority": 0
@@ -23,21 +23,21 @@
                         {
                             "signal_name": "pack_voltage",
                             "description": "Total pack voltage",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         },
                         {
                             "signal_name": "pack_current",
                             "description": "Total pack current, positive is discharge",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "A",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "max_temp",
                             "description": "Max thermistor reading in the pack",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "C"
                         }
                     ],
@@ -51,19 +51,19 @@
                         {
                             "signal_name": "temperature",
                             "description": "Individual thermistor temperature",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "module_num",
                             "description": "Module number of the cell being reported, 0 indexed",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "thermistor_num",
                             "description": "Thermistor number within the module, 0 indexed",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         }
                     ],
                     "priority": 5,
@@ -75,7 +75,7 @@
                     "signals": [
                         {
                             "signal_name": "git_hash",
-                            "type": "uint32_t",
+                            "data_type": "uint32_t",
                             "description": "int representation of git short hash"
                         }
                     ],
@@ -99,32 +99,32 @@
                             "description": "Requested charge voltage in decivolts",
                             "unit": "V",
                             "scale": 0.1,
-                            "type": "uint16_t"
+                            "data_type": "uint16_t"
                         },
                         {
                             "signal_name": "current_limit",
                             "description": "Requested charge current in deciamps",
                             "unit": "A",
                             "scale": 0.1,
-                            "type": "uint16_t"
+                            "data_type": "uint16_t"
                         },
                         {
                             "signal_name": "charger_disable",
                             "description": "0 to enable charging, 1 to disable charging",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "choices": ["ENABLE", "DISABLE"]
                         },
                         {
                             "signal_name": "reserved1",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "reserved2",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "reserved3",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         }
                     ],
                     "priority": 3,
@@ -138,28 +138,28 @@
                         {
                             "signal_name": "pack_voltage",
                             "description": "Total pack voltage",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         },
                         {
                             "signal_name": "pack_current",
                             "description": "Total pack current, positive is discharge",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "A",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "min_cell_voltage",
                             "description": "Minimum cell voltage in the pack",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         },
                         {
                             "signal_name": "max_cell_voltage",
                             "description": "Maximum cell voltage in the pack",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         }
@@ -176,24 +176,24 @@
                             "description": "Requested charge voltage in decivolts",
                             "unit": "V",
                             "scale": 0.1,
-                            "type": "uint16_t"
+                            "data_type": "uint16_t"
                         },
                         {
                             "signal_name": "current_limit",
                             "description": "Requested charge current in deciamps",
                             "unit": "A",
                             "scale": 0.1,
-                            "type": "uint16_t"
+                            "data_type": "uint16_t"
                         },
                         {
                             "signal_name": "balancing_status",
                             "description": "Balancing status of the pack",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "charging_state",
                             "description": "abox charging fsm state",
-                            "type": "charging_state_t"
+                            "data_type": "charging_state_t"
                         }
                     ],
                     "priority": 4,
@@ -206,24 +206,24 @@
                         {
                             "signal_name": "voltage",
                             "description": "individual cell voltage",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         },
                         {
                             "signal_name": "module_num",
                             "description": "Module number of the cell being reported, 0 indexed",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "cell_num",
                             "description": "Cell number within the module, 0 indexed",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "balance_status",
                             "description": "Whether the cell is currently being balanced",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "priority": 5,
@@ -236,19 +236,19 @@
                         {
                             "signal_name": "temperature",
                             "description": "Individual thermistor temperature",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "module_num",
                             "description": "Module number of the cell being reported, 0 indexed",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "thermistor_num",
                             "description": "Thermistor number within the module, 0 indexed",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         }
                     ],
                     "priority": 5,

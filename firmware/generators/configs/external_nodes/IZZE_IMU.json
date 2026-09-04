@@ -10,28 +10,28 @@
                 {
                     "signal_name": "X_axis",
                     "description": "Angular Rate around X-axis",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "deg/s",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "Y_axis",
                     "description": "Angular Rate around Y-axis",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "deg/s",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "Z_axis",
                     "description": "Angular Rate around Z-axis",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "deg/s",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "reserved",
                     "description": "reserved",
-                    "type": "uint16_t"
+                    "data_type": "uint16_t"
                 }
             ],
             "period_ms": 50,
@@ -46,28 +46,28 @@
                 {
                     "signal_name": "X_axis",
                     "description": "Acceleration along X-axis",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "g",
                     "scale": 0.01
                 },
                 {
                     "signal_name": "Y_axis",
                     "description": "Acceleration along Y-axis",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "g",
                     "scale": 0.01
                 },
                 {
                     "signal_name": "Z_axis",
                     "description": "Acceleration along Z-axis",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "g",
                     "scale": 0.01
                 },
                 {
                     "signal_name": "temperature",
                     "description": "IMU Temperature",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 }

@@ -37,7 +37,7 @@ Maps a firmware node onto hardware peripherals and message lists.
 ## Signal Attributes
 - `signal_name`: Signal name. Must be unique within the message.
 - `description`: (Optional) Short description of signal purpose.
-- `type`: C-type (`uint8_t`...`float`) or a custom type defined in `configs/system/common_types.json`.
+- `data_type`: C type (`uint8_t`...`float`) or a custom type defined in `configs/system/common_types.json`.
 - `length`: (Optional for standard types) Bit-length. Required for custom packing or sub-byte types.
 - `unit`: (Optional) Physical unit label for DBC generation (e.g., `V`, `Amps`, `C`).
 - `scale`: Multiplier for physical value conversion. Default 1.0.

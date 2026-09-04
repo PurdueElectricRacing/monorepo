@@ -11,7 +11,7 @@
                         {
                             "signal_name": "csr",
                             "description": "RCC CSR register",
-                            "type": "uint32_t"
+                            "data_type": "uint32_t"
                         }
                     ],
                     "priority": 0
@@ -23,7 +23,7 @@
                         {
                             "signal_name": "car_state",
                             "description": "Main car state",
-                            "type": "car_state_t"
+                            "data_type": "car_state_t"
                         }
                     ],
                     "period_ms": 500,
@@ -35,25 +35,25 @@
                     "signals": [
                         {
                             "signal_name": "front_right",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "front_left",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "rear_left",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "rear_right",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.1
                         }
@@ -67,25 +67,25 @@
                     "signals": [
                         {
                             "signal_name": "front_right",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "front_left",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "rear_left",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "rear_right",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.1
                         }
@@ -99,22 +99,22 @@
                     "signals": [
                         {
                             "signal_name": "front_right",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "rpm"
                         },
                         {
                             "signal_name": "front_left",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "rpm"
                         },
                         {
                             "signal_name": "rear_left",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "rpm"
                         },
                         {
                             "signal_name": "rear_right",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "rpm"
                         }
                     ],
@@ -127,7 +127,7 @@
                     "signals": [
                         {
                             "signal_name": "git_hash",
-                            "type": "uint32_t",
+                            "data_type": "uint32_t",
                             "description": "int representation of git short hash"
                         }
                     ],
@@ -141,27 +141,27 @@
                         {
                             "signal_name": "diagnostic_number",
                             "description": "AMK diagnostic number",
-                            "type": "uint32_t"
+                            "data_type": "uint32_t"
                         },
                         {
                             "signal_name": "amk_state",
                             "description": "Current inverter state",
-                            "type": "AMK_state_t"
+                            "data_type": "AMK_state_t"
                         },
                         {
                             "signal_name": "bError",
                             "description": "AMK status error bit",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "InverterOn",
                             "description": "AMK inverter on status",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "is_any_stale",
                             "description": "any message from AMK is stale",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "period_ms": 1000,
@@ -174,27 +174,27 @@
                         {
                             "signal_name": "diagnostic_number",
                             "description": "AMK diagnostic number",
-                            "type": "uint32_t"
+                            "data_type": "uint32_t"
                         },
                         {
                             "signal_name": "amk_state",
                             "description": "Current inverter state",
-                            "type": "AMK_state_t"
+                            "data_type": "AMK_state_t"
                         },
                         {
                             "signal_name": "bError",
                             "description": "AMK status error bit",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "InverterOn",
                             "description": "AMK inverter on status",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "is_any_stale",
                             "description": "any message from AMK is stale",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "period_ms": 1000,
@@ -207,27 +207,27 @@
                         {
                             "signal_name": "diagnostic_number",
                             "description": "AMK diagnostic number",
-                            "type": "uint32_t"
+                            "data_type": "uint32_t"
                         },
                         {
                             "signal_name": "amk_state",
                             "description": "Current inverter state",
-                            "type": "AMK_state_t"
+                            "data_type": "AMK_state_t"
                         },
                         {
                             "signal_name": "bError",
                             "description": "AMK status error bit",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "InverterOn",
                             "description": "AMK inverter on status",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "is_any_stale",
                             "description": "any message from AMK is stale",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "period_ms": 1000,
@@ -240,27 +240,27 @@
                         {
                             "signal_name": "diagnostic_number",
                             "description": "AMK diagnostic number",
-                            "type": "uint32_t"
+                            "data_type": "uint32_t"
                         },
                         {
                             "signal_name": "amk_state",
                             "description": "Current inverter state",
-                            "type": "AMK_state_t"
+                            "data_type": "AMK_state_t"
                         },
                         {
                             "signal_name": "bError",
                             "description": "AMK status error bit",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "InverterOn",
                             "description": "AMK inverter on status",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "is_any_stale",
                             "description": "any message from AMK is stale",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "period_ms": 1000,
@@ -296,12 +296,12 @@
                         {
                             "signal_name": "car_state",
                             "description": "Main car state",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 8
                         },
                         {
                             "signal_name": "precharge_state",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "period_ms": 500,
@@ -314,53 +314,53 @@
                         {
                             "signal_name": "AMK_Control_bReserve",
                             "description": "Control word: RESERVED",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 8
                         },
                         {
                             "signal_name": "AMK_Control_bInverterOn",
                             "description": "Control word: controller enable",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bDcOn",
                             "description": "Control word: HV activation",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bEnable",
                             "description": "Control word: driver enable",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bErrorReset",
                             "description": "Control word: remove error",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bReserve2",
                             "description": "Control word: RESERVED",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 4
                         },
                         {
                             "signal_name": "AMK_TorqueSetpoint",
                             "description": "Torque setpoint (percentage of nominal torque)",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "%",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "AMK_PositiveTorqueLimit",
                             "description": "Positive Torque Limit",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "Nm",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "AMK_NegativeTorqueLimit",
                             "description": "Negative Torque Limit",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "Nm",
                             "scale": 0.1
                         }
@@ -376,53 +376,53 @@
                         {
                             "signal_name": "AMK_Control_bReserve",
                             "description": "Control word: RESERVED",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 8
                         },
                         {
                             "signal_name": "AMK_Control_bInverterOn",
                             "description": "Control word: controller enable",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bDcOn",
                             "description": "Control word: HV activation",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bEnable",
                             "description": "Control word: driver enable",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bErrorReset",
                             "description": "Control word: remove error",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bReserve2",
                             "description": "Control word: RESERVED",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 4
                         },
                         {
                             "signal_name": "AMK_TorqueSetpoint",
                             "description": "Torque setpoint (percentage of nominal torque)",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "%",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "AMK_PositiveTorqueLimit",
                             "description": "Positive Torque Limit",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "Nm",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "AMK_NegativeTorqueLimit",
                             "description": "Negative Torque Limit",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "Nm",
                             "scale": 0.1
                         }
@@ -438,53 +438,53 @@
                         {
                             "signal_name": "AMK_Control_bReserve",
                             "description": "Control word: RESERVED",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 8
                         },
                         {
                             "signal_name": "AMK_Control_bInverterOn",
                             "description": "Control word: controller enable",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bDcOn",
                             "description": "Control word: HV activation",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bEnable",
                             "description": "Control word: driver enable",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bErrorReset",
                             "description": "Control word: remove error",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bReserve2",
                             "description": "Control word: RESERVED",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 4
                         },
                         {
                             "signal_name": "AMK_TorqueSetpoint",
                             "description": "Torque setpoint (percentage of nominal torque)",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "%",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "AMK_PositiveTorqueLimit",
                             "description": "Positive Torque Limit",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "Nm",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "AMK_NegativeTorqueLimit",
                             "description": "Negative Torque Limit",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "Nm",
                             "scale": 0.1
                         }
@@ -500,53 +500,53 @@
                         {
                             "signal_name": "AMK_Control_bReserve",
                             "description": "Control word: RESERVED",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 8
                         },
                         {
                             "signal_name": "AMK_Control_bInverterOn",
                             "description": "Control word: controller enable",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bDcOn",
                             "description": "Control word: HV activation",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bEnable",
                             "description": "Control word: driver enable",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bErrorReset",
                             "description": "Control word: remove error",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "AMK_Control_bReserve2",
                             "description": "Control word: RESERVED",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 4
                         },
                         {
                             "signal_name": "AMK_TorqueSetpoint",
                             "description": "Torque setpoint (percentage of nominal torque)",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "%",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "AMK_PositiveTorqueLimit",
                             "description": "Positive Torque Limit",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "Nm",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "AMK_NegativeTorqueLimit",
                             "description": "Negative Torque Limit",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "Nm",
                             "scale": 0.1
                         }

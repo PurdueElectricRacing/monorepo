@@ -9,26 +9,26 @@
                 {
                     "signal_name": "charge_voltage",
                     "description": "Requested charge voltage in decivolts",
-                    "type": "uint16_t",
+                    "data_type": "uint16_t",
                     "unit": "V",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "charge_current",
                     "description": "Requested charge current in deciamps",
-                    "type": "uint16_t",
+                    "data_type": "uint16_t",
                     "unit": "A",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "charge_enable",
                     "description": "Request to start charging",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "balance_enable",
                     "description": "Request to start balancing",
-                    "type": "bool"
+                    "data_type": "bool"
                 }
             ],
             "period_ms": 500,

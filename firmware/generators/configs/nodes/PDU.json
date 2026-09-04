@@ -11,7 +11,7 @@
                         {
                             "signal_name": "csr",
                             "description": "RCC CSR register",
-                            "type": "uint32_t"
+                            "data_type": "uint32_t"
                         }
                     ],
                     "priority": 0
@@ -23,24 +23,24 @@
                         {
                             "signal_name": "in_24v",
                             "description": "Unregulated 24V input",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mV"
                         },
                         {
                             "signal_name": "out_5v",
                             "description": "5v rail output voltage",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mV"
                         },
                         {
                             "signal_name": "out_3v3",
                             "description": "3v3 rail output voltage",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mV"
                         },
                         {
                             "signal_name": "amk_24v",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mV"
                         }
                     ],
@@ -54,13 +54,13 @@
                         {
                             "signal_name": "i_24v",
                             "description": "Unregulated 24V rail current",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA"
                         },
                         {
                             "signal_name": "i_5v",
                             "description": "5v rail current",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA"
                         }
                     ],
@@ -73,23 +73,23 @@
                     "signals": [
                         {
                             "signal_name": "i_pump1",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA"
                         },
                         {
                             "signal_name": "i_pump2",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA"
                         },
                         {
                             "signal_name": "i_fan1",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
                             "signal_name": "i_fan2",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         }
@@ -103,13 +103,13 @@
                     "signals": [
                         {
                             "signal_name": "i_fan3",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
                             "signal_name": "i_fan4",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         }
@@ -123,31 +123,31 @@
                     "signals": [
                         {
                             "signal_name": "i_sdc",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
                             "signal_name": "i_aux",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
                             "signal_name": "i_dash",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
                             "signal_name": "i_abox",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
                             "signal_name": "i_main",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         }
@@ -162,17 +162,17 @@
                         {
                             "signal_name": "is_powertrain_pumps_enabled",
                             "description": "Powertrain pumps enabled",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "is_hx_fan_enabled",
                             "description": "Heat exchanger fan enabled",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "is_batt_fans_enabled",
                             "description": "Battery fans enabled",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "period_ms": 1000,
@@ -185,7 +185,7 @@
                         {
                             "signal_name": "internal_therm",
                             "description": "Temperature from internal thermistor",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "C"
                         }
                     ],
@@ -198,22 +198,22 @@
                     "signals": [
                         {
                             "signal_name": "can_tx_overflow",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "description": "CAN Tx queue overflow count"
                         },
                         {
                             "signal_name": "can_tx_fail",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "description": "CAN Tx fail count (due to timeout in mailbox)"
                         },
                         {
                             "signal_name": "can_rx_overflow",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "description": "CAN Rx queue overflow count"
                         },
                         {
                             "signal_name": "can_rx_overrun",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "description": "CAN Rx FIFO overrun count"
                         }
                     ],
@@ -226,7 +226,7 @@
                     "signals": [
                         {
                             "signal_name": "git_hash",
-                            "type": "uint32_t",
+                            "data_type": "uint32_t",
                             "description": "int representation of git short hash"
                         }
                     ],

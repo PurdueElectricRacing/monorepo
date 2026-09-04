@@ -10,31 +10,31 @@
                     "signals": [
                         {
                             "signal_name": "programming_constant",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "none"
                         },
                         {
                             "signal_name": "NEW_CAN_BASE_ID",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "none",
                             "min": 1,
                             "max": 2047
                         },
                         {
                             "signal_name": "gyro_scale",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "accel_scale",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "output_data_rate",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "bit_rate",
-                            "type": "uint8_t"
+                            "data_type": "uint8_t"
                         }
                     ],
                     "period_ms": 1000,
@@ -48,7 +48,7 @@
                         {
                             "signal_name": "temperature",
                             "description": "Offset-only: signed range packed in unsigned u8. Offset: -40C.",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "unit": "C",
                             "offset": -40.0,
                             "min": -40,
@@ -57,7 +57,7 @@
                         {
                             "signal_name": "current",
                             "description": "Scale-only: signed range packed in int16. Scale: 0.1A.",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "A",
                             "scale": 0.1,
                             "min": -200, 
@@ -66,7 +66,7 @@
                         {
                             "signal_name": "voltage",
                             "description": "Scale and offset: unsigned range packed in u16. Scale: 0.001V, Offset: 2.5V.",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "V",
                             "scale": 0.001,
                             "offset": 2.5,
@@ -76,7 +76,7 @@
                         {
                             "signal_name": "pressure",
                             "description": "Scale and offset: unsigned range packed in u8. Scale: 2kPa, Offset: 20kPa.",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "unit": "kPa",
                             "scale": 2.0,
                             "offset": 20.0,
@@ -86,7 +86,7 @@
                         {
                             "signal_name": "status",
                             "description": "No scale or offset: packed in u8.",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "unit": "none"
                         }
                     ],

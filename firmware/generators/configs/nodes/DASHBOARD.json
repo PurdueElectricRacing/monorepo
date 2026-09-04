@@ -11,7 +11,7 @@
                         {
                             "signal_name": "csr",
                             "description": "RCC CSR register",
-                            "type": "uint32_t"
+                            "data_type": "uint32_t"
                         }
                     ],
                     "priority": 0
@@ -23,7 +23,7 @@
                         {
                             "signal_name": "throttle",
                             "description": "throttle request from driver",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "min": 0,
                             "max": 100,
                             "unit": "%"
@@ -31,7 +31,7 @@
                         {
                             "signal_name": "regen",
                             "description": "regen request from driver (first throw)",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "min": 0,
                             "max": 100,
                             "unit": "%"
@@ -39,7 +39,7 @@
                         {
                             "signal_name": "brake",
                             "description": "mechanical braking from driver (second throw)",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "min": 0,
                             "max": 100,
                             "unit": "%"
@@ -54,7 +54,7 @@
                     "signals": [
                         {
                             "signal_name": "is_pressed",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "period_ms": 200,
@@ -66,36 +66,36 @@
                     "signals": [
                         {
                             "signal_name": "vcu_mode",
-                            "type": "vcu_mode_t"
+                            "data_type": "vcu_mode_t"
                         },
                         {
                             "signal_name": "lateral_gain",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "unit": "%",
                             "max": 100,
                             "min": 0
                         },
                         {
                             "signal_name": "longitudinal_gain",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "unit": "%",
                             "max": 100,
                             "min": 0
                         },
                         {
                             "signal_name": "electronic_brake_bias",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "unit": "%",
                             "max": 100,
                             "min": 0
                         },
                         {
                             "signal_name": "is_regen_enabled",
-                            "type": "bool"
+                            "data_type": "bool"
                         },
                         {
                             "signal_name": "is_tv_enabled",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "priority": 3
@@ -106,19 +106,19 @@
                     "signals": [
                         {
                             "signal_name": "angle",
-                            "type": "int16_t",
+                            "data_type": "int16_t",
                             "unit": "deg",
                             "scale": 0.1
                         },
                         {
                             "signal_name": "angular_rate",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "unit": "deg/s",
                             "scale": 4
                         },
                         {
                             "signal_name": "data_valid",
-                            "type": "bool"
+                            "data_type": "bool"
                         }
                     ],
                     "period_ms": 50,
@@ -130,12 +130,12 @@
                     "signals": [
                         {
                             "signal_name": "os_tick",
-                            "type": "uint32_t",
+                            "data_type": "uint32_t",
                             "description": "milliseconds since startup"
                         },
                         {
                             "signal_name": "mark_index",
-                            "type": "uint16_t",
+                            "data_type": "uint16_t",
                             "description": "incremented each time the mark button is pressed"
                         }
                     ],
@@ -148,7 +148,7 @@
                     "signals": [
                         {
                             "signal_name": "git_hash",
-                            "type": "uint32_t",
+                            "data_type": "uint32_t",
                             "description": "int representation of git short hash"
                         }
                     ],
@@ -203,17 +203,17 @@
                         {
                             "signal_name": "CCW",
                             "description": "Command Code Word",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 3
                         },
                         {
                             "signal_name": "reserved1",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 5
                         },
                         {
                             "signal_name": "reserved2",
-                            "type": "uint8_t",
+                            "data_type": "uint8_t",
                             "length": 8
                         }
                     ],

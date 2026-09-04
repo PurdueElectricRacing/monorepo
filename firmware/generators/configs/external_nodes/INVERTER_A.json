@@ -9,25 +9,25 @@
                 {
                     "signal_name": "AMK_ActualSpeed",
                     "description": "Actual speed value",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "rpm"
                 },
                 {
                     "signal_name": "AMK_ActualTorque",
                     "description": "Actual torque value",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "%",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "AMK_DisplayOverloadInverter",
-                    "type": "uint16_t",
+                    "data_type": "uint16_t",
                     "scale": 0.1,
                     "unit": "%"
                 },
                 {
                     "signal_name": "AMK_DisplayOverloadMotor",
-                    "type": "uint16_t",
+                    "data_type": "uint16_t",
                     "scale": 0.1,
                     "unit": "%"
                 }
@@ -43,53 +43,53 @@
                 {
                     "signal_name": "AMK_Status_bReserve",
                     "description": "Status word: RESERVED",
-                    "type": "uint8_t",
+                    "data_type": "uint8_t",
                     "length": 8
                 },
                 {
                     "signal_name": "AMK_Status_bSystemReady",
                     "description": "Status word: system ready",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "AMK_Status_bError",
                     "description": "Status word: error",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "AMK_Status_bWarn",
                     "description": "Status word: warning",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "AMK_Status_bQuitDcOn",
                     "description": "Status word: HV activation ACK",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "AMK_Status_bDcOn",
                     "description": "Status word: HV activation level",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "AMK_Status_bQuitInverterOn",
                     "description": "Status word: Controller enable ACK",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "AMK_Status_bInverterOn",
                     "description": "Status word: Controller enable level",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "AMK_Status_bDerating",
                     "description": "Status word: torque limit activation",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "AMK_DCBusVoltage",
                     "description": "Voltage of the DC bus",
-                    "type": "uint16_t",
+                    "data_type": "uint16_t",
                     "unit": "V"
                 }
             ],
@@ -104,12 +104,12 @@
                 {
                     "signal_name": "AMK_DiagnosticNumber",
                     "description": "Error number",
-                    "type": "uint32_t"
+                    "data_type": "uint32_t"
                 },
                 {
                     "signal_name": "AMK_ErrorInfo1",
                     "description": "Error info",
-                    "type": "uint32_t"
+                    "data_type": "uint32_t"
                 }
             ],
             "period_ms": 2000,
@@ -123,12 +123,12 @@
                 {
                     "signal_name": "AMK_ErrorInfo2",
                     "description": "Error info",
-                    "type": "uint32_t"
+                    "data_type": "uint32_t"
                 },
                 {
                     "signal_name": "AMK_ErrorInfo3",
                     "description": "Error info",
-                    "type": "uint32_t"
+                    "data_type": "uint32_t"
                 }
             ],
             "period_ms": 2000,
@@ -142,21 +142,21 @@
                 {
                     "signal_name": "AMK_MotorTemp",
                     "description": "Motor temperature",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "AMK_InverterTemp",
                     "description": "Inverter cold plate temperature",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "AMK_IGBTTemp",
                     "description": "IGBT temperature",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 }
@@ -172,7 +172,7 @@
                 {
                     "signal_name": "AMK_PhaseUCurrent",
                     "description": "INVA Phase U Current",
-                    "type": "int32_t"
+                    "data_type": "int32_t"
                 }
             ],
             "period_ms": 250,

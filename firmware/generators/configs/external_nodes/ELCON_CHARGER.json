@@ -11,38 +11,38 @@
                     "signal_name": "charge_voltage",
                     "unit": "V",
                     "scale": 0.1,
-                    "type": "uint16_t"
+                    "data_type": "uint16_t"
                 },
                 {
                     "signal_name": "charge_current",
                     "unit": "A",
                     "scale": 0.1,
-                    "type": "uint16_t"
+                    "data_type": "uint16_t"
                 },
                 {
                     "signal_name": "hw_fail",
                     "description": "Hardware failure",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "temp_fail",
                     "description": "Temperature failure",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "input_v_fail",
                     "description": "Input voltage failure",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "startup_fail",
                     "description": "Startup voltage detection failure",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "communication_fail",
                     "description": " 5s timeout from communication failure",
-                    "type": "bool"
+                    "data_type": "bool"
                 }
             ],
             "id_override": "0x18FF50E5",

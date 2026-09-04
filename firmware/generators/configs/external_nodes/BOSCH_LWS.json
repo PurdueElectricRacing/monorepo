@@ -9,40 +9,40 @@
                 {
                     "signal_name": "LWS_ANGLE",
                     "description": "Steering Angle",
-                    "type": "int16_t",
+                    "data_type": "int16_t",
                     "unit": "deg",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "LWS_SPEED",
                     "description": "Angular speed of steering input",
-                    "type": "uint8_t",
+                    "data_type": "uint8_t",
                     "unit": "deg/s",
                     "scale": 4
                 },
                 {
                     "signal_name": "OK",
                     "description": "Sensor failure status, 0 = failure, 1 = OK",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "CAL",
                     "description": "Sensor calibration status, 0 = uncalibrated, 1 = calibrated",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "TRIM",
                     "description": "Sensor trim status, 0 = invalid, 1 = valid",
-                    "type": "bool"
+                    "data_type": "bool"
                 },
                 {
                     "signal_name": "reserved1",
-                    "type": "uint8_t",
+                    "data_type": "uint8_t",
                     "length": 5
                 },
                 {
                     "signal_name": "reserved2",
-                    "type": "uint8_t",
+                    "data_type": "uint8_t",
                     "length": 8
                 }
             ],
