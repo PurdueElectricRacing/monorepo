@@ -42,9 +42,6 @@ class ConfigModel(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
         strict=True,
-        validate_by_alias=True,
-        validate_by_name=False,
-        loc_by_alias=True,
     )
 
     @model_validator(mode="before")
@@ -61,16 +58,16 @@ class ConfigModel(BaseModel):
 
 
 class SignalConfig(ConfigModel):
-    name: str = Field(validation_alias="signal_name")
-    datatype: str = Field(validation_alias="type")
-    desc: str = Field(default="", validation_alias="description")
+    signal_name: str
+    data_type: str
+    description: str = ""
     length: BitLength | None = None
     unit: str | None = None
     choices: list[str] | None = None
     scale: Number | None = None
     offset: Number | None = None
-    min_val: Number | None = Field(default=None, validation_alias="min")
-    max_val: Number | None = Field(default=None, validation_alias="max")
+    min: Number | None = None
+    max: Number | None = None
 
     @field_validator("choices")
     @classmethod
@@ -81,7 +78,7 @@ class SignalConfig(ConfigModel):
 
     @model_validator(mode="after")
     def validate_signal_rules(self) -> Self:
-        if self.datatype == "float" and self.length not in (None, 32):
+        if self.data_type == "float" and self.length not in (None, 32):
             raise ValueError("float signals must have length 32")
         if self.scale is not None and self.unit is None:
             raise ValueError("unit is required when scale is specified")
@@ -89,11 +86,11 @@ class SignalConfig(ConfigModel):
 
 
 class TxMessageConfig(ConfigModel):
-    name: str = Field(validation_alias="message_name")
-    desc: str = Field(validation_alias="description")
+    message_name: str
+    description: str
     signals: list[SignalConfig]
     priority: MessagePriority
-    period: NonNegativeInt = Field(default=0, validation_alias="period_ms")
+    period_ms: NonNegativeInt = 0
     id_override: str | None = Field(
         default=None,
         pattern=r"^0x([0-1]?[0-9a-fA-F]{1,7}|[0-9a-fA-F]{1,7})$",
@@ -102,7 +99,7 @@ class TxMessageConfig(ConfigModel):
 
     @model_validator(mode="after")
     def signal_names_are_unique(self) -> Self:
-        names = [signal.name for signal in self.signals]
+        names = [signal.signal_name for signal in self.signals]
         duplicate = _duplicate_value(names)
         if duplicate is not None:
             raise ValueError(f"duplicate signal name '{duplicate}'")
@@ -110,7 +107,7 @@ class TxMessageConfig(ConfigModel):
 
 
 class RxMessageConfig(ConfigModel):
-    name: str = Field(validation_alias="message_name")
+    message_name: str
     callback: bool = False
 
 
@@ -122,7 +119,7 @@ class BusAttachmentConfig(ConfigModel):
 
     @model_validator(mode="after")
     def rx_names_are_unique(self) -> Self:
-        names = [message.name for message in self.rx]
+        names = [message.message_name for message in self.rx]
         duplicate = _duplicate_value(names)
         if duplicate is not None:
             raise ValueError(f"duplicate RX message '{duplicate}'")
@@ -130,9 +127,9 @@ class BusAttachmentConfig(ConfigModel):
 
 
 class FaultConfig(ConfigModel):
-    name: str = Field(validation_alias="fault_name")
-    max_val: Number = Field(validation_alias="max")
-    min_val: Number = Field(validation_alias="min")
+    fault_name: str
+    max: Number
+    min: Number
     priority: FaultPriority
     time_to_latch: NonNegativeInt
     time_to_unlatch: NonNegativeInt
@@ -140,7 +137,7 @@ class FaultConfig(ConfigModel):
 
     @model_validator(mode="after")
     def limits_are_ordered(self) -> Self:
-        if self.min_val >= self.max_val:
+        if self.min >= self.max:
             raise ValueError("fault minimum must be less than maximum")
         return self
 
@@ -171,7 +168,7 @@ class ExternalNodeConfig(ConfigModel):
 
     @model_validator(mode="after")
     def rx_names_are_unique(self) -> Self:
-        names = [message.name for message in self.rx]
+        names = [message.message_name for message in self.rx]
         duplicate = _duplicate_value(names)
         if duplicate is not None:
             raise ValueError(f"duplicate RX message '{duplicate}'")

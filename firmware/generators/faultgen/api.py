@@ -34,7 +34,7 @@ class FaultGenerator:
                 generate_strings=data.generate_fault_messages,
                 busses=set(data.busses),
                 tx_message_names={
-                    message.name
+                    message.message_name
                     for message in (
                         data.busses[fault_bus].tx
                         if fault_bus in data.busses
@@ -127,7 +127,7 @@ class FaultGenerator:
     @staticmethod
     def _parse_fault(data: FaultConfig) -> Fault:
         return Fault(
-            name=data.name, max_val=data.max_val, min_val=data.min_val,
+            name=data.fault_name, max_val=data.max, min_val=data.min,
             priority=data.priority, time_to_latch=data.time_to_latch,
             time_to_unlatch=data.time_to_unlatch, lcd_message=data.lcd_message,
         )

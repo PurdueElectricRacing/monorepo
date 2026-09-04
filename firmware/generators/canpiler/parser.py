@@ -372,16 +372,16 @@ def warn_priority_period_convention(node: Node, bus: Bus, msg: Message) -> None:
 
 def parse_signal(data: SignalConfig) -> Signal:
     return Signal(
-        name=data.name,
-        datatype=data.datatype,
-        desc=data.desc,
+        name=data.signal_name,
+        datatype=data.data_type,
+        desc=data.description,
         length=data.length or 0,
         unit=data.unit,
         choices=data.choices,
         scale=data.scale,
         offset=data.offset,
-        min_val=data.min_val,
-        max_val=data.max_val,
+        min_val=data.min,
+        max_val=data.max,
     )
 
 def parse_message(
@@ -391,11 +391,11 @@ def parse_message(
     is_extended = bus_config.is_extended_id
 
     return Message(
-        name=data.name,
-        desc=data.desc,
+        name=data.message_name,
+        desc=data.description,
         signals=[parse_signal(signal) for signal in data.signals],
         priority=data.priority,
-        period=data.period,
+        period=data.period_ms,
         id_override=data.id_override,
         byte_order=data.byte_order,
         is_extended=is_extended,
@@ -403,7 +403,7 @@ def parse_message(
 
 def parse_rx_message(data: RxMessageConfig) -> RxMessage:
     return RxMessage(
-        name=data.name,
+        name=data.message_name,
         callback=data.callback,
     )
 
