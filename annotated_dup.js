@@ -1,42 +1,5 @@
 var annotated_dup =
 [
-    [ "codegen", "namespacecodegen.html", [
-      [ "BxcanFilterBankContext", "classcodegen_1_1BxcanFilterBankContext.html", null ],
-      [ "BxcanFilterContext", "classcodegen_1_1BxcanFilterContext.html", "classcodegen_1_1BxcanFilterContext" ],
-      [ "FdcanFilterContext", "classcodegen_1_1FdcanFilterContext.html", "classcodegen_1_1FdcanFilterContext" ],
-      [ "FilterRenderContext", "classcodegen_1_1FilterRenderContext.html", "classcodegen_1_1FilterRenderContext" ],
-      [ "NodeRenderContext", "classcodegen_1_1NodeRenderContext.html", "classcodegen_1_1NodeRenderContext" ],
-      [ "OffsetMessage", "classcodegen_1_1OffsetMessage.html", "classcodegen_1_1OffsetMessage" ],
-      [ "PeripheralContext", "classcodegen_1_1PeripheralContext.html", null ],
-      [ "RxEntry", "classcodegen_1_1RxEntry.html", "classcodegen_1_1RxEntry" ],
-      [ "RxPeripheralContext", "classcodegen_1_1RxPeripheralContext.html", "classcodegen_1_1RxPeripheralContext" ],
-      [ "ScalingMessage", "classcodegen_1_1ScalingMessage.html", "classcodegen_1_1ScalingMessage" ],
-      [ "SignalCodec", "classcodegen_1_1SignalCodec.html", "classcodegen_1_1SignalCodec" ],
-      [ "TxEntry", "classcodegen_1_1TxEntry.html", "classcodegen_1_1TxEntry" ],
-      [ "TypeRenderContext", "classcodegen_1_1TypeRenderContext.html", "classcodegen_1_1TypeRenderContext" ]
-    ] ],
-    [ "linker", "namespacelinker.html", [
-      [ "BusLinker", "classlinker_1_1BusLinker.html", "classlinker_1_1BusLinker" ]
-    ] ],
-    [ "mapper", "namespacemapper.html", [
-      [ "FDCANFilters", "classmapper_1_1FDCANFilters.html", "classmapper_1_1FDCANFilters" ],
-      [ "FilterBank", "classmapper_1_1FilterBank.html", "classmapper_1_1FilterBank" ],
-      [ "NodeMapping", "classmapper_1_1NodeMapping.html", "classmapper_1_1NodeMapping" ]
-    ] ],
-    [ "parser", "namespaceparser.html", [
-      [ "Bus", "classparser_1_1Bus.html", "classparser_1_1Bus" ],
-      [ "BusView", "classparser_1_1BusView.html", "classparser_1_1BusView" ],
-      [ "Fault", "classparser_1_1Fault.html", "classparser_1_1Fault" ],
-      [ "FaultModule", "classparser_1_1FaultModule.html", "classparser_1_1FaultModule" ],
-      [ "Message", "classparser_1_1Message.html", "classparser_1_1Message" ],
-      [ "Node", "classparser_1_1Node.html", "classparser_1_1Node" ],
-      [ "RxMessage", "classparser_1_1RxMessage.html", "classparser_1_1RxMessage" ],
-      [ "Signal", "classparser_1_1Signal.html", "classparser_1_1Signal" ],
-      [ "SystemContext", "classparser_1_1SystemContext.html", "classparser_1_1SystemContext" ]
-    ] ],
-    [ "utils", "namespaceutils.html", [
-      [ "bcolors", "classutils_1_1bcolors.html", "classutils_1_1bcolors" ]
-    ] ],
     [ "__attribute__", "struct____attribute____.html", "struct____attribute____" ],
     [ "adbms_bms_t", "structadbms__bms__t.html", "structadbms__bms__t" ],
     [ "adbms_module_t", "structadbms__module__t.html", "structadbms__module__t" ],

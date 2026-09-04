@@ -1,25 +1,11 @@
 var searchData=
 [
-  ['generate_5fbus_5fheader_0',['generate_bus_header',['../namespacecodegen.html#aa73182b45936bd454fcae67726fd0394',1,'codegen']]],
-  ['generate_5fdbcs_1',['generate_dbcs',['../namespacedbcgen.html#ade6a2af6da26f68e915bc94a74b68515',1,'dbcgen']]],
-  ['generate_5ffault_5fdata_2',['generate_fault_data',['../namespacefaultgen.html#a0b8f1265d8faeba6a2d68e2e1509389d',1,'faultgen']]],
-  ['generate_5fheaders_3',['generate_headers',['../namespacecodegen.html#a5ad6541e51e59b0fdbff8c046119afb7',1,'codegen']]],
-  ['generate_5fnode_5fheader_4',['generate_node_header',['../namespacecodegen.html#a0a021ac1f864faea339e63d7d3111fe7',1,'codegen']]],
-  ['generate_5fnode_5fheaders_5',['generate_node_headers',['../namespacecodegen.html#aaf47cca1200566d421b607fccba76810',1,'codegen']]],
-  ['generate_5frouter_5fheader_6',['generate_router_header',['../namespacecodegen.html#a23ed5be22f539d58a71ab0214251cbe2',1,'codegen']]],
-  ['generate_5ftypes_5fheader_7',['generate_types_header',['../namespacecodegen.html#aa6aa65b39bbfb073cdd730cc1f9e2f9c',1,'codegen']]],
-  ['get_5fbit_5flength_8',['get_bit_length',['../classparser_1_1Signal.html#af3dc99fc949cf5b51711231b53f371fe',1,'parser::Signal']]],
-  ['get_5fcount_9',['get_count',['../spmc_8c.html#a881ea749d2dbf855d34372a7313f0495',1,'spmc.c']]],
-  ['get_5fdlc_10',['get_dlc',['../classparser_1_1Message.html#a3fd1133766bdda2d92a6a0fda552fb29',1,'parser::Message']]],
-  ['get_5fgit_5fhash_11',['get_git_hash',['../namespaceutils.html#a5ea003cf13d4e3bb99f6df674fb22a21',1,'utils']]],
-  ['get_5fjinja_5fenv_12',['get_jinja_env',['../namespaceutils.html#ac4a494f2d54789270d2b8853fc51ddee',1,'utils']]],
-  ['get_5flayout_5fhash_13',['get_layout_hash',['../namespaceutils.html#a673d645eea2981b1aed0db6a0228f625',1,'utils']]],
-  ['get_5fled_5fstatus_14',['get_LED_status',['../led_8c.html#ab2644007c0a1014ac3229035bd76a257',1,'get_LED_status(int led):&#160;led.c'],['../led_8h.html#ab2644007c0a1014ac3229035bd76a257',1,'get_LED_status(int led):&#160;led.c']]],
-  ['get_5fnext_5ffilename_15',['get_next_filename',['../sd__card_8c.html#ac8e3e1c6c9d36eada7e3938c604a37ad',1,'sd_card.c']]],
-  ['get_5ftotal_5fbit_5flength_16',['get_total_bit_length',['../classparser_1_1Message.html#a3dad1a041ac061010a4661e5d458d301',1,'parser::Message']]],
-  ['gpio_5fmode_5fbits_17',['gpio_mode_bits',['../gpio__priv_8c.html#a0c907ce193b55b7b744a4763218d14f4',1,'gpio_priv.c']]],
-  ['gpio_5fotype_5fbits_18',['gpio_otype_bits',['../gpio__priv_8c.html#a90e78e8eb05b4cb35e422fe0cc03fe11',1,'gpio_priv.c']]],
-  ['gpio_5fpull_5fbits_19',['gpio_pull_bits',['../gpio__priv_8c.html#ab327360b29d2588b06a0687aa036e314',1,'gpio_priv.c']]],
-  ['gpio_5fspeed_5fbits_20',['gpio_speed_bits',['../gpio__priv_8c.html#a44cc6c129f8a36940f86366078bf68a5',1,'gpio_priv.c']]],
-  ['gps_5fperiodic_21',['gps_periodic',['../gps_8c.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c'],['../sensors_8h.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c']]]
+  ['get_5fcount_0',['get_count',['../spmc_8c.html#a881ea749d2dbf855d34372a7313f0495',1,'spmc.c']]],
+  ['get_5fled_5fstatus_1',['get_LED_status',['../led_8c.html#ab2644007c0a1014ac3229035bd76a257',1,'get_LED_status(int led):&#160;led.c'],['../led_8h.html#ab2644007c0a1014ac3229035bd76a257',1,'get_LED_status(int led):&#160;led.c']]],
+  ['get_5fnext_5ffilename_2',['get_next_filename',['../sd__card_8c.html#ac8e3e1c6c9d36eada7e3938c604a37ad',1,'sd_card.c']]],
+  ['gpio_5fmode_5fbits_3',['gpio_mode_bits',['../gpio__priv_8c.html#a0c907ce193b55b7b744a4763218d14f4',1,'gpio_priv.c']]],
+  ['gpio_5fotype_5fbits_4',['gpio_otype_bits',['../gpio__priv_8c.html#a90e78e8eb05b4cb35e422fe0cc03fe11',1,'gpio_priv.c']]],
+  ['gpio_5fpull_5fbits_5',['gpio_pull_bits',['../gpio__priv_8c.html#ab327360b29d2588b06a0687aa036e314',1,'gpio_priv.c']]],
+  ['gpio_5fspeed_5fbits_6',['gpio_speed_bits',['../gpio__priv_8c.html#a44cc6c129f8a36940f86366078bf68a5',1,'gpio_priv.c']]],
+  ['gps_5fperiodic_7',['gps_periodic',['../gps_8c.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c'],['../sensors_8h.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c']]]
 ];

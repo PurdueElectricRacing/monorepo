@@ -100,38 +100,34 @@ $(function(){initNavTree('md_firmware_2can__library_2README.html',''); initResiz
   <div class="headertitle"><div class="title">PER CAN Library</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md146"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md122"></a></p>
 <p>Standardized framework for CAN communication and system-wide fault management within PER vehicles.</p>
 <ul>
-<li><code>canpiler/</code>: Jinja2-based Python module for parsing configurations and generating code</li>
-<li><code>configs/</code>: "Source of Truth" definitions for nodes, buses, and system-wide faults.</li>
-<li><code>generated/</code>: Auto-generated C files and headers for CAN nodes.</li>
-<li><code>dbc/</code>: CAN database (DBC) files for external analysis tools.</li>
-<li><code>schema/</code>: JSON schemas for validating configuration files.</li>
-<li><code>templates/</code>: Directory containing Jinja2 templates for all generated build artifacts. Decouples the output formatting from the generation logic.</li>
-<li><code>tests/</code>: Unit tests for both CANpiler and C source code.</li>
+<li><code>firmware/generators/</code>: Python generation pipeline for CAN and fault artifacts.</li>
+<li><code>firmware/can_library/generated/</code>: Auto-generated C files and headers.</li>
+<li><code>firmware/can_library/dbc/</code>: Generated CAN database files.</li>
 </ul>
 <p><b>Core Files:</b></p><ul>
-<li><a href="source/can_init.c"><code>source/can_init.c</code></a> / <a href="can_common.h"><code>can_common.h</code></a>: Bus/peripheral initialization and <code><a class="el" href="can__common_8h.html#aecd3668d7c5e693e061db7650203b304">CAN_init()</a></code>.</li>
-<li><a href="source/can_rx.c"><code>source/can_rx.c</code></a>: CAN RX task and the shared <code>can_data</code> instance.</li>
-<li><a href="source/can_tx.c"><code>source/can_tx.c</code></a>: CAN TX task and per-peripheral software queues.</li>
-<li><a href="source/faults_common.c"><code>source/faults_common.c</code></a> / <a href="faults_common.h"><code>faults_common.h</code></a>: System-wide fault management.</li>
-<li><a href="can_codec.h"><code>can_codec.h</code></a>: Force-inlined helpers used by generated code for signal packing and unpacking.</li>
-<li><code>can_library.cmake</code>: CMake integration and node library generation.</li>
+<li><a href="../../firmware/can_library/source/can_init.c"><code>can_init.c</code></a> / <a href="../../firmware/can_library/can_common.h"><code>can_common.h</code></a>: Bus/peripheral initialization and <code><a class="el" href="can__common_8h.html#aecd3668d7c5e693e061db7650203b304">CAN_init()</a></code>.</li>
+<li><a href="../../firmware/can_library/source/can_rx.c"><code>can_rx.c</code></a>: CAN RX task and the shared <code>can_data</code> instance.</li>
+<li><a href="../../firmware/can_library/source/can_tx.c"><code>can_tx.c</code></a>: CAN TX task and per-peripheral software queues.</li>
+<li><a href="../../firmware/can_library/source/faults_common.c"><code>faults_common.c</code></a> / <a href="../../firmware/can_library/faults_common.h"><code>faults_common.h</code></a>: System-wide fault management.</li>
+<li><a href="../../firmware/can_library/can_codec.h"><code>can_codec.h</code></a>: Signal packing and unpacking helpers.</li>
+<li><code>firmware/cmake/can_library.cmake</code>: CMake integration and node library generation.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md147"></a>
+<h1><a class="anchor" id="autotoc_md123"></a>
 Logic</h1>
 <p>The high-level logic flow of an RX is shown here: <img src="can_rx_logic.drawio.png" alt="" class="inline" title="CAN RX Logic"/>    </p>
 <dl class="section note"><dt>Note</dt><dd>The all RX IRQs push to the same queue rather than having separate queues per peripheral.</dd></dl>
 <p>The high-level logic flow of a TX is shown here: <img src="can_tx_logic.drawio.png" alt="" class="inline" title="CAN TX Logic"/>    </p>
 <dl class="section note"><dt>Note</dt><dd>The actual implementation of the CAN TX task manages up to 3 separate hardware peripherals at once, each with its own software queue.</dd></dl>
-<h1><a class="anchor" id="autotoc_md148"></a>
+<h1><a class="anchor" id="autotoc_md124"></a>
 Stale Detection</h1>
 <p>Periodic CAN messages are assigned a deadline of 2.5x their expected period. If a message is not received within the window, it's associated data is no longer valid. <img src="stale_detection.drawio.png" alt="" class="inline" title="stale timing"/>    </p>
-<h1><a class="anchor" id="autotoc_md149"></a>
+<h1><a class="anchor" id="autotoc_md125"></a>
 Usage</h1>
 <ol type="1">
-<li>Define your CAN network and global faults in <code>can_library/configs/</code> using the provided JSON schemas.<ol type="a">
+<li>Define your CAN network and global faults in <code>firmware/generators/configs/</code> using the provided JSON schemas.<ol type="a">
 <li>Use FDCAN peripherals on G4 and CAN peripherals on F4.</li>
 </ol>
 </li>
@@ -141,14 +137,14 @@ Usage</h1>
 <li>Setup CAN tasks in your <code>main.c</code> using <code><a class="el" href="can__common_8h.html#a35dcd4b006eb1dd53b4e6fdd725b0e31">DEFINE_CAN_TASKS()</a></code> and <code><a class="el" href="can__common_8h.html#ac317291d89637f7774465ae715792e48">START_CAN_TASKS()</a></code>.</li>
 </ol>
 <p>The most recent rx'd data is available in the <code>can_data</code> struct, which is updated by the CAN RX task. Sending CAN messages is done via the generated <code>CAN_SEND_&lt;message_name&gt;()</code> functions, which enqueue messages to be sent by the CAN TX task.</p>
-<h1><a class="anchor" id="autotoc_md150"></a>
+<h1><a class="anchor" id="autotoc_md126"></a>
 Fault System</h1>
 <p>The <code>faults_common</code> module implements the <b>FIDR (Fault Isolation, Detection, and Recovery)</b> system. It manages the lifecycle of system-wide faults using a robust Finite State Machine (FSM) to prevent flickering and ensure deterministic fault handling.</p>
 <div class="image">
 <img src="fault_fsm.drawio.png" alt=""/>
 <div class="caption">
 Fault FSM Diagram</div></div>
-    <h2><a class="anchor" id="autotoc_md151"></a>
+    <h2><a class="anchor" id="autotoc_md127"></a>
 Usage:</h2>
 <ul>
 <li><code><a class="el" href="faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171">update_fault(fault_id_t fault_id, float value)</a></code>: Called by the owner node to feed sensor/status data into the FSM.</li>

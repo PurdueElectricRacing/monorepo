@@ -10,6 +10,5 @@ var searchData=
   ['usb_2eh_7',['usb.h',['../usb_8h.html',1,'']]],
   ['usb_5fpriv_2ec_8',['usb_priv.c',['../usb__priv_8c.html',1,'']]],
   ['usb_5fpriv_2eh_9',['usb_priv.h',['../usb__priv_8h.html',1,'']]],
-  ['usb_5ftest_2ec_10',['usb_test.c',['../usb__test_8c.html',1,'']]],
-  ['utils_2epy_11',['utils.py',['../utils_8py.html',1,'']]]
+  ['usb_5ftest_2ec_10',['usb_test.c',['../usb__test_8c.html',1,'']]]
 ];

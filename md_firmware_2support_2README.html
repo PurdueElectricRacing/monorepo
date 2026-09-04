@@ -100,9 +100,9 @@ $(function(){initNavTree('md_firmware_2support_2README.html',''); initResizable(
   <div class="headertitle"><div class="title">Support</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md152"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md128"></a></p>
 <p>Vendor and host-side files used by the build system and debugger. Not compiled into firmware.</p>
-<h1><a class="anchor" id="autotoc_md153"></a>
+<h1><a class="anchor" id="autotoc_md129"></a>
 <code>linker/</code></h1>
 <p>Per-target GNU linker scripts. <a href="../cmake/common_component.cmake"><code>cmake/common_component.cmake</code></a> selects one based on the <code>LINKER_SCRIPT</code> argument plus a suffix (<code>.ld</code>, <code>_APP.ld</code>, or <code>_BL.ld</code>).</p><ul>
 <li><code>STM32F407VGTx_FLASH.ld</code> Standalone-app layout for the F4 targets (DAQ, PDU, f4_testing).</li>
@@ -112,13 +112,13 @@ $(function(){initNavTree('md_firmware_2support_2README.html',''); initResizable(
 <li><code>STM32G474RETX_FLASH_APP.ld</code> G4 app layout when paired with the bootloader.</li>
 <li><code>STM32G474RETX_FLASH_BL.ld</code> G4 bootloader layout.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md154"></a>
+<h1><a class="anchor" id="autotoc_md130"></a>
 <code>svd/</code></h1>
 <p>CMSIS-SVD register descriptions used by Cortex-Debug to render peripheral state in VS Code.</p><ul>
 <li><code>STM32F407.svd</code> Used by F4 launch configs (DAQ, PDU, f4_testing).</li>
 <li><code>STM32G474.svd</code> Used by G4 launch configs (Main Module, Dashboard, Driveline, Torque Vectoring, A_Box, g4_testing).</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md155"></a>
+<h1><a class="anchor" id="autotoc_md131"></a>
 <code>openocd/</code></h1>
 <p>OpenOCD helpers loaded from VS Code debug configs. Only <code>openocd-gdb.cfg</code> is wired into the standard flow; the others are kept as ad-hoc helpers.</p><ul>
 <li><code>openocd-gdb.cfg</code> Auto-<code>resume</code> on <code>gdb-detach</code>. Loaded by the DAQ debug config.</li>

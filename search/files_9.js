@@ -8,7 +8,5 @@ var searchData=
   ['lerp_5flut_2ec_5',['lerp_lut.c',['../lerp__lut_8c.html',1,'']]],
   ['lerp_5flut_2eh_6',['lerp_lut.h',['../lerp__lut_8h.html',1,'']]],
   ['library_2emd_7',['library.md',['../library_8md.html',1,'']]],
-  ['linear_5falgebra_2eh_8',['linear_algebra.h',['../linear__algebra_8h.html',1,'']]],
-  ['linker_2epy_9',['linker.py',['../linker_8py.html',1,'']]],
-  ['load_5fcalc_2epy_10',['load_calc.py',['../load__calc_8py.html',1,'']]]
+  ['linear_5falgebra_2eh_8',['linear_algebra.h',['../linear__algebra_8h.html',1,'']]]
 ];

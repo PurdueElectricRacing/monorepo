@@ -9,12 +9,7 @@ var searchData=
   ['ledblink3_6',['ledblink3',['../blinky_8c.html#a16a34b44b57ab33a01ec47aad586fae9',1,'blinky.c']]],
   ['ledblink4_7',['ledblink4',['../blinky_8c.html#a6312dae81a730823b198c3005cfbc3b2',1,'blinky.c']]],
   ['lerp_5flut_5finit_8',['LERP_LUT_INIT',['../thermistor_8c.html#abd11d79cd9bde6efa76cf4088096ecba',1,'LERP_LUT_INIT(thermistor_lut, B57861S0103A039_data, B57861S0103A039_LUT_SIZE):&#160;thermistor.c'],['../oil__temps__table_8c.html#a5f1fc2b36a96add5260efd5f0116c4b2',1,'LERP_LUT_INIT(oil_temps_lut, OIL_TEMPS, OIL_TEMPS_LUT_SIZE):&#160;oil_temps_table.c']]],
-  ['link_9',['link',['../classlinker_1_1BusLinker.html#af9380f9290a883f29ba09b0bb64a519f',1,'linker::BusLinker']]],
-  ['link_5fall_10',['link_all',['../namespacelinker.html#aed4b2af437cd3fe7ac809072fc8999d7',1,'linker']]],
-  ['load_5fbus_5fconfigs_11',['load_bus_configs',['../namespaceparser.html#ab5cd10e7b003490287356ed390368b65',1,'parser']]],
-  ['load_5fcustom_5ftypes_12',['load_custom_types',['../namespaceparser.html#a93720c5cd2352c25b61ee5783cfe2096',1,'parser']]],
-  ['load_5fjson_13',['load_json',['../namespaceutils.html#a9bdd3064ac11001c40863580f4a2c86f',1,'utils']]],
-  ['log2_5fdown_14',['LOG2_DOWN',['../phal__F4_2spi_2spi_8c.html#a8e9e5ef753602ac9e7822dee0923dd38',1,'LOG2_DOWN(uint32_t x):&#160;spi.c'],['../spi__priv_8c.html#a8e9e5ef753602ac9e7822dee0923dd38',1,'LOG2_DOWN(uint32_t x):&#160;spi_priv.c']]],
-  ['lut_5flookup_15',['lut_lookup',['../lerp__lut_8c.html#aa6730914e04aa912dcb777e28f9e4004',1,'lut_lookup(const lerp_lut_t *lut, float key):&#160;lerp_lut.c'],['../lerp__lut_8h.html#aa6730914e04aa912dcb777e28f9e4004',1,'lut_lookup(const lerp_lut_t *lut, float key):&#160;lerp_lut.c']]],
-  ['lws_5fstandard_5fcallback_16',['LWS_Standard_CALLBACK',['../dashboard_2telemetry_2telemetry_8c.html#ae1f26fb5d3212ebab24a95d4b3f6835f',1,'LWS_Standard_CALLBACK(void):&#160;telemetry.c'],['../dashboard_2telemetry_2telemetry_8h.html#ae1f26fb5d3212ebab24a95d4b3f6835f',1,'LWS_Standard_CALLBACK(void):&#160;telemetry.c']]]
+  ['log2_5fdown_9',['LOG2_DOWN',['../phal__F4_2spi_2spi_8c.html#a8e9e5ef753602ac9e7822dee0923dd38',1,'LOG2_DOWN(uint32_t x):&#160;spi.c'],['../spi__priv_8c.html#a8e9e5ef753602ac9e7822dee0923dd38',1,'LOG2_DOWN(uint32_t x):&#160;spi_priv.c']]],
+  ['lut_5flookup_10',['lut_lookup',['../lerp__lut_8c.html#aa6730914e04aa912dcb777e28f9e4004',1,'lut_lookup(const lerp_lut_t *lut, float key):&#160;lerp_lut.c'],['../lerp__lut_8h.html#aa6730914e04aa912dcb777e28f9e4004',1,'lut_lookup(const lerp_lut_t *lut, float key):&#160;lerp_lut.c']]],
+  ['lws_5fstandard_5fcallback_11',['LWS_Standard_CALLBACK',['../dashboard_2telemetry_2telemetry_8c.html#ae1f26fb5d3212ebab24a95d4b3f6835f',1,'LWS_Standard_CALLBACK(void):&#160;telemetry.c'],['../dashboard_2telemetry_2telemetry_8h.html#ae1f26fb5d3212ebab24a95d4b3f6835f',1,'LWS_Standard_CALLBACK(void):&#160;telemetry.c']]]
 ];

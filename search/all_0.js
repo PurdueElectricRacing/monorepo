@@ -9,6 +9,5 @@ var searchData=
   ['1_20install_20recommended_20extensions_6',['2.1 Install Recommended Extensions',['../md_docs_2setup.html#autotoc_md96',1,'']]],
   ['1_20install_20wsl_7',['3C.1 Install WSL',['../md_docs_2setup.html#autotoc_md106',1,'']]],
   ['1_20rust_8',['5.1 Rust',['../md_docs_2setup.html#autotoc_md112',1,'']]],
-  ['1_20schema_20validation_9',['1. Schema Validation',['../md_firmware_2can__library_2canpiler_2README.html#autotoc_md124',1,'']]],
-  ['1_20update_20the_20system_10',['3B.1 Update the System',['../md_docs_2setup.html#autotoc_md103',1,'']]]
+  ['1_20update_20the_20system_9',['3B.1 Update the System',['../md_docs_2setup.html#autotoc_md103',1,'']]]
 ];
