@@ -1,9 +1,15 @@
+"""
+models.py
+
+Author: Irving Wang (irvingw@purdue.edu)
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from core.contracts import CustomTypeContribution
+from core.config_models import BusConfig, CustomTypeConfig
 
 if TYPE_CHECKING:
     from canpiler.parser import Node, SystemContext
@@ -12,8 +18,8 @@ if TYPE_CHECKING:
 @dataclass
 class CanModel:
     nodes: list[Node]
-    bus_configs: dict[str, dict[str, object]]
-    custom_types: dict[str, CustomTypeContribution]
+    bus_configs: dict[str, BusConfig]
+    custom_types: dict[str, CustomTypeConfig]
 
 
 @dataclass

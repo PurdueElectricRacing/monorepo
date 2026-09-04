@@ -18,8 +18,8 @@
 
         python = pkgs.python312.withPackages (ps: with ps; [
           cantools
-          jsonschema
           jinja2
+          pydantic
         ]);
       in {
         devShells.default = pkgs.mkShell {

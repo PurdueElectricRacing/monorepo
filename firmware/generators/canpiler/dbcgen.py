@@ -43,8 +43,8 @@ def generate_dbcs(context: SystemContext) -> list[Artifact]:
                     choices = OrderedDict((i, c) for i, c in enumerate(sig.choices))
                 elif sig.datatype in context.custom_types:
                     type_info = context.custom_types[sig.datatype]
-                    if 'choices' in type_info:
-                        choices = OrderedDict((i, c) for i, c in enumerate(type_info['choices']))
+                    if type_info.choices:
+                        choices = OrderedDict((i, c) for i, c in enumerate(type_info.choices))
                 elif sig.datatype == 'bool':
                     choices = OrderedDict({0: "OFF", 1: "ON"})
 

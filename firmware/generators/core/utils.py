@@ -7,8 +7,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 import json
 import hashlib
 import subprocess
-from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from core.config import CAN_TEMPLATE_DIR, FAULT_TEMPLATE_DIR
@@ -47,11 +46,6 @@ def print_as_ok(message: object) -> None:
 
 def print_as_success(message: object) -> None:
     print(f"{bcolors.GREEN}[SUCCESS] {message}{bcolors.ENDC}")
-
-def load_json(filepath: str | Path) -> Any:
-    """Load JSON file"""
-    with open(filepath) as f:
-        return json.load(f)
 
 def to_macro_name(name: str) -> str:
     return name.upper()

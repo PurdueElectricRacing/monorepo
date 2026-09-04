@@ -1,7 +1,7 @@
 # CAN Configs
 
 ## Bus Definition (`configs/system/bus_configs.json`)
-Validated by `bus.schema.json`. Describes each logical CAN bus (not how a node attaches to it).
+Validated by the Pydantic models in `core/config_models.py`. Describes each logical CAN bus (not how a node attaches to it).
 
 - `name`: Logical bus name (referenced by nodes and external nodes).
 - `baud_rate`: CAN bitrate for this bus. Must be '250000', '500000', or '1000000' (250k, 500k, 1M).
@@ -10,7 +10,7 @@ Validated by `bus.schema.json`. Describes each logical CAN bus (not how a node a
 - `host_fault_library`: Boolean. If true, this bus is the primary uplink for fault communication (usually VCAN).
 
 ## Node-to-Bus Mapping (per node JSON, under `busses`)
-Validated by `node.schema.json`. Maps a firmware node onto hardware peripherals and message lists.
+Maps a firmware node onto hardware peripherals and message lists.
 
 - `peripheral`: Hardware peripheral identifier. Allowed values: `CAN1`, `CAN2`, `FDCAN1`, `FDCAN2`, `FDCAN3`.
 - `accept_all_messages`: Boolean. If true, disables hardware filter optimization (promiscuous mode).
@@ -85,7 +85,7 @@ PER vehicle convention:
 	- IMU raw data, shock pots, battery current
 
 ## External Nodes
-External nodes (non-PER devices such as chargers or inverters) are defined in `configs/external_nodes/` and validated by `external_node.schema.json`.
+External nodes (non-PER devices such as chargers or inverters) are defined in `configs/external_nodes/` and validated when the configuration bundle is loaded.
 
 ### Attributes
 - `node_name`: Name of the external device. Must be unique.
@@ -94,7 +94,7 @@ External nodes (non-PER devices such as chargers or inverters) are defined in `c
 - `rx`: Array of messages this device expects to receive.
 
 ## Custom Types
-Define reusable signal types (enums and aliases) in `configs/system/common_types.json`. Validated by `type_registry.schema.json`.
+Define reusable signal types (enums and aliases) in `configs/system/common_types.json`.
 
 ### Type Attributes
 - `name`: Type name. Must end in `_t` (e.g. `car_state_t`).

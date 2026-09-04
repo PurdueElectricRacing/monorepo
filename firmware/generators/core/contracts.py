@@ -1,32 +1,34 @@
+"""
+contracts.py
+
+Author: Irving Wang (irvingw@purdue.edu)
+"""
+
 from dataclasses import dataclass, field
-from typing import NotRequired, TypedDict
+from core.config_models import CustomTypeConfig
 
 
-class SignalContribution(TypedDict):
+@dataclass
+class SignalContribution:
     name: str
     datatype: str
-    desc: NotRequired[str]
-    length: NotRequired[int]
-    unit: NotRequired[str]
-    choices: NotRequired[list[str]]
-    scale: NotRequired[float]
-    offset: NotRequired[float]
-    min_val: NotRequired[float]
-    max_val: NotRequired[float]
+    desc: str = ""
+    length: int = 0
+    unit: str | None = None
+    choices: list[str] | None = None
+    scale: float | None = None
+    offset: float | None = None
+    min_val: float | None = None
+    max_val: float | None = None
 
 
-class MessageContribution(TypedDict):
+@dataclass
+class MessageContribution:
     name: str
-    desc: NotRequired[str]
-    priority: NotRequired[int]
-    period: NotRequired[int]
-    signals: NotRequired[list[SignalContribution]]
-
-
-class CustomTypeContribution(TypedDict):
-    name: str
-    base_type: str
-    choices: list[str]
+    desc: str = ""
+    priority: int = 0
+    period: int = 0
+    signals: list[SignalContribution] = field(default_factory=list)
 
 
 @dataclass
@@ -46,6 +48,6 @@ class RxSubscriptionContribution:
 
 @dataclass
 class CanContribution:
-    types: dict[str, CustomTypeContribution] = field(default_factory=dict)
+    types: dict[str, CustomTypeConfig] = field(default_factory=dict)
     tx_messages: list[TxMessageContribution] = field(default_factory=list)
     rx_subscriptions: list[RxSubscriptionContribution] = field(default_factory=list)

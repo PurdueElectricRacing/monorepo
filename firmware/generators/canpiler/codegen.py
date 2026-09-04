@@ -5,13 +5,14 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from dataclasses import dataclass, field
-from typing import Any, List, Dict, Optional
+from typing import List, Dict, Optional
 
 from jinja2 import Environment
 
 from .mapper import NodeMapping
 from .parser import Node, Message, RxMessage, Signal, SystemContext
 from core.artifacts import Artifact
+from core.config_models import BusConfig, CustomTypeConfig
 from core.utils import print_as_success, print_as_ok, get_jinja_env, render_template
 
 
@@ -138,7 +139,7 @@ class TypeRenderContext:
 
 
 def build_type_render_context(
-    custom_types: Dict[str, Any]
+    custom_types: Dict[str, CustomTypeConfig]
 ) -> List[TypeRenderContext]:
     rows = []
     for name, config in custom_types.items():
@@ -146,8 +147,8 @@ def build_type_render_context(
         rows.append(TypeRenderContext(
             name=name,
             prefix=prefix,
-            base_type=config.get("base_type"),
-            choices=config.get("choices", []),
+            base_type=config.base_type,
+            choices=config.choices or [],
         ))
     return rows
 
@@ -348,7 +349,7 @@ def generate_headers(context: SystemContext) -> list[Artifact]:
 
     # Generate header for each bus
     for bus_name, view in context.busses.items():
-        config = context.bus_configs.get(bus_name, {})
+        config = context.bus_configs[bus_name]
         artifacts.append(generate_bus_header(env, bus_name, config, view.messages))
 
     # Generate header for each node
@@ -361,7 +362,7 @@ def generate_headers(context: SystemContext) -> list[Artifact]:
     return artifacts
 
 def generate_types_header(
-    env: Environment, custom_types: Dict[str, Any]
+    env: Environment, custom_types: Dict[str, CustomTypeConfig]
 ) -> Artifact:
     content = render_template(env, 'can_types.h.jinja',
                               types=build_type_render_context(custom_types))
@@ -398,7 +399,7 @@ def generate_node_header(
 def generate_bus_header(
     env: Environment,
     bus_name: str,
-    config: Dict[str, Any],
+    config: BusConfig,
     messages: List[Message],
 ) -> Artifact:
     content = render_template(env, 'bus_header.h.jinja',
