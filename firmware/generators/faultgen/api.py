@@ -1,3 +1,9 @@
+"""
+api.py
+
+Author: Irving Wang (irvingw@purdue.edu)
+"""
+
 from core.artifacts import Artifact
 from core.config_models import ConfigBundle, CustomTypeConfig, FaultConfig
 from core.contracts import CanContribution, RxSubscriptionContribution, TxMessageContribution

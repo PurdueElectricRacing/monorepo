@@ -1,3 +1,9 @@
+"""
+config_loader.py
+
+Author: Irving Wang (irvingw@purdue.edu)
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

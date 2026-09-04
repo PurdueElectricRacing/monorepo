@@ -1,3 +1,9 @@
+"""
+generate.py
+
+Author: Irving Wang (irvingw@purdue.edu)
+"""
+
 from core.artifacts import clear_artifacts, write_artifacts
 from core.config import DBC_DIR, GENERATED_DIR
 from core.config_loader import load_config_bundle

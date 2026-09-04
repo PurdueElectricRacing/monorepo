@@ -1,3 +1,9 @@
+"""
+config.py
+
+Author: Irving Wang (irvingw@purdue.edu)
+"""
+
 from pathlib import Path
 
 

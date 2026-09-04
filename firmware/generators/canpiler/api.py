@@ -1,3 +1,9 @@
+"""
+api.py
+
+Author: Irving Wang (irvingw@purdue.edu)
+"""
+
 from collections.abc import Iterable
 
 from core.artifacts import Artifact

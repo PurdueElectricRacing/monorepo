@@ -1,3 +1,9 @@
+"""
+config_models.py
+
+Author: Irving Wang (irvingw@purdue.edu)
+"""
+
 from __future__ import annotations
 
 from collections.abc import Mapping
