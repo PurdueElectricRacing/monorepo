@@ -14,6 +14,7 @@
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/watchdog/watchdog.h"
+#include "lap_timer.h"
 #include "lcd.h"
 #include "main.h"
 #include "pages/vcu.h"
@@ -274,7 +275,7 @@ void action_dispatcher(void) {
                 break;
             }
             case LAP_BUTTON: {
-                
+                lap_timer_onpress();
                 break;
             }
         }
