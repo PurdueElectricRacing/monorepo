@@ -63,12 +63,12 @@ class Canpiler:
                 bus = node.busses[item.bus_name]
                 spec = item.message
                 message = Message(
-                    name=spec["name"],
-                    desc=spec.get("desc", ""),
-                    priority=spec.get("priority", 0),
-                    period=spec.get("period", 0),
+                    name=spec.name,
+                    desc=spec.desc,
+                    priority=spec.priority,
+                    period=spec.period,
                     is_extended=model.bus_configs[item.bus_name].is_extended_id,
-                    signals=[Signal(**signal) for signal in spec.get("signals", [])],
+                    signals=[Signal(**vars(signal)) for signal in spec.signals],
                 )
                 message.validate_semantics(model.custom_types)
                 message.resolve_layout(model.custom_types)

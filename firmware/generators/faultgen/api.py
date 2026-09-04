@@ -6,7 +6,13 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from core.artifacts import Artifact
 from core.config_models import ConfigBundle, CustomTypeConfig, FaultConfig
-from core.contracts import CanContribution, RxSubscriptionContribution, TxMessageContribution
+from core.contracts import (
+    CanContribution,
+    MessageContribution,
+    RxSubscriptionContribution,
+    SignalContribution,
+    TxMessageContribution,
+)
 from core.models import CompiledCan
 from core.utils import get_jinja_env, print_as_ok, print_as_success, render_template
 from .models import Fault, FaultNode, FaultPlan
@@ -69,26 +75,27 @@ class FaultGenerator:
             event_names.append(event_name)
             sync_names.append(sync_name)
             contribution.tx_messages.extend((
-                TxMessageContribution(module.name, plan.fault_bus_name, {
-                    "name": event_name,
-                    "desc": f"Immediate fault event signal for {module.name}",
-                    "priority": 0,
-                    "signals": [
-                        {"name": "idx", "datatype": "fault_id_t", "desc": "Global Fault Index"},
-                        {"name": "val", "datatype": "uint16_t", "desc": "Trigger Value"},
-                        {"name": "state", "datatype": "bool", "desc": "Latch State (0=unlatched, 1=latched)"},
+                TxMessageContribution(module.name, plan.fault_bus_name, MessageContribution(
+                    name=event_name,
+                    desc=f"Immediate fault event signal for {module.name}",
+                    signals=[
+                        SignalContribution("idx", "fault_id_t", "Global Fault Index"),
+                        SignalContribution("val", "uint16_t", "Trigger Value"),
+                        SignalContribution(
+                            "state", "bool", "Latch State (0=unlatched, 1=latched)"
+                        ),
                     ],
-                }),
-                TxMessageContribution(module.name, plan.fault_bus_name, {
-                    "name": sync_name,
-                    "desc": f"Periodic fault synchronization for {module.name}",
-                    "priority": 1,
-                    "period": 100,
-                    "signals": [
-                        {"name": fault.name, "datatype": "bool", "length": 1}
+                )),
+                TxMessageContribution(module.name, plan.fault_bus_name, MessageContribution(
+                    name=sync_name,
+                    desc=f"Periodic fault synchronization for {module.name}",
+                    priority=1,
+                    period=100,
+                    signals=[
+                        SignalContribution(fault.name, "bool", length=1)
                         for fault in module.faults
                     ],
-                }),
+                )),
             ))
 
         for node in plan.nodes:
