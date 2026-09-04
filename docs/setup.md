@@ -337,10 +337,14 @@ cargo --version
 
 ### 5.2 Linux / WSL DAQ Dependencies
 
-Linux needs additional packages for serial-device enumeration:
+2. Build the complete repository or run a component's fixed build workflow:
 
 ```bash
-sudo apt install libudev-dev pkg-config
+python3 build_all.py                     # firmware, DAQ app, and host tests
+python3 firmware/build_firmware.py       # all embedded firmware
+python3 firmware/check_firmware.py       # firmware static analysis
+cargo build --manifest-path daqapp/Cargo.toml
+python3 tests/build_tests.py            # host tests and coverage
 ```
 
 These were already installed in the Linux setup section.
