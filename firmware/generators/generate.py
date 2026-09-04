@@ -23,4 +23,5 @@ def generate():
     clear_artifacts(output_roots, {"generated": "*", "dbc": "*.dbc"})
     write_artifacts(output_roots, artifacts)
 
-generate()
+if __name__ == "__main__":
+    generate()
