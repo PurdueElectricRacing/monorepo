@@ -181,6 +181,8 @@ class ExternalNodeConfig(ConfigModel):
 
 class BusConfig(ConfigModel):
     name: str
+    # Supported CAN baud rates. Keep in sync with PHAL_FDCAN_BaudRate_t in
+    # common/phal_F4/can/can.h and common/phal_G4/fdcan/fdcan.h.
     baud_rate: Literal[250000, 500000, 1000000]
     is_extended_id: bool
     is_flexible_data_rate: bool
@@ -220,7 +222,7 @@ class CustomTypeConfig(ConfigModel):
         return choices
 
 
-class TypeRegistryConfig(ConfigModel):
+class CommonTypesConfig(ConfigModel):
     types: list[CustomTypeConfig]
 
     @model_validator(mode="after")

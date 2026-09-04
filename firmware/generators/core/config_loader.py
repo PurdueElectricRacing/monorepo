@@ -19,7 +19,7 @@ from core.config_models import (
     ConfigModel,
     ExternalNodeConfig,
     InternalNodeConfig,
-    TypeRegistryConfig,
+    CommonTypesConfig,
 )
 from core.utils import print_as_error, print_as_ok, print_as_success, print_as_warning
 
@@ -115,8 +115,8 @@ def load_config_bundle(config_dir: Path = CONFIG_DIR) -> ConfigBundle:
     bus_registry = _load_model(
         config_dir / "system" / "bus_configs.json", BusRegistryConfig, issues
     )
-    type_registry = _load_model(
-        config_dir / "system" / "common_types.json", TypeRegistryConfig, issues
+    common_types = _load_model(
+        config_dir / "system" / "common_types.json", CommonTypesConfig, issues
     )
     internal_models = [
         (path, model)
@@ -129,13 +129,13 @@ def load_config_bundle(config_dir: Path = CONFIG_DIR) -> ConfigBundle:
         if (model := _load_model(path, ExternalNodeConfig, issues)) is not None
     ]
 
-    if issues or bus_registry is None or type_registry is None:
+    if issues or bus_registry is None or common_types is None:
         _print_issues(issues)
         raise ConfigValidationError("Configuration validation failed")
 
     bundle = ConfigBundle(
         buses={bus.name: bus for bus in bus_registry.busses},
-        custom_types={item.name: item for item in type_registry.types},
+        custom_types={item.name: item for item in common_types.types},
         internal_nodes=[model for _, model in internal_models],
         external_nodes=[model for _, model in external_models],
     )
