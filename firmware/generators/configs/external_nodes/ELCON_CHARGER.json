@@ -3,56 +3,56 @@
     "bus_name": "CCAN",
     "tx": [
         {
-            "msg_name": "elcon_status",
-            "msg_desc": "Status message from Elcon Charger to A_BOX (Message2)",
+            "message_name": "elcon_status",
+            "description": "Status message from Elcon Charger to A_BOX (Message2)",
             "byte_order": "big_endian",
             "signals": [
                 {
-                    "sig_name": "charge_voltage",
+                    "signal_name": "charge_voltage",
                     "unit": "V",
                     "scale": 0.1,
                     "type": "uint16_t"
                 },
                 {
-                    "sig_name": "charge_current",
+                    "signal_name": "charge_current",
                     "unit": "A",
                     "scale": 0.1,
                     "type": "uint16_t"
                 },
                 {
-                    "sig_name": "hw_fail",
-                    "sig_desc": "Hardware failure",
+                    "signal_name": "hw_fail",
+                    "description": "Hardware failure",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "temp_fail",
-                    "sig_desc": "Temperature failure",
+                    "signal_name": "temp_fail",
+                    "description": "Temperature failure",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "input_v_fail",
-                    "sig_desc": "Input voltage failure",
+                    "signal_name": "input_v_fail",
+                    "description": "Input voltage failure",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "startup_fail",
-                    "sig_desc": "Startup voltage detection failure",
+                    "signal_name": "startup_fail",
+                    "description": "Startup voltage detection failure",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "communication_fail",
-                    "sig_desc": " 5s timeout from communication failure",
+                    "signal_name": "communication_fail",
+                    "description": " 5s timeout from communication failure",
                     "type": "bool"
                 }
             ],
-            "msg_id_override": "0x18FF50E5",
-            "msg_period": 1000,
-            "msg_priority": 3
+            "id_override": "0x18FF50E5",
+            "period_ms": 1000,
+            "priority": 3
         }
     ],
     "rx": [
         {
-            "msg_name": "elcon_command"
+            "message_name": "elcon_command"
         }
     ]
 }

@@ -3,186 +3,186 @@
     "bus_name": "MCAN",
     "tx": [
         {
-            "msg_name": "INVB_CRIT",
-            "msg_desc": "Contains the status word and actual values",
+            "message_name": "INVB_CRIT",
+            "description": "Contains the status word and actual values",
             "signals": [
                 {
-                    "sig_name": "AMK_ActualSpeed",
-                    "sig_desc": "Actual speed value",
+                    "signal_name": "AMK_ActualSpeed",
+                    "description": "Actual speed value",
                     "type": "int16_t",
                     "unit": "rpm"
                 },
                 {
-                    "sig_name": "AMK_ActualTorque",
-                    "sig_desc": "Actual torque value",
+                    "signal_name": "AMK_ActualTorque",
+                    "description": "Actual torque value",
                     "type": "int16_t",
                     "unit": "%",
                     "scale": 0.1
                 },
                 {
-                    "sig_name": "AMK_DisplayOverloadInverter",
+                    "signal_name": "AMK_DisplayOverloadInverter",
                     "type": "uint16_t",
                     "scale": 0.1,
                     "unit": "%"
                 },
                 {
-                    "sig_name": "AMK_DisplayOverloadMotor",
+                    "signal_name": "AMK_DisplayOverloadMotor",
                     "type": "uint16_t",
                     "scale": 0.1,
                     "unit": "%"
                 }
             ],
-            "msg_period": 15,
-            "msg_id_override": "0x122",
-            "msg_priority": 1
+            "period_ms": 15,
+            "id_override": "0x122",
+            "priority": 1
         },
         {
-            "msg_name": "INVB_INFO",
-            "msg_desc": "Contains the status word and actual values",
+            "message_name": "INVB_INFO",
+            "description": "Contains the status word and actual values",
             "signals": [
                 {
-                    "sig_name": "AMK_Status_bReserve",
-                    "sig_desc": "Status word: RESERVED",
+                    "signal_name": "AMK_Status_bReserve",
+                    "description": "Status word: RESERVED",
                     "type": "uint8_t",
                     "length": 8
                 },
                 {
-                    "sig_name": "AMK_Status_bSystemReady",
-                    "sig_desc": "Status word: system ready",
+                    "signal_name": "AMK_Status_bSystemReady",
+                    "description": "Status word: system ready",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "AMK_Status_bError",
-                    "sig_desc": "Status word: error",
+                    "signal_name": "AMK_Status_bError",
+                    "description": "Status word: error",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "AMK_Status_bWarn",
-                    "sig_desc": "Status word: warning",
+                    "signal_name": "AMK_Status_bWarn",
+                    "description": "Status word: warning",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "AMK_Status_bQuitDcOn",
-                    "sig_desc": "Status word: HV activation ACK",
+                    "signal_name": "AMK_Status_bQuitDcOn",
+                    "description": "Status word: HV activation ACK",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "AMK_Status_bDcOn",
-                    "sig_desc": "Status word: HV activation level",
+                    "signal_name": "AMK_Status_bDcOn",
+                    "description": "Status word: HV activation level",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "AMK_Status_bQuitInverterOn",
-                    "sig_desc": "Status word: Controller enable ACK",
+                    "signal_name": "AMK_Status_bQuitInverterOn",
+                    "description": "Status word: Controller enable ACK",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "AMK_Status_bInverterOn",
-                    "sig_desc": "Status word: Controller enable level",
+                    "signal_name": "AMK_Status_bInverterOn",
+                    "description": "Status word: Controller enable level",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "AMK_Status_bDerating",
-                    "sig_desc": "Status word: torque limit activation",
+                    "signal_name": "AMK_Status_bDerating",
+                    "description": "Status word: torque limit activation",
                     "type": "bool"
                 },
                 {
-                    "sig_name": "AMK_DCBusVoltage",
-                    "sig_desc": "Voltage of the DC bus",
+                    "signal_name": "AMK_DCBusVoltage",
+                    "description": "Voltage of the DC bus",
                     "type": "uint16_t",
                     "unit": "V"
                 }
             ],
-            "msg_period": 500,
-            "msg_id_override": "0x232",
-            "msg_priority": 2
+            "period_ms": 500,
+            "id_override": "0x232",
+            "priority": 2
         },
         {
-            "msg_name": "INVB_ERR_1",
-            "msg_desc": "All error information",
+            "message_name": "INVB_ERR_1",
+            "description": "All error information",
             "signals": [
                 {
-                    "sig_name": "AMK_DiagnosticNumber",
-                    "sig_desc": "Error number",
+                    "signal_name": "AMK_DiagnosticNumber",
+                    "description": "Error number",
                     "type": "uint32_t"
                 },
                 {
-                    "sig_name": "AMK_ErrorInfo1",
-                    "sig_desc": "Error info",
+                    "signal_name": "AMK_ErrorInfo1",
+                    "description": "Error info",
                     "type": "uint32_t"
                 }
             ],
-            "msg_period": 2000,
-            "msg_id_override": "0x442",
-            "msg_priority": 4
+            "period_ms": 2000,
+            "id_override": "0x442",
+            "priority": 4
         },
         {
-            "msg_name": "INVB_ERR_2",
-            "msg_desc": "All error information",
+            "message_name": "INVB_ERR_2",
+            "description": "All error information",
             "signals": [
                 {
-                    "sig_name": "AMK_ErrorInfo2",
-                    "sig_desc": "Error info",
+                    "signal_name": "AMK_ErrorInfo2",
+                    "description": "Error info",
                     "type": "uint32_t"
                 },
                 {
-                    "sig_name": "AMK_ErrorInfo3",
-                    "sig_desc": "Error info",
+                    "signal_name": "AMK_ErrorInfo3",
+                    "description": "Error info",
                     "type": "uint32_t"
                 }
             ],
-            "msg_period": 2000,
-            "msg_id_override": "0x452",
-            "msg_priority": 4
+            "period_ms": 2000,
+            "id_override": "0x452",
+            "priority": 4
         },
         {
-            "msg_name": "INVB_TEMPS",
-            "msg_desc": "Contains temperatures",
+            "message_name": "INVB_TEMPS",
+            "description": "Contains temperatures",
             "signals": [
                 {
-                    "sig_name": "AMK_MotorTemp",
-                    "sig_desc": "Motor temperature",
+                    "signal_name": "AMK_MotorTemp",
+                    "description": "Motor temperature",
                     "type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 },
                 {
-                    "sig_name": "AMK_InverterTemp",
-                    "sig_desc": "Inverter cold plate temperature",
+                    "signal_name": "AMK_InverterTemp",
+                    "description": "Inverter cold plate temperature",
                     "type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 },
                 {
-                    "sig_name": "AMK_IGBTTemp",
-                    "sig_desc": "IGBT temperature",
+                    "signal_name": "AMK_IGBTTemp",
+                    "description": "IGBT temperature",
                     "type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 }
             ],
-            "msg_period": 500,
-            "msg_id_override": "0x462",
-            "msg_priority": 4
+            "period_ms": 500,
+            "id_override": "0x462",
+            "priority": 4
         },
         {
-            "msg_name": "INVB_PHASE_I",
-            "msg_desc": "All error information",
+            "message_name": "INVB_PHASE_I",
+            "description": "All error information",
             "signals": [
                 {
-                    "sig_name": "AMK_PhaseUCurrent",
-                    "sig_desc": "INVB Phase U Current",
+                    "signal_name": "AMK_PhaseUCurrent",
+                    "description": "INVB Phase U Current",
                     "type": "int32_t"
                 }
             ],
-            "msg_period": 250,
-            "msg_id_override": "0x572",
-            "msg_priority": 4
+            "period_ms": 250,
+            "id_override": "0x572",
+            "priority": 4
         }
     ],
     "rx": [
         {
-            "msg_name": "INVB_SET"
+            "message_name": "INVB_SET"
         }
     ]
 }

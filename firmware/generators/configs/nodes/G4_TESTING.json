@@ -5,49 +5,49 @@
             "peripheral": "FDCAN2",
             "tx": [
                 {
-                    "msg_name": "IZZE_IMU_config",
-                    "msg_desc": "Config message. Power cycle after 10-15 seconds of sending",
+                    "message_name": "IZZE_IMU_config",
+                    "description": "Config message. Power cycle after 10-15 seconds of sending",
                     "signals": [
                         {
-                            "sig_name": "programming_constant",
+                            "signal_name": "programming_constant",
                             "type": "uint16_t",
                             "unit": "none"
                         },
                         {
-                            "sig_name": "NEW_CAN_BASE_ID",
+                            "signal_name": "NEW_CAN_BASE_ID",
                             "type": "uint16_t",
                             "unit": "none",
                             "min": 1,
                             "max": 2047
                         },
                         {
-                            "sig_name": "gyro_scale",
+                            "signal_name": "gyro_scale",
                             "type": "uint8_t"
                         },
                         {
-                            "sig_name": "accel_scale",
+                            "signal_name": "accel_scale",
                             "type": "uint8_t"
                         },
                         {
-                            "sig_name": "output_data_rate",
+                            "signal_name": "output_data_rate",
                             "type": "uint8_t"
                         },
                         {
-                            "sig_name": "bit_rate",
+                            "signal_name": "bit_rate",
                             "type": "uint8_t"
                         }
                     ],
-                    "msg_period": 1000,
-                    "msg_priority": 3,
-                    "msg_id_override": "0x4EC"
+                    "period_ms": 1000,
+                    "priority": 3,
+                    "id_override": "0x4EC"
                 },
                 {
-                    "msg_name": "canpiler_test",
-                    "msg_desc": "CANpiler offset/scale validation. Includes offset-only, scale-only, both, and neither for g4_testing <-> daqapp testing.", 
+                    "message_name": "canpiler_test",
+                    "description": "CANpiler offset/scale validation. Includes offset-only, scale-only, both, and neither for g4_testing <-> daqapp testing.",
                     "signals": [
                         {
-                            "sig_name": "temperature",
-                            "sig_desc": "Offset-only: signed range packed in unsigned u8. Offset: -40C.",
+                            "signal_name": "temperature",
+                            "description": "Offset-only: signed range packed in unsigned u8. Offset: -40C.",
                             "type": "uint8_t",
                             "unit": "C",
                             "offset": -40.0,
@@ -55,8 +55,8 @@
                             "max": 215
                         },
                         {
-                            "sig_name": "current",
-                            "sig_desc": "Scale-only: signed range packed in int16. Scale: 0.1A.",
+                            "signal_name": "current",
+                            "description": "Scale-only: signed range packed in int16. Scale: 0.1A.",
                             "type": "int16_t",
                             "unit": "A",
                             "scale": 0.1,
@@ -64,8 +64,8 @@
                             "max": 200
                         },
                         {
-                            "sig_name": "voltage",
-                            "sig_desc": "Scale and offset: unsigned range packed in u16. Scale: 0.001V, Offset: 2.5V.",
+                            "signal_name": "voltage",
+                            "description": "Scale and offset: unsigned range packed in u16. Scale: 0.001V, Offset: 2.5V.",
                             "type": "uint16_t",
                             "unit": "V",
                             "scale": 0.001,
@@ -74,8 +74,8 @@
                             "max": 5.0
                         },
                         {
-                            "sig_name": "pressure",
-                            "sig_desc": "Scale and offset: unsigned range packed in u8. Scale: 2kPa, Offset: 20kPa.",
+                            "signal_name": "pressure",
+                            "description": "Scale and offset: unsigned range packed in u8. Scale: 2kPa, Offset: 20kPa.",
                             "type": "uint8_t",
                             "unit": "kPa",
                             "scale": 2.0,
@@ -84,14 +84,14 @@
                             "max": 510
                         },
                         {
-                            "sig_name": "status",
-                            "sig_desc": "No scale or offset: packed in u8.",
+                            "signal_name": "status",
+                            "description": "No scale or offset: packed in u8.",
                             "type": "uint8_t",
                             "unit": "none"
                         }
                     ],
-                    "msg_period": 100,
-                    "msg_priority": 3
+                    "period_ms": 100,
+                    "priority": 3
                 }
             ],
             "rx": []

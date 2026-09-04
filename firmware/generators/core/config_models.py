@@ -61,9 +61,9 @@ class ConfigModel(BaseModel):
 
 
 class SignalConfig(ConfigModel):
-    name: str = Field(validation_alias="sig_name")
+    name: str = Field(validation_alias="signal_name")
     datatype: str = Field(validation_alias="type")
-    desc: str = Field(default="", validation_alias="sig_desc")
+    desc: str = Field(default="", validation_alias="description")
     length: BitLength | None = None
     unit: str | None = None
     choices: list[str] | None = None
@@ -89,14 +89,13 @@ class SignalConfig(ConfigModel):
 
 
 class TxMessageConfig(ConfigModel):
-    name: str = Field(validation_alias="msg_name")
-    desc: str = Field(validation_alias="msg_desc")
+    name: str = Field(validation_alias="message_name")
+    desc: str = Field(validation_alias="description")
     signals: list[SignalConfig]
-    priority: MessagePriority = Field(validation_alias="msg_priority")
-    period: NonNegativeInt = Field(default=0, validation_alias="msg_period")
+    priority: MessagePriority
+    period: NonNegativeInt = Field(default=0, validation_alias="period_ms")
     id_override: str | None = Field(
         default=None,
-        validation_alias="msg_id_override",
         pattern=r"^0x([0-1]?[0-9a-fA-F]{1,7}|[0-9a-fA-F]{1,7})$",
     )
     byte_order: ByteOrder = "little_endian"
@@ -111,7 +110,7 @@ class TxMessageConfig(ConfigModel):
 
 
 class RxMessageConfig(ConfigModel):
-    name: str = Field(validation_alias="msg_name")
+    name: str = Field(validation_alias="message_name")
     callback: bool = False
 
 

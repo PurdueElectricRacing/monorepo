@@ -241,7 +241,7 @@ class BusView:
     name: str
     messages: List[Message] = field(default_factory=list)
     nodes: Set[str] = field(default_factory=set)
-    sender_map: Dict[str, str] = field(default_factory=dict) # msg_name -> sender_node_name
+    sender_map: Dict[str, str] = field(default_factory=dict) # message_name -> sender_node_name
 
 @dataclass
 class SystemContext:
@@ -333,25 +333,25 @@ def _priority_period_convention_warning_reason(msg: Message) -> Optional[str]:
     """Return the priority-period convention warning reason, if one applies."""
     if msg.priority == 0 and msg.period > 0:
         return (
-            "priority 0 is event-based, but msg_period is positive "
-            "(use 0 or omit msg_period for event-triggered messages)"
+            "priority 0 is event-based, but period_ms is positive "
+            "(use 0 or omit period_ms for event-triggered messages)"
         )
 
     if msg.priority in (1, 2) and msg.period == 0:
         return (
-            f"priority {msg.priority} is periodic by convention, but msg_period is 0 "
-            "(set a positive msg_period for periodic messages)"
+            f"priority {msg.priority} is periodic by convention, but period_ms is 0 "
+            "(set a positive period_ms for periodic messages)"
         )
 
     if msg.priority == 4 and msg.period <= 200:
         return (
-            "priority 4 is low-frequency periodic telemetry (<5 Hz), but msg_period "
+            "priority 4 is low-frequency periodic telemetry (<5 Hz), but period_ms "
             "is not greater than 200 ms"
         )
 
     if msg.priority == 5 and (msg.period == 0 or msg.period >= 200):
         return (
-            "priority 5 is high-frequency telemetry (>5 Hz), but msg_period is not "
+            "priority 5 is high-frequency telemetry (>5 Hz), but period_ms is not "
             "between 1 and 199 ms"
         )
 

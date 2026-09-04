@@ -3,78 +3,78 @@
     "bus_name": "VCAN",
     "tx": [
         {
-            "msg_name": "IZZE_angular_rate",
-            "msg_desc": "Angular Rate",
+            "message_name": "IZZE_angular_rate",
+            "description": "Angular Rate",
             "byte_order": "big_endian",
             "signals": [
                 {
-                    "sig_name": "X_axis",
-                    "sig_desc": "Angular Rate around X-axis",
+                    "signal_name": "X_axis",
+                    "description": "Angular Rate around X-axis",
                     "type": "int16_t",
                     "unit": "deg/s",
                     "scale": 0.1
                 },
                 {
-                    "sig_name": "Y_axis",
-                    "sig_desc": "Angular Rate around Y-axis",
+                    "signal_name": "Y_axis",
+                    "description": "Angular Rate around Y-axis",
                     "type": "int16_t",
                     "unit": "deg/s",
                     "scale": 0.1
                 },
                 {
-                    "sig_name": "Z_axis",
-                    "sig_desc": "Angular Rate around Z-axis",
+                    "signal_name": "Z_axis",
+                    "description": "Angular Rate around Z-axis",
                     "type": "int16_t",
                     "unit": "deg/s",
                     "scale": 0.1
                 },
                 {
-                    "sig_name": "reserved",
-                    "sig_desc": "reserved",
+                    "signal_name": "reserved",
+                    "description": "reserved",
                     "type": "uint16_t"
                 }
             ],
-            "msg_period": 50,
-            "msg_id_override": "0x4EC",
-            "msg_priority": 5
+            "period_ms": 50,
+            "id_override": "0x4EC",
+            "priority": 5
         },
         {
-            "msg_name": "IZZE_acceleration",
-            "msg_desc": "Acceleration",
+            "message_name": "IZZE_acceleration",
+            "description": "Acceleration",
             "byte_order": "big_endian",
             "signals": [
                 {
-                    "sig_name": "X_axis",
-                    "sig_desc": "Acceleration along X-axis",
+                    "signal_name": "X_axis",
+                    "description": "Acceleration along X-axis",
                     "type": "int16_t",
                     "unit": "g",
                     "scale": 0.01
                 },
                 {
-                    "sig_name": "Y_axis",
-                    "sig_desc": "Acceleration along Y-axis",
+                    "signal_name": "Y_axis",
+                    "description": "Acceleration along Y-axis",
                     "type": "int16_t",
                     "unit": "g",
                     "scale": 0.01
                 },
                 {
-                    "sig_name": "Z_axis",
-                    "sig_desc": "Acceleration along Z-axis",
+                    "signal_name": "Z_axis",
+                    "description": "Acceleration along Z-axis",
                     "type": "int16_t",
                     "unit": "g",
                     "scale": 0.01
                 },
                 {
-                    "sig_name": "temperature",
-                    "sig_desc": "IMU Temperature",
+                    "signal_name": "temperature",
+                    "description": "IMU Temperature",
                     "type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 }
             ],
-            "msg_period": 50,
-            "msg_id_override": "0x4ED",
-            "msg_priority": 5
+            "period_ms": 50,
+            "id_override": "0x4ED",
+            "priority": 5
         }
     ],
     "rx": []

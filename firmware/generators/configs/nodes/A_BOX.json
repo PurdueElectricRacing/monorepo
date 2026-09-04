@@ -5,82 +5,82 @@
             "peripheral": "FDCAN1",
             "tx": [
                 {
-                    "msg_name": "abox_init",
-                    "msg_desc": "ABOX hardware initialized",
+                    "message_name": "abox_init",
+                    "description": "ABOX hardware initialized",
                     "signals": [
                         {
-                            "sig_name": "csr",
-                            "sig_desc": "RCC CSR register",
+                            "signal_name": "csr",
+                            "description": "RCC CSR register",
                             "type": "uint32_t"
                         }
                     ],
-                    "msg_priority": 0
+                    "priority": 0
                 },
                 {
-                    "msg_name": "pack_stats",
-                    "msg_desc": "Pack voltage, current, and temperature",
+                    "message_name": "pack_stats",
+                    "description": "Pack voltage, current, and temperature",
                     "signals": [
                         {
-                            "sig_name": "pack_voltage",
-                            "sig_desc": "Total pack voltage",
+                            "signal_name": "pack_voltage",
+                            "description": "Total pack voltage",
                             "type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "pack_current",
-                            "sig_desc": "Total pack current, positive is discharge",
+                            "signal_name": "pack_current",
+                            "description": "Total pack current, positive is discharge",
                             "type": "int16_t",
                             "unit": "A",
                             "scale": 0.1
                         },
                         {
-                            "sig_name": "max_temp",
-                            "sig_desc": "Max thermistor reading in the pack",
+                            "signal_name": "max_temp",
+                            "description": "Max thermistor reading in the pack",
                             "type": "int16_t",
                             "unit": "C"
                         }
                     ],
-                    "msg_priority": 5,
-                    "msg_period": 10
+                    "priority": 5,
+                    "period_ms": 10
                 },
                 {
-                    "msg_name": "thermistor_telemetry",
-                    "msg_desc": "Individual thermistor readings",
+                    "message_name": "thermistor_telemetry",
+                    "description": "Individual thermistor readings",
                     "signals": [
                         {
-                            "sig_name": "temperature",
-                            "sig_desc": "Individual thermistor temperature",
+                            "signal_name": "temperature",
+                            "description": "Individual thermistor temperature",
                             "type": "uint16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
-                            "sig_name": "module_num",
-                            "sig_desc": "Module number of the cell being reported, 0 indexed",
+                            "signal_name": "module_num",
+                            "description": "Module number of the cell being reported, 0 indexed",
                             "type": "uint8_t"
                         },
                         {
-                            "sig_name": "thermistor_num",
-                            "sig_desc": "Thermistor number within the module, 0 indexed",
+                            "signal_name": "thermistor_num",
+                            "description": "Thermistor number within the module, 0 indexed",
                             "type": "uint8_t"
                         }
                     ],
-                    "msg_priority": 5,
-                    "msg_period": 125
+                    "priority": 5,
+                    "period_ms": 125
                 },
                 {
-                    "msg_name": "abox_version",
-                    "msg_desc": "ABox version",
+                    "message_name": "abox_version",
+                    "description": "ABox version",
                     "signals": [
                         {
-                            "sig_name": "git_hash",
+                            "signal_name": "git_hash",
                             "type": "uint32_t",
-                            "sig_desc": "int representation of git short hash"
+                            "description": "int representation of git short hash"
                         }
                     ],
-                    "msg_priority": 4,
-                    "msg_period": 5000
+                    "priority": 4,
+                    "period_ms": 5000
                 }
             ],
             "rx": [],
@@ -90,177 +90,177 @@
             "peripheral": "FDCAN2",
             "tx": [
                 {
-                    "msg_name": "elcon_command",
-                    "msg_desc": "Command from A_BOX to Elcon Charger (Message1)",
+                    "message_name": "elcon_command",
+                    "description": "Command from A_BOX to Elcon Charger (Message1)",
                     "byte_order": "big_endian",
                     "signals": [
                         {
-                            "sig_name": "voltage_limit",
-                            "sig_desc": "Requested charge voltage in decivolts",
+                            "signal_name": "voltage_limit",
+                            "description": "Requested charge voltage in decivolts",
                             "unit": "V",
                             "scale": 0.1,
                             "type": "uint16_t"
                         },
                         {
-                            "sig_name": "current_limit",
-                            "sig_desc": "Requested charge current in deciamps",
+                            "signal_name": "current_limit",
+                            "description": "Requested charge current in deciamps",
                             "unit": "A",
                             "scale": 0.1,
                             "type": "uint16_t"
                         },
                         {
-                            "sig_name": "charger_disable",
-                            "sig_desc": "0 to enable charging, 1 to disable charging",
+                            "signal_name": "charger_disable",
+                            "description": "0 to enable charging, 1 to disable charging",
                             "type": "uint8_t",
                             "choices": ["ENABLE", "DISABLE"]
                         },
                         {
-                            "sig_name": "reserved1",
+                            "signal_name": "reserved1",
                             "type": "uint8_t"
                         },
                         {
-                            "sig_name": "reserved2",
+                            "signal_name": "reserved2",
                             "type": "uint8_t"
                         },
                         {
-                            "sig_name": "reserved3",
+                            "signal_name": "reserved3",
                             "type": "uint8_t"
                         }
                     ],
-                    "msg_priority": 3,
-                    "msg_id_override": "0x1806E5F4",
-                    "msg_period": 1000
+                    "priority": 3,
+                    "id_override": "0x1806E5F4",
+                    "period_ms": 1000
                 },
                 {
-                    "msg_name": "charging_telemetry",
-                    "msg_desc": "Reported battery stats during charging",
+                    "message_name": "charging_telemetry",
+                    "description": "Reported battery stats during charging",
                     "signals": [
                         {
-                            "sig_name": "pack_voltage",
-                            "sig_desc": "Total pack voltage",
+                            "signal_name": "pack_voltage",
+                            "description": "Total pack voltage",
                             "type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "pack_current",
-                            "sig_desc": "Total pack current, positive is discharge",
+                            "signal_name": "pack_current",
+                            "description": "Total pack current, positive is discharge",
                             "type": "int16_t",
                             "unit": "A",
                             "scale": 0.1
                         },
                         {
-                            "sig_name": "min_cell_voltage",
-                            "sig_desc": "Minimum cell voltage in the pack",
+                            "signal_name": "min_cell_voltage",
+                            "description": "Minimum cell voltage in the pack",
                             "type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "max_cell_voltage",
-                            "sig_desc": "Maximum cell voltage in the pack",
+                            "signal_name": "max_cell_voltage",
+                            "description": "Maximum cell voltage in the pack",
                             "type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         }
                     ],
-                    "msg_priority": 5,
-                    "msg_period": 10
+                    "priority": 5,
+                    "period_ms": 10
                 },
                 {
-                    "msg_name": "charging_fsm_internals",
-                    "msg_desc": "Internal states of the charging FSM for debugging purposes",
+                    "message_name": "charging_fsm_internals",
+                    "description": "Internal states of the charging FSM for debugging purposes",
                     "signals": [
                         {
-                            "sig_name": "voltage_limit",
-                            "sig_desc": "Requested charge voltage in decivolts",
+                            "signal_name": "voltage_limit",
+                            "description": "Requested charge voltage in decivolts",
                             "unit": "V",
                             "scale": 0.1,
                             "type": "uint16_t"
                         },
                         {
-                            "sig_name": "current_limit",
-                            "sig_desc": "Requested charge current in deciamps",
+                            "signal_name": "current_limit",
+                            "description": "Requested charge current in deciamps",
                             "unit": "A",
                             "scale": 0.1,
                             "type": "uint16_t"
                         },
                         {
-                            "sig_name": "balancing_status",
-                            "sig_desc": "Balancing status of the pack",
+                            "signal_name": "balancing_status",
+                            "description": "Balancing status of the pack",
                             "type": "bool"
                         },
                         {
-                            "sig_name": "charging_state",
-                            "sig_desc": "abox charging fsm state",
+                            "signal_name": "charging_state",
+                            "description": "abox charging fsm state",
                             "type": "charging_state_t"
                         }
                     ],
-                    "msg_priority": 4,
-                    "msg_period": 1000
+                    "priority": 4,
+                    "period_ms": 1000
                 },
                 {
-                    "msg_name": "cell_telemetry",
-                    "msg_desc": "Individual cell voltages and balancing status",
+                    "message_name": "cell_telemetry",
+                    "description": "Individual cell voltages and balancing status",
                     "signals": [
                         {
-                            "sig_name": "voltage",
-                            "sig_desc": "individual cell voltage",
+                            "signal_name": "voltage",
+                            "description": "individual cell voltage",
                             "type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "module_num",
-                            "sig_desc": "Module number of the cell being reported, 0 indexed",
+                            "signal_name": "module_num",
+                            "description": "Module number of the cell being reported, 0 indexed",
                             "type": "uint8_t"
                         },
                         {
-                            "sig_name": "cell_num",
-                            "sig_desc": "Cell number within the module, 0 indexed",
+                            "signal_name": "cell_num",
+                            "description": "Cell number within the module, 0 indexed",
                             "type": "uint8_t"
                         },
                         {
-                            "sig_name": "balance_status",
-                            "sig_desc": "Whether the cell is currently being balanced",
+                            "signal_name": "balance_status",
+                            "description": "Whether the cell is currently being balanced",
                             "type": "bool"
                         }
                     ],
-                    "msg_priority": 5,
-                    "msg_period": 10
+                    "priority": 5,
+                    "period_ms": 10
                 },
                 {
-                    "msg_name": "thermistor_telemetry_ccan",
-                    "msg_desc": "Individual thermistor readings",
+                    "message_name": "thermistor_telemetry_ccan",
+                    "description": "Individual thermistor readings",
                     "signals": [
                         {
-                            "sig_name": "temperature",
-                            "sig_desc": "Individual thermistor temperature",
+                            "signal_name": "temperature",
+                            "description": "Individual thermistor temperature",
                             "type": "uint16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
-                            "sig_name": "module_num",
-                            "sig_desc": "Module number of the cell being reported, 0 indexed",
+                            "signal_name": "module_num",
+                            "description": "Module number of the cell being reported, 0 indexed",
                             "type": "uint8_t"
                         },
                         {
-                            "sig_name": "thermistor_num",
-                            "sig_desc": "Thermistor number within the module, 0 indexed",
+                            "signal_name": "thermistor_num",
+                            "description": "Thermistor number within the module, 0 indexed",
                             "type": "uint8_t"
                         }
                     ],
-                    "msg_priority": 5,
-                    "msg_period": 125
+                    "priority": 5,
+                    "period_ms": 125
                 }
             ],
             "rx": [
                 {
-                    "msg_name": "elcon_status"
+                    "message_name": "elcon_status"
                 },
                 {
-                    "msg_name": "charge_request"
+                    "message_name": "charge_request"
                 }
             ],
             "accept_all_messages": false
