@@ -1,4 +1,3 @@
-include(../../cmake/can_library.cmake)
 create_can_node_lib(DASHBOARD "CMSIS_G474;RTOS_G474")
 
 add_firmware_component(
