@@ -252,14 +252,14 @@ class BusView:
 class SystemContext:
     nodes: List[Node] = field(default_factory=list)
     busses: Dict[str, BusView] = field(default_factory=dict)
-    mappings: Dict[str, "NodeMapping"] = field(default_factory=dict)
+    mappings: Dict[str, 'NodeMapping'] = field(default_factory=dict)
     bus_configs: Dict[str, Dict[str, Any]] = field(default_factory=dict)
     custom_types: Dict[str, Any] = field(default_factory=dict)
     version: str = ""
 
 def create_system_context(
     nodes: List[Node],
-    mappings: Dict[str, "NodeMapping"],
+    mappings: Dict[str, 'NodeMapping'],
     bus_configs: Dict[str, Dict[str, Any]],
     custom_types: Dict[str, Any],
 ) -> SystemContext:
