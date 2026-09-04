@@ -1,0 +1,40 @@
+{
+    "node_name": "BL_A_BOX",
+    "busses": {
+        "VCAN": {
+            "peripheral": "FDCAN1",
+            "tx": [
+                {
+                    "msg_name": "bl_a_box_resp",
+                    "msg_desc": "CAN bootloader response for A-Box",
+                    "signals": [
+                        {"sig_name": "status", "type": "bootloader_status_t"},
+                        {"sig_name": "detail", "type": "uint32_t"}
+                    ],
+                    "msg_id_override": "0x18B",
+                    "msg_priority": 0
+                },
+                {
+                    "msg_name": "bl_a_box_info",
+                    "msg_desc": "CAN bootloader identity and capabilities for A-Box",
+                    "signals": [
+                        {"sig_name": "protocol_version", "type": "uint8_t"},
+                        {"sig_name": "git_hash", "type": "uint32_t"},
+                        {"sig_name": "target_id", "type": "bootloader_target_id_t"},
+                        {"sig_name": "flags", "type": "uint8_t"}
+                    ],
+                    "msg_id_override": "0x1C3",
+                    "msg_period": 5000,
+                    "msg_priority": 4
+                }
+            ],
+            "rx": [
+                {"msg_name": "bl_a_box_start"},
+                {"msg_name": "bl_a_box_crc"},
+                {"msg_name": "bl_a_box_jump"},
+                {"msg_name": "bl_a_box_data"}
+            ]
+        }
+    },
+    "fault_library_enabled": false
+}

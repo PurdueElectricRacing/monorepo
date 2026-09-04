@@ -75,15 +75,23 @@
                     "signals": [
                         {
                             "sig_name": "git_hash",
-                            "type": "uint32_t",
-                            "sig_desc": "int representation of git short hash"
+                            "type": "uint32_t"
+                        },
+                        {
+                            "sig_name": "bootloadable",
+                            "type": "bool"
                         }
                     ],
                     "msg_priority": 5,
                     "msg_period": 5000
                 }
             ],
-            "rx": [],
+            "rx": [
+                {
+                    "msg_name": "bl_a_box_start",
+                    "callback": true
+                }
+            ],
             "accept_all_messages": false
         },
         "CCAN": {

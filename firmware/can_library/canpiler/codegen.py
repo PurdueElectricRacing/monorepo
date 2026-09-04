@@ -336,6 +336,8 @@ def generate_headers(context: SystemContext):
     # Ensure generated directory exists
     GENERATED_DIR.mkdir(exist_ok=True)
 
+    generate_version_header(context)
+
     # Generate types header
     generate_types_header(env, context.custom_types)
 
@@ -351,6 +353,17 @@ def generate_headers(context: SystemContext):
     generate_router_header(env, context.nodes)
     
     print_as_success("Successfully generated C headers")
+
+def generate_version_header(context: SystemContext):
+    version_header = GENERATED_DIR / "can_version.h"
+    version_header.write_text(
+        "#ifndef CAN_LIBRARY_VERSION_H\n"
+        "#define CAN_LIBRARY_VERSION_H\n\n"
+        f"#define CAN_LIBRARY_GIT_HASH 0x{context.version}U\n\n"
+        "#endif\n"
+    )
+    print_as_ok("Generated can_version.h")
+
 
 def generate_types_header(env, custom_types: Dict):
     render_template(env, 'can_types.h.jinja', 

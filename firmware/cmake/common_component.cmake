@@ -7,6 +7,10 @@
 #     LIBS <list_of_libs>
 #     [IS_BOOTLOADER]
 # )
+#
+# Bootloader additions: IS_BOOTLOADER selects the resident _BL.ld layout;
+# BOOTLOADER_BUILD selects _APP.ld, defines BOOTLOADER_ENABLED, and requires the
+# application to start at 0x08008000.
 function(add_firmware_component)
     set(options IS_BOOTLOADER)
     set(oneValueArgs NAME LINKER_SCRIPT OUTPUT_DIR)
@@ -25,17 +29,22 @@ function(add_firmware_component)
     target_sources(${TARGET_NAME} PRIVATE ${SOURCES})
 
     # Includes: current directory and all subdirectories
-    target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+    target_include_directories(${TARGET_NAME} PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}
+    )
     RECURSE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR} "*.h" INCLUDE_DIRS)
     foreach(DIR ${INCLUDE_DIRS})
         target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/${DIR})
     endforeach()
 
-    # Linker script logic
+    # Select resident, bootloader-aware application, or standalone layout.
     if(BOOTLOADER_BUILD AND NOT ARG_IS_BOOTLOADER)
         set(LS_SUFFIX "_APP.ld")
+        target_compile_definitions(${TARGET_NAME} PRIVATE BOOTLOADER_ENABLED=1)
     elseif(ARG_IS_BOOTLOADER)
         set(LS_SUFFIX "_BL.ld")
+        target_compile_definitions(${TARGET_NAME} PRIVATE BOOTLOADER_FIRMWARE=1)
     else()
         set(LS_SUFFIX ".ld")
     endif()
@@ -47,5 +56,10 @@ function(add_firmware_component)
     )
 
     # Post-build actions
-    postbuild_target(${TARGET_NAME} ${ARG_NAME} "${ARG_OUTPUT_DIR}" ${MAP_FILE})
+    postbuild_target(
+        ${TARGET_NAME}
+        ${ARG_NAME}
+        "${ARG_OUTPUT_DIR}"
+        ${MAP_FILE}
+    )
 endfunction()

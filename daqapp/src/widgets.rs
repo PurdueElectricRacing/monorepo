@@ -1,4 +1,4 @@
-use crate::{action, app, formatter, messages, ui};
+use crate::{action, app, connection, formatter, messages, ui};
 use eframe::egui;
 
 pub enum Widget {
@@ -45,6 +45,7 @@ impl Widget {
         action_queue: &mut Vec<action::AppAction>,
         parser: Option<&app::ParserInfo>,
         _ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+        active_bus: Option<connection::CanBus>,
         formatter: &Option<formatter::Formatter>,
     ) -> egui_tiles::UiResponse {
         let mut received_new_data = false;
@@ -62,7 +63,9 @@ impl Widget {
         match self {
             Widget::ViewerTable(w) => w.show(ui, action_queue, formatter, parser),
             Widget::ViewerList(w) => w.show(ui, formatter, parser),
-            Widget::Bootloader(w) => w.show(ui),
+            // The widget sends package commands through the same channel owned
+            // by the CAN thread; it never writes the driver directly.
+            Widget::Bootloader(w) => w.show(ui, &_ui_to_can_tx, active_bus),
             Widget::Scope(w) => w.show(ui, parser),
             Widget::LogParser(w) => w.show(ui, parser),
             Widget::SendUi(w) => w.show(ui, parser, formatter),
@@ -79,6 +82,9 @@ impl Widget {
 
     fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
         match self {
+            // Progress is delivered through the normal CAN->UI message path,
+            // alongside decoded traffic and connection events.
+            Widget::Bootloader(w) => w.handle_can_message(msg),
             Widget::ViewerTable(w) => w.handle_can_message(msg),
             Widget::ViewerList(w) => w.handle_can_message(msg),
             Widget::Scope(w) => w.handle_can_message(msg),

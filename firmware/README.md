@@ -21,6 +21,25 @@ Vehicle targets include `main_module`, `dashboard`, `torque_vector`, `pdu`,
 `a_box`, `daq`, and `driveline`. `driveline` produces separate front and rear
 binaries. `f4_testing` and `g4_testing` are bench-testing targets.
 
+## G4 bootloader
+
+The [bootloader guide](source/bootloader/README.md) documents architecture,
+wire protocol, flash layout, and recovery.
+
+```bash
+python3 firmware/build_firmware.py --bootloader # resident images + relocated apps
+python3 firmware/build_firmware.py --package    # six application images + manifest
+```
+
+`--package` emits contiguous application binaries, STM32 CRCs,
+`output/manifest.json`, and a reproducible `firmware_<git-ref>.tar.gz`. The
+objcopy source binaries remain unchanged; package copies under `output/images/`
+pad a final partial word with erased `0xFF` before recording size and CRC. The
+archive contains application binaries, CRC sidecars, HEX files, and the
+manifest; flash each matching `bootloader_<NODE>` resident image first. The
+manifest version, CRC algorithm, address, board names, and CAN IDs form one
+contract shared with DaqApp.
+
 ## Building
 
 Install the ARM toolchain, CMake, Ninja, and Python dependencies using the

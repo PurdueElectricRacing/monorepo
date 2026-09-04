@@ -262,6 +262,22 @@
                     ],
                     "msg_period": 15,
                     "msg_priority": 2
+                },
+                {
+                    "msg_name": "torque_vector_version",
+                    "msg_desc": "Torque Vector version",
+                    "signals": [
+                        {
+                            "sig_name": "git_hash",
+                            "type": "uint32_t"
+                        },
+                        {
+                            "sig_name": "bootloadable",
+                            "type": "bool"
+                        }
+                    ],
+                    "msg_period": 5000,
+                    "msg_priority": 4
                 }
             ],
             "rx": [
@@ -299,6 +315,10 @@
                 },
                 {
                     "msg_name": "vcu_driver_request",
+                    "callback": true
+                },
+                {
+                    "msg_name": "bl_torque_vector_start",
                     "callback": true
                 }
             ]

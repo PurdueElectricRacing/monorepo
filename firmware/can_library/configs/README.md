@@ -89,9 +89,14 @@ External nodes (non-PER devices such as chargers or inverters) are defined in `c
 
 ### Attributes
 - `node_name`: Name of the external device. Must be unique.
-- `bus_name`: The logical bus this device sits on (must match a bus in `bus_configs.json`).
+- A single-bus file may use `bus_name`, `tx`, and `rx`.
+- A multi-bus file uses `busses`, whose keys are logical buses listed in `bus_configs.json`; each value contains `tx` and `rx` arrays.
 - `tx`: Array of messages this device sends toward PER nodes.
 - `rx`: Array of messages this device expects to receive.
+
+`BOOTLOADER.json` uses the multi-bus form so different targets may place their
+protocol messages on different buses. Each resident image selects exactly one
+physical bus in `source/bootloader/node_defs.h`.
 
 ## Custom Types
 Define reusable signal types (enums and aliases) in `configs/system/common_types.json`. Validated by `type_registry.schema.json`.
@@ -100,6 +105,12 @@ Define reusable signal types (enums and aliases) in `configs/system/common_types
 - `name`: Type name. Must end in `_t` (e.g. `car_state_t`).
 - `base_type`: One of `uint8_t` ... `uint64_t`, `int8_t` ... `int64_t`, `bool`.
 - `choices`: (Optional) Enum value list, generated as a C `enum`.
+
+## G4 CAN bootloader
+
+`external_nodes/BOOTLOADER.json` and `nodes/BL_*.json` are the CAN source of
+truth. Regenerate artifacts after changes; see the
+[bootloader guide](../../source/bootloader/README.md) for the update flow.
 
 ## Fault Configuration
 Node-specific faults are defined directly in the node JSON under the `"faults"` key. The library automatically generates bitfield-sync and event messages for fault communication based on these definitions.

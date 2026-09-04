@@ -3,7 +3,7 @@ use crate::util;
 use rand::prelude::*;
 use serialport::{ClearBuffer, SerialPort};
 use slcan::sync::CanSocket;
-use slcan::{CanFrame, NominalBitRate, OperatingMode};
+use slcan::{CanFrame, OperatingMode};
 use std::collections::VecDeque;
 use std::net::UdpSocket;
 use std::time::Duration;
@@ -423,7 +423,9 @@ pub fn parse_udp_buffer(
 
 pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>> {
     match source {
-        ConnectionSource::Serial(path, speed) => Ok(Box::new(SerialDriver::new(path, *speed)?)),
+        ConnectionSource::Serial(path, speed, _bus) => {
+            Ok(Box::new(SerialDriver::new(path, *speed)?))
+        }
         ConnectionSource::Udp(port) => Ok(Box::new(UdpDriver::new(*port)?)),
         ConnectionSource::Simulated(connected, dbc_path) => Ok(Box::new(SimulatedDriver::new(
             *connected,

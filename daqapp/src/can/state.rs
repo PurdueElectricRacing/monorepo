@@ -1,4 +1,4 @@
-use crate::{can, connection, messages};
+use crate::{bootloader_protocol, can, connection, messages};
 
 pub struct State {
     pub can_to_ui_tx: std::sync::mpsc::Sender<messages::MsgFromCan>,
@@ -10,6 +10,7 @@ pub struct State {
     pub send_msgs: std::collections::HashMap<u32, SendMsgInfo>, // msg_id -> SendMsg
     pub bus_load_tracker: can::bus_load::BusLoadTracker,
     pub last_bus_load_update: std::time::Instant,
+    pub firmware_updater: Option<can::bootloader::FirmwareUpdater>,
 }
 
 pub struct SendMsgInfo {
@@ -41,6 +42,111 @@ impl State {
             send_msgs: std::collections::HashMap::new(),
             bus_load_tracker: can::bus_load::BusLoadTracker::new(),
             last_bus_load_update: std::time::Instant::now(),
+            firmware_updater: None,
+        }
+    }
+
+    pub fn start_firmware_update(
+        &mut self,
+        package: bootloader_protocol::FirmwarePackage,
+        bus: connection::CanBus,
+    ) {
+        let error = if self.firmware_updater.is_some() {
+            Some("another firmware update is already running".to_string())
+        } else if !self.is_connected || self.driver.is_none() {
+            Some("CANable is not connected".to_string())
+        } else if self
+            .current_source
+            .as_ref()
+            .and_then(connection::ConnectionSource::can_bus)
+            != Some(bus)
+        {
+            Some(format!(
+                "CANable is not connected to the selected {} bus; reconnect/select that bus",
+                bus.display_name()
+            ))
+        } else if package.images.iter().any(|image| image.bus != bus) {
+            Some(format!(
+                "firmware selection contains an image for the other CAN bus; select/reconnect {} before updating it",
+                bus.display_name()
+            ))
+        } else if package.bus() != Some(bus) {
+            Some("a firmware update session may contain one CAN bus only".to_string())
+        } else {
+            None
+        };
+        if let Some(error) = error {
+            let _ = self
+                .can_to_ui_tx
+                .send(messages::MsgFromCan::FirmwareProgress(
+                    messages::FirmwareProgress {
+                        board: "".to_string(),
+                        board_index: 0,
+                        board_count: package.images.len(),
+                        phase: "failed".to_string(),
+                        sent_bytes: 0,
+                        total_bytes: 0,
+                        error: Some(error),
+                    },
+                ));
+            return;
+        }
+        let (updater, progress) = can::bootloader::FirmwareUpdater::new(package);
+        self.firmware_updater = Some(updater);
+        let _ = self
+            .can_to_ui_tx
+            .send(messages::MsgFromCan::FirmwareProgress(progress));
+    }
+
+    pub fn cancel_firmware_update(&mut self) {
+        if let Some(mut updater) = self.firmware_updater.take() {
+            let progress = updater.cancel();
+            let _ = self
+                .can_to_ui_tx
+                .send(messages::MsgFromCan::FirmwareProgress(progress));
+        }
+    }
+
+    pub fn firmware_update_active(&self) -> bool {
+        self.firmware_updater.is_some()
+    }
+
+    pub fn firmware_tick(&mut self) -> Option<can::bootloader::OutboundFrame> {
+        let (result, finished) = {
+            let Some(updater) = self.firmware_updater.as_mut() else {
+                return None;
+            };
+            let result = updater.tick(std::time::Instant::now());
+            let finished = updater.is_finished();
+            (result, finished)
+        };
+        if let Some(progress) = result.progress {
+            let _ = self
+                .can_to_ui_tx
+                .send(messages::MsgFromCan::FirmwareProgress(progress));
+        }
+        if finished {
+            self.firmware_updater = None;
+        }
+        result.frame
+    }
+
+    pub fn firmware_frame_received(&mut self, id: u32, data: &[u8]) {
+        let (progress, finished) = {
+            let Some(updater) = self.firmware_updater.as_mut() else {
+                return;
+            };
+            let progress = updater.on_response(id, data, std::time::Instant::now());
+            let finished = updater.is_finished();
+            (progress, finished)
+        };
+        if let Some(progress) = progress {
+            let _ = self
+                .can_to_ui_tx
+                .send(messages::MsgFromCan::FirmwareProgress(progress));
+        }
+        if finished {
+            self.firmware_updater = None;
         }
     }
 
