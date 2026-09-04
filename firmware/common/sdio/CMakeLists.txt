@@ -5,7 +5,7 @@ target_sources(${TARGET_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/sdio.c")
 
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-# sdio.c needs daq specific files 
+# sdio.c access to sd_task_handle for SDIO ISR notifications + SD CD LED
 target_include_directories(${TARGET_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/source/daq
 )

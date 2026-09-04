@@ -7,7 +7,7 @@ add_library(${TARGET_NAME} STATIC)
 target_sources(${TARGET_NAME} PRIVATE ${SOURCES})
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-# diskio.c needs daq specific files
+# diskio.c access to sd_task_handle for SDIO ISR notifications + SD activity LED
 target_include_directories(${TARGET_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/source/daq
 )
