@@ -39,7 +39,6 @@
   - changed-files:
       - any-glob-to-any-file: ['firmware/source/pdu/**']
 
-
 "torque_vector":
   - changed-files:
       - any-glob-to-any-file: ['firmware/source/torque_vector/**']
@@ -63,3 +62,7 @@
 "vscode":
   - changed-files:
       - any-glob-to-any-file: ['.vscode/**']
+
+"generators":
+  - changed-files:
+      - any-glob-to-any-file: ['firmware/generators/**']
