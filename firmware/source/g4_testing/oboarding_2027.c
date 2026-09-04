@@ -9,6 +9,10 @@
 #include "common/utils/countof.h"
 #include "main.h"
 
+
+// Hmmm... something may go here
+
+
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     // Hmmm... something may go here
 };
