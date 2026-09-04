@@ -1,7 +1,6 @@
 from collections.abc import Iterable
 
 from core.artifacts import Artifact
-from core.config import CAN_TEMPLATE_DIR, CONFIG_DIR
 from core.contracts import CanContribution
 from core.models import CanModel, CompiledCan
 from .codegen import generate_headers
@@ -23,9 +22,9 @@ from .parser import (
 class Canpiler:
     def parse(self) -> CanModel:
         return CanModel(
-            nodes=parse_all(CONFIG_DIR),
-            bus_configs=load_bus_configs(CONFIG_DIR),
-            custom_types=load_custom_types(CONFIG_DIR),
+            nodes=parse_all(),
+            bus_configs=load_bus_configs(),
+            custom_types=load_custom_types(),
         )
 
     def compile(
@@ -40,7 +39,7 @@ class Canpiler:
 
     def generate(self, compiled: CompiledCan) -> list[Artifact]:
         context = compiled.context
-        artifacts = generate_headers(context, CAN_TEMPLATE_DIR)
+        artifacts = generate_headers(context)
         artifacts.extend(generate_dbcs(context))
         calculate_bus_load(context)
         return artifacts

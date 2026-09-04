@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from core.config import CAN_TEMPLATE_DIR, FAULT_TEMPLATE_DIR
 
 if TYPE_CHECKING:
     from canpiler.parser import Message
@@ -81,9 +82,9 @@ def get_layout_hash(message: "Message") -> str:
     return f"0x{full_hash[:16]}" # take the first 16 chars (to fit in 64 bits)
 
 
-def get_jinja_env(template_dir: str | Path) -> Environment:
+def get_jinja_env() -> Environment:
     env = Environment(
-        loader=FileSystemLoader(str(template_dir)),
+        loader=FileSystemLoader([str(CAN_TEMPLATE_DIR), str(FAULT_TEMPLATE_DIR)]),
         autoescape=select_autoescape(),
         trim_blocks=True,
         lstrip_blocks=True,

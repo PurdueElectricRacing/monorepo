@@ -7,6 +7,12 @@ Author: Irving Wang (irvingw@purdue.edu)
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, List, Optional, Dict, Set, Literal
 from pathlib import Path
+from core.config import (
+    BUS_CONFIG_PATH,
+    COMMON_TYPES_CONFIG_PATH,
+    EXTERNAL_NODE_CONFIG_DIR,
+    NODE_CONFIG_DIR,
+)
 from core.utils import (
     load_json, CTYPE_SIZES,
     print_as_error, print_as_ok, print_as_success, to_macro_name, 
@@ -290,10 +296,10 @@ def create_system_context(
 
 # --- Parsing Logic ---
 
-def load_custom_types(config_dir: Path) -> Dict[str, Any]:
+def load_custom_types() -> Dict[str, Any]:
     """Load custom types from common_types.json"""
     try:
-        data = load_json(config_dir / "system" / "common_types.json")
+        data = load_json(COMMON_TYPES_CONFIG_PATH)
         custom_types = {}
         for t in data.get("types", []):
             if t["name"] in custom_types:
@@ -309,10 +315,10 @@ def baud_rate_label(bus_name: str, baud_rate: int) -> str:
         raise ValueError(f"Bus '{bus_name}' has unsupported baud rate {baud_rate}.")
     return BAUD_RATE_LABELS[baud_rate]
 
-def load_bus_configs(config_dir: Path) -> Dict[str, Dict[str, Any]]:
+def load_bus_configs() -> Dict[str, Dict[str, Any]]:
     """Load bus configurations from bus_configs.json and attach each bus's baud rate enum label."""
     try:
-        data = load_json(config_dir / "system" / "bus_configs.json")
+        data = load_json(BUS_CONFIG_PATH)
         configs = {b["name"]: b for b in data.get("busses", [])}
         for name, cfg in configs.items():
             cfg["baud_label"] = baud_rate_label(name, cfg["baud_rate"])
@@ -320,7 +326,7 @@ def load_bus_configs(config_dir: Path) -> Dict[str, Dict[str, Any]]:
     except FileNotFoundError:
         return {}
 
-def parse_all(config_dir: Path) -> List[Node]:
+def parse_all() -> List[Node]:
     """
     Parse all configuration files into Node objects.
     Performs semantic validation during parsing.
@@ -329,22 +335,20 @@ def parse_all(config_dir: Path) -> List[Node]:
     print("Parsing configs and performing semantic validation...")
 
     nodes = []
-    custom_types = load_custom_types(config_dir)
-    bus_configs = load_bus_configs(config_dir)
-    node_config_dir = config_dir / "nodes"
-    external_node_config_dir = config_dir / "external_nodes"
+    custom_types = load_custom_types()
+    bus_configs  = load_bus_configs()
 
     # Parse Internal Nodes
-    if node_config_dir.exists():
-        for node_file in sorted(node_config_dir.glob('*.json')):
+    if NODE_CONFIG_DIR.exists():
+        for node_file in sorted(NODE_CONFIG_DIR.glob('*.json')):
             node = parse_internal_node(node_file, bus_configs)
             validate_node(node, custom_types)
             nodes.append(node)
             print_as_ok(f"Parsed {node.name}")
 
     # Parse External Nodes
-    if external_node_config_dir.exists():
-        for node_file in sorted(external_node_config_dir.glob('*.json')):
+    if EXTERNAL_NODE_CONFIG_DIR.exists():
+        for node_file in sorted(EXTERNAL_NODE_CONFIG_DIR.glob('*.json')):
             node = parse_external_node(node_file, bus_configs)
             validate_node(node, custom_types)
             nodes.append(node)

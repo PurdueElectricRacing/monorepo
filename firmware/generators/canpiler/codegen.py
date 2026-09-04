@@ -5,7 +5,6 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any, List, Dict, Optional
 
 from jinja2 import Environment
@@ -339,11 +338,9 @@ def build_node_render_context(node: Node, context: SystemContext) -> NodeRenderC
     )
 
 
-def generate_headers(
-    context: SystemContext, template_dir: str | Path
-) -> list[Artifact]:
+def generate_headers(context: SystemContext) -> list[Artifact]:
     print("Generating headers...")
-    env = get_jinja_env(template_dir)
+    env = get_jinja_env()
     artifacts = []
 
     # Generate types header

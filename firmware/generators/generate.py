@@ -1,10 +1,10 @@
 from core.artifacts import clear_artifacts, write_artifacts
-from core.config import CONFIG_DIR, DBC_DIR, GENERATED_DIR, SCHEMA_DIR
+from core.config import DBC_DIR, GENERATED_DIR
 from core.validator import validate_all
 from canpiler.api import Canpiler
 from faultgen.api import FaultGenerator
 
-if not validate_all(CONFIG_DIR, SCHEMA_DIR):
+if not validate_all():
     raise ValueError("Configuration validation failed")
 
 canpiler = Canpiler()

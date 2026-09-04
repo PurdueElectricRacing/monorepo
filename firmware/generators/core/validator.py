@@ -4,11 +4,11 @@ Shared configuration validation for the composed generation pipeline.
 Author: Irving Wang (irvingw@purdue.edu)
 """
 
-from pathlib import Path
 from typing import Any, Mapping
 
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
+from core.config import CONFIG_DIR, SCHEMA_DIR
 from core.utils import load_json, print_as_error, print_as_ok, print_as_warning, print_as_success
 
 Schema = Mapping[str, Any]
@@ -47,20 +47,18 @@ def validate_against_schema(
     
     return False
 
-def validate_common_types(config_dir: Path, schema_dir: Path) -> bool:
-    type_registry_schema = load_json(schema_dir / 'type_registry.schema.json')
-    common_types = load_json(config_dir / 'system' / 'common_types.json')
+def validate_common_types() -> bool:
+    type_registry_schema = load_json(SCHEMA_DIR / 'type_registry.schema.json')
+    common_types = load_json(CONFIG_DIR / 'system' / 'common_types.json')
     
     if validate_against_schema(common_types, type_registry_schema, filename='common_types.json'):
         print_as_ok("common_types.json")
         return True
     return False
     
-def validate_bus_config(
-    config_dir: Path, schema_dir: Path, schema_store: SchemaStore
-) -> bool:
-    bus_schema = load_json(schema_dir / 'bus.schema.json')
-    buses = load_json(config_dir / 'system' / 'bus_configs.json')
+def validate_bus_config(schema_store: SchemaStore) -> bool:
+    bus_schema = load_json(SCHEMA_DIR / 'bus.schema.json')
+    buses = load_json(CONFIG_DIR / 'system' / 'bus_configs.json')
 
     if validate_against_schema(buses, bus_schema, schema_store, filename='bus_configs.json'):
         print_as_ok("bus_config.json")
@@ -69,13 +67,11 @@ def validate_bus_config(
         print_as_error("Validation failed for bus_configs.json")
         return False
 
-def validate_internal_nodes(
-    config_dir: Path, schema_dir: Path, schema_store: SchemaStore
-) -> bool:
-    node_schema = load_json(schema_dir / 'node.schema.json')
+def validate_internal_nodes(schema_store: SchemaStore) -> bool:
+    node_schema = load_json(SCHEMA_DIR / 'node.schema.json')
     all_valid = True
     
-    for node_file in sorted((config_dir / 'nodes').glob('*.json')):
+    for node_file in sorted((CONFIG_DIR / 'nodes').glob('*.json')):
         node_data = load_json(node_file)
         
         if validate_against_schema(node_data, node_schema, schema_store, filename=node_file.name):
@@ -84,13 +80,11 @@ def validate_internal_nodes(
             all_valid = False
     return all_valid
 
-def validate_external_nodes(
-    config_dir: Path, schema_dir: Path, schema_store: SchemaStore
-) -> bool:
-    external_node_schema = load_json(schema_dir / 'external_node.schema.json')
+def validate_external_nodes(schema_store: SchemaStore) -> bool:
+    external_node_schema = load_json(SCHEMA_DIR / 'external_node.schema.json')
     all_valid = True
 
-    for node_file in sorted((config_dir / 'external_nodes').glob('*.json')):
+    for node_file in sorted((CONFIG_DIR / 'external_nodes').glob('*.json')):
         node_data = load_json(node_file)
         
         if validate_against_schema(node_data, external_node_schema, schema_store, filename=node_file.name):
@@ -99,15 +93,15 @@ def validate_external_nodes(
             all_valid = False
     return all_valid
 
-def validate_all(config_dir: Path, schema_dir: Path) -> bool:
+def validate_all() -> bool:
     print("Validating configs against schema...")
 
     all_valid = True
     
     # Load shared schemas for references
-    message_schema = load_json(schema_dir / 'message.schema.json')
-    signal_schema = load_json(schema_dir / 'signal.schema.json')
-    fault_schema = load_json(schema_dir / 'fault.schema.json')
+    message_schema = load_json(SCHEMA_DIR / 'message.schema.json')
+    signal_schema = load_json(SCHEMA_DIR / 'signal.schema.json')
+    fault_schema = load_json(SCHEMA_DIR / 'fault.schema.json')
     
     schema_store = {
         'https://github.com/PER/canpiler/message.schema.json': message_schema,
@@ -116,18 +110,18 @@ def validate_all(config_dir: Path, schema_dir: Path) -> bool:
     }
 
     # Validate custom types schema
-    if not validate_common_types(config_dir, schema_dir):
+    if not validate_common_types():
         all_valid = False
 
     # Validate bus configs
-    if not validate_bus_config(config_dir, schema_dir, schema_store):
+    if not validate_bus_config(schema_store):
         all_valid = False
     
     # Validate node configs
-    if not validate_internal_nodes(config_dir, schema_dir, schema_store):
+    if not validate_internal_nodes(schema_store):
         all_valid = False
     
-    if not validate_external_nodes(config_dir, schema_dir, schema_store):
+    if not validate_external_nodes(schema_store):
         all_valid = False
     
     if all_valid:
