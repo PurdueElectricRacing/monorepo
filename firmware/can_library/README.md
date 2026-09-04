@@ -1,21 +1,17 @@
 # PER CAN Library
 Standardized framework for CAN communication and system-wide fault management within PER vehicles.
 
-- `canpiler/`: Jinja2-based Python module for parsing configurations and generating code
-- `configs/`: "Source of Truth" definitions for nodes, buses, and system-wide faults.
-- `generated/`: Auto-generated C files and headers for CAN nodes.
-- `dbc/`: CAN database (DBC) files for external analysis tools.
-- `schema/`: JSON schemas for validating configuration files.
-- `templates/`: Directory containing Jinja2 templates for all generated build artifacts. Decouples the output formatting from the generation logic.
-- `tests/`: Unit tests for both CANpiler and C source code.
+- `firmware/generators/`: Python generation pipeline for CAN and fault artifacts.
+- `firmware/can_library/generated/`: Auto-generated C files and headers.
+- `firmware/can_library/dbc/`: Generated CAN database files.
 
 **Core Files:**
-- [`source/can_init.c`](source/can_init.c) / [`can_common.h`](can_common.h): Bus/peripheral initialization and `CAN_init()`.
-- [`source/can_rx.c`](source/can_rx.c): CAN RX task and the shared `can_data` instance.
-- [`source/can_tx.c`](source/can_tx.c): CAN TX task and per-peripheral software queues.
-- [`source/faults_common.c`](source/faults_common.c) / [`faults_common.h`](faults_common.h): System-wide fault management.
-- [`can_codec.h`](can_codec.h): Force-inlined helpers used by generated code for signal packing and unpacking.
-- `can_library.cmake`: CMake integration and node library generation.
+- [`can_init.c`](../../firmware/can_library/source/can_init.c) / [`can_common.h`](../../firmware/can_library/can_common.h): Bus/peripheral initialization and `CAN_init()`.
+- [`can_rx.c`](../../firmware/can_library/source/can_rx.c): CAN RX task and the shared `can_data` instance.
+- [`can_tx.c`](../../firmware/can_library/source/can_tx.c): CAN TX task and per-peripheral software queues.
+- [`faults_common.c`](../../firmware/can_library/source/faults_common.c) / [`faults_common.h`](../../firmware/can_library/faults_common.h): System-wide fault management.
+- [`can_codec.h`](../../firmware/can_library/can_codec.h): Signal packing and unpacking helpers.
+- `firmware/cmake/can_library.cmake`: CMake integration and node library generation.
 
 ## Logic
 The high-level logic flow of an RX is shown here:
@@ -33,7 +29,7 @@ Periodic CAN messages are assigned a deadline of 2.5x their expected period. If 
 ![stale timing](stale_detection.drawio.png)
 
 ## Usage
-1. Define your CAN network and global faults in `can_library/configs/` using the provided JSON schemas.
+1. Define your CAN network and global faults in `firmware/generators/configs/` using the provided JSON schemas.
     1. Use FDCAN peripherals on G4 and CAN peripherals on F4.
 2. Add `can_node_<NODE_NAME>` to `LIBS` in your board's `add_firmware_component(...)` call (must match the uppercase node name from CMake).
 3. Include the generated header for your node (e.g. `#include "can_library/generated/PDU.h"` / `#include "can_library/generated/<NODE_NAME>.h"`) in your `main.c`.

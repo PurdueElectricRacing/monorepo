@@ -1,0 +1,188 @@
+{
+    "node_name": "INVERTER_D",
+    "bus_name": "MCAN",
+    "tx": [
+        {
+            "msg_name": "INVD_CRIT",
+            "msg_desc": "Contains the status word and actual values",
+            "signals": [
+                {
+                    "sig_name": "AMK_ActualSpeed",
+                    "sig_desc": "Actual speed value",
+                    "type": "int16_t",
+                    "unit": "rpm"
+                },
+                {
+                    "sig_name": "AMK_ActualTorque",
+                    "sig_desc": "Actual torque value",
+                    "type": "int16_t",
+                    "unit": "%",
+                    "scale": 0.1
+                },
+                {
+                    "sig_name": "AMK_DisplayOverloadInverter",
+                    "type": "uint16_t",
+                    "scale": 0.1,
+                    "unit": "%"
+                },
+                {
+                    "sig_name": "AMK_DisplayOverloadMotor",
+                    "type": "uint16_t",
+                    "scale": 0.1,
+                    "unit": "%"
+                }
+            ],
+            "msg_period": 15,
+            "msg_id_override": "0x124",
+            "msg_priority": 1
+        },
+        {
+            "msg_name": "INVD_INFO",
+            "msg_desc": "Contains the status word and actual values",
+            "signals": [
+                {
+                    "sig_name": "AMK_Status_bReserve",
+                    "sig_desc": "Status word: RESERVED",
+                    "type": "uint8_t",
+                    "length": 8
+                },
+                {
+                    "sig_name": "AMK_Status_bSystemReady",
+                    "sig_desc": "Status word: system ready",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "AMK_Status_bError",
+                    "sig_desc": "Status word: error",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "AMK_Status_bWarn",
+                    "sig_desc": "Status word: warning",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "AMK_Status_bQuitDcOn",
+                    "sig_desc": "Status word: HV activation ACK",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "AMK_Status_bDcOn",
+                    "sig_desc": "Status word: HV activation level",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "AMK_Status_bQuitInverterOn",
+                    "sig_desc": "Status word: Controller enable ACK",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "AMK_Status_bInverterOn",
+                    "sig_desc": "Status word: Controller enable level",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "AMK_Status_bDerating",
+                    "sig_desc": "Status word: torque limit activation",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "AMK_DCBusVoltage",
+                    "sig_desc": "Voltage of the DC bus",
+                    "type": "uint16_t",
+                    "unit": "V"
+                }
+            ],
+            "msg_period": 500,
+            "msg_id_override": "0x234",
+            "msg_priority": 2
+        },
+        {
+            "msg_name": "INVD_ERR_1",
+            "msg_desc": "All error information",
+            "signals": [
+                {
+                    "sig_name": "AMK_DiagnosticNumber",
+                    "sig_desc": "Error number",
+                    "type": "uint32_t"
+                },
+                {
+                    "sig_name": "AMK_ErrorInfo1",
+                    "sig_desc": "Error info",
+                    "type": "uint32_t"
+                }
+            ],
+            "msg_period": 2000,
+            "msg_id_override": "0x444",
+            "msg_priority": 4
+        },
+        {
+            "msg_name": "INVD_ERR_2",
+            "msg_desc": "All error information",
+            "signals": [
+                {
+                    "sig_name": "AMK_ErrorInfo2",
+                    "sig_desc": "Error info",
+                    "type": "uint32_t"
+                },
+                {
+                    "sig_name": "AMK_ErrorInfo3",
+                    "sig_desc": "Error info",
+                    "type": "uint32_t"
+                }
+            ],
+            "msg_period": 2000,
+            "msg_id_override": "0x454",
+            "msg_priority": 4
+        },
+        {
+            "msg_name": "INVD_TEMPS",
+            "msg_desc": "Contains temperatures",
+            "signals": [
+                {
+                    "sig_name": "AMK_MotorTemp",
+                    "sig_desc": "Motor temperature",
+                    "type": "int16_t",
+                    "unit": "C",
+                    "scale": 0.1
+                },
+                {
+                    "sig_name": "AMK_InverterTemp",
+                    "sig_desc": "Inverter cold plate temperature",
+                    "type": "int16_t",
+                    "unit": "C",
+                    "scale": 0.1
+                },
+                {
+                    "sig_name": "AMK_IGBTTemp",
+                    "sig_desc": "IGBT temperature",
+                    "type": "int16_t",
+                    "unit": "C",
+                    "scale": 0.1
+                }
+            ],
+            "msg_period": 500,
+            "msg_id_override": "0x464",
+            "msg_priority": 4
+        },
+        {
+            "msg_name": "INVD_PHASE_I",
+            "msg_desc": "All error information",
+            "signals": [
+                {
+                    "sig_name": "AMK_PhaseUCurrent",
+                    "sig_desc": "INVD Phase U Current",
+                    "type": "int32_t"
+                }
+            ],
+            "msg_period": 250,
+            "msg_id_override": "0x574",
+            "msg_priority": 5
+        }
+    ],
+    "rx": [
+        {
+            "msg_name": "INVD_SET"
+        }
+    ]
+}

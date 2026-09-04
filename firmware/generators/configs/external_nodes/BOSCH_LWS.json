@@ -1,0 +1,55 @@
+{
+    "node_name": "BOSCH_LWS",
+    "bus_name": "SCAN",
+    "tx": [
+        {
+            "msg_name": "LWS_Standard",
+            "msg_desc": "Standard steering angle and speed",
+            "signals": [
+                {
+                    "sig_name": "LWS_ANGLE",
+                    "sig_desc": "Steering Angle",
+                    "type": "int16_t",
+                    "unit": "deg",
+                    "scale": 0.1
+                },
+                {
+                    "sig_name": "LWS_SPEED",
+                    "sig_desc": "Angular speed of steering input",
+                    "type": "uint8_t",
+                    "unit": "deg/s",
+                    "scale": 4
+                },
+                {
+                    "sig_name": "OK",
+                    "sig_desc": "Sensor failure status, 0 = failure, 1 = OK",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "CAL",
+                    "sig_desc": "Sensor calibration status, 0 = uncalibrated, 1 = calibrated",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "TRIM",
+                    "sig_desc": "Sensor trim status, 0 = invalid, 1 = valid",
+                    "type": "bool"
+                },
+                {
+                    "sig_name": "reserved1",
+                    "type": "uint8_t",
+                    "length": 5
+                },
+                {
+                    "sig_name": "reserved2",
+                    "type": "uint8_t",
+                    "length": 8
+                }
+            ],
+            "msg_period": 10,
+            "msg_id_override": "0x2B0",
+            "msg_priority": 3
+        }
+    ],
+    "rx": []
+}

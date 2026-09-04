@@ -1,0 +1,10 @@
+{
+    "node_name": "DAQ",
+    "bus_name": "VCAN",
+    "tx": [],
+    "rx": [
+        {
+            "msg_name": "gps_time"
+        }
+    ]
+}

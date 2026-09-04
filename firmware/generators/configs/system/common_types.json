@@ -1,0 +1,54 @@
+{
+    "types": [
+        {
+            "name": "car_state_t",
+            "base_type": "uint8_t",
+            "choices": [
+                "fatal",
+                "idle",
+                "precharging",
+                "energized",
+                "buzzing",
+                "ready2drive"
+            ]
+        },
+        {
+            "name": "fault_id_t",
+            "base_type": "uint16_t",
+            "choices": [
+                "CANpiler will inject faults here"
+            ]
+        },
+        {
+            "name": "charging_state_t",
+            "base_type": "uint8_t",
+            "choices": [
+                "idle",
+                "ready2charge",
+                "charging"
+            ]
+        },
+        {
+            "name": "vcu_mode_t",
+            "base_type": "uint8_t",
+            "choices": [
+                "ACCEL",
+                "SKIDPAD",
+                "AUTOCROSS",
+                "ENDURANCE",
+                "TUNING"
+            ]
+        },
+        {
+            "name": "AMK_state_t",
+            "base_type": "uint8_t",
+            "choices": [
+                "OFF",
+                "STARTING",
+                "RUNNING",
+                "RECOVERING",
+                "FATAL"
+             ]
+        }
+    ]
+}
