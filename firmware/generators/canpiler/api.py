@@ -1,6 +1,7 @@
 from collections.abc import Iterable
 
 from core.artifacts import Artifact
+from core.config_models import ConfigBundle
 from core.contracts import CanContribution
 from core.models import CanModel, CompiledCan
 from .codegen import generate_headers
@@ -13,18 +14,16 @@ from .parser import (
     RxMessage,
     Signal,
     create_system_context,
-    load_bus_configs,
-    load_custom_types,
     parse_all,
 )
 
 
 class Canpiler:
-    def parse(self) -> CanModel:
+    def parse(self, config: ConfigBundle) -> CanModel:
         return CanModel(
-            nodes=parse_all(),
-            bus_configs=load_bus_configs(),
-            custom_types=load_custom_types(),
+            nodes=parse_all(config),
+            bus_configs=config.buses.copy(),
+            custom_types=config.custom_types.copy(),
         )
 
     def compile(
@@ -62,7 +61,7 @@ class Canpiler:
                     desc=spec.get("desc", ""),
                     priority=spec.get("priority", 0),
                     period=spec.get("period", 0),
-                    is_extended=model.bus_configs[item.bus_name].get("is_extended_id", False),
+                    is_extended=model.bus_configs[item.bus_name].is_extended_id,
                     signals=[Signal(**signal) for signal in spec.get("signals", [])],
                 )
                 message.validate_semantics(model.custom_types)

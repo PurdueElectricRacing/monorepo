@@ -26,8 +26,8 @@ def calculate_bus_load(context: SystemContext) -> None:
     for bus_name, bus_view in sorted(context.busses.items()):
         total_bits_per_sec = 0.0
         
-        bus_config = context.bus_configs.get(bus_name, {})
-        baud_rate = bus_config.get("baud_rate")
+        bus_config = context.bus_configs.get(bus_name)
+        baud_rate = bus_config.baud_rate if bus_config is not None else None
 
         for msg in bus_view.messages:
             # 1. Calculate frames per second

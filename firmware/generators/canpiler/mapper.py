@@ -6,7 +6,8 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from dataclasses import dataclass, field
 from collections import defaultdict
-from typing import Any, List, Dict, Optional
+from typing import List, Dict, Optional
+from core.config_models import BusConfig
 from .parser import Node, Message
 from core.utils import print_as_warning
 
@@ -46,7 +47,7 @@ class NodeMapping:
 
 
 def map_hardware(
-    nodes: List[Node], bus_configs: Dict[str, Dict[str, Any]]
+    nodes: List[Node], bus_configs: Dict[str, BusConfig]
 ) -> Dict[str, NodeMapping]:
     """
     Hardware Mapper stage.
@@ -66,7 +67,7 @@ def is_fdcan_peripheral(periph: str) -> bool:
 
 
 def map_node_hardware(
-    node: Node, bus_configs: Dict[str, Dict[str, Any]]
+    node: Node, bus_configs: Dict[str, BusConfig]
 ) -> NodeMapping:
     mapping = NodeMapping(node_name=node.name)
 

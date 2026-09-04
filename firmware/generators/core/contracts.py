@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import NotRequired, TypedDict
 
+from core.config_models import CustomTypeConfig
+
 
 class SignalContribution(TypedDict):
     name: str
@@ -23,12 +25,6 @@ class MessageContribution(TypedDict):
     signals: NotRequired[list[SignalContribution]]
 
 
-class CustomTypeContribution(TypedDict):
-    name: str
-    base_type: str
-    choices: list[str]
-
-
 @dataclass
 class TxMessageContribution:
     node_name: str
@@ -46,6 +42,6 @@ class RxSubscriptionContribution:
 
 @dataclass
 class CanContribution:
-    types: dict[str, CustomTypeContribution] = field(default_factory=dict)
+    types: dict[str, CustomTypeConfig] = field(default_factory=dict)
     tx_messages: list[TxMessageContribution] = field(default_factory=list)
     rx_subscriptions: list[RxSubscriptionContribution] = field(default_factory=list)

@@ -1,18 +1,16 @@
 from core.artifacts import clear_artifacts, write_artifacts
 from core.config import DBC_DIR, GENERATED_DIR
-from core.validator import validate_all
+from core.config_loader import load_config_bundle
 from canpiler.api import Canpiler
 from faultgen.api import FaultGenerator
 
 def generate():
-    if not validate_all():
-        raise ValueError("Configuration validation failed")
-
     canpiler = Canpiler()
     faultgen = FaultGenerator()
+    config = load_config_bundle()
 
-    can_model          = canpiler.parse()
-    fault_plan         = faultgen.plan()
+    can_model          = canpiler.parse(config)
+    fault_plan         = faultgen.plan(config)
     fault_contribution = faultgen.contribute(fault_plan)
     compiled_can       = canpiler.compile(can_model, [fault_contribution])
 
