@@ -122,7 +122,7 @@
                         }
                     ],
                     "msg_period": 50,
-                    "msg_priority": 4
+                    "msg_priority": 3
                 },
                 {
                     "msg_name": "mark_data",
@@ -139,7 +139,7 @@
                             "sig_desc": "incremented each time the mark button is pressed"
                         }
                     ],
-                    "msg_priority": 4,
+                    "msg_priority": 3,
                     "msg_period": 0
                 },
                 {
@@ -152,7 +152,7 @@
                             "sig_desc": "int representation of git short hash"
                         }
                     ],
-                    "msg_priority": 5,
+                    "msg_priority": 4,
                     "msg_period": 5000
                 }
             ],
