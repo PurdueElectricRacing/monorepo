@@ -5,142 +5,142 @@
             "peripheral": "FDCAN2",
             "tx": [
                 {
-                    "msg_name": "front_driveline_init",
-                    "msg_desc": "Front driveline hardware initialized",
+                    "message_name": "front_driveline_init",
+                    "description": "Front driveline hardware initialized",
                     "signals": [
                         {
-                            "sig_name": "csr",
-                            "sig_desc": "RCC CSR register",
-                            "type": "uint32_t"
+                            "signal_name": "csr",
+                            "description": "RCC CSR register",
+                            "data_type": "uint32_t"
                         }
                     ],
-                    "msg_priority": 3
+                    "priority": 3
                 },
                 {
-                    "msg_name": "rear_driveline_init",
-                    "msg_desc": "Front driveline hardware initialized",
+                    "message_name": "rear_driveline_init",
+                    "description": "Front driveline hardware initialized",
                     "signals": [
                         {
-                            "sig_name": "csr",
-                            "sig_desc": "RCC CSR register",
-                            "type": "uint32_t"
+                            "signal_name": "csr",
+                            "description": "RCC CSR register",
+                            "data_type": "uint32_t"
                         }
                     ],
-                    "msg_priority": 3
+                    "priority": 3
                 },
                 {
-                    "msg_name": "front_shockpots",
-                    "msg_desc": "Shockpot readings from front left and front right",
+                    "message_name": "front_shockpots",
+                    "description": "Shockpot readings from front left and front right",
                     "signals": [
                         {
-                            "sig_name": "left",
-                            "sig_desc": "Length of front left shockpot",
-                            "type": "uint16_t",
+                            "signal_name": "left",
+                            "description": "Length of front left shockpot",
+                            "data_type": "uint16_t",
                             "unit": "mm",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "right",
-                            "sig_desc": "Length of front right shockpot",
-                            "type": "uint16_t",
+                            "signal_name": "right",
+                            "description": "Length of front right shockpot",
+                            "data_type": "uint16_t",
                             "unit": "mm",
                             "scale": 0.01
                         }
                     ],
-                    "msg_priority": 5,
-                    "msg_period": 10
+                    "priority": 5,
+                    "period_ms": 10
                 },
                 {
-                    "msg_name": "rear_shockpots",
-                    "msg_desc": "Shockpot readings from rear left and rear right",
+                    "message_name": "rear_shockpots",
+                    "description": "Shockpot readings from rear left and rear right",
                     "signals": [
                         {
-                            "sig_name": "left",
-                            "sig_desc": "Length of rear left shockpot",
-                            "type": "uint16_t",
+                            "signal_name": "left",
+                            "description": "Length of rear left shockpot",
+                            "data_type": "uint16_t",
                             "unit": "mm",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "right",
-                            "sig_desc": "Length of rear right shockpot",
-                            "type": "uint16_t",
+                            "signal_name": "right",
+                            "description": "Length of rear right shockpot",
+                            "data_type": "uint16_t",
                             "unit": "mm",
                             "scale": 0.01
                         }
                     ],
-                    "msg_priority": 5,
-                    "msg_period": 10
+                    "priority": 5,
+                    "period_ms": 10
                 },
                 {
-                    "msg_name": "front_oil_temps",
-                    "msg_desc": "oil temps from front",
+                    "message_name": "front_oil_temps",
+                    "description": "oil temps from front",
                     "signals": [
                         {
-                            "sig_name": "left",
-                            "sig_desc": "Oil temp in front left gearbox",
-                            "type": "int16_t",
+                            "signal_name": "left",
+                            "description": "Oil temp in front left gearbox",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "right",
-                            "sig_desc": "Oil temp in front right gearbox",
-                            "type": "int16_t",
+                            "signal_name": "right",
+                            "description": "Oil temp in front right gearbox",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.01
                         }
                     ],
-                    "msg_priority": 4,
-                    "msg_period": 4000
+                    "priority": 4,
+                    "period_ms": 4000
                 },
                 {
-                    "msg_name": "rear_oil_temps",
-                    "msg_desc": "oil temps from rear",
+                    "message_name": "rear_oil_temps",
+                    "description": "oil temps from rear",
                     "signals": [
                         {
-                            "sig_name": "left",
-                            "sig_desc": "Oil temp in rear left gearbox",
-                            "type": "int16_t",
+                            "signal_name": "left",
+                            "description": "Oil temp in rear left gearbox",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "right",
-                            "sig_desc": "Oil temp in rear right gearbox",
-                            "type": "int16_t",
+                            "signal_name": "right",
+                            "description": "Oil temp in rear right gearbox",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.01
                         }
                     ],
-                    "msg_priority": 4,
-                    "msg_period": 4000
+                    "priority": 4,
+                    "period_ms": 4000
                 },
                 {
-                    "msg_name": "front_driveline_version",
-                    "msg_desc": "Front Driveline Version",
+                    "message_name": "front_driveline_version",
+                    "description": "Front Driveline Version",
                     "signals": [
                         {
-                            "sig_name": "git_hash",
-                            "type": "uint32_t",
-                            "sig_desc": "int representation of git short hash"
+                            "signal_name": "git_hash",
+                            "data_type": "uint32_t",
+                            "description": "int representation of git short hash"
                         }
                     ],
-                    "msg_priority": 4,
-                    "msg_period": 5000
+                    "priority": 4,
+                    "period_ms": 5000
                 },
                 {
-                    "msg_name": "rear_driveline_version",
-                    "msg_desc": "Rear Driveline Version",
+                    "message_name": "rear_driveline_version",
+                    "description": "Rear Driveline Version",
                     "signals": [
                         {
-                            "sig_name": "git_hash",
-                            "type": "uint32_t",
-                            "sig_desc": "int representation of git short hash"
+                            "signal_name": "git_hash",
+                            "data_type": "uint32_t",
+                            "description": "int representation of git short hash"
                         }
                     ],
-                    "msg_priority": 4,
-                    "msg_period": 5000
+                    "priority": 4,
+                    "period_ms": 5000
                 }
             ],
             "rx": []

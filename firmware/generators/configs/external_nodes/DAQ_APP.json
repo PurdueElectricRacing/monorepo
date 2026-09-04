@@ -3,44 +3,44 @@
     "bus_name": "CCAN",
     "tx": [
         {
-            "msg_name": "charge_request",
-            "msg_desc": "Message from DAQ App to A_BOX to request charging",
+            "message_name": "charge_request",
+            "description": "Message from DAQ App to A_BOX to request charging",
             "signals": [
                 {
-                    "sig_name": "charge_voltage",
-                    "sig_desc": "Requested charge voltage in decivolts",
-                    "type": "uint16_t",
+                    "signal_name": "charge_voltage",
+                    "description": "Requested charge voltage in decivolts",
+                    "data_type": "uint16_t",
                     "unit": "V",
                     "scale": 0.1
                 },
                 {
-                    "sig_name": "charge_current",
-                    "sig_desc": "Requested charge current in deciamps",
-                    "type": "uint16_t",
+                    "signal_name": "charge_current",
+                    "description": "Requested charge current in deciamps",
+                    "data_type": "uint16_t",
                     "unit": "A",
                     "scale": 0.1
                 },
                 {
-                    "sig_name": "charge_enable",
-                    "sig_desc": "Request to start charging",
-                    "type": "bool"
+                    "signal_name": "charge_enable",
+                    "description": "Request to start charging",
+                    "data_type": "bool"
                 },
                 {
-                    "sig_name": "balance_enable",
-                    "sig_desc": "Request to start balancing",
-                    "type": "bool"
+                    "signal_name": "balance_enable",
+                    "description": "Request to start balancing",
+                    "data_type": "bool"
                 }
             ],
-            "msg_period": 500,
-            "msg_priority": 3
+            "period_ms": 500,
+            "priority": 3
         }
     ],
     "rx": [
         {
-            "msg_name": "elcon_status"
+            "message_name": "elcon_status"
         },
         {
-            "msg_name": "charging_telemetry"
+            "message_name": "charging_telemetry"
         }
     ]
 }

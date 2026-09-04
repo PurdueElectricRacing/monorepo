@@ -23,21 +23,21 @@ Maps a firmware node onto hardware peripherals and message lists.
 - `faults`: (Optional) Array of fault definitions specific to this node.
 
 ## CAN Message Attributes (TX)
-- `msg_name`: Unique identifier.
-- `msg_desc`: Short description of message purpose.
-- `msg_priority`: [0-5]. See priority convention below.
-- `msg_period`: Optional. Transmission period in ms. Omit or use `0` for event-triggered (non-periodic) messages.
+- `message_name`: Unique identifier.
+- `description`: Short description of message purpose.
+- `priority`: [0-5]. See priority convention below.
+- `period_ms`: Optional. Transmission period in milliseconds. Omit or use `0` for event-triggered (non-periodic) messages.
 - `byte_order`: Optional. `little_endian` (default) or `big_endian` for multi-byte signal packing within the frame.
-- `msg_id_override`: Optional. Manual ID (supports hex `0x...`). Overrides automatic linking. Must respect the bus framing limits.
+- `id_override`: Optional. Manual ID (supports hex `0x...`). Overrides automatic linking. Must respect the bus framing limits.
 
 ## RX Message Attributes
-- `msg_name`: Name of the message to receive (must exist on the bus).
-- `callback`: Boolean. If true, the generated driver declares and calls `<msg_name>_CALLBACK()` after RX unpacking. Application code must define this function or the firmware link will fail.
+- `message_name`: Name of the message to receive (must exist on the bus).
+- `callback`: Boolean. If true, the generated driver declares and calls `<message_name>_CALLBACK()` after RX unpacking. Application code must define this function or the firmware link will fail.
 
 ## Signal Attributes
-- `sig_name`: Signal name. Must be unique within the message.
-- `sig_desc`: (Optional) Short description of signal purpose.
-- `type`: C-type (`uint8_t`...`float`) or a custom type defined in `configs/system/common_types.json`.
+- `signal_name`: Signal name. Must be unique within the message.
+- `description`: (Optional) Short description of signal purpose.
+- `data_type`: C type (`uint8_t`...`float`) or a custom type defined in `configs/system/common_types.json`.
 - `length`: (Optional for standard types) Bit-length. Required for custom packing or sub-byte types.
 - `unit`: (Optional) Physical unit label for DBC generation (e.g., `V`, `Amps`, `C`).
 - `scale`: Multiplier for physical value conversion. Default 1.0.

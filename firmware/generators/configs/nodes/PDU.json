@@ -5,247 +5,247 @@
             "peripheral": "CAN1",
             "tx": [
                 {
-                    "msg_name": "pdu_init",
-                    "msg_desc": "PDU hardware initialized",
+                    "message_name": "pdu_init",
+                    "description": "PDU hardware initialized",
                     "signals": [
                         {
-                            "sig_name": "csr",
-                            "sig_desc": "RCC CSR register",
-                            "type": "uint32_t"
+                            "signal_name": "csr",
+                            "description": "RCC CSR register",
+                            "data_type": "uint32_t"
                         }
                     ],
-                    "msg_priority": 0
+                    "priority": 0
                 },
                 {
-                    "msg_name": "v_rails",
-                    "msg_desc": "PDU voltage rail readings",
+                    "message_name": "v_rails",
+                    "description": "PDU voltage rail readings",
                     "signals": [
                         {
-                            "sig_name": "in_24v",
-                            "sig_desc": "Unregulated 24V input",
-                            "type": "uint16_t",
+                            "signal_name": "in_24v",
+                            "description": "Unregulated 24V input",
+                            "data_type": "uint16_t",
                             "unit": "mV"
                         },
                         {
-                            "sig_name": "out_5v",
-                            "sig_desc": "5v rail output voltage",
-                            "type": "uint16_t",
+                            "signal_name": "out_5v",
+                            "description": "5v rail output voltage",
+                            "data_type": "uint16_t",
                             "unit": "mV"
                         },
                         {
-                            "sig_name": "out_3v3",
-                            "sig_desc": "3v3 rail output voltage",
-                            "type": "uint16_t",
+                            "signal_name": "out_3v3",
+                            "description": "3v3 rail output voltage",
+                            "data_type": "uint16_t",
                             "unit": "mV"
                         },
                         {
-                            "sig_name": "amk_24v",
-                            "type": "uint16_t",
+                            "signal_name": "amk_24v",
+                            "data_type": "uint16_t",
                             "unit": "mV"
                         }
                     ],
-                    "msg_period": 100,
-                    "msg_priority": 5
+                    "period_ms": 100,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "rail_currents",
-                    "msg_desc": "PDU rail currents",
+                    "message_name": "rail_currents",
+                    "description": "PDU rail currents",
                     "signals": [
                         {
-                            "sig_name": "i_24v",
-                            "sig_desc": "Unregulated 24V rail current",
-                            "type": "uint16_t",
+                            "signal_name": "i_24v",
+                            "description": "Unregulated 24V rail current",
+                            "data_type": "uint16_t",
                             "unit": "mA"
                         },
                         {
-                            "sig_name": "i_5v",
-                            "sig_desc": "5v rail current",
-                            "type": "uint16_t",
+                            "signal_name": "i_5v",
+                            "description": "5v rail current",
+                            "data_type": "uint16_t",
                             "unit": "mA"
                         }
                     ],
-                    "msg_period": 100,
-                    "msg_priority": 5
+                    "period_ms": 100,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "pump_and_fan_current",
-                    "msg_desc": "PDU pump and fan currents",
+                    "message_name": "pump_and_fan_current",
+                    "description": "PDU pump and fan currents",
                     "signals": [
                         {
-                            "sig_name": "i_pump1",
-                            "type": "uint16_t",
+                            "signal_name": "i_pump1",
+                            "data_type": "uint16_t",
                             "unit": "mA"
                         },
                         {
-                            "sig_name": "i_pump2",
-                            "type": "uint16_t",
+                            "signal_name": "i_pump2",
+                            "data_type": "uint16_t",
                             "unit": "mA"
                         },
                         {
-                            "sig_name": "i_fan1",
-                            "type": "uint16_t",
+                            "signal_name": "i_fan1",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
-                            "sig_name": "i_fan2",
-                            "type": "uint16_t",
+                            "signal_name": "i_fan2",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         }
                     ],
-                    "msg_period": 100,
-                    "msg_priority": 5
+                    "period_ms": 100,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "fan_current2",
-                    "msg_desc": "more fan currents",
+                    "message_name": "fan_current2",
+                    "description": "more fan currents",
                     "signals": [
                         {
-                            "sig_name": "i_fan3",
-                            "type": "uint16_t",
+                            "signal_name": "i_fan3",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
-                            "sig_name": "i_fan4",
-                            "type": "uint16_t",
+                            "signal_name": "i_fan4",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         }
                     ],
-                    "msg_period": 100,
-                    "msg_priority": 5
+                    "period_ms": 100,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "other_currents",
-                    "msg_desc": "Other PDU currents",
+                    "message_name": "other_currents",
+                    "description": "Other PDU currents",
                     "signals": [
                         {
-                            "sig_name": "i_sdc",
-                            "type": "uint16_t",
+                            "signal_name": "i_sdc",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
-                            "sig_name": "i_aux",
-                            "type": "uint16_t",
+                            "signal_name": "i_aux",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
-                            "sig_name": "i_dash",
-                            "type": "uint16_t",
+                            "signal_name": "i_dash",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
-                            "sig_name": "i_abox",
-                            "type": "uint16_t",
+                            "signal_name": "i_abox",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         },
                         {
-                            "sig_name": "i_main",
-                            "type": "uint16_t",
+                            "signal_name": "i_main",
+                            "data_type": "uint16_t",
                             "unit": "mA",
                             "length": 12
                         }
                     ],
-                    "msg_period": 100,
-                    "msg_priority": 5
+                    "period_ms": 100,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "coolant_out",
-                    "msg_desc": "outputs to coolant loops",
+                    "message_name": "coolant_out",
+                    "description": "outputs to coolant loops",
                     "signals": [
                         {
-                            "sig_name": "is_powertrain_pumps_enabled",
-                            "sig_desc": "Powertrain pumps enabled",
-                            "type": "bool"
+                            "signal_name": "is_powertrain_pumps_enabled",
+                            "description": "Powertrain pumps enabled",
+                            "data_type": "bool"
                         },
                         {
-                            "sig_name": "is_hx_fan_enabled",
-                            "sig_desc": "Heat exchanger fan enabled",
-                            "type": "bool"
+                            "signal_name": "is_hx_fan_enabled",
+                            "description": "Heat exchanger fan enabled",
+                            "data_type": "bool"
                         },
                         {
-                            "sig_name": "is_batt_fans_enabled",
-                            "sig_desc": "Battery fans enabled",
-                            "type": "bool"
+                            "signal_name": "is_batt_fans_enabled",
+                            "description": "Battery fans enabled",
+                            "data_type": "bool"
                         }
                     ],
-                    "msg_period": 1000,
-                    "msg_priority": 4
+                    "period_ms": 1000,
+                    "priority": 4
                 },
                 {
-                    "msg_name": "pdu_temps",
-                    "msg_desc": "PDU board temperatures",
+                    "message_name": "pdu_temps",
+                    "description": "PDU board temperatures",
                     "signals": [
                         {
-                            "sig_name": "internal_therm",
-                            "sig_desc": "Temperature from internal thermistor",
-                            "type": "uint16_t",
+                            "signal_name": "internal_therm",
+                            "description": "Temperature from internal thermistor",
+                            "data_type": "uint16_t",
                             "unit": "C"
                         }
                     ],
-                    "msg_period": 100,
-                    "msg_priority": 5
+                    "period_ms": 100,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "pdu_can_stats",
-                    "msg_desc": "CAN diagnostics",
+                    "message_name": "pdu_can_stats",
+                    "description": "CAN diagnostics",
                     "signals": [
                         {
-                            "sig_name": "can_tx_overflow",
-                            "type": "uint8_t",
-                            "sig_desc": "CAN Tx queue overflow count"
+                            "signal_name": "can_tx_overflow",
+                            "data_type": "uint8_t",
+                            "description": "CAN Tx queue overflow count"
                         },
                         {
-                            "sig_name": "can_tx_fail",
-                            "type": "uint8_t",
-                            "sig_desc": "CAN Tx fail count (due to timeout in mailbox)"
+                            "signal_name": "can_tx_fail",
+                            "data_type": "uint8_t",
+                            "description": "CAN Tx fail count (due to timeout in mailbox)"
                         },
                         {
-                            "sig_name": "can_rx_overflow",
-                            "type": "uint8_t",
-                            "sig_desc": "CAN Rx queue overflow count"
+                            "signal_name": "can_rx_overflow",
+                            "data_type": "uint8_t",
+                            "description": "CAN Rx queue overflow count"
                         },
                         {
-                            "sig_name": "can_rx_overrun",
-                            "type": "uint8_t",
-                            "sig_desc": "CAN Rx FIFO overrun count"
+                            "signal_name": "can_rx_overrun",
+                            "data_type": "uint8_t",
+                            "description": "CAN Rx FIFO overrun count"
                         }
                     ],
-                    "msg_period": 1000,
-                    "msg_priority": 4
+                    "period_ms": 1000,
+                    "priority": 4
                 },
                 {
-                    "msg_name": "pdu_version",
-                    "msg_desc": "PDU version",
+                    "message_name": "pdu_version",
+                    "description": "PDU version",
                     "signals": [
                         {
-                            "sig_name": "git_hash",
-                            "type": "uint32_t",
-                            "sig_desc": "int representation of git short hash"
+                            "signal_name": "git_hash",
+                            "data_type": "uint32_t",
+                            "description": "int representation of git short hash"
                         }
                     ],
-                    "msg_priority": 4,
-                    "msg_period": 5000
+                    "priority": 4,
+                    "period_ms": 5000
                 }
             ],
             "rx": [
                 {
-                    "msg_name": "main_hb"
+                    "message_name": "main_hb"
                 },
                 {
-                    "msg_name": "motor_temps"
+                    "message_name": "motor_temps"
                 },
                 {
-                    "msg_name": "igbt_temps"
+                    "message_name": "igbt_temps"
                 },
                 {
-                    "msg_name": "pack_stats"
+                    "message_name": "pack_stats"
                 }
             ]
         }

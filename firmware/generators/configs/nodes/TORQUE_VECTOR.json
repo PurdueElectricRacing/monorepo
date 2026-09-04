@@ -5,300 +5,300 @@
             "peripheral": "FDCAN2",
             "tx": [
                 {
-                    "msg_name": "tv_init",
-                    "msg_desc": "TORQUE VECTOR hardware initialized",
+                    "message_name": "tv_init",
+                    "description": "TORQUE VECTOR hardware initialized",
                     "signals": [
                         {
-                            "sig_name": "csr",
-                            "sig_desc": "RCC CSR register",
-                            "type": "uint32_t"
+                            "signal_name": "csr",
+                            "description": "RCC CSR register",
+                            "data_type": "uint32_t"
                         }
                     ],
-                    "msg_priority": 0
+                    "priority": 0
                 },
                 {
-                    "msg_name": "gps_velocity",
-                    "msg_desc": "gps velocity",
+                    "message_name": "gps_velocity",
+                    "description": "gps velocity",
                     "signals": [
                         {
-                            "sig_name": "gps_vel_n",
-                            "type": "int32_t",
+                            "signal_name": "gps_vel_n",
+                            "data_type": "int32_t",
                             "unit": "m/s",
                             "scale": 1e-3
                         },
                         {
-                            "sig_name": "gps_vel_e",
-                            "type": "int32_t",
+                            "signal_name": "gps_vel_e",
+                            "data_type": "int32_t",
                             "unit": "m/s",
                             "scale": 1e-3
                         }
                     ],
-                    "msg_period": 40,
-                    "msg_priority": 5
+                    "period_ms": 40,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "gps_speed_heading",
-                    "msg_desc": "gps 2D ground speed and heading",
+                    "message_name": "gps_speed_heading",
+                    "description": "gps 2D ground speed and heading",
                     "signals": [
                         {
-                            "sig_name": "gps_speed",
-                            "type": "int32_t",
+                            "signal_name": "gps_speed",
+                            "data_type": "int32_t",
                             "unit": "m/s",
                             "scale": 1e-3
                         },
                         {
-                            "sig_name": "gps_heading",
-                            "type": "int32_t",
+                            "signal_name": "gps_heading",
+                            "data_type": "int32_t",
                             "unit": "deg",
                             "scale": 1e-5
                         }
                     ],
-                    "msg_period": 40,
-                    "msg_priority": 3
+                    "period_ms": 40,
+                    "priority": 3
                 },
                 {
-                    "msg_name": "gps_coordinates",
-                    "msg_desc": "gps coordinates",
+                    "message_name": "gps_coordinates",
+                    "description": "gps coordinates",
                     "signals": [
                         {
-                            "sig_name": "latitude",
-                            "type": "int32_t",
+                            "signal_name": "latitude",
+                            "data_type": "int32_t",
                             "unit": "deg",
                             "scale": 1e-7
                         },
                         {
-                            "sig_name": "longitude",
-                            "type": "int32_t",
+                            "signal_name": "longitude",
+                            "data_type": "int32_t",
                             "unit": "deg",
                             "scale": 1e-7
                         }
                     ],
-                    "msg_period": 40,
-                    "msg_priority": 5
+                    "period_ms": 40,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "gps_time",
-                    "msg_desc": "gps time in UTC",
+                    "message_name": "gps_time",
+                    "description": "gps time in UTC",
                     "signals": [
                         {
-                            "sig_name": "year",
-                            "type": "uint8_t",
+                            "signal_name": "year",
+                            "data_type": "uint8_t",
                             "unit": "yr"
                         },
                         {
-                            "sig_name": "month",
-                            "type": "uint8_t",
+                            "signal_name": "month",
+                            "data_type": "uint8_t",
                             "unit": "mo"
                         },
                         {
-                            "sig_name": "day",
-                            "type": "uint8_t",
+                            "signal_name": "day",
+                            "data_type": "uint8_t",
                             "unit": "d"
                         },
                         {
-                            "sig_name": "hour",
-                            "type": "uint8_t",
+                            "signal_name": "hour",
+                            "data_type": "uint8_t",
                             "unit": "h"
                         },
                         {
-                            "sig_name": "minute",
-                            "type": "uint8_t",
+                            "signal_name": "minute",
+                            "data_type": "uint8_t",
                             "unit": "m"
                         },
                         {
-                            "sig_name": "second",
-                            "type": "uint8_t",
+                            "signal_name": "second",
+                            "data_type": "uint8_t",
                             "unit": "s"
                         },
                         {
-                            "sig_name": "millisecond",
-                            "type": "uint16_t",
+                            "signal_name": "millisecond",
+                            "data_type": "uint16_t",
                             "unit": "ms"
                         }
                     ],
-                    "msg_period": 1000,
-                    "msg_priority": 4
+                    "period_ms": 1000,
+                    "priority": 4
                 },
                 {
-                    "msg_name": "IMU_angular_rate",
-                    "msg_desc": "rotated IMU data",
+                    "message_name": "IMU_angular_rate",
+                    "description": "rotated IMU data",
                     "signals": [
                         {
-                            "sig_name": "X_axis",
-                            "sig_desc": "Angular Rate around X-axis",
-                            "type": "int16_t",
+                            "signal_name": "X_axis",
+                            "description": "Angular Rate around X-axis",
+                            "data_type": "int16_t",
                             "unit": "deg/s",
                             "scale": 0.1
                         },
                         {
-                            "sig_name": "Y_axis",
-                            "sig_desc": "Angular Rate around Y-axis",
-                            "type": "int16_t",
+                            "signal_name": "Y_axis",
+                            "description": "Angular Rate around Y-axis",
+                            "data_type": "int16_t",
                             "unit": "deg/s",
                             "scale": 0.1
                         },
                         {
-                            "sig_name": "Z_axis",
-                            "sig_desc": "Angular Rate around Z-axis",
-                            "type": "int16_t",
+                            "signal_name": "Z_axis",
+                            "description": "Angular Rate around Z-axis",
+                            "data_type": "int16_t",
                             "unit": "deg/s",
                             "scale": 0.1
                         },
                         {
-                            "sig_name": "reserved",
-                            "sig_desc": "reserved",
-                            "type": "uint16_t"
+                            "signal_name": "reserved",
+                            "description": "reserved",
+                            "data_type": "uint16_t"
                         }
                     ],
-                    "msg_period": 10,
-                    "msg_priority": 5
+                    "period_ms": 10,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "IMU_acceleration",
-                    "msg_desc": "rotated IMU ",
+                    "message_name": "IMU_acceleration",
+                    "description": "rotated IMU ",
                     "signals": [
                         {
-                            "sig_name": "X_axis",
-                            "sig_desc": "Acceleration along X-axis",
-                            "type": "int16_t",
+                            "signal_name": "X_axis",
+                            "description": "Acceleration along X-axis",
+                            "data_type": "int16_t",
                             "unit": "g",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "Y_axis",
-                            "sig_desc": "Acceleration along Y-axis",
-                            "type": "int16_t",
+                            "signal_name": "Y_axis",
+                            "description": "Acceleration along Y-axis",
+                            "data_type": "int16_t",
                             "unit": "g",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "Z_axis",
-                            "sig_desc": "Acceleration along Z-axis",
-                            "type": "int16_t",
+                            "signal_name": "Z_axis",
+                            "description": "Acceleration along Z-axis",
+                            "data_type": "int16_t",
                             "unit": "g",
                             "scale": 0.01
                         },
                         {
-                            "sig_name": "temperature",
-                            "sig_desc": "IMU Temperature",
-                            "type": "int16_t",
+                            "signal_name": "temperature",
+                            "description": "IMU Temperature",
+                            "data_type": "int16_t",
                             "unit": "C",
                             "scale": 0.1
                         }
                     ],
-                    "msg_period": 10,
-                    "msg_priority": 5
+                    "period_ms": 10,
+                    "priority": 5
                 },
                 {
-                    "msg_name": "vcu_settings",
-                    "msg_desc": "currently configured VCU settings",
+                    "message_name": "vcu_settings",
+                    "description": "currently configured VCU settings",
                     "signals": [
                         {
-                            "sig_name": "vcu_mode",
-                            "type": "vcu_mode_t"
+                            "signal_name": "vcu_mode",
+                            "data_type": "vcu_mode_t"
                         },
                         {
-                            "sig_name": "lateral_gain",
-                            "sig_desc": "higher gain = greater left-right differential",
-                            "type": "uint8_t",
+                            "signal_name": "lateral_gain",
+                            "description": "higher gain = greater left-right differential",
+                            "data_type": "uint8_t",
                             "unit": "%",
                             "max": 100,
                             "min": 0
                         },
                         {
-                            "sig_name": "longitudinal_gain",
-                            "type": "uint8_t",
+                            "signal_name": "longitudinal_gain",
+                            "data_type": "uint8_t",
                             "unit": "%",
                             "max": 100,
                             "min": 0
                         },
                         {
-                            "sig_name": "electronic_brake_bias",
-                            "type": "uint8_t",
+                            "signal_name": "electronic_brake_bias",
+                            "data_type": "uint8_t",
                             "unit": "%",
                             "max": 100,
                             "min": 0
                         },
                         {
-                            "sig_name": "is_regen_enabled",
-                            "type": "bool"
+                            "signal_name": "is_regen_enabled",
+                            "data_type": "bool"
                         },
                         {
-                            "sig_name": "is_tv_enabled",
-                            "type": "bool"
+                            "signal_name": "is_tv_enabled",
+                            "data_type": "bool"
                         }
                     ],
-                    "msg_period": 1000,
-                    "msg_priority": 3
+                    "period_ms": 1000,
+                    "priority": 3
                 },
                 {
-                    "msg_name": "vcu_torque_request",
-                    "msg_desc": "torque request computed by the TV algorithm",
+                    "message_name": "vcu_torque_request",
+                    "description": "torque request computed by the TV algorithm",
                     "signals": [
                         {
-                            "sig_name": "front_right",
-                            "sig_desc": "torque setpoint (percentage of nominal torque)",
-                            "type": "int16_t",
+                            "signal_name": "front_right",
+                            "description": "torque setpoint (percentage of nominal torque)",
+                            "data_type": "int16_t",
                             "unit": "%"
                         },
                         {
-                            "sig_name": "front_left",
-                            "sig_desc": "torque setpoint (percentage of nominal torque)",
-                            "type": "int16_t",
+                            "signal_name": "front_left",
+                            "description": "torque setpoint (percentage of nominal torque)",
+                            "data_type": "int16_t",
                             "unit": "%"
                         },
                         {
-                            "sig_name": "rear_left",
-                            "sig_desc": "torque setpoint (percentage of nominal torque)",
-                            "type": "int16_t",
+                            "signal_name": "rear_left",
+                            "description": "torque setpoint (percentage of nominal torque)",
+                            "data_type": "int16_t",
                             "unit": "%"
                         },
                         {
-                            "sig_name": "rear_right",
-                            "sig_desc": "torque setpoint (percentage of nominal torque)",
-                            "type": "int16_t",
+                            "signal_name": "rear_right",
+                            "description": "torque setpoint (percentage of nominal torque)",
+                            "data_type": "int16_t",
                             "unit": "%"
                         }
                     ],
-                    "msg_period": 15,
-                    "msg_priority": 2
+                    "period_ms": 15,
+                    "priority": 2
                 }
             ],
             "rx": [
                 {
-                    "msg_name": "front_shockpots"
+                    "message_name": "front_shockpots"
                 },
                 {
-                    "msg_name": "rear_shockpots"
+                    "message_name": "rear_shockpots"
                 },
                 {
-                    "msg_name": "IZZE_angular_rate",
+                    "message_name": "IZZE_angular_rate",
                     "callback": true
                 },
                 {
-                    "msg_name": "IZZE_acceleration",
+                    "message_name": "IZZE_acceleration",
                     "callback": true
                 },
                 {
-                    "msg_name": "pedals"
+                    "message_name": "pedals"
                 },
                 {
-                    "msg_name": "steering_angle"
+                    "message_name": "steering_angle"
                 },
                 {
-                    "msg_name": "pack_stats"
+                    "message_name": "pack_stats"
                 },
                 {
-                    "msg_name": "wheel_speeds"
+                    "message_name": "wheel_speeds"
                 },
                 {
-                    "msg_name": "motor_temps"
+                    "message_name": "motor_temps"
                 },
                 {
-                    "msg_name": "igbt_temps"
+                    "message_name": "igbt_temps"
                 },
                 {
-                    "msg_name": "vcu_driver_request",
+                    "message_name": "vcu_driver_request",
                     "callback": true
                 }
             ]

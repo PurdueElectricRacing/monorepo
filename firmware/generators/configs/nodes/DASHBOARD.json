@@ -5,191 +5,191 @@
             "peripheral": "FDCAN2",
             "tx": [
                 {
-                    "msg_name": "dash_init",
-                    "msg_desc": "DASH hardware initialized",
+                    "message_name": "dash_init",
+                    "description": "DASH hardware initialized",
                     "signals": [
                         {
-                            "sig_name": "csr",
-                            "sig_desc": "RCC CSR register",
-                            "type": "uint32_t"
+                            "signal_name": "csr",
+                            "description": "RCC CSR register",
+                            "data_type": "uint32_t"
                         }
                     ],
-                    "msg_priority": 0
+                    "priority": 0
                 },
                 {
-                    "msg_name": "pedals",
-                    "msg_desc": "Pedal values",
+                    "message_name": "pedals",
+                    "description": "Pedal values",
                     "signals": [
                         {
-                            "sig_name": "throttle",
-                            "sig_desc": "throttle request from driver",
-                            "type": "uint8_t",
+                            "signal_name": "throttle",
+                            "description": "throttle request from driver",
+                            "data_type": "uint8_t",
                             "min": 0,
                             "max": 100,
                             "unit": "%"
                         },
                         {
-                            "sig_name": "regen",
-                            "sig_desc": "regen request from driver (first throw)",
-                            "type": "uint8_t",
+                            "signal_name": "regen",
+                            "description": "regen request from driver (first throw)",
+                            "data_type": "uint8_t",
                             "min": 0,
                             "max": 100,
                             "unit": "%"
                         },
                         {
-                            "sig_name": "brake",
-                            "sig_desc": "mechanical braking from driver (second throw)",
-                            "type": "uint8_t",
+                            "signal_name": "brake",
+                            "description": "mechanical braking from driver (second throw)",
+                            "data_type": "uint8_t",
                             "min": 0,
                             "max": 100,
                             "unit": "%"
                         }
                     ],
-                    "msg_period": 15,
-                    "msg_priority": 2
+                    "period_ms": 15,
+                    "priority": 2
                 },
                 {
-                    "msg_name": "start_button",
-                    "msg_desc": "Car start button",
+                    "message_name": "start_button",
+                    "description": "Car start button",
                     "signals": [
                         {
-                            "sig_name": "is_pressed",
-                            "type": "bool"
+                            "signal_name": "is_pressed",
+                            "data_type": "bool"
                         }
                     ],
-                    "msg_period": 200,
-                    "msg_priority": 1
+                    "period_ms": 200,
+                    "priority": 1
                 },
                 {
-                    "msg_name": "vcu_driver_request",
-                    "msg_desc": "driver requested VCU settings",
+                    "message_name": "vcu_driver_request",
+                    "description": "driver requested VCU settings",
                     "signals": [
                         {
-                            "sig_name": "vcu_mode",
-                            "type": "vcu_mode_t"
+                            "signal_name": "vcu_mode",
+                            "data_type": "vcu_mode_t"
                         },
                         {
-                            "sig_name": "lateral_gain",
-                            "type": "uint8_t",
+                            "signal_name": "lateral_gain",
+                            "data_type": "uint8_t",
                             "unit": "%",
                             "max": 100,
                             "min": 0
                         },
                         {
-                            "sig_name": "longitudinal_gain",
-                            "type": "uint8_t",
+                            "signal_name": "longitudinal_gain",
+                            "data_type": "uint8_t",
                             "unit": "%",
                             "max": 100,
                             "min": 0
                         },
                         {
-                            "sig_name": "electronic_brake_bias",
-                            "type": "uint8_t",
+                            "signal_name": "electronic_brake_bias",
+                            "data_type": "uint8_t",
                             "unit": "%",
                             "max": 100,
                             "min": 0
                         },
                         {
-                            "sig_name": "is_regen_enabled",
-                            "type": "bool"
+                            "signal_name": "is_regen_enabled",
+                            "data_type": "bool"
                         },
                         {
-                            "sig_name": "is_tv_enabled",
-                            "type": "bool"
+                            "signal_name": "is_tv_enabled",
+                            "data_type": "bool"
                         }
                     ],
-                    "msg_priority": 3
+                    "priority": 3
                 },
                 {
-                    "msg_name": "steering_angle",
-                    "msg_desc": "steering data",
+                    "message_name": "steering_angle",
+                    "description": "steering data",
                     "signals": [
                         {
-                            "sig_name": "angle",
-                            "type": "int16_t",
+                            "signal_name": "angle",
+                            "data_type": "int16_t",
                             "unit": "deg",
                             "scale": 0.1
                         },
                         {
-                            "sig_name": "angular_rate",
-                            "type": "uint16_t",
+                            "signal_name": "angular_rate",
+                            "data_type": "uint16_t",
                             "unit": "deg/s",
                             "scale": 4
                         },
                         {
-                            "sig_name": "data_valid",
-                            "type": "bool"
+                            "signal_name": "data_valid",
+                            "data_type": "bool"
                         }
                     ],
-                    "msg_period": 50,
-                    "msg_priority": 3
+                    "period_ms": 50,
+                    "priority": 3
                 },
                 {
-                    "msg_name": "mark_data",
-                    "msg_desc": "Mark data for telemetry correlation",
+                    "message_name": "mark_data",
+                    "description": "Mark data for telemetry correlation",
                     "signals": [
                         {
-                            "sig_name": "os_tick",
-                            "type": "uint32_t",
-                            "sig_desc": "milliseconds since startup"
+                            "signal_name": "os_tick",
+                            "data_type": "uint32_t",
+                            "description": "milliseconds since startup"
                         },
                         {
-                            "sig_name": "mark_index",
-                            "type": "uint16_t",
-                            "sig_desc": "incremented each time the mark button is pressed"
+                            "signal_name": "mark_index",
+                            "data_type": "uint16_t",
+                            "description": "incremented each time the mark button is pressed"
                         }
                     ],
-                    "msg_priority": 3,
-                    "msg_period": 0
+                    "priority": 3,
+                    "period_ms": 0
                 },
                 {
-                    "msg_name": "dash_version",
-                    "msg_desc": "Dashboard version",
+                    "message_name": "dash_version",
+                    "description": "Dashboard version",
                     "signals": [
                         {
-                            "sig_name": "git_hash",
-                            "type": "uint32_t",
-                            "sig_desc": "int representation of git short hash"
+                            "signal_name": "git_hash",
+                            "data_type": "uint32_t",
+                            "description": "int representation of git short hash"
                         }
                     ],
-                    "msg_priority": 4,
-                    "msg_period": 5000
+                    "priority": 4,
+                    "period_ms": 5000
                 }
             ],
             "rx": [
                 {
-                    "msg_name": "main_hb"
+                    "message_name": "main_hb"
                 },
                 {
-                    "msg_name": "pack_stats"
+                    "message_name": "pack_stats"
                 },
                 {
-                    "msg_name": "wheel_speeds"
+                    "message_name": "wheel_speeds"
                 },
                 {
-                    "msg_name": "motor_temps"
+                    "message_name": "motor_temps"
                 },
                 {
-                    "msg_name": "igbt_temps"
+                    "message_name": "igbt_temps"
                 },
                 {
-                    "msg_name": "inva_diagnostics"
+                    "message_name": "inva_diagnostics"
                 },
                 {
-                    "msg_name": "invb_diagnostics"
+                    "message_name": "invb_diagnostics"
                 },
                 {
-                    "msg_name": "invc_diagnostics"
+                    "message_name": "invc_diagnostics"
                 },
                 {
-                    "msg_name": "invd_diagnostics"
+                    "message_name": "invd_diagnostics"
                 },
                 {
-                    "msg_name": "vcu_settings",
+                    "message_name": "vcu_settings",
                     "callback": true
                 },
                 {
-                    "msg_name": "vcu_torque_request"
+                    "message_name": "vcu_torque_request"
                 }
             ]
         },
@@ -197,34 +197,34 @@
             "peripheral": "FDCAN3",
             "tx": [
                 {
-                    "msg_name": "LWS_Config",
-                    "msg_desc": "Steering sensor configuration",
+                    "message_name": "LWS_Config",
+                    "description": "Steering sensor configuration",
                     "signals": [
                         {
-                            "sig_name": "CCW",
-                            "sig_desc": "Command Code Word",
-                            "type": "uint8_t",
+                            "signal_name": "CCW",
+                            "description": "Command Code Word",
+                            "data_type": "uint8_t",
                             "length": 3
                         },
                         {
-                            "sig_name": "reserved1",
-                            "type": "uint8_t",
+                            "signal_name": "reserved1",
+                            "data_type": "uint8_t",
                             "length": 5
                         },
                         {
-                            "sig_name": "reserved2",
-                            "type": "uint8_t",
+                            "signal_name": "reserved2",
+                            "data_type": "uint8_t",
                             "length": 8
                         }
                     ],
-                    "msg_period": 0,
-                    "msg_id_override": "0x7C0",
-                    "msg_priority": 3
+                    "period_ms": 0,
+                    "id_override": "0x7C0",
+                    "priority": 3
                 }
             ],
             "rx": [
                 {
-                    "msg_name": "LWS_Standard",
+                    "message_name": "LWS_Standard",
                     "callback": true
                 }
             ]

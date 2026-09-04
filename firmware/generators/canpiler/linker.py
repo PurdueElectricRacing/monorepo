@@ -9,7 +9,7 @@ from collections import defaultdict
 from .parser import Node, Message
 from core.utils import print_as_error, print_as_success, print_as_ok
 
-# bus_name -> msg_name -> (producer_node_name, Message)
+# bus_name -> message_name -> (producer_node_name, Message)
 TxProducerRegistry = Dict[str, Dict[str, Tuple[str, Message]]]
 
 
@@ -18,9 +18,9 @@ def _build_tx_producer_registry(nodes: List[Node]) -> TxProducerRegistry:
     Build the map of who transmits each message on each bus.
 
     Rules (fail fast with ValueError):
-    - Exactly one logical producer per (bus, msg_name): two different nodes may not
-      both TX the same msg_name on the same bus.
-    - A single node may not list the same msg_name twice in tx on the same bus.
+    - Exactly one logical producer per (bus, message_name): two different nodes may
+      not both TX the same message_name on the same bus.
+    - A single node may not list the same message_name twice in tx on the same bus.
     """
     registry: TxProducerRegistry = {}
 
@@ -59,7 +59,8 @@ def _resolve_rx_against_registry(nodes: List[Node], tx_on_bus: TxProducerRegistr
     For each RX subscription, attach the transmitting node's Message on that bus.
 
     Rules:
-    - RX msg_name must have a TX on the same bus (not another bus with the same name).
+    - RX message_name must have a TX on the same bus (not another bus with the same
+      name).
     - The transmitter must be a different node than the subscriber (no self-RX).
     """
     for node in nodes:
