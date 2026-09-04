@@ -4,6 +4,9 @@ Standardized framework for CAN communication and system-wide fault management wi
 - `firmware/generators/`: Python generation pipeline for CAN and fault artifacts.
 - `firmware/can_library/generated/`: Auto-generated C files and headers.
 - `firmware/can_library/dbc/`: Generated CAN database files.
+- `firmware/generators/`: Python generation pipeline for CAN and fault artifacts.
+- `firmware/can_library/generated/`: Auto-generated C files and headers.
+- `firmware/can_library/dbc/`: Generated CAN database files.
 
 **Core Files:**
 - [`can_init.c`](../../firmware/can_library/source/can_init.c) / [`can_common.h`](../../firmware/can_library/can_common.h): Bus/peripheral initialization and `CAN_init()`.
@@ -29,7 +32,7 @@ Periodic CAN messages are assigned a deadline of 2.5x their expected period. If 
 ![stale timing](stale_detection.drawio.png)
 
 ## Usage
-1. Define your CAN network and global faults in `firmware/generators/configs/`; the generator validates them with its Pydantic configuration models.
+1. Define your CAN network and global faults in `firmware/generators/configs/` using the provided JSON schemas.
     1. Use FDCAN peripherals on G4 and CAN peripherals on F4.
 2. Add `can_node_<NODE_NAME>` to `LIBS` in your board's `add_firmware_component(...)` call (must match the uppercase node name from CMake).
 3. Include the generated header for your node (e.g. `#include "can_library/generated/PDU.h"` / `#include "can_library/generated/<NODE_NAME>.h"`) in your `main.c`.
