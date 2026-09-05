@@ -71,10 +71,7 @@ static torque_request_t direct_mapped_throttle() {
 
 static void update_torque_request() {
     if (can_data.pedals.is_stale()) {
-        g_torque_request.front_right = 0;
-        g_torque_request.front_left  = 0;
-        g_torque_request.rear_left   = 0;
-        g_torque_request.rear_right  = 0;
+        g_torque_request = zero_torque_request();
         return;
     }
 
@@ -142,11 +139,11 @@ static void update_brake_light() {
     static constexpr uint16_t BRAKE_LIGHT_ON_THRESHOLD  = 30; // 30 %
     static constexpr uint16_t BRAKE_LIGHT_OFF_THRESHOLD = 10; // 10 %
 
-    if (can_data.pedals.regen > BRAKE_LIGHT_ON_THRESHOLD) {
+    if (can_data.pedals.brake > BRAKE_LIGHT_ON_THRESHOLD) {
         if (!g_car.brake_light) {
             g_car.brake_light = true;
         }
-    } else if (can_data.pedals.regen < BRAKE_LIGHT_OFF_THRESHOLD) {
+    } else if (can_data.pedals.brake < BRAKE_LIGHT_OFF_THRESHOLD) {
         if (g_car.brake_light) {
             g_car.brake_light = false;
         }
