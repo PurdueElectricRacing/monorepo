@@ -33,6 +33,8 @@ target/
 # daqapp runtime files
 daqapp/settings.json
 daqapp/logs
+settings.json
+logs/
 
 # Dont include venv and local dependencies
 venv
