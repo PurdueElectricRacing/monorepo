@@ -76,10 +76,9 @@ void pedals_periodic(void) {
     brake1    = RESCALE(brake1, BRAKE1_MIN, BRAKE1_MAX, PEDAL_MIN, PEDAL_MAX);
 
     // make visible
-    pedal_values.throttle    = throttle1;
-    uint8_t throttle_command = throttle1;
-    pedal_values.regen       = regen1;
-    pedal_values.brake       = brake1;
+    pedal_values.throttle = throttle1;
+    pedal_values.regen    = regen1;
+    pedal_values.brake    = brake1;
 
     // FSAE 2026 T.4.2.5: if the two throttle sensors differ by 10%, trigger implaus
     int throttle_diff = ABS((int)throttle1 - (int)throttle2);
@@ -95,14 +94,17 @@ void pedals_periodic(void) {
         update_fault(FAULT_ID_APPS_BRAKE, is_throttle_pressed);
     }
 
-    // zero the throttle command if any faults are latched
+    uint8_t throttle_command = (uint8_t)throttle1;
+    uint8_t regen_command    = (uint8_t)regen1;
+    // zero the throttle & regen commands if any faults are latched
     if (is_latched(FAULT_ID_APPS_WIRING_T1) ||
         is_latched(FAULT_ID_APPS_WIRING_T2) ||
         is_latched(FAULT_ID_BSE) ||
         is_latched(FAULT_ID_APPS_IMPLAUSIBLE) ||
         is_latched(FAULT_ID_APPS_BRAKE)) {
         throttle_command = 0;
+        regen_command    = 0;
     }
 
-    CAN_SEND_pedals(throttle_command, pedal_values.regen, pedal_values.brake);
+    CAN_SEND_pedals(throttle_command, regen_command, pedal_values.brake);
 }

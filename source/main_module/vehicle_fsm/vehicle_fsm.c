@@ -40,7 +40,7 @@ static torque_request_t zero_torque_request() {
 
 static torque_request_t direct_mapped_regen() {
     // Map brake [0, 100] to torque [0, -100]
-    int16_t regen_torque = can_data.pedals.brake * -1.0f;
+    int16_t regen_torque = can_data.pedals.regen * -1.0f;
 
     torque_request_t torque_request = {
         .front_left  = regen_torque,
@@ -89,7 +89,7 @@ static void update_torque_request() {
     }
 
     // regen guards
-    bool is_braking = (can_data.pedals.brake) > 5;
+    bool is_regen_commanded = (can_data.pedals.regen) > 5;
     int16_t min_wheelspeed = MINOF(
         g_car.front_right.crit->AMK_ActualSpeed,
         g_car.front_left.crit->AMK_ActualSpeed,
@@ -102,7 +102,7 @@ static void update_torque_request() {
 
     bool is_vehicle_speed_high = vehicle_speed_mph > 5.0f;
     bool is_pack_low_enough = pack_voltage < 470.0f;
-    bool is_regen_allowed = is_braking && is_vehicle_speed_high && is_pack_low_enough;
+    bool is_regen_allowed = is_regen_commanded && is_vehicle_speed_high && is_pack_low_enough;
 
     if (can_data.pedals.throttle > 0) {
         g_torque_request = direct_mapped_throttle();
