@@ -13,7 +13,6 @@
  */
 
 #include <math.h>
-#include <stdint.h>
 
 #include "common/utils/linear_algebra.h"
 #include "common/utils/units.h"
@@ -21,25 +20,25 @@
 // WGS84 mean meters of northing per degree of latitude
 static constexpr double METERS_PER_DEGREE = 111132.0;
 
-// u-blox NAV-PVT and the gps_coordinates CAN message both scale degrees by 1e-7
-static constexpr double GEODETIC_DEGREE_SCALE = 1e-7;
-
 typedef struct {
     double latitude_deg;
     double longitude_deg;
 } geodetic_coord_t;
 
 /**
- * @brief Convert a 1e-7 degree fixed point coordinate pair into degrees.
+ * @brief Build a coordinate from latitude and longitude already in degrees.
  *
- * @param latitude Latitude in 1e-7 degrees
- * @param longitude Longitude in 1e-7 degrees
+ * Callers must convert packed CAN / GPS fixed-point values into degrees
+ * before calling (for example with UNPACK_COEFF_GPS_COORDINATES_LATITUDE).
+ *
+ * @param latitude Latitude in degrees
+ * @param longitude Longitude in degrees
  * @return The coordinate in degrees.
  */
-static inline geodetic_coord_t geodetic_from_scaled(const int32_t latitude, const int32_t longitude) {
+static inline geodetic_coord_t geodetic_from_scaled(const float latitude, const float longitude) {
     return (geodetic_coord_t){
-        .latitude_deg  = (double)latitude * GEODETIC_DEGREE_SCALE,
-        .longitude_deg = (double)longitude * GEODETIC_DEGREE_SCALE,
+        .latitude_deg  = latitude,
+        .longitude_deg = longitude,
     };
 }
 
@@ -56,8 +55,8 @@ static inline geodetic_coord_t geodetic_from_scaled(const int32_t latitude, cons
  * @return East (x) and north (y) offset from the origin, in meters.
  */
 static inline vector2_t geodetic_to_local(const geodetic_coord_t origin, const geodetic_coord_t coord) {
-    double latitude_delta_deg = coord.latitude_deg - origin.latitude_deg;
-    double longitude_delta_deg = coord.longitude_deg - origin.longitude_deg;
+    float latitude_delta_deg = coord.latitude_deg - origin.latitude_deg;
+    float longitude_delta_deg = coord.longitude_deg - origin.longitude_deg;
 
     radians_t origin_latitude = radians_from((degrees_t){.value = (float)origin.latitude_deg});
 

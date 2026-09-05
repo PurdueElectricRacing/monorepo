@@ -67,13 +67,12 @@ extern PHAL_ADC_Handle_t adc_handle;
 #define EBB_MINUS_PIN     (0)
 #define EBB_PLUS_PORT     (GPIOB)
 #define EBB_PLUS_PIN      (1)
-#define TV1_PLUS_PORT     (GPIOB)
-#define TV1_PLUS_PIN      (11)
+// TV1 PLUS buttons
+#define LAP_SET_PORT      (GPIOB)
+#define LAP_SET_PIN       (11)
+
 #define TV1_MINUS_PORT    (GPIOB)
 #define TV1_MINUS_PIN     (13)
-#define LAP_BUTTON_PORT   (GPIOB)
-#define LAP_BUTTON_PIN    (14)
-
 
 // Throttle
 #define THROTTLE1_PORT        (GPIOC) // THROTTLE

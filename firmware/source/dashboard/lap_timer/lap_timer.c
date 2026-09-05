@@ -24,8 +24,8 @@ static inline vector2_t current_position(void) {
         return last_point;
     }
     geodetic_coord_t fix = geodetic_from_scaled(
-        can_data.gps_coordinates.latitude,
-        can_data.gps_coordinates.longitude
+        can_data.gps_coordinates.latitude * UNPACK_COEFF_GPS_COORDINATES_LATITUDE,
+        can_data.gps_coordinates.longitude * UNPACK_COEFF_GPS_COORDINATES_LONGITUDE
     );
 
     return geodetic_to_local(origin, fix);
@@ -37,8 +37,8 @@ void lap_timer_onpress(void) {
     }
 
     origin = geodetic_from_scaled(
-        can_data.gps_coordinates.latitude,
-        can_data.gps_coordinates.longitude
+        can_data.gps_coordinates.latitude * UNPACK_COEFF_GPS_COORDINATES_LATITUDE,
+        can_data.gps_coordinates.longitude * UNPACK_COEFF_GPS_COORDINATES_LONGITUDE
     );
 
     // the press position defines the origin, so it projects onto (0, 0)
