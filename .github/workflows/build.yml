@@ -21,7 +21,7 @@ jobs:
           submodules: recursive
 
       - name: Fix git ownership
-        run: git config --global --add safe.directory /__w/firmware/firmware
+        run: git config --global --add safe.directory /__w/monorepo/monorepo
 
       - name: Get short hash
         id: git_info
