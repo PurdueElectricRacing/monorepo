@@ -96,8 +96,12 @@ static void update_torque_request() {
         g_car.rear_left.crit->AMK_ActualSpeed,
         g_car.rear_right.crit->AMK_ActualSpeed
     );
-    bool is_vehicle_speed_high = min_wheelspeed * RPM_TO_MPH > 5;
-    bool is_pack_low_enough = can_data.pack_stats.pack_voltage < 470;
+
+    float vehicle_speed_mph = (float)min_wheelspeed * RPM_TO_MPH;
+    float pack_voltage = can_data.pack_stats.pack_voltage * UNPACK_COEFF_PACK_STATS_PACK_VOLTAGE;
+
+    bool is_vehicle_speed_high = vehicle_speed_mph > 5.0f;
+    bool is_pack_low_enough = pack_voltage < 470.0f;
     bool is_regen_allowed = is_braking && is_vehicle_speed_high && is_pack_low_enough;
 
     if (can_data.pedals.throttle > 0) {
