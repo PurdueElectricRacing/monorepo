@@ -19,7 +19,7 @@
  */
 float lut_lookup(const lerp_lut_t* lut, float key) {
     const lut_entry_t *entries = lut->entries;
-    const int size = (int)lut->size;
+    const size_t size = lut->size;
 
     // "out of bounds" keys get clamped to the nearest value
     if (key <= entries[0].key) { return entries[0].value; }
@@ -27,7 +27,7 @@ float lut_lookup(const lerp_lut_t* lut, float key) {
 
     // binary search for the correct interval
     size_t low = 1;
-    size_t high = (size_t)(size - 1);
+    size_t high = size - 1;
     while (low < high) {
         size_t mid = low + (high - low) / 2;
 
