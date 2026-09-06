@@ -18,7 +18,7 @@
 #include "common/utils/units.h"
 
 // WGS84 mean meters of northing per degree of latitude
-static constexpr double METERS_PER_DEGREE = 111132.0;
+static constexpr float METERS_PER_DEGREE = 111132.0f;
 
 typedef struct {
     float latitude_deg;
