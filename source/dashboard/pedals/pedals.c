@@ -23,8 +23,8 @@ static constexpr uint16_t THROTTLE2_MIN = 3320;
 static constexpr uint16_t THROTTLE2_MAX = 3470;
 static_assert(THROTTLE2_MIN < THROTTLE2_MAX, "Invalid throttle 2 calibration values");
 
-static constexpr uint16_t REGEN1_MIN = 2550;
-static constexpr uint16_t REGEN1_MAX = 3000;
+static constexpr uint16_t REGEN1_MIN = 3150;
+static constexpr uint16_t REGEN1_MAX = 3400;
 static_assert(REGEN1_MIN < REGEN1_MAX, "Invalid regen 1 calibration values");
 
 static constexpr uint16_t BRAKE1_MIN = 500;
