@@ -27,7 +27,7 @@ float lut_lookup(const lerp_lut_t* lut, float key) {
 
     // binary search for the correct interval
     size_t low = 1;
-    size_t high = size - 1;
+    size_t high = (size_t)(size - 1);
     while (low < high) {
         size_t mid = low + (high - low) / 2;
 

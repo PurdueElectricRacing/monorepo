@@ -276,7 +276,6 @@ void USB_PRIV_deinit(void) {
     // Remove the D+ pull-up first so the host observes a clean disconnect before
     // interrupts, the analog transceiver, and the APB clock are disabled.
     USB->BCDR &= (uint16_t)~USB_BCDR_DPPU;
-    USB->BCDR &= (uint16_t)~USB_BCDR_DPPU;
     USB->CNTR = 0U;
     NVIC_DisableIRQ(USB_LP_IRQn);
     USB->CNTR = USB_CNTR_FRES | USB_CNTR_PDWN;

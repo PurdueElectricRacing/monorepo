@@ -103,7 +103,6 @@ static inline void update_igbt_telemetry() {
         );
 
         int16_t scaled_igbt_temp = (int16_t)(max_igbt_temp * UNPACK_COEFF_IGBT_TEMPS_FRONT_RIGHT);
-        int16_t scaled_igbt_temp = (int16_t)(max_igbt_temp * UNPACK_COEFF_IGBT_TEMPS_FRONT_RIGHT);
         NXT_setTextFormatted(IGBT_TEMP, "%dC", scaled_igbt_temp);
     }
 }
@@ -158,7 +157,6 @@ static inline void update_tv_bar(char* obj_name, int16_t torque_req) {
         NXT_setFontColor(obj_name, GREEN);
         NXT_setValue(obj_name, regen_req);
     } else { // vector request
-        uint16_t scaled_req = (uint16_t)(torque_req / 2.1f);
         uint16_t scaled_req = (uint16_t)(torque_req / 2.1f);
         NXT_setFontColor(obj_name, BLUE);
         NXT_setValue(obj_name, scaled_req);
