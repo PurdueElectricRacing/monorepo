@@ -221,19 +221,19 @@ var NAVTREEINDEX =
 "daq_2main_8c.html#ae3f547c0ac514dd12e5bab27a6b60bec",
 "dir_9f35e10b22c4f6fda83e617c14ac8eb2.html",
 "fdcan_8h.html#a60b2ed63ebdff4e98f2eca10a4961dda",
-"globals_c.html",
-"led_8c.html",
-"menu__system_8c.html",
-"pdu_2main_8h.html#a5210d1dd85d36dc27bf90382129d6038",
-"phal__F4_2gpio_2gpio_8h.html#a3dd7cce66aaf32796899d7ac03588ebda8d500adc2f6982a9ddc8dcdd66c80c4b",
-"phal__G4_2dma_2dma_8c.html#aa3d40041988a21c34b66e9d32b67dee6",
-"race_8h.html#a3997b53655ed5d6f2222c7816bc1dd3e",
-"sdio_8h.html#a34496e2b57973936b853bb1d20dc277d",
-"spmc_8c.html#aea22837d4940a006332041eb9c4042cb",
-"structSD__CSD.html",
-"structmiles__t.html#ae9df0ee1adcd52c279608671fb679063",
-"structyVCU__struct.html#abe0e2e79d6f8b78957560b4dca78cdf6",
-"usb_8h.html#a06c08ebbf291a1e1f7dca05a6660271d"
+"globals_b.html",
+"lcd_8h_source.html",
+"md_firmware_2support_2README.html#autotoc_md131",
+"pdu_2main_8h.html#a509561dcbd044108500d5d42021c14d6",
+"phal__F4_2gpio_2gpio_8h.html#a2a3d1ee6f8528bb65733a87ed1d539d3",
+"phal__G4_2dma_2dma_8c.html#a9dd2eb889d9017f8a9512b08a21a15c8",
+"race_8h.html#a2707af80bfc659ff14aba14a516a07a6",
+"sdio_8h.html#a2bc9f60a2cc409365a49862d8551349e",
+"spmc_8c.html#aba59e7da3f2ab8a7e4ba029e5cf24c87",
+"structSD__CID.html#add333126fba58ef6560e48a98559b503",
+"structmeters__t.html#a4c43c539b8682015628c5e651154ad7b",
+"structyVCU__struct.html#ab9e3307990e9fa8532ac047983e0e81b",
+"usb_8c.html#af25d0362dcd989b4805bf062366f2142"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

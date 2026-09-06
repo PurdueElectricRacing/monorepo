@@ -1,5 +1,7 @@
 var NAVTREEINDEX18 =
 {
+"usb_8c.html#af25d0362dcd989b4805bf062366f2142":[27,0,1,1,7,11,0,5],
+"usb_8h.html":[27,0,1,1,7,11,1],
 "usb_8h.html#a06c08ebbf291a1e1f7dca05a6660271d":[27,0,1,1,7,11,1,7],
 "usb_8h.html#a2e6f1c105cb6578615bf45ec8d123a71":[27,0,1,1,7,11,1,14],
 "usb_8h.html#a398a346b137c4e086e2542cc4fda6c75":[27,0,1,1,7,11,1,6],
@@ -78,7 +80,7 @@ var NAVTREEINDEX18 =
 "usb__priv_8h.html#ae1b13854a90c8dbd100fae48a107ad4d":[27,0,1,1,7,11,3,1],
 "usb__priv_8h.html#ae29a55bc0c87c71b9820e6b8ef9c7780":[27,0,1,1,7,11,3,9],
 "usb__priv_8h_source.html":[27,0,1,1,7,11,3],
-"usb__test_8c.html":[27,0,1,2,5,14],
+"usb__test_8c.html":[27,0,1,2,5,15],
 "vcu_8c.html":[27,0,1,2,2,1,0,8],
 "vcu_8c.html#a151705cf194320d602ae7dc3e2e25a8e":[27,0,1,2,2,1,0,8,10],
 "vcu_8c.html#a672215bcbc9931629a7e8a03c96c8417":[27,0,1,2,2,1,0,8,13],

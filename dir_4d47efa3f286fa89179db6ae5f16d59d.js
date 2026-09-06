@@ -11,6 +11,7 @@ var dir_4d47efa3f286fa89179db6ae5f16d59d =
     [ "internal_flash.c", "internal__flash_8c.html", null ],
     [ "izze_imu_config.c", "izze__imu__config_8c.html", null ],
     [ "main.h", "g4__testing_2main_8h.html", "g4__testing_2main_8h" ],
+    [ "onboarding_2027.c", "onboarding__2027_8c.html", null ],
     [ "pwm_testing.c", "g4__testing_2pwm__testing_8c.html", null ],
     [ "spi_test.c", "spi__test_8c.html", null ],
     [ "usart_test.c", "usart__test_8c.html", null ],

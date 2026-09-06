@@ -1,5 +1,6 @@
 var NAVTREEINDEX6 =
 {
+"globals_b.html":[27,1,0,2],
 "globals_c.html":[27,1,0,3],
 "globals_d.html":[27,1,0,4],
 "globals_defs.html":[27,1,6],
@@ -248,6 +249,5 @@ var NAVTREEINDEX6 =
 "lcd_8h.html#af43eed5065a4456cc5013ee59b7a2ce7":[27,0,1,2,2,1,5,10],
 "lcd_8h.html#af5396da22169ea017cc7879f286adfb1":[27,0,1,2,2,1,5,7],
 "lcd_8h.html#af64f99df8657acc696aa097fce871251":[27,0,1,2,2,1,5,11],
-"lcd_8h.html#af86b26fbe1f76e9d70776d7863afbd04":[27,0,1,2,2,1,5,13],
-"lcd_8h_source.html":[27,0,1,2,2,1,5]
+"lcd_8h.html#af86b26fbe1f76e9d70776d7863afbd04":[27,0,1,2,2,1,5,13]
 };
