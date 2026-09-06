@@ -83,23 +83,22 @@ void RTC_sync_init(void) {
     INIT_QUEUE(gps_time_queue, timestamped_frame_t, 1);
 }
 
-// static constexpr uint32_t RTC_SYNC_PERIOD_MS = 30 * 1000;
+static constexpr uint32_t RTC_SYNC_PERIOD_MS = 30 * 1000;
 void RTC_sync(void) {
     timestamped_frame_t gps_time;
 
     if (xQueueReceive(gps_time_queue, &gps_time, portMAX_DELAY) == pdPASS) {
         uint32_t now = xTaskGetTickCount();
-        // if (!is_RTC_sync_complete && // allow the first sync immediately
-        //     (now - last_RTC_sync_time) < RTC_SYNC_PERIOD_MS) {
-        //     return;
-        // }
-
-        if (is_RTC_sync_complete) {
-            return; // only allow one sync
+        if (!is_RTC_sync_complete && // allow the first sync immediately
+            (now - last_RTC_sync_time) < RTC_SYNC_PERIOD_MS) {
+            return;
         }
 
         RTC_timestamp_t gps_rtc_time = RTC_from_gps(gps_time);
-        
+        if (gps_rtc_time.date.year_bcd != 0x26) { // ! manual maintainence
+            return; // reject invalid year
+        }
+
         if (PHAL_configureRTC(&gps_rtc_time, true)) {
             last_RTC_sync_time = now;
             is_RTC_sync_complete = true;
