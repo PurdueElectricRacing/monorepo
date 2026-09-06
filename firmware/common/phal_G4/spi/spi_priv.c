@@ -114,7 +114,7 @@ void PHAL_SPI_priv_handleTxComplete(SPI_InitConfig_t *transfer) {
 
         // Deassert CS after both TX and RX complete
         if (transfer->nss_sw) {
-            PHAL_GPIO_write(transfer->nss_gpio_port, (uint8_t)transfer->nss_gpio_pin, 1);
+            PHAL_GPIO_write(transfer->nss_gpio_port, transfer->nss_gpio_pin, 1);
         }
 
         if (transfer->tx_dma) {
