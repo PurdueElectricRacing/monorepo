@@ -25,6 +25,7 @@
 #include "ethernet.h"
 #include "rtc_sync.h"
 #include "spmc.h"
+#include "sd_card.h"
 
 GPIOInitConfig_t gpio_config[] = {
     // LEDs

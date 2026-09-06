@@ -1,8 +1,7 @@
 set(TARGET_NAME FATFS)
+add_library(${TARGET_NAME} STATIC)
 
 file(GLOB_RECURSE SOURCES "*.c")
-
-add_library(${TARGET_NAME} STATIC)
 
 target_sources(${TARGET_NAME} PRIVATE ${SOURCES})
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -10,8 +9,6 @@ target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 # diskio.c needs daq specific files
 target_include_directories(${TARGET_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/source/daq
-    ${CMAKE_SOURCE_DIR}/source/daq/sd_card
-    ${CMAKE_SOURCE_DIR}/source/daq/spmc
 )
 target_link_libraries(${TARGET_NAME} PRIVATE PHAL_F407 RTOS_F407 SDIO)
 
