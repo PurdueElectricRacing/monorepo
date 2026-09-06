@@ -210,7 +210,7 @@ static DRESULT _sdio_disk_write(
     if (Status == SD_OK && ulNotificationValue) {
         SDTransferState State;
 
-        Status = SD_StopTransfer(); // Send CMD12, indicates multi-block write is finished 
+        Status = SD_WaitWriteOperation(); // Wait for SDIO transmission to finish before CMD12
 
         // Send CMD 13, requests SD card status (required after write/read operations) 
         while ((State = SD_GetStatus()) == SD_TRANSFER_BUSY)
