@@ -89,7 +89,7 @@ static void update_torque_request() {
     bool is_pack_voltage_fresh = !can_data.pack_stats.is_stale();
 
     bool is_vehicle_speed_high = vehicle_speed_mph > 5.0f;
-    bool is_pack_low_enough = pack_voltage < 470.0f;
+    bool is_pack_low_enough = pack_voltage < 480.0f;
     bool is_regen_allowed = is_regen_commanded && is_vehicle_speed_high && is_pack_low_enough && is_pack_voltage_fresh;
 
     if (can_data.pedals.throttle > 0) {
