@@ -120,12 +120,12 @@ static void switches_update_currents(void) {
     g_pdu_state.switch_current_ma[SW_DLBK] = switches_convert_low_power_current_ma(adc_readings.dlbk_cs);
 
     uint16_t current_mv = adc_readings.v24_cs;
-    current_mv                            = (uint16_t)(current_mv * ADC_REF_mV / ADC_MAX_COUNTS);
+    current_mv = (uint16_t)(current_mv * ADC_REF_mV / ADC_MAX_COUNTS);
     current_mv = (uint16_t)(current_mv / HP_CS_R_SENSE / CS_GAIN);
     g_pdu_state.switch_current_ma[CS_24V] = current_mv;
 
     current_mv = adc_readings.v5_cs;
-    current_mv                           = (uint16_t)(current_mv * ADC_REF_mV / ADC_MAX_COUNTS);
+    current_mv = (uint16_t)(current_mv * ADC_REF_mV / ADC_MAX_COUNTS);
     g_pdu_state.switch_current_ma[CS_5V] = current_mv;
 }
 
