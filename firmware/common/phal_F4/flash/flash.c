@@ -199,7 +199,7 @@ uint8_t PHAL_flashErasePage(uint8_t page) {
 
     // Set the sector to be erased (0-11)
     FLASH->CR &= ~FLASH_CR_SNB_Msk;
-    FLASH->CR |= ((uint32_t)page << FLASH_CR_SNB_Pos) & FLASH_CR_SNB_Msk;
+    FLASH->CR |= ((page) << FLASH_CR_SNB_Pos) & FLASH_CR_SNB_Msk;
 
     // Execute the erase
     FLASH->CR |= FLASH_CR_STRT;
@@ -226,8 +226,8 @@ uint8_t PHAL_flashErase(uint32_t* addr, uint32_t words) {
     uint32_t* end_addr_inclusive = addr + (words - 1);
     if ((uint32_t)addr < FLASH_BASE || (uint32_t)end_addr_inclusive > (FLASH_END - 3))
         return FLASH_FAIL;
-    uint8_t sector_start = (uint8_t)flashGetSector((uint32_t)addr);
-    uint8_t sector_end   = (uint8_t)flashGetSector((uint32_t)end_addr_inclusive);
+    uint8_t sector_start = flashGetSector((uint32_t)addr);
+    uint8_t sector_end   = flashGetSector((uint32_t)end_addr_inclusive);
     for (uint8_t i = sector_start; i <= sector_end; ++i) {
         ret = PHAL_flashErasePage(i);
         if (ret != FLASH_OK)
