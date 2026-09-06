@@ -21,8 +21,8 @@
 static constexpr double METERS_PER_DEGREE = 111132.0;
 
 typedef struct {
-    double latitude_deg;
-    double longitude_deg;
+    float latitude_deg;
+    float longitude_deg;
 } geodetic_coord_t;
 
 /**
@@ -61,8 +61,8 @@ static inline vector2_t geodetic_to_local(const geodetic_coord_t origin, const g
     radians_t origin_latitude = radians_from((degrees_t){.value = (float)origin.latitude_deg});
 
     return (vector2_t){
-        .x = (float)(longitude_delta_deg * METERS_PER_DEGREE) * cosf(origin_latitude.value),
-        .y = (float)(latitude_delta_deg * METERS_PER_DEGREE),
+        .x = (longitude_delta_deg * (float) METERS_PER_DEGREE) * cosf(origin_latitude.value),
+        .y = (latitude_delta_deg * (float) METERS_PER_DEGREE),
     };
 }
 
