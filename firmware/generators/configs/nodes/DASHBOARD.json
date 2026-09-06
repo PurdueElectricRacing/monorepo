@@ -146,18 +146,18 @@
                     "period_ms": 0
                 },
                  {
-                    "msg_name": "brake_pressure",
-                    "msg_desc": "brake line hydraulic pressure in PSI",
+                    "message_name": "brake_pressure",
+                    "description": "brake line hydraulic pressure in PSI",
                     "signals": [
                         {
-                            "sig_name": "brake_pressure",
-                            "type": "uint16_t",
-                            "sig_desc": "brake line hydraulic pressure in PSI",
+                            "signal_name": "brake_pressure",
+                            "data_type": "uint16_t",
+                            "description": "brake line hydraulic pressure in PSI",
                             "unit": "psi"
                         }
                     ],
-                    "msg_priority": 5,
-                    "msg_period": 0
+                    "priority": 5,
+                    "period_ms": 0
                 },
                 {
                     "message_name": "dash_version",
