@@ -21,10 +21,9 @@ typedef struct {
     float longitude_deg;
 } lap_timer_origin_t;
 
-static bool lap_timer_active = false;
-static bool lap_timer_start_recorded = false;
-static bool lap_timer_l1_recorded = false;
-static bool lap_timer_complete = false;
+static lap_timer_state_t lap_timer_state = LAP_TIMER_STATE_IDLE;
+static uint32_t lap_timer_start_time_ms = 0;
+static uint32_t lap_timer_elapsed_time_ms = 0;
 static lap_timer_origin_t lap_timer_origin = {0.0f, 0.0f};
 static lap_timer_point_t lap_timer_start_point = {0.0f, 0.0f};
 static lap_timer_point_t lap_timer_l1_end_point = {0.0f, 0.0f};
@@ -172,10 +171,9 @@ void lap_timer_onpress(void) {
         return;
     }
 
-    lap_timer_active = true;
-    lap_timer_start_recorded = false;
-    lap_timer_l1_recorded = false;
-    lap_timer_complete = false;
+    lap_timer_state = LAP_TIMER_STATE_CAPTURING_HEADING;
+    lap_timer_start_time_ms = xTaskGetTickCount();
+    lap_timer_elapsed_time_ms = 0;
 
     lap_timer_origin.latitude_deg = (float)can_data.gps_coordinates.latitude * 1e-7f;
     lap_timer_origin.longitude_deg = (float)can_data.gps_coordinates.longitude * 1e-7f;
@@ -185,44 +183,63 @@ void lap_timer_onpress(void) {
         can_data.gps_coordinates.longitude
     );
     lap_timer_last_point = lap_timer_start_point;
-    lap_timer_start_recorded = true;
 }
 
 void lap_timer_periodic(void) {
-    if (!lap_timer_active || lap_timer_complete || can_data.gps_coordinates.is_stale()) {
+    if (can_data.gps_coordinates.is_stale()) {
         return;
     }
 
-    const lap_timer_point_t current_point = lap_timer_gps_to_local(
-        can_data.gps_coordinates.latitude,
-        can_data.gps_coordinates.longitude
-    );
+    switch (lap_timer_state) {
+        case LAP_TIMER_STATE_IDLE:
+        case LAP_TIMER_STATE_COMPLETE:
+            return;
 
-    if (!lap_timer_start_recorded) {
-        lap_timer_start_point = current_point;
-        lap_timer_last_point = current_point;
-        lap_timer_start_recorded = true;
-        return;
-    }
+        case LAP_TIMER_STATE_CAPTURING_HEADING: {
+            const lap_timer_point_t current_point = lap_timer_gps_to_local(
+                can_data.gps_coordinates.latitude,
+                can_data.gps_coordinates.longitude
+            );
+            const float delta = lap_timer_hypot(
+                current_point.x - lap_timer_start_point.x,
+                current_point.y - lap_timer_start_point.y
+            );
 
-    if (!lap_timer_l1_recorded) {
-        const float delta = lap_timer_hypot(
-            current_point.x - lap_timer_start_point.x,
-            current_point.y - lap_timer_start_point.y
-        );
-        if (delta >= LAP_TIMER_CAPTURE_DISTANCE_M) {
-            lap_timer_l1_end_point = current_point;
-            lap_timer_l1_recorded = true;
+            if (delta >= LAP_TIMER_CAPTURE_DISTANCE_M) {
+                lap_timer_l1_end_point = current_point;
+                lap_timer_state = LAP_TIMER_STATE_TIMING;
+            }
+            lap_timer_last_point = current_point;
+            return;
         }
-        lap_timer_last_point = current_point;
-        return;
+
+        case LAP_TIMER_STATE_TIMING: {
+            const lap_timer_point_t current_point = lap_timer_gps_to_local(
+                can_data.gps_coordinates.latitude,
+                can_data.gps_coordinates.longitude
+            );
+
+            if (lap_timer_l2_crossed(&lap_timer_last_point, &current_point)) {
+                lap_timer_elapsed_time_ms = xTaskGetTickCount() - lap_timer_start_time_ms;
+                lap_timer_state = LAP_TIMER_STATE_COMPLETE;
+                return;
+            }
+
+            lap_timer_last_point = current_point;
+            return;
+        }
+
+        default:
+            lap_timer_state = LAP_TIMER_STATE_IDLE;
+            return;
+    }
+}
+
+uint32_t lap_timer_elapsed_ms(void) {
+    if (lap_timer_state == LAP_TIMER_STATE_CAPTURING_HEADING ||
+        lap_timer_state == LAP_TIMER_STATE_TIMING) {
+        return xTaskGetTickCount() - lap_timer_start_time_ms;
     }
 
-    if (lap_timer_l2_crossed(&lap_timer_last_point, &current_point)) {
-        lap_timer_complete = true;
-        lap_timer_active = false;
-        return;
-    }
-
-    lap_timer_last_point = current_point;
+    return lap_timer_elapsed_time_ms;
 }

@@ -12,6 +12,7 @@
 #include "pedals.h"
 #include "common/utils/max.h"
 #include "colors.h"
+#include "lap_timer.h"
 
 // For speed calcs
 static constexpr float WHEEL_RADIUS_IN = 8.0f;
@@ -170,6 +171,21 @@ static inline void update_tv_telemetry() {
     update_tv_bar(RR_BAR, can_data.vcu_torque_request.rear_right);
 }
 
+static inline void update_lap_time_telemetry() {
+    uint32_t elapsed_ms = lap_timer_elapsed_ms();
+    uint32_t minutes = elapsed_ms / 60000U;
+    uint32_t seconds = (elapsed_ms / 1000U) % 60U;
+    uint32_t centiseconds = (elapsed_ms / 10U) % 100U;
+
+    NXT_setTextFormatted(
+        LAP_TIME,
+        "%02lu:%02lu.%02lu",
+        (unsigned long)minutes,
+        (unsigned long)seconds,
+        (unsigned long)centiseconds
+    );
+}
+
 /**
  * @brief Updates telemetry data on the race dashboard LCD display
  *
@@ -183,4 +199,5 @@ void race_telemetry_update() {
     update_igbt_telemetry();
     update_pack_telemetry();
     update_tv_telemetry();
+    update_lap_time_telemetry();
 }

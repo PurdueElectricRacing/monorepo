@@ -10,7 +10,6 @@
 #define LAP_TIMER_H
 
 #include <stdint.h>
-#include <stdbool.h>
 
 #define LAP_TIMER_DEG_TO_RAD 0.017453292519943295f
 #define LAP_TIMER_METERS_PER_DEG 111132.0f
@@ -25,13 +24,14 @@ static constexpr float LAP_TIMER_FINISH_HALF_WIDTH_M = 1.0f;
 
 static constexpr uint32_t LAP_TIMER_PERIOD_MS = 200;
 typedef enum {
-	LAP_TIMER_STATE_IDLE,
-	LAP_TIMER_STATE_CAPTURING_HEADING,
-	LAP_TIMER_STATE_TIMING,
-	LAP_TIMER_STATE_COMPLETE,
+    LAP_TIMER_STATE_IDLE,
+    LAP_TIMER_STATE_CAPTURING_HEADING,
+    LAP_TIMER_STATE_TIMING,
+    LAP_TIMER_STATE_COMPLETE,
 } lap_timer_state_t;
 
 void lap_timer_onpress(void);
 void lap_timer_periodic(void);
+uint32_t lap_timer_elapsed_ms(void);
 
 #endif // LAP_TIMER_H
