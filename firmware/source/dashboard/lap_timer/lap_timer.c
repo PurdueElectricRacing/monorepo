@@ -8,62 +8,53 @@
 
 #include "lap_timer.h"
 
-#include <stdbool.h>
+#include "can_library/faults_common.h"
 #include "can_library/generated/DASHBOARD.h"
-#include "common/utils/geodetic.h"
-#include "common/utils/geometry.h"
-#include "common/utils/linear_algebra.h"
-
-#define LAP_TIMER_DEG_TO_RAD 0.017453292519943295
-#define LAP_TIMER_METERS_PER_DEG 111132.0
-#define LAP_TIMER_CAPTURE_DISTANCE_M 1.0
-#define LAP_TIMER_L2_HALF_LENGTH_M 1.0
-#define LAP_TIMER_EPSILON 1e-6
 
 typedef struct {
-    double x;
-    double y;
+    float x;
+    float y;
 } lap_timer_point_t;
 
 typedef struct {
-    double latitude_deg;
-    double longitude_deg;
+    float latitude_deg;
+    float longitude_deg;
 } lap_timer_origin_t;
 
 static bool lap_timer_active = false;
 static bool lap_timer_start_recorded = false;
 static bool lap_timer_l1_recorded = false;
 static bool lap_timer_complete = false;
-static lap_timer_origin_t lap_timer_origin = {0.0, 0.0};
-static lap_timer_point_t lap_timer_start_point = {0.0, 0.0};
-static lap_timer_point_t lap_timer_l1_end_point = {0.0, 0.0};
-static lap_timer_point_t lap_timer_last_point = {0.0, 0.0};
+static lap_timer_origin_t lap_timer_origin = {0.0f, 0.0f};
+static lap_timer_point_t lap_timer_start_point = {0.0f, 0.0f};
+static lap_timer_point_t lap_timer_l1_end_point = {0.0f, 0.0f};
+static lap_timer_point_t lap_timer_last_point = {0.0f, 0.0f};
 
-static double lap_timer_abs(double value) {
-    return value < 0.0 ? -value : value;
+static float lap_timer_abs(float value) {
+    return value < 0.0f ? -value : value;
 }
 
-static double lap_timer_max(double a, double b) {
+static float lap_timer_max(float a, float b) {
     return a > b ? a : b;
 }
 
-static double lap_timer_min(double a, double b) {
+static float lap_timer_min(float a, float b) {
     return a < b ? a : b;
 }
 
-static double lap_timer_sqrt(double value) {
-    if (value <= 0.0) {
-        return 0.0;
+static float lap_timer_sqrt(float value) {
+    if (value <= 0.0f) {
+        return 0.0f;
     }
 
-    double guess = value;
-    if (guess < 1.0) {
-        guess = 1.0;
+    float guess = value;
+    if (guess < 1.0f) {
+        guess = 1.0f;
     }
 
     for (int i = 0; i < 10; ++i) {
-        const double next = 0.5 * (guess + (value / guess));
-        if (lap_timer_abs(next - guess) <= 1e-9) {
+        const float next = 0.5f * (guess + (value / guess));
+        if (lap_timer_abs(next - guess) <= 1e-9f) {
             return next;
         }
         guess = next;
@@ -72,22 +63,22 @@ static double lap_timer_sqrt(double value) {
     return guess;
 }
 
-static double lap_timer_cos(double radians) {
-    const double x2 = radians * radians;
-    return 1.0 - (x2 / 2.0) + (x2 * x2 / 24.0) - (x2 * x2 * x2 / 720.0);
+static float lap_timer_cos(float radians) {
+    const float x2 = radians * radians;
+    return 1.0f - (x2 / 2.0f) + (x2 * x2 / 24.0f) - (x2 * x2 * x2 / 720.0f);
 }
 
-static double lap_timer_hypot(double x, double y) {
+static float lap_timer_hypot(float x, float y) {
     return lap_timer_sqrt((x * x) + (y * y));
 }
 
 static int lap_timer_orientation(const lap_timer_point_t *p, const lap_timer_point_t *q, const lap_timer_point_t *r) {
-    const double value = ((q->y - p->y) * (r->x - p->x)) - ((q->x - p->x) * (r->y - p->y));
+    const float value = ((q->y - p->y) * (r->x - p->x)) - ((q->x - p->x) * (r->y - p->y));
 
     if (lap_timer_abs(value) <= LAP_TIMER_EPSILON) {
         return 0;
     }
-    return value > 0.0 ? 1 : 2;
+    return value > 0.0f ? 1 : 2;
 }
 
 static bool lap_timer_on_segment(const lap_timer_point_t *p, const lap_timer_point_t *q, const lap_timer_point_t *r) {
@@ -125,13 +116,13 @@ static bool lap_timer_segments_intersect(
 }
 
 static lap_timer_point_t lap_timer_gps_to_local(int32_t latitude, int32_t longitude) {
-    const double latitude_deg = (double)latitude * 1e-7;
-    const double longitude_deg = (double)longitude * 1e-7;
+    const float latitude_deg = (float)latitude * 1e-7f;
+    const float longitude_deg = (float)longitude * 1e-7f;
 
-    const double lat_delta_deg = latitude_deg - lap_timer_origin.latitude_deg;
-    const double lon_delta_deg = longitude_deg - lap_timer_origin.longitude_deg;
-    const double origin_lat_rad = lap_timer_origin.latitude_deg * LAP_TIMER_DEG_TO_RAD;
-    const double cos_lat = lap_timer_cos(origin_lat_rad);
+    const float lat_delta_deg = latitude_deg - lap_timer_origin.latitude_deg;
+    const float lon_delta_deg = longitude_deg - lap_timer_origin.longitude_deg;
+    const float origin_lat_rad = lap_timer_origin.latitude_deg * LAP_TIMER_DEG_TO_RAD;
+    const float cos_lat = lap_timer_cos(origin_lat_rad);
 
     lap_timer_point_t point = {
         .x = lon_delta_deg * LAP_TIMER_METERS_PER_DEG * cos_lat,
@@ -145,14 +136,14 @@ static bool lap_timer_l2_crossed(const lap_timer_point_t *previous_point, const 
     const lap_timer_point_t l1_start = lap_timer_start_point;
     const lap_timer_point_t l1_end = lap_timer_l1_end_point;
     const lap_timer_point_t midpoint = {
-        .x = (l1_start.x + l1_end.x) * 0.5,
-        .y = (l1_start.y + l1_end.y) * 0.5,
+        .x = (l1_start.x + l1_end.x) * 0.5f,
+        .y = (l1_start.y + l1_end.y) * 0.5f,
     };
     const lap_timer_point_t line_direction = {
         .x = l1_end.x - l1_start.x,
         .y = l1_end.y - l1_start.y,
     };
-    const double line_length = lap_timer_hypot(line_direction.x, line_direction.y);
+    const float line_length = lap_timer_hypot(line_direction.x, line_direction.y);
 
     if (line_length <= LAP_TIMER_EPSILON) {
         return false;
@@ -175,7 +166,9 @@ static bool lap_timer_l2_crossed(const lap_timer_point_t *previous_point, const 
 }
 
 void lap_timer_onpress(void) {
-    if (can_data.gps_coordinates.is_stale()) {
+    if (can_data.gps_coordinates.is_stale() ||
+        !is_clear(FAULT_ID_GPS_INVALID_FIX) ||
+        !is_clear(FAULT_ID_GPS_WEAK_FIX)) {
         return;
     }
 
@@ -184,8 +177,8 @@ void lap_timer_onpress(void) {
     lap_timer_l1_recorded = false;
     lap_timer_complete = false;
 
-    lap_timer_origin.latitude_deg = (double)can_data.gps_coordinates.latitude * 1e-7;
-    lap_timer_origin.longitude_deg = (double)can_data.gps_coordinates.longitude * 1e-7;
+    lap_timer_origin.latitude_deg = (float)can_data.gps_coordinates.latitude * 1e-7f;
+    lap_timer_origin.longitude_deg = (float)can_data.gps_coordinates.longitude * 1e-7f;
 
     lap_timer_start_point = lap_timer_gps_to_local(
         can_data.gps_coordinates.latitude,
@@ -213,7 +206,7 @@ void lap_timer_periodic(void) {
     }
 
     if (!lap_timer_l1_recorded) {
-        const double delta = lap_timer_hypot(
+        const float delta = lap_timer_hypot(
             current_point.x - lap_timer_start_point.x,
             current_point.y - lap_timer_start_point.y
         );
