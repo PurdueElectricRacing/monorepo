@@ -14,6 +14,7 @@
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/watchdog/watchdog.h"
+#include "lap_timer.h"
 #include "lcd.h"
 #include "main.h"
 #include "pages/vcu.h"
@@ -124,7 +125,7 @@ void EXTI15_10_IRQHandler() {
     last_interrupt_time = now;
 
     if (EXTI->PR1 & EXTI_PR1_PIF11) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){LEFT_WHEEL_PLUS}, NULL);
+        xQueueSendFromISR(action_queue, &(driver_interface_action_t){LAP_SET}, NULL);
         EXTI->PR1 = EXTI_PR1_PIF11;
     }
 
@@ -260,12 +261,12 @@ void action_dispatcher(void) {
                 vcu_wheel_adjust(true, 1);
                 break;
             }
-            case LEFT_WHEEL_PLUS: {
-                vcu_wheel_adjust(false, 1);
-                break;
-            }
             case LEFT_WHEEL_MINUS: {
                 vcu_wheel_adjust(false, -1);
+                break;
+            }
+            case LAP_SET: {
+                lap_timer_onpress();
                 break;
             }
         }
