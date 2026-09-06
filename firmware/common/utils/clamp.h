@@ -26,13 +26,11 @@ DEFINE_CLAMP(unsigned long, ulong)
 DEFINE_CLAMP(float, float)
 
 #define CLAMP(input, lower_bound, upper_bound) \
-    _Generic((input) + (lower_bound) + (upper_bound), \
-    int: clamp_int, \
-    unsigned int: clamp_uint, \
-    long: clamp_long, \
-    unsigned long: clamp_ulong, \
-    float: clamp_float \
-)(input, lower_bound, upper_bound)
-
+    (typeof(input))_Generic((input) + (lower_bound) + (upper_bound), \
+        int: clamp_int, \
+        unsigned int: clamp_uint, \
+        long: clamp_long, \
+        unsigned long: clamp_ulong, \
+        float: clamp_float)(input, lower_bound, upper_bound)
 
 #endif // CLAMP_H

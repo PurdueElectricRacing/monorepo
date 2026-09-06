@@ -227,7 +227,7 @@ void oil_temps_periodic() {
 void HardFault_Handler() {
     __disable_irq();
     SysTick->CTRL = 0;
-    ERROR_LED_PORT->BSRR = (1 << ERROR_LED_PIN);
+    ERROR_LED_PORT->BSRR = (1U << ERROR_LED_PIN);
     while (1) {
         __asm__("NOP"); // spin
     }

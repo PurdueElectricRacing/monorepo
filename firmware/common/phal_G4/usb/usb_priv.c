@@ -50,8 +50,8 @@ static volatile uint16_t *usb_descriptor_word(uint8_t endpoint, uint8_t word) {
     // Each BTABLE entry contains TX address/count followed by RX address/count.
     // USB_PMAADDR exposes packet memory as 16-bit words at byte-addressed offsets.
     uint32_t offset = USB_PRIV_BTABLE_OFFSET
-        + endpoint * USB_PRIV_BTABLE_ENTRY_SIZE_BYTES
-        + word * USB_PRIV_BTABLE_WORD_SIZE_BYTES;
+        + (uint32_t)endpoint * USB_PRIV_BTABLE_ENTRY_SIZE_BYTES
+        + (uint32_t)word * USB_PRIV_BTABLE_WORD_SIZE_BYTES;
     return (volatile uint16_t *)(USB_PMAADDR + offset);
 }
 
@@ -63,8 +63,8 @@ static volatile uint16_t *usb_pma(uint16_t address) {
 /** Calculate the packet-memory byte address of an endpoint's IN buffer. */
 static uint16_t usb_transmit_address(uint8_t endpoint) {
     // Every bidirectional endpoint owns adjacent TX and RX packet buffers.
-    return USB_PRIV_BUFFER_START
-        + endpoint * PHAL_USB_PACKET_SIZE_BYTES * USB_PRIV_BUFFERS_PER_ENDPOINT;
+    return (uint16_t)(USB_PRIV_BUFFER_START
+        + (uint32_t)endpoint * PHAL_USB_PACKET_SIZE_BYTES * USB_PRIV_BUFFERS_PER_ENDPOINT);
 }
 
 /** Calculate the packet-memory byte address of an endpoint's OUT buffer. */
@@ -275,7 +275,7 @@ bool USB_PRIV_init(void) {
 void USB_PRIV_deinit(void) {
     // Remove the D+ pull-up first so the host observes a clean disconnect before
     // interrupts, the analog transceiver, and the APB clock are disabled.
-    USB->BCDR &= ~USB_BCDR_DPPU;
+    USB->BCDR &= (uint16_t)~USB_BCDR_DPPU;
     USB->CNTR = 0U;
     NVIC_DisableIRQ(USB_LP_IRQn);
     USB->CNTR = USB_CNTR_FRES | USB_CNTR_PDWN;

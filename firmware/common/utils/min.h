@@ -27,7 +27,7 @@ static inline float min2_float(float a, float b) {
     return (a < b) ? a : b;
 }
 
-#define MINOF2(a, b) _Generic((a) + (b), \
+#define MINOF2(a, b) (typeof(a))_Generic((a) + (b), \
     signed int: min2_signed, \
     unsigned int: min2_unsigned, \
     float: min2_float \

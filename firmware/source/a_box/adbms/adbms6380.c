@@ -39,13 +39,13 @@ uint16_t adbms6380_get_threshold_voltage_cfg(float threshold_voltage) {
     uint8_t rbits     = 12;
     threshold_voltage = (threshold_voltage - 1.5f);
     threshold_voltage = threshold_voltage / (16.0f * 0.000150f);
-    uint16_t cfg      = (uint16_t)(threshold_voltage + 2 * (1 << (rbits - 1)));
+    uint16_t cfg      = (uint16_t)(threshold_voltage + (float)(2 * (1U << (rbits - 1))));
     cfg &= 0xFFF;
     return cfg;
 }
 
-int16_t adbms6380_extract_i16(const uint8_t *data, int idx) {
-    return (int16_t)(data[idx * 2 + 0] & 0xff) | ((int16_t)(data[idx * 2 + 1] & 0xff) << 8);
+int16_t adbms6380_extract_i16(const uint8_t *data, size_t idx) {
+    return (int16_t)((int16_t)(data[idx * 2 + 0] & 0xff) | ((int16_t)(data[idx * 2 + 1] & 0xff) << 8));
 }
 
 float adbms6380_raw_to_v(int16_t raw) {
@@ -61,7 +61,7 @@ void adbms6380_adcv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
     // 10-0: 0, 1, RD, CONT, 1, 1, DCP, 0, RSTF, OW[1], OW[0]
     output_cmd[0] = 0x02 | (uint8_t)rd;
     output_cmd[1] =
-        ((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | ((uint8_t)rstf << 2) | (ow & 0x03) | 0x60;
+        (uint8_t)(((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | ((uint8_t)rstf << 2) | (ow & 0x03) | 0x60);
 }
 
 void adbms6380_adsv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
@@ -70,13 +70,13 @@ void adbms6380_adsv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
                     uint8_t ow) {
     // 10-0: 0, 0, 1, CONT, 1, 1, DCP, 1, 0, OW[1], OW[0]
     output_cmd[0] = 0x01;
-    output_cmd[1] = ((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | (ow & 0x03) | 0x68;
+    output_cmd[1] = (uint8_t)(((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | (ow & 0x03) | 0x68);
 }
 
 void adbms6380_adax(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE], bool ow, bool pup, uint8_t ch) {
     // 10-0: 1 0 OW PUP CH[4] 0 1 CH[3] CH[2] CH[1] CH[0]
     output_cmd[0] = 0b100 | (uint8_t)ow;
-    output_cmd[1] = (uint8_t)pup << 7 | ((ch >> 4) & 1) << 6 | 0b01 << 4 | (ch & 0b01111);
+    output_cmd[1] = (uint8_t)((uint8_t)pup << 7 | ((ch >> 4) & 1) << 6 | 0b01 << 4 | (ch & 0b01111));
 }
 
 void adbms6380_prepare_command(strbuf_t *output_buffer,
@@ -100,7 +100,7 @@ void adbms6380_calculate_cfg_rega(uint8_t output_cfg_rega[ADBMS6380_SINGLE_DATA_
                                   uint8_t cth) {
     memset(output_cfg_rega, 0, ADBMS6380_SINGLE_DATA_RAW_SIZE);
 
-    output_cfg_rega[0] = ((uint8_t)refon << 7) | (cth & 0x07);
+    output_cfg_rega[0] = (uint8_t)(((uint8_t)refon << 7) | (cth & 0x07));
     // all flags 0
     output_cfg_rega[1] = 0b00000000;
     // no soak
@@ -123,11 +123,15 @@ void adbms6380_calculate_cfg_regb(uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_
     uint16_t overvoltage_cfg  = adbms6380_get_threshold_voltage_cfg(overvoltage_threshold);
     uint16_t undervoltage_cfg = adbms6380_get_threshold_voltage_cfg(undervoltage_threshold);
     // 12 bits vov
-    output_cfg_regb[0] = overvoltage_cfg & 0xFF;
-    output_cfg_regb[1] |= (overvoltage_cfg >> 8) & 0xF;
+    output_cfg_regb[0] = (uint8_t)(overvoltage_cfg & 0xFF);
+    output_cfg_regb[1] |= (uint8_t)((overvoltage_cfg >> 8) & 0xF);
+    output_cfg_regb[0] = (uint8_t)(overvoltage_cfg & 0xFF);
+    output_cfg_regb[1] |= (uint8_t)((overvoltage_cfg >> 8) & 0xF);
     // 12 bits vuv
-    output_cfg_regb[1] |= (undervoltage_cfg << 4) & 0xF0;
-    output_cfg_regb[2] |= (undervoltage_cfg >> 4) & 0xFF;
+    output_cfg_regb[1] |= (uint8_t)((undervoltage_cfg << 4) & 0xF0);
+    output_cfg_regb[2] |= (uint8_t)((undervoltage_cfg >> 4) & 0xFF);
+    output_cfg_regb[1] |= (uint8_t)((undervoltage_cfg << 4) & 0xF0);
+    output_cfg_regb[2] |= (uint8_t)((undervoltage_cfg >> 4) & 0xFF);
     // all else default
     output_cfg_regb[3] = 0;
 
@@ -138,18 +142,18 @@ void adbms6380_calculate_cfg_regb(uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_
         if (is_discharging[i]) {
             size_t byte_idx = 4 + (i / 8);
             size_t bit_idx  = i % 8;
-            output_cfg_regb[byte_idx] |= (1 << bit_idx);
+            output_cfg_regb[byte_idx] |= (1U << bit_idx);
         }
     }
 }
 
 bool adbms6380_check_data_pec(const uint8_t *rx_bytes, size_t rx_len) {
     size_t raw_data_len     = rx_len - ADBMS6380_PEC_SIZE;
-    uint16_t calculated_pec = adbms_pec_get_pec10(true, raw_data_len, rx_bytes);
+    uint16_t calculated_pec = adbms_pec_get_pec10(true, (uint8_t)raw_data_len, rx_bytes);
 
     uint8_t pec_msb_packed = rx_bytes[raw_data_len];
     uint8_t pec_lsb        = rx_bytes[raw_data_len + 1];
-    uint16_t received_pec  = ((uint16_t)(pec_msb_packed & 0x03) << 8) | (uint16_t)pec_lsb;
+    uint16_t received_pec  = (uint16_t)(((uint16_t)(pec_msb_packed & 0x03) << 8) | (uint16_t)pec_lsb);
 
     return calculated_pec == received_pec;
 }
@@ -165,7 +169,7 @@ adbms6380_read_result_t adbms6380_read(SPI_InitConfig_t *spi,
     PHAL_SPI_transferBlocking(spi, cmd_buffer, NULL, ADBMS6380_COMMAND_PKT_SIZE);
     // Then read data back. Data is in order of module 0 ... module N-1
     size_t total_rx_length = module_count * rx_length_per_module;
-    PHAL_SPI_transferBlocking(spi, NULL, rx_buffer, total_rx_length);
+    PHAL_SPI_transferBlocking(spi, NULL, rx_buffer, (uint16_t)total_rx_length);
     adbms6380_set_cs_high(spi);
 
     // Check PEC for each module's data packet

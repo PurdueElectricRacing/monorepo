@@ -10,8 +10,6 @@
 #define MAIN_H
 
 #include "common/rtos/rtos.h"
-#include "sd_card.h"
-#include "spmc.h"
 
 // Pinouts
 // LEDs

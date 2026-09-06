@@ -27,7 +27,7 @@ static inline float max2_float(float a, float b) {
     return (a > b) ? a : b;
 }
 
-#define MAXOF2(a, b) _Generic((a) + (b), \
+#define MAXOF2(a, b) (typeof(a))_Generic((a) + (b), \
     signed int: max2_signed, \
     unsigned int: max2_unsigned, \
     float: max2_float \

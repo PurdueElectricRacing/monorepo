@@ -34,6 +34,7 @@ set(C_FLAGS
     "-Wunused-result"
     "-Wformat=2"
     "-Wformat-truncation"
+    "-Werror=conversion"
 
     "-fanalyzer"
     "-Wno-analyzer-infinite-loop"

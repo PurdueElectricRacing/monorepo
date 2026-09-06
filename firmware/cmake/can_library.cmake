@@ -33,7 +33,7 @@ macro(create_can_node_lib NODE_NAME ARCH_LIB)
         ${CAN_LIB_DIR}/source/faults_common.c
         ${CAN_GEN_DIR}/fault_data.c
     )
-	
+
 	# Force use of full include paths relative to project root
 	target_include_directories(${LIB_NAME} PUBLIC ${CMAKE_SOURCE_DIR})
 	

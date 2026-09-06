@@ -55,5 +55,5 @@ void heartbeat_task(status_leds_t *leds) {
             bool is_can_ok = (xTaskGetTickCount() - last_can_rx_time_ms) < CONN_LED_TIMEOUT_MS;
             PHAL_GPIO_write(leds->connection_port, leds->connection_pin, is_can_ok);
             break;
-    }    
+    }
 }

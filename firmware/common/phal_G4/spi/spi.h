@@ -41,12 +41,12 @@ typedef enum {
  */
 typedef struct {
     uint32_t data_rate;          /*!< Desired SPI clock frequency (Hz) */
-    uint8_t data_len;            /*!< Transfer width in bits */
+    uint32_t data_len;           /*!< Transfer width in bits */
     SPI_Mode mode;               /*!< Master or slave mode */
 
     bool nss_sw;                 /*!< true = software-controlled chip select */
     GPIO_TypeDef *nss_gpio_port; /*!< Chip select GPIO port (master only) */
-    uint32_t nss_gpio_pin;       /*!< Chip select GPIO pin (master only) */
+    uint8_t nss_gpio_pin;       /*!< Chip select GPIO pin (master only) */
 
     SPI_CPOL cpol;               /*!< Clock idle polarity */
     SPI_CPHA cpha;               /*!< Clock sampling phase */
@@ -91,7 +91,7 @@ bool PHAL_SPI_init(SPI_InitConfig_t *handle);
 void PHAL_SPI_transfer(SPI_InitConfig_t *spi,
                        const uint8_t *out_data,
                        uint8_t *in_data,
-                       uint32_t data_len);
+                       uint16_t data_len);
 
 /**
  * @brief Perform a blocking DMA-backed SPI transfer. (Wrapper around PHAL_SPI_transfer.)
@@ -107,9 +107,9 @@ void PHAL_SPI_transfer(SPI_InitConfig_t *spi,
  * @param data_len Number of bytes to transfer (includes both TX and RX).
  */
 void PHAL_SPI_transferBlocking(SPI_InitConfig_t *spi,
-                       const uint8_t *out_data,
-                       uint8_t *in_data,
-                       uint32_t data_len);
+                               const uint8_t *out_data,
+                               uint8_t *in_data,
+                               uint16_t data_len);
 
 /**
  * @brief Check whether the SPI peripheral is busy.
