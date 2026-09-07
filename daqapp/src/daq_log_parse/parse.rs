@@ -73,6 +73,9 @@ fn parse_log_file(
         .collect();
     let mut parsed = Vec::with_capacity(frames.len());
 
+    let mut last_ticks = None;
+    let mut skip = 0;
+
     for (i, frame) in frames.iter().enumerate() {
         if added_padding && i == frames.len() - 1 {
             log::info!(
@@ -81,6 +84,25 @@ fn parse_log_file(
             );
             break;
         }
+
+        if skip > 0 {
+            skip -= 1;
+            continue;
+        }
+
+        if let Some(last) = last_ticks {
+            if frame.ticks_ms < last {
+                log::warn!(
+                    "Timestamp jump backwards in {} at frame {}: {} -> {}",
+                    in_file.display(),
+                    i,
+                    last,
+                    frame.ticks_ms
+                );
+                skip += 10;
+            }
+        }
+        last_ticks = Some(frame.ticks_ms);
 
         let arb_id = if (frame.identity & consts::IS_EID_MASK) != 0 {
             frame.identity & util::can::EXTENDED_ID_MASK
@@ -114,6 +136,7 @@ fn parse_log_file(
                 frame.data,
                 bus_id
             );
+            skip += 10;
         }
     }
     parsed
