@@ -15,7 +15,7 @@ static constexpr uint32_t AMK_DC_BUS_ID  = 1049U;
 
 // Default limits in ppt (parts per thousand)
 static constexpr int16_t AMK_DEFAULT_POS_LIMIT = 2140;
-static constexpr int16_t AMK_DEFAULT_NEG_LIMIT = -500;
+static constexpr int16_t AMK_DEFAULT_NEG_LIMIT = -1000;
 
 void AMK_init(
     AMK_t *amk,
