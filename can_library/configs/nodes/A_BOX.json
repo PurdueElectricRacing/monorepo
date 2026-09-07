@@ -22,10 +22,17 @@
                     "signals": [
                         {
                             "sig_name": "pack_voltage",
-                            "sig_desc": "Total pack voltage",
+                            "sig_desc": "Total pack voltage from BMS",
                             "type": "uint16_t",
                             "unit": "V",
                             "scale": 0.01
+                        },
+                        {
+                            "sig_name": "vbatt_adc",
+                            "sig_desc": "VBATT ADC raw value",
+                            "type": "uint16_t",
+                            "unit": "ADC",
+                            "scale": 1
                         },
                         {
                             "sig_name": "pack_current",
@@ -335,7 +342,7 @@
         },
         {
             "fault_name": "PACK_FULL",
-            "max": 470,
+            "max": 537,
             "min": 0,
             "priority": "warning",
             "time_to_latch": 10000,
@@ -345,7 +352,7 @@
         {
             "fault_name": "PACK_EMPTY",
             "max": 1000,
-            "min": 302,
+            "min": 380,
             "priority": "warning",
             "time_to_latch": 10000,
             "time_to_unlatch": 10000,

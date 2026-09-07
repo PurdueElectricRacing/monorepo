@@ -126,7 +126,7 @@ void cooling_fsm_periodic(void) {
                 PHAL_PWMsetPercent(FAN_2_PWM_TIM, FAN_2_PWM_TIM_CH, FANS_PWM_DUTY);
                 PHAL_PWMsetPercent(FAN_3_PWM_TIM, FAN_3_PWM_TIM_CH, FANS_PWM_DUTY);
                 PHAL_PWMsetPercent(FAN_4_PWM_TIM, FAN_4_PWM_TIM_CH, FANS_PWM_DUTY);
-                next_cooling_state = COOLING_STATE_AUTO;
+                next_cooling_state = COOLING_STATE_DEBUG;
             }
             break;
         }

@@ -27,8 +27,8 @@ static constexpr uint16_t REGEN1_MIN = 2550;
 static constexpr uint16_t REGEN1_MAX = 3000;
 static_assert(REGEN1_MIN < REGEN1_MAX, "Invalid regen 1 calibration values");
 
-static constexpr uint16_t BRAKE1_MIN = 450;
-static constexpr uint16_t BRAKE1_MAX = 1300;
+static constexpr uint16_t BRAKE1_MIN = 500;
+static constexpr uint16_t BRAKE1_MAX = 1100;
 static_assert(BRAKE1_MIN < BRAKE1_MAX, "Invalid brake 1 calibration values");
 
 static constexpr uint8_t PEDAL_MAX = 100;

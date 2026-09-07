@@ -404,7 +404,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             adbms_balance_and_update_regb(bms, min_voltage_for_balance, min_delta_for_balance);
 
             // todo add more robust corruption checks
-            bool corruption_detected = (bms->min_voltage < 1.0f) || (bms->max_voltage > 5.0f);
+            bool corruption_detected = (bms->min_voltage < -1.0f) || (bms->max_voltage > 6.0f);
             if (corruption_detected) {
                 bms->state = ADBMS_STATE_RECOVERING;
             }

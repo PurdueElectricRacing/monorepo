@@ -17,7 +17,7 @@
 #include "common/strbuf/strbuf.h"
 
 // Number of ADBMS modules in the daisy chain.
-#define ADBMS_MODULE_COUNT (7)
+#define ADBMS_MODULE_COUNT (8)
 
 // Number of attempts to retry a read if a PEC failure is detected before continuing.
 #define ADBMS_PEC_FAIL_MAX_RETRIES (3)
