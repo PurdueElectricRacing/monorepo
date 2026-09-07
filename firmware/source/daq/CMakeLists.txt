@@ -1,4 +1,3 @@
-include(../../can_library/can_library.cmake)
 create_can_node_lib(DAQ "CMSIS_F407;RTOS_F407")
 
 add_firmware_component(
