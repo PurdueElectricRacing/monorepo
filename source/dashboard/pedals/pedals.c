@@ -100,7 +100,7 @@ void pedals_periodic(void) {
     if (is_latched(FAULT_ID_APPS_WIRING_T1) ||
         is_latched(FAULT_ID_APPS_WIRING_T2) ||
         is_latched(FAULT_ID_BSE) ||
-        is_latched(FAULT_ID_APPS_IMPLAUSIBLE) ||
+        // is_latched(FAULT_ID_APPS_IMPLAUSIBLE) ||
         is_latched(FAULT_ID_APPS_BRAKE)) {
         throttle_command = 0;
         regen_command    = 0;
