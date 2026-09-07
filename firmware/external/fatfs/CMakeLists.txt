@@ -6,7 +6,7 @@ file(GLOB_RECURSE SOURCES "*.c")
 target_sources(${TARGET_NAME} PRIVATE ${SOURCES})
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-# diskio.c needs daq specific files
+# diskio.c includes daq's main.h for board-specific SD card pin/peripheral config.
 target_include_directories(${TARGET_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/source/daq
 )

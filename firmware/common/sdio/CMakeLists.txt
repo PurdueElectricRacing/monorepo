@@ -4,7 +4,7 @@ add_library(${TARGET_NAME} STATIC)
 target_sources(${TARGET_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/sdio.c")
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-# sdio.c needs daq specific files 
+# sdio.c includes daq's main.h for board-specific SD card pin/peripheral config.
 target_include_directories(${TARGET_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/source/daq
 )
