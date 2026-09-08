@@ -105,7 +105,7 @@ impl WidgetConstructor {
                 widgets::Widget::Dynamics(ui::dynamics::Dynamics::new(id))
             }
             WidgetConstructor::Jitter => widgets::Widget::Jitter(ui::jitter::Jitter::new(id)),
-            WidgetConstructor::Hil => widgets::Widget::Hil(ui::hil::Hil::new(id)),
+            WidgetConstructor::Hil => widgets::Widget::Hil(ui::hil::Hil::new(id, ui_to_can_tx)),
         }
     }
 }

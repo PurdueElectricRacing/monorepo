@@ -210,7 +210,8 @@ impl eframe::App for DAQApp {
                 messages::MsgFromCan::ParsedMessage(_)
                 | messages::MsgFromCan::UnparsedMessage(_)
                 | messages::MsgFromCan::MessageSent { .. }
-                | messages::MsgFromCan::BusLoad { .. } => {
+                | messages::MsgFromCan::BusLoad { .. }
+                | messages::MsgFromCan::Hil(_) => {
                     // Nothing special to do here, the message will be handled
                     // in the individual widgets
                 }
