@@ -168,7 +168,7 @@ $(function(){initNavTree('rescale_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
 <div class="foldopen" id="foldopen00071" data-start="" data-end="">
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="rescale_8h.html#a21face4f1d8ad6e12a49c985ed2d972d">   71</a></span><span class="preprocessor">#define RESCALE(input, input_min, input_max, output_min, output_max) \</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">    _Generic((input) + (input_min) + (input_max) + (output_min) + (output_max), \</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">    (typeof(input))_Generic((input) + (input_min) + (input_max) + (output_min) + (output_max), \</span></div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">    signed int: rescale_signed, \</span></div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">    unsigned int: rescale_unsigned, \</span></div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">    float: rescale_float \</span></div>

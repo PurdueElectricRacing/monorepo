@@ -1,0 +1,18 @@
+<map id="adbms6380_extract_i16" name="adbms6380_extract_i16">
+<area shape="rect" id="Node000001" title="Extract a little&#45;endian 16&#45;bit signed value from a byte buffer." alt="" coords="776,46,934,72"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a4a46bb68d67c18378f018232362631a6" title="Read all cell voltages from each module." alt="" coords="579,5,726,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="760,46,726,40,727,35,761,41"/>
+<area shape="rect" id="Node000007" href="$adbms6380_8c.html#a6bfb23ac7e49df096bc080f9808ea24f" title="Read all GPIO/aux voltages from each module." alt="" coords="577,71,728,111"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="761,77,729,82,728,76,760,71"/>
+<area shape="rect" id="Node000003" href="$adbms_8c.html#a94fb74abf77c3ba46fb8e3babb734939" title="Read all cell voltages and update module/pack statistics." alt="" coords="396,17,522,42"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="563,30,523,31,523,26,563,25"/>
+<area shape="rect" id="Node000004" href="$adbms_8c.html#a0a1de1018dba58040d4cab70ead2ca28" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="229,46,341,72"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="381,46,342,52,341,47,380,40"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,46,181,72"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="214,62,181,62,181,56,214,56"/>
+<area shape="rect" id="Node000006" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,46,55,72"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="87,62,55,62,55,56,87,56"/>
+<area shape="rect" id="Node000008" href="$adbms_8c.html#a26b82e2eae1b0d9c34d5666901f29bce" title="Read all GPIO/thermistor values (voltage and calculate temperature) and update module/pack statistics..." alt="" coords="389,70,529,96"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="561,90,529,89,529,83,561,85"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="373,74,342,69,342,64,374,69"/>
+</map>

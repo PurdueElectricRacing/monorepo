@@ -107,10 +107,11 @@ $(function(){initNavTree('pec_8h.html',''); initResizable(true); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;stddef.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for pec.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="pec_8h__incl.svg" width="171" height="126"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="pec_8h__incl.svg" width="263" height="126"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -125,8 +126,8 @@ Functions</h2></td></tr>
 <tr class="memitem:acf61d2142265cf21d2a680bff41883b9" id="r_acf61d2142265cf21d2a680bff41883b9"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf61d2142265cf21d2a680bff41883b9">adbms_pec_get_pec15</a> (uint8_t len, const uint8_t *data)</td></tr>
 <tr class="memdesc:acf61d2142265cf21d2a680bff41883b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRC15 Pec Calculation Function.  <br /></td></tr>
 <tr class="separator:acf61d2142265cf21d2a680bff41883b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af26a3fb59c4ae59fb10ac19030eef174" id="r_af26a3fb59c4ae59fb10ac19030eef174"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af26a3fb59c4ae59fb10ac19030eef174">adbms_pec_get_pec10</a> (bool bIsRxCmd, uint8_t nLength, const uint8_t *pDataBuf)</td></tr>
-<tr class="separator:af26a3fb59c4ae59fb10ac19030eef174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a782269bdf85e4027448b295896258686" id="r_a782269bdf85e4027448b295896258686"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a782269bdf85e4027448b295896258686">adbms_pec_get_pec10</a> (bool bIsRxCmd, size_t nLength, const uint8_t *pDataBuf)</td></tr>
+<tr class="separator:a782269bdf85e4027448b295896258686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Calculation of PEC (CRC15, CRC10) for ADBMS communication. </p>
@@ -136,8 +137,8 @@ Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'p
 <dd>
 Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'@p'+'urd'+'ue'+'.ed'+'u'; return false;">kumar<span class="obfuscator">.nosp@m.</span>798@<span class="obfuscator">.nosp@m.</span>purdu<span class="obfuscator">.nosp@m.</span>e.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="af26a3fb59c4ae59fb10ac19030eef174" name="af26a3fb59c4ae59fb10ac19030eef174"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af26a3fb59c4ae59fb10ac19030eef174">&#9670;&#160;</a></span>adbms_pec_get_pec10()</h2>
+<a id="a782269bdf85e4027448b295896258686" name="a782269bdf85e4027448b295896258686"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a782269bdf85e4027448b295896258686">&#9670;&#160;</a></span>adbms_pec_get_pec10()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -150,7 +151,7 @@ Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>nLength</em></span>, </td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>nLength</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -162,7 +163,7 @@ Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pec_8h_af26a3fb59c4ae59fb10ac19030eef174_icgraph.svg" width="100%" height="536"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pec_8h_a782269bdf85e4027448b295896258686_icgraph.svg" width="100%" height="536"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

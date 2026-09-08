@@ -6,7 +6,7 @@ var searchData=
   ['headingmotion_3',['headingMotion',['../structNAV__PVT__data__t.html#a8b56de1fe2fbae535254ed52084d1317',1,'NAV_PVT_data_t']]],
   ['headingvehicle_4',['headingVehicle',['../structNAV__PVT__data__t.html#a6ce785c4214666902b24cd496f6a18a9',1,'NAV_PVT_data_t']]],
   ['heartbeat_5fperiod_5fms_5',['HEARTBEAT_PERIOD_MS',['../heartbeat_8h.html#aba882a54e761d19d12cc40b3a2a91d8b',1,'heartbeat.h']]],
-  ['heartbeat_5fpin_6',['heartbeat_pin',['../structstatus__leds__t.html#a583b521decbea9e8914917f80f0ac2cb',1,'status_leds_t']]],
+  ['heartbeat_5fpin_6',['heartbeat_pin',['../structstatus__leds__t.html#ae3a2313c230092835ec6155c8c8c526a',1,'status_leds_t']]],
   ['heartbeat_5fport_7',['heartbeat_port',['../structstatus__leds__t.html#ae4dc83c710e18df7170a9dc432e03fa8',1,'status_leds_t']]],
   ['height_8',['height',['../structNAV__PVT__data__t.html#aacf68ac9b7c71ce3ee9cc9faabb9c1aa',1,'NAV_PVT_data_t']]],
   ['heightmsl_9',['heightMSL',['../structNAV__PVT__data__t.html#a12b885750090180131724502a29a1f09',1,'NAV_PVT_data_t']]],

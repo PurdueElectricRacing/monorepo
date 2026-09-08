@@ -52,7 +52,7 @@ var searchData=
   ['notable_20files_49',['Notable Files',['../md_firmware_2source_2a__box_2README.html#autotoc_md18',1,'Notable Files'],['../md_firmware_2source_2dashboard_2README.html#autotoc_md29',1,'Notable Files']]],
   ['notes_50',['Notes',['../md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md15',1,'']]],
   ['nsac_51',['NSAC',['../structSD__CSD.html#a620a7d05c2a4910290cf07888ae36ac5',1,'SD_CSD']]],
-  ['nss_5fgpio_5fpin_52',['nss_gpio_pin',['../structSPI__InitConfig__t.html#ad0862369c85d703198c28df1f085ad11',1,'SPI_InitConfig_t']]],
+  ['nss_5fgpio_5fpin_52',['nss_gpio_pin',['../structSPI__InitConfig__t.html#ad0862369c85d703198c28df1f085ad11',1,'SPI_InitConfig_t::nss_gpio_pin'],['../structSPI__InitConfig__t.html#a930475fa937af84ff5c968663f813aa9',1,'SPI_InitConfig_t::nss_gpio_pin']]],
   ['nss_5fgpio_5fport_53',['nss_gpio_port',['../structSPI__InitConfig__t.html#ae82235e4faf01aa37ffcb212f626abc2',1,'SPI_InitConfig_t']]],
   ['nss_5fsw_54',['nss_sw',['../structSPI__InitConfig__t.html#ac7b65af149334e39252e9d91e1d324ba',1,'SPI_InitConfig_t']]],
   ['num_5fbattery_5ffans_55',['NUM_BATTERY_FANS',['../cooling__fsm_8c.html#af75fd921b34bb732e81d4905a9e410ce',1,'cooling_fsm.c']]],

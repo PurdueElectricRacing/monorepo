@@ -15,7 +15,7 @@ var phal__G4_2spi_2spi_8h =
     ] ],
     [ "PHAL_SPI_busy", "phal__G4_2spi_2spi_8h.html#a3633b9f319913eee947a94b7c9a4e2d4", null ],
     [ "PHAL_SPI_init", "phal__G4_2spi_2spi_8h.html#a79c721ebb76d3dea8c1aa1f42e4b21d3", null ],
-    [ "PHAL_SPI_transfer", "phal__G4_2spi_2spi_8h.html#a9af893d97bde29796f60bc6df9b05fd0", null ],
-    [ "PHAL_SPI_transferBlocking", "phal__G4_2spi_2spi_8h.html#a4f2d185a5b44a18fb9a1d7fe225a7581", null ],
+    [ "PHAL_SPI_transfer", "phal__G4_2spi_2spi_8h.html#abaa77fcece18637807ca0650e8eb5961", null ],
+    [ "PHAL_SPI_transferBlocking", "phal__G4_2spi_2spi_8h.html#a099e78dc7abe0245acc89e47528b1867", null ],
     [ "PHAL_SPI_txCallback", "phal__G4_2spi_2spi_8h.html#acf04b58bde10df9ab774c8e4b776bb06", null ]
 ];

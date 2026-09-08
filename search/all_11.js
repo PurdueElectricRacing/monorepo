@@ -20,7 +20,7 @@ var searchData=
   ['heartbeat_5fled_5fport_17',['HEARTBEAT_LED_PORT',['../a__box_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50',1,'HEARTBEAT_LED_PORT:&#160;main.h'],['../daq_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50',1,'HEARTBEAT_LED_PORT:&#160;main.h'],['../dashboard_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50',1,'HEARTBEAT_LED_PORT:&#160;main.h'],['../pin__defs_8h.html#a8a762e1254b034eba6b4993ae11cee50',1,'HEARTBEAT_LED_PORT:&#160;pin_defs.h'],['../main__module_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50',1,'HEARTBEAT_LED_PORT:&#160;main.h'],['../pdu_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50',1,'HEARTBEAT_LED_PORT:&#160;main.h'],['../torque__vector_2main_8h.html#a8a762e1254b034eba6b4993ae11cee50',1,'HEARTBEAT_LED_PORT:&#160;main.h']]],
   ['heartbeat_5fled_5fsweep_18',['heartbeat_led_sweep',['../pdu_2main_8c.html#a49fd1c4ee0c92a2b3ae7fb88303f4f70',1,'main.c']]],
   ['heartbeat_5fperiod_5fms_19',['HEARTBEAT_PERIOD_MS',['../heartbeat_8h.html#aba882a54e761d19d12cc40b3a2a91d8b',1,'heartbeat.h']]],
-  ['heartbeat_5fpin_20',['heartbeat_pin',['../structstatus__leds__t.html#a583b521decbea9e8914917f80f0ac2cb',1,'status_leds_t']]],
+  ['heartbeat_5fpin_20',['heartbeat_pin',['../structstatus__leds__t.html#ae3a2313c230092835ec6155c8c8c526a',1,'status_leds_t']]],
   ['heartbeat_5fport_21',['heartbeat_port',['../structstatus__leds__t.html#ae4dc83c710e18df7170a9dc432e03fa8',1,'status_leds_t']]],
   ['heartbeat_5fstate_5fnormal_22',['HEARTBEAT_STATE_NORMAL',['../heartbeat_8h.html#a0bcf4de1e57ca5568f188b209f8ee7a5acf3f95fa20b182905677773f66f00f98',1,'heartbeat.h']]],
   ['heartbeat_5fstate_5fpreflight_23',['HEARTBEAT_STATE_PREFLIGHT',['../heartbeat_8h.html#a0bcf4de1e57ca5568f188b209f8ee7a5a3475881b5f396c0498fdb19f5aeeac58',1,'heartbeat.h']]],

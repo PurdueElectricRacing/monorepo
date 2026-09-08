@@ -106,13 +106,14 @@ $(function(){initNavTree('pec_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>uint16_t <a class="code hl_function" href="pec_8h.html#acf61d2142265cf21d2a680bff41883b9">adbms_pec_get_pec15</a>(uint8_t len, <span class="keyword">const</span> uint8_t *data);</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>uint16_t <a class="code hl_function" href="pec_8h.html#af26a3fb59c4ae59fb10ac19030eef174">adbms_pec_get_pec10</a>(<span class="keywordtype">bool</span> bIsRxCmd, uint8_t nLength, <span class="keyword">const</span> uint8_t *pDataBuf);</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#endif </span><span class="comment">// PEC_H</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>uint16_t <a class="code hl_function" href="pec_8h.html#acf61d2142265cf21d2a680bff41883b9">adbms_pec_get_pec15</a>(uint8_t len, <span class="keyword">const</span> uint8_t *data);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>uint16_t <a class="code hl_function" href="pec_8h.html#a782269bdf85e4027448b295896258686">adbms_pec_get_pec10</a>(<span class="keywordtype">bool</span> bIsRxCmd, <span class="keywordtype">size_t</span> nLength, <span class="keyword">const</span> uint8_t *pDataBuf);</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#endif </span><span class="comment">// PEC_H</span></div>
+<div class="ttc" id="apec_8h_html_a782269bdf85e4027448b295896258686"><div class="ttname"><a href="pec_8h.html#a782269bdf85e4027448b295896258686">adbms_pec_get_pec10</a></div><div class="ttdeci">uint16_t adbms_pec_get_pec10(bool bIsRxCmd, size_t nLength, const uint8_t *pDataBuf)</div><div class="ttdef"><b>Definition</b> pec.c:88</div></div>
 <div class="ttc" id="apec_8h_html_acf61d2142265cf21d2a680bff41883b9"><div class="ttname"><a href="pec_8h.html#acf61d2142265cf21d2a680bff41883b9">adbms_pec_get_pec15</a></div><div class="ttdeci">uint16_t adbms_pec_get_pec15(uint8_t len, const uint8_t *data)</div><div class="ttdoc">CRC15 Pec Calculation Function.</div><div class="ttdef"><b>Definition</b> pec.c:77</div></div>
-<div class="ttc" id="apec_8h_html_af26a3fb59c4ae59fb10ac19030eef174"><div class="ttname"><a href="pec_8h.html#af26a3fb59c4ae59fb10ac19030eef174">adbms_pec_get_pec10</a></div><div class="ttdeci">uint16_t adbms_pec_get_pec10(bool bIsRxCmd, uint8_t nLength, const uint8_t *pDataBuf)</div><div class="ttdef"><b>Definition</b> pec.c:88</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

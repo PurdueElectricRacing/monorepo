@@ -125,7 +125,7 @@ $(function(){initNavTree('min_8h_source.html',''); initResizable(true); });
 </div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="foldopen" id="foldopen00030" data-start="" data-end="">
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="min_8h.html#a0d2f7b4269b80bf93379ddee19feaa92">   30</a></span><span class="preprocessor">#define MINOF2(a, b) _Generic((a) + (b), \</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="min_8h.html#a0d2f7b4269b80bf93379ddee19feaa92">   30</a></span><span class="preprocessor">#define MINOF2(a, b) (typeof(a))_Generic((a) + (b), \</span></div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">    signed int: min2_signed, \</span></div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">    unsigned int: min2_unsigned, \</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">    float: min2_float \</span></div>

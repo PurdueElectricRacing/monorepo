@@ -231,9 +231,9 @@ var NAVTREEINDEX =
 "sdio_8h.html#a2bc9f60a2cc409365a49862d8551349e",
 "spmc_8c.html#aba59e7da3f2ab8a7e4ba029e5cf24c87",
 "structSD__CID.html#add333126fba58ef6560e48a98559b503",
-"structmeters__t.html#a4c43c539b8682015628c5e651154ad7b",
-"structyVCU__struct.html#ab9e3307990e9fa8532ac047983e0e81b",
-"usb_8c.html#af25d0362dcd989b4805bf062366f2142"
+"structmenu__page__t.html#af8408d9007e4a01b547ae1f2ddaac0b7",
+"structyVCU__struct.html#aac3e6e3c467c68551f8b656d39d19a67",
+"usb_8c.html#ae51dbc7e8f836d942c158d75aa6e345b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

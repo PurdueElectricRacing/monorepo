@@ -26,7 +26,7 @@ var searchData=
   ['no_5fborder_5fwidth_23',['NO_BORDER_WIDTH',['../menu__system_8c.html#ab1905c9ccf270185a84f5f2389a23c10',1,'menu_system.c']]],
   ['noise_5fdetected_24',['noise_detected',['../structusart__rx__errors__t.html#a869bb2f95236126d499d2b3817c821c1',1,'usart_rx_errors_t']]],
   ['nsac_25',['NSAC',['../structSD__CSD.html#a620a7d05c2a4910290cf07888ae36ac5',1,'SD_CSD']]],
-  ['nss_5fgpio_5fpin_26',['nss_gpio_pin',['../structSPI__InitConfig__t.html#ad0862369c85d703198c28df1f085ad11',1,'SPI_InitConfig_t']]],
+  ['nss_5fgpio_5fpin_26',['nss_gpio_pin',['../structSPI__InitConfig__t.html#ad0862369c85d703198c28df1f085ad11',1,'SPI_InitConfig_t::nss_gpio_pin'],['../structSPI__InitConfig__t.html#a930475fa937af84ff5c968663f813aa9',1,'SPI_InitConfig_t::nss_gpio_pin']]],
   ['nss_5fgpio_5fport_27',['nss_gpio_port',['../structSPI__InitConfig__t.html#ae82235e4faf01aa37ffcb212f626abc2',1,'SPI_InitConfig_t']]],
   ['nss_5fsw_28',['nss_sw',['../structSPI__InitConfig__t.html#ac7b65af149334e39252e9d91e1d324ba',1,'SPI_InitConfig_t']]],
   ['num_5fbattery_5ffans_29',['NUM_BATTERY_FANS',['../cooling__fsm_8c.html#af75fd921b34bb732e81d4905a9e410ce',1,'cooling_fsm.c']]],

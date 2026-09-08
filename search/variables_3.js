@@ -35,7 +35,7 @@ var searchData=
   ['clrspin_32',['CLRSPIN',['../commands_8c.html#a6daab446236d9d0f581c2aea7f1c8324',1,'CLRSPIN:&#160;commands.c'],['../commands_8h.html#a6daab446236d9d0f581c2aea7f1c8324',1,'CLRSPIN:&#160;commands.c']]],
   ['config_33',['config',['../structGPIOInitConfig__t.html#ac271361b13ba110d2af3699fe610f596',1,'GPIOInitConfig_t::config'],['../structPHAL__ADC__Handle__t.html#aae37c739af4a0d1fc717901f112a6cf3',1,'PHAL_ADC_Handle_t::config'],['../structPHAL__GPIO__InitConfig__t.html#a8f9e393e58c6fa133931eb70bb46bfb7',1,'PHAL_GPIO_InitConfig_t::config'],['../ethernet_8c.html#afdcaea2c7210f2679ea25aefc7f9bfd4',1,'config:&#160;ethernet.c']]],
   ['conn_5fled_5ftimeout_5fms_34',['CONN_LED_TIMEOUT_MS',['../heartbeat_8h.html#a7734c719f4ed69952e7c2f622eacda52',1,'heartbeat.h']]],
-  ['connection_5fpin_35',['connection_pin',['../structstatus__leds__t.html#a6b12aabe85d35381b40851d9473f747a',1,'status_leds_t']]],
+  ['connection_5fpin_35',['connection_pin',['../structstatus__leds__t.html#afb9ffa3eaeac2f3fd160ba84612b2e66',1,'status_leds_t']]],
   ['connection_5fport_36',['connection_port',['../structstatus__leds__t.html#a6cc07c4442bf7158ab552581c3ae924e',1,'status_leds_t']]],
   ['cont_5fconv_5fmode_37',['cont_conv_mode',['../structADCInitConfig__t.html#af08893e9d1b2085d5b9090c9ee265f57',1,'ADCInitConfig_t']]],
   ['cont_5frx_38',['cont_rx',['../structusart__active__transfer__t.html#a517754f4662afba43bb003cba2868140',1,'usart_active_transfer_t::cont_rx'],['../structPHAL__USART__state__t.html#a8504b33bd73f80dcab91e4db68d9e415',1,'PHAL_USART_state_t::cont_rx']]],
