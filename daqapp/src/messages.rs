@@ -1,4 +1,4 @@
-use crate::connection;
+use crate::{bootloader_protocol, connection};
 
 pub enum MsgFromUi {
     DbcSelected(std::path::PathBuf),
@@ -6,6 +6,8 @@ pub enum MsgFromUi {
     AddSendMessage(AddSendMessage),
     DeleteSendMessage { msg_id: u32 },
     UpdateLogFolder(std::path::PathBuf),
+    StartFirmwareUpdate(bootloader_protocol::FirmwarePackage, connection::CanBus),
+    CancelFirmwareUpdate,
 }
 
 pub enum MsgFromCan {
@@ -25,6 +27,7 @@ pub enum MsgFromCan {
         load_10s: f32,
         load_30s: f32,
     },
+    FirmwareProgress(FirmwareProgress),
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -82,4 +85,15 @@ pub struct UnparsedMessage {
     pub timestamp: chrono::DateTime<chrono::Local>,
     pub raw_bytes: Vec<u8>,
     pub msg_id: u32, // without the extended ID flag
+}
+
+#[derive(Clone, Debug)]
+pub struct FirmwareProgress {
+    pub board: String,
+    pub board_index: usize,
+    pub board_count: usize,
+    pub phase: String,
+    pub sent_bytes: usize,
+    pub total_bytes: usize,
+    pub error: Option<String>,
 }

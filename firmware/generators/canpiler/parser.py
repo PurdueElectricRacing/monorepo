@@ -435,17 +435,27 @@ def parse_internal_node(
 def parse_external_node(
     data: ExternalNodeConfig, bus_configs: Dict[str, BusConfig]
 ) -> Node:
-    bus_name = data.bus_name
-    bus_config = bus_configs[bus_name]
-    bus = Bus(
-        name=bus_name,
-        peripheral="UNKNOWN",
-        tx_messages=[parse_message(message, bus_config) for message in data.tx],
-        rx_messages=[parse_rx_message(message) for message in data.rx],
-    )
+    if data.busses is not None:
+        bus_data_by_name = data.busses
+    else:
+        assert data.bus_name is not None
+        bus_data_by_name = {data.bus_name: data}
+
+    busses = {
+        bus_name: Bus(
+            name=bus_name,
+            peripheral="UNKNOWN",
+            tx_messages=[
+                parse_message(message, bus_configs[bus_name])
+                for message in bus_data.tx
+            ],
+            rx_messages=[parse_rx_message(message) for message in bus_data.rx],
+        )
+        for bus_name, bus_data in bus_data_by_name.items()
+    }
 
     return Node(
         name=data.node_name,
-        busses={bus_name: bus},
+        busses=busses,
         is_external=True,
     )

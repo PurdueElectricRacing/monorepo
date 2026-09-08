@@ -8,9 +8,12 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
+#include <stdbool.h>
 #include <stdint.h>
 
+#if !defined(BOOTLOADER_FIRMWARE)
 #include "common/rtos/rtos.h"
+#endif
 #if defined(STM32F407xx)
 #include "common/phal_F4/can/can.h"
 #elif defined(STM32G474xx)
@@ -19,6 +22,7 @@
 #error "Unsupported CAN target"
 #endif
 
+#if !defined(BOOTLOADER_FIRMWARE)
 typedef struct {
     uint32_t rx_overflow; // software queue overflow
     uint32_t tx_overflow; // software queue overflow
@@ -65,5 +69,6 @@ static_assert(
     NVIC_RX_IRQ_PRIO < NVIC_TX_IRQ_PRIO,
     "RX priority should be higher (numerically lower) than TX"
 );
+#endif
 
 #endif // CAN_COMMON_H

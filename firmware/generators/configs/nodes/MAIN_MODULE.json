@@ -127,8 +127,11 @@
                     "signals": [
                         {
                             "signal_name": "git_hash",
-                            "data_type": "uint32_t",
-                            "description": "int representation of git short hash"
+                            "data_type": "uint32_t"
+                        },
+                        {
+                            "signal_name": "bootloadable",
+                            "data_type": "bool"
                         }
                     ],
                     "priority": 4,
@@ -283,6 +286,10 @@
                 },
                 {
                     "message_name": "pack_stats"
+                },
+                {
+                    "message_name": "bl_main_module_start",
+                    "callback": true
                 }
             ]
         },

@@ -32,8 +32,45 @@ DaqApp is PER's complete trackside data acquisition and analysis desktop applica
 2. Use sidebar to select the appropriate DBC so messages and signals can be decoded
   - Get the DBC from the `monorepo/firmware/can_library/dbc` which is an output from the firmware build process
 3. Use the sidebar (or ctrl-P) to launch widgets
+4. Use **Bootloader** to validate and upload a package created by
+   `python3 firmware/build_firmware.py --package`.
 
 Sidebar settings (source, DBC, etc) are saved to a local settings file to persist between sessions.
+
+## Bootloader updates
+
+The updater supports the six STM32G474 VCAN nodes described in the
+[bootloader guide](../firmware/source/bootloader/README.md). Flash the matching
+resident `bootloader_<NODE>` image once before using DaqApp to update application
+slots.
+
+### Architecture and updater state machine
+
+![DaqApp bootloader architecture](../docs/daqapp/daqapp_bootloader_architecture.drawio.png)
+
+![DaqApp bootloader updater state machine](../docs/daqapp/daqapp_bootloader_state_machine.drawio.png)
+
+The architecture diagram follows package validation across the UI/CAN thread
+boundary. The state-machine diagram shows the updater transitions, retries,
+and terminal conditions.
+
+1. Build `python3 firmware/build_firmware.py --package` and connect DaqApp to VCAN.
+2. Add **Bootloader** and select `firmware/output/manifest.json` or the generated `firmware_*.tar.gz`.
+3. Wait for local package validation, then choose **Upload selected** for the
+   available targets you want to update.
+4. Keep power and CAN connected until DaqApp reports `complete`, then verify the
+   target telemetry.
+
+Selected boards update sequentially, with front and rear driveline treated
+separately. Each application image is limited to the 480 KiB slot at
+`0x08008000` through `0x0807FFFF`; DATA frames use a 24-bit little-endian word
+index and DLC 7. Each START accepted by the resident bootloader invalidates the
+committed metadata and erases the complete flash pages covering the target
+image; DATA is written there directly,
+and CRC commits metadata only after validation. **Cancel** stops only the host
+state machine; it does not undo target writes. Retry a cancelled or failed board
+before vehicle use. The protocol has no image authentication or rollback, so
+perform updates on a trusted bus with stable power.
 
 ## Getting started
 
@@ -89,3 +126,7 @@ The app's source is organized by responsibility:
 ### Testing
 
 For easy testing, you can use the loopback or simulated CAN sources. The loopback source is a virtual CAN bus that echoes messages sent to it, while the simulated source generates random messages for testing purposes.
+
+Direct streaming, the 480 KiB boundary, the 24-bit word index, and the READY
+handshake are covered by Rust unit tests. Run them from `daqapp/` with
+`cargo test`.

@@ -1,3 +1,4 @@
+pub mod bootloader;
 pub mod bus_load;
 pub mod daq_parser;
 pub mod driver;

@@ -1,6 +1,7 @@
 mod action;
 mod app;
 mod assets;
+mod bootloader_protocol;
 mod can;
 mod connection;
 mod daq_log_parse;
