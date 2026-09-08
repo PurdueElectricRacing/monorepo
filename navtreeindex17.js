@@ -1,6 +1,5 @@
 var NAVTREEINDEX17 =
 {
-"structyVCU__struct.html#ab7246a3e8dc9e342c56b378716284eda":[26,0,99,9],
 "structyVCU__struct.html#ab9e3307990e9fa8532ac047983e0e81b":[26,0,99,19],
 "structyVCU__struct.html#aba5e24f4c729fb3576a516b319af565c":[26,0,99,31],
 "structyVCU__struct.html#abe0e2e79d6f8b78957560b4dca78cdf6":[26,0,99,23],
@@ -249,5 +248,6 @@ var NAVTREEINDEX17 =
 "usb_8c.html#ab0abd6916df1318e9dd804cdfc96a56d":[27,0,1,1,7,11,0,12],
 "usb_8c.html#ad334f9d5a0cf9ede82d354e1c17c02b3":[27,0,1,1,7,11,0,7],
 "usb_8c.html#ad9816be792171e057399097c4cd6c9a1":[27,0,1,1,7,11,0,2],
-"usb_8c.html#ae51dbc7e8f836d942c158d75aa6e345b":[27,0,1,1,7,11,0,13]
+"usb_8c.html#ae51dbc7e8f836d942c158d75aa6e345b":[27,0,1,1,7,11,0,13],
+"usb_8c.html#aeb368b052e158657e657e27c236f70b5":[27,0,1,1,7,11,0,1]
 };

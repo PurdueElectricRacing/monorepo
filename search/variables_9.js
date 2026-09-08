@@ -41,11 +41,10 @@ var searchData=
   ['is_5ffull_38',['is_full',['../structSPMC__t.html#ac18347d74c0b3587e649811ec0265ed9',1,'SPMC_t']]],
   ['is_5fon_39',['is_on',['../structbangbang__t.html#a7a2ed2a3d6a4d3e1d5a9fe9a39bca3ab',1,'bangbang_t']]],
   ['is_5fregen_5fenabled_40',['is_regen_enabled',['../control__loop_8c.html#a9d19203fbf83e42a08b57132c6906b0b',1,'control_loop.c']]],
-  ['is_5frtc_5fsync_5fcomplete_41',['is_RTC_sync_complete',['../rtc__sync_8c.html#a5d949a4a32a94ca4e448e294a8e0b4ed',1,'rtc_sync.c']]],
-  ['is_5ftv_5fenabled_42',['is_tv_enabled',['../control__loop_8c.html#a955c29aae1047ed8861dfee226e2a5c3',1,'control_loop.c']]],
-  ['isense_5fraw_43',['isense_raw',['../structadc1__dma__buffer__t.html#a785c6883cfac53c137c26a3da346c488',1,'adc1_dma_buffer_t']]],
-  ['item_5fcount_44',['item_count',['../structRTOS__queue__params__t.html#a92b328b02aa36e4967e74b9b7511b296',1,'RTOS_queue_params_t']]],
-  ['item_5fsize_45',['item_size',['../structRTOS__queue__params__t.html#a38a73c764681e25d7124ec58901517e5',1,'RTOS_queue_params_t']]],
-  ['itow_46',['iTOW',['../structNAV__PVT__data__t.html#a6669ed9293e1772467ca2ed26526edb1',1,'NAV_PVT_data_t::iTOW'],['../structNAV__RELPOSNED__data__t.html#ad1baad75a43b39bd045b44f06a4bf3ca',1,'NAV_RELPOSNED_data_t::iTOW']]],
-  ['izze_5fimu_5fprogramming_5fconstant_47',['IZZE_IMU_PROGRAMMING_CONSTANT',['../izze__imu_8h.html#a838dbb8e41bcf270aba226d360042204',1,'izze_imu.h']]]
+  ['is_5ftv_5fenabled_41',['is_tv_enabled',['../control__loop_8c.html#a955c29aae1047ed8861dfee226e2a5c3',1,'control_loop.c']]],
+  ['isense_5fraw_42',['isense_raw',['../structadc1__dma__buffer__t.html#a785c6883cfac53c137c26a3da346c488',1,'adc1_dma_buffer_t']]],
+  ['item_5fcount_43',['item_count',['../structRTOS__queue__params__t.html#a92b328b02aa36e4967e74b9b7511b296',1,'RTOS_queue_params_t']]],
+  ['item_5fsize_44',['item_size',['../structRTOS__queue__params__t.html#a38a73c764681e25d7124ec58901517e5',1,'RTOS_queue_params_t']]],
+  ['itow_45',['iTOW',['../structNAV__PVT__data__t.html#a6669ed9293e1772467ca2ed26526edb1',1,'NAV_PVT_data_t::iTOW'],['../structNAV__RELPOSNED__data__t.html#ad1baad75a43b39bd045b44f06a4bf3ca',1,'NAV_RELPOSNED_data_t::iTOW']]],
+  ['izze_5fimu_5fprogramming_5fconstant_46',['IZZE_IMU_PROGRAMMING_CONSTANT',['../izze__imu_8h.html#a838dbb8e41bcf270aba226d360042204',1,'izze_imu.h']]]
 ];
