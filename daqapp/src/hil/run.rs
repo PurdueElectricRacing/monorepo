@@ -2,7 +2,7 @@ use eframe::egui;
 
 use crate::{hil, messages};
 
-#[derive(PartialEq, Eq)]
+#[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ExpectResult {
     NotInWindow,
     InProgress,
@@ -12,6 +12,7 @@ pub enum ExpectResult {
 }
 
 /// Single signal failure, captured at evaluation used for displaying in the UI
+#[derive(Clone)]
 pub enum SignalFailure {
     /// Signal present but value is out of range
     OutOfRange {
@@ -32,25 +33,18 @@ impl SignalFailure {
     }
 }
 
+#[derive(Clone)]
 pub struct InProgressExpect {
     pub expect: hil::config::Expectation,
     pub result: ExpectResult,
     pub failures: Vec<SignalFailure>,
 }
 
+#[derive(Clone)]
 pub struct HilRunningTest {
     pub test_info: hil::config::TestInfo,
     pub tx_remaining: Vec<hil::config::TxMessage>,
     pub in_progress_expects: Vec<InProgressExpect>,
-}
-
-pub enum HilState {
-    Idle,
-    Running {
-        start_time: std::time::Instant,
-        preset_info: Option<hil::config::PresetInfo>,
-        tests: Vec<HilRunningTest>,
-    },
 }
 
 impl ExpectResult {
@@ -88,17 +82,31 @@ impl ExpectResult {
 impl HilRunningTest {
     pub fn new(test_info: &hil::config::TestInfo) -> Result<Self, String> {
         let test = hil::config::load_test_from_file(&test_info.basename)?;
+        Ok(Self::from_parts(test_info.clone(), test))
+    }
+
+    pub fn from_basename(basename: &str) -> Result<Self, String> {
+        let test = hil::config::load_test_from_file(basename)?;
+        let test_info = hil::config::TestInfo {
+            basename: basename.to_string(),
+            name: test.name.clone(),
+            description: test.description.clone(),
+        };
+        Ok(Self::from_parts(test_info, test))
+    }
+
+    pub fn from_parts(test_info: hil::config::TestInfo, test: hil::config::TestFile) -> Self {
         let mut in_progress_expects = test
             .expect
             .into_iter()
             .map(InProgressExpect::new)
             .collect::<Vec<_>>();
         in_progress_expects.sort_by(|a, b| a.expect.window[0].total_cmp(&b.expect.window[0]));
-        Ok(Self {
-            test_info: test_info.clone(),
+        Self {
+            test_info,
             tx_remaining: test.tx,
             in_progress_expects,
-        })
+        }
     }
 
     pub fn update_expect_statuses(&mut self, start_time: std::time::Instant) {
