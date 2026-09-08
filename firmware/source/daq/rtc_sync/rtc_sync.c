@@ -28,7 +28,6 @@ RTC_timestamp_t fallback_timestamp ={
 
 RTOS_DEFINE_QUEUE(gps_time_queue, timestamped_frame_t, 1);
 volatile uint32_t last_RTC_sync_time = 0;
-volatile bool is_RTC_sync_complete = false;
 
 // PAYLOAD_OFFSET accounts for last_rx and is_stale function pointer to be at the beginning of the data struct
 static_assert(offsetof(gps_time_data_t, last_rx)  == 0);
@@ -89,8 +88,8 @@ void RTC_sync(void) {
 
     if (xQueueReceive(gps_time_queue, &gps_time, portMAX_DELAY) == pdPASS) {
         uint32_t now = xTaskGetTickCount();
-        if (!is_RTC_sync_complete && // allow the first sync immediately
-            (now - last_RTC_sync_time) < RTC_SYNC_PERIOD_MS) {
+        uint32_t elapsed = now - last_RTC_sync_time;
+        if (RTC_SYNC_PERIOD_MS > elapsed) {
             return;
         }
 
@@ -101,7 +100,6 @@ void RTC_sync(void) {
 
         if (PHAL_configureRTC(&gps_rtc_time, true)) {
             last_RTC_sync_time = now;
-            is_RTC_sync_complete = true;
         } else {
             HardFault_Handler();
         }
