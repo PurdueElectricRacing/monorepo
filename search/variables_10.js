@@ -113,13 +113,14 @@ var searchData=
   ['rover_5ftx_5fsize_110',['ROVER_TX_SIZE',['../sensors_8h.html#a9e20bdc21aff9bbcd4f862afae4c058d',1,'sensors.h']]],
   ['rpm_5fto_5fmph_111',['RPM_TO_MPH',['../race_8c.html#ae5b018de69495706d7a6fd10ff8e505e',1,'RPM_TO_MPH:&#160;race.c'],['../torque__controller_8c.html#ae5b018de69495706d7a6fd10ff8e505e',1,'RPM_TO_MPH:&#160;torque_controller.c']]],
   ['rstcc_112',['RSTCC',['../commands_8c.html#ae5873ee730573af9fb3b474d8f0a5343',1,'RSTCC:&#160;commands.c'],['../commands_8h.html#ae5873ee730573af9fb3b474d8f0a5343',1,'RSTCC:&#160;commands.c']]],
-  ['rx_5fbuf_113',['rx_buf',['../structadbms__bms__t.html#a0cddb3b0c704e3f172d4fa7653276acc',1,'adbms_bms_t']]],
-  ['rx_5fbusy_114',['rx_busy',['../structPHAL__USART__state__t.html#a8ba75044fbc3e820e9af3ac57866bf0a',1,'PHAL_USART_state_t']]],
-  ['rx_5fdma_115',['rx_dma',['../structSPI__InitConfig__t.html#ac02b6e47a9ed988d3e835a6cfe3fe76e',1,'SPI_InitConfig_t::rx_dma'],['../structPHAL__USART__state__t.html#a96ea6d157ab360cedf0b58dcb7111373',1,'PHAL_USART_state_t::rx_dma']]],
-  ['rx_5fdma_5fcfg_116',['rx_dma_cfg',['../structSPI__InitConfig__t.html#a49abaf6eb5a9e3afa89d511d433e31e2',1,'SPI_InitConfig_t::rx_dma_cfg'],['../structusart__init__t.html#a2ba906ee7666896dbd3d8735604a3532',1,'usart_init_t::rx_dma_cfg']]],
-  ['rx_5ferrors_117',['rx_errors',['../structusart__init__t.html#a24612c03fe5128673f397644b7277840',1,'usart_init_t']]],
-  ['rx_5flen_118',['rx_len',['../structPHAL__USART__state__t.html#ad9e14e9fd77d107ddcc29ce74cef25e7',1,'PHAL_USART_state_t']]],
-  ['rx_5foverflow_119',['rx_overflow',['../structcan__stats__t.html#a8c7d67e58d5479b530837721536972fc',1,'can_stats_t']]],
-  ['rx_5fwiring_120',['rx_wiring',['../structPHAL__USART__HwMap__t.html#a5d9c88201e8f72641598076fa8342074',1,'PHAL_USART_HwMap_t']]],
-  ['rxfer_5fsize_121',['rxfer_size',['../structusart__active__transfer__t.html#a6e3ea925b24b1ff38a1c5c910dd56010',1,'usart_active_transfer_t::rxfer_size'],['../structPHAL__USART__state__t.html#a562c206e2d6b73839262f4b0843da50f',1,'PHAL_USART_state_t::rxfer_size']]]
+  ['rtc_5fsync_5fperiod_5fms_113',['RTC_SYNC_PERIOD_MS',['../rtc__sync_8c.html#a14a1a46d07444c59d9bd91e30710a11a',1,'rtc_sync.c']]],
+  ['rx_5fbuf_114',['rx_buf',['../structadbms__bms__t.html#a0cddb3b0c704e3f172d4fa7653276acc',1,'adbms_bms_t']]],
+  ['rx_5fbusy_115',['rx_busy',['../structPHAL__USART__state__t.html#a8ba75044fbc3e820e9af3ac57866bf0a',1,'PHAL_USART_state_t']]],
+  ['rx_5fdma_116',['rx_dma',['../structSPI__InitConfig__t.html#ac02b6e47a9ed988d3e835a6cfe3fe76e',1,'SPI_InitConfig_t::rx_dma'],['../structPHAL__USART__state__t.html#a96ea6d157ab360cedf0b58dcb7111373',1,'PHAL_USART_state_t::rx_dma']]],
+  ['rx_5fdma_5fcfg_117',['rx_dma_cfg',['../structSPI__InitConfig__t.html#a49abaf6eb5a9e3afa89d511d433e31e2',1,'SPI_InitConfig_t::rx_dma_cfg'],['../structusart__init__t.html#a2ba906ee7666896dbd3d8735604a3532',1,'usart_init_t::rx_dma_cfg']]],
+  ['rx_5ferrors_118',['rx_errors',['../structusart__init__t.html#a24612c03fe5128673f397644b7277840',1,'usart_init_t']]],
+  ['rx_5flen_119',['rx_len',['../structPHAL__USART__state__t.html#ad9e14e9fd77d107ddcc29ce74cef25e7',1,'PHAL_USART_state_t']]],
+  ['rx_5foverflow_120',['rx_overflow',['../structcan__stats__t.html#a8c7d67e58d5479b530837721536972fc',1,'can_stats_t']]],
+  ['rx_5fwiring_121',['rx_wiring',['../structPHAL__USART__HwMap__t.html#a5d9c88201e8f72641598076fa8342074',1,'PHAL_USART_HwMap_t']]],
+  ['rxfer_5fsize_122',['rxfer_size',['../structusart__active__transfer__t.html#a6e3ea925b24b1ff38a1c5c910dd56010',1,'usart_active_transfer_t::rxfer_size'],['../structPHAL__USART__state__t.html#a562c206e2d6b73839262f4b0843da50f',1,'PHAL_USART_state_t::rxfer_size']]]
 ];

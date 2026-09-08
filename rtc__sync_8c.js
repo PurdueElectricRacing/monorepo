@@ -7,5 +7,6 @@ var rtc__sync_8c =
     [ "RTOS_DEFINE_QUEUE", "rtc__sync_8c.html#a14df84bdcf6d35c6ec91204462741444", null ],
     [ "fallback_timestamp", "rtc__sync_8c.html#a4137e6409c902491154da4b630740e6c", null ],
     [ "is_RTC_sync_complete", "rtc__sync_8c.html#a5d949a4a32a94ca4e448e294a8e0b4ed", null ],
-    [ "last_RTC_sync_time", "rtc__sync_8c.html#a7765176daa11122836eb97dd03987db8", null ]
+    [ "last_RTC_sync_time", "rtc__sync_8c.html#a7765176daa11122836eb97dd03987db8", null ],
+    [ "RTC_SYNC_PERIOD_MS", "rtc__sync_8c.html#a14a1a46d07444c59d9bd91e30710a11a", null ]
 ];
