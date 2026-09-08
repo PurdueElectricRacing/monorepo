@@ -14,8 +14,8 @@ fault_t faults[TOTAL_NUM_FAULTS] = {
 {% for fault in module.faults %}
     [FAULT_ID_{{ fault.name_upper }}] = {
         .start_time_ms = 0,
-        .max_value = {{ fault.max_val }},
-        .min_value = {{ fault.min_val }},
+        .max_value = {{ fault.max_val|float }}f,
+        .min_value = {{ fault.min_val|float }}f,
         .latch_time_ms = {{ fault.latch_time }},
         .unlatch_time_ms = {{ fault.unlatch_time }},
         .state = FAULT_STATE_LATCHED, // start latched to sync initial state across MCUs

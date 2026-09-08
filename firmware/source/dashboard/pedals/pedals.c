@@ -76,14 +76,14 @@ void pedals_periodic(void) {
     brake1    = RESCALE(brake1, BRAKE1_MIN, BRAKE1_MAX, PEDAL_MIN, PEDAL_MAX);
 
     // make visible
-    pedal_values.throttle    = throttle1;
-    uint8_t throttle_command = throttle1;
-    pedal_values.regen       = regen1;
-    pedal_values.brake       = brake1;
+    pedal_values.throttle    = (uint8_t)throttle1;
+    uint8_t throttle_command = (uint8_t)throttle1;
+    pedal_values.regen       = (uint8_t)regen1;
+    pedal_values.brake       = (uint8_t)brake1;
 
     // FSAE 2026 T.4.2.5: if the two throttle sensors differ by 10%, trigger implaus
     int throttle_diff = ABS((int)throttle1 - (int)throttle2);
-    update_fault(FAULT_ID_APPS_IMPLAUSIBLE, throttle_diff);
+    update_fault(FAULT_ID_APPS_IMPLAUSIBLE, (float)throttle_diff);
 
     // FSAE 2026 EV.4.7: if both pedals are pressed, set throttle to 0 until throttle is released
     if (is_clear(FAULT_ID_APPS_BRAKE)) {

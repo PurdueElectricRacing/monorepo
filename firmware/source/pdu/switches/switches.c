@@ -68,20 +68,20 @@ static const pdu_switch_output_t *switches_get_output(switches_t switch_id) {
 }
 
 static uint16_t switches_convert_high_power_current_ma(uint16_t adc_counts) {
-    adc_counts = adc_counts * ADC_REF_mV / ADC_MAX_COUNTS;
-    adc_counts = adc_counts * (HP_CS_R1 + HP_CS_R2) / HP_CS_R2;
-    adc_counts = adc_counts * HP_CS_R3 / (HP_CS_R1 + HP_CS_R2);
+    adc_counts = (uint16_t)(adc_counts * ADC_REF_mV / ADC_MAX_COUNTS);
+    adc_counts = (uint16_t)(adc_counts * (HP_CS_R1 + HP_CS_R2) / HP_CS_R2);
+    adc_counts = (uint16_t)(adc_counts * HP_CS_R3 / (HP_CS_R1 + HP_CS_R2));
     return adc_counts;
 }
 
 static uint16_t switches_convert_low_power_current_ma(uint16_t adc_counts) {
-    adc_counts = adc_counts * ADC_REF_mV / ADC_MAX_COUNTS;
+    adc_counts = (uint16_t)(adc_counts * ADC_REF_mV / ADC_MAX_COUNTS);
     return adc_counts;
 }
 
 static uint16_t switches_convert_voltage_mv(uint16_t adc_counts, int r1_ohm, int r2_ohm) {
-    adc_counts = adc_counts * (r1_ohm + r2_ohm) / r2_ohm;
-    adc_counts = adc_counts * ADC_REF_mV / ADC_MAX_COUNTS;
+    adc_counts = (uint16_t)(adc_counts * (r1_ohm + r2_ohm) / r2_ohm);
+    adc_counts = (uint16_t)(adc_counts * ADC_REF_mV / ADC_MAX_COUNTS);
     return adc_counts;
 }
 
@@ -120,12 +120,12 @@ static void switches_update_currents(void) {
     g_pdu_state.switch_current_ma[SW_DLBK] = switches_convert_low_power_current_ma(adc_readings.dlbk_cs);
 
     uint16_t current_mv = adc_readings.v24_cs;
-    current_mv = current_mv * ADC_REF_mV / ADC_MAX_COUNTS;
+    current_mv = (uint16_t)(current_mv * ADC_REF_mV / ADC_MAX_COUNTS);
     current_mv = (uint16_t)(current_mv / HP_CS_R_SENSE / CS_GAIN);
     g_pdu_state.switch_current_ma[CS_24V] = current_mv;
 
     current_mv = adc_readings.v5_cs;
-    current_mv = current_mv * ADC_REF_mV / ADC_MAX_COUNTS;
+    current_mv = (uint16_t)(current_mv * ADC_REF_mV / ADC_MAX_COUNTS);
     g_pdu_state.switch_current_ma[CS_5V] = current_mv;
 }
 

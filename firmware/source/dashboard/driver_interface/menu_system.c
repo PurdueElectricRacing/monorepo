@@ -68,7 +68,7 @@ void MS_moveUp(menu_page_t* page) {
     MS_setStyleNormal(&page->elements[page->current_index]);
 
     // Move to previous element
-    page->current_index = (page->current_index - 1 + page->num_elements) % page->num_elements;
+    page->current_index = (uint8_t)((page->current_index - 1 + page->num_elements) % page->num_elements);
 
     // Style new element as hovered
     MS_setStyleHover(&page->elements[page->current_index]);
@@ -89,7 +89,7 @@ void MS_moveDown(menu_page_t* page) {
     MS_setStyleNormal(&page->elements[page->current_index]);
 
     // Move to next element
-    page->current_index = (page->current_index + 1) % page->num_elements;
+    page->current_index = (uint8_t)((page->current_index + 1) % page->num_elements);
 
     // Style new element as hovered
     MS_setStyleHover(&page->elements[page->current_index]);
@@ -246,7 +246,7 @@ void MS_refreshPage(menu_page_t* page) {
 int8_t MS_listGetSelected(const menu_page_t* page) {
     for (uint8_t i = 0; i < page->num_elements; i++) {
         if (page->elements[i].current_value) {
-            return i;
+            return (int8_t)i;
         }
     }
 

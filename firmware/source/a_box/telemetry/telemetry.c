@@ -66,7 +66,7 @@ void report_telemetry_100hz(void) {
     uint16_t pack_voltage = (uint16_t)(g_bms.sum_voltage * PACK_COEFF_PACK_STATS_PACK_VOLTAGE);
     int16_t pack_current  = (int16_t)(isense_to_current(adc1_dma_buffer.isense_raw) * PACK_COEFF_PACK_STATS_PACK_CURRENT);
 
-    CAN_SEND_pack_stats(pack_voltage, pack_current, g_bms.max_therm_temp);
+    CAN_SEND_pack_stats(pack_voltage, pack_current, (int16_t)g_bms.max_therm_temp);
 
     uint16_t min_cell_voltage = (uint16_t)(g_bms.min_voltage * PACK_COEFF_CHARGING_TELEMETRY_MIN_CELL_VOLTAGE);
     uint16_t max_cell_voltage = (uint16_t)(g_bms.max_voltage * PACK_COEFF_CHARGING_TELEMETRY_MAX_CELL_VOLTAGE);

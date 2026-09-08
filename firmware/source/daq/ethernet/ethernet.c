@@ -104,7 +104,7 @@ static void eth_ready_periodic(void) {
     }
 
     // Write time :D
-    uint16_t write_len = SPMC_MINI_NUM_FRAMES * minis_available * sizeof(timestamped_frame_t);
+    uint16_t write_len = (uint16_t)(SPMC_MINI_NUM_FRAMES * minis_available * sizeof(timestamped_frame_t));
     int32_t ret = sendto(config.udp_socket, (uint8_t*)outgoing, write_len, config.udp_address, config.udp_port);
     if (ret < 0) {
         // todo: something is not initialized correctly

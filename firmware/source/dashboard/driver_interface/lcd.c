@@ -93,7 +93,7 @@ void LCD_tx_update(void) {
         return;
     }
 
-    PHAL_USART_tx(LCD_USART, (uint8_t *)lcd_tx_buf.data, lcd_tx_buf.length);
+    PHAL_USART_tx(LCD_USART, (uint8_t *)lcd_tx_buf.data, (uint16_t)lcd_tx_buf.length);
     strbuf_clear(&lcd_tx_buf);
 }
 

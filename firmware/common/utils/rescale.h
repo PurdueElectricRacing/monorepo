@@ -69,7 +69,7 @@ static inline unsigned int rescale_unsigned(
 }
 
 #define RESCALE(input, input_min, input_max, output_min, output_max) \
-    _Generic((input) + (input_min) + (input_max) + (output_min) + (output_max), \
+    (typeof(input))_Generic((input) + (input_min) + (input_max) + (output_min) + (output_max), \
     signed int: rescale_signed, \
     unsigned int: rescale_unsigned, \
     float: rescale_float \
