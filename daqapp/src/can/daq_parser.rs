@@ -1,6 +1,6 @@
-use crate::daq_log_parse::consts::{BUS_ID_MASK, IS_EID_MASK};
-
+use crate::daq_log_parse::consts::{IS_EID_MASK, identity_with_bus_id};
 use crate::daq_log_parse::parse::RawFrame;
+use crate::messages::BusName;
 
 use chrono::{Datelike, Timelike};
 use std::fs::{File, create_dir_all};
@@ -68,7 +68,7 @@ impl DaqLogger {
         }
     }
 
-    pub fn log_can2_frame(&mut self, frame: &slcan::Can2Frame, is_bus_1: bool) {
+    pub fn log_can2_frame(&mut self, frame: &slcan::Can2Frame, bus_name: BusName) {
         let (id, data) = match frame.id() {
             slcan::Id::Standard(sid) => {
                 let id = sid.as_raw() as u32;
@@ -80,7 +80,7 @@ impl DaqLogger {
             }
         };
 
-        let frame_identity = if is_bus_1 { id | BUS_ID_MASK } else { id };
+        let frame_identity = identity_with_bus_id(id, bus_name);
 
         let mut data_array = [0u8; 8];
         let len = data.len().min(8);

@@ -1,4 +1,6 @@
 use crate::connection::{CanBusSpeed, ConnectionSource};
+use crate::daq_log_parse::{consts, parse::RawFrame};
+use crate::messages::BusName;
 use crate::util;
 use rand::prelude::*;
 use serialport::{ClearBuffer, SerialPort};
@@ -30,8 +32,13 @@ pub enum DriverError {
     WriteError(String),
 }
 
+pub struct ReceivedFrame {
+    pub frame: CanFrame,
+    pub bus_name: BusName,
+}
+
 pub trait Driver {
-    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>>;
+    fn read_frames(&mut self) -> DriverResult<Vec<ReceivedFrame>>;
 
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()>;
 
@@ -80,7 +87,7 @@ impl SerialDriver {
 }
 
 impl Driver for SerialDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+    fn read_frames(&mut self) -> DriverResult<Vec<ReceivedFrame>> {
         self.socket
             .read()
             .map_err(|e| match e {
@@ -105,7 +112,12 @@ impl Driver for SerialDriver {
                     )))
                 }
             })
-            .map(|frame| vec![frame]) // wrap single frame in a vector for consistency with UDP driver
+            .map(|frame| {
+                vec![ReceivedFrame {
+                    frame,
+                    bus_name: BusName::XCAN,
+                }]
+            })
     }
 
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
@@ -166,7 +178,7 @@ impl UdpDriver {
 }
 
 impl Driver for UdpDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+    fn read_frames(&mut self) -> DriverResult<Vec<ReceivedFrame>> {
         let mut buf = [0; UDP_MAX_PACKET_SIZE];
         match self.socket.recv_from(&mut buf) {
             Ok((num_bytes, _src_port)) => parse_udp_buffer(&buf, num_bytes),
@@ -227,7 +239,7 @@ impl SimulatedDriver {
 }
 
 impl Driver for SimulatedDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+    fn read_frames(&mut self) -> DriverResult<Vec<ReceivedFrame>> {
         if self.connected {
             let mut rng = rand::rng();
 
@@ -253,7 +265,10 @@ impl Driver for SimulatedDriver {
                 };
                 let can_frame = slcan::Can2Frame::new_data(id, &data)
                     .expect("failed to create CAN frame from random data");
-                Ok(vec![can_frame.into()])
+                Ok(vec![ReceivedFrame {
+                    frame: can_frame.into(),
+                    bus_name: BusName::XCAN,
+                }])
             } else {
                 // If no DBC is loaded, just return random frames with random IDs and data
                 let id = rng.random_range(0..=util::can::STANDARD_ID_MASK) as u16;
@@ -262,7 +277,10 @@ impl Driver for SimulatedDriver {
                 rng.fill_bytes(&mut data);
                 let can2 = slcan::Can2Frame::new_data(sid, &data)
                     .expect("failed to create CAN frame from random data");
-                Ok(vec![can2.into()])
+                Ok(vec![ReceivedFrame {
+                    frame: can2.into(),
+                    bus_name: BusName::XCAN,
+                }])
             }
         } else {
             Err(DriverError::ReadError(DriverReadError::Other(
@@ -310,7 +328,7 @@ impl LoopbackDriver {
 }
 
 impl Driver for LoopbackDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+    fn read_frames(&mut self) -> DriverResult<Vec<ReceivedFrame>> {
         if !self.connected {
             return Err(DriverError::ReadError(DriverReadError::Other(
                 "Loopback driver is disconnected".into(),
@@ -321,7 +339,14 @@ impl Driver for LoopbackDriver {
             return Err(DriverError::ReadError(DriverReadError::Timeout));
         }
 
-        Ok(self.queued_frames.drain(..).collect())
+        Ok(self
+            .queued_frames
+            .drain(..)
+            .map(|frame| ReceivedFrame {
+                frame,
+                bus_name: BusName::XCAN,
+            })
+            .collect())
     }
 
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
@@ -353,7 +378,7 @@ impl Driver for LoopbackDriver {
 pub fn parse_udp_buffer(
     buf: &[u8; UDP_MAX_PACKET_SIZE],
     num_bytes: usize,
-) -> DriverResult<Vec<CanFrame>> {
+) -> DriverResult<Vec<ReceivedFrame>> {
     if num_bytes < UDP_RAW_FRAME_SIZE {
         return Err(DriverError::ReadError(DriverReadError::Other(format!(
             "Received packet too small: {} bytes",
@@ -371,43 +396,47 @@ pub fn parse_udp_buffer(
     println!("Parsing UDP frame: {num_bytes} ({x})");
 
     let mut frames = Vec::with_capacity(num_bytes / UDP_RAW_FRAME_SIZE);
-    let mask_id = (1u32 << 29) - 1;
 
-    // TODO: use the daq_parse way with bytemuck?
+    // Keep UDP parse layout identical to DAQ log file parse:
+    // [4 bytes ticks_ms] [4 bytes identity] [8 bytes payload]
     let mut chunks = buf[..num_bytes].chunks_exact(UDP_RAW_FRAME_SIZE);
     for chunk in &mut chunks {
-        // Parse can frame from UDP packet according to new timestamped frame format
-        // Format: [4 bytes ticks_ms] [4 bytes identity] [8 bytes payload]
-        // Identity format: [1 bit bus ID] [1 bit isExtID] [1 bit reserved] [29 bits CAN ID]
-        // (definitions from spmc.h)
-        let identity = u32::from_le_bytes(chunk[4..8].try_into().unwrap());
-        let payload = &chunk[8..16];
+        let raw_frame: RawFrame = bytemuck::pod_read_unaligned(chunk);
+        let can_id = consts::can_id_from_identity(raw_frame.identity);
+        let is_extended = (raw_frame.identity & consts::IS_EID_MASK) != 0;
+        let bus_name = consts::bus_name_from_identity(raw_frame.identity);
 
-        let id = identity & mask_id;
-
-        let frame = if id <= 0x7FF {
-            let sid = slcan::StandardId::new(id as u16).ok_or_else(|| {
-                DriverError::ReadError(DriverReadError::Other("invalid standard id".into()))
+        let frame = if is_extended {
+            let eid = slcan::ExtendedId::new(can_id).ok_or_else(|| {
+                DriverError::ReadError(DriverReadError::Other("invalid extended id".into()))
             })?;
 
-            let can2 = slcan::Can2Frame::new_data(sid, payload).ok_or_else(|| {
+            let can2 = slcan::Can2Frame::new_data(eid, &raw_frame.data).ok_or_else(|| {
                 DriverError::ReadError(DriverReadError::Other("invalid CAN2 data".into()))
             })?;
 
             can2.into()
         } else {
-            let eid = slcan::ExtendedId::new(id).ok_or_else(|| {
-                DriverError::ReadError(DriverReadError::Other("invalid extended id".into()))
+            if can_id > util::can::STANDARD_ID_MASK {
+                return Err(DriverError::ReadError(DriverReadError::Other(format!(
+                    "invalid standard id ({} > {})",
+                    can_id,
+                    util::can::STANDARD_ID_MASK
+                ))));
+            }
+
+            let sid = slcan::StandardId::new(can_id as u16).ok_or_else(|| {
+                DriverError::ReadError(DriverReadError::Other("invalid standard id".into()))
             })?;
 
-            let can2 = slcan::Can2Frame::new_data(eid, payload).ok_or_else(|| {
+            let can2 = slcan::Can2Frame::new_data(sid, &raw_frame.data).ok_or_else(|| {
                 DriverError::ReadError(DriverReadError::Other("invalid CAN2 data".into()))
             })?;
 
             can2.into()
         };
 
-        frames.push(frame);
+        frames.push(ReceivedFrame { frame, bus_name });
     }
 
     let remainder = chunks.remainder();
