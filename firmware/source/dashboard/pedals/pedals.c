@@ -49,12 +49,30 @@ volatile pedals_data_t pedal_values = {
  *
  * @note This function is called periodically by the scheduler
  */
+
+void process_and_send_brake_psi(uint16_t raw_brake_adc) {
+
+    const uint16_t BRAKE_ADC_MIN = 450;
+    const uint16_t BRAKE_ADC_MAX = 3800;
+    const uint16_t BRAKE_PSI_MIN = 0;
+    const uint16_t BRAKE_PSI_MAX = 2000;
+
+    uint16_t clamped_adc = CLAMP(raw_brake_adc, BRAKE_ADC_MIN, BRAKE_ADC_MAX);
+    uint16_t brake_psi = RESCALE(clamped_adc, BRAKE_ADC_MIN, BRAKE_ADC_MAX, BRAKE_PSI_MIN, BRAKE_PSI_MAX);
+
+    pedal_values.brake = brake_psi;
+    CAN_SEND_pedals(pedal_values.throttle, pedal_values.regen, brake_psi);
+    
+
+}
+
 void pedals_periodic(void) {
     // snapshot ADC values into local memory
     uint16_t throttle1 = raw_adc_values.throttle1;
     uint16_t throttle2 = 4095 - raw_adc_values.throttle2; // Invert value for t2 (pull-up resistor)
     uint16_t regen1    = raw_adc_values.brake1_pressure;  // ! harness flip
     uint16_t brake1    = raw_adc_values.regen1;
+
 
     // FSAE 2026 T.4.2.10: throttle open/short circuit detection
     update_fault(FAULT_ID_APPS_WIRING_T1, throttle1);
@@ -105,4 +123,7 @@ void pedals_periodic(void) {
     }
 
     CAN_SEND_pedals(throttle_command, pedal_values.regen, pedal_values.brake);
+
+    process_and_send_brake_psi(raw_adc_values.regen1);
 }
+
