@@ -12,6 +12,7 @@ pub struct State {
     pub last_bus_load_update: std::time::Instant,
     pub hil_engine: hil::engine::HilEngine,
     pub last_hil_update: std::time::Instant,
+    pub hil_finished_sent: bool,
 }
 
 pub struct SendMsgInfo {
@@ -45,6 +46,7 @@ impl State {
             last_bus_load_update: std::time::Instant::now(),
             hil_engine: hil::engine::HilEngine::new(),
             last_hil_update: std::time::Instant::now(),
+            hil_finished_sent: false,
         }
     }
 

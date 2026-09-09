@@ -65,6 +65,13 @@ impl HilEngine {
         matches!(self.state, HilState::Running { .. })
     }
 
+    pub fn all_finished(&self) -> bool {
+        match &self.state {
+            HilState::Running { tests, .. } => tests.iter().all(|t| t.is_finished()),
+            HilState::Idle { .. } => false,
+        }
+    }
+
     pub fn handle_command(&mut self, command: HilCommand) {
         match command {
             HilCommand::StartTest(test_info) => match hil::run::HilRunningTest::new(&test_info) {

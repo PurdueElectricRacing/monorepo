@@ -125,6 +125,7 @@ pub fn start_can_thread(
                     }
                     messages::MsgFromUi::Hil(command) => {
                         state.hil_engine.handle_command(command);
+                        state.hil_finished_sent = false;
                         state
                             .can_to_ui_tx
                             .send(messages::MsgFromCan::Hil(state.hil_engine.snapshot()))
@@ -136,6 +137,7 @@ pub fn start_can_thread(
 
             state.hil_engine.tick();
             if state.hil_engine.is_running()
+                && !state.hil_finished_sent
                 && state.last_hil_update.elapsed().as_millis() >= HIL_UPDATE_MS
             {
                 state
@@ -143,6 +145,7 @@ pub fn start_can_thread(
                     .send(messages::MsgFromCan::Hil(state.hil_engine.snapshot()))
                     .expect("Failed to send HIL snapshot");
                 state.last_hil_update = std::time::Instant::now();
+                state.hil_finished_sent = state.hil_engine.all_finished();
             }
 
             let msgs_to_send = state.send_this_tick();
