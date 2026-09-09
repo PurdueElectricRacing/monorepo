@@ -44,6 +44,7 @@ impl Hil {
         self.found_presets = presets;
         self.found_tests = tests;
         self.load_errors = errors;
+        self.snapshot.start_error = None;
     }
 
     pub fn show(&mut self, ui: &mut egui::Ui) -> egui_tiles::UiResponse {
