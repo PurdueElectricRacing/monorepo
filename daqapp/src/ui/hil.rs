@@ -6,12 +6,15 @@ pub struct Hil {
     pub found_presets: Vec<hil::config::PresetInfo>,
     pub found_tests: Vec<hil::config::TestInfo>,
     pub load_errors: Vec<String>,
-    pub start_error: Option<String>,
-    pub hil_state: hil::run::HilState,
+    pub snapshot: hil::engine::HilSnapshot,
+    ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
 }
 
 impl Hil {
-    pub fn new(instance_num: usize) -> Self {
+    pub fn new(
+        instance_num: usize,
+        ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    ) -> Self {
         let (presets, tests, errors) = hil::config::list_available_tests();
 
         Self {
@@ -19,20 +22,20 @@ impl Hil {
             found_presets: presets,
             found_tests: tests,
             load_errors: errors,
-            start_error: None,
-            hil_state: hil::run::HilState::Idle,
+            snapshot: hil::engine::HilSnapshot::idle(),
+            ui_to_can_tx,
         }
     }
 
     pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let messages::MsgFromCan::ParsedMessage(parsed) = msg
-            && let hil::run::HilState::Running {
-                start_time, tests, ..
-            } = &mut self.hil_state
-        {
-            for test in tests {
-                test.process_can(parsed, *start_time);
-            }
+        if let messages::MsgFromCan::Hil(snapshot) = msg {
+            self.snapshot = snapshot.clone();
+        }
+    }
+
+    fn send_command(&self, command: hil::engine::HilCommand) {
+        if let Err(e) = self.ui_to_can_tx.send(messages::MsgFromUi::Hil(command)) {
+            log::error!("Failed to send HIL command to CAN thread: {e}");
         }
     }
 
@@ -41,167 +44,112 @@ impl Hil {
         self.found_presets = presets;
         self.found_tests = tests;
         self.load_errors = errors;
-        self.start_error = None;
-    }
-
-    fn try_start_from_test(&mut self, test: &hil::config::TestInfo) {
-        self.start_error = None;
-
-        let test = match hil::run::HilRunningTest::new(test) {
-            Ok(test) => test,
-            Err(err) => {
-                self.start_error = Some(format!("Error starting test: {}", err));
-                return;
-            }
-        };
-
-        self.hil_state = hil::run::HilState::Running {
-            start_time: std::time::Instant::now(),
-            preset_info: None,
-            tests: vec![test],
-        };
-    }
-
-    fn try_start_from_preset(&mut self, preset: &hil::config::PresetInfo) {
-        self.start_error = None;
-
-        let mut tests = Vec::new();
-        for test_name in &preset.tests {
-            let test_info = match self.found_tests.iter().find(|t| t.basename == *test_name) {
-                Some(info) => info,
-                None => {
-                    self.start_error = Some(format!(
-                        "Error starting preset: Test '{}' not found",
-                        test_name
-                    ));
-                    return;
-                }
-            };
-            let test = match hil::run::HilRunningTest::new(test_info) {
-                Ok(test) => test,
-                Err(err) => {
-                    self.start_error = Some(format!("Error starting preset: {}", err));
-                    return;
-                }
-            };
-            tests.push(test);
-        }
-
-        self.hil_state = hil::run::HilState::Running {
-            start_time: std::time::Instant::now(),
-            preset_info: Some(preset.clone()),
-            tests,
-        };
+        self.snapshot.start_error = None;
     }
 
     pub fn show(&mut self, ui: &mut egui::Ui) -> egui_tiles::UiResponse {
-        let mut idle_requested = false;
-
-        egui::ScrollArea::vertical().show(ui, |ui| match &mut self.hil_state {
-            hil::run::HilState::Idle => {
-                ui.label("HIL is idle. Select a preset or test to run.");
-                if ui.button("Reload Tests").clicked() {
-                    self.reload_tests();
-                }
-                ui.separator();
-                if !self.load_errors.is_empty() {
-                    ui.label("Errors loading tests:");
-                    for err in &self.load_errors {
-                        ui.label(format!("- {}", err));
-                    }
-                    ui.separator();
-                }
-
-                if let Some(err) = &self.start_error {
-                    ui.colored_label(egui::Color32::RED, err);
-                    ui.separator();
-                }
-
-                if !self.found_presets.is_empty() {
-                    ui.label("Presets:");
-                    let mut selected_preset = None;
-                    for preset in &self.found_presets {
-                        let preset_info = format!("{} - {}", preset.name, preset.tests.join(", "));
-                        if ui.button(&preset_info).clicked() {
-                            selected_preset = Some(preset.clone());
-                        }
-                    }
-                    if let Some(preset) = selected_preset {
-                        self.try_start_from_preset(&preset);
-                    }
-                    ui.separator();
-                }
-                if !self.found_tests.is_empty() {
-                    ui.label("Individual Tests:");
-                    let mut selected_test = None;
-                    for test in &self.found_tests {
-                        let test_info =
-                            format!("{} [{}]: {}", test.name, test.basename, test.description);
-                        if ui.button(&test_info).clicked() {
-                            selected_test = Some(test.clone());
-                        }
-                    }
-                    if let Some(test) = selected_test {
-                        self.try_start_from_test(&test);
-                    }
-                }
+        egui::ScrollArea::vertical().show(ui, |ui| match self.snapshot.status {
+            hil::engine::HilStatus::Idle => {
+                self.show_idle(ui);
             }
-            hil::run::HilState::Running {
-                start_time,
-                preset_info,
-                tests,
-            } => {
-                // Actually run the test
-                tests
-                    .iter_mut()
-                    .for_each(|t| t.update_expect_statuses(*start_time));
-                let all_finished = tests.iter().all(|t| t.is_finished());
-
-                ui.add_space(4.0);
-                if all_finished {
-                    // ui.label("HIL finished! Review the results below.");
-                    ui.horizontal(|ui| {
-                        if ui.button("Exit").clicked() {
-                            idle_requested = true;
-                        }
-                        ui.label("HIL finished! Review the results below.");
-                    });
-                } else {
-                    ui.horizontal(|ui| {
-                        if ui.button("Stop").clicked() {
-                            idle_requested = true;
-                        }
-                        let time_since_start = start_time.elapsed().as_millis();
-                        ui.label(format!(
-                            "HIL is running... {:.0} ms since start",
-                            time_since_start
-                        ));
-                    });
-                }
-                ui.separator();
-
-                if let Some(preset) = preset_info {
-                    ui.label(format!(
-                        "Preset: {} ({} tests)",
-                        preset.name,
-                        preset.tests.len()
-                    ));
-                    Self::show_preset_summary(ui, tests);
-                }
-                ui.separator();
-
-                for test in tests {
-                    Self::show_test(ui, test);
-                    ui.separator();
-                }
+            hil::engine::HilStatus::Running => {
+                self.show_running(ui);
             }
         });
 
-        if idle_requested {
-            self.hil_state = hil::run::HilState::Idle;
+        egui_tiles::UiResponse::None
+    }
+
+    fn show_idle(&mut self, ui: &mut egui::Ui) {
+        ui.label("HIL is idle. Select a preset or test to start.");
+        if ui.button("Reload Tests").clicked() {
+            self.reload_tests();
+        }
+        ui.separator();
+
+        if !self.load_errors.is_empty() {
+            ui.label("Errors loading tests:");
+            for error in &self.load_errors {
+                ui.label(format!("- {}", error));
+            }
+            ui.separator();
         }
 
-        egui_tiles::UiResponse::None
+        if let Some(error) = &self.snapshot.start_error {
+            ui.colored_label(egui::Color32::RED, error);
+            ui.separator();
+        }
+
+        if !self.found_presets.is_empty() {
+            ui.label(" Presets:");
+            let mut selected_preset = None;
+            for preset in &self.found_presets {
+                let preset_info = format!("{} - {}", preset.name, preset.tests.join(", "));
+                if ui.button(&preset_info).clicked() {
+                    selected_preset = Some(preset.clone());
+                }
+            }
+            if let Some(preset) = selected_preset {
+                self.send_command(hil::engine::HilCommand::StartPreset(preset));
+            }
+            ui.separator();
+        }
+        if !self.found_tests.is_empty() {
+            ui.label(" Individual Tests:");
+            let mut selected_test = None;
+            for test in &self.found_tests {
+                let test_info = format!("{} [{}]: {}", test.name, test.basename, test.description);
+                if ui.button(&test_info).clicked() {
+                    selected_test = Some(test.clone());
+                }
+            }
+            if let Some(test) = selected_test {
+                self.send_command(hil::engine::HilCommand::StartTest(test));
+            }
+        }
+    }
+
+    fn show_running(&mut self, ui: &mut egui::Ui) {
+        let tests = &self.snapshot.tests;
+        let all_finished = tests.iter().all(|t| t.is_finished());
+        let mut stop_requested = false;
+
+        ui.add_space(4.0);
+        if all_finished {
+            ui.horizontal(|ui| {
+                if ui.button("Exit").clicked() {
+                    stop_requested = true;
+                }
+                ui.label("HIL finished. Review results below.");
+            });
+        } else {
+            ui.horizontal(|ui| {
+                if ui.button("Stop").clicked() {
+                    stop_requested = true;
+                }
+                ui.label(format!("HIL running for {} ms", self.snapshot.elapsed_ms));
+            });
+        }
+        ui.separator();
+
+        if let Some(preset) = &self.snapshot.preset {
+            ui.label(format!(
+                "Preset: {} ({} tests)",
+                preset.name,
+                preset.tests.len()
+            ));
+            Self::show_preset_summary(ui, tests);
+        }
+        ui.separator();
+
+        for test in tests {
+            Self::show_test(ui, test);
+            ui.separator();
+        }
+
+        if stop_requested {
+            self.send_command(hil::engine::HilCommand::Stop);
+        }
     }
 
     fn show_preset_summary(ui: &mut egui::Ui, tests: &[hil::run::HilRunningTest]) {
@@ -347,5 +295,11 @@ impl Hil {
             });
         }
         ui.end_row();
+    }
+}
+
+impl Drop for Hil {
+    fn drop(&mut self) {
+        self.send_command(hil::engine::HilCommand::Stop);
     }
 }

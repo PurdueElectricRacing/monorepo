@@ -3,9 +3,10 @@ use crate::{can, connection, messages, util};
 const NO_CONNECTION_SLEEP_MS: u64 = 200;
 const READ_RETRY_SLEEP_MS: u64 = 2;
 const BUS_LOAD_UPDATE_MS: u128 = 200;
+const HIL_UPDATE_MS: u128 = 50;
 
 // Returns the number of payload data bytes in the CAN frame if it was a Can2 frame
-fn process_can_frame(frame: &slcan::CanFrame, state: &can::state::State) -> usize {
+fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> usize {
     match frame {
         slcan::CanFrame::Can2(frame2) => {
             let decode_msg_id = util::can::slcan_to_u32_with_extid_flag(&frame2.id());
@@ -27,6 +28,7 @@ fn process_can_frame(frame: &slcan::CanFrame, state: &can::state::State) -> usiz
                         raw_bytes,
                         decoded,
                     };
+                    state.hil_engine.process_parsed(&parsed_msg);
                     state
                         .can_to_ui_tx
                         .send(messages::MsgFromCan::ParsedMessage(parsed_msg))
@@ -121,8 +123,31 @@ pub fn start_can_thread(
                     messages::MsgFromUi::UpdateLogFolder(path) => {
                         daq_logger.update_folder(path);
                     }
+                    messages::MsgFromUi::Hil(command) => {
+                        state.hil_engine.handle_command(command);
+                        state.hil_finished_sent = false;
+                        state
+                            .can_to_ui_tx
+                            .send(messages::MsgFromCan::Hil(state.hil_engine.snapshot()))
+                            .expect("Failed to send HIL snapshot");
+                        state.last_hil_update = std::time::Instant::now();
+                    }
                 }
             }
+
+            state.hil_engine.tick();
+            if state.hil_engine.is_running()
+                && !state.hil_finished_sent
+                && state.last_hil_update.elapsed().as_millis() >= HIL_UPDATE_MS
+            {
+                state
+                    .can_to_ui_tx
+                    .send(messages::MsgFromCan::Hil(state.hil_engine.snapshot()))
+                    .expect("Failed to send HIL snapshot");
+                state.last_hil_update = std::time::Instant::now();
+                state.hil_finished_sent = state.hil_engine.all_finished();
+            }
+
             let msgs_to_send = state.send_this_tick();
             for msg in msgs_to_send {
                 if let Some(ref mut active_driver) = state.driver {
@@ -235,7 +260,7 @@ pub fn start_can_thread(
             match active_driver.read_frames() {
                 Ok(frames) => {
                     for frame in frames {
-                        let data_bytes = process_can_frame(&frame, &state);
+                        let data_bytes = process_can_frame(&frame, &mut state);
                         state.bus_load_tracker.record_frame(data_bytes);
 
                         // Log each frame (buffered, not flushed yet)

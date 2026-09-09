@@ -1,4 +1,4 @@
-use crate::connection;
+use crate::{connection, hil};
 
 pub enum MsgFromUi {
     DbcSelected(std::path::PathBuf),
@@ -6,6 +6,7 @@ pub enum MsgFromUi {
     AddSendMessage(AddSendMessage),
     DeleteSendMessage { msg_id: u32 },
     UpdateLogFolder(std::path::PathBuf),
+    Hil(hil::engine::HilCommand),
 }
 
 pub enum MsgFromCan {
@@ -25,6 +26,7 @@ pub enum MsgFromCan {
         load_10s: f32,
         load_30s: f32,
     },
+    Hil(hil::engine::HilSnapshot),
 }
 
 #[derive(Clone, Copy, Debug)]

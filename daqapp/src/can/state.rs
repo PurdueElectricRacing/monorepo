@@ -1,4 +1,4 @@
-use crate::{can, connection, messages};
+use crate::{can, connection, hil, messages};
 
 pub struct State {
     pub can_to_ui_tx: std::sync::mpsc::Sender<messages::MsgFromCan>,
@@ -10,6 +10,9 @@ pub struct State {
     pub send_msgs: std::collections::HashMap<u32, SendMsgInfo>, // msg_id -> SendMsg
     pub bus_load_tracker: can::bus_load::BusLoadTracker,
     pub last_bus_load_update: std::time::Instant,
+    pub hil_engine: hil::engine::HilEngine,
+    pub last_hil_update: std::time::Instant,
+    pub hil_finished_sent: bool,
 }
 
 pub struct SendMsgInfo {
@@ -41,6 +44,9 @@ impl State {
             send_msgs: std::collections::HashMap::new(),
             bus_load_tracker: can::bus_load::BusLoadTracker::new(),
             last_bus_load_update: std::time::Instant::now(),
+            hil_engine: hil::engine::HilEngine::new(),
+            last_hil_update: std::time::Instant::now(),
+            hil_finished_sent: false,
         }
     }
 
