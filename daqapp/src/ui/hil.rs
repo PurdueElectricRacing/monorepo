@@ -296,3 +296,9 @@ impl Hil {
         ui.end_row();
     }
 }
+
+impl Drop for Hil {
+    fn drop(&mut self) {
+        self.send_command(hil::engine::HilCommand::Stop);
+    }
+}
