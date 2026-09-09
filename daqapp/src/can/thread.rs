@@ -90,16 +90,6 @@ pub fn start_can_thread(
 
         // MAIN LOOP
         loop {
-            state.hil_engine.tick();
-            if state.hil_engine.is_running()
-                && state.last_hil_update.elapsed().as_millis() >= HIL_UPDATE_MS
-            {
-                state
-                    .can_to_ui_tx
-                    .send(messages::MsgFromCan::Hil(state.hil_engine.snapshot()))
-                    .expect("Failed to send HIL snapshot");
-                state.last_hil_update = std::time::Instant::now();
-            }
             // Process UI messages first (DBC load, new message to send, etc.)
             while let Ok(msg) = state.ui_to_can_rx.try_recv() {
                 match msg {
@@ -143,6 +133,18 @@ pub fn start_can_thread(
                     }
                 }
             }
+            
+            state.hil_engine.tick();
+            if state.hil_engine.is_running()
+                && state.last_hil_update.elapsed().as_millis() >= HIL_UPDATE_MS
+            {
+                state
+                    .can_to_ui_tx
+                    .send(messages::MsgFromCan::Hil(state.hil_engine.snapshot()))
+                    .expect("Failed to send HIL snapshot");
+                state.last_hil_update = std::time::Instant::now();
+            }
+
             let msgs_to_send = state.send_this_tick();
             for msg in msgs_to_send {
                 if let Some(ref mut active_driver) = state.driver {
