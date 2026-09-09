@@ -133,7 +133,7 @@ pub fn start_can_thread(
                     }
                 }
             }
-            
+
             state.hil_engine.tick();
             if state.hil_engine.is_running()
                 && state.last_hil_update.elapsed().as_millis() >= HIL_UPDATE_MS
