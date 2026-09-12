@@ -243,8 +243,10 @@ static bool bl_write_metadata(uint32_t crc32, uint32_t size_bytes) {
         .format_version = BOOTLOADER_METADATA_FORMAT_VERSION,
         .flags          = BOOTLOADER_METADATA_FLAG_INSTALLED_BY_BOOTLOADER,
         .crc32          = crc32,
-        .address        = BL_APP_ADDRESS,
-        .size_bytes     = size_bytes,
+        .address             = BL_APP_ADDRESS,
+        .size_bytes          = size_bytes,
+        .bootloader_git_hash = CAN_LIBRARY_GIT_HASH,
+        .reserved            = 0U,
     };
 
     return PHAL_FLASH_write(BL_METADATA_ADDRESS, &metadata, sizeof(metadata));

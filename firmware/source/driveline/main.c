@@ -9,6 +9,7 @@
 /* System Includes */
 #include "can_library/generated/DRIVELINE.h"
 #include "common/bootloader/application_version.h"
+#include "common/bootloader/bootloader_common.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/adc/adc.h"
@@ -176,10 +177,10 @@ int main(void) {
 // globals for GDB
 uint16_t left_length_scaled = 0;
 uint16_t right_length_scaled = 0;
+static_assert(FRONT_DRIVELINE_VERSION_PERIOD_MS == 5000U);
+static_assert(REAR_DRIVELINE_VERSION_PERIOD_MS == 5000U);
 void version_periodic() {
-    static_assert(FRONT_DRIVELINE_VERSION_PERIOD_MS == 5000U);
-    static_assert(REAR_DRIVELINE_VERSION_PERIOD_MS == 5000U);
-    SEND_VERSION(GIT_HASH, APPLICATION_BOOTLOADABLE);
+    SEND_VERSION(GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
 }
 
 void shockpots_periodic() {

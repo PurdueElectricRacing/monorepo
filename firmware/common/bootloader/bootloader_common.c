@@ -3,6 +3,19 @@
 
 #include "stm32g474xx.h"
 
+uint32_t BL_getGitHash(void) {
+#if defined(BOOTLOADER_ENABLED)
+    const BootloaderMetadata_t *metadata =
+        (const BootloaderMetadata_t *)(uintptr_t)BL_METADATA_ADDRESS;
+    if (metadata->magic == BOOTLOADER_METADATA_MAGIC
+        && metadata->format_version == BOOTLOADER_METADATA_FORMAT_VERSION
+        && (metadata->flags & BOOTLOADER_METADATA_FLAG_INSTALLED_BY_BOOTLOADER) != 0U) {
+        return metadata->bootloader_git_hash;
+    }
+#endif
+    return 0U;
+}
+
 /* CANpiler generates the declarations and can_data fields used below. */
 #if defined(CAN_NODE_MAIN_MODULE)
 #include "can_library/generated/MAIN_MODULE.h"
