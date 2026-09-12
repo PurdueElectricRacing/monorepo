@@ -4,7 +4,6 @@
 
 #include <stdint.h>
 
-#include "can_library/generated/can_types.h"
 
 /** Bootloader wire-protocol version reported with BOOTLOADER_STATUS_READY. */
 #define BOOTLOADER_PROTOCOL_VERSION 1U
@@ -17,7 +16,7 @@
 /** Magic identifying a BootloaderMetadata_t record (ASCII "PERB"). */
 #define BOOTLOADER_METADATA_MAGIC 0x50455242U
 /** Metadata layout version accepted by resident bootloaders. */
-#define BOOTLOADER_METADATA_FORMAT_VERSION 1U
+#define BOOTLOADER_METADATA_FORMAT_VERSION 2U
 /** Metadata flag set only by the final installation write. */
 #define BOOTLOADER_METADATA_FLAG_INSTALLED_BY_BOOTLOADER (1U << 0U)
 /**
@@ -57,7 +56,7 @@ _Static_assert(BL_RESERVED_ADDRESS == 0x08080000U && BL_RESERVED_SIZE == 0U,
 #endif
 
 /** Size of the committed metadata record. */
-#define BL_METADATA_SIZE 24U
+#define BL_METADATA_SIZE 32U
 /** Wire and CRC payload granularity. */
 #define BL_WORD_SIZE 4U
 /** STM32G4 flash programming granularity. */
@@ -77,12 +76,17 @@ typedef struct __attribute__((aligned(BL_FLASH_WRITE_SIZE))) {
     uint32_t crc32;          /**< CRC-32/MPEG-2 over the application words. */
     uint32_t address;        /**< Must equal BL_APP_ADDRESS. */
     uint32_t size_bytes;     /**< Non-zero, word-aligned application length. */
+    uint32_t bootloader_git_hash; /**< Resident bootloader build advertised by the app. */
+    uint32_t reserved;       /**< Reserved for a future metadata format. */
 } BootloaderMetadata_t;
 
 _Static_assert(sizeof(BootloaderMetadata_t) == BL_METADATA_SIZE,
-               "Bootloader metadata must occupy one 24-byte record");
+               "Bootloader metadata must occupy one 32-byte record");
 _Static_assert((sizeof(BootloaderMetadata_t) % BL_FLASH_WRITE_SIZE) == 0U,
                "Bootloader metadata must be flash-write aligned");
+
+/** Return the installed resident bootloader hash, or zero when unavailable. */
+uint32_t BL_getGitHash(void);
 
 /** @brief Detail values accompanying BOOTLOADER_STATUS_ERROR. */
 typedef enum {

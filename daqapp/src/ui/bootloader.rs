@@ -82,30 +82,28 @@ impl Bootloader {
         if ui
             .add_enabled(!self.running, egui::Button::new("Select firmware manifest"))
             .clicked()
-        {
-            if let Some(path) = rfd::FileDialog::new()
+            && let Some(path) = rfd::FileDialog::new()
                 .add_filter("Firmware package", &["json", "gz"])
                 .pick_file()
-            {
-                match FirmwarePackage::load(path.clone()) {
-                    Ok(package) => {
-                        self.manifest_path = Some(path);
-                        self.status = format!("{} board images verified", package.images.len());
-                        self.package = Some(package);
+        {
+            match FirmwarePackage::load(path.clone()) {
+                Ok(package) => {
+                    self.manifest_path = Some(path);
+                    self.status = format!("{} board images verified", package.images.len());
+                    self.package = Some(package);
+                    self.selected_targets.clear();
+                    self.board_statuses.clear();
+                    self.run_board_names.clear();
+                    self.running = false;
+                }
+                Err(error) => {
+                    self.status = format!("Invalid package: {error}");
+                    self.manifest_path = None;
+                    if !self.running {
+                        self.package = None;
                         self.selected_targets.clear();
                         self.board_statuses.clear();
                         self.run_board_names.clear();
-                        self.running = false;
-                    }
-                    Err(error) => {
-                        self.status = format!("Invalid package: {error}");
-                        self.manifest_path = None;
-                        if !self.running {
-                            self.package = None;
-                            self.selected_targets.clear();
-                            self.board_statuses.clear();
-                            self.run_board_names.clear();
-                        }
                     }
                 }
             }
@@ -202,22 +200,19 @@ impl Bootloader {
                     egui::Button::new(format!("Upload selected ({selected_count})")),
                 )
                 .clicked()
+                && let Some(active_bus) = active_bus
+                && ui_to_can_tx
+                    .send(messages::MsgFromUi::StartFirmwareUpdate(
+                        FirmwarePackage {
+                            images: selected_images.clone(),
+                        },
+                        active_bus,
+                    ))
+                    .is_ok()
             {
-                if let Some(active_bus) = active_bus {
-                    if ui_to_can_tx
-                        .send(messages::MsgFromUi::StartFirmwareUpdate(
-                            FirmwarePackage {
-                                images: selected_images.clone(),
-                            },
-                            active_bus,
-                        ))
-                        .is_ok()
-                    {
-                        self.begin_run(&images, &selected_images);
-                        self.running = true;
-                        self.status = "Starting update...".to_string();
-                    }
-                }
+                self.begin_run(&images, &selected_images);
+                self.running = true;
+                self.status = "Starting update...".to_string();
             }
         }
         // Cancellation stops the host state machine; it cannot undo target writes.
@@ -312,7 +307,12 @@ impl Bootloader {
                         (raw_value & 1) != 0
                     }
                 });
-            if git_hash.is_none() && bootloadable.is_none() {
+            let resident_git_hash = application
+                .then(|| parsed.decoded.signals.get("bootloader_git_hash"))
+                .flatten()
+                .map(|signal| signal.value.physical.round() as u32)
+                .filter(|hash| *hash != 0);
+            if git_hash.is_none() && resident_git_hash.is_none() && bootloadable.is_none() {
                 return;
             }
 
@@ -322,14 +322,22 @@ impl Bootloader {
             } else {
                 observations.bootloader
             };
+            let now = Instant::now();
             let observation = TelemetryObservation {
                 git_hash: git_hash.or_else(|| previous.and_then(|previous| previous.git_hash)),
                 bootloadable: bootloadable
                     .or_else(|| previous.and_then(|previous| previous.bootloadable)),
-                last_seen: Instant::now(),
+                last_seen: now,
             };
             if application {
                 observations.application = Some(observation);
+                if let Some(resident_git_hash) = resident_git_hash {
+                    observations.bootloader = Some(TelemetryObservation {
+                        git_hash: Some(resident_git_hash),
+                        bootloadable,
+                        last_seen: now,
+                    });
+                }
             } else {
                 observations.bootloader = Some(observation);
             }

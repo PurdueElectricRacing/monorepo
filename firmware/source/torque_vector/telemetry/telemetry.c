@@ -10,6 +10,7 @@
 #include "can_library/faults_common.h"
 #include "can_library/generated/TORQUE_VECTOR.h"
 #include "common/bootloader/application_version.h"
+#include "common/bootloader/bootloader_common.h"
 #include "common/utils/clamp.h"
 #include "sensors.h"
 
@@ -33,7 +34,7 @@ void report_telemetry_25hz(void) {
  */
 static_assert(TORQUE_VECTOR_VERSION_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
 void report_telemetry_02hz(void) {
-    CAN_SEND_torque_vector_version(GIT_HASH, APPLICATION_BOOTLOADABLE);
+    CAN_SEND_torque_vector_version(GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
 }
 
 /**

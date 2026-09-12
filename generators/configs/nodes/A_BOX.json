@@ -198,7 +198,13 @@
                     "signals": [
                         {
                             "signal_name": "git_hash",
-                            "data_type": "uint32_t"
+                            "data_type": "uint32_t",
+                            "length": 28
+                        },
+                        {
+                            "signal_name": "bootloader_git_hash",
+                            "data_type": "uint32_t",
+                            "length": 28
                         },
                         {
                             "signal_name": "bootloadable",
