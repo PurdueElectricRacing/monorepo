@@ -147,8 +147,10 @@ impl FirmwarePackage {
 
         let root = manifest_path
             .parent()
-            .ok_or_else(|| "manifest has no parent directory".to_string())?;
+            .ok_or_else(|| "manifest has no parent directory".to_string())?
+            .to_path_buf();
         let mut images = Vec::with_capacity(manifest.boards.len());
+        let mut protocol_ids = HashSet::new();
         for board in manifest.boards {
             if images
                 .iter()
@@ -177,6 +179,12 @@ impl FirmwarePackage {
             }
             let binary_path = secure_file_path(&root.join(relative_binary), "binary")
                 .map_err(|error| format!("unsafe binary path for {}: {error}", board.name))?;
+            if !binary_path.starts_with(&root) {
+                return Err(format!(
+                    "binary path escapes package root for {}",
+                    board.name
+                ));
+            }
             let metadata = std::fs::symlink_metadata(&binary_path)
                 .map_err(|error| format!("cannot inspect {}: {error}", binary_path.display()))?;
             if metadata.len() > APPLICATION_SLOT_SIZE as u64 {
@@ -205,17 +213,16 @@ impl FirmwarePackage {
                 ));
             }
 
-            let start_id = parse_hex_u32(&board.start_id, "start_id")?;
-            let crc_id = parse_hex_u32(&board.crc_id, "crc_id")?;
-            let jump_id = parse_hex_u32(&board.jump_id, "jump_id")?;
-            let data_id = parse_hex_u32(&board.data_id, "data_id")?;
-            let response_id = parse_hex_u32(&board.response_id, "response_id")?;
-            if Some((start_id, crc_id, jump_id, data_id, response_id)) != expected_ids(&board.name)
+            let start_id = parse_standard_can_id(&board.start_id, "start_id")?;
+            let crc_id = parse_standard_can_id(&board.crc_id, "crc_id")?;
+            let jump_id = parse_standard_can_id(&board.jump_id, "jump_id")?;
+            let data_id = parse_standard_can_id(&board.data_id, "data_id")?;
+            let response_id = parse_standard_can_id(&board.response_id, "response_id")?;
+            if [start_id, crc_id, jump_id, data_id, response_id]
+                .into_iter()
+                .any(|id| !protocol_ids.insert(id))
             {
-                return Err(format!(
-                    "board {} has unexpected bootloader IDs",
-                    board.name
-                ));
+                return Err(format!("board {} reuses a bootloader CAN ID", board.name));
             }
 
             images.push(FirmwareImage {
@@ -282,47 +289,38 @@ fn validate_archive(path: &Path) -> Result<(), String> {
 }
 
 fn secure_file_path(path: &Path, kind: &str) -> Result<PathBuf, String> {
-    let mut current = PathBuf::new();
-    for component in path.components() {
-        match component {
-            Component::Prefix(prefix) => current.push(prefix.as_os_str()),
-            Component::RootDir => current.push(component.as_os_str()),
-            Component::CurDir => {}
-            Component::ParentDir => {
-                return Err("path contains a parent traversal".to_string());
-            }
-            Component::Normal(name) => {
-                current.push(name);
-                let metadata = std::fs::symlink_metadata(&current)
-                    .map_err(|error| format!("cannot inspect {}: {error}", current.display()))?;
-                if metadata.file_type().is_symlink() {
-                    return Err(format!("{kind} path contains a symlink component"));
-                }
-            }
-        }
+    if path
+        .components()
+        .any(|component| matches!(component, Component::ParentDir))
+    {
+        return Err("path contains a parent traversal".to_string());
     }
+
+    // Reject a symlink as the selected file itself, but permit canonical system
+    // path aliases such as macOS `/var` -> `/private/var` in ancestor directories.
     let metadata = std::fs::symlink_metadata(path)
         .map_err(|error| format!("cannot inspect {}: {error}", path.display()))?;
+    if metadata.file_type().is_symlink() {
+        return Err(format!("{kind} is a symlink"));
+    }
     if !metadata.file_type().is_file() {
         return Err(format!("{kind} is not a regular file"));
     }
-    Ok(path.to_path_buf())
+
+    path.canonicalize()
+        .map_err(|error| format!("cannot resolve {}: {error}", path.display()))
 }
 
 fn valid_application_size(size_bytes: usize) -> bool {
-    size_bytes != 0 && size_bytes % 4 == 0 && size_bytes <= APPLICATION_SLOT_SIZE
+    size_bytes != 0 && size_bytes.is_multiple_of(4) && size_bytes <= APPLICATION_SLOT_SIZE
 }
 
-fn expected_ids(name: &str) -> Option<(u32, u32, u32, u32, u32)> {
-    match name {
-        "main_module" => Some((0x180, 0x192, 0x198, 0x181, 0x182)),
-        "dashboard" => Some((0x183, 0x193, 0x199, 0x184, 0x185)),
-        "torque_vector" => Some((0x186, 0x194, 0x19A, 0x187, 0x188)),
-        "a_box" => Some((0x189, 0x195, 0x19B, 0x18A, 0x18B)),
-        "front_driveline" => Some((0x18C, 0x196, 0x19C, 0x18D, 0x18E)),
-        "rear_driveline" => Some((0x18F, 0x197, 0x19D, 0x190, 0x191)),
-        _ => None,
+fn parse_standard_can_id(value: &str, field: &str) -> Result<u32, String> {
+    let id = parse_hex_u32(value, field)?;
+    if id > 0x7ff {
+        return Err(format!("{field} value {value:?} is not a standard CAN ID"));
     }
+    Ok(id)
 }
 
 fn parse_bus(value: &str) -> Result<CanBus, String> {
@@ -360,10 +358,11 @@ pub fn crc32_words(data: &[u8]) -> u32 {
         0x1E475005, 0x2608EDB8, 0x22C9F00F, 0x2F8AD6D6, 0x2B4BCB61, 0x350C9B64, 0x31CD86D3,
         0x3C8EA00A, 0x384FBDBD,
     ];
-    debug_assert_eq!(data.len() % 4, 0);
+    let (words, remainder) = data.as_chunks::<4>();
+    debug_assert!(remainder.is_empty());
     let mut crc = 0xFFFF_FFFFu32;
-    for word_bytes in data.chunks_exact(4) {
-        crc ^= u32::from_le_bytes(word_bytes.try_into().expect("four-byte chunk"));
+    for word_bytes in words {
+        crc ^= u32::from_le_bytes(*word_bytes);
         for _ in 0..8 {
             crc = (crc << 4) ^ LUT[(crc >> 28) as usize];
         }
@@ -386,7 +385,7 @@ mod tests {
     }
 
     fn write_manifest_with_image_size(size_bytes: usize) -> std::path::PathBuf {
-        let base = std::env::current_dir().unwrap();
+        let base = std::env::current_dir().expect("could not determine current directory");
         let root = (0..100)
             .map(|attempt| {
                 base.join(format!(
@@ -397,15 +396,15 @@ mod tests {
             .find(|root| std::fs::create_dir(root).is_ok())
             .expect("could not create a unique package test directory");
         let image = vec![0; size_bytes];
-        std::fs::write(root.join("image.bin"), &image).unwrap();
+        std::fs::write(root.join("image.bin"), &image).expect("could not write test image");
         let crc = crc32_words(&image);
         let boards = [
-            ("main_module", "180", "192", "198", "181", "182"),
-            ("dashboard", "183", "193", "199", "184", "185"),
-            ("torque_vector", "186", "194", "19A", "187", "188"),
-            ("a_box", "189", "195", "19B", "18A", "18B"),
-            ("front_driveline", "18C", "196", "19C", "18D", "18E"),
-            ("rear_driveline", "18F", "197", "19D", "190", "191"),
+            ("main_module", "500", "501", "502", "503", "504"),
+            ("dashboard", "505", "506", "507", "508", "509"),
+            ("torque_vector", "50A", "50B", "50C", "50D", "50E"),
+            ("a_box", "50F", "510", "511", "512", "513"),
+            ("front_driveline", "514", "515", "516", "517", "518"),
+            ("rear_driveline", "519", "51A", "51B", "51C", "51D"),
         ];
         let board_entries: Vec<_> = boards
             .iter()
@@ -419,25 +418,32 @@ mod tests {
             "{{\"format\":\"{PACKAGE_FORMAT}\",\"protocol_version\":1,\"crc_algorithm\":\"STM32_CRC32_MPEG2_WORD_LE\",\"boards\":[{}]}}",
             board_entries.join(",")
         );
-        std::fs::write(root.join("manifest.json"), manifest).unwrap();
+        std::fs::write(root.join("manifest.json"), manifest)
+            .expect("could not write test manifest");
         root.join("manifest.json")
     }
 
     #[test]
     fn package_loader_accepts_exact_maximum_image() {
         let manifest = write_manifest_with_image_size(APPLICATION_SLOT_SIZE);
-        let root = manifest.parent().unwrap().to_path_buf();
+        let root = manifest
+            .parent()
+            .expect("test manifest should have a parent directory")
+            .to_path_buf();
         let result = FirmwarePackage::load(&manifest);
         assert!(result.is_ok(), "{result:?}");
-        std::fs::remove_dir_all(root).unwrap();
+        std::fs::remove_dir_all(root).expect("could not remove package test directory");
     }
 
     #[test]
     fn package_loader_rejects_image_larger_than_slot() {
         let manifest = write_manifest_with_image_size(APPLICATION_SLOT_SIZE + 4);
-        let root = manifest.parent().unwrap().to_path_buf();
+        let root = manifest
+            .parent()
+            .expect("test manifest should have a parent directory")
+            .to_path_buf();
         let error = FirmwarePackage::load(&manifest).unwrap_err();
         assert!(error.contains("invalid image file"), "{error}");
-        std::fs::remove_dir_all(root).unwrap();
+        std::fs::remove_dir_all(root).expect("could not remove package test directory");
     }
 }
