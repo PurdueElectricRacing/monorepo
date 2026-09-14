@@ -11,14 +11,11 @@ pub struct Hil {
 }
 
 impl Hil {
-    pub fn new(
-        instance_num: usize,
-        ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
-    ) -> Self {
+    pub fn new(ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>) -> Self {
         let (presets, tests, errors) = hil::config::list_available_tests();
 
         Self {
-            title: format!("HIL #{}", instance_num),
+            title: "HIL".to_string(),
             found_presets: presets,
             found_tests: tests,
             load_errors: errors,
@@ -34,9 +31,7 @@ impl Hil {
     }
 
     fn send_command(&self, command: hil::engine::HilCommand) {
-        if let Err(e) = self.ui_to_can_tx.send(messages::MsgFromUi::Hil(command)) {
-            log::error!("Failed to send HIL command to CAN thread: {e}");
-        }
+        self.ui_to_can_tx.send(messages::MsgFromUi::Hil(command)).expect("Failed to send HIL command to CAN thread");
     }
 
     fn reload_tests(&mut self) {
