@@ -1,6 +1,6 @@
 use crate::{messages, ui, widget_ids, widgets};
 
-#[derive(Eq, PartialEq, Hash, Clone, Copy)]
+#[derive(Eq, PartialEq, Hash, Clone, Copy, Debug)]
 pub enum WidgetKind {
     ViewerTable,
     ViewerList,
@@ -16,6 +16,15 @@ pub enum WidgetKind {
     Dynamics,
     Jitter,
     Hil,
+}
+
+impl WidgetKind {
+    pub fn max_tabs_allowed(&self) -> usize {
+        match self {
+            WidgetKind::Hil => 1,
+            _ => usize::MAX,
+        }
+    }
 }
 
 #[derive(Eq, PartialEq, Clone)]
@@ -66,9 +75,14 @@ impl WidgetConstructor {
         self,
         widget_ids: &mut widget_ids::WidgetIds,
         ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
-    ) -> widgets::Widget {
-        let id = widget_ids.next(self.kind());
-        match self {
+        existing_count: usize,
+    ) -> Option<widgets::Widget> {
+        let kind = self.kind();
+        if existing_count >= kind.max_tabs_allowed() {
+            return None;
+        }
+        let id = widget_ids.next(kind);
+        Some(match self {
             WidgetConstructor::ViewerTable => {
                 widgets::Widget::ViewerTable(ui::viewer_table::ViewerTable::new(id))
             }
@@ -106,6 +120,6 @@ impl WidgetConstructor {
             }
             WidgetConstructor::Jitter => widgets::Widget::Jitter(ui::jitter::Jitter::new(id)),
             WidgetConstructor::Hil => widgets::Widget::Hil(ui::hil::Hil::new(ui_to_can_tx)),
-        }
+        })
     }
 }

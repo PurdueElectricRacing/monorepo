@@ -1,6 +1,6 @@
 use crate::{
-    action, connection, formatter, messages, settings, shortcuts, theme, ui, util,
-    widget_constructor, widget_ids, widgets, workspace,
+    action, connection, formatter, messages, settings, shortcuts, theme, ui, util, widget_ids,
+    widgets, workspace,
 };
 use eframe::egui;
 
@@ -146,20 +146,23 @@ impl DAQApp {
         match action {
             action::AppAction::SpawnWidget(widget_type) => {
                 let kind = widget_type.kind();
-                if kind == widget_constructor::WidgetKind::Hil
-                    && self
-                        .tile_tree
-                        .tiles
-                        .tiles()
-                        .any(|tile| matches!(tile, egui_tiles::Tile::Pane(widgets::Widget::Hil(_))))
-                {
-                    log::warn!("A HIL tab is already open; only one is allowed at a time");
-                    return;
+                let existing_count = self
+                    .tile_tree
+                    .tiles
+                    .tiles()
+                    .filter(|tile| matches!(tile, egui_tiles::Tile::Pane(w) if w.kind() == kind))
+                    .count();
+                match widget_type.create(
+                    &mut self.widget_ids,
+                    self.ui_to_can_tx.clone(),
+                    existing_count,
+                ) {
+                    Some(widget) => self.add_widget_to_tree(widget),
+                    None => {
+                        log::warn!("Maximum number of {:?} widgets already open", kind)
+                    }
                 }
-                let widget = widget_type.create(&mut self.widget_ids, self.ui_to_can_tx.clone());
-                self.add_widget_to_tree(widget);
             }
-
             action::AppAction::ToggleSidebar => {
                 self.is_sidebar_open = !self.is_sidebar_open;
             }

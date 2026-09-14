@@ -1,4 +1,4 @@
-use crate::{action, app, formatter, messages, ui};
+use crate::{action, app, formatter, messages, ui, widget_constructor};
 use eframe::egui;
 
 pub enum Widget {
@@ -35,6 +35,25 @@ impl Widget {
             Widget::Dynamics(w) => &w.title,
             Widget::Jitter(w) => &w.title,
             Widget::Hil(w) => &w.title,
+        }
+    }
+
+    pub fn kind(&self) -> widget_constructor::WidgetKind {
+        match self {
+            Widget::ViewerTable(_) => widget_constructor::WidgetKind::ViewerTable,
+            Widget::ViewerList(_) => widget_constructor::WidgetKind::ViewerList,
+            Widget::Bootloader(_) => widget_constructor::WidgetKind::Bootloader,
+            Widget::Scope(_) => widget_constructor::WidgetKind::Scope,
+            Widget::LogParser(_) => widget_constructor::WidgetKind::LogParser,
+            Widget::SendUi(_) => widget_constructor::WidgetKind::SendUi,
+            Widget::BusLoad(_) => widget_constructor::WidgetKind::BusLoad,
+            Widget::BatteryVoltage(_) => widget_constructor::WidgetKind::BatteryVoltage,
+            Widget::BatteryTemps(_) => widget_constructor::WidgetKind::BatteryTemps,
+            Widget::GgPlot(_) => widget_constructor::WidgetKind::GgPlot,
+            Widget::GpsPlot(_) => widget_constructor::WidgetKind::GpsPlot,
+            Widget::Dynamics(_) => widget_constructor::WidgetKind::Dynamics,
+            Widget::Jitter(_) => widget_constructor::WidgetKind::Jitter,
+            Widget::Hil(_) => widget_constructor::WidgetKind::Hil,
         }
     }
 
