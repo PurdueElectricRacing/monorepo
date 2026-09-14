@@ -1,0 +1,69 @@
+{
+    "compounds": [
+        {
+            "name": "velocity",
+            "base_unit": "m/s",
+            "dimensions": [
+                {"class_name": "length", "exponent": 1},
+                {"class_name": "time", "exponent": -1}
+            ],
+            "units": [
+                {"symbol": "m/s", "name": "meters_per_second", "scale": 1.0},
+                {"symbol": "km/h", "name": "kilometers_per_hour", "scale": 0.2777777777777778},
+                {"symbol": "mph", "name": "miles_per_hour", "scale": 0.44704}
+            ]
+        },
+        {
+            "name": "acceleration",
+            "base_unit": "m/s^2",
+            "dimensions": [
+                {"class_name": "length", "exponent": 1},
+                {"class_name": "time", "exponent": -2}
+            ],
+            "units": [
+                {"symbol": "m/s^2", "name": "meters_per_second_squared", "scale": 1.0},
+                {"symbol": "g0", "name": "standard_gravity", "scale": 9.80665}
+            ]
+        },
+        {
+            "name": "angular_velocity",
+            "base_unit": "rad/s",
+            "dimensions": [
+                {"class_name": "angle", "exponent": 1},
+                {"class_name": "time", "exponent": -1}
+            ],
+            "units": [
+                {"symbol": "rad/s", "name": "radians_per_second", "scale": 1.0},
+                {"symbol": "deg/s", "name": "degrees_per_second", "scale": 0.017453292519943295},
+                {"symbol": "rpm", "name": "revolutions_per_minute", "scale": 0.10471975511965977}
+            ]
+        },
+        {
+            "name": "torque",
+            "base_unit": "Nm",
+            "dimensions": [
+                {"class_name": "mass", "exponent": 1},
+                {"class_name": "length", "exponent": 2},
+                {"class_name": "time", "exponent": -2}
+            ],
+            "units": [
+                {"symbol": "Nm", "name": "newton_meter", "scale": 1.0},
+                {"symbol": "lb*ft", "name": "pound_foot", "scale": 1.3558179483314004}
+            ]
+        },
+        {
+            "name": "voltage",
+            "base_unit": "V",
+            "dimensions": [
+                {"class_name": "mass", "exponent": 1},
+                {"class_name": "length", "exponent": 2},
+                {"class_name": "time", "exponent": -3},
+                {"class_name": "current", "exponent": -1}
+            ],
+            "units": [
+                {"symbol": "V", "name": "volt", "scale": 1.0},
+                {"symbol": "mV", "name": "millivolt", "scale": 0.001}
+            ]
+        }
+    ]
+}

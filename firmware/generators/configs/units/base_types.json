@@ -1,0 +1,71 @@
+{
+    "classes": [
+        {
+            "name": "length",
+            "base_unit": "m",
+            "units": [
+                {"symbol": "m", "name": "meter", "scale": 1.0},
+                {"symbol": "mm", "name": "millimeter", "scale": 0.001},
+                {"symbol": "cm", "name": "centimeter", "scale": 0.01},
+                {"symbol": "in", "name": "inch", "scale": 0.0254},
+                {"symbol": "ft", "name": "foot", "scale": 0.3048},
+                {"symbol": "mi", "name": "mile", "scale": 1609.34}
+            ]
+        },
+        {
+            "name": "time",
+            "base_unit": "s",
+            "units": [
+                {"symbol": "s", "name": "second", "scale": 1.0},
+                {"symbol": "ms", "name": "millisecond", "scale": 0.001},
+                {"symbol": "min", "name": "minute", "scale": 60.0},
+                {"symbol": "hr", "name": "hour", "scale": 3600.0},
+                {"symbol": "day", "name": "day", "scale": 86400.0}
+            ]
+        },
+        {
+            "name": "mass",
+            "base_unit": "kg",
+            "units": [
+                {"symbol": "kg", "name": "kilogram", "scale": 1.0},
+                {"symbol": "g", "name": "gram", "scale": 0.001},
+                {"symbol": "lb", "name": "pound", "scale": 0.45359237}
+            ]
+        },
+        {
+            "name": "current",
+            "base_unit": "A",
+            "units": [
+                {"symbol": "A", "name": "amp", "scale": 1.0},
+                {"symbol": "mA", "name": "milliamp", "scale": 0.001}
+            ]
+        },
+        {
+            "name": "temperature",
+            "base_unit": "C",
+            "units": [
+                {"symbol": "C", "name": "celsius", "scale": 1.0},
+                {"symbol": "K", "name": "kelvin", "scale": 1.0, "offset": -273.15},
+                {"symbol": "F", "name": "fahrenheit", "scale": 0.5555555555555556, "offset": -17.77777777777778}
+            ]
+        },
+        {
+            "name": "angle",
+            "base_unit": "rad",
+            "units": [
+                {"symbol": "rad", "name": "radian", "scale": 1.0},
+                {"symbol": "deg", "name": "degree", "scale": 0.017453292519943295}
+            ]
+        },
+        {
+            "name": "pressure",
+            "base_unit": "Pa",
+            "units": [
+                {"symbol": "Pa", "name": "pascal", "scale": 1.0},
+                {"symbol": "kPa", "name": "kilopascal", "scale": 1000.0},
+                {"symbol": "psi", "name": "pound_per_square_inch", "scale": 6894.75729},
+                {"symbol": "bar", "name": "bar", "scale": 100000.0}
+            ]
+        }
+    ]
+}
