@@ -297,6 +297,11 @@ impl Hil {
 
 impl Drop for Hil {
     fn drop(&mut self) {
-        self.send_command(hil::engine::HilCommand::Stop);
+        if let Err(e) = self
+            .ui_to_can_tx
+            .send(messages::MsgFromUi::Hil(hil::engine::HilCommand::Stop))
+        {
+            log::error!("Failed to send HIL stop command on drop: {}", e);
+        }
     }
 }
