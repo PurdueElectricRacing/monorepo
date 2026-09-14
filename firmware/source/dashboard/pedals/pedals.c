@@ -44,11 +44,7 @@ volatile pedals_data_t pedal_values = {
     .brake = 0
 };
 
-/**
- * @brief Processes pedal sensor readings and sets faults as necessary
- *
- * @note This function is called periodically by the scheduler
- */
+
 
 void process_and_send_brake_psi(uint16_t raw_brake_adc) {
 
@@ -60,11 +56,15 @@ void process_and_send_brake_psi(uint16_t raw_brake_adc) {
     uint16_t clamped_adc = CLAMP(raw_brake_adc, BRAKE_ADC_MIN, BRAKE_ADC_MAX);
     uint16_t brake_psi = RESCALE(clamped_adc, BRAKE_ADC_MIN, BRAKE_ADC_MAX, BRAKE_PSI_MIN, BRAKE_PSI_MAX);
 
-    pedal_values.brake = brake_psi;
-    CAN_SEND_pedals(pedal_values.throttle, pedal_values.regen, brake_psi);
-    
+    CAN_SEND_brake_pressure(brake_psi);
 
 }
+
+/**
+ * @brief Processes pedal sensor readings and sets faults as necessary
+ *
+ * @note This function is called periodically by the scheduler
+ */
 
 void pedals_periodic(void) {
     // snapshot ADC values into local memory
