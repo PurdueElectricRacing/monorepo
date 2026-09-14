@@ -13,7 +13,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
             let mut behavior = WorkspaceTileBehavior {
                 can_messages: &app.can_messages,
                 action_queue: &mut app.action_queue,
-                parser: app.parser.as_ref(),
+                bus_parsers: &app.bus_parsers,
                 ui_to_can_tx: app.ui_to_can_tx.clone(),
                 formatter: &app.value_formatter,
             };
@@ -25,7 +25,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
 struct WorkspaceTileBehavior<'a> {
     can_messages: &'a [messages::MsgFromCan],
     action_queue: &'a mut Vec<action::AppAction>,
-    parser: Option<&'a app::ParserInfo>,
+    bus_parsers: &'a Vec<Option<app::ParserInfo>>,
     ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
     formatter: &'a Option<formatter::Formatter>,
 }
@@ -41,7 +41,7 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
             ui,
             self.can_messages,
             self.action_queue,
-            self.parser,
+            self.bus_parsers,
             self.ui_to_can_tx.clone(),
             self.formatter,
         )
