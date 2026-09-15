@@ -47,6 +47,7 @@ void SPMC_init(SPMC_t *spmc) {
     spmc->is_full = false;
 
     // Equal priority prevents either CAN ISR from preempting the other mid-write.
+    // still need CAN_init() since we need to give TX a priority as well
     NVIC_SetPriority(CAN1_RX0_IRQn, CAN_RX_IRQ_PRIO);
     NVIC_SetPriority(CAN2_RX0_IRQn, CAN_RX_IRQ_PRIO);
     NVIC_EnableIRQ(CAN1_RX0_IRQn);
