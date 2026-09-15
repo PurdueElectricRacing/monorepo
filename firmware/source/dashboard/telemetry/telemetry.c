@@ -7,6 +7,8 @@
 
 #include "telemetry.h"
 #include "can_library/generated/DASHBOARD.h"
+#include "common/bootloader/application_version.h"
+#include "common/bootloader/bootloader_common.h"
 
 // Callback to parse LWS data and forward to VCAN
 void LWS_Standard_CALLBACK(void) {
@@ -26,5 +28,5 @@ void LWS_Standard_CALLBACK(void) {
  */
 static_assert(DASH_VERSION_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
 void report_telemetry_02hz(void) {
-    CAN_SEND_dash_version(GIT_HASH);
+    CAN_SEND_dash_version(GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
 }

@@ -1,4 +1,4 @@
-use crate::{action, app, formatter, messages, widgets};
+use crate::{action, app, connection, formatter, messages, widgets};
 use eframe::egui;
 
 pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
@@ -15,6 +15,12 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 action_queue: &mut app.action_queue,
                 parser: app.parser.as_ref(),
                 ui_to_can_tx: app.ui_to_can_tx.clone(),
+                active_bus: (app.connection_status == app::ConnectionStatus::Connected
+                    && matches!(
+                        app.selected_source.as_ref(),
+                        Some(connection::ConnectionSource::Serial(_, _))
+                    ))
+                .then_some(app.can_bus),
                 formatter: &app.value_formatter,
             };
             app.tile_tree.ui(&mut behavior, ui);
@@ -27,6 +33,7 @@ struct WorkspaceTileBehavior<'a> {
     action_queue: &'a mut Vec<action::AppAction>,
     parser: Option<&'a app::ParserInfo>,
     ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    active_bus: Option<connection::CanBus>,
     formatter: &'a Option<formatter::Formatter>,
 }
 
@@ -39,11 +46,14 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
     ) -> egui_tiles::UiResponse {
         widget.show(
             ui,
-            self.can_messages,
-            self.action_queue,
-            self.parser,
-            self.ui_to_can_tx.clone(),
-            self.formatter,
+            widgets::WidgetContext {
+                can_messages: self.can_messages,
+                action_queue: self.action_queue,
+                parser: self.parser,
+                ui_to_can_tx: self.ui_to_can_tx.clone(),
+                active_bus: self.active_bus,
+                formatter: self.formatter,
+            },
         )
     }
 

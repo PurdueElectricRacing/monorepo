@@ -344,6 +344,8 @@ def generate_headers(context: SystemContext) -> list[Artifact]:
     env = get_jinja_env()
     artifacts = []
 
+    artifacts.append(generate_version_header(env, context))
+
     # Generate types header
     artifacts.append(generate_types_header(env, context.custom_types))
 
@@ -360,6 +362,12 @@ def generate_headers(context: SystemContext) -> list[Artifact]:
     
     print_as_success("Successfully generated C headers")
     return artifacts
+
+def generate_version_header(env: Environment, context: SystemContext) -> Artifact:
+    content = render_template(env, "can_version.h.jinja", version=context.version)
+    print_as_ok("Generated can_version.h")
+    return Artifact("generated", "can_version.h", content)
+
 
 def generate_types_header(
     env: Environment, custom_types: Dict[str, CustomTypeConfig]

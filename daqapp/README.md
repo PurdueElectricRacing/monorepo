@@ -32,6 +32,8 @@ DaqApp is PER's complete trackside data acquisition and analysis desktop applica
 2. Use sidebar to select the appropriate DBC so messages and signals can be decoded
   - Get the DBC from the `monorepo/firmware/can_library/dbc` which is an output from the firmware build process
 3. Use the sidebar (or ctrl-P) to launch widgets
+4. Use **Bootloader** to validate and upload a package. See the
+   [bootloader update guide](../docs/daqapp/bootloader_updates.md).
 
 Sidebar settings (source, DBC, etc) are saved to a local settings file to persist between sessions.
 
@@ -89,3 +91,6 @@ The app's source is organized by responsibility:
 ### Testing
 
 For easy testing, you can use the loopback or simulated CAN sources. The loopback source is a virtual CAN bus that echoes messages sent to it, while the simulated source generates random messages for testing purposes.
+
+Rust tests cover direct streaming, the 480 KiB boundary, the 24-bit word index,
+and the READY handshake. Run them from `daqapp/` with `cargo test`.
