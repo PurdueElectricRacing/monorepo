@@ -27,7 +27,7 @@ static inline void can_rx_irq_handler(CAN_TypeDef *peripheral) {
 
     timestamped_frame_t rx = {0}; // temp stack allocated variable
     rx.ticks_ms            = xTaskGetTickCountFromISR();
-    last_can_rx_time_ms     = rx.ticks_ms;
+    last_can_rx_time_ms    = rx.ticks_ms;
 
     // CAN1 = VCAN = bus 0
     set_bus_id(&rx, (peripheral == CAN1) ? 0 : 1);
