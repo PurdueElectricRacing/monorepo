@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+#include "can_library/faults_common.h"
+#include "can_library/generated/DAQ.h"
 #include "common/rtos/rtos.h"
 #include "common/phal_F4/gpio/gpio.h"
 #include "common/phal_F4/rtc/rtc.h"
@@ -75,6 +77,10 @@ void sd_card_periodic(void) {
     next_sd_state = sd_state;
 
     bool is_logging_enabled = PHAL_GPIO_read(LOG_ENABLE_PORT, LOG_ENABLE_PIN);
+    bool is_sd_card_present = SD_Detect() == SD_PRESENT;
+    // This reports a disabled logging switch or an empty card socket, not mount,
+    // filesystem, or write health.
+    update_fault(FAULT_ID_DAQ_LOGGING_DISABLED, !is_logging_enabled || !is_sd_card_present);
 
     switch (sd_state) {
         case SD_STATE_DISABLED: {
@@ -88,7 +94,7 @@ void sd_card_periodic(void) {
 
             if (!is_logging_enabled) {
                 next_sd_state = SD_STATE_DISABLED;
-            } else if (SD_Detect() == SD_PRESENT) {
+            } else if (is_sd_card_present) {
                 next_sd_state = SD_STATE_MOUNTING;
             }
             break;
