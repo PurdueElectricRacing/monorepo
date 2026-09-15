@@ -104,6 +104,8 @@ void shutdown(void);
 RTOS_DEFINE_TASK(sd_card_periodic, SD_FSM_PERIOD_MS, TASK_PRIORITY_HIGH, STACK_4096); // SD WRITE
 RTOS_DEFINE_TASK(ethernet_periodic, 0, TASK_PRIORITY_NORMAL, STACK_4096); // BULLET COMMS 
 RTOS_DEFINE_TASK(RTC_sync, 0, TASK_PRIORITY_LOW, STACK_512);
+// DAQ intentionally does not use DEFINE_CAN_TASKS(): CAN_rx_update() would consume
+// FIFO0 frames through CANpiler instead of preserving them for the SPMC logger.
 RTOS_DEFINE_TASK(CAN_tx_update, 0, TASK_PRIORITY_HIGH, STACK_1024);
 RTOS_DEFINE_TASK(fault_library_periodic, DAQ_FAULT_SYNC_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
 DEFINE_WATCHDOG_TASK();
@@ -131,6 +133,8 @@ int main() {
     if (!PHAL_initCAN(CAN2, false, MCAN_BAUD_RATE)) {
         HardFault_Handler();
     }
+    // Initialize CANpiler's filters, fault state, and TX queues. FIFO0 receive
+    // delivery remains owned by DAQ's strong IRQ handlers in can_irq.c.
     if (!CAN_init()) {
         HardFault_Handler();
     }
@@ -138,7 +142,8 @@ int main() {
     PHAL_GPIO_write(ETH_RST_PORT, ETH_RST_PIN, 1);
 
     RTC_sync_init();
-    SPMC_init(&g_spmc); // also enables CAN interrupts
+    // SPMC enables FIFO0 so the custom RX handlers can retain raw frames.
+    SPMC_init(&g_spmc);
     configure_interrupts();
 
     RTOS_INIT_MUTEX(spi1_lock);
@@ -151,6 +156,8 @@ int main() {
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 
+    // This also enables FIFO0 (already enabled by SPMC), plus RX1 and TX. Keep it
+    // for CANpiler's queued fault-sync transmission; do not start CAN_rx_update().
     CAN_enable_IRQs();
 
     vTaskStartScheduler();

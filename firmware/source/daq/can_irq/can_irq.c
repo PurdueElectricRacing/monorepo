@@ -63,9 +63,12 @@ static inline void can_rx_irq_handler(CAN_TypeDef *peripheral) {
 }
 
 void CAN1_RX0_IRQHandler() {
+    // Overrides PHAL's weak FIFO0 handler so every VCAN frame is timestamped and
+    // retained for DAQ logging instead of being forwarded to CANpiler's RX queue.
     can_rx_irq_handler(CAN1);
 }
 
 void CAN2_RX0_IRQHandler() {
+    // Same ownership model as CAN1: MCAN frames go directly to the SPMC logger.
     can_rx_irq_handler(CAN2);
 }

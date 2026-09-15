@@ -77,6 +77,7 @@ void sd_card_periodic(void) {
     next_sd_state = sd_state;
 
     bool is_logging_enabled = PHAL_GPIO_read(LOG_ENABLE_PORT, LOG_ENABLE_PIN);
+    // This reports the logging switch position, not card presence or SD FSM health.
     update_fault(FAULT_ID_DAQ_LOGGING_DISABLED, !is_logging_enabled);
 
     switch (sd_state) {

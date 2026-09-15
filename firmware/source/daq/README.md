@@ -16,6 +16,33 @@ This directory contains the firmware source code for the Data Acquisition (DAQ) 
 ## Software Timing Diagram
 ![timing diagram](DAQ_timing_diagram.drawio.png)
 
+## CANpiler Integration
+DAQ uses CANpiler for its generated CAN configuration, fault library, and queued
+CAN transmission. In particular, `sd_card_periodic()` reports
+`DAQ_LOGGING_DISABLED` when the physical `LOG_ENABLE` switch is off. The generated
+fault task sends the resulting `daq_fault_sync` message on VCAN; Dashboard's
+generated receiver accepts it, with the configured label `SD Card Not Logging`.
+This fault describes the switch position; it does not mean that an enabled SD card
+is mounted, writable, or actively logging. Dashboard presentation still requires
+on-hardware verification.
+
+DAQ deliberately does not use CANpiler's normal receive task (`CAN_rx_update()`).
+DAQ must retain every received raw frame, including frames without generated
+message definitions, so the F4 FIFO0 interrupt entry points in `can_irq/can_irq.c`
+provide strong definitions that override PHAL's weak default handlers. They
+timestamp each frame and enqueue it in the SPMC queue for SD logging and Ethernet;
+the VCAN GPS-time frame is additionally sent to the RTC synchronization queue.
+Starting `CAN_rx_update()` would instead route FIFO0 frames through CANpiler's
+bounded RX queue and lose DAQ's raw-frame logging path.
+
+`main.c` consequently starts only CANpiler's `CAN_tx_update()` and
+`fault_library_periodic()` tasks, rather than `DEFINE_CAN_TASKS()`. It still calls
+`CAN_init()` to initialize generated filters, fault state, and TX queues, and calls
+`CAN_enable_IRQs()` because queued transmission needs its TX interrupt enable. The
+latter also enables FIFO0; this duplicates SPMC's FIFO0 enable but does not change
+handler ownership. Do not remove the call or add `CAN_rx_update()` without
+redesigning and validating DAQ's raw logging path.
+
 ## SPMC Queue
 Specialized data structure designed specifically for DAQ.
 - Lockless
