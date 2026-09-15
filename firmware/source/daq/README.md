@@ -19,12 +19,12 @@ This directory contains the firmware source code for the Data Acquisition (DAQ) 
 ## CANpiler Integration
 DAQ uses CANpiler for its generated CAN configuration, fault library, and queued
 CAN transmission. In particular, `sd_card_periodic()` reports
-`DAQ_LOGGING_DISABLED` when the physical `LOG_ENABLE` switch is off. The generated
-fault task sends the resulting `daq_fault_sync` message on VCAN; Dashboard's
-generated receiver accepts it, with the configured label `SD Card Not Logging`.
-This fault describes the switch position; it does not mean that an enabled SD card
-is mounted, writable, or actively logging. Dashboard presentation still requires
-on-hardware verification.
+`DAQ_LOGGING_DISABLED` when the physical `LOG_ENABLE` switch is off or the SD card
+detect switch reports an empty socket. The generated fault task sends the resulting
+`daq_fault_sync` message on VCAN; Dashboard's generated receiver accepts it, with
+the configured label `SD Card Not Logging`. This fault does not mean that an
+enabled, detected SD card is mounted, writable, or actively logging. Dashboard
+presentation still requires on-hardware verification.
 
 DAQ deliberately does not use CANpiler's normal receive task (`CAN_rx_update()`).
 DAQ must retain every received raw frame, including frames without generated
