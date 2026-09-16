@@ -6,15 +6,15 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from core.artifacts import Artifact
 from core.config_models import (
-    ConfigBundle,
+    CanDeclarations,
     CustomTypeDeclaration,
-    FaultConfig,
+    FaultDeclaration,
     MessageDeclaration,
     RxSubscriptionDeclaration,
     SignalDeclaration,
 )
 from core.contracts import (
-    CanContribution,
+    DeclarationContribution,
     CustomTypeContribution,
     RxDeclaration,
     TxDeclaration,
@@ -24,15 +24,19 @@ from .models import Fault, FaultNode, FaultPlan
 
 
 class FaultGenerator:
-    def plan(self, config: ConfigBundle) -> FaultPlan:
+    def plan(self, declarations: CanDeclarations) -> FaultPlan:
         fault_bus = next(
-            (bus.name for bus in config.buses.values() if bus.host_fault_library),
+            (
+                bus.name
+                for bus in declarations.buses.values()
+                if bus.host_fault_library
+            ),
             None,
         )
-        fault_id = config.custom_types.get("fault_id_t")
+        fault_id = declarations.custom_types.get("fault_id_t")
 
         nodes = []
-        for data in config.internal_nodes:
+        for data in declarations.internal_nodes:
             tx_messages = (
                 data.busses[fault_bus].tx
                 if fault_bus in data.busses
@@ -64,9 +68,9 @@ class FaultGenerator:
         self._validate(plan)
         return plan
 
-    def contribute(self, plan: FaultPlan) -> CanContribution:
+    def contribute(self, plan: FaultPlan) -> DeclarationContribution:
         if not plan.modules:
-            return CanContribution()
+            return DeclarationContribution()
 
         choices = [
             fault.name for module in plan.modules for fault in module.faults
@@ -159,7 +163,7 @@ class FaultGenerator:
                         )
                     )
 
-        return CanContribution(
+        return DeclarationContribution(
             custom_types=(
                 CustomTypeContribution(
                     CustomTypeDeclaration(
@@ -213,7 +217,7 @@ class FaultGenerator:
         return artifacts
 
     @staticmethod
-    def _parse_fault(data: FaultConfig) -> Fault:
+    def _parse_fault(data: FaultDeclaration) -> Fault:
         return Fault(
             name=data.fault_name,
             max_val=data.max,

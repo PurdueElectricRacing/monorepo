@@ -9,10 +9,10 @@ from collections.abc import Mapping, Sequence
 from jinja2 import Environment
 
 from core.artifacts import Artifact
-from core.config_models import BusConfig, CustomTypeDeclaration
+from core.config_models import BusDeclaration, CustomTypeDeclaration
 from core.utils import get_jinja_env, print_as_ok, print_as_success, render_template
-from .ir import LinkedCan, LinkedMessage, NodeIR
-from .mapper import NodeMapping
+from .ir import CompiledNode, LinkedCan, LinkedMessage
+from .mapper import HardwareMap, NodeHardwareMap
 from .render_contexts import (
     build_node_header_context,
 )
@@ -20,7 +20,7 @@ from .render_contexts import (
 
 def generate_headers(
     linked: LinkedCan,
-    mappings: Mapping[str, NodeMapping],
+    hardware_map: HardwareMap,
     version: str,
 ) -> list[Artifact]:
     print("Generating headers...")
@@ -59,7 +59,7 @@ def generate_headers(
         generate_node_headers(
             env,
             linked,
-            mappings,
+            hardware_map,
             version,
         )
     )
@@ -85,7 +85,7 @@ def generate_types_header(
 
 def generate_router_header(
     env: Environment,
-    nodes: Sequence[NodeIR],
+    nodes: Sequence[CompiledNode],
 ) -> Artifact:
     content = render_template(
         env,
@@ -100,7 +100,7 @@ def generate_router_header(
 def generate_node_headers(
     env: Environment,
     linked: LinkedCan,
-    mappings: Mapping[str, NodeMapping],
+    hardware_map: HardwareMap,
     version: str,
 ) -> list[Artifact]:
     return [
@@ -108,7 +108,7 @@ def generate_node_headers(
             env,
             node,
             linked,
-            mappings.get(node.name),
+            hardware_map.get(node.name),
             version,
         )
         for node in linked.nodes
@@ -118,9 +118,9 @@ def generate_node_headers(
 
 def generate_node_header(
     env: Environment,
-    node: NodeIR,
+    node: CompiledNode,
     linked: LinkedCan,
-    mapping: NodeMapping | None,
+    mapping: NodeHardwareMap | None,
     version: str,
 ) -> Artifact:
     filename = f"{node.name}.h"
@@ -138,7 +138,7 @@ def generate_node_header(
 def generate_bus_header(
     env: Environment,
     bus_name: str,
-    config: BusConfig,
+    config: BusDeclaration,
     messages: Sequence[LinkedMessage],
 ) -> Artifact:
     content = render_template(

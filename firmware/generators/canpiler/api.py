@@ -7,30 +7,30 @@ Author: Irving Wang (irvingw@purdue.edu)
 from collections.abc import Iterable
 
 from core.artifacts import Artifact
-from core.config_models import ConfigBundle
-from core.contracts import CanContribution
+from core.config_models import CanDeclarations
+from core.contracts import DeclarationContribution
 from .codegen import generate_headers
-from .compiler import collect_declarations, compile_source
+from .compiler import assemble_source, compile_source
 from .dbcgen import generate_dbcs
-from .ir import CanIR, CanSource, LinkedCan
+from .ir import CanSource, CompiledCan, LinkedCan
 from .linker import link_can
 from .load_calc import calculate_bus_load
 from .mapper import map_hardware
 
 
 class Canpiler:
-    def collect_declarations(
+    def assemble_source(
         self,
-        config: ConfigBundle,
-        contributions: Iterable[CanContribution] = (),
+        declarations: CanDeclarations,
+        contributions: Iterable[DeclarationContribution] = (),
     ) -> CanSource:
-        return collect_declarations(config, contributions)
+        return assemble_source(declarations, contributions)
 
-    def compile(self, source: CanSource) -> CanIR:
+    def compile(self, source: CanSource) -> CompiledCan:
         return compile_source(source)
 
-    def link(self, can_ir: CanIR) -> LinkedCan:
-        return link_can(can_ir)
+    def link(self, compiled: CompiledCan) -> LinkedCan:
+        return link_can(compiled)
 
     def generate(
         self,

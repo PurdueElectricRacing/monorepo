@@ -11,7 +11,7 @@ from types import MappingProxyType
 from typing import Mapping
 
 from core.config_models import (
-    BusConfig,
+    BusDeclaration,
     ByteOrder,
     CustomTypeDeclaration,
 )
@@ -43,12 +43,12 @@ class CanSource:
     bus_attachments: tuple[SourceBusAttachment, ...]
     tx_messages: tuple[TxDeclaration, ...]
     rx_subscriptions: tuple[RxDeclaration, ...]
-    bus_definitions: Mapping[str, BusConfig]
+    bus_definitions: Mapping[str, BusDeclaration]
     custom_types: Mapping[str, CustomTypeDeclaration]
 
 
 @dataclass(frozen=True)
-class SignalIR:
+class CompiledSignal:
     signal_name: str
     data_type: str
     description: str
@@ -75,10 +75,10 @@ class SignalIR:
 
 
 @dataclass(frozen=True)
-class MessageIR:
+class CompiledMessage:
     message_name: str
     description: str
-    signals: tuple[SignalIR, ...]
+    signals: tuple[CompiledSignal, ...]
     priority: int
     period_ms: int
     id_override: int | None
@@ -99,23 +99,23 @@ class MessageKey:
 
 
 @dataclass(frozen=True)
-class BusAttachmentIR:
+class CompiledBusAttachment:
     name: str
     peripheral: str
     accept_all_messages: bool = False
 
 
 @dataclass(frozen=True)
-class NodeIR:
+class CompiledNode:
     name: str
-    busses: Mapping[str, BusAttachmentIR]
+    busses: Mapping[str, CompiledBusAttachment]
     is_external: bool = False
 
 @dataclass(frozen=True)
-class TxMessageIR:
+class CompiledTxMessage:
     node_name: str
     bus_name: str
-    message: MessageIR
+    message: CompiledMessage
 
     @property
     def key(self) -> MessageKey:
@@ -123,7 +123,7 @@ class TxMessageIR:
 
 
 @dataclass(frozen=True)
-class RxSubscriptionIR:
+class CompiledRxSubscription:
     node_name: str
     bus_name: str
     message_name: str
@@ -135,16 +135,16 @@ class RxSubscriptionIR:
 
 
 @dataclass(frozen=True)
-class CanIR:
-    nodes: tuple[NodeIR, ...]
-    tx_messages: tuple[TxMessageIR, ...]
-    rx_subscriptions: tuple[RxSubscriptionIR, ...]
-    bus_definitions: Mapping[str, BusConfig]
+class CompiledCan:
+    nodes: tuple[CompiledNode, ...]
+    tx_messages: tuple[CompiledTxMessage, ...]
+    rx_subscriptions: tuple[CompiledRxSubscription, ...]
+    bus_definitions: Mapping[str, BusDeclaration]
     custom_types: Mapping[str, CustomTypeDeclaration]
 
 
 @dataclass(frozen=True)
-class LinkedMessage(MessageIR):
+class LinkedMessage(CompiledMessage):
     final_id: int
 
 
@@ -165,8 +165,8 @@ class LinkedRxSubscription:
 
 @dataclass(frozen=True)
 class LinkedCan:
-    nodes: tuple[NodeIR, ...]
+    nodes: tuple[CompiledNode, ...]
     tx_messages: tuple[LinkedTxMessage, ...]
     subscriptions: tuple[LinkedRxSubscription, ...]
-    bus_configs: Mapping[str, BusConfig]
+    bus_configs: Mapping[str, BusDeclaration]
     custom_types: Mapping[str, CustomTypeDeclaration]

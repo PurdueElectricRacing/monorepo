@@ -35,7 +35,7 @@ class RxDeclaration:
 
 
 @dataclass(frozen=True)
-class CanContribution:
+class DeclarationContribution:
     custom_types: tuple[CustomTypeContribution, ...] = ()
     tx_messages: tuple[TxDeclaration, ...] = ()
     rx_subscriptions: tuple[RxDeclaration, ...] = ()

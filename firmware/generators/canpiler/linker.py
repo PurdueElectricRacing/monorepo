@@ -9,23 +9,23 @@ from collections.abc import Iterable
 
 from core.utils import print_as_ok, print_as_success
 from .ir import (
-    CanIR,
+    CompiledCan,
+    CompiledMessage,
+    CompiledTxMessage,
     LinkedCan,
     LinkedMessage,
     LinkedRxSubscription,
     LinkedTxMessage,
-    MessageIR,
     MessageKey,
-    TxMessageIR,
 )
 
 
-def link_can(can_ir: CanIR) -> LinkedCan:
+def link_can(compiled: CompiledCan) -> LinkedCan:
     print("Linking CAN IDs...")
-    transmitters = _index_transmitters(can_ir.tx_messages)
-    linked_messages = _link_messages(can_ir.tx_messages)
+    transmitters = _index_transmitters(compiled.tx_messages)
+    linked_messages = _link_messages(compiled.tx_messages)
     subscriptions = _resolve_subscriptions(
-        can_ir,
+        compiled,
         transmitters,
         linked_messages,
     )
@@ -33,23 +33,23 @@ def link_can(can_ir: CanIR) -> LinkedCan:
     print_as_success("Successfully linked all CAN IDs")
 
     return LinkedCan(
-        nodes=can_ir.nodes,
+        nodes=compiled.nodes,
         tx_messages=tuple(
             LinkedTxMessage(
                 node_name=placed.node_name,
                 bus_name=placed.bus_name,
                 message=linked_messages[placed.key],
             )
-            for placed in can_ir.tx_messages
+            for placed in compiled.tx_messages
         ),
         subscriptions=subscriptions,
-        bus_configs=can_ir.bus_definitions,
-        custom_types=can_ir.custom_types,
+        bus_configs=compiled.bus_definitions,
+        custom_types=compiled.custom_types,
     )
 
 
 def _index_transmitters(
-    messages: Iterable[TxMessageIR],
+    messages: Iterable[CompiledTxMessage],
 ) -> dict[MessageKey, str]:
     transmitters = {}
     for placed in messages:
@@ -70,9 +70,9 @@ def _index_transmitters(
 
 
 def _link_messages(
-    messages: Iterable[TxMessageIR],
+    messages: Iterable[CompiledTxMessage],
 ) -> dict[MessageKey, LinkedMessage]:
-    by_bus: dict[str, list[MessageIR]] = defaultdict(list)
+    by_bus: dict[str, list[CompiledMessage]] = defaultdict(list)
     for placed in messages:
         by_bus[placed.bus_name].append(placed.message)
 
@@ -92,12 +92,12 @@ def _link_messages(
 
 
 def _resolve_subscriptions(
-    can_ir: CanIR,
+    compiled: CompiledCan,
     transmitters: dict[MessageKey, str],
     messages: dict[MessageKey, LinkedMessage],
 ) -> tuple[LinkedRxSubscription, ...]:
     resolved = []
-    for subscription in can_ir.rx_subscriptions:
+    for subscription in compiled.rx_subscriptions:
         producer = transmitters.get(subscription.key)
         if producer is None:
             raise ValueError(
@@ -125,9 +125,9 @@ def _resolve_subscriptions(
 
 def _assign_bus_ids(
     bus_name: str,
-    messages: Iterable[MessageIR],
+    messages: Iterable[CompiledMessage],
 ) -> dict[str, LinkedMessage]:
-    by_priority: dict[int, list[MessageIR]] = defaultdict(list)
+    by_priority: dict[int, list[CompiledMessage]] = defaultdict(list)
     overrides_by_priority: dict[int, set[int]] = defaultdict(set)
     used_ids = set()
     for message in messages:
@@ -201,7 +201,7 @@ def _validate_override_order(
 
 
 def _select_id(
-    message: MessageIR,
+    message: CompiledMessage,
     next_available: int,
     used_ids: set[int],
 ) -> tuple[int, int]:

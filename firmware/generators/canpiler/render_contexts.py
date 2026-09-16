@@ -6,8 +6,8 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from collections import defaultdict
 
-from .ir import LinkedCan, NodeIR, SignalIR, frozen_mapping
-from .mapper import FdcanFilters, NodeMapping
+from .ir import CompiledNode, CompiledSignal, LinkedCan, frozen_mapping
+from .mapper import FdcanFilters, NodeHardwareMap
 from .render_models import (
     NodeHeaderRenderContext,
     PeripheralRenderView,
@@ -18,7 +18,7 @@ from .render_models import (
 )
 
 
-def build_signal_codec(signal: SignalIR) -> SignalCodecRenderView:
+def build_signal_codec(signal: CompiledSignal) -> SignalCodecRenderView:
     bswap_width = "BSWAP_NONE"
     if signal.byte_order == "big_endian" and signal.length in (16, 32, 64):
         bswap_width = f"BSWAP_{signal.length}"
@@ -53,9 +53,9 @@ def build_peripheral_views(peripherals: tuple[str, ...]) -> tuple[PeripheralRend
 
 
 def build_node_header_context(
-    node: NodeIR,
+    node: CompiledNode,
     linked: LinkedCan,
-    mapping: NodeMapping | None,
+    mapping: NodeHardwareMap | None,
     version: str,
 ) -> NodeHeaderRenderContext:
     peripherals = tuple(sorted({bus.peripheral for bus in node.busses.values()}))

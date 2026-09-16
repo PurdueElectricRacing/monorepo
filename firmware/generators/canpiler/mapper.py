@@ -8,7 +8,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Mapping
 
-from .ir import LinkedCan, LinkedMessage as Message, NodeIR as Node, frozen_mapping
+from .ir import CompiledNode, LinkedCan, LinkedMessage, frozen_mapping
 from core.utils import print_as_warning
 
 # Maximum FDCAN filter counts (STM32G4)
@@ -19,15 +19,15 @@ MAX_FDCAN_XID_FILTERS = 8
 @dataclass(frozen=True)
 class FilterBank:
     bank_idx: int
-    msg1: Message
-    msg2: Message | None = None
+    msg1: LinkedMessage
+    msg2: LinkedMessage | None = None
 
 
 @dataclass(frozen=True)
 class FdcanFilters:
     accept_all: bool
-    std_ids: tuple[Message, ...] = ()
-    ext_ids: tuple[Message, ...] = ()
+    std_ids: tuple[LinkedMessage, ...] = ()
+    ext_ids: tuple[LinkedMessage, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -41,11 +41,14 @@ PeripheralFilters = FdcanFilters | BxcanFilters
 
 
 @dataclass(frozen=True)
-class NodeMapping:
+class NodeHardwareMap:
     filters: Mapping[str, PeripheralFilters]
 
 
-def map_hardware(linked: LinkedCan) -> Mapping[str, NodeMapping]:
+HardwareMap = Mapping[str, NodeHardwareMap]
+
+
+def map_hardware(linked: LinkedCan) -> HardwareMap:
     """
     Hardware Mapper stage.
     Assigns physical resources (like bxCAN filter banks or FDCAN filter lists) to nodes.
@@ -67,9 +70,9 @@ def is_fdcan_peripheral(periph: str) -> bool:
 
 
 def map_node_hardware(
-    node: Node,
+    node: CompiledNode,
     linked: LinkedCan,
-) -> NodeMapping:
+) -> NodeHardwareMap:
     peripherals = sorted({bus.peripheral for bus in node.busses.values()})
 
     periph_to_buses: dict[str, list[str]] = defaultdict(list)
@@ -86,7 +89,7 @@ def map_node_hardware(
             )
 
     # Group linked RX messages by peripheral.
-    periph_to_msgs: dict[str, list[Message]] = {
+    periph_to_msgs: dict[str, list[LinkedMessage]] = {
         peripheral: []
         for peripheral in peripherals
     }
@@ -122,13 +125,13 @@ def map_node_hardware(
                 accept_all,
             )
 
-    return NodeMapping(filters=frozen_mapping(filters))
+    return NodeHardwareMap(filters=frozen_mapping(filters))
 
 
 def map_fdcan_filters(
     node_name: str,
     periph: str,
-    msgs: list[Message],
+    msgs: list[LinkedMessage],
     accept_all: bool,
 ) -> FdcanFilters:
     """Map messages to FDCAN standard and extended ID filter lists"""
@@ -157,7 +160,7 @@ def map_fdcan_filters(
 def map_bxcan_filters(
     node_name: str,
     periph: str,
-    msgs: list[Message],
+    msgs: list[LinkedMessage],
     accept_all: bool,
 ) -> BxcanFilters:
     """Map messages to bxCAN filter banks"""

@@ -10,15 +10,15 @@ from typing import Mapping
 from .ir import (
     LinkedMessage,
     LinkedRxSubscription,
-    NodeIR,
-    SignalIR,
+    CompiledNode,
+    CompiledSignal,
 )
 from .mapper import BxcanFilters, FdcanFilters
 
 
 @dataclass(frozen=True)
 class SignalCodecRenderView:
-    signal: SignalIR
+    signal: CompiledSignal
     bswap_width: str
     sign_extend_shift: int | None
     is_float32: bool
@@ -43,7 +43,7 @@ class TxMessageRenderView:
 @dataclass(frozen=True)
 class SignalConstantsRenderView:
     msg: LinkedMessage
-    signals: tuple[SignalIR, ...]
+    signals: tuple[CompiledSignal, ...]
     emit_unpack: bool = False
     emit_pack: bool = False
 
@@ -58,7 +58,7 @@ class PeripheralRenderView:
 
 @dataclass(frozen=True)
 class NodeHeaderRenderContext:
-    node: NodeIR
+    node: CompiledNode
     version: str
     rx_entries: tuple[RxMessageRenderView, ...]
     rx_entries_by_peripheral: Mapping[str, tuple[RxMessageRenderView, ...]]

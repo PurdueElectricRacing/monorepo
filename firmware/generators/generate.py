@@ -6,21 +6,25 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from core.artifacts import clear_artifacts, write_artifacts
 from core.config import DBC_DIR, GENERATED_DIR
-from core.config_loader import load_config_bundle
+from core.config_loader import ConfigValidationError, load_declarations
 from canpiler.api import Canpiler
+from canpiler.compiler import CanCompilationError
 from faultgen.api import FaultGenerator
-from core.utils import get_git_hash
+from core.utils import get_git_hash, print_as_error
 
-def generate():
+def generate() -> None:
     canpiler = Canpiler()
     faultgen = FaultGenerator()
-    config = load_config_bundle()
+    declarations = load_declarations()
 
-    fault_plan         = faultgen.plan(config)
+    fault_plan         = faultgen.plan(declarations)
     fault_contribution = faultgen.contribute(fault_plan)
-    source             = canpiler.collect_declarations(config, [fault_contribution])
-    can_ir             = canpiler.compile(source)
-    linked_can         = canpiler.link(can_ir)
+    source             = canpiler.assemble_source(
+        declarations,
+        [fault_contribution],
+    )
+    compiled           = canpiler.compile(source)
+    linked_can         = canpiler.link(compiled)
     version            = get_git_hash()
 
     artifacts  = canpiler.generate(linked_can, version)
@@ -30,5 +34,18 @@ def generate():
     clear_artifacts(output_roots, {"generated": "*", "dbc": "*.dbc"})
     write_artifacts(output_roots, artifacts)
 
+
+def main() -> int:
+    try:
+        generate()
+    except (ConfigValidationError, CanCompilationError):
+        return 1
+    except ValueError as error:
+        print_as_error(error)
+        return 1
+
+    return 0
+
+
 if __name__ == "__main__":
-    generate()
+    raise SystemExit(main())

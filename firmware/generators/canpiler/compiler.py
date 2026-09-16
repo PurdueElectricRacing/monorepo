@@ -9,36 +9,46 @@ from __future__ import annotations
 import hashlib
 from collections.abc import Iterable, Mapping
 
-from core.config_models import ConfigBundle, CustomTypeDeclaration, MessageDeclaration
-from core.contracts import CanContribution, RxDeclaration, TxDeclaration
-from core.utils import CTYPE_SIZES, print_as_ok, print_as_success, print_as_warning
+from core.config_models import CanDeclarations, CustomTypeDeclaration, MessageDeclaration
+from core.contracts import DeclarationContribution, RxDeclaration, TxDeclaration
+from core.utils import (
+    CTYPE_SIZES,
+    print_as_error,
+    print_as_ok,
+    print_as_success,
+    print_as_warning,
+)
 from .ir import (
-    BusAttachmentIR,
-    CanIR,
     CanSource,
-    MessageIR,
-    NodeIR,
-    RxSubscriptionIR,
-    SignalIR,
+    CompiledBusAttachment,
+    CompiledCan,
+    CompiledMessage,
+    CompiledNode,
+    CompiledRxSubscription,
+    CompiledSignal,
+    CompiledTxMessage,
     SourceBusAttachment,
     SourceNode,
-    TxMessageIR,
     frozen_mapping,
 )
 
 
-def collect_declarations(
-    config: ConfigBundle,
-    contributions: Iterable[CanContribution],
+class CanCompilationError(ValueError):
+    pass
+
+
+def assemble_source(
+    declarations: CanDeclarations,
+    contributions: Iterable[DeclarationContribution],
 ) -> CanSource:
     """Combine configured and generated declarations before compilation."""
-    custom_types = dict(config.custom_types)
+    custom_types = dict(declarations.custom_types)
     nodes = []
     bus_attachments = []
     tx_messages = []
     rx_subscriptions = []
 
-    for node in config.internal_nodes:
+    for node in declarations.internal_nodes:
         nodes.append(SourceNode(node_name=node.node_name))
 
         for bus_name, attachment in node.busses.items():
@@ -59,7 +69,7 @@ def collect_declarations(
                 for subscription in attachment.rx
             )
 
-    for node in config.external_nodes:
+    for node in declarations.external_nodes:
         nodes.append(
             SourceNode(
                 node_name=node.node_name,
@@ -126,7 +136,7 @@ def collect_declarations(
         bus_attachments=tuple(bus_attachments),
         tx_messages=tuple(tx_messages),
         rx_subscriptions=tuple(rx_subscriptions),
-        bus_definitions=frozen_mapping(config.buses),
+        bus_definitions=frozen_mapping(declarations.buses),
         custom_types=frozen_mapping(custom_types),
     )
 
@@ -175,7 +185,7 @@ def _merge_rx(
     subscriptions.append(incoming)
 
 
-def compile_source(source: CanSource) -> CanIR:
+def compile_source(source: CanSource) -> CompiledCan:
     print("Compiling CAN declarations and performing semantic validation...")
     nodes = []
 
@@ -185,7 +195,7 @@ def compile_source(source: CanSource) -> CanIR:
         for source_bus in source.bus_attachments:
             if source_bus.node_name != source_node.node_name:
                 continue
-            bus = BusAttachmentIR(
+            bus = CompiledBusAttachment(
                 name=source_bus.bus_name,
                 peripheral=source_bus.peripheral,
                 accept_all_messages=source_bus.accept_all_messages,
@@ -193,7 +203,7 @@ def compile_source(source: CanSource) -> CanIR:
             busses[bus.name] = bus
 
         nodes.append(
-            NodeIR(
+            CompiledNode(
                 source_node.node_name,
                 frozen_mapping(busses),
                 source_node.is_external,
@@ -202,28 +212,48 @@ def compile_source(source: CanSource) -> CanIR:
         print_as_ok(f"Compiled {source_node.node_name}")
 
     tx_messages = []
+    issues = []
     for item in source.tx_messages:
         bus_definition = source.bus_definitions[item.bus_name]
-        message = _compile_message(
-            item.message,
-            bus_definition.is_extended_id,
-            source.custom_types,
-        )
+        try:
+            message = _compile_message(
+                item.message,
+                bus_definition.is_extended_id,
+                source.custom_types,
+            )
+        except ValueError as error:
+            issues.append(
+                f"Node '{item.node_name}', bus '{item.bus_name}', "
+                f"message '{item.message.message_name}': {error}"
+            )
+            continue
+
         _warn_priority_period_convention(
             item.node_name,
             item.bus_name,
             message,
         )
         tx_messages.append(
-            TxMessageIR(
+            CompiledTxMessage(
                 node_name=item.node_name,
                 bus_name=item.bus_name,
                 message=message,
             )
         )
 
+    if issues:
+        count = len(issues)
+        print_as_warning(
+            f"CAN compilation failed with {count} "
+            f"{'issue' if count == 1 else 'issues'}:"
+        )
+        for issue in issues:
+            print_as_error(f"  {issue}")
+
+        raise CanCompilationError("CAN compilation failed")
+
     rx_subscriptions = tuple(
-        RxSubscriptionIR(
+        CompiledRxSubscription(
             node_name=item.node_name,
             bus_name=item.bus_name,
             message_name=item.subscription.message_name,
@@ -234,7 +264,7 @@ def compile_source(source: CanSource) -> CanIR:
 
     print_as_success("All CAN declarations compiled successfully")
 
-    return CanIR(
+    return CompiledCan(
         tuple(nodes),
         tuple(tx_messages),
         rx_subscriptions,
@@ -247,7 +277,7 @@ def _compile_message(
     declaration: MessageDeclaration,
     is_extended: bool,
     custom_types: Mapping[str, CustomTypeDeclaration],
-) -> MessageIR:
+) -> CompiledMessage:
     current_offset = 0
     signals = []
 
@@ -278,7 +308,7 @@ def _compile_message(
             byte_order = "little_endian"
 
         signals.append(
-            SignalIR(
+            CompiledSignal(
                 signal_name=signal.signal_name,
                 data_type=signal.data_type,
                 description=signal.description,
@@ -321,7 +351,7 @@ def _compile_message(
         for signal in signals
     )
     layout_hash = f"0x{hashlib.sha256(layout.encode()).hexdigest()[:16].upper()}"
-    return MessageIR(
+    return CompiledMessage(
         message_name=declaration.message_name,
         description=declaration.description,
         signals=tuple(signals),
@@ -338,7 +368,7 @@ def _compile_message(
 def _warn_priority_period_convention(
     node_name: str,
     bus_name: str,
-    msg: MessageIR,
+    msg: CompiledMessage,
 ) -> None:
     reason = None
     if msg.priority == 0 and msg.period_ms > 0:

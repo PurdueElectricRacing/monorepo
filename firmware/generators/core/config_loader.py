@@ -14,17 +14,17 @@ from pydantic import ValidationError
 
 from core.config import CONFIG_DIR
 from core.config_models import (
-    BusRegistryConfig,
-    ConfigBundle,
-    ConfigModel,
-    ExternalNodeConfig,
-    InternalNodeConfig,
-    CommonTypesConfig,
+    BusDeclarations,
+    CanDeclarations,
+    DeclarationModel,
+    ExternalNodeDeclaration,
+    NodeDeclaration,
+    TypeDeclarations,
 )
 from core.utils import print_as_error, print_as_ok, print_as_success, print_as_warning
 
 
-T = TypeVar("T", bound=ConfigModel)
+T = TypeVar("T", bound=DeclarationModel)
 
 
 @dataclass(frozen=True)
@@ -58,7 +58,11 @@ def _load_model(path: Path, model_type: type[T], issues: list[ConfigIssue]) -> T
 
 
 def _print_issues(issues: list[ConfigIssue]) -> None:
-    print_as_warning("Configuration validation failed:")
+    count = len(issues)
+    print_as_warning(
+        f"Configuration validation failed with {count} "
+        f"{'issue' if count == 1 else 'issues'}:"
+    )
     for issue in issues:
         print_as_error(
             f"  {issue.path.name}: Field '{issue.location}': {issue.message}"
@@ -66,15 +70,15 @@ def _print_issues(issues: list[ConfigIssue]) -> None:
 
 
 def _validate_references(
-    bundle: ConfigBundle,
+    declarations: CanDeclarations,
     internal_sources: list[Path],
     external_sources: list[Path],
     issues: list[ConfigIssue],
 ) -> None:
-    known_buses = set(bundle.buses)
+    known_buses = set(declarations.buses)
     node_names: dict[str, Path] = {}
 
-    for path, node in zip(internal_sources, bundle.internal_nodes):
+    for path, node in zip(internal_sources, declarations.internal_nodes):
         previous = node_names.get(node.node_name)
         if previous is not None:
             issues.append(ConfigIssue(
@@ -91,7 +95,7 @@ def _validate_references(
                     f"unknown bus '{bus_name}'",
                 ))
 
-    for path, node in zip(external_sources, bundle.external_nodes):
+    for path, node in zip(external_sources, declarations.external_nodes):
         previous = node_names.get(node.node_name)
         if previous is not None:
             issues.append(ConfigIssue(
@@ -107,40 +111,40 @@ def _validate_references(
             ))
 
 
-def load_config_bundle(config_dir: Path = CONFIG_DIR) -> ConfigBundle:
+def load_declarations(config_dir: Path = CONFIG_DIR) -> CanDeclarations:
     """Load and validate every generator configuration file exactly once."""
     print("Loading and validating configs...")
     issues: list[ConfigIssue] = []
 
     bus_registry = _load_model(
-        config_dir / "system" / "bus_configs.json", BusRegistryConfig, issues
+        config_dir / "system" / "bus_configs.json", BusDeclarations, issues
     )
     common_types = _load_model(
-        config_dir / "system" / "common_types.json", CommonTypesConfig, issues
+        config_dir / "system" / "common_types.json", TypeDeclarations, issues
     )
     internal_models = [
         (path, model)
         for path in sorted((config_dir / "nodes").glob("*.json"))
-        if (model := _load_model(path, InternalNodeConfig, issues)) is not None
+        if (model := _load_model(path, NodeDeclaration, issues)) is not None
     ]
     external_models = [
         (path, model)
         for path in sorted((config_dir / "external_nodes").glob("*.json"))
-        if (model := _load_model(path, ExternalNodeConfig, issues)) is not None
+        if (model := _load_model(path, ExternalNodeDeclaration, issues)) is not None
     ]
 
     if issues or bus_registry is None or common_types is None:
         _print_issues(issues)
         raise ConfigValidationError("Configuration validation failed")
 
-    bundle = ConfigBundle(
+    declarations = CanDeclarations(
         buses={bus.name: bus for bus in bus_registry.busses},
         custom_types={item.name: item for item in common_types.types},
         internal_nodes=[model for _, model in internal_models],
         external_nodes=[model for _, model in external_models],
     )
     _validate_references(
-        bundle,
+        declarations,
         [path for path, _ in internal_models],
         [path for path, _ in external_models],
         issues,
@@ -151,4 +155,4 @@ def load_config_bundle(config_dir: Path = CONFIG_DIR) -> ConfigBundle:
         raise ConfigValidationError("Configuration validation failed")
 
     print_as_success("All configs loaded and validated")
-    return bundle
+    return declarations
