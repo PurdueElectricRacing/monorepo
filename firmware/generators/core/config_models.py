@@ -42,6 +42,7 @@ class ConfigModel(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
         strict=True,
+        frozen=True,
     )
 
     @model_validator(mode="before")
@@ -57,7 +58,7 @@ class ConfigModel(BaseModel):
         return data
 
 
-class SignalConfig(ConfigModel):
+class SignalDeclaration(ConfigModel):
     signal_name: str
     data_type: str
     description: str = ""
@@ -85,10 +86,10 @@ class SignalConfig(ConfigModel):
         return self
 
 
-class TxMessageConfig(ConfigModel):
+class MessageDeclaration(ConfigModel):
     message_name: str
     description: str
-    signals: list[SignalConfig]
+    signals: list[SignalDeclaration]
     priority: MessagePriority
     period_ms: NonNegativeInt = 0
     id_override: str | None = Field(
@@ -106,15 +107,15 @@ class TxMessageConfig(ConfigModel):
         return self
 
 
-class RxMessageConfig(ConfigModel):
+class RxSubscriptionDeclaration(ConfigModel):
     message_name: str
     callback: bool = False
 
 
 class BusAttachmentConfig(ConfigModel):
     peripheral: Peripheral
-    tx: list[TxMessageConfig] = Field(default_factory=list)
-    rx: list[RxMessageConfig] = Field(default_factory=list)
+    tx: list[MessageDeclaration] = Field(default_factory=list)
+    rx: list[RxSubscriptionDeclaration] = Field(default_factory=list)
     accept_all_messages: bool = False
 
     @model_validator(mode="after")
@@ -163,8 +164,8 @@ class InternalNodeConfig(ConfigModel):
 class ExternalNodeConfig(ConfigModel):
     node_name: str
     bus_name: str
-    tx: list[TxMessageConfig] = Field(default_factory=list)
-    rx: list[RxMessageConfig] = Field(default_factory=list)
+    tx: list[MessageDeclaration] = Field(default_factory=list)
+    rx: list[RxSubscriptionDeclaration] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def rx_names_are_unique(self) -> Self:
@@ -205,7 +206,7 @@ class BusRegistryConfig(ConfigModel):
         return self
 
 
-class CustomTypeConfig(ConfigModel):
+class CustomTypeDeclaration(ConfigModel):
     name: str = Field(pattern=r"^[a-zA-Z_][a-zA-Z0-9_]*_t$")
     base_type: BaseType
     choices: Annotated[list[str], Field(min_length=1)] | None = None
@@ -219,7 +220,7 @@ class CustomTypeConfig(ConfigModel):
 
 
 class CommonTypesConfig(ConfigModel):
-    types: list[CustomTypeConfig]
+    types: list[CustomTypeDeclaration]
 
     @model_validator(mode="after")
     def type_names_are_unique(self) -> Self:
@@ -233,6 +234,6 @@ class CommonTypesConfig(ConfigModel):
 @dataclass(frozen=True)
 class ConfigBundle:
     buses: dict[str, BusConfig]
-    custom_types: dict[str, CustomTypeConfig]
+    custom_types: dict[str, CustomTypeDeclaration]
     internal_nodes: list[InternalNodeConfig]
     external_nodes: list[ExternalNodeConfig]
