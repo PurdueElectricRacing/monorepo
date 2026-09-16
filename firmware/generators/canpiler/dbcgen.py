@@ -56,31 +56,31 @@ def generate_dbcs(
                 choices: Optional[OrderedDict[int, str | NamedSignalValue]] = None
                 if sig.choices:
                     choices = OrderedDict((i, c) for i, c in enumerate(sig.choices))
-                elif sig.datatype in context.custom_types:
-                    type_info = context.custom_types[sig.datatype]
+                elif sig.data_type in context.custom_types:
+                    type_info = context.custom_types[sig.data_type]
                     if type_info.choices:
                         choices = OrderedDict((i, c) for i, c in enumerate(type_info.choices))
-                elif sig.datatype == 'bool':
+                elif sig.data_type == 'bool':
                     choices = OrderedDict({0: "OFF", 1: "ON"})
 
                 conversion = BaseConversion.factory(
                     scale=sig.scale if sig.scale is not None else 1.0,
                     offset=sig.offset if sig.offset is not None else 0.0,
                     choices=choices,
-                    is_float=(sig.datatype == 'float')
+                    is_float=(sig.data_type == 'float')
                 )
 
                 signals.append(database.can.Signal(
-                    name=sig.name,
+                    name=sig.signal_name,
                     start=sig.bit_offset,
                     length=sig.length,
                     byte_order=sig.byte_order,
                     is_signed=sig.is_signed,
                     conversion=conversion,
-                    minimum=sig.min_val,
-                    maximum=sig.max_val,
+                    minimum=sig.min,
+                    maximum=sig.max,
                     unit=sig.unit if sig.unit else "",
-                    comment=sig.desc
+                    comment=sig.description
                 ))
             
             # Use pre-calculated sender mapping
@@ -90,10 +90,10 @@ def generate_dbcs(
 
             can_db.messages.append(database.can.Message(
                 frame_id=msg.final_id,
-                name=msg.name,
-                length=msg.get_dlc(context.custom_types),
+                name=msg.message_name,
+                length=msg.dlc,
                 signals=signals,
-                comment=msg.desc,
+                comment=msg.description,
                 is_extended_frame=msg.is_extended,
                 senders=[sender],
                 strict=True

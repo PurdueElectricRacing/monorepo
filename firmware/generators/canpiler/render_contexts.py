@@ -101,11 +101,6 @@ def build_can_render_context(
             nodes=frozenset(
                 node.name for node in linked.nodes if bus_name in node.busses
             ),
-            sender_map={
-                key.message_name: transmitter
-                for key, transmitter in linked.transmitters.items()
-                if key.bus_name == bus_name
-            },
         )
 
     return CanRenderContext(
@@ -139,7 +134,7 @@ def build_signal_codec(signal: SignalIR) -> SignalCodecRenderView:
         sign_extend_shift=(
             64 - signal.length if signal.is_signed and signal.length < 64 else None
         ),
-        is_float32=signal.is_floating_point and signal.length == 32,
+        is_float32=signal.data_type == "float" and signal.length == 32,
     )
 
 
@@ -249,12 +244,18 @@ def build_node_header_context(
         message = entry.msg
         scaled = tuple(signal for signal in message.signals if signal.scale is not None)
         if scaled:
-            current = directions.setdefault(message.name, [message, scaled, False, False])
+            current = directions.setdefault(
+                message.message_name,
+                [message, scaled, False, False],
+            )
             current[2] = current[2] or unpack
             current[3] = current[3] or pack
         offset_signals = tuple(signal for signal in message.signals if signal.offset is not None)
         if offset_signals:
-            offsets.setdefault(message.name, OffsetConstantsRenderView(message, offset_signals))
+            offsets.setdefault(
+                message.message_name,
+                OffsetConstantsRenderView(message, offset_signals),
+            )
 
     scaling = tuple(
         ScalingConstantsRenderView(item[0], item[1], item[2], item[3])
@@ -265,7 +266,6 @@ def build_node_header_context(
     return NodeHeaderRenderContext(
         node=node,
         context=context,
-        mapping=mapping,
         rx_entries=tuple(rx_entries),
         rx_peripheral_entries=rx_peripheral_entries,
         tx_entries=tuple(tx_entries),
@@ -277,5 +277,3 @@ def build_node_header_context(
         stale_rx_entries=tuple(entry for entry in rx_entries if entry.msg.period_ms > 0),
         filters=build_filter_view(mapping, peripherals),
     )
-    NetworkBusRenderView,
-    NodeRenderView,

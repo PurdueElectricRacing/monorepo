@@ -17,7 +17,7 @@ static inline void bxcan_set_filters() {
     CAN1->sFilterRegister[{{ bxcan_ctx.accept_bank_idx }}].FR2 = 0;
     {% else %}
     {% for bank in bxcan_ctx.banks %}
-    // Bank {{ bank.bank_idx }}: {{ bank.msg1.name }}{% if bank.has_second_msg %}, {{ bank.msg2.name }}{% endif %} ({{ bxcan_ctx.periph }})
+    // Bank {{ bank.bank_idx }}: {{ bank.msg1.message_name }}{% if bank.has_second_msg %}, {{ bank.msg2.message_name }}{% endif %} ({{ bxcan_ctx.periph }})
     CAN1->FA1R |= (1 << {{ bank.bank_idx }});
     {% if bank.is_ext1 %}
     CAN1->sFilterRegister[{{ bank.bank_idx }}].FR1 = (({{ bank.msg1.macro_name }}_MSG_ID) << 3) | 4;

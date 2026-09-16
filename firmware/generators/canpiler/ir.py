@@ -72,36 +72,8 @@ class SignalIR:
     mask: int
 
     @property
-    def name(self) -> str:
-        return self.signal_name
-
-    @property
-    def datatype(self) -> str:
-        return self.data_type
-
-    @property
-    def desc(self) -> str:
-        return self.description
-
-    @property
-    def min_val(self) -> int | float | None:
-        return self.min
-
-    @property
-    def max_val(self) -> int | float | None:
-        return self.max
-
-    @property
     def macro_name(self) -> str:
         return to_macro_name(self.signal_name)
-
-    @property
-    def c_type(self) -> str:
-        return self.data_type
-
-    @property
-    def is_floating_point(self) -> bool:
-        return self.data_type == "float"
 
     @property
     def is_reserved(self) -> bool:
@@ -122,23 +94,8 @@ class MessageIR:
     layout_hash: str
 
     @property
-    def name(self) -> str:
-        return self.message_name
-
-    @property
-    def desc(self) -> str:
-        return self.description
-
-    @property
-    def period(self) -> int:
-        return self.period_ms
-
-    @property
     def macro_name(self) -> str:
         return to_macro_name(self.message_name)
-
-    def get_dlc(self, custom_types: object = None) -> int:
-        return self.dlc
 
 
 @dataclass(frozen=True, order=True)
@@ -214,10 +171,6 @@ class LinkedRxSubscription:
     message_name: str
     callback: bool
     resolved_message: LinkedMessage
-
-    @property
-    def name(self) -> str:
-        return self.message_name
 
 @dataclass(frozen=True)
 class LinkedCan:

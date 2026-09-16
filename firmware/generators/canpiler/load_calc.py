@@ -35,11 +35,11 @@ def calculate_bus_load(context: LinkedCan) -> None:
                 continue
             # 1. Calculate frames per second
             # Treat asynchronous messages (period=0) as 1Hz for estimation
-            fps = 1000.0 / msg.period if msg.period > 0 else 1.0
+            fps = 1000.0 / msg.period_ms if msg.period_ms > 0 else 1.0
 
             # 2. Bits per frame (Overhead + Data)
             overhead = EXTENDED_OVERHEAD if msg.is_extended else STANDARD_OVERHEAD
-            dlc = msg.get_dlc(context.custom_types)
+            dlc = msg.dlc
             bits_per_frame = overhead + (dlc * 8)
 
             # 3. Apply bit-stuffing factor

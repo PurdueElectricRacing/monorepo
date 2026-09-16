@@ -24,11 +24,6 @@ class BusAttachmentRenderView:
     rx_subscriptions: tuple[LinkedRxSubscription, ...]
     accept_all_messages: bool
 
-    @property
-    def rx_messages(self) -> tuple[LinkedRxSubscription, ...]:
-        return self.rx_subscriptions
-
-
 @dataclass(frozen=True)
 class NodeRenderView:
     name: str
@@ -51,7 +46,6 @@ class NetworkBusRenderView:
     name: str
     messages: tuple[LinkedMessage, ...]
     nodes: frozenset[str]
-    sender_map: Mapping[str, str]
 
 
 @dataclass(frozen=True)
@@ -167,7 +161,6 @@ class FilterRenderView:
 class NodeHeaderRenderContext:
     node: NodeRenderView
     context: CanRenderContext
-    mapping: NodeMapping | None
     rx_entries: tuple[RxMessageRenderView, ...]
     rx_peripheral_entries: tuple[RxPeripheralRenderView, ...]
     tx_entries: tuple[TxMessageRenderView, ...]

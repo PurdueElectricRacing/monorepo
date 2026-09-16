@@ -330,7 +330,8 @@ def _compile_message(
         )
 
     layout = "".join(
-        f"{signal.name}:{signal.c_type}:{signal.bit_shift}:{signal.length};"
+        f"{signal.signal_name}:{signal.data_type}:"
+        f"{signal.bit_shift}:{signal.length};"
         for signal in signals
     )
     layout_hash = f"0x{hashlib.sha256(layout.encode()).hexdigest()[:16].upper()}"

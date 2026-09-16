@@ -38,7 +38,7 @@ void {{ periph.enqueue_func }}(CanMsgTypeDef_t *msg);
 
 // Scaling Macros
 {% for scaling in ctx.scaling_messages %}
-// {{ scaling.msg.name }}
+// {{ scaling.msg.message_name }}
 {% for sig in scaling.signals %}
 {% if scaling.emit_unpack %}
 static constexpr float UNPACK_COEFF_{{ scaling.msg.macro_name }}_{{ sig.macro_name }} = {{ sig.scale|format_float }};
@@ -51,7 +51,7 @@ static constexpr float PACK_COEFF_{{ scaling.msg.macro_name }}_{{ sig.macro_name
 
 // Offset Macros
 {% for offset in ctx.offset_messages %}
-// {{ offset.msg.name }}
+// {{ offset.msg.message_name }}
 {% for sig in offset.signals %}
 static constexpr float OFFSET_{{ offset.msg.macro_name }}_{{ sig.macro_name }} = {{ sig.offset|format_float }};
 {% endfor %}
@@ -60,7 +60,7 @@ static constexpr float OFFSET_{{ offset.msg.macro_name }}_{{ sig.macro_name }} =
 // Data Structures
 typedef struct {
 {% for entry in ctx.rx_entries %}
-    {{ entry.rx_msg.name }}_data_t {{ entry.msg.name }};
+    {{ entry.rx_msg.message_name }}_data_t {{ entry.msg.message_name }};
 {% endfor %}
 } can_data_t;
 
@@ -69,7 +69,7 @@ extern volatile can_data_t can_data;
 // Callback Declarations
 {% for entry in ctx.rx_entries %}
 {% if entry.rx_msg.callback %}
-extern void {{ entry.rx_msg.name }}_CALLBACK();
+extern void {{ entry.rx_msg.message_name }}_CALLBACK();
 {% endif %}
 {% endfor %}
 
@@ -77,8 +77,8 @@ extern void {{ entry.rx_msg.name }}_CALLBACK();
 
 // Stale Checking
 {% for entry in ctx.stale_rx_entries %}
-static bool is_{{ entry.msg.name }}_stale() {
-    return (xTaskGetTickCount() - can_data.{{ entry.msg.name }}.last_rx) > {{ entry.msg.macro_name }}_STALE_TIMEOUT_MS;
+static bool is_{{ entry.msg.message_name }}_stale() {
+    return (xTaskGetTickCount() - can_data.{{ entry.msg.message_name }}.last_rx) > {{ entry.msg.macro_name }}_STALE_TIMEOUT_MS;
 }
 {% endfor %}
 
@@ -88,8 +88,8 @@ static inline void CAN_data_init() {
     // Underflow the last_rx timers to ensure messages are stale until first rx
     // Setup the stale function pointers
     {% for entry in ctx.stale_rx_entries %}
-    can_data.{{ entry.msg.name }}.last_rx = (uint32_t) -({{ entry.msg.macro_name }}_STALE_TIMEOUT_MS + 1);
-    can_data.{{ entry.msg.name }}.is_stale = is_{{ entry.msg.name }}_stale;
+    can_data.{{ entry.msg.message_name }}.last_rx = (uint32_t) -({{ entry.msg.macro_name }}_STALE_TIMEOUT_MS + 1);
+    can_data.{{ entry.msg.message_name }}.is_stale = is_{{ entry.msg.message_name }}_stale;
     {% endfor %}
 }
 
