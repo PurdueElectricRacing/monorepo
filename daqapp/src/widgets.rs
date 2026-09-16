@@ -1,4 +1,4 @@
-use crate::{action, app, connection, formatter, messages, ui, widget_constructor};
+use crate::{action, app, formatter, messages, ui, widget_constructor};
 use eframe::egui;
 
 pub enum Widget {
@@ -23,7 +23,6 @@ pub(crate) struct WidgetContext<'a> {
     pub(crate) action_queue: &'a mut Vec<action::AppAction>,
     pub(crate) parser: Option<&'a app::ParserInfo>,
     pub(crate) ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
-    pub(crate) active_bus: Option<connection::CanBus>,
     pub(crate) formatter: &'a Option<formatter::Formatter>,
 }
 
@@ -90,7 +89,7 @@ impl Widget {
             Widget::ViewerList(w) => w.show(ui, context.formatter, context.parser),
             // The widget sends package commands through the same channel owned
             // by the CAN thread; it never writes the driver directly.
-            Widget::Bootloader(w) => w.show(ui, &context.ui_to_can_tx, context.active_bus),
+            Widget::Bootloader(w) => w.show(ui, &context.ui_to_can_tx),
             Widget::Scope(w) => w.show(ui, context.parser),
             Widget::LogParser(w) => w.show(ui, context.parser),
             Widget::SendUi(w) => w.show(ui, context.parser, context.formatter),

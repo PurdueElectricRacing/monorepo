@@ -52,22 +52,11 @@ impl State {
         }
     }
 
-    pub fn start_firmware_update(
-        &mut self,
-        package: bootloader_protocol::FirmwarePackage,
-        bus: connection::CanBus,
-    ) {
+    pub fn start_firmware_update(&mut self, package: bootloader_protocol::FirmwarePackage) {
         let error = if self.firmware_updater.is_some() {
             Some("another firmware update is already running".to_string())
         } else if !self.is_connected || self.driver.is_none() {
             Some("CANable is not connected".to_string())
-        } else if package.images.iter().any(|image| image.bus != bus) {
-            Some(format!(
-                "firmware selection contains an image for the other CAN bus; select/reconnect {} before updating it",
-                bus.display_name()
-            ))
-        } else if package.bus() != Some(bus) {
-            Some("a firmware update session may contain one CAN bus only".to_string())
         } else {
             None
         };

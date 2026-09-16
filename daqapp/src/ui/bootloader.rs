@@ -1,4 +1,4 @@
-use crate::{bootloader_protocol::FirmwarePackage, connection, messages};
+use crate::{bootloader_protocol::FirmwarePackage, messages};
 use eframe::egui;
 use std::collections::{HashMap, HashSet};
 use std::time::{Duration, Instant};
@@ -72,7 +72,6 @@ impl Bootloader {
         &mut self,
         ui: &mut egui::Ui,
         ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
-        active_bus: Option<connection::CanBus>,
     ) -> egui_tiles::UiResponse {
         ui.heading(format!("🔧 {}", self.title));
         ui.separator();
@@ -121,11 +120,10 @@ impl Bootloader {
 
             egui::Grid::new(egui::Id::new(("bootloader-targets", &self.title)))
                 .striped(true)
-                .num_columns(7)
+                .num_columns(6)
                 .spacing([8.0, 3.0])
                 .show(ui, |ui| {
                     ui.strong("Node");
-                    ui.strong("Bus");
                     ui.strong("Application git hash");
                     ui.strong("Bootloader git hash");
                     ui.strong("Availability");
@@ -134,28 +132,20 @@ impl Bootloader {
                     ui.end_row();
 
                     for image in &images {
-                        let bus_matches = active_bus == Some(image.bus);
                         let capability = self.capability_state(&image.name, now);
-                        let available = capability == CapabilityState::Available && bus_matches;
+                        let available = capability == CapabilityState::Available;
                         if !available {
                             self.selected_targets.remove(&image.name);
                         }
 
                         ui.label(&image.name);
-                        ui.label(image.bus.display_name());
                         ui.label(self.hash_label(&image.name, true, now));
                         ui.label(self.hash_label(&image.name, false, now));
 
-                        let availability = if !bus_matches {
-                            format!("Inactive bus (need {})", image.bus.display_name())
-                        } else {
-                            match capability {
-                                CapabilityState::Available => "Available".to_string(),
-                                CapabilityState::NotBootloadable => "Not bootloadable".to_string(),
-                                CapabilityState::NoRecentTelemetry => {
-                                    "No recent telemetry".to_string()
-                                }
-                            }
+                        let availability = match capability {
+                            CapabilityState::Available => "Available".to_string(),
+                            CapabilityState::NotBootloadable => "Not bootloadable".to_string(),
+                            CapabilityState::NoRecentTelemetry => "No recent telemetry".to_string(),
                         };
                         ui.label(availability);
 
@@ -189,7 +179,6 @@ impl Bootloader {
                 .filter(|image| {
                     self.selected_targets.contains(&image.name)
                         && self.capability_state(&image.name, now) == CapabilityState::Available
-                        && active_bus == Some(image.bus)
                 })
                 .cloned()
                 .collect();
@@ -200,14 +189,10 @@ impl Bootloader {
                     egui::Button::new(format!("Upload selected ({selected_count})")),
                 )
                 .clicked()
-                && let Some(active_bus) = active_bus
                 && ui_to_can_tx
-                    .send(messages::MsgFromUi::StartFirmwareUpdate(
-                        FirmwarePackage {
-                            images: selected_images.clone(),
-                        },
-                        active_bus,
-                    ))
+                    .send(messages::MsgFromUi::StartFirmwareUpdate(FirmwarePackage {
+                        images: selected_images.clone(),
+                    }))
                     .is_ok()
             {
                 self.begin_run(&images, &selected_images);

@@ -1,4 +1,3 @@
-use crate::connection::CanBus;
 use serde::Deserialize;
 use std::{
     collections::HashSet,
@@ -14,7 +13,6 @@ pub const APPLICATION_SLOT_SIZE: usize = 480 * 1024;
 #[derive(Clone, Debug)]
 pub struct FirmwareImage {
     pub name: String,
-    pub bus: CanBus,
     pub bytes: Vec<u8>,
     pub crc32: u32,
     pub start_id: u32,
@@ -53,7 +51,6 @@ struct ManifestBoard {
     size_bytes: usize,
     crc32: String,
     application_address: String,
-    can_bus: String,
     start_id: String,
     crc_id: String,
     jump_id: String,
@@ -158,7 +155,6 @@ impl FirmwarePackage {
             {
                 return Err(format!("duplicate board {}", board.name));
             }
-            let bus = parse_bus(&board.can_bus)?;
             if parse_hex_u32(&board.application_address, "application_address")?
                 != APPLICATION_ADDRESS
             {
@@ -227,7 +223,6 @@ impl FirmwarePackage {
 
             images.push(FirmwareImage {
                 name: board.name,
-                bus,
                 bytes,
                 crc32: expected_crc,
                 start_id,
@@ -323,25 +318,6 @@ fn parse_standard_can_id(value: &str, field: &str) -> Result<u32, String> {
     Ok(id)
 }
 
-fn parse_bus(value: &str) -> Result<CanBus, String> {
-    match value.to_ascii_uppercase().as_str() {
-        "VCAN" => Ok(CanBus::Vcan),
-        "SCAN" => Ok(CanBus::Scan),
-        other => Err(format!("invalid CAN bus {other:?}; expected VCAN or SCAN")),
-    }
-}
-
-impl FirmwarePackage {
-    /// Return the bus shared by all images, if this package selection is single-bus.
-    pub fn bus(&self) -> Option<CanBus> {
-        let first = self.images.first()?.bus;
-        self.images
-            .iter()
-            .all(|image| image.bus == first)
-            .then_some(first)
-    }
-}
-
 fn parse_hex_u32(value: &str, field: &str) -> Result<u32, String> {
     let without_prefix = value
         .strip_prefix("0x")
@@ -410,7 +386,7 @@ mod tests {
             .iter()
             .map(|(name, start, crc_id, jump, data, response)| {
                 format!(
-                    "{{\"name\":\"{name}\",\"binary\":\"image.bin\",\"size_bytes\":{size_bytes},\"crc32\":\"0x{crc:08X}\",\"application_address\":\"0x08008000\",\"can_bus\":\"VCAN\",\"start_id\":\"0x{start}\",\"crc_id\":\"0x{crc_id}\",\"jump_id\":\"0x{jump}\",\"data_id\":\"0x{data}\",\"response_id\":\"0x{response}\"}}"
+                    "{{\"name\":\"{name}\",\"binary\":\"image.bin\",\"size_bytes\":{size_bytes},\"crc32\":\"0x{crc:08X}\",\"application_address\":\"0x08008000\",\"start_id\":\"0x{start}\",\"crc_id\":\"0x{crc_id}\",\"jump_id\":\"0x{jump}\",\"data_id\":\"0x{data}\",\"response_id\":\"0x{response}\"}}"
                 )
             })
             .collect();

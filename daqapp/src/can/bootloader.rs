@@ -329,7 +329,6 @@ mod tests {
         FirmwarePackage {
             images: vec![FirmwareImage {
                 name: "main_module".to_string(),
-                bus: crate::connection::CanBus::Vcan,
                 bytes,
                 crc32,
                 start_id: START_ID,
