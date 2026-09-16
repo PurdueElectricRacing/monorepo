@@ -18,12 +18,12 @@ pub enum Widget {
     Hil(ui::hil::Hil),
 }
 
-pub(crate) struct WidgetContext<'a> {
-    pub(crate) can_messages: &'a [messages::MsgFromCan],
-    pub(crate) action_queue: &'a mut Vec<action::AppAction>,
-    pub(crate) parser: Option<&'a app::ParserInfo>,
-    pub(crate) ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
-    pub(crate) formatter: &'a Option<formatter::Formatter>,
+pub struct WidgetContext<'a> {
+    pub can_messages: &'a [messages::MsgFromCan],
+    pub action_queue: &'a mut Vec<action::AppAction>,
+    pub parser: Option<&'a app::ParserInfo>,
+    pub ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    pub formatter: &'a Option<formatter::Formatter>,
 }
 
 impl Widget {
@@ -65,7 +65,7 @@ impl Widget {
         }
     }
 
-    pub(crate) fn show(
+    pub fn show(
         &mut self,
         ui: &mut egui::Ui,
         context: WidgetContext<'_>,
@@ -87,8 +87,6 @@ impl Widget {
                 w.show(ui, context.action_queue, context.formatter, context.parser)
             }
             Widget::ViewerList(w) => w.show(ui, context.formatter, context.parser),
-            // The widget sends package commands through the same channel owned
-            // by the CAN thread; it never writes the driver directly.
             Widget::Bootloader(w) => w.show(ui, &context.ui_to_can_tx),
             Widget::Scope(w) => w.show(ui, context.parser),
             Widget::LogParser(w) => w.show(ui, context.parser),
