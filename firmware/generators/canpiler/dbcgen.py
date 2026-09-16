@@ -6,31 +6,46 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from typing import Optional
 from collections import OrderedDict
-from .parser import SystemContext
+from .ir import BuildMetadata, LinkedCan, MessageKey
 from cantools import database
 from cantools.database.conversion import BaseConversion
 from cantools.database.can.signal import NamedSignalValue
 from core.artifacts import Artifact
 from core.utils import print_as_success, print_as_ok
 
-def generate_dbcs(context: SystemContext) -> list[Artifact]:
+def generate_dbcs(
+    context: LinkedCan,
+    metadata: BuildMetadata,
+) -> list[Artifact]:
     """
     Generates DBC files for each bus in the system.
     """
     print("Generating DBCs...")
 
-    git_hash = context.version
+    git_hash = metadata.version
     artifacts = []
 
-    for bus_name, view in context.busses.items():
+    bus_names = sorted({
+        bus_name for node in context.nodes for bus_name in node.busses
+    })
+    for bus_name in bus_names:
         can_db = database.can.Database()
         
         # Add nodes
-        for node_name in sorted(view.nodes):
+        for node_name in sorted(
+            node.name for node in context.nodes if bus_name in node.busses
+        ):
             can_db.nodes.append(database.can.Node(name=node_name, comment=""))
 
         # Add messages
-        for msg in view.messages:
+        messages = sorted(
+            (
+                message for key, message in context.messages.items()
+                if key.bus_name == bus_name
+            ),
+            key=lambda message: (message.final_id, message.message_name),
+        )
+        for msg in messages:
             signals = []
             
             # Sort signals by bit offset for deterministic output
@@ -69,7 +84,9 @@ def generate_dbcs(context: SystemContext) -> list[Artifact]:
                 ))
             
             # Use pre-calculated sender mapping
-            sender = view.sender_map.get(msg.name, "Vector__XXX")
+            sender = context.transmitters.get(
+                MessageKey(bus_name, msg.message_name), "Vector__XXX"
+            )
 
             can_db.messages.append(database.can.Message(
                 frame_id=msg.final_id,
