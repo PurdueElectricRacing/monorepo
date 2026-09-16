@@ -1,9 +1,9 @@
-// FDCAN filter setup for {{ fdcan_ctx.periph }}
-static inline void {{ fdcan_ctx.periph }}_set_filters() {
+// FDCAN filter setup for {{ periph }}
+static inline void {{ periph }}_set_filters() {
     {% if fdcan_ctx.accept_all %}
     // Accept all messages - filters configured in PHAL_FDCAN_init() by default
     (void)0;
-    {% elif fdcan_ctx.has_filters %}
+    {% elif fdcan_ctx.std_ids or fdcan_ctx.ext_ids %}
     {% if fdcan_ctx.std_ids %}
     static const uint32_t sid_list[] = {
         {% for msg in fdcan_ctx.std_ids %}
@@ -21,7 +21,7 @@ static inline void {{ fdcan_ctx.periph }}_set_filters() {
     {% endif %}
 
     PHAL_FDCAN_setFilters(
-        {{ fdcan_ctx.periph }},
+        {{ periph }},
         {% if fdcan_ctx.std_ids %}
         sid_list, {{ fdcan_ctx.std_ids|length }},
         {% else %}

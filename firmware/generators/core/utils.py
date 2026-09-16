@@ -64,6 +64,11 @@ def get_jinja_env() -> Environment:
     
     # Custom Filters
     env.filters['to_c_hex'] = lambda v: f"0x{v:X}" if v is not None else "0"
+    env.filters['enum_prefix'] = lambda name: (
+        name[:-2].upper()
+        if name.endswith("_t")
+        else name.upper()
+    )
     
     def format_float(val: float) -> str:
         """Format float to .6g and ensure it looks like a float literal in C"""

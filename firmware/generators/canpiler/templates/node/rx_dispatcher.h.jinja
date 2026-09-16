@@ -1,9 +1,9 @@
 // RX Dispatcher
 static inline void CAN_rx_dispatcher(uint32_t id, const uint8_t *data, uint8_t len, const CAN_bus_t *bus) {
-    {% for rx_periph in ctx.rx_peripheral_entries %}
-    {{ "if" if loop.first else "else if" }} (bus == {{ rx_periph.peripheral.name }}) {
+    {% for periph, entries in ctx.rx_entries_by_peripheral.items() %}
+    {{ "if" if loop.first else "else if" }} (bus == {{ periph }}) {
         switch (id) {
-            {% for entry in rx_periph.entries %}
+            {% for entry in entries %}
             case {{ entry.msg.macro_name }}_MSG_ID: {
                 uint64_t host_data = CAN_load_payload_u64(data, len);
 

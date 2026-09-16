@@ -11,14 +11,11 @@ from jinja2 import Environment
 from core.artifacts import Artifact
 from core.config_models import BusConfig, CustomTypeDeclaration
 from core.utils import get_jinja_env, print_as_ok, print_as_success, render_template
-from .ir import LinkedCan, LinkedMessage
+from .ir import LinkedCan, LinkedMessage, NodeIR
 from .mapper import NodeMapping
 from .render_contexts import (
-    build_node_render_views,
     build_node_header_context,
-    build_type_render_views,
 )
-from .render_models import NodeRenderView
 
 
 def generate_headers(
@@ -27,7 +24,6 @@ def generate_headers(
     version: str,
 ) -> list[Artifact]:
     print("Generating headers...")
-    nodes = build_node_render_views(linked)
     env = get_jinja_env()
     artifacts = [generate_types_header(env, linked.custom_types)]
 
@@ -62,12 +58,12 @@ def generate_headers(
     artifacts.extend(
         generate_node_headers(
             env,
-            nodes,
+            linked,
             mappings,
             version,
         )
     )
-    artifacts.append(generate_router_header(env, nodes))
+    artifacts.append(generate_router_header(env, linked.nodes))
 
     print_as_success("Successfully generated C headers")
 
@@ -81,7 +77,7 @@ def generate_types_header(
     content = render_template(
         env,
         "can_types.h.jinja",
-        types=build_type_render_views(custom_types),
+        types=custom_types.values(),
     )
     print_as_ok("Generated can_types.h")
     return Artifact("generated", "can_types.h", content)
@@ -89,7 +85,7 @@ def generate_types_header(
 
 def generate_router_header(
     env: Environment,
-    nodes: Sequence[NodeRenderView],
+    nodes: Sequence[NodeIR],
 ) -> Artifact:
     content = render_template(
         env,
@@ -103,7 +99,7 @@ def generate_router_header(
 
 def generate_node_headers(
     env: Environment,
-    nodes: Sequence[NodeRenderView],
+    linked: LinkedCan,
     mappings: Mapping[str, NodeMapping],
     version: str,
 ) -> list[Artifact]:
@@ -111,23 +107,26 @@ def generate_node_headers(
         generate_node_header(
             env,
             node,
+            linked,
             mappings.get(node.name),
             version,
         )
-        for node in nodes
+        for node in linked.nodes
         if not node.is_external
     ]
 
 
 def generate_node_header(
     env: Environment,
-    node: NodeRenderView,
+    node: NodeIR,
+    linked: LinkedCan,
     mapping: NodeMapping | None,
     version: str,
 ) -> Artifact:
     filename = f"{node.name}.h"
     render_context = build_node_header_context(
         node,
+        linked,
         mapping,
         version,
     )
