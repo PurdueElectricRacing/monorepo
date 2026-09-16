@@ -16,7 +16,7 @@ void PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate)
 
     PHAL_FDCAN_priv_enterConfig(fdcan);
  
-    // Classic CAN config (no FD/BRS/loopback, auto-retransmission enabled, TX pause on)
+    // Classic CAN config (no FD/BRS/loopback, auto-retransmission disabled, TX pause on)
     PHAL_FDCAN_priv_controlConfig(fdcan);
  
     // Time quantum nominal bit

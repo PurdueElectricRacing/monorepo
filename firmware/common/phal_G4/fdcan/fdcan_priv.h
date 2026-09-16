@@ -87,7 +87,7 @@ void PHAL_FDCAN_priv_enterConfig(FDCAN_GlobalTypeDef *fdcan);
 void PHAL_FDCAN_priv_exitConfig(FDCAN_GlobalTypeDef *fdcan);
 
 // Configure CCCR and TEST registers for classic CAN operation
-// Not FD, not BRS, not loopback, auto-retransmission enabled, TX pause on
+// Not FD, not BRS, not loopback, auto-retransmission disabled, TX pause on
 void PHAL_FDCAN_priv_controlConfig(FDCAN_GlobalTypeDef *fdcan);
 
 /// Set TX FIFO/Queue mode to FIFO (not queue)

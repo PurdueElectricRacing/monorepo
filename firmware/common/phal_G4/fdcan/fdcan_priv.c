@@ -100,8 +100,8 @@ void PHAL_FDCAN_priv_controlConfig(FDCAN_GlobalTypeDef *fdcan) {
 
     // DAR = Disable Automatic Retransmission bit
     // - clearing this bit means automatic retransmission is enabled
-    // - now: a failed/aborted frame will be retried automatically by hardware
-    fdcan->CCCR &= ~FDCAN_CCCR_DAR;
+    // - now: a failed/aborted frame will not be retried automatically by hardware
+    fdcan->CCCR |= FDCAN_CCCR_DAR;
 
     // TXP = Transmit Pause bit
     // - set: the core adds very short delay after each tx before starting the next

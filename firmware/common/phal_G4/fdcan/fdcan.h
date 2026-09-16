@@ -46,7 +46,7 @@ typedef enum : uint32_t {
  *
  * - Setups up FDCAN clock (from PCLK1)
  * - ~87.5% sample point
- * - Classic CAN mode (FD/BRS off), auto-retransmission enabled, TX pause on
+ * - Classic CAN mode (FD/BRS off), auto-retransmission disabled, TX pause on
  * - TX FIFO mode
  * - RX FIFO0 new message (line 0) and TX complete interrupts (line 1)
  * - Sets filter to accept everything into RX FIFO0
