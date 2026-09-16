@@ -14,10 +14,8 @@ from core.config_models import (
     BusConfig,
     ByteOrder,
     CustomTypeDeclaration,
-    MessageDeclaration,
-    RxSubscriptionDeclaration,
 )
-from core.utils import to_macro_name
+from core.contracts import RxDeclaration, TxDeclaration
 
 
 def frozen_mapping(values: Mapping) -> Mapping:
@@ -26,29 +24,25 @@ def frozen_mapping(values: Mapping) -> Mapping:
 
 
 @dataclass(frozen=True)
-class BuildMetadata:
-    version: str
-
-
-@dataclass(frozen=True)
 class SourceBusAttachment:
+    node_name: str
     bus_name: str
     peripheral: str
-    tx_messages: tuple[MessageDeclaration, ...]
-    rx_subscriptions: tuple[RxSubscriptionDeclaration, ...]
     accept_all_messages: bool = False
 
 
 @dataclass(frozen=True)
 class SourceNode:
     node_name: str
-    busses: tuple[SourceBusAttachment, ...]
     is_external: bool = False
 
 
 @dataclass(frozen=True)
 class CanSource:
     nodes: tuple[SourceNode, ...]
+    bus_attachments: tuple[SourceBusAttachment, ...]
+    tx_messages: tuple[TxDeclaration, ...]
+    rx_subscriptions: tuple[RxDeclaration, ...]
     bus_definitions: Mapping[str, BusConfig]
     custom_types: Mapping[str, CustomTypeDeclaration]
 
@@ -73,7 +67,7 @@ class SignalIR:
 
     @property
     def macro_name(self) -> str:
-        return to_macro_name(self.signal_name)
+        return self.signal_name.upper()
 
     @property
     def is_reserved(self) -> bool:
@@ -95,7 +89,7 @@ class MessageIR:
 
     @property
     def macro_name(self) -> str:
-        return to_macro_name(self.message_name)
+        return self.message_name.upper()
 
 
 @dataclass(frozen=True, order=True)
@@ -110,22 +104,12 @@ class BusAttachmentIR:
     peripheral: str
     accept_all_messages: bool = False
 
-    @property
-    def macro_name(self) -> str:
-        return to_macro_name(self.name)
-
 
 @dataclass(frozen=True)
 class NodeIR:
     name: str
     busses: Mapping[str, BusAttachmentIR]
     is_external: bool = False
-
-    @property
-    def macro_name(self) -> str:
-        return to_macro_name(self.name)
-
-
 
 @dataclass(frozen=True)
 class TxMessageIR:
@@ -165,6 +149,12 @@ class LinkedMessage(MessageIR):
 
 
 @dataclass(frozen=True)
+class LinkedTxMessage:
+    node_name: str
+    bus_name: str
+    message: LinkedMessage
+
+@dataclass(frozen=True)
 class LinkedRxSubscription:
     node_name: str
     bus_name: str
@@ -172,12 +162,11 @@ class LinkedRxSubscription:
     callback: bool
     resolved_message: LinkedMessage
 
+
 @dataclass(frozen=True)
 class LinkedCan:
     nodes: tuple[NodeIR, ...]
-    messages: Mapping[MessageKey, LinkedMessage]
-    transmitters: Mapping[MessageKey, str]
-    tx_order: tuple[MessageKey, ...]
+    tx_messages: tuple[LinkedTxMessage, ...]
     subscriptions: tuple[LinkedRxSubscription, ...]
     bus_configs: Mapping[str, BusConfig]
     custom_types: Mapping[str, CustomTypeDeclaration]

@@ -13,10 +13,10 @@ from .ir import (
     LinkedCan,
     LinkedMessage,
     LinkedRxSubscription,
+    LinkedTxMessage,
     MessageIR,
     MessageKey,
     TxMessageIR,
-    frozen_mapping,
 )
 
 
@@ -34,9 +34,14 @@ def link_can(can_ir: CanIR) -> LinkedCan:
 
     return LinkedCan(
         nodes=can_ir.nodes,
-        messages=frozen_mapping(linked_messages),
-        transmitters=frozen_mapping(transmitters),
-        tx_order=tuple(placed.key for placed in can_ir.tx_messages),
+        tx_messages=tuple(
+            LinkedTxMessage(
+                node_name=placed.node_name,
+                bus_name=placed.bus_name,
+                message=linked_messages[placed.key],
+            )
+            for placed in can_ir.tx_messages
+        ),
         subscriptions=subscriptions,
         bus_configs=can_ir.bus_definitions,
         custom_types=can_ir.custom_types,

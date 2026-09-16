@@ -42,9 +42,6 @@ def print_as_ok(message: object) -> None:
 def print_as_success(message: object) -> None:
     print(f"{bcolors.GREEN}[SUCCESS] {message}{bcolors.ENDC}")
 
-def to_macro_name(name: str) -> str:
-    return name.upper()
-
 def get_git_hash() -> str:
     """
     Returns the short git hash of the current commit

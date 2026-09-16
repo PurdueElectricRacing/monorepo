@@ -30,9 +30,10 @@ def calculate_bus_load(context: LinkedCan) -> None:
         total_bits_per_sec = 0.0
         baud_rate = context.bus_configs[bus_name].baud_rate
 
-        for key, msg in context.messages.items():
-            if key.bus_name != bus_name:
+        for item in context.tx_messages:
+            if item.bus_name != bus_name:
                 continue
+            msg = item.message
             # 1. Calculate frames per second
             # Treat asynchronous messages (period=0) as 1Hz for estimation
             fps = 1000.0 / msg.period_ms if msg.period_ms > 0 else 1.0

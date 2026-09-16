@@ -11,38 +11,63 @@ from jinja2 import Environment
 from core.artifacts import Artifact
 from core.config_models import BusConfig, CustomTypeDeclaration
 from core.utils import get_jinja_env, print_as_ok, print_as_success, render_template
-from .ir import BuildMetadata, LinkedCan, LinkedMessage
+from .ir import LinkedCan, LinkedMessage
 from .mapper import NodeMapping
 from .render_contexts import (
-    build_can_render_context,
+    build_node_render_views,
     build_node_header_context,
     build_type_render_views,
 )
-from .render_models import CanRenderContext, NodeRenderView
+from .render_models import NodeRenderView
 
 
 def generate_headers(
     linked: LinkedCan,
     mappings: Mapping[str, NodeMapping],
-    metadata: BuildMetadata,
+    version: str,
 ) -> list[Artifact]:
     print("Generating headers...")
-    context = build_can_render_context(linked, mappings, metadata)
+    nodes = build_node_render_views(linked)
     env = get_jinja_env()
     artifacts = [generate_types_header(env, linked.custom_types)]
 
-    for bus_name, view in context.busses.items():
+    bus_names = sorted({
+        bus_name
+        for node in linked.nodes
+        for bus_name in node.busses
+    })
+    for bus_name in bus_names:
+        messages = tuple(
+            sorted(
+                (
+                    item.message
+                    for item in linked.tx_messages
+                    if item.bus_name == bus_name
+                ),
+                key=lambda message: (
+                    message.final_id,
+                    message.message_name,
+                ),
+            )
+        )
         artifacts.append(
             generate_bus_header(
                 env,
                 bus_name,
                 linked.bus_configs[bus_name],
-                view.messages,
+                messages,
             )
         )
 
-    artifacts.extend(generate_node_headers(env, context))
-    artifacts.append(generate_router_header(env, context.nodes))
+    artifacts.extend(
+        generate_node_headers(
+            env,
+            nodes,
+            mappings,
+            version,
+        )
+    )
+    artifacts.append(generate_router_header(env, nodes))
 
     print_as_success("Successfully generated C headers")
 
@@ -78,21 +103,34 @@ def generate_router_header(
 
 def generate_node_headers(
     env: Environment,
-    context: CanRenderContext,
+    nodes: Sequence[NodeRenderView],
+    mappings: Mapping[str, NodeMapping],
+    version: str,
 ) -> list[Artifact]:
     return [
-        generate_node_header(env, node, context)
-        for node in context.nodes if not node.is_external
+        generate_node_header(
+            env,
+            node,
+            mappings.get(node.name),
+            version,
+        )
+        for node in nodes
+        if not node.is_external
     ]
 
 
 def generate_node_header(
     env: Environment,
     node: NodeRenderView,
-    context: CanRenderContext,
+    mapping: NodeMapping | None,
+    version: str,
 ) -> Artifact:
     filename = f"{node.name}.h"
-    render_context = build_node_header_context(node, context)
+    render_context = build_node_header_context(
+        node,
+        mapping,
+        version,
+    )
     content = render_template(env, "node_header.h.jinja", ctx=render_context)
     print_as_ok(f"Generated {filename}")
     return Artifact("generated", filename, content)

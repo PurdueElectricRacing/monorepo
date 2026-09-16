@@ -8,7 +8,6 @@ from core.artifacts import clear_artifacts, write_artifacts
 from core.config import DBC_DIR, GENERATED_DIR
 from core.config_loader import load_config_bundle
 from canpiler.api import Canpiler
-from canpiler.ir import BuildMetadata
 from faultgen.api import FaultGenerator
 from core.utils import get_git_hash
 
@@ -22,10 +21,10 @@ def generate():
     source             = canpiler.collect_declarations(config, [fault_contribution])
     can_ir             = canpiler.compile(source)
     linked_can         = canpiler.link(can_ir)
-    metadata           = BuildMetadata(version=get_git_hash())
+    version            = get_git_hash()
 
-    artifacts  = canpiler.generate(linked_can, metadata)
-    artifacts += faultgen.generate(fault_plan, metadata)
+    artifacts  = canpiler.generate(linked_can, version)
+    artifacts += faultgen.generate(fault_plan, version)
 
     output_roots = {"generated": GENERATED_DIR, "dbc": DBC_DIR}
     clear_artifacts(output_roots, {"generated": "*", "dbc": "*.dbc"})

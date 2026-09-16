@@ -7,11 +7,10 @@ Author: Irving Wang (irvingw@purdue.edu)
 from __future__ import annotations
 
 import hashlib
-from collections.abc import Iterable
-from dataclasses import replace
+from collections.abc import Iterable, Mapping
 
 from core.config_models import ConfigBundle, CustomTypeDeclaration, MessageDeclaration
-from core.contracts import CanContribution
+from core.contracts import CanContribution, RxDeclaration, TxDeclaration
 from core.utils import CTYPE_SIZES, print_as_ok, print_as_success, print_as_warning
 from .ir import (
     BusAttachmentIR,
@@ -34,44 +33,59 @@ def collect_declarations(
 ) -> CanSource:
     """Combine configured and generated declarations before compilation."""
     custom_types = dict(config.custom_types)
-    nodes: list[SourceNode] = []
+    nodes = []
+    bus_attachments = []
+    tx_messages = []
+    rx_subscriptions = []
 
     for node in config.internal_nodes:
-        busses = tuple(
-            SourceBusAttachment(
-                bus_name=bus_name,
-                peripheral=attachment.peripheral,
-                tx_messages=tuple(attachment.tx),
-                rx_subscriptions=tuple(attachment.rx),
-                accept_all_messages=attachment.accept_all_messages,
-            )
-            for bus_name, attachment in node.busses.items()
-        )
+        nodes.append(SourceNode(node_name=node.node_name))
 
-        nodes.append(
-            SourceNode(
-                node_name=node.node_name,
-                busses=busses,
+        for bus_name, attachment in node.busses.items():
+            bus_attachments.append(
+                SourceBusAttachment(
+                    node_name=node.node_name,
+                    bus_name=bus_name,
+                    peripheral=attachment.peripheral,
+                    accept_all_messages=attachment.accept_all_messages,
+                )
             )
-        )
+            tx_messages.extend(
+                TxDeclaration(node.node_name, bus_name, message)
+                for message in attachment.tx
+            )
+            rx_subscriptions.extend(
+                RxDeclaration(node.node_name, bus_name, subscription)
+                for subscription in attachment.rx
+            )
 
     for node in config.external_nodes:
-        bus = SourceBusAttachment(
-            bus_name=node.bus_name,
-            peripheral="UNKNOWN",
-            tx_messages=tuple(node.tx),
-            rx_subscriptions=tuple(node.rx),
-        )
-
         nodes.append(
             SourceNode(
                 node_name=node.node_name,
                 is_external=True,
-                busses=(bus,),
             )
         )
+        bus_attachments.append(
+            SourceBusAttachment(
+                node_name=node.node_name,
+                bus_name=node.bus_name,
+                peripheral="UNKNOWN",
+            )
+        )
+        tx_messages.extend(
+            TxDeclaration(node.node_name, node.bus_name, message)
+            for message in node.tx
+        )
+        rx_subscriptions.extend(
+            RxDeclaration(node.node_name, node.bus_name, subscription)
+            for subscription in node.rx
+        )
 
-    node_positions = {node.node_name: index for index, node in enumerate(nodes)}
+    attachment_keys = {
+        (attachment.node_name, attachment.bus_name)
+        for attachment in bus_attachments
+    }
 
     for contribution in contributions:
         for item in contribution.custom_types:
@@ -92,149 +106,90 @@ def collect_declarations(
             custom_types[declaration.name] = declaration
 
         for item in contribution.tx_messages:
-            nodes = _append_tx(
-                nodes,
-                node_positions,
+            _validate_target(
+                attachment_keys,
                 item.node_name,
                 item.bus_name,
-                item.message,
             )
+            tx_messages.append(item)
 
         for item in contribution.rx_subscriptions:
-            nodes = _merge_rx(
-                nodes,
-                node_positions,
+            _validate_target(
+                attachment_keys,
                 item.node_name,
                 item.bus_name,
-                item.subscription,
             )
+            _merge_rx(rx_subscriptions, item)
 
     return CanSource(
         nodes=tuple(nodes),
+        bus_attachments=tuple(bus_attachments),
+        tx_messages=tuple(tx_messages),
+        rx_subscriptions=tuple(rx_subscriptions),
         bus_definitions=frozen_mapping(config.buses),
         custom_types=frozen_mapping(custom_types),
     )
 
 
-def _bus_position(node: SourceNode, bus_name: str) -> int:
-    for index, bus in enumerate(node.busses):
-        if bus.bus_name == bus_name:
-            return index
-    raise ValueError(f"Node '{node.node_name}' is not attached to bus '{bus_name}'")
-
-
-def _source_node(
-    nodes: list[SourceNode],
-    positions: dict[str, int],
-    node_name: str,
-) -> tuple[int, SourceNode]:
-    try:
-        index = positions[node_name]
-    except KeyError as error:
-        raise ValueError(f"Contribution targets unknown node '{node_name}'") from error
-    return index, nodes[index]
-
-
-def _append_tx(
-    nodes: list[SourceNode],
-    positions: dict[str, int],
+def _validate_target(
+    attachment_keys: set[tuple[str, str]],
     node_name: str,
     bus_name: str,
-    message: MessageDeclaration,
-) -> list[SourceNode]:
-    node_index, node = _source_node(nodes, positions, node_name)
-    bus_index = _bus_position(node, bus_name)
-    busses = list(node.busses)
-    bus = busses[bus_index]
-    busses[bus_index] = replace(bus, tx_messages=bus.tx_messages + (message,))
-    updated = list(nodes)
-    updated[node_index] = replace(node, busses=tuple(busses))
-    return updated
+) -> None:
+    if (node_name, bus_name) in attachment_keys:
+        return
+
+    known_nodes = {name for name, _ in attachment_keys}
+    if node_name not in known_nodes:
+        raise ValueError(f"Contribution targets unknown node '{node_name}'")
+
+    raise ValueError(f"Node '{node_name}' is not attached to bus '{bus_name}'")
 
 
 def _merge_rx(
-    nodes,
-    positions,
-    node_name,
-    bus_name,
-    subscription,
-):
-    node_index, node = _source_node(nodes, positions, node_name)
-    bus_index = _bus_position(node, bus_name)
-    busses = list(node.busses)
-    bus = busses[bus_index]
-    subscriptions = list(bus.rx_subscriptions)
-
+    subscriptions: list[RxDeclaration],
+    incoming: RxDeclaration,
+) -> None:
     for index, existing in enumerate(subscriptions):
-        if existing.message_name == subscription.message_name:
-            subscriptions[index] = existing.model_copy(
+        if (
+            existing.node_name == incoming.node_name
+            and existing.bus_name == incoming.bus_name
+            and existing.subscription.message_name
+            == incoming.subscription.message_name
+        ):
+            subscription = existing.subscription.model_copy(
                 update={
-                    "callback": existing.callback or subscription.callback,
+                    "callback": (
+                        existing.subscription.callback
+                        or incoming.subscription.callback
+                    )
                 }
             )
-            break
-    else:
-        subscriptions.append(subscription)
+            subscriptions[index] = RxDeclaration(
+                incoming.node_name,
+                incoming.bus_name,
+                subscription,
+            )
+            return
 
-    busses[bus_index] = replace(bus, rx_subscriptions=tuple(subscriptions))
-
-    updated = list(nodes)
-    updated[node_index] = replace(node, busses=tuple(busses))
-
-    return updated
+    subscriptions.append(incoming)
 
 
 def compile_source(source: CanSource) -> CanIR:
     print("Compiling CAN declarations and performing semantic validation...")
     nodes = []
-    tx_messages = []
-    rx_subscriptions = []
 
     for source_node in source.nodes:
         busses = {}
 
-        for source_bus in source_node.busses:
-            bus_definition = source.bus_definitions[source_bus.bus_name]
-            messages = tuple(
-                _compile_message(
-                    message,
-                    bus_definition.is_extended_id,
-                    source.custom_types,
-                )
-                for message in source_bus.tx_messages
-            )
-
+        for source_bus in source.bus_attachments:
+            if source_bus.node_name != source_node.node_name:
+                continue
             bus = BusAttachmentIR(
                 name=source_bus.bus_name,
                 peripheral=source_bus.peripheral,
                 accept_all_messages=source_bus.accept_all_messages,
             )
-
-            tx_messages.extend(
-                TxMessageIR(
-                    node_name=source_node.node_name,
-                    bus_name=source_bus.bus_name,
-                    message=message,
-                )
-                for message in messages
-            )
-            rx_subscriptions.extend(
-                RxSubscriptionIR(
-                    node_name=source_node.node_name,
-                    bus_name=source_bus.bus_name,
-                    message_name=item.message_name,
-                    callback=item.callback,
-                )
-                for item in source_bus.rx_subscriptions
-            )
-
-            for message in messages:
-                _warn_priority_period_convention(
-                    source_node.node_name,
-                    bus.name,
-                    message,
-                )
-
             busses[bus.name] = bus
 
         nodes.append(
@@ -246,12 +201,43 @@ def compile_source(source: CanSource) -> CanIR:
         )
         print_as_ok(f"Compiled {source_node.node_name}")
 
+    tx_messages = []
+    for item in source.tx_messages:
+        bus_definition = source.bus_definitions[item.bus_name]
+        message = _compile_message(
+            item.message,
+            bus_definition.is_extended_id,
+            source.custom_types,
+        )
+        _warn_priority_period_convention(
+            item.node_name,
+            item.bus_name,
+            message,
+        )
+        tx_messages.append(
+            TxMessageIR(
+                node_name=item.node_name,
+                bus_name=item.bus_name,
+                message=message,
+            )
+        )
+
+    rx_subscriptions = tuple(
+        RxSubscriptionIR(
+            node_name=item.node_name,
+            bus_name=item.bus_name,
+            message_name=item.subscription.message_name,
+            callback=item.subscription.callback,
+        )
+        for item in source.rx_subscriptions
+    )
+
     print_as_success("All CAN declarations compiled successfully")
 
     return CanIR(
         tuple(nodes),
         tuple(tx_messages),
-        tuple(rx_subscriptions),
+        rx_subscriptions,
         frozen_mapping(source.bus_definitions),
         frozen_mapping(source.custom_types),
     )
@@ -260,7 +246,7 @@ def compile_source(source: CanSource) -> CanIR:
 def _compile_message(
     declaration: MessageDeclaration,
     is_extended: bool,
-    custom_types: dict[str, CustomTypeDeclaration],
+    custom_types: Mapping[str, CustomTypeDeclaration],
 ) -> MessageIR:
     current_offset = 0
     signals = []

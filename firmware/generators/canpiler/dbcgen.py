@@ -6,7 +6,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from typing import Optional
 from collections import OrderedDict
-from .ir import BuildMetadata, LinkedCan, MessageKey
+from .ir import LinkedCan
 from cantools import database
 from cantools.database.conversion import BaseConversion
 from cantools.database.can.signal import NamedSignalValue
@@ -15,14 +15,13 @@ from core.utils import print_as_success, print_as_ok
 
 def generate_dbcs(
     context: LinkedCan,
-    metadata: BuildMetadata,
+    version: str,
 ) -> list[Artifact]:
     """
     Generates DBC files for each bus in the system.
     """
     print("Generating DBCs...")
 
-    git_hash = metadata.version
     artifacts = []
 
     bus_names = sorted({
@@ -40,12 +39,16 @@ def generate_dbcs(
         # Add messages
         messages = sorted(
             (
-                message for key, message in context.messages.items()
-                if key.bus_name == bus_name
+                item for item in context.tx_messages
+                if item.bus_name == bus_name
             ),
-            key=lambda message: (message.final_id, message.message_name),
+            key=lambda item: (
+                item.message.final_id,
+                item.message.message_name,
+            ),
         )
-        for msg in messages:
+        for item in messages:
+            msg = item.message
             signals = []
             
             # Sort signals by bit offset for deterministic output
@@ -84,10 +87,6 @@ def generate_dbcs(
                 ))
             
             # Use pre-calculated sender mapping
-            sender = context.transmitters.get(
-                MessageKey(bus_name, msg.message_name), "Vector__XXX"
-            )
-
             can_db.messages.append(database.can.Message(
                 frame_id=msg.final_id,
                 name=msg.message_name,
@@ -95,11 +94,11 @@ def generate_dbcs(
                 signals=signals,
                 comment=msg.description,
                 is_extended_frame=msg.is_extended,
-                senders=[sender],
+                senders=[item.node_name],
                 strict=True
             ))
         
-        filename = f"{bus_name}_{git_hash}.dbc"
+        filename = f"{bus_name}_{version}.dbc"
         artifacts.append(Artifact("dbc", filename, can_db.as_dbc_string()))
         
         print_as_ok(f"Generated {filename}")

@@ -4,35 +4,30 @@
             "name": "VCAN",
             "baud_rate": 500000,
             "is_extended_id": false,
-            "is_flexible_data_rate": false,
             "host_fault_library": true
         },
         {
             "name": "MCAN",
             "baud_rate": 500000,
             "is_extended_id": false,
-            "is_flexible_data_rate": false,
             "host_fault_library": false
         },
         {
             "name": "CCAN",
             "baud_rate": 250000,
             "is_extended_id": true,
-            "is_flexible_data_rate": false,
             "host_fault_library": false
         },
         {
             "name": "SCAN",
             "baud_rate": 500000,
             "is_extended_id": false,
-            "is_flexible_data_rate": false,
             "host_fault_library": false
         },
         {
             "name": "GCAN",
             "baud_rate": 1000000,
             "is_extended_id": false,
-            "is_flexible_data_rate": false,
             "host_fault_library": false
         }
     ]

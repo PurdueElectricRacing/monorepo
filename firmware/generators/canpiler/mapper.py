@@ -4,10 +4,11 @@ mapper.py
 Author: Irving Wang (irvingw@purdue.edu)
 """
 
-from dataclasses import dataclass, field
 from collections import defaultdict
-from typing import List, Dict, Optional
-from .ir import LinkedCan, LinkedMessage as Message, NodeIR as Node
+from dataclasses import dataclass
+from typing import Mapping
+
+from .ir import LinkedCan, LinkedMessage as Message, NodeIR as Node, frozen_mapping
 from core.utils import print_as_warning
 
 # Maximum FDCAN filter counts (STM32G4)
@@ -15,37 +16,36 @@ MAX_FDCAN_SID_FILTERS = 28
 MAX_FDCAN_XID_FILTERS = 8
 
 
-@dataclass
+@dataclass(frozen=True)
 class FilterBank:
-    """bxCAN filter bank (F4)"""
-
     bank_idx: int
-    msg1: Optional[Message] = None
-    msg2: Optional[Message] = None
-    is_ext1: bool = False
-    is_ext2: bool = False
+    msg1: Message
+    msg2: Message | None = None
 
 
-@dataclass
-class FDCANFilters:
-    """FDCAN filter lists (G4)"""
+@dataclass(frozen=True)
+class FdcanFilters:
+    accept_all: bool
+    std_ids: tuple[Message, ...] = ()
+    ext_ids: tuple[Message, ...] = ()
 
-    std_ids: List[Message] = field(default_factory=list)  # Standard ID messages
-    ext_ids: List[Message] = field(default_factory=list)  # Extended ID messages
+
+@dataclass(frozen=True)
+class BxcanFilters:
+    accept_all: bool
+    accept_bank_idx: int
+    banks: tuple[FilterBank, ...] = ()
 
 
-@dataclass
+PeripheralFilters = FdcanFilters | BxcanFilters
+
+
+@dataclass(frozen=True)
 class NodeMapping:
-    node_name: str
-    # Peripheral -> List of FilterBanks (for bxCAN)
-    filters: Dict[str, List[FilterBank]] = field(default_factory=dict)
-    # Peripheral -> FDCANFilters (for FDCAN)
-    fdcan_filters: Dict[str, FDCANFilters] = field(default_factory=dict)
-    # Peripheral -> bool
-    accept_all: Dict[str, bool] = field(default_factory=dict)
+    filters: Mapping[str, PeripheralFilters]
 
 
-def map_hardware(linked: LinkedCan) -> Dict[str, NodeMapping]:
+def map_hardware(linked: LinkedCan) -> Mapping[str, NodeMapping]:
     """
     Hardware Mapper stage.
     Assigns physical resources (like bxCAN filter banks or FDCAN filter lists) to nodes.
@@ -58,7 +58,7 @@ def map_hardware(linked: LinkedCan) -> Dict[str, NodeMapping]:
 
         mappings[node.name] = map_node_hardware(node, linked)
 
-    return mappings
+    return frozen_mapping(mappings)
 
 
 def is_fdcan_peripheral(periph: str) -> bool:
@@ -70,11 +70,9 @@ def map_node_hardware(
     node: Node,
     linked: LinkedCan,
 ) -> NodeMapping:
-    mapping = NodeMapping(node_name=node.name)
+    peripherals = sorted({bus.peripheral for bus in node.busses.values()})
 
-    peripherals = sorted(list(set(bus.peripheral for bus in node.busses.values())))
-
-    periph_to_buses: Dict[str, List[str]] = defaultdict(list)
+    periph_to_buses: dict[str, list[str]] = defaultdict(list)
 
     for bus_name, bus in node.busses.items():
         periph_to_buses[bus.peripheral].append(bus_name)
@@ -88,87 +86,82 @@ def map_node_hardware(
             )
 
     # Group linked RX messages by peripheral.
-    periph_to_msgs: Dict[str, List[tuple[Message, str]]] = {p: [] for p in peripherals}
+    periph_to_msgs: dict[str, list[Message]] = {
+        peripheral: []
+        for peripheral in peripherals
+    }
 
     for subscription in linked.subscriptions:
         if subscription.node_name != node.name:
             continue
 
         attachment = node.busses[subscription.bus_name]
-        periph_to_msgs[attachment.peripheral].append(
-            (subscription.resolved_message, subscription.bus_name)
-        )
+        periph_to_msgs[attachment.peripheral].append(subscription.resolved_message)
 
+    filters = {}
     for periph in peripherals:
         msgs = periph_to_msgs[periph]
-        mapping.accept_all[periph] = any(
+        accept_all = any(
             bus.accept_all_messages
             for bus in node.busses.values()
             if bus.peripheral == periph
         )
 
         if is_fdcan_peripheral(periph):
-            # FDCAN filter mapping (G4)
-            mapping.fdcan_filters[periph] = map_fdcan_filters(
+            filters[periph] = map_fdcan_filters(
                 node.name,
                 periph,
                 msgs,
+                accept_all,
             )
-            mapping.filters[periph] = []  # Empty for FDCAN
         else:
-            # bxCAN filter bank mapping (F4)
-            mapping.filters[periph] = map_bxcan_filters(
+            filters[periph] = map_bxcan_filters(
                 node.name,
                 periph,
                 msgs,
+                accept_all,
             )
-            mapping.fdcan_filters[periph] = FDCANFilters()  # Empty for bxCAN
 
-    return mapping
+    return NodeMapping(filters=frozen_mapping(filters))
 
 
 def map_fdcan_filters(
     node_name: str,
     periph: str,
-    msgs: List[tuple[Message, str]],
-) -> FDCANFilters:
+    msgs: list[Message],
+    accept_all: bool,
+) -> FdcanFilters:
     """Map messages to FDCAN standard and extended ID filter lists"""
-    filters = FDCANFilters()
-
-    if not msgs:
-        return filters
-
-    for msg, bus_name in msgs:
-        if msg.is_extended:
-            filters.ext_ids.append(msg)
-        else:
-            filters.std_ids.append(msg)
+    std_ids = tuple(msg for msg in msgs if not msg.is_extended)
+    ext_ids = tuple(msg for msg in msgs if msg.is_extended)
 
     # Check filter limits
-    if len(filters.std_ids) > MAX_FDCAN_SID_FILTERS:
+    if len(std_ids) > MAX_FDCAN_SID_FILTERS:
         raise ValueError(
             f"Node '{node_name}' exceeds FDCAN standard ID filter limit for {periph} "
-            f"({len(filters.std_ids)} > {MAX_FDCAN_SID_FILTERS})"
+            f"({len(std_ids)} > {MAX_FDCAN_SID_FILTERS})"
         )
-    if len(filters.ext_ids) > MAX_FDCAN_XID_FILTERS:
+    if len(ext_ids) > MAX_FDCAN_XID_FILTERS:
         raise ValueError(
             f"Node '{node_name}' exceeds FDCAN extended ID filter limit for {periph} "
-            f"({len(filters.ext_ids)} > {MAX_FDCAN_XID_FILTERS})"
+            f"({len(ext_ids)} > {MAX_FDCAN_XID_FILTERS})"
         )
 
-    return filters
+    return FdcanFilters(
+        accept_all=accept_all,
+        std_ids=std_ids,
+        ext_ids=ext_ids,
+    )
 
 
 def map_bxcan_filters(
     node_name: str,
     periph: str,
-    msgs: List[tuple[Message, str]],
-) -> List[FilterBank]:
+    msgs: list[Message],
+    accept_all: bool,
+) -> BxcanFilters:
     """Map messages to bxCAN filter banks"""
-    banks: List[FilterBank] = []
-
-    if not msgs:
-        return banks
+    banks = []
 
     # bxCAN filter bank assignment
     # CAN1: 0-13, CAN2: 14-27
@@ -183,21 +176,18 @@ def map_bxcan_filters(
                 f"Node '{node_name}' exceeds available bxCAN filter banks for {periph} (limit 14 filters)."
             )
 
-        msg1, bus1 = msgs[i]
-        msg2, bus2 = msgs[i + 1] if i + 1 < len(msgs) else (None, None)
-
-        is_ext1 = msg1.is_extended
-        is_ext2 = False
-        if msg2:
-            is_ext2 = msg2.is_extended
+        msg1 = msgs[i]
+        msg2 = msgs[i + 1] if i + 1 < len(msgs) else None
 
         fb = FilterBank(
             bank_idx=bank_idx,
             msg1=msg1,
             msg2=msg2,
-            is_ext1=is_ext1,
-            is_ext2=is_ext2,
         )
         banks.append(fb)
 
-    return banks
+    return BxcanFilters(
+        accept_all=accept_all,
+        accept_bank_idx=bank_offset,
+        banks=tuple(banks),
+    )

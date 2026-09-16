@@ -19,7 +19,6 @@ from core.contracts import (
     RxDeclaration,
     TxDeclaration,
 )
-from canpiler.ir import BuildMetadata
 from core.utils import get_jinja_env, print_as_ok, print_as_success, render_template
 from .models import Fault, FaultNode, FaultPlan
 
@@ -178,13 +177,13 @@ class FaultGenerator:
     def generate(
         self,
         plan: FaultPlan,
-        metadata: BuildMetadata,
+        version: str,
     ) -> list[Artifact]:
         if not plan.modules:
             return []
 
         env = get_jinja_env()
-        context = self._render_context(plan, metadata.version)
+        context = self._render_context(plan, version)
 
         print("Generating fault library implementation data...")
         artifacts = [

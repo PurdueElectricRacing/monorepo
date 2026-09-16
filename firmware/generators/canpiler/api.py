@@ -12,7 +12,7 @@ from core.contracts import CanContribution
 from .codegen import generate_headers
 from .compiler import collect_declarations, compile_source
 from .dbcgen import generate_dbcs
-from .ir import BuildMetadata, CanIR, CanSource, LinkedCan
+from .ir import CanIR, CanSource, LinkedCan
 from .linker import link_can
 from .load_calc import calculate_bus_load
 from .mapper import map_hardware
@@ -35,10 +35,10 @@ class Canpiler:
     def generate(
         self,
         linked: LinkedCan,
-        metadata: BuildMetadata,
+        version: str,
     ) -> list[Artifact]:
         mappings = map_hardware(linked)
-        artifacts = generate_headers(linked, mappings, metadata)
-        artifacts.extend(generate_dbcs(linked, metadata))
+        artifacts = generate_headers(linked, mappings, version)
+        artifacts.extend(generate_dbcs(linked, version))
         calculate_bus_load(linked)
         return artifacts

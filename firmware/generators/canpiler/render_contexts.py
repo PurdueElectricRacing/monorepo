@@ -8,16 +8,14 @@ from collections import defaultdict
 from typing import Mapping
 
 from core.config_models import CustomTypeDeclaration
-from .ir import BuildMetadata, LinkedCan, SignalIR
-from .mapper import NodeMapping
+from .ir import LinkedCan, SignalIR
+from .mapper import FdcanFilters, NodeMapping
 from .render_models import (
     BxcanFilterBankRenderView,
     BxcanFilterRenderView,
     BusAttachmentRenderView,
-    CanRenderContext,
     FdcanFilterRenderView,
     FilterRenderView,
-    NetworkBusRenderView,
     NodeHeaderRenderContext,
     NodeRenderView,
     OffsetConstantsRenderView,
@@ -31,11 +29,9 @@ from .render_models import (
 )
 
 
-def build_can_render_context(
+def build_node_render_views(
     linked: LinkedCan,
-    mappings: Mapping[str, NodeMapping],
-    metadata: BuildMetadata,
-) -> CanRenderContext:
+) -> tuple[NodeRenderView, ...]:
     nodes = []
 
     for node in linked.nodes:
@@ -43,10 +39,10 @@ def build_can_render_context(
 
         for bus_name, attachment in node.busses.items():
             tx_messages = tuple(
-                linked.messages[key]
-                for key in linked.tx_order
-                if key.bus_name == bus_name
-                and linked.transmitters[key] == node.name
+                item.message
+                for item in linked.tx_messages
+                if item.bus_name == bus_name
+                and item.node_name == node.name
             )
             subscriptions = tuple(
                 item
@@ -70,47 +66,7 @@ def build_can_render_context(
             )
         )
 
-    network_busses = {}
-    bus_names = sorted(
-        {
-            bus_name
-            for node in linked.nodes
-            for bus_name in node.busses
-        }
-    )
-
-    for bus_name in bus_names:
-        bus_messages = (
-            message
-            for key, message in linked.messages.items()
-            if key.bus_name == bus_name
-        )
-        messages = tuple(
-            sorted(
-                bus_messages,
-                key=lambda message: (
-                    message.final_id,
-                    message.message_name,
-                ),
-            )
-        )
-
-        network_busses[bus_name] = NetworkBusRenderView(
-            name=bus_name,
-            messages=messages,
-            nodes=frozenset(
-                node.name for node in linked.nodes if bus_name in node.busses
-            ),
-        )
-
-    return CanRenderContext(
-        nodes=tuple(nodes),
-        busses=network_busses,
-        bus_configs=linked.bus_configs,
-        custom_types=linked.custom_types,
-        mappings=mappings,
-        version=metadata.version,
-    )
+    return tuple(nodes)
 
 
 def build_type_render_views(
@@ -166,28 +122,31 @@ def build_filter_view(
     fdcan = []
     bxcan = []
     for peripheral in peripherals:
-        accept_all = mapping.accept_all.get(peripheral, False)
-        if peripheral.startswith("FDCAN"):
-            filters = mapping.fdcan_filters.get(peripheral)
+        filters = mapping.filters[peripheral]
+        if isinstance(filters, FdcanFilters):
             fdcan.append(FdcanFilterRenderView(
                 periph=peripheral,
-                accept_all=accept_all,
-                std_ids=tuple(filters.std_ids) if filters else (),
-                ext_ids=tuple(filters.ext_ids) if filters else (),
+                accept_all=filters.accept_all,
+                std_ids=filters.std_ids,
+                ext_ids=filters.ext_ids,
             ))
         else:
             banks = tuple(BxcanFilterBankRenderView(
                 bank_idx=bank.bank_idx,
                 msg1=bank.msg1,
                 msg2=bank.msg2 or bank.msg1,
-                is_ext1=bank.is_ext1,
-                is_ext2=bank.is_ext2 if bank.msg2 else bank.is_ext1,
+                is_ext1=bank.msg1.is_extended,
+                is_ext2=(
+                    bank.msg2.is_extended
+                    if bank.msg2
+                    else bank.msg1.is_extended
+                ),
                 has_second_msg=bank.msg2 is not None,
-            ) for bank in mapping.filters.get(peripheral, ()))
+            ) for bank in filters.banks)
             bxcan.append(BxcanFilterRenderView(
                 periph=peripheral,
-                accept_all=accept_all,
-                accept_bank_idx=0 if peripheral == "CAN1" else 14,
+                accept_all=filters.accept_all,
+                accept_bank_idx=filters.accept_bank_idx,
                 banks=banks,
             ))
     return FilterRenderView(tuple(fdcan), tuple(bxcan))
@@ -195,9 +154,9 @@ def build_filter_view(
 
 def build_node_header_context(
     node: NodeRenderView,
-    context: CanRenderContext,
+    mapping: NodeMapping | None,
+    version: str,
 ) -> NodeHeaderRenderContext:
-    mapping = context.mappings.get(node.name)
     peripherals = tuple(sorted({bus.peripheral for bus in node.busses.values()}))
     peripheral_views = build_peripheral_views(peripherals)
     if len({item.bus_type for item in peripheral_views}) != 1 or len({
@@ -265,7 +224,7 @@ def build_node_header_context(
 
     return NodeHeaderRenderContext(
         node=node,
-        context=context,
+        version=version,
         rx_entries=tuple(rx_entries),
         rx_peripheral_entries=rx_peripheral_entries,
         tx_entries=tuple(tx_entries),

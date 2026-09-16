@@ -7,13 +7,11 @@ Author: Irving Wang (irvingw@purdue.edu)
 from dataclasses import dataclass
 from typing import Mapping
 
-from core.config_models import BusConfig, CustomTypeDeclaration
 from .ir import (
     LinkedMessage,
     LinkedRxSubscription,
     SignalIR,
 )
-from .mapper import NodeMapping
 
 
 @dataclass(frozen=True)
@@ -33,30 +31,6 @@ class NodeRenderView:
     @property
     def macro_name(self) -> str:
         return self.name.upper()
-
-    @property
-    def messages(self) -> tuple[LinkedMessage, ...]:
-        return tuple(
-            message for bus in self.busses.values() for message in bus.tx_messages
-        )
-
-
-@dataclass(frozen=True)
-class NetworkBusRenderView:
-    name: str
-    messages: tuple[LinkedMessage, ...]
-    nodes: frozenset[str]
-
-
-@dataclass(frozen=True)
-class CanRenderContext:
-    nodes: tuple[NodeRenderView, ...]
-    busses: Mapping[str, NetworkBusRenderView]
-    bus_configs: Mapping[str, BusConfig]
-    custom_types: Mapping[str, CustomTypeDeclaration]
-    mappings: Mapping[str, NodeMapping]
-    version: str
-
 
 @dataclass(frozen=True)
 class SignalCodecRenderView:
@@ -160,7 +134,7 @@ class FilterRenderView:
 @dataclass(frozen=True)
 class NodeHeaderRenderContext:
     node: NodeRenderView
-    context: CanRenderContext
+    version: str
     rx_entries: tuple[RxMessageRenderView, ...]
     rx_peripheral_entries: tuple[RxPeripheralRenderView, ...]
     tx_entries: tuple[TxMessageRenderView, ...]
