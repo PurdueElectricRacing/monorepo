@@ -5,15 +5,10 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 import json
-import hashlib
 import subprocess
-from typing import TYPE_CHECKING
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from core.config import CAN_TEMPLATE_DIR, FAULT_TEMPLATE_DIR
-
-if TYPE_CHECKING:
-    from canpiler.parser import Message
 
 CTYPE_SIZES = {
     "uint8_t": 8, "int8_t": 8,
@@ -60,21 +55,6 @@ def get_git_hash() -> str:
         return result.stdout.strip()
     except (subprocess.CalledProcessError, FileNotFoundError):
         return "unknown"
-
-def get_layout_hash(message: "Message") -> str:
-    """
-    Calculates a fingerprint hash for a message layout
-    """
-    layout_str = ""
-    # Add signal properties that affect layout into a single string
-    # ! does not account for message ID or period, as they do not affect the layout
-    for sig in message.signals:
-        layout_str += f"{sig.name}:{sig.c_type}:{sig.bit_shift}:{sig.length};"
-
-    payload = layout_str.encode('utf-8')
-    full_hash = hashlib.sha256(payload).hexdigest().upper()
-    return f"0x{full_hash[:16]}" # take the first 16 chars (to fit in 64 bits)
-
 
 def get_jinja_env() -> Environment:
     env = Environment(
