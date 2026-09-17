@@ -43,17 +43,9 @@
             }
         },
         {
-            "label": "run generator tests",
+            "label": "run tests",
             "type": "shell",
-            "command": "python3 -m pytest generators -q",
-            "group": {
-                "kind": "test"
-            }
-        },
-        {
-            "label": "run unit tests",
-            "type": "shell",
-            "command": "clear && python3 tests/build_tests.py",
+            "command": "clear && python3 tests/run_tests.py",
             "group": {
                 "kind": "test",
                 "isDefault": true

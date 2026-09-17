@@ -137,7 +137,20 @@ endif()
 find_package(GTest CONFIG REQUIRED)
 
 include(GoogleTest)
-add_subdirectory(unit)
+include(cmake/FirmwareUnitTest.cmake)
+
+add_subdirectory(
+    "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/lerp_lut/tests"
+    "${CMAKE_BINARY_DIR}/unit/lerp_lut"
+)
+add_subdirectory(
+    "${PER_TEST_FIRMWARE_SOURCE_DIR}/can_library/tests"
+    "${CMAKE_BINARY_DIR}/unit/can_codec"
+)
+add_subdirectory(
+    "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/strbuf/tests"
+    "${CMAKE_BINARY_DIR}/unit/strbuf"
+)
 
 if(PER_TEST_COVERAGE)
     get_property(
@@ -165,6 +178,7 @@ if(PER_TEST_COVERAGE)
         # Clear any existing coverage counters.
         COMMAND
             "${PER_TEST_LCOV}"
+            --quiet
             --directory "${CMAKE_BINARY_DIR}"
             --zerocounters
 
@@ -177,6 +191,7 @@ if(PER_TEST_COVERAGE)
         # Capture coverage for firmware sources only.
         COMMAND
             "${PER_TEST_LCOV}"
+            --quiet
             --directory "${CMAKE_BINARY_DIR}"
             --gcov-tool "${PER_TEST_GCOV}"
             ${PER_TEST_GCOV_TOOL_ARGS}
@@ -188,6 +203,7 @@ if(PER_TEST_COVERAGE)
         # Generate the HTML coverage report.
         COMMAND
             "${PER_TEST_GENHTML}"
+            --quiet
             "${CMAKE_BINARY_DIR}/coverage/lcov.info"
             --output-directory "${CMAKE_BINARY_DIR}/coverage/html"
 
