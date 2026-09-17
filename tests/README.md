@@ -74,11 +74,15 @@ configures production C sources as C23 static libraries, test sources as C++20,
 strict compiler warnings, GoogleTest discovery, the CTest `unit` label, and
 AddressSanitizer/UBSan and coverage instrumentation.
 
+Each module's `tests/CMakeLists.txt` registers its test target. The host-test
+project in `tests/CMakeLists.txt` adds those directories to the build.
+
 ## Directory layout
 
 ```text
 firmware/can_library/
 └── tests/
+    ├── CMakeLists.txt
     ├── can_codec_test.cpp
     ├── can_codec_test_shim.c
     └── can_codec_test_shim.h
@@ -86,39 +90,41 @@ firmware/can_library/
 firmware/common/
 ├── lerp_lut/
 │   └── tests/
+│       ├── CMakeLists.txt
 │       └── lerp_lut_test.cpp
 └── strbuf/
     └── tests/
+        ├── CMakeLists.txt
         └── strbuf_test.cpp
 
 tests/
 ├── ARCHITECTURE.md
 ├── build_tests.py
 ├── CMakeLists.txt
-├── cmake/
-│   └── FirmwareUnitTest.cmake
-└── unit/
-    └── CMakeLists.txt
+└── cmake/
+    └── FirmwareUnitTest.cmake
 ```
 
 ## Adding a unit test
 
 1. Add a GoogleTest source under the production module's `tests` directory,
    such as `firmware/common/<module>/tests`.
-2. Register a target in `tests/unit/CMakeLists.txt` with `add_firmware_unit_test`:
+2. Register the target in that directory's `CMakeLists.txt` with
+   `add_firmware_unit_test`:
 
    ```cmake
    add_firmware_unit_test(
        NAME example_test
-       SOURCES "${CMAKE_CURRENT_LIST_DIR}/../../firmware/common/example/example.c"
-       TEST_SOURCES "${CMAKE_CURRENT_LIST_DIR}/../../firmware/common/example/tests/example_test.cpp"
-       INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/../../firmware/common/example"
+       SOURCES "${CMAKE_CURRENT_LIST_DIR}/../example.c"
+       TEST_SOURCES "${CMAKE_CURRENT_LIST_DIR}/example_test.cpp"
+       INCLUDE_DIRECTORIES "${CMAKE_CURRENT_LIST_DIR}/.."
    )
    ```
 
-3. Use `SOURCES` for production `.c` files. For header-only C modules, add a
+3. Add the test directory to `tests/CMakeLists.txt` with `add_subdirectory`.
+4. Use `SOURCES` for production `.c` files. For header-only C modules, add a
    `.c` shim to `SOURCES` and call it from the C++ test so inline implementation
    code is compiled under C23 rather than C++20.
-4. Run `python3 tests/build_tests.py` from the repository root.
+5. Run `python3 tests/build_tests.py` from the repository root.
 
 CTest discovers each GoogleTest case from the registered target automatically.

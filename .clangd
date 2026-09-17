@@ -7,3 +7,10 @@ CompileFlags:
 
 Index:
   Background: Build
+
+---
+If:
+  PathMatch: firmware/(can_library|common/[^/]+)/tests/.*
+
+CompileFlags:
+  CompilationDatabase: firmware/build/host-tests
