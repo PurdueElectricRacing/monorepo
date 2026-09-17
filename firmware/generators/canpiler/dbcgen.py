@@ -6,31 +6,49 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from typing import Optional
 from collections import OrderedDict
-from .parser import SystemContext
+from .ir import LinkedCan
 from cantools import database
 from cantools.database.conversion import BaseConversion
 from cantools.database.can.signal import NamedSignalValue
 from core.artifacts import Artifact
 from core.utils import print_as_success, print_as_ok
 
-def generate_dbcs(context: SystemContext) -> list[Artifact]:
+def generate_dbcs(
+    context: LinkedCan,
+    version: str,
+) -> list[Artifact]:
     """
     Generates DBC files for each bus in the system.
     """
     print("Generating DBCs...")
 
-    git_hash = context.version
     artifacts = []
 
-    for bus_name, view in context.busses.items():
+    bus_names = sorted({
+        bus_name for node in context.nodes for bus_name in node.busses
+    })
+    for bus_name in bus_names:
         can_db = database.can.Database()
         
         # Add nodes
-        for node_name in sorted(view.nodes):
+        for node_name in sorted(
+            node.name for node in context.nodes if bus_name in node.busses
+        ):
             can_db.nodes.append(database.can.Node(name=node_name, comment=""))
 
         # Add messages
-        for msg in view.messages:
+        messages = sorted(
+            (
+                item for item in context.tx_messages
+                if item.bus_name == bus_name
+            ),
+            key=lambda item: (
+                item.message.final_id,
+                item.message.message_name,
+            ),
+        )
+        for item in messages:
+            msg = item.message
             signals = []
             
             # Sort signals by bit offset for deterministic output
@@ -41,48 +59,46 @@ def generate_dbcs(context: SystemContext) -> list[Artifact]:
                 choices: Optional[OrderedDict[int, str | NamedSignalValue]] = None
                 if sig.choices:
                     choices = OrderedDict((i, c) for i, c in enumerate(sig.choices))
-                elif sig.datatype in context.custom_types:
-                    type_info = context.custom_types[sig.datatype]
+                elif sig.data_type in context.custom_types:
+                    type_info = context.custom_types[sig.data_type]
                     if type_info.choices:
                         choices = OrderedDict((i, c) for i, c in enumerate(type_info.choices))
-                elif sig.datatype == 'bool':
+                elif sig.data_type == 'bool':
                     choices = OrderedDict({0: "OFF", 1: "ON"})
 
                 conversion = BaseConversion.factory(
                     scale=sig.scale if sig.scale is not None else 1.0,
                     offset=sig.offset if sig.offset is not None else 0.0,
                     choices=choices,
-                    is_float=(sig.datatype == 'float')
+                    is_float=(sig.data_type == 'float')
                 )
 
                 signals.append(database.can.Signal(
-                    name=sig.name,
+                    name=sig.signal_name,
                     start=sig.bit_offset,
                     length=sig.length,
                     byte_order=sig.byte_order,
                     is_signed=sig.is_signed,
                     conversion=conversion,
-                    minimum=sig.min_val,
-                    maximum=sig.max_val,
+                    minimum=sig.min,
+                    maximum=sig.max,
                     unit=sig.unit if sig.unit else "",
-                    comment=sig.desc
+                    comment=sig.description
                 ))
             
             # Use pre-calculated sender mapping
-            sender = view.sender_map.get(msg.name, "Vector__XXX")
-
             can_db.messages.append(database.can.Message(
                 frame_id=msg.final_id,
-                name=msg.name,
-                length=msg.get_dlc(context.custom_types),
+                name=msg.message_name,
+                length=msg.dlc,
                 signals=signals,
-                comment=msg.desc,
+                comment=msg.description,
                 is_extended_frame=msg.is_extended,
-                senders=[sender],
+                senders=[item.node_name],
                 strict=True
             ))
         
-        filename = f"{bus_name}_{git_hash}.dbc"
+        filename = f"{bus_name}_{version}.dbc"
         artifacts.append(Artifact("dbc", filename, can_db.as_dbc_string()))
         
         print_as_ok(f"Generated {filename}")

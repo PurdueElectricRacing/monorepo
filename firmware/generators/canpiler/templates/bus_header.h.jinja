@@ -18,22 +18,22 @@ static constexpr PHAL_FDCAN_BaudRate_t {{ bus_name|upper }}_BAUD_RATE = {{ confi
 static constexpr uint32_t {{ msg.macro_name }}_MSG_ID = {{ msg.final_id|to_c_hex }};
 static constexpr uint8_t  {{ msg.macro_name }}_DLC = {{ msg.dlc }};
 static constexpr uint64_t {{ msg.macro_name }}_LAYOUT_HASH = {{ msg.layout_hash }};
-{% if msg.period > 0 %}
-static constexpr uint32_t {{ msg.macro_name }}_PERIOD_MS = {{ msg.period }};
-static constexpr uint32_t {{ msg.macro_name }}_STALE_TIMEOUT_MS = {{ (msg.period * 2.5)|int }};
+{% if msg.period_ms > 0 %}
+static constexpr uint32_t {{ msg.macro_name }}_PERIOD_MS = {{ msg.period_ms }};
+static constexpr uint32_t {{ msg.macro_name }}_STALE_TIMEOUT_MS = {{ (msg.period_ms * 2.5)|int }};
 {% endif %}
 
 typedef struct {
     uint32_t last_rx;
-{% if msg.period > 0 %}
+{% if msg.period_ms > 0 %}
     bool (*is_stale)(void); // Pointer to stale checking function
 {% endif %}
     // Begin signal defs
 {% for sig in msg.signals %}
-    {{ sig.c_type }} {{ sig.name }};
+    {{ sig.data_type }} {{ sig.signal_name }};
 {% endfor %}
     // End signal defs
-} {{ msg.name }}_data_t;
+} {{ msg.message_name }}_data_t;
 
 {% endfor %}
 

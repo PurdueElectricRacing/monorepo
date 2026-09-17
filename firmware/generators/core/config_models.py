@@ -36,12 +36,13 @@ def _duplicate_value(values: list[object]) -> object | None:
     return None
 
 
-class ConfigModel(BaseModel):
+class DeclarationModel(BaseModel):
     """Strict base for JSON-backed generator configuration."""
 
     model_config = ConfigDict(
         extra="forbid",
         strict=True,
+        frozen=True,
     )
 
     @model_validator(mode="before")
@@ -57,7 +58,7 @@ class ConfigModel(BaseModel):
         return data
 
 
-class SignalConfig(ConfigModel):
+class SignalDeclaration(DeclarationModel):
     signal_name: str
     data_type: str
     description: str = ""
@@ -85,10 +86,10 @@ class SignalConfig(ConfigModel):
         return self
 
 
-class TxMessageConfig(ConfigModel):
+class MessageDeclaration(DeclarationModel):
     message_name: str
     description: str
-    signals: list[SignalConfig]
+    signals: list[SignalDeclaration]
     priority: MessagePriority
     period_ms: NonNegativeInt = 0
     id_override: str | None = Field(
@@ -106,15 +107,15 @@ class TxMessageConfig(ConfigModel):
         return self
 
 
-class RxMessageConfig(ConfigModel):
+class RxSubscriptionDeclaration(DeclarationModel):
     message_name: str
     callback: bool = False
 
 
-class BusAttachmentConfig(ConfigModel):
+class BusAttachmentDeclaration(DeclarationModel):
     peripheral: Peripheral
-    tx: list[TxMessageConfig] = Field(default_factory=list)
-    rx: list[RxMessageConfig] = Field(default_factory=list)
+    tx: list[MessageDeclaration] = Field(default_factory=list)
+    rx: list[RxSubscriptionDeclaration] = Field(default_factory=list)
     accept_all_messages: bool = False
 
     @model_validator(mode="after")
@@ -126,7 +127,7 @@ class BusAttachmentConfig(ConfigModel):
         return self
 
 
-class FaultConfig(ConfigModel):
+class FaultDeclaration(DeclarationModel):
     fault_name: str
     max: Number
     min: Number
@@ -142,12 +143,12 @@ class FaultConfig(ConfigModel):
         return self
 
 
-class InternalNodeConfig(ConfigModel):
+class NodeDeclaration(DeclarationModel):
     node_name: str
-    busses: Annotated[dict[str, BusAttachmentConfig], Field(min_length=1)]
+    busses: Annotated[dict[str, BusAttachmentDeclaration], Field(min_length=1)]
     fault_library_enabled: bool
     generate_fault_messages: bool = False
-    faults: list[FaultConfig] = Field(default_factory=list)
+    faults: list[FaultDeclaration] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def validate_fault_configuration(self) -> Self:
@@ -160,11 +161,11 @@ class InternalNodeConfig(ConfigModel):
         return self
 
 
-class ExternalNodeConfig(ConfigModel):
+class ExternalNodeDeclaration(DeclarationModel):
     node_name: str
     bus_name: str
-    tx: list[TxMessageConfig] = Field(default_factory=list)
-    rx: list[RxMessageConfig] = Field(default_factory=list)
+    tx: list[MessageDeclaration] = Field(default_factory=list)
+    rx: list[RxSubscriptionDeclaration] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def rx_names_are_unique(self) -> Self:
@@ -175,13 +176,12 @@ class ExternalNodeConfig(ConfigModel):
         return self
 
 
-class BusConfig(ConfigModel):
+class BusDeclaration(DeclarationModel):
     name: str
     # Supported CAN baud rates. Keep in sync with PHAL_FDCAN_BaudRate_t in
     # common/phal_F4/can/can.h and common/phal_G4/fdcan/fdcan.h.
     baud_rate: Literal[250000, 500000, 1000000]
     is_extended_id: bool
-    is_flexible_data_rate: bool
     host_fault_library: bool
 
     @property
@@ -193,8 +193,8 @@ class BusConfig(ConfigModel):
         }[self.baud_rate]
 
 
-class BusRegistryConfig(ConfigModel):
-    busses: list[BusConfig]
+class BusDeclarations(DeclarationModel):
+    busses: list[BusDeclaration]
 
     @model_validator(mode="after")
     def bus_names_are_unique(self) -> Self:
@@ -205,7 +205,7 @@ class BusRegistryConfig(ConfigModel):
         return self
 
 
-class CustomTypeConfig(ConfigModel):
+class CustomTypeDeclaration(DeclarationModel):
     name: str = Field(pattern=r"^[a-zA-Z_][a-zA-Z0-9_]*_t$")
     base_type: BaseType
     choices: Annotated[list[str], Field(min_length=1)] | None = None
@@ -218,8 +218,8 @@ class CustomTypeConfig(ConfigModel):
         return choices
 
 
-class CommonTypesConfig(ConfigModel):
-    types: list[CustomTypeConfig]
+class TypeDeclarations(DeclarationModel):
+    types: list[CustomTypeDeclaration]
 
     @model_validator(mode="after")
     def type_names_are_unique(self) -> Self:
@@ -231,8 +231,8 @@ class CommonTypesConfig(ConfigModel):
 
 
 @dataclass(frozen=True)
-class ConfigBundle:
-    buses: dict[str, BusConfig]
-    custom_types: dict[str, CustomTypeConfig]
-    internal_nodes: list[InternalNodeConfig]
-    external_nodes: list[ExternalNodeConfig]
+class CanDeclarations:
+    buses: dict[str, BusDeclaration]
+    custom_types: dict[str, CustomTypeDeclaration]
+    internal_nodes: list[NodeDeclaration]
+    external_nodes: list[ExternalNodeDeclaration]

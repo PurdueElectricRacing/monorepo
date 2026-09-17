@@ -4,50 +4,38 @@ contracts.py
 Author: Irving Wang (irvingw@purdue.edu)
 """
 
-from dataclasses import dataclass, field
-from core.config_models import CustomTypeConfig
+from dataclasses import dataclass
+from typing import Literal
+
+from core.config_models import (
+    CustomTypeDeclaration,
+    MessageDeclaration,
+    RxSubscriptionDeclaration,
+)
 
 
-@dataclass
-class SignalContribution:
-    name: str
-    datatype: str
-    desc: str = ""
-    length: int = 0
-    unit: str | None = None
-    choices: list[str] | None = None
-    scale: float | None = None
-    offset: float | None = None
-    min_val: float | None = None
-    max_val: float | None = None
+@dataclass(frozen=True)
+class CustomTypeContribution:
+    declaration: CustomTypeDeclaration
+    mode: Literal["add", "replace"] = "add"
 
 
-@dataclass
-class MessageContribution:
-    name: str
-    desc: str = ""
-    priority: int = 0
-    period: int = 0
-    signals: list[SignalContribution] = field(default_factory=list)
-
-
-@dataclass
-class TxMessageContribution:
+@dataclass(frozen=True)
+class TxDeclaration:
     node_name: str
     bus_name: str
-    message: MessageContribution
+    message: MessageDeclaration
 
 
-@dataclass
-class RxSubscriptionContribution:
+@dataclass(frozen=True)
+class RxDeclaration:
     node_name: str
     bus_name: str
-    message_name: str
-    callback: bool = True
+    subscription: RxSubscriptionDeclaration
 
 
-@dataclass
-class CanContribution:
-    types: dict[str, CustomTypeConfig] = field(default_factory=dict)
-    tx_messages: list[TxMessageContribution] = field(default_factory=list)
-    rx_subscriptions: list[RxSubscriptionContribution] = field(default_factory=list)
+@dataclass(frozen=True)
+class DeclarationContribution:
+    custom_types: tuple[CustomTypeContribution, ...] = ()
+    tx_messages: tuple[TxDeclaration, ...] = ()
+    rx_subscriptions: tuple[RxDeclaration, ...] = ()

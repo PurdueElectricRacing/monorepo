@@ -12,8 +12,8 @@
 
 {% for type in types %}
 typedef enum {% if type.base_type %}: {{ type.base_type }}{% endif %} {
-{% for choice in type.choices %}
-    {{ type.prefix }}_{{ choice|upper }} = {{ loop.index0 }},
+{% for choice in type.choices or [] %}
+    {{ type.name|enum_prefix }}_{{ choice|upper }} = {{ loop.index0 }},
 {% endfor %}
 } {{ type.name }};
 
