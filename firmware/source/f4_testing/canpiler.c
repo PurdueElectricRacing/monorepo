@@ -36,7 +36,7 @@ void HardFault_Handler();
 
 void send_periodic() {
     PHAL_GPIO_toggle(GPIOC, 15);
-    CAN_SEND_pdu_version(GIT_HASH);
+    CAN_SEND_pdu_version(FIRMWARE_GIT_HASH);
 }
 
 DEFINE_CAN_TASKS();

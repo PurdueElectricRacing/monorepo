@@ -118,10 +118,10 @@ static void bl_send_info(void) {
     }
 
     info.Data[0] = BOOTLOADER_PROTOCOL_VERSION;
-    info.Data[1] = (uint8_t)(CAN_LIBRARY_GIT_HASH >> 0U);
-    info.Data[2] = (uint8_t)(CAN_LIBRARY_GIT_HASH >> 8U);
-    info.Data[3] = (uint8_t)(CAN_LIBRARY_GIT_HASH >> 16U);
-    info.Data[4] = (uint8_t)(CAN_LIBRARY_GIT_HASH >> 24U);
+    info.Data[1] = (uint8_t)(FIRMWARE_GIT_HASH >> 0U);
+    info.Data[2] = (uint8_t)(FIRMWARE_GIT_HASH >> 8U);
+    info.Data[3] = (uint8_t)(FIRMWARE_GIT_HASH >> 16U);
+    info.Data[4] = (uint8_t)(FIRMWARE_GIT_HASH >> 24U);
     info.Data[5] = bl_transport.target_id;
     info.Data[6] = BOOTLOADER_INFO_FLAG_BOOTLOADABLE | BOOTLOADER_INFO_FLAG_READY;
     (void)PHAL_FDCAN_send(&info);
@@ -245,7 +245,7 @@ static bool bl_write_metadata(uint32_t crc32, uint32_t size_bytes) {
         .crc32          = crc32,
         .address             = BL_APP_ADDRESS,
         .size_bytes          = size_bytes,
-        .bootloader_git_hash = CAN_LIBRARY_GIT_HASH,
+        .bootloader_git_hash = FIRMWARE_GIT_HASH,
         .reserved            = 0U,
     };
 

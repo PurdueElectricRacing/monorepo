@@ -8,7 +8,7 @@
 
 /* System Includes */
 #include "can_library/generated/DRIVELINE.h"
-#include "common/bootloader/application_version.h"
+#include "can_library/generated/can_version.h"
 #include "common/bootloader/bootloader_common.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
@@ -180,7 +180,7 @@ uint16_t right_length_scaled = 0;
 static_assert(FRONT_DRIVELINE_VERSION_PERIOD_MS == 5000U);
 static_assert(REAR_DRIVELINE_VERSION_PERIOD_MS == 5000U);
 void version_periodic() {
-    SEND_VERSION(GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
+    SEND_VERSION(FIRMWARE_GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
 }
 
 void shockpots_periodic() {

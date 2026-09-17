@@ -9,7 +9,7 @@ A_BOX (short for "accumulator box") is the BMS master. It owns battery telemetry
 - [`telemetry.c`](telemetry/telemetry.c) / [`telemetry.h`](telemetry/telemetry.h): Multi-rate CAN telemetry publishers (on both VCAN and CCAN with `_ccan` suffix):
   - 100 Hz: `pack_analog`, rotating `cell_telemetry`
   - 8 Hz: rotating `thermistor_telemetry`
-  - 0.2 Hz: `abox_version` with `GIT_HASH`
+  - 0.2 Hz: `abox_version` with `FIRMWARE_GIT_HASH`
 - `bms_task` in [`main.c`](main.c) (5 Hz): `pack_bms`, `bms_pecs`
 - [`charging_fsm.c`](charging_fsm/charging_fsm.c) (1 Hz on CCAN): `charging_fsm_internals`
 - [`thermistor.c`](thermistor/thermistor.c) / [`thermistor.h`](thermistor/thermistor.h): Datasheet-derived lookup table and `thermistor_R_to_T()` helper used by the ADBMS driver.
