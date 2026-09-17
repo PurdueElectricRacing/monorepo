@@ -94,6 +94,7 @@ var annotated_dup =
     [ "SPMC_t", "structSPMC__t.html", "structSPMC__t" ],
     [ "status_leds_t", "structstatus__leds__t.html", "structstatus__leds__t" ],
     [ "strbuf_t", "structstrbuf__t.html", "structstrbuf__t" ],
+    [ "StrbufTest", "classStrbufTest.html", "classStrbufTest" ],
     [ "timestamped_frame_t", "structtimestamped__frame__t.html", "structtimestamped__frame__t" ],
     [ "torque_request_t", "structtorque__request__t.html", "structtorque__request__t" ],
     [ "usart_active_transfer_t", "structusart__active__transfer__t.html", "structusart__active__transfer__t" ],

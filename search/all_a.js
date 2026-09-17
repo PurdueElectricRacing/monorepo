@@ -238,7 +238,7 @@ var searchData=
   ['amk_5ftelemetry_5fupdate_235',['amk_telemetry_update',['../source_2dashboard_2driver__interface_2pages_2amk_8c.html#a062432901dfe910f61a8fdfa5b2a71ba',1,'amk_telemetry_update():&#160;amk.c'],['../source_2dashboard_2driver__interface_2pages_2amk_8h.html#a062432901dfe910f61a8fdfa5b2a71ba',1,'amk_telemetry_update():&#160;amk.c']]],
   ['analysis_236',['7.2 Run Firmware Static Analysis',['../md_docs_2setup.html#autotoc_md117',1,'']]],
   ['and_20debugging_237',['Deployment and Debugging',['../md_docs_2deploy__n__debug.html',1,'']]],
-  ['and_20run_20host_20tests_238',['7.4 Build and Run Host Tests',['../md_docs_2setup.html#autotoc_md119',1,'']]],
+  ['and_20firmware_20host_20tests_238',['7.4 Run Generator and Firmware Host Tests',['../md_docs_2setup.html#autotoc_md119',1,'']]],
   ['and_20sensing_20nodes_239',['Power and sensing nodes',['../md_firmware_2source_2README.html#autotoc_md41',1,'']]],
   ['and_20suggestions_240',['Rules and Suggestions',['../md_docs_2code__style.html#autotoc_md78',1,'']]],
   ['and_20test_20tools_241',['3A.3 Install Firmware and Test Tools',['../md_docs_2setup.html#autotoc_md101',1,'']]],

@@ -9,5 +9,6 @@ var searchData=
   ['spi_5finitconfig_5ft_6',['SPI_InitConfig_t',['../structSPI__InitConfig__t.html',1,'']]],
   ['spmc_5ft_7',['SPMC_t',['../structSPMC__t.html',1,'']]],
   ['status_5fleds_5ft_8',['status_leds_t',['../structstatus__leds__t.html',1,'']]],
-  ['strbuf_5ft_9',['strbuf_t',['../structstrbuf__t.html',1,'']]]
+  ['strbuf_5ft_9',['strbuf_t',['../structstrbuf__t.html',1,'']]],
+  ['strbuftest_10',['StrbufTest',['../classStrbufTest.html',1,'']]]
 ];

@@ -30,7 +30,7 @@ var searchData=
   ['heightmsl_27',['heightMSL',['../structNAV__PVT__data__t.html#a12b885750090180131724502a29a1f09',1,'NAV_PVT_data_t']]],
   ['homebrew_28',['3A.1 Install Homebrew',['../md_docs_2setup.html#autotoc_md99',1,'']]],
   ['horizontalaccuracy_29',['horizontalAccuracy',['../structNAV__PVT__data__t.html#a20b0490140ef794f8d595e5dccf994b0',1,'NAV_PVT_data_t']]],
-  ['host_20tests_30',['7.4 Build and Run Host Tests',['../md_docs_2setup.html#autotoc_md119',1,'']]],
+  ['host_20tests_30',['7.4 Run Generator and Firmware Host Tests',['../md_docs_2setup.html#autotoc_md119',1,'']]],
   ['hour_31',['hour',['../structNAV__PVT__data__t.html#af94e83f90d0f99b8b42e4db17e194de9',1,'NAV_PVT_data_t']]],
   ['hours_5fbcd_32',['hours_bcd',['../structRTC__time__t.html#a8d02832380abd6524b9d4272495f6252',1,'RTC_time_t']]],
   ['hours_5ft_33',['hours_t',['../structhours__t.html',1,'']]],

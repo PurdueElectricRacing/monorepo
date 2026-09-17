@@ -124,7 +124,7 @@ Building</h1>
 </div><!-- fragment --><p>Each component also has a fixed build command. To build and package all firmware boards: </p><div class="fragment"><div class="line">python3 firmware/build_firmware.py</div>
 </div><!-- fragment --><p>To run static analysis over all firmware boards: </p><div class="fragment"><div class="line">python3 firmware/check_firmware.py</div>
 </div><!-- fragment --><p>To build DaqApp: </p><div class="fragment"><div class="line">cargo build --manifest-path daqapp/Cargo.toml</div>
-</div><!-- fragment --><p>To run host tests and generate an HTML coverage report: </p><div class="fragment"><div class="line">python3 tests/build_tests.py</div>
+</div><!-- fragment --><p>To run generator and firmware host tests and generate an HTML coverage report: </p><div class="fragment"><div class="line">python3 tests/run_tests.py</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md5"></a>
 Hardware Debugging</h1>
 <p>In VS Code, go to <b>View → Run and Debug</b>, select the appropriate MCU target from the dropdown, then press the green ▶️ arrow to flash and live-debug the firmware.</p>

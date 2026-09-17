@@ -21,8 +21,9 @@ var searchData=
   ['state_2eh_18',['state.h',['../state_8h.html',1,'']]],
   ['strbuf_2ec_19',['strbuf.c',['../strbuf_8c.html',1,'']]],
   ['strbuf_2eh_20',['strbuf.h',['../strbuf_8h.html',1,'']]],
-  ['switches_2ec_21',['switches.c',['../switches_8c.html',1,'']]],
-  ['switches_2eh_22',['switches.h',['../switches_8h.html',1,'']]],
-  ['syscalls_2ec_23',['syscalls.c',['../syscalls_8c.html',1,'']]],
-  ['syscalls_2eh_24',['syscalls.h',['../syscalls_8h.html',1,'']]]
+  ['strbuf_5ftest_2ecpp_21',['strbuf_test.cpp',['../strbuf__test_8cpp.html',1,'']]],
+  ['switches_2ec_22',['switches.c',['../switches_8c.html',1,'']]],
+  ['switches_2eh_23',['switches.h',['../switches_8h.html',1,'']]],
+  ['syscalls_2ec_24',['syscalls.c',['../syscalls_8c.html',1,'']]],
+  ['syscalls_2eh_25',['syscalls.h',['../syscalls_8h.html',1,'']]]
 ];

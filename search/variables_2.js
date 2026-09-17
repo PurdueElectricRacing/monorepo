@@ -21,8 +21,9 @@ var searchData=
   ['bt_5fderating_5ffull_5ft_18',['BT_derating_full_T',['../structpVCU__struct.html#a301acd718e734c0742e1ca1c94ead140',1,'pVCU_struct']]],
   ['bt_5fderating_5fzero_5ft_19',['BT_derating_zero_T',['../structpVCU__struct.html#af4a570c7da020aed2b281b6565014430',1,'pVCU_struct']]],
   ['bt_5fraw_20',['BT_RAW',['../structxVCU__struct.html#a2773a69174b901a61bf64dbd76826e52',1,'xVCU_struct']]],
-  ['bus_21',['Bus',['../structCanMsgTypeDef__t.html#a27b82ae932da76206323ac8268b3f1e6',1,'CanMsgTypeDef_t::Bus'],['../structCanMsgTypeDef__t.html#a4aa42f4d25313b588ecb4323723d2ef6',1,'CanMsgTypeDef_t::Bus']]],
-  ['busy_22',['busy',['../structPHAL__ADC__Handle__t.html#a224a675307a5bfd35a864265bed8caf0',1,'PHAL_ADC_Handle_t']]],
-  ['buzzer_5fenable_23',['buzzer_enable',['../structcar__t.html#a1ed45443eee3c1f1c8ff8926bdfd89ad',1,'car_t']]],
-  ['buzzer_5fstart_5ftime_24',['buzzer_start_time',['../structcar__t.html#ae1b2cfa00a8296e503bfce011f51e8d5',1,'car_t']]]
+  ['buf_5fsize_21',['BUF_SIZE',['../strbuf__test_8cpp.html#a88eedfea24beeca03acb3cfe393c4133',1,'strbuf_test.cpp']]],
+  ['bus_22',['Bus',['../structCanMsgTypeDef__t.html#a27b82ae932da76206323ac8268b3f1e6',1,'CanMsgTypeDef_t::Bus'],['../structCanMsgTypeDef__t.html#a4aa42f4d25313b588ecb4323723d2ef6',1,'CanMsgTypeDef_t::Bus']]],
+  ['busy_23',['busy',['../structPHAL__ADC__Handle__t.html#a224a675307a5bfd35a864265bed8caf0',1,'PHAL_ADC_Handle_t']]],
+  ['buzzer_5fenable_24',['buzzer_enable',['../structcar__t.html#a1ed45443eee3c1f1c8ff8926bdfd89ad',1,'car_t']]],
+  ['buzzer_5fstart_5ftime_25',['buzzer_start_time',['../structcar__t.html#ae1b2cfa00a8296e503bfce011f51e8d5',1,'car_t']]]
 ];

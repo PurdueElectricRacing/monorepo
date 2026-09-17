@@ -248,7 +248,7 @@ var searchData=
   ['rts_245',['RTS',['../phal__F4_2usart_2usart_8h.html#a764ee627968d428e2ca107a995cdf7c2ae58caa68ff8b6e4838007985c7e3ae66',1,'usart.h']]],
   ['rules_20and_20suggestions_246',['Rules and Suggestions',['../md_docs_2code__style.html#autotoc_md78',1,'']]],
   ['run_20firmware_20static_20analysis_247',['7.2 Run Firmware Static Analysis',['../md_docs_2setup.html#autotoc_md117',1,'']]],
-  ['run_20host_20tests_248',['7.4 Build and Run Host Tests',['../md_docs_2setup.html#autotoc_md119',1,'']]],
+  ['run_20generator_20and_20firmware_20host_20tests_248',['7.4 Run Generator and Firmware Host Tests',['../md_docs_2setup.html#autotoc_md119',1,'']]],
   ['rust_249',['5.1 Rust',['../md_docs_2setup.html#autotoc_md112',1,'']]],
   ['rust_20daq_20tools_250',['5. Install Rust/DAQ Tools',['../md_docs_2setup.html#autotoc_md111',1,'']]],
   ['rx_5fbuf_251',['rx_buf',['../structadbms__bms__t.html#a0cddb3b0c704e3f172d4fa7653276acc',1,'adbms_bms_t']]],

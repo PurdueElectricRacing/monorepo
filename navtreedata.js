@@ -172,7 +172,7 @@ var NAVTREE =
         [ "7.1 Build All Firmware", "md_docs_2setup.html#autotoc_md116", null ],
         [ "7.2 Run Firmware Static Analysis", "md_docs_2setup.html#autotoc_md117", null ],
         [ "7.3 DaqApp", "md_docs_2setup.html#autotoc_md118", null ],
-        [ "7.4 Build and Run Host Tests", "md_docs_2setup.html#autotoc_md119", null ]
+        [ "7.4 Run Generator and Firmware Host Tests", "md_docs_2setup.html#autotoc_md119", null ]
       ] ],
       [ "Build from VS Code", "md_docs_2setup.html#autotoc_md120", null ],
       [ "Hardware Debugging", "md_docs_2setup.html#autotoc_md121", null ]
@@ -193,8 +193,10 @@ var NAVTREE =
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
+      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
+        [ "Functions", "functions_func.html", null ],
         [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
@@ -217,23 +219,24 @@ var NAVTREEINDEX =
 [
 "AMK_8png.html",
 "adc__priv_8c.html#a54285aeb010313cf359e3ceee0e47f93",
-"commands_8c.html#a68dc684204c54bb35ac7ee511a721149",
-"daq_2main_8c.html#ad54952590a1a2fba895bd31fb775ee09",
-"dir_974ccbea2fa70dd0fd595356715c9ee5.html",
-"fdcan_8h.html",
-"geodetic_8h.html",
-"lap__timer_8h.html#ad0e5b8d194606e9a1ffa2af4b2e0251ca6012d24257d3059c0dae1178b48c2035",
-"md_firmware_2source_2README.html",
-"pdu_2main_8h.html#a082e4029783873271e2b8019c29bde39",
-"phal__F4_2crc_2crc_8c.html#a1ab9120903355a797f3f536d5546fa0b",
-"phal__G4_2adc_2adc_8c.html#ab1d3e1e78099bd0f30e345ce46dd626a",
-"powertrain_8c.html#a059575ddd2df3c7c23a2ad1eb3ee564b",
-"sdio_8c.html#a6f24971fb957f6512c0b379c0aa5f5cb",
-"source_2dashboard_2driver__interface_2pages_2amk_8h.html",
-"structPHAL__USART__HwMap__t.html#a955e1115d79f9ba09e3316cecb2ae1de",
-"structfault__t.html#a108eebfd8611c3e8620694e006f35cfe",
-"structusart__rx__errors__t.html",
-"units_8h.html#a26dfa6ea5330d6e36fffea1cc12edd00"
+"colors_8h.html#a7a536021206f05439e052feb1ce5cddd",
+"crc__priv_8c.html#ab1a0cc118e77cdc921bc336740e34772",
+"dir_49e56c817e5e54854c35e136979f97ca.html",
+"faults__common_8h.html#a03cf0c7e0fba09e53e6aacd890b3d4eea9effc1f5abe62a434de0ea556c99d4ab",
+"g4__testing_2main_8h.html#a0539be032702009fb24beec89c6fa0c0",
+"izze__imu_8h.html#a2e28fa7e9cd5b450b5d139ba2b7069dca2f86fd9ac0869845d51024344c14701a",
+"md_docs_2setup.html#autotoc_md118",
+"pdu_2faults_2faults_8c.html#a505589f5d8d52bb97ee8d9be295aaa7c",
+"phal__F4_2adc_2adc_8c.html",
+"phal__F4_2usart_2usart_8h.html#a764ee627968d428e2ca107a995cdf7c2a4e65306446c6c91076975dffc310218b",
+"phal__G4_2usart_2usart_8c.html#ad68b1ee17b4dc08e9070bf93e9f20e00",
+"sd__card_8h.html#a823960a0f57943634ea0f94d48861d65",
+"sdio_8h.html#ad8cbc04a4adf7c5588ddeb8e29f391f2",
+"structNAV__RELPOSNED__data__t.html#a9520c59019443f8c70c947bcf5c8f3d1",
+"structbangbang__t.html#a5f3e6b7f134a67f58e8e277f556f443a",
+"structraw__adc4__values__t.html#ad2d984bec2d0877ed14a6b64bcf8f604",
+"torque__controller_8c.html#a463f0db1aebef7da540b21b24896b363",
+"vehicle__fsm_8c.html#a17b274e6971a721080e708c8d6eed884"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

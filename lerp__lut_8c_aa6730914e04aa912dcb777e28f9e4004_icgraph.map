@@ -1,19 +1,27 @@
 <map id="lut_lookup" name="lut_lookup">
-<area shape="rect" id="Node000001" title="Lookup a value in a linear interpolation lookup table (LUT)." alt="" coords="753,31,833,56"/>
+<area shape="rect" id="Node000001" title="Lookup a value in a linear interpolation lookup table (LUT)." alt="" coords="753,129,833,155"/>
 <area shape="rect" id="Node000002" href="$oil__temps__table_8h.html#ab321eaf5c7269d88b721a81a7ae97389" title=" " alt="" coords="578,5,704,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="737,37,704,31,705,26,738,32"/>
-<area shape="rect" id="Node000005" href="$thermistor_8h.html#a026b496fe9ccc675fb110ee9bbc0e267" title=" " alt="" coords="577,55,705,80"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="738,55,706,60,705,55,737,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="773,118,743,80,703,44,684,34,687,29,707,40,747,77,777,115"/>
+<area shape="rect" id="Node000005" href="$lerp__lut__test_8cpp.html#a31fc6461d3df8d84dab42e3eae2c1f57" title=" " alt="" coords="614,55,668,80"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="757,123,704,94,667,79,669,74,706,89,759,118"/>
+<area shape="rect" id="Node000006" href="$lerp__lut__test_8cpp.html#abac3cdef8152cb8a67fd73746918bcc9" title=" " alt="" coords="614,104,668,130"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="737,136,668,124,669,119,738,130"/>
+<area shape="rect" id="Node000007" href="$lerp__lut__test_8cpp.html#ae434e89b2a85826f27791d1141766f1a" title=" " alt="" coords="614,153,668,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="738,153,669,165,668,159,737,148"/>
+<area shape="rect" id="Node000008" href="$lerp__lut__test_8cpp.html#a486edce26ea8fe0eddd457e76efd02fa" title=" " alt="" coords="614,203,668,228"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="759,166,706,194,669,209,667,204,704,189,756,161"/>
+<area shape="rect" id="Node000009" href="$thermistor_8h.html#a026b496fe9ccc675fb110ee9bbc0e267" title=" " alt="" coords="577,252,705,278"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="777,170,747,207,707,243,687,254,684,249,703,239,743,203,773,166"/>
 <area shape="rect" id="Node000003" href="$driveline_2main_8c.html#a9e053dc8eaef5ac3ca08188c1a766309" title=" " alt="" coords="394,5,524,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="562,21,524,21,524,16,562,16"/>
 <area shape="rect" id="Node000004" href="$driveline_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="260,5,310,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="379,21,310,21,310,16,379,16"/>
-<area shape="rect" id="Node000006" href="$adbms_8c.html#a26b82e2eae1b0d9c34d5666901f29bce" title="Read all GPIO/thermistor values (voltage and calculate temperature) and update module/pack statistics..." alt="" coords="389,55,529,80"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="561,70,529,70,529,65,561,65"/>
-<area shape="rect" id="Node000007" href="$adbms_8c.html#a0a1de1018dba58040d4cab70ead2ca28" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="229,55,341,80"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="374,70,342,70,342,65,374,65"/>
-<area shape="rect" id="Node000008" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,55,181,80"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="214,70,181,70,181,65,214,65"/>
-<area shape="rect" id="Node000009" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,55,55,80"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="87,70,55,70,55,65,87,65"/>
+<area shape="rect" id="Node000010" href="$adbms_8c.html#a26b82e2eae1b0d9c34d5666901f29bce" title="Read all GPIO/thermistor values (voltage and calculate temperature) and update module/pack statistics..." alt="" coords="389,252,529,278"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="561,268,529,268,529,262,561,262"/>
+<area shape="rect" id="Node000011" href="$adbms_8c.html#a0a1de1018dba58040d4cab70ead2ca28" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="229,252,341,278"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="374,268,342,268,342,262,374,262"/>
+<area shape="rect" id="Node000012" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,252,181,278"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="214,268,181,268,181,262,214,262"/>
+<area shape="rect" id="Node000013" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,252,55,278"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="87,268,55,268,55,262,87,262"/>
 </map>

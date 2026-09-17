@@ -1,15 +1,17 @@
 <map id="firmware/common/strbuf/strbuf.h" name="firmware/common/strbuf/strbuf.h">
-<area shape="rect" id="Node000001" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="1381,5,1543,46"/>
+<area shape="rect" id="Node000001" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="1321,5,1483,46"/>
 <area shape="rect" id="Node000002" href="$nextion_8h.html" title="Nextion display driver interface." alt="" coords="735,94,904,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1366,42,905,104,904,99,1366,37"/>
-<area shape="rect" id="Node000010" href="$strbuf_8c.html" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="1263,94,1424,135"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1425,57,1372,96,1369,91,1421,53"/>
-<area shape="rect" id="Node000011" href="$adbms_8c.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="1416,286,1567,327"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1468,61,1492,286,1487,286,1463,62"/>
-<area shape="rect" id="Node000012" href="$adbms_8h.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="1726,190,1878,231"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1559,41,1625,61,1690,92,1721,114,1749,140,1790,188,1786,192,1745,144,1718,118,1687,96,1623,66,1557,47"/>
-<area shape="rect" id="Node000016" href="$adbms6380_8h.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="1525,94,1676,135"/>
-<area shape="poly" id="edge17_Node000001_Node000016" title=" " alt="" coords="1508,52,1571,91,1568,96,1505,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1306,44,905,103,904,98,1306,39"/>
+<area shape="rect" id="Node000010" href="$strbuf_8c.html" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="1077,94,1239,135"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1334,54,1214,96,1213,91,1332,49"/>
+<area shape="rect" id="Node000011" href="$strbuf__test_8cpp.html" title="String Buffer Function Unit Tests." alt="" coords="1263,94,1424,135"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1382,60,1359,95,1354,92,1378,57"/>
+<area shape="rect" id="Node000012" href="$adbms_8c.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="1416,286,1567,327"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1423,58,1439,93,1472,201,1490,286,1485,287,1467,202,1434,95,1418,61"/>
+<area shape="rect" id="Node000013" href="$adbms_8h.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="1726,190,1878,231"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="1499,33,1594,53,1643,70,1690,92,1721,113,1749,139,1790,188,1786,191,1746,143,1718,118,1687,96,1641,75,1593,58,1498,38"/>
+<area shape="rect" id="Node000017" href="$adbms6380_8h.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="1525,94,1676,135"/>
+<area shape="poly" id="edge18_Node000001_Node000017" title=" " alt="" coords="1462,50,1556,91,1554,96,1460,55"/>
 <area shape="rect" id="Node000003" href="$nextion_8c.html" title="Nextion display driver interface." alt="" coords="636,190,805,231"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="790,147,743,192,739,188,786,144"/>
 <area shape="rect" id="Node000004" href="$lcd_8c.html" title="LCD display management." alt="" coords="829,190,1007,231"/>
@@ -24,16 +26,16 @@
 <area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="720,133,574,156,412,185,380,192,379,187,411,180,573,150,719,127"/>
 <area shape="rect" id="Node000009" href="$vcu_8c.html" title="VCU page implementation." alt="" coords="424,190,612,231"/>
 <area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="743,142,582,192,580,187,741,137"/>
-<area shape="poly" id="edge12_Node000012_Node000011" title=" " alt="" coords="1723,238,1715,241,1557,288,1556,283,1713,236,1722,233"/>
-<area shape="rect" id="Node000013" href="$charging__fsm_8c.html" title="Charger control state machine implementation." alt="" coords="1591,286,1786,327"/>
-<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="1769,243,1714,288,1710,284,1765,239"/>
-<area shape="rect" id="Node000014" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="1804,375,1955,416"/>
-<area shape="poly" id="edge14_Node000012_Node000014" title=" " alt="" coords="1817,244,1851,326,1873,374,1868,376,1846,328,1812,246"/>
-<area shape="rect" id="Node000015" href="$a__box_2main_8h.html" title="&quot;Abox&quot; node source code" alt="" coords="1861,286,2012,327"/>
-<area shape="poly" id="edge15_Node000012_Node000015" title=" " alt="" coords="1843,237,1910,284,1907,288,1840,242"/>
-<area shape="poly" id="edge16_Node000015_Node000014" title=" " alt="" coords="1918,341,1895,376,1890,373,1913,338"/>
-<area shape="poly" id="edge18_Node000016_Node000011" title=" " alt="" coords="1570,147,1540,184,1514,239,1499,287,1494,285,1509,237,1536,181,1566,144"/>
-<area shape="poly" id="edge19_Node000016_Node000012" title=" " alt="" coords="1658,139,1761,187,1759,192,1656,144"/>
-<area shape="rect" id="Node000017" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="1550,190,1702,231"/>
-<area shape="poly" id="edge20_Node000016_Node000017" title=" " alt="" coords="1612,149,1623,189,1618,191,1607,150"/>
+<area shape="poly" id="edge13_Node000013_Node000012" title=" " alt="" coords="1723,238,1715,241,1557,288,1556,283,1713,236,1722,233"/>
+<area shape="rect" id="Node000014" href="$charging__fsm_8c.html" title="Charger control state machine implementation." alt="" coords="1591,286,1786,327"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="1769,243,1714,288,1710,284,1765,239"/>
+<area shape="rect" id="Node000015" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="1804,375,1955,416"/>
+<area shape="poly" id="edge15_Node000013_Node000015" title=" " alt="" coords="1817,244,1851,326,1873,374,1868,376,1846,328,1812,246"/>
+<area shape="rect" id="Node000016" href="$a__box_2main_8h.html" title="&quot;Abox&quot; node source code" alt="" coords="1861,286,2012,327"/>
+<area shape="poly" id="edge16_Node000013_Node000016" title=" " alt="" coords="1843,237,1910,284,1907,288,1840,242"/>
+<area shape="poly" id="edge17_Node000016_Node000015" title=" " alt="" coords="1918,341,1895,376,1890,373,1913,338"/>
+<area shape="poly" id="edge19_Node000017_Node000012" title=" " alt="" coords="1570,147,1540,184,1514,239,1499,287,1494,285,1509,237,1536,181,1566,144"/>
+<area shape="poly" id="edge20_Node000017_Node000013" title=" " alt="" coords="1658,139,1761,187,1759,192,1656,144"/>
+<area shape="rect" id="Node000018" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="1550,190,1702,231"/>
+<area shape="poly" id="edge21_Node000017_Node000018" title=" " alt="" coords="1612,149,1623,189,1618,191,1607,150"/>
 </map>
