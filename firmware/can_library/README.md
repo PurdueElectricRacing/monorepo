@@ -3,7 +3,7 @@ Standardized framework for CAN communication and system-wide fault management wi
 
 - `generators/`: Python generation pipeline for CAN and fault artifacts.
 - `firmware/can_library/generated/`: Auto-generated C files and headers.
-- `firmware/can_library/dbc/`: Generated CAN database files.
+- `dbc/`: Generated CAN database files at the repository root.
 
 **Core Files:**
 - [`can_init.c`](../../firmware/can_library/source/can_init.c) / [`can_common.h`](../../firmware/can_library/can_common.h): Bus/peripheral initialization and `CAN_init()`.
