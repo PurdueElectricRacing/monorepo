@@ -77,34 +77,6 @@ AddressSanitizer/UBSan and coverage instrumentation.
 Each module's `tests/CMakeLists.txt` registers its test target. The host-test
 project in `tests/CMakeLists.txt` adds those directories to the build.
 
-## Directory layout
-
-```text
-firmware/can_library/
-└── tests/
-    ├── CMakeLists.txt
-    ├── can_codec_test.cpp
-    ├── can_codec_test_shim.c
-    └── can_codec_test_shim.h
-
-firmware/common/
-├── lerp_lut/
-│   └── tests/
-│       ├── CMakeLists.txt
-│       └── lerp_lut_test.cpp
-└── strbuf/
-    └── tests/
-        ├── CMakeLists.txt
-        └── strbuf_test.cpp
-
-tests/
-├── README.md
-├── run_tests.py
-├── CMakeLists.txt
-└── cmake/
-    └── FirmwareUnitTest.cmake
-```
-
 ## Adding a unit test
 
 1. Add a GoogleTest source under the production module's `tests` directory,
