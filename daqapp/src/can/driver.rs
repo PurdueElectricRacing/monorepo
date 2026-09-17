@@ -461,3 +461,62 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
         ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::new())),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn encode_udp_frame(
+        ticks_ms: u32,
+        bus_name: BusName,
+        can_id: u32,
+        is_extended: bool,
+        data: [u8; 8],
+    ) -> [u8; UDP_RAW_FRAME_SIZE] {
+        let identity =
+            (bus_name as u32) << 30 | if is_extended { consts::IS_EID_MASK } else { 0 } | can_id;
+        let mut bytes = [0; UDP_RAW_FRAME_SIZE];
+        bytes[..4].copy_from_slice(&ticks_ms.to_le_bytes());
+        bytes[4..8].copy_from_slice(&identity.to_le_bytes());
+        bytes[8..].copy_from_slice(&data);
+        bytes
+    }
+
+    #[test]
+    fn parses_multibus_udp_packet() {
+        let expected = [
+            (BusName::XCAN, 0x123, false, [0x10; 8]),
+            (BusName::VCAN, 0x456, false, [0x20; 8]),
+            (BusName::MCAN, 0x18FF50E6, true, [0x30; 8]),
+            (BusName::SCAN, 0x7C0, false, [0x40; 8]),
+        ];
+        let mut packet = [0; UDP_MAX_PACKET_SIZE];
+
+        for (index, (bus_name, can_id, is_extended, data)) in expected.iter().enumerate() {
+            let start = index * UDP_RAW_FRAME_SIZE;
+            packet[start..start + UDP_RAW_FRAME_SIZE].copy_from_slice(&encode_udp_frame(
+                index as u32,
+                *bus_name,
+                *can_id,
+                *is_extended,
+                *data,
+            ));
+        }
+
+        let frames = parse_udp_buffer(&packet, expected.len() * UDP_RAW_FRAME_SIZE).unwrap();
+        assert_eq!(frames.len(), expected.len());
+
+        for (received, (bus_name, can_id, is_extended, data)) in frames.iter().zip(expected) {
+            assert_eq!(received.bus_name, bus_name);
+            let CanFrame::Can2(frame) = &received.frame else {
+                panic!("expected a CAN 2.0 frame");
+            };
+            assert_eq!(
+                util::can::slcan_to_u32_without_extid_flag(&frame.id()),
+                can_id
+            );
+            assert_eq!(matches!(frame.id(), slcan::Id::Extended(_)), is_extended);
+            assert_eq!(frame.data(), Some(data.as_slice()));
+        }
+    }
+}

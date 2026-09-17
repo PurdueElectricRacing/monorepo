@@ -18,15 +18,10 @@ mod widget_ids;
 mod widgets;
 mod workspace;
 
-fn main() -> eframe::Result<()> {
-    env_logger::Builder::from_default_env()
-        .filter_level(log::LevelFilter::Info)
-        .init();
-
-    let (can_to_ui_tx, can_to_ui_rx) = std::sync::mpsc::channel::<messages::MsgFromCan>();
-    let (ui_to_can_tx, ui_to_can_rx) = std::sync::mpsc::channel::<messages::MsgFromUi>();
-
-    let settings = settings::Settings::load();
+fn queue_saved_dbc_paths(
+    settings: &settings::Settings,
+    ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
+) {
     // Load every saved per-bus DBC into the CAN thread before connecting.
     for (bus_name, dbc_path) in [
         (messages::BusName::XCAN, &settings.dbc_paths[0]),
@@ -43,6 +38,18 @@ fn main() -> eframe::Result<()> {
                 .expect("Failed to send DBC path to CAN thread");
         }
     }
+}
+
+fn main() -> eframe::Result<()> {
+    env_logger::Builder::from_default_env()
+        .filter_level(log::LevelFilter::Info)
+        .init();
+
+    let (can_to_ui_tx, can_to_ui_rx) = std::sync::mpsc::channel::<messages::MsgFromCan>();
+    let (ui_to_can_tx, ui_to_can_rx) = std::sync::mpsc::channel::<messages::MsgFromUi>();
+
+    let settings = settings::Settings::load();
+    queue_saved_dbc_paths(&settings, &ui_to_can_tx);
     if let Some(ref selected_source) = settings.selected_source {
         ui_to_can_tx
             .send(messages::MsgFromUi::Connect(selected_source.clone()))
@@ -79,4 +86,37 @@ fn main() -> eframe::Result<()> {
             )))
         }),
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn queues_saved_dbc_for_every_bus() {
+        let mut settings = settings::Settings::default();
+        settings.dbc_paths = [
+            Some("xcan.dbc".into()),
+            Some("vcan.dbc".into()),
+            Some("mcan.dbc".into()),
+            Some("scan.dbc".into()),
+        ];
+        let (tx, rx) = std::sync::mpsc::channel();
+
+        queue_saved_dbc_paths(&settings, &tx);
+
+        for (expected_bus, expected_path) in [
+            (messages::BusName::XCAN, "xcan.dbc"),
+            (messages::BusName::VCAN, "vcan.dbc"),
+            (messages::BusName::MCAN, "mcan.dbc"),
+            (messages::BusName::SCAN, "scan.dbc"),
+        ] {
+            let messages::MsgFromUi::DbcSelected { bus_name, path } = rx.recv().unwrap() else {
+                panic!("expected a DbcSelected message");
+            };
+            assert_eq!(bus_name, expected_bus);
+            assert_eq!(path, std::path::PathBuf::from(expected_path));
+        }
+        assert!(rx.try_recv().is_err());
+    }
 }
