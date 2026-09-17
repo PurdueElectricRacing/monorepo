@@ -103,9 +103,9 @@ $(function(){initNavTree('md_firmware_2can__library_2README.html',''); initResiz
 <div class="textblock"><p><a class="anchor" id="autotoc_md122"></a></p>
 <p>Standardized framework for CAN communication and system-wide fault management within PER vehicles.</p>
 <ul>
-<li><code>firmware/generators/</code>: Python generation pipeline for CAN and fault artifacts.</li>
+<li><code>generators/</code>: Python generation pipeline for CAN and fault artifacts.</li>
 <li><code>firmware/can_library/generated/</code>: Auto-generated C files and headers.</li>
-<li><code>firmware/can_library/dbc/</code>: Generated CAN database files.</li>
+<li><code>dbc/</code>: Generated CAN database files at the repository root.</li>
 </ul>
 <p><b>Core Files:</b></p><ul>
 <li><a href="../../firmware/can_library/source/can_init.c"><code>can_init.c</code></a> / <a href="../../firmware/can_library/can_common.h"><code>can_common.h</code></a>: Bus/peripheral initialization and <code><a class="el" href="can__common_8h.html#aecd3668d7c5e693e061db7650203b304">CAN_init()</a></code>.</li>
@@ -127,7 +127,7 @@ Stale Detection</h1>
 <h1><a class="anchor" id="autotoc_md125"></a>
 Usage</h1>
 <ol type="1">
-<li>Define your CAN network and global faults in <code>firmware/generators/configs/</code>; the generator validates them with its Pydantic configuration models.<ol type="a">
+<li>Define your CAN network and global faults in <code>generators/configs/</code>; the generator validates them with its Pydantic declaration models.<ol type="a">
 <li>Use FDCAN peripherals on G4 and CAN peripherals on F4.</li>
 </ol>
 </li>
