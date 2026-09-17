@@ -63,8 +63,7 @@ Both instrumentation modes are enabled by default.
 
 ## Existing tests
 
-Module-specific unit tests live alongside their production modules. Tests for
-shared or cross-cutting firmware code live under `tests/unit/firmware`:
+Unit tests live alongside their production modules in `tests` directories:
 
 - `lerp_lut_test.cpp` covers exact lookup points, interpolation, and upper and lower clamping in `firmware/common/lerp_lut/lerp_lut.c`.
 - `strbuf_test.cpp` covers fixed-size buffer initialization, clearing, appending, and formatted output in `firmware/common/strbuf/strbuf.c`.
@@ -78,6 +77,12 @@ AddressSanitizer/UBSan and coverage instrumentation.
 ## Directory layout
 
 ```text
+firmware/can_library/
+└── tests/
+    ├── can_codec_test.cpp
+    ├── can_codec_test_shim.c
+    └── can_codec_test_shim.h
+
 firmware/common/
 ├── lerp_lut/
 │   └── tests/
@@ -93,17 +98,13 @@ tests/
 ├── cmake/
 │   └── FirmwareUnitTest.cmake
 └── unit/
-    ├── CMakeLists.txt
-    └── firmware/
-        ├── can_codec_test.cpp
-        └── can_codec_test_shim.c
+    └── CMakeLists.txt
 ```
 
 ## Adding a unit test
 
-1. Add a module-specific GoogleTest source under
-   `firmware/common/<module>/tests`. Put shared or cross-cutting firmware tests
-   under `tests/unit/firmware`.
+1. Add a GoogleTest source under the production module's `tests` directory,
+   such as `firmware/common/<module>/tests`.
 2. Register a target in `tests/unit/CMakeLists.txt` with `add_firmware_unit_test`:
 
    ```cmake
