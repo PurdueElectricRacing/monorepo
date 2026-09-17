@@ -387,10 +387,10 @@ cargo run --manifest-path daqapp/Cargo.toml
 
 (You can also build/run from the `daqapp/` directory with just `cargo build` or `cargo run`.)
 
-### 7.4 Build and Run Host Tests
+### 7.4 Run Generator and Firmware Host Tests
 
 ```bash
-python3 tests/build_tests.py
+python3 tests/run_tests.py
 ```
 
 This also generates the host-test coverage report.

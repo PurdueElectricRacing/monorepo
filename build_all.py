@@ -29,13 +29,8 @@ def build() -> None:
         ROOT / "daqapp",
     )
     build_project(
-        "host tests",
-        [sys.executable, "tests/build_tests.py"],
-        ROOT,
-    )
-    build_project(
-        "generator tests",
-        [sys.executable, "-m", "pytest", "generators", "-q"],
+        "tests",
+        [sys.executable, "tests/run_tests.py"],
         ROOT,
     )
 

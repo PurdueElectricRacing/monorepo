@@ -51,9 +51,9 @@ To build DaqApp:
 cargo build --manifest-path daqapp/Cargo.toml
 ```
 
-To run host tests and generate an HTML coverage report:
+To run generator and firmware host tests and generate an HTML coverage report:
 ```bash
-python3 tests/build_tests.py
+python3 tests/run_tests.py
 ```
 
 ## Hardware Debugging 
