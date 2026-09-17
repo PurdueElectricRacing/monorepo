@@ -250,7 +250,7 @@ def compile_source(source: CanSource) -> CompiledCan:
         for issue in issues:
             print_as_error(f"  {issue}")
 
-        raise CanCompilationError("CAN compilation failed")
+        raise CanCompilationError("; ".join(issues))
 
     rx_subscriptions = tuple(
         CompiledRxSubscription(

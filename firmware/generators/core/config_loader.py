@@ -28,21 +28,25 @@ T = TypeVar("T", bound=DeclarationModel)
 
 
 @dataclass(frozen=True)
-class ConfigIssue:
+class DeclarationIssue:
     path: Path
     location: str
     message: str
 
 
-class ConfigValidationError(ValueError):
+class DeclarationValidationError(ValueError):
     pass
 
 
-def _load_model(path: Path, model_type: type[T], issues: list[ConfigIssue]) -> T | None:
+def _load_model(
+    path: Path,
+    model_type: type[T],
+    issues: list[DeclarationIssue],
+) -> T | None:
     try:
         contents = path.read_bytes()
     except OSError as error:
-        issues.append(ConfigIssue(path, "root", str(error)))
+        issues.append(DeclarationIssue(path, "root", str(error)))
         return None
 
     try:
@@ -50,14 +54,14 @@ def _load_model(path: Path, model_type: type[T], issues: list[ConfigIssue]) -> T
     except ValidationError as error:
         for detail in error.errors(include_url=False):
             location = ".".join(str(part) for part in detail["loc"]) or "root"
-            issues.append(ConfigIssue(path, location, detail["msg"]))
+            issues.append(DeclarationIssue(path, location, detail["msg"]))
         return None
 
     print_as_ok(path.name)
     return model
 
 
-def _print_issues(issues: list[ConfigIssue]) -> None:
+def _print_issues(issues: list[DeclarationIssue]) -> None:
     count = len(issues)
     print_as_warning(
         f"Configuration validation failed with {count} "
@@ -73,7 +77,7 @@ def _validate_references(
     declarations: CanDeclarations,
     internal_sources: list[Path],
     external_sources: list[Path],
-    issues: list[ConfigIssue],
+    issues: list[DeclarationIssue],
 ) -> None:
     known_buses = set(declarations.buses)
     node_names: dict[str, Path] = {}
@@ -81,7 +85,7 @@ def _validate_references(
     for path, node in zip(internal_sources, declarations.internal_nodes):
         previous = node_names.get(node.node_name)
         if previous is not None:
-            issues.append(ConfigIssue(
+            issues.append(DeclarationIssue(
                 path, "node_name",
                 f"duplicate node name '{node.node_name}' (also defined by {previous.name})",
             ))
@@ -90,7 +94,7 @@ def _validate_references(
 
         for bus_name in node.busses:
             if bus_name not in known_buses:
-                issues.append(ConfigIssue(
+                issues.append(DeclarationIssue(
                     path, f"busses.{bus_name}",
                     f"unknown bus '{bus_name}'",
                 ))
@@ -98,7 +102,7 @@ def _validate_references(
     for path, node in zip(external_sources, declarations.external_nodes):
         previous = node_names.get(node.node_name)
         if previous is not None:
-            issues.append(ConfigIssue(
+            issues.append(DeclarationIssue(
                 path, "node_name",
                 f"duplicate node name '{node.node_name}' (also defined by {previous.name})",
             ))
@@ -106,7 +110,7 @@ def _validate_references(
             node_names[node.node_name] = path
 
         if node.bus_name not in known_buses:
-            issues.append(ConfigIssue(
+            issues.append(DeclarationIssue(
                 path, "bus_name", f"unknown bus '{node.bus_name}'"
             ))
 
@@ -114,7 +118,7 @@ def _validate_references(
 def load_declarations(config_dir: Path = CONFIG_DIR) -> CanDeclarations:
     """Load and validate every generator configuration file exactly once."""
     print("Loading and validating configs...")
-    issues: list[ConfigIssue] = []
+    issues: list[DeclarationIssue] = []
 
     bus_registry = _load_model(
         config_dir / "system" / "bus_configs.json", BusDeclarations, issues
@@ -135,7 +139,7 @@ def load_declarations(config_dir: Path = CONFIG_DIR) -> CanDeclarations:
 
     if issues or bus_registry is None or common_types is None:
         _print_issues(issues)
-        raise ConfigValidationError("Configuration validation failed")
+        raise DeclarationValidationError("Declaration validation failed")
 
     declarations = CanDeclarations(
         buses={bus.name: bus for bus in bus_registry.busses},
@@ -152,7 +156,7 @@ def load_declarations(config_dir: Path = CONFIG_DIR) -> CanDeclarations:
 
     if issues:
         _print_issues(issues)
-        raise ConfigValidationError("Configuration validation failed")
+        raise DeclarationValidationError("Declaration validation failed")
 
     print_as_success("All configs loaded and validated")
     return declarations

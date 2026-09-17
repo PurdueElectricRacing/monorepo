@@ -53,15 +53,15 @@ def map_hardware(linked: LinkedCan) -> HardwareMap:
     Hardware Mapper stage.
     Assigns physical resources (like bxCAN filter banks or FDCAN filter lists) to nodes.
     """
-    mappings = {}
+    hardware_map = {}
 
     for node in linked.nodes:
         if node.is_external:
             continue
 
-        mappings[node.name] = map_node_hardware(node, linked)
+        hardware_map[node.name] = map_node_hardware(node, linked)
 
-    return frozen_mapping(mappings)
+    return frozen_mapping(hardware_map)
 
 
 def is_fdcan_peripheral(periph: str) -> bool:

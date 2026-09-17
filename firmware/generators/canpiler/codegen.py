@@ -138,14 +138,14 @@ def generate_node_header(
 def generate_bus_header(
     env: Environment,
     bus_name: str,
-    config: BusDeclaration,
+    declaration: BusDeclaration,
     messages: Sequence[LinkedMessage],
 ) -> Artifact:
     content = render_template(
         env,
         "bus_header.h.jinja",
         bus_name=bus_name,
-        config=config,
+        declaration=declaration,
         messages=messages,
     )
     print_as_ok(f"Generated {bus_name}.h")

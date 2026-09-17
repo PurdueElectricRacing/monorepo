@@ -37,8 +37,8 @@ class Canpiler:
         linked: LinkedCan,
         version: str,
     ) -> list[Artifact]:
-        mappings = map_hardware(linked)
-        artifacts = generate_headers(linked, mappings, version)
+        hardware_map = map_hardware(linked)
+        artifacts = generate_headers(linked, hardware_map, version)
         artifacts.extend(generate_dbcs(linked, version))
         calculate_bus_load(linked)
         return artifacts
