@@ -44,6 +44,9 @@
                             "max": 100,
                             "unit": "%"
                         }
+                        
+                        
+
                     ],
                     "period_ms": 15,
                     "priority": 2
@@ -140,6 +143,20 @@
                         }
                     ],
                     "priority": 3,
+                    "period_ms": 0
+                },
+                 {
+                    "message_name": "brake_pressure",
+                    "description": "brake line hydraulic pressure in PSI",
+                    "signals": [
+                        {
+                            "signal_name": "brake_pressure",
+                            "data_type": "uint16_t",
+                            "description": "brake line hydraulic pressure in PSI",
+                            "unit": "psi"
+                        }
+                    ],
+                    "priority": 5,
                     "period_ms": 0
                 },
                 {
