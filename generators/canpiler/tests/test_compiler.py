@@ -71,3 +71,39 @@ def test_oversized_message() -> None:
             is_extended=False,
             custom_types={},
         )
+
+def test_unknown_signal_type() -> None:
+    message = MessageDeclaration(
+        message_name="bad_type_message",
+        description="contains an unknown signal type",
+        priority=1,
+        signals=[
+            SignalDeclaration(
+                signal_name="value",
+                data_type="uint24_t",
+            ),
+        ],
+    )
+
+    with pytest.raises(ValueError):
+        compile_message(
+            declaration=message,
+            is_extended=False,
+            custom_types={},
+        )
+
+def test_override_out_of_range() -> None:
+    message = MessageDeclaration(
+        message_name="bad_id_message",
+        description="uses an invalid standard CAN ID",
+        priority=1,
+        id_override="0x800",
+        signals=[],
+    )
+
+    with pytest.raises(ValueError):
+        compile_message(
+            declaration=message,
+            is_extended=False,
+            custom_types={},
+        )

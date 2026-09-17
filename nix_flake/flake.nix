@@ -20,6 +20,7 @@
           cantools
           jinja2
           pydantic
+          pytest
         ]);
       in {
         devShells.default = pkgs.mkShell {
