@@ -1,5 +1,5 @@
 """
-config_loader.py
+declaration_loader.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
@@ -13,7 +13,7 @@ from typing import TypeVar
 from pydantic import ValidationError
 
 from core.config import CONFIG_DIR
-from core.config_models import (
+from core.declarations import (
     BusDeclarations,
     CanDeclarations,
     DeclarationModel,

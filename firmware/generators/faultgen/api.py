@@ -5,7 +5,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from core.artifacts import Artifact
-from core.config_models import (
+from core.declarations import (
     CanDeclarations,
     CustomTypeDeclaration,
     FaultDeclaration,
@@ -13,7 +13,7 @@ from core.config_models import (
     RxSubscriptionDeclaration,
     SignalDeclaration,
 )
-from core.contracts import (
+from core.contributions import (
     DeclarationContribution,
     CustomTypeContribution,
     RxDeclaration,

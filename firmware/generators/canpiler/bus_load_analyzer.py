@@ -1,10 +1,10 @@
 """
-load_calc.py
+bus_load_analyzer.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
 
-from .ir import LinkedCan
+from .pipeline_models import LinkedCan
 from core.utils import bcolors, print_as_warning, print_as_ok
 
 # CAN 2.0 Base Overhead (including 3-bit Inter-Frame Space)

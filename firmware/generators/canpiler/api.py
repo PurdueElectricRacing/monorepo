@@ -7,15 +7,15 @@ Author: Irving Wang (irvingw@purdue.edu)
 from collections.abc import Iterable
 
 from core.artifacts import Artifact
-from core.config_models import CanDeclarations
-from core.contracts import DeclarationContribution
-from .codegen import generate_headers
+from core.declarations import CanDeclarations
+from core.contributions import DeclarationContribution
+from .code_generator import generate_headers
 from .compiler import assemble_source, compile_source
-from .dbcgen import generate_dbcs
-from .ir import CanSource, CompiledCan, LinkedCan
+from .dbc_generator import generate_dbcs
+from .pipeline_models import CanSource, CompiledCan, LinkedCan
 from .linker import link_can
-from .load_calc import calculate_bus_load
-from .mapper import map_hardware
+from .bus_load_analyzer import calculate_bus_load
+from .hardware_mapper import map_hardware
 
 
 class Canpiler:

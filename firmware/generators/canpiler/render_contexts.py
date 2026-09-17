@@ -6,8 +6,8 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from collections import defaultdict
 
-from .ir import CompiledNode, CompiledSignal, LinkedCan, frozen_mapping
-from .mapper import FdcanFilters, NodeHardwareMap
+from .pipeline_models import CompiledNode, CompiledSignal, LinkedCan, frozen_mapping
+from .hardware_mapper import FdcanFilters, NodeHardwareMap
 from .render_models import (
     NodeHeaderRenderContext,
     PeripheralRenderView,

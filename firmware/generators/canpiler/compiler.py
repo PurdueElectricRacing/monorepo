@@ -9,8 +9,8 @@ from __future__ import annotations
 import hashlib
 from collections.abc import Iterable, Mapping
 
-from core.config_models import CanDeclarations, CustomTypeDeclaration, MessageDeclaration
-from core.contracts import DeclarationContribution, RxDeclaration, TxDeclaration
+from core.declarations import CanDeclarations, CustomTypeDeclaration, MessageDeclaration
+from core.contributions import DeclarationContribution, RxDeclaration, TxDeclaration
 from core.utils import (
     CTYPE_SIZES,
     print_as_error,
@@ -18,7 +18,7 @@ from core.utils import (
     print_as_success,
     print_as_warning,
 )
-from .ir import (
+from .pipeline_models import (
     CanSource,
     CompiledBusAttachment,
     CompiledCan,

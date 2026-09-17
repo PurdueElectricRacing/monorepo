@@ -1,5 +1,5 @@
 """
-contracts.py
+contributions.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
@@ -7,7 +7,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 from dataclasses import dataclass
 from typing import Literal
 
-from core.config_models import (
+from core.declarations import (
     CustomTypeDeclaration,
     MessageDeclaration,
     RxSubscriptionDeclaration,

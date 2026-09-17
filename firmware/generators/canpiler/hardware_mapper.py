@@ -1,5 +1,5 @@
 """
-mapper.py
+hardware_mapper.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
@@ -8,7 +8,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Mapping
 
-from .ir import CompiledNode, LinkedCan, LinkedMessage, frozen_mapping
+from .pipeline_models import CompiledNode, LinkedCan, LinkedMessage, frozen_mapping
 from core.utils import print_as_warning
 
 # Maximum FDCAN filter counts (STM32G4)
