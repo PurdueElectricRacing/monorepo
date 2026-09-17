@@ -216,7 +216,7 @@ def compile_source(source: CanSource) -> CompiledCan:
     for item in source.tx_messages:
         bus_definition = source.bus_definitions[item.bus_name]
         try:
-            message = _compile_message(
+            message = compile_message(
                 item.message,
                 bus_definition.is_extended_id,
                 source.custom_types,
@@ -273,7 +273,7 @@ def compile_source(source: CanSource) -> CompiledCan:
     )
 
 
-def _compile_message(
+def compile_message(
     declaration: MessageDeclaration,
     is_extended: bool,
     custom_types: Mapping[str, CustomTypeDeclaration],

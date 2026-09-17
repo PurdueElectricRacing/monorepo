@@ -33,6 +33,11 @@ def build() -> None:
         [sys.executable, "tests/build_tests.py"],
         ROOT,
     )
+    build_project(
+        "generator tests",
+        [sys.executable, "-m", "pytest", "generators", "-q"],
+        ROOT,
+    )
 
 
 build()
