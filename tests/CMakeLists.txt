@@ -178,6 +178,7 @@ if(PER_TEST_COVERAGE)
         # Clear any existing coverage counters.
         COMMAND
             "${PER_TEST_LCOV}"
+            --quiet
             --directory "${CMAKE_BINARY_DIR}"
             --zerocounters
 
@@ -190,6 +191,7 @@ if(PER_TEST_COVERAGE)
         # Capture coverage for firmware sources only.
         COMMAND
             "${PER_TEST_LCOV}"
+            --quiet
             --directory "${CMAKE_BINARY_DIR}"
             --gcov-tool "${PER_TEST_GCOV}"
             ${PER_TEST_GCOV_TOOL_ARGS}
@@ -201,6 +203,7 @@ if(PER_TEST_COVERAGE)
         # Generate the HTML coverage report.
         COMMAND
             "${PER_TEST_GENHTML}"
+            --quiet
             "${CMAKE_BINARY_DIR}/coverage/lcov.info"
             --output-directory "${CMAKE_BINARY_DIR}/coverage/html"
 
