@@ -27,14 +27,21 @@ fn main() -> eframe::Result<()> {
     let (ui_to_can_tx, ui_to_can_rx) = std::sync::mpsc::channel::<messages::MsgFromUi>();
 
     let settings = settings::Settings::load();
-    // Send default DBC path to CAN thread
-    if let Some(ref dbc_path) = settings.dbc_paths[0] {
-        ui_to_can_tx
-            .send(messages::MsgFromUi::DbcSelected {
-                bus_name: messages::BusName::XCAN,
-                path: dbc_path.clone(),
-            })
-            .expect("Failed to send DBC path to CAN thread");
+    // Load every saved per-bus DBC into the CAN thread before connecting.
+    for (bus_name, dbc_path) in [
+        (messages::BusName::XCAN, &settings.dbc_paths[0]),
+        (messages::BusName::VCAN, &settings.dbc_paths[1]),
+        (messages::BusName::MCAN, &settings.dbc_paths[2]),
+        (messages::BusName::SCAN, &settings.dbc_paths[3]),
+    ] {
+        if let Some(dbc_path) = dbc_path {
+            ui_to_can_tx
+                .send(messages::MsgFromUi::DbcSelected {
+                    bus_name,
+                    path: dbc_path.clone(),
+                })
+                .expect("Failed to send DBC path to CAN thread");
+        }
     }
     if let Some(ref selected_source) = settings.selected_source {
         ui_to_can_tx
