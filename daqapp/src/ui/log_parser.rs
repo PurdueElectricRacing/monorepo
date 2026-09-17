@@ -2,7 +2,6 @@ use crate::app;
 use crate::daq_log_parse;
 use crate::messages;
 use eframe::egui;
-use serde::de;
 
 pub struct LogParser {
     pub title: String,
