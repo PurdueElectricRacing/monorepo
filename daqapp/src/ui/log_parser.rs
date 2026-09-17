@@ -186,7 +186,7 @@ impl LogParser {
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
-        bus_parsers: &Vec<Option<app::ParserInfo>>,
+        bus_parsers: &[Option<app::ParserInfo>; 4],
     ) -> egui_tiles::UiResponse {
         ui.heading(format!("🔧 {}", self.title));
         ui.separator();

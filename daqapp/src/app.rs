@@ -64,7 +64,7 @@ pub struct DAQApp {
     pub theme_selection: theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
     pub serial_ports: Vec<serialport::SerialPortInfo>,
-    pub bus_parsers: Vec<Option<ParserInfo>>, // default, VCAN, MCAN, SCAN
+    pub bus_parsers: [Option<ParserInfo>; 4], // XCAN (default), VCAN, MCAN, SCAN
     pub can_bus_speed: connection::CanBusSpeed,
     pub udp_port: u16,
     pub can_messages: Vec<messages::MsgFromCan>,
@@ -74,13 +74,13 @@ pub struct DAQApp {
 impl DAQApp {
     pub fn save_settings(&self) {
         let settings = settings::Settings {
-            // vector of dbc paths for each bus, in order: default, VCAN, MCAN, SCAN
-            dbc_paths: Vec::from([
+            // DBC paths for XCAN (default), VCAN, MCAN, and SCAN.
+            dbc_paths: [
                 self.bus_parsers[0].as_ref().map(|p| p.dbc_path.clone()),
                 self.bus_parsers[1].as_ref().map(|p| p.dbc_path.clone()),
                 self.bus_parsers[2].as_ref().map(|p| p.dbc_path.clone()),
                 self.bus_parsers[3].as_ref().map(|p| p.dbc_path.clone()),
-            ]),
+            ],
             selected_source: self.selected_source.clone(),
             selected_speed: self.can_bus_speed,
             udp_port: self.udp_port,
@@ -117,7 +117,7 @@ impl DAQApp {
             theme_selection,
             pixels_per_point: settings.pixels_per_point,
             serial_ports: util::get_available_serial_ports(),
-            bus_parsers: vec![
+            bus_parsers: [
                 ParserInfo::new_maybe(settings.dbc_paths[messages::BusName::XCAN as usize].clone()),
                 ParserInfo::new_maybe(settings.dbc_paths[messages::BusName::VCAN as usize].clone()),
                 ParserInfo::new_maybe(settings.dbc_paths[messages::BusName::MCAN as usize].clone()),

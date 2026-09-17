@@ -25,7 +25,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
 struct WorkspaceTileBehavior<'a> {
     can_messages: &'a [messages::MsgFromCan],
     action_queue: &'a mut Vec<action::AppAction>,
-    bus_parsers: &'a Vec<Option<app::ParserInfo>>,
+    bus_parsers: &'a [Option<app::ParserInfo>; 4],
     ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
     formatter: &'a Option<formatter::Formatter>,
 }

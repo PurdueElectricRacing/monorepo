@@ -62,7 +62,7 @@ impl Widget {
         ui: &mut egui::Ui,
         can_messages: &[messages::MsgFromCan],
         action_queue: &mut Vec<action::AppAction>,
-        bus_parsers: &Vec<Option<app::ParserInfo>>,
+        bus_parsers: &[Option<app::ParserInfo>; 4],
         _ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
         formatter: &Option<formatter::Formatter>,
     ) -> egui_tiles::UiResponse {

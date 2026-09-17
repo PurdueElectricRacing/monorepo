@@ -6,7 +6,7 @@ pub struct State {
     pub driver: Option<Box<dyn can::driver::Driver>>,
     pub current_source: Option<connection::ConnectionSource>,
     pub is_connected: bool,
-    pub parsers: Vec<Option<can_decode::Parser>>, // default, VCAN, MCAN, SCAN
+    pub parsers: [Option<can_decode::Parser>; 4],
     pub send_msgs: std::collections::HashMap<u32, SendMsgInfo>, // msg_id -> SendMsg
     pub bus_load_tracker: can::bus_load::BusLoadTracker,
     pub last_bus_load_update: std::time::Instant,
@@ -40,7 +40,7 @@ impl State {
             driver: None,
             current_source,
             is_connected: false,
-            parsers: vec![None, None, None, None],
+            parsers: [None, None, None, None],
             send_msgs: std::collections::HashMap::new(),
             bus_load_tracker: can::bus_load::BusLoadTracker::new(),
             last_bus_load_update: std::time::Instant::now(),
