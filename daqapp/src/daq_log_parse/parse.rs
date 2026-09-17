@@ -1,5 +1,3 @@
-use crate::app::ParserInfo;
-use crate::can;
 use crate::{daq_log_parse::consts, util};
 use bytemuck::{Pod, Zeroable};
 
