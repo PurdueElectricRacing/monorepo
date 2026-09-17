@@ -13,7 +13,7 @@
 
 "node configs":
   - changed-files:
-      - any-glob-to-any-file: ['firmware/generators/configs/**']
+      - any-glob-to-any-file: ['generators/configs/**']
 
 "a_box":
   - changed-files:
@@ -66,5 +66,5 @@
 "generators":
   - changed-files:
       - all-globs-to-any-file:
-          - "firmware/generators/**"
-          - "!firmware/generators/configs/**"
+          - "generators/**"
+          - "!generators/configs/**"
