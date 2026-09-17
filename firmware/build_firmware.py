@@ -13,10 +13,9 @@ ROOT = Path(__file__).resolve().parent
 BUILD_DIR = ROOT / "build"
 OUTPUT_DIR = ROOT / "output"
 CAN_GENERATED_DIR = ROOT / "can_library" / "generated"
-CAN_NODE_CONFIG_DIR = ROOT / "generators" / "configs" / "nodes"
-BOOTLOADER_UPDATER_CONFIG = (
-    ROOT / "generators" / "configs" / "external_nodes" / "BOOTLOADER.json"
-)
+CAN_CONFIG_DIR = ROOT.parent / "generators" / "configs"
+CAN_NODE_CONFIG_DIR = CAN_CONFIG_DIR / "nodes"
+BOOTLOADER_UPDATER_CONFIG = CAN_CONFIG_DIR / "external_nodes" / "BOOTLOADER.json"
 
 BOARD_TARGETS = [
     "main_module",
