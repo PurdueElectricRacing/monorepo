@@ -1,5 +1,5 @@
 """
-config_models.py
+declarations.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """

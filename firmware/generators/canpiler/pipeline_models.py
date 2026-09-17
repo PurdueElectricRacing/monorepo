@@ -1,5 +1,5 @@
 """
-ir.py
+pipeline_models.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
@@ -10,12 +10,12 @@ from dataclasses import dataclass
 from types import MappingProxyType
 from typing import Mapping
 
-from core.config_models import (
+from core.declarations import (
     BusDeclaration,
     ByteOrder,
     CustomTypeDeclaration,
 )
-from core.contracts import RxDeclaration, TxDeclaration
+from core.contributions import RxDeclaration, TxDeclaration
 
 
 def frozen_mapping(values: Mapping) -> Mapping:

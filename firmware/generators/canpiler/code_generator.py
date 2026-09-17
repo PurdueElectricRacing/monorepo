@@ -1,5 +1,5 @@
 """
-codegen.py
+code_generator.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
@@ -9,10 +9,10 @@ from collections.abc import Mapping, Sequence
 from jinja2 import Environment
 
 from core.artifacts import Artifact
-from core.config_models import BusDeclaration, CustomTypeDeclaration
+from core.declarations import BusDeclaration, CustomTypeDeclaration
 from core.utils import get_jinja_env, print_as_ok, print_as_success, render_template
-from .ir import CompiledNode, LinkedCan, LinkedMessage
-from .mapper import HardwareMap, NodeHardwareMap
+from .pipeline_models import CompiledNode, LinkedCan, LinkedMessage
+from .hardware_mapper import HardwareMap, NodeHardwareMap
 from .render_contexts import (
     build_node_header_context,
 )
@@ -138,14 +138,14 @@ def generate_node_header(
 def generate_bus_header(
     env: Environment,
     bus_name: str,
-    config: BusDeclaration,
+    declaration: BusDeclaration,
     messages: Sequence[LinkedMessage],
 ) -> Artifact:
     content = render_template(
         env,
         "bus_header.h.jinja",
         bus_name=bus_name,
-        config=config,
+        declaration=declaration,
         messages=messages,
     )
     print_as_ok(f"Generated {bus_name}.h")

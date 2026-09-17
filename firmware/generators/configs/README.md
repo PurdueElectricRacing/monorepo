@@ -1,7 +1,7 @@
 # CAN Configs
 
 ## Bus Definition (`configs/system/bus_configs.json`)
-Validated by the Pydantic models in `core/config_models.py`. Describes each logical CAN bus (not how a node attaches to it).
+Validated by the Pydantic models in `core/declarations.py`. Describes each logical CAN bus (not how a node attaches to it).
 
 - `name`: Logical bus name (referenced by nodes and external nodes).
 - `baud_rate`: CAN bitrate for this bus. Must be '250000', '500000', or '1000000' (250k, 500k, 1M).

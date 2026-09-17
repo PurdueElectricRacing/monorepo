@@ -1,5 +1,5 @@
 """
-mapper.py
+hardware_mapper.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
@@ -8,7 +8,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Mapping
 
-from .ir import CompiledNode, LinkedCan, LinkedMessage, frozen_mapping
+from .pipeline_models import CompiledNode, LinkedCan, LinkedMessage, frozen_mapping
 from core.utils import print_as_warning
 
 # Maximum FDCAN filter counts (STM32G4)
@@ -53,15 +53,15 @@ def map_hardware(linked: LinkedCan) -> HardwareMap:
     Hardware Mapper stage.
     Assigns physical resources (like bxCAN filter banks or FDCAN filter lists) to nodes.
     """
-    mappings = {}
+    hardware_map = {}
 
     for node in linked.nodes:
         if node.is_external:
             continue
 
-        mappings[node.name] = map_node_hardware(node, linked)
+        hardware_map[node.name] = map_node_hardware(node, linked)
 
-    return frozen_mapping(mappings)
+    return frozen_mapping(hardware_map)
 
 
 def is_fdcan_peripheral(periph: str) -> bool:

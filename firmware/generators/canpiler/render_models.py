@@ -7,13 +7,13 @@ Author: Irving Wang (irvingw@purdue.edu)
 from dataclasses import dataclass
 from typing import Mapping
 
-from .ir import (
+from .pipeline_models import (
     LinkedMessage,
     LinkedRxSubscription,
     CompiledNode,
     CompiledSignal,
 )
-from .mapper import BxcanFilters, FdcanFilters
+from .hardware_mapper import BxcanFilters, FdcanFilters
 
 
 @dataclass(frozen=True)
