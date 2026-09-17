@@ -6,13 +6,15 @@ set(_CAN_LIBRARY_INCLUDED TRUE)
 # 1. Define the path to the generated directory
 set(CAN_LIB_DIR ${CMAKE_SOURCE_DIR}/can_library)
 set(CAN_GEN_DIR ${CAN_LIB_DIR}/generated)
+get_filename_component(REPOSITORY_DIR "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+set(GENERATOR_SCRIPT ${REPOSITORY_DIR}/generators/generate.py)
 
 # Run the generator during configuration to ensure files exist for compile checks
 # This fixes the cases where CMake fails because generated source files are missing
 message(STATUS "Running firmware generators (configuration phase)...")
 execute_process(
-    COMMAND python3 ${CMAKE_SOURCE_DIR}/generators/generate.py
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMAND python3 ${GENERATOR_SCRIPT}
+    WORKING_DIRECTORY ${REPOSITORY_DIR}
     RESULT_VARIABLE CAN_GEN_RESULT
 )
 

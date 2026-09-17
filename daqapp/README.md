@@ -30,7 +30,7 @@ DaqApp is PER's complete trackside data acquisition and analysis desktop applica
 
 1. Use sidebar to select a CAN source from the connection controls (SLCAN, UDP, or dev modes)
 2. Use sidebar to select the appropriate DBC so messages and signals can be decoded
-  - Get the DBC from the `monorepo/firmware/can_library/dbc` which is an output from the firmware build process
+  - Get the DBC from `monorepo/dbc`, which is an output from the firmware build process.
 3. Use the sidebar (or ctrl-P) to launch widgets
 
 Sidebar settings (source, DBC, etc) are saved to a local settings file to persist between sessions.

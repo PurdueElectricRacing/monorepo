@@ -37,9 +37,8 @@ The firmware helper creates these local build products:
 - `build/` — CMake/Ninja build tree and `compile_commands.json`.
 - `output/` — target `.elf` and `.hex` files.
 - `output/firmware_<git-ref>.tar.gz` — packaged firmware.
-- `can_library/generated/` and `can_library/dbc/` — generated CAN artifacts:
-  - Header files for CAN message packing, unpacking, stale, and more
-  - DBC files for use in the DAQ app and other tools
+- `can_library/generated/` — generated headers for CAN message packing, unpacking, stale detection, and more.
+- `../dbc/` — generated DBC files for use in the DAQ app and other tools.
 
 > [!WARNING]
 > Every invocation performs a clean build.

@@ -37,7 +37,7 @@
         {
             "label": "run generators",
             "type": "shell",
-            "command": "python3 ./firmware/generators/generate.py",
+            "command": "python3 ./generators/generate.py",
             "group": {
                 "kind": "build"
             }
