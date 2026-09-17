@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: 
           submodules: recursive
 
@@ -35,7 +35,7 @@ jobs:
         run: python3 firmware/build_firmware.py
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: firmware-${{ steps.git_info.outputs.branch }}-${{ steps.git_info.outputs.short_hash }}
           path: |
@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
 

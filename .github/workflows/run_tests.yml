@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Build, test, and generate coverage
         env:
@@ -27,7 +27,7 @@ jobs:
         run: python3 tests/run_tests.py
 
       - name: Upload coverage report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: host-test-coverage
           path: firmware/build/host-tests/coverage
