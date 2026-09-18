@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 from dataclasses import replace
 from pathlib import Path
@@ -102,6 +103,11 @@ def test_real_generation_and_dbc_parity(linked):
 
 
 def test_hash_determinism(linked, document):
+    encoded = json.dumps(
+        {"schema_version": 1, "buses": document["buses"]},
+        sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False,
+    ).encode("utf-8")
+    assert document["content_hash"] == hashlib.sha256(encoded).hexdigest()
     reordered = replace(
         linked,
         nodes=tuple(reversed(linked.nodes)),

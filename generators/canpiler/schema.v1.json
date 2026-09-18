@@ -267,7 +267,7 @@
   "additionalProperties": false,
   "properties": {
     "content_hash": {
-      "pattern": "^sha256:[0-9a-f]{64}$",
+      "pattern": "^[0-9a-f]{64}$",
       "title": "Content Hash",
       "type": "string"
     },

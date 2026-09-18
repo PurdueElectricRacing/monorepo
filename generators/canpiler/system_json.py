@@ -11,6 +11,7 @@ from .pipeline_models import LinkedCan, CompiledSignal
 
 
 def content_hash(buses: dict, schema_version: int = 1) -> str:
+    """Return the normalized definitions' SHA-256 digest as lowercase hex."""
     encoded = json.dumps(
         {"schema_version": schema_version, "buses": buses},
         sort_keys=True,
@@ -18,7 +19,7 @@ def content_hash(buses: dict, schema_version: int = 1) -> str:
         ensure_ascii=False,
         allow_nan=False,
     ).encode("utf-8")
-    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def _signal(signal: CompiledSignal, linked: LinkedCan) -> SignalExport:
