@@ -26,10 +26,16 @@ def write_artifacts(roots: Mapping[str, Path], artifacts: list[Artifact]) -> Non
         path.write_text(artifact.content, encoding="utf-8", newline="\n")
 
 
-def clear_artifacts(roots: Mapping[str, Path], patterns: Mapping[str, str]) -> None:
+def clear_artifacts(
+    roots: Mapping[str, Path], patterns: Mapping[str, str | tuple[str, ...]]
+) -> None:
     for collection, root in roots.items():
         if not root.exists():
             continue
-        for path in root.glob(patterns[collection]):
-            if path.is_file():
-                path.unlink()
+        collection_patterns = patterns[collection]
+        if isinstance(collection_patterns, str):
+            collection_patterns = (collection_patterns,)
+        for pattern in collection_patterns:
+            for path in root.glob(pattern):
+                if path.is_file():
+                    path.unlink()

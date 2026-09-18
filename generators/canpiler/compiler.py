@@ -294,6 +294,23 @@ def compile_message(
 
         length = signal.length or CTYPE_SIZES[base_type]
 
+        choices = signal.choices
+        if not choices and signal.data_type in custom_types:
+            choices = custom_types[signal.data_type].choices
+        if base_type == "float":
+            if length != 32 or choices:
+                raise ValueError(
+                    f"Signal '{signal.signal_name}' in message "
+                    f"'{declaration.message_name}': float requires 32 bits and no choices"
+                )
+        elif choices:
+            value_bits = length - int(base_type.startswith("int"))
+            if len(choices) > (1 << value_bits):
+                raise ValueError(
+                    f"Signal '{signal.signal_name}' in message "
+                    f"'{declaration.message_name}': enum values do not fit {length}-bit {base_type}"
+                )
+
         if declaration.byte_order == "big_endian" and length > 8:
             if current_offset % 8 != 0 or length not in (16, 32, 64):
                 raise ValueError(
