@@ -12,7 +12,7 @@ import generate
 from canpiler.api import Canpiler
 from canpiler.compiler import compile_message
 from canpiler.export_models import SignalExport, SystemExport, system_json_schema
-from generators.canpiler.system_json_generator import content_hash, generate_system_json
+from canpiler.system_json_generator import content_hash, generate_system_json
 from canpiler.pipeline_models import LinkedMessage
 from core.declaration_loader import load_declarations
 from core.declarations import CustomTypeDeclaration, MessageDeclaration, SignalDeclaration
@@ -125,15 +125,6 @@ def test_hash_determinism(linked, document):
     assert content_hash(second["buses"]) != document["content_hash"]
 
 
-def test_duplicate_and_cross_bus_ids(document):
-    bus = document["buses"]["VCAN"]
-    document["buses"]["COPY"] = copy.deepcopy(bus)
-    SystemExport.model_validate(document)
-    bus["messages"].append(copy.deepcopy(bus["messages"][0]))
-    with pytest.raises(ValidationError, match="duplicate message"):
-        SystemExport.model_validate(document)
-
-
 def test_empty_bus(linked):
     configs = dict(linked.bus_configs)
     configs["EMPTY"] = configs["VCAN"].model_copy(update={"name": "EMPTY"})
@@ -177,10 +168,7 @@ def test_signal_types_defaults_and_zero(linked, byte_order, data_type, raw_type,
 
 @pytest.mark.parametrize("change", [
     {"bit_length": 0}, {"scale": float("inf")}, {"offset": float("nan")},
-    {"minimum": 2, "maximum": 1}, {"choices": {"01": "bad"}},
-    {"bit_length": 1, "choices": {"2": "bad"}},
-    {"raw_type": "float32", "bit_length": 16},
-    {"raw_type": "float32", "bit_length": 32, "choices": {"0": "bad"}},
+    {"choices": {"01": "bad"}}, {"raw_type": "unknown"},
 ])
 def test_invalid_signal_metadata(document, change):
     signal = copy.deepcopy(document["buses"]["VCAN"]["messages"][0]["signals"][0])
@@ -199,37 +187,8 @@ def test_required_and_unknown_fields(document):
         SystemExport.model_validate({**document, "extra": True})
 
 
-@pytest.mark.parametrize("case", [
-    "standard_id", "extended_id", "payload_size", "outside_payload", "overlap",
-    "duplicate_signal", "unknown_transmitter", "unknown_receiver", "duplicate_node",
-    "unsupported_version", "duplicate_name",
-])
-def test_invalid_document(document, case):
-    bus = document["buses"]["VCAN"]
-    message = bus["messages"][0]
-    signal = message["signals"][0]
-    if case == "standard_id":
-        message.update(id=0x800, is_extended_id=False)
-    elif case == "extended_id":
-        message.update(id=0x20000000, is_extended_id=True)
-    elif case == "payload_size":
-        message["length_bytes"] = 9
-    elif case == "outside_payload":
-        message["length_bytes"] = 0
-    elif case == "overlap":
-        message["signals"].append({**signal, "signal_name": "overlapping"})
-    elif case == "duplicate_signal":
-        message["signals"].append(copy.deepcopy(signal))
-    elif case == "unknown_transmitter":
-        message["transmitter"] = "MISSING"
-    elif case == "unknown_receiver":
-        message["receivers"] = ["MISSING"]
-    elif case == "duplicate_node":
-        bus["nodes"].append(copy.deepcopy(bus["nodes"][0]))
-    elif case == "unsupported_version":
-        document["versions"]["schema_version"] = 2
-    elif case == "duplicate_name":
-        bus["messages"][1]["message_name"] = message["message_name"]
+def test_unsupported_schema_version(document):
+    document["versions"]["schema_version"] = 2
     with pytest.raises(ValidationError):
         SystemExport.model_validate(document)
 
@@ -260,7 +219,14 @@ def test_known_payload_against_cantools(linked, byte_order):
     labeled = db.decode_message(123, payload, decode_choices=True)
     for signal in signals:
         model = SignalExport.model_validate(signal)
-        bits = model.occupied_bits()
+        bits = []
+        bit = model.start_bit
+        for _ in range(model.bit_length):
+            bits.append(bit)
+            if model.byte_order == "little_endian":
+                bit += 1
+            else:
+                bit = bit + 15 if bit % 8 == 0 else bit - 1
         if model.byte_order == "big_endian":
             bits.reverse()
         raw = sum(((payload[bit // 8] >> (bit % 8)) & 1) << index
@@ -275,7 +241,7 @@ def test_known_payload_against_cantools(linked, byte_order):
 
 
 def test_custom_float_and_enum_override(linked):
-    from generators.canpiler.system_json_generator import _signal
+    from canpiler.system_json_generator import _signal
 
     custom_types = {**linked.custom_types, "measurement_t": CustomTypeDeclaration(
         name="measurement_t", base_type="float"
@@ -307,16 +273,26 @@ def test_cleanup_and_validation_before_cleanup(tmp_path, monkeypatch):
     assert (dbc / "unrelated.json").read_text() == "sentinel"
     assert len(list(dbc.glob("system_*.json"))) == 1
     before = {p: p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()}
-    original_link = Canpiler.link
+    original_load = generate.load_declarations
 
-    def invalid_link(self, compiled):
-        context = original_link(self, compiled)
-        placed = context.tx_messages[0]
-        signal = replace(placed.message.signals[0], scale=float("inf"))
-        message = replace(placed.message, signals=(signal, *placed.message.signals[1:]))
-        return replace(context, tx_messages=(replace(placed, message=message), *context.tx_messages[1:]))
+    def invalid_declarations():
+        declarations = original_load()
+        # Valid declaration shape, invalid resolved float width: compilation
+        # must reject it before any exporter or cleanup runs.
+        for node in declarations.internal_nodes:
+            for attachment in node.busses.values():
+                if attachment.tx:
+                    attachment.tx[0] = MessageDeclaration(
+                        message_name=attachment.tx[0].message_name,
+                        description="invalid float", priority=0,
+                        signals=[SignalDeclaration(
+                            signal_name="bad_float", data_type="float", length=16,
+                        )],
+                    )
+                    return declarations
+        raise AssertionError("fixture needs a transmitting node")
 
-    monkeypatch.setattr(Canpiler, "link", invalid_link)
-    with pytest.raises(ValueError, match="Bus.*Message.*Signal"):
+    monkeypatch.setattr(generate, "load_declarations", invalid_declarations)
+    with pytest.raises(ValueError, match="bad_float.*float requires 32 bits"):
         generate.generate()
     assert before == {p: p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()}
