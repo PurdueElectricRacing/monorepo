@@ -46,6 +46,7 @@ jobs:
             firmware/output/**/*.hex
             firmware/output/**/*.tar.gz
             dbc/*.dbc
+            dbc/system_*.json
           retention-days: ${{ github.ref == 'refs/heads/master' && 90 || 7 }}
 
   cppcheck:
