@@ -12,7 +12,7 @@ import generate
 from canpiler.api import Canpiler
 from canpiler.compiler import compile_message
 from canpiler.export_models import SignalExport, SystemExport, system_json_schema
-from generators.canpiler.system_json import content_hash, generate_system_json
+from generators.canpiler.system_json_generator import content_hash, generate_system_json
 from canpiler.pipeline_models import LinkedMessage
 from core.declaration_loader import load_declarations
 from core.declarations import CustomTypeDeclaration, MessageDeclaration, SignalDeclaration
@@ -275,7 +275,7 @@ def test_known_payload_against_cantools(linked, byte_order):
 
 
 def test_custom_float_and_enum_override(linked):
-    from generators.canpiler.system_json import _signal
+    from generators.canpiler.system_json_generator import _signal
 
     custom_types = {**linked.custom_types, "measurement_t": CustomTypeDeclaration(
         name="measurement_t", base_type="float"
