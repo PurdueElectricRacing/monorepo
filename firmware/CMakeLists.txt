@@ -31,6 +31,7 @@ set(COMMON_MODULES
     common/amk
     common/bootloader
     common/bangbang
+    common/diagnostics
     common/rtos
     common/heartbeat
     common/lerp_lut
