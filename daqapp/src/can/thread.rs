@@ -6,8 +6,13 @@ const BUS_LOAD_UPDATE_MS: u128 = 200;
 const HIL_UPDATE_MS: u128 = 50;
 
 // Returns the number of payload data bytes in the CAN frame if it was a Can2 frame
-fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> usize {
-    match frame {
+fn process_can_frame(
+    received_frame: &can::driver::ReceivedFrame,
+    state: &mut can::state::State,
+) -> usize {
+    let bus_name = received_frame.bus_name.clone();
+
+    match &received_frame.frame {
         slcan::CanFrame::Can2(frame2) => {
             let decode_msg_id = util::can::slcan_to_u32_with_extid_flag(&frame2.id());
             let raw_msg_id = util::can::slcan_to_u32_without_extid_flag(&frame2.id());
@@ -17,14 +22,14 @@ fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> 
             let raw_bytes = data.to_vec();
 
             let decoded = state
-                .parser
-                .as_ref()
+                .parser_for_bus(bus_name)
                 .and_then(|parser| parser.decode_msg(decode_msg_id, data));
 
             match decoded {
                 Some(decoded) => {
                     let parsed_msg = messages::ParsedMessage {
                         timestamp,
+                        bus_name,
                         raw_bytes,
                         decoded,
                     };
@@ -35,16 +40,21 @@ fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> 
                         .expect("Failed to send parsed CAN message");
                 }
                 None => {
-                    if state.parser.is_some() {
+                    let has_parser = state.parser_for_bus(bus_name).is_some();
+                    if has_parser {
                         log::error!(
-                            "Failed to parse: frame ID 0x{:X} ({}), data: {:02X?}",
+                            "Failed to parse on {} (bus {}): frame ID 0x{:X} ({}), data: {:02X?}",
+                            bus_name,
+                            bus_name as u8,
                             raw_msg_id,
                             raw_msg_id,
                             data
                         );
                     } else {
                         log::warn!(
-                            "No DBC loaded. Received frame ID 0x{:X} ({}), data: {:02X?}",
+                            "No DBC loaded for {} (bus {}). Received frame ID 0x{:X} ({}), data: {:02X?}",
+                            bus_name,
+                            bus_name as u8,
                             raw_msg_id,
                             raw_msg_id,
                             data
@@ -53,6 +63,7 @@ fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> 
 
                     let unparsed_msg = messages::UnparsedMessage {
                         timestamp,
+                        bus_name,
                         raw_bytes,
                         msg_id: raw_msg_id,
                     };
@@ -69,7 +80,9 @@ fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> 
         slcan::CanFrame::CanFd(frame_fd) => {
             let msg_id_raw = util::can::slcan_to_u32_without_extid_flag(&frame_fd.id());
             log::warn!(
-                "Received CAN FD frame id=0x{:X} len={}",
+                "Received CAN FD frame on {} (bus {}) id=0x{:X} len={}",
+                bus_name,
+                bus_name as u8,
                 msg_id_raw,
                 frame_fd.data().len()
             );
@@ -93,13 +106,17 @@ pub fn start_can_thread(
             // Process UI messages first (DBC load, new message to send, etc.)
             while let Ok(msg) = state.ui_to_can_rx.try_recv() {
                 match msg {
-                    messages::MsgFromUi::DbcSelected(path) => {
+                    messages::MsgFromUi::DbcSelected { bus_name, path } => {
                         match can_decode::Parser::from_dbc_file(&path) {
                             Ok(parser) => {
-                                state.parser = Some(parser);
-                                log::info!("Loaded DBC from {:?}", path);
+                                state.parsers[bus_name as usize] = Some(parser);
+                                log::info!("Loaded DBC for {} from {:?}", bus_name, path);
                             }
-                            Err(e) => log::error!("Failed to load DBC {:?}: {e}", path),
+                            Err(e) => log::error!(
+                                "Failed to load DBC for {} from {:?}: {e}",
+                                bus_name,
+                                path
+                            ),
                         }
                     }
                     messages::MsgFromUi::Connect(source) => {
@@ -259,13 +276,15 @@ pub fn start_can_thread(
 
             match active_driver.read_frames() {
                 Ok(frames) => {
-                    for frame in frames {
-                        let data_bytes = process_can_frame(&frame, &mut state);
+                    for received_frame in frames {
+                        let data_bytes = process_can_frame(&received_frame, &mut state);
                         state.bus_load_tracker.record_frame(data_bytes);
 
                         // Log each frame (buffered, not flushed yet)
-                        match &frame {
-                            slcan::CanFrame::Can2(f2) => daq_logger.log_can2_frame(f2, false),
+                        match &received_frame.frame {
+                            slcan::CanFrame::Can2(f2) => {
+                                daq_logger.log_can2_frame(f2, received_frame.bus_name)
+                            }
                             // RawFrame is fixed at 8 bytes (CAN 2.0 format); FD frames are not logged
                             slcan::CanFrame::CanFd(_) => {}
                         }
