@@ -170,7 +170,7 @@ brew install \
 Override default Xcode LLVM:
 
 ```bash
-echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> /Users/amruthnadimpally/.zshrc
+echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 export CMAKE_PREFIX_PATH="/opt/homebrew/opt/llvm"
