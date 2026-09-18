@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "BusExport": {
+      "additionalProperties": false,
+      "properties": {
+        "baud_rate": {
+          "exclusiveMinimum": 0,
+          "title": "Baud Rate",
+          "type": "integer"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/NodeExport"
+          },
+          "title": "Nodes",
+          "type": "array"
+        },
+        "messages": {
+          "items": {
+            "$ref": "#/$defs/MessageExport"
+          },
+          "title": "Messages",
+          "type": "array"
+        }
+      },
+      "required": [
+        "baud_rate",
+        "nodes",
+        "messages"
+      ],
+      "title": "BusExport",
+      "type": "object"
+    },
+    "MessageExport": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maximum": 536870911,
+          "minimum": 0,
+          "title": "Id",
+          "type": "integer"
+        },
+        "is_extended_id": {
+          "title": "Is Extended Id",
+          "type": "boolean"
+        },
+        "message_name": {
+          "minLength": 1,
+          "title": "Message Name",
+          "type": "string"
+        },
+        "transmitter": {
+          "minLength": 1,
+          "title": "Transmitter",
+          "type": "string"
+        },
+        "receivers": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Receivers",
+          "type": "array"
+        },
+        "length_bytes": {
+          "maximum": 8,
+          "minimum": 0,
+          "title": "Length Bytes",
+          "type": "integer"
+        },
+        "nominal_period_ms": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Nominal Period Ms"
+        },
+        "priority": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "signals": {
+          "items": {
+            "$ref": "#/$defs/SignalExport"
+          },
+          "title": "Signals",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "is_extended_id",
+        "message_name",
+        "transmitter",
+        "receivers",
+        "length_bytes",
+        "nominal_period_ms",
+        "priority",
+        "description",
+        "signals"
+      ],
+      "title": "MessageExport",
+      "type": "object"
+    },
+    "NodeExport": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "is_external": {
+          "title": "Is External",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "is_external"
+      ],
+      "title": "NodeExport",
+      "type": "object"
+    },
+    "SignalExport": {
+      "additionalProperties": false,
+      "properties": {
+        "signal_name": {
+          "minLength": 1,
+          "title": "Signal Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "data_type": {
+          "minLength": 1,
+          "title": "Data Type",
+          "type": "string"
+        },
+        "raw_type": {
+          "enum": [
+            "unsigned",
+            "signed",
+            "float32"
+          ],
+          "title": "Raw Type",
+          "type": "string"
+        },
+        "start_bit": {
+          "maximum": 63,
+          "minimum": 0,
+          "title": "Start Bit",
+          "type": "integer"
+        },
+        "bit_length": {
+          "maximum": 64,
+          "minimum": 1,
+          "title": "Bit Length",
+          "type": "integer"
+        },
+        "byte_order": {
+          "enum": [
+            "little_endian",
+            "big_endian"
+          ],
+          "title": "Byte Order",
+          "type": "string"
+        },
+        "scale": {
+          "title": "Scale",
+          "type": "number"
+        },
+        "offset": {
+          "title": "Offset",
+          "type": "number"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Minimum"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Maximum"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        },
+        "choices": {
+          "patternProperties": {
+            "^(0|-?[1-9][0-9]*)$": {
+              "type": "string"
+            }
+          },
+          "title": "Choices",
+          "type": "object"
+        }
+      },
+      "required": [
+        "signal_name",
+        "description",
+        "data_type",
+        "raw_type",
+        "start_bit",
+        "bit_length",
+        "byte_order",
+        "scale",
+        "offset",
+        "minimum",
+        "maximum",
+        "unit",
+        "choices"
+      ],
+      "title": "SignalExport",
+      "type": "object"
+    },
+    "VersionsExport": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "hash": {
+          "minLength": 1,
+          "title": "Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "hash"
+      ],
+      "title": "VersionsExport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "versions": {
+      "$ref": "#/$defs/VersionsExport"
+    },
+    "buses": {
+      "additionalProperties": {
+        "$ref": "#/$defs/BusExport"
+      },
+      "propertyNames": {
+        "minLength": 1
+      },
+      "title": "Buses",
+      "type": "object"
+    }
+  },
+  "required": [
+    "content_hash",
+    "versions",
+    "buses"
+  ],
+  "title": "SystemExport",
+  "type": "object"
+}
