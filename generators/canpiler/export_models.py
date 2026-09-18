@@ -129,7 +129,7 @@ class VersionsExport(ExportModel):
 
 
 class SystemExport(ExportModel):
-    content_hash: Annotated[str, Field(pattern=r"^sha256:[0-9a-f]{64}$")]
+    content_hash: Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
     versions: VersionsExport
     buses: dict[Name, BusExport]
 
