@@ -163,7 +163,17 @@ brew install \
 	python3 \
 	lcov \
 	googletest \
-	cppcheck
+	cppcheck \
+	llvm
+```
+
+Override default Xcode LLVM:
+
+```bash
+echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> /Users/amruthnadimpally/.zshrc
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+export CMAKE_PREFIX_PATH="/opt/homebrew/opt/llvm"
 ```
 
 Install the ARM embedded compiler:
@@ -181,6 +191,7 @@ ninja --version
 python3 --version
 arm-none-eabi-gcc --version
 openocd --version
+llvm-cov --version
 ```
 
 ### 3B. Linux
