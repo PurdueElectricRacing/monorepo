@@ -227,7 +227,9 @@ sudo apt install \
 	libgtest-dev \
 	pkg-config \
 	libudev-dev \
-	usbutils
+	usbutils \
+	gdb-multiarch \
+	binutils-multiarch
 ```
 
 Check:
@@ -275,6 +277,14 @@ sudo apt upgrade
 ```
 
 Then follow the [Linux instructions in Section 3B](#3b-linux) inside of WSL.
+
+Additionally for WSL, run:
+
+```bash
+sudo apt install \
+	xdg-desktop-portal \
+	zenity
+```
 
 #### 3C.3 Use VS Code inside of WSL
 
