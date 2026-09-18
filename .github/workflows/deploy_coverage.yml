@@ -2,7 +2,7 @@ name: Deploy Coverage
 
 on:
   workflow_run:
-    workflows: ["Host Tests"]
+    workflows: ["Tests"]
     types: [completed]
     branches: [master]
 
