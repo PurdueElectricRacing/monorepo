@@ -6,7 +6,9 @@ from collections import defaultdict
 
 from core.artifacts import Artifact
 from core.utils import print_as_ok
-from .export_models import BusExport, MessageExport, SignalExport, SystemExport
+from .export_models import (
+    BusExport, MessageExport, NodeExport, SignalExport, SystemExport, VersionsExport,
+)
 from .pipeline_models import LinkedCan, CompiledSignal
 
 
@@ -52,6 +54,7 @@ def _signal(signal: CompiledSignal, linked: LinkedCan) -> SignalExport:
 
 
 def generate_system_json(linked: LinkedCan, version: str) -> Artifact:
+    """Translate validated, linked CAN definitions into the public JSON shape."""
     receivers = defaultdict(set)
     for subscription in linked.subscriptions:
         receivers[(subscription.bus_name, subscription.message_name)].add(
@@ -59,55 +62,44 @@ def generate_system_json(linked: LinkedCan, version: str) -> Artifact:
         )
     by_bus = defaultdict(list)
     for placed in linked.tx_messages:
-        if placed.bus_name not in linked.bus_configs:
-            raise ValueError(f"Unknown bus '{placed.bus_name}' for '{placed.message.message_name}'")
         by_bus[placed.bus_name].append(placed)
 
     buses = {}
     for bus_name, config in sorted(linked.bus_configs.items()):
-        try:
-            messages = []
-            for placed in sorted(by_bus[bus_name], key=lambda item: (
-                item.message.is_extended, item.message.final_id, item.message.message_name
-            )):
-                message = placed.message
-                try:
-                    signals = []
-                    for signal in sorted(message.signals, key=lambda s: (s.bit_offset, s.signal_name)):
-                        try:
-                            signals.append(_signal(signal, linked))
-                        except ValueError as error:
-                            raise ValueError(f"Signal '{signal.signal_name}': {error}") from error
-                    messages.append(MessageExport(
-                        id=message.final_id,
-                        is_extended_id=message.is_extended,
-                        message_name=message.message_name,
-                        transmitter=placed.node_name,
-                        receivers=sorted(receivers[(bus_name, message.message_name)]),
-                        length_bytes=message.dlc,
-                        nominal_period_ms=message.period_ms if message.period_ms != 0 else None,
-                        priority=message.priority,
-                        description=message.description,
-                        signals=signals,
-                    ))
-                except ValueError as error:
-                    raise ValueError(f"Message '{message.message_name}': {error}") from error
-            buses[bus_name] = BusExport(
-                baud_rate=config.baud_rate,
-                nodes=[
-                    {"name": node.name, "is_external": node.is_external}
-                    for node in sorted(linked.nodes, key=lambda node: node.name)
-                    if bus_name in node.busses
+        messages = []
+        for placed in sorted(by_bus[bus_name], key=lambda item: (
+            item.message.is_extended, item.message.final_id, item.message.message_name
+        )):
+            message = placed.message
+            messages.append(MessageExport(
+                id=message.final_id,
+                is_extended_id=message.is_extended,
+                message_name=message.message_name,
+                transmitter=placed.node_name,
+                receivers=sorted(receivers[(bus_name, message.message_name)]),
+                length_bytes=message.dlc,
+                nominal_period_ms=message.period_ms if message.period_ms != 0 else None,
+                priority=message.priority,
+                description=message.description,
+                signals=[
+                    _signal(signal, linked)
+                    for signal in sorted(message.signals, key=lambda s: (s.bit_offset, s.signal_name))
                 ],
-                messages=messages,
-            )
-        except ValueError as error:
-            raise ValueError(f"Bus '{bus_name}': {error}") from error
+            ))
+        buses[bus_name] = BusExport(
+            baud_rate=config.baud_rate,
+            nodes=[
+                NodeExport(name=node.name, is_external=node.is_external)
+                for node in sorted(linked.nodes, key=lambda node: node.name)
+                if bus_name in node.busses
+            ],
+            messages=messages,
+        )
 
     bus_data = {name: bus.model_dump(mode="json") for name, bus in buses.items()}
     document = SystemExport(
         content_hash=content_hash(bus_data),
-        versions={"schema_version": 1, "hash": version},
+        versions=VersionsExport(schema_version=1, hash=version),
         buses=buses,
     )
     filename = f"system_{version}.json"
