@@ -16,8 +16,9 @@
 #define TEST_ADC             11
 #define TEST_GPIO            12
 #define TEST_ONBOARDING_2027 13
+#define TEST_DIAGNOSTICS     14
 
 // Change this define to set the test compiled
-#define G4_TESTING_CHOSEN TEST_BLINKY
+#define G4_TESTING_CHOSEN TEST_DIAGNOSTICS
 
 #endif // __G4_TESTING__
