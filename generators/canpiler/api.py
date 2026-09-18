@@ -12,7 +12,7 @@ from core.contributions import DeclarationContribution
 from .code_generator import generate_headers
 from .compiler import assemble_source, compile_source
 from .dbc_generator import generate_dbcs
-from .json_generator import generate_system_json
+from .system_json import generate_system_json
 from .pipeline_models import CanSource, CompiledCan, LinkedCan
 from .linker import link_can
 from .bus_load_analyzer import calculate_bus_load
