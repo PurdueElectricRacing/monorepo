@@ -17,6 +17,7 @@ ByteOrder = Literal["little_endian", "big_endian"]
 FaultPriority = Literal["warning", "error", "fatal"]
 Peripheral = Literal["CAN1", "CAN2", "FDCAN1", "FDCAN2", "FDCAN3"]
 Number = int | float
+FiniteNumber = Annotated[Number, Field(allow_inf_nan=False)]
 BaseType = Literal[
     "uint8_t", "uint16_t", "uint32_t", "uint64_t",
     "int8_t", "int16_t", "int32_t", "int64_t",
@@ -65,10 +66,10 @@ class SignalDeclaration(DeclarationModel):
     length: BitLength | None = None
     unit: str | None = None
     choices: list[str] | None = None
-    scale: Number | None = None
-    offset: Number | None = None
-    min: Number | None = None
-    max: Number | None = None
+    scale: FiniteNumber | None = None
+    offset: FiniteNumber | None = None
+    min: FiniteNumber | None = None
+    max: FiniteNumber | None = None
 
     @field_validator("choices")
     @classmethod
@@ -79,8 +80,8 @@ class SignalDeclaration(DeclarationModel):
 
     @model_validator(mode="after")
     def validate_signal_rules(self) -> Self:
-        if self.data_type == "float" and self.length not in (None, 32):
-            raise ValueError("float signals must have length 32")
+        if self.min is not None and self.max is not None and self.min > self.max:
+            raise ValueError("signal minimum must not exceed maximum")
         if self.scale is not None and self.unit is None:
             raise ValueError("unit is required when scale is specified")
         return self
