@@ -163,7 +163,17 @@ brew install \
 	python3 \
 	lcov \
 	googletest \
-	cppcheck
+	cppcheck \
+	llvm
+```
+
+Override default Xcode LLVM:
+
+```bash
+echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+export CMAKE_PREFIX_PATH="/opt/homebrew/opt/llvm"
 ```
 
 Install the ARM embedded compiler:
@@ -181,6 +191,7 @@ ninja --version
 python3 --version
 arm-none-eabi-gcc --version
 openocd --version
+llvm-cov --version
 ```
 
 ### 3B. Linux
@@ -216,7 +227,9 @@ sudo apt install \
 	libgtest-dev \
 	pkg-config \
 	libudev-dev \
-	usbutils
+	usbutils \
+	gdb-multiarch \
+	binutils-multiarch
 ```
 
 Check:
@@ -264,6 +277,14 @@ sudo apt upgrade
 ```
 
 Then follow the [Linux instructions in Section 3B](#3b-linux) inside of WSL.
+
+Additionally for WSL, run:
+
+```bash
+sudo apt install \
+	xdg-desktop-portal \
+	zenity
+```
 
 #### 3C.3 Use VS Code inside of WSL
 
