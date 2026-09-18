@@ -229,7 +229,13 @@ Platforms supported</h2>
 <div class="line">    python3 \</div>
 <div class="line">    lcov \</div>
 <div class="line">    googletest \</div>
-<div class="line">    cppcheck</div>
+<div class="line">    cppcheck \</div>
+<div class="line">    llvm</div>
+</div><!-- fragment --><p>Override default Xcode LLVM:</p>
+<div class="fragment"><div class="line">echo &#39;export PATH=&quot;/opt/homebrew/opt/llvm/bin:$PATH&quot;&#39; &gt;&gt; ~/.zshrc</div>
+<div class="line">export LDFLAGS=&quot;-L/opt/homebrew/opt/llvm/lib&quot;</div>
+<div class="line">export CPPFLAGS=&quot;-I/opt/homebrew/opt/llvm/include&quot;</div>
+<div class="line">export CMAKE_PREFIX_PATH=&quot;/opt/homebrew/opt/llvm&quot;</div>
 </div><!-- fragment --><p>Install the ARM embedded compiler:</p>
 <div class="fragment"><div class="line">brew install --cask gcc-arm-embedded</div>
 </div><!-- fragment --><p>Check:</p>
@@ -239,6 +245,7 @@ Platforms supported</h2>
 <div class="line">python3 --version</div>
 <div class="line">arm-none-eabi-gcc --version</div>
 <div class="line">openocd --version</div>
+<div class="line">llvm-cov --version</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md102"></a>
 3B. Linux</h2>
 <p>If you are using linux, you probably already know what you're doing. However, here is an overview of the setup for Debian/<code>apt</code>-based distributions (Ubuntu, Debian, Pop!_OS, etc.).</p>
@@ -265,7 +272,9 @@ Platforms supported</h2>
 <div class="line">    libgtest-dev \</div>
 <div class="line">    pkg-config \</div>
 <div class="line">    libudev-dev \</div>
-<div class="line">    usbutils</div>
+<div class="line">    usbutils \</div>
+<div class="line">    gdb-multiarch \</div>
+<div class="line">    binutils-multiarch</div>
 </div><!-- fragment --><p>Check:</p>
 <div class="fragment"><div class="line">git --version</div>
 <div class="line">cmake --version</div>
@@ -294,7 +303,11 @@ Platforms supported</h2>
 <div class="fragment"><div class="line">sudo apt update</div>
 <div class="line">sudo apt upgrade</div>
 </div><!-- fragment --><p>Then follow the Linux instructions in Section 3B inside of WSL.</p>
-<h3><a class="anchor" id="autotoc_md108"></a>
+<p>Additionally for WSL, run:</p>
+<div class="fragment"><div class="line">sudo apt install \</div>
+<div class="line">    xdg-desktop-portal \</div>
+<div class="line">    zenity</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md108"></a>
 3C.3 Use VS Code inside of WSL</h3>
 <p>Install the normal Windows version of VS Code.</p>
 <p>Then install the WSL extension.</p>
