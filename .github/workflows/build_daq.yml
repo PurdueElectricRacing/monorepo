@@ -1,4 +1,4 @@
-name: Build DAQApp
+name: Build DAQ Workspace
 
 on:
   pull_request:
@@ -24,7 +24,7 @@ jobs:
         run: cargo fmt --all --check
 
   build:
-    name: Build DAQApp
+    name: Build DAQ Workspace
     runs-on: ubuntu-latest
     container:
       image: irvingywang/per-firmware:latest
@@ -44,13 +44,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-daq-
 
-      - name: Build DAQ app
+      - name: Build DAQ workspace
         working-directory: daq
-        run: cargo build --all-targets
+        run: cargo build --workspace --all-targets --locked
 
       - name: Show compiler warnings
         working-directory: daq
         run: |
           echo "Compiler warnings:"
-          cargo check --all-targets --message-format short
+          cargo check --workspace --all-targets --locked --message-format short
         continue-on-error: true
