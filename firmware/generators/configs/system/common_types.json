@@ -49,6 +49,18 @@
                 "RECOVERING",
                 "FATAL"
              ]
+        },
+        {
+            "name": "imd_state_t",
+            "base_type": "uint8_t",
+            "choices": [
+                "OFF_OR_SHORT_CIRCUIT",
+                "NORMAL",
+                "UNDERVOLTAGE",
+                "SPEED_START",
+                "DEVICE_ERROR",
+                "CONNECTION_FAULT"
+            ]
         }
     ]
 }
