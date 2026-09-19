@@ -1,7 +1,7 @@
 # PER Software ⚡️
 
 ![Firmware](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/build_firmware.yml/badge.svg?branch=master)
-![DAQ Workspace](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/build_daqapp.yml/badge.svg?branch=master)
+![DAQ Workspace](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/build_daq.yml/badge.svg?branch=master)
 ![Documentation](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/deploy_doxygen.yml/badge.svg?branch=master)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/PurdueElectricRacing/monorepo?style=flat-square)
 
