@@ -61,8 +61,8 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_TX_PB13,
 
     // MCAN
-    PHAL_PIN_DEFS_FDCAN3_TX_PB3,
-    PHAL_PIN_DEFS_FDCAN3_RX_PA15
+    PHAL_PIN_DEFS_FDCAN3_TX_PA15,
+    PHAL_PIN_DEFS_FDCAN3_RX_PA8
 };
 
 extern void HardFault_Handler(void);
