@@ -33,8 +33,12 @@ DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(dumb_task, 10, TASK_PRIORITY_HIGH, 1024);
 
 int main() {
-    
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+
+    if (!PHAL_GPIO_init(gpio_config, sizeof(gpio_config) / sizeof(gpio_config[0]))) {
+        while (1) {
+        }
+    }
 
     PHAL_FDCAN_init(FDCAN2, GCAN_BAUD_RATE);
     CAN_init();
