@@ -27,9 +27,9 @@ application payloads; it does not replace resident bootloaders.
 1. Connect DaqApp to VCAN and confirm target telemetry is visible.
 2. Open **Bootloader** from the sidebar or command palette.
 3. Select `firmware/output/manifest.json` or `firmware_*.tar.gz`.
-4. Select targets with recent bootloader telemetry.
-5. Choose **Upload selected**.
-6. Keep power and CAN connected until DaqApp reports `complete`; verify telemetry.
+4. Select targets with recent bootloader telemetry, or choose **Select available**.
+5. Choose **Review update**, verify the target list, then choose **Start update**.
+6. Keep power and CAN connected until DaqApp reports **Update complete**; verify telemetry.
 
 Selected boards update sequentially. Front and rear driveline are separate nodes.
 
