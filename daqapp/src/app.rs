@@ -79,6 +79,7 @@ impl DAQApp {
     ) -> Self {
         let theme_selection = settings.theme;
         let theme_style = theme_selection.get_style();
+        theme::store_theme(&cc.egui_ctx, theme_selection.get_colors());
 
         egui_extras::install_image_loaders(&cc.egui_ctx);
 
@@ -192,9 +193,10 @@ impl DAQApp {
         }
     }
 
-    pub fn toggle_theme(&mut self) {
+    pub fn toggle_theme(&mut self, ctx: &egui::Context) {
         self.theme_selection = self.theme_selection.next();
         self.theme = self.theme_selection.get_style();
+        theme::store_theme(ctx, self.theme_selection.get_colors());
     }
 
     // Close the currently active widget in the tile tree
