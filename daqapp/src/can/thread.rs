@@ -7,6 +7,9 @@ const HIL_UPDATE_MS: u128 = 50;
 
 // Keep each burst below the target's 15-frame software queue capacity.
 const FIRMWARE_FRAMES_PER_TICK: usize = 8;
+// The target performs flash writes in its main loop and does not acknowledge
+// individual words, so pace serial bursts to avoid overflowing its RX queue.
+const FIRMWARE_FRAME_DELAY_MS: u64 = 4;
 
 // Driver acceptance is not target acknowledgement; synchronization comes from
 // START and CRC responses rather than replies to individual data words.
@@ -298,6 +301,9 @@ pub fn start_can_thread(
                             state.cancel_firmware_update();
                             break;
                         }
+                        std::thread::sleep(std::time::Duration::from_millis(
+                            FIRMWARE_FRAME_DELAY_MS,
+                        ));
                     } else {
                         break;
                     }

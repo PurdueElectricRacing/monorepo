@@ -357,6 +357,7 @@ bool BL_checkAndBoot(void) {
     __disable_irq();
     SCB->VTOR = metadata.address;
     __set_MSP(*(const volatile uint32_t *)(uintptr_t)metadata.address);
+    __enable_irq();
     ((void (*)(void))(uintptr_t)app_reset_handler)();
 
     return false;
