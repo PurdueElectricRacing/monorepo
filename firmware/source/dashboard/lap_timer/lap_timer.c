@@ -49,7 +49,10 @@ static bool lap_timer_l2_crossed(const vector2_t previous_point, const vector2_t
 }
 
 void lap_timer_onpress(void) {
-    if (can_data.gps_coordinates.is_stale() ||
+    // one locked copy so latitude and longitude come from the same frame
+    const gps_coordinates_data_t gps = CAN_DATA_GET(gps_coordinates);
+
+    if (gps.is_stale() ||
         !is_clear(FAULT_ID_GPS_INVALID_FIX) ||
         !is_clear(FAULT_ID_GPS_WEAK_FIX)) {
         return;
@@ -60,19 +63,21 @@ void lap_timer_onpress(void) {
     lap_timer.elapsed_time_ms = 0;
 
     lap_timer.origin = geodetic_from_scaled(
-        (float)can_data.gps_coordinates.latitude * UNPACK_COEFF_GPS_COORDINATES_LATITUDE,
-        (float)can_data.gps_coordinates.longitude * UNPACK_COEFF_GPS_COORDINATES_LONGITUDE
+        (float)gps.latitude * UNPACK_COEFF_GPS_COORDINATES_LATITUDE,
+        (float)gps.longitude * UNPACK_COEFF_GPS_COORDINATES_LONGITUDE
     );
 
     lap_timer.start_point = lap_timer_gps_to_local(
-        can_data.gps_coordinates.latitude,
-        can_data.gps_coordinates.longitude
+        gps.latitude,
+        gps.longitude
     );
     lap_timer.last_point = lap_timer.start_point;
 }
 
 void lap_timer_periodic(void) {
-    if (can_data.gps_coordinates.is_stale()) {
+    const gps_coordinates_data_t gps = CAN_DATA_GET(gps_coordinates);
+
+    if (gps.is_stale()) {
         return;
     }
 
@@ -85,16 +90,16 @@ void lap_timer_periodic(void) {
             lap_timer.elapsed_time_ms = 0;
             // start the next lap from here so the finish line is not counted twice
             lap_timer.last_point = lap_timer_gps_to_local(
-                can_data.gps_coordinates.latitude,
-                can_data.gps_coordinates.longitude
+                gps.latitude,
+                gps.longitude
             );
             lap_timer.state = LAP_TIMER_STATE_TIMING;
             return;
 
         case LAP_TIMER_STATE_CAPTURING_HEADING: {
             const vector2_t current_point = lap_timer_gps_to_local(
-                can_data.gps_coordinates.latitude,
-                can_data.gps_coordinates.longitude
+                gps.latitude,
+                gps.longitude
             );
             const float delta = vector2_distance(current_point, lap_timer.start_point);
 
@@ -108,8 +113,8 @@ void lap_timer_periodic(void) {
 
         case LAP_TIMER_STATE_TIMING: {
             const vector2_t current_point = lap_timer_gps_to_local(
-                can_data.gps_coordinates.latitude,
-                can_data.gps_coordinates.longitude
+                gps.latitude,
+                gps.longitude
             );
 
             if (lap_timer_l2_crossed(lap_timer.last_point, current_point)) {
