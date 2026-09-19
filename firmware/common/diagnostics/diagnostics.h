@@ -34,6 +34,4 @@ typedef struct {
 
 void diagnostics_start(void);
 
-bool diagnostics_get_snapshot(diagnostics_snapshot_t *out);
-
 #endif // DIAGNOSTICS_H
