@@ -1,4 +1,4 @@
-"""Generate the CAN system JSON and its schema as CANpiler artifacts."""
+"""Generate the SuperDBC JSON and its schema as CANpiler artifacts."""
 
 from __future__ import annotations
 
@@ -9,16 +9,16 @@ from collections import defaultdict
 from core.artifacts import Artifact
 from core.utils import print_as_ok
 from .export_models import (
-    BusExport, MessageExport, NodeExport, SignalExport, SystemExport, VersionsExport, system_json_schema,
+    BusExport, MessageExport, NodeExport, SignalExport, SuperDbcExport, VersionsExport, superdbc_json_schema,
 )
 from .pipeline_models import LinkedCan, CompiledSignal
 
 
-def generate_schema() -> Artifact:
+def generate_superdbc_schema() -> Artifact:
     return Artifact(
         "dbc",
-        "system_schema.json",
-        json.dumps(system_json_schema(), indent=2, ensure_ascii=False, allow_nan=False) + "\n",
+        "superdbc_schema.json",
+        json.dumps(superdbc_json_schema(), indent=2, ensure_ascii=False, allow_nan=False) + "\n",
     )
 
 
@@ -63,7 +63,7 @@ def _signal(signal: CompiledSignal, linked: LinkedCan) -> SignalExport:
     )
 
 
-def generate_system_json(linked: LinkedCan, version: str) -> Artifact:
+def generate_superdbc(linked: LinkedCan, version: str) -> Artifact:
     """Translate validated, linked CAN definitions into the public JSON shape."""
     receivers = defaultdict(set)
     for subscription in linked.subscriptions:
@@ -107,12 +107,12 @@ def generate_system_json(linked: LinkedCan, version: str) -> Artifact:
         )
 
     bus_data = {name: bus.model_dump(mode="json") for name, bus in buses.items()}
-    document = SystemExport(
+    document = SuperDbcExport(
         content_hash=content_hash(bus_data),
         versions=VersionsExport(schema_version=1, hash=version),
         buses=buses,
     )
-    filename = f"system_{version}.json"
+    filename = f"superdbc_{version}.json"
     print_as_ok(f"Generated {filename}")
     return Artifact("dbc", filename, json.dumps(
         document.model_dump(mode="json"), indent=2, ensure_ascii=False, allow_nan=False,

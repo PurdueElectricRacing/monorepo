@@ -1,4 +1,4 @@
-"""CAN system JSON v1 shape"""
+"""SuperDBC JSON v1 shape"""
 
 from typing import Annotated, Literal
 
@@ -58,14 +58,14 @@ class VersionsExport(ExportModel):
     hash: Name
 
 
-class SystemExport(ExportModel):
+class SuperDbcExport(ExportModel):
     content_hash: Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
     versions: VersionsExport
     buses: dict[Name, BusExport]
 
 
-def system_json_schema() -> dict:
+def superdbc_json_schema() -> dict:
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        **SystemExport.model_json_schema(),
+        **SuperDbcExport.model_json_schema(),
     }
