@@ -33,14 +33,14 @@ DaqApp is PER's complete trackside data acquisition and analysis desktop applica
   - Get the DBC from `monorepo/dbc`, which is an output from the firmware build process.
 3. Use the sidebar (or ctrl-P) to launch widgets
 4. Use **Bootloader** to validate and upload a package. See the
-   [bootloader update guide](../docs/daqapp/bootloader_updates.md).
+   [bootloader update guide](../../docs/daqapp/bootloader_updates.md).
 
 Sidebar settings (source, DBC, etc) are saved to a local settings file to persist between sessions.
 
 ## Getting started
 
 Install Rust/Cargo and the platform prerequisites described in the repository
-[setup guide](../docs/setup.md). Linux users also likely need `libudev-dev` and
+[setup guide](../../docs/setup.md). Linux users also likely need `libudev-dev` and
 `pkg-config` to discover serial devices.
 
 ### To Build
@@ -48,30 +48,34 @@ Install Rust/Cargo and the platform prerequisites described in the repository
 From the repository root:
 
 ```bash
-cargo build --manifest-path daqapp/Cargo.toml
+cargo build --manifest-path daq/daqapp/Cargo.toml --locked
 ```
 
-From the `daqapp/` directory, you can also build with Cargo directly:
+From the `daq/daqapp/` directory, you can also build with Cargo directly:
 
 ```bash
-cargo build
+cargo build --locked
 ```
 
 ### To Run
 
-From the `daqapp/` directory, run the app with:
+Starting from the repository root, run the app with:
 
 ```bash
-cargo run
+cd daq/daqapp && cargo run
 ```
+
+Running is supported only with `daq/daqapp/` as the working directory so the
+app can find its themes, formatter configuration, and HIL presets. Settings and
+logs are also relative to this directory.
 
 ## Development
 
-Useful commands:
+Useful commands from `daq/daqapp/`:
 
 ```bash
 cargo fmt
-cargo build
+cargo build --locked
 cargo run
 ```
 
@@ -85,12 +89,12 @@ The app's source is organized by responsibility:
 
 ### Thread overview
 
-![daqapp_overview](../docs/daqapp/daqapp_overview.drawio.png)
-![daqapp_threads](../docs/daqapp/daqapp_threads.drawio.png)
+![daqapp_overview](../../docs/daqapp/daqapp_overview.drawio.png)
+![daqapp_threads](../../docs/daqapp/daqapp_threads.drawio.png)
 
 ### Testing
 
 For easy testing, you can use the loopback or simulated CAN sources. The loopback source is a virtual CAN bus that echoes messages sent to it, while the simulated source generates random messages for testing purposes.
 
 Rust tests cover direct streaming, the 480 KiB boundary, the 24-bit word index,
-and the READY handshake. Run them from `daqapp/` with `cargo test`.
+and the READY handshake. Run them from `daq/daqapp/` with `cargo test`.

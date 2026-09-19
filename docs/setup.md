@@ -30,7 +30,7 @@ This guide sets up the complete PER software development environment.
 - [7. Individual Build Commands](#7-individual-build-commands)
   - [7.1 Build All Firmware](#71-build-all-firmware)
   - [7.2 Run Firmware Static Analysis](#72-run-firmware-static-analysis)
-  - [7.3 DaqApp](#73-daqapp)
+  - [7.3 DAQ Workspace](#73-daq-workspace)
   - [7.4 Build and Run Host Tests](#74-build-and-run-host-tests)
 - [8. Build from VS Code](#8-build-from-vs-code)
 - [9. Hardware Debugging](#9-hardware-debugging)
@@ -82,9 +82,8 @@ ls firmware/external/cmsis-device-g4/
 
 You should see something like:
 ```text
-build	      daqapp	  firmware   output	       tests
-build_all.py  Dockerfile  LICENSE    README.md
-can_library   docs	  nix_flake  requirements.txt
+build_all.py  daq   Dockerfile  docs      firmware  generators
+LICENSE       nix_flake       README.md requirements.txt  tests
 ```
 ```text
 CODE_OF_CONDUCT.md  _htmresc  LICENSE.md  Release_Notes.html  Source
@@ -374,7 +373,8 @@ The repository's main build entry point is:
 python3 build_all.py
 ```
 
-This builds the firmware, DAQ App, and host tests.
+This builds the firmware and all DAQ workspace targets, then runs the generator
+and firmware host-test workflow.
 
 If this completes successfully, your development environment is set up correctly.
 
@@ -394,19 +394,28 @@ python3 firmware/build_firmware.py
 python3 firmware/check_firmware.py
 ```
 
-### 7.3 DaqApp
+### 7.3 DAQ Workspace
 
-Build:
+From the repository root, build all workspace members and targets:
 ```bash
-cargo build --manifest-path daqapp/Cargo.toml
+cargo build --manifest-path daq/Cargo.toml --workspace --all-targets --locked
 ```
 
-Run:
+To build only DaqApp from the repository root:
 ```bash
-cargo run --manifest-path daqapp/Cargo.toml
+cargo build --manifest-path daq/daqapp/Cargo.toml --locked
 ```
 
-(You can also build/run from the `daqapp/` directory with just `cargo build` or `cargo run`.)
+Running binaries is supported only from their individual package directories.
+From the repository root, run DaqApp with:
+```bash
+cd daq/daqapp && cargo run
+```
+
+From the repository root, run DaqCli with:
+```bash
+cd daq/daqcli && cargo run
+```
 
 ### 7.4 Run Generator and Firmware Host Tests
 
