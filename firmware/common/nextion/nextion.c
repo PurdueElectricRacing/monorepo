@@ -1,9 +1,10 @@
 /**
  * @file nextion.c
  * @brief Nextion display driver interface
- * 
+ *
  * Interface for controlling Nextion display modules through serial communication.
- * 
+ * Instruction set detailed here: https://nextion.tech/instruction-set/
+ *
  * @author Matthew Flanagan (matthewdavidflanagan@outlook.com)
  * @author Luke Oxley (lcoxley@purdue.edu)
  * @author Irving Wang (irvingw@purdue.edu)
