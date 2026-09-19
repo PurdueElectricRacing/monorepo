@@ -12,7 +12,7 @@ from core.contributions import DeclarationContribution
 from .code_generator import generate_headers
 from .compiler import assemble_source, compile_source
 from .dbc_generator import generate_dbcs
-from .system_json_generator import generate_system_json
+from .system_json_generator import generate_schema, generate_system_json
 from .pipeline_models import CanSource, CompiledCan, LinkedCan
 from .linker import link_can
 from .bus_load_analyzer import calculate_bus_load
@@ -41,6 +41,7 @@ class Canpiler:
         hardware_map = map_hardware(linked)
         artifacts = generate_headers(linked, hardware_map, version)
         artifacts.append(generate_system_json(linked, version))
+        artifacts.append(generate_schema())
         artifacts.extend(generate_dbcs(linked, version))
         calculate_bus_load(linked)
         return artifacts

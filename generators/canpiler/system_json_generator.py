@@ -1,4 +1,6 @@
-"""Generate the complete CAN system artifact from the linked model."""
+"""Generate the CAN system JSON and its schema as CANpiler artifacts."""
+
+from __future__ import annotations
 
 import hashlib
 import json
@@ -7,9 +9,17 @@ from collections import defaultdict
 from core.artifacts import Artifact
 from core.utils import print_as_ok
 from .export_models import (
-    BusExport, MessageExport, NodeExport, SignalExport, SystemExport, VersionsExport,
+    BusExport, MessageExport, NodeExport, SignalExport, SystemExport, VersionsExport, system_json_schema,
 )
 from .pipeline_models import LinkedCan, CompiledSignal
+
+
+def generate_schema() -> Artifact:
+    return Artifact(
+        "dbc",
+        "system_schema.json",
+        json.dumps(system_json_schema(), indent=2, ensure_ascii=False, allow_nan=False) + "\n",
+    )
 
 
 def content_hash(buses: dict, schema_version: int = 1) -> str:

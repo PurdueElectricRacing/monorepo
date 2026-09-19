@@ -2,7 +2,6 @@ import copy
 import hashlib
 import json
 from dataclasses import replace
-from pathlib import Path
 
 import cantools
 import pytest
@@ -13,6 +12,7 @@ from canpiler.api import Canpiler
 from canpiler.compiler import compile_message
 from canpiler.export_models import SignalExport, SystemExport, system_json_schema
 from canpiler.system_json_generator import content_hash, generate_system_json
+from canpiler.system_json_generator import generate_schema
 from canpiler.pipeline_models import LinkedMessage
 from core.declaration_loader import load_declarations
 from core.declarations import CustomTypeDeclaration, MessageDeclaration, SignalDeclaration
@@ -34,13 +34,19 @@ def document(linked):
 
 
 def test_schema_matches_models():
-    schema_path = Path(__file__).parents[1] / "schema.v1.json"
-    assert json.loads(schema_path.read_text()) == system_json_schema()
+    artifact = generate_schema()
+    assert artifact.collection == "dbc"
+    assert artifact.relative_path == "system_schema.json"
+    assert json.loads(artifact.content) == system_json_schema()
 
 
 def test_real_generation_and_dbc_parity(linked):
     artifacts = Canpiler().generate(linked, "abcdef0")
-    systems = [a for a in artifacts if a.relative_path.endswith(".json")]
+    json_artifacts = [a for a in artifacts if a.relative_path.endswith(".json")]
+    assert len(json_artifacts) == 2
+    schemas = [a for a in json_artifacts if a.relative_path == "system_schema.json"]
+    assert schemas == [generate_schema()]
+    systems = [a for a in json_artifacts if a.relative_path.startswith("system_") and a.relative_path != "system_schema.json"]
     assert len(systems) == 1
     artifact = systems[0]
     assert artifact.relative_path == "system_abcdef0.json"
@@ -271,7 +277,7 @@ def test_cleanup_and_validation_before_cleanup(tmp_path, monkeypatch):
     assert not (dbc / "system_old.json").exists()
     assert not (dbc / "old.dbc").exists()
     assert (dbc / "unrelated.json").read_text() == "sentinel"
-    assert len(list(dbc.glob("system_*.json"))) == 1
+    assert len(list(dbc.glob("system_*.json"))) == 2
     before = {p: p.read_bytes() for p in tmp_path.rglob("*") if p.is_file()}
     original_load = generate.load_declarations
 
