@@ -20,10 +20,11 @@ not authenticate firmware.
 | [`node_defs.h`](node_defs.h) | Per-board single-transport configuration. |
 | [`../../common/bootloader/`](../../common/bootloader/) | Shared protocol, metadata, and application reset callback. |
 
-At startup, the bootloader initializes CAN, advertises READY, and polls for
-START for 500 ms. On timeout it validates metadata, vectors, and CRC before
-launch. A START that fails size or erase validation enters recovery; an invalid
-image remains resident.
+After a watchdog reset, the bootloader immediately validates metadata, vectors,
+and CRC and launches a valid application without opening the update window. On
+other resets, it initializes CAN, advertises READY, and polls for START for 500
+ms before validating and launching. A START that fails size or erase validation
+enters recovery; an invalid image remains resident.
 
 ## Update flow
 
