@@ -130,22 +130,6 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
             ui.heading("Connection Settings");
 
             ui.horizontal(|ui| {
-                ui.label("CAN Bus:");
-                egui::ComboBox::from_id_salt("can_bus_combo")
-                    .selected_text(app.can_bus.display_name())
-                    .show_ui(ui, |ui| {
-                        for bus in connection::CanBus::options() {
-                            if ui
-                                .selectable_value(&mut app.can_bus, bus, bus.display_name())
-                                .changed()
-                            {
-                                app.save_settings();
-                            }
-                        }
-                    });
-            });
-
-            ui.horizontal(|ui| {
                 ui.label("CAN Speed:");
                 let speed_options = connection::CanBusSpeed::options();
                 let selected_speed = app.can_bus_speed;
@@ -180,12 +164,9 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
 
             ui.horizontal(|ui| {
                 let selected_text = match &app.selected_source {
-                    Some(connection::ConnectionSource::Serial(path, speed)) => format!(
-                        "Serial: {} ({} {})",
-                        path,
-                        app.can_bus.display_name(),
-                        speed.display_name()
-                    ),
+                    Some(connection::ConnectionSource::Serial(path, speed)) => {
+                        format!("Serial: {} ({})", path, speed.display_name())
+                    }
                     Some(connection_source) => connection_source.display_name(),
                     None => "Select Source".to_string(),
                 };
@@ -208,12 +189,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                                 .selectable_value(
                                     &mut app.selected_source,
                                     Some(source.clone()),
-                                    format!(
-                                        "{} ({} {})",
-                                        port_name,
-                                        app.can_bus.display_name(),
-                                        app.can_bus_speed.display_name()
-                                    ),
+                                    format!("{} ({})", port_name, app.can_bus_speed.display_name()),
                                 )
                                 .changed()
                             {
