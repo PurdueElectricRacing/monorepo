@@ -63,6 +63,7 @@ typedef struct {
 } can_data_t;
 
 extern volatile can_data_t can_data;
+extern SemaphoreHandle_t can_data_mutex; 
 
 // Callback Declarations
 {% for entry in ctx.rx_entries %}
@@ -79,6 +80,19 @@ static bool is_{{ entry.msg.message_name }}_stale() {
     return (xTaskGetTickCount() - can_data.{{ entry.msg.message_name }}.last_rx) > {{ entry.msg.macro_name }}_STALE_TIMEOUT_MS;
 }
 {% endfor %}
+
+// Thread-safe accessors
+{% for entry in ctx.rx_entries %}
+static inline {{ entry.rx_msg.message_name }}_data_t CAN_data_get_{{ entry.msg.message_name }}(void) {
+    xSemaphoreTake(can_data_mutex, portMAX_DELAY);
+    {{ entry.rx_msg.message_name }}_data_t snapshot = can_data.{{ entry.msg.message_name }};
+    xSemaphoreGive(can_data_mutex);
+    return snapshot;
+}
+{% endfor %}
+
+// Macro to call the can_data_get function for a specific message
+#define CAN_DATA_GET(MSG) CAN_data_get_##MSG()
 
 // Data initialization
 static inline void CAN_data_init() {
