@@ -71,5 +71,6 @@ var searchData=
   ['switches_5fset_5fstate_68',['switches_set_state',['../switches_8c.html#ab353c152a3e71488b0fbdc922abbae0a',1,'switches_set_state(switches_t switch_id, bool enabled):&#160;switches.c'],['../switches_8h.html#ab353c152a3e71488b0fbdc922abbae0a',1,'switches_set_state(switches_t switch_id, bool enabled):&#160;switches.c']]],
   ['switches_5fupdate_5fcurrents_69',['switches_update_currents',['../switches_8c.html#a164a3649d88bae002e0fb378939d8ffa',1,'switches.c']]],
   ['switches_5fupdate_5fmux_5fmeasurements_70',['switches_update_mux_measurements',['../switches_8c.html#a356def06d7d75314665779877ee925ac',1,'switches.c']]],
-  ['switches_5fupdate_5fvoltages_71',['switches_update_voltages',['../switches_8c.html#ad6c5524937861c805489f5f6ad5b2b3d',1,'switches.c']]]
+  ['switches_5fupdate_5fvoltages_71',['switches_update_voltages',['../switches_8c.html#ad6c5524937861c805489f5f6ad5b2b3d',1,'switches.c']]],
+  ['systick_5fhandler_72',['SysTick_Handler',['../bootloader_8c.html#ab5e09814056d617c521549e542639b7e',1,'bootloader.c']]]
 ];

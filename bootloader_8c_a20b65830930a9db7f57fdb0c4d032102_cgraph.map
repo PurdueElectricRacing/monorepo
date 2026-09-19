@@ -1,0 +1,15 @@
+<map id="bl_application_crc_is_valid" name="bl_application_crc_is_valid">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,48,131,89"/>
+<area shape="rect" id="Node000002" href="$bootloader_8c.html#adaf62d77adfedb5a6a09531c3f05c3f0" title=" " alt="" coords="193,19,314,44"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,54,177,44,179,49,131,59"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2crc_2crc_8c.html#a9ebd7adedb01ce80f8512a427a80f6ef" title="Compute a CRC&#45;32/MPEG&#45;2 over a word buffer using the hardware unit." alt="" coords="179,80,329,106"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="131,74,164,78,163,84,130,80"/>
+<area shape="rect" id="Node000003" href="$bootloader_8c.html#ab8c95db6ba7bf75889443068c0ab2b07" title=" " alt="" coords="398,5,511,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="315,25,383,20,383,26,315,30"/>
+<area shape="rect" id="Node000005" href="$crc__priv_8c.html#ab1a0cc118e77cdc921bc336740e34772" title="Feed one 32&#45;bit word into the CRC data register." alt="" coords="380,55,529,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="329,81,365,76,365,81,330,86"/>
+<area shape="rect" id="Node000006" href="$crc__priv_8c.html#ac1a6c7dbe0062acdba1f9fe6a482c759" title="Read the accumulated CRC result from the data register." alt="" coords="377,104,532,130"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="330,99,362,103,361,108,329,104"/>
+<area shape="rect" id="Node000007" href="$crc__priv_8c.html#a105341215acce26dd1570c77e590e299" title="Reset the CRC unit, reloading the initial value into the data register." alt="" coords="394,153,516,179"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="287,104,378,140,395,146,393,151,376,145,285,109"/>
+</map>

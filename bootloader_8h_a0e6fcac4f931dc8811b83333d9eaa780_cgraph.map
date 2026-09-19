@@ -1,0 +1,79 @@
+<map id="BL_init" name="BL_init">
+<area shape="rect" id="Node000001" title="Configure the node&#45;specific transport and announce readiness." alt="" coords="5,329,68,354"/>
+<area shape="rect" id="Node000002" href="$bootloader_8c.html#ac1fa48bee07db6c9d511afb985c68f59" title=" " alt="" coords="164,120,261,145"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="37,328,43,293,56,246,79,197,95,174,114,154,130,144,148,137,150,142,132,148,117,158,99,177,84,200,61,248,48,295,42,329"/>
+<area shape="rect" id="Node000003" href="$bootloader_8c.html#ac19da133af9137d8db35468a8e1b7af5" title=" " alt="" coords="165,169,260,194"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="39,327,63,268,85,233,114,203,149,187,151,192,117,208,89,236,68,270,44,329"/>
+<area shape="rect" id="Node000009" href="$bootloader_8c.html#ac60843a6445f115dfc084962072b15af" title=" " alt="" coords="158,218,267,244"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="44,327,72,290,92,270,114,253,142,240,144,245,117,257,95,274,76,293,48,330"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2crc_2crc_8c.html#a3a4837055c8d841aaf92d3b129d6ac92" title="Initialize and configure the hardware CRC peripheral." alt="" coords="155,645,270,670"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="47,354,199,630,194,633,43,356"/>
+<area shape="rect" id="Node000013" href="$fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d" title="Initialize an FDCAN peripheral for classic (non&#45;FD) CAN operation." alt="" coords="146,390,279,416"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="69,350,160,382,158,387,67,355"/>
+<area shape="rect" id="Node000022" href="$fdcan_8c.html#ac89d6a90c4f53644b4189ddb0e1fea18" title="Configure exact&#45;match acceptance filters for RX FIFO0." alt="" coords="127,268,298,293"/>
+<area shape="poly" id="edge22_Node000001_Node000022" title=" " alt="" coords="67,328,158,296,160,301,69,333"/>
+<area shape="rect" id="Node000025" href="$phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="152,833,273,858"/>
+<area shape="poly" id="edge30_Node000001_Node000025" title=" " alt="" coords="42,355,64,490,87,586,118,682,156,758,195,819,190,821,151,760,113,684,82,588,59,491,37,356"/>
+<area shape="rect" id="Node000036" href="$phal__G4_2rcc_2rcc_8c.html#ac6c0661fa09c0c76a597c5b394bc3ebb" title=" " alt="" coords="116,882,309,908"/>
+<area shape="poly" id="edge41_Node000001_Node000036" title=" " alt="" coords="41,355,43,456,53,611,62,692,76,767,94,828,105,852,118,869,119,870,115,874,114,873,101,854,89,830,71,768,57,693,47,611,37,456,35,355"/>
+<area shape="rect" id="Node000004" href="$fdcan_8c.html#a60b2ed63ebdff4e98f2eca10a4961dda" title="Queue a frame for transmission." alt="" coords="394,64,539,89"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="259,172,284,166,308,155,322,145,331,133,340,121,356,109,391,92,393,97,358,113,344,125,335,136,326,148,310,160,286,171,261,178"/>
+<area shape="rect" id="Node000005" href="$fdcan__priv_8c.html#ab0169c5cbd4f2273cd46051cdc2dd4da" title=" " alt="" coords="624,62,858,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="539,73,609,73,609,78,539,79"/>
+<area shape="rect" id="Node000007" href="$fdcan_8c.html#a26df92531762951c8f1d6d84493cee1b" title="Check whether the TX FIFO has at least one free slot." alt="" coords="654,13,828,38"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="539,60,652,39,653,45,540,66"/>
+<area shape="rect" id="Node000006" href="$fdcan__priv_8c.html#ac30a34edfbc6b2742bc45ea2a2931d71" title="Base address of this peripheral&#39;s slice of shared message RAM." alt="" coords="910,120,1106,145"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="805,86,931,113,929,118,804,91"/>
+<area shape="rect" id="Node000008" href="$fdcan__priv_8c.html#a36837a6223e460a69bc55e4a70bad751" title="Check whether the TX FIFO/Queue is full." alt="" coords="906,5,1111,46"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="829,23,890,23,890,28,829,28"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="266,223,288,216,307,205,318,194,325,183,331,159,337,134,344,121,355,109,380,93,383,98,359,113,348,124,342,136,336,160,330,185,322,197,311,209,290,221,268,228"/>
+<area shape="rect" id="Node000011" href="$crc__priv_8c.html#a8554e9c2c249969130f692023e384eea" title="Enable the CRC peripheral clock on AHB1." alt="" coords="384,694,549,720"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="271,666,382,688,381,693,270,671"/>
+<area shape="rect" id="Node000012" href="$crc__priv_8c.html#a98681df08b1dcd02c95771004879d501" title="Configure the polynomial, size, and initial value for CRC&#45;32/MPEG&#45;2." alt="" coords="393,645,540,670"/>
+<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="270,655,378,655,378,660,270,660"/>
+<area shape="rect" id="Node000014" href="$fdcan__priv_8c.html#a5989bf0267b012b516dea18271539715" title=" " alt="" coords="357,497,576,522"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="234,414,288,449,358,483,377,490,375,495,356,488,286,453,231,419"/>
+<area shape="rect" id="Node000015" href="$fdcan__priv_8c.html#a405fe02c05033e421fb70515453be08d" title="Enable FDCAN kernel + peripheral clocks (PCLK1)" alt="" coords="359,546,574,572"/>
+<area shape="poly" id="edge15_Node000013_Node000015" title=" " alt="" coords="226,415,278,472,316,505,358,533,369,538,367,543,356,537,313,509,275,476,222,418"/>
+<area shape="rect" id="Node000016" href="$fdcan__priv_8c.html#ab936d0060d65f2f18ed211714e7b0746" title="Enter INIT mode and unlock configuration registers. Blocks until entered." alt="" coords="362,218,571,244"/>
+<area shape="poly" id="edge16_Node000013_Node000016" title=" " alt="" coords="225,388,307,304,329,276,339,264,356,253,366,247,368,252,358,257,343,268,333,279,311,307,229,392"/>
+<area shape="rect" id="Node000017" href="$fdcan__priv_8c.html#ab58932032e5748d11d6fbcd04c68a322" title="Leave INIT mode, ending configuration. Blocks until left." alt="" coords="366,268,567,293"/>
+<area shape="poly" id="edge17_Node000013_Node000017" title=" " alt="" coords="228,387,282,346,318,323,356,303,376,296,378,301,358,308,321,327,285,350,231,392"/>
+<area shape="rect" id="Node000018" href="$fdcan__priv_8c.html#a200094d34b232f471ea5c829f0bdee4b" title=" " alt="" coords="368,596,566,621"/>
+<area shape="poly" id="edge18_Node000013_Node000018" title=" " alt="" coords="222,415,241,449,271,495,310,542,333,564,358,582,366,586,363,591,356,587,330,568,306,546,266,498,236,452,218,417"/>
+<area shape="rect" id="Node000019" href="$fdcan__priv_8c.html#a843742822e433814e97fe2ef38ae4bc6" title="Set TX FIFO/Queue mode to FIFO (not queue)" alt="" coords="360,383,573,423"/>
+<area shape="poly" id="edge19_Node000013_Node000019" title=" " alt="" coords="279,400,345,400,345,406,279,406"/>
+<area shape="rect" id="Node000020" href="$fdcan__priv_8c.html#a32bfa5f854b4e4c1744275bfbe7fbbcd" title="Write a filter action to RXGFC (accept/reject all)" alt="" coords="366,317,567,358"/>
+<area shape="poly" id="edge20_Node000013_Node000020" title=" " alt="" coords="265,387,369,360,371,365,266,392"/>
+<area shape="rect" id="Node000021" href="$fdcan__priv_8c.html#af69382ccb9d1b998edeece7d3403d74b" title="Set up RX new message &#45;&gt; line 0, TX complete &#45;&gt; line 1." alt="" coords="360,448,574,473"/>
+<area shape="poly" id="edge21_Node000013_Node000021" title=" " alt="" coords="273,414,392,441,391,446,272,419"/>
+<area shape="poly" id="edge23_Node000022_Node000016" title=" " alt="" coords="282,264,381,245,382,250,283,269"/>
+<area shape="poly" id="edge24_Node000022_Node000017" title=" " alt="" coords="298,278,351,278,351,283,298,283"/>
+<area shape="poly" id="edge27_Node000022_Node000020" title=" " alt="" coords="273,291,359,311,358,316,272,296"/>
+<area shape="rect" id="Node000023" href="$fdcan__priv_8c.html#ab9a8c466928d1d76b5af381a357b1a66" title="Set num_xid exact&#45;match extended filters and forward to RX FIFO0." alt="" coords="628,177,854,218"/>
+<area shape="poly" id="edge25_Node000022_Node000023" title=" " alt="" coords="285,264,308,254,322,242,330,228,339,215,356,203,419,183,486,172,552,170,613,174,613,179,552,176,486,178,420,188,358,208,343,219,335,231,326,245,310,259,287,269"/>
+<area shape="rect" id="Node000024" href="$fdcan__priv_8c.html#a1ac2f38c649b9608c3bac49b598d7492" title="Set num_sid exact&#45;match standard filters and forward to RX FIFO0." alt="" coords="629,112,853,153"/>
+<area shape="poly" id="edge28_Node000022_Node000024" title=" " alt="" coords="289,265,307,254,324,234,330,212,337,190,344,179,355,169,385,152,417,139,483,122,550,114,613,114,613,120,550,120,484,127,418,144,387,157,359,173,348,182,341,192,335,213,328,236,311,258,292,269"/>
+<area shape="poly" id="edge26_Node000023_Node000006" title=" " alt="" coords="827,174,937,147,939,152,828,179"/>
+<area shape="poly" id="edge29_Node000024_Node000006" title=" " alt="" coords="854,130,894,130,894,135,854,135"/>
+<area shape="rect" id="Node000026" href="$gpio__priv_8c.html#ac9a1d8411608b7f8b53d5348601ce43e" title="Enable the AHB2 clock for bank&#39;s port (GPIOA&#45;GPIOG)." alt="" coords="365,908,568,933"/>
+<area shape="poly" id="edge31_Node000025_Node000026" title=" " alt="" coords="274,856,310,867,334,881,358,894,377,900,376,905,356,899,332,885,308,872,273,861"/>
+<area shape="rect" id="Node000027" href="$gpio__priv_8c.html#a396ed356814413b8113510a00d0bf88f" title="Set AFR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="358,957,575,982"/>
+<area shape="poly" id="edge32_Node000025_Node000027" title=" " alt="" coords="274,851,311,868,328,887,335,907,343,926,359,944,364,947,361,952,355,948,338,929,330,909,323,890,307,872,272,856"/>
+<area shape="rect" id="Node000028" href="$gpio__priv_8c.html#acb06a5a664412ca862f34d9ee58ddc4d" title="Set MODER&#39;s field for pin to type. Caller must have validated pin &lt;= 15." alt="" coords="376,1006,558,1032"/>
+<area shape="poly" id="edge33_Node000025_Node000028" title=" " alt="" coords="274,849,294,856,311,868,324,883,332,900,335,932,339,964,346,979,359,993,364,997,361,1001,355,997,342,982,334,965,330,933,326,901,320,886,307,872,291,861,272,854"/>
+<area shape="rect" id="Node000030" href="$gpio__priv_8c.html#aaeae1cf9d29181e47f0fca4dcbaf4d98" title="Set OSPEEDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="372,744,561,785"/>
+<area shape="poly" id="edge35_Node000025_Node000030" title=" " alt="" coords="250,830,356,794,378,787,380,792,358,799,252,835"/>
+<area shape="rect" id="Node000032" href="$gpio__priv_8c.html#adf74462d771e41ca4d8373790d1ea8d7" title="Set OTYPER&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="358,809,575,834"/>
+<area shape="poly" id="edge37_Node000025_Node000032" title=" " alt="" coords="273,837,342,831,342,836,274,843"/>
+<area shape="rect" id="Node000034" href="$gpio__priv_8c.html#a5356a96ea085671fbdaa7521a08fbc6b" title="Set PUPDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="380,858,553,884"/>
+<area shape="poly" id="edge39_Node000025_Node000034" title=" " alt="" coords="274,849,365,858,365,864,273,854"/>
+<area shape="rect" id="Node000029" href="$gpio__priv_8c.html#a0c907ce193b55b7b744a4763218d14f4" title="Get the bit pattern for a pin&#39;s MODER field from its type." alt="" coords="685,1006,797,1032"/>
+<area shape="poly" id="edge34_Node000028_Node000029" title=" " alt="" coords="558,1016,669,1016,669,1022,558,1022"/>
+<area shape="rect" id="Node000031" href="$gpio__priv_8c.html#a44cc6c129f8a36940f86366078bf68a5" title="Get the bit pattern for a pin&#39;s OSPEEDR field from its speed." alt="" coords="683,752,799,777"/>
+<area shape="poly" id="edge36_Node000030_Node000031" title=" " alt="" coords="562,762,668,762,668,767,562,767"/>
+<area shape="rect" id="Node000033" href="$gpio__priv_8c.html#a90e78e8eb05b4cb35e422fe0cc03fe11" title="Get the bit pattern for a pin&#39;s OTYPER field from its output type." alt="" coords="685,809,797,834"/>
+<area shape="poly" id="edge38_Node000032_Node000033" title=" " alt="" coords="576,819,669,819,669,824,576,824"/>
+<area shape="rect" id="Node000035" href="$gpio__priv_8c.html#ab327360b29d2588b06a0687aa036e314" title="Get the bit pattern for a pin&#39;s PUPDR field from its pull selection." alt="" coords="691,858,791,884"/>
+<area shape="poly" id="edge40_Node000034_Node000035" title=" " alt="" coords="553,868,675,868,675,874,553,874"/>
+</map>

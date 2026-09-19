@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['_5f_5fattribute_5f_5f_0',['__attribute__',['../struct____attribute____.html',1,'__attribute__'],['../g4__testing_2main_8h.html#ab898071398b359603a35c202e9c65f3b',1,'__attribute__((packed)):&#160;main.h'],['../can_8c.html#a201468129b483039afc5a619e2d31097',1,'__attribute__((weak)):&#160;can.c']]],
+  ['_5f_5fattribute_5f_5f_0',['__attribute__',['../struct____attribute____.html',1,'__attribute__'],['../g4__testing_2main_8h.html#ab898071398b359603a35c202e9c65f3b',1,'__attribute__((packed)):&#160;main.h'],['../bootloader__common_8h.html#a8910d953753398e17a5d6be650c4556c',1,'__attribute__((aligned(BL_FLASH_WRITE_SIZE))):&#160;bootloader_common.h'],['../can_8c.html#a201468129b483039afc5a619e2d31097',1,'__attribute__((weak)):&#160;can.c']]],
   ['_5f_5ferrno_1',['__errno',['../syscalls_8c.html#a39b9754c96beda392bdb080bc5653e9e',1,'__errno(void):&#160;syscalls.c'],['../syscalls_8h.html#a39b9754c96beda392bdb080bc5653e9e',1,'__errno(void):&#160;syscalls.c']]],
   ['_5fbusy_2',['_busy',['../structSPI__InitConfig__t.html#a0359b0800a83162884d8d67f6d68f9d1',1,'SPI_InitConfig_t']]],
   ['_5fclose_3',['_close',['../syscalls_8c.html#a5aab5e2acfd600e3667dc915a2bbc7cb',1,'_close(int file):&#160;syscalls.c'],['../syscalls_8h.html#a5aab5e2acfd600e3667dc915a2bbc7cb',1,'_close(int file):&#160;syscalls.c']]],

@@ -1,11 +1,24 @@
 <map id="flash_dual_bank_enabled" name="flash_dual_bank_enabled">
-<area shape="rect" id="Node000001" title=" " alt="" coords="637,28,804,54"/>
-<area shape="rect" id="Node000002" href="$flash__priv_8c.html#a423e49b8e633590b99f63b00c9381645" title="Erase one complete flash page." alt="" coords="201,5,378,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="622,38,378,25,379,20,622,33"/>
-<area shape="rect" id="Node000004" href="$flash__priv_8c.html#a070e33cfa30b8f6f011c83d3816f0162" title="Determine the active page size from the dual&#45;bank option bit." alt="" coords="426,48,589,89"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="622,56,590,61,589,55,621,51"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2flash_2flash_8c.html#ae5452e7ac6c1fd154de448cc8403653d" title="Erase every internal flash page touched by a range." alt="" coords="5,31,153,56"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="186,33,154,37,153,32,185,28"/>
-<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="410,49,347,34,348,29,411,44"/>
-<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="410,66,153,50,153,45,411,60"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="1654,28,1821,54"/>
+<area shape="rect" id="Node000002" href="$flash__priv_8c.html#a423e49b8e633590b99f63b00c9381645" title="Erase one complete flash page." alt="" coords="1218,5,1395,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1639,38,1395,25,1396,20,1639,33"/>
+<area shape="rect" id="Node000010" href="$flash__priv_8c.html#a070e33cfa30b8f6f011c83d3816f0162" title="Determine the active page size from the dual&#45;bank option bit." alt="" coords="1443,48,1606,89"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="1639,56,1607,61,1606,55,1638,51"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2flash_2flash_8c.html#ae5452e7ac6c1fd154de448cc8403653d" title="Erase every internal flash page touched by a range." alt="" coords="1022,31,1170,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1203,33,1171,37,1170,32,1202,28"/>
+<area shape="rect" id="Node000004" href="$bootloader_8c.html#a973838ef3e1c22ca2fcd449941bf2198" title=" " alt="" coords="657,31,772,56"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1007,46,773,46,773,41,1007,41"/>
+<area shape="rect" id="Node000009" href="$bootloader_8c.html#a3c02683280523e18e3a1093eb4dac971" title=" " alt="" coords="820,56,974,82"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="1007,57,975,62,974,56,1007,52"/>
+<area shape="rect" id="Node000005" href="$bootloader_8c.html#abf75df907f2cb56139815b8adb7c195e" title=" " alt="" coords="464,31,609,56"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="641,46,609,46,609,41,641,41"/>
+<area shape="rect" id="Node000006" href="$bootloader_8c.html#a3267de5d4f419fad89acf507722d341e" title=" " alt="" coords="216,31,416,56"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="449,46,417,46,417,41,449,41"/>
+<area shape="rect" id="Node000007" href="$bootloader_8c.html#afbd1b6f14da46bdc0a6e199e0a84aeb2" title="Process every frame currently queued by the FDCAN receive interrupt." alt="" coords="103,31,168,56"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="201,46,168,46,168,41,201,41"/>
+<area shape="rect" id="Node000008" href="$bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,31,55,56"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="87,46,55,46,55,41,87,41"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="804,59,772,54,773,49,805,53"/>
+<area shape="poly" id="edge11_Node000010_Node000002" title=" " alt="" coords="1427,49,1364,34,1365,29,1428,44"/>
+<area shape="poly" id="edge12_Node000010_Node000003" title=" " alt="" coords="1427,66,1170,50,1170,45,1428,60"/>
 </map>

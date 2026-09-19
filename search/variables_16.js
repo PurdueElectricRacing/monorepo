@@ -1,5 +1,26 @@
 var searchData=
 [
-  ['x_0',['x',['../structvector2__t.html#a7ed27f75e016fe0bea891054456a45bd',1,'vector2_t::x'],['../structvector3__t.html#a94a293ca4e19e41d4de06e2e0bbb97ca',1,'vector3_t::x']]],
-  ['xvcu_1',['xVCU',['../control__loop_8c.html#a85c27795c006b8d4ac313020b0a8219a',1,'control_loop.c']]]
+  ['wake_5faddr_0',['wake_addr',['../structusart__init__t.html#a72b5f7df2bcce44b8d47c08e616df66f',1,'usart_init_t']]],
+  ['watchdog_5fpet_5fperiod_5fms_1',['WATCHDOG_PET_PERIOD_MS',['../watchdog_8h.html#ae9d77b28b3ce449e8e33d9879332d407',1,'watchdog.h']]],
+  ['watchdog_5ftimeout_5fms_2',['WATCHDOG_TIMEOUT_MS',['../watchdog_8h.html#a48f9b6ab9ba7b61703d6c7e4415ef574',1,'watchdog.h']]],
+  ['wb_3',['wb',['../structpVCU__struct.html#a1dd4b65799d0fadffc1ec9926d4a8113',1,'pVCU_struct']]],
+  ['weekday_4',['weekday',['../structRTC__date__t.html#a992e635ababc6ba6c5d921eb5653ca10',1,'RTC_date_t']]],
+  ['wheel_5fcircumference_5fin_5',['WHEEL_CIRCUMFERENCE_IN',['../race_8c.html#a284846036ea71dd362de4fd2608bd9dc',1,'WHEEL_CIRCUMFERENCE_IN:&#160;race.c'],['../torque__controller_8c.html#a284846036ea71dd362de4fd2608bd9dc',1,'WHEEL_CIRCUMFERENCE_IN:&#160;torque_controller.c']]],
+  ['wheel_5fradius_5fin_6',['WHEEL_RADIUS_IN',['../race_8c.html#aa0ffa8a098be39f4206ea8290a138f60',1,'WHEEL_RADIUS_IN:&#160;race.c'],['../torque__controller_8c.html#aa0ffa8a098be39f4206ea8290a138f60',1,'WHEEL_RADIUS_IN:&#160;torque_controller.c']]],
+  ['white_7',['WHITE',['../colors_8h.html#a01ca0b8d16a19254e9afaafe8a4653aa',1,'colors.h']]],
+  ['wiring_8',['wiring',['../structPHAL__DMA__Handle__t.html#ab5815f270fe8d8548e8c70e34e93eae0',1,'PHAL_DMA_Handle_t']]],
+  ['wm_9',['WM',['../structyVCU__struct.html#a4106077379b126d0530b97aa785c0df5',1,'yVCU_struct']]],
+  ['wm_5fraw_10',['WM_RAW',['../structxVCU__struct.html#ab2eca154ead37d6d8d278341d5b81cc5',1,'xVCU_struct']]],
+  ['word_5flength_11',['word_length',['../structusart__init__t.html#a05cc99e8162f284a52d93388d800c782',1,'usart_init_t']]],
+  ['wrblockmisalign_12',['WrBlockMisalign',['../structSD__CSD.html#a54d08d114ba504e72f0001fa922ec919',1,'SD_CSD']]],
+  ['wrcfga_13',['WRCFGA',['../commands_8c.html#a2ed840d59cef20eae18f908d2379964d',1,'WRCFGA:&#160;commands.c'],['../commands_8h.html#a2ed840d59cef20eae18f908d2379964d',1,'WRCFGA:&#160;commands.c']]],
+  ['wrcfgb_14',['WRCFGB',['../commands_8c.html#a26d470e28a1ae39f1a0484e788b2b60e',1,'WRCFGB:&#160;commands.c'],['../commands_8h.html#a26d470e28a1ae39f1a0484e788b2b60e',1,'WRCFGB:&#160;commands.c']]],
+  ['wrcomm_15',['WRCOMM',['../commands_8c.html#a477da7837fbe8ebe69470f19754c4e79',1,'WRCOMM:&#160;commands.c'],['../commands_8h.html#a477da7837fbe8ebe69470f19754c4e79',1,'WRCOMM:&#160;commands.c']]],
+  ['writeblockpapartial_16',['WriteBlockPaPartial',['../structSD__CSD.html#a27824f576bf5d6a01dd7602aae8dad96',1,'SD_CSD']]],
+  ['wrprotectgrenable_17',['WrProtectGrEnable',['../structSD__CSD.html#a7cf93c94ebd2f9092b62e791f1565d30',1,'SD_CSD']]],
+  ['wrprotectgrsize_18',['WrProtectGrSize',['../structSD__CSD.html#a03486966abee0e50401e2a56d33bf1bb',1,'SD_CSD']]],
+  ['wrpwma_19',['WRPWMA',['../commands_8c.html#a6aae54bfcb762c2fbb1c8fd742edea51',1,'WRPWMA:&#160;commands.c'],['../commands_8h.html#a6aae54bfcb762c2fbb1c8fd742edea51',1,'WRPWMA:&#160;commands.c']]],
+  ['wrpwmb_20',['WRPWMB',['../commands_8c.html#ad1fe66d772ef1fc817d3c3a67671275e',1,'WRPWMB:&#160;commands.c'],['../commands_8h.html#ad1fe66d772ef1fc817d3c3a67671275e',1,'WRPWMB:&#160;commands.c']]],
+  ['wrspeedfact_21',['WrSpeedFact',['../structSD__CSD.html#a471bde59e37efab5eb960510d4d94aca',1,'SD_CSD']]],
+  ['ww_22',['WW',['../structyVCU__struct.html#ac3f218cb71a5c73a0e215af91f0e53df',1,'yVCU_struct']]]
 ];

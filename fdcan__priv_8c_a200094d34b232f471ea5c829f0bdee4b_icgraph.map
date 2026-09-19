@@ -1,7 +1,11 @@
 <map id="PHAL_FDCAN_priv_getNBTP" name="PHAL_FDCAN_priv_getNBTP">
-<area shape="rect" id="Node000001" title=" " alt="" coords="284,5,482,31"/>
-<area shape="rect" id="Node000002" href="$fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d" title="Initialize an FDCAN peripheral for classic (non&#45;FD) CAN operation." alt="" coords="103,5,236,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,21,237,21,237,16,268,16"/>
-<area shape="rect" id="Node000003" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="394,31,593,56"/>
+<area shape="rect" id="Node000002" href="$fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d" title="Initialize an FDCAN peripheral for classic (non&#45;FD) CAN operation." alt="" coords="213,31,346,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="379,46,347,46,347,41,379,41"/>
+<area shape="rect" id="Node000003" href="$bootloader_8c.html#a0e6fcac4f931dc8811b83333d9eaa780" title="Configure the node&#45;specific transport and announce readiness." alt="" coords="103,5,165,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="197,32,165,26,166,21,198,27"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="109,55,158,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="198,60,160,66,159,61,197,54"/>
+<area shape="rect" id="Node000004" href="$bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
 </map>

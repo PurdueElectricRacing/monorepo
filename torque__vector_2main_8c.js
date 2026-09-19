@@ -7,6 +7,7 @@ var torque__vector_2main_8c =
     [ "main", "torque__vector_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe", null ],
     [ "RTOS_DEFINE_TASK", "torque__vector_2main_8c.html#a29e56ad636fc1275985a43ca4406495a", null ],
     [ "RTOS_DEFINE_TASK", "torque__vector_2main_8c.html#a16bbe215283a666d33c4fb82605696a6", null ],
+    [ "RTOS_DEFINE_TASK", "torque__vector_2main_8c.html#a82fe837997b54030e3e2773da5e6dba5", null ],
     [ "RTOS_DEFINE_TASK", "torque__vector_2main_8c.html#a17ff201e061985b43f264859600d87c7", null ],
     [ "RTOS_DEFINE_TASK", "torque__vector_2main_8c.html#a8999bb473ba368e6b2643fa45b4b8e39", null ],
     [ "gpio_config", "torque__vector_2main_8c.html#a0445edd8b78aacc940a1a3848a9b9166", null ],

@@ -1,16 +1,43 @@
 <map id="FLASH_PRIV_get_size_bytes" name="FLASH_PRIV_get_size_bytes">
-<area shape="rect" id="Node000001" title="Read the device&#45;reported internal flash capacity." alt="" coords="617,27,776,68"/>
-<area shape="rect" id="Node000002" href="$flash__priv_8c.html#a423e49b8e633590b99f63b00c9381645" title="Erase one complete flash page." alt="" coords="392,8,569,34"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="602,38,570,34,570,29,602,33"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2flash_2flash_8c.html#a56beaa2bee86f3862b7da4503a7983e7" title=" " alt="" coords="412,59,550,84"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="602,61,551,66,550,61,602,55"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2flash_2flash_8c.html#ae5452e7ac6c1fd154de448cc8403653d" title="Erase every internal flash page touched by a range." alt="" coords="197,5,344,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="377,22,345,22,345,16,377,17"/>
-<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="412,57,323,34,325,29,413,52"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2flash_2flash_8c.html#af6bbb048a9a066ae1f1b6a5c8a5155f9" title=" " alt="" coords="201,55,340,96"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="396,76,341,77,340,72,396,70"/>
-<area shape="rect" id="Node000007" href="$phal__G4_2flash_2flash_8c.html#a3b76c399c317f06b6463778aec2aaa10" title="Copy bytes from internal flash into a buffer." alt="" coords="200,120,340,146"/>
-<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="420,92,318,122,316,117,419,87"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2flash_2flash_8c.html#a5c15aad9202332ef0384fafe9620e0ce" title="Program bytes into erased internal flash." alt="" coords="5,63,149,88"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="185,78,149,78,149,73,185,73"/>
+<area shape="rect" id="Node000001" title="Read the device&#45;reported internal flash capacity." alt="" coords="1658,72,1817,113"/>
+<area shape="rect" id="Node000002" href="$flash__priv_8c.html#a423e49b8e633590b99f63b00c9381645" title="Erase one complete flash page." alt="" coords="1433,53,1610,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1643,84,1611,80,1611,75,1643,79"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2flash_2flash_8c.html#a56beaa2bee86f3862b7da4503a7983e7" title=" " alt="" coords="1452,104,1591,130"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="1643,106,1592,112,1591,106,1643,101"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2flash_2flash_8c.html#ae5452e7ac6c1fd154de448cc8403653d" title="Erase every internal flash page touched by a range." alt="" coords="1238,51,1385,76"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1418,68,1386,67,1386,62,1418,62"/>
+<area shape="rect" id="Node000004" href="$bootloader_8c.html#a973838ef3e1c22ca2fcd449941bf2198" title=" " alt="" coords="854,5,969,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1230,50,1189,43,1072,31,969,24,970,18,1072,26,1190,38,1231,45"/>
+<area shape="rect" id="Node000009" href="$bootloader_8c.html#a3c02683280523e18e3a1093eb4dac971" title=" " alt="" coords="1035,53,1190,79"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="1222,67,1190,68,1190,62,1222,62"/>
+<area shape="rect" id="Node000005" href="$bootloader_8c.html#abf75df907f2cb56139815b8adb7c195e" title=" " alt="" coords="464,111,609,136"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="848,38,586,113,584,108,847,33"/>
+<area shape="rect" id="Node000006" href="$bootloader_8c.html#a3267de5d4f419fad89acf507722d341e" title=" " alt="" coords="216,117,416,143"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="449,129,417,130,417,124,449,123"/>
+<area shape="rect" id="Node000007" href="$bootloader_8c.html#afbd1b6f14da46bdc0a6e199e0a84aeb2" title="Process every frame currently queued by the FDCAN receive interrupt." alt="" coords="103,155,168,180"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="236,149,169,163,168,158,235,144"/>
+<area shape="rect" id="Node000008" href="$bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,155,55,180"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="87,170,55,170,55,165,87,165"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="1040,52,968,34,969,29,1041,47"/>
+<area shape="poly" id="edge20_Node000010_Node000003" title=" " alt="" coords="1453,102,1364,80,1366,74,1454,97"/>
+<area shape="rect" id="Node000011" href="$phal__G4_2flash_2flash_8c.html#af6bbb048a9a066ae1f1b6a5c8a5155f9" title=" " alt="" coords="1242,100,1381,141"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="1437,121,1382,122,1381,117,1437,116"/>
+<area shape="rect" id="Node000017" href="$phal__G4_2flash_2flash_8c.html#a3b76c399c317f06b6463778aec2aaa10" title="Copy bytes from internal flash into a buffer." alt="" coords="1241,184,1382,210"/>
+<area shape="poly" id="edge21_Node000010_Node000017" title=" " alt="" coords="1473,138,1348,186,1347,181,1471,133"/>
+<area shape="rect" id="Node000012" href="$phal__G4_2flash_2flash_8c.html#a5c15aad9202332ef0384fafe9620e0ce" title="Program bytes into erased internal flash." alt="" coords="1041,107,1184,132"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="1226,123,1185,123,1185,117,1226,118"/>
+<area shape="rect" id="Node000013" href="$bootloader_8c.html#a1ee6d33267fac00c9b40a73b2092384d" title=" " alt="" coords="835,55,987,80"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="1045,105,963,84,965,78,1046,100"/>
+<area shape="rect" id="Node000015" href="$bootloader_8c.html#a3c2e98b614b2928512c9575943fa286a" title=" " alt="" coords="848,104,975,130"/>
+<area shape="poly" id="edge16_Node000012_Node000015" title=" " alt="" coords="1025,121,975,120,975,115,1025,116"/>
+<area shape="rect" id="Node000016" href="$bootloader_8c.html#ac67d8f3c1b3d2c648d6a5ac3489eb654" title=" " alt="" coords="671,155,772,180"/>
+<area shape="poly" id="edge18_Node000012_Node000016" title=" " alt="" coords="1029,138,988,145,872,158,773,167,773,161,872,153,987,140,1029,133"/>
+<area shape="rect" id="Node000014" href="$bootloader_8c.html#ac2d28de1668a1ef30b63868db0e8516b" title=" " alt="" coords="658,104,786,130"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="845,87,775,106,773,101,843,82"/>
+<area shape="poly" id="edge15_Node000014_Node000005" title=" " alt="" coords="643,122,609,124,609,118,643,117"/>
+<area shape="poly" id="edge17_Node000015_Node000014" title=" " alt="" coords="832,120,786,120,786,114,832,114"/>
+<area shape="poly" id="edge19_Node000016_Node000005" title=" " alt="" coords="655,155,593,139,594,134,657,149"/>
+<area shape="rect" id="Node000018" href="$bootloader_8c.html#a29a8510cf432cd0aff5dd15073f561bb" title="Validate the committed image and transfer control to it." alt="" coords="657,204,787,230"/>
+<area shape="poly" id="edge22_Node000017_Node000018" title=" " alt="" coords="1226,202,788,217,787,212,1226,197"/>
+<area shape="poly" id="edge23_Node000018_Node000007" title=" " alt="" coords="641,213,168,173,168,168,641,207"/>
 </map>

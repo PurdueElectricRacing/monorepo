@@ -11,6 +11,7 @@ var annotated_dup =
     [ "AMK_t", "structAMK__t.html", "structAMK__t" ],
     [ "bangbang_t", "structbangbang__t.html", "structbangbang__t" ],
     [ "bar_t", "structbar__t.html", "structbar__t" ],
+    [ "BLTransportConfig_t", "structBLTransportConfig__t.html", "structBLTransportConfig__t" ],
     [ "can_stats_t", "structcan__stats__t.html", "structcan__stats__t" ],
     [ "CanMsgTypeDef_t", "structCanMsgTypeDef__t.html", "structCanMsgTypeDef__t" ],
     [ "car_t", "structcar__t.html", "structcar__t" ],

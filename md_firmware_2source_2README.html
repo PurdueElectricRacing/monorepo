@@ -100,34 +100,34 @@ $(function(){initNavTree('md_firmware_2source_2README.html',''); initResizable(t
   <div class="headertitle"><div class="title">Source</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md39"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md46"></a></p>
 <p>Firmware source code for PER's distributed vehicle software. One directory per node, each is compiled into a separate binary. See each node's own README for module-level details.</p>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md47"></a>
 Vehicle control nodes</h1>
 <ul>
 <li><code>main_module</code> Master control unit. Owns the vehicle state machine, SDC monitoring, inverter interface, and the final torque request.</li>
 <li><code>dashboard</code> Pedalbox sampling/plausibility plus the driver UI rendered on the Nextion LCD.</li>
 <li><code>torque_vector</code> State estimation and torque-vectoring control loops (does not directly drive the inverters).</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md41"></a>
+<h1><a class="anchor" id="autotoc_md48"></a>
 Power and sensing nodes</h1>
 <ul>
 <li><code>pdu</code> Low-voltage power distribution: rail switching, ADC telemetry, nFAULT scanning, and cooling control.</li>
 <li><code>a_box</code> Accumulator (battery) box: BMS master, charging management, and battery telemetry.</li>
 <li><code>driveline</code> Front/rear driveline sensor interface and CAN telemetry. The same source is compiled into two binaries via CMake preprocessor flags.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md42"></a>
+<h1><a class="anchor" id="autotoc_md49"></a>
 Data acquisition</h1>
 <ul>
 <li><code>daq</code> CAN bus logging to SD card and real-time UDP/Ethernet streaming, fed by the in-house lockless SPMC queue.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md43"></a>
+<h1><a class="anchor" id="autotoc_md50"></a>
 Bench / dev nodes</h1>
 <ul>
 <li><code>f4_testing</code> STM32F4-based bench testing target. Not deployed on the vehicle.</li>
 <li><code>g4_testing</code> STM32G4-based bench testing target. Not deployed on the vehicle.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md44"></a>
+<h1><a class="anchor" id="autotoc_md51"></a>
 Torque Path</h1>
 <p><img src="torque_path.drawio.png" alt="" class="inline" title="torque path"/>     </p>
 </div></div><!-- contents -->

@@ -100,14 +100,14 @@ $(function(){initNavTree('md_firmware_2common_2utils_2README.html',''); initResi
   <div class="headertitle"><div class="title">PER Utility Functions</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md68"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md77"></a></p>
 <p>Header-only helpers for embedded C. All macros are type-safe (<code>_Generic</code> dispatched) and force-inlined when applicable. Include them directly:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="max_8h.html">common/utils/max.h</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="clamp_8h.html">common/utils/clamp.h</a>&quot;</span></div>
 <div class="line"><span class="comment">// ...</span></div>
 <div class="ttc" id="aclamp_8h_html"><div class="ttname"><a href="clamp_8h.html">clamp.h</a></div><div class="ttdoc">Utility header to clamp a value to a bounded range.</div></div>
 <div class="ttc" id="amax_8h_html"><div class="ttname"><a href="max_8h.html">max.h</a></div><div class="ttdoc">Maximum value functions utility header.</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md69"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md78"></a>
 <code>max.h</code> / <code>min.h</code></h1>
 <p>Inline functions to compute the maximum or minimum of 2, 3, or 4 ints or floats.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> a = 5, b = 3, c = 10, d = 7;</div>
@@ -120,19 +120,19 @@ $(function(){initNavTree('md_firmware_2common_2utils_2README.html',''); initResi
 <div class="line">lo = <a class="code hl_define" href="min_8h.html#a4fa785b256880331b1ee6a2dc7d7d574">MINOF</a>(x, y, z);         <span class="comment">// 0.8</span></div>
 <div class="ttc" id="amax_8h_html_ad63987f4fc831534891c747ef1571a8c"><div class="ttname"><a href="max_8h.html#ad63987f4fc831534891c747ef1571a8c">MAXOF</a></div><div class="ttdeci">#define MAXOF(...)</div><div class="ttdef"><b>Definition</b> max.h:42</div></div>
 <div class="ttc" id="amin_8h_html_a4fa785b256880331b1ee6a2dc7d7d574"><div class="ttname"><a href="min_8h.html#a4fa785b256880331b1ee6a2dc7d7d574">MINOF</a></div><div class="ttdeci">#define MINOF(...)</div><div class="ttdef"><b>Definition</b> min.h:42</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md70"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md79"></a>
 <code>abs.h</code></h1>
 <p><code><a class="el" href="abs_8h.html#a996f7be338ccb40d1a2a5abc1ad61759">ABS(x)</a></code> returns the absolute value of an int or float.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span>   ai = <a class="code hl_define" href="abs_8h.html#a996f7be338ccb40d1a2a5abc1ad61759">ABS</a>(-7);     <span class="comment">// 7</span></div>
 <div class="line"><span class="keywordtype">float</span> af = <a class="code hl_define" href="abs_8h.html#a996f7be338ccb40d1a2a5abc1ad61759">ABS</a>(-1.25f); <span class="comment">// 1.25</span></div>
 <div class="ttc" id="aabs_8h_html_a996f7be338ccb40d1a2a5abc1ad61759"><div class="ttname"><a href="abs_8h.html#a996f7be338ccb40d1a2a5abc1ad61759">ABS</a></div><div class="ttdeci">#define ABS(x)</div><div class="ttdef"><b>Definition</b> abs.h:24</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md71"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md80"></a>
 <code>clamp.h</code></h1>
 <p><code><a class="el" href="clamp_8h.html#a0ad0a3b188576390a9c30ff24f2bd8f6">CLAMP(input, lower, upper)</a></code> saturates a value into <code>[lower, upper]</code>. Works on int, unsigned int, long, unsigned long, and float.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> duty       = <a class="code hl_define" href="clamp_8h.html#a0ad0a3b188576390a9c30ff24f2bd8f6">CLAMP</a>(raw_duty, 0, 100);            <span class="comment">// 0..100 %</span></div>
 <div class="line"><span class="keywordtype">float</span> throttle = <a class="code hl_define" href="clamp_8h.html#a0ad0a3b188576390a9c30ff24f2bd8f6">CLAMP</a>(pedal_pos, 0.0f, 1.0f);       <span class="comment">// 0..1</span></div>
 <div class="ttc" id="aclamp_8h_html_a0ad0a3b188576390a9c30ff24f2bd8f6"><div class="ttname"><a href="clamp_8h.html#a0ad0a3b188576390a9c30ff24f2bd8f6">CLAMP</a></div><div class="ttdeci">#define CLAMP(input, lower_bound, upper_bound)</div><div class="ttdef"><b>Definition</b> clamp.h:28</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md72"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md81"></a>
 <code>rescale.h</code></h1>
 <p><code><a class="el" href="rescale_8h.html#a21face4f1d8ad6e12a49c985ed2d972d">RESCALE(input, in_min, in_max, out_min, out_max)</a></code> linearly maps a value from one range to another. Returns <code>out_min</code> if the input range is zero (no div-by-zero).</p>
 <div class="fragment"><div class="line"><span class="comment">// 12-bit ADC counts -&gt; 0..3.3 V</span></div>
@@ -141,7 +141,7 @@ $(function(){initNavTree('md_firmware_2common_2utils_2README.html',''); initResi
 <div class="line"><span class="comment">// Steering sensor counts -&gt; degrees</span></div>
 <div class="line"><span class="keywordtype">int</span> deg = <a class="code hl_define" href="rescale_8h.html#a21face4f1d8ad6e12a49c985ed2d972d">RESCALE</a>(counts, 0, 1023, -180, 180);</div>
 <div class="ttc" id="arescale_8h_html_a21face4f1d8ad6e12a49c985ed2d972d"><div class="ttname"><a href="rescale_8h.html#a21face4f1d8ad6e12a49c985ed2d972d">RESCALE</a></div><div class="ttdeci">#define RESCALE(input, input_min, input_max, output_min, output_max)</div><div class="ttdef"><b>Definition</b> rescale.h:71</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md73"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md82"></a>
 <code>countof.h</code></h1>
 <p><code><a class="el" href="countof_8h.html#ab317c73e51fb8a68f86165ac831f7b8c">countof(array)</a></code> returns the number of elements in a stack/global array. Passing a pointer is rejected at compile time.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> rails[] = { RAIL_24V, RAIL_5V, RAIL_3V3 };</div>
@@ -149,7 +149,7 @@ $(function(){initNavTree('md_firmware_2common_2utils_2README.html',''); initResi
 <div class="line">    enable_rail(rails[i]);</div>
 <div class="line">}</div>
 <div class="ttc" id="acountof_8h_html_ab317c73e51fb8a68f86165ac831f7b8c"><div class="ttname"><a href="countof_8h.html#ab317c73e51fb8a68f86165ac831f7b8c">countof</a></div><div class="ttdeci">#define countof(array)</div><div class="ttdef"><b>Definition</b> countof.h:19</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md74"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md83"></a>
 <code>units.h</code></h1>
 <p>Tiny typed wrappers around physical units. Each unit is a struct holding a single <code>float</code>, so they cost nothing at runtime but stop you from accidentally mixing, e.g., feet with meters.</p>
 <p>Available unit families: temperature (C/F), distance (m/cm/mm/in/ft/mi), time (ms/s/min/hr/day), angle (rad/deg), mass (g/kg/lb), pressure (Pa/psi/bar), velocity (mps/kph/mph).</p>
@@ -174,7 +174,7 @@ $(function(){initNavTree('md_firmware_2common_2utils_2README.html',''); initResi
 <div class="ttc" id="aunits_8h_html_a26dfa6ea5330d6e36fffea1cc12edd00"><div class="ttname"><a href="units_8h.html#a26dfa6ea5330d6e36fffea1cc12edd00">radians_from</a></div><div class="ttdeci">UNIT_FUNC_MODIFIERS radians_t radians_from(degrees_t deg)</div><div class="ttdef"><b>Definition</b> units.h:133</div></div>
 <div class="ttc" id="aunits_8h_html_a32cc5a7208b2e5f46b8fde514f7e4be4"><div class="ttname"><a href="units_8h.html#a32cc5a7208b2e5f46b8fde514f7e4be4">meters_from</a></div><div class="ttdeci">#define meters_from(x)</div><div class="ttdef"><b>Definition</b> units.h:77</div></div>
 <div class="ttc" id="aunits_8h_html_a9f3aa3ab576a552029f4fed6f8fafc5c"><div class="ttname"><a href="units_8h.html#a9f3aa3ab576a552029f4fed6f8fafc5c">seconds_from</a></div><div class="ttdeci">#define seconds_from(x)</div><div class="ttdef"><b>Definition</b> units.h:118</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md75"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md84"></a>
 <code>linear_algebra.h</code></h1>
 <p>Float-only <code><a class="el" href="structvector3__t.html">vector3_t</a></code> / <code><a class="el" href="structmatrix3x3__t.html">matrix3x3_t</a></code> / <code><a class="el" href="structeuler__angles__t.html">euler_angles_t</a></code> plus the basic operations needed for IMU/orientation work: magnitude, normalize, matrix-vector and matrix-matrix multiply, and a Tait-Bryan ZYX Euler-to-rotation-matrix helper.</p>
 <div class="fragment"><div class="line"><a class="code hl_struct" href="structvector3__t.html">vector3_t</a> accel = { 0.1f, 0.2f, 9.7f };</div>

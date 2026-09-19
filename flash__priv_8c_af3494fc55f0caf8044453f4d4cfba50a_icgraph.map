@@ -1,20 +1,47 @@
 <map id="flash_release" name="flash_release">
-<area shape="rect" id="Node000001" title=" " alt="" coords="450,80,547,106"/>
-<area shape="rect" id="Node000002" href="$flash__priv_8c.html#a7cfacba7a408a420e261fcdceef04b8b" title="Prepare the controller for programming or page erase." alt="" coords="201,5,402,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="462,74,401,45,368,34,369,29,403,40,464,69"/>
-<area shape="rect" id="Node000005" href="$flash__priv_8c.html#a4ac8f186a122fa9f7e46931e9af4a628" title="Acquire the flash operation lock, wait for idle, and clear status." alt="" coords="215,104,388,130"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="435,103,389,109,388,104,435,98"/>
-<area shape="rect" id="Node000007" href="$flash__priv_8c.html#a3bedf041eabbe2090e0bfb147c6b87de" title="Finalize a completed operation, restore cache state, lock the controller, and release the operation l..." alt="" coords="206,55,397,80"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="434,87,397,82,398,77,435,82"/>
-<area shape="rect" id="Node000008" href="$flash__priv_8c.html#ad702646df30f6e3334f9ff58e454f8f5" title="Finish a read operation and release the operation lock." alt="" coords="220,153,383,179"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="463,116,403,145,369,155,367,150,401,140,461,111"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2flash_2flash_8c.html#ae5452e7ac6c1fd154de448cc8403653d" title="Erase every internal flash page touched by a range." alt="" coords="5,55,153,80"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="226,38,141,57,140,51,224,32"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2flash_2flash_8c.html#a5c15aad9202332ef0384fafe9620e0ce" title="Program bytes into erased internal flash." alt="" coords="7,5,151,31"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="185,21,151,21,151,16,185,16"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2flash_2flash_8c.html#a3b76c399c317f06b6463778aec2aaa10" title="Copy bytes from internal flash into a buffer." alt="" coords="9,128,149,154"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="199,130,150,136,149,131,199,125"/>
-<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="190,70,153,70,153,65,190,65"/>
-<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="224,53,140,34,141,29,226,48"/>
-<area shape="poly" id="edge10_Node000008_Node000006" title=" " alt="" coords="204,158,149,151,150,146,205,152"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="1479,169,1576,195"/>
+<area shape="rect" id="Node000002" href="$flash__priv_8c.html#a7cfacba7a408a420e261fcdceef04b8b" title="Prepare the controller for programming or page erase." alt="" coords="1230,95,1431,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1491,164,1430,134,1397,123,1398,118,1432,129,1493,159"/>
+<area shape="rect" id="Node000015" href="$flash__priv_8c.html#a4ac8f186a122fa9f7e46931e9af4a628" title="Acquire the flash operation lock, wait for idle, and clear status." alt="" coords="1244,193,1417,219"/>
+<area shape="poly" id="edge18_Node000001_Node000015" title=" " alt="" coords="1464,193,1418,198,1417,193,1464,187"/>
+<area shape="rect" id="Node000018" href="$flash__priv_8c.html#a3bedf041eabbe2090e0bfb147c6b87de" title="Finalize a completed operation, restore cache state, lock the controller, and release the operation l..." alt="" coords="1235,144,1426,170"/>
+<area shape="poly" id="edge22_Node000001_Node000018" title=" " alt="" coords="1463,177,1426,172,1427,167,1464,171"/>
+<area shape="rect" id="Node000019" href="$flash__priv_8c.html#ad702646df30f6e3334f9ff58e454f8f5" title="Finish a read operation and release the operation lock." alt="" coords="1249,243,1412,268"/>
+<area shape="poly" id="edge25_Node000001_Node000019" title=" " alt="" coords="1492,205,1432,234,1398,245,1396,240,1430,229,1490,201"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2flash_2flash_8c.html#ae5452e7ac6c1fd154de448cc8403653d" title="Erase every internal flash page touched by a range." alt="" coords="1034,69,1182,95"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1214,97,1182,93,1183,88,1215,92"/>
+<area shape="rect" id="Node000010" href="$phal__G4_2flash_2flash_8c.html#a5c15aad9202332ef0384fafe9620e0ce" title="Program bytes into erased internal flash." alt="" coords="1036,144,1180,170"/>
+<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="1255,127,1170,146,1169,141,1253,122"/>
+<area shape="rect" id="Node000004" href="$bootloader_8c.html#a973838ef3e1c22ca2fcd449941bf2198" title=" " alt="" coords="663,56,778,82"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1018,82,778,73,779,68,1019,76"/>
+<area shape="rect" id="Node000009" href="$bootloader_8c.html#a3c02683280523e18e3a1093eb4dac971" title=" " alt="" coords="832,5,986,31"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="1050,67,951,34,952,29,1052,62"/>
+<area shape="rect" id="Node000005" href="$bootloader_8c.html#abf75df907f2cb56139815b8adb7c195e" title=" " alt="" coords="464,181,609,207"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="689,93,559,183,556,179,686,89"/>
+<area shape="rect" id="Node000006" href="$bootloader_8c.html#a3267de5d4f419fad89acf507722d341e" title=" " alt="" coords="216,181,416,207"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="449,197,417,197,417,192,449,192"/>
+<area shape="rect" id="Node000007" href="$bootloader_8c.html#afbd1b6f14da46bdc0a6e199e0a84aeb2" title="Process every frame currently queued by the FDCAN receive interrupt." alt="" coords="103,207,168,232"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="205,212,169,218,168,212,205,207"/>
+<area shape="rect" id="Node000008" href="$bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,207,55,232"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="87,222,55,222,55,217,87,217"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="845,38,771,58,770,53,843,33"/>
+<area shape="rect" id="Node000011" href="$bootloader_8c.html#a1ee6d33267fac00c9b40a73b2092384d" title=" " alt="" coords="833,107,985,132"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="1021,143,981,136,982,130,1022,138"/>
+<area shape="rect" id="Node000013" href="$bootloader_8c.html#a3c2e98b614b2928512c9575943fa286a" title=" " alt="" coords="846,156,973,182"/>
+<area shape="poly" id="edge14_Node000010_Node000013" title=" " alt="" coords="1021,165,974,168,973,162,1021,159"/>
+<area shape="rect" id="Node000014" href="$bootloader_8c.html#ac67d8f3c1b3d2c648d6a5ac3489eb654" title=" " alt="" coords="670,205,771,231"/>
+<area shape="poly" id="edge16_Node000010_Node000014" title=" " alt="" coords="1057,178,987,197,871,213,772,219,771,214,871,207,986,192,1056,172"/>
+<area shape="rect" id="Node000012" href="$bootloader_8c.html#ac2d28de1668a1ef30b63868db0e8516b" title=" " alt="" coords="657,156,784,182"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="843,139,773,158,772,153,842,134"/>
+<area shape="poly" id="edge13_Node000012_Node000005" title=" " alt="" coords="641,182,610,187,609,182,641,177"/>
+<area shape="poly" id="edge15_Node000013_Node000012" title=" " alt="" coords="830,172,784,172,784,166,830,166"/>
+<area shape="poly" id="edge17_Node000014_Node000005" title=" " alt="" coords="654,212,609,206,609,201,655,207"/>
+<area shape="rect" id="Node000016" href="$phal__G4_2flash_2flash_8c.html#a3b76c399c317f06b6463778aec2aaa10" title="Copy bytes from internal flash into a buffer." alt="" coords="1038,243,1178,268"/>
+<area shape="poly" id="edge19_Node000015_Node000016" title=" " alt="" coords="1255,226,1170,245,1169,239,1253,220"/>
+<area shape="rect" id="Node000017" href="$bootloader_8c.html#a29a8510cf432cd0aff5dd15073f561bb" title="Validate the committed image and transfer control to it." alt="" coords="471,232,602,258"/>
+<area shape="poly" id="edge20_Node000016_Node000017" title=" " alt="" coords="1022,257,602,249,602,243,1022,251"/>
+<area shape="poly" id="edge21_Node000017_Node000007" title=" " alt="" coords="455,242,168,224,169,219,456,237"/>
+<area shape="poly" id="edge23_Node000018_Node000003" title=" " alt="" coords="1251,142,1229,135,1137,98,1139,93,1231,130,1253,137"/>
+<area shape="poly" id="edge24_Node000018_Node000010" title=" " alt="" coords="1219,160,1180,160,1180,154,1219,154"/>
+<area shape="poly" id="edge26_Node000019_Node000016" title=" " alt="" coords="1233,258,1179,258,1179,253,1233,253"/>
 </map>

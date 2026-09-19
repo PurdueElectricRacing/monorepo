@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['can_20library_0',['PER CAN Library',['../md_firmware_2can__library_2README.html',1,'']]],
-  ['codestyle_1',['Codestyle',['../md_docs_2code__style.html',1,'']]],
-  ['common_20modules_2',['Common Modules',['../md_firmware_2common_2README.html',1,'']]]
+  ['can_20bootloader_0',['G4 CAN bootloader',['../md_firmware_2source_2bootloader_2README.html',1,'']]],
+  ['can_20library_1',['PER CAN Library',['../md_firmware_2can__library_2README.html',1,'']]],
+  ['codestyle_2',['Codestyle',['../md_docs_2code__style.html',1,'']]],
+  ['common_20modules_3',['Common Modules',['../md_firmware_2common_2README.html',1,'']]],
+  ['contract_4',['Shared bootloader contract',['../md_firmware_2common_2bootloader_2README.html',1,'']]]
 ];

@@ -100,9 +100,9 @@ $(function(){initNavTree('md_firmware_2source_2daq_2README.html',''); initResiza
   <div class="headertitle"><div class="title">Data Acquisition Board</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md21"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md28"></a></p>
 <p>This directory contains the firmware source code for the Data Acquisition (DAQ) board, responsible for data collection, storage, and streaming.</p>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md29"></a>
 Directory Structure</h1>
 <ul>
 <li><a href="main.c"><code>main.c</code></a> / <a href="main.h"><code>main.h</code></a> - Main entry point for DAQ firmware, responsible for initialization and thread management.</li>
@@ -112,13 +112,13 @@ Directory Structure</h1>
 <li><code>sd_card/</code> - SD logging and file management</li>
 <li><code>ethernet/</code> - Real-time UDP streaming of CAN bus activity wirelessly</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md30"></a>
 Hardware Block Diagram</h1>
 <p><img src="daq.drawio.png" alt="" class="inline" title="daq"/>    </p>
-<h1><a class="anchor" id="autotoc_md24"></a>
+<h1><a class="anchor" id="autotoc_md31"></a>
 Software Timing Diagram</h1>
 <p><img src="DAQ_timing_diagram.drawio.png" alt="" class="inline" title="timing diagram"/>    </p>
-<h1><a class="anchor" id="autotoc_md25"></a>
+<h1><a class="anchor" id="autotoc_md32"></a>
 SPMC Queue</h1>
 <p>Specialized data structure designed specifically for DAQ.</p><ul>
 <li>Lockless</li>
@@ -143,10 +143,10 @@ SPMC Queue</h1>
 </li>
 <li>If the ETH thread falls far behind the SD thread, it will fast-forward its tail to the location of the SD thread. The "dropped frames" are also tracked in a counter.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md26"></a>
+<h1><a class="anchor" id="autotoc_md33"></a>
 SD Card</h1>
 <p><img src="SD_FSM.drawio.png" alt="" class="inline" title="sd fsm"/>    </p>
-<h1><a class="anchor" id="autotoc_md27"></a>
+<h1><a class="anchor" id="autotoc_md34"></a>
 Ethernet</h1>
 <p><img src="ethernet_FSM.drawio.png" alt="" class="inline" title="ethernet fsm"/>     </p>
 </div></div><!-- contents -->

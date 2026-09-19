@@ -1,28 +1,33 @@
 <map id="firmware/source/torque_vector/telemetry/telemetry.c" name="firmware/source/torque_vector/telemetry/telemetry.c">
-<area shape="rect" id="Node000001" title="TORQUE VECTOR telemetry task implementations." alt="" coords="259,5,447,46"/>
-<area shape="rect" id="Node000002" href="$torque__vector_2telemetry_2telemetry_8h.html" title="TORQUE VECTOR telemetry task implementations." alt="" coords="5,190,90,216"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="272,49,215,69,160,96,108,138,68,180,64,176,104,134,157,92,213,64,270,44"/>
-<area shape="rect" id="Node000004" href="$faults__common_8h.html" title="Event&#45;based FIDR system." alt="" coords="170,94,290,135"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="327,49,272,87,269,83,323,44"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="415,94,565,135"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="385,44,448,83,445,88,383,49"/>
-<area shape="rect" id="Node000007" href="$clamp_8h.html" title="Utility header to clamp a value to a bounded range." alt="" coords="589,102,738,127"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="424,44,606,94,605,99,423,49"/>
-<area shape="rect" id="Node000008" href="$sensors_8h.html" title="TV Managed sensor header." alt="" coords="314,102,392,127"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="356,47,356,86,350,86,350,47"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="314,271,378,297"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="86,214,110,221,300,269,299,275,108,226,84,219"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="201,137,178,156,158,177,149,200,150,211,155,222,185,249,222,267,262,276,299,280,299,286,261,282,220,272,182,254,151,225,145,212,144,199,154,175,174,152,198,133"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="165,183,309,223"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="234,135,237,167,232,167,229,135"/>
-<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="355,128,350,256,345,256,350,128"/>
-<area shape="rect" id="Node000009" href="$nav__pvt_8h.html" title="UBX NAV&#45;PVT message definition and decoder function." alt="" coords="384,190,549,216"/>
-<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="370,126,440,178,437,183,367,130"/>
-<area shape="rect" id="Node000011" href="$nav__relposned_8h.html" title="UBX NAV&#45;RELPOSNED message definition and decoder function." alt="" coords="572,190,776,216"/>
-<area shape="poly" id="edge13_Node000008_Node000011" title=" " alt="" coords="384,125,404,132,508,161,603,184,602,189,507,166,403,137,382,130"/>
-<area shape="poly" id="edge11_Node000009_Node000003" title=" " alt="" coords="449,218,378,265,375,261,446,214"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="536,271,604,297"/>
-<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="484,214,544,260,541,264,480,218"/>
-<area shape="poly" id="edge14_Node000011_Node000003" title=" " alt="" coords="624,219,394,274,393,269,623,214"/>
-<area shape="poly" id="edge15_Node000011_Node000010" title=" " alt="" coords="660,218,599,264,596,260,657,214"/>
+<area shape="rect" id="Node000001" title="TORQUE VECTOR telemetry task implementations." alt="" coords="459,5,648,46"/>
+<area shape="rect" id="Node000002" href="$torque__vector_2telemetry_2telemetry_8h.html" title="TORQUE VECTOR telemetry task implementations." alt="" coords="225,190,309,216"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="523,49,301,184,298,179,520,44"/>
+<area shape="rect" id="Node000004" href="$faults__common_8h.html" title="Event&#45;based FIDR system." alt="" coords="127,94,246,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="470,49,262,98,261,93,469,44"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="616,94,766,135"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="586,44,648,83,646,88,583,49"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="791,94,935,135"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="625,44,779,87,777,92,623,49"/>
+<area shape="rect" id="Node000008" href="$bootloader__common_8h.html" title=" " alt="" coords="332,183,532,223"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="541,48,505,96,454,171,450,168,501,92,536,45"/>
+<area shape="rect" id="Node000009" href="$clamp_8h.html" title="Utility header to clamp a value to a bounded range." alt="" coords="959,102,1108,127"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="649,39,947,91,966,95,965,100,946,97,648,44"/>
+<area shape="rect" id="Node000010" href="$sensors_8h.html" title="TV Managed sensor header." alt="" coords="515,102,592,127"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="556,47,556,86,551,86,551,47"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="470,271,533,297"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="301,214,321,221,456,265,454,270,319,226,299,219"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="188,135,192,179,200,202,214,221,231,233,255,243,319,259,391,270,455,277,454,282,390,275,318,264,253,248,228,237,210,225,196,204,187,180,183,135"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,183,150,223"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="164,137,116,175,113,171,160,133"/>
+<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="451,222,483,258,479,261,447,226"/>
+<area shape="poly" id="edge12_Node000010_Node000003" title=" " alt="" coords="557,127,557,171,554,198,547,224,525,261,521,258,542,222,548,197,552,170,552,127"/>
+<area shape="rect" id="Node000011" href="$nav__pvt_8h.html" title="UBX NAV&#45;PVT message definition and decoder function." alt="" coords="834,190,999,216"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="584,125,605,132,843,184,842,189,603,137,582,130"/>
+<area shape="rect" id="Node000013" href="$nav__relposned_8h.html" title="UBX NAV&#45;RELPOSNED message definition and decoder function." alt="" coords="606,190,810,216"/>
+<area shape="poly" id="edge16_Node000010_Node000013" title=" " alt="" coords="576,125,674,180,672,184,574,130"/>
+<area shape="poly" id="edge14_Node000011_Node000003" title=" " alt="" coords="857,219,822,226,549,277,548,272,821,221,856,214"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="778,271,846,297"/>
+<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="902,218,841,264,838,260,899,214"/>
+<area shape="poly" id="edge17_Node000013_Node000003" title=" " alt="" coords="677,219,548,268,547,263,675,214"/>
+<area shape="poly" id="edge18_Node000013_Node000012" title=" " alt="" coords="726,214,786,260,783,264,722,218"/>
 </map>

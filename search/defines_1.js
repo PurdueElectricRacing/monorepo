@@ -40,5 +40,11 @@ var searchData=
   ['adc_5fref_5fmv_37',['ADC_REF_mV',['../pdu_2main_8h.html#a758bf2c56c1526e62cedfac01495abcc',1,'main.h']]],
   ['allocate_5fstrbuf_38',['ALLOCATE_STRBUF',['../strbuf_8h.html#a30f1008dff6e5e81b5cfd515db9f8d9a',1,'strbuf.h']]],
   ['amk_5fstring_39',['AMK_STRING',['../source_2dashboard_2driver__interface_2pages_2amk_8h.html#a52efb53c8ab613e21e6eed83c7f8e129',1,'amk.h']]],
-  ['ascii_5foffset_40',['ASCII_OFFSET',['../nextion_8h.html#ae3c47801ea3ac450ff9b877b1e008e1a',1,'nextion.h']]]
+  ['app_5fa_5fbox_40',['APP_A_BOX',['../node__defs_8h.html#a6de3814a4a35d15a68e16621ebbdb299',1,'node_defs.h']]],
+  ['app_5fdashboard_41',['APP_DASHBOARD',['../node__defs_8h.html#a2ecd7de289dedad8692ac7f95d6a47ef',1,'node_defs.h']]],
+  ['app_5ffront_5fdriveline_42',['APP_FRONT_DRIVELINE',['../node__defs_8h.html#a9c8349d671571ac9cef3ca346e8e8d87',1,'node_defs.h']]],
+  ['app_5fmain_5fmodule_43',['APP_MAIN_MODULE',['../node__defs_8h.html#a30ee170a717026c82d7ee0fc7d709ade',1,'node_defs.h']]],
+  ['app_5frear_5fdriveline_44',['APP_REAR_DRIVELINE',['../node__defs_8h.html#a511ef71fb9ea29948612b8831b6e4cd0',1,'node_defs.h']]],
+  ['app_5ftorque_5fvector_45',['APP_TORQUE_VECTOR',['../node__defs_8h.html#a04dddd0894273a3e9aeb6cf98052a68f',1,'node_defs.h']]],
+  ['ascii_5foffset_46',['ASCII_OFFSET',['../nextion_8h.html#ae3c47801ea3ac450ff9b877b1e008e1a',1,'nextion.h']]]
 ];

@@ -100,14 +100,14 @@ $(function(){initNavTree('md_firmware_2source_2main__module_2README.html',''); i
   <div class="headertitle"><div class="title">Main Module</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md36"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md43"></a></p>
 <p>Main module is the master control unit of the car. It manages the global state of the car, checks SDC status, interfaces with inverters, and manages the final torque request.</p>
 <p>The primary state machine is implemented in <code><a class="el" href="vehicle__fsm_8c.html" title="Master vehicle state machine implementation.">vehicle_fsm.c</a></code> and the state diagram is as follows:</p>
 <p><img src="vehicle_FSM.drawio.png" alt="" class="inline" title="main_FSM"/>    </p>
 <ul>
 <li>Note that the definition of the <code>car_state_t</code> enum itself is located in <code>generators/configs/system/common_types.json</code> and generated into shared header files by the CANpiler.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md37"></a>
+<h1><a class="anchor" id="autotoc_md44"></a>
 Hardware Block Diagram</h1>
 <p><img src="main_module.drawio.png" alt="" class="inline" title="main_module"/>     </p>
 </div></div><!-- contents -->

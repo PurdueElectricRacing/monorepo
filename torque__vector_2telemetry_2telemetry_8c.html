@@ -108,6 +108,8 @@ $(function(){initNavTree('torque__vector_2telemetry_2telemetry_8c.html',''); ini
 <div class="textblock"><code>#include &quot;<a class="el" href="torque__vector_2telemetry_2telemetry_8h_source.html">telemetry.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="faults__common_8h_source.html">can_library/faults_common.h</a>&quot;</code><br />
 <code>#include &quot;can_library/generated/TORQUE_VECTOR.h&quot;</code><br />
+<code>#include &quot;can_library/generated/can_version.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="bootloader__common_8h_source.html">common/bootloader/bootloader_common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="clamp_8h_source.html">common/utils/clamp.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="sensors_8h_source.html">sensors.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -121,6 +123,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a3a415946b37ab8a337c020a53dd8e7d1" id="r_a3a415946b37ab8a337c020a53dd8e7d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a415946b37ab8a337c020a53dd8e7d1">report_telemetry_25hz</a> (void)</td></tr>
 <tr class="memdesc:a3a415946b37ab8a337c020a53dd8e7d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports telemetry data at 25HZ rate Includes: GPS coordinates, velocity, speed, heading.  <br /></td></tr>
 <tr class="separator:a3a415946b37ab8a337c020a53dd8e7d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74034e258280659c81e74c002594b2e2" id="r_a74034e258280659c81e74c002594b2e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74034e258280659c81e74c002594b2e2">report_telemetry_02hz</a> (void)</td></tr>
+<tr class="memdesc:a74034e258280659c81e74c002594b2e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports the application hash and bootloader capability at 0.2 Hz.  <br /></td></tr>
+<tr class="separator:a74034e258280659c81e74c002594b2e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d0a75c0aee5808a962691e3973ee968" id="r_a6d0a75c0aee5808a962691e3973ee968"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d0a75c0aee5808a962691e3973ee968">report_telemetry_1hz</a> (void)</td></tr>
 <tr class="memdesc:a6d0a75c0aee5808a962691e3973ee968"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports telemetry data at 1HZ rate Includes: GPS time (UTC)  <br /></td></tr>
 <tr class="separator:a6d0a75c0aee5808a962691e3973ee968"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,6 +134,31 @@ Functions</h2></td></tr>
 <div class="textblock"><p>TORQUE VECTOR telemetry task implementations. </p>
 <dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a74034e258280659c81e74c002594b2e2" name="a74034e258280659c81e74c002594b2e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74034e258280659c81e74c002594b2e2">&#9670;&#160;</a></span>report_telemetry_02hz()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void report_telemetry_02hz </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reports the application hash and bootloader capability at 0.2 Hz. </p>
+<p>Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="torque__vector_2telemetry_2telemetry_8c_a74034e258280659c81e74c002594b2e2_cgraph.svg" width="319" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a6d0a75c0aee5808a962691e3973ee968" name="a6d0a75c0aee5808a962691e3973ee968"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6d0a75c0aee5808a962691e3973ee968">&#9670;&#160;</a></span>report_telemetry_1hz()</h2>
 

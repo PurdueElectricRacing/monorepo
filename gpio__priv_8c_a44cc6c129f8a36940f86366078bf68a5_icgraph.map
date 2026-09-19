@@ -1,11 +1,15 @@
 <map id="gpio_speed_bits" name="gpio_speed_bits">
-<area shape="rect" id="Node000001" title="Get the bit pattern for a pin&#39;s OSPEEDR field from its speed." alt="" coords="509,31,625,56"/>
-<area shape="rect" id="Node000002" href="$gpio__priv_8c.html#aaeae1cf9d29181e47f0fca4dcbaf4d98" title="Set OSPEEDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="272,23,461,64"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="494,46,462,46,462,41,494,41"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="103,31,224,56"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="256,46,224,46,224,41,256,41"/>
-<area shape="rect" id="Node000004" href="$blinky_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,5,55,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="87,32,55,25,56,20,88,26"/>
-<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,55,55,80"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="88,60,56,66,55,61,87,55"/>
+<area shape="rect" id="Node000001" title="Get the bit pattern for a pin&#39;s OSPEEDR field from its speed." alt="" coords="620,55,735,80"/>
+<area shape="rect" id="Node000002" href="$gpio__priv_8c.html#aaeae1cf9d29181e47f0fca4dcbaf4d98" title="Set OSPEEDR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="382,47,572,88"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="604,70,572,70,572,65,604,65"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="213,55,334,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="367,70,334,70,334,65,367,65"/>
+<area shape="rect" id="Node000004" href="$bootloader_8c.html#a0e6fcac4f931dc8811b83333d9eaa780" title="Configure the node&#45;specific transport and announce readiness." alt="" coords="103,5,165,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="220,52,164,31,166,26,222,47"/>
+<area shape="rect" id="Node000006" href="$blinky_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="109,55,158,80"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="197,70,159,70,159,65,197,65"/>
+<area shape="rect" id="Node000007" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="109,104,158,130"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="222,89,160,111,158,106,220,84"/>
+<area shape="rect" id="Node000005" href="$bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
 </map>

@@ -1,5 +1,14 @@
 <map id="CRC_PRIV_setConfig" name="CRC_PRIV_setConfig">
-<area shape="rect" id="Node000001" title="Configure the polynomial, size, and initial value for CRC&#45;32/MPEG&#45;2." alt="" coords="169,5,316,31"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2crc_2crc_8c.html#a3a4837055c8d841aaf92d3b129d6ac92" title="Initialize and configure the hardware CRC peripheral." alt="" coords="5,5,121,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,21,121,21,121,16,153,16"/>
+<area shape="rect" id="Node000001" title="Configure the polynomial, size, and initial value for CRC&#45;32/MPEG&#45;2." alt="" coords="558,31,705,56"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2crc_2crc_8c.html#a3a4837055c8d841aaf92d3b129d6ac92" title="Initialize and configure the hardware CRC peripheral." alt="" coords="394,31,510,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="542,46,510,46,510,41,542,41"/>
+<area shape="rect" id="Node000003" href="$bootloader_8c.html#a29a8510cf432cd0aff5dd15073f561bb" title="Validate the committed image and transfer control to it." alt="" coords="216,5,346,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="378,35,347,31,347,25,379,30"/>
+<area shape="rect" id="Node000006" href="$bootloader_8c.html#a0e6fcac4f931dc8811b83333d9eaa780" title="Configure the node&#45;specific transport and announce readiness." alt="" coords="104,56,166,82"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="379,52,167,69,167,64,379,47"/>
+<area shape="rect" id="Node000004" href="$bootloader_8c.html#afbd1b6f14da46bdc0a6e199e0a84aeb2" title="Process every frame currently queued by the FDCAN receive interrupt." alt="" coords="103,7,168,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="200,22,168,22,168,17,200,16"/>
+<area shape="rect" id="Node000005" href="$bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,32,55,58"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="88,34,55,42,54,36,87,28"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="88,61,54,53,55,48,89,56"/>
 </map>

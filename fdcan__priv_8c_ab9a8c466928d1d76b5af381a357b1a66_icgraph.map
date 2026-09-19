@@ -1,5 +1,9 @@
 <map id="PHAL_FDCAN_priv_writeExtendedFilters" name="PHAL_FDCAN_priv_writeExtendedFilters">
-<area shape="rect" id="Node000001" title="Set num_xid exact&#45;match extended filters and forward to RX FIFO0." alt="" coords="224,5,449,46"/>
-<area shape="rect" id="Node000002" href="$fdcan_8c.html#ac89d6a90c4f53644b4189ddb0e1fea18" title="Configure exact&#45;match acceptance filters for RX FIFO0." alt="" coords="5,13,176,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,28,176,28,176,23,208,23"/>
+<area shape="rect" id="Node000001" title="Set num_xid exact&#45;match extended filters and forward to RX FIFO0." alt="" coords="431,5,657,46"/>
+<area shape="rect" id="Node000002" href="$fdcan_8c.html#ac89d6a90c4f53644b4189ddb0e1fea18" title="Configure exact&#45;match acceptance filters for RX FIFO0." alt="" coords="213,13,383,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="416,28,384,28,384,23,416,23"/>
+<area shape="rect" id="Node000003" href="$bootloader_8c.html#a0e6fcac4f931dc8811b83333d9eaa780" title="Configure the node&#45;specific transport and announce readiness." alt="" coords="103,13,165,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="197,28,166,28,166,23,197,23"/>
+<area shape="rect" id="Node000004" href="$bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,13,55,38"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="87,28,55,28,55,23,87,23"/>
 </map>

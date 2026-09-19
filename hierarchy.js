@@ -11,6 +11,7 @@ var hierarchy =
     [ "AMK_t", "structAMK__t.html", null ],
     [ "bangbang_t", "structbangbang__t.html", null ],
     [ "bar_t", "structbar__t.html", null ],
+    [ "BLTransportConfig_t", "structBLTransportConfig__t.html", null ],
     [ "can_stats_t", "structcan__stats__t.html", null ],
     [ "CanMsgTypeDef_t", "structCanMsgTypeDef__t.html", null ],
     [ "car_t", "structcar__t.html", null ],
