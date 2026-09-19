@@ -49,7 +49,6 @@ static bool lap_timer_l2_crossed(const vector2_t previous_point, const vector2_t
 }
 
 void lap_timer_onpress(void) {
-    // one locked copy so latitude and longitude come from the same frame
     const gps_coordinates_data_t gps = CAN_DATA_GET(gps_coordinates);
 
     if (gps.is_stale() ||
