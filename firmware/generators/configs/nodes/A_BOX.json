@@ -91,7 +91,9 @@
                             "data_type": "imd_state_t",
                             "description": "current state of the IMD"
                         }
-                    ]
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
                 }
             ],
             "rx": [],
