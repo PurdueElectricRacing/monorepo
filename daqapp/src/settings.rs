@@ -1,4 +1,4 @@
-use crate::{connection, theme};
+use crate::{connection, ui::theme};
 
 pub const SETTINGS_PATH: &str = "settings.json";
 pub const DEFAULT_LOG_FOLDER: &str = "logs";
@@ -35,8 +35,25 @@ impl Default for Settings {
 }
 
 impl Settings {
+    fn path() -> std::path::PathBuf {
+        let working_directory_path = std::path::PathBuf::from(SETTINGS_PATH);
+        if working_directory_path.exists() {
+            return working_directory_path;
+        }
+
+        let repository_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("..")
+            .join(SETTINGS_PATH);
+        if repository_path.exists() {
+            repository_path
+        } else {
+            working_directory_path
+        }
+    }
+
     pub fn load() -> Self {
-        if let Ok(json) = std::fs::read_to_string(SETTINGS_PATH) {
+        let path = Self::path();
+        if let Ok(json) = std::fs::read_to_string(&path) {
             serde_json::from_str(&json).unwrap_or_default()
         } else {
             let default = Settings::default();
@@ -48,7 +65,8 @@ impl Settings {
     pub fn save(&self) {
         // Expect okay. If it doesn't fail in testing, it shouldn't fail later.
         let json = serde_json::to_string_pretty(self).expect("Failed to serialize settings");
-        std::fs::write(SETTINGS_PATH, json)
-            .unwrap_or_else(|e| log::error!("Failed to write {}: {}", SETTINGS_PATH, e));
+        let path = Self::path();
+        std::fs::write(&path, json)
+            .unwrap_or_else(|e| log::error!("Failed to write {}: {}", path.display(), e));
     }
 }
