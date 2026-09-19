@@ -24,9 +24,9 @@ def build() -> None:
         ROOT / "firmware",
     )
     build_project(
-        "daqapp",
-        ["cargo", "build"],
-        ROOT / "daqapp",
+        "DAQ workspace",
+        ["cargo", "build", "--workspace", "--all-targets", "--locked"],
+        ROOT / "daq",
     )
     build_project(
         "tests",
