@@ -1,6 +1,6 @@
 use crate::{
-    action, connection, formatter, messages, settings, shortcuts, theme, ui, util, widget_ids,
-    widgets, workspace,
+    action, connection, formatter, messages, settings, shortcuts, ui, util, widget_ids, widgets,
+    workspace,
 };
 use eframe::egui;
 
@@ -45,7 +45,7 @@ pub struct DAQApp {
     pub action_queue: Vec<action::AppAction>,
     pub selected_source: Option<connection::ConnectionSource>,
     pub theme: egui::Style,
-    pub theme_selection: theme::ThemeSelection,
+    pub theme_selection: ui::theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
     pub serial_ports: Vec<serialport::SerialPortInfo>,
     pub parser: Option<ParserInfo>,
@@ -79,7 +79,7 @@ impl DAQApp {
     ) -> Self {
         let theme_selection = settings.theme;
         let theme_style = theme_selection.get_style();
-        theme::store_theme(&cc.egui_ctx, theme_selection.get_colors());
+        ui::theme::store_theme(&cc.egui_ctx, theme_selection.get_colors());
 
         egui_extras::install_image_loaders(&cc.egui_ctx);
 
@@ -196,7 +196,7 @@ impl DAQApp {
     pub fn toggle_theme(&mut self, ctx: &egui::Context) {
         self.theme_selection = self.theme_selection.next();
         self.theme = self.theme_selection.get_style();
-        theme::store_theme(ctx, self.theme_selection.get_colors());
+        ui::theme::store_theme(ctx, self.theme_selection.get_colors());
     }
 
     // Close the currently active widget in the tile tree

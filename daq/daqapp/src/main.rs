@@ -10,7 +10,6 @@ mod hil;
 mod messages;
 mod settings;
 mod shortcuts;
-mod theme;
 mod ui;
 mod util;
 mod widget_constructor;

@@ -1,4 +1,4 @@
-use crate::{connection, theme};
+use crate::{connection, ui::theme};
 
 pub const SETTINGS_PATH: &str = "settings.json";
 pub const DEFAULT_LOG_FOLDER: &str = "logs";
