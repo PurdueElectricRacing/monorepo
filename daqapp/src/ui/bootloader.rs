@@ -50,6 +50,7 @@ pub struct Bootloader {
     selected_targets: HashSet<String>,
     board_statuses: HashMap<String, BoardUpdateStatus>,
     run_board_names: Vec<String>,
+    confirming_update: bool,
     package_error: Option<String>,
 }
 
@@ -65,6 +66,7 @@ impl Bootloader {
             selected_targets: HashSet::new(),
             board_statuses: HashMap::new(),
             run_board_names: Vec::new(),
+            confirming_update: false,
             package_error: None,
         }
     }
@@ -161,32 +163,20 @@ impl Bootloader {
                             .weak(),
                         );
                     });
+                } else if self.confirming_update {
+                    self.show_update_confirmation(ui, ui_to_can_tx, &images, &selected_images);
                 } else {
                     ui.horizontal(|ui| {
                         let upload = ui.add_enabled(
                             !selected_images.is_empty(),
                             egui::Button::new(format!(
-                                "Upload selected ({})",
+                                "Review update ({})",
                                 selected_images.len()
                             )),
                         );
                         if upload.clicked() {
-                            let message = messages::MsgFromUi::StartFirmwareUpdate(
-                                FirmwarePackage {
-                                    images: selected_images.clone(),
-                                },
-                            );
-                            if ui_to_can_tx.send(message).is_ok() {
-                                self.begin_run(&images, &selected_images);
-                                self.running = true;
-                                self.status = "Starting update…".to_string();
-                                self.package_error = None;
-                            } else {
-                                self.package_error = Some(
-                                    "Could not start the update because the CAN worker is unavailable."
-                                        .to_string(),
-                                );
-                            }
+                            self.confirming_update = true;
+                            self.package_error = None;
                         }
                         if selected_images.is_empty() {
                             ui.label(
@@ -267,6 +257,7 @@ impl Bootloader {
                 self.selected_targets.clear();
                 self.board_statuses.clear();
                 self.run_board_names.clear();
+                self.confirming_update = false;
             }
             Err(error) => {
                 self.manifest_path = None;
@@ -274,6 +265,7 @@ impl Bootloader {
                 self.selected_targets.clear();
                 self.board_statuses.clear();
                 self.run_board_names.clear();
+                self.confirming_update = false;
                 self.package_error = Some(format!("Package could not be verified: {error}"));
             }
         }
@@ -306,6 +298,7 @@ impl Bootloader {
                     .clicked()
                 {
                     self.selected_targets.clear();
+                    self.confirming_update = false;
                 }
                 if ui
                     .add_enabled(
@@ -321,6 +314,7 @@ impl Bootloader {
                         })
                         .map(|image| image.name.clone())
                         .collect();
+                    self.confirming_update = false;
                 }
             });
         });
@@ -368,6 +362,7 @@ impl Bootloader {
                                 } else {
                                     self.selected_targets.remove(&image.name);
                                 }
+                                self.confirming_update = false;
                             }
 
                             ui.strong(display_target_name(&image.name));
@@ -418,6 +413,64 @@ impl Bootloader {
                 .text(format!("{completed:.1} of {total} targets"))
                 .animate(true),
         );
+    }
+
+    fn show_update_confirmation(
+        &mut self,
+        ui: &mut egui::Ui,
+        ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
+        package_images: &[crate::bootloader_protocol::FirmwareImage],
+        selected_images: &[crate::bootloader_protocol::FirmwareImage],
+    ) {
+        egui::Frame::group(ui.style()).show(ui, |ui| {
+            ui.set_min_width(ui.available_width());
+            ui.strong(format!(
+                "Ready to update {} target{}",
+                selected_images.len(),
+                if selected_images.len() == 1 { "" } else { "s" }
+            ));
+            ui.label(
+                selected_images
+                    .iter()
+                    .map(|image| display_target_name(&image.name))
+                    .collect::<Vec<_>>()
+                    .join(", "),
+            );
+            ui.label(
+                egui::RichText::new(
+                    "Keep vehicle power and CAN connected until every target completes. An interrupted update must be retried.",
+                )
+                .small()
+                .color(ui.visuals().warn_fg_color),
+            );
+            ui.add_space(6.0);
+            ui.horizontal(|ui| {
+                if ui
+                    .add_enabled(!selected_images.is_empty(), egui::Button::new("Start update"))
+                    .clicked()
+                {
+                    let message = messages::MsgFromUi::StartFirmwareUpdate(FirmwarePackage {
+                        images: selected_images.to_vec(),
+                    });
+                    if ui_to_can_tx.send(message).is_ok() {
+                        self.begin_run(package_images, selected_images);
+                        self.running = true;
+                        self.confirming_update = false;
+                        self.status = "Starting update…".to_string();
+                        self.package_error = None;
+                    } else {
+                        self.package_error = Some(
+                            "Could not start the update because the CAN worker is unavailable."
+                                .to_string(),
+                        );
+                        self.confirming_update = false;
+                    }
+                }
+                if ui.button("Back").clicked() {
+                    self.confirming_update = false;
+                }
+            });
+        });
     }
 
     fn begin_run(
@@ -545,6 +598,7 @@ impl Bootloader {
         };
         apply_progress(&mut self.board_statuses, &self.run_board_names, progress);
         self.running = progress.error.is_none() && progress.phase != "complete";
+        self.confirming_update = false;
         self.status = if let Some(error) = &progress.error {
             if error.contains("cancelled") {
                 "Update cancelled".to_string()
