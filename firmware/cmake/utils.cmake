@@ -1,13 +1,12 @@
 # Helper for generating common CMake targets in the components directroy
 
+# Archive one linked target and derive address-aware HEX plus contiguous BIN.
+# objcopy's binary output starts at the lowest load address, fills internal
+# gaps with erased-flash bytes, and therefore avoids an absolute-address prefix.
 function(postbuild_target TARGET_NAME COMPONENT_NAME OUTPUT_DIR_OVERRIDE MAP_FILE)
-    if(BOOTLOADER_BUILD)
-      set(OUTPUT_FILE_NAME BL_${COMPONENT_NAME})
-    else()
-      set(OUTPUT_FILE_NAME ${COMPONENT_NAME})
-    endif()
+    set(OUTPUT_FILE_NAME ${COMPONENT_NAME})
 
-    # Archive generated image and perform post-processing output
+    # Archive address-aware HEX and contiguous BIN artifacts.
     if(OUTPUT_DIR_OVERRIDE)
         set(COMPONENT_OUTPUT_DIR ${OUTPUT_DIR_OVERRIDE})
     else()
@@ -24,6 +23,12 @@ function(postbuild_target TARGET_NAME COMPONENT_NAME OUTPUT_DIR_OVERRIDE MAP_FIL
     add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -S -O ihex ${TARGET_NAME} ${COMPONENT_OUTPUT_DIR}/${OUTPUT_FILE_NAME}.hex
         COMMENT "Generating HEX file"
+    )
+
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -S -O binary --gap-fill 0xFF
+                ${TARGET_NAME} ${COMPONENT_OUTPUT_DIR}/${OUTPUT_FILE_NAME}.bin
+        COMMENT "Generating contiguous binary image"
     )
 
     add_custom_command(TARGET ${TARGET_NAME} POST_BUILD

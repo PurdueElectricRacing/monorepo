@@ -5,6 +5,28 @@ const READ_RETRY_SLEEP_MS: u64 = 2;
 const BUS_LOAD_UPDATE_MS: u128 = 200;
 const HIL_UPDATE_MS: u128 = 50;
 
+// Keep each burst below the target's 15-frame software queue capacity.
+const FIRMWARE_FRAMES_PER_TICK: usize = 8;
+// The target performs flash writes in its main loop and does not acknowledge
+// individual words, so pace serial bursts to avoid overflowing its RX queue.
+const FIRMWARE_FRAME_DELAY_MS: u64 = 4;
+
+// Driver acceptance is not target acknowledgement; synchronization comes from
+// START and CRC responses rather than replies to individual data words.
+fn send_firmware_frame(
+    driver: &mut dyn can::driver::Driver,
+    outbound: can::bootloader::OutboundFrame,
+) -> can::driver::DriverResult<()> {
+    let id = slcan::StandardId::new(outbound.id as u16).ok_or_else(|| {
+        can::driver::DriverError::WriteError(format!("invalid bootloader ID 0x{:X}", outbound.id))
+    })?;
+    let frame =
+        slcan::Can2Frame::new_data(slcan::Id::Standard(id), &outbound.data).ok_or_else(|| {
+            can::driver::DriverError::WriteError("invalid bootloader payload".to_string())
+        })?;
+    driver.write_frame(slcan::CanFrame::Can2(frame))
+}
+
 // Returns the number of payload data bytes in the CAN frame if it was a Can2 frame
 fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> usize {
     match frame {
@@ -103,6 +125,8 @@ pub fn start_can_thread(
                         }
                     }
                     messages::MsgFromUi::Connect(source) => {
+                        // Never resume an update on a different physical bus.
+                        state.cancel_firmware_update();
                         // Close existing connection if any
                         if let Some(mut old_driver) = state.driver.take() {
                             let _ = old_driver.close();
@@ -132,6 +156,12 @@ pub fn start_can_thread(
                             .expect("Failed to send HIL snapshot");
                         state.last_hil_update = std::time::Instant::now();
                     }
+                    messages::MsgFromUi::StartFirmwareUpdate(package) => {
+                        state.start_firmware_update(package);
+                    }
+                    messages::MsgFromUi::CancelFirmwareUpdate => {
+                        state.cancel_firmware_update();
+                    }
                 }
             }
 
@@ -148,72 +178,77 @@ pub fn start_can_thread(
                 state.hil_finished_sent = state.hil_engine.all_finished();
             }
 
-            let msgs_to_send = state.send_this_tick();
-            for msg in msgs_to_send {
-                if let Some(ref mut active_driver) = state.driver {
-                    let id = if msg.is_msg_id_extended {
-                        slcan::ExtendedId::new(msg.msg_id & util::can::EXTENDED_ID_MASK)
-                            .map(slcan::Id::Extended)
-                    } else if msg.msg_id <= util::can::STANDARD_ID_MASK {
-                        slcan::StandardId::new(msg.msg_id as u16).map(slcan::Id::Standard)
-                    } else {
-                        log::warn!(
-                            "Invalid message ID {} for sending CAN frame (exceeds 11 bits for standard)",
-                            msg.msg_id
-                        );
-                        None
-                    };
-                    if let Some(id) = id {
-                        if let Some(can2_frame) = slcan::Can2Frame::new_data(id, &msg.msg_bytes) {
-                            let frame = slcan::CanFrame::Can2(can2_frame);
-                            match active_driver.write_frame(frame) {
-                                Ok(_) => {
-                                    log::info!(
-                                        "Sent CAN frame with ID 0x{:X} ({}), data: {:02X?}",
-                                        msg.msg_id,
-                                        msg.msg_id,
-                                        msg.msg_bytes
-                                    );
-                                    state
-                                        .can_to_ui_tx
-                                        .send(messages::MsgFromCan::MessageSent {
-                                            msg_id: msg.msg_id,
-                                            timestamp: chrono::Local::now(),
-                                            amount_left: state
-                                                .send_msgs
-                                                .get(&msg.msg_id)
-                                                .map(|info| info.amount),
-                                            // If the message is removed after the send, this
-                                            // will return None, which is what we want to indicate
-                                            // no more sends left
-                                        })
-                                        .expect("Failed to send message sent confirmation");
-                                }
-                                Err(e) => {
-                                    log::error!("Failed to send CAN frame: {:?}", e);
-                                    state.is_connected = false;
-                                    if let Some(ref source) = state.current_source {
-                                        let error_msg = source.display_name();
+            if !state.firmware_update_active() {
+                let msgs_to_send = state.send_this_tick();
+                for msg in msgs_to_send {
+                    if let Some(ref mut active_driver) = state.driver {
+                        let id = if msg.is_msg_id_extended {
+                            slcan::ExtendedId::new(msg.msg_id & util::can::EXTENDED_ID_MASK)
+                                .map(slcan::Id::Extended)
+                        } else if msg.msg_id <= util::can::STANDARD_ID_MASK {
+                            slcan::StandardId::new(msg.msg_id as u16).map(slcan::Id::Standard)
+                        } else {
+                            log::warn!(
+                                "Invalid message ID {} for sending CAN frame (exceeds 11 bits for standard)",
+                                msg.msg_id
+                            );
+                            None
+                        };
+                        if let Some(id) = id {
+                            if let Some(can2_frame) = slcan::Can2Frame::new_data(id, &msg.msg_bytes)
+                            {
+                                let frame = slcan::CanFrame::Can2(can2_frame);
+                                match active_driver.write_frame(frame) {
+                                    Ok(_) => {
+                                        log::info!(
+                                            "Sent CAN frame with ID 0x{:X} ({}), data: {:02X?}",
+                                            msg.msg_id,
+                                            msg.msg_id,
+                                            msg.msg_bytes
+                                        );
                                         state
                                             .can_to_ui_tx
-                                            .send(messages::MsgFromCan::ConnectionFailed(error_msg))
-                                            .expect("Failed to send connection failed message");
+                                            .send(messages::MsgFromCan::MessageSent {
+                                                msg_id: msg.msg_id,
+                                                timestamp: chrono::Local::now(),
+                                                amount_left: state
+                                                    .send_msgs
+                                                    .get(&msg.msg_id)
+                                                    .map(|info| info.amount),
+                                                // If the message is removed after the send, this
+                                                // will return None, which is what we want to indicate
+                                                // no more sends left
+                                            })
+                                            .expect("Failed to send message sent confirmation");
                                     }
-                                    state.driver = None;
+                                    Err(e) => {
+                                        log::error!("Failed to send CAN frame: {:?}", e);
+                                        state.is_connected = false;
+                                        if let Some(ref source) = state.current_source {
+                                            let error_msg = source.display_name();
+                                            state
+                                                .can_to_ui_tx
+                                                .send(messages::MsgFromCan::ConnectionFailed(
+                                                    error_msg,
+                                                ))
+                                                .expect("Failed to send connection failed message");
+                                        }
+                                        state.driver = None;
+                                    }
                                 }
+                            } else {
+                                log::error!(
+                                    "Cannot send CAN frame: data length {} exceeds 8 bytes",
+                                    msg.msg_bytes.len()
+                                );
+                                continue;
                             }
                         } else {
-                            log::error!(
-                                "Cannot send CAN frame: data length {} exceeds 8 bytes",
-                                msg.msg_bytes.len()
-                            );
-                            continue;
+                            log::warn!("Invalid message ID {} for sending CAN frame", msg.msg_id);
                         }
                     } else {
-                        log::warn!("Invalid message ID {} for sending CAN frame", msg.msg_id);
+                        log::warn!("Cannot send CAN frame, no active connection");
                     }
-                } else {
-                    log::warn!("Cannot send CAN frame, no active connection");
                 }
             }
 
@@ -251,16 +286,55 @@ pub fn start_can_thread(
                 }
             }
 
+            if state.firmware_update_active() {
+                // Batching avoids one adapter read timeout per firmware word.
+                for _ in 0..FIRMWARE_FRAMES_PER_TICK {
+                    let Some(outbound) = state.firmware_tick() else {
+                        break;
+                    };
+                    if let Some(active_driver) = state.driver.as_mut() {
+                        if let Err(error) = send_firmware_frame(active_driver.as_mut(), outbound) {
+                            log::error!("Firmware update write failed: {:?}", error);
+                            // A write failure means the updater cannot know
+                            // which boundary the node observed. Stop rather
+                            // than continuing with a possibly shifted index.
+                            state.cancel_firmware_update();
+                            break;
+                        }
+                        std::thread::sleep(std::time::Duration::from_millis(
+                            FIRMWARE_FRAME_DELAY_MS,
+                        ));
+                    } else {
+                        break;
+                    }
+                }
+            }
+
             // Try to read a frame from the driver
-            let Some(ref mut active_driver) = state.driver else {
+            let read_result = if let Some(active_driver) = state.driver.as_mut() {
+                active_driver.read_frames()
+            } else {
                 std::thread::sleep(std::time::Duration::from_millis(NO_CONNECTION_SLEEP_MS));
                 continue;
             };
 
-            match active_driver.read_frames() {
+            match read_result {
                 Ok(frames) => {
                     for frame in frames {
-                        let data_bytes = process_can_frame(&frame, &mut state);
+                        // The updater filters for the active board's response ID.
+                        let data_bytes = if state.firmware_update_active() {
+                            match &frame {
+                                slcan::CanFrame::Can2(frame2) => {
+                                    let id =
+                                        util::can::slcan_to_u32_without_extid_flag(&frame2.id());
+                                    state.firmware_frame_received(id, frame2.data().unwrap_or(&[]));
+                                    frame2.data().map_or(0, |data| data.len())
+                                }
+                                slcan::CanFrame::CanFd(frame_fd) => frame_fd.data().len(),
+                            }
+                        } else {
+                            process_can_frame(&frame, &mut state)
+                        };
                         state.bus_load_tracker.record_frame(data_bytes);
 
                         // Log each frame (buffered, not flushed yet)
@@ -306,7 +380,7 @@ pub fn start_can_thread(
                             ));
                         }
                         other => {
-                            // Actual error, disconnect
+                            // Preserve updater state while reconnecting to the same source.
                             log::error!("Driver read error: {:?}", other);
                             state.is_connected = false;
                             if let Some(ref source) = state.current_source {

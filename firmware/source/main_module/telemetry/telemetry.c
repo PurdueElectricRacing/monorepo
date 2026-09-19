@@ -8,6 +8,8 @@
 #include "telemetry.h"
 
 #include "can_library/generated/MAIN_MODULE.h"
+#include "can_library/generated/can_version.h"
+#include "common/bootloader/bootloader_common.h"
 #include "powertrain.h"
 
 /**
@@ -104,5 +106,5 @@ void report_telemetry_02hz(void) {
         g_powertrain.rear_right.temps->AMK_IGBTTemp
     );
 
-    CAN_SEND_main_version(GIT_HASH);
+    CAN_SEND_main_version(FIRMWARE_GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
 }

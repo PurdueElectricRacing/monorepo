@@ -76,21 +76,28 @@ def assemble_source(
                 is_external=True,
             )
         )
-        bus_attachments.append(
-            SourceBusAttachment(
-                node_name=node.node_name,
-                bus_name=node.bus_name,
-                peripheral="UNKNOWN",
+        if node.busses is not None:
+            bus_data_by_name = node.busses
+        else:
+            assert node.bus_name is not None
+            bus_data_by_name = {node.bus_name: node}
+
+        for bus_name, bus_data in bus_data_by_name.items():
+            bus_attachments.append(
+                SourceBusAttachment(
+                    node_name=node.node_name,
+                    bus_name=bus_name,
+                    peripheral="UNKNOWN",
+                )
             )
-        )
-        tx_messages.extend(
-            TxDeclaration(node.node_name, node.bus_name, message)
-            for message in node.tx
-        )
-        rx_subscriptions.extend(
-            RxDeclaration(node.node_name, node.bus_name, subscription)
-            for subscription in node.rx
-        )
+            tx_messages.extend(
+                TxDeclaration(node.node_name, bus_name, message)
+                for message in bus_data.tx
+            )
+            rx_subscriptions.extend(
+                RxDeclaration(node.node_name, bus_name, subscription)
+                for subscription in bus_data.rx
+            )
 
     attachment_keys = {
         (attachment.node_name, attachment.bus_name)

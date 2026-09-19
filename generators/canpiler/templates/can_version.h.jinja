@@ -1,0 +1,12 @@
+#ifndef CAN_LIBRARY_VERSION_H
+#define CAN_LIBRARY_VERSION_H
+
+#define FIRMWARE_GIT_HASH 0x{{ version }}U
+
+#if defined(BOOTLOADER_ENABLED)
+#define APPLICATION_BOOTLOADABLE true
+#else
+#define APPLICATION_BOOTLOADABLE false
+#endif
+
+#endif

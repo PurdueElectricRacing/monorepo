@@ -109,10 +109,13 @@ def _validate_references(
         else:
             node_names[node.node_name] = path
 
-        if node.bus_name not in known_buses:
-            issues.append(DeclarationIssue(
-                path, "bus_name", f"unknown bus '{node.bus_name}'"
-            ))
+        bus_names = node.busses if node.busses is not None else [node.bus_name]
+        for bus_name in bus_names:
+            if bus_name not in known_buses:
+                field = f"busses.{bus_name}" if node.busses is not None else "bus_name"
+                issues.append(DeclarationIssue(
+                    path, field, f"unknown bus '{bus_name}'"
+                ))
 
 
 def load_declarations(config_dir: Path = CONFIG_DIR) -> CanDeclarations:

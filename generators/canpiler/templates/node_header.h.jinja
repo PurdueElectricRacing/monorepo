@@ -14,12 +14,10 @@
 #include "can_library/can_codec.h"
 #include "can_library/can_common.h"
 #include "can_library/generated/can_types.h"
+#include "can_library/generated/can_version.h"
 {% for bus_name in ctx.node_busses %}
 #include "can_library/generated/{{ bus_name }}.h"
 {% endfor %}
-
-// System Version: {{ ctx.version }}
-static constexpr uint32_t GIT_HASH = 0x{{ ctx.version }};
 
 // Node CAN configuration
 #if !defined({{ ctx.peripheral_entries[0].arch_define }})

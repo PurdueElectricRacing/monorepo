@@ -8,6 +8,8 @@
 #include "telemetry.h"
 
 #include "can_library/generated/A_BOX.h"
+#include "can_library/generated/can_version.h"
+#include "common/bootloader/bootloader_common.h"
 #include "main.h"
 
 static inline float vbatt_to_voltage(uint16_t vbatt_raw) {
@@ -117,5 +119,5 @@ void report_telemetry_8hz(void) {
  */
 static_assert(ABOX_VERSION_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
 void report_telemetry_02hz(void) {
-    CAN_SEND_abox_version(GIT_HASH);
+    CAN_SEND_abox_version(FIRMWARE_GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
 }

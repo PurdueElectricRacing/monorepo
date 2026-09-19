@@ -1,9 +1,70 @@
-#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq)]
+#[derive(serde::Serialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
     Udp(u16),
     Simulated(bool, Option<std::path::PathBuf>), // true for connected, false for disconnected, path to dbc file for sim
     Loopback,
+}
+
+impl<'de> serde::Deserialize<'de> for ConnectionSource {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = serde_json::Value::deserialize(deserializer)?;
+        let object = value
+            .as_object()
+            .ok_or_else(|| serde::de::Error::custom("connection source must be an object"))?;
+        if let Some(serial) = object.get("Serial") {
+            let values = serial.as_array().ok_or_else(|| {
+                serde::de::Error::custom("Serial connection source must contain an array")
+            })?;
+            return match values.as_slice() {
+                [path, speed] | [path, speed, _] => Ok(Self::Serial(
+                    serde_json::from_value(path.clone()).map_err(serde::de::Error::custom)?,
+                    serde_json::from_value(speed.clone()).map_err(serde::de::Error::custom)?,
+                )),
+                _ => Err(serde::de::Error::custom(
+                    "Serial connection source must contain path and speed",
+                )),
+            };
+        }
+        if let Some(port) = object.get("Udp") {
+            return Ok(Self::Udp(
+                serde_json::from_value(port.clone()).map_err(serde::de::Error::custom)?,
+            ));
+        }
+        if let Some(simulated) = object.get("Simulated") {
+            let values: (bool, Option<std::path::PathBuf>) =
+                serde_json::from_value(simulated.clone()).map_err(serde::de::Error::custom)?;
+            return Ok(Self::Simulated(values.0, values.1));
+        }
+        if object.get("Loopback").is_some() {
+            return Ok(Self::Loopback);
+        }
+        Err(serde::de::Error::custom("unknown connection source"))
+    }
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug, Default)]
+#[serde(rename_all = "UPPERCASE")]
+pub enum CanBus {
+    #[default]
+    Vcan,
+    Scan,
+}
+
+impl CanBus {
+    pub fn display_name(self) -> &'static str {
+        match self {
+            Self::Vcan => "VCAN",
+            Self::Scan => "SCAN",
+        }
+    }
+
+    pub fn options() -> [Self; 2] {
+        [Self::Vcan, Self::Scan]
+    }
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug)]

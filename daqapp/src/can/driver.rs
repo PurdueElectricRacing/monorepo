@@ -3,7 +3,7 @@ use crate::util;
 use rand::prelude::*;
 use serialport::{ClearBuffer, SerialPort};
 use slcan::sync::CanSocket;
-use slcan::{CanFrame, NominalBitRate, OperatingMode};
+use slcan::{CanFrame, OperatingMode};
 use std::collections::VecDeque;
 use std::net::UdpSocket;
 use std::time::Duration;

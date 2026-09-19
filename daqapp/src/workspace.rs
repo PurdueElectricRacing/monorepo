@@ -39,11 +39,13 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
     ) -> egui_tiles::UiResponse {
         widget.show(
             ui,
-            self.can_messages,
-            self.action_queue,
-            self.parser,
-            self.ui_to_can_tx.clone(),
-            self.formatter,
+            widgets::WidgetContext {
+                can_messages: self.can_messages,
+                action_queue: self.action_queue,
+                parser: self.parser,
+                ui_to_can_tx: self.ui_to_can_tx.clone(),
+                formatter: self.formatter,
+            },
         )
     }
 

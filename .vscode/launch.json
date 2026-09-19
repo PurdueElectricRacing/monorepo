@@ -237,6 +237,150 @@
                 "enabled": true,
                 "samplesPerSecond": 5
             }
+        },
+        {
+            "name": "Bootloader - Main Module",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/bootloader_MAIN_MODULE/bootloader_MAIN_MODULE.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "debuggerArgs": [
+                "-d",
+                "${workspaceRoot}/firmware/source/bootloader"
+            ],
+            "preLaunchTask": "build firmware",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 5
+            }
+        },
+        {
+            "name": "Bootloader - Dashboard",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/bootloader_DASHBOARD/bootloader_DASHBOARD.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "debuggerArgs": [
+                "-d",
+                "${workspaceRoot}/firmware/source/bootloader"
+            ],
+            "preLaunchTask": "build firmware",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 5
+            }
+        },
+        {
+            "name": "Bootloader - Front Driveline",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/bootloader_FRONT_DRIVELINE/bootloader_FRONT_DRIVELINE.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32G474CET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "debuggerArgs": [
+                "-d",
+                "${workspaceRoot}/firmware/source/bootloader"
+            ],
+            "preLaunchTask": "build firmware",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 5
+            }
+        },
+        {
+            "name": "Bootloader - Rear Driveline",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/bootloader_REAR_DRIVELINE/bootloader_REAR_DRIVELINE.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32G474CET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "debuggerArgs": [
+                "-d",
+                "${workspaceRoot}/firmware/source/bootloader"
+            ],
+            "preLaunchTask": "build firmware",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 5
+            }
+        },
+        {
+            "name": "Bootloader - Torque Vectoring",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/bootloader_TORQUE_VECTOR/bootloader_TORQUE_VECTOR.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32G474CET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "debuggerArgs": [
+                "-d",
+                "${workspaceRoot}/firmware/source/bootloader"
+            ],
+            "preLaunchTask": "build firmware",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 5
+            }
+        },
+        {
+            "name": "Bootloader - A_Box",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/bootloader_A_BOX/bootloader_A_BOX.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32G474CET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "debuggerArgs": [
+                "-d",
+                "${workspaceRoot}/firmware/source/bootloader"
+            ],
+            "preLaunchTask": "build firmware",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 5
+            }
         }
     ]
 }
