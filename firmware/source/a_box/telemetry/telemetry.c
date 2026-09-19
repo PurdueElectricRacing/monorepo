@@ -122,6 +122,15 @@ void report_telemetry_8hz(void) {
     }
 }
 
+/*
+ * @brief Reports telemetry data at 1 Hz rate
+ * Includes: IMD state
+*/
+static_assert(IMD_STATE_PERIOD_MS == TELEMETRY_1HZ_PERIOD_MS);
+void report_telemetry_1hz(void) {
+    CAN_SEND_imd_state(IMD_STATE_NORMAL);
+} 
+
 /**
  * @brief Reports telemetry data at 0.2 Hz rate
  * Includes: ABOX git hash
