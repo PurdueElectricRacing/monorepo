@@ -17,7 +17,7 @@ typedef struct {
 
 static diagnostics_prev_task_time_t prev_task_times[DIAGNOSTICS_MAX_TASKS];
 
-static void diagnostics_send_can(const diagnostics_snapshot_t *snapshot);
+// static void diagnostics_send_can(const diagnostics_snapshot_t *snapshot);
 
 static void diagnostics_periodic(void);
 
@@ -80,34 +80,34 @@ static void diagnostics_periodic(void) {
     previous_total_runtime = total_rutime;
     previous_task_count    = count;
     latest_snapshot        = working_snapshot;
-    diagnostics_send_can(&latest_snapshot);
+    // diagnostics_send_can(&latest_snapshot);
 }
 
-static void diagnostics_send_can(const diagnostics_snapshot_t *snapshot) {
-    CAN_SEND_g4_testing_diagnostics(
-        snapshot->cpu_usage_percent,
-        (uint8_t)snapshot->task_count,
-        (uint8_t)snapshot->cpu_usage_valid,
-        (uint8_t)snapshot->task_capacity_exceeded
-    );
+// static void diagnostics_send_can(const diagnostics_snapshot_t *snapshot) {
+//     CAN_SEND_g4_testing_diagnostics(
+//         snapshot->cpu_usage_percent,
+//         (uint8_t)snapshot->task_count,
+//         (uint8_t)snapshot->cpu_usage_valid,
+//         (uint8_t)snapshot->task_capacity_exceeded
+//     );
 
-    for (uint32_t i = 0; i < snapshot->task_count; i++) {
-        const diagnostics_task_t *task = &snapshot->tasks[i];
+//     for (uint32_t i = 0; i < snapshot->task_count; i++) {
+//         const diagnostics_task_t *task = &snapshot->tasks[i];
 
-        CAN_SEND_g4_testing_diagnostics_task_cpu(
-            task->task_id,
-            task->cpu_usage_percent
-        );
+//         CAN_SEND_g4_testing_diagnostics_task_cpu(
+//             task->task_id,
+//             task->cpu_usage_percent
+//         );
 
-        CAN_SEND_g4_testing_diagnostics_task_stack(
-            task->task_id,
-            task->stack_min_free_bytes
-        );
+//         CAN_SEND_g4_testing_diagnostics_task_stack(
+//             task->task_id,
+//             task->stack_min_free_bytes
+//         );
 
-        CAN_SEND_g4_testing_diagnostics_task_status(
-            task->task_id,
-            (uint8_t)task->state,
-            (uint8_t)task->cpu_usage_valid
-        );
-    }
-}
+//         CAN_SEND_g4_testing_diagnostics_task_status(
+//             task->task_id,
+//             (uint8_t)task->state,
+//             (uint8_t)task->cpu_usage_valid
+//         );
+//     }
+// }
