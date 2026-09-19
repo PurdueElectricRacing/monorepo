@@ -9,7 +9,15 @@
 
 "daqapp":
   - changed-files:
-      - any-glob-to-any-file: ['daqapp/**']
+      - any-glob-to-any-file: ['daq/daqapp/**', 'daq/Cargo.toml', 'daq/Cargo.lock']
+
+"daqcli":
+  - changed-files:
+      - any-glob-to-any-file: ['daq/daqcli/**', 'daq/Cargo.toml', 'daq/Cargo.lock']
+
+"daqcore":
+  - changed-files:
+      - any-glob-to-any-file: ['daq/daqcore/**', 'daq/Cargo.toml', 'daq/Cargo.lock']
 
 "node configs":
   - changed-files:

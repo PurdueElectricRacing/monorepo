@@ -29,7 +29,15 @@
         {
             "label": "build daqapp",
             "type": "shell",
-            "command": "clear && cargo build --manifest-path daqapp/Cargo.toml",
+            "command": "clear && cargo build --manifest-path daq/daqapp/Cargo.toml --locked",
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "build daq workspace",
+            "type": "shell",
+            "command": "clear && cargo build --manifest-path daq/Cargo.toml --workspace --all-targets --locked",
             "group": {
                 "kind": "build"
             }

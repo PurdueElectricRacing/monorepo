@@ -1,0 +1,13 @@
+[workspace]
+resolver = "3"
+members = [
+    "daqapp",
+    "daqcore",
+    "daqcli",
+]
+
+[workspace.package]
+edition = "2024"
+
+[workspace.dependencies]
+daqcore = { path = "daqcore" }
