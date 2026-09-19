@@ -1,7 +1,7 @@
 # PER Software ⚡️
 
 ![Firmware](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/build_firmware.yml/badge.svg?branch=master)
-![DaqApp](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/build_daqapp.yml/badge.svg?branch=master)
+![DAQ Workspace](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/build_daqapp.yml/badge.svg?branch=master)
 ![Documentation](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/deploy_doxygen.yml/badge.svg?branch=master)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/PurdueElectricRacing/monorepo?style=flat-square)
 
@@ -10,7 +10,10 @@ A monorepo of all firmware projects, shared libraries, code generation, and off-
 
 ## Directory Structure
 - `firmware/` - Embedded firmware, including its CAN library and shared C code
-- `daqapp/` - Desktop DAQ application
+- `daq/` - [Rust DAQ workspace](daq/README.md)
+	- Desktop app (`daqapp`)
+	- CLI (`daqcli`)
+	- Shared-library (`daqcore`)
 - `docs/` - Shared documentation
 
 ## Doxygen
@@ -28,7 +31,7 @@ To compile software for the PER vehicle, make sure your system is set up by foll
 ## Building
 
 `build_all.py` is the repository-level build entry point. It runs the complete
-firmware, DAQ app, and host-test workflows in order.
+firmware, DAQ workspace, and host-test workflows in order.
 
 From the repository root, build all projects and run tests with:
 ```bash
@@ -46,9 +49,21 @@ To run static analysis over all firmware boards:
 python3 firmware/check_firmware.py
 ```
 
-To build DaqApp:
+To build every DAQ workspace member and target:
 ```bash
-cargo build --manifest-path daqapp/Cargo.toml
+cargo build --manifest-path daq/Cargo.toml --workspace --all-targets --locked
+```
+
+To build only DaqApp:
+`cargo build --manifest-path daq/daqapp/Cargo.toml --locked`.
+
+Running DAQ binaries is supported only from their own package directories:
+
+```bash
+# DaqApp
+cd daq/daqapp && cargo run
+# DaqCLI
+cd daq/daqcli && cargo run
 ```
 
 To run generator and firmware host tests and generate an HTML coverage report:
