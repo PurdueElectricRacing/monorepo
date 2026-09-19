@@ -187,7 +187,7 @@ var NAVTREE =
       [ "Individual Build Commands", "md_docs_2setup.html#autotoc_md128", [
         [ "7.1 Build All Firmware", "md_docs_2setup.html#autotoc_md129", null ],
         [ "7.2 Run Firmware Static Analysis", "md_docs_2setup.html#autotoc_md130", null ],
-        [ "7.3 DaqApp", "md_docs_2setup.html#autotoc_md131", null ],
+        [ "7.3 DAQ Workspace", "md_docs_2setup.html#autotoc_md131", null ],
         [ "7.4 Run Generator and Firmware Host Tests", "md_docs_2setup.html#autotoc_md132", null ]
       ] ],
       [ "Build from VS Code", "md_docs_2setup.html#autotoc_md133", null ],

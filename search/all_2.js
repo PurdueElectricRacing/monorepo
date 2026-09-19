@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['3_20daqapp_0',['7.3 DaqApp',['../md_docs_2setup.html#autotoc_md131',1,'']]],
+  ['3_20daq_20workspace_0',['7.3 DAQ Workspace',['../md_docs_2setup.html#autotoc_md131',1,'']]],
   ['3_20install_20firmware_20and_20test_20tools_1',['3A.3 Install Firmware and Test Tools',['../md_docs_2setup.html#autotoc_md114',1,'']]],
   ['3_20install_20platform_20unit_20testing_20tools_2',['3. Install Platform + Unit Testing Tools',['../md_docs_2setup.html#autotoc_md110',1,'']]],
   ['3_20use_20vs_20code_20inside_20of_20wsl_3',['3C.3 Use VS Code inside of WSL',['../md_docs_2setup.html#autotoc_md121',1,'']]],

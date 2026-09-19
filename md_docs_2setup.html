@@ -145,7 +145,7 @@ Table of Contents</h1>
 <li>7. Individual Build Commands<ul>
 <li>7.1 Build All Firmware</li>
 <li>7.2 Run Firmware Static Analysis</li>
-<li>7.3 DaqApp</li>
+<li>7.3 DAQ Workspace</li>
 <li>7.4 Build and Run Host Tests</li>
 </ul>
 </li>
@@ -174,9 +174,8 @@ Platforms supported</h2>
 </div><!-- fragment --><p>Check that it worked and submodules were also cloned:</p>
 <div class="fragment"><div class="line">ls</div>
 <div class="line">ls firmware/external/cmsis-device-g4/</div>
-</div><!-- fragment --><p>You should see something like: </p><div class="fragment"><div class="line">build         daqapp      firmware   output        tests</div>
-<div class="line">build_all.py  Dockerfile  LICENSE    README.md</div>
-<div class="line">can_library   docs    nix_flake  requirements.txt</div>
+</div><!-- fragment --><p>You should see something like: </p><div class="fragment"><div class="line">build_all.py  daq   Dockerfile  docs      firmware  generators</div>
+<div class="line">LICENSE       nix_flake       README.md requirements.txt  tests</div>
 </div><!-- fragment --> <div class="fragment"><div class="line">CODE_OF_CONDUCT.md  _htmresc  LICENSE.md  Release_Notes.html  Source</div>
 <div class="line">CONTRIBUTING.md     Include   README.md   SECURITY.md</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md108"></a>
@@ -351,7 +350,7 @@ Platforms supported</h2>
 6. Build the Repository</h1>
 <p>The repository's main build entry point is:</p>
 <div class="fragment"><div class="line">python3 build_all.py</div>
-</div><!-- fragment --><p>This builds the firmware, DAQ App, and host tests.</p>
+</div><!-- fragment --><p>This builds the firmware and all DAQ workspace targets, then runs the generator and firmware host-test workflow.</p>
 <p>If this completes successfully, your development environment is set up correctly.</p>
 <h1><a class="anchor" id="autotoc_md128"></a>
 7. Individual Build Commands</h1>
@@ -363,11 +362,12 @@ Platforms supported</h2>
 7.2 Run Firmware Static Analysis</h2>
 <div class="fragment"><div class="line">python3 firmware/check_firmware.py</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md131"></a>
-7.3 DaqApp</h2>
-<p>Build: </p><div class="fragment"><div class="line">cargo build --manifest-path daqapp/Cargo.toml</div>
-</div><!-- fragment --><p>Run: </p><div class="fragment"><div class="line">cargo run --manifest-path daqapp/Cargo.toml</div>
-</div><!-- fragment --><p>(You can also build/run from the <code>daqapp/</code> directory with just <code>cargo build</code> or <code>cargo run</code>.)</p>
-<h2><a class="anchor" id="autotoc_md132"></a>
+7.3 DAQ Workspace</h2>
+<p>From the repository root, build all workspace members and targets: </p><div class="fragment"><div class="line">cargo build --manifest-path daq/Cargo.toml --workspace --all-targets --locked</div>
+</div><!-- fragment --><p>To build only DaqApp from the repository root: </p><div class="fragment"><div class="line">cargo build --manifest-path daq/daqapp/Cargo.toml --locked</div>
+</div><!-- fragment --><p>Running binaries is supported only from their individual package directories. From the repository root, run DaqApp with: </p><div class="fragment"><div class="line">cd daq/daqapp &amp;&amp; cargo run</div>
+</div><!-- fragment --><p>From the repository root, run DaqCli with: </p><div class="fragment"><div class="line">cd daq/daqcli &amp;&amp; cargo run</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md132"></a>
 7.4 Run Generator and Firmware Host Tests</h2>
 <div class="fragment"><div class="line">python3 tests/run_tests.py</div>
 </div><!-- fragment --><p>This also generates the host-test coverage report.</p>
