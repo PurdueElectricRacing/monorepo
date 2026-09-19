@@ -226,19 +226,6 @@
                     ],
                     "priority": 4,
                     "period_ms": 1000
-                },
-                {
-                    "message_name": "imd_state",
-                    "description": "IMD state",
-                    "signals": [
-                        {
-                            "signal_name": "imd_state",
-                            "data_type": "imd_state_t",
-                            "description": "current state of the IMD"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 1000
                 }
             ],
             "rx": [
