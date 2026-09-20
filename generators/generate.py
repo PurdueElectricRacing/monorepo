@@ -31,7 +31,7 @@ def generate() -> None:
     artifacts += faultgen.generate(fault_plan, version)
 
     output_roots = {"generated": GENERATED_DIR, "dbc": DBC_DIR}
-    clear_artifacts(output_roots, {"generated": "*", "dbc": ("*.dbc", "superdbc_*.json", "system_*.json")})
+    clear_artifacts(output_roots, {"generated": "*", "dbc": ("*.dbc", "superdbc_*.json")})
     write_artifacts(output_roots, artifacts)
 
 
