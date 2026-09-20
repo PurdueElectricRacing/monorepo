@@ -61,7 +61,7 @@ def _signal(signal: CompiledSignal, linked: LinkedCan) -> SignalExport:
             if signal.min is not None else None
         ),
         unit=signal.unit or "",
-        choices={str(raw): label for raw, label in enumerate(choices or ())},
+        choices={str(raw): label for raw, label in enumerate(choices)} if choices else None,
     )
 
 

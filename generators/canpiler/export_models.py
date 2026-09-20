@@ -30,7 +30,7 @@ class SignalExport(ExportModel):
     offset: Finite
     limits: LimitsExport | None
     unit: str
-    choices: dict[RawKey, str]
+    choices: dict[RawKey, str] | None
 
 
 class MessageExport(ExportModel):
