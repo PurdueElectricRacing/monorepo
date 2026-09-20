@@ -57,7 +57,7 @@ def _signal(signal: CompiledSignal, linked: LinkedCan) -> SignalExport:
         scale=float(signal.scale if signal.scale is not None else 1),
         offset=float(signal.offset if signal.offset is not None else 0),
         limits=(
-            LimitsExport(min=signal.min, max=signal.max)
+            LimitsExport(min=float(signal.min), max=float(signal.max))
             if signal.min is not None else None
         ),
         unit=signal.unit or "",
