@@ -80,6 +80,8 @@ class SignalDeclaration(DeclarationModel):
 
     @model_validator(mode="after")
     def validate_signal_rules(self) -> Self:
+        if (self.min is None) != (self.max is None):
+            raise ValueError("signal min and max must be specified together")
         if self.min is not None and self.max is not None and self.min > self.max:
             raise ValueError("signal minimum must not exceed maximum")
         if self.scale is not None and self.unit is None:

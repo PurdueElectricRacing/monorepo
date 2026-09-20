@@ -9,7 +9,7 @@ from collections import defaultdict
 from core.artifacts import Artifact
 from core.utils import print_as_ok
 from .export_models import (
-    BusExport, MessageExport, NodeExport, SignalExport, SuperDbcExport, VersionsExport, superdbc_json_schema,
+    BusExport, LimitsExport, MessageExport, NodeExport, SignalExport, SuperDbcExport, VersionsExport, superdbc_json_schema,
 )
 from .pipeline_models import LinkedCan, CompiledSignal
 
@@ -56,8 +56,10 @@ def _signal(signal: CompiledSignal, linked: LinkedCan) -> SignalExport:
         byte_order=signal.byte_order,
         scale=float(signal.scale if signal.scale is not None else 1),
         offset=float(signal.offset if signal.offset is not None else 0),
-        minimum=float(signal.min) if signal.min is not None else None,
-        maximum=float(signal.max) if signal.max is not None else None,
+        limits=(
+            LimitsExport(min=signal.min, max=signal.max)
+            if signal.min is not None else None
+        ),
         unit=signal.unit or "",
         choices={str(raw): label for raw, label in enumerate(choices or ())},
     )

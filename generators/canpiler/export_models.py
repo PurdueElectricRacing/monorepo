@@ -13,6 +13,11 @@ class ExportModel(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True, frozen=True)
 
 
+class LimitsExport(ExportModel):
+    min: Finite
+    max: Finite
+
+
 class SignalExport(ExportModel):
     signal_name: Name
     description: str
@@ -23,8 +28,7 @@ class SignalExport(ExportModel):
     byte_order: Literal["little_endian", "big_endian"]
     scale: Finite
     offset: Finite
-    minimum: Finite | None
-    maximum: Finite | None
+    limits: LimitsExport | None
     unit: str
     choices: dict[RawKey, str]
 
