@@ -43,8 +43,9 @@ impl TableColumn {
 pub struct TableBuilder {
     header_columns: Vec<TableColumn>,
 
-    // Key is (bus name, msg name, signal name), value is column index
+    // Key is (bus name, msg name, signal name), value is numeric column index
     indexer: std::collections::HashMap<(String, String, String), usize>,
+    enum_indexer: std::collections::HashMap<(String, String, String), usize>,
     next_col_idx: usize,
 }
 
@@ -54,6 +55,7 @@ impl TableBuilder {
             header_columns: Vec::new(),
             next_col_idx: HEADER_COLUMN_COUNT,
             indexer: std::collections::HashMap::new(),
+            enum_indexer: std::collections::HashMap::new(),
         }
     }
 
@@ -63,6 +65,16 @@ impl TableBuilder {
 
     fn push_column(&mut self, key: (String, String, String), column: TableColumn) {
         self.indexer.insert(key, self.next_col_idx);
+        self.header_columns.push(column);
+        self.next_col_idx += 1;
+    }
+
+    fn push_enum_column(
+        &mut self,
+        key: (String, String, String),
+        column: TableColumn,
+    ) {
+        self.enum_indexer.insert(key, self.next_col_idx);
         self.header_columns.push(column);
         self.next_col_idx += 1;
     }
@@ -130,8 +142,21 @@ impl TableBuilder {
                                 String::new()
                             },
                             signal: sig.name.clone(),
-                            signal_desc: sig_desc,
+                            signal_desc: sig_desc.clone(),
                             signal_unit: sig.unit.to_string(),
+                        },
+                    );
+
+                    self.push_enum_column(
+                        (bus_id.to_string(), msg.name.clone(), sig.name.clone()),
+                        TableColumn {
+                            bus: bus_id.to_string(),
+                            node: node.clone(),
+                            message: msg.name.clone(),
+                            message_desc: String::new(),
+                            signal: format!("{}_enum", sig.name),
+                            signal_desc: sig_desc,
+                            signal_unit: String::new(),
                         },
                     );
                 }
@@ -195,13 +220,18 @@ impl TableBuilder {
                     let msg = msg_iter.next().unwrap();
                     let decoded = &msg.decoded;
                     for (sig_name, sig_value) in &decoded.signals {
-                        let key = (msg.bus_name.clone(), decoded.name.clone(), sig_name.clone());
+                        let key =
+                            (msg.bus_name.clone(), decoded.name.clone(), sig_name.clone());
                         if let Some(&col_idx) = self.indexer.get(&key) {
-                            row[col_idx] = if let Some(enum_label) = &sig_value.value.enum_label {
-                                format!("{} ({})", enum_label, sig_value.value.int_rounded())
+                            row[col_idx] = if sig_value.value.enum_label.is_some() {
+                                sig_value.value.int_rounded().to_string()
                             } else {
                                 sig_value.value.physical.to_string()
                             };
+                        }
+                        if let Some(&enum_col_idx) = self.enum_indexer.get(&key) {
+                            row[enum_col_idx] =
+                                sig_value.value.enum_label.clone().unwrap_or_default();
                         }
                     }
                 }
