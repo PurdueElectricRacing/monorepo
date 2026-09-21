@@ -11,11 +11,11 @@ from core.declarations import CanDeclarations
 from core.contributions import DeclarationContribution
 from .codegen.generator import generate_headers
 from .compiler import assemble_source, compile_source
-from .dbc_generator import generate_dbcs
+from .dbc.generator import generate_dbcs
 from .superdbc.generator import generate_superdbc_schema, generate_superdbc
 from .pipeline_models import CanSource, CompiledCan, LinkedCan
 from .linker import link_can
-from .bus_load_analyzer import calculate_bus_load
+from .analysis.bus_load import calculate_bus_load
 from .codegen.hardware import map_hardware
 
 
