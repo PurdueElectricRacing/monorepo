@@ -119,13 +119,12 @@ void report_telemetry_8hz(void) {
 */
 static_assert(IMD_STATE_PERIOD_MS == TELEMETRY_1HZ_PERIOD_MS);
 static imd_state_t imd_state_from_hz(uint8_t hz) {
-    if (hz == 0) return IMD_STATE_OFF_OR_SHORT_CIRCUIT;
-    if (hz <= 10) return IMD_STATE_NORMAL;
-    if (hz <= 20) return IMD_STATE_UNDERVOLTAGE;
-    if (hz <= 30) return IMD_STATE_SPEED_START;
-    if (hz <= 40) return IMD_STATE_DEVICE_ERROR;
-    if (hz <= 50) return IMD_STATE_CONNECTION_FAULT;
-    return IMD_STATE_OFF_OR_SHORT_CIRCUIT;
+    if (hz <= 5)  return IMD_STATE_OFF_OR_SHORT_CIRCUIT;
+    if (hz <= 15) return IMD_STATE_NORMAL;
+    if (hz <= 25) return IMD_STATE_UNDERVOLTAGE;
+    if (hz <= 35) return IMD_STATE_SPEED_START;
+    if (hz <= 45) return IMD_STATE_DEVICE_ERROR;
+    return IMD_STATE_CONNECTION_FAULT;
 }
 static uint8_t measure_imd_hz(void) {
     bool prev = PHAL_GPIO_read(IMD_STATUS_PORT, IMD_STATUS_PIN);
