@@ -30,6 +30,7 @@ volatile UBaseType_t task_count      = 0;
 PHAL_GPIO_InitConfig_t gpio_config[] = {PHAL_PIN_DEFS_FDCAN2_RX_PB12, PHAL_PIN_DEFS_FDCAN2_TX_PB13};
 
 DEFINE_CAN_TASKS();
+DEFINE_DIAGNOSTICS_TASK();
 RTOS_DEFINE_TASK(dumb_task, 10, TASK_PRIORITY_HIGH, 1024);
 
 int main() {
@@ -44,8 +45,9 @@ int main() {
     CAN_init();
 
     START_CAN_TASKS();
-    diagnostics_start();
+    START_DIAGNOSTICS_TASK();
     RTOS_START_TASK(dumb_task);
+
     vTaskStartScheduler();
 
     return 0;
