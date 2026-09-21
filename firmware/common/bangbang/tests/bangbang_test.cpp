@@ -11,22 +11,27 @@ extern "C" {
     #include "bangbang.h"
 }
 
-namespace TestCallbacks {
-    void onCallback() {
+namespace bangbang_testing {
 
-    }
+constexpr float UPPER_BOUND = 50.0f;
+constexpr float LOWER_BOUND = 25.0f;
 
-    void offCallback() {
+void onCallback() {
 
-    }
 }
+
+void offCallback() {
+
+}
+
+} // namespace bangbang_testing
 class BangbangTest: public testing::Test {
   protected:
     void SetUp() override {
-        controller.upper_bound = 50.0f;
-        controller.lower_bound = 25.0f;
-        controller.on_func = TestCallbacks::onCallback;
-        controller.off_func = TestCallbacks::offCallback;
+        controller.upper_bound = bangbang_testing::UPPER_BOUND;
+        controller.lower_bound = bangbang_testing::LOWER_BOUND;
+        controller.on_func = bangbang_testing::onCallback;
+        controller.off_func = bangbang_testing::offCallback;
         controller.last_switch_ms = 0;
         controller.min_switch_interval = 1000;
         controller.is_on = false;
@@ -35,11 +40,18 @@ class BangbangTest: public testing::Test {
     bangbang_t controller;
 };
 
-// Create a bang-bang controller object
-
 // Test that last saved ms works
 
 // Test upper bounds
+TEST_F(BangbangTest, AboveUpperBoundTurnsOn) {
+    // Turn the controller off
+
+    // Set time_since_last_switch to be above the min_switch_interval
+
+    // Pass a value above UPPER_BOUND using bangbang_update()
+
+    // Check if the controller turns on
+}
 
 // Test lower bounds
 
