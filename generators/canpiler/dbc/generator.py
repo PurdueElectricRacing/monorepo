@@ -1,12 +1,12 @@
 """
-dbc_generator.py
+dbc/generator.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from typing import Optional
 from collections import OrderedDict
-from .pipeline_models import LinkedCan
+from ..pipeline.models import LinkedCan
 from cantools import database
 from cantools.database.conversion import BaseConversion
 from cantools.database.can.signal import NamedSignalValue

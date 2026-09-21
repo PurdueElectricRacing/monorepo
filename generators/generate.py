@@ -8,7 +8,7 @@ from core.artifacts import clear_artifacts, write_artifacts
 from core.config import DBC_DIR, GENERATED_DIR
 from core.declaration_loader import DeclarationValidationError, load_declarations
 from canpiler.api import Canpiler
-from canpiler.compiler import CanCompilationError
+from canpiler.pipeline.compiler import CanCompilationError
 from faultgen.api import FaultGenerator
 from core.utils import get_git_hash, print_as_error
 

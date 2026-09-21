@@ -18,7 +18,7 @@ from core.utils import (
     print_as_success,
     print_as_warning,
 )
-from .pipeline_models import (
+from .models import (
     CanSource,
     CompiledBusAttachment,
     CompiledCan,

@@ -1,5 +1,5 @@
 """
-render_models.py
+codegen/models.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
@@ -7,13 +7,13 @@ Author: Irving Wang (irvingw@purdue.edu)
 from dataclasses import dataclass
 from typing import Mapping
 
-from .pipeline_models import (
+from ..pipeline.models import (
     LinkedMessage,
     LinkedRxSubscription,
     CompiledNode,
     CompiledSignal,
 )
-from .hardware_mapper import BxcanFilters, FdcanFilters
+from .hardware import BxcanFilters, FdcanFilters
 
 
 @dataclass(frozen=True)

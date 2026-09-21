@@ -6,7 +6,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 import pytest
 
-from canpiler.compiler import compile_message
+from canpiler.pipeline.compiler import compile_message
 from core.declarations import (
     MessageDeclaration,
     SignalDeclaration,
