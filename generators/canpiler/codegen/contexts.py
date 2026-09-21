@@ -6,7 +6,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 
 from collections import defaultdict
 
-from ..pipeline_models import CompiledNode, CompiledSignal, LinkedCan, frozen_mapping
+from ..pipeline.models import CompiledNode, CompiledSignal, LinkedCan, frozen_mapping
 from .hardware import FdcanFilters, NodeHardwareMap
 from .models import (
     NodeHeaderRenderContext,

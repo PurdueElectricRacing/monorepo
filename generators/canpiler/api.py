@@ -10,11 +10,11 @@ from core.artifacts import Artifact
 from core.declarations import CanDeclarations
 from core.contributions import DeclarationContribution
 from .codegen.generator import generate_headers
-from .compiler import assemble_source, compile_source
+from .pipeline.compiler import assemble_source, compile_source
 from .dbc.generator import generate_dbcs
 from .superdbc.generator import generate_superdbc_schema, generate_superdbc
-from .pipeline_models import CanSource, CompiledCan, LinkedCan
-from .linker import link_can
+from .pipeline.models import CanSource, CompiledCan, LinkedCan
+from .pipeline.linker import link_can
 from .analysis.bus_load import calculate_bus_load
 from .codegen.hardware import map_hardware
 

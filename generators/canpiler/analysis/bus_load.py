@@ -4,7 +4,7 @@ analysis/bus_load.py
 Author: Irving Wang (irvingw@purdue.edu)
 """
 
-from ..pipeline_models import LinkedCan
+from ..pipeline.models import LinkedCan
 from core.utils import bcolors, print_as_warning, print_as_ok
 
 # CAN 2.0 Base Overhead (including 3-bit Inter-Frame Space)

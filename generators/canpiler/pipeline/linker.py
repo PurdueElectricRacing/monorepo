@@ -8,7 +8,7 @@ from collections import defaultdict
 from collections.abc import Iterable
 
 from core.utils import print_as_ok, print_as_success
-from .pipeline_models import (
+from .models import (
     CompiledCan,
     CompiledMessage,
     CompiledTxMessage,

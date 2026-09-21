@@ -1,5 +1,5 @@
 """
-pipeline_models.py
+pipeline/models.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """

@@ -11,7 +11,7 @@ from jinja2 import Environment
 from core.artifacts import Artifact
 from core.declarations import BusDeclaration, CustomTypeDeclaration
 from core.utils import get_jinja_env, print_as_ok, print_as_success, render_template
-from ..pipeline_models import CompiledNode, LinkedCan, LinkedMessage
+from ..pipeline.models import CompiledNode, LinkedCan, LinkedMessage
 from .hardware import HardwareMap, NodeHardwareMap
 from .contexts import (
     build_node_header_context,
