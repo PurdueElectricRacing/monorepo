@@ -8,10 +8,10 @@ from collections import defaultdict
 
 from core.artifacts import Artifact
 from core.utils import print_as_ok
-from .export_models import (
+from .models import (
     BusExport, LimitsExport, MessageExport, NodeExport, SignalExport, SuperDbcExport, VersionsExport, superdbc_json_schema,
 )
-from .pipeline_models import LinkedCan, CompiledSignal
+from ..pipeline_models import LinkedCan, CompiledSignal
 
 
 def generate_superdbc_schema() -> Artifact:

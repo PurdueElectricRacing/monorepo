@@ -1,14 +1,14 @@
 """
-render_contexts.py
+codegen/contexts.py
 
 Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from collections import defaultdict
 
-from .pipeline_models import CompiledNode, CompiledSignal, LinkedCan, frozen_mapping
-from .hardware_mapper import FdcanFilters, NodeHardwareMap
-from .render_models import (
+from ..pipeline_models import CompiledNode, CompiledSignal, LinkedCan, frozen_mapping
+from .hardware import FdcanFilters, NodeHardwareMap
+from .models import (
     NodeHeaderRenderContext,
     PeripheralRenderView,
     RxMessageRenderView,

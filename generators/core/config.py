@@ -12,7 +12,7 @@ REPOSITORY_DIR  = GENERATOR_DIR.parent
 CAN_LIBRARY_DIR = REPOSITORY_DIR / "firmware" / "can_library"
 
 CONFIG_DIR         = GENERATOR_DIR / "configs"
-CAN_TEMPLATE_DIR   = GENERATOR_DIR / "canpiler" / "templates"
+CAN_TEMPLATE_DIR   = GENERATOR_DIR / "canpiler" / "codegen" / "templates"
 FAULT_TEMPLATE_DIR = GENERATOR_DIR / "faultgen" / "templates"
 GENERATED_DIR      = CAN_LIBRARY_DIR / "generated"
 DBC_DIR            = REPOSITORY_DIR / "dbc"
