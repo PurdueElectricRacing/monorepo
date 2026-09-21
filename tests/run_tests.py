@@ -20,7 +20,7 @@ def run() -> None:
     """Run generator tests, then host tests with a fresh coverage build."""
     print_suite("Generator unit tests")
     subprocess.run(
-        [sys.executable, "-m", "pytest", "generators", "-q"],
+        [sys.executable, "-m", "pytest"],
         cwd=ROOT,
         check=True,
     )
