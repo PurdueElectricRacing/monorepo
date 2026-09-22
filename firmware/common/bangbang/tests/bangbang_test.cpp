@@ -11,7 +11,7 @@ extern "C" {
     #include "bangbang.h"
 }
 
-namespace bangbang_testing {
+namespace {
 
 constexpr float UPPER_BOUND = 50.0f;
 constexpr float LOWER_BOUND = 25.0f;
@@ -24,14 +24,14 @@ void offCallback() {
 
 }
 
-} // namespace bangbang_testing
+} // namespace
 class BangbangTest: public testing::Test {
   protected:
     void SetUp() override {
-        controller.upper_bound = bangbang_testing::UPPER_BOUND;
-        controller.lower_bound = bangbang_testing::LOWER_BOUND;
-        controller.on_func = bangbang_testing::onCallback;
-        controller.off_func = bangbang_testing::offCallback;
+        controller.upper_bound = UPPER_BOUND;
+        controller.lower_bound = LOWER_BOUND;
+        controller.on_func = onCallback;
+        controller.off_func = offCallback;
         controller.last_switch_ms = 0;
         controller.min_switch_interval = 1000;
         controller.is_on = false;
