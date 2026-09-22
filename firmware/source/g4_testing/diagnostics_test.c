@@ -1,15 +1,15 @@
-#include "can_library/generated/GCAN.h"
 #include "g4_testing.h"
-#include "gpio/gpio.h"
-#include "pin_defs/g474ret6.h"
-#if (G4_TESTING_CHOSEN == TEST_DIAGNOSTICS)
 
+#if (G4_TESTING_CHOSEN == TEST_DIAGNOSTICS)
 #include <stdint.h>
 #include <stdio.h>
 
-#include "common/phal_G4/rcc/rcc.h"
-#include "rtos.h"
 #include "common/diagnostics/diagnostics.h"
+#include "common/phal_G4/rcc/rcc.h"
+#include "gpio/gpio.h"
+#include "pin_defs/g474ret6.h"
+#include "common/utils/countof.h"
+#include "rtos.h"
 
 #define MAX_TASKS 16
 
@@ -29,22 +29,16 @@ static configRUN_TIME_COUNTER_TYPE total_runtime;
 volatile UBaseType_t task_count      = 0;
 PHAL_GPIO_InitConfig_t gpio_config[] = {PHAL_PIN_DEFS_FDCAN2_RX_PB12, PHAL_PIN_DEFS_FDCAN2_TX_PB13};
 
-DEFINE_CAN_TASKS();
 DEFINE_DIAGNOSTICS_TASK();
 RTOS_DEFINE_TASK(dumb_task, 10, TASK_PRIORITY_HIGH, 1024);
 
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
 
-    if (!PHAL_GPIO_init(gpio_config, sizeof(gpio_config) / sizeof(gpio_config[0]))) {
-        while (1) {
-        }
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
+        HardFault_Handler();
     }
 
-    PHAL_FDCAN_init(FDCAN2, GCAN_BAUD_RATE);
-    CAN_init();
-
-    START_CAN_TASKS();
     START_DIAGNOSTICS_TASK();
     RTOS_START_TASK(dumb_task);
 
@@ -83,4 +77,9 @@ void dumb_task(void *argument) {
     }
 }
 
+void HardFault_Handler() {
+    while (1) {
+        __asm__("nop");
+    }
+}
 #endif

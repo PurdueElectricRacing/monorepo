@@ -1,21 +1,12 @@
+/**
+ * @file diagnostics.c
+ * @brief Common logger for basic CPU and FreeRTOS task profiling data.
+ *
+ * @author Patrick McNaughton (pmcnaugh@purdue.edu)
+ */
 #include "diagnostics.h"
-
 #include <string.h>
-
 #include "common/rtos/rtos.h"
-typedef struct {
-    UBaseType_t task_id;
-    uint32_t runtime;
-} diagnostics_prev_task_time_t;
-
-typedef struct {
-    TaskStatus_t raw_tasks[DIAGNOSTICS_MAX_TASKS];
-    diagnostics_snapshot_t working_snapshot;
-    uint32_t total_runtime;
-    uint32_t previous_total_runtime;
-    UBaseType_t previous_task_count;
-    diagnostics_prev_task_time_t prev_task_times[DIAGNOSTICS_MAX_TASKS];
-} diagnostics_context_t;
 
 static diagnostics_context_t g_diagnostics_context;
 
