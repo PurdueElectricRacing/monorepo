@@ -2,6 +2,7 @@ use indexmap::IndexMap;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 pub const FORMATTER_CONFIG_FILE: &str = "formatter_config.json";
+const EMBEDDED_FORMATTER_CONFIG: &str = include_str!("../formatter_config.json");
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Formatting {
@@ -112,20 +113,45 @@ impl Formatter {
         Ok(Self { compiled_config })
     }
 
-    pub fn new_from_file(path: &str) -> Result<Self, Box<dyn std::error::Error>> {
-        let config_str = std::fs::read_to_string(path)?;
-        let config: FormatterConfig = serde_json::from_str(&config_str)?;
+    fn new_from_str(config_str: &str) -> Result<Self, Box<dyn std::error::Error>> {
+        let config: FormatterConfig = serde_json::from_str(config_str)?;
         Self::new(config).map_err(|e| e.into())
     }
 
-    pub fn try_load() -> Option<Self> {
-        Self::new_from_file(FORMATTER_CONFIG_FILE)
-            .map_err(|e| {
-                log::error!(
-                    "Failed to load formatter config from {}: {}",
+    fn new_from_config_or_embedded(
+        local_config: Option<&str>,
+    ) -> Result<Self, Box<dyn std::error::Error>> {
+        if let Some(local_config) = local_config {
+            match Self::new_from_str(local_config) {
+                Ok(formatter) => return Ok(formatter),
+                Err(error) => log::warn!(
+                    "Failed to load local formatter config from {}; using embedded config: {}",
                     FORMATTER_CONFIG_FILE,
-                    e
-                );
+                    error
+                ),
+            }
+        }
+
+        Self::new_from_str(EMBEDDED_FORMATTER_CONFIG)
+    }
+
+    pub fn try_load() -> Option<Self> {
+        let local_config = crate::paths::find_file(FORMATTER_CONFIG_FILE).and_then(|path| {
+            match std::fs::read_to_string(&path) {
+                Ok(config) => Some(config),
+                Err(error) => {
+                    log::warn!(
+                        "Failed to read local formatter config at {}; using embedded config: {}",
+                        path.display(),
+                        error
+                    );
+                    None
+                }
+            }
+        });
+        Self::new_from_config_or_embedded(local_config.as_deref())
+            .map_err(|e| {
+                log::error!("Failed to load embedded formatter config: {}", e);
                 e
             })
             .ok()
