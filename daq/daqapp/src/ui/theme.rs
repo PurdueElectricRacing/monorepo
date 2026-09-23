@@ -63,11 +63,10 @@ fn load_builtin_theme(path: &str, embedded_source: &str) -> ThemeColors {
     // Prefer the checked-in file so theme edits are picked up during development.
     // The embedded copy keeps packaged binaries working when the source tree is
     // not present beside the executable.
-    let theme_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(path);
-    if theme_path.is_file() {
-        if let Some(theme) = ThemeColors::load_from_file(&theme_path) {
-            return theme;
-        }
+    if let Some(theme) = ThemeColors::load_from_file(path) {
+        return theme;
+    }
+    if let Some(theme_path) = crate::paths::find_file(path) {
         log::warn!(
             "Failed to parse theme at {}; using embedded theme",
             theme_path.display()
@@ -243,9 +242,7 @@ impl ThemeColors {
     }
 
     pub fn load_from_file(path: impl AsRef<std::path::Path>) -> Option<Self> {
-        std::fs::read_to_string(path)
-            .ok()
-            .and_then(|data| Self::from_toml(&data))
+        crate::paths::read_file(path).and_then(|data| Self::from_toml(&data))
     }
 
     fn from_toml(data: &str) -> Option<Self> {

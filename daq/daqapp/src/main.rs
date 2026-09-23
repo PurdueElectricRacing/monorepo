@@ -9,6 +9,7 @@ mod formatter;
 mod frozen;
 mod hil;
 mod messages;
+mod paths;
 mod settings;
 mod shortcuts;
 mod ui;
