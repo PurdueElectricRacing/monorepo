@@ -5,16 +5,45 @@
  * @author Patrick McNaughton (pmcnaugh@purdue.edu)
  */
 #include "diagnostics.h"
+
 #include <string.h>
+
 #include "common/rtos/rtos.h"
 
 static diagnostics_context_t g_diagnostics_context;
 
+/**                                                                                                                      
+    * @brief Calculates task CPU utilization.                                                    
+    *                                                                                                                       
+    * @param current_runtime Current cumulative task runtime.                                                               
+    * @param previous_runtime Previous cumulative task runtime.                                                        
+    * @param total_delta Total elapsed runtime between samples (same units as current and previous runtime).                                          
+    * @param[out] cpu_usage Pointer receiving utilization as a percentage                                          
+    *                      (0–100). Left unchanged if the calculation is invalid. Must be non-NULL.                                     
+    *                                                                                                                       
+    * @return true if utilization was calculated; false if total_delta is zero                                              
+    *         or the task runtime delta exceeds total_delta.                                                                
+    */
+static bool calculate_cpu_utilization(uint32_t current_runtime,
+                                      uint32_t previous_runtime,
+                                      uint32_t total_delta,
+                                      float *cpu_usage) {
+    uint32_t task_delta = current_runtime - previous_runtime;
+    if (total_delta > 0 && task_delta <= total_delta) {
+        *cpu_usage = 100.0f * (float)(task_delta) / (float)(total_delta);
+        return true;
+    }
+    return false;
+}
+
 void diagnostics_periodic(void) {
-    UBaseType_t count = uxTaskGetSystemState(g_diagnostics_context.raw_tasks, DIAGNOSTICS_MAX_TASKS, &g_diagnostics_context.total_runtime);
+    UBaseType_t count = uxTaskGetSystemState(g_diagnostics_context.raw_tasks,
+                                             DIAGNOSTICS_MAX_TASKS,
+                                             &g_diagnostics_context.total_runtime);
     // total time delta inbetween diagnostics_periodic function calls
-    uint32_t total_delta = g_diagnostics_context.total_runtime - g_diagnostics_context.previous_total_runtime;
-    TaskHandle_t idle_task        = xTaskGetIdleTaskHandle();
+    uint32_t total_delta =
+        g_diagnostics_context.total_runtime - g_diagnostics_context.previous_total_runtime;
+    TaskHandle_t idle_task                              = xTaskGetIdleTaskHandle();
     g_diagnostics_context.working_snapshot.task_count   = (uint32_t)count;
     g_diagnostics_context.working_snapshot.timestamp_ms = (uint32_t)xTaskGetTickCount();
     g_diagnostics_context.working_snapshot.sample_count++;
@@ -37,26 +66,28 @@ void diagnostics_periodic(void) {
         // Calculate per-task CPU usage
         for (UBaseType_t j = 0; j < g_diagnostics_context.previous_task_count; j++) {
             if (g_diagnostics_context.prev_task_times[j].task_id == source_task->xTaskNumber) {
-                uint32_t task_delta = source_task->ulRunTimeCounter - g_diagnostics_context.prev_task_times[j].runtime;
-                if (total_delta > 0 && task_delta <= total_delta) {
-                    destination_task->cpu_usage_percent =
-                        100.0f * (float)(task_delta) / (float)(total_delta);
-                    destination_task->cpu_usage_valid = true;
-                    break;
-                }
+                destination_task->cpu_usage_valid =
+                    calculate_cpu_utilization(source_task->ulRunTimeCounter,
+                                              g_diagnostics_context.prev_task_times[j].runtime,
+                                              total_delta,
+                                              &destination_task->cpu_usage_percent);
+                break;
             }
         }
 
         // Calculate overall CPU usage
         if (source_task->xHandle == idle_task && destination_task->cpu_usage_valid) {
-            g_diagnostics_context.working_snapshot.cpu_usage_percent = 100.0f - destination_task->cpu_usage_percent;
-            g_diagnostics_context.working_snapshot.cpu_usage_valid   = true;
+            g_diagnostics_context.working_snapshot.cpu_usage_percent =
+                100.0f - destination_task->cpu_usage_percent;
+            g_diagnostics_context.working_snapshot.cpu_usage_valid = true;
         }
     }
     // update previous task run times
     for (UBaseType_t i = 0; i < count; i++) {
-        g_diagnostics_context.prev_task_times[i].task_id = g_diagnostics_context.raw_tasks[i].xTaskNumber;
-        g_diagnostics_context.prev_task_times[i].runtime = g_diagnostics_context.raw_tasks[i].ulRunTimeCounter;
+        g_diagnostics_context.prev_task_times[i].task_id =
+            g_diagnostics_context.raw_tasks[i].xTaskNumber;
+        g_diagnostics_context.prev_task_times[i].runtime =
+            g_diagnostics_context.raw_tasks[i].ulRunTimeCounter;
     }
 
     g_diagnostics_context.previous_total_runtime = g_diagnostics_context.total_runtime;

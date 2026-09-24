@@ -26,10 +26,9 @@ typedef struct {
     char name[configMAX_TASK_NAME_LEN];
     eTaskState state;
 
-    uint32_t stack_min_free_bytes; /** Fewest bytes that have ever been available on the stack. */
-
+    uint32_t stack_min_free_bytes; /**< Fewest bytes that have ever been available on the stack. */
     float cpu_usage_percent;
-    bool cpu_usage_valid; /** True if usage can be computed. */
+    bool cpu_usage_valid; /**< True if usage can be computed. */
 } diagnostics_task_t;
 
 /** Snapshot of the CPU. Contains system and task stats.  */
@@ -39,26 +38,26 @@ typedef struct {
     uint32_t task_count;
 
     float cpu_usage_percent;
-    bool cpu_usage_valid; /** True if usage can be computed. */
-    bool
-        task_capacity_exceeded; /** True if there are more than DIAGNOSTICS_MAX_TASKS. If true no diagnostics data will be recorded. */
+    bool cpu_usage_valid;        /**< True if usage can be computed. */
+    bool task_capacity_exceeded; /**< True if there are more than DIAGNOSTICS_MAX_TASKS.
+                                  *   If true no diagnostics data will be recorded. */
 
     diagnostics_task_t tasks[DIAGNOSTICS_MAX_TASKS];
 } diagnostics_snapshot_t;
 
 /** Contains the id of a task, and its last recorded runtime.
-*   Used for calculating how long a task has been running.
-*/
+ * Used for calculating how long a task has been running.
+ */
 typedef struct {
     UBaseType_t task_id;
     uint32_t runtime;
 } diagnostics_prev_task_time_t;
 
-/** @brief Contains all globals used in diagnostics.c 
-* 
-*   This struct is filled out by diagnostics_periodic()
-*   Includes all needed variables for performing profiling.
-*/
+/** @brief Contains all globals used in diagnostics.c
+ *
+ * This struct is filled out by diagnostics_periodic()
+ * Includes all needed variables for performing profiling.
+ */
 typedef struct {
     TaskStatus_t raw_tasks[DIAGNOSTICS_MAX_TASKS];
     diagnostics_snapshot_t working_snapshot;
@@ -69,10 +68,15 @@ typedef struct {
 } diagnostics_context_t;
 
 /**
-* @brief Periodic function that collects profiling data
-*
-*  Fills out a diagnostics_context_t global struct.
-*/
+ * @brief Samples task statistics and estimates CPU utilization.
+ *
+ * Records task IDs, names, states, and stack high-water marks.
+ * Calculates each task's CPU utilization from the runtime difference between samples.
+ * Overall CPU utilization is calculated as 100% minus the idle task's utilization.
+ *
+ * @note CPU utilization requires a previous sample and a valid runtime delta.
+ * @note This function should only be called by one task at a time.
+ */
 void diagnostics_periodic(void);
 
 #endif // DIAGNOSTICS_H
