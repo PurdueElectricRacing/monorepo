@@ -1,4 +1,4 @@
-use crate::{connection, paths, ui::theme};
+use crate::{connection, ui::theme};
 
 pub const SETTINGS_PATH: &str = "settings.json";
 pub const DEFAULT_LOG_FOLDER: &str = "logs";
@@ -40,7 +40,7 @@ impl Settings {
     }
 
     pub fn load() -> Self {
-        let path = paths::find_file(SETTINGS_PATH).unwrap_or_else(Self::path);
+        let path = Self::path();
         if let Ok(json) = std::fs::read_to_string(&path) {
             serde_json::from_str(&json).unwrap_or_default()
         } else {
