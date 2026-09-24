@@ -5,7 +5,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from core.artifacts import clear_artifacts, write_artifacts
-from core.config import DBC_DIR, GENERATED_DIR
+from core.config import DBC_DIR, GENERATED_DIR, TOPOLOGY_DIR
 from core.declaration_loader import DeclarationValidationError, load_declarations
 from canpiler.api import Canpiler
 from canpiler.pipeline.compiler import CanCompilationError
@@ -30,12 +30,17 @@ def generate() -> None:
     artifacts  = canpiler.generate(linked_can, version)
     artifacts += faultgen.generate(fault_plan, version)
 
-    output_roots = {"generated": GENERATED_DIR, "dbc": DBC_DIR}
+    output_roots = {
+        "generated": GENERATED_DIR,
+        "dbc": DBC_DIR,
+        "topology": TOPOLOGY_DIR,
+    }
     clear_artifacts(
         output_roots,
         {
             "generated": "*",
             "dbc": ("*.dbc", "superdbc_*.json", "topology_*.dot"),
+            "topology": "topology_*.dot",
         },
     )
     write_artifacts(output_roots, artifacts)

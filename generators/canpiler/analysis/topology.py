@@ -117,7 +117,7 @@ def _generate_bus_graph(linked: LinkedCan, bus_name: str) -> Artifact:
 
     filename = f"topology_{bus_name}.dot"
     print_as_ok(f"Generated {filename}")
-    return Artifact("dbc", filename, "\n".join(lines) + "\n")
+    return Artifact("topology", filename, "\n".join(lines) + "\n")
 
 
 def generate_topology_graphs(linked: LinkedCan) -> list[Artifact]:
