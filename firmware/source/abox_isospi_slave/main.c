@@ -78,7 +78,7 @@ void EXTI0_IRQHandler(void) {
     }
 }
 int main(void) {
-    PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
     if (!PHAL_GPIO_init(pins, countof(pins))) { HardFault_Handler(); }
     emulator_init(&g_emulator);
     RCC->APB2ENR |= RCC_APB2ENR_SPI1EN | RCC_APB2ENR_SYSCFGEN;
