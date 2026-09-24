@@ -27,8 +27,12 @@ application payloads; it does not replace resident bootloaders.
 1. Connect DaqApp to VCAN and confirm target telemetry is visible.
 2. Open **Bootloader** from the sidebar or command palette.
 3. Select `firmware/output/manifest.json` or `firmware_*.tar.gz`.
-4. Select targets with recent bootloader telemetry, or choose **Select available**.
-5. Choose **Review update**, verify the target list, then choose **Start update**.
+4. Select targets with recent bootloader telemetry for normal updates, or choose
+**Select available**. A nonresponding target can also be selected for single-target
+armed recovery.
+5. Choose **Review update** and verify the target list. Choose **Start update** for
+the normal automatic reset-and-update flow. For manual recovery, choose **Arm
+and wait for READY**; DaqApp sends no reset/start frame while armed.
 6. Keep power and CAN connected until DaqApp reports **Update complete**; verify telemetry.
 
 Selected boards update sequentially. Front and rear driveline are separate nodes.
@@ -39,11 +43,20 @@ Selected boards update sequentially. Front and rear driveline are separate nodes
 
 ![DaqApp bootloader updater state machine](daqapp_bootloader_state_machine.drawio.png)
 
-DaqApp sends `START` to reset a running application into the resident
-bootloader. After `READY`, it erases, transfers, validates, and hands off the
-image. A target already in the resident bootloader starts directly. See the
-[resident guide](../../firmware/source/bootloader/README.md) for protocol and
-flash details.
+In the normal flow, DaqApp sends `START` to reset a running application into
+the resident bootloader. After `READY`, it erases, transfers, validates, and
+hands off the image. A target already in the resident bootloader starts directly.
+
+Armed mode requires exactly one selected target and sends no CAN frames while
+waiting. After arming, manually reset or power-cycle the target into the
+resident bootloader. When its matching `READY` response arrives, DaqApp begins
+the update automatically. Normal **Start update** requires recent bootloadable
+telemetry for every selected target and supports multi-target sequential
+updates. Cancel the armed wait from the Bootloader widget if the target does not
+become ready.
+
+See the [resident guide](../../firmware/source/bootloader/README.md) for
+protocol and flash details.
 
 **Cancel** stops DaqApp's host state machine but cannot undo target writes. Retry
 a cancelled or failed board before vehicle use. The protocol has no

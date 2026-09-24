@@ -161,7 +161,10 @@ pub fn start_can_thread(
                         state.last_hil_update = std::time::Instant::now();
                     }
                     messages::MsgFromUi::StartFirmwareUpdate(package) => {
-                        state.start_firmware_update(package);
+                        state.start_firmware_update(package, false);
+                    }
+                    messages::MsgFromUi::ArmFirmwareUpdate(package) => {
+                        state.start_firmware_update(package, true);
                     }
                     messages::MsgFromUi::CancelFirmwareUpdate => {
                         state.cancel_firmware_update();
@@ -329,9 +332,15 @@ pub fn start_can_thread(
                         let data_bytes = if state.firmware_update_active() {
                             match &frame {
                                 slcan::CanFrame::Can2(frame2) => {
-                                    let id =
-                                        util::can::slcan_to_u32_without_extid_flag(&frame2.id());
-                                    state.firmware_frame_received(id, frame2.data().unwrap_or(&[]));
+                                    if matches!(frame2.id(), slcan::Id::Standard(_)) {
+                                        let id = util::can::slcan_to_u32_without_extid_flag(
+                                            &frame2.id(),
+                                        );
+                                        state.firmware_frame_received(
+                                            id,
+                                            frame2.data().unwrap_or(&[]),
+                                        );
+                                    }
                                     frame2.data().map_or(0, |data| data.len())
                                 }
                                 slcan::CanFrame::CanFd(frame_fd) => frame_fd.data().len(),

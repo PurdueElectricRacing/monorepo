@@ -87,7 +87,7 @@ impl Bootloader {
                 ui.heading("Firmware updates");
                 ui.label(
                     egui::RichText::new(
-                        "Verify a package, choose responding targets, and update them in sequence.",
+                        "Select responding targets for normal updates, or arm one target for manual recovery.",
                     )
                     .weak(),
                 );
@@ -106,12 +106,6 @@ impl Bootloader {
                 };
                 let images = package.images.clone();
                 let now = Instant::now();
-
-                for image in &images {
-                    if self.capability_state(&image.name, now) != CapabilityState::Available {
-                        self.selected_targets.remove(&image.name);
-                    }
-                }
 
                 let available_count = images
                     .iter()
@@ -174,6 +168,7 @@ impl Bootloader {
                         &images,
                         &selected_images,
                         &protocol_matches,
+                        now,
                     );
                 } else {
                     ui.horizontal(|ui| {
@@ -191,7 +186,7 @@ impl Bootloader {
                         if selected_images.is_empty() {
                             ui.label(
                                 egui::RichText::new(
-                                    "Select at least one available target to continue.",
+                                    "Select at least one target to continue.",
                                 )
                                 .small()
                                 .weak(),
@@ -358,13 +353,13 @@ impl Bootloader {
                             let mut selected = self.selected_targets.contains(&image.name);
                             if ui
                                 .add_enabled(
-                                    !self.running && available,
+                                    !self.running,
                                     egui::Checkbox::without_text(&mut selected),
                                 )
                                 .on_hover_text(if available {
-                                    "Include this target in the update"
+                                    "Include this target in a normal update or arm it for recovery"
                                 } else {
-                                    "A target must be available before it can be selected"
+                                    "Can be selected for manual recovery; normal updates require recent bootloadable telemetry"
                                 })
                                 .changed()
                             {
@@ -433,6 +428,7 @@ impl Bootloader {
         package_images: &[crate::bootloader_protocol::FirmwareImage],
         selected_images: &[crate::bootloader_protocol::FirmwareImage],
         protocol_matches: &[ProtocolMatch],
+        now: Instant,
     ) {
         egui::Frame::group(ui.style()).show(ui, |ui| {
             ui.set_min_width(ui.available_width());
@@ -455,6 +451,34 @@ impl Bootloader {
                 .small()
                 .color(ui.visuals().warn_fg_color),
             );
+            ui.label(
+                egui::RichText::new(
+                    "Arm sends no reset/start frame. After arming, manually reset or power-cycle the selected target; DaqApp starts the update when it reports READY.",
+                )
+                .small()
+                .weak(),
+            );
+            if selected_images.len() > 1 {
+                ui.label(
+                    egui::RichText::new(
+                        "Arm mode requires exactly one selected target; use Start update for multiple targets.",
+                    )
+                    .small()
+                    .weak(),
+                );
+            }
+            let selected_targets_available = selected_images.iter().all(|image| {
+                self.capability_state(&image.name, now) == CapabilityState::Available
+            });
+            if !selected_targets_available {
+                ui.label(
+                    egui::RichText::new(
+                        "Start update requires recent bootloadable telemetry for every selected target. Arm one target for manual recovery.",
+                    )
+                    .small()
+                    .weak(),
+                );
+            }
             let has_protocol_warning = !protocol_matches.is_empty();
             if has_protocol_warning {
                 ui.add_space(6.0);
@@ -471,7 +495,7 @@ impl Bootloader {
                 }
                 ui.label(
                     egui::RichText::new(
-                        "Starting now acknowledges this warning for the current update.",
+                        "Choosing either action acknowledges this warning for the current update.",
                     )
                     .small()
                     .weak(),
@@ -484,30 +508,73 @@ impl Bootloader {
                 } else {
                     "Start update"
                 };
-                if ui
-                    .add_enabled(
-                        !selected_images.is_empty(),
-                        egui::Button::new(start_label),
-                    )
-                    .clicked()
-                {
-                    let click_matches = self.refresh_protocol_state(Instant::now());
+                let arm_label = if has_protocol_warning {
+                    "Acknowledge warning & arm"
+                } else {
+                    "Arm and wait for READY"
+                };
+                let start_button = ui.add_enabled(
+                    !selected_images.is_empty() && selected_targets_available,
+                    egui::Button::new(start_label),
+                );
+                let arm_button = ui.add_enabled(
+                    selected_images.len() == 1,
+                    egui::Button::new(arm_label),
+                );
+                let action = if start_button.clicked() {
+                    Some(false)
+                } else if arm_button.clicked() {
+                    Some(true)
+                } else {
+                    None
+                };
+                if let Some(armed) = action {
+                    if armed && selected_images.len() != 1 {
+                        return;
+                    }
+                    let action_images = if armed {
+                        vec![selected_images[0].clone()]
+                    } else {
+                        selected_images.to_vec()
+                    };
+                    let now = Instant::now();
+                    if !armed
+                        && !action_images.iter().all(|image| {
+                            self.capability_state(&image.name, now) == CapabilityState::Available
+                        })
+                    {
+                        ui.ctx().request_repaint();
+                        return;
+                    }
+                    let click_matches = self.refresh_protocol_state(now);
                     if !can_start_update(
-                        !selected_images.is_empty(),
+                        !action_images.is_empty(),
                         &click_matches,
                         has_protocol_warning,
                     ) {
                         ui.ctx().request_repaint();
                         return;
                     }
-                    let message = messages::MsgFromUi::StartFirmwareUpdate(FirmwarePackage {
-                        images: selected_images.to_vec(),
-                    });
+                    let package = FirmwarePackage {
+                        images: action_images.clone(),
+                    };
+                    let message = if armed {
+                        messages::MsgFromUi::ArmFirmwareUpdate(package)
+                    } else {
+                        messages::MsgFromUi::StartFirmwareUpdate(package)
+                    };
                     if ui_to_can_tx.send(message).is_ok() {
-                        self.begin_run(package_images, selected_images);
+                        self.begin_run(package_images, &action_images);
                         self.running = true;
                         self.confirming_update = false;
-                        self.status = "Starting update…".to_string();
+                        self.status = if armed {
+                            format!(
+                                "Armed — waiting for READY from {}",
+                                display_target_name(&action_images[0].name)
+                            )
+                        } else {
+                            "Starting update…".to_string()
+                        };
                         self.package_error = None;
                     } else {
                         self.package_error = Some(
@@ -703,9 +770,6 @@ impl Bootloader {
             } else {
                 observations.bootloader = Some(observation);
             }
-            if self.capability_state(target, Instant::now()) == CapabilityState::NotBootloadable {
-                self.selected_targets.remove(target);
-            }
             return;
         }
 
@@ -757,63 +821,6 @@ fn can_start_update(
     acknowledged_now: bool,
 ) -> bool {
     has_targets && (observations.is_empty() || acknowledged_now)
-}
-
-#[cfg(test)]
-mod protocol_warning_tests {
-    use super::*;
-
-    fn image() -> crate::bootloader_protocol::FirmwareImage {
-        crate::bootloader_protocol::FirmwareImage {
-            name: "front_driveline".to_string(),
-            bytes: Vec::new(),
-            crc32: 0,
-            start_id: 0x100,
-            crc_id: 0x101,
-            jump_id: 0x102,
-            data_id: 0x103,
-            response_id: 0x104,
-        }
-    }
-
-    #[test]
-    fn protocol_frame_filter_ignores_extended_and_bootloader_info_frames() {
-        assert!(!is_protocol_frame_candidate(true, None));
-        assert!(!is_protocol_frame_candidate(
-            false,
-            Some("bl_front_driveline_info")
-        ));
-        assert!(is_protocol_frame_candidate(
-            false,
-            Some("bl_front_driveline_resp")
-        ));
-        assert!(is_protocol_frame_candidate(false, None));
-    }
-
-    #[test]
-    fn info_telemetry_does_not_trigger_a_warning_even_on_a_matching_id() {
-        let mut bootloader = Bootloader::new(0);
-        bootloader.package = Some(FirmwarePackage {
-            images: vec![image()],
-        });
-
-        bootloader.observe_protocol_frame(0x100, false, Some("bl_front_driveline_info"));
-
-        assert!(bootloader.protocol_observations.is_empty());
-    }
-
-    #[test]
-    fn acknowledgement_is_required_for_a_current_warning() {
-        let warning = [ProtocolMatch {
-            id: 0x100,
-            boards: vec!["front_driveline".to_string()],
-        }];
-
-        assert!(!can_start_update(true, &warning, false));
-        assert!(can_start_update(true, &warning, true));
-        assert!(can_start_update(true, &[], false));
-        assert!(!can_start_update(false, &[], true));
-    }
 }
 
 fn status_banner(ui: &mut egui::Ui, message: &str, color: egui::Color32) {

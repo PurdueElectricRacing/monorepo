@@ -8,6 +8,7 @@ pub enum MsgFromUi {
     UpdateLogFolder(std::path::PathBuf),
     Hil(hil::engine::HilCommand),
     StartFirmwareUpdate(bootloader_protocol::FirmwarePackage),
+    ArmFirmwareUpdate(bootloader_protocol::FirmwarePackage),
     CancelFirmwareUpdate,
 }
 
