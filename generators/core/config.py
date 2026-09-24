@@ -16,6 +16,7 @@ CAN_TEMPLATE_DIR   = GENERATOR_DIR / "canpiler" / "codegen" / "templates"
 FAULT_TEMPLATE_DIR = GENERATOR_DIR / "faultgen" / "templates"
 GENERATED_DIR      = CAN_LIBRARY_DIR / "generated"
 DBC_DIR            = REPOSITORY_DIR / "dbc"
+TOPOLOGY_DIR       = REPOSITORY_DIR / "docs" / "topology"
 
 SYSTEM_CONFIG_DIR        = CONFIG_DIR / "system"
 NODE_CONFIG_DIR          = CONFIG_DIR / "nodes"
