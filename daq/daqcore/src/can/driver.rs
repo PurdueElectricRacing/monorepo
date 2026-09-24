@@ -234,7 +234,7 @@ fn format_fil_injection(bus: &str, frame: CanFrame) -> DriverResult<String> {
 impl Driver for FilDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         use std::sync::mpsc::RecvTimeoutError;
-        let first = match self.output.recv_timeout(Duration::from_millis(1)) {
+        let first = match self.output.recv_timeout(Duration::from_millis(50)) {
             Ok(frame) => frame,
             Err(RecvTimeoutError::Timeout) => return Err(DriverError::Timeout),
             Err(RecvTimeoutError::Disconnected) => {
