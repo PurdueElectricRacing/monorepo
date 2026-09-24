@@ -102,7 +102,7 @@ var searchData=
   ['example_99',['For example',['../md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md10',1,'']]],
   ['example_3a_100',['Example:',['../md_firmware_2common_2lerp__lut_2README.html#autotoc_md68',1,'Usage Example:'],['../md_firmware_2common_2strbuf_2README.html#autotoc_md76',1,'Usage Example:']]],
   ['exitcritical_101',['exitCritical',['../usart__priv_8c.html#aa00be98e4959c28c2d915d3159cb65fd',1,'usart_priv.c']]],
-  ['extensions_102',['2.1 Install Recommended Extensions',['../md_docs_2setup.html#autotoc_md114',1,'']]],
+  ['extensions_102',['2.1 Install Recommended Extensions',['../md_docs_2setup.html#autotoc_md115',1,'']]],
   ['exti0_5firqhandler_103',['EXTI0_IRQHandler',['../driver__interface_8c.html#ac40e3efd9598191869ae6e4677df48ba',1,'EXTI0_IRQHandler():&#160;driver_interface.c'],['../driver__interface_8h.html#a17e9789a29a87d2df54f12b94dd1a0b6',1,'EXTI0_IRQHandler(void):&#160;driver_interface.c']]],
   ['exti15_5f10_5firqhandler_104',['EXTI15_10_IRQHandler',['../daq_2main_8c.html#a2089b233bd8d6f7dbf78e075033696e3',1,'EXTI15_10_IRQHandler():&#160;main.c'],['../driver__interface_8c.html#a2089b233bd8d6f7dbf78e075033696e3',1,'EXTI15_10_IRQHandler():&#160;driver_interface.c'],['../driver__interface_8h.html#a738473a5b43f6c92b80ce1d3d6f77ed9',1,'EXTI15_10_IRQHandler(void):&#160;main.c']]],
   ['exti1_5firqhandler_105',['EXTI1_IRQHandler',['../driver__interface_8c.html#a7e9055d1f4a14ef6eb3990a77efc8983',1,'EXTI1_IRQHandler():&#160;driver_interface.c'],['../driver__interface_8h.html#a49cfdd46eb8d0ef3e1987514aa9343dc',1,'EXTI1_IRQHandler(void):&#160;driver_interface.c']]],

@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['machine_0',['machine',['../md_firmware_2source_2bootloader_2README.html#autotoc_md23',1,'State machine'],['../md_docs_2daqapp_2bootloader__updates.html#autotoc_md96',1,'Updater architecture and state machine']]],
-  ['macos_1',['3A. macOS',['../md_docs_2setup.html#autotoc_md116',1,'']]],
+  ['machine_0',['machine',['../md_firmware_2source_2bootloader_2README.html#autotoc_md23',1,'State machine'],['../md_docs_2daqapp_2bootloader__updates.html#autotoc_md97',1,'Updater architecture and state machine']]],
+  ['macos_1',['3A. macOS',['../md_docs_2setup.html#autotoc_md117',1,'']]],
   ['magneticacc_2',['magneticAcc',['../structNAV__PVT__data__t.html#aa7fc2e0107d3bdf9a174d5b532f38502',1,'NAV_PVT_data_t']]],
   ['magneticdec_3',['magneticDec',['../structNAV__PVT__data__t.html#a35c77edd8752ea689d18b070f151c412',1,'NAV_PVT_data_t']]],
   ['main_4',['main',['../a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;main.c'],['../bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;main.c'],['../daq_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;main.c'],['../dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;main.c'],['../driveline_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;main.c'],['../canpiler_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;canpiler.c'],['../blinky_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;blinky.c'],['../main__module_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;main.c'],['../pdu_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;main.c'],['../torque__vector_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;main.c']]],
@@ -100,7 +100,7 @@ var searchData=
   ['maxwrblocklen_97',['MaxWrBlockLen',['../structSD__CSD.html#a01b66a076abd050fffc3ecb8d658e9de',1,'SD_CSD']]],
   ['maxwrcurrentvddmax_98',['MaxWrCurrentVDDMax',['../structSD__CSD.html#aa9456344ada6f41b6ac228ef537360a5',1,'SD_CSD']]],
   ['maxwrcurrentvddmin_99',['MaxWrCurrentVDDMin',['../structSD__CSD.html#aefe327b7f473bdc99a40e7b66477147a',1,'SD_CSD']]],
-  ['mcan_100',['MCAN',['../can_topology.html#autotoc_md87',1,'']]],
+  ['mcan_100',['MCAN',['../md_docs_2can__topology.html#autotoc_md88',1,'']]],
   ['mcan_2eh_101',['MCAN.h',['../MCAN_8h.html',1,'']]],
   ['mcan_5fbaud_5frate_102',['MCAN_BAUD_RATE',['../MCAN_8h.html#a733a72c0775aa63e2a38fe858c550dee',1,'MCAN.h']]],
   ['mco1_5fsrc_5fhse_103',['MCO1_SRC_HSE',['../phal__F4_2rcc_2rcc_8h.html#a378741c9da736e56ad4972e7bf27fd0aa92c11660c4125b6ad8e338a939a76ec8',1,'rcc.h']]],
@@ -134,7 +134,7 @@ var searchData=
   ['meters_5ffrom_5fmillimeters_131',['meters_from_millimeters',['../units_8h.html#a91f7ff0ac01dfd942329208f9a05b62b',1,'units.h']]],
   ['meters_5fper_5fdegree_132',['METERS_PER_DEGREE',['../geodetic_8h.html#a80d3ae33f2f7df829411c704086c3d0e',1,'geodetic.h']]],
   ['meters_5ft_133',['meters_t',['../structmeters__t.html',1,'']]],
-  ['microcontrollers_134',['About the microcontrollers',['../md_docs_2library.html#autotoc_md103',1,'']]],
+  ['microcontrollers_134',['About the microcontrollers',['../md_docs_2library.html#autotoc_md104',1,'']]],
   ['miles_5ft_135',['miles_t',['../structmiles__t.html',1,'']]],
   ['millimeters_5ft_136',['millimeters_t',['../structmillimeters__t.html',1,'']]],
   ['millisecond_137',['millisecond',['../structgps__time__data__t.html#a04fbf436d39077563260c74bdfa8f6be',1,'gps_time_data_t']]],

@@ -47,7 +47,7 @@ var searchData=
   ['vbatt_5fgpio_5fport_44',['VBATT_GPIO_PORT',['../a__box_2main_8h.html#a802fb40a654626a5c82ce20086596cae',1,'main.h']]],
   ['vbatt_5fraw_45',['vbatt_raw',['../structadc1__dma__buffer__t.html#a56c855217254a640ee5e06655d912aff',1,'adc1_dma_buffer_t']]],
   ['vbatt_5fto_5fvoltage_46',['vbatt_to_voltage',['../a__box_2telemetry_2telemetry_8c.html#a19a5190bd53f3e792c4c164ff3cce592',1,'telemetry.c']]],
-  ['vcan_47',['VCAN',['../can_topology.html#autotoc_md89',1,'']]],
+  ['vcan_47',['VCAN',['../md_docs_2can__topology.html#autotoc_md90',1,'']]],
   ['vcan_2eh_48',['VCAN.h',['../VCAN_8h.html',1,'']]],
   ['vcan_5fbaud_5frate_49',['VCAN_BAUD_RATE',['../VCAN_8h.html#a04f43a870064cf90eb018b19e4234a2e',1,'VCAN.h']]],
   ['vcan_5frx_5fgpio_5fport_50',['VCAN_RX_GPIO_Port',['../pdu_2main_8h.html#ae149f315898d37fba8fd24600c9e0daa',1,'main.h']]],
@@ -139,12 +139,12 @@ var searchData=
   ['version_5fperiodic_136',['version_periodic',['../driveline_2main_8c.html#a4bd637396bfd3f2e389802ecfc0f6f56',1,'main.c']]],
   ['verticalaccuracy_137',['verticalAccuracy',['../structNAV__PVT__data__t.html#ab72797a5db6811b0672378ed84c7bdbc',1,'NAV_PVT_data_t']]],
   ['violation_138',['violation',['../structE__METER__STATUS__data__t.html#ad08b13dc072dbfbdbba963393f6ab316',1,'E_METER_STATUS_data_t']]],
-  ['visual_20studio_20code_139',['2. Install Visual Studio Code',['../md_docs_2setup.html#autotoc_md113',1,'']]],
+  ['visual_20studio_20code_139',['2. Install Visual Studio Code',['../md_docs_2setup.html#autotoc_md114',1,'']]],
   ['vmc_5fecu_5fpin_140',['VMC_ECU_PIN',['../main__module_2main_8h.html#afb0098d6fc9f1ae08086a5d9afce7a02',1,'main.h']]],
   ['vmc_5fecu_5fport_141',['VMC_ECU_PORT',['../main__module_2main_8h.html#adcfa35b93911e834dacbcc9e90a6cf79',1,'main.h']]],
   ['voltage_142',['voltage',['../structcell__telemetry__ccan__data__t.html#ac6a232f8c37134cb67afbb87b8679ec4',1,'cell_telemetry_ccan_data_t::voltage'],['../structcanpiler__test__data__t.html#a6efb962abb10f4bc5568d4d075436dbe',1,'canpiler_test_data_t::voltage'],['../structcell__telemetry__data__t.html#a04484c3a18bd702e8bd6c18dd5ad953e',1,'cell_telemetry_data_t::voltage'],['../structE__METER__MEASUREMENT__data__t.html#a4b3d12b81e7e543758953a1e80d4c079',1,'E_METER_MEASUREMENT_data_t::voltage']]],
   ['voltage_5flimit_143',['voltage_limit',['../structelcon__command__data__t.html#a1c05aef4f8e91f98aa3812ca52fec185',1,'elcon_command_data_t::voltage_limit'],['../structcharging__fsm__internals__data__t.html#a2f452922ddb52fb45249d76ac4d0cb33',1,'charging_fsm_internals_data_t::voltage_limit']]],
   ['vportsvchandler_144',['vPortSVCHandler',['../FreeRTOSConfig_8h.html#ad43047b3ea0a146673e30637488bf754',1,'FreeRTOSConfig.h']]],
-  ['vs_20code_145',['8. Build from VS Code',['../md_docs_2setup.html#autotoc_md138',1,'']]],
-  ['vs_20code_20inside_20of_20wsl_146',['3C.3 Use VS Code inside of WSL',['../md_docs_2setup.html#autotoc_md126',1,'']]]
+  ['vs_20code_145',['8. Build from VS Code',['../md_docs_2setup.html#autotoc_md139',1,'']]],
+  ['vs_20code_20inside_20of_20wsl_146',['3C.3 Use VS Code inside of WSL',['../md_docs_2setup.html#autotoc_md127',1,'']]]
 ];

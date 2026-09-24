@@ -97,7 +97,7 @@ var searchData=
   ['pack_5fovertemp_94',['PACK_OVERTEMP',['../structa__box__fault__sync__data__t.html#a6c77805d6cf68043e015382c985a9aeb',1,'a_box_fault_sync_data_t']]],
   ['pack_5fvoltage_95',['pack_voltage',['../structpack__bms__ccan__data__t.html#a9853b60b807256714545e29e6a63de72',1,'pack_bms_ccan_data_t::pack_voltage'],['../structpack__analog__ccan__data__t.html#aaa287f3620c63701a42607703f2c4d7c',1,'pack_analog_ccan_data_t::pack_voltage'],['../structpack__bms__data__t.html#a302538d66e5f47c6f0ef6e7e02cb2b6d',1,'pack_bms_data_t::pack_voltage'],['../structpack__analog__data__t.html#a578d6b658f1221e092a00ce60094b060',1,'pack_analog_data_t::pack_voltage']]],
   ['pack_5fwarm_96',['PACK_WARM',['../structa__box__fault__sync__data__t.html#a61380524379e2646e1a20c7a123f5f9b',1,'a_box_fault_sync_data_t']]],
-  ['package_97',['Prepare the firmware package',['../md_docs_2daqapp_2bootloader__updates.html#autotoc_md94',1,'']]],
+  ['package_97',['Prepare the firmware package',['../md_docs_2daqapp_2bootloader__updates.html#autotoc_md95',1,'']]],
   ['page_5famk_98',['PAGE_AMK',['../lcd_8h.html#a99a5fddfe71e6e9cd0c559b9a9a41a99af059dd8d24441a62945bd6d66e5b1c8c',1,'lcd.h']]],
   ['page_5fcalibration_99',['PAGE_CALIBRATION',['../lcd_8h.html#a99a5fddfe71e6e9cd0c559b9a9a41a99ad440c6fd0af7c16acce46826f9b46e16',1,'lcd.h']]],
   ['page_5ffaults_100',['PAGE_FAULTS',['../lcd_8h.html#a99a5fddfe71e6e9cd0c559b9a9a41a99a874f8efdf9407c549017fa82242bbb94',1,'lcd.h']]],
@@ -524,8 +524,8 @@ var searchData=
   ['pitch_521',['pitch',['../structeuler__angles__t.html#ab530ad6bf1ee511e9e6f27b85637bac8',1,'euler_angles_t']]],
   ['pladc_522',['PLADC',['../commands_8c.html#ab369391094237eefe03a3bbd6f4df9e5',1,'PLADC:&#160;commands.c'],['../commands_8h.html#ab369391094237eefe03a3bbd6f4df9e5',1,'PLADC:&#160;commands.c']]],
   ['platform_20layers_523',['Core platform layers',['../md_firmware_2common_2README.html#autotoc_md70',1,'']]],
-  ['platform_20unit_20testing_20tools_524',['3. Install Platform + Unit Testing Tools',['../md_docs_2setup.html#autotoc_md115',1,'']]],
-  ['platforms_20supported_525',['Platforms supported',['../md_docs_2setup.html#autotoc_md109',1,'']]],
+  ['platform_20unit_20testing_20tools_524',['3. Install Platform + Unit Testing Tools',['../md_docs_2setup.html#autotoc_md116',1,'']]],
+  ['platforms_20supported_525',['Platforms supported',['../md_docs_2setup.html#autotoc_md110',1,'']]],
   ['plaut_526',['PLAUT',['../commands_8c.html#af229e952623cbab0932eb8f816116961',1,'PLAUT:&#160;commands.c'],['../commands_8h.html#af229e952623cbab0932eb8f816116961',1,'PLAUT:&#160;commands.c']]],
   ['plaux1_527',['PLAUX1',['../commands_8c.html#aafbce6ee85da643ce1b1be50fdac6e54',1,'PLAUX1:&#160;commands.c'],['../commands_8h.html#aafbce6ee85da643ce1b1be50fdac6e54',1,'PLAUX1:&#160;commands.c']]],
   ['plaux2_528',['PLAUX2',['../commands_8c.html#a994d8f9ab90e4c3be4b0d5a18b27627c',1,'PLAUX2:&#160;commands.c'],['../commands_8h.html#a994d8f9ab90e4c3be4b0d5a18b27627c',1,'PLAUX2:&#160;commands.c']]],
@@ -562,7 +562,7 @@ var searchData=
   ['preflight_5fcallback_559',['preflight_callback',['../structstatus__leds__t.html#ab44fafa19a09a8bd44cea504b35bcb2f',1,'status_leds_t']]],
   ['preflight_5fduration_5fms_560',['PREFLIGHT_DURATION_MS',['../heartbeat_8h.html#ade36a494f670d4c31af261ae9ebb1f29',1,'heartbeat.h']]],
   ['preflight_5fled_5fsweep_561',['preflight_led_sweep',['../heartbeat_8c.html#a1d58d4db1dcf0ec5b290850c6ae31f3b',1,'heartbeat.c']]],
-  ['prepare_20the_20firmware_20package_562',['Prepare the firmware package',['../md_docs_2daqapp_2bootloader__updates.html#autotoc_md94',1,'']]],
+  ['prepare_20the_20firmware_20package_562',['Prepare the firmware package',['../md_docs_2daqapp_2bootloader__updates.html#autotoc_md95',1,'']]],
   ['pressure_563',['pressure',['../structcanpiler__test__data__t.html#a33c8722b9da82fa767ae9fae61f170aa',1,'canpiler_test_data_t']]],
   ['prev_5fpage_564',['prev_page',['../lcd_8c.html#a8b71ea5d4f043abfa893e1d47cb51c06',1,'lcd.c']]],
   ['priority_565',['priority',['../structdma__init__t.html#ad49eda1dd86f28dcd3e8a086e2c80eb4',1,'dma_init_t::priority'],['../structPHAL__DMA__Params__t.html#af83c6c23d26741f2f8f57e29dbe96b79',1,'PHAL_DMA_Params_t::priority'],['../structRTOS__periodic__task__params__t.html#afb0c517a9d89120fd9d19853158bc3f0',1,'RTOS_periodic_task_params_t::priority'],['../structfault__t.html#a44150f7d234be00ace86ad125102a674',1,'fault_t::priority']]],
@@ -611,5 +611,5 @@ var searchData=
   ['pwm_5ftesting_2ec_608',['pwm_testing.c',['../f4__testing_2pwm__testing_8c.html',1,'(Global Namespace)'],['../g4__testing_2pwm__testing_8c.html',1,'(Global Namespace)']]],
   ['pwr_5floss_5fpin_609',['PWR_LOSS_PIN',['../daq_2main_8h.html#ad89a8013f44c1cf0236952774b464675',1,'main.h']]],
   ['pwr_5floss_5fport_610',['PWR_LOSS_PORT',['../daq_2main_8h.html#a082fcbe31a8af390ca037a5d70eac72b',1,'main.h']]],
-  ['python_20dependencies_611',['4. Install Python Dependencies',['../md_docs_2setup.html#autotoc_md128',1,'']]]
+  ['python_20dependencies_611',['4. Install Python Dependencies',['../md_docs_2setup.html#autotoc_md129',1,'']]]
 ];
