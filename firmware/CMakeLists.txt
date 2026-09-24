@@ -53,6 +53,8 @@ set(SOURCE_MODULES
     source/f4_testing
     source/g4_testing
     source/a_box
+    source/abox_isospi_target
+    source/abox_isospi_slave
     source/dashboard
     source/daq
     source/driveline

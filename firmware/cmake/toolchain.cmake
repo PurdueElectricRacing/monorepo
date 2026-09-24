@@ -23,7 +23,7 @@ set(C_FLAGS
     "-fno-math-errno"
     "-fdiagnostics-color=always"
 
-    "-Og"
+    "-O0"
     "-g3"
     
     "-Wall"

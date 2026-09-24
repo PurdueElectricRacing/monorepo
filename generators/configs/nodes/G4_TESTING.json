@@ -1,8 +1,9 @@
 {
     "node_name": "G4_TESTING",
     "busses": {
-        "GCAN": {
-            "peripheral": "FDCAN2",
+        "CCAN": {
+            "peripheral": "FDCAN1",
+            "accept_all_messages": true,
             "tx": [
                 {
                     "message_name": "IZZE_IMU_config",
@@ -94,7 +95,11 @@
                     "priority": 3
                 }
             ],
-            "rx": []
+            "rx": [
+                {
+                    "message_name": "charge_request"
+                }
+            ]
         }
     },
     "fault_library_enabled": false

@@ -231,7 +231,7 @@
                 "-d",
                 "${workspaceRoot}/firmware/source/g4_testing"
             ],
-            "preLaunchTask": "build all",
+            "preLaunchTask": "build firmware",
             "runToEntryPoint": "main",
             "liveWatch": {
                 "enabled": true,

@@ -14,7 +14,7 @@
         },
         {
             "name": "CCAN",
-            "baud_rate": 250000,
+            "baud_rate": 500000,
             "is_extended_id": true,
             "host_fault_library": false
         },
@@ -26,7 +26,7 @@
         },
         {
             "name": "GCAN",
-            "baud_rate": 1000000,
+            "baud_rate": 500000,
             "is_extended_id": false,
             "host_fault_library": false
         }

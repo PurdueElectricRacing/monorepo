@@ -14,8 +14,13 @@
 
 
 PHAL_GPIO_InitConfig_t gpio_config[] = {
-    PHAL_PIN_DEFS_FDCAN2_RX_PB12,
-    PHAL_PIN_DEFS_FDCAN2_TX_PB13
+    // VCAN_X
+    PHAL_PIN_DEFS_FDCAN1_RX_PA11,
+    PHAL_PIN_DEFS_FDCAN1_TX_PA12,
+
+    // // VCAN2_X
+    // PHAL_PIN_DEFS_FDCAN3_TX_PA15,
+    // PHAL_PIN_DEFS_FDCAN3_RX_PA8
 };
 
 void HardFault_Handler();
@@ -35,17 +40,19 @@ void HardFault_Handler();
  * status       phys (no scale/offset)         165                      165, no scale/offset
  */
 void send_periodic() {
-    uint8_t temperature = (uint8_t)(25.0f - OFFSET_CANPILER_TEST_TEMPERATURE);
-    int16_t current = (int16_t)(-125.5f * PACK_COEFF_CANPILER_TEST_CURRENT);
-    uint16_t voltage = (uint16_t)((3.700f - OFFSET_CANPILER_TEST_VOLTAGE) * PACK_COEFF_CANPILER_TEST_VOLTAGE);
-    uint8_t pressure = (uint8_t)((300.0f - OFFSET_CANPILER_TEST_PRESSURE) * PACK_COEFF_CANPILER_TEST_PRESSURE);
-    uint8_t status = 165;
+    // volatile uint8_t temperature = (uint8_t)(25.0f - OFFSET_CANPILER_TEST_TEMPERATURE);
+    // int16_t current = (int16_t)(-125.5f * PACK_COEFF_CANPILER_TEST_CURRENT);
+    // uint16_t voltage = (uint16_t)((3.700f - OFFSET_CANPILER_TEST_VOLTAGE) * PACK_COEFF_CANPILER_TEST_VOLTAGE);
+    // uint8_t pressure = (uint8_t)((300.0f - OFFSET_CANPILER_TEST_PRESSURE) * PACK_COEFF_CANPILER_TEST_PRESSURE);
+    // uint8_t status = 165;
 
-    CAN_SEND_canpiler_test(temperature, current, voltage, pressure, status);
+    __NOP();
+
+    // CAN_SEND_canpiler_test(temperature, current, voltage, pressure, status);
 }
 
 DEFINE_CAN_TASKS();
-RTOS_DEFINE_TASK(send_periodic, 100, TASK_PRIORITY_NORMAL, 512);
+RTOS_DEFINE_TASK(send_periodic, 5000, TASK_PRIORITY_NORMAL, 512);
 
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
@@ -54,7 +61,7 @@ int main() {
         HardFault_Handler();
     }
 
-    PHAL_FDCAN_init(FDCAN2, GCAN_BAUD_RATE);
+    PHAL_FDCAN_init(FDCAN1, CCAN_BAUD_RATE);
     CAN_init();
 
     START_CAN_TASKS();  

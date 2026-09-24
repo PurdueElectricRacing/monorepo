@@ -1,0 +1,39 @@
+{
+    "node_name": "DAQ_APP_G",
+    "bus_name": "GCAN",
+    "tx": [
+        {
+            "message_name": "asdsad",
+            "description": "Message from DAQ App to A_BOX to request charging",
+            "signals": [
+                {
+                    "signal_name": "charge_voltage",
+                    "description": "Requested charge voltage in decivolts",
+                    "data_type": "uint16_t",
+                    "unit": "V",
+                    "scale": 0.1
+                },
+                {
+                    "signal_name": "charge_current",
+                    "description": "Requested charge current in deciamps",
+                    "data_type": "uint16_t",
+                    "unit": "A",
+                    "scale": 0.1
+                },
+                {
+                    "signal_name": "charge_enable",
+                    "description": "Request to start charging",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "balance_enable",
+                    "description": "Request to start balancing",
+                    "data_type": "bool"
+                }
+            ],
+            "period_ms": 500,
+            "priority": 3
+        }
+    ],
+    "rx": []
+}
