@@ -1,5 +1,6 @@
 use crate::app;
 use crate::daq_log_parse;
+use crate::settings;
 use eframe::egui;
 
 pub struct LogParser {
@@ -53,10 +54,11 @@ impl LogParser {
     }
 
     fn select_bus_dbc(current: &mut Option<std::path::PathBuf>) {
-        if let Some(path) = rfd::FileDialog::new()
-            .add_filter("DBC Files", &["dbc"])
-            .pick_file()
-        {
+        let mut dialog = rfd::FileDialog::new().add_filter("DBC Files", &["dbc"]);
+        if let Some(dir) = settings::dbc_dir() {
+            dialog = dialog.set_directory(dir);
+        }
+        if let Some(path) = dialog.pick_file() {
             *current = Some(path);
         }
     }
