@@ -193,6 +193,8 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         app.can_bus.display_name(),
                         speed.display_name()
                     ),
+                    // FIL connections are managed by the FIL Control widget.
+                    Some(connection::ConnectionSource::Fil { .. }) => "FIL (FIL Control widget)".into(),
                     Some(connection_source) => connection_source.display_name(),
                     None => "Select Source".to_string(),
                 };
