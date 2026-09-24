@@ -47,6 +47,7 @@ jobs:
             firmware/output/**/*.tar.gz
             dbc/*.dbc
             dbc/superdbc_*.json
+            dbc/superdbc.schema.json
           retention-days: ${{ github.ref == 'refs/heads/master' && 90 || 7 }}
 
   cppcheck:

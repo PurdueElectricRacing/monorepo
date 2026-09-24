@@ -39,4 +39,6 @@ jobs:
           files: |
             ./artifacts/**/*.tar.gz
             ./artifacts/**/*.dbc
+            ./artifacts/**/superdbc_*.json
+            ./artifacts/**/superdbc.schema.json
           prerelease: true

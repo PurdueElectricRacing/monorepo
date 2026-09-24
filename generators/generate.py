@@ -39,7 +39,11 @@ def generate() -> None:
         output_roots,
         {
             "generated": "*",
-            "dbc": ("*.dbc", "superdbc_*.json", "topology_*.dot"),
+            "dbc": (
+                "*.dbc",
+                "superdbc_*.json",
+                "superdbc.schema.json"
+            ),
             "topology": "topology_*.dot",
         },
     )
