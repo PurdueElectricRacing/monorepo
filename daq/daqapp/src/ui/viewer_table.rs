@@ -84,7 +84,14 @@ impl ViewerTable {
             .show(ui, |ui| {
                 ui.horizontal(|ui| {
                     ui.label("Search:");
-                    ui.text_edit_singleline(&mut self.search);
+                    let search_bg = if ui.visuals().text_edit_bg_color.is_some() {
+                        ui.visuals().widgets.inactive.bg_fill
+                    } else {
+                        ui.visuals().extreme_bg_color
+                    };
+                    ui.add(
+                        egui::TextEdit::singleline(&mut self.search).background_color(search_bg),
+                    );
 
                     ui.add_space(8.0);
 

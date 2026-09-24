@@ -4,7 +4,11 @@ const NORD_THEME_PATH: &str = "themes/nord.toml";
 const CATPPUCCIN_THEME_PATH: &str = "themes/catppuccin.toml";
 const ONEDARK_THEME_PATH: &str = "themes/onedark.toml";
 
-#[derive(Copy, Clone, serde::Serialize, serde::Deserialize, Debug)]
+const NORD_THEME_SOURCE: &str = include_str!("../../themes/nord.toml");
+const CATPPUCCIN_THEME_SOURCE: &str = include_str!("../../themes/catppuccin.toml");
+const ONEDARK_THEME_SOURCE: &str = include_str!("../../themes/onedark.toml");
+
+#[derive(Copy, Clone, serde::Serialize, serde::Deserialize, Debug, PartialEq, Eq)]
 pub enum ThemeSelection {
     Default,
     Nord,
@@ -12,64 +16,78 @@ pub enum ThemeSelection {
     OneDark,
 }
 
+impl Default for ThemeSelection {
+    fn default() -> Self {
+        Self::Default
+    }
+}
+
 impl ThemeSelection {
     pub fn get_name(&self) -> &'static str {
         match self {
-            ThemeSelection::Default => "Default",
-            ThemeSelection::Nord => "Nord",
-            ThemeSelection::Catppuccin => "Catppuccin",
-            ThemeSelection::OneDark => "One Dark",
+            Self::Default => "Default",
+            Self::Nord => "Nord",
+            Self::Catppuccin => "Catppuccin",
+            Self::OneDark => "One Dark",
         }
     }
 
     pub fn get_style(&self) -> egui::Style {
         match self {
-            ThemeSelection::Default => egui::Style::default(),
-            ThemeSelection::Nord => ThemeColors::load_from_file(NORD_THEME_PATH)
-                .map(|t| t.to_egui_style())
-                .unwrap_or_default(),
-            ThemeSelection::Catppuccin => ThemeColors::load_from_file(CATPPUCCIN_THEME_PATH)
-                .map(|t| t.to_egui_style())
-                .unwrap_or_default(),
-            ThemeSelection::OneDark => ThemeColors::load_from_file(ONEDARK_THEME_PATH)
-                .map(|t| t.to_egui_style())
-                .unwrap_or_default(),
+            Self::Default => egui::Style::default(),
+            _ => self.get_colors().to_egui_style(),
         }
     }
 
-    /// Load the ThemeColors for this selection (for storing in ctx).
+    /// Load the colors for this selection for widgets that draw custom content.
     pub fn get_colors(&self) -> ThemeColors {
-        let path = match self {
-            ThemeSelection::Nord => Some(NORD_THEME_PATH),
-            ThemeSelection::Catppuccin => Some(CATPPUCCIN_THEME_PATH),
-            ThemeSelection::OneDark => Some(ONEDARK_THEME_PATH),
-            ThemeSelection::Default => None,
-        };
-        path.and_then(ThemeColors::load_from_file)
-            .unwrap_or_default()
+        match self {
+            Self::Default => ThemeColors::default(),
+            Self::Nord => load_builtin_theme(NORD_THEME_PATH, NORD_THEME_SOURCE),
+            Self::Catppuccin => load_builtin_theme(CATPPUCCIN_THEME_PATH, CATPPUCCIN_THEME_SOURCE),
+            Self::OneDark => load_builtin_theme(ONEDARK_THEME_PATH, ONEDARK_THEME_SOURCE),
+        }
     }
 
     pub fn next(&self) -> Self {
         match self {
-            ThemeSelection::Default => ThemeSelection::Nord,
-            ThemeSelection::Nord => ThemeSelection::Catppuccin,
-            ThemeSelection::Catppuccin => ThemeSelection::OneDark,
-            ThemeSelection::OneDark => ThemeSelection::Default,
+            Self::Default => Self::Nord,
+            Self::Nord => Self::Catppuccin,
+            Self::Catppuccin => Self::OneDark,
+            Self::OneDark => Self::Default,
         }
     }
 }
 
-/// Store the current ThemeColors into egui's context so any widget can read it.
-/// Call this once whenever the user switches themes.
-pub fn store_theme(ctx: &egui::Context, colors: ThemeColors) {
-    ctx.data_mut(|d| d.insert_persisted(egui::Id::new("app_theme"), colors));
+fn load_builtin_theme(path: &str, embedded_source: &str) -> ThemeColors {
+    // Prefer the checked-in file so theme edits are picked up during development.
+    // The embedded copy keeps packaged binaries working when the source tree is
+    // not present beside the executable.
+    if let Some(theme) = ThemeColors::load_from_file(path) {
+        return theme;
+    }
+    if let Some(theme_path) = crate::paths::find_file(path) {
+        log::warn!(
+            "Failed to parse theme at {}; using embedded theme",
+            theme_path.display()
+        );
+    }
+
+    ThemeColors::from_toml(embedded_source).unwrap_or_else(|| {
+        log::error!("Embedded theme {path} is invalid; using default colors");
+        ThemeColors::default()
+    })
 }
 
-/// Read the current ThemeColors from egui's context.
-/// Falls back to ThemeColors::default() if nothing has been stored yet.
+/// Store the current colors in egui's context for custom widgets to use.
+pub fn store_theme(ctx: &egui::Context, colors: ThemeColors) {
+    ctx.data_mut(|data| data.insert_persisted(egui::Id::new("app_theme"), colors));
+}
+
+/// Read the colors currently used by custom widgets.
 pub fn get_theme(ctx: &egui::Context) -> ThemeColors {
-    ctx.data_mut(|d| {
-        d.get_persisted::<ThemeColors>(egui::Id::new("app_theme"))
+    ctx.data_mut(|data| {
+        data.get_persisted::<ThemeColors>(egui::Id::new("app_theme"))
             .unwrap_or_default()
     })
 }
@@ -83,7 +101,6 @@ pub struct ThemeColors {
     pub button: String,
     pub button_hover: String,
     pub button_text: String,
-    // Semantic colors — optional so old TOMLs without them don't break
     #[serde(default)]
     pub error: Option<String>,
     #[serde(default)]
@@ -114,27 +131,34 @@ impl Default for ThemeColors {
 
 impl ThemeColors {
     pub fn parse_hex(hex: &str) -> egui::Color32 {
-        let hex = hex.trim_start_matches('#');
+        let hex = hex.trim().trim_start_matches('#');
+        let parse = |part: &str| u8::from_str_radix(part, 16).ok();
 
-        match hex.len() {
-            6 => {
-                let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0);
-                let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0);
-                let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0);
-                egui::Color32::from_rgb(r, g, b)
+        let parsed = (|| -> Option<(u8, u8, u8, u8)> {
+            match hex.len() {
+                6 => Some((
+                    parse(&hex[0..2])?,
+                    parse(&hex[2..4])?,
+                    parse(&hex[4..6])?,
+                    255,
+                )),
+                8 => Some((
+                    parse(&hex[0..2])?,
+                    parse(&hex[2..4])?,
+                    parse(&hex[4..6])?,
+                    parse(&hex[6..8])?,
+                )),
+                _ => None,
             }
-            8 => {
-                let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0);
-                let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0);
-                let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0);
-                let a = u8::from_str_radix(&hex[6..8], 16).unwrap_or(255);
-                egui::Color32::from_rgba_unmultiplied(r, g, b, a)
-            }
-            _ => egui::Color32::from_rgb(255, 0, 255),
-        }
+        })();
+
+        let Some((r, g, b, a)) = parsed else {
+            return egui::Color32::from_rgb(255, 0, 255);
+        };
+
+        egui::Color32::from_rgba_unmultiplied(r, g, b, a)
     }
 
-    // Convenience getters — use fallback colors if the TOML field was absent
     pub fn error_color(&self) -> egui::Color32 {
         self.error
             .as_deref()
@@ -178,7 +202,7 @@ impl ThemeColors {
     pub fn to_egui_style(&self) -> egui::Style {
         let mut style = egui::Style::default();
 
-        let bg = Self::parse_hex(&self.background);
+        let background = Self::parse_hex(&self.background);
         let panel = Self::parse_hex(&self.panel_bg);
         let text = Self::parse_hex(&self.text);
         let accent = Self::parse_hex(&self.accent);
@@ -186,33 +210,46 @@ impl ThemeColors {
         let button_hover = Self::parse_hex(&self.button_hover);
         let button_text = Self::parse_hex(&self.button_text);
 
-        // --- Base ---
-        style.visuals.window_fill = bg;
+        style.visuals.window_fill = background;
         style.visuals.panel_fill = panel;
-        style.visuals.faint_bg_color = panel;
+        style.visuals.faint_bg_color = panel.gamma_multiply(1.15);
+        style.visuals.extreme_bg_color = background;
+        style.visuals.code_bg_color = panel;
         style.visuals.override_text_color = Some(text);
-        style.visuals.selection.bg_fill = bg;
+        style.visuals.hyperlink_color = accent;
+        style.visuals.warn_fg_color = self.warning_color();
+        style.visuals.error_fg_color = self.error_color();
+        style.visuals.selection.bg_fill = accent;
+        style.visuals.text_edit_bg_color = Some(if background == panel {
+            background.gamma_multiply(0.5)
+        } else {
+            background
+        });
+        style.visuals.window_stroke.color = accent.linear_multiply(0.5);
 
-        // --- Global button visuals ---
-        style.visuals.widgets.inactive.weak_bg_fill = button;
-        style.visuals.widgets.hovered.weak_bg_fill = button_hover;
-        style.visuals.widgets.active.weak_bg_fill = button_hover;
-
-        style.visuals.text_edit_bg_color = Some(button);
-
-        style.visuals.widgets.inactive.fg_stroke.color = button_text;
-        style.visuals.widgets.hovered.fg_stroke.color = button_text;
-        style.visuals.widgets.active.fg_stroke.color = button_text;
-
-        // Optional: slightly darker borders for contrast
+        style.visuals.widgets.noninteractive.bg_fill = panel;
+        style.visuals.widgets.noninteractive.weak_bg_fill = panel;
+        style.visuals.widgets.noninteractive.fg_stroke.color = text;
         style.visuals.widgets.noninteractive.bg_stroke.color = accent.linear_multiply(0.3);
+
+        style.visuals.widgets.inactive.bg_fill = button;
+        style.visuals.widgets.inactive.weak_bg_fill = button;
+        style.visuals.widgets.inactive.fg_stroke.color = button_text;
+        style.visuals.widgets.hovered.bg_fill = button_hover;
+        style.visuals.widgets.hovered.weak_bg_fill = button_hover;
+        style.visuals.widgets.hovered.fg_stroke.color = button_text;
+        style.visuals.widgets.active.bg_fill = button_hover;
+        style.visuals.widgets.active.weak_bg_fill = button_hover;
+        style.visuals.widgets.active.fg_stroke.color = button_text;
 
         style
     }
 
-    pub fn load_from_file(path: &str) -> Option<Self> {
-        std::fs::read_to_string(path)
-            .ok()
-            .and_then(|data| toml::from_str::<Self>(&data).ok())
+    pub fn load_from_file(path: impl AsRef<std::path::Path>) -> Option<Self> {
+        crate::paths::read_file(path).and_then(|data| Self::from_toml(&data))
+    }
+
+    fn from_toml(data: &str) -> Option<Self> {
+        toml::from_str::<Self>(data).ok()
     }
 }
