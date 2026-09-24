@@ -14,7 +14,10 @@ use std::time::Duration;
 
 const SERIAL_BAUD_RATE: u32 = 115_200;
 const SERIAL_TIMEOUT_MS: u64 = 10;
-const FIL_OUTPUT_POLL_MS: u64 = 1;
+/// Idle wait for FIL output. The reader thread pushes each trace line to the
+/// channel as soon as it is written, so a long blocking wait here adds no
+/// latency to arriving frames (unlike a short poll-then-sleep cycle).
+const FIL_READ_TIMEOUT_MS: u64 = 50;
 const FIL_MAX_FRAMES_PER_POLL: usize = 256;
 
 const UDP_RAW_FRAME_SIZE: usize = 16; // 4 bytes ticks_ms + 4 bytes identity + 8 bytes payload
@@ -58,6 +61,13 @@ pub trait Driver {
 
     fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
         Vec::new()
+    }
+
+    /// Whether the CAN thread should sleep after a read timeout. Drivers whose
+    /// read already blocks internally (e.g. FIL) wake instantly on arrival and
+    /// must not add an extra retry delay.
+    fn needs_read_retry_sleep(&self) -> bool {
+        true
     }
 
     fn set_adc(
@@ -578,8 +588,12 @@ fn receive_fil_frames(
 }
 
 impl Driver for FilDriver {
+    fn needs_read_retry_sleep(&self) -> bool {
+        false
+    }
+
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
-        let result = receive_fil_frames(&self.output, Duration::from_millis(FIL_OUTPUT_POLL_MS));
+        let result = receive_fil_frames(&self.output, Duration::from_millis(FIL_READ_TIMEOUT_MS));
         if matches!(
             result,
             Err(DriverError::ReadError(DriverReadError::IoError(_)))

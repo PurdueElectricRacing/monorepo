@@ -449,10 +449,19 @@ pub fn start_can_thread(
                 Err(can::driver::DriverError::ReadError(error_type)) => {
                     match error_type {
                         can::driver::DriverReadError::Timeout => {
-                            // Normal timeout, just retry
-                            std::thread::sleep(std::time::Duration::from_millis(
-                                READ_RETRY_SLEEP_MS,
-                            ));
+                            // Normal timeout, just retry. Drivers that already
+                            // block internally skip the extra delay so frames
+                            // arriving right after a timeout are not deferred.
+                            if state
+                                .driver
+                                .as_ref()
+                                .map(|driver| driver.needs_read_retry_sleep())
+                                .unwrap_or(true)
+                            {
+                                std::thread::sleep(std::time::Duration::from_millis(
+                                    READ_RETRY_SLEEP_MS,
+                                ));
+                            }
                         }
                         other => {
                             // Preserve updater state while reconnecting to the same source.
