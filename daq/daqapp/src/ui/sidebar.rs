@@ -247,30 +247,6 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                             }
                         }
                         ui.separator();
-                        ui.label("Firmware emulator");
-                        if let (Some(executable), Some(network)) =
-                            (&app.fil_executable, &app.fil_network_config)
-                        {
-                            let fil_source = daqcore::connection::ConnectionSource::Fil {
-                                executable: executable.clone(),
-                                network: network.clone(),
-                                bus: app.fil_bus.clone(),
-                            };
-                            if ui
-                                .selectable_value(
-                                    &mut app.selected_source,
-                                    Some(fil_source),
-                                    "FIL real-time network",
-                                )
-                                .changed()
-                            {
-                                app.connect_can();
-                                app.save_settings();
-                            }
-                        } else {
-                            ui.label("Select FIL and network paths below");
-                        }
-                        ui.separator();
                         ui.label("Development");
                         let loopback_source = daqcore::connection::ConnectionSource::Loopback;
                         if ui
