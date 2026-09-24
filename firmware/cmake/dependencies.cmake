@@ -64,6 +64,7 @@ per_add_stm32_cmsis_target(
     CMSIS_F407 STM32F4xx STM32F407xx
     "${CMAKE_SOURCE_DIR}/external/cmsis-device-f4"
 )
+target_compile_definitions(CMSIS_F407 PUBLIC HSE_VALUE=16000000U)
 per_add_stm32_cmsis_target(
     CMSIS_G474 STM32G4xx STM32G474xx
     "${CMAKE_SOURCE_DIR}/external/cmsis-device-g4"

@@ -11,8 +11,6 @@
 
 #include "common/phal_F4/rcc/rcc.h"
 
-#define HSE_VALUE ((uint32_t)16000000)
-
 /* Globals for Clock Rates */
 uint32_t APB1ClockRateHz;
 uint32_t APB2ClockRateHz;
