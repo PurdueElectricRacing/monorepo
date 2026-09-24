@@ -1,49 +1,59 @@
 <map id="vehicle_fsm_periodic" name="vehicle_fsm_periodic">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,329,149,355"/>
-<area shape="rect" id="Node000002" href="$vehicle__fsm_8c.html#ae0065caa202a41badfe63f49d8a1bdb6" title=" " alt="" coords="213,5,346,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,329,85,276,104,198,119,156,139,114,164,75,195,40,198,37,202,41,199,44,168,78,144,116,124,158,109,200,90,277,82,329"/>
-<area shape="rect" id="Node000003" href="$vehicle__fsm_8c.html#ac21ffbc05e480a2884c934be58d38eb2" title=" " alt="" coords="197,55,362,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="79,328,90,285,113,224,147,157,169,125,195,98,212,85,215,90,198,101,173,129,151,160,117,226,95,287,84,330"/>
-<area shape="rect" id="Node000004" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="460,107,527,132"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="79,328,91,290,114,238,148,184,170,161,195,141,226,126,258,114,326,103,391,103,445,108,445,113,391,108,326,109,260,120,228,131,198,146,173,165,152,188,119,240,96,292,84,330"/>
-<area shape="rect" id="Node000005" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="454,460,534,486"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="86,355,100,387,123,429,156,471,176,488,198,502,229,515,262,521,296,522,330,520,395,507,448,489,449,494,396,512,331,525,296,528,262,526,228,520,195,507,172,493,152,474,119,432,95,389,81,357"/>
-<area shape="rect" id="Node000006" href="$powertrain_8c.html#ab7e2db5a431b249dccc5755a63b25500" title=" " alt="" coords="211,205,348,231"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="89,327,133,284,163,260,195,240,206,235,208,240,198,244,166,265,136,288,92,331"/>
-<area shape="rect" id="Node000007" href="$vehicle__fsm_8c.html#ab7318162392bf2c166e5f992b9053da2" title=" " alt="" coords="199,255,360,280"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="106,326,196,289,214,283,216,288,198,294,108,331"/>
-<area shape="rect" id="Node000008" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="215,304,344,330"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="149,331,199,324,200,329,150,336"/>
-<area shape="rect" id="Node000009" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="213,353,346,379"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="150,348,198,354,197,359,149,353"/>
-<area shape="rect" id="Node000010" href="$powertrain_8c.html#abed3fa744fe602905132e7ef49701421" title=" " alt="" coords="213,156,346,182"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="83,327,124,262,157,224,195,191,202,186,205,191,198,195,160,227,129,265,87,330"/>
-<area shape="rect" id="Node000015" href="$powertrain_8c.html#aab8a88dd8dded2b6c4dfdfbd6b2d8907" title=" " alt="" coords="205,452,354,493"/>
-<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="93,354,138,395,198,439,206,443,203,448,195,443,134,399,90,358"/>
-<area shape="rect" id="Node000016" href="$torque__controller_8c.html#a88fc0cd3cc59c087ab0e0f1518a81462" title=" " alt="" coords="208,667,350,708"/>
-<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="82,355,90,409,109,489,124,533,144,576,169,617,199,654,201,656,197,659,195,657,164,620,139,579,120,535,104,490,85,410,77,356"/>
-<area shape="rect" id="Node000021" href="$vehicle__fsm_8c.html#ae37dd8504e6f03e1119fb51155609de5" title=" " alt="" coords="214,568,344,594"/>
-<area shape="poly" id="edge21_Node000001_Node000021" title=" " alt="" coords="85,354,99,392,122,443,155,498,176,524,198,547,216,559,213,563,195,551,172,528,151,501,117,446,94,394,80,356"/>
-<area shape="rect" id="Node000022" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="233,617,326,643"/>
-<area shape="poly" id="edge22_Node000001_Node000022" title=" " alt="" coords="83,355,93,402,113,470,129,506,148,542,171,575,198,604,220,617,217,621,195,608,167,579,143,545,124,508,108,471,88,403,78,356"/>
-<area shape="rect" id="Node000023" href="$vehicle__fsm_8c.html#a18fe5546cd7ae011c084d5507646ea83" title=" " alt="" coords="235,403,324,428"/>
-<area shape="poly" id="edge23_Node000001_Node000023" title=" " alt="" coords="109,353,198,389,221,397,220,402,196,394,107,358"/>
-<area shape="poly" id="edge14_Node000010_Node000004" title=" " alt="" coords="338,153,445,128,446,133,339,158"/>
-<area shape="rect" id="Node000011" href="$common_2amk_2amk_8c.html#ad69f3380557132c8235471f3e724688c" title=" " alt="" coords="442,156,545,182"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="346,166,427,166,427,172,346,172"/>
-<area shape="rect" id="Node000014" href="$common_2amk_2amk_8c.html#a356e87a341a5ab48cba5c0aa6ad3bdbe" title=" " alt="" coords="434,205,553,231"/>
-<area shape="poly" id="edge13_Node000010_Node000014" title=" " alt="" coords="339,180,420,199,419,204,338,185"/>
-<area shape="rect" id="Node000012" href="$common_2amk_2amk_8c.html#ae93684e0e9805a9672a4816708fa1bf3" title=" " alt="" coords="625,132,712,158"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="545,159,610,150,610,155,546,164"/>
-<area shape="rect" id="Node000013" href="$common_2amk_2amk_8c.html#a850f8d409d4274d526c8c7156eb1272d" title=" " alt="" coords="627,181,710,207"/>
-<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="546,174,612,183,612,189,545,179"/>
-<area shape="rect" id="Node000017" href="$torque__controller_8c.html#aa4f3e4883f61cccb23ec6992906839ff" title=" " alt="" coords="421,600,566,626"/>
-<area shape="poly" id="edge17_Node000016_Node000017" title=" " alt="" coords="333,664,409,634,428,628,429,633,411,639,335,669"/>
-<area shape="rect" id="Node000018" href="$torque__controller_8c.html#ab7320f81a23d044892df3f66cc8e6473" title=" " alt="" coords="417,649,570,675"/>
-<area shape="poly" id="edge18_Node000016_Node000018" title=" " alt="" coords="351,676,401,670,401,676,351,682"/>
-<area shape="rect" id="Node000019" href="$torque__controller_8c.html#a16fd4fa36b6ed93d97747d568d8a2746" title=" " alt="" coords="410,699,577,724"/>
-<area shape="poly" id="edge19_Node000016_Node000019" title=" " alt="" coords="351,693,395,698,394,703,351,698"/>
-<area shape="rect" id="Node000020" href="$torque__controller_8c.html#a463f0db1aebef7da540b21b24896b363" title=" " alt="" coords="424,748,563,774"/>
-<area shape="poly" id="edge20_Node000016_Node000020" title=" " alt="" coords="333,706,411,734,430,741,429,746,409,739,332,711"/>
-<area shape="poly" id="edge24_Node000023_Node000005" title=" " alt="" coords="325,425,439,456,438,461,323,430"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,403,149,428"/>
+<area shape="rect" id="Node000002" href="$MAIN__MODULE_8h.html#aba339c1c7f4d7557e12e2c5830314490" title=" " alt="" coords="205,55,354,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,402,83,345,101,261,116,215,136,170,162,127,195,90,198,87,201,91,199,93,167,130,141,172,121,217,106,263,88,346,82,402"/>
+<area shape="rect" id="Node000007" href="$vehicle__fsm_8c.html#ae0065caa202a41badfe63f49d8a1bdb6" title=" " alt="" coords="213,104,346,130"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="77,402,87,353,107,282,122,243,142,205,166,170,195,139,198,136,202,140,198,143,170,173,146,208,127,246,112,284,92,354,83,403"/>
+<area shape="rect" id="Node000008" href="$vehicle__fsm_8c.html#ac21ffbc05e480a2884c934be58d38eb2" title=" " alt="" coords="197,153,362,179"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="80,401,93,362,116,307,150,248,171,221,195,196,213,184,216,188,198,200,175,224,154,251,121,310,98,364,85,403"/>
+<area shape="rect" id="Node000009" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="468,204,534,230"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="80,401,94,367,118,322,151,277,172,256,195,240,227,225,261,214,331,202,397,202,452,206,452,212,397,207,331,208,262,219,229,230,198,244,175,260,155,280,122,325,99,369,85,403"/>
+<area shape="rect" id="Node000010" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="460,560,541,586"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="97,427,142,457,198,488,311,523,446,558,445,563,309,528,196,493,139,462,94,431"/>
+<area shape="rect" id="Node000011" href="$powertrain_8c.html#ab7e2db5a431b249dccc5755a63b25500" title=" " alt="" coords="211,304,348,330"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="94,400,139,370,196,338,209,333,211,338,198,343,142,374,97,404"/>
+<area shape="rect" id="Node000012" href="$vehicle__fsm_8c.html#ab7318162392bf2c166e5f992b9053da2" title=" " alt="" coords="199,353,360,379"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="132,399,208,381,209,386,134,405"/>
+<area shape="rect" id="Node000013" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="215,403,344,428"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="149,413,200,413,200,418,149,418"/>
+<area shape="rect" id="Node000014" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="213,452,346,478"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="134,426,209,445,208,450,132,432"/>
+<area shape="rect" id="Node000015" href="$powertrain_8c.html#abed3fa744fe602905132e7ef49701421" title=" " alt="" coords="213,255,346,280"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="85,400,128,347,160,316,195,289,204,285,206,289,198,294,163,320,132,350,89,404"/>
+<area shape="rect" id="Node000020" href="$powertrain_8c.html#aab8a88dd8dded2b6c4dfdfbd6b2d8907" title=" " alt="" coords="205,552,354,593"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="91,427,135,476,165,506,198,532,215,543,212,547,195,536,162,510,131,480,87,431"/>
+<area shape="rect" id="Node000021" href="$torque__controller_8c.html#a88fc0cd3cc59c087ab0e0f1518a81462" title=" " alt="" coords="208,766,350,806"/>
+<area shape="poly" id="edge21_Node000001_Node000021" title=" " alt="" coords="82,429,88,487,106,573,121,620,141,668,167,713,199,752,201,754,197,758,195,756,162,716,137,670,116,622,101,574,83,487,76,429"/>
+<area shape="rect" id="Node000026" href="$vehicle__fsm_8c.html#ae37dd8504e6f03e1119fb51155609de5" title=" " alt="" coords="214,667,344,692"/>
+<area shape="poly" id="edge26_Node000001_Node000026" title=" " alt="" coords="84,428,95,471,116,532,150,598,172,627,198,654,202,656,199,661,195,657,168,631,146,600,111,535,90,473,78,429"/>
+<area shape="rect" id="Node000027" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="233,716,326,742"/>
+<area shape="poly" id="edge27_Node000001_Node000027" title=" " alt="" coords="82,428,91,479,110,554,125,594,145,634,169,671,198,703,220,716,217,720,195,707,165,674,140,636,120,596,105,555,85,481,77,429"/>
+<area shape="rect" id="Node000028" href="$vehicle__fsm_8c.html#a18fe5546cd7ae011c084d5507646ea83" title=" " alt="" coords="235,617,324,643"/>
+<area shape="poly" id="edge28_Node000001_Node000028" title=" " alt="" coords="85,428,99,463,123,510,156,560,176,583,198,603,222,616,219,620,195,607,172,587,152,563,118,513,95,465,80,430"/>
+<area shape="rect" id="Node000003" href="$MAIN__MODULE_8h.html#a0da956162efe3e0016f181cee58961e6" title=" " alt="" coords="410,104,591,130"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="341,78,425,97,424,103,340,84"/>
+<area shape="rect" id="Node000004" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="424,5,577,31"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="340,51,424,32,425,38,341,57"/>
+<area shape="rect" id="Node000006" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="418,55,583,80"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="354,65,403,65,403,70,354,70"/>
+<area shape="rect" id="Node000005" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="639,5,771,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="578,16,624,16,624,21,578,21"/>
+<area shape="poly" id="edge19_Node000015_Node000009" title=" " alt="" coords="338,251,451,225,453,230,339,257"/>
+<area shape="rect" id="Node000016" href="$common_2amk_2amk_8c.html#ad69f3380557132c8235471f3e724688c" title=" " alt="" coords="450,253,552,279"/>
+<area shape="poly" id="edge15_Node000015_Node000016" title=" " alt="" coords="346,264,434,264,434,269,346,270"/>
+<area shape="rect" id="Node000019" href="$common_2amk_2amk_8c.html#a356e87a341a5ab48cba5c0aa6ad3bdbe" title=" " alt="" coords="442,303,560,328"/>
+<area shape="poly" id="edge18_Node000015_Node000019" title=" " alt="" coords="343,278,427,297,426,302,342,284"/>
+<area shape="rect" id="Node000017" href="$common_2amk_2amk_8c.html#ae93684e0e9805a9672a4816708fa1bf3" title=" " alt="" coords="662,279,748,304"/>
+<area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="553,270,647,282,646,287,552,275"/>
+<area shape="rect" id="Node000018" href="$common_2amk_2amk_8c.html#a850f8d409d4274d526c8c7156eb1272d" title=" " alt="" coords="664,229,746,255"/>
+<area shape="poly" id="edge17_Node000016_Node000018" title=" " alt="" coords="552,258,648,246,649,251,553,263"/>
+<area shape="rect" id="Node000022" href="$torque__controller_8c.html#aa4f3e4883f61cccb23ec6992906839ff" title=" " alt="" coords="428,847,573,872"/>
+<area shape="poly" id="edge22_Node000021_Node000022" title=" " alt="" coords="333,805,411,833,432,839,430,844,409,838,331,810"/>
+<area shape="rect" id="Node000023" href="$torque__controller_8c.html#ab7320f81a23d044892df3f66cc8e6473" title=" " alt="" coords="424,699,577,724"/>
+<area shape="poly" id="edge23_Node000021_Node000023" title=" " alt="" coords="333,763,409,733,430,726,432,732,411,738,335,768"/>
+<area shape="rect" id="Node000024" href="$torque__controller_8c.html#a16fd4fa36b6ed93d97747d568d8a2746" title=" " alt="" coords="417,748,584,774"/>
+<area shape="poly" id="edge24_Node000021_Node000024" title=" " alt="" coords="351,775,401,770,402,775,351,781"/>
+<area shape="rect" id="Node000025" href="$torque__controller_8c.html#a463f0db1aebef7da540b21b24896b363" title=" " alt="" coords="432,797,570,823"/>
+<area shape="poly" id="edge25_Node000021_Node000025" title=" " alt="" coords="351,791,416,798,415,804,351,797"/>
+<area shape="poly" id="edge29_Node000028_Node000010" title=" " alt="" coords="323,616,444,584,446,590,325,621"/>
 </map>

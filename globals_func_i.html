@@ -110,26 +110,74 @@ $(function(){initNavTree('globals_func_i.html',''); initResizable(true); });
 <li>initialize_calibration()&#160;:&#160;<a class="el" href="imu_8c.html#a3da0b33ad58b4a9b357b9ae12a3707b6">imu.c</a>, <a class="el" href="sensors_8h.html#a3da0b33ad58b4a9b357b9ae12a3707b6">sensors.h</a></li>
 <li>interp1()&#160;:&#160;<a class="el" href="vcu__step_8c.html#a026b5ad89ebd542666520f4337e8c790">vcu_step.c</a></li>
 <li>interp2()&#160;:&#160;<a class="el" href="vcu__step_8c.html#a008827527755b30ae7675a03edcff4e4">vcu_step.c</a></li>
+<li>is_a_box_fault_sync_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a5f70eb297014e827043ecdb554cb9135">DASHBOARD.h</a>, <a class="el" href="MAIN__MODULE_8h.html#a5f70eb297014e827043ecdb554cb9135">MAIN_MODULE.h</a>, <a class="el" href="PDU_8h.html#a5f70eb297014e827043ecdb554cb9135">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a5f70eb297014e827043ecdb554cb9135">TORQUE_VECTOR.h</a></li>
 <li>is_any_crit_stale()&#160;:&#160;<a class="el" href="control__loop_8c.html#abb984c1eb357053f1fadc96d05c3c3f2">control_loop.c</a></li>
 <li>is_any_latched()&#160;:&#160;<a class="el" href="faults__common_8h.html#a7c41c8fcf2527aa98c7b99e43b67d357">faults_common.h</a></li>
 <li>is_brakes_engaged()&#160;:&#160;<a class="el" href="vehicle__fsm_8c.html#ae0065caa202a41badfe63f49d8a1bdb6">vehicle_fsm.c</a></li>
 <li>is_buzzing_time_elapsed()&#160;:&#160;<a class="el" href="vehicle__fsm_8c.html#ac21ffbc05e480a2884c934be58d38eb2">vehicle_fsm.c</a></li>
+<li>is_charge_request_stale()&#160;:&#160;<a class="el" href="A__BOX_8h.html#af7c88385babfc4b1a9980163b092f141">A_BOX.h</a></li>
 <li>is_charging_permitted()&#160;:&#160;<a class="el" href="charging__fsm_8c.html#a97fe3a486a7c526d82f57401ca1ada35">charging_fsm.c</a></li>
 <li>is_clear()&#160;:&#160;<a class="el" href="faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf">faults_common.h</a></li>
 <li>is_curr_mcu_latched()&#160;:&#160;<a class="el" href="faults__common_8h.html#afd3df4a64e1643d0a79942b5228af63a">faults_common.h</a></li>
 <li>is_daqapp_requesting_charge()&#160;:&#160;<a class="el" href="charging__fsm_8c.html#a1eeb74bea95978e6037605518acaa940">charging_fsm.c</a></li>
+<li>is_dashboard_fault_sync_stale()&#160;:&#160;<a class="el" href="A__BOX_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4">A_BOX.h</a>, <a class="el" href="MAIN__MODULE_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4">MAIN_MODULE.h</a>, <a class="el" href="PDU_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4">TORQUE_VECTOR.h</a></li>
 <li>is_elcon_ready()&#160;:&#160;<a class="el" href="charging__fsm_8c.html#ab281666eaa24da6546c73d18fe6c88ba">charging_fsm.c</a></li>
+<li>is_elcon_status_stale()&#160;:&#160;<a class="el" href="A__BOX_8h.html#a69c040c488af2e39f59324797e8909e9">A_BOX.h</a></li>
 <li>is_error_latched()&#160;:&#160;<a class="el" href="faults__common_8h.html#a66f9b8058fa200632c824de0b671b491">faults_common.h</a></li>
 <li>is_fatal_latched()&#160;:&#160;<a class="el" href="faults__common_8h.html#a1dbab920f7f9b5d889670b63ac61e357">faults_common.h</a></li>
+<li>is_front_shockpots_stale()&#160;:&#160;<a class="el" href="TORQUE__VECTOR_8h.html#a87d967054a1bb6a04ca670ba3ab068c2">TORQUE_VECTOR.h</a></li>
+<li>is_gps_coordinates_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#ae5906459026256cf7884ea63cd197919">DASHBOARD.h</a></li>
+<li>is_igbt_temps_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a5e74cd8edf1f5fced8432f378a59bc6a">DASHBOARD.h</a>, <a class="el" href="PDU_8h.html#a5e74cd8edf1f5fced8432f378a59bc6a">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a5e74cd8edf1f5fced8432f378a59bc6a">TORQUE_VECTOR.h</a></li>
+<li>is_INVA_CRIT_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#ad2ff8d1f2f77e9098d5699962a4ead90">MAIN_MODULE.h</a></li>
+<li>is_inva_diagnostics_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a53102a905199e0e0dc0831490b630ca1">DASHBOARD.h</a></li>
+<li>is_INVA_ERR_1_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a026487a7b22b5370d72f62e9f83e5ca3">MAIN_MODULE.h</a></li>
+<li>is_INVA_ERR_2_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#aa72c7f3adb66cd0ab6e04ffccc5110a3">MAIN_MODULE.h</a></li>
+<li>is_INVA_INFO_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a7232156a82e01b06534d76a3f2b3d0f4">MAIN_MODULE.h</a></li>
+<li>is_INVA_TEMPS_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#af94af47ea3432996d2515d532cc54b7a">MAIN_MODULE.h</a></li>
+<li>is_INVB_CRIT_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#afa4a36b37769d932e302262bca46a09c">MAIN_MODULE.h</a></li>
+<li>is_invb_diagnostics_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#ac1c1bdfd1ca6865675096ee937cc0814">DASHBOARD.h</a></li>
+<li>is_INVB_ERR_1_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a5739afdc08bc3c480453d7f709b53031">MAIN_MODULE.h</a></li>
+<li>is_INVB_ERR_2_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#aafda79d9d84aa9fd335124d8cb3c149b">MAIN_MODULE.h</a></li>
+<li>is_INVB_INFO_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a9a37bac88e55acd05af06c9b49b12e2b">MAIN_MODULE.h</a></li>
+<li>is_INVB_TEMPS_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a323466302ca76f02b7396fa19505d4db">MAIN_MODULE.h</a></li>
+<li>is_INVC_CRIT_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a51533d3aec3f7323c98f56ac3c288113">MAIN_MODULE.h</a></li>
+<li>is_invc_diagnostics_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#adfae9f6de39d269e3851bb49cbd39a0e">DASHBOARD.h</a></li>
+<li>is_INVC_ERR_1_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a4e6c618ebe72d5699f3f3f7dd8b48726">MAIN_MODULE.h</a></li>
+<li>is_INVC_ERR_2_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a7688f8db935d946b9e87db1de530beb3">MAIN_MODULE.h</a></li>
+<li>is_INVC_INFO_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#aeadb988c2619057b44ca1ba87a3037e7">MAIN_MODULE.h</a></li>
+<li>is_INVC_TEMPS_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a941b56d7c105e7a7130ce6ad9a7cd6f6">MAIN_MODULE.h</a></li>
+<li>is_INVD_CRIT_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a6387c0c0ab060f517a7e5740b416b2c4">MAIN_MODULE.h</a></li>
+<li>is_invd_diagnostics_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#ad186e9000d3407e932fcfad644373593">DASHBOARD.h</a></li>
+<li>is_INVD_ERR_1_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a3712a6c81059b7a900339b6156472434">MAIN_MODULE.h</a></li>
+<li>is_INVD_ERR_2_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a3d247f9121b0f0b846224afda56f3d49">MAIN_MODULE.h</a></li>
+<li>is_INVD_INFO_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#aa108884d422566d298d092ac90755985">MAIN_MODULE.h</a></li>
+<li>is_INVD_TEMPS_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#aad6eca446c802ce2a4e3968d36206305">MAIN_MODULE.h</a></li>
+<li>is_IZZE_acceleration_stale()&#160;:&#160;<a class="el" href="TORQUE__VECTOR_8h.html#a8748e570bed3dc5bd57614a782521418">TORQUE_VECTOR.h</a></li>
+<li>is_IZZE_angular_rate_stale()&#160;:&#160;<a class="el" href="TORQUE__VECTOR_8h.html#a38c9a043d6395a2960990df3af29f8bb">TORQUE_VECTOR.h</a></li>
 <li>is_latched()&#160;:&#160;<a class="el" href="faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3">faults_common.h</a></li>
 <li>is_linked()&#160;:&#160;<a class="el" href="ethernet_8c.html#aefa2e840c764176e0dbf039099cbc349">ethernet.c</a></li>
+<li>is_LWS_Standard_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a95eff3fd927be6a394dc2089bd4feadb">DASHBOARD.h</a></li>
+<li>is_main_hb_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a7087cac0d0fa48478011cac103698214">DASHBOARD.h</a>, <a class="el" href="PDU_8h.html#a7087cac0d0fa48478011cac103698214">PDU.h</a></li>
+<li>is_main_module_fault_sync_stale()&#160;:&#160;<a class="el" href="A__BOX_8h.html#a3829b4361128389982af69e734c16659">A_BOX.h</a>, <a class="el" href="DASHBOARD_8h.html#a3829b4361128389982af69e734c16659">DASHBOARD.h</a>, <a class="el" href="PDU_8h.html#a3829b4361128389982af69e734c16659">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a3829b4361128389982af69e734c16659">TORQUE_VECTOR.h</a></li>
+<li>is_motor_temps_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a88f3e342a9ae8209c335cda7377c954d">DASHBOARD.h</a>, <a class="el" href="PDU_8h.html#a88f3e342a9ae8209c335cda7377c954d">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a88f3e342a9ae8209c335cda7377c954d">TORQUE_VECTOR.h</a></li>
 <li>is_other_mcus_latched()&#160;:&#160;<a class="el" href="faults__common_8h.html#a6a4afce3ed471db381c8bc61dc35fff0">faults_common.h</a></li>
+<li>is_pack_analog_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#aa0052660897972f25c425b9c4aeb4781">DASHBOARD.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#aa0052660897972f25c425b9c4aeb4781">TORQUE_VECTOR.h</a></li>
+<li>is_pack_bms_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a65318e8ba5c6723c49dc9fbb323f6e0e">DASHBOARD.h</a>, <a class="el" href="MAIN__MODULE_8h.html#a65318e8ba5c6723c49dc9fbb323f6e0e">MAIN_MODULE.h</a>, <a class="el" href="PDU_8h.html#a65318e8ba5c6723c49dc9fbb323f6e0e">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a65318e8ba5c6723c49dc9fbb323f6e0e">TORQUE_VECTOR.h</a></li>
+<li>is_pdu_fault_sync_stale()&#160;:&#160;<a class="el" href="A__BOX_8h.html#aff36dceea73ab4dc71f856487bb97237">A_BOX.h</a>, <a class="el" href="DASHBOARD_8h.html#aff36dceea73ab4dc71f856487bb97237">DASHBOARD.h</a>, <a class="el" href="MAIN__MODULE_8h.html#aff36dceea73ab4dc71f856487bb97237">MAIN_MODULE.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#aff36dceea73ab4dc71f856487bb97237">TORQUE_VECTOR.h</a></li>
+<li>is_pedals_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#acfdbb769feadf999d514218e9175e47d">MAIN_MODULE.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#acfdbb769feadf999d514218e9175e47d">TORQUE_VECTOR.h</a></li>
 <li>is_powertrain_ready()&#160;:&#160;<a class="el" href="powertrain_8c.html#ab7e2db5a431b249dccc5755a63b25500">powertrain.c</a>, <a class="el" href="powertrain_8h.html#ab7e2db5a431b249dccc5755a63b25500">powertrain.h</a></li>
+<li>is_rear_shockpots_stale()&#160;:&#160;<a class="el" href="TORQUE__VECTOR_8h.html#acdbeb7bfa04320de53c9c7faa438067e">TORQUE_VECTOR.h</a></li>
 <li>is_start_button_pressed()&#160;:&#160;<a class="el" href="vehicle__fsm_8c.html#ab7318162392bf2c166e5f992b9053da2">vehicle_fsm.c</a></li>
+<li>is_start_button_stale()&#160;:&#160;<a class="el" href="MAIN__MODULE_8h.html#a45588be6221154c3242e10f762c5f060">MAIN_MODULE.h</a></li>
+<li>is_steering_angle_stale()&#160;:&#160;<a class="el" href="TORQUE__VECTOR_8h.html#ac0d74cd650a049d5dcbe3133b1585feb">TORQUE_VECTOR.h</a></li>
+<li>is_torque_vector_fault_sync_stale()&#160;:&#160;<a class="el" href="A__BOX_8h.html#a67d98ecf4d917c5aac5c64d991d5d59a">A_BOX.h</a>, <a class="el" href="DASHBOARD_8h.html#a67d98ecf4d917c5aac5c64d991d5d59a">DASHBOARD.h</a>, <a class="el" href="MAIN__MODULE_8h.html#a67d98ecf4d917c5aac5c64d991d5d59a">MAIN_MODULE.h</a>, <a class="el" href="PDU_8h.html#a67d98ecf4d917c5aac5c64d991d5d59a">PDU.h</a></li>
+<li>is_vcu_settings_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a7c82dad17c575875f43e0e2b0c626782">DASHBOARD.h</a>, <a class="el" href="MAIN__MODULE_8h.html#a7c82dad17c575875f43e0e2b0c626782">MAIN_MODULE.h</a></li>
+<li>is_vcu_torque_request_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a6d608a6a14b51069d6243c42bbfb5763">DASHBOARD.h</a>, <a class="el" href="MAIN__MODULE_8h.html#a6d608a6a14b51069d6243c42bbfb5763">MAIN_MODULE.h</a></li>
 <li>is_warning_latched()&#160;:&#160;<a class="el" href="faults__common_8h.html#a731895d731bdcc9ea2038351278ffef7">faults_common.h</a></li>
+<li>is_wheel_speeds_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#afc13d89809b55f5e8515eada94f7debe">DASHBOARD.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#afc13d89809b55f5e8515eada94f7debe">TORQUE_VECTOR.h</a></li>
 <li>isense_to_current()&#160;:&#160;<a class="el" href="a__box_2telemetry_2telemetry_8c.html#a67fad0cc41ef114ce940febe40180d97">telemetry.c</a></li>
-<li>IZZE_acceleration_CALLBACK()&#160;:&#160;<a class="el" href="imu_8c.html#a4e2ff3413851866d1385d942698f59e9">imu.c</a>, <a class="el" href="sensors_8h.html#a4e2ff3413851866d1385d942698f59e9">sensors.h</a></li>
-<li>IZZE_angular_rate_CALLBACK()&#160;:&#160;<a class="el" href="imu_8c.html#a033e363e85c9a7712d85b7fb947a94c0">imu.c</a>, <a class="el" href="sensors_8h.html#a033e363e85c9a7712d85b7fb947a94c0">sensors.h</a></li>
+<li>IZZE_acceleration_CALLBACK()&#160;:&#160;<a class="el" href="imu_8c.html#a4e2ff3413851866d1385d942698f59e9">imu.c</a>, <a class="el" href="sensors_8h.html#a4e2ff3413851866d1385d942698f59e9">sensors.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a4018320f6e3a115cc61c80f87c2ee0d1">TORQUE_VECTOR.h</a></li>
+<li>IZZE_angular_rate_CALLBACK()&#160;:&#160;<a class="el" href="imu_8c.html#a033e363e85c9a7712d85b7fb947a94c0">imu.c</a>, <a class="el" href="sensors_8h.html#a033e363e85c9a7712d85b7fb947a94c0">sensors.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a1b276651c5252fc81456fe441b281f5a">TORQUE_VECTOR.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

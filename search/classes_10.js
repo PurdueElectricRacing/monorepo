@@ -1,14 +1,19 @@
 var searchData=
 [
-  ['sd_5fcardinfo_0',['SD_CardInfo',['../structSD__CardInfo.html',1,'']]],
-  ['sd_5fcid_1',['SD_CID',['../structSD__CID.html',1,'']]],
-  ['sd_5fcsd_2',['SD_CSD',['../structSD__CSD.html',1,'']]],
-  ['sdc_5fnode_5ft_3',['sdc_node_t',['../structsdc__node__t.html',1,'']]],
-  ['seconds_5ft_4',['seconds_t',['../structseconds__t.html',1,'']]],
-  ['segment2_5ft_5',['segment2_t',['../structsegment2__t.html',1,'']]],
-  ['spi_5finitconfig_5ft_6',['SPI_InitConfig_t',['../structSPI__InitConfig__t.html',1,'']]],
-  ['spmc_5ft_7',['SPMC_t',['../structSPMC__t.html',1,'']]],
-  ['status_5fleds_5ft_8',['status_leds_t',['../structstatus__leds__t.html',1,'']]],
-  ['strbuf_5ft_9',['strbuf_t',['../structstrbuf__t.html',1,'']]],
-  ['strbuftest_10',['StrbufTest',['../classStrbufTest.html',1,'']]]
+  ['radians_5ft_0',['radians_t',['../structradians__t.html',1,'']]],
+  ['rail_5fcurrents_5fdata_5ft_1',['rail_currents_data_t',['../structrail__currents__data__t.html',1,'']]],
+  ['raw_5fadc1_5fvalues_5ft_2',['raw_adc1_values_t',['../structraw__adc1__values__t.html',1,'']]],
+  ['raw_5fadc2_5fvalues_5ft_3',['raw_adc2_values_t',['../structraw__adc2__values__t.html',1,'']]],
+  ['raw_5fadc3_5fvalues_5ft_4',['raw_adc3_values_t',['../structraw__adc3__values__t.html',1,'']]],
+  ['raw_5fadc4_5fvalues_5ft_5',['raw_adc4_values_t',['../structraw__adc4__values__t.html',1,'']]],
+  ['raw_5fadc_5fvalues_5ft_6',['raw_adc_values_t',['../structraw__adc__values__t.html',1,'']]],
+  ['rear_5fdriveline_5finit_5fdata_5ft_7',['rear_driveline_init_data_t',['../structrear__driveline__init__data__t.html',1,'']]],
+  ['rear_5fdriveline_5fversion_5fdata_5ft_8',['rear_driveline_version_data_t',['../structrear__driveline__version__data__t.html',1,'']]],
+  ['rear_5foil_5ftemps_5fdata_5ft_9',['rear_oil_temps_data_t',['../structrear__oil__temps__data__t.html',1,'']]],
+  ['rear_5fshockpots_5fdata_5ft_10',['rear_shockpots_data_t',['../structrear__shockpots__data__t.html',1,'']]],
+  ['rtc_5fdate_5ft_11',['RTC_date_t',['../structRTC__date__t.html',1,'']]],
+  ['rtc_5ftime_5ft_12',['RTC_time_t',['../structRTC__time__t.html',1,'']]],
+  ['rtc_5ftimestamp_5ft_13',['RTC_timestamp_t',['../structRTC__timestamp__t.html',1,'']]],
+  ['rtos_5fperiodic_5ftask_5fparams_5ft_14',['RTOS_periodic_task_params_t',['../structRTOS__periodic__task__params__t.html',1,'']]],
+  ['rtos_5fqueue_5fparams_5ft_15',['RTOS_queue_params_t',['../structRTOS__queue__params__t.html',1,'']]]
 ];

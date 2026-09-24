@@ -109,8 +109,8 @@ $(function(){initNavTree('charging__fsm_8c.html',''); initResizable(true); });
 <div class="textblock"><code>#include &quot;<a class="el" href="charging__fsm_8h_source.html">charging_fsm.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="adbms_8h_source.html">adbms.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="faults__common_8h_source.html">can_library/faults_common.h</a>&quot;</code><br />
-<code>#include &quot;can_library/generated/A_BOX.h&quot;</code><br />
-<code>#include &quot;can_library/generated/can_types.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="A__BOX_8h_source.html">can_library/generated/A_BOX.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="can__types_8h_source.html">can_library/generated/can_types.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for charging_fsm.c:</div>
 <div class="dyncontent">
@@ -140,9 +140,9 @@ Variables</h2></td></tr>
 <tr class="separator:a7fdf8d00ad988db3ccf1f0e119a59189"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5bb36231c4fe7794781dc2d2c296601" id="r_ac5bb36231c4fe7794781dc2d2c296601"><td class="memItemLeft" align="right" valign="top">static constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5bb36231c4fe7794781dc2d2c296601">MAX_PACK_CHARGING_AMPS</a> = 20</td></tr>
 <tr class="separator:ac5bb36231c4fe7794781dc2d2c296601"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab706e54584bb6957f39eebaa7e65a33" id="r_aab706e54584bb6957f39eebaa7e65a33"><td class="memItemLeft" align="right" valign="top">charging_state_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab706e54584bb6957f39eebaa7e65a33">charging_state</a> = CHARGING_STATE_IDLE</td></tr>
+<tr class="memitem:aab706e54584bb6957f39eebaa7e65a33" id="r_aab706e54584bb6957f39eebaa7e65a33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2">charging_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab706e54584bb6957f39eebaa7e65a33">charging_state</a> = <a class="el" href="can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2aa9b20711179b654a2e4bec819ac11285">CHARGING_STATE_IDLE</a></td></tr>
 <tr class="separator:aab706e54584bb6957f39eebaa7e65a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9993cda911cc7c9521884e90ef3659d2" id="r_a9993cda911cc7c9521884e90ef3659d2"><td class="memItemLeft" align="right" valign="top">charging_state_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9993cda911cc7c9521884e90ef3659d2">next_charging_state</a> = CHARGING_STATE_IDLE</td></tr>
+<tr class="memitem:a9993cda911cc7c9521884e90ef3659d2" id="r_a9993cda911cc7c9521884e90ef3659d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2">charging_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9993cda911cc7c9521884e90ef3659d2">next_charging_state</a> = <a class="el" href="can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2aa9b20711179b654a2e4bec819ac11285">CHARGING_STATE_IDLE</a></td></tr>
 <tr class="separator:a9993cda911cc7c9521884e90ef3659d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9955d4144fdd523fc0b010073bd99605" id="r_a9955d4144fdd523fc0b010073bd99605"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9955d4144fdd523fc0b010073bd99605">charge_command_volts</a> = 0</td></tr>
 <tr class="separator:a9955d4144fdd523fc0b010073bd99605"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,7 +174,7 @@ Variables</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="charging__fsm_8c_a8dc3e50da5228cd6681c9df3a5db5dd2_cgraph.svg" width="542" height="274"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="charging__fsm_8c_a8dc3e50da5228cd6681c9df3a5db5dd2_cgraph.svg" width="100%" height="549"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -302,6 +302,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="charging__fsm_8c_ab8d997ca74a3fb5e295f9298810ade03_cgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="charging__fsm_8c_ab8d997ca74a3fb5e295f9298810ade03_icgraph.svg" width="447" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
@@ -419,7 +424,7 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">charging_state_t charging_state = CHARGING_STATE_IDLE</td>
+          <td class="memname"><a class="el" href="can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2">charging_state_t</a> charging_state = <a class="el" href="can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2aa9b20711179b654a2e4bec819ac11285">CHARGING_STATE_IDLE</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -499,7 +504,7 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">charging_state_t next_charging_state = CHARGING_STATE_IDLE</td>
+          <td class="memname"><a class="el" href="can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2">charging_state_t</a> next_charging_state = <a class="el" href="can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2aa9b20711179b654a2e4bec819ac11285">CHARGING_STATE_IDLE</a></td>
         </tr>
       </table>
 </div><div class="memdoc">

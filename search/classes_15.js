@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['yvcu_5fstruct_0',['yVCU_struct',['../structyVCU__struct.html',1,'']]]
+  ['wheel_5fspeeds_5fdata_5ft_0',['wheel_speeds_data_t',['../structwheel__speeds__data__t.html',1,'']]]
 ];

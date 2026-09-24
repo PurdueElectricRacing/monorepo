@@ -8,5 +8,6 @@ var searchData=
   ['torque_5fcontroller_2ec_5',['torque_controller.c',['../torque__controller_8c.html',1,'']]],
   ['torque_5fcontroller_2eh_6',['torque_controller.h',['../torque__controller_8h.html',1,'']]],
   ['torque_5fpath_2edrawio_2epng_7',['torque_path.drawio.png',['../torque__path_8drawio_8png.html',1,'']]],
-  ['torque_5fvectoring_2edrawio_2epng_8',['torque_vectoring.drawio.png',['../torque__vectoring_8drawio_8png.html',1,'']]]
+  ['torque_5fvector_2eh_8',['TORQUE_VECTOR.h',['../TORQUE__VECTOR_8h.html',1,'']]],
+  ['torque_5fvectoring_2edrawio_2epng_9',['torque_vectoring.drawio.png',['../torque__vectoring_8drawio_8png.html',1,'']]]
 ];

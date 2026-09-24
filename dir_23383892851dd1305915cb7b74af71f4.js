@@ -1,5 +1,6 @@
 var dir_23383892851dd1305915cb7b74af71f4 =
 [
+    [ "generated", "dir_4645ab240a6c17698cb502ff9363399d.html", "dir_4645ab240a6c17698cb502ff9363399d" ],
     [ "source", "dir_ff7d50b935553b5219e61e8fe308c3fb.html", "dir_ff7d50b935553b5219e61e8fe308c3fb" ],
     [ "tests", "dir_d9ae8d748c886ac0fe54eab358ff5557.html", "dir_d9ae8d748c886ac0fe54eab358ff5557" ],
     [ "can_codec.h", "can__codec_8h.html", "can__codec_8h" ],

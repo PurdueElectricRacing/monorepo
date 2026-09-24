@@ -1,17 +1,32 @@
 <map id="charging_fsm_periodic" name="charging_fsm_periodic">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,144,157,170"/>
-<area shape="rect" id="Node000002" href="$charging__fsm_8c.html#a97fe3a486a7c526d82f57401ca1ada35" title=" " alt="" coords="219,29,367,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,141,142,104,203,65,219,58,221,63,206,70,145,108,99,145"/>
-<area shape="rect" id="Node000005" href="$charging__fsm_8c.html#a1eeb74bea95978e6037605518acaa940" title=" " alt="" coords="219,79,366,120"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="131,141,203,121,204,126,132,146"/>
-<area shape="rect" id="Node000006" href="$charging__fsm_8c.html#ab8d997ca74a3fb5e295f9298810ade03" title=" " alt="" coords="223,144,362,170"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="157,154,208,154,208,160,157,160"/>
-<area shape="rect" id="Node000007" href="$charging__fsm_8c.html#acfc841627e534342d5178be3b0255c54" title=" " alt="" coords="205,193,381,219"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="140,168,220,187,219,192,139,173"/>
-<area shape="rect" id="Node000008" href="$charging__fsm_8c.html#afc1d97b27be1eae8bcbf02119804f921" title=" " alt="" coords="208,243,378,268"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="102,168,148,198,206,229,221,235,219,240,204,234,145,203,99,172"/>
-<area shape="rect" id="Node000003" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="450,5,516,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="367,30,434,22,434,27,368,35"/>
-<area shape="rect" id="Node000004" href="$charging__fsm_8c.html#ab281666eaa24da6546c73d18fe6c88ba" title=" " alt="" coords="429,55,536,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="368,49,414,56,413,61,367,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,167,157,192"/>
+<area shape="rect" id="Node000002" href="$A__BOX_8h.html#a1d2c326ec65a3480aa5e0335969bad73" title=" " alt="" coords="429,25,623,51"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,165,135,116,167,90,204,69,255,51,309,39,363,33,413,31,414,36,363,38,310,45,257,56,206,74,170,94,139,120,94,168"/>
+<area shape="rect" id="Node000007" href="$charging__fsm_8c.html#a97fe3a486a7c526d82f57401ca1ada35" title=" " alt="" coords="219,137,367,163"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="157,166,203,160,203,165,158,172"/>
+<area shape="rect" id="Node000010" href="$charging__fsm_8c.html#a1eeb74bea95978e6037605518acaa940" title=" " alt="" coords="219,187,366,228"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="158,187,204,193,203,198,157,192"/>
+<area shape="rect" id="Node000011" href="$charging__fsm_8c.html#ab8d997ca74a3fb5e295f9298810ade03" title=" " alt="" coords="223,84,362,110"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="109,164,204,122,231,112,233,118,206,127,111,168"/>
+<area shape="rect" id="Node000013" href="$charging__fsm_8c.html#acfc841627e534342d5178be3b0255c54" title=" " alt="" coords="205,252,381,278"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="108,191,153,214,206,237,226,244,225,249,204,242,150,218,105,195"/>
+<area shape="rect" id="Node000014" href="$charging__fsm_8c.html#afc1d97b27be1eae8bcbf02119804f921" title=" " alt="" coords="208,301,378,327"/>
+<area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="95,191,140,239,172,265,206,288,216,293,214,298,203,292,168,269,137,242,91,195"/>
+<area shape="rect" id="Node000003" href="$A__BOX_8h.html#a0da956162efe3e0016f181cee58961e6" title=" " alt="" coords="671,5,853,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="623,27,656,25,656,30,624,33"/>
+<area shape="rect" id="Node000004" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="685,55,839,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="624,48,670,53,670,59,623,53"/>
+<area shape="rect" id="Node000006" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="680,104,844,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="590,49,624,61,649,76,673,90,688,96,686,101,670,95,646,80,622,66,588,54"/>
+<area shape="rect" id="Node000005" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="901,55,1032,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="839,65,885,65,885,70,839,70"/>
+<area shape="rect" id="Node000008" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="493,140,559,166"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="367,148,478,150,478,155,367,154"/>
+<area shape="rect" id="Node000009" href="$charging__fsm_8c.html#ab281666eaa24da6546c73d18fe6c88ba" title=" " alt="" coords="472,189,580,215"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="354,161,458,184,457,190,353,166"/>
+<area shape="rect" id="Node000012" href="$A__BOX_8h.html#a8e8d0b3951983e4482e1e0876b77c033" title=" " alt="" coords="438,75,615,116"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="363,94,422,93,422,99,363,99"/>
+<area shape="poly" id="edge12_Node000012_Node000003" title=" " alt="" coords="592,72,622,61,670,40,690,33,692,38,672,45,624,66,594,77"/>
+<area shape="poly" id="edge13_Node000012_Node000004" title=" " alt="" coords="615,82,670,76,670,81,615,88"/>
+<area shape="poly" id="edge14_Node000012_Node000006" title=" " alt="" coords="615,101,665,105,664,111,615,106"/>
 </map>

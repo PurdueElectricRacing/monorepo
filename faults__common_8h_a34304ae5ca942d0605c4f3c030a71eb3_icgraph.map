@@ -1,25 +1,27 @@
 <map id="is_latched" name="is_latched">
-<area shape="rect" id="Node000001" title=" " alt="" coords="501,146,582,172"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="501,172,582,197"/>
 <area shape="rect" id="Node000002" href="$calibration_8c.html#ada13ef83abd18bb0bca101454a62ab22" title="Updates the LCD display with current pedal telemetry data when on CALIBRATION page." alt="" coords="313,5,453,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="521,135,491,97,452,60,434,49,437,44,455,56,495,93,525,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="525,159,495,109,475,83,452,60,436,49,439,44,455,56,479,79,500,106,530,156"/>
 <area shape="rect" id="Node000003" href="$pdu_2faults_2faults_8c.html#a21486bc79420fd7ba6102993e8eb8ebf" title=" " alt="" coords="330,70,436,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="500,141,452,117,413,99,415,94,454,113,502,136"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="513,163,452,117,416,99,419,94,455,113,516,159"/>
 <area shape="rect" id="Node000005" href="$pedals_8c.html#a87b6cf4ba55de2c1523397cc21bbf501" title="Processes pedal sensor readings and sets faults as necessary." alt="" coords="128,121,240,146"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="486,158,240,140,240,135,486,152"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="485,169,453,162,339,146,240,138,240,133,340,141,454,156,487,164"/>
 <area shape="rect" id="Node000007" href="$driver__interface_8c.html#ac7b90a0489ad0ee285e2ddbc1d76de4a" title=" " alt="" coords="322,172,444,197"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="486,170,445,177,445,172,486,165"/>
-<area shape="rect" id="Node000009" href="$vehicle__fsm_8c.html#a18fe5546cd7ae011c084d5507646ea83" title=" " alt="" coords="339,221,427,246"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="508,183,454,212,428,223,426,218,452,207,506,178"/>
-<area shape="rect" id="Node000010" href="$vehicle__fsm_8c.html#a17b274e6971a721080e708c8d6eed884" title=" " alt="" coords="112,233,256,258"/>
-<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="528,187,499,227,478,247,454,261,425,272,395,278,333,280,274,273,226,262,227,257,275,268,333,275,394,273,424,267,452,257,475,242,495,224,524,184"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="486,187,445,187,445,182,486,182"/>
+<area shape="rect" id="Node000009" href="$fault__data_8c.html#ab067e06d568cd2e1e9aea488c15bab43" title=" " alt="" coords="334,221,432,246"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="487,204,428,223,426,218,486,199"/>
+<area shape="rect" id="Node000010" href="$vehicle__fsm_8c.html#a18fe5546cd7ae011c084d5507646ea83" title=" " alt="" coords="339,270,427,296"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="519,210,490,237,455,261,429,273,427,268,452,257,486,233,515,206"/>
+<area shape="rect" id="Node000011" href="$vehicle__fsm_8c.html#a17b274e6971a721080e708c8d6eed884" title=" " alt="" coords="112,296,256,321"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="532,213,504,265,482,291,455,311,428,322,399,330,341,335,285,332,236,324,237,319,285,327,341,330,398,324,426,317,452,306,478,287,499,262,528,210"/>
 <area shape="rect" id="Node000004" href="$pdu_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="159,70,208,96"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="315,86,209,86,209,80,315,80"/>
-<area shape="rect" id="Node000006" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,158,55,184"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="114,153,56,168,54,163,113,148"/>
+<area shape="rect" id="Node000006" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,146,55,172"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="113,148,55,158,55,152,113,143"/>
 <area shape="rect" id="Node000008" href="$driver__interface_8c.html#ac599c66976c348cb0287266b60aa49c5" title=" " alt="" coords="103,172,265,197"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="307,187,266,187,266,182,307,182"/>
-<area shape="poly" id="edge8_Node000008_Node000006" title=" " alt="" coords="87,179,55,176,55,170,87,173"/>
-<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="324,240,256,244,256,239,324,235"/>
-<area shape="rect" id="Node000011" href="$main__module_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,233,55,258"/>
-<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="96,248,55,248,55,243,96,243"/>
+<area shape="poly" id="edge8_Node000008_Node000006" title=" " alt="" coords="86,171,55,166,55,160,87,166"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="324,293,256,302,256,297,323,288"/>
+<area shape="rect" id="Node000012" href="$main__module_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,296,55,321"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="96,311,55,311,55,306,96,306"/>
 </map>

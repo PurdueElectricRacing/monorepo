@@ -108,7 +108,7 @@ $(function(){initNavTree('dashboard_2main_8c.html',''); initResizable(true); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="dashboard_2main_8h_source.html">main.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="faults__common_8h_source.html">can_library/faults_common.h</a>&quot;</code><br />
-<code>#include &quot;can_library/generated/DASHBOARD.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="DASHBOARD_8h_source.html">can_library/generated/DASHBOARD.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="heartbeat_8h_source.html">common/heartbeat/heartbeat.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2adc_2adc_8h_source.html">common/phal_G4/adc/adc.h</a>&quot;</code><br />
@@ -142,15 +142,15 @@ Functions</h2></td></tr>
 <tr class="separator:a358cf5443fb73a60b7d12d4c2c707728"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a577e29103ef4d1e1121dc63cfb074498" id="r_a577e29103ef4d1e1121dc63cfb074498"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a577e29103ef4d1e1121dc63cfb074498">DEFINE_CAN_TASKS</a> ()</td></tr>
 <tr class="separator:a577e29103ef4d1e1121dc63cfb074498"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a6793195dfc8b6359030a5aad38dd8c" id="r_a8a6793195dfc8b6359030a5aad38dd8c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a6793195dfc8b6359030a5aad38dd8c">RTOS_DEFINE_TASK</a> (<a class="el" href="pedals_8c.html#a87b6cf4ba55de2c1523397cc21bbf501">pedals_periodic</a>, PEDALS_PERIOD_MS, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a853af49cf23aa50140b8d8341f42b4cf">TASK_PRIORITY_HIGH</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</td></tr>
+<tr class="memitem:a8a6793195dfc8b6359030a5aad38dd8c" id="r_a8a6793195dfc8b6359030a5aad38dd8c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a6793195dfc8b6359030a5aad38dd8c">RTOS_DEFINE_TASK</a> (<a class="el" href="pedals_8c.html#a87b6cf4ba55de2c1523397cc21bbf501">pedals_periodic</a>, <a class="el" href="VCAN_8h.html#a39bba32e5d744a0e619b0621b52ae53c">PEDALS_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a853af49cf23aa50140b8d8341f42b4cf">TASK_PRIORITY_HIGH</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</td></tr>
 <tr class="separator:a8a6793195dfc8b6359030a5aad38dd8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b60bc67cbeaf955828245bf3832b747" id="r_a9b60bc67cbeaf955828245bf3832b747"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b60bc67cbeaf955828245bf3832b747">RTOS_DEFINE_TASK</a> (<a class="el" href="faults__common_8h.html#af1f330045faf14dff0057e5b9e39a713">fault_library_periodic</a>, DASHBOARD_FAULT_SYNC_PERIOD_MS, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064af3669a8c0116561e2fdb5a7f3ea9b136">TASK_PRIORITY_NORMAL</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</td></tr>
+<tr class="memitem:a9b60bc67cbeaf955828245bf3832b747" id="r_a9b60bc67cbeaf955828245bf3832b747"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b60bc67cbeaf955828245bf3832b747">RTOS_DEFINE_TASK</a> (<a class="el" href="faults__common_8h.html#af1f330045faf14dff0057e5b9e39a713">fault_library_periodic</a>, <a class="el" href="VCAN_8h.html#ac6a3c9c5e369ecc974d9a023f6c97e1f">DASHBOARD_FAULT_SYNC_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064af3669a8c0116561e2fdb5a7f3ea9b136">TASK_PRIORITY_NORMAL</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</td></tr>
 <tr class="separator:a9b60bc67cbeaf955828245bf3832b747"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bbf8961f03632ac2f8cf77ef5399077" id="r_a0bbf8961f03632ac2f8cf77ef5399077"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0bbf8961f03632ac2f8cf77ef5399077">RTOS_DEFINE_TASK</a> (<a class="el" href="driver__interface_8c.html#ac599c66976c348cb0287266b60aa49c5">driver_interface_periodic</a>, <a class="el" href="driver__interface_8h.html#ae018e4f4f0007e56a28debba30f30fa5">DRIVER_INTERFACE_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</td></tr>
 <tr class="separator:a0bbf8961f03632ac2f8cf77ef5399077"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82fe837997b54030e3e2773da5e6dba5" id="r_a82fe837997b54030e3e2773da5e6dba5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82fe837997b54030e3e2773da5e6dba5">RTOS_DEFINE_TASK</a> (<a class="el" href="a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2">report_telemetry_02hz</a>, <a class="el" href="a__box_2telemetry_2telemetry_8h.html#a4449d362db0d4b464dc661c0682fbae9">TELEMETRY_02HZ_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</td></tr>
 <tr class="separator:a82fe837997b54030e3e2773da5e6dba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73dc496c1c425cc288e825a44db847bd" id="r_a73dc496c1c425cc288e825a44db847bd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73dc496c1c425cc288e825a44db847bd">RTOS_DEFINE_TASK</a> (<a class="el" href="lap__timer_8c.html#a382636387f4db3d2b08c71b5e7c03f2b">lap_timer_periodic</a>, GPS_COORDINATES_PERIOD_MS, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</td></tr>
+<tr class="memitem:a73dc496c1c425cc288e825a44db847bd" id="r_a73dc496c1c425cc288e825a44db847bd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73dc496c1c425cc288e825a44db847bd">RTOS_DEFINE_TASK</a> (<a class="el" href="lap__timer_8c.html#a382636387f4db3d2b08c71b5e7c03f2b">lap_timer_periodic</a>, <a class="el" href="VCAN_8h.html#abed46f7b28369b476b44419e8de3ad49">GPS_COORDINATES_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</td></tr>
 <tr class="separator:a73dc496c1c425cc288e825a44db847bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11a067a3a0541dc1ed61e5c9bb7591b5" id="r_a11a067a3a0541dc1ed61e5c9bb7591b5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11a067a3a0541dc1ed61e5c9bb7591b5">DEFINE_WATCHDOG_TASK</a> ()</td></tr>
 <tr class="separator:a11a067a3a0541dc1ed61e5c9bb7591b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,7 +197,7 @@ Chris Mcgalliard (<a href="#" onclick="location.href='mai'+'lto:'+'cpm'+'cg'+'al
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dashboard_2main_8c_a358cf5443fb73a60b7d12d4c2c707728_cgraph.svg" width="284" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dashboard_2main_8c_a358cf5443fb73a60b7d12d4c2c707728_cgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -345,7 +345,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">DASHBOARD_FAULT_SYNC_PERIOD_MS</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype"><a class="el" href="VCAN_8h.html#ac6a3c9c5e369ecc974d9a023f6c97e1f">DASHBOARD_FAULT_SYNC_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -376,7 +376,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GPS_COORDINATES_PERIOD_MS</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype"><a class="el" href="VCAN_8h.html#abed46f7b28369b476b44419e8de3ad49">GPS_COORDINATES_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -407,7 +407,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PEDALS_PERIOD_MS</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype"><a class="el" href="VCAN_8h.html#a39bba32e5d744a0e619b0621b52ae53c">PEDALS_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

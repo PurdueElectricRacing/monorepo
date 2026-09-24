@@ -107,7 +107,7 @@ $(function(){initNavTree('bootloader_8c.html',''); initResizable(true); });
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="bootloader_8h_source.html">bootloader/bootloader.h</a>&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
-<code>#include &quot;can_library/generated/can_version.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="can__version_8h_source.html">can_library/generated/can_version.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="bootloader__common_8h_source.html">common/bootloader/bootloader_common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2crc_2crc_8h_source.html">common/phal_G4/crc/crc.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="fdcan_8h_source.html">common/phal_G4/fdcan/fdcan.h</a>&quot;</code><br />
@@ -118,7 +118,7 @@ $(function(){initNavTree('bootloader_8c.html',''); initResizable(true); });
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for bootloader.c:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="bootloader_8c__incl.svg" width="100%" height="593"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="bootloader_8c__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -153,7 +153,7 @@ Functions</h2></td></tr>
 <tr class="separator:a810c762c521719f1b6ba864fac91e47e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aded70a9a447e109b5aa6260e6fa0f916" id="r_aded70a9a447e109b5aa6260e6fa0f916"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aded70a9a447e109b5aa6260e6fa0f916">bl_message_is_bootloader_traffic</a> (const <a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *message)</td></tr>
 <tr class="separator:aded70a9a447e109b5aa6260e6fa0f916"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac60843a6445f115dfc084962072b15af" id="r_ac60843a6445f115dfc084962072b15af"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac60843a6445f115dfc084962072b15af">bl_send_status</a> (bootloader_status_t status, uint32_t detail)</td></tr>
+<tr class="memitem:ac60843a6445f115dfc084962072b15af" id="r_ac60843a6445f115dfc084962072b15af"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac60843a6445f115dfc084962072b15af">bl_send_status</a> (<a class="el" href="can__types_8h.html#a8bd8b746690f284cbd524f248f4bb598">bootloader_status_t</a> status, uint32_t detail)</td></tr>
 <tr class="separator:ac60843a6445f115dfc084962072b15af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac19da133af9137d8db35468a8e1b7af5" id="r_ac19da133af9137d8db35468a8e1b7af5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac19da133af9137d8db35468a8e1b7af5">bl_send_info</a> (void)</td></tr>
 <tr class="separator:ac19da133af9137d8db35468a8e1b7af5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -855,7 +855,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static void bl_send_status </td>
           <td>(</td>
-          <td class="paramtype">bootloader_status_t</td>          <td class="paramname"><span class="paramname"><em>status</em></span>, </td>
+          <td class="paramtype"><a class="el" href="can__types_8h.html#a8bd8b746690f284cbd524f248f4bb598">bootloader_status_t</a></td>          <td class="paramname"><span class="paramname"><em>status</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

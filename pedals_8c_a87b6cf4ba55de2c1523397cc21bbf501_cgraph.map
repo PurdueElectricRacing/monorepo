@@ -1,9 +1,19 @@
 <map id="pedals_periodic" name="pedals_periodic">
-<area shape="rect" id="Node000001" title="Processes pedal sensor readings and sets faults as necessary." alt="" coords="5,55,117,80"/>
-<area shape="rect" id="Node000002" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="178,5,244,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,51,162,31,164,36,103,57"/>
-<area shape="rect" id="Node000003" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="171,55,251,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="117,65,155,65,155,70,117,70"/>
-<area shape="rect" id="Node000004" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="165,104,257,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="103,78,156,96,154,101,102,84"/>
+<area shape="rect" id="Node000001" title="Processes pedal sensor readings and sets faults as necessary." alt="" coords="5,129,117,155"/>
+<area shape="rect" id="Node000002" href="$DASHBOARD_8h.html#aefa6d76fa009e8b19e4882b02e157e2c" title=" " alt="" coords="165,55,302,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,126,164,89,177,84,179,89,166,94,88,131"/>
+<area shape="rect" id="Node000007" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="200,104,266,130"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="117,131,185,121,186,126,117,137"/>
+<area shape="rect" id="Node000008" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="193,153,274,179"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="117,147,178,156,177,161,117,153"/>
+<area shape="rect" id="Node000009" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="187,203,280,228"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="89,153,166,189,179,194,177,199,164,194,87,158"/>
+<area shape="rect" id="Node000003" href="$DASHBOARD_8h.html#a0da956162efe3e0016f181cee58961e6" title=" " alt="" coords="350,5,531,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="290,51,368,33,369,38,291,57"/>
+<area shape="rect" id="Node000004" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="364,55,517,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="302,65,348,65,348,70,302,70"/>
+<area shape="rect" id="Node000006" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="358,104,523,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="291,78,369,97,368,102,290,84"/>
+<area shape="rect" id="Node000005" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="579,55,711,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="518,65,564,65,564,70,518,70"/>
 </map>

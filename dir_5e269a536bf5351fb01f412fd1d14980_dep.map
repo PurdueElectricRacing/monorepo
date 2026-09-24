@@ -1,32 +1,35 @@
 <map id="firmware/common" name="firmware/common">
-<area shape="rect" id="node2" href="dir_1978081598fb094899477a0797371d29.html" title="amk" alt="" coords="133,63,179,89"/>
-<area shape="rect" id="node3" href="dir_9f1d360cda93d511906004186878ec58.html" title="bangbang" alt="" coords="203,63,280,89"/>
-<area shape="rect" id="node4" href="dir_9106cbcde15c1c620d0745cbc71cf107.html" title="bootloader" alt="" coords="305,63,386,89"/>
-<area shape="rect" id="node5" href="dir_4a6ec368b086351a0f762154441fb88d.html" title="heartbeat" alt="" coords="781,63,856,89"/>
-<area shape="rect" id="node11" href="dir_9424cb1b60fcb81b865b6a89e475e98f.html" title="rtos" alt="" coords="746,137,790,162"/>
-<area shape="poly" id="edge1" href="dir_000037_000058.html" alt="" coords="812,90,787,125,783,122,808,87"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000037_000058.html" title="2" alt="" coords="790,119,797,134"/>
-<area shape="rect" id="node6" href="dir_5284ca3ced676f3c741cadc06478c8fe.html" title="izze_imu" alt="" coords="496,63,568,89"/>
-<area shape="rect" id="node7" href="dir_375a22674bfb89e19e0e5abf8ddf5bec.html" title="lerp_lut" alt="" coords="592,63,656,89"/>
-<area shape="rect" id="node8" href="dir_7a67c864a606a538eedb62a40e263fd0.html" title="nextion" alt="" coords="410,63,472,89"/>
-<area shape="rect" id="node13" href="dir_7ec637bfc31da7b7e8f627b5f7998436.html" title="strbuf" alt="" coords="414,137,468,162"/>
-<area shape="poly" id="edge2" href="dir_000043_000069.html" alt="" coords="444,89,444,121,439,121,439,89"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000043_000069.html" title="1" alt="" coords="446,111,453,126"/>
-<area shape="rect" id="node9" href="dir_461b66df71e52d228022cdfbb9418655.html" title="phal_F4" alt="" coords="1026,137,1094,162"/>
-<area shape="rect" id="node16" href="dir_43b58effa8f021174a1d652cabb0d2a8.html" title="utils" alt="" coords="991,210,1036,236"/>
-<area shape="poly" id="edge3" href="dir_000048_000088.html" alt="" coords="1055,164,1032,199,1027,196,1050,161"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000048_000088.html" title="1" alt="" coords="1035,192,1042,207"/>
-<area shape="rect" id="node10" href="dir_48b3ded520845e3cf7cf37478d1eb6dc.html" title="phal_G4" alt="" coords="933,137,1003,162"/>
-<area shape="poly" id="edge4" href="dir_000049_000088.html" alt="" coords="978,161,1000,196,995,199,973,164"/>
-<area shape="rect" id="edge4-headlabel" href="dir_000049_000088.html" title="2" alt="" coords="1000,183,1007,198"/>
-<area shape="rect" id="node12" href="dir_23e36ccbe14f91db8bc9e4d4330cfa21.html" title="sdio" alt="" coords="1048,63,1093,89"/>
-<area shape="poly" id="edge5" href="dir_000061_000048.html" alt="" coords="1072,89,1067,122,1061,121,1066,88"/>
-<area shape="rect" id="edge5-headlabel" href="dir_000061_000048.html" title="3" alt="" coords="1069,112,1076,127"/>
-<area shape="rect" id="node14" href="dir_8c3026df184eebebd1dea273b1017bdc.html" title="syscalls" alt="" coords="880,63,949,89"/>
-<area shape="rect" id="node15" href="dir_cb00f44e36b7ca6ede9bf15cc9d13dca.html" title="ublox" alt="" coords="973,63,1024,89"/>
-<area shape="rect" id="node17" href="dir_8aa6a0f71c2af4585bc025f0c75df80a.html" title="watchdog" alt="" coords="680,63,757,89"/>
-<area shape="poly" id="edge6" href="dir_000091_000058.html" alt="" coords="729,87,753,122,749,125,725,90"/>
-<area shape="rect" id="edge6-headlabel" href="dir_000091_000058.html" title="1" alt="" coords="753,109,760,124"/>
-<area shape="rect" id="clust2" href="dir_5e269a536bf5351fb01f412fd1d14980.html" alt="" coords="27,52,1104,247"/>
-<area shape="rect" id="clust1" href="dir_d9edf6c004b4a7ff14fe9ae7a92214ee.html" title="firmware" alt="" coords="16,16,1115,257"/>
+<area shape="rect" id="node1" href="dir_23383892851dd1305915cb7b74af71f4.html" title="can_library" alt="" coords="1116,137,1199,162"/>
+<area shape="rect" id="node3" href="dir_1978081598fb094899477a0797371d29.html" title="amk" alt="" coords="1049,63,1095,89"/>
+<area shape="poly" id="edge1" href="dir_000004_000011.html" alt="" coords="1088,87,1133,125,1130,129,1085,91"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000004_000011.html" title="1" alt="" coords="1131,111,1138,126"/>
+<area shape="rect" id="node4" href="dir_9f1d360cda93d511906004186878ec58.html" title="bangbang" alt="" coords="219,63,296,89"/>
+<area shape="rect" id="node5" href="dir_9106cbcde15c1c620d0745cbc71cf107.html" title="bootloader" alt="" coords="321,63,402,89"/>
+<area shape="rect" id="node6" href="dir_4a6ec368b086351a0f762154441fb88d.html" title="heartbeat" alt="" coords="426,63,502,89"/>
+<area shape="rect" id="node12" href="dir_9424cb1b60fcb81b865b6a89e475e98f.html" title="rtos" alt="" coords="541,137,584,162"/>
+<area shape="poly" id="edge2" href="dir_000038_000059.html" alt="" coords="482,87,536,125,532,130,479,91"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000038_000059.html" title="2" alt="" coords="533,111,540,126"/>
+<area shape="rect" id="node7" href="dir_5284ca3ced676f3c741cadc06478c8fe.html" title="izze_imu" alt="" coords="526,63,597,89"/>
+<area shape="rect" id="node8" href="dir_375a22674bfb89e19e0e5abf8ddf5bec.html" title="lerp_lut" alt="" coords="622,63,685,89"/>
+<area shape="rect" id="node9" href="dir_7a67c864a606a538eedb62a40e263fd0.html" title="nextion" alt="" coords="133,63,195,89"/>
+<area shape="rect" id="node14" href="dir_7ec637bfc31da7b7e8f627b5f7998436.html" title="strbuf" alt="" coords="137,137,191,162"/>
+<area shape="poly" id="edge3" href="dir_000044_000070.html" alt="" coords="167,89,167,121,161,121,161,89"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000044_000070.html" title="1" alt="" coords="169,111,176,126"/>
+<area shape="rect" id="node10" href="dir_461b66df71e52d228022cdfbb9418655.html" title="phal_F4" alt="" coords="800,137,867,162"/>
+<area shape="rect" id="node17" href="dir_43b58effa8f021174a1d652cabb0d2a8.html" title="utils" alt="" coords="764,210,809,236"/>
+<area shape="poly" id="edge4" href="dir_000049_000089.html" alt="" coords="828,164,805,199,801,196,823,161"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000049_000089.html" title="1" alt="" coords="808,192,815,207"/>
+<area shape="rect" id="node11" href="dir_48b3ded520845e3cf7cf37478d1eb6dc.html" title="phal_G4" alt="" coords="707,137,776,162"/>
+<area shape="poly" id="edge5" href="dir_000050_000089.html" alt="" coords="751,161,773,196,769,199,747,164"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000050_000089.html" title="2" alt="" coords="773,183,780,198"/>
+<area shape="rect" id="node13" href="dir_23e36ccbe14f91db8bc9e4d4330cfa21.html" title="sdio" alt="" coords="811,63,856,89"/>
+<area shape="poly" id="edge6" href="dir_000062_000049.html" alt="" coords="836,89,836,121,831,121,831,89"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000062_000049.html" title="3" alt="" coords="838,111,845,126"/>
+<area shape="rect" id="node15" href="dir_8c3026df184eebebd1dea273b1017bdc.html" title="syscalls" alt="" coords="880,63,949,89"/>
+<area shape="rect" id="node16" href="dir_cb00f44e36b7ca6ede9bf15cc9d13dca.html" title="ublox" alt="" coords="973,63,1024,89"/>
+<area shape="rect" id="node18" href="dir_8aa6a0f71c2af4585bc025f0c75df80a.html" title="watchdog" alt="" coords="709,63,787,89"/>
+<area shape="poly" id="edge7" href="dir_000092_000059.html" alt="" coords="718,92,600,137,598,132,716,87"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000092_000059.html" title="1" alt="" coords="601,134,608,149"/>
+<area shape="rect" id="clust2" href="dir_5e269a536bf5351fb01f412fd1d14980.html" alt="" coords="27,52,1105,247"/>
+<area shape="rect" id="clust1" href="dir_d9edf6c004b4a7ff14fe9ae7a92214ee.html" title="firmware" alt="" coords="16,16,1209,257"/>
 </map>

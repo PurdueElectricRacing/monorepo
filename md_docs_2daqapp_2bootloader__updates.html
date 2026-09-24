@@ -100,15 +100,15 @@ $(function(){initNavTree('md_docs_2daqapp_2bootloader__updates.html',''); initRe
   <div class="headertitle"><div class="title">DaqApp bootloader updates</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md88"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md93"></a></p>
 <p>This guide covers firmware updates from DaqApp. See the <a class="el" href="md_firmware_2source_2bootloader_2README.html">resident G4 bootloader guide</a> for architecture, protocol, flash layout, and recovery.</p>
 <p>The updater supports the six STM32G474 VCAN nodes: <code>main_module</code>, <code>dashboard</code>, <code>torque_vector</code>, <code>a_box</code>, <code>front_driveline</code>, and <code>rear_driveline</code>.</p>
-<h1><a class="anchor" id="autotoc_md89"></a>
+<h1><a class="anchor" id="autotoc_md94"></a>
 Prepare the firmware package</h1>
 <p>From the repository root, build the firmware and package:</p>
 <div class="fragment"><div class="line">python3 firmware/build_firmware.py</div>
 </div><!-- fragment --><p>The command writes <code>firmware/output/manifest.json</code>, <code>firmware/output/firmware_&lt;git-ref&gt;.tar.gz</code>, and resident images under <code>firmware/output/bootloader_&lt;NODE&gt;/</code>. Flash the matching <code>bootloader_&lt;NODE&gt;.bin</code> before the first application update. The archive contains application payloads; it does not replace resident bootloaders.</p>
-<h1><a class="anchor" id="autotoc_md90"></a>
+<h1><a class="anchor" id="autotoc_md95"></a>
 Update an application</h1>
 <ol type="1">
 <li>Connect DaqApp to VCAN and confirm target telemetry is visible.</li>
@@ -119,7 +119,7 @@ Update an application</h1>
 <li>Keep power and CAN connected until DaqApp reports <code>complete</code>; verify telemetry.</li>
 </ol>
 <p>Selected boards update sequentially. Front and rear driveline are separate nodes.</p>
-<h1><a class="anchor" id="autotoc_md91"></a>
+<h1><a class="anchor" id="autotoc_md96"></a>
 Updater architecture and state machine</h1>
 <div class="image">
 <img src="daqapp_bootloader_architecture.drawio.png" alt=""/>

@@ -1,12 +1,34 @@
 <map id="firmware/source/main_module/torque_controller/torque_controller.h" name="firmware/source/main_module/torque_controller/torque_controller.h">
-<area shape="rect" id="Node000001" title="Vehicle torque request calculation." alt="" coords="5,5,176,61"/>
-<area shape="rect" id="Node000002" href="$powertrain_8h.html" title="Powertrain implementation." alt="" coords="45,109,136,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,61,93,93,88,93,88,61"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="6,264,69,290"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="87,136,65,184,46,250,40,249,60,182,82,134"/>
-<area shape="rect" id="Node000004" href="$common_2amk_2amk_8h.html" title="Modernized AMK driver." alt="" coords="74,183,214,208"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="101,133,128,168,124,172,97,136"/>
-<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="129,211,67,257,64,252,126,207"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="93,256,237,297"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="150,208,159,241,153,242,145,209"/>
+<area shape="rect" id="Node000001" title="Vehicle torque request calculation." alt="" coords="594,5,764,61"/>
+<area shape="rect" id="Node000002" href="$powertrain_8h.html" title="Powertrain implementation." alt="" coords="633,109,724,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="681,61,681,93,676,93,676,61"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="584,507,648,533"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="688,134,717,193,729,233,735,275,735,359,732,381,726,403,704,442,675,474,647,500,643,496,671,471,699,439,721,401,727,380,729,359,729,275,724,234,712,195,684,136"/>
+<area shape="rect" id="Node000004" href="$common_2amk_2amk_8h.html" title="Modernized AMK driver." alt="" coords="556,183,695,208"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="672,136,646,172,641,168,668,133"/>
+<area shape="poly" id="edge18_Node000004_Node000003" title=" " alt="" coords="631,208,641,256,644,323,640,389,624,492,619,491,635,388,639,323,636,257,626,209"/>
+<area shape="rect" id="Node000005" href="$MCAN_8h.html" title="Auto&#45;generated CAN bus definitions for MCAN." alt="" coords="482,256,627,297"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="617,211,584,247,580,243,613,207"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="566,297,587,351,608,418,618,492,612,492,603,419,582,352,561,299"/>
+<area shape="rect" id="Node000006" href="$can__common_8h.html" title="Common functions and data structures used in every node in the CAN library." alt="" coords="324,345,500,371"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="520,300,449,339,446,335,518,295"/>
+<area shape="rect" id="Node000014" href="$can__types_8h.html" title="Auto&#45;generated custom types and enums for the CAN library." alt="" coords="449,419,594,459"/>
+<area shape="poly" id="edge16_Node000005_Node000014" title=" " alt="" coords="553,298,531,404,526,403,548,297"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="414,370,418,413,426,437,439,457,460,471,493,485,570,506,568,511,492,490,458,476,435,461,421,439,413,414,409,371"/>
+<area shape="rect" id="Node000007" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="241,426,375,452"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="398,373,337,419,334,415,395,369"/>
+<area shape="poly" id="edge15_Node000007_Node000003" title=" " alt="" coords="356,450,570,504,569,509,355,455"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="5,507,99,533"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="269,455,107,505,105,500,268,450"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="122,507,171,533"/>
+<area shape="poly" id="edge10_Node000007_Node000009" title=" " alt="" coords="284,455,186,503,184,498,282,450"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="195,507,261,533"/>
+<area shape="poly" id="edge11_Node000007_Node000010" title=" " alt="" coords="298,454,253,498,249,494,294,450"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="286,507,360,533"/>
+<area shape="poly" id="edge12_Node000007_Node000011" title=" " alt="" coords="313,452,320,491,315,492,308,453"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="384,507,440,533"/>
+<area shape="poly" id="edge13_Node000007_Node000012" title=" " alt="" coords="325,450,386,496,383,500,322,454"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="464,507,531,533"/>
+<area shape="poly" id="edge14_Node000007_Node000013" title=" " alt="" coords="338,450,456,499,454,504,336,455"/>
+<area shape="poly" id="edge17_Node000014_Node000003" title=" " alt="" coords="546,458,592,495,588,499,543,462"/>
 </map>

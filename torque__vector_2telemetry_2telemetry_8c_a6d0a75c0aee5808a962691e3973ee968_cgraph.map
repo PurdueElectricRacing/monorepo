@@ -1,5 +1,15 @@
 <map id="report_telemetry_1hz" name="report_telemetry_1hz">
-<area shape="rect" id="Node000001" title="Reports telemetry data at 1HZ rate Includes: GPS time (UTC)" alt="" coords="5,5,147,31"/>
-<area shape="rect" id="Node000002" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="195,5,261,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,16,179,16,179,21,147,21"/>
+<area shape="rect" id="Node000001" title="Reports telemetry data at 1HZ rate Includes: GPS time (UTC)" alt="" coords="5,80,147,106"/>
+<area shape="rect" id="Node000002" href="$TORQUE__VECTOR_8h.html#a4450e1f3f7253174d7e25c3cc0ce8f78" title=" " alt="" coords="195,55,347,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,81,179,77,179,82,148,86"/>
+<area shape="rect" id="Node000007" href="$faults__common_8h.html#a22ea5f8bc7464c7728f4f9d67a9417cf" title=" " alt="" coords="238,104,304,130"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="148,99,223,108,222,114,147,104"/>
+<area shape="rect" id="Node000003" href="$TORQUE__VECTOR_8h.html#a0da956162efe3e0016f181cee58961e6" title=" " alt="" coords="395,5,576,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="330,51,411,32,412,38,331,57"/>
+<area shape="rect" id="Node000004" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="409,55,562,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="348,65,393,65,393,70,348,70"/>
+<area shape="rect" id="Node000006" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="404,104,568,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="331,78,412,97,411,103,330,84"/>
+<area shape="rect" id="Node000005" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="624,55,756,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="563,65,609,65,609,70,563,70"/>
 </map>

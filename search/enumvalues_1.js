@@ -16,8 +16,19 @@ var searchData=
   ['blerror_5fnone_13',['BLERROR_NONE',['../bootloader__common_8h.html#a6fe43176e8469ce6db5f7bae59a3497ba99e71d377de69d51f41974bfafdacabb',1,'bootloader_common.h']]],
   ['blerror_5fsequence_14',['BLERROR_SEQUENCE',['../bootloader__common_8h.html#a6fe43176e8469ce6db5f7bae59a3497baf71c4b1aa4d22ee2eb28ae0d91e244ff',1,'bootloader_common.h']]],
   ['blerror_5fsize_15',['BLERROR_SIZE',['../bootloader__common_8h.html#a6fe43176e8469ce6db5f7bae59a3497ba6ea67487fe8beb1b1a082cf506bf1238',1,'bootloader_common.h']]],
-  ['bswap_5f16_16',['BSWAP_16',['../can__codec_8h.html#a0321a1a94e67549bfb77eba5270e5de3a14a6723f6515b40b36333436b6fea00b',1,'can_codec.h']]],
-  ['bswap_5f32_17',['BSWAP_32',['../can__codec_8h.html#a0321a1a94e67549bfb77eba5270e5de3a3d0b1ec0c715a0c1ee03ddd3ca7706b9',1,'can_codec.h']]],
-  ['bswap_5f64_18',['BSWAP_64',['../can__codec_8h.html#a0321a1a94e67549bfb77eba5270e5de3a6ae1f3849288b8b3db740f2bf6599723',1,'can_codec.h']]],
-  ['bswap_5fnone_19',['BSWAP_NONE',['../can__codec_8h.html#a0321a1a94e67549bfb77eba5270e5de3a288ad93482de65078424d0a20670075e',1,'can_codec.h']]]
+  ['bootloader_5fstatus_5fack_16',['BOOTLOADER_STATUS_ACK',['../can__types_8h.html#a8bd8b746690f284cbd524f248f4bb598ac0bba0cdd1c55cb3eaefcf77451f69ef',1,'can_types.h']]],
+  ['bootloader_5fstatus_5fcrc_5ferror_17',['BOOTLOADER_STATUS_CRC_ERROR',['../can__types_8h.html#a8bd8b746690f284cbd524f248f4bb598a4e4870d060f11d266395e761d28db1b6',1,'can_types.h']]],
+  ['bootloader_5fstatus_5ferror_18',['BOOTLOADER_STATUS_ERROR',['../can__types_8h.html#a8bd8b746690f284cbd524f248f4bb598a30f51081901a76558272916d598d1c55',1,'can_types.h']]],
+  ['bootloader_5fstatus_5fready_19',['BOOTLOADER_STATUS_READY',['../can__types_8h.html#a8bd8b746690f284cbd524f248f4bb598ae72625152bfab10e9bed79021d764fd6',1,'can_types.h']]],
+  ['bootloader_5ftarget_5fid_5fa_5fbox_20',['BOOTLOADER_TARGET_ID_A_BOX',['../can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421ab7984394ea213ad6bad57daa96babb03',1,'can_types.h']]],
+  ['bootloader_5ftarget_5fid_5fdashboard_21',['BOOTLOADER_TARGET_ID_DASHBOARD',['../can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a4262d134a881766077ccb2b8389ff337',1,'can_types.h']]],
+  ['bootloader_5ftarget_5fid_5ffront_5fdriveline_22',['BOOTLOADER_TARGET_ID_FRONT_DRIVELINE',['../can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a3717143376bd769739b5e27f8402c1d9',1,'can_types.h']]],
+  ['bootloader_5ftarget_5fid_5finvalid_23',['BOOTLOADER_TARGET_ID_INVALID',['../can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a6d97c7ee463822bc55795dcd2f9592b1',1,'can_types.h']]],
+  ['bootloader_5ftarget_5fid_5fmain_5fmodule_24',['BOOTLOADER_TARGET_ID_MAIN_MODULE',['../can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a171b004b987ac33bc31b6c1f19887512',1,'can_types.h']]],
+  ['bootloader_5ftarget_5fid_5frear_5fdriveline_25',['BOOTLOADER_TARGET_ID_REAR_DRIVELINE',['../can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421ae207abcce6a74e916a12a709e175d9e4',1,'can_types.h']]],
+  ['bootloader_5ftarget_5fid_5ftorque_5fvector_26',['BOOTLOADER_TARGET_ID_TORQUE_VECTOR',['../can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a6d26600ca9e2472ff058dfc3685bb5f7',1,'can_types.h']]],
+  ['bswap_5f16_27',['BSWAP_16',['../can__codec_8h.html#a0321a1a94e67549bfb77eba5270e5de3a14a6723f6515b40b36333436b6fea00b',1,'can_codec.h']]],
+  ['bswap_5f32_28',['BSWAP_32',['../can__codec_8h.html#a0321a1a94e67549bfb77eba5270e5de3a3d0b1ec0c715a0c1ee03ddd3ca7706b9',1,'can_codec.h']]],
+  ['bswap_5f64_29',['BSWAP_64',['../can__codec_8h.html#a0321a1a94e67549bfb77eba5270e5de3a6ae1f3849288b8b3db740f2bf6599723',1,'can_codec.h']]],
+  ['bswap_5fnone_30',['BSWAP_NONE',['../can__codec_8h.html#a0321a1a94e67549bfb77eba5270e5de3a288ad93482de65078424d0a20670075e',1,'can_codec.h']]]
 ];

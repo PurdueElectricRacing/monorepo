@@ -1,9 +1,19 @@
 <map id="send_periodic" name="send_periodic">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,107,56"/>
-<area shape="rect" id="Node000002" href="$phal__F4_2gpio_2gpio_8h.html#ad3c2ff627e4cd120d7ce84467503d888" title=" " alt="" coords="155,31,294,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,41,139,41,139,46,107,46"/>
-<area shape="rect" id="Node000003" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="344,5,473,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="294,31,328,27,328,32,295,37"/>
-<area shape="rect" id="Node000004" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="342,55,474,80"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="295,50,327,54,326,60,294,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,129,107,155"/>
+<area shape="rect" id="Node000002" href="$PDU_8h.html#a16832d8cf99185c8ae2c7a30c7bbb205" title=" " alt="" coords="155,80,324,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,126,174,108,175,113,107,131"/>
+<area shape="rect" id="Node000007" href="$phal__F4_2gpio_2gpio_8h.html#ad3c2ff627e4cd120d7ce84467503d888" title=" " alt="" coords="170,153,309,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="108,146,154,152,154,158,107,151"/>
+<area shape="rect" id="Node000003" href="$PDU_8h.html#ad6fc0e82bd1bc573fe2c05b15f26bfeb" title=" " alt="" coords="372,5,536,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="272,77,371,40,390,34,391,39,373,45,274,82"/>
+<area shape="rect" id="Node000004" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="378,55,531,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="324,80,362,76,362,81,325,85"/>
+<area shape="rect" id="Node000006" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="372,104,536,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="325,100,357,103,356,109,324,105"/>
+<area shape="rect" id="Node000005" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="584,55,716,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="531,65,568,65,568,70,531,70"/>
+<area shape="rect" id="Node000008" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="390,153,519,179"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="310,164,374,164,374,169,310,169"/>
+<area shape="rect" id="Node000009" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="388,203,520,228"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="299,177,381,196,379,201,298,182"/>
 </map>

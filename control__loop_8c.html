@@ -107,14 +107,14 @@ $(function(){initNavTree('control__loop_8c.html',''); initResizable(true); });
 <p>Main torque vectoring control loop.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
-<code>#include &quot;can_library/generated/TORQUE_VECTOR.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="TORQUE__VECTOR_8h_source.html">can_library/generated/TORQUE_VECTOR.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="max_8h_source.html">common/utils/max.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="sensors_8h_source.html">sensors.h</a>&quot;</code><br />
 <code>#include &quot;vcu.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for control_loop.c:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="control__loop_8c__incl.svg" width="531" height="303"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="control__loop_8c__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -138,13 +138,13 @@ Variables</h2></td></tr>
 <tr class="separator:a85c27795c006b8d4ac313020b0a8219a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4705d8316e435b499f4e2ded41d0a431" id="r_a4705d8316e435b499f4e2ded41d0a431"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structyVCU__struct.html">yVCU_struct</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4705d8316e435b499f4e2ded41d0a431">yVCU</a></td></tr>
 <tr class="separator:a4705d8316e435b499f4e2ded41d0a431"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a883ff9e4332ef2092552aa5dbfd3c4ac" id="r_a883ff9e4332ef2092552aa5dbfd3c4ac"><td class="memItemLeft" align="right" valign="top">volatile vcu_mode_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a883ff9e4332ef2092552aa5dbfd3c4ac">vcu_mode</a> = VCU_MODE_TUNING</td></tr>
+<tr class="memitem:a883ff9e4332ef2092552aa5dbfd3c4ac" id="r_a883ff9e4332ef2092552aa5dbfd3c4ac"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1a">vcu_mode_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a883ff9e4332ef2092552aa5dbfd3c4ac">vcu_mode</a> = <a class="el" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa90df6e45f47ab3a79b2a6fd01460b634">VCU_MODE_TUNING</a></td></tr>
 <tr class="separator:a883ff9e4332ef2092552aa5dbfd3c4ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a955c29aae1047ed8861dfee226e2a5c3" id="r_a955c29aae1047ed8861dfee226e2a5c3"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a955c29aae1047ed8861dfee226e2a5c3">is_tv_enabled</a> = true</td></tr>
 <tr class="separator:a955c29aae1047ed8861dfee226e2a5c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d19203fbf83e42a08b57132c6906b0b" id="r_a9d19203fbf83e42a08b57132c6906b0b"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d19203fbf83e42a08b57132c6906b0b">is_regen_enabled</a> = true</td></tr>
 <tr class="separator:a9d19203fbf83e42a08b57132c6906b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20a4098961c7e4e17a30f2ef19b9547e" id="r_a20a4098961c7e4e17a30f2ef19b9547e"><td class="memItemLeft" align="right" valign="top">volatile vcu_settings_data_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20a4098961c7e4e17a30f2ef19b9547e">vcu_settings</a> [5]</td></tr>
+<tr class="memitem:a20a4098961c7e4e17a30f2ef19b9547e" id="r_a20a4098961c7e4e17a30f2ef19b9547e"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="structvcu__settings__data__t.html">vcu_settings_data_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20a4098961c7e4e17a30f2ef19b9547e">vcu_settings</a> [5]</td></tr>
 <tr class="separator:a20a4098961c7e4e17a30f2ef19b9547e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae016c05c95ecf003f340ce6994ad1185" id="r_ae016c05c95ecf003f340ce6994ad1185"><td class="memItemLeft" align="right" valign="top">volatile uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae016c05c95ecf003f340ce6994ad1185">last_vcu_settings_tx</a> = 0</td></tr>
 <tr class="separator:ae016c05c95ecf003f340ce6994ad1185"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,7 +199,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="control__loop_8c_a0c80a804f63cdf1b40bca055d0b2d77d_cgraph.svg" width="408" height="184"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="control__loop_8c_a0c80a804f63cdf1b40bca055d0b2d77d_cgraph.svg" width="100%" height="502"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -262,9 +262,14 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="control__loop_8c_aaedc0447ebe1ebb8a695426ed4a598f5_cgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="control__loop_8c_aaedc0447ebe1ebb8a695426ed4a598f5_icgraph.svg" width="423" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="control__loop_8c_aaedc0447ebe1ebb8a695426ed4a598f5_icgraph.svg" width="507" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -286,7 +291,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="control__loop_8c_af473b63657e6dcfab3ec6dba8fb68300_cgraph.svg" width="326" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="control__loop_8c_af473b63657e6dcfab3ec6dba8fb68300_cgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="control__loop_8c_af473b63657e6dcfab3ec6dba8fb68300_icgraph.svg" width="324" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -363,7 +373,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">volatile vcu_mode_t vcu_mode = VCU_MODE_TUNING</td>
+          <td class="memname">volatile <a class="el" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1a">vcu_mode_t</a> vcu_mode = <a class="el" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa90df6e45f47ab3a79b2a6fd01460b634">VCU_MODE_TUNING</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -377,37 +387,42 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">volatile vcu_settings_data_t vcu_settings[5]</td>
+          <td class="memname">volatile <a class="el" href="structvcu__settings__data__t.html">vcu_settings_data_t</a> vcu_settings[5]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    [VCU_MODE_ACCEL] = {</div>
+<div class="line">    [<a class="code hl_enumvalue" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aae2cceb011e18c2ffc2a0445d8e24ef38">VCU_MODE_ACCEL</a>] = {</div>
 <div class="line">        .lateral_gain = 50,</div>
 <div class="line">        .longitudinal_gain = 50,</div>
 <div class="line">        .electronic_brake_bias = 50</div>
 <div class="line">    },</div>
-<div class="line">    [VCU_MODE_SKIDPAD] = {</div>
+<div class="line">    [<a class="code hl_enumvalue" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa692b197a3f6ee751e38725bcf3a84272">VCU_MODE_SKIDPAD</a>] = {</div>
 <div class="line">        .lateral_gain = 50,</div>
 <div class="line">        .longitudinal_gain = 50,</div>
 <div class="line">        .electronic_brake_bias = 50</div>
 <div class="line">    },</div>
-<div class="line">    [VCU_MODE_AUTOCROSS] = {</div>
+<div class="line">    [<a class="code hl_enumvalue" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa57bdd1d83fd2ff517302c191c16894c3">VCU_MODE_AUTOCROSS</a>] = {</div>
 <div class="line">        .lateral_gain = 50,</div>
 <div class="line">        .longitudinal_gain = 50,</div>
 <div class="line">        .electronic_brake_bias = 50</div>
 <div class="line">    },</div>
-<div class="line">    [VCU_MODE_ENDURANCE] = {</div>
+<div class="line">    [<a class="code hl_enumvalue" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa11486eecc2ad2c256f0811a46755167e">VCU_MODE_ENDURANCE</a>] = {</div>
 <div class="line">        .lateral_gain = 50,</div>
 <div class="line">        .longitudinal_gain = 50,</div>
 <div class="line">        .electronic_brake_bias = 50</div>
 <div class="line">    },</div>
-<div class="line">    [VCU_MODE_TUNING] = {</div>
+<div class="line">    [<a class="code hl_enumvalue" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa90df6e45f47ab3a79b2a6fd01460b634">VCU_MODE_TUNING</a>] = {</div>
 <div class="line">        .lateral_gain = 50,</div>
 <div class="line">        .longitudinal_gain = 50,</div>
 <div class="line">        .electronic_brake_bias = 50</div>
 <div class="line">    }</div>
 <div class="line">}</div>
+<div class="ttc" id="acan__types_8h_html_a82019ed8603553c37b4aac2361f53a1aa11486eecc2ad2c256f0811a46755167e"><div class="ttname"><a href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa11486eecc2ad2c256f0811a46755167e">VCU_MODE_ENDURANCE</a></div><div class="ttdeci">@ VCU_MODE_ENDURANCE</div><div class="ttdef"><b>Definition</b> can_types.h:79</div></div>
+<div class="ttc" id="acan__types_8h_html_a82019ed8603553c37b4aac2361f53a1aa57bdd1d83fd2ff517302c191c16894c3"><div class="ttname"><a href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa57bdd1d83fd2ff517302c191c16894c3">VCU_MODE_AUTOCROSS</a></div><div class="ttdeci">@ VCU_MODE_AUTOCROSS</div><div class="ttdef"><b>Definition</b> can_types.h:78</div></div>
+<div class="ttc" id="acan__types_8h_html_a82019ed8603553c37b4aac2361f53a1aa692b197a3f6ee751e38725bcf3a84272"><div class="ttname"><a href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa692b197a3f6ee751e38725bcf3a84272">VCU_MODE_SKIDPAD</a></div><div class="ttdeci">@ VCU_MODE_SKIDPAD</div><div class="ttdef"><b>Definition</b> can_types.h:77</div></div>
+<div class="ttc" id="acan__types_8h_html_a82019ed8603553c37b4aac2361f53a1aa90df6e45f47ab3a79b2a6fd01460b634"><div class="ttname"><a href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aa90df6e45f47ab3a79b2a6fd01460b634">VCU_MODE_TUNING</a></div><div class="ttdeci">@ VCU_MODE_TUNING</div><div class="ttdef"><b>Definition</b> can_types.h:80</div></div>
+<div class="ttc" id="acan__types_8h_html_a82019ed8603553c37b4aac2361f53a1aae2cceb011e18c2ffc2a0445d8e24ef38"><div class="ttname"><a href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1aae2cceb011e18c2ffc2a0445d8e24ef38">VCU_MODE_ACCEL</a></div><div class="ttdeci">@ VCU_MODE_ACCEL</div><div class="ttdef"><b>Definition</b> can_types.h:76</div></div>
 </div><!-- fragment -->
 </div>
 </div>
