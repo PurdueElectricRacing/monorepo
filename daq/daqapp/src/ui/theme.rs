@@ -212,7 +212,7 @@ impl ThemeColors {
 
         style.visuals.window_fill = background;
         style.visuals.panel_fill = panel;
-        style.visuals.faint_bg_color = panel;
+        style.visuals.faint_bg_color = panel.gamma_multiply(1.15);
         style.visuals.extreme_bg_color = background;
         style.visuals.code_bg_color = panel;
         style.visuals.override_text_color = Some(text);
@@ -220,7 +220,11 @@ impl ThemeColors {
         style.visuals.warn_fg_color = self.warning_color();
         style.visuals.error_fg_color = self.error_color();
         style.visuals.selection.bg_fill = accent;
-        style.visuals.text_edit_bg_color = Some(background);
+        style.visuals.text_edit_bg_color = Some(if background == panel {
+            background.gamma_multiply(0.5)
+        } else {
+            background
+        });
         style.visuals.window_stroke.color = accent.linear_multiply(0.5);
 
         style.visuals.widgets.noninteractive.bg_fill = panel;
