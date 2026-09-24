@@ -30,7 +30,7 @@ function(per_add_stm32_cmsis_target target family device device_dir)
     target_link_options(${target} INTERFACE ${cpu_flags})
     target_compile_options(${target} PRIVATE -fno-analyzer)
 
-    target_compile_definitions(${target} PUBLIC ${family} ${device})
+    target_compile_definitions(${target} PUBLIC ${family} ${device} HSE_VALUE=16000000U)
     target_include_directories(${target} PUBLIC
         "${CMSIS_CORE_DIR}"
         "${device_dir}/Include"
