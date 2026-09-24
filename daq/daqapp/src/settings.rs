@@ -2,6 +2,11 @@ use crate::{connection, theme};
 
 pub const SETTINGS_PATH: &str = "settings.json";
 pub const DEFAULT_LOG_FOLDER: &str = "logs";
+
+pub fn dbc_dir() -> Option<std::path::PathBuf> {
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../dbc");
+    path.is_dir().then_some(path)
+}
 const DEFAULT_UDP_PORT: u16 = 5005;
 const DEFAULT_CAN_SPEED: connection::CanBusSpeed = connection::CanBusSpeed::Kbps500;
 

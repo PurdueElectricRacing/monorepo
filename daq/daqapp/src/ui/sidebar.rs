@@ -7,10 +7,11 @@ pub fn select_dbc(
     app: &mut app::DAQApp,
     ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
 ) {
-    if let Some(path) = rfd::FileDialog::new()
-        .add_filter("DBC Files", &["dbc"])
-        .pick_file()
-    {
+    let mut dialog = rfd::FileDialog::new().add_filter("DBC Files", &["dbc"]);
+    if let Some(dir) = settings::dbc_dir() {
+        dialog = dialog.set_directory(dir);
+    }
+    if let Some(path) = dialog.pick_file() {
         app.parser = app::ParserInfo::new(path.clone());
         if app.parser.is_some() {
             ui_to_can_tx
