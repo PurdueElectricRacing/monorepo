@@ -381,6 +381,54 @@
                 "enabled": true,
                 "samplesPerSecond": 5
             }
+        },
+        {
+            "name": "abox_isospi_target",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/abox_isospi_target/abox_isospi_target.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "debuggerArgs": [
+                "-d",
+                "${workspaceRoot}/firmware/source/abox_isospi_target"
+            ],
+            "preLaunchTask": "build firmware",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 5
+            }
+        },
+        {
+            "name": "abox_isospi_slave",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/abox_isospi_slave/abox_isospi_slave.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "debuggerArgs": [
+                "-d",
+                "${workspaceRoot}/firmware/source/abox_isospi_slave"
+            ],
+            "preLaunchTask": "build firmware",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 5
+            }
         }
     ]
 }
