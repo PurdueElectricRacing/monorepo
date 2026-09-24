@@ -1,4 +1,4 @@
-# CAN topology {#can_topology}
+# CAN topology
 
 ## CCAN
 
