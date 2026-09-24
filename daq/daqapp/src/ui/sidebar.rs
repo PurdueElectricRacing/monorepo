@@ -176,6 +176,9 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                     Some(daqcore::connection::ConnectionSource::Serial(path, speed)) => {
                         format!("Serial: {} ({})", path, speed.display_name())
                     }
+                    Some(daqcore::connection::ConnectionSource::Fil { .. }) => {
+                        "FIL (FIL Control widget)".into()
+                    }
                     Some(connection_source) => connection_source.display_name(),
                     None => "Select Source".to_string(),
                 };
