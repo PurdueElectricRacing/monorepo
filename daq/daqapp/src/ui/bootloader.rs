@@ -4,6 +4,7 @@ use std::collections::{HashMap, HashSet};
 use std::time::{Duration, Instant};
 
 const CAPABILITY_TIMEOUT: Duration = Duration::from_secs(12);
+const PROTOCOL_OBSERVATION_TIMEOUT: Duration = Duration::from_secs(5);
 
 #[derive(Clone, Copy)]
 struct TelemetryObservation {
@@ -52,6 +53,7 @@ pub struct Bootloader {
     run_board_names: Vec<String>,
     confirming_update: bool,
     package_error: Option<String>,
+    protocol_observations: HashMap<u32, (HashSet<String>, Instant)>,
 }
 
 impl Bootloader {
@@ -68,6 +70,7 @@ impl Bootloader {
             run_board_names: Vec::new(),
             confirming_update: false,
             package_error: None,
+            protocol_observations: HashMap::new(),
         }
     }
 
@@ -121,6 +124,7 @@ impl Bootloader {
                     .filter(|image| self.selected_targets.contains(&image.name))
                     .cloned()
                     .collect();
+                let protocol_matches = self.refresh_protocol_state(now);
 
                 self.show_target_header(ui, &images, available_count, selected_images.len(), now);
                 ui.add_space(6.0);
@@ -164,7 +168,13 @@ impl Bootloader {
                         );
                     });
                 } else if self.confirming_update {
-                    self.show_update_confirmation(ui, ui_to_can_tx, &images, &selected_images);
+                    self.show_update_confirmation(
+                        ui,
+                        ui_to_can_tx,
+                        &images,
+                        &selected_images,
+                        &protocol_matches,
+                    );
                 } else {
                     ui.horizontal(|ui| {
                         let upload = ui.add_enabled(
@@ -248,6 +258,7 @@ impl Bootloader {
     }
 
     fn load_package(&mut self, path: std::path::PathBuf) {
+        self.protocol_observations.clear();
         match FirmwarePackage::load(path.clone()) {
             Ok(package) => {
                 self.manifest_path = Some(path);
@@ -421,6 +432,7 @@ impl Bootloader {
         ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
         package_images: &[crate::bootloader_protocol::FirmwareImage],
         selected_images: &[crate::bootloader_protocol::FirmwareImage],
+        protocol_matches: &[ProtocolMatch],
     ) {
         egui::Frame::group(ui.style()).show(ui, |ui| {
             ui.set_min_width(ui.available_width());
@@ -443,12 +455,51 @@ impl Bootloader {
                 .small()
                 .color(ui.visuals().warn_fg_color),
             );
+            let has_protocol_warning = !protocol_matches.is_empty();
+            if has_protocol_warning {
+                ui.add_space(6.0);
+                ui.colored_label(
+                    ui.visuals().warn_fg_color,
+                    "Warning: another bootloader/protocol sender was observed on this bus recently. This does not identify or stop the sender.",
+                );
+                for observation in protocol_matches {
+                    ui.label(format!(
+                        "{}: standard ID 0x{:03X}",
+                        observation.boards.iter().map(|name| display_target_name(name)).collect::<Vec<_>>().join(", "),
+                        observation.id
+                    ));
+                }
+                ui.label(
+                    egui::RichText::new(
+                        "Starting now acknowledges this warning for the current update.",
+                    )
+                    .small()
+                    .weak(),
+                );
+            }
             ui.add_space(6.0);
             ui.horizontal(|ui| {
+                let start_label = if has_protocol_warning {
+                    "Acknowledge warning & start update"
+                } else {
+                    "Start update"
+                };
                 if ui
-                    .add_enabled(!selected_images.is_empty(), egui::Button::new("Start update"))
+                    .add_enabled(
+                        !selected_images.is_empty(),
+                        egui::Button::new(start_label),
+                    )
                     .clicked()
                 {
+                    let click_matches = self.refresh_protocol_state(Instant::now());
+                    if !can_start_update(
+                        !selected_images.is_empty(),
+                        &click_matches,
+                        has_protocol_warning,
+                    ) {
+                        ui.ctx().request_repaint();
+                        return;
+                    }
                     let message = messages::MsgFromUi::StartFirmwareUpdate(FirmwarePackage {
                         images: selected_images.to_vec(),
                     });
@@ -492,6 +543,52 @@ impl Bootloader {
         }
     }
 
+    fn observe_protocol_frame(&mut self, id: u32, is_extended: bool, decoded_name: Option<&str>) {
+        if !is_protocol_frame_candidate(is_extended, decoded_name) {
+            return;
+        }
+        let Some(package) = &self.package else {
+            return;
+        };
+        let boards: HashSet<_> = package
+            .images
+            .iter()
+            .filter(|image| image_protocol_ids(image).contains(&id))
+            .map(|image| image.name.clone())
+            .collect();
+        if !boards.is_empty() {
+            self.protocol_observations
+                .insert(id, (boards, Instant::now()));
+        }
+    }
+
+    fn expire_protocol_observations(&mut self, now: Instant) {
+        self.protocol_observations.retain(|_, (_, seen)| {
+            now.saturating_duration_since(*seen) <= PROTOCOL_OBSERVATION_TIMEOUT
+        });
+    }
+
+    fn recent_protocol_matches(&self, now: Instant) -> Vec<ProtocolMatch> {
+        let mut matches: Vec<_> = self
+            .protocol_observations
+            .iter()
+            .filter(|(_, (_, seen))| {
+                now.saturating_duration_since(*seen) <= PROTOCOL_OBSERVATION_TIMEOUT
+            })
+            .map(|(id, (boards, _))| ProtocolMatch {
+                id: *id,
+                boards: boards.iter().cloned().collect(),
+            })
+            .collect();
+        matches.sort_by_key(|observation| observation.id);
+        matches
+    }
+
+    fn refresh_protocol_state(&mut self, now: Instant) -> Vec<ProtocolMatch> {
+        self.expire_protocol_observations(now);
+        self.recent_protocol_matches(now)
+    }
+
     fn capability_state(&self, target: &str, now: Instant) -> CapabilityState {
         capability_state(self.observations.get(target), now, CAPABILITY_TIMEOUT)
     }
@@ -519,6 +616,25 @@ impl Bootloader {
     }
 
     pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+        match msg {
+            messages::MsgFromCan::Disconnection
+            | messages::MsgFromCan::ConnectionSuccessful
+            | messages::MsgFromCan::ConnectionFailed(_) => {
+                self.protocol_observations.clear();
+                return;
+            }
+            messages::MsgFromCan::ParsedMessage(parsed) => {
+                self.observe_protocol_frame(
+                    parsed.msg_id,
+                    parsed.is_msg_id_extended,
+                    Some(parsed.decoded.name.as_str()),
+                );
+            }
+            messages::MsgFromCan::UnparsedMessage(unparsed) => {
+                self.observe_protocol_frame(unparsed.msg_id, unparsed.is_msg_id_extended, None);
+            }
+            _ => {}
+        }
         if let messages::MsgFromCan::ParsedMessage(parsed) = msg {
             let (target, application) = match parsed.decoded.name.as_str() {
                 "main_version" => ("main_module", true),
@@ -610,6 +726,93 @@ impl Bootloader {
         } else {
             progress.phase.clone()
         };
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct ProtocolMatch {
+    id: u32,
+    boards: Vec<String>,
+}
+
+fn image_protocol_ids(image: &crate::bootloader_protocol::FirmwareImage) -> Vec<u32> {
+    let ids = vec![
+        image.start_id,
+        image.crc_id,
+        image.jump_id,
+        image.data_id,
+        image.response_id,
+    ];
+    ids
+}
+
+fn is_protocol_frame_candidate(is_extended: bool, decoded_name: Option<&str>) -> bool {
+    !is_extended
+        && !decoded_name.is_some_and(|name| name.starts_with("bl_") && name.ends_with("_info"))
+}
+
+fn can_start_update(
+    has_targets: bool,
+    observations: &[ProtocolMatch],
+    acknowledged_now: bool,
+) -> bool {
+    has_targets && (observations.is_empty() || acknowledged_now)
+}
+
+#[cfg(test)]
+mod protocol_warning_tests {
+    use super::*;
+
+    fn image() -> crate::bootloader_protocol::FirmwareImage {
+        crate::bootloader_protocol::FirmwareImage {
+            name: "front_driveline".to_string(),
+            bytes: Vec::new(),
+            crc32: 0,
+            start_id: 0x100,
+            crc_id: 0x101,
+            jump_id: 0x102,
+            data_id: 0x103,
+            response_id: 0x104,
+        }
+    }
+
+    #[test]
+    fn protocol_frame_filter_ignores_extended_and_bootloader_info_frames() {
+        assert!(!is_protocol_frame_candidate(true, None));
+        assert!(!is_protocol_frame_candidate(
+            false,
+            Some("bl_front_driveline_info")
+        ));
+        assert!(is_protocol_frame_candidate(
+            false,
+            Some("bl_front_driveline_resp")
+        ));
+        assert!(is_protocol_frame_candidate(false, None));
+    }
+
+    #[test]
+    fn info_telemetry_does_not_trigger_a_warning_even_on_a_matching_id() {
+        let mut bootloader = Bootloader::new(0);
+        bootloader.package = Some(FirmwarePackage {
+            images: vec![image()],
+        });
+
+        bootloader.observe_protocol_frame(0x100, false, Some("bl_front_driveline_info"));
+
+        assert!(bootloader.protocol_observations.is_empty());
+    }
+
+    #[test]
+    fn acknowledgement_is_required_for_a_current_warning() {
+        let warning = [ProtocolMatch {
+            id: 0x100,
+            boards: vec!["front_driveline".to_string()],
+        }];
+
+        assert!(!can_start_update(true, &warning, false));
+        assert!(can_start_update(true, &warning, true));
+        assert!(can_start_update(true, &[], false));
+        assert!(!can_start_update(false, &[], true));
     }
 }
 

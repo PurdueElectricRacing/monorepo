@@ -33,6 +33,7 @@ fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> 
         slcan::CanFrame::Can2(frame2) => {
             let decode_msg_id = util::can::slcan_to_u32_with_extid_flag(&frame2.id());
             let raw_msg_id = util::can::slcan_to_u32_without_extid_flag(&frame2.id());
+            let is_msg_id_extended = matches!(frame2.id(), slcan::Id::Extended(_));
 
             let data = frame2.data().unwrap_or(&[]);
             let timestamp = chrono::Local::now();
@@ -48,6 +49,8 @@ fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> 
                     let parsed_msg = messages::ParsedMessage {
                         timestamp,
                         raw_bytes,
+                        msg_id: raw_msg_id,
+                        is_msg_id_extended,
                         decoded,
                     };
                     state.hil_engine.process_parsed(&parsed_msg);
@@ -77,6 +80,7 @@ fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> 
                         timestamp,
                         raw_bytes,
                         msg_id: raw_msg_id,
+                        is_msg_id_extended,
                     };
                     state
                         .can_to_ui_tx
