@@ -59,22 +59,31 @@ def _generate_bus_graph(linked: LinkedCan, bus_name: str) -> Artifact:
         "    graph ["
         f"fontname={_quote('Helvetica')}, "
         f"labelloc={_quote('t')}, "
+        f"bgcolor={_quote('transparent')}, "
+        f"fontcolor={_quote('#222222')}, "
         f"label={_quote(title)}"
         "];",
-        f"    node [fontname={_quote('Helvetica')}];",
-        f"    edge [fontname={_quote('Helvetica')}];",
+        "    node ["
+        f"fontname={_quote('Helvetica')}, "
+        "shape=box, style=filled, "
+        f"fillcolor={_quote('#D5D5D5')}, "
+        f"color={_quote('#777777')}, "
+        f"fontcolor={_quote('#111111')}"
+        "];",
+        "    edge ["
+        f"fontname={_quote('Helvetica')}, "
+        f"color={_quote('#2F70AD')}, "
+        f"fontcolor={_quote('#333333')}"
+        "];",
         "",
     ]
 
     for node in nodes:
         attributes = [
             f"label={_quote(node.name)}",
-            "shape=ellipse",
         ]
         if node.is_external:
-            attributes.append("style=dashed")
-        else:
-            attributes.extend(("style=filled", f"fillcolor={_quote('#E8F0FE')}"))
+            attributes.append(f"style={_quote('filled,dashed')}")
         lines.append(f"    {_node_id(bus_name, node.name)} [{', '.join(attributes)}];")
 
     if nodes and messages:
@@ -85,7 +94,7 @@ def _generate_bus_graph(linked: LinkedCan, bus_name: str) -> Artifact:
         message_id = _message_id(bus_name, message.message_name)
         lines.extend((
             f"    {message_id} [label={_quote(_message_label(message))}, "
-            f"shape=box, style={_quote('rounded,filled')}, fillcolor={_quote('#FFF4CC')}];",
+            f"style={_quote('rounded,filled')}, fillcolor={_quote('#E0E0E0')}];",
             f"    {_node_id(bus_name, placed.node_name)} -> {message_id} [label={_quote('TX')}];",
         ))
         for subscription in sorted(
