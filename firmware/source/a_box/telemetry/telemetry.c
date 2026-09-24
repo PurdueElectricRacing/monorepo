@@ -113,6 +113,49 @@ void report_telemetry_8hz(void) {
     }
 }
 
+/*
+ * @brief Reports telemetry data at 1 Hz rate
+ * Includes: IMD state
+*/
+static_assert(IMD_STATE_PERIOD_MS == TELEMETRY_1HZ_PERIOD_MS);
+static imd_state_t imd_state_from_hz(uint8_t hz) {
+    if (hz <= 5)  return IMD_STATE_OFF_OR_SHORT_CIRCUIT;
+    if (hz <= 15) return IMD_STATE_NORMAL;
+    if (hz <= 25) return IMD_STATE_UNDERVOLTAGE;
+    if (hz <= 35) return IMD_STATE_SPEED_START;
+    if (hz <= 45) return IMD_STATE_DEVICE_ERROR;
+    return IMD_STATE_CONNECTION_FAULT;
+}
+static uint8_t measure_imd_hz(void) {
+    bool prev = PHAL_GPIO_read(IMD_STATUS_PORT, IMD_STATUS_PIN);
+    uint32_t start_ms = xTaskGetTickCount();
+    uint32_t first_edge_ms = 0;
+    bool saw_edge = false;
+
+    while((xTaskGetTickCount() - start_ms) < 250) {
+        bool current = PHAL_GPIO_read(IMD_STATUS_PORT, IMD_STATUS_PIN);
+        if (current && !prev) {
+            uint32_t now_ms = xTaskGetTickCount();
+            if (saw_edge) {
+                uint32_t period_ms = xTaskGetTickCount() - first_edge_ms;
+                if (period_ms == 0) {
+                    return 0;
+                }
+                return (uint8_t)(1000 / period_ms);
+            }
+            saw_edge = true;
+            first_edge_ms = now_ms;
+        }
+        prev = current;
+    }
+    // no edge found within 250ms
+    return 0;
+}
+void report_telemetry_1hz(void) {
+    uint8_t hz = measure_imd_hz();
+    CAN_SEND_imd_state(imd_state_from_hz(hz));
+} 
+
 /**
  * @brief Reports telemetry data at 0.2 Hz rate
  * Includes: ABOX git hash
