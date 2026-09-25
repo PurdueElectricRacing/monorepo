@@ -6,6 +6,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <chrono>
 
 extern "C" {
 #include "bangbang.h"
@@ -80,11 +81,7 @@ TEST_F(BangbangTest, LessThanMinIntervalDoesNotSwitch) {
 
     bangbang_update(&controller, LOWER_BOUND-1, MIN_SWITCH_INTERVAL-1);
     EXPECT_EQ(controller.is_on, true);
-    EXPECT_EQ(turned_on, true) << "controller called offCallback";
-    // When I pass MIN_SWITCH_INTERVAL+1 and a valid upper bounds, do not reset last_switch_ms,
-    // then pass MIN_SWITCH_INTERVAL-1 and a valid lower bounds, the controller will switch.
-    // As time_since_last_int is an unsigned int, unsigned arithmetic overflow will wrap to 
-    // a large positive number. Unknown if this can be an issue.
+    EXPECT_EQ(turned_on, true);
 }
 
 // Test edge cases for upper and lower bounds and switch interval
@@ -127,23 +124,53 @@ TEST_F(BangbangTest, LastSavedMsIsRetained) {
     EXPECT_EQ(turned_on, true);
 }
 
-// Test moving value (y = mx + b)
-
 // Test null pointers for functions
 TEST_F(BangbangTest, OnFunctionNullPointerDoesNotCall) {
-    // Give BangbangTest nullptr for on_func
+    controller.on_func = nullptr;
 
-    // Try to call on_func using bangbang_update,
-    // should not run anything but is_on is true
-    // So should complete normally
+    bangbang_update(&controller, UPPER_BOUND+1, MIN_SWITCH_INTERVAL+1);
+
+    EXPECT_EQ(controller.is_on, true);
 }
 
 TEST_F(BangbangTest, OffCallbackNullPointerDoesNotCall) {
-    // Give BangbangTest nullptr for off_func
+    controller.off_func = nullptr;
+    controller.is_on = true;
 
-    // Set is_on and turned_on to true
+    bangbang_update(&controller, LOWER_BOUND-1, MIN_SWITCH_INTERVAL+1);
 
-    // Try to call off_func using bangbang_update,
-    // should not run anything but is_on is false
-    // So should complete normally
+    EXPECT_EQ(controller.is_on, false);
+}
+
+// Test moving value (y = mx + b)
+TEST_F(BangbangTest, SlopeFunctionTest) {
+    float value = 100.0f;
+    uint32_t i;
+
+    for (i = 0; i < 1000; i++) {
+        bangbang_update(&controller, value, i);
+        ASSERT_EQ(controller.is_on, false) << "turned on too early, value is " << value
+                                                    << " and timer is " << i
+                                                    << " and last_switch_ms is " << controller.last_switch_ms;
+        
+        ASSERT_EQ(turned_on, false) << "on_func was called when it was not supposed to";
+        value -= 0.04;
+    }
+
+    for (; i < 2000; i++) {
+        bangbang_update(&controller, value, i);
+        ASSERT_EQ(controller.is_on, true) << "turned off too early, value is " << value
+                                                   << ", timer is " << i
+                                                   << " and last_switch_ms is " << controller.last_switch_ms;
+
+        ASSERT_EQ(turned_on, true) << "off_func was called when it was not supposed to";
+        value -= 0.04;
+    }
+
+    bangbang_update(&controller, value, i);
+    EXPECT_EQ(controller.is_on, false) << "failed last switch, value is " << value
+                                                << " and timer is " << i
+                                                << " and last_switch_ms is " << controller.last_switch_ms;
+    
+    EXPECT_EQ(turned_on, false) << "on_func was called when it was not supposed to";
 }
