@@ -23,7 +23,7 @@ void HardFault_Handler(void) {
     for (;;) { __NOP(); }
 }
 static void heartbeat(void) { PHAL_GPIO_toggle(GPIOB, 5); }
-RTOS_DEFINE_TASK(heartbeat, 100, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(heartbeat, 500, TASK_PRIORITY_LOW, STACK_512);
 
 static void spi_reset(void) {
     /* Peripheral reset also empties TX FIFO/shift register after short frames. */

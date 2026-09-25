@@ -59,10 +59,10 @@ void HardFault_Handler(void) {
 }
 static void heartbeat(void) { PHAL_GPIO_toggle(GPIOB, 5); }
 static void bms_task(void) { adbms_periodic(&g_bms, 3.2f, 0.05f); }
-RTOS_DEFINE_TASK(heartbeat, 100, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(heartbeat, 500, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(bms_task, 200, TASK_PRIORITY_NORMAL, STACK_2048);
 int main(void) {
-    PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
     if (!PHAL_GPIO_init(pins, countof(pins))) { HardFault_Handler(); }
     adbms6380_set_cs_high(&bms_spi_config);
     if (!PHAL_SPI_init(&bms_spi_config)) { HardFault_Handler(); }
