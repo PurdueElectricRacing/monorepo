@@ -8,7 +8,7 @@ import json
 import subprocess
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from core.config import CAN_TEMPLATE_DIR, FAULT_TEMPLATE_DIR
+from core.config import CAN_TEMPLATE_DIR, DEARUNITS_TEMPLATE_DIR, FAULT_TEMPLATE_DIR
 
 CTYPE_SIZES = {
     "uint8_t": 8, "int8_t": 8,
@@ -55,7 +55,7 @@ def get_git_hash() -> str:
 
 def get_jinja_env() -> Environment:
     env = Environment(
-        loader=FileSystemLoader([str(CAN_TEMPLATE_DIR), str(FAULT_TEMPLATE_DIR)]),
+        loader=FileSystemLoader([str(CAN_TEMPLATE_DIR), str(FAULT_TEMPLATE_DIR), str(DEARUNITS_TEMPLATE_DIR)]),
         autoescape=select_autoescape(),
         trim_blocks=True,
         lstrip_blocks=True,

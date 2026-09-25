@@ -1,0 +1,57 @@
+{
+    "classes": [
+        {
+            "name": "length",
+            "base_unit": "meter",
+            "units": [
+                {"name": "millimeter", "scale": 0.001},
+                {"name": "centimeter", "scale": 0.01},
+                {"name": "inch", "scale": 0.0254},
+                {"name": "foot", "scale": 0.3048},
+                {"name": "mile", "scale": 1609.34},
+                {"name": "kilometer", "scale": 1000.0}
+            ]
+        },
+        {
+            "name": "time",
+            "base_unit": "second",
+            "units": [
+                {"name": "millisecond", "scale": 0.001},
+                {"name": "minute", "scale": 60.0},
+                {"name": "hour", "scale": 3600.0},
+                {"name": "day", "scale": 86400.0}
+            ]
+        },
+        {
+            "name": "mass",
+            "base_unit": "kilogram",
+            "units": [
+                {"name": "gram", "scale": 0.001},
+                {"name": "pound", "scale": 0.45359237}
+            ]
+        },
+        {
+            "name": "current",
+            "base_unit": "amp",
+            "units": [
+                {"name": "milliamp", "scale": 0.001}
+            ]
+        },
+        {
+            "name": "temperature",
+            "base_unit": "celsius",
+            "units": [
+                {"name": "kelvin", "scale": 1.0, "offset": -273.15},
+                {"name": "fahrenheit", "scale": 0.5555555555555556, "offset": -17.77777777777778}
+            ]
+        },
+        {
+            "name": "angle",
+            "base_unit": "radian",
+            "units": [
+                {"name": "degree", "scale": 0.017453292519943295},
+                {"name": "revolution", "scale": 6.283185307179586}
+            ]
+        }
+    ]
+}
