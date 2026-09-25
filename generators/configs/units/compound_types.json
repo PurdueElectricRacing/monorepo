@@ -1,0 +1,109 @@
+{
+    "compounds": [
+        {
+            "name": "velocity",
+            "base_unit": "meters_per_second",
+            "composed_of": [
+                {"group_name": "length", "unit_name": "meter", "exponent": 1},
+                {"group_name": "time", "unit_name": "second", "exponent": -1}
+            ],
+            "units": [
+                {"name": "kilometers_per_hour", "composed_of": [
+                    {"group_name": "length", "unit_name": "kilometer", "exponent": 1},
+                    {"group_name": "time", "unit_name": "hour", "exponent": -1}
+                ]},
+                {"name": "miles_per_hour", "composed_of": [
+                    {"group_name": "length", "unit_name": "mile", "exponent": 1},
+                    {"group_name": "time", "unit_name": "hour", "exponent": -1}
+                ]}
+            ]
+        },
+        {
+            "name": "acceleration",
+            "base_unit": "meters_per_second_squared",
+            "composed_of": [
+                {"group_name": "length", "unit_name": "meter", "exponent": 1},
+                {"group_name": "time", "unit_name": "second", "exponent": -2}
+            ],
+            "units": [
+                {"name": "standard_gravity", "scale": 9.80665}
+            ]
+        },
+        {
+            "name": "angular_velocity",
+            "base_unit": "radians_per_second",
+            "composed_of": [
+                {"group_name": "angle", "unit_name": "radian", "exponent": 1},
+                {"group_name": "time", "unit_name": "second", "exponent": -1}
+            ],
+            "units": [
+                {"name": "degrees_per_second", "composed_of": [
+                    {"group_name": "angle", "unit_name": "degree", "exponent": 1},
+                    {"group_name": "time", "unit_name": "second", "exponent": -1}
+                ]},
+                {"name": "revolutions_per_minute", "composed_of": [
+                    {"group_name": "angle", "unit_name": "revolution", "exponent": 1},
+                    {"group_name": "time", "unit_name": "minute", "exponent": -1}
+                ]}
+            ]
+        },
+        {
+            "name": "force",
+            "base_unit": "newton",
+            "composed_of": [
+                {"group_name": "mass", "unit_name": "kilogram", "exponent": 1},
+                {"group_name": "length", "unit_name": "meter", "exponent": 1},
+                {"group_name": "time", "unit_name": "second", "exponent": -2}
+            ],
+            "units": [
+                {"name": "pound_force", "composed_of": [
+                    {"group_name": "mass", "unit_name": "pound", "exponent": 1},
+                    {"group_name": "acceleration", "unit_name": "standard_gravity", "exponent": 1}
+                ]}
+            ]
+        },
+        {
+            "name": "torque",
+            "base_unit": "newton_meter",
+            "composed_of": [
+                {"group_name": "force", "unit_name": "newton", "exponent": 1},
+                {"group_name": "length", "unit_name": "meter", "exponent": 1}
+            ],
+            "units": [
+                {"name": "pound_foot", "composed_of": [
+                    {"group_name": "force", "unit_name": "pound_force", "exponent": 1},
+                    {"group_name": "length", "unit_name": "foot", "exponent": 1}
+                ]}
+            ]
+        },
+        {
+            "name": "pressure",
+            "base_unit": "pascal",
+            "composed_of": [
+                {"group_name": "force", "unit_name": "newton", "exponent": 1},
+                {"group_name": "length", "unit_name": "meter", "exponent": -2}
+            ],
+            "units": [
+                {"name": "kilopascal", "scale": 1000.0},
+                {"name": "pound_per_square_inch", "composed_of": [
+                    {"group_name": "force", "unit_name": "pound_force", "exponent": 1},
+                    {"group_name": "length", "unit_name": "inch", "exponent": -2}
+                ]},
+                {"name": "bar", "scale": 100000.0}
+            ]
+        },
+        {
+            "name": "voltage",
+            "base_unit": "volt",
+            "composed_of": [
+                {"group_name": "mass", "unit_name": "kilogram", "exponent": 1},
+                {"group_name": "length", "unit_name": "meter", "exponent": 2},
+                {"group_name": "time", "unit_name": "second", "exponent": -3},
+                {"group_name": "current", "unit_name": "amp", "exponent": -1}
+            ],
+            "units": [
+                {"name": "millivolt", "scale": 0.001}
+            ]
+        }
+    ]
+}
