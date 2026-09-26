@@ -169,11 +169,13 @@ TEST_F(BangbangTest, OffFunctionNullPointerDoesNotCall) {
 }
 
 TEST_F(BangbangTest, LinearlyDecreasingInputFollowsHysteresis) {
-    float value = 100.0f;
+    float slope = ((UPPER_BOUND - LOWER_BOUND + 1.0f) / (MIN_SWITCH_INTERVAL)) * 2.0f;
+    float start = UPPER_BOUND + (slope * MIN_SWITCH_INTERVAL) + 1.0f;
+    float value;
     uint32_t i;
 
-    for (i = 0; i < 1000; i++) {
-        value = 100.0f - (0.04f * i);
+    for (i = 0; i < MIN_SWITCH_INTERVAL; i++) {
+        value = start - (slope * i);
         bangbang_update(&controller, value, i);
         ASSERT_FALSE(controller.is_on) << "turned on too early, value is " << value \
                                                     << " and timer is " << i \
@@ -182,8 +184,8 @@ TEST_F(BangbangTest, LinearlyDecreasingInputFollowsHysteresis) {
         ASSERT_FALSE(turned_on) << "on_func was called when it was not supposed to";
     }
 
-    for (; i < 2000; i++) {
-        value = 100.0f - (0.04f * i);
+    for (; i < 2 * MIN_SWITCH_INTERVAL; i++) {
+        value = start - (slope * i);
         bangbang_update(&controller, value, i);
         ASSERT_TRUE(controller.is_on) << "turned off too early, value is " << value \
                                                    << ", timer is " << i \
@@ -192,6 +194,7 @@ TEST_F(BangbangTest, LinearlyDecreasingInputFollowsHysteresis) {
         ASSERT_TRUE(turned_on) << "off_func was called when it was not supposed to";
     }
 
+    value = start - (slope * i);
     bangbang_update(&controller, value, i);
     EXPECT_FALSE(controller.is_on) << "failed last switch, value is " << value \
                                                 << " and timer is " << i \
