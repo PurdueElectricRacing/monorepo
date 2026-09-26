@@ -1,6 +1,6 @@
-use crate::daq_log_parse::consts::{BUS_ID_MASK, IS_EID_MASK};
+use daqcore::log_parse::consts::{BUS_ID_MASK, IS_EID_MASK};
 
-use crate::daq_log_parse::parse::RawFrame;
+use daqcore::log_parse::parse::RawFrame;
 
 use chrono::{Datelike, Timelike};
 use std::fs::{File, create_dir_all};

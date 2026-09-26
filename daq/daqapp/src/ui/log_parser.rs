@@ -1,6 +1,6 @@
 use crate::app;
-use crate::daq_log_parse;
 use crate::settings;
+use daqcore::log_parse as daq_log_parse;
 use eframe::egui;
 
 pub struct LogParser {

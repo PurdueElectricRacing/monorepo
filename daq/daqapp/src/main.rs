@@ -4,7 +4,6 @@ mod assets;
 mod bootloader_protocol;
 mod can;
 mod connection;
-mod daq_log_parse;
 mod formatter;
 mod frozen;
 mod hil;
