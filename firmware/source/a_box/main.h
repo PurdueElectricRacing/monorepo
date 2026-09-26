@@ -44,8 +44,13 @@
 #define CHARGER_CONNECTED_PIN       (2)
 #define NOT_PRECHARGE_COMPLETE_PORT (GPIOB)
 #define NOT_PRECHARGE_COMPLETE_PIN  (11)
+// IMD status
 #define IMD_STATUS_PORT             (GPIOA)
 #define IMD_STATUS_PIN              (9)
+// IMD PWM output (TIM1_CH1)
+#define IMD_PWM_LS_PORT             (GPIOA)
+#define IMD_PWM_LS_PIN              (8)
+#define IMD_PWM_LS_TIM              (TIM1)
 
 // BMS SDC Control
 #define BMS_SDC_CTRL_PORT (GPIOA)

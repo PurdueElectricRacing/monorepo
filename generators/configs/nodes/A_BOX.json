@@ -223,6 +223,11 @@
                             "signal_name": "imd_state",
                             "data_type": "imd_state_t",
                             "description": "current state of the IMD from M_LS output"
+                        },
+                        {
+                            "signal_name": "imd_status",
+                            "data_type": "bool",
+                            "description": "digital IMD status"
                         }
                     ],
                     "priority": 4,
