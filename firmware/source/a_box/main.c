@@ -25,6 +25,7 @@
 #include "adbms.h"
 #include "common/utils/countof.h"
 #include "common/watchdog/watchdog.h"
+#include "imd.h"
 #include "telemetry.h"
 
 
@@ -106,6 +107,9 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_INPUT(NOT_PRECHARGE_COMPLETE_PORT, NOT_PRECHARGE_COMPLETE_PIN, GPIO_INPUT_OPEN_DRAIN),
     PHAL_GPIO_INIT_INPUT(IMD_STATUS_PORT, IMD_STATUS_PIN, GPIO_INPUT_OPEN_DRAIN),
 
+    // IMD PWM measurement (TIM1_CH1 input)
+    PHAL_PIN_DEFS_TIM1_CH1_PA8,
+
     // BMS SDC Control
     PHAL_GPIO_INIT_OUTPUT(BMS_SDC_CTRL_PORT, BMS_SDC_CTRL_PIN, GPIO_OUTPUT_LOW_SPEED)
 };
@@ -127,7 +131,7 @@ RTOS_DEFINE_TASK(fault_library_periodic, A_BOX_FAULT_SYNC_PERIOD_MS, TASK_PRIORI
 RTOS_DEFINE_TASK(report_telemetry_100hz, TELEMETRY_100HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(report_telemetry_8hz, TELEMETRY_8HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(report_telemetry_02hz, TELEMETRY_02HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
-RTOS_DEFINE_TASK(report_telemetry_1hz, TELEMETRY_1HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(imd_periodic, IMD_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -139,8 +143,8 @@ int main(void) {
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
+    imd_init();
 
-    // Set CS high to start
     adbms6380_set_cs_high(&bms_spi_config);
 
     if (!PHAL_SPI_init(&bms_spi_config)) {
@@ -169,7 +173,7 @@ int main(void) {
     RTOS_START_TASK(report_telemetry_8hz);
     RTOS_START_TASK(report_telemetry_02hz);
     RTOS_START_TASK(charging_fsm_periodic);
-    RTOS_START_TASK(report_telemetry_1hz);
+    RTOS_START_TASK(imd_periodic);
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 
