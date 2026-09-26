@@ -151,6 +151,10 @@ add_subdirectory(
     "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/strbuf/tests"
     "${CMAKE_BINARY_DIR}/unit/strbuf"
 )
+add_subdirectory(
+    "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/bangbang/tests"
+    "${CMAKE_BINARY_DIR}/unit/bangbang"
+)
 
 if(PER_TEST_COVERAGE)
     get_property(
