@@ -1,6 +1,6 @@
 use crate::app;
 use crate::settings;
-use daqcore::log_parse as daq_log_parse;
+use daqcore::log_parse;
 use eframe::egui;
 
 pub struct LogParser {
@@ -166,12 +166,11 @@ impl LogParser {
 
             let _ = parse_to_ui_tx.send(MsgFromParserThread::Update("Parsing logs...".to_string()));
 
-            let parsed =
-                daq_log_parse::parse::parse_log_files(&logs_dir, &parser_bus_0, &parser_bus_1);
-            let chunked_parsed = daq_log_parse::parse::chunk_parsed(parsed);
-            let correlated_chunks = daq_log_parse::correlate::time_correlate_chunks(chunked_parsed);
+            let parsed = log_parse::parse::parse_log_files(&logs_dir, &parser_bus_0, &parser_bus_1);
+            let chunked_parsed = log_parse::parse::chunk_parsed(parsed);
+            let correlated_chunks = log_parse::correlate::time_correlate_chunks(chunked_parsed);
 
-            let mut table_builder = daq_log_parse::table::TableBuilder::new();
+            let mut table_builder = log_parse::table::TableBuilder::new();
             table_builder.create_header(&parser_bus_0, "VCAN");
             table_builder.create_header(&parser_bus_1, "MCAN");
             table_builder.create_and_write_tables(&output_dir, &prefix, correlated_chunks);
