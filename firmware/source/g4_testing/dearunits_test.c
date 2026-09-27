@@ -67,14 +67,14 @@ static bool test_drivetrain(void) {
     }
 
     revolutions_per_minute_t motor_rpm = { .value = 6000.0f };
-    radians_per_second_t motor_speed = RADIANS_PER_SECOND_FROM(motor_rpm);
+    radians_per_second_t motor_speed = DEARUNITS_RADIANS_PER_SECOND_FROM(motor_rpm);
     watt_t shaft_power = DEARUNITS_MULTIPLY(applied, motor_speed);
     if (!nearly_equal(shaft_power.value, 62831.85f, 1.0f)) {
         return false;
     }
 
     kilowatt_t power_cap_kw = { .value = 50.0f };
-    watt_t power_cap = WATT_FROM(power_cap_kw);
+    watt_t power_cap = DEARUNITS_WATT_FROM(power_cap_kw);
     watt_t allowed_power = DEARUNITS_MIN(shaft_power, power_cap);
     newton_meter_t max_torque = DEARUNITS_DIVIDE(allowed_power, motor_speed);
     dearunits_max_torque_nm = max_torque.value;
@@ -103,7 +103,7 @@ static bool test_battery(void) {
     volt_t open_circuit = { .value = 400.0f };
     amp_t load_current = { .value = 60.0f };
     milliohm_t resistance_mohm = { .value = 50.0f };
-    ohm_t resistance = OHM_FROM(resistance_mohm);
+    ohm_t resistance = DEARUNITS_OHM_FROM(resistance_mohm);
 
     volt_t sag = DEARUNITS_MULTIPLY(load_current, resistance);
     volt_t terminal = DEARUNITS_SUBTRACT(open_circuit, sag);
@@ -121,7 +121,7 @@ static bool test_battery(void) {
     second_t discharge_time = { .value = 1800.0f };
     coulomb_t drawn = DEARUNITS_MULTIPLY(load_current, discharge_time);
     amp_hour_t capacity_ah = { .value = 100.0f };
-    coulomb_t capacity = COULOMB_FROM(capacity_ah);
+    coulomb_t capacity = DEARUNITS_COULOMB_FROM(capacity_ah);
     float state_of_charge = 1.0f - DEARUNITS_DIVIDE(drawn, capacity);
     dearunits_pack_soc = state_of_charge;
     if (!nearly_equal(state_of_charge, 0.7f, 0.0001f)) {
@@ -153,7 +153,7 @@ static bool test_battery(void) {
 
 static bool test_dynamics(void) {
     kilometers_per_hour_t cruise_kmh = { .value = 72.0f };
-    meters_per_second_t cruise = METERS_PER_SECOND_FROM(cruise_kmh);
+    meters_per_second_t cruise = DEARUNITS_METERS_PER_SECOND_FROM(cruise_kmh);
     meters_per_second_t standstill = { .value = 0.0f };
     second_t launch_time = { .value = 4.0f };
     meters_per_second_squared_t longitudinal = DEARUNITS_DIVIDE(DEARUNITS_SUBTRACT(cruise, standstill), launch_time);
@@ -223,9 +223,9 @@ static bool test_dynamics(void) {
 
 static bool test_brakes(void) {
     bar_t line_pressure_bar = { .value = 40.0f };
-    pascal_t line_pressure = PASCAL_FROM(line_pressure_bar);
+    pascal_t line_pressure = DEARUNITS_PASCAL_FROM(line_pressure_bar);
     centimeter_t bore_cm = { .value = 2.0f };
-    meter_t bore = METER_FROM(bore_cm);
+    meter_t bore = DEARUNITS_METER_FROM(bore_cm);
     square_meter_t piston_area = DEARUNITS_MULTIPLY(0.785398f, DEARUNITS_SQUARE(bore));
     newton_t clamp_force = DEARUNITS_MULTIPLY(line_pressure, piston_area);
     dearunits_clamp_force_n = clamp_force.value;
@@ -246,7 +246,7 @@ static bool test_brakes(void) {
 
 static bool test_signal_helpers(void) {
     fahrenheit_t coolant_f = { .value = 212.0f };
-    celsius_t coolant = CELSIUS_FROM(coolant_f);
+    celsius_t coolant = DEARUNITS_CELSIUS_FROM(coolant_f);
     celsius_t coolant_limit = { .value = 85.0f };
     celsius_t reported = DEARUNITS_MIN(coolant, coolant_limit);
     kelvin_t reported_k = kelvin_from_celsius(reported);
@@ -313,7 +313,7 @@ static bool test_signal_helpers(void) {
 
 static bool run_dearunits_test(void) {
     mile_t one_mile = { .value = 1.0f };
-    meter_t mile_in_meters = METER_FROM(one_mile);
+    meter_t mile_in_meters = DEARUNITS_METER_FROM(one_mile);
     dearunits_mile_in_meters = mile_in_meters.value;
     if (!nearly_equal(mile_in_meters.value, 1609.344f, 0.001f)) {
         return false;
