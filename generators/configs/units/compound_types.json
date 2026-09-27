@@ -104,6 +104,103 @@
             "units": [
                 {"name": "millivolt", "scale": 0.001}
             ]
+        },
+        {
+            "name": "area",
+            "base_unit": "square_meter",
+            "composed_of": [
+                {"group_name": "length", "unit_name": "meter", "exponent": 2}
+            ],
+            "units": [
+                {"name": "square_millimeter", "composed_of": [
+                    {"group_name": "length", "unit_name": "millimeter", "exponent": 2}
+                ]},
+                {"name": "square_centimeter", "composed_of": [
+                    {"group_name": "length", "unit_name": "centimeter", "exponent": 2}
+                ]},
+                {"name": "square_inch", "composed_of": [
+                    {"group_name": "length", "unit_name": "inch", "exponent": 2}
+                ]}
+            ]
+        },
+        {
+            "name": "frequency",
+            "base_unit": "hertz",
+            "composed_of": [
+                {"group_name": "time", "unit_name": "second", "exponent": -1}
+            ],
+            "units": [
+                {"name": "kilohertz", "scale": 1000.0}
+            ]
+        },
+        {
+            "name": "charge",
+            "base_unit": "coulomb",
+            "composed_of": [
+                {"group_name": "current", "unit_name": "amp", "exponent": 1},
+                {"group_name": "time", "unit_name": "second", "exponent": 1}
+            ],
+            "units": [
+                {"name": "amp_hour", "composed_of": [
+                    {"group_name": "current", "unit_name": "amp", "exponent": 1},
+                    {"group_name": "time", "unit_name": "hour", "exponent": 1}
+                ]},
+                {"name": "milliamp_hour", "composed_of": [
+                    {"group_name": "current", "unit_name": "milliamp", "exponent": 1},
+                    {"group_name": "time", "unit_name": "hour", "exponent": 1}
+                ]}
+            ]
+        },
+        {
+            "name": "resistance",
+            "base_unit": "ohm",
+            "composed_of": [
+                {"group_name": "voltage", "unit_name": "volt", "exponent": 1},
+                {"group_name": "current", "unit_name": "amp", "exponent": -1}
+            ],
+            "units": [
+                {"name": "milliohm", "scale": 0.001},
+                {"name": "kiloohm", "scale": 1000.0}
+            ]
+        },
+        {
+            "name": "power",
+            "base_unit": "watt",
+            "composed_of": [
+                {"group_name": "force", "unit_name": "newton", "exponent": 1},
+                {"group_name": "length", "unit_name": "meter", "exponent": 1},
+                {"group_name": "time", "unit_name": "second", "exponent": -1}
+            ],
+            "units": [
+                {"name": "kilowatt", "scale": 1000.0},
+                {"name": "horsepower", "scale": 745.69987158227}
+            ]
+        },
+        {
+            "name": "energy",
+            "base_unit": "joule",
+            "composed_of": [
+                {"group_name": "power", "unit_name": "watt", "exponent": 1},
+                {"group_name": "time", "unit_name": "second", "exponent": 1}
+            ],
+            "units": [
+                {"name": "kilojoule", "scale": 1000.0},
+                {"name": "watt_hour", "composed_of": [
+                    {"group_name": "power", "unit_name": "watt", "exponent": 1},
+                    {"group_name": "time", "unit_name": "hour", "exponent": 1}
+                ]},
+                {"name": "kilowatt_hour", "composed_of": [
+                    {"group_name": "power", "unit_name": "kilowatt", "exponent": 1},
+                    {"group_name": "time", "unit_name": "hour", "exponent": 1}
+                ]}
+            ]
         }
+    ],
+    "relations": [
+        {"lhs": "force", "rhs": "length", "result": "torque"},
+        {"lhs": "torque", "rhs": "angular_velocity", "result": "power"},
+        {"lhs": "power", "rhs": "time", "result": "energy"},
+        {"lhs": "charge", "rhs": "voltage", "result": "energy"},
+        {"lhs": "energy", "rhs": "frequency", "result": "power"}
     ]
 }

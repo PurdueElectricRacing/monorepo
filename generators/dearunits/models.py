@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 
 
 @dataclass
-class UnitNode:
+class Unit:
     name: str
     scale: float
     offset: float = 0.0
@@ -18,25 +18,32 @@ class UnitNode:
 
 @dataclass
 class DimensionTerm:
-    group_name: str  # a class's or another compound's name
+    quantity_name: str  # a base or derived quantity's name
     exponent: int
 
 
 @dataclass
-class EquivalenceClass:
+class BaseQuantity:
     name: str
     base_name: str
-    units: dict[str, UnitNode] = field(default_factory=dict)
+    units: dict[str, Unit] = field(default_factory=dict)
 
 
 @dataclass
-class CompoundType:
+class DerivedQuantity:
     name: str
     base_name: str
     dimensions: tuple[DimensionTerm, ...]
-    units: dict[str, UnitNode] = field(default_factory=dict)
+    units: dict[str, Unit] = field(default_factory=dict)
+
+@dataclass
+class Relation:
+    lhs: str
+    rhs: str
+    result: str
 
 @dataclass
 class UnitGraph:
-    classes: dict[str, EquivalenceClass] = field(default_factory=dict)
-    compounds: dict[str, CompoundType] = field(default_factory=dict)
+    base_quantities: dict[str, BaseQuantity] = field(default_factory=dict)
+    derived_quantities: dict[str, DerivedQuantity] = field(default_factory=dict)
+    relations: list[Relation] = field(default_factory=list)

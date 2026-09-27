@@ -71,8 +71,11 @@ def get_jinja_env() -> Environment:
     )
     
     def format_float(val: float) -> str:
-        """Format float to .6g and ensure it looks like a float literal in C"""
-        s = f"{val:.6g}"
+        """Format float to .9g (enough significant digits to round-trip an
+        IEEE-754 float32 exactly -- .6g truncates below float32's own
+        precision, introducing drift the value never needed) and ensure it
+        looks like a float literal in C"""
+        s = f"{val:.9g}"
         if '.' not in s and 'e' not in s:
             s = f"{val:.1f}"
         return s + "f"
