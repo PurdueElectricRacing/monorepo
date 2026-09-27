@@ -191,7 +191,7 @@ float dearunits_tan_{{ unit.name }}({{ unit.type_name }} a) {
 // Every inner _Generic is type-checked even when its branch isn't selected, so
 // each needs a default; an unsupported operand pair selects this non-function,
 // and calling it is a compile error.
-extern const int dearunits_error_unsupported_operands_use_base_units_or_float_see_dear_units_ops_md;
+extern const int dearunits_error_unsupported_operands_use_base_units_or_float;
 
 {% for definition in binary_ops.definitions %}
 {{ definition.macro }}({{ definition.args|join(', ') }})
@@ -204,10 +204,10 @@ extern const int dearunits_error_unsupported_operands_use_base_units_or_float_se
 {% for entry in lhs.entries %}
         {{ entry.rhs_type }}: {{ entry.function }}, \
 {% endfor %}
-        default: dearunits_error_unsupported_operands_use_base_units_or_float_see_dear_units_ops_md \
+        default: dearunits_error_unsupported_operands_use_base_units_or_float \
     ), \
 {% endfor %}
-    default: dearunits_error_unsupported_operands_use_base_units_or_float_see_dear_units_ops_md \
+    default: dearunits_error_unsupported_operands_use_base_units_or_float \
 )(a, b)
 
 {% endfor %}
