@@ -32,7 +32,7 @@ static bool run_dearunits_test(void) {
     mile_t one_mile = { .value = 1.0f };
     meter_t mile_in_meters = meter_from(one_mile);
     dearunits_mile_in_meters = mile_in_meters.value;
-    if (!nearly_equal(mile_in_meters.value, 1609.34f, 0.01f)) {
+    if (!nearly_equal(mile_in_meters.value, 1609.344f, 0.001f)) {
         return false;
     }
 
@@ -63,6 +63,96 @@ static bool run_dearunits_test(void) {
     newton_meter_t torque = torque_from(force, arm);
     dearunits_torque_nm = torque.value;
     if (!nearly_equal(torque.value, 40.0f, 0.001f)) {
+        return false;
+    }
+
+    // Multiply/divide resolve result types from the unit dimensions...
+    meter_t travelled = DEARUNITS_MULTIPLY(velocity, time);
+    if (!nearly_equal(travelled.value, 100.0f, 0.001f)) {
+        return false;
+    }
+
+    second_t travel_time = DEARUNITS_DIVIDE(distance, velocity);
+    if (!nearly_equal(travel_time.value, 10.0f, 0.001f)) {
+        return false;
+    }
+
+    float distance_ratio = DEARUNITS_DIVIDE(distance, travelled);
+    if (!nearly_equal(distance_ratio, 1.0f, 0.001f)) {
+        return false;
+    }
+
+    meter_t half_distance = DEARUNITS_DIVIDE(distance, 2.0f);
+    if (!nearly_equal(half_distance.value, 50.0f, 0.001f)) {
+        return false;
+    }
+
+    // ...and same-type helpers work on any unit type.
+    meter_t clamped = DEARUNITS_CLAMP(distance, arm, half_distance);
+    if (!nearly_equal(clamped.value, 50.0f, 0.001f)) {
+        return false;
+    }
+
+    if (!DEARUNITS_LT(arm, distance) || DEARUNITS_GT(arm, distance)) {
+        return false;
+    }
+
+    meter_t gap = DEARUNITS_ABS_DIFF(arm, distance);
+    if (!nearly_equal(gap.value, 98.0f, 0.001f)) {
+        return false;
+    }
+
+    // Electrical/energy types resolve through dimensional analysis and explicit relations.
+    volt_t pack_voltage = { .value = 400.0f };
+    amp_t pack_current = { .value = 50.0f };
+    watt_t pack_power = DEARUNITS_MULTIPLY(pack_voltage, pack_current);
+    if (!nearly_equal(pack_power.value, 20000.0f, 0.01f)) {
+        return false;
+    }
+
+    joule_t pack_energy = DEARUNITS_MULTIPLY(pack_power, (second_t){ .value = 3600.0f });
+    kilowatt_hour_t pack_kwh = kilowatt_hour_from_joule(pack_energy);
+    if (!nearly_equal(pack_kwh.value, 20.0f, 0.001f)) {
+        return false;
+    }
+
+    ohm_t pack_resistance = DEARUNITS_DIVIDE(pack_voltage, pack_current);
+    if (!nearly_equal(pack_resistance.value, 8.0f, 0.001f)) {
+        return false;
+    }
+
+    // Mechanical power = torque * angular velocity
+    radians_per_second_t motor_speed = { .value = 100.0f };
+    watt_t mech_power = DEARUNITS_MULTIPLY(torque, motor_speed);
+    if (!nearly_equal(mech_power.value, 4000.0f, 0.01f)) {
+        return false;
+    }
+
+    // Squares, roots, and scalar-first
+    square_meter_t area = DEARUNITS_SQUARE(arm);
+    if (!nearly_equal(area.value, 4.0f, 0.001f) || !nearly_equal(DEARUNITS_SQRT(area).value, 2.0f, 0.001f)) {
+        return false;
+    }
+
+    hertz_t frequency = DEARUNITS_DIVIDE(1.0f, (second_t){ .value = 0.5f });
+    if (!nearly_equal(frequency.value, 2.0f, 0.001f)) {
+        return false;
+    }
+
+    // Trig accepts any angle unit; wrapping stays in the same unit.
+    degree_t right_angle = { .value = 90.0f };
+    if (!nearly_equal(DEARUNITS_SIN(right_angle), 1.0f, 0.001f)) {
+        return false;
+    }
+
+    degree_t wrapped = DEARUNITS_WRAP_ANGLE((degree_t){ .value = 190.0f });
+    if (!nearly_equal(wrapped.value, -170.0f, 0.01f)) {
+        return false;
+    }
+
+    // Validity helpers
+    meter_t bad_reading = { .value = __builtin_nanf("") };
+    if (!DEARUNITS_IS_NAN(bad_reading) || DEARUNITS_IS_FINITE(bad_reading) || !DEARUNITS_IS_FINITE(arm)) {
         return false;
     }
 

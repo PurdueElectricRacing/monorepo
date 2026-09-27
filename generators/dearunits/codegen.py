@@ -6,15 +6,16 @@ Renders the DearUnits unit graph into a single generated C header
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 
-from .models import CompoundType, UnitGraph, UnitNode
+from .models import DerivedQuantity, UnitGraph, Unit
 from core.artifacts import Artifact
-from core.utils import get_jinja_env, print_as_ok, print_as_success, render_template
+from core.utils import get_jinja_env, print_as_ok, print_as_success, print_as_warning, render_template
 
 
 @dataclass
-class UnitTypeContext:
+class UnitContext:
     name: str
     type_name: str
     scale: float
@@ -22,17 +23,17 @@ class UnitTypeContext:
 
 
 @dataclass
-class ArithmeticParam:
+class ConstructorParamContext:
     group_name: str
     type_name: str
     exponent: int
 
 
 @dataclass
-class CompoundArithmeticContext:
+class ConstructorContext:
     compound_name: str
     result_type: str
-    params: list[ArithmeticParam]
+    params: list[ConstructorParamContext]
 
     @property
     def numerator_terms(self) -> list[str]:
@@ -44,75 +45,278 @@ class CompoundArithmeticContext:
 
 
 @dataclass
-class GroupContext:
+class QuantityContext:
     name: str
-    base: UnitTypeContext
-    non_base: list[UnitTypeContext] = field(default_factory=list)
-    arithmetic: CompoundArithmeticContext | None = None
+    base: UnitContext
+    non_base: list[UnitContext] = field(default_factory=list)
+    arithmetic: ConstructorContext | None = None
 
     @property
     def dispatch_name(self) -> str:
-        return f"{self.base.name}_from"
+        return f"{self.base.name}_from".upper()
 
     @property
     def has_conversions(self) -> bool:
         return bool(self.non_base)
 
+    @property
+    def types(self) -> list[UnitContext]:
+        return [self.base, *self.non_base]
 
-def _unit_context(unit: UnitNode) -> UnitTypeContext:
-    return UnitTypeContext(name=unit.name, type_name=f"{unit.name}_t", scale=unit.scale, offset=unit.offset)
+
+@dataclass
+class BinaryOpDefinitionContext:
+    macro: str
+    args: list[str]
 
 
-def _build_group(name: str, base_name: str, units: dict[str, UnitNode]) -> GroupContext:
+@dataclass
+class BinaryOpDispatchEntryContext:
+    rhs_type: str
+    function: str
+
+
+@dataclass
+class BinaryOpDispatchContext:
+    lhs_type: str
+    entries: list[BinaryOpDispatchEntryContext] = field(default_factory=list)
+
+
+@dataclass
+class SquareOpContext:
+    operand_type: str
+    operand_name: str
+    result_type: str
+    result_name: str
+
+
+@dataclass
+class BinaryOpsContext:
+    definitions: list[BinaryOpDefinitionContext] = field(default_factory=list)
+    multiply: list[BinaryOpDispatchContext] = field(default_factory=list)
+    divide: list[BinaryOpDispatchContext] = field(default_factory=list)
+    squares: list[SquareOpContext] = field(default_factory=list)
+
+
+@dataclass
+class AngleUnitContext:
+    name: str
+    type_name: str
+    scale: float  # radians per unit
+
+    @property
+    def half_turn(self) -> float:
+        return math.pi / self.scale
+
+    @property
+    def full_turn(self) -> float:
+        return 2 * math.pi / self.scale
+
+
+@dataclass
+class AngleContext:
+    base_type: str
+    units: list[AngleUnitContext]
+
+
+def _unit_context(unit: Unit) -> UnitContext:
+    return UnitContext(name=unit.name, type_name=f"{unit.name}_t", scale=unit.scale, offset=unit.offset)
+
+
+def _build_quantity_context(name: str, base_name: str, units: dict[str, Unit]) -> QuantityContext:
     base = units[base_name]
-    return GroupContext(
+    return QuantityContext(
         name=name,
         base=_unit_context(base),
         non_base=[_unit_context(unit) for unit_name, unit in units.items() if unit_name != base_name],
     )
 
 
-def _group_base_name(group_name: str, graph: UnitGraph) -> str:
-    if group_name in graph.classes:
-        return graph.classes[group_name].base_name
-    return graph.compounds[group_name].base_name
+def _base_unit_name(quantity_name: str, graph: UnitGraph) -> str:
+    if quantity_name in graph.base_quantities:
+        return graph.base_quantities[quantity_name].base_name
+    return graph.derived_quantities[quantity_name].base_name
 
 
-def _build_arithmetic_context(compound: CompoundType, graph: UnitGraph) -> CompoundArithmeticContext:
-    return CompoundArithmeticContext(
-        compound_name=compound.name,
-        result_type=f"{compound.base_name}_t",
+def _build_constructor_context(derived: DerivedQuantity, graph: UnitGraph) -> ConstructorContext:
+    return ConstructorContext(
+        compound_name=derived.name,
+        result_type=f"{derived.base_name}_t",
         params=[
-            ArithmeticParam(
-                group_name=term.group_name,
-                type_name=f"{_group_base_name(term.group_name, graph)}_t",
+            ConstructorParamContext(
+                group_name=term.quantity_name,
+                type_name=f"{_base_unit_name(term.quantity_name, graph)}_t",
                 exponent=term.exponent,
             )
-            for term in compound.dimensions
+            for term in derived.dimensions
         ],
     )
 
 
-def build_group_contexts(graph: UnitGraph) -> list[GroupContext]:
-    groups = [_build_group(cls.name, cls.base_name, cls.units) for cls in graph.classes.values()]
+def _dimensions(quantity_name: str, graph: UnitGraph) -> dict[str, int]:
+    """Flattens a quantity into exponents over the base quantities."""
+    if quantity_name in graph.base_quantities:
+        return {quantity_name: 1}
 
-    for compound in graph.compounds.values():
-        group = _build_group(compound.name, compound.base_name, compound.units)
-        group.arithmetic = _build_arithmetic_context(compound, graph)
-        groups.append(group)
+    dims: dict[str, int] = {}
+    for term in graph.derived_quantities[quantity_name].dimensions:
+        for base_quantity, exponent in _dimensions(term.quantity_name, graph).items():
+            dims[base_quantity] = dims.get(base_quantity, 0) + exponent * term.exponent
+    return {base_quantity: exponent for base_quantity, exponent in dims.items() if exponent}
 
-    return groups
+
+def _combine(lhs: dict[str, int], rhs: dict[str, int], sign: int) -> tuple[tuple[str, int], ...]:
+    dims = dict(lhs)
+    for base_quantity, exponent in rhs.items():
+        dims[base_quantity] = dims.get(base_quantity, 0) + sign * exponent
+    return tuple(sorted((base_quantity, exponent) for base_quantity, exponent in dims.items() if exponent))
+
+
+def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> BinaryOpsContext:
+    quantity_dims = {name: _dimensions(name, graph) for name in [*graph.base_quantities, *graph.derived_quantities]}
+    quantities_by_dims: dict[tuple[tuple[str, int], ...], list[str]] = {}
+    for name, dims in quantity_dims.items():
+        quantities_by_dims.setdefault(tuple(sorted(dims.items())), []).append(name)
+
+    base_name = {name: _base_unit_name(name, graph) for name in quantity_dims}
+    base_type = {name: f"{unit}_t" for name, unit in base_name.items()}
+
+    products: dict[tuple[str, str], str] = {}
+    quotients: dict[tuple[str, str], str] = {}
+    for relation in graph.relations:
+        products[(relation.lhs, relation.rhs)] = relation.result
+        products[(relation.rhs, relation.lhs)] = relation.result
+        quotients[(relation.result, relation.lhs)] = relation.rhs
+        quotients[(relation.result, relation.rhs)] = relation.lhs
+
+    def match(dims: tuple[tuple[str, int], ...], description: str) -> str | None:
+        matches = quantities_by_dims.get(dims, [])
+        if len(matches) > 1:
+            print_as_warning(f"{description} has dimensions shared by {', '.join(matches)}; skipped")
+        return matches[0] if len(matches) == 1 else None
+
+    def result_type(lhs: str, rhs: str, sign: int, op_name: str) -> str | None:
+        explicit = (products if sign > 0 else quotients).get((lhs, rhs))
+        if explicit is not None:
+            return base_type[explicit]
+        dims = _combine(quantity_dims[lhs], quantity_dims[rhs], sign)
+        if not dims:
+            return "float"
+        result = match(dims, f"DEARUNITS_{op_name}: {lhs} and {rhs}")
+        return None if result is None else base_type[result]
+
+    ops = BinaryOpsContext()
+    cross: dict[str, dict[str, list[BinaryOpDispatchEntryContext]]] = {"multiply": {}, "divide": {}}
+    squared: set[str] = set()
+    for lhs in quantity_dims:
+        for rhs in quantity_dims:
+            for op, sign, op_name in (("multiply", 1, "MULTIPLY"), ("divide", -1, "DIVIDE")):
+                result = result_type(lhs, rhs, sign, op_name)
+                if result is None:
+                    continue
+                if result == "float":
+                    ops.definitions.append(BinaryOpDefinitionContext(
+                        f"DEARUNITS_DEFINE_{op_name}_TO_FLOAT", [base_name[lhs], base_name[rhs]],
+                    ))
+                else:
+                    ops.definitions.append(BinaryOpDefinitionContext(
+                        f"DEARUNITS_DEFINE_{op_name}", [base_name[lhs], base_name[rhs], result[:-2]],
+                    ))
+                cross[op].setdefault(lhs, []).append(BinaryOpDispatchEntryContext(
+                    base_type[rhs], f"dearunits_{op}_{base_name[lhs]}_by_{base_name[rhs]}",
+                ))
+                if op == "multiply" and lhs == rhs and result != "float" and result not in squared:
+                    squared.add(result)
+                    ops.squares.append(SquareOpContext(base_type[lhs], base_name[lhs], result, result[:-2]))
+
+    scalar_first: dict[str, list[BinaryOpDispatchEntryContext]] = {"multiply": [], "divide": []}
+    for quantity in quantities:
+        for unit in quantity.types:
+            ops.definitions.append(BinaryOpDefinitionContext("DEARUNITS_DEFINE_SCALAR_OPS", [unit.name]))
+            for op, dispatch in (("multiply", ops.multiply), ("divide", ops.divide)):
+                entries = [BinaryOpDispatchEntryContext("float", f"dearunits_{op}_{unit.name}_by_scalar")]
+                if unit is quantity.base:
+                    entries += cross[op].get(quantity.name, [])
+                dispatch.append(BinaryOpDispatchContext(unit.type_name, entries))
+            scalar_first["multiply"].append(BinaryOpDispatchEntryContext(
+                unit.type_name, f"dearunits_multiply_scalar_by_{unit.name}",
+            ))
+
+        inverse = match(
+            tuple(sorted((base_quantity, -exponent) for base_quantity, exponent in quantity_dims[quantity.name].items())),
+            f"DEARUNITS_DIVIDE: 1 / {quantity.name}",
+        )
+        if inverse is not None:
+            ops.definitions.append(BinaryOpDefinitionContext(
+                "DEARUNITS_DEFINE_INVERSE", [quantity.base.name, base_name[inverse]],
+            ))
+            scalar_first["divide"].append(BinaryOpDispatchEntryContext(
+                quantity.base.type_name, f"dearunits_divide_scalar_by_{quantity.base.name}",
+            ))
+
+    for op, dispatch in (("multiply", ops.multiply), ("divide", ops.divide)):
+        if scalar_first[op]:
+            dispatch.append(BinaryOpDispatchContext("float", scalar_first[op]))
+
+    return ops
+
+
+def build_angle_context(graph: UnitGraph) -> AngleContext | None:
+    """Trig and angle-wrapping helpers key off the equivalence class named
+    'angle', whose units are scaled in radians."""
+    angle = graph.base_quantities.get("angle")
+    if angle is None:
+        return None
+    units = [
+        AngleUnitContext(unit.name, f"{unit.name}_t", unit.scale)
+        for unit in angle.units.values()
+    ]
+    return AngleContext(base_type=f"{angle.base_name}_t", units=units)
+
+
+def build_quantity_contexts(graph: UnitGraph) -> list[QuantityContext]:
+    quantities = [
+        _build_quantity_context(base.name, base.base_name, base.units)
+        for base in graph.base_quantities.values()
+    ]
+
+    for derived in graph.derived_quantities.values():
+        quantity = _build_quantity_context(derived.name, derived.base_name, derived.units)
+        quantity.arithmetic = _build_constructor_context(derived, graph)
+        quantities.append(quantity)
+
+    return quantities
+
+
+def generate_internal_header(graph: UnitGraph) -> Artifact:
+    env = get_jinja_env()
+    angle = build_angle_context(graph)
+    content = render_template(
+        env,
+        "dear_units_internal.h.jinja",
+        angle_base_type=angle.base_type if angle else None,
+    )
+    print_as_ok("Generated dear_units_internal.h")
+    return Artifact("units_generated", "dear_units_internal.h", content)
 
 
 def generate_units_header(graph: UnitGraph) -> Artifact:
     env = get_jinja_env()
-    content = render_template(env, "dear_units.h.jinja", groups=build_group_contexts(graph))
+    quantities = build_quantity_contexts(graph)
+    content = render_template(
+        env,
+        "dear_units.h.jinja",
+        groups=quantities,
+        base_types=[quantity.base for quantity in quantities],
+        binary_ops=build_binary_ops(graph, quantities),
+        angle=build_angle_context(graph),
+    )
     print_as_ok("Generated dear_units.h")
     return Artifact("units_generated", "dear_units.h", content)
 
 
 def generate_headers(graph: UnitGraph) -> list[Artifact]:
     print("Generating unit headers...")
-    artifacts = [generate_units_header(graph)]
+    artifacts = [generate_units_header(graph), generate_internal_header(graph)]
     print_as_success("Successfully generated DearUnits headers")
     return artifacts
