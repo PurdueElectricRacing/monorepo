@@ -53,7 +53,7 @@ class QuantityContext:
 
     @property
     def dispatch_name(self) -> str:
-        return f"{self.base.name}_from".upper()
+        return f"dearunits_{self.base.name}_from".upper()
 
     @property
     def has_conversions(self) -> bool:
