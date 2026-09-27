@@ -74,7 +74,6 @@ class BinaryOpDefinitionContext:
 class BinaryOpDispatchEntryContext:
     rhs_type: str
     function: str
-    result_type: str
 
 
 @dataclass
@@ -233,7 +232,7 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
                         f"DEARUNITS_DEFINE_{op_name}", [base_name[lhs], base_name[rhs], result[:-2]],
                     ))
                 cross[op].setdefault(lhs, []).append(BinaryOpDispatchEntryContext(
-                    base_type[rhs], f"dearunits_{op}_{base_name[lhs]}_by_{base_name[rhs]}", result,
+                    base_type[rhs], f"dearunits_{op}_{base_name[lhs]}_by_{base_name[rhs]}",
                 ))
                 if op == "multiply" and lhs == rhs and result != "float" and result not in squared:
                     squared.add(result)
@@ -244,12 +243,12 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
         for unit in quantity.types:
             ops.definitions.append(BinaryOpDefinitionContext("DEARUNITS_DEFINE_SCALAR_OPS", [unit.name]))
             for op, dispatch in (("multiply", ops.multiply), ("divide", ops.divide)):
-                entries = [BinaryOpDispatchEntryContext("float", f"dearunits_{op}_{unit.name}_by_scalar", unit.type_name)]
+                entries = [BinaryOpDispatchEntryContext("float", f"dearunits_{op}_{unit.name}_by_scalar")]
                 if unit is quantity.base:
                     entries += cross[op].get(quantity.name, [])
                 dispatch.append(BinaryOpDispatchContext(unit.type_name, entries))
             scalar_first["multiply"].append(BinaryOpDispatchEntryContext(
-                unit.type_name, f"dearunits_multiply_scalar_by_{unit.name}", unit.type_name,
+                unit.type_name, f"dearunits_multiply_scalar_by_{unit.name}",
             ))
 
         inverse = None if quantity.name in ambiguous else match(
@@ -261,7 +260,7 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
                 "DEARUNITS_DEFINE_INVERSE", [quantity.base.name, base_name[inverse]],
             ))
             scalar_first["divide"].append(BinaryOpDispatchEntryContext(
-                quantity.base.type_name, f"dearunits_divide_scalar_by_{quantity.base.name}", base_type[inverse],
+                quantity.base.type_name, f"dearunits_divide_scalar_by_{quantity.base.name}",
             ))
 
     for op, dispatch in (("multiply", ops.multiply), ("divide", ops.divide)):
@@ -326,18 +325,6 @@ def generate_units_header(
     return Artifact("units_generated", "dear_units.h", content)
 
 
-def generate_ops_reference(quantities: list[QuantityContext], binary_ops: BinaryOpsContext) -> Artifact:
-    env = get_jinja_env()
-    content = render_template(
-        env,
-        "dear_units_ops.md.jinja",
-        groups=quantities,
-        binary_ops=binary_ops,
-    )
-    print_as_ok("Generated dear_units_ops.md")
-    return Artifact("units_generated", "dear_units_ops.md", content)
-
-
 def generate_headers(graph: UnitGraph) -> list[Artifact]:
     print("Generating unit headers...")
     quantities = build_quantity_contexts(graph)
@@ -345,7 +332,6 @@ def generate_headers(graph: UnitGraph) -> list[Artifact]:
     artifacts = [
         generate_units_header(quantities, binary_ops, build_angle_context(graph)),
         generate_internal_header(graph),
-        generate_ops_reference(quantities, binary_ops),
     ]
     print_as_success("Successfully generated DearUnits headers")
     return artifacts
