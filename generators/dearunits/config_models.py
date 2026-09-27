@@ -12,11 +12,37 @@ from __future__ import annotations
 
 from typing import Annotated, Self
 
-from pydantic import Field, model_validator
+from pydantic import AfterValidator, Field, StringConstraints, model_validator
 
 from core.declarations import DeclarationModel
 
 Number = int | float
+
+C_KEYWORDS = frozenset({
+    "alignas", "alignof", "auto", "bool", "break", "case", "char", "const", "constexpr",
+    "continue", "default", "do", "double", "else", "enum", "extern", "false", "float",
+    "for", "goto", "if", "inline", "int", "long", "nullptr", "register", "restrict",
+    "return", "short", "signed", "sizeof", "static", "static_assert", "struct", "switch",
+    "thread_local", "true", "typedef", "typeof", "typeof_unqual", "union", "unsigned",
+    "void", "volatile", "while",
+})
+RESERVED_NAMES = frozenset({"scalar"})
+FORBIDDEN_FRAGMENTS = ("_by_", "_from_")
+
+def _valid_identifier(name: str) -> str:
+    if name in C_KEYWORDS or name in RESERVED_NAMES:
+        raise ValueError(f"'{name}' is reserved and can't be used as a name")
+    if name.endswith(("_from", "_by")) or any(fragment in name for fragment in FORBIDDEN_FRAGMENTS):
+        raise ValueError(f"'{name}' contains a fragment the generated function names use as a separator")
+    return name
+
+Identifier = Annotated[
+    str,
+    StringConstraints(pattern=r"^[a-z][a-z0-9]*(_[a-z0-9]+)*$"),
+    AfterValidator(_valid_identifier),
+]
+Scale = Annotated[Number, Field(allow_inf_nan=False, gt=0)]
+Offset = Annotated[Number, Field(allow_inf_nan=False)]
 
 def _duplicate(values: list[str]) -> str | None:
     seen: set[str] = set()
@@ -39,19 +65,13 @@ def _require_unique_group_names(composed_of: list[DimensionTermConfig], owner: s
         raise ValueError(f"{owner} references group '{duplicate}' more than once in composed_of")
 
 class UnitConfig(DeclarationModel):
-    name: str
-    scale: Number = 1.0
-    offset: Number = 0.0
-
-    @model_validator(mode="after")
-    def scale_is_nonzero(self) -> Self:
-        if self.scale == 0:
-            raise ValueError(f"unit '{self.name}' has scale=0, which is never a valid conversion factor")
-        return self
+    name: Identifier
+    scale: Scale = 1.0
+    offset: Offset = 0.0
 
 class DimensionTermConfig(DeclarationModel):
-    group_name: str
-    unit_name: str
+    group_name: Identifier
+    unit_name: Identifier
     exponent: int
 
     @model_validator(mode="after")
@@ -61,8 +81,8 @@ class DimensionTermConfig(DeclarationModel):
         return self
 
 class DerivedUnitConfig(DeclarationModel):
-    name: str
-    scale: Number | None = None
+    name: Identifier
+    scale: Scale | None = None
     composed_of: Annotated[list[DimensionTermConfig], Field(min_length=1)] | None = None
 
     @model_validator(mode="after")
@@ -72,20 +92,14 @@ class DerivedUnitConfig(DeclarationModel):
         return self
 
     @model_validator(mode="after")
-    def scale_is_nonzero(self) -> Self:
-        if self.scale == 0:
-            raise ValueError(f"unit '{self.name}' has scale=0, which is never a valid conversion factor")
-        return self
-
-    @model_validator(mode="after")
     def composed_of_group_names_unique(self) -> Self:
         if self.composed_of is not None:
             _require_unique_group_names(self.composed_of, f"unit '{self.name}'")
         return self
 
 class BaseQuantityConfig(DeclarationModel):
-    name: str
-    base_unit: str
+    name: Identifier
+    base_unit: Identifier
     units: Annotated[list[UnitConfig], Field(min_length=1)]
 
     @model_validator(mode="after")
@@ -108,8 +122,8 @@ class BaseQuantitiesConfig(DeclarationModel):
         return self
 
 class DerivedQuantityConfig(DeclarationModel):
-    name: str
-    base_unit: str
+    name: Identifier
+    base_unit: Identifier
     composed_of: Annotated[list[DimensionTermConfig], Field(min_length=1)]
     units: Annotated[list[DerivedUnitConfig], Field(min_length=1)]
 

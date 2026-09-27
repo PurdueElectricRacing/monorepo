@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+ANGLE_QUANTITY = "angle"
+
 
 @dataclass
 class Unit:

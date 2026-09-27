@@ -74,6 +74,7 @@ class BinaryOpDefinitionContext:
 class BinaryOpDispatchEntryContext:
     rhs_type: str
     function: str
+    result_type: str
 
 
 @dataclass
@@ -178,6 +179,11 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
     for name, dims in quantity_dims.items():
         quantities_by_dims.setdefault(tuple(sorted(dims.items())), []).append(name)
 
+    ambiguous = {
+        name for name, dims in quantity_dims.items()
+        if len(quantities_by_dims[tuple(sorted(dims.items()))]) > 1
+    }
+
     base_name = {name: _base_unit_name(name, graph) for name in quantity_dims}
     base_type = {name: f"{unit}_t" for name, unit in base_name.items()}
 
@@ -199,6 +205,10 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
         explicit = (products if sign > 0 else quotients).get((lhs, rhs))
         if explicit is not None:
             return base_type[explicit]
+        if sign < 0 and lhs == rhs:
+            return "float"
+        if lhs in ambiguous or rhs in ambiguous:
+            return None
         dims = _combine(quantity_dims[lhs], quantity_dims[rhs], sign)
         if not dims:
             return "float"
@@ -223,7 +233,7 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
                         f"DEARUNITS_DEFINE_{op_name}", [base_name[lhs], base_name[rhs], result[:-2]],
                     ))
                 cross[op].setdefault(lhs, []).append(BinaryOpDispatchEntryContext(
-                    base_type[rhs], f"dearunits_{op}_{base_name[lhs]}_by_{base_name[rhs]}",
+                    base_type[rhs], f"dearunits_{op}_{base_name[lhs]}_by_{base_name[rhs]}", result,
                 ))
                 if op == "multiply" and lhs == rhs and result != "float" and result not in squared:
                     squared.add(result)
@@ -234,15 +244,15 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
         for unit in quantity.types:
             ops.definitions.append(BinaryOpDefinitionContext("DEARUNITS_DEFINE_SCALAR_OPS", [unit.name]))
             for op, dispatch in (("multiply", ops.multiply), ("divide", ops.divide)):
-                entries = [BinaryOpDispatchEntryContext("float", f"dearunits_{op}_{unit.name}_by_scalar")]
+                entries = [BinaryOpDispatchEntryContext("float", f"dearunits_{op}_{unit.name}_by_scalar", unit.type_name)]
                 if unit is quantity.base:
                     entries += cross[op].get(quantity.name, [])
                 dispatch.append(BinaryOpDispatchContext(unit.type_name, entries))
             scalar_first["multiply"].append(BinaryOpDispatchEntryContext(
-                unit.type_name, f"dearunits_multiply_scalar_by_{unit.name}",
+                unit.type_name, f"dearunits_multiply_scalar_by_{unit.name}", unit.type_name,
             ))
 
-        inverse = match(
+        inverse = None if quantity.name in ambiguous else match(
             tuple(sorted((base_quantity, -exponent) for base_quantity, exponent in quantity_dims[quantity.name].items())),
             f"DEARUNITS_DIVIDE: 1 / {quantity.name}",
         )
@@ -251,7 +261,7 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
                 "DEARUNITS_DEFINE_INVERSE", [quantity.base.name, base_name[inverse]],
             ))
             scalar_first["divide"].append(BinaryOpDispatchEntryContext(
-                quantity.base.type_name, f"dearunits_divide_scalar_by_{quantity.base.name}",
+                quantity.base.type_name, f"dearunits_divide_scalar_by_{quantity.base.name}", base_type[inverse],
             ))
 
     for op, dispatch in (("multiply", ops.multiply), ("divide", ops.divide)):
@@ -300,23 +310,42 @@ def generate_internal_header(graph: UnitGraph) -> Artifact:
     return Artifact("units_generated", "dear_units_internal.h", content)
 
 
-def generate_units_header(graph: UnitGraph) -> Artifact:
+def generate_units_header(
+    quantities: list[QuantityContext], binary_ops: BinaryOpsContext, angle: AngleContext | None
+) -> Artifact:
     env = get_jinja_env()
-    quantities = build_quantity_contexts(graph)
     content = render_template(
         env,
         "dear_units.h.jinja",
         groups=quantities,
         base_types=[quantity.base for quantity in quantities],
-        binary_ops=build_binary_ops(graph, quantities),
-        angle=build_angle_context(graph),
+        binary_ops=binary_ops,
+        angle=angle,
     )
     print_as_ok("Generated dear_units.h")
     return Artifact("units_generated", "dear_units.h", content)
 
 
+def generate_ops_reference(quantities: list[QuantityContext], binary_ops: BinaryOpsContext) -> Artifact:
+    env = get_jinja_env()
+    content = render_template(
+        env,
+        "dear_units_ops.md.jinja",
+        groups=quantities,
+        binary_ops=binary_ops,
+    )
+    print_as_ok("Generated dear_units_ops.md")
+    return Artifact("units_generated", "dear_units_ops.md", content)
+
+
 def generate_headers(graph: UnitGraph) -> list[Artifact]:
     print("Generating unit headers...")
-    artifacts = [generate_units_header(graph), generate_internal_header(graph)]
+    quantities = build_quantity_contexts(graph)
+    binary_ops = build_binary_ops(graph, quantities)
+    artifacts = [
+        generate_units_header(quantities, binary_ops, build_angle_context(graph)),
+        generate_internal_header(graph),
+        generate_ops_reference(quantities, binary_ops),
+    ]
     print_as_success("Successfully generated DearUnits headers")
     return artifacts
