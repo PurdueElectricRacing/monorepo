@@ -1,8 +1,9 @@
 """
 config_loader.py
 
-Loads and validates DearUnits configuration with a cross-check that ensures
-every unit name is unique across the whole graph.
+Loads and validates DearUnits configuration with cross-checks that ensure
+every name is unique across the whole graph, every unit's composition has its
+quantity's dimensions, and every relation is dimensionally consistent.
 """
 
 from __future__ import annotations
@@ -24,12 +25,16 @@ from .config_models import (
     DimensionTermConfig,
     RelationConfig,
 )
+from .models import ANGLE_QUANTITY
 
 @dataclass(frozen=True)
 class ConfigIssue:
     path: Path
     location: str
     message: str
+
+class UnitConfigValidationError(ValueError):
+    pass
 
 @dataclass(frozen=True)
 class UnitConfigBundle:
@@ -68,7 +73,7 @@ def _claim_name(
 ) -> None:
     previous = owners.get(name)
     if previous is not None:
-        issues.append(ConfigIssue(path, location, f"unit name '{name}' already defined by {previous}"))
+        issues.append(ConfigIssue(path, location, f"name '{name}' already defined by {previous}"))
     else:
         owners[name] = owner_label
 
@@ -76,14 +81,69 @@ def _validate_name_uniqueness(bundle: UnitConfigBundle, issues: list[ConfigIssue
     owners: dict[str, str] = {}
 
     for quantity in bundle.base_quantities.values():
-        _claim_name(quantity.base_unit, f"base quantity '{quantity.name}'", BASE_TYPES_CONFIG_PATH, f"classes.{quantity.name}.base_unit", owners, issues)
+        label = f"base quantity '{quantity.name}'"
+        _claim_name(quantity.name, label, BASE_TYPES_CONFIG_PATH, f"classes.{quantity.name}.name", owners, issues)
+        _claim_name(quantity.base_unit, label, BASE_TYPES_CONFIG_PATH, f"classes.{quantity.name}.base_unit", owners, issues)
         for unit in quantity.units:
-            _claim_name(unit.name, f"base quantity '{quantity.name}'", BASE_TYPES_CONFIG_PATH, f"classes.{quantity.name}.units.{unit.name}", owners, issues)
+            _claim_name(unit.name, label, BASE_TYPES_CONFIG_PATH, f"classes.{quantity.name}.units.{unit.name}", owners, issues)
 
     for derived in bundle.derived_quantities.values():
-        _claim_name(derived.base_unit, f"derived quantity '{derived.name}'", COMPOUND_TYPES_CONFIG_PATH, f"compounds.{derived.name}.base_unit", owners, issues)
+        label = f"derived quantity '{derived.name}'"
+        _claim_name(derived.name, label, COMPOUND_TYPES_CONFIG_PATH, f"compounds.{derived.name}.name", owners, issues)
+        _claim_name(derived.base_unit, label, COMPOUND_TYPES_CONFIG_PATH, f"compounds.{derived.name}.base_unit", owners, issues)
         for unit in derived.units:
-            _claim_name(unit.name, f"derived quantity '{derived.name}'", COMPOUND_TYPES_CONFIG_PATH, f"compounds.{derived.name}.units.{unit.name}", owners, issues)
+            _claim_name(unit.name, label, COMPOUND_TYPES_CONFIG_PATH, f"compounds.{derived.name}.units.{unit.name}", owners, issues)
+
+
+Dimensions = dict[str, int]
+
+def _quantity_dimensions(
+    name: str, bundle: UnitConfigBundle, memo: dict[str, Dimensions], stack: tuple[str, ...] = (),
+) -> Dimensions | None:
+    if name in bundle.base_quantities:
+        return {name: 1}
+    if name in memo:
+        return memo[name]
+    if name in stack or name not in bundle.derived_quantities:
+        return None
+    dims = _terms_dimensions(bundle.derived_quantities[name].composed_of, bundle, memo, (*stack, name))
+    if dims is not None:
+        memo[name] = dims
+    return dims
+
+def _terms_dimensions(
+    terms: list[DimensionTermConfig], bundle: UnitConfigBundle,
+    memo: dict[str, Dimensions], stack: tuple[str, ...] = (),
+) -> Dimensions | None:
+    total: Dimensions = {}
+    for term in terms:
+        inner = _quantity_dimensions(term.group_name, bundle, memo, stack)
+        if inner is None:
+            return None
+        for base_quantity, exponent in inner.items():
+            total[base_quantity] = total.get(base_quantity, 0) + exponent * term.exponent
+    return {base_quantity: exponent for base_quantity, exponent in total.items() if exponent}
+
+def _format_dimensions(dims: Dimensions) -> str:
+    if not dims:
+        return "dimensionless"
+    return " ".join(f"{name}^{exponent}" for name, exponent in sorted(dims.items()))
+
+def _validate_unit_dimensions(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> None:
+    memo: dict[str, Dimensions] = {}
+    for derived in bundle.derived_quantities.values():
+        expected = _quantity_dimensions(derived.name, bundle, memo)
+        if expected is None:
+            continue
+        for unit in derived.units:
+            if unit.composed_of is None:
+                continue
+            actual = _terms_dimensions(unit.composed_of, bundle, memo)
+            if actual is not None and actual != expected:
+                issues.append(ConfigIssue(
+                    COMPOUND_TYPES_CONFIG_PATH, f"compounds.{derived.name}.units.{unit.name}.composed_of",
+                    f"dimensions {_format_dimensions(actual)} don't match {derived.name} ({_format_dimensions(expected)})",
+                ))
 
 
 def _base_quantity_unit_scale(quantity: BaseQuantityConfig, unit_name: str) -> float | None:
@@ -188,6 +248,23 @@ def _validate_relations(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> 
             ))
             continue
 
+        memo: dict[str, Dimensions] = {}
+        lhs, rhs, result = (_quantity_dimensions(name, bundle, memo) for name in (relation.lhs, relation.rhs, relation.result))
+        if lhs is not None and rhs is not None and result is not None:
+            product = {ANGLE_QUANTITY: 0}
+            for dims in (lhs, rhs):
+                for name, exponent in dims.items():
+                    product[name] = product.get(name, 0) + exponent
+            product = {name: exponent for name, exponent in product.items() if exponent and name != ANGLE_QUANTITY}
+            expected = {name: exponent for name, exponent in result.items() if name != ANGLE_QUANTITY}
+            if product != expected:
+                issues.append(ConfigIssue(
+                    COMPOUND_TYPES_CONFIG_PATH, location,
+                    f"'{relation.lhs}' * '{relation.rhs}' has dimensions {_format_dimensions(product)}, "
+                    f"but '{relation.result}' is {_format_dimensions(expected)} (angle is ignored)",
+                ))
+                continue
+
         pair = frozenset((relation.lhs, relation.rhs))
         if pair in products:
             issues.append(ConfigIssue(
@@ -218,7 +295,7 @@ def load_unit_config_bundle(
 
     if issues or base_types is None or compound_types is None:
         _print_issues(issues)
-        raise ValueError("Unit configuration validation failed")
+        raise UnitConfigValidationError("Unit configuration validation failed")
 
     bundle = UnitConfigBundle(
         base_quantities={item.name: item for item in base_types.classes},
@@ -226,11 +303,12 @@ def load_unit_config_bundle(
         relations=tuple(compound_types.relations),
     )
     _validate_name_uniqueness(bundle, issues)
+    _validate_unit_dimensions(bundle, issues)
     _validate_relations(bundle, issues)
     derived_scales = _resolve_derived_scales(bundle, issues)
 
     if issues:
         _print_issues(issues)
-        raise ValueError("Unit configuration validation failed")
+        raise UnitConfigValidationError("Unit configuration validation failed")
 
     return replace(bundle, derived_scales=derived_scales)

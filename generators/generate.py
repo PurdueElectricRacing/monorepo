@@ -11,7 +11,7 @@ from canpiler.api import Canpiler
 from canpiler.pipeline.compiler import CanCompilationError
 from faultgen.api import FaultGenerator
 from dearunits.api import DearUnits
-from dearunits.config_loader import load_unit_config_bundle
+from dearunits.config_loader import UnitConfigValidationError, load_unit_config_bundle
 from core.utils import get_git_hash, print_as_error
 
 def generate() -> None:
@@ -67,7 +67,7 @@ def generate() -> None:
 def main() -> int:
     try:
         generate()
-    except (DeclarationValidationError, CanCompilationError):
+    except (DeclarationValidationError, CanCompilationError, UnitConfigValidationError):
         return 1
     except ValueError as error:
         print_as_error(error)

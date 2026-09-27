@@ -68,6 +68,7 @@ Unit tests live alongside their production modules in `tests` directories:
 - `lerp_lut_test.cpp` covers exact lookup points, interpolation, and upper and lower clamping in `firmware/common/lerp_lut/lerp_lut.c`.
 - `strbuf_test.cpp` covers fixed-size buffer initialization, clearing, appending, and formatted output in `firmware/common/strbuf/strbuf.c`.
 - `can_codec_test.cpp` covers payload loading and storage, byte swapping, signal packing and unpacking, sign extension, and float bit conversion in `firmware/can_library/can_codec.h`. A C23 shim ensures these header-only inline functions are compiled as C rather than as part of the C++20 GoogleTest translation unit.
+- `generators/dearunits/tests` covers DearUnits: config validation (identifiers, scales, unit and relation dimensions, name collisions), every unit constant against exact definitions, the generated operand pairs against a hand-written SI dimension table, and the generated C header itself. The C checks compile the header with strict warnings, run `behavior_test.c` (every op, the NaN policy, angles, pairs, constructors and dispatch macros), check every conversion in both directions, confirm misuse fails to compile, and build and run the logic of `firmware/source/g4_testing/dearunits_test.c` on the host. They run under `pytest` and need a C23 host compiler.
 
 `tests/cmake/FirmwareUnitTest.cmake` provides `add_firmware_unit_test`. It
 configures production C sources as C23 static libraries, test sources as C++20,
