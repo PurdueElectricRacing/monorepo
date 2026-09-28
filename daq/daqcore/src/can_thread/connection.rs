@@ -90,7 +90,11 @@ impl ConnectionManager {
 
     pub fn failed(&mut self, now: time::Instant) {
         self.close();
-        self.retry_at = now + time::Duration::from_millis(200);
+        if matches!(self.source, Some(connection::ConnectionSource::Fil { .. })) {
+            self.source = None;
+        } else {
+            self.retry_at = now + time::Duration::from_millis(200);
+        }
     }
 
     pub fn close(&mut self) {
