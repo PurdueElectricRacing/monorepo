@@ -61,8 +61,8 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
                 database: self.database,
                 ui_to_can_tx: self.ui_to_can_tx.clone(),
                 formatter: self.formatter,
+                connection_status: self.connection_status,
             },
-            self.connection_status,
         )
     }
 
