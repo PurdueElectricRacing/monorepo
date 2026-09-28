@@ -57,8 +57,8 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
                 parser: self.parser,
                 ui_to_can_tx: self.ui_to_can_tx.clone(),
                 formatter: self.formatter,
+                connection_status: self.connection_status,
             },
-            self.connection_status,
         )
     }
 
