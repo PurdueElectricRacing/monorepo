@@ -1,3 +1,35 @@
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct FilRunOptions {
+    pub duration_ms: u64,
+    pub max_instructions: u64,
+    pub quantum: u64,
+    pub refresh_ms: u32,
+    pub adc_decimation: u16,
+    pub extra_live_filters: String,
+    pub strict_mmio: bool,
+    pub wall_pacing: bool,
+    pub loop_batching: bool,
+    pub trace_instructions: bool,
+    pub detect_spin: bool,
+}
+impl Default for FilRunOptions {
+    fn default() -> Self {
+        Self {
+            duration_ms: 0,
+            max_instructions: u64::MAX,
+            quantum: 1024,
+            refresh_ms: 1,
+            adc_decimation: 1,
+            extra_live_filters: String::new(),
+            strict_mmio: false,
+            wall_pacing: true,
+            loop_batching: true,
+            trace_instructions: false,
+            detect_spin: false,
+        }
+    }
+}
+
 #[derive(serde::Serialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
@@ -13,6 +45,8 @@ pub enum ConnectionSource {
         disabled_boards: Vec<String>,
         /// Widget-built network used instead of `network` when present.
         built_network: Option<crate::fil_config::BuiltNetwork>,
+        #[serde(default)]
+        run_options: FilRunOptions,
     },
     Loopback,
 }
@@ -92,6 +126,13 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                 })
                 .transpose()?
                 .unwrap_or(None);
+            let run_options = values
+                .get("run_options")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or_default();
             return Ok(Self::Fil {
                 executable: serde_json::from_value(executable.clone())
                     .map_err(serde::de::Error::custom)?,
@@ -101,6 +142,7 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                 elf_overrides,
                 disabled_boards,
                 built_network,
+                run_options,
             });
         }
         if object.get("Loopback").is_some() {

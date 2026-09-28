@@ -14,6 +14,8 @@ fn default_window_secs() -> f64 {
 }
 const DEFAULT_CAN_SPEED: daqcore::connection::CanBusSpeed = connection::CanBusSpeed::Kbps500;
 
+pub type FilRunOptions = daqcore::connection::FilRunOptions;
+
 /// All FIL widget state persisted across runs.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
 pub struct FilSettings {
@@ -32,6 +34,7 @@ pub struct FilSettings {
     pub adc_instance: String,
     pub adc_channel: u8,
     pub adc_value: u16,
+    pub run_options: FilRunOptions,
 }
 
 impl Default for FilSettings {
@@ -48,6 +51,7 @@ impl Default for FilSettings {
             adc_instance: "ADC1".into(),
             adc_channel: 0,
             adc_value: 0,
+            run_options: FilRunOptions::default(),
         }
     }
 }
@@ -111,6 +115,12 @@ impl Settings {
         }
         self.fil.adc_channel = self.fil.adc_channel.min(19);
         self.fil.adc_value = self.fil.adc_value.min(4095);
+        self.fil.run_options.duration_ms =
+            self.fil.run_options.duration_ms.min(u64::MAX / 1_000_000);
+        self.fil.run_options.quantum = self.fil.run_options.quantum.max(1);
+        self.fil.run_options.refresh_ms = self.fil.run_options.refresh_ms.clamp(1, i32::MAX as u32);
+        self.fil.run_options.max_instructions = self.fil.run_options.max_instructions.max(1);
+        self.fil.run_options.adc_decimation = self.fil.run_options.adc_decimation.clamp(1, 1024);
         if self.fil.builder.bitrate == 0 {
             self.fil.builder.bitrate = 500_000;
         }

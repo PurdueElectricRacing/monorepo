@@ -96,6 +96,7 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
             elf_overrides,
             disabled_boards,
             built_network,
+            run_options,
         } => {
             let effective_network = if let Some(spec) = built_network {
                 crate::fil_config::build_network(spec, executable).map(|(path, _)| path)
@@ -113,6 +114,7 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
                 executable,
                 &effective_network,
                 bus,
+                run_options,
             )?))
         }
         ConnectionSource::Simulated(true, path) => {
@@ -151,6 +153,7 @@ impl FilDriver {
         executable: &std::path::Path,
         network: &std::path::Path,
         bus: &str,
+        run_options: &crate::connection::FilRunOptions,
     ) -> DriverResult<Self> {
         if !executable.is_file() {
             return Err(DriverError::ConnectionFailed(format!(
@@ -169,22 +172,11 @@ impl FilDriver {
                 "FIL bus name is empty or contains an invalid character".into(),
             ));
         }
+        let args = watch_network_args(run_options)?;
         let mut child = std::process::Command::new(executable)
             .arg("watch-network")
             .arg(network)
-            .args([
-                "--duration-ms",
-                "0",
-                "--max-instructions",
-                "18446744073709551615",
-                "--live-filter",
-                "can_tx",
-                "--live-filter",
-                "gpio_input",
-                "--live-filter",
-                "gpio_output",
-                "--control-stdin",
-            ])
+            .args(args)
             .stdin(std::process::Stdio::piped())
             .stdout(std::process::Stdio::piped())
             .stderr(std::process::Stdio::piped())
@@ -253,6 +245,66 @@ impl FilDriver {
         })
     }
 }
+fn watch_network_args(options: &crate::connection::FilRunOptions) -> DriverResult<Vec<String>> {
+    if options.duration_ms > u64::MAX / 1_000_000
+        || options.max_instructions == 0
+        || options.quantum == 0
+        || options.refresh_ms == 0
+        || options.refresh_ms > i32::MAX as u32
+        || !(1..=1024).contains(&options.adc_decimation)
+    {
+        return Err(DriverError::ConnectionFailed(
+            "Invalid FIL run options: duration, instruction limit, quantum, or refresh interval"
+                .into(),
+        ));
+    }
+    let mut args = vec![
+        "--duration-ms".into(),
+        options.duration_ms.to_string(),
+        "--max-instructions".into(),
+        options.max_instructions.to_string(),
+        "--quantum".into(),
+        options.quantum.to_string(),
+        "--refresh-ms".into(),
+        options.refresh_ms.to_string(),
+        "--adc-decimation".into(),
+        options.adc_decimation.to_string(),
+    ];
+    if options.strict_mmio {
+        args.push("--strict-mmio".into());
+    }
+    if !options.wall_pacing {
+        args.push("--no-wall-pacing".into());
+    }
+    if !options.loop_batching {
+        args.push("--no-loop-batching".into());
+    }
+    if options.trace_instructions {
+        args.push("--trace-instr".into());
+    }
+    if options.detect_spin {
+        args.push("--detect-spin".into());
+    }
+    for filter in ["can_tx", "gpio_input", "gpio_output"] {
+        args.extend(["--live-filter".into(), filter.into()]);
+    }
+    for filter in options
+        .extra_live_filters
+        .split(',')
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+    {
+        if filter.chars().any(char::is_whitespace) || filter.starts_with('-') {
+            return Err(DriverError::ConnectionFailed(format!(
+                "Invalid FIL live filter: {filter}"
+            )));
+        }
+        args.extend(["--live-filter".into(), filter.into()]);
+    }
+    args.push("--control-stdin".into());
+    Ok(args)
+}
+
 fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
     let mut fields = line.split_ascii_whitespace();
     if !fields.any(|field| field == "can_tx") {

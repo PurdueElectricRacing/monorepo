@@ -70,6 +70,7 @@ pub struct DAQApp {
     pub fil_adc_instance: String,
     pub fil_adc_channel: u8,
     pub fil_adc_value: u16,
+    pub fil_run_options: settings::FilRunOptions,
 }
 
 impl DAQApp {
@@ -96,6 +97,7 @@ impl DAQApp {
                 adc_instance: self.fil_adc_instance.clone(),
                 adc_channel: self.fil_adc_channel,
                 adc_value: self.fil_adc_value,
+                run_options: self.fil_run_options.clone(),
             },
         };
         settings.save();
@@ -159,6 +161,7 @@ impl DAQApp {
             fil_adc_instance: fil.adc_instance,
             fil_adc_channel: fil.adc_channel.min(19),
             fil_adc_value: fil.adc_value.min(4095),
+            fil_run_options: fil.run_options,
         })
     }
 
@@ -202,6 +205,7 @@ impl DAQApp {
                 elf_overrides: std::collections::HashMap::new(),
                 disabled_boards: Vec::new(),
                 built_network: Some(self.fil_builder.clone()),
+                run_options: self.fil_run_options.clone(),
             });
         }
         Some(daqcore::connection::ConnectionSource::Fil {
@@ -211,6 +215,7 @@ impl DAQApp {
             elf_overrides: self.fil_elf_overrides.clone(),
             disabled_boards: self.fil_disabled_boards.clone(),
             built_network: None,
+            run_options: self.fil_run_options.clone(),
         })
     }
 
@@ -289,6 +294,7 @@ impl DAQApp {
                 self.fil_adc_instance = fil.adc_instance;
                 self.fil_adc_channel = fil.adc_channel.min(19);
                 self.fil_adc_value = fil.adc_value.min(4095);
+                self.fil_run_options = fil.run_options;
                 self.save_settings();
             }
             action::AppAction::ConnectFil(source) => {
