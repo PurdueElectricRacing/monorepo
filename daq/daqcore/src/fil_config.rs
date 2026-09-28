@@ -76,16 +76,38 @@ fn board_name(board_json: &serde_json::Value, board_path: &Path) -> String {
         })
 }
 
-/// One board entry in a user-built network: an arbitrary board config file
-/// plus an optional firmware ELF override.
-#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, Default, PartialEq)]
+/// One board entry in a user-built network, synthesized from an ELF image
+/// and a few fields. No board JSON file is required.
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq)]
 pub struct BuiltBoard {
-    /// Original board JSON config file.
-    pub board: PathBuf,
-    /// Firmware ELF override; defaults to the board config's `elf` when unset.
-    pub elf_override: Option<PathBuf>,
+    /// Board name used for scheduling, GPIO/ADC targeting, and file names.
+    #[serde(default)]
+    pub name: String,
+    /// Firmware ELF image.
+    #[serde(default)]
+    pub elf: PathBuf,
+    /// MCU config JSON. Empty means auto-located next to the FIL executable.
+    #[serde(default)]
+    pub mcu: PathBuf,
+    /// FDCAN instances attached to the network bus. Empty means FDCAN1.
+    #[serde(default)]
+    pub can_instances: Vec<String>,
+    /// Optional vector-table base (e.g. bootloader offset). Empty means omit.
+    #[serde(default)]
+    pub vector_base: String,
     /// Whether the board participates in the emulated network.
+    #[serde(default = "default_board_enabled")]
     pub enabled: bool,
+    /// Legacy: board JSON config file, migrated to direct fields on load.
+    #[serde(default)]
+    pub board: PathBuf,
+    /// Legacy: firmware ELF override for `board`.
+    #[serde(default)]
+    pub elf_override: Option<PathBuf>,
+}
+
+fn default_board_enabled() -> bool {
+    true
 }
 
 /// A user-built network composed in the FIL widget without hand-writing JSON.
@@ -315,12 +337,239 @@ fn scratch_dir_for(label: &str, key: &str) -> PathBuf {
         .join(format!("{safe}-{:016x}", hasher.finish()))
 }
 
+/// FDCAN instances FIL models, the valid set for synthesized attachments.
+pub const FIL_CAN_INSTANCES: [&str; 3] = ["FDCAN1", "FDCAN2", "FDCAN3"];
+/// ADC instances FIL models.
+pub const FIL_ADC_INSTANCES: [&str; 4] = ["ADC1", "ADC2", "ADC3", "ADC4"];
+/// GPIO ports FIL models (pins PA0 through PG15).
+pub const FIL_GPIO_PORTS: [&str; 7] = [
+    "GPIOA", "GPIOB", "GPIOC", "GPIOD", "GPIOE", "GPIOF", "GPIOG",
+];
+
+/// Locate the bundled STM32G474 MCU config next to a FIL executable
+/// (`<exe>/../configs` for `fil/build/fil`, or a sibling `configs/` dir).
+pub fn default_mcu_for_executable(executable: &Path) -> Option<PathBuf> {
+    let dir = executable.parent()?;
+    [
+        dir.join("../configs/mcus/stm32g474retx.json"),
+        dir.join("configs/mcus/stm32g474retx.json"),
+    ]
+    .into_iter()
+    .map(|candidate| absolutize(Path::new("."), &candidate))
+    .find(|candidate| candidate.is_file())
+}
+
+/// Effective MCU config: explicit pick when set, otherwise auto-located.
+pub fn effective_mcu(board: &BuiltBoard, executable: Option<&Path>) -> Option<PathBuf> {
+    if !board.mcu.as_os_str().is_empty() {
+        return Some(board.mcu.clone());
+    }
+    executable.and_then(default_mcu_for_executable)
+}
+
+/// CAN instance names from a board JSON `can` section.
+fn board_can_instances(board_json: &serde_json::Value) -> Vec<String> {
+    board_json
+        .get("can")
+        .and_then(serde_json::Value::as_object)
+        .map(|can| can.keys().cloned().collect())
+        .unwrap_or_default()
+}
+
+/// Absolute MCU path referenced by a board JSON file, if any.
+fn board_mcu_path(board_path: &Path, board_json: &serde_json::Value) -> Option<PathBuf> {
+    let mcu = board_json.get("mcu").and_then(serde_json::Value::as_str)?;
+    let board_dir = board_path.parent().unwrap_or_else(|| Path::new("."));
+    Some(absolutize(board_dir, Path::new(mcu)))
+}
+
+/// Convert a legacy board-file entry to direct fields. Unresolvable entries
+/// are returned unchanged for validation to report.
+pub fn migrate_built_board(board: &BuiltBoard) -> BuiltBoard {
+    if board.board.as_os_str().is_empty() {
+        return board.clone();
+    }
+    let Ok(info) = load_board_info(&board.board) else {
+        return board.clone();
+    };
+    let board_json = read_json_file(&board.board).unwrap_or(serde_json::Value::Null);
+    let mut can_instances = board_can_instances(&board_json);
+    if can_instances.is_empty() {
+        can_instances.push(FIL_CAN_INSTANCES[0].into());
+    }
+    BuiltBoard {
+        name: info.name,
+        elf: board
+            .elf_override
+            .clone()
+            .or_else(|| info.default_elf.clone())
+            .unwrap_or_default(),
+        mcu: board_mcu_path(&board.board, &board_json).unwrap_or_default(),
+        can_instances,
+        vector_base: board_json
+            .get("vector_base")
+            .and_then(serde_json::Value::as_str)
+            .unwrap_or("")
+            .into(),
+        enabled: board.enabled,
+        board: PathBuf::new(),
+        elf_override: None,
+    }
+}
+
+/// A board ready to be written: synthesized JSON plus its display name.
+struct ResolvedBoard {
+    name: String,
+    board_json: serde_json::Value,
+}
+
+/// Resolve one enabled builder entry to board JSON. Direct entries are
+/// synthesized from ELF plus a few fields (no board file needed).
+fn resolve_built_board(
+    board: &BuiltBoard,
+    spec_bus: &str,
+    executable: Option<&Path>,
+) -> Result<ResolvedBoard, String> {
+    debug_assert!(board.board.as_os_str().is_empty());
+    if board.name.trim().is_empty() {
+        return Err("A built board needs a name".into());
+    }
+    if !board.elf.is_file() {
+        return Err(format!(
+            "Board '{}' ELF does not exist: {}",
+            board.name,
+            board.elf.display()
+        ));
+    }
+    let mcu = effective_mcu(board, executable).ok_or_else(|| {
+        format!(
+            "Board '{}' has no MCU config; pick one or point the FIL executable at a fil build",
+            board.name
+        )
+    })?;
+    if !mcu.is_file() {
+        return Err(format!(
+            "Board '{}' MCU config does not exist: {}",
+            board.name,
+            mcu.display()
+        ));
+    }
+    let instances = if board.can_instances.is_empty() {
+        vec![FIL_CAN_INSTANCES[0].to_owned()]
+    } else {
+        board.can_instances.clone()
+    };
+    for instance in &instances {
+        if !FIL_CAN_INSTANCES.contains(&instance.as_str()) {
+            return Err(format!(
+                "Board '{}' has unknown CAN instance '{instance}'; expected one of {}",
+                board.name,
+                FIL_CAN_INSTANCES.join(", ")
+            ));
+        }
+    }
+    let mut can = serde_json::Map::new();
+    for instance in instances {
+        can.insert(instance, serde_json::json!({"bus": spec_bus}));
+    }
+    let mut board_json = serde_json::json!({
+        "schema_version": 1,
+        "name": board.name,
+        "mcu": mcu.display().to_string(),
+        "elf": board.elf.display().to_string(),
+        "can": can,
+    });
+    if !board.vector_base.trim().is_empty() {
+        board_json["vector_base"] = serde_json::Value::String(board.vector_base.clone());
+    }
+    Ok(ResolvedBoard {
+        name: board.name.clone(),
+        board_json,
+    })
+}
+
+/// Resolve a legacy board-file entry: validate ELF, warn on bus mismatch,
+/// and fold an ELF override into a patched copy of the board JSON.
+fn resolve_legacy_board_entry(
+    board: &BuiltBoard,
+    spec_bus: &str,
+    warnings: &mut Vec<String>,
+) -> Result<ResolvedBoard, String> {
+    if !board.board.is_file() {
+        return Err(format!(
+            "Board config does not exist: {}",
+            board.board.display()
+        ));
+    }
+    let info = load_board_info(&board.board)?;
+    let board_json = read_json_file(&board.board)?;
+    let buses = board_buses(&board_json);
+    if !buses.is_empty() && !buses.contains(&spec_bus.to_owned()) {
+        warnings.push(format!(
+            "Board '{}' attaches to {} but the network bus is '{spec_bus}'",
+            info.name,
+            buses.join(", ")
+        ));
+    }
+    let elf = match &board.elf_override {
+        Some(elf) if !elf.is_file() => {
+            return Err(format!(
+                "ELF override for board '{}' does not exist: {}",
+                info.name,
+                elf.display()
+            ));
+        }
+        elf @ Some(_) => elf.clone(),
+        None => info.default_elf.clone(),
+    };
+    if elf.is_none() {
+        return Err(format!(
+            "Board '{}' has no firmware ELF; select one",
+            info.name
+        ));
+    }
+    let elf = elf.expect("checked");
+    if !elf.is_file() {
+        return Err(format!(
+            "Board '{}' ELF does not exist: {}",
+            info.name,
+            elf.display()
+        ));
+    }
+    let mut board_json = read_json_file(&board.board)?;
+    board_json["elf"] = serde_json::Value::String(elf.display().to_string());
+    Ok(ResolvedBoard {
+        name: info.name,
+        board_json,
+    })
+}
+
+fn write_network_json(
+    dest: &Path,
+    spec: &BuiltNetwork,
+    board_refs: &[String],
+) -> Result<(), String> {
+    let network_json = serde_json::json!({
+        "schema_version": 1,
+        "name": spec.name,
+        "buses": {&spec.bus: {"type": "can", "bitrate": spec.bitrate}},
+        "boards": board_refs,
+    });
+    let content = serde_json::to_string_pretty(&network_json)
+        .map_err(|error| format!("Failed to serialize network: {error}"))?;
+    std::fs::write(dest, content)
+        .map_err(|error| format!("Failed to write {}: {error}", dest.display()))?;
+    Ok(())
+}
+
 /// Build a runnable network from a widget-composed spec without hand-written
-/// JSON. Returns the generated network path plus non-fatal warnings (e.g. a
-/// board whose `can` attachments name a different bus than the network bus).
-/// Boards without ELF overrides are referenced in place; boards with
-/// overrides get patched copies in the scratch directory.
-pub fn build_network(spec: &BuiltNetwork) -> Result<(PathBuf, Vec<String>), String> {
+/// JSON. Boards are synthesized from ELF images plus a few fields; legacy
+/// board-file entries keep working. Returns the generated network path plus
+/// non-fatal warnings.
+pub fn build_network(
+    spec: &BuiltNetwork,
+    executable: &Path,
+) -> Result<(PathBuf, Vec<String>), String> {
     if spec.name.trim().is_empty() {
         return Err("Built network needs a name".into());
     }
@@ -334,92 +583,43 @@ pub fn build_network(spec: &BuiltNetwork) -> Result<(PathBuf, Vec<String>), Stri
     if enabled.is_empty() {
         return Err("Add and enable at least one board".into());
     }
+    let executable = executable.is_file().then_some(executable);
     let mut warnings = Vec::new();
-    let mut infos = Vec::with_capacity(enabled.len());
+    let mut resolved = Vec::with_capacity(enabled.len());
+    let mut names = HashSet::new();
     for board in &enabled {
-        if !board.board.is_file() {
-            return Err(format!(
-                "Board config does not exist: {}",
-                board.board.display()
-            ));
+        let entry = if board.board.as_os_str().is_empty() {
+            resolve_built_board(board, &spec.bus, executable)?
+        } else {
+            resolve_legacy_board_entry(board, &spec.bus, &mut warnings)?
+        };
+        if !names.insert(entry.name.clone()) {
+            return Err(format!("Duplicate board name '{}'", entry.name));
         }
-        let info = load_board_info(&board.board)?;
-        let board_json = read_json_file(&board.board)?;
-        let buses = board_buses(&board_json);
-        if !buses.is_empty() && !buses.contains(&spec.bus) {
-            warnings.push(format!(
-                "Board '{}' attaches to {} but the network bus is '{}'",
-                info.name,
-                buses.join(", "),
-                spec.bus
-            ));
-        }
-        match &board.elf_override {
-            Some(elf) if !elf.is_file() => {
-                return Err(format!(
-                    "ELF override for board '{}' does not exist: {}",
-                    info.name,
-                    elf.display()
-                ));
-            }
-            None if info.default_elf.is_none() => {
-                return Err(format!(
-                    "Board '{}' has no firmware ELF; select one",
-                    info.name
-                ));
-            }
-            None if !info.default_elf_exists => {
-                return Err(format!(
-                    "Board '{}' ELF does not exist: {}",
-                    info.name,
-                    info.default_elf
-                        .as_ref()
-                        .map(|elf| elf.display().to_string())
-                        .unwrap_or_default()
-                ));
-            }
-            _ => {}
-        }
-        infos.push(info);
+        resolved.push(entry);
     }
 
     let fingerprint = serde_json::to_string(spec).unwrap_or_default();
     let dir = scratch_dir_for(&spec.name, &fingerprint);
     std::fs::create_dir_all(&dir)
         .map_err(|error| format!("Failed to create {}: {error}", dir.display()))?;
-    let mut board_paths = Vec::with_capacity(enabled.len());
-    for (board, info) in enabled.iter().zip(infos.iter()) {
-        if let Some(elf) = &board.elf_override {
-            let mut board_json = read_json_file(&board.board)?;
-            board_json["elf"] = serde_json::Value::String(elf.display().to_string());
-            let out_path = dir.join(format!("board-{}.json", info.name));
-            let content = serde_json::to_string_pretty(&board_json)
-                .map_err(|error| format!("Failed to serialize board '{}': {error}", info.name))?;
-            std::fs::write(&out_path, content)
-                .map_err(|error| format!("Failed to write {}: {error}", out_path.display()))?;
-            board_paths.push(out_path);
-        } else {
-            board_paths.push(board.board.clone());
-        }
+    let mut board_refs = Vec::with_capacity(resolved.len());
+    for entry in &resolved {
+        let out_path = dir.join(format!("board-{}.json", entry.name));
+        let content = serde_json::to_string_pretty(&entry.board_json)
+            .map_err(|error| format!("Failed to serialize board '{}': {error}", entry.name))?;
+        std::fs::write(&out_path, content)
+            .map_err(|error| format!("Failed to write {}: {error}", out_path.display()))?;
+        board_refs.push(out_path.display().to_string());
     }
-    let network_json = serde_json::json!({
-        "schema_version": 1,
-        "name": spec.name,
-        "buses": {&spec.bus: {"type": "can", "bitrate": spec.bitrate}},
-        "boards": board_paths.iter().map(|path| path.display().to_string()).collect::<Vec<_>>(),
-    });
     let out_network = dir.join("network.json");
-    let content = serde_json::to_string_pretty(&network_json)
-        .map_err(|error| format!("Failed to serialize network: {error}"))?;
-    std::fs::write(&out_network, content)
-        .map_err(|error| format!("Failed to write {}: {error}", out_network.display()))?;
+    write_network_json(&out_network, spec, &board_refs)?;
     Ok((out_network, warnings))
 }
 
 /// Export a built network as reusable JSON files: the network file at
-/// `dest` plus patched `board-<name>.json` siblings for boards with ELF
-/// overrides. Unmodified boards are referenced by absolute path.
-pub fn export_network(dest: &Path, spec: &BuiltNetwork) -> Result<(), String> {
+/// `dest` plus self-contained `board-<name>.json` siblings.
+pub fn export_network(dest: &Path, spec: &BuiltNetwork, executable: &Path) -> Result<(), String> {
     let enabled: Vec<&BuiltBoard> = spec.boards.iter().filter(|b| b.enabled).collect();
     if enabled.is_empty() {
         return Err("Add and enable at least one board".into());
@@ -429,41 +629,43 @@ pub fn export_network(dest: &Path, spec: &BuiltNetwork) -> Result<(), String> {
         std::fs::create_dir_all(parent)
             .map_err(|error| format!("Failed to create {}: {error}", parent.display()))?;
     }
+    let executable = executable.is_file().then_some(executable);
+    let mut warnings = Vec::new();
     let mut board_refs = Vec::with_capacity(enabled.len());
+    let mut names = HashSet::new();
     for board in &enabled {
-        if !board.board.is_file() {
-            return Err(format!(
-                "Board config does not exist: {}",
-                board.board.display()
-            ));
-        }
-        let info = load_board_info(&board.board)?;
-        if let Some(elf) = &board.elf_override {
-            let mut board_json = read_json_file(&board.board)?;
-            board_json["elf"] = serde_json::Value::String(elf.display().to_string());
-            let sibling = format!("board-{}.json", info.name);
-            let out_path = dest
-                .parent()
-                .unwrap_or_else(|| Path::new("."))
-                .join(&sibling);
-            let content = serde_json::to_string_pretty(&board_json)
-                .map_err(|error| format!("Failed to serialize board '{}': {error}", info.name))?;
-            std::fs::write(&out_path, content)
-                .map_err(|error| format!("Failed to write {}: {error}", out_path.display()))?;
-            board_refs.push(sibling);
+        let entry = if board.board.as_os_str().is_empty() {
+            resolve_built_board(board, &spec.bus, executable)?
         } else {
-            board_refs.push(board.board.display().to_string());
+            resolve_legacy_board_entry(board, &spec.bus, &mut warnings)?
+        };
+        if !names.insert(entry.name.clone()) {
+            return Err(format!("Duplicate board name '{}'", entry.name));
         }
+        let safe_name: String = entry
+            .name
+            .chars()
+            .map(|c| {
+                if c.is_ascii_alphanumeric() || c == '-' || c == '_' {
+                    c
+                } else {
+                    '_'
+                }
+            })
+            .collect();
+        let sibling = format!("board-{safe_name}.json");
+        let out_path = dest
+            .parent()
+            .unwrap_or_else(|| Path::new("."))
+            .join(&sibling);
+        let content = serde_json::to_string_pretty(&entry.board_json)
+            .map_err(|error| format!("Failed to serialize board '{}': {error}", entry.name))?;
+        std::fs::write(&out_path, content)
+            .map_err(|error| format!("Failed to write {}: {error}", out_path.display()))?;
+        board_refs.push(sibling);
     }
-    let network_json = serde_json::json!({
-        "schema_version": 1,
-        "name": spec.name,
-        "buses": {&spec.bus: {"type": "can", "bitrate": spec.bitrate}},
-        "boards": board_refs,
-    });
-    let content = serde_json::to_string_pretty(&network_json)
-        .map_err(|error| format!("Failed to serialize network: {error}"))?;
-    std::fs::write(dest, content)
-        .map_err(|error| format!("Failed to write {}: {error}", dest.display()))?;
-    Ok(())
+    for warning in warnings {
+        log::warn!("FIL export: {warning}");
+    }
+    write_network_json(dest, spec, &board_refs)
 }
