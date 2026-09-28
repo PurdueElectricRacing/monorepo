@@ -204,10 +204,12 @@ pub fn start_can_thread(
                         channel,
                         value,
                     } => {
-                        let result = state
-                            .driver
-                            .as_mut()
-                            .map(|driver| driver.set_adc(&board, &instance, channel, value));
+                        let result = state.driver.as_mut().map(|driver| match driver.fil_mut() {
+                            Some(fil) => fil.set_adc(&board, &instance, channel, value),
+                            None => Err(can::driver::DriverError::WriteError(
+                                "The active source is not FIL".into(),
+                            )),
+                        });
                         match result {
                             Some(Err(error)) => handle_control_write_error(
                                 &mut state,
@@ -226,10 +228,12 @@ pub fn start_can_thread(
                         pin,
                         value,
                     } => {
-                        let result = state
-                            .driver
-                            .as_mut()
-                            .map(|driver| driver.set_gpio(&board, &port, pin, value));
+                        let result = state.driver.as_mut().map(|driver| match driver.fil_mut() {
+                            Some(fil) => fil.set_gpio(&board, &port, pin, value),
+                            None => Err(can::driver::DriverError::WriteError(
+                                "The active source is not FIL".into(),
+                            )),
+                        });
                         match result {
                             Some(Err(error)) => {
                                 handle_control_write_error(&mut state, "control FIL GPIO", error)
@@ -416,7 +420,11 @@ pub fn start_can_thread(
             };
 
             if let Some(active_driver) = state.driver.as_mut() {
-                for event in active_driver.take_fil_gpio_events() {
+                for event in active_driver
+                    .fil_mut()
+                    .map(|fil| fil.take_gpio_events())
+                    .unwrap_or_default()
+                {
                     let _ = state.can_to_ui_tx.send(messages::MsgFromCan::FilGpio {
                         board: event.board,
                         port: event.port,
