@@ -8,7 +8,7 @@ import json
 import subprocess
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from core.config import CAN_TEMPLATE_DIR, FAULT_TEMPLATE_DIR
+from core.config import CAN_TEMPLATE_DIR, DEARUNITS_TEMPLATE_DIR, FAULT_TEMPLATE_DIR
 
 CTYPE_SIZES = {
     "uint8_t": 8, "int8_t": 8,
@@ -55,7 +55,7 @@ def get_git_hash() -> str:
 
 def get_jinja_env() -> Environment:
     env = Environment(
-        loader=FileSystemLoader([str(CAN_TEMPLATE_DIR), str(FAULT_TEMPLATE_DIR)]),
+        loader=FileSystemLoader([str(CAN_TEMPLATE_DIR), str(FAULT_TEMPLATE_DIR), str(DEARUNITS_TEMPLATE_DIR)]),
         autoescape=select_autoescape(),
         trim_blocks=True,
         lstrip_blocks=True,
@@ -71,8 +71,11 @@ def get_jinja_env() -> Environment:
     )
     
     def format_float(val: float) -> str:
-        """Format float to .6g and ensure it looks like a float literal in C"""
-        s = f"{val:.6g}"
+        """Format float to .9g (enough significant digits to round-trip an
+        IEEE-754 float32 exactly -- .6g truncates below float32's own
+        precision, introducing drift the value never needed) and ensure it
+        looks like a float literal in C"""
+        s = f"{val:.9g}"
         if '.' not in s and 'e' not in s:
             s = f"{val:.1f}"
         return s + "f"
