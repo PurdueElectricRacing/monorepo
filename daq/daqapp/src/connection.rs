@@ -13,6 +13,7 @@ pub enum ConnectionSource {
         disabled_boards: Vec<String>,
         /// Widget-built network used instead of `network` when present.
         built_network: Option<crate::fil_config::BuiltNetwork>,
+        run_options: crate::settings::FilRunOptions,
     },
     Loopback,
 }

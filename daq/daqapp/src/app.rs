@@ -152,6 +152,7 @@ impl DAQApp {
                 elf_overrides: std::collections::HashMap::new(),
                 disabled_boards: Vec::new(),
                 built_network: Some(self.fil.builder.clone()),
+                run_options: self.fil.run_options.clone(),
             });
         }
         Some(connection::ConnectionSource::Fil {
@@ -161,6 +162,7 @@ impl DAQApp {
             elf_overrides: self.fil.elf_overrides.clone(),
             disabled_boards: self.fil.disabled_boards.clone(),
             built_network: None,
+            run_options: self.fil.run_options.clone(),
         })
     }
 

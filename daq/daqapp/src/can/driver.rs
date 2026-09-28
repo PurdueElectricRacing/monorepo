@@ -491,6 +491,7 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<ActiveDriver> {
             elf_overrides,
             disabled_boards,
             built_network,
+            run_options,
         } => Ok(ActiveDriver::Fil(super::fil_driver::FilDriver::new(
             executable,
             network,
@@ -498,6 +499,7 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<ActiveDriver> {
             elf_overrides,
             disabled_boards,
             built_network,
+            run_options,
         )?)),
         ConnectionSource::Loopback => Ok(ActiveDriver::Can(Box::new(LoopbackDriver::new()))),
     }

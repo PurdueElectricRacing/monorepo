@@ -10,6 +10,41 @@ pub fn dbc_dir() -> Option<std::path::PathBuf> {
 const DEFAULT_UDP_PORT: u16 = 5005;
 const DEFAULT_CAN_SPEED: connection::CanBusSpeed = connection::CanBusSpeed::Kbps500;
 
+/// Options forwarded to FIL's watch-network command. The live CAN/GPIO filters
+/// and stdin control remain enabled because DaqApp requires them.
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct FilRunOptions {
+    pub duration_ms: u64,
+    pub max_instructions: u64,
+    pub quantum: u64,
+    pub refresh_ms: u32,
+    pub adc_decimation: u16,
+    pub extra_live_filters: String,
+    pub strict_mmio: bool,
+    pub wall_pacing: bool,
+    pub loop_batching: bool,
+    pub trace_instructions: bool,
+    pub detect_spin: bool,
+}
+
+impl Default for FilRunOptions {
+    fn default() -> Self {
+        Self {
+            duration_ms: 0,
+            max_instructions: u64::MAX,
+            quantum: 1024,
+            refresh_ms: 1,
+            adc_decimation: 1,
+            extra_live_filters: String::new(),
+            strict_mmio: false,
+            wall_pacing: true,
+            loop_batching: true,
+            trace_instructions: false,
+            detect_spin: false,
+        }
+    }
+}
+
 /// All FIL widget state persisted across runs.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
 pub struct FilSettings {
@@ -28,6 +63,7 @@ pub struct FilSettings {
     pub adc_instance: String,
     pub adc_channel: u8,
     pub adc_value: u16,
+    pub run_options: FilRunOptions,
 }
 
 impl Default for FilSettings {
@@ -44,6 +80,7 @@ impl Default for FilSettings {
             adc_instance: "ADC1".into(),
             adc_channel: 0,
             adc_value: 0,
+            run_options: FilRunOptions::default(),
         }
     }
 }
@@ -102,6 +139,12 @@ impl Settings {
         }
         self.fil.adc_channel = self.fil.adc_channel.min(19);
         self.fil.adc_value = self.fil.adc_value.min(4095);
+        self.fil.run_options.duration_ms =
+            self.fil.run_options.duration_ms.min(u64::MAX / 1_000_000);
+        self.fil.run_options.quantum = self.fil.run_options.quantum.max(1);
+        self.fil.run_options.refresh_ms = self.fil.run_options.refresh_ms.clamp(1, i32::MAX as u32);
+        self.fil.run_options.max_instructions = self.fil.run_options.max_instructions.max(1);
+        self.fil.run_options.adc_decimation = self.fil.run_options.adc_decimation.clamp(1, 1024);
         if self.fil.builder.bitrate == 0 {
             self.fil.builder.bitrate = 500_000;
         }

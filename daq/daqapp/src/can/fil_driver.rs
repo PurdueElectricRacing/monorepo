@@ -10,6 +10,66 @@ use std::time::Duration;
 const FIL_READ_TIMEOUT_MS: u64 = 1;
 const FIL_MAX_FRAMES_PER_POLL: usize = 256;
 
+fn watch_network_args(options: &crate::settings::FilRunOptions) -> DriverResult<Vec<String>> {
+    if options.duration_ms > u64::MAX / 1_000_000
+        || options.max_instructions == 0
+        || options.quantum == 0
+        || options.refresh_ms == 0
+        || options.refresh_ms > i32::MAX as u32
+        || !(1..=1024).contains(&options.adc_decimation)
+    {
+        return Err(DriverError::ConnectionFailed(
+            "Invalid FIL run options: duration, instruction limit, quantum, or refresh interval"
+                .into(),
+        ));
+    }
+    let mut args = vec![
+        "--duration-ms".into(),
+        options.duration_ms.to_string(),
+        "--max-instructions".into(),
+        options.max_instructions.to_string(),
+        "--quantum".into(),
+        options.quantum.to_string(),
+        "--refresh-ms".into(),
+        options.refresh_ms.to_string(),
+        "--adc-decimation".into(),
+        options.adc_decimation.to_string(),
+    ];
+    if options.strict_mmio {
+        args.push("--strict-mmio".into());
+    }
+    if !options.wall_pacing {
+        args.push("--no-wall-pacing".into());
+    }
+    if !options.loop_batching {
+        args.push("--no-loop-batching".into());
+    }
+    if options.trace_instructions {
+        args.push("--trace-instr".into());
+    }
+    if options.detect_spin {
+        args.push("--detect-spin".into());
+    }
+    for filter in ["can_tx", "gpio_input", "gpio_output"] {
+        args.extend(["--live-filter".into(), filter.into()]);
+    }
+    for filter in options
+        .extra_live_filters
+        .split(',')
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+    {
+        if filter.chars().any(char::is_whitespace) || filter.starts_with('-') {
+            return Err(DriverError::ConnectionFailed(format!(
+                "Invalid FIL live filter: {filter}"
+            )));
+        }
+        args.extend(["--live-filter".into(), filter.into()]);
+    }
+    args.push("--control-stdin".into());
+    Ok(args)
+}
+
 pub struct FilDriver {
     child: Child,
     input: BufWriter<ChildStdin>,
@@ -27,6 +87,7 @@ impl FilDriver {
         elf_overrides: &std::collections::HashMap<String, std::path::PathBuf>,
         disabled_boards: &[String],
         built_network: &Option<crate::fil_config::BuiltNetwork>,
+        run_options: &crate::settings::FilRunOptions,
     ) -> DriverResult<Self> {
         if !executable.is_file() {
             return Err(DriverError::ConnectionFailed(format!(
@@ -75,22 +136,11 @@ impl FilDriver {
                 effective_network.display()
             )));
         }
+        let options = watch_network_args(run_options)?;
         let mut child = Command::new(executable)
             .arg("watch-network")
             .arg(&effective_network)
-            .args([
-                "--duration-ms",
-                "0",
-                "--max-instructions",
-                "18446744073709551615",
-                "--live-filter",
-                "can_tx",
-                "--live-filter",
-                "gpio_input",
-                "--live-filter",
-                "gpio_output",
-                "--control-stdin",
-            ])
+            .args(options)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped())
@@ -408,10 +458,42 @@ impl Drop for FilDriver {
 mod fil_tests {
     use super::{
         DriverError, DriverReadError, format_fil_injection, parse_fil_can_tx, parse_fil_gpio,
-        receive_fil_frames,
+        receive_fil_frames, watch_network_args,
     };
     use std::sync::mpsc;
     use std::time::Duration;
+
+    #[test]
+    fn forwards_run_options_and_keeps_required_controls() {
+        let mut options = crate::settings::FilRunOptions::default();
+        options.adc_decimation = 8;
+        options.extra_live_filters = "can_rx, irq".into();
+        options.strict_mmio = true;
+        options.wall_pacing = false;
+        options.loop_batching = false;
+        options.trace_instructions = true;
+        options.detect_spin = true;
+        let args = watch_network_args(&options).unwrap();
+        for flag in [
+            "--adc-decimation",
+            "8",
+            "--strict-mmio",
+            "--no-wall-pacing",
+            "--no-loop-batching",
+            "--trace-instr",
+            "--detect-spin",
+            "--control-stdin",
+            "can_tx",
+            "gpio_input",
+            "gpio_output",
+            "can_rx",
+            "irq",
+        ] {
+            assert!(args.iter().any(|arg| arg == flag), "missing {flag}");
+        }
+        options.adc_decimation = 0;
+        assert!(watch_network_args(&options).is_err());
+    }
 
     #[test]
     fn parses_fil_live_can_tx_records() {
