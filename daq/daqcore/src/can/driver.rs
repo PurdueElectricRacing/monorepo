@@ -96,7 +96,7 @@ pub fn create_driver(
             built_network,
         } => {
             let effective_network = if let Some(spec) = built_network {
-                crate::fil_config::build_network(spec).map(|(path, _)| path)
+                crate::fil_config::build_network(spec, executable).map(|(path, _)| path)
             } else {
                 let disabled = disabled_boards
                     .iter()
