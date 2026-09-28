@@ -173,12 +173,10 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
 
             ui.horizontal(|ui| {
                 let selected_text = match &app.selected_source {
-                    Some(daqcore::connection::ConnectionSource::Serial(path, speed)) => {
-                        format!("Serial: {} ({})", path, speed.display_name())
-                    }
-                    Some(daqcore::connection::ConnectionSource::Fil { .. }) => {
-                        "FIL (FIL Control widget)".into()
-                    }
+                    Some(daqcore::connection::ConnectionSource::Serial(path, speed)) => format!(
+                        "Serial: {} ({} {})", path, app.can_bus.display_name(), speed.display_name()
+                    ),
+                    Some(daqcore::connection::ConnectionSource::Fil { .. }) => "FIL".into(),
                     Some(connection_source) => connection_source.display_name(),
                     None => "Select Source".to_string(),
                 };
