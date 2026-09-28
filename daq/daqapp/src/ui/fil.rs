@@ -778,6 +778,11 @@ impl FilControl {
                             )
                             .changed();
                     });
+                    if self.run_options.adc_decimation > 1 {
+                        ui.small(
+                            "Decimation skips ADC scans; use 1 for pedal and fault validation.",
+                        );
+                    }
                     ui.horizontal(|ui| {
                         ui.label("Additional live trace filters (comma-separated):");
                         changed |= ui

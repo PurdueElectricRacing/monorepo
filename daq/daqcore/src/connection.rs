@@ -19,7 +19,7 @@ impl Default for FilRunOptions {
             max_instructions: u64::MAX,
             quantum: 1024,
             refresh_ms: 1,
-            adc_decimation: 1,
+            adc_decimation: 32,
             extra_live_filters: String::new(),
             strict_mmio: false,
             wall_pacing: true,
