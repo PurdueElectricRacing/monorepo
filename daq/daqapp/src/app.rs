@@ -56,17 +56,7 @@ pub struct DAQApp {
     pub udp_port: u16,
     pub can_messages: Vec<messages::MsgFromCan>,
     pub log_folder: Option<std::path::PathBuf>,
-    pub fil_executable: Option<std::path::PathBuf>,
-    pub fil_network_config: Option<std::path::PathBuf>,
-    pub fil_bus: String,
-    pub fil_elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
-    pub fil_disabled_boards: Vec<String>,
-    pub fil_use_builder: bool,
-    pub fil_builder: crate::fil_config::BuiltNetwork,
-    pub fil_adc_board: String,
-    pub fil_adc_instance: String,
-    pub fil_adc_channel: u8,
-    pub fil_adc_value: u16,
+    pub fil: settings::FilSettings,
 }
 
 impl DAQApp {
@@ -80,17 +70,7 @@ impl DAQApp {
             theme: self.theme_selection,
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
-            fil_executable: self.fil_executable.clone(),
-            fil_network_config: self.fil_network_config.clone(),
-            fil_elf_overrides: self.fil_elf_overrides.clone(),
-            fil_disabled_boards: self.fil_disabled_boards.clone(),
-            fil_use_builder: self.fil_use_builder,
-            fil_builder: self.fil_builder.clone(),
-            fil_bus: self.fil_bus.clone(),
-            fil_adc_board: self.fil_adc_board.clone(),
-            fil_adc_instance: self.fil_adc_instance.clone(),
-            fil_adc_channel: self.fil_adc_channel,
-            fil_adc_value: self.fil_adc_value,
+            fil: self.fil.clone(),
         };
         settings.save();
     }
@@ -128,17 +108,7 @@ impl DAQApp {
             udp_port: settings.udp_port,
             can_messages: Vec::new(),
             log_folder: settings.log_folder,
-            fil_executable: settings.fil_executable,
-            fil_network_config: settings.fil_network_config,
-            fil_elf_overrides: settings.fil_elf_overrides,
-            fil_disabled_boards: settings.fil_disabled_boards,
-            fil_use_builder: settings.fil_use_builder,
-            fil_builder: settings.fil_builder,
-            fil_bus: settings.fil_bus,
-            fil_adc_board: settings.fil_adc_board,
-            fil_adc_instance: settings.fil_adc_instance,
-            fil_adc_channel: settings.fil_adc_channel.min(19),
-            fil_adc_value: settings.fil_adc_value.min(4095),
+            fil: settings.fil,
         }
     }
 
@@ -173,23 +143,23 @@ impl DAQApp {
     /// ELF overrides and board selection. Returns `None` when no executable
     /// or network config is selected yet.
     pub fn fil_connect_source(&self) -> Option<connection::ConnectionSource> {
-        let executable = self.fil_executable.clone()?;
-        if self.fil_use_builder {
+        let executable = self.fil.executable.clone()?;
+        if self.fil.use_builder {
             return Some(connection::ConnectionSource::Fil {
                 executable,
                 network: std::path::PathBuf::new(),
-                bus: self.fil_builder.bus.clone(),
+                bus: self.fil.builder.bus.clone(),
                 elf_overrides: std::collections::HashMap::new(),
                 disabled_boards: Vec::new(),
-                built_network: Some(self.fil_builder.clone()),
+                built_network: Some(self.fil.builder.clone()),
             });
         }
         Some(connection::ConnectionSource::Fil {
             executable,
-            network: self.fil_network_config.clone()?,
-            bus: self.fil_bus.clone(),
-            elf_overrides: self.fil_elf_overrides.clone(),
-            disabled_boards: self.fil_disabled_boards.clone(),
+            network: self.fil.network.clone()?,
+            bus: self.fil.bus.clone(),
+            elf_overrides: self.fil.elf_overrides.clone(),
+            disabled_boards: self.fil.disabled_boards.clone(),
             built_network: None,
         })
     }
@@ -250,18 +220,8 @@ impl DAQApp {
                 self.pixels_per_point = Some(current_scale - UI_SCALE_STEP);
                 self.save_settings();
             }
-            action::AppAction::UpdateFilConfig {
-                executable,
-                network,
-                bus,
-                elf_overrides,
-                disabled_boards,
-            } => {
-                self.fil_executable = executable;
-                self.fil_network_config = network;
-                self.fil_bus = bus;
-                self.fil_elf_overrides = elf_overrides;
-                self.fil_disabled_boards = disabled_boards;
+            action::AppAction::UpdateFilConfig { fil } => {
+                self.fil = fil;
                 self.save_settings();
             }
             action::AppAction::ConnectFil(source) => {
@@ -273,8 +233,8 @@ impl DAQApp {
                 use_builder,
                 builder,
             } => {
-                self.fil_use_builder = use_builder;
-                self.fil_builder = builder;
+                self.fil.use_builder = use_builder;
+                self.fil.builder = builder;
                 self.save_settings();
             }
             action::AppAction::UpdateFilAdc {
@@ -283,10 +243,10 @@ impl DAQApp {
                 channel,
                 value,
             } => {
-                self.fil_adc_board = board;
-                self.fil_adc_instance = instance;
-                self.fil_adc_channel = channel;
-                self.fil_adc_value = value;
+                self.fil.adc_board = board;
+                self.fil.adc_instance = instance;
+                self.fil.adc_channel = channel;
+                self.fil.adc_value = value;
                 self.save_settings();
             }
         }

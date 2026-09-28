@@ -9,14 +9,43 @@ pub fn dbc_dir() -> Option<std::path::PathBuf> {
 }
 const DEFAULT_UDP_PORT: u16 = 5005;
 const DEFAULT_CAN_SPEED: connection::CanBusSpeed = connection::CanBusSpeed::Kbps500;
-fn default_fil_bus() -> String {
-    "vehicle".into()
+
+/// All FIL widget state persisted across runs.
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
+pub struct FilSettings {
+    pub executable: Option<std::path::PathBuf>,
+    pub network: Option<std::path::PathBuf>,
+    pub bus: String,
+    /// Per-board firmware ELF overrides keyed by board name (network file mode).
+    pub elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
+    /// Board names excluded from the emulated network (network file mode).
+    pub disabled_boards: Vec<String>,
+    /// Use the widget-built network instead of a network file.
+    pub use_builder: bool,
+    /// Widget-built FIL network spec.
+    pub builder: crate::fil_config::BuiltNetwork,
+    pub adc_board: String,
+    pub adc_instance: String,
+    pub adc_channel: u8,
+    pub adc_value: u16,
 }
-fn default_fil_adc_board() -> String {
-    "dashboard".into()
-}
-fn default_fil_adc_instance() -> String {
-    "ADC1".into()
+
+impl Default for FilSettings {
+    fn default() -> Self {
+        Self {
+            executable: None,
+            network: None,
+            bus: "vehicle".into(),
+            elf_overrides: std::collections::HashMap::new(),
+            disabled_boards: Vec::new(),
+            use_builder: false,
+            builder: crate::fil_config::BuiltNetwork::default(),
+            adc_board: "dashboard".into(),
+            adc_instance: "ADC1".into(),
+            adc_channel: 0,
+            adc_value: 0,
+        }
+    }
 }
 
 #[derive(serde::Serialize, serde::Deserialize)]
@@ -24,38 +53,12 @@ pub struct Settings {
     pub dbc_path: Option<std::path::PathBuf>,
     pub selected_source: Option<connection::ConnectionSource>,
     pub selected_speed: connection::CanBusSpeed,
-    #[serde(default)]
     pub selected_bus: connection::CanBus,
     pub udp_port: u16,
     pub theme: theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
-    #[serde(default)]
     pub log_folder: Option<std::path::PathBuf>,
-    pub fil_executable: Option<std::path::PathBuf>,
-    #[serde(default)]
-    pub fil_network_config: Option<std::path::PathBuf>,
-    /// Per-board firmware ELF overrides keyed by board name.
-    #[serde(default)]
-    pub fil_elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
-    /// Board names excluded from the emulated FIL network.
-    #[serde(default)]
-    pub fil_disabled_boards: Vec<String>,
-    /// Use the widget-built network instead of a network file.
-    #[serde(default)]
-    pub fil_use_builder: bool,
-    /// Widget-built FIL network spec.
-    #[serde(default)]
-    pub fil_builder: crate::fil_config::BuiltNetwork,
-    #[serde(default = "default_fil_bus")]
-    pub fil_bus: String,
-    #[serde(default = "default_fil_adc_board")]
-    pub fil_adc_board: String,
-    #[serde(default = "default_fil_adc_instance")]
-    pub fil_adc_instance: String,
-    #[serde(default)]
-    pub fil_adc_channel: u8,
-    #[serde(default)]
-    pub fil_adc_value: u16,
+    pub fil: FilSettings,
 }
 
 impl Default for Settings {
@@ -69,17 +72,7 @@ impl Default for Settings {
             theme: theme::ThemeSelection::Default,
             pixels_per_point: None,
             log_folder: None,
-            fil_executable: None,
-            fil_network_config: None,
-            fil_elf_overrides: std::collections::HashMap::new(),
-            fil_disabled_boards: Vec::new(),
-            fil_use_builder: false,
-            fil_builder: crate::fil_config::BuiltNetwork::default(),
-            fil_bus: default_fil_bus(),
-            fil_adc_board: default_fil_adc_board(),
-            fil_adc_instance: default_fil_adc_instance(),
-            fil_adc_channel: 0,
-            fil_adc_value: 0,
+            fil: FilSettings::default(),
         }
     }
 }
@@ -92,11 +85,25 @@ impl Settings {
     pub fn load() -> Self {
         let path = Self::path();
         if let Ok(json) = std::fs::read_to_string(&path) {
-            serde_json::from_str(&json).unwrap_or_default()
+            let mut settings: Self = serde_json::from_str(&json).unwrap_or_default();
+            settings.normalize();
+            settings
         } else {
             let default = Settings::default();
             default.save();
             default
+        }
+    }
+
+    /// Clamp persisted values into valid ranges after loading.
+    fn normalize(&mut self) {
+        if self.fil.bus.trim().is_empty() {
+            self.fil.bus = "vehicle".into();
+        }
+        self.fil.adc_channel = self.fil.adc_channel.min(19);
+        self.fil.adc_value = self.fil.adc_value.min(4095);
+        if self.fil.builder.bitrate == 0 {
+            self.fil.builder.bitrate = 500_000;
         }
     }
 

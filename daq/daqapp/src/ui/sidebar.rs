@@ -51,15 +51,15 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 ));
             }
 
-            if ui.button("Add FIL Control").clicked() {
-                app.action_queue.push(action::AppAction::SpawnWidget(
-                    widget_constructor::WidgetConstructor::FilControl,
-                ));
-            }
-
             if ui.button("Add CAN Viewer List").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::ViewerList,
+                ));
+            }
+
+            if ui.button("Add FIL Control").clicked() {
+                app.action_queue.push(action::AppAction::SpawnWidget(
+                    widget_constructor::WidgetConstructor::FilControl,
                 ));
             }
 
@@ -247,7 +247,6 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                             app.save_settings();
                         }
                         ui.separator();
-                        ui.label("FIL Control widget");
                         if let Some(fil_source) = app.fil_connect_source() {
                             if ui
                                 .selectable_value(&mut app.selected_source, Some(fil_source), "FIL")
@@ -257,10 +256,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                                 app.save_settings();
                             }
                         } else {
-                            ui.add_enabled(
-                                false,
-                                egui::Button::new("FIL (configure in FIL Control widget)"),
-                            );
+                            ui.add_enabled(false, egui::Button::new("FIL"));
                         }
                         ui.separator();
                         ui.label("Simulated");
