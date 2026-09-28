@@ -14,10 +14,8 @@ use std::time::Duration;
 
 const SERIAL_BAUD_RATE: u32 = 115_200;
 const SERIAL_TIMEOUT_MS: u64 = 10;
-/// Idle wait for FIL output. The reader thread pushes each trace line to the
-/// channel as soon as it is written, so a long blocking wait here adds no
-/// latency to arriving frames (unlike a short poll-then-sleep cycle).
-const FIL_READ_TIMEOUT_MS: u64 = 50;
+/// Short blocking wait limits command/GPIO handling delay without busy-spinning.
+const FIL_READ_TIMEOUT_MS: u64 = 1;
 const FIL_MAX_FRAMES_PER_POLL: usize = 256;
 
 const UDP_RAW_FRAME_SIZE: usize = 16; // 4 bytes ticks_ms + 4 bytes identity + 8 bytes payload
@@ -403,7 +401,7 @@ impl FilDriver {
             ])
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
-            .stderr(Stdio::null())
+            .stderr(Stdio::piped())
             .spawn()
             .map_err(|error| {
                 DriverError::ConnectionFailed(format!("Failed to launch FIL: {error}"))
@@ -415,6 +413,21 @@ impl FilDriver {
         let stdin = child.stdin.take().ok_or_else(|| {
             DriverError::ConnectionFailed("Failed to open FIL control input".into())
         })?;
+        let stderr = child
+            .stderr
+            .take()
+            .ok_or_else(|| DriverError::ConnectionFailed("Failed to capture FIL stderr".into()))?;
+        thread::spawn(move || {
+            for line in BufReader::new(stderr).lines() {
+                match line {
+                    Ok(line) => log::warn!("FIL: {line}"),
+                    Err(error) => {
+                        log::warn!("Failed to read FIL stderr: {error}");
+                        break;
+                    }
+                }
+            }
+        });
         let (output_tx, output) = mpsc::channel();
         let (gpio_output_tx, gpio_output) = mpsc::channel();
         thread::spawn(move || {

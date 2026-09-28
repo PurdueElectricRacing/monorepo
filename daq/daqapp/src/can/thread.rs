@@ -27,6 +27,41 @@ fn send_firmware_frame(
     driver.write_frame(slcan::CanFrame::Can2(frame))
 }
 
+fn handle_driver_failure(state: &mut can::state::State) {
+    let is_fil = matches!(
+        state.current_source,
+        Some(connection::ConnectionSource::Fil { .. })
+    );
+    state.is_connected = false;
+    if let Some(source) = state.current_source.as_ref() {
+        let error_msg = source.display_name();
+        let _ = state
+            .can_to_ui_tx
+            .send(messages::MsgFromCan::ConnectionFailed(error_msg));
+    }
+    if let Some(mut driver) = state.driver.take() {
+        let _ = driver.close();
+    }
+    if is_fil {
+        state.current_source = None;
+    }
+}
+
+fn handle_control_write_error(
+    state: &mut can::state::State,
+    operation: &str,
+    error: can::driver::DriverError,
+) {
+    log::error!("Failed to {operation}: {error:?}");
+    if state
+        .driver
+        .as_ref()
+        .is_some_and(|driver| !driver.is_connected())
+    {
+        handle_driver_failure(state);
+    }
+}
+
 // Returns the number of payload data bytes in the CAN frame if it was a Can2 frame
 fn process_can_frame(frame: &slcan::CanFrame, state: &mut can::state::State) -> usize {
     match frame {
@@ -169,12 +204,20 @@ pub fn start_can_thread(
                         channel,
                         value,
                     } => {
-                        if let Some(driver) = state.driver.as_mut() {
-                            if let Err(error) = driver.set_adc(&board, &instance, channel, value) {
-                                log::error!("Failed to inject FIL ADC value: {error:?}");
+                        let result = state
+                            .driver
+                            .as_mut()
+                            .map(|driver| driver.set_adc(&board, &instance, channel, value));
+                        match result {
+                            Some(Err(error)) => handle_control_write_error(
+                                &mut state,
+                                "inject FIL ADC value",
+                                error,
+                            ),
+                            Some(Ok(())) => {}
+                            None => {
+                                log::warn!("Cannot inject ADC value without an active connection")
                             }
-                        } else {
-                            log::warn!("Cannot inject ADC value without an active connection");
                         }
                     }
                     messages::MsgFromUi::SetFilGpio {
@@ -183,12 +226,16 @@ pub fn start_can_thread(
                         pin,
                         value,
                     } => {
-                        if let Some(driver) = state.driver.as_mut() {
-                            if let Err(error) = driver.set_gpio(&board, &port, pin, value) {
-                                log::error!("Failed to control FIL GPIO: {error:?}");
+                        let result = state
+                            .driver
+                            .as_mut()
+                            .map(|driver| driver.set_gpio(&board, &port, pin, value));
+                        match result {
+                            Some(Err(error)) => {
+                                handle_control_write_error(&mut state, "control FIL GPIO", error)
                             }
-                        } else {
-                            log::warn!("Cannot control GPIO without an active connection");
+                            Some(Ok(())) => {}
+                            None => log::warn!("Cannot control GPIO without an active connection"),
                         }
                     }
                     messages::MsgFromUi::DisconnectFil {
@@ -282,17 +329,7 @@ pub fn start_can_thread(
                                     }
                                     Err(e) => {
                                         log::error!("Failed to send CAN frame: {:?}", e);
-                                        state.is_connected = false;
-                                        if let Some(ref source) = state.current_source {
-                                            let error_msg = source.display_name();
-                                            state
-                                                .can_to_ui_tx
-                                                .send(messages::MsgFromCan::ConnectionFailed(
-                                                    error_msg,
-                                                ))
-                                                .expect("Failed to send connection failed message");
-                                        }
-                                        state.driver = None;
+                                        handle_driver_failure(&mut state);
                                     }
                                 }
                             } else {
@@ -332,9 +369,13 @@ pub fn start_can_thread(
                                 .can_to_ui_tx
                                 .send(messages::MsgFromCan::ConnectionFailed(error_msg))
                                 .expect("Failed to send connection failed message");
-                            std::thread::sleep(std::time::Duration::from_millis(
-                                NO_CONNECTION_SLEEP_MS,
-                            ));
+                            if matches!(source, connection::ConnectionSource::Fil { .. }) {
+                                state.current_source = None;
+                            } else {
+                                std::thread::sleep(std::time::Duration::from_millis(
+                                    NO_CONNECTION_SLEEP_MS,
+                                ));
+                            }
                             continue;
                         }
                     }
@@ -358,6 +399,7 @@ pub fn start_can_thread(
                             // which boundary the node observed. Stop rather
                             // than continuing with a possibly shifted index.
                             state.cancel_firmware_update();
+                            handle_driver_failure(&mut state);
                             break;
                         }
                         std::thread::sleep(std::time::Duration::from_millis(
@@ -466,22 +508,13 @@ pub fn start_can_thread(
                         other => {
                             // Preserve updater state while reconnecting to the same source.
                             log::error!("Driver read error: {:?}", other);
-                            state.is_connected = false;
-                            if let Some(ref source) = state.current_source {
-                                let error_msg = source.display_name();
-                                state
-                                    .can_to_ui_tx
-                                    .send(messages::MsgFromCan::ConnectionFailed(error_msg))
-                                    .expect("Failed to send connection failed message");
-                            }
-                            state.driver = None;
+                            handle_driver_failure(&mut state);
                         }
                     }
                 }
                 Err(e) => {
                     log::error!("Unexpected driver error: {:?}", e);
-                    state.is_connected = false;
-                    state.driver = None;
+                    handle_driver_failure(&mut state);
                 }
             }
         }
