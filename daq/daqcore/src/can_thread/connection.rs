@@ -63,6 +63,27 @@ impl ConnectionManager {
         driver.read_frames()
     }
 
+    pub fn take_fil_gpio_events(&mut self) -> Vec<crate::can::driver::FilGpioEvent> {
+        self.driver
+            .as_mut()
+            .map(|d| d.take_fil_gpio_events())
+            .unwrap_or_default()
+    }
+
+    pub fn set_gpio(
+        &mut self,
+        board: &str,
+        port: &str,
+        pin: u8,
+        value: Option<bool>,
+    ) -> DriverResult<()> {
+        let driver = self
+            .driver
+            .as_mut()
+            .ok_or_else(|| DriverError::Write("disconnected".into()))?;
+        driver.set_gpio(board, port, pin, value)
+    }
+
     pub fn set_adc(
         &mut self,
         board: &str,

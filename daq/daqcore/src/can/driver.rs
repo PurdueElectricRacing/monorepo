@@ -25,6 +25,19 @@ impl std::fmt::Display for DriverError {
 
 impl std::error::Error for DriverError {}
 pub type DriverResult<T> = Result<T, DriverError>;
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum FilGpioDirection {
+    Input,
+    Output,
+}
+#[derive(Clone, Debug)]
+pub struct FilGpioEvent {
+    pub board: String,
+    pub port: String,
+    pub pin: u8,
+    pub value: Option<bool>,
+    pub direction: FilGpioDirection,
+}
 pub trait Driver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>>;
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()>;
@@ -34,6 +47,20 @@ pub trait Driver {
 
     fn close(&mut self) -> DriverResult<()> {
         Ok(())
+    }
+    fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
+        Vec::new()
+    }
+    fn set_gpio(
+        &mut self,
+        _board: &str,
+        _port: &str,
+        _pin: u8,
+        _value: Option<bool>,
+    ) -> DriverResult<()> {
+        Err(DriverError::Unsupported(
+            "GPIO control is not supported by this source".into(),
+        ))
     }
     fn set_adc(
         &mut self,
@@ -66,7 +93,28 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
             executable,
             network,
             bus,
-        } => Ok(Box::new(FilDriver::new(executable, network, bus)?)),
+            elf_overrides,
+            disabled_boards,
+            built_network,
+        } => {
+            let effective_network = if let Some(spec) = built_network {
+                crate::fil_config::build_network(spec).map(|(path, _)| path)
+            } else {
+                let disabled = disabled_boards
+                    .iter()
+                    .cloned()
+                    .collect::<std::collections::HashSet<_>>();
+                crate::fil_config::materialize_network(network, elf_overrides, &disabled)
+            }
+            .map_err(|error| {
+                DriverError::ConnectionFailed(format!("Invalid FIL network: {error}"))
+            })?;
+            Ok(Box::new(FilDriver::new(
+                executable,
+                &effective_network,
+                bus,
+            )?))
+        }
         ConnectionSource::Simulated(true, path) => {
             let parser = path
                 .as_ref()
@@ -266,6 +314,31 @@ impl Driver for FilDriver {
         let _ = self.child.kill();
         let _ = self.child.wait();
         Ok(())
+    }
+    fn set_gpio(
+        &mut self,
+        board: &str,
+        port: &str,
+        pin: u8,
+        value: Option<bool>,
+    ) -> DriverResult<()> {
+        use std::io::Write;
+        if board.is_empty()
+            || port.is_empty()
+            || pin > 15
+            || board.contains(char::is_whitespace)
+            || port.contains(char::is_whitespace)
+        {
+            return Err(DriverError::Write(
+                "GPIO control requires board, port, and pin 0..15".into(),
+            ));
+        }
+        let value = value
+            .map(|v| if v { "1" } else { "0" })
+            .unwrap_or("release");
+        writeln!(self.input, "gpio {board} {port} {pin} {value}")
+            .and_then(|_| self.input.flush())
+            .map_err(|e| DriverError::Write(format!("Failed to send GPIO value to FIL: {e}")))
     }
     fn set_adc(
         &mut self,

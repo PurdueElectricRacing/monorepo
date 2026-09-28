@@ -61,6 +61,10 @@ pub struct DAQApp {
     pub fil_executable: Option<std::path::PathBuf>,
     pub fil_network_config: Option<std::path::PathBuf>,
     pub fil_bus: String,
+    pub fil_elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
+    pub fil_disabled_boards: Vec<String>,
+    pub fil_use_builder: bool,
+    pub fil_builder: daqcore::fil_config::BuiltNetwork,
     pub fil_adc_board: String,
     pub fil_adc_instance: String,
     pub fil_adc_channel: u8,
@@ -80,6 +84,10 @@ impl DAQApp {
             window_secs: self.session.timeline().window_secs(),
             fil_executable: self.fil_executable.clone(),
             fil_network_config: self.fil_network_config.clone(),
+            fil_elf_overrides: self.fil_elf_overrides.clone(),
+            fil_disabled_boards: self.fil_disabled_boards.clone(),
+            fil_use_builder: self.fil_use_builder,
+            fil_builder: self.fil_builder.clone(),
             fil_bus: self.fil_bus.clone(),
             fil_adc_board: self.fil_adc_board.clone(),
             fil_adc_instance: self.fil_adc_instance.clone(),
@@ -136,6 +144,10 @@ impl DAQApp {
             log_folder: settings.log_folder,
             fil_executable: settings.fil_executable,
             fil_network_config: settings.fil_network_config,
+            fil_elf_overrides: settings.fil_elf_overrides,
+            fil_disabled_boards: settings.fil_disabled_boards,
+            fil_use_builder: settings.fil_use_builder,
+            fil_builder: settings.fil_builder,
             fil_bus: settings.fil_bus,
             fil_adc_board: settings.fil_adc_board,
             fil_adc_instance: settings.fil_adc_instance,
@@ -169,6 +181,31 @@ impl DAQApp {
         // Root is already a tab container, add to it
         tabs.add_child(new_tile_id);
         tabs.set_active(new_tile_id);
+    }
+
+    /// FIL connection source from the current settings, including per-board
+    /// ELF overrides and board selection. Returns `None` when no executable
+    /// or network config is selected yet.
+    pub fn fil_connect_source(&self) -> Option<daqcore::connection::ConnectionSource> {
+        let executable = self.fil_executable.clone()?;
+        if self.fil_use_builder {
+            return Some(daqcore::connection::ConnectionSource::Fil {
+                executable,
+                network: std::path::PathBuf::new(),
+                bus: self.fil_builder.bus.clone(),
+                elf_overrides: std::collections::HashMap::new(),
+                disabled_boards: Vec::new(),
+                built_network: Some(self.fil_builder.clone()),
+            });
+        }
+        Some(daqcore::connection::ConnectionSource::Fil {
+            executable,
+            network: self.fil_network_config.clone()?,
+            bus: self.fil_bus.clone(),
+            elf_overrides: self.fil_elf_overrides.clone(),
+            disabled_boards: self.fil_disabled_boards.clone(),
+            built_network: None,
+        })
     }
 
     pub fn connect_can(&mut self) {
@@ -238,15 +275,27 @@ impl DAQApp {
                 executable,
                 network,
                 bus,
+                elf_overrides,
+                disabled_boards,
             } => {
                 self.fil_executable = executable;
                 self.fil_network_config = network;
                 self.fil_bus = bus;
+                self.fil_elf_overrides = elf_overrides;
+                self.fil_disabled_boards = disabled_boards;
                 self.save_settings();
             }
             action::AppAction::ConnectFil(source) => {
                 self.selected_source = Some(source);
                 self.connect_can();
+                self.save_settings();
+            }
+            action::AppAction::UpdateFilBuilder {
+                use_builder,
+                builder,
+            } => {
+                self.fil_use_builder = use_builder;
+                self.fil_builder = builder;
                 self.save_settings();
             }
             action::AppAction::UpdateFilAdc {

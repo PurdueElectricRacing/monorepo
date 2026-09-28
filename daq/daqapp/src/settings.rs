@@ -39,6 +39,18 @@ pub struct Settings {
     pub fil_executable: Option<std::path::PathBuf>,
     #[serde(default)]
     pub fil_network_config: Option<std::path::PathBuf>,
+    /// Per-board firmware ELF overrides keyed by board name.
+    #[serde(default)]
+    pub fil_elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
+    /// Board names excluded from the emulated FIL network.
+    #[serde(default)]
+    pub fil_disabled_boards: Vec<String>,
+    /// Use the widget-built network instead of a network file.
+    #[serde(default)]
+    pub fil_use_builder: bool,
+    /// Widget-built FIL network spec.
+    #[serde(default)]
+    pub fil_builder: daqcore::fil_config::BuiltNetwork,
     #[serde(default = "default_fil_bus")]
     pub fil_bus: String,
     #[serde(default = "default_fil_adc_board")]
@@ -64,6 +76,10 @@ impl Default for Settings {
             window_secs: 30.0,
             fil_executable: None,
             fil_network_config: None,
+            fil_elf_overrides: std::collections::HashMap::new(),
+            fil_disabled_boards: Vec::new(),
+            fil_use_builder: false,
+            fil_builder: daqcore::fil_config::BuiltNetwork::default(),
             fil_bus: default_fil_bus(),
             fil_adc_board: default_fil_adc_board(),
             fil_adc_instance: default_fil_adc_instance(),

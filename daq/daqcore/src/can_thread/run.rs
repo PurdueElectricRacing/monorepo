@@ -138,6 +138,16 @@ fn run_with_connection(
                         emit!(Event::Diagnostic(error.to_string()));
                     }
                 }
+                Command::SetFilGpio {
+                    board,
+                    port,
+                    pin,
+                    value,
+                } => {
+                    if let Err(error) = connection.set_gpio(&board, &port, pin, value) {
+                        emit!(Event::Diagnostic(error.to_string()));
+                    }
+                }
             }
         }
 
@@ -228,6 +238,15 @@ fn run_with_connection(
             }
         }
 
+        for gpio in connection.take_fil_gpio_events() {
+            emit!(Event::FilGpio {
+                board: gpio.board,
+                port: gpio.port,
+                pin: gpio.pin,
+                value: gpio.value,
+                direction: gpio.direction
+            });
+        }
         // Each received frame is logged, decoded, then moved into an event.
         let mut got_frames = false;
         if connection.connected() {

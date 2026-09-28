@@ -7,6 +7,7 @@ mod firmware_session;
 mod run;
 mod tx;
 
+pub use crate::can::driver::FilGpioDirection;
 use crate::{ParsedFrame, Time, connection::ConnectionSource, firmware, frame::CanIdentity, hil};
 use std::{path::PathBuf, sync::mpsc, thread::JoinHandle};
 pub use tx::{AddSendMessage, SendAmount};
@@ -37,6 +38,12 @@ pub enum CanThreadCommand {
         channel: u8,
         value: u16,
     },
+    SetFilGpio {
+        board: String,
+        port: String,
+        pin: u8,
+        value: Option<bool>,
+    },
 }
 
 pub enum CanThreadEvent {
@@ -65,6 +72,13 @@ pub enum CanThreadEvent {
     },
     Hil(hil::engine::HilSnapshot),
     FirmwareProgress(firmware::FirmwareProgress),
+    FilGpio {
+        board: String,
+        port: String,
+        pin: u8,
+        value: Option<bool>,
+        direction: crate::can::driver::FilGpioDirection,
+    },
 }
 
 /// Single caller owns shutdown; cloned senders submit commands but do not own the worker.

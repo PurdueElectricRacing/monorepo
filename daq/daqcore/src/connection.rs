@@ -7,6 +7,15 @@ pub enum ConnectionSource {
         executable: std::path::PathBuf,
         network: std::path::PathBuf,
         bus: String,
+        /// Per-board firmware ELF overrides keyed by board name.
+        #[serde(default)]
+        elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
+        /// Board names excluded from the emulated network.
+        #[serde(default)]
+        disabled_boards: Vec<String>,
+        /// Widget-built network used instead of `network` when present.
+        #[serde(default)]
+        built_network: Option<crate::fil_config::BuiltNetwork>,
     },
     Loopback,
 }
@@ -65,12 +74,36 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                 .and_then(serde_json::Value::as_str)
                 .unwrap_or("vehicle")
                 .to_owned();
+            let elf_overrides = values
+                .get("elf_overrides")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or_default();
+            let disabled_boards = values
+                .get("disabled_boards")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or_default();
+            let built_network = values
+                .get("built_network")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or(None);
             return Ok(Self::Fil {
                 executable: serde_json::from_value(executable.clone())
                     .map_err(serde::de::Error::custom)?,
                 network: serde_json::from_value(network.clone())
                     .map_err(serde::de::Error::custom)?,
                 bus,
+                elf_overrides,
+                disabled_boards,
+                built_network,
             });
         }
         if object.get("Loopback").is_some() {
@@ -101,13 +134,23 @@ impl ConnectionSource {
                     "Simulated (disconnected)".into()
                 }
             }
-            ConnectionSource::Fil { network, .. } => format!(
-                "FIL: {}",
-                network
-                    .file_name()
-                    .unwrap_or(network.as_os_str())
-                    .to_string_lossy()
-            ),
+            ConnectionSource::Fil {
+                network,
+                built_network,
+                ..
+            } => {
+                if let Some(built) = built_network {
+                    format!("FIL: {} (built)", built.name)
+                } else {
+                    format!(
+                        "FIL: {}",
+                        network
+                            .file_name()
+                            .unwrap_or(network.as_os_str())
+                            .to_string_lossy()
+                    )
+                }
+            }
             ConnectionSource::Loopback => "Loopback".into(),
         }
     }
