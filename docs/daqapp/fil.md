@@ -23,7 +23,10 @@ the control protocol and config format.
 
 **Run options** in FIL Control configure duration (0 runs until stopped), per-board instruction
 budget, scheduling quantum, refresh interval, ADC decimation (1–1024), strict MMIO, wall-clock
-pacing, loop batching, instruction tracing, and spin detection.
+pacing, loop batching, instruction tracing, and spin detection. Defaults use 1 ms refresh,
+wall-clock pacing, loop batching, and 32× ADC decimation for responsive six-board viewing.
+Set decimation to 1 when validating pedal or fault behavior: skipped ADC scans change
+firmware-visible DMA updates.
 Additional comma-separated live trace filters may be added; CAN transmit and GPIO input/output
 filters and stdin control always remain enabled for DaqApp. Add `instr` to the extra filters
 when enabling instruction tracing. Changes take effect on the next
