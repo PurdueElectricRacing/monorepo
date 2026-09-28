@@ -1,5 +1,5 @@
 use crate::{action, app, settings};
-use daqcore::connection;
+use daqcore::{connection, fil_config};
 use eframe::egui;
 use std::collections::{HashMap, HashSet};
 
@@ -18,7 +18,6 @@ pub struct FilControl {
     disabled_boards: Vec<String>,
     use_builder: bool,
     builder: daqcore::fil_config::BuiltNetwork,
-    builder_infos: HashMap<std::path::PathBuf, Result<daqcore::fil_config::FilBoardInfo, String>>,
     network_info: Option<daqcore::fil_config::FilNetworkInfo>,
     network_info_error: Option<String>,
     last_loaded_network: Option<std::path::PathBuf>,
@@ -33,30 +32,28 @@ pub struct FilControl {
 
 impl FilControl {
     pub fn new(instance_num: usize) -> Self {
-        let saved = settings::Settings::load();
+        let saved = settings::Settings::load().fil;
         let mut control = Self {
             title: format!("FIL Control #{}", instance_num),
-            executable: saved.fil_executable,
-            network: saved.fil_network_config,
-            bus: saved.fil_bus,
-            elf_overrides: saved.fil_elf_overrides,
-            disabled_boards: saved.fil_disabled_boards,
-            use_builder: saved.fil_use_builder,
-            builder: saved.fil_builder,
-            builder_infos: HashMap::new(),
+            executable: saved.executable,
+            network: saved.network,
+            bus: saved.bus,
+            elf_overrides: saved.elf_overrides,
+            disabled_boards: saved.disabled_boards,
+            use_builder: saved.use_builder,
+            builder: saved.builder,
             network_info: None,
             network_info_error: None,
             last_loaded_network: None,
-            adc_board: saved.fil_adc_board,
-            adc_instance: saved.fil_adc_instance,
-            adc_channel: saved.fil_adc_channel.min(19),
-            adc_value: saved.fil_adc_value.min(4095),
+            adc_board: saved.adc_board,
+            adc_instance: saved.adc_instance,
+            adc_channel: saved.adc_channel.min(19),
+            adc_value: saved.adc_value.min(4095),
             gpio_board: "dashboard".into(),
             gpio_port: "GPIOA".into(),
             gpio_states: HashMap::new(),
         };
         control.refresh_network_info();
-        control.refresh_builder_infos();
         control
     }
 
@@ -93,36 +90,16 @@ impl FilControl {
         }
     }
 
-    /// (Re)load cached info for builder board files missing from the cache.
-    fn refresh_builder_infos(&mut self) {
-        for board in &self.builder.boards {
-            if self.builder_infos.contains_key(&board.board) {
-                continue;
-            }
-            let info = if board.board.is_file() {
-                daqcore::fil_config::load_board_info(&board.board)
-            } else {
-                Err(format!(
-                    "Board config does not exist: {}",
-                    board.board.display()
-                ))
-            };
-            self.builder_infos.insert(board.board.clone(), info);
+    fn builder_board_name(board: &daqcore::fil_config::BuiltBoard) -> String {
+        if !board.name.trim().is_empty() {
+            return board.name.clone();
         }
-    }
-
-    fn builder_board_name(&self, board: &daqcore::fil_config::BuiltBoard) -> String {
-        self.builder_infos
-            .get(&board.board)
-            .and_then(|info| info.as_ref().ok())
-            .map(|info| info.name.clone())
-            .unwrap_or_else(|| {
-                board
-                    .board
-                    .file_stem()
-                    .map(|stem| stem.to_string_lossy().into_owned())
-                    .unwrap_or_else(|| "board".into())
-            })
+        board
+            .elf
+            .file_stem()
+            .map(|stem| stem.to_string_lossy().into_owned())
+            .filter(|stem| !stem.is_empty())
+            .unwrap_or_else(|| "board".into())
     }
 
     /// Board names available for ADC/GPIO targeting in the active mode.
@@ -132,7 +109,7 @@ impl FilControl {
                 .boards
                 .iter()
                 .filter(|board| board.enabled)
-                .map(|board| self.builder_board_name(board))
+                .map(Self::builder_board_name)
                 .collect()
         } else {
             self.network_info
@@ -216,28 +193,52 @@ impl FilControl {
         if enabled.is_empty() {
             issues.push("Add and enable at least one board below".into());
         }
+        let mut names = HashSet::new();
         for board in enabled {
-            let name = self.builder_board_name(board);
-            match self.builder_infos.get(&board.board) {
-                Some(Ok(info)) => match &board.elf_override {
-                    Some(elf) if !elf.is_file() => issues.push(format!(
-                        "Board '{name}' ELF override does not exist: {}",
-                        elf.display()
-                    )),
-                    None if info.default_elf.is_none() => {
-                        issues.push(format!("Board '{name}' has no firmware ELF; select one"))
-                    }
-                    None if !info.default_elf_exists => issues.push(format!(
-                        "Board '{name}' ELF does not exist: {}",
-                        info.default_elf
-                            .as_ref()
-                            .map(|elf| elf.display().to_string())
-                            .unwrap_or_default()
-                    )),
-                    _ => {}
-                },
-                Some(Err(error)) => issues.push(error.clone()),
-                None => issues.push(format!("Loading board {}…", board.board.display())),
+            if !board.board.as_os_str().is_empty() {
+                if !board.board.is_file() {
+                    issues.push(format!(
+                        "Board config does not exist: {}",
+                        board.board.display()
+                    ));
+                }
+                continue;
+            }
+            let name = Self::builder_board_name(board);
+            if board.name.trim().is_empty() && board.elf.as_os_str().is_empty() {
+                issues.push("A built board needs a name and an ELF".into());
+                continue;
+            }
+            if !names.insert(name.clone()) {
+                issues.push(format!("Duplicate board name '{name}'"));
+            }
+            if !board.elf.is_file() {
+                issues.push(format!(
+                    "Board '{name}' ELF does not exist: {}",
+                    board.elf.display()
+                ));
+            }
+            match daqcore::fil_config::effective_mcu(board, self.executable.as_deref()) {
+                Some(mcu) if mcu.is_file() => {}
+                Some(mcu) => issues.push(format!(
+                    "Board '{name}' MCU config does not exist: {}",
+                    mcu.display()
+                )),
+                None => issues.push(format!(
+                    "Board '{name}' has no MCU config; pick one or point the FIL executable at a fil build"
+                )),
+            }
+            let instances = if board.can_instances.is_empty() {
+                vec!["FDCAN1"]
+            } else {
+                board.can_instances.iter().map(String::as_str).collect()
+            };
+            for instance in instances {
+                if !daqcore::fil_config::FIL_CAN_INSTANCES.contains(&instance) {
+                    issues.push(format!(
+                        "Board '{name}' has unknown CAN instance '{instance}'"
+                    ));
+                }
             }
         }
         issues
@@ -270,11 +271,19 @@ impl FilControl {
 
     fn queue_config_update(&self, actions: &mut Vec<action::AppAction>) {
         actions.push(action::AppAction::UpdateFilConfig {
-            executable: self.executable.clone(),
-            network: self.network.clone(),
-            bus: self.bus.clone(),
-            elf_overrides: self.elf_overrides.clone(),
-            disabled_boards: self.disabled_boards.clone(),
+            fil: settings::FilSettings {
+                executable: self.executable.clone(),
+                network: self.network.clone(),
+                bus: self.bus.clone(),
+                elf_overrides: self.elf_overrides.clone(),
+                disabled_boards: self.disabled_boards.clone(),
+                use_builder: self.use_builder,
+                builder: self.builder.clone(),
+                adc_board: self.adc_board.clone(),
+                adc_instance: self.adc_instance.clone(),
+                adc_channel: self.adc_channel,
+                adc_value: self.adc_value,
+            },
         });
     }
 
@@ -416,15 +425,10 @@ impl FilControl {
                         self.builder.boards[index].enabled = enabled;
                         self.queue_builder_update(actions);
                     }
-                    ui.strong(self.builder_board_name(board));
-                    if ui.small_button("Change board…").clicked()
-                        && let Some(path) = rfd::FileDialog::new()
-                            .add_filter("JSON board config", &["json"])
-                            .pick_file()
-                    {
-                        self.builder.boards[index].board = path.clone();
-                        self.builder_infos.remove(&path);
-                        self.refresh_builder_infos();
+                    ui.label("Name:");
+                    let mut name = board.name.clone();
+                    if ui.text_edit_singleline(&mut name).changed() {
+                        self.builder.boards[index].name = name;
                         self.queue_builder_update(actions);
                     }
                     if ui.small_button("Remove").clicked() {
@@ -432,61 +436,129 @@ impl FilControl {
                     }
                 });
                 ui.horizontal(|ui| {
-                    ui.label(
-                        board
-                            .board
-                            .file_name()
-                            .map(|name| name.to_string_lossy().into_owned())
-                            .unwrap_or_else(|| board.board.display().to_string()),
-                    )
-                    .on_hover_text(board.board.display().to_string());
-                    if let Some(Err(error)) = self.builder_infos.get(&board.board) {
-                        ui.label(egui::RichText::new(error).color(egui::Color32::LIGHT_RED));
-                    }
-                });
-                ui.horizontal(|ui| {
                     ui.label("ELF:");
-                    let effective = match self.builder_infos.get(&board.board) {
-                        Some(Ok(info)) => board
-                            .elf_override
-                            .clone()
-                            .or_else(|| info.default_elf.clone()),
-                        _ => board.elf_override.clone(),
+                    let elf = if board.elf.as_os_str().is_empty() {
+                        None
+                    } else {
+                        Some(board.elf.clone())
                     };
-                    ui.label(elf_status(&effective, board.elf_override.is_some()));
+                    ui.label(elf_status(&elf, false));
                     if ui.small_button("Select ELF…").clicked()
                         && let Some(path) = rfd::FileDialog::new()
                             .add_filter("ELF firmware", &["elf"])
                             .pick_file()
                     {
-                        self.builder.boards[index].elf_override = Some(path);
+                        let entry = &mut self.builder.boards[index];
+                        entry.elf = path;
+                        if entry.name.trim().is_empty() {
+                            entry.name = Self::builder_board_name(entry);
+                        }
                         self.queue_builder_update(actions);
                     }
-                    if board.elf_override.is_some() && ui.small_button("Reset").clicked() {
-                        self.builder.boards[index].elf_override = None;
+                });
+                ui.horizontal(|ui| {
+                    ui.label("MCU:");
+                    let effective =
+                        daqcore::fil_config::effective_mcu(board, self.executable.as_deref());
+                    match &effective {
+                        Some(mcu) if mcu.is_file() => {
+                            ui.label(mcu.display().to_string()).on_hover_text(
+                                if board.mcu.as_os_str().is_empty() {
+                                    "Auto-located next to the FIL executable"
+                                } else {
+                                    "Explicit MCU config"
+                                },
+                            );
+                        }
+                        _ => {
+                            ui.label(
+                                egui::RichText::new("No MCU config found")
+                                    .color(egui::Color32::LIGHT_RED),
+                            );
+                        }
+                    }
+                    if ui.small_button("Select MCU…").clicked()
+                        && let Some(path) = rfd::FileDialog::new()
+                            .add_filter("JSON MCU config", &["json"])
+                            .pick_file()
+                    {
+                        self.builder.boards[index].mcu = path;
+                        self.queue_builder_update(actions);
+                    }
+                    if !board.mcu.as_os_str().is_empty() && ui.small_button("Auto").clicked() {
+                        self.builder.boards[index].mcu = std::path::PathBuf::new();
+                        self.queue_builder_update(actions);
+                    }
+                });
+                ui.horizontal(|ui| {
+                    ui.label("CAN:");
+                    let current: Vec<&str> = if board.can_instances.is_empty() {
+                        vec![daqcore::fil_config::FIL_CAN_INSTANCES[0]]
+                    } else {
+                        board.can_instances.iter().map(String::as_str).collect()
+                    };
+                    for instance in daqcore::fil_config::FIL_CAN_INSTANCES {
+                        let mut checked = current.contains(&instance);
+                        if ui.checkbox(&mut checked, instance).changed() {
+                            let mut set: Vec<String> = daqcore::fil_config::FIL_CAN_INSTANCES
+                                .into_iter()
+                                .filter(|candidate| {
+                                    (*candidate == instance && checked)
+                                        || (*candidate != instance && current.contains(candidate))
+                                })
+                                .map(str::to_owned)
+                                .collect();
+                            if set.len() == 1 && set[0] == daqcore::fil_config::FIL_CAN_INSTANCES[0]
+                            {
+                                set.clear();
+                            }
+                            self.builder.boards[index].can_instances = set;
+                            self.queue_builder_update(actions);
+                        }
+                    }
+                    ui.label("Vector base (optional):");
+                    let mut base = board.vector_base.clone();
+                    if ui
+                        .text_edit_singleline(&mut base)
+                        .on_hover_text("Empty means the FIL default")
+                        .changed()
+                    {
+                        self.builder.boards[index].vector_base = base;
                         self.queue_builder_update(actions);
                     }
                 });
             });
         }
         if let Some(index) = remove_index {
-            let removed = self.builder.boards.remove(index);
-            self.builder_infos.remove(&removed.board);
+            self.builder.boards.remove(index);
             self.queue_builder_update(actions);
         }
         ui.horizontal(|ui| {
             if ui.button("Add board…").clicked()
                 && let Some(path) = rfd::FileDialog::new()
+                    .add_filter("ELF firmware", &["elf"])
+                    .pick_file()
+            {
+                let mut entry = daqcore::fil_config::BuiltBoard {
+                    name: String::new(),
+                    elf: path,
+                    mcu: std::path::PathBuf::new(),
+                    can_instances: Vec::new(),
+                    vector_base: String::new(),
+                    enabled: true,
+                    board: std::path::PathBuf::new(),
+                    elf_override: None,
+                };
+                entry.name = Self::builder_board_name(&entry);
+                self.builder.boards.push(entry);
+                self.queue_builder_update(actions);
+            }
+            if ui.button("Import board file…").clicked()
+                && let Some(path) = rfd::FileDialog::new()
                     .add_filter("JSON board config", &["json"])
                     .pick_file()
             {
-                self.builder.boards.push(daqcore::fil_config::BuiltBoard {
-                    board: path,
-                    elf_override: None,
-                    enabled: true,
-                });
-                self.refresh_builder_infos();
-                self.queue_builder_update(actions);
+                self.import_board_file(path, actions);
             }
             if ui.button("Export network JSON…").clicked()
                 && let Some(path) = rfd::FileDialog::new()
@@ -494,12 +566,38 @@ impl FilControl {
                     .set_file_name(format!("{}.json", self.builder.name))
                     .save_file()
             {
-                match daqcore::fil_config::export_network(&path, &self.builder) {
+                let executable = self.executable.clone().unwrap_or_default();
+                match daqcore::fil_config::export_network(&path, &self.builder, &executable) {
                     Ok(()) => log::info!("Exported FIL network to {}", path.display()),
                     Err(error) => log::error!("Failed to export FIL network: {error}"),
                 }
             }
         });
+    }
+
+    /// Prefill a builder entry from an existing board JSON file.
+    fn import_board_file(
+        &mut self,
+        path: std::path::PathBuf,
+        actions: &mut Vec<action::AppAction>,
+    ) {
+        let entry = daqcore::fil_config::BuiltBoard {
+            name: String::new(),
+            elf: std::path::PathBuf::new(),
+            mcu: std::path::PathBuf::new(),
+            can_instances: Vec::new(),
+            vector_base: String::new(),
+            enabled: true,
+            board: path,
+            elf_override: None,
+        };
+        let entry = daqcore::fil_config::migrate_built_board(&entry);
+        if entry.board.as_os_str().is_empty() {
+            self.builder.boards.push(entry);
+            self.queue_builder_update(actions);
+        } else {
+            log::error!("Failed to import board file: {}", entry.board.display());
+        }
     }
 
     fn show_bus_selector(&mut self, ui: &mut egui::Ui, actions: &mut Vec<action::AppAction>) {
@@ -581,7 +679,6 @@ impl FilControl {
         connection_status: &app::ConnectionStatus,
     ) -> egui_tiles::UiResponse {
         self.refresh_network_info();
-        self.refresh_builder_infos();
         egui::ScrollArea::vertical().show(ui, |ui| {
             ui.heading("FIL real-time emulator");
             let status = match connection_status {
@@ -638,7 +735,9 @@ impl FilControl {
                     {
                         actions.push(action::AppAction::ConnectFil(self.connect_source()));
                     }
-                    if ui.button("Disconnect").clicked() && self.executable.is_some() {
+                    if ui.button("Disconnect").clicked()
+                        && let Some(executable) = self.executable.clone()
+                    {
                         let _ = tx.send(daqcore::can_thread::CanThreadCommand::Connect(None));
                     }
                 });
@@ -665,7 +764,17 @@ impl FilControl {
                     }
                     self.adc_board = board;
                     ui.label("Instance:");
-                    ui.text_edit_singleline(&mut self.adc_instance);
+                    egui::ComboBox::from_id_salt(("fil_adc_instance", &self.title))
+                        .selected_text(self.adc_instance.as_str())
+                        .show_ui(ui, |ui| {
+                            for instance in daqcore::fil_config::FIL_ADC_INSTANCES {
+                                ui.selectable_value(
+                                    &mut self.adc_instance,
+                                    instance.to_owned(),
+                                    instance,
+                                );
+                            }
+                        });
                 });
                 ui.horizontal(|ui| {
                     ui.label("Channel:");
@@ -699,7 +808,13 @@ impl FilControl {
                     self.gpio_board = board;
                     let _ = changed;
                     ui.label("Port:");
-                    ui.text_edit_singleline(&mut self.gpio_port);
+                    egui::ComboBox::from_id_salt(("fil_gpio_port", &self.title))
+                        .selected_text(self.gpio_port.as_str())
+                        .show_ui(ui, |ui| {
+                            for port in daqcore::fil_config::FIL_GPIO_PORTS {
+                                ui.selectable_value(&mut self.gpio_port, port.to_owned(), port);
+                            }
+                        });
                 });
                 egui::Grid::new(("fil_gpio_grid", &self.title))
                     .striped(true)

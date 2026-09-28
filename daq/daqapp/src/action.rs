@@ -8,11 +8,7 @@ pub enum AppAction {
     IncreaseScale,
     DecreaseScale,
     UpdateFilConfig {
-        executable: Option<std::path::PathBuf>,
-        network: Option<std::path::PathBuf>,
-        bus: String,
-        elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
-        disabled_boards: Vec<String>,
+        fil: crate::settings::FilSettings,
     },
     ConnectFil(daqcore::connection::ConnectionSource),
     UpdateFilBuilder {

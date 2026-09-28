@@ -8,13 +8,10 @@ pub enum ConnectionSource {
         network: std::path::PathBuf,
         bus: String,
         /// Per-board firmware ELF overrides keyed by board name.
-        #[serde(default)]
         elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
         /// Board names excluded from the emulated network.
-        #[serde(default)]
         disabled_boards: Vec<String>,
         /// Widget-built network used instead of `network` when present.
-        #[serde(default)]
         built_network: Option<crate::fil_config::BuiltNetwork>,
     },
     Loopback,
@@ -110,6 +107,26 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
             return Ok(Self::Loopback);
         }
         Err(serde::de::Error::custom("unknown connection source"))
+    }
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug, Default)]
+#[serde(rename_all = "UPPERCASE")]
+pub enum CanBus {
+    #[default]
+    Vcan,
+    Scan,
+}
+
+impl CanBus {
+    pub fn display_name(self) -> &'static str {
+        match self {
+            Self::Vcan => "VCAN",
+            Self::Scan => "SCAN",
+        }
+    }
+    pub fn options() -> [Self; 2] {
+        [Self::Vcan, Self::Scan]
     }
 }
 

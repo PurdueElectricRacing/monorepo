@@ -50,6 +50,7 @@ pub struct DAQApp {
     pub serial_ports: Vec<serialport::SerialPortInfo>,
     pub parser: Option<ParserInfo>,
     pub can_bus_speed: daqcore::connection::CanBusSpeed,
+    pub can_bus: daqcore::connection::CanBus,
     pub udp_port: u16,
     pub session: daqcore::Session,
     pub bus_load_samples: Vec<telemetry::BusLoadSample>,
@@ -77,22 +78,25 @@ impl DAQApp {
             dbc_path: self.parser.as_ref().map(|p| p.dbc_path.clone()),
             selected_source: self.selected_source.clone(),
             selected_speed: self.can_bus_speed,
+            selected_bus: self.can_bus,
             udp_port: self.udp_port,
             theme: self.theme_selection,
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
             window_secs: self.session.timeline().window_secs(),
-            fil_executable: self.fil_executable.clone(),
-            fil_network_config: self.fil_network_config.clone(),
-            fil_elf_overrides: self.fil_elf_overrides.clone(),
-            fil_disabled_boards: self.fil_disabled_boards.clone(),
-            fil_use_builder: self.fil_use_builder,
-            fil_builder: self.fil_builder.clone(),
-            fil_bus: self.fil_bus.clone(),
-            fil_adc_board: self.fil_adc_board.clone(),
-            fil_adc_instance: self.fil_adc_instance.clone(),
-            fil_adc_channel: self.fil_adc_channel,
-            fil_adc_value: self.fil_adc_value,
+            fil: settings::FilSettings {
+                executable: self.fil_executable.clone(),
+                network: self.fil_network_config.clone(),
+                bus: self.fil_bus.clone(),
+                elf_overrides: self.fil_elf_overrides.clone(),
+                disabled_boards: self.fil_disabled_boards.clone(),
+                use_builder: self.fil_use_builder,
+                builder: self.fil_builder.clone(),
+                adc_board: self.fil_adc_board.clone(),
+                adc_instance: self.fil_adc_instance.clone(),
+                adc_channel: self.fil_adc_channel,
+                adc_value: self.fil_adc_value,
+            },
         };
         settings.save();
     }
@@ -117,6 +121,7 @@ impl DAQApp {
 
         let session = daqcore::Session::live(daqcore::Time::now(), window_secs)?;
 
+        let fil = settings.fil;
         Ok(Self {
             connection_status: ConnectionStatus::Disconnected,
             value_formatter: load_formatter(),
@@ -135,6 +140,7 @@ impl DAQApp {
             serial_ports: util::get_available_serial_ports(),
             parser: ParserInfo::new_maybe(settings.dbc_path),
             can_bus_speed: settings.selected_speed,
+            can_bus: settings.selected_bus,
             udp_port: settings.udp_port,
             session,
             bus_load_samples: Vec::new(),
@@ -142,17 +148,17 @@ impl DAQApp {
             active_source: None,
             diagnostic: None,
             log_folder: settings.log_folder,
-            fil_executable: settings.fil_executable,
-            fil_network_config: settings.fil_network_config,
-            fil_elf_overrides: settings.fil_elf_overrides,
-            fil_disabled_boards: settings.fil_disabled_boards,
-            fil_use_builder: settings.fil_use_builder,
-            fil_builder: settings.fil_builder,
-            fil_bus: settings.fil_bus,
-            fil_adc_board: settings.fil_adc_board,
-            fil_adc_instance: settings.fil_adc_instance,
-            fil_adc_channel: settings.fil_adc_channel.min(19),
-            fil_adc_value: settings.fil_adc_value.min(4095),
+            fil_executable: fil.executable,
+            fil_network_config: fil.network,
+            fil_elf_overrides: fil.elf_overrides,
+            fil_disabled_boards: fil.disabled_boards,
+            fil_use_builder: fil.use_builder,
+            fil_builder: fil.builder,
+            fil_bus: fil.bus,
+            fil_adc_board: fil.adc_board,
+            fil_adc_instance: fil.adc_instance,
+            fil_adc_channel: fil.adc_channel.min(19),
+            fil_adc_value: fil.adc_value.min(4095),
         })
     }
 
@@ -271,18 +277,18 @@ impl DAQApp {
                 self.pixels_per_point = Some(current_scale - UI_SCALE_STEP);
                 self.save_settings();
             }
-            action::AppAction::UpdateFilConfig {
-                executable,
-                network,
-                bus,
-                elf_overrides,
-                disabled_boards,
-            } => {
-                self.fil_executable = executable;
-                self.fil_network_config = network;
-                self.fil_bus = bus;
-                self.fil_elf_overrides = elf_overrides;
-                self.fil_disabled_boards = disabled_boards;
+            action::AppAction::UpdateFilConfig { fil } => {
+                self.fil_executable = fil.executable;
+                self.fil_network_config = fil.network;
+                self.fil_bus = fil.bus;
+                self.fil_elf_overrides = fil.elf_overrides;
+                self.fil_disabled_boards = fil.disabled_boards;
+                self.fil_use_builder = fil.use_builder;
+                self.fil_builder = fil.builder;
+                self.fil_adc_board = fil.adc_board;
+                self.fil_adc_instance = fil.adc_instance;
+                self.fil_adc_channel = fil.adc_channel.min(19);
+                self.fil_adc_value = fil.adc_value.min(4095);
                 self.save_settings();
             }
             action::AppAction::ConnectFil(source) => {
