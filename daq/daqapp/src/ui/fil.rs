@@ -25,6 +25,7 @@ pub struct FilControl {
     adc_instance: String,
     adc_channel: u8,
     adc_value: u16,
+    run_options: settings::FilRunOptions,
     gpio_board: String,
     gpio_port: String,
     gpio_states: HashMap<(String, String, u8), GpioPinState>,
@@ -49,6 +50,7 @@ impl FilControl {
             adc_instance: saved.adc_instance,
             adc_channel: saved.adc_channel.min(19),
             adc_value: saved.adc_value.min(4095),
+            run_options: saved.run_options,
             gpio_board: "dashboard".into(),
             gpio_port: "GPIOA".into(),
             gpio_states: HashMap::new(),
@@ -283,6 +285,7 @@ impl FilControl {
                 adc_instance: self.adc_instance.clone(),
                 adc_channel: self.adc_channel,
                 adc_value: self.adc_value,
+                run_options: self.run_options.clone(),
             },
         });
     }
@@ -658,6 +661,7 @@ impl FilControl {
                 elf_overrides: HashMap::new(),
                 disabled_boards: Vec::new(),
                 built_network: Some(self.builder.clone()),
+                run_options: self.run_options.clone(),
             }
         } else {
             connection::ConnectionSource::Fil {
@@ -667,6 +671,7 @@ impl FilControl {
                 elf_overrides: self.elf_overrides.clone(),
                 disabled_boards: self.disabled_boards.clone(),
                 built_network: None,
+                run_options: self.run_options.clone(),
             }
         }
     }
@@ -726,6 +731,81 @@ impl FilControl {
                 } else {
                     self.show_file_network(ui, actions);
                 }
+                ui.collapsing("Run options", |ui| {
+                    let mut changed = false;
+                    ui.horizontal(|ui| {
+                        ui.label("Duration (ms, 0 = unlimited):");
+                        changed |= ui
+                            .add(
+                                egui::DragValue::new(&mut self.run_options.duration_ms)
+                                    .range(0..=u64::MAX / 1_000_000),
+                            )
+                            .changed();
+                    });
+                    ui.horizontal(|ui| {
+                        ui.label("Max instructions per board:");
+                        changed |= ui
+                            .add(
+                                egui::DragValue::new(&mut self.run_options.max_instructions)
+                                    .range(1..=u64::MAX),
+                            )
+                            .changed();
+                    });
+                    ui.horizontal(|ui| {
+                        ui.label("Instruction quantum:");
+                        changed |= ui
+                            .add(
+                                egui::DragValue::new(&mut self.run_options.quantum)
+                                    .range(1..=u64::MAX),
+                            )
+                            .changed();
+                    });
+                    ui.horizontal(|ui| {
+                        ui.label("Refresh interval (ms):");
+                        changed |= ui
+                            .add(
+                                egui::DragValue::new(&mut self.run_options.refresh_ms)
+                                    .range(1..=i32::MAX as u32),
+                            )
+                            .changed();
+                    });
+                    ui.horizontal(|ui| {
+                        ui.label("ADC decimation (1 = every scan):");
+                        changed |= ui
+                            .add(
+                                egui::DragValue::new(&mut self.run_options.adc_decimation)
+                                    .range(1..=1024),
+                            )
+                            .changed();
+                    });
+                    ui.horizontal(|ui| {
+                        ui.label("Additional live trace filters (comma-separated):");
+                        changed |= ui
+                            .text_edit_singleline(&mut self.run_options.extra_live_filters)
+                            .changed();
+                    });
+                    changed |= ui
+                        .checkbox(&mut self.run_options.strict_mmio, "Strict MMIO")
+                        .changed();
+                    changed |= ui
+                        .checkbox(&mut self.run_options.wall_pacing, "Wall-clock pacing")
+                        .changed();
+                    changed |= ui
+                        .checkbox(&mut self.run_options.loop_batching, "Loop batching")
+                        .changed();
+                    changed |= ui
+                        .checkbox(
+                            &mut self.run_options.trace_instructions,
+                            "Trace instructions",
+                        )
+                        .changed();
+                    changed |= ui
+                        .checkbox(&mut self.run_options.detect_spin, "Detect spin loops")
+                        .changed();
+                    if changed {
+                        self.queue_config_update(actions);
+                    }
+                });
                 ui.add_space(4.0);
                 ui.horizontal(|ui| {
                     let issues = self.connect_issues();
