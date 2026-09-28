@@ -25,6 +25,7 @@ pub struct WidgetContext<'a> {
     pub parser: Option<&'a app::ParserInfo>,
     pub ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
     pub formatter: &'a Option<formatter::Formatter>,
+    pub connection_status: &'a app::ConnectionStatus,
 }
 
 impl Widget {
@@ -72,7 +73,6 @@ impl Widget {
         &mut self,
         ui: &mut egui::Ui,
         context: WidgetContext<'_>,
-        connection_status: &app::ConnectionStatus,
     ) -> egui_tiles::UiResponse {
         let mut received_new_data = false;
 
@@ -107,7 +107,7 @@ impl Widget {
                 ui,
                 context.action_queue,
                 &context.ui_to_can_tx,
-                connection_status,
+                context.connection_status,
             ),
         }
     }
