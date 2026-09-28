@@ -194,7 +194,9 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         speed.display_name()
                     ),
                     // FIL connections are managed by the FIL Control widget.
-                    Some(connection::ConnectionSource::Fil { .. }) => "FIL (FIL Control widget)".into(),
+                    Some(connection::ConnectionSource::Fil { .. }) => {
+                        "FIL (FIL Control widget)".into()
+                    }
                     Some(connection_source) => connection_source.display_name(),
                     None => "Select Source".to_string(),
                 };
@@ -243,6 +245,29 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         {
                             app.connect_can();
                             app.save_settings();
+                        }
+                        ui.separator();
+                        ui.label("FIL Control widget");
+                        if let (Some(executable), Some(network)) =
+                            (&app.fil_executable, &app.fil_network_config)
+                        {
+                            let fil_source = connection::ConnectionSource::Fil {
+                                executable: executable.clone(),
+                                network: network.clone(),
+                                bus: app.fil_bus.clone(),
+                            };
+                            if ui
+                                .selectable_value(&mut app.selected_source, Some(fil_source), "FIL")
+                                .changed()
+                            {
+                                app.connect_can();
+                                app.save_settings();
+                            }
+                        } else {
+                            ui.add_enabled(
+                                false,
+                                egui::Button::new("FIL (configure in FIL Control widget)"),
+                            );
                         }
                         ui.separator();
                         ui.label("Simulated");
