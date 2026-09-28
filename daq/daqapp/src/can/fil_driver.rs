@@ -464,6 +464,22 @@ mod fil_tests {
     use std::time::Duration;
 
     #[test]
+    fn default_options_keep_live_can_and_gpio_with_pacing() {
+        let options = crate::settings::FilRunOptions::default();
+        assert_eq!(options.adc_decimation, 32);
+        let args = watch_network_args(&options).unwrap();
+        assert!(
+            args.windows(2)
+                .any(|pair| pair == ["--adc-decimation", "32"])
+        );
+        assert!(!args.iter().any(|arg| arg == "--no-wall-pacing"));
+        assert!(!args.iter().any(|arg| arg == "--no-loop-batching"));
+        for flag in ["can_tx", "gpio_input", "gpio_output", "--control-stdin"] {
+            assert!(args.iter().any(|arg| arg == flag));
+        }
+    }
+
+    #[test]
     fn forwards_run_options_and_keeps_required_controls() {
         let mut options = crate::settings::FilRunOptions::default();
         options.adc_decimation = 8;
