@@ -25,7 +25,6 @@ pub enum MsgFromUi {
     },
     DisconnectFil {
         executable: std::path::PathBuf,
-        network: std::path::PathBuf,
     },
     Disconnect,
 }

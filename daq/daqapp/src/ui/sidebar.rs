@@ -248,14 +248,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         }
                         ui.separator();
                         ui.label("FIL Control widget");
-                        if let (Some(executable), Some(network)) =
-                            (&app.fil_executable, &app.fil_network_config)
-                        {
-                            let fil_source = connection::ConnectionSource::Fil {
-                                executable: executable.clone(),
-                                network: network.clone(),
-                                bus: app.fil_bus.clone(),
-                            };
+                        if let Some(fil_source) = app.fil_connect_source() {
                             if ui
                                 .selectable_value(&mut app.selected_source, Some(fil_source), "FIL")
                                 .changed()

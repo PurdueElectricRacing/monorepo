@@ -238,17 +238,13 @@ pub fn start_can_thread(
                             None => log::warn!("Cannot control GPIO without an active connection"),
                         }
                     }
-                    messages::MsgFromUi::DisconnectFil {
-                        executable,
-                        network,
-                    } => {
+                    messages::MsgFromUi::DisconnectFil { executable } => {
                         let is_requested_fil_source = matches!(
                             state.current_source.as_ref(),
                             Some(connection::ConnectionSource::Fil {
                                 executable: active_executable,
-                                network: active_network,
                                 ..
-                            }) if active_executable == &executable && active_network == &network
+                            }) if active_executable == &executable
                         );
                         if is_requested_fil_source {
                             state.cancel_firmware_update();

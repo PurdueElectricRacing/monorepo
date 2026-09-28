@@ -365,6 +365,9 @@ impl FilDriver {
         executable: &std::path::Path,
         network: &std::path::Path,
         bus: &str,
+        elf_overrides: &std::collections::HashMap<String, std::path::PathBuf>,
+        disabled_boards: &[String],
+        built_network: &Option<crate::fil_config::BuiltNetwork>,
     ) -> DriverResult<Self> {
         if !executable.is_file() {
             return Err(DriverError::ConnectionFailed(format!(
@@ -383,9 +386,38 @@ impl FilDriver {
                 "FIL bus name is empty or contains an invalid character".into(),
             ));
         }
+        let effective_network = match built_network {
+            Some(spec) => {
+                let (path, warnings) = crate::fil_config::build_network(spec).map_err(|error| {
+                    DriverError::ConnectionFailed(format!("Invalid built FIL network: {error}"))
+                })?;
+                for warning in warnings {
+                    log::warn!("FIL: {warning}");
+                }
+                path
+            }
+            None => {
+                let disabled: std::collections::HashSet<String> =
+                    disabled_boards.iter().cloned().collect();
+                crate::fil_config::materialize_network(network, elf_overrides, &disabled).map_err(
+                    |error| {
+                        DriverError::ConnectionFailed(format!(
+                            "Invalid FIL network {}: {error}",
+                            network.display()
+                        ))
+                    },
+                )?
+            }
+        };
+        if !effective_network.is_file() {
+            return Err(DriverError::ConnectionFailed(format!(
+                "FIL network config does not exist: {}",
+                effective_network.display()
+            )));
+        }
         let mut child = Command::new(executable)
             .arg("watch-network")
-            .arg(network)
+            .arg(&effective_network)
             .args([
                 "--duration-ms",
                 "0",
@@ -843,7 +875,17 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
             executable,
             network,
             bus,
-        } => Ok(Box::new(FilDriver::new(executable, network, bus)?)),
+            elf_overrides,
+            disabled_boards,
+            built_network,
+        } => Ok(Box::new(FilDriver::new(
+            executable,
+            network,
+            bus,
+            elf_overrides,
+            disabled_boards,
+            built_network,
+        )?)),
         ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::new())),
     }
 }
