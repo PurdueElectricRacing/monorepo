@@ -143,6 +143,7 @@ struct FilDriver {
     child: std::process::Child,
     input: std::io::BufWriter<std::process::ChildStdin>,
     output: std::sync::mpsc::Receiver<Result<CanFrame, String>>,
+    gpio_output: std::sync::mpsc::Receiver<FilGpioEvent>,
     bus: String,
 }
 impl FilDriver {
@@ -178,11 +179,15 @@ impl FilDriver {
                 "18446744073709551615",
                 "--live-filter",
                 "can_tx",
+                "--live-filter",
+                "gpio_input",
+                "--live-filter",
+                "gpio_output",
                 "--control-stdin",
             ])
             .stdin(std::process::Stdio::piped())
             .stdout(std::process::Stdio::piped())
-            .stderr(std::process::Stdio::null())
+            .stderr(std::process::Stdio::piped())
             .spawn()
             .map_err(|e| DriverError::ConnectionFailed(format!("Failed to launch FIL: {e}")))?;
         let stdout = child
@@ -192,7 +197,22 @@ impl FilDriver {
         let stdin = child.stdin.take().ok_or_else(|| {
             DriverError::ConnectionFailed("Failed to open FIL control input".into())
         })?;
+        if let Some(stderr) = child.stderr.take() {
+            std::thread::spawn(move || {
+                use std::io::BufRead;
+                for line in std::io::BufReader::new(stderr).lines() {
+                    match line {
+                        Ok(line) => log::warn!("FIL: {line}"),
+                        Err(error) => {
+                            log::warn!("Failed to read FIL stderr: {error}");
+                            break;
+                        }
+                    }
+                }
+            });
+        }
         let (output_tx, output) = std::sync::mpsc::channel();
+        let (gpio_tx, gpio_output) = std::sync::mpsc::channel();
         std::thread::spawn(move || {
             use std::io::BufRead;
             let mut reader = std::io::BufReader::new(stdout);
@@ -205,6 +225,12 @@ impl FilDriver {
                         break;
                     }
                     Ok(_) => {
+                        if let Some(event) = parse_fil_gpio(&line) {
+                            if gpio_tx.send(event).is_err() {
+                                break;
+                            }
+                            continue;
+                        }
                         if let Some(frame) = parse_fil_can_tx(&line)
                             && output_tx.send(Ok(frame)).is_err()
                         {
@@ -222,6 +248,7 @@ impl FilDriver {
             child,
             input: std::io::BufWriter::new(stdin),
             output,
+            gpio_output,
             bus: bus.into(),
         })
     }
@@ -266,6 +293,46 @@ fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
     let identity = crate::frame::CanIdentity::new(id?, extended).ok()?;
     CanFrame::data(identity, data?).ok()
 }
+fn parse_fil_gpio(line: &str) -> Option<FilGpioEvent> {
+    let mut fields = line.split_ascii_whitespace();
+    let _time = fields.next()?;
+    let _unit = fields.next()?;
+    let source = fields.next()?;
+    let kind = fields.next()?;
+    if kind != "gpio_input" && kind != "gpio_output" {
+        return None;
+    }
+    let (board, port) = source.rsplit_once('.')?;
+    let mut pin = None;
+    let mut value = None;
+    for field in fields {
+        let (key, raw) = field.split_once('=')?;
+        match key {
+            "pin" => pin = raw.parse::<u8>().ok(),
+            "value" => {
+                value = match raw {
+                    "0" => Some(Some(false)),
+                    "1" => Some(Some(true)),
+                    "release" => Some(None),
+                    _ => return None,
+                }
+            }
+            _ => {}
+        }
+    }
+    Some(FilGpioEvent {
+        board: board.into(),
+        port: port.into(),
+        pin: pin?,
+        value: value?,
+        direction: if kind == "gpio_output" {
+            FilGpioDirection::Output
+        } else {
+            FilGpioDirection::Input
+        },
+    })
+}
+
 fn format_fil_injection(bus: &str, frame: CanFrame) -> DriverResult<String> {
     use crate::frame::FrameKind;
     if frame.kind != FrameKind::Data {
@@ -314,6 +381,9 @@ impl Driver for FilDriver {
         let _ = self.child.kill();
         let _ = self.child.wait();
         Ok(())
+    }
+    fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
+        self.gpio_output.try_iter().take(256).collect()
     }
     fn set_gpio(
         &mut self,
