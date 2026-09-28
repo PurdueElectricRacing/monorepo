@@ -39,7 +39,7 @@ var searchData=
   ['set_5fcan_5fid_36',['set_can_id',['../timestamped__frame_8h.html#aa49122d19022c27ac7ff1de84eb7bc61',1,'timestamped_frame.h']]],
   ['set_5fexternal_5fleds_37',['set_external_leds',['../driver__interface_8c.html#ac7b90a0489ad0ee285e2ddbc1d76de4a',1,'driver_interface.c']]],
   ['set_5fxid_38',['set_xid',['../timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810',1,'timestamped_frame.h']]],
-  ['setup_39',['SetUp',['../classStrbufTest.html#aeb915d860d5aab0104c44cbe82e0582e',1,'StrbufTest']]],
+  ['setup_39',['SetUp',['../classBangbangTest.html#ae69f9889d5b38ca189a3dc593f7317fd',1,'BangbangTest::SetUp()'],['../classStrbufTest.html#aeb915d860d5aab0104c44cbe82e0582e',1,'StrbufTest::SetUp()']]],
   ['shockpots_5fperiodic_40',['shockpots_periodic',['../driveline_2main_8c.html#a972a003dd5f5a651601a8e19a6f58262',1,'main.c']]],
   ['shutdown_41',['shutdown',['../daq_2main_8c.html#a1c9d5e29ad8899afe0c34571ddee18f9',1,'main.c']]],
   ['spi_5frb_42',['spi_rb',['../w5500__callbacks_8c.html#a46bd862c88490f1a6154ec3488786f5e',1,'w5500_callbacks.c']]],

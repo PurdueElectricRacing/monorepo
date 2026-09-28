@@ -14,6 +14,7 @@ var annotated_dup =
     [ "AMK_objects_t", "structAMK__objects__t.html", "structAMK__objects__t" ],
     [ "AMK_t", "structAMK__t.html", "structAMK__t" ],
     [ "bangbang_t", "structbangbang__t.html", "structbangbang__t" ],
+    [ "BangbangTest", "classBangbangTest.html", "classBangbangTest" ],
     [ "bar_t", "structbar__t.html", "structbar__t" ],
     [ "bl_a_box_crc_data_t", "structbl__a__box__crc__data__t.html", "structbl__a__box__crc__data__t" ],
     [ "bl_a_box_data_data_t", "structbl__a__box__data__data__t.html", "structbl__a__box__data__data__t" ],

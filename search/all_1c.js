@@ -326,7 +326,7 @@ var searchData=
   ['set_5fexternal_5fleds_323',['set_external_leds',['../driver__interface_8c.html#ac7b90a0489ad0ee285e2ddbc1d76de4a',1,'driver_interface.c']]],
   ['set_5ffunction_324',['set_function',['../structAMK__config__t.html#a5734ca2e72a7e136612c75a8732aefa4',1,'AMK_config_t::set_function'],['../structAMK__t.html#ad0633c738d6c0ffbe0983160ac0ee858',1,'AMK_t::set_function']]],
   ['set_5fxid_325',['set_xid',['../timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810',1,'timestamped_frame.h']]],
-  ['setup_326',['SetUp',['../classStrbufTest.html#aeb915d860d5aab0104c44cbe82e0582e',1,'StrbufTest']]],
+  ['setup_326',['SetUp',['../classBangbangTest.html#ae69f9889d5b38ca189a3dc593f7317fd',1,'BangbangTest::SetUp()'],['../classStrbufTest.html#aeb915d860d5aab0104c44cbe82e0582e',1,'StrbufTest::SetUp()']]],
   ['setup_327',['PER Monorepo Setup',['../md_docs_2setup.html',1,'']]],
   ['setup_328',['setup',['../structPHAL__USB__TransferEvent__t.html#a3295ab1d8b8d7be5b2a083fd4a9f93e8',1,'PHAL_USB_TransferEvent_t']]],
   ['setup_2emd_329',['setup.md',['../setup_8md.html',1,'']]],

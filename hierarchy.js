@@ -231,6 +231,7 @@ var hierarchy =
     [ "steering_angle_data_t", "structsteering__angle__data__t.html", null ],
     [ "strbuf_t", "structstrbuf__t.html", null ],
     [ "testing::Test", null, [
+      [ "BangbangTest", "classBangbangTest.html", null ],
       [ "StrbufTest", "classStrbufTest.html", null ]
     ] ],
     [ "thermistor_telemetry_ccan_data_t", "structthermistor__telemetry__ccan__data__t.html", null ],
