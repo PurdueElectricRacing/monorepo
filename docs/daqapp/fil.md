@@ -21,6 +21,14 @@ the control protocol and config format.
      board configs with optional ELF overrides. **Export network JSON…** saves it for reuse.
 4. Select the matching DBC to decode traffic.
 
+**Run options** in FIL Control configure duration (0 runs until stopped), per-board instruction
+budget, scheduling quantum, refresh interval, ADC decimation (1–1024), strict MMIO, wall-clock
+pacing, loop batching, instruction tracing, and spin detection.
+Additional comma-separated live trace filters may be added; CAN transmit and GPIO input/output
+filters and stdin control always remain enabled for DaqApp. Add `instr` to the extra filters
+when enabling instruction tracing. Changes take effect on the next
+**Connect / Restart**. Use a FIL executable built with watch-network support for these options.
+
 DaqApp owns the emulator process; disconnecting kills it. Overrides are materialized into a
 temp dir (originals untouched) and everything persists in `settings.json`. Failures are
 reported, never auto-retried. Only CAN 2.0 data frames are supported; CAN FD and remote
