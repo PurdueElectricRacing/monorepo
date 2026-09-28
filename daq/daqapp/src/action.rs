@@ -11,8 +11,14 @@ pub enum AppAction {
         executable: Option<std::path::PathBuf>,
         network: Option<std::path::PathBuf>,
         bus: String,
+        elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
+        disabled_boards: Vec<String>,
     },
     ConnectFil(daqcore::connection::ConnectionSource),
+    UpdateFilBuilder {
+        use_builder: bool,
+        builder: daqcore::fil_config::BuiltNetwork,
+    },
     UpdateFilAdc {
         board: String,
         instance: String,
