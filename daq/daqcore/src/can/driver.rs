@@ -37,6 +37,12 @@ pub struct FilGpioEvent {
     pub direction: FilGpioDirection,
 }
 pub trait Driver {
+    /// Whether the CAN worker should add a retry delay after an empty/timeout read.
+    /// Drivers with their own bounded receive wait (notably FIL) return false.
+    fn needs_read_retry_sleep(&self) -> bool {
+        true
+    }
+
     fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>>;
     fn write_frame(&mut self, tx_frame: frame::CanFrameTx) -> DriverResult<()>;
 
@@ -424,6 +430,10 @@ fn format_fil_injection(bus: &str, frame: CanFrame) -> DriverResult<String> {
     Ok(command)
 }
 impl Driver for FilDriver {
+    fn needs_read_retry_sleep(&self) -> bool {
+        false
+    }
+
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         use std::sync::mpsc::RecvTimeoutError;
         let first = match self.output.recv_timeout(Duration::from_millis(50)) {
