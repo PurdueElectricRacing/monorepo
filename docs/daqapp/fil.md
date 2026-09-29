@@ -55,6 +55,50 @@ temp dir (originals untouched) and everything persists in `settings.json`. Failu
 reported, never auto-retried. Only CAN 2.0 data frames are supported; CAN FD and remote
 frames report send errors.
 
+### GPIO and ADC annotations
+
+Add optional labels to the `fil.annotations` object in DaqApp's `settings.json`. Board keys
+must match the board `name` in the selected network. GPIO port labels appear in the port
+picker, pin labels beside each pin, ADC labels in the instance picker, and channel labels
+beside the selected channel. Annotations only affect DaqApp's controls; they are not passed
+to FIL and do not change emulation.
+
+```json
+{
+  "fil": {
+    "annotations": {
+      "gpio": {
+        "dashboard": {
+          "GPIOA": {
+            "label": "Dashboard controls",
+            "pins": {
+              "0": "Ignition sense",
+              "1": "Launch button"
+            }
+          }
+        }
+      },
+      "adc": {
+        "dashboard": {
+          "ADC1": {
+            "label": "Pedal inputs",
+            "channels": {
+              "0": "Accelerator position",
+              "1": "Brake pressure"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Each section is optional. GPIO port keys use `GPIOA`–`GPIOG`; pin keys are numbers 0–15.
+ADC instance keys use `ADC1`–`ADC4`; channel keys are numbers 0–19. Names are case-sensitive;
+unknown board, port, or instance keys and out-of-range pins/channels are ignored. Unannotated
+items keep their existing names, and older settings files can omit `annotations` entirely.
+
 ## Inject inputs
 
 - **CAN**: use Message Sender; frames inject at the next simulation frontier.

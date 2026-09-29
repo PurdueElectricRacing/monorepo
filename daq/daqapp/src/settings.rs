@@ -16,6 +16,47 @@ const DEFAULT_CAN_SPEED: daqcore::connection::CanBusSpeed = connection::CanBusSp
 
 pub type FilRunOptions = daqcore::connection::FilRunOptions;
 
+/// Human-readable labels for FIL GPIO and ADC controls, keyed by board name.
+/// These are DaqApp-only settings and are not forwarded to FIL.
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, Default, PartialEq, Eq)]
+pub struct FilAnnotations {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gpio: Option<
+        std::collections::HashMap<String, std::collections::HashMap<String, GpioPortAnnotation>>,
+    >,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub adc:
+        Option<std::collections::HashMap<String, std::collections::HashMap<String, AdcAnnotation>>>,
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, Default, PartialEq, Eq)]
+pub struct GpioPortAnnotation {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub label: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pins: Option<std::collections::HashMap<u8, String>>,
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, Default, PartialEq, Eq)]
+pub struct AdcAnnotation {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub label: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub channels: Option<std::collections::HashMap<u8, String>>,
+}
+
+impl FilAnnotations {
+    pub fn is_empty(&self) -> bool {
+        self.gpio
+            .as_ref()
+            .map_or(true, std::collections::HashMap::is_empty)
+            && self
+                .adc
+                .as_ref()
+                .map_or(true, std::collections::HashMap::is_empty)
+    }
+}
+
 /// All FIL widget state persisted across runs.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
 pub struct FilSettings {
@@ -33,6 +74,9 @@ pub struct FilSettings {
     pub use_builder: bool,
     /// Widget-built FIL network spec.
     pub builder: daqcore::fil_config::BuiltNetwork,
+    /// Optional human-readable signal labels for ADC/GPIO controls.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub annotations: Option<FilAnnotations>,
     pub adc_board: String,
     pub adc_instance: String,
     pub adc_channel: u8,
@@ -51,6 +95,7 @@ impl Default for FilSettings {
             disabled_boards: Vec::new(),
             use_builder: false,
             builder: daqcore::fil_config::BuiltNetwork::default(),
+            annotations: None,
             adc_board: "dashboard".into(),
             adc_instance: "ADC1".into(),
             adc_channel: 0,
@@ -136,5 +181,64 @@ impl Settings {
         let path = Self::path();
         std::fs::write(&path, json)
             .unwrap_or_else(|e| log::error!("Failed to write {}: {}", path.display(), e));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn fil_annotations_load_from_settings_json() {
+        let annotations: FilAnnotations = serde_json::from_value(serde_json::json!({
+            "gpio": {
+                "dashboard": {
+                    "GPIOA": {
+                        "label": "Dashboard controls",
+                        "pins": {"0": "Ignition sense"}
+                    }
+                }
+            },
+            "adc": {
+                "dashboard": {
+                    "ADC1": {
+                        "label": "Pedal inputs",
+                        "channels": {"0": "Accelerator position"}
+                    }
+                }
+            }
+        }))
+        .unwrap();
+
+        assert_eq!(
+            annotations.gpio.as_ref().unwrap()["dashboard"]["GPIOA"]
+                .pins
+                .as_ref()
+                .unwrap()[&0],
+            "Ignition sense"
+        );
+        assert_eq!(
+            annotations.adc.as_ref().unwrap()["dashboard"]["ADC1"]
+                .channels
+                .as_ref()
+                .unwrap()[&0],
+            "Accelerator position"
+        );
+
+        let mut settings = FilSettings::default();
+        settings.annotations = Some(annotations.clone());
+        let json = serde_json::to_value(settings).unwrap();
+        let loaded: FilSettings = serde_json::from_value(json).unwrap();
+        assert_eq!(loaded.annotations, Some(annotations));
+    }
+
+    #[test]
+    fn fil_annotations_are_optional_for_existing_settings() {
+        let settings = FilSettings::default();
+        let json = serde_json::to_value(&settings).unwrap();
+        assert!(json.get("annotations").is_none());
+
+        let loaded: FilSettings = serde_json::from_value(json).unwrap();
+        assert!(loaded.annotations.is_none());
     }
 }

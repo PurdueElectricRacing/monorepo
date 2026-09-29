@@ -72,6 +72,7 @@ pub struct DAQApp {
     pub fil_adc_value: u16,
     pub fil_run_options: settings::FilRunOptions,
     pub fil_trace_bus: Option<String>,
+    pub fil_annotations: Option<settings::FilAnnotations>,
 }
 
 impl DAQApp {
@@ -100,6 +101,7 @@ impl DAQApp {
                 adc_value: self.fil_adc_value,
                 run_options: self.fil_run_options.clone(),
                 trace_bus: self.fil_trace_bus.clone(),
+                annotations: self.fil_annotations.clone(),
             },
         };
         settings.save();
@@ -165,6 +167,7 @@ impl DAQApp {
             fil_adc_value: fil.adc_value.min(4095),
             fil_run_options: fil.run_options,
             fil_trace_bus: fil.trace_bus,
+            fil_annotations: fil.annotations,
         })
     }
 
@@ -301,6 +304,7 @@ impl DAQApp {
                 self.fil_adc_value = fil.adc_value.min(4095);
                 self.fil_run_options = fil.run_options;
                 self.fil_trace_bus = fil.trace_bus;
+                self.fil_annotations = fil.annotations;
                 if let Some(daqcore::connection::ConnectionSource::Fil { trace_bus, .. }) =
                     self.selected_source.as_mut()
                 {
