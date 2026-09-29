@@ -338,9 +338,9 @@ fn run_with_connection(
 
         let wait = if !connection.connected() {
             time::Duration::from_millis(50)
-        } else if got_frames {
-            // Drain queued traffic without delaying the next read; commands and
-            // scheduled work still run between driver batches.
+        } else if got_frames || !connection.needs_read_retry_sleep() {
+            // Drain queued traffic without delaying the next read; FIL already
+            // performs its own bounded wait, so avoid stacking another retry delay.
             time::Duration::ZERO
         } else {
             time::Duration::from_millis(2)
