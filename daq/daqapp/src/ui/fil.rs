@@ -4,6 +4,15 @@ use daqcore::connection;
 use eframe::egui;
 use std::collections::{HashMap, HashSet};
 
+const FIL_EXPECTATION_HISTORY_LIMIT: usize = 500;
+
+fn clear_expectations(events: &mut HashMap<String, daqcore::can::driver::FilExpectationEvent>, order: &mut Vec<String>) { events.clear(); order.clear(); }
+fn update_expectations(events: &mut HashMap<String, daqcore::can::driver::FilExpectationEvent>, order: &mut Vec<String>, event: daqcore::can::driver::FilExpectationEvent) {
+    if !events.contains_key(&event.check_id) { order.push(event.check_id.clone()); }
+    events.insert(event.check_id.clone(), event);
+    while order.len() > FIL_EXPECTATION_HISTORY_LIMIT { let id = order.remove(0); events.remove(&id); }
+}
+
 #[derive(Clone, Copy, Default)]
 struct GpioPinState {
     input: Option<bool>,
@@ -33,6 +42,8 @@ pub struct FilControl {
     gpio_board: String,
     gpio_port: FilGpioPort,
     gpio_states: HashMap<(String, FilGpioPort, u8), GpioPinState>,
+    expectations: HashMap<String, daqcore::can::driver::FilExpectationEvent>,
+    expectation_order: Vec<String>,
 }
 
 impl FilControl {
@@ -65,6 +76,8 @@ impl FilControl {
             gpio_board: "dashboard".into(),
             gpio_port: FilGpioPort::GpioA,
             gpio_states: HashMap::new(),
+            expectations: HashMap::new(),
+            expectation_order: Vec::new(),
         };
         control.refresh_network_info();
         control
@@ -304,9 +317,12 @@ impl FilControl {
                     daqcore::can_thread::FilGpioDirection::Output => state.output = *value,
                 }
             }
-            daqcore::can_thread::CanThreadEvent::Disconnection
-            | daqcore::can_thread::CanThreadEvent::ConnectionSuccessful
-            | daqcore::can_thread::CanThreadEvent::ConnectionFailed(_) => self.gpio_states.clear(),
+            daqcore::can_thread::CanThreadEvent::FilExpectation(event) => update_expectations(&mut self.expectations, &mut self.expectation_order, event.clone()),
+            daqcore::can_thread::CanThreadEvent::ConnectionSuccessful => {
+                self.gpio_states.clear();
+                clear_expectations(&mut self.expectations, &mut self.expectation_order);
+            }
+            daqcore::can_thread::CanThreadEvent::Disconnection | daqcore::can_thread::CanThreadEvent::ConnectionFailed(_) => self.gpio_states.clear(),
             _ => {}
         }
     }
@@ -1148,6 +1164,29 @@ impl FilControl {
                             ui.end_row();
                         }
                     });
+            });
+            ui.add_space(8.0);
+            ui.group(|ui| {
+                ui.horizontal(|ui| {
+                    ui.heading("CAN expectations");
+                    if ui.button("Clear").clicked() { clear_expectations(&mut self.expectations, &mut self.expectation_order); }
+                });
+                use daqcore::can::driver::FilExpectationStatus as S;
+                let count = |status| self.expectations.values().filter(|e| e.status == status).count();
+                ui.label(format!("Pending: {}   Pass: {}   Fail: {}   Incomplete: {}", count(S::Pending), count(S::Pass), count(S::Fail), count(S::Incomplete)));
+                if self.expectation_order.is_empty() { ui.weak("No FIL expectation trace records received."); }
+                egui::ScrollArea::vertical().max_height(180.0).show(ui, |ui| {
+                    for id in &self.expectation_order {
+                        if let Some(e) = self.expectations.get(id) {
+                            ui.horizontal_wrapped(|ui| {
+                                ui.strong(format!("{:?}", e.status));
+                                ui.label(format!("{} — {}: {} 0x{:X} [{}] {}..{} ns", e.check_id, e.script, e.expected_bus, e.expected_id, e.expected_data.iter().map(|b|format!("{b:02X}")).collect::<Vec<_>>().join(" "), e.window_start_ns, e.window_end_ns));
+                                if let Some(reason) = &e.reason { ui.label(reason); }
+                                if let Some(bus) = &e.matched_bus { ui.label(format!("matched {bus} 0x{:X} at {} ns",e.matched_id.unwrap_or_default(),e.matched_time_ns.unwrap_or_default())); }
+                            });
+                        }
+                    }
+                });
             });
         });
         egui_tiles::UiResponse::None

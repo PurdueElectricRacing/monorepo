@@ -80,6 +80,7 @@ pub enum CanThreadEvent {
         value: Option<bool>,
         direction: crate::can::driver::FilGpioDirection,
     },
+    FilExpectation(crate::can::driver::FilExpectationEvent),
 }
 
 /// Single caller owns shutdown; cloned senders submit commands but do not own the worker.

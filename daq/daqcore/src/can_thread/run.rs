@@ -244,13 +244,10 @@ fn run_with_connection(
         }
 
         for gpio in connection.take_fil_gpio_events() {
-            emit!(Event::FilGpio {
-                board: gpio.board,
-                port: gpio.port,
-                pin: gpio.pin,
-                value: gpio.value,
-                direction: gpio.direction
-            });
+            emit!(Event::FilGpio { board: gpio.board, port: gpio.port, pin: gpio.pin, value: gpio.value, direction: gpio.direction });
+        }
+        for expectation in connection.take_fil_expectation_events() {
+            emit!(Event::FilExpectation(expectation));
         }
         // Each received frame is logged, decoded, then moved into an event.
         let mut got_frames = false;

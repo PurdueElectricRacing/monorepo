@@ -38,6 +38,19 @@ pub struct FilGpioEvent {
     pub value: Option<bool>,
     pub direction: FilGpioDirection,
 }
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum FilExpectationStatus { Pending, Pass, Fail, Incomplete }
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct FilExpectationEvent {
+    pub check_id: String, pub script: String, pub status: FilExpectationStatus,
+    pub expected_bus: String, pub expected_id: u32, pub expected_extended: bool,
+    pub expected_data: Vec<u8>, pub window_start_ns: u64, pub window_end_ns: u64,
+    pub matched_bus: Option<String>, pub matched_id: Option<u32>,
+    pub matched_data: Option<Vec<u8>>, pub matched_origin: Option<String>,
+    pub matched_time_ns: Option<u64>, pub reason: Option<String>,
+}
 pub trait Driver {
     /// Whether the CAN worker should add a retry delay after an empty/timeout read.
     /// Drivers with their own bounded receive wait (notably FIL) return false.
@@ -60,6 +73,7 @@ pub trait Driver {
     fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
         Vec::new()
     }
+    fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> { Vec::new() }
     fn set_gpio(
         &mut self,
         _board: &str,
@@ -157,6 +171,7 @@ struct FilDriver {
     input: std::io::BufWriter<std::process::ChildStdin>,
     output: std::sync::mpsc::Receiver<Result<CanFrame, String>>,
     gpio_output: std::sync::mpsc::Receiver<FilGpioEvent>,
+    expectation_output: std::sync::mpsc::Receiver<FilExpectationEvent>,
     trace_bus: std::sync::Arc<std::sync::RwLock<Option<String>>>,
     bus: String,
 }
@@ -218,6 +233,7 @@ impl FilDriver {
         }
         let (output_tx, output) = std::sync::mpsc::channel();
         let (gpio_tx, gpio_output) = std::sync::mpsc::channel();
+        let (expectation_tx, expectation_output) = std::sync::mpsc::channel();
         let trace_bus = std::sync::Arc::new(std::sync::RwLock::new(trace_bus));
         let reader_trace_bus = trace_bus.clone();
         std::thread::spawn(move || {
@@ -232,6 +248,10 @@ impl FilDriver {
                         break;
                     }
                     Ok(_) => {
+                        if let Some(event) = parse_fil_expectation(&line) {
+                            if expectation_tx.send(event).is_err() { break; }
+                            continue;
+                        }
                         let selected_bus = reader_trace_bus
                             .read()
                             .unwrap_or_else(std::sync::PoisonError::into_inner)
@@ -266,6 +286,7 @@ impl FilDriver {
             input: std::io::BufWriter::new(stdin),
             output,
             gpio_output,
+            expectation_output,
             trace_bus,
             bus: bus.into(),
         })
@@ -311,7 +332,7 @@ fn watch_network_args(options: &crate::connection::FilRunOptions) -> DriverResul
     if options.detect_spin {
         args.push("--detect-spin".into());
     }
-    for filter in ["can_tx", "gpio_input", "gpio_output"] {
+    for filter in ["can_tx", "gpio_input", "gpio_output", "expectation_pending", "expectation_pass", "expectation_fail", "expectation_incomplete"] {
         args.extend(["--live-filter".into(), filter.into()]);
     }
     for filter in options
@@ -329,6 +350,22 @@ fn watch_network_args(options: &crate::connection::FilRunOptions) -> DriverResul
     }
     args.push("--control-stdin".into());
     Ok(args)
+}
+
+fn parse_fil_expectation(line: &str) -> Option<FilExpectationEvent> {
+    const KEYS: &[&str] = &["check_id","script","expected_bus","expected_id","expected_extended","expected_data","window_start_ns","window_end_ns","matched_bus","matched_id","matched_data","matched_origin","matched_time_ns","reason"];
+    let tokens: Vec<_> = line.split_ascii_whitespace().collect();
+    let index = tokens.iter().position(|t| matches!(*t,"expectation_pending"|"expectation_pass"|"expectation_fail"|"expectation_incomplete"))?;
+    let status = match tokens[index] { "expectation_pending"=>FilExpectationStatus::Pending,"expectation_pass"=>FilExpectationStatus::Pass,"expectation_fail"=>FilExpectationStatus::Fail,_=>FilExpectationStatus::Incomplete };
+    let mut fields = std::collections::HashMap::<&str,String>::new(); let mut current=None;
+    for token in tokens.iter().skip(index+1) {
+        if let Some((key,value))=token.split_once('=') && KEYS.contains(&key) { current=Some(key); fields.insert(key,value.to_owned()); }
+        else if let Some(key)=current { let value=fields.get_mut(key)?; value.push(' '); value.push_str(token); }
+    }
+    let v=|key:&str| fields.get(key).map(String::as_str);
+    let id=|s:&str| u32::from_str_radix(s.trim_start_matches("0x"),16).ok();
+    let data=|s:&str| { let b=s.trim(); if b.len()%2!=0{return None} b.as_bytes().chunks_exact(2).map(|c|u8::from_str_radix(std::str::from_utf8(c).ok()?,16).ok()).collect::<Option<Vec<_>>>() };
+    Some(FilExpectationEvent { check_id:v("check_id")?.to_owned(),script:v("script")?.to_owned(),status,expected_bus:v("expected_bus")?.to_owned(),expected_id:id(v("expected_id")?)?,expected_extended:v("expected_extended")?.parse().ok()?,expected_data:data(v("expected_data")?)?,window_start_ns:v("window_start_ns")?.parse().ok()?,window_end_ns:v("window_end_ns")?.parse().ok()?,matched_bus:v("matched_bus").map(str::to_owned),matched_id:v("matched_id").and_then(id),matched_data:v("matched_data").and_then(data),matched_origin:v("matched_origin").map(str::to_owned),matched_time_ns:v("matched_time_ns").and_then(|s|s.parse().ok()),reason:v("reason").map(str::to_owned)})
 }
 
 fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
@@ -482,6 +519,7 @@ impl Driver for FilDriver {
     fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
         self.gpio_output.try_iter().take(256).collect()
     }
+    fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> { self.expectation_output.try_iter().take(256).collect() }
     fn set_gpio(
         &mut self,
         board: &str,

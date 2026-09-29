@@ -77,10 +77,11 @@ impl ConnectionManager {
     }
 
     pub fn take_fil_gpio_events(&mut self) -> Vec<crate::can::driver::FilGpioEvent> {
-        self.driver
-            .as_mut()
-            .map(|d| d.take_fil_gpio_events())
-            .unwrap_or_default()
+        self.driver.as_mut().map(|d| d.take_fil_gpio_events()).unwrap_or_default()
+    }
+
+    pub fn take_fil_expectation_events(&mut self) -> Vec<crate::can::driver::FilExpectationEvent> {
+        self.driver.as_mut().map(|d| d.take_fil_expectation_events()).unwrap_or_default()
     }
 
     pub fn set_gpio(
