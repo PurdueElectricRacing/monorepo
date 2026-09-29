@@ -69,11 +69,7 @@ impl TableBuilder {
         self.next_col_idx += 1;
     }
 
-    fn push_enum_column(
-        &mut self,
-        key: (String, String, String),
-        column: TableColumn,
-    ) {
+    fn push_enum_column(&mut self, key: (String, String, String), column: TableColumn) {
         self.enum_indexer.insert(key, self.next_col_idx);
         self.header_columns.push(column);
         self.next_col_idx += 1;
@@ -220,8 +216,7 @@ impl TableBuilder {
                     let msg = msg_iter.next().unwrap();
                     let decoded = &msg.decoded;
                     for (sig_name, sig_value) in &decoded.signals {
-                        let key =
-                            (msg.bus_name.clone(), decoded.name.clone(), sig_name.clone());
+                        let key = (msg.bus_name.clone(), decoded.name.clone(), sig_name.clone());
                         if let Some(&col_idx) = self.indexer.get(&key) {
                             row[col_idx] = if sig_value.value.enum_label.is_some() {
                                 sig_value.value.int_rounded().to_string()
