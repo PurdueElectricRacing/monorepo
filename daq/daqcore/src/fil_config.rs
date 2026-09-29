@@ -395,13 +395,6 @@ fn scratch_dir_for(label: &str, key: &str) -> PathBuf {
 
 /// FDCAN instances FIL models, the valid set for synthesized attachments.
 pub const FIL_CAN_INSTANCES: [&str; 3] = ["FDCAN1", "FDCAN2", "FDCAN3"];
-/// ADC instances FIL models.
-pub const FIL_ADC_INSTANCES: [&str; 4] = ["ADC1", "ADC2", "ADC3", "ADC4"];
-/// GPIO ports FIL models (pins PA0 through PG15).
-pub const FIL_GPIO_PORTS: [&str; 7] = [
-    "GPIOA", "GPIOB", "GPIOC", "GPIOD", "GPIOE", "GPIOF", "GPIOG",
-];
-
 /// Locate the bundled STM32G474 MCU config next to a FIL executable
 /// (`<exe>/../configs` for `fil/build/fil`, or a sibling `configs/` dir).
 pub fn default_mcu_for_executable(executable: &Path) -> Option<PathBuf> {

@@ -1,5 +1,6 @@
 use crate::{
-    action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
+    action, messages::FilAdcInstance, paths, settings, shortcuts, telemetry, ui, util, widget_ids,
+    widgets, workspace,
 };
 const MAX_CAN_EVENTS_PER_UPDATE: usize = 2_048;
 
@@ -67,7 +68,7 @@ pub struct DAQApp {
     pub fil_use_builder: bool,
     pub fil_builder: daqcore::fil_config::BuiltNetwork,
     pub fil_adc_board: String,
-    pub fil_adc_instance: String,
+    pub fil_adc_instance: FilAdcInstance,
     pub fil_adc_channel: u8,
     pub fil_adc_value: u16,
     pub fil_run_options: settings::FilRunOptions,
@@ -95,7 +96,7 @@ impl DAQApp {
                 use_builder: self.fil_use_builder,
                 builder: self.fil_builder.clone(),
                 adc_board: self.fil_adc_board.clone(),
-                adc_instance: self.fil_adc_instance.clone(),
+                adc_instance: self.fil_adc_instance,
                 adc_channel: self.fil_adc_channel,
                 adc_value: self.fil_adc_value,
                 run_options: self.fil_run_options.clone(),

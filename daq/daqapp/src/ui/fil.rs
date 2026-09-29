@@ -1,3 +1,4 @@
+use crate::messages::{FilAdcInstance, FilGpioPort};
 use crate::{action, app, fil_annotations, settings};
 use daqcore::connection;
 use eframe::egui;
@@ -23,15 +24,15 @@ pub struct FilControl {
     network_info_error: Option<String>,
     last_loaded_network: Option<std::path::PathBuf>,
     adc_board: String,
-    adc_instance: String,
+    adc_instance: FilAdcInstance,
     adc_channel: u8,
     adc_value: u16,
     run_options: settings::FilRunOptions,
     annotations: fil_annotations::FilAnnotations,
     annotation_error: Option<String>,
     gpio_board: String,
-    gpio_port: String,
-    gpio_states: HashMap<(String, String, u8), GpioPinState>,
+    gpio_port: FilGpioPort,
+    gpio_states: HashMap<(String, FilGpioPort, u8), GpioPinState>,
 }
 
 impl FilControl {
@@ -62,7 +63,7 @@ impl FilControl {
             annotations,
             annotation_error,
             gpio_board: "dashboard".into(),
-            gpio_port: "GPIOA".into(),
+            gpio_port: FilGpioPort::GpioA,
             gpio_states: HashMap::new(),
         };
         control.refresh_network_info();
@@ -293,9 +294,10 @@ impl FilControl {
                 value,
                 direction,
             } => {
+                let Some(port) = FilGpioPort::parse(port) else { return; };
                 let state = self
                     .gpio_states
-                    .entry((board.clone(), port.clone(), *pin))
+                    .entry((board.clone(), port, *pin))
                     .or_default();
                 match direction {
                     daqcore::can_thread::FilGpioDirection::Input => state.input = *value,
@@ -321,7 +323,7 @@ impl FilControl {
                 use_builder: self.use_builder,
                 builder: self.builder.clone(),
                 adc_board: self.adc_board.clone(),
-                adc_instance: self.adc_instance.clone(),
+                adc_instance: self.adc_instance,
                 adc_channel: self.adc_channel,
                 adc_value: self.adc_value,
                 run_options: self.run_options.clone(),
@@ -974,7 +976,7 @@ impl FilControl {
                     if self.show_config_board_picker(ui, "fil_adc_board", &mut board) {
                         actions.push(action::AppAction::UpdateFilAdc {
                             board: board.clone(),
-                            instance: self.adc_instance.clone(),
+                            instance: self.adc_instance,
                             channel: self.adc_channel,
                             value: self.adc_value,
                         });
@@ -986,34 +988,30 @@ impl FilControl {
                         .adc
                         .as_ref()
                         .and_then(|boards| boards.get(&self.adc_board))
-                        .and_then(|instances| instances.get(&self.adc_instance));
+                        .and_then(|instances| instances.get(self.adc_instance.as_str()));
                     let selected_instance = annotated_text(
-                        &self.adc_instance,
+                        self.adc_instance.as_str(),
                         adc_annotation.and_then(|annotation| annotation.label.as_deref()),
                     );
-                    let instance_labels: Vec<(String, String)> =
-                        daqcore::fil_config::FIL_ADC_INSTANCES
-                            .iter()
-                            .map(|instance| {
-                                let label = self
-                                    .annotations
-                                    .adc
-                                    .as_ref()
-                                    .and_then(|boards| boards.get(&self.adc_board))
-                                    .and_then(|instances| instances.get(*instance))
-                                    .and_then(|annotation| annotation.label.as_deref());
-                                ((*instance).to_owned(), annotated_text(instance, label))
-                            })
-                            .collect();
+                    let instance_labels: Vec<(FilAdcInstance, String)> = FilAdcInstance::ALL
+                        .into_iter()
+                        .map(|instance| {
+                            let label = self
+                                .annotations
+                                .adc
+                                .as_ref()
+                                .and_then(|boards| boards.get(&self.adc_board))
+                                .and_then(|instances| instances.get(instance.as_str()))
+                                .and_then(|annotation| annotation.label.as_deref());
+                            (instance, annotated_text(instance.as_str(), label))
+                        })
+                        .collect();
+
                     egui::ComboBox::from_id_salt(("fil_adc_instance", &self.title))
                         .selected_text(selected_instance)
                         .show_ui(ui, |ui| {
                             for (instance, label) in &instance_labels {
-                                ui.selectable_value(
-                                    &mut self.adc_instance,
-                                    instance.clone(),
-                                    label,
-                                );
+                                ui.selectable_value(&mut self.adc_instance, *instance, label);
                             }
                         });
                 });
@@ -1025,7 +1023,7 @@ impl FilControl {
                         .adc
                         .as_ref()
                         .and_then(|boards| boards.get(&self.adc_board))
-                        .and_then(|instances| instances.get(&self.adc_instance))
+                        .and_then(|instances| instances.get(self.adc_instance.as_str()))
                         .and_then(|annotation| annotation.channels.as_ref())
                         .and_then(|channels| channels.get(&self.adc_channel));
                     if let Some(label) = channel_annotation.filter(|label| !label.trim().is_empty())
@@ -1037,13 +1035,13 @@ impl FilControl {
                     if ui.button("Inject").clicked() {
                         actions.push(action::AppAction::UpdateFilAdc {
                             board: self.adc_board.clone(),
-                            instance: self.adc_instance.clone(),
+                            instance: self.adc_instance,
                             channel: self.adc_channel,
                             value: self.adc_value,
                         });
                         let _ = tx.send(daqcore::can_thread::CanThreadCommand::SetFilAdc {
                             board: self.adc_board.clone(),
-                            instance: self.adc_instance.clone(),
+                            instance: self.adc_instance.as_str().to_owned(),
                             channel: self.adc_channel,
                             value: self.adc_value,
                         });
@@ -1061,29 +1059,30 @@ impl FilControl {
                     self.gpio_board = board;
                     let _ = changed;
                     ui.label("Port:");
-                    let port_labels: Vec<(String, String)> = daqcore::fil_config::FIL_GPIO_PORTS
-                        .iter()
+                    let port_labels: Vec<(FilGpioPort, String)> = FilGpioPort::ALL
+                        .into_iter()
+
                         .map(|port| {
                             let label = self
                                 .annotations
                                 .gpio
                                 .as_ref()
                                 .and_then(|boards| boards.get(&self.gpio_board))
-                                .and_then(|ports| ports.get(*port))
+                                .and_then(|ports| ports.get(port.as_str()))
                                 .and_then(|annotation| annotation.label.as_deref());
-                            ((*port).to_owned(), annotated_text(port, label))
+                            (port, annotated_text(port.as_str(), label))
                         })
                         .collect();
                     let selected_port = port_labels
                         .iter()
                         .find(|(port, _)| port == &self.gpio_port)
                         .map(|(_, label)| label.as_str())
-                        .unwrap_or(&self.gpio_port);
+                        .unwrap_or(self.gpio_port.as_str());
                     egui::ComboBox::from_id_salt(("fil_gpio_port", &self.title))
                         .selected_text(selected_port)
                         .show_ui(ui, |ui| {
                             for (port, label) in &port_labels {
-                                ui.selectable_value(&mut self.gpio_port, port.clone(), label);
+                                ui.selectable_value(&mut self.gpio_port, *port, label);
                             }
                         });
                 });
@@ -1098,7 +1097,7 @@ impl FilControl {
                         for pin in 0..16u8 {
                             let state = self
                                 .gpio_states
-                                .get(&(self.gpio_board.clone(), self.gpio_port.clone(), pin))
+                                .get(&(self.gpio_board.clone(), self.gpio_port, pin))
                                 .copied()
                                 .unwrap_or_default();
                             let pin_label = self
@@ -1106,12 +1105,12 @@ impl FilControl {
                                 .gpio
                                 .as_ref()
                                 .and_then(|boards| boards.get(&self.gpio_board))
-                                .and_then(|ports| ports.get(&self.gpio_port))
+                                .and_then(|ports| ports.get(self.gpio_port.as_str()))
                                 .and_then(|annotation| annotation.pins.as_ref())
                                 .and_then(|pins| pins.get(&pin))
                                 .map(String::as_str);
                             ui.label(annotated_text(
-                                &format!("{}{}", self.gpio_port, pin),
+                                &format!("{}{}", self.gpio_port.as_str(), pin),
                                 pin_label,
                             ));
                             ui.label(level_text(state.input, "Released"));
@@ -1123,14 +1122,13 @@ impl FilControl {
                                     ("Release", None),
                                 ] {
                                     if ui.small_button(label).clicked() {
-                                        let _ = tx.send(
-                                            daqcore::can_thread::CanThreadCommand::SetFilGpio {
-                                                board: self.gpio_board.clone(),
-                                                port: self.gpio_port.clone(),
-                                                pin,
-                                                value,
-                                            },
-                                        );
+                                        let _ = tx.send(daqcore::can_thread::CanThreadCommand::SetFilGpio {
+                                            board: self.gpio_board.clone(),
+                                            port: self.gpio_port.as_str().to_owned(),
+                                            pin,
+                                            value,
+                                        });
+
                                     }
                                 }
                             });

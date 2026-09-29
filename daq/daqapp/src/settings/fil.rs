@@ -1,3 +1,4 @@
+use crate::messages::FilAdcInstance;
 use daqcore::{connection, fil_config};
 
 pub type FilRunOptions = connection::FilRunOptions;
@@ -14,7 +15,7 @@ pub struct FilSettings {
     pub use_builder: bool,
     pub builder: fil_config::BuiltNetwork,
     pub adc_board: String,
-    pub adc_instance: String,
+    pub adc_instance: FilAdcInstance,
     pub adc_channel: u8,
     pub adc_value: u16,
     pub run_options: FilRunOptions,
@@ -32,7 +33,7 @@ impl Default for FilSettings {
             use_builder: false,
             builder: fil_config::BuiltNetwork::default(),
             adc_board: "dashboard".into(),
-            adc_instance: "ADC1".into(),
+            adc_instance: FilAdcInstance::Adc1,
             adc_channel: 0,
             adc_value: 0,
             run_options: FilRunOptions::default(),
@@ -57,3 +58,4 @@ impl FilSettings {
         }
     }
 }
+
