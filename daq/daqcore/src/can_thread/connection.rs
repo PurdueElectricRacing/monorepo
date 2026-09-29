@@ -63,6 +63,12 @@ impl ConnectionManager {
         driver.read_frames()
     }
 
+    pub fn needs_read_retry_sleep(&self) -> bool {
+        self.driver
+            .as_ref()
+            .is_none_or(|driver| driver.needs_read_retry_sleep())
+    }
+
     pub fn set_fil_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
         self.driver
             .as_mut()
