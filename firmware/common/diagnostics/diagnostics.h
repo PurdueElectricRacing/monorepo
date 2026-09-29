@@ -37,9 +37,9 @@ typedef struct {
     uint32_t timestamp_ms;
     uint32_t task_count;
 
-    float cpu_usage_percent;
-    bool cpu_usage_valid;        /**< True if usage can be computed. */
-    bool task_capacity_exceeded; /**< True if there are more than DIAGNOSTICS_MAX_TASKS.
+    float cpu_percent;
+    bool cpu_valid;        /**< True if usage can be computed. */
+    bool capacity_exceeded; /**< True if there are more than DIAGNOSTICS_MAX_TASKS.
                                   *   If true no diagnostics data will be recorded. */
 
     diagnostics_task_t tasks[DIAGNOSTICS_MAX_TASKS];
@@ -60,7 +60,7 @@ typedef struct {
  */
 typedef struct {
     TaskStatus_t raw_tasks[DIAGNOSTICS_MAX_TASKS];
-    diagnostics_snapshot_t working_snapshot;
+    diagnostics_snapshot_t snapshot;
     uint32_t total_runtime;
     uint32_t previous_total_runtime;
     UBaseType_t previous_task_count;

@@ -36,54 +36,33 @@ static bool calculate_cpu_utilization(uint32_t current_runtime,
     return false;
 }
 
-void diagnostics_periodic(void) {
-    UBaseType_t count = uxTaskGetSystemState(g_diagnostics_context.raw_tasks,
-                                             DIAGNOSTICS_MAX_TASKS,
-                                             &g_diagnostics_context.total_runtime);
-    // total time delta inbetween diagnostics_periodic function calls
-    uint32_t total_delta =
-        g_diagnostics_context.total_runtime - g_diagnostics_context.previous_total_runtime;
-    TaskHandle_t idle_task                              = xTaskGetIdleTaskHandle();
-    g_diagnostics_context.working_snapshot.task_count   = (uint32_t)count;
-    g_diagnostics_context.working_snapshot.timestamp_ms = (uint32_t)xTaskGetTickCount();
-    g_diagnostics_context.working_snapshot.sample_count++;
-    g_diagnostics_context.working_snapshot.cpu_usage_percent = 0.0f;
-    g_diagnostics_context.working_snapshot.cpu_usage_valid   = false;
-    // if you have more than the max tasks, uxTaskGetSystemState fails and returns 0
-    g_diagnostics_context.working_snapshot.task_capacity_exceeded = (count == 0);
-    for (UBaseType_t i = 0; i < count; i++) {
-        TaskStatus_t *source_task            = &g_diagnostics_context.raw_tasks[i];
-        diagnostics_task_t *destination_task = &g_diagnostics_context.working_snapshot.tasks[i];
-        // zero out destination task
-        *destination_task = (diagnostics_task_t) {0};
+static void begin_snapshot(UBaseType_t count) {
+    diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
 
-        destination_task->task_id = source_task->xTaskNumber;
-        strcpy(destination_task->name, source_task->pcTaskName);
-        destination_task->stack_min_free_bytes =
-            source_task->usStackHighWaterMark * sizeof(StackType_t);
-        destination_task->state = source_task->eCurrentState;
+    snapshot->task_count   = (uint32_t)count;
+    snapshot->timestamp_ms = (uint32_t)xTaskGetTickCount();
+    snapshot->sample_count++;
+    snapshot->cpu_percent = 0.0f;
+    snapshot->cpu_valid   = false;
+    // uxTaskGetSystemState returns zero when the task array is too small.
+    snapshot->capacity_exceeded = (count == 0);
+}
 
-        // Calculate per-task CPU usage
+static void calculate_task_utilization(TaskStatus_t *raw_task, diagnostics_task_t *task, uint32_t total_delta) {
         for (UBaseType_t j = 0; j < g_diagnostics_context.previous_task_count; j++) {
-            if (g_diagnostics_context.prev_task_times[j].task_id == source_task->xTaskNumber) {
-                destination_task->cpu_usage_valid =
-                    calculate_cpu_utilization(source_task->ulRunTimeCounter,
+            if (g_diagnostics_context.prev_task_times[j].task_id == raw_task->xTaskNumber) {
+                task->cpu_usage_valid =
+                    calculate_cpu_utilization(raw_task->ulRunTimeCounter,
                                               g_diagnostics_context.prev_task_times[j].runtime,
                                               total_delta,
-                                              &destination_task->cpu_usage_percent);
+                                              &task->cpu_usage_percent);
                 break;
             }
         }
+}
 
-        // Calculate overall CPU usage
-        if (source_task->xHandle == idle_task && destination_task->cpu_usage_valid) {
-            g_diagnostics_context.working_snapshot.cpu_usage_percent =
-                100.0f - destination_task->cpu_usage_percent;
-            g_diagnostics_context.working_snapshot.cpu_usage_valid = true;
-        }
-    }
-    // update previous task run times
-    for (UBaseType_t i = 0; i < count; i++) {
+static void save_task_runtimes(UBaseType_t task_count) {
+    for (UBaseType_t i = 0; i < task_count; i++) {
         g_diagnostics_context.prev_task_times[i].task_id =
             g_diagnostics_context.raw_tasks[i].xTaskNumber;
         g_diagnostics_context.prev_task_times[i].runtime =
@@ -91,5 +70,39 @@ void diagnostics_periodic(void) {
     }
 
     g_diagnostics_context.previous_total_runtime = g_diagnostics_context.total_runtime;
-    g_diagnostics_context.previous_task_count    = count;
+    g_diagnostics_context.previous_task_count    = task_count;
+}
+
+void diagnostics_periodic(void) {
+    UBaseType_t task_count = uxTaskGetSystemState(g_diagnostics_context.raw_tasks,
+                                                  DIAGNOSTICS_MAX_TASKS,
+                                                  &g_diagnostics_context.total_runtime);
+    // total time delta inbetween diagnostics_periodic function calls
+    uint32_t total_delta =
+        g_diagnostics_context.total_runtime - g_diagnostics_context.previous_total_runtime;
+    TaskHandle_t idle_task = xTaskGetIdleTaskHandle();
+
+    begin_snapshot(task_count);
+
+    for (UBaseType_t i = 0; i < task_count; i++) {
+        TaskStatus_t *raw_task   = &g_diagnostics_context.raw_tasks[i];
+        diagnostics_task_t *task = &g_diagnostics_context.snapshot.tasks[i];
+        // zero out task
+        *task = (diagnostics_task_t) {0};
+
+        task->task_id = raw_task->xTaskNumber;
+        strcpy(task->name, raw_task->pcTaskName);
+        task->stack_min_free_bytes =
+            raw_task->usStackHighWaterMark * sizeof(StackType_t);
+        task->state = raw_task->eCurrentState;
+        calculate_task_utilization(raw_task, task, total_delta);
+
+        // Calculate overall CPU usage
+        if (raw_task->xHandle == idle_task && task->cpu_usage_valid) {
+            g_diagnostics_context.snapshot.cpu_percent =
+                100.0f - task->cpu_usage_percent;
+            g_diagnostics_context.snapshot.cpu_valid = true;
+        }
+    }
+    save_task_runtimes(task_count);
 }
