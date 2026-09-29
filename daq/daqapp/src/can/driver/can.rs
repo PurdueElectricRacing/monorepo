@@ -53,6 +53,10 @@ impl SerialDriver {
 }
 
 impl CanDriver for SerialDriver {
+    fn needs_read_retry_sleep(&self) -> bool {
+        true
+    }
+
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         self.socket
             .read()
@@ -139,6 +143,10 @@ impl UdpDriver {
 }
 
 impl CanDriver for UdpDriver {
+    fn needs_read_retry_sleep(&self) -> bool {
+        true
+    }
+
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         let mut buf = [0; UDP_MAX_PACKET_SIZE];
         match self.socket.recv_from(&mut buf) {
@@ -200,6 +208,10 @@ impl SimulatedDriver {
 }
 
 impl CanDriver for SimulatedDriver {
+    fn needs_read_retry_sleep(&self) -> bool {
+        true
+    }
+
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         if self.connected {
             let mut rng = rand::rng();
@@ -283,6 +295,10 @@ impl LoopbackDriver {
 }
 
 impl CanDriver for LoopbackDriver {
+    fn needs_read_retry_sleep(&self) -> bool {
+        true
+    }
+
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         if !self.connected {
             return Err(DriverError::ReadError(DriverReadError::Other(

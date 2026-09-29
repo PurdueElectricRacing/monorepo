@@ -32,10 +32,9 @@ pub trait CanDriver {
 
     /// Whether the CAN thread should sleep after a read timeout.
     ///
-    /// FIL overrides this because it already performs its own bounded receive wait.
-    fn needs_read_retry_sleep(&self) -> bool {
-        true
-    }
+    /// FIL already performs its own bounded receive wait; native drivers need the
+    /// CAN thread's retry delay.
+    fn needs_read_retry_sleep(&self) -> bool;
 }
 
 pub enum ActiveDriver {
