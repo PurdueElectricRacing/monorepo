@@ -2,6 +2,7 @@ use std::{env, error, sync::mpsc};
 
 mod action;
 mod app;
+mod messages;
 mod assets;
 mod fil_annotations;
 mod paths;
