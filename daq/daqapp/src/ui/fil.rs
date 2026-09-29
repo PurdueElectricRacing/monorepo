@@ -1017,29 +1017,32 @@ impl FilControl {
                 });
                 ui.horizontal(|ui| {
                     ui.label("Channel:");
-                    egui::ComboBox::from_id_salt(("fil_adc_channel", &self.title))
-                        .selected_text(self.adc_channel.to_string())
-                        .show_ui(ui, |ui| {
-                            for channel in 0..=19u8 {
-                                ui.selectable_value(
-                                    &mut self.adc_channel,
-                                    channel,
-                                    channel.to_string(),
-                                );
-                            }
-                        });
-                    let channel_annotation = self
+                    let channel_annotations = self
                         .annotations
                         .adc
                         .as_ref()
                         .and_then(|boards| boards.get(&self.adc_board))
                         .and_then(|instances| instances.get(self.adc_instance.as_str()))
-                        .and_then(|annotation| annotation.channels.as_ref())
-                        .and_then(|channels| channels.get(&self.adc_channel));
-                    if let Some(label) = channel_annotation.filter(|label| !label.trim().is_empty())
-                    {
-                        ui.label(format!("— {}", label.trim()));
-                    }
+                        .and_then(|annotation| annotation.channels.as_ref());
+                    let selected_channel = annotated_text(
+                        &self.adc_channel.to_string(),
+                        channel_annotations
+                            .and_then(|channels| channels.get(&self.adc_channel))
+                            .map(String::as_str),
+                    );
+                    egui::ComboBox::from_id_salt(("fil_adc_channel", &self.title))
+                        .selected_text(selected_channel)
+                        .show_ui(ui, |ui| {
+                            for channel in 0..=19u8 {
+                                let label = annotated_text(
+                                    &channel.to_string(),
+                                    channel_annotations
+                                        .and_then(|channels| channels.get(&channel))
+                                        .map(String::as_str),
+                                );
+                                ui.selectable_value(&mut self.adc_channel, channel, label);
+                            }
+                        });
                     ui.label("Raw value:");
                     ui.add(egui::Slider::new(&mut self.adc_value, 0..=4095));
                     if ui.button("Inject").clicked() {
