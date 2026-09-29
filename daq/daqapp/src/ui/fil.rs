@@ -1,4 +1,4 @@
-use crate::{action, app, settings};
+use crate::{action, app, fil_annotations, settings};
 use daqcore::connection;
 use eframe::egui;
 use std::collections::{HashMap, HashSet};
@@ -27,7 +27,8 @@ pub struct FilControl {
     adc_channel: u8,
     adc_value: u16,
     run_options: settings::FilRunOptions,
-    annotations: settings::FilAnnotations,
+    annotations: fil_annotations::FilAnnotations,
+    annotation_error: Option<String>,
     gpio_board: String,
     gpio_port: String,
     gpio_states: HashMap<(String, String, u8), GpioPinState>,
@@ -36,6 +37,10 @@ pub struct FilControl {
 impl FilControl {
     pub fn new(instance_num: usize) -> Self {
         let saved = settings::Settings::load().fil;
+        let (annotations, annotation_error) = match fil_annotations::load() {
+            Ok(annotations) => (annotations, None),
+            Err(error) => (fil_annotations::FilAnnotations::default(), Some(error)),
+        };
         let mut control = Self {
             title: format!("FIL Control #{}", instance_num),
             executable: saved.executable,
@@ -54,7 +59,8 @@ impl FilControl {
             adc_channel: saved.adc_channel.min(19),
             adc_value: saved.adc_value.min(4095),
             run_options: saved.run_options,
-            annotations: saved.annotations.unwrap_or_default(),
+            annotations,
+            annotation_error,
             gpio_board: "dashboard".into(),
             gpio_port: "GPIOA".into(),
             gpio_states: HashMap::new(),
@@ -314,7 +320,6 @@ impl FilControl {
                 disabled_boards: self.disabled_boards.clone(),
                 use_builder: self.use_builder,
                 builder: self.builder.clone(),
-                annotations: (!self.annotations.is_empty()).then(|| self.annotations.clone()),
                 adc_board: self.adc_board.clone(),
                 adc_instance: self.adc_instance.clone(),
                 adc_channel: self.adc_channel,
@@ -808,6 +813,12 @@ impl FilControl {
         self.refresh_network_info();
         egui::ScrollArea::vertical().show(ui, |ui| {
             ui.heading("FIL real-time emulator");
+            if let Some(error) = &self.annotation_error {
+                ui.colored_label(
+                    egui::Color32::LIGHT_RED,
+                    format!("FIL annotation config unavailable: {error}"),
+                );
+            }
             let status = match connection_status {
                 app::ConnectionStatus::Disconnected => {
                     egui::RichText::new("● Disconnected").color(egui::Color32::GRAY)

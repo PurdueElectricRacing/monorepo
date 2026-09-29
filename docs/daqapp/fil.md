@@ -57,36 +57,40 @@ frames report send errors.
 
 ### GPIO and ADC annotations
 
-Add optional labels to the `fil.annotations` object in DaqApp's `settings.json`. Board keys
-must match the board `name` in the selected network. GPIO port labels appear in the port
-picker, pin labels beside each pin, ADC labels in the instance picker, and channel labels
-beside the selected channel. Annotations only affect DaqApp's controls; they are not passed
-to FIL and do not change emulation.
+Annotations live in the standalone `fil_annotations.json` beside DaqApp's `settings.json`
+(run DaqApp from `daq/daqapp/`, as documented in its README). The checked-in file contains
+labels for the PER firmware boards. Labels follow firmware pin/channel definitions and do
+not verify physical harness wiring; boards without firmware-defined ADC mappings have no ADC
+entries. Board keys must match the board `name` in the selected FIL network. GPIO port
+labels appear in the port picker, pin labels beside each pin, ADC labels in the instance
+picker, and channel labels beside the selected channel. These labels
+only affect DaqApp's controls; they are not passed to FIL and do not change emulation. Edit
+the file and restart DaqApp to reload it. If the file is missing, DaqApp falls back to its
+embedded PER annotations. If it is unreadable or invalid, DaqApp continues without labels
+and shows a warning in the FIL widget.
+
+The file has this shape:
 
 ```json
 {
-  "fil": {
-    "annotations": {
-      "gpio": {
-        "dashboard": {
-          "GPIOA": {
-            "label": "Dashboard controls",
-            "pins": {
-              "0": "Ignition sense",
-              "1": "Launch button"
-            }
-          }
+  "gpio": {
+    "dashboard": {
+      "GPIOA": {
+        "label": "Analog controls and steering inputs",
+        "pins": {
+          "0": "Regen 2 analog input",
+          "1": "Brake pressure 1 analog input"
         }
-      },
-      "adc": {
-        "dashboard": {
-          "ADC1": {
-            "label": "Pedal inputs",
-            "channels": {
-              "0": "Accelerator position",
-              "1": "Brake pressure"
-            }
-          }
+      }
+    }
+  },
+  "adc": {
+    "dashboard": {
+      "ADC1": {
+        "label": "Dashboard analog controls",
+        "channels": {
+          "1": "Regen 2",
+          "8": "Throttle 1"
         }
       }
     }
@@ -94,10 +98,10 @@ to FIL and do not change emulation.
 }
 ```
 
-Each section is optional. GPIO port keys use `GPIOA`–`GPIOG`; pin keys are numbers 0–15.
-ADC instance keys use `ADC1`–`ADC4`; channel keys are numbers 0–19. Names are case-sensitive;
-unknown board, port, or instance keys and out-of-range pins/channels are ignored. Unannotated
-items keep their existing names, and older settings files can omit `annotations` entirely.
+Each top-level section is optional. GPIO port keys use `GPIOA`–`GPIOG`; pin keys are numbers
+0–15. ADC instance keys use `ADC1`–`ADC4`; channel keys are numbers 0–19. Names are
+case-sensitive; unknown board, port, or instance keys and out-of-range pins/channels are
+ignored. Items absent from the file retain their existing names.
 
 ## Inject inputs
 
