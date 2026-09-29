@@ -1,4 +1,4 @@
-use super::driver::{Driver, DriverError, DriverReadError, DriverResult, FilGpioEvent};
+use crate::can::driver::{CanDriver, DriverError, DriverReadError, DriverResult};
 use crate::connection::CanBusSpeed;
 use slcan::CanFrame;
 use std::io::{BufRead, BufReader, BufWriter, Write};
@@ -10,6 +10,15 @@ use std::time::{Duration, Instant};
 
 const FIL_READ_TIMEOUT_MS: u64 = 1;
 const FIL_MAX_FRAMES_PER_POLL: usize = 256;
+
+#[derive(Debug)]
+pub struct FilGpioEvent {
+    pub board: String,
+    pub port: String,
+    pub pin: u8,
+    pub value: Option<bool>,
+    pub output: bool,
+}
 
 #[derive(Clone, Debug)]
 struct FilCanEvent {
@@ -404,7 +413,7 @@ fn receive_fil_frames(
     Ok(frames)
 }
 
-impl Driver for FilDriver {
+impl CanDriver for FilDriver {
     fn needs_read_retry_sleep(&self) -> bool {
         false
     }
@@ -534,9 +543,10 @@ impl Drop for FilDriver {
 
 #[cfg(test)]
 mod fil_tests {
-    use super::{
-        DriverError, DriverReadError, FilCanEvent, format_fil_injection, parse_fil_can_tx,
-        parse_fil_gpio, receive_fil_frames, trace_source_matches, watch_network_args,
+    use crate::can::driver::fil::{
+        DriverError, DriverReadError, FIL_MAX_FRAMES_PER_POLL, FilCanEvent, format_fil_injection,
+        parse_fil_can_tx, parse_fil_gpio, receive_fil_frames, trace_source_matches,
+        watch_network_args,
     };
     use std::sync::mpsc;
     use std::time::Duration;
@@ -672,7 +682,7 @@ mod fil_tests {
         let (sender, receiver) = mpsc::channel();
         let id = slcan::StandardId::new(0x123).expect("standard id");
         let frame = slcan::Can2Frame::new_data(id, &[1]).expect("data frame");
-        for _ in 0..(super::FIL_MAX_FRAMES_PER_POLL + 1) {
+        for _ in 0..(FIL_MAX_FRAMES_PER_POLL + 1) {
             sender
                 .send(Ok(FilCanEvent {
                     source: "vehicle/main.FDCAN1".into(),
@@ -683,7 +693,7 @@ mod fil_tests {
 
         let frames =
             receive_fil_frames(&receiver, Duration::ZERO, None).expect("receive FIL frames");
-        assert_eq!(frames.len(), super::FIL_MAX_FRAMES_PER_POLL);
+        assert_eq!(frames.len(), FIL_MAX_FRAMES_PER_POLL);
         assert!(receiver.try_recv().is_ok(), "leaves excess traffic queued");
     }
 

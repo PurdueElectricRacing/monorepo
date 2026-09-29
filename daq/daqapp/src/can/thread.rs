@@ -14,7 +14,7 @@ const FIRMWARE_FRAME_DELAY_MS: u64 = 4;
 // Driver acceptance is not target acknowledgement; synchronization comes from
 // START and CRC responses rather than replies to individual data words.
 fn send_firmware_frame(
-    driver: &mut dyn can::driver::Driver,
+    driver: &mut dyn can::driver::CanDriver,
     outbound: can::bootloader::OutboundFrame,
 ) -> can::driver::DriverResult<()> {
     let id = slcan::StandardId::new(outbound.id as u16).ok_or_else(|| {
@@ -434,11 +434,11 @@ pub fn start_can_thread(
             };
 
             if let Some(active_driver) = state.driver.as_mut() {
-                for event in active_driver
+                let gpio_events: Vec<can::driver::FilGpioEvent> = active_driver
                     .fil_mut()
                     .map(|fil| fil.take_gpio_events())
-                    .unwrap_or_default()
-                {
+                    .unwrap_or_default();
+                for event in gpio_events {
                     let _ = state.can_to_ui_tx.send(messages::MsgFromCan::FilGpio {
                         board: event.board,
                         port: event.port,

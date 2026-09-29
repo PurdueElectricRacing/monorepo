@@ -1,4 +1,5 @@
-use crate::connection::{CanBusSpeed, ConnectionSource};
+use crate::can::driver::{CanDriver, DriverError, DriverReadError, DriverResult};
+use crate::connection::CanBusSpeed;
 use crate::util;
 use rand::prelude::*;
 use serialport::{ClearBuffer, SerialPort};
@@ -14,47 +15,6 @@ const SERIAL_TIMEOUT_MS: u64 = 10;
 const UDP_RAW_FRAME_SIZE: usize = 16; // 4 bytes ticks_ms + 4 bytes identity + 8 bytes payload
 const UDP_MAX_PACKET_SIZE: usize = 2048;
 
-pub type DriverResult<T> = Result<T, DriverError>;
-
-#[derive(Debug)]
-pub struct FilGpioEvent {
-    pub board: String,
-    pub port: String,
-    pub pin: u8,
-    pub value: Option<bool>,
-    pub output: bool,
-}
-
-#[derive(Debug)]
-pub enum DriverReadError {
-    Timeout,
-    IoError(String),
-    Other(String),
-}
-
-#[derive(Debug)]
-pub enum DriverError {
-    ConnectionFailed(String),
-    ReadError(DriverReadError),
-    WriteError(String),
-}
-
-pub trait Driver {
-    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>>;
-
-    fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()>;
-
-    fn is_connected(&self) -> bool;
-
-    fn bus_speed(&self) -> Option<CanBusSpeed>;
-
-    fn close(&mut self) -> DriverResult<()>;
-
-    fn needs_read_retry_sleep(&self) -> bool {
-        true
-    }
-}
-
 /// Serial CAN driver using SLCAN protocol
 pub struct SerialDriver {
     socket: CanSocket<Box<dyn SerialPort>>,
@@ -63,7 +23,7 @@ pub struct SerialDriver {
 }
 
 impl SerialDriver {
-    pub fn new(port_path: &str, speed: CanBusSpeed) -> DriverResult<Self> {
+    pub(super) fn new(port_path: &str, speed: CanBusSpeed) -> DriverResult<Self> {
         let port = serialport::new(port_path, SERIAL_BAUD_RATE)
             .timeout(Duration::from_millis(SERIAL_TIMEOUT_MS))
             .open()
@@ -92,7 +52,7 @@ impl SerialDriver {
     }
 }
 
-impl Driver for SerialDriver {
+impl CanDriver for SerialDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         self.socket
             .read()
@@ -153,7 +113,7 @@ pub struct UdpDriver {
 }
 
 impl UdpDriver {
-    pub fn new(port: u16) -> DriverResult<Self> {
+    pub(super) fn new(port: u16) -> DriverResult<Self> {
         let udp_addr = format!("0.0.0.0:{}", port);
         let socket = UdpSocket::bind(udp_addr).map_err(|e| {
             DriverError::ConnectionFailed(format!("Failed to bind to port {}: {}", port, e))
@@ -178,7 +138,7 @@ impl UdpDriver {
     }
 }
 
-impl Driver for UdpDriver {
+impl CanDriver for UdpDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         let mut buf = [0; UDP_MAX_PACKET_SIZE];
         match self.socket.recv_from(&mut buf) {
@@ -219,13 +179,13 @@ impl Driver for UdpDriver {
     }
 }
 
-struct SimulatedDriver {
+pub(super) struct SimulatedDriver {
     connected: bool,
     pub parser: Option<can_decode::Parser>,
 }
 
 impl SimulatedDriver {
-    fn new(connected: bool, dbc_path: Option<std::path::PathBuf>) -> DriverResult<Self> {
+    pub(super) fn new(connected: bool, dbc_path: Option<std::path::PathBuf>) -> DriverResult<Self> {
         if connected {
             Ok(Self {
                 connected,
@@ -239,7 +199,7 @@ impl SimulatedDriver {
     }
 }
 
-impl Driver for SimulatedDriver {
+impl CanDriver for SimulatedDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         if self.connected {
             let mut rng = rand::rng();
@@ -308,13 +268,13 @@ impl Driver for SimulatedDriver {
     }
 }
 
-struct LoopbackDriver {
+pub(super) struct LoopbackDriver {
     connected: bool,
     queued_frames: VecDeque<CanFrame>,
 }
 
 impl LoopbackDriver {
-    fn new() -> Self {
+    pub(super) fn new() -> Self {
         Self {
             connected: true,
             queued_frames: VecDeque::new(),
@@ -322,7 +282,7 @@ impl LoopbackDriver {
     }
 }
 
-impl Driver for LoopbackDriver {
+impl CanDriver for LoopbackDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         if !self.connected {
             return Err(DriverError::ReadError(DriverReadError::Other(
@@ -432,77 +392,4 @@ pub fn parse_udp_buffer(
     }
 
     Ok(frames)
-}
-
-pub enum ActiveDriver {
-    Can(Box<dyn Driver>),
-    Fil(super::fil_driver::FilDriver),
-}
-
-impl ActiveDriver {
-    pub fn as_mut(&mut self) -> &mut dyn Driver {
-        match self {
-            Self::Can(driver) => driver.as_mut(),
-            Self::Fil(driver) => driver,
-        }
-    }
-
-    pub fn fil_mut(&mut self) -> Option<&mut super::fil_driver::FilDriver> {
-        match self {
-            Self::Fil(driver) => Some(driver),
-            Self::Can(_) => None,
-        }
-    }
-}
-
-impl std::ops::Deref for ActiveDriver {
-    type Target = dyn Driver;
-
-    fn deref(&self) -> &Self::Target {
-        match self {
-            Self::Can(driver) => driver.as_ref(),
-            Self::Fil(driver) => driver,
-        }
-    }
-}
-
-impl std::ops::DerefMut for ActiveDriver {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        match self {
-            Self::Can(driver) => driver.as_mut(),
-            Self::Fil(driver) => driver,
-        }
-    }
-}
-
-pub fn create_driver(source: &ConnectionSource) -> DriverResult<ActiveDriver> {
-    match source {
-        ConnectionSource::Serial(path, speed) => Ok(ActiveDriver::Can(Box::new(
-            SerialDriver::new(path, *speed)?,
-        ))),
-        ConnectionSource::Udp(port) => Ok(ActiveDriver::Can(Box::new(UdpDriver::new(*port)?))),
-        ConnectionSource::Simulated(connected, dbc_path) => Ok(ActiveDriver::Can(Box::new(
-            SimulatedDriver::new(*connected, dbc_path.clone())?,
-        ))),
-        ConnectionSource::Fil {
-            executable,
-            network,
-            bus,
-            trace_bus,
-            elf_overrides,
-            disabled_boards,
-            built_network,
-            run_options,
-        } => Ok(ActiveDriver::Fil(super::fil_driver::FilDriver::new(
-            executable,
-            network,
-            bus,
-            trace_bus,
-            elf_overrides,
-            disabled_boards,
-            built_network,
-            run_options,
-        )?)),
-        ConnectionSource::Loopback => Ok(ActiveDriver::Can(Box::new(LoopbackDriver::new()))),
-    }
 }
