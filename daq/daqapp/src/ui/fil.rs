@@ -1017,7 +1017,17 @@ impl FilControl {
                 });
                 ui.horizontal(|ui| {
                     ui.label("Channel:");
-                    ui.add(egui::DragValue::new(&mut self.adc_channel).range(0..=19));
+                    egui::ComboBox::from_id_salt(("fil_adc_channel", &self.title))
+                        .selected_text(self.adc_channel.to_string())
+                        .show_ui(ui, |ui| {
+                            for channel in 0..=19u8 {
+                                ui.selectable_value(
+                                    &mut self.adc_channel,
+                                    channel,
+                                    channel.to_string(),
+                                );
+                            }
+                        });
                     let channel_annotation = self
                         .annotations
                         .adc
