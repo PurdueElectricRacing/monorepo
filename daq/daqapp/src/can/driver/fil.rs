@@ -1,6 +1,6 @@
 use crate::can::driver::{CanDriver, DriverError, DriverReadError, DriverResult};
 use crate::connection::CanBusSpeed;
-use crate::messages::{FilAdcInstance, FilGpioPort};
+use crate::messages::{FilAdcInstance, FilExpectationEvent, FilExpectationStatus, FilGpioPort};
 use slcan::CanFrame;
 use std::io::{BufRead, BufReader, BufWriter, Write};
 use std::process::{Child, ChildStdin, Command, Stdio};
@@ -11,6 +11,7 @@ use std::time::{Duration, Instant};
 
 const FIL_READ_TIMEOUT_MS: u64 = 1;
 const FIL_MAX_FRAMES_PER_POLL: usize = 256;
+const FIL_MAX_EXPECTATION_EVENTS: usize = 256;
 
 #[derive(Debug)]
 pub struct FilGpioEvent {
@@ -67,7 +68,15 @@ fn watch_network_args(options: &crate::settings::FilRunOptions) -> DriverResult<
     if options.detect_spin {
         args.push("--detect-spin".into());
     }
-    for filter in ["can_tx", "gpio_input", "gpio_output"] {
+    for filter in [
+        "can_tx",
+        "gpio_input",
+        "gpio_output",
+        "expectation_pending",
+        "expectation_pass",
+        "expectation_fail",
+        "expectation_incomplete",
+    ] {
         args.extend(["--live-filter".into(), filter.into()]);
     }
     for filter in options
@@ -92,6 +101,7 @@ pub struct FilDriver {
     input: BufWriter<ChildStdin>,
     output: Receiver<Result<FilCanEvent, String>>,
     gpio_output: Receiver<FilGpioEvent>,
+    expectation_output: Receiver<FilExpectationEvent>,
     bus: String,
     trace_bus: Arc<RwLock<Option<String>>>,
     connected: bool,
@@ -191,6 +201,7 @@ impl FilDriver {
         });
         let (output_tx, output) = mpsc::channel();
         let (gpio_output_tx, gpio_output) = mpsc::channel();
+        let (expectation_tx, expectation_output) = mpsc::channel();
         let trace_bus = Arc::new(RwLock::new(trace_bus.clone()));
         let reader_trace_bus = Arc::clone(&trace_bus);
         thread::spawn(move || {
@@ -204,6 +215,12 @@ impl FilDriver {
                         break;
                     }
                     Ok(_) => {
+                        if let Some(event) = parse_fil_expectation(&line) {
+                            if expectation_tx.send(event).is_err() {
+                                break;
+                            }
+                            continue;
+                        }
                         if let Some(event) = parse_fil_gpio(&line) {
                             if gpio_output_tx.send(event).is_err() {
                                 break;
@@ -234,11 +251,95 @@ impl FilDriver {
             input: BufWriter::new(stdin),
             output,
             gpio_output,
+            expectation_output,
             bus: bus.into(),
             trace_bus,
             connected: true,
         })
     }
+}
+
+fn parse_fil_expectation(line: &str) -> Option<FilExpectationEvent> {
+    const KEYS: &[&str] = &[
+        "check_id",
+        "script",
+        "stimulus_index",
+        "expect_index",
+        "status",
+        "expected_bus",
+        "expected_id",
+        "expected_extended",
+        "expected_data",
+        "window_start_ns",
+        "window_end_ns",
+        "matched_bus",
+        "matched_id",
+        "matched_data",
+        "matched_origin",
+        "matched_time_ns",
+        "reason",
+    ];
+    let tokens: Vec<&str> = line.split_ascii_whitespace().collect();
+    let kind_index = tokens.iter().position(|token| {
+        matches!(
+            *token,
+            "expectation_pending"
+                | "expectation_pass"
+                | "expectation_fail"
+                | "expectation_incomplete"
+        )
+    })?;
+    let status = match tokens[kind_index] {
+        "expectation_pending" => FilExpectationStatus::Pending,
+        "expectation_pass" => FilExpectationStatus::Pass,
+        "expectation_fail" => FilExpectationStatus::Fail,
+        "expectation_incomplete" => FilExpectationStatus::Incomplete,
+        _ => return None,
+    };
+    let mut fields = std::collections::HashMap::<&str, String>::new();
+    let mut current: Option<&str> = None;
+    for token in tokens.iter().skip(kind_index + 1) {
+        if let Some((key, value)) = token.split_once('=')
+            && KEYS.contains(&key)
+        {
+            current = Some(key);
+            fields.insert(key, value.to_owned());
+        } else if let Some(key) = current {
+            let value = fields.get_mut(key)?;
+            value.push(' ');
+            value.push_str(token);
+        }
+    }
+    let value = |name: &str| fields.get(name).map(String::as_str);
+    let parse_id = |v: &str| u32::from_str_radix(v.trim_start_matches("0x"), 16).ok();
+    let parse_data = |v: &str| {
+        let bytes = v.trim();
+        if bytes.len() % 2 != 0 {
+            return None;
+        }
+        bytes
+            .as_bytes()
+            .chunks_exact(2)
+            .map(|pair| u8::from_str_radix(std::str::from_utf8(pair).ok()?, 16).ok())
+            .collect::<Option<Vec<u8>>>()
+    };
+    Some(FilExpectationEvent {
+        check_id: value("check_id")?.to_owned(),
+        script: value("script")?.to_owned(),
+        status,
+        expected_bus: value("expected_bus")?.to_owned(),
+        expected_id: parse_id(value("expected_id")?)?,
+        expected_extended: value("expected_extended")?.parse().ok()?,
+        expected_data: parse_data(value("expected_data")?)?,
+        window_start_ns: value("window_start_ns")?.parse().ok()?,
+        window_end_ns: value("window_end_ns")?.parse().ok()?,
+        matched_bus: value("matched_bus").map(str::to_owned),
+        matched_id: value("matched_id").and_then(parse_id),
+        matched_data: value("matched_data").and_then(parse_data),
+        matched_origin: value("matched_origin").map(str::to_owned),
+        matched_time_ns: value("matched_time_ns").and_then(|v| v.parse().ok()),
+        reason: value("reason").map(str::to_owned),
+    })
 }
 
 fn parse_fil_can_tx(line: &str) -> Option<FilCanEvent> {
@@ -513,6 +614,13 @@ impl FilDriver {
         self.gpio_output.try_iter().take(256).collect()
     }
 
+    pub fn take_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
+        self.expectation_output
+            .try_iter()
+            .take(FIL_MAX_EXPECTATION_EVENTS)
+            .collect()
+    }
+
     pub fn set_adc(
         &mut self,
         board: &str,
@@ -557,8 +665,8 @@ impl Drop for FilDriver {
 mod fil_tests {
     use crate::can::driver::fil::{
         DriverError, DriverReadError, FIL_MAX_FRAMES_PER_POLL, FilCanEvent, format_adc_injection,
-        format_fil_injection, format_gpio_injection, parse_fil_can_tx, parse_fil_gpio,
-        receive_fil_frames, trace_source_matches, watch_network_args,
+        format_fil_injection, format_gpio_injection, parse_fil_can_tx, parse_fil_expectation,
+        parse_fil_gpio, receive_fil_frames, trace_source_matches, watch_network_args,
     };
     use crate::messages::{FilAdcInstance, FilGpioPort};
     use std::sync::mpsc;
@@ -575,7 +683,16 @@ mod fil_tests {
         );
         assert!(!args.iter().any(|arg| arg == "--no-wall-pacing"));
         assert!(!args.iter().any(|arg| arg == "--no-loop-batching"));
-        for flag in ["can_tx", "gpio_input", "gpio_output", "--control-stdin"] {
+        for flag in [
+            "can_tx",
+            "gpio_input",
+            "gpio_output",
+            "expectation_pending",
+            "expectation_pass",
+            "expectation_fail",
+            "expectation_incomplete",
+            "--control-stdin",
+        ] {
             assert!(args.iter().any(|arg| arg == flag));
         }
     }
@@ -603,6 +720,10 @@ mod fil_tests {
             "can_tx",
             "gpio_input",
             "gpio_output",
+            "expectation_pending",
+            "expectation_pass",
+            "expectation_fail",
+            "expectation_incomplete",
             "can_rx",
             "irq",
         ] {
@@ -610,6 +731,44 @@ mod fil_tests {
         }
         options.adc_decimation = 0;
         assert!(watch_network_args(&options).is_err());
+    }
+
+    #[test]
+    fn parses_expectation_lifecycle_and_spaced_script_names_independent_of_bus() {
+        let pending = parse_fil_expectation("[12.345 ms] expectation/a script with spaces expectation_pending check_id=stimulus/0/a script with spaces/expect/1 script=a script with spaces expected_bus=vehicle expected_id=0x321 expected_extended=false expected_data=0102 window_start_ns=1000000 window_end_ns=2000000").unwrap();
+        assert_eq!(pending.check_id, "stimulus/0/a script with spaces/expect/1");
+        assert_eq!(pending.script, "a script with spaces");
+        assert_eq!(
+            pending.status,
+            crate::messages::FilExpectationStatus::Pending
+        );
+        assert_eq!(pending.window_end_ns, 2_000_000);
+        let pass = parse_fil_expectation("[12.346 ms] expectation/a script expectation_pass check_id=stimulus/0/a/expect/1 script=a expected_bus=vehicle expected_id=0x321 expected_extended=true expected_data=0102 window_start_ns=1000000 window_end_ns=2000000 matched_bus=vehicle matched_id=0x321 matched_data=0102 matched_origin=dashboard/FDCAN1 matched_time_ns=1234567").unwrap();
+        assert_eq!(pass.status, crate::messages::FilExpectationStatus::Pass);
+        assert!(pass.expected_extended);
+        assert!(!pending.expected_extended);
+        for (record_type, expected) in [
+            (
+                "expectation_fail",
+                crate::messages::FilExpectationStatus::Fail,
+            ),
+            (
+                "expectation_incomplete",
+                crate::messages::FilExpectationStatus::Incomplete,
+            ),
+        ] {
+            let line = format!(
+                "[12.346 ms] expectation/a {record_type} check_id=stimulus/0/a/expect/1 script=a expected_bus=vehicle expected_id=0x321 expected_extended=false expected_data=0102 window_start_ns=1000000 window_end_ns=2000000"
+            );
+            assert_eq!(parse_fil_expectation(&line).unwrap().status, expected);
+        }
+        assert_eq!(pass.matched_time_ns, Some(1_234_567));
+        assert_eq!(pass.matched_origin.as_deref(), Some("dashboard/FDCAN1"));
+        assert!(
+            parse_fil_expectation("[0.000 ms] x expectation_fail check_id=x expected_id=bad")
+                .is_none()
+        );
+        assert!(parse_fil_expectation("[0.000 ms] x expectation_pass check_id=x script=x expected_bus=b expected_id=0x1 expected_data=0 window_start_ns=1 window_end_ns=2").is_none());
     }
 
     #[test]

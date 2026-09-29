@@ -28,7 +28,7 @@ wall-clock pacing, loop batching, and 32× ADC decimation for responsive six-boa
 Set decimation to 1 when validating pedal or fault behavior: skipped ADC scans change
 firmware-visible DMA updates.
 Additional comma-separated live trace filters may be added; CAN transmit and GPIO input/output
-filters and stdin control always remain enabled for DaqApp. Add `instr` to the extra filters
+filters, expectation lifecycle filters, and stdin control always remain enabled for DaqApp. Add `instr` to the extra filters
 when enabling instruction tracing. Changes take effect on the next
 **Connect / Restart**. Use a FIL executable built with watch-network support for these options.
 
@@ -54,6 +54,39 @@ DaqApp owns the emulator process; disconnecting kills it. Overrides are material
 temp dir (originals untouched) and everything persists in `settings.json`. Failures are
 reported, never auto-retried. Only CAN 2.0 data frames are supported; CAN FD and remote
 frames report send errors.
+
+## Expectations
+
+Add an `expect` array to a FIL stimulus script and attach it to the network just like any
+other stimulus script. For example:
+
+```json
+{
+  "events": [],
+  "expect": [
+    { "type": "can", "bus": "vcan", "id": "0x321", "data": [1, 2],
+      "at_ms": 20, "window_ms": 10 }
+  ]
+}
+```
+
+Use the bus name declared by your network. FIL checks firmware-generated CAN output for
+an exact bus, ID, and payload match in the inclusive simulation-time interval from
+`at_ms` to `at_ms + window_ms`; injected frames do not satisfy a check. See FIL's
+[expectation format](https://github.com/ronakpjain/fil/blob/main/docs/configuration.md#stimulus-scripts)
+for supported fields and validation rules.
+
+The **Expectations** panel inside **FIL Control** displays FIL's authoritative lifecycle
+traces: pending, passed, failed, or incomplete (the run ended before the check resolved).
+It shows each check's expected frame (including standard/extended format) and time window,
+with available match details. Results remain visible after disconnection and are cleared
+on the next successful connection or with **Clear**. The panel retains up to 500 checks.
+Checks are identified by FIL's `check_id`, so repeated script attachments stay distinct.
+Expectation results are independent of the **View/trace CAN bus** filter. DaqApp does
+not implement a separate expectation evaluator or infer success from displayed CAN frames.
+Use a FIL build that emits expectation lifecycle traces; older executables cannot provide
+these results. Stopping the child process abruptly may prevent it from emitting a terminal
+result, so a pending check is not proof of success or failure.
 
 ### GPIO and ADC annotations
 

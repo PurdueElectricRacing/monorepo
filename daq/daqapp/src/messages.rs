@@ -155,6 +155,34 @@ pub enum MsgFromCan {
         value: Option<bool>,
         direction: FilGpioDirection,
     },
+    FilExpectation(FilExpectationEvent),
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum FilExpectationStatus {
+    Pending,
+    Pass,
+    Fail,
+    Incomplete,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct FilExpectationEvent {
+    pub check_id: String,
+    pub script: String,
+    pub status: FilExpectationStatus,
+    pub expected_bus: String,
+    pub expected_id: u32,
+    pub expected_extended: bool,
+    pub expected_data: Vec<u8>,
+    pub window_start_ns: u64,
+    pub window_end_ns: u64,
+    pub matched_bus: Option<String>,
+    pub matched_id: Option<u32>,
+    pub matched_data: Option<Vec<u8>>,
+    pub matched_origin: Option<String>,
+    pub matched_time_ns: Option<u64>,
+    pub reason: Option<String>,
 }
 
 #[derive(Clone, Copy, Debug)]

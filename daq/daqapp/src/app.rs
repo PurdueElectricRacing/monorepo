@@ -304,7 +304,8 @@ impl eframe::App for DAQApp {
                 | messages::MsgFromCan::BusLoad { .. }
                 | messages::MsgFromCan::Hil(_)
                 | messages::MsgFromCan::FirmwareProgress(_)
-                | messages::MsgFromCan::FilGpio { .. } => {
+                | messages::MsgFromCan::FilGpio { .. }
+                | messages::MsgFromCan::FilExpectation(_) => {
                     // Nothing special to do here, the message will be handled
                     // in the individual widgets
                 }

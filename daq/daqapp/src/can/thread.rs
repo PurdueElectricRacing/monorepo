@@ -451,6 +451,15 @@ pub fn start_can_thread(
                         },
                     });
                 }
+                let expectation_events = active_driver
+                    .fil_mut()
+                    .map(|fil| fil.take_expectation_events())
+                    .unwrap_or_default();
+                for event in expectation_events {
+                    let _ = state
+                        .can_to_ui_tx
+                        .send(messages::MsgFromCan::FilExpectation(event));
+                }
             }
 
             match read_result {

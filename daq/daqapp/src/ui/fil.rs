@@ -9,6 +9,31 @@ struct GpioPinState {
     output: Option<bool>,
 }
 
+const FIL_EXPECTATION_HISTORY_LIMIT: usize = 500;
+
+fn clear_expectation_history(
+    events: &mut HashMap<String, messages::FilExpectationEvent>,
+    order: &mut Vec<String>,
+) {
+    events.clear();
+    order.clear();
+}
+
+fn update_expectation_history(
+    events: &mut HashMap<String, messages::FilExpectationEvent>,
+    order: &mut Vec<String>,
+    event: messages::FilExpectationEvent,
+) {
+    if !events.contains_key(&event.check_id) {
+        order.push(event.check_id.clone());
+    }
+    events.insert(event.check_id.clone(), event);
+    while order.len() > FIL_EXPECTATION_HISTORY_LIMIT {
+        let oldest = order.remove(0);
+        events.remove(&oldest);
+    }
+}
+
 pub struct FilControl {
     pub title: String,
     executable: Option<std::path::PathBuf>,
@@ -32,6 +57,8 @@ pub struct FilControl {
     gpio_board: String,
     gpio_port: FilGpioPort,
     gpio_states: HashMap<(String, FilGpioPort, u8), GpioPinState>,
+    expectations: HashMap<String, messages::FilExpectationEvent>,
+    expectation_order: Vec<String>,
 }
 
 impl FilControl {
@@ -64,6 +91,8 @@ impl FilControl {
             gpio_board: "dashboard".into(),
             gpio_port: FilGpioPort::GpioA,
             gpio_states: HashMap::new(),
+            expectations: HashMap::new(),
+            expectation_order: Vec::new(),
         };
         control.refresh_network_info();
         control
@@ -302,9 +331,20 @@ impl FilControl {
                     messages::FilGpioDirection::Output => state.output = *value,
                 }
             }
-            messages::MsgFromCan::Disconnection
-            | messages::MsgFromCan::ConnectionSuccessful
-            | messages::MsgFromCan::ConnectionFailed(_) => self.gpio_states.clear(),
+            messages::MsgFromCan::FilExpectation(event) => update_expectation_history(
+                &mut self.expectations,
+                &mut self.expectation_order,
+                event.clone(),
+            ),
+            messages::MsgFromCan::ConnectionSuccessful => {
+                self.gpio_states.clear();
+                clear_expectation_history(&mut self.expectations, &mut self.expectation_order);
+            }
+            messages::MsgFromCan::Disconnection | messages::MsgFromCan::ConnectionFailed(_) => {
+                self.gpio_states.clear();
+                // Keep the completed run's results visible after FIL exits.
+                // Only a successful new connection or Clear starts fresh history.
+            }
             _ => {}
         }
     }
@@ -965,6 +1005,102 @@ impl FilControl {
 
             ui.add_space(8.0);
             ui.group(|ui| {
+                ui.horizontal(|ui| {
+                    ui.heading("CAN expectations");
+                    if ui.button("Clear").clicked() {
+                        clear_expectation_history(
+                            &mut self.expectations,
+                            &mut self.expectation_order,
+                        );
+                    }
+                });
+                let count = |status| {
+                    self.expectations
+                        .values()
+                        .filter(|event| event.status == status)
+                        .count()
+                };
+                ui.label(format!(
+                    "Pending: {}   Pass: {}   Fail: {}   Incomplete: {}",
+                    count(messages::FilExpectationStatus::Pending),
+                    count(messages::FilExpectationStatus::Pass),
+                    count(messages::FilExpectationStatus::Fail),
+                    count(messages::FilExpectationStatus::Incomplete)
+                ));
+                if self.expectation_order.is_empty() {
+                    ui.weak("No FIL expectation trace records received.");
+                } else {
+                    egui::ScrollArea::vertical()
+                        .max_height(180.0)
+                        .show(ui, |ui| {
+                            egui::Grid::new(("fil_expectations", &self.title))
+                                .striped(true)
+                                .show(ui, |ui| {
+                                    ui.strong("Check");
+                                    ui.strong("Status");
+                                    ui.strong("Expected");
+                                    ui.strong("Window (ns)");
+                                    ui.strong("Result / reason");
+                                    ui.end_row();
+                                    for id in &self.expectation_order {
+                                        let Some(event) = self.expectations.get(id) else {
+                                            continue;
+                                        };
+                                        ui.label(format!("{} — {}", event.check_id, event.script));
+                                        ui.label(format!("{:?}", event.status));
+                                        ui.label(format!(
+                                            "{} 0x{:X} {} [{}]",
+                                            event.expected_bus,
+                                            event.expected_id,
+                                            if event.expected_extended {
+                                                "EXT"
+                                            } else {
+                                                "STD"
+                                            },
+                                            event
+                                                .expected_data
+                                                .iter()
+                                                .map(|b| format!("{b:02X}"))
+                                                .collect::<Vec<_>>()
+                                                .join(" ")
+                                        ));
+                                        ui.label(format!(
+                                            "{} – {}",
+                                            event.window_start_ns, event.window_end_ns
+                                        ));
+                                        let detail = event.matched_bus.as_ref().map(|bus| {
+                                            format!(
+                                                "matched {bus} 0x{:X} [{}] {:?} @ {} ns",
+                                                event.matched_id.unwrap_or_default(),
+                                                event
+                                                    .matched_data
+                                                    .as_ref()
+                                                    .map(|data| data
+                                                        .iter()
+                                                        .map(|b| format!("{b:02X}"))
+                                                        .collect::<Vec<_>>()
+                                                        .join(" "))
+                                                    .unwrap_or_default(),
+                                                event.matched_origin,
+                                                event.matched_time_ns.unwrap_or_default()
+                                            )
+                                        });
+                                        ui.label(
+                                            event
+                                                .reason
+                                                .as_deref()
+                                                .or(detail.as_deref())
+                                                .unwrap_or("—"),
+                                        );
+                                        ui.end_row();
+                                    }
+                                });
+                        });
+                }
+            });
+
+            ui.add_space(8.0);
+            ui.group(|ui| {
                 ui.heading("ADC injection");
                 ui.horizontal(|ui| {
                     ui.label("Board:");
@@ -1167,6 +1303,83 @@ fn elf_status(effective: &Option<std::path::PathBuf>, is_override: bool) -> egui
         Some(elf) => egui::RichText::new(format!("{} (missing)", elf.display()))
             .color(egui::Color32::LIGHT_RED),
         None => egui::RichText::new("No ELF configured").color(egui::Color32::LIGHT_RED),
+    }
+}
+
+#[cfg(test)]
+mod expectation_tests {
+    use super::*;
+
+    fn event(status: messages::FilExpectationStatus) -> messages::FilExpectationEvent {
+        messages::FilExpectationEvent {
+            check_id: "stimulus/0/script/expect/0".into(),
+            script: "script".into(),
+            status,
+            expected_bus: "vehicle".into(),
+            expected_id: 0x321,
+            expected_extended: false,
+            expected_data: vec![1, 2],
+            window_start_ns: 10,
+            window_end_ns: 20,
+            matched_bus: None,
+            matched_id: None,
+            matched_data: None,
+            matched_origin: None,
+            matched_time_ns: None,
+            reason: None,
+        }
+    }
+
+    #[test]
+    fn history_is_bounded() {
+        let mut events = HashMap::new();
+        let mut order = Vec::new();
+        for index in 0..=FIL_EXPECTATION_HISTORY_LIMIT {
+            let mut check = event(messages::FilExpectationStatus::Pending);
+            check.check_id = index.to_string();
+            update_expectation_history(&mut events, &mut order, check);
+        }
+        assert_eq!(events.len(), FIL_EXPECTATION_HISTORY_LIMIT);
+        assert_eq!(order.len(), FIL_EXPECTATION_HISTORY_LIMIT);
+        assert!(!events.contains_key("0"));
+    }
+
+    #[test]
+    fn completed_run_survives_disconnection_and_resets_on_new_connection() {
+        let mut control = FilControl::new(1);
+        control.handle_can_message(&messages::MsgFromCan::FilExpectation(event(
+            messages::FilExpectationStatus::Fail,
+        )));
+        control.handle_can_message(&messages::MsgFromCan::Disconnection);
+        assert_eq!(control.expectations.len(), 1);
+        control.handle_can_message(&messages::MsgFromCan::ConnectionSuccessful);
+        assert!(control.expectations.is_empty());
+        assert!(control.expectation_order.is_empty());
+    }
+
+    #[test]
+    fn lifecycle_replaces_pending_check_without_duplicate_history() {
+        let mut events = HashMap::new();
+        let mut order = Vec::new();
+        update_expectation_history(
+            &mut events,
+            &mut order,
+            event(messages::FilExpectationStatus::Pending),
+        );
+        let mut passed = event(messages::FilExpectationStatus::Pass);
+        passed.matched_bus = Some("vehicle".into());
+        passed.matched_id = Some(0x321);
+        passed.matched_data = Some(vec![1, 2]);
+        passed.matched_time_ns = Some(15);
+        update_expectation_history(&mut events, &mut order, passed);
+        assert_eq!(order.len(), 1);
+        assert_eq!(events.len(), 1);
+        let stored = events.values().next().unwrap();
+        assert_eq!(stored.status, messages::FilExpectationStatus::Pass);
+        assert_eq!(stored.matched_time_ns, Some(15));
+        clear_expectation_history(&mut events, &mut order);
+        assert!(events.is_empty());
+        assert!(order.is_empty());
     }
 }
 
