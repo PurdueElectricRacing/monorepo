@@ -19,6 +19,6 @@
 #define TEST_DIAGNOSTICS     14
 
 // Change this define to set the test compiled
-#define G4_TESTING_CHOSEN TEST_DIAGNOSTICS
+#define G4_TESTING_CHOSEN TEST_BLINKY
 
 #endif // __G4_TESTING__
