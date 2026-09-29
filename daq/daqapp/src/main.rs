@@ -3,6 +3,7 @@ use std::{env, error, sync::mpsc};
 mod action;
 mod app;
 mod assets;
+mod fil_annotations;
 mod paths;
 mod settings;
 mod shortcuts;
