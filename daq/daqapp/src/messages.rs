@@ -23,6 +23,7 @@ pub enum MsgFromUi {
         pin: u8,
         value: Option<bool>,
     },
+    SetFilTraceBus(Option<String>),
     DisconnectFil {
         executable: std::path::PathBuf,
     },

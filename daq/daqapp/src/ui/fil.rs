@@ -13,6 +13,7 @@ pub struct FilControl {
     executable: Option<std::path::PathBuf>,
     network: Option<std::path::PathBuf>,
     bus: String,
+    trace_bus: Option<String>,
     elf_overrides: HashMap<String, std::path::PathBuf>,
     disabled_boards: Vec<String>,
     use_builder: bool,
@@ -38,6 +39,7 @@ impl FilControl {
             executable: saved.executable,
             network: saved.network,
             bus: saved.bus,
+            trace_bus: saved.trace_bus,
             elf_overrides: saved.elf_overrides,
             disabled_boards: saved.disabled_boards,
             use_builder: saved.use_builder,
@@ -151,6 +153,16 @@ impl FilControl {
             return vec!["Loading network config…".into()];
         };
         let mut issues = Vec::new();
+        if self
+            .trace_bus
+            .as_ref()
+            .is_some_and(|bus| !info.buses.contains(bus))
+        {
+            issues.push(format!(
+                "View bus '{}' is not declared in this network",
+                self.trace_bus.as_deref().unwrap_or_default()
+            ));
+        }
         if self.enabled_file_boards().is_empty() {
             issues.push("Enable at least one board below".into());
         }
@@ -181,6 +193,16 @@ impl FilControl {
         }
         if self.builder.bus.trim().is_empty() {
             issues.push("Give the built network a bus name".into());
+        }
+        if self
+            .trace_bus
+            .as_ref()
+            .is_some_and(|bus| bus != &self.builder.bus)
+        {
+            issues.push(format!(
+                "View bus '{}' is not declared in the built network",
+                self.trace_bus.as_deref().unwrap_or_default()
+            ));
         }
         if self.builder.bitrate == 0 {
             issues.push("Built network bitrate must be nonzero".into());
@@ -284,6 +306,7 @@ impl FilControl {
                 executable: self.executable.clone(),
                 network: self.network.clone(),
                 bus: self.bus.clone(),
+                trace_bus: self.trace_bus.clone(),
                 elf_overrides: self.elf_overrides.clone(),
                 disabled_boards: self.disabled_boards.clone(),
                 use_builder: self.use_builder,
@@ -673,6 +696,50 @@ impl FilControl {
         }
     }
 
+    fn available_trace_buses(&self) -> Vec<String> {
+        if self.use_builder {
+            if self.builder.bus.trim().is_empty() {
+                Vec::new()
+            } else {
+                vec![self.builder.bus.clone()]
+            }
+        } else {
+            self.network_info
+                .as_ref()
+                .map(|info| info.buses.clone())
+                .unwrap_or_default()
+        }
+    }
+
+    fn show_trace_bus_selector(
+        &mut self,
+        ui: &mut egui::Ui,
+        actions: &mut Vec<action::AppAction>,
+        tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
+    ) {
+        let buses = self.available_trace_buses();
+        let changed = ui
+            .horizontal(|ui| {
+                ui.label("View/trace CAN bus:");
+                egui::ComboBox::from_id_salt(("fil_trace_bus", &self.title))
+                    .selected_text(self.trace_bus.as_deref().unwrap_or("All buses"))
+                    .show_ui(ui, |ui| {
+                        ui.selectable_value(&mut self.trace_bus, None, "All buses");
+                        for bus in &buses {
+                            ui.selectable_value(&mut self.trace_bus, Some(bus.clone()), bus);
+                        }
+                    })
+                    .response
+                    .changed()
+            })
+            .inner;
+        ui.small("Message Sender bus remains the outgoing injection target.");
+        if changed {
+            self.queue_config_update(actions);
+            let _ = tx.send(messages::MsgFromUi::SetFilTraceBus(self.trace_bus.clone()));
+        }
+    }
+
     /// Board picker bound to the boards in the active network, falling back
     /// to free text when no network is loaded.
     fn show_config_board_picker(
@@ -703,6 +770,7 @@ impl FilControl {
                 executable,
                 network: std::path::PathBuf::new(),
                 bus: self.builder.bus.clone(),
+                trace_bus: self.trace_bus.clone(),
                 elf_overrides: HashMap::new(),
                 disabled_boards: Vec::new(),
                 built_network: Some(self.builder.clone()),
@@ -713,6 +781,7 @@ impl FilControl {
                 executable,
                 network: self.network.clone().expect("checked network"),
                 bus: self.bus.clone(),
+                trace_bus: self.trace_bus.clone(),
                 elf_overrides: self.elf_overrides.clone(),
                 disabled_boards: self.disabled_boards.clone(),
                 built_network: None,
@@ -776,6 +845,7 @@ impl FilControl {
                 } else {
                     self.show_file_network(ui, actions);
                 }
+                self.show_trace_bus_selector(ui, actions, tx);
                 ui.collapsing("Run options", |ui| {
                     let mut changed = false;
                     ui.horizontal(|ui| {

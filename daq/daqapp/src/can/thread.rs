@@ -242,6 +242,20 @@ pub fn start_can_thread(
                             None => log::warn!("Cannot control GPIO without an active connection"),
                         }
                     }
+                    messages::MsgFromUi::SetFilTraceBus(trace_bus) => {
+                        if let Some(connection::ConnectionSource::Fil {
+                            trace_bus: active_trace_bus,
+                            ..
+                        }) = state.current_source.as_mut()
+                        {
+                            *active_trace_bus = trace_bus.clone();
+                        }
+                        if let Some(driver) = state.driver.as_mut()
+                            && let Some(fil) = driver.fil_mut()
+                        {
+                            fil.set_trace_bus(trace_bus);
+                        }
+                    }
                     messages::MsgFromUi::DisconnectFil { executable } => {
                         let is_requested_fil_source = matches!(
                             state.current_source.as_ref(),

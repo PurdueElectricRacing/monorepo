@@ -4,11 +4,18 @@ use slcan::CanFrame;
 use std::io::{BufRead, BufReader, BufWriter, Write};
 use std::process::{Child, ChildStdin, Command, Stdio};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError};
+use std::sync::{Arc, RwLock};
 use std::thread;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 const FIL_READ_TIMEOUT_MS: u64 = 1;
 const FIL_MAX_FRAMES_PER_POLL: usize = 256;
+
+#[derive(Clone, Debug)]
+struct FilCanEvent {
+    source: String,
+    frame: CanFrame,
+}
 
 fn watch_network_args(options: &crate::settings::FilRunOptions) -> DriverResult<Vec<String>> {
     if options.duration_ms > u64::MAX / 1_000_000
@@ -73,9 +80,10 @@ fn watch_network_args(options: &crate::settings::FilRunOptions) -> DriverResult<
 pub struct FilDriver {
     child: Child,
     input: BufWriter<ChildStdin>,
-    output: Receiver<Result<CanFrame, String>>,
+    output: Receiver<Result<FilCanEvent, String>>,
     gpio_output: Receiver<FilGpioEvent>,
     bus: String,
+    trace_bus: Arc<RwLock<Option<String>>>,
     connected: bool,
 }
 
@@ -84,6 +92,7 @@ impl FilDriver {
         executable: &std::path::Path,
         network: &std::path::Path,
         bus: &str,
+        trace_bus: &Option<String>,
         elf_overrides: &std::collections::HashMap<String, std::path::PathBuf>,
         disabled_boards: &[String],
         built_network: &Option<crate::fil_config::BuiltNetwork>,
@@ -172,6 +181,8 @@ impl FilDriver {
         });
         let (output_tx, output) = mpsc::channel();
         let (gpio_output_tx, gpio_output) = mpsc::channel();
+        let trace_bus = Arc::new(RwLock::new(trace_bus.clone()));
+        let reader_trace_bus = Arc::clone(&trace_bus);
         thread::spawn(move || {
             let mut reader = BufReader::new(stdout);
             let mut line = String::new();
@@ -189,8 +200,14 @@ impl FilDriver {
                             }
                             continue;
                         }
-                        if let Some(frame) = parse_fil_can_tx(&line) {
-                            if output_tx.send(Ok(frame)).is_err() {
+                        if let Some(event) = parse_fil_can_tx(&line) {
+                            let selected_bus = reader_trace_bus
+                                .read()
+                                .unwrap_or_else(std::sync::PoisonError::into_inner)
+                                .clone();
+                            if trace_source_matches(&event.source, selected_bus.as_deref())
+                                && output_tx.send(Ok(event)).is_err()
+                            {
                                 break;
                             }
                         }
@@ -208,14 +225,25 @@ impl FilDriver {
             output,
             gpio_output,
             bus: bus.into(),
+            trace_bus,
             connected: true,
         })
     }
 }
 
-fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
+fn parse_fil_can_tx(line: &str) -> Option<FilCanEvent> {
     let mut fields = line.split_ascii_whitespace();
-    if !fields.any(|field| field == "can_tx") {
+    let mut source = None;
+    loop {
+        let field = fields.next()?;
+        if field == "can_tx" {
+            break;
+        }
+        source = Some(field);
+    }
+    let source = source?;
+    let (bus, node) = source.split_once('/')?;
+    if bus.is_empty() || node.is_empty() {
         return None;
     }
     let mut id = None;
@@ -256,7 +284,19 @@ fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
     } else {
         slcan::StandardId::new(u16::try_from(id).ok()?).map(slcan::Id::Standard)?
     };
-    slcan::Can2Frame::new_data(frame_id, &data).map(Into::into)
+    let frame = slcan::Can2Frame::new_data(frame_id, &data).map(Into::into)?;
+    Some(FilCanEvent {
+        source: source.into(),
+        frame,
+    })
+}
+
+fn trace_source_matches(source: &str, trace_bus: Option<&str>) -> bool {
+    trace_bus.is_none_or(|bus| {
+        source
+            .strip_prefix(bus)
+            .is_some_and(|suffix| suffix.starts_with('/') && suffix.len() > 1)
+    })
 }
 
 fn parse_fil_gpio(line: &str) -> Option<FilGpioEvent> {
@@ -316,26 +356,48 @@ fn format_fil_injection(bus: &str, frame: CanFrame) -> DriverResult<String> {
 }
 
 fn receive_fil_frames(
-    output: &Receiver<Result<CanFrame, String>>,
+    output: &Receiver<Result<FilCanEvent, String>>,
     timeout: Duration,
+    trace_bus: Option<&str>,
 ) -> DriverResult<Vec<CanFrame>> {
-    let first = match output.recv_timeout(timeout) {
-        Ok(result) => result,
-        Err(RecvTimeoutError::Timeout) => {
-            return Err(DriverError::ReadError(DriverReadError::Timeout));
+    let deadline = Instant::now() + timeout;
+    let mut frames = Vec::new();
+    let mut consumed = 0;
+    while frames.is_empty() && consumed < FIL_MAX_FRAMES_PER_POLL {
+        if consumed > 0 && Instant::now() >= deadline {
+            break;
         }
-        Err(RecvTimeoutError::Disconnected) => Err("FIL output reader stopped".into()),
-    };
-    let mut frames = match first {
-        Ok(frame) => vec![frame],
-        Err(error) => return Err(DriverError::ReadError(DriverReadError::IoError(error))),
-    };
-    while frames.len() < FIL_MAX_FRAMES_PER_POLL {
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        let event = match output.recv_timeout(remaining) {
+            Ok(Ok(event)) => event,
+            Ok(Err(error)) => {
+                return Err(DriverError::ReadError(DriverReadError::IoError(error)));
+            }
+            Err(RecvTimeoutError::Timeout) => break,
+            Err(RecvTimeoutError::Disconnected) => {
+                return Err(DriverError::ReadError(DriverReadError::IoError(
+                    "FIL output reader stopped".into(),
+                )));
+            }
+        };
+        consumed += 1;
+        if trace_source_matches(&event.source, trace_bus) {
+            frames.push(event.frame);
+        }
+    }
+    if frames.is_empty() {
+        return Err(DriverError::ReadError(DriverReadError::Timeout));
+    }
+    while frames.len() < FIL_MAX_FRAMES_PER_POLL && consumed < FIL_MAX_FRAMES_PER_POLL {
         let Ok(result) = output.try_recv() else {
             break;
         };
+        consumed += 1;
         match result {
-            Ok(frame) => frames.push(frame),
+            Ok(event) if trace_source_matches(&event.source, trace_bus) => {
+                frames.push(event.frame);
+            }
+            Ok(_) => {}
             Err(_) => break,
         }
     }
@@ -348,7 +410,16 @@ impl Driver for FilDriver {
     }
 
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
-        let result = receive_fil_frames(&self.output, Duration::from_millis(FIL_READ_TIMEOUT_MS));
+        let trace_bus = self
+            .trace_bus
+            .read()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .clone();
+        let result = receive_fil_frames(
+            &self.output,
+            Duration::from_millis(FIL_READ_TIMEOUT_MS),
+            trace_bus.as_deref(),
+        );
         if matches!(
             result,
             Err(DriverError::ReadError(DriverReadError::IoError(_)))
@@ -385,6 +456,13 @@ impl Driver for FilDriver {
 }
 
 impl FilDriver {
+    pub fn set_trace_bus(&mut self, trace_bus: Option<String>) {
+        *self
+            .trace_bus
+            .write()
+            .unwrap_or_else(std::sync::PoisonError::into_inner) = trace_bus;
+    }
+
     pub fn take_gpio_events(&mut self) -> Vec<FilGpioEvent> {
         self.gpio_output.try_iter().take(256).collect()
     }
@@ -457,8 +535,8 @@ impl Drop for FilDriver {
 #[cfg(test)]
 mod fil_tests {
     use super::{
-        DriverError, DriverReadError, format_fil_injection, parse_fil_can_tx, parse_fil_gpio,
-        receive_fil_frames, watch_network_args,
+        DriverError, DriverReadError, FilCanEvent, format_fil_injection, parse_fil_can_tx,
+        parse_fil_gpio, receive_fil_frames, trace_source_matches, watch_network_args,
     };
     use std::sync::mpsc;
     use std::time::Duration;
@@ -513,25 +591,56 @@ mod fil_tests {
 
     #[test]
     fn parses_fil_live_can_tx_records() {
-        let frame = parse_fil_can_tx(
-            "[5.000 ms] vehicle/main.FDCAN1  can_tx id=0x123 extended=false fd=false brs=false dlc=4 length=4 data=01020304",
-        ).expect("valid FIL frame");
-        let slcan::CanFrame::Can2(frame) = frame else {
+        let vcan = parse_fil_can_tx(
+            "[5.000 ms] vcan/main.FDCAN1  can_tx id=0x123 extended=false fd=false brs=false dlc=4 length=4 data=01020304",
+        )
+        .expect("valid FIL frame");
+        let mcan = parse_fil_can_tx(
+            "[5.000 ms] mcan/main.FDCAN1  can_tx id=0x123 extended=false fd=false brs=false dlc=4 length=4 data=05060708",
+        )
+        .expect("valid FIL frame on another bus");
+        let slcan::CanFrame::Can2(frame) = &vcan.frame else {
             panic!("expected CAN 2.0 frame")
         };
+        assert_eq!(vcan.source, "vcan/main.FDCAN1");
         assert!(matches!(
             frame.id(),
             slcan::Id::Standard(id) if id.as_raw() == 0x123
         ));
         assert_eq!(frame.data(), Some(&[1, 2, 3, 4][..]));
+        let slcan::CanFrame::Can2(mcan_frame) = &mcan.frame else {
+            panic!("expected CAN 2.0 frame")
+        };
+        assert_eq!(mcan_frame.id(), frame.id());
+        assert!(!trace_source_matches(&mcan.source, Some("vcan")));
+        assert!(trace_source_matches(&vcan.source, Some("vcan")));
+        assert!(!trace_source_matches(&vcan.source, Some("vc")));
+        assert!(trace_source_matches(&mcan.source, None));
+        assert!(!trace_source_matches("malformed", Some("vcan")));
+
+        let (sender, receiver) = mpsc::channel();
+        sender.send(Ok(mcan.clone())).unwrap();
+        sender.send(Ok(vcan.clone())).unwrap();
+        let frames = receive_fil_frames(&receiver, Duration::from_millis(20), Some("vcan"))
+            .expect("receive only the selected bus");
+        assert_eq!(frames.len(), 1);
+        assert_eq!(frames[0], vcan.frame);
+
+        let (sender, receiver) = mpsc::channel();
+        sender.send(Ok(mcan)).unwrap();
+        sender.send(Ok(vcan)).unwrap();
+        let frames = receive_fil_frames(&receiver, Duration::ZERO, None)
+            .expect("receive all buses by default");
+        assert_eq!(frames.len(), 2);
     }
 
     #[test]
     fn ignores_non_can_and_rejects_can_fd_payloads() {
         assert!(parse_fil_can_tx("[1.000 ms] world world_start boards=6").is_none());
+        assert!(parse_fil_can_tx("[5.000 ms] source can_tx id=0x123 data=01").is_none());
         assert!(
             parse_fil_can_tx(
-                "[5.000 ms] bus can_tx id=0x123 extended=false fd=true data=000102030405060708",
+                "[5.000 ms] mcan/main.FDCAN1 can_tx id=0x123 extended=false fd=true data=000102030405060708",
             )
             .is_none()
         );
@@ -552,7 +661,7 @@ mod fil_tests {
         let (_sender, receiver) = mpsc::channel();
         let started = std::time::Instant::now();
         assert!(matches!(
-            receive_fil_frames(&receiver, Duration::from_millis(1)),
+            receive_fil_frames(&receiver, Duration::from_millis(1), None),
             Err(DriverError::ReadError(DriverReadError::Timeout))
         ));
         assert!(started.elapsed() < Duration::from_millis(100));
@@ -565,11 +674,15 @@ mod fil_tests {
         let frame = slcan::Can2Frame::new_data(id, &[1]).expect("data frame");
         for _ in 0..(super::FIL_MAX_FRAMES_PER_POLL + 1) {
             sender
-                .send(Ok(frame.clone().into()))
+                .send(Ok(FilCanEvent {
+                    source: "vehicle/main.FDCAN1".into(),
+                    frame: frame.clone().into(),
+                }))
                 .expect("queue FIL frame");
         }
 
-        let frames = receive_fil_frames(&receiver, Duration::ZERO).expect("receive FIL frames");
+        let frames =
+            receive_fil_frames(&receiver, Duration::ZERO, None).expect("receive FIL frames");
         assert_eq!(frames.len(), super::FIL_MAX_FRAMES_PER_POLL);
         assert!(receiver.try_recv().is_ok(), "leaves excess traffic queued");
     }

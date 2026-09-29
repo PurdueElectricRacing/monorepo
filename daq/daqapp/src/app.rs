@@ -149,6 +149,7 @@ impl DAQApp {
                 executable,
                 network: std::path::PathBuf::new(),
                 bus: self.fil.builder.bus.clone(),
+                trace_bus: self.fil.trace_bus.clone(),
                 elf_overrides: std::collections::HashMap::new(),
                 disabled_boards: Vec::new(),
                 built_network: Some(self.fil.builder.clone()),
@@ -159,6 +160,7 @@ impl DAQApp {
             executable,
             network: self.fil.network.clone()?,
             bus: self.fil.bus.clone(),
+            trace_bus: self.fil.trace_bus.clone(),
             elf_overrides: self.fil.elf_overrides.clone(),
             disabled_boards: self.fil.disabled_boards.clone(),
             built_network: None,
@@ -224,6 +226,11 @@ impl DAQApp {
             }
             action::AppAction::UpdateFilConfig { fil } => {
                 self.fil = fil;
+                if let Some(connection::ConnectionSource::Fil { trace_bus, .. }) =
+                    self.selected_source.as_mut()
+                {
+                    *trace_bus = self.fil.trace_bus.clone();
+                }
                 self.save_settings();
             }
             action::AppAction::ConnectFil(source) => {

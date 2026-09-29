@@ -6,7 +6,10 @@ pub enum ConnectionSource {
     Fil {
         executable: std::path::PathBuf,
         network: std::path::PathBuf,
+        /// Bus used for outgoing Message Sender frames.
         bus: String,
+        /// Bus whose CAN transmissions are viewed, or `None` for all buses.
+        trace_bus: Option<String>,
         /// Per-board firmware ELF overrides keyed by board name.
         elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
         /// Board names excluded from the emulated network.
