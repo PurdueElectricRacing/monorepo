@@ -417,6 +417,20 @@ pub fn migrate_built_board(board: &BuiltBoard) -> BuiltBoard {
     }
 }
 
+fn board_filename(index: usize, name: &str) -> String {
+    let safe_name: String = name
+        .chars()
+        .map(|c| {
+            if c.is_ascii_alphanumeric() || c == '-' || c == '_' {
+                c
+            } else {
+                '_'
+            }
+        })
+        .collect();
+    format!("board-{index}-{safe_name}.json")
+}
+
 /// A board ready to be written: synthesized JSON plus its display name.
 struct ResolvedBoard {
     name: String,
@@ -604,8 +618,8 @@ pub fn build_network(
     std::fs::create_dir_all(&dir)
         .map_err(|error| format!("Failed to create {}: {error}", dir.display()))?;
     let mut board_refs = Vec::with_capacity(resolved.len());
-    for entry in &resolved {
-        let out_path = dir.join(format!("board-{}.json", entry.name));
+    for (index, entry) in resolved.iter().enumerate() {
+        let out_path = dir.join(board_filename(index, &entry.name));
         let content = serde_json::to_string_pretty(&entry.board_json)
             .map_err(|error| format!("Failed to serialize board '{}': {error}", entry.name))?;
         std::fs::write(&out_path, content)
@@ -633,7 +647,7 @@ pub fn export_network(dest: &Path, spec: &BuiltNetwork, executable: &Path) -> Re
     let mut warnings = Vec::new();
     let mut board_refs = Vec::with_capacity(enabled.len());
     let mut names = HashSet::new();
-    for board in &enabled {
+    for (index, board) in enabled.iter().enumerate() {
         let entry = if board.board.as_os_str().is_empty() {
             resolve_built_board(board, &spec.bus, executable)?
         } else {
@@ -642,18 +656,7 @@ pub fn export_network(dest: &Path, spec: &BuiltNetwork, executable: &Path) -> Re
         if !names.insert(entry.name.clone()) {
             return Err(format!("Duplicate board name '{}'", entry.name));
         }
-        let safe_name: String = entry
-            .name
-            .chars()
-            .map(|c| {
-                if c.is_ascii_alphanumeric() || c == '-' || c == '_' {
-                    c
-                } else {
-                    '_'
-                }
-            })
-            .collect();
-        let sibling = format!("board-{safe_name}.json");
+        let sibling = board_filename(index, &entry.name);
         let out_path = dest
             .parent()
             .unwrap_or_else(|| Path::new("."))
