@@ -48,6 +48,7 @@ var FreeRTOSConfig_8h =
     [ "INCLUDE_vTaskSuspend", "FreeRTOSConfig_8h.html#aef8fbb97819ad3d962f334ac298206d1", null ],
     [ "INCLUDE_xSemaphoreGetMutexHolder", "FreeRTOSConfig_8h.html#ad221128595137414579be33cf8e446d8", null ],
     [ "INCLUDE_xTaskGetCurrentTaskHandle", "FreeRTOSConfig_8h.html#ac96b6a6e70667f266db4278be71cbd78", null ],
+    [ "INCLUDE_xTaskGetIdleTaskHandle", "FreeRTOSConfig_8h.html#ae8811def4dd6983011fed9ef8686f18f", null ],
     [ "INCLUDE_xTaskGetSchedulerState", "FreeRTOSConfig_8h.html#a9ed60ede556830584e6bfd4a3ab4f9de", null ],
     [ "INCLUDE_xTimerPendFunctionCall", "FreeRTOSConfig_8h.html#a4b4336acd61a8e513ca2376be84326b5", null ],
     [ "portCONFIGURE_TIMER_FOR_RUN_TIME_STATS", "FreeRTOSConfig_8h.html#a727939bcdb98501e0eba0ec8a1841e1b", null ],

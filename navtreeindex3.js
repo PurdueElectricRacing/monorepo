@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"TORQUE__VECTOR_8h.html#aca715b74dc5b60336c52cdfeacf56a5f":[31,0,1,0,0,21,70],
 "TORQUE__VECTOR_8h.html#acaf62185675025fc7074fa724afdbec6":[31,0,1,0,0,21,80],
 "TORQUE__VECTOR_8h.html#accac1df26ba6322c5dde2a96dbdd8032":[31,0,1,0,0,21,47],
 "TORQUE__VECTOR_8h.html#acdbeb7bfa04320de53c9c7faa438067e":[31,0,1,0,0,21,35],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "VCAN_8h.html#a840c7aa7e723a4576f0cbf3223d6cd76":[31,0,1,0,0,22,510],
 "VCAN_8h.html#a84a39f7de7a93abc9f0498a63e233359":[31,0,1,0,0,22,426],
 "VCAN_8h.html#a84e5f00bd9029e9d15127feaadea41ae":[31,0,1,0,0,22,231],
-"VCAN_8h.html#a85f12d14c0604caafc7835b1ddbdf188":[31,0,1,0,0,22,253],
-"VCAN_8h.html#a8724e5e82c96b2483cdfaee3b5f5519d":[31,0,1,0,0,22,529]
+"VCAN_8h.html#a85f12d14c0604caafc7835b1ddbdf188":[31,0,1,0,0,22,253]
 };

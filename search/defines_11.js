@@ -176,6 +176,7 @@ var searchData=
   ['start_5fbutton_5fpin_173',['START_BUTTON_PIN',['../dashboard_2main_8h.html#af727d34dc72e3f32bd32754111724a0b',1,'main.h']]],
   ['start_5fbutton_5fport_174',['START_BUTTON_PORT',['../dashboard_2main_8h.html#a09e189758b3c4107df2b48ecd1466897',1,'main.h']]],
   ['start_5fcan_5ftasks_175',['START_CAN_TASKS',['../can__common_8h.html#ac317291d89637f7774465ae715792e48',1,'can_common.h']]],
-  ['start_5fheartbeat_5ftask_176',['START_HEARTBEAT_TASK',['../heartbeat_8h.html#af26a1445fde81a0129f7cbc8df05234b',1,'heartbeat.h']]],
-  ['start_5fwatchdog_5ftask_177',['START_WATCHDOG_TASK',['../watchdog_8h.html#a3aaba072bf5e5337aef793ceccdcf462',1,'watchdog.h']]]
+  ['start_5fdiagnostics_5ftask_176',['START_DIAGNOSTICS_TASK',['../diagnostics_8h.html#af715dd2789f421c737a9967f9e7bdf8c',1,'diagnostics.h']]],
+  ['start_5fheartbeat_5ftask_177',['START_HEARTBEAT_TASK',['../heartbeat_8h.html#af26a1445fde81a0129f7cbc8df05234b',1,'heartbeat.h']]],
+  ['start_5fwatchdog_5ftask_178',['START_WATCHDOG_TASK',['../watchdog_8h.html#a3aaba072bf5e5337aef793ceccdcf462',1,'watchdog.h']]]
 ];
