@@ -63,6 +63,13 @@ impl ConnectionManager {
         driver.read_frames()
     }
 
+    pub fn set_fil_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
+        self.driver
+            .as_mut()
+            .ok_or_else(|| DriverError::Write("disconnected".into()))?
+            .set_fil_trace_bus(trace_bus)
+    }
+
     pub fn take_fil_gpio_events(&mut self) -> Vec<crate::can::driver::FilGpioEvent> {
         self.driver
             .as_mut()

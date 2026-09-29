@@ -38,7 +38,10 @@ pub enum ConnectionSource {
     Fil {
         executable: std::path::PathBuf,
         network: std::path::PathBuf,
+        /// Bus used for outgoing Message Sender frames.
         bus: String,
+        /// Bus whose CAN transmissions are viewed, or `None` for all buses.
+        trace_bus: Option<String>,
         /// Per-board firmware ELF overrides keyed by board name.
         elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
         /// Board names excluded from the emulated network.
@@ -105,6 +108,13 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                 .and_then(serde_json::Value::as_str)
                 .unwrap_or("vehicle")
                 .to_owned();
+            let trace_bus = values
+                .get("trace_bus")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or(None);
             let elf_overrides = values
                 .get("elf_overrides")
                 .map(|value| {
@@ -139,6 +149,7 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                 network: serde_json::from_value(network.clone())
                     .map_err(serde::de::Error::custom)?,
                 bus,
+                trace_bus,
                 elf_overrides,
                 disabled_boards,
                 built_network,
@@ -232,5 +243,28 @@ impl CanBusSpeed {
 
     pub fn options() -> Vec<CanBusSpeed> {
         vec![CanBusSpeed::Kbps250, CanBusSpeed::Kbps500]
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{ConnectionSource, FilRunOptions};
+
+    #[test]
+    fn legacy_fil_connection_defaults_new_options() {
+        let source: ConnectionSource = serde_json::from_value(serde_json::json!({
+            "Fil": { "executable": "fil", "network": "network", "bus": "vehicle" }
+        }))
+        .unwrap();
+        let ConnectionSource::Fil {
+            trace_bus,
+            run_options,
+            ..
+        } = source
+        else {
+            panic!("expected FIL connection source");
+        };
+        assert_eq!(trace_bus, None);
+        assert_eq!(run_options, FilRunOptions::default());
     }
 }

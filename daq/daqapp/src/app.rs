@@ -71,6 +71,7 @@ pub struct DAQApp {
     pub fil_adc_channel: u8,
     pub fil_adc_value: u16,
     pub fil_run_options: settings::FilRunOptions,
+    pub fil_trace_bus: Option<String>,
 }
 
 impl DAQApp {
@@ -98,6 +99,7 @@ impl DAQApp {
                 adc_channel: self.fil_adc_channel,
                 adc_value: self.fil_adc_value,
                 run_options: self.fil_run_options.clone(),
+                trace_bus: self.fil_trace_bus.clone(),
             },
         };
         settings.save();
@@ -162,6 +164,7 @@ impl DAQApp {
             fil_adc_channel: fil.adc_channel.min(19),
             fil_adc_value: fil.adc_value.min(4095),
             fil_run_options: fil.run_options,
+            fil_trace_bus: fil.trace_bus,
         })
     }
 
@@ -202,6 +205,7 @@ impl DAQApp {
                 executable,
                 network: std::path::PathBuf::new(),
                 bus: self.fil_builder.bus.clone(),
+                trace_bus: self.fil_trace_bus.clone(),
                 elf_overrides: std::collections::HashMap::new(),
                 disabled_boards: Vec::new(),
                 built_network: Some(self.fil_builder.clone()),
@@ -212,6 +216,7 @@ impl DAQApp {
             executable,
             network: self.fil_network_config.clone()?,
             bus: self.fil_bus.clone(),
+            trace_bus: self.fil_trace_bus.clone(),
             elf_overrides: self.fil_elf_overrides.clone(),
             disabled_boards: self.fil_disabled_boards.clone(),
             built_network: None,
@@ -295,6 +300,12 @@ impl DAQApp {
                 self.fil_adc_channel = fil.adc_channel.min(19);
                 self.fil_adc_value = fil.adc_value.min(4095);
                 self.fil_run_options = fil.run_options;
+                self.fil_trace_bus = fil.trace_bus;
+                if let Some(daqcore::connection::ConnectionSource::Fil { trace_bus, .. }) =
+                    self.selected_source.as_mut()
+                {
+                    *trace_bus = self.fil_trace_bus.clone();
+                }
                 self.save_settings();
             }
             action::AppAction::ConnectFil(source) => {

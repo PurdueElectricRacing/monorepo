@@ -148,6 +148,11 @@ fn run_with_connection(
                         emit!(Event::Diagnostic(error.to_string()));
                     }
                 }
+                Command::SetFilTraceBus(trace_bus) => {
+                    if let Err(error) = connection.set_fil_trace_bus(trace_bus) {
+                        emit!(Event::Diagnostic(error.to_string()));
+                    }
+                }
             }
         }
 

@@ -21,7 +21,10 @@ pub type FilRunOptions = daqcore::connection::FilRunOptions;
 pub struct FilSettings {
     pub executable: Option<std::path::PathBuf>,
     pub network: Option<std::path::PathBuf>,
+    /// Bus used for outgoing Message Sender frames.
     pub bus: String,
+    /// Bus whose CAN transmissions are viewed, or `None` to view all buses.
+    pub trace_bus: Option<String>,
     /// Per-board firmware ELF overrides keyed by board name (network file mode).
     pub elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
     /// Board names excluded from the emulated network (network file mode).
@@ -43,6 +46,7 @@ impl Default for FilSettings {
             executable: None,
             network: None,
             bus: "vehicle".into(),
+            trace_bus: None,
             elf_overrides: std::collections::HashMap::new(),
             disabled_boards: Vec::new(),
             use_builder: false,

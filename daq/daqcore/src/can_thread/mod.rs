@@ -44,6 +44,7 @@ pub enum CanThreadCommand {
         pin: u8,
         value: Option<bool>,
     },
+    SetFilTraceBus(Option<String>),
 }
 
 pub enum CanThreadEvent {

@@ -48,6 +48,9 @@ pub trait Driver {
     fn close(&mut self) -> DriverResult<()> {
         Ok(())
     }
+    fn set_fil_trace_bus(&mut self, _trace_bus: Option<String>) -> DriverResult<()> {
+        Ok(())
+    }
     fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
         Vec::new()
     }
@@ -97,6 +100,7 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
             disabled_boards,
             built_network,
             run_options,
+            trace_bus,
         } => {
             let effective_network = if let Some(spec) = built_network {
                 crate::fil_config::build_network(spec, executable).map(|(path, _)| path)
@@ -115,6 +119,7 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
                 &effective_network,
                 bus,
                 run_options,
+                trace_bus.clone(),
             )?))
         }
         ConnectionSource::Simulated(true, path) => {
@@ -146,6 +151,7 @@ struct FilDriver {
     input: std::io::BufWriter<std::process::ChildStdin>,
     output: std::sync::mpsc::Receiver<Result<CanFrame, String>>,
     gpio_output: std::sync::mpsc::Receiver<FilGpioEvent>,
+    trace_bus: std::sync::Arc<std::sync::RwLock<Option<String>>>,
     bus: String,
 }
 impl FilDriver {
@@ -154,6 +160,7 @@ impl FilDriver {
         network: &std::path::Path,
         bus: &str,
         run_options: &crate::connection::FilRunOptions,
+        trace_bus: Option<String>,
     ) -> DriverResult<Self> {
         if !executable.is_file() {
             return Err(DriverError::ConnectionFailed(format!(
@@ -205,6 +212,8 @@ impl FilDriver {
         }
         let (output_tx, output) = std::sync::mpsc::channel();
         let (gpio_tx, gpio_output) = std::sync::mpsc::channel();
+        let trace_bus = std::sync::Arc::new(std::sync::RwLock::new(trace_bus));
+        let reader_trace_bus = trace_bus.clone();
         std::thread::spawn(move || {
             use std::io::BufRead;
             let mut reader = std::io::BufReader::new(stdout);
@@ -217,6 +226,16 @@ impl FilDriver {
                         break;
                     }
                     Ok(_) => {
+                        let selected_bus = reader_trace_bus
+                            .read()
+                            .unwrap_or_else(std::sync::PoisonError::into_inner)
+                            .clone();
+                        let Some(source) = line.split_ascii_whitespace().nth(2) else {
+                            continue;
+                        };
+                        if !trace_source_matches(source, selected_bus.as_deref()) {
+                            continue;
+                        }
                         if let Some(event) = parse_fil_gpio(&line) {
                             if gpio_tx.send(event).is_err() {
                                 break;
@@ -241,6 +260,7 @@ impl FilDriver {
             input: std::io::BufWriter::new(stdin),
             output,
             gpio_output,
+            trace_bus,
             bus: bus.into(),
         })
     }
@@ -345,6 +365,14 @@ fn parse_fil_can_tx(line: &str) -> Option<CanFrame> {
     let identity = crate::frame::CanIdentity::new(id?, extended).ok()?;
     CanFrame::data(identity, data?).ok()
 }
+fn trace_source_matches(source: &str, trace_bus: Option<&str>) -> bool {
+    trace_bus.is_none_or(|bus| {
+        source
+            .strip_prefix(bus)
+            .is_some_and(|suffix| suffix.starts_with('/'))
+    })
+}
+
 fn parse_fil_gpio(line: &str) -> Option<FilGpioEvent> {
     let mut fields = line.split_ascii_whitespace();
     let _time = fields.next()?;
@@ -432,6 +460,13 @@ impl Driver for FilDriver {
     fn close(&mut self) -> DriverResult<()> {
         let _ = self.child.kill();
         let _ = self.child.wait();
+        Ok(())
+    }
+    fn set_fil_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
+        *self
+            .trace_bus
+            .write()
+            .unwrap_or_else(std::sync::PoisonError::into_inner) = trace_bus;
         Ok(())
     }
     fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {

@@ -32,6 +32,11 @@ filters and stdin control always remain enabled for DaqApp. Add `instr` to the e
 when enabling instruction tracing. Changes take effect on the next
 **Connect / Restart**. Use a FIL executable built with watch-network support for these options.
 
+**Message Sender bus** selects the outgoing injection target. The separate **View/trace CAN bus**
+selector chooses which network bus's CAN frames DaqApp displays and logs. Select **All buses** to
+keep every transmission visible. The filter updates while connected without stopping or restarting
+the FIL simulation; frames from hidden buses are discarded, not buffered for later viewing.
+
 ## Stimulus scripts
 
 FIL stimulus scripts are attached to network configs and run by `watch-network` on the simulation
