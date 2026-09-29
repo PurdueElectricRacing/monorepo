@@ -27,6 +27,7 @@ pub struct FilControl {
     adc_channel: u8,
     adc_value: u16,
     run_options: settings::FilRunOptions,
+    annotations: settings::FilAnnotations,
     gpio_board: String,
     gpio_port: String,
     gpio_states: HashMap<(String, String, u8), GpioPinState>,
@@ -53,6 +54,7 @@ impl FilControl {
             adc_channel: saved.adc_channel.min(19),
             adc_value: saved.adc_value.min(4095),
             run_options: saved.run_options,
+            annotations: saved.annotations.unwrap_or_default(),
             gpio_board: "dashboard".into(),
             gpio_port: "GPIOA".into(),
             gpio_states: HashMap::new(),
@@ -312,6 +314,7 @@ impl FilControl {
                 disabled_boards: self.disabled_boards.clone(),
                 use_builder: self.use_builder,
                 builder: self.builder.clone(),
+                annotations: (!self.annotations.is_empty()).then(|| self.annotations.clone()),
                 adc_board: self.adc_board.clone(),
                 adc_instance: self.adc_instance.clone(),
                 adc_channel: self.adc_channel,
@@ -967,14 +970,38 @@ impl FilControl {
                     }
                     self.adc_board = board;
                     ui.label("Instance:");
+                    let adc_annotation = self
+                        .annotations
+                        .adc
+                        .as_ref()
+                        .and_then(|boards| boards.get(&self.adc_board))
+                        .and_then(|instances| instances.get(&self.adc_instance));
+                    let selected_instance = annotated_text(
+                        &self.adc_instance,
+                        adc_annotation.and_then(|annotation| annotation.label.as_deref()),
+                    );
+                    let instance_labels: Vec<(String, String)> =
+                        daqcore::fil_config::FIL_ADC_INSTANCES
+                            .iter()
+                            .map(|instance| {
+                                let label = self
+                                    .annotations
+                                    .adc
+                                    .as_ref()
+                                    .and_then(|boards| boards.get(&self.adc_board))
+                                    .and_then(|instances| instances.get(*instance))
+                                    .and_then(|annotation| annotation.label.as_deref());
+                                ((*instance).to_owned(), annotated_text(instance, label))
+                            })
+                            .collect();
                     egui::ComboBox::from_id_salt(("fil_adc_instance", &self.title))
-                        .selected_text(self.adc_instance.as_str())
+                        .selected_text(selected_instance)
                         .show_ui(ui, |ui| {
-                            for instance in daqcore::fil_config::FIL_ADC_INSTANCES {
+                            for (instance, label) in &instance_labels {
                                 ui.selectable_value(
                                     &mut self.adc_instance,
-                                    instance.to_owned(),
-                                    instance,
+                                    instance.clone(),
+                                    label,
                                 );
                             }
                         });
@@ -982,6 +1009,18 @@ impl FilControl {
                 ui.horizontal(|ui| {
                     ui.label("Channel:");
                     ui.add(egui::DragValue::new(&mut self.adc_channel).range(0..=19));
+                    let channel_annotation = self
+                        .annotations
+                        .adc
+                        .as_ref()
+                        .and_then(|boards| boards.get(&self.adc_board))
+                        .and_then(|instances| instances.get(&self.adc_instance))
+                        .and_then(|annotation| annotation.channels.as_ref())
+                        .and_then(|channels| channels.get(&self.adc_channel));
+                    if let Some(label) = channel_annotation.filter(|label| !label.trim().is_empty())
+                    {
+                        ui.label(format!("— {}", label.trim()));
+                    }
                     ui.label("Raw value:");
                     ui.add(egui::Slider::new(&mut self.adc_value, 0..=4095));
                     if ui.button("Inject").clicked() {
@@ -1011,11 +1050,29 @@ impl FilControl {
                     self.gpio_board = board;
                     let _ = changed;
                     ui.label("Port:");
+                    let port_labels: Vec<(String, String)> = daqcore::fil_config::FIL_GPIO_PORTS
+                        .iter()
+                        .map(|port| {
+                            let label = self
+                                .annotations
+                                .gpio
+                                .as_ref()
+                                .and_then(|boards| boards.get(&self.gpio_board))
+                                .and_then(|ports| ports.get(*port))
+                                .and_then(|annotation| annotation.label.as_deref());
+                            ((*port).to_owned(), annotated_text(port, label))
+                        })
+                        .collect();
+                    let selected_port = port_labels
+                        .iter()
+                        .find(|(port, _)| port == &self.gpio_port)
+                        .map(|(_, label)| label.as_str())
+                        .unwrap_or(&self.gpio_port);
                     egui::ComboBox::from_id_salt(("fil_gpio_port", &self.title))
-                        .selected_text(self.gpio_port.as_str())
+                        .selected_text(selected_port)
                         .show_ui(ui, |ui| {
-                            for port in daqcore::fil_config::FIL_GPIO_PORTS {
-                                ui.selectable_value(&mut self.gpio_port, port.to_owned(), port);
+                            for (port, label) in &port_labels {
+                                ui.selectable_value(&mut self.gpio_port, port.clone(), label);
                             }
                         });
                 });
@@ -1033,7 +1090,19 @@ impl FilControl {
                                 .get(&(self.gpio_board.clone(), self.gpio_port.clone(), pin))
                                 .copied()
                                 .unwrap_or_default();
-                            ui.label(format!("{}{}", self.gpio_port, pin));
+                            let pin_label = self
+                                .annotations
+                                .gpio
+                                .as_ref()
+                                .and_then(|boards| boards.get(&self.gpio_board))
+                                .and_then(|ports| ports.get(&self.gpio_port))
+                                .and_then(|annotation| annotation.pins.as_ref())
+                                .and_then(|pins| pins.get(&pin))
+                                .map(String::as_str);
+                            ui.label(annotated_text(
+                                &format!("{}{}", self.gpio_port, pin),
+                                pin_label,
+                            ));
                             ui.label(level_text(state.input, "Released"));
                             ui.label(level_text(state.output, "Unknown"));
                             ui.horizontal(|ui| {
@@ -1060,6 +1129,13 @@ impl FilControl {
             });
         });
         egui_tiles::UiResponse::None
+    }
+}
+
+fn annotated_text(identifier: &str, annotation: Option<&str>) -> String {
+    match annotation.map(str::trim).filter(|label| !label.is_empty()) {
+        Some(label) => format!("{identifier} — {label}"),
+        None => identifier.to_owned(),
     }
 }
 
