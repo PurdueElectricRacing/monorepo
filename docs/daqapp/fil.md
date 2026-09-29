@@ -32,6 +32,19 @@ filters and stdin control always remain enabled for DaqApp. Add `instr` to the e
 when enabling instruction tracing. Changes take effect on the next
 **Connect / Restart**. Use a FIL executable built with watch-network support for these options.
 
+## Stimulus scripts
+
+FIL stimulus scripts are attached to network configs and run by `watch-network` on the simulation
+clock. In **Network file** mode, DaqApp uses the config's existing `stimuli` array. FIL resolves
+relative script paths against the original network file; when board overrides or disabled boards
+require DaqApp to materialize a temporary network config, it rewrites those paths to absolute paths
+so they still refer to the original scripts.
+
+In **Build network** mode, use **Add stimulus scripts…** to attach existing FIL stimulus JSON files.
+The generated or exported network references those files by absolute path; exporting a network does
+not copy or bundle the scripts, so keep them at those paths. DaqApp does not edit or translate the
+scripts. See FIL's [stimulus-script format and timing](https://github.com/ronakpjain/fil/blob/main/docs/configuration.md#stimulus-scripts).
+
 DaqApp owns the emulator process; disconnecting kills it. Overrides are materialized into a
 temp dir (originals untouched) and everything persists in `settings.json`. Failures are
 reported, never auto-retried. Only CAN 2.0 data frames are supported; CAN FD and remote
