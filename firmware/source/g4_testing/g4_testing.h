@@ -16,6 +16,7 @@
 #define TEST_ADC             11
 #define TEST_GPIO            12
 #define TEST_ONBOARDING_2027 13
+#define TEST_THREAD_LOCK     14
 #define TEST_DIAGNOSTICS     14
 
 // Change this define to set the test compiled
