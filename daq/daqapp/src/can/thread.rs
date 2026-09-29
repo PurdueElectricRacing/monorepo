@@ -205,7 +205,7 @@ pub fn start_can_thread(
                         value,
                     } => {
                         let result = state.driver.as_mut().map(|driver| match driver.fil_mut() {
-                            Some(fil) => fil.set_adc(&board, &instance, channel, value),
+                            Some(fil) => fil.set_adc(&board, instance, channel, value),
                             None => Err(can::driver::DriverError::WriteError(
                                 "The active source is not FIL".into(),
                             )),
@@ -229,7 +229,7 @@ pub fn start_can_thread(
                         value,
                     } => {
                         let result = state.driver.as_mut().map(|driver| match driver.fil_mut() {
-                            Some(fil) => fil.set_gpio(&board, &port, pin, value),
+                            Some(fil) => fil.set_gpio(&board, port, pin, value),
                             None => Err(can::driver::DriverError::WriteError(
                                 "The active source is not FIL".into(),
                             )),

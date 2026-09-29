@@ -1,5 +1,6 @@
 use crate::can::driver::{CanDriver, DriverError, DriverReadError, DriverResult};
 use crate::connection::CanBusSpeed;
+use crate::messages::{FilAdcInstance, FilGpioPort};
 use slcan::CanFrame;
 use std::io::{BufRead, BufReader, BufWriter, Write};
 use std::process::{Child, ChildStdin, Command, Stdio};
@@ -14,7 +15,7 @@ const FIL_MAX_FRAMES_PER_POLL: usize = 256;
 #[derive(Debug)]
 pub struct FilGpioEvent {
     pub board: String,
-    pub port: String,
+    pub port: FilGpioPort,
     pub pin: u8,
     pub value: Option<bool>,
     pub output: bool,
@@ -337,7 +338,7 @@ fn parse_fil_gpio(line: &str) -> Option<FilGpioEvent> {
     }
     Some(FilGpioEvent {
         board: board.into(),
-        port: port.into(),
+        port: FilGpioPort::parse(port)?,
         pin: pin?,
         value: value?,
         output: kind == "gpio_output",
@@ -464,6 +465,42 @@ impl CanDriver for FilDriver {
     }
 }
 
+fn format_adc_injection(
+    board: &str,
+    instance: FilAdcInstance,
+    channel: u8,
+    value: u16,
+) -> DriverResult<String> {
+    if board.is_empty() || channel > 19 || value > 4095 || board.contains(char::is_whitespace) {
+        return Err(DriverError::WriteError(
+            "ADC injection requires a board, ADC instance, channel 0..19, and value 0..4095".into(),
+        ));
+    }
+    Ok(format!(
+        "adc {board} {} {channel} {value}",
+        instance.as_str()
+    ))
+}
+
+fn format_gpio_injection(
+    board: &str,
+    port: FilGpioPort,
+    pin: u8,
+    value: Option<bool>,
+) -> DriverResult<String> {
+    if board.is_empty() || pin > 15 || board.contains(char::is_whitespace) {
+        return Err(DriverError::WriteError(
+            "GPIO control requires a board, GPIO port, and pin 0..15".into(),
+        ));
+    }
+    let value = match value {
+        Some(false) => "0",
+        Some(true) => "1",
+        None => "release",
+    };
+    Ok(format!("gpio {board} {} {pin} {value}", port.as_str()))
+}
+
 impl FilDriver {
     pub fn set_trace_bus(&mut self, trace_bus: Option<String>) {
         *self
@@ -479,23 +516,12 @@ impl FilDriver {
     pub fn set_adc(
         &mut self,
         board: &str,
-        instance: &str,
+        instance: FilAdcInstance,
         channel: u8,
         value: u16,
     ) -> DriverResult<()> {
-        if board.is_empty()
-            || instance.is_empty()
-            || channel > 19
-            || value > 4095
-            || board.contains(char::is_whitespace)
-            || instance.contains(char::is_whitespace)
-        {
-            return Err(DriverError::WriteError(
-                "ADC injection requires a board, ADC instance, channel 0..19, and value 0..4095"
-                    .into(),
-            ));
-        }
-        writeln!(self.input, "adc {board} {instance} {channel} {value}")
+        let command = format_adc_injection(board, instance, channel, value)?;
+        writeln!(self.input, "{command}")
             .and_then(|_| self.input.flush())
             .map_err(|error| {
                 self.connected = false;
@@ -506,26 +532,12 @@ impl FilDriver {
     pub fn set_gpio(
         &mut self,
         board: &str,
-        port: &str,
+        port: FilGpioPort,
         pin: u8,
         value: Option<bool>,
     ) -> DriverResult<()> {
-        if board.is_empty()
-            || port.is_empty()
-            || pin > 15
-            || board.contains(char::is_whitespace)
-            || port.contains(char::is_whitespace)
-        {
-            return Err(DriverError::WriteError(
-                "GPIO control requires a board, GPIO port, and pin 0..15".into(),
-            ));
-        }
-        let value = match value {
-            Some(false) => "0",
-            Some(true) => "1",
-            None => "release",
-        };
-        writeln!(self.input, "gpio {board} {port} {pin} {value}")
+        let command = format_gpio_injection(board, port, pin, value)?;
+        writeln!(self.input, "{command}")
             .and_then(|_| self.input.flush())
             .map_err(|error| {
                 self.connected = false;
@@ -544,10 +556,11 @@ impl Drop for FilDriver {
 #[cfg(test)]
 mod fil_tests {
     use crate::can::driver::fil::{
-        DriverError, DriverReadError, FIL_MAX_FRAMES_PER_POLL, FilCanEvent, format_fil_injection,
-        parse_fil_can_tx, parse_fil_gpio, receive_fil_frames, trace_source_matches,
-        watch_network_args,
+        DriverError, DriverReadError, FIL_MAX_FRAMES_PER_POLL, FilCanEvent, format_adc_injection,
+        format_fil_injection, format_gpio_injection, parse_fil_can_tx, parse_fil_gpio,
+        receive_fil_frames, trace_source_matches, watch_network_args,
     };
+    use crate::messages::{FilAdcInstance, FilGpioPort};
     use std::sync::mpsc;
     use std::time::Duration;
 
@@ -698,11 +711,23 @@ mod fil_tests {
     }
 
     #[test]
+    fn formats_typed_adc_and_gpio_commands() {
+        assert_eq!(
+            format_adc_injection("dashboard", FilAdcInstance::Adc1, 1, 2048).unwrap(),
+            "adc dashboard ADC1 1 2048"
+        );
+        assert_eq!(
+            format_gpio_injection("dashboard", FilGpioPort::GpioA, 3, None).unwrap(),
+            "gpio dashboard GPIOA 3 release"
+        );
+    }
+
+    #[test]
     fn parses_fil_gpio_records() {
         let output = parse_fil_gpio("[12.000 ms] dashboard.GPIOA  gpio_output pin=3 value=1")
             .expect("GPIO output");
         assert_eq!(output.board, "dashboard");
-        assert_eq!(output.port, "GPIOA");
+        assert_eq!(output.port, FilGpioPort::GpioA);
         assert_eq!(output.pin, 3);
         assert_eq!(output.value, Some(true));
         assert!(output.output);
@@ -711,5 +736,7 @@ mod fil_tests {
             .expect("GPIO input release");
         assert_eq!(input.value, None);
         assert!(!input.output);
+        assert!(parse_fil_gpio("[14.000 ms] dashboard.GPIOH gpio_input pin=3 value=1").is_none());
+        assert!(parse_fil_gpio("[15.000 ms] dashboard.gpioa gpio_input pin=3 value=1").is_none());
     }
 }

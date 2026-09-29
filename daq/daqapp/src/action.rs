@@ -1,4 +1,4 @@
-use crate::widget_constructor;
+use crate::{messages::FilAdcInstance, widget_constructor};
 
 pub enum AppAction {
     SpawnWidget(widget_constructor::WidgetConstructor),
@@ -17,7 +17,7 @@ pub enum AppAction {
     },
     UpdateFilAdc {
         board: String,
-        instance: String,
+        instance: FilAdcInstance,
         channel: u8,
         value: u16,
     },

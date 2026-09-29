@@ -1,3 +1,5 @@
+use crate::messages::FilAdcInstance;
+
 /// Options forwarded to FIL's watch-network command. The live CAN/GPIO filters
 /// and stdin control remain enabled because DaqApp requires them.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq, Eq)]
@@ -51,7 +53,7 @@ pub struct FilSettings {
     /// Widget-built FIL network spec.
     pub builder: crate::fil_config::BuiltNetwork,
     pub adc_board: String,
-    pub adc_instance: String,
+    pub adc_instance: FilAdcInstance,
     pub adc_channel: u8,
     pub adc_value: u16,
     pub run_options: FilRunOptions,
@@ -69,7 +71,7 @@ impl Default for FilSettings {
             use_builder: false,
             builder: crate::fil_config::BuiltNetwork::default(),
             adc_board: "dashboard".into(),
-            adc_instance: "ADC1".into(),
+            adc_instance: FilAdcInstance::Adc1,
             adc_channel: 0,
             adc_value: 0,
             run_options: FilRunOptions::default(),
@@ -92,5 +94,28 @@ impl FilSettings {
         if self.builder.bitrate == 0 {
             self.builder.bitrate = 500_000;
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::messages::FilAdcInstance;
+    use crate::settings::FilSettings;
+
+    #[test]
+    fn adc_instance_keeps_legacy_json_and_falls_back_locally() {
+        let mut json = serde_json::to_value(FilSettings::default()).unwrap();
+        assert_eq!(json["adc_instance"], "ADC1");
+        json["adc_instance"] = serde_json::json!("ADC4");
+        let settings: FilSettings = serde_json::from_value(json.clone()).unwrap();
+        assert_eq!(settings.adc_instance, FilAdcInstance::Adc4);
+
+        json["adc_instance"] = serde_json::json!("ADC9");
+        let settings: FilSettings = serde_json::from_value(json.clone()).unwrap();
+        assert_eq!(settings.adc_instance, FilAdcInstance::Adc1);
+
+        json["adc_instance"] = serde_json::json!(4);
+        let settings: FilSettings = serde_json::from_value(json).unwrap();
+        assert_eq!(settings.adc_instance, FilAdcInstance::Adc1);
     }
 }
