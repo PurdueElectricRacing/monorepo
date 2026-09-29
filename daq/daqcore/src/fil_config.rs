@@ -56,6 +56,58 @@ fn absolutize(base_dir: &Path, relative: &Path) -> PathBuf {
     out
 }
 
+fn absolute_path_from(base_dir: &Path, path: &Path) -> Result<PathBuf, String> {
+    let base_dir = if base_dir.is_absolute() {
+        base_dir.to_path_buf()
+    } else {
+        std::env::current_dir()
+            .map_err(|error| format!("Failed to resolve current directory: {error}"))?
+            .join(base_dir)
+    };
+    Ok(absolutize(&base_dir, path))
+}
+
+fn resolve_network_stimuli(
+    network_json: &mut serde_json::Value,
+    network_path: &Path,
+) -> Result<(), String> {
+    let Some(stimuli) = network_json.get_mut("stimuli") else {
+        return Ok(());
+    };
+    let stimuli = stimuli
+        .as_array_mut()
+        .ok_or_else(|| "Network `stimuli` must be an array of paths".to_owned())?;
+    let network_dir = network_path.parent().unwrap_or_else(|| Path::new("."));
+    for stimulus in stimuli {
+        let path = stimulus
+            .as_str()
+            .ok_or_else(|| "Network `stimuli` entries must be path strings".to_owned())?;
+        *stimulus = serde_json::Value::String(
+            absolute_path_from(network_dir, Path::new(path))?
+                .display()
+                .to_string(),
+        );
+    }
+    Ok(())
+}
+
+fn resolved_stimulus_paths(stimuli: &[PathBuf]) -> Result<Vec<String>, String> {
+    stimuli
+        .iter()
+        .map(|path| {
+            if !path.is_file() {
+                return Err(format!(
+                    "Stimulus script does not exist: {}",
+                    path.display()
+                ));
+            }
+            Ok(absolute_path_from(Path::new("."), path)?
+                .display()
+                .to_string())
+        })
+        .collect()
+}
+
 fn read_json_file(path: &Path) -> Result<serde_json::Value, String> {
     let content = std::fs::read_to_string(path)
         .map_err(|error| format!("Failed to read {}: {error}", path.display()))?;
@@ -117,6 +169,8 @@ pub struct BuiltNetwork {
     pub bus: String,
     pub bitrate: u32,
     pub boards: Vec<BuiltBoard>,
+    /// Existing FIL stimulus scripts attached to the generated network.
+    pub stimuli: Vec<PathBuf>,
 }
 
 impl Default for BuiltNetwork {
@@ -126,6 +180,7 @@ impl Default for BuiltNetwork {
             bus: "vehicle".into(),
             bitrate: 500_000,
             boards: Vec::new(),
+            stimuli: Vec::new(),
         }
     }
 }
@@ -293,6 +348,7 @@ pub fn materialize_network(
     }
 
     let mut network_json = read_json_file(network_path)?;
+    resolve_network_stimuli(&mut network_json, network_path)?;
     network_json["boards"] = serde_json::Value::Array(
         board_paths
             .iter()
@@ -562,13 +618,17 @@ fn write_network_json(
     dest: &Path,
     spec: &BuiltNetwork,
     board_refs: &[String],
+    stimuli: &[String],
 ) -> Result<(), String> {
-    let network_json = serde_json::json!({
+    let mut network_json = serde_json::json!({
         "schema_version": 1,
         "name": spec.name,
         "buses": {&spec.bus: {"type": "can", "bitrate": spec.bitrate}},
         "boards": board_refs,
     });
+    if !stimuli.is_empty() {
+        network_json["stimuli"] = serde_json::json!(stimuli);
+    }
     let content = serde_json::to_string_pretty(&network_json)
         .map_err(|error| format!("Failed to serialize network: {error}"))?;
     std::fs::write(dest, content)
@@ -597,6 +657,7 @@ pub fn build_network(
     if enabled.is_empty() {
         return Err("Add and enable at least one board".into());
     }
+    let stimuli = resolved_stimulus_paths(&spec.stimuli)?;
     let executable = executable.is_file().then_some(executable);
     let mut warnings = Vec::new();
     let mut resolved = Vec::with_capacity(enabled.len());
@@ -627,7 +688,7 @@ pub fn build_network(
         board_refs.push(out_path.display().to_string());
     }
     let out_network = dir.join("network.json");
-    write_network_json(&out_network, spec, &board_refs)?;
+    write_network_json(&out_network, spec, &board_refs, &stimuli)?;
     Ok((out_network, warnings))
 }
 
@@ -638,6 +699,7 @@ pub fn export_network(dest: &Path, spec: &BuiltNetwork, executable: &Path) -> Re
     if enabled.is_empty() {
         return Err("Add and enable at least one board".into());
     }
+    let stimuli = resolved_stimulus_paths(&spec.stimuli)?;
     let parent = dest.parent().filter(|p| !p.as_os_str().is_empty());
     if let Some(parent) = parent {
         std::fs::create_dir_all(parent)
@@ -670,5 +732,5 @@ pub fn export_network(dest: &Path, spec: &BuiltNetwork, executable: &Path) -> Re
     for warning in warnings {
         log::warn!("FIL export: {warning}");
     }
-    write_network_json(dest, spec, &board_refs)
+    write_network_json(dest, spec, &board_refs, &stimuli)
 }

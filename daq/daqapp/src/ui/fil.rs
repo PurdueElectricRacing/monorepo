@@ -186,6 +186,14 @@ impl FilControl {
         if self.builder.bitrate == 0 {
             issues.push("Built network bitrate must be nonzero".into());
         }
+        for stimulus in &self.builder.stimuli {
+            if !stimulus.is_file() {
+                issues.push(format!(
+                    "Stimulus script does not exist: {}",
+                    stimulus.display()
+                ));
+            }
+        }
         let enabled: Vec<&daqcore::fil_config::BuiltBoard> = self
             .builder
             .boards
@@ -408,6 +416,46 @@ impl FilControl {
                 self.queue_builder_update(actions);
             }
         });
+        ui.horizontal(|ui| {
+            ui.strong("Stimulus scripts:");
+            if ui.button("Add stimulus scripts…").clicked()
+                && let Some(paths) = rfd::FileDialog::new()
+                    .add_filter("FIL stimulus JSON", &["json"])
+                    .pick_files()
+            {
+                let mut changed = false;
+                for path in paths {
+                    if !self.builder.stimuli.contains(&path) {
+                        self.builder.stimuli.push(path);
+                        changed = true;
+                    }
+                }
+                if changed {
+                    self.queue_builder_update(actions);
+                }
+            }
+        });
+        let mut remove_stimulus = None;
+        for (index, stimulus) in self.builder.stimuli.iter().enumerate() {
+            ui.horizontal(|ui| {
+                let label = stimulus.display().to_string();
+                if stimulus.is_file() {
+                    ui.label(label);
+                } else {
+                    ui.label(
+                        egui::RichText::new(format!("{label} (missing)"))
+                            .color(egui::Color32::LIGHT_RED),
+                    );
+                }
+                if ui.small_button("Remove").clicked() {
+                    remove_stimulus = Some(index);
+                }
+            });
+        }
+        if let Some(index) = remove_stimulus {
+            self.builder.stimuli.remove(index);
+            self.queue_builder_update(actions);
+        }
         ui.add_space(4.0);
         let enabled_count = self
             .builder
