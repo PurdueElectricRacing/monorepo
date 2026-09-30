@@ -1,5 +1,7 @@
 var NAVTREEINDEX20 =
 {
+"spmc_8h.html#aea22837d4940a006332041eb9c4042cb":[31,0,1,2,2,4,1,7],
+"spmc_8h_source.html":[31,0,1,2,2,4,1],
 "stale__detection_8drawio_8png.html":[31,0,1,0,9],
 "state_8c.html":[31,0,1,2,8,3,0],
 "state_8c.html#a59cbe244a66ef283d478a9b58f10a461":[31,0,1,2,8,3,0,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX20 =
 "structINVB__PHASE__I__data__t.html#a62bc17d154603e6ece4d3b0b9de95bf2":[30,0,121,0],
 "structINVB__PHASE__I__data__t.html#a8d144a1ceff05a4b7d70c323b02bb5d5":[30,0,121,2],
 "structINVB__SET__data__t.html":[30,0,122],
-"structINVB__SET__data__t.html#a524712379c798f2b6462a16f49bd3346":[30,0,122,8],
-"structINVB__SET__data__t.html#a55e03cb83cf3bacb808368cddca22564":[30,0,122,4],
-"structINVB__SET__data__t.html#a7be9bef72e639d8d05aa9e270101d3d5":[30,0,122,5]
+"structINVB__SET__data__t.html#a524712379c798f2b6462a16f49bd3346":[30,0,122,8]
 };

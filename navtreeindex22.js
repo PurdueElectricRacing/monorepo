@@ -1,5 +1,7 @@
 var NAVTREEINDEX22 =
 {
+"structPHAL__GPIO__InitConfig__t.html#ad06ebc334e800202f36042e1e41b6fa5":[30,0,195,8],
+"structPHAL__GPIO__InitConfig__t.html#af5b855bab912b3ac6501c77633f8a264":[30,0,195,7],
 "structPHAL__SD__Cmd__t.html":[30,0,196],
 "structPHAL__SD__Cmd__t.html#ad9628bf702ae01d6b16fa4179417bf56":[30,0,196,0],
 "structPHAL__SD__Cmd__t.html#ae1119095bd6a8e4a24627b97fe818eaa":[30,0,196,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX22 =
 "structbl__a__box__info__data__t.html#a9685acd741075a0ced7d68881546cfac":[30,0,18,4],
 "structbl__a__box__info__data__t.html#ae55af550a20eaf4c29a4a1302832dd84":[30,0,18,3],
 "structbl__a__box__jump__data__t.html":[30,0,19],
-"structbl__a__box__jump__data__t.html#a3ec62916a2a12618f6c1650d41efcbe0":[30,0,19,1],
-"structbl__a__box__jump__data__t.html#aacb1fe56f0130e0669fff18becc6b8aa":[30,0,19,0],
-"structbl__a__box__resp__data__t.html":[30,0,20]
+"structbl__a__box__jump__data__t.html#a3ec62916a2a12618f6c1650d41efcbe0":[30,0,19,1]
 };
