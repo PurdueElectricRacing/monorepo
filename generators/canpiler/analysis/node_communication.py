@@ -5,12 +5,8 @@ from __future__ import annotations
 from collections import defaultdict
 
 from core.artifacts import Artifact
-from .dot import graph_header, node_line, quote, topology_artifact
+from .graphviz_helpers import can_graph_artifact, graph_header, node_id, node_line, quote
 from ..pipeline.models import LinkedCan
-
-
-def _node_id(node_name: str) -> str:
-    return quote(f"node:{node_name}")
 
 
 def generate_node_communication_graph(linked: LinkedCan) -> Artifact:
@@ -29,16 +25,16 @@ def generate_node_communication_graph(linked: LinkedCan) -> Artifact:
     )
 
     for node in sorted(linked.nodes, key=lambda item: item.name):
-        lines.append(node_line(_node_id(node.name), node.name, is_external=node.is_external))
+        lines.append(node_line(node_id(node.name), node.name, is_external=node.is_external))
 
     if buses_by_pair:
         lines.append("")
     for (sender, receiver), buses in sorted(buses_by_pair.items()):
         lines.append(
-            f"    {_node_id(sender)} -> {_node_id(receiver)} "
+            f"    {node_id(sender)} -> {node_id(receiver)} "
             f"[label={quote(', '.join(sorted(buses)))}];"
         )
 
     lines.append("}")
     filename = "node_communication.dot"
-    return topology_artifact(filename, lines)
+    return can_graph_artifact(filename, lines)

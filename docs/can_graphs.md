@@ -1,4 +1,4 @@
-# CAN topology
+# CAN graphs
 
 ## Nodes by CAN bus
 
