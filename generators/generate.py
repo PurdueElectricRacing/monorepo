@@ -44,7 +44,12 @@ def generate() -> None:
                 "superdbc_*.json",
                 "superdbc.schema.json"
             ),
-            "topology": "topology_*.dot",
+            "topology": (
+                "topology_*.dot",
+                "message_flow_*.dot",
+                "bus_membership.dot",
+                "node_communication.dot",
+            ),
         },
     )
     write_artifacts(output_roots, artifacts)

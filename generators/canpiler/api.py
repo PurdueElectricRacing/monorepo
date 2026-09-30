@@ -16,7 +16,9 @@ from .superdbc.generator import generate_superdbc_schema, generate_superdbc
 from .pipeline.models import CanSource, CompiledCan, LinkedCan
 from .pipeline.linker import link_can
 from .analysis.bus_load import calculate_bus_load
-from .analysis.topology import generate_topology_graphs
+from .analysis.bus_membership import generate_bus_membership_graph
+from .analysis.node_communication import generate_node_communication_graph
+from .analysis.message_flow import generate_message_flow_graphs
 from .codegen.hardware import map_hardware
 
 
@@ -44,6 +46,8 @@ class Canpiler:
         artifacts.append(generate_superdbc(linked, version))
         artifacts.append(generate_superdbc_schema())
         artifacts.extend(generate_dbcs(linked, version))
-        artifacts.extend(generate_topology_graphs(linked))
+        artifacts.extend(generate_message_flow_graphs(linked))
+        artifacts.append(generate_bus_membership_graph(linked))
+        artifacts.append(generate_node_communication_graph(linked))
         calculate_bus_load(linked)
         return artifacts

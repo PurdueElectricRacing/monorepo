@@ -1,21 +1,31 @@
 # CAN topology
 
+## Nodes by CAN bus
+
+\dotfile bus_membership.dot
+
+## Communication between nodes
+
+Arrows point from transmitters to receivers and are labeled by CAN bus.
+
+\dotfile node_communication.dot
+
 ## CCAN
 
-\dotfile topology_CCAN.dot
+\dotfile message_flow_CCAN.dot
 
 ## GCAN
 
-\dotfile topology_GCAN.dot
+\dotfile message_flow_GCAN.dot
 
 ## MCAN
 
-\dotfile topology_MCAN.dot
+\dotfile message_flow_MCAN.dot
 
 ## SCAN
 
-\dotfile topology_SCAN.dot
+\dotfile message_flow_SCAN.dot
 
 ## VCAN
 
-\dotfile topology_VCAN.dot
+\dotfile message_flow_VCAN.dot
