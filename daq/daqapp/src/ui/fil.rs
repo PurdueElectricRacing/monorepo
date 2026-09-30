@@ -1033,68 +1033,100 @@ impl FilControl {
                     egui::ScrollArea::vertical()
                         .max_height(180.0)
                         .show(ui, |ui| {
-                            egui::Grid::new(("fil_expectations", &self.title))
-                                .striped(true)
-                                .show(ui, |ui| {
-                                    ui.strong("Check");
-                                    ui.strong("Status");
-                                    ui.strong("Expected");
-                                    ui.strong("Window (ns)");
-                                    ui.strong("Result / reason");
-                                    ui.end_row();
-                                    for id in &self.expectation_order {
-                                        let Some(event) = self.expectations.get(id) else {
-                                            continue;
-                                        };
-                                        ui.label(format!("{} — {}", event.check_id, event.script));
-                                        ui.label(format!("{:?}", event.status));
-                                        ui.label(format!(
-                                            "{} 0x{:X} {} [{}]",
-                                            event.expected_bus,
-                                            event.expected_id,
-                                            if event.expected_extended {
-                                                "EXT"
-                                            } else {
-                                                "STD"
-                                            },
-                                            event
-                                                .expected_data
-                                                .iter()
-                                                .map(|b| format!("{b:02X}"))
-                                                .collect::<Vec<_>>()
-                                                .join(" ")
-                                        ));
-                                        ui.label(format!(
-                                            "{} – {}",
-                                            event.window_start_ns, event.window_end_ns
-                                        ));
-                                        let detail = event.matched_bus.as_ref().map(|bus| {
-                                            format!(
-                                                "matched {bus} 0x{:X} [{}] {:?} @ {} ns",
-                                                event.matched_id.unwrap_or_default(),
-                                                event
-                                                    .matched_data
-                                                    .as_ref()
-                                                    .map(|data| data
-                                                        .iter()
-                                                        .map(|b| format!("{b:02X}"))
-                                                        .collect::<Vec<_>>()
-                                                        .join(" "))
-                                                    .unwrap_or_default(),
-                                                event.matched_origin,
-                                                event.matched_time_ns.unwrap_or_default()
-                                            )
-                                        });
-                                        ui.label(
-                                            event
-                                                .reason
-                                                .as_deref()
-                                                .or(detail.as_deref())
-                                                .unwrap_or("—"),
-                                        );
-                                        ui.end_row();
+                            ui.style_mut().wrap_mode = Some(egui::TextWrapMode::Wrap);
+                            for id in &self.expectation_order {
+                                let Some(event) = self.expectations.get(id) else {
+                                    continue;
+                                };
+                                let (status, color) = match event.status {
+                                    messages::FilExpectationStatus::Pending => {
+                                        ("Pending", egui::Color32::YELLOW)
                                     }
-                                });
+                                    messages::FilExpectationStatus::Pass => {
+                                        ("Passed", egui::Color32::LIGHT_GREEN)
+                                    }
+                                    messages::FilExpectationStatus::Fail => {
+                                        ("Failed", egui::Color32::LIGHT_RED)
+                                    }
+                                    messages::FilExpectationStatus::Incomplete => {
+                                        ("Incomplete", egui::Color32::GRAY)
+                                    }
+                                };
+                                egui::CollapsingHeader::new(
+                                    egui::RichText::new(format!(
+                                        "{status} · {}",
+                                        expectation_name(event)
+                                    ))
+                                    .color(color),
+                                )
+                                .id_salt(("fil_expectation", &self.title, id))
+                                .show(ui, |ui| {
+                                    ui.label(format!(
+                                        "Expected: {} · 0x{:X} · {}",
+                                        event.expected_bus,
+                                        event.expected_id,
+                                        if event.expected_extended {
+                                            "extended"
+                                        } else {
+                                            "standard"
+                                        },
+                                    ))
+                                    .on_hover_text(format!("{}\n{}", event.check_id, event.script));
+                                    ui.label(format!(
+                                        "Data: {}",
+                                        expectation_bytes(&event.expected_data)
+                                    ));
+                                    ui.label(format!(
+                                        "Window: {}–{} ms",
+                                        expectation_ms(event.window_start_ns),
+                                        expectation_ms(event.window_end_ns),
+                                    ))
+                                    .on_hover_text(format!(
+                                        "{}–{} ns (inclusive)",
+                                        event.window_start_ns, event.window_end_ns
+                                    ));
+                                    if let Some(reason) = &event.reason {
+                                        ui.label(format!("Result: {reason}"));
+                                    } else {
+                                        ui.label(match event.status {
+                                            messages::FilExpectationStatus::Pending => {
+                                                "Result: waiting for matching firmware output"
+                                            }
+                                            messages::FilExpectationStatus::Pass => {
+                                                "Result: matching firmware output received"
+                                            }
+                                            messages::FilExpectationStatus::Fail => {
+                                                "Result: no match within the window"
+                                            }
+                                            messages::FilExpectationStatus::Incomplete => {
+                                                "Result: run ended before the window resolved"
+                                            }
+                                        });
+                                    }
+                                    if let Some(bus) = &event.matched_bus {
+                                        let frame = event
+                                            .matched_id
+                                            .map(|id| format!(" · 0x{id:X}"))
+                                            .unwrap_or_default();
+                                        ui.label(format!("Matched: {bus}{frame}"));
+                                    }
+                                    if let Some(data) = &event.matched_data {
+                                        ui.label(format!(
+                                            "Matched data: {}",
+                                            expectation_bytes(data)
+                                        ));
+                                    }
+                                    if let Some(origin) = &event.matched_origin {
+                                        ui.label(format!("From: {origin}"));
+                                    }
+                                    if let Some(time) = event.matched_time_ns {
+                                        ui.label(format!("At: {} ms", expectation_ms(time)))
+                                            .on_hover_text(format!("{time} ns"));
+                                    }
+                                })
+                                .header_response
+                                .on_hover_text(format!("{}\n{}", event.check_id, event.script));
+                            }
                         });
                 }
             });
@@ -1306,6 +1338,43 @@ fn elf_status(effective: &Option<std::path::PathBuf>, is_override: bool) -> egui
     }
 }
 
+fn expectation_name(event: &messages::FilExpectationEvent) -> String {
+    let script = event
+        .script
+        .rsplit(['/', '\\'])
+        .next()
+        .unwrap_or(&event.script);
+    let index = event.check_id.rsplit("/expect/").next().unwrap_or("?");
+    let attachment = event
+        .check_id
+        .strip_prefix("stimulus/")
+        .and_then(|rest| rest.split('/').next())
+        .unwrap_or("?");
+    format!("{script} · check {index} · script {attachment}")
+}
+
+fn expectation_bytes(data: &[u8]) -> String {
+    if data.is_empty() {
+        return "(empty)".into();
+    }
+    data.iter()
+        .map(|byte| format!("{byte:02X}"))
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+
+fn expectation_ms(ns: u64) -> String {
+    let whole = ns / 1_000_000;
+    let remainder = ns % 1_000_000;
+    if remainder == 0 {
+        whole.to_string()
+    } else {
+        format!("{whole}.{:06}", remainder)
+            .trim_end_matches('0')
+            .to_owned()
+    }
+}
+
 #[cfg(test)]
 mod expectation_tests {
     use super::*;
@@ -1328,6 +1397,19 @@ mod expectation_tests {
             matched_time_ns: None,
             reason: None,
         }
+    }
+
+    #[test]
+    fn compact_expectation_formatting_preserves_precision() {
+        let mut check = event(messages::FilExpectationStatus::Pending);
+        check.script = "/long/path/ready.json".into();
+        check.check_id = "stimulus/2//long/path/ready.json/expect/3".into();
+        assert_eq!(expectation_name(&check), "ready.json · check 3 · script 2");
+        assert_eq!(expectation_ms(12_345_678), "12.345678");
+        assert_eq!(expectation_ms(20_000_000), "20");
+        assert_eq!(expectation_ms(1), "0.000001");
+        assert_eq!(expectation_bytes(&[1, 0xff]), "01 FF");
+        assert_eq!(expectation_bytes(&[]), "(empty)");
     }
 
     #[test]
