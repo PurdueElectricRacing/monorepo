@@ -64,7 +64,7 @@ cd daq/daqapp && cargo run
 cd daq/daqcli && cargo run
 ```
 
-To run all tests and generate a coverage report:
+To run tests and generate a coverage report:
 ```bash
 python3 tests/run_tests.py
 ```
