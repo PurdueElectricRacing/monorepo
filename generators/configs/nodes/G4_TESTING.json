@@ -1,7 +1,7 @@
 {
     "node_name": "G4_TESTING",
     "busses": {
-        "GCAN": {
+        "TEST_CAN": {
             "peripheral": "FDCAN2",
             "tx": [
                 {
