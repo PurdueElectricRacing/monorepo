@@ -60,15 +60,15 @@ def graph_header(name: str, title: str, *, directed: bool) -> list[str]:
     """Return the common graph, node, and edge style declarations."""
     lines = [
         f"{'digraph' if directed else 'graph'} {name} {{",
-        f"    rankdir={RANK_DIRECTION};",
-        "    graph ["
+        f"\trankdir={RANK_DIRECTION};",
+        "\tgraph ["
         f"fontname={quote(FONT_NAME)}, "
         f"labelloc={quote(GRAPH_LABEL_LOCATION)}, "
         f"bgcolor={quote(GRAPH_BACKGROUND_COLOR)}, "
         f"fontcolor={quote(GRAPH_FONT_COLOR)}, "
         f"label={quote(title)}"
         "];",
-        "    node ["
+        "\tnode ["
         f"fontname={quote(FONT_NAME)}, "
         f"shape={NODE_SHAPE}, style={NODE_STYLE}, "
         f"fillcolor={quote(NODE_FILL_COLOR)}, "
@@ -78,14 +78,14 @@ def graph_header(name: str, title: str, *, directed: bool) -> list[str]:
     ]
     if directed:
         lines.extend((
-            "    edge ["
+            "\tedge ["
             f"fontname={quote(FONT_NAME)}, "
             f"color={quote(EDGE_COLOR)}, "
             f"fontcolor={quote(EDGE_FONT_COLOR)}"
             "];",
         ))
     else:
-        lines.append(f"    edge [color={quote(EDGE_COLOR)}];")
+        lines.append(f"\tedge [color={quote(EDGE_COLOR)}];")
     lines.append("")
     return lines
 
@@ -95,7 +95,7 @@ def node_line(identifier: str, name: str, *, is_external: bool) -> str:
     attributes = [f"label={quote(name)}"]
     if is_external:
         attributes.append(f"style={quote(EXTERNAL_NODE_STYLE)}")
-    return f"    {identifier} [{', '.join(attributes)}];"
+    return f"\t{identifier} [{', '.join(attributes)}];"
 
 
 def can_graph_artifact(filename: str, lines: list[str]) -> Artifact:

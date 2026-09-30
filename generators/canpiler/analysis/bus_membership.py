@@ -18,7 +18,7 @@ def generate_bus_membership_graph(linked: LinkedCan) -> Artifact:
     for bus_name, config in sorted(linked.bus_configs.items()):
         label = f"{bus_name}\n{config.baud_rate // 1000} kbit/s"
         lines.append(
-            f"    {bus_id(bus_name)} [label={quote(label)}, shape=ellipse, "
+            f"\t{bus_id(bus_name)} [label={quote(label)}, shape=ellipse, "
             f"fillcolor={quote('#B8D6EF')}];"
         )
 
@@ -26,7 +26,7 @@ def generate_bus_membership_graph(linked: LinkedCan) -> Artifact:
     for node in sorted(linked.nodes, key=lambda item: item.name):
         lines.append(node_line(node_id(node.name), node.name, is_external=node.is_external))
         for bus_name in sorted(node.busses):
-            lines.append(f"    {bus_id(bus_name)} -- {node_id(node.name)};")
+            lines.append(f"\t{bus_id(bus_name)} -- {node_id(node.name)};")
 
     lines.append("}")
     filename = "bus_membership.dot"

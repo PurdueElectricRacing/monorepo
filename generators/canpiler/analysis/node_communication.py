@@ -31,7 +31,7 @@ def generate_node_communication_graph(linked: LinkedCan) -> Artifact:
         lines.append("")
     for (sender, receiver), buses in sorted(buses_by_pair.items()):
         lines.append(
-            f"    {node_id(sender)} -> {node_id(receiver)} "
+            f"\t{node_id(sender)} -> {node_id(receiver)} "
             f"[label={quote(', '.join(sorted(buses)))}];"
         )
 

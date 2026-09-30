@@ -47,9 +47,9 @@ def _generate_message_flow_graph(linked: LinkedCan, bus_name: str) -> Artifact:
         message = placed.message
         placed_message_id = message_id(bus_name, message.message_name)
         lines.extend((
-            f"    {placed_message_id} [label={quote(message_label(message))}, "
+            f"\t{placed_message_id} [label={quote(message_label(message))}, "
             f"style={quote('rounded,filled')}, fillcolor={quote('#E0E0E0')}];",
-            f"    {node_id(placed.node_name, bus_name=bus_name)} -> {placed_message_id} "
+            f"\t{node_id(placed.node_name, bus_name=bus_name)} -> {placed_message_id} "
             f"[label={quote('TX')}];",
         ))
         for subscription in sorted(
@@ -61,7 +61,7 @@ def _generate_message_flow_graph(linked: LinkedCan, bus_name: str) -> Artifact:
             if subscription.callback:
                 attributes.append("penwidth=2")
             lines.append(
-                f"    {placed_message_id} -> {node_id(subscription.node_name, bus_name=bus_name)} "
+                f"\t{placed_message_id} -> {node_id(subscription.node_name, bus_name=bus_name)} "
                 f"[{', '.join(attributes)}];"
             )
         lines.append("")
