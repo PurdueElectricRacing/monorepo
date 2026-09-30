@@ -58,10 +58,10 @@ def message_label(message: LinkedMessage) -> str:
     ))
 
 
-def graph_header(name: str, title: str, *, directed: bool) -> list[str]:
-    """Return the common graph, node, and edge style declarations."""
+def graph_header(filename: str, title: str, *, directed: bool) -> list[str]:
+    """Use the output filename as the graph ID and a readable display title."""
     lines = [
-        f"{'digraph' if directed else 'graph'} {name} {{",
+        f"{'digraph' if directed else 'graph'} {quote(filename)} {{",
         f"\trankdir={RANK_DIRECTION};",
         "\tgraph ["
         f"fontname={quote(FONT_NAME)}, "

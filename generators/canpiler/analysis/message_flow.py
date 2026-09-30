@@ -13,7 +13,7 @@ from ..pipeline.models import LinkedCan
 
 
 def _generate_message_flow_graph(linked: LinkedCan, bus_name: str) -> Artifact:
-    config = linked.bus_configs[bus_name]
+    filename = f"{bus_name}_message_flow.dot"
     nodes = sorted(
         (node for node in linked.nodes if bus_name in node.busses),
         key=lambda node: node.name,
@@ -31,8 +31,7 @@ def _generate_message_flow_graph(linked: LinkedCan, bus_name: str) -> Artifact:
         if subscription.bus_name == bus_name:
             subscriptions[subscription.message_name].append(subscription)
 
-    title = f"{bus_name} — {config.baud_rate // 1000} kbit/s"
-    lines = graph_header("CAN_topology", title, directed=True)
+    lines = graph_header(filename, f"{bus_name} Message Flow", directed=True)
 
     for node in nodes:
         lines.append(node_line(
@@ -71,7 +70,6 @@ def _generate_message_flow_graph(linked: LinkedCan, bus_name: str) -> Artifact:
         lines.pop()
     lines.append("}")
 
-    filename = f"message_flow_{bus_name}.dot"
     return can_graph_artifact(filename, lines)
 
 

@@ -47,6 +47,7 @@ def generate() -> None:
             "can_graphs": (
                 "topology_*.dot",
                 "message_flow_*.dot",
+                "*_message_flow.dot",
                 "bus_membership.dot",
                 "node_communication.dot",
             ),

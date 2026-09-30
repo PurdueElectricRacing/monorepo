@@ -10,22 +10,22 @@ Arrows point from transmitters to receivers and are labeled by CAN bus.
 
 \dotfile node_communication.dot
 
-## CCAN
+## CCAN Message Flow
 
-\dotfile message_flow_CCAN.dot
+\dotfile CCAN_message_flow.dot
 
-## GCAN
+## GCAN Message Flow
 
-\dotfile message_flow_GCAN.dot
+\dotfile GCAN_message_flow.dot
 
-## MCAN
+## MCAN Message Flow
 
-\dotfile message_flow_MCAN.dot
+\dotfile MCAN_message_flow.dot
 
-## SCAN
+## SCAN Message Flow
 
-\dotfile message_flow_SCAN.dot
+\dotfile SCAN_message_flow.dot
 
-## VCAN
+## VCAN Message Flow
 
-\dotfile message_flow_VCAN.dot
+\dotfile VCAN_message_flow.dot

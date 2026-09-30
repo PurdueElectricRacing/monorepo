@@ -12,9 +12,8 @@ from ..pipeline.models import LinkedCan
 
 def generate_bus_membership_graph(linked: LinkedCan) -> Artifact:
     """Generate a system-wide graph of nodes and their CAN bus attachments."""
-    lines = graph_header(
-        "CAN_node_bus_topology", "CAN node and bus topology", directed=False
-    )
+    filename = "bus_membership.dot"
+    lines = graph_header(filename, "Bus Membership", directed=False)
 
     for bus_name, config in sorted(linked.bus_configs.items()):
         label = f"{bus_name}\n{config.baud_rate // 1000} kbit/s"
@@ -30,5 +29,4 @@ def generate_bus_membership_graph(linked: LinkedCan) -> Artifact:
             lines.append(f"\t{bus_id(bus_name)} -- {node_id(node.name)};")
 
     lines.append("}")
-    filename = "bus_membership.dot"
     return can_graph_artifact(filename, lines)

@@ -11,6 +11,7 @@ from ..pipeline.models import LinkedCan
 
 def generate_node_communication_graph(linked: LinkedCan) -> Artifact:
     """Connect transmitters to subscribers, labeling each edge by CAN bus."""
+    filename = "node_communication.dot"
     transmitters = {
         (placed.bus_name, placed.message.message_name): placed.node_name
         for placed in linked.tx_messages
@@ -20,9 +21,7 @@ def generate_node_communication_graph(linked: LinkedCan) -> Artifact:
         sender = transmitters[(subscription.bus_name, subscription.message_name)]
         buses_by_pair[(sender, subscription.node_name)].add(subscription.bus_name)
 
-    lines = graph_header(
-        "CAN_node_communication_topology", "CAN node communication", directed=True
-    )
+    lines = graph_header(filename, "Node Communication", directed=True)
 
     for node in sorted(linked.nodes, key=lambda item: item.name):
         lines.append(node_line(node_id(node.name), node.name, is_external=node.is_external))
@@ -54,5 +53,4 @@ def generate_node_communication_graph(linked: LinkedCan) -> Artifact:
             )
 
     lines.append("}")
-    filename = "node_communication.dot"
     return can_graph_artifact(filename, lines)
