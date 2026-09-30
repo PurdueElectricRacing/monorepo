@@ -27,13 +27,31 @@ def generate_node_communication_graph(linked: LinkedCan) -> Artifact:
     for node in sorted(linked.nodes, key=lambda item: item.name):
         lines.append(node_line(node_id(node.name), node.name, is_external=node.is_external))
 
-    if buses_by_pair:
+    node_pairs = sorted({
+        tuple(sorted((sender, receiver)))
+        for sender, receiver in buses_by_pair
+    })
+    if node_pairs:
         lines.append("")
-    for (sender, receiver), buses in sorted(buses_by_pair.items()):
-        lines.append(
-            f"\t{node_id(sender)} -> {node_id(receiver)} "
-            f"[label={quote(', '.join(sorted(buses)))}];"
+    for first, second in node_pairs:
+        forward_buses = buses_by_pair[(first, second)]
+        reverse_buses = buses_by_pair[(second, first)]
+        shared_buses = forward_buses & reverse_buses
+        edges = (
+            (first, second, shared_buses, True),
+            (first, second, forward_buses - shared_buses, False),
+            (second, first, reverse_buses - shared_buses, False),
         )
+        for sender, receiver, buses, bidirectional in edges:
+            if not buses:
+                continue
+            attributes = [f"label={quote(', '.join(sorted(buses)))}"]
+            if bidirectional:
+                attributes.append("dir=both")
+            lines.append(
+                f"\t{node_id(sender)} -> {node_id(receiver)} "
+                f"[{', '.join(attributes)}];"
+            )
 
     lines.append("}")
     filename = "node_communication.dot"
