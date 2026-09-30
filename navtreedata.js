@@ -130,8 +130,8 @@ var NAVTREE =
       [ "linear_algebra.h", "md_firmware_2common_2utils_2README.html#autotoc_md84", null ]
     ] ],
     [ "CAN graphs", "md_docs_2can__graphs.html", [
-      [ "Nodes by CAN bus", "md_docs_2can__graphs.html#autotoc_md86", null ],
-      [ "Communication between nodes", "md_docs_2can__graphs.html#autotoc_md87", null ],
+      [ "Bus Membership", "md_docs_2can__graphs.html#autotoc_md86", null ],
+      [ "Node Communication", "md_docs_2can__graphs.html#autotoc_md87", null ],
       [ "CCAN", "md_docs_2can__graphs.html#autotoc_md88", null ],
       [ "GCAN", "md_docs_2can__graphs.html#autotoc_md89", null ],
       [ "MCAN", "md_docs_2can__graphs.html#autotoc_md90", null ],
