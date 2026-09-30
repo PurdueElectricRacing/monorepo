@@ -65,7 +65,7 @@
 
 "docs":
   - changed-files:
-      - any-glob-to-any-file: ['docs/**']
+      - any-glob-to-any-file: ['docs/**', '**/*.md']
 
 "vscode":
   - changed-files:
