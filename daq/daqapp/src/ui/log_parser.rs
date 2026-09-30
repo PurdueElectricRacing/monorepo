@@ -165,16 +165,15 @@ impl LogParser {
 
             let _ = parse_to_ui_tx.send(MsgFromParserThread::Update("Parsing logs...".to_string()));
 
-            let parsed =
-                daqcore::log_parse::parse::parse_log_files(&logs_dir, &parser_bus_0, &parser_bus_1);
-            let chunked_parsed = daqcore::log_parse::parse::chunk_parsed(parsed);
-            let correlated_chunks =
-                daqcore::log_parse::correlate::time_correlate_chunks(chunked_parsed);
-
-            let mut table_builder = daqcore::log_parse::table::TableBuilder::new();
-            table_builder.create_header(&parser_bus_0, "VCAN");
-            table_builder.create_header(&parser_bus_1, "MCAN");
-            table_builder.create_and_write_tables(&output_dir, &prefix, correlated_chunks);
+            daqcore::log_parse::parse_logs_to_tables(
+                &logs_dir,
+                &output_dir,
+                &prefix,
+                &parser_bus_0,
+                "VCAN",
+                &parser_bus_1,
+                "MCAN",
+            );
 
             log::info!("Parsing completed successfully");
             let _ = parse_to_ui_tx.send(MsgFromParserThread::SuccessExit(format!(
