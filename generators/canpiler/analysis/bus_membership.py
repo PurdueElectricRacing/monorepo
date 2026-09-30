@@ -4,7 +4,8 @@ from __future__ import annotations
 
 from core.artifacts import Artifact
 from .graphviz_helpers import (
-    bus_id, can_graph_artifact, graph_header, node_id, node_line, quote,
+    BUS_NODE_FILL_COLOR, bus_id, can_graph_artifact, graph_header, node_id,
+    node_line, quote,
 )
 from ..pipeline.models import LinkedCan
 
@@ -19,7 +20,7 @@ def generate_bus_membership_graph(linked: LinkedCan) -> Artifact:
         label = f"{bus_name}\n{config.baud_rate // 1000} kbit/s"
         lines.append(
             f"\t{bus_id(bus_name)} [label={quote(label)}, shape=ellipse, "
-            f"fillcolor={quote('#B8D6EF')}];"
+            f"fillcolor={quote(BUS_NODE_FILL_COLOR)}];"
         )
 
     lines.append("")

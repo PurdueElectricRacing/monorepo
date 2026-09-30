@@ -6,8 +6,8 @@ from collections import defaultdict
 
 from core.artifacts import Artifact
 from .graphviz_helpers import (
-    can_graph_artifact, graph_header, message_id, message_label, node_id,
-    node_line, quote,
+    MESSAGE_NODE_FILL_COLOR, can_graph_artifact, graph_header, message_id,
+    message_label, node_id, node_line, quote,
 )
 from ..pipeline.models import LinkedCan
 
@@ -48,7 +48,8 @@ def _generate_message_flow_graph(linked: LinkedCan, bus_name: str) -> Artifact:
         placed_message_id = message_id(bus_name, message.message_name)
         lines.extend((
             f"\t{placed_message_id} [label={quote(message_label(message))}, "
-            f"style={quote('rounded,filled')}, fillcolor={quote('#E0E0E0')}];",
+            f"style={quote('rounded,filled')}, "
+            f"fillcolor={quote(MESSAGE_NODE_FILL_COLOR)}];",
             f"\t{node_id(placed.node_name, bus_name=bus_name)} -> {placed_message_id} "
             f"[label={quote('TX')}];",
         ))
