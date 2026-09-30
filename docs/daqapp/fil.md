@@ -79,7 +79,10 @@ for supported fields and validation rules.
 The **Expectations** panel inside **FIL Control** displays FIL's authoritative lifecycle
 traces: pending, passed, failed, or incomplete (the run ended before the check resolved).
 It shows each check's expected frame (including standard/extended format) and time window,
-with available match details. Results remain visible after disconnection and are cleared
+with available match details. Checks appear as compact expandable cards using the script
+filename and check index; full identifiers are available in tooltips. Windows and matched
+times use milliseconds without losing nanosecond precision, and frame/result details wrap
+onto separate lines. Results remain visible after disconnection and are cleared
 on the next successful connection or with **Clear**. The panel retains up to 500 checks.
 Checks are identified by FIL's `check_id`, so repeated script attachments stay distinct.
 Expectation results are independent of the **View/trace CAN bus** filter. DaqApp does

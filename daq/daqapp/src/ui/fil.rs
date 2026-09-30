@@ -985,6 +985,135 @@ impl FilControl {
 
             ui.add_space(8.0);
             ui.group(|ui| {
+                ui.horizontal(|ui| {
+                    ui.heading("CAN expectations");
+                    if ui.button("Clear").clicked() {
+                        clear_expectations(
+                            &mut self.expectations,
+                            &mut self.expectation_order,
+                        );
+                    }
+                });
+                let count = |status| {
+                    self.expectations
+                        .values()
+                        .filter(|event| event.status == status)
+                        .count()
+                };
+                ui.label(format!(
+                    "Pending: {}   Pass: {}   Fail: {}   Incomplete: {}",
+                    count(daqcore::can::driver::FilExpectationStatus::Pending),
+                    count(daqcore::can::driver::FilExpectationStatus::Pass),
+                    count(daqcore::can::driver::FilExpectationStatus::Fail),
+                    count(daqcore::can::driver::FilExpectationStatus::Incomplete)
+                ));
+                if self.expectation_order.is_empty() {
+                    ui.weak("No FIL expectation trace records received.");
+                } else {
+                    egui::ScrollArea::vertical()
+                        .max_height(180.0)
+                        .show(ui, |ui| {
+                            ui.style_mut().wrap_mode = Some(egui::TextWrapMode::Wrap);
+                            for id in &self.expectation_order {
+                                let Some(event) = self.expectations.get(id) else {
+                                    continue;
+                                };
+                                let (status, color) = match event.status {
+                                    daqcore::can::driver::FilExpectationStatus::Pending => {
+                                        ("Pending", egui::Color32::YELLOW)
+                                    }
+                                    daqcore::can::driver::FilExpectationStatus::Pass => {
+                                        ("Passed", egui::Color32::LIGHT_GREEN)
+                                    }
+                                    daqcore::can::driver::FilExpectationStatus::Fail => {
+                                        ("Failed", egui::Color32::LIGHT_RED)
+                                    }
+                                    daqcore::can::driver::FilExpectationStatus::Incomplete => {
+                                        ("Incomplete", egui::Color32::GRAY)
+                                    }
+                                };
+                                egui::CollapsingHeader::new(
+                                    egui::RichText::new(format!(
+                                        "{status} · {}",
+                                        expectation_name(event)
+                                    ))
+                                    .color(color),
+                                )
+                                .id_salt(("fil_expectation", &self.title, id))
+                                .show(ui, |ui| {
+                                    ui.label(format!(
+                                        "Expected: {} · 0x{:X} · {}",
+                                        event.expected_bus,
+                                        event.expected_id,
+                                        if event.expected_extended {
+                                            "extended"
+                                        } else {
+                                            "standard"
+                                        },
+                                    ))
+                                    .on_hover_text(format!("{}\n{}", event.check_id, event.script));
+                                    ui.label(format!(
+                                        "Data: {}",
+                                        expectation_bytes(&event.expected_data)
+                                    ));
+                                    ui.label(format!(
+                                        "Window: {}–{} ms",
+                                        expectation_ms(event.window_start_ns),
+                                        expectation_ms(event.window_end_ns),
+                                    ))
+                                    .on_hover_text(format!(
+                                        "{}–{} ns (inclusive)",
+                                        event.window_start_ns, event.window_end_ns
+                                    ));
+                                    if let Some(reason) = &event.reason {
+                                        ui.label(format!("Result: {reason}"));
+                                    } else {
+                                        ui.label(match event.status {
+                                            daqcore::can::driver::FilExpectationStatus::Pending => {
+                                                "Result: waiting for matching firmware output"
+                                            }
+                                            daqcore::can::driver::FilExpectationStatus::Pass => {
+                                                "Result: matching firmware output received"
+                                            }
+                                            daqcore::can::driver::FilExpectationStatus::Fail => {
+                                                "Result: no match within the window"
+                                            }
+                                            daqcore::can::driver::FilExpectationStatus::Incomplete => {
+                                                "Result: run ended before the window resolved"
+                                            }
+                                        });
+                                    }
+                                    if let Some(bus) = &event.matched_bus {
+                                        let frame = event
+                                            .matched_id
+                                            .map(|id| format!(" · 0x{id:X}"))
+                                            .unwrap_or_default();
+                                        ui.label(format!("Matched: {bus}{frame}"));
+                                    }
+                                    if let Some(data) = &event.matched_data {
+                                        ui.label(format!(
+                                            "Matched data: {}",
+                                            expectation_bytes(data)
+                                        ));
+                                    }
+                                    if let Some(origin) = &event.matched_origin {
+                                        ui.label(format!("From: {origin}"));
+                                    }
+                                    if let Some(time) = event.matched_time_ns {
+                                        ui.label(format!("At: {} ms", expectation_ms(time)))
+                                            .on_hover_text(format!("{time} ns"));
+                                    }
+                                })
+                                .header_response
+                                .on_hover_text(format!("{}\n{}", event.check_id, event.script));
+                            }
+                        });
+                }
+            });
+
+            ui.add_space(8.0);
+            ui.group(|ui| {
+
                 ui.heading("ADC injection");
                 ui.horizontal(|ui| {
                     ui.label("Board:");
@@ -1215,6 +1344,122 @@ fn elf_status(effective: &Option<std::path::PathBuf>, is_override: bool) -> egui
         None => egui::RichText::new("No ELF configured").color(egui::Color32::LIGHT_RED),
     }
 }
+
+fn expectation_name(event: &daqcore::can::driver::FilExpectationEvent) -> String {
+    let script = event
+        .script
+        .rsplit(['/', '\\'])
+        .next()
+        .unwrap_or(&event.script);
+    let index = event.check_id.rsplit("/expect/").next().unwrap_or("?");
+    let attachment = event
+        .check_id
+        .strip_prefix("stimulus/")
+        .and_then(|rest| rest.split('/').next())
+        .unwrap_or("?");
+    format!("{script} · check {index} · script {attachment}")
+}
+
+fn expectation_bytes(data: &[u8]) -> String {
+    if data.is_empty() {
+        return "(empty)".into();
+    }
+    data.iter()
+        .map(|byte| format!("{byte:02X}"))
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+
+fn expectation_ms(ns: u64) -> String {
+    let whole = ns / 1_000_000;
+    let remainder = ns % 1_000_000;
+    if remainder == 0 {
+        whole.to_string()
+    } else {
+        format!("{whole}.{:06}", remainder)
+            .trim_end_matches('0')
+            .to_owned()
+    }
+}
+
+#[cfg(test)]
+mod expectation_tests {
+    use super::*;
+
+    fn event(status: daqcore::can::driver::FilExpectationStatus) -> daqcore::can::driver::FilExpectationEvent {
+        daqcore::can::driver::FilExpectationEvent {
+            check_id: "stimulus/0/script/expect/0".into(),
+            script: "script".into(),
+            status,
+            expected_bus: "vehicle".into(),
+            expected_id: 0x321,
+            expected_extended: false,
+            expected_data: vec![1, 2],
+            window_start_ns: 10,
+            window_end_ns: 20,
+            matched_bus: None,
+            matched_id: None,
+            matched_data: None,
+            matched_origin: None,
+            matched_time_ns: None,
+            reason: None,
+        }
+    }
+
+
+    #[test]
+    fn history_is_bounded() {
+        let mut events = HashMap::new();
+        let mut order = Vec::new();
+        for index in 0..=FIL_EXPECTATION_HISTORY_LIMIT {
+            let mut check = event(daqcore::can::driver::FilExpectationStatus::Pending);
+            check.check_id = index.to_string();
+            update_expectation_history(&mut events, &mut order, check);
+        }
+        assert_eq!(events.len(), FIL_EXPECTATION_HISTORY_LIMIT);
+        assert_eq!(order.len(), FIL_EXPECTATION_HISTORY_LIMIT);
+        assert!(!events.contains_key("0"));
+    }
+
+    #[test]
+    fn completed_run_survives_disconnection_and_resets_on_new_connection() {
+        let mut control = FilControl::new(1);
+        control.handle_can_message(&messages::MsgFromCan::FilExpectation(event(
+            daqcore::can::driver::FilExpectationStatus::Fail,
+        )));
+        control.handle_can_message(&messages::MsgFromCan::Disconnection);
+        assert_eq!(control.expectations.len(), 1);
+        control.handle_can_message(&messages::MsgFromCan::ConnectionSuccessful);
+        assert!(control.expectations.is_empty());
+        assert!(control.expectation_order.is_empty());
+    }
+
+    #[test]
+    fn lifecycle_replaces_pending_check_without_duplicate_history() {
+        let mut events = HashMap::new();
+        let mut order = Vec::new();
+        update_expectation_history(
+            &mut events,
+            &mut order,
+            event(daqcore::can::driver::FilExpectationStatus::Pending),
+        );
+        let mut passed = event(daqcore::can::driver::FilExpectationStatus::Pass);
+        passed.matched_bus = Some("vehicle".into());
+        passed.matched_id = Some(0x321);
+        passed.matched_data = Some(vec![1, 2]);
+        passed.matched_time_ns = Some(15);
+        update_expectation_history(&mut events, &mut order, passed);
+        assert_eq!(order.len(), 1);
+        assert_eq!(events.len(), 1);
+        let stored = events.values().next().unwrap();
+        assert_eq!(stored.status, daqcore::can::driver::FilExpectationStatus::Pass);
+        assert_eq!(stored.matched_time_ns, Some(15));
+        clear_expectations(&mut events, &mut order);
+        assert!(events.is_empty());
+        assert!(order.is_empty());
+    }
+}
+
 
 fn level_text(value: Option<bool>, unset: &str) -> egui::RichText {
     match value {
