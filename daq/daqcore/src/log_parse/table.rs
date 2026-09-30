@@ -1,6 +1,6 @@
 use crate::{
-    daq_log_parse::{consts, correlate},
-    util,
+    can,
+    log_parse::{consts, correlate},
 };
 
 const HEADER_ROW_COUNT: usize = 7;
@@ -95,7 +95,7 @@ impl TableBuilder {
 
     pub fn create_header(&mut self, parser: &can_decode::Parser, bus_name: &str) {
         let mut message_defs = parser.msg_defs();
-        message_defs.sort_by_key(|m| util::can::can_dbc_to_u32_without_extid_flag(&m.id));
+        message_defs.sort_by_key(|m| can::can_dbc_to_u32_without_extid_flag(&m.id));
 
         for msg in message_defs {
             let bus_id = bus_name;
@@ -104,7 +104,7 @@ impl TableBuilder {
                 can_dbc::Transmitter::VectorXXX => "N/A".to_string(),
             };
 
-            let msg_id_u32 = util::can::can_dbc_to_u32_with_extid_flag(&msg.id);
+            let msg_id_u32 = can::can_dbc_to_u32_with_extid_flag(&msg.id);
             let msg_desc = parser
                 .msg_desc(msg_id_u32)
                 .map(|d| d.to_string())

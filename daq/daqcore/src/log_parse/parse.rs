@@ -1,4 +1,4 @@
-use crate::{daq_log_parse::consts, util};
+use crate::{can, log_parse::consts};
 use bytemuck::{Pod, Zeroable};
 
 #[derive(Debug)]
@@ -83,9 +83,9 @@ fn parse_log_file(
         }
 
         let arb_id = if (frame.identity & consts::IS_EID_MASK) != 0 {
-            frame.identity & util::can::EXTENDED_ID_MASK
+            frame.identity & can::EXTENDED_ID_MASK
         } else {
-            frame.identity & util::can::STANDARD_ID_MASK
+            frame.identity & can::STANDARD_ID_MASK
         };
 
         let bus_id = if (frame.identity & consts::BUS_ID_MASK) != 0 {

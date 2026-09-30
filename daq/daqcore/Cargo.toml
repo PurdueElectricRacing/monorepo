@@ -4,3 +4,9 @@ version = "0.1.0"
 edition.workspace = true
 
 [dependencies]
+can_decode.workspace = true
+can-dbc.workspace = true
+chrono.workspace = true
+log.workspace = true
+bytemuck.workspace = true
+csv.workspace = true

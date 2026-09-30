@@ -1,6 +1,6 @@
-use crate::daq_log_parse::consts::{BUS_ID_MASK, IS_EID_MASK};
+use daqcore::log_parse::consts;
 
-use crate::daq_log_parse::parse::RawFrame;
+use daqcore::log_parse::parse;
 
 use chrono::{Datelike, Timelike};
 use std::fs::{File, create_dir_all};
@@ -23,7 +23,7 @@ struct OpenLogFile {
 pub struct DaqLogger {
     open_file: Option<OpenLogFile>,
     folder_path: PathBuf,
-    buffer: Vec<RawFrame>,
+    buffer: Vec<parse::RawFrame>,
     file_created_at: Instant,
     start_time: Instant,
     last_flush: Instant,
@@ -75,12 +75,16 @@ impl DaqLogger {
                 (id, frame.data().unwrap_or(&[]))
             }
             slcan::Id::Extended(eid) => {
-                let id = eid.as_raw() | IS_EID_MASK;
+                let id = eid.as_raw() | consts::IS_EID_MASK;
                 (id, frame.data().unwrap_or(&[]))
             }
         };
 
-        let frame_identity = if is_bus_1 { id | BUS_ID_MASK } else { id };
+        let frame_identity = if is_bus_1 {
+            id | consts::BUS_ID_MASK
+        } else {
+            id
+        };
 
         let mut data_array = [0u8; 8];
         let len = data.len().min(8);
@@ -88,7 +92,7 @@ impl DaqLogger {
 
         let ticks_ms = self.start_time.elapsed().as_millis() as u32;
 
-        let raw_frame = RawFrame {
+        let raw_frame = parse::RawFrame {
             ticks_ms: ticks_ms,
             identity: frame_identity,
             data: data_array,
@@ -97,7 +101,7 @@ impl DaqLogger {
         self.add_frame(raw_frame);
     }
 
-    fn add_frame(&mut self, frame: RawFrame) {
+    fn add_frame(&mut self, frame: parse::RawFrame) {
         self.buffer.push(frame);
 
         //Flush every 1 second
