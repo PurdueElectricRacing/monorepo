@@ -47,7 +47,7 @@ var searchData=
   ['vbatt_5fgpio_5fport_44',['VBATT_GPIO_PORT',['../a__box_2main_8h.html#a802fb40a654626a5c82ce20086596cae',1,'main.h']]],
   ['vbatt_5fraw_45',['vbatt_raw',['../structadc1__dma__buffer__t.html#a56c855217254a640ee5e06655d912aff',1,'adc1_dma_buffer_t']]],
   ['vbatt_5fto_5fvoltage_46',['vbatt_to_voltage',['../a__box_2telemetry_2telemetry_8c.html#a19a5190bd53f3e792c4c164ff3cce592',1,'telemetry.c']]],
-  ['vcan_47',['VCAN',['../md_docs_2can__graphs.html#autotoc_md92',1,'']]],
+  ['vcan_20message_20flow_47',['VCAN Message Flow',['../md_docs_2can__graphs.html#autotoc_md92',1,'']]],
   ['vcan_2eh_48',['VCAN.h',['../VCAN_8h.html',1,'']]],
   ['vcan_5fbaud_5frate_49',['VCAN_BAUD_RATE',['../VCAN_8h.html#a04f43a870064cf90eb018b19e4234a2e',1,'VCAN.h']]],
   ['vcan_5frx_5fgpio_5fport_50',['VCAN_RX_GPIO_Port',['../pdu_2main_8h.html#ae149f315898d37fba8fd24600c9e0daa',1,'main.h']]],

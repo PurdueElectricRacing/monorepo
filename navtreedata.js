@@ -132,11 +132,11 @@ var NAVTREE =
     [ "CAN graphs", "md_docs_2can__graphs.html", [
       [ "Bus Membership", "md_docs_2can__graphs.html#autotoc_md86", null ],
       [ "Node Communication", "md_docs_2can__graphs.html#autotoc_md87", null ],
-      [ "CCAN", "md_docs_2can__graphs.html#autotoc_md88", null ],
-      [ "GCAN", "md_docs_2can__graphs.html#autotoc_md89", null ],
-      [ "MCAN", "md_docs_2can__graphs.html#autotoc_md90", null ],
-      [ "SCAN", "md_docs_2can__graphs.html#autotoc_md91", null ],
-      [ "VCAN", "md_docs_2can__graphs.html#autotoc_md92", null ]
+      [ "CCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md88", null ],
+      [ "GCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md89", null ],
+      [ "MCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md90", null ],
+      [ "SCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md91", null ],
+      [ "VCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md92", null ]
     ] ],
     [ "Codestyle", "md_docs_2code__style.html", [
       [ "About", "md_docs_2code__style.html#autotoc_md94", null ],

@@ -11,7 +11,7 @@ var searchData=
   ['sb_5fone_8',['SB_ONE',['../phal__F4_2usart_2usart_8h.html#a93bf91b4ba41ceb7678694e06b1ac553af586c0b77373cd4fe301abe9a1a819da',1,'usart.h']]],
   ['sb_5fone_5fhalf_9',['SB_ONE_HALF',['../phal__F4_2usart_2usart_8h.html#a93bf91b4ba41ceb7678694e06b1ac553ab67ebf519fad921e7749842e16f9685c',1,'usart.h']]],
   ['sb_5ftwo_10',['SB_TWO',['../phal__F4_2usart_2usart_8h.html#a93bf91b4ba41ceb7678694e06b1ac553abd98b798e8db67c8f79d30573152cd87',1,'usart.h']]],
-  ['scan_11',['SCAN',['../md_docs_2can__graphs.html#autotoc_md91',1,'']]],
+  ['scan_20message_20flow_11',['SCAN Message Flow',['../md_docs_2can__graphs.html#autotoc_md91',1,'']]],
   ['scan_2eh_12',['SCAN.h',['../SCAN_8h.html',1,'']]],
   ['scan_5fbaud_5frate_13',['SCAN_BAUD_RATE',['../SCAN_8h.html#ad647f5f8dbfbf37bb71274cb9f0a5568',1,'SCAN.h']]],
   ['scheme_14',['2026 AMK CAN ID Assignment Scheme',['../md_firmware_2common_2amk_2README.html#autotoc_md63',1,'']]],

@@ -196,7 +196,7 @@ var searchData=
   ['cardcapacity_193',['CardCapacity',['../structSD__CardInfo.html#a536fbe580a6c824e73a2c3c4cf5b40c6',1,'SD_CardInfo']]],
   ['cardcomdclasses_194',['CardComdClasses',['../structSD__CSD.html#adf90bf21bddbc4c95a83f150045d2f33',1,'SD_CSD']]],
   ['cardtype_195',['CardType',['../structSD__CardInfo.html#a4e81c89d9a913a4dd5e81b9f8856ea96',1,'SD_CardInfo::CardType'],['../sdio_8c.html#a979c75853cc30f2c08f66faa80849fd3',1,'CardType:&#160;sdio.c']]],
-  ['ccan_196',['CCAN',['../md_docs_2can__graphs.html#autotoc_md88',1,'']]],
+  ['ccan_20message_20flow_196',['CCAN Message Flow',['../md_docs_2can__graphs.html#autotoc_md88',1,'']]],
   ['ccan_2eh_197',['CCAN.h',['../CCAN_8h.html',1,'']]],
   ['ccan_5fbaud_5frate_198',['CCAN_BAUD_RATE',['../CCAN_8h.html#a7e60bc2f864dd33675b390e126a6b04d',1,'CCAN.h']]],
   ['ccw_199',['CCW',['../structLWS__Config__data__t.html#abe42f13960bb7b3661da653f136d2328',1,'LWS_Config_data_t']]],

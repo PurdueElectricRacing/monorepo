@@ -23,7 +23,7 @@ var searchData=
   ['g_5fpowertrain_20',['g_powertrain',['../powertrain_8c.html#a07b2a922769a3755b4c94780afa4fb48',1,'g_powertrain:&#160;powertrain.c'],['../powertrain_8h.html#a07b2a922769a3755b4c94780afa4fb48',1,'g_powertrain:&#160;powertrain.c']]],
   ['g_5fspmc_21',['g_spmc',['../spmc_8c.html#aea22837d4940a006332041eb9c4042cb',1,'g_spmc:&#160;spmc.c'],['../spmc_8h.html#aea22837d4940a006332041eb9c4042cb',1,'g_spmc:&#160;spmc.c']]],
   ['g_5fsystem_5fclock_5fhz_22',['g_system_clock_hz',['../phal__G4_2rcc_2rcc_8c.html#a14f4321fc2e6ae5c0dc9a50a4dbc6072',1,'rcc.c']]],
-  ['gcan_23',['GCAN',['../md_docs_2can__graphs.html#autotoc_md89',1,'']]],
+  ['gcan_20message_20flow_23',['GCAN Message Flow',['../md_docs_2can__graphs.html#autotoc_md89',1,'']]],
   ['gcan_2eh_24',['GCAN.h',['../GCAN_8h.html',1,'']]],
   ['gcan_5fbaud_5frate_25',['GCAN_BAUD_RATE',['../GCAN_8h.html#a5a4286c9a27e0a9a994dfa1fdd44a98a',1,'GCAN.h']]],
   ['gear_5fratio_26',['GEAR_RATIO',['../race_8c.html#a7ceba12f5f5bd48ea9a93d64bb8ddf82',1,'GEAR_RATIO:&#160;race.c'],['../torque__controller_8c.html#a7ceba12f5f5bd48ea9a93d64bb8ddf82',1,'GEAR_RATIO:&#160;torque_controller.c']]],
