@@ -1,10 +1,10 @@
 # CAN graphs
 
-## Nodes by CAN bus
+## Bus Membership
 
 \dotfile bus_membership.dot
 
-## Communication between nodes
+## Node Communication
 
 Arrows point from transmitters to receivers and are labeled by CAN bus.
 
