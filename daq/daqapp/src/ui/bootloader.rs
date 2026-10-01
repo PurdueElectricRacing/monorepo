@@ -104,25 +104,21 @@ impl Bootloader {
                 let Some(package) = &self.package else {
                     return;
                 };
-                let images = package.images.clone();
+                let target_names: Vec<_> = package.images.iter().map(|image| image.name.clone()).collect();
                 let now = Instant::now();
 
-                let available_count = images
-                    .iter()
-                    .filter(|image| {
-                        self.capability_state(&image.name, now) == CapabilityState::Available
-                    })
+                let available_count = target_names.iter()
+                    .filter(|name| self.capability_state(name, now) == CapabilityState::Available)
                     .count();
-                let selected_images: Vec<_> = images
-                    .iter()
-                    .filter(|image| self.selected_targets.contains(&image.name))
+                let selected_names: Vec<_> = target_names.iter()
+                    .filter(|name| self.selected_targets.contains(*name))
                     .cloned()
                     .collect();
                 let protocol_matches = self.refresh_protocol_state(now);
 
-                self.show_target_header(ui, &images, available_count, selected_images.len(), now);
+                self.show_target_header(ui, &target_names, available_count, selected_names.len(), now);
                 ui.add_space(6.0);
-                self.show_targets(ui, &images, now);
+                self.show_targets(ui, &target_names, now);
                 ui.add_space(12.0);
 
                 if !self.running && !self.board_statuses.is_empty() {
@@ -165,25 +161,25 @@ impl Bootloader {
                     self.show_update_confirmation(
                         ui,
                         ui_to_can_tx,
-                        &images,
-                        &selected_images,
+                        &target_names,
+                        &selected_names,
                         &protocol_matches,
                         now,
                     );
                 } else {
                     ui.horizontal(|ui| {
                         let upload = ui.add_enabled(
-                            !selected_images.is_empty(),
+                            !selected_names.is_empty(),
                             egui::Button::new(format!(
                                 "Review update ({})",
-                                selected_images.len()
+                                selected_names.len()
                             )),
                         );
                         if upload.clicked() {
                             self.confirming_update = true;
                             self.package_error = None;
                         }
-                        if selected_images.is_empty() {
+                        if selected_names.is_empty() {
                             ui.label(
                                 egui::RichText::new(
                                     "Select at least one target to continue.",
@@ -280,7 +276,7 @@ impl Bootloader {
     fn show_target_header(
         &mut self,
         ui: &mut egui::Ui,
-        images: &[crate::bootloader_protocol::FirmwareImage],
+        target_names: &[String],
         available_count: usize,
         selected_count: usize,
         now: Instant,
@@ -290,7 +286,7 @@ impl Bootloader {
             ui.label(
                 egui::RichText::new(format!(
                     "{available_count} of {} available • {selected_count} selected",
-                    images.len()
+                    target_names.len()
                 ))
                 .small()
                 .weak(),
@@ -313,12 +309,12 @@ impl Bootloader {
                     )
                     .clicked()
                 {
-                    self.selected_targets = images
+                    self.selected_targets = target_names
                         .iter()
-                        .filter(|image| {
-                            self.capability_state(&image.name, now) == CapabilityState::Available
+                        .filter(|name| {
+                            self.capability_state(name, now) == CapabilityState::Available
                         })
-                        .map(|image| image.name.clone())
+                        .cloned()
                         .collect();
                     self.confirming_update = false;
                 }
@@ -326,12 +322,7 @@ impl Bootloader {
         });
     }
 
-    fn show_targets(
-        &mut self,
-        ui: &mut egui::Ui,
-        images: &[crate::bootloader_protocol::FirmwareImage],
-        now: Instant,
-    ) {
+    fn show_targets(&mut self, ui: &mut egui::Ui, target_names: &[String], now: Instant) {
         egui::Frame::group(ui.style()).show(ui, |ui| {
             egui::ScrollArea::horizontal().show(ui, |ui| {
                 egui::Grid::new(egui::Id::new(("bootloader-targets", &self.title)))
@@ -347,10 +338,10 @@ impl Bootloader {
                         ui.strong("Update");
                         ui.end_row();
 
-                        for image in images {
-                            let capability = self.capability_state(&image.name, now);
+                        for name in target_names {
+                            let capability = self.capability_state(name, now);
                             let available = capability == CapabilityState::Available;
-                            let mut selected = self.selected_targets.contains(&image.name);
+                            let mut selected = self.selected_targets.contains(name);
                             if ui
                                 .add_enabled(
                                     !self.running,
@@ -364,27 +355,27 @@ impl Bootloader {
                                 .changed()
                             {
                                 if selected {
-                                    self.selected_targets.insert(image.name.clone());
+                                    self.selected_targets.insert(name.clone());
                                 } else {
-                                    self.selected_targets.remove(&image.name);
+                                    self.selected_targets.remove(name);
                                 }
                                 self.confirming_update = false;
                             }
 
-                            ui.strong(display_target_name(&image.name));
+                            ui.strong(display_target_name(name));
                             show_capability(ui, capability);
                             ui.label(
-                                egui::RichText::new(self.hash_label(&image.name, true, now))
+                                egui::RichText::new(self.hash_label(name, true, now))
                                     .monospace(),
                             );
                             ui.label(
-                                egui::RichText::new(self.hash_label(&image.name, false, now))
+                                egui::RichText::new(self.hash_label(name, false, now))
                                     .monospace(),
                             );
                             show_board_status(
                                 ui,
                                 self.board_statuses
-                                    .get(&image.name)
+                                    .get(name)
                                     .unwrap_or(&BoardUpdateStatus::Idle),
                             );
                             ui.end_row();
@@ -425,8 +416,8 @@ impl Bootloader {
         &mut self,
         ui: &mut egui::Ui,
         ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
-        package_images: &[crate::bootloader_protocol::FirmwareImage],
-        selected_images: &[crate::bootloader_protocol::FirmwareImage],
+        package_names: &[String],
+        selected_names: &[String],
         protocol_matches: &[ProtocolMatch],
         now: Instant,
     ) {
@@ -434,13 +425,13 @@ impl Bootloader {
             ui.set_min_width(ui.available_width());
             ui.strong(format!(
                 "Ready to update {} target{}",
-                selected_images.len(),
-                if selected_images.len() == 1 { "" } else { "s" }
+                selected_names.len(),
+                if selected_names.len() == 1 { "" } else { "s" }
             ));
             ui.label(
-                selected_images
+                selected_names
                     .iter()
-                    .map(|image| display_target_name(&image.name))
+                    .map(|name| display_target_name(name))
                     .collect::<Vec<_>>()
                     .join(", "),
             );
@@ -458,7 +449,7 @@ impl Bootloader {
                 .small()
                 .weak(),
             );
-            if selected_images.len() > 1 {
+            if selected_names.len() > 1 {
                 ui.label(
                     egui::RichText::new(
                         "Arm mode requires exactly one selected target; use Start update for multiple targets.",
@@ -467,8 +458,8 @@ impl Bootloader {
                     .weak(),
                 );
             }
-            let selected_targets_available = selected_images.iter().all(|image| {
-                self.capability_state(&image.name, now) == CapabilityState::Available
+            let selected_targets_available = selected_names.iter().all(|name| {
+                self.capability_state(name, now) == CapabilityState::Available
             });
             if !selected_targets_available {
                 ui.label(
@@ -514,11 +505,11 @@ impl Bootloader {
                     "Arm and wait for READY"
                 };
                 let start_button = ui.add_enabled(
-                    !selected_images.is_empty() && selected_targets_available,
+                    !selected_names.is_empty() && selected_targets_available,
                     egui::Button::new(start_label),
                 );
                 let arm_button = ui.add_enabled(
-                    selected_images.len() == 1,
+                    selected_names.len() == 1,
                     egui::Button::new(arm_label),
                 );
                 let action = if start_button.clicked() {
@@ -529,18 +520,18 @@ impl Bootloader {
                     None
                 };
                 if let Some(armed) = action {
-                    if armed && selected_images.len() != 1 {
+                    if armed && selected_names.len() != 1 {
                         return;
                     }
-                    let action_images = if armed {
-                        vec![selected_images[0].clone()]
+                    let action_names = if armed {
+                        vec![selected_names[0].clone()]
                     } else {
-                        selected_images.to_vec()
+                        selected_names.to_vec()
                     };
                     let now = Instant::now();
                     if !armed
-                        && !action_images.iter().all(|image| {
-                            self.capability_state(&image.name, now) == CapabilityState::Available
+                        && !action_names.iter().all(|name| {
+                            self.capability_state(name, now) == CapabilityState::Available
                         })
                     {
                         ui.ctx().request_repaint();
@@ -548,29 +539,32 @@ impl Bootloader {
                     }
                     let click_matches = self.refresh_protocol_state(now);
                     if !can_start_update(
-                        !action_images.is_empty(),
+                        !action_names.is_empty(),
                         &click_matches,
                         has_protocol_warning,
                     ) {
                         ui.ctx().request_repaint();
                         return;
                     }
-                    let package = FirmwarePackage {
-                        images: action_images.clone(),
-                    };
+                    let action_images = self.package.as_ref().into_iter()
+                        .flat_map(|package| package.images.iter())
+                        .filter(|image| action_names.contains(&image.name))
+                        .cloned()
+                        .collect();
+                    let package = FirmwarePackage { images: action_images };
                     let message = if armed {
                         messages::MsgFromUi::ArmFirmwareUpdate(package)
                     } else {
                         messages::MsgFromUi::StartFirmwareUpdate(package)
                     };
                     if ui_to_can_tx.send(message).is_ok() {
-                        self.begin_run(package_images, &action_images);
+                        self.begin_run(package_names, &action_names);
                         self.running = true;
                         self.confirming_update = false;
                         self.status = if armed {
                             format!(
                                 "Armed — waiting for READY from {}",
-                                display_target_name(&action_images[0].name)
+                                display_target_name(&action_names[0])
                             )
                         } else {
                             "Starting update…".to_string()
@@ -591,22 +585,15 @@ impl Bootloader {
         });
     }
 
-    fn begin_run(
-        &mut self,
-        package_images: &[crate::bootloader_protocol::FirmwareImage],
-        selected_images: &[crate::bootloader_protocol::FirmwareImage],
-    ) {
-        self.board_statuses = package_images
+    fn begin_run(&mut self, package_names: &[String], selected_names: &[String]) {
+        self.board_statuses = package_names
             .iter()
-            .map(|image| (image.name.clone(), BoardUpdateStatus::Idle))
+            .map(|name| (name.clone(), BoardUpdateStatus::Idle))
             .collect();
-        self.run_board_names = selected_images
-            .iter()
-            .map(|image| image.name.clone())
-            .collect();
-        for image in selected_images {
+        self.run_board_names = selected_names.to_vec();
+        for name in selected_names {
             self.board_statuses
-                .insert(image.name.clone(), BoardUpdateStatus::Pending);
+                .insert(name.clone(), BoardUpdateStatus::Pending);
         }
     }
 
@@ -799,15 +786,8 @@ struct ProtocolMatch {
     boards: Vec<String>,
 }
 
-fn image_protocol_ids(image: &crate::bootloader_protocol::FirmwareImage) -> Vec<u32> {
-    let ids = vec![
-        image.start_id,
-        image.crc_id,
-        image.jump_id,
-        image.data_id,
-        image.response_id,
-    ];
-    ids
+fn image_protocol_ids(image: &crate::bootloader_protocol::FirmwareImage) -> [u32; 4] {
+    [image.start_id, image.crc_id, image.jump_id, image.data_id]
 }
 
 fn is_protocol_frame_candidate(is_extended: bool, decoded_name: Option<&str>) -> bool {
@@ -960,6 +940,47 @@ fn apply_progress(
                 statuses.insert(name.clone(), trailing_status.clone());
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::bootloader_protocol::FirmwareImage;
+
+    fn image() -> FirmwareImage {
+        FirmwareImage {
+            name: "main_module".to_string(),
+            bytes: Vec::new(),
+            crc32: 0,
+            start_id: 1,
+            crc_id: 2,
+            jump_id: 3,
+            data_id: 4,
+            response_id: 5,
+        }
+    }
+
+    #[test]
+    fn protocol_observations_include_commands_but_exclude_response() {
+        let image = image();
+        let ids = image_protocol_ids(&image);
+        assert_eq!(
+            ids,
+            [image.start_id, image.crc_id, image.jump_id, image.data_id]
+        );
+        assert!(!ids.contains(&image.response_id));
+    }
+
+    #[test]
+    fn protocol_candidate_preserves_standard_frame_filtering() {
+        assert!(is_protocol_frame_candidate(false, None));
+        assert!(is_protocol_frame_candidate(false, Some("bl_start")));
+        assert!(!is_protocol_frame_candidate(true, Some("bl_start")));
+        assert!(!is_protocol_frame_candidate(
+            false,
+            Some("bl_main_module_info")
+        ));
     }
 }
 
