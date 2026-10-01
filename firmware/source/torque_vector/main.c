@@ -35,7 +35,7 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_TX_PB13, // we fly swapped TX/RX
     PHAL_PIN_DEFS_FDCAN2_RX_PB12,
 
-    // GCAN
+    // TEST_CAN
     // ! these pin are erroneously swapped on the schematic
     // GPIO_INIT_FDCAN1TX_PA12,
     // PHAL_PIN_DEFS_FDCAN2_TX_PB13,

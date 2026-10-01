@@ -14,9 +14,9 @@ Arrows point from transmitters to receivers and are labeled by CAN bus.
 
 \dotfile CCAN_message_flow.dot
 
-## GCAN Message Flow
+## TEST_CAN Message Flow
 
-\dotfile GCAN_message_flow.dot
+\dotfile TEST_CAN_message_flow.dot
 
 ## MCAN Message Flow
 
