@@ -166,9 +166,37 @@ struct LoopbackDriver {
     queued: Vec<CanFrame>,
 }
 
+const FIL_MAGIC: &[u8;4] = b"FILN";
+const FIL_VERSION: u8 = 1;
+const FIL_MAX_PAYLOAD: usize = 65_536;
+const FIL_CAN_INJECT: u8 = 1;
+const FIL_ADC_SET: u8 = 2;
+const FIL_GPIO_SET: u8 = 3;
+const FIL_HELLO: u8 = 0x80;
+const FIL_REPLY: u8 = 0x81;
+const FIL_TRACE: u8 = 0x82;
+const FIL_END: u8 = 0x83;
+
+struct FilWireFrame { kind:u8, request_id:u32, payload:Vec<u8> }
+fn fil_read_frame(reader:&mut impl std::io::Read)->Result<Option<FilWireFrame>,String>{
+    use std::io::Read; let mut h=[0u8;16]; let mut first=[0];
+    loop { match reader.read(&mut first){Ok(0)=>return Ok(None),Ok(1)=>{h[0]=first[0];break},Ok(_)=>unreachable!(),Err(e) if e.kind()==std::io::ErrorKind::Interrupted=>continue,Err(e)=>return Err(e.to_string())} }
+    reader.read_exact(&mut h[1..]).map_err(|e|format!("Truncated FIL header: {e}"))?;
+    if &h[..4]!=FIL_MAGIC || h[4]!=FIL_VERSION || h[6..8]!=[0,0] {return Err("Invalid FIL binary frame header".into())}
+    let len=u32::from_le_bytes(h[8..12].try_into().unwrap()) as usize; if len>FIL_MAX_PAYLOAD{return Err("FIL payload too large".into())}
+    let mut payload=vec![0;len];reader.read_exact(&mut payload).map_err(|e|format!("Truncated FIL payload: {e}"))?;
+    Ok(Some(FilWireFrame{kind:h[5],request_id:u32::from_le_bytes(h[12..16].try_into().unwrap()),payload}))
+}
+fn fil_write_frame(w:&mut impl std::io::Write,kind:u8,id:u32,payload:&[u8])->std::io::Result<()>{
+    use std::io::Write; if payload.len()>FIL_MAX_PAYLOAD{return Err(std::io::Error::new(std::io::ErrorKind::InvalidInput,"FIL payload too large"))}
+    let mut h=[0u8;16];h[..4].copy_from_slice(FIL_MAGIC);h[4]=FIL_VERSION;h[5]=kind;h[8..12].copy_from_slice(&(payload.len() as u32).to_le_bytes());h[12..16].copy_from_slice(&id.to_le_bytes());w.write_all(&h)?;w.write_all(payload)?;w.flush()
+}
+fn fil_put_string(out:&mut Vec<u8>,s:&str)->DriverResult<()>{let n=u16::try_from(s.len()).map_err(|_|DriverError::Write("FIL string too long".into()))?;out.extend_from_slice(&n.to_le_bytes());out.extend_from_slice(s.as_bytes());Ok(())}
+
 struct FilDriver {
     child: std::process::Child,
     input: std::io::BufWriter<std::process::ChildStdin>,
+    request_id:u32,
     output: std::sync::mpsc::Receiver<Result<CanFrame, String>>,
     gpio_output: std::sync::mpsc::Receiver<FilGpioEvent>,
     expectation_output: std::sync::mpsc::Receiver<FilExpectationEvent>,
@@ -176,6 +204,10 @@ struct FilDriver {
     bus: String,
 }
 impl FilDriver {
+    fn send_request(&mut self, kind:u8, payload:&[u8])->DriverResult<()> {
+        let id=self.request_id; self.request_id=self.request_id.wrapping_add(1).max(1);
+        fil_write_frame(&mut self.input,kind,id,payload).map_err(|e|DriverError::Write(e.to_string()))
+    }
     fn new(
         executable: &std::path::Path,
         network: &std::path::Path,
@@ -237,53 +269,31 @@ impl FilDriver {
         let trace_bus = std::sync::Arc::new(std::sync::RwLock::new(trace_bus));
         let reader_trace_bus = trace_bus.clone();
         std::thread::spawn(move || {
-            use std::io::BufRead;
             let mut reader = std::io::BufReader::new(stdout);
-            let mut line = String::new();
+            let hello = fil_read_frame(&mut reader).and_then(|f| f.ok_or("FIL ended before HELLO".into()));
+            if !matches!(hello, Ok(ref f) if f.kind == FIL_HELLO && f.request_id == 0) {
+                let _ = output_tx.send(Err(hello.err().unwrap_or_else(|| "Invalid FIL HELLO".into())));
+                return;
+            }
             loop {
-                line.clear();
-                match reader.read_line(&mut line) {
-                    Ok(0) => {
-                        let _ = output_tx.send(Err("FIL process exited".into()));
-                        break;
-                    }
-                    Ok(_) => {
-                        if let Some(event) = parse_fil_expectation(&line) {
-                            if expectation_tx.send(event).is_err() { break; }
-                            continue;
-                        }
-                        let selected_bus = reader_trace_bus
-                            .read()
-                            .unwrap_or_else(std::sync::PoisonError::into_inner)
-                            .clone();
-                        let Some(source) = line.split_ascii_whitespace().nth(2) else {
-                            continue;
-                        };
-                        if !trace_source_matches(source, selected_bus.as_deref()) {
-                            continue;
-                        }
-                        if let Some(event) = parse_fil_gpio(&line) {
-                            if gpio_tx.send(event).is_err() {
-                                break;
-                            }
-                            continue;
-                        }
-                        if let Some(frame) = parse_fil_can_tx(&line)
-                            && output_tx.send(Ok(frame)).is_err()
-                        {
-                            break;
+                match fil_read_frame(&mut reader) {
+                    Ok(Some(frame)) if frame.kind == FIL_TRACE => {
+                        if let Err(error) = parse_fil_wire_trace(frame, &output_tx, &gpio_tx, &expectation_tx, &reader_trace_bus) {
+                            log::warn!("Invalid FIL trace: {error}");
                         }
                     }
-                    Err(error) => {
-                        let _ = output_tx.send(Err(format!("Failed to read FIL output: {error}")));
-                        break;
-                    }
+                    Ok(Some(frame)) if frame.kind == FIL_REPLY => {}
+                    Ok(Some(frame)) if frame.kind == FIL_END => break,
+                    Ok(Some(_)) => { let _ = output_tx.send(Err("Unexpected FIL binary frame".into())); break; }
+                    Ok(None) => { let _ = output_tx.send(Err("FIL process exited".into())); break; }
+                    Err(error) => { let _ = output_tx.send(Err(error)); break; }
                 }
             }
         });
         Ok(Self {
             child,
             input: std::io::BufWriter::new(stdin),
+            request_id: 1,
             output,
             gpio_output,
             expectation_output,
@@ -306,6 +316,7 @@ fn watch_network_args(options: &crate::connection::FilRunOptions) -> DriverResul
         ));
     }
     let mut args = vec![
+        "--transport".into(), "stdio".into(),
         "--duration-ms".into(),
         options.duration_ms.to_string(),
         "--max-instructions".into(),
@@ -348,8 +359,20 @@ fn watch_network_args(options: &crate::connection::FilRunOptions) -> DriverResul
         }
         args.extend(["--live-filter".into(), filter.into()]);
     }
-    args.push("--control-stdin".into());
     Ok(args)
+}
+
+fn fil_u16(p:&[u8],at:&mut usize)->Result<u16,String>{let b=p.get(*at..*at+2).ok_or("truncated u16")?;*at+=2;Ok(u16::from_le_bytes(b.try_into().unwrap()))}
+fn fil_u64(p:&[u8],at:&mut usize)->Result<u64,String>{let b=p.get(*at..*at+8).ok_or("truncated u64")?;*at+=8;Ok(u64::from_le_bytes(b.try_into().unwrap()))}
+fn fil_string<'a>(p:&'a[u8],at:&mut usize)->Result<&'a str,String>{let n=fil_u16(p,at)? as usize;let b=p.get(*at..*at+n).ok_or("truncated string")?;*at+=n;std::str::from_utf8(b).map_err(|e|e.to_string())}
+fn parse_fil_wire_trace(frame:FilWireFrame,can:&std::sync::mpsc::Sender<Result<CanFrame,String>>,gpio:&std::sync::mpsc::Sender<FilGpioEvent>,expects:&std::sync::mpsc::Sender<FilExpectationEvent>,trace_bus:&std::sync::RwLock<Option<String>>)->Result<(),String>{
+    if frame.kind!=FIL_TRACE{return Ok(())} if frame.request_id!=0{return Err("FIL TRACE request id must be zero".into())}
+    let p=&frame.payload;let mut at=0;let _time=fil_u64(p,&mut at)?;let _seq=fil_u64(p,&mut at)?;let source=fil_string(p,&mut at)?.to_owned();let kind=fil_string(p,&mut at)?.to_owned();let count=fil_u16(p,&mut at)? as usize;let mut f=std::collections::HashMap::new();for _ in 0..count{let k=fil_string(p,&mut at)?.to_owned();let v=fil_string(p,&mut at)?.to_owned();f.insert(k,v);}if at!=p.len(){return Err("trailing FIL trace data".into())}
+    let selected=trace_bus.read().unwrap_or_else(std::sync::PoisonError::into_inner).clone();
+    if kind=="can_tx" {if !trace_source_matches(&source,selected.as_deref()){return Ok(())} let id=u32::from_str_radix(f.get("id").ok_or("CAN trace missing id")?.trim_start_matches("0x"),16).map_err(|e|e.to_string())?;let extended=f.get("extended").is_some_and(|x|x=="true");if f.get("fd").is_some_and(|x|x=="true"){return Ok(())}let data=f.get("data").ok_or("CAN trace missing data")?.as_bytes().chunks_exact(2).map(|b|u8::from_str_radix(std::str::from_utf8(b).unwrap_or(""),16).map_err(|e|e.to_string())).collect::<Result<Vec<_>,_>>()?;let ident=CanIdentity::new(id,extended).map_err(|e|e.to_string())?;can.send(CanFrame::data(ident,data).map_err(|e|e.to_string())).map_err(|e|e.to_string())?;}
+    else if kind=="gpio_input"||kind=="gpio_output" {let (board,port)=source.rsplit_once('.').ok_or("malformed GPIO source")?;let pin=f.get("pin").ok_or("missing pin")?.parse().map_err(|_|"invalid pin")?;let value=match f.get("value").map(String::as_str){Some("0")=>Some(false),Some("1")=>Some(true),Some("release")=>None,_=>return Err("invalid gpio value".into())};gpio.send(FilGpioEvent{board:board.into(),port:port.into(),pin,value,direction:if kind=="gpio_output"{FilGpioDirection::Output}else{FilGpioDirection::Input}}).map_err(|e|e.to_string())?;}
+    else if let Some(status)=match kind.as_str(){"expectation_pending"=>Some(FilExpectationStatus::Pending),"expectation_pass"=>Some(FilExpectationStatus::Pass),"expectation_fail"=>Some(FilExpectationStatus::Fail),"expectation_incomplete"=>Some(FilExpectationStatus::Incomplete),_=>None}{let get=|k:&str|f.get(k).map(String::as_str).ok_or_else(||format!("missing {k}"));let hex=|k:&str|u32::from_str_radix(get(k)?.trim_start_matches("0x"),16).map_err(|e|e.to_string());let bytes=|k:&str|{let s=get(k)?;s.as_bytes().chunks_exact(2).map(|b|u8::from_str_radix(std::str::from_utf8(b).unwrap_or(""),16).map_err(|e|e.to_string())).collect::<Result<Vec<_>,_>>()};expects.send(FilExpectationEvent{check_id:get("check_id")?.into(),script:get("script")?.into(),status,expected_bus:get("expected_bus")?.into(),expected_id:hex("expected_id")?,expected_extended:get("expected_extended")?=="true",expected_data:bytes("expected_data")?,window_start_ns:get("window_start_ns")?.parse().map_err(|e:std::num::ParseIntError|e.to_string())?,window_end_ns:get("window_end_ns")?.parse().map_err(|e:std::num::ParseIntError|e.to_string())?,matched_bus:f.get("matched_bus").cloned(),matched_id:f.get("matched_id").and_then(|v|u32::from_str_radix(v.trim_start_matches("0x"),16).ok()),matched_data:f.get("matched_data").and_then(|v|v.as_bytes().chunks_exact(2).map(|b|u8::from_str_radix(std::str::from_utf8(b).ok()?,16).ok()).collect()),matched_origin:f.get("matched_origin").cloned(),matched_time_ns:f.get("matched_time_ns").and_then(|v|v.parse().ok()),reason:f.get("reason").cloned()}).map_err(|e|e.to_string())?;}
+    Ok(())
 }
 
 fn parse_fil_expectation(line: &str) -> Option<FilExpectationEvent> {
@@ -498,11 +521,8 @@ impl Driver for FilDriver {
         Ok(frames)
     }
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
-        use std::io::Write;
-        let command = format_fil_injection(&self.bus, frame)?;
-        writeln!(self.input, "{command}")
-            .and_then(|_| self.input.flush())
-            .map_err(|e| DriverError::Write(format!("Failed to send frame to FIL: {e}")))
+        if !matches!(frame.kind, crate::frame::FrameKind::Data) { return Err(DriverError::Write("FIL supports CAN 2.0 data frames only".into())); }
+        let mut payload=Vec::new(); fil_put_string(&mut payload,&self.bus)?; payload.extend_from_slice(&frame.identity.raw_id().to_le_bytes()); payload.push(u8::from(frame.identity.is_extended())); payload.push(frame.data.len() as u8); payload.extend_from_slice(&frame.data); self.send_request(FIL_CAN_INJECT,&payload)
     }
     fn close(&mut self) -> DriverResult<()> {
         let _ = self.child.kill();
@@ -538,12 +558,7 @@ impl Driver for FilDriver {
                 "GPIO control requires board, port, and pin 0..15".into(),
             ));
         }
-        let value = value
-            .map(|v| if v { "1" } else { "0" })
-            .unwrap_or("release");
-        writeln!(self.input, "gpio {board} {port} {pin} {value}")
-            .and_then(|_| self.input.flush())
-            .map_err(|e| DriverError::Write(format!("Failed to send GPIO value to FIL: {e}")))
+        let mut payload=Vec::new(); fil_put_string(&mut payload,board)?; fil_put_string(&mut payload,port)?; payload.push(pin); payload.push(match value{Some(false)=>0,Some(true)=>1,None=>2}); self.send_request(FIL_GPIO_SET,&payload)
     }
     fn set_adc(
         &mut self,
@@ -565,9 +580,7 @@ impl Driver for FilDriver {
                     .into(),
             ));
         }
-        writeln!(self.input, "adc {board} {instance} {channel} {value}")
-            .and_then(|_| self.input.flush())
-            .map_err(|e| DriverError::Write(format!("Failed to send ADC value to FIL: {e}")))
+        let mut payload=Vec::new(); fil_put_string(&mut payload,board)?; fil_put_string(&mut payload,instance)?; payload.push(channel); payload.extend_from_slice(&value.to_le_bytes()); self.send_request(FIL_ADC_SET,&payload)
     }
 }
 impl Drop for FilDriver {
