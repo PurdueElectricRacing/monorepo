@@ -99,6 +99,7 @@ def generate_superdbc(linked: LinkedCan, version: str) -> Artifact:
                 ],
             ))
         buses[bus_name] = BusExport(
+            bus_id=config.bus_id,
             baud_rate=config.baud_rate,
             nodes=[
                 NodeExport(name=node.name, is_external=node.is_external)

@@ -191,6 +191,7 @@ class ExternalNodeDeclaration(ExternalBusDeclaration):
 
 class BusDeclaration(DeclarationModel):
     name: str
+    bus_id: Annotated[int, Field(ge=0, le=0b111)]
     # Supported CAN baud rates. Keep in sync with PHAL_FDCAN_BaudRate_t in
     # common/phal_F4/can/can.h and common/phal_G4/fdcan/fdcan.h.
     baud_rate: Literal[250000, 500000, 1000000]
@@ -215,6 +216,9 @@ class BusDeclarations(DeclarationModel):
         duplicate = _duplicate_value(names)
         if duplicate is not None:
             raise ValueError(f"duplicate bus name '{duplicate}'")
+        duplicate_id = _duplicate_value([bus.bus_id for bus in self.busses])
+        if duplicate_id is not None:
+            raise ValueError(f"duplicate bus ID {duplicate_id}")
         return self
 
 

@@ -4,6 +4,7 @@
 Validated by the Pydantic models in `core/declarations.py`. Describes each logical CAN bus (not how a node attaches to it).
 
 - `name`: Logical bus name (referenced by nodes and external nodes).
+- `bus_id`: unique unsigned logical bus ID. Keep this stable when adding or renaming buses.
 - `baud_rate`: CAN bitrate for this bus. Must be '250000', '500000', or '1000000' (250k, 500k, 1M).
 - `is_extended_id`: Boolean. Mixed-ID buses are not supported; all messages on a bus share this framing.
 - `is_flexible_data_rate`: Boolean. Whether this bus uses CAN FD.
