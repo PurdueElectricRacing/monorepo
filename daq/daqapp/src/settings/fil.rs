@@ -1,7 +1,7 @@
 use crate::messages::FilAdcInstance;
 
-/// Options forwarded to FIL's watch-network command. The live CAN/GPIO filters
-/// and stdin control remain enabled because DaqApp requires them.
+/// Options forwarded to FIL's serve-network command. The live CAN/GPIO and
+/// expectation filters remain enabled because DaqApp requires them.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct FilRunOptions {
     pub duration_ms: u64,

@@ -4,7 +4,7 @@
 //! firmware ELF images. Those ELF paths are baked into the checked-in configs
 //! and frequently point at stale locations, so the FIL widget lets users
 //! override the ELF per board and choose which boards participate. `fil`'s
-//! `watch-network` CLI accepts a single network file and has no ELF-override
+//! `serve-network` CLI accepts a single network file and has no ELF-override
 //! flags, so overrides are applied by writing patched board/network JSON files
 //! into a deterministic temp directory and launching FIL against those.
 
