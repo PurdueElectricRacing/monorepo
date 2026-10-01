@@ -5,7 +5,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from core.artifacts import clear_artifacts, write_artifacts
-from core.config import DBC_DIR, GENERATED_DIR, TOPOLOGY_DIR
+from core.config import CAN_GRAPHS_DIR, DBC_DIR, GENERATED_DIR
 from core.declaration_loader import DeclarationValidationError, load_declarations
 from canpiler.api import Canpiler
 from canpiler.pipeline.compiler import CanCompilationError
@@ -33,7 +33,7 @@ def generate() -> None:
     output_roots = {
         "generated": GENERATED_DIR,
         "dbc": DBC_DIR,
-        "topology": TOPOLOGY_DIR,
+        "can_graphs": CAN_GRAPHS_DIR,
     }
     clear_artifacts(
         output_roots,
@@ -44,7 +44,13 @@ def generate() -> None:
                 "superdbc_*.json",
                 "superdbc.schema.json"
             ),
-            "topology": "topology_*.dot",
+            "can_graphs": (
+                "topology_*.dot",
+                "message_flow_*.dot",
+                "*_message_flow.dot",
+                "bus_membership.dot",
+                "node_communication.dot",
+            ),
         },
     )
     write_artifacts(output_roots, artifacts)
