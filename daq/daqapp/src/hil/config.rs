@@ -56,9 +56,11 @@ pub struct TestInfo {
 pub fn list_available_tests() -> (Vec<PresetInfo>, Vec<TestInfo>, Vec<String>) {
     let mut errors = Vec::new();
 
-    // Load individual tests
+    // Load individual tests from the launch directory.
+    let tests_folder = crate::paths::find_path(TESTS_FOLDER, std::path::Path::is_dir)
+        .unwrap_or_else(|| std::path::PathBuf::from(TESTS_FOLDER));
     let mut individual_tests = Vec::new();
-    if let Ok(entries) = std::fs::read_dir(TESTS_FOLDER) {
+    if let Ok(entries) = std::fs::read_dir(&tests_folder) {
         for entry in entries.flatten() {
             let path = entry.path();
             if !path.is_file() || path.extension().and_then(|e| e.to_str()) != Some("json") {
@@ -94,13 +96,18 @@ pub fn list_available_tests() -> (Vec<PresetInfo>, Vec<TestInfo>, Vec<String>) {
             };
         }
     } else {
-        errors.push(format!("Failed to read tests directory: {}", TESTS_FOLDER));
+        errors.push(format!(
+            "Failed to read tests directory: {}",
+            tests_folder.display()
+        ));
     }
     individual_tests.sort_by(|a, b| a.basename.to_lowercase().cmp(&b.basename.to_lowercase()));
 
-    // Load presets
+    // Load presets from the launch directory.
+    let presets_path = crate::paths::find_file(PRESETS_FILE)
+        .unwrap_or_else(|| std::path::PathBuf::from(PRESETS_FILE));
     let mut presets = Vec::new();
-    if let Ok(presets_file) = std::fs::read_to_string(PRESETS_FILE) {
+    if let Ok(presets_file) = std::fs::read_to_string(&presets_path) {
         if let Ok(presets_data) = serde_json::from_str::<PresetsFile>(&presets_file) {
             for (preset_name, subtests) in presets_data.0 {
                 if subtests.is_empty() {
@@ -137,10 +144,16 @@ pub fn list_available_tests() -> (Vec<PresetInfo>, Vec<TestInfo>, Vec<String>) {
                 });
             }
         } else {
-            errors.push(format!("Failed to parse presets file: {}", PRESETS_FILE));
+            errors.push(format!(
+                "Failed to parse presets file: {}",
+                presets_path.display()
+            ));
         }
     } else {
-        errors.push(format!("Failed to read presets file: {}", PRESETS_FILE));
+        errors.push(format!(
+            "Failed to read presets file: {}",
+            presets_path.display()
+        ));
     }
     presets.sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
 
@@ -148,12 +161,14 @@ pub fn list_available_tests() -> (Vec<PresetInfo>, Vec<TestInfo>, Vec<String>) {
 }
 
 pub fn load_test_from_file(basename: &str) -> Result<TestFile, String> {
-    let path = format!("{}{}.json", TESTS_FOLDER, basename);
+    let relative_path = format!("{}{}.json", TESTS_FOLDER, basename);
+    let path = crate::paths::find_file(&relative_path)
+        .unwrap_or_else(|| std::path::PathBuf::from(&relative_path));
     match std::fs::read_to_string(&path) {
         Ok(content) => match serde_json::from_str::<TestFile>(&content) {
             Ok(test_data) => Ok(test_data),
-            Err(_) => Err(format!("Failed to parse test file: {}", path)),
+            Err(_) => Err(format!("Failed to parse test file: {}", path.display())),
         },
-        Err(_) => Err(format!("Failed to read test file: {}", path)),
+        Err(_) => Err(format!("Failed to read test file: {}", path.display())),
     }
 }
