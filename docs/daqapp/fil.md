@@ -50,10 +50,10 @@ The generated or exported network references those files by absolute path; expor
 not copy or bundle the scripts, so keep them at those paths. DaqApp does not edit or translate the
 scripts. See FIL's [stimulus-script format and timing](https://github.com/ronakpjain/fil/blob/main/docs/configuration.md#stimulus-scripts).
 
-DaqApp owns the emulator process; disconnecting sends a best-effort binary STOP and then terminates
-the process if it does not exit promptly. Overrides are materialized into a temp dir (originals
-untouched) and everything persists in `settings.json`. Failures are reported, never auto-retried.
-Only CAN 2.0 data frames are supported; CAN FD and remote frames report send errors.
+DaqApp owns the emulator process; disconnecting terminates it. Overrides are materialized into a
+temp dir (originals untouched) and everything persists in `settings.json`. Failures are reported,
+never auto-retried. Only CAN 2.0 data frames are supported; CAN FD and remote frames report send
+errors.
 
 ## Expectations
 
