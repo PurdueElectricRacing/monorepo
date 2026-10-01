@@ -2,27 +2,22 @@ use crate::can::driver::{CanDriver, DriverError, DriverReadError, DriverResult};
 use crate::connection::CanBusSpeed;
 use crate::messages::{FilAdcInstance, FilExpectationEvent, FilExpectationStatus, FilGpioPort};
 use slcan::CanFrame;
-use std::collections::HashSet;
-use std::io::{BufReader, Read, Write};
+use std::io::{BufReader, BufWriter, Read, Write};
 use std::process::{Child, ChildStdin, Command, Stdio};
-use std::sync::atomic::{AtomicU32, Ordering};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError};
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc, RwLock};
 use std::thread;
 use std::time::{Duration, Instant};
 
 const FIL_READ_TIMEOUT_MS: u64 = 1;
 const FIL_MAX_FRAMES_PER_POLL: usize = 256;
 const FIL_MAX_EXPECTATION_EVENTS: usize = 256;
-const FIL_STARTUP_TIMEOUT: Duration = Duration::from_secs(30);
-const FIL_SHUTDOWN_TIMEOUT: Duration = Duration::from_millis(250);
 const MAGIC: &[u8; 4] = b"FILN";
 const VERSION: u8 = 1;
 const MAX_PAYLOAD: usize = 65_536;
 const CAN_INJECT: u8 = 1;
 const ADC_SET: u8 = 2;
 const GPIO_SET: u8 = 3;
-const STOP: u8 = 4;
 const HELLO: u8 = 0x80;
 const REPLY: u8 = 0x81;
 const TRACE: u8 = 0x82;
@@ -267,7 +262,6 @@ fn request_payload(
             payload.push(b);
             payload.push(a as u8);
         }
-        STOP => {}
         _ => unreachable!(),
     }
     if payload.len() > MAX_PAYLOAD {
@@ -496,7 +490,7 @@ fn parse_hello(frame: &Frame) -> Result<(), String> {
     reader.done()
 }
 
-fn parse_reply(frame: &Frame, outstanding: &Mutex<HashSet<u32>>) -> Result<(), String> {
+fn parse_reply(frame: &Frame) -> Result<(), String> {
     if frame.request_id == 0 {
         return Err("FIL REPLY has zero request ID".into());
     }
@@ -507,16 +501,6 @@ fn parse_reply(frame: &Frame, outstanding: &Mutex<HashSet<u32>>) -> Result<(), S
     reader.done()?;
     if status > 3 {
         return Err(format!("FIL REPLY has unknown status {status}"));
-    }
-    if !outstanding
-        .lock()
-        .unwrap_or_else(std::sync::PoisonError::into_inner)
-        .remove(&frame.request_id)
-    {
-        return Err(format!(
-            "FIL REPLY for unknown request {}",
-            frame.request_id
-        ));
     }
     if status != 0 {
         log::warn!(
@@ -537,14 +521,13 @@ fn trace_source_matches(source: &str, trace_bus: Option<&str>) -> bool {
 
 pub struct FilDriver {
     child: Child,
-    input: Arc<Mutex<ChildStdin>>,
+    input: BufWriter<ChildStdin>,
     output: Receiver<Result<FilCanEvent, String>>,
     gpio_output: Receiver<FilGpioEvent>,
     expectation_output: Receiver<FilExpectationEvent>,
     bus: String,
     trace_bus: Arc<RwLock<Option<String>>>,
-    request_id: AtomicU32,
-    outstanding_requests: Arc<Mutex<HashSet<u32>>>,
+    request_id: u32,
     connected: bool,
 }
 impl FilDriver {
@@ -640,50 +623,36 @@ impl FilDriver {
         let (output_tx, output) = mpsc::channel();
         let (gpio_tx, gpio_output) = mpsc::channel();
         let (expectation_tx, expectation_output) = mpsc::channel();
-        let (startup_tx, startup_rx) = mpsc::channel();
         let trace_bus = Arc::new(RwLock::new(trace_bus.clone()));
         let reader_trace_bus = Arc::clone(&trace_bus);
-        let outstanding_requests = Arc::new(Mutex::new(HashSet::new()));
-        let reader_outstanding = Arc::clone(&outstanding_requests);
         thread::spawn(move || {
             let mut reader = BufReader::new(stdout);
-            let mut startup_tx = Some(startup_tx);
+            let mut first_frame = true;
             loop {
                 let frame = match read_frame(&mut reader) {
                     Ok(Some(frame)) => frame,
                     Ok(None) => {
-                        let error = if startup_tx.is_some() {
+                        let error = if first_frame {
                             "FIL process exited before HELLO"
                         } else {
                             "FIL process exited before END"
                         }
                         .to_owned();
-                        if let Some(tx) = startup_tx.take() {
-                            let _ = tx.send(Err(error.clone()));
-                        }
                         let _ = output_tx.send(Err(error));
                         break;
                     }
                     Err(error) => {
-                        if let Some(tx) = startup_tx.take() {
-                            let _ = tx.send(Err(error.clone()));
-                        }
                         let _ = output_tx.send(Err(error));
                         break;
                     }
                 };
-                if let Some(tx) = startup_tx.take() {
-                    match parse_hello(&frame) {
-                        Ok(()) => {
-                            let _ = tx.send(Ok(()));
-                            continue;
-                        }
-                        Err(error) => {
-                            let _ = tx.send(Err(error.clone()));
-                            let _ = output_tx.send(Err(error));
-                            break;
-                        }
+                if first_frame {
+                    first_frame = false;
+                    if let Err(error) = parse_hello(&frame) {
+                        let _ = output_tx.send(Err(error));
+                        break;
                     }
+                    continue;
                 }
                 let result = match frame.kind {
                     HELLO => Err("Unexpected duplicate FIL HELLO".into()),
@@ -694,7 +663,7 @@ impl FilDriver {
                         &expectation_tx,
                         &reader_trace_bus,
                     ),
-                    REPLY => parse_reply(&frame, &reader_outstanding),
+                    REPLY => parse_reply(&frame),
                     END => {
                         if frame.request_id != 0 {
                             Err("FIL END has nonzero request ID".into())
@@ -733,84 +702,31 @@ impl FilDriver {
                 }
             }
         });
-        match startup_rx.recv_timeout(FIL_STARTUP_TIMEOUT) {
-            Ok(Ok(())) => {}
-            Ok(Err(error)) => {
-                let _ = child.kill();
-                let _ = child.wait();
-                return Err(DriverError::ConnectionFailed(format!(
-                    "FIL failed to start serve-network: {error}"
-                )));
-            }
-            Err(RecvTimeoutError::Timeout) => {
-                let _ = child.kill();
-                let _ = child.wait();
-                return Err(DriverError::ConnectionFailed(
-                    "Timed out waiting for FIL serve-network HELLO".into(),
-                ));
-            }
-            Err(RecvTimeoutError::Disconnected) => {
-                let _ = child.kill();
-                let _ = child.wait();
-                return Err(DriverError::ConnectionFailed(
-                    "FIL output reader stopped before HELLO".into(),
-                ));
-            }
-        }
         Ok(Self {
             child,
-            input: Arc::new(Mutex::new(stdin)),
+            input: BufWriter::new(stdin),
             output,
             gpio_output,
             expectation_output,
             bus: bus.into(),
             trace_bus,
-            request_id: AtomicU32::new(1),
-            outstanding_requests,
+            request_id: 1,
             connected: true,
         })
     }
-    fn reserve_request_id(&self) -> u32 {
-        let mut outstanding = self
-            .outstanding_requests
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        loop {
-            let id = self.request_id.fetch_add(1, Ordering::Relaxed);
-            if id != 0 && outstanding.insert(id) {
-                return id;
-            }
-        }
-    }
-
-    fn release_request_id(&self, id: u32) {
-        self.outstanding_requests
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
-            .remove(&id);
-    }
-
     fn send_request(&mut self, kind: u8, payload: &[u8]) -> DriverResult<()> {
-        let id = self.reserve_request_id();
-        let result = write_frame(
-            &mut *self
-                .input
-                .lock()
-                .unwrap_or_else(std::sync::PoisonError::into_inner),
-            kind,
-            id,
-            payload,
-        );
-        match result {
-            Ok(()) => Ok(()),
-            Err(error) => {
-                self.release_request_id(id);
-                self.connected = false;
-                Err(DriverError::WriteError(format!(
-                    "Failed to send request to FIL: {error}"
-                )))
-            }
+        let id = self.request_id;
+        self.request_id = self.request_id.wrapping_add(1);
+        if self.request_id == 0 {
+            self.request_id = 1;
         }
+        if let Err(error) = write_frame(&mut self.input, kind, id, payload) {
+            self.connected = false;
+            return Err(DriverError::WriteError(format!(
+                "Failed to send request to FIL: {error}"
+            )));
+        }
+        Ok(())
     }
     pub fn set_trace_bus(&mut self, trace_bus: Option<String>) {
         *self
@@ -969,38 +885,7 @@ impl CanDriver for FilDriver {
         Some(CanBusSpeed::Kbps500)
     }
     fn close(&mut self) -> DriverResult<()> {
-        let deadline = Instant::now() + FIL_SHUTDOWN_TIMEOUT;
-        let was_connected = std::mem::replace(&mut self.connected, false);
-        if was_connected {
-            let payload = Vec::new();
-            let id = self.reserve_request_id();
-            let input = Arc::clone(&self.input);
-            let (written_tx, written_rx) = mpsc::channel();
-            thread::spawn(move || {
-                let result = write_frame(
-                    &mut *input
-                        .lock()
-                        .unwrap_or_else(std::sync::PoisonError::into_inner),
-                    STOP,
-                    id,
-                    &payload,
-                );
-                let _ = written_tx.send(result);
-            });
-            if !matches!(
-                written_rx.recv_timeout(deadline.saturating_duration_since(Instant::now())),
-                Ok(Ok(()))
-            ) {
-                self.release_request_id(id);
-            }
-        }
-        loop {
-            match self.child.try_wait() {
-                Ok(Some(_)) => return Ok(()),
-                Ok(None) if Instant::now() < deadline => thread::sleep(Duration::from_millis(10)),
-                _ => break,
-            }
-        }
+        self.connected = false;
         let _ = self.child.kill();
         let _ = self.child.wait();
         Ok(())
@@ -1220,7 +1105,6 @@ mod fil_tests {
         };
         assert!(parse_hello(&hello).is_ok());
 
-        let outstanding = Mutex::new(HashSet::from([9]));
         let reply = Frame {
             kind: REPLY,
             request_id: 9,
@@ -1232,9 +1116,15 @@ mod fil_tests {
                 payload
             },
         };
-        assert!(parse_reply(&reply, &outstanding).is_ok());
-        assert!(outstanding.lock().unwrap().is_empty());
-        assert!(parse_reply(&reply, &outstanding).is_err());
+        assert!(parse_reply(&reply).is_ok());
+        let mut malformed = Frame {
+            request_id: 0,
+            ..reply
+        };
+        assert!(parse_reply(&malformed).is_err());
+        malformed.request_id = 9;
+        malformed.payload.pop();
+        assert!(parse_reply(&malformed).is_err());
     }
 
     fn trace_frame(source: &str, kind: &str, fields: &[(&str, &str)]) -> Frame {
