@@ -9,12 +9,14 @@ A monorepo of all firmware projects, shared libraries, code generation, and off-
 
 
 ## Directory Structure
-- `firmware/` - Embedded firmware, including its CAN library and shared C code
-- `daq/` - [Rust DAQ workspace](daq/README.md)
+- `daq/`
 	- Desktop app (`daqapp`)
 	- CLI (`daqcli`)
 	- Shared-library (`daqcore`)
 - `docs/` - Shared documentation
+- `firmware/` - Embedded firmware, CAN library, and shared C code
+- `generators/` - CANpiler + Fault Generator
+- `tests/` - Host side and cross-project integration tests
 
 ## Doxygen
 Most recent doxygen deployment (master branch): https://purdueelectricracing.github.io/monorepo/
@@ -54,11 +56,7 @@ To build every DAQ workspace member and target:
 cargo build --manifest-path daq/Cargo.toml --workspace --all-targets --locked
 ```
 
-To build only DaqApp:
-`cargo build --manifest-path daq/daqapp/Cargo.toml --locked`.
-
 Running DAQ binaries is supported only from their own package directories:
-
 ```bash
 # DaqApp
 cd daq/daqapp && cargo run
@@ -66,7 +64,7 @@ cd daq/daqapp && cargo run
 cd daq/daqcli && cargo run
 ```
 
-To run generator and firmware host tests and generate an HTML coverage report:
+To run tests and generate a coverage report:
 ```bash
 python3 tests/run_tests.py
 ```
