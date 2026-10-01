@@ -106,16 +106,14 @@ $(function(){initNavTree('md_README.html',''); initResizable(true); });
 <h1><a class="anchor" id="autotoc_md1"></a>
 Directory Structure</h1>
 <ul>
-<li><code>daq/</code><ul>
+<li><code>firmware/</code> - Embedded firmware, including its CAN library and shared C code</li>
+<li><code>daq/</code> - <a class="el" href="firmware_2source_2daq_2README_8md.html">Rust DAQ workspace</a><ul>
 <li>Desktop app (<code>daqapp</code>)</li>
 <li>CLI (<code>daqcli</code>)</li>
 <li>Shared-library (<code>daqcore</code>)</li>
 </ul>
 </li>
 <li><code>docs/</code> - Shared documentation</li>
-<li><code>firmware/</code> - Embedded firmware, CAN library, and shared C code</li>
-<li><code>generators/</code> - CANpiler + Fault Generator</li>
-<li><code>tests/</code> - Host side and cross-project integration tests</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Doxygen</h1>
@@ -131,11 +129,13 @@ Building</h1>
 </div><!-- fragment --><p>Each component also has a fixed build command. To build and package all firmware boards: </p><div class="fragment"><div class="line">python3 firmware/build_firmware.py</div>
 </div><!-- fragment --><p>To run static analysis over all firmware boards: </p><div class="fragment"><div class="line">python3 firmware/check_firmware.py</div>
 </div><!-- fragment --><p>To build every DAQ workspace member and target: </p><div class="fragment"><div class="line">cargo build --manifest-path daq/Cargo.toml --workspace --all-targets --locked</div>
-</div><!-- fragment --><p>Running DAQ binaries is supported only from their own package directories: </p><div class="fragment"><div class="line"># DaqApp</div>
+</div><!-- fragment --><p>To build only DaqApp: <code>cargo build --manifest-path daq/daqapp/Cargo.toml --locked</code>.</p>
+<p>Running DAQ binaries is supported only from their own package directories:</p>
+<div class="fragment"><div class="line"># DaqApp</div>
 <div class="line">cd daq/daqapp &amp;&amp; cargo run</div>
 <div class="line"># DaqCLI</div>
 <div class="line">cd daq/daqcli &amp;&amp; cargo run</div>
-</div><!-- fragment --><p>To run tests and generate a coverage report: </p><div class="fragment"><div class="line">python3 tests/run_tests.py</div>
+</div><!-- fragment --><p>To run generator and firmware host tests and generate an HTML coverage report: </p><div class="fragment"><div class="line">python3 tests/run_tests.py</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md5"></a>
 Hardware Debugging</h1>
 <p>In VS Code, go to <b>View → Run and Debug</b>, select the appropriate MCU target from the dropdown, then press the green ▶️ arrow to flash and live-debug the firmware.</p>

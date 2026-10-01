@@ -133,7 +133,7 @@ var NAVTREE =
       [ "Bus Membership", "md_docs_2can__graphs.html#autotoc_md86", null ],
       [ "Node Communication", "md_docs_2can__graphs.html#autotoc_md87", null ],
       [ "CCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md88", null ],
-      [ "GCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md89", null ],
+      [ "TEST_CAN Message Flow", "md_docs_2can__graphs.html#autotoc_md89", null ],
       [ "MCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md90", null ],
       [ "SCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md91", null ],
       [ "VCAN Message Flow", "md_docs_2can__graphs.html#autotoc_md92", null ]
@@ -244,7 +244,7 @@ var NAVTREEINDEX =
 [
 "AMK_8png.html",
 "DRIVELINE_8h.html#a1be224142b936d8a2f0c92e654bf9b42",
-"MCAN_8h.html#a317e59c7baa6b55c22354bb75f2a052f",
+"MCAN_8h.html#a45f6f432f66945fabeb9c96182473760",
 "TORQUE__VECTOR_8h.html#aca715b74dc5b60336c52cdfeacf56a5f",
 "VCAN_8h.html#a8724e5e82c96b2483cdfaee3b5f5519d",
 "a__box_2main_8h.html#abdaa3e7d170ea80d239400ff9e90e021",

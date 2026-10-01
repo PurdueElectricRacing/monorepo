@@ -16,11 +16,11 @@ var dir_4645ab240a6c17698cb502ff9363399d =
     [ "fault_data.c", "fault__data_8c.html", "fault__data_8c" ],
     [ "fault_data.h", "fault__data_8h.html", "fault__data_8h" ],
     [ "G4_TESTING.h", "G4__TESTING_8h.html", "G4__TESTING_8h" ],
-    [ "GCAN.h", "GCAN_8h.html", "GCAN_8h" ],
     [ "MAIN_MODULE.h", "MAIN__MODULE_8h.html", "MAIN__MODULE_8h" ],
     [ "MCAN.h", "MCAN_8h.html", "MCAN_8h" ],
     [ "PDU.h", "PDU_8h.html", "PDU_8h" ],
     [ "SCAN.h", "SCAN_8h.html", "SCAN_8h" ],
+    [ "TEST_CAN.h", "TEST__CAN_8h.html", "TEST__CAN_8h" ],
     [ "TORQUE_VECTOR.h", "TORQUE__VECTOR_8h.html", "TORQUE__VECTOR_8h" ],
     [ "VCAN.h", "VCAN_8h.html", "VCAN_8h" ]
 ];
