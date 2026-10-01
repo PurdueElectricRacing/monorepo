@@ -1,9 +1,9 @@
 # DaqApp FIL simulation
 
 Run the firmware-in-the-loop ([FIL](https://github.com/ronakpjain/fil)) emulator as a live CAN
-source. It executes real node firmware, so DBC-decoded telemetry matches hardware. See FIL's
-[`watch-network` guide](https://github.com/ronakpjain/fil/blob/main/docs/watch_network.md) for
-the control protocol and config format.
+source. It executes real node firmware, so DBC-decoded telemetry matches hardware. DaqApp
+communicates with FIL's `serve-network --transport stdio` binary protocol; see the [serve-network
+protocol](https://github.com/ronakpjain/fil/blob/main/docs/serve_network.md).
 
 ## Connect
 
@@ -28,9 +28,9 @@ wall-clock pacing, loop batching, and 32× ADC decimation for responsive six-boa
 Set decimation to 1 when validating pedal or fault behavior: skipped ADC scans change
 firmware-visible DMA updates.
 Additional comma-separated live trace filters may be added; CAN transmit and GPIO input/output
-filters, expectation lifecycle filters, and stdin control always remain enabled for DaqApp. Add `instr` to the extra filters
-when enabling instruction tracing. Changes take effect on the next
-**Connect / Restart**. Use a FIL executable built with watch-network support for these options.
+filters, expectation lifecycle filters, and binary stdio control always remain enabled for DaqApp.
+Add `instr` to the extra filters when enabling instruction tracing. Changes take effect on the next
+**Connect / Restart**. Use a FIL executable that supports `serve-network --transport stdio`.
 
 **Message Sender bus** selects the outgoing injection target. The separate **View/trace CAN bus**
 selector chooses which network bus's CAN frames DaqApp displays and logs. Select **All buses** to
@@ -39,7 +39,7 @@ the FIL simulation; frames from hidden buses are discarded, not buffered for lat
 
 ## Stimulus scripts
 
-FIL stimulus scripts are attached to network configs and run by `watch-network` on the simulation
+FIL stimulus scripts are attached to network configs and run by `serve-network` on the simulation
 clock. In **Network file** mode, DaqApp uses the config's existing `stimuli` array. FIL resolves
 relative script paths against the original network file; when board overrides or disabled boards
 require DaqApp to materialize a temporary network config, it rewrites those paths to absolute paths
@@ -50,10 +50,10 @@ The generated or exported network references those files by absolute path; expor
 not copy or bundle the scripts, so keep them at those paths. DaqApp does not edit or translate the
 scripts. See FIL's [stimulus-script format and timing](https://github.com/ronakpjain/fil/blob/main/docs/configuration.md#stimulus-scripts).
 
-DaqApp owns the emulator process; disconnecting kills it. Overrides are materialized into a
-temp dir (originals untouched) and everything persists in `settings.json`. Failures are
-reported, never auto-retried. Only CAN 2.0 data frames are supported; CAN FD and remote
-frames report send errors.
+DaqApp owns the emulator process; disconnecting sends a best-effort binary STOP and then terminates
+the process if it does not exit promptly. Overrides are materialized into a temp dir (originals
+untouched) and everything persists in `settings.json`. Failures are reported, never auto-retried.
+Only CAN 2.0 data frames are supported; CAN FD and remote frames report send errors.
 
 ## Expectations
 
@@ -88,8 +88,7 @@ Checks are identified by FIL's `check_id`, so repeated script attachments stay d
 Expectation results are independent of the **View/trace CAN bus** filter. DaqApp does
 not implement a separate expectation evaluator or infer success from displayed CAN frames.
 Use a FIL build that emits expectation lifecycle traces; older executables cannot provide
-these results. Stopping the child process abruptly may prevent it from emitting a terminal
-result, so a pending check is not proof of success or failure.
+these results. A pending check when the process stops is not proof of success or failure.
 
 ### GPIO and ADC annotations
 
