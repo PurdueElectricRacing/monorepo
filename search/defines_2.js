@@ -39,7 +39,6 @@ var searchData=
   ['brake_5flight_5fpin_36',['BRAKE_LIGHT_PIN',['../main__module_2main_8h.html#a40511f39470605555d47027fefb4257e',1,'main.h']]],
   ['brake_5flight_5fport_37',['BRAKE_LIGHT_PORT',['../main__module_2main_8h.html#a1e66b797a9d0b76cdeef431fd5a9bd1c',1,'main.h']]],
   ['brk_5fbar_38',['BRK_BAR',['../race_8h.html#ab272c91d08313fdf7351798e4920bac9',1,'race.h']]],
-  ['button_5fexti_5fmask_39',['BUTTON_EXTI_MASK',['../driver__interface_8c.html#a5525abb49a0c0e242e8f44e1e1b1e489',1,'driver_interface.c']]],
-  ['buzzer_5fpin_40',['BUZZER_PIN',['../main__module_2main_8h.html#ab61d0981ed42df9e18211b273d22cfcd',1,'main.h']]],
-  ['buzzer_5fport_41',['BUZZER_PORT',['../main__module_2main_8h.html#abf0d28f731e836936a87086ea8b798da',1,'main.h']]]
+  ['buzzer_5fpin_39',['BUZZER_PIN',['../main__module_2main_8h.html#ab61d0981ed42df9e18211b273d22cfcd',1,'main.h']]],
+  ['buzzer_5fport_40',['BUZZER_PORT',['../main__module_2main_8h.html#abf0d28f731e836936a87086ea8b798da',1,'main.h']]]
 ];

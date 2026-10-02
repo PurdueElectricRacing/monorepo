@@ -1,7 +1,7 @@
 var searchData=
 [
   ['init_5fbang_5fbang_0',['INIT_BANG_BANG',['../cooling__fsm_8c.html#a40dde0035813567fff129d548f07c92e',1,'INIT_BANG_BANG(powertrain_pumps, POWERTRAIN_PUMPS_UPPER_LIMIT, POWERTRAIN_PUMPS_LOWER_LIMIT, powertrain_pumps_on, powertrain_pumps_off, POWERTRAIN_PUMPS_INTERVAL):&#160;cooling_fsm.c'],['../cooling__fsm_8c.html#a67681e02a005051235cf0b121f7937a5',1,'INIT_BANG_BANG(hx_fan, HX_FAN_UPPER_LIMIT, HX_FAN_LOWER_LIMIT, hx_fan_on, hx_fan_off, HX_FAN_INTERVAL):&#160;cooling_fsm.c'],['../cooling__fsm_8c.html#a30d511b7f1cb3c7228bbdc194dd5885b',1,'INIT_BANG_BANG(battery_fans, BATTERY_FAN_UPPER_LIMIT, BATTERY_FAN_LOWER_LIMIT, battery_fans_on, battery_fans_off, BATTERY_FAN_INTERVAL):&#160;cooling_fsm.c']]],
-  ['init_5fbuttons_1',['init_buttons',['../driver__interface_8c.html#a8699128e5c732cfae429638ad9986d71',1,'driver_interface.c']]],
+  ['init_5fbuttons_1',['init_buttons',['../driver__interface_8c.html#abe305e053fb0e9e4db4e112c38cb3511',1,'driver_interface.c']]],
   ['init_5fpvcu_2',['init_pVCU',['../torque__vector_2vcu_2vcu_8h.html#aa1ef76f8cc34b1f89c6cd05cf293b575',1,'init_pVCU(void):&#160;vcu_init.c'],['../vcu__init_8c.html#aa1ef76f8cc34b1f89c6cd05cf293b575',1,'init_pVCU(void):&#160;vcu_init.c']]],
   ['init_5fudp_3',['init_udp',['../ethernet_8c.html#aa3047cfafbe247efdb86c53ba878ea12',1,'ethernet.c']]],
   ['init_5fw5500_4',['init_w5500',['../ethernet_8c.html#a35a615d9efc9dc590f030ac374d57931',1,'ethernet.c']]],

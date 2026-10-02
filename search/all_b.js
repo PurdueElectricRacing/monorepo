@@ -16,7 +16,7 @@ var searchData=
   ['bangbang_5ftest_2ecpp_13',['bangbang_test.cpp',['../bangbang__test_8cpp.html',1,'']]],
   ['bangbang_5fupdate_14',['bangbang_update',['../bangbang_8c.html#a6e64fa5703d5bbbc0b47d207bd44983c',1,'bangbang_update(bangbang_t *controller, float value, uint32_t current_time):&#160;bangbang.c'],['../bangbang_8h.html#a6e64fa5703d5bbbc0b47d207bd44983c',1,'bangbang_update(bangbang_t *controller, float value, uint32_t current_time):&#160;bangbang.c']]],
   ['bangbangtest_15',['BangbangTest',['../classBangbangTest.html',1,'']]],
-  ['bank_16',['bank',['../structGPIOInitConfig__t.html#a9fec47b09fc90e799db443bdcffb53f4',1,'GPIOInitConfig_t::bank'],['../structPHAL__GPIO__InitConfig__t.html#a413387278738e0af3c4d9a19a4cc0d7a',1,'PHAL_GPIO_InitConfig_t::bank']]],
+  ['bank_16',['bank',['../structGPIOInitConfig__t.html#a9fec47b09fc90e799db443bdcffb53f4',1,'GPIOInitConfig_t::bank'],['../structPHAL__EXTI__InitConfig__t.html#a5e298a1665e891bc67cff72823d43a33',1,'PHAL_EXTI_InitConfig_t::bank'],['../structPHAL__GPIO__InitConfig__t.html#a413387278738e0af3c4d9a19a4cc0d7a',1,'PHAL_GPIO_InitConfig_t::bank']]],
   ['bar_5ffrom_5fpascals_17',['bar_from_pascals',['../units_8h.html#a9ab2ad2b1b02f523213f889b5aa001a5',1,'units.h']]],
   ['bar_5ft_18',['bar_t',['../structbar__t.html',1,'']]],
   ['base_5freset_5fpin_19',['BASE_RESET_PIN',['../torque__vector_2main_8h.html#a3da9ac80a8c57bdb3013735d6cb72dbe',1,'main.h']]],
@@ -394,10 +394,11 @@ var searchData=
   ['bus_391',['Bus',['../structCanMsgTypeDef__t.html#a27b82ae932da76206323ac8268b3f1e6',1,'CanMsgTypeDef_t::Bus'],['../structCanMsgTypeDef__t.html#a4aa42f4d25313b588ecb4323723d2ef6',1,'CanMsgTypeDef_t::Bus']]],
   ['bus_20membership_392',['Bus Membership',['../md_docs_2can__graphs.html#autotoc_md86',1,'']]],
   ['busy_393',['busy',['../structPHAL__ADC__Handle__t.html#a224a675307a5bfd35a864265bed8caf0',1,'PHAL_ADC_Handle_t']]],
-  ['button_5fexti_5fmask_394',['BUTTON_EXTI_MASK',['../driver__interface_8c.html#a5525abb49a0c0e242e8f44e1e1b1e489',1,'driver_interface.c']]],
-  ['buzzer_5fenable_395',['buzzer_enable',['../structcar__t.html#a1ed45443eee3c1f1c8ff8926bdfd89ad',1,'car_t']]],
-  ['buzzer_5fpin_396',['BUZZER_PIN',['../main__module_2main_8h.html#ab61d0981ed42df9e18211b273d22cfcd',1,'main.h']]],
-  ['buzzer_5fport_397',['BUZZER_PORT',['../main__module_2main_8h.html#abf0d28f731e836936a87086ea8b798da',1,'main.h']]],
-  ['buzzer_5fstart_5ftime_398',['buzzer_start_time',['../structcar__t.html#ae1b2cfa00a8296e503bfce011f51e8d5',1,'car_t']]],
-  ['bxcan_5fset_5ffilters_399',['bxcan_set_filters',['../PDU_8h.html#af8ca77a2289959991a2b9f2e1a935761',1,'PDU.h']]]
+  ['button_5fexti_5fconfig_394',['button_exti_config',['../driver__interface_8c.html#ad50689b9adac1ceb68f7ef0b7fd428b0',1,'driver_interface.c']]],
+  ['button_5fexti_5firq_5fpriority_395',['BUTTON_EXTI_IRQ_PRIORITY',['../driver__interface_8c.html#aded0fb2b3dcc8dc1459eb07e60e0ef2d',1,'driver_interface.c']]],
+  ['buzzer_5fenable_396',['buzzer_enable',['../structcar__t.html#a1ed45443eee3c1f1c8ff8926bdfd89ad',1,'car_t']]],
+  ['buzzer_5fpin_397',['BUZZER_PIN',['../main__module_2main_8h.html#ab61d0981ed42df9e18211b273d22cfcd',1,'main.h']]],
+  ['buzzer_5fport_398',['BUZZER_PORT',['../main__module_2main_8h.html#abf0d28f731e836936a87086ea8b798da',1,'main.h']]],
+  ['buzzer_5fstart_5ftime_399',['buzzer_start_time',['../structcar__t.html#ae1b2cfa00a8296e503bfce011f51e8d5',1,'car_t']]],
+  ['bxcan_5fset_5ffilters_400',['bxcan_set_filters',['../PDU_8h.html#af8ca77a2289959991a2b9f2e1a935761',1,'PDU.h']]]
 ];

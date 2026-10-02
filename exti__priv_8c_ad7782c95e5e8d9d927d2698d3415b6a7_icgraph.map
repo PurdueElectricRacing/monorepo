@@ -1,0 +1,16 @@
+<map id="PHAL_EXTI_priv_getIRQn" name="PHAL_EXTI_priv_getIRQn">
+<area shape="rect" id="Node000001" title="Return the IRQ vector for pin: lines 0&#45;4 are separate, 5&#45;9 and 10&#45;15 are shared." alt="" coords="797,56,973,82"/>
+<area shape="rect" id="Node000002" href="$exti_8c.html#a07ab10eef78eecb34ff9d7b0d0c585fb" title=" " alt="" coords="615,5,749,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="815,54,736,34,737,29,816,49"/>
+<area shape="rect" id="Node000003" href="$exti_8c.html#ae3447435fc8855f0bfcde51cf0ae1971" title="Configure GPIO EXTI lines from a configuration table." alt="" coords="449,31,567,56"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="781,65,567,50,567,45,781,59"/>
+<area shape="rect" id="Node000007" href="$exti_8c.html#a1305d07ebed00e148028e4b43f04a715" title="Disable a configured GPIO EXTI line." alt="" coords="616,107,748,132"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="816,89,737,109,736,103,815,83"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="600,33,567,38,567,32,599,28"/>
+<area shape="rect" id="Node000004" href="$driver__interface_8c.html#abe305e053fb0e9e4db4e112c38cb3511" title=" " alt="" coords="313,31,401,56"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="434,46,402,46,402,41,434,41"/>
+<area shape="rect" id="Node000005" href="$driver__interface_8c.html#ac599c66976c348cb0287266b60aa49c5" title=" " alt="" coords="103,31,265,56"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="298,46,265,46,265,41,298,41"/>
+<area shape="rect" id="Node000006" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,31,55,56"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="87,46,55,46,55,41,87,41"/>
+</map>

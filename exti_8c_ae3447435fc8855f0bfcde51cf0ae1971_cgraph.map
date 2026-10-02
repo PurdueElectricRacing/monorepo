@@ -1,0 +1,19 @@
+<map id="PHAL_EXTI_init" name="PHAL_EXTI_init">
+<area shape="rect" id="Node000001" title="Configure GPIO EXTI lines from a configuration table." alt="" coords="5,117,123,143"/>
+<area shape="rect" id="Node000002" href="$exti_8c.html#a07ab10eef78eecb34ff9d7b0d0c585fb" title=" " alt="" coords="206,64,340,90"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,114,204,92,206,97,118,119"/>
+<area shape="rect" id="Node000004" href="$exti__priv_8c.html#ad7782c95e5e8d9d927d2698d3415b6a7" title="Return the IRQ vector for pin: lines 0&#45;4 are separate, 5&#45;9 and 10&#45;15 are shared." alt="" coords="438,5,614,31"/>
+<area shape="poly" id="edge8_Node000001_Node000004" title=" " alt="" coords="76,115,115,81,141,63,170,49,233,30,299,18,363,12,422,11,422,16,364,18,300,23,234,35,172,54,144,68,119,85,80,119"/>
+<area shape="rect" id="Node000005" href="$exti__priv_8c.html#a6d7a8d2ea6b2661fda87c0003c8cb1af" title="Return the SYSCFG port selector for a supported GPIO bank (GPIOA&#45;GPIOG)." alt="" coords="425,120,626,146"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="123,128,410,130,410,135,123,133"/>
+<area shape="rect" id="Node000006" href="$exti__priv_8c.html#a4074f757a054f8107f60300f8bdfebdc" title="Mask a line, route it, configure its trigger, clear stale pending state, and unmask it." alt="" coords="171,168,376,194"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="121,141,203,161,202,166,120,146"/>
+<area shape="rect" id="Node000008" href="$exti__priv_8c.html#a418a9ae61781b3b15e7e1ac737af76ca" title="Enable the SYSCFG peripheral clock used for GPIO EXTI routing." alt="" coords="174,217,373,243"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="82,141,121,173,172,204,186,210,184,215,169,209,118,177,78,146"/>
+<area shape="rect" id="Node000003" href="$exti__priv_8c.html#a0cf184160af02a0cf9bc7aebede11710" title="Return the enabled line bits that share pin&#39;s IRQ vector." alt="" coords="430,55,622,96"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="341,74,414,73,414,79,341,79"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="331,61,452,33,453,38,333,66"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="335,88,450,113,449,119,334,93"/>
+<area shape="rect" id="Node000007" href="$exti__priv_8c.html#a9b23ea8ec94cea56a3223cd60b5a1af0" title="Clear one line&#39;s pending flag using EXTI&#39;s write&#45;one&#45;to&#45;clear semantics." alt="" coords="424,169,627,195"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="377,179,409,179,409,184,377,184"/>
+</map>

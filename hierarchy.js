@@ -194,6 +194,7 @@ var hierarchy =
     [ "PHAL_DMA_Handle_t", "structPHAL__DMA__Handle__t.html", null ],
     [ "PHAL_DMA_Params_t", "structPHAL__DMA__Params__t.html", null ],
     [ "PHAL_DMA_Wiring_t", "structPHAL__DMA__Wiring__t.html", null ],
+    [ "PHAL_EXTI_InitConfig_t", "structPHAL__EXTI__InitConfig__t.html", null ],
     [ "PHAL_GPIO_InitConfig_t", "structPHAL__GPIO__InitConfig__t.html", null ],
     [ "PHAL_SD_Cmd_t", "structPHAL__SD__Cmd__t.html", null ],
     [ "PHAL_USART_HwMap_t", "structPHAL__USART__HwMap__t.html", null ],

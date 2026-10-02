@@ -1,0 +1,13 @@
+<map id="EXTI2_IRQHandler" name="EXTI2_IRQHandler">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,138,106"/>
+<area shape="rect" id="Node000002" href="$exti_8c.html#ab99cddec0bc9bafdd924e522cdca6e06" title=" " alt="" coords="186,80,283,106"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,90,170,90,170,96,138,96"/>
+<area shape="rect" id="Node000003" href="$exti_8c.html#a73e036dca66e874d82c3c182b8187a0f" title="Weak callback invoked for each pending GPIO EXTI line." alt="" coords="358,5,507,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="256,77,290,58,330,40,349,33,351,38,332,45,292,63,258,82"/>
+<area shape="rect" id="Node000004" href="$exti__priv_8c.html#a9b23ea8ec94cea56a3223cd60b5a1af0" title="Clear one line&#39;s pending flag using EXTI&#39;s write&#45;one&#45;to&#45;clear semantics." alt="" coords="331,55,534,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="283,84,315,80,316,85,284,89"/>
+<area shape="rect" id="Node000005" href="$exti__priv_8c.html#a5613a06463ecbd7df45339faaa29c50a" title="Return the GPIO bank currently selected by SYSCFG for pin, or nullptr if invalid." alt="" coords="344,104,521,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="284,96,329,102,328,107,283,101"/>
+<area shape="rect" id="Node000006" href="$exti__priv_8c.html#a1ed2c40245bc469e6a8cd5a3a1fe3e14" title="Read pending, unmasked GPIO EXTI lines selected by line_mask." alt="" coords="336,154,529,194"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="260,104,332,140,347,146,346,151,330,145,257,109"/>
+</map>

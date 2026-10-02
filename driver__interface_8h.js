@@ -21,10 +21,5 @@ var driver__interface_8h =
       [ "DI_STATE_ACTIVE", "driver__interface_8h.html#a0b28b74cdc60e16623b48a65bf3e3f41a96e2198d5fbaa0f130fabc2e6abc6044", null ]
     ] ],
     [ "driver_interface_periodic", "driver__interface_8h.html#ac599c66976c348cb0287266b60aa49c5", null ],
-    [ "EXTI0_IRQHandler", "driver__interface_8h.html#a17e9789a29a87d2df54f12b94dd1a0b6", null ],
-    [ "EXTI15_10_IRQHandler", "driver__interface_8h.html#a738473a5b43f6c92b80ce1d3d6f77ed9", null ],
-    [ "EXTI1_IRQHandler", "driver__interface_8h.html#a49cfdd46eb8d0ef3e1987514aa9343dc", null ],
-    [ "EXTI4_IRQHandler", "driver__interface_8h.html#a290cb997018c8d85d4b965b4a242842f", null ],
-    [ "EXTI9_5_IRQHandler", "driver__interface_8h.html#a7b2096b8b2643286dc3a7e5110e5ae85", null ],
     [ "DRIVER_INTERFACE_PERIOD_MS", "driver__interface_8h.html#ae018e4f4f0007e56a28debba30f30fa5", null ]
 ];

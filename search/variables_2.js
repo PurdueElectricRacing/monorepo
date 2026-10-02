@@ -5,7 +5,7 @@ var searchData=
   ['balance_5fenable_2',['balance_enable',['../structcharge__request__data__t.html#a25b847c52c0eb0e01fb17585c1eb82d8',1,'charge_request_data_t']]],
   ['balance_5fstatus_3',['balance_status',['../structcell__telemetry__ccan__data__t.html#a132fb6b188c43018a15e58fe5ee70f38',1,'cell_telemetry_ccan_data_t::balance_status'],['../structcell__telemetry__data__t.html#a3febd6490200ca0263c15d830bafef33',1,'cell_telemetry_data_t::balance_status']]],
   ['balancing_5fstatus_4',['balancing_status',['../structcharging__fsm__internals__data__t.html#a73cfacbc3f37bd4c317db01a58bb4fce',1,'charging_fsm_internals_data_t']]],
-  ['bank_5',['bank',['../structGPIOInitConfig__t.html#a9fec47b09fc90e799db443bdcffb53f4',1,'GPIOInitConfig_t::bank'],['../structPHAL__GPIO__InitConfig__t.html#a413387278738e0af3c4d9a19a4cc0d7a',1,'PHAL_GPIO_InitConfig_t::bank']]],
+  ['bank_5',['bank',['../structGPIOInitConfig__t.html#a9fec47b09fc90e799db443bdcffb53f4',1,'GPIOInitConfig_t::bank'],['../structPHAL__EXTI__InitConfig__t.html#a5e298a1665e891bc67cff72823d43a33',1,'PHAL_EXTI_InitConfig_t::bank'],['../structPHAL__GPIO__InitConfig__t.html#a413387278738e0af3c4d9a19a4cc0d7a',1,'PHAL_GPIO_InitConfig_t::bank']]],
   ['battery_5ffan_5finterval_6',['BATTERY_FAN_INTERVAL',['../cooling__fsm_8c.html#a926f53d1732a7cebcec36d7557159a46',1,'cooling_fsm.c']]],
   ['battery_5ffan_5flower_5flimit_7',['BATTERY_FAN_LOWER_LIMIT',['../cooling__fsm_8c.html#a9eb243c47c154e57459ebfe672d53f51',1,'cooling_fsm.c']]],
   ['battery_5ffan_5fupper_5flimit_8',['BATTERY_FAN_UPPER_LIMIT',['../cooling__fsm_8c.html#a99db11cfba36fbf851a6151ecef00160',1,'cooling_fsm.c']]],
@@ -205,6 +205,8 @@ var searchData=
   ['bullet_5frail_202',['bullet_rail',['../structpdu__fault__sync__data__t.html#abc27795fd6656a2cfa07309bde89ff6e',1,'pdu_fault_sync_data_t']]],
   ['bus_203',['Bus',['../structCanMsgTypeDef__t.html#a27b82ae932da76206323ac8268b3f1e6',1,'CanMsgTypeDef_t::Bus'],['../structCanMsgTypeDef__t.html#a4aa42f4d25313b588ecb4323723d2ef6',1,'CanMsgTypeDef_t::Bus']]],
   ['busy_204',['busy',['../structPHAL__ADC__Handle__t.html#a224a675307a5bfd35a864265bed8caf0',1,'PHAL_ADC_Handle_t']]],
-  ['buzzer_5fenable_205',['buzzer_enable',['../structcar__t.html#a1ed45443eee3c1f1c8ff8926bdfd89ad',1,'car_t']]],
-  ['buzzer_5fstart_5ftime_206',['buzzer_start_time',['../structcar__t.html#ae1b2cfa00a8296e503bfce011f51e8d5',1,'car_t']]]
+  ['button_5fexti_5fconfig_205',['button_exti_config',['../driver__interface_8c.html#ad50689b9adac1ceb68f7ef0b7fd428b0',1,'driver_interface.c']]],
+  ['button_5fexti_5firq_5fpriority_206',['BUTTON_EXTI_IRQ_PRIORITY',['../driver__interface_8c.html#aded0fb2b3dcc8dc1459eb07e60e0ef2d',1,'driver_interface.c']]],
+  ['buzzer_5fenable_207',['buzzer_enable',['../structcar__t.html#a1ed45443eee3c1f1c8ff8926bdfd89ad',1,'car_t']]],
+  ['buzzer_5fstart_5ftime_208',['buzzer_start_time',['../structcar__t.html#ae1b2cfa00a8296e503bfce011f51e8d5',1,'car_t']]]
 ];

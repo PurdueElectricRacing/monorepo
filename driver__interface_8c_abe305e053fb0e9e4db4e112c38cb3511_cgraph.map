@@ -1,0 +1,23 @@
+<map id="init_buttons" name="init_buttons">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,93,94,119"/>
+<area shape="rect" id="Node000002" href="$torque__vector_2main_8c.html#a2bffc10d5bd4106753b7c30e86903bea" title=" " alt="" coords="142,68,272,94"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,96,126,91,127,96,95,102"/>
+<area shape="rect" id="Node000003" href="$exti_8c.html#ae3447435fc8855f0bfcde51cf0ae1971" title="Configure GPIO EXTI lines from a configuration table." alt="" coords="148,117,266,143"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="95,110,134,116,133,122,94,116"/>
+<area shape="rect" id="Node000004" href="$exti_8c.html#a07ab10eef78eecb34ff9d7b0d0c585fb" title=" " alt="" coords="356,64,490,90"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="261,114,352,91,354,97,263,119"/>
+<area shape="rect" id="Node000006" href="$exti__priv_8c.html#ad7782c95e5e8d9d927d2698d3415b6a7" title="Return the IRQ vector for pin: lines 0&#45;4 are separate, 5&#45;9 and 10&#45;15 are shared." alt="" coords="587,5,763,31"/>
+<area shape="poly" id="edge10_Node000003_Node000006" title=" " alt="" coords="251,114,270,104,285,90,293,76,302,62,319,49,381,25,446,11,511,6,571,6,571,11,512,11,447,17,382,30,321,54,306,65,297,79,289,94,274,108,254,119"/>
+<area shape="rect" id="Node000007" href="$exti__priv_8c.html#a6d7a8d2ea6b2661fda87c0003c8cb1af" title="Return the SYSCFG port selector for a supported GPIO bank (GPIOA&#45;GPIOG)." alt="" coords="574,120,776,146"/>
+<area shape="poly" id="edge11_Node000003_Node000007" title=" " alt="" coords="266,128,559,130,559,135,266,133"/>
+<area shape="rect" id="Node000008" href="$exti__priv_8c.html#a4074f757a054f8107f60300f8bdfebdc" title="Mask a line, route it, configure its trigger, clear stale pending state, and unmask it." alt="" coords="320,168,525,194"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="265,141,351,161,350,167,264,146"/>
+<area shape="rect" id="Node000010" href="$exti__priv_8c.html#a418a9ae61781b3b15e7e1ac737af76ca" title="Enable the SYSCFG peripheral clock used for GPIO EXTI routing." alt="" coords="323,217,522,243"/>
+<area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="225,141,267,173,321,204,337,210,335,215,319,209,264,177,222,146"/>
+<area shape="rect" id="Node000005" href="$exti__priv_8c.html#a0cf184160af02a0cf9bc7aebede11710" title="Return the enabled line bits that share pin&#39;s IRQ vector." alt="" coords="579,55,771,96"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="490,74,563,73,563,79,490,79"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="481,61,601,33,602,38,482,66"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="484,88,599,113,598,119,483,93"/>
+<area shape="rect" id="Node000009" href="$exti__priv_8c.html#a9b23ea8ec94cea56a3223cd60b5a1af0" title="Clear one line&#39;s pending flag using EXTI&#39;s write&#45;one&#45;to&#45;clear semantics." alt="" coords="573,169,777,195"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="526,179,558,179,558,184,526,184"/>
+</map>
