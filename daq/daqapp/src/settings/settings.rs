@@ -1,6 +1,6 @@
+use crate::settings::FilSettings;
 use crate::{connection, ui::theme};
 
-pub const SETTINGS_PATH: &str = "settings.json";
 pub const DEFAULT_LOG_FOLDER: &str = "logs";
 
 pub fn dbc_dir() -> Option<std::path::PathBuf> {
@@ -15,13 +15,12 @@ pub struct Settings {
     pub dbc_path: Option<std::path::PathBuf>,
     pub selected_source: Option<connection::ConnectionSource>,
     pub selected_speed: connection::CanBusSpeed,
-    #[serde(default)]
     pub selected_bus: connection::CanBus,
     pub udp_port: u16,
     pub theme: theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
-    #[serde(default)]
     pub log_folder: Option<std::path::PathBuf>,
+    pub fil: FilSettings,
 }
 
 impl Default for Settings {
@@ -35,19 +34,17 @@ impl Default for Settings {
             theme: theme::ThemeSelection::Default,
             pixels_per_point: None,
             log_folder: None,
+            fil: FilSettings::default(),
         }
     }
 }
 
 impl Settings {
-    fn path() -> std::path::PathBuf {
-        std::path::PathBuf::from(SETTINGS_PATH)
-    }
-
     pub fn load() -> Self {
-        let path = Self::path();
-        if let Ok(json) = std::fs::read_to_string(&path) {
-            serde_json::from_str(&json).unwrap_or_default()
+        if let Ok(json) = std::fs::read_to_string(crate::settings::SETTINGS_PATH) {
+            let mut settings: Self = serde_json::from_str(&json).unwrap_or_default();
+            settings.normalize();
+            settings
         } else {
             let default = Settings::default();
             default.save();
@@ -55,11 +52,16 @@ impl Settings {
         }
     }
 
+    /// Clamp persisted values into valid ranges after loading.
+    fn normalize(&mut self) {
+        self.fil.normalize();
+    }
+
     pub fn save(&self) {
         // Expect okay. If it doesn't fail in testing, it shouldn't fail later.
         let json = serde_json::to_string_pretty(self).expect("Failed to serialize settings");
-        let path = Self::path();
-        std::fs::write(&path, json)
-            .unwrap_or_else(|e| log::error!("Failed to write {}: {}", path.display(), e));
+        std::fs::write(crate::settings::SETTINGS_PATH, json).unwrap_or_else(|e| {
+            log::error!("Failed to write {}: {}", crate::settings::SETTINGS_PATH, e)
+        });
     }
 }

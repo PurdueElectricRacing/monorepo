@@ -2,6 +2,8 @@ use crate::{
     action, connection, formatter, messages, settings, shortcuts, ui, util, widget_ids, widgets,
     workspace,
 };
+
+const MAX_CAN_MESSAGES_PER_UPDATE: usize = 2_048;
 use eframe::egui;
 
 const UI_SCALE_STEP: f32 = 0.2;
@@ -54,6 +56,7 @@ pub struct DAQApp {
     pub udp_port: u16,
     pub can_messages: Vec<messages::MsgFromCan>,
     pub log_folder: Option<std::path::PathBuf>,
+    pub fil: settings::FilSettings,
 }
 
 impl DAQApp {
@@ -67,6 +70,7 @@ impl DAQApp {
             theme: self.theme_selection,
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
+            fil: self.fil.clone(),
         };
         settings.save();
     }
@@ -104,6 +108,7 @@ impl DAQApp {
             udp_port: settings.udp_port,
             can_messages: Vec::new(),
             log_folder: settings.log_folder,
+            fil: settings.fil,
         }
     }
 
@@ -132,6 +137,35 @@ impl DAQApp {
         // Root is already a tab container, add to it
         tabs.add_child(new_tile_id);
         tabs.set_active(new_tile_id);
+    }
+
+    /// FIL connection source from the current settings, including per-board
+    /// ELF overrides and board selection. Returns `None` when no executable
+    /// or network config is selected yet.
+    pub fn fil_connect_source(&self) -> Option<connection::ConnectionSource> {
+        let executable = self.fil.executable.clone()?;
+        if self.fil.use_builder {
+            return Some(connection::ConnectionSource::Fil {
+                executable,
+                network: std::path::PathBuf::new(),
+                bus: self.fil.builder.bus.clone(),
+                trace_bus: self.fil.trace_bus.clone(),
+                elf_overrides: std::collections::HashMap::new(),
+                disabled_boards: Vec::new(),
+                built_network: Some(self.fil.builder.clone()),
+                run_options: self.fil.run_options.clone(),
+            });
+        }
+        Some(connection::ConnectionSource::Fil {
+            executable,
+            network: self.fil.network.clone()?,
+            bus: self.fil.bus.clone(),
+            trace_bus: self.fil.trace_bus.clone(),
+            elf_overrides: self.fil.elf_overrides.clone(),
+            disabled_boards: self.fil.disabled_boards.clone(),
+            built_network: None,
+            run_options: self.fil.run_options.clone(),
+        })
     }
 
     pub fn connect_can(&mut self) {
@@ -190,6 +224,40 @@ impl DAQApp {
                 self.pixels_per_point = Some(current_scale - UI_SCALE_STEP);
                 self.save_settings();
             }
+            action::AppAction::UpdateFilConfig { fil } => {
+                self.fil = fil;
+                if let Some(connection::ConnectionSource::Fil { trace_bus, .. }) =
+                    self.selected_source.as_mut()
+                {
+                    *trace_bus = self.fil.trace_bus.clone();
+                }
+                self.save_settings();
+            }
+            action::AppAction::ConnectFil(source) => {
+                self.selected_source = Some(source);
+                self.connect_can();
+                self.save_settings();
+            }
+            action::AppAction::UpdateFilBuilder {
+                use_builder,
+                builder,
+            } => {
+                self.fil.use_builder = use_builder;
+                self.fil.builder = builder;
+                self.save_settings();
+            }
+            action::AppAction::UpdateFilAdc {
+                board,
+                instance,
+                channel,
+                value,
+            } => {
+                self.fil.adc_board = board;
+                self.fil.adc_instance = instance;
+                self.fil.adc_channel = channel;
+                self.fil.adc_value = value;
+                self.save_settings();
+            }
         }
     }
 
@@ -215,7 +283,10 @@ impl DAQApp {
 impl eframe::App for DAQApp {
     fn update(&mut self, ctx: &egui::Context, _: &mut eframe::Frame) {
         self.can_messages.clear();
-        while let Ok(msg) = self.can_to_ui_rx.try_recv() {
+        while self.can_messages.len() < MAX_CAN_MESSAGES_PER_UPDATE {
+            let Ok(msg) = self.can_to_ui_rx.try_recv() else {
+                break;
+            };
             match &msg {
                 messages::MsgFromCan::ConnectionFailed(port) => {
                     self.connection_status =
@@ -232,7 +303,9 @@ impl eframe::App for DAQApp {
                 | messages::MsgFromCan::MessageSent { .. }
                 | messages::MsgFromCan::BusLoad { .. }
                 | messages::MsgFromCan::Hil(_)
-                | messages::MsgFromCan::FirmwareProgress(_) => {
+                | messages::MsgFromCan::FirmwareProgress(_)
+                | messages::MsgFromCan::FilGpio { .. }
+                | messages::MsgFromCan::FilExpectation(_) => {
                     // Nothing special to do here, the message will be handled
                     // in the individual widgets
                 }

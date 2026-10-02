@@ -1,4 +1,4 @@
-use crate::widget_constructor;
+use crate::{messages::FilAdcInstance, widget_constructor};
 
 pub enum AppAction {
     SpawnWidget(widget_constructor::WidgetConstructor),
@@ -7,11 +7,29 @@ pub enum AppAction {
     CloseActiveWidget,
     IncreaseScale,
     DecreaseScale,
+    UpdateFilConfig {
+        fil: crate::settings::FilSettings,
+    },
+    ConnectFil(crate::connection::ConnectionSource),
+    UpdateFilBuilder {
+        use_builder: bool,
+        builder: crate::fil_config::BuiltNetwork,
+    },
+    UpdateFilAdc {
+        board: String,
+        instance: FilAdcInstance,
+        channel: u8,
+        value: u16,
+    },
 }
 
 impl AppAction {
     pub fn cmd_palette_list() -> Vec<(&'static str, widget_constructor::WidgetConstructor)> {
         vec![
+            (
+                "Spawn FIL Control",
+                widget_constructor::WidgetConstructor::FilControl,
+            ),
             (
                 "Spawn CAN Table",
                 widget_constructor::WidgetConstructor::ViewerTable,

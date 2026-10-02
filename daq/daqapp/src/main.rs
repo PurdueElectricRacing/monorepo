@@ -4,6 +4,8 @@ mod assets;
 mod bootloader_protocol;
 mod can;
 mod connection;
+mod fil_annotations;
+mod fil_config;
 mod formatter;
 mod frozen;
 mod hil;

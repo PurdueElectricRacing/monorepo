@@ -57,6 +57,12 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 ));
             }
 
+            if ui.button("Add FIL Control").clicked() {
+                app.action_queue.push(action::AppAction::SpawnWidget(
+                    widget_constructor::WidgetConstructor::FilControl,
+                ));
+            }
+
             if ui.button("Add Scope").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::ScopeEmpty,
@@ -187,6 +193,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         app.can_bus.display_name(),
                         speed.display_name()
                     ),
+                    Some(connection::ConnectionSource::Fil { .. }) => "FIL".into(),
                     Some(connection_source) => connection_source.display_name(),
                     None => "Select Source".to_string(),
                 };
@@ -235,6 +242,18 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         {
                             app.connect_can();
                             app.save_settings();
+                        }
+                        ui.separator();
+                        if let Some(fil_source) = app.fil_connect_source() {
+                            if ui
+                                .selectable_value(&mut app.selected_source, Some(fil_source), "FIL")
+                                .changed()
+                            {
+                                app.connect_can();
+                                app.save_settings();
+                            }
+                        } else {
+                            ui.add_enabled(false, egui::Button::new("FIL"));
                         }
                         ui.separator();
                         ui.label("Simulated");

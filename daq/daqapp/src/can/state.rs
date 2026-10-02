@@ -3,7 +3,7 @@ use crate::{bootloader_protocol, can, connection, hil, messages};
 pub struct State {
     pub can_to_ui_tx: std::sync::mpsc::Sender<messages::MsgFromCan>,
     pub ui_to_can_rx: std::sync::mpsc::Receiver<messages::MsgFromUi>,
-    pub driver: Option<Box<dyn can::driver::Driver>>,
+    pub driver: Option<can::driver::ActiveDriver>,
     pub current_source: Option<connection::ConnectionSource>,
     pub is_connected: bool,
     pub parser: Option<can_decode::Parser>,

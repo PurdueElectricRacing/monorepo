@@ -1,49 +1,24 @@
-#[derive(serde::Serialize, Clone, Debug, PartialEq)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
     Udp(u16),
     Simulated(bool, Option<std::path::PathBuf>), // true for connected, false for disconnected, path to dbc file for sim
+    Fil {
+        executable: std::path::PathBuf,
+        network: std::path::PathBuf,
+        /// Bus used for outgoing Message Sender frames.
+        bus: String,
+        /// Bus whose CAN transmissions are viewed, or `None` for all buses.
+        trace_bus: Option<String>,
+        /// Per-board firmware ELF overrides keyed by board name.
+        elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
+        /// Board names excluded from the emulated network.
+        disabled_boards: Vec<String>,
+        /// Widget-built network used instead of `network` when present.
+        built_network: Option<crate::fil_config::BuiltNetwork>,
+        run_options: crate::settings::FilRunOptions,
+    },
     Loopback,
-}
-
-impl<'de> serde::Deserialize<'de> for ConnectionSource {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let value = serde_json::Value::deserialize(deserializer)?;
-        let object = value
-            .as_object()
-            .ok_or_else(|| serde::de::Error::custom("connection source must be an object"))?;
-        if let Some(serial) = object.get("Serial") {
-            let values = serial.as_array().ok_or_else(|| {
-                serde::de::Error::custom("Serial connection source must contain an array")
-            })?;
-            return match values.as_slice() {
-                [path, speed] | [path, speed, _] => Ok(Self::Serial(
-                    serde_json::from_value(path.clone()).map_err(serde::de::Error::custom)?,
-                    serde_json::from_value(speed.clone()).map_err(serde::de::Error::custom)?,
-                )),
-                _ => Err(serde::de::Error::custom(
-                    "Serial connection source must contain path and speed",
-                )),
-            };
-        }
-        if let Some(port) = object.get("Udp") {
-            return Ok(Self::Udp(
-                serde_json::from_value(port.clone()).map_err(serde::de::Error::custom)?,
-            ));
-        }
-        if let Some(simulated) = object.get("Simulated") {
-            let values: (bool, Option<std::path::PathBuf>) =
-                serde_json::from_value(simulated.clone()).map_err(serde::de::Error::custom)?;
-            return Ok(Self::Simulated(values.0, values.1));
-        }
-        if object.get("Loopback").is_some() {
-            return Ok(Self::Loopback);
-        }
-        Err(serde::de::Error::custom("unknown connection source"))
-    }
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug, Default)]
@@ -86,6 +61,23 @@ impl ConnectionSource {
                     "Simulated (connected)".into()
                 } else {
                     "Simulated (disconnected)".into()
+                }
+            }
+            ConnectionSource::Fil {
+                network,
+                built_network,
+                ..
+            } => {
+                if let Some(built) = built_network {
+                    format!("FIL: {} (built)", built.name)
+                } else {
+                    format!(
+                        "FIL: {}",
+                        network
+                            .file_name()
+                            .unwrap_or(network.as_os_str())
+                            .to_string_lossy()
+                    )
                 }
             }
             ConnectionSource::Loopback => "Loopback".into(),
