@@ -315,27 +315,19 @@ fn watch_network_args(options: &crate::connection::FilRunOptions) -> DriverResul
                 .into(),
         ));
     }
-    let mut args = vec![
-        "--transport".into(), "stdio".into(),
-        "--duration-ms".into(),
-        options.duration_ms.to_string(),
-        "--max-instructions".into(),
-        options.max_instructions.to_string(),
-        "--quantum".into(),
-        options.quantum.to_string(),
-        "--refresh-ms".into(),
-        options.refresh_ms.to_string(),
-        "--adc-decimation".into(),
-        options.adc_decimation.to_string(),
-    ];
+    let mut args = vec!["--transport".into(), "stdio".into()];
+    for (enabled, flag, value) in [
+        (options.duration_ms != 0, "--duration-ms", options.duration_ms.to_string()),
+        (options.max_instructions != 50_000_000, "--max-instructions", options.max_instructions.to_string()),
+        (options.quantum != 1024, "--quantum", options.quantum.to_string()),
+        (options.refresh_ms != 1, "--refresh-ms", options.refresh_ms.to_string()),
+        (options.adc_decimation != 1, "--adc-decimation", options.adc_decimation.to_string()),
+    ] { if enabled { args.extend([flag.into(), value]); } }
     if options.strict_mmio {
         args.push("--strict-mmio".into());
     }
     if !options.wall_pacing {
         args.push("--no-wall-pacing".into());
-    }
-    if !options.loop_batching {
-        args.push("--no-loop-batching".into());
     }
     if options.trace_instructions {
         args.push("--trace-instr".into());
