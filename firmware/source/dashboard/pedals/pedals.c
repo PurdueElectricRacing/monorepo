@@ -37,6 +37,15 @@ static constexpr uint8_t APPS_THROTTLE_PRESSED_THRESHOLD = 25; // 25% travel
 static constexpr uint8_t APPS_THROTTLE_RELEASE_THRESHOLD = 5; // 5% travel
 static constexpr uint8_t APPS_MECH_BRAKE_THRESHOLD = 5; // 5% travel
 
+static constexpr uint16_t BRAKE_PRESSURE_ADC_MIN = 414;  // ADC count at 0 PSI (sensor 0.5V -> divider 0.333V)
+static constexpr uint16_t BRAKE_PRESSURE_ADC_MAX = 3723; // ADC count at max-rated PSI (sensor 4.5V -> divider 3.0V)
+static_assert(BRAKE_PRESSURE_ADC_MIN < BRAKE_PRESSURE_ADC_MAX, "Invalid brake pressure ADC calibration values");
+
+static constexpr uint16_t BRAKE_PRESSURE_PSI_MIN = 0;
+static constexpr uint16_t BRAKE_PRESSURE_PSI_MAX = 3771; // 260 bar * 14.5038 psi/bar
+static_assert(BRAKE_PRESSURE_PSI_MIN < BRAKE_PRESSURE_PSI_MAX, "Invalid brake pressure PSI calibration values");
+
+
 // Contains the current pedal values for global visibility
 volatile pedals_data_t pedal_values = {
     .throttle = 0,
@@ -44,17 +53,31 @@ volatile pedals_data_t pedal_values = {
     .brake = 0
 };
 
+
+
+void process_and_send_brake_psi(uint16_t raw_brake_adc) {
+
+    uint16_t clamped_adc = CLAMP(raw_brake_adc, BRAKE_PRESSURE_ADC_MIN, BRAKE_PRESSURE_ADC_MAX);
+    uint16_t brake_psi = RESCALE(clamped_adc, BRAKE_PRESSURE_ADC_MIN, BRAKE_PRESSURE_ADC_MAX,
+                                  BRAKE_PRESSURE_PSI_MIN, BRAKE_PRESSURE_PSI_MAX);
+
+    CAN_SEND_brake_pressure(brake_psi);
+
+}
+
 /**
  * @brief Processes pedal sensor readings and sets faults as necessary
  *
  * @note This function is called periodically by the scheduler
  */
+
 void pedals_periodic(void) {
     // snapshot ADC values into local memory
     uint16_t throttle1 = raw_adc_values.throttle1;
     uint16_t throttle2 = 4095 - raw_adc_values.throttle2; // Invert value for t2 (pull-up resistor)
     uint16_t regen1    = raw_adc_values.brake1_pressure;  // ! harness flip
     uint16_t brake1    = raw_adc_values.regen1;
+
 
     // FSAE 2026 T.4.2.10: throttle open/short circuit detection
     update_fault(FAULT_ID_APPS_WIRING_T1, throttle1);
@@ -105,4 +128,7 @@ void pedals_periodic(void) {
     }
 
     CAN_SEND_pedals(throttle_command, pedal_values.regen, pedal_values.brake);
+
+    process_and_send_brake_psi(raw_adc_values.regen1);
 }
+
