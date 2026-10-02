@@ -52,7 +52,7 @@ class NodeExport(ExportModel):
 
 
 class BusExport(ExportModel):
-    bus_id: Annotated[int, Field(ge=0, le=0xFFFFFFFF)]
+    bus_id: Annotated[int, Field(ge=0, le=0b111)]
     baud_rate: Annotated[int, Field(gt=0)]
     nodes: list[NodeExport]
     messages: list[MessageExport]
