@@ -6,10 +6,6 @@
 #include "common/phal_G4/exti/exti_priv.h"
 
 bool PHAL_EXTI_priv_getPortIndex(const GPIO_TypeDef *bank, uint8_t *port_index) {
-    if (bank == nullptr || port_index == nullptr) {
-        return false;
-    }
-
     if (bank == GPIOA) {
         *port_index = 0U;
     } else if (bank == GPIOB) {
