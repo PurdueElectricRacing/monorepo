@@ -7,16 +7,6 @@
 
 #include "common/phal_G4/exti/exti_priv.h"
 
-static uint32_t exti_irq_group_mask(uint8_t pin) {
-    if (pin <= 4U) {
-        return 1U << pin;
-    }
-    if (pin <= 9U) {
-        return 0x03E0U;
-    }
-    return 0xFC00U;
-}
-
 bool PHAL_EXTI_init(const PHAL_EXTI_InitConfig_t config[], size_t config_len) {
     if (config_len == 0U) {
         return true;
@@ -67,7 +57,7 @@ bool PHAL_EXTI_deinit(GPIO_TypeDef *bank, uint8_t pin) {
     PHAL_EXTI_priv_disableLine(pin);
 
     IRQn_Type irq = PHAL_EXTI_priv_getIRQn(pin);
-    if ((EXTI->IMR1 & exti_irq_group_mask(pin)) == 0U) {
+    if (PHAL_EXTI_priv_getEnabledIRQGroupLines(pin) == 0U) {
         NVIC_DisableIRQ(irq);
         NVIC_ClearPendingIRQ(irq);
     }

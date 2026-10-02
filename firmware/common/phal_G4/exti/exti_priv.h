@@ -34,4 +34,7 @@ GPIO_TypeDef *PHAL_EXTI_priv_getBank(uint8_t pin);
 /// Return the IRQ vector for pin: lines 0-4 are separate, 5-9 and 10-15 are shared.
 IRQn_Type PHAL_EXTI_priv_getIRQn(uint8_t pin);
 
+/// Return the enabled line bits that share pin's IRQ vector.
+uint32_t PHAL_EXTI_priv_getEnabledIRQGroupLines(uint8_t pin);
+
 #endif // PHAL_G4_EXTI_PRIV_H

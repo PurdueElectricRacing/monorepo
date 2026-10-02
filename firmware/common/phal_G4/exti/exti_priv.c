@@ -115,3 +115,9 @@ IRQn_Type PHAL_EXTI_priv_getIRQn(uint8_t pin) {
     }
     return EXTI15_10_IRQn;
 }
+
+uint32_t PHAL_EXTI_priv_getEnabledIRQGroupLines(uint8_t pin) {
+    uint32_t group_mask = pin <= 4U ? 1U << pin
+        : pin <= 9U ? 0x03E0U : 0xFC00U;
+    return EXTI->IMR1 & group_mask;
+}
