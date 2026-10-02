@@ -8,6 +8,7 @@ pub enum MsgFromUi {
     UpdateLogFolder(std::path::PathBuf),
     Hil(hil::engine::HilCommand),
     StartFirmwareUpdate(bootloader_protocol::FirmwarePackage),
+    ArmFirmwareUpdate(bootloader_protocol::FirmwarePackage),
     CancelFirmwareUpdate,
 }
 
@@ -79,6 +80,8 @@ pub struct AddSendMessage {
 pub struct ParsedMessage {
     pub timestamp: chrono::DateTime<chrono::Local>,
     pub raw_bytes: Vec<u8>,
+    pub msg_id: u32, // without the extended ID flag
+    pub is_msg_id_extended: bool,
     pub decoded: can_decode::DecodedMessage,
 }
 
@@ -87,6 +90,7 @@ pub struct UnparsedMessage {
     pub timestamp: chrono::DateTime<chrono::Local>,
     pub raw_bytes: Vec<u8>,
     pub msg_id: u32, // without the extended ID flag
+    pub is_msg_id_extended: bool,
 }
 
 #[derive(Clone, Debug)]

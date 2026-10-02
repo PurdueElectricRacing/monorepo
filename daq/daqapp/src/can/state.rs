@@ -52,9 +52,15 @@ impl State {
         }
     }
 
-    pub fn start_firmware_update(&mut self, package: bootloader_protocol::FirmwarePackage) {
+    pub fn start_firmware_update(
+        &mut self,
+        package: bootloader_protocol::FirmwarePackage,
+        armed: bool,
+    ) {
         let error = if self.firmware_updater.is_some() {
             Some("another firmware update is already running".to_string())
+        } else if armed && package.images.len() != 1 {
+            Some("armed bootloader updates require exactly one target".to_string())
         } else if !self.is_connected || self.driver.is_none() {
             Some("CANable is not connected".to_string())
         } else {
@@ -76,7 +82,11 @@ impl State {
                 ));
             return;
         }
-        let (updater, progress) = can::bootloader::FirmwareUpdater::new(package);
+        let (updater, progress) = if armed {
+            can::bootloader::FirmwareUpdater::new_armed(package)
+        } else {
+            can::bootloader::FirmwareUpdater::new(package)
+        };
         self.firmware_updater = Some(updater);
         let _ = self
             .can_to_ui_tx

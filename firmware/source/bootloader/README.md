@@ -20,10 +20,11 @@ not authenticate firmware.
 | [`node_defs.h`](node_defs.h) | Per-board single-transport configuration. |
 | [`../../common/bootloader/`](../../common/bootloader/) | Shared protocol, metadata, and application reset callback. |
 
-At startup, the bootloader initializes CAN, advertises READY, and polls for
-START for 500 ms. On timeout it validates metadata, vectors, and CRC before
-launch. A START that fails size or erase validation enters recovery; an invalid
-image remains resident.
+After a watchdog reset, the bootloader immediately validates metadata, vectors,
+and CRC and launches a valid application without opening the update window. On
+other resets, it initializes CAN, advertises READY, and polls for START for 500
+ms before validating and launching. A START that fails size or erase validation
+enters recovery; an invalid image remains resident.
 
 ## Update flow
 
@@ -72,6 +73,13 @@ in main context. The FSM handles startup without blocking or reset-cause state.
 The STM32G474RE map reserves 16 KiB for the resident bootloader and 16 KiB for
 metadata, followed by the full 480 KiB application slot at `0x08008000`
 through `0x0807FFFF`. No flash remains reserved after the application slot.
+The bootloader linker script keeps executable code within the first 16 KiB and
+adds a loadable 16 KiB `0xFF` padding section for metadata at `0x08004000`.
+Consequently, the bootloader ELF and raw BIN include this erased-state padding.
+Programming `0xFF` cannot restore previously cleared flash bits, so use a
+programming operation that erases the metadata pages before writing, or erase
+`0x08004000–0x08007FFF` explicitly. For a raw BIN, program the whole image from
+`0x08000000` after erasing that metadata range; do not erase the application slot.
 
 Before launch, `BL_checkAndBoot()` requires valid metadata, a stack pointer in
 SRAM, a Thumb reset handler inside the image, and a matching application CRC.

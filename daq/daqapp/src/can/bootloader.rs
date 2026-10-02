@@ -21,6 +21,7 @@ pub struct OutboundFrame {
 
 #[derive(Debug)]
 enum Stage {
+    Armed,
     WaitReady,
     WaitStartAck,
     SendingData,
@@ -48,19 +49,39 @@ impl FirmwareUpdater {
     /// Start with a request that either resets the application or begins an
     /// update directly when the board is already in its bootloader.
     pub fn new(package: FirmwarePackage) -> (Self, messages::FirmwareProgress) {
+        Self::new_with_arm(package, false)
+    }
+
+    /// Wait for one target's READY frame without sending a reset request.
+    pub fn new_armed(package: FirmwarePackage) -> (Self, messages::FirmwareProgress) {
+        Self::new_with_arm(package, true)
+    }
+
+    fn new_with_arm(package: FirmwarePackage, armed: bool) -> (Self, messages::FirmwareProgress) {
         let now = std::time::Instant::now();
         let mut updater = Self {
             package,
             board_index: 0,
             byte_offset: 0,
-            stage: Stage::WaitReady,
+            stage: if armed {
+                Stage::Armed
+            } else {
+                Stage::WaitReady
+            },
             pending_frame: None,
             deadline: now + BOOT_TIMEOUT,
             retries: 0,
         };
         let first = updater.current_image();
-        updater.pending_frame = Some(Self::start_frame(first));
-        let progress = updater.progress("requesting bootloader", None);
+        if !armed {
+            updater.pending_frame = Some(Self::start_frame(first));
+        }
+        let phase = if armed {
+            "armed; waiting for READY"
+        } else {
+            "requesting bootloader"
+        };
+        let progress = updater.progress(phase, None);
         (updater, progress)
     }
 
@@ -137,6 +158,13 @@ impl FirmwareUpdater {
             };
         }
 
+        if matches!(self.stage, Stage::Armed) {
+            return TickResult {
+                frame: None,
+                progress: None,
+            };
+        }
+
         if now >= self.deadline {
             let (frame, phase) = match self.stage {
                 Stage::WaitReady => (
@@ -166,6 +194,12 @@ impl FirmwareUpdater {
                     return TickResult {
                         frame: None,
                         progress: Some(self.progress("complete", None)),
+                    };
+                }
+                Stage::Armed => {
+                    return TickResult {
+                        frame: None,
+                        progress: None,
                     };
                 }
                 Stage::SendingData | Stage::Finished => (None, ""),
@@ -252,6 +286,13 @@ impl FirmwareUpdater {
             return None;
         }
         let status = data[0];
+        if matches!(self.stage, Stage::Armed)
+            && (data.len() != 5
+                || status != READY
+                || u32::from_le_bytes([data[1], data[2], data[3], data[4]]) != PROTOCOL_VERSION)
+        {
+            return None;
+        }
         // Response detail uses the same little-endian uint32 representation as
         // command arguments and the firmware metadata CRC.
         let detail = u32::from_le_bytes([data[1], data[2], data[3], data[4]]);
@@ -267,6 +308,8 @@ impl FirmwareUpdater {
         }
 
         let invalid_detail = match self.stage {
+            Stage::Armed if status == READY => detail != PROTOCOL_VERSION,
+            Stage::Armed => true,
             Stage::WaitReady if status == READY => detail != PROTOCOL_VERSION,
             Stage::WaitReady | Stage::WaitStartAck if status == ACK => detail != image_size,
             Stage::WaitCrcAck if status == ACK => detail != image_crc,
@@ -277,6 +320,14 @@ impl FirmwareUpdater {
         }
 
         match self.stage {
+            Stage::Armed if status == READY => {
+                let start_frame = Self::start_frame(self.current_image());
+                self.stage = Stage::WaitStartAck;
+                self.deadline = now + BOOT_TIMEOUT;
+                self.retries = 0;
+                self.pending_frame = Some(start_frame);
+                Some(self.progress("erasing application pages", None))
+            }
             Stage::WaitReady if status == READY => {
                 // READY confirms the bootloader is listening; START now erases
                 // the pages covering the requested application image.
