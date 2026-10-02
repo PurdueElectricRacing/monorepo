@@ -12,5 +12,6 @@ var TEST__CAN_8h =
     [ "IZZE_IMU_CONFIG_MSG_ID", "TEST__CAN_8h.html#a439565a11315fbe1f4f92d04d0a90088", null ],
     [ "IZZE_IMU_CONFIG_PERIOD_MS", "TEST__CAN_8h.html#a781377247a7fd3bdcef2eaca5d60249f", null ],
     [ "IZZE_IMU_CONFIG_STALE_TIMEOUT_MS", "TEST__CAN_8h.html#aa4132c017f7536438e562ce86d20f7b1", null ],
-    [ "TEST_CAN_BAUD_RATE", "TEST__CAN_8h.html#a953a6b35a88c50fb01fdf1ebd2d72619", null ]
+    [ "TEST_CAN_BAUD_RATE", "TEST__CAN_8h.html#a953a6b35a88c50fb01fdf1ebd2d72619", null ],
+    [ "TEST_CAN_BUS_ID", "TEST__CAN_8h.html#a1efac71017c5e0ce5a3245cbf2a79ed1", null ]
 ];

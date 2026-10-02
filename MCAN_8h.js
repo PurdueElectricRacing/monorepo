@@ -174,5 +174,6 @@ var MCAN_8h =
     [ "MAIN_HB_AMK_MSG_ID", "MCAN_8h.html#a85e5bb51d2cd1153e7fda684fc2e3337", null ],
     [ "MAIN_HB_AMK_PERIOD_MS", "MCAN_8h.html#a2a3ac205f180e02cbcd574ce1043904a", null ],
     [ "MAIN_HB_AMK_STALE_TIMEOUT_MS", "MCAN_8h.html#aa203a02310eef7ecded0d1af93a72f96", null ],
-    [ "MCAN_BAUD_RATE", "MCAN_8h.html#a733a72c0775aa63e2a38fe858c550dee", null ]
+    [ "MCAN_BAUD_RATE", "MCAN_8h.html#a733a72c0775aa63e2a38fe858c550dee", null ],
+    [ "MCAN_BUS_ID", "MCAN_8h.html#ab237866fb3786cc90950ca832af158fe", null ]
 ];

@@ -15,6 +15,7 @@ var CCAN_8h =
     [ "BMS_PECS_CCAN_PERIOD_MS", "CCAN_8h.html#acf35db27e674efa2ad99507bd93c42ff", null ],
     [ "BMS_PECS_CCAN_STALE_TIMEOUT_MS", "CCAN_8h.html#aed8c4e3d25586c4976afabdceac33eff", null ],
     [ "CCAN_BAUD_RATE", "CCAN_8h.html#a7e60bc2f864dd33675b390e126a6b04d", null ],
+    [ "CCAN_BUS_ID", "CCAN_8h.html#a275aca9f0c1ee76f96a2790642fa5aa0", null ],
     [ "CELL_TELEMETRY_CCAN_DLC", "CCAN_8h.html#a151bd98ca956b1d4fd649e4767dbaf35", null ],
     [ "CELL_TELEMETRY_CCAN_LAYOUT_HASH", "CCAN_8h.html#a0951768ac4ed678ab0d68f3ef62c45fa", null ],
     [ "CELL_TELEMETRY_CCAN_MSG_ID", "CCAN_8h.html#a529ae759466ba8548b34b3f2b6492df1", null ],

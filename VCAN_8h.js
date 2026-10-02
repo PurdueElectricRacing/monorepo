@@ -513,6 +513,7 @@ var VCAN_8h =
     [ "V_RAILS_PERIOD_MS", "VCAN_8h.html#a840c7aa7e723a4576f0cbf3223d6cd76", null ],
     [ "V_RAILS_STALE_TIMEOUT_MS", "VCAN_8h.html#a02cf3f7ee382b764919ee420129763fe", null ],
     [ "VCAN_BAUD_RATE", "VCAN_8h.html#a04f43a870064cf90eb018b19e4234a2e", null ],
+    [ "VCAN_BUS_ID", "VCAN_8h.html#ae9a89c6f967751c3a56f48b74d627848", null ],
     [ "VCU_DRIVER_REQUEST_DLC", "VCAN_8h.html#a9a51b994bfa413a87d52e516931d5d39", null ],
     [ "VCU_DRIVER_REQUEST_LAYOUT_HASH", "VCAN_8h.html#a5794b891e9513defefb51138e8105354", null ],
     [ "VCU_DRIVER_REQUEST_MSG_ID", "VCAN_8h.html#a8be2b2b2d962cececcb6534c5f95d683", null ],

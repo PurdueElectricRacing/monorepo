@@ -10,5 +10,6 @@ var SCAN_8h =
     [ "LWS_STANDARD_MSG_ID", "SCAN_8h.html#a6817a9060b15cb0576310cb570813fb0", null ],
     [ "LWS_STANDARD_PERIOD_MS", "SCAN_8h.html#ac27cedd79d7bc4fae70ed61c3771988f", null ],
     [ "LWS_STANDARD_STALE_TIMEOUT_MS", "SCAN_8h.html#afea8194545ae0cbe62c2518080a1808f", null ],
-    [ "SCAN_BAUD_RATE", "SCAN_8h.html#ad647f5f8dbfbf37bb71274cb9f0a5568", null ]
+    [ "SCAN_BAUD_RATE", "SCAN_8h.html#ad647f5f8dbfbf37bb71274cb9f0a5568", null ],
+    [ "SCAN_BUS_ID", "SCAN_8h.html#af43372857c929bd7bd1284c662d1f666", null ]
 ];
