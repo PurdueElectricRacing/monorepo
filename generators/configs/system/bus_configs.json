@@ -2,30 +2,35 @@
     "busses": [
         {
             "name": "VCAN",
+            "bus_id": 0,
             "baud_rate": 500000,
             "is_extended_id": false,
             "host_fault_library": true
         },
         {
             "name": "MCAN",
+            "bus_id": 1,
             "baud_rate": 500000,
             "is_extended_id": false,
             "host_fault_library": false
         },
         {
             "name": "CCAN",
+            "bus_id": 2,
             "baud_rate": 250000,
             "is_extended_id": true,
             "host_fault_library": false
         },
         {
             "name": "SCAN",
+            "bus_id": 3,
             "baud_rate": 500000,
             "is_extended_id": false,
             "host_fault_library": false
         },
         {
             "name": "TEST_CAN",
+            "bus_id": 4,
             "baud_rate": 1000000,
             "is_extended_id": false,
             "host_fault_library": false

@@ -12,6 +12,7 @@
 #include "can_library/can_common.h"
 #include "can_library/generated/can_types.h"
 
+static constexpr uint32_t {{ bus_name|upper }}_BUS_ID = {{ declaration.bus_id }};
 static constexpr PHAL_FDCAN_BaudRate_t {{ bus_name|upper }}_BAUD_RATE = {{ declaration.baud_label }};
 
 {% for msg in messages %}
