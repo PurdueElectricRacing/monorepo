@@ -15,6 +15,7 @@
 #include "common/phal_G4/exti/exti.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/watchdog/watchdog.h"
+#include "common/utils/countof.h"
 #include "lap_timer.h"
 #include "lcd.h"
 #include "main.h"
@@ -94,8 +95,7 @@ static void init_buttons(void) {
     NVIC_SetPriority(EXTI9_5_IRQn, 7U);
     NVIC_SetPriority(EXTI15_10_IRQn, 7U);
 
-    if (!PHAL_EXTI_init(button_exti_config,
-                        sizeof(button_exti_config) / sizeof(button_exti_config[0]))) {
+    if (!PHAL_EXTI_init(button_exti_config, countof(button_exti_config))) {
         HardFault_Handler();
     }
 }
