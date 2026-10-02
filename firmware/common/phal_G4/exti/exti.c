@@ -7,14 +7,7 @@
 
 #include "common/phal_G4/exti/exti_priv.h"
 
-bool PHAL_EXTI_init(const PHAL_EXTI_InitConfig_t config[], size_t config_len) {
-    if (config_len == 0U) {
-        return true;
-    }
-    if (config == nullptr) {
-        return false;
-    }
-
+static bool exti_validate_config(const PHAL_EXTI_InitConfig_t config[], size_t config_len) {
     uint32_t configured_lines = 0U;
     for (size_t i = 0U; i < config_len; i++) {
         uint8_t port_index = 0U;
@@ -30,6 +23,18 @@ bool PHAL_EXTI_init(const PHAL_EXTI_InitConfig_t config[], size_t config_len) {
         configured_lines |= line_mask;
     }
 
+    return true;
+}
+
+bool PHAL_EXTI_init(const PHAL_EXTI_InitConfig_t config[], size_t config_len) {
+    if (config_len == 0U) {
+        return true;
+    }
+    if (config == nullptr || !exti_validate_config(config, config_len)) {
+        return false;
+    }
+
+    // Validate the entire configuration before changing any hardware.
     PHAL_EXTI_priv_enableClock();
     for (size_t i = 0U; i < config_len; i++) {
         uint8_t port_index = 0U;
