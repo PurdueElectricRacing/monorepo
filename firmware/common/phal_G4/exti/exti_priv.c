@@ -28,20 +28,25 @@ bool PHAL_EXTI_priv_getPortIndex(const GPIO_TypeDef *bank, uint8_t *port_index) 
 }
 
 void PHAL_EXTI_priv_enableClock(void) {
+    // SYSCFGEN gates the SYSCFG peripheral needed to route GPIO pins to EXTI lines.
     RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
 }
 
 void PHAL_EXTI_priv_configureLine(uint8_t pin, uint8_t port_index, PHAL_EXTI_Trigger_t trigger) {
+    // Public init validates the line and port before any hardware access.
     uint32_t line_mask    = 1U << pin;
     uint32_t exticr_idx   = pin / 4U;
     uint32_t exticr_shift = (pin % 4U) * 4U;
     uint32_t exticr_mask  = SYSCFG_EXTICR1_EXTI0_Msk << exticr_shift;
 
+    // Mask the line while changing its SYSCFG port route and trigger selection.
     EXTI->IMR1 &= ~line_mask;
 
+    // EXTICR selects which GPIO bank drives this numbered EXTI line.
     SYSCFG->EXTICR[exticr_idx] =
         (SYSCFG->EXTICR[exticr_idx] & ~exticr_mask) | ((uint32_t)port_index << exticr_shift);
 
+    // RTSR1/FTSR1 independently select rising and falling edges.
     if (trigger == PHAL_EXTI_TRIGGER_RISING || trigger == PHAL_EXTI_TRIGGER_BOTH) {
         EXTI->RTSR1 |= line_mask;
     } else {
