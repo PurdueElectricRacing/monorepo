@@ -21,14 +21,14 @@ impl Default for FilRunOptions {
     fn default() -> Self {
         Self {
             duration_ms: 0,
-            max_instructions: u64::MAX,
+            max_instructions: 50_000_000,
             quantum: 1024,
             refresh_ms: 1,
-            adc_decimation: 32,
+            adc_decimation: 1,
             extra_live_filters: String::new(),
             strict_mmio: false,
             wall_pacing: true,
-            loop_batching: true,
+            loop_batching: false,
             trace_instructions: false,
             detect_spin: false,
         }
@@ -100,7 +100,16 @@ impl FilSettings {
 #[cfg(test)]
 mod tests {
     use crate::messages::FilAdcInstance;
-    use crate::settings::FilSettings;
+    use crate::settings::{FilRunOptions, FilSettings};
+
+    #[test]
+    fn run_options_match_fil_serve_network_defaults() {
+        let options = FilRunOptions::default();
+
+        assert_eq!(options.max_instructions, 50_000_000);
+        assert_eq!(options.adc_decimation, 1);
+        assert!(!options.loop_batching);
+    }
 
     #[test]
     fn adc_instance_keeps_legacy_json_and_falls_back_locally() {

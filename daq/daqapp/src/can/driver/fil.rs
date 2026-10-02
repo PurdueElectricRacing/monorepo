@@ -58,28 +58,33 @@ fn fil_network_args(options: &crate::settings::FilRunOptions) -> DriverResult<Ve
                 .into(),
         ));
     }
-    let mut args = vec![
-        "--transport".into(),
-        "stdio".into(),
-        "--duration-ms".into(),
-        options.duration_ms.to_string(),
-        "--max-instructions".into(),
-        options.max_instructions.to_string(),
-        "--quantum".into(),
-        options.quantum.to_string(),
-        "--refresh-ms".into(),
-        options.refresh_ms.to_string(),
-        "--adc-decimation".into(),
-        options.adc_decimation.to_string(),
-    ];
+    let mut args = vec!["--transport".into(), "stdio".into()];
+    if options.duration_ms != 0 {
+        args.extend(["--duration-ms".into(), options.duration_ms.to_string()]);
+    }
+    if options.max_instructions != 50_000_000 {
+        args.extend([
+            "--max-instructions".into(),
+            options.max_instructions.to_string(),
+        ]);
+    }
+    if options.quantum != 1024 {
+        args.extend(["--quantum".into(), options.quantum.to_string()]);
+    }
+    if options.refresh_ms != 1 {
+        args.extend(["--refresh-ms".into(), options.refresh_ms.to_string()]);
+    }
+    if options.adc_decimation != 1 {
+        args.extend([
+            "--adc-decimation".into(),
+            options.adc_decimation.to_string(),
+        ]);
+    }
     if options.strict_mmio {
         args.push("--strict-mmio".into());
     }
     if !options.wall_pacing {
         args.push("--no-wall-pacing".into());
-    }
-    if !options.loop_batching {
-        args.push("--no-loop-batching".into());
     }
     if options.trace_instructions {
         args.push("--trace-instr".into());
@@ -87,6 +92,7 @@ fn fil_network_args(options: &crate::settings::FilRunOptions) -> DriverResult<Ve
     if options.detect_spin {
         args.push("--detect-spin".into());
     }
+    // Supplying custom filters replaces FIL's default list, so retain its default can_tx filter.
     for filter in [
         "can_tx",
         "gpio_input",
@@ -902,21 +908,64 @@ mod fil_tests {
     use super::*;
     use crate::messages::{FilAdcInstance, FilGpioPort};
     #[test]
-    fn args_preserve_options_and_filters() {
+    fn default_options_omit_fil_serve_network_defaults() {
+        let options = crate::settings::FilRunOptions::default();
+        let args = fil_network_args(&options).unwrap();
+
+        assert_eq!(
+            args,
+            [
+                "--transport",
+                "stdio",
+                "--live-filter",
+                "can_tx",
+                "--live-filter",
+                "gpio_input",
+                "--live-filter",
+                "gpio_output",
+                "--live-filter",
+                "expectation_pending",
+                "--live-filter",
+                "expectation_pass",
+                "--live-filter",
+                "expectation_fail",
+                "--live-filter",
+                "expectation_incomplete",
+            ]
+        );
+    }
+
+    #[test]
+    fn args_preserve_non_default_options_and_filters() {
         let mut o = crate::settings::FilRunOptions::default();
+        o.duration_ms = 10;
+        o.max_instructions = 100;
+        o.quantum = 50;
+        o.refresh_ms = 5;
+        o.adc_decimation = 2;
         o.extra_live_filters = "can_rx, irq".into();
         o.strict_mmio = true;
         o.wall_pacing = false;
-        o.loop_batching = false;
         o.trace_instructions = true;
         o.detect_spin = true;
         let a = fil_network_args(&o).unwrap();
         assert!(a.iter().any(|x| x == "--transport"));
         assert!(!a.iter().any(|x| x == "--control-stdin"));
+        for (flag, value) in [
+            ("--duration-ms", "10"),
+            ("--max-instructions", "100"),
+            ("--quantum", "50"),
+            ("--refresh-ms", "5"),
+            ("--adc-decimation", "2"),
+        ] {
+            assert!(
+                a.windows(2).any(|pair| pair[0] == flag && pair[1] == value),
+                "missing {flag} {value}"
+            );
+        }
         for f in [
             "--strict-mmio",
             "--no-wall-pacing",
-            "--no-loop-batching",
             "--trace-instr",
             "--detect-spin",
             "can_tx",
