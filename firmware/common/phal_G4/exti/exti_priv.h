@@ -31,7 +31,7 @@ void PHAL_EXTI_priv_clearPending(uint8_t pin);
 /// Return the GPIO bank currently selected by SYSCFG for pin, or nullptr if invalid.
 GPIO_TypeDef *PHAL_EXTI_priv_getBank(uint8_t pin);
 
-/// Return the NVIC interrupt shared by pin (0-15).
+/// Return the IRQ vector for pin: lines 0-4 are separate, 5-9 and 10-15 are shared.
 IRQn_Type PHAL_EXTI_priv_getIRQn(uint8_t pin);
 
 #endif // PHAL_G4_EXTI_PRIV_H

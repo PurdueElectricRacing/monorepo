@@ -100,9 +100,11 @@ GPIO_TypeDef *PHAL_EXTI_priv_getBank(uint8_t pin) {
 }
 
 IRQn_Type PHAL_EXTI_priv_getIRQn(uint8_t pin) {
+    // EXTI0_IRQn through EXTI4_IRQn are consecutive, individual NVIC vectors.
     if (pin <= 4U) {
         return (IRQn_Type)(EXTI0_IRQn + pin);
     }
+    // Lines 5-9 and 10-15 each share one vector with their own pending bits.
     if (pin <= 9U) {
         return EXTI9_5_IRQn;
     }
