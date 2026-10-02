@@ -27,6 +27,7 @@ typedef struct {
     GPIO_TypeDef *bank;          /*!< GPIO port containing the input pin */
     uint8_t pin;                 /*!< Pin number, 0-15 */
     PHAL_EXTI_Trigger_t trigger; /*!< Edge that generates the interrupt */
+    uint32_t irq_priority;       /*!< NVIC priority for this line's IRQ vector */
 } PHAL_EXTI_InitConfig_t;
 
 /**
@@ -37,7 +38,11 @@ typedef struct {
  * routed from one GPIO port at a time. Configuring a line selects its port,
  * trigger edge, interrupt mask, and shared NVIC interrupt. Entries are all
  * validated before any line is changed; duplicate pin numbers are rejected.
- * The NVIC priority is left at its current setting.
+ * The IRQ priority is set from each entry's irq_priority. Lines 0-4 each
+ * have a separate IRQ; lines 5-9 share EXTI9_5_IRQn and lines 10-15 share
+ * EXTI15_10_IRQn. Entries sharing a vector must specify the same priority,
+ * including any already-enabled sibling lines. Priorities must fit the device's
+ * implemented NVIC priority bits.
  *
  * @param config Array of line configurations; may be nullptr when config_len is zero
  * @param config_len Number of entries in config

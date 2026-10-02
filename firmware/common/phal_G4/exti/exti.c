@@ -12,6 +12,7 @@ static bool exti_validate_config(const PHAL_EXTI_InitConfig_t config[], size_t c
     for (size_t i = 0U; i < config_len; i++) {
         uint8_t port_index = 0U;
         if (config[i].pin >= PHAL_EXTI_PRIV_GPIO_LINE_COUNT
+            || config[i].irq_priority >= (1U << __NVIC_PRIO_BITS)
             || !PHAL_EXTI_priv_getPortIndex(config[i].bank, &port_index)) {
             return false;
         }
@@ -21,6 +22,19 @@ static bool exti_validate_config(const PHAL_EXTI_InitConfig_t config[], size_t c
             return false;
         }
         configured_lines |= line_mask;
+
+        // An NVIC priority belongs to the vector, not an individual EXTI line.
+        IRQn_Type irq = PHAL_EXTI_priv_getIRQn(config[i].pin);
+        uint32_t enabled_siblings = PHAL_EXTI_priv_getEnabledIRQGroupLines(config[i].pin) & ~line_mask;
+        if (enabled_siblings != 0U && NVIC_GetPriority(irq) != config[i].irq_priority) {
+            return false;
+        }
+        for (size_t j = 0U; j < i; j++) {
+            if (PHAL_EXTI_priv_getIRQn(config[j].pin) == irq
+                && config[j].irq_priority != config[i].irq_priority) {
+                return false;
+            }
+        }
     }
 
     return true;
@@ -43,7 +57,9 @@ bool PHAL_EXTI_init(const PHAL_EXTI_InitConfig_t config[], size_t config_len) {
     }
 
     for (size_t i = 0U; i < config_len; i++) {
-        NVIC_EnableIRQ(PHAL_EXTI_priv_getIRQn(config[i].pin));
+        IRQn_Type irq = PHAL_EXTI_priv_getIRQn(config[i].pin);
+        NVIC_SetPriority(irq, config[i].irq_priority);
+        NVIC_EnableIRQ(irq);
     }
 
     return true;

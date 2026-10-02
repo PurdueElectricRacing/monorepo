@@ -32,19 +32,21 @@ volatile uint16_t data_mark_index = 0;
 
 static constexpr uint32_t INTERRUPT_DEBOUNCE_MS = 150;
 
+static constexpr uint32_t BUTTON_EXTI_IRQ_PRIORITY = 7U;
+
 static const PHAL_EXTI_InitConfig_t button_exti_config[] = {
-    {.bank = EBB_MINUS_PORT, .pin = EBB_MINUS_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = EBB_PLUS_PORT, .pin = EBB_PLUS_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = REGEN_TOGGLE_PORT, .pin = REGEN_TOGGLE_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = MARK_DATA_PORT, .pin = MARK_DATA_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = UP_BUTTON_PORT, .pin = UP_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = DOWN_BUTTON_PORT, .pin = DOWN_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = RIGHT_BUTTON_PORT, .pin = RIGHT_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = LEFT_BUTTON_PORT, .pin = LEFT_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = LAP_SET_PORT, .pin = LAP_SET_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = TV1_MINUS_PORT, .pin = TV1_MINUS_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = START_BUTTON_PORT, .pin = START_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
-    {.bank = SELECT_BUTTON_PORT, .pin = SELECT_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = EBB_MINUS_PORT, .pin = EBB_MINUS_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = EBB_PLUS_PORT, .pin = EBB_PLUS_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = REGEN_TOGGLE_PORT, .pin = REGEN_TOGGLE_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = MARK_DATA_PORT, .pin = MARK_DATA_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = UP_BUTTON_PORT, .pin = UP_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = DOWN_BUTTON_PORT, .pin = DOWN_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = RIGHT_BUTTON_PORT, .pin = RIGHT_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = LEFT_BUTTON_PORT, .pin = LEFT_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = LAP_SET_PORT, .pin = LAP_SET_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = TV1_MINUS_PORT, .pin = TV1_MINUS_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = START_BUTTON_PORT, .pin = START_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
+    {.bank = SELECT_BUTTON_PORT, .pin = SELECT_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING, .irq_priority = BUTTON_EXTI_IRQ_PRIORITY},
 };
 
 static void enqueue_button_action(uint8_t pin, driver_interface_action_t action) {
@@ -88,12 +90,6 @@ void PHAL_EXTI_callback(GPIO_TypeDef *bank, uint8_t pin) {
 
 static void init_buttons(void) {
     RTOS_INIT_QUEUE(action_queue);
-
-    NVIC_SetPriority(EXTI0_IRQn, 7U);
-    NVIC_SetPriority(EXTI1_IRQn, 7U);
-    NVIC_SetPriority(EXTI4_IRQn, 7U);
-    NVIC_SetPriority(EXTI9_5_IRQn, 7U);
-    NVIC_SetPriority(EXTI15_10_IRQn, 7U);
 
     if (!PHAL_EXTI_init(button_exti_config, countof(button_exti_config))) {
         HardFault_Handler();
