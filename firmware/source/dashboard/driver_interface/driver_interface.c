@@ -12,12 +12,15 @@
 #include "can_library/generated/can_types.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
+#include "common/phal_G4/exti/exti.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/watchdog/watchdog.h"
 #include "lap_timer.h"
 #include "lcd.h"
 #include "main.h"
 #include "pages/vcu.h"
+
+extern void HardFault_Handler(void);
 
 static driver_interface_state_t di_state = DI_STATE_LCD_INIT;
 static driver_interface_state_t next_di_state = DI_STATE_LCD_INIT;
@@ -28,194 +31,73 @@ volatile uint16_t data_mark_index = 0;
 
 static constexpr uint32_t INTERRUPT_DEBOUNCE_MS = 150;
 
-void EXTI0_IRQHandler() {
-    static volatile uint32_t last_interrupt_time = 0;
-    uint32_t now = xTaskGetTickCountFromISR();
+static const PHAL_EXTI_InitConfig_t button_exti_config[] = {
+    {.bank = EBB_MINUS_PORT, .pin = EBB_MINUS_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = EBB_PLUS_PORT, .pin = EBB_PLUS_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = REGEN_TOGGLE_PORT, .pin = REGEN_TOGGLE_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = MARK_DATA_PORT, .pin = MARK_DATA_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = UP_BUTTON_PORT, .pin = UP_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = DOWN_BUTTON_PORT, .pin = DOWN_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = RIGHT_BUTTON_PORT, .pin = RIGHT_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = LEFT_BUTTON_PORT, .pin = LEFT_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = LAP_SET_PORT, .pin = LAP_SET_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = TV1_MINUS_PORT, .pin = TV1_MINUS_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = START_BUTTON_PORT, .pin = START_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+    {.bank = SELECT_BUTTON_PORT, .pin = SELECT_BUTTON_PIN, .trigger = PHAL_EXTI_TRIGGER_FALLING},
+};
 
-    if (now - last_interrupt_time <= INTERRUPT_DEBOUNCE_MS) {
-        EXTI->PR1 = EXTI_PR1_PIF0;
+static void enqueue_button_action(uint8_t pin, driver_interface_action_t action) {
+    static uint32_t last_interrupt_time[16] = {0};
+    uint32_t now                            = xTaskGetTickCountFromISR();
+    if (now - last_interrupt_time[pin] <= INTERRUPT_DEBOUNCE_MS) {
         return;
     }
-    last_interrupt_time = now;
 
-    if (EXTI->PR1 & EXTI_PR1_PIF0) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){RIGHT_WHEEL_MINUS}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF0;
+    last_interrupt_time[pin] = now;
+    xQueueSendFromISR(action_queue, &action, NULL);
+}
+
+void PHAL_EXTI_callback(GPIO_TypeDef *bank, uint8_t pin) {
+    if (bank == EBB_MINUS_PORT && pin == EBB_MINUS_PIN) {
+        enqueue_button_action(pin, RIGHT_WHEEL_MINUS);
+    } else if (bank == EBB_PLUS_PORT && pin == EBB_PLUS_PIN) {
+        enqueue_button_action(pin, RIGHT_WHEEL_PLUS);
+    } else if (bank == REGEN_TOGGLE_PORT && pin == REGEN_TOGGLE_PIN) {
+        enqueue_button_action(pin, TOGGLE_REGEN);
+    } else if (bank == MARK_DATA_PORT && pin == MARK_DATA_PIN) {
+        enqueue_button_action(pin, MARK_DATA);
+    } else if (bank == UP_BUTTON_PORT && pin == UP_BUTTON_PIN) {
+        enqueue_button_action(pin, MENU_UP);
+    } else if (bank == DOWN_BUTTON_PORT && pin == DOWN_BUTTON_PIN) {
+        enqueue_button_action(pin, MENU_DOWN);
+    } else if (bank == RIGHT_BUTTON_PORT && pin == RIGHT_BUTTON_PIN) {
+        enqueue_button_action(pin, FORWARD_PAGE);
+    } else if (bank == LEFT_BUTTON_PORT && pin == LEFT_BUTTON_PIN) {
+        enqueue_button_action(pin, BACK_PAGE);
+    } else if (bank == LAP_SET_PORT && pin == LAP_SET_PIN) {
+        enqueue_button_action(pin, LAP_SET);
+    } else if (bank == TV1_MINUS_PORT && pin == TV1_MINUS_PIN) {
+        enqueue_button_action(pin, LEFT_WHEEL_MINUS);
+    } else if (bank == START_BUTTON_PORT && pin == START_BUTTON_PIN) {
+        enqueue_button_action(pin, START_BUTTON);
+    } else if (bank == SELECT_BUTTON_PORT && pin == SELECT_BUTTON_PIN) {
+        enqueue_button_action(pin, SELECT_BUTTON);
     }
 }
 
-void EXTI1_IRQHandler() {
-    static volatile uint32_t last_interrupt_time = 0;
-    uint32_t now = xTaskGetTickCountFromISR();
-
-    if (now - last_interrupt_time <= INTERRUPT_DEBOUNCE_MS) {
-        EXTI->PR1 = EXTI_PR1_PIF1;
-        return;
-    }
-    last_interrupt_time = now;
-
-    if (EXTI->PR1 & EXTI_PR1_PIF1) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){RIGHT_WHEEL_PLUS}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF1;
-    }
-}
-
-void EXTI4_IRQHandler() {
-    static volatile uint32_t last_interrupt_time = 0;
-    uint32_t now = xTaskGetTickCountFromISR();
-
-    if (now - last_interrupt_time <= INTERRUPT_DEBOUNCE_MS) {
-        EXTI->PR1 = EXTI_PR1_PIF4;
-        return;
-    }
-    last_interrupt_time = now;
-
-    if (EXTI->PR1 & EXTI_PR1_PIF4) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){TOGGLE_REGEN}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF4;
-    }
-}
-
-void EXTI9_5_IRQHandler() {
-    static volatile uint32_t last_interrupt_time = 0;
-    uint32_t now = xTaskGetTickCountFromISR();
-
-    if (now - last_interrupt_time <= INTERRUPT_DEBOUNCE_MS) {
-        EXTI->PR1 = EXTI_PR1_PIF5 | EXTI_PR1_PIF6 | EXTI_PR1_PIF7 |
-                    EXTI_PR1_PIF8 | EXTI_PR1_PIF9;
-        return;
-    }
-    last_interrupt_time = now;
-
-    if (EXTI->PR1 & EXTI_PR1_PIF5) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){MARK_DATA}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF5;
-    }
-
-    if (EXTI->PR1 & EXTI_PR1_PIF6) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){MENU_UP}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF6;
-    }
-
-    if (EXTI->PR1 & EXTI_PR1_PIF7) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){MENU_DOWN}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF7;
-    }
-
-    if (EXTI->PR1 & EXTI_PR1_PIF8) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){FORWARD_PAGE}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF8;
-    }
-
-    if (EXTI->PR1 & EXTI_PR1_PIF9) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){BACK_PAGE}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF9;
-    }
-}
-
-void EXTI15_10_IRQHandler() {
-    static volatile uint32_t last_interrupt_time = 0;
-    uint32_t now = xTaskGetTickCountFromISR();
-
-    if (now - last_interrupt_time <= INTERRUPT_DEBOUNCE_MS) {
-        EXTI->PR1 = EXTI_PR1_PIF11 | EXTI_PR1_PIF13 |
-                    EXTI_PR1_PIF14 | EXTI_PR1_PIF15;
-        return;
-    }
-    last_interrupt_time = now;
-
-    if (EXTI->PR1 & EXTI_PR1_PIF11) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){LAP_SET}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF11;
-    }
-
-    if (EXTI->PR1 & EXTI_PR1_PIF13) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){LEFT_WHEEL_MINUS}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF13;
-    }
-
-    if (EXTI->PR1 & EXTI_PR1_PIF14) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){START_BUTTON}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF14;
-    }
-
-    if (EXTI->PR1 & EXTI_PR1_PIF15) {
-        xQueueSendFromISR(action_queue, &(driver_interface_action_t){SELECT_BUTTON}, NULL);
-        EXTI->PR1 = EXTI_PR1_PIF15;
-    }
-}
-
-#define BUTTON_EXTI_MASK (EXTI_IMR1_IM0  | EXTI_IMR1_IM1  | \
-                          EXTI_IMR1_IM4  | EXTI_IMR1_IM5  | \
-                          EXTI_IMR1_IM6  | EXTI_IMR1_IM7  | \
-                          EXTI_IMR1_IM8  | EXTI_IMR1_IM9  | \
-                          EXTI_IMR1_IM11 | EXTI_IMR1_IM13 | \
-                          EXTI_IMR1_IM14 | EXTI_IMR1_IM15)
-
-static void init_buttons() {
+static void init_buttons(void) {
     RTOS_INIT_QUEUE(action_queue);
 
-    // Enable SYSCFG clock
-    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+    NVIC_SetPriority(EXTI0_IRQn, 7U);
+    NVIC_SetPriority(EXTI1_IRQn, 7U);
+    NVIC_SetPriority(EXTI4_IRQn, 7U);
+    NVIC_SetPriority(EXTI9_5_IRQn, 7U);
+    NVIC_SetPriority(EXTI15_10_IRQn, 7U);
 
-    // PB0, PB1 -> EXTI0, EXTI1
-    SYSCFG->EXTICR[0] &= ~(SYSCFG_EXTICR1_EXTI0 |
-                           SYSCFG_EXTICR1_EXTI1);
-
-    SYSCFG->EXTICR[0] |=  (SYSCFG_EXTICR1_EXTI0_PB |
-                           SYSCFG_EXTICR1_EXTI1_PB);
-
-    // PA4, PA5, PC6, PC7 -> EXTI4, EXTI5, EXTI6, EXTI7
-    SYSCFG->EXTICR[1] &= ~(SYSCFG_EXTICR2_EXTI4 |
-                           SYSCFG_EXTICR2_EXTI5 |
-                           SYSCFG_EXTICR2_EXTI6 |
-                           SYSCFG_EXTICR2_EXTI7);
-
-    SYSCFG->EXTICR[1] |=  (SYSCFG_EXTICR2_EXTI4_PA |
-                           SYSCFG_EXTICR2_EXTI5_PA |
-                           SYSCFG_EXTICR2_EXTI6_PC |
-                           SYSCFG_EXTICR2_EXTI7_PC);
-
-    // PC8, PC9, PB11 -> EXTI8, EXTI9, EXTI11
-    SYSCFG->EXTICR[2] &= ~(SYSCFG_EXTICR3_EXTI8 |
-                           SYSCFG_EXTICR3_EXTI9 |
-                           SYSCFG_EXTICR3_EXTI11);
-
-    SYSCFG->EXTICR[2] |=  (SYSCFG_EXTICR3_EXTI8_PC |
-                           SYSCFG_EXTICR3_EXTI9_PC |
-                           SYSCFG_EXTICR3_EXTI11_PB);
-
-    // PB13, PB14, PB15 -> EXTI13, EXTI14, EXTI15
-    SYSCFG->EXTICR[3] &= ~(SYSCFG_EXTICR4_EXTI13 |
-                           SYSCFG_EXTICR4_EXTI14 |
-                           SYSCFG_EXTICR4_EXTI15);
-
-    SYSCFG->EXTICR[3] |=  (SYSCFG_EXTICR4_EXTI13_PB |
-                           SYSCFG_EXTICR4_EXTI14_PB |
-                           SYSCFG_EXTICR4_EXTI15_PB);
-
-    // Clear pending flags before enabling interrupts
-    EXTI->PR1 = BUTTON_EXTI_MASK;
-
-    // Unmask interrupts
-    EXTI->IMR1 |= BUTTON_EXTI_MASK;
-
-    // Falling edge only
-    EXTI->RTSR1 &= ~BUTTON_EXTI_MASK;
-    EXTI->FTSR1 |=  BUTTON_EXTI_MASK;
-
-    // NVIC setup
-    NVIC_SetPriority(EXTI0_IRQn, 7);
-    NVIC_SetPriority(EXTI1_IRQn, 7);
-    NVIC_SetPriority(EXTI4_IRQn, 7);
-    NVIC_SetPriority(EXTI9_5_IRQn, 7);
-    NVIC_SetPriority(EXTI15_10_IRQn, 7);
-
-    NVIC_EnableIRQ(EXTI0_IRQn);
-    NVIC_EnableIRQ(EXTI1_IRQn);
-    NVIC_EnableIRQ(EXTI4_IRQn);
-    NVIC_EnableIRQ(EXTI9_5_IRQn);
-    NVIC_EnableIRQ(EXTI15_10_IRQn);
+    if (!PHAL_EXTI_init(button_exti_config,
+                        sizeof(button_exti_config) / sizeof(button_exti_config[0]))) {
+        HardFault_Handler();
+    }
 }
 
 void action_dispatcher(void) {

@@ -7,7 +7,7 @@ Additionally, it hosts the main driver interface for the vehicle, displaying tel
 - [`main.c`](main.c) / [`main.h`](main.h): Initialization and application entry point for the dashboard node.
 - `CMakeLists.txt`: Build configuration for the dashboard target.
 - `pedals.c` / `pedals.h`: Pedalbox sampling, plausibility checks, and message TX.
-- `driver_interface.c` / `driver_interface.h`: Periodic loop, button EXTI handlers, and high-level page navigation actions.
+- `driver_interface.c` / `driver_interface.h`: Periodic loop, button EXTI callback, and high-level page navigation actions.
 - `lcd.c` / `lcd.h`: Page registry and dispatch (per-page `update`, `move_up`, `move_down`, `select`, `telemetry` callbacks).
 - `menu_system.c` / `menu_system.h`: Generic Nextion menu framework. Defines `menu_element_t` / `menu_page_t` and the navigation/redraw helpers used by every page.
 - `colors.h`: Named color constants used by the UI.
