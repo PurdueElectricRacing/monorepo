@@ -126,7 +126,7 @@ Bootloader state machine</div></div>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><a href="../../common/bootloader/"><code>../../common/bootloader/</code></a>   </td><td class="markdownTableBodyNone">Shared protocol, metadata, and application reset callback.   </td></tr>
 </table>
-<p>At startup, the bootloader initializes CAN, advertises READY, and polls for START for 500 ms. On timeout it validates metadata, vectors, and CRC before launch. A START that fails size or erase validation enters recovery; an invalid image remains resident.</p>
+<p>After a watchdog reset, the bootloader immediately validates metadata, vectors, and CRC and launches a valid application without opening the update window. On other resets, it initializes CAN, advertises READY, and polls for START for 500 ms before validating and launching. A START that fails size or erase validation enters recovery; an invalid image remains resident.</p>
 <h1><a class="anchor" id="autotoc_md24"></a>
 Update flow</h1>
 <ol type="1">
@@ -168,7 +168,7 @@ Flash validation</h1>
 <img src="bootloader_flash_layout.drawio.png" alt=""/>
 <div class="caption">
 Bootloader flash layout</div></div>
-    <p>The STM32G474RE map reserves 16 KiB for the resident bootloader and 16 KiB for metadata, followed by the full 480 KiB application slot at <code>0x08008000</code> through <code>0x0807FFFF</code>. No flash remains reserved after the application slot.</p>
+    <p>The STM32G474RE map reserves 16 KiB for the resident bootloader and 16 KiB for metadata, followed by the full 480 KiB application slot at <code>0x08008000</code> through <code>0x0807FFFF</code>. No flash remains reserved after the application slot. The bootloader linker script keeps executable code within the first 16 KiB and adds a loadable 16 KiB <code>0xFF</code> padding section for metadata at <code>0x08004000</code>. Consequently, the bootloader ELF and raw BIN include this erased-state padding. Programming <code>0xFF</code> cannot restore previously cleared flash bits, so use a programming operation that erases the metadata pages before writing, or erase <code>0x08004000–0x08007FFF</code> explicitly. For a raw BIN, program the whole image from <code>0x08000000</code> after erasing that metadata range; do not erase the application slot.</p>
 <p>Before launch, <code><a class="el" href="bootloader_8c.html#a29a8510cf432cd0aff5dd15073f561bb" title="Validate the committed image and transfer control to it.">BL_checkAndBoot()</a></code> requires valid metadata, a stack pointer in SRAM, a Thumb reset handler inside the image, and a matching application CRC. The package builder, DaqApp, and target use the same word-based STM32 CRC.</p>
 <h1><a class="anchor" id="autotoc_md27"></a>
 Recovery</h1>
