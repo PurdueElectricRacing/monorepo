@@ -7,11 +7,6 @@
 
 #include "common/phal_G4/exti/exti_priv.h"
 
-static bool exti_trigger_is_valid(PHAL_EXTI_Trigger_t trigger) {
-    return trigger == PHAL_EXTI_TRIGGER_RISING || trigger == PHAL_EXTI_TRIGGER_FALLING
-        || trigger == PHAL_EXTI_TRIGGER_BOTH;
-}
-
 static uint32_t exti_irq_group_mask(uint8_t pin) {
     if (pin <= 4U) {
         return 1U << pin;
@@ -34,8 +29,7 @@ bool PHAL_EXTI_init(const PHAL_EXTI_InitConfig_t config[], size_t config_len) {
     for (size_t i = 0U; i < config_len; i++) {
         uint8_t port_index = 0U;
         if (config[i].pin >= PHAL_EXTI_PRIV_GPIO_LINE_COUNT
-            || !PHAL_EXTI_priv_getPortIndex(config[i].bank, &port_index)
-            || !exti_trigger_is_valid(config[i].trigger)) {
+            || !PHAL_EXTI_priv_getPortIndex(config[i].bank, &port_index)) {
             return false;
         }
 
