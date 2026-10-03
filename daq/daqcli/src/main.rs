@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use std::process::ExitCode;
 
-use clap::Parser as ClapParser; 
+use clap::Parser as ClapParser;
 
 #[derive(ClapParser)]
 #[command(name = "daqcli", about = "Parse DAQ logs into CSV tables")]
