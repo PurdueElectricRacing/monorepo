@@ -1,4 +1,4 @@
-use crate::frame::CanFrame;
+use crate::frame::{CanFrame, CanIdentity};
 use std::{
     collections::BTreeMap,
     time::{Duration, Instant},
@@ -37,8 +37,7 @@ impl SendAmount {
 }
 pub struct AddSendMessage {
     pub amount: SendAmount,
-    pub msg_id: u32,
-    pub is_msg_id_extended: bool,
+    pub identity: CanIdentity,
     pub msg_bytes: Vec<u8>,
 }
 struct Scheduled {
@@ -47,7 +46,7 @@ struct Scheduled {
     sent: Option<Instant>,
 }
 #[derive(Default)]
-pub struct SendTable(BTreeMap<u32, Scheduled>);
+pub struct SendTable(BTreeMap<CanIdentity, Scheduled>);
 impl SendTable {
     pub fn add(&mut self, msg: AddSendMessage) -> Result<(), String> {
         if matches!(msg.amount, SendAmount::Finite { amount: 0, .. })
@@ -55,9 +54,13 @@ impl SendTable {
         {
             return Err("send count and period must be positive".into());
         }
-        let frame = CanFrame::data(msg.msg_id, msg.is_msg_id_extended, msg.msg_bytes)?;
+        let frame = CanFrame::data(
+            msg.identity.raw_id(),
+            msg.identity.is_extended(),
+            msg.msg_bytes,
+        )?;
         self.0.insert(
-            msg.msg_id,
+            msg.identity,
             Scheduled {
                 frame,
                 amount: msg.amount,
@@ -66,7 +69,7 @@ impl SendTable {
         );
         Ok(())
     }
-    pub fn delete(&mut self, id: u32) {
+    pub fn delete(&mut self, id: CanIdentity) {
         self.0.remove(&id);
     }
     pub fn due(&self, now: Instant) -> Vec<CanFrame> {
@@ -81,7 +84,7 @@ impl SendTable {
             .map(|s| s.frame.clone())
             .collect()
     }
-    pub fn commit(&mut self, id: u32, now: Instant) -> Option<SendAmount> {
+    pub fn commit(&mut self, id: CanIdentity, now: Instant) -> Option<SendAmount> {
         let s = self.0.get_mut(&id)?;
         s.sent = Some(now);
         let left = s.amount.subtract_one();

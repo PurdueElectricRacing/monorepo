@@ -66,12 +66,7 @@ impl ViewerTable {
                 {
                     continue;
                 }
-                let id = frame.msg_id
-                    | if frame.is_msg_id_extended {
-                        daqcore::can::EXTENDED_ID_FLAG
-                    } else {
-                        0
-                    };
+                let id = frame.identity().dbc_id();
                 let definition = parser.and_then(|p| p.parser.msg_def(id));
                 let signals = decoded
                     .map(|d| {
@@ -104,7 +99,7 @@ impl ViewerTable {
                 actions.extend(
                     MessageCard {
                         msg_name: name,
-                        msg_id: frame.msg_id,
+                        identity: frame.identity(),
                         tx_node: node,
                         raw_bytes: &bytes,
                         timestamp: &frame.timestamp.label(),
@@ -122,7 +117,7 @@ impl ViewerTable {
 
 struct MessageCard<'a> {
     msg_name: &'a str,
-    msg_id: u32,
+    identity: daqcore::frame::CanIdentity,
     tx_node: &'a str,
     raw_bytes: &'a str,
     timestamp: &'a str,
@@ -136,7 +131,7 @@ impl MessageCard<'_> {
         // Header (outside card)
         ui.horizontal(|ui| {
             ui.label(
-                eframe::egui::RichText::new(format!("{}  (0x{:03X})", self.msg_name, self.msg_id))
+                eframe::egui::RichText::new(format!("{}  ({})", self.msg_name, self.identity))
                     .strong()
                     .size(16.0)
                     .color(
@@ -218,7 +213,7 @@ impl MessageCard<'_> {
                                     if ui.small_button("📊").clicked() {
                                         action_queue.push(action::AppAction::SpawnWidget(
                                             widget_constructor::WidgetConstructor::Scope {
-                                                msg_id: self.msg_id,
+                                                identity: self.identity,
                                                 msg_name: self.msg_name.to_string(),
                                                 signal_name: sig_name.to_string(),
                                             },

@@ -9,7 +9,7 @@ enum ScopeState {
         selected_msg: can_dbc::Message,
     },
     Configured {
-        msg_id: u32,
+        identity: daqcore::frame::CanIdentity,
         msg_name: String,
         signal_name: String,
     },
@@ -29,12 +29,17 @@ pub struct Scope {
     state: ScopeState,
 }
 impl Scope {
-    pub fn new(instance_num: usize, msg_id: u32, msg_name: String, signal_name: String) -> Self {
+    pub fn new(
+        instance_num: usize,
+        identity: daqcore::frame::CanIdentity,
+        msg_name: String,
+        signal_name: String,
+    ) -> Self {
         Self {
             title: format!("Scope: {signal_name}"),
             instance_num,
             state: ScopeState::Configured {
-                msg_id,
+                identity,
                 msg_name,
                 signal_name,
             },
@@ -62,14 +67,14 @@ impl Scope {
                 ui.separator();
                 ui.label(
                     eframe::egui::RichText::new(format!(
-                        "Selected Message: {} (0x{:03X}) — pick a signal:",
+                        "Selected Message: {} ({}) — pick a signal:",
                         selected_msg.name,
-                        daqcore::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
+                        daqcore::can::can_dbc_identity(&selected_msg.id)
                     ))
                     .strong(),
                 );
 
-                let msg_id = daqcore::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id);
+                let identity = daqcore::can::can_dbc_identity(&selected_msg.id);
                 let mut picked_signal = None;
                 for sig in &selected_msg.signals {
                     if ui.button(&sig.name).clicked() {
@@ -82,7 +87,7 @@ impl Scope {
                 if let Some(signal_name) = picked_signal {
                     (
                         ScopeState::Configured {
-                            msg_id,
+                            identity,
                             msg_name: selected_msg.name.clone(),
                             signal_name,
                         },
@@ -126,7 +131,7 @@ impl Scope {
             return egui_tiles::UiResponse::None;
         }
         let ScopeState::Configured {
-            msg_id,
+            identity,
             msg_name,
             signal_name,
         } = &self.state
@@ -134,11 +139,8 @@ impl Scope {
             unreachable!()
         };
         let signal = signal_name.clone();
-        let id = *msg_id;
-        let points: Vec<[f64; 2]> = view
-            .plot_frames
-            .iter()
-            .filter(|f| f.msg_id == id)
+        let id = *identity;
+        let points: Vec<[f64; 2]> = scope_frames(view.plot_frames, id)
             .filter_map(|f| {
                 Some([
                     f.timestamp.secs(view.timeline.start()),
@@ -148,7 +150,10 @@ impl Scope {
             .collect();
         let mut change = false;
         ui.horizontal(|ui| {
-            ui.heading(format!("{}: {msg_name} - {signal}", self.title));
+            ui.heading(format!(
+                "{}: {msg_name} ({identity}) - {signal}",
+                self.title
+            ));
             change = ui.button("Change signal").clicked();
             if ui.button("Export CSV").clicked() {
                 if let Some(path) = rfd::FileDialog::new()
@@ -206,4 +211,13 @@ impl Scope {
             });
         egui_tiles::UiResponse::None
     }
+}
+
+fn scope_frames(
+    frames: &[daqcore::ParsedFrame],
+    identity: daqcore::frame::CanIdentity,
+) -> impl Iterator<Item = &daqcore::ParsedFrame> {
+    frames
+        .iter()
+        .filter(move |frame| frame.identity() == identity)
 }

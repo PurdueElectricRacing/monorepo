@@ -79,17 +79,17 @@ fn run_with_connection(
                     }
                 }
                 Command::AddSendMessage(message) => {
-                    let id = message.msg_id;
+                    let identity = message.identity;
                     if let Err(error) = sends.add(message) {
-                        sends.delete(id);
+                        sends.delete(identity);
                         emit!(Event::SendFailed {
-                            msg_id: id,
+                            identity,
                             error,
                             retrying: false
                         });
                     }
                 }
-                Command::DeleteSendMessage { msg_id } => sends.delete(msg_id),
+                Command::DeleteSendMessage { identity } => sends.delete(identity),
                 Command::UpdateLogFolder(path) => match &mut logger {
                     Some(logger) => logger.update_folder(path),
                     None => logger = Some(DaqLogger::new(path)),
@@ -142,24 +142,24 @@ fn run_with_connection(
         let updating = firmware.active();
         if connection.connected() && !updating {
             for frame in sends.due(now) {
-                let id = frame.msg_id;
+                let identity = frame.identity();
                 match connection.write(frame) {
                     Ok(()) => {
-                        let amount_left = sends.commit(id, Instant::now());
+                        let amount_left = sends.commit(identity, Instant::now());
                         emit!(Event::MessageSent {
-                            msg_id: id,
+                            identity,
                             timestamp: Time::now(),
                             amount_left
                         });
                     }
                     Err(error) => {
                         emit!(Event::SendFailed {
-                            msg_id: id,
+                            identity,
                             error: error.to_string(),
                             retrying: !matches!(error, DriverError::Unsupported(_)),
                         });
                         if matches!(error, DriverError::Unsupported(_)) {
-                            sends.delete(id);
+                            sends.delete(identity);
                         } else {
                             connection.failed(Instant::now());
                             emit!(Event::ConnectionFailed(error.to_string()));

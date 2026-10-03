@@ -39,9 +39,7 @@ struct SignalValue {
 struct SendingMessage {
     pub amount: daqcore::can_thread::SendAmount,
     pub msg_name: String,
-    pub msg_id: u32,
-    pub msg_id_with_ext_flag: u32,
-    pub is_msg_id_extended: bool,
+    pub identity: daqcore::frame::CanIdentity,
     pub msg_bytes: Vec<u8>,
     pub signal_values: Vec<SignalValue>,
     pub adjustable_values_enabled: bool,
@@ -49,7 +47,9 @@ struct SendingMessage {
 }
 
 enum SendUiActions {
-    DeleteMessage { msg_id: u32 },
+    DeleteMessage {
+        identity: daqcore::frame::CanIdentity,
+    },
 }
 
 impl Drop for SendUi {
@@ -59,19 +59,19 @@ impl Drop for SendUi {
             "Dropping SendUi, stopping all sending messages: {:?}",
             self.sending_messages
                 .iter()
-                .map(|msg| msg.msg_id)
+                .map(|msg| msg.identity)
                 .collect::<Vec<_>>()
         );
         for msg in &self.sending_messages {
-            let msg_id = msg.msg_id;
+            let identity = msg.identity;
             if let Err(e) = self
                 .ui_to_can_tx
-                .send(daqcore::can_thread::CanThreadCommand::DeleteSendMessage { msg_id })
+                .send(daqcore::can_thread::CanThreadCommand::DeleteSendMessage { identity })
             {
                 // Don't panic in Drop, just log the error
                 log::error!(
-                    "Failed to send DeleteSendMessage for msg_id {}: {}",
-                    msg_id,
+                    "Failed to send DeleteSendMessage for identity {}: {}",
+                    identity,
                     e
                 );
             }
@@ -261,18 +261,13 @@ impl SendUi {
                                 },
                             };
 
-                            let msg_id_u32 =
-                                daqcore::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id);
+                            let identity = daqcore::can::can_dbc_identity(&selected_msg.id);
+                            self.sending_messages.retain(|m| m.identity != identity);
 
                             self.sending_messages.push(SendingMessage {
                                 amount: send_amount,
                                 msg_name: selected_msg.name.clone(),
-                                msg_id: msg_id_u32,
-                                msg_id_with_ext_flag,
-                                is_msg_id_extended: matches!(
-                                    selected_msg.id,
-                                    can_dbc::MessageId::Extended(_)
-                                ),
+                                identity,
                                 msg_bytes: msg_bytes.clone(),
                                 signal_values: self.signal_values.clone(),
                                 adjustable_values_enabled: self.adjustable_values_enabled,
@@ -281,11 +276,7 @@ impl SendUi {
 
                             let add_send_msg = daqcore::can_thread::AddSendMessage {
                                 amount: send_amount,
-                                msg_id: msg_id_u32,
-                                is_msg_id_extended: matches!(
-                                    selected_msg.id,
-                                    can_dbc::MessageId::Extended(_)
-                                ),
+                                identity,
                                 msg_bytes,
                             };
 
@@ -329,7 +320,7 @@ impl SendUi {
                         }
                         let encoded = encode_msg_from_signals(
                             &parser.parser,
-                            msg.msg_id_with_ext_flag,
+                            msg.identity.dbc_id(),
                             &msg.signal_values,
                         );
                         let Some(msg_bytes) = encoded else {
@@ -347,9 +338,7 @@ impl SendUi {
                             .send(daqcore::can_thread::CanThreadCommand::AddSendMessage(
                                 daqcore::can_thread::AddSendMessage {
                                     amount: self.sending_messages[idx].amount,
-                                    msg_id: self.sending_messages[idx].msg_id,
-                                    is_msg_id_extended: self.sending_messages[idx]
-                                        .is_msg_id_extended,
+                                    identity: self.sending_messages[idx].identity,
                                     msg_bytes,
                                 },
                             ))
@@ -358,12 +347,12 @@ impl SendUi {
 
                     for action in all_actions {
                         match action {
-                            SendUiActions::DeleteMessage { msg_id } => {
-                                self.sending_messages.retain(|msg| msg.msg_id != msg_id);
+                            SendUiActions::DeleteMessage { identity } => {
+                                self.sending_messages.retain(|msg| msg.identity != identity);
                                 self.ui_to_can_tx
                                     .send(
                                         daqcore::can_thread::CanThreadCommand::DeleteSendMessage {
-                                            msg_id,
+                                            identity,
                                         },
                                     )
                                     .unwrap_or_else(|error| {
@@ -380,25 +369,25 @@ impl SendUi {
 
     pub fn handle_can_message(&mut self, msg: &daqcore::can_thread::CanThreadEvent) {
         if let daqcore::can_thread::CanThreadEvent::SendFailed {
-            msg_id,
+            identity,
             error,
             retrying,
         } = msg
         {
             if !retrying {
-                self.sending_messages.retain(|m| m.msg_id != *msg_id);
+                self.sending_messages.retain(|m| m.identity != *identity);
             }
-            log::error!("Send {msg_id:X} failed: {error}");
+            log::error!("Send {identity} failed: {error}");
         }
         if let daqcore::can_thread::CanThreadEvent::MessageSent {
-            msg_id,
+            identity,
             timestamp,
             amount_left,
         } = msg
         {
             if let Some(rx_amount_left) = amount_left {
                 for sending_msg in &mut self.sending_messages {
-                    if sending_msg.msg_id == *msg_id {
+                    if sending_msg.identity == *identity {
                         sending_msg.last_sent = *timestamp;
                         sending_msg.amount = *rx_amount_left;
                         break;
@@ -407,7 +396,8 @@ impl SendUi {
             } else {
                 // If amount_left is None, it means the message is done sending,
                 // so we remove it from the list
-                self.sending_messages.retain(|msg| msg.msg_id != *msg_id);
+                self.sending_messages
+                    .retain(|msg| msg.identity != *identity);
             }
         }
     }
@@ -432,7 +422,7 @@ impl SendingMessage {
         // Header (outside card)
         ui.horizontal(|ui| {
             ui.label(
-                eframe::egui::RichText::new(format!("{}  (0x{:03X})", self.msg_name, self.msg_id))
+                eframe::egui::RichText::new(format!("{}  ({})", self.msg_name, self.identity))
                     .strong()
                     .size(16.0)
                     .color(ui.visuals().text_color()),
@@ -453,7 +443,7 @@ impl SendingMessage {
                 |ui| {
                     if ui.button("🗑").on_hover_text("Delete message").clicked() {
                         delete_action = Some(SendUiActions::DeleteMessage {
-                            msg_id: self.msg_id,
+                            identity: self.identity,
                         });
                     }
                     ui.label(

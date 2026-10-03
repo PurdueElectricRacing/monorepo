@@ -1,3 +1,4 @@
+use crate::frame;
 pub const EXTENDED_ID_FLAG: u32 = 0x80000000;
 pub const STANDARD_ID_MASK: u32 = 0x7FF;
 pub const EXTENDED_ID_MASK: u32 = 0x1FFFFFFF;
@@ -35,4 +36,13 @@ pub fn can_dbc_numeric_to_f64(numeric: &can_dbc::NumericValue) -> f64 {
         can_dbc::NumericValue::Int(v) => *v as f64,
         can_dbc::NumericValue::Double(v) => *v,
     }
+}
+
+/// Convert DBC identity without discarding its standard/extended format.
+pub fn can_dbc_identity(id: &can_dbc::MessageId) -> frame::CanIdentity {
+    match id {
+        can_dbc::MessageId::Standard(id) => frame::CanIdentity::new(*id as u32, false),
+        can_dbc::MessageId::Extended(id) => frame::CanIdentity::new(*id, true),
+    }
+    .expect("valid DBC CAN identity")
 }

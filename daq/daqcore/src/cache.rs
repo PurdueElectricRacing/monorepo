@@ -1,11 +1,11 @@
-use crate::{ParsedFrame, Time};
+use crate::{ParsedFrame, Time, frame::CanIdentity};
 use std::{collections::HashMap, ops::RangeInclusive};
 pub type CachedFrame = ParsedFrame;
 #[derive(Default)]
 pub struct RamCache {
     frames: Vec<CachedFrame>,
     first_index: usize,
-    latest: HashMap<u32, CachedFrame>,
+    latest: HashMap<CanIdentity, CachedFrame>,
 }
 impl RamCache {
     pub fn new() -> Self {
@@ -28,10 +28,10 @@ impl RamCache {
             self.active().last()?.timestamp,
         ))
     }
-    pub fn latest(&self, id: u32) -> Option<&CachedFrame> {
+    pub fn latest(&self, id: CanIdentity) -> Option<&CachedFrame> {
         self.latest.get(&id)
     }
-    pub fn latest_map(&self) -> &HashMap<u32, CachedFrame> {
+    pub fn latest_map(&self) -> &HashMap<CanIdentity, CachedFrame> {
         &self.latest
     }
     fn active(&self) -> &[CachedFrame] {
@@ -101,7 +101,7 @@ impl RamCache {
     }
     pub fn signal_series(
         &self,
-        id: u32,
+        id: CanIdentity,
         signal: &str,
         range: RangeInclusive<Time>,
     ) -> Vec<(Time, f64)> {

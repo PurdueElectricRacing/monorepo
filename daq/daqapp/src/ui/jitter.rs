@@ -44,7 +44,7 @@ impl Jitter {
             ui.label(format!("{} (0x{id:X})", msg.name));
             let deviations = interval_deviations(
                 view.frames,
-                daqcore::can::can_dbc_to_u32_with_extid_flag(&msg.id),
+                daqcore::can::can_dbc_identity(&msg.id),
                 self.period_ms,
             );
             ui.label("Absolute deviation from nominal period over the shared interval");
@@ -63,7 +63,7 @@ impl Jitter {
 
 fn interval_deviations(
     frames: &[daqcore::ParsedFrame],
-    identity: u32,
+    identity: daqcore::frame::CanIdentity,
     period_ms: usize,
 ) -> Vec<f64> {
     let timestamps: Vec<_> = frames

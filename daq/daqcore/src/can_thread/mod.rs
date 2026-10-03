@@ -6,7 +6,7 @@ mod events;
 mod firmware_session;
 mod run;
 mod tx;
-use crate::{ParsedFrame, Time, connection::ConnectionSource, firmware, hil};
+use crate::{ParsedFrame, Time, connection::ConnectionSource, firmware, frame::CanIdentity, hil};
 use std::{path::PathBuf, sync::mpsc, thread::JoinHandle};
 pub use tx::{AddSendMessage, SendAmount};
 #[derive(Default)]
@@ -19,7 +19,7 @@ pub enum CanThreadCommand {
     Connect(Option<ConnectionSource>),
     DbcSelected(PathBuf),
     AddSendMessage(AddSendMessage),
-    DeleteSendMessage { msg_id: u32 },
+    DeleteSendMessage { identity: CanIdentity },
     UpdateLogFolder(PathBuf),
     Stop,
     Hil(hil::engine::HilCommand),
@@ -34,12 +34,12 @@ pub enum CanThreadEvent {
     ConnectionSuccessful,
     ConnectionFailed(String),
     MessageSent {
-        msg_id: u32,
+        identity: CanIdentity,
         timestamp: Time,
         amount_left: Option<SendAmount>,
     },
     SendFailed {
-        msg_id: u32,
+        identity: CanIdentity,
         error: String,
         retrying: bool,
     },

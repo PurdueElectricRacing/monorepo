@@ -6,7 +6,7 @@ pub struct TelemetryView<'a> {
     pub frames: &'a [daqcore::ParsedFrame],
     pub timeline: &'a daqcore::timeline::Timeline,
     view_time: daqcore::Time,
-    pub latest: BTreeMap<u32, &'a daqcore::ParsedFrame>,
+    pub latest: BTreeMap<daqcore::frame::CanIdentity, &'a daqcore::ParsedFrame>,
 }
 impl<'a> TelemetryView<'a> {
     pub fn new(session: &'a daqcore::Session) -> Self {
