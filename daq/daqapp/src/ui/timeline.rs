@@ -6,9 +6,6 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
         let before = app.session.timeline().window_secs();
         let timeline = app.session.timeline_mut();
         ui.horizontal_wrapped(|ui| {
-            if ui.button("Pause playhead").clicked() {
-                timeline.set_setpoint(timeline.setpoint());
-            }
             if ui.button("Go live").clicked() { timeline.go_live(); }
             ui.separator();
             let mut span = timeline.window_secs();
