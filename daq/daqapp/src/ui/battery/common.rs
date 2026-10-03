@@ -6,27 +6,11 @@ pub const THERMISTORS_PER_MODULE: usize = 10;
 
 pub const STALE_TIMEOUT_SECONDS: u64 = 1;
 
-pub struct SampleAge {
-    last_update: Option<daqcore::Time>,
-    view_time: daqcore::Time,
-}
-impl SampleAge {
-    pub fn new(view_time: daqcore::Time) -> Self {
-        Self {
-            last_update: None,
-            view_time,
-        }
-    }
-    pub fn mark_updated(&mut self, timestamp: daqcore::Time) {
-        self.last_update = Some(self.last_update.map_or(timestamp, |old| old.max(timestamp)));
-    }
-    pub fn elapsed(&self) -> (bool, f64) {
-        let elapsed = self
-            .last_update
-            .map(|t| self.view_time.secs(t).max(0.0))
-            .unwrap_or(f64::INFINITY);
-        (elapsed > STALE_TIMEOUT_SECONDS as f64, elapsed)
-    }
+pub fn sample_age(last_update: Option<daqcore::Time>, view_time: daqcore::Time) -> (bool, f64) {
+    let elapsed = last_update
+        .map(|t| view_time.secs(t).max(0.0))
+        .unwrap_or(f64::INFINITY);
+    (elapsed > STALE_TIMEOUT_SECONDS as f64, elapsed)
 }
 
 pub fn stale_banner(

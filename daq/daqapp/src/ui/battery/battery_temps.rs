@@ -56,77 +56,12 @@ impl BatteryTemps {
         ui: &mut eframe::egui::Ui,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        TemperatureProjection::from_view(view).render(ui, &self.title)
-    }
-}
+        let (modules, last_update) = thermistor_temperatures(view.frames);
+        let (stale, elapsed) = common::sample_age(last_update, view.view_time());
 
-/// Temporary values reconstructed from the selected interval for one render.
-struct TemperatureProjection {
-    modules: Vec<Vec<ThermistorTemperature>>,
-    sample_age: common::SampleAge,
-}
-
-impl TemperatureProjection {
-    fn from_view(view: &telemetry::TelemetryView<'_>) -> Self {
-        let mut projection = Self {
-            modules: vec![
-                vec![ThermistorTemperature::default(); common::THERMISTORS_PER_MODULE];
-                common::NUM_MODULES
-            ],
-            sample_age: common::SampleAge::new(view.view_time()),
-        };
-        let mut filled = 0;
-        for frame in view.frames.iter().rev() {
-            if projection.apply_frame(frame) {
-                filled += 1;
-            }
-            if filled == common::NUM_MODULES * common::THERMISTORS_PER_MODULE {
-                break;
-            }
-        }
-        projection
-    }
-
-    fn apply_frame(&mut self, frame: &daqcore::ParsedFrame) -> bool {
-        if let Some(parsed) = frame.decoded_view()
-            && (parsed.decoded.name.as_str() == "thermistor_telemetry_ccan"
-                || parsed.decoded.name.as_str() == "thermistor_telemetry")
-        {
-            let mut module_num: Option<usize> = None;
-            let mut thermistor_num: Option<usize> = None;
-            let mut temperature: Option<f64> = None;
-
-            for (_, sig) in parsed.decoded.signals.iter() {
-                match sig.name.as_str() {
-                    "module_num" => module_num = Some(sig.value.physical.round() as usize),
-                    "thermistor_num" => thermistor_num = Some(sig.value.physical.round() as usize),
-                    "temperature" => temperature = Some(sig.value.physical),
-                    _ => {}
-                }
-            }
-
-            if let (Some(module_num), Some(thermistor_num), Some(temperature)) =
-                (module_num, thermistor_num, temperature)
-                && module_num < self.modules.len()
-                && thermistor_num < self.modules[module_num].len()
-                && self.modules[module_num][thermistor_num]
-                    .temperature
-                    .is_nan()
-            {
-                self.modules[module_num][thermistor_num].temperature = temperature;
-                self.sample_age.mark_updated(parsed.timestamp);
-                return true;
-            }
-        }
-        false
-    }
-
-    fn render(&self, ui: &mut eframe::egui::Ui, title: &str) -> egui_tiles::UiResponse {
         let theme = ui::theme::get_theme(ui.ctx());
-        let (stale, elapsed) = self.sample_age.elapsed();
 
-        let temperatures = self
-            .modules
+        let temperatures = modules
             .iter()
             .flatten()
             .map(|cell| cell.temperature)
@@ -140,7 +75,7 @@ impl TemperatureProjection {
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
-            ui.heading(title);
+            ui.heading(&self.title);
             ui.add_space(4.0);
 
             common::stale_banner(ui, &theme, stale, elapsed);
@@ -200,7 +135,7 @@ impl TemperatureProjection {
 
             ui.add_space(12.0);
 
-            for (module_index, module) in self.modules.iter().enumerate() {
+            for (module_index, module) in modules.iter().enumerate() {
                 let module_sum: f64 = module
                     .iter()
                     .map(|cell| cell.temperature)
@@ -273,7 +208,7 @@ impl TemperatureProjection {
 
                         ui.horizontal(|ui| {
                             for cell in module.iter() {
-                                Self::temp_bar(ui, &theme, cell, stale, bar_width);
+                                temp_bar(ui, &theme, cell, stale, bar_width);
                             }
                         });
                     });
@@ -284,75 +219,125 @@ impl TemperatureProjection {
 
         egui_tiles::UiResponse::None
     }
+}
 
-    fn temp_bar(
-        ui: &mut eframe::egui::Ui,
-        theme: &ui::theme::ThemeColors,
-        cell: &ThermistorTemperature,
-        stale: bool,
-        bar_w: f32,
+fn temp_bar(
+    ui: &mut eframe::egui::Ui,
+    theme: &ui::theme::ThemeColors,
+    cell: &ThermistorTemperature,
+    stale: bool,
+    bar_w: f32,
+) {
+    let fill_color = if stale {
+        theme.text_color().linear_multiply(0.12)
+    } else {
+        cell.color()
+    };
+
+    let fill_frac = if cell.temperature.is_finite() {
+        ((cell.temperature - T_MIN) / (T_MAX - T_MIN)).clamp(0.0, 1.0) as f32
+    } else {
+        0.0
+    };
+
+    ui.vertical(|ui| {
+        ui.set_max_width(bar_w + 4.0);
+
+        let (outer_rect, _) = ui.allocate_exact_size(
+            eframe::egui::Vec2::new(bar_w, 24.0),
+            eframe::egui::Sense::hover(),
+        );
+
+        let painter = ui.painter();
+        painter.rect_filled(outer_rect, 3.0, theme.text_color().linear_multiply(0.06));
+        painter.rect_stroke(
+            outer_rect,
+            3.0,
+            eframe::egui::Stroke::new(0.5_f32, theme.accent_color()),
+            eframe::egui::StrokeKind::Inside,
+        );
+
+        let fill_height = outer_rect.height() * fill_frac;
+        let fill_rect = eframe::egui::Rect::from_min_max(
+            eframe::egui::pos2(outer_rect.min.x, outer_rect.max.y - fill_height),
+            outer_rect.max,
+        );
+        painter.rect_filled(fill_rect, 2.0, fill_color);
+
+        let text = if stale {
+            "—".to_string()
+        } else {
+            if cell.temperature.is_finite() {
+                format!("{:.1}°C", cell.temperature)
+            } else {
+                "—".into()
+            }
+        };
+
+        let text_color = if stale {
+            theme.text_color().linear_multiply(0.25)
+        } else if fill_frac > 0.5 {
+            eframe::egui::Color32::BLACK
+        } else {
+            eframe::egui::Color32::WHITE
+        };
+
+        painter.text(
+            outer_rect.center(),
+            eframe::egui::Align2::CENTER_CENTER,
+            text,
+            eframe::egui::FontId::proportional(11.0),
+            text_color,
+        );
+    });
+}
+
+fn thermistor_sample(
+    frame: &daqcore::ParsedFrame,
+) -> Option<(usize, usize, ThermistorTemperature)> {
+    let decoded = frame.decoded.as_ref()?;
+    if !matches!(
+        decoded.name.as_str(),
+        "thermistor_telemetry" | "thermistor_telemetry_ccan"
     ) {
-        let fill_color = if stale {
-            theme.text_color().linear_multiply(0.12)
-        } else {
-            cell.color()
-        };
-
-        let fill_frac = if cell.temperature.is_finite() {
-            ((cell.temperature - T_MIN) / (T_MAX - T_MIN)).clamp(0.0, 1.0) as f32
-        } else {
-            0.0
-        };
-
-        ui.vertical(|ui| {
-            ui.set_max_width(bar_w + 4.0);
-
-            let (outer_rect, _) = ui.allocate_exact_size(
-                eframe::egui::Vec2::new(bar_w, 24.0),
-                eframe::egui::Sense::hover(),
-            );
-
-            let painter = ui.painter();
-            painter.rect_filled(outer_rect, 3.0, theme.text_color().linear_multiply(0.06));
-            painter.rect_stroke(
-                outer_rect,
-                3.0,
-                eframe::egui::Stroke::new(0.5_f32, theme.accent_color()),
-                eframe::egui::StrokeKind::Inside,
-            );
-
-            let fill_height = outer_rect.height() * fill_frac;
-            let fill_rect = eframe::egui::Rect::from_min_max(
-                eframe::egui::pos2(outer_rect.min.x, outer_rect.max.y - fill_height),
-                outer_rect.max,
-            );
-            painter.rect_filled(fill_rect, 2.0, fill_color);
-
-            let text = if stale {
-                "—".to_string()
-            } else {
-                if cell.temperature.is_finite() {
-                    format!("{:.1}°C", cell.temperature)
-                } else {
-                    "—".into()
-                }
-            };
-
-            let text_color = if stale {
-                theme.text_color().linear_multiply(0.25)
-            } else if fill_frac > 0.5 {
-                eframe::egui::Color32::BLACK
-            } else {
-                eframe::egui::Color32::WHITE
-            };
-
-            painter.text(
-                outer_rect.center(),
-                eframe::egui::Align2::CENTER_CENTER,
-                text,
-                eframe::egui::FontId::proportional(11.0),
-                text_color,
-            );
-        });
+        return None;
     }
+    Some((
+        decoded.signals.get("module_num")?.value.physical.round() as usize,
+        decoded
+            .signals
+            .get("thermistor_num")?
+            .value
+            .physical
+            .round() as usize,
+        ThermistorTemperature {
+            temperature: decoded.signals.get("temperature")?.value.physical,
+        },
+    ))
+}
+
+fn thermistor_temperatures(
+    frames: &[daqcore::ParsedFrame],
+) -> (Vec<Vec<ThermistorTemperature>>, Option<daqcore::Time>) {
+    let mut modules = vec![
+        vec![ThermistorTemperature::default(); common::THERMISTORS_PER_MODULE];
+        common::NUM_MODULES
+    ];
+    let mut last_update = None;
+    let mut filled = 0;
+    for frame in frames.iter().rev() {
+        if let Some((module, thermistor, value)) = thermistor_sample(frame)
+            && module < common::NUM_MODULES
+            && thermistor < common::THERMISTORS_PER_MODULE
+            && modules[module][thermistor].temperature.is_nan()
+        {
+            modules[module][thermistor] = value;
+            last_update = last_update.max(Some(frame.timestamp));
+            filled += 1;
+            if filled == common::NUM_MODULES * common::THERMISTORS_PER_MODULE {
+                break;
+            }
+        }
+    }
+    (modules, last_update)
 }
