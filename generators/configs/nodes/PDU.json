@@ -199,6 +199,7 @@
                         {
                             "signal_name": "can_tx_overflow",
                             "data_type": "uint8_t",
+                            "display_format": "integer",
                             "description": "CAN Tx queue overflow count"
                         },
                         {
@@ -209,11 +210,13 @@
                         {
                             "signal_name": "can_rx_overflow",
                             "data_type": "uint8_t",
+                            "display_format": "integer",
                             "description": "CAN Rx queue overflow count"
                         },
                         {
                             "signal_name": "can_rx_overrun",
                             "data_type": "uint8_t",
+                            "display_format": "integer",
                             "description": "CAN Rx FIFO overrun count"
                         }
                     ],
@@ -227,6 +230,7 @@
                         {
                             "signal_name": "git_hash",
                             "data_type": "uint32_t",
+                            "display_format": "hex",
                             "description": "int representation of git short hash"
                         }
                     ],

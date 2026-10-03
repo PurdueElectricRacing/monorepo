@@ -1,8 +1,13 @@
-"""SuperDBC JSON v1 shape"""
+"""SuperDBC JSON shape"""
 
-from typing import Annotated, Literal
+from typing import Annotated, Literal, get_args
 
 from pydantic import BaseModel, ConfigDict, Field
+
+from core.declarations import DisplayFormat
+
+SchemaVersion = Literal["1.1"]
+SCHEMA_VERSION = get_args(SchemaVersion)[0]
 
 Name = Annotated[str, Field(min_length=1)]
 Finite = Annotated[float, Field(allow_inf_nan=False)]
@@ -31,6 +36,7 @@ class SignalExport(ExportModel):
     limits: LimitsExport | None
     unit: str
     choices: dict[RawKey, str] | None
+    display_format: DisplayFormat | None = None
 
 
 class MessageExport(ExportModel):
@@ -59,7 +65,7 @@ class BusExport(ExportModel):
 
 
 class VersionsExport(ExportModel):
-    schema_version: Literal[1]
+    schema_version: SchemaVersion
     hash: Name
 
 

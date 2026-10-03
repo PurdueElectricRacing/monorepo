@@ -103,11 +103,13 @@ class FaultGenerator:
                                     signal_name="idx",
                                     data_type="fault_id_t",
                                     description="Global Fault Index",
+                                    display_format="integer",
                                 ),
                                 SignalDeclaration(
                                     signal_name="val",
                                     data_type="uint16_t",
                                     description="Trigger Value",
+                                    display_format="integer",
                                 ),
                                 SignalDeclaration(
                                     signal_name="state",

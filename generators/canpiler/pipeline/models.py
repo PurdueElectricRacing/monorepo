@@ -14,6 +14,7 @@ from core.declarations import (
     BusDeclaration,
     ByteOrder,
     CustomTypeDeclaration,
+    DisplayFormat,
 )
 from core.contributions import RxDeclaration, TxDeclaration
 
@@ -64,6 +65,7 @@ class CompiledSignal:
     bit_shift: int
     is_signed: bool
     mask: int
+    display_format: DisplayFormat | None = None
 
     @property
     def macro_name(self) -> str:
