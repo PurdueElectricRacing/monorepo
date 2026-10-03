@@ -56,9 +56,18 @@ void faults_telemetry_update(void) {
     update_selected_faults();
 
     for (uint8_t index = 0; index < selected_count; ++index) {
-        const char *text = get_fault_string(selected[index]);
+        fault_id_t curr_fault = selected[index];
+        fault_priority_t curr_priority = faults[curr_fault].priority;
+        const char *text = get_fault_string(curr_fault);
         NXT_setTextFormatted(fault_text_objects[index], "%s", text);
-        NXT_setFontColor(fault_text_objects[index], RED);
+
+        if (curr_priority == FAULT_PRIO_FATAL) {
+            NXT_setFontColor(fault_text_objects[index], RED);
+        } else if (curr_priority == FAULT_PRIO_ERROR) {
+            NXT_setFontColor(fault_text_objects[index], YELLOW);
+        } else if (curr_priority == FAULT_PRIO_WARNING) {
+            NXT_setFontColor(fault_text_objects[index], WHITE);
+        }
     }
 
     for (uint8_t index = selected_count; index < DISPLAY_FAULT_COUNT; ++index) {
