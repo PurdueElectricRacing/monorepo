@@ -46,7 +46,8 @@ Maps a firmware node onto hardware peripherals and message lists.
 - `min`: (Optional) Minimum theoretical value.
 - `max`: (Optional) Maximum theoretical value.
 - `choices`: (Optional) List of strings for enum-like labels in DBC.
-- `display_format`: (Optional) Display preference exported in SuperDBC: `"hex"`, `"binary"`, `"integer"`, `"0f"`, `"1f"`, `"2f"`, or `"3f"`. `"integer"` and `"0f"` both mean zero decimal places; `"1f"` through `"3f"` specify fixed decimal precision. Numeric format values are not accepted. This metadata does not affect CAN encoding or firmware code generation.
+- `display_format`: (Optional) Display override exported in SuperDBC: `"hex"`, `"binary"`, `"integer"`, `"0f"`, `"1f"`, `"2f"`, `"3f"`, `"4f"`, `"5f"`, `"6f"`, or `"7f"`. `"integer"` and `"0f"` both mean zero decimal places. CANpiler infers the display format from the signal type, scale, and offset if this field is omitted. Inferred precision beyond seven decimal places requires an explicit supported override.
+
 
 > [!NOTE]
 > If `scale` is present, `unit` is required by the schema.
