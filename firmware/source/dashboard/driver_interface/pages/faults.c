@@ -29,15 +29,23 @@ static void update_selected_faults(void) {
     selected_count = 0;
 
     for (fault_id_t id = 0; id < TOTAL_NUM_FAULTS; ++id) {
+        const fault_priority_t priority = faults[id].priority;
+
         if (!is_latched(id)) {
             continue; // skip non-latched faults
         }
 
         uint8_t position = 0;
-        // Keep equal-priority faults in fault-ID order.
-        while (position < selected_count && faults[selected[position]].priority >= faults[id].priority) {
+        while (position < selected_count) {
+            const fault_id_t selected_id = selected[position];
+            const fault_priority_t selected_priority = faults[selected_id].priority;
+
+            if (selected_priority < priority) {
+                break;
+            }
             ++position;
         }
+
         if (position == DISPLAY_FAULT_COUNT) {
             continue;
         }
