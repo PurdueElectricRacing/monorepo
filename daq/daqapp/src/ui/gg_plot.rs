@@ -1,5 +1,6 @@
-use crate::{telemetry::TelemetryView, ui};
-use eframe::egui;
+use crate::telemetry;
+use crate::ui;
+
 const AXIS_LIMIT_G: f32 = 2.0;
 fn vehicle_accel_to_plot_xy(ax_g: f32, ay_g: f32) -> [f64; 2] {
     [-ay_g as f64, ax_g as f64]
@@ -15,7 +16,11 @@ impl GgPlot {
             ring_points: Self::build_ring_points(),
         }
     }
-    fn draw_background(&self, plot_ui: &mut egui_plot::PlotUi<'_>, text_color: egui::Color32) {
+    fn draw_background(
+        &self,
+        plot_ui: &mut egui_plot::PlotUi<'_>,
+        text_color: eframe::egui::Color32,
+    ) {
         for (label, points) in &self.ring_points {
             plot_ui.line(
                 egui_plot::Line::new(label.clone(), egui_plot::PlotPoints::from(points.clone()))
@@ -24,7 +29,11 @@ impl GgPlot {
         }
     }
 
-    pub fn show(&mut self, ui: &mut egui::Ui, view: &TelemetryView<'_>) -> egui_tiles::UiResponse {
+    pub fn show(
+        &mut self,
+        ui: &mut eframe::egui::Ui,
+        view: &telemetry::TelemetryView<'_>,
+    ) -> egui_tiles::UiResponse {
         let points: Vec<_> = view
             .frames
             .iter()
@@ -94,8 +103,9 @@ impl GgPlot {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     #[test]
     fn vehicle_transform_keeps_forward_up_and_left_positive() {
-        assert_eq!(super::vehicle_accel_to_plot_xy(1.0, 0.5), [-0.5, 1.0]);
+        assert_eq!(ui::gg_plot::vehicle_accel_to_plot_xy(1.0, 0.5), [-0.5, 1.0]);
     }
 }

@@ -23,7 +23,7 @@ pub fn lerp(a: f64, b: f64, t: f64) -> f64 {
     a + (b - a) * t
 }
 
-// HSV → egui::Color32
+// HSV → eframe::egui::Color32
 pub fn hsv_to_color32(h: f64, s: f64, v: f64) -> eframe::egui::Color32 {
     let c = v * s;
     let x = c * (1.0 - (((h / 60.0) % 2.0) - 1.0).abs());

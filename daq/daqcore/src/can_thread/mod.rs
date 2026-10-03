@@ -1,9 +1,10 @@
 //! Caller-managed worker. Only commands/events cross threads; telemetry stays with callers.
+use crate::firmware;
+use crate::hil;
 mod connection;
 mod decode;
 mod events;
-#[cfg(feature = "firmware")]
-mod firmware;
+mod firmware_session;
 mod run;
 mod tx;
 use crate::{ParsedFrame, Time, connection::ConnectionSource};
@@ -13,25 +14,18 @@ pub use tx::{AddSendMessage, SendAmount};
 pub struct CanThreadConfig {
     pub dbc_path: Option<PathBuf>,
     pub log_folder: Option<PathBuf>,
-    #[cfg(feature = "hil")]
     pub hil_dir: PathBuf,
 }
 pub enum CanThreadCommand {
     Connect(Option<ConnectionSource>),
     DbcSelected(PathBuf),
     AddSendMessage(AddSendMessage),
-    DeleteSendMessage {
-        msg_id: u32,
-    },
+    DeleteSendMessage { msg_id: u32 },
     UpdateLogFolder(PathBuf),
     Stop,
-    #[cfg(feature = "hil")]
-    Hil(crate::hil::engine::HilCommand),
-    #[cfg(feature = "firmware")]
-    StartFirmwareUpdate(crate::firmware::FirmwarePackage),
-    #[cfg(feature = "firmware")]
-    ArmFirmwareUpdate(crate::firmware::FirmwarePackage),
-    #[cfg(feature = "firmware")]
+    Hil(hil::engine::HilCommand),
+    StartFirmwareUpdate(firmware::FirmwarePackage),
+    ArmFirmwareUpdate(firmware::FirmwarePackage),
     CancelFirmwareUpdate,
 }
 pub enum CanThreadEvent {
@@ -58,10 +52,8 @@ pub enum CanThreadEvent {
         load_10s: f32,
         load_30s: f32,
     },
-    #[cfg(feature = "hil")]
-    Hil(crate::hil::engine::HilSnapshot),
-    #[cfg(feature = "firmware")]
-    FirmwareProgress(crate::firmware::FirmwareProgress),
+    Hil(hil::engine::HilSnapshot),
+    FirmwareProgress(firmware::FirmwareProgress),
 }
 /// Single caller owns shutdown; cloned senders submit commands but do not own the worker.
 pub struct CanThreadHandle {

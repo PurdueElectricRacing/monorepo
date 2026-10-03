@@ -1,15 +1,13 @@
-use crate::telemetry::TelemetryView;
-use eframe::egui;
-use walkers::sources::{Attribution, TileSource};
-use walkers::{HttpTiles, Map, MapMemory, Plugin, Position, Projector, TileId, lon_lat};
+use crate::telemetry;
+
 const DEFAULT_CENTER_LAT: f64 = 40.4344;
 const DEFAULT_CENTER_LON: f64 = -86.9183;
 // satellite imagery instead of street map
 // <https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9>
 struct EsriWorldImagery;
 
-impl TileSource for EsriWorldImagery {
-    fn tile_url(&self, tile_id: TileId) -> String {
+impl walkers::sources::TileSource for EsriWorldImagery {
+    fn tile_url(&self, tile_id: walkers::TileId) -> String {
         format!(
             "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{}/{}/{}",
             tile_id.zoom,
@@ -18,8 +16,8 @@ impl TileSource for EsriWorldImagery {
         )
     }
 
-    fn attribution(&self) -> Attribution {
-        Attribution {
+    fn attribution(&self) -> walkers::sources::Attribution {
+        walkers::sources::Attribution {
             text: "Esri, Maxar, Earthstar Geographics, and the GIS User Community",
             url: "https://www.esri.com/en-us/legal/copyright-trademarks",
             logo_light: None,
@@ -30,18 +28,22 @@ impl TileSource for EsriWorldImagery {
 
 pub struct GpsPlot {
     pub title: String,
-    tiles: Option<HttpTiles>,
-    map_memory: MapMemory,
+    tiles: Option<walkers::HttpTiles>,
+    map_memory: walkers::MapMemory,
 }
 impl GpsPlot {
     pub fn new(instance: usize) -> Self {
         Self {
             title: format!("GPS Plot #{instance}"),
             tiles: None,
-            map_memory: MapMemory::default(),
+            map_memory: walkers::MapMemory::default(),
         }
     }
-    pub fn show(&mut self, ui: &mut egui::Ui, view: &TelemetryView<'_>) -> egui_tiles::UiResponse {
+    pub fn show(
+        &mut self,
+        ui: &mut eframe::egui::Ui,
+        view: &telemetry::TelemetryView<'_>,
+    ) -> egui_tiles::UiResponse {
         let samples: Vec<_> = view.frames.iter().filter_map(gps_sample).collect();
         let fix = samples.last().copied();
         if let Some((t, lat, lon)) = fix {
@@ -50,8 +52,8 @@ impl GpsPlot {
             ui.label("No retained GPS fix in the selected interval.");
         }
         let position = fix
-            .map(|(_, lat, lon)| lon_lat(lon, lat))
-            .unwrap_or_else(|| lon_lat(DEFAULT_CENTER_LON, DEFAULT_CENTER_LAT));
+            .map(|(_, lat, lon)| walkers::lon_lat(lon, lat))
+            .unwrap_or_else(|| walkers::lon_lat(DEFAULT_CENTER_LON, DEFAULT_CENTER_LAT));
         if fix.is_some() && self.map_memory.detached().is_none() {
             self.map_memory.center_at(position);
         }
@@ -62,7 +64,7 @@ impl GpsPlot {
             .step_by(stride)
             .map(|(t, lat, lon)| {
                 (
-                    lon_lat(*lon, *lat),
+                    walkers::lon_lat(*lon, *lat),
                     if span > 0.0 {
                         (t.secs(view.timeline.start()) / span).clamp(0.0, 1.0) as f32
                     } else {
@@ -72,16 +74,16 @@ impl GpsPlot {
             })
             .collect();
         if let Some((_, lat, lon)) = fix {
-            trail.push((lon_lat(lon, lat), 1.0));
+            trail.push((walkers::lon_lat(lon, lat), 1.0));
         }
         let tiles = self
             .tiles
-            .get_or_insert_with(|| HttpTiles::new(EsriWorldImagery, ui.ctx().clone()));
+            .get_or_insert_with(|| walkers::HttpTiles::new(EsriWorldImagery, ui.ctx().clone()));
         ui.add(
-            Map::new(Some(tiles), &mut self.map_memory, position).with_plugin(CarDot {
+            walkers::Map::new(Some(tiles), &mut self.map_memory, position).with_plugin(CarDot {
                 trail,
                 visible: fix.is_some(),
-                color: egui::Color32::BLACK,
+                color: eframe::egui::Color32::BLACK,
             }),
         );
         egui_tiles::UiResponse::None
@@ -89,25 +91,25 @@ impl GpsPlot {
 }
 // drawing cars path
 struct CarDot {
-    trail: Vec<(Position, f32)>, // (position, age fraction 0.0=oldest..1.0=current)
+    trail: Vec<(walkers::Position, f32)>, // (position, age fraction 0.0=oldest..1.0=current)
     visible: bool,
-    color: egui::Color32,
+    color: eframe::egui::Color32,
 }
 
-impl Plugin for CarDot {
+impl walkers::Plugin for CarDot {
     fn run(
         self: Box<Self>,
-        ui: &mut egui::Ui,
-        _response: &egui::Response,
-        projector: &Projector,
-        _map_memory: &MapMemory,
+        ui: &mut eframe::egui::Ui,
+        _response: &eframe::egui::Response,
+        projector: &walkers::Projector,
+        _map_memory: &walkers::MapMemory,
     ) {
         if !self.visible || self.trail.is_empty() {
             return;
         }
 
         let painter = ui.painter();
-        let screen_points: Vec<egui::Pos2> = self
+        let screen_points: Vec<eframe::egui::Pos2> = self
             .trail
             .iter()
             .map(|(position, _)| projector.project(*position).to_pos2())
@@ -122,7 +124,7 @@ impl Plugin for CarDot {
 
             painter.line_segment(
                 [screen_points[i - 1], screen_points[i]],
-                egui::Stroke::new(width, self.color.gamma_multiply(fade)),
+                eframe::egui::Stroke::new(width, self.color.gamma_multiply(fade)),
             );
         }
 
@@ -132,7 +134,7 @@ impl Plugin for CarDot {
             painter.circle_stroke(
                 current,
                 4.0,
-                egui::Stroke::new(1.5_f32, egui::Color32::WHITE),
+                eframe::egui::Stroke::new(1.5_f32, eframe::egui::Color32::WHITE),
             );
         }
     }
@@ -156,10 +158,9 @@ mod tests {
     use super::*;
     #[test]
     fn coordinates_follow_shared_cursor_and_reject_invalid_fixes() {
-        use crate::telemetry::{TelemetryView, sample};
-        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0, 0.0);
+        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0);
         for (time, lat, lon) in [(100, 40.0, -86.0), (150, 91.0, 0.0), (200, 41.0, -85.0)] {
-            session.ingest_frame(sample(
+            session.ingest_frame(telemetry::sample(
                 time,
                 1,
                 "gps_coordinates",
@@ -169,7 +170,7 @@ mod tests {
         session
             .timeline_mut()
             .set_setpoint(daqcore::Time::from_unix_millis(150));
-        let fixes: Vec<_> = TelemetryView::new(&session)
+        let fixes: Vec<_> = telemetry::TelemetryView::new(&session)
             .frames
             .iter()
             .filter_map(gps_sample)

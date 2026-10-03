@@ -12,18 +12,8 @@ bytemuck.workspace = true
 csv.workspace = true
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-slcan = { workspace = true, optional = true }
-serialport = { version = "4.8.1", optional = true }
-rand = { version = "0.10.1", optional = true }
-globset = { version = "0.4.18", optional = true }
-indexmap = { version = "2.14.0", features = ["serde"], optional = true }
-
-[features]
-default = []
-serial = ["dep:slcan", "dep:serialport"]
-udp = []
-simulated = ["dep:rand"]
-loopback = []
-hil = ["dep:indexmap"]
-firmware = []
-formatting = ["dep:globset", "dep:indexmap"]
+slcan = { workspace = true }
+serialport = { version = "4.8.1" }
+rand = { version = "0.10.1" }
+globset = { version = "0.4.18" }
+indexmap = { version = "2.14.0", features = ["serde"] }

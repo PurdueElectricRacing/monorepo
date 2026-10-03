@@ -1,5 +1,6 @@
+use crate::telemetry;
 use crate::ui;
-use eframe::egui::{self, Color32, Frame, Pos2, Stroke, StrokeKind, Vec2};
+
 use std::f32::consts::PI;
 
 const STALE_TIMEOUT_SECONDS: u64 = 1;
@@ -47,7 +48,7 @@ impl Dynamics {
         }
     }
 
-    pub fn project(&mut self, view: &crate::telemetry::TelemetryView<'_>) {
+    pub fn project(&mut self, view: &telemetry::TelemetryView<'_>) {
         self.velocity_mps = 0.0;
         self.accel_x = 0.0;
         self.accel_y = 0.0;
@@ -97,14 +98,14 @@ impl Dynamics {
         }
     }
 
-    pub fn show(&mut self, ui: &mut egui::Ui) -> egui_tiles::UiResponse {
+    pub fn show(&mut self, ui: &mut eframe::egui::Ui) -> egui_tiles::UiResponse {
         let theme = ui::theme::get_theme(ui.ctx());
 
         self.is_data_stale = self
             .last_update
             .is_none_or(|t| self.view_time.secs(t) > STALE_TIMEOUT_SECONDS as f64);
 
-        egui::ScrollArea::vertical().show(ui, |ui| {
+        eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
             ui.heading(&self.title);
             ui.add_space(4.0);
@@ -115,16 +116,16 @@ impl Dynamics {
 
             // Allocation for custom visualization
             let available_w = ui.available_width();
-            let size = Vec2::splat(available_w.min(400.0));
-            let (rect, _response) = ui.allocate_exact_size(size, egui::Sense::hover());
+            let size = eframe::egui::Vec2::splat(available_w.min(400.0));
+            let (rect, _response) = ui.allocate_exact_size(size, eframe::egui::Sense::hover());
 
             let painter = ui.painter();
             painter.rect_filled(rect, 4.0, theme.panel_color());
             painter.rect_stroke(
                 rect,
                 4.0,
-                Stroke::new(1.0_f32, theme.accent_color()),
-                egui::StrokeKind::Inside,
+                eframe::egui::Stroke::new(1.0_f32, theme.accent_color()),
+                eframe::egui::StrokeKind::Inside,
             );
 
             // --- 2D Drawing Logic ---
@@ -141,7 +142,7 @@ impl Dynamics {
         egui_tiles::UiResponse::None
     }
 
-    fn draw_status_banner(&self, ui: &mut egui::Ui, theme: &ui::theme::ThemeColors) {
+    fn draw_status_banner(&self, ui: &mut eframe::egui::Ui, theme: &ui::theme::ThemeColors) {
         let stale = self.is_data_stale;
         let elapsed = self
             .last_update
@@ -150,27 +151,29 @@ impl Dynamics {
         let (bg, dot, text) = if stale {
             let c = theme.warning_color();
             (
-                Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
+                eframe::egui::Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
                 c,
                 format!("No data — last message {:.1} s ago", elapsed),
             )
         } else {
             let c = theme.success_color();
             (
-                Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
+                eframe::egui::Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
                 c,
                 format!("Live — last message {:.1} s ago", elapsed),
             )
         };
-        Frame::NONE
+        eframe::egui::Frame::NONE
             .fill(bg)
-            .stroke(Stroke::new(1.0_f32, dot.linear_multiply(0.5)))
-            .inner_margin(egui::Margin::symmetric(10, 6))
-            .corner_radius(egui::CornerRadius::same(4))
+            .stroke(eframe::egui::Stroke::new(1.0_f32, dot.linear_multiply(0.5)))
+            .inner_margin(eframe::egui::Margin::symmetric(10, 6))
+            .corner_radius(eframe::egui::CornerRadius::same(4))
             .show(ui, |ui| {
                 ui.horizontal(|ui| {
-                    let (rect, _) =
-                        ui.allocate_exact_size(egui::Vec2::splat(8.0), egui::Sense::hover());
+                    let (rect, _) = ui.allocate_exact_size(
+                        eframe::egui::Vec2::splat(8.0),
+                        eframe::egui::Sense::hover(),
+                    );
                     ui.painter().circle_filled(rect.center(), 4.0, dot);
                     ui.add_space(4.0);
                     ui.colored_label(dot, &text);
@@ -180,21 +183,24 @@ impl Dynamics {
 
     fn draw_chassis(
         &self,
-        painter: &egui::Painter,
-        center: Pos2,
+        painter: &eframe::egui::Painter,
+        center: eframe::egui::Pos2,
         pixels_per_meter: f32,
         theme: &ui::theme::ThemeColors,
     ) {
         // 1. Draw Chassis (Top-down)
         let chassis_w = CHASSIS_WIDTH_M * pixels_per_meter;
         let chassis_h = CHASSIS_LENGTH_M * pixels_per_meter;
-        let chassis_rect = egui::Rect::from_center_size(center, Vec2::new(chassis_w, chassis_h));
+        let chassis_rect = eframe::egui::Rect::from_center_size(
+            center,
+            eframe::egui::Vec2::new(chassis_w, chassis_h),
+        );
 
         painter.rect_stroke(
             chassis_rect,
             2.0,
-            Stroke::new(2.0_f32, theme.text_color().linear_multiply(0.3)),
-            StrokeKind::Outside,
+            eframe::egui::Stroke::new(2.0_f32, theme.text_color().linear_multiply(0.3)),
+            eframe::egui::StrokeKind::Outside,
         );
 
         // 2. Draw Wheelbase / Axles
@@ -204,24 +210,24 @@ impl Dynamics {
 
         painter.line_segment(
             [
-                Pos2::new(center.x - chassis_w / 2.0, front_axle_y),
-                Pos2::new(center.x + chassis_w / 2.0, front_axle_y),
+                eframe::egui::Pos2::new(center.x - chassis_w / 2.0, front_axle_y),
+                eframe::egui::Pos2::new(center.x + chassis_w / 2.0, front_axle_y),
             ],
-            Stroke::new(1.0_f32, theme.text_color().linear_multiply(0.2)),
+            eframe::egui::Stroke::new(1.0_f32, theme.text_color().linear_multiply(0.2)),
         );
         painter.line_segment(
             [
-                Pos2::new(center.x - chassis_w / 2.0, rear_axle_y),
-                Pos2::new(center.x + chassis_w / 2.0, rear_axle_y),
+                eframe::egui::Pos2::new(center.x - chassis_w / 2.0, rear_axle_y),
+                eframe::egui::Pos2::new(center.x + chassis_w / 2.0, rear_axle_y),
             ],
-            Stroke::new(1.0_f32, theme.text_color().linear_multiply(0.2)),
+            eframe::egui::Stroke::new(1.0_f32, theme.text_color().linear_multiply(0.2)),
         );
     }
 
     fn draw_dynamics(
         &self,
-        painter: &egui::Painter,
-        center: Pos2,
+        painter: &eframe::egui::Painter,
+        center: eframe::egui::Pos2,
         pixels_per_meter: f32,
         theme: &ui::theme::ThemeColors,
     ) {
@@ -230,56 +236,56 @@ impl Dynamics {
         let rear_axle_y = center.y + axle_dist_px / 2.0;
 
         // 3. Acceleration Vectors (separate X and Y)
-        let accel_x_vec = Vec2::new(0.0, -self.accel_x * ACCEL_VECTOR_SCALE);
-        let accel_y_vec = Vec2::new(-self.accel_y * ACCEL_VECTOR_SCALE, 0.0);
+        let accel_x_vec = eframe::egui::Vec2::new(0.0, -self.accel_x * ACCEL_VECTOR_SCALE);
+        let accel_y_vec = eframe::egui::Vec2::new(-self.accel_y * ACCEL_VECTOR_SCALE, 0.0);
         painter.line_segment(
             [center, center + accel_x_vec],
-            Stroke::new(3.0_f32, theme.error_color()),
+            eframe::egui::Stroke::new(3.0_f32, theme.error_color()),
         );
         painter.circle_filled(center + accel_x_vec, 4.0, theme.error_color());
         painter.line_segment(
             [center, center + accel_y_vec],
-            Stroke::new(3.0_f32, theme.error_color()),
+            eframe::egui::Stroke::new(3.0_f32, theme.error_color()),
         );
         painter.circle_filled(center + accel_y_vec, 4.0, theme.error_color());
 
         // 4. Velocity Vector (Green)
-        let vel_vec = Vec2::new(0.0, -self.velocity_mps * SPEED_VECTOR_SCALE);
+        let vel_vec = eframe::egui::Vec2::new(0.0, -self.velocity_mps * SPEED_VECTOR_SCALE);
         painter.line_segment(
             [
-                Pos2::new(center.x, front_axle_y),
-                Pos2::new(center.x, front_axle_y) + vel_vec,
+                eframe::egui::Pos2::new(center.x, front_axle_y),
+                eframe::egui::Pos2::new(center.x, front_axle_y) + vel_vec,
             ],
-            Stroke::new(3.0_f32, theme.success_color()),
+            eframe::egui::Stroke::new(3.0_f32, theme.success_color()),
         );
 
         // 5. Yaw rotation arc + arrowhead
         self.draw_yaw_rotation_arrow(painter, center, pixels_per_meter, theme);
 
         // 6. Labels
-        let label_top_left = Pos2::new(
+        let label_top_left = eframe::egui::Pos2::new(
             center.x - 110.0,
             center.y - (CHASSIS_LENGTH_M * pixels_per_meter / 2.0) - 48.0,
         );
         painter.text(
             label_top_left,
-            egui::Align2::LEFT_TOP,
+            eframe::egui::Align2::LEFT_TOP,
             format!("Yaw: {:+.2} rad/s", self.yaw_rate_rads),
-            egui::FontId::monospace(12.0),
+            eframe::egui::FontId::monospace(12.0),
             theme.text_color(),
         );
         painter.text(
-            label_top_left + Vec2::new(0.0, 16.0),
-            egui::Align2::LEFT_TOP,
+            label_top_left + eframe::egui::Vec2::new(0.0, 16.0),
+            eframe::egui::Align2::LEFT_TOP,
             format!("Accel X: {:+.2} m/s²", self.accel_x),
-            egui::FontId::monospace(12.0),
+            eframe::egui::FontId::monospace(12.0),
             theme.error_color(),
         );
         painter.text(
-            label_top_left + Vec2::new(0.0, 32.0),
-            egui::Align2::LEFT_TOP,
+            label_top_left + eframe::egui::Vec2::new(0.0, 32.0),
+            eframe::egui::Align2::LEFT_TOP,
             format!("Accel Y: {:+.2} m/s²", self.accel_y),
-            egui::FontId::monospace(12.0),
+            eframe::egui::FontId::monospace(12.0),
             theme.error_color(),
         );
 
@@ -287,20 +293,20 @@ impl Dynamics {
         if self.steer_angle_rad.abs() > 0.01 {
             let r_m = WHEELBASE_M / self.steer_angle_rad.tan();
             let r_px = r_m * pixels_per_meter;
-            let turn_center = Pos2::new(center.x - r_px, rear_axle_y);
+            let turn_center = eframe::egui::Pos2::new(center.x - r_px, rear_axle_y);
 
             painter.circle_stroke(
                 turn_center,
                 r_px.abs(),
-                Stroke::new(1.0_f32, theme.info_color().linear_multiply(0.3)),
+                eframe::egui::Stroke::new(1.0_f32, theme.info_color().linear_multiply(0.3)),
             );
         }
     }
 
     fn draw_yaw_rotation_arrow(
         &self,
-        painter: &egui::Painter,
-        center: Pos2,
+        painter: &eframe::egui::Painter,
+        center: eframe::egui::Pos2,
         pixels_per_meter: f32,
         theme: &ui::theme::ThemeColors,
     ) {
@@ -317,7 +323,7 @@ impl Dynamics {
         let start_angle = -PI / 2.0;
         let end_angle = start_angle + direction * sweep;
         let radius = pixels_per_meter * (CHASSIS_WIDTH_M * 0.75);
-        let stroke = Stroke::new(1.5 + 1.5 * yaw_norm, theme.success_color());
+        let stroke = eframe::egui::Stroke::new(1.5 + 1.5 * yaw_norm, theme.success_color());
 
         let mut prev = Self::point_on_circle(center, radius, start_angle);
         for i in 1..=YAW_ARC_SEGMENTS {
@@ -332,8 +338,8 @@ impl Dynamics {
         painter.circle_filled(prev, 4.0, theme.success_color());
     }
 
-    fn point_on_circle(center: Pos2, radius: f32, angle: f32) -> Pos2 {
-        Pos2::new(
+    fn point_on_circle(center: eframe::egui::Pos2, radius: f32, angle: f32) -> eframe::egui::Pos2 {
+        eframe::egui::Pos2::new(
             center.x + radius * angle.cos(),
             center.y + radius * angle.sin(),
         )

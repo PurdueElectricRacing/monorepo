@@ -1,3 +1,4 @@
+use crate::firmware;
 use crate::firmware::{FirmwarePackage, FirmwareProgress, FirmwareUpdater, TickResult};
 use std::time::Instant;
 #[derive(Default)]
@@ -20,8 +21,7 @@ impl FirmwareSession {
         } else if package.images.is_empty() {
             Some("firmware package is empty")
         } else if package.images.iter().any(|image| {
-            image.bytes.is_empty()
-                || image.bytes.len() > crate::firmware::protocol::APPLICATION_SLOT_SIZE
+            image.bytes.is_empty() || image.bytes.len() > firmware::protocol::APPLICATION_SLOT_SIZE
         }) {
             Some("firmware image must fit the 480 KiB application slot")
         } else if armed && package.images.len() != 1 {
@@ -76,7 +76,7 @@ mod tests {
     use super::*;
     fn package() -> FirmwarePackage {
         FirmwarePackage {
-            images: vec![crate::firmware::FirmwareImage {
+            images: vec![firmware::FirmwareImage {
                 name: "test".into(),
                 bytes: vec![1; 4],
                 crc32: 0,
@@ -95,7 +95,7 @@ mod tests {
         assert!(session.start(package(), false, false, now).error.is_some());
         assert!(!session.active());
         let mut oversized = package();
-        oversized.images[0].bytes = vec![0; crate::firmware::protocol::APPLICATION_SLOT_SIZE + 1];
+        oversized.images[0].bytes = vec![0; firmware::protocol::APPLICATION_SLOT_SIZE + 1];
         assert!(session.start(oversized, false, true, now).error.is_some());
         assert!(session.start(package(), true, true, now).error.is_none());
         assert!(session.active());

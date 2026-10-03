@@ -1,11 +1,11 @@
 //! Drivers are single-owner I/O adapters; no transport type escapes this module.
+use crate::can;
+use crate::log_parse;
 use crate::{
     connection::{CanBusSpeed, ConnectionSource},
     frame::CanFrame,
 };
-#[cfg(any(feature = "serial", feature = "udp", feature = "simulated"))]
 use std::time::Duration;
-#[cfg(feature = "simulated")]
 use std::time::Instant;
 #[derive(Debug)]
 pub enum DriverError {
@@ -34,11 +34,9 @@ pub trait Driver {
 }
 pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>> {
     match source {
-        #[cfg(feature = "serial")]
         ConnectionSource::Serial(path, speed) => {
             Ok(Box::new(serial::SerialDriver::new(path, *speed)?))
         }
-        #[cfg(feature = "udp")]
         ConnectionSource::Udp(port) => {
             let socket = std::net::UdpSocket::bind(("0.0.0.0", *port))
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
@@ -47,9 +45,7 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
             Ok(Box::new(UdpDriver(socket)))
         }
-        #[cfg(feature = "loopback")]
         ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
-        #[cfg(feature = "simulated")]
         ConnectionSource::Simulated(true, path) => Ok(Box::new(SimulatedDriver {
             parser: path
                 .as_ref()
@@ -62,12 +58,10 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
         ))),
     }
 }
-#[cfg(feature = "loopback")]
 #[derive(Default)]
 struct LoopbackDriver {
     queued: Vec<CanFrame>,
 }
-#[cfg(feature = "loopback")]
 impl Driver for LoopbackDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         if self.queued.is_empty() {
@@ -81,9 +75,7 @@ impl Driver for LoopbackDriver {
         Ok(())
     }
 }
-#[cfg(feature = "udp")]
 struct UdpDriver(std::net::UdpSocket);
-#[cfg(feature = "udp")]
 impl Driver for UdpDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         let mut buf = [0; 65536];
@@ -96,7 +88,6 @@ impl Driver for UdpDriver {
         ))
     }
 }
-#[cfg(any(feature = "serial", feature = "udp"))]
 fn io_read(e: std::io::Error) -> DriverError {
     if matches!(
         e.kind(),
@@ -107,7 +98,6 @@ fn io_read(e: std::io::Error) -> DriverError {
         DriverError::Read(e.to_string())
     }
 }
-#[cfg(feature = "udp")]
 fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<CanFrame>> {
     if buf.len() < 16 || !buf.len().is_multiple_of(16) {
         return Err(DriverError::Read(
@@ -117,18 +107,16 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<CanFrame>> {
     buf.chunks_exact(16)
         .map(|bytes| {
             let identity = u32::from_le_bytes(bytes[4..8].try_into().unwrap());
-            let extended = identity & crate::log_parse::consts::IS_EID_MASK != 0;
-            let id = identity & crate::can::EXTENDED_ID_MASK;
+            let extended = identity & log_parse::consts::IS_EID_MASK != 0;
+            let id = identity & can::EXTENDED_ID_MASK;
             CanFrame::data(id, extended, bytes[8..16].to_vec()).map_err(DriverError::Read)
         })
         .collect()
 }
-#[cfg(feature = "simulated")]
 struct SimulatedDriver {
     parser: Option<can_decode::Parser>,
     next: Instant,
 }
-#[cfg(feature = "simulated")]
 impl Driver for SimulatedDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         use rand::prelude::*;
@@ -144,11 +132,11 @@ impl Driver for SimulatedDriver {
             .and_then(|p| p.msg_defs().choose(&mut rng).cloned());
         let (id, extended, size) = match msg {
             Some(m) => (
-                crate::can::can_dbc_to_u32_without_extid_flag(&m.id),
+                can::can_dbc_to_u32_without_extid_flag(&m.id),
                 matches!(m.id, can_dbc::MessageId::Extended(_)),
                 m.size as usize,
             ),
-            None => (rng.random_range(0..=crate::can::STANDARD_ID_MASK), false, 8),
+            None => (rng.random_range(0..=can::STANDARD_ID_MASK), false, 8),
         };
         if size > 8 {
             return Err(DriverError::Timeout);
@@ -163,7 +151,6 @@ impl Driver for SimulatedDriver {
         Ok(())
     }
 }
-#[cfg(feature = "serial")]
 mod serial {
     use super::*;
     use crate::frame::FrameKind;
@@ -285,13 +272,13 @@ mod serial {
         }
     }
 }
-#[cfg(all(test, feature = "udp"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     #[test]
     fn small_extended_id_is_preserved() {
         let mut data = [0; 16];
-        data[4..8].copy_from_slice(&(3 | crate::log_parse::consts::IS_EID_MASK).to_le_bytes());
+        data[4..8].copy_from_slice(&(3 | log_parse::consts::IS_EID_MASK).to_le_bytes());
         let f = parse_udp_buffer(&data).unwrap().remove(0);
         assert!(f.is_msg_id_extended);
         assert_eq!(f.msg_id, 3);

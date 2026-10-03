@@ -1,5 +1,3 @@
-use eframe::egui;
-
 /// Shared DBC message search UI state used by Send UI, Jitter, etc.
 #[derive(Default)]
 pub struct DbcMsgPickerState {
@@ -37,14 +35,17 @@ impl DbcMsgPickerState {
     /// (search buffer is cleared on pick).
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         parser: &can_decode::Parser,
         selected_msg_is_none: bool,
     ) -> Option<can_dbc::Message> {
         ui.horizontal(|ui| {
             ui.label("Search:");
             if ui
-                .add(egui::TextEdit::singleline(&mut self.search_text).hint_text("Message name..."))
+                .add(
+                    eframe::egui::TextEdit::singleline(&mut self.search_text)
+                        .hint_text("Message name..."),
+                )
                 .changed()
             {
                 self.refresh_results(parser);
@@ -54,13 +55,17 @@ impl DbcMsgPickerState {
         ui.add_space(8.0);
 
         if self.search_results.is_empty() && !self.search_text.is_empty() {
-            ui.label(egui::RichText::new("No messages found.").italics().weak());
+            ui.label(
+                eframe::egui::RichText::new("No messages found.")
+                    .italics()
+                    .weak(),
+            );
             return None;
         }
 
         if self.search_text.is_empty() && selected_msg_is_none {
             ui.label(
-                egui::RichText::new(
+                eframe::egui::RichText::new(
                     "Start typing to search for messages... (Use * to show all messages.)",
                 )
                 .italics()
@@ -93,7 +98,7 @@ impl DbcMsgPickerState {
     }
 }
 
-pub fn no_dbc_placeholder(ui: &mut egui::Ui) {
+pub fn no_dbc_placeholder(ui: &mut eframe::egui::Ui) {
     ui.vertical_centered(|ui| {
         ui.label("No DBC selected yet.");
         ui.label("CMD+S to toggle the sidebar.");

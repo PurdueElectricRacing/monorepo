@@ -1,5 +1,4 @@
-use crate::ui::theme::ThemeColors;
-use eframe::egui::{self, Color32, Frame, RichText, Stroke};
+use crate::ui::theme;
 
 pub const NUM_MODULES: usize = 7;
 pub const CELLS_PER_MODULE: usize = 16;
@@ -33,32 +32,39 @@ impl BatteryUiState {
     }
 }
 
-pub fn stale_banner(ui: &mut egui::Ui, theme: &ThemeColors, stale: bool, elapsed: f64) {
+pub fn stale_banner(
+    ui: &mut eframe::egui::Ui,
+    theme: &theme::ThemeColors,
+    stale: bool,
+    elapsed: f64,
+) {
     let (bg, dot, text) = if stale {
         let c = theme.warning_color();
         (
-            Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
+            eframe::egui::Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
             c,
             format!("No data — last message {:.1} s ago", elapsed),
         )
     } else {
         let c = theme.success_color();
         (
-            Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
+            eframe::egui::Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
             c,
             format!("Live — last message {:.1} s ago", elapsed),
         )
     };
 
-    Frame::NONE
+    eframe::egui::Frame::NONE
         .fill(bg)
-        .stroke(Stroke::new(1.0_f32, dot.linear_multiply(0.5)))
-        .inner_margin(egui::Margin::symmetric(10, 6))
-        .corner_radius(egui::CornerRadius::same(4))
+        .stroke(eframe::egui::Stroke::new(1.0_f32, dot.linear_multiply(0.5)))
+        .inner_margin(eframe::egui::Margin::symmetric(10, 6))
+        .corner_radius(eframe::egui::CornerRadius::same(4))
         .show(ui, |ui| {
             ui.horizontal(|ui| {
-                let (rect, _) =
-                    ui.allocate_exact_size(egui::Vec2::splat(8.0), egui::Sense::hover());
+                let (rect, _) = ui.allocate_exact_size(
+                    eframe::egui::Vec2::splat(8.0),
+                    eframe::egui::Sense::hover(),
+                );
                 ui.painter().circle_filled(rect.center(), 4.0, dot);
                 ui.add_space(4.0);
                 ui.colored_label(dot, &text);
@@ -67,24 +73,24 @@ pub fn stale_banner(ui: &mut egui::Ui, theme: &ThemeColors, stale: bool, elapsed
 }
 
 pub fn stat_card(
-    ui: &mut egui::Ui,
-    theme: &ThemeColors,
+    ui: &mut eframe::egui::Ui,
+    theme: &theme::ThemeColors,
     label: &str,
     value: Option<f64>,
     unit: &str,
     stale: bool,
-    override_color: Option<Color32>,
+    override_color: Option<eframe::egui::Color32>,
 ) {
-    Frame::NONE
+    eframe::egui::Frame::NONE
         .fill(theme.panel_color())
-        .stroke(Stroke::new(1.0_f32, theme.accent_color()))
-        .inner_margin(egui::Margin::same(10))
-        .corner_radius(egui::CornerRadius::same(4))
+        .stroke(eframe::egui::Stroke::new(1.0_f32, theme.accent_color()))
+        .inner_margin(eframe::egui::Margin::same(10))
+        .corner_radius(eframe::egui::CornerRadius::same(4))
         .show(ui, |ui| {
             ui.set_min_width(ui.available_width());
             ui.vertical(|ui| {
                 ui.label(
-                    RichText::new(label)
+                    eframe::egui::RichText::new(label)
                         .size(10.0)
                         .color(theme.text_color().linear_multiply(0.5)),
                 );
@@ -92,22 +98,24 @@ pub fn stat_card(
                 let val_color = override_color.unwrap_or(theme.info_color());
                 if stale {
                     ui.label(
-                        RichText::new("—")
+                        eframe::egui::RichText::new("—")
                             .size(20.0)
                             .color(theme.text_color().linear_multiply(0.25)),
                     );
                 } else {
                     ui.label(
-                        RichText::new(if let Some(v) = value.filter(|v| v.is_finite()) {
-                            format!("{:.2}", v)
-                        } else {
-                            "—".to_string()
-                        })
+                        eframe::egui::RichText::new(
+                            if let Some(v) = value.filter(|v| v.is_finite()) {
+                                format!("{:.2}", v)
+                            } else {
+                                "—".to_string()
+                            },
+                        )
                         .size(20.0)
                         .color(val_color),
                     );
                     ui.label(
-                        RichText::new(unit)
+                        eframe::egui::RichText::new(unit)
                             .size(10.0)
                             .color(theme.text_color().linear_multiply(0.4)),
                     );

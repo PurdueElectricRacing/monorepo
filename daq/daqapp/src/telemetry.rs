@@ -1,10 +1,11 @@
 //! Borrowed per-render projections of the single shared history.
-use daqcore::{ParsedFrame, timeline::Timeline};
+
 use std::collections::BTreeMap;
 pub struct TelemetryView<'a> {
-    pub frames: &'a [ParsedFrame],
-    pub timeline: &'a Timeline,
-    pub latest: BTreeMap<u32, &'a ParsedFrame>,
+    pub plot_frames: &'a [daqcore::ParsedFrame],
+    pub frames: &'a [daqcore::ParsedFrame],
+    pub timeline: &'a daqcore::timeline::Timeline,
+    pub latest: BTreeMap<u32, &'a daqcore::ParsedFrame>,
 }
 impl<'a> TelemetryView<'a> {
     pub fn new(session: &'a daqcore::Session) -> Self {
@@ -19,6 +20,7 @@ impl<'a> TelemetryView<'a> {
             }
         }
         Self {
+            plot_frames: session.cache().frames_in_range(session.timeline().range()),
             frames,
             timeline: session.timeline(),
             latest,
@@ -69,7 +71,7 @@ pub struct BusLoadSample {
 }
 
 #[cfg(test)]
-pub fn sample(ms: i64, id: u32, name: &str, values: &[(&str, f64)]) -> ParsedFrame {
+pub fn sample(ms: i64, id: u32, name: &str, values: &[(&str, f64)]) -> daqcore::ParsedFrame {
     let mut signals = can_decode::SignalMap::default();
     for (name, value) in values {
         signals.insert(
@@ -85,7 +87,7 @@ pub fn sample(ms: i64, id: u32, name: &str, values: &[(&str, f64)]) -> ParsedFra
             },
         );
     }
-    ParsedFrame {
+    daqcore::ParsedFrame {
         timestamp: daqcore::Time::from_unix_millis(ms),
         msg_id: id,
         kind: daqcore::frame::FrameKind::Data,
@@ -104,23 +106,48 @@ pub fn sample(ms: i64, id: u32, name: &str, values: &[(&str, f64)]) -> ParsedFra
 #[cfg(test)]
 mod tests {
     use super::*;
-    use daqcore::{Session, Time};
+
     #[test]
     fn cursor_is_inclusive_and_unknown_replaces_decoded() {
-        let mut session = Session::live(Time::from_unix_millis(0), 30.0, 0.0);
+        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0);
         session.ingest_frame(sample(100, 1, "message", &[]));
         let mut unknown = sample(200, 1, "message", &[]);
         unknown.decoded = None;
         session.ingest_frame(unknown);
         session
             .timeline_mut()
-            .set_setpoint(Time::from_unix_millis(100));
+            .set_setpoint(daqcore::Time::from_unix_millis(100));
         assert!(TelemetryView::new(&session).latest[&1].decoded.is_some());
         session
             .timeline_mut()
-            .set_setpoint(Time::from_unix_millis(200));
+            .set_setpoint(daqcore::Time::from_unix_millis(200));
         assert!(TelemetryView::new(&session).latest[&1].decoded.is_none());
         assert_eq!(TelemetryView::new(&session).frames.len(), 2);
+    }
+
+    #[test]
+    fn scope_sees_full_selection_while_values_follow_playhead() {
+        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0);
+        for ms in [100, 200, 300] {
+            session.ingest_frame(sample(ms, 1, "test", &[]));
+        }
+        session
+            .timeline_mut()
+            .set_end(daqcore::Time::from_unix_millis(200));
+        session
+            .timeline_mut()
+            .set_setpoint(daqcore::Time::from_unix_millis(100));
+        let view = TelemetryView::new(&session);
+        assert_eq!(view.frames.len(), 1);
+        assert_eq!(view.plot_frames.len(), 2);
+        assert_eq!(
+            view.latest[&1].timestamp,
+            daqcore::Time::from_unix_millis(100)
+        );
+        assert_eq!(
+            view.plot_frames.last().unwrap().timestamp,
+            daqcore::Time::from_unix_millis(200)
+        );
     }
     #[test]
     fn drawing_reduction_keeps_extrema_and_endpoints() {
@@ -142,13 +169,12 @@ mod profile {
     #[test]
     #[ignore = "manual rendering profile"]
     fn shared_widgets_at_representative_rates() {
-        use crate::ui::{
-            battery::{battery_temps::BatteryTemps, battery_voltage::BatteryVoltage},
-            scope::Scope,
-        };
-        use eframe::egui;
+        use crate::ui::battery::battery_temps;
+        use crate::ui::battery::battery_voltage;
+        use crate::ui::scope;
+
         for rate in [200, 5000] {
-            let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0, 0.0);
+            let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0);
             for i in 0..(rate * 30) {
                 session.ingest_frame(sample(
                     i * 1000 / rate,
@@ -162,10 +188,10 @@ mod profile {
                     ],
                 ));
             }
-            let context = egui::Context::default();
-            let mut scope = Scope::new(1, 1, "cell_telemetry".into(), "voltage".into());
-            let mut battery = BatteryVoltage::new(1);
-            let mut temps = BatteryTemps::new(1);
+            let context = eframe::egui::Context::default();
+            let mut scope = scope::Scope::new(1, 1, "cell_telemetry".into(), "voltage".into());
+            let mut battery = battery_voltage::BatteryVoltage::new(1);
+            let mut temps = battery_temps::BatteryTemps::new(1);
             let mut timings = Vec::new();
             for tick in 0..35 {
                 let start = std::time::Instant::now();
@@ -173,15 +199,15 @@ mod profile {
                 battery.project(&view);
                 temps.project(&view);
                 let output = context.run(
-                    egui::RawInput {
-                        screen_rect: Some(egui::Rect::from_min_size(
-                            egui::Pos2::ZERO,
-                            egui::vec2(1920.0, 1080.0),
+                    eframe::egui::RawInput {
+                        screen_rect: Some(eframe::egui::Rect::from_min_size(
+                            eframe::egui::Pos2::ZERO,
+                            eframe::egui::vec2(1920.0, 1080.0),
                         )),
                         ..Default::default()
                     },
                     |ctx| {
-                        egui::CentralPanel::default().show(ctx, |ui| {
+                        eframe::egui::CentralPanel::default().show(ctx, |ui| {
                             ui.columns(3, |cols| {
                                 let _ = scope.show(&mut cols[0], None, &view);
                                 let _ = battery.show(&mut cols[1]);

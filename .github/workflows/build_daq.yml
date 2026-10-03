@@ -50,7 +50,7 @@ jobs:
 
       - name: Test DAQ workspace
         working-directory: daq
-        run: cargo test --workspace --all-features --all-targets --locked
+        run: cargo test --workspace --all-targets --locked
 
       - name: Show compiler warnings
         working-directory: daq
@@ -58,20 +58,3 @@ jobs:
           echo "Compiler warnings:"
           cargo check --workspace --all-targets --locked --message-format short
         continue-on-error: true
-
-  core-features:
-    name: Headless core (${{ matrix.features || 'minimal' }})
-    runs-on: ubuntu-latest
-    container:
-      image: irvingywang/per-firmware:latest
-    strategy:
-      matrix:
-        features: ["", "serial", "udp", "simulated", "loopback", "hil", "firmware", "formatting", "serial,udp,simulated,loopback,hil,firmware,formatting"]
-    steps:
-      - uses: actions/checkout@v7
-      - name: Test standalone core
-        working-directory: daq
-        run: cargo test -p daqcore --no-default-features --features "${{ matrix.features }}" --all-targets --locked
-      - name: Check ownership boundaries
-        if: matrix.features == ''
-        run: python3 daq/check_boundaries.py

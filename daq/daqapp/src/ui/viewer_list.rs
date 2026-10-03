@@ -1,6 +1,6 @@
-use crate::{app, telemetry::TelemetryView};
-use daqcore::formatter;
-use eframe::egui;
+use crate::app;
+use crate::telemetry;
+
 pub struct ViewerList {
     pub title: String,
 }
@@ -12,10 +12,10 @@ impl ViewerList {
     }
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
-        formatter: &Option<formatter::Formatter>,
+        ui: &mut eframe::egui::Ui,
+        formatter: &Option<daqcore::formatter::Formatter>,
         parser: Option<&app::ParserInfo>,
-        view: &TelemetryView<'_>,
+        view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         ui.heading(&self.title);
         if view.frames.is_empty() {
@@ -45,7 +45,7 @@ impl ViewerList {
                             };
                         let def = parser.and_then(|p| p.parser.msg_def(id));
                         for (name, sig) in &decoded.signals {
-                            let value = formatter::try_format(
+                            let value = daqcore::formatter::try_format(
                                 formatter,
                                 &decoded.name,
                                 name,

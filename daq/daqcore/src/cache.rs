@@ -1,4 +1,8 @@
 //! Naive sorted frame history, owned by the UI/main thread. Eviction has no implicit cap.
+#[cfg(test)]
+use crate::can;
+#[cfg(test)]
+use crate::frame;
 use crate::{ParsedFrame, Time};
 use std::{collections::HashMap, ops::RangeInclusive};
 pub type CachedFrame = ParsedFrame;
@@ -129,7 +133,7 @@ mod tests {
     use super::*;
     fn f(ms: i64, id: u32, byte: u8) -> CachedFrame {
         ParsedFrame {
-            kind: crate::frame::FrameKind::Data,
+            kind: frame::FrameKind::Data,
             dlc: 1,
             timestamp: Time::from_unix_millis(ms),
             msg_id: id,
@@ -186,10 +190,7 @@ mod tests {
         cache.push(extended);
         assert_eq!(cache.latest(3).unwrap().raw_bytes, [1]);
         assert_eq!(
-            cache
-                .latest(3 | crate::can::EXTENDED_ID_FLAG)
-                .unwrap()
-                .raw_bytes,
+            cache.latest(3 | can::EXTENDED_ID_FLAG).unwrap().raw_bytes,
             [2]
         );
     }

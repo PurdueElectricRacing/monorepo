@@ -2,6 +2,11 @@ use super::{
     CanThreadCommand as Command, CanThreadConfig, CanThreadEvent as Event,
     connection::ConnectionManager, decode::FrameDecoder, events::Events, tx::SendTable,
 };
+use crate::can_thread;
+#[cfg(test)]
+use crate::connection;
+use crate::frame;
+use crate::hil;
 use crate::{
     Time,
     can::{bus_load::BusLoadTracker, driver::DriverError, logger::DaqLogger},
@@ -29,13 +34,9 @@ fn run_with_connection(
     let mut sends = SendTable::default();
     let mut load = BusLoadTracker::default();
     let mut logger = config.log_folder.map(DaqLogger::new);
-    #[cfg(feature = "firmware")]
-    let mut firmware = super::firmware::FirmwareSession::default();
-    #[cfg(feature = "hil")]
-    let mut hil = crate::hil::engine::HilEngine::new(config.hil_dir);
-    #[cfg(feature = "hil")]
+    let mut firmware = can_thread::firmware_session::FirmwareSession::default();
+    let mut hil = hil::engine::HilEngine::new(config.hil_dir);
     let mut hil_last = Instant::now();
-    #[cfg(feature = "hil")]
     let mut hil_finished = false;
     let mut load_last = Instant::now();
     let mut pending = None;
@@ -67,7 +68,6 @@ fn run_with_connection(
             match command {
                 Command::Stop => break 'worker,
                 Command::Connect(source) => {
-                    #[cfg(feature = "firmware")]
                     if let Some(p) = firmware.cancel() {
                         emit!(Event::FirmwareProgress(p));
                     }
@@ -97,7 +97,6 @@ fn run_with_connection(
                     Some(logger) => logger.update_folder(path),
                     None => logger = Some(DaqLogger::new(path)),
                 },
-                #[cfg(feature = "hil")]
                 Command::Hil(command) => {
                     let now = Instant::now();
                     hil.handle_command(command, now);
@@ -105,17 +104,14 @@ fn run_with_connection(
                     hil_last = now;
                     hil_finished = false;
                 }
-                #[cfg(feature = "firmware")]
                 Command::StartFirmwareUpdate(package) => {
                     let p = firmware.start(package, false, connection.connected(), Instant::now());
                     emit!(Event::FirmwareProgress(p));
                 }
-                #[cfg(feature = "firmware")]
                 Command::ArmFirmwareUpdate(package) => {
                     let p = firmware.start(package, true, connection.connected(), Instant::now());
                     emit!(Event::FirmwareProgress(p));
                 }
-                #[cfg(feature = "firmware")]
                 Command::CancelFirmwareUpdate => {
                     if let Some(p) = firmware.cancel() {
                         emit!(Event::FirmwareProgress(p));
@@ -135,7 +131,6 @@ fn run_with_connection(
                 Err(error) => emit!(Event::ConnectionFailed(error)),
             }
         }
-        #[cfg(feature = "hil")]
         {
             hil.tick(now);
             if hil.is_running()
@@ -147,16 +142,7 @@ fn run_with_connection(
                 hil_finished = hil.all_finished();
             }
         }
-        let updating = {
-            #[cfg(feature = "firmware")]
-            {
-                firmware.active()
-            }
-            #[cfg(not(feature = "firmware"))]
-            {
-                false
-            }
-        };
+        let updating = firmware.active();
         if connection.connected() && !updating {
             for frame in sends.due(now) {
                 let id = frame.msg_id;
@@ -186,7 +172,6 @@ fn run_with_connection(
                 }
             }
         }
-        #[cfg(feature = "firmware")]
         if firmware.active() && connection.connected() {
             for _ in 0..8 {
                 let result = firmware.tick(Instant::now());
@@ -196,7 +181,7 @@ fn run_with_connection(
                 let Some(frame) = result.frame else {
                     break;
                 };
-                let frame = crate::frame::CanFrame::data(frame.id, false, frame.data);
+                let frame = frame::CanFrame::data(frame.id, false, frame.data);
                 let result = frame
                     .map_err(DriverError::Write)
                     .and_then(|frame| connection.write(frame));
@@ -220,18 +205,8 @@ fn run_with_connection(
                         if let Some(logger) = &mut logger {
                             logger.log_frame(&frame);
                         }
-                        let updating = {
-                            #[cfg(feature = "firmware")]
-                            {
-                                firmware.active()
-                            }
-                            #[cfg(not(feature = "firmware"))]
-                            {
-                                false
-                            }
-                        };
+                        let updating = firmware.active();
                         if updating {
-                            #[cfg(feature = "firmware")]
                             if !frame.is_msg_id_extended {
                                 if let Some(p) =
                                     firmware.receive(frame.msg_id, &frame.data, Instant::now())
@@ -242,7 +217,6 @@ fn run_with_connection(
                         }
                         {
                             let frame = decoder.decode(frame, Time::now());
-                            #[cfg(feature = "hil")]
                             if !updating {
                                 hil.process_parsed(&frame, Instant::now());
                             }
@@ -281,7 +255,6 @@ fn run_with_connection(
             Err(RecvTimeoutError::Timeout) => {}
         }
     }
-    #[cfg(feature = "firmware")]
     if let Some(progress) = firmware.cancel() {
         let _ = events.emit(Event::FirmwareProgress(progress));
     }
@@ -290,7 +263,7 @@ fn run_with_connection(
     }
     connection.close();
 }
-#[cfg(all(test, feature = "loopback"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use crate::can_thread::{AddSendMessage, SendAmount, spawn_can_thread};
@@ -301,7 +274,7 @@ mod tests {
         assert!(
             handle
                 .command(Command::Connect(Some(
-                    crate::connection::ConnectionSource::Loopback
+                    connection::ConnectionSource::Loopback
                 )))
                 .is_ok()
         );
@@ -386,8 +359,8 @@ mod failure_tests {
             let (commands, input) = std::sync::mpsc::channel();
             let (closed, close_events) = std::sync::mpsc::channel();
             commands
-                .send(Command::AddSendMessage(super::super::AddSendMessage {
-                    amount: super::super::SendAmount::Once,
+                .send(Command::AddSendMessage(can_thread::AddSendMessage {
+                    amount: can_thread::SendAmount::Once,
                     msg_id: 1,
                     is_msg_id_extended: false,
                     msg_bytes: vec![1],
@@ -434,17 +407,15 @@ mod failure_tests {
     }
 }
 
-#[cfg(all(test, feature = "udp"))]
+#[cfg(test)]
 mod udp_tests {
     use super::*;
     #[test]
     fn idle_udp_rejects_sends_and_stops_promptly() {
         let (tx, rx) = std::sync::mpsc::channel();
-        let mut worker = super::super::spawn_can_thread(CanThreadConfig::default(), tx).unwrap();
+        let mut worker = can_thread::spawn_can_thread(CanThreadConfig::default(), tx).unwrap();
         worker
-            .command(Command::Connect(Some(
-                crate::connection::ConnectionSource::Udp(0),
-            )))
+            .command(Command::Connect(Some(connection::ConnectionSource::Udp(0))))
             .unwrap();
         loop {
             match rx.recv_timeout(Duration::from_secs(2)).unwrap() {
@@ -454,8 +425,8 @@ mod udp_tests {
             }
         }
         worker
-            .command(Command::AddSendMessage(super::super::AddSendMessage {
-                amount: super::super::SendAmount::Once,
+            .command(Command::AddSendMessage(can_thread::AddSendMessage {
+                amount: can_thread::SendAmount::Once,
                 msg_id: 1,
                 is_msg_id_extended: false,
                 msg_bytes: vec![1],

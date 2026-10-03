@@ -1,5 +1,4 @@
 use crate::action;
-use eframe::egui;
 
 pub struct CommandPalette {
     show_command_palette: bool,
@@ -24,7 +23,7 @@ impl CommandPalette {
         }
     }
 
-    pub fn ui(&mut self, ctx: &egui::Context) -> Vec<action::AppAction> {
+    pub fn ui(&mut self, ctx: &eframe::egui::Context) -> Vec<action::AppAction> {
         if !self.show_command_palette {
             return Vec::new();
         }
@@ -53,27 +52,27 @@ impl CommandPalette {
 
         // handle keyboard navigation (maybe needs to be smarter?)
         ctx.input_mut(|i| {
-            if i.key_pressed(egui::Key::ArrowDown) && !filtered_options.is_empty() {
+            if i.key_pressed(eframe::egui::Key::ArrowDown) && !filtered_options.is_empty() {
                 self.palette_index = (self.palette_index + 1) % filtered_options.len();
             }
-            if i.key_pressed(egui::Key::ArrowUp) && !filtered_options.is_empty() {
+            if i.key_pressed(eframe::egui::Key::ArrowUp) && !filtered_options.is_empty() {
                 self.palette_index =
                     (self.palette_index + filtered_options.len() - 1) % filtered_options.len();
             }
-            if i.key_pressed(egui::Key::Enter) && !filtered_options.is_empty() {
+            if i.key_pressed(eframe::egui::Key::Enter) && !filtered_options.is_empty() {
                 action_queue.push(action::AppAction::SpawnWidget(
                     filtered_options[self.palette_index].1.clone(),
                 ));
                 self.show_command_palette = false;
             }
-            if i.key_pressed(egui::Key::Escape) {
+            if i.key_pressed(eframe::egui::Key::Escape) {
                 self.show_command_palette = false;
             }
         });
 
         // render UI
-        egui::Window::new("Command Palette")
-            .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
+        eframe::egui::Window::new("Command Palette")
+            .anchor(eframe::egui::Align2::CENTER_CENTER, [0.0, 0.0])
             .collapsible(false)
             .resizable(false)
             .title_bar(false)
@@ -102,16 +101,16 @@ impl CommandPalette {
                             let selection = ui.visuals().selection;
 
                             // todo this styling is kinda janky, theres probably an easy way to do this
-                            let button = egui::Button::new(*label)
+                            let button = eframe::egui::Button::new(*label)
                                 .fill(if is_selected {
                                     selection.bg_fill
                                 } else {
-                                    egui::Color32::TRANSPARENT
+                                    eframe::egui::Color32::TRANSPARENT
                                 })
                                 .stroke(if is_selected {
                                     selection.stroke
                                 } else {
-                                    egui::Stroke::NONE
+                                    eframe::egui::Stroke::NONE
                                 });
 
                             let response = ui.add(button);

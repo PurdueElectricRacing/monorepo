@@ -1,6 +1,8 @@
-use crate::{action, app, telemetry::TelemetryView, widget_constructor};
-use daqcore::formatter;
-use eframe::egui;
+use crate::action;
+use crate::app;
+use crate::telemetry;
+use crate::widget_constructor;
+
 pub struct ViewerTable {
     pub title: String,
     search: String,
@@ -16,11 +18,11 @@ impl ViewerTable {
     }
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         actions: &mut Vec<action::AppAction>,
-        formatter: &Option<formatter::Formatter>,
+        formatter: &Option<daqcore::formatter::Formatter>,
         parser: Option<&app::ParserInfo>,
-        view: &TelemetryView<'_>,
+        view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         ui.heading(&self.title);
         ui.horizontal(|ui| {
@@ -33,7 +35,7 @@ impl ViewerTable {
                 .collect();
             nodes.sort();
             nodes.dedup();
-            egui::ComboBox::from_id_salt(("tx_node", &self.title))
+            eframe::egui::ComboBox::from_id_salt(("tx_node", &self.title))
                 .selected_text(&self.tx_node)
                 .show_ui(ui, |ui| {
                     ui.selectable_value(&mut self.tx_node, "Any".into(), "Any");
@@ -47,7 +49,7 @@ impl ViewerTable {
             ui.label("No retained CAN messages in the selected interval.");
         }
         let search = self.search.to_lowercase();
-        egui::ScrollArea::vertical().show(ui, |ui| {
+        eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             for frame in view.latest.values() {
                 let decoded = frame.decoded.as_ref();
                 let name = decoded.map_or("Error: Unknown", |d| d.name.as_str());
@@ -83,7 +85,7 @@ impl ViewerTable {
                                     .and_then(|m| m.signals.iter().find(|s| s.name == *name));
                                 (
                                     name.as_str(),
-                                    formatter::try_format(
+                                    daqcore::formatter::try_format(
                                         formatter,
                                         &d.name,
                                         name,
@@ -132,12 +134,12 @@ struct MessageCard<'a> {
 }
 
 impl MessageCard<'_> {
-    fn ui(&self, ui: &mut egui::Ui) -> Vec<action::AppAction> {
+    fn ui(&self, ui: &mut eframe::egui::Ui) -> Vec<action::AppAction> {
         let mut action_queue = Vec::new();
         // Header (outside card)
         ui.horizontal(|ui| {
             ui.label(
-                egui::RichText::new(format!("{}  (0x{:03X})", self.msg_name, self.msg_id))
+                eframe::egui::RichText::new(format!("{}  (0x{:03X})", self.msg_name, self.msg_id))
                     .strong()
                     .size(16.0)
                     .color(
@@ -154,7 +156,7 @@ impl MessageCard<'_> {
                     ),
             );
             ui.label(
-                egui::RichText::new(format!("from {}", self.tx_node)).color(
+                eframe::egui::RichText::new(format!("from {}", self.tx_node)).color(
                     if self.search.is_empty()
                         || self
                             .tx_node
@@ -168,18 +170,21 @@ impl MessageCard<'_> {
                 ),
             );
             ui.label(
-                egui::RichText::new(self.timestamp)
+                eframe::egui::RichText::new(self.timestamp)
                     .italics()
                     .color(ui.visuals().weak_text_color()),
             );
-            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                ui.label(
-                    egui::RichText::new(self.raw_bytes)
-                        .monospace()
-                        .color(ui.visuals().text_color()),
-                );
-                ui.add_space(2.0);
-            });
+            ui.with_layout(
+                eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
+                |ui| {
+                    ui.label(
+                        eframe::egui::RichText::new(self.raw_bytes)
+                            .monospace()
+                            .color(ui.visuals().text_color()),
+                    );
+                    ui.add_space(2.0);
+                },
+            );
         });
 
         ui.add_space(4.0);
@@ -189,16 +194,16 @@ impl MessageCard<'_> {
             return action_queue;
         }
 
-        egui::Frame::group(ui.style())
+        eframe::egui::Frame::group(ui.style())
             .fill(ui.visuals().faint_bg_color)
-            .corner_radius(egui::CornerRadius::same(8))
-            .inner_margin(egui::Margin::symmetric(8, 6))
+            .corner_radius(eframe::egui::CornerRadius::same(8))
+            .inner_margin(eframe::egui::Margin::symmetric(8, 6))
             .show(ui, |ui| {
                 ui.vertical(|ui| {
                     for (i, (sig_name, value)) in self.signals.iter().enumerate() {
                         ui.horizontal(|ui| {
                             ui.label(
-                                egui::RichText::new(*sig_name).monospace().color(
+                                eframe::egui::RichText::new(*sig_name).monospace().color(
                                     if self.search.is_empty()
                                         || sig_name
                                             .to_lowercase()
@@ -211,7 +216,7 @@ impl MessageCard<'_> {
                                 ),
                             );
                             ui.with_layout(
-                                egui::Layout::right_to_left(egui::Align::Center),
+                                eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
                                 |ui| {
                                     if ui.small_button("📊").clicked() {
                                         action_queue.push(action::AppAction::SpawnWidget(
@@ -223,7 +228,7 @@ impl MessageCard<'_> {
                                         ));
                                     }
                                     ui.add_space(8.0);
-                                    ui.label(egui::RichText::new(value).monospace());
+                                    ui.label(eframe::egui::RichText::new(value).monospace());
                                 },
                             );
                         });

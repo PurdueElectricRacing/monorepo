@@ -1,3 +1,7 @@
+#[cfg(test)]
+use crate::Time;
+#[cfg(test)]
+use crate::frame;
 use crate::{ParsedFrame, hil};
 
 pub enum HilCommand {
@@ -179,10 +183,10 @@ mod tests {
             now,
         );
         let frame = ParsedFrame {
-            timestamp: crate::Time::from_unix_millis(-1000),
+            timestamp: Time::from_unix_millis(-1000),
             msg_id: 3,
             is_msg_id_extended: false,
-            kind: crate::frame::FrameKind::Data,
+            kind: frame::FrameKind::Data,
             dlc: 2,
             raw_bytes: vec![100, 0],
             decoded: parser.decode_msg(3, &[100, 0]),

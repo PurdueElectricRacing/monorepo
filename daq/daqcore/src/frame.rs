@@ -70,7 +70,7 @@ impl ParsedFrame {
     pub fn identity(&self) -> u32 {
         self.msg_id
             | if self.is_msg_id_extended {
-                crate::can::EXTENDED_ID_FLAG
+                can::EXTENDED_ID_FLAG
             } else {
                 0
             }

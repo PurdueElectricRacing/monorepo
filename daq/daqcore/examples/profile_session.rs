@@ -7,7 +7,7 @@ fn main() {
         return;
     }
     for rate in [200_i64, 5000] {
-        let mut session = Session::live(Time::from_unix_millis(0), 30.0, 0.0);
+        let mut session = Session::live(Time::from_unix_millis(0), 30.0);
         let started = Instant::now();
         let mut max_tick = Duration::ZERO;
         let mut batches = 0;
@@ -50,7 +50,6 @@ fn main() {
         );
     }
 }
-#[cfg(feature = "simulated")]
 fn soak() {
     use daqcore::{
         can_thread::{CanThreadCommand, CanThreadConfig, CanThreadEvent, spawn_can_thread},
@@ -65,7 +64,7 @@ fn soak() {
             )))
             .is_ok()
     );
-    let mut session = Session::live(Time::now(), 30.0, 0.0);
+    let mut session = Session::live(Time::now(), 30.0);
     let start = Instant::now();
     let mut count = 0;
     while start.elapsed() < Duration::from_secs(600) {
@@ -84,8 +83,4 @@ fn soak() {
     );
     assert!(count > 60_000);
     assert!(session.cache().len() < 10_000);
-}
-#[cfg(not(feature = "simulated"))]
-fn soak() {
-    panic!("--soak requires the simulated feature");
 }

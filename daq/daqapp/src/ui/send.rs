@@ -1,14 +1,11 @@
 use crate::app;
-use daqcore::can_thread;
-use daqcore::formatter;
-use eframe::egui;
 
-use super::dbc_msg_picker::{DbcMsgPickerState, no_dbc_placeholder};
+use super::dbc_msg_picker;
 
 pub struct SendUi {
     pub title: String,
 
-    msg_picker: DbcMsgPickerState,
+    msg_picker: dbc_msg_picker::DbcMsgPickerState,
 
     selected_msg: Option<can_dbc::Message>,
     signal_values: Vec<SignalValue>,
@@ -23,7 +20,7 @@ pub struct SendUi {
     error: Option<String>,
 
     // Required to be stored on the struct so Drop can send cancellation messages when the UI closes
-    ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
+    ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
 }
 
 #[derive(Clone, Copy, PartialEq)]
@@ -42,7 +39,7 @@ struct SignalValue {
 }
 
 struct SendingMessage {
-    pub amount: can_thread::SendAmount,
+    pub amount: daqcore::can_thread::SendAmount,
     pub msg_name: String,
     pub msg_id: u32,
     pub msg_id_with_ext_flag: u32,
@@ -71,7 +68,7 @@ impl Drop for SendUi {
             let msg_id = msg.msg_id;
             if let Err(e) = self
                 .ui_to_can_tx
-                .send(can_thread::CanThreadCommand::DeleteSendMessage { msg_id })
+                .send(daqcore::can_thread::CanThreadCommand::DeleteSendMessage { msg_id })
             {
                 // Don't panic in Drop, just log the error
                 log::error!(
@@ -87,12 +84,12 @@ impl Drop for SendUi {
 impl SendUi {
     pub fn new(
         num: usize,
-        ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
+        ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
     ) -> Self {
         Self {
             title: format!("Send UI {}", num),
 
-            msg_picker: DbcMsgPickerState::default(),
+            msg_picker: dbc_msg_picker::DbcMsgPickerState::default(),
 
             selected_msg: None,
             signal_values: Vec::new(),
@@ -112,20 +109,20 @@ impl SendUi {
 
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         parser: Option<&app::ParserInfo>,
-        formatter: &Option<formatter::Formatter>,
+        formatter: &Option<daqcore::formatter::Formatter>,
     ) -> egui_tiles::UiResponse {
         let Some(parser) = parser else {
-            no_dbc_placeholder(ui);
+            dbc_msg_picker::no_dbc_placeholder(ui);
             return egui_tiles::UiResponse::None;
         };
 
-        egui::Frame::group(ui.style())
-            .inner_margin(egui::Margin::symmetric(8, 6))
-            .stroke(egui::Stroke::NONE)
+        eframe::egui::Frame::group(ui.style())
+            .inner_margin(eframe::egui::Margin::symmetric(8, 6))
+            .stroke(eframe::egui::Stroke::NONE)
             .show(ui, |ui| {
-                egui::ScrollArea::vertical().show(ui, |ui| {
+                eframe::egui::ScrollArea::vertical().show(ui, |ui| {
                     if let Some(msg) =
                         self.msg_picker
                             .show(ui, &parser.parser, self.selected_msg.is_none())
@@ -151,11 +148,14 @@ impl SendUi {
                         ui.separator();
 
                         if let Some(error) = &self.error {
-                            ui.label(egui::RichText::new(error).color(ui.visuals().error_fg_color));
+                            ui.label(
+                                eframe::egui::RichText::new(error)
+                                    .color(ui.visuals().error_fg_color),
+                            );
                         }
 
                         ui.label(
-                            egui::RichText::new(format!(
+                            eframe::egui::RichText::new(format!(
                                 "Selected Message: {} (0x{:03X})",
                                 selected_msg.name,
                                 daqcore::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
@@ -165,7 +165,7 @@ impl SendUi {
                         );
 
                         // Send Amount selector
-                        ui.label(egui::RichText::new("Send Options").strong());
+                        ui.label(eframe::egui::RichText::new("Send Options").strong());
 
                         ui.horizontal(|ui| {
                             ui.selectable_value(&mut self.send_mode, SendMode::Once, "Once");
@@ -183,7 +183,7 @@ impl SendUi {
                                 ui.horizontal(|ui| {
                                     ui.label("Period (ms)");
                                     ui.add(
-                                        egui::DragValue::new(&mut self.period_ms)
+                                        eframe::egui::DragValue::new(&mut self.period_ms)
                                             .speed(1)
                                             .range(1..=10_000),
                                     );
@@ -193,7 +193,7 @@ impl SendUi {
                                 ui.horizontal(|ui| {
                                     ui.label("Amount");
                                     ui.add(
-                                        egui::DragValue::new(&mut self.finite_amount)
+                                        eframe::egui::DragValue::new(&mut self.finite_amount)
                                             .speed(1)
                                             .range(1..=10_000),
                                     );
@@ -201,7 +201,7 @@ impl SendUi {
                                 ui.horizontal(|ui| {
                                     ui.label("Period (ms)");
                                     ui.add(
-                                        egui::DragValue::new(&mut self.period_ms)
+                                        eframe::egui::DragValue::new(&mut self.period_ms)
                                             .speed(1)
                                             .range(1..=10_000),
                                     );
@@ -220,7 +220,7 @@ impl SendUi {
                                 let speed = 10f64.powi(-(expected_decimals as i32));
                                 if ui
                                     .add(
-                                        egui::DragValue::new(&mut signal.value)
+                                        eframe::egui::DragValue::new(&mut signal.value)
                                             .range(signal.min..=signal.max)
                                             .speed(speed),
                                     )
@@ -251,13 +251,13 @@ impl SendUi {
                             self.error = None;
 
                             let send_amount = match self.send_mode {
-                                SendMode::Once => can_thread::SendAmount::Once,
+                                SendMode::Once => daqcore::can_thread::SendAmount::Once,
 
-                                SendMode::Infinite => can_thread::SendAmount::Infinite {
+                                SendMode::Infinite => daqcore::can_thread::SendAmount::Infinite {
                                     period: self.period_ms,
                                 },
 
-                                SendMode::Finite => can_thread::SendAmount::Finite {
+                                SendMode::Finite => daqcore::can_thread::SendAmount::Finite {
                                     amount: self.finite_amount,
                                     period: self.period_ms,
                                 },
@@ -281,7 +281,7 @@ impl SendUi {
                                 last_sent: daqcore::Time::now(),
                             });
 
-                            let add_send_msg = can_thread::AddSendMessage {
+                            let add_send_msg = daqcore::can_thread::AddSendMessage {
                                 amount: send_amount,
                                 msg_id: msg_id_u32,
                                 is_msg_id_extended: matches!(
@@ -296,7 +296,9 @@ impl SendUi {
                             self.adjustable_values_enabled = false;
 
                             self.ui_to_can_tx
-                                .send(can_thread::CanThreadCommand::AddSendMessage(add_send_msg))
+                                .send(daqcore::can_thread::CanThreadCommand::AddSendMessage(
+                                    add_send_msg,
+                                ))
                                 .unwrap_or_else(|error| {
                                     log::error!("Failed to submit send: {error}")
                                 });
@@ -344,8 +346,8 @@ impl SendUi {
                         self.error = None;
 
                         self.ui_to_can_tx
-                            .send(can_thread::CanThreadCommand::AddSendMessage(
-                                can_thread::AddSendMessage {
+                            .send(daqcore::can_thread::CanThreadCommand::AddSendMessage(
+                                daqcore::can_thread::AddSendMessage {
                                     amount: self.sending_messages[idx].amount,
                                     msg_id: self.sending_messages[idx].msg_id,
                                     is_msg_id_extended: self.sending_messages[idx]
@@ -361,9 +363,11 @@ impl SendUi {
                             SendUiActions::DeleteMessage { msg_id } => {
                                 self.sending_messages.retain(|msg| msg.msg_id != msg_id);
                                 self.ui_to_can_tx
-                                    .send(can_thread::CanThreadCommand::DeleteSendMessage {
-                                        msg_id,
-                                    })
+                                    .send(
+                                        daqcore::can_thread::CanThreadCommand::DeleteSendMessage {
+                                            msg_id,
+                                        },
+                                    )
                                     .unwrap_or_else(|error| {
                                         log::error!("Failed to delete send: {error}")
                                     });
@@ -376,8 +380,8 @@ impl SendUi {
         egui_tiles::UiResponse::None
     }
 
-    pub fn handle_can_message(&mut self, msg: &can_thread::CanThreadEvent) {
-        if let can_thread::CanThreadEvent::SendFailed {
+    pub fn handle_can_message(&mut self, msg: &daqcore::can_thread::CanThreadEvent) {
+        if let daqcore::can_thread::CanThreadEvent::SendFailed {
             msg_id,
             error,
             retrying,
@@ -388,7 +392,7 @@ impl SendUi {
             }
             log::error!("Send {msg_id:X} failed: {error}");
         }
-        if let can_thread::CanThreadEvent::MessageSent {
+        if let daqcore::can_thread::CanThreadEvent::MessageSent {
             msg_id,
             timestamp,
             amount_left,
@@ -414,8 +418,8 @@ impl SendUi {
 impl SendingMessage {
     fn ui(
         &mut self,
-        ui: &mut egui::Ui,
-        formatter: &Option<formatter::Formatter>,
+        ui: &mut eframe::egui::Ui,
+        formatter: &Option<daqcore::formatter::Formatter>,
         msg_idx: usize,
         updates_to_send: &mut Vec<usize>,
     ) -> Option<SendUiActions> {
@@ -430,55 +434,60 @@ impl SendingMessage {
         // Header (outside card)
         ui.horizontal(|ui| {
             ui.label(
-                egui::RichText::new(format!("{}  (0x{:03X})", self.msg_name, self.msg_id))
+                eframe::egui::RichText::new(format!("{}  (0x{:03X})", self.msg_name, self.msg_id))
                     .strong()
                     .size(16.0)
                     .color(ui.visuals().text_color()),
             );
-            ui.label(egui::RichText::new(self.amount.display()).color(ui.visuals().text_color()));
             ui.label(
-                egui::RichText::new(format!(
+                eframe::egui::RichText::new(self.amount.display()).color(ui.visuals().text_color()),
+            );
+            ui.label(
+                eframe::egui::RichText::new(format!(
                     "~{} ms ago",
                     (daqcore::Time::now().secs(self.last_sent) * 1000.0) as i64
                 ))
                 .italics()
                 .color(ui.visuals().weak_text_color()),
             );
-            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                if ui.button("🗑").on_hover_text("Delete message").clicked() {
-                    delete_action = Some(SendUiActions::DeleteMessage {
-                        msg_id: self.msg_id,
-                    });
-                }
-                ui.label(
-                    egui::RichText::new(raw_bytes_str)
-                        .monospace()
-                        .color(ui.visuals().text_color()),
-                );
+            ui.with_layout(
+                eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
+                |ui| {
+                    if ui.button("🗑").on_hover_text("Delete message").clicked() {
+                        delete_action = Some(SendUiActions::DeleteMessage {
+                            msg_id: self.msg_id,
+                        });
+                    }
+                    ui.label(
+                        eframe::egui::RichText::new(raw_bytes_str)
+                            .monospace()
+                            .color(ui.visuals().text_color()),
+                    );
 
-                ui.add_space(2.0);
-            });
+                    ui.add_space(2.0);
+                },
+            );
         });
 
         ui.add_space(4.0);
 
         // Card container
-        egui::Frame::group(ui.style())
+        eframe::egui::Frame::group(ui.style())
             .fill(ui.visuals().faint_bg_color)
-            .corner_radius(egui::CornerRadius::same(8))
-            .inner_margin(egui::Margin::symmetric(8, 6))
+            .corner_radius(eframe::egui::CornerRadius::same(8))
+            .inner_margin(eframe::egui::Margin::symmetric(8, 6))
             .show(ui, |ui| {
                 ui.vertical(|ui| {
                     let total_signals = self.signal_values.len();
                     for (i, signal) in self.signal_values.iter_mut().enumerate() {
                         ui.horizontal(|ui| {
                             ui.label(
-                                egui::RichText::new(&signal.name)
+                                eframe::egui::RichText::new(&signal.name)
                                     .monospace()
                                     .color(ui.visuals().text_color()),
                             );
                             ui.with_layout(
-                                egui::Layout::right_to_left(egui::Align::Center),
+                                eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
                                 |ui| {
                                     let expected_decimals = formatter
                                         .as_ref()
@@ -489,7 +498,7 @@ impl SendingMessage {
                                         let speed = 10f64.powi(-(expected_decimals as i32));
                                         if ui
                                             .add(
-                                                egui::DragValue::new(&mut signal.value)
+                                                eframe::egui::DragValue::new(&mut signal.value)
                                                     .range(signal.min..=signal.max)
                                                     .speed(speed),
                                             )
@@ -499,7 +508,7 @@ impl SendingMessage {
                                         }
                                     } else {
                                         ui.label(
-                                            egui::RichText::new(format!(
+                                            eframe::egui::RichText::new(format!(
                                                 "{:.*}",
                                                 expected_decimals, signal.value
                                             ))

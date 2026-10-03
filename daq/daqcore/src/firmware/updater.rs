@@ -1,4 +1,5 @@
 use super::{FirmwareProgress, protocol::FirmwarePackage};
+use crate::firmware;
 
 // Values mirror bootloader_status_t in firmware/can_library/generated/can_types.h.
 // Keeping the wire constants here avoids coupling the host updater to generated
@@ -91,25 +92,25 @@ impl FirmwareUpdater {
         (updater, progress)
     }
 
-    fn current_image(&self) -> &crate::firmware::protocol::FirmwareImage {
+    fn current_image(&self) -> &firmware::protocol::FirmwareImage {
         &self.package.images[self.board_index]
     }
 
-    fn start_frame(image: &crate::firmware::protocol::FirmwareImage) -> OutboundFrame {
+    fn start_frame(image: &firmware::protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.start_id,
             data: argument(image.bytes.len() as u32),
         }
     }
 
-    fn crc_frame(image: &crate::firmware::protocol::FirmwareImage) -> OutboundFrame {
+    fn crc_frame(image: &firmware::protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.crc_id,
             data: argument(image.crc32),
         }
     }
 
-    fn jump_frame(image: &crate::firmware::protocol::FirmwareImage) -> OutboundFrame {
+    fn jump_frame(image: &firmware::protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.jump_id,
             data: argument(0),
@@ -378,7 +379,7 @@ mod tests {
     const RESPONSE_ID: u32 = 0x182;
 
     fn package_with_bytes(bytes: Vec<u8>) -> FirmwarePackage {
-        let crc32 = crate::firmware::protocol::crc32_words(&bytes);
+        let crc32 = firmware::protocol::crc32_words(&bytes);
         FirmwarePackage {
             images: vec![FirmwareImage {
                 name: "main_module".to_string(),

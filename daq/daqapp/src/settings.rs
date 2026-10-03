@@ -1,5 +1,4 @@
 use crate::ui::theme;
-use daqcore::connection;
 
 pub const SETTINGS_PATH: &str = "settings.json";
 pub const DEFAULT_LOG_FOLDER: &str = "logs";
@@ -9,13 +8,14 @@ pub fn dbc_dir() -> Option<std::path::PathBuf> {
     path.is_dir().then_some(path)
 }
 const DEFAULT_UDP_PORT: u16 = 5005;
-const DEFAULT_CAN_SPEED: connection::CanBusSpeed = connection::CanBusSpeed::Kbps500;
+const DEFAULT_CAN_SPEED: daqcore::connection::CanBusSpeed =
+    daqcore::connection::CanBusSpeed::Kbps500;
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Settings {
     pub dbc_path: Option<std::path::PathBuf>,
-    pub selected_source: Option<connection::ConnectionSource>,
-    pub selected_speed: connection::CanBusSpeed,
+    pub selected_source: Option<daqcore::connection::ConnectionSource>,
+    pub selected_speed: daqcore::connection::CanBusSpeed,
     pub udp_port: u16,
     pub theme: theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
@@ -23,8 +23,6 @@ pub struct Settings {
     pub log_folder: Option<std::path::PathBuf>,
     #[serde(default = "default_window")]
     pub window_secs: f64,
-    #[serde(default)]
-    pub follow_offset_secs: f64,
 }
 
 impl Default for Settings {
@@ -38,7 +36,6 @@ impl Default for Settings {
             pixels_per_point: None,
             log_folder: None,
             window_secs: 30.0,
-            follow_offset_secs: 0.0,
         }
     }
 }
@@ -70,4 +67,23 @@ impl Settings {
 
 fn default_window() -> f64 {
     30.0
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn legacy_offset_is_ignored_and_live_span_is_preserved() {
+        let mut json = serde_json::to_value(Settings::default()).unwrap();
+        json["follow_offset_secs"] = serde_json::json!(5.0);
+        json["window_secs"] = serde_json::json!(45.0);
+        let settings: Settings = serde_json::from_value(json).unwrap();
+        assert_eq!(settings.window_secs, 45.0);
+        assert!(
+            serde_json::to_value(settings)
+                .unwrap()
+                .get("follow_offset_secs")
+                .is_none()
+        );
+    }
 }

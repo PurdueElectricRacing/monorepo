@@ -1,3 +1,4 @@
+use crate::frame;
 use crate::log_parse::consts;
 
 use crate::log_parse::parse;
@@ -68,8 +69,8 @@ impl DaqLogger {
         }
     }
 
-    pub fn log_frame(&mut self, frame: &crate::frame::CanFrame) {
-        if matches!(frame.kind, crate::frame::FrameKind::Fd { .. }) {
+    pub fn log_frame(&mut self, frame: &frame::CanFrame) {
+        if matches!(frame.kind, frame::FrameKind::Fd { .. }) {
             return;
         }
         let mut data = [0; 8];
@@ -201,13 +202,13 @@ mod tests {
         ));
         let first = directory.join("first");
         let second = directory.join("second");
-        let frame = crate::frame::CanFrame::data(3, true, vec![1, 2]).unwrap();
+        let frame = frame::CanFrame::data(3, true, vec![1, 2]).unwrap();
         let mut logger = DaqLogger::new(first.clone());
         logger.log_frame(&frame);
         logger.update_folder(second.clone());
         logger.log_frame(&frame);
-        logger.log_frame(&crate::frame::CanFrame {
-            kind: crate::frame::FrameKind::Fd {
+        logger.log_frame(&frame::CanFrame {
+            kind: frame::FrameKind::Fd {
                 bit_rate_switched: false,
             },
             dlc: 9,

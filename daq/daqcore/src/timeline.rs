@@ -15,7 +15,6 @@ pub struct Timeline {
     end_track: Track,
     setpoint_track: Track,
     window_ms: i64,
-    offset_ms: i64,
     latest: Time,
 }
 fn millis(seconds: f64) -> i64 {
@@ -36,7 +35,6 @@ impl Timeline {
             end_track: Track::Marching,
             setpoint_track: Track::Marching,
             window_ms,
-            offset_ms: 0,
             latest: now,
         }
     }
@@ -61,9 +59,6 @@ impl Timeline {
     pub fn window_secs(&self) -> f64 {
         self.window_ms as f64 / 1000.0
     }
-    pub fn follow_offset_secs(&self) -> f64 {
-        self.offset_ms as f64 / 1000.0
-    }
     pub fn is_live(&self) -> bool {
         self.setpoint_track == Track::Marching && self.end_track == Track::Marching
     }
@@ -80,7 +75,7 @@ impl Timeline {
     fn recompute(&mut self) -> bool {
         let before = (self.start, self.end, self.setpoint);
         if self.end_track == Track::Marching {
-            self.end = self.end.max(self.latest.offset(self.offset_ms));
+            self.end = self.end.max(self.latest);
             if self.start_track == Track::Frozen {
                 self.end = self.end.max(self.start);
             }
@@ -146,11 +141,6 @@ impl Timeline {
     }
     pub fn set_window_secs(&mut self, seconds: f64) {
         self.window_ms = millis(seconds);
-        self.recompute();
-    }
-    pub fn set_follow_offset_secs(&mut self, seconds: f64) {
-        assert!(seconds.is_finite());
-        self.offset_ms = (seconds * 1000.0).round() as i64;
         self.recompute();
     }
 }

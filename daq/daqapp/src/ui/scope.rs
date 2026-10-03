@@ -1,6 +1,7 @@
-use crate::{app, telemetry::TelemetryView, ui::dbc_msg_picker};
-use eframe::egui;
-use egui_plot::{Line, Plot, PlotPoints};
+use crate::app;
+use crate::telemetry;
+use crate::ui::dbc_msg_picker;
+
 // Makes invalid combinations of id/name/signal name unrepresentable
 enum ScopeState {
     PickingMessage {
@@ -48,7 +49,7 @@ impl Scope {
             state: ScopeState::default(),
         }
     }
-    fn show_picker(&mut self, ui: &mut egui::Ui, parser: &app::ParserInfo) -> bool {
+    fn show_picker(&mut self, ui: &mut eframe::egui::Ui, parser: &app::ParserInfo) -> bool {
         let state = std::mem::take(&mut self.state);
 
         let (new_state, just_configured) = match state {
@@ -62,7 +63,7 @@ impl Scope {
             ScopeState::PickingSignal { selected_msg } => {
                 ui.separator();
                 ui.label(
-                    egui::RichText::new(format!(
+                    eframe::egui::RichText::new(format!(
                         "Selected Message: {} (0x{:03X}) — pick a signal:",
                         selected_msg.name,
                         daqcore::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
@@ -114,9 +115,9 @@ impl Scope {
 
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         parser: Option<&app::ParserInfo>,
-        view: &TelemetryView<'_>,
+        view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         if !matches!(self.state, ScopeState::Configured { .. }) {
             if let Some(parser) = parser {
@@ -137,7 +138,7 @@ impl Scope {
         let signal = signal_name.clone();
         let id = *msg_id;
         let points: Vec<[f64; 2]> = view
-            .frames
+            .plot_frames
             .iter()
             .filter(|f| f.msg_id == id)
             .filter_map(|f| {
@@ -175,15 +176,35 @@ impl Scope {
         if points.is_empty() {
             ui.label("No retained samples in the selected interval.");
         }
-        let points = crate::telemetry::decimate(&points, ui.available_width().max(1.0) as usize);
-        Plot::new(&self.title)
+        let points = telemetry::decimate(&points, ui.available_width().max(1.0) as usize);
+        egui_plot::Plot::new(&self.title)
             .view_aspect(2.0)
-            .include_x(0.0)
-            .include_x(view.timeline.end().secs(view.timeline.start()))
-            .x_axis_label(format!("Seconds after {}", view.timeline.start().label()))
+            .allow_zoom([false, true])
+            .allow_drag([false, true])
+            .allow_scroll([false, true])
+            .x_axis_formatter(|mark, _| {
+                view.timeline
+                    .start()
+                    .offset((mark.value * 1000.0).round() as i64)
+                    .label()
+            })
+            .x_axis_label("Time")
             .y_axis_label(&signal)
             .show(ui, |plot| {
-                plot.line(Line::new(&signal, PlotPoints::from(points)));
+                plot.set_plot_bounds_x(
+                    0.0..=view.timeline.end().secs(view.timeline.start()).max(0.001),
+                );
+                plot.line(egui_plot::Line::new(
+                    &signal,
+                    egui_plot::PlotPoints::from(points),
+                ));
+                plot.vline(
+                    egui_plot::VLine::new(
+                        "Playhead",
+                        view.timeline.setpoint().secs(view.timeline.start()),
+                    )
+                    .color(eframe::egui::Color32::YELLOW),
+                );
             });
         egui_tiles::UiResponse::None
     }

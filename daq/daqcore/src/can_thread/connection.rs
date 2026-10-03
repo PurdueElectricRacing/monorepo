@@ -1,3 +1,4 @@
+use crate::connection;
 use crate::{
     can::driver::{self, Driver, DriverError, DriverResult},
     connection::ConnectionSource,
@@ -47,7 +48,7 @@ impl ConnectionManager {
     pub fn connected(&self) -> bool {
         self.driver.is_some()
     }
-    pub fn speed(&self) -> crate::connection::CanBusSpeed {
+    pub fn speed(&self) -> connection::CanBusSpeed {
         self.driver
             .as_ref()
             .and_then(|d| d.bus_speed())
@@ -81,7 +82,7 @@ impl Drop for ConnectionManager {
     }
 }
 
-#[cfg(all(test, feature = "loopback"))]
+#[cfg(test)]
 mod tests {
     use super::*;
     #[test]

@@ -1,7 +1,8 @@
-use crate::{action, app, ui, widget_constructor};
-use daqcore::can_thread;
-use daqcore::formatter;
-use eframe::egui;
+use crate::action;
+use crate::app;
+use crate::telemetry;
+use crate::ui;
+use crate::widget_constructor;
 
 pub enum Widget {
     ViewerTable(ui::viewer_table::ViewerTable),
@@ -21,12 +22,12 @@ pub enum Widget {
 }
 
 pub struct WidgetContext<'a> {
-    pub view: &'a crate::telemetry::TelemetryView<'a>,
-    pub bus_load: &'a [crate::telemetry::BusLoadSample],
+    pub view: &'a telemetry::TelemetryView<'a>,
+    pub bus_load: &'a [telemetry::BusLoadSample],
     pub action_queue: &'a mut Vec<action::AppAction>,
     pub parser: Option<&'a app::ParserInfo>,
-    pub ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
-    pub formatter: &'a Option<formatter::Formatter>,
+    pub ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+    pub formatter: &'a Option<daqcore::formatter::Formatter>,
 }
 
 impl Widget {
@@ -70,7 +71,7 @@ impl Widget {
 
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         context: WidgetContext<'_>,
     ) -> egui_tiles::UiResponse {
         match self {
@@ -106,7 +107,7 @@ impl Widget {
         }
     }
 
-    pub fn handle_operational_event(&mut self, event: &can_thread::CanThreadEvent) {
+    pub fn handle_operational_event(&mut self, event: &daqcore::can_thread::CanThreadEvent) {
         match self {
             Widget::Bootloader(w) => w.handle_can_message(event),
             Widget::SendUi(w) => w.handle_can_message(event),
@@ -125,7 +126,7 @@ mod tests {
         let mut pane = Widget::Hil(ui::hil::Hil::new(tx));
         let mut snapshot = daqcore::hil::engine::HilSnapshot::idle();
         snapshot.elapsed_ms = 1234;
-        pane.handle_operational_event(&can_thread::CanThreadEvent::Hil(snapshot));
+        pane.handle_operational_event(&daqcore::can_thread::CanThreadEvent::Hil(snapshot));
         match pane {
             Widget::Hil(w) => assert_eq!(w.snapshot.elapsed_ms, 1234),
             _ => unreachable!(),

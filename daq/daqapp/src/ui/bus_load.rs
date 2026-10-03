@@ -1,5 +1,5 @@
-use crate::telemetry::{BusLoadSample, TelemetryView};
-use eframe::egui;
+use crate::telemetry;
+
 pub struct BusLoad {
     pub title: String,
 }
@@ -11,9 +11,9 @@ impl BusLoad {
     }
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
-        samples: &[BusLoadSample],
-        view: &TelemetryView<'_>,
+        ui: &mut eframe::egui::Ui,
+        samples: &[telemetry::BusLoadSample],
+        view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         let end = samples.partition_point(|s| s.timestamp <= view.timeline.setpoint());
         let samples = &samples[..end];
@@ -29,11 +29,11 @@ impl BusLoad {
             .show(ui, |plot| {
                 plot.line(egui_plot::Line::new(
                     "Bus Load",
-                    crate::telemetry::decimate(&points, ui_width_hint()),
+                    telemetry::decimate(&points, ui_width_hint()),
                 ));
             });
         if let Some(last) = samples.last() {
-            egui::Grid::new((&self.title, "loads")).show(ui, |ui| {
+            eframe::egui::Grid::new((&self.title, "loads")).show(ui, |ui| {
                 ui.label("Measurement window");
                 ui.label("Load");
                 ui.label("Maximum in selected interval");

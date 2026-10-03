@@ -104,12 +104,14 @@ The CAN worker lives in `daqcore` and owns connection, decoding, sending,
 logging, firmware and observation-only HIL. The app owns a single `Session`;
 widgets borrow its selected interval instead of capturing separate histories.
 
-The global window defaults to 30 seconds. Start, end and setpoint each have
+The ruler's live span defaults to 30 seconds. Start, end and playhead each have
 independent marching controls. Pause freezes setpoint while acquisition continues;
 Go live releases all tracks. Freeze start to retain history indefinitely. Advancing
 start evicts older frames permanently; moving it backward cannot recover them.
 Table and battery values follow setpoint, including multiplexed cell samples.
-Clear shared history returns to live with the configured window and offset.
+Scopes show the full start-to-end range with real-time ticks and a playhead line.
+Drag the ruler's markers to select a range or click it to scrub. Follow offset is
+removed. Clear shared history returns to live with the configured live span.
 Disconnect and same-source reconnect preserve history; selecting another source
 resets it at the worker's ordered source transition.
 

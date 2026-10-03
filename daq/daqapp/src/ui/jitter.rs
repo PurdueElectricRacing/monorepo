@@ -1,9 +1,10 @@
-use super::dbc_msg_picker::{DbcMsgPickerState, no_dbc_placeholder};
-use crate::{app, telemetry::TelemetryView};
-use eframe::egui;
+use super::dbc_msg_picker;
+use crate::app;
+use crate::telemetry;
+
 pub struct Jitter {
     pub title: String,
-    msg_picker: DbcMsgPickerState,
+    msg_picker: dbc_msg_picker::DbcMsgPickerState,
     selected_msg: Option<can_dbc::Message>,
     period_ms: usize,
 }
@@ -11,19 +12,19 @@ impl Jitter {
     pub fn new(instance: usize) -> Self {
         Self {
             title: format!("Jitter #{instance}"),
-            msg_picker: DbcMsgPickerState::default(),
+            msg_picker: dbc_msg_picker::DbcMsgPickerState::default(),
             selected_msg: None,
             period_ms: 100,
         }
     }
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         parser: Option<&app::ParserInfo>,
-        view: &TelemetryView<'_>,
+        view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         let Some(parser) = parser else {
-            no_dbc_placeholder(ui);
+            dbc_msg_picker::no_dbc_placeholder(ui);
             return egui_tiles::UiResponse::None;
         };
         if let Some(msg) = self
@@ -35,7 +36,7 @@ impl Jitter {
         ui.horizontal(|ui| {
             ui.label("Nominal period:");
             ui.add(
-                egui::DragValue::new(&mut self.period_ms)
+                eframe::egui::DragValue::new(&mut self.period_ms)
                     .range(1..=1_000_000)
                     .suffix(" ms"),
             );
@@ -84,14 +85,13 @@ mod tests {
     use super::*;
     #[test]
     fn selected_interval_counts_undecoded_arrivals_and_distinguishes_identity() {
-        use crate::telemetry::{TelemetryView, sample};
-        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0, 0.0);
+        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0);
         for ms in [0, 100, 220, 300] {
-            let mut f = sample(ms, 1, "test", &[]);
+            let mut f = telemetry::sample(ms, 1, "test", &[]);
             f.decoded = None;
             session.ingest_frame(f);
         }
-        let mut extended = sample(150, 1, "test", &[]);
+        let mut extended = telemetry::sample(150, 1, "test", &[]);
         extended.is_msg_id_extended = true;
         session.ingest_frame(extended);
         session
@@ -100,7 +100,8 @@ mod tests {
         session
             .timeline_mut()
             .set_setpoint(daqcore::Time::from_unix_millis(220));
-        let deviations = interval_deviations(TelemetryView::new(&session).frames, 1, 100);
+        let deviations =
+            interval_deviations(telemetry::TelemetryView::new(&session).frames, 1, 100);
         assert_eq!(deviations, [20.0]);
     }
 }

@@ -1,6 +1,7 @@
-use super::common::{self, BatteryUiState};
-use crate::{ui, util};
-use eframe::egui::{self, Color32, Frame, RichText, Stroke};
+use super::common;
+use crate::telemetry;
+use crate::ui;
+use crate::util;
 
 const V_MIN: f64 = 2.7;
 const V_MAX: f64 = 4.2;
@@ -22,13 +23,13 @@ impl Default for CellVoltage {
 }
 
 impl CellVoltage {
-    pub fn color(&self) -> Color32 {
+    pub fn color(&self) -> eframe::egui::Color32 {
         if self.balancing {
-            return Color32::from_rgb(33, 150, 243);
+            return eframe::egui::Color32::from_rgb(33, 150, 243);
         }
 
         if !self.voltage.is_finite() {
-            return Color32::GRAY;
+            return eframe::egui::Color32::GRAY;
         }
         let voltage = self.voltage.clamp(V_MIN, V_MAX);
 
@@ -66,7 +67,7 @@ pub struct BatteryVoltage {
     pub title: String,
     modules: Vec<Vec<CellVoltage>>,
     charging_telemetry: Option<ChargingVoltageTelemetry>,
-    ui_state: BatteryUiState,
+    ui_state: common::BatteryUiState,
 }
 
 impl BatteryVoltage {
@@ -78,15 +79,15 @@ impl BatteryVoltage {
                 common::NUM_MODULES
             ],
             charging_telemetry: None,
-            ui_state: BatteryUiState::new(),
+            ui_state: common::BatteryUiState::new(),
         }
     }
 
-    pub fn project(&mut self, view: &crate::telemetry::TelemetryView<'_>) {
+    pub fn project(&mut self, view: &telemetry::TelemetryView<'_>) {
         self.modules =
             vec![vec![CellVoltage::default(); common::CELLS_PER_MODULE]; common::NUM_MODULES];
         self.charging_telemetry = None;
-        self.ui_state = BatteryUiState::new();
+        self.ui_state = common::BatteryUiState::new();
         let mut filled = 0;
         for frame in view.frames.iter().rev() {
             if filled == common::NUM_MODULES * common::CELLS_PER_MODULE
@@ -196,7 +197,7 @@ impl BatteryVoltage {
         false
     }
 
-    pub fn show(&mut self, ui: &mut egui::Ui) -> egui_tiles::UiResponse {
+    pub fn show(&mut self, ui: &mut eframe::egui::Ui) -> egui_tiles::UiResponse {
         let theme = ui::theme::get_theme(ui.ctx());
         let (stale, elapsed) = self.ui_state.refresh();
 
@@ -210,7 +211,7 @@ impl BatteryVoltage {
             None
         };
 
-        egui::ScrollArea::vertical().show(ui, |ui| {
+        eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
             ui.heading(&self.title);
             ui.add_space(4.0);
@@ -219,7 +220,7 @@ impl BatteryVoltage {
 
             ui.add_space(8.0);
             ui.label(
-                RichText::new("PACK SUMMARY")
+                eframe::egui::RichText::new("PACK SUMMARY")
                     .size(10.0)
                     .color(theme.text_color().linear_multiply(0.5)),
             );
@@ -275,44 +276,56 @@ impl BatteryVoltage {
                     f64::NAN
                 };
 
-                Frame::NONE
+                eframe::egui::Frame::NONE
                     .fill(theme.panel_color())
-                    .stroke(Stroke::new(1.0_f32, theme.accent_color()))
-                    .inner_margin(egui::Margin::same(10))
-                    .corner_radius(egui::CornerRadius::same(4))
+                    .stroke(eframe::egui::Stroke::new(1.0_f32, theme.accent_color()))
+                    .inner_margin(eframe::egui::Margin::same(10))
+                    .corner_radius(eframe::egui::CornerRadius::same(4))
                     .show(ui, |ui| {
                         ui.horizontal(|ui| {
                             ui.label(
-                                RichText::new(format!("MODULE {module_index}"))
+                                eframe::egui::RichText::new(format!("MODULE {module_index}"))
                                     .size(11.0)
                                     .strong(),
                             );
                             ui.add_space(8.0);
                             ui.label(
-                                RichText::new(format!("sum {} V", common::reading(module_sum, 2)))
-                                    .size(10.0)
-                                    .color(theme.text_color().linear_multiply(0.55)),
+                                eframe::egui::RichText::new(format!(
+                                    "sum {} V",
+                                    common::reading(module_sum, 2)
+                                ))
+                                .size(10.0)
+                                .color(theme.text_color().linear_multiply(0.55)),
                             );
                             ui.label(
-                                RichText::new(format!("min {} V", common::reading(module_min, 2)))
-                                    .size(10.0)
-                                    .color(theme.text_color().linear_multiply(0.55)),
+                                eframe::egui::RichText::new(format!(
+                                    "min {} V",
+                                    common::reading(module_min, 2)
+                                ))
+                                .size(10.0)
+                                .color(theme.text_color().linear_multiply(0.55)),
                             );
                             ui.label(
-                                RichText::new(format!("max {} V", common::reading(module_max, 2)))
-                                    .size(10.0)
-                                    .color(theme.text_color().linear_multiply(0.55)),
+                                eframe::egui::RichText::new(format!(
+                                    "max {} V",
+                                    common::reading(module_max, 2)
+                                ))
+                                .size(10.0)
+                                .color(theme.text_color().linear_multiply(0.55)),
                             );
                             ui.label(
-                                RichText::new(format!("Δ {} V", common::reading(module_delta, 2)))
-                                    .size(10.0)
-                                    .color(if module_delta > 0.050 {
-                                        theme.error_color()
-                                    } else if module_delta > 0.020 {
-                                        theme.warning_color()
-                                    } else {
-                                        theme.text_color().linear_multiply(0.55)
-                                    }),
+                                eframe::egui::RichText::new(format!(
+                                    "Δ {} V",
+                                    common::reading(module_delta, 2)
+                                ))
+                                .size(10.0)
+                                .color(if module_delta > 0.050 {
+                                    theme.error_color()
+                                } else if module_delta > 0.020 {
+                                    theme.warning_color()
+                                } else {
+                                    theme.text_color().linear_multiply(0.55)
+                                }),
                             );
                         });
 
@@ -339,14 +352,12 @@ impl BatteryVoltage {
     }
 
     fn cell_bar(
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         theme: &ui::theme::ThemeColors,
         cell: &CellVoltage,
         stale: bool,
         bar_w: f32,
     ) {
-        use egui::{Align2, FontId};
-
         let fill_color = if stale {
             theme.text_color().linear_multiply(0.12)
         } else {
@@ -362,21 +373,23 @@ impl BatteryVoltage {
         ui.vertical(|ui| {
             ui.set_max_width(bar_w + 4.0);
 
-            let (outer_rect, _) =
-                ui.allocate_exact_size(egui::Vec2::new(bar_w, 20.0), egui::Sense::hover());
+            let (outer_rect, _) = ui.allocate_exact_size(
+                eframe::egui::Vec2::new(bar_w, 20.0),
+                eframe::egui::Sense::hover(),
+            );
 
             let painter = ui.painter();
             painter.rect_filled(outer_rect, 3.0, theme.text_color().linear_multiply(0.06));
             painter.rect_stroke(
                 outer_rect,
                 3.0,
-                Stroke::new(0.5_f32, theme.accent_color()),
-                egui::StrokeKind::Inside,
+                eframe::egui::Stroke::new(0.5_f32, theme.accent_color()),
+                eframe::egui::StrokeKind::Inside,
             );
 
             let fill_height = outer_rect.height() * fill_frac;
-            let fill_rect = egui::Rect::from_min_max(
-                egui::pos2(outer_rect.min.x, outer_rect.max.y - fill_height),
+            let fill_rect = eframe::egui::Rect::from_min_max(
+                eframe::egui::pos2(outer_rect.min.x, outer_rect.max.y - fill_height),
                 outer_rect.max,
             );
             painter.rect_filled(fill_rect, 2.0, fill_color);
@@ -394,16 +407,16 @@ impl BatteryVoltage {
             let text_color = if stale {
                 theme.text_color().linear_multiply(0.25)
             } else if fill_frac > 0.5 {
-                egui::Color32::BLACK
+                eframe::egui::Color32::BLACK
             } else {
-                egui::Color32::WHITE
+                eframe::egui::Color32::WHITE
             };
 
             painter.text(
                 outer_rect.center(),
-                Align2::CENTER_CENTER,
+                eframe::egui::Align2::CENTER_CENTER,
                 text,
-                FontId::proportional(10.0),
+                eframe::egui::FontId::proportional(10.0),
                 text_color,
             );
         });
@@ -413,13 +426,12 @@ impl BatteryVoltage {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::telemetry::{TelemetryView, sample};
-    use daqcore::{Session, Time};
+
     #[test]
     fn multiplexed_cells_reconstruct_at_cursor_and_reset_missing_values() {
-        let mut session = Session::live(Time::from_unix_millis(0), 30.0, 0.0);
+        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0);
         for (time, cell, voltage) in [(100, 0.0, 3.0), (200, 1.0, 3.1), (300, 0.0, 4.2)] {
-            session.ingest_frame(sample(
+            session.ingest_frame(telemetry::sample(
                 time,
                 1,
                 "cell_telemetry",
@@ -431,12 +443,17 @@ mod tests {
                 ],
             ));
         }
-        session.ingest_frame(sample(250, 2, "pack_bms", &[("pack_voltage", 350.0)]));
+        session.ingest_frame(telemetry::sample(
+            250,
+            2,
+            "pack_bms",
+            &[("pack_voltage", 350.0)],
+        ));
         session
             .timeline_mut()
-            .set_setpoint(Time::from_unix_millis(250));
+            .set_setpoint(daqcore::Time::from_unix_millis(250));
         let mut battery = BatteryVoltage::new(1);
-        battery.project(&TelemetryView::new(&session));
+        battery.project(&telemetry::TelemetryView::new(&session));
         assert_eq!(battery.modules[0][0].voltage, 3.0);
         assert_eq!(battery.modules[0][1].voltage, 3.1);
         assert!(battery.modules[0][2].voltage.is_nan());
@@ -454,11 +471,11 @@ mod tests {
         );
         session
             .timeline_mut()
-            .set_setpoint(Time::from_unix_millis(300));
-        battery.project(&TelemetryView::new(&session));
+            .set_setpoint(daqcore::Time::from_unix_millis(300));
+        battery.project(&telemetry::TelemetryView::new(&session));
         assert_eq!(battery.modules[0][0].voltage, 4.2);
-        session.reset(Time::from_unix_millis(400));
-        battery.project(&TelemetryView::new(&session));
+        session.reset(daqcore::Time::from_unix_millis(400));
+        battery.project(&telemetry::TelemetryView::new(&session));
         assert!(battery.modules[0][0].voltage.is_nan());
         assert!(battery.charging_telemetry.is_none());
     }

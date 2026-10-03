@@ -1,6 +1,5 @@
 use crate::app;
 use crate::settings;
-use eframe::egui;
 
 pub struct LogParser {
     pub title: String,
@@ -185,7 +184,7 @@ impl LogParser {
 
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         sidebar_parser: Option<&app::ParserInfo>,
     ) -> egui_tiles::UiResponse {
         ui.heading(format!("🔧 {}", self.title));
@@ -234,7 +233,7 @@ impl LogParser {
                      ☐ Fall back to the DBC selected in the sidebar.",
             );
 
-            let btn = egui::Button::new("📁 BUS 0 (VCAN)");
+            let btn = eframe::egui::Button::new("📁 BUS 0 (VCAN)");
             if ui
                 .add_enabled(self.bus_0_use_override, btn)
                 .on_hover_text("Select a DBC file for BUS 0 (VCAN)")
@@ -274,7 +273,7 @@ impl LogParser {
                      ☐ Fall back to the DBC selected in the sidebar.",
             );
 
-            let btn = egui::Button::new("📁 BUS 1 (MCAN)");
+            let btn = eframe::egui::Button::new("📁 BUS 1 (MCAN)");
             if ui
                 .add_enabled(self.bus_1_use_override, btn)
                 .on_hover_text("Select a DBC file for BUS 1 (MCAN)")
@@ -311,7 +310,10 @@ impl LogParser {
         // Parse button
         let currently_parsing = self.parse_to_ui_rx.is_some();
         if ui
-            .add_enabled(!currently_parsing, egui::Button::new("▶ Parse Logs"))
+            .add_enabled(
+                !currently_parsing,
+                eframe::egui::Button::new("▶ Parse Logs"),
+            )
             .clicked()
         {
             self.parse_logs(sidebar_parser);

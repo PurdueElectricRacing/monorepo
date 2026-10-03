@@ -2,12 +2,9 @@
 pub mod can;
 pub mod can_thread;
 pub mod connection;
-#[cfg(feature = "firmware")]
 pub mod firmware;
-#[cfg(feature = "formatting")]
 pub mod formatter;
 pub mod frame;
-#[cfg(feature = "hil")]
 pub mod hil;
 pub mod log_parse;
 pub mod time;

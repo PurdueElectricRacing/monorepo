@@ -4,7 +4,7 @@ version = "26.0.0"
 edition.workspace = true
 
 [dependencies]
-daqcore = { workspace = true, features = ["serial", "udp", "simulated", "loopback", "hil", "firmware", "formatting"] }
+daqcore.workspace = true
 
 eframe = "0.33.3"
 egui_tiles = "0.14.1"

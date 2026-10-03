@@ -1,4 +1,3 @@
-use daqcore::can_thread::{self, CanThreadCommand, CanThreadConfig};
 mod action;
 mod app;
 mod assets;
@@ -20,7 +19,7 @@ fn main() -> eframe::Result<()> {
 
     let settings = settings::Settings::load();
     let (can_to_ui_tx, can_to_ui_rx) = std::sync::mpsc::channel();
-    let config = CanThreadConfig {
+    let config = daqcore::can_thread::CanThreadConfig {
         dbc_path: settings.dbc_path.clone(),
         log_folder: Some(
             settings
@@ -32,10 +31,10 @@ fn main() -> eframe::Result<()> {
             .unwrap_or_default()
             .join("hil_config"),
     };
-    let can_thread =
-        can_thread::spawn_can_thread(config, can_to_ui_tx).expect("Failed to spawn CAN worker");
+    let can_thread = daqcore::can_thread::spawn_can_thread(config, can_to_ui_tx)
+        .expect("Failed to spawn CAN worker");
     if let Some(source) = settings.selected_source.clone() {
-        let _ = can_thread.command(CanThreadCommand::Connect(Some(source)));
+        let _ = can_thread.command(daqcore::can_thread::CanThreadCommand::Connect(Some(source)));
     }
 
     let per_img = eframe::icon_data::from_png_bytes(assets::PER_LOGO_BYTES)

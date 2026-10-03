@@ -57,7 +57,7 @@ fn install_shutdown() -> Result<(), String> {
 }
 fn usage() {
     println!(
-        "daqcli connect|watch --source serial|loopback|udp|simulated [--port DEVICE] [--bitrate 250|500] [--udp-port 5005] [--dbc FILE] [--id DECIMAL|0xHEX]\nCtrl-C closes the connection and joins the worker. Optional sources require the corresponding Cargo feature."
+        "daqcli connect|watch --source serial|loopback|udp|simulated [--port DEVICE] [--bitrate 250|500] [--udp-port 5005] [--dbc FILE] [--id DECIMAL|0xHEX]\nCtrl-C closes the connection and joins the worker."
     );
 }
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -109,16 +109,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             _ => return Err(format!("unknown option: {arg}").into()),
         }
     }
-    let available = match source.as_str() {
-        "serial" => cfg!(feature = "serial"),
-        "loopback" => cfg!(feature = "loopback"),
-        "udp" => cfg!(feature = "udp"),
-        "simulated" => cfg!(feature = "simulated"),
-        _ => false,
-    };
-    if !available {
-        return Err(format!("source {source} is unavailable; enable its Cargo feature").into());
-    }
     let source = match source.as_str() {
         "serial" => ConnectionSource::Serial(port.ok_or("--port is required for serial")?, speed),
         "loopback" => ConnectionSource::Loopback,
@@ -134,7 +124,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
     let mut worker = spawn_can_thread(config, tx)?;
     worker.command(CanThreadCommand::Connect(Some(source)))?;
-    let mut session = Session::live(Time::now(), 30.0, 0.0);
+    let mut session = Session::live(Time::now(), 30.0);
     while !STOP.load(Ordering::Relaxed) {
         match rx.recv_timeout(Duration::from_millis(10)) {
             Ok(CanThreadEvent::Frame(frame)) => {
