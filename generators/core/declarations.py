@@ -29,7 +29,7 @@ MessagePriority = Annotated[int, Field(ge=0, le=5)]
 NonNegativeInt = Annotated[int, Field(ge=0)]
 DisplayFormat = Literal[
     "hex", "binary", "integer",
-    "0f", "1f", "2f", "3f", "5f", "7f",
+    "0f", "1f", "2f", "3f", "4f", "5f", "6f", "7f",
 ]
 
 
