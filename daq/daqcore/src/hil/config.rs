@@ -3,9 +3,6 @@
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
-pub const PRESETS_FILE: &str = "hil_config/presets.json";
-pub const TESTS_FOLDER: &str = "hil_config/tests/";
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(transparent)]
 pub struct PresetsFile(pub IndexMap<String, Vec<String>>);
@@ -53,12 +50,13 @@ pub struct TestInfo {
     pub description: String,
 }
 
-pub fn list_available_tests() -> (Vec<PresetInfo>, Vec<TestInfo>, Vec<String>) {
+pub fn list_available_tests(
+    base: &std::path::Path,
+) -> (Vec<PresetInfo>, Vec<TestInfo>, Vec<String>) {
     let mut errors = Vec::new();
 
-    // Load individual tests from the launch directory.
-    let tests_folder = crate::paths::find_path(TESTS_FOLDER, std::path::Path::is_dir)
-        .unwrap_or_else(|| std::path::PathBuf::from(TESTS_FOLDER));
+    // Load individual tests from the caller-provided resource directory.
+    let tests_folder = base.join("tests");
     let mut individual_tests = Vec::new();
     if let Ok(entries) = std::fs::read_dir(&tests_folder) {
         for entry in entries.flatten() {
@@ -103,9 +101,8 @@ pub fn list_available_tests() -> (Vec<PresetInfo>, Vec<TestInfo>, Vec<String>) {
     }
     individual_tests.sort_by(|a, b| a.basename.to_lowercase().cmp(&b.basename.to_lowercase()));
 
-    // Load presets from the launch directory.
-    let presets_path = crate::paths::find_file(PRESETS_FILE)
-        .unwrap_or_else(|| std::path::PathBuf::from(PRESETS_FILE));
+    // Load presets from the caller-provided resource directory.
+    let presets_path = base.join("presets.json");
     let mut presets = Vec::new();
     if let Ok(presets_file) = std::fs::read_to_string(&presets_path) {
         if let Ok(presets_data) = serde_json::from_str::<PresetsFile>(&presets_file) {
@@ -160,10 +157,8 @@ pub fn list_available_tests() -> (Vec<PresetInfo>, Vec<TestInfo>, Vec<String>) {
     (presets, individual_tests, errors)
 }
 
-pub fn load_test_from_file(basename: &str) -> Result<TestFile, String> {
-    let relative_path = format!("{}{}.json", TESTS_FOLDER, basename);
-    let path = crate::paths::find_file(&relative_path)
-        .unwrap_or_else(|| std::path::PathBuf::from(&relative_path));
+pub fn load_test_from_file(base: &std::path::Path, basename: &str) -> Result<TestFile, String> {
+    let path = base.join("tests").join(format!("{basename}.json"));
     match std::fs::read_to_string(&path) {
         Ok(content) => match serde_json::from_str::<TestFile>(&content) {
             Ok(test_data) => Ok(test_data),

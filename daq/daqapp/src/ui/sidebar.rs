@@ -1,23 +1,25 @@
-use crate::{
-    action, app, assets, connection, formatter, messages, settings, util, widget_constructor,
-};
+use crate::{action, app, assets, settings, util, widget_constructor};
+use daqcore::can_thread;
+use daqcore::connection;
 use eframe::egui;
 
 pub fn select_dbc(
     app: &mut app::DAQApp,
-    ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
+    ui_to_can_tx: &std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
 ) {
     let mut dialog = rfd::FileDialog::new().add_filter("DBC Files", &["dbc"]);
     if let Some(dir) = settings::dbc_dir() {
         dialog = dialog.set_directory(dir);
     }
     if let Some(path) = dialog.pick_file() {
-        app.parser = app::ParserInfo::new(path.clone());
-        if app.parser.is_some() {
-            ui_to_can_tx
-                .send(messages::MsgFromUi::DbcSelected(path))
-                .expect("Failed to send DBC selected message");
-            app.save_settings();
+        if let Some(parser) = app::ParserInfo::new(path.clone()) {
+            match ui_to_can_tx.send(can_thread::CanThreadCommand::DbcSelected(path)) {
+                Ok(()) => {
+                    app.parser = Some(parser);
+                    app.save_settings();
+                }
+                Err(error) => log::error!("Failed to submit DBC reload: {error}"),
+            }
         }
     }
 }
@@ -257,6 +259,17 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         }
                     });
 
+                if ui.button("Disconnect").clicked() {
+                    if let Err(error) = app
+                        .ui_to_can_tx
+                        .send(daqcore::can_thread::CanThreadCommand::Connect(None))
+                    {
+                        log::error!("Disconnect failed: {error}");
+                    }
+                }
+                if ui.button("Reconnect").clicked() {
+                    app.connect_can();
+                }
                 if ui.button("🔄").clicked() {
                     app.serial_ports = util::get_available_serial_ports();
                 }
@@ -302,7 +315,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                     && let Some(path) = rfd::FileDialog::new().pick_folder()
                 {
                     app.ui_to_can_tx
-                        .send(messages::MsgFromUi::UpdateLogFolder(path.clone()))
+                        .send(can_thread::CanThreadCommand::UpdateLogFolder(path.clone()))
                         .expect("Failed to send log folder update");
                     app.log_folder = Some(path);
                     app.save_settings();
@@ -319,7 +332,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
             ui.separator();
 
             if ui.button("Reload formatter").clicked() {
-                app.value_formatter = formatter::Formatter::try_load();
+                app.value_formatter = crate::app::load_formatter();
             }
         });
 }

@@ -1,7 +1,17 @@
-use crate::{action, app, formatter, messages, widgets};
+use crate::{action, app, widgets};
+use daqcore::can_thread;
+use daqcore::formatter;
 use eframe::egui;
 
 pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
+    crate::ui::timeline::show(app, ctx);
+    app.session.evict();
+    let start = app.session.timeline().start();
+    let removed = app
+        .bus_load_samples
+        .partition_point(|s| s.timestamp < start);
+    app.bus_load_samples.drain(..removed);
+    let view = crate::telemetry::TelemetryView::new(&app.session);
     egui::CentralPanel::default().show(ctx, |ui| {
         if app.tile_tree.is_empty() {
             ui.vertical_centered(|ui| {
@@ -11,7 +21,8 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
             });
         } else {
             let mut behavior = WorkspaceTileBehavior {
-                can_messages: &app.can_messages,
+                view: &view,
+                bus_load: &app.bus_load_samples,
                 action_queue: &mut app.action_queue,
                 parser: app.parser.as_ref(),
                 ui_to_can_tx: app.ui_to_can_tx.clone(),
@@ -23,10 +34,11 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
 }
 
 struct WorkspaceTileBehavior<'a> {
-    can_messages: &'a [messages::MsgFromCan],
+    view: &'a crate::telemetry::TelemetryView<'a>,
+    bus_load: &'a [crate::telemetry::BusLoadSample],
     action_queue: &'a mut Vec<action::AppAction>,
     parser: Option<&'a app::ParserInfo>,
-    ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
     formatter: &'a Option<formatter::Formatter>,
 }
 
@@ -40,7 +52,8 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
         widget.show(
             ui,
             widgets::WidgetContext {
-                can_messages: self.can_messages,
+                view: self.view,
+                bus_load: self.bus_load,
                 action_queue: self.action_queue,
                 parser: self.parser,
                 ui_to_can_tx: self.ui_to_can_tx.clone(),

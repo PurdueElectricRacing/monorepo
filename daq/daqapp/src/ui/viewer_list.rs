@@ -1,180 +1,91 @@
-use crate::{app, formatter, frozen, messages};
+use crate::{app, telemetry::TelemetryView};
+use daqcore::formatter;
 use eframe::egui;
-use std::collections::VecDeque;
-
-const MAX_MESSAGES: usize = 200;
-
-#[derive(Clone)]
-enum Msg {
-    Decoded(messages::ParsedMessage),
-    Undecoded(messages::UnparsedMessage),
-}
-type MsgList = VecDeque<Msg>;
-
 pub struct ViewerList {
     pub title: String,
-    msgs: frozen::Frozen<MsgList>,
-    paused: bool,
 }
-
 impl ViewerList {
-    pub fn new(instance_num: usize) -> Self {
+    pub fn new(instance: usize) -> Self {
         Self {
-            title: format!("CAN Viewer Table #{}", instance_num),
-            msgs: frozen::Frozen::new(VecDeque::with_capacity(MAX_MESSAGES)),
-            paused: false,
+            title: format!("CAN Viewer List #{instance}"),
         }
     }
-
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
         formatter: &Option<formatter::Formatter>,
         parser: Option<&app::ParserInfo>,
+        view: &TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        ui.heading(format!("🚗 {}", self.title));
-
-        ui.horizontal(|ui| {
-            if ui
-                .button(if self.paused { "Resume" } else { "Pause" })
-                .clicked()
-            {
-                self.paused = !self.paused;
-                if self.paused {
-                    self.msgs.freeze();
-                } else {
-                    self.msgs.unfreeze();
-                }
-            }
-
-            if ui.button("Clear").clicked() {
-                self.msgs.apply_both(|ms| ms.clear());
-            }
-        });
-
-        ui.separator();
-
+        ui.heading(&self.title);
+        if view.frames.is_empty() {
+            ui.label("No retained CAN messages in the selected interval.");
+        }
         egui_extras::TableBuilder::new(ui)
             .striped(true)
-            .column(egui_extras::Column::auto().at_least(100.0).resizable(true)) // Timestamp
-            .column(egui_extras::Column::auto().at_least(300.0).resizable(true)) // Msg (ID)
-            .column(egui_extras::Column::auto().at_least(200.0).resizable(true)) // Signal
-            .column(egui_extras::Column::remainder().resizable(true)) // Decoded Signal
+            .column(egui_extras::Column::auto().at_least(100.0).resizable(true))
+            .column(egui_extras::Column::auto().at_least(200.0).resizable(true))
+            .column(egui_extras::Column::auto().at_least(150.0).resizable(true))
+            .column(egui_extras::Column::remainder().resizable(true))
             .header(20.0, |mut header| {
-                header.col(|ui| {
-                    ui.label("Timestamp");
-                });
-                header.col(|ui| {
-                    ui.label("Msg (ID)");
-                });
-                header.col(|ui| {
-                    ui.label("Signal");
-                });
-                header.col(|ui| {
-                    ui.label("Decoded Content");
-                });
+                for text in ["Timestamp", "Message (ID)", "Signal", "Value"] {
+                    header.col(|ui| {
+                        ui.label(text);
+                    });
+                }
             })
             .body(|mut body| {
-                for msg in self.msgs.get().iter().rev() {
-                    match msg {
-                        Msg::Decoded(decoded_msg) => {
-                            let msg_def = parser
-                                .as_ref()
-                                .map(|p| &p.parser)
-                                .and_then(|p| p.msg_def(decoded_msg.decoded.msg_id));
-
-                            for (sig_name, signal) in decoded_msg.decoded.signals.iter() {
-                                body.row(18.0, |mut row| {
-                                    row.col(|ui| {
-                                        ui.label(
-                                            decoded_msg
-                                                .timestamp
-                                                .format("%H:%M:%S:%3f")
-                                                .to_string(),
-                                        );
-                                    });
-                                    row.col(|ui| {
-                                        ui.label(format!(
-                                            "{} (0x{:X})",
-                                            decoded_msg.decoded.name, decoded_msg.decoded.msg_id
-                                        ));
-                                    });
-                                    row.col(|ui| {
-                                        ui.label(sig_name.to_string());
-                                    });
-                                    row.col(|ui| {
-                                        let sig_def = msg_def.and_then(|md| {
-                                            md.signals.iter().find(|s| s.name == *sig_name)
-                                        });
-                                        {
-                                            ui.label(formatter::try_format(
-                                                formatter,
-                                                &decoded_msg.decoded.name,
-                                                sig_name,
-                                                sig_def,
-                                                Some(&signal.unit),
-                                                &signal.value,
-                                            ));
-                                        }
-                                    });
-                                });
-                            }
-                        }
-                        Msg::Undecoded(unparsed_msg) => {
+                for frame in view.frames.iter().rev().take(200) {
+                    if let Some(decoded) = &frame.decoded {
+                        let id = frame.msg_id
+                            | if frame.is_msg_id_extended {
+                                daqcore::can::EXTENDED_ID_FLAG
+                            } else {
+                                0
+                            };
+                        let def = parser.and_then(|p| p.parser.msg_def(id));
+                        for (name, sig) in &decoded.signals {
+                            let value = formatter::try_format(
+                                formatter,
+                                &decoded.name,
+                                name,
+                                def.and_then(|m| m.signals.iter().find(|s| s.name == *name)),
+                                Some(&sig.unit),
+                                &sig.value,
+                            );
                             body.row(18.0, |mut row| {
                                 row.col(|ui| {
-                                    ui.label(
-                                        unparsed_msg.timestamp.format("%H:%M:%S:%3f").to_string(),
-                                    );
+                                    ui.label(frame.timestamp.label());
                                 });
                                 row.col(|ui| {
-                                    ui.label(format!("0x{:X}", unparsed_msg.msg_id));
+                                    ui.label(format!("{} (0x{:X})", decoded.name, frame.msg_id));
                                 });
                                 row.col(|ui| {
-                                    ui.label("(Error: Unknown)");
+                                    ui.label(name);
                                 });
                                 row.col(|ui| {
-                                    let hex_bytes = unparsed_msg
-                                        .raw_bytes
-                                        .iter()
-                                        .map(|b| format!("{:02X}", b))
-                                        .collect::<Vec<_>>()
-                                        .join(" ");
-                                    ui.label(hex_bytes);
+                                    ui.label(value);
                                 });
                             });
                         }
+                    } else {
+                        body.row(18.0, |mut row| {
+                            row.col(|ui| {
+                                ui.label(frame.timestamp.label());
+                            });
+                            row.col(|ui| {
+                                ui.label(format!("0x{:X}", frame.msg_id));
+                            });
+                            row.col(|ui| {
+                                ui.label("Unknown");
+                            });
+                            row.col(|ui| {
+                                ui.monospace(format!("{:02X?}", frame.raw_bytes));
+                            });
+                        });
                     }
                 }
             });
-
-        ui.scroll_to_cursor(Some(egui::Align::Min));
-
         egui_tiles::UiResponse::None
-    }
-
-    fn make_space_for_new_message(&mut self) {
-        let msgs = self.msgs.get_mut();
-        while msgs.len() >= MAX_MESSAGES - 1 {
-            msgs.pop_front();
-        }
-    }
-
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        match msg {
-            messages::MsgFromCan::ParsedMessage(parsed_msg) => {
-                self.make_space_for_new_message();
-                self.msgs
-                    .get_mut()
-                    .push_back(Msg::Decoded(parsed_msg.clone()));
-            }
-            messages::MsgFromCan::UnparsedMessage(unparsed_msg) => {
-                self.make_space_for_new_message();
-                self.msgs
-                    .get_mut()
-                    .push_back(Msg::Undecoded(unparsed_msg.clone()));
-            }
-            _ => {}
-        }
     }
 }

@@ -1,3 +1,6 @@
+> Implementation authority: [daqcore rebuild handoff](../../plans/daqcore_rebuild.md).
+> The implemented shared timeline defaults to 30 seconds. Retention has no duration or frame-count cap and eviction depends only on start. All telemetry, including table and battery values, follows the inclusive [start, setpoint] interval. There are eight independent track combinations. Older proposals below are historical where they conflict with these decisions.
+
 # daqcore as Composable Libraries — Option B (no monolithic engine)
 
 Status: **Design proposal** (planning only — no code changes yet).

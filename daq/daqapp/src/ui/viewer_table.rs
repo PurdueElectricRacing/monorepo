@@ -1,308 +1,123 @@
-use crate::{action, app, formatter, frozen, messages, widget_constructor};
+use crate::{action, app, telemetry::TelemetryView, widget_constructor};
+use daqcore::formatter;
 use eframe::egui;
-
-type DecodedMsgMap = hashbrown::HashMap<u32, messages::ParsedMessage>;
-type UndecodedMsgMap = hashbrown::HashMap<u32, messages::UnparsedMessage>;
-
-#[derive(Clone, PartialEq, Eq)]
-enum TxNodeSearch {
-    Any,
-    Unparsed,
-    Node(String),
-}
-
 pub struct ViewerTable {
     pub title: String,
-    decoded_msgs: frozen::Frozen<DecodedMsgMap>,
-    undecoded_msgs: frozen::Frozen<UndecodedMsgMap>,
-    paused: bool,
     search: String,
-    tx_node: TxNodeSearch,
+    tx_node: String,
 }
-
-impl TxNodeSearch {
-    fn matches(&self, tx_node: &str) -> bool {
-        match self {
-            TxNodeSearch::Any => true,
-            TxNodeSearch::Unparsed => tx_node.eq_ignore_ascii_case("Unparsed"),
-            TxNodeSearch::Node(node) => tx_node.eq_ignore_ascii_case(node),
-        }
-    }
-}
-
 impl ViewerTable {
-    pub fn new(instance_num: usize) -> Self {
+    pub fn new(instance: usize) -> Self {
         Self {
-            title: format!("CAN Viewer Table #{}", instance_num),
-            decoded_msgs: frozen::Frozen::new(DecodedMsgMap::new()),
-            undecoded_msgs: frozen::Frozen::new(UndecodedMsgMap::new()),
-            paused: false,
+            title: format!("CAN Viewer Table #{instance}"),
             search: String::new(),
-            tx_node: TxNodeSearch::Any,
+            tx_node: "Any".into(),
         }
     }
-
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
-        action_queue: &mut Vec<action::AppAction>,
+        actions: &mut Vec<action::AppAction>,
         formatter: &Option<formatter::Formatter>,
         parser: Option<&app::ParserInfo>,
+        view: &TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        ui.heading(format!("🚗 {}", self.title));
-
+        ui.heading(&self.title);
         ui.horizontal(|ui| {
-            if ui
-                .button(if self.paused { "Resume" } else { "Pause" })
-                .clicked()
-            {
-                self.paused = !self.paused;
-                if self.paused {
-                    self.decoded_msgs.freeze();
-                    self.undecoded_msgs.freeze();
-                } else {
-                    self.decoded_msgs.unfreeze();
-                    self.undecoded_msgs.unfreeze();
-                }
-            }
-
-            if ui.button("Clear").clicked() {
-                self.decoded_msgs.apply_both(|ms| ms.clear());
-                self.undecoded_msgs.apply_both(|ms| ms.clear());
-            }
-        });
-
-        self.clean_undecoded();
-
-        ui.separator();
-
-        ui.add_space(4.0);
-
-        egui::Frame::group(ui.style())
-            .inner_margin(egui::Margin::symmetric(8, 6))
-            .stroke(egui::Stroke::NONE)
-            .show(ui, |ui| {
-                ui.horizontal(|ui| {
-                    ui.label("Search:");
-                    let search_bg = if ui.visuals().text_edit_bg_color.is_some() {
-                        ui.visuals().widgets.inactive.bg_fill
-                    } else {
-                        ui.visuals().extreme_bg_color
-                    };
-                    ui.add(
-                        egui::TextEdit::singleline(&mut self.search).background_color(search_bg),
-                    );
-
-                    ui.add_space(8.0);
-
-                    let mut all_tx_nodes = self
-                        .decoded_msgs
-                        .get()
-                        .values()
-                        .map(|msg| msg.decoded.tx_node.clone())
-                        .collect::<Vec<_>>();
-                    all_tx_nodes.sort_unstable();
-                    all_tx_nodes.dedup();
-                    ui.label("Tx Node:");
-                    egui::ComboBox::from_id_salt(("tx_node_filter", &self.title))
-                        .selected_text(match &self.tx_node {
-                            TxNodeSearch::Any => "Any".to_string(),
-                            TxNodeSearch::Unparsed => "Unparsed".to_string(),
-                            TxNodeSearch::Node(node) => node.clone(),
-                        })
-                        .show_ui(ui, |ui| {
-                            ui.selectable_value(&mut self.tx_node, TxNodeSearch::Any, "Any");
-                            for tx_node in all_tx_nodes {
-                                ui.selectable_value(
-                                    &mut self.tx_node,
-                                    TxNodeSearch::Node(tx_node.clone()),
-                                    tx_node,
-                                );
-                            }
-                            if !self.undecoded_msgs.get().is_empty() {
-                                ui.selectable_value(
-                                    &mut self.tx_node,
-                                    TxNodeSearch::Unparsed,
-                                    "Unparsed",
-                                );
-                            }
-                        });
-                });
-                ui.add_space(8.0);
-
-                let decoded = self.decoded_msgs.get();
-                let undecoded = self.undecoded_msgs.get();
-
-                if decoded.is_empty() && undecoded.is_empty() {
-                    ui.centered_and_justified(|ui| {
-                        ui.label(
-                            egui::RichText::new("No CAN messages to display.")
-                                .italics()
-                                .weak(),
-                        );
-                    });
-                    return;
-                }
-
-                egui::ScrollArea::vertical().show(ui, |ui| {
-                    let low_search = self.search.to_lowercase();
-
-                    if !undecoded.is_empty() {
-                        let mut undecoded_msg_keys = undecoded
-                            .iter()
-                            .filter_map(|(&msg_id, msg)| {
-                                let tx_filter = matches!(
-                                    self.tx_node,
-                                    TxNodeSearch::Any | TxNodeSearch::Unparsed
-                                );
-                                if !tx_filter {
-                                    return None;
-                                }
-
-                                if self.search.is_empty()
-                                    || format!("{:03X}", msg.msg_id)
-                                        .to_lowercase()
-                                        .contains(&low_search)
-                                    || "error: unknown".contains(&low_search)
-                                    || "unparsed".contains(&low_search)
-                                {
-                                    Some(msg_id)
-                                } else {
-                                    None
-                                }
-                            })
-                            .collect::<Vec<_>>();
-                        undecoded_msg_keys.sort();
-                        for msg_id in undecoded_msg_keys {
-                            let msg = &undecoded[&msg_id];
-                            let raw_bytes_str = msg
-                                .raw_bytes
-                                .iter()
-                                .map(|b| format!("{:02X}", b))
-                                .collect::<Vec<_>>()
-                                .join(" ");
-                            MessageCard {
-                                msg_name: "Error: Unknown",
-                                msg_id: msg.msg_id,
-                                tx_node: "Unparsed",
-                                raw_bytes: &raw_bytes_str,
-                                timestamp: &msg.timestamp.format("%-I:%M:%S%.3f").to_string(),
-                                signals: Vec::new(),
-                                search: &self.search,
-                            }
-                            .ui(ui)
-                            .into_iter()
-                            .for_each(|spawn| action_queue.push(spawn));
-                        }
-                        ui.add_space(8.0);
+            ui.label("Search:");
+            ui.text_edit_singleline(&mut self.search);
+            let mut nodes: Vec<_> = view
+                .latest
+                .values()
+                .filter_map(|f| f.decoded.as_ref().map(|d| d.tx_node.clone()))
+                .collect();
+            nodes.sort();
+            nodes.dedup();
+            egui::ComboBox::from_id_salt(("tx_node", &self.title))
+                .selected_text(&self.tx_node)
+                .show_ui(ui, |ui| {
+                    ui.selectable_value(&mut self.tx_node, "Any".into(), "Any");
+                    ui.selectable_value(&mut self.tx_node, "Unparsed".into(), "Unparsed");
+                    for node in nodes {
+                        ui.selectable_value(&mut self.tx_node, node.clone(), node);
                     }
-
-                    let mut decoded_msg_keys = decoded
-                        .iter()
-                        .filter_map(|(&msg_id, msg)| {
-                            let tx_filter = self.tx_node.matches(&msg.decoded.tx_node);
-                            if !tx_filter {
-                                return None;
-                            }
-
-                            if self.search.is_empty()
-                                || msg.decoded.name.to_lowercase().contains(&low_search)
-                                || format!("{:03X}", msg.decoded.msg_id)
-                                    .to_lowercase()
-                                    .contains(&low_search)
-                                || msg.decoded.tx_node.to_lowercase().contains(&low_search)
-                                || msg
-                                    .decoded
-                                    .signals
-                                    .values()
-                                    .any(|sig| sig.name.to_lowercase().contains(&low_search))
-                            {
-                                Some(msg_id)
-                            } else {
-                                None
-                            }
-                        })
-                        .collect::<Vec<_>>();
-                    decoded_msg_keys.sort();
-                    for msg_id in decoded_msg_keys {
-                        let msg = &decoded[&msg_id];
-                        let msg_def = parser
-                            .as_ref()
-                            .map(|p| &p.parser)
-                            .and_then(|p| p.msg_def(msg_id));
-                        let signals: Vec<(&str, String)> = msg
-                            .decoded
-                            .signals
+                });
+        });
+        if view.frames.is_empty() {
+            ui.label("No retained CAN messages in the selected interval.");
+        }
+        let search = self.search.to_lowercase();
+        egui::ScrollArea::vertical().show(ui, |ui| {
+            for frame in view.latest.values() {
+                let decoded = frame.decoded.as_ref();
+                let name = decoded.map_or("Error: Unknown", |d| d.name.as_str());
+                let node = decoded.map_or("Unparsed", |d| d.tx_node.as_str());
+                if self.tx_node != "Any" && self.tx_node != node {
+                    continue;
+                }
+                if !search.is_empty()
+                    && !name.to_lowercase().contains(&search)
+                    && !node.to_lowercase().contains(&search)
+                    && !format!("{:03X}", frame.msg_id)
+                        .to_lowercase()
+                        .contains(&search)
+                    && !decoded.is_some_and(|d| {
+                        d.signals.keys().any(|s| s.to_lowercase().contains(&search))
+                    })
+                {
+                    continue;
+                }
+                let id = frame.msg_id
+                    | if frame.is_msg_id_extended {
+                        daqcore::can::EXTENDED_ID_FLAG
+                    } else {
+                        0
+                    };
+                let definition = parser.and_then(|p| p.parser.msg_def(id));
+                let signals = decoded
+                    .map(|d| {
+                        d.signals
                             .iter()
-                            .map(|(sig_name, signal)| {
-                                let sig_def = msg_def
-                                    .and_then(|md| md.signals.iter().find(|s| s.name == *sig_name));
+                            .map(|(name, sig)| {
+                                let def = definition
+                                    .and_then(|m| m.signals.iter().find(|s| s.name == *name));
                                 (
-                                    sig_name.as_str(),
+                                    name.as_str(),
                                     formatter::try_format(
                                         formatter,
-                                        &msg.decoded.name,
-                                        sig_name,
-                                        sig_def,
-                                        Some(&signal.unit),
-                                        &signal.value,
+                                        &d.name,
+                                        name,
+                                        def,
+                                        Some(&sig.unit),
+                                        &sig.value,
                                     ),
                                 )
                             })
-                            .collect();
-                        let raw_bytes_str = msg
-                            .raw_bytes
-                            .iter()
-                            .map(|b| format!("{:02X}", b))
-                            .collect::<Vec<_>>()
-                            .join(" ");
-                        MessageCard {
-                            msg_name: &msg.decoded.name,
-                            msg_id: msg.decoded.msg_id,
-                            tx_node: &msg.decoded.tx_node,
-                            raw_bytes: &raw_bytes_str,
-                            timestamp: &msg.timestamp.format("%-I:%M:%S%.3f").to_string(),
-                            signals,
-                            search: &self.search,
-                        }
-                        .ui(ui)
-                        .into_iter()
-                        .for_each(|spawn| action_queue.push(spawn));
-                        ui.add_space(8.0);
+                            .collect()
+                    })
+                    .unwrap_or_default();
+                let bytes = frame
+                    .raw_bytes
+                    .iter()
+                    .map(|b| format!("{b:02X}"))
+                    .collect::<Vec<_>>()
+                    .join(" ");
+                actions.extend(
+                    MessageCard {
+                        msg_name: name,
+                        msg_id: frame.msg_id,
+                        tx_node: node,
+                        raw_bytes: &bytes,
+                        timestamp: &frame.timestamp.label(),
+                        signals,
+                        search: &self.search,
                     }
-                });
-            });
-
-        egui_tiles::UiResponse::None
-    }
-
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        match msg {
-            messages::MsgFromCan::ParsedMessage(parsed_msg) => {
-                self.decoded_msgs
-                    .get_mut()
-                    .insert(parsed_msg.decoded.msg_id, parsed_msg.clone());
-            }
-            messages::MsgFromCan::UnparsedMessage(unparsed_msg) => {
-                self.undecoded_msgs
-                    .get_mut()
-                    .insert(unparsed_msg.msg_id, unparsed_msg.clone());
-            }
-            _ => {}
-        }
-    }
-
-    fn clean_undecoded(&mut self) {
-        // Remove any undecoded messages that have a decoded message with a newer timestamp
-        let decoded = &self.decoded_msgs.rt_data;
-        let undecoded = self.undecoded_msgs.get_mut();
-        undecoded.retain(|&msg_id, unparsed_msg| {
-            if let Some(parsed_msg) = decoded.get(&msg_id) {
-                parsed_msg.timestamp <= unparsed_msg.timestamp
-            } else {
-                true
+                    .ui(ui),
+                );
+                ui.add_space(8.0);
             }
         });
+        egui_tiles::UiResponse::None
     }
 }
 

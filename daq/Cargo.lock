@@ -1012,16 +1012,12 @@ dependencies = [
  "egui_plot",
  "egui_tiles",
  "env_logger",
- "globset",
  "hashbrown 0.16.1",
- "indexmap",
  "log",
- "rand 0.10.2",
  "rfd",
  "serde",
  "serde_json",
  "serialport",
- "slcan",
  "toml",
  "walkers",
 ]
@@ -1031,6 +1027,7 @@ name = "daqcli"
 version = "0.1.0"
 dependencies = [
  "daqcore",
+ "libc",
 ]
 
 [[package]]
@@ -1042,7 +1039,14 @@ dependencies = [
  "can_decode",
  "chrono",
  "csv",
+ "globset",
+ "indexmap",
  "log",
+ "rand 0.10.2",
+ "serde",
+ "serde_json",
+ "serialport",
+ "slcan",
 ]
 
 [[package]]
@@ -4241,7 +4245,7 @@ checksum = "0c790de23124f9ab44544d7ac05d60440adc586479ce501c1d6d7da3cd8c9cf5"
 [[package]]
 name = "slcan"
 version = "0.1.5"
-source = "git+https://github.com/LelsersLasers/slcan#a8c751c6695532a9ea95d62114b30fd18cf89697"
+source = "git+https://github.com/LelsersLasers/slcan?rev=a8c751c6695532a9ea95d62114b30fd18cf89697#a8c751c6695532a9ea95d62114b30fd18cf89697"
 dependencies = [
  "embedded-can",
  "heapless",

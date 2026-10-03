@@ -1,16 +1,11 @@
+use daqcore::can_thread::{self, CanThreadCommand, CanThreadConfig};
 mod action;
 mod app;
 mod assets;
-mod bootloader_protocol;
-mod can;
-mod connection;
-mod formatter;
-mod frozen;
-mod hil;
-mod messages;
 mod paths;
 mod settings;
 mod shortcuts;
+mod telemetry;
 mod ui;
 mod util;
 mod widget_constructor;
@@ -23,31 +18,25 @@ fn main() -> eframe::Result<()> {
         .filter_level(log::LevelFilter::Info)
         .init();
 
-    let (can_to_ui_tx, can_to_ui_rx) = std::sync::mpsc::channel::<messages::MsgFromCan>();
-    let (ui_to_can_tx, ui_to_can_rx) = std::sync::mpsc::channel::<messages::MsgFromUi>();
-
     let settings = settings::Settings::load();
-    if let Some(ref dbc_path) = settings.dbc_path {
-        ui_to_can_tx
-            .send(messages::MsgFromUi::DbcSelected(dbc_path.clone()))
-            .expect("Failed to send DBC path to CAN thread");
+    let (can_to_ui_tx, can_to_ui_rx) = std::sync::mpsc::channel();
+    let config = CanThreadConfig {
+        dbc_path: settings.dbc_path.clone(),
+        log_folder: Some(
+            settings
+                .log_folder
+                .clone()
+                .unwrap_or_else(|| settings::DEFAULT_LOG_FOLDER.into()),
+        ),
+        hil_dir: std::env::current_dir()
+            .unwrap_or_default()
+            .join("hil_config"),
+    };
+    let can_thread =
+        can_thread::spawn_can_thread(config, can_to_ui_tx).expect("Failed to spawn CAN worker");
+    if let Some(source) = settings.selected_source.clone() {
+        let _ = can_thread.command(CanThreadCommand::Connect(Some(source)));
     }
-    if let Some(ref selected_source) = settings.selected_source {
-        ui_to_can_tx
-            .send(messages::MsgFromUi::Connect(selected_source.clone()))
-            .expect("Failed to send connect message to CAN thread");
-    }
-
-    let log_folder = settings
-        .log_folder
-        .clone()
-        .unwrap_or_else(|| std::path::PathBuf::from(settings::DEFAULT_LOG_FOLDER));
-    let _can_thread = can::thread::start_can_thread(
-        can_to_ui_tx,
-        ui_to_can_rx,
-        settings.selected_source.clone(),
-        log_folder,
-    );
 
     let per_img = eframe::icon_data::from_png_bytes(assets::PER_LOGO_BYTES)
         .expect("Failed to load logo image");
@@ -62,7 +51,7 @@ fn main() -> eframe::Result<()> {
         Box::new(|cc| {
             Ok(Box::new(app::DAQApp::new(
                 can_to_ui_rx,
-                ui_to_can_tx,
+                can_thread,
                 settings,
                 cc,
             )))
