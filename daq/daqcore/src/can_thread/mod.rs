@@ -1,13 +1,12 @@
 //! Caller-managed worker. Only commands/events cross threads; telemetry stays with callers.
-use crate::firmware;
-use crate::hil;
+
 mod connection;
 mod decode;
 mod events;
 mod firmware_session;
 mod run;
 mod tx;
-use crate::{ParsedFrame, Time, connection::ConnectionSource};
+use crate::{ParsedFrame, Time, connection::ConnectionSource, firmware, hil};
 use std::{path::PathBuf, sync::mpsc, thread::JoinHandle};
 pub use tx::{AddSendMessage, SendAmount};
 #[derive(Default)]

@@ -1,7 +1,4 @@
-use crate::action;
-use crate::app;
-use crate::telemetry;
-use crate::widget_constructor;
+use crate::{action, app, telemetry, widget_constructor};
 
 pub struct ViewerTable {
     pub title: String,

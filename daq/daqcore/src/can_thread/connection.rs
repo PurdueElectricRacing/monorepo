@@ -1,9 +1,9 @@
-use crate::connection;
 use crate::{
     can::driver::{self, Driver, DriverError, DriverResult},
-    connection::ConnectionSource,
+    connection::{self, ConnectionSource},
     frame::CanFrame,
 };
+
 use std::time::{Duration, Instant};
 pub(super) struct ConnectionManager {
     source: Option<ConnectionSource>,

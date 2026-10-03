@@ -1,6 +1,4 @@
-use crate::ui;
-use crate::widget_ids;
-use crate::widgets;
+use crate::{ui, widget_ids, widgets};
 
 #[derive(Eq, PartialEq, Hash, Clone, Copy, Debug)]
 pub enum WidgetKind {

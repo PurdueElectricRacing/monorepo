@@ -1,13 +1,15 @@
-use crate::frame;
-use crate::log_parse::consts;
-
-use crate::log_parse::parse;
+use crate::{
+    frame,
+    log_parse::{consts, parse},
+};
 
 use chrono::{Datelike, Timelike};
-use std::fs::{File, create_dir_all};
-use std::io::Write;
-use std::path::PathBuf;
-use std::time::Instant;
+use std::{
+    fs::{File, create_dir_all},
+    io::Write,
+    path::PathBuf,
+    time::Instant,
+};
 
 pub const LOG_FILE_ROTATE_MS: u128 = 60000;
 pub const DEFAULT_FLUSH_MS: u128 = 1000;

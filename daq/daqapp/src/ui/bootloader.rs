@@ -1,5 +1,7 @@
-use std::collections::{HashMap, HashSet};
-use std::time::{Duration, Instant};
+use std::{
+    collections::{HashMap, HashSet},
+    time::{Duration, Instant},
+};
 
 const CAPABILITY_TIMEOUT: Duration = Duration::from_secs(12);
 const PROTOCOL_OBSERVATION_TIMEOUT: Duration = Duration::from_secs(5);

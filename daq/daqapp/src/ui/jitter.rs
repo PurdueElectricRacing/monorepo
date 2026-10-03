@@ -1,6 +1,4 @@
-use super::dbc_msg_picker;
-use crate::app;
-use crate::telemetry;
+use crate::{app, telemetry, ui::dbc_msg_picker};
 
 pub struct Jitter {
     pub title: String,

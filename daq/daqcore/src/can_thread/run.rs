@@ -1,14 +1,13 @@
-use super::{
-    CanThreadCommand as Command, CanThreadConfig, CanThreadEvent as Event,
-    connection::ConnectionManager, decode::FrameDecoder, events::Events, tx::SendTable,
-};
-use crate::can_thread;
-use crate::frame;
-use crate::hil;
 use crate::{
     Time,
     can::{bus_load::BusLoadTracker, driver::DriverError, logger::DaqLogger},
+    can_thread::{
+        self, CanThreadCommand as Command, CanThreadConfig, CanThreadEvent as Event,
+        connection::ConnectionManager, decode::FrameDecoder, events::Events, tx::SendTable,
+    },
+    frame, hil,
 };
+
 use std::{
     sync::mpsc::{Receiver, RecvTimeoutError, Sender, TryRecvError},
     time::{Duration, Instant},

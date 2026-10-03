@@ -1,6 +1,4 @@
-use crate::app;
-use crate::telemetry;
-use crate::ui::dbc_msg_picker;
+use crate::{app, telemetry, ui::dbc_msg_picker};
 
 // Makes invalid combinations of id/name/signal name unrepresentable
 enum ScopeState {

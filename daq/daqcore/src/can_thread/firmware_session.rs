@@ -1,5 +1,5 @@
-use crate::firmware;
-use crate::firmware::{FirmwarePackage, FirmwareProgress, FirmwareUpdater, TickResult};
+use crate::firmware::{self, FirmwarePackage, FirmwareProgress, FirmwareUpdater, TickResult};
+
 use std::time::Instant;
 #[derive(Default)]
 pub(super) struct FirmwareSession(Option<FirmwareUpdater>);

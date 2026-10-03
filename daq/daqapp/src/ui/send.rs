@@ -1,6 +1,4 @@
-use crate::app;
-
-use super::dbc_msg_picker;
+use crate::{app, ui::dbc_msg_picker};
 
 pub struct SendUi {
     pub title: String,

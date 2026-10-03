@@ -10,7 +10,7 @@ impl BusLoad {
         }
     }
     pub fn show(
-        &mut self,
+        &self,
         ui: &mut eframe::egui::Ui,
         samples: &[telemetry::BusLoadSample],
         view: &telemetry::TelemetryView<'_>,

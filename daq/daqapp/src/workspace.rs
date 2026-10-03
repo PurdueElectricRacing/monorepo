@@ -1,8 +1,4 @@
-use crate::action;
-use crate::app;
-use crate::telemetry;
-use crate::ui;
-use crate::widgets;
+use crate::{action, app, telemetry, ui, widgets};
 
 pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
     ui::timeline::show(app, ctx);

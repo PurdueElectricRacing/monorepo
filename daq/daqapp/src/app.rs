@@ -1,13 +1,6 @@
-use crate::action;
-use crate::paths;
-use crate::settings;
-use crate::shortcuts;
-use crate::telemetry;
-use crate::ui;
-use crate::util;
-use crate::widget_ids;
-use crate::widgets;
-use crate::workspace;
+use crate::{
+    action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
+};
 
 const UI_SCALE_STEP: f32 = 0.2;
 pub struct ParserInfo {

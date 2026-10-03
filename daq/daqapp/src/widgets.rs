@@ -1,8 +1,4 @@
-use crate::action;
-use crate::app;
-use crate::telemetry;
-use crate::ui;
-use crate::widget_constructor;
+use crate::{action, app, telemetry, ui, widget_constructor};
 
 pub enum Widget {
     ViewerTable(ui::viewer_table::ViewerTable),
@@ -88,20 +84,11 @@ impl Widget {
             Widget::LogParser(w) => w.show(ui, context.parser),
             Widget::SendUi(w) => w.show(ui, context.parser, context.formatter),
             Widget::BusLoad(w) => w.show(ui, context.bus_load, context.view),
-            Widget::BatteryVoltage(w) => {
-                w.project(context.view);
-                w.show(ui)
-            }
-            Widget::BatteryTemps(w) => {
-                w.project(context.view);
-                w.show(ui)
-            }
+            Widget::BatteryVoltage(w) => w.show(ui, context.view),
+            Widget::BatteryTemps(w) => w.show(ui, context.view),
             Widget::GgPlot(w) => w.show(ui, context.view),
             Widget::GpsPlot(w) => w.show(ui, context.view),
-            Widget::Dynamics(w) => {
-                w.project(context.view);
-                w.show(ui)
-            }
+            Widget::Dynamics(w) => w.show(ui, context.view),
             Widget::Jitter(w) => w.show(ui, context.parser, context.view),
             Widget::Hil(w) => w.show(ui),
         }

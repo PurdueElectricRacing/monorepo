@@ -1,12 +1,12 @@
 //! Drivers are single-owner I/O adapters; no transport type escapes this module.
-use crate::can;
-use crate::log_parse;
 use crate::{
+    can,
     connection::{CanBusSpeed, ConnectionSource},
     frame::CanFrame,
+    log_parse,
 };
-use std::time::Duration;
-use std::time::Instant;
+
+use std::time::{Duration, Instant};
 #[derive(Debug)]
 pub enum DriverError {
     ConnectionFailed(String),
@@ -152,8 +152,13 @@ impl Driver for SimulatedDriver {
     }
 }
 mod serial {
-    use super::*;
-    use crate::frame::FrameKind;
+    use crate::{
+        can::driver::{Driver, DriverError, DriverResult, io_read},
+        connection::CanBusSpeed,
+        frame::{CanFrame, FrameKind},
+    };
+    use std::time::Duration;
+
     use slcan::sync::CanSocket;
     pub(super) struct SerialDriver {
         socket: CanSocket<Box<dyn serialport::SerialPort>>,

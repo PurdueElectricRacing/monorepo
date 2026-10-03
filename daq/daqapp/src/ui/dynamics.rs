@@ -1,5 +1,4 @@
-use crate::telemetry;
-use crate::ui;
+use crate::{telemetry, ui};
 
 use std::f32::consts::PI;
 
@@ -16,49 +15,61 @@ const YAW_ARC_SEGMENTS: usize = 28;
 
 pub struct Dynamics {
     pub title: String,
-
-    // Motor/Vehicle Speed
-    pub velocity_mps: f32,
-
-    // IMU Data
-    pub accel_x: f32, // Longitudinal (X+ = Forward)
-    pub accel_y: f32, // Lateral (Y+ = Left)
-
-    // Steering
-    pub steer_angle_rad: f32,
-    pub yaw_rate_rads: f32,
-
-    last_update: Option<daqcore::Time>,
-    view_time: daqcore::Time,
-    pub is_data_stale: bool,
 }
 
 impl Dynamics {
     pub fn new(instance_num: usize) -> Self {
         Self {
             title: format!("Dynamics #{}", instance_num),
+        }
+    }
+
+    pub fn show(
+        &self,
+        ui: &mut eframe::egui::Ui,
+        view: &telemetry::TelemetryView<'_>,
+    ) -> egui_tiles::UiResponse {
+        DynamicsProjection::from_view(view).render(ui, &self.title)
+    }
+}
+
+/// Temporary values reconstructed from the selected interval for one render.
+struct DynamicsProjection {
+    // Motor/Vehicle Speed
+    velocity_mps: f32,
+
+    // IMU Data
+    accel_x: f32, // Longitudinal (X+ = Forward)
+    accel_y: f32, // Lateral (Y+ = Left)
+
+    // Steering
+    steer_angle_rad: f32,
+    yaw_rate_rads: f32,
+
+    last_update: Option<daqcore::Time>,
+    view_time: daqcore::Time,
+    is_data_stale: bool,
+}
+
+impl DynamicsProjection {
+    fn from_view(view: &telemetry::TelemetryView<'_>) -> Self {
+        let mut projection = Self {
             velocity_mps: 0.0,
             accel_x: 0.0,
             accel_y: 0.0,
             steer_angle_rad: 0.0,
             yaw_rate_rads: 0.0,
             last_update: None,
-            view_time: daqcore::Time::now(),
+            view_time: view.view_time(),
             is_data_stale: true,
-        }
-    }
-
-    pub fn project(&mut self, view: &telemetry::TelemetryView<'_>) {
-        self.velocity_mps = 0.0;
-        self.accel_x = 0.0;
-        self.accel_y = 0.0;
-        self.steer_angle_rad = 0.0;
-        self.yaw_rate_rads = 0.0;
-        self.last_update = None;
+        };
         for frame in view.frames {
-            self.apply_frame(frame);
+            projection.apply_frame(frame);
         }
-        self.view_time = view.view_time();
+        projection.is_data_stale = projection
+            .last_update
+            .is_none_or(|t| projection.view_time.secs(t) > STALE_TIMEOUT_SECONDS as f64);
+        projection
     }
     fn apply_frame(&mut self, frame: &daqcore::ParsedFrame) {
         if let Some(parsed) = frame.decoded_view() {
@@ -72,7 +83,6 @@ impl Dynamics {
                         }
                     }
                     self.last_update = Some(parsed.timestamp);
-                    self.is_data_stale = false;
                 }
                 "IMU_angular_rate" => {
                     for (_, sig) in parsed.decoded.signals.iter() {
@@ -81,7 +91,6 @@ impl Dynamics {
                         }
                     }
                     self.last_update = Some(parsed.timestamp);
-                    self.is_data_stale = false;
                 }
                 "steering_angle" => {
                     for (_, sig) in parsed.decoded.signals.iter() {
@@ -90,7 +99,6 @@ impl Dynamics {
                         }
                     }
                     self.last_update = Some(parsed.timestamp);
-                    self.is_data_stale = false;
                 }
                 // TODO: Implement velocity tracking (GPS velocity or Wheel speed)
                 _ => {}
@@ -98,16 +106,12 @@ impl Dynamics {
         }
     }
 
-    pub fn show(&mut self, ui: &mut eframe::egui::Ui) -> egui_tiles::UiResponse {
+    fn render(&self, ui: &mut eframe::egui::Ui, title: &str) -> egui_tiles::UiResponse {
         let theme = ui::theme::get_theme(ui.ctx());
-
-        self.is_data_stale = self
-            .last_update
-            .is_none_or(|t| self.view_time.secs(t) > STALE_TIMEOUT_SECONDS as f64);
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
-            ui.heading(&self.title);
+            ui.heading(title);
             ui.add_space(4.0);
 
             self.draw_status_banner(ui, &theme);

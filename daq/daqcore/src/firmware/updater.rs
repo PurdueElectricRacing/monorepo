@@ -1,5 +1,4 @@
-use super::{FirmwareProgress, protocol::FirmwarePackage};
-use crate::firmware;
+use crate::firmware::{self, FirmwareProgress, protocol::FirmwarePackage};
 
 // Values mirror bootloader_status_t in firmware/can_library/generated/can_types.h.
 // Keeping the wire constants here avoids coupling the host updater to generated

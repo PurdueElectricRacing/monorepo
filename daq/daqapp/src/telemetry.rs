@@ -5,6 +5,7 @@ pub struct TelemetryView<'a> {
     pub plot_frames: &'a [daqcore::ParsedFrame],
     pub frames: &'a [daqcore::ParsedFrame],
     pub timeline: &'a daqcore::timeline::Timeline,
+    view_time: daqcore::Time,
     pub latest: BTreeMap<u32, &'a daqcore::ParsedFrame>,
 }
 impl<'a> TelemetryView<'a> {
@@ -24,14 +25,15 @@ impl<'a> TelemetryView<'a> {
             frames,
             timeline: session.timeline(),
             latest,
+            view_time: if session.timeline().is_live() {
+                daqcore::Time::now()
+            } else {
+                session.timeline().setpoint()
+            },
         }
     }
     pub fn view_time(&self) -> daqcore::Time {
-        if self.timeline.is_live() {
-            daqcore::Time::now()
-        } else {
-            self.timeline.setpoint()
-        }
+        self.view_time
     }
 }
 /// Rendering projection that preserves extrema, endpoints and ordering in each pixel bucket.

@@ -1,9 +1,4 @@
-use crate::action;
-use crate::app;
-use crate::assets;
-use crate::settings;
-use crate::util;
-use crate::widget_constructor;
+use crate::{action, app, assets, settings, util, widget_constructor};
 
 pub fn select_dbc(
     app: &mut app::DAQApp,

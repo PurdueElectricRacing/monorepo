@@ -1,5 +1,4 @@
-use crate::app;
-use crate::settings;
+use crate::{app, settings};
 
 pub struct LogParser {
     pub title: String,

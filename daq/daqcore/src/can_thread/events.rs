@@ -1,4 +1,4 @@
-use super::CanThreadEvent;
+use crate::can_thread::CanThreadEvent;
 /// The worker's only event sender. A missing receiver is a normal shutdown condition.
 pub(super) struct Events(pub std::sync::mpsc::Sender<CanThreadEvent>);
 impl Events {

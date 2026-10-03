@@ -1,7 +1,8 @@
-use super::common;
-use crate::telemetry;
-use crate::ui;
-use crate::util;
+use crate::{
+    telemetry,
+    ui::{self, battery::common},
+    util,
+};
 
 const T_MIN: f64 = 15.0;
 const T_MAX: f64 = 45.0;
@@ -41,38 +42,49 @@ impl ThermistorTemperature {
 
 pub struct BatteryTemps {
     pub title: String,
-    modules: Vec<Vec<ThermistorTemperature>>,
-    ui_state: common::BatteryUiState,
 }
 
 impl BatteryTemps {
     pub fn new(instance_num: usize) -> Self {
         Self {
             title: format!("Battery Temps #{}", instance_num),
+        }
+    }
+
+    pub fn show(
+        &self,
+        ui: &mut eframe::egui::Ui,
+        view: &telemetry::TelemetryView<'_>,
+    ) -> egui_tiles::UiResponse {
+        TemperatureProjection::from_view(view).render(ui, &self.title)
+    }
+}
+
+/// Temporary values reconstructed from the selected interval for one render.
+struct TemperatureProjection {
+    modules: Vec<Vec<ThermistorTemperature>>,
+    sample_age: common::SampleAge,
+}
+
+impl TemperatureProjection {
+    fn from_view(view: &telemetry::TelemetryView<'_>) -> Self {
+        let mut projection = Self {
             modules: vec![
                 vec![ThermistorTemperature::default(); common::THERMISTORS_PER_MODULE];
                 common::NUM_MODULES
             ],
-            ui_state: common::BatteryUiState::new(),
-        }
-    }
-
-    pub fn project(&mut self, view: &telemetry::TelemetryView<'_>) {
-        self.modules = vec![
-            vec![ThermistorTemperature::default(); common::THERMISTORS_PER_MODULE];
-            common::NUM_MODULES
-        ];
-        self.ui_state = common::BatteryUiState::new();
+            sample_age: common::SampleAge::new(view.view_time()),
+        };
         let mut filled = 0;
         for frame in view.frames.iter().rev() {
-            if self.apply_frame(frame) {
+            if projection.apply_frame(frame) {
                 filled += 1;
             }
             if filled == common::NUM_MODULES * common::THERMISTORS_PER_MODULE {
                 break;
             }
         }
-        self.ui_state.set_view_time(view.view_time());
+        projection
     }
 
     fn apply_frame(&mut self, frame: &daqcore::ParsedFrame) -> bool {
@@ -102,16 +114,16 @@ impl BatteryTemps {
                     .is_nan()
             {
                 self.modules[module_num][thermistor_num].temperature = temperature;
-                self.ui_state.mark_updated(parsed.timestamp);
+                self.sample_age.mark_updated(parsed.timestamp);
                 return true;
             }
         }
         false
     }
 
-    pub fn show(&mut self, ui: &mut eframe::egui::Ui) -> egui_tiles::UiResponse {
+    fn render(&self, ui: &mut eframe::egui::Ui, title: &str) -> egui_tiles::UiResponse {
         let theme = ui::theme::get_theme(ui.ctx());
-        let (stale, elapsed) = self.ui_state.refresh();
+        let (stale, elapsed) = self.sample_age.elapsed();
 
         let temperatures = self
             .modules
@@ -128,7 +140,7 @@ impl BatteryTemps {
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
-            ui.heading(&self.title);
+            ui.heading(title);
             ui.add_space(4.0);
 
             common::stale_banner(ui, &theme, stale, elapsed);

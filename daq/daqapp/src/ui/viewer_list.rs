@@ -1,5 +1,4 @@
-use crate::app;
-use crate::telemetry;
+use crate::{app, telemetry};
 
 pub struct ViewerList {
     pub title: String,
@@ -11,7 +10,7 @@ impl ViewerList {
         }
     }
     pub fn show(
-        &mut self,
+        &self,
         ui: &mut eframe::egui::Ui,
         formatter: &Option<daqcore::formatter::Formatter>,
         parser: Option<&app::ParserInfo>,
