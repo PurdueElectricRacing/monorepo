@@ -1073,6 +1073,8 @@ dependencies = [
  "can_decode",
  "clap",
  "daqcore",
+ "env_logger",
+ "log",
 ]
 
 [[package]]

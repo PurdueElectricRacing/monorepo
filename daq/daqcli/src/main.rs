@@ -10,7 +10,7 @@ struct Cli {
     logs_dir: PathBuf,
     #[arg(long)]
     output_dir: PathBuf,
-    #[arg(long, default_value = "daq")]
+    #[arg(long, default_value = "out")]
     prefix: String,
     #[arg(long)]
     bus0_dbc: PathBuf,
@@ -23,6 +23,7 @@ struct Cli {
 }
 
 fn main() -> ExitCode {
+    env_logger::init();
     let cli = Cli::parse();
 
     let parser_bus_0 = match can_decode::Parser::from_dbc_file(&cli.bus0_dbc) {
