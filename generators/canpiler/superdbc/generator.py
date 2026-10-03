@@ -9,7 +9,7 @@ from collections import defaultdict
 from core.artifacts import Artifact
 from core.utils import print_as_ok
 from .models import (
-    BusExport, LimitsExport, MessageExport, NodeExport, SignalExport, SuperDbcExport, VersionsExport, superdbc_json_schema,
+    SCHEMA_VERSION, BusExport, LimitsExport, MessageExport, NodeExport, SignalExport, SuperDbcExport, VersionsExport, superdbc_json_schema,
 )
 from ..pipeline.models import LinkedCan, CompiledSignal
 
@@ -22,7 +22,7 @@ def generate_superdbc_schema() -> Artifact:
     )
 
 
-def content_hash(buses: dict, schema_version: int = 1) -> str:
+def content_hash(buses: dict, schema_version: str = SCHEMA_VERSION) -> str:
     """Return the normalized definitions' SHA-256 digest as lowercase hex."""
     encoded = json.dumps(
         {"schema_version": schema_version, "buses": buses},
@@ -62,6 +62,7 @@ def _signal(signal: CompiledSignal, linked: LinkedCan) -> SignalExport:
         ),
         unit=signal.unit or "",
         choices={str(raw): label for raw, label in enumerate(choices)} if choices else None,
+        display_format=signal.display_format,
     )
 
 
@@ -112,7 +113,7 @@ def generate_superdbc(linked: LinkedCan, version: str) -> Artifact:
     bus_data = {name: bus.model_dump(mode="json") for name, bus in buses.items()}
     document = SuperDbcExport(
         content_hash=content_hash(bus_data),
-        versions=VersionsExport(schema_version=1, hash=version),
+        versions=VersionsExport(schema_version=SCHEMA_VERSION, hash=version),
         buses=buses,
     )
     filename = f"superdbc_{version}.json"

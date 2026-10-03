@@ -352,6 +352,7 @@ def compile_message(
                 bit_shift=current_offset,
                 is_signed=base_type.startswith("int"),
                 mask=(1 << length) - 1,
+                display_format=signal.display_format,
             )
         )
         current_offset += length
