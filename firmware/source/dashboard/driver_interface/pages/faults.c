@@ -7,77 +7,49 @@
 
 #include "faults.h"
 
-#include "menu_system.h"
+#include "can_library/generated/fault_data.h"
+#include "common/nextion/nextion.h"
 
-// TODO: implement this page
-
-
-menu_element_t faults_elements[] = {
-    [0] = {
-        .type        = ELEMENT_BUTTON,
-        .object_name = FAULT1_BUTTON,
-        .on_change   = nullptr
-    },
-    [1] = {
-        .type        = ELEMENT_BUTTON,
-        .object_name = FAULT2_BUTTON,
-        .on_change   = nullptr
-    },
-    [2] = {
-        .type        = ELEMENT_BUTTON,
-        .object_name = FAULT3_BUTTON,
-        .on_change   = nullptr
-    },
-    [3] = {
-        .type        = ELEMENT_BUTTON,
-        .object_name = FAULT4_BUTTON,
-        .on_change   = nullptr
-    },
-    [4] = {
-        .type        = ELEMENT_BUTTON,
-        .object_name = FAULT5_BUTTON,
-        .on_change   = nullptr
-    },
-    [5] = {
-        .type        = ELEMENT_BUTTON,
-        .object_name = FAULT6_BUTTON,
-        .on_change   = nullptr
-    },
-    [6] = {
-        .type        = ELEMENT_BUTTON,
-        .object_name = FAULT7_BUTTON,
-        .on_change   = nullptr
-    },
-    [7] = {
-        .type        = ELEMENT_BUTTON,
-        .object_name = FAULT8_BUTTON,
-        .on_change   = nullptr
-    }
+static char *const fault_text_objects[DISPLAY_FAULT_COUNT] = {
+    [DISPLAY_FAULT_0] = FAULT1_TXT,
+    [DISPLAY_FAULT_1] = FAULT2_TXT,
+    [DISPLAY_FAULT_2] = FAULT3_TXT,
+    [DISPLAY_FAULT_3] = FAULT4_TXT,
+    [DISPLAY_FAULT_4] = FAULT5_TXT,
+    [DISPLAY_FAULT_5] = FAULT6_TXT,
+    [DISPLAY_FAULT_6] = FAULT7_TXT,
+    [DISPLAY_FAULT_7] = FAULT8_TXT,
 };
-
-menu_page_t faults_page = {
-    .elements            = faults_elements,
-    .num_elements        = sizeof(faults_elements) / sizeof(faults_elements[0]),
-    .current_index       = 0,
-    .is_element_selected = false
-};
-
-void faults_update() {
-    MS_refreshPage(&faults_page);
-}
-
-void faults_move_up() {
-    MS_moveUp(&faults_page);
-}
-
-void faults_move_down() {
-    MS_moveDown(&faults_page);
-}
-
-void faults_select() {
-    MS_select(&faults_page);
-}
 
 void faults_telemetry_update() {
-    return; // todo
+    fault_id_t selected[DISPLAY_FAULT_COUNT];
+    uint8_t count = 0;
+
+    for (fault_id_t id = 0; id < TOTAL_NUM_FAULTS; ++id) {
+        if (!is_latched(id)) {
+            continue; // skip non-latched faults
+        }
+
+        uint8_t position = 0;
+        // Keep equal-priority faults in fault-ID order.
+        while (position < count && faults[selected[position]].priority >= faults[id].priority) {
+            ++position;
+        }
+        if (position == DISPLAY_FAULT_COUNT) {
+            continue;
+        }
+
+        if (count < DISPLAY_FAULT_COUNT) {
+            ++count;
+        }
+        for (uint8_t index = count - 1; index > position; --index) {
+            selected[index] = selected[index - 1];
+        }
+        selected[position] = id;
+    }
+
+    for (uint8_t index = 0; index < DISPLAY_FAULT_COUNT; ++index) {
+        const char *text = index < count ? get_fault_string(selected[index]) : FAULT_NONE_STRING;
+        NXT_setTextFormatted(fault_text_objects[index], "%s", text);
+    }
 }

@@ -11,14 +11,6 @@
 #define FAULT_STRING "fault"
 
 // Object names for Fault View page
-#define FAULT1_BUTTON     "ERROR1"
-#define FAULT2_BUTTON     "ERROR2"
-#define FAULT3_BUTTON     "ERROR3"
-#define FAULT4_BUTTON     "ERROR4"
-#define FAULT5_BUTTON     "ERROR5"
-#define FAULT6_BUTTON     "ERROR6"
-#define FAULT7_BUTTON     "ERROR7"
-#define FAULT8_BUTTON     "ERROR8"
 #define FAULT1_TXT        "ERROR1"
 #define FAULT2_TXT        "ERROR2"
 #define FAULT3_TXT        "ERROR3"
@@ -29,10 +21,18 @@
 #define FAULT8_TXT        "ERROR8"
 #define FAULT_NONE_STRING "NONE\0"
 
-void faults_update(void);
-void faults_move_up(void);
-void faults_move_down(void);
-void faults_select(void);
+typedef enum {
+    DISPLAY_FAULT_0 = 0,
+    DISPLAY_FAULT_1 = 1,
+    DISPLAY_FAULT_2 = 2,
+    DISPLAY_FAULT_3 = 3,
+    DISPLAY_FAULT_4 = 4,
+    DISPLAY_FAULT_5 = 5,
+    DISPLAY_FAULT_6 = 6,
+    DISPLAY_FAULT_7 = 7,
+    DISPLAY_FAULT_COUNT
+} display_fault_index_t;
+
 void faults_telemetry_update(void);
 
 #endif // FAULTS_H

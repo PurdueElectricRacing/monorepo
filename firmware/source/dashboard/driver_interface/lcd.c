@@ -34,10 +34,10 @@ const page_handler_t page_handlers[NUM_PAGES] = { // Order must match page_t enu
         .string    = RACE_STRING
     },
     [PAGE_FAULTS] = {
-        .update    = faults_update,
-        .move_up   = faults_move_up,
-        .move_down = faults_move_down,
-        .select    = faults_select,
+        .update    = nullptr,
+        .move_up   = nullptr,
+        .move_down = nullptr,
+        .select    = nullptr,
         .telemetry = faults_telemetry_update,
         .string    = FAULT_STRING
     },
