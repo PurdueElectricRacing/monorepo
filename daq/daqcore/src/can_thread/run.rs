@@ -194,9 +194,11 @@ fn run_with_connection(
                 std::thread::sleep(Duration::from_millis(4));
             }
         }
+        let mut got_frames = false;
         if connection.connected() {
             match connection.read() {
                 Ok(frames) => {
+                    got_frames = !frames.is_empty();
                     for frame in frames {
                         load.record_frame(frame.data.len(), Instant::now());
                         if let Some(logger) = &mut logger {
@@ -241,10 +243,14 @@ fn run_with_connection(
             });
             load_last = now;
         }
-        let wait = if connection.connected() {
-            Duration::from_millis(2)
-        } else {
+        let wait = if !connection.connected() {
             Duration::from_millis(50)
+        } else if got_frames {
+            // Drain queued traffic without delaying the next read; commands and
+            // scheduled work still run between driver batches.
+            Duration::ZERO
+        } else {
+            Duration::from_millis(2)
         };
         match commands.recv_timeout(wait) {
             Ok(command) => pending = Some(command),
