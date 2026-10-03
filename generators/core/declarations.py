@@ -27,6 +27,7 @@ BaseType = Literal[
 BitLength = Annotated[int, Field(ge=1, le=64)]
 MessagePriority = Annotated[int, Field(ge=0, le=5)]
 NonNegativeInt = Annotated[int, Field(ge=0)]
+DisplayFormat = Literal["hex", "binary", "integer", "0f", "1f", "2f", "3f"]
 
 
 def _duplicate_value(values: list[object]) -> object | None:
@@ -66,6 +67,7 @@ class SignalDeclaration(DeclarationModel):
     length: BitLength | None = None
     unit: str | None = None
     choices: list[str] | None = None
+    display_format: DisplayFormat | None = None
     scale: FiniteNumber | None = None
     offset: FiniteNumber | None = None
     min: FiniteNumber | None = None

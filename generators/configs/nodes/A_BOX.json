@@ -199,6 +199,7 @@
                         {
                             "signal_name": "git_hash",
                             "data_type": "uint32_t",
+                            "display_format": "hex",
                             "length": 28
                         },
                         {
