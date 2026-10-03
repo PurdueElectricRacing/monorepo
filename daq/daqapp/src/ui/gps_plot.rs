@@ -1,19 +1,9 @@
-use crate::messages;
-use chrono::{DateTime, Local, Timelike};
+use crate::telemetry::TelemetryView;
 use eframe::egui;
-use std::collections::VecDeque;
 use walkers::sources::{Attribution, TileSource};
 use walkers::{HttpTiles, Map, MapMemory, Plugin, Position, Projector, TileId, lon_lat};
-
-// default starting is ross ade
 const DEFAULT_CENTER_LAT: f64 = 40.4344;
 const DEFAULT_CENTER_LON: f64 = -86.9183;
-
-// default length of trail behind dot, in seconds
-const DEFAULT_TRAIL_SECONDS: f64 = 2.0;
-const MIN_TRAIL_SECONDS: f64 = 0.5; // slider lower bound
-const MAX_TRAIL_SECONDS: f64 = 20.0; // slider upper bound
-
 // satellite imagery instead of street map
 // <https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9>
 struct EsriWorldImagery;
@@ -42,161 +32,61 @@ pub struct GpsPlot {
     pub title: String,
     tiles: Option<HttpTiles>,
     map_memory: MapMemory,
-    current_fix: Option<(DateTime<Local>, f64, f64)>, // (timestamp, lat, lon)
-    trail: VecDeque<(DateTime<Local>, Position)>,     // (timestamp, position), oldest first
-    trail_seconds: f64,                               // current trail duration, set by the slider
 }
-
 impl GpsPlot {
-    pub fn new(instance_num: usize) -> Self {
+    pub fn new(instance: usize) -> Self {
         Self {
-            title: format!("GPS Plot #{}", instance_num), // set widget title
-            tiles: None,                                  // map tiles created later in show
-            map_memory: MapMemory::default(),             // initialize map state
-            current_fix: None,                            // no gps data yet
-            trail: VecDeque::new(),                       // start with empty trail
-            trail_seconds: DEFAULT_TRAIL_SECONDS,         // start at default trail duration
+            title: format!("GPS Plot #{instance}"),
+            tiles: None,
+            map_memory: MapMemory::default(),
         }
     }
-
-    fn extract_sample(msg: &messages::MsgFromCan) -> Option<(DateTime<Local>, f64, f64)> {
-        let messages::MsgFromCan::ParsedMessage(parsed) = msg else {
-            return None; // ignore if msg isn't a parsed can message
-        };
-
-        if parsed.decoded.name != "gps_coordinates" {
-            return None; // ignore non gps messages
+    pub fn show(&mut self, ui: &mut egui::Ui, view: &TelemetryView<'_>) -> egui_tiles::UiResponse {
+        let samples: Vec<_> = view.frames.iter().filter_map(gps_sample).collect();
+        let fix = samples.last().copied();
+        if let Some((t, lat, lon)) = fix {
+            ui.label(format!("Last fix: {lat:.6}, {lon:.6} @ {}", t.label()));
+        } else {
+            ui.label("No retained GPS fix in the selected interval.");
         }
-
-        let mut lat = None;
-        let mut lon = None;
-
-        for (_, sig) in &parsed.decoded.signals {
-            // loop through all gps signals
-            match sig.name.as_str() {
-                "longitude" => lon = Some(sig.value.physical), // save long
-                "latitude" => lat = Some(sig.value.physical),  // save lat
-                _ => {}                                        // ignore other signals
-            }
+        let position = fix
+            .map(|(_, lat, lon)| lon_lat(lon, lat))
+            .unwrap_or_else(|| lon_lat(DEFAULT_CENTER_LON, DEFAULT_CENTER_LAT));
+        if fix.is_some() && self.map_memory.detached().is_none() {
+            self.map_memory.center_at(position);
         }
-
-        match (lat, lon) {
-            (Some(lat), Some(lon)) => Some((parsed.timestamp, lat, lon)), // return GPS data
-            _ => None,                                                    // missing lat or lon
-        }
-    }
-
-    // drops any trail points older than trail_seconds
-    fn prune_trail(&mut self) {
-        let Some(newest) = self.trail.back().map(|(ts, _)| *ts) else {
-            return; // nothing to prune
-        };
-
-        while let Some((oldest, _)) = self.trail.front() {
-            let age_secs = (newest - *oldest).num_milliseconds() as f64 / 1000.0;
-            if age_secs > self.trail_seconds {
-                self.trail.pop_front();
-            } else {
-                break;
-            }
-        }
-    }
-
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let Some(sample) = Self::extract_sample(msg) {
-            // if msg is valid gps data sample is timestamp, lat, long
-            let (timestamp, lat, lon) = sample; // pulls out lat and long
-            self.current_fix = Some(sample); // replaces old pos w new pos
-
-            self.trail.push_back((timestamp, lon_lat(lon, lat))); // add point to trail
-            self.prune_trail(); // drop anything older than trail_seconds
-        }
-    }
-
-    pub fn show(&mut self, ui: &mut egui::Ui) -> egui_tiles::UiResponse {
-        ui.horizontal(|ui| {
-            // slider row up top
-            ui.label("Trail length:");
-            ui.add(
-                egui::Slider::new(
-                    &mut self.trail_seconds,
-                    MIN_TRAIL_SECONDS..=MAX_TRAIL_SECONDS,
+        let span = view.timeline.setpoint().secs(view.timeline.start());
+        let stride = samples.len().div_ceil(4096).max(1);
+        let mut trail: Vec<_> = samples
+            .iter()
+            .step_by(stride)
+            .map(|(t, lat, lon)| {
+                (
+                    lon_lat(*lon, *lat),
+                    if span > 0.0 {
+                        (t.secs(view.timeline.start()) / span).clamp(0.0, 1.0) as f32
+                    } else {
+                        1.0
+                    },
                 )
-                .suffix(" s")
-                .step_by(0.1),
-            );
-        });
-
-        self.prune_trail(); // trim right away if slider got dragged down
-
-        match self.current_fix {
-            Some((timestamp, lat, lon)) => {
-                // if gps data exists show it
-                ui.label(format!(
-                    "Last fix: {lat:.6}, {lon:.6}  @ {:02}:{:02}:{:02}.{}",
-                    timestamp.hour(),
-                    timestamp.minute(),
-                    timestamp.second(),
-                    timestamp.timestamp_subsec_millis() / 100
-                ));
-            }
-            None => {
-                ui.label("Waiting for GPS_Position CAN message..."); // no gps data yet
-            }
+            })
+            .collect();
+        if let Some((_, lat, lon)) = fix {
+            trail.push((lon_lat(lon, lat), 1.0));
         }
-
-        ui.add_space(4.0); // add spacing
-
-        let has_fix = self.current_fix.is_some(); // check if gps data exists
-
-        let car_position = self
-            .current_fix
-            .map(|(_, lat, lon)| lon_lat(lon, lat)) // use current gps position
-            .unwrap_or_else(|| lon_lat(DEFAULT_CENTER_LON, DEFAULT_CENTER_LAT)); // otherwise use default position
-
-        // centering map on car unless user moves
-        if has_fix && self.map_memory.detached().is_none() {
-            self.map_memory.center_at(car_position);
-        }
-
-        // work out how far into the trail's time window each point falls,
-        // 0.0 = oldest end of the window, 1.0 = current position
-        let oldest_ts = self.trail.front().map(|(ts, _)| *ts);
-        let newest_ts = self.trail.back().map(|(ts, _)| *ts);
-        let aged_trail: Vec<(Position, f32)> = match (oldest_ts, newest_ts) {
-            (Some(oldest), Some(newest)) => {
-                let span_secs = (newest - oldest).num_milliseconds() as f64 / 1000.0;
-                self.trail
-                    .iter()
-                    .map(|(ts, pos)| {
-                        let age = if span_secs > 0.0 {
-                            ((*ts - oldest).num_milliseconds() as f64 / 1000.0 / span_secs) as f32
-                        } else {
-                            1.0 // only one point in the trail, treat it as "current"
-                        };
-                        (*pos, age)
-                    })
-                    .collect()
-            }
-            _ => Vec::new(), // no points yet
-        };
-
         let tiles = self
             .tiles
-            .get_or_insert_with(|| HttpTiles::new(EsriWorldImagery, ui.ctx().clone())); // create map tiles if they don't exist, right before we need them
-
+            .get_or_insert_with(|| HttpTiles::new(EsriWorldImagery, ui.ctx().clone()));
         ui.add(
-            Map::new(Some(tiles), &mut self.map_memory, car_position).with_plugin(CarDot {
-                trail: aged_trail,           // pass trail (with age) to plugin
-                visible: has_fix,            // only draw if gps exists
-                color: egui::Color32::BLACK, // draw in black
+            Map::new(Some(tiles), &mut self.map_memory, position).with_plugin(CarDot {
+                trail,
+                visible: fix.is_some(),
+                color: egui::Color32::BLACK,
             }),
         );
-
-        egui_tiles::UiResponse::None // nothing else to return
+        egui_tiles::UiResponse::None
     }
 }
-
 // drawing cars path
 struct CarDot {
     trail: Vec<(Position, f32)>, // (position, age fraction 0.0=oldest..1.0=current)
@@ -239,7 +129,51 @@ impl Plugin for CarDot {
         if let Some(&current) = screen_points.last() {
             // dot for current pos
             painter.circle_filled(current, 4.0, self.color);
-            painter.circle_stroke(current, 4.0, egui::Stroke::new(1.5, egui::Color32::WHITE));
+            painter.circle_stroke(
+                current,
+                4.0,
+                egui::Stroke::new(1.5_f32, egui::Color32::WHITE),
+            );
         }
+    }
+}
+
+fn gps_sample(f: &daqcore::ParsedFrame) -> Option<(daqcore::Time, f64, f64)> {
+    let d = f.decoded.as_ref()?;
+    if d.name != "gps_coordinates" {
+        return None;
+    }
+    let lat = d.signals.get("latitude")?.value.physical;
+    let lon = d.signals.get("longitude")?.value.physical;
+    if !lat.is_finite() || !lon.is_finite() || lat.abs() > 90.0 || lon.abs() > 180.0 {
+        return None;
+    }
+    Some((f.timestamp, lat, lon))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn coordinates_follow_shared_cursor_and_reject_invalid_fixes() {
+        use crate::telemetry::{TelemetryView, sample};
+        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0, 0.0);
+        for (time, lat, lon) in [(100, 40.0, -86.0), (150, 91.0, 0.0), (200, 41.0, -85.0)] {
+            session.ingest_frame(sample(
+                time,
+                1,
+                "gps_coordinates",
+                &[("latitude", lat), ("longitude", lon)],
+            ));
+        }
+        session
+            .timeline_mut()
+            .set_setpoint(daqcore::Time::from_unix_millis(150));
+        let fixes: Vec<_> = TelemetryView::new(&session)
+            .frames
+            .iter()
+            .filter_map(gps_sample)
+            .collect();
+        assert_eq!(fixes, [(daqcore::Time::from_unix_millis(100), 40.0, -86.0)]);
     }
 }

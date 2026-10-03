@@ -1,4 +1,6 @@
-use crate::{hil, messages};
+use daqcore::can_thread;
+use daqcore::hil;
+
 use eframe::egui;
 
 pub struct Hil {
@@ -7,12 +9,13 @@ pub struct Hil {
     pub found_tests: Vec<hil::config::TestInfo>,
     pub load_errors: Vec<String>,
     pub snapshot: hil::engine::HilSnapshot,
-    ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
 }
 
 impl Hil {
-    pub fn new(ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>) -> Self {
-        let (presets, tests, errors) = hil::config::list_available_tests();
+    pub fn new(ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>) -> Self {
+        let (presets, tests, errors) =
+            hil::config::list_available_tests(std::path::Path::new("hil_config"));
 
         Self {
             title: "HIL".to_string(),
@@ -24,20 +27,24 @@ impl Hil {
         }
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let messages::MsgFromCan::Hil(snapshot) = msg {
+    pub fn handle_can_message(&mut self, msg: &can_thread::CanThreadEvent) {
+        if let can_thread::CanThreadEvent::Hil(snapshot) = msg {
             self.snapshot = snapshot.clone();
         }
     }
 
     fn send_command(&self, command: hil::engine::HilCommand) {
-        self.ui_to_can_tx
-            .send(messages::MsgFromUi::Hil(command))
-            .expect("Failed to send HIL command to CAN thread");
+        if let Err(error) = self
+            .ui_to_can_tx
+            .send(can_thread::CanThreadCommand::Hil(command))
+        {
+            log::error!("Failed to submit HIL command: {error}");
+        }
     }
 
     fn reload_tests(&mut self) {
-        let (presets, tests, errors) = hil::config::list_available_tests();
+        let (presets, tests, errors) =
+            hil::config::list_available_tests(std::path::Path::new("hil_config"));
         self.found_presets = presets;
         self.found_tests = tests;
         self.load_errors = errors;
@@ -261,7 +268,7 @@ impl Hil {
             "{:.0} - {:.0}",
             ipe.expect.window[0], ipe.expect.window[1]
         ));
-        ui.colored_label(ipe.result.as_color32(), ipe.result.as_str());
+        ui.colored_label(expect_color(ipe.result), ipe.result.as_str());
 
         if ipe.expect.signals.is_empty() {
             ui.label("—");
@@ -297,11 +304,20 @@ impl Hil {
 
 impl Drop for Hil {
     fn drop(&mut self) {
-        if let Err(e) = self
-            .ui_to_can_tx
-            .send(messages::MsgFromUi::Hil(hil::engine::HilCommand::Stop))
-        {
+        if let Err(e) = self.ui_to_can_tx.send(can_thread::CanThreadCommand::Hil(
+            hil::engine::HilCommand::Stop,
+        )) {
             log::error!("Failed to send HIL stop command on drop: {}", e);
         }
+    }
+}
+
+fn expect_color(result: hil::run::ExpectResult) -> egui::Color32 {
+    use hil::run::ExpectResult::*;
+    match result {
+        NotInWindow => egui::Color32::GRAY,
+        InProgress => egui::Color32::YELLOW,
+        Passed => egui::Color32::GREEN,
+        FailedNoMessage | FailedValueOutOfRange => egui::Color32::RED,
     }
 }

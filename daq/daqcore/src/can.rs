@@ -23,3 +23,16 @@ pub fn can_dbc_to_u32_without_extid_flag(msg_id: &can_dbc::MessageId) -> u32 {
         can_dbc::MessageId::Extended(id) => *id & EXTENDED_ID_MASK,
     }
 }
+
+pub mod bus_load;
+pub mod driver;
+pub mod logger;
+
+/// Convert a DBC numeric bound without losing signedness.
+pub fn can_dbc_numeric_to_f64(numeric: &can_dbc::NumericValue) -> f64 {
+    match numeric {
+        can_dbc::NumericValue::Uint(v) => *v as f64,
+        can_dbc::NumericValue::Int(v) => *v as f64,
+        can_dbc::NumericValue::Double(v) => *v,
+    }
+}

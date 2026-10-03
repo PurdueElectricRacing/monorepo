@@ -1,4 +1,5 @@
-use crate::{connection, ui::theme};
+use crate::ui::theme;
+use daqcore::connection;
 
 pub const SETTINGS_PATH: &str = "settings.json";
 pub const DEFAULT_LOG_FOLDER: &str = "logs";
@@ -20,6 +21,10 @@ pub struct Settings {
     pub pixels_per_point: Option<f32>,
     #[serde(default)]
     pub log_folder: Option<std::path::PathBuf>,
+    #[serde(default = "default_window")]
+    pub window_secs: f64,
+    #[serde(default)]
+    pub follow_offset_secs: f64,
 }
 
 impl Default for Settings {
@@ -32,6 +37,8 @@ impl Default for Settings {
             theme: theme::ThemeSelection::Default,
             pixels_per_point: None,
             log_folder: None,
+            window_secs: 30.0,
+            follow_offset_secs: 0.0,
         }
     }
 }
@@ -59,4 +66,8 @@ impl Settings {
         std::fs::write(&path, json)
             .unwrap_or_else(|e| log::error!("Failed to write {}: {}", path.display(), e));
     }
+}
+
+fn default_window() -> f64 {
+    30.0
 }

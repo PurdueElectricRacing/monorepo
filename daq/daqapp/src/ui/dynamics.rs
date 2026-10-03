@@ -1,7 +1,6 @@
-use crate::{messages, ui};
+use crate::ui;
 use eframe::egui::{self, Color32, Frame, Pos2, Stroke, StrokeKind, Vec2};
 use std::f32::consts::PI;
-use std::time::Instant;
 
 const STALE_TIMEOUT_SECONDS: u64 = 1;
 const WHEELBASE_M: f32 = 1.530; // Standard Formula Student wheelbase
@@ -28,7 +27,8 @@ pub struct Dynamics {
     pub steer_angle_rad: f32,
     pub yaw_rate_rads: f32,
 
-    last_update: Instant,
+    last_update: Option<daqcore::Time>,
+    view_time: daqcore::Time,
     pub is_data_stale: bool,
 }
 
@@ -41,13 +41,26 @@ impl Dynamics {
             accel_y: 0.0,
             steer_angle_rad: 0.0,
             yaw_rate_rads: 0.0,
-            last_update: Instant::now() - std::time::Duration::from_secs(10),
+            last_update: None,
+            view_time: daqcore::Time::now(),
             is_data_stale: true,
         }
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let messages::MsgFromCan::ParsedMessage(parsed) = msg {
+    pub fn project(&mut self, view: &crate::telemetry::TelemetryView<'_>) {
+        self.velocity_mps = 0.0;
+        self.accel_x = 0.0;
+        self.accel_y = 0.0;
+        self.steer_angle_rad = 0.0;
+        self.yaw_rate_rads = 0.0;
+        self.last_update = None;
+        for frame in view.frames {
+            self.apply_frame(frame);
+        }
+        self.view_time = view.view_time();
+    }
+    fn apply_frame(&mut self, frame: &daqcore::ParsedFrame) {
+        if let Some(parsed) = frame.decoded_view() {
             match parsed.decoded.name.as_str() {
                 "IMU_acceleration" => {
                     for (_, sig) in parsed.decoded.signals.iter() {
@@ -57,7 +70,7 @@ impl Dynamics {
                             _ => {}
                         }
                     }
-                    self.last_update = Instant::now();
+                    self.last_update = Some(parsed.timestamp);
                     self.is_data_stale = false;
                 }
                 "IMU_angular_rate" => {
@@ -66,7 +79,7 @@ impl Dynamics {
                             self.yaw_rate_rads = sig.value.physical.to_radians() as f32
                         }
                     }
-                    self.last_update = Instant::now();
+                    self.last_update = Some(parsed.timestamp);
                     self.is_data_stale = false;
                 }
                 "steering_angle" => {
@@ -75,7 +88,7 @@ impl Dynamics {
                             self.steer_angle_rad = sig.value.physical.to_radians() as f32;
                         }
                     }
-                    self.last_update = Instant::now();
+                    self.last_update = Some(parsed.timestamp);
                     self.is_data_stale = false;
                 }
                 // TODO: Implement velocity tracking (GPS velocity or Wheel speed)
@@ -87,8 +100,9 @@ impl Dynamics {
     pub fn show(&mut self, ui: &mut egui::Ui) -> egui_tiles::UiResponse {
         let theme = ui::theme::get_theme(ui.ctx());
 
-        self.is_data_stale =
-            self.last_update.elapsed() > std::time::Duration::from_secs(STALE_TIMEOUT_SECONDS);
+        self.is_data_stale = self
+            .last_update
+            .is_none_or(|t| self.view_time.secs(t) > STALE_TIMEOUT_SECONDS as f64);
 
         egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
@@ -109,7 +123,7 @@ impl Dynamics {
             painter.rect_stroke(
                 rect,
                 4.0,
-                Stroke::new(1.0, theme.accent_color()),
+                Stroke::new(1.0_f32, theme.accent_color()),
                 egui::StrokeKind::Inside,
             );
 
@@ -129,7 +143,10 @@ impl Dynamics {
 
     fn draw_status_banner(&self, ui: &mut egui::Ui, theme: &ui::theme::ThemeColors) {
         let stale = self.is_data_stale;
-        let elapsed = self.last_update.elapsed().as_secs_f64();
+        let elapsed = self
+            .last_update
+            .map(|t| self.view_time.secs(t).max(0.0))
+            .unwrap_or(f64::INFINITY);
         let (bg, dot, text) = if stale {
             let c = theme.warning_color();
             (
@@ -147,7 +164,7 @@ impl Dynamics {
         };
         Frame::NONE
             .fill(bg)
-            .stroke(Stroke::new(1.0, dot.linear_multiply(0.5)))
+            .stroke(Stroke::new(1.0_f32, dot.linear_multiply(0.5)))
             .inner_margin(egui::Margin::symmetric(10, 6))
             .corner_radius(egui::CornerRadius::same(4))
             .show(ui, |ui| {
@@ -176,7 +193,7 @@ impl Dynamics {
         painter.rect_stroke(
             chassis_rect,
             2.0,
-            Stroke::new(2.0, theme.text_color().linear_multiply(0.3)),
+            Stroke::new(2.0_f32, theme.text_color().linear_multiply(0.3)),
             StrokeKind::Outside,
         );
 
@@ -190,14 +207,14 @@ impl Dynamics {
                 Pos2::new(center.x - chassis_w / 2.0, front_axle_y),
                 Pos2::new(center.x + chassis_w / 2.0, front_axle_y),
             ],
-            Stroke::new(1.0, theme.text_color().linear_multiply(0.2)),
+            Stroke::new(1.0_f32, theme.text_color().linear_multiply(0.2)),
         );
         painter.line_segment(
             [
                 Pos2::new(center.x - chassis_w / 2.0, rear_axle_y),
                 Pos2::new(center.x + chassis_w / 2.0, rear_axle_y),
             ],
-            Stroke::new(1.0, theme.text_color().linear_multiply(0.2)),
+            Stroke::new(1.0_f32, theme.text_color().linear_multiply(0.2)),
         );
     }
 
@@ -217,12 +234,12 @@ impl Dynamics {
         let accel_y_vec = Vec2::new(-self.accel_y * ACCEL_VECTOR_SCALE, 0.0);
         painter.line_segment(
             [center, center + accel_x_vec],
-            Stroke::new(3.0, theme.error_color()),
+            Stroke::new(3.0_f32, theme.error_color()),
         );
         painter.circle_filled(center + accel_x_vec, 4.0, theme.error_color());
         painter.line_segment(
             [center, center + accel_y_vec],
-            Stroke::new(3.0, theme.error_color()),
+            Stroke::new(3.0_f32, theme.error_color()),
         );
         painter.circle_filled(center + accel_y_vec, 4.0, theme.error_color());
 
@@ -233,7 +250,7 @@ impl Dynamics {
                 Pos2::new(center.x, front_axle_y),
                 Pos2::new(center.x, front_axle_y) + vel_vec,
             ],
-            Stroke::new(3.0, theme.success_color()),
+            Stroke::new(3.0_f32, theme.success_color()),
         );
 
         // 5. Yaw rotation arc + arrowhead
@@ -275,7 +292,7 @@ impl Dynamics {
             painter.circle_stroke(
                 turn_center,
                 r_px.abs(),
-                Stroke::new(1.0, theme.info_color().linear_multiply(0.3)),
+                Stroke::new(1.0_f32, theme.info_color().linear_multiply(0.3)),
             );
         }
     }

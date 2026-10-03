@@ -1,6 +1,4 @@
-use eframe::egui;
-
-use crate::{hil, messages};
+use crate::hil;
 
 #[derive(PartialEq, Eq, Clone, Copy)]
 pub enum ExpectResult {
@@ -58,17 +56,6 @@ impl ExpectResult {
         }
     }
 
-    pub fn as_color32(&self) -> egui::Color32 {
-        match self {
-            ExpectResult::NotInWindow => egui::Color32::GRAY,
-            ExpectResult::InProgress => egui::Color32::YELLOW,
-            ExpectResult::Passed => egui::Color32::GREEN,
-            ExpectResult::FailedNoMessage | ExpectResult::FailedValueOutOfRange => {
-                egui::Color32::RED
-            }
-        }
-    }
-
     pub fn is_finished(&self) -> bool {
         matches!(
             self,
@@ -80,13 +67,13 @@ impl ExpectResult {
 }
 
 impl HilRunningTest {
-    pub fn new(test_info: &hil::config::TestInfo) -> Result<Self, String> {
-        let test = hil::config::load_test_from_file(&test_info.basename)?;
+    pub fn new(base: &std::path::Path, test_info: &hil::config::TestInfo) -> Result<Self, String> {
+        let test = hil::config::load_test_from_file(base, &test_info.basename)?;
         Ok(Self::from_parts(test_info.clone(), test))
     }
 
-    pub fn from_basename(basename: &str) -> Result<Self, String> {
-        let test = hil::config::load_test_from_file(basename)?;
+    pub fn from_basename(base: &std::path::Path, basename: &str) -> Result<Self, String> {
+        let test = hil::config::load_test_from_file(base, basename)?;
         let test_info = hil::config::TestInfo {
             basename: basename.to_string(),
             name: test.name.clone(),
@@ -109,13 +96,17 @@ impl HilRunningTest {
         }
     }
 
-    pub fn update_expect_statuses(&mut self, start_time: std::time::Instant) {
-        let ts = start_time.elapsed().as_millis();
+    pub fn update_expect_statuses(&mut self, elapsed: std::time::Duration) {
+        let ts = elapsed.as_millis();
         for expect in &mut self.in_progress_expects {
             match expect.result {
                 ExpectResult::NotInWindow => {
                     if ts >= expect.expect.window[0] as u128 {
-                        expect.result = ExpectResult::InProgress;
+                        expect.result = if ts > expect.expect.window[1] as u128 {
+                            ExpectResult::FailedNoMessage
+                        } else {
+                            ExpectResult::InProgress
+                        };
                     }
                 }
                 ExpectResult::InProgress => {
@@ -130,23 +121,25 @@ impl HilRunningTest {
 
     pub fn process_can(
         &mut self,
-        parsed: &messages::ParsedMessage,
-        start_time: std::time::Instant,
+        decoded: &can_decode::DecodedMessage,
+        elapsed: std::time::Duration,
     ) {
-        self.update_expect_statuses(start_time);
+        self.update_expect_statuses(elapsed);
 
         for expect in &mut self.in_progress_expects {
-            if expect.result == ExpectResult::InProgress && expect.matches_message(&parsed.decoded)
-            {
+            if expect.result == ExpectResult::InProgress && expect.matches_message(decoded) {
                 if expect.expect.signals.is_empty() {
                     expect.result = ExpectResult::Passed;
                 } else {
                     let mut failures = Vec::new();
                     for (sig_name, sig_range) in &expect.expect.signals {
-                        match parsed.decoded.signals.get(sig_name) {
+                        match decoded.signals.get(sig_name) {
                             Some(sig_value) => {
                                 let value = sig_value.value.physical;
-                                if value < sig_range[0] || value > sig_range[1] {
+                                if !value.is_finite()
+                                    || value < sig_range[0]
+                                    || value > sig_range[1]
+                                {
                                     failures.push(SignalFailure::OutOfRange {
                                         name: sig_name.clone(),
                                         value,
@@ -206,5 +199,42 @@ impl InProgressExpect {
 
     pub fn matches_message(&self, decoded: &can_decode::DecodedMessage) -> bool {
         self.expect.msg_name == decoded.name
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    fn test() -> HilRunningTest {
+        HilRunningTest::from_parts(hil::config::TestInfo { basename: "test".into(), name: "test".into(), description: String::new() },
+            serde_json::from_str(r#"{"name":"test","description":"","expect":[{"window":[100,200],"msg_name":"test","signals":{"value":[1,2]}}]}"#).unwrap())
+    }
+    #[test]
+    fn skipped_window_expires_and_missing_signals_fail() {
+        let mut run = test();
+        run.update_expect_statuses(std::time::Duration::from_millis(201));
+        assert!(matches!(
+            run.in_progress_expects[0].result,
+            ExpectResult::FailedNoMessage
+        ));
+        assert!(run.is_finished());
+        let mut run = test();
+        let msg = can_decode::DecodedMessage {
+            name: "test".into(),
+            msg_id: 1,
+            is_extended: false,
+            tx_node: "test".into(),
+            signals: Default::default(),
+        };
+        run.process_can(&msg, std::time::Duration::from_millis(100));
+        assert!(matches!(
+            run.in_progress_expects[0].result,
+            ExpectResult::FailedValueOutOfRange
+        ));
+        assert!(matches!(
+            run.in_progress_expects[0].failures[0],
+            SignalFailure::MissingSignal { .. }
+        ));
+        assert!(run.is_finished());
     }
 }

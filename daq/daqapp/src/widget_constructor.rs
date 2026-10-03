@@ -1,4 +1,5 @@
-use crate::{messages, ui, widget_ids, widgets};
+use crate::{ui, widget_ids, widgets};
+use daqcore::can_thread;
 
 #[derive(Eq, PartialEq, Hash, Clone, Copy, Debug)]
 pub enum WidgetKind {
@@ -74,7 +75,7 @@ impl WidgetConstructor {
     pub fn create(
         self,
         widget_ids: &mut widget_ids::WidgetIds,
-        ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+        ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
         existing_count: usize,
     ) -> Option<widgets::Widget> {
         let kind = self.kind();

@@ -15,3 +15,5 @@ pub mod sidebar;
 pub mod theme;
 pub mod viewer_list;
 pub mod viewer_table;
+
+pub mod timeline;

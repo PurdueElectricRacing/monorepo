@@ -1,0 +1,6 @@
+VERSION ""
+NS_ :
+BS_:
+BU_: ECU
+BO_ 3 telemetry: 2 ECU
+ SG_ voltage : 0|16@1+ (0.1,0) [0|6553.5] "V" ECU
