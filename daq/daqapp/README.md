@@ -97,22 +97,3 @@ For easy testing, you can use the loopback or simulated CAN sources. The loopbac
 
 Rust tests cover direct streaming, the 480 KiB boundary, the 24-bit word index,
 and the READY handshake. Run them from `daq/daqapp/` with `cargo test`.
-
-## Shared timeline and ownership
-
-The CAN worker lives in `daqcore` and owns connection, decoding, sending,
-logging, firmware and observation-only HIL. The app owns a single `Session`;
-widgets borrow its selected interval instead of capturing separate histories.
-
-The ruler's live span defaults to 30 seconds. Start, end and playhead each have
-independent marching controls. Pause freezes setpoint while acquisition continues;
-Go live releases all tracks. Freeze start to retain history indefinitely. Advancing
-start evicts older frames permanently; moving it backward cannot recover them.
-Table and battery values follow setpoint, including multiplexed cell samples.
-Scopes show the full start-to-end range with real-time ticks and a playhead line.
-Drag the ruler's markers to select a range or click it to scrub. Follow offset is
-removed. Clear shared history returns to live with the configured live span.
-Disconnect and same-source reconnect preserve history; selecting another source
-resets it at the worker's ordered source transition.
-
-The implementation and validation handoff is [here](../../plans/daqcore_rebuild.md).
