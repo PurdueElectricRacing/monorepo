@@ -3,7 +3,7 @@ use crate::{
     frame::{CanFrame, FrameKind},
 };
 #[derive(Default)]
-pub(super) struct FrameDecoder {
+pub struct FrameDecoder {
     parser: Option<can_decode::Parser>,
 }
 impl FrameDecoder {

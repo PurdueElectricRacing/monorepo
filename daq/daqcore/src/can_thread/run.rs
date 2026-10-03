@@ -12,7 +12,7 @@ use std::{
     sync::mpsc::{Receiver, RecvTimeoutError, Sender, TryRecvError},
     time::{Duration, Instant},
 };
-pub(super) fn run(config: CanThreadConfig, out: Sender<Event>, commands: Receiver<Command>) {
+pub fn run(config: CanThreadConfig, out: Sender<Event>, commands: Receiver<Command>) {
     run_with_connection(
         config,
         out,

@@ -47,7 +47,7 @@ struct Scheduled {
     sent: Option<Instant>,
 }
 #[derive(Default)]
-pub(super) struct SendTable(BTreeMap<u32, Scheduled>);
+pub struct SendTable(BTreeMap<u32, Scheduled>);
 impl SendTable {
     pub fn add(&mut self, msg: AddSendMessage) -> Result<(), String> {
         if matches!(msg.amount, SendAmount::Finite { amount: 0, .. })

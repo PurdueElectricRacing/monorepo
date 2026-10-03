@@ -2,7 +2,7 @@ use crate::firmware::{self, FirmwarePackage, FirmwareProgress, FirmwareUpdater, 
 
 use std::time::Instant;
 #[derive(Default)]
-pub(super) struct FirmwareSession(Option<FirmwareUpdater>);
+pub struct FirmwareSession(Option<FirmwareUpdater>);
 impl FirmwareSession {
     pub fn active(&self) -> bool {
         self.0.is_some()

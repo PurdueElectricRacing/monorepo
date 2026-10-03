@@ -5,7 +5,7 @@ use crate::{
 };
 
 use std::time::{Duration, Instant};
-pub(super) struct ConnectionManager {
+pub struct ConnectionManager {
     source: Option<ConnectionSource>,
     driver: Option<Box<dyn Driver>>,
     retry_at: Instant,

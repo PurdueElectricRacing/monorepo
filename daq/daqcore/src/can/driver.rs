@@ -160,7 +160,7 @@ mod serial {
     use std::time::Duration;
 
     use slcan::sync::CanSocket;
-    pub(super) struct SerialDriver {
+    pub struct SerialDriver {
         socket: CanSocket<Box<dyn serialport::SerialPort>>,
         speed: CanBusSpeed,
     }
