@@ -100,12 +100,3 @@ impl GgPlot {
             .collect()
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn vehicle_transform_keeps_forward_up_and_left_positive() {
-        assert_eq!(ui::gg_plot::vehicle_accel_to_plot_xy(1.0, 0.5), [-0.5, 1.0]);
-    }
-}

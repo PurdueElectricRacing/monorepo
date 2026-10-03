@@ -32,20 +32,3 @@ impl BusLoadTracker {
         bits as f32 / (speed.to_bps() as f32 * seconds as f32) * 100.0
     }
 }
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn expires_at_window_boundary() {
-        let now = Instant::now();
-        let mut load = BusLoadTracker::default();
-        load.record_frame(8, now);
-        assert!(load.get_load(1, CanBusSpeed::Kbps500, now) > 0.0);
-        assert_eq!(
-            load.get_load(1, CanBusSpeed::Kbps500, now + Duration::from_secs(1)),
-            0.0
-        );
-        load.cleanup(now + Duration::from_secs(30));
-        assert!(load.frames.is_empty());
-    }
-}

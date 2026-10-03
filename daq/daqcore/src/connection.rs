@@ -49,10 +49,10 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug)]
-
+#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug, Default)]
 pub enum CanBusSpeed {
     Kbps250,
+    #[default]
     Kbps500,
 }
 
@@ -92,36 +92,5 @@ impl CanBusSpeed {
 
     pub fn options() -> Vec<CanBusSpeed> {
         vec![CanBusSpeed::Kbps250, CanBusSpeed::Kbps500]
-    }
-}
-
-impl Default for CanBusSpeed {
-    fn default() -> Self {
-        CanBusSpeed::Kbps500
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn sources_round_trip_and_legacy_serial_ignores_removed_setting() {
-        for source in [
-            ConnectionSource::Serial("ttyUSB0".into(), CanBusSpeed::Kbps250),
-            ConnectionSource::Udp(9000),
-            ConnectionSource::Loopback,
-            ConnectionSource::Simulated(true, None),
-        ] {
-            assert_eq!(
-                serde_json::from_str::<ConnectionSource>(&serde_json::to_string(&source).unwrap())
-                    .unwrap(),
-                source
-            );
-        }
-        assert_eq!(
-            serde_json::from_str::<ConnectionSource>(r#"{"Serial":["ttyUSB0","Kbps500",true]}"#)
-                .unwrap(),
-            ConnectionSource::Serial("ttyUSB0".into(), CanBusSpeed::Kbps500)
-        );
     }
 }

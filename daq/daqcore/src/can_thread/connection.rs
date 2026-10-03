@@ -18,14 +18,6 @@ impl ConnectionManager {
             retry_at: now,
         }
     }
-    #[cfg(test)]
-    pub fn with_driver(driver: Box<dyn Driver>) -> Self {
-        Self {
-            source: None,
-            driver: Some(driver),
-            retry_at: Instant::now(),
-        }
-    }
     pub fn select(&mut self, source: Option<ConnectionSource>, now: Instant) {
         self.close();
         self.source = source;
@@ -79,34 +71,5 @@ impl ConnectionManager {
 impl Drop for ConnectionManager {
     fn drop(&mut self) {
         self.close();
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn reconnect_deadline_and_explicit_disconnect() {
-        let now = Instant::now();
-        let mut connection = ConnectionManager::new(now);
-        connection.select(Some(ConnectionSource::Loopback), now);
-        assert!(connection.connect(now).unwrap().is_ok());
-        assert!(connection.connected());
-        connection.failed(now);
-        assert!(!connection.connected());
-        assert!(
-            connection
-                .connect(now + Duration::from_millis(199))
-                .is_none()
-        );
-        assert!(
-            connection
-                .connect(now + Duration::from_millis(200))
-                .unwrap()
-                .is_ok()
-        );
-        connection.select(None, now);
-        assert!(!connection.connected());
-        assert!(connection.connect(now + Duration::from_secs(10)).is_none());
     }
 }

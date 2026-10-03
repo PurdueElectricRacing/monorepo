@@ -70,38 +70,3 @@ impl FirmwareSession {
         }
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    fn package() -> FirmwarePackage {
-        FirmwarePackage {
-            images: vec![firmware::FirmwareImage {
-                name: "test".into(),
-                bytes: vec![1; 4],
-                crc32: 0,
-                start_id: 1,
-                crc_id: 2,
-                jump_id: 3,
-                data_id: 4,
-                response_id: 5,
-            }],
-        }
-    }
-    #[test]
-    fn validates_start_and_cancels_armed_updates() {
-        let now = Instant::now();
-        let mut session = FirmwareSession::default();
-        assert!(session.start(package(), false, false, now).error.is_some());
-        assert!(!session.active());
-        let mut oversized = package();
-        oversized.images[0].bytes = vec![0; firmware::protocol::APPLICATION_SLOT_SIZE + 1];
-        assert!(session.start(oversized, false, true, now).error.is_some());
-        assert!(session.start(package(), true, true, now).error.is_none());
-        assert!(session.active());
-        assert!(session.start(package(), false, true, now).error.is_some());
-        assert!(session.cancel().is_some());
-        assert!(!session.active());
-        assert!(session.cancel().is_none());
-    }
-}

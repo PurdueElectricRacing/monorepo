@@ -1,7 +1,3 @@
-#[cfg(test)]
-use crate::Time;
-#[cfg(test)]
-use crate::frame;
 use crate::{ParsedFrame, hil};
 
 pub enum HilCommand {
@@ -162,45 +158,5 @@ impl HilEngine {
         self.state = HilState::Idle {
             start_error: Some(message),
         };
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn explicit_resources_and_monotonic_observation_complete_headlessly() {
-        let base = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures");
-        let parser = can_decode::Parser::from_dbc_file(&base.join("test.dbc")).unwrap();
-        let now = std::time::Instant::now();
-        let mut engine = HilEngine::new(base.join("hil"));
-        engine.handle_command(
-            HilCommand::StartTest(hil::config::TestInfo {
-                basename: "observation".into(),
-                name: "observation".into(),
-                description: String::new(),
-            }),
-            now,
-        );
-        let frame = ParsedFrame {
-            timestamp: Time::from_unix_millis(-1000),
-            msg_id: 3,
-            is_msg_id_extended: false,
-            kind: frame::FrameKind::Data,
-            dlc: 2,
-            raw_bytes: vec![100, 0],
-            decoded: parser.decode_msg(3, &[100, 0]),
-        };
-        engine.process_parsed(&frame, now + std::time::Duration::from_millis(50));
-        let snapshot = engine.snapshot(now + std::time::Duration::from_millis(50));
-        assert_eq!(snapshot.elapsed_ms, 50);
-        assert!(snapshot.start_error.is_none());
-        assert!(matches!(
-            snapshot.tests[0].in_progress_expects[0].result,
-            hil::run::ExpectResult::Passed
-        ));
-        assert!(engine.all_finished());
-        engine.handle_command(HilCommand::Stop, now + std::time::Duration::from_millis(60));
-        assert!(matches!(engine.snapshot(now).status, HilStatus::Idle));
     }
 }

@@ -124,7 +124,7 @@ fn ruler(
         };
         ui.painter().line_segment(
             [eframe::egui::pos2(px, y), eframe::egui::pos2(px, axis)],
-            eframe::egui::Stroke::new(1.0, color),
+            eframe::egui::Stroke::new(1.0_f32, color),
         );
         ui.painter()
             .circle_filled(eframe::egui::pos2(px, y), 4.0, color);

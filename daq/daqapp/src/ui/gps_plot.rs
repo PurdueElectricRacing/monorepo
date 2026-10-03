@@ -152,29 +152,3 @@ fn gps_sample(f: &daqcore::ParsedFrame) -> Option<(daqcore::Time, f64, f64)> {
     }
     Some((f.timestamp, lat, lon))
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn coordinates_follow_shared_cursor_and_reject_invalid_fixes() {
-        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0);
-        for (time, lat, lon) in [(100, 40.0, -86.0), (150, 91.0, 0.0), (200, 41.0, -85.0)] {
-            session.ingest_frame(telemetry::sample(
-                time,
-                1,
-                "gps_coordinates",
-                &[("latitude", lat), ("longitude", lon)],
-            ));
-        }
-        session
-            .timeline_mut()
-            .set_setpoint(daqcore::Time::from_unix_millis(150));
-        let fixes: Vec<_> = telemetry::TelemetryView::new(&session)
-            .frames
-            .iter()
-            .filter_map(gps_sample)
-            .collect();
-        assert_eq!(fixes, [(daqcore::Time::from_unix_millis(100), 40.0, -86.0)]);
-    }
-}

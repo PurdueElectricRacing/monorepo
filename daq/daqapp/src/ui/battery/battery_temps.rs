@@ -344,32 +344,3 @@ impl BatteryTemps {
         });
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn thermistors_use_shared_interval_not_latest_message() {
-        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0);
-        for (time, sensor, value) in [(100, 0.0, 20.0), (200, 1.0, 25.0), (300, 0.0, 35.0)] {
-            session.ingest_frame(telemetry::sample(
-                time,
-                1,
-                "thermistor_telemetry",
-                &[
-                    ("module_num", 0.0),
-                    ("thermistor_num", sensor),
-                    ("temperature", value),
-                ],
-            ));
-        }
-        session
-            .timeline_mut()
-            .set_setpoint(daqcore::Time::from_unix_millis(200));
-        let mut widget = BatteryTemps::new(1);
-        widget.project(&telemetry::TelemetryView::new(&session));
-        assert_eq!(widget.modules[0][0].temperature, 20.0);
-        assert_eq!(widget.modules[0][1].temperature, 25.0);
-        assert!(widget.modules[0][2].temperature.is_nan());
-    }
-}

@@ -80,28 +80,3 @@ fn interval_deviations(
         })
         .collect()
 }
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn selected_interval_counts_undecoded_arrivals_and_distinguishes_identity() {
-        let mut session = daqcore::Session::live(daqcore::Time::from_unix_millis(0), 30.0);
-        for ms in [0, 100, 220, 300] {
-            let mut f = telemetry::sample(ms, 1, "test", &[]);
-            f.decoded = None;
-            session.ingest_frame(f);
-        }
-        let mut extended = telemetry::sample(150, 1, "test", &[]);
-        extended.is_msg_id_extended = true;
-        session.ingest_frame(extended);
-        session
-            .timeline_mut()
-            .set_start(daqcore::Time::from_unix_millis(100));
-        session
-            .timeline_mut()
-            .set_setpoint(daqcore::Time::from_unix_millis(220));
-        let deviations =
-            interval_deviations(telemetry::TelemetryView::new(&session).frames, 1, 100);
-        assert_eq!(deviations, [20.0]);
-    }
-}

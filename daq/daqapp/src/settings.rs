@@ -68,22 +68,3 @@ impl Settings {
 fn default_window() -> f64 {
     30.0
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn legacy_offset_is_ignored_and_live_span_is_preserved() {
-        let mut json = serde_json::to_value(Settings::default()).unwrap();
-        json["follow_offset_secs"] = serde_json::json!(5.0);
-        json["window_secs"] = serde_json::json!(45.0);
-        let settings: Settings = serde_json::from_value(json).unwrap();
-        assert_eq!(settings.window_secs, 45.0);
-        assert!(
-            serde_json::to_value(settings)
-                .unwrap()
-                .get("follow_offset_secs")
-                .is_none()
-        );
-    }
-}

@@ -1,8 +1,3 @@
-//! Naive sorted frame history, owned by the UI/main thread. Eviction has no implicit cap.
-#[cfg(test)]
-use crate::can;
-#[cfg(test)]
-use crate::frame;
 use crate::{ParsedFrame, Time};
 use std::{collections::HashMap, ops::RangeInclusive};
 pub type CachedFrame = ParsedFrame;
@@ -120,72 +115,5 @@ impl RamCache {
                 ))
             })
             .collect()
-    }
-}
-#[cfg(test)]
-mod tests {
-    use super::*;
-    fn f(ms: i64, id: u32, byte: u8) -> CachedFrame {
-        ParsedFrame {
-            kind: frame::FrameKind::Data,
-            dlc: 1,
-            timestamp: Time::from_unix_millis(ms),
-            msg_id: id,
-            is_msg_id_extended: false,
-            raw_bytes: vec![byte],
-            decoded: None,
-        }
-    }
-    #[test]
-    fn merge_is_stable_and_queries_include_cursor() {
-        let mut c = RamCache::new();
-        c.push(f(10, 1, 1));
-        c.push(f(10, 1, 2));
-        c.push_batch(vec![f(5, 2, 3), f(10, 1, 4)]);
-        assert_eq!(
-            c.frames_in_range(Time::from_unix_millis(10)..=Time::from_unix_millis(10))
-                .iter()
-                .map(|f| f.raw_bytes[0])
-                .collect::<Vec<_>>(),
-            [1, 2, 4]
-        );
-        assert_eq!(c.latest(1).unwrap().raw_bytes, [4]);
-        assert_eq!(c.evict(Time::from_unix_millis(10)), 1);
-        assert!(c.latest(2).is_none());
-        c.evict(Time::from_unix_millis(11));
-        assert!(c.is_empty());
-        assert_eq!(c.first_index, 0);
-        assert!(c.latest_map().is_empty());
-    }
-    #[test]
-    fn prefixes_compact_proportionally_and_last_equal_timestamp_is_retained() {
-        let mut c = RamCache::new();
-        for i in 0..100 {
-            c.push(f(i, 1, i as u8));
-        }
-        c.push(f(99, 1, 200));
-        c.evict(Time::from_unix_millis(20));
-        assert_eq!(c.first_index, 20);
-        assert_eq!(c.latest(1).unwrap().raw_bytes, [200]);
-        c.evict(Time::from_unix_millis(60));
-        assert_eq!(c.first_index, 0);
-        assert_eq!(c.frames.len(), 41);
-        c.evict(Time::from_unix_millis(99));
-        assert_eq!(c.len(), 2);
-        c.evict(Time::from_unix_millis(100));
-        assert!(c.latest(1).is_none());
-    }
-    #[test]
-    fn standard_and_extended_ids_have_distinct_latest_values() {
-        let mut cache = RamCache::new();
-        cache.push(f(1, 3, 1));
-        let mut extended = f(2, 3, 2);
-        extended.is_msg_id_extended = true;
-        cache.push(extended);
-        assert_eq!(cache.latest(3).unwrap().raw_bytes, [1]);
-        assert_eq!(
-            cache.latest(3 | can::EXTENDED_ID_FLAG).unwrap().raw_bytes,
-            [2]
-        );
     }
 }

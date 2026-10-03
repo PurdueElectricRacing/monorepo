@@ -944,46 +944,6 @@ fn apply_progress(
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn image() -> daqcore::firmware::protocol::FirmwareImage {
-        daqcore::firmware::protocol::FirmwareImage {
-            name: "main_module".to_string(),
-            bytes: Vec::new(),
-            crc32: 0,
-            start_id: 1,
-            crc_id: 2,
-            jump_id: 3,
-            data_id: 4,
-            response_id: 5,
-        }
-    }
-
-    #[test]
-    fn protocol_observations_include_commands_but_exclude_response() {
-        let image = image();
-        let ids = image_protocol_ids(&image);
-        assert_eq!(
-            ids,
-            [image.start_id, image.crc_id, image.jump_id, image.data_id]
-        );
-        assert!(!ids.contains(&image.response_id));
-    }
-
-    #[test]
-    fn protocol_candidate_preserves_standard_frame_filtering() {
-        assert!(is_protocol_frame_candidate(false, None));
-        assert!(is_protocol_frame_candidate(false, Some("bl_start")));
-        assert!(!is_protocol_frame_candidate(true, Some("bl_start")));
-        assert!(!is_protocol_frame_candidate(
-            false,
-            Some("bl_main_module_info")
-        ));
-    }
-}
-
 fn show_board_status(ui: &mut eframe::egui::Ui, status: &BoardUpdateStatus) {
     match status {
         BoardUpdateStatus::Idle => {

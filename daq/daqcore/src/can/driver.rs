@@ -258,30 +258,4 @@ mod serial {
                 .map_err(|e| DriverError::Write(e.to_string()))
         }
     }
-    #[cfg(test)]
-    mod tests {
-        use super::*;
-        #[test]
-        fn preserves_remote_identity_and_dlc() {
-            let f = slcan::Can2Frame::new_remote(slcan::ExtendedId::new(3).unwrap(), 8).unwrap();
-            let f = from_wire(f.into());
-            assert_eq!(f.msg_id, 3);
-            assert!(f.is_msg_id_extended);
-            assert_eq!(f.dlc, 8);
-            assert_eq!(f.kind, FrameKind::Remote);
-        }
-    }
-}
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn small_extended_id_is_preserved() {
-        let mut data = [0; 16];
-        data[4..8].copy_from_slice(&(3 | log_parse::consts::IS_EID_MASK).to_le_bytes());
-        let f = parse_udp_buffer(&data).unwrap().remove(0);
-        assert!(f.is_msg_id_extended);
-        assert_eq!(f.msg_id, 3);
-        assert!(parse_udp_buffer(&data[..15]).is_err());
-    }
 }

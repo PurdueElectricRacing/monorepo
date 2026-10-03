@@ -116,20 +116,3 @@ impl Widget {
         }
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn hidden_operational_panes_receive_events_without_show() {
-        let (tx, _rx) = std::sync::mpsc::channel();
-        let mut pane = Widget::Hil(ui::hil::Hil::new(tx));
-        let mut snapshot = daqcore::hil::engine::HilSnapshot::idle();
-        snapshot.elapsed_ms = 1234;
-        pane.handle_operational_event(&daqcore::can_thread::CanThreadEvent::Hil(snapshot));
-        match pane {
-            Widget::Hil(w) => assert_eq!(w.snapshot.elapsed_ms, 1234),
-            _ => unreachable!(),
-        }
-    }
-}

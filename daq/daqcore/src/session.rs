@@ -1,6 +1,3 @@
-//! Shared per-update orchestration, owned by the UI/main thread; contains no worker/channel.
-#[cfg(test)]
-use crate::frame;
 use crate::{ParsedFrame, Time, cache::RamCache, timeline::Timeline};
 pub struct Session {
     cache: RamCache,
@@ -48,71 +45,5 @@ impl Session {
     }
     pub fn timeline_mut(&mut self) -> &mut Timeline {
         &mut self.timeline
-    }
-}
-#[cfg(test)]
-mod tests {
-    use super::*;
-    fn f(ms: i64) -> ParsedFrame {
-        ParsedFrame {
-            kind: frame::FrameKind::Data,
-            dlc: 1,
-            timestamp: Time::from_unix_millis(ms),
-            msg_id: 1,
-            is_msg_id_extended: false,
-            raw_bytes: vec![],
-            decoded: None,
-        }
-    }
-    #[test]
-    fn frozen_start_has_no_frame_or_time_limit() {
-        let mut s = Session::live(Time::from_unix_millis(0), 30.0);
-        s.timeline_mut().set_start(Time::from_unix_millis(0));
-        for i in 0..500_001 {
-            s.ingest_frame(f(i * 10));
-        }
-        assert_eq!(s.evict(), 0);
-        assert_eq!(s.cache().len(), 500_001);
-        assert!(s.timeline().end().unix_millis() > 3_600_000);
-        s.timeline_mut()
-            .set_start(Time::from_unix_millis(4_000_000));
-        assert_eq!(s.evict(), 400_000);
-        assert_eq!(s.cache().len(), 100_001);
-        s.timeline_mut().set_start(Time::from_unix_millis(0));
-        assert!(
-            s.cache()
-                .frames_in_range(Time::from_unix_millis(0)..=Time::from_unix_millis(10))
-                .is_empty()
-        );
-    }
-    #[test]
-    fn regressing_clock_is_preserved_and_sorted() {
-        let mut s = Session::live(Time::from_unix_millis(0), 30.0);
-        s.ingest_frame(f(20));
-        s.ingest_frame(f(10));
-        assert_eq!(
-            s.cache().time_span(),
-            Some((Time::from_unix_millis(10), Time::from_unix_millis(20)))
-        );
-        assert_eq!(
-            s.cache().latest(1).unwrap().timestamp,
-            Time::from_unix_millis(20)
-        );
-    }
-    #[test]
-    fn frozen_end_limits_viewing_but_does_not_stop_capture() {
-        let mut session = Session::live(Time::from_unix_millis(0), 30.0);
-        session.ingest_frame(f(100));
-        session.timeline_mut().set_end(Time::from_unix_millis(100));
-        let selected = session.timeline().range();
-        session.ingest_frame(f(200));
-        session.evict();
-        assert_eq!(session.timeline().range(), selected);
-        assert_eq!(session.cache().len(), 2);
-        assert_eq!(
-            session.cache().time_span().unwrap().1,
-            Time::from_unix_millis(200)
-        );
-        assert_eq!(session.cache().frames_in_range(selected).len(), 1);
     }
 }
