@@ -5,3 +5,5 @@ edition.workspace = true
 
 [dependencies]
 daqcore.workspace = true
+can_decode = "0.7.2"
+clap = { version = "4", features = ["derive"] }
