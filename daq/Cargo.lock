@@ -1027,7 +1027,6 @@ name = "daqcli"
 version = "0.1.0"
 dependencies = [
  "daqcore",
- "libc",
 ]
 
 [[package]]
