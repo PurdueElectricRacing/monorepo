@@ -3,5 +3,15 @@ name = "daqcli"
 version = "0.1.0"
 edition.workspace = true
 
+[features]
+default = ["serial", "loopback"]
+serial = ["daqcore/serial"]
+loopback = ["daqcore/loopback"]
+udp = ["daqcore/udp"]
+simulated = ["daqcore/simulated"]
+
 [dependencies]
-daqcore.workspace = true
+daqcore = { workspace = true, default-features = false }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"

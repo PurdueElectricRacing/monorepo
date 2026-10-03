@@ -1,4 +1,6 @@
-use crate::{action, app, formatter, messages, ui, widget_constructor};
+use crate::{action, app, ui, widget_constructor};
+use daqcore::can_thread;
+use daqcore::formatter;
 use eframe::egui;
 
 pub enum Widget {
@@ -19,10 +21,11 @@ pub enum Widget {
 }
 
 pub struct WidgetContext<'a> {
-    pub can_messages: &'a [messages::MsgFromCan],
+    pub view: &'a crate::telemetry::TelemetryView<'a>,
+    pub bus_load: &'a [crate::telemetry::BusLoadSample],
     pub action_queue: &'a mut Vec<action::AppAction>,
     pub parser: Option<&'a app::ParserInfo>,
-    pub ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    pub ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
     pub formatter: &'a Option<formatter::Formatter>,
 }
 
@@ -70,56 +73,62 @@ impl Widget {
         ui: &mut egui::Ui,
         context: WidgetContext<'_>,
     ) -> egui_tiles::UiResponse {
-        let mut received_new_data = false;
-
-        for msg in context.can_messages {
-            self.handle_can_message(msg);
-            received_new_data = true;
-        }
-
-        // Request repaint only if we received new data
-        if received_new_data {
-            ui.ctx().request_repaint();
-        }
-
         match self {
-            Widget::ViewerTable(w) => {
-                w.show(ui, context.action_queue, context.formatter, context.parser)
-            }
-            Widget::ViewerList(w) => w.show(ui, context.formatter, context.parser),
+            Widget::ViewerTable(w) => w.show(
+                ui,
+                context.action_queue,
+                context.formatter,
+                context.parser,
+                context.view,
+            ),
+            Widget::ViewerList(w) => w.show(ui, context.formatter, context.parser, context.view),
             Widget::Bootloader(w) => w.show(ui, &context.ui_to_can_tx),
-            Widget::Scope(w) => w.show(ui, context.parser),
+            Widget::Scope(w) => w.show(ui, context.parser, context.view),
             Widget::LogParser(w) => w.show(ui, context.parser),
             Widget::SendUi(w) => w.show(ui, context.parser, context.formatter),
-            Widget::BusLoad(w) => w.show(ui),
-            Widget::BatteryVoltage(w) => w.show(ui),
-            Widget::BatteryTemps(w) => w.show(ui),
-            Widget::GgPlot(w) => w.show(ui),
-            Widget::GpsPlot(w) => w.show(ui),
-            Widget::Dynamics(w) => w.show(ui),
-            Widget::Jitter(w) => w.show(ui, context.parser),
+            Widget::BusLoad(w) => w.show(ui, context.bus_load, context.view),
+            Widget::BatteryVoltage(w) => {
+                w.project(context.view);
+                w.show(ui)
+            }
+            Widget::BatteryTemps(w) => {
+                w.project(context.view);
+                w.show(ui)
+            }
+            Widget::GgPlot(w) => w.show(ui, context.view),
+            Widget::GpsPlot(w) => w.show(ui, context.view),
+            Widget::Dynamics(w) => {
+                w.project(context.view);
+                w.show(ui)
+            }
+            Widget::Jitter(w) => w.show(ui, context.parser, context.view),
             Widget::Hil(w) => w.show(ui),
         }
     }
 
-    fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+    pub fn handle_operational_event(&mut self, event: &can_thread::CanThreadEvent) {
         match self {
-            // Progress is delivered through the normal CAN->UI message path,
-            // alongside decoded traffic and connection events.
-            Widget::Bootloader(w) => w.handle_can_message(msg),
-            Widget::ViewerTable(w) => w.handle_can_message(msg),
-            Widget::ViewerList(w) => w.handle_can_message(msg),
-            Widget::Scope(w) => w.handle_can_message(msg),
-            Widget::SendUi(w) => w.handle_can_message(msg),
-            Widget::BusLoad(w) => w.handle_can_message(msg),
-            Widget::BatteryVoltage(w) => w.handle_can_message(msg),
-            Widget::BatteryTemps(w) => w.handle_can_message(msg),
-            Widget::GgPlot(w) => w.handle_can_message(msg),
-            Widget::GpsPlot(w) => w.handle_can_message(msg),
-            Widget::Dynamics(w) => w.handle_can_message(msg),
-            Widget::Jitter(w) => w.handle_can_message(msg),
-            Widget::Hil(w) => w.handle_can_message(msg),
+            Widget::Bootloader(w) => w.handle_can_message(event),
+            Widget::SendUi(w) => w.handle_can_message(event),
+            Widget::Hil(w) => w.handle_can_message(event),
             _ => {}
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn hidden_operational_panes_receive_events_without_show() {
+        let (tx, _rx) = std::sync::mpsc::channel();
+        let mut pane = Widget::Hil(ui::hil::Hil::new(tx));
+        let mut snapshot = daqcore::hil::engine::HilSnapshot::idle();
+        snapshot.elapsed_ms = 1234;
+        pane.handle_operational_event(&can_thread::CanThreadEvent::Hil(snapshot));
+        match pane {
+            Widget::Hil(w) => assert_eq!(w.snapshot.elapsed_ms, 1234),
+            _ => unreachable!(),
         }
     }
 }

@@ -1,15 +1,24 @@
 use super::common::{self, BatteryUiState};
-use crate::{messages, ui, util};
+use crate::{ui, util};
 use eframe::egui::{self, Color32, Frame, RichText, Stroke};
 
 const V_MIN: f64 = 2.7;
 const V_MAX: f64 = 4.2;
 const V_NOM: f64 = 3.7;
 
-#[derive(Default, Clone)]
+#[derive(Clone)]
 pub struct CellVoltage {
     pub voltage: f64,
     pub balancing: bool,
+}
+
+impl Default for CellVoltage {
+    fn default() -> Self {
+        Self {
+            voltage: f64::NAN,
+            balancing: false,
+        }
+    }
 }
 
 impl CellVoltage {
@@ -18,6 +27,9 @@ impl CellVoltage {
             return Color32::from_rgb(33, 150, 243);
         }
 
+        if !self.voltage.is_finite() {
+            return Color32::GRAY;
+        }
         let voltage = self.voltage.clamp(V_MIN, V_MAX);
 
         let hue = if voltage <= V_NOM {
@@ -32,12 +44,22 @@ impl CellVoltage {
     }
 }
 
-#[derive(Default)]
 struct ChargingVoltageTelemetry {
     pack_voltage: f64,
     pack_current: f64,
     min_cell_voltage: f64,
     max_cell_voltage: f64,
+}
+
+impl Default for ChargingVoltageTelemetry {
+    fn default() -> Self {
+        Self {
+            pack_voltage: f64::NAN,
+            pack_current: f64::NAN,
+            min_cell_voltage: f64::NAN,
+            max_cell_voltage: f64::NAN,
+        }
+    }
 }
 
 pub struct BatteryVoltage {
@@ -60,8 +82,29 @@ impl BatteryVoltage {
         }
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let messages::MsgFromCan::ParsedMessage(parsed) = msg {
+    pub fn project(&mut self, view: &crate::telemetry::TelemetryView<'_>) {
+        self.modules =
+            vec![vec![CellVoltage::default(); common::CELLS_PER_MODULE]; common::NUM_MODULES];
+        self.charging_telemetry = None;
+        self.ui_state = BatteryUiState::new();
+        let mut filled = 0;
+        for frame in view.frames.iter().rev() {
+            if filled == common::NUM_MODULES * common::CELLS_PER_MODULE
+                && frame.decoded.as_ref().is_some_and(|d| {
+                    matches!(d.name.as_str(), "cell_telemetry" | "cell_telemetry_ccan")
+                })
+            {
+                continue;
+            }
+            if self.apply_frame(frame) {
+                filled += 1;
+            }
+        }
+        self.ui_state.set_view_time(view.view_time());
+    }
+
+    fn apply_frame(&mut self, frame: &daqcore::ParsedFrame) -> bool {
+        if let Some(parsed) = frame.decoded_view() {
             match parsed.decoded.name.as_str() {
                 "cell_telemetry" | "cell_telemetry_ccan" => {
                     let mut module_num: Option<usize> = None;
@@ -90,48 +133,67 @@ impl BatteryVoltage {
                         (module_num, cell_num, voltage, balancing)
                         && module_num < self.modules.len()
                         && cell_num < self.modules[module_num].len()
+                        && self.modules[module_num][cell_num].voltage.is_nan()
                     {
                         self.modules[module_num][cell_num].voltage = voltage;
                         self.modules[module_num][cell_num].balancing = balancing;
-                        self.ui_state.mark_updated();
+                        self.ui_state.mark_updated(parsed.timestamp);
+                        return true;
                     }
                 }
                 "pack_bms" | "pack_bms_ccan" => {
                     for (_, sig) in parsed.decoded.signals.iter() {
                         match sig.name.as_str() {
                             "pack_voltage" => {
-                                self.charging_telemetry.get_or_insert_default().pack_voltage =
-                                    sig.value.physical;
+                                let value = &mut self
+                                    .charging_telemetry
+                                    .get_or_insert_default()
+                                    .pack_voltage;
+                                if value.is_nan() {
+                                    *value = sig.value.physical;
+                                }
                             }
                             "min_cell_voltage" => {
-                                self.charging_telemetry
+                                let value = &mut self
+                                    .charging_telemetry
                                     .get_or_insert_default()
-                                    .min_cell_voltage = sig.value.physical;
+                                    .min_cell_voltage;
+                                if value.is_nan() {
+                                    *value = sig.value.physical;
+                                }
                             }
                             "max_cell_voltage" => {
-                                self.charging_telemetry
+                                let value = &mut self
+                                    .charging_telemetry
                                     .get_or_insert_default()
-                                    .max_cell_voltage = sig.value.physical;
+                                    .max_cell_voltage;
+                                if value.is_nan() {
+                                    *value = sig.value.physical;
+                                }
                             }
                             _ => {}
                         }
                     }
 
-                    self.ui_state.mark_updated();
+                    self.ui_state.mark_updated(parsed.timestamp);
                 }
                 "pack_analog" | "pack_analog_ccan" => {
                     for (_, sig) in parsed.decoded.signals.iter() {
                         if sig.name.as_str() == "pack_current" {
-                            self.charging_telemetry.get_or_insert_default().pack_current =
-                                sig.value.physical;
+                            let value =
+                                &mut self.charging_telemetry.get_or_insert_default().pack_current;
+                            if value.is_nan() {
+                                *value = sig.value.physical;
+                            }
                         }
                     }
 
-                    self.ui_state.mark_updated();
+                    self.ui_state.mark_updated(parsed.timestamp);
                 }
                 _ => {}
             }
         }
+        false
     }
 
     pub fn show(&mut self, ui: &mut egui::Ui) -> egui_tiles::UiResponse {
@@ -190,24 +252,32 @@ impl BatteryVoltage {
             ui.add_space(12.0);
 
             for (module_index, module) in self.modules.iter().enumerate() {
-                let module_sum: f64 = module.iter().map(|cell| cell.voltage).sum();
+                let module_sum: f64 = module
+                    .iter()
+                    .map(|cell| cell.voltage)
+                    .filter(|v| v.is_finite())
+                    .sum();
                 let module_min = module
                     .iter()
                     .map(|cell| cell.voltage)
-                    .fold(f64::MAX, f64::min);
+                    .filter(|v| v.is_finite())
+                    .reduce(f64::min)
+                    .unwrap_or(f64::NAN);
                 let module_max = module
                     .iter()
                     .map(|cell| cell.voltage)
-                    .fold(f64::MIN, f64::max);
-                let module_delta = if module_min < f64::MAX {
+                    .filter(|v| v.is_finite())
+                    .reduce(f64::max)
+                    .unwrap_or(f64::NAN);
+                let module_delta = if module_min.is_finite() {
                     module_max - module_min
                 } else {
-                    0.0
+                    f64::NAN
                 };
 
                 Frame::NONE
                     .fill(theme.panel_color())
-                    .stroke(Stroke::new(1.0, theme.accent_color()))
+                    .stroke(Stroke::new(1.0_f32, theme.accent_color()))
                     .inner_margin(egui::Margin::same(10))
                     .corner_radius(egui::CornerRadius::same(4))
                     .show(ui, |ui| {
@@ -219,22 +289,22 @@ impl BatteryVoltage {
                             );
                             ui.add_space(8.0);
                             ui.label(
-                                RichText::new(format!("sum {:.2} V", module_sum))
+                                RichText::new(format!("sum {} V", common::reading(module_sum, 2)))
                                     .size(10.0)
                                     .color(theme.text_color().linear_multiply(0.55)),
                             );
                             ui.label(
-                                RichText::new(format!("min {:.2} V", module_min))
+                                RichText::new(format!("min {} V", common::reading(module_min, 2)))
                                     .size(10.0)
                                     .color(theme.text_color().linear_multiply(0.55)),
                             );
                             ui.label(
-                                RichText::new(format!("max {:.2} V", module_max))
+                                RichText::new(format!("max {} V", common::reading(module_max, 2)))
                                     .size(10.0)
                                     .color(theme.text_color().linear_multiply(0.55)),
                             );
                             ui.label(
-                                RichText::new(format!("Δ {:.2} V", module_delta))
+                                RichText::new(format!("Δ {} V", common::reading(module_delta, 2)))
                                     .size(10.0)
                                     .color(if module_delta > 0.050 {
                                         theme.error_color()
@@ -283,7 +353,11 @@ impl BatteryVoltage {
             cell.color()
         };
 
-        let fill_frac = ((cell.voltage - V_MIN) / (V_MAX - V_MIN)).clamp(0.0, 1.0) as f32;
+        let fill_frac = if cell.voltage.is_finite() {
+            ((cell.voltage - V_MIN) / (V_MAX - V_MIN)).clamp(0.0, 1.0) as f32
+        } else {
+            0.0
+        };
 
         ui.vertical(|ui| {
             ui.set_max_width(bar_w + 4.0);
@@ -296,7 +370,7 @@ impl BatteryVoltage {
             painter.rect_stroke(
                 outer_rect,
                 3.0,
-                Stroke::new(0.5, theme.accent_color()),
+                Stroke::new(0.5_f32, theme.accent_color()),
                 egui::StrokeKind::Inside,
             );
 
@@ -310,7 +384,11 @@ impl BatteryVoltage {
             let text = if stale {
                 "—".to_string()
             } else {
-                format!("{:.2}", cell.voltage)
+                if cell.voltage.is_finite() {
+                    format!("{:.2}", cell.voltage)
+                } else {
+                    "—".into()
+                }
             };
 
             let text_color = if stale {
@@ -329,5 +407,59 @@ impl BatteryVoltage {
                 text_color,
             );
         });
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::telemetry::{TelemetryView, sample};
+    use daqcore::{Session, Time};
+    #[test]
+    fn multiplexed_cells_reconstruct_at_cursor_and_reset_missing_values() {
+        let mut session = Session::live(Time::from_unix_millis(0), 30.0, 0.0);
+        for (time, cell, voltage) in [(100, 0.0, 3.0), (200, 1.0, 3.1), (300, 0.0, 4.2)] {
+            session.ingest_frame(sample(
+                time,
+                1,
+                "cell_telemetry",
+                &[
+                    ("module_num", 0.0),
+                    ("cell_num", cell),
+                    ("voltage", voltage),
+                    ("balance_status", 0.0),
+                ],
+            ));
+        }
+        session.ingest_frame(sample(250, 2, "pack_bms", &[("pack_voltage", 350.0)]));
+        session
+            .timeline_mut()
+            .set_setpoint(Time::from_unix_millis(250));
+        let mut battery = BatteryVoltage::new(1);
+        battery.project(&TelemetryView::new(&session));
+        assert_eq!(battery.modules[0][0].voltage, 3.0);
+        assert_eq!(battery.modules[0][1].voltage, 3.1);
+        assert!(battery.modules[0][2].voltage.is_nan());
+        assert_eq!(
+            battery.charging_telemetry.as_ref().unwrap().pack_voltage,
+            350.0
+        );
+        assert!(
+            battery
+                .charging_telemetry
+                .as_ref()
+                .unwrap()
+                .pack_current
+                .is_nan()
+        );
+        session
+            .timeline_mut()
+            .set_setpoint(Time::from_unix_millis(300));
+        battery.project(&TelemetryView::new(&session));
+        assert_eq!(battery.modules[0][0].voltage, 4.2);
+        session.reset(Time::from_unix_millis(400));
+        battery.project(&TelemetryView::new(&session));
+        assert!(battery.modules[0][0].voltage.is_nan());
+        assert!(battery.charging_telemetry.is_none());
     }
 }

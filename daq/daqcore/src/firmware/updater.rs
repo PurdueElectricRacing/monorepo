@@ -1,4 +1,4 @@
-use crate::{bootloader_protocol::FirmwarePackage, messages};
+use super::{FirmwareProgress, protocol::FirmwarePackage};
 
 // Values mirror bootloader_status_t in firmware/can_library/generated/can_types.h.
 // Keeping the wire constants here avoids coupling the host updater to generated
@@ -42,23 +42,29 @@ pub struct FirmwareUpdater {
 
 pub struct TickResult {
     pub frame: Option<OutboundFrame>,
-    pub progress: Option<messages::FirmwareProgress>,
+    pub progress: Option<FirmwareProgress>,
 }
 
 impl FirmwareUpdater {
     /// Start with a request that either resets the application or begins an
     /// update directly when the board is already in its bootloader.
-    pub fn new(package: FirmwarePackage) -> (Self, messages::FirmwareProgress) {
-        Self::new_with_arm(package, false)
+    pub fn new(package: FirmwarePackage, now: std::time::Instant) -> (Self, FirmwareProgress) {
+        Self::new_with_arm(package, false, now)
     }
 
     /// Wait for one target's READY frame without sending a reset request.
-    pub fn new_armed(package: FirmwarePackage) -> (Self, messages::FirmwareProgress) {
-        Self::new_with_arm(package, true)
+    pub fn new_armed(
+        package: FirmwarePackage,
+        now: std::time::Instant,
+    ) -> (Self, FirmwareProgress) {
+        Self::new_with_arm(package, true, now)
     }
 
-    fn new_with_arm(package: FirmwarePackage, armed: bool) -> (Self, messages::FirmwareProgress) {
-        let now = std::time::Instant::now();
+    fn new_with_arm(
+        package: FirmwarePackage,
+        armed: bool,
+        now: std::time::Instant,
+    ) -> (Self, FirmwareProgress) {
         let mut updater = Self {
             package,
             board_index: 0,
@@ -85,38 +91,34 @@ impl FirmwareUpdater {
         (updater, progress)
     }
 
-    fn current_image(&self) -> &crate::bootloader_protocol::FirmwareImage {
+    fn current_image(&self) -> &crate::firmware::protocol::FirmwareImage {
         &self.package.images[self.board_index]
     }
 
-    fn start_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
+    fn start_frame(image: &crate::firmware::protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.start_id,
             data: argument(image.bytes.len() as u32),
         }
     }
 
-    fn crc_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
+    fn crc_frame(image: &crate::firmware::protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.crc_id,
             data: argument(image.crc32),
         }
     }
 
-    fn jump_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
+    fn jump_frame(image: &crate::firmware::protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.jump_id,
             data: argument(0),
         }
     }
 
-    fn progress(
-        &self,
-        phase: impl Into<String>,
-        error: Option<String>,
-    ) -> messages::FirmwareProgress {
+    fn progress(&self, phase: impl Into<String>, error: Option<String>) -> FirmwareProgress {
         let image = self.current_image();
-        messages::FirmwareProgress {
+        FirmwareProgress {
             board: image.name.clone(),
             board_index: self.board_index,
             board_count: self.package.images.len(),
@@ -127,7 +129,7 @@ impl FirmwareUpdater {
         }
     }
 
-    fn fail(&mut self, error: String) -> messages::FirmwareProgress {
+    fn fail(&mut self, error: String) -> FirmwareProgress {
         self.stage = Stage::Finished;
         self.progress("failed", Some(error))
     }
@@ -139,7 +141,7 @@ impl FirmwareUpdater {
     /// Stop locally. The target is intentionally not reset here; the UI should
     /// treat a mid-transfer cancellation as a node that may still be in the
     /// bootloader and should be updated again before vehicle use.
-    pub fn cancel(&mut self) -> messages::FirmwareProgress {
+    pub fn cancel(&mut self) -> FirmwareProgress {
         self.fail("cancelled by user".to_string())
     }
 
@@ -281,7 +283,7 @@ impl FirmwareUpdater {
         id: u32,
         data: &[u8],
         now: std::time::Instant,
-    ) -> Option<messages::FirmwareProgress> {
+    ) -> Option<FirmwareProgress> {
         if self.is_finished() || id != self.current_image().response_id || data.len() < 5 {
             return None;
         }
@@ -367,7 +369,7 @@ fn argument(argument: u32) -> Vec<u8> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::bootloader_protocol::{APPLICATION_SLOT_SIZE, FirmwareImage};
+    use crate::firmware::protocol::{APPLICATION_SLOT_SIZE, FirmwareImage};
 
     const START_ID: u32 = 0x180;
     const CRC_ID: u32 = 0x192;
@@ -376,7 +378,7 @@ mod tests {
     const RESPONSE_ID: u32 = 0x182;
 
     fn package_with_bytes(bytes: Vec<u8>) -> FirmwarePackage {
-        let crc32 = crate::bootloader_protocol::crc32_words(&bytes);
+        let crc32 = crate::firmware::protocol::crc32_words(&bytes);
         FirmwarePackage {
             images: vec![FirmwareImage {
                 name: "main_module".to_string(),
@@ -409,7 +411,7 @@ mod tests {
     fn streams_direct_update_with_compatible_frames() {
         let package = package();
         let crc32 = package.images[0].crc32;
-        let (mut updater, progress) = FirmwareUpdater::new(package);
+        let (mut updater, progress) = FirmwareUpdater::new(package, std::time::Instant::now());
         assert_eq!(progress.phase, "requesting bootloader");
 
         let start = updater.tick(std::time::Instant::now()).frame.unwrap();
@@ -449,7 +451,10 @@ mod tests {
 
     #[test]
     fn emits_24_bit_word_index_above_16_bit_boundary() {
-        let (mut updater, _) = FirmwareUpdater::new(package_with_size((u16::MAX as usize + 2) * 4));
+        let (mut updater, _) = FirmwareUpdater::new(
+            package_with_size((u16::MAX as usize + 2) * 4),
+            std::time::Instant::now(),
+        );
         let now = std::time::Instant::now();
         let _ = updater.tick(now);
         updater
@@ -464,7 +469,10 @@ mod tests {
 
     #[test]
     fn emits_24_bit_word_index_at_maximum_slot_size() {
-        let (mut updater, _) = FirmwareUpdater::new(package_with_size(APPLICATION_SLOT_SIZE));
+        let (mut updater, _) = FirmwareUpdater::new(
+            package_with_size(APPLICATION_SLOT_SIZE),
+            std::time::Instant::now(),
+        );
         let now = std::time::Instant::now();
         let _ = updater.tick(now);
         updater
@@ -484,7 +492,7 @@ mod tests {
 
     #[test]
     fn ready_handshake_still_resends_start_before_data() {
-        let (mut updater, _) = FirmwareUpdater::new(package());
+        let (mut updater, _) = FirmwareUpdater::new(package(), std::time::Instant::now());
         let _ = updater.tick(std::time::Instant::now());
 
         let now = std::time::Instant::now();

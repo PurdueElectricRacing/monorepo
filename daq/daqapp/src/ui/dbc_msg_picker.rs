@@ -1,4 +1,3 @@
-use crate::util;
 use eframe::egui;
 
 /// Shared DBC message search UI state used by Send UI, Jitter, etc.
@@ -24,7 +23,7 @@ impl DbcMsgPickerState {
                 .filter(|msg| {
                     let id_str = format!(
                         "0x{:03X}",
-                        util::can::can_dbc_to_u32_without_extid_flag(&msg.id)
+                        daqcore::can::can_dbc_to_u32_without_extid_flag(&msg.id)
                     );
                     id_str.contains(&search_lower)
                         || msg.name.to_lowercase().contains(&search_lower)
@@ -76,7 +75,7 @@ impl DbcMsgPickerState {
                 .button(format!(
                     "{} (0x{:03X})",
                     msg.name,
-                    util::can::can_dbc_to_u32_without_extid_flag(&msg.id)
+                    daqcore::can::can_dbc_to_u32_without_extid_flag(&msg.id)
                 ))
                 .clicked()
             {

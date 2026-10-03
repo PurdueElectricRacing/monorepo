@@ -1,6 +1,6 @@
-use daqcore::log_parse::consts;
+use crate::log_parse::consts;
 
-use daqcore::log_parse::parse;
+use crate::log_parse::parse;
 
 use chrono::{Datelike, Timelike};
 use std::fs::{File, create_dir_all};
@@ -68,37 +68,22 @@ impl DaqLogger {
         }
     }
 
-    pub fn log_can2_frame(&mut self, frame: &slcan::Can2Frame, is_bus_1: bool) {
-        let (id, data) = match frame.id() {
-            slcan::Id::Standard(sid) => {
-                let id = sid.as_raw() as u32;
-                (id, frame.data().unwrap_or(&[]))
-            }
-            slcan::Id::Extended(eid) => {
-                let id = eid.as_raw() | consts::IS_EID_MASK;
-                (id, frame.data().unwrap_or(&[]))
-            }
-        };
-
-        let frame_identity = if is_bus_1 {
-            id | consts::BUS_ID_MASK
-        } else {
-            id
-        };
-
-        let mut data_array = [0u8; 8];
-        let len = data.len().min(8);
-        data_array[..len].copy_from_slice(&data[..len]);
-
-        let ticks_ms = self.start_time.elapsed().as_millis() as u32;
-
-        let raw_frame = parse::RawFrame {
-            ticks_ms: ticks_ms,
-            identity: frame_identity,
-            data: data_array,
-        };
-
-        self.add_frame(raw_frame);
+    pub fn log_frame(&mut self, frame: &crate::frame::CanFrame) {
+        if matches!(frame.kind, crate::frame::FrameKind::Fd { .. }) {
+            return;
+        }
+        let mut data = [0; 8];
+        data[..frame.data.len()].copy_from_slice(&frame.data);
+        self.add_frame(parse::RawFrame {
+            ticks_ms: self.start_time.elapsed().as_millis() as u32,
+            identity: frame.msg_id
+                | if frame.is_msg_id_extended {
+                    consts::IS_EID_MASK
+                } else {
+                    0
+                },
+            data,
+        });
     }
 
     fn add_frame(&mut self, frame: parse::RawFrame) {
@@ -200,6 +185,58 @@ impl Drop for DaqLogger {
         self.flush();
         if let Some(open_file) = self.open_file.take() {
             let _ = open_file.file.sync_all();
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn folder_change_and_drop_flush_binary_records() {
+        let directory = std::env::temp_dir().join(format!(
+            "daqcore-log-test-{}-{}",
+            std::process::id(),
+            TimeMarker::unique()
+        ));
+        let first = directory.join("first");
+        let second = directory.join("second");
+        let frame = crate::frame::CanFrame::data(3, true, vec![1, 2]).unwrap();
+        let mut logger = DaqLogger::new(first.clone());
+        logger.log_frame(&frame);
+        logger.update_folder(second.clone());
+        logger.log_frame(&frame);
+        logger.log_frame(&crate::frame::CanFrame {
+            kind: crate::frame::FrameKind::Fd {
+                bit_rate_switched: false,
+            },
+            dlc: 9,
+            data: vec![0; 12],
+            ..frame
+        });
+        drop(logger);
+        for path in [first, second] {
+            let file = std::fs::read_dir(path)
+                .unwrap()
+                .next()
+                .unwrap()
+                .unwrap()
+                .path();
+            let bytes = std::fs::read(file).unwrap();
+            assert_eq!(bytes.len(), 16);
+            let raw = bytemuck::pod_read_unaligned::<parse::RawFrame>(&bytes);
+            assert_eq!(raw.identity, 3 | consts::IS_EID_MASK);
+            assert_eq!(raw.data, [1, 2, 0, 0, 0, 0, 0, 0]);
+        }
+        std::fs::remove_dir_all(directory).unwrap();
+    }
+    struct TimeMarker;
+    impl TimeMarker {
+        fn unique() -> u128 {
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
         }
     }
 }

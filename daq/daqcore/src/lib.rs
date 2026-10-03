@@ -1,22 +1,19 @@
+//! Single-owner CAN libraries. The worker moves events; callers own telemetry history.
 pub mod can;
+pub mod can_thread;
+pub mod connection;
+#[cfg(feature = "firmware")]
+pub mod firmware;
+#[cfg(feature = "formatting")]
+pub mod formatter;
+pub mod frame;
+#[cfg(feature = "hil")]
+pub mod hil;
 pub mod log_parse;
-
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
-
-// dummy
-pub fn subtract(left: u64, right: u64) -> u64 {
-    left - right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+pub mod time;
+pub use frame::ParsedFrame;
+pub use time::Time;
+pub mod cache;
+pub mod session;
+pub mod timeline;
+pub use session::Session;

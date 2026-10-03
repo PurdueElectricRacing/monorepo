@@ -12,6 +12,9 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
         D: serde::Deserializer<'de>,
     {
         let value = serde_json::Value::deserialize(deserializer)?;
+        if value.as_str() == Some("Loopback") {
+            return Ok(Self::Loopback);
+        }
         let object = value
             .as_object()
             .ok_or_else(|| serde::de::Error::custom("connection source must be an object"))?;
@@ -80,13 +83,6 @@ impl CanBusSpeed {
         }
     }
 
-    pub fn to_slcan_bitrate(self) -> slcan::NominalBitRate {
-        match self {
-            CanBusSpeed::Kbps250 => slcan::NominalBitRate::Rate250Kbit,
-            CanBusSpeed::Kbps500 => slcan::NominalBitRate::Rate500Kbit,
-        }
-    }
-
     pub fn to_bps(self) -> u32 {
         match self {
             CanBusSpeed::Kbps250 => 250_000,
@@ -102,5 +98,30 @@ impl CanBusSpeed {
 impl Default for CanBusSpeed {
     fn default() -> Self {
         CanBusSpeed::Kbps500
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn sources_round_trip_and_legacy_serial_ignores_removed_setting() {
+        for source in [
+            ConnectionSource::Serial("ttyUSB0".into(), CanBusSpeed::Kbps250),
+            ConnectionSource::Udp(9000),
+            ConnectionSource::Loopback,
+            ConnectionSource::Simulated(true, None),
+        ] {
+            assert_eq!(
+                serde_json::from_str::<ConnectionSource>(&serde_json::to_string(&source).unwrap())
+                    .unwrap(),
+                source
+            );
+        }
+        assert_eq!(
+            serde_json::from_str::<ConnectionSource>(r#"{"Serial":["ttyUSB0","Kbps500",true]}"#)
+                .unwrap(),
+            ConnectionSource::Serial("ttyUSB0".into(), CanBusSpeed::Kbps500)
+        );
     }
 }

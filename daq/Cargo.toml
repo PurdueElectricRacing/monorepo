@@ -10,11 +10,12 @@ members = [
 edition = "2024"
 
 [workspace.dependencies]
-daqcore = { path = "daqcore" }
+daqcore = { path = "daqcore", default-features = false }
 
 can_decode = "0.7.2"
 can-dbc = "9.0.0"
 chrono = "0.4.44"
 log = "0.4.29"
-bytemuck = "1.25.0"
+bytemuck = { version = "1.25.0", features = ["derive"] }
 csv = "1.4.0"
+slcan = { git = "https://github.com/LelsersLasers/slcan", rev = "a8c751c6695532a9ea95d62114b30fd18cf89697", features = ["sync"] }

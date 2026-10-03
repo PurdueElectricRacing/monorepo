@@ -1,6 +1,5 @@
 use crate::ui::theme::ThemeColors;
 use eframe::egui::{self, Color32, Frame, RichText, Stroke};
-use std::time::{Duration, Instant};
 
 pub const NUM_MODULES: usize = 7;
 pub const CELLS_PER_MODULE: usize = 16;
@@ -9,27 +8,28 @@ pub const THERMISTORS_PER_MODULE: usize = 10;
 pub const STALE_TIMEOUT_SECONDS: u64 = 1;
 
 pub struct BatteryUiState {
-    last_update: Instant,
-    is_data_stale: bool,
+    last_update: Option<daqcore::Time>,
+    view_time: daqcore::Time,
 }
-
 impl BatteryUiState {
     pub fn new() -> Self {
         Self {
-            last_update: Instant::now() - Duration::from_secs(10),
-            is_data_stale: true,
+            last_update: None,
+            view_time: daqcore::Time::now(),
         }
     }
-
-    pub fn mark_updated(&mut self) {
-        self.last_update = Instant::now();
-        self.is_data_stale = false;
+    pub fn mark_updated(&mut self, timestamp: daqcore::Time) {
+        self.last_update = Some(self.last_update.map_or(timestamp, |old| old.max(timestamp)));
     }
-
+    pub fn set_view_time(&mut self, time: daqcore::Time) {
+        self.view_time = time;
+    }
     pub fn refresh(&mut self) -> (bool, f64) {
-        self.is_data_stale =
-            self.last_update.elapsed() > Duration::from_secs(STALE_TIMEOUT_SECONDS);
-        (self.is_data_stale, self.last_update.elapsed().as_secs_f64())
+        let elapsed = self
+            .last_update
+            .map(|t| self.view_time.secs(t).max(0.0))
+            .unwrap_or(f64::INFINITY);
+        (elapsed > STALE_TIMEOUT_SECONDS as f64, elapsed)
     }
 }
 
@@ -52,7 +52,7 @@ pub fn stale_banner(ui: &mut egui::Ui, theme: &ThemeColors, stale: bool, elapsed
 
     Frame::NONE
         .fill(bg)
-        .stroke(Stroke::new(1.0, dot.linear_multiply(0.5)))
+        .stroke(Stroke::new(1.0_f32, dot.linear_multiply(0.5)))
         .inner_margin(egui::Margin::symmetric(10, 6))
         .corner_radius(egui::CornerRadius::same(4))
         .show(ui, |ui| {
@@ -77,7 +77,7 @@ pub fn stat_card(
 ) {
     Frame::NONE
         .fill(theme.panel_color())
-        .stroke(Stroke::new(1.0, theme.accent_color()))
+        .stroke(Stroke::new(1.0_f32, theme.accent_color()))
         .inner_margin(egui::Margin::same(10))
         .corner_radius(egui::CornerRadius::same(4))
         .show(ui, |ui| {
@@ -98,7 +98,7 @@ pub fn stat_card(
                     );
                 } else {
                     ui.label(
-                        RichText::new(if let Some(v) = value {
+                        RichText::new(if let Some(v) = value.filter(|v| v.is_finite()) {
                             format!("{:.2}", v)
                         } else {
                             "—".to_string()
@@ -114,4 +114,13 @@ pub fn stat_card(
                 }
             });
         });
+}
+
+/// Keep unavailable projection values distinct from a measured zero.
+pub fn reading(value: f64, precision: usize) -> String {
+    if value.is_finite() {
+        format!("{value:.precision$}")
+    } else {
+        "—".into()
+    }
 }

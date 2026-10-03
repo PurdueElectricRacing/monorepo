@@ -1,4 +1,6 @@
-use crate::{app, formatter, messages, util};
+use crate::app;
+use daqcore::can_thread;
+use daqcore::formatter;
 use eframe::egui;
 
 use super::dbc_msg_picker::{DbcMsgPickerState, no_dbc_placeholder};
@@ -21,7 +23,7 @@ pub struct SendUi {
     error: Option<String>,
 
     // Required to be stored on the struct so Drop can send cancellation messages when the UI closes
-    ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
 }
 
 #[derive(Clone, Copy, PartialEq)]
@@ -40,7 +42,7 @@ struct SignalValue {
 }
 
 struct SendingMessage {
-    pub amount: messages::SendAmount,
+    pub amount: can_thread::SendAmount,
     pub msg_name: String,
     pub msg_id: u32,
     pub msg_id_with_ext_flag: u32,
@@ -48,7 +50,7 @@ struct SendingMessage {
     pub msg_bytes: Vec<u8>,
     pub signal_values: Vec<SignalValue>,
     pub adjustable_values_enabled: bool,
-    pub last_sent: chrono::DateTime<chrono::Local>,
+    pub last_sent: daqcore::Time,
 }
 
 enum SendUiActions {
@@ -69,7 +71,7 @@ impl Drop for SendUi {
             let msg_id = msg.msg_id;
             if let Err(e) = self
                 .ui_to_can_tx
-                .send(messages::MsgFromUi::DeleteSendMessage { msg_id })
+                .send(can_thread::CanThreadCommand::DeleteSendMessage { msg_id })
             {
                 // Don't panic in Drop, just log the error
                 log::error!(
@@ -83,7 +85,10 @@ impl Drop for SendUi {
 }
 
 impl SendUi {
-    pub fn new(num: usize, ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>) -> Self {
+    pub fn new(
+        num: usize,
+        ui_to_can_tx: std::sync::mpsc::Sender<can_thread::CanThreadCommand>,
+    ) -> Self {
         Self {
             title: format!("Send UI {}", num),
 
@@ -153,7 +158,7 @@ impl SendUi {
                             egui::RichText::new(format!(
                                 "Selected Message: {} (0x{:03X})",
                                 selected_msg.name,
-                                util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
+                                daqcore::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
                             ))
                             .strong()
                             .size(16.0),
@@ -228,7 +233,7 @@ impl SendUi {
 
                         if ui.button("Send Message").clicked() {
                             let msg_id_with_ext_flag =
-                                util::can::can_dbc_to_u32_with_extid_flag(&selected_msg.id);
+                                daqcore::can::can_dbc_to_u32_with_extid_flag(&selected_msg.id);
                             let encoded = encode_msg_from_signals(
                                 &parser.parser,
                                 msg_id_with_ext_flag,
@@ -246,20 +251,20 @@ impl SendUi {
                             self.error = None;
 
                             let send_amount = match self.send_mode {
-                                SendMode::Once => messages::SendAmount::Once,
+                                SendMode::Once => can_thread::SendAmount::Once,
 
-                                SendMode::Infinite => messages::SendAmount::Infinite {
+                                SendMode::Infinite => can_thread::SendAmount::Infinite {
                                     period: self.period_ms,
                                 },
 
-                                SendMode::Finite => messages::SendAmount::Finite {
+                                SendMode::Finite => can_thread::SendAmount::Finite {
                                     amount: self.finite_amount,
                                     period: self.period_ms,
                                 },
                             };
 
                             let msg_id_u32 =
-                                util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id);
+                                daqcore::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id);
 
                             self.sending_messages.push(SendingMessage {
                                 amount: send_amount,
@@ -273,10 +278,10 @@ impl SendUi {
                                 msg_bytes: msg_bytes.clone(),
                                 signal_values: self.signal_values.clone(),
                                 adjustable_values_enabled: self.adjustable_values_enabled,
-                                last_sent: chrono::Local::now(),
+                                last_sent: daqcore::Time::now(),
                             });
 
-                            let add_send_msg = messages::AddSendMessage {
+                            let add_send_msg = can_thread::AddSendMessage {
                                 amount: send_amount,
                                 msg_id: msg_id_u32,
                                 is_msg_id_extended: matches!(
@@ -291,8 +296,10 @@ impl SendUi {
                             self.adjustable_values_enabled = false;
 
                             self.ui_to_can_tx
-                                .send(messages::MsgFromUi::AddSendMessage(add_send_msg))
-                                .expect("Failed to send AddSendMessage");
+                                .send(can_thread::CanThreadCommand::AddSendMessage(add_send_msg))
+                                .unwrap_or_else(|error| {
+                                    log::error!("Failed to submit send: {error}")
+                                });
                         }
                     }
 
@@ -337,8 +344,8 @@ impl SendUi {
                         self.error = None;
 
                         self.ui_to_can_tx
-                            .send(messages::MsgFromUi::AddSendMessage(
-                                messages::AddSendMessage {
+                            .send(can_thread::CanThreadCommand::AddSendMessage(
+                                can_thread::AddSendMessage {
                                     amount: self.sending_messages[idx].amount,
                                     msg_id: self.sending_messages[idx].msg_id,
                                     is_msg_id_extended: self.sending_messages[idx]
@@ -346,7 +353,7 @@ impl SendUi {
                                     msg_bytes,
                                 },
                             ))
-                            .expect("Failed to send AddSendMessage");
+                            .unwrap_or_else(|error| log::error!("Failed to submit send: {error}"));
                     }
 
                     for action in all_actions {
@@ -354,8 +361,12 @@ impl SendUi {
                             SendUiActions::DeleteMessage { msg_id } => {
                                 self.sending_messages.retain(|msg| msg.msg_id != msg_id);
                                 self.ui_to_can_tx
-                                    .send(messages::MsgFromUi::DeleteSendMessage { msg_id })
-                                    .expect("Failed to send DeleteSendMessage");
+                                    .send(can_thread::CanThreadCommand::DeleteSendMessage {
+                                        msg_id,
+                                    })
+                                    .unwrap_or_else(|error| {
+                                        log::error!("Failed to delete send: {error}")
+                                    });
                             }
                         }
                     }
@@ -365,8 +376,19 @@ impl SendUi {
         egui_tiles::UiResponse::None
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let messages::MsgFromCan::MessageSent {
+    pub fn handle_can_message(&mut self, msg: &can_thread::CanThreadEvent) {
+        if let can_thread::CanThreadEvent::SendFailed {
+            msg_id,
+            error,
+            retrying,
+        } = msg
+        {
+            if !retrying {
+                self.sending_messages.retain(|m| m.msg_id != *msg_id);
+            }
+            log::error!("Send {msg_id:X} failed: {error}");
+        }
+        if let can_thread::CanThreadEvent::MessageSent {
             msg_id,
             timestamp,
             amount_left,
@@ -417,7 +439,7 @@ impl SendingMessage {
             ui.label(
                 egui::RichText::new(format!(
                     "~{} ms ago",
-                    (chrono::Local::now() - self.last_sent).num_milliseconds()
+                    (daqcore::Time::now().secs(self.last_sent) * 1000.0) as i64
                 ))
                 .italics()
                 .color(ui.visuals().weak_text_color()),
@@ -513,8 +535,8 @@ fn encode_msg_from_signals(
 fn signal_range(sig: &can_dbc::Signal) -> (f64, f64) {
     let fallback = (-1000.0, 1000.0);
 
-    let min = util::can::can_dbc_numeric_to_f64(&sig.min);
-    let max = util::can::can_dbc_numeric_to_f64(&sig.max);
+    let min = daqcore::can::can_dbc_numeric_to_f64(&sig.min);
+    let max = daqcore::can::can_dbc_numeric_to_f64(&sig.max);
 
     if !min.is_finite() || !max.is_finite() || min >= max {
         fallback
