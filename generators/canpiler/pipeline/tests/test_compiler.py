@@ -172,3 +172,38 @@ def test_float_enum_rejected(custom):
     )
     with pytest.raises(ValueError, match="float requires 32 bits and no choices"):
         compile_message(message, False, types)
+
+
+@pytest.mark.parametrize("byte_order,offsets,orders", [
+    ("little_endian", [0, 8, 24], ["little_endian"] * 3),
+    ("big_endian", [0, 15, 24], ["little_endian", "big_endian", "little_endian"]),
+])
+def test_mixed_width_bit_placement(byte_order, offsets, orders):
+    message = MessageDeclaration(
+        message_name="mixed", description="", priority=0, byte_order=byte_order,
+        signals=[
+            SignalDeclaration(signal_name="first", data_type="uint8_t"),
+            SignalDeclaration(signal_name="middle", data_type="int16_t"),
+            SignalDeclaration(signal_name="last", data_type="uint8_t"),
+        ],
+    )
+    compiled = compile_message(message, False, {})
+    assert compiled.dlc == 4
+    assert [signal.bit_shift for signal in compiled.signals] == [0, 8, 24]
+    assert [signal.bit_offset for signal in compiled.signals] == offsets
+    assert [signal.byte_order for signal in compiled.signals] == orders
+    assert [signal.mask for signal in compiled.signals] == [0xFF, 0xFFFF, 0xFF]
+    assert [signal.is_signed for signal in compiled.signals] == [False, True, False]
+
+
+@pytest.mark.parametrize("prefix_bits,value_bits", [(1, 16), (0, 24)])
+def test_big_endian_invalid_placement(prefix_bits, value_bits):
+    signals = [SignalDeclaration(signal_name="value", data_type="uint32_t", length=value_bits)]
+    if prefix_bits:
+        signals.insert(0, SignalDeclaration(signal_name="prefix", data_type="bool"))
+    message = MessageDeclaration(
+        message_name="bad_layout", description="", priority=0,
+        byte_order="big_endian", signals=signals,
+    )
+    with pytest.raises(ValueError, match="Signal 'value'.*must be byte-aligned"):
+        compile_message(message, False, {})

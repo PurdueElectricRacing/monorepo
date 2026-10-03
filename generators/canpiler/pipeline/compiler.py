@@ -8,8 +8,13 @@ from __future__ import annotations
 
 import hashlib
 from collections.abc import Iterable, Mapping
+from decimal import Decimal
+from typing import get_args
 
-from core.declarations import CanDeclarations, CustomTypeDeclaration, MessageDeclaration
+from core.declarations import (
+    ByteOrder, CanDeclarations, CustomTypeDeclaration, DisplayFormat,
+    MessageDeclaration, Number, SignalDeclaration,
+)
 from core.contributions import DeclarationContribution, RxDeclaration, TxDeclaration
 from core.utils import (
     CTYPE_SIZES,
@@ -280,88 +285,148 @@ def compile_source(source: CanSource) -> CompiledCan:
     )
 
 
-def compile_message(
-    declaration: MessageDeclaration,
-    is_extended: bool,
-    custom_types: Mapping[str, CustomTypeDeclaration],
-) -> CompiledMessage:
-    current_offset = 0
-    signals = []
+def infer_display_format(
+    base_type: str,
+    has_choices: bool,
+    scale: Number | None = None,
+    offset: Number | None = None,
+) -> DisplayFormat | None:
+    """Infer physical-value precision while preserving boolean and enum labels."""
+    if base_type == "bool" or has_choices:
+        return None
+    if base_type == "float":
+        return "2f"
 
-    for signal in declaration.signals:
-        if signal.data_type in CTYPE_SIZES:
-            base_type = signal.data_type
-        elif signal.data_type in custom_types:
-            base_type = custom_types[signal.data_type].base_type
-        else:
-            raise ValueError(
-                f"Signal '{signal.signal_name}' in message "
-                f"'{declaration.message_name}' has unknown type '{signal.data_type}'"
-            )
-
-        length = signal.length or CTYPE_SIZES[base_type]
-
-        choices = signal.choices
-        if not choices and signal.data_type in custom_types:
-            choices = custom_types[signal.data_type].choices
-        if base_type == "float":
-            if length != 32 or choices:
-                raise ValueError(
-                    f"Signal '{signal.signal_name}' in message "
-                    f"'{declaration.message_name}': float requires 32 bits and no choices"
-                )
-        elif choices:
-            value_bits = length - int(base_type.startswith("int"))
-            if len(choices) > (1 << value_bits):
-                raise ValueError(
-                    f"Signal '{signal.signal_name}' in message "
-                    f"'{declaration.message_name}': enum values do not fit {length}-bit {base_type}"
-                )
-
-        if declaration.byte_order == "big_endian" and length > 8:
-            if current_offset % 8 != 0 or length not in (16, 32, 64):
-                raise ValueError(
-                    f"Signal '{signal.signal_name}' in big-endian message "
-                    f"'{declaration.message_name}' must be byte-aligned with a "
-                    "16, 32, or 64-bit length"
-                )
-            bit_offset = (current_offset // 8) * 8 + 7
-            byte_order = "big_endian"
-        else:
-            bit_offset = current_offset
-            byte_order = "little_endian"
-
-        signals.append(
-            CompiledSignal(
-                signal_name=signal.signal_name,
-                data_type=signal.data_type,
-                description=signal.description,
-                length=length,
-                unit=signal.unit,
-                choices=(
-                    tuple(signal.choices)
-                    if signal.choices is not None
-                    else None
-                ),
-                scale=signal.scale,
-                offset=signal.offset,
-                min=signal.min,
-                max=signal.max,
-                byte_order=byte_order,
-                bit_offset=bit_offset,
-                bit_shift=current_offset,
-                is_signed=base_type.startswith("int"),
-                mask=(1 << length) - 1,
-                display_format=signal.display_format,
-            )
-        )
-        current_offset += length
-
-    if current_offset > 64:
+    places = max(
+        0,
+        -Decimal(str(scale if scale is not None else 1)).normalize().as_tuple().exponent,
+        -Decimal(str(offset if offset is not None else 0)).normalize().as_tuple().exponent,
+    )
+    display_format = "integer" if places == 0 else f"{places}f"
+    if display_format not in get_args(DisplayFormat):
         raise ValueError(
-            f"Message '{declaration.message_name}' exceeds 64 bits (has {current_offset})"
+            f"Inferred display format '{display_format}' is not supported; "
+            "specify an explicit display_format override"
         )
+    return display_format
 
+
+def _resolve_signal_base_type(
+    signal: SignalDeclaration,
+    message_name: str,
+    custom_types: Mapping[str, CustomTypeDeclaration],
+) -> str:
+    if signal.data_type in CTYPE_SIZES:
+        return signal.data_type
+    if signal.data_type in custom_types:
+        return custom_types[signal.data_type].base_type
+    raise ValueError(
+        f"Signal '{signal.signal_name}' in message "
+        f"'{message_name}' has unknown type '{signal.data_type}'"
+    )
+
+
+def _resolve_signal_choices(
+    signal: SignalDeclaration,
+    custom_types: Mapping[str, CustomTypeDeclaration],
+) -> list[str] | None:
+    """Resolve labels for validation and display inference, including custom types."""
+    if not signal.choices and signal.data_type in custom_types:
+        return custom_types[signal.data_type].choices
+    return signal.choices
+
+
+def _validate_signal_encoding(
+    signal_name: str,
+    message_name: str,
+    base_type: str,
+    length: int,
+    choices: list[str] | None,
+) -> None:
+    """Check float representation and the nonnegative enum capacity."""
+    if base_type == "float":
+        if length != 32 or choices:
+            raise ValueError(
+                f"Signal '{signal_name}' in message "
+                f"'{message_name}': float requires 32 bits and no choices"
+            )
+    elif choices:
+        value_bits = length - int(base_type.startswith("int"))
+        if len(choices) > (1 << value_bits):
+            raise ValueError(
+                f"Signal '{signal_name}' in message "
+                f"'{message_name}': enum values do not fit {length}-bit {base_type}"
+            )
+
+
+def _place_signal(
+    signal_name: str,
+    message_name: str,
+    byte_order: ByteOrder,
+    length: int,
+    bit_shift: int,
+) -> tuple[int, ByteOrder]:
+    """Convert the sequential packing position to the DBC start bit and byte order."""
+    if byte_order == "big_endian" and length > 8:
+        if bit_shift % 8 != 0 or length not in (16, 32, 64):
+            raise ValueError(
+                f"Signal '{signal_name}' in big-endian message "
+                f"'{message_name}' must be byte-aligned with a "
+                "16, 32, or 64-bit length"
+            )
+        return (bit_shift // 8) * 8 + 7, "big_endian"
+    return bit_shift, "little_endian"
+
+
+def _compile_signal(
+    signal: SignalDeclaration,
+    message_name: str,
+    byte_order: ByteOrder,
+    bit_shift: int,
+    custom_types: Mapping[str, CustomTypeDeclaration],
+) -> CompiledSignal:
+    base_type = _resolve_signal_base_type(signal, message_name, custom_types)
+    length = signal.length or CTYPE_SIZES[base_type]
+    choices = _resolve_signal_choices(signal, custom_types)
+    _validate_signal_encoding(signal.signal_name, message_name, base_type, length, choices)
+    bit_offset, signal_byte_order = _place_signal(
+        signal.signal_name, message_name, byte_order, length, bit_shift,
+    )
+    return CompiledSignal(
+        signal_name=signal.signal_name,
+        data_type=signal.data_type,
+        description=signal.description,
+        length=length,
+        unit=signal.unit,
+        # Keep only signal-level choices here; generators resolve custom-type labels.
+        choices=tuple(signal.choices) if signal.choices is not None else None,
+        scale=signal.scale,
+        offset=signal.offset,
+        min=signal.min,
+        max=signal.max,
+        byte_order=signal_byte_order,
+        bit_offset=bit_offset,
+        bit_shift=bit_shift,
+        is_signed=base_type.startswith("int"),
+        mask=(1 << length) - 1,
+        display_format=(
+            signal.display_format
+            if signal.display_format is not None
+            else infer_display_format(base_type, bool(choices), signal.scale, signal.offset)
+        ),
+    )
+
+
+def _calculate_message_dlc(message_name: str, bit_length: int) -> int:
+    """Validate classic CAN payload size and round up to whole bytes."""
+    if bit_length > 64:
+        raise ValueError(
+            f"Message '{message_name}' exceeds 64 bits (has {bit_length})"
+        )
+    return (bit_length + 7) // 8
+
+
+def _resolve_id_override(declaration: MessageDeclaration, is_extended: bool) -> int | None:
     id_override = int(declaration.id_override, 0) if declaration.id_override else None
     limit = 0x1FFFFFFF if is_extended else 0x7FF
     if id_override is not None and id_override > limit:
@@ -369,13 +434,35 @@ def compile_message(
             f"Message '{declaration.message_name}' override ID {hex(id_override)} "
             f"exceeds {'29' if is_extended else '11'}-bit limit"
         )
+    return id_override
 
+
+def _calculate_layout_hash(signals: Iterable[CompiledSignal]) -> str:
+    """Hash the ordered wire layout, excluding display and conversion metadata."""
     layout = "".join(
         f"{signal.signal_name}:{signal.data_type}:"
         f"{signal.bit_shift}:{signal.length};"
         for signal in signals
     )
-    layout_hash = f"0x{hashlib.sha256(layout.encode()).hexdigest()[:16].upper()}"
+    return f"0x{hashlib.sha256(layout.encode()).hexdigest()[:16].upper()}"
+
+
+def compile_message(
+    declaration: MessageDeclaration,
+    is_extended: bool,
+    custom_types: Mapping[str, CustomTypeDeclaration],
+) -> CompiledMessage:
+    current_offset = 0
+    signals = []
+    for signal in declaration.signals:
+        compiled_signal = _compile_signal(
+            signal, declaration.message_name, declaration.byte_order, current_offset, custom_types,
+        )
+        signals.append(compiled_signal)
+        current_offset += compiled_signal.length
+
+    dlc = _calculate_message_dlc(declaration.message_name, current_offset)
+    id_override = _resolve_id_override(declaration, is_extended)
     return CompiledMessage(
         message_name=declaration.message_name,
         description=declaration.description,
@@ -385,8 +472,8 @@ def compile_message(
         id_override=id_override,
         is_extended=is_extended,
         byte_order=declaration.byte_order,
-        dlc=(current_offset + 7) // 8,
-        layout_hash=layout_hash,
+        dlc=dlc,
+        layout_hash=_calculate_layout_hash(signals),
     )
 
 

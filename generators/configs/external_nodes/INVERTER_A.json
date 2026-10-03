@@ -22,14 +22,14 @@
                 {
                     "signal_name": "AMK_DisplayOverloadInverter",
                     "data_type": "uint16_t",
-                    "scale": 0.1,
-                    "unit": "%"
+                    "unit": "%",
+                    "scale": 0.1
                 },
                 {
                     "signal_name": "AMK_DisplayOverloadMotor",
                     "data_type": "uint16_t",
-                    "scale": 0.1,
-                    "unit": "%"
+                    "unit": "%",
+                    "scale": 0.1
                 }
             ],
             "period_ms": 15,

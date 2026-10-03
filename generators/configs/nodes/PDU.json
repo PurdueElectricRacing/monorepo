@@ -84,14 +84,14 @@
                         {
                             "signal_name": "i_fan1",
                             "data_type": "uint16_t",
-                            "unit": "mA",
-                            "length": 12
+                            "length": 12,
+                            "unit": "mA"
                         },
                         {
                             "signal_name": "i_fan2",
                             "data_type": "uint16_t",
-                            "unit": "mA",
-                            "length": 12
+                            "length": 12,
+                            "unit": "mA"
                         }
                     ],
                     "period_ms": 100,
@@ -104,14 +104,14 @@
                         {
                             "signal_name": "i_fan3",
                             "data_type": "uint16_t",
-                            "unit": "mA",
-                            "length": 12
+                            "length": 12,
+                            "unit": "mA"
                         },
                         {
                             "signal_name": "i_fan4",
                             "data_type": "uint16_t",
-                            "unit": "mA",
-                            "length": 12
+                            "length": 12,
+                            "unit": "mA"
                         }
                     ],
                     "period_ms": 100,
@@ -124,32 +124,32 @@
                         {
                             "signal_name": "i_sdc",
                             "data_type": "uint16_t",
-                            "unit": "mA",
-                            "length": 12
+                            "length": 12,
+                            "unit": "mA"
                         },
                         {
                             "signal_name": "i_aux",
                             "data_type": "uint16_t",
-                            "unit": "mA",
-                            "length": 12
+                            "length": 12,
+                            "unit": "mA"
                         },
                         {
                             "signal_name": "i_dash",
                             "data_type": "uint16_t",
-                            "unit": "mA",
-                            "length": 12
+                            "length": 12,
+                            "unit": "mA"
                         },
                         {
                             "signal_name": "i_abox",
                             "data_type": "uint16_t",
-                            "unit": "mA",
-                            "length": 12
+                            "length": 12,
+                            "unit": "mA"
                         },
                         {
                             "signal_name": "i_main",
                             "data_type": "uint16_t",
-                            "unit": "mA",
-                            "length": 12
+                            "length": 12,
+                            "unit": "mA"
                         }
                     ],
                     "period_ms": 100,
@@ -198,26 +198,23 @@
                     "signals": [
                         {
                             "signal_name": "can_tx_overflow",
-                            "data_type": "uint8_t",
-                            "display_format": "integer",
-                            "description": "CAN Tx queue overflow count"
+                            "description": "CAN Tx queue overflow count",
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "can_tx_fail",
-                            "data_type": "uint8_t",
-                            "description": "CAN Tx fail count (due to timeout in mailbox)"
+                            "description": "CAN Tx fail count (due to timeout in mailbox)",
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "can_rx_overflow",
-                            "data_type": "uint8_t",
-                            "display_format": "integer",
-                            "description": "CAN Rx queue overflow count"
+                            "description": "CAN Rx queue overflow count",
+                            "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "can_rx_overrun",
-                            "data_type": "uint8_t",
-                            "display_format": "integer",
-                            "description": "CAN Rx FIFO overrun count"
+                            "description": "CAN Rx FIFO overrun count",
+                            "data_type": "uint8_t"
                         }
                     ],
                     "period_ms": 1000,
@@ -229,9 +226,9 @@
                     "signals": [
                         {
                             "signal_name": "git_hash",
+                            "description": "int representation of git short hash",
                             "data_type": "uint32_t",
-                            "display_format": "hex",
-                            "description": "int representation of git short hash"
+                            "display_format": "hex"
                         }
                     ],
                     "priority": 4,

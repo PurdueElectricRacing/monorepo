@@ -24,25 +24,25 @@
                             "signal_name": "throttle",
                             "description": "throttle request from driver",
                             "data_type": "uint8_t",
+                            "unit": "%",
                             "min": 0,
-                            "max": 100,
-                            "unit": "%"
+                            "max": 100
                         },
                         {
                             "signal_name": "regen",
                             "description": "regen request from driver (first throw)",
                             "data_type": "uint8_t",
+                            "unit": "%",
                             "min": 0,
-                            "max": 100,
-                            "unit": "%"
+                            "max": 100
                         },
                         {
                             "signal_name": "brake",
                             "description": "mechanical braking from driver (second throw)",
                             "data_type": "uint8_t",
+                            "unit": "%",
                             "min": 0,
-                            "max": 100,
-                            "unit": "%"
+                            "max": 100
                         }
                     ],
                     "period_ms": 15,
@@ -72,22 +72,22 @@
                             "signal_name": "lateral_gain",
                             "data_type": "uint8_t",
                             "unit": "%",
-                            "max": 100,
-                            "min": 0
+                            "min": 0,
+                            "max": 100
                         },
                         {
                             "signal_name": "longitudinal_gain",
                             "data_type": "uint8_t",
                             "unit": "%",
-                            "max": 100,
-                            "min": 0
+                            "min": 0,
+                            "max": 100
                         },
                         {
                             "signal_name": "electronic_brake_bias",
                             "data_type": "uint8_t",
                             "unit": "%",
-                            "max": 100,
-                            "min": 0
+                            "min": 0,
+                            "max": 100
                         },
                         {
                             "signal_name": "is_regen_enabled",
@@ -130,13 +130,13 @@
                     "signals": [
                         {
                             "signal_name": "os_tick",
-                            "data_type": "uint32_t",
-                            "description": "milliseconds since startup"
+                            "description": "milliseconds since startup",
+                            "data_type": "uint32_t"
                         },
                         {
                             "signal_name": "mark_index",
-                            "data_type": "uint16_t",
-                            "description": "incremented each time the mark button is pressed"
+                            "description": "incremented each time the mark button is pressed",
+                            "data_type": "uint16_t"
                         }
                     ],
                     "priority": 3,
@@ -149,8 +149,8 @@
                         {
                             "signal_name": "git_hash",
                             "data_type": "uint32_t",
-                            "display_format": "hex",
-                            "length": 28
+                            "length": 28,
+                            "display_format": "hex"
                         },
                         {
                             "signal_name": "bootloader_git_hash",
