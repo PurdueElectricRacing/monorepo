@@ -28,7 +28,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
         let right=timeline.end().max(captured.map_or(timeline.end(),|(_,end)|end));
         ruler(ui,timeline,left,right);
         ui.horizontal_wrapped(|ui| {
-            ui.label(format!("Selected: {} – {}",timeline.start().label(),timeline.end().label()));
+            ui.label(format!("Selected: {} - {}",timeline.start().label(),timeline.end().label()));
             ui.label(format!("Playhead: {}",timeline.setpoint().label()));
         });
         let changed=before!=timeline.window_secs();

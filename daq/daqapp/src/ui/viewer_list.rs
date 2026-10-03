@@ -22,9 +22,9 @@ impl ViewerList {
         }
         egui_extras::TableBuilder::new(ui)
             .striped(true)
-            .column(egui_extras::Column::auto().at_least(100.0).resizable(true))
-            .column(egui_extras::Column::auto().at_least(200.0).resizable(true))
             .column(egui_extras::Column::auto().at_least(150.0).resizable(true))
+            .column(egui_extras::Column::auto().at_least(300.0).resizable(true))
+            .column(egui_extras::Column::auto().at_least(250.0).resizable(true))
             .column(egui_extras::Column::remainder().resizable(true))
             .header(20.0, |mut header| {
                 for text in ["Timestamp", "Message (ID)", "Signal", "Value"] {
