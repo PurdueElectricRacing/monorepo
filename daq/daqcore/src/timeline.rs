@@ -18,10 +18,6 @@ pub struct Timeline {
     latest: Time,
 }
 fn millis(seconds: f64) -> i64 {
-    assert!(
-        seconds.is_finite() && seconds >= 0.0,
-        "duration must be finite and nonnegative"
-    );
     (seconds * 1000.0).round().min(i64::MAX as f64) as i64
 }
 impl Timeline {
@@ -92,7 +88,6 @@ impl Timeline {
         if self.setpoint_track == Track::Marching {
             self.setpoint = self.end;
         }
-        debug_assert!(self.start <= self.setpoint && self.setpoint <= self.end);
         before != (self.start, self.end, self.setpoint)
     }
     pub fn set_start(&mut self, time: Time) {

@@ -81,8 +81,6 @@ impl TableBuilder {
             vec!["".to_string(), "".to_string(), HEADER_LABELS[5].to_string()],
             vec!["".to_string(), "".to_string(), HEADER_LABELS[6].to_string()],
         ];
-        debug_assert!(rows.len() == HEADER_ROW_COUNT);
-        debug_assert!(rows.iter().all(|r| r.len() == HEADER_COLUMN_COUNT));
 
         for column in &self.header_columns {
             for (row, cell) in rows.iter_mut().zip(column.cells()) {

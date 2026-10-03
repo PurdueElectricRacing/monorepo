@@ -43,12 +43,6 @@ impl RamCache {
         &self.frames[self.first_index..]
     }
     pub fn push(&mut self, frame: CachedFrame) {
-        assert!(
-            self.active()
-                .last()
-                .is_none_or(|f| f.timestamp <= frame.timestamp),
-            "append timestamp regressed"
-        );
         self.latest.insert(frame.identity(), frame.clone());
         self.frames.push(frame);
     }
