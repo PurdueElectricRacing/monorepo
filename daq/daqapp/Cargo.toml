@@ -25,11 +25,11 @@ hashbrown = "0.16.1"
 log.workspace = true
 env_logger = "0.11.10"
 
-serialport = "4.8.1"
+serialport.workspace = true
 
 
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+serde.workspace = true
+serde_json.workspace = true
 bytemuck.workspace = true
 csv.workspace = true
 toml = "0.9.8"
