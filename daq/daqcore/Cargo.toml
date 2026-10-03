@@ -8,5 +8,5 @@ can_decode.workspace = true
 can-dbc.workspace = true
 chrono.workspace = true
 log.workspace = true
-bytemuck.workspace = true
+bytemuck = { workspace = true, features = ["derive"] }
 csv.workspace = true
