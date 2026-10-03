@@ -199,8 +199,8 @@
                         {
                             "signal_name": "git_hash",
                             "data_type": "uint32_t",
-                            "display_format": "hex",
-                            "length": 28
+                            "length": 28,
+                            "display_format": "hex"
                         },
                         {
                             "signal_name": "bootloader_git_hash",
@@ -235,16 +235,16 @@
                         {
                             "signal_name": "voltage_limit",
                             "description": "Requested charge voltage in decivolts",
+                            "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.1,
-                            "data_type": "uint16_t"
+                            "scale": 0.1
                         },
                         {
                             "signal_name": "current_limit",
                             "description": "Requested charge current in deciamps",
+                            "data_type": "uint16_t",
                             "unit": "A",
-                            "scale": 0.1,
-                            "data_type": "uint16_t"
+                            "scale": 0.1
                         },
                         {
                             "signal_name": "charger_disable",
@@ -276,16 +276,16 @@
                         {
                             "signal_name": "voltage_limit",
                             "description": "Requested charge voltage in decivolts",
+                            "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.1,
-                            "data_type": "uint16_t"
+                            "scale": 0.1
                         },
                         {
                             "signal_name": "current_limit",
                             "description": "Requested charge current in deciamps",
+                            "data_type": "uint16_t",
                             "unit": "A",
-                            "scale": 0.1,
-                            "data_type": "uint16_t"
+                            "scale": 0.1
                         },
                         {
                             "signal_name": "balancing_status",

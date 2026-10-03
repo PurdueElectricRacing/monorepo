@@ -202,22 +202,22 @@
                             "description": "higher gain = greater left-right differential",
                             "data_type": "uint8_t",
                             "unit": "%",
-                            "max": 100,
-                            "min": 0
+                            "min": 0,
+                            "max": 100
                         },
                         {
                             "signal_name": "longitudinal_gain",
                             "data_type": "uint8_t",
                             "unit": "%",
-                            "max": 100,
-                            "min": 0
+                            "min": 0,
+                            "max": 100
                         },
                         {
                             "signal_name": "electronic_brake_bias",
                             "data_type": "uint8_t",
                             "unit": "%",
-                            "max": 100,
-                            "min": 0
+                            "min": 0,
+                            "max": 100
                         },
                         {
                             "signal_name": "is_regen_enabled",
@@ -270,8 +270,8 @@
                         {
                             "signal_name": "git_hash",
                             "data_type": "uint32_t",
-                            "display_format": "hex",
-                            "length": 28
+                            "length": 28,
+                            "display_format": "hex"
                         },
                         {
                             "signal_name": "bootloader_git_hash",

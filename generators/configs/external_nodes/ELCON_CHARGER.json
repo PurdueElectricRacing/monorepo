@@ -9,15 +9,15 @@
             "signals": [
                 {
                     "signal_name": "charge_voltage",
+                    "data_type": "uint16_t",
                     "unit": "V",
-                    "scale": 0.1,
-                    "data_type": "uint16_t"
+                    "scale": 0.1
                 },
                 {
                     "signal_name": "charge_current",
+                    "data_type": "uint16_t",
                     "unit": "A",
-                    "scale": 0.1,
-                    "data_type": "uint16_t"
+                    "scale": 0.1
                 },
                 {
                     "signal_name": "hw_fail",

@@ -123,8 +123,8 @@
                         {
                             "signal_name": "git_hash",
                             "data_type": "uint32_t",
-                            "display_format": "hex",
-                            "length": 28
+                            "length": 28,
+                            "display_format": "hex"
                         },
                         {
                             "signal_name": "bootloader_git_hash",
@@ -146,8 +146,8 @@
                         {
                             "signal_name": "git_hash",
                             "data_type": "uint32_t",
-                            "display_format": "hex",
-                            "length": 28
+                            "length": 28,
+                            "display_format": "hex"
                         },
                         {
                             "signal_name": "bootloader_git_hash",
