@@ -19,9 +19,7 @@ pub struct Settings {
     pub udp_port: u16,
     pub theme: theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
-    #[serde(default)]
     pub log_folder: Option<std::path::PathBuf>,
-    #[serde(default = "default_window")]
     pub window_secs: f64,
 }
 
@@ -63,8 +61,4 @@ impl Settings {
         std::fs::write(&path, json)
             .unwrap_or_else(|e| log::error!("Failed to write {}: {}", path.display(), e));
     }
-}
-
-fn default_window() -> f64 {
-    30.0
 }
