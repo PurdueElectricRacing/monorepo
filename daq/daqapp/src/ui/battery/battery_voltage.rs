@@ -5,7 +5,7 @@ use crate::util;
 
 const V_MIN: f64 = 2.7;
 const V_MAX: f64 = 4.2;
-const V_NOM: f64 = 3.7;
+const V_NOM: f64 = 3.6;
 
 #[derive(Clone)]
 pub struct CellVoltage {
