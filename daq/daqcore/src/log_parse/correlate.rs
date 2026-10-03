@@ -39,8 +39,14 @@ pub struct CorrelationChunkResult {
     pub correlation_fn: Option<CorrelationFunction>,
 }
 
-pub fn time_correlate_chunks(chunks: Vec<Vec<ParsedMessage>>) -> Vec<CorrelationChunkResult> {
-    chunks.into_iter().map(time_correlate_chunk).collect()
+pub fn time_correlate_chunks(
+    chunks: Vec<Vec<ParsedMessage>>,
+    databases: &[&crate::superdbc::BusDatabase],
+) -> Vec<CorrelationChunkResult> {
+    chunks
+        .into_iter()
+        .map(|chunk| time_correlate_chunk(chunk, databases))
+        .collect()
 }
 
 impl CorrelationChunkResult {
@@ -59,11 +65,14 @@ impl CorrelationChunkResult {
     }
 }
 
-pub fn physical_to_u64(dsv: &can_decode::DecodedSignalValue) -> u64 {
+pub fn physical_to_u64(dsv: &crate::superdbc::DecodedSignalValue<'_>) -> u64 {
     dsv.physical.round() as u64
 }
 
-pub fn time_correlate_chunk(chunk: Vec<ParsedMessage>) -> CorrelationChunkResult {
+pub fn time_correlate_chunk(
+    chunk: Vec<ParsedMessage>,
+    databases: &[&crate::superdbc::BusDatabase],
+) -> CorrelationChunkResult {
     // Idea: in the chunk, look for GPS messages which have both a timestamp and a corresponding real time
     // Use those to create a mapping from the log's timestamps to real time, and use that mapping to convert
     // all messages in the chunk to have real timestamps.
@@ -73,39 +82,35 @@ pub fn time_correlate_chunk(chunk: Vec<ParsedMessage>) -> CorrelationChunkResult
     // First, find all GPS messages and extract their timestamps and real times
     let mut gps_points = Vec::new();
     for msg in &chunk {
-        if msg.decoded.name == "gps_time" {
-            let millisecond = msg
-                .decoded
+        let Some(decoded) = databases.iter().find_map(|db| db.view(&msg.frame)) else {
+            continue;
+        };
+        if decoded.name == "gps_time" {
+            let millisecond = decoded
                 .signals
                 .get("millisecond")
                 .map(|sig| physical_to_u64(&sig.value));
-            let second = msg
-                .decoded
+            let second = decoded
                 .signals
                 .get("second")
                 .map(|sig| physical_to_u64(&sig.value));
-            let minute = msg
-                .decoded
+            let minute = decoded
                 .signals
                 .get("minute")
                 .map(|sig| physical_to_u64(&sig.value));
-            let hour = msg
-                .decoded
+            let hour = decoded
                 .signals
                 .get("hour")
                 .map(|sig| physical_to_u64(&sig.value));
-            let day = msg
-                .decoded
+            let day = decoded
                 .signals
                 .get("day")
                 .map(|sig| physical_to_u64(&sig.value));
-            let month = msg
-                .decoded
+            let month = decoded
                 .signals
                 .get("month")
                 .map(|sig| physical_to_u64(&sig.value));
-            let year = msg
-                .decoded
+            let year = decoded
                 .signals
                 .get("year")
                 .map(|sig| physical_to_u64(&sig.value));

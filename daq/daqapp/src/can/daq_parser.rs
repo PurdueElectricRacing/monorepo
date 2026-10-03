@@ -1,5 +1,3 @@
-use daqcore::log_parse::consts;
-
 use daqcore::log_parse::parse;
 
 use chrono::{Datelike, Timelike};
@@ -68,24 +66,15 @@ impl DaqLogger {
         }
     }
 
-    pub fn log_can2_frame(&mut self, frame: &slcan::Can2Frame, is_bus_1: bool) {
-        let (id, data) = match frame.id() {
-            slcan::Id::Standard(sid) => {
-                let id = sid.as_raw() as u32;
-                (id, frame.data().unwrap_or(&[]))
-            }
-            slcan::Id::Extended(eid) => {
-                let id = eid.as_raw() | consts::IS_EID_MASK;
-                (id, frame.data().unwrap_or(&[]))
+    pub fn log_frame(&mut self, frame: &daqcore::can::CanFrame, bus: daqcore::can::BusId) {
+        let frame_identity = match frame.log_identity(bus) {
+            Ok(id) => id,
+            Err(e) => {
+                log::debug!("Frame omitted from legacy log: {e}");
+                return;
             }
         };
-
-        let frame_identity = if is_bus_1 {
-            id | consts::BUS_ID_MASK
-        } else {
-            id
-        };
-
+        let data = frame.data();
         let mut data_array = [0u8; 8];
         let len = data.len().min(8);
         data_array[..len].copy_from_slice(&data[..len]);

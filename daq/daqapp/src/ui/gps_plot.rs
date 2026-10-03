@@ -59,21 +59,25 @@ impl GpsPlot {
         }
     }
 
-    fn extract_sample(msg: &messages::MsgFromCan) -> Option<(DateTime<Local>, f64, f64)> {
+    fn extract_sample(
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) -> Option<(DateTime<Local>, f64, f64)> {
         let messages::MsgFromCan::ParsedMessage(parsed) = msg else {
             return None; // ignore if msg isn't a parsed can message
         };
 
-        if parsed.decoded.name != "gps_coordinates" {
+        let decoded = parsed.decoded(db?)?;
+        if decoded.name != "gps_coordinates" {
             return None; // ignore non gps messages
         }
 
         let mut lat = None;
         let mut lon = None;
 
-        for (_, sig) in &parsed.decoded.signals {
+        for (_, sig) in &decoded.signals {
             // loop through all gps signals
-            match sig.name.as_str() {
+            match sig.name {
                 "longitude" => lon = Some(sig.value.physical), // save long
                 "latitude" => lat = Some(sig.value.physical),  // save lat
                 _ => {}                                        // ignore other signals
@@ -102,8 +106,12 @@ impl GpsPlot {
         }
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let Some(sample) = Self::extract_sample(msg) {
+    pub fn handle_can_message(
+        &mut self,
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) {
+        if let Some(sample) = Self::extract_sample(msg, db) {
             // if msg is valid gps data sample is timestamp, lat, long
             let (timestamp, lat, lon) = sample; // pulls out lat and long
             self.current_fix = Some(sample); // replaces old pos w new pos

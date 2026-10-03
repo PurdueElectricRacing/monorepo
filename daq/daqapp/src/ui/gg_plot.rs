@@ -66,18 +66,22 @@ impl GgPlot {
         }
     }
 
-    fn extract_sample(msg: &messages::MsgFromCan) -> Option<(DateTime<chrono::Local>, f32, f32)> {
+    fn extract_sample(
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) -> Option<(DateTime<chrono::Local>, f32, f32)> {
         let messages::MsgFromCan::ParsedMessage(parsed) = msg else {
             return None;
         };
-        if parsed.decoded.name != "IMU_acceleration" {
+        let decoded = parsed.decoded(db?)?;
+        if decoded.name != "IMU_acceleration" {
             return None;
         }
 
         let mut forward_g = None;
         let mut left_g = None;
-        for (_, sig) in &parsed.decoded.signals {
-            match sig.name.as_str() {
+        for (_, sig) in &decoded.signals {
+            match sig.name {
                 "X_axis" => forward_g = Some(sig.value.physical as f32),
                 "Y_axis" => left_g = Some(sig.value.physical as f32),
                 _ => {}
@@ -130,8 +134,12 @@ impl GgPlot {
         }
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let Some((timestamp, ax, ay)) = Self::extract_sample(msg) {
+    pub fn handle_can_message(
+        &mut self,
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) {
+        if let Some((timestamp, ax, ay)) = Self::extract_sample(msg, db) {
             self.add_sample(timestamp, ax, ay);
         }
     }

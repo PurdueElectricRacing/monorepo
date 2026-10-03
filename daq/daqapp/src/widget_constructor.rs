@@ -33,6 +33,7 @@ pub enum WidgetConstructor {
     ViewerList,
     Bootloader,
     Scope {
+        bus: daqcore::can::BusId,
         msg_id: u32,
         msg_name: String,
         signal_name: String,
@@ -93,10 +94,17 @@ impl WidgetConstructor {
                 widgets::Widget::Bootloader(ui::bootloader::Bootloader::new(id))
             }
             WidgetConstructor::Scope {
+                bus,
                 msg_id,
                 msg_name,
                 signal_name,
-            } => widgets::Widget::Scope(ui::scope::Scope::new(id, msg_id, msg_name, signal_name)),
+            } => widgets::Widget::Scope(ui::scope::Scope::new(
+                id,
+                bus,
+                msg_id,
+                msg_name,
+                signal_name,
+            )),
             WidgetConstructor::ScopeEmpty => {
                 widgets::Widget::Scope(ui::scope::Scope::new_empty(id))
             }

@@ -45,17 +45,22 @@ impl BatteryTemps {
         }
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+    pub fn handle_can_message(
+        &mut self,
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) {
         if let messages::MsgFromCan::ParsedMessage(parsed) = msg
-            && (parsed.decoded.name.as_str() == "thermistor_telemetry_ccan"
-                || parsed.decoded.name.as_str() == "thermistor_telemetry")
+            && let Some(decoded) = db.and_then(|db| parsed.decoded(db))
+            && (decoded.name == "thermistor_telemetry_ccan"
+                || decoded.name == "thermistor_telemetry")
         {
             let mut module_num: Option<usize> = None;
             let mut thermistor_num: Option<usize> = None;
             let mut temperature: Option<f64> = None;
 
-            for (_, sig) in parsed.decoded.signals.iter() {
-                match sig.name.as_str() {
+            for (_, sig) in decoded.signals.iter() {
+                match sig.name {
                     "module_num" => module_num = Some(sig.value.physical.round() as usize),
                     "thermistor_num" => thermistor_num = Some(sig.value.physical.round() as usize),
                     "temperature" => temperature = Some(sig.value.physical),

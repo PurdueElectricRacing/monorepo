@@ -1,11 +1,14 @@
-use crate::{can, log_parse::consts};
+use crate::{
+    can::CanFrame,
+    log_parse::consts,
+    superdbc::{BusDatabase, DecodedFrame},
+};
 use bytemuck::{Pod, Zeroable};
 
 #[derive(Debug)]
 pub struct ParsedMessage {
     pub timestamp: u32,
-    pub decoded: can_decode::DecodedMessage,
-    pub bus_name: String,
+    pub frame: DecodedFrame,
 }
 
 #[repr(C)]
@@ -19,12 +22,11 @@ pub struct RawFrame {
 
 pub fn parse_log_files(
     in_folder: &std::path::Path,
-    parser_bus_0: &can_decode::Parser,
-    parser_bus_1: &can_decode::Parser,
-) -> Vec<ParsedMessage> {
+    parser_bus_0: &BusDatabase,
+    parser_bus_1: &BusDatabase,
+) -> Result<Vec<ParsedMessage>, std::io::Error> {
     let mut all_parsed = Vec::new();
-    let mut file_paths = std::fs::read_dir(in_folder)
-        .unwrap()
+    let mut file_paths = std::fs::read_dir(in_folder)?
         .filter_map(|entry| entry.ok())
         .map(|entry| entry.path())
         .filter(|path| {
@@ -34,19 +36,19 @@ pub fn parse_log_files(
     file_paths.sort();
     for path in file_paths {
         log::info!("Parsing log file: {}", path.display());
-        let parsed = parse_log_file(&path, parser_bus_0, parser_bus_1);
+        let parsed = parse_log_file(&path, parser_bus_0, parser_bus_1)?;
         all_parsed.extend(parsed);
     }
 
-    all_parsed
+    Ok(all_parsed)
 }
 
 fn parse_log_file(
     in_file: &std::path::Path,
-    parser_bus_0: &can_decode::Parser,
-    parser_bus_1: &can_decode::Parser,
-) -> Vec<ParsedMessage> {
-    let mut content = std::fs::read(in_file).unwrap();
+    parser_bus_0: &BusDatabase,
+    parser_bus_1: &BusDatabase,
+) -> Result<Vec<ParsedMessage>, std::io::Error> {
+    let mut content = std::fs::read(in_file)?;
 
     // add padding zeroes if content length is not multiple of raw frame size
     let mut added_padding = false;
@@ -82,41 +84,32 @@ fn parse_log_file(
             break;
         }
 
-        let arb_id = if (frame.identity & consts::IS_EID_MASK) != 0 {
-            frame.identity & can::EXTENDED_ID_MASK
-        } else {
-            frame.identity & can::STANDARD_ID_MASK
+        let checked = match CanFrame::from_log_identity(frame.identity, &frame.data) {
+            Ok(f) => f,
+            Err(e) => {
+                log::warn!("Invalid log frame at {} ms: {e}", frame.ticks_ms);
+                continue;
+            }
         };
-
-        let bus_id = if (frame.identity & consts::BUS_ID_MASK) != 0 {
-            1
-        } else {
-            0
-        };
-        let parser = if bus_id == 0 {
+        let parser = if checked.bus.unwrap().raw() == 0 {
             parser_bus_0
         } else {
             parser_bus_1
         };
-
-        if let Some(decoded) = parser.decode_msg(arb_id, &frame.data) {
-            let bus_name = if bus_id == 0 { "VCAN" } else { "MCAN" };
+        if let Ok(Some(decoded)) = parser.decode(checked.id, checked.data()) {
             parsed.push(ParsedMessage {
                 timestamp: frame.ticks_ms,
-                decoded,
-                bus_name: bus_name.to_string(),
+                frame: decoded,
             });
         } else {
-            log::error!(
-                "Failed to decode message at {} ms with CAN ID {:X} and data {:?} on bus {}",
+            log::debug!(
+                "Unknown log frame at {} ms: {:?}",
                 frame.ticks_ms,
-                arb_id,
-                frame.data,
-                bus_id
+                checked.id
             );
         }
     }
-    parsed
+    Ok(parsed)
 }
 
 pub fn chunk_parsed(parsed: Vec<ParsedMessage>) -> Vec<Vec<ParsedMessage>> {

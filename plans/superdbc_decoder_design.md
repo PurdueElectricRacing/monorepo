@@ -1,6 +1,6 @@
 # daqcore SuperDBC decoder design
 
-Status: corrected design; implementation and migration in progress.
+Status: implemented; workspace validation complete.
 
 ## Intention and verified baseline
 
@@ -44,7 +44,8 @@ stream; total memory also depends on the number and rates of message streams.
 ## Validation and bit packing
 
 Use strict serde input types matching schema v1, rejecting unknown fields and
-missing required nullable fields. Validate schema version, hash syntax, bus IDs,
+missing required nullable fields and duplicate object keys. Validate schema
+version, hash syntax, bus IDs,
 positive baud rates / periods, priorities, ID ranges, names, lengths, duplicate
 IDs/names, signal types, limits, choices, and transmitter/receiver references.
 
@@ -78,7 +79,7 @@ mask. `n_signals` is the definition's signal count, not the present-signal count
 Each signal slot stores its physical f64 and exact u64 raw bits (16 bytes).
 Raw signed/unsigned/f32 interpretation and enum labels come from the definition.
 This supports the complete classic-CAN capacity without per-frame heap allocation.
-The fixed frame is approximately 1.05 KiB, not the earlier 400-byte 16-slot model;
+The fixed frame is approximately 1.04 KiB, not the earlier 400-byte 16-slot model;
 measure its actual size and cache costs in the implementation's tests/benchmark.
 
 - `Decoder::new(&SuperDbc, BusId)` validates the bus binding. The decoder borrows
@@ -100,6 +101,8 @@ measure its actual size and cache costs in the implementation's tests/benchmark.
 - Provide `encode_raw(&[RawValue])` for exact 64-bit integers and float bit values.
   It validates types/widths; physical f64 encoding cannot promise exact integers
   beyond the f64 precision range.
+  Metadata clones used by selection controls remain editable; encoding checks
+  their layout against the cached bit positions and rejects invalid edits.
 
 ## Loading, replacement, UI, and HIL
 
@@ -176,3 +179,49 @@ benchmarks. No unrelated firmware/submodule changes. Benchmark claims are measur
 results, not promised speedups. Engine/RamCache documents referenced by the original
 proposal are absent in this checkout; this implementation does not invent those
 subsystems or treat their existence as a dependency.
+
+## Completed validation and measured results
+
+The implementation is in `daq/daqcore/src/superdbc/`; the GUI, drivers, HIL,
+log parser, and CLI now consume it. Production dependency-tree inspection confirms
+that can_decode / can-dbc are absent; can_decode remains a core dev dependency.
+SLCAN references in production source are confined to the driver.
+
+Software checks completed on 2026-10-03:
+
+- `cargo fmt --all --manifest-path daq/Cargo.toml -- --check`
+- `cargo test --workspace --locked --offline --manifest-path daq/Cargo.toml`:
+  **31 passed**, including existing bootloader coverage.
+- `cargo check --workspace --all-targets --locked --offline --manifest-path daq/Cargo.toml`
+- `git diff --check`
+
+The Linux GUI checks used the locally installed Nix libudev/libxkbcommon
+development packages through PKG_CONFIG_PATH. Existing dead-code warnings remain.
+
+Frozen fixtures cover all 145 messages against can_decode, with 16 payloads per
+message and exact raw re-encoding. Additional coverage includes independent
+Motorola vectors, 64-bit signed/unsigned extrema, 64 boolean slots, partial
+payloads, enum keys, strict schema errors, database generations, selected bus IDs,
+settings migration, stale sends, standard/extended ID collisions, activation
+cancellation, HIL missing/NaN values, scope history reset, SLCAN DLC/remote kind,
+legacy UDP/log flags, and CLI/CSV output. The CSV check binds transport slot 1 to
+CCAN (database bus ID 2), including its extended arbitration ID 1.
+
+The allocation-counting regression test records **zero allocation/reallocation
+events** across repeated decoding, borrowed metadata/enum access, and encoding.
+DecodedFrame measures **1,064 bytes** on x86_64. A 300-frame stream therefore uses
+319,200 bytes for frame storage alone, excluding timestamps/container capacity.
+
+Final release benchmark (`cargo bench --locked --offline --manifest-path daq/Cargo.toml -p daqcore --bench decode`),
+100,000 iterations per sample on Intel Core Ultra 7 256V, rustc 1.95.0:
+
+| Message | Signals | SuperDBC ns/frame | can_decode ns/frame | Ratio |
+| --- | ---: | ---: | ---: | ---: |
+| abox_init | 1 | 138 | 267 | 1.94x |
+| vcu_torque_request | 4 | 184 | 1,004 | 5.45x |
+| main_module_fault_sync | 16 | 104 | 3,182 | 30.62x |
+
+These are machine-specific microbenchmarks without confidence intervals, not
+end-to-end GUI or hardware throughput claims. Physical CAN hardware and an
+interactive GUI smoke test were not exercised in this environment. The legacy
+log format still lacks DLC/RTR and remains limited to two bus slots.

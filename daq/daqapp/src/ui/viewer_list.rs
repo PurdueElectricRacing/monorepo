@@ -78,12 +78,12 @@ impl ViewerList {
                 for msg in self.msgs.get().iter().rev() {
                     match msg {
                         Msg::Decoded(decoded_msg) => {
-                            let msg_def = parser
-                                .as_ref()
-                                .map(|p| &p.parser)
-                                .and_then(|p| p.msg_def(decoded_msg.decoded.msg_id));
-
-                            for (sig_name, signal) in decoded_msg.decoded.signals.iter() {
+                            let Some(view) =
+                                parser.and_then(|p| decoded_msg.decoded(p.parser.database()))
+                            else {
+                                continue;
+                            };
+                            for (sig_name, signal) in view.signals.iter() {
                                 body.row(18.0, |mut row| {
                                     row.col(|ui| {
                                         ui.label(
@@ -95,21 +95,26 @@ impl ViewerList {
                                     });
                                     row.col(|ui| {
                                         ui.label(format!(
-                                            "{} (0x{:X})",
-                                            decoded_msg.decoded.name, decoded_msg.decoded.msg_id
+                                            "{} (0x{:X}, bus {}{})",
+                                            view.name,
+                                            decoded_msg.frame.id.raw(),
+                                            decoded_msg.frame.bus.raw(),
+                                            if decoded_msg.frame.id.is_extended() {
+                                                ", extended"
+                                            } else {
+                                                ""
+                                            }
                                         ));
                                     });
                                     row.col(|ui| {
                                         ui.label(sig_name.to_string());
                                     });
                                     row.col(|ui| {
-                                        let sig_def = msg_def.and_then(|md| {
-                                            md.signals.iter().find(|s| s.name == *sig_name)
-                                        });
+                                        let sig_def = Some(signal.definition);
                                         {
                                             ui.label(formatter::try_format(
                                                 formatter,
-                                                &decoded_msg.decoded.name,
+                                                &view.name,
                                                 sig_name,
                                                 sig_def,
                                                 Some(&signal.unit),
@@ -128,14 +133,28 @@ impl ViewerList {
                                     );
                                 });
                                 row.col(|ui| {
-                                    ui.label(format!("0x{:X}", unparsed_msg.msg_id));
+                                    ui.label(format!(
+                                        "0x{:X}, bus {}{}",
+                                        unparsed_msg.frame.id.raw(),
+                                        unparsed_msg
+                                            .frame
+                                            .bus
+                                            .map(|bus| bus.raw().to_string())
+                                            .unwrap_or_else(|| "?".into()),
+                                        if unparsed_msg.frame.id.is_extended() {
+                                            ", extended"
+                                        } else {
+                                            ""
+                                        }
+                                    ));
                                 });
                                 row.col(|ui| {
                                     ui.label("(Error: Unknown)");
                                 });
                                 row.col(|ui| {
                                     let hex_bytes = unparsed_msg
-                                        .raw_bytes
+                                        .frame
+                                        .data()
                                         .iter()
                                         .map(|b| format!("{:02X}", b))
                                         .collect::<Vec<_>>()

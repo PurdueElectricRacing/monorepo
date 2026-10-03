@@ -6,7 +6,8 @@ pub struct State {
     pub driver: Option<Box<dyn can::driver::Driver>>,
     pub current_source: Option<connection::ConnectionSource>,
     pub is_connected: bool,
-    pub parser: Option<can_decode::Parser>,
+    pub parser: Option<daqcore::superdbc::BusDatabase>,
+    pub active_bus: daqcore::can::BusId,
     pub send_msgs: std::collections::HashMap<u32, SendMsgInfo>, // msg_id -> SendMsg
     pub bus_load_tracker: can::bus_load::BusLoadTracker,
     pub last_bus_load_update: std::time::Instant,
@@ -18,7 +19,6 @@ pub struct State {
 
 pub struct SendMsgInfo {
     pub amount: messages::SendAmount,
-    pub is_msg_id_extended: bool,
     pub msg_bytes: Vec<u8>,
     pub last_sent: Option<chrono::DateTime<chrono::Local>>,
 }
@@ -26,10 +26,31 @@ pub struct SendMsgInfo {
 pub struct SendTickInfo {
     pub msg_id: u32,
     pub msg_bytes: Vec<u8>,
-    pub is_msg_id_extended: bool,
 }
 
 impl State {
+    pub fn activate_database(&mut self, database: daqcore::superdbc::BusDatabase) {
+        self.active_bus = database.bus_id();
+        self.send_msgs.clear();
+        self.hil_engine
+            .handle_command(hil::engine::HilCommand::Stop, Some(&database));
+        self.hil_finished_sent = false;
+        if let Some(driver) = &mut self.driver {
+            driver.set_database(Some(database.clone()));
+        }
+        let generation = database.database().generation();
+        self.parser = Some(database);
+        let _ = self
+            .can_to_ui_tx
+            .send(messages::MsgFromCan::DatabaseActivated {
+                generation,
+                bus: self.active_bus,
+            });
+        let _ = self
+            .can_to_ui_tx
+            .send(messages::MsgFromCan::Hil(self.hil_engine.snapshot()));
+    }
+
     pub fn new(
         can_to_ui_tx: std::sync::mpsc::Sender<messages::MsgFromCan>,
         ui_to_can_rx: std::sync::mpsc::Receiver<messages::MsgFromUi>,
@@ -42,6 +63,7 @@ impl State {
             current_source,
             is_connected: false,
             parser: None,
+            active_bus: daqcore::can::BusId::new(0).unwrap(),
             send_msgs: std::collections::HashMap::new(),
             bus_load_tracker: can::bus_load::BusLoadTracker::new(),
             last_bus_load_update: std::time::Instant::now(),
@@ -144,7 +166,25 @@ impl State {
     }
 
     pub fn add_send_message(&mut self, add_msg: messages::AddSendMessage) {
-        let msg_id = add_msg.msg_id;
+        if !self.parser.as_ref().is_some_and(|db| {
+            db.database().generation() == add_msg.generation && db.bus_id() == add_msg.bus
+        }) {
+            return;
+        }
+        let Ok(id) = daqcore::can::MessageId::from_wire_u32(add_msg.msg_id) else {
+            return;
+        };
+        if id.is_extended() != add_msg.is_msg_id_extended
+            || add_msg.msg_bytes.len() > 8
+            || self
+                .parser
+                .as_ref()
+                .and_then(|db| db.bus().message(id))
+                .is_none()
+        {
+            return;
+        }
+        let msg_id = id.to_wire_u32();
         let send_msg = SendMsgInfo::from_add_send_message(add_msg);
         self.send_msgs.insert(msg_id, send_msg);
     }
@@ -166,7 +206,6 @@ impl State {
                 msgs_to_send.push(SendTickInfo {
                     msg_id: *msg_id,
                     msg_bytes: send_msg.msg_bytes.clone(),
-                    is_msg_id_extended: send_msg.is_msg_id_extended,
                 });
                 send_msg.last_sent = Some(now);
                 if let Some(new_amount) = send_msg.amount.subtract_one() {
@@ -189,7 +228,6 @@ impl SendMsgInfo {
     pub fn from_add_send_message(add_msg: messages::AddSendMessage) -> Self {
         Self {
             amount: add_msg.amount,
-            is_msg_id_extended: add_msg.is_msg_id_extended,
             msg_bytes: add_msg.msg_bytes,
             last_sent: None,
         }
@@ -210,5 +248,55 @@ impl SendMsgInfo {
                     >= period as i64
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use daqcore::superdbc::*;
+    #[test]
+    fn sends_reject_stale_generations_and_keep_standard_extended_keys_distinct() {
+        let mut v: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../daqcore/tests/fixtures/superdbc.json"
+        ))
+        .unwrap();
+        let mut ext = v["buses"]["VCAN"]["messages"][0].clone();
+        ext["is_extended_id"] = serde_json::json!(true);
+        ext["message_name"] = serde_json::json!("extended_probe");
+        v["buses"]["VCAN"]["messages"]
+            .as_array_mut()
+            .unwrap()
+            .push(ext);
+        let db = SuperDbc::from_str(&v.to_string()).unwrap();
+        let binding = db.bind(db.bus("VCAN").unwrap().bus_id).unwrap();
+        let generation = db.generation();
+        let (tx, _) = std::sync::mpsc::channel();
+        let (_, rx) = std::sync::mpsc::channel();
+        let mut state = State::new(tx, rx, None);
+        state.active_bus = binding.bus_id();
+        state.parser = Some(binding.clone());
+        for extended in [false, true] {
+            state.add_send_message(messages::AddSendMessage {
+                generation,
+                bus: binding.bus_id(),
+                amount: messages::SendAmount::Once,
+                msg_id: if extended { 0x80000001 } else { 1 },
+                is_msg_id_extended: extended,
+                msg_bytes: vec![0; 5],
+            });
+        }
+        assert_eq!(state.send_msgs.len(), 2);
+        assert_eq!(state.send_this_tick().len(), 2);
+        let old = SuperDbc::from_str(&v.to_string()).unwrap().generation();
+        state.add_send_message(messages::AddSendMessage {
+            generation: old,
+            bus: binding.bus_id(),
+            amount: messages::SendAmount::Once,
+            msg_id: 1,
+            is_msg_id_extended: false,
+            msg_bytes: vec![0; 5],
+        });
+        assert!(state.send_msgs.is_empty());
     }
 }

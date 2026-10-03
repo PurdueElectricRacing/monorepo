@@ -60,17 +60,24 @@ impl BatteryVoltage {
         }
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+    pub fn handle_can_message(
+        &mut self,
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) {
         if let messages::MsgFromCan::ParsedMessage(parsed) = msg {
-            match parsed.decoded.name.as_str() {
+            let Some(decoded) = db.and_then(|db| parsed.decoded(db)) else {
+                return;
+            };
+            match decoded.name {
                 "cell_telemetry" | "cell_telemetry_ccan" => {
                     let mut module_num: Option<usize> = None;
                     let mut cell_num: Option<usize> = None;
                     let mut voltage: Option<f64> = None;
                     let mut balancing: Option<bool> = None;
 
-                    for (_, sig) in parsed.decoded.signals.iter() {
-                        match sig.name.as_str() {
+                    for (_, sig) in decoded.signals.iter() {
+                        match sig.name {
                             "module_num" => module_num = Some(sig.value.physical.round() as usize),
                             "cell_num" => cell_num = Some(sig.value.physical.round() as usize),
                             "voltage" => voltage = Some(sig.value.physical),
@@ -97,8 +104,8 @@ impl BatteryVoltage {
                     }
                 }
                 "pack_bms" | "pack_bms_ccan" => {
-                    for (_, sig) in parsed.decoded.signals.iter() {
-                        match sig.name.as_str() {
+                    for (_, sig) in decoded.signals.iter() {
+                        match sig.name {
                             "pack_voltage" => {
                                 self.charging_telemetry.get_or_insert_default().pack_voltage =
                                     sig.value.physical;
@@ -120,8 +127,8 @@ impl BatteryVoltage {
                     self.ui_state.mark_updated();
                 }
                 "pack_analog" | "pack_analog_ccan" => {
-                    for (_, sig) in parsed.decoded.signals.iter() {
-                        if sig.name.as_str() == "pack_current" {
+                    for (_, sig) in decoded.signals.iter() {
+                        if sig.name == "pack_current" {
                             self.charging_telemetry.get_or_insert_default().pack_current =
                                 sig.value.physical;
                         }

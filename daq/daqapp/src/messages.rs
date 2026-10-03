@@ -1,7 +1,7 @@
 use crate::{bootloader_protocol, connection, hil};
 
 pub enum MsgFromUi {
-    DbcSelected(std::path::PathBuf),
+    DatabaseSelected(daqcore::superdbc::BusDatabase),
     Connect(connection::ConnectionSource),
     AddSendMessage(AddSendMessage),
     DeleteSendMessage { msg_id: u32 },
@@ -13,6 +13,10 @@ pub enum MsgFromUi {
 }
 
 pub enum MsgFromCan {
+    DatabaseActivated {
+        generation: daqcore::superdbc::DbGeneration,
+        bus: daqcore::can::BusId,
+    },
     ParsedMessage(ParsedMessage),
     UnparsedMessage(UnparsedMessage),
     Disconnection,
@@ -70,27 +74,32 @@ impl SendAmount {
 }
 
 pub struct AddSendMessage {
+    pub generation: daqcore::superdbc::DbGeneration,
+    pub bus: daqcore::can::BusId,
     pub amount: SendAmount,
     pub msg_id: u32, // without the extended ID flag
     pub is_msg_id_extended: bool,
     pub msg_bytes: Vec<u8>,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct ParsedMessage {
     pub timestamp: chrono::DateTime<chrono::Local>,
-    pub raw_bytes: Vec<u8>,
-    pub msg_id: u32, // without the extended ID flag
-    pub is_msg_id_extended: bool,
-    pub decoded: can_decode::DecodedMessage,
+    pub frame: daqcore::superdbc::DecodedFrame,
+}
+impl ParsedMessage {
+    pub fn decoded<'a>(
+        &'a self,
+        db: &'a daqcore::superdbc::SuperDbc,
+    ) -> Option<daqcore::superdbc::DecodedMessage<'a>> {
+        self.frame.view(db)
+    }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct UnparsedMessage {
     pub timestamp: chrono::DateTime<chrono::Local>,
-    pub raw_bytes: Vec<u8>,
-    pub msg_id: u32, // without the extended ID flag
-    pub is_msg_id_extended: bool,
+    pub frame: daqcore::can::CanFrame,
 }
 
 #[derive(Clone, Debug)]

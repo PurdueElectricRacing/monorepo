@@ -46,12 +46,19 @@ impl Dynamics {
         }
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+    pub fn handle_can_message(
+        &mut self,
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) {
         if let messages::MsgFromCan::ParsedMessage(parsed) = msg {
-            match parsed.decoded.name.as_str() {
+            let Some(decoded) = db.and_then(|db| parsed.decoded(db)) else {
+                return;
+            };
+            match decoded.name {
                 "IMU_acceleration" => {
-                    for (_, sig) in parsed.decoded.signals.iter() {
-                        match sig.name.as_str() {
+                    for (_, sig) in decoded.signals.iter() {
+                        match sig.name {
                             "X_axis" => self.accel_x = sig.value.physical as f32,
                             "Y_axis" => self.accel_y = sig.value.physical as f32,
                             _ => {}
@@ -61,8 +68,8 @@ impl Dynamics {
                     self.is_data_stale = false;
                 }
                 "IMU_angular_rate" => {
-                    for (_, sig) in parsed.decoded.signals.iter() {
-                        if sig.name.as_str() == "Z_axis" {
+                    for (_, sig) in decoded.signals.iter() {
+                        if sig.name == "Z_axis" {
                             self.yaw_rate_rads = sig.value.physical.to_radians() as f32
                         }
                     }
@@ -70,7 +77,7 @@ impl Dynamics {
                     self.is_data_stale = false;
                 }
                 "steering_angle" => {
-                    for (_, sig) in parsed.decoded.signals.iter() {
+                    for (_, sig) in decoded.signals.iter() {
                         if sig.name == "angle" {
                             self.steer_angle_rad = sig.value.physical.to_radians() as f32;
                         }

@@ -1,9 +1,11 @@
 use crate::connection::{CanBusSpeed, ConnectionSource};
-use crate::util;
+
+use daqcore::can::{CanFrame, MessageId};
+use daqcore::superdbc::BusDatabase;
 use rand::prelude::*;
 use serialport::{ClearBuffer, SerialPort};
+use slcan::OperatingMode;
 use slcan::sync::CanSocket;
-use slcan::{CanFrame, OperatingMode};
 use std::collections::VecDeque;
 use std::net::UdpSocket;
 use std::time::Duration;
@@ -32,6 +34,8 @@ pub enum DriverError {
 
 pub trait Driver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>>;
+
+    fn set_database(&mut self, _database: Option<BusDatabase>) {}
 
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()>;
 
@@ -68,7 +72,10 @@ impl SerialDriver {
             })?;
 
         socket
-            .open(speed.to_slcan_bitrate())
+            .open(match speed {
+                CanBusSpeed::Kbps250 => slcan::NominalBitRate::Rate250Kbit,
+                CanBusSpeed::Kbps500 => slcan::NominalBitRate::Rate500Kbit,
+            })
             .map_err(|e| DriverError::ConnectionFailed(format!("Failed to open CAN: {}", e)))?;
 
         Ok(Self {
@@ -105,11 +112,11 @@ impl Driver for SerialDriver {
                     )))
                 }
             })
-            .map(|frame| vec![frame]) // wrap single frame in a vector for consistency with UDP driver
+            .map(|frame| from_slcan(frame).into_iter().collect())
     }
 
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
-        self.socket.send(frame).map_err(|e| {
+        self.socket.send(to_slcan(frame)?).map_err(|e| {
             self.connected = false;
             DriverError::WriteError(format!("Failed to write frame: {}", e))
         })
@@ -208,66 +215,54 @@ impl Driver for UdpDriver {
 
 struct SimulatedDriver {
     connected: bool,
-    pub parser: Option<can_decode::Parser>,
+    pub parser: Option<daqcore::superdbc::BusDatabase>,
 }
 
 impl SimulatedDriver {
-    fn new(connected: bool, dbc_path: Option<std::path::PathBuf>) -> DriverResult<Self> {
+    fn new(connected: bool, database: Option<BusDatabase>) -> DriverResult<Self> {
         if connected {
             Ok(Self {
                 connected,
-                parser: dbc_path.and_then(|path| can_decode::Parser::from_dbc_file(&path).ok()),
+                parser: database,
             })
         } else {
             Err(DriverError::ConnectionFailed(
-                "Simulated driver initialized as disconnected".into(),
+                "Simulation is disconnected".into(),
             ))
         }
     }
 }
 
 impl Driver for SimulatedDriver {
+    fn set_database(&mut self, database: Option<BusDatabase>) {
+        self.parser = database;
+    }
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
-        if self.connected {
-            let mut rng = rand::rng();
-
-            let random_msg = self.parser.as_ref().and_then(|p| {
-                let msgs = p.msg_defs();
-                if msgs.is_empty() {
-                    None
-                } else {
-                    Some(msgs.choose(&mut rng).expect("msgs is not empty").clone())
-                }
-            });
-
-            if let Some(msg) = random_msg {
-                let mut data = vec![0u8; msg.size as usize];
-                rng.fill_bytes(&mut data);
-                let id = match msg.id {
-                    can_dbc::MessageId::Extended(id) => slcan::Id::Extended(
-                        slcan::ExtendedId::new(id).expect("invalid extended id"),
-                    ),
-                    can_dbc::MessageId::Standard(id) => slcan::Id::Standard(
-                        slcan::StandardId::new(id).expect("invalid standard id"),
-                    ),
-                };
-                let can_frame = slcan::Can2Frame::new_data(id, &data)
-                    .expect("failed to create CAN frame from random data");
-                Ok(vec![can_frame.into()])
-            } else {
-                // If no DBC is loaded, just return random frames with random IDs and data
-                let id = rng.random_range(0..=util::can::STANDARD_ID_MASK) as u16;
-                let sid = slcan::StandardId::new(id).expect("invalid standard id");
-                let mut data = [0u8; 8];
-                rng.fill_bytes(&mut data);
-                let can2 = slcan::Can2Frame::new_data(sid, &data)
-                    .expect("failed to create CAN frame from random data");
-                Ok(vec![can2.into()])
-            }
+        if !self.connected {
+            return Err(DriverError::ReadError(DriverReadError::Other(
+                "Simulation is disconnected".into(),
+            )));
+        }
+        let mut rng = rand::rng();
+        if let Some(msg) = self
+            .parser
+            .as_ref()
+            .and_then(|p| p.msg_defs().choose(&mut rng))
+        {
+            let mut data = [0u8; 8];
+            rng.fill_bytes(&mut data);
+            Ok(vec![
+                CanFrame::new(msg.id, &data[..msg.length_bytes as usize])
+                    .unwrap()
+                    .with_bus(self.parser.as_ref().unwrap().bus_id()),
+            ])
         } else {
-            Err(DriverError::ReadError(DriverReadError::Other(
-                "Simulated driver is disconnected".into(),
-            )))
+            let id =
+                MessageId::from_parts(false, rng.random_range(0..=daqcore::can::STANDARD_ID_MASK))
+                    .unwrap();
+            let mut data = [0u8; 8];
+            rng.fill_bytes(&mut data);
+            Ok(vec![CanFrame::new(id, &data).unwrap()])
         }
     }
 
@@ -350,85 +345,104 @@ impl Driver for LoopbackDriver {
     }
 }
 
+fn from_slcan(frame: slcan::CanFrame) -> Option<CanFrame> {
+    match frame {
+        slcan::CanFrame::Can2(f) => {
+            let id = match f.id() {
+                slcan::Id::Standard(id) => MessageId::from_parts(false, id.as_raw() as u32),
+                slcan::Id::Extended(id) => MessageId::from_parts(true, id.as_raw()),
+            }
+            .ok()?;
+            if f.is_remote() {
+                CanFrame::remote(id, f.dlc() as u8).ok()
+            } else {
+                CanFrame::new(id, f.data().unwrap_or(&[])).ok()
+            }
+        }
+        slcan::CanFrame::CanFd(_) => {
+            log::warn!("CAN FD is unsupported; dropping frame");
+            None
+        }
+    }
+}
+fn to_slcan(frame: CanFrame) -> DriverResult<slcan::CanFrame> {
+    let id = if frame.id.is_extended() {
+        slcan::Id::Extended(slcan::ExtendedId::new(frame.id.raw()).unwrap())
+    } else {
+        slcan::Id::Standard(slcan::StandardId::new(frame.id.raw() as u16).unwrap())
+    };
+    let converted = if frame.is_remote() {
+        slcan::Can2Frame::new_remote(id, frame.len() as usize)
+    } else {
+        slcan::Can2Frame::new_data(id, frame.data())
+    };
+    converted
+        .map(Into::into)
+        .ok_or_else(|| DriverError::WriteError("Invalid classic CAN frame".into()))
+}
+
 pub fn parse_udp_buffer(
     buf: &[u8; UDP_MAX_PACKET_SIZE],
     num_bytes: usize,
 ) -> DriverResult<Vec<CanFrame>> {
-    if num_bytes < UDP_RAW_FRAME_SIZE {
-        return Err(DriverError::ReadError(DriverReadError::Other(format!(
-            "Received packet too small: {} bytes",
-            num_bytes
-        ))));
-    } else if !num_bytes.is_multiple_of(UDP_RAW_FRAME_SIZE) {
-        log::warn!(
-            "Received packet of size {} which is not a multiple of raw frame size {}; some data may be ignored",
-            num_bytes,
-            UDP_RAW_FRAME_SIZE
-        );
+    if num_bytes > buf.len()
+        || num_bytes < UDP_RAW_FRAME_SIZE
+        || !num_bytes.is_multiple_of(UDP_RAW_FRAME_SIZE)
+    {
+        return Err(DriverError::ReadError(DriverReadError::Other(
+            "UDP packet must contain whole 16-byte records".into(),
+        )));
     }
-
-    let x = num_bytes / UDP_RAW_FRAME_SIZE;
-    println!("Parsing UDP frame: {num_bytes} ({x})");
-
-    let mut frames = Vec::with_capacity(num_bytes / UDP_RAW_FRAME_SIZE);
-    let mask_id = (1u32 << 29) - 1;
-
-    // TODO: use the daq_parse way with bytemuck?
-    let mut chunks = buf[..num_bytes].chunks_exact(UDP_RAW_FRAME_SIZE);
-    for chunk in &mut chunks {
-        // Parse can frame from UDP packet according to new timestamped frame format
-        // Format: [4 bytes ticks_ms] [4 bytes identity] [8 bytes payload]
-        // Identity format: [1 bit bus ID] [1 bit isExtID] [1 bit reserved] [29 bits CAN ID]
-        // (definitions from spmc.h)
-        let identity = u32::from_le_bytes(chunk[4..8].try_into().unwrap());
-        let payload = &chunk[8..16];
-
-        let id = identity & mask_id;
-
-        let frame = if id <= 0x7FF {
-            let sid = slcan::StandardId::new(id as u16).ok_or_else(|| {
-                DriverError::ReadError(DriverReadError::Other("invalid standard id".into()))
-            })?;
-
-            let can2 = slcan::Can2Frame::new_data(sid, payload).ok_or_else(|| {
-                DriverError::ReadError(DriverReadError::Other("invalid CAN2 data".into()))
-            })?;
-
-            can2.into()
-        } else {
-            let eid = slcan::ExtendedId::new(id).ok_or_else(|| {
-                DriverError::ReadError(DriverReadError::Other("invalid extended id".into()))
-            })?;
-
-            let can2 = slcan::Can2Frame::new_data(eid, payload).ok_or_else(|| {
-                DriverError::ReadError(DriverReadError::Other("invalid CAN2 data".into()))
-            })?;
-
-            can2.into()
-        };
-
-        frames.push(frame);
-    }
-
-    let remainder = chunks.remainder();
-    if !remainder.is_empty() {
-        log::warn!(
-            "UDP packet had {} extra bytes (not a full CAN frame)",
-            remainder.len()
-        );
-    }
-
-    Ok(frames)
+    buf[..num_bytes]
+        .chunks_exact(UDP_RAW_FRAME_SIZE)
+        .map(|chunk| {
+            let identity = u32::from_le_bytes(chunk[4..8].try_into().unwrap());
+            let data: &[u8; 8] = chunk[8..16].try_into().unwrap();
+            CanFrame::from_log_identity(identity, data)
+                .map_err(|e| DriverError::ReadError(DriverReadError::Other(e.to_string())))
+        })
+        .collect()
 }
 
-pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>> {
+pub fn create_driver(
+    source: &ConnectionSource,
+    database: Option<BusDatabase>,
+) -> DriverResult<Box<dyn Driver>> {
     match source {
         ConnectionSource::Serial(path, speed) => Ok(Box::new(SerialDriver::new(path, *speed)?)),
         ConnectionSource::Udp(port) => Ok(Box::new(UdpDriver::new(*port)?)),
-        ConnectionSource::Simulated(connected, dbc_path) => Ok(Box::new(SimulatedDriver::new(
-            *connected,
-            dbc_path.clone(),
-        )?)),
+        ConnectionSource::Simulated(connected, _) => {
+            Ok(Box::new(SimulatedDriver::new(*connected, database)?))
+        }
         ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::new())),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn udp_keeps_bus_and_extended_ids_below_standard_limit() {
+        let mut bytes = [0u8; UDP_MAX_PACKET_SIZE];
+        bytes[4..8].copy_from_slice(&0xc0000001u32.to_le_bytes());
+        bytes[20..24].copy_from_slice(&1u32.to_le_bytes());
+        let frames = parse_udp_buffer(&bytes, 32).unwrap();
+        assert!(frames[0].id.is_extended());
+        assert_eq!(frames[0].id.raw(), 1);
+        assert_eq!(frames[0].bus.unwrap().raw(), 1);
+        assert!(!frames[1].id.is_extended());
+        assert_eq!(frames[1].bus.unwrap().raw(), 0);
+        assert!(parse_udp_buffer(&bytes, 31).is_err());
+        assert!(parse_udp_buffer(&bytes, 2049).is_err());
+        bytes[4..8].copy_from_slice(&0x20000001u32.to_le_bytes());
+        assert!(parse_udp_buffer(&bytes, 16).is_err());
+    }
+    #[test]
+    fn serial_adapter_preserves_short_dlc_remote_kind_and_id() {
+        let id = MessageId::from_parts(true, 1).unwrap();
+        let frame = CanFrame::new(id, &[1, 2, 3]).unwrap();
+        assert_eq!(from_slcan(to_slcan(frame).unwrap()).unwrap(), frame);
+        let remote = CanFrame::remote(id, 6).unwrap();
+        assert_eq!(from_slcan(to_slcan(remote).unwrap()).unwrap(), remote);
     }
 }

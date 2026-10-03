@@ -65,6 +65,29 @@ impl Widget {
         }
     }
 
+    pub fn reset_database(&mut self, tx: std::sync::mpsc::Sender<messages::MsgFromUi>) {
+        let num = self
+            .title()
+            .split_whitespace()
+            .last()
+            .and_then(|s| s.trim_start_matches('#').parse::<usize>().ok())
+            .unwrap_or(1);
+        match self {
+            Self::ViewerTable(w) => *w = ui::viewer_table::ViewerTable::new(num),
+            Self::ViewerList(w) => *w = ui::viewer_list::ViewerList::new(num),
+            Self::Scope(w) => w.reset_database(),
+            Self::SendUi(w) => *w = ui::send::SendUi::new(num, tx),
+            Self::BatteryVoltage(w) => *w = ui::battery::battery_voltage::BatteryVoltage::new(num),
+            Self::BatteryTemps(w) => *w = ui::battery::battery_temps::BatteryTemps::new(num),
+            Self::GgPlot(w) => *w = ui::gg_plot::GgPlot::new(num),
+            Self::GpsPlot(w) => *w = ui::gps_plot::GpsPlot::new(num),
+            Self::Dynamics(w) => *w = ui::dynamics::Dynamics::new(num),
+            Self::Jitter(w) => *w = ui::jitter::Jitter::new(num),
+            Self::Hil(w) => *w = ui::hil::Hil::new(tx),
+            _ => {}
+        }
+    }
+
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
@@ -73,7 +96,7 @@ impl Widget {
         let mut received_new_data = false;
 
         for msg in context.can_messages {
-            self.handle_can_message(msg);
+            self.handle_can_message(msg, context.parser.map(|p| p.parser.database()));
             received_new_data = true;
         }
 
@@ -102,22 +125,26 @@ impl Widget {
         }
     }
 
-    fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+    fn handle_can_message(
+        &mut self,
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) {
         match self {
             // Progress is delivered through the normal CAN->UI message path,
             // alongside decoded traffic and connection events.
-            Widget::Bootloader(w) => w.handle_can_message(msg),
+            Widget::Bootloader(w) => w.handle_can_message(msg, db),
             Widget::ViewerTable(w) => w.handle_can_message(msg),
             Widget::ViewerList(w) => w.handle_can_message(msg),
-            Widget::Scope(w) => w.handle_can_message(msg),
+            Widget::Scope(w) => w.handle_can_message(msg, db),
             Widget::SendUi(w) => w.handle_can_message(msg),
             Widget::BusLoad(w) => w.handle_can_message(msg),
-            Widget::BatteryVoltage(w) => w.handle_can_message(msg),
-            Widget::BatteryTemps(w) => w.handle_can_message(msg),
-            Widget::GgPlot(w) => w.handle_can_message(msg),
-            Widget::GpsPlot(w) => w.handle_can_message(msg),
-            Widget::Dynamics(w) => w.handle_can_message(msg),
-            Widget::Jitter(w) => w.handle_can_message(msg),
+            Widget::BatteryVoltage(w) => w.handle_can_message(msg, db),
+            Widget::BatteryTemps(w) => w.handle_can_message(msg, db),
+            Widget::GgPlot(w) => w.handle_can_message(msg, db),
+            Widget::GpsPlot(w) => w.handle_can_message(msg, db),
+            Widget::Dynamics(w) => w.handle_can_message(msg, db),
+            Widget::Jitter(w) => w.handle_can_message(msg, db),
             Widget::Hil(w) => w.handle_can_message(msg),
             _ => {}
         }

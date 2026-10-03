@@ -5,24 +5,44 @@ use crate::{
 use eframe::egui;
 
 const UI_SCALE_STEP: f32 = 0.2;
+#[derive(Clone)]
 pub struct ParserInfo {
-    pub dbc_path: std::path::PathBuf,
-    pub parser: can_decode::Parser,
+    pub database_path: std::path::PathBuf,
+    pub parser: daqcore::superdbc::BusDatabase,
 }
 
 impl ParserInfo {
     // Returns None if parsing fails (missing file, invalid file, etc)
-    pub fn new(dbc_path: std::path::PathBuf) -> Option<Self> {
-        let parser = can_decode::Parser::from_dbc_file(&dbc_path)
-            .map_err(|e| {
-                log::error!("Failed to parse DBC file at {}: {}", dbc_path.display(), e);
-                e
-            })
+    pub fn new(database_path: std::path::PathBuf) -> Option<Self> {
+        let db = daqcore::superdbc::SuperDbc::load_file(&database_path)
+            .map_err(|e| log::error!("Failed to load {}: {e}", database_path.display()))
             .ok()?;
-        Some(Self { dbc_path, parser })
+        let bus = db.bus("VCAN").or_else(|| db.buses().first())?.bus_id;
+        Some(Self {
+            database_path,
+            parser: db.bind(bus)?,
+        })
     }
-    pub fn new_maybe(dbc_path: Option<std::path::PathBuf>) -> Option<Self> {
-        dbc_path.and_then(Self::new)
+    pub fn new_maybe(path: Option<std::path::PathBuf>, bus: Option<u8>) -> Option<Self> {
+        let path = match path {
+            Some(p)
+                if p.extension()
+                    .and_then(|e| e.to_str())
+                    .is_some_and(|e| e.eq_ignore_ascii_case("dbc")) =>
+            {
+                crate::settings::discover_database()?
+            }
+            Some(p) => p,
+            None => crate::settings::discover_database()?,
+        };
+        let mut info = Self::new(path)?;
+        if let Some(bus) = bus {
+            info.parser = info
+                .parser
+                .database()
+                .bind(daqcore::can::BusId::new(bus).ok()?)?;
+        }
+        Some(info)
     }
 }
 
@@ -49,6 +69,8 @@ pub struct DAQApp {
     pub pixels_per_point: Option<f32>,
     pub serial_ports: Vec<serialport::SerialPortInfo>,
     pub parser: Option<ParserInfo>,
+    pub pending_database: Option<ParserInfo>,
+    pub database_error: Option<String>,
     pub can_bus_speed: connection::CanBusSpeed,
     pub udp_port: u16,
     pub can_messages: Vec<messages::MsgFromCan>,
@@ -56,9 +78,20 @@ pub struct DAQApp {
 }
 
 impl DAQApp {
+    pub fn select_database(&mut self, info: ParserInfo) {
+        if self
+            .ui_to_can_tx
+            .send(messages::MsgFromUi::DatabaseSelected(info.parser.clone()))
+            .is_ok()
+        {
+            self.pending_database = Some(info);
+            self.database_error = None;
+        }
+    }
     pub fn save_settings(&self) {
         let settings = settings::Settings {
-            dbc_path: self.parser.as_ref().map(|p| p.dbc_path.clone()),
+            database_path: self.parser.as_ref().map(|p| p.database_path.clone()),
+            database_bus: self.parser.as_ref().map(|p| p.parser.bus_id().raw()),
             selected_source: self.selected_source.clone(),
             selected_speed: self.can_bus_speed,
             udp_port: self.udp_port,
@@ -81,6 +114,16 @@ impl DAQApp {
 
         egui_extras::install_image_loaders(&cc.egui_ctx);
 
+        let pending_database =
+            ParserInfo::new_maybe(settings.database_path.clone(), settings.database_bus);
+        if let Some(info) = &pending_database {
+            let _ = ui_to_can_tx.send(messages::MsgFromUi::DatabaseSelected(info.parser.clone()));
+        }
+        let database_error = if pending_database.is_none() && settings.database_path.is_some() {
+            Some("Could not load the configured CAN database; select a SuperDBC JSON file.".into())
+        } else {
+            None
+        };
         Self {
             connection_status: ConnectionStatus::Disconnected,
             value_formatter: formatter::Formatter::try_load(),
@@ -96,7 +139,9 @@ impl DAQApp {
             theme_selection,
             pixels_per_point: settings.pixels_per_point,
             serial_ports: util::get_available_serial_ports(),
-            parser: ParserInfo::new_maybe(settings.dbc_path),
+            parser: None,
+            pending_database,
+            database_error,
             can_bus_speed: settings.selected_speed,
             udp_port: settings.udp_port,
             can_messages: Vec::new(),
@@ -214,6 +259,21 @@ impl eframe::App for DAQApp {
         self.can_messages.clear();
         while let Ok(msg) = self.can_to_ui_rx.try_recv() {
             match &msg {
+                messages::MsgFromCan::DatabaseActivated { generation, bus } => {
+                    if self.pending_database.as_ref().is_some_and(|p| {
+                        p.parser.database().generation() == *generation && p.parser.bus_id() == *bus
+                    }) {
+                        self.parser = self.pending_database.take();
+                        self.database_error = None;
+                        self.can_messages.clear();
+                        for (_, tile) in self.tile_tree.tiles.iter_mut() {
+                            if let egui_tiles::Tile::Pane(widget) = tile {
+                                widget.reset_database(self.ui_to_can_tx.clone());
+                            }
+                        }
+                        self.save_settings();
+                    }
+                }
                 messages::MsgFromCan::ConnectionFailed(port) => {
                     self.connection_status =
                         ConnectionStatus::Error(format!("Failed to connect to {port}"));
@@ -257,5 +317,38 @@ impl eframe::App for DAQApp {
         ui::sidebar::show(self, ctx);
         workspace::show(self, ctx);
         ctx.request_repaint();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn persisted_bus_uses_schema_id_and_explicit_load_failures_do_not_fall_back() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../daqcore/tests/fixtures/superdbc.json");
+        let info = ParserInfo::new_maybe(Some(path.clone()), Some(2)).unwrap();
+        assert_eq!(info.parser.bus().name, "CCAN");
+        assert_eq!(info.parser.bus_id().raw(), 2);
+        assert!(ParserInfo::new_maybe(Some(path.clone()), Some(7)).is_none());
+        assert!(ParserInfo::new_maybe(Some(path), Some(8)).is_none());
+        let missing =
+            std::env::temp_dir().join(format!("superdbc-missing-{}.json", std::process::id()));
+        assert!(ParserInfo::new_maybe(Some(missing), None).is_none());
+    }
+
+    #[test]
+    fn old_settings_key_migrates_and_missing_bus_defaults_to_none() {
+        let mut old = serde_json::to_value(settings::Settings::default()).unwrap();
+        let object = old.as_object_mut().unwrap();
+        object.remove("database_path");
+        object.remove("database_bus");
+        object.insert("dbc_path".into(), serde_json::json!("legacy/VCAN.dbc"));
+        let loaded: settings::Settings = serde_json::from_value(old).unwrap();
+        assert_eq!(
+            loaded.database_path.unwrap(),
+            std::path::PathBuf::from("legacy/VCAN.dbc")
+        );
+        assert_eq!(loaded.database_bus, None);
     }
 }

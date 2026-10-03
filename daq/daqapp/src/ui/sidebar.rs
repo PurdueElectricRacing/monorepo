@@ -5,19 +5,17 @@ use eframe::egui;
 
 pub fn select_dbc(
     app: &mut app::DAQApp,
-    ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
+    _ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
 ) {
-    let mut dialog = rfd::FileDialog::new().add_filter("DBC Files", &["dbc"]);
-    if let Some(dir) = settings::dbc_dir() {
+    let mut dialog = rfd::FileDialog::new().add_filter("SuperDBC JSON", &["json"]);
+    if let Some(dir) = settings::database_dir() {
         dialog = dialog.set_directory(dir);
     }
     if let Some(path) = dialog.pick_file() {
-        app.parser = app::ParserInfo::new(path.clone());
-        if app.parser.is_some() {
-            ui_to_can_tx
-                .send(messages::MsgFromUi::DbcSelected(path))
-                .expect("Failed to send DBC selected message");
-            app.save_settings();
+        if let Some(info) = app::ParserInfo::new(path) {
+            app.select_database(info);
+        } else {
+            app.database_error = Some("Failed to load SuperDBC JSON; the active database was kept. See the log for details.".into());
         }
     }
 }
@@ -214,10 +212,10 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         }
                         ui.separator();
                         ui.label("Simulated");
-                        let dbc_path = app.parser.as_ref().map(|p| p.dbc_path.clone());
+                        let database_path = app.parser.as_ref().map(|p| p.database_path.clone());
                         let sim_sources = [
-                            connection::ConnectionSource::Simulated(true, dbc_path.clone()),
-                            connection::ConnectionSource::Simulated(false, dbc_path.clone()),
+                            connection::ConnectionSource::Simulated(true, database_path.clone()),
+                            connection::ConnectionSource::Simulated(false, database_path.clone()),
                         ];
                         for sim_source in sim_sources {
                             let label = match sim_source {
@@ -282,18 +280,41 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 // Clone the sender so we don’t borrow app immutably yet
                 let ui_to_can_tx = app.ui_to_can_tx.clone();
 
-                if ui.button("📁 Select DBC").clicked() {
+                if ui.button("📁 Select SuperDBC").clicked() {
                     select_dbc(app, &ui_to_can_tx); // mutable borrow is fine
                 }
 
-                if let Some(path) = app.parser.as_ref().map(|p| &p.dbc_path) {
+                if let Some(error) = &app.database_error {
+                    ui.colored_label(ui.visuals().error_fg_color, error);
+                }
+                if app.pending_database.is_some() {
+                    ui.label("Activating database…");
+                }
+                let mut selected_bus = app.parser.as_ref().map(|p| p.parser.bus_id());
+                if let Some(info) = &app.parser {
+                    egui::ComboBox::from_id_salt("database_bus")
+                        .selected_text(&info.parser.bus().name)
+                        .show_ui(ui, |ui| {
+                            for bus in info.parser.database().buses() {
+                                ui.selectable_value(&mut selected_bus, Some(bus.bus_id), &bus.name);
+                            }
+                        });
+                }
+                if let (Some(bus), Some(info)) = (selected_bus, app.parser.as_ref()) {
+                    if bus != info.parser.bus_id() && app.pending_database.is_none() {
+                        let mut next = info.clone();
+                        next.parser = info.parser.database().bind(bus).unwrap();
+                        app.select_database(next);
+                    }
+                }
+                if let Some(path) = app.parser.as_ref().map(|p| &p.database_path) {
                     let dbc_name = path
                         .file_name()
                         .map(|n| n.to_string_lossy())
                         .unwrap_or_else(|| path.display().to_string().into());
                     ui.label(format!("{}", dbc_name));
                 } else {
-                    ui.label("DBC: None selected");
+                    ui.label("Database: None selected");
                 }
             });
 

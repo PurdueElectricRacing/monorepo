@@ -1002,8 +1002,6 @@ name = "daqapp-rust"
 version = "26.0.0"
 dependencies = [
  "bytemuck",
- "can-dbc",
- "can_decode",
  "chrono",
  "csv",
  "daqcore",
@@ -1038,11 +1036,12 @@ name = "daqcore"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
- "can-dbc",
  "can_decode",
  "chrono",
  "csv",
  "log",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

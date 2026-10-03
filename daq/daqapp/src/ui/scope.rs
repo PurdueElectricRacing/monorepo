@@ -1,4 +1,4 @@
-use crate::{app, messages, ui::dbc_msg_picker, util};
+use crate::{app, messages, ui::dbc_msg_picker};
 use eframe::egui;
 use egui_plot::{Line, Plot, PlotPoints};
 use std::collections::VecDeque;
@@ -9,9 +9,10 @@ enum ScopeState {
         picker: dbc_msg_picker::DbcMsgPickerState,
     },
     PickingSignal {
-        selected_msg: can_dbc::Message,
+        selected_msg: daqcore::superdbc::MessageDef,
     },
     Configured {
+        bus: daqcore::can::BusId,
         msg_id: u32,
         msg_name: String,
         signal_name: String,
@@ -30,6 +31,7 @@ pub struct Scope {
     pub title: String,
     instance_num: usize,
     state: ScopeState,
+    resolved_signal: Option<(daqcore::superdbc::DbGeneration, usize)>,
     window: VecDeque<(f64, f64)>, // (time, value)
     window_duration_seconds: f64,
     decimation_factor: u64,
@@ -39,16 +41,24 @@ pub struct Scope {
 }
 
 impl Scope {
-    pub fn new(instance_num: usize, msg_id: u32, msg_name: String, signal_name: String) -> Self {
+    pub fn new(
+        instance_num: usize,
+        bus: daqcore::can::BusId,
+        msg_id: u32,
+        msg_name: String,
+        signal_name: String,
+    ) -> Self {
         let title = format!("Scope: {}", signal_name);
         Self {
             title,
             instance_num,
             state: ScopeState::Configured {
+                bus,
                 msg_id,
                 msg_name,
                 signal_name,
             },
+            resolved_signal: None,
             window: VecDeque::new(),
             window_duration_seconds: 10.0, // Default 10 seconds
             decimation_factor: 0,
@@ -65,6 +75,7 @@ impl Scope {
             title,
             instance_num,
             state: ScopeState::default(),
+            resolved_signal: None,
             window: VecDeque::new(),
             window_duration_seconds: 10.0, // Default 10 seconds
             decimation_factor: 0,
@@ -72,6 +83,10 @@ impl Scope {
             reference_time: None,
             is_paused: false,
         }
+    }
+
+    pub fn reset_database(&mut self) {
+        *self = Self::new_empty(self.instance_num);
     }
 
     pub fn add_point(&mut self, timestamp: chrono::DateTime<chrono::Local>, value: f64) {
@@ -144,12 +159,12 @@ impl Scope {
                     egui::RichText::new(format!(
                         "Selected Message: {} (0x{:03X}) — pick a signal:",
                         selected_msg.name,
-                        util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
+                        selected_msg.id.raw()
                     ))
                     .strong(),
                 );
 
-                let msg_id = util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id);
+                let msg_id = selected_msg.id.to_wire_u32();
                 let mut picked_signal = None;
                 for sig in &selected_msg.signals {
                     if ui.button(&sig.name).clicked() {
@@ -162,6 +177,7 @@ impl Scope {
                 if let Some(signal_name) = picked_signal {
                     (
                         ScopeState::Configured {
+                            bus: parser.parser.bus_id(),
                             msg_id,
                             msg_name: selected_msg.name.clone(),
                             signal_name,
@@ -186,6 +202,7 @@ impl Scope {
 
         if just_configured && let ScopeState::Configured { signal_name, .. } = &self.state {
             self.title = format!("Scope: {}", signal_name);
+            self.resolved_signal = None;
         }
 
         just_configured
@@ -322,9 +339,14 @@ impl Scope {
         egui_tiles::UiResponse::None
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+    pub fn handle_can_message(
+        &mut self,
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) {
         // If no signal is assigned, there's nothing to plot
         let ScopeState::Configured {
+            bus: target_bus,
             msg_id: target_msg_id,
             signal_name,
             ..
@@ -334,15 +356,77 @@ impl Scope {
         };
 
         if let messages::MsgFromCan::ParsedMessage(parsed_msg) = msg {
-            if parsed_msg.decoded.msg_id != *target_msg_id {
-                return;
-            }
-
-            let Some(signal) = parsed_msg.decoded.signals.get(signal_name) else {
+            let Some(db) = db else {
                 return;
             };
-
-            self.add_point(parsed_msg.timestamp, signal.value.physical);
+            if parsed_msg.frame.bus != *target_bus
+                || parsed_msg.frame.id.to_wire_u32() != *target_msg_id
+            {
+                return;
+            }
+            let Some(message) = parsed_msg.frame.message(db) else {
+                return;
+            };
+            let index = match self.resolved_signal {
+                Some((generation, index)) if generation == db.generation() => index,
+                _ => {
+                    let Some(index) = message.signals.iter().position(|s| s.name == *signal_name)
+                    else {
+                        return;
+                    };
+                    self.resolved_signal = Some((db.generation(), index));
+                    index
+                }
+            };
+            if let Some(signal) = parsed_msg.frame.signal(index) {
+                self.add_point(parsed_msg.timestamp, signal.physical);
+            }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn scope_filters_bus_and_resets_history_on_database_change() {
+        let db = daqcore::superdbc::SuperDbc::from_str(include_str!(
+            "../../../daqcore/tests/fixtures/superdbc.json"
+        ))
+        .unwrap();
+        let bus = db.bus("VCAN").unwrap();
+        let msg = &bus.messages[0];
+        let mut scope = Scope::new(
+            7,
+            daqcore::can::BusId::new(1).unwrap(),
+            msg.id.to_wire_u32(),
+            msg.name.clone(),
+            msg.signals[0].name.clone(),
+        );
+        let frame = db
+            .bind(bus.bus_id)
+            .unwrap()
+            .decode(msg.id, &[0; 8])
+            .unwrap()
+            .unwrap();
+        let event = messages::MsgFromCan::ParsedMessage(messages::ParsedMessage {
+            timestamp: chrono::Local::now(),
+            frame,
+        });
+        scope.handle_can_message(&event, Some(&db));
+        assert!(scope.window.is_empty());
+        scope = Scope::new(
+            7,
+            bus.bus_id,
+            msg.id.to_wire_u32(),
+            msg.name.clone(),
+            msg.signals[0].name.clone(),
+        );
+        scope.handle_can_message(&event, Some(&db));
+        assert_eq!(scope.window.len(), 1);
+        scope.reset_database();
+        assert!(scope.window.is_empty());
+        assert!(matches!(scope.state, ScopeState::PickingMessage { .. }));
+        assert_eq!(scope.instance_num, 7);
     }
 }

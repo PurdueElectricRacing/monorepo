@@ -1,4 +1,4 @@
-use crate::{app, formatter, messages, util};
+use crate::{app, formatter, messages};
 use eframe::egui;
 
 use super::dbc_msg_picker::{DbcMsgPickerState, no_dbc_placeholder};
@@ -8,7 +8,7 @@ pub struct SendUi {
 
     msg_picker: DbcMsgPickerState,
 
-    selected_msg: Option<can_dbc::Message>,
+    selected_msg: Option<daqcore::superdbc::MessageDef>,
     signal_values: Vec<SignalValue>,
 
     sending_messages: Vec<SendingMessage>,
@@ -133,7 +133,7 @@ impl SendUi {
                                 let (min, max) = signal_range(sig);
                                 SignalValue {
                                     name: sig.name.clone(),
-                                    value: 0.0,
+                                    value: 0.0_f64.clamp(min, max),
                                     min,
                                     max,
                                 }
@@ -153,7 +153,7 @@ impl SendUi {
                             egui::RichText::new(format!(
                                 "Selected Message: {} (0x{:03X})",
                                 selected_msg.name,
-                                util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
+                                selected_msg.id.raw()
                             ))
                             .strong()
                             .size(16.0),
@@ -227,8 +227,7 @@ impl SendUi {
                         }
 
                         if ui.button("Send Message").clicked() {
-                            let msg_id_with_ext_flag =
-                                util::can::can_dbc_to_u32_with_extid_flag(&selected_msg.id);
+                            let msg_id_with_ext_flag = selected_msg.id.to_wire_u32();
                             let encoded = encode_msg_from_signals(
                                 &parser.parser,
                                 msg_id_with_ext_flag,
@@ -258,18 +257,14 @@ impl SendUi {
                                 },
                             };
 
-                            let msg_id_u32 =
-                                util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id);
+                            let msg_id_u32 = selected_msg.id.to_wire_u32();
 
                             self.sending_messages.push(SendingMessage {
                                 amount: send_amount,
                                 msg_name: selected_msg.name.clone(),
                                 msg_id: msg_id_u32,
                                 msg_id_with_ext_flag,
-                                is_msg_id_extended: matches!(
-                                    selected_msg.id,
-                                    can_dbc::MessageId::Extended(_)
-                                ),
+                                is_msg_id_extended: selected_msg.id.is_extended(),
                                 msg_bytes: msg_bytes.clone(),
                                 signal_values: self.signal_values.clone(),
                                 adjustable_values_enabled: self.adjustable_values_enabled,
@@ -277,12 +272,11 @@ impl SendUi {
                             });
 
                             let add_send_msg = messages::AddSendMessage {
+                                generation: parser.parser.database().generation(),
+                                bus: parser.parser.bus_id(),
                                 amount: send_amount,
                                 msg_id: msg_id_u32,
-                                is_msg_id_extended: matches!(
-                                    selected_msg.id,
-                                    can_dbc::MessageId::Extended(_)
-                                ),
+                                is_msg_id_extended: selected_msg.id.is_extended(),
                                 msg_bytes,
                             };
 
@@ -339,6 +333,8 @@ impl SendUi {
                         self.ui_to_can_tx
                             .send(messages::MsgFromUi::AddSendMessage(
                                 messages::AddSendMessage {
+                                    generation: parser.parser.database().generation(),
+                                    bus: parser.parser.bus_id(),
                                     amount: self.sending_messages[idx].amount,
                                     msg_id: self.sending_messages[idx].msg_id,
                                     is_msg_id_extended: self.sending_messages[idx]
@@ -408,10 +404,19 @@ impl SendingMessage {
         // Header (outside card)
         ui.horizontal(|ui| {
             ui.label(
-                egui::RichText::new(format!("{}  (0x{:03X})", self.msg_name, self.msg_id))
-                    .strong()
-                    .size(16.0)
-                    .color(ui.visuals().text_color()),
+                egui::RichText::new(format!(
+                    "{}  (0x{:03X}{})",
+                    self.msg_name,
+                    self.msg_id & daqcore::can::EXTENDED_ID_MASK,
+                    if self.is_msg_id_extended {
+                        ", extended"
+                    } else {
+                        ""
+                    }
+                ))
+                .strong()
+                .size(16.0)
+                .color(ui.visuals().text_color()),
             );
             ui.label(egui::RichText::new(self.amount.display()).color(ui.visuals().text_color()));
             ui.label(
@@ -499,26 +504,21 @@ impl SendingMessage {
 }
 
 fn encode_msg_from_signals(
-    parser: &can_decode::Parser,
-    msg_id_with_ext_flag: u32,
+    parser: &daqcore::superdbc::BusDatabase,
+    msg_id: u32,
     signals: &[SignalValue],
 ) -> Option<Vec<u8>> {
-    let values_hashmap = signals
-        .iter()
-        .map(|signal| (signal.name.clone(), signal.value))
-        .collect();
-    parser.encode_msg(msg_id_with_ext_flag, &values_hashmap)
+    let values: Vec<f64> = signals.iter().map(|s| s.value).collect();
+    Some(
+        parser
+            .msg_def(msg_id)?
+            .encode(&values, daqcore::superdbc::EncodePolicy::Clamp)
+            .ok()?
+            .data()
+            .to_vec(),
+    )
 }
 
-fn signal_range(sig: &can_dbc::Signal) -> (f64, f64) {
-    let fallback = (-1000.0, 1000.0);
-
-    let min = util::can::can_dbc_numeric_to_f64(&sig.min);
-    let max = util::can::can_dbc_numeric_to_f64(&sig.max);
-
-    if !min.is_finite() || !max.is_finite() || min >= max {
-        fallback
-    } else {
-        (min, max)
-    }
+fn signal_range(sig: &daqcore::superdbc::SignalDef) -> (f64, f64) {
+    sig.physical_range()
 }

@@ -669,7 +669,11 @@ impl Bootloader {
         format!("0x{git_hash:08X}{suffix}")
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+    pub fn handle_can_message(
+        &mut self,
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) {
         match msg {
             messages::MsgFromCan::Disconnection
             | messages::MsgFromCan::ConnectionSuccessful
@@ -679,18 +683,25 @@ impl Bootloader {
             }
             messages::MsgFromCan::ParsedMessage(parsed) => {
                 self.observe_protocol_frame(
-                    parsed.msg_id,
-                    parsed.is_msg_id_extended,
-                    Some(parsed.decoded.name.as_str()),
+                    parsed.frame.id.raw(),
+                    parsed.frame.id.is_extended(),
+                    db.and_then(|db| parsed.decoded(db)).map(|v| v.name),
                 );
             }
             messages::MsgFromCan::UnparsedMessage(unparsed) => {
-                self.observe_protocol_frame(unparsed.msg_id, unparsed.is_msg_id_extended, None);
+                self.observe_protocol_frame(
+                    unparsed.frame.id.raw(),
+                    unparsed.frame.id.is_extended(),
+                    None,
+                );
             }
             _ => {}
         }
         if let messages::MsgFromCan::ParsedMessage(parsed) = msg {
-            let (target, application) = match parsed.decoded.name.as_str() {
+            let Some(decoded) = db.and_then(|db| parsed.decoded(db)) else {
+                return;
+            };
+            let (target, application) = match decoded.name {
                 "main_version" => ("main_module", true),
                 "dash_version" => ("dashboard", true),
                 "torque_vector_version" => ("torque_vector", true),
@@ -706,13 +717,11 @@ impl Bootloader {
                 _ => return,
             };
 
-            let git_hash = parsed
-                .decoded
+            let git_hash = decoded
                 .signals
                 .get("git_hash")
                 .map(|signal| signal.value.physical.round() as u32);
-            let bootloadable = parsed
-                .decoded
+            let bootloadable = decoded
                 .signals
                 .get(if application { "bootloadable" } else { "flags" })
                 .map(|signal| {
@@ -724,7 +733,7 @@ impl Bootloader {
                     }
                 });
             let resident_git_hash = application
-                .then(|| parsed.decoded.signals.get("bootloader_git_hash"))
+                .then(|| decoded.signals.get("bootloader_git_hash"))
                 .flatten()
                 .map(|signal| signal.value.physical.round() as u32)
                 .filter(|hash| *hash != 0);

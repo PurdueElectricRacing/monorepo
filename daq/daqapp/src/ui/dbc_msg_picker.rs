@@ -1,37 +1,32 @@
-use crate::util;
 use eframe::egui;
 
 /// Shared DBC message search UI state used by Send UI, Jitter, etc.
 #[derive(Default)]
 pub struct DbcMsgPickerState {
     search_text: String,
-    search_results: Vec<can_dbc::Message>,
+    search_results: Vec<daqcore::can::MessageId>,
 }
 
 impl DbcMsgPickerState {
     /// Refresh [`Self::search_results`] from [`Self::search_text`] using the same rules as before:
     /// empty clears results, `*` lists all messages, otherwise filter by name and hex ID substring.
-    pub fn refresh_results(&mut self, parser: &can_decode::Parser) {
+    pub fn refresh_results(&mut self, parser: &daqcore::superdbc::BusDatabase) {
+        self.search_results.clear();
         if self.search_text.is_empty() {
-            self.search_results.clear();
-        } else if self.search_text.trim() == "*" {
-            self.search_results = parser.msg_defs().clone();
-        } else {
-            let search_lower = self.search_text.to_lowercase();
-            self.search_results = parser
+            return;
+        }
+        let search = self.search_text.to_lowercase();
+        self.search_results.extend(
+            parser
                 .msg_defs()
                 .iter()
-                .filter(|msg| {
-                    let id_str = format!(
-                        "0x{:03X}",
-                        util::can::can_dbc_to_u32_without_extid_flag(&msg.id)
-                    );
-                    id_str.contains(&search_lower)
-                        || msg.name.to_lowercase().contains(&search_lower)
+                .filter(|m| {
+                    search.trim() == "*"
+                        || m.name.to_lowercase().contains(&search)
+                        || format!("0x{:03x}", m.id.raw()).contains(&search)
                 })
-                .cloned()
-                .collect();
-        }
+                .map(|m| m.id),
+        );
     }
 
     /// Search field, hints, and result buttons. Returns [`Some`] when the user picked a message
@@ -39,9 +34,9 @@ impl DbcMsgPickerState {
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
-        parser: &can_decode::Parser,
+        parser: &daqcore::superdbc::BusDatabase,
         selected_msg_is_none: bool,
-    ) -> Option<can_dbc::Message> {
+    ) -> Option<daqcore::superdbc::MessageDef> {
         ui.horizontal(|ui| {
             ui.label("Search:");
             if ui
@@ -71,13 +66,12 @@ impl DbcMsgPickerState {
         }
 
         let mut picked = None;
-        for msg in &self.search_results {
+        for id in &self.search_results {
+            let Some(msg) = parser.bus().message(*id) else {
+                continue;
+            };
             if ui
-                .button(format!(
-                    "{} (0x{:03X})",
-                    msg.name,
-                    util::can::can_dbc_to_u32_without_extid_flag(&msg.id)
-                ))
+                .button(format!("{} (0x{:03X})", msg.name, msg.id.raw()))
                 .clicked()
             {
                 picked = Some(msg.clone());
@@ -96,8 +90,8 @@ impl DbcMsgPickerState {
 
 pub fn no_dbc_placeholder(ui: &mut egui::Ui) {
     ui.vertical_centered(|ui| {
-        ui.label("No DBC selected yet.");
+        ui.label("No SuperDBC selected yet.");
         ui.label("CMD+S to toggle the sidebar.");
-        ui.label("Use the sidebar to select a DBC file");
+        ui.label("Use the sidebar to select a SuperDBC JSON file");
     });
 }

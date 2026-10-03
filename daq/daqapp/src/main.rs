@@ -27,11 +27,6 @@ fn main() -> eframe::Result<()> {
     let (ui_to_can_tx, ui_to_can_rx) = std::sync::mpsc::channel::<messages::MsgFromUi>();
 
     let settings = settings::Settings::load();
-    if let Some(ref dbc_path) = settings.dbc_path {
-        ui_to_can_tx
-            .send(messages::MsgFromUi::DbcSelected(dbc_path.clone()))
-            .expect("Failed to send DBC path to CAN thread");
-    }
     if let Some(ref selected_source) = settings.selected_source {
         ui_to_can_tx
             .send(messages::MsgFromUi::Connect(selected_source.clone()))

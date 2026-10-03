@@ -1,4 +1,4 @@
-use crate::{app, messages, util};
+use crate::{app, messages};
 use eframe::egui;
 
 use super::dbc_msg_picker::{DbcMsgPickerState, no_dbc_placeholder};
@@ -8,7 +8,8 @@ pub struct Jitter {
 
     msg_picker: DbcMsgPickerState,
 
-    selected_msg: Option<can_dbc::Message>,
+    selected_msg: Option<daqcore::superdbc::MessageDef>,
+    selected_bus: Option<daqcore::can::BusId>,
     period_ms: usize,
 
     active: bool,
@@ -27,6 +28,7 @@ impl Jitter {
             msg_picker: DbcMsgPickerState::default(),
 
             selected_msg: None,
+            selected_bus: None,
             period_ms: 100,
 
             active: false,
@@ -46,12 +48,14 @@ impl Jitter {
     }
 
     fn selected_msg_id(&self) -> Option<u32> {
-        self.selected_msg
-            .as_ref()
-            .map(|m| util::can::can_dbc_to_u32_without_extid_flag(&m.id))
+        self.selected_msg.as_ref().map(|m| m.id.to_wire_u32())
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
+    pub fn handle_can_message(
+        &mut self,
+        msg: &messages::MsgFromCan,
+        db: Option<&daqcore::superdbc::SuperDbc>,
+    ) {
         if !self.active {
             return;
         }
@@ -64,7 +68,10 @@ impl Jitter {
             return;
         };
 
-        if parsed_msg.decoded.msg_id != target_id {
+        let Some(decoded) = db.and_then(|db| parsed_msg.decoded(db)) else {
+            return;
+        };
+        if self.selected_bus != Some(parsed_msg.frame.bus) || decoded.msg_id != target_id {
             return;
         }
 
@@ -103,6 +110,7 @@ impl Jitter {
                             .show(ui, &parser.parser, self.selected_msg.is_none())
                     {
                         self.selected_msg = Some(msg);
+                        self.selected_bus = Some(parser.parser.bus_id());
                     }
 
                     if let Some(selected_msg) = &self.selected_msg {
@@ -112,7 +120,7 @@ impl Jitter {
                             egui::RichText::new(format!(
                                 "Selected Message: {} (0x{:03X})",
                                 selected_msg.name,
-                                util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
+                                selected_msg.id.raw()
                             ))
                             .strong()
                             .size(16.0),

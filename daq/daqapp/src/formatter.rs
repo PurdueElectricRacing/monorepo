@@ -165,9 +165,9 @@ impl Formatter {
         &self,
         msg_name: &str,
         signal_name: &str,
-        sig_def: Option<&can_dbc::Signal>,
+        sig_def: Option<&daqcore::superdbc::SignalDef>,
         unit: Option<&str>,
-        value: &can_decode::DecodedSignalValue,
+        value: &daqcore::superdbc::DecodedSignalValue<'_>,
     ) -> String {
         for (msg_glob, signal_vec) in &self.compiled_config {
             if msg_glob.is_match(msg_name) {
@@ -227,9 +227,9 @@ pub fn try_format(
     formatter: &Option<Formatter>,
     msg_name: &str,
     signal_name: &str,
-    sig_def: Option<&can_dbc::Signal>,
+    sig_def: Option<&daqcore::superdbc::SignalDef>,
     unit: Option<&str>,
-    value: &can_decode::DecodedSignalValue,
+    value: &daqcore::superdbc::DecodedSignalValue<'_>,
 ) -> String {
     if let Some(fmt) = formatter {
         fmt.format(msg_name, signal_name, sig_def, unit, value)
@@ -241,7 +241,10 @@ pub fn try_format(
     }
 }
 
-pub fn default_format(unit: Option<&str>, value: &can_decode::DecodedSignalValue) -> String {
+pub fn default_format(
+    unit: Option<&str>,
+    value: &daqcore::superdbc::DecodedSignalValue<'_>,
+) -> String {
     if let Some(enum_label) = &value.enum_label {
         format!("{} ({})", enum_label, value.int_rounded())
     } else if let Some(u) = unit
@@ -253,59 +256,20 @@ pub fn default_format(unit: Option<&str>, value: &can_decode::DecodedSignalValue
     }
 }
 
-fn format_hex(sig_def: &can_dbc::Signal, value: &can_decode::DecodedSignalValue) -> String {
-    let bits = sig_def.size.clamp(1, 64) as u32;
-    let nybbles = bits.div_ceil(4) as usize;
-
-    match sig_def.value_type {
-        can_dbc::ValueType::Unsigned => {
-            let mask = if bits == 64 {
-                u64::MAX
-            } else {
-                (1u64 << bits) - 1
-            };
-
-            let val = value.int_rounded() as u64 & mask;
-
-            format!("0x{:0width$X}", val, width = nybbles)
-        }
-
-        can_dbc::ValueType::Signed => {
-            let val = value.int_rounded();
-
-            if val < 0 {
-                format!("-0x{:0width$X}", (-val) as u64, width = nybbles)
-            } else {
-                format!("0x{:0width$X}", val as u64, width = nybbles)
-            }
-        }
-    }
+fn format_hex(
+    sig_def: &daqcore::superdbc::SignalDef,
+    value: &daqcore::superdbc::DecodedSignalValue<'_>,
+) -> String {
+    let bits = sig_def.bit_length.clamp(1, 64) as usize;
+    format!("0x{:0width$X}", value.raw_bits, width = bits.div_ceil(4))
 }
-
-fn format_binary(sig_def: &can_dbc::Signal, value: &can_decode::DecodedSignalValue) -> String {
-    let bits = sig_def.size.clamp(1, 64) as usize;
-
-    match sig_def.value_type {
-        can_dbc::ValueType::Unsigned => {
-            let mask = if bits == 64 {
-                u64::MAX
-            } else {
-                (1u64 << bits) - 1
-            };
-
-            let val = value.int_rounded() as u64 & mask;
-
-            format!("0b{:0width$b}", val, width = bits)
-        }
-
-        can_dbc::ValueType::Signed => {
-            let val = value.int_rounded();
-
-            if val < 0 {
-                format!("-0b{:0width$b}", (-val) as u64, width = bits)
-            } else {
-                format!("0b{:0width$b}", val as u64, width = bits)
-            }
-        }
-    }
+fn format_binary(
+    sig_def: &daqcore::superdbc::SignalDef,
+    value: &daqcore::superdbc::DecodedSignalValue<'_>,
+) -> String {
+    format!(
+        "0b{:0width$b}",
+        value.raw_bits,
+        width = sig_def.bit_length.clamp(1, 64) as usize
+    )
 }

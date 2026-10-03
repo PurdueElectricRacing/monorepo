@@ -1,6 +1,6 @@
 use crate::{
-    can,
     log_parse::{consts, correlate},
+    superdbc::{BusDatabase, BusId, DbGeneration},
 };
 
 const HEADER_ROW_COUNT: usize = 7;
@@ -43,8 +43,9 @@ impl TableColumn {
 pub struct TableBuilder {
     header_columns: Vec<TableColumn>,
 
-    // Key is (bus name, msg name, signal name), value is column index
-    indexer: std::collections::HashMap<(String, String, String), usize>,
+    // Generation-bound positional handles avoid constructing string keys per frame.
+    indexer: std::collections::HashMap<(DbGeneration, BusId, u32, usize), usize>,
+    databases: Vec<BusDatabase>,
     next_col_idx: usize,
 }
 
@@ -52,6 +53,7 @@ impl TableBuilder {
     pub fn new() -> Self {
         Self {
             header_columns: Vec::new(),
+            databases: Vec::new(),
             next_col_idx: HEADER_COLUMN_COUNT,
             indexer: std::collections::HashMap::new(),
         }
@@ -61,7 +63,7 @@ impl TableBuilder {
         HEADER_COLUMN_COUNT + self.header_columns.len()
     }
 
-    fn push_column(&mut self, key: (String, String, String), column: TableColumn) {
+    fn push_column(&mut self, key: (DbGeneration, BusId, u32, usize), column: TableColumn) {
         self.indexer.insert(key, self.next_col_idx);
         self.header_columns.push(column);
         self.next_col_idx += 1;
@@ -93,45 +95,34 @@ impl TableBuilder {
         rows
     }
 
-    pub fn create_header(&mut self, parser: &can_decode::Parser, bus_name: &str) {
-        let mut message_defs = parser.msg_defs();
-        message_defs.sort_by_key(|m| can::can_dbc_to_u32_without_extid_flag(&m.id));
-
-        for msg in message_defs {
-            let bus_id = bus_name;
-            let node = match msg.transmitter {
-                can_dbc::Transmitter::NodeName(n) => n,
-                can_dbc::Transmitter::VectorXXX => "N/A".to_string(),
-            };
-
-            let msg_id_u32 = can::can_dbc_to_u32_with_extid_flag(&msg.id);
-            let msg_desc = parser
-                .msg_desc(msg_id_u32)
-                .map(|d| d.to_string())
-                .unwrap_or_default();
-
-            for (i, sig) in msg.signals.iter().enumerate() {
-                let key = (bus_id.to_string(), msg.name.clone(), sig.name.clone());
+    pub fn create_header(&mut self, parser: &BusDatabase, bus_name: &str) {
+        self.databases.push(parser.clone());
+        // Retain the CSV's historical ordering by raw arbitration ID.
+        let mut messages: Vec<_> = parser.msg_defs().iter().enumerate().collect();
+        messages.sort_by_key(|(_, m)| (m.id.raw(), m.id.is_extended()));
+        for (mi, msg) in messages {
+            for (si, sig) in msg.signals.iter().enumerate() {
+                let key = (
+                    parser.database().generation(),
+                    parser.bus_id(),
+                    mi as u32,
+                    si,
+                );
                 if !self.indexer.contains_key(&key) {
-                    let sig_desc = parser
-                        .signal_desc(msg_id_u32, &sig.name)
-                        .map(|d| d.to_string())
-                        .unwrap_or_default();
-
                     self.push_column(
                         key,
                         TableColumn {
-                            bus: bus_id.to_string(),
-                            node: node.clone(),
+                            bus: bus_name.to_string(),
+                            node: msg.transmitter.clone(),
                             message: msg.name.clone(),
-                            message_desc: if i == 0 {
-                                msg_desc.clone()
+                            message_desc: if si == 0 {
+                                msg.description.clone()
                             } else {
                                 String::new()
                             },
                             signal: sig.name.clone(),
-                            signal_desc: sig_desc,
-                            signal_unit: sig.unit.to_string(),
+                            signal_desc: sig.description.clone(),
+                            signal_unit: sig.unit.clone(),
                         },
                     );
                 }
@@ -144,8 +135,8 @@ impl TableBuilder {
         out_folder: &std::path::Path,
         output_prefix: &str,
         correlated_chunks: Vec<correlate::CorrelationChunkResult>,
-    ) {
-        std::fs::create_dir_all(out_folder).unwrap();
+    ) -> Result<(), super::LogError> {
+        std::fs::create_dir_all(out_folder)?;
 
         for (chunk_idx, chunk) in correlated_chunks.iter().enumerate() {
             let first_time = chunk.parsed_msgs.first().map(|m| m.timestamp).unwrap_or(0);
@@ -167,9 +158,9 @@ impl TableBuilder {
                 Some(t) => out_folder.join(format!("{}_{:03}_{}.csv", output_prefix, chunk_idx, t)),
                 None => out_folder.join(format!("{}_{:03}.csv", output_prefix, chunk_idx)),
             };
-            let mut wtr = csv::Writer::from_path(out_file.clone()).unwrap();
+            let mut wtr = csv::Writer::from_path(out_file.clone())?;
             for row in self.build_header_rows() {
-                wtr.write_record(&row).unwrap();
+                wtr.write_record(&row)?;
             }
 
             let mut msg_iter = chunk.parsed_msgs.iter().peekable();
@@ -193,23 +184,30 @@ impl TableBuilder {
                     }
 
                     let msg = msg_iter.next().unwrap();
-                    let decoded = &msg.decoded;
-                    for (sig_name, sig_value) in &decoded.signals {
-                        let key = (msg.bus_name.clone(), decoded.name.clone(), sig_name.clone());
+                    let Some(decoded) = self.databases.iter().find_map(|db| db.view(&msg.frame))
+                    else {
+                        continue;
+                    };
+                    for si in 0..msg.frame.n_signals as usize {
+                        let Some(sig) = decoded.signals.at(si) else {
+                            continue;
+                        };
+                        let key = (msg.frame.generation, msg.frame.bus, msg.frame.msg_index, si);
                         if let Some(&col_idx) = self.indexer.get(&key) {
-                            row[col_idx] = if let Some(enum_label) = &sig_value.value.enum_label {
-                                format!("{} ({})", enum_label, sig_value.value.int_rounded())
+                            row[col_idx] = if let Some(label) = sig.value.enum_label {
+                                format!("{} ({})", label, sig.value.int_rounded())
                             } else {
-                                sig_value.value.physical.to_string()
+                                sig.value.physical.to_string()
                             };
                         }
                     }
                 }
 
-                wtr.write_record(&row).unwrap();
+                wtr.write_record(&row)?;
             }
-            wtr.flush().unwrap();
+            wtr.flush()?;
             log::info!("Wrote chunk {} to CSV ({})", chunk_idx, out_file.display());
         }
+        Ok(())
     }
 }

@@ -1,8 +1,9 @@
 use crate::{action, app, formatter, frozen, messages, widget_constructor};
 use eframe::egui;
 
-type DecodedMsgMap = hashbrown::HashMap<u32, messages::ParsedMessage>;
-type UndecodedMsgMap = hashbrown::HashMap<u32, messages::UnparsedMessage>;
+type DecodedMsgMap = hashbrown::HashMap<(daqcore::can::BusId, u32), messages::ParsedMessage>;
+type UndecodedMsgMap =
+    hashbrown::HashMap<(Option<daqcore::can::BusId>, u32), messages::UnparsedMessage>;
 
 #[derive(Clone, PartialEq, Eq)]
 enum TxNodeSearch {
@@ -49,6 +50,7 @@ impl ViewerTable {
         formatter: &Option<formatter::Formatter>,
         parser: Option<&app::ParserInfo>,
     ) -> egui_tiles::UiResponse {
+        let database = parser.map(|p| p.parser.database());
         ui.heading(format!("🚗 {}", self.title));
 
         ui.horizontal(|ui| {
@@ -99,7 +101,7 @@ impl ViewerTable {
                         .decoded_msgs
                         .get()
                         .values()
-                        .map(|msg| msg.decoded.tx_node.clone())
+                        .filter_map(|msg| msg.decoded(database?).map(|v| v.tx_node.to_string()))
                         .collect::<Vec<_>>();
                     all_tx_nodes.sort_unstable();
                     all_tx_nodes.dedup();
@@ -160,7 +162,7 @@ impl ViewerTable {
                                 }
 
                                 if self.search.is_empty()
-                                    || format!("{:03X}", msg.msg_id)
+                                    || format!("{:03X}", msg.frame.id.raw())
                                         .to_lowercase()
                                         .contains(&low_search)
                                     || "error: unknown".contains(&low_search)
@@ -176,14 +178,19 @@ impl ViewerTable {
                         for msg_id in undecoded_msg_keys {
                             let msg = &undecoded[&msg_id];
                             let raw_bytes_str = msg
-                                .raw_bytes
+                                .frame
+                                .data()
                                 .iter()
                                 .map(|b| format!("{:02X}", b))
                                 .collect::<Vec<_>>()
                                 .join(" ");
                             MessageCard {
+                                bus: msg
+                                    .frame
+                                    .bus
+                                    .unwrap_or(daqcore::can::BusId::new(0).unwrap()),
                                 msg_name: "Error: Unknown",
-                                msg_id: msg.msg_id,
+                                msg_id: msg.frame.id.to_wire_u32(),
                                 tx_node: "Unparsed",
                                 raw_bytes: &raw_bytes_str,
                                 timestamp: &msg.timestamp.format("%-I:%M:%S%.3f").to_string(),
@@ -200,19 +207,19 @@ impl ViewerTable {
                     let mut decoded_msg_keys = decoded
                         .iter()
                         .filter_map(|(&msg_id, msg)| {
-                            let tx_filter = self.tx_node.matches(&msg.decoded.tx_node);
+                            let view = msg.decoded(database?)?;
+                            let tx_filter = self.tx_node.matches(&view.tx_node);
                             if !tx_filter {
                                 return None;
                             }
 
                             if self.search.is_empty()
-                                || msg.decoded.name.to_lowercase().contains(&low_search)
-                                || format!("{:03X}", msg.decoded.msg_id)
+                                || view.name.to_lowercase().contains(&low_search)
+                                || format!("{:03X}", msg.frame.id.raw())
                                     .to_lowercase()
                                     .contains(&low_search)
-                                || msg.decoded.tx_node.to_lowercase().contains(&low_search)
-                                || msg
-                                    .decoded
+                                || view.tx_node.to_lowercase().contains(&low_search)
+                                || view
                                     .signals
                                     .values()
                                     .any(|sig| sig.name.to_lowercase().contains(&low_search))
@@ -226,40 +233,38 @@ impl ViewerTable {
                     decoded_msg_keys.sort();
                     for msg_id in decoded_msg_keys {
                         let msg = &decoded[&msg_id];
-                        let msg_def = parser
-                            .as_ref()
-                            .map(|p| &p.parser)
-                            .and_then(|p| p.msg_def(msg_id));
-                        let signals: Vec<(&str, String)> = msg
-                            .decoded
+                        let Some(view) = database.and_then(|db| msg.decoded(db)) else {
+                            continue;
+                        };
+                        let signals: Vec<(&str, String)> = view
                             .signals
                             .iter()
-                            .map(|(sig_name, signal)| {
-                                let sig_def = msg_def
-                                    .and_then(|md| md.signals.iter().find(|s| s.name == *sig_name));
+                            .map(|(name, signal)| {
                                 (
-                                    sig_name.as_str(),
+                                    name,
                                     formatter::try_format(
                                         formatter,
-                                        &msg.decoded.name,
-                                        sig_name,
-                                        sig_def,
-                                        Some(&signal.unit),
+                                        view.name,
+                                        name,
+                                        Some(signal.definition),
+                                        Some(signal.unit),
                                         &signal.value,
                                     ),
                                 )
                             })
                             .collect();
                         let raw_bytes_str = msg
-                            .raw_bytes
+                            .frame
+                            .data()
                             .iter()
                             .map(|b| format!("{:02X}", b))
                             .collect::<Vec<_>>()
                             .join(" ");
                         MessageCard {
-                            msg_name: &msg.decoded.name,
-                            msg_id: msg.decoded.msg_id,
-                            tx_node: &msg.decoded.tx_node,
+                            bus: msg.frame.bus,
+                            msg_name: view.name,
+                            msg_id: view.msg_id,
+                            tx_node: &view.tx_node,
                             raw_bytes: &raw_bytes_str,
                             timestamp: &msg.timestamp.format("%-I:%M:%S%.3f").to_string(),
                             signals,
@@ -279,14 +284,16 @@ impl ViewerTable {
     pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
         match msg {
             messages::MsgFromCan::ParsedMessage(parsed_msg) => {
-                self.decoded_msgs
-                    .get_mut()
-                    .insert(parsed_msg.decoded.msg_id, parsed_msg.clone());
+                self.decoded_msgs.get_mut().insert(
+                    (parsed_msg.frame.bus, parsed_msg.frame.id.to_wire_u32()),
+                    *parsed_msg,
+                );
             }
             messages::MsgFromCan::UnparsedMessage(unparsed_msg) => {
-                self.undecoded_msgs
-                    .get_mut()
-                    .insert(unparsed_msg.msg_id, unparsed_msg.clone());
+                self.undecoded_msgs.get_mut().insert(
+                    (unparsed_msg.frame.bus, unparsed_msg.frame.id.to_wire_u32()),
+                    *unparsed_msg,
+                );
             }
             _ => {}
         }
@@ -297,7 +304,7 @@ impl ViewerTable {
         let decoded = &self.decoded_msgs.rt_data;
         let undecoded = self.undecoded_msgs.get_mut();
         undecoded.retain(|&msg_id, unparsed_msg| {
-            if let Some(parsed_msg) = decoded.get(&msg_id) {
+            if let Some(parsed_msg) = msg_id.0.and_then(|bus| decoded.get(&(bus, msg_id.1))) {
                 parsed_msg.timestamp <= unparsed_msg.timestamp
             } else {
                 true
@@ -307,6 +314,7 @@ impl ViewerTable {
 }
 
 struct MessageCard<'a> {
+    bus: daqcore::can::BusId,
     msg_name: &'a str,
     msg_id: u32,
     tx_node: &'a str,
@@ -322,21 +330,31 @@ impl MessageCard<'_> {
         // Header (outside card)
         ui.horizontal(|ui| {
             ui.label(
-                egui::RichText::new(format!("{}  (0x{:03X})", self.msg_name, self.msg_id))
-                    .strong()
-                    .size(16.0)
-                    .color(
-                        if self.search.is_empty()
-                            || self
-                                .msg_name
-                                .to_lowercase()
-                                .contains(&self.search.to_lowercase())
-                        {
-                            ui.visuals().text_color()
-                        } else {
-                            ui.visuals().weak_text_color()
-                        },
-                    ),
+                egui::RichText::new(format!(
+                    "{}  (0x{:03X}, bus {}{})",
+                    self.msg_name,
+                    self.msg_id & daqcore::can::EXTENDED_ID_MASK,
+                    self.bus.raw(),
+                    if self.msg_id & daqcore::can::EXTENDED_ID_FLAG != 0 {
+                        ", extended"
+                    } else {
+                        ""
+                    }
+                ))
+                .strong()
+                .size(16.0)
+                .color(
+                    if self.search.is_empty()
+                        || self
+                            .msg_name
+                            .to_lowercase()
+                            .contains(&self.search.to_lowercase())
+                    {
+                        ui.visuals().text_color()
+                    } else {
+                        ui.visuals().weak_text_color()
+                    },
+                ),
             );
             ui.label(
                 egui::RichText::new(format!("from {}", self.tx_node)).color(
@@ -401,6 +419,7 @@ impl MessageCard<'_> {
                                     if ui.small_button("📊").clicked() {
                                         action_queue.push(action::AppAction::SpawnWidget(
                                             widget_constructor::WidgetConstructor::Scope {
+                                                bus: self.bus,
                                                 msg_id: self.msg_id,
                                                 msg_name: self.msg_name.to_string(),
                                                 signal_name: sig_name.to_string(),

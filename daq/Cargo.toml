@@ -13,8 +13,7 @@ edition = "2024"
 daqcore = { path = "daqcore" }
 
 can_decode = "0.7.2"
-can-dbc = "9.0.0"
 chrono = "0.4.44"
 log = "0.4.29"
-bytemuck = "1.25.0"
+bytemuck = { version = "1.25.0", features = ["derive"] }
 csv = "1.4.0"
