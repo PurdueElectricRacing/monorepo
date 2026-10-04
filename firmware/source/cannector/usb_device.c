@@ -5,13 +5,13 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#include "common/timestamped_frame/timestamped_frame.h"
-#include "common/rtos/rtos.h"
-#include "common/phal_G4/usb/usb.h"
-#include "common/phal_G4/gpio/gpio.h"
-#include "main.h"
-
 #include "usb_device.h"
+
+#include "common/phal_G4/gpio/gpio.h"
+#include "common/phal_G4/usb/usb.h"
+#include "common/rtos/rtos.h"
+#include "common/timestamped_frame/timestamped_frame.h"
+#include "main.h"
 
 typedef enum {
     USB_STATE_INIT,
@@ -20,8 +20,6 @@ typedef enum {
     USB_STATE_SUBMIT,
     USB_STATE_FATAL
 } usb_state_t;
-
-extern QueueHandle_t can_queue;
 
 static void tx_four_frames() {
     timestamped_frame_t usb_packet[4];
