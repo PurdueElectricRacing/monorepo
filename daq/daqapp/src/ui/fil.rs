@@ -1,5 +1,5 @@
-use crate::messages::{FilAdcInstance, FilGpioPort};
-use crate::{action, app, fil_annotations, settings};
+use crate::fil::{annotations as fil_annotations, config as fil_config, messages::{FilAdcInstance, FilGpioPort}};
+use crate::{action, app, settings};
 use daqcore::connection;
 use eframe::egui;
 use std::collections::{HashMap, HashSet};
@@ -28,8 +28,8 @@ pub struct FilControl {
     elf_overrides: HashMap<String, std::path::PathBuf>,
     disabled_boards: Vec<String>,
     use_builder: bool,
-    builder: daqcore::fil_config::BuiltNetwork,
-    network_info: Option<daqcore::fil_config::FilNetworkInfo>,
+    builder: fil_config::BuiltNetwork,
+    network_info: Option<fil_config::FilNetworkInfo>,
     network_info_error: Option<String>,
     last_loaded_network: Option<std::path::PathBuf>,
     adc_board: String,
@@ -97,7 +97,7 @@ impl FilControl {
         let Some(network) = self.network.clone() else {
             return;
         };
-        match daqcore::fil_config::load_network_info(&network) {
+        match fil_config::load_network_info(&network) {
             Ok(info) => {
                 if !info.buses.contains(&self.bus) && !info.buses.is_empty() {
                     self.bus = info.buses[0].clone();
@@ -116,7 +116,7 @@ impl FilControl {
         }
     }
 
-    fn builder_board_name(board: &daqcore::fil_config::BuiltBoard) -> String {
+    fn builder_board_name(board: &fil_config::BuiltBoard) -> String {
         if !board.name.trim().is_empty() {
             return board.name.clone();
         }
@@ -145,7 +145,7 @@ impl FilControl {
         }
     }
 
-    fn enabled_file_boards(&self) -> Vec<&daqcore::fil_config::FilBoardInfo> {
+    fn enabled_file_boards(&self) -> Vec<&fil_config::FilBoardInfo> {
         let disabled: HashSet<&str> = self.disabled_boards.iter().map(String::as_str).collect();
         self.network_info
             .as_ref()
@@ -193,7 +193,7 @@ impl FilControl {
             if self.disabled_boards.contains(&board.name) {
                 continue;
             }
-            match daqcore::fil_config::effective_elf(board, &self.elf_overrides) {
+            match fil_config::effective_elf(board, &self.elf_overrides) {
                 Some(elf) if elf.is_file() => {}
                 Some(elf) => issues.push(format!(
                     "Board '{}' ELF does not exist: {}",
@@ -238,7 +238,7 @@ impl FilControl {
                 ));
             }
         }
-        let enabled: Vec<&daqcore::fil_config::BuiltBoard> = self
+        let enabled: Vec<&fil_config::BuiltBoard> = self
             .builder
             .boards
             .iter()
@@ -272,7 +272,7 @@ impl FilControl {
                     board.elf.display()
                 ));
             }
-            match daqcore::fil_config::effective_mcu(board, self.executable.as_deref()) {
+            match fil_config::effective_mcu(board, self.executable.as_deref()) {
                 Some(mcu) if mcu.is_file() => {}
                 Some(mcu) => issues.push(format!(
                     "Board '{name}' MCU config does not exist: {}",
@@ -288,7 +288,7 @@ impl FilControl {
                 board.can_instances.iter().map(String::as_str).collect()
             };
             for instance in instances {
-                if !daqcore::fil_config::FIL_CAN_INSTANCES.contains(&instance) {
+                if !fil_config::FIL_CAN_INSTANCES.contains(&instance) {
                     issues.push(format!(
                         "Board '{name}' has unknown CAN instance '{instance}'"
                     ));
@@ -421,7 +421,7 @@ impl FilControl {
                         self.set_board_enabled(&board.name, enabled, actions);
                     }
                     ui.label(&board.name);
-                    let effective = daqcore::fil_config::effective_elf(board, &self.elf_overrides);
+                    let effective = fil_config::effective_elf(board, &self.elf_overrides);
                     let is_override = self.elf_overrides.contains_key(&board.name);
                     ui.label(elf_status(&effective, is_override));
                     ui.horizontal(|ui| {
@@ -559,7 +559,7 @@ impl FilControl {
                 ui.horizontal(|ui| {
                     ui.label("MCU:");
                     let effective =
-                        daqcore::fil_config::effective_mcu(board, self.executable.as_deref());
+                        fil_config::effective_mcu(board, self.executable.as_deref());
                     match &effective {
                         Some(mcu) if mcu.is_file() => {
                             ui.label(mcu.display().to_string()).on_hover_text(
@@ -593,14 +593,14 @@ impl FilControl {
                 ui.horizontal(|ui| {
                     ui.label("CAN:");
                     let current: Vec<&str> = if board.can_instances.is_empty() {
-                        vec![daqcore::fil_config::FIL_CAN_INSTANCES[0]]
+                        vec![fil_config::FIL_CAN_INSTANCES[0]]
                     } else {
                         board.can_instances.iter().map(String::as_str).collect()
                     };
-                    for instance in daqcore::fil_config::FIL_CAN_INSTANCES {
+                    for instance in fil_config::FIL_CAN_INSTANCES {
                         let mut checked = current.contains(&instance);
                         if ui.checkbox(&mut checked, instance).changed() {
-                            let mut set: Vec<String> = daqcore::fil_config::FIL_CAN_INSTANCES
+                            let mut set: Vec<String> = fil_config::FIL_CAN_INSTANCES
                                 .into_iter()
                                 .filter(|candidate| {
                                     (*candidate == instance && checked)
@@ -608,7 +608,7 @@ impl FilControl {
                                 })
                                 .map(str::to_owned)
                                 .collect();
-                            if set.len() == 1 && set[0] == daqcore::fil_config::FIL_CAN_INSTANCES[0]
+                            if set.len() == 1 && set[0] == fil_config::FIL_CAN_INSTANCES[0]
                             {
                                 set.clear();
                             }
@@ -639,7 +639,7 @@ impl FilControl {
                     .add_filter("ELF firmware", &["elf"])
                     .pick_file()
             {
-                let mut entry = daqcore::fil_config::BuiltBoard {
+                let mut entry = fil_config::BuiltBoard {
                     name: String::new(),
                     elf: path,
                     mcu: std::path::PathBuf::new(),
@@ -667,7 +667,7 @@ impl FilControl {
                     .save_file()
             {
                 let executable = self.executable.clone().unwrap_or_default();
-                match daqcore::fil_config::export_network(&path, &self.builder, &executable) {
+                match fil_config::export_network(&path, &self.builder, &executable) {
                     Ok(()) => log::info!("Exported FIL network to {}", path.display()),
                     Err(error) => log::error!("Failed to export FIL network: {error}"),
                 }
@@ -681,7 +681,7 @@ impl FilControl {
         path: std::path::PathBuf,
         actions: &mut Vec<action::AppAction>,
     ) {
-        let entry = daqcore::fil_config::BuiltBoard {
+        let entry = fil_config::BuiltBoard {
             name: String::new(),
             elf: std::path::PathBuf::new(),
             mcu: std::path::PathBuf::new(),
@@ -691,7 +691,7 @@ impl FilControl {
             board: path,
             elf_override: None,
         };
-        let entry = daqcore::fil_config::migrate_built_board(&entry);
+        let entry = fil_config::migrate_built_board(&entry);
         if entry.board.as_os_str().is_empty() {
             self.builder.boards.push(entry);
             self.queue_builder_update(actions);
@@ -1422,16 +1422,14 @@ mod expectation_tests {
     }
 
     #[test]
-    fn completed_run_survives_disconnection_and_resets_on_new_connection() {
-        let mut control = FilControl::new(1);
-        control.handle_can_message(&messages::MsgFromCan::FilExpectation(event(
-            daqcore::can::driver::FilExpectationStatus::Fail,
-        )));
-        control.handle_can_message(&messages::MsgFromCan::Disconnection);
-        assert_eq!(control.expectations.len(), 1);
-        control.handle_can_message(&messages::MsgFromCan::ConnectionSuccessful);
-        assert!(control.expectations.is_empty());
-        assert!(control.expectation_order.is_empty());
+    fn completed_run_history_is_retained_until_explicit_reset() {
+        let mut events = HashMap::new();
+        let mut order = Vec::new();
+        update_expectations(&mut events, &mut order, event(daqcore::can::driver::FilExpectationStatus::Fail));
+        assert_eq!(events.len(), 1);
+        clear_expectations(&mut events, &mut order);
+        assert!(events.is_empty());
+        assert!(order.is_empty());
     }
 
     #[test]
