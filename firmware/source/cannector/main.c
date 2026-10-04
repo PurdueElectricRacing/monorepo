@@ -1,7 +1,9 @@
+#include <string.h>
 
 #include "can_library/generated/MCAN.h"
 #include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
+#include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/pin_defs/g474ret6.h"
@@ -11,8 +13,6 @@
 #include "common/timestamped_frame/timestamped_frame.h"
 #include "common/utils/countof.h"
 #include "pindefs.h"
-#include "common/heartbeat/heartbeat.h"
-
 
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     // VCAN
@@ -36,7 +36,7 @@ void usb_thread_periodic(void);
 RTOS_DEFINE_TASK(usb_thread_periodic, 1, TASK_PRIORITY_HIGH, STACK_1024);
 DEFINE_HEARTBEAT_TASK(nullptr);
 
-RTOS_DEFINE_QUEUE(can_queue, timestamped_frame_t, 128);
+RTOS_DEFINE_QUEUE(can_queue, timestamped_frame_t, 256);
 
 
 void main() {
@@ -48,6 +48,15 @@ void main() {
     PHAL_FDCAN_init(FDCAN3, SCAN_BAUD_RATE);
     PHAL_USB_init();
 
+    NVIC_SetPriority(FDCAN1_IT0_IRQn, 5);
+    NVIC_SetPriority(FDCAN2_IT0_IRQn, 5);
+    NVIC_SetPriority(FDCAN3_IT0_IRQn, 5);
+    NVIC_EnableIRQ(FDCAN1_IT0_IRQn);
+    NVIC_EnableIRQ(FDCAN2_IT0_IRQn);
+    NVIC_EnableIRQ(FDCAN3_IT0_IRQn);
+
+    RTOS_INIT_QUEUE(can_queue);
+    START_HEARTBEAT_TASK();
     RTOS_START_TASK(usb_thread_periodic);
 
     vTaskStartScheduler();
@@ -81,7 +90,7 @@ void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
     set_xid(&frame, msg->IDE);
     set_can_id(&frame, msg->ExtId);
 
-    // todo copy payload
+    memcpy(&frame.payload, msg->Data, msg->DLC);
 
     xQueueSendToBackFromISR(can_queue, &frame, 0);
 }
