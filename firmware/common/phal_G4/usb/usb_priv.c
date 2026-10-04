@@ -24,8 +24,8 @@ static constexpr uint8_t USB_PRIV_STATUS_VALID = 3U;
 
 static constexpr uint8_t USB_PRIV_DM_PIN = 11U;
 static constexpr uint8_t USB_PRIV_DP_PIN = 12U;
-static constexpr uint8_t USB_PRIV_CC1_PIN = 8U;
-static constexpr uint8_t USB_PRIV_CC2_PIN = 9U;
+// static constexpr uint8_t USB_PRIV_CC1_PIN = 8U;
+// static constexpr uint8_t USB_PRIV_CC2_PIN = 9U;
 static constexpr uint8_t USB_PRIV_GPIO_MODE_BITS = 0b11U;
 static constexpr uint8_t USB_PRIV_GPIO_MODE_BIT_WIDTH = 2U;
 static constexpr uint8_t USB_PRIV_ENDPOINT_REGISTER_STRIDE = 2U;
