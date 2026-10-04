@@ -20,17 +20,22 @@ pub struct Timeline {
     latest: Time,
 }
 
-fn millis(seconds: f64) -> i64 {
+fn millis(seconds: f64) -> Result<i64, String> {
+    if !seconds.is_finite() || seconds < 0.0 {
+        return Err("timeline span must be finite and nonnegative".into());
+    }
+
     let milliseconds = (seconds * 1000.0).round();
 
-    milliseconds.min(i64::MAX as f64) as i64
+    // Saturate at the timestamp representation's limit, without a retention cap.
+    Ok(milliseconds.min(i64::MAX as f64) as i64)
 }
 
 impl Timeline {
-    pub fn live(now: Time, window_secs: f64) -> Self {
-        let window_ms = millis(window_secs);
+    pub fn live(now: Time, window_secs: f64) -> Result<Self, String> {
+        let window_ms = millis(window_secs)?;
 
-        Self {
+        Ok(Self {
             start: now.offset(-window_ms),
             end: now,
             setpoint: now,
@@ -39,7 +44,15 @@ impl Timeline {
             setpoint_track: Track::Marching,
             window_ms,
             latest: now,
-        }
+        })
+    }
+
+    pub fn reset(&mut self, now: Time) {
+        self.start = now.offset(-self.window_ms);
+        self.end = now;
+        self.setpoint = now;
+        self.latest = now;
+        self.go_live();
     }
 
     pub fn start(&self) -> Time {
@@ -171,8 +184,10 @@ impl Timeline {
         self.recompute();
     }
 
-    pub fn set_window_secs(&mut self, seconds: f64) {
-        self.window_ms = millis(seconds);
+    pub fn set_window_secs(&mut self, seconds: f64) -> Result<(), String> {
+        self.window_ms = millis(seconds)?;
         self.recompute();
+
+        Ok(())
     }
 }
