@@ -2,9 +2,8 @@
 config_loader.py
 
 Loads and validates DearUnits configuration with cross-checks that ensure
-every name is unique across the whole graph, every unit's composition has its
-quantity's dimensions, and every relation is dimensionally consistent (angle
-and any quantity marked is_dimensionless excluded from that last check).
+every node uniqueness, unit composition has its quantity's dimensions, 
+dimensionality is consistent, and no composed_of term references an offset-bearing unit.
 Also resolves every derived unit's numeric scale from its composed_of terms.
 """
 
@@ -153,6 +152,33 @@ def _base_quantity_unit_scale(quantity: BaseQuantityConfig, unit_name: str) -> f
         return 1.0
     unit = next((u for u in quantity.units if u.name == unit_name), None)
     return None if unit is None else unit.scale
+
+def _base_quantity_unit_offset(quantity: BaseQuantityConfig, unit_name: str) -> float:
+    if unit_name == quantity.base_unit:
+        return 0.0
+    unit = next((u for u in quantity.units if u.name == unit_name), None)
+    return 0.0 if unit is None else unit.offset
+
+def _validate_no_offset_in_composed_of(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> None:
+    "Compound types do not support types with none_zero offset types"
+    for derived in bundle.derived_quantities.values():
+        term_lists = [(derived.composed_of, f"compounds.{derived.name}.composed_of")]
+        for unit in derived.units:
+            if unit.composed_of is not None:
+                term_lists.append((unit.composed_of, f"compounds.{derived.name}.units.{unit.name}.composed_of"))
+
+        for terms, location in term_lists:
+            for term in terms:
+                quantity = bundle.base_quantities.get(term.group_name)
+                if quantity is None:
+                    continue
+                offset = _base_quantity_unit_offset(quantity, term.unit_name)
+                if offset != 0.0:
+                    issues.append(ConfigIssue(
+                        COMPOUND_TYPES_CONFIG_PATH, location,
+                        f"'{term.unit_name}' has a nonzero offset ({offset}) and can't be used in composed_of "
+                        "-- it's not a pure ratio of its base unit",
+                    ))
 
 def _resolve_term(
     term: DimensionTermConfig,
@@ -312,6 +338,7 @@ def load_unit_config_bundle(
     )
     _validate_name_uniqueness(bundle, issues)
     _validate_unit_dimensions(bundle, issues)
+    _validate_no_offset_in_composed_of(bundle, issues)
     _validate_relations(bundle, issues)
     derived_scales = _resolve_derived_scales(bundle, issues)
 
