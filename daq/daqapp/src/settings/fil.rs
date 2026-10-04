@@ -1,5 +1,5 @@
-use crate::fil::messages::FilAdcInstance;
 use crate::fil::config as fil_config;
+use crate::fil::messages::FilAdcInstance;
 use daqcore::connection;
 
 pub type FilRunOptions = connection::FilRunOptions;
