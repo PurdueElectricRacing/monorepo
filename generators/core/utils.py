@@ -71,6 +71,8 @@ def get_jinja_env() -> Environment:
     )
     
     def format_float(val: float) -> str:
+        # 9 sig figs is the proven minimum to round-trip any 32-bit C float
+        # exactly (ceil(1 + 24 * log10(2)) for float32's 24-bit significand).
         s = f"{val:.9g}"
         if '.' not in s and 'e' not in s:
             s = f"{val:.1f}"

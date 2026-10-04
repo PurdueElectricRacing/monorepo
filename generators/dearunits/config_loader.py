@@ -2,8 +2,11 @@
 config_loader.py
 
 Loads and validates DearUnits configuration with cross-checks that ensure
-every node uniqueness, unit composition has its quantity's dimensions, 
-dimensionality is consistent, and no composed_of term references an offset-bearing unit.
+every name is unique across the whole graph, every unit's composition has its
+quantity's dimensions, every relation is dimensionally consistent (angle
+and any quantity marked is_dimensionless excluded from that last check), and
+no composed_of term references an offset-bearing unit (not a pure ratio, so
+scale**exponent composition would silently drop the offset).
 Also resolves every derived unit's numeric scale from its composed_of terms.
 """
 
@@ -95,29 +98,43 @@ def _validate_name_uniqueness(bundle: UnitConfigBundle, issues: list[ConfigIssue
             _claim_name(unit.name, label, COMPOUND_TYPES_CONFIG_PATH, f"compounds.{derived.name}.units.{unit.name}", owners, issues)
 
 
+# Exponents over base quantities only (never a derived-quantity name), e.g.
+# velocity -> {length: 1, time: -1}. `None` means "couldn't resolve" (unknown
+# reference or a dependency cycle); `{}` is a real, successful result --
+# resolved to physically dimensionless, not a failure.
 Dimensions = dict[str, int]
 
 def _quantity_dimensions(
-    name: str, bundle: UnitConfigBundle, memo: dict[str, Dimensions], stack: tuple[str, ...] = (),
+    name: str, bundle: UnitConfigBundle, memo: dict[str, Dimensions], visiting: tuple[str, ...] = (),
 ) -> Dimensions | None:
+    """Flattens a quantity (base or derived) down to its base-quantity
+    exponents. DFS over the composed_of graph: `memo` caches quantities
+    already resolved; `visiting` is the chain of names currently being
+    resolved on this call path, used only to detect a cycle (a quantity
+    that transitively references itself)."""
     if name in bundle.base_quantities:
         return {name: 1}
     if name in memo:
         return memo[name]
-    if name in stack or name not in bundle.derived_quantities:
-        return None
-    dims = _terms_dimensions(bundle.derived_quantities[name].composed_of, bundle, memo, (*stack, name))
+    if name in visiting:
+        return None  
+    if name not in bundle.derived_quantities:
+        return None  # not a base quantity and not a known derived quantity either
+    dims = _terms_dimensions(bundle.derived_quantities[name].composed_of, bundle, memo, (*visiting, name))
     if dims is not None:
         memo[name] = dims
     return dims
 
 def _terms_dimensions(
     terms: list[DimensionTermConfig], bundle: UnitConfigBundle,
-    memo: dict[str, Dimensions], stack: tuple[str, ...] = (),
+    memo: dict[str, Dimensions], visiting: tuple[str, ...] = (),
 ) -> Dimensions | None:
+    """Sums a composed_of list's terms (each resolved via
+    _quantity_dimensions, scaled by its own exponent) into one combined
+    dimensions dict. `None` if any term can't be resolved."""
     total: Dimensions = {}
     for term in terms:
-        inner = _quantity_dimensions(term.group_name, bundle, memo, stack)
+        inner = _quantity_dimensions(term.group_name, bundle, memo, visiting)
         if inner is None:
             return None
         for base_quantity, exponent in inner.items():
