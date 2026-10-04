@@ -27,7 +27,6 @@ class BaseQuantity:
     name: str
     base_name: str
     units: dict[str, Unit] = field(default_factory=dict)
-    is_angle: bool = False
 
 
 @dataclass

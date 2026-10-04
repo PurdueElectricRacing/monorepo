@@ -106,91 +106,11 @@ DEARUNITS_DEFINE_UNIT_OPERATIONS({{ unit.name }})
     ('GT', 'gt', 'a, b'),
     ('LE', 'le', 'a, b'),
     ('GE', 'ge', 'a, b'),
-] + ([('ATAN2', 'atan2', 'y, x')] if angle else []), base_types) }}
+], base_types) }}
 // Remap x from [in_lo, in_hi] to [out_lo, out_hi]; the two ranges can be different unit types.
 #define DEARUNITS_MAP_RANGE(x, in_lo, in_hi, out_lo, out_hi) \
     DEARUNITS_LERP(out_lo, out_hi, DEARUNITS_INVLERP(in_lo, in_hi, x))
 
-{% if angle %}
-// ============================================================================
-// Angle operations
-// ============================================================================
-
-{% for unit in base_types %}
-[[nodiscard, gnu::always_inline]] static inline
-{{ angle.base_type }} dearunits_atan2_{{ unit.name }}({{ unit.type_name }} y, {{ unit.type_name }} x) {
-    return ({{ angle.base_type }}){ .value = __builtin_atan2f(y.value, x.value) };
-}
-
-{% endfor %}
-{% for unit in angle.units %}
-{% set radians = 'a.value' if unit.scale == 1 else 'a.value * ' ~ (unit.scale|format_float) %}
-{% set full_turn = unit.full_turn|format_float %}
-{% set half_turn = unit.half_turn|format_float %}
-[[nodiscard, gnu::always_inline]] static inline
-float dearunits_sin_{{ unit.name }}({{ unit.type_name }} a) {
-    return __builtin_sinf({{ radians }});
-}
-
-[[nodiscard, gnu::always_inline]] static inline
-float dearunits_cos_{{ unit.name }}({{ unit.type_name }} a) {
-    return __builtin_cosf({{ radians }});
-}
-
-[[nodiscard, gnu::always_inline]] static inline
-float dearunits_tan_{{ unit.name }}({{ unit.type_name }} a) {
-    return __builtin_tanf({{ radians }});
-}
-
-// Wraps to [-half turn, half turn); remainder first, shift only if needed (avoids losing small angles to rounding).
-[[nodiscard, gnu::always_inline]] static inline
-{{ unit.type_name }} dearunits_wrap_angle_{{ unit.name }}({{ unit.type_name }} a) {
-    float r = __builtin_fmodf(a.value, {{ full_turn }});
-    return ({{ unit.type_name }}){ .value = (r >= {{ half_turn }}) ? (r - {{ full_turn }}) : ((r < -{{ half_turn }}) ? (r + {{ full_turn }}) : r) };
-}
-
-// Wraps to [0, full turn); same reasoning as above.
-[[nodiscard, gnu::always_inline]] static inline
-{{ unit.type_name }} dearunits_wrap_angle_positive_{{ unit.name }}({{ unit.type_name }} a) {
-    float r = __builtin_fmodf(a.value, {{ full_turn }});
-    return ({{ unit.type_name }}){ .value = r < 0.0f ? r + {{ full_turn }} : r };
-}
-
-// Shortest signed difference a - b
-[[nodiscard, gnu::always_inline]] static inline
-{{ unit.type_name }} dearunits_angle_diff_{{ unit.name }}({{ unit.type_name }} a, {{ unit.type_name }} b) {
-    return dearunits_wrap_angle_{{ unit.name }}(({{ unit.type_name }}){ .value = a.value - b.value });
-}
-
-{% endfor %}
-[[nodiscard, gnu::always_inline]] static inline
-{{ angle.base_type }} dearunits_asin(float x) {
-    return ({{ angle.base_type }}){ .value = __builtin_asinf(x) };
-}
-
-[[nodiscard, gnu::always_inline]] static inline
-{{ angle.base_type }} dearunits_acos(float x) {
-    return ({{ angle.base_type }}){ .value = __builtin_acosf(x) };
-}
-
-[[nodiscard, gnu::always_inline]] static inline
-{{ angle.base_type }} dearunits_atan(float x) {
-    return ({{ angle.base_type }}){ .value = __builtin_atanf(x) };
-}
-
-#define DEARUNITS_ASIN(x) dearunits_asin(x)
-#define DEARUNITS_ACOS(x) dearunits_acos(x)
-#define DEARUNITS_ATAN(x) dearunits_atan(x)
-
-{{ dispatch_macros([
-    ('SIN', 'sin', 'a'),
-    ('COS', 'cos', 'a'),
-    ('TAN', 'tan', 'a'),
-    ('WRAP_ANGLE', 'wrap_angle', 'a'),
-    ('WRAP_ANGLE_POSITIVE', 'wrap_angle_positive', 'a'),
-    ('ANGLE_DIFF', 'angle_diff', 'a, b'),
-], angle.units) }}
-{% endif %}
 // ============================================================================
 // Multiply / divide
 // ============================================================================

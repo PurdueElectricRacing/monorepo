@@ -6,7 +6,6 @@ Renders the DearUnits unit graph into a single generated C header
 
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass, field
 
 from .models import DerivedQuantity, UnitGraph, Unit
@@ -96,27 +95,6 @@ class BinaryOpsContext:
     multiply: list[BinaryOpDispatchContext] = field(default_factory=list)
     divide: list[BinaryOpDispatchContext] = field(default_factory=list)
     squares: list[SquareOpContext] = field(default_factory=list)
-
-
-@dataclass
-class AngleUnitContext:
-    name: str
-    type_name: str
-    scale: float  # radians per unit
-
-    @property
-    def half_turn(self) -> float:
-        return math.pi / self.scale
-
-    @property
-    def full_turn(self) -> float:
-        return 2 * math.pi / self.scale
-
-
-@dataclass
-class AngleContext:
-    base_type: str
-    units: list[AngleUnitContext]
 
 
 def _unit_context(unit: Unit) -> UnitContext:
@@ -270,19 +248,6 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
     return ops
 
 
-def build_angle_context(graph: UnitGraph) -> AngleContext | None:
-    """Trig and angle-wrapping helpers key off whichever base quantity is
-    marked `is_angle` in config, whose units are scaled in radians."""
-    angle = next((quantity for quantity in graph.base_quantities.values() if quantity.is_angle), None)
-    if angle is None:
-        return None
-    units = [
-        AngleUnitContext(unit.name, f"{unit.name}_t", unit.scale)
-        for unit in angle.units.values()
-    ]
-    return AngleContext(base_type=f"{angle.base_name}_t", units=units)
-
-
 def build_quantity_contexts(graph: UnitGraph) -> list[QuantityContext]:
     quantities = [
         _build_quantity_context(base.name, base.base_name, base.units)
@@ -297,9 +262,7 @@ def build_quantity_contexts(graph: UnitGraph) -> list[QuantityContext]:
     return quantities
 
 
-def generate_units_header(
-    quantities: list[QuantityContext], binary_ops: BinaryOpsContext, angle: AngleContext | None
-) -> Artifact:
+def generate_units_header(quantities: list[QuantityContext], binary_ops: BinaryOpsContext) -> Artifact:
     env = get_jinja_env()
     content = render_template(
         env,
@@ -307,7 +270,6 @@ def generate_units_header(
         groups=quantities,
         base_types=[quantity.base for quantity in quantities],
         binary_ops=binary_ops,
-        angle=angle,
     )
     print_as_ok("Generated dear_units.h")
     return Artifact("units_generated", "dear_units.h", content)
@@ -318,7 +280,7 @@ def generate_headers(graph: UnitGraph) -> list[Artifact]:
     quantities = build_quantity_contexts(graph)
     binary_ops = build_binary_ops(graph, quantities)
     artifacts = [
-        generate_units_header(quantities, binary_ops, build_angle_context(graph)),
+        generate_units_header(quantities, binary_ops),
     ]
     print_as_success("Successfully generated DearUnits headers")
     return artifacts

@@ -3,9 +3,9 @@ config_loader.py
 
 Loads and validates DearUnits configuration with cross-checks that ensure
 every name is unique across the whole graph, every unit's composition has its
-quantity's dimensions, every relation is dimensionally consistent (angle
-and any quantity marked is_dimensionless excluded from that last check), and
-no composed_of term references an offset-bearing unit (not a pure ratio, so
+quantity's dimensions, every relation is dimensionally consistent (any
+quantity marked is_dimensionless excluded from that last check), and no
+composed_of term references an offset-bearing unit (not a pure ratio, so
 scale**exponent composition would silently drop the offset).
 Also resolves every derived unit's numeric scale from its composed_of terms.
 """
@@ -279,7 +279,7 @@ def _resolve_derived_scales(bundle: UnitConfigBundle, issues: list[ConfigIssue])
 def _dimensionless_quantity_names(bundle: UnitConfigBundle) -> set[str]:
     return {
         quantity.name for quantity in bundle.base_quantities.values()
-        if quantity.is_angle or quantity.is_dimensionless
+        if quantity.is_dimensionless
     }
 
 def _unknown_relation_names(relation: RelationConfig, quantities: set[str]) -> list[str]:

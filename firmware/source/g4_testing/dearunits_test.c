@@ -26,7 +26,6 @@ volatile float dearunits_max_torque_nm    = 0.0f;
 volatile float dearunits_pack_soc         = 0.0f;
 volatile float dearunits_pack_kwh_used    = 0.0f;
 volatile float dearunits_clamp_force_n    = 0.0f;
-volatile float dearunits_heading_error_deg = 0.0f;
 
 static bool nearly_equal(float a, float b, float tolerance) {
     float diff = (a > b) ? (a - b) : (b - a);
@@ -177,41 +176,6 @@ static bool test_dynamics(void) {
 
     meter_t launch_distance = DEARUNITS_MULTIPLY(DEARUNITS_MULTIPLY(0.5f, cruise), launch_time);
     if (!nearly_equal(launch_distance.value, 40.0f, 0.001f)) {
-        return false;
-    }
-
-    degree_t heading = { .value = 30.0f };
-    meters_per_second_t east = DEARUNITS_MULTIPLY(cruise, DEARUNITS_COS(heading));
-    meters_per_second_t north = DEARUNITS_MULTIPLY(cruise, DEARUNITS_SIN(heading));
-    degree_t recovered_heading = degree_from_radian(DEARUNITS_ATAN2(north, east));
-    meters_per_second_t recovered_speed = DEARUNITS_HYPOT(east, north);
-    if (!nearly_equal(recovered_heading.value, 30.0f, 0.01f) || !nearly_equal(recovered_speed.value, 20.0f, 0.001f)) {
-        return false;
-    }
-
-    degree_t target_heading = { .value = 350.0f };
-    degree_t current_heading = { .value = 10.0f };
-    degree_t heading_error = DEARUNITS_ANGLE_DIFF(target_heading, current_heading);
-    dearunits_heading_error_deg = heading_error.value;
-    degree_t compass = DEARUNITS_WRAP_ANGLE_POSITIVE((degree_t){ .value = -90.0f });
-    if (!nearly_equal(heading_error.value, -20.0f, 0.01f) || !nearly_equal(compass.value, 270.0f, 0.01f)) {
-        return false;
-    }
-
-    if (!nearly_equal(DEARUNITS_TAN((degree_t){ .value = 45.0f }), 1.0f, 0.001f)) {
-        return false;
-    }
-
-    meter_t rise = { .value = 1.0f };
-    meter_t run = { .value = 10.0f };
-    float grade = DEARUNITS_DIVIDE(rise, run);
-    meter_t hypotenuse = DEARUNITS_HYPOT(rise, run);
-    radian_t slope_from_atan = DEARUNITS_ATAN(grade);
-    radian_t slope_from_asin = DEARUNITS_ASIN(DEARUNITS_DIVIDE(rise, hypotenuse));
-    radian_t slope_from_acos = DEARUNITS_ACOS(DEARUNITS_DIVIDE(run, hypotenuse));
-    if (!nearly_equal(slope_from_atan.value, 0.0996687f, 0.0001f) ||
-        !nearly_equal(slope_from_asin.value, 0.0996687f, 0.0001f) ||
-        !nearly_equal(slope_from_acos.value, 0.0996687f, 0.0001f)) {
         return false;
     }
 
