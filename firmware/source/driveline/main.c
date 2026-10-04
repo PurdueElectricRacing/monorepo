@@ -43,7 +43,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     //Oil temps
     PHAL_GPIO_INIT_ANALOG(OIL_TEMP_L_GPIO_Port, OIL_TEMP_L_Pin),
     PHAL_GPIO_INIT_ANALOG(OIL_TEMP_R_GPIO_Port, OIL_TEMP_R_Pin),
-
 };
 
 /* ADC Configuration */

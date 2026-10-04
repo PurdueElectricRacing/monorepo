@@ -10,8 +10,9 @@
 #include "common/rtos/rtos.h"
 #include "common/timestamped_frame/timestamped_frame.h"
 #include "common/utils/countof.h"
+#include "pindefs.h"
+#include "common/heartbeat/heartbeat.h"
 
-void usb_thread_periodic(void);
 
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     // VCAN
@@ -23,12 +24,19 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     // SCAN
     PHAL_PIN_DEFS_FDCAN3_RX_PA8,
     PHAL_PIN_DEFS_FDCAN3_TX_PA15,
+
+    // LEDs
+    PHAL_GPIO_INIT_OUTPUT(CONNECTION_LED_PORT, CONNECTION_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    PHAL_GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
+void usb_thread_periodic(void);
+
 RTOS_DEFINE_TASK(usb_thread_periodic, 1, TASK_PRIORITY_HIGH, STACK_1024);
+DEFINE_HEARTBEAT_TASK(nullptr);
 
-
-RTOS_DEFINE_QUEUE(usb_rx_queue, timestamped_frame_t, 128);
+RTOS_DEFINE_QUEUE(can_queue, timestamped_frame_t, 128);
 
 
 void main() {
@@ -38,24 +46,29 @@ void main() {
     PHAL_FDCAN_init(FDCAN1, VCAN_BAUD_RATE);
     PHAL_FDCAN_init(FDCAN2, MCAN_BAUD_RATE);
     PHAL_FDCAN_init(FDCAN3, SCAN_BAUD_RATE);
+    PHAL_USB_init();
 
     RTOS_START_TASK(usb_thread_periodic);
 
     vTaskStartScheduler();
 }
 
+void led_manager() {
+
+}
+
 void usb_thread_periodic() {
     timestamped_frame_t usb_packet[4];
     static_assert(sizeof(usb_packet) == 64, "usb_packet max size is 64");
 
-    size_t count = uxQueueMessagesWaiting(usb_rx_queue);
+    size_t count = uxQueueMessagesWaiting(can_queue);
 
     if (count > 4) {
         count = 4;
     }
 
     for (size_t i = 0; i < count; i++) {
-        xQueueReceive(usb_rx_queue, &usb_packet[i], 0);
+        xQueueReceive(can_queue, &usb_packet[i], 0);
     }
 
     size_t length = count * sizeof(timestamped_frame_t);
