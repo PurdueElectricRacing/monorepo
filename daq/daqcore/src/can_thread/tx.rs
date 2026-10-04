@@ -65,11 +65,7 @@ impl SendTable {
             return Err("send count and period must be positive".into());
         }
 
-        let frame = CanFrame::data(
-            msg.identity.raw_id(),
-            msg.identity.is_extended(),
-            msg.msg_bytes,
-        )?;
+        let frame = CanFrame::data(msg.identity, msg.msg_bytes)?;
 
         self.0.insert(
             msg.identity,

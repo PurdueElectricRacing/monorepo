@@ -79,7 +79,7 @@ impl DAQApp {
         can_thread: daqcore::can_thread::CanThreadHandle,
         settings: settings::Settings,
         cc: &eframe::CreationContext,
-    ) -> Self {
+    ) -> Result<Self, Box<dyn std::error::Error + Send + Sync>> {
         let theme_selection = settings.theme;
         let theme_style = theme_selection.get_style();
         ui::theme::store_theme(&cc.egui_ctx, theme_selection.get_colors());
@@ -92,9 +92,9 @@ impl DAQApp {
             30.0
         };
 
-        let session = daqcore::Session::live(daqcore::Time::now(), window_secs);
+        let session = daqcore::Session::live(daqcore::Time::now(), window_secs)?;
 
-        Self {
+        Ok(Self {
             connection_status: ConnectionStatus::Disconnected,
             value_formatter: load_formatter(),
             is_sidebar_open: true,
@@ -119,7 +119,7 @@ impl DAQApp {
             active_source: None,
             diagnostic: None,
             log_folder: settings.log_folder,
-        }
+        })
     }
 
     fn add_widget_to_tree(&mut self, widget: widgets::Widget) {

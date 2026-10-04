@@ -136,6 +136,10 @@ impl ThemeColors {
         let parse = |part: &str| u8::from_str_radix(part, 16).ok();
 
         let parsed = (|| -> Option<(u8, u8, u8, u8)> {
+            if !hex.is_ascii() {
+                return None;
+            }
+
             match hex.len() {
                 6 => Some((
                     parse(&hex[0..2])?,

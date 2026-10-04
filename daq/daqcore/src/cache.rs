@@ -48,8 +48,19 @@ impl RamCache {
         &self.frames[self.first_index..]
     }
 
+    /// Append ordered traffic; preserve recorded timestamps by merging regressions.
     pub fn push(&mut self, frame: CachedFrame) {
-        self.latest.insert(frame.identity(), frame.clone());
+        let out_of_order = self
+            .active()
+            .last()
+            .is_some_and(|latest| frame.timestamp < latest.timestamp);
+
+        if out_of_order {
+            self.push_batch(vec![frame]);
+            return;
+        }
+
+        self.latest.insert(frame.identity, frame.clone());
         self.frames.push(frame);
     }
 
@@ -89,7 +100,7 @@ impl RamCache {
         self.latest.clear();
         for frame in self.frames.iter().rev() {
             self.latest
-                .entry(frame.identity())
+                .entry(frame.identity)
                 .or_insert_with(|| frame.clone());
         }
     }
@@ -140,7 +151,7 @@ impl RamCache {
     ) -> Vec<(Time, f64)> {
         self.frames_in_range(range)
             .iter()
-            .filter(|f| f.identity() == id)
+            .filter(|f| f.identity == id)
             .filter_map(|f| {
                 let decoded = f.decoded.as_ref()?;
                 let value = decoded.signals.get(signal)?.value.physical;

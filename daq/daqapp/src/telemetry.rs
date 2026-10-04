@@ -18,7 +18,7 @@ impl<'a> TelemetryView<'a> {
         let mut latest = BTreeMap::new();
 
         for frame in frames.iter().rev() {
-            latest.entry(frame.identity()).or_insert(frame);
+            latest.entry(frame.identity).or_insert(frame);
             if latest.len() == cache.latest_map().len() {
                 break;
             }

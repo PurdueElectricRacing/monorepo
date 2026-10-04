@@ -71,14 +71,18 @@ impl DaqLogger {
         }
     }
 
-    pub fn log_frame(&mut self, frame: &frame::CanFrame) {
+    pub fn log_frame(&mut self, frame: &frame::CanFrame) -> Result<(), String> {
         if matches!(frame.kind, frame::FrameKind::Fd { .. }) {
-            return;
+            return Ok(());
+        }
+
+        if frame.data.len() > 8 {
+            return Err("classic CAN log payload exceeds 8 bytes".into());
         }
 
         let mut data = [0; 8];
         data[..frame.data.len()].copy_from_slice(&frame.data);
-        let identity_flag = if frame.is_msg_id_extended {
+        let identity_flag = if frame.identity.is_extended() {
             consts::IS_EID_MASK
         } else {
             0
@@ -86,9 +90,11 @@ impl DaqLogger {
 
         self.add_frame(parse::RawFrame {
             ticks_ms: self.start_time.elapsed().as_millis() as u32,
-            identity: frame.msg_id | identity_flag,
+            identity: frame.identity.raw_id() | identity_flag,
             data,
         });
+
+        Ok(())
     }
 
     fn add_frame(&mut self, frame: parse::RawFrame) {

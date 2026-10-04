@@ -45,11 +45,15 @@ impl Jitter {
         if let Some(msg) = &self.selected_msg {
             let id = daqcore::can::can_dbc_to_u32_without_extid_flag(&msg.id);
             ui.label(format!("{} (0x{id:X})", msg.name));
-            let deviations = interval_deviations(
-                view.frames,
-                daqcore::can::can_dbc_identity(&msg.id),
-                self.period_ms,
-            );
+            let identity = match daqcore::can::can_dbc_identity(&msg.id) {
+                Ok(identity) => identity,
+                Err(error) => {
+                    ui.colored_label(ui.visuals().error_fg_color, error.to_string());
+                    return egui_tiles::UiResponse::None;
+                }
+            };
+
+            let deviations = interval_deviations(view.frames, identity, self.period_ms);
             ui.label("Absolute deviation from nominal period over the shared interval");
             ui.label(format!("Intervals recorded: {}", deviations.len()));
             if !deviations.is_empty() {
@@ -70,7 +74,7 @@ fn interval_deviations(
 ) -> Vec<f64> {
     let timestamps: Vec<_> = frames
         .iter()
-        .filter(|f| f.identity() == identity)
+        .filter(|f| f.identity == identity)
         .map(|f| f.timestamp)
         .collect();
     timestamps

@@ -158,7 +158,7 @@ fn run_with_connection(
         let updating = firmware.active();
         if connection.connected() && !updating {
             for frame in sends.due(now) {
-                let identity = frame.identity();
+                let identity = frame.identity;
                 match connection.write(frame) {
                     Ok(()) => {
                         let amount_left = sends.commit(identity, Instant::now());
@@ -200,7 +200,9 @@ fn run_with_connection(
                     break;
                 };
 
-                let frame = frame::CanFrame::data(frame.id, false, frame.data);
+                let frame = frame::CanIdentity::new(frame.id, false)
+                    .map_err(|error| error.to_string())
+                    .and_then(|identity| frame::CanFrame::data(identity, frame.data));
                 let result = frame
                     .map_err(DriverError::Write)
                     .and_then(|frame| connection.write(frame));
@@ -226,14 +228,18 @@ fn run_with_connection(
                     for frame in frames {
                         load.record_frame(frame.data.len(), Instant::now());
                         if let Some(logger) = &mut logger {
-                            logger.log_frame(&frame);
+                            if let Err(error) = logger.log_frame(&frame) {
+                                emit!(Event::Diagnostic(error));
+                            }
                         }
 
                         let updating = firmware.active();
-                        if updating && !frame.is_msg_id_extended {
-                            if let Some(progress) =
-                                firmware.receive(frame.msg_id, &frame.data, Instant::now())
-                            {
+                        if updating && !frame.identity.is_extended() {
+                            if let Some(progress) = firmware.receive(
+                                frame.identity.raw_id(),
+                                &frame.data,
+                                Instant::now(),
+                            ) {
                                 emit!(Event::FirmwareProgress(progress));
                             }
                         }

@@ -2,7 +2,7 @@
 use crate::{
     can,
     connection::{CanBusSpeed, ConnectionSource},
-    frame::CanFrame,
+    frame::{CanFrame, CanIdentity},
     log_parse,
 };
 
@@ -51,12 +51,18 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
             Ok(Box::new(UdpDriver(socket)))
         }
         ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
-        ConnectionSource::Simulated(true, path) => Ok(Box::new(SimulatedDriver {
-            parser: path
+        ConnectionSource::Simulated(true, path) => {
+            let parser = path
                 .as_ref()
-                .and_then(|p| can_decode::Parser::from_dbc_file(p).ok()),
-            next: Instant::now(),
-        })),
+                .map(|path| can_decode::Parser::from_dbc_file(path))
+                .transpose()
+                .map_err(|error| DriverError::ConnectionFailed(error.to_string()))?;
+
+            Ok(Box::new(SimulatedDriver {
+                parser,
+                next: Instant::now(),
+            }))
+        }
         _ => Err(DriverError::ConnectionFailed(format!(
             "source unavailable: {}",
             source.display_name()
@@ -122,8 +128,11 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<CanFrame>> {
             let identity_bytes = [bytes[4], bytes[5], bytes[6], bytes[7]];
             let identity = u32::from_le_bytes(identity_bytes);
             let extended = identity & log_parse::consts::IS_EID_MASK != 0;
-            let id = identity & can::EXTENDED_ID_MASK;
-            CanFrame::data(id, extended, bytes[8..16].to_vec()).map_err(DriverError::Read)
+            let transport_flags = log_parse::consts::IS_EID_MASK | log_parse::consts::BUS_ID_MASK;
+            let id = identity & !transport_flags;
+            let identity = CanIdentity::new(id, extended)
+                .map_err(|error| DriverError::Read(error.to_string()))?;
+            CanFrame::data(identity, bytes[8..16].to_vec()).map_err(DriverError::Read)
         })
         .collect()
 }
@@ -146,13 +155,20 @@ impl Driver for SimulatedDriver {
             .parser
             .as_ref()
             .and_then(|p| p.msg_defs().choose(&mut rng).cloned());
-        let (id, extended, size) = match msg {
-            Some(m) => (
-                can::can_dbc_to_u32_without_extid_flag(&m.id),
-                matches!(m.id, can_dbc::MessageId::Extended(_)),
-                m.size as usize,
-            ),
-            None => (rng.random_range(0..=can::STANDARD_ID_MASK), false, 8),
+        let (identity, size) = match msg {
+            Some(message) => {
+                let identity = can::can_dbc_identity(&message.id)
+                    .map_err(|error| DriverError::Read(error.to_string()))?;
+
+                (identity, message.size as usize)
+            }
+            None => {
+                let id = rng.random_range(0..=can::STANDARD_ID_MASK);
+                let identity = CanIdentity::new(id, false)
+                    .map_err(|error| DriverError::Read(error.to_string()))?;
+
+                (identity, 8)
+            }
         };
 
         if size > 8 {
@@ -161,9 +177,9 @@ impl Driver for SimulatedDriver {
 
         let mut data = vec![0; size];
         rng.fill_bytes(&mut data);
-        Ok(vec![
-            CanFrame::data(id, extended, data).map_err(DriverError::Read)?,
-        ])
+        let frame = CanFrame::data(identity, data).map_err(DriverError::Read)?;
+
+        Ok(vec![frame])
     }
 
     fn write_frame(&mut self, _: CanFrame) -> DriverResult<()> {
@@ -174,7 +190,7 @@ mod serial {
     use crate::{
         can::driver::{Driver, DriverError, DriverResult, io_read},
         connection::CanBusSpeed,
-        frame::{CanFrame, FrameKind},
+        frame::{CanFrame, CanIdentity, FrameKind},
     };
     use std::time::Duration;
 
@@ -206,17 +222,19 @@ mod serial {
         }
     }
 
-    fn identity(id: slcan::Id) -> (u32, bool) {
-        match id {
-            slcan::Id::Standard(id) => (id.as_raw() as u32, false),
-            slcan::Id::Extended(id) => (id.as_raw(), true),
-        }
+    fn identity(id: slcan::Id) -> DriverResult<CanIdentity> {
+        let identity = match id {
+            slcan::Id::Standard(id) => CanIdentity::new(id.as_raw() as u32, false),
+            slcan::Id::Extended(id) => CanIdentity::new(id.as_raw(), true),
+        };
+
+        identity.map_err(|error| DriverError::Read(error.to_string()))
     }
 
-    fn from_wire(frame: slcan::CanFrame) -> CanFrame {
-        match frame {
+    fn from_wire(frame: slcan::CanFrame) -> DriverResult<CanFrame> {
+        let frame = match frame {
             slcan::CanFrame::Can2(f) => {
-                let (msg_id, is_msg_id_extended) = identity(f.id());
+                let identity = identity(f.id())?;
                 let kind = if f.is_remote() {
                     FrameKind::Remote
                 } else {
@@ -224,18 +242,16 @@ mod serial {
                 };
 
                 CanFrame {
-                    msg_id,
-                    is_msg_id_extended,
+                    identity,
                     kind,
                     dlc: f.dlc() as u8,
                     data: f.data().unwrap_or(&[]).to_vec(),
                 }
             }
             slcan::CanFrame::CanFd(f) => {
-                let (msg_id, is_msg_id_extended) = identity(f.id());
+                let identity = identity(f.id())?;
                 CanFrame {
-                    msg_id,
-                    is_msg_id_extended,
+                    identity,
                     kind: FrameKind::Fd {
                         bit_rate_switched: f.is_bit_rate_switched(),
                     },
@@ -243,25 +259,28 @@ mod serial {
                     data: f.data().to_vec(),
                 }
             }
-        }
+        };
+
+        Ok(frame)
     }
 
     impl Driver for SerialDriver {
         fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
             self.socket
                 .read()
-                .map(|f| vec![from_wire(f)])
                 .map_err(|e| match e {
                     slcan::ReadError::Io(e) => io_read(e),
                     other => DriverError::Read(format!("{other:?}")),
                 })
+                .and_then(from_wire)
+                .map(|frame| vec![frame])
         }
 
         fn write_frame(&mut self, f: CanFrame) -> DriverResult<()> {
-            let id = if f.is_msg_id_extended {
-                slcan::ExtendedId::new(f.msg_id).map(slcan::Id::Extended)
+            let id = if f.identity.is_extended() {
+                slcan::ExtendedId::new(f.identity.raw_id()).map(slcan::Id::Extended)
             } else {
-                u16::try_from(f.msg_id)
+                u16::try_from(f.identity.raw_id())
                     .ok()
                     .and_then(slcan::StandardId::new)
                     .map(slcan::Id::Standard)

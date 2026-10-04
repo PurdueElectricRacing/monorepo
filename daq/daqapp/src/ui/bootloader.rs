@@ -702,8 +702,8 @@ impl Bootloader {
             }
             daqcore::can_thread::CanThreadEvent::Frame(frame) => {
                 self.observe_protocol_frame(
-                    frame.msg_id,
-                    frame.is_msg_id_extended,
+                    frame.identity.raw_id(),
+                    frame.identity.is_extended(),
                     frame.decoded.as_ref().map(|d| d.name.as_str()),
                 );
             }

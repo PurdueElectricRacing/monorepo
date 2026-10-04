@@ -218,25 +218,15 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                         ui.label("Simulated");
                         let dbc_path = app.parser.as_ref().map(|p| p.dbc_path.clone());
                         let sim_sources = [
-                            daqcore::connection::ConnectionSource::Simulated(
-                                true,
-                                dbc_path.clone(),
-                            ),
-                            daqcore::connection::ConnectionSource::Simulated(
-                                false,
-                                dbc_path.clone(),
-                            ),
+                            (true, "Simulated (connected)"),
+                            (false, "Simulated (disconnected)"),
                         ];
-                        for sim_source in sim_sources {
-                            let label = match sim_source {
-                                daqcore::connection::ConnectionSource::Simulated(true, _) => {
-                                    "Simulated (connected)"
-                                }
-                                daqcore::connection::ConnectionSource::Simulated(false, _) => {
-                                    "Simulated (disconnected)"
-                                }
-                                _ => unreachable!(),
-                            };
+
+                        for (connected, label) in sim_sources {
+                            let sim_source = daqcore::connection::ConnectionSource::Simulated(
+                                connected,
+                                dbc_path.clone(),
+                            );
 
                             if ui
                                 .selectable_value(

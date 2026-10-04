@@ -1,4 +1,4 @@
-use crate::{can, log_parse::consts};
+use crate::{frame::CanIdentity, log_parse::consts};
 use bytemuck::{Pod, Zeroable};
 
 #[derive(Debug)]
@@ -79,10 +79,15 @@ fn parse_log_file(
             break;
         }
 
-        let arb_id = if (frame.identity & consts::IS_EID_MASK) != 0 {
-            frame.identity & can::EXTENDED_ID_MASK
-        } else {
-            frame.identity & can::STANDARD_ID_MASK
+        let extended = frame.identity & consts::IS_EID_MASK != 0;
+        let transport_flags = consts::IS_EID_MASK | consts::BUS_ID_MASK;
+        let raw_id = frame.identity & !transport_flags;
+        let identity = match CanIdentity::new(raw_id, extended) {
+            Ok(identity) => identity,
+            Err(error) => {
+                log::error!("Invalid CAN identity in {}: {error}", in_file.display());
+                continue;
+            }
         };
 
         let bus_id = if (frame.identity & consts::BUS_ID_MASK) != 0 {
@@ -97,7 +102,7 @@ fn parse_log_file(
             parser_bus_1
         };
 
-        if let Some(decoded) = parser.decode_msg(arb_id, &frame.data) {
+        if let Some(decoded) = parser.decode_msg(identity.dbc_id(), &frame.data) {
             let bus_name = if bus_id == 0 { "VCAN" } else { "MCAN" };
             parsed.push(ParsedMessage {
                 timestamp: frame.ticks_ms,
@@ -108,7 +113,7 @@ fn parse_log_file(
             log::error!(
                 "Failed to decode message at {} ms with CAN ID {:X} and data {:?} on bus {}",
                 frame.ticks_ms,
-                arb_id,
+                identity.raw_id(),
                 frame.data,
                 bus_id
             );

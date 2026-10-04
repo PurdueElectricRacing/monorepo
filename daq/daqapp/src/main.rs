@@ -56,7 +56,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 can_thread,
                 settings,
                 cc,
-            )))
+            )?))
         }),
     )?;
 

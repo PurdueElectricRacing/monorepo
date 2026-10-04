@@ -24,8 +24,8 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 .suffix(" s");
             let span_changed = ui.add(span_control).changed();
 
-            if span_changed && span.is_finite() {
-                timeline.set_window_secs(span);
+            if span_changed && let Err(error) = timeline.set_window_secs(span) {
+                app.diagnostic = Some(error);
             }
 
             for field in 0..3 {
@@ -210,7 +210,10 @@ fn ruler(
             }
 
             if field != 2 {
-                timeline.set_window_secs(timeline.end().secs(timeline.start()));
+                let span = timeline.end().secs(timeline.start());
+                if let Err(error) = timeline.set_window_secs(span) {
+                    log::error!("Failed to update timeline span: {error}");
+                }
             }
             dragged = true;
         }

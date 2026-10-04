@@ -261,7 +261,13 @@ impl SendUi {
                                 },
                             };
 
-                            let identity = daqcore::can::can_dbc_identity(&selected_msg.id);
+                            let identity = match daqcore::can::can_dbc_identity(&selected_msg.id) {
+                                Ok(identity) => identity,
+                                Err(error) => {
+                                    self.error = Some(error.to_string());
+                                    return;
+                                }
+                            };
                             self.sending_messages.retain(|m| m.identity != identity);
 
                             self.sending_messages.push(SendingMessage {

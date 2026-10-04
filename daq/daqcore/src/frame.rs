@@ -5,8 +5,29 @@ use crate::{Time, can};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct CanIdentity(u32);
 
+/// An ID that exceeds the width allowed by its standard/extended format.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct InvalidCanId {
+    pub id: u32,
+    pub extended: bool,
+}
+
+impl std::fmt::Display for InvalidCanId {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let format = if self.extended {
+            "extended"
+        } else {
+            "standard"
+        };
+
+        write!(formatter, "{format} CAN ID 0x{:X} is out of range", self.id)
+    }
+}
+
+impl std::error::Error for InvalidCanId {}
+
 impl CanIdentity {
-    pub fn new(id: u32, extended: bool) -> Result<Self, String> {
+    pub fn new(id: u32, extended: bool) -> Result<Self, InvalidCanId> {
         let maximum_id = if extended {
             can::EXTENDED_ID_MASK
         } else {
@@ -14,7 +35,7 @@ impl CanIdentity {
         };
 
         if id > maximum_id {
-            return Err("CAN ID is out of range".into());
+            return Err(InvalidCanId { id, extended });
         }
 
         let identity_flag = if extended { can::EXTENDED_ID_FLAG } else { 0 };
@@ -56,8 +77,7 @@ pub enum FrameKind {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CanFrame {
-    pub msg_id: u32,
-    pub is_msg_id_extended: bool,
+    pub identity: CanIdentity,
     pub kind: FrameKind,
     /// CAN DLC code (0..8 classic, 0..15 FD).
     pub dlc: u8,
@@ -65,32 +85,17 @@ pub struct CanFrame {
 }
 
 impl CanFrame {
-    pub fn data(msg_id: u32, extended: bool, data: Vec<u8>) -> Result<Self, String> {
-        CanIdentity::new(msg_id, extended)?;
+    pub fn data(identity: CanIdentity, data: Vec<u8>) -> Result<Self, String> {
         if data.len() > 8 {
             return Err("classic CAN payload exceeds 8 bytes".into());
         }
 
         Ok(Self {
-            msg_id,
-            is_msg_id_extended: extended,
+            identity,
             kind: FrameKind::Data,
             dlc: data.len() as u8,
             data,
         })
-    }
-
-    /// Return the identity validated when constructing or receiving the frame.
-    ///
-    /// # Panics
-    /// Panics if the public ID fields were populated with an out-of-range ID.
-    pub fn identity(&self) -> CanIdentity {
-        CanIdentity::new(self.msg_id, self.is_msg_id_extended)
-            .expect("validated CAN frame identity")
-    }
-
-    pub fn decode_id(&self) -> u32 {
-        self.identity().dbc_id()
     }
 }
 
@@ -99,8 +104,7 @@ pub struct ParsedFrame {
     pub timestamp: Time,
     pub kind: FrameKind,
     pub dlc: u8,
-    pub msg_id: u32,
-    pub is_msg_id_extended: bool,
+    pub identity: CanIdentity,
     pub raw_bytes: Vec<u8>,
     pub decoded: Option<can_decode::DecodedMessage>,
 }
@@ -108,27 +112,16 @@ pub struct ParsedFrame {
 /// Borrowed decoded view; no frame or decoded-message clone is required for projections.
 pub struct DecodedFrame<'a> {
     pub timestamp: Time,
-    pub msg_id: u32,
-    pub is_msg_id_extended: bool,
+    pub identity: CanIdentity,
     pub raw_bytes: &'a [u8],
     pub decoded: &'a can_decode::DecodedMessage,
 }
 
 impl ParsedFrame {
-    /// Identity key compatible with DBC IDs; distinguishes standard and extended frames.
-    ///
-    /// # Panics
-    /// Panics if the public ID fields were populated with an out-of-range ID.
-    pub fn identity(&self) -> CanIdentity {
-        CanIdentity::new(self.msg_id, self.is_msg_id_extended)
-            .expect("validated parsed frame identity")
-    }
-
     pub fn decoded_view(&self) -> Option<DecodedFrame<'_>> {
         Some(DecodedFrame {
             timestamp: self.timestamp,
-            msg_id: self.msg_id,
-            is_msg_id_extended: self.is_msg_id_extended,
+            identity: self.identity,
             raw_bytes: &self.raw_bytes,
             decoded: self.decoded.as_ref()?,
         })

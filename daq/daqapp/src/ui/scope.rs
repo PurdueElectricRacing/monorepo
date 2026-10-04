@@ -67,17 +67,24 @@ impl Scope {
                 }
             }
             ScopeState::PickingSignal { selected_msg } => {
+                let identity = match daqcore::can::can_dbc_identity(&selected_msg.id) {
+                    Ok(identity) => identity,
+                    Err(error) => {
+                        ui.colored_label(ui.visuals().error_fg_color, error.to_string());
+                        self.state = ScopeState::default();
+                        return false;
+                    }
+                };
+
                 ui.separator();
                 ui.label(
                     eframe::egui::RichText::new(format!(
                         "Selected Message: {} ({}) — pick a signal:",
-                        selected_msg.name,
-                        daqcore::can::can_dbc_identity(&selected_msg.id)
+                        selected_msg.name, identity
                     ))
                     .strong(),
                 );
 
-                let identity = daqcore::can::can_dbc_identity(&selected_msg.id);
                 let mut picked_signal = None;
                 for sig in &selected_msg.signals {
                     if ui.button(&sig.name).clicked() {
@@ -227,5 +234,5 @@ fn scope_frames(
 ) -> impl Iterator<Item = &daqcore::ParsedFrame> {
     frames
         .iter()
-        .filter(move |frame| frame.identity() == identity)
+        .filter(move |frame| frame.identity == identity)
 }

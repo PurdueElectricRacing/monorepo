@@ -38,7 +38,7 @@ impl ViewerList {
             .body(|mut body| {
                 for frame in view.frames.iter().rev().take(200) {
                     if let Some(decoded) = &frame.decoded {
-                        let id = frame.identity().dbc_id();
+                        let id = frame.identity.dbc_id();
                         let def = parser.and_then(|p| p.parser.msg_def(id));
                         for (name, sig) in &decoded.signals {
                             let signal_definition = def.and_then(|message| {
@@ -58,7 +58,11 @@ impl ViewerList {
                                     ui.label(frame.timestamp.label());
                                 });
                                 row.col(|ui| {
-                                    ui.label(format!("{} (0x{:X})", decoded.name, frame.msg_id));
+                                    ui.label(format!(
+                                        "{} (0x{:X})",
+                                        decoded.name,
+                                        frame.identity.raw_id()
+                                    ));
                                 });
                                 row.col(|ui| {
                                     ui.label(name);
@@ -74,7 +78,7 @@ impl ViewerList {
                                 ui.label(frame.timestamp.label());
                             });
                             row.col(|ui| {
-                                ui.label(format!("0x{:X}", frame.msg_id));
+                                ui.label(format!("0x{:X}", frame.identity.raw_id()));
                             });
                             row.col(|ui| {
                                 ui.label("Unknown");

@@ -61,7 +61,7 @@ impl ViewerTable {
                 if !search.is_empty()
                     && !name.to_lowercase().contains(&search)
                     && !node.to_lowercase().contains(&search)
-                    && !format!("{:03X}", frame.msg_id)
+                    && !format!("{:03X}", frame.identity.raw_id())
                         .to_lowercase()
                         .contains(&search)
                     && !decoded.is_some_and(|d| {
@@ -71,7 +71,7 @@ impl ViewerTable {
                     continue;
                 }
 
-                let id = frame.identity().dbc_id();
+                let id = frame.identity.dbc_id();
                 let definition = parser.and_then(|p| p.parser.msg_def(id));
                 let signals = decoded
                     .map(|d| {
@@ -104,7 +104,7 @@ impl ViewerTable {
                 actions.extend(
                     MessageCard {
                         msg_name: name,
-                        identity: frame.identity(),
+                        identity: frame.identity,
                         tx_node: node,
                         raw_bytes: &bytes,
                         timestamp: &frame.timestamp.label(),

@@ -39,14 +39,12 @@ pub fn can_dbc_numeric_to_f64(numeric: &can_dbc::NumericValue) -> f64 {
     }
 }
 
-/// Convert DBC identity without discarding its standard/extended format.
-///
-/// # Panics
-/// Panics if the DBC ID exceeds the width allowed by its frame format.
-pub fn can_dbc_identity(id: &can_dbc::MessageId) -> frame::CanIdentity {
+/// Convert DBC identity without discarding its format or accepting an invalid ID.
+pub fn can_dbc_identity(
+    id: &can_dbc::MessageId,
+) -> Result<frame::CanIdentity, frame::InvalidCanId> {
     match id {
         can_dbc::MessageId::Standard(id) => frame::CanIdentity::new(*id as u32, false),
         can_dbc::MessageId::Extended(id) => frame::CanIdentity::new(*id, true),
     }
-    .expect("valid DBC CAN identity")
 }

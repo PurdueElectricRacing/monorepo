@@ -9,7 +9,7 @@ pub struct FrameDecoder {
 
 impl FrameDecoder {
     pub fn reload(&mut self, path: &std::path::Path) -> Result<(), String> {
-        let parser = can_decode::Parser::from_dbc_file(path).map_err(|e| e.to_string())?;
+        let parser = can_decode::Parser::from_dbc_file(path).map_err(|error| error.to_string())?;
         self.parser = Some(parser);
         Ok(())
     }
@@ -18,7 +18,7 @@ impl FrameDecoder {
         let decoded = if frame.kind == FrameKind::Data {
             self.parser
                 .as_ref()
-                .and_then(|p| p.decode_msg(frame.decode_id(), &frame.data))
+                .and_then(|p| p.decode_msg(frame.identity.dbc_id(), &frame.data))
         } else {
             None
         };
@@ -26,8 +26,7 @@ impl FrameDecoder {
             kind: frame.kind,
             dlc: frame.dlc,
             timestamp,
-            msg_id: frame.msg_id,
-            is_msg_id_extended: frame.is_msg_id_extended,
+            identity: frame.identity,
             raw_bytes: frame.data,
             decoded,
         }
