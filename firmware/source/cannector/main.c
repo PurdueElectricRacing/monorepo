@@ -21,6 +21,7 @@
 #include "common/rtos/rtos.h"
 #include "common/timestamped_frame/timestamped_frame.h"
 #include "common/utils/countof.h"
+#include "usb_device.h"
 
 typedef enum {
     USB_STATE_INIT,
@@ -47,9 +48,7 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
-void usb_thread_periodic(void);
-
-RTOS_DEFINE_TASK(usb_thread_periodic, 1, TASK_PRIORITY_HIGH, STACK_1024);
+RTOS_DEFINE_TASK(usb_tx_periodic, 1, TASK_PRIORITY_HIGH, STACK_1024);
 DEFINE_HEARTBEAT_TASK(nullptr);
 
 RTOS_DEFINE_QUEUE(can_queue, timestamped_frame_t, 256);
@@ -75,7 +74,7 @@ void main() {
     NVIC_EnableIRQ(FDCAN3_IT0_IRQn);
 
     START_HEARTBEAT_TASK();
-    RTOS_START_TASK(usb_thread_periodic);
+    RTOS_START_TASK(usb_tx_periodic);
 
     vTaskStartScheduler();
 }
