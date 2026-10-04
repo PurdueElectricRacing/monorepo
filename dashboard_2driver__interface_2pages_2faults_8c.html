@@ -107,105 +107,37 @@ $(function(){initNavTree('dashboard_2driver__interface_2pages_2faults_8c.html','
 <p>Faults page implementation.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="dashboard_2driver__interface_2pages_2faults_8h_source.html">faults.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="menu__system_8h_source.html">menu_system.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="fault__data_8h_source.html">can_library/generated/fault_data.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="nextion_8h_source.html">common/nextion/nextion.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="colors_8h_source.html">colors.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for faults.c:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dashboard_2driver__interface_2pages_2faults_8c__incl.svg" width="212" height="214"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="dashboard_2driver__interface_2pages_2faults_8c__incl.svg" width="516" height="407"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:acaa4a1748f184b5a2c6bca42f8dfbf7a" id="r_acaa4a1748f184b5a2c6bca42f8dfbf7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acaa4a1748f184b5a2c6bca42f8dfbf7a">faults_update</a> ()</td></tr>
-<tr class="separator:acaa4a1748f184b5a2c6bca42f8dfbf7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad62440d72002386384b8b569f3f1a280" id="r_ad62440d72002386384b8b569f3f1a280"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad62440d72002386384b8b569f3f1a280">faults_move_up</a> ()</td></tr>
-<tr class="separator:ad62440d72002386384b8b569f3f1a280"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afef112bb21f3e5c552adc3289ab4917c" id="r_afef112bb21f3e5c552adc3289ab4917c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afef112bb21f3e5c552adc3289ab4917c">faults_move_down</a> ()</td></tr>
-<tr class="separator:afef112bb21f3e5c552adc3289ab4917c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8a804b83e0e0eedd6b5a1436fb202ae" id="r_ae8a804b83e0e0eedd6b5a1436fb202ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8a804b83e0e0eedd6b5a1436fb202ae">faults_select</a> ()</td></tr>
-<tr class="separator:ae8a804b83e0e0eedd6b5a1436fb202ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc6b768237a24b8961509019e4fd966c" id="r_adc6b768237a24b8961509019e4fd966c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc6b768237a24b8961509019e4fd966c">faults_telemetry_update</a> ()</td></tr>
-<tr class="separator:adc6b768237a24b8961509019e4fd966c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6828552ff14e82b0f203515b1bf4e13" id="r_ac6828552ff14e82b0f203515b1bf4e13"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6828552ff14e82b0f203515b1bf4e13">update_selected_faults</a> (void)</td></tr>
+<tr class="separator:ac6828552ff14e82b0f203515b1bf4e13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b3a3d15a61836bc8747994b6fd90be1" id="r_a9b3a3d15a61836bc8747994b6fd90be1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b3a3d15a61836bc8747994b6fd90be1">faults_telemetry_update</a> (void)</td></tr>
+<tr class="separator:a9b3a3d15a61836bc8747994b6fd90be1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a598e836117e5c44672d55d79bcfecbb4" id="r_a598e836117e5c44672d55d79bcfecbb4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmenu__element__t.html">menu_element_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a598e836117e5c44672d55d79bcfecbb4">faults_elements</a> []</td></tr>
-<tr class="separator:a598e836117e5c44672d55d79bcfecbb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaff39bbc3544b2fcd5f7aab1292a9fb" id="r_aeaff39bbc3544b2fcd5f7aab1292a9fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmenu__page__t.html">menu_page_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeaff39bbc3544b2fcd5f7aab1292a9fb">faults_page</a></td></tr>
-<tr class="separator:aeaff39bbc3544b2fcd5f7aab1292a9fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27894179079c8ab16e901521b05e406b" id="r_a27894179079c8ab16e901521b05e406b"><td class="memItemLeft" align="right" valign="top">static char *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27894179079c8ab16e901521b05e406b">fault_text_objects</a> [<a class="el" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a350f15f19a79930cfb9699bdb9ad4e12">DISPLAY_FAULT_COUNT</a>]</td></tr>
+<tr class="separator:a27894179079c8ab16e901521b05e406b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04aba38221005387b6e6c05f0c20d933" id="r_a04aba38221005387b6e6c05f0c20d933"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63">fault_id_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a04aba38221005387b6e6c05f0c20d933">selected</a> [<a class="el" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a350f15f19a79930cfb9699bdb9ad4e12">DISPLAY_FAULT_COUNT</a>]</td></tr>
+<tr class="separator:a04aba38221005387b6e6c05f0c20d933"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b6ef146e66284208ee799b768636ce6" id="r_a6b6ef146e66284208ee799b768636ce6"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b6ef146e66284208ee799b768636ce6">selected_count</a></td></tr>
+<tr class="separator:a6b6ef146e66284208ee799b768636ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Faults page implementation. </p>
 <dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="afef112bb21f3e5c552adc3289ab4917c" name="afef112bb21f3e5c552adc3289ab4917c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afef112bb21f3e5c552adc3289ab4917c">&#9670;&#160;</a></span>faults_move_down()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void faults_move_down </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dashboard_2driver__interface_2pages_2faults_8c_afef112bb21f3e5c552adc3289ab4917c_cgraph.svg" width="100%" height="475"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="ad62440d72002386384b8b569f3f1a280" name="ad62440d72002386384b8b569f3f1a280"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad62440d72002386384b8b569f3f1a280">&#9670;&#160;</a></span>faults_move_up()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void faults_move_up </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dashboard_2driver__interface_2pages_2faults_8c_ad62440d72002386384b8b569f3f1a280_cgraph.svg" width="100%" height="475"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="ae8a804b83e0e0eedd6b5a1436fb202ae" name="ae8a804b83e0e0eedd6b5a1436fb202ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8a804b83e0e0eedd6b5a1436fb202ae">&#9670;&#160;</a></span>faults_select()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void faults_select </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dashboard_2driver__interface_2pages_2faults_8c_ae8a804b83e0e0eedd6b5a1436fb202ae_cgraph.svg" width="100%" height="438"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="adc6b768237a24b8961509019e4fd966c" name="adc6b768237a24b8961509019e4fd966c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc6b768237a24b8961509019e4fd966c">&#9670;&#160;</a></span>faults_telemetry_update()</h2>
+<a id="a9b3a3d15a61836bc8747994b6fd90be1" name="a9b3a3d15a61836bc8747994b6fd90be1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b3a3d15a61836bc8747994b6fd90be1">&#9670;&#160;</a></span>faults_telemetry_update()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -218,65 +150,140 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="dashboard_2driver__interface_2pages_2faults_8c_a9b3a3d15a61836bc8747994b6fd90be1_cgraph.svg" width="527" height="184"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
-<a id="acaa4a1748f184b5a2c6bca42f8dfbf7a" name="acaa4a1748f184b5a2c6bca42f8dfbf7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acaa4a1748f184b5a2c6bca42f8dfbf7a">&#9670;&#160;</a></span>faults_update()</h2>
+<a id="ac6828552ff14e82b0f203515b1bf4e13" name="ac6828552ff14e82b0f203515b1bf4e13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6828552ff14e82b0f203515b1bf4e13">&#9670;&#160;</a></span>update_selected_faults()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void faults_update </td>
+          <td class="memname">static void update_selected_faults </td>
           <td>(</td>
           <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dashboard_2driver__interface_2pages_2faults_8c_acaa4a1748f184b5a2c6bca42f8dfbf7a_cgraph.svg" width="100%" height="475"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="dashboard_2driver__interface_2pages_2faults_8c_ac6828552ff14e82b0f203515b1bf4e13_cgraph.svg" width="295" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="dashboard_2driver__interface_2pages_2faults_8c_ac6828552ff14e82b0f203515b1bf4e13_icgraph.svg" width="374" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a598e836117e5c44672d55d79bcfecbb4" name="a598e836117e5c44672d55d79bcfecbb4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a598e836117e5c44672d55d79bcfecbb4">&#9670;&#160;</a></span>faults_elements</h2>
+<a id="a27894179079c8ab16e901521b05e406b" name="a27894179079c8ab16e901521b05e406b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27894179079c8ab16e901521b05e406b">&#9670;&#160;</a></span>fault_text_objects</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structmenu__element__t.html">menu_element_t</a> faults_elements[]</td>
+          <td class="memname">char* const fault_text_objects[<a class="el" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a350f15f19a79930cfb9699bdb9ad4e12">DISPLAY_FAULT_COUNT</a>]</td>
         </tr>
       </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeaff39bbc3544b2fcd5f7aab1292a9fb" name="aeaff39bbc3544b2fcd5f7aab1292a9fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeaff39bbc3544b2fcd5f7aab1292a9fb">&#9670;&#160;</a></span>faults_page</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structmenu__page__t.html">menu_page_t</a> faults_page</td>
-        </tr>
-      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    .elements            = <a class="code hl_variable" href="#a598e836117e5c44672d55d79bcfecbb4">faults_elements</a>,</div>
-<div class="line">    .num_elements        = <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a598e836117e5c44672d55d79bcfecbb4">faults_elements</a>) / <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#a598e836117e5c44672d55d79bcfecbb4">faults_elements</a>[0]),</div>
-<div class="line">    .current_index       = 0,</div>
-<div class="line">    .is_element_selected = <span class="keyword">false</span></div>
+<div class="line">    [<a class="code hl_enumvalue" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a43bab37c9fead41a5084e9bae648349c">DISPLAY_FAULT_0</a>] = <a class="code hl_define" href="dashboard_2driver__interface_2pages_2faults_8h.html#a3f455e15d51cd5d24653f79cd3b30a7f">FAULT1_TXT</a>,</div>
+<div class="line">    [<a class="code hl_enumvalue" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a40286143d45f4722f1f10164bb69e6ea">DISPLAY_FAULT_1</a>] = <a class="code hl_define" href="dashboard_2driver__interface_2pages_2faults_8h.html#adc2cdf438e52ee8006e7db342ec799a7">FAULT2_TXT</a>,</div>
+<div class="line">    [<a class="code hl_enumvalue" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a892190439b075d112e963d01335aac4b">DISPLAY_FAULT_2</a>] = <a class="code hl_define" href="dashboard_2driver__interface_2pages_2faults_8h.html#a7b6930e5aea9b1f35c48a5a976dfe529">FAULT3_TXT</a>,</div>
+<div class="line">    [<a class="code hl_enumvalue" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a5f999b963fa07cad4580a766a95dab0b">DISPLAY_FAULT_3</a>] = <a class="code hl_define" href="dashboard_2driver__interface_2pages_2faults_8h.html#a0134f6a995002734e8984816a7ca45ab">FAULT4_TXT</a>,</div>
+<div class="line">    [<a class="code hl_enumvalue" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a1d68e1cc30cf82303125c62dc360e551">DISPLAY_FAULT_4</a>] = <a class="code hl_define" href="dashboard_2driver__interface_2pages_2faults_8h.html#acdac5eb81dace71dc7535357af19fe31">FAULT5_TXT</a>,</div>
+<div class="line">    [<a class="code hl_enumvalue" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a20ede2537e5f1c95c0378012d0082515">DISPLAY_FAULT_5</a>] = <a class="code hl_define" href="dashboard_2driver__interface_2pages_2faults_8h.html#a4210a5e9b94d931af5874be2d5c38677">FAULT6_TXT</a>,</div>
+<div class="line">    [<a class="code hl_enumvalue" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a73534898aab69d93f53c3ab0b916ac23">DISPLAY_FAULT_6</a>] = <a class="code hl_define" href="dashboard_2driver__interface_2pages_2faults_8h.html#ae2125509debf5b82814fa6d8854c10a9">FAULT7_TXT</a>,</div>
+<div class="line">    [<a class="code hl_enumvalue" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a410a1578f8b844235af8f761adc43ab7">DISPLAY_FAULT_7</a>] = <a class="code hl_define" href="dashboard_2driver__interface_2pages_2faults_8h.html#ad81ef7bd543ab42bc940b127faf3047e">FAULT8_TXT</a>,</div>
 <div class="line">}</div>
-<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8c_html_a598e836117e5c44672d55d79bcfecbb4"><div class="ttname"><a href="#a598e836117e5c44672d55d79bcfecbb4">faults_elements</a></div><div class="ttdeci">menu_element_t faults_elements[]</div><div class="ttdef"><b>Definition</b> faults.c:15</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_a0134f6a995002734e8984816a7ca45ab"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#a0134f6a995002734e8984816a7ca45ab">FAULT4_TXT</a></div><div class="ttdeci">#define FAULT4_TXT</div><div class="ttdef"><b>Definition</b> faults.h:17</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_a3f455e15d51cd5d24653f79cd3b30a7f"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#a3f455e15d51cd5d24653f79cd3b30a7f">FAULT1_TXT</a></div><div class="ttdeci">#define FAULT1_TXT</div><div class="ttdef"><b>Definition</b> faults.h:14</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_a4210a5e9b94d931af5874be2d5c38677"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#a4210a5e9b94d931af5874be2d5c38677">FAULT6_TXT</a></div><div class="ttdeci">#define FAULT6_TXT</div><div class="ttdef"><b>Definition</b> faults.h:19</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_a7b6930e5aea9b1f35c48a5a976dfe529"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#a7b6930e5aea9b1f35c48a5a976dfe529">FAULT3_TXT</a></div><div class="ttdeci">#define FAULT3_TXT</div><div class="ttdef"><b>Definition</b> faults.h:16</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_aa9ca83e0655a91e48e63bd0c55017204a1d68e1cc30cf82303125c62dc360e551"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a1d68e1cc30cf82303125c62dc360e551">DISPLAY_FAULT_4</a></div><div class="ttdeci">@ DISPLAY_FAULT_4</div><div class="ttdef"><b>Definition</b> faults.h:29</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_aa9ca83e0655a91e48e63bd0c55017204a20ede2537e5f1c95c0378012d0082515"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a20ede2537e5f1c95c0378012d0082515">DISPLAY_FAULT_5</a></div><div class="ttdeci">@ DISPLAY_FAULT_5</div><div class="ttdef"><b>Definition</b> faults.h:30</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_aa9ca83e0655a91e48e63bd0c55017204a40286143d45f4722f1f10164bb69e6ea"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a40286143d45f4722f1f10164bb69e6ea">DISPLAY_FAULT_1</a></div><div class="ttdeci">@ DISPLAY_FAULT_1</div><div class="ttdef"><b>Definition</b> faults.h:26</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_aa9ca83e0655a91e48e63bd0c55017204a410a1578f8b844235af8f761adc43ab7"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a410a1578f8b844235af8f761adc43ab7">DISPLAY_FAULT_7</a></div><div class="ttdeci">@ DISPLAY_FAULT_7</div><div class="ttdef"><b>Definition</b> faults.h:32</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_aa9ca83e0655a91e48e63bd0c55017204a43bab37c9fead41a5084e9bae648349c"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a43bab37c9fead41a5084e9bae648349c">DISPLAY_FAULT_0</a></div><div class="ttdeci">@ DISPLAY_FAULT_0</div><div class="ttdef"><b>Definition</b> faults.h:25</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_aa9ca83e0655a91e48e63bd0c55017204a5f999b963fa07cad4580a766a95dab0b"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a5f999b963fa07cad4580a766a95dab0b">DISPLAY_FAULT_3</a></div><div class="ttdeci">@ DISPLAY_FAULT_3</div><div class="ttdef"><b>Definition</b> faults.h:28</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_aa9ca83e0655a91e48e63bd0c55017204a73534898aab69d93f53c3ab0b916ac23"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a73534898aab69d93f53c3ab0b916ac23">DISPLAY_FAULT_6</a></div><div class="ttdeci">@ DISPLAY_FAULT_6</div><div class="ttdef"><b>Definition</b> faults.h:31</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_aa9ca83e0655a91e48e63bd0c55017204a892190439b075d112e963d01335aac4b"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a892190439b075d112e963d01335aac4b">DISPLAY_FAULT_2</a></div><div class="ttdeci">@ DISPLAY_FAULT_2</div><div class="ttdef"><b>Definition</b> faults.h:27</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_acdac5eb81dace71dc7535357af19fe31"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#acdac5eb81dace71dc7535357af19fe31">FAULT5_TXT</a></div><div class="ttdeci">#define FAULT5_TXT</div><div class="ttdef"><b>Definition</b> faults.h:18</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_ad81ef7bd543ab42bc940b127faf3047e"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#ad81ef7bd543ab42bc940b127faf3047e">FAULT8_TXT</a></div><div class="ttdeci">#define FAULT8_TXT</div><div class="ttdef"><b>Definition</b> faults.h:21</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_adc2cdf438e52ee8006e7db342ec799a7"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#adc2cdf438e52ee8006e7db342ec799a7">FAULT2_TXT</a></div><div class="ttdeci">#define FAULT2_TXT</div><div class="ttdef"><b>Definition</b> faults.h:15</div></div>
+<div class="ttc" id="adashboard_2driver__interface_2pages_2faults_8h_html_ae2125509debf5b82814fa6d8854c10a9"><div class="ttname"><a href="dashboard_2driver__interface_2pages_2faults_8h.html#ae2125509debf5b82814fa6d8854c10a9">FAULT7_TXT</a></div><div class="ttdeci">#define FAULT7_TXT</div><div class="ttdef"><b>Definition</b> faults.h:20</div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a04aba38221005387b6e6c05f0c20d933" name="a04aba38221005387b6e6c05f0c20d933"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04aba38221005387b6e6c05f0c20d933">&#9670;&#160;</a></span>selected</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63">fault_id_t</a> selected[<a class="el" href="dashboard_2driver__interface_2pages_2faults_8h.html#aa9ca83e0655a91e48e63bd0c55017204a350f15f19a79930cfb9699bdb9ad4e12">DISPLAY_FAULT_COUNT</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b6ef146e66284208ee799b768636ce6" name="a6b6ef146e66284208ee799b768636ce6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b6ef146e66284208ee799b768636ce6">&#9670;&#160;</a></span>selected_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t selected_count</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
 </div>
 </div>
 </div><!-- contents -->

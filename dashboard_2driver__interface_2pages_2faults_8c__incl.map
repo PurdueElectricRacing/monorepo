@@ -1,9 +1,27 @@
 <map id="firmware/source/dashboard/driver_interface/pages/faults.c" name="firmware/source/dashboard/driver_interface/pages/faults.c">
-<area shape="rect" id="Node000001" title="Faults page implementation." alt="" coords="5,5,183,61"/>
-<area shape="rect" id="Node000002" href="$dashboard_2driver__interface_2pages_2faults_8h.html" title="Faults page implementation." alt="" coords="6,109,70,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,63,56,97,52,94,74,60"/>
-<area shape="rect" id="Node000003" href="$menu__system_8h.html" title="Implementation of menu system for LCD display interface." alt="" coords="94,109,206,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="114,60,136,94,132,97,109,63"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="118,183,182,208"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="153,135,153,167,147,167,147,135"/>
+<area shape="rect" id="Node000001" title="Faults page implementation." alt="" coords="146,5,323,61"/>
+<area shape="rect" id="Node000002" href="$dashboard_2driver__interface_2pages_2faults_8h.html" title="Faults page implementation." alt="" coords="5,116,69,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,64,77,112,75,107,176,59"/>
+<area shape="rect" id="Node000003" href="$fault__data_8h.html" title="Auto&#45;generated global fault definitions and limits." alt="" coords="93,109,237,150"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,63,190,98,186,95,212,60"/>
+<area shape="rect" id="Node000007" href="$nextion_8h.html" title="Nextion display driver interface." alt="" coords="249,205,420,231"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="251,60,323,190,318,193,247,63"/>
+<area shape="rect" id="Node000010" href="$colors_8h.html" title="Color definitions for LCD display." alt="" coords="444,205,510,231"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="272,59,451,194,448,198,269,64"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="220,375,283,401"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="138,152,97,186,56,231,41,255,33,279,34,303,44,325,69,343,111,357,205,377,204,382,109,362,67,347,40,329,28,304,28,278,36,252,52,227,93,182,135,148"/>
+<area shape="rect" id="Node000005" href="$can__types_8h.html" title="Auto&#45;generated custom types and enums for the CAN library." alt="" coords="54,286,198,327"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="136,152,113,173,95,199,91,217,93,236,107,272,102,274,88,237,86,216,91,197,109,169,132,148"/>
+<area shape="rect" id="Node000006" href="$faults__common_8h.html" title="Event&#45;based FIDR system." alt="" coords="105,198,225,238"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="168,150,168,182,162,182,162,150"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="159,325,221,364,218,369,156,330"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="182,237,213,285,245,360,240,362,208,288,177,240"/>
+<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="159,240,144,273,139,271,154,238"/>
+<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="331,233,267,362,262,360,326,230"/>
+<area shape="rect" id="Node000008" href="$strbuf_8h.html" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="324,294,388,320"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="340,231,352,278,346,279,335,232"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="341,322,281,368,278,363,338,318"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="322,375,389,401"/>
+<area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="358,320,358,359,353,359,353,320"/>
+<area shape="poly" id="edge15_Node000010_Node000004" title=" " alt="" coords="474,233,447,279,426,305,401,329,350,359,299,378,297,373,348,354,398,325,422,302,442,276,469,230"/>
 </map>

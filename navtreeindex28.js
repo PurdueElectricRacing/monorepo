@@ -1,9 +1,5 @@
 var NAVTREEINDEX28 =
 {
-"torque__vector_2main_8h.html#ac346578ff0559ead46bd7f69c12776d4":[31,0,1,2,9,5,8],
-"torque__vector_2main_8h_source.html":[31,0,1,2,9,5],
-"torque__vector_2telemetry_2telemetry_8c.html":[31,0,1,2,9,2,0],
-"torque__vector_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1":[31,0,1,2,9,2,0,2],
 "torque__vector_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968":[31,0,1,2,9,2,0,1],
 "torque__vector_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2":[31,0,1,2,9,2,0,0],
 "torque__vector_2telemetry_2telemetry_8h.html":[31,0,1,2,9,2,1],
@@ -249,5 +245,9 @@ var NAVTREEINDEX28 =
 "watchdog_8h.html#a3aaba072bf5e5337aef793ceccdcf462":[31,0,1,1,16,1,1],
 "watchdog_8h.html#a48f9b6ab9ba7b61703d6c7e4415ef574":[31,0,1,1,16,1,7],
 "watchdog_8h.html#a51d10c4e4d48fbc226b4b17aab1ca5eb":[31,0,1,1,16,1,4],
-"watchdog_8h.html#a6a2c1fa78af77115f11c0f47b19480cd":[31,0,1,1,16,1,3]
+"watchdog_8h.html#a6a2c1fa78af77115f11c0f47b19480cd":[31,0,1,1,16,1,3],
+"watchdog_8h.html#a9474fe50e70aad5e46b407a2cb66cfbf":[31,0,1,1,16,1,2],
+"watchdog_8h.html#ac9f50b5ca658e88bed2fced52ca1789f":[31,0,1,1,16,1,5],
+"watchdog_8h.html#ae9d77b28b3ce449e8e33d9879332d407":[31,0,1,1,16,1,6],
+"watchdog_8h.html#af6ba2372e527b0dfdb214424dd9b4788":[31,0,1,1,16,1,0]
 };

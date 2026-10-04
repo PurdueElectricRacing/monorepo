@@ -1,9 +1,5 @@
 var NAVTREEINDEX19 =
 {
-"sdio_8c.html#ad9b4efaae93cd75532b18c0528a4ca3d":[31,0,1,1,11,0,39],
-"sdio_8c.html#adb3e01a3e924c7c52cad43949a43e9c7":[31,0,1,1,11,0,32],
-"sdio_8c.html#ae8b612323f1004f8e7e8612b818dac64":[31,0,1,1,11,0,8],
-"sdio_8c.html#af08305e59ade894dfc710139006e0b92":[31,0,1,1,11,0,5],
 "sdio_8c.html#af3f228aaee7b2b18acc056b2f27ca3f7":[31,0,1,1,11,0,18],
 "sdio_8h.html":[31,0,1,1,11,1],
 "sdio_8h.html#a025052e51318ae13855774c1acf04ee2":[31,0,1,1,11,1,47],
@@ -249,5 +245,9 @@ var NAVTREEINDEX19 =
 "source_2dashboard_2driver__interface_2pages_2amk_8h_source.html":[31,0,1,2,3,1,0,1],
 "spi__priv_8c.html":[31,0,1,1,9,10,2],
 "spi__priv_8c.html#a13a5d883a06088ab8338aed283f01a37":[31,0,1,1,9,10,2,8],
-"spi__priv_8c.html#a3e96e7e3bd320ca9791c8d7b10ee9e7d":[31,0,1,1,9,10,2,9]
+"spi__priv_8c.html#a3e96e7e3bd320ca9791c8d7b10ee9e7d":[31,0,1,1,9,10,2,9],
+"spi__priv_8c.html#a4d834d39ddd3930669d00c3b96ae34fc":[31,0,1,1,9,10,2,3],
+"spi__priv_8c.html#a7d7f8001830958cc705ff4de1b130542":[31,0,1,1,9,10,2,10],
+"spi__priv_8c.html#a8e9e5ef753602ac9e7822dee0923dd38":[31,0,1,1,9,10,2,0],
+"spi__priv_8c.html#a98dfc2957eb2c5832e8f31f72c480a15":[31,0,1,1,9,10,2,1]
 };

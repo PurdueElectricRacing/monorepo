@@ -1,41 +1,33 @@
 <map id="NXT_setBackground" name="NXT_setBackground">
-<area shape="rect" id="Node000001" title="Sets the background color of a specified object on the Nextion display." alt="" coords="613,228,756,254"/>
-<area shape="rect" id="Node000002" href="$menu__system_8c.html#a7645a0be2314be1c0a9117b4b34b4ed3" title="Applies hover styling effect to a menu element." alt="" coords="410,153,540,179"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="640,224,564,193,530,182,532,177,566,188,642,219"/>
-<area shape="rect" id="Node000012" href="$menu__system_8c.html#a52e23759a2403de35a5610f96cae0cd0" title="Applies normal (default) styling to a menu element." alt="" coords="406,203,543,228"/>
-<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="598,233,544,226,544,221,598,228"/>
-<area shape="rect" id="Node000013" href="$menu__system_8c.html#a6173507fa7b7cf81afec896f80300c9a" title="Applies selected state styling to a menu element." alt="" coords="402,252,548,278"/>
-<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="598,253,548,259,548,254,598,248"/>
-<area shape="rect" id="Node000017" href="$race_8c.html#af94dd7e3b6512b662e2e44124a1a660c" title=" " alt="" coords="384,325,565,351"/>
-<area shape="poly" id="edge20_Node000001_Node000017" title=" " alt="" coords="642,263,506,327,504,322,640,258"/>
-<area shape="rect" id="Node000003" href="$menu__system_8c.html#a7e670c0b8fc296a5cb8e5e5f340e508c" title="Moves menu selection down or increments selected element value." alt="" coords="203,153,316,179"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,169,317,169,317,164,394,164"/>
-<area shape="rect" id="Node000006" href="$menu__system_8c.html#abb6e83f43c566270750060807da99fa4" title="Moves menu selection up or increments selected element value." alt="" coords="211,80,308,106"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="419,150,299,109,301,104,421,145"/>
-<area shape="rect" id="Node000009" href="$menu__system_8c.html#a962aad262b004bf39deed9578941a89e" title="Handles menu element selection and actions." alt="" coords="218,203,302,228"/>
-<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="401,186,302,209,301,204,400,180"/>
-<area shape="rect" id="Node000004" href="$dashboard_2driver__interface_2pages_2faults_8c.html#afef112bb21f3e5c552adc3289ab4917c" title=" " alt="" coords="5,104,136,130"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="192,151,122,133,123,128,193,146"/>
-<area shape="rect" id="Node000005" href="$vcu_8c.html#aa1e50b257477672961d3d089dd2531ed" title=" " alt="" coords="11,153,130,179"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="188,169,131,169,131,164,188,164"/>
-<area shape="rect" id="Node000007" href="$dashboard_2driver__interface_2pages_2faults_8c.html#ad62440d72002386384b8b569f3f1a280" title=" " alt="" coords="14,5,127,31"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="212,76,135,45,107,34,109,29,137,40,214,71"/>
-<area shape="rect" id="Node000008" href="$vcu_8c.html#a7584d411418c72e61404ff410c27acc3" title=" " alt="" coords="19,55,122,80"/>
-<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="196,87,122,77,122,72,196,82"/>
-<area shape="rect" id="Node000010" href="$dashboard_2driver__interface_2pages_2faults_8c.html#ae8a804b83e0e0eedd6b5a1436fb202ae" title=" " alt="" coords="23,203,118,228"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="202,218,119,218,119,213,202,213"/>
-<area shape="rect" id="Node000011" href="$vcu_8c.html#afda974e4350e1dd0e7d778c1eb2178a9" title=" " alt="" coords="28,252,113,278"/>
-<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="204,233,113,257,112,251,202,228"/>
-<area shape="poly" id="edge12_Node000012_Node000003" title=" " alt="" coords="400,201,316,182,317,177,401,196"/>
-<area shape="poly" id="edge13_Node000012_Node000006" title=" " alt="" coords="392,199,383,194,367,182,357,169,334,143,284,108,287,104,338,139,361,166,370,178,385,189,394,194"/>
-<area shape="poly" id="edge14_Node000012_Node000009" title=" " alt="" coords="390,218,302,218,302,213,390,213"/>
-<area shape="poly" id="edge19_Node000013_Node000009" title=" " alt="" coords="400,251,301,227,302,222,401,245"/>
-<area shape="rect" id="Node000014" href="$menu__system_8c.html#aaaa431be258445ad9f1278c488a3f502" title="Refreshes the menu page by resetting selection state and updating all elements." alt="" coords="201,289,319,315"/>
-<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="387,283,320,295,319,289,386,278"/>
-<area shape="rect" id="Node000015" href="$dashboard_2driver__interface_2pages_2faults_8c.html#acaa4a1748f184b5a2c6bca42f8dfbf7a" title=" " alt="" coords="21,301,120,327"/>
-<area shape="poly" id="edge17_Node000014_Node000015" title=" " alt="" coords="186,310,121,314,120,308,185,304"/>
-<area shape="rect" id="Node000016" href="$vcu_8c.html#ad25ad6fc91aa0798a1862730aaef4452" title=" " alt="" coords="26,351,115,376"/>
-<area shape="poly" id="edge18_Node000014_Node000016" title=" " alt="" coords="203,323,184,329,112,353,111,348,183,324,201,318"/>
-<area shape="rect" id="Node000018" href="$race_8c.html#a07291ac7d61fe81b6a92f48d9b55b092" title="Updates telemetry data on the race dashboard LCD display." alt="" coords="184,339,336,364"/>
-<area shape="poly" id="edge21_Node000017_Node000018" title=" " alt="" coords="368,347,337,349,336,344,368,342"/>
+<area shape="rect" id="Node000001" title="Sets the background color of a specified object on the Nextion display." alt="" coords="602,129,745,155"/>
+<area shape="rect" id="Node000002" href="$menu__system_8c.html#a7645a0be2314be1c0a9117b4b34b4ed3" title="Applies hover styling effect to a menu element." alt="" coords="398,55,529,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="629,125,553,94,519,84,521,78,555,89,631,120"/>
+<area shape="rect" id="Node000009" href="$menu__system_8c.html#a52e23759a2403de35a5610f96cae0cd0" title="Applies normal (default) styling to a menu element." alt="" coords="395,104,532,130"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="587,134,533,128,533,122,587,129"/>
+<area shape="rect" id="Node000010" href="$menu__system_8c.html#a6173507fa7b7cf81afec896f80300c9a" title="Applies selected state styling to a menu element." alt="" coords="390,153,537,179"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="587,155,537,160,537,155,587,149"/>
+<area shape="rect" id="Node000013" href="$race_8c.html#af94dd7e3b6512b662e2e44124a1a660c" title=" " alt="" coords="373,203,554,228"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="630,164,555,194,520,205,519,200,553,189,628,159"/>
+<area shape="rect" id="Node000003" href="$menu__system_8c.html#a7e670c0b8fc296a5cb8e5e5f340e508c" title="Moves menu selection down or increments selected element value." alt="" coords="192,55,306,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="383,70,306,70,306,65,383,65"/>
+<area shape="rect" id="Node000005" href="$menu__system_8c.html#abb6e83f43c566270750060807da99fa4" title="Moves menu selection up or increments selected element value." alt="" coords="200,5,298,31"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="389,53,297,32,299,27,390,48"/>
+<area shape="rect" id="Node000007" href="$menu__system_8c.html#a962aad262b004bf39deed9578941a89e" title="Handles menu element selection and actions." alt="" coords="207,104,290,130"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="390,87,291,110,290,105,389,82"/>
+<area shape="rect" id="Node000004" href="$vcu_8c.html#aa1e50b257477672961d3d089dd2531ed" title=" " alt="" coords="5,55,125,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="176,70,125,70,125,65,176,65"/>
+<area shape="rect" id="Node000006" href="$vcu_8c.html#a7584d411418c72e61404ff410c27acc3" title=" " alt="" coords="14,5,116,31"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="185,21,117,21,117,16,185,16"/>
+<area shape="rect" id="Node000008" href="$vcu_8c.html#afda974e4350e1dd0e7d778c1eb2178a9" title=" " alt="" coords="23,104,107,130"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="192,120,107,120,107,114,192,114"/>
+<area shape="poly" id="edge9_Node000009_Node000003" title=" " alt="" coords="389,103,305,83,306,78,390,97"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="381,100,372,95,356,82,347,69,338,57,324,44,297,32,299,27,326,40,342,53,351,66,360,79,374,91,383,95"/>
+<area shape="poly" id="edge11_Node000009_Node000007" title=" " alt="" coords="379,120,291,120,291,114,379,114"/>
+<area shape="poly" id="edge15_Node000010_Node000007" title=" " alt="" coords="389,152,290,129,291,124,390,147"/>
+<area shape="rect" id="Node000011" href="$menu__system_8c.html#aaaa431be258445ad9f1278c488a3f502" title="Refreshes the menu page by resetting selection state and updating all elements." alt="" coords="190,153,308,179"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="375,169,309,169,309,164,375,164"/>
+<area shape="rect" id="Node000012" href="$vcu_8c.html#ad25ad6fc91aa0798a1862730aaef4452" title=" " alt="" coords="21,153,109,179"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="174,169,110,169,110,164,174,164"/>
+<area shape="rect" id="Node000014" href="$race_8c.html#a07291ac7d61fe81b6a92f48d9b55b092" title="Updates telemetry data on the race dashboard LCD display." alt="" coords="173,203,325,228"/>
+<area shape="poly" id="edge17_Node000013_Node000014" title=" " alt="" coords="357,218,326,218,326,213,357,213"/>
 </map>

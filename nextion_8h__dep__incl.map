@@ -1,17 +1,19 @@
 <map id="firmware/common/nextion/nextion.h" name="firmware/common/nextion/nextion.h">
-<area shape="rect" id="Node000001" title="Nextion display driver interface." alt="" coords="613,5,783,46"/>
+<area shape="rect" id="Node000001" title="Nextion display driver interface." alt="" coords="717,5,887,46"/>
 <area shape="rect" id="Node000002" href="$nextion_8c.html" title="Nextion display driver interface." alt="" coords="5,102,175,142"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="598,39,407,61,296,77,187,97,157,103,156,98,185,91,295,72,406,55,598,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="702,36,466,56,326,74,187,97,156,103,155,98,185,91,325,68,465,51,702,30"/>
 <area shape="rect" id="Node000003" href="$lcd_8c.html" title="LCD display management." alt="" coords="199,102,376,142"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="599,50,388,97,361,103,359,98,387,91,597,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="703,43,554,66,388,97,358,104,357,98,387,91,553,60,702,38"/>
 <area shape="rect" id="Node000004" href="$menu__system_8c.html" title="Implementation of menu system for LCD display interface." alt="" coords="400,94,577,150"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="641,55,550,96,548,91,639,50"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="723,53,578,97,577,91,721,48"/>
 <area shape="rect" id="Node000005" href="$source_2dashboard_2driver__interface_2pages_2amk_8c.html" title="AMK page implementation." alt="" coords="602,102,794,142"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="701,62,701,101,695,101,695,62"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="771,58,721,103,718,99,767,54"/>
 <area shape="rect" id="Node000006" href="$calibration_8c.html" title="Calibration page implementation." alt="" coords="819,94,996,150"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="757,50,848,91,846,96,755,55"/>
-<area shape="rect" id="Node000007" href="$race_8c.html" title="Race page implementation." alt="" coords="1020,102,1213,142"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="798,45,1009,91,1038,98,1037,103,1008,97,797,50"/>
-<area shape="rect" id="Node000008" href="$vcu_8c.html" title="VCU page implementation." alt="" coords="1237,102,1426,142"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="799,34,997,56,1225,91,1258,98,1256,103,1224,97,996,61,798,39"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="837,54,879,91,875,95,833,58"/>
+<area shape="rect" id="Node000007" href="$dashboard_2driver__interface_2pages_2faults_8c.html" title="Faults page implementation." alt="" coords="1020,94,1197,150"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="882,49,1021,91,1019,96,880,54"/>
+<area shape="rect" id="Node000008" href="$race_8c.html" title="Race page implementation." alt="" coords="1222,102,1414,142"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="903,39,1048,62,1211,91,1242,98,1241,104,1209,97,1048,67,902,44"/>
+<area shape="rect" id="Node000009" href="$vcu_8c.html" title="VCU page implementation." alt="" coords="1438,102,1627,142"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="903,31,1142,52,1285,69,1426,91,1460,98,1459,104,1426,97,1284,75,1142,58,902,36"/>
 </map>
