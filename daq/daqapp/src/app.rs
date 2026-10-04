@@ -1,6 +1,6 @@
 use crate::{
-    action, fil::messages::FilAdcInstance, paths, settings, shortcuts, telemetry, ui, util, widget_ids,
-    widgets, workspace,
+    action, fil::messages::FilAdcInstance, paths, settings, shortcuts, telemetry, ui, util,
+    widget_ids, widgets, workspace,
 };
 const MAX_CAN_EVENTS_PER_UPDATE: usize = 2_048;
 

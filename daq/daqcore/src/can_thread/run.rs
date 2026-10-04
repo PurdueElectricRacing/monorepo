@@ -80,6 +80,9 @@ fn run_with_connection(
                     if let Some(progress) = firmware.cancel() {
                         emit!(Event::FirmwareProgress(progress));
                     }
+                    for event in connection.close() {
+                        emit!(Event::FilExpectation(event));
+                    }
                     connection.select(source.clone(), Instant::now());
                     load = BusLoadTracker::default();
                     emit!(Event::SourceSelected(source));
@@ -203,7 +206,9 @@ fn run_with_connection(
                         if unsupported {
                             sends.delete(identity);
                         } else {
-                            connection.failed(Instant::now());
+                            for event in connection.failed(Instant::now()) {
+                                emit!(Event::FilExpectation(event));
+                            }
                             emit!(Event::ConnectionFailed(error.to_string()));
                             break;
                         }
@@ -235,7 +240,9 @@ fn run_with_connection(
                         progress.error = Some(format!("firmware write failed: {error}"));
                         emit!(Event::FirmwareProgress(progress));
                     }
-                    connection.failed(Instant::now());
+                    for event in connection.failed(Instant::now()) {
+                        emit!(Event::FilExpectation(event));
+                    }
                     emit!(Event::ConnectionFailed(error.to_string()));
                     break;
                 }
@@ -244,7 +251,13 @@ fn run_with_connection(
         }
 
         for gpio in connection.take_fil_gpio_events() {
-            emit!(Event::FilGpio { board: gpio.board, port: gpio.port, pin: gpio.pin, value: gpio.value, direction: gpio.direction });
+            emit!(Event::FilGpio {
+                board: gpio.board,
+                port: gpio.port,
+                pin: gpio.pin,
+                value: gpio.value,
+                direction: gpio.direction
+            });
         }
         for expectation in connection.take_fil_expectation_events() {
             emit!(Event::FilExpectation(expectation));
@@ -285,7 +298,9 @@ fn run_with_connection(
                 }
                 Err(DriverError::Timeout) => {}
                 Err(error) => {
-                    connection.failed(Instant::now());
+                    for event in connection.failed(Instant::now()) {
+                        emit!(Event::FilExpectation(event));
+                    }
                     emit!(Event::ConnectionFailed(error.to_string()));
                 }
             }
@@ -331,5 +346,7 @@ fn run_with_connection(
         logger.flush();
     }
 
-    connection.close();
+    for expectation in connection.close() {
+        let _ = events.emit(Event::FilExpectation(expectation));
+    }
 }

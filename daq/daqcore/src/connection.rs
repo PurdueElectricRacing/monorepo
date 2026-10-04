@@ -252,6 +252,10 @@ mod tests {
 
     #[test]
     fn legacy_fil_connection_defaults_new_options() {
+        let defaults = FilRunOptions::default();
+        assert_eq!(defaults.max_instructions, 50_000_000);
+        assert_eq!(defaults.adc_decimation, 1);
+        assert!(!defaults.loop_batching);
         let source: ConnectionSource = serde_json::from_value(serde_json::json!({
             "Fil": { "executable": "fil", "network": "network", "bus": "vehicle" }
         }))

@@ -1,4 +1,7 @@
-use crate::fil::{annotations as fil_annotations, config as fil_config, messages::{FilAdcInstance, FilGpioPort}};
+use crate::fil::{
+    annotations as fil_annotations, config as fil_config,
+    messages::{FilAdcInstance, FilGpioPort},
+};
 use crate::{action, app, settings};
 use daqcore::connection;
 use eframe::egui;
@@ -6,11 +9,26 @@ use std::collections::{HashMap, HashSet};
 
 const FIL_EXPECTATION_HISTORY_LIMIT: usize = 500;
 
-fn clear_expectations(events: &mut HashMap<String, daqcore::can::driver::FilExpectationEvent>, order: &mut Vec<String>) { events.clear(); order.clear(); }
-fn update_expectations(events: &mut HashMap<String, daqcore::can::driver::FilExpectationEvent>, order: &mut Vec<String>, event: daqcore::can::driver::FilExpectationEvent) {
-    if !events.contains_key(&event.check_id) { order.push(event.check_id.clone()); }
+fn clear_expectations(
+    events: &mut HashMap<String, daqcore::can::driver::FilExpectationEvent>,
+    order: &mut Vec<String>,
+) {
+    events.clear();
+    order.clear();
+}
+fn update_expectations(
+    events: &mut HashMap<String, daqcore::can::driver::FilExpectationEvent>,
+    order: &mut Vec<String>,
+    event: daqcore::can::driver::FilExpectationEvent,
+) {
+    if !events.contains_key(&event.check_id) {
+        order.push(event.check_id.clone());
+    }
     events.insert(event.check_id.clone(), event);
-    while order.len() > FIL_EXPECTATION_HISTORY_LIMIT { let id = order.remove(0); events.remove(&id); }
+    while order.len() > FIL_EXPECTATION_HISTORY_LIMIT {
+        let id = order.remove(0);
+        events.remove(&id);
+    }
 }
 
 #[derive(Clone, Copy, Default)]
@@ -307,7 +325,9 @@ impl FilControl {
                 value,
                 direction,
             } => {
-                let Some(port) = FilGpioPort::parse(port) else { return; };
+                let Some(port) = FilGpioPort::parse(port) else {
+                    return;
+                };
                 let state = self
                     .gpio_states
                     .entry((board.clone(), port, *pin))
@@ -317,12 +337,17 @@ impl FilControl {
                     daqcore::can_thread::FilGpioDirection::Output => state.output = *value,
                 }
             }
-            daqcore::can_thread::CanThreadEvent::FilExpectation(event) => update_expectations(&mut self.expectations, &mut self.expectation_order, event.clone()),
+            daqcore::can_thread::CanThreadEvent::FilExpectation(event) => update_expectations(
+                &mut self.expectations,
+                &mut self.expectation_order,
+                event.clone(),
+            ),
             daqcore::can_thread::CanThreadEvent::ConnectionSuccessful => {
                 self.gpio_states.clear();
                 clear_expectations(&mut self.expectations, &mut self.expectation_order);
             }
-            daqcore::can_thread::CanThreadEvent::Disconnection | daqcore::can_thread::CanThreadEvent::ConnectionFailed(_) => self.gpio_states.clear(),
+            daqcore::can_thread::CanThreadEvent::Disconnection
+            | daqcore::can_thread::CanThreadEvent::ConnectionFailed(_) => self.gpio_states.clear(),
             _ => {}
         }
     }
@@ -558,8 +583,7 @@ impl FilControl {
                 });
                 ui.horizontal(|ui| {
                     ui.label("MCU:");
-                    let effective =
-                        fil_config::effective_mcu(board, self.executable.as_deref());
+                    let effective = fil_config::effective_mcu(board, self.executable.as_deref());
                     match &effective {
                         Some(mcu) if mcu.is_file() => {
                             ui.label(mcu.display().to_string()).on_hover_text(
@@ -608,8 +632,7 @@ impl FilControl {
                                 })
                                 .map(str::to_owned)
                                 .collect();
-                            if set.len() == 1 && set[0] == fil_config::FIL_CAN_INSTANCES[0]
-                            {
+                            if set.len() == 1 && set[0] == fil_config::FIL_CAN_INSTANCES[0] {
                                 set.clear();
                             }
                             self.builder.boards[index].can_instances = set;
@@ -1386,7 +1409,9 @@ fn expectation_ms(ns: u64) -> String {
 mod expectation_tests {
     use super::*;
 
-    fn event(status: daqcore::can::driver::FilExpectationStatus) -> daqcore::can::driver::FilExpectationEvent {
+    fn event(
+        status: daqcore::can::driver::FilExpectationStatus,
+    ) -> daqcore::can::driver::FilExpectationEvent {
         daqcore::can::driver::FilExpectationEvent {
             check_id: "stimulus/0/script/expect/0".into(),
             script: "script".into(),
@@ -1414,7 +1439,7 @@ mod expectation_tests {
         for index in 0..=FIL_EXPECTATION_HISTORY_LIMIT {
             let mut check = event(daqcore::can::driver::FilExpectationStatus::Pending);
             check.check_id = index.to_string();
-            update_expectation_history(&mut events, &mut order, check);
+            update_expectations(&mut events, &mut order, check);
         }
         assert_eq!(events.len(), FIL_EXPECTATION_HISTORY_LIMIT);
         assert_eq!(order.len(), FIL_EXPECTATION_HISTORY_LIMIT);
@@ -1425,7 +1450,11 @@ mod expectation_tests {
     fn completed_run_history_is_retained_until_explicit_reset() {
         let mut events = HashMap::new();
         let mut order = Vec::new();
-        update_expectations(&mut events, &mut order, event(daqcore::can::driver::FilExpectationStatus::Fail));
+        update_expectations(
+            &mut events,
+            &mut order,
+            event(daqcore::can::driver::FilExpectationStatus::Fail),
+        );
         assert_eq!(events.len(), 1);
         clear_expectations(&mut events, &mut order);
         assert!(events.is_empty());
@@ -1436,7 +1465,7 @@ mod expectation_tests {
     fn lifecycle_replaces_pending_check_without_duplicate_history() {
         let mut events = HashMap::new();
         let mut order = Vec::new();
-        update_expectation_history(
+        update_expectations(
             &mut events,
             &mut order,
             event(daqcore::can::driver::FilExpectationStatus::Pending),
@@ -1446,18 +1475,20 @@ mod expectation_tests {
         passed.matched_id = Some(0x321);
         passed.matched_data = Some(vec![1, 2]);
         passed.matched_time_ns = Some(15);
-        update_expectation_history(&mut events, &mut order, passed);
+        update_expectations(&mut events, &mut order, passed);
         assert_eq!(order.len(), 1);
         assert_eq!(events.len(), 1);
         let stored = events.values().next().unwrap();
-        assert_eq!(stored.status, daqcore::can::driver::FilExpectationStatus::Pass);
+        assert_eq!(
+            stored.status,
+            daqcore::can::driver::FilExpectationStatus::Pass
+        );
         assert_eq!(stored.matched_time_ns, Some(15));
         clear_expectations(&mut events, &mut order);
         assert!(events.is_empty());
         assert!(order.is_empty());
     }
 }
-
 
 fn level_text(value: Option<bool>, unset: &str) -> egui::RichText {
     match value {

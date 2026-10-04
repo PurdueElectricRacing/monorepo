@@ -22,7 +22,7 @@ impl ConnectionManager {
     }
 
     pub fn select(&mut self, source: Option<ConnectionSource>, now: Instant) {
-        self.close();
+        let _ = self.close();
         self.source = source;
         self.retry_at = now;
     }
@@ -77,11 +77,17 @@ impl ConnectionManager {
     }
 
     pub fn take_fil_gpio_events(&mut self) -> Vec<crate::can::driver::FilGpioEvent> {
-        self.driver.as_mut().map(|d| d.take_fil_gpio_events()).unwrap_or_default()
+        self.driver
+            .as_mut()
+            .map(|d| d.take_fil_gpio_events())
+            .unwrap_or_default()
     }
 
     pub fn take_fil_expectation_events(&mut self) -> Vec<crate::can::driver::FilExpectationEvent> {
-        self.driver.as_mut().map(|d| d.take_fil_expectation_events()).unwrap_or_default()
+        self.driver
+            .as_mut()
+            .map(|d| d.take_fil_expectation_events())
+            .unwrap_or_default()
     }
 
     pub fn set_gpio(
@@ -121,24 +127,28 @@ impl ConnectionManager {
         driver.write_frame(frame)
     }
 
-    pub fn failed(&mut self, now: Instant) {
-        self.close();
+    pub fn failed(&mut self, now: Instant) -> Vec<crate::can::driver::FilExpectationEvent> {
+        let expectations = self.close();
         if matches!(self.source, Some(ConnectionSource::Fil { .. })) {
             self.source = None;
         } else {
             self.retry_at = now + Duration::from_millis(200);
         }
+        expectations
     }
 
-    pub fn close(&mut self) {
+    pub fn close(&mut self) -> Vec<crate::can::driver::FilExpectationEvent> {
         if let Some(mut driver) = self.driver.take() {
             let _ = driver.close();
+            driver.take_all_fil_expectation_events()
+        } else {
+            Vec::new()
         }
     }
 }
 
 impl Drop for ConnectionManager {
     fn drop(&mut self) {
-        self.close();
+        let _ = self.close();
     }
 }

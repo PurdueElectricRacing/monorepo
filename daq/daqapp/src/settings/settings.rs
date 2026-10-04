@@ -11,7 +11,9 @@ pub fn dbc_dir() -> Option<std::path::PathBuf> {
     path.is_dir().then_some(path)
 }
 
-fn default_window_secs() -> f64 { 30.0 }
+fn default_window_secs() -> f64 {
+    30.0
+}
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Settings {
@@ -48,7 +50,9 @@ impl Default for Settings {
 }
 
 impl Settings {
-    fn path() -> std::path::PathBuf { std::path::PathBuf::from(crate::settings::SETTINGS_PATH) }
+    fn path() -> std::path::PathBuf {
+        std::path::PathBuf::from(crate::settings::SETTINGS_PATH)
+    }
 
     pub fn load() -> Self {
         let path = Self::path();
@@ -63,7 +67,9 @@ impl Settings {
         }
     }
 
-    fn normalize(&mut self) { self.fil.normalize(); }
+    fn normalize(&mut self) {
+        self.fil.normalize();
+    }
 
     pub fn save(&self) {
         let json = serde_json::to_string_pretty(self).expect("Failed to serialize settings");
