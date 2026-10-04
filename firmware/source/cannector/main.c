@@ -23,14 +23,6 @@
 #include "common/utils/countof.h"
 #include "usb_device.h"
 
-typedef enum {
-    USB_STATE_INIT,
-    USB_STATE_CONNECTING,
-    USB_STATE_WAITING,
-    USB_STATE_TXING
-} usb_state_t;
-
-
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     // VCAN
     PHAL_PIN_DEFS_FDCAN1_RX_PB8,
@@ -77,24 +69,6 @@ void main() {
     RTOS_START_TASK(usb_tx_periodic);
 
     vTaskStartScheduler();
-}
-
-void usb_thread_periodic() {
-    timestamped_frame_t usb_packet[4];
-    static_assert(sizeof(usb_packet) == 64, "usb_packet max size is 64");
-
-    size_t count = uxQueueMessagesWaiting(can_queue);
-
-    if (count > 4) {
-        count = 4;
-    }
-
-    for (size_t i = 0; i < count; i++) {
-        xQueueReceive(can_queue, &usb_packet[i], 0);
-    }
-
-    size_t length = count * sizeof(timestamped_frame_t);
-    (void)PHAL_USB_write(PHAL_USB_DATA_ENDPOINT, usb_packet, (uint16_t)length);
 }
 
 void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {

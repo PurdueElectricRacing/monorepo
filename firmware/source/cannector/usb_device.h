@@ -1,4 +1,3 @@
-
 /**
  * @file usb_device.h
  * @brief USB tx thread

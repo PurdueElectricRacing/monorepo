@@ -11,6 +11,8 @@
 #include "common/phal_G4/gpio/gpio.h"
 #include "main.h"
 
+#include "usb_device.h"
+
 typedef enum {
     USB_STATE_INIT,
     USB_STATE_CONNECTING,
