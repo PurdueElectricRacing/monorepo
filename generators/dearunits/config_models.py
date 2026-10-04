@@ -16,8 +16,6 @@ from pydantic import AfterValidator, Field, StringConstraints, model_validator
 
 from core.declarations import DeclarationModel
 
-Number = int | float
-
 C_KEYWORDS = frozenset({
     "alignas", "alignof", "auto", "bool", "break", "case", "char", "const", "constexpr",
     "continue", "default", "do", "double", "else", "enum", "extern", "false", "float",
@@ -35,6 +33,8 @@ def _valid_identifier(name: str) -> str:
     if name.endswith(("_from", "_by")) or any(fragment in name for fragment in FORBIDDEN_FRAGMENTS):
         raise ValueError(f"'{name}' contains a fragment the generated function names use as a separator")
     return name
+
+Number = int | float
 
 Identifier = Annotated[
     str,
@@ -55,14 +55,13 @@ def _duplicate(values: list[str]) -> str | None:
 def _require_base_not_duplicated(base_unit: str, unit_names: list[str], owner: str) -> None:
     if base_unit in unit_names:
         raise ValueError(
-            f"base_unit '{base_unit}' of {owner} must not also appear in 'units' -- "
-            "it's implicit (scale=1.0), listing it would define it twice"
+            f"base_unit '{base_unit}' of {owner} must not also appear in 'units' "
         )
 
 def _require_unique_group_names(composed_of: list[DimensionTermConfig], owner: str) -> None:
     duplicate = _duplicate([term.group_name for term in composed_of])
     if duplicate is not None:
-        raise ValueError(f"{owner} references group '{duplicate}' more than once in composed_of")
+        raise ValueError(f"{owner} references group '{duplicate}' more than once")
 
 class UnitConfig(DeclarationModel):
     name: Identifier
@@ -75,9 +74,9 @@ class DimensionTermConfig(DeclarationModel):
     exponent: int
 
     @model_validator(mode="after")
-    def exponent_is_nonzero(self) -> Self:
+    def nonzero_exponent(self) -> Self:
         if self.exponent == 0:
-            raise ValueError("Composition exponent must not be zero")
+            raise ValueError("Exponent must not be zero")
         return self
 
 class DerivedUnitConfig(DeclarationModel):
@@ -101,7 +100,7 @@ class BaseQuantityConfig(DeclarationModel):
     name: Identifier
     base_unit: Identifier
     units: Annotated[list[UnitConfig], Field(min_length=1)]
-    is_angle: bool = False
+    is_dimensionless: bool = False
 
     @model_validator(mode="after")
     def validate_base_quantity(self) -> Self:
@@ -114,15 +113,15 @@ class BaseQuantityConfig(DeclarationModel):
 
 class BaseQuantitiesConfig(DeclarationModel):
     classes: list[BaseQuantityConfig]
+    angle_class: Identifier | None = None
 
     @model_validator(mode="after")
     def validate_base_quantities(self) -> Self:
         duplicate = _duplicate([item.name for item in self.classes])
         if duplicate is not None:
             raise ValueError(f"Duplicate base quantity name: '{duplicate}'")
-        angle_classes = [item.name for item in self.classes if item.is_angle]
-        if len(angle_classes) > 1:
-            raise ValueError(f"Only one base quantity may set 'is_angle': {', '.join(angle_classes)}")
+        if self.angle_class is not None and self.angle_class not in {item.name for item in self.classes}:
+            raise ValueError(f"angle_class '{self.angle_class}' doesn't match any base quantity's name")
         return self
 
 class DerivedQuantityConfig(DeclarationModel):

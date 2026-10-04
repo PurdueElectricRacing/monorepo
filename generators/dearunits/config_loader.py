@@ -41,6 +41,7 @@ class UnitConfigBundle:
     derived_quantities: dict[str, DerivedQuantityConfig]
     derived_scales: dict[str, dict[str, float]] = field(default_factory=dict)
     relations: tuple[RelationConfig, ...] = ()
+    angle_class: str | None = None
 
 def _load_model(path: Path, model_type: type[DeclarationModel], issues: list[ConfigIssue]) -> DeclarationModel | None:
     try:
@@ -232,12 +233,18 @@ def _resolve_derived_scales(bundle: UnitConfigBundle, issues: list[ConfigIssue])
     return resolved
 
 
-def _angle_quantity_name(bundle: UnitConfigBundle) -> str | None:
-    return next((quantity.name for quantity in bundle.base_quantities.values() if quantity.is_angle), None)
+def _dimensionless_quantity_names(bundle: UnitConfigBundle) -> set[str]:
+    """Quantities that are physically dimensionless (the angle class, and
+    anything else explicitly marked so, e.g. a future solid_angle) don't
+    count toward a relation's dimensional consistency -- see _validate_relations."""
+    names = {quantity.name for quantity in bundle.base_quantities.values() if quantity.is_dimensionless}
+    if bundle.angle_class is not None:
+        names.add(bundle.angle_class)
+    return names
 
 def _validate_relations(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> None:
     quantities = {*bundle.base_quantities, *bundle.derived_quantities}
-    angle_name = _angle_quantity_name(bundle)
+    dimensionless = _dimensionless_quantity_names(bundle)
     products: dict[frozenset[str], str] = {}
     quotients: dict[tuple[str, str], str] = {}
 
@@ -258,13 +265,13 @@ def _validate_relations(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> 
             for dims in (a, b):
                 for name, exponent in dims.items():
                     product[name] = product.get(name, 0) + exponent
-            product = {name: exponent for name, exponent in product.items() if exponent and name != angle_name}
-            expected = {name: exponent for name, exponent in result.items() if name != angle_name}
+            product = {name: exponent for name, exponent in product.items() if exponent and name not in dimensionless}
+            expected = {name: exponent for name, exponent in result.items() if name not in dimensionless}
             if product != expected:
                 issues.append(ConfigIssue(
                     COMPOUND_TYPES_CONFIG_PATH, location,
                     f"'{relation.factor_a}' * '{relation.factor_b}' has dimensions {_format_dimensions(product)}, "
-                    f"but '{relation.result}' is {_format_dimensions(expected)} (angle is ignored)",
+                    f"but '{relation.result}' is {_format_dimensions(expected)} (dimensionless quantities are ignored)",
                 ))
                 continue
 
@@ -304,6 +311,7 @@ def load_unit_config_bundle(
         base_quantities={item.name: item for item in base_types.classes},
         derived_quantities={item.name: item for item in compound_types.compounds},
         relations=tuple(compound_types.relations),
+        angle_class=base_types.angle_class,
     )
     _validate_name_uniqueness(bundle, issues)
     _validate_unit_dimensions(bundle, issues)

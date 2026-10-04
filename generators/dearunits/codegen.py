@@ -271,11 +271,11 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
 
 
 def build_angle_context(graph: UnitGraph) -> AngleContext | None:
-    """Trig and angle-wrapping helpers key off whichever base quantity is
-    marked `is_angle` in config, whose units are scaled in radians."""
-    angle = next((quantity for quantity in graph.base_quantities.values() if quantity.is_angle), None)
-    if angle is None:
+    """Trig and angle-wrapping helpers key off the single base quantity named
+    by config's `angle_class`, whose units are scaled in radians."""
+    if graph.angle_class is None:
         return None
+    angle = graph.base_quantities[graph.angle_class]
     units = [
         AngleUnitContext(unit.name, f"{unit.name}_t", unit.scale)
         for unit in angle.units.values()

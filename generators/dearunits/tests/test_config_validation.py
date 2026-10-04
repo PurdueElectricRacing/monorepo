@@ -77,8 +77,8 @@ def duplicate_relation_pair(base, compound):
     compound["relations"].append({"factor_a": "force", "factor_b": "length", "result": "torque"})
 
 
-def second_angle_quantity(base, compound):
-    next(q for q in base["classes"] if q["name"] == "length")["is_angle"] = True
+def unknown_angle_class(base, compound):
+    base["angle_class"] = "nonexistent"
 
 
 CASES = [
@@ -103,7 +103,7 @@ CASES = [
     ("duplicate unit across quantities", add_base_unit("newton"), "already defined"),
     ("dependency cycle", cyclic_quantities, "could not resolve"),
     ("non-coherent compound base", base_unit_not_coherent, "must derive to scale=1.0"),
-    ("second base quantity marked is_angle", second_angle_quantity, "Only one base quantity may set"),
+    ("angle_class references an unknown quantity", unknown_angle_class, "doesn't match any base quantity's name"),
 ]
 
 
@@ -119,5 +119,18 @@ def test_invalid_configuration_is_rejected(load_config, real_configs, label, mut
 def test_angle_is_exempt_from_relation_dimensions(load_config, real_configs):
     base, compound = copy.deepcopy(real_configs[0]), copy.deepcopy(real_configs[1])
     assert {"factor_a": "torque", "factor_b": "angular_velocity", "result": "power"} in compound["relations"]
+    bundle, output = load_config(base, compound)
+    assert bundle is not None, output
+
+
+def test_is_dimensionless_is_exempt_from_relation_dimensions_like_angle(load_config):
+    """A quantity marked is_dimensionless (e.g. a future solid_angle) must get
+    the same relation-dimension exemption the angle_class quantity gets,
+    without being angle_class itself."""
+    base = {"classes": [
+        {"name": "length", "base_unit": "meter", "units": [{"name": "millimeter", "scale": 0.001}]},
+        {"name": "ratio", "base_unit": "unit_ratio", "units": [{"name": "percent", "scale": 0.01}], "is_dimensionless": True},
+    ]}
+    compound = {"compounds": [], "relations": [{"factor_a": "length", "factor_b": "ratio", "result": "length"}]}
     bundle, output = load_config(base, compound)
     assert bundle is not None, output
