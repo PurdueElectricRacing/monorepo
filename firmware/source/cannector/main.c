@@ -14,6 +14,14 @@
 #include "common/utils/countof.h"
 #include "pindefs.h"
 
+typedef enum {
+    USB_STATE_INIT,
+    USB_STATE_CONNECTING,
+    USB_STATE_WAITING,
+    USB_STATE_TXING
+} usb_state_t;
+
+
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     // VCAN
     PHAL_PIN_DEFS_FDCAN1_RX_PB8,
@@ -38,6 +46,7 @@ DEFINE_HEARTBEAT_TASK(nullptr);
 
 RTOS_DEFINE_QUEUE(can_queue, timestamped_frame_t, 256);
 
+volatile uint32_t last_can_rx_time_ms = 0;
 
 void main() {
     PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
@@ -48,6 +57,8 @@ void main() {
     PHAL_FDCAN_init(FDCAN3, SCAN_BAUD_RATE);
     PHAL_USB_init();
 
+    RTOS_INIT_QUEUE(can_queue);
+
     NVIC_SetPriority(FDCAN1_IT0_IRQn, 5);
     NVIC_SetPriority(FDCAN2_IT0_IRQn, 5);
     NVIC_SetPriority(FDCAN3_IT0_IRQn, 5);
@@ -55,7 +66,6 @@ void main() {
     NVIC_EnableIRQ(FDCAN2_IT0_IRQn);
     NVIC_EnableIRQ(FDCAN3_IT0_IRQn);
 
-    RTOS_INIT_QUEUE(can_queue);
     START_HEARTBEAT_TASK();
     RTOS_START_TASK(usb_thread_periodic);
 
