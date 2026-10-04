@@ -149,7 +149,7 @@ impl Driver for SimulatedDriver {
         if now < self.next {
             return Err(DriverError::Timeout);
         }
-        self.next += Duration::from_millis(5);
+        self.next += Duration::from_millis(1);
         let mut rng = rand::rng();
         let msg = self
             .parser
