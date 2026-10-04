@@ -21,6 +21,15 @@ pub struct TestFile {
     pub expect: Vec<Expectation>,
 }
 
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+enum AcceptPolicy {
+    #[default]
+    First,
+    Last,
+    Any
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TxMessage {
     pub timestamp: f64,
@@ -37,6 +46,8 @@ pub struct Expectation {
 
     #[serde(default)]
     pub signals: IndexMap<String, [f64; 2]>,
+
+    pub accept: AcceptPolicy,
 }
 
 #[derive(Clone)]
