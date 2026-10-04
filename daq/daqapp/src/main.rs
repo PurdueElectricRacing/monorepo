@@ -1,8 +1,7 @@
 mod action;
 mod app;
-mod messages;
 mod assets;
-mod fil_annotations;
+mod fil;
 mod paths;
 mod settings;
 mod shortcuts;

@@ -1,5 +1,5 @@
 use crate::{
-    action, messages::FilAdcInstance, paths, settings, shortcuts, telemetry, ui, util, widget_ids,
+    action, fil::messages::FilAdcInstance, paths, settings, shortcuts, telemetry, ui, util, widget_ids,
     widgets, workspace,
 };
 const MAX_CAN_EVENTS_PER_UPDATE: usize = 2_048;
@@ -66,7 +66,7 @@ pub struct DAQApp {
     pub fil_elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
     pub fil_disabled_boards: Vec<String>,
     pub fil_use_builder: bool,
-    pub fil_builder: daqcore::fil_config::BuiltNetwork,
+    pub fil_builder: crate::fil::config::BuiltNetwork,
     pub fil_adc_board: String,
     pub fil_adc_instance: FilAdcInstance,
     pub fil_adc_channel: u8,

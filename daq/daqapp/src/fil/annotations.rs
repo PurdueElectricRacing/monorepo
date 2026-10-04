@@ -43,7 +43,7 @@ fn load_from_path(path: &Path) -> Result<FilAnnotations, String> {
                 "{} is missing; using the embedded PER annotations",
                 path.display()
             );
-            include_str!("../fil_annotations.json").to_owned()
+            include_str!("../../fil_annotations.json").to_owned()
         }
         Err(error) => return Err(format!("Failed to read {}: {error}", path.display())),
     };
