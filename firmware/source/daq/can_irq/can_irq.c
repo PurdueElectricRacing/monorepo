@@ -10,7 +10,7 @@
 #include "can_library/generated/VCAN.h"
 #include "common/rtos/rtos.h"
 #include "spmc.h"
-#include "timestamped_frame.h"
+#include "common/timestamped_frame/timestamped_frame.h"
 #include "rtc_sync.h"
 
 volatile uint32_t last_can_rx_time_ms = 0;
