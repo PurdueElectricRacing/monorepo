@@ -65,6 +65,9 @@ fn run_with_connection(
                     if let Some(progress) = firmware.cancel() {
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
+                    for event in connection.close() {
+                        emit!(can_thread::CanThreadEvent::FilExpectation(event));
+                    }
                     connection.select(source.clone(), time::Instant::now());
                     load = can::bus_load::BusLoadTracker::default();
                     emit!(can_thread::CanThreadEvent::SourceSelected(source));
@@ -224,10 +227,10 @@ fn run_with_connection(
                         if unsupported {
                             sends.delete(identity);
                         } else {
-                            connection.failed(time::Instant::now());
-                            emit!(can_thread::CanThreadEvent::ConnectionFailed(
-                                error.to_string()
-                            ));
+                            for event in connection.failed(time::Instant::now()) {
+                                emit!(can_thread::CanThreadEvent::FilExpectation(event));
+                            }
+                            emit!(can_thread::CanThreadEvent::ConnectionFailed(error.to_string()));
                             break;
                         }
                     }
@@ -258,10 +261,10 @@ fn run_with_connection(
                         progress.error = Some(format!("firmware write failed: {error}"));
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
-                    connection.failed(time::Instant::now());
-                    emit!(can_thread::CanThreadEvent::ConnectionFailed(
-                        error.to_string()
-                    ));
+                    for event in connection.failed(time::Instant::now()) {
+                        emit!(can_thread::CanThreadEvent::FilExpectation(event));
+                    }
+                    emit!(can_thread::CanThreadEvent::ConnectionFailed(error.to_string()));
                     break;
                 }
                 thread::sleep(FIRMWARE_FRAME_DELAY);
@@ -269,7 +272,13 @@ fn run_with_connection(
         }
 
         for gpio in connection.take_fil_gpio_events() {
-            emit!(Event::FilGpio { board: gpio.board, port: gpio.port, pin: gpio.pin, value: gpio.value, direction: gpio.direction });
+            emit!(Event::FilGpio {
+                board: gpio.board,
+                port: gpio.port,
+                pin: gpio.pin,
+                value: gpio.value,
+                direction: gpio.direction
+            });
         }
         for expectation in connection.take_fil_expectation_events() {
             emit!(Event::FilExpectation(expectation));
@@ -311,10 +320,10 @@ fn run_with_connection(
                 }
                 Err(can::driver::DriverError::Timeout) => {}
                 Err(error) => {
-                    connection.failed(time::Instant::now());
-                    emit!(can_thread::CanThreadEvent::ConnectionFailed(
-                        error.to_string()
-                    ));
+                    for event in connection.failed(time::Instant::now()) {
+                        emit!(can_thread::CanThreadEvent::FilExpectation(event));
+                    }
+                    emit!(can_thread::CanThreadEvent::ConnectionFailed(error.to_string()));
                 }
             }
         }
@@ -359,5 +368,7 @@ fn run_with_connection(
         logger.flush();
     }
 
-    connection.close();
+    for expectation in connection.close() {
+        let _ = events.emit(Event::FilExpectation(expectation));
+    }
 }
