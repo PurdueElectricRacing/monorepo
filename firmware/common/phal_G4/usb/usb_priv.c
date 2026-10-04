@@ -92,38 +92,29 @@ static bool usb_enable_clock(void) {
     return false;
 }
 
-/** Release the USB-C CC and USB data pins from their GPIO digital paths. */
+/** Release the USB data pins from their GPIO digital paths. */
 static void usb_configure_pins(void) {
-    // GPIOA must be clocked before changing PA8/PA9 (USB-C CC lines) or
-    // PA11/PA12 (USB D-/D+). The barrier ensures the clock write takes effect
+    // GPIOA must be clocked before changing PA11/PA12 (USB D-/D+).
+    // The barrier ensures the clock write takes effect
     // before the following peripheral access.
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
     __DSB();
 
-    constexpr uint32_t cc_mask =
-        (USB_PRIV_GPIO_MODE_BITS << (USB_PRIV_CC1_PIN * USB_PRIV_GPIO_MODE_BIT_WIDTH))
-        | (USB_PRIV_GPIO_MODE_BITS << (USB_PRIV_CC2_PIN * USB_PRIV_GPIO_MODE_BIT_WIDTH));
     constexpr uint32_t data_mask =
         (USB_PRIV_GPIO_MODE_BITS << (USB_PRIV_DM_PIN * USB_PRIV_GPIO_MODE_BIT_WIDTH))
         | (USB_PRIV_GPIO_MODE_BITS << (USB_PRIV_DP_PIN * USB_PRIV_GPIO_MODE_BIT_WIDTH));
-    // Analog mode disconnects the GPIO digital paths so UCPD and USB can own
-    // their pins. Neither signaling block uses GPIO pull resistors.
-    GPIOA->MODER = (GPIOA->MODER & ~(cc_mask | data_mask)) | cc_mask | data_mask;
-    GPIOA->PUPDR &= ~(cc_mask | data_mask);
+    // Analog mode disconnects the GPIO digital paths so USB can own its pins.
+    GPIOA->MODER = (GPIOA->MODER & ~data_mask) | data_mask;
+    GPIOA->PUPDR &= ~data_mask;
 }
 
-/** Configure UCPD1 to advertise this board as a USB-C power sink. */
+/** Use external USB-C sink resistors and disable internal dead-battery pulls. */
 static void usb_configure_type_c_sink(void) {
-    // UCPD1 presents the USB-C sink pull-downs on PA8/PA9. PWR controls the
-    // dead-battery pull-downs that otherwise remain connected during startup.
+    // Leave PA8/PA9 available for other peripherals (PA8 is FDCAN3 RX).
+    // PWR controls the dead-battery pull-downs connected during startup.
     RCC->APB1ENR1 |= RCC_APB1ENR1_PWREN;
-    RCC->APB1ENR2 |= RCC_APB1ENR2_UCPD1EN;
     __DSB();
 
-    // Enable the UCPD analog block and both CC channels in sink mode, then
-    // disconnect the separate dead-battery resistors to avoid double loading.
-    UCPD1->CFG1 = UCPD_CFG1_UCPDEN;
-    UCPD1->CR = UCPD_CR_ANAMODE | UCPD_CR_CCENABLE;
     PWR->CR3 |= PWR_CR3_UCPD_DBDIS;
 }
 
