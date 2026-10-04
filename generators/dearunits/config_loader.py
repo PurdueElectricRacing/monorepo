@@ -98,10 +98,6 @@ def _validate_name_uniqueness(bundle: UnitConfigBundle, issues: list[ConfigIssue
             _claim_name(unit.name, label, COMPOUND_TYPES_CONFIG_PATH, f"compounds.{derived.name}.units.{unit.name}", owners, issues)
 
 
-# Exponents over base quantities only (never a derived-quantity name), e.g.
-# velocity -> {length: 1, time: -1}. `None` means "couldn't resolve" (unknown
-# reference or a dependency cycle); `{}` is a real, successful result --
-# resolved to physically dimensionless, not a failure.
 Dimensions = dict[str, int]
 
 def _quantity_dimensions(
@@ -117,7 +113,7 @@ def _quantity_dimensions(
     if name in memo:
         return memo[name]
     if name in visiting:
-        return None  
+        return None  # cycle: name transitively depends on itself
     if name not in bundle.derived_quantities:
         return None  # not a base quantity and not a known derived quantity either
     dims = _terms_dimensions(bundle.derived_quantities[name].composed_of, bundle, memo, (*visiting, name))
@@ -177,7 +173,10 @@ def _base_quantity_unit_offset(quantity: BaseQuantityConfig, unit_name: str) -> 
     return 0.0 if unit is None else unit.offset
 
 def _validate_no_offset_in_composed_of(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> None:
-    "Compound types do not support types with none_zero offset types"
+    """composed_of folds a referenced unit in via scale**exponent -- that's
+    only valid for a pure ratio. A unit with a nonzero offset (e.g. kelvin,
+    fahrenheit) isn't a ratio of its base unit, so composing it this way
+    would silently drop the offset and compute a meaningless number."""
     for derived in bundle.derived_quantities.values():
         term_lists = [(derived.composed_of, f"compounds.{derived.name}.composed_of")]
         for unit in derived.units:
