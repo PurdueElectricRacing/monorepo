@@ -43,7 +43,6 @@ class UnitConfigBundle:
     derived_quantities: dict[str, DerivedQuantityConfig]
     derived_scales: dict[str, dict[str, float]] = field(default_factory=dict)
     relations: tuple[RelationConfig, ...] = ()
-    angle_class: str | None = None
 
 def _load_model(path: Path, model_type: type[DeclarationModel], issues: list[ConfigIssue]) -> DeclarationModel | None:
     try:
@@ -236,10 +235,13 @@ def _resolve_derived_scales(bundle: UnitConfigBundle, issues: list[ConfigIssue])
 
 
 def _dimensionless_quantity_names(bundle: UnitConfigBundle) -> set[str]:
-    names = {quantity.name for quantity in bundle.base_quantities.values() if quantity.is_dimensionless}
-    if bundle.angle_class is not None:
-        names.add(bundle.angle_class)
-    return names
+    """Quantities that are physically dimensionless (angle, and anything else
+    explicitly marked so, e.g. a future solid_angle) don't count toward a
+    relation's dimensional consistency -- see _validate_relations."""
+    return {
+        quantity.name for quantity in bundle.base_quantities.values()
+        if quantity.is_angle or quantity.is_dimensionless
+    }
 
 def _validate_relations(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> None:
     quantities = {*bundle.base_quantities, *bundle.derived_quantities}
@@ -310,7 +312,6 @@ def load_unit_config_bundle(
         base_quantities={item.name: item for item in base_types.classes},
         derived_quantities={item.name: item for item in compound_types.compounds},
         relations=tuple(compound_types.relations),
-        angle_class=base_types.angle_class,
     )
     _validate_name_uniqueness(bundle, issues)
     _validate_unit_dimensions(bundle, issues)
