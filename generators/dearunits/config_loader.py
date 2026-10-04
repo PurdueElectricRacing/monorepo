@@ -235,9 +235,6 @@ def _resolve_derived_scales(bundle: UnitConfigBundle, issues: list[ConfigIssue])
 
 
 def _dimensionless_quantity_names(bundle: UnitConfigBundle) -> set[str]:
-    """Quantities that are physically dimensionless (angle, and anything else
-    explicitly marked so, e.g. a future solid_angle) don't count toward a
-    relation's dimensional consistency -- see _validate_relations."""
     return {
         quantity.name for quantity in bundle.base_quantities.values()
         if quantity.is_angle or quantity.is_dimensionless
