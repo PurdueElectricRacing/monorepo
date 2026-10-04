@@ -1,4 +1,4 @@
-use crate::{connection, ui::theme};
+use crate::ui::theme;
 
 pub const SETTINGS_PATH: &str = "settings.json";
 pub const DEFAULT_LOG_FOLDER: &str = "logs";
@@ -7,19 +7,21 @@ pub fn dbc_dir() -> Option<std::path::PathBuf> {
     let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../dbc");
     path.is_dir().then_some(path)
 }
+
 const DEFAULT_UDP_PORT: u16 = 5005;
-const DEFAULT_CAN_SPEED: connection::CanBusSpeed = connection::CanBusSpeed::Kbps500;
+const DEFAULT_CAN_SPEED: daqcore::connection::CanBusSpeed =
+    daqcore::connection::CanBusSpeed::Kbps500;
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Settings {
     pub dbc_path: Option<std::path::PathBuf>,
-    pub selected_source: Option<connection::ConnectionSource>,
-    pub selected_speed: connection::CanBusSpeed,
+    pub selected_source: Option<daqcore::connection::ConnectionSource>,
+    pub selected_speed: daqcore::connection::CanBusSpeed,
     pub udp_port: u16,
     pub theme: theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
-    #[serde(default)]
     pub log_folder: Option<std::path::PathBuf>,
+    pub window_secs: f64,
 }
 
 impl Default for Settings {
@@ -32,6 +34,7 @@ impl Default for Settings {
             theme: theme::ThemeSelection::Default,
             pixels_per_point: None,
             log_folder: None,
+            window_secs: 30.0,
         }
     }
 }
@@ -53,10 +56,17 @@ impl Settings {
     }
 
     pub fn save(&self) {
-        // Expect okay. If it doesn't fail in testing, it shouldn't fail later.
-        let json = serde_json::to_string_pretty(self).expect("Failed to serialize settings");
+        let json = match serde_json::to_string_pretty(self) {
+            Ok(json) => json,
+            Err(error) => {
+                log::error!("Failed to serialize settings: {error}");
+                return;
+            }
+        };
+
         let path = Self::path();
-        std::fs::write(&path, json)
-            .unwrap_or_else(|e| log::error!("Failed to write {}: {}", path.display(), e));
+        if let Err(error) = std::fs::write(&path, json) {
+            log::error!("Failed to write {}: {error}", path.display());
+        }
     }
 }

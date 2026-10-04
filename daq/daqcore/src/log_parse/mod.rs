@@ -11,13 +11,13 @@ pub fn parse_logs_to_tables(
     bus_0_name: &str,
     parser_bus_1: &can_decode::Parser,
     bus_1_name: &str,
-) {
-    let parsed = parse::parse_log_files(logs_dir, parser_bus_0, parser_bus_1);
+) -> Result<(), csv::Error> {
+    let parsed = parse::parse_log_files(logs_dir, parser_bus_0, parser_bus_1)?;
     let chunked = parse::chunk_parsed(parsed);
     let correlated = correlate::time_correlate_chunks(chunked);
 
     let mut table_builder = table::TableBuilder::new();
     table_builder.create_header(parser_bus_0, bus_0_name);
     table_builder.create_header(parser_bus_1, bus_1_name);
-    table_builder.create_and_write_tables(output_dir, output_prefix, correlated);
+    table_builder.create_and_write_tables(output_dir, output_prefix, correlated)
 }

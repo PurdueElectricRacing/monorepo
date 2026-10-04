@@ -1,8 +1,15 @@
-use crate::{action, app, formatter, messages, widgets};
-use eframe::egui;
+use crate::{action, app, telemetry, ui, widgets};
 
-pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
-    egui::CentralPanel::default().show(ctx, |ui| {
+pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
+    ui::timeline::show(app, ctx);
+    app.session.evict();
+    let start = app.session.timeline().start();
+    let removed = app
+        .bus_load_samples
+        .partition_point(|s| s.timestamp < start);
+    app.bus_load_samples.drain(..removed);
+    let view = telemetry::TelemetryView::new(&app.session);
+    eframe::egui::CentralPanel::default().show(ctx, |ui| {
         if app.tile_tree.is_empty() {
             ui.vertical_centered(|ui| {
                 ui.label("No widgets in workspace yet.");
@@ -11,7 +18,8 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
             });
         } else {
             let mut behavior = WorkspaceTileBehavior {
-                can_messages: &app.can_messages,
+                view: &view,
+                bus_load: &app.bus_load_samples,
                 action_queue: &mut app.action_queue,
                 parser: app.parser.as_ref(),
                 ui_to_can_tx: app.ui_to_can_tx.clone(),
@@ -23,24 +31,26 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
 }
 
 struct WorkspaceTileBehavior<'a> {
-    can_messages: &'a [messages::MsgFromCan],
+    view: &'a telemetry::TelemetryView<'a>,
+    bus_load: &'a [telemetry::BusLoadSample],
     action_queue: &'a mut Vec<action::AppAction>,
     parser: Option<&'a app::ParserInfo>,
-    ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
-    formatter: &'a Option<formatter::Formatter>,
+    ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+    formatter: &'a Option<daqcore::formatter::Formatter>,
 }
 
 impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
     fn pane_ui(
         &mut self,
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         _tile_id: egui_tiles::TileId,
         widget: &mut widgets::Widget,
     ) -> egui_tiles::UiResponse {
         widget.show(
             ui,
             widgets::WidgetContext {
-                can_messages: self.can_messages,
+                view: self.view,
+                bus_load: self.bus_load,
                 action_queue: self.action_queue,
                 parser: self.parser,
                 ui_to_can_tx: self.ui_to_can_tx.clone(),
@@ -49,11 +59,11 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
         )
     }
 
-    fn tab_title_for_pane(&mut self, widget: &widgets::Widget) -> egui::WidgetText {
+    fn tab_title_for_pane(&mut self, widget: &widgets::Widget) -> eframe::egui::WidgetText {
         widget.title().into()
     }
 
-    fn tab_bar_color(&self, visuals: &egui::Visuals) -> egui::Color32 {
+    fn tab_bar_color(&self, visuals: &eframe::egui::Visuals) -> eframe::egui::Color32 {
         visuals.window_fill
     }
 

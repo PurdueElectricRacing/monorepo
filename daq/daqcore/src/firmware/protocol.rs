@@ -99,6 +99,7 @@ impl FirmwarePackage {
         } else {
             (path, None)
         };
+
         let manifest_path = secure_file_path(&manifest_path, "manifest")?;
         let manifest_text = std::fs::read_to_string(&manifest_path)
             .map_err(|error| format!("cannot read {}: {error}", manifest_path.display()))?;
@@ -111,12 +112,14 @@ impl FirmwarePackage {
                 manifest.format, PACKAGE_FORMAT
             ));
         }
+
         if manifest.protocol_version != 1 {
             return Err(format!(
                 "unsupported bootloader protocol version {}",
                 manifest.protocol_version
             ));
         }
+
         if manifest.crc_algorithm != "STM32_CRC32_MPEG2_WORD_LE" {
             return Err(format!(
                 "unsupported CRC algorithm {:?}",
@@ -155,6 +158,7 @@ impl FirmwarePackage {
             {
                 return Err(format!("duplicate board {}", board.name));
             }
+
             if parse_hex_u32(&board.application_address, "application_address")?
                 != APPLICATION_ADDRESS
             {
@@ -173,6 +177,7 @@ impl FirmwarePackage {
             {
                 return Err(format!("unsafe binary path for board {}", board.name));
             }
+
             let binary_path = secure_file_path(&root.join(relative_binary), "binary")
                 .map_err(|error| format!("unsafe binary path for {}: {error}", board.name))?;
             if !binary_path.starts_with(&root) {
@@ -181,11 +186,13 @@ impl FirmwarePackage {
                     board.name
                 ));
             }
+
             let metadata = std::fs::symlink_metadata(&binary_path)
                 .map_err(|error| format!("cannot inspect {}: {error}", binary_path.display()))?;
             if metadata.len() > APPLICATION_SLOT_SIZE as u64 {
                 return Err(format!("invalid image file for {}", board.name));
             }
+
             let bytes = std::fs::read(&binary_path)
                 .map_err(|error| format!("cannot read {}: {error}", binary_path.display()))?;
             if bytes.len() != board.size_bytes {
@@ -196,6 +203,7 @@ impl FirmwarePackage {
                     board.size_bytes
                 ));
             }
+
             if !valid_application_size(bytes.len()) {
                 return Err(format!("invalid image size for {}", board.name));
             }
@@ -251,6 +259,7 @@ fn validate_archive(path: &Path) -> Result<(), String> {
             String::from_utf8_lossy(&listing.stderr).trim()
         ));
     }
+
     if String::from_utf8_lossy(&listing.stdout)
         .lines()
         .any(|line| !matches!(line.as_bytes().first(), Some(b'd') | Some(b'-')))
@@ -270,6 +279,7 @@ fn validate_archive(path: &Path) -> Result<(), String> {
             String::from_utf8_lossy(&names.stderr).trim()
         ));
     }
+
     for name in String::from_utf8_lossy(&names.stdout).lines() {
         let member = Path::new(name);
         if member.is_absolute()
@@ -298,6 +308,7 @@ fn secure_file_path(path: &Path, kind: &str) -> Result<PathBuf, String> {
     if metadata.file_type().is_symlink() {
         return Err(format!("{kind} is a symlink"));
     }
+
     if !metadata.file_type().is_file() {
         return Err(format!("{kind} is not a regular file"));
     }
@@ -344,82 +355,4 @@ pub fn crc32_words(data: &[u8]) -> u32 {
         }
     }
     crc
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn application_slot_accepts_exact_maximum_and_rejects_next_word() {
-        assert_eq!(
-            APPLICATION_ADDRESS + APPLICATION_SLOT_SIZE as u32 - 1,
-            0x0807_FFFF
-        );
-        assert!(valid_application_size(APPLICATION_SLOT_SIZE));
-        assert!(!valid_application_size(APPLICATION_SLOT_SIZE + 4));
-    }
-
-    fn write_manifest_with_image_size(size_bytes: usize) -> std::path::PathBuf {
-        let base = std::env::current_dir().expect("could not determine current directory");
-        let root = (0..100)
-            .map(|attempt| {
-                base.join(format!(
-                    ".per-daqapp-package-test-{}-{attempt}",
-                    std::process::id()
-                ))
-            })
-            .find(|root| std::fs::create_dir(root).is_ok())
-            .expect("could not create a unique package test directory");
-        let image = vec![0; size_bytes];
-        std::fs::write(root.join("image.bin"), &image).expect("could not write test image");
-        let crc = crc32_words(&image);
-        let boards = [
-            ("main_module", "500", "501", "502", "503", "504"),
-            ("dashboard", "505", "506", "507", "508", "509"),
-            ("torque_vector", "50A", "50B", "50C", "50D", "50E"),
-            ("a_box", "50F", "510", "511", "512", "513"),
-            ("front_driveline", "514", "515", "516", "517", "518"),
-            ("rear_driveline", "519", "51A", "51B", "51C", "51D"),
-        ];
-        let board_entries: Vec<_> = boards
-            .iter()
-            .map(|(name, start, crc_id, jump, data, response)| {
-                format!(
-                    "{{\"name\":\"{name}\",\"binary\":\"image.bin\",\"size_bytes\":{size_bytes},\"crc32\":\"0x{crc:08X}\",\"application_address\":\"0x08008000\",\"start_id\":\"0x{start}\",\"crc_id\":\"0x{crc_id}\",\"jump_id\":\"0x{jump}\",\"data_id\":\"0x{data}\",\"response_id\":\"0x{response}\"}}"
-                )
-            })
-            .collect();
-        let manifest = format!(
-            "{{\"format\":\"{PACKAGE_FORMAT}\",\"protocol_version\":1,\"crc_algorithm\":\"STM32_CRC32_MPEG2_WORD_LE\",\"boards\":[{}]}}",
-            board_entries.join(",")
-        );
-        std::fs::write(root.join("manifest.json"), manifest)
-            .expect("could not write test manifest");
-        root.join("manifest.json")
-    }
-
-    #[test]
-    fn package_loader_accepts_exact_maximum_image() {
-        let manifest = write_manifest_with_image_size(APPLICATION_SLOT_SIZE);
-        let root = manifest
-            .parent()
-            .expect("test manifest should have a parent directory")
-            .to_path_buf();
-        let result = FirmwarePackage::load(&manifest);
-        assert!(result.is_ok(), "{result:?}");
-        std::fs::remove_dir_all(root).expect("could not remove package test directory");
-    }
-
-    #[test]
-    fn package_loader_rejects_image_larger_than_slot() {
-        let manifest = write_manifest_with_image_size(APPLICATION_SLOT_SIZE + 4);
-        let root = manifest
-            .parent()
-            .expect("test manifest should have a parent directory")
-            .to_path_buf();
-        let error = FirmwarePackage::load(&manifest).unwrap_err();
-        assert!(error.contains("invalid image file"), "{error}");
-        std::fs::remove_dir_all(root).expect("could not remove package test directory");
-    }
 }

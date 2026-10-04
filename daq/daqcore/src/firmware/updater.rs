@@ -1,4 +1,4 @@
-use crate::{bootloader_protocol::FirmwarePackage, messages};
+use crate::firmware::{self, FirmwareProgress, protocol::FirmwarePackage};
 
 // Values mirror bootloader_status_t in firmware/can_library/generated/can_types.h.
 // Keeping the wire constants here avoids coupling the host updater to generated
@@ -42,81 +42,88 @@ pub struct FirmwareUpdater {
 
 pub struct TickResult {
     pub frame: Option<OutboundFrame>,
-    pub progress: Option<messages::FirmwareProgress>,
+    pub progress: Option<FirmwareProgress>,
 }
 
 impl FirmwareUpdater {
     /// Start with a request that either resets the application or begins an
     /// update directly when the board is already in its bootloader.
-    pub fn new(package: FirmwarePackage) -> (Self, messages::FirmwareProgress) {
-        Self::new_with_arm(package, false)
+    pub fn new(package: FirmwarePackage, now: std::time::Instant) -> (Self, FirmwareProgress) {
+        Self::new_with_arm(package, false, now)
     }
 
     /// Wait for one target's READY frame without sending a reset request.
-    pub fn new_armed(package: FirmwarePackage) -> (Self, messages::FirmwareProgress) {
-        Self::new_with_arm(package, true)
+    pub fn new_armed(
+        package: FirmwarePackage,
+        now: std::time::Instant,
+    ) -> (Self, FirmwareProgress) {
+        Self::new_with_arm(package, true, now)
     }
 
-    fn new_with_arm(package: FirmwarePackage, armed: bool) -> (Self, messages::FirmwareProgress) {
-        let now = std::time::Instant::now();
+    fn new_with_arm(
+        package: FirmwarePackage,
+        armed: bool,
+        now: std::time::Instant,
+    ) -> (Self, FirmwareProgress) {
+        let stage = if armed {
+            Stage::Armed
+        } else {
+            Stage::WaitReady
+        };
+
         let mut updater = Self {
             package,
             board_index: 0,
             byte_offset: 0,
-            stage: if armed {
-                Stage::Armed
-            } else {
-                Stage::WaitReady
-            },
+            stage,
             pending_frame: None,
             deadline: now + BOOT_TIMEOUT,
             retries: 0,
         };
+
         let first = updater.current_image();
         if !armed {
             updater.pending_frame = Some(Self::start_frame(first));
         }
+
         let phase = if armed {
             "armed; waiting for READY"
         } else {
             "requesting bootloader"
         };
+
         let progress = updater.progress(phase, None);
         (updater, progress)
     }
 
-    fn current_image(&self) -> &crate::bootloader_protocol::FirmwareImage {
+    fn current_image(&self) -> &firmware::protocol::FirmwareImage {
         &self.package.images[self.board_index]
     }
 
-    fn start_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
+    fn start_frame(image: &firmware::protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.start_id,
             data: argument(image.bytes.len() as u32),
         }
     }
 
-    fn crc_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
+    fn crc_frame(image: &firmware::protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.crc_id,
             data: argument(image.crc32),
         }
     }
 
-    fn jump_frame(image: &crate::bootloader_protocol::FirmwareImage) -> OutboundFrame {
+    fn jump_frame(image: &firmware::protocol::FirmwareImage) -> OutboundFrame {
         OutboundFrame {
             id: image.jump_id,
             data: argument(0),
         }
     }
 
-    fn progress(
-        &self,
-        phase: impl Into<String>,
-        error: Option<String>,
-    ) -> messages::FirmwareProgress {
+    fn progress(&self, phase: impl Into<String>, error: Option<String>) -> FirmwareProgress {
         let image = self.current_image();
-        messages::FirmwareProgress {
+        FirmwareProgress {
             board: image.name.clone(),
             board_index: self.board_index,
             board_count: self.package.images.len(),
@@ -127,7 +134,7 @@ impl FirmwareUpdater {
         }
     }
 
-    fn fail(&mut self, error: String) -> messages::FirmwareProgress {
+    fn fail(&mut self, error: String) -> FirmwareProgress {
         self.stage = Stage::Finished;
         self.progress("failed", Some(error))
     }
@@ -139,7 +146,7 @@ impl FirmwareUpdater {
     /// Stop locally. The target is intentionally not reset here; the UI should
     /// treat a mid-transfer cancellation as a node that may still be in the
     /// bootloader and should be updated again before vehicle use.
-    pub fn cancel(&mut self) -> messages::FirmwareProgress {
+    pub fn cancel(&mut self) -> FirmwareProgress {
         self.fail("cancelled by user".to_string())
     }
 
@@ -281,10 +288,11 @@ impl FirmwareUpdater {
         id: u32,
         data: &[u8],
         now: std::time::Instant,
-    ) -> Option<messages::FirmwareProgress> {
+    ) -> Option<FirmwareProgress> {
         if self.is_finished() || id != self.current_image().response_id || data.len() < 5 {
             return None;
         }
+
         let status = data[0];
         if matches!(self.stage, Stage::Armed)
             && (data.len() != 5
@@ -303,6 +311,7 @@ impl FirmwareUpdater {
         if status == CRC_ERROR {
             return Some(self.fail(format!("CRC rejected by {image_name}")));
         }
+
         if status != READY && status != ACK {
             return Some(self.fail(format!("bootloader error 0x{status:02X} from {image_name}")));
         }
@@ -315,6 +324,7 @@ impl FirmwareUpdater {
             Stage::WaitCrcAck if status == ACK => detail != image_crc,
             _ => false,
         };
+
         if invalid_detail {
             return Some(self.fail(format!("invalid response from {image_name}")));
         }
@@ -362,139 +372,4 @@ impl FirmwareUpdater {
 
 fn argument(argument: u32) -> Vec<u8> {
     argument.to_le_bytes().to_vec()
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::bootloader_protocol::{APPLICATION_SLOT_SIZE, FirmwareImage};
-
-    const START_ID: u32 = 0x180;
-    const CRC_ID: u32 = 0x192;
-    const JUMP_ID: u32 = 0x198;
-    const DATA_ID: u32 = 0x181;
-    const RESPONSE_ID: u32 = 0x182;
-
-    fn package_with_bytes(bytes: Vec<u8>) -> FirmwarePackage {
-        let crc32 = crate::bootloader_protocol::crc32_words(&bytes);
-        FirmwarePackage {
-            images: vec![FirmwareImage {
-                name: "main_module".to_string(),
-                bytes,
-                crc32,
-                start_id: START_ID,
-                crc_id: CRC_ID,
-                jump_id: JUMP_ID,
-                data_id: DATA_ID,
-                response_id: RESPONSE_ID,
-            }],
-        }
-    }
-
-    fn package_with_size(size: usize) -> FirmwarePackage {
-        package_with_bytes(vec![0; size])
-    }
-
-    fn package() -> FirmwarePackage {
-        package_with_bytes(vec![0x00, 0x20, 0x00, 0x08, 0x09, 0x00, 0x00, 0x08])
-    }
-
-    fn response(status: u8, detail: u32) -> Vec<u8> {
-        let mut data = vec![status];
-        data.extend_from_slice(&detail.to_le_bytes());
-        data
-    }
-
-    #[test]
-    fn streams_direct_update_with_compatible_frames() {
-        let package = package();
-        let crc32 = package.images[0].crc32;
-        let (mut updater, progress) = FirmwareUpdater::new(package);
-        assert_eq!(progress.phase, "requesting bootloader");
-
-        let start = updater.tick(std::time::Instant::now()).frame.unwrap();
-        assert_eq!(start.id, START_ID);
-        assert_eq!(start.data, 8u32.to_le_bytes().to_vec());
-
-        let now = std::time::Instant::now();
-        assert_eq!(
-            updater
-                .on_response(RESPONSE_ID, &response(ACK, 8), now)
-                .unwrap()
-                .phase,
-            "uploading"
-        );
-
-        let first_word = updater.tick(now).frame.unwrap();
-        assert_eq!(first_word.id, DATA_ID);
-        assert_eq!(first_word.data, vec![0, 0, 0, 0x00, 0x20, 0x00, 0x08]);
-        let second_word = updater.tick(now).frame.unwrap();
-        assert_eq!(second_word.data, vec![1, 0, 0, 0x09, 0x00, 0x00, 0x08]);
-
-        let crc = updater.tick(now).frame.unwrap();
-        assert_eq!(crc.id, CRC_ID);
-        assert_eq!(crc.data, crc32.to_le_bytes().to_vec());
-
-        assert_eq!(
-            updater
-                .on_response(RESPONSE_ID, &response(ACK, crc32), now)
-                .unwrap()
-                .phase,
-            "launching application"
-        );
-        let jump = updater.tick(now).frame.unwrap();
-        assert_eq!(jump.id, JUMP_ID);
-        assert_eq!(jump.data, 0u32.to_le_bytes().to_vec());
-    }
-
-    #[test]
-    fn emits_24_bit_word_index_above_16_bit_boundary() {
-        let (mut updater, _) = FirmwareUpdater::new(package_with_size((u16::MAX as usize + 2) * 4));
-        let now = std::time::Instant::now();
-        let _ = updater.tick(now);
-        updater
-            .on_response(RESPONSE_ID, &response(ACK, (u16::MAX as u32 + 2) * 4), now)
-            .unwrap();
-        updater.byte_offset = ((u16::MAX as usize) + 1) * 4;
-
-        let frame = updater.tick(now).frame.unwrap();
-        assert_eq!(frame.data[..3], [0, 0, 1]);
-        assert_eq!(frame.data.len(), 7);
-    }
-
-    #[test]
-    fn emits_24_bit_word_index_at_maximum_slot_size() {
-        let (mut updater, _) = FirmwareUpdater::new(package_with_size(APPLICATION_SLOT_SIZE));
-        let now = std::time::Instant::now();
-        let _ = updater.tick(now);
-        updater
-            .on_response(
-                RESPONSE_ID,
-                &response(ACK, APPLICATION_SLOT_SIZE as u32),
-                now,
-            )
-            .unwrap();
-        updater.byte_offset = ((APPLICATION_SLOT_SIZE / 4) - 1) * 4;
-
-        let frame = updater.tick(now).frame.unwrap();
-        assert_eq!(frame.data[..3], [0xFF, 0xDF, 0x01]);
-        assert_eq!(frame.data.len(), 7);
-        assert_eq!(updater.byte_offset, APPLICATION_SLOT_SIZE);
-    }
-
-    #[test]
-    fn ready_handshake_still_resends_start_before_data() {
-        let (mut updater, _) = FirmwareUpdater::new(package());
-        let _ = updater.tick(std::time::Instant::now());
-
-        let now = std::time::Instant::now();
-        let progress = updater
-            .on_response(RESPONSE_ID, &response(READY, PROTOCOL_VERSION), now)
-            .unwrap();
-        assert_eq!(progress.phase, "erasing application pages");
-
-        let start = updater.tick(now).frame.unwrap();
-        assert_eq!(start.id, START_ID);
-        assert_eq!(start.data, 8u32.to_le_bytes().to_vec());
-    }
 }

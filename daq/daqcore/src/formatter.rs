@@ -1,9 +1,6 @@
 use indexmap::IndexMap;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
-pub const FORMATTER_CONFIG_FILE: &str = "formatter_config.json";
-const EMBEDDED_FORMATTER_CONFIG: &str = include_str!("../formatter_config.json");
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Formatting {
     Hex,
@@ -113,48 +110,9 @@ impl Formatter {
         Ok(Self { compiled_config })
     }
 
-    fn new_from_str(config_str: &str) -> Result<Self, Box<dyn std::error::Error>> {
+    pub fn from_str(config_str: &str) -> Result<Self, Box<dyn std::error::Error>> {
         let config: FormatterConfig = serde_json::from_str(config_str)?;
         Self::new(config).map_err(|e| e.into())
-    }
-
-    fn new_from_config_or_embedded(
-        local_config: Option<&str>,
-    ) -> Result<Self, Box<dyn std::error::Error>> {
-        if let Some(local_config) = local_config {
-            match Self::new_from_str(local_config) {
-                Ok(formatter) => return Ok(formatter),
-                Err(error) => log::warn!(
-                    "Failed to load local formatter config from {}; using embedded config: {}",
-                    FORMATTER_CONFIG_FILE,
-                    error
-                ),
-            }
-        }
-
-        Self::new_from_str(EMBEDDED_FORMATTER_CONFIG)
-    }
-
-    pub fn try_load() -> Option<Self> {
-        let local_config = crate::paths::find_file(FORMATTER_CONFIG_FILE).and_then(|path| {
-            match std::fs::read_to_string(&path) {
-                Ok(config) => Some(config),
-                Err(error) => {
-                    log::warn!(
-                        "Failed to read local formatter config at {}; using embedded config: {}",
-                        path.display(),
-                        error
-                    );
-                    None
-                }
-            }
-        });
-        Self::new_from_config_or_embedded(local_config.as_deref())
-            .map_err(|e| {
-                log::error!("Failed to load embedded formatter config: {}", e);
-                e
-            })
-            .ok()
     }
 
     /// Formats a signal value based on the message and signal name, using the first matching pattern in the config.
@@ -170,36 +128,34 @@ impl Formatter {
         value: &can_decode::DecodedSignalValue,
     ) -> String {
         for (msg_glob, signal_vec) in &self.compiled_config {
-            if msg_glob.is_match(msg_name) {
-                for (signal_glob, formatting) in signal_vec {
-                    if signal_glob.is_match(signal_name) {
-                        let have_enough_info = match formatting {
-                            Formatting::Hex | Formatting::Binary => sig_def.is_some(),
-                            Formatting::Decimal(_) => true,
-                        };
-                        if have_enough_info {
-                            let raw = match formatting {
-                                Formatting::Hex => format_hex(sig_def.as_ref().unwrap(), value),
-                                Formatting::Binary => {
-                                    format_binary(sig_def.as_ref().unwrap(), value)
-                                }
-                                Formatting::Decimal(places) => {
-                                    format!("{:.*}", *places, value.physical)
-                                }
-                            };
-                            let maybe_unit = unit
-                                .or_else(|| sig_def.map(|s| s.unit.as_str()))
-                                .filter(|u| !u.is_empty());
-                            if let Some(u) = maybe_unit
-                                && !u.is_empty()
-                            {
-                                return format!("{} {}", raw, u);
-                            } else {
-                                return raw;
-                            }
-                        }
-                    }
+            if !msg_glob.is_match(msg_name) {
+                continue;
+            }
+
+            for (signal_glob, formatting) in signal_vec {
+                if !signal_glob.is_match(signal_name) {
+                    continue;
                 }
+
+                let raw = match (formatting, sig_def) {
+                    (Formatting::Hex, Some(definition)) => format_hex(definition, value),
+                    (Formatting::Binary, Some(definition)) => format_binary(definition, value),
+                    (Formatting::Decimal(places), _) => {
+                        format!("{:.*}", *places, value.physical)
+                    }
+                    // These formats need a signal definition; try the next rule.
+                    _ => continue,
+                };
+
+                let maybe_unit = unit
+                    .or_else(|| sig_def.map(|signal| signal.unit.as_str()))
+                    .filter(|unit| !unit.is_empty());
+
+                if let Some(unit) = maybe_unit {
+                    return format!("{raw} {unit}");
+                }
+
+                return raw;
             }
         }
 

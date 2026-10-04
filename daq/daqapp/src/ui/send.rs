@@ -1,12 +1,9 @@
-use crate::{app, formatter, messages, util};
-use eframe::egui;
-
-use super::dbc_msg_picker::{DbcMsgPickerState, no_dbc_placeholder};
+use crate::{app, ui::dbc_msg_picker};
 
 pub struct SendUi {
     pub title: String,
 
-    msg_picker: DbcMsgPickerState,
+    msg_picker: dbc_msg_picker::DbcMsgPickerState,
 
     selected_msg: Option<can_dbc::Message>,
     signal_values: Vec<SignalValue>,
@@ -21,7 +18,7 @@ pub struct SendUi {
     error: Option<String>,
 
     // Required to be stored on the struct so Drop can send cancellation messages when the UI closes
-    ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
 }
 
 #[derive(Clone, Copy, PartialEq)]
@@ -40,19 +37,19 @@ struct SignalValue {
 }
 
 struct SendingMessage {
-    pub amount: messages::SendAmount,
+    pub amount: daqcore::can_thread::SendAmount,
     pub msg_name: String,
-    pub msg_id: u32,
-    pub msg_id_with_ext_flag: u32,
-    pub is_msg_id_extended: bool,
+    pub identity: daqcore::frame::CanIdentity,
     pub msg_bytes: Vec<u8>,
     pub signal_values: Vec<SignalValue>,
     pub adjustable_values_enabled: bool,
-    pub last_sent: chrono::DateTime<chrono::Local>,
+    pub last_sent: daqcore::Time,
 }
 
 enum SendUiActions {
-    DeleteMessage { msg_id: u32 },
+    DeleteMessage {
+        identity: daqcore::frame::CanIdentity,
+    },
 }
 
 impl Drop for SendUi {
@@ -62,19 +59,19 @@ impl Drop for SendUi {
             "Dropping SendUi, stopping all sending messages: {:?}",
             self.sending_messages
                 .iter()
-                .map(|msg| msg.msg_id)
+                .map(|msg| msg.identity)
                 .collect::<Vec<_>>()
         );
         for msg in &self.sending_messages {
-            let msg_id = msg.msg_id;
+            let identity = msg.identity;
             if let Err(e) = self
                 .ui_to_can_tx
-                .send(messages::MsgFromUi::DeleteSendMessage { msg_id })
+                .send(daqcore::can_thread::CanThreadCommand::DeleteSendMessage { identity })
             {
                 // Don't panic in Drop, just log the error
                 log::error!(
-                    "Failed to send DeleteSendMessage for msg_id {}: {}",
-                    msg_id,
+                    "Failed to send DeleteSendMessage for identity {}: {}",
+                    identity,
                     e
                 );
             }
@@ -83,11 +80,14 @@ impl Drop for SendUi {
 }
 
 impl SendUi {
-    pub fn new(num: usize, ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>) -> Self {
+    pub fn new(
+        num: usize,
+        ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+    ) -> Self {
         Self {
             title: format!("Send UI {}", num),
 
-            msg_picker: DbcMsgPickerState::default(),
+            msg_picker: dbc_msg_picker::DbcMsgPickerState::default(),
 
             selected_msg: None,
             signal_values: Vec::new(),
@@ -107,20 +107,20 @@ impl SendUi {
 
     pub fn show(
         &mut self,
-        ui: &mut egui::Ui,
+        ui: &mut eframe::egui::Ui,
         parser: Option<&app::ParserInfo>,
-        formatter: &Option<formatter::Formatter>,
+        formatter: &Option<daqcore::formatter::Formatter>,
     ) -> egui_tiles::UiResponse {
         let Some(parser) = parser else {
-            no_dbc_placeholder(ui);
+            dbc_msg_picker::no_dbc_placeholder(ui);
             return egui_tiles::UiResponse::None;
         };
 
-        egui::Frame::group(ui.style())
-            .inner_margin(egui::Margin::symmetric(8, 6))
-            .stroke(egui::Stroke::NONE)
+        eframe::egui::Frame::group(ui.style())
+            .inner_margin(eframe::egui::Margin::symmetric(8, 6))
+            .stroke(eframe::egui::Stroke::NONE)
             .show(ui, |ui| {
-                egui::ScrollArea::vertical().show(ui, |ui| {
+                eframe::egui::ScrollArea::vertical().show(ui, |ui| {
                     if let Some(msg) =
                         self.msg_picker
                             .show(ui, &parser.parser, self.selected_msg.is_none())
@@ -146,21 +146,24 @@ impl SendUi {
                         ui.separator();
 
                         if let Some(error) = &self.error {
-                            ui.label(egui::RichText::new(error).color(ui.visuals().error_fg_color));
+                            ui.label(
+                                eframe::egui::RichText::new(error)
+                                    .color(ui.visuals().error_fg_color),
+                            );
                         }
 
                         ui.label(
-                            egui::RichText::new(format!(
+                            eframe::egui::RichText::new(format!(
                                 "Selected Message: {} (0x{:03X})",
                                 selected_msg.name,
-                                util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
+                                daqcore::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id)
                             ))
                             .strong()
                             .size(16.0),
                         );
 
                         // Send Amount selector
-                        ui.label(egui::RichText::new("Send Options").strong());
+                        ui.label(eframe::egui::RichText::new("Send Options").strong());
 
                         ui.horizontal(|ui| {
                             ui.selectable_value(&mut self.send_mode, SendMode::Once, "Once");
@@ -178,7 +181,7 @@ impl SendUi {
                                 ui.horizontal(|ui| {
                                     ui.label("Period (ms)");
                                     ui.add(
-                                        egui::DragValue::new(&mut self.period_ms)
+                                        eframe::egui::DragValue::new(&mut self.period_ms)
                                             .speed(1)
                                             .range(1..=10_000),
                                     );
@@ -188,7 +191,7 @@ impl SendUi {
                                 ui.horizontal(|ui| {
                                     ui.label("Amount");
                                     ui.add(
-                                        egui::DragValue::new(&mut self.finite_amount)
+                                        eframe::egui::DragValue::new(&mut self.finite_amount)
                                             .speed(1)
                                             .range(1..=10_000),
                                     );
@@ -196,7 +199,7 @@ impl SendUi {
                                 ui.horizontal(|ui| {
                                     ui.label("Period (ms)");
                                     ui.add(
-                                        egui::DragValue::new(&mut self.period_ms)
+                                        eframe::egui::DragValue::new(&mut self.period_ms)
                                             .speed(1)
                                             .range(1..=10_000),
                                     );
@@ -215,7 +218,7 @@ impl SendUi {
                                 let speed = 10f64.powi(-(expected_decimals as i32));
                                 if ui
                                     .add(
-                                        egui::DragValue::new(&mut signal.value)
+                                        eframe::egui::DragValue::new(&mut signal.value)
                                             .range(signal.min..=signal.max)
                                             .speed(speed),
                                     )
@@ -228,7 +231,7 @@ impl SendUi {
 
                         if ui.button("Send Message").clicked() {
                             let msg_id_with_ext_flag =
-                                util::can::can_dbc_to_u32_with_extid_flag(&selected_msg.id);
+                                daqcore::can::can_dbc_to_u32_with_extid_flag(&selected_msg.id);
                             let encoded = encode_msg_from_signals(
                                 &parser.parser,
                                 msg_id_with_ext_flag,
@@ -246,43 +249,40 @@ impl SendUi {
                             self.error = None;
 
                             let send_amount = match self.send_mode {
-                                SendMode::Once => messages::SendAmount::Once,
+                                SendMode::Once => daqcore::can_thread::SendAmount::Once,
 
-                                SendMode::Infinite => messages::SendAmount::Infinite {
+                                SendMode::Infinite => daqcore::can_thread::SendAmount::Infinite {
                                     period: self.period_ms,
                                 },
 
-                                SendMode::Finite => messages::SendAmount::Finite {
+                                SendMode::Finite => daqcore::can_thread::SendAmount::Finite {
                                     amount: self.finite_amount,
                                     period: self.period_ms,
                                 },
                             };
 
-                            let msg_id_u32 =
-                                util::can::can_dbc_to_u32_without_extid_flag(&selected_msg.id);
+                            let identity = match daqcore::can::can_dbc_identity(&selected_msg.id) {
+                                Ok(identity) => identity,
+                                Err(error) => {
+                                    self.error = Some(error.to_string());
+                                    return;
+                                }
+                            };
+                            self.sending_messages.retain(|m| m.identity != identity);
 
                             self.sending_messages.push(SendingMessage {
                                 amount: send_amount,
                                 msg_name: selected_msg.name.clone(),
-                                msg_id: msg_id_u32,
-                                msg_id_with_ext_flag,
-                                is_msg_id_extended: matches!(
-                                    selected_msg.id,
-                                    can_dbc::MessageId::Extended(_)
-                                ),
+                                identity,
                                 msg_bytes: msg_bytes.clone(),
                                 signal_values: self.signal_values.clone(),
                                 adjustable_values_enabled: self.adjustable_values_enabled,
-                                last_sent: chrono::Local::now(),
+                                last_sent: daqcore::Time::now(),
                             });
 
-                            let add_send_msg = messages::AddSendMessage {
+                            let add_send_msg = daqcore::can_thread::AddSendMessage {
                                 amount: send_amount,
-                                msg_id: msg_id_u32,
-                                is_msg_id_extended: matches!(
-                                    selected_msg.id,
-                                    can_dbc::MessageId::Extended(_)
-                                ),
+                                identity,
                                 msg_bytes,
                             };
 
@@ -291,8 +291,12 @@ impl SendUi {
                             self.adjustable_values_enabled = false;
 
                             self.ui_to_can_tx
-                                .send(messages::MsgFromUi::AddSendMessage(add_send_msg))
-                                .expect("Failed to send AddSendMessage");
+                                .send(daqcore::can_thread::CanThreadCommand::AddSendMessage(
+                                    add_send_msg,
+                                ))
+                                .unwrap_or_else(|error| {
+                                    log::error!("Failed to submit send: {error}")
+                                });
                         }
                     }
 
@@ -320,9 +324,10 @@ impl SendUi {
                         if !msg.adjustable_values_enabled {
                             continue;
                         }
+
                         let encoded = encode_msg_from_signals(
                             &parser.parser,
-                            msg.msg_id_with_ext_flag,
+                            msg.identity.dbc_id(),
                             &msg.signal_values,
                         );
                         let Some(msg_bytes) = encoded else {
@@ -337,25 +342,29 @@ impl SendUi {
                         self.error = None;
 
                         self.ui_to_can_tx
-                            .send(messages::MsgFromUi::AddSendMessage(
-                                messages::AddSendMessage {
+                            .send(daqcore::can_thread::CanThreadCommand::AddSendMessage(
+                                daqcore::can_thread::AddSendMessage {
                                     amount: self.sending_messages[idx].amount,
-                                    msg_id: self.sending_messages[idx].msg_id,
-                                    is_msg_id_extended: self.sending_messages[idx]
-                                        .is_msg_id_extended,
+                                    identity: self.sending_messages[idx].identity,
                                     msg_bytes,
                                 },
                             ))
-                            .expect("Failed to send AddSendMessage");
+                            .unwrap_or_else(|error| log::error!("Failed to submit send: {error}"));
                     }
 
                     for action in all_actions {
                         match action {
-                            SendUiActions::DeleteMessage { msg_id } => {
-                                self.sending_messages.retain(|msg| msg.msg_id != msg_id);
+                            SendUiActions::DeleteMessage { identity } => {
+                                self.sending_messages.retain(|msg| msg.identity != identity);
                                 self.ui_to_can_tx
-                                    .send(messages::MsgFromUi::DeleteSendMessage { msg_id })
-                                    .expect("Failed to send DeleteSendMessage");
+                                    .send(
+                                        daqcore::can_thread::CanThreadCommand::DeleteSendMessage {
+                                            identity,
+                                        },
+                                    )
+                                    .unwrap_or_else(|error| {
+                                        log::error!("Failed to delete send: {error}")
+                                    });
                             }
                         }
                     }
@@ -365,16 +374,28 @@ impl SendUi {
         egui_tiles::UiResponse::None
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let messages::MsgFromCan::MessageSent {
-            msg_id,
+    pub fn handle_can_message(&mut self, msg: &daqcore::can_thread::CanThreadEvent) {
+        if let daqcore::can_thread::CanThreadEvent::SendFailed {
+            identity,
+            error,
+            retrying,
+        } = msg
+        {
+            if !retrying {
+                self.sending_messages.retain(|m| m.identity != *identity);
+            }
+            log::error!("Send {identity} failed: {error}");
+        }
+
+        if let daqcore::can_thread::CanThreadEvent::MessageSent {
+            identity,
             timestamp,
             amount_left,
         } = msg
         {
             if let Some(rx_amount_left) = amount_left {
                 for sending_msg in &mut self.sending_messages {
-                    if sending_msg.msg_id == *msg_id {
+                    if sending_msg.identity == *identity {
                         sending_msg.last_sent = *timestamp;
                         sending_msg.amount = *rx_amount_left;
                         break;
@@ -383,7 +404,8 @@ impl SendUi {
             } else {
                 // If amount_left is None, it means the message is done sending,
                 // so we remove it from the list
-                self.sending_messages.retain(|msg| msg.msg_id != *msg_id);
+                self.sending_messages
+                    .retain(|msg| msg.identity != *identity);
             }
         }
     }
@@ -392,8 +414,8 @@ impl SendUi {
 impl SendingMessage {
     fn ui(
         &mut self,
-        ui: &mut egui::Ui,
-        formatter: &Option<formatter::Formatter>,
+        ui: &mut eframe::egui::Ui,
+        formatter: &Option<daqcore::formatter::Formatter>,
         msg_idx: usize,
         updates_to_send: &mut Vec<usize>,
     ) -> Option<SendUiActions> {
@@ -408,55 +430,60 @@ impl SendingMessage {
         // Header (outside card)
         ui.horizontal(|ui| {
             ui.label(
-                egui::RichText::new(format!("{}  (0x{:03X})", self.msg_name, self.msg_id))
+                eframe::egui::RichText::new(format!("{}  ({})", self.msg_name, self.identity))
                     .strong()
                     .size(16.0)
                     .color(ui.visuals().text_color()),
             );
-            ui.label(egui::RichText::new(self.amount.display()).color(ui.visuals().text_color()));
             ui.label(
-                egui::RichText::new(format!(
+                eframe::egui::RichText::new(self.amount.display()).color(ui.visuals().text_color()),
+            );
+            ui.label(
+                eframe::egui::RichText::new(format!(
                     "~{} ms ago",
-                    (chrono::Local::now() - self.last_sent).num_milliseconds()
+                    (daqcore::Time::now().secs(self.last_sent) * 1000.0) as i64
                 ))
                 .italics()
                 .color(ui.visuals().weak_text_color()),
             );
-            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                if ui.button("🗑").on_hover_text("Delete message").clicked() {
-                    delete_action = Some(SendUiActions::DeleteMessage {
-                        msg_id: self.msg_id,
-                    });
-                }
-                ui.label(
-                    egui::RichText::new(raw_bytes_str)
-                        .monospace()
-                        .color(ui.visuals().text_color()),
-                );
+            ui.with_layout(
+                eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
+                |ui| {
+                    if ui.button("🗑").on_hover_text("Delete message").clicked() {
+                        delete_action = Some(SendUiActions::DeleteMessage {
+                            identity: self.identity,
+                        });
+                    }
+                    ui.label(
+                        eframe::egui::RichText::new(raw_bytes_str)
+                            .monospace()
+                            .color(ui.visuals().text_color()),
+                    );
 
-                ui.add_space(2.0);
-            });
+                    ui.add_space(2.0);
+                },
+            );
         });
 
         ui.add_space(4.0);
 
         // Card container
-        egui::Frame::group(ui.style())
+        eframe::egui::Frame::group(ui.style())
             .fill(ui.visuals().faint_bg_color)
-            .corner_radius(egui::CornerRadius::same(8))
-            .inner_margin(egui::Margin::symmetric(8, 6))
+            .corner_radius(eframe::egui::CornerRadius::same(8))
+            .inner_margin(eframe::egui::Margin::symmetric(8, 6))
             .show(ui, |ui| {
                 ui.vertical(|ui| {
                     let total_signals = self.signal_values.len();
                     for (i, signal) in self.signal_values.iter_mut().enumerate() {
                         ui.horizontal(|ui| {
                             ui.label(
-                                egui::RichText::new(&signal.name)
+                                eframe::egui::RichText::new(&signal.name)
                                     .monospace()
                                     .color(ui.visuals().text_color()),
                             );
                             ui.with_layout(
-                                egui::Layout::right_to_left(egui::Align::Center),
+                                eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
                                 |ui| {
                                     let expected_decimals = formatter
                                         .as_ref()
@@ -467,7 +494,7 @@ impl SendingMessage {
                                         let speed = 10f64.powi(-(expected_decimals as i32));
                                         if ui
                                             .add(
-                                                egui::DragValue::new(&mut signal.value)
+                                                eframe::egui::DragValue::new(&mut signal.value)
                                                     .range(signal.min..=signal.max)
                                                     .speed(speed),
                                             )
@@ -477,7 +504,7 @@ impl SendingMessage {
                                         }
                                     } else {
                                         ui.label(
-                                            egui::RichText::new(format!(
+                                            eframe::egui::RichText::new(format!(
                                                 "{:.*}",
                                                 expected_decimals, signal.value
                                             ))
@@ -513,8 +540,8 @@ fn encode_msg_from_signals(
 fn signal_range(sig: &can_dbc::Signal) -> (f64, f64) {
     let fallback = (-1000.0, 1000.0);
 
-    let min = util::can::can_dbc_numeric_to_f64(&sig.min);
-    let max = util::can::can_dbc_numeric_to_f64(&sig.max);
+    let min = daqcore::can::can_dbc_numeric_to_f64(&sig.min);
+    let max = daqcore::can::can_dbc_numeric_to_f64(&sig.max);
 
     if !min.is_finite() || !max.is_finite() || min >= max {
         fallback

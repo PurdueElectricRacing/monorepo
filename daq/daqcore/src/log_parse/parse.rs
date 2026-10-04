@@ -1,4 +1,4 @@
-use crate::{can, log_parse::consts};
+use crate::{frame::CanIdentity, log_parse::consts};
 use bytemuck::{Pod, Zeroable};
 
 #[derive(Debug)]
@@ -21,11 +21,12 @@ pub fn parse_log_files(
     in_folder: &std::path::Path,
     parser_bus_0: &can_decode::Parser,
     parser_bus_1: &can_decode::Parser,
-) -> Vec<ParsedMessage> {
+) -> std::io::Result<Vec<ParsedMessage>> {
     let mut all_parsed = Vec::new();
-    let mut file_paths = std::fs::read_dir(in_folder)
-        .unwrap()
-        .filter_map(|entry| entry.ok())
+    let entries = std::fs::read_dir(in_folder)?;
+    let mut file_paths = entries
+        .collect::<std::io::Result<Vec<_>>>()?
+        .into_iter()
         .map(|entry| entry.path())
         .filter(|path| {
             path.is_file() && path.extension().and_then(|ext| ext.to_str()) == Some("log")
@@ -34,41 +35,37 @@ pub fn parse_log_files(
     file_paths.sort();
     for path in file_paths {
         log::info!("Parsing log file: {}", path.display());
-        let parsed = parse_log_file(&path, parser_bus_0, parser_bus_1);
+        let parsed = parse_log_file(&path, parser_bus_0, parser_bus_1)?;
         all_parsed.extend(parsed);
     }
 
-    all_parsed
+    Ok(all_parsed)
 }
 
 fn parse_log_file(
     in_file: &std::path::Path,
     parser_bus_0: &can_decode::Parser,
     parser_bus_1: &can_decode::Parser,
-) -> Vec<ParsedMessage> {
-    let mut content = std::fs::read(in_file).unwrap();
+) -> std::io::Result<Vec<ParsedMessage>> {
+    let mut content = std::fs::read(in_file)?;
+    let frame_size = std::mem::size_of::<RawFrame>();
 
     // add padding zeroes if content length is not multiple of raw frame size
     let mut added_padding = false;
-    if !content
-        .len()
-        .is_multiple_of(std::mem::size_of::<RawFrame>())
-    {
+    if !content.len().is_multiple_of(frame_size) {
         log::warn!(
             "Log file {} has length {} which is not a multiple of frame size {}. Possibly due to outdated log format.",
             in_file.display(),
             content.len(),
-            std::mem::size_of::<RawFrame>()
+            frame_size
         );
-        content.extend(vec![
-            0;
-            std::mem::size_of::<RawFrame>()
-                - (content.len() % std::mem::size_of::<RawFrame>())
-        ]);
+        let padding = frame_size - content.len() % frame_size;
+        content.resize(content.len() + padding, 0);
         added_padding = true;
     }
+
     let frames: Vec<RawFrame> = content
-        .chunks_exact(std::mem::size_of::<RawFrame>())
+        .chunks_exact(frame_size)
         .map(bytemuck::pod_read_unaligned)
         .collect();
     let mut parsed = Vec::with_capacity(frames.len());
@@ -82,10 +79,15 @@ fn parse_log_file(
             break;
         }
 
-        let arb_id = if (frame.identity & consts::IS_EID_MASK) != 0 {
-            frame.identity & can::EXTENDED_ID_MASK
-        } else {
-            frame.identity & can::STANDARD_ID_MASK
+        let extended = frame.identity & consts::IS_EID_MASK != 0;
+        let transport_flags = consts::IS_EID_MASK | consts::BUS_ID_MASK;
+        let raw_id = frame.identity & !transport_flags;
+        let identity = match CanIdentity::new(raw_id, extended) {
+            Ok(identity) => identity,
+            Err(error) => {
+                log::error!("Invalid CAN identity in {}: {error}", in_file.display());
+                continue;
+            }
         };
 
         let bus_id = if (frame.identity & consts::BUS_ID_MASK) != 0 {
@@ -93,13 +95,14 @@ fn parse_log_file(
         } else {
             0
         };
+
         let parser = if bus_id == 0 {
             parser_bus_0
         } else {
             parser_bus_1
         };
 
-        if let Some(decoded) = parser.decode_msg(arb_id, &frame.data) {
+        if let Some(decoded) = parser.decode_msg(identity.dbc_id(), &frame.data) {
             let bus_name = if bus_id == 0 { "VCAN" } else { "MCAN" };
             parsed.push(ParsedMessage {
                 timestamp: frame.ticks_ms,
@@ -110,13 +113,13 @@ fn parse_log_file(
             log::error!(
                 "Failed to decode message at {} ms with CAN ID {:X} and data {:?} on bus {}",
                 frame.ticks_ms,
-                arb_id,
+                identity.raw_id(),
                 frame.data,
                 bus_id
             );
         }
     }
-    parsed
+    Ok(parsed)
 }
 
 pub fn chunk_parsed(parsed: Vec<ParsedMessage>) -> Vec<Vec<ParsedMessage>> {
@@ -135,6 +138,7 @@ pub fn chunk_parsed(parsed: Vec<ParsedMessage>) -> Vec<Vec<ParsedMessage>> {
         last_timestamp = Some(msg.timestamp);
         current_chunk.push(msg);
     }
+
     if !current_chunk.is_empty() {
         chunks.push(current_chunk);
     }

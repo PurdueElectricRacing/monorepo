@@ -48,6 +48,10 @@ jobs:
         working-directory: daq
         run: cargo build --workspace --all-targets --locked
 
+      - name: Test DAQ workspace
+        working-directory: daq
+        run: cargo test --workspace --all-targets --locked
+
       - name: Show compiler warnings
         working-directory: daq
         run: |

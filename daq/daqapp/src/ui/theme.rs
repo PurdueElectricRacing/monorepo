@@ -1,4 +1,4 @@
-use eframe::egui;
+use crate::paths;
 
 const NORD_THEME_PATH: &str = "themes/nord.toml";
 const CATPPUCCIN_THEME_PATH: &str = "themes/catppuccin.toml";
@@ -32,9 +32,9 @@ impl ThemeSelection {
         }
     }
 
-    pub fn get_style(&self) -> egui::Style {
+    pub fn get_style(&self) -> eframe::egui::Style {
         match self {
-            Self::Default => egui::Style::default(),
+            Self::Default => eframe::egui::Style::default(),
             _ => self.get_colors().to_egui_style(),
         }
     }
@@ -66,7 +66,8 @@ fn load_builtin_theme(path: &str, embedded_source: &str) -> ThemeColors {
     if let Some(theme) = ThemeColors::load_from_file(path) {
         return theme;
     }
-    if let Some(theme_path) = crate::paths::find_file(path) {
+
+    if let Some(theme_path) = paths::find_file(path) {
         log::warn!(
             "Failed to parse theme at {}; using embedded theme",
             theme_path.display()
@@ -80,14 +81,14 @@ fn load_builtin_theme(path: &str, embedded_source: &str) -> ThemeColors {
 }
 
 /// Store the current colors in egui's context for custom widgets to use.
-pub fn store_theme(ctx: &egui::Context, colors: ThemeColors) {
-    ctx.data_mut(|data| data.insert_persisted(egui::Id::new("app_theme"), colors));
+pub fn store_theme(ctx: &eframe::egui::Context, colors: ThemeColors) {
+    ctx.data_mut(|data| data.insert_persisted(eframe::egui::Id::new("app_theme"), colors));
 }
 
 /// Read the colors currently used by custom widgets.
-pub fn get_theme(ctx: &egui::Context) -> ThemeColors {
+pub fn get_theme(ctx: &eframe::egui::Context) -> ThemeColors {
     ctx.data_mut(|data| {
-        data.get_persisted::<ThemeColors>(egui::Id::new("app_theme"))
+        data.get_persisted::<ThemeColors>(eframe::egui::Id::new("app_theme"))
             .unwrap_or_default()
     })
 }
@@ -130,11 +131,15 @@ impl Default for ThemeColors {
 }
 
 impl ThemeColors {
-    pub fn parse_hex(hex: &str) -> egui::Color32 {
+    pub fn parse_hex(hex: &str) -> eframe::egui::Color32 {
         let hex = hex.trim().trim_start_matches('#');
         let parse = |part: &str| u8::from_str_radix(part, 16).ok();
 
         let parsed = (|| -> Option<(u8, u8, u8, u8)> {
+            if !hex.is_ascii() {
+                return None;
+            }
+
             match hex.len() {
                 6 => Some((
                     parse(&hex[0..2])?,
@@ -153,54 +158,54 @@ impl ThemeColors {
         })();
 
         let Some((r, g, b, a)) = parsed else {
-            return egui::Color32::from_rgb(255, 0, 255);
+            return eframe::egui::Color32::from_rgb(255, 0, 255);
         };
 
-        egui::Color32::from_rgba_unmultiplied(r, g, b, a)
+        eframe::egui::Color32::from_rgba_unmultiplied(r, g, b, a)
     }
 
-    pub fn error_color(&self) -> egui::Color32 {
+    pub fn error_color(&self) -> eframe::egui::Color32 {
         self.error
             .as_deref()
             .map(Self::parse_hex)
-            .unwrap_or(egui::Color32::from_rgb(224, 108, 117))
+            .unwrap_or(eframe::egui::Color32::from_rgb(224, 108, 117))
     }
 
-    pub fn warning_color(&self) -> egui::Color32 {
+    pub fn warning_color(&self) -> eframe::egui::Color32 {
         self.warning
             .as_deref()
             .map(Self::parse_hex)
-            .unwrap_or(egui::Color32::from_rgb(209, 154, 102))
+            .unwrap_or(eframe::egui::Color32::from_rgb(209, 154, 102))
     }
 
-    pub fn success_color(&self) -> egui::Color32 {
+    pub fn success_color(&self) -> eframe::egui::Color32 {
         self.success
             .as_deref()
             .map(Self::parse_hex)
-            .unwrap_or(egui::Color32::from_rgb(152, 195, 121))
+            .unwrap_or(eframe::egui::Color32::from_rgb(152, 195, 121))
     }
 
-    pub fn info_color(&self) -> egui::Color32 {
+    pub fn info_color(&self) -> eframe::egui::Color32 {
         self.info
             .as_deref()
             .map(Self::parse_hex)
-            .unwrap_or(egui::Color32::from_rgb(97, 175, 239))
+            .unwrap_or(eframe::egui::Color32::from_rgb(97, 175, 239))
     }
 
-    pub fn text_color(&self) -> egui::Color32 {
+    pub fn text_color(&self) -> eframe::egui::Color32 {
         Self::parse_hex(&self.text)
     }
 
-    pub fn panel_color(&self) -> egui::Color32 {
+    pub fn panel_color(&self) -> eframe::egui::Color32 {
         Self::parse_hex(&self.panel_bg)
     }
 
-    pub fn accent_color(&self) -> egui::Color32 {
+    pub fn accent_color(&self) -> eframe::egui::Color32 {
         Self::parse_hex(&self.accent)
     }
 
-    pub fn to_egui_style(&self) -> egui::Style {
-        let mut style = egui::Style::default();
+    pub fn to_egui_style(&self) -> eframe::egui::Style {
+        let mut style = eframe::egui::Style::default();
 
         let background = Self::parse_hex(&self.background);
         let panel = Self::parse_hex(&self.panel_bg);
@@ -246,7 +251,7 @@ impl ThemeColors {
     }
 
     pub fn load_from_file(path: impl AsRef<std::path::Path>) -> Option<Self> {
-        crate::paths::read_file(path).and_then(|data| Self::from_toml(&data))
+        paths::read_file(path).and_then(|data| Self::from_toml(&data))
     }
 
     fn from_toml(data: &str) -> Option<Self> {

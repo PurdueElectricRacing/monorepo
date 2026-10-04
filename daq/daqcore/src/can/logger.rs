@@ -1,12 +1,15 @@
-use daqcore::log_parse::consts;
-
-use daqcore::log_parse::parse;
+use crate::{
+    frame,
+    log_parse::{consts, parse},
+};
 
 use chrono::{Datelike, Timelike};
-use std::fs::{File, create_dir_all};
-use std::io::Write;
-use std::path::PathBuf;
-use std::time::Instant;
+use std::{
+    fs::{File, create_dir_all},
+    io::Write,
+    path::PathBuf,
+    time::Instant,
+};
 
 pub const LOG_FILE_ROTATE_MS: u128 = 60000;
 pub const DEFAULT_FLUSH_MS: u128 = 1000;
@@ -68,37 +71,30 @@ impl DaqLogger {
         }
     }
 
-    pub fn log_can2_frame(&mut self, frame: &slcan::Can2Frame, is_bus_1: bool) {
-        let (id, data) = match frame.id() {
-            slcan::Id::Standard(sid) => {
-                let id = sid.as_raw() as u32;
-                (id, frame.data().unwrap_or(&[]))
-            }
-            slcan::Id::Extended(eid) => {
-                let id = eid.as_raw() | consts::IS_EID_MASK;
-                (id, frame.data().unwrap_or(&[]))
-            }
-        };
+    pub fn log_frame(&mut self, frame: &frame::CanFrame) -> Result<(), String> {
+        if matches!(frame.kind, frame::FrameKind::Fd { .. }) {
+            return Ok(());
+        }
 
-        let frame_identity = if is_bus_1 {
-            id | consts::BUS_ID_MASK
+        if frame.data.len() > 8 {
+            return Err("classic CAN log payload exceeds 8 bytes".into());
+        }
+
+        let mut data = [0; 8];
+        data[..frame.data.len()].copy_from_slice(&frame.data);
+        let identity_flag = if frame.identity.is_extended() {
+            consts::IS_EID_MASK
         } else {
-            id
+            0
         };
 
-        let mut data_array = [0u8; 8];
-        let len = data.len().min(8);
-        data_array[..len].copy_from_slice(&data[..len]);
+        self.add_frame(parse::RawFrame {
+            ticks_ms: self.start_time.elapsed().as_millis() as u32,
+            identity: frame.identity.raw_id() | identity_flag,
+            data,
+        });
 
-        let ticks_ms = self.start_time.elapsed().as_millis() as u32;
-
-        let raw_frame = parse::RawFrame {
-            ticks_ms: ticks_ms,
-            identity: frame_identity,
-            data: data_array,
-        };
-
-        self.add_frame(raw_frame);
+        Ok(())
     }
 
     fn add_frame(&mut self, frame: parse::RawFrame) {

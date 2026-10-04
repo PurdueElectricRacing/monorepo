@@ -1,34 +1,34 @@
-use crate::{
-    action, app, assets, connection, formatter, messages, settings, util, widget_constructor,
-};
-use eframe::egui;
+use crate::{action, app, assets, settings, util, widget_constructor};
 
 pub fn select_dbc(
     app: &mut app::DAQApp,
-    ui_to_can_tx: &std::sync::mpsc::Sender<messages::MsgFromUi>,
+    ui_to_can_tx: &std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
 ) {
     let mut dialog = rfd::FileDialog::new().add_filter("DBC Files", &["dbc"]);
     if let Some(dir) = settings::dbc_dir() {
         dialog = dialog.set_directory(dir);
     }
+
     if let Some(path) = dialog.pick_file() {
-        app.parser = app::ParserInfo::new(path.clone());
-        if app.parser.is_some() {
-            ui_to_can_tx
-                .send(messages::MsgFromUi::DbcSelected(path))
-                .expect("Failed to send DBC selected message");
-            app.save_settings();
+        if let Some(parser) = app::ParserInfo::new(path.clone()) {
+            match ui_to_can_tx.send(daqcore::can_thread::CanThreadCommand::DbcSelected(path)) {
+                Ok(()) => {
+                    app.parser = Some(parser);
+                    app.save_settings();
+                }
+                Err(error) => log::error!("Failed to submit DBC reload: {error}"),
+            }
         }
     }
 }
 
-pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
-    egui::SidePanel::left("left_sidebar")
+pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
+    eframe::egui::SidePanel::left("left_sidebar")
         .resizable(true)
         .show_animated(ctx, app.is_sidebar_open, |ui| {
             ui.horizontal(|ui| {
                 ui.add(
-                    egui::Image::from_bytes(assets::PER_LOGO_PATH, assets::PER_LOGO_BYTES)
+                    eframe::egui::Image::from_bytes(assets::PER_LOGO_PATH, assets::PER_LOGO_BYTES)
                         .show_loading_spinner(true)
                         .corner_radius(5),
                 );
@@ -116,11 +116,13 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                     widget_constructor::WidgetConstructor::Dynamics,
                 ));
             }
+
             if ui.button("Add Jitter").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::Jitter,
                 ));
             }
+
             if ui.button("Add HIL").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::Hil,
@@ -132,9 +134,9 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
 
             ui.horizontal(|ui| {
                 ui.label("CAN Speed:");
-                let speed_options = connection::CanBusSpeed::options();
+                let speed_options = daqcore::connection::CanBusSpeed::options();
                 let selected_speed = app.can_bus_speed;
-                egui::ComboBox::from_id_salt("can_speed_combo")
+                eframe::egui::ComboBox::from_id_salt("can_speed_combo")
                     .selected_text(selected_speed.display_name())
                     .show_ui(ui, |ui| {
                         for speed in speed_options {
@@ -156,7 +158,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
             ui.horizontal(|ui| {
                 ui.label("UDP Port:");
                 if ui
-                    .add(egui::DragValue::new(&mut app.udp_port).range(1..=65535))
+                    .add(eframe::egui::DragValue::new(&mut app.udp_port).range(1..=65535))
                     .changed()
                 {
                     app.save_settings();
@@ -165,14 +167,14 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
 
             ui.horizontal(|ui| {
                 let selected_text = match &app.selected_source {
-                    Some(connection::ConnectionSource::Serial(path, speed)) => {
+                    Some(daqcore::connection::ConnectionSource::Serial(path, speed)) => {
                         format!("Serial: {} ({})", path, speed.display_name())
                     }
                     Some(connection_source) => connection_source.display_name(),
                     None => "Select Source".to_string(),
                 };
 
-                egui::ComboBox::from_label("Source")
+                eframe::egui::ComboBox::from_label("Source")
                     .selected_text(selected_text)
                     .show_ui(ui, |ui| {
                         ui.label("Serial Ports");
@@ -182,7 +184,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                             .map(|p| p.port_name.clone())
                             .collect();
                         for port_name in ports {
-                            let source = connection::ConnectionSource::Serial(
+                            let source = daqcore::connection::ConnectionSource::Serial(
                                 port_name.clone(),
                                 app.can_bus_speed,
                             );
@@ -200,7 +202,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         }
                         ui.separator();
                         ui.label("Network");
-                        let udp_source = connection::ConnectionSource::Udp(app.udp_port);
+                        let udp_source = daqcore::connection::ConnectionSource::Udp(app.udp_port);
                         if ui
                             .selectable_value(
                                 &mut app.selected_source,
@@ -216,19 +218,16 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         ui.label("Simulated");
                         let dbc_path = app.parser.as_ref().map(|p| p.dbc_path.clone());
                         let sim_sources = [
-                            connection::ConnectionSource::Simulated(true, dbc_path.clone()),
-                            connection::ConnectionSource::Simulated(false, dbc_path.clone()),
+                            (true, "Simulated (connected)"),
+                            (false, "Simulated (disconnected)"),
                         ];
-                        for sim_source in sim_sources {
-                            let label = match sim_source {
-                                connection::ConnectionSource::Simulated(true, _) => {
-                                    "Simulated (connected)"
-                                }
-                                connection::ConnectionSource::Simulated(false, _) => {
-                                    "Simulated (disconnected)"
-                                }
-                                _ => unreachable!(),
-                            };
+
+                        for (connected, label) in sim_sources {
+                            let sim_source = daqcore::connection::ConnectionSource::Simulated(
+                                connected,
+                                dbc_path.clone(),
+                            );
+
                             if ui
                                 .selectable_value(
                                     &mut app.selected_source,
@@ -243,7 +242,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                         }
                         ui.separator();
                         ui.label("Development");
-                        let loopback_source = connection::ConnectionSource::Loopback;
+                        let loopback_source = daqcore::connection::ConnectionSource::Loopback;
                         if ui
                             .selectable_value(
                                 &mut app.selected_source,
@@ -266,16 +265,16 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 // Connection status indicator
                 let (status_icon, status_color) = match &app.connection_status {
                     app::ConnectionStatus::Disconnected => {
-                        ("⚪ Disconnected".to_string(), egui::Color32::GRAY)
+                        ("⚪ Disconnected".to_string(), eframe::egui::Color32::GRAY)
                     }
                     app::ConnectionStatus::Connected => {
-                        ("🟢 Connected".to_string(), egui::Color32::GREEN)
+                        ("🟢 Connected".to_string(), eframe::egui::Color32::GREEN)
                     }
                     app::ConnectionStatus::Error(e) => {
-                        (format!("🔴 Error: {}", e), egui::Color32::RED)
+                        (format!("🔴 Error: {}", e), eframe::egui::Color32::RED)
                     }
                 };
-                ui.label(egui::RichText::new(status_icon).color(status_color));
+                ui.label(eframe::egui::RichText::new(status_icon).color(status_color));
             });
 
             ui.horizontal(|ui| {
@@ -301,9 +300,15 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
                 if ui.button("Select Log Folder").clicked()
                     && let Some(path) = rfd::FileDialog::new().pick_folder()
                 {
-                    app.ui_to_can_tx
-                        .send(messages::MsgFromUi::UpdateLogFolder(path.clone()))
-                        .expect("Failed to send log folder update");
+                    let command =
+                        daqcore::can_thread::CanThreadCommand::UpdateLogFolder(path.clone());
+
+                    if let Err(error) = app.ui_to_can_tx.send(command) {
+                        log::error!("Failed to send log folder update: {error}");
+                        app.diagnostic = Some(error.to_string());
+                        return;
+                    }
+
                     app.log_folder = Some(path);
                     app.save_settings();
                 }
@@ -319,7 +324,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &egui::Context) {
             ui.separator();
 
             if ui.button("Reload formatter").clicked() {
-                app.value_formatter = formatter::Formatter::try_load();
+                app.value_formatter = app::load_formatter();
             }
         });
 }

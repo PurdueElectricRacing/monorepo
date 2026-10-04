@@ -12,6 +12,10 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
         D: serde::Deserializer<'de>,
     {
         let value = serde_json::Value::deserialize(deserializer)?;
+        if value.as_str() == Some("Loopback") {
+            return Ok(Self::Loopback);
+        }
+
         let object = value
             .as_object()
             .ok_or_else(|| serde::de::Error::custom("connection source must be an object"))?;
@@ -29,16 +33,19 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                 )),
             };
         }
+
         if let Some(port) = object.get("Udp") {
             return Ok(Self::Udp(
                 serde_json::from_value(port.clone()).map_err(serde::de::Error::custom)?,
             ));
         }
+
         if let Some(simulated) = object.get("Simulated") {
             let values: (bool, Option<std::path::PathBuf>) =
                 serde_json::from_value(simulated.clone()).map_err(serde::de::Error::custom)?;
             return Ok(Self::Simulated(values.0, values.1));
         }
+
         if object.get("Loopback").is_some() {
             return Ok(Self::Loopback);
         }
@@ -46,10 +53,10 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug)]
-
+#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug, Default)]
 pub enum CanBusSpeed {
     Kbps250,
+    #[default]
     Kbps500,
 }
 
@@ -80,13 +87,6 @@ impl CanBusSpeed {
         }
     }
 
-    pub fn to_slcan_bitrate(self) -> slcan::NominalBitRate {
-        match self {
-            CanBusSpeed::Kbps250 => slcan::NominalBitRate::Rate250Kbit,
-            CanBusSpeed::Kbps500 => slcan::NominalBitRate::Rate500Kbit,
-        }
-    }
-
     pub fn to_bps(self) -> u32 {
         match self {
             CanBusSpeed::Kbps250 => 250_000,
@@ -96,11 +96,5 @@ impl CanBusSpeed {
 
     pub fn options() -> Vec<CanBusSpeed> {
         vec![CanBusSpeed::Kbps250, CanBusSpeed::Kbps500]
-    }
-}
-
-impl Default for CanBusSpeed {
-    fn default() -> Self {
-        CanBusSpeed::Kbps500
     }
 }

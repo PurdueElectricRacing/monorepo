@@ -1,8 +1,6 @@
 use crate::{
-    action, connection, formatter, messages, settings, shortcuts, ui, util, widget_ids, widgets,
-    workspace,
+    action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
 };
-use eframe::egui;
 
 const UI_SCALE_STEP: f32 = 0.2;
 pub struct ParserInfo {
@@ -21,6 +19,7 @@ impl ParserInfo {
             .ok()?;
         Some(Self { dbc_path, parser })
     }
+
     pub fn new_maybe(dbc_path: Option<std::path::PathBuf>) -> Option<Self> {
         dbc_path.and_then(Self::new)
     }
@@ -35,23 +34,28 @@ pub enum ConnectionStatus {
 
 pub struct DAQApp {
     pub connection_status: ConnectionStatus,
-    pub value_formatter: Option<formatter::Formatter>,
+    pub value_formatter: Option<daqcore::formatter::Formatter>,
     pub is_sidebar_open: bool,
     pub command_palette: ui::command_palette::CommandPalette,
     pub tile_tree: egui_tiles::Tree<widgets::Widget>,
     pub widget_ids: widget_ids::WidgetIds,
-    pub can_to_ui_rx: std::sync::mpsc::Receiver<messages::MsgFromCan>,
-    pub ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    pub can_to_ui_rx: std::sync::mpsc::Receiver<daqcore::can_thread::CanThreadEvent>,
+    pub ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
     pub action_queue: Vec<action::AppAction>,
-    pub selected_source: Option<connection::ConnectionSource>,
-    pub theme: egui::Style,
+    pub selected_source: Option<daqcore::connection::ConnectionSource>,
+    pub theme: eframe::egui::Style,
     pub theme_selection: ui::theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
     pub serial_ports: Vec<serialport::SerialPortInfo>,
     pub parser: Option<ParserInfo>,
-    pub can_bus_speed: connection::CanBusSpeed,
+    pub can_bus_speed: daqcore::connection::CanBusSpeed,
     pub udp_port: u16,
-    pub can_messages: Vec<messages::MsgFromCan>,
+    pub session: daqcore::Session,
+    pub bus_load_samples: Vec<telemetry::BusLoadSample>,
+    pub can_thread: daqcore::can_thread::CanThreadHandle,
+    hil_snapshot: daqcore::hil::engine::HilSnapshot,
+    active_source: Option<daqcore::connection::ConnectionSource>,
+    pub diagnostic: Option<String>,
     pub log_folder: Option<std::path::PathBuf>,
 }
 
@@ -65,31 +69,41 @@ impl DAQApp {
             theme: self.theme_selection,
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
+            window_secs: self.session.timeline().window_secs(),
         };
         settings.save();
     }
 
     pub fn new(
-        can_to_ui_rx: std::sync::mpsc::Receiver<messages::MsgFromCan>,
-        ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+        can_to_ui_rx: std::sync::mpsc::Receiver<daqcore::can_thread::CanThreadEvent>,
+        can_thread: daqcore::can_thread::CanThreadHandle,
         settings: settings::Settings,
         cc: &eframe::CreationContext,
-    ) -> Self {
+    ) -> Result<Self, Box<dyn std::error::Error + Send + Sync>> {
         let theme_selection = settings.theme;
         let theme_style = theme_selection.get_style();
         ui::theme::store_theme(&cc.egui_ctx, theme_selection.get_colors());
 
         egui_extras::install_image_loaders(&cc.egui_ctx);
 
-        Self {
+        let window_secs = if settings.window_secs.is_finite() && settings.window_secs >= 0.0 {
+            settings.window_secs
+        } else {
+            30.0
+        };
+
+        let session = daqcore::Session::live(daqcore::Time::now(), window_secs)?;
+
+        Ok(Self {
             connection_status: ConnectionStatus::Disconnected,
-            value_formatter: formatter::Formatter::try_load(),
+            value_formatter: load_formatter(),
             is_sidebar_open: true,
             command_palette: ui::command_palette::CommandPalette::new(),
             tile_tree: egui_tiles::Tree::empty("workspace_tree"),
             widget_ids: widget_ids::WidgetIds::new(),
             can_to_ui_rx,
-            ui_to_can_tx,
+            ui_to_can_tx: can_thread.sender(),
+            can_thread,
             action_queue: Vec::new(),
             selected_source: settings.selected_source.clone(),
             theme: theme_style,
@@ -99,9 +113,13 @@ impl DAQApp {
             parser: ParserInfo::new_maybe(settings.dbc_path),
             can_bus_speed: settings.selected_speed,
             udp_port: settings.udp_port,
-            can_messages: Vec::new(),
+            session,
+            bus_load_samples: Vec::new(),
+            hil_snapshot: daqcore::hil::engine::HilSnapshot::idle(),
+            active_source: None,
+            diagnostic: None,
             log_folder: settings.log_folder,
-        }
+        })
     }
 
     fn add_widget_to_tree(&mut self, widget: widgets::Widget) {
@@ -140,10 +158,12 @@ impl DAQApp {
 
         let _ = self
             .ui_to_can_tx
-            .send(messages::MsgFromUi::Connect(source.clone()));
+            .send(daqcore::can_thread::CanThreadCommand::Connect(Some(
+                source.clone(),
+            )));
     }
 
-    pub fn handle_action(&mut self, action: action::AppAction, ctx: &egui::Context) {
+    pub fn handle_action(&mut self, action: action::AppAction, ctx: &eframe::egui::Context) {
         match action {
             action::AppAction::SpawnWidget(widget_type) => {
                 let kind = widget_type.kind();
@@ -158,7 +178,12 @@ impl DAQApp {
                     self.ui_to_can_tx.clone(),
                     existing_count,
                 ) {
-                    Some(widget) => self.add_widget_to_tree(widget),
+                    Some(mut widget) => {
+                        widget.handle_operational_event(&daqcore::can_thread::CanThreadEvent::Hil(
+                            self.hil_snapshot.clone(),
+                        ));
+                        self.add_widget_to_tree(widget);
+                    }
                     None => {
                         log::warn!("Maximum number of {:?} widgets already open", kind)
                     }
@@ -190,7 +215,7 @@ impl DAQApp {
         }
     }
 
-    pub fn toggle_theme(&mut self, ctx: &egui::Context) {
+    pub fn toggle_theme(&mut self, ctx: &eframe::egui::Context) {
         self.theme_selection = self.theme_selection.next();
         self.theme = self.theme_selection.get_style();
         ui::theme::store_theme(ctx, self.theme_selection.get_colors());
@@ -210,32 +235,63 @@ impl DAQApp {
 }
 
 impl eframe::App for DAQApp {
-    fn update(&mut self, ctx: &egui::Context, _: &mut eframe::Frame) {
-        self.can_messages.clear();
-        while let Ok(msg) = self.can_to_ui_rx.try_recv() {
-            match &msg {
-                messages::MsgFromCan::ConnectionFailed(port) => {
-                    self.connection_status =
-                        ConnectionStatus::Error(format!("Failed to connect to {port}"));
-                }
-                messages::MsgFromCan::ConnectionSuccessful => {
-                    self.connection_status = ConnectionStatus::Connected;
-                }
-                messages::MsgFromCan::Disconnection => {
-                    self.connection_status = ConnectionStatus::Disconnected;
-                }
-                messages::MsgFromCan::ParsedMessage(_)
-                | messages::MsgFromCan::UnparsedMessage(_)
-                | messages::MsgFromCan::MessageSent { .. }
-                | messages::MsgFromCan::BusLoad { .. }
-                | messages::MsgFromCan::Hil(_)
-                | messages::MsgFromCan::FirmwareProgress(_) => {
-                    // Nothing special to do here, the message will be handled
-                    // in the individual widgets
+    fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
+        while let Ok(event) = self.can_to_ui_rx.try_recv() {
+            for tile in self.tile_tree.tiles.tiles_mut() {
+                if let egui_tiles::Tile::Pane(widget) = tile {
+                    widget.handle_operational_event(&event);
                 }
             }
-            self.can_messages.push(msg);
+
+            match event {
+                daqcore::can_thread::CanThreadEvent::Frame(frame) => {
+                    self.session.ingest_frame(frame);
+                }
+                daqcore::can_thread::CanThreadEvent::SourceSelected(source) => {
+                    if let Some(source) = source {
+                        if self.active_source.as_ref() != Some(&source) {
+                            self.session.reset(daqcore::Time::now());
+                            self.bus_load_samples.clear();
+                        }
+                        self.active_source = Some(source);
+                    }
+                }
+                daqcore::can_thread::CanThreadEvent::ConnectionFailed(error) => {
+                    self.connection_status = ConnectionStatus::Error(error)
+                }
+                daqcore::can_thread::CanThreadEvent::ConnectionSuccessful => {
+                    self.connection_status = ConnectionStatus::Connected
+                }
+                daqcore::can_thread::CanThreadEvent::Disconnection => {
+                    self.connection_status = ConnectionStatus::Disconnected;
+                }
+                daqcore::can_thread::CanThreadEvent::BusLoad {
+                    timestamp,
+                    load_1s,
+                    load_5s,
+                    load_10s,
+                    load_30s,
+                } => {
+                    let sample = telemetry::BusLoadSample {
+                        timestamp,
+                        values: [load_1s, load_5s, load_10s, load_30s],
+                    };
+
+                    let index = self
+                        .bus_load_samples
+                        .partition_point(|s| s.timestamp <= timestamp);
+                    self.bus_load_samples.insert(index, sample);
+                }
+                daqcore::can_thread::CanThreadEvent::Hil(snapshot) => self.hil_snapshot = snapshot,
+                daqcore::can_thread::CanThreadEvent::Diagnostic(error)
+                | daqcore::can_thread::CanThreadEvent::SendFailed { error, .. } => {
+                    log::error!("{error}");
+                    self.diagnostic = Some(error);
+                }
+                _ => {}
+            }
         }
+        self.session.evict();
         if let Some(ppp) = self.pixels_per_point {
             ctx.set_pixels_per_point(ppp);
         }
@@ -257,5 +313,26 @@ impl eframe::App for DAQApp {
         ui::sidebar::show(self, ctx);
         workspace::show(self, ctx);
         ctx.request_repaint();
+    }
+}
+
+pub fn load_formatter() -> Option<daqcore::formatter::Formatter> {
+    let local = paths::read_file("formatter_config.json");
+    if let Some(config) = local {
+        match daqcore::formatter::Formatter::from_str(&config) {
+            Ok(f) => return Some(f),
+            Err(e) => log::warn!("Invalid formatter configuration: {e}"),
+        }
+    }
+    daqcore::formatter::Formatter::from_str(include_str!("../formatter_config.json"))
+        .map_err(|e| log::error!("Invalid embedded formatter: {e}"))
+        .ok()
+}
+
+impl Drop for DAQApp {
+    fn drop(&mut self) {
+        if self.can_thread.stop().is_err() {
+            log::error!("CAN worker panicked during shutdown");
+        }
     }
 }

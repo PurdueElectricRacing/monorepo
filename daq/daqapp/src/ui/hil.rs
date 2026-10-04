@@ -1,55 +1,59 @@
-use crate::{hil, messages};
-use eframe::egui;
-
 pub struct Hil {
     pub title: String,
-    pub found_presets: Vec<hil::config::PresetInfo>,
-    pub found_tests: Vec<hil::config::TestInfo>,
+    pub found_presets: Vec<daqcore::hil::config::PresetInfo>,
+    pub found_tests: Vec<daqcore::hil::config::TestInfo>,
     pub load_errors: Vec<String>,
-    pub snapshot: hil::engine::HilSnapshot,
-    ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+    pub snapshot: daqcore::hil::engine::HilSnapshot,
+    ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
 }
 
 impl Hil {
-    pub fn new(ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>) -> Self {
-        let (presets, tests, errors) = hil::config::list_available_tests();
+    pub fn new(
+        ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+    ) -> Self {
+        let (presets, tests, errors) =
+            daqcore::hil::config::list_available_tests(std::path::Path::new("hil_config"));
 
         Self {
             title: "HIL".to_string(),
             found_presets: presets,
             found_tests: tests,
             load_errors: errors,
-            snapshot: hil::engine::HilSnapshot::idle(),
+            snapshot: daqcore::hil::engine::HilSnapshot::idle(),
             ui_to_can_tx,
         }
     }
 
-    pub fn handle_can_message(&mut self, msg: &messages::MsgFromCan) {
-        if let messages::MsgFromCan::Hil(snapshot) = msg {
+    pub fn handle_can_message(&mut self, msg: &daqcore::can_thread::CanThreadEvent) {
+        if let daqcore::can_thread::CanThreadEvent::Hil(snapshot) = msg {
             self.snapshot = snapshot.clone();
         }
     }
 
-    fn send_command(&self, command: hil::engine::HilCommand) {
-        self.ui_to_can_tx
-            .send(messages::MsgFromUi::Hil(command))
-            .expect("Failed to send HIL command to CAN thread");
+    fn send_command(&self, command: daqcore::hil::engine::HilCommand) {
+        if let Err(error) = self
+            .ui_to_can_tx
+            .send(daqcore::can_thread::CanThreadCommand::Hil(command))
+        {
+            log::error!("Failed to submit HIL command: {error}");
+        }
     }
 
     fn reload_tests(&mut self) {
-        let (presets, tests, errors) = hil::config::list_available_tests();
+        let (presets, tests, errors) =
+            daqcore::hil::config::list_available_tests(std::path::Path::new("hil_config"));
         self.found_presets = presets;
         self.found_tests = tests;
         self.load_errors = errors;
         self.snapshot.start_error = None;
     }
 
-    pub fn show(&mut self, ui: &mut egui::Ui) -> egui_tiles::UiResponse {
-        egui::ScrollArea::vertical().show(ui, |ui| match self.snapshot.status {
-            hil::engine::HilStatus::Idle => {
+    pub fn show(&mut self, ui: &mut eframe::egui::Ui) -> egui_tiles::UiResponse {
+        eframe::egui::ScrollArea::vertical().show(ui, |ui| match self.snapshot.status {
+            daqcore::hil::engine::HilStatus::Idle => {
                 self.show_idle(ui);
             }
-            hil::engine::HilStatus::Running => {
+            daqcore::hil::engine::HilStatus::Running => {
                 self.show_running(ui);
             }
         });
@@ -57,7 +61,7 @@ impl Hil {
         egui_tiles::UiResponse::None
     }
 
-    fn show_idle(&mut self, ui: &mut egui::Ui) {
+    fn show_idle(&mut self, ui: &mut eframe::egui::Ui) {
         ui.label("HIL is idle. Select a preset or test to start.");
         if ui.button("Reload Tests").clicked() {
             self.reload_tests();
@@ -73,7 +77,7 @@ impl Hil {
         }
 
         if let Some(error) = &self.snapshot.start_error {
-            ui.colored_label(egui::Color32::RED, error);
+            ui.colored_label(eframe::egui::Color32::RED, error);
             ui.separator();
         }
 
@@ -86,11 +90,13 @@ impl Hil {
                     selected_preset = Some(preset.clone());
                 }
             }
+
             if let Some(preset) = selected_preset {
-                self.send_command(hil::engine::HilCommand::StartPreset(preset));
+                self.send_command(daqcore::hil::engine::HilCommand::StartPreset(preset));
             }
             ui.separator();
         }
+
         if !self.found_tests.is_empty() {
             ui.label(" Individual Tests:");
             let mut selected_test = None;
@@ -100,13 +106,14 @@ impl Hil {
                     selected_test = Some(test.clone());
                 }
             }
+
             if let Some(test) = selected_test {
-                self.send_command(hil::engine::HilCommand::StartTest(test));
+                self.send_command(daqcore::hil::engine::HilCommand::StartTest(test));
             }
         }
     }
 
-    fn show_running(&mut self, ui: &mut egui::Ui) {
+    fn show_running(&mut self, ui: &mut eframe::egui::Ui) {
         let tests = &self.snapshot.tests;
         let all_finished = tests.iter().all(|t| t.is_finished());
         let mut stop_requested = false;
@@ -145,11 +152,11 @@ impl Hil {
         }
 
         if stop_requested {
-            self.send_command(hil::engine::HilCommand::Stop);
+            self.send_command(daqcore::hil::engine::HilCommand::Stop);
         }
     }
 
-    fn show_preset_summary(ui: &mut egui::Ui, tests: &[hil::run::HilRunningTest]) {
+    fn show_preset_summary(ui: &mut eframe::egui::Ui, tests: &[daqcore::hil::run::HilRunningTest]) {
         if tests.is_empty() || !tests.iter().all(|t| t.is_finished()) {
             return;
         }
@@ -160,7 +167,7 @@ impl Hil {
             let passed = t
                 .in_progress_expects
                 .iter()
-                .filter(|e| matches!(e.result, hil::run::ExpectResult::Passed))
+                .filter(|e| matches!(e.result, daqcore::hil::run::ExpectResult::Passed))
                 .count();
             total_passed += passed;
             total_expects += total;
@@ -170,9 +177,9 @@ impl Hil {
         }
 
         let color = if total_passed == total_expects {
-            egui::Color32::GREEN
+            eframe::egui::Color32::GREEN
         } else {
-            egui::Color32::RED
+            eframe::egui::Color32::RED
         };
 
         ui.colored_label(
@@ -187,8 +194,8 @@ impl Hil {
         );
     }
 
-    fn show_test(ui: &mut egui::Ui, test: &hil::run::HilRunningTest) {
-        egui::CollapsingHeader::new(&test.test_info.name)
+    fn show_test(ui: &mut eframe::egui::Ui, test: &daqcore::hil::run::HilRunningTest) {
+        eframe::egui::CollapsingHeader::new(&test.test_info.name)
             .id_salt(&test.test_info.basename)
             .default_open(true)
             .show(ui, |ui| {
@@ -205,16 +212,22 @@ impl Hil {
             });
     }
 
-    fn show_test_progress(ui: &mut egui::Ui, test: &hil::run::HilRunningTest) {
+    fn show_test_progress(ui: &mut eframe::egui::Ui, test: &daqcore::hil::run::HilRunningTest) {
         let (not_in_window, in_progress, completed) = test.expect_counts();
         let total = not_in_window + in_progress + completed;
         if total > 0 {
             let frac = completed as f32 / total as f32;
-            ui.add(egui::ProgressBar::new(frac).text(format!("{}/{} complete", completed, total)));
+            ui.add(
+                eframe::egui::ProgressBar::new(frac)
+                    .text(format!("{}/{} complete", completed, total)),
+            );
         }
     }
 
-    fn show_test_finished_summary(ui: &mut egui::Ui, test: &hil::run::HilRunningTest) {
+    fn show_test_finished_summary(
+        ui: &mut eframe::egui::Ui,
+        test: &daqcore::hil::run::HilRunningTest,
+    ) {
         if !test.is_finished() {
             return;
         }
@@ -223,13 +236,13 @@ impl Hil {
         let passed = test
             .in_progress_expects
             .iter()
-            .filter(|e| matches!(e.result, hil::run::ExpectResult::Passed))
+            .filter(|e| matches!(e.result, daqcore::hil::run::ExpectResult::Passed))
             .count();
 
         let color = if passed == total {
-            egui::Color32::GREEN
+            eframe::egui::Color32::GREEN
         } else {
-            egui::Color32::RED
+            eframe::egui::Color32::RED
         };
 
         ui.colored_label(
@@ -238,8 +251,8 @@ impl Hil {
         );
     }
 
-    fn show_expects_grid(ui: &mut egui::Ui, test: &hil::run::HilRunningTest) {
-        egui::Grid::new(format!("expects_{}", test.test_info.basename))
+    fn show_expects_grid(ui: &mut eframe::egui::Ui, test: &daqcore::hil::run::HilRunningTest) {
+        eframe::egui::Grid::new(format!("expects_{}", test.test_info.basename))
             .num_columns(4)
             .striped(true)
             .show(ui, |ui| {
@@ -255,13 +268,13 @@ impl Hil {
             });
     }
 
-    fn show_expect_row(ui: &mut egui::Ui, ipe: &hil::run::InProgressExpect) {
+    fn show_expect_row(ui: &mut eframe::egui::Ui, ipe: &daqcore::hil::run::InProgressExpect) {
         ui.label(&ipe.expect.msg_name);
         ui.label(format!(
             "{:.0} - {:.0}",
             ipe.expect.window[0], ipe.expect.window[1]
         ));
-        ui.colored_label(ipe.result.as_color32(), ipe.result.as_str());
+        ui.colored_label(expect_color(ipe.result), ipe.result.as_str());
 
         if ipe.expect.signals.is_empty() {
             ui.label("—");
@@ -269,15 +282,17 @@ impl Hil {
             ui.vertical(|ui| {
                 for (name, range) in &ipe.expect.signals {
                     match ipe.failures.iter().find(|f| f.name() == name) {
-                        Some(hil::run::SignalFailure::OutOfRange { value, range, .. }) => {
+                        Some(daqcore::hil::run::SignalFailure::OutOfRange {
+                            value, range, ..
+                        }) => {
                             ui.colored_label(
-                                egui::Color32::RED,
+                                eframe::egui::Color32::RED,
                                 format!("{}: {} outside [{}, {}]", name, value, range[0], range[1]),
                             );
                         }
-                        Some(hil::run::SignalFailure::MissingSignal { range, .. }) => {
+                        Some(daqcore::hil::run::SignalFailure::MissingSignal { range, .. }) => {
                             ui.colored_label(
-                                egui::Color32::RED,
+                                eframe::egui::Color32::RED,
                                 format!(
                                     "{}: missing (expected [{}, {}])",
                                     name, range[0], range[1]
@@ -299,9 +314,21 @@ impl Drop for Hil {
     fn drop(&mut self) {
         if let Err(e) = self
             .ui_to_can_tx
-            .send(messages::MsgFromUi::Hil(hil::engine::HilCommand::Stop))
+            .send(daqcore::can_thread::CanThreadCommand::Hil(
+                daqcore::hil::engine::HilCommand::Stop,
+            ))
         {
             log::error!("Failed to send HIL stop command on drop: {}", e);
         }
+    }
+}
+
+fn expect_color(result: daqcore::hil::run::ExpectResult) -> eframe::egui::Color32 {
+    match result {
+        daqcore::hil::run::ExpectResult::NotInWindow => eframe::egui::Color32::GRAY,
+        daqcore::hil::run::ExpectResult::InProgress => eframe::egui::Color32::YELLOW,
+        daqcore::hil::run::ExpectResult::Passed => eframe::egui::Color32::GREEN,
+        daqcore::hil::run::ExpectResult::FailedNoMessage
+        | daqcore::hil::run::ExpectResult::FailedValueOutOfRange => eframe::egui::Color32::RED,
     }
 }

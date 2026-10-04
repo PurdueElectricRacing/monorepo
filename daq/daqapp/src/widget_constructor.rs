@@ -1,4 +1,4 @@
-use crate::{messages, ui, widget_ids, widgets};
+use crate::{ui, widget_ids, widgets};
 
 #[derive(Eq, PartialEq, Hash, Clone, Copy, Debug)]
 pub enum WidgetKind {
@@ -33,7 +33,7 @@ pub enum WidgetConstructor {
     ViewerList,
     Bootloader,
     Scope {
-        msg_id: u32,
+        identity: daqcore::frame::CanIdentity,
         msg_name: String,
         signal_name: String,
     },
@@ -74,13 +74,14 @@ impl WidgetConstructor {
     pub fn create(
         self,
         widget_ids: &mut widget_ids::WidgetIds,
-        ui_to_can_tx: std::sync::mpsc::Sender<messages::MsgFromUi>,
+        ui_to_can_tx: std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
         existing_count: usize,
     ) -> Option<widgets::Widget> {
         let kind = self.kind();
         if existing_count >= kind.max_tabs_allowed() {
             return None;
         }
+
         let id = widget_ids.next(kind);
         Some(match self {
             WidgetConstructor::ViewerTable => {
@@ -93,10 +94,10 @@ impl WidgetConstructor {
                 widgets::Widget::Bootloader(ui::bootloader::Bootloader::new(id))
             }
             WidgetConstructor::Scope {
-                msg_id,
+                identity,
                 msg_name,
                 signal_name,
-            } => widgets::Widget::Scope(ui::scope::Scope::new(id, msg_id, msg_name, signal_name)),
+            } => widgets::Widget::Scope(ui::scope::Scope::new(id, identity, msg_name, signal_name)),
             WidgetConstructor::ScopeEmpty => {
                 widgets::Widget::Scope(ui::scope::Scope::new_empty(id))
             }

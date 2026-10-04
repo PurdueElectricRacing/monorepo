@@ -10,3 +10,10 @@ chrono.workspace = true
 log.workspace = true
 bytemuck.workspace = true
 csv.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+slcan = { workspace = true }
+serialport.workspace = true
+rand = { version = "0.10.1" }
+globset = { version = "0.4.18" }
+indexmap = { version = "2.14.0", features = ["serde"] }
