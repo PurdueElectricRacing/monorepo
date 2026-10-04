@@ -37,7 +37,7 @@ impl GgPlot {
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         let points: Vec<_> = view
-            .frames
+            .setpoint_frames
             .iter()
             .filter_map(|f| {
                 let d = f.decoded.as_ref()?;

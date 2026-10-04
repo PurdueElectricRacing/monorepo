@@ -53,7 +53,7 @@ impl Jitter {
                 }
             };
 
-            let deviations = interval_deviations(view.frames, identity, self.period_ms);
+            let deviations = interval_deviations(view.setpoint_frames, identity, self.period_ms);
             ui.label("Absolute deviation from nominal period over the shared interval");
             ui.label(format!("Intervals recorded: {}", deviations.len()));
             if !deviations.is_empty() {

@@ -57,7 +57,7 @@ impl BatteryTemps {
         ui: &mut eframe::egui::Ui,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        let (modules, last_update) = thermistor_temperatures(view.frames);
+        let (modules, last_update) = thermistor_temperatures(view.setpoint_frames);
         let (stale, elapsed) = common::sample_age(last_update, view.view_time());
 
         let theme = ui::theme::get_theme(ui.ctx());

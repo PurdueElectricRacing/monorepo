@@ -157,7 +157,7 @@ impl Scope {
         let duration = view.timeline.end().secs(start).max(0.001);
         let playhead = view.timeline.setpoint().secs(start);
 
-        let points: Vec<[f64; 2]> = scope_frames(view.plot_frames, id)
+        let points: Vec<[f64; 2]> = scope_frames(view.all_frames, id)
             .filter_map(|frame| {
                 let decoded = frame.decoded.as_ref()?;
                 let value = decoded.signals.get(&signal)?.value.physical;

@@ -3,23 +3,30 @@
 use std::collections::BTreeMap;
 
 pub struct TelemetryView<'a> {
-    pub plot_frames: &'a [daqcore::ParsedFrame],
-    pub frames: &'a [daqcore::ParsedFrame],
+    // All frames in the current timeline range (start to end)
+    pub all_frames: &'a [daqcore::ParsedFrame],
+    // Frames in the current timeline range that are at or before the setpoint (start to setpoint)
+    pub setpoint_frames: &'a [daqcore::ParsedFrame],
+    // Latest frame for each message before the setpoint
+    // (Latest message in the time range start to setpoint)
+    pub latest_setpoint_frames: BTreeMap<daqcore::frame::CanIdentity, &'a daqcore::ParsedFrame>,
     pub timeline: &'a daqcore::timeline::Timeline,
     view_time: daqcore::Time,
-    pub latest: BTreeMap<daqcore::frame::CanIdentity, &'a daqcore::ParsedFrame>,
 }
 
 impl<'a> TelemetryView<'a> {
     pub fn new(session: &'a daqcore::Session) -> Self {
         let cache = session.cache();
         let timeline = session.timeline();
-        let frames = cache.frames_in_range(timeline.setpoint_range());
-        let mut latest = BTreeMap::new();
+        let all_frames = cache.frames_in_range(timeline.range());
+        let setpoint_frames = cache.frames_in_range(timeline.setpoint_range());
 
-        for frame in frames.iter().rev() {
-            latest.entry(frame.identity).or_insert(frame);
-            if latest.len() == cache.latest_map().len() {
+        let mut latest_setpoint_frames = BTreeMap::new();
+        for frame in setpoint_frames.iter().rev() {
+            latest_setpoint_frames
+                .entry(frame.identity)
+                .or_insert(frame);
+            if latest_setpoint_frames.len() == cache.latest_map().len() {
                 break;
             }
         }
@@ -31,10 +38,10 @@ impl<'a> TelemetryView<'a> {
         };
 
         Self {
-            plot_frames: cache.frames_in_range(timeline.range()),
-            frames,
+            all_frames,
+            setpoint_frames,
             timeline,
-            latest,
+            latest_setpoint_frames,
             view_time,
         }
     }

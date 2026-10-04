@@ -28,7 +28,7 @@ impl ViewerTable {
             ui.label("Search:");
             ui.text_edit_singleline(&mut self.search);
             let mut nodes: Vec<_> = view
-                .latest
+                .latest_setpoint_frames
                 .values()
                 .filter_map(|f| f.decoded.as_ref().map(|d| d.tx_node.clone()))
                 .collect();
@@ -44,13 +44,13 @@ impl ViewerTable {
                     }
                 });
         });
-        if view.frames.is_empty() {
+        if view.setpoint_frames.is_empty() {
             ui.label("No retained CAN messages in the selected interval.");
         }
 
         let search = self.search.to_lowercase();
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
-            for frame in view.latest.values() {
+            for frame in view.latest_setpoint_frames.values() {
                 let decoded = frame.decoded.as_ref();
                 let name = decoded.map_or("Error: Unknown", |d| d.name.as_str());
                 let node = decoded.map_or("Unparsed", |d| d.tx_node.as_str());

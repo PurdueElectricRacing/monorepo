@@ -29,7 +29,7 @@ impl Dynamics {
         ui: &mut eframe::egui::Ui,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        let values = dynamics_values(view.frames);
+        let values = dynamics_values(view.setpoint_frames);
         let elapsed = values
             .last_update
             .map(|t| view.view_time().secs(t).max(0.0))

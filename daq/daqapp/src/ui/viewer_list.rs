@@ -19,7 +19,7 @@ impl ViewerList {
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         ui.heading(&self.title);
-        if view.frames.is_empty() {
+        if view.setpoint_frames.is_empty() {
             ui.label("No retained CAN messages in the selected interval.");
         }
         egui_extras::TableBuilder::new(ui)
@@ -36,7 +36,7 @@ impl ViewerList {
                 }
             })
             .body(|mut body| {
-                for frame in view.frames.iter().rev().take(200) {
+                for frame in view.setpoint_frames.iter().rev().take(200) {
                     if let Some(decoded) = &frame.decoded {
                         let id = frame.identity.dbc_id();
                         let def = parser.and_then(|p| p.parser.msg_def(id));

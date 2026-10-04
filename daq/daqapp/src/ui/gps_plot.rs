@@ -46,7 +46,7 @@ impl GpsPlot {
         ui: &mut eframe::egui::Ui,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        let samples: Vec<_> = view.frames.iter().filter_map(gps_sample).collect();
+        let samples: Vec<_> = view.setpoint_frames.iter().filter_map(gps_sample).collect();
         let fix = samples.last().copied();
         if let Some((t, lat, lon)) = fix {
             ui.label(format!("Last fix: {lat:.6}, {lon:.6} @ {}", t.label()));

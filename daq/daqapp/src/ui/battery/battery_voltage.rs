@@ -81,8 +81,8 @@ impl BatteryVoltage {
         ui: &mut eframe::egui::Ui,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        let (modules, cell_time) = cell_voltages(view.frames);
-        let (charging_telemetry, charging_time) = charging_voltages(view.frames);
+        let (modules, cell_time) = cell_voltages(view.setpoint_frames);
+        let (charging_telemetry, charging_time) = charging_voltages(view.setpoint_frames);
         let (stale, elapsed) = common::sample_age(cell_time.max(charging_time), view.view_time());
 
         let theme = ui::theme::get_theme(ui.ctx());
