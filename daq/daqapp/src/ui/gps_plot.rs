@@ -31,6 +31,7 @@ pub struct GpsPlot {
     tiles: Option<walkers::HttpTiles>,
     map_memory: walkers::MapMemory,
 }
+
 impl GpsPlot {
     pub fn new(instance: usize) -> Self {
         Self {
@@ -39,6 +40,7 @@ impl GpsPlot {
             map_memory: walkers::MapMemory::default(),
         }
     }
+
     pub fn show(
         &mut self,
         ui: &mut eframe::egui::Ui,
@@ -51,31 +53,35 @@ impl GpsPlot {
         } else {
             ui.label("No retained GPS fix in the selected interval.");
         }
+
         let position = fix
             .map(|(_, lat, lon)| walkers::lon_lat(lon, lat))
             .unwrap_or_else(|| walkers::lon_lat(DEFAULT_CENTER_LON, DEFAULT_CENTER_LAT));
         if fix.is_some() && self.map_memory.detached().is_none() {
             self.map_memory.center_at(position);
         }
+
         let span = view.timeline.setpoint().secs(view.timeline.start());
         let stride = samples.len().div_ceil(4096).max(1);
         let mut trail: Vec<_> = samples
             .iter()
             .step_by(stride)
             .map(|(t, lat, lon)| {
-                (
-                    walkers::lon_lat(*lon, *lat),
-                    if span > 0.0 {
-                        (t.secs(view.timeline.start()) / span).clamp(0.0, 1.0) as f32
-                    } else {
-                        1.0
-                    },
-                )
+                let age_fraction = if span > 0.0 {
+                    (t.secs(view.timeline.start()) / span).clamp(0.0, 1.0) as f32
+                } else {
+                    1.0
+                };
+
+                let position = walkers::lon_lat(*lon, *lat);
+
+                (position, age_fraction)
             })
             .collect();
         if let Some((_, lat, lon)) = fix {
             trail.push((walkers::lon_lat(lon, lat), 1.0));
         }
+
         let tiles = self
             .tiles
             .get_or_insert_with(|| walkers::HttpTiles::new(EsriWorldImagery, ui.ctx().clone()));
@@ -145,6 +151,7 @@ fn gps_sample(f: &daqcore::ParsedFrame) -> Option<(daqcore::Time, f64, f64)> {
     if d.name != "gps_coordinates" {
         return None;
     }
+
     let lat = d.signals.get("latitude")?.value.physical;
     let lon = d.signals.get("longitude")?.value.physical;
     if !lat.is_finite() || !lon.is_finite() || lat.abs() > 90.0 || lon.abs() > 180.0 {

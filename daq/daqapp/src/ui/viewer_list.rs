@@ -3,12 +3,14 @@ use crate::{app, telemetry};
 pub struct ViewerList {
     pub title: String,
 }
+
 impl ViewerList {
     pub fn new(instance: usize) -> Self {
         Self {
             title: format!("CAN Viewer List #{instance}"),
         }
     }
+
     pub fn show(
         &self,
         ui: &mut eframe::egui::Ui,
@@ -36,19 +38,18 @@ impl ViewerList {
             .body(|mut body| {
                 for frame in view.frames.iter().rev().take(200) {
                     if let Some(decoded) = &frame.decoded {
-                        let id = frame.msg_id
-                            | if frame.is_msg_id_extended {
-                                daqcore::can::EXTENDED_ID_FLAG
-                            } else {
-                                0
-                            };
+                        let id = frame.identity().dbc_id();
                         let def = parser.and_then(|p| p.parser.msg_def(id));
                         for (name, sig) in &decoded.signals {
+                            let signal_definition = def.and_then(|message| {
+                                message.signals.iter().find(|s| s.name == *name)
+                            });
+
                             let value = daqcore::formatter::try_format(
                                 formatter,
                                 &decoded.name,
                                 name,
-                                def.and_then(|m| m.signals.iter().find(|s| s.name == *name)),
+                                signal_definition,
                                 Some(&sig.unit),
                                 &sig.value,
                             );

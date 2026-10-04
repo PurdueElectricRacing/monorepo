@@ -19,6 +19,7 @@ impl ParserInfo {
             .ok()?;
         Some(Self { dbc_path, parser })
     }
+
     pub fn new_maybe(dbc_path: Option<std::path::PathBuf>) -> Option<Self> {
         dbc_path.and_then(Self::new)
     }
@@ -85,6 +86,14 @@ impl DAQApp {
 
         egui_extras::install_image_loaders(&cc.egui_ctx);
 
+        let window_secs = if settings.window_secs.is_finite() && settings.window_secs >= 0.0 {
+            settings.window_secs
+        } else {
+            30.0
+        };
+
+        let session = daqcore::Session::live(daqcore::Time::now(), window_secs);
+
         Self {
             connection_status: ConnectionStatus::Disconnected,
             value_formatter: load_formatter(),
@@ -104,14 +113,7 @@ impl DAQApp {
             parser: ParserInfo::new_maybe(settings.dbc_path),
             can_bus_speed: settings.selected_speed,
             udp_port: settings.udp_port,
-            session: daqcore::Session::live(
-                daqcore::Time::now(),
-                if settings.window_secs.is_finite() && settings.window_secs >= 0.0 {
-                    settings.window_secs
-                } else {
-                    30.0
-                },
-            ),
+            session,
             bus_load_samples: Vec::new(),
             hil_snapshot: daqcore::hil::engine::HilSnapshot::idle(),
             active_source: None,
@@ -240,6 +242,7 @@ impl eframe::App for DAQApp {
                     widget.handle_operational_event(&event);
                 }
             }
+
             match event {
                 daqcore::can_thread::CanThreadEvent::Frame(frame) => {
                     self.session.ingest_frame(frame);
@@ -273,6 +276,7 @@ impl eframe::App for DAQApp {
                         timestamp,
                         values: [load_1s, load_5s, load_10s, load_30s],
                     };
+
                     let index = self
                         .bus_load_samples
                         .partition_point(|s| s.timestamp <= timestamp);

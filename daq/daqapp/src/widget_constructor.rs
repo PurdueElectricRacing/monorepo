@@ -81,6 +81,7 @@ impl WidgetConstructor {
         if existing_count >= kind.max_tabs_allowed() {
             return None;
         }
+
         let id = widget_ids.next(kind);
         Some(match self {
             WidgetConstructor::ViewerTable => {

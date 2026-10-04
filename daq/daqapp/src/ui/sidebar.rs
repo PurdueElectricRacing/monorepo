@@ -8,6 +8,7 @@ pub fn select_dbc(
     if let Some(dir) = settings::dbc_dir() {
         dialog = dialog.set_directory(dir);
     }
+
     if let Some(path) = dialog.pick_file() {
         if let Some(parser) = app::ParserInfo::new(path.clone()) {
             match ui_to_can_tx.send(daqcore::can_thread::CanThreadCommand::DbcSelected(path)) {
@@ -115,11 +116,13 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                     widget_constructor::WidgetConstructor::Dynamics,
                 ));
             }
+
             if ui.button("Add Jitter").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::Jitter,
                 ));
             }
+
             if ui.button("Add HIL").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::Hil,
@@ -234,6 +237,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                                 }
                                 _ => unreachable!(),
                             };
+
                             if ui
                                 .selectable_value(
                                     &mut app.selected_source,
@@ -306,11 +310,15 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 if ui.button("Select Log Folder").clicked()
                     && let Some(path) = rfd::FileDialog::new().pick_folder()
                 {
-                    app.ui_to_can_tx
-                        .send(daqcore::can_thread::CanThreadCommand::UpdateLogFolder(
-                            path.clone(),
-                        ))
-                        .expect("Failed to send log folder update");
+                    let command =
+                        daqcore::can_thread::CanThreadCommand::UpdateLogFolder(path.clone());
+
+                    if let Err(error) = app.ui_to_can_tx.send(command) {
+                        log::error!("Failed to send log folder update: {error}");
+                        app.diagnostic = Some(error.to_string());
+                        return;
+                    }
+
                     app.log_folder = Some(path);
                     app.save_settings();
                 }

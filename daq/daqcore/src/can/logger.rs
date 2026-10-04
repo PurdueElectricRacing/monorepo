@@ -75,16 +75,18 @@ impl DaqLogger {
         if matches!(frame.kind, frame::FrameKind::Fd { .. }) {
             return;
         }
+
         let mut data = [0; 8];
         data[..frame.data.len()].copy_from_slice(&frame.data);
+        let identity_flag = if frame.is_msg_id_extended {
+            consts::IS_EID_MASK
+        } else {
+            0
+        };
+
         self.add_frame(parse::RawFrame {
             ticks_ms: self.start_time.elapsed().as_millis() as u32,
-            identity: frame.msg_id
-                | if frame.is_msg_id_extended {
-                    consts::IS_EID_MASK
-                } else {
-                    0
-                },
+            identity: frame.msg_id | identity_flag,
             data,
         });
     }

@@ -318,6 +318,7 @@ impl SendUi {
                         if !msg.adjustable_values_enabled {
                             continue;
                         }
+
                         let encoded = encode_msg_from_signals(
                             &parser.parser,
                             msg.identity.dbc_id(),
@@ -379,6 +380,7 @@ impl SendUi {
             }
             log::error!("Send {identity} failed: {error}");
         }
+
         if let daqcore::can_thread::CanThreadEvent::MessageSent {
             identity,
             timestamp,

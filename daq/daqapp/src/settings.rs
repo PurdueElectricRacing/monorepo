@@ -7,6 +7,7 @@ pub fn dbc_dir() -> Option<std::path::PathBuf> {
     let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../dbc");
     path.is_dir().then_some(path)
 }
+
 const DEFAULT_UDP_PORT: u16 = 5005;
 const DEFAULT_CAN_SPEED: daqcore::connection::CanBusSpeed =
     daqcore::connection::CanBusSpeed::Kbps500;
@@ -55,10 +56,17 @@ impl Settings {
     }
 
     pub fn save(&self) {
-        // Expect okay. If it doesn't fail in testing, it shouldn't fail later.
-        let json = serde_json::to_string_pretty(self).expect("Failed to serialize settings");
+        let json = match serde_json::to_string_pretty(self) {
+            Ok(json) => json,
+            Err(error) => {
+                log::error!("Failed to serialize settings: {error}");
+                return;
+            }
+        };
+
         let path = Self::path();
-        std::fs::write(&path, json)
-            .unwrap_or_else(|e| log::error!("Failed to write {}: {}", path.display(), e));
+        if let Err(error) = std::fs::write(&path, json) {
+            log::error!("Failed to write {}: {error}", path.display());
+        }
     }
 }

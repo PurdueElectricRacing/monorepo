@@ -7,6 +7,7 @@ use crate::{
 };
 
 use std::time::{Duration, Instant};
+
 #[derive(Debug)]
 pub enum DriverError {
     ConnectionFailed(String),
@@ -15,11 +16,13 @@ pub enum DriverError {
     Write(String),
     Unsupported(String),
 }
+
 impl std::fmt::Display for DriverError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{self:?}")
     }
 }
+
 impl std::error::Error for DriverError {}
 pub type DriverResult<T> = Result<T, DriverError>;
 pub trait Driver {
@@ -28,10 +31,12 @@ pub trait Driver {
     fn bus_speed(&self) -> Option<CanBusSpeed> {
         None
     }
+
     fn close(&mut self) -> DriverResult<()> {
         Ok(())
     }
 }
+
 pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>> {
     match source {
         ConnectionSource::Serial(path, speed) => {
@@ -58,10 +63,12 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
         ))),
     }
 }
+
 #[derive(Default)]
 struct LoopbackDriver {
     queued: Vec<CanFrame>,
 }
+
 impl Driver for LoopbackDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         if self.queued.is_empty() {
@@ -70,24 +77,29 @@ impl Driver for LoopbackDriver {
             Ok(std::mem::take(&mut self.queued))
         }
     }
+
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
         self.queued.push(frame);
         Ok(())
     }
 }
+
 struct UdpDriver(std::net::UdpSocket);
+
 impl Driver for UdpDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         let mut buf = [0; 65536];
         let len = self.0.recv(&mut buf).map_err(io_read)?;
         parse_udp_buffer(&buf[..len])
     }
+
     fn write_frame(&mut self, _: CanFrame) -> DriverResult<()> {
         Err(DriverError::Unsupported(
             "UDP transmission is unsupported".into(),
         ))
     }
 }
+
 fn io_read(e: std::io::Error) -> DriverError {
     if matches!(
         e.kind(),
@@ -98,6 +110,7 @@ fn io_read(e: std::io::Error) -> DriverError {
         DriverError::Read(e.to_string())
     }
 }
+
 fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<CanFrame>> {
     if buf.len() < 16 || !buf.len().is_multiple_of(16) {
         return Err(DriverError::Read(
@@ -106,17 +119,20 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<CanFrame>> {
     }
     buf.chunks_exact(16)
         .map(|bytes| {
-            let identity = u32::from_le_bytes(bytes[4..8].try_into().unwrap());
+            let identity_bytes = [bytes[4], bytes[5], bytes[6], bytes[7]];
+            let identity = u32::from_le_bytes(identity_bytes);
             let extended = identity & log_parse::consts::IS_EID_MASK != 0;
             let id = identity & can::EXTENDED_ID_MASK;
             CanFrame::data(id, extended, bytes[8..16].to_vec()).map_err(DriverError::Read)
         })
         .collect()
 }
+
 struct SimulatedDriver {
     parser: Option<can_decode::Parser>,
     next: Instant,
 }
+
 impl Driver for SimulatedDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         use rand::prelude::*;
@@ -138,15 +154,18 @@ impl Driver for SimulatedDriver {
             ),
             None => (rng.random_range(0..=can::STANDARD_ID_MASK), false, 8),
         };
+
         if size > 8 {
             return Err(DriverError::Timeout);
         }
+
         let mut data = vec![0; size];
         rng.fill_bytes(&mut data);
         Ok(vec![
             CanFrame::data(id, extended, data).map_err(DriverError::Read)?,
         ])
     }
+
     fn write_frame(&mut self, _: CanFrame) -> DriverResult<()> {
         Ok(())
     }
@@ -164,6 +183,7 @@ mod serial {
         socket: CanSocket<Box<dyn serialport::SerialPort>>,
         speed: CanBusSpeed,
     }
+
     impl SerialDriver {
         pub fn new(path: &str, speed: CanBusSpeed) -> DriverResult<Self> {
             let port = serialport::new(path, 115200)
@@ -185,24 +205,28 @@ mod serial {
             Ok(Self { socket, speed })
         }
     }
+
     fn identity(id: slcan::Id) -> (u32, bool) {
         match id {
             slcan::Id::Standard(id) => (id.as_raw() as u32, false),
             slcan::Id::Extended(id) => (id.as_raw(), true),
         }
     }
+
     fn from_wire(frame: slcan::CanFrame) -> CanFrame {
         match frame {
             slcan::CanFrame::Can2(f) => {
                 let (msg_id, is_msg_id_extended) = identity(f.id());
+                let kind = if f.is_remote() {
+                    FrameKind::Remote
+                } else {
+                    FrameKind::Data
+                };
+
                 CanFrame {
                     msg_id,
                     is_msg_id_extended,
-                    kind: if f.is_remote() {
-                        FrameKind::Remote
-                    } else {
-                        FrameKind::Data
-                    },
+                    kind,
                     dlc: f.dlc() as u8,
                     data: f.data().unwrap_or(&[]).to_vec(),
                 }
@@ -221,6 +245,7 @@ mod serial {
             }
         }
     }
+
     impl Driver for SerialDriver {
         fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
             self.socket
@@ -231,6 +256,7 @@ mod serial {
                     other => DriverError::Read(format!("{other:?}")),
                 })
         }
+
         fn write_frame(&mut self, f: CanFrame) -> DriverResult<()> {
             let id = if f.is_msg_id_extended {
                 slcan::ExtendedId::new(f.msg_id).map(slcan::Id::Extended)
@@ -254,9 +280,11 @@ mod serial {
                 .send(wire)
                 .map_err(|e| DriverError::Write(e.to_string()))
         }
+
         fn bus_speed(&self) -> Option<CanBusSpeed> {
             Some(self.speed)
         }
+
         fn close(&mut self) -> DriverResult<()> {
             self.socket
                 .close()

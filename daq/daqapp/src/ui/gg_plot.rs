@@ -4,10 +4,12 @@ const AXIS_LIMIT_G: f32 = 2.0;
 fn vehicle_accel_to_plot_xy(ax_g: f32, ay_g: f32) -> [f64; 2] {
     [-ay_g as f64, ax_g as f64]
 }
+
 pub struct GgPlot {
     pub title: String,
     ring_points: Vec<(String, Vec<[f64; 2]>)>,
 }
+
 impl GgPlot {
     pub fn new(instance: usize) -> Self {
         Self {
@@ -15,6 +17,7 @@ impl GgPlot {
             ring_points: Self::build_ring_points(),
         }
     }
+
     fn draw_background(
         &self,
         plot_ui: &mut egui_plot::PlotUi<'_>,
@@ -85,6 +88,7 @@ impl GgPlot {
             });
         egui_tiles::UiResponse::None
     }
+
     fn build_ring_points() -> Vec<(String, Vec<[f64; 2]>)> {
         [0.5, 1.0, 1.5]
             .iter()

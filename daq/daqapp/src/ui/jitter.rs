@@ -6,6 +6,7 @@ pub struct Jitter {
     selected_msg: Option<can_dbc::Message>,
     period_ms: usize,
 }
+
 impl Jitter {
     pub fn new(instance: usize) -> Self {
         Self {
@@ -15,6 +16,7 @@ impl Jitter {
             period_ms: 100,
         }
     }
+
     pub fn show(
         &mut self,
         ui: &mut eframe::egui::Ui,
@@ -25,6 +27,7 @@ impl Jitter {
             dbc_msg_picker::no_dbc_placeholder(ui);
             return egui_tiles::UiResponse::None;
         };
+
         if let Some(msg) = self
             .msg_picker
             .show(ui, &parser.parser, self.selected_msg.is_none())
@@ -50,11 +53,10 @@ impl Jitter {
             ui.label("Absolute deviation from nominal period over the shared interval");
             ui.label(format!("Intervals recorded: {}", deviations.len()));
             if !deviations.is_empty() {
-                ui.label(format!(
-                    "Max: {:.2}%  Average: {:.2}%",
-                    deviations.iter().copied().fold(0.0, f64::max),
-                    deviations.iter().sum::<f64>() / deviations.len() as f64
-                ));
+                let maximum = deviations.iter().copied().fold(0.0, f64::max);
+                let average = deviations.iter().sum::<f64>() / deviations.len() as f64;
+
+                ui.label(format!("Max: {maximum:.2}%  Average: {average:.2}%"));
             }
         }
         egui_tiles::UiResponse::None
@@ -73,8 +75,11 @@ fn interval_deviations(
         .collect();
     timestamps
         .windows(2)
-        .map(|w| {
-            100.0 * (w[1].secs(w[0]) * 1000.0 - period_ms as f64).abs() / period_ms.max(1) as f64
+        .map(|interval| {
+            let elapsed_ms = interval[1].secs(interval[0]) * 1000.0;
+            let deviation_ms = (elapsed_ms - period_ms as f64).abs();
+
+            100.0 * deviation_ms / period_ms.max(1) as f64
         })
         .collect()
 }

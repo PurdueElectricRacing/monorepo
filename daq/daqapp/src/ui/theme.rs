@@ -66,6 +66,7 @@ fn load_builtin_theme(path: &str, embedded_source: &str) -> ThemeColors {
     if let Some(theme) = ThemeColors::load_from_file(path) {
         return theme;
     }
+
     if let Some(theme_path) = paths::find_file(path) {
         log::warn!(
             "Failed to parse theme at {}; using embedded theme",

@@ -1,7 +1,9 @@
 pub mod protocol;
 mod updater;
+
 pub use protocol::{FirmwareImage, FirmwarePackage};
 pub use updater::{FirmwareUpdater, OutboundFrame, TickResult};
+
 #[derive(Clone, Debug)]
 pub struct FirmwareProgress {
     pub board: String,

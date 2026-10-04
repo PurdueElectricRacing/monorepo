@@ -142,8 +142,8 @@ impl TableBuilder {
         out_folder: &std::path::Path,
         output_prefix: &str,
         correlated_chunks: Vec<correlate::CorrelationChunkResult>,
-    ) {
-        std::fs::create_dir_all(out_folder).unwrap();
+    ) -> Result<(), csv::Error> {
+        std::fs::create_dir_all(out_folder)?;
 
         for (chunk_idx, chunk) in correlated_chunks.iter().enumerate() {
             let first_time = chunk.parsed_msgs.first().map(|m| m.timestamp).unwrap_or(0);
@@ -165,9 +165,10 @@ impl TableBuilder {
                 Some(t) => out_folder.join(format!("{}_{:03}_{}.csv", output_prefix, chunk_idx, t)),
                 None => out_folder.join(format!("{}_{:03}.csv", output_prefix, chunk_idx)),
             };
-            let mut wtr = csv::Writer::from_path(out_file.clone()).unwrap();
+
+            let mut writer = csv::Writer::from_path(&out_file)?;
             for row in self.build_header_rows() {
-                wtr.write_record(&row).unwrap();
+                writer.write_record(&row)?;
             }
 
             let mut msg_iter = chunk.parsed_msgs.iter().peekable();
@@ -185,12 +186,7 @@ impl TableBuilder {
                 }
                 row[1] = format!("{:.3}", row_time as f32 / 1000.0);
 
-                while let Some(msg) = msg_iter.peek() {
-                    if msg.timestamp >= row_end {
-                        break;
-                    }
-
-                    let msg = msg_iter.next().unwrap();
+                while let Some(msg) = msg_iter.next_if(|msg| msg.timestamp < row_end) {
                     let decoded = &msg.decoded;
                     for (sig_name, sig_value) in &decoded.signals {
                         let key = (msg.bus_name.clone(), decoded.name.clone(), sig_name.clone());
@@ -204,10 +200,29 @@ impl TableBuilder {
                     }
                 }
 
-                wtr.write_record(&row).unwrap();
+                writer.write_record(&row)?;
             }
-            wtr.flush().unwrap();
+
+            writer.flush()?;
             log::info!("Wrote chunk {} to CSV ({})", chunk_idx, out_file.display());
         }
+
+        Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::log_parse::table;
+
+    #[test]
+    fn export_reports_invalid_output_directory() {
+        // A regular source file cannot be used as a directory on any platform.
+        let source_file =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/log_parse/table.rs");
+        let builder = table::TableBuilder::new();
+        let result = builder.create_and_write_tables(&source_file, "out", Vec::new());
+
+        assert!(result.is_err());
     }
 }

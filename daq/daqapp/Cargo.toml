@@ -17,7 +17,6 @@ rfd = "0.17.2"
 can_decode.workspace = true
 can-dbc.workspace = true
 
-
 chrono.workspace = true
 
 hashbrown = "0.16.1"
@@ -26,7 +25,6 @@ log.workspace = true
 env_logger = "0.11.10"
 
 serialport.workspace = true
-
 
 serde.workspace = true
 serde_json.workspace = true

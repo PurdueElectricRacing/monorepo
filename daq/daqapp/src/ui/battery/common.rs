@@ -84,16 +84,16 @@ pub fn stat_card(
                             .color(theme.text_color().linear_multiply(0.25)),
                     );
                 } else {
+                    let text = if let Some(value) = value.filter(|value| value.is_finite()) {
+                        format!("{value:.2}")
+                    } else {
+                        "—".to_string()
+                    };
+
                     ui.label(
-                        eframe::egui::RichText::new(
-                            if let Some(v) = value.filter(|v| v.is_finite()) {
-                                format!("{:.2}", v)
-                            } else {
-                                "—".to_string()
-                            },
-                        )
-                        .size(20.0)
-                        .color(val_color),
+                        eframe::egui::RichText::new(text)
+                            .size(20.0)
+                            .color(val_color),
                     );
                     ui.label(
                         eframe::egui::RichText::new(unit)

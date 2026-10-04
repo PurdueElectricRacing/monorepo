@@ -21,11 +21,12 @@ pub fn parse_log_files(
     in_folder: &std::path::Path,
     parser_bus_0: &can_decode::Parser,
     parser_bus_1: &can_decode::Parser,
-) -> Vec<ParsedMessage> {
+) -> std::io::Result<Vec<ParsedMessage>> {
     let mut all_parsed = Vec::new();
-    let mut file_paths = std::fs::read_dir(in_folder)
-        .unwrap()
-        .filter_map(|entry| entry.ok())
+    let entries = std::fs::read_dir(in_folder)?;
+    let mut file_paths = entries
+        .collect::<std::io::Result<Vec<_>>>()?
+        .into_iter()
         .map(|entry| entry.path())
         .filter(|path| {
             path.is_file() && path.extension().and_then(|ext| ext.to_str()) == Some("log")
@@ -34,41 +35,37 @@ pub fn parse_log_files(
     file_paths.sort();
     for path in file_paths {
         log::info!("Parsing log file: {}", path.display());
-        let parsed = parse_log_file(&path, parser_bus_0, parser_bus_1);
+        let parsed = parse_log_file(&path, parser_bus_0, parser_bus_1)?;
         all_parsed.extend(parsed);
     }
 
-    all_parsed
+    Ok(all_parsed)
 }
 
 fn parse_log_file(
     in_file: &std::path::Path,
     parser_bus_0: &can_decode::Parser,
     parser_bus_1: &can_decode::Parser,
-) -> Vec<ParsedMessage> {
-    let mut content = std::fs::read(in_file).unwrap();
+) -> std::io::Result<Vec<ParsedMessage>> {
+    let mut content = std::fs::read(in_file)?;
+    let frame_size = std::mem::size_of::<RawFrame>();
 
     // add padding zeroes if content length is not multiple of raw frame size
     let mut added_padding = false;
-    if !content
-        .len()
-        .is_multiple_of(std::mem::size_of::<RawFrame>())
-    {
+    if !content.len().is_multiple_of(frame_size) {
         log::warn!(
             "Log file {} has length {} which is not a multiple of frame size {}. Possibly due to outdated log format.",
             in_file.display(),
             content.len(),
-            std::mem::size_of::<RawFrame>()
+            frame_size
         );
-        content.extend(vec![
-            0;
-            std::mem::size_of::<RawFrame>()
-                - (content.len() % std::mem::size_of::<RawFrame>())
-        ]);
+        let padding = frame_size - content.len() % frame_size;
+        content.resize(content.len() + padding, 0);
         added_padding = true;
     }
+
     let frames: Vec<RawFrame> = content
-        .chunks_exact(std::mem::size_of::<RawFrame>())
+        .chunks_exact(frame_size)
         .map(bytemuck::pod_read_unaligned)
         .collect();
     let mut parsed = Vec::with_capacity(frames.len());
@@ -93,6 +90,7 @@ fn parse_log_file(
         } else {
             0
         };
+
         let parser = if bus_id == 0 {
             parser_bus_0
         } else {
@@ -116,7 +114,7 @@ fn parse_log_file(
             );
         }
     }
-    parsed
+    Ok(parsed)
 }
 
 pub fn chunk_parsed(parsed: Vec<ParsedMessage>) -> Vec<Vec<ParsedMessage>> {
@@ -135,6 +133,7 @@ pub fn chunk_parsed(parsed: Vec<ParsedMessage>) -> Vec<Vec<ParsedMessage>> {
         last_timestamp = Some(msg.timestamp);
         current_chunk.push(msg);
     }
+
     if !current_chunk.is_empty() {
         chunks.push(current_chunk);
     }

@@ -55,16 +55,19 @@ impl CommandPalette {
             if i.key_pressed(eframe::egui::Key::ArrowDown) && !filtered_options.is_empty() {
                 self.palette_index = (self.palette_index + 1) % filtered_options.len();
             }
+
             if i.key_pressed(eframe::egui::Key::ArrowUp) && !filtered_options.is_empty() {
                 self.palette_index =
                     (self.palette_index + filtered_options.len() - 1) % filtered_options.len();
             }
+
             if i.key_pressed(eframe::egui::Key::Enter) && !filtered_options.is_empty() {
                 action_queue.push(action::AppAction::SpawnWidget(
                     filtered_options[self.palette_index].1.clone(),
                 ));
                 self.show_command_palette = false;
             }
+
             if i.key_pressed(eframe::egui::Key::Escape) {
                 self.show_command_palette = false;
             }
@@ -99,19 +102,21 @@ impl CommandPalette {
                         for (i, (label, widget_type)) in filtered_options.iter().enumerate() {
                             let is_selected = i == self.palette_index;
                             let selection = ui.visuals().selection;
+                            let fill = if is_selected {
+                                selection.bg_fill
+                            } else {
+                                eframe::egui::Color32::TRANSPARENT
+                            };
+
+                            let stroke = if is_selected {
+                                selection.stroke
+                            } else {
+                                eframe::egui::Stroke::NONE
+                            };
 
                             // todo this styling is kinda janky, theres probably an easy way to do this
-                            let button = eframe::egui::Button::new(*label)
-                                .fill(if is_selected {
-                                    selection.bg_fill
-                                } else {
-                                    eframe::egui::Color32::TRANSPARENT
-                                })
-                                .stroke(if is_selected {
-                                    selection.stroke
-                                } else {
-                                    eframe::egui::Stroke::NONE
-                                });
+                            let button =
+                                eframe::egui::Button::new(*label).fill(fill).stroke(stroke);
 
                             let response = ui.add(button);
                             if response.clicked() {

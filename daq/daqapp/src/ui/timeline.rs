@@ -3,43 +3,93 @@ use crate::app;
 pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
     eframe::egui::TopBottomPanel::top("shared_timeline").show(ctx, |ui| {
         let captured = app.session.cache().time_span();
-        let before = app.session.timeline().window_secs();
+        let previous_span = app.session.timeline().window_secs();
         let timeline = app.session.timeline_mut();
+
         ui.horizontal_wrapped(|ui| {
-            if ui.button("Go live").clicked() { timeline.go_live(); }
+            if ui.button("Go live").clicked() {
+                timeline.go_live();
+            }
+
             ui.separator();
+
             let mut span = timeline.window_secs();
-            ui.label("Live span:").on_hover_text("When start marches, it stays this far behind end. Drag a boundary to choose a new span.");
-            if ui.add(eframe::egui::DragValue::new(&mut span).range(0.0..=f64::MAX).suffix(" s")).changed() && span.is_finite() {
+            ui.label("Live span:").on_hover_text(
+                "When start marches, it stays this far behind end. \
+                 Drag a boundary to choose a new span.",
+            );
+
+            let span_control = eframe::egui::DragValue::new(&mut span)
+                .range(0.0..=f64::MAX)
+                .suffix(" s");
+            let span_changed = ui.add(span_control).changed();
+
+            if span_changed && span.is_finite() {
                 timeline.set_window_secs(span);
             }
+
             for field in 0..3 {
-                let (_,time,track)=field_value(timeline,field);
-                let mut marching=track==daqcore::timeline::Track::Marching;
-                if ui.checkbox(&mut marching,match field { 0 => "Start follows end", 1 => "End follows capture", _ => "Playhead follows end" }).changed() {
-                    match (field,marching) {
-                        (0,true)=>timeline.release_start(), (1,true)=>timeline.release_end(), (_,true)=>timeline.release_setpoint(),
-                        (0,false)=>timeline.set_start(time), (1,false)=>timeline.set_end(time), (_,false)=>timeline.set_setpoint(time),
+                let (_, time, track) = field_value(timeline, field);
+                let mut marching = track == daqcore::timeline::Track::Marching;
+                let label = match field {
+                    0 => "Start follows end",
+                    1 => "End follows capture",
+                    _ => "Playhead follows end",
+                };
+
+                if ui.checkbox(&mut marching, label).changed() {
+                    match (field, marching) {
+                        (0, true) => timeline.release_start(),
+                        (1, true) => timeline.release_end(),
+                        (_, true) => timeline.release_setpoint(),
+                        (0, false) => timeline.set_start(time),
+                        (1, false) => timeline.set_end(time),
+                        (_, false) => timeline.set_setpoint(time),
                     }
                 }
             }
         });
-        let left=timeline.start().min(captured.map_or(timeline.start(),|(start,_)|start));
-        let right=timeline.end().max(captured.map_or(timeline.end(),|(_,end)|end));
-        ruler(ui,timeline,left,right);
+
+        let captured_start = captured.map_or(timeline.start(), |(start, _)| start);
+        let captured_end = captured.map_or(timeline.end(), |(_, end)| end);
+        let left = timeline.start().min(captured_start);
+        let right = timeline.end().max(captured_end);
+
+        ruler(ui, timeline, left, right);
+
         ui.horizontal_wrapped(|ui| {
-            ui.label(format!("Selected: {} - {}",timeline.start().label(),timeline.end().label()));
-            ui.label(format!("Playhead: {}",timeline.setpoint().label()));
+            ui.label(format!(
+                "Selected: {} - {}",
+                timeline.start().label(),
+                timeline.end().label(),
+            ));
+            ui.label(format!("Playhead: {}", timeline.setpoint().label()));
         });
-        let changed=before!=timeline.window_secs();
-        if let Some((_,end))=captured {
-            ui.label(format!("Captured through {} · {} frames retained",end.label(),app.session.cache().len()));
-        } else { ui.label("No captured frames."); }
-        if ui.button("Clear history").clicked() {
-            app.session.reset(daqcore::Time::now()); app.bus_load_samples.clear();
+
+        let span_changed = previous_span != timeline.window_secs();
+
+        if let Some((_, end)) = captured {
+            ui.label(format!(
+                "Captured through {} · {} frames retained",
+                end.label(),
+                app.session.cache().len(),
+            ));
+        } else {
+            ui.label("No captured frames.");
         }
-        if let Some(error)=&app.diagnostic { ui.colored_label(ui.visuals().error_fg_color,error); }
-        if changed { app.save_settings(); }
+
+        if ui.button("Clear history").clicked() {
+            app.session.reset(daqcore::Time::now());
+            app.bus_load_samples.clear();
+        }
+
+        if let Some(error) = &app.diagnostic {
+            ui.colored_label(ui.visuals().error_fg_color, error);
+        }
+
+        if span_changed {
+            app.save_settings();
+        }
     });
 }
 
@@ -53,6 +103,7 @@ fn field_value(
         _ => ("playhead", timeline.setpoint(), timeline.setpoint_track()),
     }
 }
+
 fn ruler(
     ui: &mut eframe::egui::Ui,
     timeline: &mut daqcore::timeline::Timeline,
@@ -66,13 +117,18 @@ fn ruler(
     let area = rect.shrink2(eframe::egui::vec2(42.0, 0.0));
     let span_ms = (right.unix_millis() as i128 - left.unix_millis() as i128).max(1) as f64;
     let x = |time: daqcore::Time| {
-        area.left() + (time.secs(left) * 1000.0 / span_ms) as f32 * area.width()
+        let fraction = time.secs(left) * 1000.0 / span_ms;
+
+        area.left() + fraction as f32 * area.width()
     };
+
     let time = |px: f32| {
-        left.offset(
-            (((px - area.left()) / area.width()).clamp(0.0, 1.0) as f64 * span_ms).round() as i64,
-        )
+        let fraction = ((px - area.left()) / area.width()).clamp(0.0, 1.0);
+        let offset_ms = (fraction as f64 * span_ms).round() as i64;
+
+        left.offset(offset_ms)
     };
+
     let axis = area.bottom() - 20.0;
     let selected = eframe::egui::Rect::from_min_max(
         eframe::egui::pos2(x(timeline.start()), area.top() + 8.0),
@@ -101,6 +157,7 @@ fn ruler(
             ui.visuals().text_color(),
         );
     }
+
     let mut dragged = false;
     for field in 0..3 {
         let (name, value, _) = field_value(timeline, field);
@@ -133,6 +190,7 @@ fn ruler(
         } else {
             eframe::egui::Align2::LEFT_CENTER
         };
+
         let dx = if field != 0 { -7.0 } else { 7.0 };
         ui.painter().text(
             eframe::egui::pos2(px + dx, y),
@@ -150,12 +208,14 @@ fn ruler(
                 1 => timeline.set_end(value),
                 _ => timeline.set_setpoint(value),
             }
+
             if field != 2 {
                 timeline.set_window_secs(timeline.end().secs(timeline.start()));
             }
             dragged = true;
         }
     }
+
     if !dragged
         && background.clicked()
         && let Some(pointer) = background.interact_pointer_pos()

@@ -4,15 +4,18 @@ use std::{
     collections::VecDeque,
     time::{Duration, Instant},
 };
+
 #[derive(Default)]
 pub struct BusLoadTracker {
     frames: VecDeque<(Instant, usize)>,
 }
+
 impl BusLoadTracker {
     pub fn record_frame(&mut self, data_bytes: usize, now: Instant) {
         self.frames.push_back((now, data_bytes * 8 + 66));
         self.cleanup(now);
     }
+
     pub fn cleanup(&mut self, now: Instant) {
         while self
             .frames
@@ -22,6 +25,7 @@ impl BusLoadTracker {
             self.frames.pop_front();
         }
     }
+
     pub fn get_load(&self, seconds: u64, speed: CanBusSpeed, now: Instant) -> f32 {
         let bits: usize = self
             .frames

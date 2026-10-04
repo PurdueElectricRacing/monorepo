@@ -65,28 +65,33 @@ impl FirmwareUpdater {
         armed: bool,
         now: std::time::Instant,
     ) -> (Self, FirmwareProgress) {
+        let stage = if armed {
+            Stage::Armed
+        } else {
+            Stage::WaitReady
+        };
+
         let mut updater = Self {
             package,
             board_index: 0,
             byte_offset: 0,
-            stage: if armed {
-                Stage::Armed
-            } else {
-                Stage::WaitReady
-            },
+            stage,
             pending_frame: None,
             deadline: now + BOOT_TIMEOUT,
             retries: 0,
         };
+
         let first = updater.current_image();
         if !armed {
             updater.pending_frame = Some(Self::start_frame(first));
         }
+
         let phase = if armed {
             "armed; waiting for READY"
         } else {
             "requesting bootloader"
         };
+
         let progress = updater.progress(phase, None);
         (updater, progress)
     }
@@ -287,6 +292,7 @@ impl FirmwareUpdater {
         if self.is_finished() || id != self.current_image().response_id || data.len() < 5 {
             return None;
         }
+
         let status = data[0];
         if matches!(self.stage, Stage::Armed)
             && (data.len() != 5
@@ -305,6 +311,7 @@ impl FirmwareUpdater {
         if status == CRC_ERROR {
             return Some(self.fail(format!("CRC rejected by {image_name}")));
         }
+
         if status != READY && status != ACK {
             return Some(self.fail(format!("bootloader error 0x{status:02X} from {image_name}")));
         }
@@ -317,6 +324,7 @@ impl FirmwareUpdater {
             Stage::WaitCrcAck if status == ACK => detail != image_crc,
             _ => false,
         };
+
         if invalid_detail {
             return Some(self.fail(format!("invalid response from {image_name}")));
         }

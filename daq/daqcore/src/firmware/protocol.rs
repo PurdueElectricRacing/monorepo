@@ -99,6 +99,7 @@ impl FirmwarePackage {
         } else {
             (path, None)
         };
+
         let manifest_path = secure_file_path(&manifest_path, "manifest")?;
         let manifest_text = std::fs::read_to_string(&manifest_path)
             .map_err(|error| format!("cannot read {}: {error}", manifest_path.display()))?;
@@ -111,12 +112,14 @@ impl FirmwarePackage {
                 manifest.format, PACKAGE_FORMAT
             ));
         }
+
         if manifest.protocol_version != 1 {
             return Err(format!(
                 "unsupported bootloader protocol version {}",
                 manifest.protocol_version
             ));
         }
+
         if manifest.crc_algorithm != "STM32_CRC32_MPEG2_WORD_LE" {
             return Err(format!(
                 "unsupported CRC algorithm {:?}",
@@ -155,6 +158,7 @@ impl FirmwarePackage {
             {
                 return Err(format!("duplicate board {}", board.name));
             }
+
             if parse_hex_u32(&board.application_address, "application_address")?
                 != APPLICATION_ADDRESS
             {
@@ -173,6 +177,7 @@ impl FirmwarePackage {
             {
                 return Err(format!("unsafe binary path for board {}", board.name));
             }
+
             let binary_path = secure_file_path(&root.join(relative_binary), "binary")
                 .map_err(|error| format!("unsafe binary path for {}: {error}", board.name))?;
             if !binary_path.starts_with(&root) {
@@ -181,11 +186,13 @@ impl FirmwarePackage {
                     board.name
                 ));
             }
+
             let metadata = std::fs::symlink_metadata(&binary_path)
                 .map_err(|error| format!("cannot inspect {}: {error}", binary_path.display()))?;
             if metadata.len() > APPLICATION_SLOT_SIZE as u64 {
                 return Err(format!("invalid image file for {}", board.name));
             }
+
             let bytes = std::fs::read(&binary_path)
                 .map_err(|error| format!("cannot read {}: {error}", binary_path.display()))?;
             if bytes.len() != board.size_bytes {
@@ -196,6 +203,7 @@ impl FirmwarePackage {
                     board.size_bytes
                 ));
             }
+
             if !valid_application_size(bytes.len()) {
                 return Err(format!("invalid image size for {}", board.name));
             }
@@ -251,6 +259,7 @@ fn validate_archive(path: &Path) -> Result<(), String> {
             String::from_utf8_lossy(&listing.stderr).trim()
         ));
     }
+
     if String::from_utf8_lossy(&listing.stdout)
         .lines()
         .any(|line| !matches!(line.as_bytes().first(), Some(b'd') | Some(b'-')))
@@ -270,6 +279,7 @@ fn validate_archive(path: &Path) -> Result<(), String> {
             String::from_utf8_lossy(&names.stderr).trim()
         ));
     }
+
     for name in String::from_utf8_lossy(&names.stdout).lines() {
         let member = Path::new(name);
         if member.is_absolute()
@@ -298,6 +308,7 @@ fn secure_file_path(path: &Path, kind: &str) -> Result<PathBuf, String> {
     if metadata.file_type().is_symlink() {
         return Err(format!("{kind} is a symlink"));
     }
+
     if !metadata.file_type().is_file() {
         return Err(format!("{kind} is not a regular file"));
     }

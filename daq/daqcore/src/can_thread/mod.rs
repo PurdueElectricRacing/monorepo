@@ -6,15 +6,18 @@ mod events;
 mod firmware_session;
 mod run;
 mod tx;
+
 use crate::{ParsedFrame, Time, connection::ConnectionSource, firmware, frame::CanIdentity, hil};
 use std::{path::PathBuf, sync::mpsc, thread::JoinHandle};
 pub use tx::{AddSendMessage, SendAmount};
+
 #[derive(Default)]
 pub struct CanThreadConfig {
     pub dbc_path: Option<PathBuf>,
     pub log_folder: Option<PathBuf>,
     pub hil_dir: PathBuf,
 }
+
 pub enum CanThreadCommand {
     Connect(Option<ConnectionSource>),
     DbcSelected(PathBuf),
@@ -27,6 +30,7 @@ pub enum CanThreadCommand {
     ArmFirmwareUpdate(firmware::FirmwarePackage),
     CancelFirmwareUpdate,
 }
+
 pub enum CanThreadEvent {
     Frame(ParsedFrame),
     SourceSelected(Option<ConnectionSource>),
@@ -54,11 +58,13 @@ pub enum CanThreadEvent {
     Hil(hil::engine::HilSnapshot),
     FirmwareProgress(firmware::FirmwareProgress),
 }
+
 /// Single caller owns shutdown; cloned senders submit commands but do not own the worker.
 pub struct CanThreadHandle {
     tx: mpsc::Sender<CanThreadCommand>,
     join: Option<JoinHandle<()>>,
 }
+
 impl CanThreadHandle {
     pub fn command(
         &self,
@@ -66,19 +72,26 @@ impl CanThreadHandle {
     ) -> Result<(), mpsc::SendError<CanThreadCommand>> {
         self.tx.send(command)
     }
+
     pub fn sender(&self) -> mpsc::Sender<CanThreadCommand> {
         self.tx.clone()
     }
+
     pub fn stop(&mut self) -> std::thread::Result<()> {
         let _ = self.tx.send(CanThreadCommand::Stop);
-        self.join.take().map_or(Ok(()), |j| j.join())
+        match self.join.take() {
+            Some(thread) => thread.join(),
+            None => Ok(()),
+        }
     }
 }
+
 impl Drop for CanThreadHandle {
     fn drop(&mut self) {
         let _ = self.stop();
     }
 }
+
 pub fn spawn_can_thread(
     config: CanThreadConfig,
     out: mpsc::Sender<CanThreadEvent>,

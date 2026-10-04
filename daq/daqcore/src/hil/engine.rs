@@ -142,6 +142,7 @@ impl HilEngine {
             },
         }
     }
+
     fn begin(
         &mut self,
         preset: Option<hil::config::PresetInfo>,
@@ -154,6 +155,7 @@ impl HilEngine {
             tests,
         };
     }
+
     fn fail_start(&mut self, message: String) {
         self.state = HilState::Idle {
             start_error: Some(message),

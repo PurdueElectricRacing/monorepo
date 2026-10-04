@@ -26,6 +26,7 @@ impl ThermistorTemperature {
         if !self.temperature.is_finite() {
             return eframe::egui::Color32::GRAY;
         }
+
         let temperature = self.temperature.clamp(T_MIN, T_MAX);
 
         let hue = if temperature <= T_NOM {
@@ -72,6 +73,13 @@ impl BatteryTemps {
         let temp_sum: f64 = temperatures.sum();
         let temp_avg = temp_sum / temp_count;
         let temp_range = temp_max - temp_min;
+        let range_color = if temp_range > 10.0 {
+            theme.error_color()
+        } else if temp_range > 5.0 {
+            theme.warning_color()
+        } else {
+            theme.success_color()
+        };
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
@@ -123,13 +131,7 @@ impl BatteryTemps {
                     Some(temp_range),
                     "°C",
                     stale,
-                    Some(if temp_range > 10.0 {
-                        theme.error_color()
-                    } else if temp_range > 5.0 {
-                        theme.warning_color()
-                    } else {
-                        theme.success_color()
-                    }),
+                    Some(range_color),
                 );
             });
 
@@ -264,14 +266,10 @@ fn temp_bar(
         );
         painter.rect_filled(fill_rect, 2.0, fill_color);
 
-        let text = if stale {
+        let text = if stale || !cell.temperature.is_finite() {
             "—".to_string()
         } else {
-            if cell.temperature.is_finite() {
-                format!("{:.1}°C", cell.temperature)
-            } else {
-                "—".into()
-            }
+            format!("{:.1}°C", cell.temperature)
         };
 
         let text_color = if stale {
@@ -302,18 +300,18 @@ fn thermistor_sample(
     ) {
         return None;
     }
-    Some((
-        decoded.signals.get("module_num")?.value.physical.round() as usize,
-        decoded
-            .signals
-            .get("thermistor_num")?
-            .value
-            .physical
-            .round() as usize,
-        ThermistorTemperature {
-            temperature: decoded.signals.get("temperature")?.value.physical,
-        },
-    ))
+
+    let module = decoded.signals.get("module_num")?.value.physical.round() as usize;
+    let thermistor = decoded
+        .signals
+        .get("thermistor_num")?
+        .value
+        .physical
+        .round() as usize;
+    let temperature = decoded.signals.get("temperature")?.value.physical;
+    let value = ThermistorTemperature { temperature };
+
+    Some((module, thermistor, value))
 }
 
 fn thermistor_temperatures(

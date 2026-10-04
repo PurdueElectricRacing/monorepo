@@ -1,6 +1,7 @@
 //! Wall-clock timestamps; arithmetic is integer milliseconds, labels only use chrono.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Time(i64);
+
 impl Time {
     pub fn now() -> Self {
         let ms = match std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH) {
@@ -9,18 +10,23 @@ impl Time {
         };
         Self(ms)
     }
+
     pub fn from_unix_millis(ms: i64) -> Self {
         Self(ms)
     }
+
     pub fn unix_millis(self) -> i64 {
         self.0
     }
+
     pub fn offset(self, ms: i64) -> Self {
         Self(self.0.saturating_add(ms))
     }
+
     pub fn secs(self, other: Self) -> f64 {
         (self.0 as i128 - other.0 as i128) as f64 / 1000.0
     }
+
     pub fn label(self) -> String {
         chrono::DateTime::from_timestamp_millis(self.0)
             .map(|t| {

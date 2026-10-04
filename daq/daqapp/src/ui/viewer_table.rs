@@ -5,6 +5,7 @@ pub struct ViewerTable {
     search: String,
     tx_node: String,
 }
+
 impl ViewerTable {
     pub fn new(instance: usize) -> Self {
         Self {
@@ -13,6 +14,7 @@ impl ViewerTable {
             tx_node: "Any".into(),
         }
     }
+
     pub fn show(
         &mut self,
         ui: &mut eframe::egui::Ui,
@@ -45,6 +47,7 @@ impl ViewerTable {
         if view.frames.is_empty() {
             ui.label("No retained CAN messages in the selected interval.");
         }
+
         let search = self.search.to_lowercase();
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             for frame in view.latest.values() {
@@ -54,6 +57,7 @@ impl ViewerTable {
                 if self.tx_node != "Any" && self.tx_node != node {
                     continue;
                 }
+
                 if !search.is_empty()
                     && !name.to_lowercase().contains(&search)
                     && !node.to_lowercase().contains(&search)
@@ -66,6 +70,7 @@ impl ViewerTable {
                 {
                     continue;
                 }
+
                 let id = frame.identity().dbc_id();
                 let definition = parser.and_then(|p| p.parser.msg_def(id));
                 let signals = decoded
@@ -128,38 +133,33 @@ struct MessageCard<'a> {
 impl MessageCard<'_> {
     fn ui(&self, ui: &mut eframe::egui::Ui) -> Vec<action::AppAction> {
         let mut action_queue = Vec::new();
+
         // Header (outside card)
         ui.horizontal(|ui| {
+            let search = self.search.to_lowercase();
+            let matches_name = search.is_empty() || self.msg_name.to_lowercase().contains(&search);
+            let name_color = if matches_name {
+                ui.visuals().text_color()
+            } else {
+                ui.visuals().weak_text_color()
+            };
+
             ui.label(
                 eframe::egui::RichText::new(format!("{}  ({})", self.msg_name, self.identity))
                     .strong()
                     .size(16.0)
-                    .color(
-                        if self.search.is_empty()
-                            || self
-                                .msg_name
-                                .to_lowercase()
-                                .contains(&self.search.to_lowercase())
-                        {
-                            ui.visuals().text_color()
-                        } else {
-                            ui.visuals().weak_text_color()
-                        },
-                    ),
+                    .color(name_color),
             );
+
+            let matches_node = search.is_empty() || self.tx_node.to_lowercase().contains(&search);
+            let node_color = if matches_node {
+                ui.visuals().text_color()
+            } else {
+                ui.visuals().weak_text_color()
+            };
+
             ui.label(
-                eframe::egui::RichText::new(format!("from {}", self.tx_node)).color(
-                    if self.search.is_empty()
-                        || self
-                            .tx_node
-                            .to_lowercase()
-                            .contains(&self.search.to_lowercase())
-                    {
-                        ui.visuals().text_color()
-                    } else {
-                        ui.visuals().weak_text_color()
-                    },
-                ),
+                eframe::egui::RichText::new(format!("from {}", self.tx_node)).color(node_color),
             );
             ui.label(
                 eframe::egui::RichText::new(self.timestamp)
@@ -194,18 +194,19 @@ impl MessageCard<'_> {
                 ui.vertical(|ui| {
                     for (i, (sig_name, value)) in self.signals.iter().enumerate() {
                         ui.horizontal(|ui| {
+                            let search = self.search.to_lowercase();
+                            let matches_signal =
+                                search.is_empty() || sig_name.to_lowercase().contains(&search);
+                            let signal_color = if matches_signal {
+                                ui.visuals().text_color()
+                            } else {
+                                ui.visuals().weak_text_color()
+                            };
+
                             ui.label(
-                                eframe::egui::RichText::new(*sig_name).monospace().color(
-                                    if self.search.is_empty()
-                                        || sig_name
-                                            .to_lowercase()
-                                            .contains(&self.search.to_lowercase())
-                                    {
-                                        ui.visuals().text_color()
-                                    } else {
-                                        ui.visuals().weak_text_color()
-                                    },
-                                ),
+                                eframe::egui::RichText::new(*sig_name)
+                                    .monospace()
+                                    .color(signal_color),
                             );
                             ui.with_layout(
                                 eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),

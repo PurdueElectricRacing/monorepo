@@ -28,6 +28,7 @@ pub struct Scope {
     instance_num: usize,
     state: ScopeState,
 }
+
 impl Scope {
     pub fn new(
         instance_num: usize,
@@ -45,6 +46,7 @@ impl Scope {
             },
         }
     }
+
     pub fn new_empty(instance_num: usize) -> Self {
         Self {
             title: format!("Scope #{instance_num}"),
@@ -52,6 +54,7 @@ impl Scope {
             state: ScopeState::default(),
         }
     }
+
     fn show_picker(&mut self, ui: &mut eframe::egui::Ui, parser: &app::ParserInfo) -> bool {
         let state = std::mem::take(&mut self.state);
 
@@ -83,7 +86,7 @@ impl Scope {
                     }
                 }
 
-                // When the user picks a message + signal it assigns the target and resets plot buffer
+                // Choosing a signal configures the query against shared history.
                 if let Some(signal_name) = picked_signal {
                     (
                         ScopeState::Configured {
@@ -128,24 +131,31 @@ impl Scope {
             } else {
                 dbc_msg_picker::no_dbc_placeholder(ui);
             }
+
             return egui_tiles::UiResponse::None;
         }
+
         let ScopeState::Configured {
             identity,
             msg_name,
             signal_name,
         } = &self.state
         else {
-            unreachable!()
+            return egui_tiles::UiResponse::None;
         };
+
         let signal = signal_name.clone();
         let id = *identity;
+        let start = view.timeline.start();
+        let duration = view.timeline.end().secs(start).max(0.001);
+        let playhead = view.timeline.setpoint().secs(start);
+
         let points: Vec<[f64; 2]> = scope_frames(view.plot_frames, id)
-            .filter_map(|f| {
-                Some([
-                    f.timestamp.secs(view.timeline.start()),
-                    f.decoded.as_ref()?.signals.get(&signal)?.value.physical,
-                ])
+            .filter_map(|frame| {
+                let decoded = frame.decoded.as_ref()?;
+                let value = decoded.signals.get(&signal)?.value.physical;
+
+                Some([frame.timestamp.secs(start), value])
             })
             .collect();
         let mut change = false;
@@ -165,6 +175,7 @@ impl Scope {
                     for p in &points {
                         text.push_str(&format!("{},{}\n", p[0], p[1]));
                     }
+
                     if let Err(e) = std::fs::write(path, text) {
                         log::error!("Export failed: {e}");
                     }
@@ -176,37 +187,34 @@ impl Scope {
             self.title = format!("Scope #{}", self.instance_num);
             return egui_tiles::UiResponse::None;
         }
+
         if points.is_empty() {
             ui.label("No retained samples in the selected interval.");
         }
-        let points = telemetry::decimate(&points, ui.available_width().max(1.0) as usize);
+
+        let pixels = ui.available_width().max(1.0) as usize;
+        let points = telemetry::decimate(&points, pixels);
+
         egui_plot::Plot::new(&self.title)
             .view_aspect(2.0)
             .allow_zoom([false, true])
             .allow_drag([false, true])
             .allow_scroll([false, true])
             .x_axis_formatter(|mark, _| {
-                view.timeline
-                    .start()
-                    .offset((mark.value * 1000.0).round() as i64)
-                    .label()
+                let offset_ms = (mark.value * 1000.0).round() as i64;
+                start.offset(offset_ms).label()
             })
             .x_axis_label("Time")
             .y_axis_label(&signal)
             .show(ui, |plot| {
-                plot.set_plot_bounds_x(
-                    0.0..=view.timeline.end().secs(view.timeline.start()).max(0.001),
-                );
+                plot.set_plot_bounds_x(0.0..=duration);
                 plot.line(egui_plot::Line::new(
                     &signal,
                     egui_plot::PlotPoints::from(points),
                 ));
                 plot.vline(
-                    egui_plot::VLine::new(
-                        "Playhead",
-                        view.timeline.setpoint().secs(view.timeline.start()),
-                    )
-                    .color(eframe::egui::Color32::YELLOW),
+                    egui_plot::VLine::new("Playhead", playhead)
+                        .color(eframe::egui::Color32::YELLOW),
                 );
             });
         egui_tiles::UiResponse::None

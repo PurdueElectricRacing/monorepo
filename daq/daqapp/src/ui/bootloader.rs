@@ -104,6 +104,7 @@ impl Bootloader {
                 let Some(package) = &self.package else {
                     return;
                 };
+
                 let target_names: Vec<_> = package.images.iter().map(|image| image.name.clone()).collect();
                 let now = Instant::now();
 
@@ -179,6 +180,7 @@ impl Bootloader {
                             self.confirming_update = true;
                             self.package_error = None;
                         }
+
                         if selected_names.is_empty() {
                             ui.label(
                                 eframe::egui::RichText::new(
@@ -236,6 +238,7 @@ impl Bootloader {
                     } else {
                         "Choose package"
                     };
+
                     if ui.add_enabled(!self.running, eframe::egui::Button::new(label)).clicked()
                         && let Some(path) = rfd::FileDialog::new()
                             .add_filter("Firmware package", &["json", "gz"])
@@ -304,6 +307,7 @@ impl Bootloader {
                         self.selected_targets.clear();
                         self.confirming_update = false;
                     }
+
                     if ui
                         .add_enabled(
                             !self.running && available_count > 0,
@@ -401,6 +405,7 @@ impl Bootloader {
                 _ => 0.0,
             };
         }
+
         let total = self.run_board_names.len();
         let fraction = if total == 0 {
             0.0
@@ -461,6 +466,7 @@ impl Bootloader {
                     .weak(),
                 );
             }
+
             let selected_targets_available = selected_names.iter().all(|name| {
                 self.capability_state(name, now) == CapabilityState::Available
             });
@@ -473,6 +479,7 @@ impl Bootloader {
                     .weak(),
                 );
             }
+
             let has_protocol_warning = !protocol_matches.is_empty();
             if has_protocol_warning {
                 ui.add_space(6.0);
@@ -502,11 +509,13 @@ impl Bootloader {
                 } else {
                     "Start update"
                 };
+
                 let arm_label = if has_protocol_warning {
                     "Acknowledge warning & arm"
                 } else {
                     "Arm and wait for READY"
                 };
+
                 let start_button = ui.add_enabled(
                     !selected_names.is_empty() && selected_targets_available,
                     eframe::egui::Button::new(start_label),
@@ -522,15 +531,18 @@ impl Bootloader {
                 } else {
                     None
                 };
+
                 if let Some(armed) = action {
                     if armed && selected_names.len() != 1 {
                         return;
                     }
+
                     let action_names = if armed {
                         vec![selected_names[0].clone()]
                     } else {
                         selected_names.to_vec()
                     };
+
                     let now = Instant::now();
                     if !armed
                         && !action_names.iter().all(|name| {
@@ -540,6 +552,7 @@ impl Bootloader {
                         ui.ctx().request_repaint();
                         return;
                     }
+
                     let click_matches = self.refresh_protocol_state(now);
                     if !can_start_update(
                         !action_names.is_empty(),
@@ -549,6 +562,7 @@ impl Bootloader {
                         ui.ctx().request_repaint();
                         return;
                     }
+
                     let action_images = self.package.as_ref().into_iter()
                         .flat_map(|package| package.images.iter())
                         .filter(|image| action_names.contains(&image.name))
@@ -560,6 +574,7 @@ impl Bootloader {
                     } else {
                         daqcore::can_thread::CanThreadCommand::StartFirmwareUpdate(package)
                     };
+
                     if ui_to_can_tx.send(message).is_ok() {
                         self.begin_run(package_names, &action_names);
                         self.running = true;
@@ -581,6 +596,7 @@ impl Bootloader {
                         self.confirming_update = false;
                     }
                 }
+
                 if ui.button("Back").clicked() {
                     self.confirming_update = false;
                 }
@@ -604,9 +620,11 @@ impl Bootloader {
         if !is_protocol_frame_candidate(is_extended, decoded_name) {
             return;
         }
+
         let Some(package) = &self.package else {
             return;
         };
+
         let boards: HashSet<_> = package
             .images
             .iter()
@@ -661,9 +679,11 @@ impl Bootloader {
         let Some(observation) = observation else {
             return "—".to_string();
         };
+
         let Some(git_hash) = observation.git_hash else {
             return "—".to_string();
         };
+
         let suffix = if now.duration_since(observation.last_seen) > CAPABILITY_TIMEOUT {
             " (stale)"
         } else {
@@ -689,10 +709,12 @@ impl Bootloader {
             }
             _ => {}
         }
+
         if let daqcore::can_thread::CanThreadEvent::Frame(frame) = msg {
             let Some(parsed) = frame.decoded_view() else {
                 return;
             };
+
             let (target, application) = match parsed.decoded.name.as_str() {
                 "main_version" => ("main_module", true),
                 "dash_version" => ("dashboard", true),
@@ -741,6 +763,7 @@ impl Bootloader {
             } else {
                 observations.bootloader
             };
+
             let now = Instant::now();
             let observation = TelemetryObservation {
                 git_hash: git_hash.or_else(|| previous.and_then(|previous| previous.git_hash)),
@@ -748,6 +771,7 @@ impl Bootloader {
                     .or_else(|| previous.and_then(|previous| previous.bootloadable)),
                 last_seen: now,
             };
+
             if application {
                 observations.application = Some(observation);
                 if let Some(resident_git_hash) = resident_git_hash {
@@ -760,6 +784,7 @@ impl Bootloader {
             } else {
                 observations.bootloader = Some(observation);
             }
+
             return;
         }
 
@@ -862,6 +887,7 @@ fn capability_state(
     let Some(observations) = observations else {
         return CapabilityState::NoRecentTelemetry;
     };
+
     let recent_application = observations
         .application
         .filter(|observation| now.duration_since(observation.last_seen) <= timeout);
@@ -871,6 +897,7 @@ fn capability_state(
     let Some(observation) = recent_application.or(recent_bootloader) else {
         return CapabilityState::NoRecentTelemetry;
     };
+
     if observation.bootloadable == Some(true) {
         CapabilityState::Available
     } else {
@@ -889,6 +916,7 @@ fn apply_progress(
                 *status = BoardUpdateStatus::Completed;
             }
         }
+
         return;
     }
 
@@ -900,6 +928,7 @@ fn apply_progress(
                 }
             }
         }
+
         return;
     }
 
@@ -938,6 +967,7 @@ fn apply_progress(
         } else {
             BoardUpdateStatus::Skipped
         };
+
         for name in board_names.iter().skip(progress.board_index + 1) {
             if matches!(statuses.get(name), Some(BoardUpdateStatus::Pending)) {
                 statuses.insert(name.clone(), trailing_status.clone());

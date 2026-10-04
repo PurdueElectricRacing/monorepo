@@ -32,6 +32,7 @@ impl CellVoltage {
         if !self.voltage.is_finite() {
             return eframe::egui::Color32::GRAY;
         }
+
         let voltage = self.voltage.clamp(V_MIN, V_MAX);
 
         let hue = if voltage <= V_NOM {
@@ -161,6 +162,14 @@ impl BatteryVoltage {
                     f64::NAN
                 };
 
+                let delta_color = if module_delta > 0.050 {
+                    theme.error_color()
+                } else if module_delta > 0.020 {
+                    theme.warning_color()
+                } else {
+                    theme.text_color().linear_multiply(0.55)
+                };
+
                 eframe::egui::Frame::NONE
                     .fill(theme.panel_color())
                     .stroke(eframe::egui::Stroke::new(1.0_f32, theme.accent_color()))
@@ -204,13 +213,7 @@ impl BatteryVoltage {
                                     common::reading(module_delta, 2)
                                 ))
                                 .size(10.0)
-                                .color(if module_delta > 0.050 {
-                                    theme.error_color()
-                                } else if module_delta > 0.020 {
-                                    theme.warning_color()
-                                } else {
-                                    theme.text_color().linear_multiply(0.55)
-                                }),
+                                .color(delta_color),
                             );
                         });
 
@@ -280,14 +283,10 @@ fn cell_bar(
         );
         painter.rect_filled(fill_rect, 2.0, fill_color);
 
-        let text = if stale {
+        let text = if stale || !cell.voltage.is_finite() {
             "—".to_string()
         } else {
-            if cell.voltage.is_finite() {
-                format!("{:.2}", cell.voltage)
-            } else {
-                "—".into()
-            }
+            format!("{:.2}", cell.voltage)
         };
 
         let text_color = if stale {
@@ -316,21 +315,17 @@ fn cell_sample(frame: &daqcore::ParsedFrame) -> Option<(usize, usize, CellVoltag
     ) {
         return None;
     }
+
     let module = decoded.signals.get("module_num")?.value.physical.round() as usize;
     let cell = decoded.signals.get("cell_num")?.value.physical.round() as usize;
     let voltage = decoded.signals.get("voltage")?.value.physical;
     let balance = &decoded.signals.get("balance_status")?.value;
-    Some((
-        module,
-        cell,
-        CellVoltage {
-            voltage,
-            balancing: balance
-                .raw
-                .map(|v| v != 0)
-                .unwrap_or(balance.physical > 0.5),
-        },
-    ))
+    let balancing = balance
+        .raw
+        .map_or(balance.physical > 0.5, |value| value != 0);
+    let value = CellVoltage { voltage, balancing };
+
+    Some((module, cell, value))
 }
 
 /// Reconstruct multiplexed slots independently; newest frame per CAN ID is insufficient.
@@ -367,6 +362,7 @@ fn charging_voltages(
         let Some(decoded) = &frame.decoded else {
             continue;
         };
+
         match decoded.name.as_str() {
             "pack_bms" | "pack_bms_ccan" => {
                 for (_, signal) in &decoded.signals {
@@ -376,6 +372,7 @@ fn charging_voltages(
                         "max_cell_voltage" => &mut values.get_or_insert_default().max_cell_voltage,
                         _ => continue,
                     };
+
                     if field.is_nan() {
                         *field = signal.value.physical;
                     }

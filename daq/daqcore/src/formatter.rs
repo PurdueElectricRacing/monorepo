@@ -128,36 +128,34 @@ impl Formatter {
         value: &can_decode::DecodedSignalValue,
     ) -> String {
         for (msg_glob, signal_vec) in &self.compiled_config {
-            if msg_glob.is_match(msg_name) {
-                for (signal_glob, formatting) in signal_vec {
-                    if signal_glob.is_match(signal_name) {
-                        let have_enough_info = match formatting {
-                            Formatting::Hex | Formatting::Binary => sig_def.is_some(),
-                            Formatting::Decimal(_) => true,
-                        };
-                        if have_enough_info {
-                            let raw = match formatting {
-                                Formatting::Hex => format_hex(sig_def.as_ref().unwrap(), value),
-                                Formatting::Binary => {
-                                    format_binary(sig_def.as_ref().unwrap(), value)
-                                }
-                                Formatting::Decimal(places) => {
-                                    format!("{:.*}", *places, value.physical)
-                                }
-                            };
-                            let maybe_unit = unit
-                                .or_else(|| sig_def.map(|s| s.unit.as_str()))
-                                .filter(|u| !u.is_empty());
-                            if let Some(u) = maybe_unit
-                                && !u.is_empty()
-                            {
-                                return format!("{} {}", raw, u);
-                            } else {
-                                return raw;
-                            }
-                        }
-                    }
+            if !msg_glob.is_match(msg_name) {
+                continue;
+            }
+
+            for (signal_glob, formatting) in signal_vec {
+                if !signal_glob.is_match(signal_name) {
+                    continue;
                 }
+
+                let raw = match (formatting, sig_def) {
+                    (Formatting::Hex, Some(definition)) => format_hex(definition, value),
+                    (Formatting::Binary, Some(definition)) => format_binary(definition, value),
+                    (Formatting::Decimal(places), _) => {
+                        format!("{:.*}", *places, value.physical)
+                    }
+                    // These formats need a signal definition; try the next rule.
+                    _ => continue,
+                };
+
+                let maybe_unit = unit
+                    .or_else(|| sig_def.map(|signal| signal.unit.as_str()))
+                    .filter(|unit| !unit.is_empty());
+
+                if let Some(unit) = maybe_unit {
+                    return format!("{raw} {unit}");
+                }
+
+                return raw;
             }
         }
 

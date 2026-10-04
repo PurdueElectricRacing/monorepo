@@ -12,6 +12,12 @@ use std::{
     sync::mpsc::{Receiver, RecvTimeoutError, Sender, TryRecvError},
     time::{Duration, Instant},
 };
+
+const HIL_UPDATE_INTERVAL: Duration = Duration::from_millis(50);
+const BUS_LOAD_UPDATE_INTERVAL: Duration = Duration::from_millis(200);
+const FIRMWARE_FRAMES_PER_BURST: usize = 8;
+const FIRMWARE_FRAME_DELAY: Duration = Duration::from_millis(4);
+
 pub fn run(config: CanThreadConfig, out: Sender<Event>, commands: Receiver<Command>) {
     run_with_connection(
         config,
@@ -20,6 +26,7 @@ pub fn run(config: CanThreadConfig, out: Sender<Event>, commands: Receiver<Comma
         ConnectionManager::new(Instant::now()),
     );
 }
+
 fn run_with_connection(
     config: CanThreadConfig,
     out: Sender<Event>,
@@ -37,6 +44,7 @@ fn run_with_connection(
     let mut hil_finished = false;
     let mut load_last = Instant::now();
     let mut pending = None;
+
     if let Some(path) = config.dbc_path {
         if let Err(error) = decoder.reload(&path) {
             if !events.emit(Event::Diagnostic(error)) {
@@ -44,6 +52,7 @@ fn run_with_connection(
             }
         }
     }
+
     'worker: loop {
         macro_rules! emit {
             ($event:expr) => {
@@ -52,21 +61,25 @@ fn run_with_connection(
                 }
             };
         }
+
+        // Apply pending commands before advancing scheduled work or reading CAN.
         loop {
-            let command = match pending
-                .take()
-                .map(Ok)
-                .unwrap_or_else(|| commands.try_recv())
-            {
-                Ok(c) => c,
+            let next_command = match pending.take() {
+                Some(command) => Ok(command),
+                None => commands.try_recv(),
+            };
+
+            let command = match next_command {
+                Ok(command) => command,
                 Err(TryRecvError::Empty) => break,
                 Err(TryRecvError::Disconnected) => break 'worker,
             };
+
             match command {
                 Command::Stop => break 'worker,
                 Command::Connect(source) => {
-                    if let Some(p) = firmware.cancel() {
-                        emit!(Event::FirmwareProgress(p));
+                    if let Some(progress) = firmware.cancel() {
+                        emit!(Event::FirmwareProgress(progress));
                     }
                     connection.select(source.clone(), Instant::now());
                     load = BusLoadTracker::default();
@@ -74,8 +87,8 @@ fn run_with_connection(
                     emit!(Event::Disconnection);
                 }
                 Command::DbcSelected(path) => {
-                    if let Err(e) = decoder.reload(&path) {
-                        emit!(Event::Diagnostic(e));
+                    if let Err(error) = decoder.reload(&path) {
+                        emit!(Event::Diagnostic(error));
                     }
                 }
                 Command::AddSendMessage(message) => {
@@ -102,20 +115,24 @@ fn run_with_connection(
                     hil_finished = false;
                 }
                 Command::StartFirmwareUpdate(package) => {
-                    let p = firmware.start(package, false, connection.connected(), Instant::now());
-                    emit!(Event::FirmwareProgress(p));
+                    let progress =
+                        firmware.start(package, false, connection.connected(), Instant::now());
+                    emit!(Event::FirmwareProgress(progress));
                 }
                 Command::ArmFirmwareUpdate(package) => {
-                    let p = firmware.start(package, true, connection.connected(), Instant::now());
-                    emit!(Event::FirmwareProgress(p));
+                    let progress =
+                        firmware.start(package, true, connection.connected(), Instant::now());
+                    emit!(Event::FirmwareProgress(progress));
                 }
                 Command::CancelFirmwareUpdate => {
-                    if let Some(p) = firmware.cancel() {
-                        emit!(Event::FirmwareProgress(p));
+                    if let Some(progress) = firmware.cancel() {
+                        emit!(Event::FirmwareProgress(progress));
                     }
                 }
             }
         }
+
+        // Reconnect the selected source when its retry delay has elapsed.
         let now = Instant::now();
         if let Some(result) = connection.connect(now) {
             match result {
@@ -128,17 +145,16 @@ fn run_with_connection(
                 Err(error) => emit!(Event::ConnectionFailed(error)),
             }
         }
+
+        hil.tick(now);
+        if hil.is_running() && !hil_finished && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
         {
-            hil.tick(now);
-            if hil.is_running()
-                && !hil_finished
-                && now.duration_since(hil_last) >= Duration::from_millis(50)
-            {
-                emit!(Event::Hil(hil.snapshot(now)));
-                hil_last = now;
-                hil_finished = hil.all_finished();
-            }
+            emit!(Event::Hil(hil.snapshot(now)));
+            hil_last = now;
+            hil_finished = hil.all_finished();
         }
+
+        // Ordinary sends are suspended while firmware owns transmission.
         let updating = firmware.active();
         if connection.connected() && !updating {
             for frame in sends.due(now) {
@@ -153,12 +169,14 @@ fn run_with_connection(
                         });
                     }
                     Err(error) => {
+                        let unsupported = matches!(error, DriverError::Unsupported(_));
+
                         emit!(Event::SendFailed {
                             identity,
                             error: error.to_string(),
-                            retrying: !matches!(error, DriverError::Unsupported(_)),
+                            retrying: !unsupported,
                         });
-                        if matches!(error, DriverError::Unsupported(_)) {
+                        if unsupported {
                             sends.delete(identity);
                         } else {
                             connection.failed(Instant::now());
@@ -169,31 +187,37 @@ fn run_with_connection(
                 }
             }
         }
+
+        // Pace firmware words in bounded bursts to protect the target RX queue.
         if firmware.active() && connection.connected() {
-            for _ in 0..8 {
+            for _ in 0..FIRMWARE_FRAMES_PER_BURST {
                 let result = firmware.tick(Instant::now());
                 if let Some(progress) = result.progress {
                     emit!(Event::FirmwareProgress(progress));
                 }
+
                 let Some(frame) = result.frame else {
                     break;
                 };
+
                 let frame = frame::CanFrame::data(frame.id, false, frame.data);
                 let result = frame
                     .map_err(DriverError::Write)
                     .and_then(|frame| connection.write(frame));
                 if let Err(error) = result {
-                    if let Some(mut p) = firmware.cancel() {
-                        p.error = Some(format!("firmware write failed: {error}"));
-                        emit!(Event::FirmwareProgress(p));
+                    if let Some(mut progress) = firmware.cancel() {
+                        progress.error = Some(format!("firmware write failed: {error}"));
+                        emit!(Event::FirmwareProgress(progress));
                     }
                     connection.failed(Instant::now());
                     emit!(Event::ConnectionFailed(error.to_string()));
                     break;
                 }
-                std::thread::sleep(Duration::from_millis(4));
+                std::thread::sleep(FIRMWARE_FRAME_DELAY);
             }
         }
+
+        // Each received frame is logged, decoded, then moved into an event.
         let mut got_frames = false;
         if connection.connected() {
             match connection.read() {
@@ -204,23 +228,22 @@ fn run_with_connection(
                         if let Some(logger) = &mut logger {
                             logger.log_frame(&frame);
                         }
+
                         let updating = firmware.active();
-                        if updating {
-                            if !frame.is_msg_id_extended {
-                                if let Some(p) =
-                                    firmware.receive(frame.msg_id, &frame.data, Instant::now())
-                                {
-                                    emit!(Event::FirmwareProgress(p));
-                                }
+                        if updating && !frame.is_msg_id_extended {
+                            if let Some(progress) =
+                                firmware.receive(frame.msg_id, &frame.data, Instant::now())
+                            {
+                                emit!(Event::FirmwareProgress(progress));
                             }
                         }
-                        {
-                            let frame = decoder.decode(frame, Time::now());
-                            if !updating {
-                                hil.process_parsed(&frame, Instant::now());
-                            }
-                            emit!(Event::Frame(frame));
+
+                        let frame = decoder.decode(frame, Time::now());
+                        if !updating {
+                            hil.process_parsed(&frame, Instant::now());
                         }
+
+                        emit!(Event::Frame(frame));
                     }
                 }
                 Err(DriverError::Timeout) => {}
@@ -230,8 +253,9 @@ fn run_with_connection(
                 }
             }
         }
+
         let now = Instant::now();
-        if now.duration_since(load_last) >= Duration::from_millis(200) {
+        if now.duration_since(load_last) >= BUS_LOAD_UPDATE_INTERVAL {
             load.cleanup(now);
             let speed = connection.speed();
             emit!(Event::BusLoad {
@@ -243,6 +267,7 @@ fn run_with_connection(
             });
             load_last = now;
         }
+
         let wait = if !connection.connected() {
             Duration::from_millis(50)
         } else if got_frames {
@@ -252,17 +277,22 @@ fn run_with_connection(
         } else {
             Duration::from_millis(2)
         };
+
         match commands.recv_timeout(wait) {
             Ok(command) => pending = Some(command),
             Err(RecvTimeoutError::Disconnected) => break,
             Err(RecvTimeoutError::Timeout) => {}
         }
     }
+
+    // All shutdown paths cancel operations, flush logs, and close the driver.
     if let Some(progress) = firmware.cancel() {
         let _ = events.emit(Event::FirmwareProgress(progress));
     }
+
     if let Some(logger) = &mut logger {
         logger.flush();
     }
+
     connection.close();
 }

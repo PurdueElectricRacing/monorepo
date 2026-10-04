@@ -15,6 +15,7 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
         if value.as_str() == Some("Loopback") {
             return Ok(Self::Loopback);
         }
+
         let object = value
             .as_object()
             .ok_or_else(|| serde::de::Error::custom("connection source must be an object"))?;
@@ -32,16 +33,19 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                 )),
             };
         }
+
         if let Some(port) = object.get("Udp") {
             return Ok(Self::Udp(
                 serde_json::from_value(port.clone()).map_err(serde::de::Error::custom)?,
             ));
         }
+
         if let Some(simulated) = object.get("Simulated") {
             let values: (bool, Option<std::path::PathBuf>) =
                 serde_json::from_value(simulated.clone()).map_err(serde::de::Error::custom)?;
             return Ok(Self::Simulated(values.0, values.1));
         }
+
         if object.get("Loopback").is_some() {
             return Ok(Self::Loopback);
         }

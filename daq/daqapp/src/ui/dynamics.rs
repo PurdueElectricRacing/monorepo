@@ -101,6 +101,7 @@ fn dynamics_values(frames: &[daqcore::ParsedFrame]) -> DynamicsValues {
         yaw_rate_rads: 0.0,
         last_update: None,
     };
+
     for frame in frames {
         if let Some(parsed) = frame.decoded_view() {
             match parsed.decoded.name.as_str() {
@@ -316,6 +317,7 @@ fn draw_yaw_rotation_arrow(
     } else {
         1.0
     };
+
     let start_angle = -PI / 2.0;
     let end_angle = start_angle + direction * sweep;
     let radius = pixels_per_meter * (CHASSIS_WIDTH_M * 0.75);

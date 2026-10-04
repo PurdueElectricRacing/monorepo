@@ -55,6 +55,7 @@ impl LogParser {
         if let Some(dir) = settings::dbc_dir() {
             dialog = dialog.set_directory(dir);
         }
+
         if let Some(path) = dialog.pick_file() {
             *current = Some(path);
         }
@@ -100,6 +101,7 @@ impl LogParser {
                 }
             }
         };
+
         let dbc_path_bus_1 = if self.bus_1_use_override {
             match &self.bus_1_dbc {
                 Some(p) => p.clone(),
@@ -163,7 +165,7 @@ impl LogParser {
 
             let _ = parse_to_ui_tx.send(MsgFromParserThread::Update("Parsing logs...".to_string()));
 
-            daqcore::log_parse::parse_logs_to_tables(
+            let result = daqcore::log_parse::parse_logs_to_tables(
                 &logs_dir,
                 &output_dir,
                 &prefix,
@@ -172,6 +174,12 @@ impl LogParser {
                 &parser_bus_1,
                 "MCAN",
             );
+
+            if let Err(error) = result {
+                log::error!("Log export failed: {error}");
+                let _ = parse_to_ui_tx.send(MsgFromParserThread::FatalExit(error.to_string()));
+                return;
+            }
 
             log::info!("Parsing completed successfully");
             let _ = parse_to_ui_tx.send(MsgFromParserThread::SuccessExit(format!(
@@ -194,6 +202,7 @@ impl LogParser {
             if ui.button("📁 Select Logs Dir").clicked() {
                 self.select_logs_dir();
             }
+
             match &self.logs_dir {
                 Some(p) => ui.label(format!("Logs: {}", p.display())),
                 None => ui.label("Logs: None selected"),
@@ -207,6 +216,7 @@ impl LogParser {
             if ui.button("📁 Select Output Dir").clicked() {
                 self.select_output_dir();
             }
+
             match &self.output_dir {
                 Some(p) => ui.label(format!("Output: {}", p.display())),
                 None => ui.label("Output: None selected"),

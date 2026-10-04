@@ -90,11 +90,13 @@ impl Hil {
                     selected_preset = Some(preset.clone());
                 }
             }
+
             if let Some(preset) = selected_preset {
                 self.send_command(daqcore::hil::engine::HilCommand::StartPreset(preset));
             }
             ui.separator();
         }
+
         if !self.found_tests.is_empty() {
             ui.label(" Individual Tests:");
             let mut selected_test = None;
@@ -104,6 +106,7 @@ impl Hil {
                     selected_test = Some(test.clone());
                 }
             }
+
             if let Some(test) = selected_test {
                 self.send_command(daqcore::hil::engine::HilCommand::StartTest(test));
             }
