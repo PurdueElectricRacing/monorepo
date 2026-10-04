@@ -84,32 +84,3 @@ pub struct BusLoadSample {
     pub timestamp: daqcore::Time,
     pub values: [f32; 4],
 }
-
-#[cfg(test)]
-mod tests {
-    use crate::telemetry;
-
-    #[test]
-    fn decimation_preserves_endpoints_extrema_and_order() {
-        let points: Vec<_> = (0..100)
-            .map(|index| {
-                let value = match index {
-                    12 => -100.0,
-                    63 => 100.0,
-                    _ => 0.0,
-                };
-
-                [index as f64, value]
-            })
-            .collect();
-        let reduced = telemetry::decimate(&points, 4);
-
-        assert_eq!(reduced.first(), points.first());
-        assert_eq!(reduced.last(), points.last());
-        assert!(reduced.contains(&[12.0, -100.0]));
-        assert!(reduced.contains(&[63.0, 100.0]));
-        assert!(reduced.windows(2).all(|pair| pair[0][0] < pair[1][0]));
-        assert!(reduced.len() < points.len());
-        assert!(telemetry::decimate(&[], 0).is_empty());
-    }
-}

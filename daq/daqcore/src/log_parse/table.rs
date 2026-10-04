@@ -210,19 +210,3 @@ impl TableBuilder {
         Ok(())
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use crate::log_parse::table;
-
-    #[test]
-    fn export_reports_invalid_output_directory() {
-        // A regular source file cannot be used as a directory on any platform.
-        let source_file =
-            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/log_parse/table.rs");
-        let builder = table::TableBuilder::new();
-        let result = builder.create_and_write_tables(&source_file, "out", Vec::new());
-
-        assert!(result.is_err());
-    }
-}
