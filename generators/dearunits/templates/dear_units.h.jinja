@@ -125,6 +125,8 @@ DEARUNITS_DEFINE_UNIT_OPERATIONS({{ unit.name }})
 {% endfor %}
 {% for unit in angle.units %}
 {% set radians = 'a.value' if unit.scale == 1 else 'a.value * ' ~ (unit.scale|format_float) %}
+{% set full_turn = unit.full_turn|format_float %}
+{% set half_turn = unit.half_turn|format_float %}
 [[nodiscard, gnu::always_inline]] static inline
 float dearunits_sin_{{ unit.name }}({{ unit.type_name }} a) {
     return __builtin_sinf({{ radians }});
@@ -140,16 +142,18 @@ float dearunits_tan_{{ unit.name }}({{ unit.type_name }} a) {
     return __builtin_tanf({{ radians }});
 }
 
-// Wraps to [-half turn, half turn)
+// Wraps to (-half turn, half turn]; remainder first, shift only if needed (avoids losing small angles to rounding).
 [[nodiscard, gnu::always_inline]] static inline
 {{ unit.type_name }} dearunits_wrap_angle_{{ unit.name }}({{ unit.type_name }} a) {
-    return ({{ unit.type_name }}){ .value = __builtin_fmodf(__builtin_fmodf(a.value + {{ unit.half_turn|format_float }}, {{ unit.full_turn|format_float }}) + {{ unit.full_turn|format_float }}, {{ unit.full_turn|format_float }}) - {{ unit.half_turn|format_float }} };
+    float r = __builtin_fmodf(a.value, {{ full_turn }});
+    return ({{ unit.type_name }}){ .value = (r > {{ half_turn }}) ? (r - {{ full_turn }}) : ((r <= -{{ half_turn }}) ? (r + {{ full_turn }}) : r) };
 }
 
-// Wraps to [0, full turn)
+// Wraps to (0, full turn]; same reasoning as above.
 [[nodiscard, gnu::always_inline]] static inline
 {{ unit.type_name }} dearunits_wrap_angle_positive_{{ unit.name }}({{ unit.type_name }} a) {
-    return ({{ unit.type_name }}){ .value = __builtin_fmodf(__builtin_fmodf(a.value, {{ unit.full_turn|format_float }}) + {{ unit.full_turn|format_float }}, {{ unit.full_turn|format_float }}) };
+    float r = __builtin_fmodf(a.value, {{ full_turn }});
+    return ({{ unit.type_name }}){ .value = r <= 0.0f ? r + {{ full_turn }} : r };
 }
 
 // Shortest signed difference a - b
