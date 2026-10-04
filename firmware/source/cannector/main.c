@@ -53,10 +53,6 @@ void main() {
     vTaskStartScheduler();
 }
 
-void led_manager() {
-
-}
-
 void usb_thread_periodic() {
     timestamped_frame_t usb_packet[4];
     static_assert(sizeof(usb_packet) == 64, "usb_packet max size is 64");
@@ -73,4 +69,19 @@ void usb_thread_periodic() {
 
     size_t length = count * sizeof(timestamped_frame_t);
     (void)PHAL_USB_write(PHAL_USB_DATA_ENDPOINT, usb_packet, (uint16_t)length);
+}
+
+void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
+    timestamped_frame_t frame = {0};
+
+    frame.ticks_ms      = xTaskGetTickCountFromISR();
+    last_can_rx_time_ms = frame.ticks_ms;
+
+    set_bus_id(&frame, 0); // todo
+    set_xid(&frame, msg->IDE);
+    set_can_id(&frame, msg->ExtId);
+
+    // todo copy payload
+
+    xQueueSendToBackFromISR(can_queue, &frame, 0);
 }
