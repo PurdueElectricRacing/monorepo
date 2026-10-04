@@ -1,3 +1,10 @@
+/**
+ * @file main.c
+ * @brief "CANnector" node source code
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #ifndef PINDEFS_H
 #define PINDEFS_H
 

@@ -1,3 +1,12 @@
+/**
+ * @file main.c
+ * @brief "CANnector" node source code
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
+#include "main.h"
+
 #include <string.h>
 
 #include "can_library/generated/MCAN.h"
@@ -12,7 +21,6 @@
 #include "common/rtos/rtos.h"
 #include "common/timestamped_frame/timestamped_frame.h"
 #include "common/utils/countof.h"
-#include "pindefs.h"
 
 typedef enum {
     USB_STATE_INIT,
@@ -96,7 +104,7 @@ void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
     frame.ticks_ms      = xTaskGetTickCountFromISR();
     last_can_rx_time_ms = frame.ticks_ms;
 
-    set_bus_id(&frame, 0); // todo
+    set_bus_id(&frame, 0); // todo check msg->Bus
     set_xid(&frame, msg->IDE);
     set_can_id(&frame, msg->ExtId);
 
