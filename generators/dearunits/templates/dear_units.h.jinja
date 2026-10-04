@@ -106,23 +106,49 @@ DEARUNITS_DEFINE_UNIT_OPERATIONS({{ unit.name }})
     ('GT', 'gt', 'a, b'),
     ('LE', 'le', 'a, b'),
     ('GE', 'ge', 'a, b'),
-] + ([('ATAN2', 'atan2', 'y, x')] if angle else []), base_types) }}
+], base_types) }}
 // Remap x from [in_lo, in_hi] to [out_lo, out_hi]; the two ranges can be different unit types.
 #define DEARUNITS_MAP_RANGE(x, in_lo, in_hi, out_lo, out_hi) \
     DEARUNITS_LERP(out_lo, out_hi, DEARUNITS_INVLERP(in_lo, in_hi, x))
 
-{% if angle %}
+{% if angles %}
 // ============================================================================
 // Angle operations
 // ============================================================================
 
+// atan2: any same-typed pair produces an angle. Since the input carries no
+// clue which angle quantity you want, every (base type, angle group) pair
+// gets its own function; DEARUNITS_ATAN2 picks one via a type-tag argument.
 {% for unit in base_types %}
+{% for angle in angles %}
 [[nodiscard, gnu::always_inline]] static inline
-{{ angle.base_type }} dearunits_atan2_{{ unit.name }}({{ unit.type_name }} y, {{ unit.type_name }} x) {
+{{ angle.base_type }} dearunits_atan2_{{ unit.name }}_{{ angle.base_name }}({{ unit.type_name }} y, {{ unit.type_name }} x) {
     return ({{ angle.base_type }}){ .value = __builtin_atan2f(y.value, x.value) };
 }
 
 {% endfor %}
+{% endfor %}
+{% for angle in angles %}
+#define DEARUNITS_ATAN2_{{ angle.base_name|upper }}(y, x) _Generic((y), \
+{% for unit in base_types %}
+    {{ unit.type_name }}: dearunits_atan2_{{ unit.name }}_{{ angle.base_name }}{% if not loop.last %},{% endif %} \
+{% endfor %}
+)(y, x)
+
+{% endfor %}
+// DEARUNITS_ATAN2(y, x, T): T is a value of the angle type you want back
+// (e.g. (radian_t){0}), used only to select which group's functions to call.
+#define DEARUNITS_ATAN2(y, x, T) _Generic((y), \
+{% for unit in base_types %}
+    {{ unit.type_name }}: _Generic((T){0}, \
+{% for angle in angles %}
+        {{ angle.base_type }}: dearunits_atan2_{{ unit.name }}_{{ angle.base_name }}{% if not loop.last %},{% endif %} \
+{% endfor %}
+    ){% if not loop.last %},{% endif %} \
+{% endfor %}
+)(y, x)
+
+{% for angle in angles %}
 {% for unit in angle.units %}
 {% set radians = 'a.value' if unit.scale == 1 else 'a.value * ' ~ (unit.scale|format_float) %}
 [[nodiscard, gnu::always_inline]] static inline
@@ -159,24 +185,48 @@ float dearunits_tan_{{ unit.name }}({{ unit.type_name }} a) {
 }
 
 {% endfor %}
+{% endfor %}
+// asin/acos/atan take a bare float with no type to dispatch on, so like
+// atan2 above, each angle group gets its own function plus a type-tagged
+// unified macro.
+{% for angle in angles %}
 [[nodiscard, gnu::always_inline]] static inline
-{{ angle.base_type }} dearunits_asin(float x) {
+{{ angle.base_type }} dearunits_asin_{{ angle.base_name }}(float x) {
     return ({{ angle.base_type }}){ .value = __builtin_asinf(x) };
 }
 
 [[nodiscard, gnu::always_inline]] static inline
-{{ angle.base_type }} dearunits_acos(float x) {
+{{ angle.base_type }} dearunits_acos_{{ angle.base_name }}(float x) {
     return ({{ angle.base_type }}){ .value = __builtin_acosf(x) };
 }
 
 [[nodiscard, gnu::always_inline]] static inline
-{{ angle.base_type }} dearunits_atan(float x) {
+{{ angle.base_type }} dearunits_atan_{{ angle.base_name }}(float x) {
     return ({{ angle.base_type }}){ .value = __builtin_atanf(x) };
 }
 
-#define DEARUNITS_ASIN(x) dearunits_asin(x)
-#define DEARUNITS_ACOS(x) dearunits_acos(x)
-#define DEARUNITS_ATAN(x) dearunits_atan(x)
+#define DEARUNITS_ASIN_{{ angle.base_name|upper }}(x) dearunits_asin_{{ angle.base_name }}(x)
+#define DEARUNITS_ACOS_{{ angle.base_name|upper }}(x) dearunits_acos_{{ angle.base_name }}(x)
+#define DEARUNITS_ATAN_{{ angle.base_name|upper }}(x) dearunits_atan_{{ angle.base_name }}(x)
+
+{% endfor %}
+#define DEARUNITS_ASIN(x, T) _Generic((T){0}, \
+{% for angle in angles %}
+    {{ angle.base_type }}: dearunits_asin_{{ angle.base_name }}{% if not loop.last %},{% endif %} \
+{% endfor %}
+)(x)
+
+#define DEARUNITS_ACOS(x, T) _Generic((T){0}, \
+{% for angle in angles %}
+    {{ angle.base_type }}: dearunits_acos_{{ angle.base_name }}{% if not loop.last %},{% endif %} \
+{% endfor %}
+)(x)
+
+#define DEARUNITS_ATAN(x, T) _Generic((T){0}, \
+{% for angle in angles %}
+    {{ angle.base_type }}: dearunits_atan_{{ angle.base_name }}{% if not loop.last %},{% endif %} \
+{% endfor %}
+)(x)
 
 {{ dispatch_macros([
     ('SIN', 'sin', 'a'),
@@ -185,7 +235,7 @@ float dearunits_tan_{{ unit.name }}({{ unit.type_name }} a) {
     ('WRAP_ANGLE', 'wrap_angle', 'a'),
     ('WRAP_ANGLE_POSITIVE', 'wrap_angle_positive', 'a'),
     ('ANGLE_DIFF', 'angle_diff', 'a, b'),
-], angle.units) }}
+], angle_units) }}
 {% endif %}
 // ============================================================================
 // Multiply / divide

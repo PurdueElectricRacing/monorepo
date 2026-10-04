@@ -183,7 +183,7 @@ static bool test_dynamics(void) {
     degree_t heading = { .value = 30.0f };
     meters_per_second_t east = DEARUNITS_MULTIPLY(cruise, DEARUNITS_COS(heading));
     meters_per_second_t north = DEARUNITS_MULTIPLY(cruise, DEARUNITS_SIN(heading));
-    degree_t recovered_heading = degree_from_radian(DEARUNITS_ATAN2(north, east));
+    degree_t recovered_heading = degree_from_radian(DEARUNITS_ATAN2(north, east, radian_t));
     meters_per_second_t recovered_speed = DEARUNITS_HYPOT(east, north);
     if (!nearly_equal(recovered_heading.value, 30.0f, 0.01f) || !nearly_equal(recovered_speed.value, 20.0f, 0.001f)) {
         return false;
@@ -206,9 +206,9 @@ static bool test_dynamics(void) {
     meter_t run = { .value = 10.0f };
     float grade = DEARUNITS_DIVIDE(rise, run);
     meter_t hypotenuse = DEARUNITS_HYPOT(rise, run);
-    radian_t slope_from_atan = DEARUNITS_ATAN(grade);
-    radian_t slope_from_asin = DEARUNITS_ASIN(DEARUNITS_DIVIDE(rise, hypotenuse));
-    radian_t slope_from_acos = DEARUNITS_ACOS(DEARUNITS_DIVIDE(run, hypotenuse));
+    radian_t slope_from_atan = DEARUNITS_ATAN(grade, radian_t);
+    radian_t slope_from_asin = DEARUNITS_ASIN(DEARUNITS_DIVIDE(rise, hypotenuse), radian_t);
+    radian_t slope_from_acos = DEARUNITS_ACOS(DEARUNITS_DIVIDE(run, hypotenuse), radian_t);
     if (!nearly_equal(slope_from_atan.value, 0.0996687f, 0.0001f) ||
         !nearly_equal(slope_from_asin.value, 0.0996687f, 0.0001f) ||
         !nearly_equal(slope_from_acos.value, 0.0996687f, 0.0001f)) {

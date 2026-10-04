@@ -1,8 +1,7 @@
 """
 api.py
 
-DearUnits: assembles the validated unit config into the unit graph,
-then renders it into generated C artifacts.
+Assemble the validated unit config into a unit graph
 """
 
 from .codegen import generate_headers

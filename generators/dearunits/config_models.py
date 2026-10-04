@@ -6,6 +6,9 @@ A unit graph has two node kinds:
   - derived quantities: units cross compiled across different base quantities
 
 Ensures the validity of the specified JSON format
+
+WARNING: only mark one class `is_angle`. A second compiles fine but silently
+produces wrong trig results -- see codegen.py's build_angle_contexts.
 """
 
 from __future__ import annotations
@@ -120,9 +123,6 @@ class BaseQuantitiesConfig(DeclarationModel):
         duplicate = _duplicate([item.name for item in self.classes])
         if duplicate is not None:
             raise ValueError(f"Duplicate base quantity name: '{duplicate}'")
-        angle_classes = [item.name for item in self.classes if item.is_angle]
-        if len(angle_classes) > 1:
-            raise ValueError(f"Only one base quantity may set 'is_angle': {', '.join(angle_classes)}")
         return self
 
 class DerivedQuantityConfig(DeclarationModel):
