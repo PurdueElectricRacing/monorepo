@@ -8,8 +8,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-ANGLE_QUANTITY = "angle"
-
 
 @dataclass
 class Unit:
@@ -20,7 +18,7 @@ class Unit:
 
 @dataclass
 class DimensionTerm:
-    quantity_name: str  # a base or derived quantity's name
+    quantity_name: str
     exponent: int
 
 
@@ -29,6 +27,7 @@ class BaseQuantity:
     name: str
     base_name: str
     units: dict[str, Unit] = field(default_factory=dict)
+    is_angle: bool = False
 
 
 @dataclass
@@ -40,8 +39,8 @@ class DerivedQuantity:
 
 @dataclass
 class Relation:
-    lhs: str
-    rhs: str
+    factor_a: str
+    factor_b: str
     result: str
 
 @dataclass

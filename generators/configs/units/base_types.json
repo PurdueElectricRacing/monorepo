@@ -48,6 +48,7 @@
         {
             "name": "angle",
             "base_unit": "radian",
+            "is_angle": true,
             "units": [
                 {"name": "degree", "scale": 0.017453292519943295},
                 {"name": "revolution", "scale": 6.283185307179586}

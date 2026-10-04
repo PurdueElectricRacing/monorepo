@@ -76,7 +76,7 @@ def test_derived_quantities_have_their_si_dimensions(bundle):
 
 def test_relations_are_dimensionally_consistent_up_to_angle(bundle):
     for relation in bundle.relations:
-        product = add(HAND[relation.lhs], HAND[relation.rhs])
+        product = add(HAND[relation.factor_a], HAND[relation.factor_b])
         expected = HAND[relation.result]
         without_angle = lambda dims: dims[:ANGLE_AXIS]
         assert without_angle(product) == without_angle(expected), relation
@@ -105,10 +105,10 @@ def relation_allowed_pairs(bundle):
     allowed = set()
     for relation in bundle.relations:
         allowed |= {
-            ("MULTIPLY", relation.lhs, relation.rhs, relation.result),
-            ("MULTIPLY", relation.rhs, relation.lhs, relation.result),
-            ("DIVIDE", relation.result, relation.lhs, relation.rhs),
-            ("DIVIDE", relation.result, relation.rhs, relation.lhs),
+            ("MULTIPLY", relation.factor_a, relation.factor_b, relation.result),
+            ("MULTIPLY", relation.factor_b, relation.factor_a, relation.result),
+            ("DIVIDE", relation.result, relation.factor_a, relation.factor_b),
+            ("DIVIDE", relation.result, relation.factor_b, relation.factor_a),
         }
     return allowed
 

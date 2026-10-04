@@ -1,11 +1,14 @@
 import json
 import re
+import shutil
 from fractions import Fraction
 
 import pytest
 
 from dearunits.api import DearUnits
 from dearunits.config_loader import load_unit_config_bundle
+
+from core.config import DEARUNITS_LIBRARY_DIR
 
 from .conftest import C_TEST_DIR, REPO_ROOT, STRICT_C_FLAGS
 from .test_constants import EXACT, OFFSET_UNITS, TRANSCENDENTAL
@@ -27,14 +30,14 @@ def test_generation_is_deterministic(bundle):
 def test_header_compiles_under_strict_warnings(cc, generated_dir, tmp_path):
     source = tmp_path / "include_only.c"
     source.write_text('#include "dear_units.h"\n#include "dear_units.h"\n#include "dear_units_internal.h"\nint main(void) { return 0; }\n')
-    result = cc.compile(source, generated_dir, "include_only")
+    result = cc.compile(source, [generated_dir, generated_dir.parent], "include_only")
     assert result.ok, result.output
 
 
 def test_internal_header_is_self_contained(cc, generated_dir, tmp_path):
     source = tmp_path / "internal_only.c"
     source.write_text('#include "dear_units_internal.h"\nint main(void) { return 0; }\n')
-    result = cc.compile(source, generated_dir, "internal_only")
+    result = cc.compile(source, generated_dir.parent, "internal_only")
     assert result.ok, result.output
 
 
@@ -157,7 +160,7 @@ def strip_angle(base_config: dict, compound_config: dict) -> tuple[dict, dict]:
     removed = {"angular_velocity"}
     relations = [
         r for r in compound_config["relations"]
-        if not ({r["lhs"], r["rhs"], r["result"]} & removed)
+        if not ({r["factor_a"], r["factor_b"], r["result"]} & removed)
     ]
     return base, {"compounds": compounds, "relations": relations}
 
@@ -168,13 +171,15 @@ def test_header_without_an_angle_quantity_still_compiles(cc, tmp_path, real_conf
     (tmp_path / "compound.json").write_text(json.dumps(compound))
     bundle = load_unit_config_bundle(tmp_path / "base.json", tmp_path / "compound.json")
     generator = DearUnits()
-    output = tmp_path / "no_angle"
+    root = tmp_path / "no_angle"
+    root.mkdir()
+    shutil.copy(DEARUNITS_LIBRARY_DIR / "dear_units_internal.h", root / "dear_units_internal.h")
+    output = root / "generated"
     output.mkdir()
     for artifact in generator.generate(generator.parse(bundle)):
         (output / str(artifact.relative_path)).write_text(artifact.content)
     header = (output / "dear_units.h").read_text()
-    internal = (output / "dear_units_internal.h").read_text()
-    assert "atan2" not in internal and "DEARUNITS_SIN" not in header
+    assert "atan2" not in header and "DEARUNITS_SIN" not in header
     source = tmp_path / "no_angle.c"
     source.write_text('#include "dear_units.h"\nint main(void) { meter_t a = {1}; meter_t b = {2}; return DEARUNITS_MAX(a, b).value > 1.0f ? 0 : 1; }\n')
     result = cc.compile(source, output, "no_angle")

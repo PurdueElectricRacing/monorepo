@@ -101,6 +101,7 @@ class BaseQuantityConfig(DeclarationModel):
     name: Identifier
     base_unit: Identifier
     units: Annotated[list[UnitConfig], Field(min_length=1)]
+    is_angle: bool = False
 
     @model_validator(mode="after")
     def validate_base_quantity(self) -> Self:
@@ -119,6 +120,9 @@ class BaseQuantitiesConfig(DeclarationModel):
         duplicate = _duplicate([item.name for item in self.classes])
         if duplicate is not None:
             raise ValueError(f"Duplicate base quantity name: '{duplicate}'")
+        angle_classes = [item.name for item in self.classes if item.is_angle]
+        if len(angle_classes) > 1:
+            raise ValueError(f"Only one base quantity may set 'is_angle': {', '.join(angle_classes)}")
         return self
 
 class DerivedQuantityConfig(DeclarationModel):
@@ -138,8 +142,8 @@ class DerivedQuantityConfig(DeclarationModel):
         return self
 
 class RelationConfig(DeclarationModel):
-    lhs: str
-    rhs: str
+    factor_a: str
+    factor_b: str
     result: str
 
 class DerivedQuantitiesConfig(DeclarationModel):

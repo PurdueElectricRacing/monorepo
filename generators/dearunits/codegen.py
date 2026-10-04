@@ -189,10 +189,10 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
     products: dict[tuple[str, str], str] = {}
     quotients: dict[tuple[str, str], str] = {}
     for relation in graph.relations:
-        products[(relation.lhs, relation.rhs)] = relation.result
-        products[(relation.rhs, relation.lhs)] = relation.result
-        quotients[(relation.result, relation.lhs)] = relation.rhs
-        quotients[(relation.result, relation.rhs)] = relation.lhs
+        products[(relation.factor_a, relation.factor_b)] = relation.result
+        products[(relation.factor_b, relation.factor_a)] = relation.result
+        quotients[(relation.result, relation.factor_a)] = relation.factor_b
+        quotients[(relation.result, relation.factor_b)] = relation.factor_a
 
     def match(dims: tuple[tuple[str, int], ...], description: str) -> str | None:
         matches = quantities_by_dims.get(dims, [])
@@ -271,9 +271,9 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
 
 
 def build_angle_context(graph: UnitGraph) -> AngleContext | None:
-    """Trig and angle-wrapping helpers key off the equivalence class named
-    'angle', whose units are scaled in radians."""
-    angle = graph.base_quantities.get("angle")
+    """Trig and angle-wrapping helpers key off whichever base quantity is
+    marked `is_angle` in config, whose units are scaled in radians."""
+    angle = next((quantity for quantity in graph.base_quantities.values() if quantity.is_angle), None)
     if angle is None:
         return None
     units = [
@@ -295,18 +295,6 @@ def build_quantity_contexts(graph: UnitGraph) -> list[QuantityContext]:
         quantities.append(quantity)
 
     return quantities
-
-
-def generate_internal_header(graph: UnitGraph) -> Artifact:
-    env = get_jinja_env()
-    angle = build_angle_context(graph)
-    content = render_template(
-        env,
-        "dear_units_internal.h.jinja",
-        angle_base_type=angle.base_type if angle else None,
-    )
-    print_as_ok("Generated dear_units_internal.h")
-    return Artifact("units_generated", "dear_units_internal.h", content)
 
 
 def generate_units_header(
@@ -331,7 +319,6 @@ def generate_headers(graph: UnitGraph) -> list[Artifact]:
     binary_ops = build_binary_ops(graph, quantities)
     artifacts = [
         generate_units_header(quantities, binary_ops, build_angle_context(graph)),
-        generate_internal_header(graph),
     ]
     print_as_success("Successfully generated DearUnits headers")
     return artifacts

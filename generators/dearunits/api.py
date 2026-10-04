@@ -24,6 +24,7 @@ class DearUnits:
                 name=config.name,
                 base_name=config.base_unit,
                 units=units,
+                is_angle=config.is_angle,
             )
 
         for config in bundle.derived_quantities.values():
@@ -43,7 +44,7 @@ class DearUnits:
                 units=units,
             )
 
-        graph.relations = [Relation(r.lhs, r.rhs, r.result) for r in bundle.relations]
+        graph.relations = [Relation(r.factor_a, r.factor_b, r.result) for r in bundle.relations]
 
         return graph
 

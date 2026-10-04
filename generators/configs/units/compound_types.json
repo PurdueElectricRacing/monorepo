@@ -197,10 +197,10 @@
         }
     ],
     "relations": [
-        {"lhs": "force", "rhs": "length", "result": "torque"},
-        {"lhs": "torque", "rhs": "angular_velocity", "result": "power"},
-        {"lhs": "power", "rhs": "time", "result": "energy"},
-        {"lhs": "charge", "rhs": "voltage", "result": "energy"},
-        {"lhs": "energy", "rhs": "frequency", "result": "power"}
+        {"factor_a": "force", "factor_b": "length", "result": "torque"},
+        {"factor_a": "torque", "factor_b": "angular_velocity", "result": "power"},
+        {"factor_a": "power", "factor_b": "time", "result": "energy"},
+        {"factor_a": "charge", "factor_b": "voltage", "result": "energy"},
+        {"factor_a": "energy", "factor_b": "frequency", "result": "power"}
     ]
 }

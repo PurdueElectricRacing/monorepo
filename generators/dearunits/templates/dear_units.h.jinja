@@ -1,7 +1,7 @@
 #ifndef DEAR_UNITS_H
 #define DEAR_UNITS_H
 
-#include "dear_units_internal.h"
+#include "../dear_units_internal.h"
 
 /**
  * @file dear_units.h
@@ -65,7 +65,7 @@ typedef struct { float value; } {{ unit.type_name }};
 {% endfor %}
 
 {% for unit in base_types %}
-DEARUNITS_DEFINE_UNIT_OPS({{ unit.name }})
+DEARUNITS_DEFINE_UNIT_OPERATIONS({{ unit.name }})
 {% endfor %}
 
 {% macro dispatch_macros(ops, types) %}
@@ -116,6 +116,13 @@ DEARUNITS_DEFINE_UNIT_OPS({{ unit.name }})
 // Angle operations
 // ============================================================================
 
+{% for unit in base_types %}
+[[nodiscard, gnu::always_inline]] static inline
+{{ angle.base_type }} dearunits_atan2_{{ unit.name }}({{ unit.type_name }} y, {{ unit.type_name }} x) {
+    return ({{ angle.base_type }}){ .value = __builtin_atan2f(y.value, x.value) };
+}
+
+{% endfor %}
 {% for unit in angle.units %}
 {% set radians = 'a.value' if unit.scale == 1 else 'a.value * ' ~ (unit.scale|format_float) %}
 [[nodiscard, gnu::always_inline]] static inline

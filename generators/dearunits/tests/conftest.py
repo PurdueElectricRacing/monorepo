@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from core.config import BASE_TYPES_CONFIG_PATH, COMPOUND_TYPES_CONFIG_PATH
+from core.config import BASE_TYPES_CONFIG_PATH, COMPOUND_TYPES_CONFIG_PATH, DEARUNITS_LIBRARY_DIR
 from dearunits.api import DearUnits
 from dearunits.config_loader import load_unit_config_bundle
 
@@ -29,10 +29,11 @@ class CCompiler:
         self.executable = executable
         self.workdir = workdir
 
-    def compile(self, source: Path, include_dir: Path, output: str, flags: list[str] | None = None) -> CompileResult:
+    def compile(self, source: Path, include_dirs: Path | list[Path], output: str, flags: list[str] | None = None) -> CompileResult:
         binary = self.workdir / output
+        dirs = include_dirs if isinstance(include_dirs, list) else [include_dirs]
         command = [self.executable, *(flags if flags is not None else STRICT_C_FLAGS), "-O1",
-                   f"-I{include_dir}", str(source), "-o", str(binary), "-lm"]
+                   *(f"-I{directory}" for directory in dirs), str(source), "-o", str(binary), "-lm"]
         result = subprocess.run(command, capture_output=True, text=True)
         return CompileResult(result.returncode == 0, result.stdout + result.stderr)
 
@@ -66,7 +67,10 @@ def header(artifacts) -> str:
 
 @pytest.fixture(scope="session")
 def generated_dir(artifacts, tmp_path_factory) -> Path:
-    directory = tmp_path_factory.mktemp("dearunits_generated")
+    root = tmp_path_factory.mktemp("dearunits_library")
+    shutil.copy(DEARUNITS_LIBRARY_DIR / "dear_units_internal.h", root / "dear_units_internal.h")
+    directory = root / "generated"
+    directory.mkdir()
     for name, content in artifacts.items():
         (directory / name).write_text(content)
     return directory

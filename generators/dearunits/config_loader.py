@@ -25,7 +25,6 @@ from .config_models import (
     DimensionTermConfig,
     RelationConfig,
 )
-from .models import ANGLE_QUANTITY
 
 @dataclass(frozen=True)
 class ConfigIssue:
@@ -233,14 +232,18 @@ def _resolve_derived_scales(bundle: UnitConfigBundle, issues: list[ConfigIssue])
     return resolved
 
 
+def _angle_quantity_name(bundle: UnitConfigBundle) -> str | None:
+    return next((quantity.name for quantity in bundle.base_quantities.values() if quantity.is_angle), None)
+
 def _validate_relations(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> None:
     quantities = {*bundle.base_quantities, *bundle.derived_quantities}
+    angle_name = _angle_quantity_name(bundle)
     products: dict[frozenset[str], str] = {}
     quotients: dict[tuple[str, str], str] = {}
 
     for index, relation in enumerate(bundle.relations):
         location = f"relations.{index}"
-        unknown = [name for name in (relation.lhs, relation.rhs, relation.result) if name not in quantities]
+        unknown = [name for name in (relation.factor_a, relation.factor_b, relation.result) if name not in quantities]
         if unknown:
             issues.append(ConfigIssue(
                 COMPOUND_TYPES_CONFIG_PATH, location,
@@ -249,33 +252,33 @@ def _validate_relations(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> 
             continue
 
         memo: dict[str, Dimensions] = {}
-        lhs, rhs, result = (_quantity_dimensions(name, bundle, memo) for name in (relation.lhs, relation.rhs, relation.result))
-        if lhs is not None and rhs is not None and result is not None:
-            product = {ANGLE_QUANTITY: 0}
-            for dims in (lhs, rhs):
+        a, b, result = (_quantity_dimensions(name, bundle, memo) for name in (relation.factor_a, relation.factor_b, relation.result))
+        if a is not None and b is not None and result is not None:
+            product: Dimensions = {}
+            for dims in (a, b):
                 for name, exponent in dims.items():
                     product[name] = product.get(name, 0) + exponent
-            product = {name: exponent for name, exponent in product.items() if exponent and name != ANGLE_QUANTITY}
-            expected = {name: exponent for name, exponent in result.items() if name != ANGLE_QUANTITY}
+            product = {name: exponent for name, exponent in product.items() if exponent and name != angle_name}
+            expected = {name: exponent for name, exponent in result.items() if name != angle_name}
             if product != expected:
                 issues.append(ConfigIssue(
                     COMPOUND_TYPES_CONFIG_PATH, location,
-                    f"'{relation.lhs}' * '{relation.rhs}' has dimensions {_format_dimensions(product)}, "
+                    f"'{relation.factor_a}' * '{relation.factor_b}' has dimensions {_format_dimensions(product)}, "
                     f"but '{relation.result}' is {_format_dimensions(expected)} (angle is ignored)",
                 ))
                 continue
 
-        pair = frozenset((relation.lhs, relation.rhs))
+        pair = frozenset((relation.factor_a, relation.factor_b))
         if pair in products:
             issues.append(ConfigIssue(
                 COMPOUND_TYPES_CONFIG_PATH, location,
-                f"'{relation.lhs}' * '{relation.rhs}' is already defined as '{products[pair]}'",
+                f"'{relation.factor_a}' * '{relation.factor_b}' is already defined as '{products[pair]}'",
             ))
             continue
         products[pair] = relation.result
 
-        # result / lhs = rhs and result / rhs = lhs must not contradict another relation
-        for divisor, quotient in ((relation.lhs, relation.rhs), (relation.rhs, relation.lhs)):
+        # result / factor_a = factor_b and result / factor_b = factor_a must not contradict another relation
+        for divisor, quotient in ((relation.factor_a, relation.factor_b), (relation.factor_b, relation.factor_a)):
             previous = quotients.setdefault((relation.result, divisor), quotient)
             if previous != quotient:
                 issues.append(ConfigIssue(

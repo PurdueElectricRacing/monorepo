@@ -38,9 +38,9 @@ def wrong_unit_dimension(base, compound):
     derived(compound, "velocity")["units"][1]["composed_of"][1]["exponent"] = 1
 
 
-def add_relation(lhs, rhs, result):
+def add_relation(factor_a, factor_b, result):
     def mutate(base, compound):
-        compound["relations"].append({"lhs": lhs, "rhs": rhs, "result": result})
+        compound["relations"].append({"factor_a": factor_a, "factor_b": factor_b, "result": result})
     return mutate
 
 
@@ -73,8 +73,12 @@ def base_unit_not_coherent(base, compound):
 
 
 def duplicate_relation_pair(base, compound):
-    compound["relations"].append({"lhs": "length", "rhs": "force", "result": "torque"})
-    compound["relations"].append({"lhs": "force", "rhs": "length", "result": "torque"})
+    compound["relations"].append({"factor_a": "length", "factor_b": "force", "result": "torque"})
+    compound["relations"].append({"factor_a": "force", "factor_b": "length", "result": "torque"})
+
+
+def second_angle_quantity(base, compound):
+    next(q for q in base["classes"] if q["name"] == "length")["is_angle"] = True
 
 
 CASES = [
@@ -99,6 +103,7 @@ CASES = [
     ("duplicate unit across quantities", add_base_unit("newton"), "already defined"),
     ("dependency cycle", cyclic_quantities, "could not resolve"),
     ("non-coherent compound base", base_unit_not_coherent, "must derive to scale=1.0"),
+    ("second base quantity marked is_angle", second_angle_quantity, "Only one base quantity may set"),
 ]
 
 
@@ -113,6 +118,6 @@ def test_invalid_configuration_is_rejected(load_config, real_configs, label, mut
 
 def test_angle_is_exempt_from_relation_dimensions(load_config, real_configs):
     base, compound = copy.deepcopy(real_configs[0]), copy.deepcopy(real_configs[1])
-    assert {"lhs": "torque", "rhs": "angular_velocity", "result": "power"} in compound["relations"]
+    assert {"factor_a": "torque", "factor_b": "angular_velocity", "result": "power"} in compound["relations"]
     bundle, output = load_config(base, compound)
     assert bundle is not None, output
