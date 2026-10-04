@@ -282,6 +282,47 @@ def _dimensionless_quantity_names(bundle: UnitConfigBundle) -> set[str]:
         if quantity.is_angle or quantity.is_dimensionless
     }
 
+def _unknown_relation_names(relation: RelationConfig, quantities: set[str]) -> list[str]:
+    return [name for name in (relation.factor_a, relation.factor_b, relation.result) if name not in quantities]
+
+def _relation_dimension_mismatch(
+    relation: RelationConfig, bundle: UnitConfigBundle, dimensionless: set[str],
+) -> tuple[Dimensions, Dimensions] | None:
+    """(actual, expected) if factor_a * factor_b's dimensions don't match
+    result's. None if either side can't be resolved, or they do match --
+    both count as "nothing to report" here."""
+    memo: dict[str, Dimensions] = {}
+    a, b, result = (_quantity_dimensions(name, bundle, memo) for name in (relation.factor_a, relation.factor_b, relation.result))
+    if a is None or b is None or result is None:
+        return None
+
+    product: Dimensions = {}
+    for dims in (a, b):
+        for name, exponent in dims.items():
+            product[name] = product.get(name, 0) + exponent
+    product = {name: exponent for name, exponent in product.items() if exponent and name not in dimensionless}
+    expected = {name: exponent for name, exponent in result.items() if name not in dimensionless}
+    return None if product == expected else (product, expected)
+
+def _relation_duplicate_pair(relation: RelationConfig, products: dict[frozenset[str], str]) -> str | None:
+    """The result already defined for this unordered {factor_a, factor_b}
+    pair, if any."""
+    return products.get(frozenset((relation.factor_a, relation.factor_b)))
+
+def _relation_quotient_conflicts(
+    relation: RelationConfig, quotients: dict[tuple[str, str], str],
+) -> list[tuple[str, str, str]]:
+    """result/factor_a=factor_b and result/factor_b=factor_a must not
+    contradict another relation's implied quotient. Records this relation's
+    own quotients as a side effect; returns (divisor, previous, quotient)
+    for each conflict found."""
+    conflicts = []
+    for divisor, quotient in ((relation.factor_a, relation.factor_b), (relation.factor_b, relation.factor_a)):
+        previous = quotients.setdefault((relation.result, divisor), quotient)
+        if previous != quotient:
+            conflicts.append((divisor, previous, quotient))
+    return conflicts
+
 def _validate_relations(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> None:
     quantities = {*bundle.base_quantities, *bundle.derived_quantities}
     dimensionless = _dimensionless_quantity_names(bundle)
@@ -290,7 +331,8 @@ def _validate_relations(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> 
 
     for index, relation in enumerate(bundle.relations):
         location = f"relations.{index}"
-        unknown = [name for name in (relation.factor_a, relation.factor_b, relation.result) if name not in quantities]
+
+        unknown = _unknown_relation_names(relation, quantities)
         if unknown:
             issues.append(ConfigIssue(
                 COMPOUND_TYPES_CONFIG_PATH, location,
@@ -298,40 +340,30 @@ def _validate_relations(bundle: UnitConfigBundle, issues: list[ConfigIssue]) -> 
             ))
             continue
 
-        memo: dict[str, Dimensions] = {}
-        a, b, result = (_quantity_dimensions(name, bundle, memo) for name in (relation.factor_a, relation.factor_b, relation.result))
-        if a is not None and b is not None and result is not None:
-            product: Dimensions = {}
-            for dims in (a, b):
-                for name, exponent in dims.items():
-                    product[name] = product.get(name, 0) + exponent
-            product = {name: exponent for name, exponent in product.items() if exponent and name not in dimensionless}
-            expected = {name: exponent for name, exponent in result.items() if name not in dimensionless}
-            if product != expected:
-                issues.append(ConfigIssue(
-                    COMPOUND_TYPES_CONFIG_PATH, location,
-                    f"'{relation.factor_a}' * '{relation.factor_b}' has dimensions {_format_dimensions(product)}, "
-                    f"but '{relation.result}' is {_format_dimensions(expected)} (dimensionless quantities are ignored)",
-                ))
-                continue
-
-        pair = frozenset((relation.factor_a, relation.factor_b))
-        if pair in products:
+        mismatch = _relation_dimension_mismatch(relation, bundle, dimensionless)
+        if mismatch is not None:
+            product, expected = mismatch
             issues.append(ConfigIssue(
                 COMPOUND_TYPES_CONFIG_PATH, location,
-                f"'{relation.factor_a}' * '{relation.factor_b}' is already defined as '{products[pair]}'",
+                f"'{relation.factor_a}' * '{relation.factor_b}' has dimensions {_format_dimensions(product)}, "
+                f"but '{relation.result}' is {_format_dimensions(expected)} (dimensionless quantities are ignored)",
             ))
             continue
-        products[pair] = relation.result
 
-        # result / factor_a = factor_b and result / factor_b = factor_a must not contradict another relation
-        for divisor, quotient in ((relation.factor_a, relation.factor_b), (relation.factor_b, relation.factor_a)):
-            previous = quotients.setdefault((relation.result, divisor), quotient)
-            if previous != quotient:
-                issues.append(ConfigIssue(
-                    COMPOUND_TYPES_CONFIG_PATH, location,
-                    f"'{relation.result}' / '{divisor}' would be both '{previous}' and '{quotient}'",
-                ))
+        duplicate_result = _relation_duplicate_pair(relation, products)
+        if duplicate_result is not None:
+            issues.append(ConfigIssue(
+                COMPOUND_TYPES_CONFIG_PATH, location,
+                f"'{relation.factor_a}' * '{relation.factor_b}' is already defined as '{duplicate_result}'",
+            ))
+            continue
+        products[frozenset((relation.factor_a, relation.factor_b))] = relation.result
+
+        for divisor, previous, quotient in _relation_quotient_conflicts(relation, quotients):
+            issues.append(ConfigIssue(
+                COMPOUND_TYPES_CONFIG_PATH, location,
+                f"'{relation.result}' / '{divisor}' would be both '{previous}' and '{quotient}'",
+            ))
 
 
 def load_unit_config_bundle(
