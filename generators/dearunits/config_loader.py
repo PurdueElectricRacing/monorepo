@@ -3,7 +3,9 @@ config_loader.py
 
 Loads and validates DearUnits configuration with cross-checks that ensure
 every name is unique across the whole graph, every unit's composition has its
-quantity's dimensions, and every relation is dimensionally consistent.
+quantity's dimensions, and every relation is dimensionally consistent (angle
+and any quantity marked is_dimensionless excluded from that last check).
+Also resolves every derived unit's numeric scale from its composed_of terms.
 """
 
 from __future__ import annotations
@@ -234,9 +236,6 @@ def _resolve_derived_scales(bundle: UnitConfigBundle, issues: list[ConfigIssue])
 
 
 def _dimensionless_quantity_names(bundle: UnitConfigBundle) -> set[str]:
-    """Quantities that are physically dimensionless (the angle class, and
-    anything else explicitly marked so, e.g. a future solid_angle) don't
-    count toward a relation's dimensional consistency -- see _validate_relations."""
     names = {quantity.name for quantity in bundle.base_quantities.values() if quantity.is_dimensionless}
     if bundle.angle_class is not None:
         names.add(bundle.angle_class)
