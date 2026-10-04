@@ -149,9 +149,10 @@ impl TableBuilder {
             let first_time = chunk.parsed_msgs.first().map(|m| m.timestamp).unwrap_or(0);
             let last_time = chunk.parsed_msgs.last().map(|m| m.timestamp).unwrap_or(0);
 
-            let first_row_time = (first_time / consts::BIN_WIDTH_MS) * consts::BIN_WIDTH_MS;
-            let last_row_time = last_time.div_ceil(consts::BIN_WIDTH_MS) * consts::BIN_WIDTH_MS;
-            let num_rows = ((last_row_time - first_row_time) / consts::BIN_WIDTH_MS) + 1;
+            let bin_width = u64::from(consts::BIN_WIDTH_MS);
+            let first_row_time = u64::from(first_time) / bin_width * bin_width;
+            let last_row_time = u64::from(last_time).div_ceil(bin_width) * bin_width;
+            let num_rows = last_row_time.saturating_sub(first_row_time) / bin_width + 1;
 
             let first_correlated_time: Option<String> =
                 chunk.correlation_fn.as_ref().and_then(|cf| {
@@ -173,20 +174,20 @@ impl TableBuilder {
 
             let mut msg_iter = chunk.parsed_msgs.iter().peekable();
             for row_idx in 0..num_rows {
-                let row_time = first_row_time + row_idx * consts::BIN_WIDTH_MS;
-                let row_end = row_time + consts::BIN_WIDTH_MS;
+                let row_time = first_row_time + row_idx * bin_width;
+                let row_end = row_time + bin_width;
                 let mut row = vec![String::new(); self.row_width()];
 
-                if let Some(ct) = chunk
-                    .correlation_fn
-                    .as_ref()
-                    .and_then(|cf| cf.correlate(row_time))
-                {
+                if let Some(ct) = chunk.correlation_fn.as_ref().and_then(|cf| {
+                    u32::try_from(row_time)
+                        .ok()
+                        .and_then(|time| cf.correlate(time))
+                }) {
                     row[0] = ct.to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
                 }
                 row[1] = format!("{:.3}", row_time as f32 / 1000.0);
 
-                while let Some(msg) = msg_iter.next_if(|msg| msg.timestamp < row_end) {
+                while let Some(msg) = msg_iter.next_if(|msg| u64::from(msg.timestamp) < row_end) {
                     let decoded = &msg.decoded;
                     for (sig_name, sig_value) in &decoded.signals {
                         let key = (msg.bus_name.clone(), decoded.name.clone(), sig_name.clone());

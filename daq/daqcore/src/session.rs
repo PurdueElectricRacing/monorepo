@@ -5,26 +5,18 @@ pub struct Session {
 }
 
 impl Session {
-    pub fn live(now: Time, window_secs: f64) -> Self {
-        let timeline = Timeline::live(now, window_secs);
-        Self {
+    pub fn live(now: Time, window_secs: f64) -> Result<Self, String> {
+        let timeline = Timeline::live(now, window_secs)?;
+
+        Ok(Self {
             cache: RamCache::new(),
             timeline,
-        }
+        })
     }
 
     pub fn ingest_frame(&mut self, frame: ParsedFrame) -> bool {
         let timestamp = frame.timestamp;
-        let out_of_order = self
-            .cache
-            .time_span()
-            .is_some_and(|(_, latest)| timestamp < latest);
-
-        if out_of_order {
-            self.cache.push_batch(vec![frame]);
-        } else {
-            self.cache.push(frame);
-        }
+        self.cache.push(frame);
 
         self.timeline.observe(timestamp)
     }
@@ -43,7 +35,8 @@ impl Session {
     }
 
     pub fn reset(&mut self, now: Time) {
-        *self = Self::live(now, self.timeline.window_secs());
+        self.cache.clear();
+        self.timeline.reset(now);
     }
 
     pub fn cache(&self) -> &RamCache {
