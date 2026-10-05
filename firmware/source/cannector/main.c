@@ -7,8 +7,6 @@
 
 #include "main.h"
 
-#include <string.h>
-
 #include "can_library/generated/MCAN.h"
 #include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
@@ -52,8 +50,6 @@ DEFINE_HEARTBEAT_TASK(nullptr);
 
 RTOS_DEFINE_QUEUE(can_queue, timestamped_frame_t, 256);
 
-volatile uint32_t last_can_rx_time_ms = 0;
-
 void main() {
     PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
 
@@ -76,19 +72,4 @@ void main() {
     RTOS_START_TASK(usb_tx_periodic);
 
     vTaskStartScheduler();
-}
-
-void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
-    timestamped_frame_t frame = {0};
-
-    frame.ticks_ms      = xTaskGetTickCountFromISR();
-    last_can_rx_time_ms = frame.ticks_ms;
-
-    set_bus_id(&frame, 0); // todo check msg->Bus
-    set_xid(&frame, msg->IDE);
-    set_can_id(&frame, msg->ExtId);
-
-    memcpy(&frame.payload, msg->Data, msg->DLC);
-
-    xQueueSendToBackFromISR(can_queue, &frame, 0);
 }
