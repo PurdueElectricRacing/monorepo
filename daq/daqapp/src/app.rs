@@ -200,29 +200,17 @@ impl DAQApp {
     /// ELF overrides and board selection. Returns `None` when no executable
     /// or network config is selected yet.
     pub fn fil_connect_source(&self) -> Option<daqcore::connection::ConnectionSource> {
-        let executable = self.fil_executable.clone()?;
-        if self.fil_use_builder {
-            return Some(daqcore::connection::ConnectionSource::Fil {
-                executable,
-                network: std::path::PathBuf::new(),
-                bus: self.fil_builder.bus.clone(),
-                trace_bus: self.fil_trace_bus.clone(),
-                elf_overrides: std::collections::HashMap::new(),
-                disabled_boards: Vec::new(),
-                built_network: Some(self.fil_builder.clone()),
-                run_options: self.fil_run_options.clone(),
-            });
-        }
-        Some(daqcore::connection::ConnectionSource::Fil {
-            executable,
-            network: self.fil_network_config.clone()?,
-            bus: self.fil_bus.clone(),
-            trace_bus: self.fil_trace_bus.clone(),
-            elf_overrides: self.fil_elf_overrides.clone(),
-            disabled_boards: self.fil_disabled_boards.clone(),
-            built_network: None,
-            run_options: self.fil_run_options.clone(),
-        })
+        crate::settings::FilSettings::connection_source(
+            self.fil_executable.clone()?,
+            self.fil_network_config.clone(),
+            self.fil_bus.clone(),
+            self.fil_trace_bus.clone(),
+            self.fil_elf_overrides.clone(),
+            self.fil_disabled_boards.clone(),
+            self.fil_use_builder,
+            self.fil_builder.clone(),
+            self.fil_run_options.clone(),
+        )
     }
 
     pub fn connect_can(&mut self) {
