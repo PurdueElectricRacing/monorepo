@@ -969,9 +969,6 @@ impl FilControl {
                         .checkbox(&mut self.run_options.wall_pacing, "Wall-clock pacing")
                         .changed();
                     changed |= ui
-                        .checkbox(&mut self.run_options.loop_batching, "Loop batching")
-                        .changed();
-                    changed |= ui
                         .checkbox(
                             &mut self.run_options.trace_instructions,
                             "Trace instructions",
