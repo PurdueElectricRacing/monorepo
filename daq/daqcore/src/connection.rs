@@ -47,7 +47,7 @@ pub enum ConnectionSource {
         /// Board names excluded from the emulated network.
         disabled_boards: Vec<String>,
         /// Widget-built network used instead of `network` when present.
-        built_network: Option<crate::fil_config::BuiltNetwork>,
+        built_network: Option<crate::fil::config::BuiltNetwork>,
         #[serde(default)]
         run_options: FilRunOptions,
     },

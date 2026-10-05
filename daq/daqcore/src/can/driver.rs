@@ -140,13 +140,13 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
             trace_bus,
         } => {
             let effective_network = if let Some(spec) = built_network {
-                crate::fil_config::build_network(spec, executable).map(|(path, _)| path)
+                crate::fil::config::build_network(spec, executable).map(|(path, _)| path)
             } else {
                 let disabled = disabled_boards
                     .iter()
                     .cloned()
                     .collect::<std::collections::HashSet<_>>();
-                crate::fil_config::materialize_network(network, elf_overrides, &disabled)
+                crate::fil::config::materialize_network(network, elf_overrides, &disabled)
             }
             .map_err(|error| {
                 DriverError::ConnectionFailed(format!("Invalid FIL network: {error}"))
