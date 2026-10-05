@@ -78,6 +78,15 @@ fn fil_write_frame(
     w.write_all(payload)?;
     w.flush()
 }
+fn validate_fil_frame_kind(kind: crate::frame::FrameKind) -> DriverResult<()> {
+    if matches!(kind, crate::frame::FrameKind::Data) {
+        Ok(())
+    } else {
+        Err(DriverError::Unsupported(
+            "FIL supports CAN 2.0 data frames only".into(),
+        ))
+    }
+}
 fn fil_put_string(out: &mut Vec<u8>, s: &str) -> DriverResult<()> {
     let n = u16::try_from(s.len()).map_err(|_| DriverError::Write("FIL string too long".into()))?;
     out.extend_from_slice(&n.to_le_bytes());
@@ -547,11 +556,7 @@ impl Driver for FilDriver {
         Ok(frames)
     }
     fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
-        if !matches!(frame.kind, crate::frame::FrameKind::Data) {
-            return Err(DriverError::Write(
-                "FIL supports CAN 2.0 data frames only".into(),
-            ));
-        }
+        validate_fil_frame_kind(frame.kind)?;
         let mut payload = Vec::new();
         fil_put_string(&mut payload, &self.bus)?;
         payload.extend_from_slice(&frame.identity.raw_id().to_le_bytes());
@@ -665,6 +670,14 @@ mod fil_transport_tests {
         ] {
             assert!(args.iter().any(|arg| arg == filter));
         }
+    }
+    #[test]
+    fn unsupported_frame_kinds_are_not_reported_as_write_errors() {
+        assert!(matches!(
+            validate_fil_frame_kind(crate::frame::FrameKind::Remote),
+            Err(DriverError::Unsupported(_))
+        ));
+        assert!(validate_fil_frame_kind(crate::frame::FrameKind::Data).is_ok());
     }
     #[test]
     fn binary_frame_round_trip_and_rejects_bad_magic() {
