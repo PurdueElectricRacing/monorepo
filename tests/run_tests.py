@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Run the generator and firmware host test suites."""
 
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -9,6 +10,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parent.parent
 TEST_BUILD = ROOT / "firmware" / "build" / "host-tests"
+BUILD_JOBS = os.environ.get("CMAKE_BUILD_PARALLEL_LEVEL") or str(os.cpu_count() or 1)
 
 
 def print_suite(name: str) -> None:
@@ -43,12 +45,20 @@ def run() -> None:
         check=True,
     )
     subprocess.run(
-        ["cmake", "--build", str(TEST_BUILD)],
+        ["cmake", "--build", str(TEST_BUILD), "--parallel", BUILD_JOBS],
         cwd=ROOT,
         check=True,
     )
     subprocess.run(
-        ["cmake", "--build", str(TEST_BUILD), "--target", "coverage"],
+        [
+            "cmake",
+            "--build",
+            str(TEST_BUILD),
+            "--parallel",
+            BUILD_JOBS,
+            "--target",
+            "coverage",
+        ],
         cwd=ROOT,
         check=True,
     )
