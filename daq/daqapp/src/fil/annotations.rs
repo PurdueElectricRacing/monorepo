@@ -55,8 +55,6 @@ fn load_from_path(path: &Path) -> Result<FilAnnotations, String> {
 mod tests {
     use super::*;
 
-
-
     #[test]
     fn missing_config_uses_embedded_per_annotations() {
         let annotations = load_from_path(Path::new("missing-fil-annotations.json")).unwrap();
@@ -68,5 +66,4 @@ mod tests {
                 .contains_key("front_driveline")
         );
     }
-
 }
