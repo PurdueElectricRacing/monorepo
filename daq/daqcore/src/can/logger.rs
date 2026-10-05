@@ -45,7 +45,7 @@ impl DaqLogger {
 
         Self {
             open_file: None,
-            folder_path: folder_path,
+            folder_path,
             buffer: Vec::with_capacity(10000),
             file_created_at: Instant::now(),
             start_time: Instant::now(),

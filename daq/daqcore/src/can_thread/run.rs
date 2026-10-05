@@ -45,12 +45,11 @@ fn run_with_connection(
     let mut load_last = Instant::now();
     let mut pending = None;
 
-    if let Some(path) = config.dbc_path {
-        if let Err(error) = decoder.reload(&path) {
-            if !events.emit(Event::Diagnostic(error)) {
-                return;
-            }
-        }
+    if let Some(path) = config.dbc_path
+        && let Err(error) = decoder.reload(&path)
+        && !events.emit(Event::Diagnostic(error))
+    {
+        return;
     }
 
     'worker: loop {
@@ -227,21 +226,22 @@ fn run_with_connection(
                     got_frames = !frames.is_empty();
                     for frame in frames {
                         load.record_frame(frame.data.len(), Instant::now());
-                        if let Some(logger) = &mut logger {
-                            if let Err(error) = logger.log_frame(&frame) {
-                                emit!(Event::Diagnostic(error));
-                            }
+                        if let Some(logger) = &mut logger
+                            && let Err(error) = logger.log_frame(&frame)
+                        {
+                            emit!(Event::Diagnostic(error));
                         }
 
                         let updating = firmware.active();
-                        if updating && !frame.identity.is_extended() {
-                            if let Some(progress) = firmware.receive(
+                        if updating
+                            && !frame.identity.is_extended()
+                            && let Some(progress) = firmware.receive(
                                 frame.identity.raw_id(),
                                 &frame.data,
                                 Instant::now(),
-                            ) {
-                                emit!(Event::FirmwareProgress(progress));
-                            }
+                            )
+                        {
+                            emit!(Event::FirmwareProgress(progress));
                         }
 
                         let frame = decoder.decode(frame, Time::now());

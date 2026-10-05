@@ -9,15 +9,15 @@ pub fn select_dbc(
         dialog = dialog.set_directory(dir);
     }
 
-    if let Some(path) = dialog.pick_file() {
-        if let Some(parser) = app::ParserInfo::new(path.clone()) {
-            match ui_to_can_tx.send(daqcore::can_thread::CanThreadCommand::DbcSelected(path)) {
-                Ok(()) => {
-                    app.parser = Some(parser);
-                    app.save_settings();
-                }
-                Err(error) => log::error!("Failed to submit DBC reload: {error}"),
+    if let Some(path) = dialog.pick_file()
+        && let Some(parser) = app::ParserInfo::new(path.clone())
+    {
+        match ui_to_can_tx.send(daqcore::can_thread::CanThreadCommand::DbcSelected(path)) {
+            Ok(()) => {
+                app.parser = Some(parser);
+                app.save_settings();
             }
+            Err(error) => log::error!("Failed to submit DBC reload: {error}"),
         }
     }
 }

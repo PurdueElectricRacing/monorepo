@@ -247,14 +247,12 @@ impl eframe::App for DAQApp {
                 daqcore::can_thread::CanThreadEvent::Frame(frame) => {
                     self.session.ingest_frame(frame);
                 }
-                daqcore::can_thread::CanThreadEvent::SourceSelected(source) => {
-                    if let Some(source) = source {
-                        if self.active_source.as_ref() != Some(&source) {
-                            self.session.reset(daqcore::Time::now());
-                            self.bus_load_samples.clear();
-                        }
-                        self.active_source = Some(source);
+                daqcore::can_thread::CanThreadEvent::SourceSelected(Some(source)) => {
+                    if self.active_source.as_ref() != Some(&source) {
+                        self.session.reset(daqcore::Time::now());
+                        self.bus_load_samples.clear();
                     }
+                    self.active_source = Some(source);
                 }
                 daqcore::can_thread::CanThreadEvent::ConnectionFailed(error) => {
                     self.connection_status = ConnectionStatus::Error(error)
@@ -319,12 +317,12 @@ impl eframe::App for DAQApp {
 pub fn load_formatter() -> Option<daqcore::formatter::Formatter> {
     let local = paths::read_file("formatter_config.json");
     if let Some(config) = local {
-        match daqcore::formatter::Formatter::from_str(&config) {
+        match daqcore::formatter::Formatter::from_json(&config) {
             Ok(f) => return Some(f),
             Err(e) => log::warn!("Invalid formatter configuration: {e}"),
         }
     }
-    daqcore::formatter::Formatter::from_str(include_str!("../formatter_config.json"))
+    daqcore::formatter::Formatter::from_json(include_str!("../formatter_config.json"))
         .map_err(|e| log::error!("Invalid embedded formatter: {e}"))
         .ok()
 }

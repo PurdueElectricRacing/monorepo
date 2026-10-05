@@ -8,18 +8,13 @@ const NORD_THEME_SOURCE: &str = include_str!("../../themes/nord.toml");
 const CATPPUCCIN_THEME_SOURCE: &str = include_str!("../../themes/catppuccin.toml");
 const ONEDARK_THEME_SOURCE: &str = include_str!("../../themes/onedark.toml");
 
-#[derive(Copy, Clone, serde::Serialize, serde::Deserialize, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, serde::Serialize, serde::Deserialize, Debug, PartialEq, Eq, Default)]
 pub enum ThemeSelection {
+    #[default]
     Default,
     Nord,
     Catppuccin,
     OneDark,
-}
-
-impl Default for ThemeSelection {
-    fn default() -> Self {
-        Self::Default
-    }
 }
 
 impl ThemeSelection {

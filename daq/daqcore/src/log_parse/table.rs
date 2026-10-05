@@ -48,15 +48,17 @@ pub struct TableBuilder {
     next_col_idx: usize,
 }
 
-impl TableBuilder {
-    pub fn new() -> Self {
+impl Default for TableBuilder {
+    fn default() -> Self {
         Self {
             header_columns: Vec::new(),
             next_col_idx: HEADER_COLUMN_COUNT,
             indexer: std::collections::HashMap::new(),
         }
     }
+}
 
+impl TableBuilder {
     fn row_width(&self) -> usize {
         HEADER_COLUMN_COUNT + self.header_columns.len()
     }
