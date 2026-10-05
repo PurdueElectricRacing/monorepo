@@ -510,6 +510,7 @@ fn resolve_built_board(
             board.name
         )
     })?;
+    let mcu = absolute_path_from(Path::new("."), &mcu)?;
     if !mcu.is_file() {
         return Err(format!(
             "Board '{}' MCU config does not exist: {}",
@@ -535,11 +536,12 @@ fn resolve_built_board(
     for instance in instances {
         can.insert(instance, serde_json::json!({"bus": spec_bus}));
     }
+    let elf = absolute_path_from(Path::new("."), &board.elf)?;
     let mut board_json = serde_json::json!({
         "schema_version": 1,
         "name": board.name,
         "mcu": mcu.display().to_string(),
-        "elf": board.elf.display().to_string(),
+        "elf": elf.display().to_string(),
         "can": can,
     });
     if !board.vector_base.trim().is_empty() {
@@ -600,11 +602,50 @@ fn resolve_legacy_board_entry(
         ));
     }
     let mut board_json = read_json_file(&board.board)?;
-    board_json["elf"] = serde_json::Value::String(elf.display().to_string());
+    board_json["elf"] = serde_json::Value::String(
+        absolute_path_from(Path::new("."), &elf)?
+            .display()
+            .to_string(),
+    );
+    if let Some(mcu) = board_json.get("mcu").and_then(serde_json::Value::as_str) {
+        board_json["mcu"] = serde_json::Value::String(
+            absolute_path_from(
+                board.board.parent().unwrap_or_else(|| Path::new(".")),
+                Path::new(mcu),
+            )?
+            .display()
+            .to_string(),
+        );
+    }
     Ok(ResolvedBoard {
         name: info.name,
         board_json,
     })
+}
+
+fn resolve_enabled_boards(
+    spec: &BuiltNetwork,
+    executable: Option<&Path>,
+) -> Result<(Vec<ResolvedBoard>, Vec<String>), String> {
+    let enabled: Vec<&BuiltBoard> = spec.boards.iter().filter(|board| board.enabled).collect();
+    if enabled.is_empty() {
+        return Err("Add and enable at least one board".into());
+    }
+    let mut warnings = Vec::new();
+    let mut names = HashSet::new();
+    let mut resolved = Vec::with_capacity(enabled.len());
+    for board in enabled {
+        let entry = if board.board.as_os_str().is_empty() {
+            resolve_built_board(board, &spec.bus, executable)?
+        } else {
+            resolve_legacy_board_entry(board, &spec.bus, &mut warnings)?
+        };
+        if !names.insert(entry.name.clone()) {
+            return Err(format!("Duplicate board name '{}'", entry.name));
+        }
+        resolved.push(entry);
+    }
+    Ok((resolved, warnings))
 }
 
 fn write_network_json(
@@ -646,26 +687,9 @@ pub fn build_network(
     if spec.bitrate == 0 {
         return Err("Built network bitrate must be nonzero".into());
     }
-    let enabled: Vec<&BuiltBoard> = spec.boards.iter().filter(|b| b.enabled).collect();
-    if enabled.is_empty() {
-        return Err("Add and enable at least one board".into());
-    }
     let stimuli = resolved_stimulus_paths(&spec.stimuli)?;
     let executable = executable.is_file().then_some(executable);
-    let mut warnings = Vec::new();
-    let mut resolved = Vec::with_capacity(enabled.len());
-    let mut names = HashSet::new();
-    for board in &enabled {
-        let entry = if board.board.as_os_str().is_empty() {
-            resolve_built_board(board, &spec.bus, executable)?
-        } else {
-            resolve_legacy_board_entry(board, &spec.bus, &mut warnings)?
-        };
-        if !names.insert(entry.name.clone()) {
-            return Err(format!("Duplicate board name '{}'", entry.name));
-        }
-        resolved.push(entry);
-    }
+    let (resolved, warnings) = resolve_enabled_boards(spec, executable)?;
 
     let fingerprint = serde_json::to_string(spec).unwrap_or_default();
     let dir = scratch_dir_for(&spec.name, &fingerprint);
@@ -688,10 +712,6 @@ pub fn build_network(
 /// Export a built network as reusable JSON files: the network file at
 /// `dest` plus self-contained `board-<name>.json` siblings.
 pub fn export_network(dest: &Path, spec: &BuiltNetwork, executable: &Path) -> Result<(), String> {
-    let enabled: Vec<&BuiltBoard> = spec.boards.iter().filter(|b| b.enabled).collect();
-    if enabled.is_empty() {
-        return Err("Add and enable at least one board".into());
-    }
     let stimuli = resolved_stimulus_paths(&spec.stimuli)?;
     let parent = dest.parent().filter(|p| !p.as_os_str().is_empty());
     if let Some(parent) = parent {
@@ -699,18 +719,9 @@ pub fn export_network(dest: &Path, spec: &BuiltNetwork, executable: &Path) -> Re
             .map_err(|error| format!("Failed to create {}: {error}", parent.display()))?;
     }
     let executable = executable.is_file().then_some(executable);
-    let mut warnings = Vec::new();
-    let mut board_refs = Vec::with_capacity(enabled.len());
-    let mut names = HashSet::new();
-    for (index, board) in enabled.iter().enumerate() {
-        let entry = if board.board.as_os_str().is_empty() {
-            resolve_built_board(board, &spec.bus, executable)?
-        } else {
-            resolve_legacy_board_entry(board, &spec.bus, &mut warnings)?
-        };
-        if !names.insert(entry.name.clone()) {
-            return Err(format!("Duplicate board name '{}'", entry.name));
-        }
+    let (resolved, warnings) = resolve_enabled_boards(spec, executable)?;
+    let mut board_refs = Vec::with_capacity(resolved.len());
+    for (index, entry) in resolved.iter().enumerate() {
         let sibling = board_filename(index, &entry.name);
         let out_path = dest
             .parent()
@@ -726,4 +737,97 @@ pub fn export_network(dest: &Path, spec: &BuiltNetwork, executable: &Path) -> Re
         log::warn!("FIL export: {warning}");
     }
     write_network_json(dest, spec, &board_refs, &stimuli)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn test_dir(label: &str) -> PathBuf {
+        let dir = std::env::current_dir().unwrap().join(format!(
+            ".daqcore-fil-{label}-{}-{:?}",
+            std::process::id(),
+            std::thread::current().id()
+        ));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        dir
+    }
+
+    #[test]
+    fn exported_legacy_board_paths_survive_relocation() {
+        let root = test_dir("legacy-relocation");
+        let source = root.join("source");
+        let target = root.join("moved");
+        std::fs::create_dir_all(source.join("configs")).unwrap();
+        std::fs::create_dir_all(&target).unwrap();
+        let elf = source.join("firmware.elf");
+        let mcu = source.join("configs/mcu.json");
+        std::fs::write(&elf, "elf").unwrap();
+        std::fs::write(&mcu, "{}").unwrap();
+        let board_path = source.join("board.json");
+        std::fs::write(
+            &board_path,
+            serde_json::json!({
+                "name": "legacy",
+                "elf": "firmware.elf",
+                "mcu": "configs/mcu.json",
+                "can": {"FDCAN1": {"bus": "vehicle"}}
+            })
+            .to_string(),
+        )
+        .unwrap();
+        let spec = BuiltNetwork {
+            boards: vec![BuiltBoard {
+                name: String::new(),
+                elf: PathBuf::new(),
+                mcu: PathBuf::new(),
+                can_instances: Vec::new(),
+                vector_base: String::new(),
+                enabled: true,
+                board: board_path,
+                elf_override: None,
+            }],
+            ..BuiltNetwork::default()
+        };
+        let dest = target.join("network.json");
+        export_network(&dest, &spec, Path::new("missing-fil")).unwrap();
+        let network: serde_json::Value = read_json_file(&dest).unwrap();
+        let sibling = network["boards"][0].as_str().unwrap();
+        assert_eq!(sibling, "board-0-legacy.json");
+        let board: serde_json::Value = read_json_file(&target.join(sibling)).unwrap();
+        assert_eq!(PathBuf::from(board["elf"].as_str().unwrap()), elf);
+        assert_eq!(PathBuf::from(board["mcu"].as_str().unwrap()), mcu);
+        std::fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn synthesized_board_paths_are_absolute_for_cwd_relative_inputs() {
+        let root = test_dir("relative-inputs");
+        let cwd = std::env::current_dir().unwrap();
+        let relative = root.strip_prefix(&cwd).unwrap();
+        let elf = relative.join("firmware.elf");
+        let mcu = relative.join("mcu.json");
+        std::fs::write(cwd.join(&elf), "elf").unwrap();
+        std::fs::write(cwd.join(&mcu), "{}").unwrap();
+        let spec = BuiltNetwork {
+            boards: vec![BuiltBoard {
+                name: "built".into(),
+                elf: elf.clone(),
+                mcu: mcu.clone(),
+                can_instances: Vec::new(),
+                vector_base: String::new(),
+                enabled: true,
+                board: PathBuf::new(),
+                elf_override: None,
+            }],
+            ..BuiltNetwork::default()
+        };
+        let dest = root.join("network.json");
+        export_network(&dest, &spec, Path::new("missing-fil")).unwrap();
+        let board: serde_json::Value = read_json_file(&root.join("board-0-built.json")).unwrap();
+        assert_eq!(PathBuf::from(board["elf"].as_str().unwrap()), cwd.join(elf));
+        assert_eq!(PathBuf::from(board["mcu"].as_str().unwrap()), cwd.join(mcu));
+        std::fs::remove_dir_all(root).unwrap();
+    }
 }
