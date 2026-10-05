@@ -14,7 +14,6 @@
 #include "main.h"
 
 typedef enum {
-    USB_STATE_INIT,
     USB_STATE_CONNECTING,
     USB_WAIT_FOR_HOST,
     USB_STATE_SUBMIT,
@@ -34,20 +33,13 @@ static void tx_four_frames() {
 }
 
 void usb_tx_periodic() {
-    static usb_state_t curr_state = USB_STATE_INIT;
-    static usb_state_t next_state = USB_STATE_INIT;
+    static usb_state_t curr_state = USB_STATE_CONNECTING;
+    static usb_state_t next_state = USB_STATE_CONNECTING;
 
     curr_state = next_state;
     next_state = curr_state; // default self loop
 
     switch(curr_state) {
-        case USB_STATE_INIT:
-            if (PHAL_USB_init()) {
-                next_state = USB_STATE_CONNECTING;
-            } else {
-                next_state = USB_STATE_FATAL;
-            }
-            break;
         case USB_STATE_CONNECTING:
             if (PHAL_USB_connect()) {
                 next_state = USB_WAIT_FOR_HOST;
@@ -56,7 +48,9 @@ void usb_tx_periodic() {
             }
             break;
         case USB_WAIT_FOR_HOST:
-            // todo wait for host to be ready
+            // todo check host status
+            PHAL_USB_write(PHAL_USB_CONTROL_ENDPOINT, nullptr, 0);
+            next_state = USB_STATE_SUBMIT;
             break;
         case USB_STATE_SUBMIT:
             // todo block here
