@@ -1,5 +1,5 @@
 use crate::fil::{
-    annotations as fil_annotations, config as fil_config,
+    annotations, config,
     messages::{FilAdcInstance, FilGpioPort},
 };
 use crate::{action, app, settings};
@@ -46,8 +46,8 @@ pub struct FilControl {
     elf_overrides: HashMap<String, std::path::PathBuf>,
     disabled_boards: Vec<String>,
     use_builder: bool,
-    builder: fil_config::BuiltNetwork,
-    network_info: Option<fil_config::FilNetworkInfo>,
+    builder: config::BuiltNetwork,
+    network_info: Option<config::FilNetworkInfo>,
     network_info_error: Option<String>,
     last_loaded_network: Option<std::path::PathBuf>,
     adc_board: String,
@@ -55,7 +55,7 @@ pub struct FilControl {
     adc_channel: u8,
     adc_value: u16,
     run_options: settings::FilRunOptions,
-    annotations: fil_annotations::FilAnnotations,
+    annotations: annotations::FilAnnotations,
     annotation_error: Option<String>,
     gpio_board: String,
     gpio_port: FilGpioPort,
@@ -67,9 +67,9 @@ pub struct FilControl {
 impl FilControl {
     pub fn new(instance_num: usize) -> Self {
         let saved = settings::Settings::load().fil;
-        let (annotations, annotation_error) = match fil_annotations::load() {
+        let (annotations, annotation_error) = match annotations::load() {
             Ok(annotations) => (annotations, None),
-            Err(error) => (fil_annotations::FilAnnotations::default(), Some(error)),
+            Err(error) => (annotations::FilAnnotations::default(), Some(error)),
         };
         let mut control = Self {
             title: format!("FIL Control #{}", instance_num),
@@ -115,7 +115,7 @@ impl FilControl {
         let Some(network) = self.network.clone() else {
             return;
         };
-        match fil_config::load_network_info(&network) {
+        match config::load_network_info(&network) {
             Ok(info) => {
                 if !info.buses.contains(&self.bus) && !info.buses.is_empty() {
                     self.bus = info.buses[0].clone();
@@ -134,7 +134,7 @@ impl FilControl {
         }
     }
 
-    fn builder_board_name(board: &fil_config::BuiltBoard) -> String {
+    fn builder_board_name(board: &config::BuiltBoard) -> String {
         if !board.name.trim().is_empty() {
             return board.name.clone();
         }
@@ -163,7 +163,7 @@ impl FilControl {
         }
     }
 
-    fn enabled_file_boards(&self) -> Vec<&fil_config::FilBoardInfo> {
+    fn enabled_file_boards(&self) -> Vec<&config::FilBoardInfo> {
         let disabled: HashSet<&str> = self.disabled_boards.iter().map(String::as_str).collect();
         self.network_info
             .as_ref()
@@ -211,7 +211,7 @@ impl FilControl {
             if self.disabled_boards.contains(&board.name) {
                 continue;
             }
-            match fil_config::effective_elf(board, &self.elf_overrides) {
+            match config::effective_elf(board, &self.elf_overrides) {
                 Some(elf) if elf.is_file() => {}
                 Some(elf) => issues.push(format!(
                     "Board '{}' ELF does not exist: {}",
@@ -256,7 +256,7 @@ impl FilControl {
                 ));
             }
         }
-        let enabled: Vec<&fil_config::BuiltBoard> = self
+        let enabled: Vec<&config::BuiltBoard> = self
             .builder
             .boards
             .iter()
@@ -290,7 +290,7 @@ impl FilControl {
                     board.elf.display()
                 ));
             }
-            match fil_config::effective_mcu(board, self.executable.as_deref()) {
+            match config::effective_mcu(board, self.executable.as_deref()) {
                 Some(mcu) if mcu.is_file() => {}
                 Some(mcu) => issues.push(format!(
                     "Board '{name}' MCU config does not exist: {}",
@@ -306,7 +306,7 @@ impl FilControl {
                 board.can_instances.iter().map(String::as_str).collect()
             };
             for instance in instances {
-                if !fil_config::FIL_CAN_INSTANCES.contains(&instance) {
+                if !config::FIL_CAN_INSTANCES.contains(&instance) {
                     issues.push(format!(
                         "Board '{name}' has unknown CAN instance '{instance}'"
                     ));
@@ -400,6 +400,7 @@ impl FilControl {
                     .pick_file()
             {
                 self.network = Some(path);
+                self.refresh_network_info();
                 self.queue_config_update(actions);
             }
             ui.label(
@@ -446,7 +447,7 @@ impl FilControl {
                         self.set_board_enabled(&board.name, enabled, actions);
                     }
                     ui.label(&board.name);
-                    let effective = fil_config::effective_elf(board, &self.elf_overrides);
+                    let effective = config::effective_elf(board, &self.elf_overrides);
                     let is_override = self.elf_overrides.contains_key(&board.name);
                     ui.label(elf_status(&effective, is_override));
                     ui.horizontal(|ui| {
@@ -583,7 +584,7 @@ impl FilControl {
                 });
                 ui.horizontal(|ui| {
                     ui.label("MCU:");
-                    let effective = fil_config::effective_mcu(board, self.executable.as_deref());
+                    let effective = config::effective_mcu(board, self.executable.as_deref());
                     match &effective {
                         Some(mcu) if mcu.is_file() => {
                             ui.label(mcu.display().to_string()).on_hover_text(
@@ -617,14 +618,14 @@ impl FilControl {
                 ui.horizontal(|ui| {
                     ui.label("CAN:");
                     let current: Vec<&str> = if board.can_instances.is_empty() {
-                        vec![fil_config::FIL_CAN_INSTANCES[0]]
+                        vec![config::FIL_CAN_INSTANCES[0]]
                     } else {
                         board.can_instances.iter().map(String::as_str).collect()
                     };
-                    for instance in fil_config::FIL_CAN_INSTANCES {
+                    for instance in config::FIL_CAN_INSTANCES {
                         let mut checked = current.contains(&instance);
                         if ui.checkbox(&mut checked, instance).changed() {
-                            let mut set: Vec<String> = fil_config::FIL_CAN_INSTANCES
+                            let mut set: Vec<String> = config::FIL_CAN_INSTANCES
                                 .into_iter()
                                 .filter(|candidate| {
                                     (*candidate == instance && checked)
@@ -632,7 +633,7 @@ impl FilControl {
                                 })
                                 .map(str::to_owned)
                                 .collect();
-                            if set.len() == 1 && set[0] == fil_config::FIL_CAN_INSTANCES[0] {
+                            if set.len() == 1 && set[0] == config::FIL_CAN_INSTANCES[0] {
                                 set.clear();
                             }
                             self.builder.boards[index].can_instances = set;
@@ -662,7 +663,7 @@ impl FilControl {
                     .add_filter("ELF firmware", &["elf"])
                     .pick_file()
             {
-                let mut entry = fil_config::BuiltBoard {
+                let mut entry = config::BuiltBoard {
                     name: String::new(),
                     elf: path,
                     mcu: std::path::PathBuf::new(),
@@ -690,7 +691,7 @@ impl FilControl {
                     .save_file()
             {
                 let executable = self.executable.clone().unwrap_or_default();
-                match fil_config::export_network(&path, &self.builder, &executable) {
+                match config::export_network(&path, &self.builder, &executable) {
                     Ok(()) => log::info!("Exported FIL network to {}", path.display()),
                     Err(error) => log::error!("Failed to export FIL network: {error}"),
                 }
@@ -704,7 +705,7 @@ impl FilControl {
         path: std::path::PathBuf,
         actions: &mut Vec<action::AppAction>,
     ) {
-        let entry = fil_config::BuiltBoard {
+        let entry = config::BuiltBoard {
             name: String::new(),
             elf: std::path::PathBuf::new(),
             mcu: std::path::PathBuf::new(),
@@ -714,7 +715,7 @@ impl FilControl {
             board: path,
             elf_override: None,
         };
-        let entry = fil_config::migrate_built_board(&entry);
+        let entry = config::migrate_built_board(&entry);
         if entry.board.as_os_str().is_empty() {
             self.builder.boards.push(entry);
             self.queue_builder_update(actions);
@@ -734,17 +735,21 @@ impl FilControl {
             if ui.text_edit_singleline(&mut self.bus).changed() {
                 self.queue_config_update(actions);
             }
-        } else if egui::ComboBox::from_id_salt(("fil_bus", &self.title))
-            .selected_text(&self.bus)
-            .show_ui(ui, |ui| {
-                for bus in &buses {
-                    ui.selectable_value(&mut self.bus, bus.clone(), bus);
-                }
-            })
-            .response
-            .changed()
-        {
-            self.queue_config_update(actions);
+        } else {
+            let changed = egui::ComboBox::from_id_salt(("fil_bus", &self.title))
+                .selected_text(&self.bus)
+                .show_ui(ui, |ui| {
+                    buses.iter().fold(false, |changed, bus| {
+                        ui.selectable_value(&mut self.bus, bus.clone(), bus)
+                            .changed()
+                            || changed
+                    })
+                })
+                .inner
+                .unwrap_or(false);
+            if changed {
+                self.queue_config_update(actions);
+            }
         }
     }
 
@@ -776,13 +781,18 @@ impl FilControl {
                 egui::ComboBox::from_id_salt(("fil_trace_bus", &self.title))
                     .selected_text(self.trace_bus.as_deref().unwrap_or("All buses"))
                     .show_ui(ui, |ui| {
-                        ui.selectable_value(&mut self.trace_bus, None, "All buses");
+                        let mut changed = ui
+                            .selectable_value(&mut self.trace_bus, None, "All buses")
+                            .changed();
                         for bus in &buses {
-                            ui.selectable_value(&mut self.trace_bus, Some(bus.clone()), bus);
+                            changed |= ui
+                                .selectable_value(&mut self.trace_bus, Some(bus.clone()), bus)
+                                .changed();
                         }
+                        changed
                     })
-                    .response
-                    .changed()
+                    .inner
+                    .unwrap_or(false)
             })
             .inner;
         ui.small("Message Sender bus remains the outgoing injection target.");
@@ -809,39 +819,27 @@ impl FilControl {
         egui::ComboBox::from_id_salt((id, &self.title))
             .selected_text(current.as_str())
             .show_ui(ui, |ui| {
-                for board in &boards {
-                    ui.selectable_value(current, board.clone(), board);
-                }
+                boards.iter().fold(false, |changed, board| {
+                    ui.selectable_value(current, board.clone(), board).changed() || changed
+                })
             })
-            .response
-            .changed()
+            .inner
+            .unwrap_or(false)
     }
 
     fn connect_source(&self) -> connection::ConnectionSource {
-        let executable = self.executable.clone().expect("checked executable");
-        if self.use_builder {
-            connection::ConnectionSource::Fil {
-                executable,
-                network: std::path::PathBuf::new(),
-                bus: self.builder.bus.clone(),
-                trace_bus: self.trace_bus.clone(),
-                elf_overrides: HashMap::new(),
-                disabled_boards: Vec::new(),
-                built_network: Some(self.builder.clone()),
-                run_options: self.run_options.clone(),
-            }
-        } else {
-            connection::ConnectionSource::Fil {
-                executable,
-                network: self.network.clone().expect("checked network"),
-                bus: self.bus.clone(),
-                trace_bus: self.trace_bus.clone(),
-                elf_overrides: self.elf_overrides.clone(),
-                disabled_boards: self.disabled_boards.clone(),
-                built_network: None,
-                run_options: self.run_options.clone(),
-            }
-        }
+        settings::FilSettings::connection_source(
+            self.executable.clone().expect("checked executable"),
+            self.network.clone(),
+            self.bus.clone(),
+            self.trace_bus.clone(),
+            self.elf_overrides.clone(),
+            self.disabled_boards.clone(),
+            self.use_builder,
+            self.builder.clone(),
+            self.run_options.clone(),
+        )
+        .expect("checked network")
     }
 
     pub fn show(
@@ -1317,29 +1315,6 @@ impl FilControl {
                         }
                     });
             });
-            ui.add_space(8.0);
-            ui.group(|ui| {
-                ui.horizontal(|ui| {
-                    ui.heading("CAN expectations");
-                    if ui.button("Clear").clicked() { clear_expectations(&mut self.expectations, &mut self.expectation_order); }
-                });
-                use daqcore::can::driver::FilExpectationStatus as S;
-                let count = |status| self.expectations.values().filter(|e| e.status == status).count();
-                ui.label(format!("Pending: {}   Pass: {}   Fail: {}   Incomplete: {}", count(S::Pending), count(S::Pass), count(S::Fail), count(S::Incomplete)));
-                if self.expectation_order.is_empty() { ui.weak("No FIL expectation trace records received."); }
-                egui::ScrollArea::vertical().max_height(180.0).show(ui, |ui| {
-                    for id in &self.expectation_order {
-                        if let Some(e) = self.expectations.get(id) {
-                            ui.horizontal_wrapped(|ui| {
-                                ui.strong(format!("{:?}", e.status));
-                                ui.label(format!("{} — {}: {} 0x{:X} [{}] {}..{} ns", e.check_id, e.script, e.expected_bus, e.expected_id, e.expected_data.iter().map(|b|format!("{b:02X}")).collect::<Vec<_>>().join(" "), e.window_start_ns, e.window_end_ns));
-                                if let Some(reason) = &e.reason { ui.label(reason); }
-                                if let Some(bus) = &e.matched_bus { ui.label(format!("matched {bus} 0x{:X} at {} ns",e.matched_id.unwrap_or_default(),e.matched_time_ns.unwrap_or_default())); }
-                            });
-                        }
-                    }
-                });
-            });
         });
         egui_tiles::UiResponse::None
     }
@@ -1430,7 +1405,6 @@ mod expectation_tests {
             reason: None,
         }
     }
-
 
     #[test]
     fn history_is_bounded() {
