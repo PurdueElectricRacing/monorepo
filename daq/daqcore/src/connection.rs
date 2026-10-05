@@ -8,7 +8,6 @@ pub struct FilRunOptions {
     pub extra_live_filters: String,
     pub strict_mmio: bool,
     pub wall_pacing: bool,
-    pub loop_batching: bool,
     pub trace_instructions: bool,
     pub detect_spin: bool,
 }
@@ -23,7 +22,6 @@ impl Default for FilRunOptions {
             extra_live_filters: String::new(),
             strict_mmio: false,
             wall_pacing: true,
-            loop_batching: false,
             trace_instructions: false,
             detect_spin: false,
         }
@@ -255,7 +253,6 @@ mod tests {
         let defaults = FilRunOptions::default();
         assert_eq!(defaults.max_instructions, 50_000_000);
         assert_eq!(defaults.adc_decimation, 1);
-        assert!(!defaults.loop_batching);
         let source: ConnectionSource = serde_json::from_value(serde_json::json!({
             "Fil": { "executable": "fil", "network": "network", "bus": "vehicle" }
         }))

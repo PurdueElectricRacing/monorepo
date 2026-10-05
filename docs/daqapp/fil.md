@@ -23,8 +23,10 @@ protocol](https://github.com/ronakpjain/fil/blob/main/docs/serve_network.md).
 
 **Run options** in FIL Control configure duration (0 runs until stopped), per-board instruction
 budget, scheduling quantum, refresh interval, ADC decimation (1–1024), strict MMIO, wall-clock
-pacing, loop batching, instruction tracing, and spin detection. Defaults use 1 ms refresh,
-wall-clock pacing, loop batching, and 32× ADC decimation for responsive six-board viewing.
+pacing, instruction tracing, and spin detection. Defaults use 1 ms refresh,
+wall-clock pacing, and 32× ADC decimation for responsive six-board viewing.
+Network loop batching is disabled by FIL and has no enabling CLI option, so DaqApp does
+not expose a loop-batching control.
 Set decimation to 1 when validating pedal or fault behavior: skipped ADC scans change
 firmware-visible DMA updates.
 Additional comma-separated live trace filters may be added; CAN transmit and GPIO input/output
