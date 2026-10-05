@@ -8,7 +8,74 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
+  clippy:
+    name: Clippy (${{ matrix.project.name }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    container:
+      image: irvingywang/per-firmware:latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - name: DAQ
+            path: daq
+          - name: USB echo test
+            path: firmware/common/phal_G4/usb/manual_test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install Clippy
+        run: rustup component add clippy
+
+      - name: Cache Cargo
+        uses: actions/cache@v6
+        with:
+          path: |
+            /opt/cargo/registry
+            /opt/cargo/git
+            ${{ matrix.project.path }}/target
+          key: ${{ runner.os }}-clippy-${{ matrix.project.name }}-${{ hashFiles(format('{0}/Cargo.lock', matrix.project.path)) }}
+          restore-keys: |
+            ${{ runner.os }}-clippy-${{ matrix.project.name }}-
+
+      # Save the outcome so PR reporting runs before the job fails.
+      - name: Check Clippy
+        id: clippy
+        working-directory: ${{ matrix.project.path }}
+        run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
+        continue-on-error: true
+
+      # Fork PR tokens cannot post reviews; the strict check still runs for them.
+      - name: Comment on Clippy findings
+        if: >-
+          ${{ !cancelled() && steps.clippy.outcome == 'failure' &&
+              github.event_name == 'pull_request' &&
+              github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: giraffate/clippy-action@13b9d32482f25d29ead141b79e7e04e7900281e0 # v1
+        continue-on-error: true
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workdir: ${{ matrix.project.path }}
+          clippy_flags: --workspace --all-targets --all-features --locked -- -D warnings
+          reporter: github-pr-review
+          filter_mode: diff_context
+          level: error
+
+      - name: Enforce Clippy result
+        if: ${{ !cancelled() && steps.clippy.outcome == 'failure' }}
+        run: exit 1
+
   fmt:
     name: Check formatting
     runs-on: ubuntu-latest
@@ -25,6 +92,7 @@ jobs:
 
   build:
     name: Build DAQ Workspace
+    needs: [fmt, clippy]
     runs-on: ubuntu-latest
     container:
       image: irvingywang/per-firmware:latest
@@ -51,10 +119,3 @@ jobs:
       - name: Test DAQ workspace
         working-directory: daq
         run: cargo test --workspace --all-targets --locked
-
-      - name: Show compiler warnings
-        working-directory: daq
-        run: |
-          echo "Compiler warnings:"
-          cargo check --workspace --all-targets --locked --message-format short
-        continue-on-error: true
