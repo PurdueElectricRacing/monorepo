@@ -1,4 +1,4 @@
-use crate::fil::config as fil_config;
+use crate::fil::config;
 use crate::fil::messages::FilAdcInstance;
 use daqcore::connection;
 
@@ -14,7 +14,7 @@ pub struct FilSettings {
     pub elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
     pub disabled_boards: Vec<String>,
     pub use_builder: bool,
-    pub builder: fil_config::BuiltNetwork,
+    pub builder: config::BuiltNetwork,
     pub adc_board: String,
     pub adc_instance: FilAdcInstance,
     pub adc_channel: u8,
@@ -32,7 +32,7 @@ impl Default for FilSettings {
             elf_overrides: std::collections::HashMap::new(),
             disabled_boards: Vec::new(),
             use_builder: false,
-            builder: fil_config::BuiltNetwork::default(),
+            builder: config::BuiltNetwork::default(),
             adc_board: "dashboard".into(),
             adc_instance: FilAdcInstance::Adc1,
             adc_channel: 0,
@@ -43,6 +43,42 @@ impl Default for FilSettings {
 }
 
 impl FilSettings {
+    pub(crate) fn connection_source(
+        executable: std::path::PathBuf,
+        network: Option<std::path::PathBuf>,
+        bus: String,
+        trace_bus: Option<String>,
+        elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
+        disabled_boards: Vec<String>,
+        use_builder: bool,
+        builder: config::BuiltNetwork,
+        run_options: FilRunOptions,
+    ) -> Option<connection::ConnectionSource> {
+        if use_builder {
+            Some(connection::ConnectionSource::Fil {
+                executable,
+                network: std::path::PathBuf::new(),
+                bus: builder.bus.clone(),
+                trace_bus,
+                elf_overrides: std::collections::HashMap::new(),
+                disabled_boards: Vec::new(),
+                built_network: Some(builder),
+                run_options,
+            })
+        } else {
+            Some(connection::ConnectionSource::Fil {
+                executable,
+                network: network?,
+                bus,
+                trace_bus,
+                elf_overrides,
+                disabled_boards,
+                built_network: None,
+                run_options,
+            })
+        }
+    }
+
     pub(super) fn normalize(&mut self) {
         if self.bus.trim().is_empty() {
             self.bus = "vehicle".into();
@@ -59,4 +95,3 @@ impl FilSettings {
         }
     }
 }
-
