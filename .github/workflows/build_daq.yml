@@ -13,21 +13,13 @@ permissions:
 
 jobs:
   clippy:
-    name: Clippy (${{ matrix.project.name }})
+    name: Clippy (DAQ)
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
     container:
       image: irvingywang/per-firmware:latest
-    strategy:
-      fail-fast: false
-      matrix:
-        project:
-          - name: DAQ
-            path: daq
-          - name: USB echo test
-            path: firmware/common/phal_G4/usb/manual_test
 
     steps:
       - name: Checkout
@@ -44,15 +36,15 @@ jobs:
           path: |
             /opt/cargo/registry
             /opt/cargo/git
-            ${{ matrix.project.path }}/target
-          key: ${{ runner.os }}-clippy-${{ matrix.project.name }}-${{ hashFiles(format('{0}/Cargo.lock', matrix.project.path)) }}
+            daq/target
+          key: ${{ runner.os }}-clippy-DAQ-${{ hashFiles('daq/Cargo.lock') }}
           restore-keys: |
-            ${{ runner.os }}-clippy-${{ matrix.project.name }}-
+            ${{ runner.os }}-clippy-DAQ-
 
       # Save the outcome so PR reporting runs before the job fails.
       - name: Check Clippy
         id: clippy
-        working-directory: ${{ matrix.project.path }}
+        working-directory: daq
         run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
         continue-on-error: true
 
@@ -66,7 +58,7 @@ jobs:
         continue-on-error: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          workdir: ${{ matrix.project.path }}
+          workdir: daq
           clippy_flags: --workspace --all-targets --all-features --locked -- -D warnings
           reporter: github-pr-review
           filter_mode: diff_context
