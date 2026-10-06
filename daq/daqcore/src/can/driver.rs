@@ -65,7 +65,7 @@ pub struct FilExpectationEvent {
     pub matched_time_ns: Option<u64>,
     pub reason: Option<String>,
 }
-pub trait Driver {
+pub trait CanDriver {
     /// Whether the CAN worker should add a retry delay after an empty/timeout read.
     /// Drivers with their own bounded receive wait (notably FIL) return false.
     fn needs_read_retry_sleep(&self) -> bool;
@@ -79,56 +79,115 @@ pub trait Driver {
     fn close(&mut self) -> DriverResult<()> {
         Ok(())
     }
-    fn set_fil_trace_bus(&mut self, _trace_bus: Option<String>) -> DriverResult<()> {
-        Ok(())
+}
+
+pub enum ActiveDriver {
+    Can(Box<dyn CanDriver>),
+    Fil(fil::FilDriver),
+}
+
+impl ActiveDriver {
+    pub fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+        match self {
+            Self::Can(driver) => driver.read_frames(),
+            Self::Fil(driver) => driver.read_frames(),
+        }
     }
-    fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
-        Vec::new()
+    pub fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
+        match self {
+            Self::Can(driver) => driver.write_frame(frame),
+            Self::Fil(driver) => driver.write_frame(frame),
+        }
     }
-    fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
-        Vec::new()
+    pub fn bus_speed(&self) -> Option<CanBusSpeed> {
+        match self {
+            Self::Can(driver) => driver.bus_speed(),
+            Self::Fil(driver) => driver.bus_speed(),
+        }
     }
-    fn take_all_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
-        self.take_fil_expectation_events()
+    pub fn needs_read_retry_sleep(&self) -> bool {
+        match self {
+            Self::Can(driver) => driver.needs_read_retry_sleep(),
+            Self::Fil(driver) => driver.needs_read_retry_sleep(),
+        }
     }
-    fn set_gpio(
+    pub fn close(&mut self) -> DriverResult<()> {
+        match self {
+            Self::Can(driver) => driver.close(),
+            Self::Fil(driver) => driver.close(),
+        }
+    }
+    pub fn is_fil(&self) -> bool {
+        matches!(self, Self::Fil(_))
+    }
+    pub fn set_fil_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
+        match self {
+            Self::Fil(driver) => driver.set_trace_bus(trace_bus),
+            Self::Can(_) => Ok(()),
+        }
+    }
+    pub fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
+        match self {
+            Self::Fil(driver) => driver.take_gpio_events(),
+            Self::Can(_) => Vec::new(),
+        }
+    }
+    pub fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
+        match self {
+            Self::Fil(driver) => driver.take_expectation_events(),
+            Self::Can(_) => Vec::new(),
+        }
+    }
+    pub fn take_all_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
+        match self {
+            Self::Fil(driver) => driver.take_all_expectation_events(),
+            Self::Can(_) => Vec::new(),
+        }
+    }
+    pub fn set_gpio(
         &mut self,
-        _board: &str,
-        _port: &str,
-        _pin: u8,
-        _value: Option<bool>,
+        board: &str,
+        port: &str,
+        pin: u8,
+        value: Option<bool>,
     ) -> DriverResult<()> {
-        Err(DriverError::Unsupported(
-            "GPIO control is not supported by this source".into(),
-        ))
+        match self {
+            Self::Fil(driver) => driver.set_gpio(board, port, pin, value),
+            Self::Can(_) => Err(DriverError::Unsupported(
+                "GPIO control is not supported by this source".into(),
+            )),
+        }
     }
-    fn set_adc(
+    pub fn set_adc(
         &mut self,
-        _board: &str,
-        _instance: &str,
-        _channel: u8,
-        _value: u16,
+        board: &str,
+        instance: &str,
+        channel: u8,
+        value: u16,
     ) -> DriverResult<()> {
-        Err(DriverError::Unsupported(
-            "ADC injection is not supported by this source".into(),
-        ))
+        match self {
+            Self::Fil(driver) => driver.set_adc(board, instance, channel, value),
+            Self::Can(_) => Err(DriverError::Unsupported(
+                "ADC injection is not supported by this source".into(),
+            )),
+        }
     }
 }
 
-pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>> {
+pub fn create_driver(source: &ConnectionSource) -> DriverResult<ActiveDriver> {
     match source {
-        ConnectionSource::Serial(path, speed) => {
-            Ok(Box::new(serial::SerialDriver::new(path, *speed)?))
-        }
+        ConnectionSource::Serial(path, speed) => Ok(ActiveDriver::Can(Box::new(
+            serial::SerialDriver::new(path, *speed)?,
+        ))),
         ConnectionSource::Udp(port) => {
             let socket = std::net::UdpSocket::bind(("0.0.0.0", *port))
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
             socket
                 .set_read_timeout(Some(Duration::from_millis(10)))
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
-            Ok(Box::new(UdpDriver(socket)))
+            Ok(ActiveDriver::Can(Box::new(UdpDriver(socket))))
         }
-        ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
+        ConnectionSource::Loopback => Ok(ActiveDriver::Can(Box::new(LoopbackDriver::default()))),
         ConnectionSource::Fil {
             executable,
             network,
@@ -151,7 +210,7 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
             .map_err(|error| {
                 DriverError::ConnectionFailed(format!("Invalid FIL network: {error}"))
             })?;
-            Ok(Box::new(fil::FilDriver::new(
+            Ok(ActiveDriver::Fil(fil::FilDriver::new(
                 executable,
                 &effective_network,
                 bus,
@@ -166,10 +225,10 @@ pub fn create_driver(source: &ConnectionSource) -> DriverResult<Box<dyn Driver>>
                 .transpose()
                 .map_err(|error| DriverError::ConnectionFailed(error.to_string()))?;
 
-            Ok(Box::new(SimulatedDriver {
+            Ok(ActiveDriver::Can(Box::new(SimulatedDriver {
                 parser,
                 next: Instant::now(),
-            }))
+            })))
         }
         _ => Err(DriverError::ConnectionFailed(format!(
             "source unavailable: {}",
@@ -185,7 +244,7 @@ struct LoopbackDriver {
 
 mod fil;
 
-impl Driver for LoopbackDriver {
+impl CanDriver for LoopbackDriver {
     fn needs_read_retry_sleep(&self) -> bool {
         true
     }
@@ -205,7 +264,7 @@ impl Driver for LoopbackDriver {
 
 struct UdpDriver(std::net::UdpSocket);
 
-impl Driver for UdpDriver {
+impl CanDriver for UdpDriver {
     fn needs_read_retry_sleep(&self) -> bool {
         true
     }
@@ -260,7 +319,7 @@ struct SimulatedDriver {
     next: Instant,
 }
 
-impl Driver for SimulatedDriver {
+impl CanDriver for SimulatedDriver {
     fn needs_read_retry_sleep(&self) -> bool {
         true
     }
@@ -309,7 +368,7 @@ impl Driver for SimulatedDriver {
 }
 mod serial {
     use crate::{
-        can::driver::{Driver, DriverError, DriverResult, io_read},
+        can::driver::{CanDriver, DriverError, DriverResult, io_read},
         connection::CanBusSpeed,
         frame::{CanFrame, CanIdentity, FrameKind},
     };
@@ -385,7 +444,7 @@ mod serial {
         Ok(frame)
     }
 
-    impl Driver for SerialDriver {
+    impl CanDriver for SerialDriver {
         fn needs_read_retry_sleep(&self) -> bool {
             true
         }

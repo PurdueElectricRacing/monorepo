@@ -51,15 +51,15 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 ));
             }
 
-            if ui.button("Add FIL Control").clicked() {
-                app.action_queue.push(action::AppAction::SpawnWidget(
-                    widget_constructor::WidgetConstructor::FilControl,
-                ));
-            }
-
             if ui.button("Add CAN Viewer List").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::ViewerList,
+                ));
+            }
+
+            if ui.button("Add FIL Control").clicked() {
+                app.action_queue.push(action::AppAction::SpawnWidget(
+                    widget_constructor::WidgetConstructor::FilControl,
                 ));
             }
 

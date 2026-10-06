@@ -1,5 +1,7 @@
 use crate::{
-    can::driver::{self, Driver, DriverError, DriverResult},
+    can::driver::{
+        self, ActiveDriver, DriverError, DriverResult, FilExpectationEvent, FilGpioEvent,
+    },
     connection::{self, ConnectionSource},
     frame::CanFrame,
 };
@@ -8,7 +10,7 @@ use std::time::{Duration, Instant};
 
 pub struct ConnectionManager {
     source: Option<ConnectionSource>,
-    driver: Option<Box<dyn Driver>>,
+    driver: Option<ActiveDriver>,
     retry_at: Instant,
 }
 
@@ -76,14 +78,14 @@ impl ConnectionManager {
             .set_fil_trace_bus(trace_bus)
     }
 
-    pub fn take_fil_gpio_events(&mut self) -> Vec<crate::can::driver::FilGpioEvent> {
+    pub fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
         self.driver
             .as_mut()
             .map(|d| d.take_fil_gpio_events())
             .unwrap_or_default()
     }
 
-    pub fn take_fil_expectation_events(&mut self) -> Vec<crate::can::driver::FilExpectationEvent> {
+    pub fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
         self.driver
             .as_mut()
             .map(|d| d.take_fil_expectation_events())
@@ -127,9 +129,10 @@ impl ConnectionManager {
         driver.write_frame(frame)
     }
 
-    pub fn failed(&mut self, now: Instant) -> Vec<crate::can::driver::FilExpectationEvent> {
+    pub fn failed(&mut self, now: Instant) -> Vec<FilExpectationEvent> {
+        let was_fil = self.driver.as_ref().is_some_and(ActiveDriver::is_fil);
         let expectations = self.close();
-        if matches!(self.source, Some(ConnectionSource::Fil { .. })) {
+        if was_fil {
             self.source = None;
         } else {
             self.retry_at = now + Duration::from_millis(200);
@@ -137,7 +140,7 @@ impl ConnectionManager {
         expectations
     }
 
-    pub fn close(&mut self) -> Vec<crate::can::driver::FilExpectationEvent> {
+    pub fn close(&mut self) -> Vec<FilExpectationEvent> {
         if let Some(mut driver) = self.driver.take() {
             let _ = driver.close();
             driver.take_all_fil_expectation_events()

@@ -1,4 +1,12 @@
-use super::*;
+use crate::{
+    can::driver::{
+        CanDriver, DriverError, DriverResult, FilExpectationEvent, FilExpectationStatus,
+        FilGpioDirection, FilGpioEvent,
+    },
+    connection::FilRunOptions,
+    frame::{CanFrame, CanIdentity, FrameKind},
+};
+use std::time::Duration;
 
 const FIL_MAGIC: &[u8; 4] = b"FILN";
 const FIL_VERSION: u8 = 1;
@@ -78,8 +86,8 @@ fn fil_write_frame(
     w.write_all(payload)?;
     w.flush()
 }
-fn validate_fil_frame_kind(kind: crate::frame::FrameKind) -> DriverResult<()> {
-    if matches!(kind, crate::frame::FrameKind::Data) {
+fn validate_fil_frame_kind(kind: FrameKind) -> DriverResult<()> {
+    if matches!(kind, FrameKind::Data) {
         Ok(())
     } else {
         Err(DriverError::Unsupported(
@@ -94,7 +102,7 @@ fn fil_put_string(out: &mut Vec<u8>, s: &str) -> DriverResult<()> {
     Ok(())
 }
 
-pub(super) struct FilDriver {
+pub struct FilDriver {
     child: std::process::Child,
     input: std::io::BufWriter<std::process::ChildStdin>,
     request_id: u32,
@@ -116,7 +124,7 @@ impl FilDriver {
         executable: &std::path::Path,
         network: &std::path::Path,
         bus: &str,
-        run_options: &crate::connection::FilRunOptions,
+        run_options: &FilRunOptions,
         trace_bus: Option<String>,
     ) -> DriverResult<Self> {
         if !executable.is_file() {
@@ -267,7 +275,7 @@ impl FilDriver {
         })
     }
 }
-fn watch_network_args(options: &crate::connection::FilRunOptions) -> DriverResult<Vec<String>> {
+fn watch_network_args(options: &FilRunOptions) -> DriverResult<Vec<String>> {
     if options.duration_ms > u64::MAX / 1_000_000
         || options.max_instructions == 0
         || options.quantum == 0
@@ -527,14 +535,14 @@ fn trace_source_matches(source: &str, trace_bus: Option<&str>) -> bool {
     })
 }
 
-impl Driver for FilDriver {
-    fn needs_read_retry_sleep(&self) -> bool {
+impl FilDriver {
+    pub(super) fn needs_read_retry_sleep(&self) -> bool {
         false
     }
 
-    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+    pub(super) fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         use std::sync::mpsc::RecvTimeoutError;
-        let first = match self.output.recv_timeout(Duration::from_millis(50)) {
+        let first = match self.output.recv_timeout(Duration::from_millis(1)) {
             Ok(frame) => frame,
             Err(RecvTimeoutError::Timeout) => return Err(DriverError::Timeout),
             Err(RecvTimeoutError::Disconnected) => {
@@ -555,7 +563,7 @@ impl Driver for FilDriver {
         }
         Ok(frames)
     }
-    fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
+    pub(super) fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
         validate_fil_frame_kind(frame.kind)?;
         let mut payload = Vec::new();
         fil_put_string(&mut payload, &self.bus)?;
@@ -565,7 +573,7 @@ impl Driver for FilDriver {
         payload.extend_from_slice(&frame.data);
         self.send_request(FIL_CAN_INJECT, &payload)
     }
-    fn close(&mut self) -> DriverResult<()> {
+    pub(super) fn close(&mut self) -> DriverResult<()> {
         let _ = self.child.kill();
         let _ = self.child.wait();
         if let Some(reader) = self.reader_join.take() {
@@ -573,23 +581,23 @@ impl Driver for FilDriver {
         }
         Ok(())
     }
-    fn set_fil_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
+    pub(super) fn set_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
         *self
             .trace_bus
             .write()
             .unwrap_or_else(std::sync::PoisonError::into_inner) = trace_bus;
         Ok(())
     }
-    fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
+    pub(super) fn take_gpio_events(&mut self) -> Vec<FilGpioEvent> {
         self.gpio_output.try_iter().take(256).collect()
     }
-    fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
+    pub(super) fn take_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
         self.expectation_output.try_iter().take(256).collect()
     }
-    fn take_all_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
+    pub(super) fn take_all_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
         drain_all_fil_expectation_events(&self.expectation_output)
     }
-    fn set_gpio(
+    pub(super) fn set_gpio(
         &mut self,
         board: &str,
         port: &str,
@@ -617,7 +625,7 @@ impl Driver for FilDriver {
         });
         self.send_request(FIL_GPIO_SET, &payload)
     }
-    fn set_adc(
+    pub(super) fn set_adc(
         &mut self,
         board: &str,
         instance: &str,
@@ -644,6 +652,20 @@ impl Driver for FilDriver {
         self.send_request(FIL_ADC_SET, &payload)
     }
 }
+impl CanDriver for FilDriver {
+    fn needs_read_retry_sleep(&self) -> bool {
+        FilDriver::needs_read_retry_sleep(self)
+    }
+    fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+        FilDriver::read_frames(self)
+    }
+    fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
+        FilDriver::write_frame(self, frame)
+    }
+    fn close(&mut self) -> DriverResult<()> {
+        FilDriver::close(self)
+    }
+}
 impl Drop for FilDriver {
     fn drop(&mut self) {
         let _ = self.child.kill();
@@ -653,10 +675,19 @@ impl Drop for FilDriver {
 
 #[cfg(test)]
 mod fil_transport_tests {
-    use super::*;
+    use super::{
+        FIL_CAN_INJECT, FIL_TRACE, FilWireFrame, drain_all_fil_expectation_events, fil_put_string,
+        fil_read_frame, fil_write_frame, parse_fil_wire_trace, validate_fil_frame_kind,
+        watch_network_args,
+    };
+    use crate::{
+        can::driver::{DriverError, FilExpectationEvent, FilExpectationStatus},
+        connection::FilRunOptions,
+        frame::FrameKind,
+    };
     #[test]
     fn default_args_match_fil_stdio_defaults_and_enable_expectation_traces() {
-        let args = watch_network_args(&crate::connection::FilRunOptions::default()).unwrap();
+        let args = watch_network_args(&FilRunOptions::default()).unwrap();
         assert_eq!(args.get(0).map(String::as_str), Some("--transport"));
         assert_eq!(args.get(1).map(String::as_str), Some("stdio"));
         assert!(!args.iter().any(|arg| arg == "--max-instructions"));
@@ -674,10 +705,10 @@ mod fil_transport_tests {
     #[test]
     fn unsupported_frame_kinds_are_not_reported_as_write_errors() {
         assert!(matches!(
-            validate_fil_frame_kind(crate::frame::FrameKind::Remote),
+            validate_fil_frame_kind(FrameKind::Remote),
             Err(DriverError::Unsupported(_))
         ));
-        assert!(validate_fil_frame_kind(crate::frame::FrameKind::Data).is_ok());
+        assert!(validate_fil_frame_kind(FrameKind::Data).is_ok());
     }
     #[test]
     fn binary_frame_round_trip_and_rejects_bad_magic() {

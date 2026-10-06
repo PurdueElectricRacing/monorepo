@@ -1,6 +1,5 @@
 use crate::{
-    action, fil::messages::FilAdcInstance, paths, settings, shortcuts, telemetry, ui, util,
-    widget_ids, widgets, workspace,
+    action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
 };
 const MAX_CAN_EVENTS_PER_UPDATE: usize = 2_048;
 
@@ -60,19 +59,7 @@ pub struct DAQApp {
     active_source: Option<daqcore::connection::ConnectionSource>,
     pub diagnostic: Option<String>,
     pub log_folder: Option<std::path::PathBuf>,
-    pub fil_executable: Option<std::path::PathBuf>,
-    pub fil_network_config: Option<std::path::PathBuf>,
-    pub fil_bus: String,
-    pub fil_elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
-    pub fil_disabled_boards: Vec<String>,
-    pub fil_use_builder: bool,
-    pub fil_builder: crate::fil::config::BuiltNetwork,
-    pub fil_adc_board: String,
-    pub fil_adc_instance: FilAdcInstance,
-    pub fil_adc_channel: u8,
-    pub fil_adc_value: u16,
-    pub fil_run_options: settings::FilRunOptions,
-    pub fil_trace_bus: Option<String>,
+    pub fil: settings::FilSettings,
 }
 
 impl DAQApp {
@@ -87,21 +74,7 @@ impl DAQApp {
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
             window_secs: self.session.timeline().window_secs(),
-            fil: settings::FilSettings {
-                executable: self.fil_executable.clone(),
-                network: self.fil_network_config.clone(),
-                bus: self.fil_bus.clone(),
-                elf_overrides: self.fil_elf_overrides.clone(),
-                disabled_boards: self.fil_disabled_boards.clone(),
-                use_builder: self.fil_use_builder,
-                builder: self.fil_builder.clone(),
-                adc_board: self.fil_adc_board.clone(),
-                adc_instance: self.fil_adc_instance,
-                adc_channel: self.fil_adc_channel,
-                adc_value: self.fil_adc_value,
-                run_options: self.fil_run_options.clone(),
-                trace_bus: self.fil_trace_bus.clone(),
-            },
+            fil: self.fil.clone(),
         };
         settings.save();
     }
@@ -153,19 +126,7 @@ impl DAQApp {
             active_source: None,
             diagnostic: None,
             log_folder: settings.log_folder,
-            fil_executable: fil.executable,
-            fil_network_config: fil.network,
-            fil_elf_overrides: fil.elf_overrides,
-            fil_disabled_boards: fil.disabled_boards,
-            fil_use_builder: fil.use_builder,
-            fil_builder: fil.builder,
-            fil_bus: fil.bus,
-            fil_adc_board: fil.adc_board,
-            fil_adc_instance: fil.adc_instance,
-            fil_adc_channel: fil.adc_channel.min(19),
-            fil_adc_value: fil.adc_value.min(4095),
-            fil_run_options: fil.run_options,
-            fil_trace_bus: fil.trace_bus,
+            fil,
         })
     }
 
@@ -200,16 +161,16 @@ impl DAQApp {
     /// ELF overrides and board selection. Returns `None` when no executable
     /// or network config is selected yet.
     pub fn fil_connect_source(&self) -> Option<daqcore::connection::ConnectionSource> {
-        crate::settings::FilSettings::connection_source(
-            self.fil_executable.clone()?,
-            self.fil_network_config.clone(),
-            self.fil_bus.clone(),
-            self.fil_trace_bus.clone(),
-            self.fil_elf_overrides.clone(),
-            self.fil_disabled_boards.clone(),
-            self.fil_use_builder,
-            self.fil_builder.clone(),
-            self.fil_run_options.clone(),
+        settings::FilSettings::connection_source(
+            self.fil.executable.clone()?,
+            self.fil.network.clone(),
+            self.fil.bus.clone(),
+            self.fil.trace_bus.clone(),
+            self.fil.elf_overrides.clone(),
+            self.fil.disabled_boards.clone(),
+            self.fil.use_builder,
+            self.fil.builder.clone(),
+            self.fil.run_options.clone(),
         )
     }
 
@@ -277,23 +238,13 @@ impl DAQApp {
                 self.save_settings();
             }
             action::AppAction::UpdateFilConfig { fil } => {
-                self.fil_executable = fil.executable;
-                self.fil_network_config = fil.network;
-                self.fil_bus = fil.bus;
-                self.fil_elf_overrides = fil.elf_overrides;
-                self.fil_disabled_boards = fil.disabled_boards;
-                self.fil_use_builder = fil.use_builder;
-                self.fil_builder = fil.builder;
-                self.fil_adc_board = fil.adc_board;
-                self.fil_adc_instance = fil.adc_instance;
-                self.fil_adc_channel = fil.adc_channel.min(19);
-                self.fil_adc_value = fil.adc_value.min(4095);
-                self.fil_run_options = fil.run_options;
-                self.fil_trace_bus = fil.trace_bus;
+                self.fil = fil;
+                self.fil.adc_channel = self.fil.adc_channel.min(19);
+                self.fil.adc_value = self.fil.adc_value.min(4095);
                 if let Some(daqcore::connection::ConnectionSource::Fil { trace_bus, .. }) =
                     self.selected_source.as_mut()
                 {
-                    *trace_bus = self.fil_trace_bus.clone();
+                    *trace_bus = self.fil.trace_bus.clone();
                 }
                 self.save_settings();
             }
@@ -306,8 +257,8 @@ impl DAQApp {
                 use_builder,
                 builder,
             } => {
-                self.fil_use_builder = use_builder;
-                self.fil_builder = builder;
+                self.fil.use_builder = use_builder;
+                self.fil.builder = builder;
                 self.save_settings();
             }
             action::AppAction::UpdateFilAdc {
@@ -316,10 +267,10 @@ impl DAQApp {
                 channel,
                 value,
             } => {
-                self.fil_adc_board = board;
-                self.fil_adc_instance = instance;
-                self.fil_adc_channel = channel;
-                self.fil_adc_value = value;
+                self.fil.adc_board = board;
+                self.fil.adc_instance = instance;
+                self.fil.adc_channel = channel;
+                self.fil.adc_value = value;
                 self.save_settings();
             }
         }
