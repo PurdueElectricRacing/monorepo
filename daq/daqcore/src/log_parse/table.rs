@@ -140,19 +140,25 @@ impl TableBuilder {
                             signal_unit: sig.unit.to_string(),
                         },
                     );
+                    let has_enum = parser
+                        .msg_entry(msg_id_u32)
+                        .and_then(|entry| entry.signal_meta.get(&sig.name))
+                        .is_some_and(|meta| !meta.enum_map.is_empty());
 
-                    self.push_enum_column(
-                        (bus_id.to_string(), msg.name.clone(), sig.name.clone()),
-                        TableColumn {
-                            bus: bus_id.to_string(),
-                            node: node.clone(),
-                            message: msg.name.clone(),
-                            message_desc: String::new(),
-                            signal: format!("{}_enum", sig.name),
-                            signal_desc: sig_desc,
-                            signal_unit: String::new(),
-                        },
-                    );
+                    if has_enum {
+                        self.push_enum_column(
+                            (bus_id.to_string(), msg.name.clone(), sig.name.clone()),
+                            TableColumn {
+                                bus: bus_id.to_string(),
+                                node: node.clone(),
+                                message: msg.name.clone(),
+                                message_desc: String::new(),
+                                signal: format!("{}_enum", sig.name),
+                                signal_desc: sig_desc,
+                                signal_unit: String::new(),
+                            },
+                        );
+                    }
                 }
             }
         }
