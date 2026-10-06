@@ -1,9 +1,9 @@
-use crate::{can, connection, frame, superdbc};
+use crate::{can, can::driver::{self, ActiveDriver, DriverResult}, connection, frame, superdbc};
 use std::time;
 
 pub struct ConnectionManager {
     source: Option<connection::ConnectionSource>,
-    driver: Option<Box<dyn can::driver::Driver>>,
+    driver: Option<ActiveDriver>,
     retry_at: time::Instant,
 }
 
@@ -78,14 +78,14 @@ impl ConnectionManager {
             .set_fil_trace_bus(trace_bus)
     }
 
-    pub fn take_fil_gpio_events(&mut self) -> Vec<crate::can::driver::FilGpioEvent> {
+    pub fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
         self.driver
             .as_mut()
             .map(|d| d.take_fil_gpio_events())
             .unwrap_or_default()
     }
 
-    pub fn take_fil_expectation_events(&mut self) -> Vec<crate::can::driver::FilExpectationEvent> {
+    pub fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
         self.driver
             .as_mut()
             .map(|d| d.take_fil_expectation_events())
@@ -130,8 +130,9 @@ impl ConnectionManager {
     }
 
     pub fn failed(&mut self, now: time::Instant) -> Vec<crate::can::driver::FilExpectationEvent> {
+        let was_fil = self.driver.as_ref().is_some_and(ActiveDriver::is_fil);
         let expectations = self.close();
-        if matches!(self.source, Some(connection::ConnectionSource::Fil { .. })) {
+        if was_fil {
             self.source = None;
         } else {
             self.retry_at = now + time::Duration::from_millis(200);
@@ -139,7 +140,7 @@ impl ConnectionManager {
         expectations
     }
 
-    pub fn close(&mut self) -> Vec<crate::can::driver::FilExpectationEvent> {
+    pub fn close(&mut self) -> Vec<FilExpectationEvent> {
         if let Some(mut driver) = self.driver.take() {
             let _ = driver.close();
             driver.take_all_fil_expectation_events()

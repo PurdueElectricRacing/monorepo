@@ -1,4 +1,7 @@
-use crate::{fil::messages::FilAdcInstance, widget_constructor};
+use crate::{
+    fil::{config, messages::FilAdcInstance},
+    settings, widget_constructor,
+};
 
 pub enum AppAction {
     SpawnWidget(widget_constructor::WidgetConstructor),
@@ -8,12 +11,12 @@ pub enum AppAction {
     IncreaseScale,
     DecreaseScale,
     UpdateFilConfig {
-        fil: crate::settings::FilSettings,
+        fil: settings::FilSettings,
     },
     ConnectFil(daqcore::connection::ConnectionSource),
     UpdateFilBuilder {
         use_builder: bool,
-        builder: crate::fil::config::BuiltNetwork,
+        builder: config::BuiltNetwork,
     },
     UpdateFilAdc {
         board: String,

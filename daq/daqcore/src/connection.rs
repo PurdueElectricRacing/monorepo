@@ -1,3 +1,7 @@
+use crate::fil::config::BuiltNetwork;
+use std::collections::HashMap;
+use std::path::PathBuf;
+
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct FilRunOptions {
     pub duration_ms: u64,
@@ -28,24 +32,33 @@ impl Default for FilRunOptions {
     }
 }
 
-#[derive(serde::Serialize, Clone, Debug, PartialEq)]
+fn default_fil_bus() -> String {
+    "vehicle".into()
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
     Udp(u16),
     Simulated(bool), // true for connected, false for disconnected
     Fil {
-        executable: std::path::PathBuf,
-        network: std::path::PathBuf,
+        executable: PathBuf,
+        network: PathBuf,
         /// Bus used for outgoing Message Sender frames.
+        #[serde(default = "default_fil_bus")]
         bus: String,
         /// Bus whose CAN transmissions are viewed, or `None` for all buses.
+        #[serde(default)]
         trace_bus: Option<String>,
         /// Per-board firmware ELF overrides keyed by board name.
-        elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
+        #[serde(default)]
+        elf_overrides: HashMap<String, PathBuf>,
         /// Board names excluded from the emulated network.
+        #[serde(default)]
         disabled_boards: Vec<String>,
         /// Widget-built network used instead of `network` when present.
-        built_network: Option<crate::fil::config::BuiltNetwork>,
+        #[serde(default)]
+        built_network: Option<BuiltNetwork>,
         #[serde(default)]
         run_options: FilRunOptions,
     },
@@ -162,7 +175,7 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug, Default)]
+#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug, Default)
 #[serde(rename_all = "UPPERCASE")]
 pub enum CanBus {
     #[default]
