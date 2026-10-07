@@ -478,7 +478,9 @@ fn parse_fil_wire_trace(
         }
         let data = hex
             .as_bytes()
-            .chunks_exact(2)
+            .as_chunks::<2>()
+            .0
+            .iter()
             .map(|b| {
                 u8::from_str_radix(std::str::from_utf8(b).unwrap_or(""), 16)
                     .map_err(|e| e.to_string())
@@ -530,7 +532,9 @@ fn parse_fil_wire_trace(
         let bytes = |k: &str| {
             let s = get(k)?;
             s.as_bytes()
-                .chunks_exact(2)
+                .as_chunks::<2>()
+                .0
+                .iter()
                 .map(|b| {
                     u8::from_str_radix(std::str::from_utf8(b).unwrap_or(""), 16)
                         .map_err(|e| e.to_string())
@@ -558,7 +562,9 @@ fn parse_fil_wire_trace(
                     .and_then(|v| u32::from_str_radix(v.trim_start_matches("0x"), 16).ok()),
                 matched_data: f.get("matched_data").and_then(|v| {
                     v.as_bytes()
-                        .chunks_exact(2)
+                        .as_chunks::<2>()
+                        .0
+                        .iter()
                         .map(|b| u8::from_str_radix(std::str::from_utf8(b).ok()?, 16).ok())
                         .collect()
                 }),
