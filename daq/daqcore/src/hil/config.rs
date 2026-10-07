@@ -99,7 +99,8 @@ pub fn list_available_tests(
             tests_folder.display()
         ));
     }
-    individual_tests.sort_by_key(|a| a.basename.to_lowercase());
+    // individual_tests.sort_by_key(|a| a.basename.to_lowercase());
+    individual_tests.sort_by(|a, b| a.basename.to_lowercase().cmp(&b.basename.to_lowercase()));
 
     // Load presets from the caller-provided resource directory.
     let presets_path = base.join("presets.json");
