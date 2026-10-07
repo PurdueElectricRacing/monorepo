@@ -83,45 +83,23 @@ DU_DEFINE_UNIT_OPERATIONS({{ unit.name }})
     ('SUBTRACT', 'subtract', 'a, b'),
     ('NEGATE', 'negate', 'a'),
     ('ABS', 'abs', 'a'),
-    ('SIGN', 'sign', 'a'),
-    ('COPYSIGN', 'copysign', 'a, b'),
     ('MIN', 'min', 'a, b'),
     ('MAX', 'max', 'a, b'),
     ('CLAMP', 'clamp', 'x, lo, hi'),
-    ('SATURATE', 'saturate', 'x, limit'),
-    ('DEADBAND', 'deadband', 'x, threshold'),
-    ('SLEW', 'slew', 'prev, target, max_step'),
     ('ABS_DIFF', 'abs_diff', 'a, b'),
-    ('LERP', 'lerp', 'a, b, t'),
-    ('INVLERP', 'invlerp', 'a, b, x'),
-    ('HYPOT', 'hypot', 'a, b'),
-    ('FMOD', 'fmod', 'a, b'),
     ('ROUND', 'round', 'a'),
     ('FLOOR', 'floor', 'a'),
     ('CEIL', 'ceil', 'a'),
-    ('IS_NAN', 'is_nan', 'a'),
-    ('IS_FINITE', 'is_finite', 'a'),
     ('NEARLY_EQUAL', 'nearly_equal', 'a, b, tol'),
     ('LT', 'lt', 'a, b'),
     ('GT', 'gt', 'a, b'),
     ('LE', 'le', 'a, b'),
     ('GE', 'ge', 'a, b'),
 ], base_types) }}
-// Remap x from [in_lo, in_hi] to [out_lo, out_hi]; the two ranges can be different unit types.
-#define DU_MAP_RANGE(x, in_lo, in_hi, out_lo, out_hi) \
-    DU_LERP(out_lo, out_hi, DU_INVLERP(in_lo, in_hi, x))
-
 // ============================================================================
 // Multiply / divide
 // ============================================================================
 
-// Base-unit pairs resolve through explicit relations, then dimensional analysis.
-// Every unit type also takes a float on the right (DU_MULTIPLY(x, 2.0f));
-// float * unit and float / unit work where the result is a unit type (1 / time = frequency).
-//
-// Every inner _Generic is type-checked even when its branch isn't selected, so
-// each needs a default; an unsupported operand pair selects this non-function,
-// and calling it is a compile error.
 extern const int dearunits_error_unsupported_operands_use_base_units_or_float;
 
 {% for definition in binary_ops.definitions %}
