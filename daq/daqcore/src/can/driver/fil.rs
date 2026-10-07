@@ -144,10 +144,8 @@ impl FilDriver {
                 "FIL bus name is empty or contains an invalid character".into(),
             ));
         }
-        let args = watch_network_args(run_options)?;
+        let args = serve_network_args(network, run_options)?;
         let mut child = std::process::Command::new(executable)
-            .arg("watch-network")
-            .arg(network)
             .args(args)
             .stdin(std::process::Stdio::piped())
             .stdout(std::process::Stdio::piped())
@@ -275,7 +273,10 @@ impl FilDriver {
         })
     }
 }
-fn watch_network_args(options: &FilRunOptions) -> DriverResult<Vec<String>> {
+fn serve_network_args(
+    network: &std::path::Path,
+    options: &FilRunOptions,
+) -> DriverResult<Vec<std::ffi::OsString>> {
     if options.duration_ms > u64::MAX / 1_000_000
         || options.max_instructions == 0
         || options.quantum == 0
@@ -288,7 +289,12 @@ fn watch_network_args(options: &FilRunOptions) -> DriverResult<Vec<String>> {
                 .into(),
         ));
     }
-    let mut args = vec!["--transport".into(), "stdio".into()];
+    let mut args: Vec<std::ffi::OsString> = vec![
+        "serve-network".into(),
+        network.as_os_str().to_owned(),
+        "--transport".into(),
+        "stdio".into(),
+    ];
     for (enabled, flag, value) in [
         (
             options.duration_ms != 0,
@@ -317,7 +323,7 @@ fn watch_network_args(options: &FilRunOptions) -> DriverResult<Vec<String>> {
         ),
     ] {
         if enabled {
-            args.extend([flag.into(), value]);
+            args.extend([flag.into(), value.into()]);
         }
     }
     if options.strict_mmio {
@@ -677,8 +683,8 @@ impl Drop for FilDriver {
 mod fil_transport_tests {
     use super::{
         FIL_CAN_INJECT, FIL_TRACE, FilWireFrame, drain_all_fil_expectation_events, fil_put_string,
-        fil_read_frame, fil_write_frame, parse_fil_wire_trace, validate_fil_frame_kind,
-        watch_network_args,
+        fil_read_frame, fil_write_frame, parse_fil_wire_trace, serve_network_args,
+        validate_fil_frame_kind,
     };
     use crate::{
         can::driver::{DriverError, FilExpectationEvent, FilExpectationStatus},
@@ -687,9 +693,12 @@ mod fil_transport_tests {
     };
     #[test]
     fn default_args_match_fil_stdio_defaults_and_enable_expectation_traces() {
-        let args = watch_network_args(&FilRunOptions::default()).unwrap();
-        assert_eq!(args.get(0).map(String::as_str), Some("--transport"));
-        assert_eq!(args.get(1).map(String::as_str), Some("stdio"));
+        let network = std::path::Path::new("network.json");
+        let args = serve_network_args(network, &FilRunOptions::default()).unwrap();
+        assert_eq!(args[0], "serve-network");
+        assert_eq!(args[1], network.as_os_str());
+        assert_eq!(args[2], "--transport");
+        assert_eq!(args[3], "stdio");
         assert!(!args.iter().any(|arg| arg == "--max-instructions"));
         assert!(!args.iter().any(|arg| arg == "--adc-decimation"));
         assert!(!args.iter().any(|arg| arg == "--no-loop-batching"));
