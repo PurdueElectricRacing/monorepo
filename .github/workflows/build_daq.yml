@@ -12,8 +12,52 @@ permissions:
   contents: read
 
 jobs:
+  build:
+    name: Build DAQ Workspace
+    runs-on: ubuntu-latest
+    container:
+      image: irvingywang/per-firmware:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Cache Cargo
+        uses: actions/cache@v6
+        with:
+          path: |
+            /opt/cargo/registry
+            /opt/cargo/git
+            daq/target
+          key: ${{ runner.os }}-daq-${{ hashFiles('daq/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-daq-
+
+      - name: Build DAQ workspace
+        working-directory: daq
+        run: cargo build --workspace --all-targets --locked
+
+      - name: Test DAQ workspace
+        working-directory: daq
+        run: cargo test --workspace --all-targets --locked
+
+  fmt:
+    name: Check formatting
+    runs-on: ubuntu-latest
+    container:
+      image: irvingywang/per-firmware:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Cargo Format
+        working-directory: daq
+        run: cargo fmt --all --check
+
   clippy:
     name: Clippy (DAQ)
+    needs: build
     runs-on: ubuntu-latest
     container:
       image: irvingywang/per-firmware:latest
@@ -41,47 +85,3 @@ jobs:
       - name: Check Clippy
         working-directory: daq
         run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
-
-  fmt:
-    name: Check formatting
-    runs-on: ubuntu-latest
-    container:
-      image: irvingywang/per-firmware:latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Cargo Format
-        working-directory: daq
-        run: cargo fmt --all --check
-
-  build:
-    name: Build DAQ Workspace
-    needs: [fmt, clippy]
-    runs-on: ubuntu-latest
-    container:
-      image: irvingywang/per-firmware:latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Cache Cargo
-        uses: actions/cache@v6
-        with:
-          path: |
-            /opt/cargo/registry
-            /opt/cargo/git
-            daq/target
-          key: ${{ runner.os }}-daq-${{ hashFiles('daq/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-daq-
-
-      - name: Build DAQ workspace
-        working-directory: daq
-        run: cargo build --workspace --all-targets --locked
-
-      - name: Test DAQ workspace
-        working-directory: daq
-        run: cargo test --workspace --all-targets --locked
