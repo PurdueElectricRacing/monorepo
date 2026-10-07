@@ -3,7 +3,7 @@
 
 /**
  * @file dearunits_priv.h
- * @brief Implementation details of dear_units.h; do not include directly.
+ * @brief Implementation details of dearunits.h; do not include directly.
  *
  * @author Danny Proano (dproano@purdue.edu)
  */

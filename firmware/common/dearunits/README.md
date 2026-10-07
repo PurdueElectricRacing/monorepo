@@ -5,7 +5,7 @@ Generated typed wrappers around physical units. Each unit is a struct holding a 
 Available unit families: temperature (C/F), distance (m/cm/mm/in/ft/mi), time (ms/s/min/hr/day), angle (rad/deg), mass (g/kg/lb), pressure (Pa/psi/bar), velocity (mps/kph/mph).
 
 ```c
-#include "common/dearunits/generated/dear_units.h"
+#include "common/dearunits/generated/dearunits.h"
 
 celsius_t board_temp = { .value = 42.0f };
 fahrenheit_t f       = fahrenheit_from_celsius(board_temp); // 107.6 F
@@ -28,4 +28,4 @@ cmake --build firmware/build/host-tests --target dearunits_test
 ctest --test-dir firmware/build/host-tests -R DearUnitsTest --output-on-failure
 ```
 
-Generate `generated/dear_units.h` first with `python3 generators/generate.py` if it is missing.
+Generate `generated/dearunits.h` first with `python3 generators/generate.py` if it is missing.

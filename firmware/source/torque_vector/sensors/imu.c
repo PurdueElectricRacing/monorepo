@@ -9,7 +9,7 @@
 #include "common/utils/orientation.h"
 #include "sensors.h"
 // #include <math.h>
-#include "common/dearunits/generated/dear_units.h"
+#include "common/dearunits/generated/dearunits.h"
 #include "common/utils/clamp.h"
 
 typedef enum {

@@ -1,5 +1,5 @@
 #include "dearunits_test_shim.h"
-#include "common/dearunits/generated/dear_units.h"
+#include "common/dearunits/generated/dearunits.h"
 
 // Keep C23 dispatch in C; Google Test owns assertions and diagnostics.
 #define CHECK_NEAR(actual, expected, tolerance) \
