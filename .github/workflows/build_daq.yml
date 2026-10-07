@@ -15,9 +15,6 @@ jobs:
   clippy:
     name: Clippy (DAQ)
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     container:
       image: irvingywang/per-firmware:latest
 
@@ -41,34 +38,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-clippy-DAQ-
 
-      # Save the outcome so PR reporting runs before the job fails.
       - name: Check Clippy
-        id: clippy
         working-directory: daq
         run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
-        continue-on-error: true
-
-      # Fork PR tokens cannot post reviews; the strict check still runs for them.
-      - name: Comment on Clippy findings
-        if: >-
-          ${{ !cancelled() && steps.clippy.outcome == 'failure' &&
-              github.event_name == 'pull_request' &&
-              github.event.pull_request.head.repo.full_name == github.repository }}
-        uses: giraffate/clippy-action@13b9d32482f25d29ead141b79e7e04e7900281e0 # v1
-        continue-on-error: true
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          workdir: daq
-          clippy_flags: --workspace --all-targets --all-features --locked -- -D warnings
-          reporter: github-pr-review
-          filter_mode: diff_context
-          level: error
-
-      - name: Enforce Clippy result
-        if: ${{ !cancelled() && steps.clippy.outcome == 'failure' }}
-        run: |
-          echo "::error::Clippy failed. See the Check Clippy step above for diagnostics."
-          exit 1
 
   fmt:
     name: Check formatting
