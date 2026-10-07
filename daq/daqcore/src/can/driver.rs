@@ -123,7 +123,9 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<CanFrame>> {
             "UDP packet must contain complete 16-byte records".into(),
         ));
     }
-    buf.chunks_exact(16)
+    buf.as_chunks::<16>()
+        .0
+        .iter()
         .map(|bytes| {
             let identity_bytes = [bytes[4], bytes[5], bytes[6], bytes[7]];
             let identity = u32::from_le_bytes(identity_bytes);

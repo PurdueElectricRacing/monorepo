@@ -66,7 +66,9 @@ jobs:
 
       - name: Enforce Clippy result
         if: ${{ !cancelled() && steps.clippy.outcome == 'failure' }}
-        run: exit 1
+        run: |
+          echo "::error::Clippy failed. See the Check Clippy step above for diagnostics."
+          exit 1
 
   fmt:
     name: Check formatting
