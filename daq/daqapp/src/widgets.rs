@@ -15,7 +15,7 @@ pub enum Widget {
     Dynamics(ui::dynamics::Dynamics),
     Jitter(ui::jitter::Jitter),
     Hil(ui::hil::Hil),
-    FilControl(ui::fil::FilControl),
+    FilControl(Box<ui::fil::FilControl>),
 }
 
 pub struct WidgetContext<'a> {

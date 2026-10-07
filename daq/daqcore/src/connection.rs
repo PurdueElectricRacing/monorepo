@@ -32,10 +32,6 @@ impl Default for FilRunOptions {
     }
 }
 
-fn default_fil_bus() -> String {
-    "vehicle".into()
-}
-
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
@@ -45,22 +41,16 @@ pub enum ConnectionSource {
         executable: PathBuf,
         network: PathBuf,
         /// Bus used for outgoing Message Sender frames.
-        #[serde(default = "default_fil_bus")]
         bus: String,
         /// Bus whose CAN transmissions are viewed, or `None` for all buses.
-        #[serde(default)]
         trace_bus: Option<String>,
         /// Per-board firmware ELF overrides keyed by board name.
-        #[serde(default)]
         elf_overrides: HashMap<String, PathBuf>,
         /// Board names excluded from the emulated network.
-        #[serde(default)]
         disabled_boards: Vec<String>,
         /// Widget-built network used instead of `network` when present.
-        #[serde(default)]
-        built_network: Option<BuiltNetwork>,
-        #[serde(default)]
-        run_options: FilRunOptions,
+        built_network: Option<Box<BuiltNetwork>>,
+        run_options: Box<FilRunOptions>,
     },
     Loopback,
 }
@@ -153,12 +143,21 @@ mod tests {
     use super::{ConnectionSource, FilRunOptions};
 
     #[test]
-    fn legacy_fil_connection_defaults_new_options() {
+    fn fil_connection_with_explicit_options() {
         let defaults = FilRunOptions::default();
         assert_eq!(defaults.max_instructions, 50_000_000);
         assert_eq!(defaults.adc_decimation, 1);
         let source: ConnectionSource = serde_json::from_value(serde_json::json!({
-            "Fil": { "executable": "fil", "network": "network", "bus": "vehicle" }
+            "Fil": {
+                "executable": "fil",
+                "network": "network",
+                "bus": "vehicle",
+                "trace_bus": null,
+                "elf_overrides": {},
+                "disabled_boards": [],
+                "built_network": null,
+                "run_options": defaults,
+            }
         }))
         .unwrap();
         let ConnectionSource::Fil {
@@ -170,6 +169,6 @@ mod tests {
             panic!("expected FIL connection source");
         };
         assert_eq!(trace_bus, None);
-        assert_eq!(run_options, FilRunOptions::default());
+        assert_eq!(*run_options, FilRunOptions::default());
     }
 }

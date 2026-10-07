@@ -68,10 +68,10 @@ impl Settings {
 
     fn normalize(&mut self) {
         self.fil.normalize();
-        if let Some(connection::ConnectionSource::Fil { bus, .. }) = &mut self.selected_source {
-            if bus.trim().is_empty() {
-                *bus = "vehicle".into();
-            }
+        if let Some(connection::ConnectionSource::Fil { bus, .. }) = &mut self.selected_source
+            && bus.trim().is_empty()
+        {
+            *bus = "vehicle".into();
         }
     }
 

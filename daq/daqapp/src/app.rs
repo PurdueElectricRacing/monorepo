@@ -161,17 +161,7 @@ impl DAQApp {
     /// ELF overrides and board selection. Returns `None` when no executable
     /// or network config is selected yet.
     pub fn fil_connect_source(&self) -> Option<daqcore::connection::ConnectionSource> {
-        settings::FilSettings::connection_source(
-            self.fil.executable.clone()?,
-            self.fil.network.clone(),
-            self.fil.bus.clone(),
-            self.fil.trace_bus.clone(),
-            self.fil.elf_overrides.clone(),
-            self.fil.disabled_boards.clone(),
-            self.fil.use_builder,
-            self.fil.builder.clone(),
-            self.fil.run_options.clone(),
-        )
+        self.fil.connection_source()
     }
 
     pub fn connect_can(&mut self) {

@@ -93,8 +93,8 @@ impl CanThreadHandle {
     pub fn command(
         &self,
         command: CanThreadCommand,
-    ) -> Result<(), mpsc::SendError<CanThreadCommand>> {
-        self.tx.send(command)
+    ) -> Result<(), Box<mpsc::SendError<CanThreadCommand>>> {
+        self.tx.send(command).map_err(Box::new)
     }
 
     pub fn sender(&self) -> mpsc::Sender<CanThreadCommand> {

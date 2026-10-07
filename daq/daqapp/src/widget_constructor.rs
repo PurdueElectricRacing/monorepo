@@ -125,7 +125,7 @@ impl WidgetConstructor {
             WidgetConstructor::Jitter => widgets::Widget::Jitter(ui::jitter::Jitter::new(id)),
             WidgetConstructor::Hil => widgets::Widget::Hil(ui::hil::Hil::new(ui_to_can_tx)),
             WidgetConstructor::FilControl => {
-                widgets::Widget::FilControl(ui::fil::FilControl::new(id))
+                widgets::Widget::FilControl(Box::new(ui::fil::FilControl::new(id)))
             }
         })
     }
