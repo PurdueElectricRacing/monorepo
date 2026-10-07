@@ -146,6 +146,7 @@ pub struct FilDriver {
     request_id: u32,
     reader_join: Option<std::thread::JoinHandle<()>>,
     output: std::sync::mpsc::Receiver<Result<CanFrame, String>>,
+    pending_read_error: Option<String>,
     gpio_output: std::sync::mpsc::Receiver<FilGpioEvent>,
     expectation_output: std::sync::mpsc::Receiver<FilExpectationEvent>,
     trace_bus: std::sync::Arc<std::sync::RwLock<Option<String>>>,
@@ -304,6 +305,7 @@ impl FilDriver {
             request_id: 1,
             reader_join: Some(reader_join),
             output,
+            pending_read_error: None,
             gpio_output,
             expectation_output,
             trace_bus,
@@ -592,6 +594,9 @@ impl FilDriver {
 
     pub fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         use std::sync::mpsc::RecvTimeoutError;
+        if let Some(error) = self.pending_read_error.take() {
+            return Err(DriverError::Read(error));
+        }
         let first = match self.output.recv_timeout(Duration::from_millis(1)) {
             Ok(frame) => frame,
             Err(RecvTimeoutError::Timeout) => return Err(DriverError::Timeout),
@@ -607,8 +612,13 @@ impl FilDriver {
             let Ok(next) = self.output.try_recv() else {
                 break;
             };
-            if let Ok(frame) = next {
-                frames.push(frame);
+            match next {
+                Ok(frame) => frames.push(frame),
+                Err(error) => {
+                    // Deliver this batch before reporting the original reader failure.
+                    self.pending_read_error = Some(error);
+                    break;
+                }
             }
         }
         Ok(frames)
