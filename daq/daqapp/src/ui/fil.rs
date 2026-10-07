@@ -352,23 +352,27 @@ impl FilControl {
         }
     }
 
+    fn fil_settings(&self) -> settings::FilSettings {
+        settings::FilSettings {
+            executable: self.executable.clone(),
+            network: self.network.clone(),
+            bus: self.bus.clone(),
+            trace_bus: self.trace_bus.clone(),
+            elf_overrides: self.elf_overrides.clone(),
+            disabled_boards: self.disabled_boards.clone(),
+            use_builder: self.use_builder,
+            builder: self.builder.clone(),
+            adc_board: self.adc_board.clone(),
+            adc_instance: self.adc_instance,
+            adc_channel: self.adc_channel,
+            adc_value: self.adc_value,
+            run_options: self.run_options.clone(),
+        }
+    }
+
     fn queue_config_update(&self, actions: &mut Vec<action::AppAction>) {
         actions.push(action::AppAction::UpdateFilConfig {
-            fil: settings::FilSettings {
-                executable: self.executable.clone(),
-                network: self.network.clone(),
-                bus: self.bus.clone(),
-                trace_bus: self.trace_bus.clone(),
-                elf_overrides: self.elf_overrides.clone(),
-                disabled_boards: self.disabled_boards.clone(),
-                use_builder: self.use_builder,
-                builder: self.builder.clone(),
-                adc_board: self.adc_board.clone(),
-                adc_instance: self.adc_instance,
-                adc_channel: self.adc_channel,
-                adc_value: self.adc_value,
-                run_options: self.run_options.clone(),
-            },
+            fil: self.fil_settings(),
         });
     }
 
@@ -739,11 +743,13 @@ impl FilControl {
             let changed = egui::ComboBox::from_id_salt(("fil_bus", &self.title))
                 .selected_text(&self.bus)
                 .show_ui(ui, |ui| {
-                    buses.iter().fold(false, |changed, bus| {
-                        ui.selectable_value(&mut self.bus, bus.clone(), bus)
-                            .changed()
-                            || changed
-                    })
+                    let mut changed = false;
+                    for bus in &buses {
+                        changed |= ui
+                            .selectable_value(&mut self.bus, bus.clone(), bus)
+                            .changed();
+                    }
+                    changed
                 })
                 .inner
                 .unwrap_or(false);
@@ -819,27 +825,20 @@ impl FilControl {
         egui::ComboBox::from_id_salt((id, &self.title))
             .selected_text(current.as_str())
             .show_ui(ui, |ui| {
-                boards.iter().fold(false, |changed, board| {
-                    ui.selectable_value(current, board.clone(), board).changed() || changed
-                })
+                let mut changed = false;
+                for board in boards {
+                    changed |= ui.selectable_value(current, board.clone(), board).changed();
+                }
+                changed
             })
             .inner
             .unwrap_or(false)
     }
 
     fn connect_source(&self) -> connection::ConnectionSource {
-        settings::FilSettings::connection_source(
-            self.executable.clone().expect("checked executable"),
-            self.network.clone(),
-            self.bus.clone(),
-            self.trace_bus.clone(),
-            self.elf_overrides.clone(),
-            self.disabled_boards.clone(),
-            self.use_builder,
-            self.builder.clone(),
-            self.run_options.clone(),
-        )
-        .expect("checked network")
+        self.fil_settings()
+            .connection_source()
+            .expect("checked network")
     }
 
     pub fn show(
@@ -1377,6 +1376,14 @@ fn expectation_ms(ns: u64) -> String {
     }
 }
 
+fn level_text(value: Option<bool>, unset: &str) -> egui::RichText {
+    match value {
+        Some(true) => egui::RichText::new("HIGH").color(egui::Color32::LIGHT_GREEN),
+        Some(false) => egui::RichText::new("LOW").color(egui::Color32::LIGHT_RED),
+        None => egui::RichText::new(unset).color(egui::Color32::GRAY),
+    }
+}
+
 #[cfg(test)]
 mod expectation_tests {
     use super::*;
@@ -1458,13 +1465,5 @@ mod expectation_tests {
         clear_expectations(&mut events, &mut order);
         assert!(events.is_empty());
         assert!(order.is_empty());
-    }
-}
-
-fn level_text(value: Option<bool>, unset: &str) -> egui::RichText {
-    match value {
-        Some(true) => egui::RichText::new("HIGH").color(egui::Color32::LIGHT_GREEN),
-        Some(false) => egui::RichText::new("LOW").color(egui::Color32::LIGHT_RED),
-        None => egui::RichText::new(unset).color(egui::Color32::GRAY),
     }
 }

@@ -43,38 +43,29 @@ impl Default for FilSettings {
 }
 
 impl FilSettings {
-    pub fn connection_source(
-        executable: std::path::PathBuf,
-        network: Option<std::path::PathBuf>,
-        bus: String,
-        trace_bus: Option<String>,
-        elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
-        disabled_boards: Vec<String>,
-        use_builder: bool,
-        builder: config::BuiltNetwork,
-        run_options: FilRunOptions,
-    ) -> Option<connection::ConnectionSource> {
-        if use_builder {
+    pub fn connection_source(&self) -> Option<connection::ConnectionSource> {
+        let executable = self.executable.clone()?;
+        if self.use_builder {
             Some(connection::ConnectionSource::Fil {
                 executable,
                 network: std::path::PathBuf::new(),
-                bus: builder.bus.clone(),
-                trace_bus,
+                bus: self.builder.bus.clone(),
+                trace_bus: self.trace_bus.clone(),
                 elf_overrides: std::collections::HashMap::new(),
                 disabled_boards: Vec::new(),
-                built_network: Some(builder),
-                run_options,
+                built_network: Some(Box::new(self.builder.clone())),
+                run_options: Box::new(self.run_options.clone()),
             })
         } else {
             Some(connection::ConnectionSource::Fil {
                 executable,
-                network: network?,
-                bus,
-                trace_bus,
-                elf_overrides,
-                disabled_boards,
+                network: self.network.clone()?,
+                bus: self.bus.clone(),
+                trace_bus: self.trace_bus.clone(),
+                elf_overrides: self.elf_overrides.clone(),
+                disabled_boards: self.disabled_boards.clone(),
                 built_network: None,
-                run_options,
+                run_options: Box::new(self.run_options.clone()),
             })
         }
     }
