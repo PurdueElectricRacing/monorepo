@@ -23,3 +23,11 @@ NODE_CONFIG_DIR          = CONFIG_DIR / "nodes"
 EXTERNAL_NODE_CONFIG_DIR = CONFIG_DIR / "external_nodes"
 COMMON_TYPES_CONFIG_PATH = SYSTEM_CONFIG_DIR / "common_types.json"
 BUS_CONFIG_PATH          = SYSTEM_CONFIG_DIR / "bus_configs.json"
+
+UNIT_CONFIG_DIR            = CONFIG_DIR / "units"
+BASE_TYPES_CONFIG_PATH     = UNIT_CONFIG_DIR / "base_types.json"
+COMPOUND_TYPES_CONFIG_PATH = UNIT_CONFIG_DIR / "compound_types.json"
+
+DEARUNITS_TEMPLATE_DIR = GENERATOR_DIR / "dearunits" / "templates"
+DEARUNITS_LIBRARY_DIR  = REPOSITORY_DIR / "firmware" / "dearunits_library"
+UNITS_GENERATED_DIR    = DEARUNITS_LIBRARY_DIR / "generated"
