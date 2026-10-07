@@ -29,5 +29,5 @@ BASE_TYPES_CONFIG_PATH     = UNIT_CONFIG_DIR / "base_types.json"
 COMPOUND_TYPES_CONFIG_PATH = UNIT_CONFIG_DIR / "compound_types.json"
 
 DEARUNITS_TEMPLATE_DIR = GENERATOR_DIR / "dearunits" / "templates"
-DEARUNITS_LIBRARY_DIR  = REPOSITORY_DIR / "firmware" / "dearunits_library"
+DEARUNITS_LIBRARY_DIR  = REPOSITORY_DIR / "firmware" / "common" / "dearunits"
 UNITS_GENERATED_DIR    = DEARUNITS_LIBRARY_DIR / "generated"

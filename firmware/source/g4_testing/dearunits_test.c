@@ -6,7 +6,7 @@
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/utils/countof.h"
-#include "dearunits_library/generated/dear_units.h"
+#include "common/dearunits/generated/dear_units.h"
 #include "main.h"
 
 void HardFault_Handler(void);
