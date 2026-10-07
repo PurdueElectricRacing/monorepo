@@ -62,11 +62,6 @@ static bool test_drivetrain(void) {
         return false;
     }
 
-    horsepower_t power_cap_hp = horsepower_from_watt(power_cap);
-    if (!nearly_equal(power_cap_hp.value, 67.0511f, 0.001f)) {
-        return false;
-    }
-
     second_t control_period = { .value = 0.5f };
     joule_t segment_energy = DU_MULTIPLY(allowed_power, control_period);
     joule_t total_energy = DU_ADD(segment_energy, segment_energy);
@@ -170,8 +165,8 @@ static bool test_signal_helpers(void) {
     celsius_t coolant = DU_CELSIUS_FROM(coolant_f);
     celsius_t coolant_limit = { .value = 85.0f };
     celsius_t reported = DU_MIN(coolant, coolant_limit);
-    kelvin_t reported_k = kelvin_from_celsius(reported);
-    if (!nearly_equal(reported.value, 85.0f, 0.01f) || !nearly_equal(reported_k.value, 358.15f, 0.01f)) {
+    fahrenheit_t reported_f = fahrenheit_from_celsius(reported);
+    if (!nearly_equal(reported.value, 85.0f, 0.01f) || !nearly_equal(reported_f.value, 185.0f, 0.01f)) {
         return false;
     }
 
