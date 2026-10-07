@@ -17,3 +17,15 @@ radian_t steer_rad = DU_RADIAN_FROM(steer_deg); // pi/2
 meter_t  d = DU_METER_FROM((foot_t){ .value = 10.0f }); // 3.048 m
 second_t t = DU_SECOND_FROM((minute_t){ .value = 5.0f }); // 300 s
 ```
+
+## Tests
+
+Host tests use Google Test, with a C23 shim to exercise the generated `_Generic` macros. Run from the repository root:
+
+```sh
+cmake -S tests -B firmware/build/host-tests -DPER_TEST_COVERAGE=OFF
+cmake --build firmware/build/host-tests --target dearunits_test
+ctest --test-dir firmware/build/host-tests -R DearUnitsTest --output-on-failure
+```
+
+Generate `generated/dear_units.h` first with `python3 generators/generate.py` if it is missing.
