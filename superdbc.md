@@ -1,6 +1,6 @@
 # superdbc — Public API Design
 
-Design specification for a new `daqcore::superdbc` module replacing `can_decode` and `can-dbc`. This document defines the API and behavior to implement next; it does not implement the module or migrate consumers.
+Design specification for the standalone `daqcore::superdbc` module, intended to replace `can_decode` and `can-dbc` during a later consumer migration. The module is implemented; existing consumers still use their current decoder.
 
 The application selects one active SuperDBC document. That document contains all buses, so every message lookup and codec operation has an explicit bus. Definitions are compiled once at load, and decoded results own their data so cached frames can survive database replacement or drop.
 
@@ -369,7 +369,7 @@ Declared physical limits guide UI ranges; the codec enforces wire representabili
 
 ## 5. Usage examples
 
-Examples are intended call patterns once the module exists; they are not patches to current consumers.
+Examples show standalone call patterns; they are not patches to current consumers.
 
 ### Load and resolve a bus
 
@@ -441,7 +441,7 @@ Keep display formatting in the existing formatter. Explicit user formatter rules
 
 ## 6. Later consumer migration
 
-The following work is guidance for integration after the module exists. It is outside this documentation-only change.
+The following work is guidance for later integration. It is outside the standalone module bringup.
 
 | Consumer | Intended migration |
 |---|---|
@@ -475,7 +475,7 @@ Once consumers are migrated, remove the four DBC conversion helpers and `can_dec
 - Reject unsupported schema versions, unknown fields, duplicate bus IDs, duplicate identities within a bus, duplicate message/signal names, invalid widths, bad limits, zero scale, overlapping bits, and signals outside the declared payload.
 - Accept repeated CAN identities across buses and distinguish standard/extended identities with the same numeric ID. Decode the current MCAN/VCAN `0x111` collision using the requested bus.
 - Verify known bytes for unaligned little-endian fields, Motorola fields spanning multiple bytes, mixed-order messages, signed extrema, 64-bit widths, positive and negative scaling, offsets, Float32 scaling, and enum lookup/fallback. Use known vectors in addition to encode/decode round trips so shared codec mistakes cannot hide.
-- Encode `u64::MAX` and `i64::MIN` exactly through raw inputs, including a mixed integer/Float32 message. Reject physical values at the exclusive 64-bit upper bounds before casts, wrong raw variants, and non-finite encode inputs.
+- Encode `u64::MAX` and `i64::MIN` exactly through raw inputs. Separately exercise a mixed 32-bit integer/Float32 message; a 64-bit integer plus a Float32 cannot fit in a classic CAN payload. Reject physical values at the exclusive 64-bit upper bounds before casts, wrong raw variants, and non-finite encode inputs.
 - Reject missing, unknown, and duplicate input signals without clamping. Verify rounding ties, finite Float32 narrowing, raw negative-zero preservation, and zeroed unused bits.
 - Accept declared-length and padded-eight-byte payloads, ignore padding, reject short or over-eight-byte payloads, and support zero-length messages. Filter remote/FD kinds at the caller seam.
 - Preserve out-of-limit telemetry and non-finite Float32 decode values. Check that integer `int_rounded()` returns raw rather than scaled physical values.

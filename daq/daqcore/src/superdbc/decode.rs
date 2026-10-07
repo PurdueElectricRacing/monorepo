@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
 
-use super::{DecodeError, Message, MessageKey, RawType, RawValue};
+use crate::superdbc::{DecodeError, Message, MessageKey, RawType, RawValue};
 
 /// Owned telemetry, independent of the database that produced it.
 #[derive(Debug, Clone)]
@@ -15,23 +15,29 @@ impl DecodedMessage {
     pub fn key(&self) -> MessageKey {
         self.key
     }
+
     pub fn name(&self) -> &str {
         &self.name
     }
+
     pub fn tx_node(&self) -> &str {
         &self.tx_node
     }
+
     pub fn signal(&self, name: &str) -> Option<&DecodedSignalValue> {
         self.signals.get(name)
     }
+
     pub fn iter(&self) -> impl Iterator<Item = (&str, &DecodedSignalValue)> {
         self.signals
             .iter()
             .map(|(name, value)| (name.as_str(), value))
     }
+
     pub fn len(&self) -> usize {
         self.signals.len()
     }
+
     pub fn is_empty(&self) -> bool {
         self.signals.is_empty()
     }
@@ -48,12 +54,15 @@ impl DecodedSignalValue {
     pub fn physical(&self) -> f64 {
         self.physical
     }
+
     pub fn raw(&self) -> RawValue {
         self.raw
     }
+
     pub fn enum_label(&self) -> Option<&str> {
         self.enum_label.as_deref()
     }
+
     /// Exact raw integer for integer signals; rounded physical value for Float32.
     /// Float-to-integer conversion saturates, with NaN producing zero.
     pub fn int_rounded(&self) -> i128 {
@@ -75,8 +84,10 @@ impl Message {
                 actual: data.len(),
             });
         }
+
         let data = &data[..usize::from(self.length_bytes())];
         let mut signals = IndexMap::with_capacity(self.signals.len());
+
         for signal in &self.signals {
             let bits = signal.codec.extract(data);
             let raw = match signal.raw_type() {
@@ -99,6 +110,7 @@ impl Message {
                 },
             );
         }
+
         Ok(DecodedMessage {
             key: self.key(),
             name: self.name().to_owned(),

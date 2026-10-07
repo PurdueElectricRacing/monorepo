@@ -1,6 +1,6 @@
 use std::{error::Error, fmt};
 
-use super::{MessageKey, RawType};
+use crate::superdbc::{MessageKey, RawType};
 
 /// Reading a file or parsing its contents failed.
 #[derive(Debug)]
@@ -18,7 +18,7 @@ pub enum ParseError {
 }
 
 impl ParseError {
-    pub(super) fn definition(context: impl Into<String>, reason: impl Into<String>) -> Self {
+    pub fn definition(context: impl Into<String>, reason: impl Into<String>) -> Self {
         Self::InvalidDefinition {
             context: context.into(),
             reason: reason.into(),
@@ -188,6 +188,7 @@ impl Error for LoadError {
         })
     }
 }
+
 impl Error for ParseError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
@@ -196,6 +197,7 @@ impl Error for ParseError {
         }
     }
 }
+
 impl Error for DecodeError {}
 impl Error for EncodeError {}
 
@@ -204,11 +206,13 @@ impl From<std::io::Error> for LoadError {
         Self::Io(error)
     }
 }
+
 impl From<ParseError> for LoadError {
     fn from(error: ParseError) -> Self {
         Self::Parse(error)
     }
 }
+
 impl From<serde_json::Error> for ParseError {
     fn from(error: serde_json::Error) -> Self {
         Self::InvalidJson(error)

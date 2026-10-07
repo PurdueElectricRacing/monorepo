@@ -1,5 +1,5 @@
 //! Byte segments compiled once. The runtime path never walks individual bits.
-use super::{ByteOrder, ParseError, RawType};
+use crate::superdbc::{ByteOrder, ParseError, RawType};
 
 #[derive(Debug)]
 struct Segment {
@@ -10,7 +10,7 @@ struct Segment {
 }
 
 #[derive(Debug)]
-pub(super) struct Codec {
+pub struct Codec {
     segments: Vec<Segment>,
     pub occupied: u64,
     pub min: i128,
@@ -34,15 +34,18 @@ impl Codec {
                 "start_bit must be 0..=63 and bit_length 1..=64",
             ));
         }
+
         if raw_type == RawType::Float32 && length != 32 {
             return Err(ParseError::definition(
                 context,
                 "Float32 requires exactly 32 bits",
             ));
         }
+
         let mut segments: Vec<Segment> = Vec::new();
         let mut wire_bit = u16::from(start);
         let mut occupied = 0;
+
         for i in 0..length {
             if wire_bit >= u16::from(payload_length) * 8 {
                 return Err(ParseError::definition(
@@ -57,6 +60,7 @@ impl Codec {
             };
             let byte = usize::from(wire_bit / 8);
             let wire_shift = (wire_bit % 8) as u8;
+
             if let Some(last) = segments.last_mut().filter(|last| last.byte == byte) {
                 last.wire_shift = last.wire_shift.min(wire_shift);
                 last.value_shift = last.value_shift.min(value_shift);
@@ -75,6 +79,7 @@ impl Codec {
                 ByteOrder::BigEndian => wire_bit - 1,
             };
         }
+
         let (min, max) = match raw_type {
             RawType::Signed => (-(1i128 << (length - 1)), (1i128 << (length - 1)) - 1),
             _ => (0, (1i128 << length) - 1),
@@ -90,15 +95,20 @@ impl Codec {
     }
 
     pub fn extract(&self, data: &[u8]) -> u64 {
-        self.segments.iter().fold(0, |value, segment| {
-            value
-                | (u64::from((data[segment.byte] >> segment.wire_shift) & segment.mask)
-                    << segment.value_shift)
-        })
+        let mut value = 0;
+
+        for segment in &self.segments {
+            let wire_bits = (data[segment.byte] >> segment.wire_shift) & segment.mask;
+            let value_bits = u64::from(wire_bits) << segment.value_shift;
+            value |= value_bits;
+        }
+
+        value
     }
 
     pub fn signed(&self, bits: u64) -> i128 {
         let value = i128::from(bits);
+
         if bits & self.sign_bit != 0 {
             value - self.sign_modulus
         } else {
@@ -109,8 +119,9 @@ impl Codec {
     pub fn insert(&self, data: &mut [u8], bits: u64) {
         for segment in &self.segments {
             // All signal bits are disjoint and the output was zero-initialized.
-            data[segment.byte] |=
-                ((bits >> segment.value_shift) as u8 & segment.mask) << segment.wire_shift;
+            let value_bits = (bits >> segment.value_shift) as u8 & segment.mask;
+            let wire_bits = value_bits << segment.wire_shift;
+            data[segment.byte] |= wire_bits;
         }
     }
 }

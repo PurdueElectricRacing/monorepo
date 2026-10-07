@@ -7,21 +7,21 @@ use serde::{
     de::{self, MapAccess, Visitor},
 };
 
-pub(super) const SCHEMA_VERSION: &str = "1.1";
+pub const SCHEMA_VERSION: &str = "1.1";
 
 #[derive(Deserialize)]
-pub(super) struct VersionProbe {
+pub struct VersionProbe {
     pub versions: SchemaProbe,
 }
 
 #[derive(Deserialize)]
-pub(super) struct SchemaProbe {
+pub struct SchemaProbe {
     pub schema_version: String,
 }
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct Document {
+pub struct Document {
     pub content_hash: String,
     pub versions: Versions,
     #[serde(deserialize_with = "unique_map")]
@@ -30,14 +30,14 @@ pub(super) struct Document {
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct Versions {
+pub struct Versions {
     pub schema_version: String,
     pub hash: String,
 }
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct BusModel {
+pub struct BusModel {
     pub bus_id: u8,
     pub baud_rate: u64,
     pub nodes: Vec<NodeModel>,
@@ -46,14 +46,14 @@ pub(super) struct BusModel {
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct NodeModel {
+pub struct NodeModel {
     pub name: String,
     pub is_external: bool,
 }
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct MessageModel {
+pub struct MessageModel {
     pub id: u32,
     pub is_extended_id: bool,
     pub message_name: String,
@@ -69,7 +69,7 @@ pub(super) struct MessageModel {
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct SignalModel {
+pub struct SignalModel {
     pub signal_name: String,
     pub description: String,
     pub data_type: String,
@@ -90,13 +90,13 @@ pub(super) struct SignalModel {
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct LimitsModel {
+pub struct LimitsModel {
     pub min: f64,
     pub max: f64,
 }
 
 #[derive(Deserialize)]
-pub(super) struct Choices(#[serde(deserialize_with = "unique_map")] pub IndexMap<String, String>);
+pub struct Choices(#[serde(deserialize_with = "unique_map")] pub IndexMap<String, String>);
 
 fn required_nullable<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
 where
@@ -125,10 +125,13 @@ where
                 if result.contains_key(&key) {
                     return Err(de::Error::custom(format!("duplicate key {key:?}")));
                 }
+
                 result.insert(key, value);
             }
+
             Ok(result)
         }
     }
+
     deserializer.deserialize_map(UniqueMap(PhantomData))
 }

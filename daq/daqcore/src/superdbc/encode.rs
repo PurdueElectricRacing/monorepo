@@ -1,4 +1,4 @@
-use super::{EncodeError, Message, RawType, RawValue, SignalDefinition};
+use crate::superdbc::{EncodeError, Message, RawType, RawValue, SignalDefinition};
 
 impl Message {
     /// Encode physical values, rounding integer raw values with ties away from
@@ -6,6 +6,7 @@ impl Message {
     pub fn encode(&self, values: &[(&str, f64)]) -> Result<Vec<u8>, EncodeError> {
         self.encode_values(values, |signal, physical| {
             let numeric_raw = (physical - signal.offset()) / signal.scale();
+
             if !physical.is_finite() || !numeric_raw.is_finite() {
                 return Err(EncodeError::NonFiniteValue {
                     key: self.key(),
@@ -15,12 +16,14 @@ impl Message {
             match signal.raw_type() {
                 RawType::Float32 => {
                     let raw = numeric_raw as f32;
+
                     if !raw.is_finite() {
                         return Err(EncodeError::Float32Overflow {
                             key: self.key(),
                             signal: signal.name().to_owned(),
                         });
                     }
+
                     Ok(u64::from(raw.to_bits()))
                 }
                 _ => {
@@ -35,6 +38,7 @@ impl Message {
                             physical,
                         });
                     }
+
                     Ok(rounded as i128 as u64)
                 }
             }
@@ -54,6 +58,7 @@ impl Message {
                         max: signal.codec.max,
                     });
                 }
+
                 Ok(value as u64)
             }
             (RawType::Float32, RawValue::Float32(value)) => {
@@ -63,6 +68,7 @@ impl Message {
                         signal: signal.name().to_owned(),
                     });
                 }
+
                 Ok(u64::from(value.to_bits()))
             }
             _ => Err(EncodeError::TypeMismatch {
@@ -79,6 +85,7 @@ impl Message {
         encode: impl Fn(&SignalDefinition, T) -> Result<u64, EncodeError>,
     ) -> Result<Vec<u8>, EncodeError> {
         let mut ordered = vec![None; self.signals.len()];
+
         for &(name, value) in values {
             let &index = self
                 .signal_index
@@ -87,6 +94,7 @@ impl Message {
                     key: self.key(),
                     signal: name.to_owned(),
                 })?;
+
             if ordered[index].replace(value).is_some() {
                 return Err(EncodeError::DuplicateSignal {
                     key: self.key(),
@@ -94,7 +102,9 @@ impl Message {
                 });
             }
         }
+
         let mut data = [0u8; 8];
+
         for (signal, value) in self.signals.iter().zip(ordered) {
             let value = value.ok_or_else(|| EncodeError::MissingSignal {
                 key: self.key(),
@@ -102,6 +112,7 @@ impl Message {
             })?;
             signal.codec.insert(&mut data, encode(signal, value)?);
         }
+
         Ok(data[..usize::from(self.length_bytes())].to_vec())
     }
 }

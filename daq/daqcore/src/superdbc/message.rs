@@ -2,7 +2,7 @@ use std::collections::{BTreeMap, HashMap};
 
 use crate::frame::CanIdentity;
 
-use super::{
+use crate::superdbc::{
     ParseError,
     extract::Codec,
     model::{MessageModel, SignalModel},
@@ -62,43 +62,46 @@ pub struct Message {
     nominal_period_ms: Option<u32>,
     priority: u8,
     description: String,
-    pub(super) signals: Vec<SignalDefinition>,
-    pub(super) signal_index: HashMap<String, usize>,
+    pub signals: Vec<SignalDefinition>,
+    pub signal_index: HashMap<String, usize>,
 }
 
 impl Message {
-    pub(super) fn compile(
-        bus_id: u8,
-        model: MessageModel,
-        context: &str,
-    ) -> Result<Self, ParseError> {
+    pub fn compile(bus_id: u8, model: MessageModel, context: &str) -> Result<Self, ParseError> {
         nonempty(&model.message_name, context, "message_name")?;
         nonempty(&model.transmitter, context, "transmitter")?;
+
         for receiver in &model.receivers {
             nonempty(receiver, context, "receiver")?;
         }
+
         if model.length_bytes > 8 {
             return Err(ParseError::definition(
                 context,
                 "length_bytes must be 0..=8",
             ));
         }
+
         if model.priority > 5 {
             return Err(ParseError::definition(context, "priority must be 0..=5"));
         }
+
         if model.nominal_period_ms == Some(0) {
             return Err(ParseError::definition(
                 context,
                 "nominal_period_ms must be positive or null",
             ));
         }
+
         let identity = CanIdentity::new(model.id, model.is_extended_id)
             .map_err(|error| ParseError::definition(context, error.to_string()))?;
         let mut signals = Vec::with_capacity(model.signals.len());
         let mut signal_index = HashMap::with_capacity(model.signals.len());
         let mut occupied = 0u64;
+
         for signal in model.signals {
             let signal_context = format!("{context} / signal {:?}", signal.signal_name);
+
             if signal_index
                 .insert(signal.signal_name.clone(), signals.len())
                 .is_some()
@@ -108,7 +111,9 @@ impl Message {
                     "duplicate signal name",
                 ));
             }
+
             let signal = SignalDefinition::compile(signal, model.length_bytes, &signal_context)?;
+
             if occupied & signal.codec.occupied != 0 {
                 return Err(ParseError::definition(
                     signal_context,
@@ -118,6 +123,7 @@ impl Message {
             occupied |= signal.codec.occupied;
             signals.push(signal);
         }
+
         Ok(Self {
             key: MessageKey { bus_id, identity },
             name: model.message_name,
@@ -135,33 +141,43 @@ impl Message {
     pub fn key(&self) -> MessageKey {
         self.key
     }
+
     pub fn identity(&self) -> CanIdentity {
         self.key.identity
     }
+
     pub fn name(&self) -> &str {
         &self.name
     }
+
     pub fn length_bytes(&self) -> u8 {
         self.length_bytes
     }
+
     pub fn transmitter(&self) -> &str {
         &self.transmitter
     }
+
     pub fn receivers(&self) -> &[String] {
         &self.receivers
     }
+
     pub fn nominal_period_ms(&self) -> Option<u32> {
         self.nominal_period_ms
     }
+
     pub fn priority(&self) -> u8 {
         self.priority
     }
+
     pub fn description(&self) -> &str {
         &self.description
     }
+
     pub fn signals(&self) -> &[SignalDefinition] {
         &self.signals
     }
+
     pub fn signal(&self, name: &str) -> Option<&SignalDefinition> {
         self.signal_index
             .get(name)
@@ -185,7 +201,7 @@ pub struct SignalDefinition {
     unit: String,
     display_format: Option<DisplayFormat>,
     choices: BTreeMap<i128, String>,
-    pub(super) codec: Codec,
+    pub codec: Codec,
 }
 
 impl SignalDefinition {
@@ -196,12 +212,16 @@ impl SignalDefinition {
             "unsigned" => RawType::Unsigned,
             "signed" => RawType::Signed,
             "float32" => RawType::Float32,
-            _ => return Err(ParseError::definition(context, "unsupported raw_type")),
+            _ => {
+                return Err(ParseError::definition(context, "unsupported raw_type"));
+            }
         };
         let byte_order = match model.byte_order.as_str() {
             "little_endian" => ByteOrder::LittleEndian,
             "big_endian" => ByteOrder::BigEndian,
-            _ => return Err(ParseError::definition(context, "unsupported byte_order")),
+            _ => {
+                return Err(ParseError::definition(context, "unsupported byte_order"));
+            }
         };
         if !model.scale.is_finite() || model.scale == 0.0 || !model.offset.is_finite() {
             return Err(ParseError::definition(
@@ -209,6 +229,7 @@ impl SignalDefinition {
                 "scale must be finite and nonzero; offset must be finite",
             ));
         }
+
         let limits = model.limits.map(|limits| SignalLimits {
             min: limits.min,
             max: limits.max,
@@ -221,6 +242,7 @@ impl SignalDefinition {
                 "limits must be finite and ordered",
             ));
         }
+
         let codec = Codec::compile(
             model.start_bit,
             model.bit_length,
@@ -230,12 +252,16 @@ impl SignalDefinition {
             context,
         )?;
         let mut choices = BTreeMap::new();
-        for (key, label) in model.choices.into_iter().flat_map(|choices| choices.0) {
+
+        let raw_choices = model.choices.map(|choices| choices.0).unwrap_or_default();
+
+        for (key, label) in raw_choices {
             // The canonical decimal syntax also prevents two textual keys
             // (e.g. "01" and "1") from aliasing the same numeric value.
             let raw = key.parse::<i128>().map_err(|_| {
                 ParseError::definition(context, format!("invalid integer choice key {key:?}"))
             })?;
+
             if raw.to_string() != key
                 || raw < codec.min
                 || raw > codec.max
@@ -248,23 +274,27 @@ impl SignalDefinition {
                     ),
                 ));
             }
+
             choices.insert(raw, label);
         }
-        let display_format = model
-            .display_format
-            .map(|format| match format.as_str() {
-                "hex" => Ok(DisplayFormat::Hex),
-                "binary" => Ok(DisplayFormat::Binary),
-                "integer" => Ok(DisplayFormat::Integer),
-                "0f" | "1f" | "2f" | "3f" | "4f" | "5f" | "6f" | "7f" => {
-                    Ok(DisplayFormat::Decimal(format.as_bytes()[0] - b'0'))
-                }
-                _ => Err(ParseError::definition(
+
+        let display_format = match model.display_format.as_deref() {
+            None => None,
+            Some("hex") => Some(DisplayFormat::Hex),
+            Some("binary") => Some(DisplayFormat::Binary),
+            Some("integer") => Some(DisplayFormat::Integer),
+            Some(format @ ("0f" | "1f" | "2f" | "3f" | "4f" | "5f" | "6f" | "7f")) => {
+                let precision = format.as_bytes()[0] - b'0';
+                Some(DisplayFormat::Decimal(precision))
+            }
+            Some(format) => {
+                return Err(ParseError::definition(
                     context,
                     format!("unsupported display_format {format:?}"),
-                )),
-            })
-            .transpose()?;
+                ));
+            }
+        };
+
         Ok(Self {
             name: model.signal_name,
             description: model.description,
@@ -286,50 +316,63 @@ impl SignalDefinition {
     pub fn name(&self) -> &str {
         &self.name
     }
+
     pub fn description(&self) -> &str {
         &self.description
     }
+
     pub fn data_type(&self) -> &str {
         &self.data_type
     }
+
     pub fn raw_type(&self) -> RawType {
         self.raw_type
     }
+
     pub fn start_bit(&self) -> u8 {
         self.start_bit
     }
+
     pub fn bit_length(&self) -> u8 {
         self.bit_length
     }
+
     pub fn byte_order(&self) -> ByteOrder {
         self.byte_order
     }
+
     pub fn scale(&self) -> f64 {
         self.scale
     }
+
     pub fn offset(&self) -> f64 {
         self.offset
     }
+
     pub fn limits(&self) -> Option<SignalLimits> {
         self.limits
     }
+
     pub fn unit(&self) -> &str {
         &self.unit
     }
+
     pub fn display_format(&self) -> Option<DisplayFormat> {
         self.display_format
     }
+
     pub fn choices(&self) -> impl Iterator<Item = (i128, &str)> {
         self.choices
             .iter()
             .map(|(&raw, label)| (raw, label.as_str()))
     }
+
     pub fn choice_label(&self, raw: i128) -> Option<&str> {
         self.choices.get(&raw).map(String::as_str)
     }
 }
 
-pub(super) fn nonempty(value: &str, context: &str, field: &str) -> Result<(), ParseError> {
+pub fn nonempty(value: &str, context: &str, field: &str) -> Result<(), ParseError> {
     if value.is_empty() {
         Err(ParseError::definition(
             context,
