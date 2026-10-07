@@ -43,7 +43,7 @@ impl Default for FilSettings {
 }
 
 impl FilSettings {
-    pub(crate) fn connection_source(
+    pub fn connection_source(
         executable: std::path::PathBuf,
         network: Option<std::path::PathBuf>,
         bus: String,
@@ -79,7 +79,7 @@ impl FilSettings {
         }
     }
 
-    pub(super) fn normalize(&mut self) {
+    pub fn normalize(&mut self) {
         if self.bus.trim().is_empty() {
             self.bus = "vehicle".into();
         }

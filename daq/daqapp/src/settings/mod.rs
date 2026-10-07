@@ -17,24 +17,17 @@ pub fn dbc_dir() -> Option<std::path::PathBuf> {
     path.is_dir().then_some(path)
 }
 
-fn default_window_secs() -> f64 {
-    30.0
-}
-
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Settings {
     pub dbc_path: Option<PathBuf>,
     pub selected_source: Option<connection::ConnectionSource>,
     pub selected_speed: connection::CanBusSpeed,
-    #[serde(default)]
     pub selected_bus: connection::CanBus,
     pub udp_port: u16,
     pub theme: theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
     pub log_folder: Option<PathBuf>,
-    #[serde(default)]
     pub fil: FilSettings,
-    #[serde(default = "default_window_secs")]
     pub window_secs: f64,
 }
 

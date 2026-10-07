@@ -1,12 +1,50 @@
 use crate::{
-    can::driver::{
-        CanDriver, DriverError, DriverResult, FilExpectationEvent, FilExpectationStatus,
-        FilGpioDirection, FilGpioEvent,
-    },
+    can::driver::{CanDriver, DriverError, DriverResult},
     connection::FilRunOptions,
     frame::{CanFrame, CanIdentity, FrameKind},
 };
 use std::time::Duration;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum FilGpioDirection {
+    Input,
+    Output,
+}
+#[derive(Clone, Debug)]
+pub struct FilGpioEvent {
+    pub board: String,
+    pub port: String,
+    pub pin: u8,
+    pub value: Option<bool>,
+    pub direction: FilGpioDirection,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum FilExpectationStatus {
+    Pending,
+    Pass,
+    Fail,
+    Incomplete,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct FilExpectationEvent {
+    pub check_id: String,
+    pub script: String,
+    pub status: FilExpectationStatus,
+    pub expected_bus: String,
+    pub expected_id: u32,
+    pub expected_extended: bool,
+    pub expected_data: Vec<u8>,
+    pub window_start_ns: u64,
+    pub window_end_ns: u64,
+    pub matched_bus: Option<String>,
+    pub matched_id: Option<u32>,
+    pub matched_data: Option<Vec<u8>>,
+    pub matched_origin: Option<String>,
+    pub matched_time_ns: Option<u64>,
+    pub reason: Option<String>,
+}
 
 const FIL_MAGIC: &[u8; 4] = b"FILN";
 const FIL_VERSION: u8 = 1;
@@ -120,7 +158,7 @@ impl FilDriver {
         fil_write_frame(&mut self.input, kind, id, payload)
             .map_err(|e| DriverError::Write(e.to_string()))
     }
-    pub(super) fn new(
+    pub fn new(
         executable: &std::path::Path,
         network: &std::path::Path,
         bus: &str,
@@ -542,11 +580,11 @@ fn trace_source_matches(source: &str, trace_bus: Option<&str>) -> bool {
 }
 
 impl FilDriver {
-    pub(super) fn needs_read_retry_sleep(&self) -> bool {
+    pub fn needs_read_retry_sleep(&self) -> bool {
         false
     }
 
-    pub(super) fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
+    pub fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         use std::sync::mpsc::RecvTimeoutError;
         let first = match self.output.recv_timeout(Duration::from_millis(1)) {
             Ok(frame) => frame,
@@ -569,7 +607,7 @@ impl FilDriver {
         }
         Ok(frames)
     }
-    pub(super) fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
+    pub fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
         validate_fil_frame_kind(frame.kind)?;
         let mut payload = Vec::new();
         fil_put_string(&mut payload, &self.bus)?;
@@ -579,7 +617,7 @@ impl FilDriver {
         payload.extend_from_slice(&frame.data);
         self.send_request(FIL_CAN_INJECT, &payload)
     }
-    pub(super) fn close(&mut self) -> DriverResult<()> {
+    pub fn close(&mut self) -> DriverResult<()> {
         let _ = self.child.kill();
         let _ = self.child.wait();
         if let Some(reader) = self.reader_join.take() {
@@ -587,23 +625,23 @@ impl FilDriver {
         }
         Ok(())
     }
-    pub(super) fn set_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
+    pub fn set_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
         *self
             .trace_bus
             .write()
             .unwrap_or_else(std::sync::PoisonError::into_inner) = trace_bus;
         Ok(())
     }
-    pub(super) fn take_gpio_events(&mut self) -> Vec<FilGpioEvent> {
+    pub fn take_gpio_events(&mut self) -> Vec<FilGpioEvent> {
         self.gpio_output.try_iter().take(256).collect()
     }
-    pub(super) fn take_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
+    pub fn take_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
         self.expectation_output.try_iter().take(256).collect()
     }
-    pub(super) fn take_all_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
+    pub fn take_all_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
         drain_all_fil_expectation_events(&self.expectation_output)
     }
-    pub(super) fn set_gpio(
+    pub fn set_gpio(
         &mut self,
         board: &str,
         port: &str,
@@ -631,7 +669,7 @@ impl FilDriver {
         });
         self.send_request(FIL_GPIO_SET, &payload)
     }
-    pub(super) fn set_adc(
+    pub fn set_adc(
         &mut self,
         board: &str,
         instance: &str,

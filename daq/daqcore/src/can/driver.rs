@@ -25,46 +25,7 @@ impl std::fmt::Display for DriverError {
 
 impl std::error::Error for DriverError {}
 pub type DriverResult<T> = Result<T, DriverError>;
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum FilGpioDirection {
-    Input,
-    Output,
-}
-#[derive(Clone, Debug)]
-pub struct FilGpioEvent {
-    pub board: String,
-    pub port: String,
-    pub pin: u8,
-    pub value: Option<bool>,
-    pub direction: FilGpioDirection,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub enum FilExpectationStatus {
-    Pending,
-    Pass,
-    Fail,
-    Incomplete,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct FilExpectationEvent {
-    pub check_id: String,
-    pub script: String,
-    pub status: FilExpectationStatus,
-    pub expected_bus: String,
-    pub expected_id: u32,
-    pub expected_extended: bool,
-    pub expected_data: Vec<u8>,
-    pub window_start_ns: u64,
-    pub window_end_ns: u64,
-    pub matched_bus: Option<String>,
-    pub matched_id: Option<u32>,
-    pub matched_data: Option<Vec<u8>>,
-    pub matched_origin: Option<String>,
-    pub matched_time_ns: Option<u64>,
-    pub reason: Option<String>,
-}
+pub use fil::{FilExpectationEvent, FilExpectationStatus, FilGpioDirection, FilGpioEvent};
 pub trait CanDriver {
     /// Whether the CAN worker should add a retry delay after an empty/timeout read.
     /// Drivers with their own bounded receive wait (notably FIL) return false.
