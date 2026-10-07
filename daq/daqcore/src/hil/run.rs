@@ -100,19 +100,15 @@ impl HilRunningTest {
         let ts = elapsed.as_millis();
         for expect in &mut self.in_progress_expects {
             match expect.result {
-                ExpectResult::NotInWindow => {
-                    if ts >= expect.expect.window[0] as u128 {
-                        expect.result = if ts > expect.expect.window[1] as u128 {
-                            ExpectResult::FailedNoMessage
-                        } else {
-                            ExpectResult::InProgress
-                        };
-                    }
+                ExpectResult::NotInWindow if ts >= expect.expect.window[0] as u128 => {
+                    expect.result = if ts > expect.expect.window[1] as u128 {
+                        ExpectResult::FailedNoMessage
+                    } else {
+                        ExpectResult::InProgress
+                    };
                 }
-                ExpectResult::InProgress => {
-                    if ts > expect.expect.window[1] as u128 {
-                        expect.result = ExpectResult::FailedNoMessage;
-                    }
+                ExpectResult::InProgress if ts > expect.expect.window[1] as u128 => {
+                    expect.result = ExpectResult::FailedNoMessage;
                 }
                 _ => {}
             }

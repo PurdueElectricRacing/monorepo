@@ -172,20 +172,19 @@ impl Scope {
                 self.title
             ));
             change = ui.button("Change signal").clicked();
-            if ui.button("Export CSV").clicked() {
-                if let Some(path) = rfd::FileDialog::new()
+            if ui.button("Export CSV").clicked()
+                && let Some(path) = rfd::FileDialog::new()
                     .set_file_name(format!("{}_data.csv", signal))
                     .add_filter("CSV", &["csv"])
                     .save_file()
-                {
-                    let mut text = String::from("Time_Seconds,Value\n");
-                    for p in &points {
-                        text.push_str(&format!("{},{}\n", p[0], p[1]));
-                    }
+            {
+                let mut text = String::from("Time_Seconds,Value\n");
+                for p in &points {
+                    text.push_str(&format!("{},{}\n", p[0], p[1]));
+                }
 
-                    if let Err(e) = std::fs::write(path, text) {
-                        log::error!("Export failed: {e}");
-                    }
+                if let Err(e) = std::fs::write(path, text) {
+                    log::error!("Export failed: {e}");
                 }
             }
         });

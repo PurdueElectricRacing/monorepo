@@ -110,7 +110,7 @@ impl Formatter {
         Ok(Self { compiled_config })
     }
 
-    pub fn from_str(config_str: &str) -> Result<Self, Box<dyn std::error::Error>> {
+    pub fn from_json(config_str: &str) -> Result<Self, Box<dyn std::error::Error>> {
         let config: FormatterConfig = serde_json::from_str(config_str)?;
         Self::new(config).map_err(|e| e.into())
     }

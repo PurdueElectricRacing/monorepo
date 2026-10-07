@@ -8,21 +8,10 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
-  fmt:
-    name: Check formatting
-    runs-on: ubuntu-latest
-    container:
-      image: irvingywang/per-firmware:latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Cargo Format
-        working-directory: daq
-        run: cargo fmt --all --check
-
   build:
     name: Build DAQ Workspace
     runs-on: ubuntu-latest
@@ -52,9 +41,45 @@ jobs:
         working-directory: daq
         run: cargo test --workspace --all-targets --locked
 
-      - name: Show compiler warnings
+  fmt:
+    name: Check formatting
+    runs-on: ubuntu-latest
+    container:
+      image: irvingywang/per-firmware:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Cargo Format
         working-directory: daq
-        run: |
-          echo "Compiler warnings:"
-          cargo check --workspace --all-targets --locked --message-format short
-        continue-on-error: true
+        run: cargo fmt --all --check
+
+  clippy:
+    name: Clippy (DAQ)
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: irvingywang/per-firmware:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Clippy
+        run: rustup component add clippy
+
+      - name: Cache Cargo
+        uses: actions/cache@v6
+        with:
+          path: |
+            /opt/cargo/registry
+            /opt/cargo/git
+            daq/target
+          key: ${{ runner.os }}-clippy-DAQ-${{ hashFiles('daq/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-clippy-DAQ-
+
+      - name: Check Clippy
+        working-directory: daq
+        run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
