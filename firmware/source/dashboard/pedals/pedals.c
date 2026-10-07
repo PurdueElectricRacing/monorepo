@@ -37,12 +37,12 @@ static constexpr uint8_t APPS_THROTTLE_PRESSED_THRESHOLD = 25; // 25% travel
 static constexpr uint8_t APPS_THROTTLE_RELEASE_THRESHOLD = 5; // 5% travel
 static constexpr uint8_t APPS_MECH_BRAKE_THRESHOLD = 5; // 5% travel
 
-static constexpr uint16_t BRAKE_PRESSURE_ADC_MIN = 414;  // ADC count at 0 PSI (sensor 0.5V -> divider 0.333V)
-static constexpr uint16_t BRAKE_PRESSURE_ADC_MAX = 3723; // ADC count at max-rated PSI (sensor 4.5V -> divider 3.0V)
+static constexpr float BRAKE_PRESSURE_ADC_MIN = 414.0f;  // ADC count at 0 PSI (sensor 0.5V -> divider 0.333V)
+static constexpr float BRAKE_PRESSURE_ADC_MAX = 3723.0f; // ADC count at max-rated PSI (sensor 4.5V -> divider 3.0V)
 static_assert(BRAKE_PRESSURE_ADC_MIN < BRAKE_PRESSURE_ADC_MAX, "Invalid brake pressure ADC calibration values");
 
-static constexpr uint16_t BRAKE_PRESSURE_PSI_MIN = 0;
-static constexpr uint16_t BRAKE_PRESSURE_PSI_MAX = 3771; // 260 bar * 14.5038 psi/bar
+static constexpr float BRAKE_PRESSURE_PSI_MIN = 0.0f;
+static constexpr float BRAKE_PRESSURE_PSI_MAX = 3771.0f; // 260 bar * 14.5038 psi/bar
 static_assert(BRAKE_PRESSURE_PSI_MIN < BRAKE_PRESSURE_PSI_MAX, "Invalid brake pressure PSI calibration values");
 
 

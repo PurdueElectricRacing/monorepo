@@ -1,0 +1,78 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: BOSCH_LWS DASHBOARD
+
+
+BO_ 688 LWS_Standard: 5 BOSCH_LWS
+ SG_ reserved2 : 32|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ reserved1 : 27|5@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ TRIM : 26|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ CAL : 25|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ OK : 24|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ LWS_SPEED : 16|8@1+ (4,0) [0|0] "deg/s" Vector__XXX
+ SG_ LWS_ANGLE : 0|16@1- (0.1,0.0) [0|0] "deg" Vector__XXX
+
+BO_ 1984 LWS_Config: 2 DASHBOARD
+ SG_ reserved2 : 8|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ reserved1 : 3|5@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CCW : 0|3@1+ (1,0) [0|0] "" Vector__XXX
+
+
+
+
+CM_ BU_ BOSCH_LWS "";
+CM_ BU_ DASHBOARD "";
+CM_ BO_ 688 "Standard steering angle and speed";
+CM_ SG_ 688 reserved2 "";
+CM_ SG_ 688 reserved1 "";
+CM_ SG_ 688 TRIM "Sensor trim status, 0 = invalid, 1 = valid";
+CM_ SG_ 688 CAL "Sensor calibration status, 0 = uncalibrated, 1 = calibrated";
+CM_ SG_ 688 OK "Sensor failure status, 0 = failure, 1 = OK";
+CM_ SG_ 688 LWS_SPEED "Angular speed of steering input";
+CM_ SG_ 688 LWS_ANGLE "Steering Angle";
+CM_ BO_ 1984 "Steering sensor configuration";
+CM_ SG_ 1984 reserved2 "";
+CM_ SG_ 1984 reserved1 "";
+CM_ SG_ 1984 CCW "Command Code Word";
+
+
+
+VAL_ 688 TRIM 0 "OFF" 1 "ON" ;
+VAL_ 688 CAL 0 "OFF" 1 "ON" ;
+VAL_ 688 OK 0 "OFF" 1 "ON" ;
+
+
+
