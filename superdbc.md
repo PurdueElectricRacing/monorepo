@@ -10,7 +10,7 @@ The application selects one active SuperDBC document. That document contains all
 - Key messages by `(bus_id, CanIdentity)`. Numeric bus IDs are the runtime interface; bus names resolve through metadata lookup.
 - Use ordinary owned strings, vectors, and `IndexMap`. No `Arc`, `Cow`, leaked strings, lifetime-bearing decoded frames, or custom signal hash table is required by the module.
 - Provide physical-value encoding and exact raw-value encoding. Require every defined signal and report input errors instead of silently supplying defaults or clamping.
-- Return typed decode errors. Callers that only need successful decoded frames can use `.ok()`.
+- Give loading, parsing, decoding, and encoding separate error types. Decode errors cannot represent JSON or I/O failures. Callers that only need successful decoded frames can use `.ok()`.
 - Do not check hash contents, syntax, or digests. Preserve hash strings as supplied metadata; add no `sha2` dependency.
 - Support SuperDBC schema version `1.1` and classic CAN payloads of zero through eight bytes. CAN FD decoding is outside this version.
 
@@ -32,7 +32,7 @@ daqcore/src/
   superdbc/
     mod.rs            Public type re-exports; implementation modules private
     model.rs          Private serde models for the SuperDBC 1.1 document
-    error.rs          Typed Error with manual Display and std::error::Error
+    error.rs          LoadError, ParseError, DecodeError, EncodeError
     database.rs       Database, Bus, Node; loading, validation, lookup indexes
     message.rs        Message, MessageKey, SignalDefinition, metadata types
     extract.rs        Private compiled extraction and insertion operations
@@ -40,7 +40,7 @@ daqcore/src/
     encode.rs         Physical and raw encoding
 ```
 
-Keep generic names such as `Database` and `Error` under `daqcore::superdbc`; no crate-root re-exports are necessary. Public re-exports include `Database`, `Bus`, `Node`, `Message`, `MessageKey`, `SignalDefinition`, `RawType`, `RawValue`, `ByteOrder`, `SignalLimits`, `DisplayFormat`, `DecodedMessage`, `DecodedSignalValue`, and `Error`.
+Keep the database and operation-specific error types under `daqcore::superdbc`; no crate-root re-exports are necessary. Public re-exports include `Database`, `Bus`, `Node`, `Message`, `MessageKey`, `SignalDefinition`, `RawType`, `RawValue`, `ByteOrder`, `SignalLimits`, `DisplayFormat`, `DecodedMessage`, `DecodedSignalValue`, `LoadError`, `ParseError`, `DecodeError`, and `EncodeError`. The private parsing models remain handwritten for now; schema-driven type generation is deferred.
 
 `Database` owns a `Vec<Bus>`, and each `Bus` owns a `Vec<Message>`. Each message owns its signal definitions. Preserve document iteration order using `IndexMap` for JSON bus names. Private indexes map bus names and IDs to bus positions, `MessageKey` to `(bus_index, message_index)`, and signal names to definition positions. Never duplicate message definitions to produce a flattened slice.
 
@@ -113,8 +113,8 @@ pub struct Database {
 }
 
 impl Database {
-    pub fn load(path: &Path) -> Result<Self, Error>;
-    pub fn from_json(json: &str) -> Result<Self, Error>;
+    pub fn load(path: &Path) -> Result<Self, LoadError>;
+    pub fn from_json(json: &str) -> Result<Self, ParseError>;
     pub fn path(&self) -> Option<&Path>;
     pub fn content_hash(&self) -> &str;
     pub fn version_hash(&self) -> &str;
@@ -128,13 +128,13 @@ impl Database {
 
     pub fn decode(
         &self, bus_id: u8, identity: CanIdentity, data: &[u8],
-    ) -> Result<DecodedMessage, Error>;
+    ) -> Result<DecodedMessage, DecodeError>;
     pub fn encode(
         &self, bus_id: u8, identity: CanIdentity, values: &[(&str, f64)],
-    ) -> Result<Vec<u8>, Error>;
+    ) -> Result<Vec<u8>, EncodeError>;
     pub fn encode_raw(
         &self, bus_id: u8, identity: CanIdentity, values: &[(&str, RawValue)],
-    ) -> Result<Vec<u8>, Error>;
+    ) -> Result<Vec<u8>, EncodeError>;
 }
 
 pub struct Bus {
@@ -159,9 +159,9 @@ impl Bus {
     pub fn nodes(&self) -> &[Node];
     pub fn messages(&self) -> &[Message];
     pub fn message(&self, identity: CanIdentity) -> Option<&Message>;
-    pub fn decode(&self, identity: CanIdentity, data: &[u8]) -> Result<DecodedMessage, Error>;
-    pub fn encode(&self, identity: CanIdentity, values: &[(&str, f64)]) -> Result<Vec<u8>, Error>;
-    pub fn encode_raw(&self, identity: CanIdentity, values: &[(&str, RawValue)]) -> Result<Vec<u8>, Error>;
+    pub fn decode(&self, identity: CanIdentity, data: &[u8]) -> Result<DecodedMessage, DecodeError>;
+    pub fn encode(&self, identity: CanIdentity, values: &[(&str, f64)]) -> Result<Vec<u8>, EncodeError>;
+    pub fn encode_raw(&self, identity: CanIdentity, values: &[(&str, RawValue)]) -> Result<Vec<u8>, EncodeError>;
 }
 ```
 
@@ -186,9 +186,9 @@ impl Message {
     pub fn description(&self) -> &str;
     pub fn signals(&self) -> &[SignalDefinition];
     pub fn signal(&self, name: &str) -> Option<&SignalDefinition>;
-    pub fn decode(&self, data: &[u8]) -> Result<DecodedMessage, Error>;
-    pub fn encode(&self, values: &[(&str, f64)]) -> Result<Vec<u8>, Error>;
-    pub fn encode_raw(&self, values: &[(&str, RawValue)]) -> Result<Vec<u8>, Error>;
+    pub fn decode(&self, data: &[u8]) -> Result<DecodedMessage, DecodeError>;
+    pub fn encode(&self, values: &[(&str, f64)]) -> Result<Vec<u8>, EncodeError>;
+    pub fn encode_raw(&self, values: &[(&str, RawValue)]) -> Result<Vec<u8>, EncodeError>;
 }
 
 pub struct SignalDefinition { /* owned metadata and private compiled codec */ }
@@ -253,24 +253,79 @@ Insert decoded signals in definition order and reserve the map capacity before d
 
 For integer-backed signals, `int_rounded()` returns the exact raw integer. For Float32 signals, it returns `physical.round() as i128`, preserving the existing saturating conversion behavior, including NaN becoming zero. This method does not mean rounded physical value for integer-backed signals; callers wanting that use `physical().round()` explicitly.
 
-### Errors
+### Operation-specific errors
 
-Use a single manually implemented `Error` enum consistent with daqcore's existing error style. It covers:
+Use standard `Result<T, E>` with a distinct error enum for each operation family. Do not introduce a catch-all `superdbc::Error`, boxed errors, or a custom result wrapper. An application that combines operations can define its own enclosing error type or convert errors to text at its UI/command boundary.
 
-- `Io(std::io::Error)`, `InvalidJson(serde_json::Error)`, and `UnsupportedSchemaVersion(String)`.
-- `InvalidDefinition { context: String, reason: String }` for schema or semantic validation failures.
-- `UnknownBus { bus_id: u8 }` and `UnknownMessage { key: MessageKey }`.
-- `InvalidPayloadLength { key: MessageKey, expected_min: u8, actual: usize }`.
-- `MissingSignal`, `UnknownSignal`, and `DuplicateSignal`, each carrying the message key and owned signal name.
-- `TypeMismatch`, `InvalidValue`, and `EncodeOutOfRange`, each carrying the message key, signal name, and a useful explanation.
+```rust
+#[derive(Debug)]
+pub enum LoadError {
+    Io(std::io::Error),
+    Parse(ParseError),
+}
 
-Implement `Display`, `std::error::Error`, and conversions from I/O and JSON errors. `source()` exposes the underlying I/O or JSON error. Unknown-bus, unknown-message, and invalid-length decode errors contain only copyable fields and allocate no strings. Success/failure branching through `Result` does not itself require allocation.
+#[derive(Debug)]
+pub enum ParseError {
+    InvalidJson(serde_json::Error),
+    UnsupportedSchemaVersion { found: String },
+    InvalidDefinition { context: String, reason: String },
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum DecodeError {
+    UnknownBus { bus_id: u8 },
+    UnknownMessage { key: MessageKey },
+    InvalidPayloadLength {
+        key: MessageKey,
+        expected_min: u8,
+        actual: usize,
+    },
+}
+
+#[derive(Debug)]
+pub enum EncodeError {
+    UnknownBus { bus_id: u8 },
+    UnknownMessage { key: MessageKey },
+    MissingSignal { key: MessageKey, signal: String },
+    UnknownSignal { key: MessageKey, signal: String },
+    DuplicateSignal { key: MessageKey, signal: String },
+    TypeMismatch { key: MessageKey, signal: String, expected: RawType },
+    NonFiniteValue { key: MessageKey, signal: String },
+    Float32Overflow { key: MessageKey, signal: String },
+    PhysicalOutOfRange { key: MessageKey, signal: String, physical: f64 },
+    RawOutOfRange {
+        key: MessageKey,
+        signal: String,
+        value: i128,
+        min: i128,
+        max: i128,
+    },
+}
+```
+
+The return types establish the failure boundary:
+
+| Operation | Error type | Possible failures |
+|---|---|---|
+| `Database::load` | `LoadError` | File reading or a wrapped `ParseError` |
+| `Database::from_json` | `ParseError` | JSON/model deserialization, unsupported version, or invalid definitions |
+| Database/bus/message `decode` | `DecodeError` | Lookup or payload length; never JSON, I/O, or invalid-definition failures |
+| Database/bus/message `encode` / `encode_raw` | `EncodeError` | Lookup, signal input, or value representability; never JSON or I/O failures |
+| Metadata lookup such as `bus`, `message`, or `signal` | `Option<&T>` | Absence, with no diagnostic error required |
+
+Error types are shared within an operation family rather than multiplying types for every scope. A resolved `Bus` cannot produce `UnknownBus`; a resolved `Message` cannot produce either lookup error. `Message::decode` therefore only produces `InvalidPayloadLength`. Bad signal layouts and invalid identities are rejected during construction; they are not runtime decode error variants.
+
+All `DecodeError` fields are copyable and allocation-free. Decoding arbitrary bytes never returns an encoding range error: unknown enum values, out-of-limit physical values, and Float32 NaN/infinity remain valid decoded telemetry. Unknown buses/messages still return typed errors rather than being conflated with successful empty messages.
+
+`EncodeError` uses structured variants so the send UI can distinguish incomplete input, wrong raw types, non-finite values, Float32 overflow, and range failures without parsing error text. `PhysicalOutOfRange` carries the requested physical value when inverse scaling or integer quantization exceeds the wire range; exact raw integer range failures carry `i128` bounds, which cover both signed and unsigned 64-bit values. `NonFiniteValue` covers non-finite input or inverse-scaled values; `Float32Overflow` covers a finite inverse-scaled value that becomes infinite on narrowing.
+
+Implement manual `Display` and `std::error::Error` for each enum, following daqcore's existing style. `LoadError::source()` returns its I/O or parse error, and `ParseError::source()` returns the wrapped JSON error when applicable; other variants have no source. Provide `From<std::io::Error>` and `From<ParseError>` for `LoadError`, and `From<serde_json::Error>` for `ParseError`. Do not convert load/parse errors into decode/encode errors.
 
 ## 4. Loading, decoding, and encoding behavior
 
 ### Loading and validation
 
-Read JSON, inspect `versions.schema_version`, reject unsupported versions, then deserialize private version-1.1 models and validate semantic constraints before compiling indexes. Reject unknown fields in those models. Follow the current generator's required/nullable fields and its optional `display_format` field.
+Read JSON, inspect `versions.schema_version`, reject unsupported versions, then deserialize private version-1.1 models and validate semantic constraints before compiling indexes. JSON syntax and model-deserialization failures return `ParseError::InvalidJson`; semantic failures return `ParseError::InvalidDefinition`. File reads are the only source of `LoadError::Io`. Reject unknown fields in those models. Follow the current generator's required/nullable fields and its optional `display_format` field.
 
 Validate bus IDs in `0..=7`, positive baud rates, unique bus IDs and names, valid CAN ID widths, message lengths in `0..=8`, priority in `0..=5`, and positive nominal periods when present. Within each bus, reject duplicate message names or duplicate complete CAN identities. Identical identities on different buses are valid, as are standard and extended identities with the same numeric ID.
 
@@ -319,10 +374,10 @@ Examples are intended call patterns once the module exists; they are not patches
 ### Load and resolve a bus
 
 ```rust
-use daqcore::superdbc::{Database, Error};
+use daqcore::superdbc::{Database, LoadError};
 use std::path::Path;
 
-fn inspect(path: &Path) -> Result<(), Error> {
+fn inspect(path: &Path) -> Result<(), LoadError> {
     let db = Database::load(path)?;
     if let Some(bus) = db.bus("MCAN") {
         println!("{}: id {}, {} baud", bus.name(), bus.bus_id(), bus.baud_rate());
@@ -345,7 +400,7 @@ if let Some(value) = decoded.signal("Z_axis") {
 }
 ```
 
-A `FrameDecoder` can keep its existing optional decoded field by invoking the decoder only for `FrameKind::Data` and storing `db.decode(bus_id, frame.identity, &frame.data).ok()`. Diagnostics may inspect the error first; unknown traffic need not produce a log entry for every frame.
+A `FrameDecoder` can keep its existing optional decoded field by invoking the decoder only for `FrameKind::Data` and storing `db.decode(bus_id, frame.identity, &frame.data).ok()`. Diagnostics may match `DecodeError::UnknownBus`, `DecodeError::UnknownMessage`, and `DecodeError::InvalidPayloadLength` before discarding it; no JSON/I/O match arms are necessary. Unknown traffic need not produce a log entry for every frame.
 
 ### Encode physical or exact raw values
 
@@ -413,6 +468,8 @@ Once consumers are migrated, remove the four DBC conversion helpers and `can_dec
 ## 7. Acceptance tests and performance criteria
 
 ### Functional acceptance
+
+- Check operation-specific return types: file loading wraps parse failures, in-memory parsing exposes no I/O variant, and decode/encode expose no JSON or load variants. Verify error source chains and typed distinctions between unknown bus, unknown message, invalid payload length, and signal/value encoding failures.
 
 - Load the current artifact and enumerate all five buses, 145 messages, and 510 signals. Accept every current decimal format, null display hints, and an omitted optional display hint.
 - Reject unsupported schema versions, unknown fields, duplicate bus IDs, duplicate identities within a bus, duplicate message/signal names, invalid widths, bad limits, zero scale, overlapping bits, and signals outside the declared payload.
