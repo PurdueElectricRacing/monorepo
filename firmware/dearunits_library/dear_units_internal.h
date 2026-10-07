@@ -8,53 +8,53 @@
  * @author Danny Proano (dproano@purdue.edu)
  */
 
-#define DEARUNITS_FN [[nodiscard, gnu::always_inline]] static inline
+#define DU_FN [[nodiscard, gnu::always_inline]] static inline
 
-#define DEARUNITS_DEFINE_UNIT_OPERATIONS(U) \
-    DEARUNITS_FN U##_t dearunits_add_##U(U##_t a, U##_t b) { return (U##_t){ .value = a.value + b.value }; } \
-    DEARUNITS_FN U##_t dearunits_subtract_##U(U##_t a, U##_t b) { return (U##_t){ .value = a.value - b.value }; } \
-    DEARUNITS_FN U##_t dearunits_negate_##U(U##_t a) { return (U##_t){ .value = -a.value }; } \
-    DEARUNITS_FN U##_t dearunits_abs_##U(U##_t a) { return (U##_t){ .value = __builtin_fabsf(a.value) }; } \
-    DEARUNITS_FN U##_t dearunits_min_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_isunordered(a.value, b.value) ? __builtin_nanf("") : ((a.value < b.value) ? a.value : b.value) }; } \
-    DEARUNITS_FN U##_t dearunits_max_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_isunordered(a.value, b.value) ? __builtin_nanf("") : ((a.value > b.value) ? a.value : b.value) }; } \
-    DEARUNITS_FN U##_t dearunits_clamp_##U(U##_t x, U##_t lo, U##_t hi) { return (U##_t){ .value = (__builtin_isunordered(x.value, lo.value) || __builtin_isunordered(x.value, hi.value)) ? __builtin_nanf("") : ((x.value < lo.value) ? lo.value : ((x.value > hi.value) ? hi.value : x.value)) }; } \
-    DEARUNITS_FN U##_t dearunits_abs_diff_##U(U##_t a, U##_t b) { return (U##_t){ .value = (a.value > b.value) ? (a.value - b.value) : (b.value - a.value) }; } \
-    DEARUNITS_FN U##_t dearunits_lerp_##U(U##_t a, U##_t b, float t) { return (U##_t){ .value = (1.0f - t) * a.value + t * b.value }; } \
-    DEARUNITS_FN float dearunits_invlerp_##U(U##_t a, U##_t b, U##_t x) { return (x.value - a.value) / (b.value - a.value); } \
-    DEARUNITS_FN U##_t dearunits_saturate_##U(U##_t x, U##_t limit) { return (U##_t){ .value = __builtin_isunordered(x.value, limit.value) ? __builtin_nanf("") : ((x.value > __builtin_fabsf(limit.value)) ? __builtin_fabsf(limit.value) : ((x.value < -__builtin_fabsf(limit.value)) ? -__builtin_fabsf(limit.value) : x.value)) }; } \
-    DEARUNITS_FN U##_t dearunits_deadband_##U(U##_t x, U##_t threshold) { return (U##_t){ .value = __builtin_isunordered(x.value, threshold.value) ? __builtin_nanf("") : ((__builtin_fabsf(x.value) < __builtin_fabsf(threshold.value)) ? 0.0f : x.value) }; } \
-    DEARUNITS_FN U##_t dearunits_slew_##U(U##_t prev, U##_t target, U##_t max_step) { return (U##_t){ .value = (__builtin_isunordered(prev.value, target.value) || __builtin_isunordered(prev.value, max_step.value)) ? __builtin_nanf("") : ((target.value - prev.value > __builtin_fabsf(max_step.value)) ? prev.value + __builtin_fabsf(max_step.value) : ((target.value - prev.value < -__builtin_fabsf(max_step.value)) ? prev.value - __builtin_fabsf(max_step.value) : target.value)) }; } \
-    DEARUNITS_FN float dearunits_sign_##U(U##_t a) { return __builtin_isnan(a.value) ? __builtin_nanf("") : ((a.value > 0.0f) ? 1.0f : ((a.value < 0.0f) ? -1.0f : 0.0f)); } \
-    DEARUNITS_FN U##_t dearunits_copysign_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_isnan(b.value) ? __builtin_nanf("") : __builtin_copysignf(a.value, b.value) }; } \
-    DEARUNITS_FN U##_t dearunits_hypot_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_hypotf(a.value, b.value) }; } \
-    DEARUNITS_FN U##_t dearunits_fmod_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_fmodf(a.value, b.value) }; } \
-    DEARUNITS_FN U##_t dearunits_round_##U(U##_t a) { return (U##_t){ .value = __builtin_roundf(a.value) }; } \
-    DEARUNITS_FN U##_t dearunits_floor_##U(U##_t a) { return (U##_t){ .value = __builtin_floorf(a.value) }; } \
-    DEARUNITS_FN U##_t dearunits_ceil_##U(U##_t a) { return (U##_t){ .value = __builtin_ceilf(a.value) }; } \
-    DEARUNITS_FN bool dearunits_is_nan_##U(U##_t a) { return __builtin_isnan(a.value); } \
-    DEARUNITS_FN bool dearunits_is_finite_##U(U##_t a) { return __builtin_isfinite(a.value); } \
-    DEARUNITS_FN bool dearunits_nearly_equal_##U(U##_t a, U##_t b, U##_t tol) { return __builtin_fabsf(a.value - b.value) <= __builtin_fabsf(tol.value); } \
-    DEARUNITS_FN bool dearunits_lt_##U(U##_t a, U##_t b) { return a.value < b.value; } \
-    DEARUNITS_FN bool dearunits_gt_##U(U##_t a, U##_t b) { return a.value > b.value; } \
-    DEARUNITS_FN bool dearunits_le_##U(U##_t a, U##_t b) { return a.value <= b.value; } \
-    DEARUNITS_FN bool dearunits_ge_##U(U##_t a, U##_t b) { return a.value >= b.value; }
+#define DU_DEFINE_UNIT_OPERATIONS(U) \
+    DU_FN U##_t dearunits_add_##U(U##_t a, U##_t b) { return (U##_t){ .value = a.value + b.value }; } \
+    DU_FN U##_t dearunits_subtract_##U(U##_t a, U##_t b) { return (U##_t){ .value = a.value - b.value }; } \
+    DU_FN U##_t dearunits_negate_##U(U##_t a) { return (U##_t){ .value = -a.value }; } \
+    DU_FN U##_t dearunits_abs_##U(U##_t a) { return (U##_t){ .value = __builtin_fabsf(a.value) }; } \
+    DU_FN U##_t dearunits_min_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_isunordered(a.value, b.value) ? __builtin_nanf("") : ((a.value < b.value) ? a.value : b.value) }; } \
+    DU_FN U##_t dearunits_max_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_isunordered(a.value, b.value) ? __builtin_nanf("") : ((a.value > b.value) ? a.value : b.value) }; } \
+    DU_FN U##_t dearunits_clamp_##U(U##_t x, U##_t lo, U##_t hi) { return (U##_t){ .value = (__builtin_isunordered(x.value, lo.value) || __builtin_isunordered(x.value, hi.value)) ? __builtin_nanf("") : ((x.value < lo.value) ? lo.value : ((x.value > hi.value) ? hi.value : x.value)) }; } \
+    DU_FN U##_t dearunits_abs_diff_##U(U##_t a, U##_t b) { return (U##_t){ .value = (a.value > b.value) ? (a.value - b.value) : (b.value - a.value) }; } \
+    DU_FN U##_t dearunits_lerp_##U(U##_t a, U##_t b, float t) { return (U##_t){ .value = (1.0f - t) * a.value + t * b.value }; } \
+    DU_FN float dearunits_invlerp_##U(U##_t a, U##_t b, U##_t x) { return (x.value - a.value) / (b.value - a.value); } \
+    DU_FN U##_t dearunits_saturate_##U(U##_t x, U##_t limit) { return (U##_t){ .value = __builtin_isunordered(x.value, limit.value) ? __builtin_nanf("") : ((x.value > __builtin_fabsf(limit.value)) ? __builtin_fabsf(limit.value) : ((x.value < -__builtin_fabsf(limit.value)) ? -__builtin_fabsf(limit.value) : x.value)) }; } \
+    DU_FN U##_t dearunits_deadband_##U(U##_t x, U##_t threshold) { return (U##_t){ .value = __builtin_isunordered(x.value, threshold.value) ? __builtin_nanf("") : ((__builtin_fabsf(x.value) < __builtin_fabsf(threshold.value)) ? 0.0f : x.value) }; } \
+    DU_FN U##_t dearunits_slew_##U(U##_t prev, U##_t target, U##_t max_step) { return (U##_t){ .value = (__builtin_isunordered(prev.value, target.value) || __builtin_isunordered(prev.value, max_step.value)) ? __builtin_nanf("") : ((target.value - prev.value > __builtin_fabsf(max_step.value)) ? prev.value + __builtin_fabsf(max_step.value) : ((target.value - prev.value < -__builtin_fabsf(max_step.value)) ? prev.value - __builtin_fabsf(max_step.value) : target.value)) }; } \
+    DU_FN float dearunits_sign_##U(U##_t a) { return __builtin_isnan(a.value) ? __builtin_nanf("") : ((a.value > 0.0f) ? 1.0f : ((a.value < 0.0f) ? -1.0f : 0.0f)); } \
+    DU_FN U##_t dearunits_copysign_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_isnan(b.value) ? __builtin_nanf("") : __builtin_copysignf(a.value, b.value) }; } \
+    DU_FN U##_t dearunits_hypot_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_hypotf(a.value, b.value) }; } \
+    DU_FN U##_t dearunits_fmod_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_fmodf(a.value, b.value) }; } \
+    DU_FN U##_t dearunits_round_##U(U##_t a) { return (U##_t){ .value = __builtin_roundf(a.value) }; } \
+    DU_FN U##_t dearunits_floor_##U(U##_t a) { return (U##_t){ .value = __builtin_floorf(a.value) }; } \
+    DU_FN U##_t dearunits_ceil_##U(U##_t a) { return (U##_t){ .value = __builtin_ceilf(a.value) }; } \
+    DU_FN bool dearunits_is_nan_##U(U##_t a) { return __builtin_isnan(a.value); } \
+    DU_FN bool dearunits_is_finite_##U(U##_t a) { return __builtin_isfinite(a.value); } \
+    DU_FN bool dearunits_nearly_equal_##U(U##_t a, U##_t b, U##_t tol) { return __builtin_fabsf(a.value - b.value) <= __builtin_fabsf(tol.value); } \
+    DU_FN bool dearunits_lt_##U(U##_t a, U##_t b) { return a.value < b.value; } \
+    DU_FN bool dearunits_gt_##U(U##_t a, U##_t b) { return a.value > b.value; } \
+    DU_FN bool dearunits_le_##U(U##_t a, U##_t b) { return a.value <= b.value; } \
+    DU_FN bool dearunits_ge_##U(U##_t a, U##_t b) { return a.value >= b.value; }
 
-#define DEARUNITS_DEFINE_MULTIPLY(L, R, RES) \
-    DEARUNITS_FN RES##_t dearunits_multiply_##L##_by_##R(L##_t a, R##_t b) { return (RES##_t){ .value = a.value * b.value }; }
-#define DEARUNITS_DEFINE_DIVIDE(L, R, RES) \
-    DEARUNITS_FN RES##_t dearunits_divide_##L##_by_##R(L##_t a, R##_t b) { return (RES##_t){ .value = a.value / b.value }; }
+#define DU_DEFINE_MULTIPLY(L, R, RES) \
+    DU_FN RES##_t dearunits_multiply_##L##_by_##R(L##_t a, R##_t b) { return (RES##_t){ .value = a.value * b.value }; }
+#define DU_DEFINE_DIVIDE(L, R, RES) \
+    DU_FN RES##_t dearunits_divide_##L##_by_##R(L##_t a, R##_t b) { return (RES##_t){ .value = a.value / b.value }; }
 
-#define DEARUNITS_DEFINE_MULTIPLY_TO_FLOAT(L, R) \
-    DEARUNITS_FN float dearunits_multiply_##L##_by_##R(L##_t a, R##_t b) { return a.value * b.value; }
-#define DEARUNITS_DEFINE_DIVIDE_TO_FLOAT(L, R) \
-    DEARUNITS_FN float dearunits_divide_##L##_by_##R(L##_t a, R##_t b) { return a.value / b.value; }
+#define DU_DEFINE_MULTIPLY_TO_FLOAT(L, R) \
+    DU_FN float dearunits_multiply_##L##_by_##R(L##_t a, R##_t b) { return a.value * b.value; }
+#define DU_DEFINE_DIVIDE_TO_FLOAT(L, R) \
+    DU_FN float dearunits_divide_##L##_by_##R(L##_t a, R##_t b) { return a.value / b.value; }
 
-#define DEARUNITS_DEFINE_SCALAR_OPS(U) \
-    DEARUNITS_FN U##_t dearunits_multiply_##U##_by_scalar(U##_t a, float b) { return (U##_t){ .value = a.value * b }; } \
-    DEARUNITS_FN U##_t dearunits_divide_##U##_by_scalar(U##_t a, float b) { return (U##_t){ .value = a.value / b }; } \
-    DEARUNITS_FN U##_t dearunits_multiply_scalar_by_##U(float a, U##_t b) { return (U##_t){ .value = a * b.value }; }
+#define DU_DEFINE_SCALAR_OPS(U) \
+    DU_FN U##_t dearunits_multiply_##U##_by_scalar(U##_t a, float b) { return (U##_t){ .value = a.value * b }; } \
+    DU_FN U##_t dearunits_divide_##U##_by_scalar(U##_t a, float b) { return (U##_t){ .value = a.value / b }; } \
+    DU_FN U##_t dearunits_multiply_scalar_by_##U(float a, U##_t b) { return (U##_t){ .value = a * b.value }; }
 
-#define DEARUNITS_DEFINE_INVERSE(U, RES) \
-    DEARUNITS_FN RES##_t dearunits_divide_scalar_by_##U(float a, U##_t b) { return (RES##_t){ .value = a / b.value }; }
+#define DU_DEFINE_INVERSE(U, RES) \
+    DU_FN RES##_t dearunits_divide_scalar_by_##U(float a, U##_t b) { return (RES##_t){ .value = a / b.value }; }
 
 #endif // DEAR_UNITS_INTERNAL_H

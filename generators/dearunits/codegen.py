@@ -52,7 +52,7 @@ class QuantityContext:
 
     @property
     def dispatch_name(self) -> str:
-        return f"dearunits_{self.base.name}_from".upper()
+        return f"DU_{self.base.name}_from".upper()
 
     @property
     def has_conversions(self) -> bool:
@@ -189,7 +189,7 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
         dims = _combine(quantity_dims[lhs], quantity_dims[rhs], sign)
         if not dims:
             return "float"
-        result = match(dims, f"DEARUNITS_{op_name}: {lhs} and {rhs}")
+        result = match(dims, f"DU_{op_name}: {lhs} and {rhs}")
         return None if result is None else base_type[result]
 
     ops = BinaryOpsContext()
@@ -203,11 +203,11 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
                     continue
                 if result == "float":
                     ops.definitions.append(BinaryOpDefinitionContext(
-                        f"DEARUNITS_DEFINE_{op_name}_TO_FLOAT", [base_name[lhs], base_name[rhs]],
+                        f"DU_DEFINE_{op_name}_TO_FLOAT", [base_name[lhs], base_name[rhs]],
                     ))
                 else:
                     ops.definitions.append(BinaryOpDefinitionContext(
-                        f"DEARUNITS_DEFINE_{op_name}", [base_name[lhs], base_name[rhs], result[:-2]],
+                        f"DU_DEFINE_{op_name}", [base_name[lhs], base_name[rhs], result[:-2]],
                     ))
                 cross[op].setdefault(lhs, []).append(BinaryOpDispatchEntryContext(
                     base_type[rhs], f"dearunits_{op}_{base_name[lhs]}_by_{base_name[rhs]}",
@@ -219,7 +219,7 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
     scalar_first: dict[str, list[BinaryOpDispatchEntryContext]] = {"multiply": [], "divide": []}
     for quantity in quantities:
         for unit in quantity.types:
-            ops.definitions.append(BinaryOpDefinitionContext("DEARUNITS_DEFINE_SCALAR_OPS", [unit.name]))
+            ops.definitions.append(BinaryOpDefinitionContext("DU_DEFINE_SCALAR_OPS", [unit.name]))
             for op, dispatch in (("multiply", ops.multiply), ("divide", ops.divide)):
                 entries = [BinaryOpDispatchEntryContext("float", f"dearunits_{op}_{unit.name}_by_scalar")]
                 if unit is quantity.base:
@@ -231,11 +231,11 @@ def build_binary_ops(graph: UnitGraph, quantities: list[QuantityContext]) -> Bin
 
         inverse = None if quantity.name in ambiguous else match(
             tuple(sorted((base_quantity, -exponent) for base_quantity, exponent in quantity_dims[quantity.name].items())),
-            f"DEARUNITS_DIVIDE: 1 / {quantity.name}",
+            f"DU_DIVIDE: 1 / {quantity.name}",
         )
         if inverse is not None:
             ops.definitions.append(BinaryOpDefinitionContext(
-                "DEARUNITS_DEFINE_INVERSE", [quantity.base.name, base_name[inverse]],
+                "DU_DEFINE_INVERSE", [quantity.base.name, base_name[inverse]],
             ))
             scalar_first["divide"].append(BinaryOpDispatchEntryContext(
                 quantity.base.type_name, f"dearunits_divide_scalar_by_{quantity.base.name}",

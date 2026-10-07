@@ -65,12 +65,12 @@ typedef struct { float value; } {{ unit.type_name }};
 {% endfor %}
 
 {% for unit in base_types %}
-DEARUNITS_DEFINE_UNIT_OPERATIONS({{ unit.name }})
+DU_DEFINE_UNIT_OPERATIONS({{ unit.name }})
 {% endfor %}
 
 {% macro dispatch_macros(ops, types) %}
 {% for macro_name, function, args in ops %}
-#define DEARUNITS_{{ macro_name }}({{ args }}) _Generic(({{ args.split(', ')[0] }}), \
+#define DU_{{ macro_name }}({{ args }}) _Generic(({{ args.split(', ')[0] }}), \
 {% for unit in types %}
     {{ unit.type_name }}: dearunits_{{ function }}_{{ unit.name }}{% if not loop.last %},{% endif %} \
 {% endfor %}
@@ -108,15 +108,15 @@ DEARUNITS_DEFINE_UNIT_OPERATIONS({{ unit.name }})
     ('GE', 'ge', 'a, b'),
 ], base_types) }}
 // Remap x from [in_lo, in_hi] to [out_lo, out_hi]; the two ranges can be different unit types.
-#define DEARUNITS_MAP_RANGE(x, in_lo, in_hi, out_lo, out_hi) \
-    DEARUNITS_LERP(out_lo, out_hi, DEARUNITS_INVLERP(in_lo, in_hi, x))
+#define DU_MAP_RANGE(x, in_lo, in_hi, out_lo, out_hi) \
+    DU_LERP(out_lo, out_hi, DU_INVLERP(in_lo, in_hi, x))
 
 // ============================================================================
 // Multiply / divide
 // ============================================================================
 
 // Base-unit pairs resolve through explicit relations, then dimensional analysis.
-// Every unit type also takes a float on the right (DEARUNITS_MULTIPLY(x, 2.0f));
+// Every unit type also takes a float on the right (DU_MULTIPLY(x, 2.0f));
 // float * unit and float / unit work where the result is a unit type (1 / time = frequency).
 //
 // Every inner _Generic is type-checked even when its branch isn't selected, so
@@ -129,7 +129,7 @@ extern const int dearunits_error_unsupported_operands_use_base_units_or_float;
 {% endfor %}
 
 {% for macro_name, dispatch in [('MULTIPLY', binary_ops.multiply), ('DIVIDE', binary_ops.divide)] %}
-#define DEARUNITS_{{ macro_name }}(a, b) _Generic((a), \
+#define DU_{{ macro_name }}(a, b) _Generic((a), \
 {% for lhs in dispatch %}
     {{ lhs.lhs_type }}: _Generic((b), \
 {% for entry in lhs.entries %}
@@ -159,13 +159,13 @@ extern const int dearunits_error_unsupported_operands_use_base_units_or_float;
 }
 
 {% endfor %}
-#define DEARUNITS_SQUARE(a) _Generic((a), \
+#define DU_SQUARE(a) _Generic((a), \
 {% for sq in binary_ops.squares %}
     {{ sq.operand_type }}: dearunits_square_{{ sq.operand_name }}{% if not loop.last %},{% endif %} \
 {% endfor %}
 )(a)
 
-#define DEARUNITS_SQRT(a) _Generic((a), \
+#define DU_SQRT(a) _Generic((a), \
 {% for sq in binary_ops.squares %}
     {{ sq.result_type }}: dearunits_sqrt_{{ sq.result_name }}{% if not loop.last %},{% endif %} \
 {% endfor %}
