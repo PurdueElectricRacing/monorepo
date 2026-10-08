@@ -5,7 +5,6 @@ use crate::superdbc::{
     message::{Message, MessageKey, RawType, RawValue},
 };
 
-/// Owned telemetry, independent of the database that produced it.
 #[derive(Debug, Clone)]
 pub struct DecodedMessage {
     key: MessageKey,
