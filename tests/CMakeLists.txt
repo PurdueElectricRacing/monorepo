@@ -156,6 +156,11 @@ add_subdirectory(
     "${CMAKE_BINARY_DIR}/unit/bangbang"
 )
 
+add_subdirectory(
+    "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/dearunits/tests"
+    "${CMAKE_BINARY_DIR}/unit/dearunits"
+)
+
 if(PER_TEST_COVERAGE)
     get_property(
         PER_TEST_TARGETS

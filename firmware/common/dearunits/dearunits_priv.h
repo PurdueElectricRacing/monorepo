@@ -1,9 +1,9 @@
-#ifndef DEAR_UNITS_INTERNAL_H
-#define DEAR_UNITS_INTERNAL_H
+#ifndef DEARUNITS_PRIV_H
+#define DEARUNITS_PRIV_H
 
 /**
- * @file dear_units_internal.h
- * @brief Implementation details of dear_units.h; do not include directly.
+ * @file dearunits_priv.h
+ * @brief Implementation details of dearunits.h; do not include directly.
  *
  * @author Danny Proano (dproano@purdue.edu)
  */
@@ -46,4 +46,4 @@
 #define DU_DEFINE_INVERSE(U, RES) \
     DU_FN RES##_t dearunits_divide_scalar_by_##U(float a, U##_t b) { return (RES##_t){ .value = a / b.value }; }
 
-#endif // DEAR_UNITS_INTERNAL_H
+#endif // DEARUNITS_PRIV_H

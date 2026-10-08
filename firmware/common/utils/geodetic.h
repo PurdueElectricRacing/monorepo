@@ -15,7 +15,7 @@
 #include <math.h>
 
 #include "common/utils/linear_algebra.h"
-#include "common/utils/units.h"
+#include "common/dearunits/generated/dearunits.h"
 
 // WGS84 mean meters of northing per degree of latitude
 static constexpr float METERS_PER_DEGREE = 111132.0f;
@@ -58,7 +58,7 @@ static inline vector2_t geodetic_to_local(const geodetic_coord_t origin, const g
     float latitude_delta_deg = coord.latitude_deg - origin.latitude_deg;
     float longitude_delta_deg = coord.longitude_deg - origin.longitude_deg;
 
-    radians_t origin_latitude = radians_from((degrees_t){.value = (float)origin.latitude_deg});
+    radian_t origin_latitude = DU_RADIAN_FROM((degree_t){.value = (float)origin.latitude_deg});
 
     return (vector2_t){
         .x = (longitude_delta_deg * (float) METERS_PER_DEGREE) * cosf(origin_latitude.value),

@@ -59,22 +59,6 @@ for (size_t i = 0; i < countof(rails); ++i) {
 }
 ```
 
-## `units.h`
-Tiny typed wrappers around physical units. Each unit is a struct holding a single `float`, so they cost nothing at runtime but stop you from accidentally mixing, e.g., feet with meters.
-
-Available unit families: temperature (C/F), distance (m/cm/mm/in/ft/mi), time (ms/s/min/hr/day), angle (rad/deg), mass (g/kg/lb), pressure (Pa/psi/bar), velocity (mps/kph/mph).
-
-```c
-celsius_t board_temp = { .value = 42.0f };
-fahrenheit_t f       = fahrenheit_from(board_temp);   // 107.6 F
-
-degrees_t   steer_deg = { .value = 90.0f };
-radians_t   steer_rad = radians_from(steer_deg);      // pi/2
-
-// _Generic shorthand: the right converter is picked from the input type.
-meters_t  d = meters_from((feet_t){ .value = 10.0f }); // 3.048 m
-seconds_t t = seconds_from((minutes_t){ .value = 5.0f }); // 300 s
-```
 
 ## `linear_algebra.h`
 Float-only `vector3_t` / `matrix3x3_t` / `euler_angles_t` plus the basic operations needed for IMU/orientation work: magnitude, normalize, matrix-vector and matrix-matrix multiply, and a Tait-Bryan ZYX Euler-to-rotation-matrix helper.

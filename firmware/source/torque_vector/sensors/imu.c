@@ -9,7 +9,7 @@
 #include "common/utils/orientation.h"
 #include "sensors.h"
 // #include <math.h>
-#include "common/utils/units.h"
+#include "common/dearunits/generated/dearunits.h"
 #include "common/utils/clamp.h"
 
 typedef enum {
@@ -49,8 +49,8 @@ void initialize_calibration(void) {
     // accel_sum.z      = 0;
     // num_samples      = 0;
 
-    float pi_2 = PI_F / 2.0f;
-    euler_angles_t mounting_offset = {2.2689280276f, 0, -pi_2};
+    const radian_t quarter_turn = DU_RADIAN_FROM((degree_t){ .value = 90.0f });
+    euler_angles_t mounting_offset = {2.2689280276f, 0, -quarter_turn.value};
     mounting_offset_matrix = DCM_from_euler(mounting_offset);
 
     // decoupling_state = DECOUPLING_STATE_CALIBRATING;

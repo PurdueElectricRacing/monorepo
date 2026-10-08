@@ -266,13 +266,13 @@ def generate_units_header(quantities: list[QuantityContext], binary_ops: BinaryO
     env = get_jinja_env()
     content = render_template(
         env,
-        "dear_units.h.jinja",
+        "dearunits.h.jinja",
         groups=quantities,
         base_types=[quantity.base for quantity in quantities],
         binary_ops=binary_ops,
     )
-    print_as_ok("Generated dear_units.h")
-    return Artifact("units_generated", "dear_units.h", content)
+    print_as_ok("Generated dearunits.h")
+    return Artifact("units_generated", "dearunits.h", content)
 
 
 def generate_headers(graph: UnitGraph) -> list[Artifact]:

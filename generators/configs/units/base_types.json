@@ -41,7 +41,6 @@
             "name": "temperature",
             "base_unit": "celsius",
             "units": [
-                {"name": "kelvin", "scale": 1.0, "offset": -273.15},
                 {"name": "fahrenheit", "scale": 0.5555555555555556, "offset": -17.77777777777778}
             ]
         },
