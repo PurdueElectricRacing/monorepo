@@ -1,3 +1,10 @@
+/**
+ * @file reject_non_base_product.c
+ * @brief Test that dimensional products require base units
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #include "common/dearunits/generated/dearunits.h"
 
 void test(void) {

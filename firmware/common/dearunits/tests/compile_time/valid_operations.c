@@ -1,3 +1,10 @@
+/**
+ * @file valid_operations.c
+ * @brief Test that valid unit operations compile
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #include "common/dearunits/generated/dearunits.h"
 
 void test(void) {

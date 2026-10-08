@@ -1,3 +1,10 @@
+/**
+ * @file reject_wrong_result_type.c
+ * @brief Test that incorrect result types are rejected
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #include "common/dearunits/generated/dearunits.h"
 
 void test(void) {

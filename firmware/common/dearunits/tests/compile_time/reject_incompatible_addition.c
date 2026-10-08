@@ -1,3 +1,10 @@
+/**
+ * @file reject_incompatible_addition.c
+ * @brief Test that incompatible units cannot be added
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #include "common/dearunits/generated/dearunits.h"
 
 void test(void) {
