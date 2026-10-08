@@ -12,7 +12,6 @@ use crate::superdbc::{
     model::{self, Document, VersionProbe},
 };
 
-/// One immutable document containing every configured bus.
 #[derive(Debug)]
 pub struct Database {
     path: Option<PathBuf>,
