@@ -1,3 +1,5 @@
+//! Operation-specific errors: loading/parsing, decoding, and encoding.
+
 use std::{error::Error, fmt};
 
 use crate::superdbc::message::{MessageKey, RawType};
