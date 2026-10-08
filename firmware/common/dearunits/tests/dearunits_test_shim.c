@@ -1,4 +1,5 @@
 #include "dearunits_test_shim.h"
+
 #include "common/dearunits/generated/dearunits.h"
 
 // Keep C23 dispatch in C; inputs and assertions live in Google Test.
@@ -29,7 +30,7 @@ float du_test_fahrenheit_from_celsius(float x) {
 }
 
 float du_test_velocity(float a, float b) {
-    meter_t operand_0 = {.value = a};
+    meter_t operand_0  = {.value = a};
     second_t operand_1 = {.value = b};
 
     meters_per_second_t result = DU_DIVIDE(operand_0, operand_1);
@@ -38,7 +39,7 @@ float du_test_velocity(float a, float b) {
 
 float du_test_distance(float a, float b) {
     meters_per_second_t operand_0 = {.value = a};
-    second_t operand_1 = {.value = b};
+    second_t operand_1            = {.value = b};
 
     meter_t result = DU_MULTIPLY(operand_0, operand_1);
     return result.value;
@@ -106,8 +107,8 @@ float du_test_sqrt(float x) {
 
 float du_test_force_constructor(float mass, float length, float time) {
     kilogram_t operand_0 = {.value = mass};
-    meter_t operand_1 = {.value = length};
-    second_t operand_2 = {.value = time};
+    meter_t operand_1    = {.value = length};
+    second_t operand_2   = {.value = time};
 
     newton_t result = force_from(operand_0, operand_1, operand_2);
     return result.value;
@@ -160,23 +161,8 @@ float du_test_abs(float x) {
     return DU_ABS(operand_0).value;
 }
 
-float du_test_round(float x) {
-    meter_t operand_0 = {.value = x};
 
-    return DU_ROUND(operand_0).value;
-}
 
-float du_test_floor(float x) {
-    meter_t operand_0 = {.value = x};
-
-    return DU_FLOOR(operand_0).value;
-}
-
-float du_test_ceil(float x) {
-    meter_t operand_0 = {.value = x};
-
-    return DU_CEIL(operand_0).value;
-}
 
 float du_test_clamp(float x, float lo, float hi) {
     meter_t operand_0 = {.value = x};

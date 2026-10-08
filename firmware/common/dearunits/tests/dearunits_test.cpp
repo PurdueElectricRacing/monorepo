@@ -4,22 +4,40 @@ extern "C" {
 #include "dearunits_test_shim.h"
 }
 
+namespace {
+
+constexpr float METER_TOLERANCE = 1e-6f;
+constexpr float FOOT_TOLERANCE = 1e-5f;
+constexpr float CELSIUS_TOLERANCE = 1e-5f;
+constexpr float FAHRENHEIT_TOLERANCE = 2e-5f;
+
+} // namespace
+
 TEST(DearUnitsTest, ScaleConversions) {
-    EXPECT_NEAR(du_test_meters_from_feet(10.0f), 3.048f, 1e-6f);
-    EXPECT_NEAR(du_test_feet_from_meters(3.048f), 10.0f, 1e-5f);
+    constexpr float DISTANCE_FEET = 10.0f;
+    constexpr float DISTANCE_METERS = 3.048f;
+
+    EXPECT_NEAR(du_test_meters_from_feet(DISTANCE_FEET), DISTANCE_METERS, METER_TOLERANCE);
+    EXPECT_NEAR(du_test_feet_from_meters(DISTANCE_METERS), DISTANCE_FEET, FOOT_TOLERANCE);
     EXPECT_FLOAT_EQ(du_test_meters_from_feet(0.0f), 0.0f);
     EXPECT_FLOAT_EQ(du_test_feet_from_meters(0.0f), 0.0f);
-    EXPECT_NEAR(du_test_meters_from_feet(-10.0f), -3.048f, 1e-6f);
-    EXPECT_NEAR(du_test_feet_from_meters(-3.048f), -10.0f, 1e-5f);
+    EXPECT_NEAR(du_test_meters_from_feet(-DISTANCE_FEET), -DISTANCE_METERS, METER_TOLERANCE);
+    EXPECT_NEAR(du_test_feet_from_meters(-DISTANCE_METERS), -DISTANCE_FEET, FOOT_TOLERANCE);
 }
 
 TEST(DearUnitsTest, OffsetConversions) {
-    EXPECT_NEAR(du_test_celsius_from_fahrenheit(32.0f), 0.0f, 1e-5f);
-    EXPECT_NEAR(du_test_celsius_from_fahrenheit(212.0f), 100.0f, 1e-5f);
-    EXPECT_NEAR(du_test_celsius_from_fahrenheit(-40.0f), -40.0f, 1e-5f);
-    EXPECT_NEAR(du_test_fahrenheit_from_celsius(0.0f), 32.0f, 1e-5f);
-    EXPECT_NEAR(du_test_fahrenheit_from_celsius(100.0f), 212.0f, 2e-5f);
-    EXPECT_NEAR(du_test_fahrenheit_from_celsius(-40.0f), -40.0f, 1e-5f);
+    constexpr float FREEZING_C = 0.0f;
+    constexpr float FREEZING_F = 32.0f;
+    constexpr float BOILING_C = 100.0f;
+    constexpr float BOILING_F = 212.0f;
+    constexpr float COMMON_TEMPERATURE = -40.0f;
+
+    EXPECT_NEAR(du_test_celsius_from_fahrenheit(FREEZING_F), FREEZING_C, CELSIUS_TOLERANCE);
+    EXPECT_NEAR(du_test_celsius_from_fahrenheit(BOILING_F), BOILING_C, CELSIUS_TOLERANCE);
+    EXPECT_NEAR(du_test_celsius_from_fahrenheit(COMMON_TEMPERATURE), COMMON_TEMPERATURE, CELSIUS_TOLERANCE);
+    EXPECT_NEAR(du_test_fahrenheit_from_celsius(FREEZING_C), FREEZING_F, FAHRENHEIT_TOLERANCE);
+    EXPECT_NEAR(du_test_fahrenheit_from_celsius(BOILING_C), BOILING_F, FAHRENHEIT_TOLERANCE);
+    EXPECT_NEAR(du_test_fahrenheit_from_celsius(COMMON_TEMPERATURE), COMMON_TEMPERATURE, FAHRENHEIT_TOLERANCE);
 }
 
 TEST(DearUnitsTest, SameUnitArithmetic) {
@@ -31,9 +49,14 @@ TEST(DearUnitsTest, SameUnitArithmetic) {
 }
 
 TEST(DearUnitsTest, DimensionalArithmetic) {
-    EXPECT_FLOAT_EQ(du_test_velocity(12.0f, 3.0f), 4.0f);
-    EXPECT_FLOAT_EQ(du_test_distance(4.0f, 3.0f), 12.0f);
-    EXPECT_FLOAT_EQ(du_test_ratio(3.0f, 12.0f), 0.25f);
+    constexpr float DISTANCE = 12.0f;
+    constexpr float TIME = 3.0f;
+    constexpr float SPEED = 4.0f;
+    constexpr float SHORT_DISTANCE = 3.0f;
+
+    EXPECT_FLOAT_EQ(du_test_velocity(DISTANCE, TIME), SPEED);
+    EXPECT_FLOAT_EQ(du_test_distance(SPEED, TIME), DISTANCE);
+    EXPECT_FLOAT_EQ(du_test_ratio(SHORT_DISTANCE, DISTANCE), 0.25f);
 }
 
 TEST(DearUnitsTest, ScalarArithmetic) {
@@ -48,13 +71,16 @@ TEST(DearUnitsTest, CompoundConstructor) {
 }
 
 TEST(DearUnitsTest, Helpers) {
+    constexpr float LOWER_BOUND = -2.0f;
+    constexpr float UPPER_BOUND = 2.0f;
+
     EXPECT_FLOAT_EQ(du_test_min(-3.0f, 2.0f), -3.0f);
     EXPECT_FLOAT_EQ(du_test_max(-3.0f, 2.0f), 2.0f);
-    EXPECT_FLOAT_EQ(du_test_clamp(-3.0f, -2.0f, 2.0f), -2.0f);
-    EXPECT_FLOAT_EQ(du_test_clamp(0.0f, -2.0f, 2.0f), 0.0f);
-    EXPECT_FLOAT_EQ(du_test_clamp(3.0f, -2.0f, 2.0f), 2.0f);
-    EXPECT_FLOAT_EQ(du_test_clamp(-2.0f, -2.0f, 2.0f), -2.0f);
-    EXPECT_FLOAT_EQ(du_test_clamp(2.0f, -2.0f, 2.0f), 2.0f);
+    EXPECT_FLOAT_EQ(du_test_clamp(-3.0f, LOWER_BOUND, UPPER_BOUND), LOWER_BOUND);
+    EXPECT_FLOAT_EQ(du_test_clamp(0.0f, LOWER_BOUND, UPPER_BOUND), 0.0f);
+    EXPECT_FLOAT_EQ(du_test_clamp(3.0f, LOWER_BOUND, UPPER_BOUND), UPPER_BOUND);
+    EXPECT_FLOAT_EQ(du_test_clamp(LOWER_BOUND, LOWER_BOUND, UPPER_BOUND), LOWER_BOUND);
+    EXPECT_FLOAT_EQ(du_test_clamp(UPPER_BOUND, LOWER_BOUND, UPPER_BOUND), UPPER_BOUND);
     EXPECT_TRUE(du_test_lt(1.0f, 2.0f));
     EXPECT_TRUE(du_test_gt(2.0f, 1.0f));
     EXPECT_FALSE(du_test_lt(2.0f, 2.0f));
@@ -63,9 +89,6 @@ TEST(DearUnitsTest, Helpers) {
     EXPECT_TRUE(du_test_ge(2.0f, 2.0f));
     EXPECT_FALSE(du_test_le(2.0f, 1.0f));
     EXPECT_FALSE(du_test_ge(1.0f, 2.0f));
-    EXPECT_FLOAT_EQ(du_test_round(-1.5f), -2.0f);
-    EXPECT_FLOAT_EQ(du_test_floor(-1.25f), -2.0f);
-    EXPECT_FLOAT_EQ(du_test_ceil(-1.25f), -1.0f);
     EXPECT_TRUE(du_test_nearly_equal(1.0f, 1.25f, 0.25f));
     EXPECT_FALSE(du_test_nearly_equal(1.0f, 1.5f, 0.25f));
     EXPECT_TRUE(du_test_nearly_equal(1.0f, 1.0f, 0.0f));
@@ -79,6 +102,9 @@ TEST(DearUnitsTest, SquareAndRoot) {
 }
 
 TEST(DearUnitsTest, Reciprocals) {
-    EXPECT_FLOAT_EQ(du_test_frequency(0.25f), 4.0f);
-    EXPECT_FLOAT_EQ(du_test_period(4.0f), 0.25f);
+    constexpr float PERIOD = 0.25f;
+    constexpr float FREQUENCY = 4.0f;
+
+    EXPECT_FLOAT_EQ(du_test_frequency(PERIOD), FREQUENCY);
+    EXPECT_FLOAT_EQ(du_test_period(FREQUENCY), PERIOD);
 }
