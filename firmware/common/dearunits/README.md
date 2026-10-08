@@ -7,15 +7,24 @@ Available unit families: temperature (C/F), distance (m/cm/mm/in/ft/mi), time (m
 ```c
 #include "common/dearunits/generated/dearunits.h"
 
-celsius_t board_temp = { .value = 42.0f };
-fahrenheit_t f       = fahrenheit_from_celsius(board_temp); // 107.6 F
+celsius_t board_temp     = { .value = 42.0f };
+fahrenheit_t temperature = fahrenheit_from_celsius(board_temp); // 107.6 F
 
-degree_t steer_deg = { .value = 90.0f };
-radian_t steer_rad = DU_RADIAN_FROM(steer_deg); // pi/2
+degree_t degrees = { .value = 90.0f };
+radian_t radians = DU_RADIAN_FROM(degrees);
 
-// _Generic shorthand: the right converter is picked from the input type.
-meter_t  d = DU_METER_FROM((foot_t){ .value = 10.0f }); // 3.048 m
-second_t t = DU_SECOND_FROM((minute_t){ .value = 5.0f }); // 300 s
+// in-class conversions
+meter_t  distance = DU_METER_FROM((foot_t){ .value = 10.0f });
+second_t time     = DU_SECOND_FROM((minute_t){ .value = 5.0f });
+
+// typesafe arithmetic prevents mixing units (the following two lines wont compile)
+meter_t invalid_sum = DU_ADD(distance, time); // can't add distance and time
+second_t invalid_result = DU_DIVIDE(distance, time); // velocity cannot be assigned to time
+
+// compound quantities can be made from base units
+meters_per_second_t speed = velocity_from(distance, time);
+meters_per_second_t same_speed = DU_DIVIDE(distance, time);
+meter_t travelled = DU_MULTIPLY(speed, time);
 ```
 
 ## Tests
