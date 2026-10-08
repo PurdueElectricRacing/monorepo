@@ -3,7 +3,7 @@ use std::collections::{BTreeMap, HashMap};
 use crate::frame::CanIdentity;
 
 use crate::superdbc::{
-    ParseError,
+    error::ParseError,
     extract::Codec,
     model::{MessageModel, SignalModel},
 };

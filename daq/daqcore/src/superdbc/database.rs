@@ -6,8 +6,9 @@ use std::{
 use crate::frame::CanIdentity;
 
 use crate::superdbc::{
-    DecodeError, DecodedMessage, EncodeError, LoadError, Message, MessageKey, ParseError, RawValue,
-    message::nonempty,
+    decode::DecodedMessage,
+    error::{DecodeError, EncodeError, LoadError, ParseError},
+    message::{Message, MessageKey, RawValue, nonempty},
     model::{self, Document, VersionProbe},
 };
 

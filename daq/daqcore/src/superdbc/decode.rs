@@ -1,6 +1,9 @@
 use indexmap::IndexMap;
 
-use crate::superdbc::{DecodeError, Message, MessageKey, RawType, RawValue};
+use crate::superdbc::{
+    error::DecodeError,
+    message::{Message, MessageKey, RawType, RawValue},
+};
 
 /// Owned telemetry, independent of the database that produced it.
 #[derive(Debug, Clone)]

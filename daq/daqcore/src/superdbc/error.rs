@@ -1,6 +1,6 @@
 use std::{error::Error, fmt};
 
-use crate::superdbc::{MessageKey, RawType};
+use crate::superdbc::message::{MessageKey, RawType};
 
 /// Reading a file or parsing its contents failed.
 #[derive(Debug)]

@@ -1,5 +1,8 @@
 //! Byte segments compiled once. The runtime path never walks individual bits.
-use crate::superdbc::{ByteOrder, ParseError, RawType};
+use crate::superdbc::{
+    error::ParseError,
+    message::{ByteOrder, RawType},
+};
 
 #[derive(Debug)]
 struct Segment {

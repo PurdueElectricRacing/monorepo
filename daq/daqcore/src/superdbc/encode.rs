@@ -1,4 +1,7 @@
-use crate::superdbc::{EncodeError, Message, RawType, RawValue, SignalDefinition};
+use crate::superdbc::{
+    error::EncodeError,
+    message::{Message, RawType, RawValue, SignalDefinition},
+};
 
 impl Message {
     /// Encode physical values, rounding integer raw values with ties away from
