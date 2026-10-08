@@ -1,4 +1,5 @@
 //! Private, strict wire models. Required nullable fields must be present.
+
 use std::{fmt, marker::PhantomData};
 
 use indexmap::IndexMap;
@@ -103,6 +104,8 @@ where
     D: Deserializer<'de>,
     T: Deserialize<'de>,
 {
+    // Using deserialize_with without a default makes omission an error, while
+    // still allowing an explicit JSON null to deserialize as None.
     Option::deserialize(deserializer)
 }
 
@@ -121,6 +124,8 @@ where
         }
         fn visit_map<A: MapAccess<'de>>(self, mut map: A) -> Result<Self::Value, A::Error> {
             let mut result = IndexMap::new();
+            // Consume the original object entries before a normal map could
+            // silently replace repeated keys and hide ambiguous definitions.
             while let Some((key, value)) = map.next_entry::<String, T>()? {
                 if result.contains_key(&key) {
                     return Err(de::Error::custom(format!("duplicate key {key:?}")));
