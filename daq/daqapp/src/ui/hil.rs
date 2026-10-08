@@ -268,7 +268,7 @@ impl Hil {
         } else {
             ui.vertical(|ui| {
                 for (name, range) in &ipe.expect.signals {
-                    match ipe.failures.iter().find(|f| f.name() == name) {
+                    match ipe.last_failure.iter().flatten().find(|f| f.name() == name) {
                         Some(hil::run::SignalFailure::OutOfRange { value, range, .. }) => {
                             ui.colored_label(
                                 egui::Color32::RED,
