@@ -1,3 +1,10 @@
+/**
+ * @file dearunits_test_shim.c
+ * @brief C wrappers for DearUnits runtime tests
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #include "dearunits_test_shim.h"
 
 #include "common/dearunits/generated/dearunits.h"

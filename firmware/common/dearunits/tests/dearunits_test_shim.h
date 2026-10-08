@@ -1,3 +1,10 @@
+/**
+ * @file dearunits_test_shim.h
+ * @brief Declare DearUnits runtime test wrappers
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #ifndef DEARUNITS_TEST_SHIM_H
 #define DEARUNITS_TEST_SHIM_H
 

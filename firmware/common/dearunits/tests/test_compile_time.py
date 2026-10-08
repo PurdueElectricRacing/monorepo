@@ -1,4 +1,10 @@
-"""Check DearUnits' C23 operand types with the configured host compiler."""
+"""
+dearunits/test_compile_time.py
+
+Check that the C23 compiler properly rejects/accepts DearUnits during build
+
+Author: Irving Wang (irvingw@purdue.edu)
+"""
 
 import os
 from pathlib import Path

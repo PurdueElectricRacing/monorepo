@@ -1,3 +1,10 @@
+/**
+ * @file dearunits_test.cpp
+ * @brief DearUnits runtime unit tests
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #include <gtest/gtest.h>
 
 extern "C" {
