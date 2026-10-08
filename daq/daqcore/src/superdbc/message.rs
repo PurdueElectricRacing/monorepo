@@ -1,3 +1,5 @@
+//! Message identities, validated signal definitions, and presentation metadata.
+
 use std::collections::{BTreeMap, HashMap};
 
 use crate::frame::CanIdentity;
@@ -11,47 +13,64 @@ use crate::superdbc::{
 /// Complete lookup key within one active database version.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct MessageKey {
+    /// Bus containing the message; numeric IDs may repeat across buses.
     pub bus_id: u8,
+    /// CAN identifier including the standard/extended distinction.
     pub identity: CanIdentity,
 }
 
+/// Numeric interpretation of the signal bits before scaling and offset.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum RawType {
+    /// Unsigned integer of the declared bit width.
     Unsigned,
+    /// Two's-complement signed integer of the declared bit width.
     Signed,
+    /// IEEE-754 single-precision value occupying exactly 32 bits.
     Float32,
 }
 
 /// Unscaled wire value. `i128` holds every signed/unsigned 64-bit integer.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum RawValue {
+    /// Exact signed or unsigned integer value, without scaling or offset.
     Integer(i128),
+    /// IEEE-754 wire value, interpreted as a float rather than an integer bit pattern.
     Float32(f32),
 }
 
+/// Bit traversal within the CAN payload; selected independently for each signal.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ByteOrder {
+    /// Start at the least significant signal bit and advance through increasing bit numbers.
     LittleEndian,
+    /// Start at the most significant signal bit using Motorola sawtooth numbering.
     BigEndian,
 }
 
 /// Physical limits for presentation; the codec enforces wire representability.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct SignalLimits {
+    /// Suggested minimum physical value.
     pub min: f64,
+    /// Suggested maximum physical value.
     pub max: f64,
 }
 
 /// Presentation hint. Decimal precision in loaded definitions is 0..=7.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DisplayFormat {
+    /// Hexadecimal presentation.
     Hex,
+    /// Binary presentation.
     Binary,
+    /// Integer presentation.
     Integer,
+    /// Decimal presentation with the given number of fractional digits.
     Decimal(u8),
 }
 
-/// Immutable metadata and compiled signal codecs.
+/// Message metadata and compiled signal codecs, validated during loading.
 #[derive(Debug)]
 pub struct Message {
     key: MessageKey,
@@ -62,11 +81,24 @@ pub struct Message {
     nominal_period_ms: Option<u32>,
     priority: u8,
     description: String,
+    /// Signal definitions in declaration order; indexes must remain consistent.
     pub signals: Vec<SignalDefinition>,
+    /// Signal names mapped to positions in `signals`.
     pub signal_index: HashMap<String, usize>,
 }
 
 impl Message {
+    /// Validate a deserialized message and compile its signal layouts.
+    ///
+    /// Used by the database loader; callers normally obtain definitions through
+    /// [`crate::superdbc::database::Database`]. `context` identifies the message
+    /// in validation errors. Cross-message uniqueness is checked by the loader.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`ParseError::InvalidDefinition`] for invalid metadata or CAN
+    /// identity, duplicate signal names, invalid signal definitions, overlapping
+    /// bits, or layouts extending beyond the declared payload.
     pub fn compile(bus_id: u8, model: MessageModel, context: &str) -> Result<Self, ParseError> {
         nonempty(&model.message_name, context, "message_name")?;
         nonempty(&model.transmitter, context, "transmitter")?;
@@ -114,6 +146,8 @@ impl Message {
 
             let signal = SignalDefinition::compile(signal, model.length_bytes, &signal_context)?;
 
+            // Compare actual occupied wire bits, so overlaps are rejected even
+            // when signals use different byte orders.
             if occupied & signal.codec.occupied != 0 {
                 return Err(ParseError::definition(
                     signal_context,
@@ -138,46 +172,57 @@ impl Message {
         })
     }
 
+    /// Return the full lookup key, including bus ID and standard/extended CAN identity.
     pub fn key(&self) -> MessageKey {
         self.key
     }
 
+    /// Return the CAN identity; use [`Self::key`] when the bus must also be identified.
     pub fn identity(&self) -> CanIdentity {
         self.key.identity
     }
 
+    /// Return the message name declared in the artifact.
     pub fn name(&self) -> &str {
         &self.name
     }
 
+    /// Return the declared payload length (0 through 8), also the length produced by encoding.
     pub fn length_bytes(&self) -> u8 {
         self.length_bytes
     }
 
+    /// Return the transmitting node name declared in the artifact.
     pub fn transmitter(&self) -> &str {
         &self.transmitter
     }
 
+    /// Borrow the declared receiving node names in artifact order.
     pub fn receivers(&self) -> &[String] {
         &self.receivers
     }
 
+    /// Return the nominal send period in milliseconds, or `None` when unspecified; no sends are scheduled.
     pub fn nominal_period_ms(&self) -> Option<u32> {
         self.nominal_period_ms
     }
 
+    /// Return the declared priority (0 through 5); the codec does not schedule or reorder traffic.
     pub fn priority(&self) -> u8 {
         self.priority
     }
 
+    /// Return the message description, which may be empty.
     pub fn description(&self) -> &str {
         &self.description
     }
 
+    /// Borrow signal definitions in declaration order for inspecting metadata or building input controls.
     pub fn signals(&self) -> &[SignalDefinition] {
         &self.signals
     }
 
+    /// Look up a signal definition by its exact, case-sensitive name; return `None` if absent.
     pub fn signal(&self, name: &str) -> Option<&SignalDefinition> {
         self.signal_index
             .get(name)
@@ -201,6 +246,7 @@ pub struct SignalDefinition {
     unit: String,
     display_format: Option<DisplayFormat>,
     choices: BTreeMap<i128, String>,
+    /// Compiled layout used for extraction, insertion, and integer range checks.
     pub codec: Codec,
 }
 
@@ -243,6 +289,8 @@ impl SignalDefinition {
             ));
         }
 
+        // Validate and compile once; runtime codecs can then work by byte
+        // segments without checking the layout or walking individual bits.
         let codec = Codec::compile(
             model.start_bit,
             model.bit_length,
@@ -278,6 +326,8 @@ impl SignalDefinition {
             choices.insert(raw, label);
         }
 
+        // Presentation hints are parsed into metadata; they never affect
+        // raw extraction, scaling, or encoder range checks.
         let display_format = match model.display_format.as_deref() {
             None => None,
             Some("hex") => Some(DisplayFormat::Hex),
@@ -313,65 +363,103 @@ impl SignalDefinition {
         })
     }
 
+    /// Return the signal name used by encoding inputs and decoded-result lookup.
     pub fn name(&self) -> &str {
         &self.name
     }
 
+    /// Return the signal description, which may be empty.
     pub fn description(&self) -> &str {
         &self.description
     }
 
+    /// Return the declared logical data-type name; [`Self::raw_type`] determines wire interpretation.
     pub fn data_type(&self) -> &str {
         &self.data_type
     }
 
+    /// Return the numeric wire type before physical scaling and offset.
     pub fn raw_type(&self) -> RawType {
         self.raw_type
     }
 
+    /// Return the payload bit index (0 through 63), with each byte numbered LSB first.
+    ///
+    /// Bits 0 through 7 are in the first byte, 8 through 15 in the second, and so on.
+    /// For little endian this is the signal's LSB. For big endian it is the MSB;
+    /// traversal descends within each byte, then jumps from bit 0 to bit 7 of
+    /// the next byte (Motorola sawtooth numbering).
     pub fn start_bit(&self) -> u8 {
         self.start_bit
     }
 
+    /// Return the number of occupied wire bits (1 through 64; exactly 32 for Float32).
     pub fn bit_length(&self) -> u8 {
         self.bit_length
     }
 
+    /// Return the bit traversal order for this signal; a message may mix signal byte orders.
     pub fn byte_order(&self) -> ByteOrder {
         self.byte_order
     }
 
+    /// Return the finite, nonzero multiplier in `physical = raw * scale + offset`; it may be negative.
     pub fn scale(&self) -> f64 {
         self.scale
     }
 
+    /// Return the finite additive offset in `physical = raw * scale + offset`.
     pub fn offset(&self) -> f64 {
         self.offset
     }
 
+    /// Return optional physical bounds for presentation or consumer-side checks.
+    ///
+    /// Encoding enforces wire representability, not these limits; decoding also
+    /// retains telemetry outside these bounds.
     pub fn limits(&self) -> Option<SignalLimits> {
         self.limits
     }
 
+    /// Return the physical unit label, which may be empty for a unitless signal.
     pub fn unit(&self) -> &str {
         &self.unit
     }
 
+    /// Return the optional presentation hint, including decimal precisions 0 through 7.
+    ///
+    /// The codec does not format values or change their numeric interpretation.
     pub fn display_format(&self) -> Option<DisplayFormat> {
         self.display_format
     }
 
+    /// Iterate over raw integer values and their labels in ascending numeric order.
+    ///
+    /// Use these mappings for enumerated controls or displays. The keys are
+    /// unscaled integers, not physical values; Float32 signals have no choices.
     pub fn choices(&self) -> impl Iterator<Item = (i128, &str)> {
         self.choices
             .iter()
             .map(|(&raw, label)| (raw, label.as_str()))
     }
 
+    /// Look up an enum label by its exact, unscaled integer value.
+    ///
+    /// Returns `None` for an unmapped value. Scaling and offset are not applied
+    /// to the lookup key.
     pub fn choice_label(&self, raw: i128) -> Option<&str> {
         self.choices.get(&raw).map(String::as_str)
     }
 }
 
+/// Check that a definition field contains at least one character.
+///
+/// Used during loading to attach `context` and the field name to an error.
+/// This does not trim whitespace or otherwise normalize the value.
+///
+/// # Errors
+///
+/// Returns [`ParseError::InvalidDefinition`] when `value` is empty.
 pub fn nonempty(value: &str, context: &str, field: &str) -> Result<(), ParseError> {
     if value.is_empty() {
         Err(ParseError::definition(
