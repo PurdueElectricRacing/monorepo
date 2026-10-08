@@ -68,8 +68,16 @@ def compile_environment():
 def test_compile(compile_environment, filename, should_compile):
     compiler, include_dir = compile_environment
     result = compile_case(compiler, include_dir, filename)
-    assert result.returncode >= 0, f"Compiler terminated by signal: {result.returncode}"
-    assert (result.returncode == 0) == should_compile, (
-        f"{filename}: expected compilation to {'succeed' if should_compile else 'fail'}, "
-        f"got exit {result.returncode}\n{result.stdout}{result.stderr}"
+
+    if result.returncode < 0:
+        pytest.fail(f"Compiler terminated by signal {-result.returncode}")
+
+    compiled_successfully = result.returncode == 0
+    expected_outcome = "succeed" if should_compile else "fail"
+    diagnostics = result.stdout + result.stderr
+
+    assert compiled_successfully == should_compile, (
+        f"{filename}: expected compilation to {expected_outcome}\n"
+        f"Compiler exit code: {result.returncode}\n"
+        f"{diagnostics}"
     )
