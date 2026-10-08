@@ -8,6 +8,9 @@
 #include "common/dearunits/generated/dearunits.h"
 
 void test(void) {
-    second_t result = DU_MULTIPLY(((meters_per_second_t){2.0f}), ((second_t){3.0f}));
+    meters_per_second_t velocity = (meters_per_second_t) {.value = 2.0f};
+    second_t time                = (second_t) {.value = 3.0f};
+
+    second_t result = DU_MULTIPLY(velocity, time);
     (void)result;
 }

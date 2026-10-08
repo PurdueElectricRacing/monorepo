@@ -8,13 +8,19 @@
 #include "common/dearunits/generated/dearunits.h"
 
 void test(void) {
-    meter_t distance = DU_METER_FROM(((centimeter_t){100.0f}));
-    meter_t sum = DU_ADD(distance, distance);
-    meters_per_second_t velocity = DU_DIVIDE(distance, ((second_t){2.0f}));
-    meter_t product = DU_MULTIPLY(velocity, ((second_t){2.0f}));
-    centimeter_t scaled = DU_MULTIPLY(((centimeter_t){1.0f}), 2.0f);
-    float ratio = DU_DIVIDE(distance, distance);
-    bool ordered = DU_LT(distance, sum);
+    centimeter_t length       = (centimeter_t) {.value = 100.0f};
+    second_t time             = (second_t) {.value = 2.0f};
+    centimeter_t small_length = (centimeter_t) {.value = 1.0f};
+
+    meter_t distance             = DU_METER_FROM(length);
+    meter_t sum                  = DU_ADD(distance, distance);
+    meters_per_second_t velocity = DU_DIVIDE(distance, time);
+    meter_t product              = DU_MULTIPLY(velocity, time);
+    centimeter_t scaled          = DU_MULTIPLY(small_length, 2.0f);
+    float ratio                  = DU_DIVIDE(distance, distance);
+    bool ordered                 = DU_LT(distance, sum);
+
+    // discard unused warnings
     (void)product;
     (void)scaled;
     (void)ratio;

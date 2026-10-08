@@ -8,5 +8,8 @@
 #include "common/dearunits/generated/dearunits.h"
 
 void test(void) {
-    (void)DU_ADD(((meter_t){1.0f}), ((second_t){1.0f}));
+    meter_t distance = (meter_t) {.value = 1.0f};
+    second_t time    = (second_t) {.value = 1.0f};
+
+    (void)DU_ADD(distance, time);
 }

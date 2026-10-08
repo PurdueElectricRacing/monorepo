@@ -8,5 +8,7 @@
 #include "common/dearunits/generated/dearunits.h"
 
 void test(void) {
-    (void)DU_METER_FROM(((second_t){1.0f}));
+    second_t time = (second_t) {.value = 1.0f};
+
+    (void)DU_METER_FROM(time);
 }

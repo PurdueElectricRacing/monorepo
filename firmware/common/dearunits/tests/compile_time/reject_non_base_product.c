@@ -8,5 +8,8 @@
 #include "common/dearunits/generated/dearunits.h"
 
 void test(void) {
-    (void)DU_MULTIPLY(((centimeter_t){1.0f}), ((meter_t){1.0f}));
+    centimeter_t length = (centimeter_t) {.value = 1.0f};
+    meter_t width       = (meter_t) {.value = 1.0f};
+
+    (void)DU_MULTIPLY(length, width);
 }
