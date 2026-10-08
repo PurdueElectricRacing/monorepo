@@ -1,9 +1,9 @@
 # DearUnits
-
 Generated typed wrappers around physical units. Each unit is a struct holding a single `float`, so they cost nothing at runtime but stop you from accidentally mixing, e.g., feet with meters.
 
 Available unit families: temperature (C/F), distance (m/cm/mm/in/ft/mi), time (ms/s/min/hr/day), angle (rad/deg), mass (g/kg/lb), pressure (Pa/psi/bar), velocity (mps/kph/mph).
 
+## Usage Example
 ```c
 #include "common/dearunits/generated/dearunits.h"
 
@@ -26,13 +26,3 @@ meters_per_second_t speed      = velocity_from(distance, time);
 meters_per_second_t same_speed = DU_DIVIDE(distance, time);
 meter_t travelled              = DU_MULTIPLY(speed, time);
 ```
-
-## Tests
-
-Run all tests from the repository root:
-
-```sh
-python3 tests/run_tests.py
-```
-
-Generate `generated/dearunits.h` first with `python3 generators/generate.py` if it is missing.
