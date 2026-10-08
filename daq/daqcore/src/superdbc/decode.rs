@@ -113,7 +113,7 @@ impl Message {
     ///
     /// Accepts the declared byte length through eight bytes; trailing padding is
     /// ignored. Signals appear in declaration order.
-    /// 
+    ///
     /// Integer values are extracted exactly, signed values use two's complement,
     /// and Float32 bits are interpreted before applying `raw * scale + offset`.
     /// Choice labels use exact raw integers rather than scaled physical values.
