@@ -4,7 +4,7 @@ var searchData=
   ['imu_5facceleration_5fdata_5ft_1',['IMU_acceleration_data_t',['../structIMU__acceleration__data__t.html',1,'']]],
   ['imu_5fangular_5frate_5fdata_5ft_2',['IMU_angular_rate_data_t',['../structIMU__angular__rate__data__t.html',1,'']]],
   ['imu_5fdata_5ft_3',['imu_data_t',['../structimu__data__t.html',1,'']]],
-  ['inches_5ft_4',['inches_t',['../structinches__t.html',1,'']]],
+  ['inch_5ft_4',['inch_t',['../structinch__t.html',1,'']]],
   ['inva_5fcrit_5fdata_5ft_5',['INVA_CRIT_data_t',['../structINVA__CRIT__data__t.html',1,'']]],
   ['inva_5fdiagnostics_5fdata_5ft_6',['inva_diagnostics_data_t',['../structinva__diagnostics__data__t.html',1,'']]],
   ['inva_5ferr_5f1_5fdata_5ft_7',['INVA_ERR_1_data_t',['../structINVA__ERR__1__data__t.html',1,'']]],

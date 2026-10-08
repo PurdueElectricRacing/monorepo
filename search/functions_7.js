@@ -9,5 +9,6 @@ var searchData=
   ['gpio_5fotype_5fbits_6',['gpio_otype_bits',['../gpio__priv_8c.html#a90e78e8eb05b4cb35e422fe0cc03fe11',1,'gpio_priv.c']]],
   ['gpio_5fpull_5fbits_7',['gpio_pull_bits',['../gpio__priv_8c.html#ab327360b29d2588b06a0687aa036e314',1,'gpio_priv.c']]],
   ['gpio_5fspeed_5fbits_8',['gpio_speed_bits',['../gpio__priv_8c.html#a44cc6c129f8a36940f86366078bf68a5',1,'gpio_priv.c']]],
-  ['gps_5fperiodic_9',['gps_periodic',['../gps_8c.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c'],['../sensors_8h.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c']]]
+  ['gps_5fperiodic_9',['gps_periodic',['../gps_8c.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c'],['../sensors_8h.html#a161c126f960b2347813a4616b1609cda',1,'gps_periodic(void):&#160;gps.c']]],
+  ['gram_5ffrom_5fkilogram_10',['gram_from_kilogram',['../dearunits_8h.html#a666b7b1ddff4219be9a145abd6f60e7a',1,'dearunits.h']]]
 ];

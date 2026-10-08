@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['v_5frails_5fdata_5ft_0',['v_rails_data_t',['../structv__rails__data__t.html',1,'']]],
-  ['vcu_5fdriver_5frequest_5fdata_5ft_1',['vcu_driver_request_data_t',['../structvcu__driver__request__data__t.html',1,'']]],
-  ['vcu_5fsettings_5fdata_5ft_2',['vcu_settings_data_t',['../structvcu__settings__data__t.html',1,'']]],
-  ['vcu_5ftorque_5frequest_5fdata_5ft_3',['vcu_torque_request_data_t',['../structvcu__torque__request__data__t.html',1,'']]],
-  ['vector2_5ft_4',['vector2_t',['../structvector2__t.html',1,'']]],
-  ['vector3_5ft_5',['vector3_t',['../structvector3__t.html',1,'']]]
+  ['usart_5factive_5ftransfer_5ft_0',['usart_active_transfer_t',['../structusart__active__transfer__t.html',1,'']]],
+  ['usart_5finit_5ft_1',['usart_init_t',['../structusart__init__t.html',1,'']]],
+  ['usart_5frx_5ferrors_5ft_2',['usart_rx_errors_t',['../structusart__rx__errors__t.html',1,'']]],
+  ['usart_5ftx_5ferrors_5ft_3',['usart_tx_errors_t',['../structusart__tx__errors__t.html',1,'']]]
 ];

@@ -1,10 +1,21 @@
 var searchData=
 [
   ['key_0',['key',['../structlut__entry__t.html#a85f087b2d0021aeb4a3bb91b9622bb9a',1,'lut_entry_t']]],
-  ['kilograms_5ffrom_1',['kilograms_from',['../units_8h.html#a8cd5eb6cda03d268ac12134c73a20fc3',1,'units.h']]],
-  ['kilograms_5ffrom_5fgrams_2',['kilograms_from_grams',['../units_8h.html#aba700b0949631122386f01405cfad9fd',1,'units.h']]],
-  ['kilograms_5ffrom_5fpounds_3',['kilograms_from_pounds',['../units_8h.html#a81ed4df9024fa4d85257945ce151547c',1,'units.h']]],
-  ['kilograms_5ft_4',['kilograms_t',['../structkilograms__t.html',1,'']]],
-  ['kph_5ffrom_5fmps_5',['kph_from_mps',['../units_8h.html#a152cfa8e2222cc6147fb8a96448aaafb',1,'units.h']]],
-  ['kph_5ft_6',['kph_t',['../structkph__t.html',1,'']]]
+  ['kilogram_5ffrom_5fgram_1',['kilogram_from_gram',['../dearunits_8h.html#a9b83a4046a17e4eb06c36469ca5cd31a',1,'dearunits.h']]],
+  ['kilogram_5ffrom_5fpound_2',['kilogram_from_pound',['../dearunits_8h.html#ae55e914d734d0624e6f2f7d45d5e28d8',1,'dearunits.h']]],
+  ['kilogram_5ft_3',['kilogram_t',['../structkilogram__t.html',1,'']]],
+  ['kilohertz_5ffrom_5fhertz_4',['kilohertz_from_hertz',['../dearunits_8h.html#a78b80549da2cb66ede8f7dd9f6a6673c',1,'dearunits.h']]],
+  ['kilohertz_5ft_5',['kilohertz_t',['../structkilohertz__t.html',1,'']]],
+  ['kilometer_5ffrom_5fmeter_6',['kilometer_from_meter',['../dearunits_8h.html#a7d9a162aac9d24198a4ce82dcba7e2ef',1,'dearunits.h']]],
+  ['kilometer_5ft_7',['kilometer_t',['../structkilometer__t.html',1,'']]],
+  ['kilometers_5fper_5fhour_5ffrom_5fmeters_5fper_5fsecond_8',['kilometers_per_hour_from_meters_per_second',['../dearunits_8h.html#ac0c27f145e4c9c89ba8ac4b8cd1a9a06',1,'dearunits.h']]],
+  ['kilometers_5fper_5fhour_5ft_9',['kilometers_per_hour_t',['../structkilometers__per__hour__t.html',1,'']]],
+  ['kiloohm_5ffrom_5fohm_10',['kiloohm_from_ohm',['../dearunits_8h.html#a135d7120c953be082e5f2f40f56de19d',1,'dearunits.h']]],
+  ['kiloohm_5ft_11',['kiloohm_t',['../structkiloohm__t.html',1,'']]],
+  ['kilopascal_5ffrom_5fpascal_12',['kilopascal_from_pascal',['../dearunits_8h.html#a025f2e5437cea09faaf6e3036832a7fd',1,'dearunits.h']]],
+  ['kilopascal_5ft_13',['kilopascal_t',['../structkilopascal__t.html',1,'']]],
+  ['kilowatt_5ffrom_5fwatt_14',['kilowatt_from_watt',['../dearunits_8h.html#a0760739267cb953d58ec1debbbc458f4',1,'dearunits.h']]],
+  ['kilowatt_5fhour_5ffrom_5fjoule_15',['kilowatt_hour_from_joule',['../dearunits_8h.html#ae261678f210d828d5242ff2a9ef21fc4',1,'dearunits.h']]],
+  ['kilowatt_5fhour_5ft_16',['kilowatt_hour_t',['../structkilowatt__hour__t.html',1,'']]],
+  ['kilowatt_5ft_17',['kilowatt_t',['../structkilowatt__t.html',1,'']]]
 ];

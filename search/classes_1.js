@@ -11,5 +11,7 @@ var searchData=
   ['adcinitconfig_5ft_8',['ADCInitConfig_t',['../structADCInitConfig__t.html',1,'']]],
   ['amk_5fconfig_5ft_9',['AMK_config_t',['../structAMK__config__t.html',1,'']]],
   ['amk_5fobjects_5ft_10',['AMK_objects_t',['../structAMK__objects__t.html',1,'']]],
-  ['amk_5ft_11',['AMK_t',['../structAMK__t.html',1,'']]]
+  ['amk_5ft_11',['AMK_t',['../structAMK__t.html',1,'']]],
+  ['amp_5fhour_5ft_12',['amp_hour_t',['../structamp__hour__t.html',1,'']]],
+  ['amp_5ft_13',['amp_t',['../structamp__t.html',1,'']]]
 ];

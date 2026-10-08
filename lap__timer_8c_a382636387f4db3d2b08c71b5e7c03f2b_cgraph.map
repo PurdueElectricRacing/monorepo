@@ -1,44 +1,42 @@
 <map id="lap_timer_periodic" name="lap_timer_periodic">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,211,132,236"/>
-<area shape="rect" id="Node000002" href="$lap__timer_8c.html#a922bb1fc5c4fe5ec8f82bc735890ee69" title=" " alt="" coords="180,103,334,128"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,208,218,134,221,139,94,212"/>
-<area shape="rect" id="Node000006" href="$lap__timer_8c.html#ac15d5d84d2d64875ce0d0c0352af35e3" title=" " alt="" coords="185,211,329,236"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="132,221,169,221,169,226,132,226"/>
-<area shape="rect" id="Node000019" href="$linear__algebra_8h.html#a72d10b6160875b23b398cfef9e98a361" title="Distance between two 2D points." alt="" coords="624,359,744,384"/>
-<area shape="poly" id="edge21_Node000001_Node000019" title=" " alt="" coords="125,234,593,348,611,352,610,357,592,353,124,240"/>
-<area shape="rect" id="Node000003" href="$geodetic_8h.html#affa8f558945f2f15b6ff146fcd86235f" title="Build a coordinate from latitude and longitude already in degrees." alt="" coords="389,103,537,128"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="335,113,373,113,373,118,335,118"/>
-<area shape="rect" id="Node000004" href="$geodetic_8h.html#a4a8aae9e5800f848ecbf3e08df43c0bd" title="Project a coordinate onto a local east&#45;north plane about an origin." alt="" coords="402,29,524,55"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="295,100,409,58,411,63,296,105"/>
-<area shape="rect" id="Node000005" href="$units_8h.html#a26dfa6ea5330d6e36fffea1cc12edd00" title=" " alt="" coords="636,5,732,31"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="524,33,620,22,621,28,525,38"/>
-<area shape="rect" id="Node000007" href="$geometry_8h.html#ab7709673624c807ab7925b7c87f0e00e" title="Test whether two segments intersect, including collinear overlap." alt="" coords="392,408,534,434"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="273,235,439,395,435,399,270,238"/>
-<area shape="rect" id="Node000012" href="$geometry_8h.html#ae32f7f124472f409f1355551b885bba0" title="Build the segment perpendicular to a segment through its midpoint." alt="" coords="382,200,544,241"/>
-<area shape="poly" id="edge11_Node000006_Node000012" title=" " alt="" coords="329,220,366,219,367,225,329,225"/>
-<area shape="rect" id="Node000008" href="$geometry_8h.html#a9cba600d217e50fd65869f151466a83e" title="Test whether a point falls inside a segment&#39;s bounding box." alt="" coords="592,408,776,434"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="535,418,577,418,577,424,535,424"/>
-<area shape="rect" id="Node000009" href="$geometry_8h.html#a6e735b8719acb9be09a8055f5a1cdff5" title="Determine which way the path a &#45;&gt; b &#45;&gt; c turns." alt="" coords="626,457,742,483"/>
-<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="525,432,612,451,610,457,524,437"/>
-<area shape="rect" id="Node000010" href="$linear__algebra_8h.html#a24e6804e26c8b9048d77319bb3d0dcb9" title="Cross product of two 2D vectors." alt="" coords="838,457,941,483"/>
-<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="742,468,822,468,822,473,742,473"/>
-<area shape="rect" id="Node000011" href="$linear__algebra_8h.html#a1ebccdd0fce0cdfa7a931095189887b4" title="Subtract one 2D vector from another." alt="" coords="843,359,936,384"/>
-<area shape="poly" id="edge10_Node000009_Node000011" title=" " alt="" coords="741,456,775,444,820,419,858,392,861,396,822,423,777,449,743,461"/>
-<area shape="poly" id="edge20_Node000012_Node000011" title=" " alt="" coords="496,239,541,267,593,293,699,324,829,356,827,361,698,330,591,298,539,272,493,244"/>
-<area shape="rect" id="Node000013" href="$linear__algebra_8h.html#aa7300726a97d3b54a88218b1d5874f9a" title="Add two 2D vectors." alt="" coords="843,157,936,183"/>
-<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="544,201,592,193,718,179,827,171,828,176,718,184,593,198,545,206"/>
-<area shape="rect" id="Node000014" href="$linear__algebra_8h.html#a8575fb293573e4a074fc3182529502ad" title="Midpoint of two 2D points." alt="" coords="624,107,744,132"/>
-<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="498,198,591,149,625,136,627,141,593,154,501,202"/>
-<area shape="rect" id="Node000015" href="$linear__algebra_8h.html#a2e3b62828b3589791a542b58ac32e146" title="Scale a 2D vector by a scalar." alt="" coords="838,81,940,107"/>
-<area shape="poly" id="edge19_Node000012_Node000015" title=" " alt="" coords="483,198,591,92,651,75,712,69,771,71,823,78,822,83,771,77,712,75,651,80,594,96,487,202"/>
-<area shape="rect" id="Node000016" href="$linear__algebra_8h.html#a5752304986a3ca63d99299cb346b1542" title="Normalize a 2D vector." alt="" coords="621,208,747,234"/>
-<area shape="poly" id="edge16_Node000012_Node000016" title=" " alt="" coords="544,218,606,218,606,224,544,224"/>
-<area shape="rect" id="Node000018" href="$linear__algebra_8h.html#a18ba363054c85a04d9a933b3fa6201c9" title="Rotate a 2D vector 90 degrees counterclockwise." alt="" coords="610,257,758,283"/>
-<area shape="poly" id="edge18_Node000012_Node000018" title=" " alt="" coords="545,236,609,251,608,256,544,242"/>
-<area shape="poly" id="edge14_Node000014_Node000013" title=" " alt="" coords="740,130,829,153,827,158,738,136"/>
-<area shape="poly" id="edge15_Node000014_Node000015" title=" " alt="" coords="744,109,822,100,823,105,745,115"/>
-<area shape="rect" id="Node000017" href="$linear__algebra_8h.html#a6f4c78f15b63d790c3bb5dbed5c71261" title="Calculate the magnitude of a 2D vector." alt="" coords="824,259,955,284"/>
-<area shape="poly" id="edge17_Node000016_Node000017" title=" " alt="" coords="740,232,820,252,819,257,738,237"/>
-<area shape="poly" id="edge23_Node000019_Node000011" title=" " alt="" coords="744,369,827,369,827,374,744,374"/>
-<area shape="poly" id="edge22_Node000019_Node000017" title=" " alt="" coords="711,356,846,289,849,294,714,360"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,249,132,275"/>
+<area shape="rect" id="Node000002" href="$lap__timer_8c.html#a922bb1fc5c4fe5ec8f82bc735890ee69" title=" " alt="" coords="180,113,334,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,247,224,146,227,150,90,251"/>
+<area shape="rect" id="Node000005" href="$lap__timer_8c.html#ac15d5d84d2d64875ce0d0c0352af35e3" title=" " alt="" coords="185,300,329,326"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="120,273,193,293,191,298,118,278"/>
+<area shape="rect" id="Node000018" href="$linear__algebra_8h.html#a72d10b6160875b23b398cfef9e98a361" title="Distance between two 2D points." alt="" coords="624,297,744,323"/>
+<area shape="poly" id="edge20_Node000001_Node000018" title=" " alt="" coords="132,264,609,302,608,307,132,270"/>
+<area shape="rect" id="Node000003" href="$geodetic_8h.html#affa8f558945f2f15b6ff146fcd86235f" title="Build a coordinate from latitude and longitude already in degrees." alt="" coords="389,113,537,139"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="335,123,373,123,373,129,335,129"/>
+<area shape="rect" id="Node000004" href="$geodetic_8h.html#a4a8aae9e5800f848ecbf3e08df43c0bd" title="Project a coordinate onto a local east&#45;north plane about an origin." alt="" coords="402,64,524,90"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="313,110,391,91,392,96,314,115"/>
+<area shape="rect" id="Node000006" href="$geometry_8h.html#ab7709673624c807ab7925b7c87f0e00e" title="Test whether two segments intersect, including collinear overlap." alt="" coords="392,347,534,372"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="318,324,389,340,388,345,316,329"/>
+<area shape="rect" id="Node000011" href="$geometry_8h.html#ae32f7f124472f409f1355551b885bba0" title="Build the segment perpendicular to a segment through its midpoint." alt="" coords="382,163,544,204"/>
+<area shape="poly" id="edge10_Node000005_Node000011" title=" " alt="" coords="278,297,415,210,418,215,281,302"/>
+<area shape="rect" id="Node000007" href="$geometry_8h.html#a9cba600d217e50fd65869f151466a83e" title="Test whether a point falls inside a segment&#39;s bounding box." alt="" coords="592,347,776,372"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="535,357,577,357,577,362,535,362"/>
+<area shape="rect" id="Node000008" href="$geometry_8h.html#a6e735b8719acb9be09a8055f5a1cdff5" title="Determine which way the path a &#45;&gt; b &#45;&gt; c turns." alt="" coords="626,396,742,422"/>
+<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="525,370,612,390,610,395,524,375"/>
+<area shape="rect" id="Node000009" href="$linear__algebra_8h.html#a24e6804e26c8b9048d77319bb3d0dcb9" title="Cross product of two 2D vectors." alt="" coords="838,396,941,422"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="742,406,822,406,822,411,742,411"/>
+<area shape="rect" id="Node000010" href="$linear__algebra_8h.html#a1ebccdd0fce0cdfa7a931095189887b4" title="Subtract one 2D vector from another." alt="" coords="843,297,936,323"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="741,394,775,382,820,357,858,330,861,335,822,362,777,387,743,399"/>
+<area shape="poly" id="edge19_Node000011_Node000010" title=" " alt="" coords="514,202,593,232,718,268,829,294,827,300,717,273,591,237,512,207"/>
+<area shape="rect" id="Node000012" href="$linear__algebra_8h.html#aa7300726a97d3b54a88218b1d5874f9a" title="Add two 2D vectors." alt="" coords="843,45,936,71"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="528,160,542,150,554,135,560,120,563,89,568,58,576,44,591,31,622,15,655,6,690,3,725,5,791,18,846,36,844,41,790,23,724,10,690,8,656,11,624,20,594,35,580,47,573,60,568,89,565,121,558,137,546,153,532,165"/>
+<area shape="rect" id="Node000013" href="$linear__algebra_8h.html#a8575fb293573e4a074fc3182529502ad" title="Midpoint of two 2D points." alt="" coords="624,95,744,120"/>
+<area shape="poly" id="edge12_Node000011_Node000013" title=" " alt="" coords="524,160,629,123,630,128,526,165"/>
+<area shape="rect" id="Node000014" href="$linear__algebra_8h.html#a2e3b62828b3589791a542b58ac32e146" title="Scale a 2D vector by a scalar." alt="" coords="838,120,940,146"/>
+<area shape="poly" id="edge18_Node000011_Node000014" title=" " alt="" coords="544,171,822,138,823,143,545,176"/>
+<area shape="rect" id="Node000015" href="$linear__algebra_8h.html#a5752304986a3ca63d99299cb346b1542" title="Normalize a 2D vector." alt="" coords="621,196,747,222"/>
+<area shape="poly" id="edge15_Node000011_Node000015" title=" " alt="" coords="545,190,606,197,605,202,544,195"/>
+<area shape="rect" id="Node000017" href="$linear__algebra_8h.html#a18ba363054c85a04d9a933b3fa6201c9" title="Rotate a 2D vector 90 degrees counterclockwise." alt="" coords="610,45,758,71"/>
+<area shape="poly" id="edge17_Node000011_Node000017" title=" " alt="" coords="526,160,543,149,558,132,565,115,574,97,591,80,597,76,600,80,594,84,578,100,570,117,562,135,546,153,529,165"/>
+<area shape="poly" id="edge13_Node000013_Node000012" title=" " alt="" coords="740,91,828,70,829,75,741,97"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="745,112,823,122,822,127,744,117"/>
+<area shape="rect" id="Node000016" href="$linear__algebra_8h.html#a6f4c78f15b63d790c3bb5dbed5c71261" title="Calculate the magnitude of a 2D vector." alt="" coords="824,221,955,247"/>
+<area shape="poly" id="edge16_Node000015_Node000016" title=" " alt="" coords="748,214,809,221,808,227,747,219"/>
+<area shape="poly" id="edge22_Node000018_Node000010" title=" " alt="" coords="744,307,827,307,827,313,744,313"/>
+<area shape="poly" id="edge21_Node000018_Node000016" title=" " alt="" coords="720,294,837,250,839,255,722,299"/>
 </map>

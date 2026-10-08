@@ -1,4 +1,10 @@
 var searchData=
 [
-  ['zero_5ftorque_5frequest_0',['zero_torque_request',['../torque__controller_8c.html#a463f0db1aebef7da540b21b24896b363',1,'torque_controller.c']]]
+  ['w5500_5fregister_5fcallbacks_0',['w5500_register_callbacks',['../ethernet_8h.html#a45aed330f89610c0411f94d25250c49f',1,'w5500_register_callbacks(void):&#160;w5500_callbacks.c'],['../w5500__callbacks_8c.html#a45aed330f89610c0411f94d25250c49f',1,'w5500_register_callbacks(void):&#160;w5500_callbacks.c']]],
+  ['was_5freset_5fby_5fwdg_1',['was_reset_by_WDG',['../watchdog_8c.html#a9474fe50e70aad5e46b407a2cb66cfbf',1,'was_reset_by_WDG(void):&#160;watchdog.c'],['../watchdog_8h.html#a9474fe50e70aad5e46b407a2cb66cfbf',1,'was_reset_by_WDG(void):&#160;watchdog.c']]],
+  ['watt_5ffrom_5fkilowatt_2',['watt_from_kilowatt',['../dearunits_8h.html#a77d312f9e988dd1f1207714ee2214725',1,'dearunits.h']]],
+  ['watt_5fhour_5ffrom_5fjoule_3',['watt_hour_from_joule',['../dearunits_8h.html#ab6476d368e0353e89497fe3c6e68d1c3',1,'dearunits.h']]],
+  ['wdg_5fget_5fcsr_4',['WDG_get_CSR',['../watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd',1,'WDG_get_CSR(void):&#160;watchdog.c'],['../watchdog_8h.html#a6a2c1fa78af77115f11c0f47b19480cd',1,'WDG_get_CSR(void):&#160;watchdog.c']]],
+  ['wdg_5finit_5',['WDG_init',['../watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb',1,'WDG_init(void):&#160;watchdog.c'],['../watchdog_8h.html#a51d10c4e4d48fbc226b4b17aab1ca5eb',1,'WDG_init(void):&#160;watchdog.c']]],
+  ['wdg_5fpet_6',['WDG_pet',['../watchdog_8c.html#ac9f50b5ca658e88bed2fced52ca1789f',1,'WDG_pet(void):&#160;watchdog.c'],['../watchdog_8h.html#ac9f50b5ca658e88bed2fced52ca1789f',1,'WDG_pet(void):&#160;watchdog.c']]]
 ];

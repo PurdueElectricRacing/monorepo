@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['fahrenheit_5ffrom_0',['fahrenheit_from',['../units_8h.html#a00b00093f92f39fa20021329c6a1f7c0',1,'units.h']]],
+  ['fahrenheit_5ffrom_5fcelsius_0',['fahrenheit_from_celsius',['../dearunits_8h.html#a82eeeabbc38acb540ed6fd0cd83adce4',1,'dearunits.h']]],
   ['fault_5flibrary_5fperiodic_1',['fault_library_periodic',['../faults__common_8h.html#af1f330045faf14dff0057e5b9e39a713',1,'faults_common.h']]],
   ['faults_5finit_2',['faults_init',['../pdu_2faults_2faults_8c.html#afef51759bd2aeba79dd2770e0cd8f777',1,'faults_init(void):&#160;faults.c'],['../pdu_2faults_2faults_8h.html#afef51759bd2aeba79dd2770e0cd8f777',1,'faults_init(void):&#160;faults.c']]],
   ['faults_5fperiodic_3',['faults_periodic',['../pdu_2faults_2faults_8c.html#a21486bc79420fd7ba6102993e8eb8ebf',1,'faults_periodic(void):&#160;faults.c'],['../pdu_2faults_2faults_8h.html#a21486bc79420fd7ba6102993e8eb8ebf',1,'faults_periodic(void):&#160;faults.c']]],
@@ -50,5 +50,8 @@ var searchData=
   ['flush_5finva_47',['flush_inva',['../powertrain_8c.html#aeb6b7b604856470fef999ceb660957bf',1,'powertrain.c']]],
   ['flush_5finvb_48',['flush_invb',['../powertrain_8c.html#a059575ddd2df3c7c23a2ad1eb3ee564b',1,'powertrain.c']]],
   ['flush_5finvc_49',['flush_invc',['../powertrain_8c.html#aea7059584fe4855b90d69f0398139819',1,'powertrain.c']]],
-  ['flush_5finvd_50',['flush_invd',['../powertrain_8c.html#a46968c6a8662915c4f3f34dd7086aece',1,'powertrain.c']]]
+  ['flush_5finvd_50',['flush_invd',['../powertrain_8c.html#a46968c6a8662915c4f3f34dd7086aece',1,'powertrain.c']]],
+  ['foot_5ffrom_5fmeter_51',['foot_from_meter',['../dearunits_8h.html#a3c76450fb588c3fb28c8c0dc1321c2d7',1,'dearunits.h']]],
+  ['force_5ffrom_52',['force_from',['../dearunits_8h.html#aacb1d16c3fa51761baf115486fcc5ea2',1,'dearunits.h']]],
+  ['frequency_5ffrom_53',['frequency_from',['../dearunits_8h.html#a74dfd3e6ea8b0acef95cee97ee5ca06c',1,'dearunits.h']]]
 ];

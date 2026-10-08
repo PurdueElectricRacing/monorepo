@@ -6,7 +6,6 @@ var g4__testing_8h =
     [ "TEST_BLINKY", "g4__testing_8h.html#a2455bf6a6eb220dc21d497c9354997af", null ],
     [ "TEST_CANPILER", "g4__testing_8h.html#a001aa042dc8fa24b816cbf13d20a0779", null ],
     [ "TEST_CRC", "g4__testing_8h.html#a035e6e3a1384beb252cc3372f1b764ba", null ],
-    [ "TEST_DEARUNITS", "g4__testing_8h.html#a3394d8a6ac443c7cd3f0c0a1055fdc80", null ],
     [ "TEST_DIAGNOSTICS", "g4__testing_8h.html#a5915628b95360fda28aac5570f1d95ba", null ],
     [ "TEST_FDCAN", "g4__testing_8h.html#adf39fdc7d1f3b76e7c361abdc7144e86", null ],
     [ "TEST_FLASH", "g4__testing_8h.html#ac35215710058cd839c06ad49f605ed37", null ],
