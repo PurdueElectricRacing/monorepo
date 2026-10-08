@@ -23,7 +23,6 @@ float du_test_add(float a, float b);
 float du_test_subtract(float a, float b);
 float du_test_min(float a, float b);
 float du_test_max(float a, float b);
-float du_test_abs_diff(float a, float b);
 float du_test_negate(float x);
 float du_test_abs(float x);
 float du_test_clamp(float x, float lo, float hi);

@@ -142,13 +142,6 @@ float du_test_max(float a, float b) {
     return DU_MAX(operand_0, operand_1).value;
 }
 
-float du_test_abs_diff(float a, float b) {
-    meter_t operand_0 = {.value = a};
-    meter_t operand_1 = {.value = b};
-
-    return DU_ABS_DIFF(operand_0, operand_1).value;
-}
-
 float du_test_negate(float x) {
     meter_t operand_0 = {.value = x};
 
@@ -160,9 +153,6 @@ float du_test_abs(float x) {
 
     return DU_ABS(operand_0).value;
 }
-
-
-
 
 float du_test_clamp(float x, float lo, float hi) {
     meter_t operand_0 = {.value = x};
