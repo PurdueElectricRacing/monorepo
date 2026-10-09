@@ -131,17 +131,16 @@ static inline void update_speed_telemetry() {
         can_data.motor_speeds.rear_left,
         can_data.motor_speeds.rear_right
     );
+    revolutions_per_minute_t motor_rpm = {(float)max_motor_rpm};
 
     // vehicle constants
     static constexpr inch_t WHEEL_RADIUS_IN = {8.0f};
     static constexpr float GEAR_RATIO       = 12.51f;
 
-    meter_t wheel_radius = DU_METER_FROM(WHEEL_RADIUS_IN);
-
     // radial speed to linear speed (assuming no slip)
-    revolutions_per_minute_t motor_rpm = {.value = (float)max_motor_rpm};
     revolutions_per_minute_t wheel_rpm = DU_DIVIDE(motor_rpm, GEAR_RATIO);
     radians_per_second_t wheel_rps     = DU_RADIANS_PER_SECOND_FROM(wheel_rpm);
+    meter_t wheel_radius               = DU_METER_FROM(WHEEL_RADIUS_IN);
     meters_per_second_t vehicle_speed  = DU_MULTIPLY(wheel_rps, wheel_radius);
 
     // convert to mph for display
