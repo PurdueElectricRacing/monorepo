@@ -1,4 +1,4 @@
-## Auto-Analysis
+## Plot Factory
 Automations for generating plots from raw data.
 
 ```python
