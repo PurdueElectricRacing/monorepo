@@ -133,10 +133,10 @@ static inline void update_speed_telemetry() {
     );
 
     // vehicle constants
-    static constexpr float WHEEL_RADIUS_IN = 8.0f;
-    static constexpr float GEAR_RATIO      = 12.51f;
+    static constexpr inch_t WHEEL_RADIUS_IN = {8.0f};
+    static constexpr float GEAR_RATIO       = 12.51f;
 
-    meter_t wheel_radius = DU_METER_FROM((inch_t) {WHEEL_RADIUS_IN});
+    meter_t wheel_radius = DU_METER_FROM(WHEEL_RADIUS_IN);
 
     // radial speed to linear speed (assuming no slip)
     revolutions_per_minute_t motor_rpm = {.value = (float)max_motor_rpm};
