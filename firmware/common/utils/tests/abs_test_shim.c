@@ -15,3 +15,11 @@ float test_ABS_f(float value) {
 int test_ABS_i(int value) {
     return ABS(value);
 }
+
+int test_ABS_i8(int8_t value) {
+    return ABS(value);
+}
+
+int test_ABS_i16(int16_t value) {
+    return ABS(value);
+}

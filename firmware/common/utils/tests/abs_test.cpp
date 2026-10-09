@@ -17,6 +17,6 @@ TEST(AbsTest, EvaluatesFloats) {
 }
 
 TEST(AbsTest, IntPromotionsSuccessful) {
-    EXPECT_EQ(test_ABS_i((int8_t) -10), 10);
-    EXPECT_EQ(test_ABS_i((int16_t) -10), 10);
+    EXPECT_EQ(test_ABS_i8((int8_t) -10), 10);
+    EXPECT_EQ(test_ABS_i16((int16_t) -10), 10);
 }
