@@ -19,17 +19,17 @@ def print_suite(name: str) -> None:
 
 
 def run() -> None:
-    """Run generator tests, generate firmware headers, then run host tests."""
-    print_suite("Generator unit tests")
+    """Generate firmware headers, then run Python and host tests."""
+    print_suite("Generate firmware headers")
     subprocess.run(
-        [sys.executable, "-m", "pytest"],
+        [sys.executable, "generators/generate.py"],
         cwd=ROOT,
         check=True,
     )
 
-    print_suite("Generate firmware headers")
+    print_suite("Python unit tests")
     subprocess.run(
-        [sys.executable, "generators/generate.py"],
+        [sys.executable, "-m", "pytest"],
         cwd=ROOT,
         check=True,
     )

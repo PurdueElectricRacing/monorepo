@@ -1,9 +1,9 @@
 # DearUnits
-
 Generated typed wrappers around physical units. Each unit is a struct holding a single `float`, so they cost nothing at runtime but stop you from accidentally mixing, e.g., feet with meters.
 
 Available unit families: temperature (C/F), distance (m/cm/mm/in/ft/mi), time (ms/s/min/hr/day), angle (rad/deg), mass (g/kg/lb), pressure (Pa/psi/bar), velocity (mps/kph/mph).
 
+## Usage Example
 ```c
 #include "common/dearunits/generated/dearunits.h"
 
@@ -26,15 +26,3 @@ meters_per_second_t speed      = velocity_from(distance, time);
 meters_per_second_t same_speed = DU_DIVIDE(distance, time);
 meter_t travelled              = DU_MULTIPLY(speed, time);
 ```
-
-## Tests
-
-Host tests use Google Test, with a C23 shim to exercise the generated `_Generic` macros. Run from the repository root:
-
-```sh
-cmake -S tests -B firmware/build/host-tests -DPER_TEST_COVERAGE=OFF
-cmake --build firmware/build/host-tests --target dearunits_test
-ctest --test-dir firmware/build/host-tests -R DearUnitsTest --output-on-failure
-```
-
-Generate `generated/dearunits.h` first with `python3 generators/generate.py` if it is missing.
