@@ -7,7 +7,7 @@ from pathlib import Path
 
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    __package__ = "analysis"
+    __package__ = "plot_factory"
 
 from .pipeline import DATA_DIRECTORY, run_analysis
 
@@ -21,7 +21,7 @@ def main(argv: list[str] | None = None) -> int:
         nargs="?",
         type=Path,
         default=DATA_DIRECTORY,
-        help="folder containing telemetry CSV files (default: analysis/data/)",
+        help="folder containing telemetry CSV files (default: plot_factory/data/)",
     )
 
     arguments = parser.parse_args(argv)

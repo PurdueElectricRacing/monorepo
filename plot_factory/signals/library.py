@@ -1,6 +1,6 @@
 """Shared library of derived signal channels.
 
-Derived channels are defined once in ``analysis/configuration/derived_signals/*.toml`` files and
+Derived channels are defined once in ``plot_factory/configuration/derived_signals/*.toml`` files and
 referenced by name from plot configurations::
 
     [[channel]]
@@ -43,7 +43,7 @@ class ChannelDefinition(StrictConfig):
 
 
 class SignalLibraryFile(StrictConfig):
-    """The schema of a single analysis/configuration/derived_signals/*.toml file."""
+    """The schema of a single plot_factory/configuration/derived_signals/*.toml file."""
 
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
@@ -58,7 +58,7 @@ class _CompiledChannel:
 
 
 class SignalLibrary:
-    """All derived channels from ``analysis/configuration/derived_signals/*.toml``, in load order."""
+    """All derived channels from ``plot_factory/configuration/derived_signals/*.toml``, in load order."""
 
     def __init__(self, channels: dict[str, _CompiledChannel]) -> None:
         self._channels = channels

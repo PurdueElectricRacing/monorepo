@@ -2,10 +2,10 @@
 Automations for generating plots from raw data.
 
 ```python
-python3 analysis/run_analysis.py
+python3 plot_factory/run_plot_factory.py
 ```
 
-The default data folder is `analysis/data/`. You can select another folder with
-`python3 analysis/run_analysis.py /path/to/data`.
+The default data folder is `plot_factory/data/`. You can select another folder with
+`python3 plot_factory/run_plot_factory.py /path/to/data`.
 
-The output folder is `analysis/output/`
+The output folder is `plot_factory/output/`
