@@ -117,34 +117,36 @@ static inline void update_pack_telemetry() {
 static inline void update_speed_telemetry() {
     if (can_data.wheel_speeds.is_stale()) {
         NXT_setText(SPEED, "S");
-    } else {
-        if (can_data.wheel_speeds.rear_left < 0) {
-            NXT_setText(SPEED, "NEG");
-        } else {
-            int16_t max_wheelspeed = MAXOF(
-                can_data.wheel_speeds.front_right,
-                can_data.wheel_speeds.front_left,
-                can_data.wheel_speeds.rear_left,
-                can_data.wheel_speeds.rear_right
-            );
-
-            // vehicle constants
-            static constexpr float WHEEL_RADIUS_IN = 8.0f;
-            static constexpr float GEAR_RATIO      = 12.51f;
-
-            meter_t wheel_radius = DU_METER_FROM((inch_t) {WHEEL_RADIUS_IN});
-
-            // radial speed to linear speed (assuming no slip)
-            revolutions_per_minute_t motor_rpm = {.value = (float)max_wheelspeed};
-            revolutions_per_minute_t wheel_rpm = DU_DIVIDE(motor_rpm, GEAR_RATIO);
-            radians_per_second_t wheel_rps     = DU_RADIANS_PER_SECOND_FROM(wheel_rpm);
-            meters_per_second_t vehicle_speed  = DU_MULTIPLY(wheel_rps, wheel_radius);
-
-            // convert to mph for display
-            miles_per_hour_t vehicle_mph = miles_per_hour_from_meters_per_second(vehicle_speed);
-            NXT_setTextFormatted(SPEED, "%d", (int16_t)vehicle_mph.value);
-        }
+        return;
     }
+    
+    if (can_data.wheel_speeds.rear_left < 0) {
+        NXT_setText(SPEED, "NEG");
+        return;
+    }
+
+    int16_t max_wheelspeed = MAXOF(
+        can_data.wheel_speeds.front_right,
+        can_data.wheel_speeds.front_left,
+        can_data.wheel_speeds.rear_left,
+        can_data.wheel_speeds.rear_right
+    );
+
+    // vehicle constants
+    static constexpr float WHEEL_RADIUS_IN = 8.0f;
+    static constexpr float GEAR_RATIO      = 12.51f;
+
+    meter_t wheel_radius = DU_METER_FROM((inch_t) {WHEEL_RADIUS_IN});
+
+    // radial speed to linear speed (assuming no slip)
+    revolutions_per_minute_t motor_rpm = {.value = (float)max_wheelspeed};
+    revolutions_per_minute_t wheel_rpm = DU_DIVIDE(motor_rpm, GEAR_RATIO);
+    radians_per_second_t wheel_rps     = DU_RADIANS_PER_SECOND_FROM(wheel_rpm);
+    meters_per_second_t vehicle_speed  = DU_MULTIPLY(wheel_rps, wheel_radius);
+
+    // convert to mph for display
+    miles_per_hour_t vehicle_mph = miles_per_hour_from_meters_per_second(vehicle_speed);
+    NXT_setTextFormatted(SPEED, "%d", (int16_t)vehicle_mph.value);
 }
 
 static inline void update_pedal_telemetry() {
