@@ -1,0 +1,12 @@
+type = "gps_scatter"
+title = "GPS Track Colored by Speed"
+filename = "gps_track_speed.png"
+width = 10
+height = 8
+time_column = "real_time"
+longitude_column = "VCAN.TORQUE_VECTOR.gps_coordinates.longitude"
+latitude_column = "VCAN.TORQUE_VECTOR.gps_coordinates.latitude"
+color_column = "VCAN.TORQUE_VECTOR.gps_speed_heading.gps_speed"
+color_label = "GPS speed"
+match_tolerance_seconds = 0.1
+max_distance_meters = 500

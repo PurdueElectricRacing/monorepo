@@ -1,0 +1,30 @@
+type = "time_series"
+title = "Wheel Speeds"
+filename = "wheel_speeds.png"
+time_column = "real_time"
+width = 12
+height = 6
+forward_fill = true
+
+[[panels]]
+label = "Wheel speed"
+
+[[panels.traces]]
+column = "VCAN.MAIN_MODULE.wheel_speeds.front_left"
+label = "Front left"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "VCAN.MAIN_MODULE.wheel_speeds.front_right"
+label = "Front right"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "VCAN.MAIN_MODULE.wheel_speeds.rear_left"
+label = "Rear left"
+color = "tab:green"
+
+[[panels.traces]]
+column = "VCAN.MAIN_MODULE.wheel_speeds.rear_right"
+label = "Rear right"
+color = "tab:red"

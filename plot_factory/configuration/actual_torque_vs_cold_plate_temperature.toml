@@ -1,0 +1,53 @@
+type = "time_series"
+title = "Actual Torque vs Cold Plate Temperature"
+filename = "actual_torque_vs_cold_plate_temperature.png"
+time_column = "real_time"
+width = 12
+height = 8
+forward_fill = true
+
+[[panels]]
+label = "Actual torque"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_D.INVD_CRIT.AMK_ActualTorque"
+label = "Inverter D"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_C.INVC_CRIT.AMK_ActualTorque"
+label = "Inverter C"
+color = "tab:green"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_B.INVB_CRIT.AMK_ActualTorque"
+label = "Inverter B"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_A.INVA_CRIT.AMK_ActualTorque"
+label = "Inverter A"
+color = "tab:red"
+
+[[panels]]
+label = "Cold plate temperature"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_D.INVD_TEMPS.AMK_InverterTemp"
+label = "Inverter D"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_C.INVC_TEMPS.AMK_InverterTemp"
+label = "Inverter C"
+color = "tab:green"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_B.INVB_TEMPS.AMK_InverterTemp"
+label = "Inverter B"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_A.INVA_TEMPS.AMK_InverterTemp"
+label = "Inverter A"
+color = "tab:red"

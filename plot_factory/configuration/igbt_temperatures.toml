@@ -1,0 +1,30 @@
+type = "time_series"
+title = "IGBT Temperatures"
+filename = "igbt_temperatures.png"
+time_column = "real_time"
+width = 12
+height = 6
+forward_fill = true
+
+[[panels]]
+label = "IGBT temperature"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_D.INVD_TEMPS.AMK_IGBTTemp"
+label = "Inverter D"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_C.INVC_TEMPS.AMK_IGBTTemp"
+label = "Inverter C"
+color = "tab:green"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_B.INVB_TEMPS.AMK_IGBTTemp"
+label = "Inverter B"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_A.INVA_TEMPS.AMK_IGBTTemp"
+label = "Inverter A"
+color = "tab:red"

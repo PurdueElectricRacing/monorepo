@@ -1,0 +1,12 @@
+type = "scatter"
+title = "Yaw Rate vs Lateral Acceleration"
+filename = "scatter_yaw_rate_vs_ay.png"
+width = 10
+height = 8
+time_column = "real_time"
+match_tolerance_seconds = 0.1
+
+[[traces]]
+x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+y_column = "VCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
+label = "Yaw rate vs Ay"
