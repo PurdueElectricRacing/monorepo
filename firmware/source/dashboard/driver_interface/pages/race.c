@@ -115,21 +115,21 @@ static inline void update_pack_telemetry() {
 }
 
 static inline void update_speed_telemetry() {
-    if (can_data.wheel_speeds.is_stale()) {
+    if (can_data.motor_speeds.is_stale()) {
         NXT_setText(SPEED, "S");
         return;
     }
     
-    if (can_data.wheel_speeds.rear_left < 0) {
+    if (can_data.motor_speeds.rear_left < 0) {
         NXT_setText(SPEED, "NEG");
         return;
     }
 
-    int16_t max_wheelspeed = MAXOF(
-        can_data.wheel_speeds.front_right,
-        can_data.wheel_speeds.front_left,
-        can_data.wheel_speeds.rear_left,
-        can_data.wheel_speeds.rear_right
+    int16_t max_motor_rpm = MAXOF(
+        can_data.motor_speeds.front_right,
+        can_data.motor_speeds.front_left,
+        can_data.motor_speeds.rear_left,
+        can_data.motor_speeds.rear_right
     );
 
     // vehicle constants
@@ -139,7 +139,7 @@ static inline void update_speed_telemetry() {
     meter_t wheel_radius = DU_METER_FROM((inch_t) {WHEEL_RADIUS_IN});
 
     // radial speed to linear speed (assuming no slip)
-    revolutions_per_minute_t motor_rpm = {.value = (float)max_wheelspeed};
+    revolutions_per_minute_t motor_rpm = {.value = (float)max_motor_rpm};
     revolutions_per_minute_t wheel_rpm = DU_DIVIDE(motor_rpm, GEAR_RATIO);
     radians_per_second_t wheel_rps     = DU_RADIANS_PER_SECOND_FROM(wheel_rpm);
     meters_per_second_t vehicle_speed  = DU_MULTIPLY(wheel_rps, wheel_radius);

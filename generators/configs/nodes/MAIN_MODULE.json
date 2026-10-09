@@ -94,8 +94,8 @@
                     "priority": 4
                 },
                 {
-                    "message_name": "wheel_speeds",
-                    "description": "Wheel speeds from motor controllers",
+                    "message_name": "motor_speeds",
+                    "description": "Motor shaft speeds before gear reduction",
                     "signals": [
                         {
                             "signal_name": "front_right",

@@ -14,11 +14,11 @@
 
 /**
  * @brief Reports telemetry data at 50 Hz rate
- * Includes: AMK reported wheel_speeds
+ * Includes: AMK-reported motor shaft speeds before gear reduction
  */
-static_assert(WHEEL_SPEEDS_PERIOD_MS == TELEMETRY_50HZ_PERIOD_MS);
+static_assert(MOTOR_SPEEDS_PERIOD_MS == TELEMETRY_50HZ_PERIOD_MS);
 void report_telemetry_50hz(void) {
-    CAN_SEND_wheel_speeds(
+    CAN_SEND_motor_speeds(
         g_powertrain.front_right.crit->AMK_ActualSpeed,
         g_powertrain.front_left.crit->AMK_ActualSpeed,
         g_powertrain.rear_left.crit->AMK_ActualSpeed,
