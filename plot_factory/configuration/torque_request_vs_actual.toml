@@ -1,0 +1,53 @@
+type = "time_series"
+title = "Requested and Actual Torque"
+filename = "torque_request_vs_actual.png"
+time_column = "real_time"
+width = 12
+height = 8
+forward_fill = true
+
+[[panels]]
+label = "Requested torque"
+
+[[panels.traces]]
+column = "VCAN.TORQUE_VECTOR.vcu_torque_request.front_left"
+label = "Front left"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "VCAN.TORQUE_VECTOR.vcu_torque_request.front_right"
+label = "Front right"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "VCAN.TORQUE_VECTOR.vcu_torque_request.rear_left"
+label = "Rear left"
+color = "tab:green"
+
+[[panels.traces]]
+column = "VCAN.TORQUE_VECTOR.vcu_torque_request.rear_right"
+label = "Rear right"
+color = "tab:red"
+
+[[panels]]
+label = "AMK actual torque"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_D.INVD_CRIT.AMK_ActualTorque"
+label = "Inverter D"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_C.INVC_CRIT.AMK_ActualTorque"
+label = "Inverter C"
+color = "tab:green"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_B.INVB_CRIT.AMK_ActualTorque"
+label = "Inverter B"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_A.INVA_CRIT.AMK_ActualTorque"
+label = "Inverter A"
+color = "tab:red"

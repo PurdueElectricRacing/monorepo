@@ -1,0 +1,11 @@
+[[channel]]
+name = "battery.voltage_v"
+expression = "VCAN.A_BOX.pack_stats.vbatt_adc * 0.14659808276"
+unit = "V"
+label = "Battery pack voltage (vbatt_adc scaled)"
+
+[[channel]]
+name = "battery.power_w"
+expression = "battery.voltage_v * VCAN.A_BOX.pack_stats.pack_current"
+unit = "W"
+label = "Battery power (I * V, vbatt source)"

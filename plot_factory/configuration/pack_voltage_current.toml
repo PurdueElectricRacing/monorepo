@@ -1,0 +1,23 @@
+type = "time_series"
+title = "Battery Pack Voltage and Current"
+filename = "pack_voltage_current.png"
+time_column = "real_time"
+width = 12
+height = 8
+forward_fill = true
+
+[[panels]]
+label = "Pack voltage"
+
+[[panels.traces]]
+column = "VCAN.A_BOX.pack_stats.pack_voltage"
+label = "Pack voltage"
+color = "tab:blue"
+
+[[panels]]
+label = "Pack current"
+
+[[panels.traces]]
+column = "VCAN.A_BOX.pack_stats.pack_current"
+label = "Pack current"
+color = "tab:orange"

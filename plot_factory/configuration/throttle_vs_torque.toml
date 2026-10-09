@@ -1,0 +1,38 @@
+type = "time_series"
+title = "Throttle and AMK Actual Torque"
+filename = "torque_vs_pedals.png"
+time_column = "real_time"
+width = 12
+height = 8
+forward_fill = true
+
+[[panels]]
+label = "Throttle"
+
+[[panels.traces]]
+column = "VCAN.DASHBOARD.pedals.throttle"
+label = "Throttle"
+color = "black"
+
+[[panels]]
+label = "AMK actual torque"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_D.INVD_CRIT.AMK_ActualTorque"
+label = "Inverter D"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_C.INVC_CRIT.AMK_ActualTorque"
+label = "Inverter C"
+color = "tab:green"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_B.INVB_CRIT.AMK_ActualTorque"
+label = "Inverter B"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_A.INVA_CRIT.AMK_ActualTorque"
+label = "Inverter A"
+color = "tab:red"

@@ -1,0 +1,30 @@
+type = "time_series"
+title = "Motor Temperatures"
+filename = "motor_temperatures.png"
+time_column = "real_time"
+width = 12
+height = 6
+forward_fill = true
+
+[[panels]]
+label = "Motor temperature"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_D.INVD_TEMPS.AMK_MotorTemp"
+label = "Motor D"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_C.INVC_TEMPS.AMK_MotorTemp"
+label = "Motor C"
+color = "tab:green"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_B.INVB_TEMPS.AMK_MotorTemp"
+label = "Motor B"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "MCAN.INVERTER_A.INVA_TEMPS.AMK_MotorTemp"
+label = "Motor A"
+color = "tab:red"

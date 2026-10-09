@@ -1,0 +1,31 @@
+type = "time_series"
+title = "Handling Response"
+filename = "handling_response.png"
+time_column = "real_time"
+width = 12
+height = 10
+forward_fill = true
+
+[[panels]]
+label = "Steering angle"
+
+[[panels.traces]]
+column = "VCAN.DASHBOARD.steering_angle.angle"
+label = "Steering angle"
+color = "tab:blue"
+
+[[panels]]
+label = "Yaw rate"
+
+[[panels.traces]]
+column = "VCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
+label = "Yaw rate"
+color = "tab:orange"
+
+[[panels]]
+label = "Lateral acceleration"
+
+[[panels.traces]]
+column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+label = "Lateral acceleration"
+color = "tab:green"

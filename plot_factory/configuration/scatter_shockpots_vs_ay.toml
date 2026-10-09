@@ -1,0 +1,33 @@
+type = "scatter"
+title = "Shockpot Displacement vs Lateral Acceleration"
+filename = "scatter_shockpots_vs_ay.png"
+width = 10
+height = 8
+time_column = "real_time"
+match_tolerance_seconds = 0.1
+x_label = "Lateral acceleration"
+y_label = "Shockpot displacement"
+
+[[traces]]
+x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+y_column = "VCAN.DRIVELINE.front_shockpots.left"
+label = "Front Left"
+color = "tab:blue"
+
+[[traces]]
+x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+y_column = "VCAN.DRIVELINE.front_shockpots.right"
+label = "Front Right"
+color = "tab:orange"
+
+[[traces]]
+x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+y_column = "VCAN.DRIVELINE.rear_shockpots.left"
+label = "Rear Left"
+color = "tab:green"
+
+[[traces]]
+x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+y_column = "VCAN.DRIVELINE.rear_shockpots.right"
+label = "Rear Right"
+color = "tab:red"
