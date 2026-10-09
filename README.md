@@ -16,6 +16,7 @@ A monorepo of all firmware projects, shared libraries, code generation, and off-
 - `docs/` - Shared documentation
 - `firmware/` - Embedded firmware, CAN library, and shared C code
 - `generators/` - CANpiler + Fault Generator
+- `plot_factory/` - Automated plotting pipeline
 - `tests/` - Host side and cross-project integration tests
 
 ## Doxygen
