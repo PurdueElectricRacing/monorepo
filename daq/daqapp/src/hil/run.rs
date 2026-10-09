@@ -1,6 +1,5 @@
 use eframe::egui;
 
-use crate::hil::config::AcceptPolicy;
 use crate::{hil, messages};
 
 #[derive(PartialEq, Eq, Clone, Copy)]
@@ -167,15 +166,17 @@ impl HilRunningTest {
                 }
 
                 expect.result = match expect.expect.accept {
-                    AcceptPolicy::First => {
+                    hil::config::AcceptPolicy::First => {
                         if failures.is_empty() {
                             ExpectResult::Passed
                         } else {
                             ExpectResult::FailedValueOutOfRange
                         }
                     }
-                    AcceptPolicy::Any if failures.is_empty() => ExpectResult::Passed,
-                    AcceptPolicy::Any | AcceptPolicy::Last => ExpectResult::InProgress,
+                    hil::config::AcceptPolicy::Any if failures.is_empty() => ExpectResult::Passed,
+                    hil::config::AcceptPolicy::Any | hil::config::AcceptPolicy::Last => {
+                        ExpectResult::InProgress
+                    }
                 };
                 expect.last_failure = Some(failures);
             }
@@ -223,7 +224,7 @@ impl InProgressExpect {
 mod tests {
     use super::*;
 
-    fn running_test(policy: AcceptPolicy) -> HilRunningTest {
+    fn running_test(policy: hil::config::AcceptPolicy) -> HilRunningTest {
         let expect = hil::config::Expectation {
             window: [10.0, 20.0],
             msg_name: "telemetry".into(),
@@ -287,14 +288,15 @@ mod tests {
                 ],
             ),
         ] {
-            for (policy, expected) in [AcceptPolicy::First, AcceptPolicy::Last, AcceptPolicy::Any]
-                .into_iter()
-                .zip(expected)
-            {
+            for (policy, expected) in [
+                hil::config::AcceptPolicy::First,
+                hil::config::AcceptPolicy::Last,
+                hil::config::AcceptPolicy::Any,
+            ].into_iter().zip(expected) {
                 let mut test = running_test(policy);
                 test.process_can_at(&message(&[("temperature", values[0])]), 10);
                 test.process_can_at(&message(&[("temperature", values[1])]), 20);
-                if matches!(policy, AcceptPolicy::Last) {
+                if matches!(policy, hil::config::AcceptPolicy::Last) {
                     assert!(test.in_progress_expects[0].result == ExpectResult::InProgress);
                     assert!(!test.is_finished());
                 }
@@ -318,7 +320,7 @@ mod tests {
 
     #[test]
     fn any_waits_for_a_valid_message_or_timeout() {
-        let mut test = running_test(AcceptPolicy::Any);
+        let mut test = running_test(hil::config::AcceptPolicy::Any);
         test.process_can_at(&message(&[("temperature", 25.0)]), 10);
         test.process_can_at(&message(&[]), 20);
         assert!(!test.is_finished());
@@ -336,7 +338,11 @@ mod tests {
 
     #[test]
     fn only_matching_messages_inside_the_window_count() {
-        for policy in [AcceptPolicy::First, AcceptPolicy::Last, AcceptPolicy::Any] {
+        for policy in [
+            hil::config::AcceptPolicy::First,
+            hil::config::AcceptPolicy::Last,
+            hil::config::AcceptPolicy::Any,
+        ] {
             let mut test = running_test(policy);
             let valid = message(&[("temperature", 35.0)]);
             test.process_can_at(&valid, 9);
@@ -356,7 +362,11 @@ mod tests {
 
     #[test]
     fn tick_without_messages_finishes_all_policies() {
-        for policy in [AcceptPolicy::First, AcceptPolicy::Last, AcceptPolicy::Any] {
+        for policy in [
+            hil::config::AcceptPolicy::First,
+            hil::config::AcceptPolicy::Last,
+            hil::config::AcceptPolicy::Any,
+        ] {
             let mut test = running_test(policy);
             test.update_expect_statuses_at(21);
             assert!(test.in_progress_expects[0].result == ExpectResult::FailedNoMessage);
@@ -365,11 +375,18 @@ mod tests {
 
     #[test]
     fn presence_only_last_still_waits_for_window_closure() {
-        for policy in [AcceptPolicy::First, AcceptPolicy::Last, AcceptPolicy::Any] {
+        for policy in [
+            hil::config::AcceptPolicy::First,
+            hil::config::AcceptPolicy::Last,
+            hil::config::AcceptPolicy::Any,
+        ] {
             let mut test = running_test(policy);
             test.in_progress_expects[0].expect.signals.clear();
             test.process_can_at(&message(&[]), 10);
-            assert_eq!(test.is_finished(), !matches!(policy, AcceptPolicy::Last));
+            assert_eq!(
+                test.is_finished(),
+                !matches!(policy, hil::config::AcceptPolicy::Last)
+            );
             assert!(
                 test.in_progress_expects[0]
                     .last_failure
@@ -384,7 +401,7 @@ mod tests {
 
     #[test]
     fn any_requires_all_signals_to_pass_in_one_message() {
-        let mut test = running_test(AcceptPolicy::Any);
+        let mut test = running_test(hil::config::AcceptPolicy::Any);
         test.in_progress_expects[0]
             .expect
             .signals
