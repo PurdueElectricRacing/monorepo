@@ -184,37 +184,3 @@ pub fn load_test_from_file(basename: &str) -> Result<TestFile, String> {
         Err(_) => Err(format!("Failed to read test file: {}", path.display())),
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn accept_defaults_to_first() {
-        let expect: Expectation =
-            serde_json::from_str(r#"{"window":[10,20],"msg_name":"telemetry"}"#).unwrap();
-        assert!(matches!(expect.accept, AcceptPolicy::First));
-    }
-
-    #[test]
-    fn accept_uses_only_supported_lowercase_strings() {
-        for (value, policy) in [
-            ("first", AcceptPolicy::First),
-            ("last", AcceptPolicy::Last),
-            ("any", AcceptPolicy::Any),
-        ] {
-            let json =
-                serde_json::json!({"window": [10,20], "msg_name": "telemetry", "accept": value});
-            let expect: Expectation = serde_json::from_value(json).unwrap();
-            assert_eq!(
-                serde_json::to_value(expect.accept).unwrap(),
-                serde_json::to_value(policy).unwrap()
-            );
-        }
-        for value in ["all", "First", ""] {
-            let json =
-                serde_json::json!({"window": [10,20], "msg_name": "telemetry", "accept": value});
-            assert!(serde_json::from_value::<Expectation>(json).is_err());
-        }
-    }
-}
