@@ -117,7 +117,7 @@ Include dependency graph for dearunits.h:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dearunits_8h__dep__incl.svg" width="100%" height="549"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="dearunits_8h__dep__incl.svg" width="100%" height="561"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div>
 <p><a href="dearunits_8h_source.html">Go to the source code of this file.</a></p>
@@ -291,14 +291,6 @@ Macros</h2></td></tr>
 <tr class="separator:a5d2003b38eda45d426a455635320dfc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d1214d75d3cb647f63c85845fbbfc71" id="r_a6d1214d75d3cb647f63c85845fbbfc71"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d1214d75d3cb647f63c85845fbbfc71">DU_CLAMP</a>(x,  lo,  hi)</td></tr>
 <tr class="separator:a6d1214d75d3cb647f63c85845fbbfc71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e0550e33a8c7d3355687dc7d76eb2aa" id="r_a7e0550e33a8c7d3355687dc7d76eb2aa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e0550e33a8c7d3355687dc7d76eb2aa">DU_ABS_DIFF</a>(a,  b)</td></tr>
-<tr class="separator:a7e0550e33a8c7d3355687dc7d76eb2aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71dda6ea2b312ed0d6fa25a514ee0517" id="r_a71dda6ea2b312ed0d6fa25a514ee0517"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71dda6ea2b312ed0d6fa25a514ee0517">DU_ROUND</a>(a)</td></tr>
-<tr class="separator:a71dda6ea2b312ed0d6fa25a514ee0517"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2abf8b0ce9e7dd283b3fd4f5ad08456d" id="r_a2abf8b0ce9e7dd283b3fd4f5ad08456d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2abf8b0ce9e7dd283b3fd4f5ad08456d">DU_FLOOR</a>(a)</td></tr>
-<tr class="separator:a2abf8b0ce9e7dd283b3fd4f5ad08456d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbbde5d92a448302c949e7c66a81cfa4" id="r_afbbde5d92a448302c949e7c66a81cfa4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afbbde5d92a448302c949e7c66a81cfa4">DU_CEIL</a>(a)</td></tr>
-<tr class="separator:afbbde5d92a448302c949e7c66a81cfa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accd20fc41e50662b260d0a6b352daeed" id="r_accd20fc41e50662b260d0a6b352daeed"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accd20fc41e50662b260d0a6b352daeed">DU_NEARLY_EQUAL</a>(a,  b,  tol)</td></tr>
 <tr class="separator:accd20fc41e50662b260d0a6b352daeed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13b0d7284b614873f8cab36802bedd68" id="r_a13b0d7284b614873f8cab36802bedd68"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13b0d7284b614873f8cab36802bedd68">DU_LT</a>(a,  b)</td></tr>
@@ -562,48 +554,6 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a7e0550e33a8c7d3355687dc7d76eb2aa" name="a7e0550e33a8c7d3355687dc7d76eb2aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e0550e33a8c7d3355687dc7d76eb2aa">&#9670;&#160;</a></span>DU_ABS_DIFF</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DU_ABS_DIFF</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    _Generic((a), \</div>
-<div class="line">    <a class="code hl_struct" href="structmeter__t.html">meter_t</a>: dearunits_abs_diff_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structsecond__t.html">second_t</a>: dearunits_abs_diff_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structkilogram__t.html">kilogram_t</a>: dearunits_abs_diff_kilogram, \</div>
-<div class="line">    <a class="code hl_struct" href="structamp__t.html">amp_t</a>: dearunits_abs_diff_amp, \</div>
-<div class="line">    <a class="code hl_struct" href="structcelsius__t.html">celsius_t</a>: dearunits_abs_diff_celsius, \</div>
-<div class="line">    <a class="code hl_struct" href="structradian__t.html">radian_t</a>: dearunits_abs_diff_radian, \</div>
-<div class="line">    <a class="code hl_struct" href="structmeters__per__second__t.html">meters_per_second_t</a>: dearunits_abs_diff_meters_per_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structmeters__per__second__squared__t.html">meters_per_second_squared_t</a>: dearunits_abs_diff_meters_per_second_squared, \</div>
-<div class="line">    <a class="code hl_struct" href="structradians__per__second__t.html">radians_per_second_t</a>: dearunits_abs_diff_radians_per_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structnewton__t.html">newton_t</a>: dearunits_abs_diff_newton, \</div>
-<div class="line">    <a class="code hl_struct" href="structnewton__meter__t.html">newton_meter_t</a>: dearunits_abs_diff_newton_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structpascal__t.html">pascal_t</a>: dearunits_abs_diff_pascal, \</div>
-<div class="line">    <a class="code hl_struct" href="structvolt__t.html">volt_t</a>: dearunits_abs_diff_volt, \</div>
-<div class="line">    <a class="code hl_struct" href="structsquare__meter__t.html">square_meter_t</a>: dearunits_abs_diff_square_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structhertz__t.html">hertz_t</a>: dearunits_abs_diff_hertz, \</div>
-<div class="line">    <a class="code hl_struct" href="structcoulomb__t.html">coulomb_t</a>: dearunits_abs_diff_coulomb, \</div>
-<div class="line">    <a class="code hl_struct" href="structohm__t.html">ohm_t</a>: dearunits_abs_diff_ohm, \</div>
-<div class="line">    <a class="code hl_struct" href="structwatt__t.html">watt_t</a>: dearunits_abs_diff_watt, \</div>
-<div class="line">    <a class="code hl_struct" href="structjoule__t.html">joule_t</a>: dearunits_abs_diff_joule \</div>
-<div class="line">)(a, b)</div>
-</div><!-- fragment -->
-</div>
-</div>
 <a id="a5a61f093b7d4e11fe494c9a4f443c9a2" name="a5a61f093b7d4e11fe494c9a4f443c9a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5a61f093b7d4e11fe494c9a4f443c9a2">&#9670;&#160;</a></span>DU_ADD</h2>
 
@@ -665,44 +615,6 @@ Variables</h2></td></tr>
 <div class="line">)(x)</div>
 <div class="ttc" id="adearunits_8h_html_aced73f5effec5030ee2ef013d1ed5571"><div class="ttname"><a href="#aced73f5effec5030ee2ef013d1ed5571">amp_from_milliamp</a></div><div class="ttdeci">DU_FUNC_MODIFIERS amp_t amp_from_milliamp(milliamp_t x)</div><div class="ttdef"><b>Definition</b> dearunits.h:263</div></div>
 <div class="ttc" id="astructmilliamp__t_html"><div class="ttname"><a href="structmilliamp__t.html">milliamp_t</a></div><div class="ttdef"><b>Definition</b> dearunits.h:43</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="afbbde5d92a448302c949e7c66a81cfa4" name="afbbde5d92a448302c949e7c66a81cfa4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbbde5d92a448302c949e7c66a81cfa4">&#9670;&#160;</a></span>DU_CEIL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DU_CEIL</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    _Generic((a), \</div>
-<div class="line">    <a class="code hl_struct" href="structmeter__t.html">meter_t</a>: dearunits_ceil_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structsecond__t.html">second_t</a>: dearunits_ceil_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structkilogram__t.html">kilogram_t</a>: dearunits_ceil_kilogram, \</div>
-<div class="line">    <a class="code hl_struct" href="structamp__t.html">amp_t</a>: dearunits_ceil_amp, \</div>
-<div class="line">    <a class="code hl_struct" href="structcelsius__t.html">celsius_t</a>: dearunits_ceil_celsius, \</div>
-<div class="line">    <a class="code hl_struct" href="structradian__t.html">radian_t</a>: dearunits_ceil_radian, \</div>
-<div class="line">    <a class="code hl_struct" href="structmeters__per__second__t.html">meters_per_second_t</a>: dearunits_ceil_meters_per_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structmeters__per__second__squared__t.html">meters_per_second_squared_t</a>: dearunits_ceil_meters_per_second_squared, \</div>
-<div class="line">    <a class="code hl_struct" href="structradians__per__second__t.html">radians_per_second_t</a>: dearunits_ceil_radians_per_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structnewton__t.html">newton_t</a>: dearunits_ceil_newton, \</div>
-<div class="line">    <a class="code hl_struct" href="structnewton__meter__t.html">newton_meter_t</a>: dearunits_ceil_newton_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structpascal__t.html">pascal_t</a>: dearunits_ceil_pascal, \</div>
-<div class="line">    <a class="code hl_struct" href="structvolt__t.html">volt_t</a>: dearunits_ceil_volt, \</div>
-<div class="line">    <a class="code hl_struct" href="structsquare__meter__t.html">square_meter_t</a>: dearunits_ceil_square_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structhertz__t.html">hertz_t</a>: dearunits_ceil_hertz, \</div>
-<div class="line">    <a class="code hl_struct" href="structcoulomb__t.html">coulomb_t</a>: dearunits_ceil_coulomb, \</div>
-<div class="line">    <a class="code hl_struct" href="structohm__t.html">ohm_t</a>: dearunits_ceil_ohm, \</div>
-<div class="line">    <a class="code hl_struct" href="structwatt__t.html">watt_t</a>: dearunits_ceil_watt, \</div>
-<div class="line">    <a class="code hl_struct" href="structjoule__t.html">joule_t</a>: dearunits_ceil_joule \</div>
-<div class="line">)(a)</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -816,44 +728,6 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a2abf8b0ce9e7dd283b3fd4f5ad08456d" name="a2abf8b0ce9e7dd283b3fd4f5ad08456d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2abf8b0ce9e7dd283b3fd4f5ad08456d">&#9670;&#160;</a></span>DU_FLOOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DU_FLOOR</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    _Generic((a), \</div>
-<div class="line">    <a class="code hl_struct" href="structmeter__t.html">meter_t</a>: dearunits_floor_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structsecond__t.html">second_t</a>: dearunits_floor_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structkilogram__t.html">kilogram_t</a>: dearunits_floor_kilogram, \</div>
-<div class="line">    <a class="code hl_struct" href="structamp__t.html">amp_t</a>: dearunits_floor_amp, \</div>
-<div class="line">    <a class="code hl_struct" href="structcelsius__t.html">celsius_t</a>: dearunits_floor_celsius, \</div>
-<div class="line">    <a class="code hl_struct" href="structradian__t.html">radian_t</a>: dearunits_floor_radian, \</div>
-<div class="line">    <a class="code hl_struct" href="structmeters__per__second__t.html">meters_per_second_t</a>: dearunits_floor_meters_per_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structmeters__per__second__squared__t.html">meters_per_second_squared_t</a>: dearunits_floor_meters_per_second_squared, \</div>
-<div class="line">    <a class="code hl_struct" href="structradians__per__second__t.html">radians_per_second_t</a>: dearunits_floor_radians_per_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structnewton__t.html">newton_t</a>: dearunits_floor_newton, \</div>
-<div class="line">    <a class="code hl_struct" href="structnewton__meter__t.html">newton_meter_t</a>: dearunits_floor_newton_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structpascal__t.html">pascal_t</a>: dearunits_floor_pascal, \</div>
-<div class="line">    <a class="code hl_struct" href="structvolt__t.html">volt_t</a>: dearunits_floor_volt, \</div>
-<div class="line">    <a class="code hl_struct" href="structsquare__meter__t.html">square_meter_t</a>: dearunits_floor_square_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structhertz__t.html">hertz_t</a>: dearunits_floor_hertz, \</div>
-<div class="line">    <a class="code hl_struct" href="structcoulomb__t.html">coulomb_t</a>: dearunits_floor_coulomb, \</div>
-<div class="line">    <a class="code hl_struct" href="structohm__t.html">ohm_t</a>: dearunits_floor_ohm, \</div>
-<div class="line">    <a class="code hl_struct" href="structwatt__t.html">watt_t</a>: dearunits_floor_watt, \</div>
-<div class="line">    <a class="code hl_struct" href="structjoule__t.html">joule_t</a>: dearunits_floor_joule \</div>
-<div class="line">)(a)</div>
-</div><!-- fragment -->
 </div>
 </div>
 <a id="aa3febcb2a59e3e30e7e4b1dac5b5ccca" name="aa3febcb2a59e3e30e7e4b1dac5b5ccca"></a>
@@ -1531,44 +1405,6 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a71dda6ea2b312ed0d6fa25a514ee0517" name="a71dda6ea2b312ed0d6fa25a514ee0517"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71dda6ea2b312ed0d6fa25a514ee0517">&#9670;&#160;</a></span>DU_ROUND</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DU_ROUND</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    _Generic((a), \</div>
-<div class="line">    <a class="code hl_struct" href="structmeter__t.html">meter_t</a>: dearunits_round_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structsecond__t.html">second_t</a>: dearunits_round_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structkilogram__t.html">kilogram_t</a>: dearunits_round_kilogram, \</div>
-<div class="line">    <a class="code hl_struct" href="structamp__t.html">amp_t</a>: dearunits_round_amp, \</div>
-<div class="line">    <a class="code hl_struct" href="structcelsius__t.html">celsius_t</a>: dearunits_round_celsius, \</div>
-<div class="line">    <a class="code hl_struct" href="structradian__t.html">radian_t</a>: dearunits_round_radian, \</div>
-<div class="line">    <a class="code hl_struct" href="structmeters__per__second__t.html">meters_per_second_t</a>: dearunits_round_meters_per_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structmeters__per__second__squared__t.html">meters_per_second_squared_t</a>: dearunits_round_meters_per_second_squared, \</div>
-<div class="line">    <a class="code hl_struct" href="structradians__per__second__t.html">radians_per_second_t</a>: dearunits_round_radians_per_second, \</div>
-<div class="line">    <a class="code hl_struct" href="structnewton__t.html">newton_t</a>: dearunits_round_newton, \</div>
-<div class="line">    <a class="code hl_struct" href="structnewton__meter__t.html">newton_meter_t</a>: dearunits_round_newton_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structpascal__t.html">pascal_t</a>: dearunits_round_pascal, \</div>
-<div class="line">    <a class="code hl_struct" href="structvolt__t.html">volt_t</a>: dearunits_round_volt, \</div>
-<div class="line">    <a class="code hl_struct" href="structsquare__meter__t.html">square_meter_t</a>: dearunits_round_square_meter, \</div>
-<div class="line">    <a class="code hl_struct" href="structhertz__t.html">hertz_t</a>: dearunits_round_hertz, \</div>
-<div class="line">    <a class="code hl_struct" href="structcoulomb__t.html">coulomb_t</a>: dearunits_round_coulomb, \</div>
-<div class="line">    <a class="code hl_struct" href="structohm__t.html">ohm_t</a>: dearunits_round_ohm, \</div>
-<div class="line">    <a class="code hl_struct" href="structwatt__t.html">watt_t</a>: dearunits_round_watt, \</div>
-<div class="line">    <a class="code hl_struct" href="structjoule__t.html">joule_t</a>: dearunits_round_joule \</div>
-<div class="line">)(a)</div>
-</div><!-- fragment -->
-</div>
-</div>
 <a id="a54189ee7d5637fdfd1bcf1c4b545b69b" name="a54189ee7d5637fdfd1bcf1c4b545b69b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a54189ee7d5637fdfd1bcf1c4b545b69b">&#9670;&#160;</a></span>DU_SECOND_FROM</h2>
 
@@ -1617,7 +1453,7 @@ Variables</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line">    _Generic((a), \</div>
 <div class="line">    <a class="code hl_struct" href="structsquare__meter__t.html">square_meter_t</a>: <a class="code hl_function" href="#ab6cbd00f23efc911db1643617dc3ae16">dearunits_sqrt_square_meter</a> \</div>
 <div class="line">)(a)</div>
-<div class="ttc" id="adearunits_8h_html_ab6cbd00f23efc911db1643617dc3ae16"><div class="ttname"><a href="#ab6cbd00f23efc911db1643617dc3ae16">dearunits_sqrt_square_meter</a></div><div class="ttdeci">DU_FUNC_MODIFIERS meter_t dearunits_sqrt_square_meter(square_meter_t a)</div><div class="ttdef"><b>Definition</b> dearunits.h:1807</div></div>
+<div class="ttc" id="adearunits_8h_html_ab6cbd00f23efc911db1643617dc3ae16"><div class="ttname"><a href="#ab6cbd00f23efc911db1643617dc3ae16">dearunits_sqrt_square_meter</a></div><div class="ttdeci">DU_FUNC_MODIFIERS meter_t dearunits_sqrt_square_meter(square_meter_t a)</div><div class="ttdef"><b>Definition</b> dearunits.h:1719</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1638,7 +1474,7 @@ Variables</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line">    _Generic((a), \</div>
 <div class="line">    <a class="code hl_struct" href="structmeter__t.html">meter_t</a>: <a class="code hl_function" href="#a04289b5922ccc9092dadd9716bdfc5f4">dearunits_square_meter</a> \</div>
 <div class="line">)(a)</div>
-<div class="ttc" id="adearunits_8h_html_a04289b5922ccc9092dadd9716bdfc5f4"><div class="ttname"><a href="#a04289b5922ccc9092dadd9716bdfc5f4">dearunits_square_meter</a></div><div class="ttdeci">DU_FUNC_MODIFIERS square_meter_t dearunits_square_meter(meter_t a)</div><div class="ttdef"><b>Definition</b> dearunits.h:1802</div></div>
+<div class="ttc" id="adearunits_8h_html_a04289b5922ccc9092dadd9716bdfc5f4"><div class="ttname"><a href="#a04289b5922ccc9092dadd9716bdfc5f4">dearunits_square_meter</a></div><div class="ttdeci">DU_FUNC_MODIFIERS square_meter_t dearunits_square_meter(meter_t a)</div><div class="ttdef"><b>Definition</b> dearunits.h:1714</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1806,11 +1642,6 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_aaebaabb985bd6b7c5505c8b8cc6c579a_icgraph.svg" width="478" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -2064,7 +1895,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_a82eeeabbc38acb540ed6fd0cd83adce4_icgraph.svg" width="466" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_a82eeeabbc38acb540ed6fd0cd83adce4_icgraph.svg" width="450" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2083,6 +1914,11 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_a3c76450fb588c3fb28c8c0dc1321c2d7_icgraph.svg" width="451" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -2112,7 +1948,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_aacb1d16c3fa51761baf115486fcc5ea2_icgraph.svg" width="394" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_aacb1d16c3fa51761baf115486fcc5ea2_icgraph.svg" width="418" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2386,11 +2222,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_ae261678f210d828d5242ff2a9ef21fc4_icgraph.svg" width="456" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -2578,11 +2409,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_a1ee73897174cc2d8010c6092aea7b49d_icgraph.svg" width="452" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -3216,11 +3042,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_ab5ae66e63cf385040f82b38cdda6b8f6_icgraph.svg" width="400" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -3242,11 +3063,6 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dearunits_8h_adb6f631aff13a1607898632f76375961_icgraph.svg" width="408" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>

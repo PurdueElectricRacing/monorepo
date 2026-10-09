@@ -22,7 +22,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="C wrappers for DearUnits runtime tests.">
 <polygon fill="#999999" stroke="#666666" points="197.12,-152.25 58.12,-152.25 58.12,-121.75 197.12,-121.75 197.12,-152.25"/>
 <text text-anchor="start" x="66.12" y="-138.75" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/common/dearunits</text>
 <text text-anchor="middle" x="127.62" y="-127.5" font-family="Helvetica,sans-Serif" font-size="10.00">/tests/dearunits_test_shim.c</text>
@@ -32,7 +32,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="dearunits__test__shim_8h.html" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="dearunits__test__shim_8h.html" target="_top" xlink:title="Declare DearUnits runtime test wrappers.">
 <polygon fill="white" stroke="#666666" points="111.25,-80.12 0,-80.12 0,-60.88 111.25,-60.88 111.25,-80.12"/>
 <text text-anchor="middle" x="55.62" y="-66.62" font-family="Helvetica,sans-Serif" font-size="10.00">dearunits_test_shim.h</text>
 </a>
@@ -47,38 +47,56 @@
 </a>
 </g>
 </g>
-<!-- Node3 -->
-<g id="Node000003" class="node">
-<title>Node3</title>
-<g id="a_Node000003"><a xlink:href="dearunits_8h.html" target="_top" xlink:title="Auto&#45;generated unit types and conversion functions.">
+<!-- Node4 -->
+<g id="Node000004" class="node">
+<title>Node4</title>
+<g id="a_Node000004"><a xlink:href="dearunits_8h.html" target="_top" xlink:title="Auto&#45;generated unit types and conversion functions.">
 <polygon fill="white" stroke="#666666" points="271.62,-85.75 129.62,-85.75 129.62,-55.25 271.62,-55.25 271.62,-85.75"/>
 <text text-anchor="start" x="137.62" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">common/dearunits/generated</text>
 <text text-anchor="middle" x="200.62" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">/dearunits.h</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node3 -->
-<g id="edge2_Node000001_Node000003" class="edge">
-<title>Node1&#45;&gt;Node3</title>
-<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node4 -->
+<g id="edge3_Node000001_Node000004" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<g id="a_edge3_Node000001_Node000004"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M144.19,-121.36C153.52,-113.12 165.37,-102.65 175.79,-93.44"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="177.82,-96.32 182.99,-87.08 173.18,-91.08 177.82,-96.32"/>
 </a>
 </g>
 </g>
-<!-- Node4 -->
-<g id="Node000004" class="node">
-<title>Node4</title>
-<g id="a_Node000004"><a xlink:href="dearunits__priv_8h.html" target="_top" xlink:title="Implementation details of dearunits.h; do not include directly.">
+<!-- Node3 -->
+<g id="Node000003" class="node">
+<title>Node3</title>
+<g id="a_Node000003"><a xlink:title=" ">
+<polygon fill="#e0e0e0" stroke="#999999" points="83.12,-19.25 28.12,-19.25 28.12,0 83.12,0 83.12,-19.25"/>
+<text text-anchor="middle" x="55.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">stdbool.h</text>
+</a>
+</g>
+</g>
+<!-- Node2&#45;&gt;Node3 -->
+<g id="edge2_Node000002_Node000003" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<g id="a_edge2_Node000002_Node000003"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M55.62,-60.56C55.62,-52.78 55.62,-41.2 55.62,-31.16"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="59.13,-31.16 55.63,-21.16 52.13,-31.16 59.13,-31.16"/>
+</a>
+</g>
+</g>
+<!-- Node5 -->
+<g id="Node000005" class="node">
+<title>Node5</title>
+<g id="a_Node000005"><a xlink:href="dearunits__priv_8h.html" target="_top" xlink:title="Implementation details of dearunits.h; do not include directly.">
 <polygon fill="white" stroke="#666666" points="246.5,-19.25 154.75,-19.25 154.75,0 246.5,0 246.5,-19.25"/>
 <text text-anchor="middle" x="200.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">../dearunits_priv.h</text>
 </a>
 </g>
 </g>
-<!-- Node3&#45;&gt;Node4 -->
-<g id="edge3_Node000003_Node000004" class="edge">
-<title>Node3&#45;&gt;Node4</title>
-<g id="a_edge3_Node000003_Node000004"><a xlink:title=" ">
+<!-- Node4&#45;&gt;Node5 -->
+<g id="edge4_Node000004_Node000005" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<g id="a_edge4_Node000004_Node000005"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M200.62,-54.95C200.62,-47.71 200.62,-38.84 200.62,-30.94"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="204.13,-31.21 200.63,-21.21 197.13,-31.21 204.13,-31.21"/>
 </a>

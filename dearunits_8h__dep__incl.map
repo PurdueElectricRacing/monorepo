@@ -1,20 +1,34 @@
 <map id="firmware/common/dearunits/generated/dearunits.h" name="firmware/common/dearunits/generated/dearunits.h">
-<area shape="rect" id="Node000001" title="Auto&#45;generated unit types and conversion functions." alt="" coords="201,5,382,46"/>
-<area shape="rect" id="Node000002" href="$dearunits__test__shim_8c.html" title=" " alt="" coords="5,94,191,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,55,143,96,141,91,232,50"/>
-<area shape="rect" id="Node000003" href="$geodetic_8h.html" title="Geodetic coordinate utility header." alt="" coords="215,94,368,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="294,62,294,94,289,94,289,62"/>
-<area shape="rect" id="Node000009" href="$imu_8c.html" title="IMU calibration and coordinate transformations." alt="" coords="392,94,545,135"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="346,51,430,91,427,96,344,55"/>
-<area shape="rect" id="Node000004" href="$lap__timer_8c.html" title="DASHBOARD lap timer task implementations." alt="" coords="83,279,260,320"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="272,149,186,280,182,277,268,146"/>
-<area shape="rect" id="Node000005" href="$lap__timer_8h.html" title="DASHBOARD lap timer task implementations." alt="" coords="284,183,461,223"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="322,144,356,180,352,184,318,148"/>
-<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="318,233,215,281,212,276,315,228"/>
-<area shape="rect" id="Node000006" href="$driver__interface_8c.html" title="thread to manage driver&#45;facing LCD, buttons, LEDs" alt="" coords="284,271,461,327"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="375,239,375,271,370,271,370,239"/>
-<area shape="rect" id="Node000007" href="$race_8c.html" title="Race page implementation." alt="" coords="486,279,678,320"/>
-<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="431,228,539,276,537,281,429,232"/>
-<area shape="rect" id="Node000008" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="703,279,880,320"/>
-<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="477,222,691,269,718,276,717,281,689,274,476,228"/>
+<area shape="rect" id="Node000001" title="Auto&#45;generated unit types and conversion functions." alt="" coords="935,5,1116,46"/>
+<area shape="rect" id="Node000002" href="$reject__incompatible__addition_8c.html" title="Test that incompatible units cannot be added." alt="" coords="5,94,187,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="919,33,776,39,597,51,398,69,200,97,188,99,187,94,200,91,398,64,596,45,776,34,919,27"/>
+<area shape="rect" id="Node000003" href="$reject__incompatible__comparison_8c.html" title="Test that incompatible units cannot be compared." alt="" coords="211,94,397,150"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="920,37,685,58,547,75,410,97,397,99,396,94,409,91,546,70,685,53,919,31"/>
+<area shape="rect" id="Node000004" href="$reject__non__base__product_8c.html" title="Test that dimensional products require base units." alt="" coords="421,94,603,150"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="920,44,775,67,615,97,604,99,603,94,614,91,774,62,919,39"/>
+<area shape="rect" id="Node000005" href="$reject__unsupported__product_8c.html" title="Test that unsupported dimensional products are rejected." alt="" coords="627,94,808,150"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="947,54,807,96,806,91,945,48"/>
+<area shape="rect" id="Node000006" href="$reject__wrong__conversion_8c.html" title="Test that incompatible unit conversions are rejected." alt="" coords="832,94,1013,150"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="995,59,954,95,951,91,991,55"/>
+<area shape="rect" id="Node000007" href="$reject__wrong__result__type_8c.html" title="Test that incorrect result types are rejected." alt="" coords="1037,94,1219,150"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1060,55,1100,91,1096,95,1056,59"/>
+<area shape="rect" id="Node000008" href="$valid__operations_8c.html" title="Test that valid unit operations compile." alt="" coords="1243,94,1424,150"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1105,48,1245,91,1244,96,1104,54"/>
+<area shape="rect" id="Node000009" href="$dearunits__test__shim_8c.html" title="C wrappers for DearUnits runtime tests." alt="" coords="1449,102,1634,142"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1132,39,1277,62,1437,91,1467,98,1466,103,1435,97,1276,67,1131,44"/>
+<area shape="rect" id="Node000010" href="$geodetic_8h.html" title="Geodetic coordinate utility header." alt="" coords="1658,102,1811,142"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1131,30,1369,50,1509,68,1647,91,1676,98,1674,103,1646,97,1508,73,1368,55,1131,35"/>
+<area shape="rect" id="Node000016" href="$imu_8c.html" title="IMU calibration and coordinate transformations." alt="" coords="1835,102,1989,142"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="1132,26,1270,32,1443,43,1634,62,1823,91,1852,98,1851,103,1822,97,1633,68,1443,49,1270,37,1132,32"/>
+<area shape="rect" id="Node000011" href="$lap__timer_8c.html" title="DASHBOARD lap timer task implementations." alt="" coords="1526,294,1703,334"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1716,157,1629,295,1625,292,1712,154"/>
+<area shape="rect" id="Node000012" href="$lap__timer_8h.html" title="DASHBOARD lap timer task implementations." alt="" coords="1727,198,1905,238"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="1763,152,1801,196,1797,199,1759,156"/>
+<area shape="poly" id="edge14_Node000012_Node000011" title=" " alt="" coords="1761,248,1658,296,1656,291,1759,243"/>
+<area shape="rect" id="Node000013" href="$driver__interface_8c.html" title="thread to manage driver&#45;facing LCD, buttons, LEDs" alt="" coords="1727,286,1905,342"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="1819,254,1819,286,1813,286,1813,254"/>
+<area shape="rect" id="Node000014" href="$race_8c.html" title="Race page implementation." alt="" coords="1929,294,2122,334"/>
+<area shape="poly" id="edge13_Node000012_Node000014" title=" " alt="" coords="1875,243,1983,291,1980,296,1872,247"/>
+<area shape="rect" id="Node000015" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="2146,294,2323,334"/>
+<area shape="poly" id="edge15_Node000012_Node000015" title=" " alt="" coords="1921,237,2134,284,2162,291,2161,296,2133,289,1920,243"/>
 </map>

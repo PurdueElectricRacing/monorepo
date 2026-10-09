@@ -103,6 +103,8 @@ $(function(){initNavTree('md_firmware_2common_2dearunits_2README.html',''); init
 <div class="textblock"><p><a class="anchor" id="autotoc_md66"></a></p>
 <p>Generated typed wrappers around physical units. Each unit is a struct holding a single <code>float</code>, so they cost nothing at runtime but stop you from accidentally mixing, e.g., feet with meters.</p>
 <p>Available unit families: temperature (C/F), distance (m/cm/mm/in/ft/mi), time (ms/s/min/hr/day), angle (rad/deg), mass (g/kg/lb), pressure (Pa/psi/bar), velocity (mps/kph/mph).</p>
+<h1><a class="anchor" id="autotoc_md67"></a>
+Usage Example</h1>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="dearunits_8h.html">common/dearunits/generated/dearunits.h</a>&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><a class="code hl_struct" href="structcelsius__t.html">celsius_t</a> board_temp     = { .value = 42.0f };</div>
@@ -127,9 +129,9 @@ $(function(){initNavTree('md_firmware_2common_2dearunits_2README.html',''); init
 <div class="ttc" id="adearunits_8h_html_a521f4231522112f05e142e0fd36da35e"><div class="ttname"><a href="dearunits_8h.html#a521f4231522112f05e142e0fd36da35e">DU_RADIAN_FROM</a></div><div class="ttdeci">#define DU_RADIAN_FROM(x)</div><div class="ttdef"><b>Definition</b> dearunits.h:312</div></div>
 <div class="ttc" id="adearunits_8h_html_a54189ee7d5637fdfd1bcf1c4b545b69b"><div class="ttname"><a href="dearunits_8h.html#a54189ee7d5637fdfd1bcf1c4b545b69b">DU_SECOND_FROM</a></div><div class="ttdeci">#define DU_SECOND_FROM(x)</div><div class="ttdef"><b>Definition</b> dearunits.h:228</div></div>
 <div class="ttc" id="adearunits_8h_html_a5a61f093b7d4e11fe494c9a4f443c9a2"><div class="ttname"><a href="dearunits_8h.html#a5a61f093b7d4e11fe494c9a4f443c9a2">DU_ADD</a></div><div class="ttdeci">#define DU_ADD(a, b)</div><div class="ttdef"><b>Definition</b> dearunits.h:679</div></div>
-<div class="ttc" id="adearunits_8h_html_a733123d5812a9cadabbfb9b4acba636e"><div class="ttname"><a href="dearunits_8h.html#a733123d5812a9cadabbfb9b4acba636e">DU_DIVIDE</a></div><div class="ttdeci">#define DU_DIVIDE(a, b)</div><div class="ttdef"><b>Definition</b> dearunits.h:1512</div></div>
+<div class="ttc" id="adearunits_8h_html_a733123d5812a9cadabbfb9b4acba636e"><div class="ttname"><a href="dearunits_8h.html#a733123d5812a9cadabbfb9b4acba636e">DU_DIVIDE</a></div><div class="ttdeci">#define DU_DIVIDE(a, b)</div><div class="ttdef"><b>Definition</b> dearunits.h:1424</div></div>
 <div class="ttc" id="adearunits_8h_html_a82eeeabbc38acb540ed6fd0cd83adce4"><div class="ttname"><a href="dearunits_8h.html#a82eeeabbc38acb540ed6fd0cd83adce4">fahrenheit_from_celsius</a></div><div class="ttdeci">DU_FUNC_MODIFIERS fahrenheit_t fahrenheit_from_celsius(celsius_t x)</div><div class="ttdef"><b>Definition</b> dearunits.h:283</div></div>
-<div class="ttc" id="adearunits_8h_html_a992b53f519b7fa8dbab361f86d7f0fe8"><div class="ttname"><a href="dearunits_8h.html#a992b53f519b7fa8dbab361f86d7f0fe8">DU_MULTIPLY</a></div><div class="ttdeci">#define DU_MULTIPLY(a, b)</div><div class="ttdef"><b>Definition</b> dearunits.h:1191</div></div>
+<div class="ttc" id="adearunits_8h_html_a992b53f519b7fa8dbab361f86d7f0fe8"><div class="ttname"><a href="dearunits_8h.html#a992b53f519b7fa8dbab361f86d7f0fe8">DU_MULTIPLY</a></div><div class="ttdeci">#define DU_MULTIPLY(a, b)</div><div class="ttdef"><b>Definition</b> dearunits.h:1103</div></div>
 <div class="ttc" id="adearunits_8h_html_aa779f6d534537f868a325bea586eb3f1"><div class="ttname"><a href="dearunits_8h.html#aa779f6d534537f868a325bea586eb3f1">DU_METER_FROM</a></div><div class="ttdeci">#define DU_METER_FROM(x)</div><div class="ttdef"><b>Definition</b> dearunits.h:178</div></div>
 <div class="ttc" id="adearunits_8h_html_adb6f631aff13a1607898632f76375961"><div class="ttname"><a href="dearunits_8h.html#adb6f631aff13a1607898632f76375961">velocity_from</a></div><div class="ttdeci">DU_FUNC_MODIFIERS meters_per_second_t velocity_from(meter_t length, second_t time)</div><div class="ttdef"><b>Definition</b> dearunits.h:594</div></div>
 <div class="ttc" id="astructcelsius__t_html"><div class="ttname"><a href="structcelsius__t.html">celsius_t</a></div><div class="ttdef"><b>Definition</b> dearunits.h:46</div></div>
@@ -141,14 +143,7 @@ $(function(){initNavTree('md_firmware_2common_2dearunits_2README.html',''); init
 <div class="ttc" id="astructminute__t_html"><div class="ttname"><a href="structminute__t.html">minute_t</a></div><div class="ttdef"><b>Definition</b> dearunits.h:32</div></div>
 <div class="ttc" id="astructradian__t_html"><div class="ttname"><a href="structradian__t.html">radian_t</a></div><div class="ttdef"><b>Definition</b> dearunits.h:50</div></div>
 <div class="ttc" id="astructsecond__t_html"><div class="ttname"><a href="structsecond__t.html">second_t</a></div><div class="ttdef"><b>Definition</b> dearunits.h:30</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md67"></a>
-Tests</h1>
-<p>Host tests use Google Test, with a C23 shim to exercise the generated <code>_Generic</code> macros. Run from the repository root:</p>
-<div class="fragment"><div class="line">cmake -S tests -B firmware/build/host-tests -DPER_TEST_COVERAGE=OFF</div>
-<div class="line">cmake --build firmware/build/host-tests --target dearunits_test</div>
-<div class="line">ctest --test-dir firmware/build/host-tests -R DearUnitsTest --output-on-failure</div>
-</div><!-- fragment --><p>Generate <code><a class="el" href="dearunits_8h.html" title="Auto-generated unit types and conversion functions.">generated/dearunits.h</a></code> first with <code>python3 generators/generate.py</code> if it is missing. </p>
-</div></div><!-- contents -->
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->

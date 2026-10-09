@@ -114,48 +114,44 @@ $(function(){initNavTree('dearunits__priv_8h_source.html',''); initResizable(tru
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">    DU_FN U##_t dearunits_min_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_isunordered(a.value, b.value) ? __builtin_nanf(&quot;&quot;) : ((a.value &lt; b.value) ? a.value : b.value) }; } \</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">    DU_FN U##_t dearunits_max_##U(U##_t a, U##_t b) { return (U##_t){ .value = __builtin_isunordered(a.value, b.value) ? __builtin_nanf(&quot;&quot;) : ((a.value &gt; b.value) ? a.value : b.value) }; } \</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">    DU_FN U##_t dearunits_clamp_##U(U##_t x, U##_t lo, U##_t hi) { return (U##_t){ .value = (__builtin_isunordered(x.value, lo.value) || __builtin_isunordered(x.value, hi.value)) ? __builtin_nanf(&quot;&quot;) : ((x.value &lt; lo.value) ? lo.value : ((x.value &gt; hi.value) ? hi.value : x.value)) }; } \</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">    DU_FN U##_t dearunits_abs_diff_##U(U##_t a, U##_t b) { return (U##_t){ .value = (a.value &gt; b.value) ? (a.value - b.value) : (b.value - a.value) }; } \</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">    DU_FN U##_t dearunits_round_##U(U##_t a) { return (U##_t){ .value = __builtin_roundf(a.value) }; } \</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">    DU_FN U##_t dearunits_floor_##U(U##_t a) { return (U##_t){ .value = __builtin_floorf(a.value) }; } \</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">    DU_FN U##_t dearunits_ceil_##U(U##_t a) { return (U##_t){ .value = __builtin_ceilf(a.value) }; } \</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">    DU_FN bool dearunits_nearly_equal_##U(U##_t a, U##_t b, U##_t tol) { return __builtin_fabsf(a.value - b.value) &lt;= __builtin_fabsf(tol.value); } \</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">    DU_FN bool dearunits_lt_##U(U##_t a, U##_t b) { return a.value &lt; b.value; } \</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">    DU_FN bool dearunits_gt_##U(U##_t a, U##_t b) { return a.value &gt; b.value; } \</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">    DU_FN bool dearunits_le_##U(U##_t a, U##_t b) { return a.value &lt;= b.value; } \</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">    DU_FN bool dearunits_ge_##U(U##_t a, U##_t b) { return a.value &gt;= b.value; }</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">    DU_FN bool dearunits_nearly_equal_##U(U##_t a, U##_t b, U##_t tol) { return __builtin_fabsf(a.value - b.value) &lt;= __builtin_fabsf(tol.value); } \</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">    DU_FN bool dearunits_lt_##U(U##_t a, U##_t b) { return a.value &lt; b.value; } \</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">    DU_FN bool dearunits_gt_##U(U##_t a, U##_t b) { return a.value &gt; b.value; } \</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">    DU_FN bool dearunits_le_##U(U##_t a, U##_t b) { return a.value &lt;= b.value; } \</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">    DU_FN bool dearunits_ge_##U(U##_t a, U##_t b) { return a.value &gt;= b.value; }</span></div>
 </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="foldopen" id="foldopen00031" data-start="" data-end="">
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#affef27e34631d9e89fed39b26568822d">   31</a></span><span class="preprocessor">#define DU_DEFINE_MULTIPLY(L, R, RES) \</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">    DU_FN RES##_t dearunits_multiply_##L##_by_##R(L##_t a, R##_t b) { return (RES##_t){ .value = a.value * b.value }; }</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="" data-end="">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#affef27e34631d9e89fed39b26568822d">   27</a></span><span class="preprocessor">#define DU_DEFINE_MULTIPLY(L, R, RES) \</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">    DU_FN RES##_t dearunits_multiply_##L##_by_##R(L##_t a, R##_t b) { return (RES##_t){ .value = a.value * b.value }; }</span></div>
 </div>
-<div class="foldopen" id="foldopen00033" data-start="" data-end="">
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a0512bb6d8f39e89220aeee6c51868720">   33</a></span><span class="preprocessor">#define DU_DEFINE_DIVIDE(L, R, RES) \</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">    DU_FN RES##_t dearunits_divide_##L##_by_##R(L##_t a, R##_t b) { return (RES##_t){ .value = a.value / b.value }; }</span></div>
+<div class="foldopen" id="foldopen00029" data-start="" data-end="">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a0512bb6d8f39e89220aeee6c51868720">   29</a></span><span class="preprocessor">#define DU_DEFINE_DIVIDE(L, R, RES) \</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">    DU_FN RES##_t dearunits_divide_##L##_by_##R(L##_t a, R##_t b) { return (RES##_t){ .value = a.value / b.value }; }</span></div>
 </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="foldopen" id="foldopen00036" data-start="" data-end="">
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a2ea120531c0642c11c9800269e3400a1">   36</a></span><span class="preprocessor">#define DU_DEFINE_MULTIPLY_TO_FLOAT(L, R) \</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">    DU_FN float dearunits_multiply_##L##_by_##R(L##_t a, R##_t b) { return a.value * b.value; }</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="" data-end="">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a2ea120531c0642c11c9800269e3400a1">   32</a></span><span class="preprocessor">#define DU_DEFINE_MULTIPLY_TO_FLOAT(L, R) \</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">    DU_FN float dearunits_multiply_##L##_by_##R(L##_t a, R##_t b) { return a.value * b.value; }</span></div>
 </div>
-<div class="foldopen" id="foldopen00038" data-start="" data-end="">
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a20855effed9c963dea26924ed2a7dbd0">   38</a></span><span class="preprocessor">#define DU_DEFINE_DIVIDE_TO_FLOAT(L, R) \</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">    DU_FN float dearunits_divide_##L##_by_##R(L##_t a, R##_t b) { return a.value / b.value; }</span></div>
+<div class="foldopen" id="foldopen00034" data-start="" data-end="">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a20855effed9c963dea26924ed2a7dbd0">   34</a></span><span class="preprocessor">#define DU_DEFINE_DIVIDE_TO_FLOAT(L, R) \</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">    DU_FN float dearunits_divide_##L##_by_##R(L##_t a, R##_t b) { return a.value / b.value; }</span></div>
 </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="foldopen" id="foldopen00041" data-start="" data-end="">
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a64bf9325ee8180c3cd4c388f7df8aacc">   41</a></span><span class="preprocessor">#define DU_DEFINE_SCALAR_OPS(U) \</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">    DU_FN U##_t dearunits_multiply_##U##_by_scalar(U##_t a, float b) { return (U##_t){ .value = a.value * b }; } \</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">    DU_FN U##_t dearunits_divide_##U##_by_scalar(U##_t a, float b) { return (U##_t){ .value = a.value / b }; } \</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">    DU_FN U##_t dearunits_multiply_scalar_by_##U(float a, U##_t b) { return (U##_t){ .value = a * b.value }; }</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="foldopen" id="foldopen00037" data-start="" data-end="">
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a64bf9325ee8180c3cd4c388f7df8aacc">   37</a></span><span class="preprocessor">#define DU_DEFINE_SCALAR_OPS(U) \</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">    DU_FN U##_t dearunits_multiply_##U##_by_scalar(U##_t a, float b) { return (U##_t){ .value = a.value * b }; } \</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">    DU_FN U##_t dearunits_divide_##U##_by_scalar(U##_t a, float b) { return (U##_t){ .value = a.value / b }; } \</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">    DU_FN U##_t dearunits_multiply_scalar_by_##U(float a, U##_t b) { return (U##_t){ .value = a * b.value }; }</span></div>
 </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="foldopen" id="foldopen00046" data-start="" data-end="">
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a4f3d21f9ca2008dedb8a03178ddbf993">   46</a></span><span class="preprocessor">#define DU_DEFINE_INVERSE(U, RES) \</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">    DU_FN RES##_t dearunits_divide_scalar_by_##U(float a, U##_t b) { return (RES##_t){ .value = a / b.value }; }</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00042" data-start="" data-end="">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="dearunits__priv_8h.html#a4f3d21f9ca2008dedb8a03178ddbf993">   42</a></span><span class="preprocessor">#define DU_DEFINE_INVERSE(U, RES) \</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">    DU_FN RES##_t dearunits_divide_scalar_by_##U(float a, U##_t b) { return (RES##_t){ .value = a / b.value }; }</span></div>
 </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#endif </span><span class="comment">// DEARUNITS_PRIV_H</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#endif </span><span class="comment">// DEARUNITS_PRIV_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

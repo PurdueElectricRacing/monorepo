@@ -111,7 +111,7 @@ var NAVTREE =
       [ "Adding a G4 node", "md_firmware_2common_2bootloader_2README.html#autotoc_md65", null ]
     ] ],
     [ "DearUnits", "md_firmware_2common_2dearunits_2README.html", [
-      [ "Tests", "md_firmware_2common_2dearunits_2README.html#autotoc_md67", null ]
+      [ "Usage Example", "md_firmware_2common_2dearunits_2README.html#autotoc_md67", null ]
     ] ],
     [ "Heartbeat Module", "md_firmware_2common_2heartbeat_2README.html", null ],
     [ "Linearly Interpolating Lookup Table", "md_firmware_2common_2lerp__lut_2README.html", null ],
@@ -217,6 +217,14 @@ var NAVTREE =
       [ "svd/", "md_firmware_2support_2README.html#autotoc_md152", null ],
       [ "openocd/", "md_firmware_2support_2README.html#autotoc_md153", null ]
     ] ],
+    [ "Namespaces", "namespaces.html", [
+      [ "Namespace List", "namespaces.html", "namespaces_dup" ],
+      [ "Namespace Members", "namespacemembers.html", [
+        [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ],
+        [ "Variables", "namespacemembers_vars.html", null ]
+      ] ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -254,26 +262,27 @@ var NAVTREEINDEX =
 "can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63ab18b10b3141ebe93ea6bacfaeafabf22",
 "common_2amk_2amk_8c.html#ad69f3380557132c8235471f3e724688c",
 "dashboard_2main_8h.html#a592ea744f4938ba661ad8fb3a0a29f59",
-"dir_3470ae22e26d6a6a076421696583c128.html",
-"exti_8c.html",
-"functions_vars_a.html",
-"gpio__priv_8c.html#aaeae1cf9d29181e47f0fca4dcbaf4d98",
-"main__module_2main_8h.html#abf0d28f731e836936a87086ea8b798da",
-"nav__pvt_8h.html#aab0b940e0c2b2f588ef823a759194126a1acfb0ead3561d7c45331cb1b1a509a8",
-"pdu_2main_8h.html#a9750b76a93bf0eb1dfa43b1083405995",
-"phal__F4_2rcc_2rcc_8c.html#afdc1120bbc54485ac4c735d8f9756743",
-"phal__G4_2flash_2flash_8h_source.html",
-"rescale_8h.html#a21face4f1d8ad6e12a49c985ed2d972d",
-"sdio_8h.html#a8a0361bd4864fe9368ba54bc9b2bda24",
-"strbuf__test_8cpp.html#afe7f8b1abb0eb1a7915f5e4dfff7b484",
-"structINVC__INFO__data__t.html#a4fd9e813f1e34055c3f4e82071835a02",
-"structRTC__date__t.html#a4d3da0f5136f2a8887aeda4faf9184db",
-"structbl__dashboard__start__data__t.html#aafa844b16d73d3910cde51f5bb440a68",
-"structcharging__fsm__internals__data__t.html",
-"structkilowatt__hour__t.html#a771a351c6bea5e69adb6d29685daead4",
-"structpdu__init__data__t.html#a837d6e0eb6055bea1145e3744b18fdab",
-"structvector2__t.html#a7ed27f75e016fe0bea891054456a45bd",
-"usart__priv_8c.html#a1212ef1dceef204ae9b1d21396ce121a"
+"dearunits__test__shim_8h.html#aee9d8551de4364f48d8acd4106901de4",
+"driver__interface_8h.html#a0b28b74cdc60e16623b48a65bf3e3f41abb59eb1592245cabae65fc17c33e1a2a",
+"flash__priv_8c.html#af211a09d69bec5e86a7f4f46e2e49fbf",
+"globals_s.html",
+"main__module_2main_8c.html#a0445edd8b78aacc940a1a3848a9b9166",
+"menu__system_8h.html#a878bfea14e0bf07c76b682b0541a754da0688931789ebd4a22b03edea94bf61e3",
+"pdu_2main_8h.html#a528d819b3b647505b5fe45e54c6b45c5",
+"phal__F4_2gpio_2gpio_8h.html#a3dd7cce66aaf32796899d7ac03588ebda98ad18441bf40d98b3e21c6b1e4f23a9",
+"phal__G4_2dma_2dma_8c.html#aa44ec84d15cdd50fd25c960d7e97d46c",
+"race_8h.html#a3997b53655ed5d6f2222c7816bc1dd3e",
+"sdio_8h.html#a1b28ab176d0d05d7f971809aeb07b758",
+"spi__priv_8h.html#af89def543ea5c1f819bc2f4f57c37942",
+"structINVB__ERR__1__data__t.html#ad1eda242b9d1fcdb15720aa5cd6daa25",
+"structPHAL__DMA__Handle__t.html#ae5fba49b3bc085c028b53e92b4922013",
+"structadbms__module__t.html#aef1552b4ebb15d6cb911124456fc0351",
+"structcan__data__t.html#acccaab1c7e3be89cd9c6efec1dd2bd6b",
+"structhour__t.html",
+"structpVCU__struct.html#afe0b1a55649fda15349d4ca769b23d2e",
+"structusart__active__transfer__t.html#a029784e5a36ccffb9b9fdd3eaef6a4c7",
+"thermistor_8h.html",
+"w5500__callbacks_8c.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
