@@ -17,11 +17,29 @@
         };
 
         python = pkgs.python312.withPackages (ps: with ps; [
+          pip
           cantools
           jinja2
           pydantic
           pytest
+          matplotlib
+          numpy
+          requests
+          polars
+          pandas
         ]);
+
+        runtimeLibs = with pkgs; [
+          glib
+          libGL
+          xorg.libX11
+          fontconfig
+          freetype
+          wayland
+          libxkbcommon
+          mesa
+          dbus
+        ];
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
@@ -68,13 +86,7 @@
           ];
 
           shellHook = ''
-            export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
-              pkgs.wayland
-              pkgs.libxkbcommon
-              pkgs.mesa
-              pkgs.libGL
-              pkgs.dbus
-            ]}:$LD_LIBRARY_PATH
+            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeLibs}:$LD_LIBRARY_PATH"
 
             export CC="${pkgs.gcc}/bin/gcc"
             export CXX="${pkgs.gcc}/bin/g++"
