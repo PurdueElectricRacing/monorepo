@@ -9,7 +9,6 @@
 #ifndef RTC_SYNC_H
 #define RTC_SYNC_H
 
-#include "timestamped_frame.h"
 #include "common/phal_F4/rtc/rtc.h"
 #include "common/rtos/rtos.h"
 

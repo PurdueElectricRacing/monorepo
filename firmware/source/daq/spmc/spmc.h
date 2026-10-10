@@ -11,7 +11,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "timestamped_frame.h"
+#include "common/timestamped_frame/timestamped_frame.h"
 
 // todo tune values based on testing
 static constexpr size_t SPMC_CHUNK_NUM_FRAMES = 512;
