@@ -5,36 +5,10 @@ the same `daqcore::log_parse` pipeline as the app's Log Parser, so recorded `.lo
 files can be parsed and correlated into CSV tables without opening the GUI, which
 is handy for scripts, batch jobs, and CI.
 
-## What it does
+## Usage
 
-- Reads raw `.log` files from a directory and decodes them with per-bus DBCs
-- Time-correlates the two CAN buses (VCAN and MCAN) into combined CSV tables
-- Writes the tables to an output directory with a configurable filename prefix
-
-## Getting started
-
-Install Rust/Cargo and the platform prerequisites described in the repository
-[setup guide](../../docs/setup.md). Linux users also likely need `libudev-dev` and
-`pkg-config`, since DaqCLI builds against `daqcore`, which pulls in serial support.
-
-### To Build
-
-From the repository root:
-
-```bash
-cargo build --manifest-path daq/daqcli/Cargo.toml --locked
-```
-
-From the `daq/daqcli/` directory, you can also build with Cargo directly:
-
-```bash
-cargo build --locked
-```
-
-### To Run
-
-Unlike DaqApp, DaqCLI takes explicit paths as arguments, so it can be run from any
-working directory:
+DaqCLI takes explicit paths as arguments, so it can be run from any working
+directory:
 
 ```bash
 cargo run -p daqcli -- \
