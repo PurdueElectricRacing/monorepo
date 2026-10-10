@@ -50,14 +50,22 @@ DEFINE_HEARTBEAT_TASK(nullptr);
 
 RTOS_DEFINE_QUEUE(can_queue, timestamped_frame_t, 256);
 
+void HardFault_Handler(void);
+
 void main() {
     PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
 
-    PHAL_GPIO_init(gpio_config, countof(gpio_config));
+    if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
+        HardFault_Handler();
+    }
+    
     PHAL_FDCAN_init(FDCAN1, VCAN_BAUD_RATE);
     PHAL_FDCAN_init(FDCAN2, MCAN_BAUD_RATE);
     PHAL_FDCAN_init(FDCAN3, SCAN_BAUD_RATE);
-    PHAL_USB_init();
+
+    if (!PHAL_USB_init()) {
+        HardFault_Handler();
+    }
 
     RTOS_INIT_QUEUE(can_queue);
 
@@ -72,4 +80,13 @@ void main() {
     RTOS_START_TASK(usb_tx_periodic);
 
     vTaskStartScheduler();
+}
+
+void HardFault_Handler() {
+    __disable_irq();
+    SysTick->CTRL = 0;
+    ERROR_LED_PORT->BSRR = (1U << ERROR_LED_PIN);
+    while (1) {
+        __asm__("NOP"); // spin
+    }
 }
