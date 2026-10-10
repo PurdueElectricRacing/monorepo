@@ -10,6 +10,7 @@
 
 #include "can_library/generated/TORQUE_VECTOR.h"
 #include "common/utils/max.h"
+#include "common/dearunits/generated/dearunits.h"
 #include "sensors.h"
 #include "vcu.h"
 
@@ -118,17 +119,25 @@ void control_loop() {
 
     xVCU.ST_RAW = can_data.steering_angle.angle * UNPACK_COEFF_STEERING_ANGLE_ANGLE * -1;
     xVCU.VB_RAW = can_data.pack_bms.pack_voltage * UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE;
-    static constexpr float RPM_TO_RADS = 2.0f * 3.14f / 60.0f;
-    xVCU.WM_RAW[0] = can_data.motor_speeds.front_left * RPM_TO_RADS;
-    xVCU.WM_RAW[1] = can_data.motor_speeds.front_right * RPM_TO_RADS;
-    xVCU.WM_RAW[2] = can_data.motor_speeds.rear_left * RPM_TO_RADS;
-    xVCU.WM_RAW[3] = can_data.motor_speeds.rear_right * RPM_TO_RADS;
+    revolutions_per_minute_t motor_rpm[4] = {
+        {(float)can_data.motor_speeds.front_left},
+        {(float)can_data.motor_speeds.front_right},
+        {(float)can_data.motor_speeds.rear_left},
+        {(float)can_data.motor_speeds.rear_right}
+    };
+    for (int i = 0; i < 4; ++i) {
+        xVCU.WM_RAW[i] = DU_RADIANS_PER_SECOND_FROM(motor_rpm[i]).value;
+    }
     xVCU.GS_RAW = (float)nav_pvt.groundSpeed * 1E-3f; // convert mm/s to m/s
 
-    static constexpr float DEG_TO_RAD = 3.14f / 180.0f;
-    xVCU.AV_RAW[0] = imu_data.gyro_x * DEG_TO_RAD;
-    xVCU.AV_RAW[1] = imu_data.gyro_y * DEG_TO_RAD;
-    xVCU.AV_RAW[2] = imu_data.gyro_z * DEG_TO_RAD;
+    degrees_per_second_t gyro[3] = {
+        {imu_data.gyro_x},
+        {imu_data.gyro_y},
+        {imu_data.gyro_z}
+    };
+    for (int i = 0; i < 3; ++i) {
+        xVCU.AV_RAW[i] = DU_RADIANS_PER_SECOND_FROM(gyro[i]).value;
+    }
     xVCU.IB_RAW = can_data.pack_analog.pack_current * UNPACK_COEFF_PACK_ANALOG_PACK_CURRENT;
 
     int16_t max_motor_temp = MAXOF(
@@ -162,11 +171,16 @@ void control_loop() {
     // step the VCU model
     vcu_step(&pVCU, &xVCU, &yVCU);
 
-    static constexpr float NM_TO_PCT = (1.0f / 9.8f) * 100.0f;
-    float torque_front_right_pct = yVCU.TORQUE_OUT[1] * NM_TO_PCT;
-    float torque_front_left_pct  = yVCU.TORQUE_OUT[0] * NM_TO_PCT;
-    float torque_rear_left_pct   = yVCU.TORQUE_OUT[2] * NM_TO_PCT;
-    float torque_rear_right_pct  = yVCU.TORQUE_OUT[3] * NM_TO_PCT;
+    static constexpr newton_meter_t RATED_MOTOR_TORQUE = {9.8f};
+    newton_meter_t torque_front_right = {yVCU.TORQUE_OUT[1]};
+    newton_meter_t torque_front_left  = {yVCU.TORQUE_OUT[0]};
+    newton_meter_t torque_rear_left   = {yVCU.TORQUE_OUT[2]};
+    newton_meter_t torque_rear_right  = {yVCU.TORQUE_OUT[3]};
+
+    float torque_front_right_pct = DU_DIVIDE(torque_front_right, RATED_MOTOR_TORQUE) * 100.0f;
+    float torque_front_left_pct  = DU_DIVIDE(torque_front_left, RATED_MOTOR_TORQUE) * 100.0f;
+    float torque_rear_left_pct   = DU_DIVIDE(torque_rear_left, RATED_MOTOR_TORQUE) * 100.0f;
+    float torque_rear_right_pct  = DU_DIVIDE(torque_rear_right, RATED_MOTOR_TORQUE) * 100.0f;
 
     // send outputs on CAN
     CAN_SEND_vcu_torque_request((int16_t)torque_front_right_pct,
