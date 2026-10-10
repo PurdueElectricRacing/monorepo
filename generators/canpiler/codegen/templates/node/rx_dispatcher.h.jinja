@@ -7,6 +7,7 @@ static inline void CAN_rx_dispatcher(uint32_t id, const uint8_t *data, uint8_t l
             case {{ entry.msg.macro_name }}_MSG_ID: {
                 uint64_t host_data = CAN_load_payload_u64(data, len);
 
+                xSemaphoreTake(can_data_mutex, portMAX_DELAY);
                 {% for codec in entry.codecs %}
                 uint64_t sig_raw_{{ codec.signal.signal_name }} = CAN_unpack_raw_signal(host_data, {{ codec.signal.mask|to_c_hex }}, {{ codec.signal.bit_shift }}, {{ codec.bswap_width }});
                 {% if codec.is_float32 %}
@@ -19,6 +20,7 @@ static inline void CAN_rx_dispatcher(uint32_t id, const uint8_t *data, uint8_t l
                 {% endfor %}
 
                 can_data.{{ entry.msg.message_name }}.last_rx = xTaskGetTickCount();
+                xSemaphoreGive(can_data_mutex); // release before callback so it can use CAN_DATA_GET
                 {% if entry.rx_msg.callback %}
                 {{ entry.rx_msg.message_name }}_CALLBACK();
                 {% endif %}

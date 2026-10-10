@@ -12,9 +12,11 @@ volatile can_data_t can_data;
 volatile uint32_t last_can_rx_time_ms;
 
 RTOS_DEFINE_QUEUE(can_rx_queue, CanMsgTypeDef_t, CAN_RX_QUEUE_LENGTH);
+RTOS_DEFINE_MUTEX(can_data_mutex);
 
 void CAN_rx_init(void) {
     RTOS_INIT_QUEUE(can_rx_queue);
+    RTOS_INIT_MUTEX(can_data_mutex);
 }
 
 void CAN_rx_update(void) {
