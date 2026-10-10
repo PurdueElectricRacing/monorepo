@@ -21,15 +21,15 @@ typedef enum {
 } usb_state_t;
 
 static void tx_four_frames() {
-    timestamped_frame_t usb_packet[4];
-    static_assert(sizeof(usb_packet) == 64, "usb_packet max size is 64");
+    static constexpr size_t FRAMES_PER_PACKET = 4;
+    timestamped_frame_t usb_packet[FRAMES_PER_PACKET];
+    static_assert(sizeof(usb_packet) == 64, "usb hal max size is 64");
 
-    for (size_t i = 0; i < 4; i++) {
+    for (size_t i = 0; i < FRAMES_PER_PACKET; i++) {
         xQueueReceive(can_queue, &usb_packet[i], 0);
     }
 
-    const size_t length = 4 * sizeof(timestamped_frame_t);
-    (void)PHAL_USB_write(PHAL_USB_DATA_ENDPOINT, usb_packet, (uint16_t)length);
+    (void)PHAL_USB_write(PHAL_USB_DATA_ENDPOINT, usb_packet, sizeof(usb_packet));
 }
 
 void usb_tx_periodic() {
