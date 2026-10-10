@@ -24,4 +24,22 @@ static constexpr uint16_t MUTED_RED    = 12418; // #311313
 static constexpr uint16_t YELLOW       = 65252; // #FFDE21
 static constexpr uint16_t MUTED_YELLOW = 12642; // #312C10
 
+/**
+ * @brief determine the color of the text based on celcius temperature
+ *
+ * @param value current temperature value in celcius
+ * @param warning_threshold warning temperature threshold in celcius
+ * @param critical_threshold critical temperature threshold in celcius
+ * @return uint16_t color value
+ */
+static inline uint16_t determine_temp_display_color(int16_t value, uint16_t warning_threshold, uint16_t critical_threshold) {
+    if (value >= critical_threshold) {
+        return RED;
+    } else if (value >= warning_threshold) {
+        return YELLOW;
+    } else {
+        return WHITE;
+    }
+}
+
 #endif // COLORS_H
