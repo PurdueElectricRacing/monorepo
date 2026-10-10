@@ -1,0 +1,242 @@
+{
+  "gpio": {
+    "main_module": {
+      "GPIOA": {
+        "label": "Status, lighting, and ECU feedback",
+        "pins": {
+          "0": "Heartbeat LED",
+          "1": "Brake light",
+          "2": "Buzzer",
+          "3": "TSAL green control",
+          "4": "VBATT ECU status",
+          "5": "Error LED",
+          "6": "VMC ECU status"
+        }
+      },
+      "GPIOB": {
+        "label": "Connection, RTM, and mux controls",
+        "pins": {
+          "0": "TSAL RTM enable",
+          "1": "TSAL fault",
+          "2": "Connection LED",
+          "4": "CAN mux select S0",
+          "5": "CAN mux select S1",
+          "6": "CAN mux select S2",
+          "7": "CAN mux select S3",
+          "9": "CAN mux enable",
+          "10": "Not-precharge-complete status"
+        }
+      },
+      "GPIOC": {
+        "label": "TSAL and SDC controls",
+        "pins": {
+          "14": "SDC control",
+          "15": "TSAL red control"
+        }
+      }
+    },
+    "dashboard": {
+      "GPIOA": {
+        "label": "Analog controls and steering inputs",
+        "pins": {
+          "0": "Regen 2 analog input",
+          "1": "Brake pressure 1 analog input",
+          "2": "Brake pressure 2 analog input",
+          "4": "Regen toggle",
+          "5": "Mark data button",
+          "6": "BMS indicator LED",
+          "7": "IMD indicator LED"
+        }
+      },
+      "GPIOB": {
+        "label": "Status and driver controls",
+        "pins": {
+          "0": "EBB decrement",
+          "1": "EBB increment",
+          "7": "Connection LED",
+          "9": "Heartbeat LED",
+          "11": "Lap set button",
+          "13": "TV1 decrement",
+          "14": "Start button",
+          "15": "Select button"
+        }
+      },
+      "GPIOC": {
+        "label": "Driver inputs, analog signals, and indicators",
+        "pins": {
+          "1": "Throttle 2 analog input",
+          "2": "Throttle 1 analog input",
+          "3": "Regen 1 analog input",
+          "4": "Precharge indicator LED",
+          "5": "Regen indicator LED",
+          "6": "Up button",
+          "7": "Down button",
+          "8": "Right button",
+          "9": "Left button"
+        }
+      },
+      "GPIOD": {
+        "label": "Board status",
+        "pins": {
+          "2": "Error LED"
+        }
+      }
+    },
+    "torque_vector": {
+      "GPIOA": {
+        "label": "Board status",
+        "pins": {
+          "15": "Error LED"
+        }
+      },
+      "GPIOB": {
+        "label": "Status LEDs and GPS controls",
+        "pins": {
+          "1": "Rover GPS reset",
+          "3": "Connection LED",
+          "4": "Heartbeat LED",
+          "6": "Base GPS reset"
+        }
+      }
+    },
+    "a_box": {
+      "GPIOA": {
+        "label": "Analog sensing, SPI, and safety status",
+        "pins": {
+          "0": "ISENSE analog input",
+          "1": "VBATT analog input",
+          "5": "SPI1 SCK",
+          "6": "SPI1 MISO",
+          "7": "SPI1 MOSI",
+          "9": "IMD status",
+          "10": "BMS SDC control"
+        }
+      },
+      "GPIOB": {
+        "label": "SPI select, status LEDs, and charger inputs",
+        "pins": {
+          "0": "SPI1 chip select",
+          "2": "Charger connected input",
+          "4": "Connection LED",
+          "5": "Heartbeat LED",
+          "9": "Error LED",
+          "11": "Not-precharge-complete status"
+        }
+      }
+    },
+    "front_driveline": {
+      "GPIOA": {
+        "label": "Oil temperature and status",
+        "pins": {
+          "1": "Right oil temperature analog input",
+          "2": "Left oil temperature analog input",
+          "15": "Heartbeat LED"
+        }
+      },
+      "GPIOB": {
+        "label": "Shockpots and status LEDs",
+        "pins": {
+          "3": "Connection LED",
+          "4": "Error LED",
+          "12": "Right shockpot analog input",
+          "13": "Left shockpot analog input"
+        }
+      }
+    },
+    "rear_driveline": {
+      "GPIOA": {
+        "label": "Oil temperature and status",
+        "pins": {
+          "1": "Right oil temperature analog input",
+          "2": "Left oil temperature analog input",
+          "15": "Heartbeat LED"
+        }
+      },
+      "GPIOB": {
+        "label": "Shockpots and status LEDs",
+        "pins": {
+          "3": "Connection LED",
+          "4": "Error LED",
+          "12": "Right shockpot analog input",
+          "13": "Left shockpot analog input"
+        }
+      }
+    }
+  },
+  "adc": {
+    "dashboard": {
+      "ADC1": {
+        "label": "Dashboard analog controls",
+        "channels": {
+          "1": "Regen 2",
+          "2": "Brake pressure 1",
+          "3": "Brake pressure 2",
+          "7": "Throttle 2",
+          "8": "Throttle 1",
+          "9": "Regen 1"
+        }
+      }
+    },
+    "a_box": {
+      "ADC1": {
+        "label": "Analog sensing",
+        "channels": {
+          "1": "ISENSE",
+          "2": "VBATT"
+        }
+      }
+    },
+    "front_driveline": {
+      "ADC1": {
+        "label": "Left oil temperature",
+        "channels": {
+          "3": "Left oil temperature"
+        }
+      },
+      "ADC2": {
+        "label": "Right oil temperature",
+        "channels": {
+          "2": "Right oil temperature"
+        }
+      },
+      "ADC3": {
+        "label": "Left shockpot",
+        "channels": {
+          "5": "Left shockpot"
+        }
+      },
+      "ADC4": {
+        "label": "Right shockpot",
+        "channels": {
+          "3": "Right shockpot"
+        }
+      }
+    },
+    "rear_driveline": {
+      "ADC1": {
+        "label": "Left oil temperature",
+        "channels": {
+          "3": "Left oil temperature"
+        }
+      },
+      "ADC2": {
+        "label": "Right oil temperature",
+        "channels": {
+          "2": "Right oil temperature"
+        }
+      },
+      "ADC3": {
+        "label": "Left shockpot",
+        "channels": {
+          "5": "Left shockpot"
+        }
+      },
+      "ADC4": {
+        "label": "Right shockpot",
+        "channels": {
+          "3": "Right shockpot"
+        }
+      }
+    }
+  }
+}

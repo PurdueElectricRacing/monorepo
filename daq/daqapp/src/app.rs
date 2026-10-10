@@ -1,6 +1,7 @@
 use crate::{
     action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
 };
+const MAX_CAN_EVENTS_PER_UPDATE: usize = 2_048;
 
 const UI_SCALE_STEP: f32 = 0.2;
 pub struct ParserInfo {
@@ -49,6 +50,7 @@ pub struct DAQApp {
     pub serial_ports: Vec<serialport::SerialPortInfo>,
     pub parser: Option<ParserInfo>,
     pub can_bus_speed: daqcore::connection::CanBusSpeed,
+    pub can_bus: daqcore::connection::CanBus,
     pub udp_port: u16,
     pub session: daqcore::Session,
     pub bus_load_samples: Vec<telemetry::BusLoadSample>,
@@ -57,6 +59,7 @@ pub struct DAQApp {
     active_source: Option<daqcore::connection::ConnectionSource>,
     pub diagnostic: Option<String>,
     pub log_folder: Option<std::path::PathBuf>,
+    pub fil: settings::FilSettings,
 }
 
 impl DAQApp {
@@ -65,11 +68,13 @@ impl DAQApp {
             dbc_path: self.parser.as_ref().map(|p| p.dbc_path.clone()),
             selected_source: self.selected_source.clone(),
             selected_speed: self.can_bus_speed,
+            selected_bus: self.can_bus,
             udp_port: self.udp_port,
             theme: self.theme_selection,
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
             window_secs: self.session.timeline().window_secs(),
+            fil: self.fil.clone(),
         };
         settings.save();
     }
@@ -94,6 +99,7 @@ impl DAQApp {
 
         let session = daqcore::Session::live(daqcore::Time::now(), window_secs)?;
 
+        let fil = settings.fil;
         Ok(Self {
             connection_status: ConnectionStatus::Disconnected,
             value_formatter: load_formatter(),
@@ -112,6 +118,7 @@ impl DAQApp {
             serial_ports: util::get_available_serial_ports(),
             parser: ParserInfo::new_maybe(settings.dbc_path),
             can_bus_speed: settings.selected_speed,
+            can_bus: settings.selected_bus,
             udp_port: settings.udp_port,
             session,
             bus_load_samples: Vec::new(),
@@ -119,6 +126,7 @@ impl DAQApp {
             active_source: None,
             diagnostic: None,
             log_folder: settings.log_folder,
+            fil,
         })
     }
 
@@ -147,6 +155,13 @@ impl DAQApp {
         // Root is already a tab container, add to it
         tabs.add_child(new_tile_id);
         tabs.set_active(new_tile_id);
+    }
+
+    /// FIL connection source from the current settings, including per-board
+    /// ELF overrides and board selection. Returns `None` when no executable
+    /// or network config is selected yet.
+    pub fn fil_connect_source(&self) -> Option<daqcore::connection::ConnectionSource> {
+        self.fil.connection_source()
     }
 
     pub fn connect_can(&mut self) {
@@ -212,6 +227,42 @@ impl DAQApp {
                 self.pixels_per_point = Some(current_scale - UI_SCALE_STEP);
                 self.save_settings();
             }
+            action::AppAction::UpdateFilConfig { fil } => {
+                self.fil = fil;
+                self.fil.adc_channel = self.fil.adc_channel.min(19);
+                self.fil.adc_value = self.fil.adc_value.min(4095);
+                if let Some(daqcore::connection::ConnectionSource::Fil { trace_bus, .. }) =
+                    self.selected_source.as_mut()
+                {
+                    *trace_bus = self.fil.trace_bus.clone();
+                }
+                self.save_settings();
+            }
+            action::AppAction::ConnectFil(source) => {
+                self.selected_source = Some(source);
+                self.connect_can();
+                self.save_settings();
+            }
+            action::AppAction::UpdateFilBuilder {
+                use_builder,
+                builder,
+            } => {
+                self.fil.use_builder = use_builder;
+                self.fil.builder = builder;
+                self.save_settings();
+            }
+            action::AppAction::UpdateFilAdc {
+                board,
+                instance,
+                channel,
+                value,
+            } => {
+                self.fil.adc_board = board;
+                self.fil.adc_instance = instance;
+                self.fil.adc_channel = channel;
+                self.fil.adc_value = value;
+                self.save_settings();
+            }
         }
     }
 
@@ -236,13 +287,15 @@ impl DAQApp {
 
 impl eframe::App for DAQApp {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
-        while let Ok(event) = self.can_to_ui_rx.try_recv() {
+        for _ in 0..MAX_CAN_EVENTS_PER_UPDATE {
+            let Ok(event) = self.can_to_ui_rx.try_recv() else {
+                break;
+            };
             for tile in self.tile_tree.tiles.tiles_mut() {
                 if let egui_tiles::Tile::Pane(widget) = tile {
                     widget.handle_operational_event(&event);
                 }
             }
-
             match event {
                 daqcore::can_thread::CanThreadEvent::Frame(frame) => {
                     self.session.ingest_frame(frame);

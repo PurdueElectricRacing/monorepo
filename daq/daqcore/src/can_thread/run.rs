@@ -80,6 +80,9 @@ fn run_with_connection(
                     if let Some(progress) = firmware.cancel() {
                         emit!(Event::FirmwareProgress(progress));
                     }
+                    for event in connection.close() {
+                        emit!(Event::FilExpectation(event));
+                    }
                     connection.select(source.clone(), Instant::now());
                     load = BusLoadTracker::default();
                     emit!(Event::SourceSelected(source));
@@ -126,6 +129,31 @@ fn run_with_connection(
                 Command::CancelFirmwareUpdate => {
                     if let Some(progress) = firmware.cancel() {
                         emit!(Event::FirmwareProgress(progress));
+                    }
+                }
+                Command::SetFilAdc {
+                    board,
+                    instance,
+                    channel,
+                    value,
+                } => {
+                    if let Err(error) = connection.set_adc(&board, &instance, channel, value) {
+                        emit!(Event::Diagnostic(error.to_string()));
+                    }
+                }
+                Command::SetFilGpio {
+                    board,
+                    port,
+                    pin,
+                    value,
+                } => {
+                    if let Err(error) = connection.set_gpio(&board, &port, pin, value) {
+                        emit!(Event::Diagnostic(error.to_string()));
+                    }
+                }
+                Command::SetFilTraceBus(trace_bus) => {
+                    if let Err(error) = connection.set_fil_trace_bus(trace_bus) {
+                        emit!(Event::Diagnostic(error.to_string()));
                     }
                 }
             }
@@ -178,7 +206,9 @@ fn run_with_connection(
                         if unsupported {
                             sends.delete(identity);
                         } else {
-                            connection.failed(Instant::now());
+                            for event in connection.failed(Instant::now()) {
+                                emit!(Event::FilExpectation(event));
+                            }
                             emit!(Event::ConnectionFailed(error.to_string()));
                             break;
                         }
@@ -210,7 +240,9 @@ fn run_with_connection(
                         progress.error = Some(format!("firmware write failed: {error}"));
                         emit!(Event::FirmwareProgress(progress));
                     }
-                    connection.failed(Instant::now());
+                    for event in connection.failed(Instant::now()) {
+                        emit!(Event::FilExpectation(event));
+                    }
                     emit!(Event::ConnectionFailed(error.to_string()));
                     break;
                 }
@@ -218,6 +250,18 @@ fn run_with_connection(
             }
         }
 
+        for gpio in connection.take_fil_gpio_events() {
+            emit!(Event::FilGpio {
+                board: gpio.board,
+                port: gpio.port,
+                pin: gpio.pin,
+                value: gpio.value,
+                direction: gpio.direction
+            });
+        }
+        for expectation in connection.take_fil_expectation_events() {
+            emit!(Event::FilExpectation(expectation));
+        }
         // Each received frame is logged, decoded, then moved into an event.
         let mut got_frames = false;
         if connection.connected() {
@@ -254,7 +298,9 @@ fn run_with_connection(
                 }
                 Err(DriverError::Timeout) => {}
                 Err(error) => {
-                    connection.failed(Instant::now());
+                    for event in connection.failed(Instant::now()) {
+                        emit!(Event::FilExpectation(event));
+                    }
                     emit!(Event::ConnectionFailed(error.to_string()));
                 }
             }
@@ -276,9 +322,9 @@ fn run_with_connection(
 
         let wait = if !connection.connected() {
             Duration::from_millis(50)
-        } else if got_frames {
-            // Drain queued traffic without delaying the next read; commands and
-            // scheduled work still run between driver batches.
+        } else if got_frames || !connection.needs_read_retry_sleep() {
+            // Drain queued traffic without delaying the next read; FIL already
+            // performs its own bounded wait, so avoid stacking another retry delay.
             Duration::ZERO
         } else {
             Duration::from_millis(2)
@@ -300,5 +346,7 @@ fn run_with_connection(
         logger.flush();
     }
 
-    connection.close();
+    for expectation in connection.close() {
+        let _ = events.emit(Event::FilExpectation(expectation));
+    }
 }

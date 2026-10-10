@@ -7,6 +7,7 @@ mod firmware_session;
 mod run;
 mod tx;
 
+pub use crate::can::driver::FilGpioDirection;
 use crate::{ParsedFrame, Time, connection::ConnectionSource, firmware, frame::CanIdentity, hil};
 use std::{path::PathBuf, sync::mpsc, thread::JoinHandle};
 pub use tx::{AddSendMessage, SendAmount};
@@ -22,13 +23,28 @@ pub enum CanThreadCommand {
     Connect(Option<ConnectionSource>),
     DbcSelected(PathBuf),
     AddSendMessage(AddSendMessage),
-    DeleteSendMessage { identity: CanIdentity },
+    DeleteSendMessage {
+        identity: CanIdentity,
+    },
     UpdateLogFolder(PathBuf),
     Stop,
     Hil(hil::engine::HilCommand),
     StartFirmwareUpdate(firmware::FirmwarePackage),
     ArmFirmwareUpdate(firmware::FirmwarePackage),
     CancelFirmwareUpdate,
+    SetFilAdc {
+        board: String,
+        instance: String,
+        channel: u8,
+        value: u16,
+    },
+    SetFilGpio {
+        board: String,
+        port: String,
+        pin: u8,
+        value: Option<bool>,
+    },
+    SetFilTraceBus(Option<String>),
 }
 
 pub enum CanThreadEvent {
@@ -57,6 +73,14 @@ pub enum CanThreadEvent {
     },
     Hil(hil::engine::HilSnapshot),
     FirmwareProgress(firmware::FirmwareProgress),
+    FilGpio {
+        board: String,
+        port: String,
+        pin: u8,
+        value: Option<bool>,
+        direction: crate::can::driver::FilGpioDirection,
+    },
+    FilExpectation(crate::can::driver::FilExpectationEvent),
 }
 
 /// Single caller owns shutdown; cloned senders submit commands but do not own the worker.
@@ -69,8 +93,8 @@ impl CanThreadHandle {
     pub fn command(
         &self,
         command: CanThreadCommand,
-    ) -> Result<(), mpsc::SendError<CanThreadCommand>> {
-        self.tx.send(command)
+    ) -> Result<(), Box<mpsc::SendError<CanThreadCommand>>> {
+        self.tx.send(command).map_err(Box::new)
     }
 
     pub fn sender(&self) -> mpsc::Sender<CanThreadCommand> {
