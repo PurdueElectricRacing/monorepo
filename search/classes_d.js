@@ -21,5 +21,6 @@ var searchData=
   ['millisecond_5ft_18',['millisecond_t',['../structmillisecond__t.html',1,'']]],
   ['millivolt_5ft_19',['millivolt_t',['../structmillivolt__t.html',1,'']]],
   ['minute_5ft_20',['minute_t',['../structminute__t.html',1,'']]],
-  ['motor_5ftemps_5fdata_5ft_21',['motor_temps_data_t',['../structmotor__temps__data__t.html',1,'']]]
+  ['motor_5fspeeds_5fdata_5ft_21',['motor_speeds_data_t',['../structmotor__speeds__data__t.html',1,'']]],
+  ['motor_5ftemps_5fdata_5ft_22',['motor_temps_data_t',['../structmotor__temps__data__t.html',1,'']]]
 ];

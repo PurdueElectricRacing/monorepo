@@ -23,7 +23,7 @@ var searchData=
   ['g_5fpowertrain_20',['g_powertrain',['../powertrain_8c.html#a07b2a922769a3755b4c94780afa4fb48',1,'g_powertrain:&#160;powertrain.c'],['../powertrain_8h.html#a07b2a922769a3755b4c94780afa4fb48',1,'g_powertrain:&#160;powertrain.c']]],
   ['g_5fspmc_21',['g_spmc',['../spmc_8c.html#aea22837d4940a006332041eb9c4042cb',1,'g_spmc:&#160;spmc.c'],['../spmc_8h.html#aea22837d4940a006332041eb9c4042cb',1,'g_spmc:&#160;spmc.c']]],
   ['g_5fsystem_5fclock_5fhz_22',['g_system_clock_hz',['../phal__G4_2rcc_2rcc_8c.html#a14f4321fc2e6ae5c0dc9a50a4dbc6072',1,'rcc.c']]],
-  ['gear_5fratio_23',['GEAR_RATIO',['../race_8c.html#a7ceba12f5f5bd48ea9a93d64bb8ddf82',1,'GEAR_RATIO:&#160;race.c'],['../torque__controller_8c.html#a7ceba12f5f5bd48ea9a93d64bb8ddf82',1,'GEAR_RATIO:&#160;torque_controller.c']]],
+  ['gear_5fratio_23',['GEAR_RATIO',['../torque__controller_8c.html#a7ceba12f5f5bd48ea9a93d64bb8ddf82',1,'torque_controller.c']]],
   ['generator_20and_20firmware_20host_20tests_24',['7.4 Run Generator and Firmware Host Tests',['../md_docs_2setup.html#autotoc_md141',1,'']]],
   ['geodetic_2eh_25',['geodetic.h',['../geodetic_8h.html',1,'']]],
   ['geodetic_5fcoord_5ft_26',['geodetic_coord_t',['../structgeodetic__coord__t.html',1,'']]],

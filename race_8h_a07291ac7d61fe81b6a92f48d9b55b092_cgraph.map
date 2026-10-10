@@ -1,59 +1,61 @@
 <map id="race_telemetry_update" name="race_telemetry_update">
 <area shape="rect" id="Node000001" title="Updates telemetry data on the race dashboard LCD display." alt="" coords="5,181,158,207"/>
-<area shape="rect" id="Node000002" href="$race_8c.html#af94dd7e3b6512b662e2e44124a1a660c" title=" " alt="" coords="412,108,593,134"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,178,205,162,396,131,397,137,206,167,135,183"/>
-<area shape="rect" id="Node000009" href="$race_8c.html#ac86b7955f40539589f8904e0213c368e" title=" " alt="" coords="428,256,577,282"/>
-<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="159,205,414,251,413,256,158,210"/>
-<area shape="rect" id="Node000011" href="$race_8c.html#a7182ba90987b93b4746a0e22051ed289" title=" " alt="" coords="414,356,591,382"/>
-<area shape="poly" id="edge19_Node000001_Node000011" title=" " alt="" coords="97,205,143,248,174,272,207,292,254,312,304,329,400,352,399,357,302,334,252,317,204,297,171,276,139,252,93,209"/>
-<area shape="rect" id="Node000013" href="$race_8c.html#a236fe508f9d82e9178cdb22b363116b7" title=" " alt="" coords="422,305,583,331"/>
-<area shape="poly" id="edge22_Node000001_Node000013" title=" " alt="" coords="111,205,207,245,315,276,416,299,415,304,313,281,205,250,109,210"/>
-<area shape="rect" id="Node000014" href="$race_8c.html#a218ea7152d92e1c6574e594de6c5f0be" title=" " alt="" coords="425,157,580,183"/>
-<area shape="poly" id="edge25_Node000001_Node000014" title=" " alt="" coords="158,187,409,173,410,178,158,193"/>
+<area shape="rect" id="Node000002" href="$race_8c.html#af94dd7e3b6512b662e2e44124a1a660c" title=" " alt="" coords="412,105,593,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,178,205,162,396,130,397,135,206,167,136,183"/>
+<area shape="rect" id="Node000009" href="$race_8c.html#ac86b7955f40539589f8904e0213c368e" title=" " alt="" coords="428,157,577,183"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="158,187,413,173,413,178,158,193"/>
+<area shape="rect" id="Node000011" href="$race_8c.html#a7182ba90987b93b4746a0e22051ed289" title=" " alt="" coords="414,359,591,384"/>
+<area shape="poly" id="edge19_Node000001_Node000011" title=" " alt="" coords="97,206,143,249,173,273,207,293,254,314,304,331,400,354,399,359,302,336,252,319,204,298,170,277,139,253,93,209"/>
+<area shape="rect" id="Node000013" href="$race_8c.html#a236fe508f9d82e9178cdb22b363116b7" title=" " alt="" coords="422,207,583,232"/>
+<area shape="poly" id="edge22_Node000001_Node000013" title=" " alt="" coords="158,196,407,211,407,216,158,201"/>
+<area shape="rect" id="Node000014" href="$race_8c.html#a218ea7152d92e1c6574e594de6c5f0be" title=" " alt="" coords="425,256,580,282"/>
+<area shape="poly" id="edge25_Node000001_Node000014" title=" " alt="" coords="159,205,412,250,411,255,158,210"/>
 <area shape="rect" id="Node000015" href="$race_8c.html#a5bfcd06a5fd74df355d94d048067ea44" title=" " alt="" coords="206,5,364,31"/>
 <area shape="poly" id="edge28_Node000001_Node000015" title=" " alt="" coords="88,180,131,113,164,74,204,40,211,36,214,40,207,44,168,78,135,116,92,182"/>
-<area shape="rect" id="Node000017" href="$race_8c.html#aa6c8ec640e3dabc849e52c5a84863461" title=" " alt="" coords="422,207,584,232"/>
-<area shape="poly" id="edge32_Node000001_Node000017" title=" " alt="" coords="158,196,406,211,406,216,158,201"/>
-<area shape="rect" id="Node000018" href="$race_8c.html#a23d373791f5cc32fa773c0be7796cd1d" title=" " alt="" coords="216,55,354,80"/>
-<area shape="poly" id="edge35_Node000001_Node000018" title=" " alt="" coords="96,179,142,140,204,97,230,84,233,89,207,102,146,144,99,183"/>
-<area shape="rect" id="Node000003" href="$nextion_8c.html#a19c3df8972af2eaea366cb65fad34d43" title="Sets the background color of a specified object on the Nextion display." alt="" coords="649,108,791,134"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="594,118,634,118,634,124,594,124"/>
-<area shape="rect" id="Node000006" href="$nextion_8c.html#a46ee1522cb7ef9d6bc11a77879e3300e" title="Sets the border color of a specified object on the Nextion display." alt="" coords="649,157,791,183"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="563,132,646,151,645,156,562,137"/>
-<area shape="rect" id="Node000007" href="$nextion_8c.html#af603b7d431ae4f94d55bf04b2034a8cc" title="Sets the font color of a specified object on the Nextion display." alt="" coords="655,59,785,84"/>
-<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="562,105,645,86,646,91,563,110"/>
-<area shape="rect" id="Node000008" href="$nextion_8c.html#ab2a89fd8e292338a6e570a41a698ad3a" title="Sets the text of a Nextion display object." alt="" coords="671,207,769,232"/>
-<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="572,132,595,143,610,155,620,168,628,181,643,193,658,201,655,206,640,198,624,185,615,172,606,159,592,147,569,137"/>
-<area shape="rect" id="Node000004" href="$strbuf_8c.html#a15380dc153a462b38a9b54f274c9c3b5" title="Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended." alt="" coords="847,108,950,134"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="792,118,831,118,831,124,792,124"/>
-<area shape="rect" id="Node000005" href="$strbuf_8c.html#a52ce36e86451c208f1846411e1f67dcf" title="Appends formatted data to the buffer using printf&#45;style formatting. !" alt="" coords="853,157,944,183"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="770,132,839,151,838,156,769,137"/>
-<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="769,154,834,136,835,141,770,159"/>
-<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="791,168,838,168,838,173,791,173"/>
-<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="770,82,835,101,834,106,769,88"/>
-<area shape="poly" id="edge10_Node000007_Node000005" title=" " alt="" coords="778,83,800,93,816,106,825,119,834,131,848,144,853,147,850,152,845,148,830,135,821,122,812,110,797,98,776,87"/>
-<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="769,206,797,193,812,181,821,169,830,156,845,143,850,139,853,144,848,147,834,160,825,172,816,185,800,198,771,211"/>
-<area shape="poly" id="edge13_Node000008_Node000005" title=" " alt="" coords="769,203,838,184,839,189,770,209"/>
-<area shape="poly" id="edge15_Node000009_Node000008" title=" " alt="" coords="562,253,655,231,656,237,563,258"/>
-<area shape="rect" id="Node000010" href="$nextion_8c.html#a8af8629d8160abf996231ff267e43564" title="Sets the text of a Nextion display object using printf&#45;style formatting." alt="" coords="641,256,799,282"/>
-<area shape="poly" id="edge16_Node000009_Node000010" title=" " alt="" coords="577,266,626,266,626,272,577,272"/>
-<area shape="poly" id="edge17_Node000010_Node000004" title=" " alt="" coords="781,253,797,243,815,219,821,195,827,170,845,143,847,141,850,145,849,147,832,172,826,196,819,222,800,247,784,258"/>
-<area shape="poly" id="edge18_Node000010_Node000005" title=" " alt="" coords="772,253,797,242,837,218,870,191,873,196,840,222,800,247,775,258"/>
-<area shape="poly" id="edge21_Node000011_Node000010" title=" " alt="" coords="559,353,592,341,643,315,686,288,689,293,645,320,594,346,561,358"/>
-<area shape="rect" id="Node000012" href="$lap__timer_8c.html#a8d23b35ef5885a379cace15e9861478f" title=" " alt="" coords="644,356,796,382"/>
-<area shape="poly" id="edge20_Node000011_Node000012" title=" " alt="" coords="591,366,629,366,629,372,591,372"/>
-<area shape="poly" id="edge23_Node000013_Node000008" title=" " alt="" coords="569,302,592,292,606,280,615,267,624,254,640,241,655,233,658,238,643,246,628,258,620,271,610,284,595,296,572,307"/>
-<area shape="poly" id="edge24_Node000013_Node000010" title=" " alt="" coords="562,302,645,283,646,288,563,307"/>
-<area shape="poly" id="edge26_Node000014_Node000008" title=" " alt="" coords="563,181,656,202,655,208,562,186"/>
-<area shape="poly" id="edge27_Node000014_Node000010" title=" " alt="" coords="572,181,595,192,610,205,620,218,628,230,643,243,650,247,648,252,640,247,624,234,615,221,606,208,592,196,569,186"/>
-<area shape="rect" id="Node000016" href="$nextion_8c.html#ac7e3e9fc4674d17281069e97b8a5384d" title="Sets a value to a specified object on the Nextion display." alt="" coords="667,9,773,35"/>
-<area shape="poly" id="edge29_Node000015_Node000016" title=" " alt="" coords="365,16,651,19,651,24,364,22"/>
-<area shape="poly" id="edge30_Node000016_Node000004" title=" " alt="" coords="775,33,800,44,840,69,873,95,870,100,837,73,797,49,772,38"/>
-<area shape="poly" id="edge31_Node000016_Node000005" title=" " alt="" coords="775,30,800,44,819,69,826,95,832,119,849,144,850,146,847,150,845,148,827,121,821,96,815,72,797,48,772,34"/>
-<area shape="poly" id="edge33_Node000017_Node000008" title=" " alt="" coords="584,217,656,217,656,222,584,222"/>
-<area shape="poly" id="edge34_Node000017_Node000010" title=" " alt="" coords="563,230,646,249,645,255,562,236"/>
-<area shape="rect" id="Node000019" href="$race_8c.html#ae54e1380740da10a82a20f9599c83c47" title=" " alt="" coords="451,56,554,82"/>
-<area shape="poly" id="edge36_Node000018_Node000019" title=" " alt="" coords="354,65,435,66,435,71,354,71"/>
-<area shape="poly" id="edge37_Node000019_Node000007" title=" " alt="" coords="555,67,639,68,639,73,555,72"/>
-<area shape="poly" id="edge38_Node000019_Node000016" title=" " alt="" coords="554,55,651,34,652,39,555,60"/>
+<area shape="rect" id="Node000017" href="$race_8c.html#aa6c8ec640e3dabc849e52c5a84863461" title=" " alt="" coords="422,307,584,332"/>
+<area shape="poly" id="edge32_Node000001_Node000017" title=" " alt="" coords="111,205,207,245,316,277,418,300,416,306,314,282,205,250,109,210"/>
+<area shape="rect" id="Node000019" href="$race_8c.html#a23d373791f5cc32fa773c0be7796cd1d" title=" " alt="" coords="216,55,354,80"/>
+<area shape="poly" id="edge36_Node000001_Node000019" title=" " alt="" coords="96,179,142,140,204,97,230,84,233,89,207,102,146,144,99,183"/>
+<area shape="rect" id="Node000003" href="$nextion_8c.html#a19c3df8972af2eaea366cb65fad34d43" title="Sets the background color of a specified object on the Nextion display." alt="" coords="649,105,791,131"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="594,116,634,116,634,121,594,121"/>
+<area shape="rect" id="Node000006" href="$nextion_8c.html#a46ee1522cb7ef9d6bc11a77879e3300e" title="Sets the border color of a specified object on the Nextion display." alt="" coords="649,155,791,180"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="563,129,646,148,645,153,562,134"/>
+<area shape="rect" id="Node000007" href="$nextion_8c.html#af603b7d431ae4f94d55bf04b2034a8cc" title="Sets the font color of a specified object on the Nextion display." alt="" coords="655,56,785,82"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="562,102,645,83,646,88,563,107"/>
+<area shape="rect" id="Node000008" href="$nextion_8c.html#ab2a89fd8e292338a6e570a41a698ad3a" title="Sets the text of a Nextion display object." alt="" coords="671,204,769,230"/>
+<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="565,129,595,143,610,155,619,167,628,179,643,191,658,198,655,203,640,195,625,183,615,170,606,159,592,147,563,134"/>
+<area shape="rect" id="Node000004" href="$strbuf_8c.html#a15380dc153a462b38a9b54f274c9c3b5" title="Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended." alt="" coords="847,105,950,131"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="792,116,831,116,831,121,792,121"/>
+<area shape="rect" id="Node000005" href="$strbuf_8c.html#a52ce36e86451c208f1846411e1f67dcf" title="Appends formatted data to the buffer using printf&#45;style formatting. !" alt="" coords="853,155,944,180"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="770,129,839,148,838,154,769,134"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="769,151,834,133,835,138,770,157"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="791,165,838,165,838,170,791,170"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="770,80,835,98,834,103,769,85"/>
+<area shape="poly" id="edge10_Node000007_Node000005" title=" " alt="" coords="778,80,800,91,816,103,825,116,834,128,848,141,853,145,850,149,845,146,830,132,821,119,812,107,797,95,776,85"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="769,204,797,191,812,179,821,167,830,154,845,140,850,137,853,141,848,144,834,157,825,170,816,182,800,195,771,208"/>
+<area shape="poly" id="edge13_Node000008_Node000005" title=" " alt="" coords="769,201,838,181,839,187,770,206"/>
+<area shape="poly" id="edge15_Node000009_Node000008" title=" " alt="" coords="567,181,656,201,655,206,566,186"/>
+<area shape="rect" id="Node000010" href="$nextion_8c.html#a8af8629d8160abf996231ff267e43564" title="Sets the text of a Nextion display object using printf&#45;style formatting." alt="" coords="641,253,799,279"/>
+<area shape="poly" id="edge16_Node000009_Node000010" title=" " alt="" coords="571,181,595,192,610,204,620,216,629,228,643,240,651,244,648,249,640,244,625,232,615,220,606,208,592,196,569,186"/>
+<area shape="poly" id="edge17_Node000010_Node000004" title=" " alt="" coords="781,250,797,240,815,217,821,192,827,167,845,140,847,138,850,142,849,144,832,169,826,194,819,219,800,244,784,255"/>
+<area shape="poly" id="edge18_Node000010_Node000005" title=" " alt="" coords="772,250,797,240,837,215,870,189,873,193,840,220,800,245,775,255"/>
+<area shape="poly" id="edge21_Node000011_Node000010" title=" " alt="" coords="564,356,592,343,606,330,615,317,624,303,640,289,650,283,653,288,643,294,628,307,620,320,610,334,595,347,567,360"/>
+<area shape="rect" id="Node000012" href="$lap__timer_8c.html#a8d23b35ef5885a379cace15e9861478f" title=" " alt="" coords="644,368,796,394"/>
+<area shape="poly" id="edge20_Node000011_Node000012" title=" " alt="" coords="591,373,629,374,629,380,591,378"/>
+<area shape="poly" id="edge23_Node000013_Node000008" title=" " alt="" coords="583,216,655,215,655,220,583,221"/>
+<area shape="poly" id="edge24_Node000013_Node000010" title=" " alt="" coords="567,230,643,247,641,252,566,236"/>
+<area shape="poly" id="edge26_Node000014_Node000008" title=" " alt="" coords="559,253,655,229,657,235,560,258"/>
+<area shape="poly" id="edge27_Node000014_Node000010" title=" " alt="" coords="581,265,625,265,626,270,581,271"/>
+<area shape="rect" id="Node000016" href="$nextion_8c.html#ac7e3e9fc4674d17281069e97b8a5384d" title="Sets a value to a specified object on the Nextion display." alt="" coords="667,7,773,32"/>
+<area shape="poly" id="edge29_Node000015_Node000016" title=" " alt="" coords="364,16,651,17,651,22,364,21"/>
+<area shape="poly" id="edge30_Node000016_Node000004" title=" " alt="" coords="775,30,800,41,840,66,873,93,870,97,837,70,797,46,772,35"/>
+<area shape="poly" id="edge31_Node000016_Node000005" title=" " alt="" coords="775,27,800,41,819,67,826,92,832,117,849,142,850,143,847,147,845,145,827,119,821,93,815,69,797,46,772,32"/>
+<area shape="poly" id="edge34_Node000017_Node000008" title=" " alt="" coords="567,304,592,292,606,279,615,266,624,252,640,239,655,231,657,235,643,243,628,256,620,269,610,283,595,296,569,308"/>
+<area shape="poly" id="edge35_Node000017_Node000010" title=" " alt="" coords="558,303,649,281,651,286,559,309"/>
+<area shape="rect" id="Node000018" href="$dearunits_8h.html#a1ee73897174cc2d8010c6092aea7b49d" title=" " alt="" coords="649,303,791,344"/>
+<area shape="poly" id="edge33_Node000017_Node000018" title=" " alt="" coords="584,318,633,319,633,325,584,324"/>
+<area shape="rect" id="Node000020" href="$race_8c.html#ae54e1380740da10a82a20f9599c83c47" title=" " alt="" coords="451,56,554,82"/>
+<area shape="poly" id="edge37_Node000019_Node000020" title=" " alt="" coords="354,65,435,66,435,71,354,71"/>
+<area shape="poly" id="edge38_Node000020_Node000007" title=" " alt="" coords="555,66,639,66,639,72,555,72"/>
+<area shape="poly" id="edge39_Node000020_Node000016" title=" " alt="" coords="554,55,651,32,652,38,555,60"/>
 </map>

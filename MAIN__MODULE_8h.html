@@ -245,8 +245,8 @@ Functions</h2></td></tr>
 <tr class="separator:a3b8dba56e53546e2d2660f6d1b2cf321"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e3340e4a3ca2d481310df34f23cf7ca" id="r_a8e3340e4a3ca2d481310df34f23cf7ca"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e3340e4a3ca2d481310df34f23cf7ca">CAN_SEND_igbt_temps</a> (int16_t value_front_right, int16_t value_front_left, int16_t value_rear_left, int16_t value_rear_right)</td></tr>
 <tr class="separator:a8e3340e4a3ca2d481310df34f23cf7ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96595216048053f51c1d2f2a03b903be" id="r_a96595216048053f51c1d2f2a03b903be"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96595216048053f51c1d2f2a03b903be">CAN_SEND_wheel_speeds</a> (int16_t value_front_right, int16_t value_front_left, int16_t value_rear_left, int16_t value_rear_right)</td></tr>
-<tr class="separator:a96595216048053f51c1d2f2a03b903be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29b1cbb2de31574aeab2ccb3eee8de88" id="r_a29b1cbb2de31574aeab2ccb3eee8de88"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29b1cbb2de31574aeab2ccb3eee8de88">CAN_SEND_motor_speeds</a> (int16_t value_front_right, int16_t value_front_left, int16_t value_rear_left, int16_t value_rear_right)</td></tr>
+<tr class="separator:a29b1cbb2de31574aeab2ccb3eee8de88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeef7c7296bf1fc904bbbe6c3216b3bf1" id="r_aeef7c7296bf1fc904bbbe6c3216b3bf1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeef7c7296bf1fc904bbbe6c3216b3bf1">CAN_SEND_main_version</a> (uint32_t value_git_hash, uint32_t value_bootloader_git_hash, bool value_bootloadable)</td></tr>
 <tr class="separator:aeef7c7296bf1fc904bbbe6c3216b3bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3f6086393669753392f5360307c2bf9" id="r_ac3f6086393669753392f5360307c2bf9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3f6086393669753392f5360307c2bf9">CAN_SEND_inva_diagnostics</a> (uint32_t value_diagnostic_number, <a class="el" href="can__types_8h.html#ac291c3525eed827f7d9a83133652f860">AMK_state_t</a> value_amk_state, bool value_bError, bool value_InverterOn, bool value_is_any_stale)</td></tr>
@@ -1469,6 +1469,55 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a29b1cbb2de31574aeab2ccb3eee8de88" name="a29b1cbb2de31574aeab2ccb3eee8de88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29b1cbb2de31574aeab2ccb3eee8de88">&#9670;&#160;</a></span>CAN_SEND_motor_speeds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_motor_speeds </td>
+          <td>(</td>
+          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>value_front_right</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>value_front_left</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>value_rear_left</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>value_rear_right</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a29b1cbb2de31574aeab2ccb3eee8de88_cgraph.svg" width="602" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a29b1cbb2de31574aeab2ccb3eee8de88_icgraph.svg" width="486" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a3b8dba56e53546e2d2660f6d1b2cf321" name="a3b8dba56e53546e2d2660f6d1b2cf321"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3b8dba56e53546e2d2660f6d1b2cf321">&#9670;&#160;</a></span>CAN_SEND_motor_temps()</h2>
 
@@ -1514,55 +1563,6 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a3b8dba56e53546e2d2660f6d1b2cf321_icgraph.svg" width="383" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="a96595216048053f51c1d2f2a03b903be" name="a96595216048053f51c1d2f2a03b903be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96595216048053f51c1d2f2a03b903be">&#9670;&#160;</a></span>CAN_SEND_wheel_speeds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CAN_SEND_wheel_speeds </td>
-          <td>(</td>
-          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>value_front_right</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>value_front_left</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>value_rear_left</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>value_rear_right</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a96595216048053f51c1d2f2a03b903be_cgraph.svg" width="602" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a96595216048053f51c1d2f2a03b903be_icgraph.svg" width="487" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

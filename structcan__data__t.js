@@ -63,6 +63,7 @@ var structcan__data__t =
     [ "main_hb", "structcan__data__t.html#a972c7af69bca9cb8814f46176b516030", null ],
     [ "main_module_fault_event", "structcan__data__t.html#a0a8196382b2315291fbfd6d8e6b60336", null ],
     [ "main_module_fault_sync", "structcan__data__t.html#aebaaea3c99ef099b6c29675a3100ce76", null ],
+    [ "motor_speeds", "structcan__data__t.html#ae5d058e2b9051e1ff515556d84865ede", null ],
     [ "motor_temps", "structcan__data__t.html#a738dfa7218df2c734bbbf0a2f86b01e7", null ],
     [ "pack_analog", "structcan__data__t.html#a03850e9620f6b3346219fe1f50910e31", null ],
     [ "pack_bms", "structcan__data__t.html#af9c83377bd53cd01fa64aaa497024c67", null ],
@@ -76,6 +77,5 @@ var structcan__data__t =
     [ "torque_vector_fault_sync", "structcan__data__t.html#a1077f154ab6cfbb2fa87ce129a680ac2", null ],
     [ "vcu_driver_request", "structcan__data__t.html#ad4199874a0e75c7bcf418abc294cd189", null ],
     [ "vcu_settings", "structcan__data__t.html#ab97f45d01f21b96230e3a6537b042e6c", null ],
-    [ "vcu_torque_request", "structcan__data__t.html#a2e6b8c86533a17a613e8dc8080f29c99", null ],
-    [ "wheel_speeds", "structcan__data__t.html#a8cb326f16931d4016c559464c834b65f", null ]
+    [ "vcu_torque_request", "structcan__data__t.html#a2e6b8c86533a17a613e8dc8080f29c99", null ]
 ];

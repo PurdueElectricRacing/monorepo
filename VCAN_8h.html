@@ -304,6 +304,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structE__METER__MEASUREMENT__data__t.html">E_METER_MEASUREMENT_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmotor__speeds__data__t.html">motor_speeds_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structother__currents__data__t.html">other_currents_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpack__analog__data__t.html">pack_analog_data_t</a></td></tr>
@@ -319,8 +321,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structthermistor__telemetry__data__t.html">thermistor_telemetry_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structv__rails__data__t.html">v_rails_data_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwheel__speeds__data__t.html">wheel_speeds_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structE__METER__STATUS__data__t.html">E_METER_STATUS_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1061,7 +1061,17 @@ Variables</h2></td></tr>
 <tr class="separator:ab6c331e691efc21d4d4d83e40d39f982"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fe5c040075a53997e14ea1f8b5ea9e0" id="r_a0fe5c040075a53997e14ea1f8b5ea9e0"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0fe5c040075a53997e14ea1f8b5ea9e0">E_METER_MEASUREMENT_STALE_TIMEOUT_MS</a> = 50</td></tr>
 <tr class="separator:a0fe5c040075a53997e14ea1f8b5ea9e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8aa126d511dc13d8c3d3f9b91624f2f" id="r_aa8aa126d511dc13d8c3d3f9b91624f2f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8aa126d511dc13d8c3d3f9b91624f2f">OTHER_CURRENTS_MSG_ID</a> = 0x10E</td></tr>
+<tr class="memitem:a724aadc16e611577714870c76b2aad41" id="r_a724aadc16e611577714870c76b2aad41"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a724aadc16e611577714870c76b2aad41">MOTOR_SPEEDS_MSG_ID</a> = 0x10E</td></tr>
+<tr class="separator:a724aadc16e611577714870c76b2aad41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a396301f85f231e7d5e1f5cd6b7100600" id="r_a396301f85f231e7d5e1f5cd6b7100600"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a396301f85f231e7d5e1f5cd6b7100600">MOTOR_SPEEDS_DLC</a> = 8</td></tr>
+<tr class="separator:a396301f85f231e7d5e1f5cd6b7100600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae8b1429995313c921b358d2ada2fe69" id="r_aae8b1429995313c921b358d2ada2fe69"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae8b1429995313c921b358d2ada2fe69">MOTOR_SPEEDS_LAYOUT_HASH</a> = 0x6E37809D0C79B94A</td></tr>
+<tr class="separator:aae8b1429995313c921b358d2ada2fe69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82f11c80faf234fc93d4101aaa23c130" id="r_a82f11c80faf234fc93d4101aaa23c130"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82f11c80faf234fc93d4101aaa23c130">MOTOR_SPEEDS_PERIOD_MS</a> = 20</td></tr>
+<tr class="separator:a82f11c80faf234fc93d4101aaa23c130"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15be9aa56a0efa209eabd44fc13a5a64" id="r_a15be9aa56a0efa209eabd44fc13a5a64"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15be9aa56a0efa209eabd44fc13a5a64">MOTOR_SPEEDS_STALE_TIMEOUT_MS</a> = 50</td></tr>
+<tr class="separator:a15be9aa56a0efa209eabd44fc13a5a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8aa126d511dc13d8c3d3f9b91624f2f" id="r_aa8aa126d511dc13d8c3d3f9b91624f2f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8aa126d511dc13d8c3d3f9b91624f2f">OTHER_CURRENTS_MSG_ID</a> = 0x10F</td></tr>
 <tr class="separator:aa8aa126d511dc13d8c3d3f9b91624f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0d6ab1355b076c7ea6cd48baff8ff90" id="r_ab0d6ab1355b076c7ea6cd48baff8ff90"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0d6ab1355b076c7ea6cd48baff8ff90">OTHER_CURRENTS_DLC</a> = 8</td></tr>
 <tr class="separator:ab0d6ab1355b076c7ea6cd48baff8ff90"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1071,7 +1081,7 @@ Variables</h2></td></tr>
 <tr class="separator:a4d064c6f2f3b2505a4246223912171e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af987a139e54043c81535c4c8ffcc6777" id="r_af987a139e54043c81535c4c8ffcc6777"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af987a139e54043c81535c4c8ffcc6777">OTHER_CURRENTS_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:af987a139e54043c81535c4c8ffcc6777"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a900fc2679168d16af25f0a3c2955c98d" id="r_a900fc2679168d16af25f0a3c2955c98d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a900fc2679168d16af25f0a3c2955c98d">PACK_ANALOG_MSG_ID</a> = 0x10F</td></tr>
+<tr class="memitem:a900fc2679168d16af25f0a3c2955c98d" id="r_a900fc2679168d16af25f0a3c2955c98d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a900fc2679168d16af25f0a3c2955c98d">PACK_ANALOG_MSG_ID</a> = 0x110</td></tr>
 <tr class="separator:a900fc2679168d16af25f0a3c2955c98d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8263e6a4697c449ee07bb6d239a81096" id="r_a8263e6a4697c449ee07bb6d239a81096"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8263e6a4697c449ee07bb6d239a81096">PACK_ANALOG_DLC</a> = 4</td></tr>
 <tr class="separator:a8263e6a4697c449ee07bb6d239a81096"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1081,7 +1091,7 @@ Variables</h2></td></tr>
 <tr class="separator:a41196d31472c13e3821788322acdd3bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c15e0357022a7251d574b8d44a4b678" id="r_a2c15e0357022a7251d574b8d44a4b678"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c15e0357022a7251d574b8d44a4b678">PACK_ANALOG_STALE_TIMEOUT_MS</a> = 25</td></tr>
 <tr class="separator:a2c15e0357022a7251d574b8d44a4b678"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83178d77b1578e750ae9f1f1070ab9fc" id="r_a83178d77b1578e750ae9f1f1070ab9fc"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83178d77b1578e750ae9f1f1070ab9fc">PDU_TEMPS_MSG_ID</a> = 0x110</td></tr>
+<tr class="memitem:a83178d77b1578e750ae9f1f1070ab9fc" id="r_a83178d77b1578e750ae9f1f1070ab9fc"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83178d77b1578e750ae9f1f1070ab9fc">PDU_TEMPS_MSG_ID</a> = 0x111</td></tr>
 <tr class="separator:a83178d77b1578e750ae9f1f1070ab9fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9d869cd3279e91738e9481a6c153481" id="r_ab9d869cd3279e91738e9481a6c153481"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab9d869cd3279e91738e9481a6c153481">PDU_TEMPS_DLC</a> = 2</td></tr>
 <tr class="separator:ab9d869cd3279e91738e9481a6c153481"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1091,7 +1101,7 @@ Variables</h2></td></tr>
 <tr class="separator:a5db22ec13848b5b37fed937c91db7f2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae29743606b9c9dc825d18fb4a0e2f2a2" id="r_ae29743606b9c9dc825d18fb4a0e2f2a2"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae29743606b9c9dc825d18fb4a0e2f2a2">PDU_TEMPS_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:ae29743606b9c9dc825d18fb4a0e2f2a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66bce1ad2a8c4b03376ede5940abab45" id="r_a66bce1ad2a8c4b03376ede5940abab45"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66bce1ad2a8c4b03376ede5940abab45">PUMP_AND_FAN_CURRENT_MSG_ID</a> = 0x111</td></tr>
+<tr class="memitem:a66bce1ad2a8c4b03376ede5940abab45" id="r_a66bce1ad2a8c4b03376ede5940abab45"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66bce1ad2a8c4b03376ede5940abab45">PUMP_AND_FAN_CURRENT_MSG_ID</a> = 0x112</td></tr>
 <tr class="separator:a66bce1ad2a8c4b03376ede5940abab45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f27aa92e1db7846018d916adc5372c3" id="r_a6f27aa92e1db7846018d916adc5372c3"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f27aa92e1db7846018d916adc5372c3">PUMP_AND_FAN_CURRENT_DLC</a> = 7</td></tr>
 <tr class="separator:a6f27aa92e1db7846018d916adc5372c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1101,7 +1111,7 @@ Variables</h2></td></tr>
 <tr class="separator:a009741e1a73f0c14ea9a2ba5d36da32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a313ae3eb883144bbd28cc1b99a9b02ac" id="r_a313ae3eb883144bbd28cc1b99a9b02ac"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a313ae3eb883144bbd28cc1b99a9b02ac">PUMP_AND_FAN_CURRENT_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:a313ae3eb883144bbd28cc1b99a9b02ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80794bc8bac8e597a239a35bd8eda615" id="r_a80794bc8bac8e597a239a35bd8eda615"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80794bc8bac8e597a239a35bd8eda615">RAIL_CURRENTS_MSG_ID</a> = 0x112</td></tr>
+<tr class="memitem:a80794bc8bac8e597a239a35bd8eda615" id="r_a80794bc8bac8e597a239a35bd8eda615"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80794bc8bac8e597a239a35bd8eda615">RAIL_CURRENTS_MSG_ID</a> = 0x113</td></tr>
 <tr class="separator:a80794bc8bac8e597a239a35bd8eda615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a353fabdfe8c1532ff40b18bf5ef2d934" id="r_a353fabdfe8c1532ff40b18bf5ef2d934"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a353fabdfe8c1532ff40b18bf5ef2d934">RAIL_CURRENTS_DLC</a> = 4</td></tr>
 <tr class="separator:a353fabdfe8c1532ff40b18bf5ef2d934"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1111,7 +1121,7 @@ Variables</h2></td></tr>
 <tr class="separator:a8c4453561e95275e6af51644a0d74a57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1af1b8edeecfbcf371a60264e8e9416" id="r_ad1af1b8edeecfbcf371a60264e8e9416"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1af1b8edeecfbcf371a60264e8e9416">RAIL_CURRENTS_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:ad1af1b8edeecfbcf371a60264e8e9416"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af24ee48eca8897de2c973618d7718314" id="r_af24ee48eca8897de2c973618d7718314"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af24ee48eca8897de2c973618d7718314">REAR_SHOCKPOTS_MSG_ID</a> = 0x113</td></tr>
+<tr class="memitem:af24ee48eca8897de2c973618d7718314" id="r_af24ee48eca8897de2c973618d7718314"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af24ee48eca8897de2c973618d7718314">REAR_SHOCKPOTS_MSG_ID</a> = 0x114</td></tr>
 <tr class="separator:af24ee48eca8897de2c973618d7718314"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0440ce205f2d37d8201928b810a8a19a" id="r_a0440ce205f2d37d8201928b810a8a19a"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0440ce205f2d37d8201928b810a8a19a">REAR_SHOCKPOTS_DLC</a> = 4</td></tr>
 <tr class="separator:a0440ce205f2d37d8201928b810a8a19a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1121,7 +1131,7 @@ Variables</h2></td></tr>
 <tr class="separator:a16c72ddfbae159df79b7bf4d31cda330"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfbdf6339e9372acf5a392ee5a03da8f" id="r_acfbdf6339e9372acf5a392ee5a03da8f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfbdf6339e9372acf5a392ee5a03da8f">REAR_SHOCKPOTS_STALE_TIMEOUT_MS</a> = 25</td></tr>
 <tr class="separator:acfbdf6339e9372acf5a392ee5a03da8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d4c72f0c01c04cd85b76cfaa0e2fd56" id="r_a9d4c72f0c01c04cd85b76cfaa0e2fd56"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d4c72f0c01c04cd85b76cfaa0e2fd56">THERMISTOR_TELEMETRY_MSG_ID</a> = 0x114</td></tr>
+<tr class="memitem:a9d4c72f0c01c04cd85b76cfaa0e2fd56" id="r_a9d4c72f0c01c04cd85b76cfaa0e2fd56"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d4c72f0c01c04cd85b76cfaa0e2fd56">THERMISTOR_TELEMETRY_MSG_ID</a> = 0x115</td></tr>
 <tr class="separator:a9d4c72f0c01c04cd85b76cfaa0e2fd56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf1ed4a51374e4743db278b93fbaf1d4" id="r_adf1ed4a51374e4743db278b93fbaf1d4"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf1ed4a51374e4743db278b93fbaf1d4">THERMISTOR_TELEMETRY_DLC</a> = 4</td></tr>
 <tr class="separator:adf1ed4a51374e4743db278b93fbaf1d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1131,7 +1141,7 @@ Variables</h2></td></tr>
 <tr class="separator:a00cc37ffe7172eadcb2354a56615432e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22e368323c9b967cbef41e81bcc1425a" id="r_a22e368323c9b967cbef41e81bcc1425a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22e368323c9b967cbef41e81bcc1425a">THERMISTOR_TELEMETRY_STALE_TIMEOUT_MS</a> = 312</td></tr>
 <tr class="separator:a22e368323c9b967cbef41e81bcc1425a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9cdf299e554ef2acfafdbe0ab58e1d9" id="r_ad9cdf299e554ef2acfafdbe0ab58e1d9"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9cdf299e554ef2acfafdbe0ab58e1d9">V_RAILS_MSG_ID</a> = 0x115</td></tr>
+<tr class="memitem:ad9cdf299e554ef2acfafdbe0ab58e1d9" id="r_ad9cdf299e554ef2acfafdbe0ab58e1d9"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9cdf299e554ef2acfafdbe0ab58e1d9">V_RAILS_MSG_ID</a> = 0x116</td></tr>
 <tr class="separator:ad9cdf299e554ef2acfafdbe0ab58e1d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45fd016e145210aa827dbaca2bfbd256" id="r_a45fd016e145210aa827dbaca2bfbd256"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45fd016e145210aa827dbaca2bfbd256">V_RAILS_DLC</a> = 8</td></tr>
 <tr class="separator:a45fd016e145210aa827dbaca2bfbd256"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1141,16 +1151,6 @@ Variables</h2></td></tr>
 <tr class="separator:a840c7aa7e723a4576f0cbf3223d6cd76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02cf3f7ee382b764919ee420129763fe" id="r_a02cf3f7ee382b764919ee420129763fe"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02cf3f7ee382b764919ee420129763fe">V_RAILS_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:a02cf3f7ee382b764919ee420129763fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e5aafd1875e809c4c8cac0d70218930" id="r_a2e5aafd1875e809c4c8cac0d70218930"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e5aafd1875e809c4c8cac0d70218930">WHEEL_SPEEDS_MSG_ID</a> = 0x116</td></tr>
-<tr class="separator:a2e5aafd1875e809c4c8cac0d70218930"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f263c7f366fdde793ebf9cf238445b1" id="r_a8f263c7f366fdde793ebf9cf238445b1"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f263c7f366fdde793ebf9cf238445b1">WHEEL_SPEEDS_DLC</a> = 8</td></tr>
-<tr class="separator:a8f263c7f366fdde793ebf9cf238445b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad422d3f05be1fcf7e6d6d292ccf68263" id="r_ad422d3f05be1fcf7e6d6d292ccf68263"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad422d3f05be1fcf7e6d6d292ccf68263">WHEEL_SPEEDS_LAYOUT_HASH</a> = 0x6E37809D0C79B94A</td></tr>
-<tr class="separator:ad422d3f05be1fcf7e6d6d292ccf68263"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8724e5e82c96b2483cdfaee3b5f5519d" id="r_a8724e5e82c96b2483cdfaee3b5f5519d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8724e5e82c96b2483cdfaee3b5f5519d">WHEEL_SPEEDS_PERIOD_MS</a> = 20</td></tr>
-<tr class="separator:a8724e5e82c96b2483cdfaee3b5f5519d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33a03d210509f8587b54646cdf940ac8" id="r_a33a03d210509f8587b54646cdf940ac8"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33a03d210509f8587b54646cdf940ac8">WHEEL_SPEEDS_STALE_TIMEOUT_MS</a> = 50</td></tr>
-<tr class="separator:a33a03d210509f8587b54646cdf940ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd9a27205abbe93c02a33f9b3ba598b6" id="r_acd9a27205abbe93c02a33f9b3ba598b6"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd9a27205abbe93c02a33f9b3ba598b6">E_METER_STATUS_MSG_ID</a> = 0x40D</td></tr>
 <tr class="separator:acd9a27205abbe93c02a33f9b3ba598b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad21840d155a4e1f6b663ae93c58cc7f7" id="r_ad21840d155a4e1f6b663ae93c58cc7f7"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad21840d155a4e1f6b663ae93c58cc7f7">E_METER_STATUS_DLC</a> = 8</td></tr>
@@ -7665,6 +7665,116 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a396301f85f231e7d5e1f5cd6b7100600" name="a396301f85f231e7d5e1f5cd6b7100600"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a396301f85f231e7d5e1f5cd6b7100600">&#9670;&#160;</a></span>MOTOR_SPEEDS_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t MOTOR_SPEEDS_DLC = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae8b1429995313c921b358d2ada2fe69" name="aae8b1429995313c921b358d2ada2fe69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae8b1429995313c921b358d2ada2fe69">&#9670;&#160;</a></span>MOTOR_SPEEDS_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t MOTOR_SPEEDS_LAYOUT_HASH = 0x6E37809D0C79B94A</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a724aadc16e611577714870c76b2aad41" name="a724aadc16e611577714870c76b2aad41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a724aadc16e611577714870c76b2aad41">&#9670;&#160;</a></span>MOTOR_SPEEDS_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MOTOR_SPEEDS_MSG_ID = 0x10E</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82f11c80faf234fc93d4101aaa23c130" name="a82f11c80faf234fc93d4101aaa23c130"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82f11c80faf234fc93d4101aaa23c130">&#9670;&#160;</a></span>MOTOR_SPEEDS_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MOTOR_SPEEDS_PERIOD_MS = 20</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15be9aa56a0efa209eabd44fc13a5a64" name="a15be9aa56a0efa209eabd44fc13a5a64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15be9aa56a0efa209eabd44fc13a5a64">&#9670;&#160;</a></span>MOTOR_SPEEDS_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MOTOR_SPEEDS_STALE_TIMEOUT_MS = 50</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae47e182fbac66954802e4a6eaf997251" name="ae47e182fbac66954802e4a6eaf997251"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae47e182fbac66954802e4a6eaf997251">&#9670;&#160;</a></span>MOTOR_TEMPS_DLC</h2>
 
@@ -7829,7 +7939,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t OTHER_CURRENTS_MSG_ID = 0x10E</td>
+          <td class="memname">uint32_t OTHER_CURRENTS_MSG_ID = 0x10F</td>
         </tr>
       </table>
   </td>
@@ -7939,7 +8049,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t PACK_ANALOG_MSG_ID = 0x10F</td>
+          <td class="memname">uint32_t PACK_ANALOG_MSG_ID = 0x110</td>
         </tr>
       </table>
   </td>
@@ -8511,7 +8621,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t PDU_TEMPS_MSG_ID = 0x110</td>
+          <td class="memname">uint32_t PDU_TEMPS_MSG_ID = 0x111</td>
         </tr>
       </table>
   </td>
@@ -8841,7 +8951,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t PUMP_AND_FAN_CURRENT_MSG_ID = 0x111</td>
+          <td class="memname">uint32_t PUMP_AND_FAN_CURRENT_MSG_ID = 0x112</td>
         </tr>
       </table>
   </td>
@@ -8951,7 +9061,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t RAIL_CURRENTS_MSG_ID = 0x112</td>
+          <td class="memname">uint32_t RAIL_CURRENTS_MSG_ID = 0x113</td>
         </tr>
       </table>
   </td>
@@ -9347,7 +9457,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t REAR_SHOCKPOTS_MSG_ID = 0x113</td>
+          <td class="memname">uint32_t REAR_SHOCKPOTS_MSG_ID = 0x114</td>
         </tr>
       </table>
   </td>
@@ -9677,7 +9787,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t THERMISTOR_TELEMETRY_MSG_ID = 0x114</td>
+          <td class="memname">uint32_t THERMISTOR_TELEMETRY_MSG_ID = 0x115</td>
         </tr>
       </table>
   </td>
@@ -10139,7 +10249,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t V_RAILS_MSG_ID = 0x115</td>
+          <td class="memname">uint32_t V_RAILS_MSG_ID = 0x116</td>
         </tr>
       </table>
   </td>
@@ -10514,116 +10624,6 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">uint32_t VCU_TORQUE_REQUEST_STALE_TIMEOUT_MS = 37</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8f263c7f366fdde793ebf9cf238445b1" name="a8f263c7f366fdde793ebf9cf238445b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f263c7f366fdde793ebf9cf238445b1">&#9670;&#160;</a></span>WHEEL_SPEEDS_DLC</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t WHEEL_SPEEDS_DLC = 8</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad422d3f05be1fcf7e6d6d292ccf68263" name="ad422d3f05be1fcf7e6d6d292ccf68263"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad422d3f05be1fcf7e6d6d292ccf68263">&#9670;&#160;</a></span>WHEEL_SPEEDS_LAYOUT_HASH</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint64_t WHEEL_SPEEDS_LAYOUT_HASH = 0x6E37809D0C79B94A</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2e5aafd1875e809c4c8cac0d70218930" name="a2e5aafd1875e809c4c8cac0d70218930"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e5aafd1875e809c4c8cac0d70218930">&#9670;&#160;</a></span>WHEEL_SPEEDS_MSG_ID</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t WHEEL_SPEEDS_MSG_ID = 0x116</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8724e5e82c96b2483cdfaee3b5f5519d" name="a8724e5e82c96b2483cdfaee3b5f5519d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8724e5e82c96b2483cdfaee3b5f5519d">&#9670;&#160;</a></span>WHEEL_SPEEDS_PERIOD_MS</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t WHEEL_SPEEDS_PERIOD_MS = 20</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a33a03d210509f8587b54646cdf940ac8" name="a33a03d210509f8587b54646cdf940ac8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33a03d210509f8587b54646cdf940ac8">&#9670;&#160;</a></span>WHEEL_SPEEDS_STALE_TIMEOUT_MS</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t WHEEL_SPEEDS_STALE_TIMEOUT_MS = 50</td>
         </tr>
       </table>
   </td>

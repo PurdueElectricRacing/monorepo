@@ -9,13 +9,5 @@ var race_8c =
     [ "update_pedal_telemetry", "race_8c.html#a5bfcd06a5fd74df355d94d048067ea44", null ],
     [ "update_speed_telemetry", "race_8c.html#aa6c8ec640e3dabc849e52c5a84863461", null ],
     [ "update_tv_bar", "race_8c.html#ae54e1380740da10a82a20f9599c83c47", null ],
-    [ "update_tv_telemetry", "race_8c.html#a23d373791f5cc32fa773c0be7796cd1d", null ],
-    [ "GEAR_RATIO", "race_8c.html#a7ceba12f5f5bd48ea9a93d64bb8ddf82", null ],
-    [ "INCHES_PER_MILE", "race_8c.html#a61643af34f785696a8bcea17ef6161be", null ],
-    [ "INCHES_PER_MOTOR_REV", "race_8c.html#a4e2856c5397fa2831e1dfa3ee411b5bb", null ],
-    [ "MINUTES_PER_HOUR", "race_8c.html#a284e66719c46225b92910ec6a0eb5062", null ],
-    [ "OUTPUT_REV_PER_MOTOR_REV", "race_8c.html#aadaa167f92c7d7e6d0a3c341d93b0220", null ],
-    [ "RPM_TO_MPH", "race_8c.html#ae5b018de69495706d7a6fd10ff8e505e", null ],
-    [ "WHEEL_CIRCUMFERENCE_IN", "race_8c.html#a284846036ea71dd362de4fd2608bd9dc", null ],
-    [ "WHEEL_RADIUS_IN", "race_8c.html#aa0ffa8a098be39f4206ea8290a138f60", null ]
+    [ "update_tv_telemetry", "race_8c.html#a23d373791f5cc32fa773c0be7796cd1d", null ]
 ];

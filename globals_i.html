@@ -122,8 +122,8 @@ $(function(){initNavTree('globals_i.html',''); initResizable(true); });
 <li>IMU_ANGULAR_RATE_STALE_TIMEOUT_MS&#160;:&#160;<a class="el" href="VCAN_8h.html#ae18aca22c98b79fd7822d7f3f7ef3a2a">VCAN.h</a></li>
 <li>imu_data&#160;:&#160;<a class="el" href="imu_8c.html#a531c8f27ae12bb661be20c1a0937ab41">imu.c</a>, <a class="el" href="sensors_8h.html#a531c8f27ae12bb661be20c1a0937ab41">sensors.h</a></li>
 <li>inch_from_meter()&#160;:&#160;<a class="el" href="dearunits_8h.html#a64f370d92975dbd79ed4cf445d45f438">dearunits.h</a></li>
-<li>INCHES_PER_MILE&#160;:&#160;<a class="el" href="race_8c.html#a61643af34f785696a8bcea17ef6161be">race.c</a>, <a class="el" href="torque__controller_8c.html#a61643af34f785696a8bcea17ef6161be">torque_controller.c</a></li>
-<li>INCHES_PER_MOTOR_REV&#160;:&#160;<a class="el" href="race_8c.html#a4e2856c5397fa2831e1dfa3ee411b5bb">race.c</a>, <a class="el" href="torque__controller_8c.html#a4e2856c5397fa2831e1dfa3ee411b5bb">torque_controller.c</a></li>
+<li>INCHES_PER_MILE&#160;:&#160;<a class="el" href="torque__controller_8c.html#a61643af34f785696a8bcea17ef6161be">torque_controller.c</a></li>
+<li>INCHES_PER_MOTOR_REV&#160;:&#160;<a class="el" href="torque__controller_8c.html#a4e2856c5397fa2831e1dfa3ee411b5bb">torque_controller.c</a></li>
 <li>INCLUDE_eTaskGetState&#160;:&#160;<a class="el" href="FreeRTOSConfig_8h.html#a4fd1d67d54044ac86e8ffc890180f9f6">FreeRTOSConfig.h</a></li>
 <li>INCLUDE_uxTaskGetStackHighWaterMark&#160;:&#160;<a class="el" href="FreeRTOSConfig_8h.html#a23c7b4b41fe9b575cf2329c7cbe78b86">FreeRTOSConfig.h</a></li>
 <li>INCLUDE_uxTaskPriorityGet&#160;:&#160;<a class="el" href="FreeRTOSConfig_8h.html#a1279eb797355460aeeec06aa524e91df">FreeRTOSConfig.h</a></li>
@@ -377,6 +377,7 @@ $(function(){initNavTree('globals_i.html',''); initResizable(true); });
 <li>is_LWS_Standard_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a95eff3fd927be6a394dc2089bd4feadb">DASHBOARD.h</a></li>
 <li>is_main_hb_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a7087cac0d0fa48478011cac103698214">DASHBOARD.h</a>, <a class="el" href="PDU_8h.html#a7087cac0d0fa48478011cac103698214">PDU.h</a></li>
 <li>is_main_module_fault_sync_stale()&#160;:&#160;<a class="el" href="A__BOX_8h.html#a3829b4361128389982af69e734c16659">A_BOX.h</a>, <a class="el" href="DASHBOARD_8h.html#a3829b4361128389982af69e734c16659">DASHBOARD.h</a>, <a class="el" href="PDU_8h.html#a3829b4361128389982af69e734c16659">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a3829b4361128389982af69e734c16659">TORQUE_VECTOR.h</a></li>
+<li>is_motor_speeds_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a6fbaac592b706ba92b5a8b639a49415a">DASHBOARD.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a6fbaac592b706ba92b5a8b639a49415a">TORQUE_VECTOR.h</a></li>
 <li>is_motor_temps_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a88f3e342a9ae8209c335cda7377c954d">DASHBOARD.h</a>, <a class="el" href="PDU_8h.html#a88f3e342a9ae8209c335cda7377c954d">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a88f3e342a9ae8209c335cda7377c954d">TORQUE_VECTOR.h</a></li>
 <li>is_other_mcus_latched()&#160;:&#160;<a class="el" href="faults__common_8h.html#a6a4afce3ed471db381c8bc61dc35fff0">faults_common.h</a></li>
 <li>is_pack_analog_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#aa0052660897972f25c425b9c4aeb4781">DASHBOARD.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#aa0052660897972f25c425b9c4aeb4781">TORQUE_VECTOR.h</a></li>
@@ -394,7 +395,6 @@ $(function(){initNavTree('globals_i.html',''); initResizable(true); });
 <li>is_vcu_settings_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a7c82dad17c575875f43e0e2b0c626782">DASHBOARD.h</a>, <a class="el" href="MAIN__MODULE_8h.html#a7c82dad17c575875f43e0e2b0c626782">MAIN_MODULE.h</a></li>
 <li>is_vcu_torque_request_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#a6d608a6a14b51069d6243c42bbfb5763">DASHBOARD.h</a>, <a class="el" href="MAIN__MODULE_8h.html#a6d608a6a14b51069d6243c42bbfb5763">MAIN_MODULE.h</a></li>
 <li>is_warning_latched()&#160;:&#160;<a class="el" href="faults__common_8h.html#a731895d731bdcc9ea2038351278ffef7">faults_common.h</a></li>
-<li>is_wheel_speeds_stale()&#160;:&#160;<a class="el" href="DASHBOARD_8h.html#afc13d89809b55f5e8515eada94f7debe">DASHBOARD.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#afc13d89809b55f5e8515eada94f7debe">TORQUE_VECTOR.h</a></li>
 <li>ISENSE_ADC_CHANNEL&#160;:&#160;<a class="el" href="a__box_2main_8h.html#a7e6064902708f4ae2c216ce0a2f8686c">main.h</a></li>
 <li>ISENSE_GPIO_PIN&#160;:&#160;<a class="el" href="a__box_2main_8h.html#abc6a7ba90261fb9feda4ef1623bd9ab8">main.h</a></li>
 <li>ISENSE_GPIO_PORT&#160;:&#160;<a class="el" href="a__box_2main_8h.html#a407e835f0bf84d6b20450ec50407a309">main.h</a></li>

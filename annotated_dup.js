@@ -183,6 +183,7 @@ var annotated_dup =
     [ "millisecond_t", "structmillisecond__t.html", "structmillisecond__t" ],
     [ "millivolt_t", "structmillivolt__t.html", "structmillivolt__t" ],
     [ "minute_t", "structminute__t.html", "structminute__t" ],
+    [ "motor_speeds_data_t", "structmotor__speeds__data__t.html", "structmotor__speeds__data__t" ],
     [ "motor_temps_data_t", "structmotor__temps__data__t.html", "structmotor__temps__data__t" ],
     [ "NAV_PVT_data_t", "structNAV__PVT__data__t.html", "structNAV__PVT__data__t" ],
     [ "NAV_RELPOSNED_data_t", "structNAV__RELPOSNED__data__t.html", "structNAV__RELPOSNED__data__t" ],
@@ -286,7 +287,6 @@ var annotated_dup =
     [ "volt_t", "structvolt__t.html", "structvolt__t" ],
     [ "watt_hour_t", "structwatt__hour__t.html", "structwatt__hour__t" ],
     [ "watt_t", "structwatt__t.html", "structwatt__t" ],
-    [ "wheel_speeds_data_t", "structwheel__speeds__data__t.html", "structwheel__speeds__data__t" ],
     [ "xVCU_struct", "structxVCU__struct.html", "structxVCU__struct" ],
     [ "yVCU_struct", "structyVCU__struct.html", "structyVCU__struct" ]
 ];

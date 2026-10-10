@@ -68,7 +68,7 @@ var searchData=
   ['output_65',['output',['../structPHAL__GPIO__InitConfig__t.html#af5b855bab912b3ac6501c77633f8a264',1,'PHAL_GPIO_InitConfig_t']]],
   ['output_5fdata_5frate_66',['output_data_rate',['../structIZZE__IMU__config__data__t.html#a3a73b4a509c974fb7355d47811154150',1,'IZZE_IMU_config_data_t']]],
   ['output_5fdata_5frate_5ft_67',['output_data_rate_t',['../izze__imu_8h.html#a044be3dd587ce19e0580925a67234a2f',1,'izze_imu.h']]],
-  ['output_5frev_5fper_5fmotor_5frev_68',['OUTPUT_REV_PER_MOTOR_REV',['../race_8c.html#aadaa167f92c7d7e6d0a3c341d93b0220',1,'OUTPUT_REV_PER_MOTOR_REV:&#160;race.c'],['../torque__controller_8c.html#aadaa167f92c7d7e6d0a3c341d93b0220',1,'OUTPUT_REV_PER_MOTOR_REV:&#160;torque_controller.c']]],
+  ['output_5frev_5fper_5fmotor_5frev_68',['OUTPUT_REV_PER_MOTOR_REV',['../torque__controller_8c.html#aadaa167f92c7d7e6d0a3c341d93b0220',1,'torque_controller.c']]],
   ['outputs_3a_69',['Outputs:',['../md_firmware_2source_2torque__vector_2vcu_2vcu__interface.html#autotoc_md61',1,'']]],
   ['ov_5f16_70',['OV_16',['../phal__F4_2usart_2usart_8h.html#a9fb60e9f8236a52b6c9bd8a310f589a7a7211a2296fe5e47bf58bd037edce0ac6',1,'usart.h']]],
   ['ov_5f8_71',['OV_8',['../phal__F4_2usart_2usart_8h.html#a9fb60e9f8236a52b6c9bd8a310f589a7ad66b645e2c6b620132b08421b4a87736',1,'usart.h']]],

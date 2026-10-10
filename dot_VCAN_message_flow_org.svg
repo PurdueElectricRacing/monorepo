@@ -121,30 +121,30 @@
 <text text-anchor="middle" x="1425" y="-1250.21" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
 </g>
 <!-- message:VCAN:pack_analog -->
-<g id="node108" class="node">
+<g id="node109" class="node">
 <title>message:VCAN:pack_analog</title>
 <path fill="#e0e0e0" stroke="#777777" d="M1646.5,-883.5C1646.5,-883.5 1500,-883.5 1500,-883.5 1494,-883.5 1488,-877.5 1488,-871.5 1488,-871.5 1488,-840.25 1488,-840.25 1488,-834.25 1494,-828.25 1500,-828.25 1500,-828.25 1646.5,-828.25 1646.5,-828.25 1652.5,-828.25 1658.5,-834.25 1658.5,-840.25 1658.5,-840.25 1658.5,-871.5 1658.5,-871.5 1658.5,-877.5 1652.5,-883.5 1646.5,-883.5"/>
 <text text-anchor="middle" x="1573.25" y="-866.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">pack_analog</text>
-<text text-anchor="middle" x="1573.25" y="-850.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x10F (standard)</text>
+<text text-anchor="middle" x="1573.25" y="-850.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x110 (standard)</text>
 <text text-anchor="middle" x="1573.25" y="-834.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">10 ms · 4 bytes · priority 5</text>
 </g>
 <!-- node:VCAN:A_BOX&#45;&gt;message:VCAN:pack_analog -->
-<g id="edge202" class="edge">
+<g id="edge205" class="edge">
 <title>node:VCAN:A_BOX&#45;&gt;message:VCAN:pack_analog</title>
 <path fill="none" stroke="#2f70ad" d="M1304.28,-1054.54C1321.56,-1035.86 1348.76,-1005.9 1371,-978.88 1379.42,-968.65 1379.47,-964.32 1389,-955.13 1424.19,-921.19 1435.87,-914.91 1479,-891.88 1480.95,-890.84 1482.94,-889.81 1484.96,-888.8"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="1486.37,-892 1493.87,-884.53 1483.34,-885.69 1486.37,-892"/>
 <text text-anchor="middle" x="1425" y="-957.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
 </g>
 <!-- message:VCAN:thermistor_telemetry -->
-<g id="node113" class="node">
+<g id="node114" class="node">
 <title>message:VCAN:thermistor_telemetry</title>
 <path fill="#e0e0e0" stroke="#777777" d="M1650.25,-1248.5C1650.25,-1248.5 1496.25,-1248.5 1496.25,-1248.5 1490.25,-1248.5 1484.25,-1242.5 1484.25,-1236.5 1484.25,-1236.5 1484.25,-1205.25 1484.25,-1205.25 1484.25,-1199.25 1490.25,-1193.25 1496.25,-1193.25 1496.25,-1193.25 1650.25,-1193.25 1650.25,-1193.25 1656.25,-1193.25 1662.25,-1199.25 1662.25,-1205.25 1662.25,-1205.25 1662.25,-1236.5 1662.25,-1236.5 1662.25,-1242.5 1656.25,-1248.5 1650.25,-1248.5"/>
 <text text-anchor="middle" x="1573.25" y="-1231.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">thermistor_telemetry</text>
-<text text-anchor="middle" x="1573.25" y="-1215.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x114 (standard)</text>
+<text text-anchor="middle" x="1573.25" y="-1215.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x115 (standard)</text>
 <text text-anchor="middle" x="1573.25" y="-1199.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">125 ms · 4 bytes · priority 5</text>
 </g>
 <!-- node:VCAN:A_BOX&#45;&gt;message:VCAN:thermistor_telemetry -->
-<g id="edge210" class="edge">
+<g id="edge213" class="edge">
 <title>node:VCAN:A_BOX&#45;&gt;message:VCAN:thermistor_telemetry</title>
 <path fill="none" stroke="#2f70ad" d="M1314.47,-1091.19C1350.88,-1115.01 1417.8,-1156.87 1479,-1184.88 1481.55,-1186.05 1484.16,-1187.21 1486.8,-1188.37"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="1485.14,-1191.47 1495.71,-1192.19 1487.89,-1185.03 1485.14,-1191.47"/>
@@ -991,15 +991,15 @@
 <text text-anchor="middle" x="1573.25" y="-1669.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
 </g>
 <!-- message:VCAN:rear_shockpots -->
-<g id="node112" class="node">
+<g id="node113" class="node">
 <title>message:VCAN:rear_shockpots</title>
 <path fill="#e0e0e0" stroke="#777777" d="M1844,-1588.5C1844,-1588.5 1697.5,-1588.5 1697.5,-1588.5 1691.5,-1588.5 1685.5,-1582.5 1685.5,-1576.5 1685.5,-1576.5 1685.5,-1545.25 1685.5,-1545.25 1685.5,-1539.25 1691.5,-1533.25 1697.5,-1533.25 1697.5,-1533.25 1844,-1533.25 1844,-1533.25 1850,-1533.25 1856,-1539.25 1856,-1545.25 1856,-1545.25 1856,-1576.5 1856,-1576.5 1856,-1582.5 1850,-1588.5 1844,-1588.5"/>
 <text text-anchor="middle" x="1770.75" y="-1571.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">rear_shockpots</text>
-<text text-anchor="middle" x="1770.75" y="-1555.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x113 (standard)</text>
+<text text-anchor="middle" x="1770.75" y="-1555.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x114 (standard)</text>
 <text text-anchor="middle" x="1770.75" y="-1539.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">10 ms · 4 bytes · priority 5</text>
 </g>
 <!-- node:VCAN:DRIVELINE&#45;&gt;message:VCAN:rear_shockpots -->
-<g id="edge208" class="edge">
+<g id="edge211" class="edge">
 <title>node:VCAN:DRIVELINE&#45;&gt;message:VCAN:rear_shockpots</title>
 <path fill="none" stroke="#2f70ad" d="M1293.57,-1765.56C1306.25,-1732.45 1337.71,-1662.95 1389,-1629.13 1412.53,-1613.61 1568.95,-1589.1 1673.84,-1574.06"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="1674.18,-1577.54 1683.59,-1572.66 1673.2,-1570.61 1674.18,-1577.54"/>
@@ -1263,17 +1263,17 @@
 <polygon fill="#2f70ad" stroke="#2f70ad" points="3794.53,-394.51 3800.44,-385.71 3790.33,-388.91 3794.53,-394.51"/>
 <text text-anchor="middle" x="3735.25" y="-1358.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
 </g>
-<!-- message:VCAN:wheel_speeds -->
-<g id="node115" class="node">
-<title>message:VCAN:wheel_speeds</title>
+<!-- message:VCAN:motor_speeds -->
+<g id="node107" class="node">
+<title>message:VCAN:motor_speeds</title>
 <path fill="#e0e0e0" stroke="#777777" d="M3929.75,-1414.5C3929.75,-1414.5 3783.25,-1414.5 3783.25,-1414.5 3777.25,-1414.5 3771.25,-1408.5 3771.25,-1402.5 3771.25,-1402.5 3771.25,-1371.25 3771.25,-1371.25 3771.25,-1365.25 3777.25,-1359.25 3783.25,-1359.25 3783.25,-1359.25 3929.75,-1359.25 3929.75,-1359.25 3935.75,-1359.25 3941.75,-1365.25 3941.75,-1371.25 3941.75,-1371.25 3941.75,-1402.5 3941.75,-1402.5 3941.75,-1408.5 3935.75,-1414.5 3929.75,-1414.5"/>
-<text text-anchor="middle" x="3856.5" y="-1397.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">wheel_speeds</text>
-<text text-anchor="middle" x="3856.5" y="-1381.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x116 (standard)</text>
+<text text-anchor="middle" x="3856.5" y="-1397.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">motor_speeds</text>
+<text text-anchor="middle" x="3856.5" y="-1381.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x10E (standard)</text>
 <text text-anchor="middle" x="3856.5" y="-1365.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">20 ms · 8 bytes · priority 5</text>
 </g>
-<!-- node:VCAN:MAIN_MODULE&#45;&gt;message:VCAN:wheel_speeds -->
-<g id="edge212" class="edge">
-<title>node:VCAN:MAIN_MODULE&#45;&gt;message:VCAN:wheel_speeds</title>
+<!-- node:VCAN:MAIN_MODULE&#45;&gt;message:VCAN:motor_speeds -->
+<g id="edge201" class="edge">
+<title>node:VCAN:MAIN_MODULE&#45;&gt;message:VCAN:motor_speeds</title>
 <path fill="none" stroke="#2f70ad" d="M3662.43,-1668.56C3695.52,-1620.28 3785.64,-1488.81 3830.06,-1424"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="3832.9,-1426.04 3835.67,-1415.82 3827.13,-1422.09 3832.9,-1426.04"/>
 <text text-anchor="middle" x="3735.25" y="-1575.02" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
@@ -1390,75 +1390,75 @@
 <text text-anchor="middle" x="3239" y="-761.19" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
 </g>
 <!-- message:VCAN:other_currents -->
-<g id="node107" class="node">
+<g id="node108" class="node">
 <title>message:VCAN:other_currents</title>
 <path fill="#e0e0e0" stroke="#777777" d="M3464.25,-744.5C3464.25,-744.5 3310.25,-744.5 3310.25,-744.5 3304.25,-744.5 3298.25,-738.5 3298.25,-732.5 3298.25,-732.5 3298.25,-701.25 3298.25,-701.25 3298.25,-695.25 3304.25,-689.25 3310.25,-689.25 3310.25,-689.25 3464.25,-689.25 3464.25,-689.25 3470.25,-689.25 3476.25,-695.25 3476.25,-701.25 3476.25,-701.25 3476.25,-732.5 3476.25,-732.5 3476.25,-738.5 3470.25,-744.5 3464.25,-744.5"/>
 <text text-anchor="middle" x="3387.25" y="-727.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">other_currents</text>
-<text text-anchor="middle" x="3387.25" y="-711.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x10E (standard)</text>
+<text text-anchor="middle" x="3387.25" y="-711.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x10F (standard)</text>
 <text text-anchor="middle" x="3387.25" y="-695.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">100 ms · 8 bytes · priority 5</text>
 </g>
 <!-- node:VCAN:PDU&#45;&gt;message:VCAN:other_currents -->
-<g id="edge201" class="edge">
+<g id="edge204" class="edge">
 <title>node:VCAN:PDU&#45;&gt;message:VCAN:other_currents</title>
 <path fill="none" stroke="#2f70ad" d="M3185.07,-714.22C3210,-714.55 3249.21,-715.07 3286.42,-715.56"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="3286.32,-719.06 3296.37,-715.69 3286.41,-712.06 3286.32,-719.06"/>
 <text text-anchor="middle" x="3239" y="-717.83" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
 </g>
 <!-- message:VCAN:pdu_temps -->
-<g id="node109" class="node">
+<g id="node110" class="node">
 <title>message:VCAN:pdu_temps</title>
 <path fill="#e0e0e0" stroke="#777777" d="M3464.25,-671.5C3464.25,-671.5 3310.25,-671.5 3310.25,-671.5 3304.25,-671.5 3298.25,-665.5 3298.25,-659.5 3298.25,-659.5 3298.25,-628.25 3298.25,-628.25 3298.25,-622.25 3304.25,-616.25 3310.25,-616.25 3310.25,-616.25 3464.25,-616.25 3464.25,-616.25 3470.25,-616.25 3476.25,-622.25 3476.25,-628.25 3476.25,-628.25 3476.25,-659.5 3476.25,-659.5 3476.25,-665.5 3470.25,-671.5 3464.25,-671.5"/>
 <text text-anchor="middle" x="3387.25" y="-654.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">pdu_temps</text>
-<text text-anchor="middle" x="3387.25" y="-638.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x110 (standard)</text>
+<text text-anchor="middle" x="3387.25" y="-638.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x111 (standard)</text>
 <text text-anchor="middle" x="3387.25" y="-622.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">100 ms · 2 bytes · priority 5</text>
 </g>
 <!-- node:VCAN:PDU&#45;&gt;message:VCAN:pdu_temps -->
-<g id="edge205" class="edge">
+<g id="edge208" class="edge">
 <title>node:VCAN:PDU&#45;&gt;message:VCAN:pdu_temps</title>
 <path fill="none" stroke="#2f70ad" d="M3185.31,-702.01C3191.08,-699.59 3197.2,-697.17 3203,-695.13 3229.97,-685.66 3259.63,-676.74 3287.1,-669.07"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="3287.74,-672.53 3296.45,-666.49 3285.88,-665.78 3287.74,-672.53"/>
 <text text-anchor="middle" x="3239" y="-697.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
 </g>
 <!-- message:VCAN:pump_and_fan_current -->
-<g id="node110" class="node">
+<g id="node111" class="node">
 <title>message:VCAN:pump_and_fan_current</title>
 <path fill="#e0e0e0" stroke="#777777" d="M3464.25,-598.5C3464.25,-598.5 3310.25,-598.5 3310.25,-598.5 3304.25,-598.5 3298.25,-592.5 3298.25,-586.5 3298.25,-586.5 3298.25,-555.25 3298.25,-555.25 3298.25,-549.25 3304.25,-543.25 3310.25,-543.25 3310.25,-543.25 3464.25,-543.25 3464.25,-543.25 3470.25,-543.25 3476.25,-549.25 3476.25,-555.25 3476.25,-555.25 3476.25,-586.5 3476.25,-586.5 3476.25,-592.5 3470.25,-598.5 3464.25,-598.5"/>
 <text text-anchor="middle" x="3387.25" y="-581.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">pump_and_fan_current</text>
-<text text-anchor="middle" x="3387.25" y="-565.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x111 (standard)</text>
+<text text-anchor="middle" x="3387.25" y="-565.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x112 (standard)</text>
 <text text-anchor="middle" x="3387.25" y="-549.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">100 ms · 7 bytes · priority 5</text>
 </g>
 <!-- node:VCAN:PDU&#45;&gt;message:VCAN:pump_and_fan_current -->
-<g id="edge206" class="edge">
+<g id="edge209" class="edge">
 <title>node:VCAN:PDU&#45;&gt;message:VCAN:pump_and_fan_current</title>
 <path fill="none" stroke="#2f70ad" d="M3169.06,-695.63C3176.97,-682.55 3188.97,-665.17 3203,-653.13 3227.5,-632.1 3258.25,-615.52 3287.52,-602.93"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="3288.52,-606.3 3296.4,-599.22 3285.82,-599.84 3288.52,-606.3"/>
 <text text-anchor="middle" x="3239" y="-655.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
 </g>
 <!-- message:VCAN:rail_currents -->
-<g id="node111" class="node">
+<g id="node112" class="node">
 <title>message:VCAN:rail_currents</title>
 <path fill="#e0e0e0" stroke="#777777" d="M3464.25,-1255.5C3464.25,-1255.5 3310.25,-1255.5 3310.25,-1255.5 3304.25,-1255.5 3298.25,-1249.5 3298.25,-1243.5 3298.25,-1243.5 3298.25,-1212.25 3298.25,-1212.25 3298.25,-1206.25 3304.25,-1200.25 3310.25,-1200.25 3310.25,-1200.25 3464.25,-1200.25 3464.25,-1200.25 3470.25,-1200.25 3476.25,-1206.25 3476.25,-1212.25 3476.25,-1212.25 3476.25,-1243.5 3476.25,-1243.5 3476.25,-1249.5 3470.25,-1255.5 3464.25,-1255.5"/>
 <text text-anchor="middle" x="3387.25" y="-1238.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">rail_currents</text>
-<text text-anchor="middle" x="3387.25" y="-1222.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x112 (standard)</text>
+<text text-anchor="middle" x="3387.25" y="-1222.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x113 (standard)</text>
 <text text-anchor="middle" x="3387.25" y="-1206.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">100 ms · 4 bytes · priority 5</text>
 </g>
 <!-- node:VCAN:PDU&#45;&gt;message:VCAN:rail_currents -->
-<g id="edge207" class="edge">
+<g id="edge210" class="edge">
 <title>node:VCAN:PDU&#45;&gt;message:VCAN:rail_currents</title>
 <path fill="none" stroke="#2f70ad" d="M3161.4,-732.29C3166.17,-769.06 3177.04,-854.2 3185,-925.88 3189.46,-966.05 3177.62,-1075.42 3203,-1106.88 3224.11,-1133.05 3251.57,-1106.01 3275,-1130.13 3294.92,-1150.63 3273.66,-1170.83 3293,-1191.88 3293.17,-1192.06 3293.34,-1192.25 3293.51,-1192.43"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="3290.96,-1194.84 3300.71,-1198.98 3295.67,-1189.67 3290.96,-1194.84"/>
 <text text-anchor="middle" x="3239" y="-1132.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">TX</text>
 </g>
 <!-- message:VCAN:v_rails -->
-<g id="node114" class="node">
+<g id="node115" class="node">
 <title>message:VCAN:v_rails</title>
 <path fill="#e0e0e0" stroke="#777777" d="M3464.25,-1182.5C3464.25,-1182.5 3310.25,-1182.5 3310.25,-1182.5 3304.25,-1182.5 3298.25,-1176.5 3298.25,-1170.5 3298.25,-1170.5 3298.25,-1139.25 3298.25,-1139.25 3298.25,-1133.25 3304.25,-1127.25 3310.25,-1127.25 3310.25,-1127.25 3464.25,-1127.25 3464.25,-1127.25 3470.25,-1127.25 3476.25,-1133.25 3476.25,-1139.25 3476.25,-1139.25 3476.25,-1170.5 3476.25,-1170.5 3476.25,-1176.5 3470.25,-1182.5 3464.25,-1182.5"/>
 <text text-anchor="middle" x="3387.25" y="-1165.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">v_rails</text>
-<text text-anchor="middle" x="3387.25" y="-1149.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x115 (standard)</text>
+<text text-anchor="middle" x="3387.25" y="-1149.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x116 (standard)</text>
 <text text-anchor="middle" x="3387.25" y="-1133.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">100 ms · 8 bytes · priority 5</text>
 </g>
 <!-- node:VCAN:PDU&#45;&gt;message:VCAN:v_rails -->
-<g id="edge211" class="edge">
+<g id="edge214" class="edge">
 <title>node:VCAN:PDU&#45;&gt;message:VCAN:v_rails</title>
 <path fill="none" stroke="#2f70ad" d="M3161.26,-732.37C3170.17,-805.02 3202.32,-1067.06 3203,-1067.88 3224.43,-1093.79 3248.31,-1070.68 3275,-1091.13 3286.67,-1100.07 3281.59,-1109.61 3293,-1118.88 3293.66,-1119.41 3294.32,-1119.94 3295,-1120.46"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="3292.71,-1123.13 3302.93,-1125.94 3296.69,-1117.38 3292.71,-1123.13"/>
@@ -2420,40 +2420,40 @@
 <polygon fill="#2f70ad" stroke="#2f70ad" points="1931.59,-1328.26 1927.25,-1318.59 1924.62,-1328.86 1931.59,-1328.26"/>
 <text text-anchor="middle" x="2478.25" y="-1642.67" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">RX</text>
 </g>
-<!-- message:VCAN:pack_analog&#45;&gt;node:VCAN:DASHBOARD -->
+<!-- message:VCAN:motor_speeds&#45;&gt;node:VCAN:DASHBOARD -->
+<g id="edge202" class="edge">
+<title>message:VCAN:motor_speeds&#45;&gt;node:VCAN:DASHBOARD</title>
+<path fill="none" stroke="#2f70ad" stroke-dasharray="5,2" d="M3830.15,-1359.01C3809.32,-1338.16 3777.87,-1311.07 3744.25,-1297.88 3650.65,-1261.16 3368.31,-1331.5 3293,-1264.88 3262.12,-1237.56 3301.48,-1205.48 3275,-1173.88 3252.94,-1147.57 3225.05,-1172.2 3203,-1145.88 3194.71,-1135.99 3121.95,-699.42 3113,-690.13 3019.09,-592.69 2950.72,-638.11 2816.5,-620.88 2495.58,-579.68 2209.54,-583.72 2182.75,-608.88 2136.33,-652.47 2207.47,-847.66 2164.75,-894.88 2113.23,-951.82 2049,-869.03 1994.25,-922.88 1944.99,-971.33 1930.79,-1189.88 1927.21,-1269.64"/>
+<polygon fill="#2f70ad" stroke="#2f70ad" points="1923.73,-1269.13 1926.8,-1279.27 1930.72,-1269.42 1923.73,-1269.13"/>
+<text text-anchor="middle" x="3077" y="-692.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">RX</text>
+</g>
+<!-- message:VCAN:motor_speeds&#45;&gt;node:VCAN:TORQUE_VECTOR -->
 <g id="edge203" class="edge">
+<title>message:VCAN:motor_speeds&#45;&gt;node:VCAN:TORQUE_VECTOR</title>
+<path fill="none" stroke="#2f70ad" stroke-dasharray="5,2" d="M3770.81,-1392.46C3581.79,-1402.84 3134.72,-1415.24 3041,-1307.88 3013.42,-1276.29 3053.35,-959.82 3023,-930.88 2962.36,-873.07 2913.09,-901.85 2834.5,-930.88 2785.12,-949.12 2774.17,-964.4 2744.5,-1007.88 2695.65,-1079.45 2671.4,-1180.99 2661.89,-1230.48"/>
+<polygon fill="#2f70ad" stroke="#2f70ad" points="2658.48,-1229.65 2660.1,-1240.12 2665.36,-1230.93 2658.48,-1229.65"/>
+<text text-anchor="middle" x="3239" y="-1388.41" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">RX</text>
+</g>
+<!-- message:VCAN:pack_analog&#45;&gt;node:VCAN:DASHBOARD -->
+<g id="edge206" class="edge">
 <title>message:VCAN:pack_analog&#45;&gt;node:VCAN:DASHBOARD</title>
 <path fill="none" stroke="#2f70ad" stroke-dasharray="5,2" d="M1658.98,-879.15C1723.27,-901.34 1808.45,-941.32 1856,-1007.13 1914.75,-1088.43 1923.64,-1212.81 1924.46,-1269.22"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="1920.96,-1269 1924.51,-1278.98 1927.96,-1268.96 1920.96,-1269"/>
 <text text-anchor="middle" x="1770.75" y="-1009.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">RX</text>
 </g>
 <!-- message:VCAN:pack_analog&#45;&gt;node:VCAN:TORQUE_VECTOR -->
-<g id="edge204" class="edge">
+<g id="edge207" class="edge">
 <title>message:VCAN:pack_analog&#45;&gt;node:VCAN:TORQUE_VECTOR</title>
 <path fill="none" stroke="#2f70ad" stroke-dasharray="5,2" d="M1658.82,-839.26C1840.14,-805.62 2258.95,-739.13 2371.25,-818.88 2389.83,-832.07 2372.47,-851.47 2389.25,-866.88 2449.77,-922.47 2509.84,-858.09 2567.25,-916.88 2611.38,-962.07 2641.14,-1155.83 2651.15,-1230.44"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="2647.67,-1230.79 2652.44,-1240.24 2654.61,-1229.87 2647.67,-1230.79"/>
 <text text-anchor="middle" x="2079.5" y="-793.02" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">RX</text>
 </g>
 <!-- message:VCAN:rear_shockpots&#45;&gt;node:VCAN:TORQUE_VECTOR -->
-<g id="edge209" class="edge">
+<g id="edge212" class="edge">
 <title>message:VCAN:rear_shockpots&#45;&gt;node:VCAN:TORQUE_VECTOR</title>
 <path fill="none" stroke="#2f70ad" stroke-dasharray="5,2" d="M1797.81,-1588.93C1851.08,-1645.91 1969.5,-1770.71 1994.25,-1780.88 2064.34,-1809.68 2109.05,-1832.26 2164.75,-1780.88 2201.29,-1747.17 2148.23,-1593.66 2182.75,-1557.88 2242.48,-1495.96 2500.19,-1566.77 2567.25,-1512.88 2636.5,-1457.23 2651.19,-1343.67 2654.19,-1289.68"/>
 <polygon fill="#2f70ad" stroke="#2f70ad" points="2657.68,-1289.86 2654.63,-1279.71 2650.69,-1289.55 2657.68,-1289.86"/>
 <text text-anchor="middle" x="2079.5" y="-1813.97" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">RX</text>
-</g>
-<!-- message:VCAN:wheel_speeds&#45;&gt;node:VCAN:DASHBOARD -->
-<g id="edge213" class="edge">
-<title>message:VCAN:wheel_speeds&#45;&gt;node:VCAN:DASHBOARD</title>
-<path fill="none" stroke="#2f70ad" stroke-dasharray="5,2" d="M3830.15,-1359.01C3809.32,-1338.16 3777.87,-1311.07 3744.25,-1297.88 3650.65,-1261.16 3368.31,-1331.5 3293,-1264.88 3262.12,-1237.56 3301.48,-1205.48 3275,-1173.88 3252.94,-1147.57 3225.05,-1172.2 3203,-1145.88 3194.71,-1135.99 3121.95,-699.42 3113,-690.13 3019.09,-592.69 2950.72,-638.11 2816.5,-620.88 2495.58,-579.68 2209.54,-583.72 2182.75,-608.88 2136.33,-652.47 2207.47,-847.66 2164.75,-894.88 2113.23,-951.82 2049,-869.03 1994.25,-922.88 1944.99,-971.33 1930.79,-1189.88 1927.21,-1269.64"/>
-<polygon fill="#2f70ad" stroke="#2f70ad" points="1923.73,-1269.13 1926.8,-1279.27 1930.72,-1269.42 1923.73,-1269.13"/>
-<text text-anchor="middle" x="3077" y="-692.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">RX</text>
-</g>
-<!-- message:VCAN:wheel_speeds&#45;&gt;node:VCAN:TORQUE_VECTOR -->
-<g id="edge214" class="edge">
-<title>message:VCAN:wheel_speeds&#45;&gt;node:VCAN:TORQUE_VECTOR</title>
-<path fill="none" stroke="#2f70ad" stroke-dasharray="5,2" d="M3770.81,-1392.46C3581.79,-1402.84 3134.72,-1415.24 3041,-1307.88 3013.42,-1276.29 3053.35,-959.82 3023,-930.88 2962.36,-873.07 2913.09,-901.85 2834.5,-930.88 2785.12,-949.12 2774.17,-964.4 2744.5,-1007.88 2695.65,-1079.45 2671.4,-1180.99 2661.89,-1230.48"/>
-<polygon fill="#2f70ad" stroke="#2f70ad" points="2658.48,-1229.65 2660.1,-1240.12 2665.36,-1230.93 2658.48,-1229.65"/>
-<text text-anchor="middle" x="3239" y="-1388.41" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">RX</text>
 </g>
 <!-- message:VCAN:IZZE_angular_rate&#45;&gt;node:VCAN:TORQUE_VECTOR -->
 <g id="edge217" class="edge">

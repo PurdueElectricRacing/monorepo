@@ -182,6 +182,7 @@ var hierarchy =
     [ "millisecond_t", "structmillisecond__t.html", null ],
     [ "millivolt_t", "structmillivolt__t.html", null ],
     [ "minute_t", "structminute__t.html", null ],
+    [ "motor_speeds_data_t", "structmotor__speeds__data__t.html", null ],
     [ "motor_temps_data_t", "structmotor__temps__data__t.html", null ],
     [ "NAV_PVT_data_t", "structNAV__PVT__data__t.html", null ],
     [ "NAV_RELPOSNED_data_t", "structNAV__RELPOSNED__data__t.html", null ],
@@ -288,7 +289,6 @@ var hierarchy =
     [ "volt_t", "structvolt__t.html", null ],
     [ "watt_hour_t", "structwatt__hour__t.html", null ],
     [ "watt_t", "structwatt__t.html", null ],
-    [ "wheel_speeds_data_t", "structwheel__speeds__data__t.html", null ],
     [ "xVCU_struct", "structxVCU__struct.html", null ],
     [ "yVCU_struct", "structyVCU__struct.html", null ]
 ];
