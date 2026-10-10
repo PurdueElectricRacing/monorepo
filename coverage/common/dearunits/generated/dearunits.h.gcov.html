@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-10-09 00:57:17</td>
+            <td class="headerValue">2026-10-10 00:34:31</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -1013,784 +1013,790 @@
 <span id="L951"><span class="lineNum">     951</span> <span class="tlaGNC">           1 : DU_DEFINE_DIVIDE_TO_FLOAT(meter, meter)</span></span>
 <span id="L952"><span class="lineNum">     952</span> <span class="tlaGNC">           1 : DU_DEFINE_DIVIDE(meter, second, meters_per_second)</span></span>
 <span id="L953"><span class="lineNum">     953</span>              : DU_DEFINE_DIVIDE(meter, meters_per_second, second)</span>
-<span id="L954"><span class="lineNum">     954</span>              : DU_DEFINE_MULTIPLY(meter, newton, newton_meter)</span>
-<span id="L955"><span class="lineNum">     955</span>              : DU_DEFINE_MULTIPLY(meter, hertz, meters_per_second)</span>
-<span id="L956"><span class="lineNum">     956</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(second, second)</span>
-<span id="L957"><span class="lineNum">     957</span>              : DU_DEFINE_MULTIPLY(second, amp, coulomb)</span>
-<span id="L958"><span class="lineNum">     958</span>              : DU_DEFINE_MULTIPLY(second, meters_per_second, meter)</span>
-<span id="L959"><span class="lineNum">     959</span>              : DU_DEFINE_MULTIPLY(second, meters_per_second_squared, meters_per_second)</span>
-<span id="L960"><span class="lineNum">     960</span>              : DU_DEFINE_MULTIPLY(second, radians_per_second, radian)</span>
-<span id="L961"><span class="lineNum">     961</span>              : DU_DEFINE_MULTIPLY_TO_FLOAT(second, hertz)</span>
-<span id="L962"><span class="lineNum">     962</span>              : DU_DEFINE_MULTIPLY(second, watt, joule)</span>
-<span id="L963"><span class="lineNum">     963</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(kilogram, kilogram)</span>
-<span id="L964"><span class="lineNum">     964</span>              : DU_DEFINE_MULTIPLY(kilogram, meters_per_second_squared, newton)</span>
-<span id="L965"><span class="lineNum">     965</span>              : DU_DEFINE_MULTIPLY(amp, second, coulomb)</span>
-<span id="L966"><span class="lineNum">     966</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(amp, amp)</span>
-<span id="L967"><span class="lineNum">     967</span>              : DU_DEFINE_MULTIPLY(amp, volt, watt)</span>
-<span id="L968"><span class="lineNum">     968</span>              : DU_DEFINE_DIVIDE(amp, hertz, coulomb)</span>
-<span id="L969"><span class="lineNum">     969</span>              : DU_DEFINE_DIVIDE(amp, coulomb, hertz)</span>
-<span id="L970"><span class="lineNum">     970</span>              : DU_DEFINE_MULTIPLY(amp, ohm, volt)</span>
-<span id="L971"><span class="lineNum">     971</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(celsius, celsius)</span>
-<span id="L972"><span class="lineNum">     972</span>              : DU_DEFINE_DIVIDE(radian, second, radians_per_second)</span>
-<span id="L973"><span class="lineNum">     973</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(radian, radian)</span>
-<span id="L974"><span class="lineNum">     974</span>              : DU_DEFINE_DIVIDE(radian, radians_per_second, second)</span>
-<span id="L975"><span class="lineNum">     975</span>              : DU_DEFINE_MULTIPLY(radian, hertz, radians_per_second)</span>
-<span id="L976"><span class="lineNum">     976</span>              : DU_DEFINE_DIVIDE(meters_per_second, meter, hertz)</span>
-<span id="L977"><span class="lineNum">     977</span> <span class="tlaGNC">           1 : DU_DEFINE_MULTIPLY(meters_per_second, second, meter)</span></span>
-<span id="L978"><span class="lineNum">     978</span>              : DU_DEFINE_DIVIDE(meters_per_second, second, meters_per_second_squared)</span>
-<span id="L979"><span class="lineNum">     979</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(meters_per_second, meters_per_second)</span>
-<span id="L980"><span class="lineNum">     980</span>              : DU_DEFINE_DIVIDE(meters_per_second, meters_per_second_squared, second)</span>
-<span id="L981"><span class="lineNum">     981</span>              : DU_DEFINE_MULTIPLY(meters_per_second, newton, watt)</span>
-<span id="L982"><span class="lineNum">     982</span>              : DU_DEFINE_MULTIPLY(meters_per_second, hertz, meters_per_second_squared)</span>
-<span id="L983"><span class="lineNum">     983</span>              : DU_DEFINE_DIVIDE(meters_per_second, hertz, meter)</span>
-<span id="L984"><span class="lineNum">     984</span>              : DU_DEFINE_MULTIPLY(meters_per_second_squared, second, meters_per_second)</span>
-<span id="L985"><span class="lineNum">     985</span>              : DU_DEFINE_MULTIPLY(meters_per_second_squared, kilogram, newton)</span>
-<span id="L986"><span class="lineNum">     986</span>              : DU_DEFINE_DIVIDE(meters_per_second_squared, meters_per_second, hertz)</span>
-<span id="L987"><span class="lineNum">     987</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(meters_per_second_squared, meters_per_second_squared)</span>
-<span id="L988"><span class="lineNum">     988</span>              : DU_DEFINE_DIVIDE(meters_per_second_squared, hertz, meters_per_second)</span>
-<span id="L989"><span class="lineNum">     989</span>              : DU_DEFINE_MULTIPLY(radians_per_second, second, radian)</span>
-<span id="L990"><span class="lineNum">     990</span>              : DU_DEFINE_DIVIDE(radians_per_second, radian, hertz)</span>
-<span id="L991"><span class="lineNum">     991</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(radians_per_second, radians_per_second)</span>
-<span id="L992"><span class="lineNum">     992</span>              : DU_DEFINE_MULTIPLY(radians_per_second, newton_meter, watt)</span>
-<span id="L993"><span class="lineNum">     993</span>              : DU_DEFINE_DIVIDE(radians_per_second, hertz, radian)</span>
-<span id="L994"><span class="lineNum">     994</span>              : DU_DEFINE_MULTIPLY(newton, meter, newton_meter)</span>
-<span id="L995"><span class="lineNum">     995</span>              : DU_DEFINE_DIVIDE(newton, kilogram, meters_per_second_squared)</span>
-<span id="L996"><span class="lineNum">     996</span>              : DU_DEFINE_MULTIPLY(newton, meters_per_second, watt)</span>
-<span id="L997"><span class="lineNum">     997</span>              : DU_DEFINE_DIVIDE(newton, meters_per_second_squared, kilogram)</span>
-<span id="L998"><span class="lineNum">     998</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(newton, newton)</span>
-<span id="L999"><span class="lineNum">     999</span>              : DU_DEFINE_DIVIDE(newton, pascal, square_meter)</span>
-<span id="L1000"><span class="lineNum">    1000</span>              : DU_DEFINE_DIVIDE(newton, square_meter, pascal)</span>
-<span id="L1001"><span class="lineNum">    1001</span>              : DU_DEFINE_DIVIDE(newton_meter, meter, newton)</span>
-<span id="L1002"><span class="lineNum">    1002</span>              : DU_DEFINE_MULTIPLY(newton_meter, radians_per_second, watt)</span>
-<span id="L1003"><span class="lineNum">    1003</span>              : DU_DEFINE_DIVIDE(newton_meter, newton, meter)</span>
-<span id="L1004"><span class="lineNum">    1004</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(newton_meter, newton_meter)</span>
-<span id="L1005"><span class="lineNum">    1005</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(pascal, pascal)</span>
-<span id="L1006"><span class="lineNum">    1006</span>              : DU_DEFINE_MULTIPLY(pascal, square_meter, newton)</span>
-<span id="L1007"><span class="lineNum">    1007</span>              : DU_DEFINE_MULTIPLY(volt, amp, watt)</span>
-<span id="L1008"><span class="lineNum">    1008</span>              : DU_DEFINE_DIVIDE(volt, amp, ohm)</span>
-<span id="L1009"><span class="lineNum">    1009</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(volt, volt)</span>
-<span id="L1010"><span class="lineNum">    1010</span>              : DU_DEFINE_MULTIPLY(volt, coulomb, joule)</span>
-<span id="L1011"><span class="lineNum">    1011</span>              : DU_DEFINE_DIVIDE(volt, ohm, amp)</span>
-<span id="L1012"><span class="lineNum">    1012</span>              : DU_DEFINE_DIVIDE(square_meter, meter, meter)</span>
-<span id="L1013"><span class="lineNum">    1013</span>              : DU_DEFINE_MULTIPLY(square_meter, pascal, newton)</span>
-<span id="L1014"><span class="lineNum">    1014</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(square_meter, square_meter)</span>
-<span id="L1015"><span class="lineNum">    1015</span>              : DU_DEFINE_MULTIPLY(hertz, meter, meters_per_second)</span>
-<span id="L1016"><span class="lineNum">    1016</span>              : DU_DEFINE_MULTIPLY_TO_FLOAT(hertz, second)</span>
-<span id="L1017"><span class="lineNum">    1017</span>              : DU_DEFINE_MULTIPLY(hertz, radian, radians_per_second)</span>
-<span id="L1018"><span class="lineNum">    1018</span>              : DU_DEFINE_MULTIPLY(hertz, meters_per_second, meters_per_second_squared)</span>
-<span id="L1019"><span class="lineNum">    1019</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(hertz, hertz)</span>
-<span id="L1020"><span class="lineNum">    1020</span>              : DU_DEFINE_MULTIPLY(hertz, coulomb, amp)</span>
-<span id="L1021"><span class="lineNum">    1021</span>              : DU_DEFINE_MULTIPLY(hertz, joule, watt)</span>
-<span id="L1022"><span class="lineNum">    1022</span>              : DU_DEFINE_DIVIDE(coulomb, second, amp)</span>
-<span id="L1023"><span class="lineNum">    1023</span>              : DU_DEFINE_DIVIDE(coulomb, amp, second)</span>
-<span id="L1024"><span class="lineNum">    1024</span>              : DU_DEFINE_MULTIPLY(coulomb, volt, joule)</span>
-<span id="L1025"><span class="lineNum">    1025</span>              : DU_DEFINE_MULTIPLY(coulomb, hertz, amp)</span>
-<span id="L1026"><span class="lineNum">    1026</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(coulomb, coulomb)</span>
-<span id="L1027"><span class="lineNum">    1027</span>              : DU_DEFINE_MULTIPLY(ohm, amp, volt)</span>
-<span id="L1028"><span class="lineNum">    1028</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(ohm, ohm)</span>
-<span id="L1029"><span class="lineNum">    1029</span>              : DU_DEFINE_MULTIPLY(watt, second, joule)</span>
-<span id="L1030"><span class="lineNum">    1030</span>              : DU_DEFINE_DIVIDE(watt, amp, volt)</span>
-<span id="L1031"><span class="lineNum">    1031</span>              : DU_DEFINE_DIVIDE(watt, meters_per_second, newton)</span>
-<span id="L1032"><span class="lineNum">    1032</span>              : DU_DEFINE_DIVIDE(watt, radians_per_second, newton_meter)</span>
-<span id="L1033"><span class="lineNum">    1033</span>              : DU_DEFINE_DIVIDE(watt, newton, meters_per_second)</span>
-<span id="L1034"><span class="lineNum">    1034</span>              : DU_DEFINE_DIVIDE(watt, newton_meter, radians_per_second)</span>
-<span id="L1035"><span class="lineNum">    1035</span>              : DU_DEFINE_DIVIDE(watt, volt, amp)</span>
-<span id="L1036"><span class="lineNum">    1036</span>              : DU_DEFINE_DIVIDE(watt, hertz, joule)</span>
-<span id="L1037"><span class="lineNum">    1037</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(watt, watt)</span>
-<span id="L1038"><span class="lineNum">    1038</span>              : DU_DEFINE_DIVIDE(watt, joule, hertz)</span>
-<span id="L1039"><span class="lineNum">    1039</span>              : DU_DEFINE_DIVIDE(joule, second, watt)</span>
-<span id="L1040"><span class="lineNum">    1040</span>              : DU_DEFINE_DIVIDE(joule, volt, coulomb)</span>
-<span id="L1041"><span class="lineNum">    1041</span>              : DU_DEFINE_MULTIPLY(joule, hertz, watt)</span>
-<span id="L1042"><span class="lineNum">    1042</span>              : DU_DEFINE_DIVIDE(joule, coulomb, volt)</span>
-<span id="L1043"><span class="lineNum">    1043</span>              : DU_DEFINE_DIVIDE(joule, watt, second)</span>
-<span id="L1044"><span class="lineNum">    1044</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(joule, joule)</span>
-<span id="L1045"><span class="lineNum">    1045</span> <span class="tlaGNC">           3 : DU_DEFINE_SCALAR_OPS(meter)</span></span>
-<span id="L1046"><span class="lineNum">    1046</span>              : DU_DEFINE_SCALAR_OPS(millimeter)</span>
-<span id="L1047"><span class="lineNum">    1047</span> <span class="tlaGNC">           1 : DU_DEFINE_SCALAR_OPS(centimeter)</span></span>
-<span id="L1048"><span class="lineNum">    1048</span>              : DU_DEFINE_SCALAR_OPS(inch)</span>
-<span id="L1049"><span class="lineNum">    1049</span>              : DU_DEFINE_SCALAR_OPS(foot)</span>
-<span id="L1050"><span class="lineNum">    1050</span>              : DU_DEFINE_SCALAR_OPS(mile)</span>
-<span id="L1051"><span class="lineNum">    1051</span>              : DU_DEFINE_SCALAR_OPS(kilometer)</span>
-<span id="L1052"><span class="lineNum">    1052</span>              : DU_DEFINE_SCALAR_OPS(second)</span>
-<span id="L1053"><span class="lineNum">    1053</span>              : DU_DEFINE_SCALAR_OPS(millisecond)</span>
-<span id="L1054"><span class="lineNum">    1054</span>              : DU_DEFINE_SCALAR_OPS(minute)</span>
-<span id="L1055"><span class="lineNum">    1055</span>              : DU_DEFINE_SCALAR_OPS(hour)</span>
-<span id="L1056"><span class="lineNum">    1056</span>              : DU_DEFINE_SCALAR_OPS(day)</span>
-<span id="L1057"><span class="lineNum">    1057</span> <span class="tlaGNC">           1 : DU_DEFINE_INVERSE(second, hertz)</span></span>
-<span id="L1058"><span class="lineNum">    1058</span>              : DU_DEFINE_SCALAR_OPS(kilogram)</span>
-<span id="L1059"><span class="lineNum">    1059</span>              : DU_DEFINE_SCALAR_OPS(gram)</span>
-<span id="L1060"><span class="lineNum">    1060</span>              : DU_DEFINE_SCALAR_OPS(pound)</span>
-<span id="L1061"><span class="lineNum">    1061</span>              : DU_DEFINE_SCALAR_OPS(amp)</span>
-<span id="L1062"><span class="lineNum">    1062</span>              : DU_DEFINE_SCALAR_OPS(milliamp)</span>
-<span id="L1063"><span class="lineNum">    1063</span>              : DU_DEFINE_SCALAR_OPS(celsius)</span>
-<span id="L1064"><span class="lineNum">    1064</span>              : DU_DEFINE_SCALAR_OPS(fahrenheit)</span>
-<span id="L1065"><span class="lineNum">    1065</span>              : DU_DEFINE_SCALAR_OPS(radian)</span>
-<span id="L1066"><span class="lineNum">    1066</span>              : DU_DEFINE_SCALAR_OPS(degree)</span>
-<span id="L1067"><span class="lineNum">    1067</span>              : DU_DEFINE_SCALAR_OPS(revolution)</span>
-<span id="L1068"><span class="lineNum">    1068</span>              : DU_DEFINE_SCALAR_OPS(meters_per_second)</span>
-<span id="L1069"><span class="lineNum">    1069</span>              : DU_DEFINE_SCALAR_OPS(kilometers_per_hour)</span>
-<span id="L1070"><span class="lineNum">    1070</span>              : DU_DEFINE_SCALAR_OPS(miles_per_hour)</span>
-<span id="L1071"><span class="lineNum">    1071</span>              : DU_DEFINE_SCALAR_OPS(meters_per_second_squared)</span>
-<span id="L1072"><span class="lineNum">    1072</span>              : DU_DEFINE_SCALAR_OPS(standard_gravity)</span>
-<span id="L1073"><span class="lineNum">    1073</span>              : DU_DEFINE_SCALAR_OPS(radians_per_second)</span>
-<span id="L1074"><span class="lineNum">    1074</span>              : DU_DEFINE_SCALAR_OPS(degrees_per_second)</span>
-<span id="L1075"><span class="lineNum">    1075</span>              : DU_DEFINE_SCALAR_OPS(revolutions_per_minute)</span>
-<span id="L1076"><span class="lineNum">    1076</span>              : DU_DEFINE_SCALAR_OPS(newton)</span>
-<span id="L1077"><span class="lineNum">    1077</span>              : DU_DEFINE_SCALAR_OPS(pound_force)</span>
-<span id="L1078"><span class="lineNum">    1078</span>              : DU_DEFINE_SCALAR_OPS(newton_meter)</span>
-<span id="L1079"><span class="lineNum">    1079</span>              : DU_DEFINE_SCALAR_OPS(pound_foot)</span>
-<span id="L1080"><span class="lineNum">    1080</span>              : DU_DEFINE_SCALAR_OPS(pascal)</span>
-<span id="L1081"><span class="lineNum">    1081</span>              : DU_DEFINE_SCALAR_OPS(kilopascal)</span>
-<span id="L1082"><span class="lineNum">    1082</span>              : DU_DEFINE_SCALAR_OPS(pound_per_square_inch)</span>
-<span id="L1083"><span class="lineNum">    1083</span>              : DU_DEFINE_SCALAR_OPS(bar)</span>
-<span id="L1084"><span class="lineNum">    1084</span>              : DU_DEFINE_SCALAR_OPS(volt)</span>
-<span id="L1085"><span class="lineNum">    1085</span>              : DU_DEFINE_SCALAR_OPS(millivolt)</span>
-<span id="L1086"><span class="lineNum">    1086</span>              : DU_DEFINE_SCALAR_OPS(square_meter)</span>
-<span id="L1087"><span class="lineNum">    1087</span>              : DU_DEFINE_SCALAR_OPS(square_millimeter)</span>
-<span id="L1088"><span class="lineNum">    1088</span>              : DU_DEFINE_SCALAR_OPS(square_centimeter)</span>
-<span id="L1089"><span class="lineNum">    1089</span>              : DU_DEFINE_SCALAR_OPS(hertz)</span>
-<span id="L1090"><span class="lineNum">    1090</span>              : DU_DEFINE_SCALAR_OPS(kilohertz)</span>
-<span id="L1091"><span class="lineNum">    1091</span> <span class="tlaGNC">           1 : DU_DEFINE_INVERSE(hertz, second)</span></span>
-<span id="L1092"><span class="lineNum">    1092</span>              : DU_DEFINE_SCALAR_OPS(coulomb)</span>
-<span id="L1093"><span class="lineNum">    1093</span>              : DU_DEFINE_SCALAR_OPS(amp_hour)</span>
-<span id="L1094"><span class="lineNum">    1094</span>              : DU_DEFINE_SCALAR_OPS(ohm)</span>
-<span id="L1095"><span class="lineNum">    1095</span>              : DU_DEFINE_SCALAR_OPS(milliohm)</span>
-<span id="L1096"><span class="lineNum">    1096</span>              : DU_DEFINE_SCALAR_OPS(kiloohm)</span>
-<span id="L1097"><span class="lineNum">    1097</span>              : DU_DEFINE_SCALAR_OPS(watt)</span>
-<span id="L1098"><span class="lineNum">    1098</span>              : DU_DEFINE_SCALAR_OPS(kilowatt)</span>
-<span id="L1099"><span class="lineNum">    1099</span>              : DU_DEFINE_SCALAR_OPS(joule)</span>
-<span id="L1100"><span class="lineNum">    1100</span>              : DU_DEFINE_SCALAR_OPS(watt_hour)</span>
-<span id="L1101"><span class="lineNum">    1101</span>              : DU_DEFINE_SCALAR_OPS(kilowatt_hour)</span>
-<span id="L1102"><span class="lineNum">    1102</span>              : </span>
-<span id="L1103"><span class="lineNum">    1103</span>              : #define DU_MULTIPLY(a, b) _Generic((a), \</span>
-<span id="L1104"><span class="lineNum">    1104</span>              :     meter_t: _Generic((b), \</span>
-<span id="L1105"><span class="lineNum">    1105</span>              :         float: dearunits_multiply_meter_by_scalar, \</span>
-<span id="L1106"><span class="lineNum">    1106</span>              :         meter_t: dearunits_multiply_meter_by_meter, \</span>
-<span id="L1107"><span class="lineNum">    1107</span>              :         newton_t: dearunits_multiply_meter_by_newton, \</span>
-<span id="L1108"><span class="lineNum">    1108</span>              :         hertz_t: dearunits_multiply_meter_by_hertz, \</span>
-<span id="L1109"><span class="lineNum">    1109</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1110"><span class="lineNum">    1110</span>              :     ), \</span>
-<span id="L1111"><span class="lineNum">    1111</span>              :     millimeter_t: _Generic((b), \</span>
-<span id="L1112"><span class="lineNum">    1112</span>              :         float: dearunits_multiply_millimeter_by_scalar, \</span>
+<span id="L954"><span class="lineNum">     954</span>              : DU_DEFINE_MULTIPLY(meter, radians_per_second, meters_per_second)</span>
+<span id="L955"><span class="lineNum">     955</span>              : DU_DEFINE_MULTIPLY(meter, newton, newton_meter)</span>
+<span id="L956"><span class="lineNum">     956</span>              : DU_DEFINE_MULTIPLY(meter, hertz, meters_per_second)</span>
+<span id="L957"><span class="lineNum">     957</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(second, second)</span>
+<span id="L958"><span class="lineNum">     958</span>              : DU_DEFINE_MULTIPLY(second, amp, coulomb)</span>
+<span id="L959"><span class="lineNum">     959</span>              : DU_DEFINE_MULTIPLY(second, meters_per_second, meter)</span>
+<span id="L960"><span class="lineNum">     960</span>              : DU_DEFINE_MULTIPLY(second, meters_per_second_squared, meters_per_second)</span>
+<span id="L961"><span class="lineNum">     961</span>              : DU_DEFINE_MULTIPLY(second, radians_per_second, radian)</span>
+<span id="L962"><span class="lineNum">     962</span>              : DU_DEFINE_MULTIPLY_TO_FLOAT(second, hertz)</span>
+<span id="L963"><span class="lineNum">     963</span>              : DU_DEFINE_MULTIPLY(second, watt, joule)</span>
+<span id="L964"><span class="lineNum">     964</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(kilogram, kilogram)</span>
+<span id="L965"><span class="lineNum">     965</span>              : DU_DEFINE_MULTIPLY(kilogram, meters_per_second_squared, newton)</span>
+<span id="L966"><span class="lineNum">     966</span>              : DU_DEFINE_MULTIPLY(amp, second, coulomb)</span>
+<span id="L967"><span class="lineNum">     967</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(amp, amp)</span>
+<span id="L968"><span class="lineNum">     968</span>              : DU_DEFINE_MULTIPLY(amp, volt, watt)</span>
+<span id="L969"><span class="lineNum">     969</span>              : DU_DEFINE_DIVIDE(amp, hertz, coulomb)</span>
+<span id="L970"><span class="lineNum">     970</span>              : DU_DEFINE_DIVIDE(amp, coulomb, hertz)</span>
+<span id="L971"><span class="lineNum">     971</span>              : DU_DEFINE_MULTIPLY(amp, ohm, volt)</span>
+<span id="L972"><span class="lineNum">     972</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(celsius, celsius)</span>
+<span id="L973"><span class="lineNum">     973</span>              : DU_DEFINE_DIVIDE(radian, second, radians_per_second)</span>
+<span id="L974"><span class="lineNum">     974</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(radian, radian)</span>
+<span id="L975"><span class="lineNum">     975</span>              : DU_DEFINE_DIVIDE(radian, radians_per_second, second)</span>
+<span id="L976"><span class="lineNum">     976</span>              : DU_DEFINE_MULTIPLY(radian, hertz, radians_per_second)</span>
+<span id="L977"><span class="lineNum">     977</span>              : DU_DEFINE_DIVIDE(meters_per_second, meter, radians_per_second)</span>
+<span id="L978"><span class="lineNum">     978</span> <span class="tlaGNC">           1 : DU_DEFINE_MULTIPLY(meters_per_second, second, meter)</span></span>
+<span id="L979"><span class="lineNum">     979</span>              : DU_DEFINE_DIVIDE(meters_per_second, second, meters_per_second_squared)</span>
+<span id="L980"><span class="lineNum">     980</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(meters_per_second, meters_per_second)</span>
+<span id="L981"><span class="lineNum">     981</span>              : DU_DEFINE_DIVIDE(meters_per_second, meters_per_second_squared, second)</span>
+<span id="L982"><span class="lineNum">     982</span>              : DU_DEFINE_DIVIDE(meters_per_second, radians_per_second, meter)</span>
+<span id="L983"><span class="lineNum">     983</span>              : DU_DEFINE_MULTIPLY(meters_per_second, newton, watt)</span>
+<span id="L984"><span class="lineNum">     984</span>              : DU_DEFINE_MULTIPLY(meters_per_second, hertz, meters_per_second_squared)</span>
+<span id="L985"><span class="lineNum">     985</span>              : DU_DEFINE_DIVIDE(meters_per_second, hertz, meter)</span>
+<span id="L986"><span class="lineNum">     986</span>              : DU_DEFINE_MULTIPLY(meters_per_second_squared, second, meters_per_second)</span>
+<span id="L987"><span class="lineNum">     987</span>              : DU_DEFINE_MULTIPLY(meters_per_second_squared, kilogram, newton)</span>
+<span id="L988"><span class="lineNum">     988</span>              : DU_DEFINE_DIVIDE(meters_per_second_squared, meters_per_second, hertz)</span>
+<span id="L989"><span class="lineNum">     989</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(meters_per_second_squared, meters_per_second_squared)</span>
+<span id="L990"><span class="lineNum">     990</span>              : DU_DEFINE_DIVIDE(meters_per_second_squared, hertz, meters_per_second)</span>
+<span id="L991"><span class="lineNum">     991</span>              : DU_DEFINE_MULTIPLY(radians_per_second, meter, meters_per_second)</span>
+<span id="L992"><span class="lineNum">     992</span>              : DU_DEFINE_MULTIPLY(radians_per_second, second, radian)</span>
+<span id="L993"><span class="lineNum">     993</span>              : DU_DEFINE_DIVIDE(radians_per_second, radian, hertz)</span>
+<span id="L994"><span class="lineNum">     994</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(radians_per_second, radians_per_second)</span>
+<span id="L995"><span class="lineNum">     995</span>              : DU_DEFINE_MULTIPLY(radians_per_second, newton_meter, watt)</span>
+<span id="L996"><span class="lineNum">     996</span>              : DU_DEFINE_DIVIDE(radians_per_second, hertz, radian)</span>
+<span id="L997"><span class="lineNum">     997</span>              : DU_DEFINE_MULTIPLY(newton, meter, newton_meter)</span>
+<span id="L998"><span class="lineNum">     998</span>              : DU_DEFINE_DIVIDE(newton, kilogram, meters_per_second_squared)</span>
+<span id="L999"><span class="lineNum">     999</span>              : DU_DEFINE_MULTIPLY(newton, meters_per_second, watt)</span>
+<span id="L1000"><span class="lineNum">    1000</span>              : DU_DEFINE_DIVIDE(newton, meters_per_second_squared, kilogram)</span>
+<span id="L1001"><span class="lineNum">    1001</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(newton, newton)</span>
+<span id="L1002"><span class="lineNum">    1002</span>              : DU_DEFINE_DIVIDE(newton, pascal, square_meter)</span>
+<span id="L1003"><span class="lineNum">    1003</span>              : DU_DEFINE_DIVIDE(newton, square_meter, pascal)</span>
+<span id="L1004"><span class="lineNum">    1004</span>              : DU_DEFINE_DIVIDE(newton_meter, meter, newton)</span>
+<span id="L1005"><span class="lineNum">    1005</span>              : DU_DEFINE_MULTIPLY(newton_meter, radians_per_second, watt)</span>
+<span id="L1006"><span class="lineNum">    1006</span>              : DU_DEFINE_DIVIDE(newton_meter, newton, meter)</span>
+<span id="L1007"><span class="lineNum">    1007</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(newton_meter, newton_meter)</span>
+<span id="L1008"><span class="lineNum">    1008</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(pascal, pascal)</span>
+<span id="L1009"><span class="lineNum">    1009</span>              : DU_DEFINE_MULTIPLY(pascal, square_meter, newton)</span>
+<span id="L1010"><span class="lineNum">    1010</span>              : DU_DEFINE_MULTIPLY(volt, amp, watt)</span>
+<span id="L1011"><span class="lineNum">    1011</span>              : DU_DEFINE_DIVIDE(volt, amp, ohm)</span>
+<span id="L1012"><span class="lineNum">    1012</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(volt, volt)</span>
+<span id="L1013"><span class="lineNum">    1013</span>              : DU_DEFINE_MULTIPLY(volt, coulomb, joule)</span>
+<span id="L1014"><span class="lineNum">    1014</span>              : DU_DEFINE_DIVIDE(volt, ohm, amp)</span>
+<span id="L1015"><span class="lineNum">    1015</span>              : DU_DEFINE_DIVIDE(square_meter, meter, meter)</span>
+<span id="L1016"><span class="lineNum">    1016</span>              : DU_DEFINE_MULTIPLY(square_meter, pascal, newton)</span>
+<span id="L1017"><span class="lineNum">    1017</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(square_meter, square_meter)</span>
+<span id="L1018"><span class="lineNum">    1018</span>              : DU_DEFINE_MULTIPLY(hertz, meter, meters_per_second)</span>
+<span id="L1019"><span class="lineNum">    1019</span>              : DU_DEFINE_MULTIPLY_TO_FLOAT(hertz, second)</span>
+<span id="L1020"><span class="lineNum">    1020</span>              : DU_DEFINE_MULTIPLY(hertz, radian, radians_per_second)</span>
+<span id="L1021"><span class="lineNum">    1021</span>              : DU_DEFINE_MULTIPLY(hertz, meters_per_second, meters_per_second_squared)</span>
+<span id="L1022"><span class="lineNum">    1022</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(hertz, hertz)</span>
+<span id="L1023"><span class="lineNum">    1023</span>              : DU_DEFINE_MULTIPLY(hertz, coulomb, amp)</span>
+<span id="L1024"><span class="lineNum">    1024</span>              : DU_DEFINE_MULTIPLY(hertz, joule, watt)</span>
+<span id="L1025"><span class="lineNum">    1025</span>              : DU_DEFINE_DIVIDE(coulomb, second, amp)</span>
+<span id="L1026"><span class="lineNum">    1026</span>              : DU_DEFINE_DIVIDE(coulomb, amp, second)</span>
+<span id="L1027"><span class="lineNum">    1027</span>              : DU_DEFINE_MULTIPLY(coulomb, volt, joule)</span>
+<span id="L1028"><span class="lineNum">    1028</span>              : DU_DEFINE_MULTIPLY(coulomb, hertz, amp)</span>
+<span id="L1029"><span class="lineNum">    1029</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(coulomb, coulomb)</span>
+<span id="L1030"><span class="lineNum">    1030</span>              : DU_DEFINE_MULTIPLY(ohm, amp, volt)</span>
+<span id="L1031"><span class="lineNum">    1031</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(ohm, ohm)</span>
+<span id="L1032"><span class="lineNum">    1032</span>              : DU_DEFINE_MULTIPLY(watt, second, joule)</span>
+<span id="L1033"><span class="lineNum">    1033</span>              : DU_DEFINE_DIVIDE(watt, amp, volt)</span>
+<span id="L1034"><span class="lineNum">    1034</span>              : DU_DEFINE_DIVIDE(watt, meters_per_second, newton)</span>
+<span id="L1035"><span class="lineNum">    1035</span>              : DU_DEFINE_DIVIDE(watt, radians_per_second, newton_meter)</span>
+<span id="L1036"><span class="lineNum">    1036</span>              : DU_DEFINE_DIVIDE(watt, newton, meters_per_second)</span>
+<span id="L1037"><span class="lineNum">    1037</span>              : DU_DEFINE_DIVIDE(watt, newton_meter, radians_per_second)</span>
+<span id="L1038"><span class="lineNum">    1038</span>              : DU_DEFINE_DIVIDE(watt, volt, amp)</span>
+<span id="L1039"><span class="lineNum">    1039</span>              : DU_DEFINE_DIVIDE(watt, hertz, joule)</span>
+<span id="L1040"><span class="lineNum">    1040</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(watt, watt)</span>
+<span id="L1041"><span class="lineNum">    1041</span>              : DU_DEFINE_DIVIDE(watt, joule, hertz)</span>
+<span id="L1042"><span class="lineNum">    1042</span>              : DU_DEFINE_DIVIDE(joule, second, watt)</span>
+<span id="L1043"><span class="lineNum">    1043</span>              : DU_DEFINE_DIVIDE(joule, volt, coulomb)</span>
+<span id="L1044"><span class="lineNum">    1044</span>              : DU_DEFINE_MULTIPLY(joule, hertz, watt)</span>
+<span id="L1045"><span class="lineNum">    1045</span>              : DU_DEFINE_DIVIDE(joule, coulomb, volt)</span>
+<span id="L1046"><span class="lineNum">    1046</span>              : DU_DEFINE_DIVIDE(joule, watt, second)</span>
+<span id="L1047"><span class="lineNum">    1047</span>              : DU_DEFINE_DIVIDE_TO_FLOAT(joule, joule)</span>
+<span id="L1048"><span class="lineNum">    1048</span> <span class="tlaGNC">           3 : DU_DEFINE_SCALAR_OPS(meter)</span></span>
+<span id="L1049"><span class="lineNum">    1049</span>              : DU_DEFINE_SCALAR_OPS(millimeter)</span>
+<span id="L1050"><span class="lineNum">    1050</span> <span class="tlaGNC">           1 : DU_DEFINE_SCALAR_OPS(centimeter)</span></span>
+<span id="L1051"><span class="lineNum">    1051</span>              : DU_DEFINE_SCALAR_OPS(inch)</span>
+<span id="L1052"><span class="lineNum">    1052</span>              : DU_DEFINE_SCALAR_OPS(foot)</span>
+<span id="L1053"><span class="lineNum">    1053</span>              : DU_DEFINE_SCALAR_OPS(mile)</span>
+<span id="L1054"><span class="lineNum">    1054</span>              : DU_DEFINE_SCALAR_OPS(kilometer)</span>
+<span id="L1055"><span class="lineNum">    1055</span>              : DU_DEFINE_SCALAR_OPS(second)</span>
+<span id="L1056"><span class="lineNum">    1056</span>              : DU_DEFINE_SCALAR_OPS(millisecond)</span>
+<span id="L1057"><span class="lineNum">    1057</span>              : DU_DEFINE_SCALAR_OPS(minute)</span>
+<span id="L1058"><span class="lineNum">    1058</span>              : DU_DEFINE_SCALAR_OPS(hour)</span>
+<span id="L1059"><span class="lineNum">    1059</span>              : DU_DEFINE_SCALAR_OPS(day)</span>
+<span id="L1060"><span class="lineNum">    1060</span> <span class="tlaGNC">           1 : DU_DEFINE_INVERSE(second, hertz)</span></span>
+<span id="L1061"><span class="lineNum">    1061</span>              : DU_DEFINE_SCALAR_OPS(kilogram)</span>
+<span id="L1062"><span class="lineNum">    1062</span>              : DU_DEFINE_SCALAR_OPS(gram)</span>
+<span id="L1063"><span class="lineNum">    1063</span>              : DU_DEFINE_SCALAR_OPS(pound)</span>
+<span id="L1064"><span class="lineNum">    1064</span>              : DU_DEFINE_SCALAR_OPS(amp)</span>
+<span id="L1065"><span class="lineNum">    1065</span>              : DU_DEFINE_SCALAR_OPS(milliamp)</span>
+<span id="L1066"><span class="lineNum">    1066</span>              : DU_DEFINE_SCALAR_OPS(celsius)</span>
+<span id="L1067"><span class="lineNum">    1067</span>              : DU_DEFINE_SCALAR_OPS(fahrenheit)</span>
+<span id="L1068"><span class="lineNum">    1068</span>              : DU_DEFINE_SCALAR_OPS(radian)</span>
+<span id="L1069"><span class="lineNum">    1069</span>              : DU_DEFINE_SCALAR_OPS(degree)</span>
+<span id="L1070"><span class="lineNum">    1070</span>              : DU_DEFINE_SCALAR_OPS(revolution)</span>
+<span id="L1071"><span class="lineNum">    1071</span>              : DU_DEFINE_SCALAR_OPS(meters_per_second)</span>
+<span id="L1072"><span class="lineNum">    1072</span>              : DU_DEFINE_SCALAR_OPS(kilometers_per_hour)</span>
+<span id="L1073"><span class="lineNum">    1073</span>              : DU_DEFINE_SCALAR_OPS(miles_per_hour)</span>
+<span id="L1074"><span class="lineNum">    1074</span>              : DU_DEFINE_SCALAR_OPS(meters_per_second_squared)</span>
+<span id="L1075"><span class="lineNum">    1075</span>              : DU_DEFINE_SCALAR_OPS(standard_gravity)</span>
+<span id="L1076"><span class="lineNum">    1076</span>              : DU_DEFINE_SCALAR_OPS(radians_per_second)</span>
+<span id="L1077"><span class="lineNum">    1077</span>              : DU_DEFINE_SCALAR_OPS(degrees_per_second)</span>
+<span id="L1078"><span class="lineNum">    1078</span>              : DU_DEFINE_SCALAR_OPS(revolutions_per_minute)</span>
+<span id="L1079"><span class="lineNum">    1079</span>              : DU_DEFINE_SCALAR_OPS(newton)</span>
+<span id="L1080"><span class="lineNum">    1080</span>              : DU_DEFINE_SCALAR_OPS(pound_force)</span>
+<span id="L1081"><span class="lineNum">    1081</span>              : DU_DEFINE_SCALAR_OPS(newton_meter)</span>
+<span id="L1082"><span class="lineNum">    1082</span>              : DU_DEFINE_SCALAR_OPS(pound_foot)</span>
+<span id="L1083"><span class="lineNum">    1083</span>              : DU_DEFINE_SCALAR_OPS(pascal)</span>
+<span id="L1084"><span class="lineNum">    1084</span>              : DU_DEFINE_SCALAR_OPS(kilopascal)</span>
+<span id="L1085"><span class="lineNum">    1085</span>              : DU_DEFINE_SCALAR_OPS(pound_per_square_inch)</span>
+<span id="L1086"><span class="lineNum">    1086</span>              : DU_DEFINE_SCALAR_OPS(bar)</span>
+<span id="L1087"><span class="lineNum">    1087</span>              : DU_DEFINE_SCALAR_OPS(volt)</span>
+<span id="L1088"><span class="lineNum">    1088</span>              : DU_DEFINE_SCALAR_OPS(millivolt)</span>
+<span id="L1089"><span class="lineNum">    1089</span>              : DU_DEFINE_SCALAR_OPS(square_meter)</span>
+<span id="L1090"><span class="lineNum">    1090</span>              : DU_DEFINE_SCALAR_OPS(square_millimeter)</span>
+<span id="L1091"><span class="lineNum">    1091</span>              : DU_DEFINE_SCALAR_OPS(square_centimeter)</span>
+<span id="L1092"><span class="lineNum">    1092</span>              : DU_DEFINE_SCALAR_OPS(hertz)</span>
+<span id="L1093"><span class="lineNum">    1093</span>              : DU_DEFINE_SCALAR_OPS(kilohertz)</span>
+<span id="L1094"><span class="lineNum">    1094</span> <span class="tlaGNC">           1 : DU_DEFINE_INVERSE(hertz, second)</span></span>
+<span id="L1095"><span class="lineNum">    1095</span>              : DU_DEFINE_SCALAR_OPS(coulomb)</span>
+<span id="L1096"><span class="lineNum">    1096</span>              : DU_DEFINE_SCALAR_OPS(amp_hour)</span>
+<span id="L1097"><span class="lineNum">    1097</span>              : DU_DEFINE_SCALAR_OPS(ohm)</span>
+<span id="L1098"><span class="lineNum">    1098</span>              : DU_DEFINE_SCALAR_OPS(milliohm)</span>
+<span id="L1099"><span class="lineNum">    1099</span>              : DU_DEFINE_SCALAR_OPS(kiloohm)</span>
+<span id="L1100"><span class="lineNum">    1100</span>              : DU_DEFINE_SCALAR_OPS(watt)</span>
+<span id="L1101"><span class="lineNum">    1101</span>              : DU_DEFINE_SCALAR_OPS(kilowatt)</span>
+<span id="L1102"><span class="lineNum">    1102</span>              : DU_DEFINE_SCALAR_OPS(joule)</span>
+<span id="L1103"><span class="lineNum">    1103</span>              : DU_DEFINE_SCALAR_OPS(watt_hour)</span>
+<span id="L1104"><span class="lineNum">    1104</span>              : DU_DEFINE_SCALAR_OPS(kilowatt_hour)</span>
+<span id="L1105"><span class="lineNum">    1105</span>              : </span>
+<span id="L1106"><span class="lineNum">    1106</span>              : #define DU_MULTIPLY(a, b) _Generic((a), \</span>
+<span id="L1107"><span class="lineNum">    1107</span>              :     meter_t: _Generic((b), \</span>
+<span id="L1108"><span class="lineNum">    1108</span>              :         float: dearunits_multiply_meter_by_scalar, \</span>
+<span id="L1109"><span class="lineNum">    1109</span>              :         meter_t: dearunits_multiply_meter_by_meter, \</span>
+<span id="L1110"><span class="lineNum">    1110</span>              :         radians_per_second_t: dearunits_multiply_meter_by_radians_per_second, \</span>
+<span id="L1111"><span class="lineNum">    1111</span>              :         newton_t: dearunits_multiply_meter_by_newton, \</span>
+<span id="L1112"><span class="lineNum">    1112</span>              :         hertz_t: dearunits_multiply_meter_by_hertz, \</span>
 <span id="L1113"><span class="lineNum">    1113</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1114"><span class="lineNum">    1114</span>              :     ), \</span>
-<span id="L1115"><span class="lineNum">    1115</span>              :     centimeter_t: _Generic((b), \</span>
-<span id="L1116"><span class="lineNum">    1116</span>              :         float: dearunits_multiply_centimeter_by_scalar, \</span>
+<span id="L1115"><span class="lineNum">    1115</span>              :     millimeter_t: _Generic((b), \</span>
+<span id="L1116"><span class="lineNum">    1116</span>              :         float: dearunits_multiply_millimeter_by_scalar, \</span>
 <span id="L1117"><span class="lineNum">    1117</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1118"><span class="lineNum">    1118</span>              :     ), \</span>
-<span id="L1119"><span class="lineNum">    1119</span>              :     inch_t: _Generic((b), \</span>
-<span id="L1120"><span class="lineNum">    1120</span>              :         float: dearunits_multiply_inch_by_scalar, \</span>
+<span id="L1119"><span class="lineNum">    1119</span>              :     centimeter_t: _Generic((b), \</span>
+<span id="L1120"><span class="lineNum">    1120</span>              :         float: dearunits_multiply_centimeter_by_scalar, \</span>
 <span id="L1121"><span class="lineNum">    1121</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1122"><span class="lineNum">    1122</span>              :     ), \</span>
-<span id="L1123"><span class="lineNum">    1123</span>              :     foot_t: _Generic((b), \</span>
-<span id="L1124"><span class="lineNum">    1124</span>              :         float: dearunits_multiply_foot_by_scalar, \</span>
+<span id="L1123"><span class="lineNum">    1123</span>              :     inch_t: _Generic((b), \</span>
+<span id="L1124"><span class="lineNum">    1124</span>              :         float: dearunits_multiply_inch_by_scalar, \</span>
 <span id="L1125"><span class="lineNum">    1125</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1126"><span class="lineNum">    1126</span>              :     ), \</span>
-<span id="L1127"><span class="lineNum">    1127</span>              :     mile_t: _Generic((b), \</span>
-<span id="L1128"><span class="lineNum">    1128</span>              :         float: dearunits_multiply_mile_by_scalar, \</span>
+<span id="L1127"><span class="lineNum">    1127</span>              :     foot_t: _Generic((b), \</span>
+<span id="L1128"><span class="lineNum">    1128</span>              :         float: dearunits_multiply_foot_by_scalar, \</span>
 <span id="L1129"><span class="lineNum">    1129</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1130"><span class="lineNum">    1130</span>              :     ), \</span>
-<span id="L1131"><span class="lineNum">    1131</span>              :     kilometer_t: _Generic((b), \</span>
-<span id="L1132"><span class="lineNum">    1132</span>              :         float: dearunits_multiply_kilometer_by_scalar, \</span>
+<span id="L1131"><span class="lineNum">    1131</span>              :     mile_t: _Generic((b), \</span>
+<span id="L1132"><span class="lineNum">    1132</span>              :         float: dearunits_multiply_mile_by_scalar, \</span>
 <span id="L1133"><span class="lineNum">    1133</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1134"><span class="lineNum">    1134</span>              :     ), \</span>
-<span id="L1135"><span class="lineNum">    1135</span>              :     second_t: _Generic((b), \</span>
-<span id="L1136"><span class="lineNum">    1136</span>              :         float: dearunits_multiply_second_by_scalar, \</span>
-<span id="L1137"><span class="lineNum">    1137</span>              :         amp_t: dearunits_multiply_second_by_amp, \</span>
-<span id="L1138"><span class="lineNum">    1138</span>              :         meters_per_second_t: dearunits_multiply_second_by_meters_per_second, \</span>
-<span id="L1139"><span class="lineNum">    1139</span>              :         meters_per_second_squared_t: dearunits_multiply_second_by_meters_per_second_squared, \</span>
-<span id="L1140"><span class="lineNum">    1140</span>              :         radians_per_second_t: dearunits_multiply_second_by_radians_per_second, \</span>
-<span id="L1141"><span class="lineNum">    1141</span>              :         hertz_t: dearunits_multiply_second_by_hertz, \</span>
-<span id="L1142"><span class="lineNum">    1142</span>              :         watt_t: dearunits_multiply_second_by_watt, \</span>
-<span id="L1143"><span class="lineNum">    1143</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1144"><span class="lineNum">    1144</span>              :     ), \</span>
-<span id="L1145"><span class="lineNum">    1145</span>              :     millisecond_t: _Generic((b), \</span>
-<span id="L1146"><span class="lineNum">    1146</span>              :         float: dearunits_multiply_millisecond_by_scalar, \</span>
+<span id="L1135"><span class="lineNum">    1135</span>              :     kilometer_t: _Generic((b), \</span>
+<span id="L1136"><span class="lineNum">    1136</span>              :         float: dearunits_multiply_kilometer_by_scalar, \</span>
+<span id="L1137"><span class="lineNum">    1137</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1138"><span class="lineNum">    1138</span>              :     ), \</span>
+<span id="L1139"><span class="lineNum">    1139</span>              :     second_t: _Generic((b), \</span>
+<span id="L1140"><span class="lineNum">    1140</span>              :         float: dearunits_multiply_second_by_scalar, \</span>
+<span id="L1141"><span class="lineNum">    1141</span>              :         amp_t: dearunits_multiply_second_by_amp, \</span>
+<span id="L1142"><span class="lineNum">    1142</span>              :         meters_per_second_t: dearunits_multiply_second_by_meters_per_second, \</span>
+<span id="L1143"><span class="lineNum">    1143</span>              :         meters_per_second_squared_t: dearunits_multiply_second_by_meters_per_second_squared, \</span>
+<span id="L1144"><span class="lineNum">    1144</span>              :         radians_per_second_t: dearunits_multiply_second_by_radians_per_second, \</span>
+<span id="L1145"><span class="lineNum">    1145</span>              :         hertz_t: dearunits_multiply_second_by_hertz, \</span>
+<span id="L1146"><span class="lineNum">    1146</span>              :         watt_t: dearunits_multiply_second_by_watt, \</span>
 <span id="L1147"><span class="lineNum">    1147</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1148"><span class="lineNum">    1148</span>              :     ), \</span>
-<span id="L1149"><span class="lineNum">    1149</span>              :     minute_t: _Generic((b), \</span>
-<span id="L1150"><span class="lineNum">    1150</span>              :         float: dearunits_multiply_minute_by_scalar, \</span>
+<span id="L1149"><span class="lineNum">    1149</span>              :     millisecond_t: _Generic((b), \</span>
+<span id="L1150"><span class="lineNum">    1150</span>              :         float: dearunits_multiply_millisecond_by_scalar, \</span>
 <span id="L1151"><span class="lineNum">    1151</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1152"><span class="lineNum">    1152</span>              :     ), \</span>
-<span id="L1153"><span class="lineNum">    1153</span>              :     hour_t: _Generic((b), \</span>
-<span id="L1154"><span class="lineNum">    1154</span>              :         float: dearunits_multiply_hour_by_scalar, \</span>
+<span id="L1153"><span class="lineNum">    1153</span>              :     minute_t: _Generic((b), \</span>
+<span id="L1154"><span class="lineNum">    1154</span>              :         float: dearunits_multiply_minute_by_scalar, \</span>
 <span id="L1155"><span class="lineNum">    1155</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1156"><span class="lineNum">    1156</span>              :     ), \</span>
-<span id="L1157"><span class="lineNum">    1157</span>              :     day_t: _Generic((b), \</span>
-<span id="L1158"><span class="lineNum">    1158</span>              :         float: dearunits_multiply_day_by_scalar, \</span>
+<span id="L1157"><span class="lineNum">    1157</span>              :     hour_t: _Generic((b), \</span>
+<span id="L1158"><span class="lineNum">    1158</span>              :         float: dearunits_multiply_hour_by_scalar, \</span>
 <span id="L1159"><span class="lineNum">    1159</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1160"><span class="lineNum">    1160</span>              :     ), \</span>
-<span id="L1161"><span class="lineNum">    1161</span>              :     kilogram_t: _Generic((b), \</span>
-<span id="L1162"><span class="lineNum">    1162</span>              :         float: dearunits_multiply_kilogram_by_scalar, \</span>
-<span id="L1163"><span class="lineNum">    1163</span>              :         meters_per_second_squared_t: dearunits_multiply_kilogram_by_meters_per_second_squared, \</span>
-<span id="L1164"><span class="lineNum">    1164</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1165"><span class="lineNum">    1165</span>              :     ), \</span>
-<span id="L1166"><span class="lineNum">    1166</span>              :     gram_t: _Generic((b), \</span>
-<span id="L1167"><span class="lineNum">    1167</span>              :         float: dearunits_multiply_gram_by_scalar, \</span>
+<span id="L1161"><span class="lineNum">    1161</span>              :     day_t: _Generic((b), \</span>
+<span id="L1162"><span class="lineNum">    1162</span>              :         float: dearunits_multiply_day_by_scalar, \</span>
+<span id="L1163"><span class="lineNum">    1163</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1164"><span class="lineNum">    1164</span>              :     ), \</span>
+<span id="L1165"><span class="lineNum">    1165</span>              :     kilogram_t: _Generic((b), \</span>
+<span id="L1166"><span class="lineNum">    1166</span>              :         float: dearunits_multiply_kilogram_by_scalar, \</span>
+<span id="L1167"><span class="lineNum">    1167</span>              :         meters_per_second_squared_t: dearunits_multiply_kilogram_by_meters_per_second_squared, \</span>
 <span id="L1168"><span class="lineNum">    1168</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1169"><span class="lineNum">    1169</span>              :     ), \</span>
-<span id="L1170"><span class="lineNum">    1170</span>              :     pound_t: _Generic((b), \</span>
-<span id="L1171"><span class="lineNum">    1171</span>              :         float: dearunits_multiply_pound_by_scalar, \</span>
+<span id="L1170"><span class="lineNum">    1170</span>              :     gram_t: _Generic((b), \</span>
+<span id="L1171"><span class="lineNum">    1171</span>              :         float: dearunits_multiply_gram_by_scalar, \</span>
 <span id="L1172"><span class="lineNum">    1172</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1173"><span class="lineNum">    1173</span>              :     ), \</span>
-<span id="L1174"><span class="lineNum">    1174</span>              :     amp_t: _Generic((b), \</span>
-<span id="L1175"><span class="lineNum">    1175</span>              :         float: dearunits_multiply_amp_by_scalar, \</span>
-<span id="L1176"><span class="lineNum">    1176</span>              :         second_t: dearunits_multiply_amp_by_second, \</span>
-<span id="L1177"><span class="lineNum">    1177</span>              :         volt_t: dearunits_multiply_amp_by_volt, \</span>
-<span id="L1178"><span class="lineNum">    1178</span>              :         ohm_t: dearunits_multiply_amp_by_ohm, \</span>
-<span id="L1179"><span class="lineNum">    1179</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1180"><span class="lineNum">    1180</span>              :     ), \</span>
-<span id="L1181"><span class="lineNum">    1181</span>              :     milliamp_t: _Generic((b), \</span>
-<span id="L1182"><span class="lineNum">    1182</span>              :         float: dearunits_multiply_milliamp_by_scalar, \</span>
+<span id="L1174"><span class="lineNum">    1174</span>              :     pound_t: _Generic((b), \</span>
+<span id="L1175"><span class="lineNum">    1175</span>              :         float: dearunits_multiply_pound_by_scalar, \</span>
+<span id="L1176"><span class="lineNum">    1176</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1177"><span class="lineNum">    1177</span>              :     ), \</span>
+<span id="L1178"><span class="lineNum">    1178</span>              :     amp_t: _Generic((b), \</span>
+<span id="L1179"><span class="lineNum">    1179</span>              :         float: dearunits_multiply_amp_by_scalar, \</span>
+<span id="L1180"><span class="lineNum">    1180</span>              :         second_t: dearunits_multiply_amp_by_second, \</span>
+<span id="L1181"><span class="lineNum">    1181</span>              :         volt_t: dearunits_multiply_amp_by_volt, \</span>
+<span id="L1182"><span class="lineNum">    1182</span>              :         ohm_t: dearunits_multiply_amp_by_ohm, \</span>
 <span id="L1183"><span class="lineNum">    1183</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1184"><span class="lineNum">    1184</span>              :     ), \</span>
-<span id="L1185"><span class="lineNum">    1185</span>              :     celsius_t: _Generic((b), \</span>
-<span id="L1186"><span class="lineNum">    1186</span>              :         float: dearunits_multiply_celsius_by_scalar, \</span>
+<span id="L1185"><span class="lineNum">    1185</span>              :     milliamp_t: _Generic((b), \</span>
+<span id="L1186"><span class="lineNum">    1186</span>              :         float: dearunits_multiply_milliamp_by_scalar, \</span>
 <span id="L1187"><span class="lineNum">    1187</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1188"><span class="lineNum">    1188</span>              :     ), \</span>
-<span id="L1189"><span class="lineNum">    1189</span>              :     fahrenheit_t: _Generic((b), \</span>
-<span id="L1190"><span class="lineNum">    1190</span>              :         float: dearunits_multiply_fahrenheit_by_scalar, \</span>
+<span id="L1189"><span class="lineNum">    1189</span>              :     celsius_t: _Generic((b), \</span>
+<span id="L1190"><span class="lineNum">    1190</span>              :         float: dearunits_multiply_celsius_by_scalar, \</span>
 <span id="L1191"><span class="lineNum">    1191</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1192"><span class="lineNum">    1192</span>              :     ), \</span>
-<span id="L1193"><span class="lineNum">    1193</span>              :     radian_t: _Generic((b), \</span>
-<span id="L1194"><span class="lineNum">    1194</span>              :         float: dearunits_multiply_radian_by_scalar, \</span>
-<span id="L1195"><span class="lineNum">    1195</span>              :         hertz_t: dearunits_multiply_radian_by_hertz, \</span>
-<span id="L1196"><span class="lineNum">    1196</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1197"><span class="lineNum">    1197</span>              :     ), \</span>
-<span id="L1198"><span class="lineNum">    1198</span>              :     degree_t: _Generic((b), \</span>
-<span id="L1199"><span class="lineNum">    1199</span>              :         float: dearunits_multiply_degree_by_scalar, \</span>
+<span id="L1193"><span class="lineNum">    1193</span>              :     fahrenheit_t: _Generic((b), \</span>
+<span id="L1194"><span class="lineNum">    1194</span>              :         float: dearunits_multiply_fahrenheit_by_scalar, \</span>
+<span id="L1195"><span class="lineNum">    1195</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1196"><span class="lineNum">    1196</span>              :     ), \</span>
+<span id="L1197"><span class="lineNum">    1197</span>              :     radian_t: _Generic((b), \</span>
+<span id="L1198"><span class="lineNum">    1198</span>              :         float: dearunits_multiply_radian_by_scalar, \</span>
+<span id="L1199"><span class="lineNum">    1199</span>              :         hertz_t: dearunits_multiply_radian_by_hertz, \</span>
 <span id="L1200"><span class="lineNum">    1200</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1201"><span class="lineNum">    1201</span>              :     ), \</span>
-<span id="L1202"><span class="lineNum">    1202</span>              :     revolution_t: _Generic((b), \</span>
-<span id="L1203"><span class="lineNum">    1203</span>              :         float: dearunits_multiply_revolution_by_scalar, \</span>
+<span id="L1202"><span class="lineNum">    1202</span>              :     degree_t: _Generic((b), \</span>
+<span id="L1203"><span class="lineNum">    1203</span>              :         float: dearunits_multiply_degree_by_scalar, \</span>
 <span id="L1204"><span class="lineNum">    1204</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1205"><span class="lineNum">    1205</span>              :     ), \</span>
-<span id="L1206"><span class="lineNum">    1206</span>              :     meters_per_second_t: _Generic((b), \</span>
-<span id="L1207"><span class="lineNum">    1207</span>              :         float: dearunits_multiply_meters_per_second_by_scalar, \</span>
-<span id="L1208"><span class="lineNum">    1208</span>              :         second_t: dearunits_multiply_meters_per_second_by_second, \</span>
-<span id="L1209"><span class="lineNum">    1209</span>              :         newton_t: dearunits_multiply_meters_per_second_by_newton, \</span>
-<span id="L1210"><span class="lineNum">    1210</span>              :         hertz_t: dearunits_multiply_meters_per_second_by_hertz, \</span>
-<span id="L1211"><span class="lineNum">    1211</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1212"><span class="lineNum">    1212</span>              :     ), \</span>
-<span id="L1213"><span class="lineNum">    1213</span>              :     kilometers_per_hour_t: _Generic((b), \</span>
-<span id="L1214"><span class="lineNum">    1214</span>              :         float: dearunits_multiply_kilometers_per_hour_by_scalar, \</span>
+<span id="L1206"><span class="lineNum">    1206</span>              :     revolution_t: _Generic((b), \</span>
+<span id="L1207"><span class="lineNum">    1207</span>              :         float: dearunits_multiply_revolution_by_scalar, \</span>
+<span id="L1208"><span class="lineNum">    1208</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1209"><span class="lineNum">    1209</span>              :     ), \</span>
+<span id="L1210"><span class="lineNum">    1210</span>              :     meters_per_second_t: _Generic((b), \</span>
+<span id="L1211"><span class="lineNum">    1211</span>              :         float: dearunits_multiply_meters_per_second_by_scalar, \</span>
+<span id="L1212"><span class="lineNum">    1212</span>              :         second_t: dearunits_multiply_meters_per_second_by_second, \</span>
+<span id="L1213"><span class="lineNum">    1213</span>              :         newton_t: dearunits_multiply_meters_per_second_by_newton, \</span>
+<span id="L1214"><span class="lineNum">    1214</span>              :         hertz_t: dearunits_multiply_meters_per_second_by_hertz, \</span>
 <span id="L1215"><span class="lineNum">    1215</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1216"><span class="lineNum">    1216</span>              :     ), \</span>
-<span id="L1217"><span class="lineNum">    1217</span>              :     miles_per_hour_t: _Generic((b), \</span>
-<span id="L1218"><span class="lineNum">    1218</span>              :         float: dearunits_multiply_miles_per_hour_by_scalar, \</span>
+<span id="L1217"><span class="lineNum">    1217</span>              :     kilometers_per_hour_t: _Generic((b), \</span>
+<span id="L1218"><span class="lineNum">    1218</span>              :         float: dearunits_multiply_kilometers_per_hour_by_scalar, \</span>
 <span id="L1219"><span class="lineNum">    1219</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1220"><span class="lineNum">    1220</span>              :     ), \</span>
-<span id="L1221"><span class="lineNum">    1221</span>              :     meters_per_second_squared_t: _Generic((b), \</span>
-<span id="L1222"><span class="lineNum">    1222</span>              :         float: dearunits_multiply_meters_per_second_squared_by_scalar, \</span>
-<span id="L1223"><span class="lineNum">    1223</span>              :         second_t: dearunits_multiply_meters_per_second_squared_by_second, \</span>
-<span id="L1224"><span class="lineNum">    1224</span>              :         kilogram_t: dearunits_multiply_meters_per_second_squared_by_kilogram, \</span>
-<span id="L1225"><span class="lineNum">    1225</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1226"><span class="lineNum">    1226</span>              :     ), \</span>
-<span id="L1227"><span class="lineNum">    1227</span>              :     standard_gravity_t: _Generic((b), \</span>
-<span id="L1228"><span class="lineNum">    1228</span>              :         float: dearunits_multiply_standard_gravity_by_scalar, \</span>
+<span id="L1221"><span class="lineNum">    1221</span>              :     miles_per_hour_t: _Generic((b), \</span>
+<span id="L1222"><span class="lineNum">    1222</span>              :         float: dearunits_multiply_miles_per_hour_by_scalar, \</span>
+<span id="L1223"><span class="lineNum">    1223</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1224"><span class="lineNum">    1224</span>              :     ), \</span>
+<span id="L1225"><span class="lineNum">    1225</span>              :     meters_per_second_squared_t: _Generic((b), \</span>
+<span id="L1226"><span class="lineNum">    1226</span>              :         float: dearunits_multiply_meters_per_second_squared_by_scalar, \</span>
+<span id="L1227"><span class="lineNum">    1227</span>              :         second_t: dearunits_multiply_meters_per_second_squared_by_second, \</span>
+<span id="L1228"><span class="lineNum">    1228</span>              :         kilogram_t: dearunits_multiply_meters_per_second_squared_by_kilogram, \</span>
 <span id="L1229"><span class="lineNum">    1229</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1230"><span class="lineNum">    1230</span>              :     ), \</span>
-<span id="L1231"><span class="lineNum">    1231</span>              :     radians_per_second_t: _Generic((b), \</span>
-<span id="L1232"><span class="lineNum">    1232</span>              :         float: dearunits_multiply_radians_per_second_by_scalar, \</span>
-<span id="L1233"><span class="lineNum">    1233</span>              :         second_t: dearunits_multiply_radians_per_second_by_second, \</span>
-<span id="L1234"><span class="lineNum">    1234</span>              :         newton_meter_t: dearunits_multiply_radians_per_second_by_newton_meter, \</span>
-<span id="L1235"><span class="lineNum">    1235</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1236"><span class="lineNum">    1236</span>              :     ), \</span>
-<span id="L1237"><span class="lineNum">    1237</span>              :     degrees_per_second_t: _Generic((b), \</span>
-<span id="L1238"><span class="lineNum">    1238</span>              :         float: dearunits_multiply_degrees_per_second_by_scalar, \</span>
-<span id="L1239"><span class="lineNum">    1239</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1240"><span class="lineNum">    1240</span>              :     ), \</span>
-<span id="L1241"><span class="lineNum">    1241</span>              :     revolutions_per_minute_t: _Generic((b), \</span>
-<span id="L1242"><span class="lineNum">    1242</span>              :         float: dearunits_multiply_revolutions_per_minute_by_scalar, \</span>
-<span id="L1243"><span class="lineNum">    1243</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1244"><span class="lineNum">    1244</span>              :     ), \</span>
-<span id="L1245"><span class="lineNum">    1245</span>              :     newton_t: _Generic((b), \</span>
-<span id="L1246"><span class="lineNum">    1246</span>              :         float: dearunits_multiply_newton_by_scalar, \</span>
-<span id="L1247"><span class="lineNum">    1247</span>              :         meter_t: dearunits_multiply_newton_by_meter, \</span>
-<span id="L1248"><span class="lineNum">    1248</span>              :         meters_per_second_t: dearunits_multiply_newton_by_meters_per_second, \</span>
-<span id="L1249"><span class="lineNum">    1249</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1250"><span class="lineNum">    1250</span>              :     ), \</span>
-<span id="L1251"><span class="lineNum">    1251</span>              :     pound_force_t: _Generic((b), \</span>
-<span id="L1252"><span class="lineNum">    1252</span>              :         float: dearunits_multiply_pound_force_by_scalar, \</span>
-<span id="L1253"><span class="lineNum">    1253</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1254"><span class="lineNum">    1254</span>              :     ), \</span>
-<span id="L1255"><span class="lineNum">    1255</span>              :     newton_meter_t: _Generic((b), \</span>
-<span id="L1256"><span class="lineNum">    1256</span>              :         float: dearunits_multiply_newton_meter_by_scalar, \</span>
-<span id="L1257"><span class="lineNum">    1257</span>              :         radians_per_second_t: dearunits_multiply_newton_meter_by_radians_per_second, \</span>
+<span id="L1231"><span class="lineNum">    1231</span>              :     standard_gravity_t: _Generic((b), \</span>
+<span id="L1232"><span class="lineNum">    1232</span>              :         float: dearunits_multiply_standard_gravity_by_scalar, \</span>
+<span id="L1233"><span class="lineNum">    1233</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1234"><span class="lineNum">    1234</span>              :     ), \</span>
+<span id="L1235"><span class="lineNum">    1235</span>              :     radians_per_second_t: _Generic((b), \</span>
+<span id="L1236"><span class="lineNum">    1236</span>              :         float: dearunits_multiply_radians_per_second_by_scalar, \</span>
+<span id="L1237"><span class="lineNum">    1237</span>              :         meter_t: dearunits_multiply_radians_per_second_by_meter, \</span>
+<span id="L1238"><span class="lineNum">    1238</span>              :         second_t: dearunits_multiply_radians_per_second_by_second, \</span>
+<span id="L1239"><span class="lineNum">    1239</span>              :         newton_meter_t: dearunits_multiply_radians_per_second_by_newton_meter, \</span>
+<span id="L1240"><span class="lineNum">    1240</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1241"><span class="lineNum">    1241</span>              :     ), \</span>
+<span id="L1242"><span class="lineNum">    1242</span>              :     degrees_per_second_t: _Generic((b), \</span>
+<span id="L1243"><span class="lineNum">    1243</span>              :         float: dearunits_multiply_degrees_per_second_by_scalar, \</span>
+<span id="L1244"><span class="lineNum">    1244</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1245"><span class="lineNum">    1245</span>              :     ), \</span>
+<span id="L1246"><span class="lineNum">    1246</span>              :     revolutions_per_minute_t: _Generic((b), \</span>
+<span id="L1247"><span class="lineNum">    1247</span>              :         float: dearunits_multiply_revolutions_per_minute_by_scalar, \</span>
+<span id="L1248"><span class="lineNum">    1248</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1249"><span class="lineNum">    1249</span>              :     ), \</span>
+<span id="L1250"><span class="lineNum">    1250</span>              :     newton_t: _Generic((b), \</span>
+<span id="L1251"><span class="lineNum">    1251</span>              :         float: dearunits_multiply_newton_by_scalar, \</span>
+<span id="L1252"><span class="lineNum">    1252</span>              :         meter_t: dearunits_multiply_newton_by_meter, \</span>
+<span id="L1253"><span class="lineNum">    1253</span>              :         meters_per_second_t: dearunits_multiply_newton_by_meters_per_second, \</span>
+<span id="L1254"><span class="lineNum">    1254</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1255"><span class="lineNum">    1255</span>              :     ), \</span>
+<span id="L1256"><span class="lineNum">    1256</span>              :     pound_force_t: _Generic((b), \</span>
+<span id="L1257"><span class="lineNum">    1257</span>              :         float: dearunits_multiply_pound_force_by_scalar, \</span>
 <span id="L1258"><span class="lineNum">    1258</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1259"><span class="lineNum">    1259</span>              :     ), \</span>
-<span id="L1260"><span class="lineNum">    1260</span>              :     pound_foot_t: _Generic((b), \</span>
-<span id="L1261"><span class="lineNum">    1261</span>              :         float: dearunits_multiply_pound_foot_by_scalar, \</span>
-<span id="L1262"><span class="lineNum">    1262</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1263"><span class="lineNum">    1263</span>              :     ), \</span>
-<span id="L1264"><span class="lineNum">    1264</span>              :     pascal_t: _Generic((b), \</span>
-<span id="L1265"><span class="lineNum">    1265</span>              :         float: dearunits_multiply_pascal_by_scalar, \</span>
-<span id="L1266"><span class="lineNum">    1266</span>              :         square_meter_t: dearunits_multiply_pascal_by_square_meter, \</span>
+<span id="L1260"><span class="lineNum">    1260</span>              :     newton_meter_t: _Generic((b), \</span>
+<span id="L1261"><span class="lineNum">    1261</span>              :         float: dearunits_multiply_newton_meter_by_scalar, \</span>
+<span id="L1262"><span class="lineNum">    1262</span>              :         radians_per_second_t: dearunits_multiply_newton_meter_by_radians_per_second, \</span>
+<span id="L1263"><span class="lineNum">    1263</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1264"><span class="lineNum">    1264</span>              :     ), \</span>
+<span id="L1265"><span class="lineNum">    1265</span>              :     pound_foot_t: _Generic((b), \</span>
+<span id="L1266"><span class="lineNum">    1266</span>              :         float: dearunits_multiply_pound_foot_by_scalar, \</span>
 <span id="L1267"><span class="lineNum">    1267</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1268"><span class="lineNum">    1268</span>              :     ), \</span>
-<span id="L1269"><span class="lineNum">    1269</span>              :     kilopascal_t: _Generic((b), \</span>
-<span id="L1270"><span class="lineNum">    1270</span>              :         float: dearunits_multiply_kilopascal_by_scalar, \</span>
-<span id="L1271"><span class="lineNum">    1271</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1272"><span class="lineNum">    1272</span>              :     ), \</span>
-<span id="L1273"><span class="lineNum">    1273</span>              :     pound_per_square_inch_t: _Generic((b), \</span>
-<span id="L1274"><span class="lineNum">    1274</span>              :         float: dearunits_multiply_pound_per_square_inch_by_scalar, \</span>
-<span id="L1275"><span class="lineNum">    1275</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1276"><span class="lineNum">    1276</span>              :     ), \</span>
-<span id="L1277"><span class="lineNum">    1277</span>              :     bar_t: _Generic((b), \</span>
-<span id="L1278"><span class="lineNum">    1278</span>              :         float: dearunits_multiply_bar_by_scalar, \</span>
-<span id="L1279"><span class="lineNum">    1279</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1280"><span class="lineNum">    1280</span>              :     ), \</span>
-<span id="L1281"><span class="lineNum">    1281</span>              :     volt_t: _Generic((b), \</span>
-<span id="L1282"><span class="lineNum">    1282</span>              :         float: dearunits_multiply_volt_by_scalar, \</span>
-<span id="L1283"><span class="lineNum">    1283</span>              :         amp_t: dearunits_multiply_volt_by_amp, \</span>
-<span id="L1284"><span class="lineNum">    1284</span>              :         coulomb_t: dearunits_multiply_volt_by_coulomb, \</span>
-<span id="L1285"><span class="lineNum">    1285</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1286"><span class="lineNum">    1286</span>              :     ), \</span>
-<span id="L1287"><span class="lineNum">    1287</span>              :     millivolt_t: _Generic((b), \</span>
-<span id="L1288"><span class="lineNum">    1288</span>              :         float: dearunits_multiply_millivolt_by_scalar, \</span>
-<span id="L1289"><span class="lineNum">    1289</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1290"><span class="lineNum">    1290</span>              :     ), \</span>
-<span id="L1291"><span class="lineNum">    1291</span>              :     square_meter_t: _Generic((b), \</span>
-<span id="L1292"><span class="lineNum">    1292</span>              :         float: dearunits_multiply_square_meter_by_scalar, \</span>
-<span id="L1293"><span class="lineNum">    1293</span>              :         pascal_t: dearunits_multiply_square_meter_by_pascal, \</span>
+<span id="L1269"><span class="lineNum">    1269</span>              :     pascal_t: _Generic((b), \</span>
+<span id="L1270"><span class="lineNum">    1270</span>              :         float: dearunits_multiply_pascal_by_scalar, \</span>
+<span id="L1271"><span class="lineNum">    1271</span>              :         square_meter_t: dearunits_multiply_pascal_by_square_meter, \</span>
+<span id="L1272"><span class="lineNum">    1272</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1273"><span class="lineNum">    1273</span>              :     ), \</span>
+<span id="L1274"><span class="lineNum">    1274</span>              :     kilopascal_t: _Generic((b), \</span>
+<span id="L1275"><span class="lineNum">    1275</span>              :         float: dearunits_multiply_kilopascal_by_scalar, \</span>
+<span id="L1276"><span class="lineNum">    1276</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1277"><span class="lineNum">    1277</span>              :     ), \</span>
+<span id="L1278"><span class="lineNum">    1278</span>              :     pound_per_square_inch_t: _Generic((b), \</span>
+<span id="L1279"><span class="lineNum">    1279</span>              :         float: dearunits_multiply_pound_per_square_inch_by_scalar, \</span>
+<span id="L1280"><span class="lineNum">    1280</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1281"><span class="lineNum">    1281</span>              :     ), \</span>
+<span id="L1282"><span class="lineNum">    1282</span>              :     bar_t: _Generic((b), \</span>
+<span id="L1283"><span class="lineNum">    1283</span>              :         float: dearunits_multiply_bar_by_scalar, \</span>
+<span id="L1284"><span class="lineNum">    1284</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1285"><span class="lineNum">    1285</span>              :     ), \</span>
+<span id="L1286"><span class="lineNum">    1286</span>              :     volt_t: _Generic((b), \</span>
+<span id="L1287"><span class="lineNum">    1287</span>              :         float: dearunits_multiply_volt_by_scalar, \</span>
+<span id="L1288"><span class="lineNum">    1288</span>              :         amp_t: dearunits_multiply_volt_by_amp, \</span>
+<span id="L1289"><span class="lineNum">    1289</span>              :         coulomb_t: dearunits_multiply_volt_by_coulomb, \</span>
+<span id="L1290"><span class="lineNum">    1290</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1291"><span class="lineNum">    1291</span>              :     ), \</span>
+<span id="L1292"><span class="lineNum">    1292</span>              :     millivolt_t: _Generic((b), \</span>
+<span id="L1293"><span class="lineNum">    1293</span>              :         float: dearunits_multiply_millivolt_by_scalar, \</span>
 <span id="L1294"><span class="lineNum">    1294</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1295"><span class="lineNum">    1295</span>              :     ), \</span>
-<span id="L1296"><span class="lineNum">    1296</span>              :     square_millimeter_t: _Generic((b), \</span>
-<span id="L1297"><span class="lineNum">    1297</span>              :         float: dearunits_multiply_square_millimeter_by_scalar, \</span>
-<span id="L1298"><span class="lineNum">    1298</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1299"><span class="lineNum">    1299</span>              :     ), \</span>
-<span id="L1300"><span class="lineNum">    1300</span>              :     square_centimeter_t: _Generic((b), \</span>
-<span id="L1301"><span class="lineNum">    1301</span>              :         float: dearunits_multiply_square_centimeter_by_scalar, \</span>
-<span id="L1302"><span class="lineNum">    1302</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1303"><span class="lineNum">    1303</span>              :     ), \</span>
-<span id="L1304"><span class="lineNum">    1304</span>              :     hertz_t: _Generic((b), \</span>
-<span id="L1305"><span class="lineNum">    1305</span>              :         float: dearunits_multiply_hertz_by_scalar, \</span>
-<span id="L1306"><span class="lineNum">    1306</span>              :         meter_t: dearunits_multiply_hertz_by_meter, \</span>
-<span id="L1307"><span class="lineNum">    1307</span>              :         second_t: dearunits_multiply_hertz_by_second, \</span>
-<span id="L1308"><span class="lineNum">    1308</span>              :         radian_t: dearunits_multiply_hertz_by_radian, \</span>
-<span id="L1309"><span class="lineNum">    1309</span>              :         meters_per_second_t: dearunits_multiply_hertz_by_meters_per_second, \</span>
-<span id="L1310"><span class="lineNum">    1310</span>              :         coulomb_t: dearunits_multiply_hertz_by_coulomb, \</span>
-<span id="L1311"><span class="lineNum">    1311</span>              :         joule_t: dearunits_multiply_hertz_by_joule, \</span>
-<span id="L1312"><span class="lineNum">    1312</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1313"><span class="lineNum">    1313</span>              :     ), \</span>
-<span id="L1314"><span class="lineNum">    1314</span>              :     kilohertz_t: _Generic((b), \</span>
-<span id="L1315"><span class="lineNum">    1315</span>              :         float: dearunits_multiply_kilohertz_by_scalar, \</span>
-<span id="L1316"><span class="lineNum">    1316</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1317"><span class="lineNum">    1317</span>              :     ), \</span>
-<span id="L1318"><span class="lineNum">    1318</span>              :     coulomb_t: _Generic((b), \</span>
-<span id="L1319"><span class="lineNum">    1319</span>              :         float: dearunits_multiply_coulomb_by_scalar, \</span>
-<span id="L1320"><span class="lineNum">    1320</span>              :         volt_t: dearunits_multiply_coulomb_by_volt, \</span>
-<span id="L1321"><span class="lineNum">    1321</span>              :         hertz_t: dearunits_multiply_coulomb_by_hertz, \</span>
-<span id="L1322"><span class="lineNum">    1322</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1323"><span class="lineNum">    1323</span>              :     ), \</span>
-<span id="L1324"><span class="lineNum">    1324</span>              :     amp_hour_t: _Generic((b), \</span>
-<span id="L1325"><span class="lineNum">    1325</span>              :         float: dearunits_multiply_amp_hour_by_scalar, \</span>
-<span id="L1326"><span class="lineNum">    1326</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1327"><span class="lineNum">    1327</span>              :     ), \</span>
-<span id="L1328"><span class="lineNum">    1328</span>              :     ohm_t: _Generic((b), \</span>
-<span id="L1329"><span class="lineNum">    1329</span>              :         float: dearunits_multiply_ohm_by_scalar, \</span>
-<span id="L1330"><span class="lineNum">    1330</span>              :         amp_t: dearunits_multiply_ohm_by_amp, \</span>
+<span id="L1296"><span class="lineNum">    1296</span>              :     square_meter_t: _Generic((b), \</span>
+<span id="L1297"><span class="lineNum">    1297</span>              :         float: dearunits_multiply_square_meter_by_scalar, \</span>
+<span id="L1298"><span class="lineNum">    1298</span>              :         pascal_t: dearunits_multiply_square_meter_by_pascal, \</span>
+<span id="L1299"><span class="lineNum">    1299</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1300"><span class="lineNum">    1300</span>              :     ), \</span>
+<span id="L1301"><span class="lineNum">    1301</span>              :     square_millimeter_t: _Generic((b), \</span>
+<span id="L1302"><span class="lineNum">    1302</span>              :         float: dearunits_multiply_square_millimeter_by_scalar, \</span>
+<span id="L1303"><span class="lineNum">    1303</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1304"><span class="lineNum">    1304</span>              :     ), \</span>
+<span id="L1305"><span class="lineNum">    1305</span>              :     square_centimeter_t: _Generic((b), \</span>
+<span id="L1306"><span class="lineNum">    1306</span>              :         float: dearunits_multiply_square_centimeter_by_scalar, \</span>
+<span id="L1307"><span class="lineNum">    1307</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1308"><span class="lineNum">    1308</span>              :     ), \</span>
+<span id="L1309"><span class="lineNum">    1309</span>              :     hertz_t: _Generic((b), \</span>
+<span id="L1310"><span class="lineNum">    1310</span>              :         float: dearunits_multiply_hertz_by_scalar, \</span>
+<span id="L1311"><span class="lineNum">    1311</span>              :         meter_t: dearunits_multiply_hertz_by_meter, \</span>
+<span id="L1312"><span class="lineNum">    1312</span>              :         second_t: dearunits_multiply_hertz_by_second, \</span>
+<span id="L1313"><span class="lineNum">    1313</span>              :         radian_t: dearunits_multiply_hertz_by_radian, \</span>
+<span id="L1314"><span class="lineNum">    1314</span>              :         meters_per_second_t: dearunits_multiply_hertz_by_meters_per_second, \</span>
+<span id="L1315"><span class="lineNum">    1315</span>              :         coulomb_t: dearunits_multiply_hertz_by_coulomb, \</span>
+<span id="L1316"><span class="lineNum">    1316</span>              :         joule_t: dearunits_multiply_hertz_by_joule, \</span>
+<span id="L1317"><span class="lineNum">    1317</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1318"><span class="lineNum">    1318</span>              :     ), \</span>
+<span id="L1319"><span class="lineNum">    1319</span>              :     kilohertz_t: _Generic((b), \</span>
+<span id="L1320"><span class="lineNum">    1320</span>              :         float: dearunits_multiply_kilohertz_by_scalar, \</span>
+<span id="L1321"><span class="lineNum">    1321</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1322"><span class="lineNum">    1322</span>              :     ), \</span>
+<span id="L1323"><span class="lineNum">    1323</span>              :     coulomb_t: _Generic((b), \</span>
+<span id="L1324"><span class="lineNum">    1324</span>              :         float: dearunits_multiply_coulomb_by_scalar, \</span>
+<span id="L1325"><span class="lineNum">    1325</span>              :         volt_t: dearunits_multiply_coulomb_by_volt, \</span>
+<span id="L1326"><span class="lineNum">    1326</span>              :         hertz_t: dearunits_multiply_coulomb_by_hertz, \</span>
+<span id="L1327"><span class="lineNum">    1327</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1328"><span class="lineNum">    1328</span>              :     ), \</span>
+<span id="L1329"><span class="lineNum">    1329</span>              :     amp_hour_t: _Generic((b), \</span>
+<span id="L1330"><span class="lineNum">    1330</span>              :         float: dearunits_multiply_amp_hour_by_scalar, \</span>
 <span id="L1331"><span class="lineNum">    1331</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1332"><span class="lineNum">    1332</span>              :     ), \</span>
-<span id="L1333"><span class="lineNum">    1333</span>              :     milliohm_t: _Generic((b), \</span>
-<span id="L1334"><span class="lineNum">    1334</span>              :         float: dearunits_multiply_milliohm_by_scalar, \</span>
-<span id="L1335"><span class="lineNum">    1335</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1336"><span class="lineNum">    1336</span>              :     ), \</span>
-<span id="L1337"><span class="lineNum">    1337</span>              :     kiloohm_t: _Generic((b), \</span>
-<span id="L1338"><span class="lineNum">    1338</span>              :         float: dearunits_multiply_kiloohm_by_scalar, \</span>
-<span id="L1339"><span class="lineNum">    1339</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1340"><span class="lineNum">    1340</span>              :     ), \</span>
-<span id="L1341"><span class="lineNum">    1341</span>              :     watt_t: _Generic((b), \</span>
-<span id="L1342"><span class="lineNum">    1342</span>              :         float: dearunits_multiply_watt_by_scalar, \</span>
-<span id="L1343"><span class="lineNum">    1343</span>              :         second_t: dearunits_multiply_watt_by_second, \</span>
+<span id="L1333"><span class="lineNum">    1333</span>              :     ohm_t: _Generic((b), \</span>
+<span id="L1334"><span class="lineNum">    1334</span>              :         float: dearunits_multiply_ohm_by_scalar, \</span>
+<span id="L1335"><span class="lineNum">    1335</span>              :         amp_t: dearunits_multiply_ohm_by_amp, \</span>
+<span id="L1336"><span class="lineNum">    1336</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1337"><span class="lineNum">    1337</span>              :     ), \</span>
+<span id="L1338"><span class="lineNum">    1338</span>              :     milliohm_t: _Generic((b), \</span>
+<span id="L1339"><span class="lineNum">    1339</span>              :         float: dearunits_multiply_milliohm_by_scalar, \</span>
+<span id="L1340"><span class="lineNum">    1340</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1341"><span class="lineNum">    1341</span>              :     ), \</span>
+<span id="L1342"><span class="lineNum">    1342</span>              :     kiloohm_t: _Generic((b), \</span>
+<span id="L1343"><span class="lineNum">    1343</span>              :         float: dearunits_multiply_kiloohm_by_scalar, \</span>
 <span id="L1344"><span class="lineNum">    1344</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1345"><span class="lineNum">    1345</span>              :     ), \</span>
-<span id="L1346"><span class="lineNum">    1346</span>              :     kilowatt_t: _Generic((b), \</span>
-<span id="L1347"><span class="lineNum">    1347</span>              :         float: dearunits_multiply_kilowatt_by_scalar, \</span>
-<span id="L1348"><span class="lineNum">    1348</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1349"><span class="lineNum">    1349</span>              :     ), \</span>
-<span id="L1350"><span class="lineNum">    1350</span>              :     joule_t: _Generic((b), \</span>
-<span id="L1351"><span class="lineNum">    1351</span>              :         float: dearunits_multiply_joule_by_scalar, \</span>
-<span id="L1352"><span class="lineNum">    1352</span>              :         hertz_t: dearunits_multiply_joule_by_hertz, \</span>
+<span id="L1346"><span class="lineNum">    1346</span>              :     watt_t: _Generic((b), \</span>
+<span id="L1347"><span class="lineNum">    1347</span>              :         float: dearunits_multiply_watt_by_scalar, \</span>
+<span id="L1348"><span class="lineNum">    1348</span>              :         second_t: dearunits_multiply_watt_by_second, \</span>
+<span id="L1349"><span class="lineNum">    1349</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1350"><span class="lineNum">    1350</span>              :     ), \</span>
+<span id="L1351"><span class="lineNum">    1351</span>              :     kilowatt_t: _Generic((b), \</span>
+<span id="L1352"><span class="lineNum">    1352</span>              :         float: dearunits_multiply_kilowatt_by_scalar, \</span>
 <span id="L1353"><span class="lineNum">    1353</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1354"><span class="lineNum">    1354</span>              :     ), \</span>
-<span id="L1355"><span class="lineNum">    1355</span>              :     watt_hour_t: _Generic((b), \</span>
-<span id="L1356"><span class="lineNum">    1356</span>              :         float: dearunits_multiply_watt_hour_by_scalar, \</span>
-<span id="L1357"><span class="lineNum">    1357</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1358"><span class="lineNum">    1358</span>              :     ), \</span>
-<span id="L1359"><span class="lineNum">    1359</span>              :     kilowatt_hour_t: _Generic((b), \</span>
-<span id="L1360"><span class="lineNum">    1360</span>              :         float: dearunits_multiply_kilowatt_hour_by_scalar, \</span>
-<span id="L1361"><span class="lineNum">    1361</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1362"><span class="lineNum">    1362</span>              :     ), \</span>
-<span id="L1363"><span class="lineNum">    1363</span>              :     float: _Generic((b), \</span>
-<span id="L1364"><span class="lineNum">    1364</span>              :         meter_t: dearunits_multiply_scalar_by_meter, \</span>
-<span id="L1365"><span class="lineNum">    1365</span>              :         millimeter_t: dearunits_multiply_scalar_by_millimeter, \</span>
-<span id="L1366"><span class="lineNum">    1366</span>              :         centimeter_t: dearunits_multiply_scalar_by_centimeter, \</span>
-<span id="L1367"><span class="lineNum">    1367</span>              :         inch_t: dearunits_multiply_scalar_by_inch, \</span>
-<span id="L1368"><span class="lineNum">    1368</span>              :         foot_t: dearunits_multiply_scalar_by_foot, \</span>
-<span id="L1369"><span class="lineNum">    1369</span>              :         mile_t: dearunits_multiply_scalar_by_mile, \</span>
-<span id="L1370"><span class="lineNum">    1370</span>              :         kilometer_t: dearunits_multiply_scalar_by_kilometer, \</span>
-<span id="L1371"><span class="lineNum">    1371</span>              :         second_t: dearunits_multiply_scalar_by_second, \</span>
-<span id="L1372"><span class="lineNum">    1372</span>              :         millisecond_t: dearunits_multiply_scalar_by_millisecond, \</span>
-<span id="L1373"><span class="lineNum">    1373</span>              :         minute_t: dearunits_multiply_scalar_by_minute, \</span>
-<span id="L1374"><span class="lineNum">    1374</span>              :         hour_t: dearunits_multiply_scalar_by_hour, \</span>
-<span id="L1375"><span class="lineNum">    1375</span>              :         day_t: dearunits_multiply_scalar_by_day, \</span>
-<span id="L1376"><span class="lineNum">    1376</span>              :         kilogram_t: dearunits_multiply_scalar_by_kilogram, \</span>
-<span id="L1377"><span class="lineNum">    1377</span>              :         gram_t: dearunits_multiply_scalar_by_gram, \</span>
-<span id="L1378"><span class="lineNum">    1378</span>              :         pound_t: dearunits_multiply_scalar_by_pound, \</span>
-<span id="L1379"><span class="lineNum">    1379</span>              :         amp_t: dearunits_multiply_scalar_by_amp, \</span>
-<span id="L1380"><span class="lineNum">    1380</span>              :         milliamp_t: dearunits_multiply_scalar_by_milliamp, \</span>
-<span id="L1381"><span class="lineNum">    1381</span>              :         celsius_t: dearunits_multiply_scalar_by_celsius, \</span>
-<span id="L1382"><span class="lineNum">    1382</span>              :         fahrenheit_t: dearunits_multiply_scalar_by_fahrenheit, \</span>
-<span id="L1383"><span class="lineNum">    1383</span>              :         radian_t: dearunits_multiply_scalar_by_radian, \</span>
-<span id="L1384"><span class="lineNum">    1384</span>              :         degree_t: dearunits_multiply_scalar_by_degree, \</span>
-<span id="L1385"><span class="lineNum">    1385</span>              :         revolution_t: dearunits_multiply_scalar_by_revolution, \</span>
-<span id="L1386"><span class="lineNum">    1386</span>              :         meters_per_second_t: dearunits_multiply_scalar_by_meters_per_second, \</span>
-<span id="L1387"><span class="lineNum">    1387</span>              :         kilometers_per_hour_t: dearunits_multiply_scalar_by_kilometers_per_hour, \</span>
-<span id="L1388"><span class="lineNum">    1388</span>              :         miles_per_hour_t: dearunits_multiply_scalar_by_miles_per_hour, \</span>
-<span id="L1389"><span class="lineNum">    1389</span>              :         meters_per_second_squared_t: dearunits_multiply_scalar_by_meters_per_second_squared, \</span>
-<span id="L1390"><span class="lineNum">    1390</span>              :         standard_gravity_t: dearunits_multiply_scalar_by_standard_gravity, \</span>
-<span id="L1391"><span class="lineNum">    1391</span>              :         radians_per_second_t: dearunits_multiply_scalar_by_radians_per_second, \</span>
-<span id="L1392"><span class="lineNum">    1392</span>              :         degrees_per_second_t: dearunits_multiply_scalar_by_degrees_per_second, \</span>
-<span id="L1393"><span class="lineNum">    1393</span>              :         revolutions_per_minute_t: dearunits_multiply_scalar_by_revolutions_per_minute, \</span>
-<span id="L1394"><span class="lineNum">    1394</span>              :         newton_t: dearunits_multiply_scalar_by_newton, \</span>
-<span id="L1395"><span class="lineNum">    1395</span>              :         pound_force_t: dearunits_multiply_scalar_by_pound_force, \</span>
-<span id="L1396"><span class="lineNum">    1396</span>              :         newton_meter_t: dearunits_multiply_scalar_by_newton_meter, \</span>
-<span id="L1397"><span class="lineNum">    1397</span>              :         pound_foot_t: dearunits_multiply_scalar_by_pound_foot, \</span>
-<span id="L1398"><span class="lineNum">    1398</span>              :         pascal_t: dearunits_multiply_scalar_by_pascal, \</span>
-<span id="L1399"><span class="lineNum">    1399</span>              :         kilopascal_t: dearunits_multiply_scalar_by_kilopascal, \</span>
-<span id="L1400"><span class="lineNum">    1400</span>              :         pound_per_square_inch_t: dearunits_multiply_scalar_by_pound_per_square_inch, \</span>
-<span id="L1401"><span class="lineNum">    1401</span>              :         bar_t: dearunits_multiply_scalar_by_bar, \</span>
-<span id="L1402"><span class="lineNum">    1402</span>              :         volt_t: dearunits_multiply_scalar_by_volt, \</span>
-<span id="L1403"><span class="lineNum">    1403</span>              :         millivolt_t: dearunits_multiply_scalar_by_millivolt, \</span>
-<span id="L1404"><span class="lineNum">    1404</span>              :         square_meter_t: dearunits_multiply_scalar_by_square_meter, \</span>
-<span id="L1405"><span class="lineNum">    1405</span>              :         square_millimeter_t: dearunits_multiply_scalar_by_square_millimeter, \</span>
-<span id="L1406"><span class="lineNum">    1406</span>              :         square_centimeter_t: dearunits_multiply_scalar_by_square_centimeter, \</span>
-<span id="L1407"><span class="lineNum">    1407</span>              :         hertz_t: dearunits_multiply_scalar_by_hertz, \</span>
-<span id="L1408"><span class="lineNum">    1408</span>              :         kilohertz_t: dearunits_multiply_scalar_by_kilohertz, \</span>
-<span id="L1409"><span class="lineNum">    1409</span>              :         coulomb_t: dearunits_multiply_scalar_by_coulomb, \</span>
-<span id="L1410"><span class="lineNum">    1410</span>              :         amp_hour_t: dearunits_multiply_scalar_by_amp_hour, \</span>
-<span id="L1411"><span class="lineNum">    1411</span>              :         ohm_t: dearunits_multiply_scalar_by_ohm, \</span>
-<span id="L1412"><span class="lineNum">    1412</span>              :         milliohm_t: dearunits_multiply_scalar_by_milliohm, \</span>
-<span id="L1413"><span class="lineNum">    1413</span>              :         kiloohm_t: dearunits_multiply_scalar_by_kiloohm, \</span>
-<span id="L1414"><span class="lineNum">    1414</span>              :         watt_t: dearunits_multiply_scalar_by_watt, \</span>
-<span id="L1415"><span class="lineNum">    1415</span>              :         kilowatt_t: dearunits_multiply_scalar_by_kilowatt, \</span>
-<span id="L1416"><span class="lineNum">    1416</span>              :         joule_t: dearunits_multiply_scalar_by_joule, \</span>
-<span id="L1417"><span class="lineNum">    1417</span>              :         watt_hour_t: dearunits_multiply_scalar_by_watt_hour, \</span>
-<span id="L1418"><span class="lineNum">    1418</span>              :         kilowatt_hour_t: dearunits_multiply_scalar_by_kilowatt_hour, \</span>
-<span id="L1419"><span class="lineNum">    1419</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1420"><span class="lineNum">    1420</span>              :     ), \</span>
-<span id="L1421"><span class="lineNum">    1421</span>              :     default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1422"><span class="lineNum">    1422</span>              : )(a, b)</span>
-<span id="L1423"><span class="lineNum">    1423</span>              : </span>
-<span id="L1424"><span class="lineNum">    1424</span>              : #define DU_DIVIDE(a, b) _Generic((a), \</span>
-<span id="L1425"><span class="lineNum">    1425</span>              :     meter_t: _Generic((b), \</span>
-<span id="L1426"><span class="lineNum">    1426</span>              :         float: dearunits_divide_meter_by_scalar, \</span>
-<span id="L1427"><span class="lineNum">    1427</span>              :         meter_t: dearunits_divide_meter_by_meter, \</span>
-<span id="L1428"><span class="lineNum">    1428</span>              :         second_t: dearunits_divide_meter_by_second, \</span>
-<span id="L1429"><span class="lineNum">    1429</span>              :         meters_per_second_t: dearunits_divide_meter_by_meters_per_second, \</span>
-<span id="L1430"><span class="lineNum">    1430</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1431"><span class="lineNum">    1431</span>              :     ), \</span>
-<span id="L1432"><span class="lineNum">    1432</span>              :     millimeter_t: _Generic((b), \</span>
-<span id="L1433"><span class="lineNum">    1433</span>              :         float: dearunits_divide_millimeter_by_scalar, \</span>
-<span id="L1434"><span class="lineNum">    1434</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1435"><span class="lineNum">    1435</span>              :     ), \</span>
-<span id="L1436"><span class="lineNum">    1436</span>              :     centimeter_t: _Generic((b), \</span>
-<span id="L1437"><span class="lineNum">    1437</span>              :         float: dearunits_divide_centimeter_by_scalar, \</span>
-<span id="L1438"><span class="lineNum">    1438</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1439"><span class="lineNum">    1439</span>              :     ), \</span>
-<span id="L1440"><span class="lineNum">    1440</span>              :     inch_t: _Generic((b), \</span>
-<span id="L1441"><span class="lineNum">    1441</span>              :         float: dearunits_divide_inch_by_scalar, \</span>
-<span id="L1442"><span class="lineNum">    1442</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1443"><span class="lineNum">    1443</span>              :     ), \</span>
-<span id="L1444"><span class="lineNum">    1444</span>              :     foot_t: _Generic((b), \</span>
-<span id="L1445"><span class="lineNum">    1445</span>              :         float: dearunits_divide_foot_by_scalar, \</span>
-<span id="L1446"><span class="lineNum">    1446</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1447"><span class="lineNum">    1447</span>              :     ), \</span>
-<span id="L1448"><span class="lineNum">    1448</span>              :     mile_t: _Generic((b), \</span>
-<span id="L1449"><span class="lineNum">    1449</span>              :         float: dearunits_divide_mile_by_scalar, \</span>
-<span id="L1450"><span class="lineNum">    1450</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1451"><span class="lineNum">    1451</span>              :     ), \</span>
-<span id="L1452"><span class="lineNum">    1452</span>              :     kilometer_t: _Generic((b), \</span>
-<span id="L1453"><span class="lineNum">    1453</span>              :         float: dearunits_divide_kilometer_by_scalar, \</span>
-<span id="L1454"><span class="lineNum">    1454</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1455"><span class="lineNum">    1455</span>              :     ), \</span>
-<span id="L1456"><span class="lineNum">    1456</span>              :     second_t: _Generic((b), \</span>
-<span id="L1457"><span class="lineNum">    1457</span>              :         float: dearunits_divide_second_by_scalar, \</span>
-<span id="L1458"><span class="lineNum">    1458</span>              :         second_t: dearunits_divide_second_by_second, \</span>
+<span id="L1355"><span class="lineNum">    1355</span>              :     joule_t: _Generic((b), \</span>
+<span id="L1356"><span class="lineNum">    1356</span>              :         float: dearunits_multiply_joule_by_scalar, \</span>
+<span id="L1357"><span class="lineNum">    1357</span>              :         hertz_t: dearunits_multiply_joule_by_hertz, \</span>
+<span id="L1358"><span class="lineNum">    1358</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1359"><span class="lineNum">    1359</span>              :     ), \</span>
+<span id="L1360"><span class="lineNum">    1360</span>              :     watt_hour_t: _Generic((b), \</span>
+<span id="L1361"><span class="lineNum">    1361</span>              :         float: dearunits_multiply_watt_hour_by_scalar, \</span>
+<span id="L1362"><span class="lineNum">    1362</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1363"><span class="lineNum">    1363</span>              :     ), \</span>
+<span id="L1364"><span class="lineNum">    1364</span>              :     kilowatt_hour_t: _Generic((b), \</span>
+<span id="L1365"><span class="lineNum">    1365</span>              :         float: dearunits_multiply_kilowatt_hour_by_scalar, \</span>
+<span id="L1366"><span class="lineNum">    1366</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1367"><span class="lineNum">    1367</span>              :     ), \</span>
+<span id="L1368"><span class="lineNum">    1368</span>              :     float: _Generic((b), \</span>
+<span id="L1369"><span class="lineNum">    1369</span>              :         meter_t: dearunits_multiply_scalar_by_meter, \</span>
+<span id="L1370"><span class="lineNum">    1370</span>              :         millimeter_t: dearunits_multiply_scalar_by_millimeter, \</span>
+<span id="L1371"><span class="lineNum">    1371</span>              :         centimeter_t: dearunits_multiply_scalar_by_centimeter, \</span>
+<span id="L1372"><span class="lineNum">    1372</span>              :         inch_t: dearunits_multiply_scalar_by_inch, \</span>
+<span id="L1373"><span class="lineNum">    1373</span>              :         foot_t: dearunits_multiply_scalar_by_foot, \</span>
+<span id="L1374"><span class="lineNum">    1374</span>              :         mile_t: dearunits_multiply_scalar_by_mile, \</span>
+<span id="L1375"><span class="lineNum">    1375</span>              :         kilometer_t: dearunits_multiply_scalar_by_kilometer, \</span>
+<span id="L1376"><span class="lineNum">    1376</span>              :         second_t: dearunits_multiply_scalar_by_second, \</span>
+<span id="L1377"><span class="lineNum">    1377</span>              :         millisecond_t: dearunits_multiply_scalar_by_millisecond, \</span>
+<span id="L1378"><span class="lineNum">    1378</span>              :         minute_t: dearunits_multiply_scalar_by_minute, \</span>
+<span id="L1379"><span class="lineNum">    1379</span>              :         hour_t: dearunits_multiply_scalar_by_hour, \</span>
+<span id="L1380"><span class="lineNum">    1380</span>              :         day_t: dearunits_multiply_scalar_by_day, \</span>
+<span id="L1381"><span class="lineNum">    1381</span>              :         kilogram_t: dearunits_multiply_scalar_by_kilogram, \</span>
+<span id="L1382"><span class="lineNum">    1382</span>              :         gram_t: dearunits_multiply_scalar_by_gram, \</span>
+<span id="L1383"><span class="lineNum">    1383</span>              :         pound_t: dearunits_multiply_scalar_by_pound, \</span>
+<span id="L1384"><span class="lineNum">    1384</span>              :         amp_t: dearunits_multiply_scalar_by_amp, \</span>
+<span id="L1385"><span class="lineNum">    1385</span>              :         milliamp_t: dearunits_multiply_scalar_by_milliamp, \</span>
+<span id="L1386"><span class="lineNum">    1386</span>              :         celsius_t: dearunits_multiply_scalar_by_celsius, \</span>
+<span id="L1387"><span class="lineNum">    1387</span>              :         fahrenheit_t: dearunits_multiply_scalar_by_fahrenheit, \</span>
+<span id="L1388"><span class="lineNum">    1388</span>              :         radian_t: dearunits_multiply_scalar_by_radian, \</span>
+<span id="L1389"><span class="lineNum">    1389</span>              :         degree_t: dearunits_multiply_scalar_by_degree, \</span>
+<span id="L1390"><span class="lineNum">    1390</span>              :         revolution_t: dearunits_multiply_scalar_by_revolution, \</span>
+<span id="L1391"><span class="lineNum">    1391</span>              :         meters_per_second_t: dearunits_multiply_scalar_by_meters_per_second, \</span>
+<span id="L1392"><span class="lineNum">    1392</span>              :         kilometers_per_hour_t: dearunits_multiply_scalar_by_kilometers_per_hour, \</span>
+<span id="L1393"><span class="lineNum">    1393</span>              :         miles_per_hour_t: dearunits_multiply_scalar_by_miles_per_hour, \</span>
+<span id="L1394"><span class="lineNum">    1394</span>              :         meters_per_second_squared_t: dearunits_multiply_scalar_by_meters_per_second_squared, \</span>
+<span id="L1395"><span class="lineNum">    1395</span>              :         standard_gravity_t: dearunits_multiply_scalar_by_standard_gravity, \</span>
+<span id="L1396"><span class="lineNum">    1396</span>              :         radians_per_second_t: dearunits_multiply_scalar_by_radians_per_second, \</span>
+<span id="L1397"><span class="lineNum">    1397</span>              :         degrees_per_second_t: dearunits_multiply_scalar_by_degrees_per_second, \</span>
+<span id="L1398"><span class="lineNum">    1398</span>              :         revolutions_per_minute_t: dearunits_multiply_scalar_by_revolutions_per_minute, \</span>
+<span id="L1399"><span class="lineNum">    1399</span>              :         newton_t: dearunits_multiply_scalar_by_newton, \</span>
+<span id="L1400"><span class="lineNum">    1400</span>              :         pound_force_t: dearunits_multiply_scalar_by_pound_force, \</span>
+<span id="L1401"><span class="lineNum">    1401</span>              :         newton_meter_t: dearunits_multiply_scalar_by_newton_meter, \</span>
+<span id="L1402"><span class="lineNum">    1402</span>              :         pound_foot_t: dearunits_multiply_scalar_by_pound_foot, \</span>
+<span id="L1403"><span class="lineNum">    1403</span>              :         pascal_t: dearunits_multiply_scalar_by_pascal, \</span>
+<span id="L1404"><span class="lineNum">    1404</span>              :         kilopascal_t: dearunits_multiply_scalar_by_kilopascal, \</span>
+<span id="L1405"><span class="lineNum">    1405</span>              :         pound_per_square_inch_t: dearunits_multiply_scalar_by_pound_per_square_inch, \</span>
+<span id="L1406"><span class="lineNum">    1406</span>              :         bar_t: dearunits_multiply_scalar_by_bar, \</span>
+<span id="L1407"><span class="lineNum">    1407</span>              :         volt_t: dearunits_multiply_scalar_by_volt, \</span>
+<span id="L1408"><span class="lineNum">    1408</span>              :         millivolt_t: dearunits_multiply_scalar_by_millivolt, \</span>
+<span id="L1409"><span class="lineNum">    1409</span>              :         square_meter_t: dearunits_multiply_scalar_by_square_meter, \</span>
+<span id="L1410"><span class="lineNum">    1410</span>              :         square_millimeter_t: dearunits_multiply_scalar_by_square_millimeter, \</span>
+<span id="L1411"><span class="lineNum">    1411</span>              :         square_centimeter_t: dearunits_multiply_scalar_by_square_centimeter, \</span>
+<span id="L1412"><span class="lineNum">    1412</span>              :         hertz_t: dearunits_multiply_scalar_by_hertz, \</span>
+<span id="L1413"><span class="lineNum">    1413</span>              :         kilohertz_t: dearunits_multiply_scalar_by_kilohertz, \</span>
+<span id="L1414"><span class="lineNum">    1414</span>              :         coulomb_t: dearunits_multiply_scalar_by_coulomb, \</span>
+<span id="L1415"><span class="lineNum">    1415</span>              :         amp_hour_t: dearunits_multiply_scalar_by_amp_hour, \</span>
+<span id="L1416"><span class="lineNum">    1416</span>              :         ohm_t: dearunits_multiply_scalar_by_ohm, \</span>
+<span id="L1417"><span class="lineNum">    1417</span>              :         milliohm_t: dearunits_multiply_scalar_by_milliohm, \</span>
+<span id="L1418"><span class="lineNum">    1418</span>              :         kiloohm_t: dearunits_multiply_scalar_by_kiloohm, \</span>
+<span id="L1419"><span class="lineNum">    1419</span>              :         watt_t: dearunits_multiply_scalar_by_watt, \</span>
+<span id="L1420"><span class="lineNum">    1420</span>              :         kilowatt_t: dearunits_multiply_scalar_by_kilowatt, \</span>
+<span id="L1421"><span class="lineNum">    1421</span>              :         joule_t: dearunits_multiply_scalar_by_joule, \</span>
+<span id="L1422"><span class="lineNum">    1422</span>              :         watt_hour_t: dearunits_multiply_scalar_by_watt_hour, \</span>
+<span id="L1423"><span class="lineNum">    1423</span>              :         kilowatt_hour_t: dearunits_multiply_scalar_by_kilowatt_hour, \</span>
+<span id="L1424"><span class="lineNum">    1424</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1425"><span class="lineNum">    1425</span>              :     ), \</span>
+<span id="L1426"><span class="lineNum">    1426</span>              :     default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1427"><span class="lineNum">    1427</span>              : )(a, b)</span>
+<span id="L1428"><span class="lineNum">    1428</span>              : </span>
+<span id="L1429"><span class="lineNum">    1429</span>              : #define DU_DIVIDE(a, b) _Generic((a), \</span>
+<span id="L1430"><span class="lineNum">    1430</span>              :     meter_t: _Generic((b), \</span>
+<span id="L1431"><span class="lineNum">    1431</span>              :         float: dearunits_divide_meter_by_scalar, \</span>
+<span id="L1432"><span class="lineNum">    1432</span>              :         meter_t: dearunits_divide_meter_by_meter, \</span>
+<span id="L1433"><span class="lineNum">    1433</span>              :         second_t: dearunits_divide_meter_by_second, \</span>
+<span id="L1434"><span class="lineNum">    1434</span>              :         meters_per_second_t: dearunits_divide_meter_by_meters_per_second, \</span>
+<span id="L1435"><span class="lineNum">    1435</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1436"><span class="lineNum">    1436</span>              :     ), \</span>
+<span id="L1437"><span class="lineNum">    1437</span>              :     millimeter_t: _Generic((b), \</span>
+<span id="L1438"><span class="lineNum">    1438</span>              :         float: dearunits_divide_millimeter_by_scalar, \</span>
+<span id="L1439"><span class="lineNum">    1439</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1440"><span class="lineNum">    1440</span>              :     ), \</span>
+<span id="L1441"><span class="lineNum">    1441</span>              :     centimeter_t: _Generic((b), \</span>
+<span id="L1442"><span class="lineNum">    1442</span>              :         float: dearunits_divide_centimeter_by_scalar, \</span>
+<span id="L1443"><span class="lineNum">    1443</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1444"><span class="lineNum">    1444</span>              :     ), \</span>
+<span id="L1445"><span class="lineNum">    1445</span>              :     inch_t: _Generic((b), \</span>
+<span id="L1446"><span class="lineNum">    1446</span>              :         float: dearunits_divide_inch_by_scalar, \</span>
+<span id="L1447"><span class="lineNum">    1447</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1448"><span class="lineNum">    1448</span>              :     ), \</span>
+<span id="L1449"><span class="lineNum">    1449</span>              :     foot_t: _Generic((b), \</span>
+<span id="L1450"><span class="lineNum">    1450</span>              :         float: dearunits_divide_foot_by_scalar, \</span>
+<span id="L1451"><span class="lineNum">    1451</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1452"><span class="lineNum">    1452</span>              :     ), \</span>
+<span id="L1453"><span class="lineNum">    1453</span>              :     mile_t: _Generic((b), \</span>
+<span id="L1454"><span class="lineNum">    1454</span>              :         float: dearunits_divide_mile_by_scalar, \</span>
+<span id="L1455"><span class="lineNum">    1455</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1456"><span class="lineNum">    1456</span>              :     ), \</span>
+<span id="L1457"><span class="lineNum">    1457</span>              :     kilometer_t: _Generic((b), \</span>
+<span id="L1458"><span class="lineNum">    1458</span>              :         float: dearunits_divide_kilometer_by_scalar, \</span>
 <span id="L1459"><span class="lineNum">    1459</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1460"><span class="lineNum">    1460</span>              :     ), \</span>
-<span id="L1461"><span class="lineNum">    1461</span>              :     millisecond_t: _Generic((b), \</span>
-<span id="L1462"><span class="lineNum">    1462</span>              :         float: dearunits_divide_millisecond_by_scalar, \</span>
-<span id="L1463"><span class="lineNum">    1463</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1464"><span class="lineNum">    1464</span>              :     ), \</span>
-<span id="L1465"><span class="lineNum">    1465</span>              :     minute_t: _Generic((b), \</span>
-<span id="L1466"><span class="lineNum">    1466</span>              :         float: dearunits_divide_minute_by_scalar, \</span>
-<span id="L1467"><span class="lineNum">    1467</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1468"><span class="lineNum">    1468</span>              :     ), \</span>
-<span id="L1469"><span class="lineNum">    1469</span>              :     hour_t: _Generic((b), \</span>
-<span id="L1470"><span class="lineNum">    1470</span>              :         float: dearunits_divide_hour_by_scalar, \</span>
-<span id="L1471"><span class="lineNum">    1471</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1472"><span class="lineNum">    1472</span>              :     ), \</span>
-<span id="L1473"><span class="lineNum">    1473</span>              :     day_t: _Generic((b), \</span>
-<span id="L1474"><span class="lineNum">    1474</span>              :         float: dearunits_divide_day_by_scalar, \</span>
-<span id="L1475"><span class="lineNum">    1475</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1476"><span class="lineNum">    1476</span>              :     ), \</span>
-<span id="L1477"><span class="lineNum">    1477</span>              :     kilogram_t: _Generic((b), \</span>
-<span id="L1478"><span class="lineNum">    1478</span>              :         float: dearunits_divide_kilogram_by_scalar, \</span>
-<span id="L1479"><span class="lineNum">    1479</span>              :         kilogram_t: dearunits_divide_kilogram_by_kilogram, \</span>
+<span id="L1461"><span class="lineNum">    1461</span>              :     second_t: _Generic((b), \</span>
+<span id="L1462"><span class="lineNum">    1462</span>              :         float: dearunits_divide_second_by_scalar, \</span>
+<span id="L1463"><span class="lineNum">    1463</span>              :         second_t: dearunits_divide_second_by_second, \</span>
+<span id="L1464"><span class="lineNum">    1464</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1465"><span class="lineNum">    1465</span>              :     ), \</span>
+<span id="L1466"><span class="lineNum">    1466</span>              :     millisecond_t: _Generic((b), \</span>
+<span id="L1467"><span class="lineNum">    1467</span>              :         float: dearunits_divide_millisecond_by_scalar, \</span>
+<span id="L1468"><span class="lineNum">    1468</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1469"><span class="lineNum">    1469</span>              :     ), \</span>
+<span id="L1470"><span class="lineNum">    1470</span>              :     minute_t: _Generic((b), \</span>
+<span id="L1471"><span class="lineNum">    1471</span>              :         float: dearunits_divide_minute_by_scalar, \</span>
+<span id="L1472"><span class="lineNum">    1472</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1473"><span class="lineNum">    1473</span>              :     ), \</span>
+<span id="L1474"><span class="lineNum">    1474</span>              :     hour_t: _Generic((b), \</span>
+<span id="L1475"><span class="lineNum">    1475</span>              :         float: dearunits_divide_hour_by_scalar, \</span>
+<span id="L1476"><span class="lineNum">    1476</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1477"><span class="lineNum">    1477</span>              :     ), \</span>
+<span id="L1478"><span class="lineNum">    1478</span>              :     day_t: _Generic((b), \</span>
+<span id="L1479"><span class="lineNum">    1479</span>              :         float: dearunits_divide_day_by_scalar, \</span>
 <span id="L1480"><span class="lineNum">    1480</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1481"><span class="lineNum">    1481</span>              :     ), \</span>
-<span id="L1482"><span class="lineNum">    1482</span>              :     gram_t: _Generic((b), \</span>
-<span id="L1483"><span class="lineNum">    1483</span>              :         float: dearunits_divide_gram_by_scalar, \</span>
-<span id="L1484"><span class="lineNum">    1484</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1485"><span class="lineNum">    1485</span>              :     ), \</span>
-<span id="L1486"><span class="lineNum">    1486</span>              :     pound_t: _Generic((b), \</span>
-<span id="L1487"><span class="lineNum">    1487</span>              :         float: dearunits_divide_pound_by_scalar, \</span>
-<span id="L1488"><span class="lineNum">    1488</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1489"><span class="lineNum">    1489</span>              :     ), \</span>
-<span id="L1490"><span class="lineNum">    1490</span>              :     amp_t: _Generic((b), \</span>
-<span id="L1491"><span class="lineNum">    1491</span>              :         float: dearunits_divide_amp_by_scalar, \</span>
-<span id="L1492"><span class="lineNum">    1492</span>              :         amp_t: dearunits_divide_amp_by_amp, \</span>
-<span id="L1493"><span class="lineNum">    1493</span>              :         hertz_t: dearunits_divide_amp_by_hertz, \</span>
-<span id="L1494"><span class="lineNum">    1494</span>              :         coulomb_t: dearunits_divide_amp_by_coulomb, \</span>
-<span id="L1495"><span class="lineNum">    1495</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1496"><span class="lineNum">    1496</span>              :     ), \</span>
-<span id="L1497"><span class="lineNum">    1497</span>              :     milliamp_t: _Generic((b), \</span>
-<span id="L1498"><span class="lineNum">    1498</span>              :         float: dearunits_divide_milliamp_by_scalar, \</span>
-<span id="L1499"><span class="lineNum">    1499</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1500"><span class="lineNum">    1500</span>              :     ), \</span>
-<span id="L1501"><span class="lineNum">    1501</span>              :     celsius_t: _Generic((b), \</span>
-<span id="L1502"><span class="lineNum">    1502</span>              :         float: dearunits_divide_celsius_by_scalar, \</span>
-<span id="L1503"><span class="lineNum">    1503</span>              :         celsius_t: dearunits_divide_celsius_by_celsius, \</span>
+<span id="L1482"><span class="lineNum">    1482</span>              :     kilogram_t: _Generic((b), \</span>
+<span id="L1483"><span class="lineNum">    1483</span>              :         float: dearunits_divide_kilogram_by_scalar, \</span>
+<span id="L1484"><span class="lineNum">    1484</span>              :         kilogram_t: dearunits_divide_kilogram_by_kilogram, \</span>
+<span id="L1485"><span class="lineNum">    1485</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1486"><span class="lineNum">    1486</span>              :     ), \</span>
+<span id="L1487"><span class="lineNum">    1487</span>              :     gram_t: _Generic((b), \</span>
+<span id="L1488"><span class="lineNum">    1488</span>              :         float: dearunits_divide_gram_by_scalar, \</span>
+<span id="L1489"><span class="lineNum">    1489</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1490"><span class="lineNum">    1490</span>              :     ), \</span>
+<span id="L1491"><span class="lineNum">    1491</span>              :     pound_t: _Generic((b), \</span>
+<span id="L1492"><span class="lineNum">    1492</span>              :         float: dearunits_divide_pound_by_scalar, \</span>
+<span id="L1493"><span class="lineNum">    1493</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1494"><span class="lineNum">    1494</span>              :     ), \</span>
+<span id="L1495"><span class="lineNum">    1495</span>              :     amp_t: _Generic((b), \</span>
+<span id="L1496"><span class="lineNum">    1496</span>              :         float: dearunits_divide_amp_by_scalar, \</span>
+<span id="L1497"><span class="lineNum">    1497</span>              :         amp_t: dearunits_divide_amp_by_amp, \</span>
+<span id="L1498"><span class="lineNum">    1498</span>              :         hertz_t: dearunits_divide_amp_by_hertz, \</span>
+<span id="L1499"><span class="lineNum">    1499</span>              :         coulomb_t: dearunits_divide_amp_by_coulomb, \</span>
+<span id="L1500"><span class="lineNum">    1500</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1501"><span class="lineNum">    1501</span>              :     ), \</span>
+<span id="L1502"><span class="lineNum">    1502</span>              :     milliamp_t: _Generic((b), \</span>
+<span id="L1503"><span class="lineNum">    1503</span>              :         float: dearunits_divide_milliamp_by_scalar, \</span>
 <span id="L1504"><span class="lineNum">    1504</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1505"><span class="lineNum">    1505</span>              :     ), \</span>
-<span id="L1506"><span class="lineNum">    1506</span>              :     fahrenheit_t: _Generic((b), \</span>
-<span id="L1507"><span class="lineNum">    1507</span>              :         float: dearunits_divide_fahrenheit_by_scalar, \</span>
-<span id="L1508"><span class="lineNum">    1508</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1509"><span class="lineNum">    1509</span>              :     ), \</span>
-<span id="L1510"><span class="lineNum">    1510</span>              :     radian_t: _Generic((b), \</span>
-<span id="L1511"><span class="lineNum">    1511</span>              :         float: dearunits_divide_radian_by_scalar, \</span>
-<span id="L1512"><span class="lineNum">    1512</span>              :         second_t: dearunits_divide_radian_by_second, \</span>
-<span id="L1513"><span class="lineNum">    1513</span>              :         radian_t: dearunits_divide_radian_by_radian, \</span>
-<span id="L1514"><span class="lineNum">    1514</span>              :         radians_per_second_t: dearunits_divide_radian_by_radians_per_second, \</span>
-<span id="L1515"><span class="lineNum">    1515</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1516"><span class="lineNum">    1516</span>              :     ), \</span>
-<span id="L1517"><span class="lineNum">    1517</span>              :     degree_t: _Generic((b), \</span>
-<span id="L1518"><span class="lineNum">    1518</span>              :         float: dearunits_divide_degree_by_scalar, \</span>
-<span id="L1519"><span class="lineNum">    1519</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1520"><span class="lineNum">    1520</span>              :     ), \</span>
-<span id="L1521"><span class="lineNum">    1521</span>              :     revolution_t: _Generic((b), \</span>
-<span id="L1522"><span class="lineNum">    1522</span>              :         float: dearunits_divide_revolution_by_scalar, \</span>
-<span id="L1523"><span class="lineNum">    1523</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1524"><span class="lineNum">    1524</span>              :     ), \</span>
-<span id="L1525"><span class="lineNum">    1525</span>              :     meters_per_second_t: _Generic((b), \</span>
-<span id="L1526"><span class="lineNum">    1526</span>              :         float: dearunits_divide_meters_per_second_by_scalar, \</span>
-<span id="L1527"><span class="lineNum">    1527</span>              :         meter_t: dearunits_divide_meters_per_second_by_meter, \</span>
-<span id="L1528"><span class="lineNum">    1528</span>              :         second_t: dearunits_divide_meters_per_second_by_second, \</span>
-<span id="L1529"><span class="lineNum">    1529</span>              :         meters_per_second_t: dearunits_divide_meters_per_second_by_meters_per_second, \</span>
-<span id="L1530"><span class="lineNum">    1530</span>              :         meters_per_second_squared_t: dearunits_divide_meters_per_second_by_meters_per_second_squared, \</span>
-<span id="L1531"><span class="lineNum">    1531</span>              :         hertz_t: dearunits_divide_meters_per_second_by_hertz, \</span>
-<span id="L1532"><span class="lineNum">    1532</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1533"><span class="lineNum">    1533</span>              :     ), \</span>
-<span id="L1534"><span class="lineNum">    1534</span>              :     kilometers_per_hour_t: _Generic((b), \</span>
-<span id="L1535"><span class="lineNum">    1535</span>              :         float: dearunits_divide_kilometers_per_hour_by_scalar, \</span>
-<span id="L1536"><span class="lineNum">    1536</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1537"><span class="lineNum">    1537</span>              :     ), \</span>
-<span id="L1538"><span class="lineNum">    1538</span>              :     miles_per_hour_t: _Generic((b), \</span>
-<span id="L1539"><span class="lineNum">    1539</span>              :         float: dearunits_divide_miles_per_hour_by_scalar, \</span>
-<span id="L1540"><span class="lineNum">    1540</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1541"><span class="lineNum">    1541</span>              :     ), \</span>
-<span id="L1542"><span class="lineNum">    1542</span>              :     meters_per_second_squared_t: _Generic((b), \</span>
-<span id="L1543"><span class="lineNum">    1543</span>              :         float: dearunits_divide_meters_per_second_squared_by_scalar, \</span>
-<span id="L1544"><span class="lineNum">    1544</span>              :         meters_per_second_t: dearunits_divide_meters_per_second_squared_by_meters_per_second, \</span>
-<span id="L1545"><span class="lineNum">    1545</span>              :         meters_per_second_squared_t: dearunits_divide_meters_per_second_squared_by_meters_per_second_squared, \</span>
-<span id="L1546"><span class="lineNum">    1546</span>              :         hertz_t: dearunits_divide_meters_per_second_squared_by_hertz, \</span>
-<span id="L1547"><span class="lineNum">    1547</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1548"><span class="lineNum">    1548</span>              :     ), \</span>
-<span id="L1549"><span class="lineNum">    1549</span>              :     standard_gravity_t: _Generic((b), \</span>
-<span id="L1550"><span class="lineNum">    1550</span>              :         float: dearunits_divide_standard_gravity_by_scalar, \</span>
-<span id="L1551"><span class="lineNum">    1551</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1552"><span class="lineNum">    1552</span>              :     ), \</span>
-<span id="L1553"><span class="lineNum">    1553</span>              :     radians_per_second_t: _Generic((b), \</span>
-<span id="L1554"><span class="lineNum">    1554</span>              :         float: dearunits_divide_radians_per_second_by_scalar, \</span>
-<span id="L1555"><span class="lineNum">    1555</span>              :         radian_t: dearunits_divide_radians_per_second_by_radian, \</span>
-<span id="L1556"><span class="lineNum">    1556</span>              :         radians_per_second_t: dearunits_divide_radians_per_second_by_radians_per_second, \</span>
-<span id="L1557"><span class="lineNum">    1557</span>              :         hertz_t: dearunits_divide_radians_per_second_by_hertz, \</span>
-<span id="L1558"><span class="lineNum">    1558</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1559"><span class="lineNum">    1559</span>              :     ), \</span>
-<span id="L1560"><span class="lineNum">    1560</span>              :     degrees_per_second_t: _Generic((b), \</span>
-<span id="L1561"><span class="lineNum">    1561</span>              :         float: dearunits_divide_degrees_per_second_by_scalar, \</span>
-<span id="L1562"><span class="lineNum">    1562</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1563"><span class="lineNum">    1563</span>              :     ), \</span>
-<span id="L1564"><span class="lineNum">    1564</span>              :     revolutions_per_minute_t: _Generic((b), \</span>
-<span id="L1565"><span class="lineNum">    1565</span>              :         float: dearunits_divide_revolutions_per_minute_by_scalar, \</span>
-<span id="L1566"><span class="lineNum">    1566</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1567"><span class="lineNum">    1567</span>              :     ), \</span>
-<span id="L1568"><span class="lineNum">    1568</span>              :     newton_t: _Generic((b), \</span>
-<span id="L1569"><span class="lineNum">    1569</span>              :         float: dearunits_divide_newton_by_scalar, \</span>
-<span id="L1570"><span class="lineNum">    1570</span>              :         kilogram_t: dearunits_divide_newton_by_kilogram, \</span>
-<span id="L1571"><span class="lineNum">    1571</span>              :         meters_per_second_squared_t: dearunits_divide_newton_by_meters_per_second_squared, \</span>
-<span id="L1572"><span class="lineNum">    1572</span>              :         newton_t: dearunits_divide_newton_by_newton, \</span>
-<span id="L1573"><span class="lineNum">    1573</span>              :         pascal_t: dearunits_divide_newton_by_pascal, \</span>
-<span id="L1574"><span class="lineNum">    1574</span>              :         square_meter_t: dearunits_divide_newton_by_square_meter, \</span>
-<span id="L1575"><span class="lineNum">    1575</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1576"><span class="lineNum">    1576</span>              :     ), \</span>
-<span id="L1577"><span class="lineNum">    1577</span>              :     pound_force_t: _Generic((b), \</span>
-<span id="L1578"><span class="lineNum">    1578</span>              :         float: dearunits_divide_pound_force_by_scalar, \</span>
-<span id="L1579"><span class="lineNum">    1579</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1580"><span class="lineNum">    1580</span>              :     ), \</span>
-<span id="L1581"><span class="lineNum">    1581</span>              :     newton_meter_t: _Generic((b), \</span>
-<span id="L1582"><span class="lineNum">    1582</span>              :         float: dearunits_divide_newton_meter_by_scalar, \</span>
-<span id="L1583"><span class="lineNum">    1583</span>              :         meter_t: dearunits_divide_newton_meter_by_meter, \</span>
-<span id="L1584"><span class="lineNum">    1584</span>              :         newton_t: dearunits_divide_newton_meter_by_newton, \</span>
-<span id="L1585"><span class="lineNum">    1585</span>              :         newton_meter_t: dearunits_divide_newton_meter_by_newton_meter, \</span>
-<span id="L1586"><span class="lineNum">    1586</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1587"><span class="lineNum">    1587</span>              :     ), \</span>
-<span id="L1588"><span class="lineNum">    1588</span>              :     pound_foot_t: _Generic((b), \</span>
-<span id="L1589"><span class="lineNum">    1589</span>              :         float: dearunits_divide_pound_foot_by_scalar, \</span>
-<span id="L1590"><span class="lineNum">    1590</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1591"><span class="lineNum">    1591</span>              :     ), \</span>
-<span id="L1592"><span class="lineNum">    1592</span>              :     pascal_t: _Generic((b), \</span>
-<span id="L1593"><span class="lineNum">    1593</span>              :         float: dearunits_divide_pascal_by_scalar, \</span>
-<span id="L1594"><span class="lineNum">    1594</span>              :         pascal_t: dearunits_divide_pascal_by_pascal, \</span>
-<span id="L1595"><span class="lineNum">    1595</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1596"><span class="lineNum">    1596</span>              :     ), \</span>
-<span id="L1597"><span class="lineNum">    1597</span>              :     kilopascal_t: _Generic((b), \</span>
-<span id="L1598"><span class="lineNum">    1598</span>              :         float: dearunits_divide_kilopascal_by_scalar, \</span>
-<span id="L1599"><span class="lineNum">    1599</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1600"><span class="lineNum">    1600</span>              :     ), \</span>
-<span id="L1601"><span class="lineNum">    1601</span>              :     pound_per_square_inch_t: _Generic((b), \</span>
-<span id="L1602"><span class="lineNum">    1602</span>              :         float: dearunits_divide_pound_per_square_inch_by_scalar, \</span>
-<span id="L1603"><span class="lineNum">    1603</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1604"><span class="lineNum">    1604</span>              :     ), \</span>
-<span id="L1605"><span class="lineNum">    1605</span>              :     bar_t: _Generic((b), \</span>
-<span id="L1606"><span class="lineNum">    1606</span>              :         float: dearunits_divide_bar_by_scalar, \</span>
-<span id="L1607"><span class="lineNum">    1607</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1608"><span class="lineNum">    1608</span>              :     ), \</span>
-<span id="L1609"><span class="lineNum">    1609</span>              :     volt_t: _Generic((b), \</span>
-<span id="L1610"><span class="lineNum">    1610</span>              :         float: dearunits_divide_volt_by_scalar, \</span>
-<span id="L1611"><span class="lineNum">    1611</span>              :         amp_t: dearunits_divide_volt_by_amp, \</span>
-<span id="L1612"><span class="lineNum">    1612</span>              :         volt_t: dearunits_divide_volt_by_volt, \</span>
-<span id="L1613"><span class="lineNum">    1613</span>              :         ohm_t: dearunits_divide_volt_by_ohm, \</span>
-<span id="L1614"><span class="lineNum">    1614</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1615"><span class="lineNum">    1615</span>              :     ), \</span>
-<span id="L1616"><span class="lineNum">    1616</span>              :     millivolt_t: _Generic((b), \</span>
-<span id="L1617"><span class="lineNum">    1617</span>              :         float: dearunits_divide_millivolt_by_scalar, \</span>
-<span id="L1618"><span class="lineNum">    1618</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1619"><span class="lineNum">    1619</span>              :     ), \</span>
-<span id="L1620"><span class="lineNum">    1620</span>              :     square_meter_t: _Generic((b), \</span>
-<span id="L1621"><span class="lineNum">    1621</span>              :         float: dearunits_divide_square_meter_by_scalar, \</span>
-<span id="L1622"><span class="lineNum">    1622</span>              :         meter_t: dearunits_divide_square_meter_by_meter, \</span>
-<span id="L1623"><span class="lineNum">    1623</span>              :         square_meter_t: dearunits_divide_square_meter_by_square_meter, \</span>
+<span id="L1506"><span class="lineNum">    1506</span>              :     celsius_t: _Generic((b), \</span>
+<span id="L1507"><span class="lineNum">    1507</span>              :         float: dearunits_divide_celsius_by_scalar, \</span>
+<span id="L1508"><span class="lineNum">    1508</span>              :         celsius_t: dearunits_divide_celsius_by_celsius, \</span>
+<span id="L1509"><span class="lineNum">    1509</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1510"><span class="lineNum">    1510</span>              :     ), \</span>
+<span id="L1511"><span class="lineNum">    1511</span>              :     fahrenheit_t: _Generic((b), \</span>
+<span id="L1512"><span class="lineNum">    1512</span>              :         float: dearunits_divide_fahrenheit_by_scalar, \</span>
+<span id="L1513"><span class="lineNum">    1513</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1514"><span class="lineNum">    1514</span>              :     ), \</span>
+<span id="L1515"><span class="lineNum">    1515</span>              :     radian_t: _Generic((b), \</span>
+<span id="L1516"><span class="lineNum">    1516</span>              :         float: dearunits_divide_radian_by_scalar, \</span>
+<span id="L1517"><span class="lineNum">    1517</span>              :         second_t: dearunits_divide_radian_by_second, \</span>
+<span id="L1518"><span class="lineNum">    1518</span>              :         radian_t: dearunits_divide_radian_by_radian, \</span>
+<span id="L1519"><span class="lineNum">    1519</span>              :         radians_per_second_t: dearunits_divide_radian_by_radians_per_second, \</span>
+<span id="L1520"><span class="lineNum">    1520</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1521"><span class="lineNum">    1521</span>              :     ), \</span>
+<span id="L1522"><span class="lineNum">    1522</span>              :     degree_t: _Generic((b), \</span>
+<span id="L1523"><span class="lineNum">    1523</span>              :         float: dearunits_divide_degree_by_scalar, \</span>
+<span id="L1524"><span class="lineNum">    1524</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1525"><span class="lineNum">    1525</span>              :     ), \</span>
+<span id="L1526"><span class="lineNum">    1526</span>              :     revolution_t: _Generic((b), \</span>
+<span id="L1527"><span class="lineNum">    1527</span>              :         float: dearunits_divide_revolution_by_scalar, \</span>
+<span id="L1528"><span class="lineNum">    1528</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1529"><span class="lineNum">    1529</span>              :     ), \</span>
+<span id="L1530"><span class="lineNum">    1530</span>              :     meters_per_second_t: _Generic((b), \</span>
+<span id="L1531"><span class="lineNum">    1531</span>              :         float: dearunits_divide_meters_per_second_by_scalar, \</span>
+<span id="L1532"><span class="lineNum">    1532</span>              :         meter_t: dearunits_divide_meters_per_second_by_meter, \</span>
+<span id="L1533"><span class="lineNum">    1533</span>              :         second_t: dearunits_divide_meters_per_second_by_second, \</span>
+<span id="L1534"><span class="lineNum">    1534</span>              :         meters_per_second_t: dearunits_divide_meters_per_second_by_meters_per_second, \</span>
+<span id="L1535"><span class="lineNum">    1535</span>              :         meters_per_second_squared_t: dearunits_divide_meters_per_second_by_meters_per_second_squared, \</span>
+<span id="L1536"><span class="lineNum">    1536</span>              :         radians_per_second_t: dearunits_divide_meters_per_second_by_radians_per_second, \</span>
+<span id="L1537"><span class="lineNum">    1537</span>              :         hertz_t: dearunits_divide_meters_per_second_by_hertz, \</span>
+<span id="L1538"><span class="lineNum">    1538</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1539"><span class="lineNum">    1539</span>              :     ), \</span>
+<span id="L1540"><span class="lineNum">    1540</span>              :     kilometers_per_hour_t: _Generic((b), \</span>
+<span id="L1541"><span class="lineNum">    1541</span>              :         float: dearunits_divide_kilometers_per_hour_by_scalar, \</span>
+<span id="L1542"><span class="lineNum">    1542</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1543"><span class="lineNum">    1543</span>              :     ), \</span>
+<span id="L1544"><span class="lineNum">    1544</span>              :     miles_per_hour_t: _Generic((b), \</span>
+<span id="L1545"><span class="lineNum">    1545</span>              :         float: dearunits_divide_miles_per_hour_by_scalar, \</span>
+<span id="L1546"><span class="lineNum">    1546</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1547"><span class="lineNum">    1547</span>              :     ), \</span>
+<span id="L1548"><span class="lineNum">    1548</span>              :     meters_per_second_squared_t: _Generic((b), \</span>
+<span id="L1549"><span class="lineNum">    1549</span>              :         float: dearunits_divide_meters_per_second_squared_by_scalar, \</span>
+<span id="L1550"><span class="lineNum">    1550</span>              :         meters_per_second_t: dearunits_divide_meters_per_second_squared_by_meters_per_second, \</span>
+<span id="L1551"><span class="lineNum">    1551</span>              :         meters_per_second_squared_t: dearunits_divide_meters_per_second_squared_by_meters_per_second_squared, \</span>
+<span id="L1552"><span class="lineNum">    1552</span>              :         hertz_t: dearunits_divide_meters_per_second_squared_by_hertz, \</span>
+<span id="L1553"><span class="lineNum">    1553</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1554"><span class="lineNum">    1554</span>              :     ), \</span>
+<span id="L1555"><span class="lineNum">    1555</span>              :     standard_gravity_t: _Generic((b), \</span>
+<span id="L1556"><span class="lineNum">    1556</span>              :         float: dearunits_divide_standard_gravity_by_scalar, \</span>
+<span id="L1557"><span class="lineNum">    1557</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1558"><span class="lineNum">    1558</span>              :     ), \</span>
+<span id="L1559"><span class="lineNum">    1559</span>              :     radians_per_second_t: _Generic((b), \</span>
+<span id="L1560"><span class="lineNum">    1560</span>              :         float: dearunits_divide_radians_per_second_by_scalar, \</span>
+<span id="L1561"><span class="lineNum">    1561</span>              :         radian_t: dearunits_divide_radians_per_second_by_radian, \</span>
+<span id="L1562"><span class="lineNum">    1562</span>              :         radians_per_second_t: dearunits_divide_radians_per_second_by_radians_per_second, \</span>
+<span id="L1563"><span class="lineNum">    1563</span>              :         hertz_t: dearunits_divide_radians_per_second_by_hertz, \</span>
+<span id="L1564"><span class="lineNum">    1564</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1565"><span class="lineNum">    1565</span>              :     ), \</span>
+<span id="L1566"><span class="lineNum">    1566</span>              :     degrees_per_second_t: _Generic((b), \</span>
+<span id="L1567"><span class="lineNum">    1567</span>              :         float: dearunits_divide_degrees_per_second_by_scalar, \</span>
+<span id="L1568"><span class="lineNum">    1568</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1569"><span class="lineNum">    1569</span>              :     ), \</span>
+<span id="L1570"><span class="lineNum">    1570</span>              :     revolutions_per_minute_t: _Generic((b), \</span>
+<span id="L1571"><span class="lineNum">    1571</span>              :         float: dearunits_divide_revolutions_per_minute_by_scalar, \</span>
+<span id="L1572"><span class="lineNum">    1572</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1573"><span class="lineNum">    1573</span>              :     ), \</span>
+<span id="L1574"><span class="lineNum">    1574</span>              :     newton_t: _Generic((b), \</span>
+<span id="L1575"><span class="lineNum">    1575</span>              :         float: dearunits_divide_newton_by_scalar, \</span>
+<span id="L1576"><span class="lineNum">    1576</span>              :         kilogram_t: dearunits_divide_newton_by_kilogram, \</span>
+<span id="L1577"><span class="lineNum">    1577</span>              :         meters_per_second_squared_t: dearunits_divide_newton_by_meters_per_second_squared, \</span>
+<span id="L1578"><span class="lineNum">    1578</span>              :         newton_t: dearunits_divide_newton_by_newton, \</span>
+<span id="L1579"><span class="lineNum">    1579</span>              :         pascal_t: dearunits_divide_newton_by_pascal, \</span>
+<span id="L1580"><span class="lineNum">    1580</span>              :         square_meter_t: dearunits_divide_newton_by_square_meter, \</span>
+<span id="L1581"><span class="lineNum">    1581</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1582"><span class="lineNum">    1582</span>              :     ), \</span>
+<span id="L1583"><span class="lineNum">    1583</span>              :     pound_force_t: _Generic((b), \</span>
+<span id="L1584"><span class="lineNum">    1584</span>              :         float: dearunits_divide_pound_force_by_scalar, \</span>
+<span id="L1585"><span class="lineNum">    1585</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1586"><span class="lineNum">    1586</span>              :     ), \</span>
+<span id="L1587"><span class="lineNum">    1587</span>              :     newton_meter_t: _Generic((b), \</span>
+<span id="L1588"><span class="lineNum">    1588</span>              :         float: dearunits_divide_newton_meter_by_scalar, \</span>
+<span id="L1589"><span class="lineNum">    1589</span>              :         meter_t: dearunits_divide_newton_meter_by_meter, \</span>
+<span id="L1590"><span class="lineNum">    1590</span>              :         newton_t: dearunits_divide_newton_meter_by_newton, \</span>
+<span id="L1591"><span class="lineNum">    1591</span>              :         newton_meter_t: dearunits_divide_newton_meter_by_newton_meter, \</span>
+<span id="L1592"><span class="lineNum">    1592</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1593"><span class="lineNum">    1593</span>              :     ), \</span>
+<span id="L1594"><span class="lineNum">    1594</span>              :     pound_foot_t: _Generic((b), \</span>
+<span id="L1595"><span class="lineNum">    1595</span>              :         float: dearunits_divide_pound_foot_by_scalar, \</span>
+<span id="L1596"><span class="lineNum">    1596</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1597"><span class="lineNum">    1597</span>              :     ), \</span>
+<span id="L1598"><span class="lineNum">    1598</span>              :     pascal_t: _Generic((b), \</span>
+<span id="L1599"><span class="lineNum">    1599</span>              :         float: dearunits_divide_pascal_by_scalar, \</span>
+<span id="L1600"><span class="lineNum">    1600</span>              :         pascal_t: dearunits_divide_pascal_by_pascal, \</span>
+<span id="L1601"><span class="lineNum">    1601</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1602"><span class="lineNum">    1602</span>              :     ), \</span>
+<span id="L1603"><span class="lineNum">    1603</span>              :     kilopascal_t: _Generic((b), \</span>
+<span id="L1604"><span class="lineNum">    1604</span>              :         float: dearunits_divide_kilopascal_by_scalar, \</span>
+<span id="L1605"><span class="lineNum">    1605</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1606"><span class="lineNum">    1606</span>              :     ), \</span>
+<span id="L1607"><span class="lineNum">    1607</span>              :     pound_per_square_inch_t: _Generic((b), \</span>
+<span id="L1608"><span class="lineNum">    1608</span>              :         float: dearunits_divide_pound_per_square_inch_by_scalar, \</span>
+<span id="L1609"><span class="lineNum">    1609</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1610"><span class="lineNum">    1610</span>              :     ), \</span>
+<span id="L1611"><span class="lineNum">    1611</span>              :     bar_t: _Generic((b), \</span>
+<span id="L1612"><span class="lineNum">    1612</span>              :         float: dearunits_divide_bar_by_scalar, \</span>
+<span id="L1613"><span class="lineNum">    1613</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1614"><span class="lineNum">    1614</span>              :     ), \</span>
+<span id="L1615"><span class="lineNum">    1615</span>              :     volt_t: _Generic((b), \</span>
+<span id="L1616"><span class="lineNum">    1616</span>              :         float: dearunits_divide_volt_by_scalar, \</span>
+<span id="L1617"><span class="lineNum">    1617</span>              :         amp_t: dearunits_divide_volt_by_amp, \</span>
+<span id="L1618"><span class="lineNum">    1618</span>              :         volt_t: dearunits_divide_volt_by_volt, \</span>
+<span id="L1619"><span class="lineNum">    1619</span>              :         ohm_t: dearunits_divide_volt_by_ohm, \</span>
+<span id="L1620"><span class="lineNum">    1620</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1621"><span class="lineNum">    1621</span>              :     ), \</span>
+<span id="L1622"><span class="lineNum">    1622</span>              :     millivolt_t: _Generic((b), \</span>
+<span id="L1623"><span class="lineNum">    1623</span>              :         float: dearunits_divide_millivolt_by_scalar, \</span>
 <span id="L1624"><span class="lineNum">    1624</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
 <span id="L1625"><span class="lineNum">    1625</span>              :     ), \</span>
-<span id="L1626"><span class="lineNum">    1626</span>              :     square_millimeter_t: _Generic((b), \</span>
-<span id="L1627"><span class="lineNum">    1627</span>              :         float: dearunits_divide_square_millimeter_by_scalar, \</span>
-<span id="L1628"><span class="lineNum">    1628</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1629"><span class="lineNum">    1629</span>              :     ), \</span>
-<span id="L1630"><span class="lineNum">    1630</span>              :     square_centimeter_t: _Generic((b), \</span>
-<span id="L1631"><span class="lineNum">    1631</span>              :         float: dearunits_divide_square_centimeter_by_scalar, \</span>
-<span id="L1632"><span class="lineNum">    1632</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1633"><span class="lineNum">    1633</span>              :     ), \</span>
-<span id="L1634"><span class="lineNum">    1634</span>              :     hertz_t: _Generic((b), \</span>
-<span id="L1635"><span class="lineNum">    1635</span>              :         float: dearunits_divide_hertz_by_scalar, \</span>
-<span id="L1636"><span class="lineNum">    1636</span>              :         hertz_t: dearunits_divide_hertz_by_hertz, \</span>
-<span id="L1637"><span class="lineNum">    1637</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1638"><span class="lineNum">    1638</span>              :     ), \</span>
-<span id="L1639"><span class="lineNum">    1639</span>              :     kilohertz_t: _Generic((b), \</span>
-<span id="L1640"><span class="lineNum">    1640</span>              :         float: dearunits_divide_kilohertz_by_scalar, \</span>
-<span id="L1641"><span class="lineNum">    1641</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1642"><span class="lineNum">    1642</span>              :     ), \</span>
-<span id="L1643"><span class="lineNum">    1643</span>              :     coulomb_t: _Generic((b), \</span>
-<span id="L1644"><span class="lineNum">    1644</span>              :         float: dearunits_divide_coulomb_by_scalar, \</span>
-<span id="L1645"><span class="lineNum">    1645</span>              :         second_t: dearunits_divide_coulomb_by_second, \</span>
-<span id="L1646"><span class="lineNum">    1646</span>              :         amp_t: dearunits_divide_coulomb_by_amp, \</span>
-<span id="L1647"><span class="lineNum">    1647</span>              :         coulomb_t: dearunits_divide_coulomb_by_coulomb, \</span>
-<span id="L1648"><span class="lineNum">    1648</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1649"><span class="lineNum">    1649</span>              :     ), \</span>
-<span id="L1650"><span class="lineNum">    1650</span>              :     amp_hour_t: _Generic((b), \</span>
-<span id="L1651"><span class="lineNum">    1651</span>              :         float: dearunits_divide_amp_hour_by_scalar, \</span>
-<span id="L1652"><span class="lineNum">    1652</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1653"><span class="lineNum">    1653</span>              :     ), \</span>
-<span id="L1654"><span class="lineNum">    1654</span>              :     ohm_t: _Generic((b), \</span>
-<span id="L1655"><span class="lineNum">    1655</span>              :         float: dearunits_divide_ohm_by_scalar, \</span>
-<span id="L1656"><span class="lineNum">    1656</span>              :         ohm_t: dearunits_divide_ohm_by_ohm, \</span>
-<span id="L1657"><span class="lineNum">    1657</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1658"><span class="lineNum">    1658</span>              :     ), \</span>
-<span id="L1659"><span class="lineNum">    1659</span>              :     milliohm_t: _Generic((b), \</span>
-<span id="L1660"><span class="lineNum">    1660</span>              :         float: dearunits_divide_milliohm_by_scalar, \</span>
-<span id="L1661"><span class="lineNum">    1661</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1662"><span class="lineNum">    1662</span>              :     ), \</span>
-<span id="L1663"><span class="lineNum">    1663</span>              :     kiloohm_t: _Generic((b), \</span>
-<span id="L1664"><span class="lineNum">    1664</span>              :         float: dearunits_divide_kiloohm_by_scalar, \</span>
-<span id="L1665"><span class="lineNum">    1665</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1666"><span class="lineNum">    1666</span>              :     ), \</span>
-<span id="L1667"><span class="lineNum">    1667</span>              :     watt_t: _Generic((b), \</span>
-<span id="L1668"><span class="lineNum">    1668</span>              :         float: dearunits_divide_watt_by_scalar, \</span>
-<span id="L1669"><span class="lineNum">    1669</span>              :         amp_t: dearunits_divide_watt_by_amp, \</span>
-<span id="L1670"><span class="lineNum">    1670</span>              :         meters_per_second_t: dearunits_divide_watt_by_meters_per_second, \</span>
-<span id="L1671"><span class="lineNum">    1671</span>              :         radians_per_second_t: dearunits_divide_watt_by_radians_per_second, \</span>
-<span id="L1672"><span class="lineNum">    1672</span>              :         newton_t: dearunits_divide_watt_by_newton, \</span>
-<span id="L1673"><span class="lineNum">    1673</span>              :         newton_meter_t: dearunits_divide_watt_by_newton_meter, \</span>
-<span id="L1674"><span class="lineNum">    1674</span>              :         volt_t: dearunits_divide_watt_by_volt, \</span>
-<span id="L1675"><span class="lineNum">    1675</span>              :         hertz_t: dearunits_divide_watt_by_hertz, \</span>
-<span id="L1676"><span class="lineNum">    1676</span>              :         watt_t: dearunits_divide_watt_by_watt, \</span>
-<span id="L1677"><span class="lineNum">    1677</span>              :         joule_t: dearunits_divide_watt_by_joule, \</span>
-<span id="L1678"><span class="lineNum">    1678</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1679"><span class="lineNum">    1679</span>              :     ), \</span>
-<span id="L1680"><span class="lineNum">    1680</span>              :     kilowatt_t: _Generic((b), \</span>
-<span id="L1681"><span class="lineNum">    1681</span>              :         float: dearunits_divide_kilowatt_by_scalar, \</span>
-<span id="L1682"><span class="lineNum">    1682</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1683"><span class="lineNum">    1683</span>              :     ), \</span>
-<span id="L1684"><span class="lineNum">    1684</span>              :     joule_t: _Generic((b), \</span>
-<span id="L1685"><span class="lineNum">    1685</span>              :         float: dearunits_divide_joule_by_scalar, \</span>
-<span id="L1686"><span class="lineNum">    1686</span>              :         second_t: dearunits_divide_joule_by_second, \</span>
-<span id="L1687"><span class="lineNum">    1687</span>              :         volt_t: dearunits_divide_joule_by_volt, \</span>
-<span id="L1688"><span class="lineNum">    1688</span>              :         coulomb_t: dearunits_divide_joule_by_coulomb, \</span>
-<span id="L1689"><span class="lineNum">    1689</span>              :         watt_t: dearunits_divide_joule_by_watt, \</span>
-<span id="L1690"><span class="lineNum">    1690</span>              :         joule_t: dearunits_divide_joule_by_joule, \</span>
-<span id="L1691"><span class="lineNum">    1691</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1692"><span class="lineNum">    1692</span>              :     ), \</span>
-<span id="L1693"><span class="lineNum">    1693</span>              :     watt_hour_t: _Generic((b), \</span>
-<span id="L1694"><span class="lineNum">    1694</span>              :         float: dearunits_divide_watt_hour_by_scalar, \</span>
-<span id="L1695"><span class="lineNum">    1695</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1696"><span class="lineNum">    1696</span>              :     ), \</span>
-<span id="L1697"><span class="lineNum">    1697</span>              :     kilowatt_hour_t: _Generic((b), \</span>
-<span id="L1698"><span class="lineNum">    1698</span>              :         float: dearunits_divide_kilowatt_hour_by_scalar, \</span>
-<span id="L1699"><span class="lineNum">    1699</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1700"><span class="lineNum">    1700</span>              :     ), \</span>
-<span id="L1701"><span class="lineNum">    1701</span>              :     float: _Generic((b), \</span>
-<span id="L1702"><span class="lineNum">    1702</span>              :         second_t: dearunits_divide_scalar_by_second, \</span>
-<span id="L1703"><span class="lineNum">    1703</span>              :         hertz_t: dearunits_divide_scalar_by_hertz, \</span>
-<span id="L1704"><span class="lineNum">    1704</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1705"><span class="lineNum">    1705</span>              :     ), \</span>
-<span id="L1706"><span class="lineNum">    1706</span>              :     default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
-<span id="L1707"><span class="lineNum">    1707</span>              : )(a, b)</span>
-<span id="L1708"><span class="lineNum">    1708</span>              : </span>
-<span id="L1709"><span class="lineNum">    1709</span>              : // ============================================================================</span>
-<span id="L1710"><span class="lineNum">    1710</span>              : // Square / square root</span>
-<span id="L1711"><span class="lineNum">    1711</span>              : // ============================================================================</span>
-<span id="L1712"><span class="lineNum">    1712</span>              : </span>
-<span id="L1713"><span class="lineNum">    1713</span>              : DU_FUNC_MODIFIERS</span>
-<span id="L1714"><span class="lineNum">    1714</span>              : square_meter_t dearunits_square_meter(meter_t a) {</span>
-<span id="L1715"><span class="lineNum">    1715</span> <span class="tlaGNC">           2 :     return (square_meter_t){ .value = a.value * a.value };</span></span>
-<span id="L1716"><span class="lineNum">    1716</span>              : }</span>
-<span id="L1717"><span class="lineNum">    1717</span>              : </span>
-<span id="L1718"><span class="lineNum">    1718</span>              : DU_FUNC_MODIFIERS</span>
-<span id="L1719"><span class="lineNum">    1719</span>              : meter_t dearunits_sqrt_square_meter(square_meter_t a) {</span>
-<span id="L1720"><span class="lineNum">    1720</span> <span class="tlaGNC">           2 :     return (meter_t){ .value = __builtin_sqrtf(a.value) };</span></span>
-<span id="L1721"><span class="lineNum">    1721</span>              : }</span>
-<span id="L1722"><span class="lineNum">    1722</span>              : </span>
-<span id="L1723"><span class="lineNum">    1723</span>              : #define DU_SQUARE(a) _Generic((a), \</span>
-<span id="L1724"><span class="lineNum">    1724</span>              :     meter_t: dearunits_square_meter \</span>
-<span id="L1725"><span class="lineNum">    1725</span>              : )(a)</span>
-<span id="L1726"><span class="lineNum">    1726</span>              : </span>
-<span id="L1727"><span class="lineNum">    1727</span>              : #define DU_SQRT(a) _Generic((a), \</span>
-<span id="L1728"><span class="lineNum">    1728</span>              :     square_meter_t: dearunits_sqrt_square_meter \</span>
-<span id="L1729"><span class="lineNum">    1729</span>              : )(a)</span>
-<span id="L1730"><span class="lineNum">    1730</span>              : </span>
-<span id="L1731"><span class="lineNum">    1731</span>              : #endif // DEARUNITS_H</span>
+<span id="L1626"><span class="lineNum">    1626</span>              :     square_meter_t: _Generic((b), \</span>
+<span id="L1627"><span class="lineNum">    1627</span>              :         float: dearunits_divide_square_meter_by_scalar, \</span>
+<span id="L1628"><span class="lineNum">    1628</span>              :         meter_t: dearunits_divide_square_meter_by_meter, \</span>
+<span id="L1629"><span class="lineNum">    1629</span>              :         square_meter_t: dearunits_divide_square_meter_by_square_meter, \</span>
+<span id="L1630"><span class="lineNum">    1630</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1631"><span class="lineNum">    1631</span>              :     ), \</span>
+<span id="L1632"><span class="lineNum">    1632</span>              :     square_millimeter_t: _Generic((b), \</span>
+<span id="L1633"><span class="lineNum">    1633</span>              :         float: dearunits_divide_square_millimeter_by_scalar, \</span>
+<span id="L1634"><span class="lineNum">    1634</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1635"><span class="lineNum">    1635</span>              :     ), \</span>
+<span id="L1636"><span class="lineNum">    1636</span>              :     square_centimeter_t: _Generic((b), \</span>
+<span id="L1637"><span class="lineNum">    1637</span>              :         float: dearunits_divide_square_centimeter_by_scalar, \</span>
+<span id="L1638"><span class="lineNum">    1638</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1639"><span class="lineNum">    1639</span>              :     ), \</span>
+<span id="L1640"><span class="lineNum">    1640</span>              :     hertz_t: _Generic((b), \</span>
+<span id="L1641"><span class="lineNum">    1641</span>              :         float: dearunits_divide_hertz_by_scalar, \</span>
+<span id="L1642"><span class="lineNum">    1642</span>              :         hertz_t: dearunits_divide_hertz_by_hertz, \</span>
+<span id="L1643"><span class="lineNum">    1643</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1644"><span class="lineNum">    1644</span>              :     ), \</span>
+<span id="L1645"><span class="lineNum">    1645</span>              :     kilohertz_t: _Generic((b), \</span>
+<span id="L1646"><span class="lineNum">    1646</span>              :         float: dearunits_divide_kilohertz_by_scalar, \</span>
+<span id="L1647"><span class="lineNum">    1647</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1648"><span class="lineNum">    1648</span>              :     ), \</span>
+<span id="L1649"><span class="lineNum">    1649</span>              :     coulomb_t: _Generic((b), \</span>
+<span id="L1650"><span class="lineNum">    1650</span>              :         float: dearunits_divide_coulomb_by_scalar, \</span>
+<span id="L1651"><span class="lineNum">    1651</span>              :         second_t: dearunits_divide_coulomb_by_second, \</span>
+<span id="L1652"><span class="lineNum">    1652</span>              :         amp_t: dearunits_divide_coulomb_by_amp, \</span>
+<span id="L1653"><span class="lineNum">    1653</span>              :         coulomb_t: dearunits_divide_coulomb_by_coulomb, \</span>
+<span id="L1654"><span class="lineNum">    1654</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1655"><span class="lineNum">    1655</span>              :     ), \</span>
+<span id="L1656"><span class="lineNum">    1656</span>              :     amp_hour_t: _Generic((b), \</span>
+<span id="L1657"><span class="lineNum">    1657</span>              :         float: dearunits_divide_amp_hour_by_scalar, \</span>
+<span id="L1658"><span class="lineNum">    1658</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1659"><span class="lineNum">    1659</span>              :     ), \</span>
+<span id="L1660"><span class="lineNum">    1660</span>              :     ohm_t: _Generic((b), \</span>
+<span id="L1661"><span class="lineNum">    1661</span>              :         float: dearunits_divide_ohm_by_scalar, \</span>
+<span id="L1662"><span class="lineNum">    1662</span>              :         ohm_t: dearunits_divide_ohm_by_ohm, \</span>
+<span id="L1663"><span class="lineNum">    1663</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1664"><span class="lineNum">    1664</span>              :     ), \</span>
+<span id="L1665"><span class="lineNum">    1665</span>              :     milliohm_t: _Generic((b), \</span>
+<span id="L1666"><span class="lineNum">    1666</span>              :         float: dearunits_divide_milliohm_by_scalar, \</span>
+<span id="L1667"><span class="lineNum">    1667</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1668"><span class="lineNum">    1668</span>              :     ), \</span>
+<span id="L1669"><span class="lineNum">    1669</span>              :     kiloohm_t: _Generic((b), \</span>
+<span id="L1670"><span class="lineNum">    1670</span>              :         float: dearunits_divide_kiloohm_by_scalar, \</span>
+<span id="L1671"><span class="lineNum">    1671</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1672"><span class="lineNum">    1672</span>              :     ), \</span>
+<span id="L1673"><span class="lineNum">    1673</span>              :     watt_t: _Generic((b), \</span>
+<span id="L1674"><span class="lineNum">    1674</span>              :         float: dearunits_divide_watt_by_scalar, \</span>
+<span id="L1675"><span class="lineNum">    1675</span>              :         amp_t: dearunits_divide_watt_by_amp, \</span>
+<span id="L1676"><span class="lineNum">    1676</span>              :         meters_per_second_t: dearunits_divide_watt_by_meters_per_second, \</span>
+<span id="L1677"><span class="lineNum">    1677</span>              :         radians_per_second_t: dearunits_divide_watt_by_radians_per_second, \</span>
+<span id="L1678"><span class="lineNum">    1678</span>              :         newton_t: dearunits_divide_watt_by_newton, \</span>
+<span id="L1679"><span class="lineNum">    1679</span>              :         newton_meter_t: dearunits_divide_watt_by_newton_meter, \</span>
+<span id="L1680"><span class="lineNum">    1680</span>              :         volt_t: dearunits_divide_watt_by_volt, \</span>
+<span id="L1681"><span class="lineNum">    1681</span>              :         hertz_t: dearunits_divide_watt_by_hertz, \</span>
+<span id="L1682"><span class="lineNum">    1682</span>              :         watt_t: dearunits_divide_watt_by_watt, \</span>
+<span id="L1683"><span class="lineNum">    1683</span>              :         joule_t: dearunits_divide_watt_by_joule, \</span>
+<span id="L1684"><span class="lineNum">    1684</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1685"><span class="lineNum">    1685</span>              :     ), \</span>
+<span id="L1686"><span class="lineNum">    1686</span>              :     kilowatt_t: _Generic((b), \</span>
+<span id="L1687"><span class="lineNum">    1687</span>              :         float: dearunits_divide_kilowatt_by_scalar, \</span>
+<span id="L1688"><span class="lineNum">    1688</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1689"><span class="lineNum">    1689</span>              :     ), \</span>
+<span id="L1690"><span class="lineNum">    1690</span>              :     joule_t: _Generic((b), \</span>
+<span id="L1691"><span class="lineNum">    1691</span>              :         float: dearunits_divide_joule_by_scalar, \</span>
+<span id="L1692"><span class="lineNum">    1692</span>              :         second_t: dearunits_divide_joule_by_second, \</span>
+<span id="L1693"><span class="lineNum">    1693</span>              :         volt_t: dearunits_divide_joule_by_volt, \</span>
+<span id="L1694"><span class="lineNum">    1694</span>              :         coulomb_t: dearunits_divide_joule_by_coulomb, \</span>
+<span id="L1695"><span class="lineNum">    1695</span>              :         watt_t: dearunits_divide_joule_by_watt, \</span>
+<span id="L1696"><span class="lineNum">    1696</span>              :         joule_t: dearunits_divide_joule_by_joule, \</span>
+<span id="L1697"><span class="lineNum">    1697</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1698"><span class="lineNum">    1698</span>              :     ), \</span>
+<span id="L1699"><span class="lineNum">    1699</span>              :     watt_hour_t: _Generic((b), \</span>
+<span id="L1700"><span class="lineNum">    1700</span>              :         float: dearunits_divide_watt_hour_by_scalar, \</span>
+<span id="L1701"><span class="lineNum">    1701</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1702"><span class="lineNum">    1702</span>              :     ), \</span>
+<span id="L1703"><span class="lineNum">    1703</span>              :     kilowatt_hour_t: _Generic((b), \</span>
+<span id="L1704"><span class="lineNum">    1704</span>              :         float: dearunits_divide_kilowatt_hour_by_scalar, \</span>
+<span id="L1705"><span class="lineNum">    1705</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1706"><span class="lineNum">    1706</span>              :     ), \</span>
+<span id="L1707"><span class="lineNum">    1707</span>              :     float: _Generic((b), \</span>
+<span id="L1708"><span class="lineNum">    1708</span>              :         second_t: dearunits_divide_scalar_by_second, \</span>
+<span id="L1709"><span class="lineNum">    1709</span>              :         hertz_t: dearunits_divide_scalar_by_hertz, \</span>
+<span id="L1710"><span class="lineNum">    1710</span>              :         default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1711"><span class="lineNum">    1711</span>              :     ), \</span>
+<span id="L1712"><span class="lineNum">    1712</span>              :     default: dearunits_error_unsupported_operands_use_base_units_or_float \</span>
+<span id="L1713"><span class="lineNum">    1713</span>              : )(a, b)</span>
+<span id="L1714"><span class="lineNum">    1714</span>              : </span>
+<span id="L1715"><span class="lineNum">    1715</span>              : // ============================================================================</span>
+<span id="L1716"><span class="lineNum">    1716</span>              : // Square / square root</span>
+<span id="L1717"><span class="lineNum">    1717</span>              : // ============================================================================</span>
+<span id="L1718"><span class="lineNum">    1718</span>              : </span>
+<span id="L1719"><span class="lineNum">    1719</span>              : DU_FUNC_MODIFIERS</span>
+<span id="L1720"><span class="lineNum">    1720</span>              : square_meter_t dearunits_square_meter(meter_t a) {</span>
+<span id="L1721"><span class="lineNum">    1721</span> <span class="tlaGNC">           2 :     return (square_meter_t){ .value = a.value * a.value };</span></span>
+<span id="L1722"><span class="lineNum">    1722</span>              : }</span>
+<span id="L1723"><span class="lineNum">    1723</span>              : </span>
+<span id="L1724"><span class="lineNum">    1724</span>              : DU_FUNC_MODIFIERS</span>
+<span id="L1725"><span class="lineNum">    1725</span>              : meter_t dearunits_sqrt_square_meter(square_meter_t a) {</span>
+<span id="L1726"><span class="lineNum">    1726</span> <span class="tlaGNC">           2 :     return (meter_t){ .value = __builtin_sqrtf(a.value) };</span></span>
+<span id="L1727"><span class="lineNum">    1727</span>              : }</span>
+<span id="L1728"><span class="lineNum">    1728</span>              : </span>
+<span id="L1729"><span class="lineNum">    1729</span>              : #define DU_SQUARE(a) _Generic((a), \</span>
+<span id="L1730"><span class="lineNum">    1730</span>              :     meter_t: dearunits_square_meter \</span>
+<span id="L1731"><span class="lineNum">    1731</span>              : )(a)</span>
+<span id="L1732"><span class="lineNum">    1732</span>              : </span>
+<span id="L1733"><span class="lineNum">    1733</span>              : #define DU_SQRT(a) _Generic((a), \</span>
+<span id="L1734"><span class="lineNum">    1734</span>              :     square_meter_t: dearunits_sqrt_square_meter \</span>
+<span id="L1735"><span class="lineNum">    1735</span>              : )(a)</span>
+<span id="L1736"><span class="lineNum">    1736</span>              : </span>
+<span id="L1737"><span class="lineNum">    1737</span>              : #endif // DEARUNITS_H</span>
         </pre>
               </td>
             </tr>
