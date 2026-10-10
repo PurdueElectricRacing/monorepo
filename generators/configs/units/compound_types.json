@@ -188,6 +188,7 @@
         }
     ],
     "relations": [
+        {"factor_a": "angular_velocity", "factor_b": "length", "result": "velocity"},
         {"factor_a": "force", "factor_b": "length", "result": "torque"},
         {"factor_a": "torque", "factor_b": "angular_velocity", "result": "power"},
         {"factor_a": "power", "factor_b": "time", "result": "energy"},

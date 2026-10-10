@@ -11,21 +11,9 @@
 #include "can_library/generated/DASHBOARD.h"
 #include "pedals.h"
 #include "common/utils/max.h"
+#include "common/dearunits/generated/dearunits.h"
 #include "colors.h"
 #include "lap_timer.h"
-
-// For speed calcs
-static constexpr float WHEEL_RADIUS_IN = 8.0f;
-static constexpr float GEAR_RATIO = 12.51f;
-
-static constexpr float WHEEL_CIRCUMFERENCE_IN = 2.0f * 3.14159f * WHEEL_RADIUS_IN;
-static constexpr float OUTPUT_REV_PER_MOTOR_REV = 1.0f / GEAR_RATIO;
-static constexpr float INCHES_PER_MOTOR_REV = WHEEL_CIRCUMFERENCE_IN * OUTPUT_REV_PER_MOTOR_REV;
-
-static constexpr float MINUTES_PER_HOUR = 60.0f;
-static constexpr float INCHES_PER_MILE = 63360.0f;
-
-static constexpr float RPM_TO_MPH = INCHES_PER_MOTOR_REV * MINUTES_PER_HOUR / INCHES_PER_MILE;
 
 static inline void update_car_state_telemetry() {
     if (can_data.main_hb.is_stale()) {
@@ -126,25 +114,38 @@ static inline void update_pack_telemetry() {
     }
 }
 
-// todo better speed calc lol
 static inline void update_speed_telemetry() {
-    if (can_data.wheel_speeds.is_stale()) {
+    if (can_data.motor_speeds.is_stale()) {
         NXT_setText(SPEED, "S");
-    } else {
-        if (can_data.wheel_speeds.rear_left < 0) {
-            NXT_setText(SPEED, "NEG");
-        } else {
-            int16_t max_wheelspeed = MAXOF(
-                can_data.wheel_speeds.front_right,
-                can_data.wheel_speeds.front_left,
-                can_data.wheel_speeds.rear_left,
-                can_data.wheel_speeds.rear_right
-            );
-
-            int16_t mph = (int16_t)(max_wheelspeed * RPM_TO_MPH);
-            NXT_setTextFormatted(SPEED, "%d", mph);
-        }
+        return;
     }
+    
+    if (can_data.motor_speeds.rear_left < 0) {
+        NXT_setText(SPEED, "NEG");
+        return;
+    }
+
+    int16_t max_motor_rpm = MAXOF(
+        can_data.motor_speeds.front_right,
+        can_data.motor_speeds.front_left,
+        can_data.motor_speeds.rear_left,
+        can_data.motor_speeds.rear_right
+    );
+    revolutions_per_minute_t motor_rpm = {(float)max_motor_rpm};
+
+    // vehicle constants
+    static constexpr inch_t WHEEL_RADIUS_IN = {8.0f};
+    static constexpr float GEAR_RATIO       = 12.51f;
+
+    // radial speed to linear speed (assuming no slip)
+    revolutions_per_minute_t wheel_rpm = DU_DIVIDE(motor_rpm, GEAR_RATIO);
+    radians_per_second_t wheel_rps     = DU_RADIANS_PER_SECOND_FROM(wheel_rpm);
+    meter_t wheel_radius               = DU_METER_FROM(WHEEL_RADIUS_IN);
+    meters_per_second_t vehicle_speed  = DU_MULTIPLY(wheel_rps, wheel_radius);
+
+    // convert to mph for display
+    miles_per_hour_t vehicle_mph = miles_per_hour_from_meters_per_second(vehicle_speed);
+    NXT_setTextFormatted(SPEED, "%d", (int16_t)vehicle_mph.value);
 }
 
 static inline void update_pedal_telemetry() {

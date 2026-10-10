@@ -92,7 +92,7 @@ void vcu_driver_request_CALLBACK(void) {
 static inline bool is_any_crit_stale() {
     return can_data.pedals.is_stale()
         || can_data.steering_angle.is_stale()
-        || can_data.wheel_speeds.is_stale()
+        || can_data.motor_speeds.is_stale()
         || can_data.IZZE_angular_rate.is_stale();
 }
 
@@ -119,10 +119,10 @@ void control_loop() {
     xVCU.ST_RAW = can_data.steering_angle.angle * UNPACK_COEFF_STEERING_ANGLE_ANGLE * -1;
     xVCU.VB_RAW = can_data.pack_bms.pack_voltage * UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE;
     static constexpr float RPM_TO_RADS = 2.0f * 3.14f / 60.0f;
-    xVCU.WM_RAW[0] = can_data.wheel_speeds.front_left * RPM_TO_RADS;
-    xVCU.WM_RAW[1] = can_data.wheel_speeds.front_right * RPM_TO_RADS;
-    xVCU.WM_RAW[2] = can_data.wheel_speeds.rear_left * RPM_TO_RADS;
-    xVCU.WM_RAW[3] = can_data.wheel_speeds.rear_right * RPM_TO_RADS;
+    xVCU.WM_RAW[0] = can_data.motor_speeds.front_left * RPM_TO_RADS;
+    xVCU.WM_RAW[1] = can_data.motor_speeds.front_right * RPM_TO_RADS;
+    xVCU.WM_RAW[2] = can_data.motor_speeds.rear_left * RPM_TO_RADS;
+    xVCU.WM_RAW[3] = can_data.motor_speeds.rear_right * RPM_TO_RADS;
     xVCU.GS_RAW = (float)nav_pvt.groundSpeed * 1E-3f; // convert mm/s to m/s
 
     static constexpr float DEG_TO_RAD = 3.14f / 180.0f;
