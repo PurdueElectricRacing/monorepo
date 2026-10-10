@@ -1,3 +1,10 @@
+/**
+ * @file can_callback.c
+ * @brief CAN callback implementation
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #include <string.h>
 
 #include "common/phal_G4/fdcan/fdcan.h"
