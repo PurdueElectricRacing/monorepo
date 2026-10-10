@@ -15,6 +15,10 @@
 #include "colors.h"
 #include "lap_timer.h"
 
+// critical temperature thresholds in celcius
+static constexpr uint16_t TEMP_CRITICAL = 60;
+static constexpr uint16_t TEMP_WARNING = 50;
+
 static inline void update_car_state_telemetry() {
     if (can_data.main_hb.is_stale()) {
         NXT_setText(CAR_STATE, "STALE");
@@ -66,6 +70,7 @@ static inline void update_car_state_telemetry() {
 
 static inline void update_motor_telemetry() {
     if (can_data.motor_temps.is_stale()) {
+        NXT_setFontColor(MOTOR_TEMP, WHITE);
         NXT_setText(MOTOR_TEMP, "S");
     } else {
         int16_t max_motor_temp = MAXOF(
@@ -76,12 +81,15 @@ static inline void update_motor_telemetry() {
         );
 
         int16_t scaled_motor_temp = (int16_t)(max_motor_temp * UNPACK_COEFF_MOTOR_TEMPS_FRONT_RIGHT);
+        uint16_t temp_color = determine_temp_display_color(can_data.pack_bms.max_temp, TEMP_WARNING, TEMP_CRITICAL);
+        NXT_setFontColor(MOTOR_TEMP, temp_color);
         NXT_setTextFormatted(MOTOR_TEMP, "%dC", scaled_motor_temp);
     }
 }
 
 static inline void update_igbt_telemetry() {
     if (can_data.igbt_temps.is_stale()) {
+        NXT_setFontColor(IGBT_TEMP, WHITE);
         NXT_setText(IGBT_TEMP, "S");
     } else {
         int16_t max_igbt_temp = MAXOF(
@@ -92,6 +100,8 @@ static inline void update_igbt_telemetry() {
         );
 
         int16_t scaled_igbt_temp = (int16_t)(max_igbt_temp * UNPACK_COEFF_IGBT_TEMPS_FRONT_RIGHT);
+        uint16_t temp_color = determine_temp_display_color(can_data.pack_bms.max_temp, TEMP_WARNING, TEMP_CRITICAL);
+        NXT_setFontColor(IGBT_TEMP, temp_color);
         NXT_setTextFormatted(IGBT_TEMP, "%dC", scaled_igbt_temp);
     }
 }
@@ -99,10 +109,13 @@ static inline void update_igbt_telemetry() {
 static inline void update_pack_telemetry() {
     if (can_data.pack_bms.is_stale()) {
         NXT_setText(BATT_VOLT, "S");
+        NXT_setFontColor(BATT_TEMP, WHITE);
         NXT_setText(BATT_TEMP, "S");
     } else {
         uint16_t scaled_voltage = (uint16_t)(can_data.pack_bms.pack_voltage * UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE);
+        uint16_t temp_color = determine_temp_display_color(can_data.pack_bms.max_temp, TEMP_WARNING, TEMP_CRITICAL);
         NXT_setTextFormatted(BATT_VOLT, "%dV", scaled_voltage);
+        NXT_setFontColor(BATT_TEMP, temp_color);
         NXT_setTextFormatted(BATT_TEMP, "%dC", can_data.pack_bms.max_temp);
     }
 
