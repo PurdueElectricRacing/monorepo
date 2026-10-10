@@ -166,7 +166,7 @@ fn loopback_address() -> std::net::Ipv4Addr {
 - Use enums to express distinct states instead of ambiguous combinations of flags. Keep APIs and abstractions focused on the actual use case.
 - Use explicit widths for wire data and `usize` for collection sizes and indices. Explain intentional lossy numeric conversions.
 - Document public contracts, units, error cases, and meaningful panic conditions.
-- Use the type system to prevent invalid states or values and to guarantee invariants. Additionally, use it to to make ownership clear and to prevent misuse of APIs.
+- Use the type system to prevent invalid states or values and to guarantee invariants. Additionally, use it to make ownership clear and to prevent misuse of APIs.
 
 ### Concurrency and Safety
 
