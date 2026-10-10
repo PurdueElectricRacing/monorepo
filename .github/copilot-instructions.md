@@ -2,6 +2,8 @@
 
 This repository contains the embedded and off-car software for PER's FSAE electric vehicle.
 
+These review checks capture the essence of consistent, safe, and maintainable code. They are not comprehensive. Apply the underlying principles to the changed code and its consumers, including cases not listed here. Explicit coding prohibitions still apply.
+
 ## Repository Map
 
 - `firmware/source/`: STM32 vehicle nodes
@@ -14,7 +16,7 @@ This repository contains the embedded and off-car software for PER's FSAE electr
   - CLI presentation in `daqcli`
 - `generators/`: Python CANpiler, fault, and DearUnits generators, their configurations, and templates
 - `plot_factory/`: Python telemetry analysis and plotting pipeline
-- `docs/`: shared documentation, including @docs/code_style.md
+- `docs/`: shared documentation, including `docs/code_style.md`
 - `tests/`: C/C++ host-test harness and cross-project integration support. Python tests also live alongside generator and DearUnits code
 
 ## Build System Context
@@ -30,9 +32,17 @@ This repository contains the embedded and off-car software for PER's FSAE electr
 
 - Review against `docs/code_style.md`, applying the appropriate language rules.
 - Dynamic memory allocation is forbidden in embedded firmware, including FreeRTOS objects. Check stack and buffer bounds.
-- Rust `.unwrap()` and `.unwrap_err()` are forbidden, including in tests/examples. Production `.expect()`/`.expect_err()` should be used sparingly require a code-established invariant, nearby justification, and a message explaining why the invariant holds. Tests may use descriptive `expect` calls for setup and assertions.
+- Rust `.unwrap()` and `.unwrap_err()` are forbidden, including in tests/examples. Production `.expect()`/`.expect_err()` must be exceptional and require a code-established invariant, nearby justification, and an explanatory message. Tests may use descriptive `expect`/`expect_err` calls for setup and assertions. Only safe Rust is allowed; no `unsafe` blocks.
+- Check that types enforce units, valid states, ownership, and API contracts where possible, rather than relying only on runtime checks or comments.
 - Check that changed behavior has relevant tests and updated in-repo documentation.
 - Ground findings in changed code and affected consumers; explain the concrete failure or regression rather than reporting speculative issues.
+
+## Documentation and Instruction Drift
+
+- For repository restructuring, moved or renamed modules, or changes to subsystem boundaries, toolchains, and generated outputs, check that affected documentation (including AI/review instructions) are updated in the same PR.
+- Verify directory maps, documented paths, links, include references, and examples against the resulting tree and declared generated outputs. Flag stale guidance even when the code itself still builds.
+- Check this file, `docs/code_style.md`, `.gitar/review/monorepo.md`, and affected component guides. When conventions change, keep repeated rules consistent across these documents.
+- Use the current code, manifests, and build configuration to establish repository structure and tooling; do not assume the directory map here is still accurate.
 
 ## Firmware: Real-Time Constraints
 
@@ -47,11 +57,17 @@ This repository contains the embedded and off-car software for PER's FSAE electr
 - Make sure to evaluate for race conditions when accessing shared resources
 - Assume preemption between:
   - Main loop
-  - -Interrupt handlers
+  - FreeRTOS tasks
+  - Interrupt handlers
   - DMA callbacks
 - Shared variables between ISR and main context must:
-  - Be marked `volatile`
-  - Be protected using atomic operations or critical sections if necessary
+  - Use `volatile` where needed for hardware or asynchronously updated values
+  - Be protected using appropriate atomic operations or critical sections where needed. `volatile` alone does not provide atomicity or synchronization
+
+## Rust: Concurrency Rules
+
+- Check worker/UI state ownership and channel disconnection, cancellation, and shutdown.
+- Keep blocking I/O and expensive processing outside UI updates. Check lock ordering and avoid holding locks across blocking work.
 
 ## Data and Cross-Project Compatibility
 
