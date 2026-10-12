@@ -17,5 +17,8 @@ int test_MAXOF3_int(int a, int b, int c);
 float test_MAXOF3_float(float a, float b, float c);
 int test_MAXOF4_int(int a, int b, int c, int d);
 
+int test_MAXOF_4arg(int a, int b, int c, int d);
+int test_MAXOF_3arg(int a, int b, int c);
+int test_MAXOF_2arg(int a, int b);
 
 #endif  // MAX_TEST_SHIM_H

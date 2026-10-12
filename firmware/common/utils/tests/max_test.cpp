@@ -75,3 +75,10 @@ TEST(MaxTest, MaxOf4Arguments) {
 
     EXPECT_EQ(test_MAXOF4_int(-10, -50, -5, -20), -5);
 }
+
+// DISPATCH_MAXOF tests
+TEST(MaxTest, DispatchMaxOf) {
+    EXPECT_EQ(test_MAXOF_4arg(10, 20, 5, 15), 20);
+    EXPECT_EQ(test_MAXOF_3arg(10, 20, 5), 20);
+    EXPECT_EQ(test_MAXOF_2arg(10, 20), 20);
+}

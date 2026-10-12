@@ -41,3 +41,15 @@ float test_MINOF3_float(float a, float b, float c) {
 int test_MINOF4_int(int a, int b, int c, int d) {
     return MINOF4(a, b, c, d);
 }
+
+int test_MINOF_4arg(int a, int b, int c, int d) {
+    return MINOF(a, b, c, d);
+}
+
+int test_MINOF_3arg(int a, int b, int c) {
+    return MINOF(a, b, c);
+}
+
+int test_MINOF_2arg(int a, int b) {
+    return MINOF(a, b);
+}

@@ -78,3 +78,9 @@ TEST(MinTest, MinOf4Arguments) {
     EXPECT_EQ(test_MINOF4_int(-10, -50, -5, -20), -50);
 }
 
+// DISPATCH_MINOF tests
+TEST(MinTest, DispatchMinOf) {
+    EXPECT_EQ(test_MINOF_4arg(10, 20, 5, 15), 5);
+    EXPECT_EQ(test_MINOF_3arg(10, 20, 5), 5);
+    EXPECT_EQ(test_MINOF_2arg(10, 20), 10);
+}

@@ -41,3 +41,15 @@ float test_MAXOF3_float(float a, float b, float c) {
 int test_MAXOF4_int(int a, int b, int c, int d) {
     return MAXOF4(a, b, c, d);
 }
+
+int test_MAXOF_4arg(int a, int b, int c, int d) {
+    return MAXOF(a, b, c, d);
+}
+
+int test_MAXOF_3arg(int a, int b, int c) {
+    return MAXOF(a, b, c);
+}
+
+int test_MAXOF_2arg(int a, int b) {
+    return MAXOF(a, b);
+}
