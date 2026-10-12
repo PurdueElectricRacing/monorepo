@@ -32,7 +32,7 @@ TEST(MaxTest, Float) {
     EXPECT_FLOAT_EQ(test_max2_float(0.0f, -0.0f), 0.0f);
 }
 
-// MAXOF2 tests via C23 shim
+// MAXOF2 & promotion tests
 TEST(MaxTest, MaxOf2Types) {
     int a = -5, b = 15;
     EXPECT_EQ(test_MAXOF2_int(a, b), 15);
@@ -58,7 +58,7 @@ TEST(MaxTest, PromotionBehavior) {
 }
 
 
-// MAXOF3 and MAXOF4 tests via C23 shim
+// MAXOF3 and MAXOF4 tests
 TEST(MaxTest, MaxOf3Arguments) {
     EXPECT_EQ(test_MAXOF3_int(10, 5, 2), 10);
     EXPECT_EQ(test_MAXOF3_int(5, 10, 2), 10);
