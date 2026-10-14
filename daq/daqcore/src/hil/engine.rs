@@ -75,7 +75,9 @@ impl HilEngine {
 
     pub fn all_finished(&self) -> bool {
         match &self.state {
-            HilState::Running { tests, .. } => tests.iter().all(|t| t.is_finished()),
+            HilState::Running { tests, .. } => tests
+                .iter()
+                .all(|t| t.is_finished() && t.tx_remaining.is_empty()),
             HilState::Idle { .. } => false,
         }
     }
