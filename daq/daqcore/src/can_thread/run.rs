@@ -88,8 +88,11 @@ fn run_with_connection(
                             continue;
                         }
                     };
-                    if let can_thread::DatabaseUpdate::Loaded { database, .. } = &update {
-                        hil.set_superdbc((**database).clone());
+                    if let can_thread::DatabaseUpdate::Loaded { database, bus_id } = &update {
+                        hil.set_decoder((**database).clone(), *bus_id);
+                    }
+                    if let can_thread::DatabaseUpdate::Bus { bus_id } = &update {
+                        hil.set_bus_id(*bus_id);
                     }
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();

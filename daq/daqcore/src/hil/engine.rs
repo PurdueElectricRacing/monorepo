@@ -55,6 +55,7 @@ pub struct HilEngine {
     state: HilState,
     base: path::PathBuf,
     superdbc: Option<Database>,
+    bus_id: u8,
 }
 
 impl HilEngine {
@@ -63,11 +64,17 @@ impl HilEngine {
             state: HilState::Idle { start_error: None },
             base,
             superdbc: None,
+            bus_id: 0,
         }
     }
 
-    pub fn set_superdbc(&mut self, superdbc: Database) {
+    pub fn set_decoder(&mut self, superdbc: Database, bus_id: u8) {
         self.superdbc = Some(superdbc);
+        self.bus_id = bus_id;
+    }
+
+    pub fn set_bus_id(&mut self, bus_id: u8) {
+        self.bus_id = bus_id;
     }
 
     pub fn is_running(&self) -> bool {
@@ -78,7 +85,7 @@ impl HilEngine {
         match &self.state {
             HilState::Running { tests, .. } => tests
                 .iter()
-                .all(|t| t.is_finished() && t.tx_remaining.len() == 0),
+                .all(|t| t.is_finished() && t.tx_remaining.is_empty()),
             HilState::Idle { .. } => false,
         }
     }
@@ -142,7 +149,7 @@ impl HilEngine {
                             continue;
                         }
 
-                        match Self::hil_tx_to_send_message(&tx_message, superdbc) {
+                        match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
                             Ok(message) => tx_messages.push(message),
                             Err(error) => {
                                 errors.push(format!(
@@ -166,6 +173,7 @@ impl HilEngine {
     fn hil_tx_to_send_message(
         tx_message: &config::TxMessage,
         superdbc: &Database,
+        bus_id: u8,
     ) -> Result<AddSendMessage, String> {
         let message = superdbc
             .messages()
@@ -173,6 +181,13 @@ impl HilEngine {
             .ok_or("Message name not found")?;
 
         let key = message.key();
+        if key.bus_id != bus_id {
+            return Err(format!(
+                "Message on CAN bus {} does not exist on selected CAN bus {}",
+                key.bus_id, bus_id
+            ));
+        }
+
         let values: Vec<(&str, f64)> = tx_message
             .signals
             .iter()
