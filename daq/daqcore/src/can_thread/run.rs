@@ -1,4 +1,8 @@
-use crate::{can, can_thread::{self, tx::AddSendMessage}, frame, hil};
+use crate::{
+    can,
+    can_thread::{self, tx::AddSendMessage},
+    frame, hil,
+};
 use std::{sync::mpsc, thread, time};
 
 const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
@@ -84,7 +88,7 @@ fn run_with_connection(
                             continue;
                         }
                     };
-                    if let can_thread::DatabaseUpdate::Loaded {database, ..} = &update {
+                    if let can_thread::DatabaseUpdate::Loaded { database, .. } = &update {
                         hil.set_superdbc((**database).clone());
                     }
                     sends = can_thread::tx::SendTable::default();
@@ -175,9 +179,7 @@ fn run_with_connection(
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
             match hil.queue_tx(now) {
                 Ok(messages) => tx_messages = messages,
-                Err(error) => emit!(
-                    can_thread::CanThreadEvent::Diagnostic(error)
-                )
+                Err(error) => emit!(can_thread::CanThreadEvent::Diagnostic(error)),
             }
             for message in tx_messages {
                 let identity = message.identity;
