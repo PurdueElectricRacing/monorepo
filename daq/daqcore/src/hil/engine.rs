@@ -26,6 +26,7 @@ pub struct HilSnapshot {
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
+    pub superdbc: Option<Database>,
 }
 
 impl HilSnapshot {
@@ -36,6 +37,7 @@ impl HilSnapshot {
             preset: None,
             tests: Vec::new(),
             start_error: None,
+            superdbc: None,
         }
     }
 }
@@ -77,6 +79,10 @@ impl HilEngine {
         self.bus_id = bus_id;
     }
 
+    pub fn has_decoder(&mut self) -> bool {
+        self.superdbc.is_some()
+    }
+
     pub fn is_running(&self) -> bool {
         matches!(self.state, HilState::Running { .. })
     }
@@ -85,7 +91,7 @@ impl HilEngine {
         match &self.state {
             HilState::Running { tests, .. } => tests
                 .iter()
-                .all(|t| t.is_finished() && t.tx_remaining.is_empty()),
+                .all(|t| t.is_finished() && (t.tx_remaining.is_empty() || !self.has_decoder())),
             HilState::Idle { .. } => false,
         }
     }
@@ -237,6 +243,7 @@ impl HilEngine {
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
+                superdbc: self.superdbc.clone(),
             },
             HilState::Running {
                 start_time,
@@ -248,6 +255,7 @@ impl HilEngine {
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
+                superdbc: self.superdbc.clone(),
             },
         }
     }

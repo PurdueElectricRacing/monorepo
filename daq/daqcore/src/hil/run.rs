@@ -183,6 +183,7 @@ impl HilRunningTest {
             .iter()
             .all(|e| e.result.is_finished())
     }
+
 }
 
 impl InProgressExpect {
