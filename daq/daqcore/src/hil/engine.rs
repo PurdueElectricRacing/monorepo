@@ -1,5 +1,10 @@
-use crate::{frame, hil};
-use std::{path, time};
+use std::{path, path::Path, sync::mpsc::Sender, time};
+
+use serde_json::error::Category::Data;
+
+use crate::{
+    frame, can_thread::AddSendMessage, hil, superdbc::{self, database::Database, error::LoadError}
+};
 
 pub enum HilCommand {
     StartTest(hil::config::TestInfo),
@@ -96,6 +101,19 @@ impl HilEngine {
             }
         }
     }
+
+    // pub fn queue_tx(&mut self, now: std::time::Instant) -> Result<Vec<AddSendMessage>, String> {
+        // Take all tx_messages from running Hil tests
+        // and then encode them to be able to send them
+        // back to the CAN thread as a CAN message
+
+        // Encoding can be done by loading superdbc
+        // then unwrapping the signals to the desired format
+        // of the encoder
+
+        // Iterate through all the tx_messages and only
+        // send them when the timestamp has been reached
+    // }
 
     pub fn process_parsed(&mut self, parsed: &frame::ParsedFrame, now: time::Instant) {
         if let HilState::Running {
