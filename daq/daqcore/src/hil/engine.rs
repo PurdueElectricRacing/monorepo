@@ -161,7 +161,6 @@ impl HilEngine {
                                     "Error while encoding and coverting TX message {}: {}",
                                     tx_message.msg_name, error
                                 ));
-                                remaining.push(tx_message);
                             }
                         }
                     }
