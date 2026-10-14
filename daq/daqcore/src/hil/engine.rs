@@ -1,10 +1,6 @@
 use crate::hil::config::ExecutionMode;
 use crate::{frame, hil};
 use std::{path, time};
-use std::{
-    path,
-    time,
-};
 
 use crate::{
     can_thread::tx::{AddSendMessage, SendAmount::Once},
