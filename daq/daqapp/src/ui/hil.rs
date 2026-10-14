@@ -117,7 +117,7 @@ impl Hil {
         let tests = &self.snapshot.tests;
         let all_finished = tests
             .iter()
-            .all(|t| t.is_finished() && (t.tx_remaining.is_empty() || self.snapshot.superdbc.is_none()));
+            .all(|t| t.is_finished() && (t.tx_remaining.is_empty() || !self.snapshot.has_decoder));
         let mut stop_requested = false;
 
         ui.add_space(4.0);
