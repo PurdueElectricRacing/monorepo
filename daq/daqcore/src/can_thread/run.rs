@@ -178,7 +178,12 @@ fn run_with_connection(
         {
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
             match hil.queue_tx(now) {
-                Ok(messages) => tx_messages = messages,
+                Ok((messages, errors)) => {
+                    tx_messages = messages;
+                    for error in errors {
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error));
+                    }
+                }
                 Err(error) => emit!(can_thread::CanThreadEvent::Diagnostic(error)),
             }
             for message in tx_messages {
