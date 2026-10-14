@@ -1,7 +1,4 @@
-use std::{
-    path,
-    time,
-};
+use std::{path, time};
 
 use crate::{
     can_thread::tx::{AddSendMessage, SendAmount::Once},
