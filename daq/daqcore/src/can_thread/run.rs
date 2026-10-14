@@ -191,13 +191,19 @@ fn run_with_connection(
             }
             for message in tx_messages {
                 let identity = message.identity;
-                if let Err(error) = sends.add(message) {
-                    sends.commit(identity, now);
-                    emit!(can_thread::CanThreadEvent::SendFailed {
-                        identity,
-                        error,
-                        retrying: false
-                    });
+                if !sends.contains(identity) {
+                    if let Err(error) = sends.add(message) {
+                        sends.delete(identity);
+                        emit!(can_thread::CanThreadEvent::SendFailed {
+                            identity,
+                            error,
+                            retrying: false
+                        });
+                    }
+                } else {
+                    emit!(can_thread::CanThreadEvent::Diagnostic(
+                        "Attempted HIL message is already being sent".to_owned()
+                    ));
                 }
             }
             emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
