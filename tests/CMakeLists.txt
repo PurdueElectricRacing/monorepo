@@ -160,10 +160,6 @@ add_subdirectory(
     "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/dearunits/tests"
     "${CMAKE_BINARY_DIR}/unit/dearunits"
 )
-add_subdirectory(
-    "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/utils/tests"
-    "${CMAKE_BINARY_DIR}/unit/max"
-)
 
 add_subdirectory(
     "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/utils/tests"
