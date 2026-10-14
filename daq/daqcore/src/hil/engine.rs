@@ -1,10 +1,15 @@
 use crate::hil::config::ExecutionMode;
 use crate::{frame, hil};
 use std::{path, time};
-use std::{path::{self, Path, PathBuf}, time};
+use std::{
+    path::{self, Path, PathBuf},
+    time,
+};
 
 use crate::{
-    can_thread::tx::{AddSendMessage, SendAmount::Once}, frame, hil, superdbc::database::Database
+    can_thread::tx::{AddSendMessage, SendAmount::Once},
+    frame, hil,
+    superdbc::database::Database,
 };
 
 pub enum HilCommand {
@@ -132,18 +137,19 @@ impl HilEngine {
         // Iterate through all the tx_messages and only
         // send them when the timestamp has been reached
 
-        let superdbc = self.superdbc.as_ref()
+        let superdbc = self
+            .superdbc
+            .as_ref()
             .ok_or("SuperDBC has not been loaded")?;
 
         if let HilState::Running {
             start_time, preset: _, tests,
-            active_test,
-            active_start_time,
-            stopped_early,
+            active_test: _,
+            active_start_time: _,
+            stopped_early: _,
         } = &mut self.state
         {
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
-
 
             for test in tests.iter_mut() {
                 if !test.tx_remaining.is_empty() {
@@ -151,7 +157,8 @@ impl HilEngine {
                     let mut remaining = Vec::new();
 
                     for tx_message in pending {
-                        let elapsed_ms: f64 = now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
+                        let elapsed_ms: f64 =
+                            now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
 
                         if elapsed_ms < tx_message.timestamp {
                             remaining.push(tx_message);
@@ -163,7 +170,6 @@ impl HilEngine {
                             .find(|message| message.name() == tx_message.msg_name)
                             .ok_or("Message name not found")?;
 
-
                         let key = message.key();
                         let values: Vec<(&str, f64)> = tx_message
                             .signals
@@ -171,20 +177,15 @@ impl HilEngine {
                             .map(|(name, value)| (name.as_str(), *value))
                             .collect();
 
+                        let encoded_message = superdbc
+                            .encode(key.bus_id, key.identity, &values)
+                            .map_err(|error| error.to_string())?;
 
-                        let encoded_message = superdbc.encode(
-                            key.bus_id,
-                            key.identity,
-                            &values
-                        ).map_err(|error| error.to_string())?;
-                        
-                        tx_messages.push(
-                            AddSendMessage {
-                                amount: Once,
-                                identity: key.identity,
-                                msg_bytes: encoded_message
-                            }
-                        );
+                        tx_messages.push(AddSendMessage {
+                            amount: Once,
+                            identity: key.identity,
+                            msg_bytes: encoded_message,
+                        });
 
                         // Encode the due instruction and add it to tx_messages.
                     }
@@ -193,12 +194,10 @@ impl HilEngine {
                 }
             }
 
-
             Ok(tx_messages)
         } else {
             Err(format!("Hil is not running"))
         }
-
     }
 
     pub fn process_parsed(&mut self, parsed: &frame::ParsedFrame, now: time::Instant) {
