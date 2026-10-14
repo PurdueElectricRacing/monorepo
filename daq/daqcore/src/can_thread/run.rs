@@ -1,4 +1,7 @@
-use crate::{can, can_thread, driver, hil};
+use crate::{
+    can,
+    can_thread::{self, tx::AddSendMessage}, driver, hil,
+};
 use std::{sync::mpsc, thread, time};
 
 const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
@@ -83,6 +86,9 @@ fn run_with_connection(
                             continue;
                         }
                     };
+                    if let can_thread::DatabaseUpdate::Loaded { database, .. } = &update {
+                        hil.set_superdbc((**database).clone());
+                    }
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
@@ -161,6 +167,22 @@ fn run_with_connection(
             && !hil_capture_complete
             && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
         {
+            let mut tx_messages: Vec<AddSendMessage> = Vec::new();
+            match hil.queue_tx(now) {
+                Ok(messages) => tx_messages = messages,
+                Err(error) => emit!(can_thread::CanThreadEvent::Diagnostic(error)),
+            }
+            for message in tx_messages {
+                let key = message.key;
+                if let Err(error) = sends.add(message) {
+                    sends.delete(key);
+                    emit!(can_thread::CanThreadEvent::SendFailed {
+                        key,
+                        error,
+                        retrying: false
+                    });
+                }
+            }
             emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
             hil_last = now;
             hil_capture_complete = hil.capture_complete(now);
