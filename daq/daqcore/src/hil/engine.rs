@@ -1,3 +1,4 @@
+use crate::can_thread::BusSelection;
 use crate::hil::config::ExecutionMode;
 use crate::{frame, hil};
 use std::{path, time};
@@ -27,6 +28,7 @@ pub struct HilSnapshot {
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
+    pub superdbc: Option<Database>,
     pub finished: bool,
     pub skipped_from: Option<usize>,
 }
@@ -40,6 +42,7 @@ impl HilSnapshot {
             preset: None,
             tests: Vec::new(),
             start_error: None,
+            superdbc: None,
             finished: false,
             skipped_from: None,
         }
@@ -64,6 +67,7 @@ pub struct HilEngine {
     state: HilState,
     base: path::PathBuf,
     superdbc: Option<Database>,
+    selection: Option<BusSelection>,
 }
 
 impl HilEngine {
@@ -72,11 +76,21 @@ impl HilEngine {
             state: HilState::Idle { start_error: None },
             base,
             superdbc: None,
+            selection: None,
         }
     }
 
-    pub fn set_superdbc(&mut self, superdbc: Database) {
+    pub fn set_decoder(&mut self, superdbc: Database, selection: BusSelection) {
         self.superdbc = Some(superdbc);
+        self.selection = Some(selection);
+    }
+
+    pub fn set_selection(&mut self, selection: BusSelection) {
+        self.selection = Some(selection);
+    }
+
+    pub fn has_decoder(&mut self) -> bool {
+        self.superdbc.is_some()
     }
 
     pub fn is_running(&self) -> bool {
@@ -144,22 +158,19 @@ impl HilEngine {
         }
     }
 
-    pub fn queue_tx(&mut self, now: std::time::Instant) -> Result<Vec<AddSendMessage>, String> {
-        // Take all tx_messages from running Hil tests
-        // and then encode them to be able to send them
-        // back to the CAN thread as a CAN message
-
-        // Encoding can be done by loading superdbc
-        // then unwrapping the signals to the desired format
-        // of the encoder
-
-        // Iterate through all the tx_messages and only
-        // send them when the timestamp has been reached
-
+    pub fn queue_tx(
+        &mut self,
+        now: std::time::Instant,
+    ) -> Result<(Vec<AddSendMessage>, Vec<String>), String> {
         let superdbc = self
             .superdbc
             .as_ref()
             .ok_or("SuperDBC has not been loaded")?;
+
+        let selection = self
+            .selection
+            .as_ref()
+            .ok_or("Bus has not been selected")?;
 
         if let HilState::Running {
             start_time, preset: _, tests,
@@ -169,6 +180,9 @@ impl HilEngine {
         } = &mut self.state
         {
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
+            let mut errors = Vec::new();
+            let elapsed_ms: f64 =
+                now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
 
             for test in tests.iter_mut() {
                 if !test.tx_remaining.is_empty() {
@@ -176,48 +190,76 @@ impl HilEngine {
                     let mut remaining = Vec::new();
 
                     for tx_message in pending {
-                        let elapsed_ms: f64 =
-                            now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
-
                         if elapsed_ms < tx_message.timestamp {
                             remaining.push(tx_message);
                             continue;
                         }
 
-                        let message = superdbc
-                            .messages()
-                            .find(|message| message.name() == tx_message.msg_name)
-                            .ok_or("Message name not found")?;
-
-                        let key = message.key();
-                        let values: Vec<(&str, f64)> = tx_message
-                            .signals
-                            .iter()
-                            .map(|(name, value)| (name.as_str(), *value))
-                            .collect();
-
-                        let encoded_message = superdbc
-                            .encode(key.bus_id, key.identity, &values)
-                            .map_err(|error| error.to_string())?;
-
-                        tx_messages.push(AddSendMessage {
-                            amount: Once,
-                            key,
-                            is_extended_id: message.is_extended_id(),
-                            msg_bytes: encoded_message,
-                        });
-
-                        // Encode the due instruction and add it to tx_messages.
+                        match Self::hil_tx_to_send_message(&tx_message, superdbc, selection) {
+                            Ok(message) => tx_messages.push(message),
+                            Err(error) => {
+                                errors.push(format!(
+                                    "Error while encoding and coverting TX message {}: {}",
+                                    tx_message.msg_name, error
+                                ));
+                            }
+                        }
                     }
 
                     test.tx_remaining = remaining;
                 }
             }
 
-            Ok(tx_messages)
+            Ok((tx_messages, errors))
         } else {
             Err("Hil is not running".to_owned())
         }
+    }
+
+    fn hil_tx_to_send_message(
+        tx_message: &hil::config::TxMessage,
+        superdbc: &Database,
+        selection: &BusSelection,
+    ) -> Result<AddSendMessage, String> {
+        let message = superdbc
+            .messages()
+            .find(|message| message.name() == tx_message.msg_name)
+            .ok_or("Message name not found")?;
+
+        let key = message.key();
+        let contains_bus = selection.resolve_buses(superdbc)
+            .is_some_and(|buses| buses.iter().any(|bus| bus.bus_id() == key.bus_id));
+        if !contains_bus {
+            let active_buses = selection
+                .resolve_buses(superdbc)
+                .map_or(
+                    "None".to_string(),
+                    |buses| buses.iter()
+                        .map(|bus| bus.bus_id().to_string())
+                        .collect::<Vec<_>>()
+                        .join(", "));
+            return Err(format!(
+                "Message on CAN bus {} does not exist on CAN bus selection {}",
+                key.bus_id, active_buses
+            ));
+        }
+
+        let values: Vec<(&str, f64)> = tx_message
+            .signals
+            .iter()
+            .map(|(name, value)| (name.as_str(), *value))
+            .collect();
+
+        let encoded_message = superdbc
+            .encode(key.bus_id, key.identity, &values)
+            .map_err(|error| error.to_string())?;
+
+        Ok(AddSendMessage {
+            amount: Once,
+            key,
+            is_extended_id: message.is_extended_id(),
+            msg_bytes: encoded_message,
+        })
     }
 
     pub fn process_parsed(&mut self, parsed: &frame::ParsedFrame, now: time::Instant) {
@@ -313,6 +355,7 @@ impl HilEngine {
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
+                superdbc: self.superdbc.clone(),
                 finished: false,
                 skipped_from: None,
             },
@@ -330,6 +373,7 @@ impl HilEngine {
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
+                superdbc: self.superdbc.clone(),
 
                 finished: self.all_finished(),
                 skipped_from: if *stopped_early {

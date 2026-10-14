@@ -86,8 +86,11 @@ fn run_with_connection(
                             continue;
                         }
                     };
-                    if let can_thread::DatabaseUpdate::Loaded { database, .. } = &update {
-                        hil.set_superdbc((**database).clone());
+                    if let can_thread::DatabaseUpdate::Loaded { database, selection } = &update {
+                        hil.set_decoder((**database).clone(), *selection);
+                    }
+                    if let can_thread::DatabaseUpdate::Bus { selection } = &update {
+                        hil.set_selection(*selection);
                     }
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
@@ -169,7 +172,12 @@ fn run_with_connection(
         {
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
             match hil.queue_tx(now) {
-                Ok(messages) => tx_messages = messages,
+                Ok((messages, errors)) => {
+                    tx_messages = messages;
+                    for error in errors {
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error));
+                    }
+                }
                 Err(error) => emit!(can_thread::CanThreadEvent::Diagnostic(error)),
             }
             for message in tx_messages {
