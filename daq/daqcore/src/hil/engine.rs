@@ -30,6 +30,7 @@ pub struct HilSnapshot {
     pub superdbc: Option<Database>,
     pub finished: bool,
     pub skipped_from: Option<usize>,
+    pub has_decoder: bool,
 }
 
 impl HilSnapshot {
@@ -44,6 +45,7 @@ impl HilSnapshot {
             superdbc: None,
             finished: false,
             skipped_from: None,
+            has_decoder: false,
         }
     }
 }
@@ -88,7 +90,7 @@ impl HilEngine {
         self.bus_id = bus_id;
     }
 
-    pub fn has_decoder(&mut self) -> bool {
+    pub fn has_decoder(&self) -> bool {
         self.superdbc.is_some()
     }
 
@@ -241,7 +243,7 @@ impl HilEngine {
                             Ok(message) => tx_messages.push(message),
                             Err(error) => {
                                 errors.push(format!(
-                                    "Error while encoding and coverting TX message {}: {}",
+                                    "Error while encoding and converting TX message {}: {}",
                                     tx_message.msg_name, error
                                 ));
                             }
@@ -547,6 +549,7 @@ impl HilEngine {
                 superdbc: self.superdbc.clone(),
                 finished: false,
                 skipped_from: None,
+                has_decoder: self.has_decoder(),
             },
             HilState::Running {
                 start_time,
@@ -563,6 +566,7 @@ impl HilEngine {
                 tests: tests.clone(),
                 start_error: None,
                 superdbc: self.superdbc.clone(),
+                has_decoder: self.has_decoder(),
 
                 finished: self.all_finished(),
                 skipped_from: if *stopped_early {
