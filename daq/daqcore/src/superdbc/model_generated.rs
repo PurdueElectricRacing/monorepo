@@ -490,11 +490,11 @@ pub struct SignalExport {
     pub byte_order: ByteOrder,
     #[serde(deserialize_with = "::std::option::Option::deserialize")]
     pub choices: ::std::option::Option<
-        ::indexmap::IndexMap<SignalExportChoicesKey, ::std::string::String>,
+        ::indexmap::IndexMap<::std::string::String, ::std::string::String>,
     >,
     pub data_type: DataType,
     pub description: ::std::string::String,
-    #[serde(skip_serializing_if = "::std::option::Option::is_none")]
+    #[serde(deserialize_with = "::std::option::Option::deserialize")]
     pub display_format: ::std::option::Option<SignalExportDisplayFormat>,
     #[serde(deserialize_with = "::std::option::Option::deserialize")]
     pub limits: ::std::option::Option<LimitsExport>,
@@ -504,62 +504,6 @@ pub struct SignalExport {
     pub signal_name: SignalName,
     pub start_bit: i64,
     pub unit: ::std::string::String,
-}
-///`SignalExportChoicesKey`
-#[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
-#[serde(transparent)]
-pub struct SignalExportChoicesKey(::std::string::String);
-impl ::std::ops::Deref for SignalExportChoicesKey {
-    type Target = ::std::string::String;
-    fn deref(&self) -> &::std::string::String {
-        &self.0
-    }
-}
-impl ::std::convert::From<SignalExportChoicesKey> for ::std::string::String {
-    fn from(value: SignalExportChoicesKey) -> Self {
-        value.0
-    }
-}
-impl ::std::str::FromStr for SignalExportChoicesKey {
-    type Err = self::error::ConversionError;
-    fn from_str(
-        value: &str,
-    ) -> ::std::result::Result<Self, self::error::ConversionError> {
-        static PATTERN: ::std::sync::LazyLock<::regress::Regex> = ::std::sync::LazyLock::new(||
-        { ::regress::Regex::new("^(0|-?[1-9][0-9]*)$").unwrap() });
-        if PATTERN.find(value).is_none() {
-            return Err("doesn't match pattern \"^(0|-?[1-9][0-9]*)$\"".into());
-        }
-        Ok(Self(value.to_string()))
-    }
-}
-impl ::std::convert::TryFrom<&str> for SignalExportChoicesKey {
-    type Error = self::error::ConversionError;
-    fn try_from(
-        value: &str,
-    ) -> ::std::result::Result<Self, self::error::ConversionError> {
-        value.parse()
-    }
-}
-impl ::std::convert::TryFrom<::std::string::String> for SignalExportChoicesKey {
-    type Error = self::error::ConversionError;
-    fn try_from(
-        value: ::std::string::String,
-    ) -> ::std::result::Result<Self, self::error::ConversionError> {
-        value.parse()
-    }
-}
-impl<'de> ::serde::Deserialize<'de> for SignalExportChoicesKey {
-    fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
-    where
-        D: ::serde::Deserializer<'de>,
-    {
-        ::std::string::String::deserialize(deserializer)?
-            .parse()
-            .map_err(|e: self::error::ConversionError| {
-                <D::Error as ::serde::de::Error>::custom(e.to_string())
-            })
-    }
 }
 ///`SignalExportDisplayFormat`
 #[derive(
