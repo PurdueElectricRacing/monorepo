@@ -2,7 +2,8 @@ use std::{path, time};
 
 use crate::{
     can_thread::tx::{AddSendMessage, SendAmount::Once},
-    frame, hil,
+    frame,
+    hil::{self, config},
     superdbc::database::Database,
 };
 
@@ -110,18 +111,10 @@ impl HilEngine {
         }
     }
 
-    pub fn queue_tx(&mut self, now: std::time::Instant) -> Result<Vec<AddSendMessage>, String> {
-        // Take all tx_messages from running Hil tests
-        // and then encode them to be able to send them
-        // back to the CAN thread as a CAN message
-
-        // Encoding can be done by loading superdbc
-        // then unwrapping the signals to the desired format
-        // of the encoder
-
-        // Iterate through all the tx_messages and only
-        // send them when the timestamp has been reached
-
+    pub fn queue_tx(
+        &mut self,
+        now: std::time::Instant,
+    ) -> Result<(Vec<AddSendMessage>, Vec<String>), String> {
         let superdbc = self
             .superdbc
             .as_ref()
@@ -134,6 +127,9 @@ impl HilEngine {
         } = &mut self.state
         {
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
+            let mut errors = Vec::new();
+            let elapsed_ms: f64 =
+                now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
 
             for test in tests.iter_mut() {
                 if !test.tx_remaining.is_empty() {
@@ -141,47 +137,58 @@ impl HilEngine {
                     let mut remaining = Vec::new();
 
                     for tx_message in pending {
-                        let elapsed_ms: f64 =
-                            now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
-
                         if elapsed_ms < tx_message.timestamp {
                             remaining.push(tx_message);
                             continue;
                         }
 
-                        let message = superdbc
-                            .messages()
-                            .find(|message| message.name() == tx_message.msg_name)
-                            .ok_or("Message name not found")?;
-
-                        let key = message.key();
-                        let values: Vec<(&str, f64)> = tx_message
-                            .signals
-                            .iter()
-                            .map(|(name, value)| (name.as_str(), *value))
-                            .collect();
-
-                        let encoded_message = superdbc
-                            .encode(key.bus_id, key.identity, &values)
-                            .map_err(|error| error.to_string())?;
-
-                        tx_messages.push(AddSendMessage {
-                            amount: Once,
-                            identity: key.identity,
-                            msg_bytes: encoded_message,
-                        });
-
-                        // Encode the due instruction and add it to tx_messages.
+                        match Self::hil_tx_to_send_message(&tx_message, superdbc) {
+                            Ok(message) => tx_messages.push(message),
+                            Err(error) => {
+                                errors.push(format!(
+                                    "Error while encoding and coverting TX message {}: {}",
+                                    tx_message.msg_name, error
+                                ));
+                                remaining.push(tx_message);
+                            }
+                        }
                     }
 
                     test.tx_remaining = remaining;
                 }
             }
 
-            Ok(tx_messages)
+            Ok((tx_messages, errors))
         } else {
             Err("Hil is not running".to_owned())
         }
+    }
+
+    fn hil_tx_to_send_message(
+        tx_message: &config::TxMessage,
+        superdbc: &Database,
+    ) -> Result<AddSendMessage, String> {
+        let message = superdbc
+            .messages()
+            .find(|message| message.name() == tx_message.msg_name)
+            .ok_or("Message name not found")?;
+
+        let key = message.key();
+        let values: Vec<(&str, f64)> = tx_message
+            .signals
+            .iter()
+            .map(|(name, value)| (name.as_str(), *value))
+            .collect();
+
+        let encoded_message = superdbc
+            .encode(key.bus_id, key.identity, &values)
+            .map_err(|error| error.to_string())?;
+
+        Ok(AddSendMessage {
+            amount: Once,
+            identity: key.identity,
+            msg_bytes: encoded_message,
+        })
     }
 
     pub fn process_parsed(&mut self, parsed: &frame::ParsedFrame, now: time::Instant) {
