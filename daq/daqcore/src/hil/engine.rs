@@ -27,6 +27,7 @@ pub struct HilSnapshot {
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
+    pub superdbc: Option<Database>,
     pub finished: bool,
     pub skipped_from: Option<usize>,
 }
@@ -40,6 +41,7 @@ impl HilSnapshot {
             preset: None,
             tests: Vec::new(),
             start_error: None,
+            superdbc: None,
             finished: false,
             skipped_from: None,
         }
@@ -64,6 +66,7 @@ pub struct HilEngine {
     state: HilState,
     base: path::PathBuf,
     superdbc: Option<Database>,
+    bus_id: u8,
 }
 
 impl HilEngine {
@@ -72,11 +75,25 @@ impl HilEngine {
             state: HilState::Idle { start_error: None },
             base,
             superdbc: None,
+            bus_id: 0,
         }
     }
 
-    pub fn set_superdbc(&mut self, superdbc: Database) {
+    pub fn set_decoder(&mut self, superdbc: Database, bus_id: u8) {
         self.superdbc = Some(superdbc);
+        self.bus_id = bus_id;
+    }
+
+    pub fn set_bus_id(&mut self, bus_id: u8) {
+        self.bus_id = bus_id;
+    }
+
+    pub fn has_decoder(&mut self) -> bool {
+        self.superdbc.is_some()
+    }
+
+    pub fn has_decoder(&self, database: Option<&Database>, bus_id: u8) -> bool {
+        database.is_some_and(|database| database.bus_by_id(bus_id).is_some())
     }
 
     pub fn has_decoder(&self, database: Option<&Database>, bus_id: u8) -> bool {
@@ -220,17 +237,50 @@ impl HilEngine {
                             continue;
                         }
 
-                        let message = superdbc
-                            .messages()
-                            .find(|message| message.name() == tx_message.msg_name)
-                            .ok_or("Message name not found")?;
+                        match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
+                            Ok(message) => tx_messages.push(message),
+                            Err(error) => {
+                                errors.push(format!(
+                                    "Error while encoding and coverting TX message {}: {}",
+                                    tx_message.msg_name, error
+                                ));
+                            }
+                        }
+                    }
 
-                        let key = message.key();
-                        let values: Vec<(&str, f64)> = tx_message
-                            .signals
-                            .iter()
-                            .map(|(name, value)| (name.as_str(), *value))
-                            .collect();
+                    test.tx_remaining = remaining;
+                }
+            }
+
+            Ok((tx_messages, errors))
+        } else {
+            Err("Hil is not running".to_owned())
+        }
+    }
+
+    fn hil_tx_to_send_message(
+        tx_message: &config::TxMessage,
+        superdbc: &Database,
+        bus_id: u8,
+    ) -> Result<AddSendMessage, String> {
+        let message = superdbc
+            .messages()
+            .find(|message| message.name() == tx_message.msg_name)
+            .ok_or("Message name not found")?;
+
+        let key = message.key();
+        if key.bus_id != bus_id {
+            return Err(format!(
+                "Message on CAN bus {} does not exist on selected CAN bus {}",
+                key.bus_id, bus_id
+            ));
+        }
+
+        let values: Vec<(&str, f64)> = tx_message
+            .signals
+            .iter()
+            .map(|(name, value)| (name.as_str(), *value))
+            .collect();
 
                         let encoded_message = superdbc
                             .encode(key.bus_id, key.identity, &values)
@@ -494,6 +544,7 @@ impl HilEngine {
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
+                superdbc: self.superdbc.clone(),
                 finished: false,
                 skipped_from: None,
             },
@@ -511,6 +562,7 @@ impl HilEngine {
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
+                superdbc: self.superdbc.clone(),
 
                 finished: self.all_finished(),
                 skipped_from: if *stopped_early {
