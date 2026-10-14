@@ -28,6 +28,7 @@ pub struct HilSnapshot {
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
+    pub superdbc: Option<Database>,
     pub finished: bool,
     pub skipped_from: Option<usize>,
 }
@@ -40,6 +41,7 @@ impl HilSnapshot {
             preset: None,
             tests: Vec::new(),
             start_error: None,
+            superdbc: None,
             finished: false,
             skipped_from: None,
         }
@@ -84,6 +86,10 @@ impl HilEngine {
 
     pub fn set_bus_id(&mut self, bus_id: u8) {
         self.bus_id = bus_id;
+    }
+
+    pub fn has_decoder(&mut self) -> bool {
+        self.superdbc.is_some()
     }
 
     pub fn is_running(&self) -> bool {
@@ -315,6 +321,7 @@ impl HilEngine {
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
+                superdbc: self.superdbc.clone(),
                 finished: false,
                 skipped_from: None,
             },
@@ -331,6 +338,7 @@ impl HilEngine {
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
+                superdbc: self.superdbc.clone(),
 
                 finished: self.all_finished(),
                 skipped_from: if *stopped_early {

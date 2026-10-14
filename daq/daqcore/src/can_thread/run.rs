@@ -192,7 +192,7 @@ fn run_with_connection(
             for message in tx_messages {
                 let identity = message.identity;
                 if let Err(error) = sends.add(message) {
-                    sends.delete(identity);
+                    sends.commit(identity, now);
                     emit!(can_thread::CanThreadEvent::SendFailed {
                         identity,
                         error,
