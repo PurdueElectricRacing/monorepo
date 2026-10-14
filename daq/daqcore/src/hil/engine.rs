@@ -1,5 +1,5 @@
 use std::{
-    path::{self, Path, PathBuf},
+    path,
     time,
 };
 
@@ -181,7 +181,7 @@ impl HilEngine {
 
             Ok(tx_messages)
         } else {
-            Err(format!("Hil is not running"))
+            Err("Hil is not running".to_owned())
         }
     }
 
