@@ -1,6 +1,5 @@
 use crate::{
-    can,
-    can_thread::{self, tx::AddSendMessage}, driver, hil,
+    can, can_thread::{self, DatabaseUpdate, tx::AddSendMessage}, driver, hil,
 };
 use std::{sync::mpsc, thread, time};
 
@@ -86,11 +85,11 @@ fn run_with_connection(
                             continue;
                         }
                     };
-                    if let can_thread::DatabaseUpdate::Loaded { database, selection } = &update {
-                        hil.set_decoder((**database).clone(), *selection);
-                    }
-                    if let can_thread::DatabaseUpdate::Bus { selection } = &update {
-                        hil.set_selection(*selection);
+                    match &update {
+                        DatabaseUpdate::Loaded { database, selection } => {
+                            hil.set_decoder((**database).clone(), *selection)
+                        }
+                        DatabaseUpdate::Bus { selection } => hil.set_selection(*selection),
                     }
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
@@ -182,13 +181,19 @@ fn run_with_connection(
             }
             for message in tx_messages {
                 let key = message.key;
-                if let Err(error) = sends.add(message) {
-                    sends.delete(key);
-                    emit!(can_thread::CanThreadEvent::SendFailed {
-                        key,
-                        error,
-                        retrying: false
-                    });
+                if !sends.contains(key) {
+                    if let Err(error) = sends.add(message) {
+                        sends.delete(key);
+                        emit!(can_thread::CanThreadEvent::SendFailed {
+                            key,
+                            error,
+                            retrying: false
+                        });
+                    }
+                } else {
+                    emit!(can_thread::CanThreadEvent::Diagnostic(
+                        "Attempted HIL message is already being sent".to_owned()
+                    ));
                 }
             }
             emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));

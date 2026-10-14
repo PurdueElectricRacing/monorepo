@@ -121,4 +121,8 @@ impl SendTable {
         }
         amount_left
     }
+
+    pub fn contains(&self, key: superdbc::message::MessageKey) -> bool {
+        self.0.contains_key(&key)
+    }
 }
