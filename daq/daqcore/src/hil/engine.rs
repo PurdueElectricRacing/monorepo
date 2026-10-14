@@ -78,7 +78,7 @@ impl HilEngine {
         match &self.state {
             HilState::Running { tests, .. } => tests
                 .iter()
-                .all(|t| t.is_finished() && t.tx_remaining.is_empty()),
+                .all(|t| t.is_finished() && t.tx_remaining.len() == 0),
             HilState::Idle { .. } => false,
         }
     }
@@ -149,7 +149,6 @@ impl HilEngine {
                                     "Error while encoding and coverting TX message {}: {}",
                                     tx_message.msg_name, error
                                 ));
-                                remaining.push(tx_message);
                             }
                         }
                     }
