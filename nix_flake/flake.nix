@@ -68,6 +68,13 @@
               ];
             })
 
+            (diesel-cli.override {
+              sqliteSupport = true;
+              postgresqlSupport = false;
+              mysqlSupport = false;
+            })
+            sqlite
+
             python
             mypy
 

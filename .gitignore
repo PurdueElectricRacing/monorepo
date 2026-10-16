@@ -50,3 +50,9 @@ venv
 /plot_factory/data/**
 !/plot_factory/data/README.md
 /plot_factory/output/
+
+# daqcloud db
+daq/daqcloud/daqcloud.db
+daq/daqcloud/daqcloud.db-shm
+daq/daqcloud/daqcloud.db-wal
+daq/daqcloud/migrations/.diesel_lock

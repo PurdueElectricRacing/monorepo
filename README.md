@@ -13,6 +13,7 @@ A monorepo of all firmware projects, shared libraries, code generation, and off-
 	- Desktop app (`daqapp`)
 	- CLI (`daqcli`)
 	- Shared-library (`daqcore`)
+	- Data backend (`daqcloud`)
 - `docs/` - Shared documentation
 - `firmware/` - Embedded firmware, CAN library, and shared C code
 - `generators/` - CANpiler + Fault Generator
@@ -63,6 +64,8 @@ Running DAQ binaries is supported only from their own package directories:
 cd daq/daqapp && cargo run
 # DaqCLI
 cd daq/daqcli && cargo run
+# DaqCloud
+cd daq/daqcloud && cargo run
 ```
 
 To run tests and generate a coverage report:

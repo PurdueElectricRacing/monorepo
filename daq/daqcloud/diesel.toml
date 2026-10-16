@@ -1,0 +1,6 @@
+[print_schema]
+file = "src/db/schema.rs"
+sqlite_integer_primary_key_is_bigint = true
+
+[migrations_directory]
+dir = "migrations"

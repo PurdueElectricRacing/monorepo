@@ -14,6 +14,7 @@ These review checks capture the essence of consistent, safe, and maintainable co
   - shared CAN/processing logic in `daqcore`
   - desktop UI in `daqapp`
   - CLI presentation in `daqcli`
+  - Axum/Diesel SQLite backend in `daqcloud`
 - `generators/`: Python CANpiler, fault, and DearUnits generators, their configurations, and templates
 - `plot_factory/`: Python telemetry analysis and plotting pipeline
 - `docs/`: shared documentation, including `docs/code_style.md`

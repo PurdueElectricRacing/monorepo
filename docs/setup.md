@@ -26,6 +26,7 @@ This guide sets up the complete PER software development environment.
 - [5. Install Rust/DAQ Tools](#5-install-rustdaq-tools)
   - [5.1 Rust](#51-rust)
   - [5.2 Linux / WSL DAQ Dependencies](#52-linux--wsl-daq-dependencies)
+  - [5.3 DaqCloud Database Tools](#53-daqcloud-database-tools)
 - [6. Build the Repository](#6-build-the-repository)
 - [7. Individual Build Commands](#7-individual-build-commands)
   - [7.1 Build All Firmware](#71-build-all-firmware)
@@ -365,6 +366,28 @@ sudo apt install libudev-dev pkg-config
 
 These were already installed in the Linux setup section.
 
+### 5.3 DaqCloud Database Tools
+
+On Ubuntu or Ubuntu inside WSL, install the SQLite CLI:
+
+```bash
+sudo apt update
+sudo apt install sqlite3
+```
+
+Install the Diesel CLI with bundled SQLite support:
+
+```bash
+cargo install diesel_cli --version 2.3.3 --locked --no-default-features --features sqlite-bundled
+```
+
+Check:
+
+```bash
+diesel --version
+sqlite3 --version
+```
+
 ## 6. Build the Repository
 
 The repository's main build entry point is:
@@ -415,6 +438,11 @@ cd daq/daqapp && cargo run
 From the repository root, run DaqCli with:
 ```bash
 cd daq/daqcli && cargo run
+```
+
+From the repository root, run DaqCloud with:
+```bash
+cd daq/daqcloud && cargo run
 ```
 
 ### 7.4 Run Generator and Firmware Host Tests

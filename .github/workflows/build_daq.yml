@@ -12,6 +12,43 @@ permissions:
   contents: read
 
 jobs:
+  daqcloud_schema:
+    name: Check generated diesel schema
+    runs-on: ubuntu-latest
+    container:
+      image: irvingywang/per-firmware:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Fix git ownership
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Cache Diesel CLI
+        id: diesel_cli_cache
+        uses: actions/cache@v6
+        with:
+          path: ${{ runner.temp }}/diesel-cli
+          key: ${{ runner.os }}-${{ runner.arch }}-diesel-cli-2.3.3-sqlite-bundled-v1
+
+      - name: Install Diesel CLI
+        if: steps.diesel_cli_cache.outputs.cache-hit != 'true'
+        run: >-
+          cargo install diesel_cli --version 2.3.3 --locked
+          --no-default-features --features sqlite-bundled
+          --root "$RUNNER_TEMP/diesel-cli"
+
+      - name: Regenerate schema from migrations and verify checked-in schema
+        working-directory: daq/daqcloud
+        shell: bash
+        run: |
+          database_dir="$(mktemp -d)"
+          trap 'rm -rf "$database_dir"' EXIT
+          export DATABASE_URL="$database_dir/daqcloud.db"
+          "$RUNNER_TEMP/diesel-cli/bin/diesel" migration run
+          git diff --exit-code -- src/db/schema.rs
+
   superdbc_models:
     name: Check generated SuperDBC models
     runs-on: ubuntu-latest
