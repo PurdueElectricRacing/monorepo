@@ -9,8 +9,6 @@ pub use daqcore::connection::FilRunOptions;
 pub struct FilSettings {
     pub executable: Option<std::path::PathBuf>,
     pub network: Option<std::path::PathBuf>,
-    pub bus: String,
-    pub trace_bus: Option<String>,
     pub elf_overrides: std::collections::HashMap<String, std::path::PathBuf>,
     pub disabled_boards: Vec<String>,
     pub use_builder: bool,
@@ -27,8 +25,6 @@ impl Default for FilSettings {
         Self {
             executable: None,
             network: None,
-            bus: "vehicle".into(),
-            trace_bus: None,
             elf_overrides: std::collections::HashMap::new(),
             disabled_boards: Vec::new(),
             use_builder: false,
@@ -50,7 +46,7 @@ impl FilSettings {
                 executable,
                 network: std::path::PathBuf::new(),
                 bus: self.builder.bus.clone(),
-                trace_bus: self.trace_bus.clone(),
+                trace_bus: None,
                 elf_overrides: std::collections::HashMap::new(),
                 disabled_boards: Vec::new(),
                 built_network: Some(Box::new(self.builder.clone())),
@@ -60,8 +56,8 @@ impl FilSettings {
             Some(connection::ConnectionSource::Fil {
                 executable,
                 network: self.network.clone()?,
-                bus: self.bus.clone(),
-                trace_bus: self.trace_bus.clone(),
+                bus: "0".into(),
+                trace_bus: None,
                 elf_overrides: self.elf_overrides.clone(),
                 disabled_boards: self.disabled_boards.clone(),
                 built_network: None,
@@ -71,9 +67,6 @@ impl FilSettings {
     }
 
     pub fn normalize(&mut self) {
-        if self.bus.trim().is_empty() {
-            self.bus = "vehicle".into();
-        }
         self.adc_channel = self.adc_channel.min(19);
         self.adc_value = self.adc_value.min(4095);
         self.run_options.duration_ms = self.run_options.duration_ms.min(u64::MAX / 1_000_000);
@@ -84,5 +77,33 @@ impl FilSettings {
         if self.builder.bitrate == 0 {
             self.builder.bitrate = 500_000;
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::FilSettings;
+    use daqcore::connection::ConnectionSource;
+
+    #[test]
+    fn legacy_widget_bus_selections_are_ignored() -> Result<(), Box<dyn std::error::Error>> {
+        let mut saved = serde_json::to_value(FilSettings::default())?;
+        saved["executable"] = serde_json::json!("fil");
+        saved["network"] = serde_json::json!("network.json");
+        saved["bus"] = serde_json::json!("old-injection-bus");
+        saved["trace_bus"] = serde_json::json!("old-trace-bus");
+        let settings: FilSettings = serde_json::from_value(saved)?;
+        let source = settings
+            .connection_source()
+            .expect("configured FIL paths should produce a source");
+        let ConnectionSource::Fil { bus, trace_bus, .. } = source else {
+            unreachable!("FIL settings only produce FIL sources");
+        };
+        assert_eq!(bus, "0");
+        assert_eq!(trace_bus, None);
+        let saved = serde_json::to_value(settings)?;
+        assert!(saved.get("bus").is_none());
+        assert!(saved.get("trace_bus").is_none());
+        Ok(())
     }
 }

@@ -677,7 +677,16 @@ impl FilDriver {
         }
         Ok(())
     }
-    pub fn set_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
+    pub fn set_bus_selection(&mut self, bus: Option<u8>) -> DriverResult<()> {
+        let (injection_bus, trace_bus) = match bus {
+            Some(bus) => {
+                let bus = bus.to_string();
+                (bus.clone(), Some(bus))
+            }
+            None => (self.bus.clone(), None),
+        };
+        // The worker owns injection while the reader observes the trace filter via its lock.
+        self.bus = injection_bus;
         *self
             .trace_bus
             .write()

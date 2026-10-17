@@ -177,7 +177,7 @@ impl Default for BuiltNetwork {
     fn default() -> Self {
         Self {
             name: "custom".into(),
-            bus: "vehicle".into(),
+            bus: "0".into(),
             bitrate: 500_000,
             boards: Vec::new(),
             stimuli: Vec::new(),

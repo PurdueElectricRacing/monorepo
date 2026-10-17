@@ -49,6 +49,10 @@ impl ConnectionManager {
         Some(result)
     }
 
+    pub fn source(&self) -> Option<&connection::ConnectionSource> {
+        self.source.as_ref()
+    }
+
     pub fn connected(&self) -> bool {
         self.driver.is_some()
     }
@@ -75,11 +79,30 @@ impl ConnectionManager {
             .is_none_or(|driver| driver.needs_read_retry_sleep())
     }
 
-    pub fn set_fil_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
-        self.driver
-            .as_mut()
-            .ok_or_else(|| DriverError::Write("disconnected".into()))?
-            .set_fil_trace_bus(trace_bus)
+    pub fn set_fil_bus(&mut self, selected_bus: Option<u8>) -> DriverResult<()> {
+        let Some(connection::ConnectionSource::Fil { bus, trace_bus, .. }) = self.source.as_mut()
+        else {
+            // Database selection is global, but non-FIL connection sources have no bus
+            // selection state to synchronize.
+            return Ok(());
+        };
+
+        // FIL source configuration uses decimal-string bus keys; worker commands use IDs.
+        let source_bus = selected_bus.map(|bus_id| bus_id.to_string());
+
+        // Keep the selected source current even while disconnected, so the next connection
+        // starts with precisely the same injection fallback and trace filter.
+        if let Some(selected_bus) = &source_bus {
+            *bus = selected_bus.clone();
+            *trace_bus = Some(selected_bus.clone());
+        } else {
+            *trace_bus = None;
+        }
+
+        if let Some(driver) = self.driver.as_mut() {
+            driver.set_fil_bus(selected_bus)?;
+        }
+        Ok(())
     }
 
     pub fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
@@ -157,5 +180,53 @@ impl ConnectionManager {
 impl Drop for ConnectionManager {
     fn drop(&mut self) {
         let _ = self.close();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::ConnectionManager;
+    use crate::connection::ConnectionSource;
+    use std::time;
+
+    fn fil_source() -> ConnectionSource {
+        serde_json::from_value(serde_json::json!({
+            "Fil": { "executable": "fil", "network": "network", "bus": "fallback" }
+        }))
+        .expect("valid FIL source")
+    }
+
+    #[test]
+    fn fil_bus_selection_updates_source_while_disconnected() {
+        let now = time::Instant::now();
+        let mut manager = ConnectionManager::new(now);
+        manager.select(Some(fil_source()), now);
+
+        manager
+            .set_fil_bus(Some(1))
+            .expect("ID 1 should be stored while disconnected");
+        let Some(ConnectionSource::Fil { bus, trace_bus, .. }) = manager.source.as_ref() else {
+            panic!("expected FIL source");
+        };
+        assert_eq!(bus, "1");
+        assert_eq!(trace_bus.as_deref(), Some("1"));
+
+        manager
+            .set_fil_bus(Some(0))
+            .expect("ID 0 should be stored while disconnected");
+        let Some(ConnectionSource::Fil { bus, trace_bus, .. }) = manager.source.as_ref() else {
+            panic!("expected FIL source");
+        };
+        assert_eq!(bus, "0");
+        assert_eq!(trace_bus.as_deref(), Some("0"));
+
+        manager
+            .set_fil_bus(None)
+            .expect("clearing trace selection should succeed");
+        let Some(ConnectionSource::Fil { bus, trace_bus, .. }) = manager.source.as_ref() else {
+            panic!("expected FIL source");
+        };
+        assert_eq!(bus, "0");
+        assert_eq!(*trace_bus, None);
     }
 }
