@@ -587,13 +587,12 @@ fn resolve_legacy_board_entry(
         elf @ Some(_) => elf.clone(),
         None => info.default_elf.clone(),
     };
-    if elf.is_none() {
+    let Some(elf) = elf else {
         return Err(format!(
             "Board '{}' has no firmware ELF; select one",
             info.name
         ));
-    }
-    let elf = elf.expect("checked");
+    };
     if !elf.is_file() {
         return Err(format!(
             "Board '{}' ELF does not exist: {}",
@@ -744,13 +743,15 @@ mod tests {
     use super::*;
 
     fn test_dir(label: &str) -> PathBuf {
-        let dir = std::env::current_dir().unwrap().join(format!(
-            ".daqcore-fil-{label}-{}-{:?}",
-            std::process::id(),
-            std::thread::current().id()
-        ));
+        let dir = std::env::current_dir()
+            .expect("the test working directory should be available")
+            .join(format!(
+                ".daqcore-fil-{label}-{}-{:?}",
+                std::process::id(),
+                std::thread::current().id()
+            ));
         let _ = std::fs::remove_dir_all(&dir);
-        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::create_dir_all(&dir).expect("the test fixture directory should be created");
         dir
     }
 
@@ -759,12 +760,14 @@ mod tests {
         let root = test_dir("legacy-relocation");
         let source = root.join("source");
         let target = root.join("moved");
-        std::fs::create_dir_all(source.join("configs")).unwrap();
-        std::fs::create_dir_all(&target).unwrap();
+        std::fs::create_dir_all(source.join("configs"))
+            .expect("the board MCU directory should be created");
+        std::fs::create_dir_all(&target)
+            .expect("the relocated network destination should be created");
         let elf = source.join("firmware.elf");
         let mcu = source.join("configs/mcu.json");
-        std::fs::write(&elf, "elf").unwrap();
-        std::fs::write(&mcu, "{}").unwrap();
+        std::fs::write(&elf, "elf").expect("the fixture ELF should be written");
+        std::fs::write(&mcu, "{}").expect("the fixture MCU config should be written");
         let board_path = source.join("board.json");
         std::fs::write(
             &board_path,
@@ -776,7 +779,7 @@ mod tests {
             })
             .to_string(),
         )
-        .unwrap();
+        .expect("the source board JSON should be written");
         let spec = BuiltNetwork {
             boards: vec![BuiltBoard {
                 name: String::new(),
@@ -791,25 +794,48 @@ mod tests {
             ..BuiltNetwork::default()
         };
         let dest = target.join("network.json");
-        export_network(&dest, &spec, Path::new("missing-fil")).unwrap();
-        let network: serde_json::Value = read_json_file(&dest).unwrap();
-        let sibling = network["boards"][0].as_str().unwrap();
+        export_network(&dest, &spec, Path::new("missing-fil"))
+            .expect("the legacy board network should be exported");
+        let network: serde_json::Value =
+            read_json_file(&dest).expect("the exported network JSON should be readable");
+        let sibling = network["boards"][0]
+            .as_str()
+            .expect("the exported board reference should be a string");
         assert_eq!(sibling, "board-0-legacy.json");
-        let board: serde_json::Value = read_json_file(&target.join(sibling)).unwrap();
-        assert_eq!(PathBuf::from(board["elf"].as_str().unwrap()), elf);
-        assert_eq!(PathBuf::from(board["mcu"].as_str().unwrap()), mcu);
-        std::fs::remove_dir_all(root).unwrap();
+        let board: serde_json::Value = read_json_file(&target.join(sibling))
+            .expect("the relocated board JSON should be readable");
+        assert_eq!(
+            PathBuf::from(
+                board["elf"]
+                    .as_str()
+                    .expect("the exported ELF path should be a string")
+            ),
+            elf
+        );
+        assert_eq!(
+            PathBuf::from(
+                board["mcu"]
+                    .as_str()
+                    .expect("the exported MCU path should be a string")
+            ),
+            mcu
+        );
+        std::fs::remove_dir_all(root).expect("the legacy relocation fixture should be cleaned up");
     }
 
     #[test]
     fn synthesized_board_paths_are_absolute_for_cwd_relative_inputs() {
         let root = test_dir("relative-inputs");
-        let cwd = std::env::current_dir().unwrap();
-        let relative = root.strip_prefix(&cwd).unwrap();
+        let cwd = std::env::current_dir().expect("the test working directory should be available");
+        let relative = root
+            .strip_prefix(&cwd)
+            .expect("the test fixture should be below the working directory");
         let elf = relative.join("firmware.elf");
         let mcu = relative.join("mcu.json");
-        std::fs::write(cwd.join(&elf), "elf").unwrap();
-        std::fs::write(cwd.join(&mcu), "{}").unwrap();
+        std::fs::write(cwd.join(&elf), "elf")
+            .expect("the synthesized ELF fixture should be written");
+        std::fs::write(cwd.join(&mcu), "{}")
+            .expect("the synthesized MCU fixture should be written");
         let spec = BuiltNetwork {
             boards: vec![BuiltBoard {
                 name: "built".into(),
@@ -824,10 +850,26 @@ mod tests {
             ..BuiltNetwork::default()
         };
         let dest = root.join("network.json");
-        export_network(&dest, &spec, Path::new("missing-fil")).unwrap();
-        let board: serde_json::Value = read_json_file(&root.join("board-0-built.json")).unwrap();
-        assert_eq!(PathBuf::from(board["elf"].as_str().unwrap()), cwd.join(elf));
-        assert_eq!(PathBuf::from(board["mcu"].as_str().unwrap()), cwd.join(mcu));
-        std::fs::remove_dir_all(root).unwrap();
+        export_network(&dest, &spec, Path::new("missing-fil"))
+            .expect("the synthesized network should be exported");
+        let board: serde_json::Value = read_json_file(&root.join("board-0-built.json"))
+            .expect("the synthesized board JSON should be readable");
+        assert_eq!(
+            PathBuf::from(
+                board["elf"]
+                    .as_str()
+                    .expect("the synthesized ELF path should be a string")
+            ),
+            cwd.join(elf)
+        );
+        assert_eq!(
+            PathBuf::from(
+                board["mcu"]
+                    .as_str()
+                    .expect("the synthesized MCU path should be a string")
+            ),
+            cwd.join(mcu)
+        );
+        std::fs::remove_dir_all(root).expect("the synthesized board fixture should be cleaned up");
     }
 }
