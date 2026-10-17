@@ -52,8 +52,7 @@ static inline void lap_timer_finish_lap(const vector2_t current_point) {
     lap_timer.elapsed_time_ms = xTaskGetTickCount() - lap_timer.start_time_ms;
     lap_timer.last_point = current_point;
     lap_timer.state = LAP_TIMER_STATE_COMPLETE;
-    if ((lap_timer.elapsed_time_ms < lap_timer.best_lap_time_ms || lap_timer.best_lap_time_ms == 0) && lap_timer.elapsed_time_ms != 0)
-    {
+    if ((lap_timer.elapsed_time_ms < lap_timer.best_lap_time_ms || lap_timer.best_lap_time_ms == 0) && lap_timer.elapsed_time_ms != 0) {
         lap_timer.best_lap_time_ms = lap_timer.elapsed_time_ms;
     }
 }

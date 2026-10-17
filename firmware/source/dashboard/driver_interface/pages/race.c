@@ -186,19 +186,16 @@ static inline void update_tv_telemetry() {
     update_tv_bar(RR_BAR, can_data.vcu_torque_request.rear_right);
 }
 
-static inline void update_diff_time(uint32_t curr_elapsed_ms, uint32_t best_lap_ms) 
-{
+static inline void update_diff_time(uint32_t curr_elapsed_ms, uint32_t best_lap_ms) {
     uint32_t diff_time_ms = 0;
     char diff_sign_char = ' ';
     uint16_t diff_color = WHITE;
-    if (curr_elapsed_ms > best_lap_ms)
-    {
+    if (curr_elapsed_ms > best_lap_ms) {
         diff_time_ms = curr_elapsed_ms - best_lap_ms;
         diff_sign_char = '-';
         diff_color = RED;
     }
-    else if (curr_elapsed_ms < best_lap_ms)
-    {
+    else if (curr_elapsed_ms < best_lap_ms) {
         diff_time_ms = best_lap_ms - curr_elapsed_ms;
         diff_sign_char = '+';
         diff_color = GREEN;
