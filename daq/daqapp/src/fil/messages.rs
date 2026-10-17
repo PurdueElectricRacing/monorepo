@@ -101,14 +101,15 @@ mod tests {
             assert_eq!(FilAdcInstance::parse(instance.as_str()), Some(instance));
             assert_eq!(instance.to_string(), instance.as_str());
             assert_eq!(
-                serde_json::to_string(&instance).unwrap(),
+                serde_json::to_string(&instance).expect("ADC instance should serialize"),
                 format!("\"{}\"", instance.as_str())
             );
         }
         assert_eq!(FilAdcInstance::parse("adc1"), None);
         assert_eq!(FilAdcInstance::parse("ADC5"), None);
         assert_eq!(
-            serde_json::from_str::<FilAdcInstance>("\"ADC9\"").unwrap(),
+            serde_json::from_str::<FilAdcInstance>("\"ADC9\"")
+                .expect("unknown ADC instance should deserialize to its default"),
             FilAdcInstance::Adc1
         );
     }
