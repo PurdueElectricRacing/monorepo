@@ -61,6 +61,7 @@ void lap_timer_onpress(void) {
     lap_timer.start_time_ms = xTaskGetTickCount();
     lap_timer.elapsed_time_ms = 0;
     lap_timer.laps_finished = 0;
+    lap_timer.prev_lap_time_ms = 0;
 
     lap_timer.origin = geodetic_from_scaled(
         (float)can_data.gps_coordinates.latitude * UNPACK_COEFF_GPS_COORDINATES_LATITUDE,
