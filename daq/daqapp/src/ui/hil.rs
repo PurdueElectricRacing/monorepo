@@ -281,7 +281,7 @@ impl Hil {
         } else {
             ui.vertical(|ui| {
                 for (name, range) in &ipe.expect.signals {
-                    match ipe.failures.iter().find(|f| f.name() == name) {
+                    match ipe.failures.iter().flatten().find(|f| f.name() == name) {
                         Some(daqcore::hil::run::SignalFailure::OutOfRange {
                             value, range, ..
                         }) => {

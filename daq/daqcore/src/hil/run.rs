@@ -36,7 +36,10 @@ impl SignalFailure {
 pub struct InProgressExpect {
     pub expect: hil::config::Expectation,
     pub result: ExpectResult,
-    pub failures: Vec<SignalFailure>,
+
+    /// None until a matching message arrives; an empty vector means the
+    /// last message received was valid.
+    pub failures: Option<Vec<SignalFailure>>,
 }
 
 #[derive(Clone)]
@@ -100,18 +103,22 @@ impl HilRunningTest {
     pub fn update_expect_statuses(&mut self, elapsed: time::Duration) {
         let ts = elapsed.as_millis();
         for expect in &mut self.in_progress_expects {
-            match expect.result {
-                ExpectResult::NotInWindow if ts >= expect.expect.window[0] as u128 => {
-                    expect.result = if ts > expect.expect.window[1] as u128 {
-                        ExpectResult::FailedNoMessage
-                    } else {
-                        ExpectResult::InProgress
-                    };
-                }
-                ExpectResult::InProgress if ts > expect.expect.window[1] as u128 => {
-                    expect.result = ExpectResult::FailedNoMessage;
-                }
-                _ => {}
+            if expect.result.is_finished() {
+                continue;
+            };
+
+            // Check if window for HIL test expired, resolve test state accordingly.
+            if ts > expect.expect.window[1] as u128 {
+                expect.result = match &expect.failures {
+                    None => ExpectResult::FailedNoMessage,
+                    Some(failures) if failures.is_empty() => ExpectResult::Passed,
+                    Some(_) => ExpectResult::FailedValueOutOfRange,
+                };
+
+            // If the test window is not expired, and the current time is after
+            // the window start, we should start checking for matching messages.
+            } else if ts >= expect.expect.window[0] as u128 {
+                expect.result = ExpectResult::InProgress;
             }
         }
     }
@@ -125,39 +132,52 @@ impl HilRunningTest {
 
         for expect in &mut self.in_progress_expects {
             if expect.result == ExpectResult::InProgress && expect.matches_message(decoded) {
-                if expect.expect.signals.is_empty() {
-                    expect.result = ExpectResult::Passed;
-                } else {
-                    let mut failures = Vec::new();
-                    for (sig_name, sig_range) in &expect.expect.signals {
-                        match decoded.signal(sig_name) {
-                            Some(sig_value) => {
-                                let value = sig_value.physical();
-                                if !value.is_finite()
-                                    || value < sig_range[0]
-                                    || value > sig_range[1]
-                                {
-                                    failures.push(SignalFailure::OutOfRange {
-                                        name: sig_name.clone(),
-                                        value,
-                                        range: *sig_range,
-                                    });
-                                }
+                let mut failures = Vec::new();
+
+                for (sig_name, sig_range) in &expect.expect.signals {
+                    match decoded.signal(sig_name) {
+                        Some(sig_value) => {
+                            let value = sig_value.physical();
+
+                            // If signal value out of expected bounds, record as
+                            // a "failure".
+                            if !value.is_finite() || value < sig_range[0] || value > sig_range[1] {
+                                failures.push(SignalFailure::OutOfRange {
+                                    name: sig_name.clone(),
+                                    value,
+                                    range: *sig_range,
+                                });
                             }
-                            None => failures.push(SignalFailure::MissingSignal {
+                        }
+                        None => {
+                            failures.push(SignalFailure::MissingSignal {
                                 name: sig_name.clone(),
                                 range: *sig_range,
-                            }),
+                            });
                         }
                     }
-
-                    expect.result = if failures.is_empty() {
-                        ExpectResult::Passed
-                    } else {
-                        ExpectResult::FailedValueOutOfRange
-                    };
-                    expect.failures = failures;
                 }
+
+                expect.result = match expect.expect.accept {
+                    // Only concerned with the very first matching message,
+                    // immediately render a decision on whether the test passes.
+                    hil::config::AcceptPolicy::First => {
+                        if failures.is_empty() {
+                            ExpectResult::Passed
+                        } else {
+                            ExpectResult::FailedValueOutOfRange
+                        }
+                    }
+                    // Will accept any message, but does not automatically fail
+                    // if signals are incorrect.
+                    hil::config::AcceptPolicy::Any if failures.is_empty() => ExpectResult::Passed,
+                    // In either case, will not confirm test result until the window
+                    // has fully expired.
+                    hil::config::AcceptPolicy::Any | hil::config::AcceptPolicy::Last => {
+                        ExpectResult::InProgress
+                    }
+                };
+                expect.failures = Some(failures);
             }
         }
     }
@@ -190,7 +210,7 @@ impl InProgressExpect {
         Self {
             expect,
             result: ExpectResult::NotInWindow,
-            failures: Vec::new(),
+            failures: None,
         }
     }
 
