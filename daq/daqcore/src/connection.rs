@@ -269,7 +269,7 @@ mod tests {
                 "run_options": defaults,
             }
         }))
-        .unwrap();
+        .expect("FIL connection source with explicit options should deserialize");
         let ConnectionSource::Fil {
             trace_bus,
             run_options,
