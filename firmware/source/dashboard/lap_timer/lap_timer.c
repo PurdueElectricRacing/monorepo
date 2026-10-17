@@ -16,12 +16,10 @@
 
 static lap_timer_context_t lap_timer = {
     .state = LAP_TIMER_STATE_IDLE,
-    .prev_lap_time_ms = 0,
     .origin = {0.0f, 0.0f},
     .start_point = {0.0f, 0.0f},
     .l1_end_point = {0.0f, 0.0f},
     .last_point = {0.0f, 0.0f},
-    .laps_finished = 0,
 };
 
 static vector2_t lap_timer_gps_to_local(int32_t latitude, int32_t longitude) {
@@ -60,8 +58,7 @@ void lap_timer_onpress(void) {
     lap_timer.state = LAP_TIMER_STATE_CAPTURING_HEADING;
     lap_timer.start_time_ms = xTaskGetTickCount();
     lap_timer.elapsed_time_ms = 0;
-    lap_timer.laps_finished = 0;
-    lap_timer.prev_lap_time_ms = 0;
+    lap_timer.best_lap_time_ms = 0;
 
     lap_timer.origin = geodetic_from_scaled(
         (float)can_data.gps_coordinates.latitude * UNPACK_COEFF_GPS_COORDINATES_LATITUDE,
@@ -85,8 +82,6 @@ void lap_timer_periodic(void) {
             return;
 
         case LAP_TIMER_STATE_COMPLETE:
-            lap_timer.laps_finished += 1;
-            lap_timer.prev_lap_time_ms = lap_timer.elapsed_time_ms;
             lap_timer.start_time_ms = xTaskGetTickCount();
             lap_timer.elapsed_time_ms = 0;
             // start the next lap from here so the finish line is not counted twice
@@ -140,10 +135,6 @@ uint32_t lap_timer_elapsed_ms(void) {
     return lap_timer.elapsed_time_ms;
 }
 
-uint32_t lap_timer_prev_lap_time_ms(void) {
-    return lap_timer.prev_lap_time_ms;
-}
-
-uint16_t lap_timer_num_laps(void) {
-    return lap_timer.laps_finished;
+uint32_t lap_timer_best_time_ms(void) {
+    return lap_timer.best_lap_time_ms;
 }
