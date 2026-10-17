@@ -5,7 +5,12 @@ use crate::fil::{
 use crate::{action, app, settings};
 use daqcore::connection;
 use eframe::egui;
-use std::collections::{HashMap, HashSet};
+use std::{
+    collections::{HashMap, HashSet},
+    sync::mpsc,
+    thread,
+    time::Duration,
+};
 
 const FIL_EXPECTATION_HISTORY_LIMIT: usize = 500;
 
@@ -49,7 +54,14 @@ pub struct FilControl {
     builder: config::BuiltNetwork,
     network_info: Option<config::FilNetworkInfo>,
     network_info_error: Option<String>,
+    network_info_rx: Option<(
+        std::path::PathBuf,
+        mpsc::Receiver<Result<config::FilNetworkInfo, String>>,
+    )>,
     last_loaded_network: Option<std::path::PathBuf>,
+    import_rx: Option<mpsc::Receiver<Result<config::BuiltBoard, String>>>,
+    export_rx: Option<mpsc::Receiver<Result<(), String>>>,
+    operation_error: Option<String>,
     adc_board: String,
     adc_instance: FilAdcInstance,
     adc_channel: u8,
@@ -83,7 +95,11 @@ impl FilControl {
             builder: saved.builder,
             network_info: None,
             network_info_error: None,
+            network_info_rx: None,
             last_loaded_network: None,
+            import_rx: None,
+            export_rx: None,
+            operation_error: None,
             adc_board: saved.adc_board,
             adc_instance: saved.adc_instance,
             adc_channel: saved.adc_channel.min(19),
@@ -115,23 +131,100 @@ impl FilControl {
         let Some(network) = self.network.clone() else {
             return;
         };
-        match config::load_network_info(&network) {
-            Ok(info) => {
-                if !info.buses.contains(&self.bus) && !info.buses.is_empty() {
-                    self.bus = info.buses[0].clone();
-                }
-                let boards: Vec<String> =
-                    info.boards.iter().map(|board| board.name.clone()).collect();
-                if !boards.contains(&self.adc_board) && !boards.is_empty() {
-                    self.adc_board = boards[0].clone();
-                }
-                if !boards.contains(&self.gpio_board) && !boards.is_empty() {
-                    self.gpio_board = boards[0].clone();
-                }
-                self.network_info = Some(info);
-            }
-            Err(error) => self.network_info_error = Some(error),
+        let (tx, rx) = mpsc::channel();
+        self.network_info_rx = Some((network.clone(), rx));
+        thread::spawn(move || {
+            let _ = tx.send(config::load_network_info(&network));
+        });
+    }
+
+    fn poll_network_info(&mut self, actions: &mut Vec<action::AppAction>) {
+        let Some((path, receiver)) = &self.network_info_rx else {
+            return;
+        };
+        if !network_result_is_current(self.network.as_deref(), path) {
+            self.network_info_rx = None;
+            return;
         }
+        match receiver.try_recv() {
+            Ok(result) => {
+                self.network_info_rx = None;
+                match result {
+                    Ok(info) => {
+                        if !info.buses.contains(&self.bus) && !info.buses.is_empty() {
+                            self.bus = info.buses[0].clone();
+                        }
+                        let boards: Vec<String> =
+                            info.boards.iter().map(|board| board.name.clone()).collect();
+                        if !boards.contains(&self.adc_board) && !boards.is_empty() {
+                            self.adc_board = boards[0].clone();
+                        }
+                        if !boards.contains(&self.gpio_board) && !boards.is_empty() {
+                            self.gpio_board = boards[0].clone();
+                        }
+                        self.network_info = Some(info);
+                        self.queue_config_update(actions);
+                    }
+                    Err(error) => self.network_info_error = Some(error),
+                }
+            }
+            Err(mpsc::TryRecvError::Empty) => {}
+            Err(mpsc::TryRecvError::Disconnected) => {
+                self.network_info_rx = None;
+                self.network_info_error =
+                    Some("Network loader stopped before reporting a result".into());
+            }
+        }
+    }
+
+    fn poll_file_operations(&mut self, actions: &mut Vec<action::AppAction>) {
+        if let Some(receiver) = &self.import_rx {
+            match receiver.try_recv() {
+                Ok(result) => {
+                    self.import_rx = None;
+                    match result {
+                        Ok(board) => {
+                            self.builder.boards.push(board);
+                            self.queue_builder_update(actions);
+                        }
+                        Err(error) => {
+                            self.operation_error =
+                                Some(format!("Failed to import board file: {error}"))
+                        }
+                    }
+                }
+                Err(mpsc::TryRecvError::Disconnected) => {
+                    self.import_rx = None;
+                    self.operation_error =
+                        Some("Board import stopped before reporting a result".into());
+                }
+                Err(mpsc::TryRecvError::Empty) => {}
+            }
+        }
+        if let Some(receiver) = &self.export_rx {
+            match receiver.try_recv() {
+                Ok(result) => {
+                    self.export_rx = None;
+                    match result {
+                        Ok(()) => self.operation_error = None,
+                        Err(error) => {
+                            self.operation_error =
+                                Some(format!("Failed to export FIL network: {error}"))
+                        }
+                    }
+                }
+                Err(mpsc::TryRecvError::Disconnected) => {
+                    self.export_rx = None;
+                    self.operation_error =
+                        Some("Network export stopped before reporting a result".into());
+                }
+                Err(mpsc::TryRecvError::Empty) => {}
+            }
+        }
+    }
+
+    fn has_pending_file_operation(&self) -> bool {
+        self.network_info_rx.is_some() || self.import_rx.is_some() || self.export_rx.is_some()
     }
 
     fn builder_board_name(board: &config::BuiltBoard) -> String {
@@ -681,51 +774,68 @@ impl FilControl {
                 self.builder.boards.push(entry);
                 self.queue_builder_update(actions);
             }
-            if ui.button("Import board file…").clicked()
+            if ui
+                .add_enabled(
+                    self.import_rx.is_none(),
+                    egui::Button::new("Import board file…"),
+                )
+                .clicked()
                 && let Some(path) = rfd::FileDialog::new()
                     .add_filter("JSON board config", &["json"])
                     .pick_file()
             {
-                self.import_board_file(path, actions);
+                self.import_board_file(path);
             }
-            if ui.button("Export network JSON…").clicked()
+            if ui
+                .add_enabled(
+                    self.export_rx.is_none(),
+                    egui::Button::new("Export network JSON…"),
+                )
+                .clicked()
                 && let Some(path) = rfd::FileDialog::new()
                     .add_filter("JSON network config", &["json"])
                     .set_file_name(format!("{}.json", self.builder.name))
                     .save_file()
             {
                 let executable = self.executable.clone().unwrap_or_default();
-                match config::export_network(&path, &self.builder, &executable) {
-                    Ok(()) => log::info!("Exported FIL network to {}", path.display()),
-                    Err(error) => log::error!("Failed to export FIL network: {error}"),
-                }
+                let builder = self.builder.clone();
+                let (tx, rx) = mpsc::channel();
+                self.export_rx = Some(rx);
+                self.operation_error = None;
+                thread::spawn(move || {
+                    let _ = tx.send(config::export_network(&path, &builder, &executable));
+                });
             }
         });
     }
 
     /// Prefill a builder entry from an existing board JSON file.
-    fn import_board_file(
-        &mut self,
-        path: std::path::PathBuf,
-        actions: &mut Vec<action::AppAction>,
-    ) {
-        let entry = config::BuiltBoard {
-            name: String::new(),
-            elf: std::path::PathBuf::new(),
-            mcu: std::path::PathBuf::new(),
-            can_instances: Vec::new(),
-            vector_base: String::new(),
-            enabled: true,
-            board: path,
-            elf_override: None,
-        };
-        let entry = config::migrate_built_board(&entry);
-        if entry.board.as_os_str().is_empty() {
-            self.builder.boards.push(entry);
-            self.queue_builder_update(actions);
-        } else {
-            log::error!("Failed to import board file: {}", entry.board.display());
-        }
+    fn import_board_file(&mut self, path: std::path::PathBuf) {
+        let (tx, rx) = mpsc::channel();
+        self.import_rx = Some(rx);
+        self.operation_error = None;
+        thread::spawn(move || {
+            let entry = config::BuiltBoard {
+                name: String::new(),
+                elf: std::path::PathBuf::new(),
+                mcu: std::path::PathBuf::new(),
+                can_instances: Vec::new(),
+                vector_base: String::new(),
+                enabled: true,
+                board: path,
+                elf_override: None,
+            };
+            let result = config::load_board_info(&entry.board)
+                .map(|_| config::migrate_built_board(&entry))
+                .and_then(|board| {
+                    if board.board.as_os_str().is_empty() {
+                        Ok(board)
+                    } else {
+                        Err(format!("Unable to migrate {}", board.board.display()))
+                    }
+                });
+            let _ = tx.send(result);
+        });
     }
 
     fn show_bus_selector(&mut self, ui: &mut egui::Ui, actions: &mut Vec<action::AppAction>) {
@@ -849,8 +959,25 @@ impl FilControl {
         connection_status: &app::ConnectionStatus,
     ) -> egui_tiles::UiResponse {
         self.refresh_network_info();
+        self.poll_network_info(actions);
+        self.poll_file_operations(actions);
+        if self.has_pending_file_operation() {
+            ui.ctx().request_repaint_after(Duration::from_millis(50));
+        }
         egui::ScrollArea::vertical().show(ui, |ui| {
             ui.heading("FIL real-time emulator");
+            if self.network_info_rx.is_some() {
+                ui.label("Loading network config…");
+            }
+            if self.import_rx.is_some() {
+                ui.label("Importing board file…");
+            }
+            if self.export_rx.is_some() {
+                ui.label("Exporting network…");
+            }
+            if let Some(error) = &self.operation_error {
+                ui.colored_label(egui::Color32::LIGHT_RED, error);
+            }
             if let Some(error) = &self.annotation_error {
                 ui.colored_label(
                     egui::Color32::LIGHT_RED,
@@ -1316,6 +1443,13 @@ impl FilControl {
     }
 }
 
+fn network_result_is_current(
+    selected_network: Option<&std::path::Path>,
+    result_network: &std::path::Path,
+) -> bool {
+    selected_network == Some(result_network)
+}
+
 fn annotated_text(identifier: &str, annotation: Option<&str>) -> String {
     match annotation.map(str::trim).filter(|label| !label.is_empty()) {
         Some(label) => format!("{identifier} — {label}"),
@@ -1408,6 +1542,17 @@ mod expectation_tests {
             matched_time_ns: None,
             reason: None,
         }
+    }
+
+    #[test]
+    fn network_results_are_accepted_only_for_the_selected_path() {
+        let selected = std::path::Path::new("new-network.json");
+        assert!(network_result_is_current(Some(selected), selected));
+        assert!(!network_result_is_current(
+            Some(selected),
+            std::path::Path::new("old-network.json")
+        ));
+        assert!(!network_result_is_current(None, selected));
     }
 
     #[test]
