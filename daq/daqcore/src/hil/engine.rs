@@ -159,7 +159,7 @@ impl HilEngine {
                             Ok(message) => tx_messages.push(message),
                             Err(error) => {
                                 errors.push(format!(
-                                    "Error while encoding and coverting TX message {}: {}",
+                                    "Error while encoding and converting TX message {}: {}",
                                     tx_message.msg_name, error
                                 ));
                             }

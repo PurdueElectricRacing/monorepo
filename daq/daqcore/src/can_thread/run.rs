@@ -1,7 +1,8 @@
 use crate::{
     can,
-    can_thread::{self, tx::AddSendMessage},
+    can_thread::{self, DatabaseUpdate, tx::AddSendMessage},
     frame, hil,
+    superdbc::database::Bus,
 };
 use std::{sync::mpsc, thread, time};
 
@@ -88,11 +89,11 @@ fn run_with_connection(
                             continue;
                         }
                     };
-                    if let can_thread::DatabaseUpdate::Loaded { database, bus_id } = &update {
-                        hil.set_decoder((**database).clone(), *bus_id);
-                    }
-                    if let can_thread::DatabaseUpdate::Bus { bus_id } = &update {
-                        hil.set_bus_id(*bus_id);
+                    match &update {
+                        DatabaseUpdate::Loaded { database, bus_id } => {
+                            hil.set_decoder((**database).clone(), *bus_id)
+                        }
+                        DatabaseUpdate::Bus { bus_id } => hil.set_bus_id(*bus_id),
                     }
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
