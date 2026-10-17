@@ -197,6 +197,36 @@ static inline void update_lap_time_telemetry() {
     uint32_t best_seconds = (best_lap_ms / 1000U) % 60U;
     uint32_t best_centiseconds = (best_lap_ms / 10U) % 100U;
 
+    uint32_t diff_time_ms = 0;
+    char diff_sign_char = ' ';
+    uint16_t diff_color = WHITE;
+    if (curr_elapsed_ms > best_lap_ms)
+    {
+        diff_time_ms = curr_elapsed_ms - best_lap_ms;
+        diff_sign_char = '-';
+        diff_color = RED;
+    }
+    else if (curr_elapsed_ms < best_lap_ms)
+    {
+        diff_time_ms = best_lap_ms - curr_elapsed_ms;
+        diff_sign_char = '+';
+        diff_color = GREEN;
+    }
+
+    uint32_t diff_minutes = diff_time_ms / 60000U;
+    uint32_t diff_seconds = (diff_time_ms / 1000U) % 60U;
+    uint32_t diff_centiseconds = (diff_time_ms / 10U) % 100U;
+
+    NXT_setFontColor(LAP_TIME, diff_color);
+    NXT_setTextFormatted(
+        LAP_TIME, 
+        "%c%02lu:%02lu.%02lu",
+        diff_sign_char,
+        (unsigned long)diff_minutes,
+        (unsigned long)diff_seconds,
+        (unsigned long)diff_centiseconds
+    );
+
     NXT_setTextFormatted(
         CURRENT_TIME,
         "%02lu:%02lu.%02lu",
