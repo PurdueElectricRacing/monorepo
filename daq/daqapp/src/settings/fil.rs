@@ -1,8 +1,6 @@
 use crate::fil::config;
 use crate::fil::messages::FilAdcInstance;
-use daqcore::connection;
-
-pub use daqcore::connection::FilRunOptions;
+use daqcore::connection::{self, FilRunOptions};
 
 /// All FIL widget state persisted across runs.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
