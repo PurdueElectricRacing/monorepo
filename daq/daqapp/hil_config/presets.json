@@ -1,3 +1,7 @@
 {
-	"All Heartbeats": [ "heartbeats_crit", "heartbeats_non_crit" ]
+	"All Heartbeats":
+	{
+		"Config": "parallel",
+		"tests": ["heartbeats_crit", "heartbeats_non_crit"]
+	}
 }
