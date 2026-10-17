@@ -1,6 +1,11 @@
 //! Drivers are single-owner I/O adapters; no transport type escapes this module.
 
-use crate::{can, connection, frame, log_parse, superdbc};
+mod fil;
+
+use crate::{
+    can, connection, connection::CanBusSpeed, fil::config as fil_config, frame, frame::CanFrame,
+    log_parse, superdbc,
+};
 use std::{error, fmt, io, mem, net, time};
 
 #[derive(Debug)]
@@ -146,7 +151,9 @@ pub fn create_driver(
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
             Ok(ActiveDriver::Can(Box::new(UdpDriver(socket))))
         }
-        connection::ConnectionSource::Loopback => Ok(ActiveDriver::Can(Box::new(LoopbackDriver::default()))),
+        connection::ConnectionSource::Loopback => {
+            Ok(ActiveDriver::Can(Box::new(LoopbackDriver::default())))
+        }
         connection::ConnectionSource::Fil {
             executable,
             network,
@@ -158,13 +165,13 @@ pub fn create_driver(
             trace_bus,
         } => {
             let effective_network = if let Some(spec) = built_network {
-                crate::fil::config::build_network(spec, executable).map(|(path, _)| path)
+                fil_config::build_network(spec, executable).map(|(path, _)| path)
             } else {
                 let disabled = disabled_boards
                     .iter()
                     .cloned()
                     .collect::<std::collections::HashSet<_>>();
-                crate::fil::config::materialize_network(network, elf_overrides, &disabled)
+                fil_config::materialize_network(network, elf_overrides, &disabled)
             }
             .map_err(|error| {
                 DriverError::ConnectionFailed(format!("Invalid FIL network: {error}"))
@@ -202,8 +209,6 @@ pub fn create_driver(
 struct LoopbackDriver {
     queued: Vec<frame::CanFrame>,
 }
-
-mod fil;
 
 impl CanDriver for LoopbackDriver {
     fn needs_read_retry_sleep(&self) -> bool {
@@ -320,8 +325,8 @@ impl CanDriver for SimulatedDriver {
     }
 }
 mod serial {
-    use std::time;
     use crate::{can, connection, frame};
+    use std::time;
 
     pub struct SerialDriver {
         socket: slcan::sync::CanSocket<Box<dyn serialport::SerialPort>>,

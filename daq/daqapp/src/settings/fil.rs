@@ -2,7 +2,7 @@ use crate::fil::config;
 use crate::fil::messages::FilAdcInstance;
 use daqcore::connection;
 
-pub type FilRunOptions = connection::FilRunOptions;
+pub use daqcore::connection::FilRunOptions;
 
 /// All FIL widget state persisted across runs.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
