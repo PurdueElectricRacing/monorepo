@@ -139,9 +139,10 @@ impl HilRunningTest {
                     match decoded.signal(sig_name) {
                         Some(sig_value) => {
                             let value = sig_value.physical();
+
                             // If signal value out of expected bounds, record as
                             // a "failure".
-                            if value < sig_range[0] || value > sig_range[1] {
+                            if !value.is_finite() || value < sig_range[0] || value > sig_range[1] {
                                 failures.push(SignalFailure::OutOfRange {
                                     name: sig_name.clone(),
                                     value,
@@ -179,42 +180,6 @@ impl HilRunningTest {
                 };
                 expect.failures = Some(failures);
             }
-
-            // if expect.result == ExpectResult::InProgress && expect.matches_message(decoded) {
-            //     if expect.expect.signals.is_empty() {
-            //         expect.result = ExpectResult::Passed;
-            //     } else {
-            //         let mut failures = Vec::new();
-            //         for (sig_name, sig_range) in &expect.expect.signals {
-            //             match decoded.signal(sig_name) {
-            //                 Some(sig_value) => {
-            //                     let value = sig_value.physical();
-            //                     if !value.is_finite()
-            //                         || value < sig_range[0]
-            //                         || value > sig_range[1]
-            //                     {
-            //                         failures.push(SignalFailure::OutOfRange {
-            //                             name: sig_name.clone(),
-            //                             value,
-            //                             range: *sig_range,
-            //                         });
-            //                     }
-            //                 }
-            //                 None => failures.push(SignalFailure::MissingSignal {
-            //                     name: sig_name.clone(),
-            //                     range: *sig_range,
-            //                 }),
-            //             }
-            //         }
-
-            //         expect.result = if failures.is_empty() {
-            //             ExpectResult::Passed
-            //         } else {
-            //             ExpectResult::FailedValueOutOfRange
-            //         };
-            //         expect.failures = Some(failures);
-            //     }
-            // }
         }
     }
 
