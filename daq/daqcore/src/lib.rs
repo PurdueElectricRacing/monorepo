@@ -3,6 +3,7 @@ pub mod cache;
 pub mod can;
 pub mod can_thread;
 pub mod connection;
+pub mod fil;
 pub mod firmware;
 pub mod formatter;
 pub mod frame;

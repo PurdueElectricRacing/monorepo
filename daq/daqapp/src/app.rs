@@ -2,6 +2,7 @@ use crate::{
     action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
 };
 use std::{error, mem, path, sync::mpsc};
+const MAX_CAN_EVENTS_PER_UPDATE: usize = 2_048;
 
 const UI_SCALE_STEP: f32 = 0.2;
 
@@ -20,6 +21,23 @@ impl DatabaseSelection {
             path: self.database.path()?.to_owned(),
             bus_id: self.bus_id,
         })
+    }
+}
+
+fn apply_fil_bus(source: &mut daqcore::connection::ConnectionSource, bus_id: Option<u8>) {
+    if let daqcore::connection::ConnectionSource::Fil {
+        bus: injection_bus,
+        trace_bus,
+        ..
+    } = source
+    {
+        if let Some(bus_id) = bus_id {
+            let bus = bus_id.to_string();
+            *injection_bus = bus.clone();
+            *trace_bus = Some(bus);
+        } else {
+            *trace_bus = None;
+        }
     }
 }
 
@@ -57,6 +75,7 @@ pub struct DAQApp {
     active_source: Option<daqcore::connection::ConnectionSource>,
     pub diagnostic: Option<String>,
     pub log_folder: Option<path::PathBuf>,
+    pub fil: settings::FilSettings,
 }
 
 impl DAQApp {
@@ -75,6 +94,7 @@ impl DAQApp {
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
             window_secs: self.session.timeline().window_secs(),
+            fil: self.fil.clone(),
         };
         settings.save();
     }
@@ -99,6 +119,7 @@ impl DAQApp {
 
         let session = daqcore::session::Session::live(daqcore::time::Time::now(), window_secs)?;
 
+        let fil = settings.fil;
         let mut app = Self {
             connection_status: ConnectionStatus::Disconnected,
             value_formatter: load_formatter(),
@@ -126,6 +147,7 @@ impl DAQApp {
             active_source: None,
             diagnostic: None,
             log_folder: settings.log_folder,
+            fil,
         };
         if let Some(path) = settings.superdbc_path {
             app.request_database(&path, settings.bus_id);
@@ -206,6 +228,7 @@ impl DAQApp {
         self.bus_load_samples.clear();
         self.hil_snapshot = daqcore::hil::engine::HilSnapshot::idle();
         self.diagnostic = None;
+        self.synchronize_fil_bus();
         for tile in self.tile_tree.tiles.tiles_mut() {
             if let egui_tiles::Tile::Pane(widget) = tile {
                 widget.reset_database();
@@ -241,18 +264,50 @@ impl DAQApp {
         tabs.set_active(new_tile_id);
     }
 
+    /// FIL connection source from the current settings, including per-board
+    /// ELF overrides and board selection. Returns `None` when no executable
+    /// or network config is selected yet. The sidebar database selection
+    /// controls the injection bus and trace filter using its numeric bus ID;
+    /// no database means all trace buses and retains the injection fallback.
+    pub fn fil_connect_source(&self) -> Option<daqcore::connection::ConnectionSource> {
+        let mut source = self.fil.connection_source()?;
+        apply_fil_bus(&mut source, self.database_bus());
+        Some(source)
+    }
+
+    fn database_bus(&self) -> Option<u8> {
+        self.database
+            .as_ref()
+            .and_then(|selection| selection.bus().map(|_| selection.bus_id))
+    }
+
+    fn synchronize_fil_bus(&mut self) {
+        let bus = self.database_bus();
+        if let Some(source) = &mut self.selected_source {
+            apply_fil_bus(source, bus);
+        }
+        if let Some(source) = &mut self.active_source {
+            apply_fil_bus(source, bus);
+        }
+    }
+
     pub fn connect_can(&mut self) {
-        let Some(source) = &self.selected_source else {
+        let bus = self.database_bus();
+        let Some(source) = &mut self.selected_source else {
             return;
         };
+        apply_fil_bus(source, bus);
 
         self.connection_status = ConnectionStatus::Disconnected;
 
-        let _ = self
+        if let Err(error) = self
             .ui_to_can_tx
             .send(daqcore::can_thread::CanThreadCommand::Connect(Some(
                 source.clone(),
-            )));
+            )))
+        {
+            self.diagnostic = Some(error.to_string());
+        }
     }
 
     pub fn handle_action(&mut self, action: action::AppAction, ctx: &eframe::egui::Context) {
@@ -304,6 +359,37 @@ impl DAQApp {
                 self.pixels_per_point = Some(current_scale - UI_SCALE_STEP);
                 self.save_settings();
             }
+            action::AppAction::UpdateFilConfig { fil } => {
+                self.fil = fil;
+                self.fil.adc_channel = self.fil.adc_channel.min(19);
+                self.fil.adc_value = self.fil.adc_value.min(4095);
+                self.save_settings();
+            }
+            action::AppAction::ConnectFil(source) => {
+                self.selected_source = Some(source);
+                self.connect_can();
+                self.save_settings();
+            }
+            action::AppAction::UpdateFilBuilder {
+                use_builder,
+                builder,
+            } => {
+                self.fil.use_builder = use_builder;
+                self.fil.builder = builder;
+                self.save_settings();
+            }
+            action::AppAction::UpdateFilAdc {
+                board,
+                instance,
+                channel,
+                value,
+            } => {
+                self.fil.adc_board = board;
+                self.fil.adc_instance = instance;
+                self.fil.adc_channel = channel;
+                self.fil.adc_value = value;
+                self.save_settings();
+            }
         }
     }
 
@@ -328,13 +414,15 @@ impl DAQApp {
 
 impl eframe::App for DAQApp {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
-        while let Ok(event) = self.can_to_ui_rx.try_recv() {
+        for _ in 0..MAX_CAN_EVENTS_PER_UPDATE {
+            let Ok(event) = self.can_to_ui_rx.try_recv() else {
+                break;
+            };
             for tile in self.tile_tree.tiles.tiles_mut() {
                 if let egui_tiles::Tile::Pane(widget) = tile {
                     widget.handle_operational_event(&event);
                 }
             }
-
             match event {
                 daqcore::can_thread::CanThreadEvent::DatabaseSelected { request_id, result } => {
                     if self.apply_database_result(request_id, result) {
@@ -429,5 +517,58 @@ impl Drop for DAQApp {
         if self.can_thread.stop().is_err() {
             log::error!("CAN worker panicked during shutdown");
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::apply_fil_bus;
+    use daqcore::connection::{ConnectionSource, FilRunOptions};
+    use std::{collections::HashMap, path::PathBuf};
+
+    fn fil_source() -> ConnectionSource {
+        ConnectionSource::Fil {
+            executable: PathBuf::from("fil"),
+            network: PathBuf::from("network"),
+            bus: "fallback-injection-bus".to_owned(),
+            trace_bus: Some("old-trace-bus".to_owned()),
+            elf_overrides: HashMap::new(),
+            disabled_boards: Vec::new(),
+            built_network: None,
+            run_options: Box::new(FilRunOptions::default()),
+        }
+    }
+
+    #[test]
+    fn selected_sidebar_bus_id_sets_injection_and_trace_bus_ids() {
+        for (bus_id, expected) in [(0_u8, "0"), (1_u8, "1")] {
+            let mut source = fil_source();
+            apply_fil_bus(&mut source, Some(bus_id));
+
+            let ConnectionSource::Fil { bus, trace_bus, .. } = source else {
+                unreachable!();
+            };
+            assert_eq!(bus, expected);
+            assert_eq!(trace_bus.as_deref(), Some(expected));
+        }
+    }
+
+    #[test]
+    fn absent_database_clears_trace_filter_and_retains_injection_fallback() {
+        let mut source = fil_source();
+        apply_fil_bus(&mut source, None);
+
+        let ConnectionSource::Fil { bus, trace_bus, .. } = source else {
+            unreachable!();
+        };
+        assert_eq!(bus, "fallback-injection-bus");
+        assert_eq!(trace_bus, None);
+    }
+
+    #[test]
+    fn non_fil_sources_are_unchanged() {
+        let mut source = ConnectionSource::Loopback;
+        apply_fil_bus(&mut source, Some(0));
+        assert_eq!(source, ConnectionSource::Loopback);
     }
 }

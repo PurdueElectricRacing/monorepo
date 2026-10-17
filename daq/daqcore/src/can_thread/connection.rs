@@ -1,9 +1,13 @@
-use crate::{can, connection, frame, superdbc};
+use crate::{
+    can,
+    can::driver::{ActiveDriver, DriverError, DriverResult, FilExpectationEvent, FilGpioEvent},
+    connection, frame, superdbc,
+};
 use std::time;
 
 pub struct ConnectionManager {
     source: Option<connection::ConnectionSource>,
-    driver: Option<Box<dyn can::driver::Driver>>,
+    driver: Option<ActiveDriver>,
     retry_at: time::Instant,
 }
 
@@ -17,7 +21,7 @@ impl ConnectionManager {
     }
 
     pub fn select(&mut self, source: Option<connection::ConnectionSource>, now: time::Instant) {
-        self.close();
+        let _ = self.close();
         self.source = source;
         self.retry_at = now;
     }
@@ -45,6 +49,10 @@ impl ConnectionManager {
         Some(result)
     }
 
+    pub fn source(&self) -> Option<&connection::ConnectionSource> {
+        self.source.as_ref()
+    }
+
     pub fn connected(&self) -> bool {
         self.driver.is_some()
     }
@@ -65,6 +73,80 @@ impl ConnectionManager {
         driver.read_frames()
     }
 
+    pub fn needs_read_retry_sleep(&self) -> bool {
+        self.driver
+            .as_ref()
+            .is_none_or(|driver| driver.needs_read_retry_sleep())
+    }
+
+    pub fn set_fil_bus(&mut self, selected_bus: Option<u8>) -> DriverResult<()> {
+        let Some(connection::ConnectionSource::Fil { bus, trace_bus, .. }) = self.source.as_mut()
+        else {
+            // Database selection is global, but non-FIL connection sources have no bus
+            // selection state to synchronize.
+            return Ok(());
+        };
+
+        // FIL source configuration uses decimal-string bus keys; worker commands use IDs.
+        let source_bus = selected_bus.map(|bus_id| bus_id.to_string());
+
+        // Keep the selected source current even while disconnected, so the next connection
+        // starts with precisely the same injection fallback and trace filter.
+        if let Some(selected_bus) = &source_bus {
+            *bus = selected_bus.clone();
+            *trace_bus = Some(selected_bus.clone());
+        } else {
+            *trace_bus = None;
+        }
+
+        if let Some(driver) = self.driver.as_mut() {
+            driver.set_fil_bus(selected_bus)?;
+        }
+        Ok(())
+    }
+
+    pub fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
+        self.driver
+            .as_mut()
+            .map(|d| d.take_fil_gpio_events())
+            .unwrap_or_default()
+    }
+
+    pub fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
+        self.driver
+            .as_mut()
+            .map(|d| d.take_fil_expectation_events())
+            .unwrap_or_default()
+    }
+
+    pub fn set_gpio(
+        &mut self,
+        board: &str,
+        port: &str,
+        pin: u8,
+        value: Option<bool>,
+    ) -> DriverResult<()> {
+        let driver = self
+            .driver
+            .as_mut()
+            .ok_or_else(|| DriverError::Write("disconnected".into()))?;
+        driver.set_gpio(board, port, pin, value)
+    }
+
+    pub fn set_adc(
+        &mut self,
+        board: &str,
+        instance: &str,
+        channel: u8,
+        value: u16,
+    ) -> can::driver::DriverResult<()> {
+        let driver = self
+            .driver
+            .as_mut()
+            .ok_or_else(|| can::driver::DriverError::Write("disconnected".into()))?;
+        driver.set_adc(board, instance, channel, value)
+    }
+
     pub fn write(&mut self, frame: frame::CanFrame) -> can::driver::DriverResult<()> {
         let driver = self
             .driver
@@ -74,20 +156,77 @@ impl ConnectionManager {
         driver.write_frame(frame)
     }
 
-    pub fn failed(&mut self, now: time::Instant) {
-        self.close();
-        self.retry_at = now + time::Duration::from_millis(200);
+    pub fn failed(&mut self, now: time::Instant) -> Vec<crate::can::driver::FilExpectationEvent> {
+        let was_fil = self.driver.as_ref().is_some_and(ActiveDriver::is_fil);
+        let expectations = self.close();
+        if was_fil {
+            self.source = None;
+        } else {
+            self.retry_at = now + time::Duration::from_millis(200);
+        }
+        expectations
     }
 
-    pub fn close(&mut self) {
+    pub fn close(&mut self) -> Vec<FilExpectationEvent> {
         if let Some(mut driver) = self.driver.take() {
             let _ = driver.close();
+            driver.take_all_fil_expectation_events()
+        } else {
+            Vec::new()
         }
     }
 }
 
 impl Drop for ConnectionManager {
     fn drop(&mut self) {
-        self.close();
+        let _ = self.close();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::ConnectionManager;
+    use crate::connection::ConnectionSource;
+    use std::time;
+
+    fn fil_source() -> ConnectionSource {
+        serde_json::from_value(serde_json::json!({
+            "Fil": { "executable": "fil", "network": "network", "bus": "fallback" }
+        }))
+        .expect("valid FIL source")
+    }
+
+    #[test]
+    fn fil_bus_selection_updates_source_while_disconnected() {
+        let now = time::Instant::now();
+        let mut manager = ConnectionManager::new(now);
+        manager.select(Some(fil_source()), now);
+
+        manager
+            .set_fil_bus(Some(1))
+            .expect("ID 1 should be stored while disconnected");
+        let Some(ConnectionSource::Fil { bus, trace_bus, .. }) = manager.source.as_ref() else {
+            panic!("expected FIL source");
+        };
+        assert_eq!(bus, "1");
+        assert_eq!(trace_bus.as_deref(), Some("1"));
+
+        manager
+            .set_fil_bus(Some(0))
+            .expect("ID 0 should be stored while disconnected");
+        let Some(ConnectionSource::Fil { bus, trace_bus, .. }) = manager.source.as_ref() else {
+            panic!("expected FIL source");
+        };
+        assert_eq!(bus, "0");
+        assert_eq!(trace_bus.as_deref(), Some("0"));
+
+        manager
+            .set_fil_bus(None)
+            .expect("clearing trace selection should succeed");
+        let Some(ConnectionSource::Fil { bus, trace_bus, .. }) = manager.source.as_ref() else {
+            panic!("expected FIL source");
+        };
+        assert_eq!(bus, "0");
+        assert_eq!(*trace_bus, None);
     }
 }

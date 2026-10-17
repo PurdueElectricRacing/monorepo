@@ -65,9 +65,19 @@ fn run_with_connection(
                     if let Some(progress) = firmware.cancel() {
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
-                    connection.select(source.clone(), time::Instant::now());
+                    for event in connection.close() {
+                        emit!(can_thread::CanThreadEvent::FilExpectation(event));
+                    }
+                    connection.select(source, time::Instant::now());
+                    if let Err(error) =
+                        connection.set_fil_bus(decoder.bus().map(|bus| bus.bus_id()))
+                    {
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
+                    }
                     load = can::bus_load::BusLoadTracker::default();
-                    emit!(can_thread::CanThreadEvent::SourceSelected(source));
+                    emit!(can_thread::CanThreadEvent::SourceSelected(
+                        connection.source().cloned()
+                    ));
                     emit!(can_thread::CanThreadEvent::Disconnection);
                 }
                 can_thread::CanThreadCommand::SelectDatabase {
@@ -84,6 +94,13 @@ fn run_with_connection(
                             continue;
                         }
                     };
+                    // Apply the new bus to the FIL source/driver before acknowledging the
+                    // database update or resuming scheduled work and CAN reads.
+                    if let Err(error) =
+                        connection.set_fil_bus(decoder.bus().map(|bus| bus.bus_id()))
+                    {
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
+                    }
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
@@ -149,6 +166,26 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
                 }
+                can_thread::CanThreadCommand::SetFilAdc {
+                    board,
+                    instance,
+                    channel,
+                    value,
+                } => {
+                    if let Err(error) = connection.set_adc(&board, &instance, channel, value) {
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
+                    }
+                }
+                can_thread::CanThreadCommand::SetFilGpio {
+                    board,
+                    port,
+                    pin,
+                    value,
+                } => {
+                    if let Err(error) = connection.set_gpio(&board, &port, pin, value) {
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
+                    }
+                }
             }
         }
 
@@ -199,7 +236,9 @@ fn run_with_connection(
                         if unsupported {
                             sends.delete(identity);
                         } else {
-                            connection.failed(time::Instant::now());
+                            for event in connection.failed(time::Instant::now()) {
+                                emit!(can_thread::CanThreadEvent::FilExpectation(event));
+                            }
                             emit!(can_thread::CanThreadEvent::ConnectionFailed(
                                 error.to_string()
                             ));
@@ -233,7 +272,9 @@ fn run_with_connection(
                         progress.error = Some(format!("firmware write failed: {error}"));
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
-                    connection.failed(time::Instant::now());
+                    for event in connection.failed(time::Instant::now()) {
+                        emit!(can_thread::CanThreadEvent::FilExpectation(event));
+                    }
                     emit!(can_thread::CanThreadEvent::ConnectionFailed(
                         error.to_string()
                     ));
@@ -243,6 +284,18 @@ fn run_with_connection(
             }
         }
 
+        for gpio in connection.take_fil_gpio_events() {
+            emit!(can_thread::CanThreadEvent::FilGpio {
+                board: gpio.board,
+                port: gpio.port,
+                pin: gpio.pin,
+                value: gpio.value,
+                direction: gpio.direction
+            });
+        }
+        for expectation in connection.take_fil_expectation_events() {
+            emit!(can_thread::CanThreadEvent::FilExpectation(expectation));
+        }
         // Each received frame is logged, decoded, then moved into an event.
         let mut got_frames = false;
         if connection.connected() {
@@ -280,7 +333,9 @@ fn run_with_connection(
                 }
                 Err(can::driver::DriverError::Timeout) => {}
                 Err(error) => {
-                    connection.failed(time::Instant::now());
+                    for event in connection.failed(time::Instant::now()) {
+                        emit!(can_thread::CanThreadEvent::FilExpectation(event));
+                    }
                     emit!(can_thread::CanThreadEvent::ConnectionFailed(
                         error.to_string()
                     ));
@@ -304,9 +359,9 @@ fn run_with_connection(
 
         let wait = if !connection.connected() {
             time::Duration::from_millis(50)
-        } else if got_frames {
-            // Drain queued traffic without delaying the next read; commands and
-            // scheduled work still run between driver batches.
+        } else if got_frames || !connection.needs_read_retry_sleep() {
+            // Drain queued traffic without delaying the next read; FIL already
+            // performs its own bounded wait, so avoid stacking another retry delay.
             time::Duration::ZERO
         } else {
             time::Duration::from_millis(2)
@@ -328,5 +383,7 @@ fn run_with_connection(
         logger.flush();
     }
 
-    connection.close();
+    for expectation in connection.close() {
+        let _ = events.emit(can_thread::CanThreadEvent::FilExpectation(expectation));
+    }
 }
