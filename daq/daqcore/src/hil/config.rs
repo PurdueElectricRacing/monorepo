@@ -23,7 +23,7 @@ pub enum AcceptPolicy {
     #[default]
     First,
     Last,
-    Any
+    Any,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
