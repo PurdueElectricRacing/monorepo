@@ -1,5 +1,6 @@
 use crate::{frame, hil};
 use std::{path, time};
+use crate::hil::config::ExecutionMode;
 
 pub enum HilCommand {
     StartTest(hil::config::TestInfo),
@@ -42,6 +43,8 @@ enum HilState {
         start_time: time::Instant,
         preset: Option<hil::config::PresetInfo>,
         tests: Vec<hil::run::HilRunningTest>,
+        active_test: usize,
+        active_start_time: std::time::Instant,
     },
 }
 
@@ -99,24 +102,76 @@ impl HilEngine {
 
     pub fn process_parsed(&mut self, parsed: &frame::ParsedFrame, now: time::Instant) {
         if let HilState::Running {
-            start_time, tests, ..
+            start_time,
+            preset,
+            tests,
+            active_test,
+            active_start_time,
         } = &mut self.state
         {
-            for test in tests.iter_mut() {
-                if let Some(decoded) = &parsed.decoded {
-                    test.process_can(decoded, now.saturating_duration_since(*start_time));
+            let Some(decoded) = &parsed.decoded else {
+                return;
+            };
+
+            let mode = match preset.as_ref() {
+                Some(preset_info) => &preset_info.mode,
+                None => &ExecutionMode::Parallel,
+            };
+
+            match mode {
+                ExecutionMode::Parallel => {
+                    for test in tests.iter_mut() {
+                        test.process_can(
+                            decoded,
+                            now.saturating_duration_since(*start_time),
+                        );
+                    }
+                }
+
+                ExecutionMode::SequentialAlways
+                | ExecutionMode::SequentialStopFail => {
+                    if let Some(test) = tests.get_mut(*active_test) {
+                        test.process_can(
+                            decoded,
+                            now.saturating_duration_since(*active_start_time),
+                        );
+                    }
                 }
             }
         }
     }
 
-    pub fn tick(&mut self, now: time::Instant) {
+   pub fn tick(&mut self, now: time::Instant) {
         if let HilState::Running {
-            start_time, tests, ..
+            start_time,
+            preset,
+            tests,
+            active_test,
+            active_start_time,
         } = &mut self.state
         {
-            for test in tests.iter_mut() {
-                test.update_expect_statuses(now.saturating_duration_since(*start_time));
+            let mode = match preset.as_ref() {
+                Some(preset_info) => &preset_info.mode,
+                None => &ExecutionMode::Parallel,
+            };
+
+            match mode {
+                ExecutionMode::Parallel => {
+                    for test in tests.iter_mut() {
+                        test.update_expect_statuses(
+                            now.saturating_duration_since(*start_time),
+                        );
+                    }
+                }
+
+                ExecutionMode::SequentialAlways
+                | ExecutionMode::SequentialStopFail => {
+                    if let Some(test) = tests.get_mut(*active_test) {
+                        test.update_expect_statuses(
+                            now.saturating_duration_since(*active_start_time),
+                        );
+                    }
+                }
             }
         }
     }
@@ -134,6 +189,7 @@ impl HilEngine {
                 start_time,
                 preset,
                 tests,
+                ..
             } => HilSnapshot {
                 status: HilStatus::Running,
                 elapsed_ms: now.saturating_duration_since(*start_time).as_millis(),
@@ -154,6 +210,8 @@ impl HilEngine {
             start_time: now,
             preset,
             tests,
+            active_test: 0,
+            active_start_time: now,
         };
     }
 
