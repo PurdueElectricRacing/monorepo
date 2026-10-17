@@ -99,27 +99,25 @@ impl HilRunningTest {
 
     pub fn update_expect_statuses(&mut self, elapsed: time::Duration) {
         let ts = elapsed.as_millis();
+
         for expect in &mut self.in_progress_expects {
             match expect.result {
-<<<<<<< HEAD:daq/daqcore/src/hil/run.rs
-                ExpectResult::NotInWindow if ts >= expect.expect.window[0] as u128 => {
+                ExpectResult::NotInWindow
+                    if ts >= expect.expect.window[0] as u128 =>
+                {
                     expect.result = if ts > expect.expect.window[1] as u128 {
                         ExpectResult::FailedNoMessage
                     } else {
                         ExpectResult::InProgress
                     };
-=======
-                ExpectResult::NotInWindow => {
-                    if ts > expect.expect.window[1] as u128 {
-                        expect.result = ExpectResult::FailedNoMessage;
-                    } else if ts >= expect.expect.window[0] as u128 {
-                        expect.result = ExpectResult::InProgress;
-                    }
->>>>>>> 4b7e619 (added failure check and modes for parallel, sequential always, and sequential with stop in engine):daq/daqapp/src/hil/run.rs
                 }
-                ExpectResult::InProgress if ts > expect.expect.window[1] as u128 => {
+
+                ExpectResult::InProgress
+                    if ts > expect.expect.window[1] as u128 =>
+                {
                     expect.result = ExpectResult::FailedNoMessage;
                 }
+
                 _ => {}
             }
         }

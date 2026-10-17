@@ -1,12 +1,12 @@
 use std::{fs, path};
-
+use serde::{Deserialize, Serialize};
 // Read HIL config files (preset and tests)
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(transparent)]
 pub struct PresetsFile(pub indexmap::IndexMap<String, PresetDefinition>);
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TestFile {
     pub name: String,
     pub description: String,
@@ -17,7 +17,7 @@ pub struct TestFile {
     pub expect: Vec<Expectation>,
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TxMessage {
     pub timestamp: f64,
     pub msg_name: String,
@@ -25,7 +25,7 @@ pub struct TxMessage {
     pub signals: indexmap::IndexMap<String, f64>,
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Expectation {
     pub window: [f64; 2],
 
