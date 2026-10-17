@@ -198,7 +198,7 @@ static inline void update_lap_time_telemetry() {
     uint32_t best_centiseconds = (best_lap_ms / 10U) % 100U;
 
     NXT_setTextFormatted(
-        LAP_TIME,
+        CURRENT_TIME,
         "%02lu:%02lu.%02lu",
         (unsigned long)curr_minutes,
         (unsigned long)curr_seconds,
