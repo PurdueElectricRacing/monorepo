@@ -146,29 +146,29 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
                 }
-                Command::SetFilAdc {
+                can_thread::CanThreadCommand::SetFilAdc {
                     board,
                     instance,
                     channel,
                     value,
                 } => {
                     if let Err(error) = connection.set_adc(&board, &instance, channel, value) {
-                        emit!(Event::Diagnostic(error.to_string()));
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
                     }
                 }
-                Command::SetFilGpio {
+                can_thread::CanThreadCommand::SetFilGpio {
                     board,
                     port,
                     pin,
                     value,
                 } => {
                     if let Err(error) = connection.set_gpio(&board, &port, pin, value) {
-                        emit!(Event::Diagnostic(error.to_string()));
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
                     }
                 }
-                Command::SetFilTraceBus(trace_bus) => {
+                can_thread::CanThreadCommand::SetFilTraceBus(trace_bus) => {
                     if let Err(error) = connection.set_fil_trace_bus(trace_bus) {
-                        emit!(Event::Diagnostic(error.to_string()));
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
                     }
                 }
             }
@@ -224,7 +224,9 @@ fn run_with_connection(
                             for event in connection.failed(time::Instant::now()) {
                                 emit!(can_thread::CanThreadEvent::FilExpectation(event));
                             }
-                            emit!(can_thread::CanThreadEvent::ConnectionFailed(error.to_string()));
+                            emit!(can_thread::CanThreadEvent::ConnectionFailed(
+                                error.to_string()
+                            ));
                             break;
                         }
                     }
@@ -256,7 +258,9 @@ fn run_with_connection(
                     for event in connection.failed(time::Instant::now()) {
                         emit!(can_thread::CanThreadEvent::FilExpectation(event));
                     }
-                    emit!(can_thread::CanThreadEvent::ConnectionFailed(error.to_string()));
+                    emit!(can_thread::CanThreadEvent::ConnectionFailed(
+                        error.to_string()
+                    ));
                     break;
                 }
                 thread::sleep(FIRMWARE_FRAME_DELAY);
@@ -264,7 +268,7 @@ fn run_with_connection(
         }
 
         for gpio in connection.take_fil_gpio_events() {
-            emit!(Event::FilGpio {
+            emit!(can_thread::CanThreadEvent::FilGpio {
                 board: gpio.board,
                 port: gpio.port,
                 pin: gpio.pin,
@@ -273,7 +277,7 @@ fn run_with_connection(
             });
         }
         for expectation in connection.take_fil_expectation_events() {
-            emit!(Event::FilExpectation(expectation));
+            emit!(can_thread::CanThreadEvent::FilExpectation(expectation));
         }
         // Each received frame is logged, decoded, then moved into an event.
         let mut got_frames = false;
@@ -312,7 +316,9 @@ fn run_with_connection(
                     for event in connection.failed(time::Instant::now()) {
                         emit!(can_thread::CanThreadEvent::FilExpectation(event));
                     }
-                    emit!(can_thread::CanThreadEvent::ConnectionFailed(error.to_string()));
+                    emit!(can_thread::CanThreadEvent::ConnectionFailed(
+                        error.to_string()
+                    ));
                 }
             }
         }
@@ -358,6 +364,6 @@ fn run_with_connection(
     }
 
     for expectation in connection.close() {
-        let _ = events.emit(Event::FilExpectation(expectation));
+        let _ = events.emit(can_thread::CanThreadEvent::FilExpectation(expectation));
     }
 }

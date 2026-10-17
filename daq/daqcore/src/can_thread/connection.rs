@@ -1,4 +1,8 @@
-use crate::{can, can::driver::{self, ActiveDriver, DriverResult}, connection, frame, superdbc};
+use crate::{
+    can,
+    can::driver::{ActiveDriver, DriverError, DriverResult, FilExpectationEvent, FilGpioEvent},
+    connection, frame, superdbc,
+};
 use std::time;
 
 pub struct ConnectionManager {
