@@ -88,7 +88,7 @@ fn fil_read_frame(reader: &mut impl std::io::Read) -> Result<Option<FilWireFrame
     if &h[..4] != FIL_MAGIC || h[4] != FIL_VERSION || h[6..8] != [0, 0] {
         return Err("Invalid FIL binary frame header".into());
     }
-    let len = u32::from_le_bytes(h[8..12].try_into().unwrap()) as usize;
+    let len = u32::from_le_bytes([h[8], h[9], h[10], h[11]]) as usize;
     if len > FIL_MAX_PAYLOAD {
         return Err("FIL payload too large".into());
     }
@@ -98,7 +98,7 @@ fn fil_read_frame(reader: &mut impl std::io::Read) -> Result<Option<FilWireFrame
         .map_err(|e| format!("Truncated FIL payload: {e}"))?;
     Ok(Some(FilWireFrame {
         kind: h[5],
-        request_id: u32::from_le_bytes(h[12..16].try_into().unwrap()),
+        request_id: u32::from_le_bytes([h[12], h[13], h[14], h[15]]),
         payload,
     }))
 }
@@ -408,17 +408,23 @@ fn serve_network_args(
 fn fil_u16(p: &[u8], at: &mut usize) -> Result<u16, String> {
     let b = p.get(*at..*at + 2).ok_or("truncated u16")?;
     *at += 2;
-    Ok(u16::from_le_bytes(b.try_into().unwrap()))
+    Ok(u16::from_le_bytes(
+        b.try_into().map_err(|_| "truncated u16")?,
+    ))
 }
 fn fil_u32(p: &[u8], at: &mut usize) -> Result<u32, String> {
     let b = p.get(*at..*at + 4).ok_or("truncated u32")?;
     *at += 4;
-    Ok(u32::from_le_bytes(b.try_into().unwrap()))
+    Ok(u32::from_le_bytes(
+        b.try_into().map_err(|_| "truncated u32")?,
+    ))
 }
 fn fil_u64(p: &[u8], at: &mut usize) -> Result<u64, String> {
     let b = p.get(*at..*at + 8).ok_or("truncated u64")?;
     *at += 8;
-    Ok(u64::from_le_bytes(b.try_into().unwrap()))
+    Ok(u64::from_le_bytes(
+        b.try_into().map_err(|_| "truncated u64")?,
+    ))
 }
 fn fil_string<'a>(p: &'a [u8], at: &mut usize) -> Result<&'a str, String> {
     let n = fil_u16(p, at)? as usize;
@@ -748,7 +754,8 @@ mod fil_transport_tests {
     #[test]
     fn default_args_match_fil_stdio_defaults_and_enable_expectation_traces() {
         let network = std::path::Path::new("network.json");
-        let args = serve_network_args(network, &FilRunOptions::default()).unwrap();
+        let args = serve_network_args(network, &FilRunOptions::default())
+            .expect("default FIL options should produce valid serve-network arguments");
         assert_eq!(args[0], "serve-network");
         assert_eq!(args[1], network.as_os_str());
         assert_eq!(args[2], "--transport");
@@ -776,10 +783,11 @@ mod fil_transport_tests {
     #[test]
     fn binary_frame_round_trip_and_rejects_bad_magic() {
         let mut bytes = Vec::new();
-        fil_write_frame(&mut bytes, FIL_CAN_INJECT, 42, b"payload").unwrap();
+        fil_write_frame(&mut bytes, FIL_CAN_INJECT, 42, b"payload")
+            .expect("writing a FIL frame into memory should succeed");
         let frame = fil_read_frame(&mut std::io::Cursor::new(bytes.clone()))
-            .unwrap()
-            .unwrap();
+            .expect("encoded FIL frame should decode")
+            .expect("encoded FIL frame should be present");
         assert_eq!(frame.kind, FIL_CAN_INJECT);
         assert_eq!(frame.request_id, 42);
         assert_eq!(frame.payload, b"payload");
@@ -787,12 +795,24 @@ mod fil_transport_tests {
         assert!(fil_read_frame(&mut std::io::Cursor::new(bytes)).is_err());
     }
     #[test]
+    fn binary_frame_rejects_truncated_headers_and_payloads() {
+        let mut bytes = Vec::new();
+        fil_write_frame(&mut bytes, FIL_CAN_INJECT, 42, b"payload")
+            .expect("writing a FIL frame into memory should succeed");
+        for length in 1..bytes.len() {
+            assert!(fil_read_frame(&mut std::io::Cursor::new(&bytes[..length])).is_err());
+        }
+    }
+
+    #[test]
     fn binary_expectation_trace_parses_lifecycle_payload_without_bus_filtering() {
         let mut payload = Vec::new();
         payload.extend_from_slice(&10u64.to_le_bytes());
         payload.extend_from_slice(&2u64.to_le_bytes());
-        fil_put_string(&mut payload, "unrelated/script").unwrap();
-        fil_put_string(&mut payload, "expectation_pass").unwrap();
+        fil_put_string(&mut payload, "unrelated/script")
+            .expect("script name should fit in the FIL string format");
+        fil_put_string(&mut payload, "expectation_pass")
+            .expect("event name should fit in the FIL string format");
         let fields = [
             ("check_id", "stimulus/0/check"),
             ("script", "ready script"),
@@ -810,8 +830,10 @@ mod fil_transport_tests {
         ];
         payload.extend_from_slice(&(fields.len() as u16).to_le_bytes());
         for (key, value) in fields {
-            fil_put_string(&mut payload, key).unwrap();
-            fil_put_string(&mut payload, value).unwrap();
+            fil_put_string(&mut payload, key)
+                .expect("field key should fit in the FIL string format");
+            fil_put_string(&mut payload, value)
+                .expect("field value should fit in the FIL string format");
         }
         let (can_tx, _) = std::sync::mpsc::channel();
         let (gpio_tx, _) = std::sync::mpsc::channel();
@@ -827,8 +849,10 @@ mod fil_transport_tests {
             &exp_tx,
             &std::sync::RwLock::new(Some("selected-bus".into())),
         )
-        .unwrap();
-        let event = exp_rx.recv().unwrap();
+        .expect("valid expectation trace should parse");
+        let event = exp_rx
+            .recv()
+            .expect("parsed expectation should be delivered");
         assert_eq!(event.status, FilExpectationStatus::Pass);
         assert_eq!(event.script, "ready script");
         assert_eq!(event.matched_time_ns, Some(15));
@@ -854,7 +878,7 @@ mod fil_transport_tests {
                 matched_time_ns: None,
                 reason: None,
             })
-            .unwrap();
+            .expect("open expectation channel should accept the event");
         }
         assert_eq!(drain_all_fil_expectation_events(&rx).len(), 500);
         assert!(rx.try_recv().is_err());
