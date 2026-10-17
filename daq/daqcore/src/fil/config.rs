@@ -335,7 +335,8 @@ pub fn materialize_network(
     for board in &enabled {
         if let Some(override_elf) = needed.get(board.name.as_str()) {
             let mut board_json = read_json_file(&board.board_path)?;
-            board_json["elf"] = serde_json::Value::String(override_elf.display().to_string());
+            let absolute_elf = absolute_path_from(Path::new("."), override_elf)?;
+            board_json["elf"] = serde_json::Value::String(absolute_elf.display().to_string());
             if let Some(mcu) = board_json.get("mcu").and_then(serde_json::Value::as_str) {
                 let absolute_mcu = absolute_path_from(
                     board.board_path.parent().unwrap_or_else(|| Path::new(".")),
@@ -350,7 +351,7 @@ pub fn materialize_network(
                 .map_err(|error| format!("Failed to write {}: {error}", out_path.display()))?;
             board_paths.push(out_path);
         } else {
-            board_paths.push(board.board_path.clone());
+            board_paths.push(absolute_path_from(Path::new("."), &board.board_path)?);
         }
     }
 
@@ -833,6 +834,10 @@ mod tests {
     #[test]
     fn materialized_network_resolves_relative_board_mcu_and_override_paths() {
         let root = test_dir("materialize-relative-paths");
+        let cwd = std::env::current_dir().expect("current directory should be available");
+        let relative_root = root
+            .strip_prefix(&cwd)
+            .expect("test directory should be below the current directory");
         let board_dir = root.join("source");
         std::fs::create_dir_all(board_dir.join("configs"))
             .expect("board fixture directories should be created");
@@ -866,8 +871,8 @@ mod tests {
         )
         .expect("network fixture should be written");
 
-        let relative_network = network_path;
-        let relative_override = override_elf.clone();
+        let relative_network = relative_root.join("network.json");
+        let relative_override = relative_root.join("override.elf");
         let output = materialize_network(
             &relative_network,
             &HashMap::from([("relative-board".to_owned(), relative_override)]),
@@ -916,6 +921,56 @@ mod tests {
             )
             .is_absolute()
         );
+        std::fs::remove_dir_all(root).expect("materialization fixture should be cleaned up");
+    }
+
+    #[test]
+    fn materialized_network_uses_absolute_reference_for_unchanged_board() {
+        let root = test_dir("materialize-unchanged-board");
+        let cwd = std::env::current_dir().expect("current directory should be available");
+        let relative_root = root
+            .strip_prefix(&cwd)
+            .expect("test directory should be below the current directory");
+        let board_dir = root.join("boards");
+        std::fs::create_dir_all(&board_dir).expect("board fixture directory should be created");
+        for name in ["enabled", "disabled"] {
+            std::fs::write(
+                board_dir.join(format!("{name}.json")),
+                serde_json::json!({"name": name, "elf": "firmware.elf"}).to_string(),
+            )
+            .expect("board fixture JSON should be written");
+        }
+        let network_path = root.join("network.json");
+        std::fs::write(
+            &network_path,
+            serde_json::json!({
+                "name": "network-with-disabled-board",
+                "buses": {},
+                "boards": ["boards/enabled.json", "boards/disabled.json"]
+            })
+            .to_string(),
+        )
+        .expect("network fixture should be written");
+
+        let output = materialize_network(
+            &relative_root.join("network.json"),
+            &HashMap::new(),
+            &HashSet::from(["disabled".to_owned()]),
+        )
+        .expect("network should materialize with the disabled board omitted");
+        let materialized_network =
+            read_json_file(&output).expect("materialized network should be readable");
+        let board_references = materialized_network["boards"]
+            .as_array()
+            .expect("materialized boards should be an array");
+        assert_eq!(board_references.len(), 1);
+        let board_reference = PathBuf::from(
+            board_references[0]
+                .as_str()
+                .expect("enabled board reference should be a string"),
+        );
+        assert!(board_reference.is_absolute());
+        assert_eq!(board_reference, board_dir.join("enabled.json"));
         std::fs::remove_dir_all(root).expect("materialization fixture should be cleaned up");
     }
 
