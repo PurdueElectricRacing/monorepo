@@ -64,7 +64,7 @@ pub struct FilControl {
     adc_instance: FilAdcInstance,
     adc_channel: u8,
     adc_value: u16,
-    run_options: settings::FilRunOptions,
+    run_options: connection::FilRunOptions,
     annotations: annotations::FilAnnotations,
     annotation_error: Option<String>,
     gpio_board: String,
