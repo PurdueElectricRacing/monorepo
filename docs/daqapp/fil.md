@@ -21,6 +21,10 @@ protocol](https://github.com/ronakpjain/fil/blob/main/docs/serve_network.md).
      board configs with optional ELF overrides. **Export network JSON…** saves it for reuse.
 4. Select the matching DBC to decode traffic.
 
+Network loading, board-file import, and network export run in the background. FIL Control
+shows pending operations and reports failures without blocking the UI. Selecting a different
+network discards results from the previous selection.
+
 **Run options** in FIL Control configure duration (0 runs until stopped), per-board instruction
 budget, scheduling quantum, refresh interval, ADC decimation (1–1024), strict MMIO, wall-clock
 pacing, instruction tracing, and spin detection. Defaults use 1 ms refresh,
