@@ -99,18 +99,25 @@ impl HilRunningTest {
 
     pub fn update_expect_statuses(&mut self, elapsed: time::Duration) {
         let ts = elapsed.as_millis();
+
         for expect in &mut self.in_progress_expects {
             match expect.result {
-                ExpectResult::NotInWindow if ts >= expect.expect.window[0] as u128 => {
+                ExpectResult::NotInWindow
+                    if ts >= expect.expect.window[0] as u128 =>
+                {
                     expect.result = if ts > expect.expect.window[1] as u128 {
                         ExpectResult::FailedNoMessage
                     } else {
                         ExpectResult::InProgress
                     };
                 }
-                ExpectResult::InProgress if ts > expect.expect.window[1] as u128 => {
+
+                ExpectResult::InProgress
+                    if ts > expect.expect.window[1] as u128 =>
+                {
                     expect.result = ExpectResult::FailedNoMessage;
                 }
+
                 _ => {}
             }
         }
@@ -182,6 +189,16 @@ impl HilRunningTest {
         self.in_progress_expects
             .iter()
             .all(|e| e.result.is_finished())
+    }
+
+    pub fn has_failed(&self) -> bool {
+        self.in_progress_expects.iter().any(|e| {
+            matches!(
+                e.result,
+                ExpectResult::FailedNoMessage
+                | ExpectResult::FailedValueOutOfRange
+            )
+        })
     }
 }
 

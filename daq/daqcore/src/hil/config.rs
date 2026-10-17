@@ -1,12 +1,12 @@
 use std::{fs, path};
-
+use serde::{Deserialize, Serialize};
 // Read HIL config files (preset and tests)
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(transparent)]
-pub struct PresetsFile(pub indexmap::IndexMap<String, Vec<String>>);
+pub struct PresetsFile(pub indexmap::IndexMap<String, PresetDefinition>);
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TestFile {
     pub name: String,
     pub description: String,
@@ -17,7 +17,7 @@ pub struct TestFile {
     pub expect: Vec<Expectation>,
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TxMessage {
     pub timestamp: f64,
     pub msg_name: String,
@@ -25,7 +25,7 @@ pub struct TxMessage {
     pub signals: indexmap::IndexMap<String, f64>,
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Expectation {
     pub window: [f64; 2],
 
@@ -38,6 +38,7 @@ pub struct Expectation {
 #[derive(Clone)]
 pub struct PresetInfo {
     pub name: String,
+    pub mode: ExecutionMode,
     // base names
     pub tests: Vec<String>,
 }
@@ -48,6 +49,26 @@ pub struct TestInfo {
     pub name: String,
     pub description: String,
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ExecutionMode {
+    #[serde(rename = "parallel")]
+    Parallel,
+
+    #[serde(rename = "sequential_0")]
+    SequentialAlways,
+
+    #[serde(rename = "sequential_1")]
+    SequentialStopFail,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PresetDefinition {
+    #[serde(rename = "Config")]
+    pub mode: ExecutionMode,
+    pub tests: Vec<String>,
+}
+
 
 pub fn list_available_tests(base: &path::Path) -> (Vec<PresetInfo>, Vec<TestInfo>, Vec<String>) {
     let mut errors = Vec::new();
@@ -104,7 +125,8 @@ pub fn list_available_tests(base: &path::Path) -> (Vec<PresetInfo>, Vec<TestInfo
     let mut presets = Vec::new();
     if let Ok(presets_file) = fs::read_to_string(&presets_path) {
         if let Ok(presets_data) = serde_json::from_str::<PresetsFile>(&presets_file) {
-            for (preset_name, subtests) in presets_data.0 {
+            for (preset_name, definition) in presets_data.0 {
+                let subtests = definition.tests;
                 if subtests.is_empty() {
                     errors.push(format!("Preset '{}' has no subtests defined", preset_name));
                     continue;
@@ -135,6 +157,7 @@ pub fn list_available_tests(base: &path::Path) -> (Vec<PresetInfo>, Vec<TestInfo
 
                 presets.push(PresetInfo {
                     name: preset_name,
+                    mode: definition.mode,
                     tests: subtests,
                 });
             }
