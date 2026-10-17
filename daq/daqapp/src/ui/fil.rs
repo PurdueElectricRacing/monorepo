@@ -1456,7 +1456,10 @@ mod expectation_tests {
         update_expectations(&mut events, &mut order, passed);
         assert_eq!(order.len(), 1);
         assert_eq!(events.len(), 1);
-        let stored = events.values().next().unwrap();
+        let stored = events
+            .values()
+            .next()
+            .expect("updated check should remain in history");
         assert_eq!(
             stored.status,
             daqcore::can::driver::FilExpectationStatus::Pass

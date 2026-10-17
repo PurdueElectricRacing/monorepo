@@ -57,12 +57,13 @@ mod tests {
 
     #[test]
     fn missing_config_uses_embedded_per_annotations() {
-        let annotations = load_from_path(Path::new("missing-fil-annotations.json")).unwrap();
+        let annotations = load_from_path(Path::new("missing-fil-annotations.json"))
+            .expect("missing annotation file should load the embedded PER annotations");
         assert!(
             annotations
                 .gpio
                 .as_ref()
-                .unwrap()
+                .expect("embedded PER annotations should include GPIO labels")
                 .contains_key("front_driveline")
         );
     }
