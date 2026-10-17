@@ -945,10 +945,8 @@ impl FilControl {
             .unwrap_or(false)
     }
 
-    fn connect_source(&self) -> connection::ConnectionSource {
-        self.fil_settings()
-            .connection_source()
-            .expect("checked network")
+    fn connect_source(&self) -> Option<connection::ConnectionSource> {
+        self.fil_settings().connection_source()
     }
 
     pub fn show(
@@ -1114,7 +1112,14 @@ impl FilControl {
                         .add_enabled(issues.is_empty(), egui::Button::new("Connect / Restart"))
                         .clicked()
                     {
-                        actions.push(action::AppAction::ConnectFil(self.connect_source()));
+                        if let Some(source) = self.connect_source() {
+                            actions.push(action::AppAction::ConnectFil(source));
+                        } else {
+                            self.operation_error = Some(
+                                "Unable to create a connection source from the selected settings"
+                                    .into(),
+                            );
+                        }
                     }
                     if ui.button("Disconnect").clicked() && self.executable.is_some() {
                         let _ = tx.send(daqcore::can_thread::CanThreadCommand::Connect(None));
