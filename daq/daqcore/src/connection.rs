@@ -165,26 +165,6 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug, Default)]
-#[serde(rename_all = "UPPERCASE")]
-pub enum CanBus {
-    #[default]
-    Vcan,
-    Scan,
-}
-
-impl CanBus {
-    pub fn display_name(self) -> &'static str {
-        match self {
-            Self::Vcan => "VCAN",
-            Self::Scan => "SCAN",
-        }
-    }
-    pub fn options() -> [Self; 2] {
-        [Self::Vcan, Self::Scan]
-    }
-}
-
 #[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug, Default)]
 pub enum CanBusSpeed {
     Kbps250,
