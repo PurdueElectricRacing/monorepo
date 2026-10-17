@@ -1,4 +1,8 @@
-use crate::{can, can_thread, frame, hil};
+use crate::{
+    can,
+    can_thread::{self, DatabaseUpdate, tx::AddSendMessage},
+    frame, hil,
+};
 use std::{sync::mpsc, thread, time};
 
 const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
@@ -84,6 +88,12 @@ fn run_with_connection(
                             continue;
                         }
                     };
+                    match &update {
+                        DatabaseUpdate::Loaded { database, bus_id } => {
+                            hil.set_decoder((**database).clone(), *bus_id)
+                        }
+                        DatabaseUpdate::Bus { bus_id } => hil.set_bus_id(*bus_id),
+                    }
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
@@ -169,6 +179,33 @@ fn run_with_connection(
         hil.tick(now);
         if hil.is_running() && !hil_finished && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
         {
+            let mut tx_messages: Vec<AddSendMessage> = Vec::new();
+            match hil.queue_tx(now) {
+                Ok((messages, errors)) => {
+                    tx_messages = messages;
+                    for error in errors {
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error));
+                    }
+                }
+                Err(error) => emit!(can_thread::CanThreadEvent::Diagnostic(error)),
+            }
+            for message in tx_messages {
+                let identity = message.identity;
+                if !sends.contains(identity) {
+                    if let Err(error) = sends.add(message) {
+                        sends.delete(identity);
+                        emit!(can_thread::CanThreadEvent::SendFailed {
+                            identity,
+                            error,
+                            retrying: false
+                        });
+                    }
+                } else {
+                    emit!(can_thread::CanThreadEvent::Diagnostic(
+                        "Attempted HIL message is already being sent".to_owned()
+                    ));
+                }
+            }
             emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
             hil_last = now;
             hil_finished = hil.all_finished();

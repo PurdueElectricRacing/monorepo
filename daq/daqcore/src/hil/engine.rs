@@ -1,5 +1,11 @@
-use crate::{frame, hil};
 use std::{path, time};
+
+use crate::{
+    can_thread::tx::{AddSendMessage, SendAmount::Once},
+    frame,
+    hil::{self, config},
+    superdbc::database::Database,
+};
 
 pub enum HilCommand {
     StartTest(hil::config::TestInfo),
@@ -20,6 +26,7 @@ pub struct HilSnapshot {
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
+    pub has_decoder: bool,
 }
 
 impl HilSnapshot {
@@ -30,6 +37,7 @@ impl HilSnapshot {
             preset: None,
             tests: Vec::new(),
             start_error: None,
+            has_decoder: false,
         }
     }
 }
@@ -48,6 +56,8 @@ enum HilState {
 pub struct HilEngine {
     state: HilState,
     base: path::PathBuf,
+    superdbc: Option<Database>,
+    bus_id: u8,
 }
 
 impl HilEngine {
@@ -55,7 +65,22 @@ impl HilEngine {
         Self {
             state: HilState::Idle { start_error: None },
             base,
+            superdbc: None,
+            bus_id: 0,
         }
+    }
+
+    pub fn set_decoder(&mut self, superdbc: Database, bus_id: u8) {
+        self.superdbc = Some(superdbc);
+        self.bus_id = bus_id;
+    }
+
+    pub fn set_bus_id(&mut self, bus_id: u8) {
+        self.bus_id = bus_id;
+    }
+
+    pub fn has_decoder(&self) -> bool {
+        self.superdbc.is_some()
     }
 
     pub fn is_running(&self) -> bool {
@@ -64,7 +89,9 @@ impl HilEngine {
 
     pub fn all_finished(&self) -> bool {
         match &self.state {
-            HilState::Running { tests, .. } => tests.iter().all(|t| t.is_finished()),
+            HilState::Running { tests, .. } => tests
+                .iter()
+                .all(|t| t.is_finished() && (t.tx_remaining.is_empty() || !self.has_decoder())),
             HilState::Idle { .. } => false,
         }
     }
@@ -95,6 +122,93 @@ impl HilEngine {
                 self.state = HilState::Idle { start_error: None };
             }
         }
+    }
+
+    pub fn queue_tx(
+        &mut self,
+        now: std::time::Instant,
+    ) -> Result<(Vec<AddSendMessage>, Vec<String>), String> {
+        let superdbc = self
+            .superdbc
+            .as_ref()
+            .ok_or("SuperDBC has not been loaded")?;
+
+        if let HilState::Running {
+            start_time,
+            preset: _,
+            tests,
+        } = &mut self.state
+        {
+            let mut tx_messages: Vec<AddSendMessage> = Vec::new();
+            let mut errors = Vec::new();
+            let elapsed_ms: f64 =
+                now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
+
+            for test in tests.iter_mut() {
+                if !test.tx_remaining.is_empty() {
+                    let pending = std::mem::take(&mut test.tx_remaining);
+                    let mut remaining = Vec::new();
+
+                    for tx_message in pending {
+                        if elapsed_ms < tx_message.timestamp {
+                            remaining.push(tx_message);
+                            continue;
+                        }
+
+                        match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
+                            Ok(message) => tx_messages.push(message),
+                            Err(error) => {
+                                errors.push(format!(
+                                    "Error while encoding and converting TX message {}: {}",
+                                    tx_message.msg_name, error
+                                ));
+                            }
+                        }
+                    }
+
+                    test.tx_remaining = remaining;
+                }
+            }
+
+            Ok((tx_messages, errors))
+        } else {
+            Err("Hil is not running".to_owned())
+        }
+    }
+
+    fn hil_tx_to_send_message(
+        tx_message: &config::TxMessage,
+        superdbc: &Database,
+        bus_id: u8,
+    ) -> Result<AddSendMessage, String> {
+        let message = superdbc
+            .messages()
+            .find(|message| message.name() == tx_message.msg_name)
+            .ok_or("Message name not found")?;
+
+        let key = message.key();
+        if key.bus_id != bus_id {
+            return Err(format!(
+                "Message on CAN bus {} does not exist on selected CAN bus {}",
+                key.bus_id, bus_id
+            ));
+        }
+
+        let values: Vec<(&str, f64)> = tx_message
+            .signals
+            .iter()
+            .map(|(name, value)| (name.as_str(), *value))
+            .collect();
+
+        let encoded_message = superdbc
+            .encode(key.bus_id, key.identity, &values)
+            .map_err(|error| error.to_string())?;
+
+        Ok(AddSendMessage {
+            amount: Once,
+            identity: key.identity,
+            msg_bytes: encoded_message,
+        })
     }
 
     pub fn process_parsed(&mut self, parsed: &frame::ParsedFrame, now: time::Instant) {
@@ -129,6 +243,7 @@ impl HilEngine {
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
+                has_decoder: self.has_decoder(),
             },
             HilState::Running {
                 start_time,
@@ -140,6 +255,7 @@ impl HilEngine {
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
+                has_decoder: self.has_decoder(),
             },
         }
     }
