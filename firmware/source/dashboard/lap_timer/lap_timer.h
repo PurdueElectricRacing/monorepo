@@ -30,14 +30,18 @@ typedef struct {
     lap_timer_state_t state;
     uint32_t start_time_ms;
     uint32_t elapsed_time_ms;
+    uint32_t prev_lap_time_ms;
     geodetic_coord_t origin;
     vector2_t start_point;
     vector2_t l1_end_point;
     vector2_t last_point;
+    uint16_t laps_finished;
 } lap_timer_context_t;
 
 void lap_timer_onpress(void);
 void lap_timer_periodic(void);
 uint32_t lap_timer_elapsed_ms(void);
+uint32_t lap_timer_prev_lap_time_ms(void);
+uint16_t lap_timer_num_laps(void);
 
 #endif // LAP_TIMER_H
