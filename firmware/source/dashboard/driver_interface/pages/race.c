@@ -192,12 +192,25 @@ static inline void update_lap_time_telemetry() {
     uint32_t curr_seconds = (curr_elapsed_ms / 1000U) % 60U;
     uint32_t curr_centiseconds = (curr_elapsed_ms / 10U) % 100U;
 
+    uint32_t best_lap_ms = lap_timer_best_time_ms();
+    uint32_t best_minutes = best_lap_ms / 60000U;
+    uint32_t best_seconds = (best_lap_ms / 1000U) % 60U;
+    uint32_t best_centiseconds = (best_lap_ms / 10U) % 100U;
+
     NXT_setTextFormatted(
         LAP_TIME,
         "%02lu:%02lu.%02lu",
         (unsigned long)curr_minutes,
         (unsigned long)curr_seconds,
         (unsigned long)curr_centiseconds
+    );
+
+    NXT_setTextFormatted(
+        BEST_TIME,
+        "%02lu:%02lu.%02lu",
+        (unsigned long)best_minutes,
+        (unsigned long)best_seconds,
+        (unsigned long)best_centiseconds
     );
 }
 
