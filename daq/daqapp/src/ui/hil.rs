@@ -168,7 +168,7 @@ impl Hil {
 
             if skipped {
                 ui.colored_label(
-                    egui::Color32::GRAY,
+                    eframe::egui::Color32::GRAY,
                     format!(
                         "{} — skipped after an earlier test failed",
                         test.test_info.name
