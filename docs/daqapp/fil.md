@@ -27,7 +27,8 @@ network discards results from the previous selection.
 **Run options** in FIL Control configure duration (0 runs until stopped), per-board instruction
 budget, scheduling quantum, refresh interval, ADC decimation (1–1024), strict MMIO, wall-clock
 pacing, instruction tracing, and spin detection. Defaults use 1 ms refresh,
-wall-clock pacing, and 32× ADC decimation for responsive six-board viewing.
+wall-clock pacing, and ADC decimation 1 (no skipped scans). Increase decimation only
+when trading firmware-visible ADC fidelity for viewing performance is acceptable.
 Network loop batching is disabled by FIL and has no enabling CLI option, so DaqApp does
 not expose a loop-batching control.
 Set decimation to 1 when validating pedal or fault behavior: skipped ADC scans change

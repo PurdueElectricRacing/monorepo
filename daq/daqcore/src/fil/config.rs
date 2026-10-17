@@ -332,7 +332,7 @@ pub fn materialize_network(
         .map_err(|error| format!("Failed to create {}: {error}", dir.display()))?;
 
     let mut board_paths = Vec::with_capacity(enabled.len());
-    for board in &enabled {
+    for (index, board) in enabled.iter().enumerate() {
         if let Some(override_elf) = needed.get(board.name.as_str()) {
             let mut board_json = read_json_file(&board.board_path)?;
             let absolute_elf = absolute_path_from(Path::new("."), override_elf)?;
@@ -344,7 +344,7 @@ pub fn materialize_network(
                 )?;
                 board_json["mcu"] = serde_json::Value::String(absolute_mcu.display().to_string());
             }
-            let out_path = dir.join(format!("board-{}.json", board.name));
+            let out_path = dir.join(board_filename(index, &board.name));
             let content = serde_json::to_string_pretty(&board_json)
                 .map_err(|error| format!("Failed to serialize board '{}': {error}", board.name))?;
             std::fs::write(&out_path, content)
@@ -922,6 +922,53 @@ mod tests {
             .is_absolute()
         );
         std::fs::remove_dir_all(root).expect("materialization fixture should be cleaned up");
+    }
+
+    #[test]
+    fn materialized_override_filenames_are_safe_and_unique() {
+        let root = test_dir("materialize-safe-names");
+        let names = ["a/b", "a_b", "../../outside", "a\\b"];
+        let override_elf = root.join("override.elf");
+        std::fs::write(&override_elf, "override elf").expect("override ELF should be written");
+        let mut overrides = HashMap::new();
+        let mut boards = Vec::new();
+        for (index, name) in names.iter().enumerate() {
+            let filename = format!("source-{index}.json");
+            std::fs::write(
+                root.join(&filename),
+                serde_json::json!({"name": name, "elf": "original.elf"}).to_string(),
+            )
+            .expect("source board should be written");
+            boards.push(filename);
+            overrides.insert((*name).to_owned(), override_elf.clone());
+        }
+        let network = root.join("network.json");
+        std::fs::write(
+            &network,
+            serde_json::json!({"name": "safe-names", "buses": {}, "boards": boards}).to_string(),
+        )
+        .expect("source network should be written");
+        let output = materialize_network(&network, &overrides, &HashSet::new())
+            .expect("board names containing path separators should materialize safely");
+        let materialized =
+            read_json_file(&output).expect("materialized network should be readable");
+        let mut paths = HashSet::new();
+        for (index, name) in names.iter().enumerate() {
+            let path = PathBuf::from(
+                materialized["boards"][index]
+                    .as_str()
+                    .expect("board path should be a string"),
+            );
+            assert_eq!(path.parent(), output.parent());
+            assert!(
+                paths.insert(path.clone()),
+                "board filenames should be unique"
+            );
+            let board = read_json_file(&path).expect("materialized board should be readable");
+            assert_eq!(board["name"], *name);
+            assert_eq!(board["elf"], override_elf.to_string_lossy().as_ref());
+        }
+        std::fs::remove_dir_all(root).expect("safe-name fixture should be cleaned up");
     }
 
     #[test]
