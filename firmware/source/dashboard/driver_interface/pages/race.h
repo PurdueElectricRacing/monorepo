@@ -8,7 +8,9 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#define RACE_STRING "race"
+#include <stdint.h>
+
+ #define RACE_STRING "race"
 
 // Nextion object names
 #define THROT_BAR    "throt"
@@ -30,6 +32,12 @@
 #define CURRENT_TIME "current"
 #define BEST_TIME    "best"
 #define LAP_TIME     "lap"
+
+typedef struct {
+    uint32_t minutes;
+    uint32_t seconds;
+    uint32_t centiseconds;
+} time_display_t;
 
 void race_telemetry_update();
 

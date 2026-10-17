@@ -186,6 +186,18 @@ static inline void update_tv_telemetry() {
     update_tv_bar(RR_BAR, can_data.vcu_torque_request.rear_right);
 }
 
+static inline time_display_t format_time_ms(uint32_t raw_time_ms) {
+    uint32_t raw_minutes = raw_time_ms / 60000U;
+    uint32_t raw_seconds = (raw_time_ms / 1000U) % 60U;
+    uint32_t raw_centiseconds = (raw_time_ms / 10U) % 100U;
+    time_display_t format_time = {
+        .minutes = raw_minutes,
+        .seconds = raw_seconds,
+        .centiseconds = raw_centiseconds,
+    };
+    return format_time;
+}
+
 static inline void update_diff_time(uint32_t curr_elapsed_ms, uint32_t best_lap_ms) {
     uint32_t diff_time_ms = 0;
     char diff_sign_char = ' ';
@@ -201,46 +213,40 @@ static inline void update_diff_time(uint32_t curr_elapsed_ms, uint32_t best_lap_
         diff_color = GREEN;
     }
 
-    uint32_t diff_minutes = diff_time_ms / 60000U;
-    uint32_t diff_seconds = (diff_time_ms / 1000U) % 60U;
-    uint32_t diff_centiseconds = (diff_time_ms / 10U) % 100U;
+    time_display_t diff_time_disp = format_time_ms(diff_time_ms);
 
     NXT_setFontColor(LAP_TIME, diff_color);
     NXT_setTextFormatted(
         LAP_TIME, 
         "%c%02lu:%02lu.%02lu",
         diff_sign_char,
-        (unsigned long)diff_minutes,
-        (unsigned long)diff_seconds,
-        (unsigned long)diff_centiseconds
+        (unsigned long)diff_time_disp.minutes,
+        (unsigned long)diff_time_disp.seconds,
+        (unsigned long)diff_time_disp.centiseconds
     );
 }
 
 static inline void update_lap_time_telemetry() {
     uint32_t curr_elapsed_ms = lap_timer_elapsed_ms();
-    uint32_t curr_minutes = curr_elapsed_ms / 60000U;
-    uint32_t curr_seconds = (curr_elapsed_ms / 1000U) % 60U;
-    uint32_t curr_centiseconds = (curr_elapsed_ms / 10U) % 100U;
+    time_display_t curr_time_disp = format_time_ms(curr_elapsed_ms);
 
     uint32_t best_lap_ms = lap_timer_best_time_ms();
-    uint32_t best_minutes = best_lap_ms / 60000U;
-    uint32_t best_seconds = (best_lap_ms / 1000U) % 60U;
-    uint32_t best_centiseconds = (best_lap_ms / 10U) % 100U;
+    time_display_t best_time_disp = format_time_ms(best_lap_ms);
 
     NXT_setTextFormatted(
         CURRENT_TIME,
         "%02lu:%02lu.%02lu",
-        (unsigned long)curr_minutes,
-        (unsigned long)curr_seconds,
-        (unsigned long)curr_centiseconds
+        (unsigned long)curr_time_disp.minutes,
+        (unsigned long)curr_time_disp.seconds,
+        (unsigned long)curr_time_disp.centiseconds
     );
 
     NXT_setTextFormatted(
         BEST_TIME,
         "%02lu:%02lu.%02lu",
-        (unsigned long)best_minutes,
-        (unsigned long)best_seconds,
-        (unsigned long)best_centiseconds
+        (unsigned long)best_time_disp.minutes,
+        (unsigned long)best_time_disp.seconds,
+        (unsigned long)best_time_disp.centiseconds
     );
 
     update_diff_time(curr_elapsed_ms, best_lap_ms);
