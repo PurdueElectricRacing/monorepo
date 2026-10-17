@@ -186,17 +186,8 @@ static inline void update_tv_telemetry() {
     update_tv_bar(RR_BAR, can_data.vcu_torque_request.rear_right);
 }
 
-static inline void update_lap_time_telemetry() {
-    uint32_t curr_elapsed_ms = lap_timer_elapsed_ms();
-    uint32_t curr_minutes = curr_elapsed_ms / 60000U;
-    uint32_t curr_seconds = (curr_elapsed_ms / 1000U) % 60U;
-    uint32_t curr_centiseconds = (curr_elapsed_ms / 10U) % 100U;
-
-    uint32_t best_lap_ms = lap_timer_best_time_ms();
-    uint32_t best_minutes = best_lap_ms / 60000U;
-    uint32_t best_seconds = (best_lap_ms / 1000U) % 60U;
-    uint32_t best_centiseconds = (best_lap_ms / 10U) % 100U;
-
+static inline void update_diff_time(uint32_t curr_elapsed_ms, uint32_t best_lap_ms) 
+{
     uint32_t diff_time_ms = 0;
     char diff_sign_char = ' ';
     uint16_t diff_color = WHITE;
@@ -226,6 +217,18 @@ static inline void update_lap_time_telemetry() {
         (unsigned long)diff_seconds,
         (unsigned long)diff_centiseconds
     );
+}
+
+static inline void update_lap_time_telemetry() {
+    uint32_t curr_elapsed_ms = lap_timer_elapsed_ms();
+    uint32_t curr_minutes = curr_elapsed_ms / 60000U;
+    uint32_t curr_seconds = (curr_elapsed_ms / 1000U) % 60U;
+    uint32_t curr_centiseconds = (curr_elapsed_ms / 10U) % 100U;
+
+    uint32_t best_lap_ms = lap_timer_best_time_ms();
+    uint32_t best_minutes = best_lap_ms / 60000U;
+    uint32_t best_seconds = (best_lap_ms / 1000U) % 60U;
+    uint32_t best_centiseconds = (best_lap_ms / 10U) % 100U;
 
     NXT_setTextFormatted(
         CURRENT_TIME,
@@ -242,6 +245,8 @@ static inline void update_lap_time_telemetry() {
         (unsigned long)best_seconds,
         (unsigned long)best_centiseconds
     );
+
+    update_diff_time(curr_elapsed_ms, best_lap_ms);
 }
 
 /**
