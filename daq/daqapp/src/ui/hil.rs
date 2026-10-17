@@ -115,7 +115,7 @@ impl Hil {
 
     fn show_running(&mut self, ui: &mut eframe::egui::Ui) {
         let tests = &self.snapshot.tests;
-        let all_finished = tests.iter().all(|t| t.is_finished());
+        let all_finished = self.snapshot.finished;
         let mut stop_requested = false;
 
         ui.add_space(4.0);
@@ -124,7 +124,11 @@ impl Hil {
                 if ui.button("Exit").clicked() {
                     stop_requested = true;
                 }
-                ui.label("HIL finished. Review results below.");
+                if self.snapshot.skipped_from.is_some() {
+                    ui.label("HIL stopped after a failed test. Review results below.");
+                } else {
+                    ui.label("HIL finished. Review results below.");
+                }
             });
         } else {
             ui.horizontal(|ui| {
@@ -142,12 +146,38 @@ impl Hil {
                 preset.name,
                 preset.tests.len()
             ));
-            Self::show_preset_summary(ui, tests);
+            if all_finished {
+                let executed_count = self.snapshot.skipped_from.unwrap_or(tests.len());
+
+                Self::show_preset_summary(ui, &tests[..executed_count]);
+
+                let skipped_count = tests.len() - executed_count;
+                ui.label(format!(
+                    "{} tests executed; {} skipped",
+                    executed_count, skipped_count
+                ));
+            }
         }
         ui.separator();
 
-        for test in tests {
-            Self::show_test(ui, test);
+        for (index, test) in tests.iter().enumerate() {
+            let skipped = match self.snapshot.skipped_from {
+                Some(first_skipped) => index >= first_skipped,
+                None => false,
+            };
+
+            if skipped {
+                ui.colored_label(
+                    egui::Color32::GRAY,
+                    format!(
+                        "{} — skipped after an earlier test failed",
+                        test.test_info.name
+                    ),
+                );
+            } else {
+                Self::show_test(ui, test);
+            }
+
             ui.separator();
         }
 
@@ -185,7 +215,7 @@ impl Hil {
         ui.colored_label(
             color,
             format!(
-                "Preset finished: {}/{} expects passed, {}/{} subtests fully passed",
+                "Executed tests: {}/{} expects passed, {}/{} subtests fully passed",
                 total_passed,
                 total_expects,
                 subtests_all_passed,

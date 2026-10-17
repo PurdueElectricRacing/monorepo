@@ -21,6 +21,8 @@ pub struct HilSnapshot {
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
+    pub finished: bool,
+    pub skipped_from: Option<usize>,
 }
 
 impl HilSnapshot {
@@ -31,6 +33,8 @@ impl HilSnapshot {
             preset: None,
             tests: Vec::new(),
             start_error: None,
+            finished: false,
+            skipped_from: None,
         }
     }
 }
@@ -45,6 +49,7 @@ enum HilState {
         tests: Vec<hil::run::HilRunningTest>,
         active_test: usize,
         active_start_time: std::time::Instant,
+        stopped_early: bool,
     },
 }
 
@@ -67,10 +72,16 @@ impl HilEngine {
 
     pub fn all_finished(&self) -> bool {
         match &self.state {
-            HilState::Running { tests, .. } => tests.iter().all(|t| t.is_finished()),
+            HilState::Running {
+                tests,
+                stopped_early,
+                ..
+            } => {
+                *stopped_early || tests.iter().all(|t| t.is_finished())
+            }
             HilState::Idle { .. } => false,
         }
-    }
+    }   
 
     pub fn handle_command(&mut self, command: HilCommand, now: time::Instant) {
         match command {
@@ -107,8 +118,13 @@ impl HilEngine {
             tests,
             active_test,
             active_start_time,
+            stopped_early,
         } = &mut self.state
         {
+            if *stopped_early {
+                return;
+            }
+
             let Some(decoded) = &parsed.decoded else {
                 return;
             };
@@ -148,8 +164,14 @@ impl HilEngine {
             tests,
             active_test,
             active_start_time,
+            stopped_early,
         } = &mut self.state
+        
         {
+            if *stopped_early {
+                return;
+            }
+
             let mode = match preset.as_ref() {
                 Some(preset_info) => &preset_info.mode,
                 None => &ExecutionMode::Parallel,
@@ -165,30 +187,49 @@ impl HilEngine {
                 }
 
                 ExecutionMode::SequentialAlways
-                | ExecutionMode::SequentialStopFail => {
-                    if let Some(test) = tests.get_mut(*active_test) {
-                        test.update_expect_statuses(
-                            now.saturating_duration_since(*active_start_time),
-                        );
+                    | ExecutionMode::SequentialStopFail => {
+                        if let Some(test) = tests.get_mut(*active_test) {
+                            test.update_expect_statuses(
+                                now.saturating_duration_since(*active_start_time),
+                            );
+
+                            if test.is_finished() {
+                                let stop_on_failure = matches!(
+                                    mode,
+                                    ExecutionMode::SequentialStopFail
+                                );
+
+                                if stop_on_failure && test.has_failed() {
+                                    *stopped_early = true;
+                                } else {
+                                    *active_test += 1;
+                                    *active_start_time = now;
+                                }
+                            }
+                        }
                     }
-                }
             }
         }
     }
 
     pub fn snapshot(&self, now: time::Instant) -> HilSnapshot {
         match &self.state {
-            HilState::Idle { start_error } => HilSnapshot {
+            HilState::Idle { start_error 
+            } => HilSnapshot {
                 status: HilStatus::Idle,
                 elapsed_ms: 0,
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
+                finished: false,
+                skipped_from: None,
             },
             HilState::Running {
                 start_time,
                 preset,
                 tests,
+                active_test,
+                stopped_early,
                 ..
             } => HilSnapshot {
                 status: HilStatus::Running,
@@ -196,6 +237,13 @@ impl HilEngine {
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
+
+                finished: self.all_finished(),
+                skipped_from: if *stopped_early {
+                    Some(*active_test + 1)
+                } else {
+                    None
+                },
             },
         }
     }
@@ -212,6 +260,7 @@ impl HilEngine {
             tests,
             active_test: 0,
             active_start_time: now,
+            stopped_early: false,
         };
     }
 
