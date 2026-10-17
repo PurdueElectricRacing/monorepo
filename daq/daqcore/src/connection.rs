@@ -32,7 +32,7 @@ impl Default for FilRunOptions {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq)]
+#[derive(serde::Serialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
     Udp(u16),
@@ -165,7 +165,7 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug, Default)
+#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug, Default)]
 #[serde(rename_all = "UPPERCASE")]
 pub enum CanBus {
     #[default]
