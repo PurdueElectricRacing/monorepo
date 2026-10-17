@@ -48,7 +48,7 @@ static bool lap_timer_l2_crossed(const vector2_t previous_point, const vector2_t
     return segment2_intersects(travelled, finish_line);
 }
 
-static void lap_timer_finish_lap(const vector2_t current_point) {
+static inline void lap_timer_finish_lap(const vector2_t current_point) {
     lap_timer.elapsed_time_ms = xTaskGetTickCount() - lap_timer.start_time_ms;
     lap_timer.last_point = current_point;
     lap_timer.state = LAP_TIMER_STATE_COMPLETE;
