@@ -81,9 +81,9 @@ impl ActiveDriver {
     pub fn is_fil(&self) -> bool {
         matches!(self, Self::Fil(_))
     }
-    pub fn set_fil_trace_bus(&mut self, trace_bus: Option<String>) -> DriverResult<()> {
+    pub fn set_fil_bus(&mut self, bus: Option<u8>) -> DriverResult<()> {
         match self {
-            Self::Fil(driver) => driver.set_trace_bus(trace_bus),
+            Self::Fil(driver) => driver.set_bus_selection(bus),
             Self::Can(_) => Ok(()),
         }
     }

@@ -68,9 +68,16 @@ fn run_with_connection(
                     for event in connection.close() {
                         emit!(can_thread::CanThreadEvent::FilExpectation(event));
                     }
-                    connection.select(source.clone(), time::Instant::now());
+                    connection.select(source, time::Instant::now());
+                    if let Err(error) =
+                        connection.set_fil_bus(decoder.bus().map(|bus| bus.bus_id()))
+                    {
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
+                    }
                     load = can::bus_load::BusLoadTracker::default();
-                    emit!(can_thread::CanThreadEvent::SourceSelected(source));
+                    emit!(can_thread::CanThreadEvent::SourceSelected(
+                        connection.source().cloned()
+                    ));
                     emit!(can_thread::CanThreadEvent::Disconnection);
                 }
                 can_thread::CanThreadCommand::SelectDatabase {
@@ -87,6 +94,13 @@ fn run_with_connection(
                             continue;
                         }
                     };
+                    // Apply the new bus to the FIL source/driver before acknowledging the
+                    // database update or resuming scheduled work and CAN reads.
+                    if let Err(error) =
+                        connection.set_fil_bus(decoder.bus().map(|bus| bus.bus_id()))
+                    {
+                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
+                    }
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
@@ -169,11 +183,6 @@ fn run_with_connection(
                     value,
                 } => {
                     if let Err(error) = connection.set_gpio(&board, &port, pin, value) {
-                        emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
-                    }
-                }
-                can_thread::CanThreadCommand::SetFilTraceBus(trace_bus) => {
-                    if let Err(error) = connection.set_fil_trace_bus(trace_bus) {
                         emit!(can_thread::CanThreadEvent::Diagnostic(error.to_string()));
                     }
                 }

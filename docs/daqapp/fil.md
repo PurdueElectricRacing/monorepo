@@ -15,9 +15,8 @@ protocol](https://github.com/ronakpjain/fil/blob/main/docs/serve_network.md).
 2. Open **Add FIL Control** (sidebar) or **Spawn FIL Control** (command palette).
 3. Pick a network source, then **Connect / Restart**:
    - **Network file**: select the `fil` binary and a network JSON. Toggle which boards run
-     and override any board's ELF (useful when baked-in ELF paths are stale). The bus
-     dropdown lists the network's declared buses.
-   - **Build network**: no JSON needed. Set name, bus, bitrate, then **Add board…** to pick
+     and override any board's ELF (useful when baked-in ELF paths are stale).
+   - **Build network**: no JSON needed. Set name, bus ID, bitrate, then **Add board…** to pick
      board configs with optional ELF overrides. **Export network JSON…** saves it for reuse.
 4. Select the matching DBC to decode traffic.
 
@@ -38,10 +37,15 @@ filters, expectation lifecycle filters, and binary stdio control always remain e
 Add `instr` to the extra filters when enabling instruction tracing. Changes take effect on the next
 **Connect / Restart**. Use a FIL executable that supports `serve-network --transport stdio`.
 
-**Message Sender bus** selects the outgoing injection target. The separate **View/trace CAN bus**
-selector chooses which network bus's CAN frames DaqApp displays and logs. Select **All buses** to
-keep every transmission visible. The filter updates while connected without stopping or restarting
-the FIL simulation; frames from hidden buses are discarded, not buffered for later viewing.
+The sidebar **Bus** selector controls both the CAN frames DaqApp displays/logs and the
+Message Sender injection target. FIL uses the selected SuperDBC numeric `bus_id`, encoded as
+a decimal string in network configs and the FIL protocol, rather than the display name.
+For example, the PER networks use `"0"` for VCAN and `"1"` for MCAN. Network bus keys, board
+attachments, and stimulus/expectation bus references must use those same IDs. The builder's
+bus ID defines its network topology; it is not a separate viewing or sending selection.
+Changing the sidebar bus updates viewing and sending without restarting FIL; frames from
+hidden buses are discarded, not buffered for later viewing. Without a selected SuperDBC bus,
+all buses are visible and the connection retains its injection fallback.
 
 ## Stimulus scripts
 
@@ -91,7 +95,7 @@ times use milliseconds without losing nanosecond precision, and frame/result det
 onto separate lines. Results remain visible after disconnection and are cleared
 on the next successful connection or with **Clear**. The panel retains up to 500 checks.
 Checks are identified by FIL's `check_id`, so repeated script attachments stay distinct.
-Expectation results are independent of the **View/trace CAN bus** filter. DaqApp does
+Expectation results are independent of the sidebar **Bus** filter. DaqApp does
 not implement a separate expectation evaluator or infer success from displayed CAN frames.
 Use a FIL build that emits expectation lifecycle traces; older executables cannot provide
 these results. A pending check when the process stops is not proof of success or failure.
