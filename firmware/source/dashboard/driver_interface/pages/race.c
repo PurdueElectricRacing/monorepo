@@ -202,6 +202,7 @@ static inline void update_diff_time(uint32_t curr_elapsed_ms, uint32_t best_lap_
     uint32_t diff_time_ms = 0;
     char diff_sign_char = ' ';
     uint16_t diff_color = WHITE;
+    
     if (curr_elapsed_ms > best_lap_ms) {
         diff_time_ms = curr_elapsed_ms - best_lap_ms;
         diff_sign_char = '-';
