@@ -62,6 +62,11 @@ struct FilWireFrame {
     request_id: u32,
     payload: Vec<u8>,
 }
+
+struct QueuedCanFrame {
+    source: String,
+    frame: CanFrame,
+}
 fn drain_all_fil_expectation_events(
     events: &std::sync::mpsc::Receiver<FilExpectationEvent>,
 ) -> Vec<FilExpectationEvent> {
@@ -145,7 +150,7 @@ pub struct FilDriver {
     input: std::io::BufWriter<std::process::ChildStdin>,
     request_id: u32,
     reader_join: Option<std::thread::JoinHandle<()>>,
-    output: std::sync::mpsc::Receiver<Result<CanFrame, String>>,
+    output: std::sync::mpsc::Receiver<Result<QueuedCanFrame, String>>,
     pending_read_error: Option<String>,
     gpio_output: std::sync::mpsc::Receiver<FilGpioEvent>,
     expectation_output: std::sync::mpsc::Receiver<FilExpectationEvent>,
@@ -434,7 +439,7 @@ fn fil_string<'a>(p: &'a [u8], at: &mut usize) -> Result<&'a str, String> {
 }
 fn parse_fil_wire_trace(
     frame: FilWireFrame,
-    can: &std::sync::mpsc::Sender<Result<CanFrame, String>>,
+    can: &std::sync::mpsc::Sender<Result<QueuedCanFrame, String>>,
     gpio: &std::sync::mpsc::Sender<FilGpioEvent>,
     expects: &std::sync::mpsc::Sender<FilExpectationEvent>,
     trace_bus: &std::sync::RwLock<Option<String>>,
@@ -495,8 +500,11 @@ fn parse_fil_wire_trace(
             })
             .collect::<Result<Vec<_>, _>>()?;
         let ident = CanIdentity::new(id, extended).map_err(|e| e.to_string())?;
-        can.send(CanFrame::data(ident, data).map_err(|e| e.to_string()))
-            .map_err(|e| e.to_string())?;
+        can.send(Ok(QueuedCanFrame {
+            source,
+            frame: CanFrame::data(ident, data).map_err(|e| e.to_string())?,
+        }))
+        .map_err(|e| e.to_string())?;
     } else if kind == "gpio_input" || kind == "gpio_output" {
         let (board, port) = source.rsplit_once('.').ok_or("malformed GPIO source")?;
         let pin = f
@@ -593,6 +601,10 @@ fn trace_source_matches(source: &str, trace_bus: Option<&str>) -> bool {
     })
 }
 
+fn take_selected_can_frame(queued: QueuedCanFrame, selected_bus: Option<&str>) -> Option<CanFrame> {
+    trace_source_matches(&queued.source, selected_bus).then_some(queued.frame)
+}
+
 impl FilDriver {
     pub fn needs_read_retry_sleep(&self) -> bool {
         false
@@ -603,6 +615,11 @@ impl FilDriver {
         if let Some(error) = self.pending_read_error.take() {
             return Err(DriverError::Read(error));
         }
+        let selected_bus = self
+            .trace_bus
+            .read()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .clone();
         let first = match self.output.recv_timeout(Duration::from_millis(1)) {
             Ok(frame) => frame,
             Err(RecvTimeoutError::Timeout) => return Err(DriverError::Timeout),
@@ -610,16 +627,29 @@ impl FilDriver {
                 return Err(DriverError::Read("FIL output reader stopped".into()));
             }
         };
-        let mut frames = match first {
-            Ok(frame) => vec![frame],
+        let mut inspected = 1;
+        let mut frames = Vec::new();
+        match first {
+            Ok(frame) => {
+                if let Some(frame) = take_selected_can_frame(frame, selected_bus.as_deref()) {
+                    frames.push(frame);
+                }
+            }
             Err(error) => return Err(DriverError::Read(error)),
-        };
-        while frames.len() < 256 {
+        }
+        // Bound dequeues, not accepted frames: a stale backlog must not keep this
+        // worker busy indefinitely after a bus switch.
+        while inspected < 256 {
             let Ok(next) = self.output.try_recv() else {
                 break;
             };
+            inspected += 1;
             match next {
-                Ok(frame) => frames.push(frame),
+                Ok(frame) => {
+                    if let Some(frame) = take_selected_can_frame(frame, selected_bus.as_deref()) {
+                        frames.push(frame);
+                    }
+                }
                 Err(error) => {
                     // Deliver this batch before reporting the original reader failure.
                     self.pending_read_error = Some(error);
@@ -742,14 +772,14 @@ impl Drop for FilDriver {
 #[cfg(test)]
 mod fil_transport_tests {
     use super::{
-        FIL_CAN_INJECT, FIL_TRACE, FilWireFrame, drain_all_fil_expectation_events, fil_put_string,
-        fil_read_frame, fil_write_frame, parse_fil_wire_trace, serve_network_args,
-        validate_fil_frame_kind,
+        FIL_CAN_INJECT, FIL_TRACE, FilWireFrame, QueuedCanFrame, drain_all_fil_expectation_events,
+        fil_put_string, fil_read_frame, fil_write_frame, parse_fil_wire_trace, serve_network_args,
+        take_selected_can_frame, validate_fil_frame_kind,
     };
     use crate::{
         can::driver::{DriverError, FilExpectationEvent, FilExpectationStatus},
         connection::FilRunOptions,
-        frame::FrameKind,
+        frame::{CanFrame, CanIdentity, FrameKind},
     };
     #[test]
     fn default_args_match_fil_stdio_defaults_and_enable_expectation_traces() {
@@ -857,6 +887,30 @@ mod fil_transport_tests {
         assert_eq!(event.script, "ready script");
         assert_eq!(event.matched_time_ns, Some(15));
     }
+    #[test]
+    fn queued_frame_from_old_bus_is_dropped_after_selection_changes() {
+        let queued_before_switch = QueuedCanFrame {
+            source: "0/controller/FDCAN1".into(),
+            frame: CanFrame::data(
+                CanIdentity::new(0x123, false).expect("0x123 is a valid standard CAN ID"),
+                vec![1],
+            )
+            .expect("one byte fits in a CAN data frame"),
+        };
+
+        assert!(take_selected_can_frame(queued_before_switch, Some("1")).is_none());
+
+        let current_bus_frame = QueuedCanFrame {
+            source: "1/controller/FDCAN1".into(),
+            frame: CanFrame::data(
+                CanIdentity::new(0x123, false).expect("0x123 is a valid standard CAN ID"),
+                vec![1],
+            )
+            .expect("one byte fits in a CAN data frame"),
+        };
+        assert!(take_selected_can_frame(current_bus_frame, Some("1")).is_some());
+    }
+
     #[test]
     fn shutdown_drain_is_not_limited_to_regular_poll_batch() {
         let (tx, rx) = std::sync::mpsc::channel();
