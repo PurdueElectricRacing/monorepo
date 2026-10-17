@@ -1,0 +1,77 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: G4_TESTING
+
+
+BO_ 1 canpiler_test: 7 G4_TESTING
+ SG_ status : 48|8@1+ (1,0) [0|0] "none" Vector__XXX
+ SG_ pressure : 40|8@1+ (2,20) [20|510] "kPa" Vector__XXX
+ SG_ voltage : 24|16@1+ (0.001,2.5) [2.5|5.0] "V" Vector__XXX
+ SG_ current : 8|16@1- (0.1,0.0) [-200|200] "A" Vector__XXX
+ SG_ temperature : 0|8@1+ (1,-40) [-40|215] "C" Vector__XXX
+
+BO_ 1260 IZZE_IMU_config: 8 G4_TESTING
+ SG_ bit_rate : 56|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ output_data_rate : 48|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ accel_scale : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ gyro_scale : 32|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ NEW_CAN_BASE_ID : 16|16@1+ (1,0) [1|2047] "none" Vector__XXX
+ SG_ programming_constant : 0|16@1+ (1,0) [0|0] "none" Vector__XXX
+
+
+
+
+CM_ BU_ G4_TESTING "";
+CM_ BO_ 1 "CANpiler offset/scale validation. Includes offset-only, scale-only, both, and neither for g4_testing <-> daqapp testing.";
+CM_ SG_ 1 status "No scale or offset: packed in u8.";
+CM_ SG_ 1 pressure "Scale and offset: unsigned range packed in u8. Scale: 2kPa, Offset: 20kPa.";
+CM_ SG_ 1 voltage "Scale and offset: unsigned range packed in u16. Scale: 0.001V, Offset: 2.5V.";
+CM_ SG_ 1 current "Scale-only: signed range packed in int16. Scale: 0.1A.";
+CM_ SG_ 1 temperature "Offset-only: signed range packed in unsigned u8. Offset: -40C.";
+CM_ BO_ 1260 "Config message. Power cycle after 10-15 seconds of sending";
+CM_ SG_ 1260 bit_rate "";
+CM_ SG_ 1260 output_data_rate "";
+CM_ SG_ 1260 accel_scale "";
+CM_ SG_ 1260 gyro_scale "";
+CM_ SG_ 1260 NEW_CAN_BASE_ID "";
+CM_ SG_ 1260 programming_constant "";
+
+
+
+
+
+
+

@@ -1,0 +1,718 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: A_BOX DAQ DASHBOARD DRIVELINE IZZE_IMU MAIN_MODULE PDU TORQUE_VECTOR
+
+
+BO_ 1 a_box_fault_event: 5 A_BOX
+ SG_ state : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ val : 16|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ idx : 0|16@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 2 abox_init: 4 A_BOX
+ SG_ csr : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 3 dash_init: 4 DASHBOARD
+ SG_ csr : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 4 dashboard_fault_event: 5 DASHBOARD
+ SG_ state : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ val : 16|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ idx : 0|16@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 5 main_init: 4 MAIN_MODULE
+ SG_ csr : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 6 main_module_fault_event: 5 MAIN_MODULE
+ SG_ state : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ val : 16|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ idx : 0|16@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 7 pdu_fault_event: 5 PDU
+ SG_ state : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ val : 16|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ idx : 0|16@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 8 pdu_init: 4 PDU
+ SG_ csr : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 9 torque_vector_fault_event: 5 TORQUE_VECTOR
+ SG_ state : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ val : 16|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ idx : 0|16@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 10 tv_init: 4 TORQUE_VECTOR
+ SG_ csr : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 11 a_box_fault_sync: 2 A_BOX
+ SG_ PACK_EMPTY : 8|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ PACK_FULL : 7|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ CELL_OVERVOLTAGE : 6|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ CELL_UNDERVOLTAGE : 5|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ BMS_DISCONNECTED : 4|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ IMD : 3|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ PACK_COLD : 2|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ PACK_WARM : 1|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ PACK_OVERTEMP : 0|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 12 dashboard_fault_sync: 1 DASHBOARD
+ SG_ BSE : 4|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ APPS_BRAKE : 3|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ APPS_IMPLAUSIBLE : 2|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ APPS_wiring_t2 : 1|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ APPS_wiring_t1 : 0|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 13 main_module_fault_sync: 2 MAIN_MODULE
+ SG_ PRECHARGE_INCOMPLETE : 15|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC17_AIR_M : 14|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC16_TSMS : 13|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC15_REAR_INTERLOCK : 12|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC13_E_METER : 11|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC12_MSD : 10|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC11_LEFT_ESTOP : 9|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC10_RIGHT_ESTOP : 8|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC9_FRONT_INTERLOCK : 7|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC7_COCKPIT_ESTOP : 6|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC6_INERTIA : 5|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC5_BOTS : 4|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC4_MAIN_OK : 3|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC3_BSPD : 2|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC2_BMS : 1|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ SDC1_IMD : 0|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 14 pdu_fault_sync: 2 PDU
+ SG_ lv_batt_fifty : 10|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ lv_getting_low : 9|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ lv_critical_low : 8|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ bullet_rail : 7|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ rear_driveline_rail : 6|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ front_driveline_rail : 5|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ v_noncrit : 4|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ v_crit : 3|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ main_rail : 2|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ abox_rail : 1|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ dash_rail : 0|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 15 start_button: 1 DASHBOARD
+ SG_ is_pressed : 0|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 16 torque_vector_fault_sync: 1 TORQUE_VECTOR
+ SG_ GPS_INVALID_UTC : 2|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ GPS_WEAK_FIX : 1|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ GPS_INVALID_FIX : 0|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 17 main_hb: 1 MAIN_MODULE
+ SG_ car_state : 0|8@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 18 pedals: 3 DASHBOARD
+ SG_ brake : 16|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ regen : 8|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ throttle : 0|8@1+ (1,0) [0|100] "%" Vector__XXX
+
+BO_ 19 vcu_torque_request: 8 TORQUE_VECTOR
+ SG_ rear_right : 48|16@1- (1,0) [0|0] "%" Vector__XXX
+ SG_ rear_left : 32|16@1- (1,0) [0|0] "%" Vector__XXX
+ SG_ front_left : 16|16@1- (1,0) [0|0] "%" Vector__XXX
+ SG_ front_right : 0|16@1- (1,0) [0|0] "%" Vector__XXX
+
+BO_ 20 front_driveline_init: 4 DRIVELINE
+ SG_ csr : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 21 gps_speed_heading: 8 TORQUE_VECTOR
+ SG_ gps_heading : 32|32@1- (1e-05,0.0) [0|0] "deg" Vector__XXX
+ SG_ gps_speed : 0|32@1- (0.001,0.0) [0|0] "m/s" Vector__XXX
+
+BO_ 22 mark_data: 6 DASHBOARD
+ SG_ mark_index : 32|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ os_tick : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 23 rear_driveline_init: 4 DRIVELINE
+ SG_ csr : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 24 steering_angle: 5 DASHBOARD
+ SG_ data_valid : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ angular_rate : 16|16@1+ (4,0) [0|0] "deg/s" Vector__XXX
+ SG_ angle : 0|16@1- (0.1,0.0) [0|0] "deg" Vector__XXX
+
+BO_ 25 vcu_driver_request: 5 DASHBOARD
+ SG_ is_tv_enabled : 33|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ is_regen_enabled : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ electronic_brake_bias : 24|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ longitudinal_gain : 16|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ lateral_gain : 8|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ vcu_mode : 0|8@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 26 vcu_settings: 5 TORQUE_VECTOR
+ SG_ is_tv_enabled : 33|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ is_regen_enabled : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ electronic_brake_bias : 24|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ longitudinal_gain : 16|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ lateral_gain : 8|8@1+ (1,0) [0|100] "%" Vector__XXX
+ SG_ vcu_mode : 0|8@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 27 abox_version: 4 A_BOX
+ SG_ git_hash : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 28 coolant_out: 1 PDU
+ SG_ is_batt_fans_enabled : 2|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ is_hx_fan_enabled : 1|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ is_powertrain_pumps_enabled : 0|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+
+BO_ 29 dash_version: 4 DASHBOARD
+ SG_ git_hash : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 30 front_driveline_version: 4 DRIVELINE
+ SG_ git_hash : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 31 front_oil_temps: 4 DRIVELINE
+ SG_ right : 16|16@1- (0.01,0.0) [0|0] "C" Vector__XXX
+ SG_ left : 0|16@1- (0.01,0.0) [0|0] "C" Vector__XXX
+
+BO_ 32 gps_time: 8 TORQUE_VECTOR
+ SG_ millisecond : 48|16@1+ (1,0) [0|0] "ms" Vector__XXX
+ SG_ second : 40|8@1+ (1,0) [0|0] "s" Vector__XXX
+ SG_ minute : 32|8@1+ (1,0) [0|0] "m" Vector__XXX
+ SG_ hour : 24|8@1+ (1,0) [0|0] "h" Vector__XXX
+ SG_ day : 16|8@1+ (1,0) [0|0] "d" Vector__XXX
+ SG_ month : 8|8@1+ (1,0) [0|0] "mo" Vector__XXX
+ SG_ year : 0|8@1+ (1,0) [0|0] "yr" Vector__XXX
+
+BO_ 33 igbt_temps: 8 MAIN_MODULE
+ SG_ rear_right : 48|16@1- (0.1,0.0) [0|0] "C" Vector__XXX
+ SG_ rear_left : 32|16@1- (0.1,0.0) [0|0] "C" Vector__XXX
+ SG_ front_left : 16|16@1- (0.1,0.0) [0|0] "C" Vector__XXX
+ SG_ front_right : 0|16@1- (0.1,0.0) [0|0] "C" Vector__XXX
+
+BO_ 34 inva_diagnostics: 6 MAIN_MODULE
+ SG_ is_any_stale : 42|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ InverterOn : 41|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ bError : 40|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ amk_state : 32|8@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ diagnostic_number : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 35 invb_diagnostics: 6 MAIN_MODULE
+ SG_ is_any_stale : 42|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ InverterOn : 41|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ bError : 40|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ amk_state : 32|8@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ diagnostic_number : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 36 invc_diagnostics: 6 MAIN_MODULE
+ SG_ is_any_stale : 42|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ InverterOn : 41|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ bError : 40|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ amk_state : 32|8@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ diagnostic_number : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 37 invd_diagnostics: 6 MAIN_MODULE
+ SG_ is_any_stale : 42|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ InverterOn : 41|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ bError : 40|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ amk_state : 32|8@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ diagnostic_number : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 38 main_version: 4 MAIN_MODULE
+ SG_ git_hash : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 39 motor_temps: 8 MAIN_MODULE
+ SG_ rear_right : 48|16@1- (0.1,0.0) [0|0] "C" Vector__XXX
+ SG_ rear_left : 32|16@1- (0.1,0.0) [0|0] "C" Vector__XXX
+ SG_ front_left : 16|16@1- (0.1,0.0) [0|0] "C" Vector__XXX
+ SG_ front_right : 0|16@1- (0.1,0.0) [0|0] "C" Vector__XXX
+
+BO_ 40 pdu_can_stats: 4 PDU
+ SG_ can_rx_overrun : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ can_rx_overflow : 16|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ can_tx_fail : 8|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ can_tx_overflow : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 41 pdu_version: 4 PDU
+ SG_ git_hash : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 42 rear_driveline_version: 4 DRIVELINE
+ SG_ git_hash : 0|32@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 43 rear_oil_temps: 4 DRIVELINE
+ SG_ right : 16|16@1- (0.01,0.0) [0|0] "C" Vector__XXX
+ SG_ left : 0|16@1- (0.01,0.0) [0|0] "C" Vector__XXX
+
+BO_ 44 IMU_acceleration: 8 TORQUE_VECTOR
+ SG_ temperature : 48|16@1- (0.1,0.0) [0|0] "C" Vector__XXX
+ SG_ Z_axis : 32|16@1- (0.01,0.0) [0|0] "g" Vector__XXX
+ SG_ Y_axis : 16|16@1- (0.01,0.0) [0|0] "g" Vector__XXX
+ SG_ X_axis : 0|16@1- (0.01,0.0) [0|0] "g" Vector__XXX
+
+BO_ 45 IMU_angular_rate: 8 TORQUE_VECTOR
+ SG_ reserved : 48|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Z_axis : 32|16@1- (0.1,0.0) [0|0] "deg/s" Vector__XXX
+ SG_ Y_axis : 16|16@1- (0.1,0.0) [0|0] "deg/s" Vector__XXX
+ SG_ X_axis : 0|16@1- (0.1,0.0) [0|0] "deg/s" Vector__XXX
+
+BO_ 46 brake_pressure: 2 DASHBOARD
+ SG_ brake_pressure : 0|16@1+ (1,0) [0|0] "psi" Vector__XXX
+
+BO_ 47 fan_current2: 3 PDU
+ SG_ i_fan4 : 12|12@1+ (1,0) [0|0] "mA" Vector__XXX
+ SG_ i_fan3 : 0|12@1+ (1,0) [0|0] "mA" Vector__XXX
+
+BO_ 48 front_shockpots: 4 DRIVELINE
+ SG_ right : 16|16@1+ (0.01,0.0) [0|0] "mm" Vector__XXX
+ SG_ left : 0|16@1+ (0.01,0.0) [0|0] "mm" Vector__XXX
+
+BO_ 49 gps_coordinates: 8 TORQUE_VECTOR
+ SG_ longitude : 32|32@1- (1e-07,0.0) [0|0] "deg" Vector__XXX
+ SG_ latitude : 0|32@1- (1e-07,0.0) [0|0] "deg" Vector__XXX
+
+BO_ 50 gps_velocity: 8 TORQUE_VECTOR
+ SG_ gps_vel_e : 32|32@1- (0.001,0.0) [0|0] "m/s" Vector__XXX
+ SG_ gps_vel_n : 0|32@1- (0.001,0.0) [0|0] "m/s" Vector__XXX
+
+BO_ 51 other_currents: 8 PDU
+ SG_ i_main : 48|12@1+ (1,0) [0|0] "mA" Vector__XXX
+ SG_ i_abox : 36|12@1+ (1,0) [0|0] "mA" Vector__XXX
+ SG_ i_dash : 24|12@1+ (1,0) [0|0] "mA" Vector__XXX
+ SG_ i_aux : 12|12@1+ (1,0) [0|0] "mA" Vector__XXX
+ SG_ i_sdc : 0|12@1+ (1,0) [0|0] "mA" Vector__XXX
+
+BO_ 52 pack_stats: 6 A_BOX
+ SG_ max_temp : 32|16@1- (1,0) [0|0] "C" Vector__XXX
+ SG_ pack_current : 16|16@1- (0.1,0.0) [0|0] "A" Vector__XXX
+ SG_ pack_voltage : 0|16@1+ (0.01,0.0) [0|0] "V" Vector__XXX
+
+BO_ 53 pdu_temps: 2 PDU
+ SG_ internal_therm : 0|16@1+ (1,0) [0|0] "C" Vector__XXX
+
+BO_ 54 pump_and_fan_current: 7 PDU
+ SG_ i_fan2 : 44|12@1+ (1,0) [0|0] "mA" Vector__XXX
+ SG_ i_fan1 : 32|12@1+ (1,0) [0|0] "mA" Vector__XXX
+ SG_ i_pump2 : 16|16@1+ (1,0) [0|0] "mA" Vector__XXX
+ SG_ i_pump1 : 0|16@1+ (1,0) [0|0] "mA" Vector__XXX
+
+BO_ 55 rail_currents: 4 PDU
+ SG_ i_5v : 16|16@1+ (1,0) [0|0] "mA" Vector__XXX
+ SG_ i_24v : 0|16@1+ (1,0) [0|0] "mA" Vector__XXX
+
+BO_ 56 rear_shockpots: 4 DRIVELINE
+ SG_ right : 16|16@1+ (0.01,0.0) [0|0] "mm" Vector__XXX
+ SG_ left : 0|16@1+ (0.01,0.0) [0|0] "mm" Vector__XXX
+
+BO_ 57 thermistor_telemetry: 4 A_BOX
+ SG_ thermistor_num : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ module_num : 16|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ temperature : 0|16@1+ (0.1,0.0) [0|0] "C" Vector__XXX
+
+BO_ 58 v_rails: 8 PDU
+ SG_ amk_24v : 48|16@1+ (1,0) [0|0] "mV" Vector__XXX
+ SG_ out_3v3 : 32|16@1+ (1,0) [0|0] "mV" Vector__XXX
+ SG_ out_5v : 16|16@1+ (1,0) [0|0] "mV" Vector__XXX
+ SG_ in_24v : 0|16@1+ (1,0) [0|0] "mV" Vector__XXX
+
+BO_ 59 wheel_speeds: 8 MAIN_MODULE
+ SG_ rear_right : 48|16@1- (1,0) [0|0] "rpm" Vector__XXX
+ SG_ rear_left : 32|16@1- (1,0) [0|0] "rpm" Vector__XXX
+ SG_ front_left : 16|16@1- (1,0) [0|0] "rpm" Vector__XXX
+ SG_ front_right : 0|16@1- (1,0) [0|0] "rpm" Vector__XXX
+
+BO_ 1260 IZZE_angular_rate: 8 IZZE_IMU
+ SG_ reserved : 55|16@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Z_axis : 39|16@0- (0.1,0.0) [0|0] "deg/s" Vector__XXX
+ SG_ Y_axis : 23|16@0- (0.1,0.0) [0|0] "deg/s" Vector__XXX
+ SG_ X_axis : 7|16@0- (0.1,0.0) [0|0] "deg/s" Vector__XXX
+
+BO_ 1261 IZZE_acceleration: 8 IZZE_IMU
+ SG_ temperature : 55|16@0- (0.1,0.0) [0|0] "C" Vector__XXX
+ SG_ Z_axis : 39|16@0- (0.01,0.0) [0|0] "g" Vector__XXX
+ SG_ Y_axis : 23|16@0- (0.01,0.0) [0|0] "g" Vector__XXX
+ SG_ X_axis : 7|16@0- (0.01,0.0) [0|0] "g" Vector__XXX
+
+
+
+
+CM_ BU_ A_BOX "";
+CM_ BU_ DAQ "";
+CM_ BU_ DASHBOARD "";
+CM_ BU_ DRIVELINE "";
+CM_ BU_ IZZE_IMU "";
+CM_ BU_ MAIN_MODULE "";
+CM_ BU_ PDU "";
+CM_ BU_ TORQUE_VECTOR "";
+CM_ BO_ 1 "Immediate fault event signal for A_BOX";
+CM_ SG_ 1 state "Latch State (0=unlatched, 1=latched)";
+CM_ SG_ 1 val "Trigger Value";
+CM_ SG_ 1 idx "Global Fault Index";
+CM_ BO_ 2 "ABOX hardware initialized";
+CM_ SG_ 2 csr "RCC CSR register";
+CM_ BO_ 3 "DASH hardware initialized";
+CM_ SG_ 3 csr "RCC CSR register";
+CM_ BO_ 4 "Immediate fault event signal for DASHBOARD";
+CM_ SG_ 4 state "Latch State (0=unlatched, 1=latched)";
+CM_ SG_ 4 val "Trigger Value";
+CM_ SG_ 4 idx "Global Fault Index";
+CM_ BO_ 5 "MAIN MODULE hardware initialized";
+CM_ SG_ 5 csr "RCC CSR register";
+CM_ BO_ 6 "Immediate fault event signal for MAIN_MODULE";
+CM_ SG_ 6 state "Latch State (0=unlatched, 1=latched)";
+CM_ SG_ 6 val "Trigger Value";
+CM_ SG_ 6 idx "Global Fault Index";
+CM_ BO_ 7 "Immediate fault event signal for PDU";
+CM_ SG_ 7 state "Latch State (0=unlatched, 1=latched)";
+CM_ SG_ 7 val "Trigger Value";
+CM_ SG_ 7 idx "Global Fault Index";
+CM_ BO_ 8 "PDU hardware initialized";
+CM_ SG_ 8 csr "RCC CSR register";
+CM_ BO_ 9 "Immediate fault event signal for TORQUE_VECTOR";
+CM_ SG_ 9 state "Latch State (0=unlatched, 1=latched)";
+CM_ SG_ 9 val "Trigger Value";
+CM_ SG_ 9 idx "Global Fault Index";
+CM_ BO_ 10 "TORQUE VECTOR hardware initialized";
+CM_ SG_ 10 csr "RCC CSR register";
+CM_ BO_ 11 "Periodic fault synchronization for A_BOX";
+CM_ SG_ 11 PACK_EMPTY "";
+CM_ SG_ 11 PACK_FULL "";
+CM_ SG_ 11 CELL_OVERVOLTAGE "";
+CM_ SG_ 11 CELL_UNDERVOLTAGE "";
+CM_ SG_ 11 BMS_DISCONNECTED "";
+CM_ SG_ 11 IMD "";
+CM_ SG_ 11 PACK_COLD "";
+CM_ SG_ 11 PACK_WARM "";
+CM_ SG_ 11 PACK_OVERTEMP "";
+CM_ BO_ 12 "Periodic fault synchronization for DASHBOARD";
+CM_ SG_ 12 BSE "";
+CM_ SG_ 12 APPS_BRAKE "";
+CM_ SG_ 12 APPS_IMPLAUSIBLE "";
+CM_ SG_ 12 APPS_wiring_t2 "";
+CM_ SG_ 12 APPS_wiring_t1 "";
+CM_ BO_ 13 "Periodic fault synchronization for MAIN_MODULE";
+CM_ SG_ 13 PRECHARGE_INCOMPLETE "";
+CM_ SG_ 13 SDC17_AIR_M "";
+CM_ SG_ 13 SDC16_TSMS "";
+CM_ SG_ 13 SDC15_REAR_INTERLOCK "";
+CM_ SG_ 13 SDC13_E_METER "";
+CM_ SG_ 13 SDC12_MSD "";
+CM_ SG_ 13 SDC11_LEFT_ESTOP "";
+CM_ SG_ 13 SDC10_RIGHT_ESTOP "";
+CM_ SG_ 13 SDC9_FRONT_INTERLOCK "";
+CM_ SG_ 13 SDC7_COCKPIT_ESTOP "";
+CM_ SG_ 13 SDC6_INERTIA "";
+CM_ SG_ 13 SDC5_BOTS "";
+CM_ SG_ 13 SDC4_MAIN_OK "";
+CM_ SG_ 13 SDC3_BSPD "";
+CM_ SG_ 13 SDC2_BMS "";
+CM_ SG_ 13 SDC1_IMD "";
+CM_ BO_ 14 "Periodic fault synchronization for PDU";
+CM_ SG_ 14 lv_batt_fifty "";
+CM_ SG_ 14 lv_getting_low "";
+CM_ SG_ 14 lv_critical_low "";
+CM_ SG_ 14 bullet_rail "";
+CM_ SG_ 14 rear_driveline_rail "";
+CM_ SG_ 14 front_driveline_rail "";
+CM_ SG_ 14 v_noncrit "";
+CM_ SG_ 14 v_crit "";
+CM_ SG_ 14 main_rail "";
+CM_ SG_ 14 abox_rail "";
+CM_ SG_ 14 dash_rail "";
+CM_ BO_ 15 "Car start button";
+CM_ SG_ 15 is_pressed "";
+CM_ BO_ 16 "Periodic fault synchronization for TORQUE_VECTOR";
+CM_ SG_ 16 GPS_INVALID_UTC "";
+CM_ SG_ 16 GPS_WEAK_FIX "";
+CM_ SG_ 16 GPS_INVALID_FIX "";
+CM_ BO_ 17 "Heart beat message for main module";
+CM_ SG_ 17 car_state "Main car state";
+CM_ BO_ 18 "Pedal values";
+CM_ SG_ 18 brake "mechanical braking from driver (second throw)";
+CM_ SG_ 18 regen "regen request from driver (first throw)";
+CM_ SG_ 18 throttle "throttle request from driver";
+CM_ BO_ 19 "torque request computed by the TV algorithm";
+CM_ SG_ 19 rear_right "torque setpoint (percentage of nominal torque)";
+CM_ SG_ 19 rear_left "torque setpoint (percentage of nominal torque)";
+CM_ SG_ 19 front_left "torque setpoint (percentage of nominal torque)";
+CM_ SG_ 19 front_right "torque setpoint (percentage of nominal torque)";
+CM_ BO_ 20 "Front driveline hardware initialized";
+CM_ SG_ 20 csr "RCC CSR register";
+CM_ BO_ 21 "gps 2D ground speed and heading";
+CM_ SG_ 21 gps_heading "";
+CM_ SG_ 21 gps_speed "";
+CM_ BO_ 22 "Mark data for telemetry correlation";
+CM_ SG_ 22 mark_index "incremented each time the mark button is pressed";
+CM_ SG_ 22 os_tick "milliseconds since startup";
+CM_ BO_ 23 "Front driveline hardware initialized";
+CM_ SG_ 23 csr "RCC CSR register";
+CM_ BO_ 24 "steering data";
+CM_ SG_ 24 data_valid "";
+CM_ SG_ 24 angular_rate "";
+CM_ SG_ 24 angle "";
+CM_ BO_ 25 "driver requested VCU settings";
+CM_ SG_ 25 is_tv_enabled "";
+CM_ SG_ 25 is_regen_enabled "";
+CM_ SG_ 25 electronic_brake_bias "";
+CM_ SG_ 25 longitudinal_gain "";
+CM_ SG_ 25 lateral_gain "";
+CM_ SG_ 25 vcu_mode "";
+CM_ BO_ 26 "currently configured VCU settings";
+CM_ SG_ 26 is_tv_enabled "";
+CM_ SG_ 26 is_regen_enabled "";
+CM_ SG_ 26 electronic_brake_bias "";
+CM_ SG_ 26 longitudinal_gain "";
+CM_ SG_ 26 lateral_gain "higher gain = greater left-right differential";
+CM_ SG_ 26 vcu_mode "";
+CM_ BO_ 27 "ABox version";
+CM_ SG_ 27 git_hash "int representation of git short hash";
+CM_ BO_ 28 "outputs to coolant loops";
+CM_ SG_ 28 is_batt_fans_enabled "Battery fans enabled";
+CM_ SG_ 28 is_hx_fan_enabled "Heat exchanger fan enabled";
+CM_ SG_ 28 is_powertrain_pumps_enabled "Powertrain pumps enabled";
+CM_ BO_ 29 "Dashboard version";
+CM_ SG_ 29 git_hash "int representation of git short hash";
+CM_ BO_ 30 "Front Driveline Version";
+CM_ SG_ 30 git_hash "int representation of git short hash";
+CM_ BO_ 31 "oil temps from front";
+CM_ SG_ 31 right "Oil temp in front right gearbox";
+CM_ SG_ 31 left "Oil temp in front left gearbox";
+CM_ BO_ 32 "gps time in UTC";
+CM_ SG_ 32 millisecond "";
+CM_ SG_ 32 second "";
+CM_ SG_ 32 minute "";
+CM_ SG_ 32 hour "";
+CM_ SG_ 32 day "";
+CM_ SG_ 32 month "";
+CM_ SG_ 32 year "";
+CM_ BO_ 33 "Temperature of igbts";
+CM_ SG_ 33 rear_right "";
+CM_ SG_ 33 rear_left "";
+CM_ SG_ 33 front_left "";
+CM_ SG_ 33 front_right "";
+CM_ BO_ 34 "VCAN diagnostics for inverter A";
+CM_ SG_ 34 is_any_stale "any message from AMK is stale";
+CM_ SG_ 34 InverterOn "AMK inverter on status";
+CM_ SG_ 34 bError "AMK status error bit";
+CM_ SG_ 34 amk_state "Current inverter state";
+CM_ SG_ 34 diagnostic_number "AMK diagnostic number";
+CM_ BO_ 35 "VCAN diagnostics for inverter B";
+CM_ SG_ 35 is_any_stale "any message from AMK is stale";
+CM_ SG_ 35 InverterOn "AMK inverter on status";
+CM_ SG_ 35 bError "AMK status error bit";
+CM_ SG_ 35 amk_state "Current inverter state";
+CM_ SG_ 35 diagnostic_number "AMK diagnostic number";
+CM_ BO_ 36 "VCAN diagnostics for inverter C";
+CM_ SG_ 36 is_any_stale "any message from AMK is stale";
+CM_ SG_ 36 InverterOn "AMK inverter on status";
+CM_ SG_ 36 bError "AMK status error bit";
+CM_ SG_ 36 amk_state "Current inverter state";
+CM_ SG_ 36 diagnostic_number "AMK diagnostic number";
+CM_ BO_ 37 "VCAN diagnostics for inverter D";
+CM_ SG_ 37 is_any_stale "any message from AMK is stale";
+CM_ SG_ 37 InverterOn "AMK inverter on status";
+CM_ SG_ 37 bError "AMK status error bit";
+CM_ SG_ 37 amk_state "Current inverter state";
+CM_ SG_ 37 diagnostic_number "AMK diagnostic number";
+CM_ BO_ 38 "Main version";
+CM_ SG_ 38 git_hash "int representation of git short hash";
+CM_ BO_ 39 "Temperature of motors";
+CM_ SG_ 39 rear_right "";
+CM_ SG_ 39 rear_left "";
+CM_ SG_ 39 front_left "";
+CM_ SG_ 39 front_right "";
+CM_ BO_ 40 "CAN diagnostics";
+CM_ SG_ 40 can_rx_overrun "CAN Rx FIFO overrun count";
+CM_ SG_ 40 can_rx_overflow "CAN Rx queue overflow count";
+CM_ SG_ 40 can_tx_fail "CAN Tx fail count (due to timeout in mailbox)";
+CM_ SG_ 40 can_tx_overflow "CAN Tx queue overflow count";
+CM_ BO_ 41 "PDU version";
+CM_ SG_ 41 git_hash "int representation of git short hash";
+CM_ BO_ 42 "Rear Driveline Version";
+CM_ SG_ 42 git_hash "int representation of git short hash";
+CM_ BO_ 43 "oil temps from rear";
+CM_ SG_ 43 right "Oil temp in rear right gearbox";
+CM_ SG_ 43 left "Oil temp in rear left gearbox";
+CM_ BO_ 44 "rotated IMU ";
+CM_ SG_ 44 temperature "IMU Temperature";
+CM_ SG_ 44 Z_axis "Acceleration along Z-axis";
+CM_ SG_ 44 Y_axis "Acceleration along Y-axis";
+CM_ SG_ 44 X_axis "Acceleration along X-axis";
+CM_ BO_ 45 "rotated IMU data";
+CM_ SG_ 45 reserved "reserved";
+CM_ SG_ 45 Z_axis "Angular Rate around Z-axis";
+CM_ SG_ 45 Y_axis "Angular Rate around Y-axis";
+CM_ SG_ 45 X_axis "Angular Rate around X-axis";
+CM_ BO_ 46 "brake line hydraulic pressure in PSI";
+CM_ SG_ 46 brake_pressure "brake line hydraulic pressure in PSI";
+CM_ BO_ 47 "more fan currents";
+CM_ SG_ 47 i_fan4 "";
+CM_ SG_ 47 i_fan3 "";
+CM_ BO_ 48 "Shockpot readings from front left and front right";
+CM_ SG_ 48 right "Length of front right shockpot";
+CM_ SG_ 48 left "Length of front left shockpot";
+CM_ BO_ 49 "gps coordinates";
+CM_ SG_ 49 longitude "";
+CM_ SG_ 49 latitude "";
+CM_ BO_ 50 "gps velocity";
+CM_ SG_ 50 gps_vel_e "";
+CM_ SG_ 50 gps_vel_n "";
+CM_ BO_ 51 "Other PDU currents";
+CM_ SG_ 51 i_main "";
+CM_ SG_ 51 i_abox "";
+CM_ SG_ 51 i_dash "";
+CM_ SG_ 51 i_aux "";
+CM_ SG_ 51 i_sdc "";
+CM_ BO_ 52 "Pack voltage, current, and temperature";
+CM_ SG_ 52 max_temp "Max thermistor reading in the pack";
+CM_ SG_ 52 pack_current "Total pack current, positive is discharge";
+CM_ SG_ 52 pack_voltage "Total pack voltage";
+CM_ BO_ 53 "PDU board temperatures";
+CM_ SG_ 53 internal_therm "Temperature from internal thermistor";
+CM_ BO_ 54 "PDU pump and fan currents";
+CM_ SG_ 54 i_fan2 "";
+CM_ SG_ 54 i_fan1 "";
+CM_ SG_ 54 i_pump2 "";
+CM_ SG_ 54 i_pump1 "";
+CM_ BO_ 55 "PDU rail currents";
+CM_ SG_ 55 i_5v "5v rail current";
+CM_ SG_ 55 i_24v "Unregulated 24V rail current";
+CM_ BO_ 56 "Shockpot readings from rear left and rear right";
+CM_ SG_ 56 right "Length of rear right shockpot";
+CM_ SG_ 56 left "Length of rear left shockpot";
+CM_ BO_ 57 "Individual thermistor readings";
+CM_ SG_ 57 thermistor_num "Thermistor number within the module, 0 indexed";
+CM_ SG_ 57 module_num "Module number of the cell being reported, 0 indexed";
+CM_ SG_ 57 temperature "Individual thermistor temperature";
+CM_ BO_ 58 "PDU voltage rail readings";
+CM_ SG_ 58 amk_24v "";
+CM_ SG_ 58 out_3v3 "3v3 rail output voltage";
+CM_ SG_ 58 out_5v "5v rail output voltage";
+CM_ SG_ 58 in_24v "Unregulated 24V input";
+CM_ BO_ 59 "Wheel speeds from motor controllers";
+CM_ SG_ 59 rear_right "";
+CM_ SG_ 59 rear_left "";
+CM_ SG_ 59 front_left "";
+CM_ SG_ 59 front_right "";
+CM_ BO_ 1260 "Angular Rate";
+CM_ SG_ 1260 reserved "reserved";
+CM_ SG_ 1260 Z_axis "Angular Rate around Z-axis";
+CM_ SG_ 1260 Y_axis "Angular Rate around Y-axis";
+CM_ SG_ 1260 X_axis "Angular Rate around X-axis";
+CM_ BO_ 1261 "Acceleration";
+CM_ SG_ 1261 temperature "IMU Temperature";
+CM_ SG_ 1261 Z_axis "Acceleration along Z-axis";
+CM_ SG_ 1261 Y_axis "Acceleration along Y-axis";
+CM_ SG_ 1261 X_axis "Acceleration along X-axis";
+
+
+
+VAL_ 1 state 0 "OFF" 1 "ON" ;
+VAL_ 1 idx 0 "PACK_OVERTEMP" 1 "PACK_WARM" 2 "PACK_COLD" 3 "IMD" 4 "BMS_DISCONNECTED" 5 "CELL_UNDERVOLTAGE" 6 "CELL_OVERVOLTAGE" 7 "PACK_FULL" 8 "PACK_EMPTY" 9 "APPS_wiring_t1" 10 "APPS_wiring_t2" 11 "APPS_IMPLAUSIBLE" 12 "APPS_BRAKE" 13 "BSE" 14 "SDC1_IMD" 15 "SDC2_BMS" 16 "SDC3_BSPD" 17 "SDC4_MAIN_OK" 18 "SDC5_BOTS" 19 "SDC6_INERTIA" 20 "SDC7_COCKPIT_ESTOP" 21 "SDC9_FRONT_INTERLOCK" 22 "SDC10_RIGHT_ESTOP" 23 "SDC11_LEFT_ESTOP" 24 "SDC12_MSD" 25 "SDC13_E_METER" 26 "SDC15_REAR_INTERLOCK" 27 "SDC16_TSMS" 28 "SDC17_AIR_M" 29 "PRECHARGE_INCOMPLETE" 30 "dash_rail" 31 "abox_rail" 32 "main_rail" 33 "v_crit" 34 "v_noncrit" 35 "front_driveline_rail" 36 "rear_driveline_rail" 37 "bullet_rail" 38 "lv_critical_low" 39 "lv_getting_low" 40 "lv_batt_fifty" 41 "GPS_INVALID_FIX" 42 "GPS_WEAK_FIX" 43 "GPS_INVALID_UTC" ;
+VAL_ 4 state 0 "OFF" 1 "ON" ;
+VAL_ 4 idx 0 "PACK_OVERTEMP" 1 "PACK_WARM" 2 "PACK_COLD" 3 "IMD" 4 "BMS_DISCONNECTED" 5 "CELL_UNDERVOLTAGE" 6 "CELL_OVERVOLTAGE" 7 "PACK_FULL" 8 "PACK_EMPTY" 9 "APPS_wiring_t1" 10 "APPS_wiring_t2" 11 "APPS_IMPLAUSIBLE" 12 "APPS_BRAKE" 13 "BSE" 14 "SDC1_IMD" 15 "SDC2_BMS" 16 "SDC3_BSPD" 17 "SDC4_MAIN_OK" 18 "SDC5_BOTS" 19 "SDC6_INERTIA" 20 "SDC7_COCKPIT_ESTOP" 21 "SDC9_FRONT_INTERLOCK" 22 "SDC10_RIGHT_ESTOP" 23 "SDC11_LEFT_ESTOP" 24 "SDC12_MSD" 25 "SDC13_E_METER" 26 "SDC15_REAR_INTERLOCK" 27 "SDC16_TSMS" 28 "SDC17_AIR_M" 29 "PRECHARGE_INCOMPLETE" 30 "dash_rail" 31 "abox_rail" 32 "main_rail" 33 "v_crit" 34 "v_noncrit" 35 "front_driveline_rail" 36 "rear_driveline_rail" 37 "bullet_rail" 38 "lv_critical_low" 39 "lv_getting_low" 40 "lv_batt_fifty" 41 "GPS_INVALID_FIX" 42 "GPS_WEAK_FIX" 43 "GPS_INVALID_UTC" ;
+VAL_ 6 state 0 "OFF" 1 "ON" ;
+VAL_ 6 idx 0 "PACK_OVERTEMP" 1 "PACK_WARM" 2 "PACK_COLD" 3 "IMD" 4 "BMS_DISCONNECTED" 5 "CELL_UNDERVOLTAGE" 6 "CELL_OVERVOLTAGE" 7 "PACK_FULL" 8 "PACK_EMPTY" 9 "APPS_wiring_t1" 10 "APPS_wiring_t2" 11 "APPS_IMPLAUSIBLE" 12 "APPS_BRAKE" 13 "BSE" 14 "SDC1_IMD" 15 "SDC2_BMS" 16 "SDC3_BSPD" 17 "SDC4_MAIN_OK" 18 "SDC5_BOTS" 19 "SDC6_INERTIA" 20 "SDC7_COCKPIT_ESTOP" 21 "SDC9_FRONT_INTERLOCK" 22 "SDC10_RIGHT_ESTOP" 23 "SDC11_LEFT_ESTOP" 24 "SDC12_MSD" 25 "SDC13_E_METER" 26 "SDC15_REAR_INTERLOCK" 27 "SDC16_TSMS" 28 "SDC17_AIR_M" 29 "PRECHARGE_INCOMPLETE" 30 "dash_rail" 31 "abox_rail" 32 "main_rail" 33 "v_crit" 34 "v_noncrit" 35 "front_driveline_rail" 36 "rear_driveline_rail" 37 "bullet_rail" 38 "lv_critical_low" 39 "lv_getting_low" 40 "lv_batt_fifty" 41 "GPS_INVALID_FIX" 42 "GPS_WEAK_FIX" 43 "GPS_INVALID_UTC" ;
+VAL_ 7 state 0 "OFF" 1 "ON" ;
+VAL_ 7 idx 0 "PACK_OVERTEMP" 1 "PACK_WARM" 2 "PACK_COLD" 3 "IMD" 4 "BMS_DISCONNECTED" 5 "CELL_UNDERVOLTAGE" 6 "CELL_OVERVOLTAGE" 7 "PACK_FULL" 8 "PACK_EMPTY" 9 "APPS_wiring_t1" 10 "APPS_wiring_t2" 11 "APPS_IMPLAUSIBLE" 12 "APPS_BRAKE" 13 "BSE" 14 "SDC1_IMD" 15 "SDC2_BMS" 16 "SDC3_BSPD" 17 "SDC4_MAIN_OK" 18 "SDC5_BOTS" 19 "SDC6_INERTIA" 20 "SDC7_COCKPIT_ESTOP" 21 "SDC9_FRONT_INTERLOCK" 22 "SDC10_RIGHT_ESTOP" 23 "SDC11_LEFT_ESTOP" 24 "SDC12_MSD" 25 "SDC13_E_METER" 26 "SDC15_REAR_INTERLOCK" 27 "SDC16_TSMS" 28 "SDC17_AIR_M" 29 "PRECHARGE_INCOMPLETE" 30 "dash_rail" 31 "abox_rail" 32 "main_rail" 33 "v_crit" 34 "v_noncrit" 35 "front_driveline_rail" 36 "rear_driveline_rail" 37 "bullet_rail" 38 "lv_critical_low" 39 "lv_getting_low" 40 "lv_batt_fifty" 41 "GPS_INVALID_FIX" 42 "GPS_WEAK_FIX" 43 "GPS_INVALID_UTC" ;
+VAL_ 9 state 0 "OFF" 1 "ON" ;
+VAL_ 9 idx 0 "PACK_OVERTEMP" 1 "PACK_WARM" 2 "PACK_COLD" 3 "IMD" 4 "BMS_DISCONNECTED" 5 "CELL_UNDERVOLTAGE" 6 "CELL_OVERVOLTAGE" 7 "PACK_FULL" 8 "PACK_EMPTY" 9 "APPS_wiring_t1" 10 "APPS_wiring_t2" 11 "APPS_IMPLAUSIBLE" 12 "APPS_BRAKE" 13 "BSE" 14 "SDC1_IMD" 15 "SDC2_BMS" 16 "SDC3_BSPD" 17 "SDC4_MAIN_OK" 18 "SDC5_BOTS" 19 "SDC6_INERTIA" 20 "SDC7_COCKPIT_ESTOP" 21 "SDC9_FRONT_INTERLOCK" 22 "SDC10_RIGHT_ESTOP" 23 "SDC11_LEFT_ESTOP" 24 "SDC12_MSD" 25 "SDC13_E_METER" 26 "SDC15_REAR_INTERLOCK" 27 "SDC16_TSMS" 28 "SDC17_AIR_M" 29 "PRECHARGE_INCOMPLETE" 30 "dash_rail" 31 "abox_rail" 32 "main_rail" 33 "v_crit" 34 "v_noncrit" 35 "front_driveline_rail" 36 "rear_driveline_rail" 37 "bullet_rail" 38 "lv_critical_low" 39 "lv_getting_low" 40 "lv_batt_fifty" 41 "GPS_INVALID_FIX" 42 "GPS_WEAK_FIX" 43 "GPS_INVALID_UTC" ;
+VAL_ 11 PACK_EMPTY 0 "OFF" 1 "ON" ;
+VAL_ 11 PACK_FULL 0 "OFF" 1 "ON" ;
+VAL_ 11 CELL_OVERVOLTAGE 0 "OFF" 1 "ON" ;
+VAL_ 11 CELL_UNDERVOLTAGE 0 "OFF" 1 "ON" ;
+VAL_ 11 BMS_DISCONNECTED 0 "OFF" 1 "ON" ;
+VAL_ 11 IMD 0 "OFF" 1 "ON" ;
+VAL_ 11 PACK_COLD 0 "OFF" 1 "ON" ;
+VAL_ 11 PACK_WARM 0 "OFF" 1 "ON" ;
+VAL_ 11 PACK_OVERTEMP 0 "OFF" 1 "ON" ;
+VAL_ 12 BSE 0 "OFF" 1 "ON" ;
+VAL_ 12 APPS_BRAKE 0 "OFF" 1 "ON" ;
+VAL_ 12 APPS_IMPLAUSIBLE 0 "OFF" 1 "ON" ;
+VAL_ 12 APPS_wiring_t2 0 "OFF" 1 "ON" ;
+VAL_ 12 APPS_wiring_t1 0 "OFF" 1 "ON" ;
+VAL_ 13 PRECHARGE_INCOMPLETE 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC17_AIR_M 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC16_TSMS 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC15_REAR_INTERLOCK 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC13_E_METER 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC12_MSD 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC11_LEFT_ESTOP 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC10_RIGHT_ESTOP 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC9_FRONT_INTERLOCK 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC7_COCKPIT_ESTOP 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC6_INERTIA 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC5_BOTS 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC4_MAIN_OK 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC3_BSPD 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC2_BMS 0 "OFF" 1 "ON" ;
+VAL_ 13 SDC1_IMD 0 "OFF" 1 "ON" ;
+VAL_ 14 lv_batt_fifty 0 "OFF" 1 "ON" ;
+VAL_ 14 lv_getting_low 0 "OFF" 1 "ON" ;
+VAL_ 14 lv_critical_low 0 "OFF" 1 "ON" ;
+VAL_ 14 bullet_rail 0 "OFF" 1 "ON" ;
+VAL_ 14 rear_driveline_rail 0 "OFF" 1 "ON" ;
+VAL_ 14 front_driveline_rail 0 "OFF" 1 "ON" ;
+VAL_ 14 v_noncrit 0 "OFF" 1 "ON" ;
+VAL_ 14 v_crit 0 "OFF" 1 "ON" ;
+VAL_ 14 main_rail 0 "OFF" 1 "ON" ;
+VAL_ 14 abox_rail 0 "OFF" 1 "ON" ;
+VAL_ 14 dash_rail 0 "OFF" 1 "ON" ;
+VAL_ 15 is_pressed 0 "OFF" 1 "ON" ;
+VAL_ 16 GPS_INVALID_UTC 0 "OFF" 1 "ON" ;
+VAL_ 16 GPS_WEAK_FIX 0 "OFF" 1 "ON" ;
+VAL_ 16 GPS_INVALID_FIX 0 "OFF" 1 "ON" ;
+VAL_ 17 car_state 0 "fatal" 1 "idle" 2 "precharging" 3 "energized" 4 "buzzing" 5 "ready2drive" ;
+VAL_ 24 data_valid 0 "OFF" 1 "ON" ;
+VAL_ 25 is_tv_enabled 0 "OFF" 1 "ON" ;
+VAL_ 25 is_regen_enabled 0 "OFF" 1 "ON" ;
+VAL_ 25 vcu_mode 0 "ACCEL" 1 "SKIDPAD" 2 "AUTOCROSS" 3 "ENDURANCE" 4 "TUNING" ;
+VAL_ 26 is_tv_enabled 0 "OFF" 1 "ON" ;
+VAL_ 26 is_regen_enabled 0 "OFF" 1 "ON" ;
+VAL_ 26 vcu_mode 0 "ACCEL" 1 "SKIDPAD" 2 "AUTOCROSS" 3 "ENDURANCE" 4 "TUNING" ;
+VAL_ 28 is_batt_fans_enabled 0 "OFF" 1 "ON" ;
+VAL_ 28 is_hx_fan_enabled 0 "OFF" 1 "ON" ;
+VAL_ 28 is_powertrain_pumps_enabled 0 "OFF" 1 "ON" ;
+VAL_ 34 is_any_stale 0 "OFF" 1 "ON" ;
+VAL_ 34 InverterOn 0 "OFF" 1 "ON" ;
+VAL_ 34 bError 0 "OFF" 1 "ON" ;
+VAL_ 34 amk_state 0 "OFF" 1 "STARTING" 2 "RUNNING" 3 "RECOVERING" 4 "FATAL" ;
+VAL_ 35 is_any_stale 0 "OFF" 1 "ON" ;
+VAL_ 35 InverterOn 0 "OFF" 1 "ON" ;
+VAL_ 35 bError 0 "OFF" 1 "ON" ;
+VAL_ 35 amk_state 0 "OFF" 1 "STARTING" 2 "RUNNING" 3 "RECOVERING" 4 "FATAL" ;
+VAL_ 36 is_any_stale 0 "OFF" 1 "ON" ;
+VAL_ 36 InverterOn 0 "OFF" 1 "ON" ;
+VAL_ 36 bError 0 "OFF" 1 "ON" ;
+VAL_ 36 amk_state 0 "OFF" 1 "STARTING" 2 "RUNNING" 3 "RECOVERING" 4 "FATAL" ;
+VAL_ 37 is_any_stale 0 "OFF" 1 "ON" ;
+VAL_ 37 InverterOn 0 "OFF" 1 "ON" ;
+VAL_ 37 bError 0 "OFF" 1 "ON" ;
+VAL_ 37 amk_state 0 "OFF" 1 "STARTING" 2 "RUNNING" 3 "RECOVERING" 4 "FATAL" ;
+
+
+

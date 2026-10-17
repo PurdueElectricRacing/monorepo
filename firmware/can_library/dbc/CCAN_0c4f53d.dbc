@@ -1,0 +1,146 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: A_BOX DAQ_APP ELCON_CHARGER
+
+
+BO_ 2147483649 charge_request: 5 DAQ_APP
+ SG_ balance_enable : 33|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ charge_enable : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ charge_current : 16|16@1+ (0.1,0.0) [0|0] "A" Vector__XXX
+ SG_ charge_voltage : 0|16@1+ (0.1,0.0) [0|0] "V" Vector__XXX
+
+BO_ 2550588916 elcon_command: 8 A_BOX
+ SG_ reserved3 : 56|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ reserved2 : 48|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ reserved1 : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ charger_disable : 32|8@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ current_limit : 23|16@0+ (0.1,0.0) [0|0] "A" Vector__XXX
+ SG_ voltage_limit : 7|16@0+ (0.1,0.0) [0|0] "V" Vector__XXX
+
+BO_ 2566869221 elcon_status: 5 ELCON_CHARGER
+ SG_ communication_fail : 36|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ startup_fail : 35|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ input_v_fail : 34|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ temp_fail : 33|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ hw_fail : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ charge_current : 23|16@0+ (0.1,0.0) [0|0] "A" Vector__XXX
+ SG_ charge_voltage : 7|16@0+ (0.1,0.0) [0|0] "V" Vector__XXX
+
+BO_ 2566869222 charging_fsm_internals: 6 A_BOX
+ SG_ charging_state : 33|8@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ balancing_status : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ current_limit : 16|16@1+ (0.1,0.0) [0|0] "A" Vector__XXX
+ SG_ voltage_limit : 0|16@1+ (0.1,0.0) [0|0] "V" Vector__XXX
+
+BO_ 2566869223 cell_telemetry: 5 A_BOX
+ SG_ balance_status : 32|1@1+ (1.0,0.0) [0|0] "" Vector__XXX
+ SG_ cell_num : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ module_num : 16|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ voltage : 0|16@1+ (0.01,0.0) [0|0] "V" Vector__XXX
+
+BO_ 2566869224 charging_telemetry: 8 A_BOX
+ SG_ max_cell_voltage : 48|16@1+ (0.01,0.0) [0|0] "V" Vector__XXX
+ SG_ min_cell_voltage : 32|16@1+ (0.01,0.0) [0|0] "V" Vector__XXX
+ SG_ pack_current : 16|16@1- (0.1,0.0) [0|0] "A" Vector__XXX
+ SG_ pack_voltage : 0|16@1+ (0.01,0.0) [0|0] "V" Vector__XXX
+
+BO_ 2566869225 thermistor_telemetry_ccan: 4 A_BOX
+ SG_ thermistor_num : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ module_num : 16|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ temperature : 0|16@1+ (0.1,0.0) [0|0] "C" Vector__XXX
+
+
+
+
+CM_ BU_ A_BOX "";
+CM_ BU_ DAQ_APP "";
+CM_ BU_ ELCON_CHARGER "";
+CM_ BO_ 2147483649 "Message from DAQ App to A_BOX to request charging";
+CM_ SG_ 2147483649 balance_enable "Request to start balancing";
+CM_ SG_ 2147483649 charge_enable "Request to start charging";
+CM_ SG_ 2147483649 charge_current "Requested charge current in deciamps";
+CM_ SG_ 2147483649 charge_voltage "Requested charge voltage in decivolts";
+CM_ BO_ 2550588916 "Command from A_BOX to Elcon Charger (Message1)";
+CM_ SG_ 2550588916 reserved3 "";
+CM_ SG_ 2550588916 reserved2 "";
+CM_ SG_ 2550588916 reserved1 "";
+CM_ SG_ 2550588916 charger_disable "0 to enable charging, 1 to disable charging";
+CM_ SG_ 2550588916 current_limit "Requested charge current in deciamps";
+CM_ SG_ 2550588916 voltage_limit "Requested charge voltage in decivolts";
+CM_ BO_ 2566869221 "Status message from Elcon Charger to A_BOX (Message2)";
+CM_ SG_ 2566869221 communication_fail " 5s timeout from communication failure";
+CM_ SG_ 2566869221 startup_fail "Startup voltage detection failure";
+CM_ SG_ 2566869221 input_v_fail "Input voltage failure";
+CM_ SG_ 2566869221 temp_fail "Temperature failure";
+CM_ SG_ 2566869221 hw_fail "Hardware failure";
+CM_ SG_ 2566869221 charge_current "";
+CM_ SG_ 2566869221 charge_voltage "";
+CM_ BO_ 2566869222 "Internal states of the charging FSM for debugging purposes";
+CM_ SG_ 2566869222 charging_state "abox charging fsm state";
+CM_ SG_ 2566869222 balancing_status "Balancing status of the pack";
+CM_ SG_ 2566869222 current_limit "Requested charge current in deciamps";
+CM_ SG_ 2566869222 voltage_limit "Requested charge voltage in decivolts";
+CM_ BO_ 2566869223 "Individual cell voltages and balancing status";
+CM_ SG_ 2566869223 balance_status "Whether the cell is currently being balanced";
+CM_ SG_ 2566869223 cell_num "Cell number within the module, 0 indexed";
+CM_ SG_ 2566869223 module_num "Module number of the cell being reported, 0 indexed";
+CM_ SG_ 2566869223 voltage "individual cell voltage";
+CM_ BO_ 2566869224 "Reported battery stats during charging";
+CM_ SG_ 2566869224 max_cell_voltage "Maximum cell voltage in the pack";
+CM_ SG_ 2566869224 min_cell_voltage "Minimum cell voltage in the pack";
+CM_ SG_ 2566869224 pack_current "Total pack current, positive is discharge";
+CM_ SG_ 2566869224 pack_voltage "Total pack voltage";
+CM_ BO_ 2566869225 "Individual thermistor readings";
+CM_ SG_ 2566869225 thermistor_num "Thermistor number within the module, 0 indexed";
+CM_ SG_ 2566869225 module_num "Module number of the cell being reported, 0 indexed";
+CM_ SG_ 2566869225 temperature "Individual thermistor temperature";
+
+
+
+VAL_ 2147483649 balance_enable 0 "OFF" 1 "ON" ;
+VAL_ 2147483649 charge_enable 0 "OFF" 1 "ON" ;
+VAL_ 2550588916 charger_disable 0 "ENABLE" 1 "DISABLE" ;
+VAL_ 2566869221 communication_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566869221 startup_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566869221 input_v_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566869221 temp_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566869221 hw_fail 0 "OFF" 1 "ON" ;
+VAL_ 2566869222 charging_state 0 "idle" 1 "ready2charge" 2 "charging" ;
+VAL_ 2566869222 balancing_status 0 "OFF" 1 "ON" ;
+VAL_ 2566869223 balance_status 0 "OFF" 1 "ON" ;
+
+
+
