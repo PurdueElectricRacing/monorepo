@@ -336,6 +336,13 @@ pub fn materialize_network(
         if let Some(override_elf) = needed.get(board.name.as_str()) {
             let mut board_json = read_json_file(&board.board_path)?;
             board_json["elf"] = serde_json::Value::String(override_elf.display().to_string());
+            if let Some(mcu) = board_json.get("mcu").and_then(serde_json::Value::as_str) {
+                let absolute_mcu = absolute_path_from(
+                    board.board_path.parent().unwrap_or_else(|| Path::new(".")),
+                    Path::new(mcu),
+                )?;
+                board_json["mcu"] = serde_json::Value::String(absolute_mcu.display().to_string());
+            }
             let out_path = dir.join(format!("board-{}.json", board.name));
             let content = serde_json::to_string_pretty(&board_json)
                 .map_err(|error| format!("Failed to serialize board '{}': {error}", board.name))?;
@@ -821,6 +828,95 @@ mod tests {
             mcu
         );
         std::fs::remove_dir_all(root).expect("the legacy relocation fixture should be cleaned up");
+    }
+
+    #[test]
+    fn materialized_network_resolves_relative_board_mcu_and_override_paths() {
+        let root = test_dir("materialize-relative-paths");
+        let board_dir = root.join("source");
+        std::fs::create_dir_all(board_dir.join("configs"))
+            .expect("board fixture directories should be created");
+        let mcu = board_dir.join("configs/mcu.json");
+        std::fs::write(&mcu, "{}").expect("MCU fixture should be written");
+        let original_elf = board_dir.join("firmware.elf");
+        std::fs::write(&original_elf, "original elf")
+            .expect("original ELF fixture should be written");
+        let override_elf = root.join("override.elf");
+        std::fs::write(&override_elf, "override elf")
+            .expect("override ELF fixture should be written");
+        std::fs::write(
+            board_dir.join("board.json"),
+            serde_json::json!({
+                "name": "relative-board",
+                "elf": "firmware.elf",
+                "mcu": "configs/mcu.json"
+            })
+            .to_string(),
+        )
+        .expect("board fixture should be written");
+        let network_path = root.join("network.json");
+        std::fs::write(
+            &network_path,
+            serde_json::json!({
+                "name": "relative-network",
+                "buses": {},
+                "boards": ["source/board.json"]
+            })
+            .to_string(),
+        )
+        .expect("network fixture should be written");
+
+        let relative_network = network_path;
+        let relative_override = override_elf.clone();
+        let output = materialize_network(
+            &relative_network,
+            &HashMap::from([("relative-board".to_owned(), relative_override)]),
+            &HashSet::new(),
+        )
+        .expect("relative network and override should materialize");
+        let materialized_network =
+            read_json_file(&output).expect("materialized network should be readable");
+        let board_reference = PathBuf::from(
+            materialized_network["boards"][0]
+                .as_str()
+                .expect("materialized board reference should be a string"),
+        );
+        assert!(board_reference.is_absolute());
+        let materialized_board =
+            read_json_file(&board_reference).expect("materialized board should be readable");
+        assert_eq!(
+            PathBuf::from(
+                materialized_board["elf"]
+                    .as_str()
+                    .expect("ELF should be a string")
+            ),
+            override_elf
+        );
+        assert!(
+            PathBuf::from(
+                materialized_board["elf"]
+                    .as_str()
+                    .expect("ELF should be a string")
+            )
+            .is_absolute()
+        );
+        assert_eq!(
+            PathBuf::from(
+                materialized_board["mcu"]
+                    .as_str()
+                    .expect("MCU should be a string")
+            ),
+            mcu
+        );
+        assert!(
+            PathBuf::from(
+                materialized_board["mcu"]
+                    .as_str()
+                    .expect("MCU should be a string")
+            )
+            .is_absolute()
+        );
+        std::fs::remove_dir_all(root).expect("materialization fixture should be cleaned up");
     }
 
     #[test]
