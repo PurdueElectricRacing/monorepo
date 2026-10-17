@@ -46,8 +46,6 @@ pub struct FilControl {
     pub title: String,
     executable: Option<std::path::PathBuf>,
     network: Option<std::path::PathBuf>,
-    bus: String,
-    trace_bus: Option<String>,
     elf_overrides: HashMap<String, std::path::PathBuf>,
     disabled_boards: Vec<String>,
     use_builder: bool,
@@ -87,8 +85,6 @@ impl FilControl {
             title: format!("FIL Control #{}", instance_num),
             executable: saved.executable,
             network: saved.network,
-            bus: saved.bus,
-            trace_bus: saved.trace_bus,
             elf_overrides: saved.elf_overrides,
             disabled_boards: saved.disabled_boards,
             use_builder: saved.use_builder,
@@ -118,9 +114,8 @@ impl FilControl {
     }
 
     /// Reload cached network info when the selected network file changes.
-    /// Derived defaults (bus, ADC/GPIO board) follow the newly selected
-    /// network only when the current value is not one of its boards/buses,
-    /// so arbitrary board and bus names work without board-specific assumptions.
+    /// ADC/GPIO targets follow the newly selected network when their current
+    /// board is not present in it.
     fn refresh_network_info(&mut self) {
         if self.last_loaded_network == self.network {
             return;
@@ -151,9 +146,6 @@ impl FilControl {
                 self.network_info_rx = None;
                 match result {
                     Ok(info) => {
-                        if !info.buses.contains(&self.bus) && !info.buses.is_empty() {
-                            self.bus = info.buses[0].clone();
-                        }
                         let boards: Vec<String> =
                             info.boards.iter().map(|board| board.name.clone()).collect();
                         if !boards.contains(&self.adc_board) && !boards.is_empty() {
@@ -287,16 +279,6 @@ impl FilControl {
             return vec!["Loading network config…".into()];
         };
         let mut issues = Vec::new();
-        if self
-            .trace_bus
-            .as_ref()
-            .is_some_and(|bus| !info.buses.contains(bus))
-        {
-            issues.push(format!(
-                "View bus '{}' is not declared in this network",
-                self.trace_bus.as_deref().unwrap_or_default()
-            ));
-        }
         if self.enabled_file_boards().is_empty() {
             issues.push("Enable at least one board below".into());
         }
@@ -325,18 +307,8 @@ impl FilControl {
         if self.builder.name.trim().is_empty() {
             issues.push("Give the built network a name".into());
         }
-        if self.builder.bus.trim().is_empty() {
-            issues.push("Give the built network a bus name".into());
-        }
-        if self
-            .trace_bus
-            .as_ref()
-            .is_some_and(|bus| bus != &self.builder.bus)
-        {
-            issues.push(format!(
-                "View bus '{}' is not declared in the built network",
-                self.trace_bus.as_deref().unwrap_or_default()
-            ));
+        if !matches!(self.builder.bus.parse::<u8>(), Ok(0..=7)) {
+            issues.push("Use a SuperDBC bus ID from 0 to 7 for the built network".into());
         }
         if self.builder.bitrate == 0 {
             issues.push("Built network bitrate must be nonzero".into());
@@ -449,8 +421,6 @@ impl FilControl {
         settings::FilSettings {
             executable: self.executable.clone(),
             network: self.network.clone(),
-            bus: self.bus.clone(),
-            trace_bus: self.trace_bus.clone(),
             elf_overrides: self.elf_overrides.clone(),
             disabled_boards: self.disabled_boards.clone(),
             use_builder: self.use_builder,
@@ -506,9 +476,6 @@ impl FilControl {
                     .map(|path| path.display().to_string())
                     .unwrap_or_else(|| "None selected".into()),
             );
-        });
-        ui.horizontal(|ui| {
-            self.show_bus_selector(ui, actions);
         });
         ui.add_space(4.0);
         self.show_file_board_selector(ui, actions);
@@ -572,8 +539,12 @@ impl FilControl {
             if ui.text_edit_singleline(&mut self.builder.name).changed() {
                 self.queue_builder_update(actions);
             }
-            ui.label("Bus:");
-            if ui.text_edit_singleline(&mut self.builder.bus).changed() {
+            ui.label("Bus ID:");
+            if ui
+                .text_edit_singleline(&mut self.builder.bus)
+                .on_hover_text("Use the SuperDBC numeric bus ID, for example 0 for VCAN")
+                .changed()
+            {
                 self.queue_builder_update(actions);
             }
             ui.label("Bitrate:");
@@ -838,88 +809,6 @@ impl FilControl {
         });
     }
 
-    fn show_bus_selector(&mut self, ui: &mut egui::Ui, actions: &mut Vec<action::AppAction>) {
-        ui.label("Message Sender bus:");
-        let buses = self
-            .network_info
-            .as_ref()
-            .map(|info| info.buses.clone())
-            .unwrap_or_default();
-        if buses.is_empty() {
-            if ui.text_edit_singleline(&mut self.bus).changed() {
-                self.queue_config_update(actions);
-            }
-        } else {
-            let changed = egui::ComboBox::from_id_salt(("fil_bus", &self.title))
-                .selected_text(&self.bus)
-                .show_ui(ui, |ui| {
-                    let mut changed = false;
-                    for bus in &buses {
-                        changed |= ui
-                            .selectable_value(&mut self.bus, bus.clone(), bus)
-                            .changed();
-                    }
-                    changed
-                })
-                .inner
-                .unwrap_or(false);
-            if changed {
-                self.queue_config_update(actions);
-            }
-        }
-    }
-
-    fn available_trace_buses(&self) -> Vec<String> {
-        if self.use_builder {
-            if self.builder.bus.trim().is_empty() {
-                Vec::new()
-            } else {
-                vec![self.builder.bus.clone()]
-            }
-        } else {
-            self.network_info
-                .as_ref()
-                .map(|info| info.buses.clone())
-                .unwrap_or_default()
-        }
-    }
-
-    fn show_trace_bus_selector(
-        &mut self,
-        ui: &mut egui::Ui,
-        actions: &mut Vec<action::AppAction>,
-        tx: &std::sync::mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
-    ) {
-        let buses = self.available_trace_buses();
-        let changed = ui
-            .horizontal(|ui| {
-                ui.label("View/trace CAN bus:");
-                egui::ComboBox::from_id_salt(("fil_trace_bus", &self.title))
-                    .selected_text(self.trace_bus.as_deref().unwrap_or("All buses"))
-                    .show_ui(ui, |ui| {
-                        let mut changed = ui
-                            .selectable_value(&mut self.trace_bus, None, "All buses")
-                            .changed();
-                        for bus in &buses {
-                            changed |= ui
-                                .selectable_value(&mut self.trace_bus, Some(bus.clone()), bus)
-                                .changed();
-                        }
-                        changed
-                    })
-                    .inner
-                    .unwrap_or(false)
-            })
-            .inner;
-        ui.small("Message Sender bus remains the outgoing injection target.");
-        if changed {
-            self.queue_config_update(actions);
-            let _ = tx.send(daqcore::can_thread::CanThreadCommand::SetFilTraceBus(
-                self.trace_bus.clone(),
-            ));
-        }
-    }
-
     /// Board picker bound to the boards in the active network, falling back
     /// to free text when no network is loaded.
     fn show_config_board_picker(
@@ -1027,7 +916,7 @@ impl FilControl {
                 } else {
                     self.show_file_network(ui, actions);
                 }
-                self.show_trace_bus_selector(ui, actions, tx);
+                ui.small("The sidebar Bus selection controls CAN viewing and Message Sender.");
                 ui.collapsing("Run options", |ui| {
                     let mut changed = false;
                     ui.horizontal(|ui| {
