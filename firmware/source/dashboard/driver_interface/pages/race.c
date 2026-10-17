@@ -199,6 +199,12 @@ static inline time_display_t format_time_ms(uint32_t raw_time_ms) {
 }
 
 static inline void update_diff_time(uint32_t curr_elapsed_ms, uint32_t best_lap_ms) {
+    if (best_lap_ms == 0U) {
+        NXT_setFontColor(LAP_TIME, WHITE);
+        NXT_setText(LAP_TIME, "--:--.--");
+        return;
+    }
+
     uint32_t diff_time_ms = 0;
     char diff_sign_char = ' ';
     uint16_t diff_color = WHITE;
