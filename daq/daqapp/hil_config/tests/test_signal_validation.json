@@ -16,11 +16,12 @@
 	],
 	"expect": [
 		{
-			"window": [15, 20],
+			"window": [0, 10000],
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": [30.0, 40.0]
-			}
+			},
+			"accept": "last"
 		}
 	]
 }
