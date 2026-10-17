@@ -36,7 +36,7 @@ impl SignalFailure {
 pub struct InProgressExpect {
     pub expect: hil::config::Expectation,
     pub result: ExpectResult,
-    pub failures: Vec<SignalFailure>,
+    pub failures: Option<Vec<SignalFailure>>,
 }
 
 #[derive(Clone)]
@@ -159,7 +159,7 @@ impl HilRunningTest {
                     } else {
                         ExpectResult::FailedValueOutOfRange
                     };
-                    expect.failures = failures;
+                    expect.failures = Some(failures);
                 }
             }
         }
@@ -202,7 +202,7 @@ impl InProgressExpect {
         Self {
             expect,
             result: ExpectResult::NotInWindow,
-            failures: Vec::new(),
+            failures: None,
         }
     }
 
