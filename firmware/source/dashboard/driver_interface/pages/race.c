@@ -16,7 +16,6 @@
 #include "lap_timer.h"
 
 
-
 static inline void update_car_state_telemetry() {
     if (can_data.main_hb.is_stale()) {
         NXT_setText(CAR_STATE, "STALE");
@@ -188,17 +187,17 @@ static inline void update_tv_telemetry() {
 }
 
 static inline void update_lap_time_telemetry() {
-    uint32_t elapsed_ms = lap_timer_elapsed_ms();
-    uint32_t minutes = elapsed_ms / 60000U;
-    uint32_t seconds = (elapsed_ms / 1000U) % 60U;
-    uint32_t centiseconds = (elapsed_ms / 10U) % 100U;
+    uint32_t curr_elapsed_ms = lap_timer_elapsed_ms();
+    uint32_t curr_minutes = curr_elapsed_ms / 60000U;
+    uint32_t curr_seconds = (curr_elapsed_ms / 1000U) % 60U;
+    uint32_t curr_centiseconds = (curr_elapsed_ms / 10U) % 100U;
 
     NXT_setTextFormatted(
         LAP_TIME,
         "%02lu:%02lu.%02lu",
-        (unsigned long)minutes,
-        (unsigned long)seconds,
-        (unsigned long)centiseconds
+        (unsigned long)curr_minutes,
+        (unsigned long)curr_seconds,
+        (unsigned long)curr_centiseconds
     );
 }
 
