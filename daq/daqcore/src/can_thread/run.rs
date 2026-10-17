@@ -2,7 +2,6 @@ use crate::{
     can,
     can_thread::{self, DatabaseUpdate, tx::AddSendMessage},
     frame, hil,
-    superdbc::database::Bus,
 };
 use std::{sync::mpsc, thread, time};
 
