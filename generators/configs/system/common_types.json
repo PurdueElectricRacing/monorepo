@@ -297,6 +297,24 @@
             ]
         },
         {
+            "name": "imd_r_iso_quality_t",
+            "base_type": "uint8_t",
+            "choices": [
+                {
+                    "name": "INVALID",
+                    "value": 0
+                },
+                {
+                    "name": "VALID",
+                    "value": 1
+                },
+                {
+                    "name": "ABOVE_RANGE",
+                    "value": 2
+                }
+            ]
+        },
+        {
             "name": "imd_state_t",
             "base_type": "uint8_t",
             "choices": [
