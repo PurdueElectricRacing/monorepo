@@ -2,57 +2,36 @@
  * @file imd.c
  * @brief ABOX IMD PWM measurement and state reporting
  *
- * @author Aditya Saini (saini19@purdue.edu)
+ * @author Aditya Saini (saini19@purdue.edu), Millan Kumar (kumar798@purdue.edu)
  */
 
 #include "imd.h"
+#include "imd_decode.h"
 
 #include "can_library/generated/A_BOX.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
+#include "common/rtos/rtos.h"
 #include "main.h"
 
-static uint8_t g_imd_duty_pct = 0;
-// last 3 frequency samples for noise filtering
-static uint8_t g_imd_freq_history[3] = {0};
 
-// for noise resilience
-static uint8_t imd_median3(uint8_t a, uint8_t b, uint8_t c) {
-    if (a > b) { uint8_t t = a; a = b; b = t; }
-    if (b > c) { uint8_t t = b; b = c; c = t; }
-    if (a > b) { uint8_t t = a; a = b; b = t; }
-    return b;
-}
+static volatile imd_capture_tracker_t g_capture = {0};
 
-static bool imd_freq_near(uint8_t freq_hz, uint8_t nominal_hz) {
-    uint8_t low  = (nominal_hz > IMD_FREQ_TOLERANCE_HZ) ? (nominal_hz - IMD_FREQ_TOLERANCE_HZ) : 0;
-    uint8_t high = nominal_hz + IMD_FREQ_TOLERANCE_HZ;
-    return (freq_hz >= low) && (freq_hz <= high);
-}
 
-static imd_state_t imd_state_from_measurement(bool valid, uint8_t freq_hz) {
-    if (!valid) {
-        return IMD_STATE_OFF_OR_SHORT_CIRCUIT;
-    }
-    if (imd_freq_near(freq_hz, IMD_FREQ_NORMAL_HZ)) return IMD_STATE_NORMAL;
-    if (imd_freq_near(freq_hz, IMD_FREQ_UNDERVOLTAGE_HZ)) return IMD_STATE_UNDERVOLTAGE;
-    if (imd_freq_near(freq_hz, IMD_FREQ_SPEED_START_HZ)) return IMD_STATE_SPEED_START;
-    if (imd_freq_near(freq_hz, IMD_FREQ_DEVICE_ERROR_HZ)) return IMD_STATE_DEVICE_ERROR;
-    if (imd_freq_near(freq_hz, IMD_FREQ_CONN_FAULT_HZ)) return IMD_STATE_CONNECTION_FAULT;
-    return IMD_STATE_UNKNOWN;
-}
-
-// set up TIM1 to measure PWM on PA8 for us
 void imd_init(void) {
     TIM_TypeDef *tim = IMD_PWM_LS_TIM;
 
-    // turn TIM1's clock on
+    // Turn TIM1's clock on
     RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
+    (void)RCC->APB2ENR; // Allow the peripheral clock enable to propagate
+    NVIC_DisableIRQ(TIM1_CC_IRQn);
     tim->CR1 = 0U;
+    tim->DIER = 0U;
+    g_capture = (imd_capture_tracker_t){0};
 
-    // get clock speed
+    // Get clock speed
     uint32_t timer_clock_hz = PHAL_RCC_getAPB2ClockHz();
-    // divide to get 100 kHz (1 tick = 10 us)
+    // Divide to get 100 kHz (1 tick = 10 us)
     uint32_t divider = (timer_clock_hz + (IMD_TIMER_TICK_HZ / 2U)) / IMD_TIMER_TICK_HZ;
     if (divider == 0U) {
         divider = 1U;
@@ -61,66 +40,82 @@ void imd_init(void) {
     tim->PSC = (uint16_t)(divider - 1U);
     tim->ARR = IMD_TIMER_ARR;
 
-    // look at the same pin. apply input filter to noise
-    tim->CCMR1 = TIM_CCMR1_CC1S_0 | TIM_CCMR1_IC1F_1 | TIM_CCMR1_IC1F_0 
-                | TIM_CCMR1_CC2S_1 | TIM_CCMR1_IC2F_1 | TIM_CCMR1_IC2F_0;
+    // Channel 1 and channel 2 are both connected to the same input
+    // Apply filtering to both (8 consecutive samples to accept input change)
+    tim->CCMR1 = TIM_CCMR1_CC1S_0   // Channel 1 captures input TI1 directly
+                 | TIM_CCMR1_IC1F_1 // IC1F = 0011: apply 8-sample filtering to channel 1
+                 | TIM_CCMR1_IC1F_0
+                 | TIM_CCMR1_CC2S_1 // Channel 2 also captures TI1, through its indirect input
+                 | TIM_CCMR1_IC2F_1 // IC2F = 0011: apply 8-sample filtering to channel 2
+                 | TIM_CCMR1_IC2F_0;
 
-    // capture rising edges (period), falling edges (time high)
-    tim->CCER = TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC2P;
-    // reset the counter on every rising edge 
-    tim->SMCR = TIM_SMCR_TS_2 | TIM_SMCR_TS_0 | TIM_SMCR_SMS_2;
+    // Capture the period in CCR1 and elapsed high time in CCR2
+    tim->CCER = TIM_CCER_CC1E    // Enable channel 1; CC1P/CC1NP = 0 selects rising edges
+                | TIM_CCER_CC2E  // Enable channel 2 capture on the same TI1 input
+                | TIM_CCER_CC2P; // CC2P = 1, CC2NP = 0 selects falling edges
 
-    tim->EGR = TIM_EGR_UG;
-    tim->SR  = 0U;
-    tim->CR1 = TIM_CR1_URS | TIM_CR1_CEN;
+    // Use the filtered TI1 rising edge to reset the counter after capturing CCR1
+    tim->SMCR = TIM_SMCR_TS_2     // TS = 101: select TI1FP1 as the slave-mode trigger
+                | TIM_SMCR_TS_0
+                | TIM_SMCR_SMS_2; // SMS = 0100: reset mode, starting a new period at each trigger
+
+    // Load the prescaler and initialize the counter before enabling capture interrupts
+    tim->EGR = TIM_EGR_UG; // Generate an update event to load buffered timer settings
+    tim->SR  = 0U;         // Clear timer flags, including the update flag set by UG
+    
+    // Setup interrupts
+    NVIC_ClearPendingIRQ(TIM1_CC_IRQn);
+    NVIC_SetPriority(TIM1_CC_IRQn, IMD_CAPTURE_IRQ_PRIORITY);
+    
+    tim->DIER = TIM_DIER_CC1IE;   // Request an interrupt on each channel 1 (rising-edge) capture
+    NVIC_EnableIRQ(TIM1_CC_IRQn);
+    tim->CR1 = TIM_CR1_URS     // Restrict update requests to overflow/underflow, excluding trigger resets
+               | TIM_CR1_CEN;  // Start the timer counter
 }
 
-// reads the latched capture and clears overflow. true if the capture is usable
-static bool imd_read_capture(uint32_t *period_ticks, uint32_t *high_ticks) {
+// CCR reads clear the corresponding CCxIF in input-capture mode
+// Require a falling edge since the preceding rising-edge ISR
+// Overcapture or a new edge during the read results in a lost capture
+void TIM1_CC_IRQHandler(void) {
     TIM_TypeDef *tim = IMD_PWM_LS_TIM;
+    uint32_t before = tim->SR;
+    if ((before & TIM_SR_CC1IF) == 0U) { // No rising-edge capture to process
+        return;
+    }
 
-    uint32_t sr = tim->SR;
-    bool captured = (sr & TIM_SR_CC1IF) != 0U; // rising edge capture
-    *period_ticks = tim->CCR1;
-    *high_ticks = tim->CCR2;
-    bool overflow = (sr & TIM_SR_UIF) != 0U;
-    tim->SR &= ~TIM_SR_UIF;
+    uint32_t period_ticks = tim->CCR1; // Time between rising edges; clears CC1IF
+    uint32_t high_ticks = tim->CCR2;   // Time from rising to falling edge; clears CC2IF
+    uint32_t after = tim->SR;          // Check for edges or errors arriving during the reads
+    uint32_t errors = TIM_SR_UIF | TIM_SR_CC1OF | TIM_SR_CC2OF; // Overflow or overwritten captures
 
-    // need a capture, no overflow, and period != 0
-    return captured && !overflow && (*period_ticks != 0U);
+    // Require a falling edge, no errors, and no new captures during acquisition
+    bool cycle_ok = (before & TIM_SR_CC2IF) != 0U &&
+        ((before | after) & errors) == 0U &&
+        (after & (TIM_SR_CC1IF | TIM_SR_CC2IF)) == 0U;
+
+    // SR flags: write zero only to observed errors
+    // without accidentally clearing a newly arrived capture flag
+    tim->SR = ~((before | after) & errors);
+
+    uint32_t now_ms = xTaskGetTickCountFromISR();
+    imd_capture_update(&g_capture, period_ticks, high_ticks, now_ms, cycle_ok);
 }
 
-static uint8_t imd_ticks_to_hz(uint32_t period_ticks) {
-    return (uint8_t)((IMD_TIMER_TICK_HZ + (period_ticks / 2U)) / period_ticks);
-}
 
-static uint8_t imd_ticks_to_duty_pct(uint32_t high_ticks, uint32_t period_ticks) {
-    return (uint8_t)(((high_ticks * 100U) + (period_ticks / 2U)) / period_ticks);
-}
-
-// push the newest sample and return the median of the last 3
-static uint8_t imd_filter_freq(uint8_t freq_hz) {
-    g_imd_freq_history[2] = g_imd_freq_history[1];
-    g_imd_freq_history[1] = g_imd_freq_history[0];
-    g_imd_freq_history[0] = freq_hz;
-    return imd_median3(g_imd_freq_history[0], g_imd_freq_history[1], g_imd_freq_history[2]);
-}
-
-// TIM1 latches the latest PWM period (CCR1) and high time (CCR2) every cycle.
-// called once a second to read them and report the IMD state.
 void imd_periodic(void) {
-    uint32_t period_ticks;
-    uint32_t high_ticks;
-    bool valid = imd_read_capture(&period_ticks, &high_ticks);
+    taskENTER_CRITICAL();
+    imd_capture_t capture = g_capture.latest;
+    uint32_t now_ms = xTaskGetTickCount();
+    taskEXIT_CRITICAL();
 
-    uint8_t freq_hz = valid ? imd_ticks_to_hz(period_ticks) : 0U;
-    g_imd_duty_pct = valid ? imd_ticks_to_duty_pct(high_ticks, period_ticks) : 0U;
-
-    uint8_t filtered_hz = imd_filter_freq(freq_hz);
-    imd_state_t state = imd_state_from_measurement(filtered_hz != 0U, filtered_hz);
+    imd_measurement_t measurement = imd_decode(&capture, now_ms);
     bool imd_status = PHAL_GPIO_read(IMD_STATUS_PORT, IMD_STATUS_PIN);
-
-    CAN_SEND_imd_state(state, imd_status);
+    CAN_SEND_imd_state(
+        measurement.state,
+        imd_status,
+        measurement.quality,
+        measurement.r_iso_kohm
+    );
 }
 
 static_assert(IMD_STATE_PERIOD_MS == IMD_PERIOD_MS);

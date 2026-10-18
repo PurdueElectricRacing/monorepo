@@ -10,22 +10,22 @@
 
 #include <stdint.h>
 
+#include "common/rtos/rtos.h"
+
 static constexpr uint32_t IMD_PERIOD_MS = 1000;
 
-// timer ticks this many times per sec
-static constexpr uint32_t IMD_TIMER_TICK_HZ = 100000;
-// max count before overflow
+// Maximum count before overflow (655.36 ms at 100 kHz).
 static constexpr uint32_t IMD_TIMER_ARR = 0xFFFFU;
 
-static constexpr uint8_t IMD_FREQ_TOLERANCE_HZ    = 3;
-static constexpr uint8_t IMD_FREQ_NORMAL_HZ       = 10;
-static constexpr uint8_t IMD_FREQ_UNDERVOLTAGE_HZ = 20;
-static constexpr uint8_t IMD_FREQ_SPEED_START_HZ  = 30;
-static constexpr uint8_t IMD_FREQ_DEVICE_ERROR_HZ = 40;
-static constexpr uint8_t IMD_FREQ_CONN_FAULT_HZ   = 50;
+static constexpr uint32_t IMD_CAPTURE_IRQ_PRIORITY = 6U;
+static_assert(IMD_CAPTURE_IRQ_PRIORITY > configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
 
+// set up TIM1 to measure PWM input (IMD LS) on PA8
 void imd_init(void);
 
+// Report the newest completed cycle
+// The ISR continues acquiring at the input frequency
+// The snapshot age is independent of reporting rate
 void imd_periodic(void);
 
 #endif // IMD_H

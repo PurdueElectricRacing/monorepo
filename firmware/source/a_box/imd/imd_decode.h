@@ -37,7 +37,7 @@ typedef struct {
 // Called once per rising edge
 // cycle_ok includes falling-edge/overrun checks
 void imd_capture_update(
-    imd_capture_tracker_t *tracker,
+    volatile imd_capture_tracker_t *tracker,
     uint32_t period_ticks,
     uint32_t high_ticks,
     uint32_t now_ms,
@@ -45,6 +45,6 @@ void imd_capture_update(
 );
 
 // Decodes an IMD capture into a measurement.
-imd_measurement_t imd_decode(const imd_capture_t *capture, bool duty_is_low);
+imd_measurement_t imd_decode(const imd_capture_t* capture, uint32_t now_ms);
 
 #endif
