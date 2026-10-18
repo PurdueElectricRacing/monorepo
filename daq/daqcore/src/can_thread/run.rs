@@ -33,7 +33,7 @@ fn run_with_connection(
     let mut firmware = can_thread::firmware_session::FirmwareSession::default();
     let mut hil = hil::engine::HilEngine::new(config.hil_dir);
     let mut hil_last = time::Instant::now();
-    let mut hil_finished = false;
+    let mut hil_capture_complete = false;
     let mut load_last = time::Instant::now();
     let mut pending = None;
 
@@ -87,7 +87,7 @@ fn run_with_connection(
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
-                    hil_finished = false;
+                    hil_capture_complete = false;
                     load = can::bus_load::BusLoadTracker::default();
                     load_last = now;
                     if let Some(logger) = &mut logger {
@@ -122,7 +122,7 @@ fn run_with_connection(
                     hil.handle_command(command, now);
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                     hil_last = now;
-                    hil_finished = false;
+                    hil_capture_complete = false;
                 }
                 can_thread::CanThreadCommand::StartFirmwareUpdate(package) => {
                     let progress = firmware.start(
@@ -161,11 +161,13 @@ fn run_with_connection(
         }
 
         hil.tick(now);
-        if hil.is_running() && !hil_finished && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
+        if hil.is_running()
+            && !hil_capture_complete
+            && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
         {
             emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
             hil_last = now;
-            hil_finished = hil.all_finished();
+            hil_capture_complete = hil.capture_complete(now);
         }
 
         // Ordinary sends are suspended while firmware owns transmission.
@@ -318,4 +320,128 @@ fn run_with_connection(
     }
 
     connection.close();
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn loopback_delivers_history_and_final_snapshot_after_early_pass() {
+        struct TestDirectory(std::path::PathBuf);
+        impl Drop for TestDirectory {
+            fn drop(&mut self) {
+                let _ = std::fs::remove_dir_all(&self.0);
+            }
+        }
+        let directory = TestDirectory(
+            std::env::temp_dir().join(format!("hil-history-{}", rand::random::<u64>())),
+        );
+        std::fs::create_dir_all(directory.0.join("tests")).unwrap();
+        let database_path = directory.0.join("database.json");
+        let document = hil::run::tests::database_document("telemetry", &[("temperature", 35.0)]);
+        std::fs::write(&database_path, document.to_string()).unwrap();
+        std::fs::write(
+            directory.0.join("tests/history.json"),
+            serde_json::json!({
+                "name": "history", "description": "Loopback history test", "expect": [{
+                    "msg_name": "telemetry", "window": [0, 1000],
+                    "signals": {"temperature": [30, 40]}, "accept": "any"
+                }]
+            })
+            .to_string(),
+        )
+        .unwrap();
+        let (tx, rx) = mpsc::channel();
+        let mut worker = can_thread::spawn_can_thread(
+            can_thread::CanThreadConfig {
+                log_folder: None,
+                hil_dir: directory.0.clone(),
+            },
+            tx,
+        )
+        .unwrap();
+        worker
+            .command(can_thread::CanThreadCommand::SelectDatabase {
+                request_id: 1,
+                selection: can_thread::DatabaseRequest::Load {
+                    path: database_path,
+                    preferred_bus: Some(0),
+                },
+            })
+            .unwrap();
+        worker
+            .command(can_thread::CanThreadCommand::Connect(Some(
+                crate::connection::ConnectionSource::Loopback,
+            )))
+            .unwrap();
+        let deadline = time::Instant::now() + time::Duration::from_secs(5);
+        loop {
+            let event = rx
+                .recv_timeout(deadline.saturating_duration_since(time::Instant::now()))
+                .unwrap();
+            if matches!(
+                event,
+                can_thread::CanThreadEvent::DatabaseSelected { result: Err(_), .. }
+            ) {
+                panic!("database selection failed");
+            }
+            if matches!(event, can_thread::CanThreadEvent::ConnectionSuccessful) {
+                break;
+            }
+        }
+        worker
+            .command(can_thread::CanThreadCommand::Hil(
+                hil::engine::HilCommand::StartTest(hil::config::TestInfo {
+                    name: "history".into(),
+                    basename: "history".into(),
+                    description: String::new(),
+                }),
+            ))
+            .unwrap();
+        let mut payload = vec![0; 8];
+        payload[..4].copy_from_slice(&35_f32.to_le_bytes());
+        worker
+            .command(can_thread::CanThreadCommand::AddSendMessage(
+                can_thread::tx::AddSendMessage {
+                    amount: can_thread::tx::SendAmount::Finite {
+                        amount: 3,
+                        period: 20,
+                    },
+                    identity: frame::CanIdentity::new(1, false).unwrap(),
+                    msg_bytes: payload,
+                },
+            ))
+            .unwrap();
+        let mut saw_early_pass = false;
+        let mut received_frames = 0;
+        let final_snapshot = loop {
+            let event = rx
+                .recv_timeout(deadline.saturating_duration_since(time::Instant::now()))
+                .unwrap();
+            match event {
+                can_thread::CanThreadEvent::Frame(_) => received_frames += 1,
+                can_thread::CanThreadEvent::Hil(snapshot) if !snapshot.tests.is_empty() => {
+                    let expect = &snapshot.tests[0].in_progress_expects[0];
+                    assert!(snapshot.start_error.is_none());
+                    if expect.result == hil::run::ExpectResult::Passed && !snapshot.capture_complete
+                    {
+                        saw_early_pass = true;
+                    }
+                    if snapshot.capture_complete {
+                        break snapshot;
+                    }
+                }
+                _ => {}
+            }
+        };
+        worker.stop().unwrap();
+        assert!(saw_early_pass);
+        assert_eq!(received_frames, 3);
+        let expect = &final_snapshot.tests[0].in_progress_expects[0];
+        assert_eq!(expect.messages.len(), 3);
+        assert_eq!(expect.selected_message_index, Some(0));
+        assert!(expect.messages.iter().all(|m| m.is_valid()));
+        assert!(final_snapshot.elapsed_ms > 1000);
+    }
 }

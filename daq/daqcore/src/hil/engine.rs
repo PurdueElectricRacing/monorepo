@@ -18,6 +18,7 @@ pub enum HilStatus {
 pub struct HilSnapshot {
     pub status: HilStatus,
     pub elapsed_ms: u128,
+    pub capture_complete: bool,
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
@@ -30,6 +31,7 @@ impl HilSnapshot {
         Self {
             status: HilStatus::Idle,
             elapsed_ms: 0,
+            capture_complete: true,
             preset: None,
             tests: Vec::new(),
             start_error: None,
@@ -78,6 +80,17 @@ impl HilEngine {
                 ..
             } => *stopped_early || tests.iter().all(|t| t.is_finished()),
             HilState::Idle { .. } => false,
+        }
+    }
+
+    pub fn capture_complete(&self, now: time::Instant) -> bool {
+        match &self.state {
+            HilState::Running {
+                start_time, tests, ..
+            } => tests
+                .iter()
+                .all(|test| test.capture_complete(now.saturating_duration_since(*start_time))),
+            HilState::Idle { .. } => true,
         }
     }
 
@@ -204,6 +217,7 @@ impl HilEngine {
             HilState::Idle { start_error } => HilSnapshot {
                 status: HilStatus::Idle,
                 elapsed_ms: 0,
+                capture_complete: true,
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
@@ -220,6 +234,7 @@ impl HilEngine {
             } => HilSnapshot {
                 status: HilStatus::Running,
                 elapsed_ms: now.saturating_duration_since(*start_time).as_millis(),
+                capture_complete: self.capture_complete(now),
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
@@ -254,5 +269,93 @@ impl HilEngine {
         self.state = HilState::Idle {
             start_error: Some(message),
         };
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use hil::{
+        config::AcceptPolicy,
+        run::tests::{message, running},
+    };
+
+    #[test]
+    fn snapshots_keep_collecting_after_results_and_stop_at_last_window() {
+        let start = time::Instant::now();
+        let mut engine = HilEngine::new(path::PathBuf::new());
+        let first = running(AcceptPolicy::Any);
+        let mut second = running(AcceptPolicy::First);
+        second.in_progress_expects[0].expect.window[1] = 30.0;
+        engine.begin(None, vec![first, second], start);
+        let decoded = message("telemetry", &[("temperature", 35.0)]);
+        let mut frame = frame::ParsedFrame {
+            timestamp: crate::time::Time::now(),
+            identity: decoded.key().identity,
+            kind: frame::FrameKind::Data,
+            dlc: 8,
+            raw_bytes: vec![],
+            decoded: Some(decoded),
+        };
+        engine.process_parsed(&frame, start + time::Duration::from_millis(10));
+        assert!(engine.all_finished());
+        assert!(
+            !engine
+                .snapshot(start + time::Duration::from_millis(10))
+                .capture_complete
+        );
+        frame.decoded = Some(message("telemetry", &[("temperature", 25.0)]));
+        engine.process_parsed(&frame, start + time::Duration::from_millis(25));
+        let boundary = engine.snapshot(start + time::Duration::from_millis(30));
+        assert!(!boundary.capture_complete);
+        assert_eq!(boundary.tests[0].in_progress_expects[0].messages.len(), 1);
+        assert_eq!(boundary.tests[1].in_progress_expects[0].messages.len(), 2);
+        let end = start + time::Duration::from_millis(31);
+        engine.tick(end);
+        assert!(engine.snapshot(end).capture_complete);
+        engine.process_parsed(&frame, end);
+        assert_eq!(
+            engine.snapshot(end).tests[1].in_progress_expects[0]
+                .messages
+                .len(),
+            2
+        );
+        // Previously delivered snapshots remain immutable as collection proceeds.
+        assert_eq!(boundary.tests[1].in_progress_expects[0].messages.len(), 2);
+        engine.handle_command(HilCommand::Stop, end);
+        assert!(engine.snapshot(end).tests.is_empty());
+        engine.begin(None, vec![running(AcceptPolicy::Any)], end);
+        let reset = engine.snapshot(end);
+        assert!(reset.tests[0].in_progress_expects[0].messages.is_empty());
+        assert!(
+            reset.tests[0].in_progress_expects[0]
+                .selected_message()
+                .is_none()
+        );
+    }
+
+    #[test]
+    fn tick_expires_without_frames_and_undecoded_frames_are_ignored() {
+        let start = time::Instant::now();
+        let mut engine = HilEngine::new(path::PathBuf::new());
+        engine.begin(None, vec![running(AcceptPolicy::Any)], start);
+        let frame = frame::ParsedFrame {
+            timestamp: crate::time::Time::now(),
+            identity: crate::frame::CanIdentity::new(1, false).unwrap(),
+            kind: frame::FrameKind::Data,
+            dlc: 0,
+            raw_bytes: vec![],
+            decoded: None,
+        };
+        engine.process_parsed(&frame, start + time::Duration::from_millis(15));
+        let end = start + time::Duration::from_millis(21);
+        engine.tick(end);
+        let snapshot = engine.snapshot(end);
+        assert!(snapshot.capture_complete);
+        assert!(
+            snapshot.tests[0].in_progress_expects[0].result
+                == hil::run::ExpectResult::FailedNoMessage
+        );
+        assert!(snapshot.tests[0].in_progress_expects[0].messages.is_empty());
     }
 }
