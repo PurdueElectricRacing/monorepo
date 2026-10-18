@@ -5,6 +5,10 @@ source. It executes real node firmware, so DBC-decoded telemetry matches hardwar
 communicates with FIL's `serve-network --transport stdio` binary protocol; see the [serve-network
 protocol](https://github.com/ronakpjain/fil/blob/main/docs/serve_network.md).
 
+## Architecture
+
+![FIL architecture](fil_architecture.drawio.png)
+
 ## Connect
 
 1. Build FIL (Release; `build-pgo/fil` if available — Debug builds emulate too slowly):
@@ -48,6 +52,18 @@ Changing the sidebar bus updates viewing and sending without restarting FIL; fra
 hidden buses are discarded, not buffered for later viewing. Without a selected SuperDBC bus,
 all buses are visible and the connection retains its injection fallback.
 
+### Network preparation
+
+![FIL network preparation](fil_network_preparation.drawio.png)
+
+### Run lifecycle
+
+![FIL run lifecycle](fil_lifecycle.drawio.png)
+
+### Commands and event routing
+
+![FIL commands and event routing](fil_frame_routing.drawio.png)
+
 ## Stimulus scripts
 
 FIL stimulus scripts are attached to network configs and run by `serve-network` on the simulation
@@ -62,9 +78,8 @@ not copy or bundle the scripts, so keep them at those paths. DaqApp does not edi
 scripts. See FIL's [stimulus-script format and timing](https://github.com/ronakpjain/fil/blob/main/docs/configuration.md#stimulus-scripts).
 
 DaqApp owns the emulator process; disconnecting terminates it. Overrides are materialized into a
-temp dir (originals untouched) and everything persists in `settings.json`. Failures are reported,
-never auto-retried. Only CAN 2.0 data frames are supported; CAN FD and remote frames report send
-errors.
+temp dir (originals untouched) and everything persists in `settings.json`. Only CAN 2.0 data frames
+are supported; CAN FD and remote frames report send errors.
 
 ## Expectations
 
