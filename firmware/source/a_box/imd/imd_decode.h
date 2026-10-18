@@ -11,9 +11,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "can_library/generated/can_types.h"
-
-static constexpr uint32_t IMD_TIMER_TICK_HZ      = 100000U;
-static constexpr uint32_t IMD_CAPTURE_TIMEOUT_MS = 250U;
+#include "imd.h"
 
 typedef struct {
     uint32_t period_ticks;
