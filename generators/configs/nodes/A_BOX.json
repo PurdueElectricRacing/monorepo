@@ -228,6 +228,17 @@
                             "signal_name": "imd_status",
                             "data_type": "bool",
                             "description": "raw IMD status pin, high = OK, low = faulted"
+                        },
+                        {
+                            "signal_name": "r_iso",
+                            "data_type": "uint16_t",
+                            "description": "Insulation resistance. Valid depending on the value of r_iso_quality",
+                            "unit": "kOhm"
+                        },
+                        {
+                            "signal_name": "imd_r_iso_quality_t",
+                            "data_type": "imd_riso_quality_t",
+                            "description": "Validity and range of the insulation resistance reading"
                         }
                     ],
                     "priority": 4,
