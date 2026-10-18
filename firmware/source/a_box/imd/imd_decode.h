@@ -1,3 +1,10 @@
+/**
+ * @file imd_decode.h
+ * @brief ABOX IMD PWM measurement and state reporting
+ *
+ * @author Millan Kumar (kumar798@purdue.edu)
+ */
+
 #ifndef IMD_DECODE_H
 #define IMD_DECODE_H
 
