@@ -251,7 +251,7 @@ impl Hil {
                 Self::show_test_finished_summary(ui, test);
 
                 ui.add_space(4.0);
-                Self::show_expects_grid(ui, test);
+                Self::show_expects_table(ui, test);
             });
     }
 
@@ -294,129 +294,199 @@ impl Hil {
         );
     }
 
-    fn show_expects_grid(ui: &mut eframe::egui::Ui, test: &daqcore::hil::run::HilRunningTest) {
+    fn show_expects_table(ui: &mut eframe::egui::Ui, test: &daqcore::hil::run::HilRunningTest) {
+        // Only row addresses are built here; message contents are drawn lazily
+        // by the table for the rows currently in view.
+        let mut rows = Vec::new();
+        let mut expanded = Vec::new();
         for (index, ipe) in test.in_progress_expects.iter().enumerate() {
-            ui.push_id(("expectation", index), |ui| {
-                eframe::egui::Grid::new("expectation_summary")
-                    .num_columns(4)
-                    .striped(true)
-                    .show(ui, |ui| {
-                        ui.strong("Message");
-                        ui.strong("Window (ms)");
-                        ui.strong("Status");
-                        ui.strong("Signals");
-                        ui.end_row();
-                        Self::show_expect_row(ui, ipe);
-                    });
-                let count = ipe.messages.len() - usize::from(ipe.selected_message_index.is_some());
-                eframe::egui::CollapsingHeader::new(format!("Other matching messages ({count})"))
-                    .id_salt("message_history")
-                    .show(ui, |ui| {
-                        if count == 0 {
-                            ui.label("No other matching messages received.");
-                            return;
-                        }
-                        let line_height = ui.text_style_height(&eframe::egui::TextStyle::Body);
-                        let row_height = (line_height + ui.spacing().item_spacing.y)
-                            * (ipe.expect.signals.len() + 1) as f32;
-                        eframe::egui::ScrollArea::vertical()
-                            .id_salt("history_scroll")
-                            .max_height(240.0)
-                            .show_rows(ui, row_height, count, |ui, rows| {
-                                for row in rows {
-                                    // Map the visible history row past the selected message
-                                    // without filtering or copying the full history each frame.
-                                    let index = row
-                                        + usize::from(
-                                            ipe.selected_message_index.is_some_and(|i| row >= i),
-                                        );
-                                    ui.push_id(index, |ui| {
-                                        ui.allocate_ui_with_layout(
-                                            eframe::egui::vec2(ui.available_width(), row_height),
-                                            eframe::egui::Layout::top_down(
-                                                eframe::egui::Align::Min,
-                                            ),
-                                            |ui| {
-                                                Self::show_captured_message(
-                                                    ui,
-                                                    ipe,
-                                                    &ipe.messages[index],
-                                                )
-                                            },
-                                        );
-                                    });
-                                }
-                            });
-                    });
-                ui.add_space(4.0);
-            });
-        }
-    }
-
-    fn show_expect_row(ui: &mut eframe::egui::Ui, ipe: &daqcore::hil::run::InProgressExpect) {
-        ui.label(&ipe.expect.msg_name);
-        ui.label(format!(
-            "{:.0} - {:.0}",
-            ipe.expect.window[0], ipe.expect.window[1]
-        ));
-        ui.colored_label(expect_color(ipe.result), ipe.result.as_str());
-        ui.vertical(|ui| {
-            if let Some(message) = ipe.selected_message() {
-                Self::show_captured_message(ui, ipe, message);
-            } else {
-                ui.label("No matching messages received.");
-                for (name, range) in &ipe.expect.signals {
-                    ui.label(format!("{name}: expected [{}, {}]", range[0], range[1]));
-                }
+            let id = ui.id().with(("hil_history", index));
+            let open = ui
+                .ctx()
+                .data_mut(|data| data.get_temp::<bool>(id).unwrap_or(false));
+            expanded.push((id, open));
+            rows.push((index, None));
+            if open {
+                rows.extend(
+                    (0..ipe.messages.len())
+                        .filter(|message| Some(*message) != ipe.selected_message_index)
+                        .map(|message| (index, Some(message))),
+                );
             }
+        }
+        let line_height =
+            ui.text_style_height(&eframe::egui::TextStyle::Body) + ui.spacing().item_spacing.y;
+        let heights = rows.iter().map(|(index, message)| {
+            let signals = test.in_progress_expects[*index].expect.signals.len().max(1);
+            let lines = if message.is_none() {
+                (signals * 2).max(3)
+            } else {
+                signals
+            };
+            lines as f32 * line_height + 8.0
         });
-        ui.end_row();
+        egui_extras::TableBuilder::new(ui)
+            .id_salt("hil_messages")
+            .cell_layout(eframe::egui::Layout::top_down(eframe::egui::Align::Min))
+            .column(
+                egui_extras::Column::initial(210.0)
+                    .at_least(120.0)
+                    .resizable(true)
+                    .clip(true),
+            )
+            .column(
+                egui_extras::Column::initial(105.0)
+                    .at_least(75.0)
+                    .resizable(true)
+                    .clip(true),
+            )
+            .column(
+                egui_extras::Column::initial(155.0)
+                    .at_least(100.0)
+                    .resizable(true)
+                    .clip(true),
+            )
+            .column(egui_extras::Column::remainder().at_least(150.0).clip(true))
+            .max_scroll_height(400.0)
+            .auto_shrink([false, true])
+            .header(24.0, |mut header| {
+                for label in ["Message", "Time (ms)", "Validation", "Signals"] {
+                    header.col(|ui| {
+                        ui.strong(label);
+                    });
+                }
+            })
+            .body(|body| {
+                body.heterogeneous_rows(heights, |mut row| {
+                    let (expect_index, message_index) = rows[row.index()];
+                    let ipe = &test.in_progress_expects[expect_index];
+                    let primary = message_index.is_none();
+                    let message = message_index
+                        .map(|i| &ipe.messages[i])
+                        .or_else(|| ipe.selected_message());
+                    let tint = if primary {
+                        eframe::egui::Color32::from_rgba_unmultiplied(80, 140, 220, 28)
+                    } else if message.is_some_and(|m| m.is_valid()) {
+                        eframe::egui::Color32::from_rgba_unmultiplied(60, 180, 120, 24)
+                    } else {
+                        eframe::egui::Color32::from_rgba_unmultiplied(220, 80, 90, 24)
+                    };
+                    row.col(|ui| {
+                        Self::paint_message_cell(ui, tint);
+                        if primary {
+                            let count = ipe
+                                .messages
+                                .len()
+                                .saturating_sub(usize::from(ipe.selected_message_index.is_some()));
+                            let (id, open) = expanded[expect_index];
+                            let arrow = if open { "v" } else { ">" };
+                            let response = ui.add_enabled(
+                                count > 0,
+                                eframe::egui::Button::new(format!(
+                                    "{arrow} {}",
+                                    ipe.expect.msg_name
+                                ))
+                                .frame(false),
+                            );
+                            if response.clicked() {
+                                ui.ctx().data_mut(|data| data.insert_temp(id, !open));
+                            }
+                            response
+                                .on_hover_text(format!("Show or hide {count} other receptions"));
+                            ui.weak(format!(
+                                "Window: {:.2} - {:.2} ms",
+                                ipe.expect.window[0], ipe.expect.window[1]
+                            ));
+                            ui.weak(format!("{} received", ipe.messages.len()));
+                        }
+                    });
+                    row.col(|ui| {
+                        Self::paint_message_cell(ui, tint);
+                        if let Some(message) = message {
+                            ui.monospace(format!("{}.00", message.elapsed_ms));
+                        } else {
+                            ui.weak("-");
+                        }
+                    });
+                    row.col(|ui| {
+                        Self::paint_message_cell(ui, tint);
+                        if primary {
+                            ui.colored_label(expect_color(ipe.result), ipe.result.as_str());
+                        }
+                        if let Some(message) = message {
+                            let (color, label) = if message.is_valid() {
+                                (eframe::egui::Color32::GREEN, "Valid")
+                            } else {
+                                (eframe::egui::Color32::RED, "Invalid")
+                            };
+                            ui.colored_label(color, label);
+                        } else {
+                            ui.weak("No message received");
+                        }
+                    });
+                    row.col(|ui| {
+                        Self::paint_message_cell(ui, tint);
+                        Self::show_message_signals(ui, ipe, message, primary);
+                    });
+                });
+            });
     }
 
-    fn show_captured_message(
+    fn paint_message_cell(ui: &mut eframe::egui::Ui, tint: eframe::egui::Color32) {
+        // Extend into the cell spacing so each reception has a continuous tint.
+        let rect = ui.max_rect().expand2(ui.spacing().item_spacing * 0.5);
+        ui.painter().rect_filled(rect, 0.0, tint);
+        ui.add_space(4.0);
+    }
+
+    fn show_message_signals(
         ui: &mut eframe::egui::Ui,
         ipe: &daqcore::hil::run::InProgressExpect,
-        message: &daqcore::hil::run::CapturedMessage,
+        message: Option<&daqcore::hil::run::CapturedMessage>,
+        show_expected: bool,
     ) {
-        let color = if message.is_valid() {
-            eframe::egui::Color32::GREEN
-        } else {
-            eframe::egui::Color32::RED
-        };
-        ui.colored_label(
-            color,
-            format!(
-                "{} ms — {}",
-                message.elapsed_ms,
-                if message.is_valid() {
-                    "Valid"
-                } else {
-                    "Invalid"
-                }
-            ),
-        );
+        if ipe.expect.signals.is_empty() {
+            ui.weak("Message presence only");
+        }
         for (name, range) in &ipe.expect.signals {
-            let failed = message.failures.iter().any(|f| f.name() == name);
-            let value = message
-                .signals
-                .get(name)
-                .copied()
-                .flatten()
-                .map(|v| v.to_string())
-                .unwrap_or_else(|| "missing".to_owned());
-            let detail = format!(
-                "{name}: {value}; expected [{}, {}]{}",
-                range[0],
-                range[1],
-                if failed { " (invalid)" } else { "" }
-            );
-            let text = eframe::egui::RichText::new(&detail).color(if failed {
-                eframe::egui::Color32::RED
-            } else {
-                ui.visuals().text_color()
-            });
-            ui.add(eframe::egui::Label::new(text).truncate())
+            if let Some(message) = message {
+                let failed = message
+                    .failures
+                    .iter()
+                    .any(|failure| failure.name() == name);
+                let value = message
+                    .signals
+                    .get(name)
+                    .copied()
+                    .flatten()
+                    .map(|value| format!("{value:.2}"))
+                    .unwrap_or_else(|| "missing".to_owned());
+                let detail = format!("{name}: {value} | {}", if failed { "Fail" } else { "Pass" });
+                let color = if failed {
+                    eframe::egui::Color32::RED
+                } else {
+                    eframe::egui::Color32::GREEN
+                };
+                ui.add(
+                    eframe::egui::Label::new(eframe::egui::RichText::new(&detail).color(color))
+                        .truncate(),
+                )
                 .on_hover_text(detail);
+            } else {
+                ui.label(name);
+            }
+            if show_expected {
+                ui.add(
+                    eframe::egui::Label::new(
+                        eframe::egui::RichText::new(format!(
+                            "Expected: [{:.2}, {:.2}]",
+                            range[0], range[1]
+                        ))
+                        .weak(),
+                    )
+                    .truncate(),
+                );
+            }
         }
     }
 }
