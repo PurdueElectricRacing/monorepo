@@ -1,3 +1,10 @@
+/**
+ * @file imd_decode.c
+ * @brief IMD PWM state decoding and insulation resistance calculation
+ *
+ * @author Millan Kumar (kumar798@purdue.edu)
+ */
+
 #include "imd_decode.h"
 
 void imd_capture_update(

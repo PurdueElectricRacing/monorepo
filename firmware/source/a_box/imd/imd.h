@@ -1,7 +1,7 @@
 /**
  * @file imd.h
- * @brief ABOX IMD PWM measurement and state reporting
- *
+ * @brief ABOX IMD PWM capture and CAN reporting
+
  * @author Aditya Saini (saini19@purdue.edu)
  */
 

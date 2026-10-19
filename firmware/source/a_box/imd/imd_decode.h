@@ -1,6 +1,6 @@
 /**
  * @file imd_decode.h
- * @brief ABOX IMD PWM measurement and state reporting
+ * @brief IMD PWM state decoding and insulation resistance calculation
  *
  * @author Millan Kumar (kumar798@purdue.edu)
  */
