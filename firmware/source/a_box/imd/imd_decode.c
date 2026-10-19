@@ -99,7 +99,12 @@ imd_measurement_t imd_decode(const imd_capture_t *capture, uint32_t now_ms) {
 
     uint32_t capture_age_ms = (uint32_t)(now_ms - capture->timestamp_ms);
     bool capture_stale = capture_age_ms > IMD_CAPTURE_TIMEOUT_MS;
-    if (!capture->valid || capture_stale) {
+    if (capture_stale) {
+        // No recent edges: report the IMD's 0 Hz state
+        result.state = IMD_STATE_OFF_OR_SHORT_CIRCUIT;
+        return result;
+    }
+    if (!capture->valid) {
         return result;
     }
     if (capture->period_ticks == 0U || capture->high_ticks > capture->period_ticks) {
