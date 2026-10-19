@@ -13,8 +13,7 @@ protocol](https://github.com/ronakpjain/fil/blob/main/docs/serve_network.md).
 
 1. Build FIL (Release; `build-pgo/fil` if available — Debug builds emulate too slowly):
    ```bash
-   cmake -S /path/to/fil -B /path/to/fil/build-release -G Ninja -DCMAKE_BUILD_TYPE=Release
-   cmake --build /path/to/fil/build-release
+   python tests/fil/run_tests.py --build
    ```
 2. Open **Add FIL Control** (sidebar) or **Spawn FIL Control** (command palette).
 3. Pick a network source, then **Connect / Restart**:
