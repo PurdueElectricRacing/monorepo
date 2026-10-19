@@ -86,7 +86,7 @@ static void calculate_resistance(float duty_pct, imd_measurement_t *result) {
         return;
     }
 
-    result->r_iso_kohm = (uint16_t)(resistance_kohm + 0.5); // Round to the nearest kOhm.
+    result->r_iso_kohm = (uint16_t)(resistance_kohm + 0.5f); // Round to the nearest kOhm.
     result->quality = IMD_R_ISO_QUALITY_VALID;
 }
 
@@ -108,8 +108,8 @@ imd_measurement_t imd_decode(const imd_capture_t *capture, uint32_t now_ms) {
 
     // The non-inverting MLS interface encodes duty in the GPIO low time
     uint32_t low_ticks = capture->period_ticks - capture->high_ticks;
-    float frequency_hz = (float)IMD_TIMER_TICK_HZ / capture->period_ticks;
-    float duty_pct = IMD_PERCENT_SCALE * low_ticks / capture->period_ticks;
+    float frequency_hz = (float)IMD_TIMER_TICK_HZ / (float)capture->period_ticks;
+    float duty_pct = IMD_PERCENT_SCALE * (float)low_ticks / (float)capture->period_ticks;
     result.state = state_from_pwm(frequency_hz, duty_pct);
 
     bool resistance_available = result.state == IMD_STATE_NORMAL ||
