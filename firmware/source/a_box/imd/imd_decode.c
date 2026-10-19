@@ -36,26 +36,28 @@ static bool frequency_matches(double measured_hz, double expected_hz) {
 }
 
 static imd_state_t state_from_pwm(double frequency_hz, double duty_pct) {
-    bool measurement_duty = is_between(duty_pct, IMD_MEASUREMENT_MIN_DUTY_PCT, IMD_MEASUREMENT_MAX_DUTY_PCT);
-    if (measurement_duty && frequency_matches(frequency_hz, IMD_NORMAL_FREQUENCY_HZ)) {
-        return IMD_STATE_NORMAL;
-    }
-    if (measurement_duty && frequency_matches(frequency_hz, IMD_UNDERVOLTAGE_FREQUENCY_HZ)) {
-        return IMD_STATE_UNDERVOLTAGE;
-    }
-
-    bool startup_good = is_between(duty_pct, IMD_MEASUREMENT_MIN_DUTY_PCT, IMD_STARTUP_GOOD_MAX_DUTY_PCT);
-    bool startup_bad = is_between(duty_pct, IMD_STARTUP_BAD_MIN_DUTY_PCT, IMD_MEASUREMENT_MAX_DUTY_PCT);
-    if ((startup_good || startup_bad) && frequency_matches(frequency_hz, IMD_STARTUP_FREQUENCY_HZ)) {
-        return IMD_STATE_SPEED_START;
-    }
-
-    bool fault_duty = is_between(duty_pct, IMD_FAULT_MIN_DUTY_PCT, IMD_FAULT_MAX_DUTY_PCT);
-    if (fault_duty && frequency_matches(frequency_hz, IMD_DEVICE_ERROR_FREQUENCY_HZ)) {
-        return IMD_STATE_DEVICE_ERROR;
-    }
-    if (fault_duty && frequency_matches(frequency_hz, IMD_CONNECTION_FAULT_FREQUENCY_HZ)) {
-        return IMD_STATE_CONNECTION_FAULT;
+    if (frequency_matches(frequency_hz, IMD_NORMAL_FREQUENCY_HZ)) {
+        if (is_between(duty_pct, IMD_MEASUREMENT_MIN_DUTY_PCT, IMD_MEASUREMENT_MAX_DUTY_PCT)) {
+            return IMD_STATE_NORMAL;
+        }
+    } else if (frequency_matches(frequency_hz, IMD_UNDERVOLTAGE_FREQUENCY_HZ)) {
+        if (is_between(duty_pct, IMD_MEASUREMENT_MIN_DUTY_PCT, IMD_MEASUREMENT_MAX_DUTY_PCT)) {
+            return IMD_STATE_UNDERVOLTAGE;
+        }
+    } else if (frequency_matches(frequency_hz, IMD_STARTUP_FREQUENCY_HZ)) {
+        bool startup_good = is_between(duty_pct, IMD_MEASUREMENT_MIN_DUTY_PCT, IMD_STARTUP_GOOD_MAX_DUTY_PCT);
+        bool startup_bad = is_between(duty_pct, IMD_STARTUP_BAD_MIN_DUTY_PCT, IMD_MEASUREMENT_MAX_DUTY_PCT);
+        if (startup_good || startup_bad) {
+            return IMD_STATE_SPEED_START;
+        }
+    } else if (frequency_matches(frequency_hz, IMD_DEVICE_ERROR_FREQUENCY_HZ)) {
+        if (is_between(duty_pct, IMD_FAULT_MIN_DUTY_PCT, IMD_FAULT_MAX_DUTY_PCT)) {
+            return IMD_STATE_DEVICE_ERROR;
+        }
+    } else if (frequency_matches(frequency_hz, IMD_CONNECTION_FAULT_FREQUENCY_HZ)) {
+        if (is_between(duty_pct, IMD_FAULT_MIN_DUTY_PCT, IMD_FAULT_MAX_DUTY_PCT)) {
+            return IMD_STATE_CONNECTION_FAULT;
+        }
     }
     return IMD_STATE_UNKNOWN;
 }
