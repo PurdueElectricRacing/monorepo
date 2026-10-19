@@ -33,16 +33,16 @@ void imd_capture_update(
     tracker->armed = cycle_ok && (period_ticks != 0U);
 }
 
-static bool is_between(double value, double minimum, double maximum) {
+static bool is_between(float value, float minimum, float maximum) {
     return value >= minimum && value <= maximum;
 }
 
-static bool frequency_matches(double measured_hz, double expected_hz) {
-    double tolerance_hz = expected_hz * IMD_FREQUENCY_TOLERANCE_PCT / IMD_PERCENT_SCALE;
+static bool frequency_matches(float measured_hz, float expected_hz) {
+    float tolerance_hz = expected_hz * IMD_FREQUENCY_TOLERANCE_PCT / IMD_PERCENT_SCALE;
     return is_between(measured_hz, expected_hz - tolerance_hz, expected_hz + tolerance_hz);
 }
 
-static imd_state_t state_from_pwm(double frequency_hz, double duty_pct) {
+static imd_state_t state_from_pwm(float frequency_hz, float duty_pct) {
     if (frequency_matches(frequency_hz, IMD_NORMAL_FREQUENCY_HZ)) {
         if (is_between(duty_pct, IMD_MEASUREMENT_MIN_DUTY_PCT, IMD_MEASUREMENT_MAX_DUTY_PCT)) {
             return IMD_STATE_NORMAL;
@@ -69,7 +69,7 @@ static imd_state_t state_from_pwm(double frequency_hz, double duty_pct) {
     return IMD_STATE_UNKNOWN;
 }
 
-static void calculate_resistance(double duty_pct, imd_measurement_t *result) {
+static void calculate_resistance(float duty_pct, imd_measurement_t *result) {
     // At 5% the IMD indicates infinite resistance. Avoid divide by zero.
     if (duty_pct <= IMD_MEASUREMENT_MIN_DUTY_PCT) {
         result->quality = IMD_R_ISO_QUALITY_ABOVE_RANGE;
@@ -77,8 +77,8 @@ static void calculate_resistance(double duty_pct, imd_measurement_t *result) {
     }
 
     // Datasheet: R_iso = (90% * 1200 kOhm) / (duty - 5%) - 1200 kOhm.
-    double duty_span_pct = IMD_MEASUREMENT_MAX_DUTY_PCT - IMD_MEASUREMENT_MIN_DUTY_PCT;
-    double resistance_kohm = duty_span_pct * IMD_RESISTANCE_AT_HALF_DUTY_KOHM /
+    float duty_span_pct = IMD_MEASUREMENT_MAX_DUTY_PCT - IMD_MEASUREMENT_MIN_DUTY_PCT;
+    float resistance_kohm = duty_span_pct * IMD_RESISTANCE_AT_HALF_DUTY_KOHM /
                             (duty_pct - IMD_MEASUREMENT_MIN_DUTY_PCT) -
                             IMD_RESISTANCE_AT_HALF_DUTY_KOHM;
     if (resistance_kohm > IMD_MAX_MEASURABLE_RESISTANCE_KOHM) {
@@ -108,8 +108,8 @@ imd_measurement_t imd_decode(const imd_capture_t *capture, uint32_t now_ms) {
 
     // The non-inverting MLS interface encodes duty in the GPIO low time
     uint32_t low_ticks = capture->period_ticks - capture->high_ticks;
-    double frequency_hz = (double)IMD_TIMER_TICK_HZ / capture->period_ticks;
-    double duty_pct = IMD_PERCENT_SCALE * low_ticks / capture->period_ticks;
+    float frequency_hz = (float)IMD_TIMER_TICK_HZ / capture->period_ticks;
+    float duty_pct = IMD_PERCENT_SCALE * low_ticks / capture->period_ticks;
     result.state = state_from_pwm(frequency_hz, duty_pct);
 
     bool resistance_available = result.state == IMD_STATE_NORMAL ||
