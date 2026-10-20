@@ -405,6 +405,16 @@ def _compile_signal(
     bit_offset, signal_byte_order = _place_signal(
         signal.signal_name, message_name, byte_order, length, bit_shift,
     )
+    signal_min = signal.min
+    signal_max = signal.max
+    if choices:
+        values = []
+        for choice in choices:
+            values.append(choice.value)
+        if signal_min is None:
+            signal_min = min(values)
+        if signal_max is None:
+            signal_max = max(values)
     return CompiledSignal(
         signal_name=signal.signal_name,
         data_type=signal.data_type,
@@ -414,8 +424,8 @@ def _compile_signal(
         choices=tuple(choices) if choices else None,
         scale=signal.scale,
         offset=signal.offset,
-        min=signal.min,
-        max=signal.max,
+        min=signal_min,
+        max=signal_max,
         byte_order=signal_byte_order,
         bit_offset=bit_offset,
         bit_shift=bit_shift,
