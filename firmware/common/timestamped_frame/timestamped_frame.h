@@ -24,18 +24,16 @@ static_assert(
 // helper functions
 [[gnu::always_inline]]
 static inline void set_bus_id(timestamped_frame_t *frame, uint8_t bus_id) {
-    static constexpr uint32_t BUS_ID_MASK = (1u << 31u);
+    static constexpr uint32_t BUS_ID_MASK = (0b11u << 31u); // 2 bits for bus ID
 
-    if (bus_id == 0) {
-        frame->identity &= ~BUS_ID_MASK;
-    } else {
-        frame->identity |= BUS_ID_MASK;
-    }
+    uint32_t shifted_id = (uint32_t) bus_id << 31u;
+    frame->identity &= ~BUS_ID_MASK; // Clear existing bus ID bits
+    frame->identity |= (shifted_id & BUS_ID_MASK); //Set new bus ID bits
 }
 
 [[gnu::always_inline]]
 static inline void set_xid(timestamped_frame_t *frame, bool is_xid) {
-    static constexpr uint32_t IS_XID_MASK = (1u << 30u);
+    static constexpr uint32_t IS_XID_MASK = (1u << 30u); // 1 bit for extended flag
 
     if (is_xid) {
         frame->identity |= IS_XID_MASK;
