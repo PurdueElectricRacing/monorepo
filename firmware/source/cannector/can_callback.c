@@ -18,7 +18,7 @@
 
 volatile uint32_t last_can_rx_time_ms = 0;
 
-static inline uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
+static uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
     if (peripheral == FDCAN1) {
         return VCAN_BUS_ID;
     }
@@ -38,9 +38,7 @@ void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
     last_can_rx_time_ms = frame.ticks_ms;
 
     // todo replace when superDBC is merged
-    uint32_t bus_id = get_bus_id(msg->Bus);
-
-    set_bus_id(&frame, bus_id); 
+    set_bus_id(&frame, get_bus_id(msg->Bus)); 
     set_xid(&frame, msg->IDE);
     set_can_id(&frame, msg->IDE ? msg->ExtId : msg->StdId);
 
