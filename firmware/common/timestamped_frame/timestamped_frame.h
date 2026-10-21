@@ -12,7 +12,7 @@
 
 typedef struct {
     uint32_t ticks_ms; // ms timestamp of reception
-    uint32_t identity; // [1 bit bus ID] [1 bit isExtID] [1 bit reserved] [29 bits CAN ID]
+    uint32_t identity; // [2 bit bus ID] [1 bit isExtID] [29 bits CAN ID]
     uint64_t payload;  // message data
 } timestamped_frame_t;
 
