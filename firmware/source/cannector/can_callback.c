@@ -18,14 +18,14 @@
 
 volatile uint32_t last_can_rx_time_ms = 0;
 
-static uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
+static inline uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
     if (peripheral == FDCAN1) {
         return VCAN_BUS_ID;
     }
     else if (peripheral == FDCAN2) {
         return MCAN_BUS_ID;
     }
-    else if (peripheral == FDCAN3) {
+    else {
         return SCAN_BUS_ID;
     }
 }
