@@ -7,7 +7,8 @@ firmware/output/**
 # Ignore doxygen output
 /docs/doxygen
 /docs/can_graphs/
-/docs/unit_graphs/
+/docs/unit_graphs/*
+!/docs/unit_graphs/*.dot
 
 # Allow per-user settings and debug states
 .cache/
