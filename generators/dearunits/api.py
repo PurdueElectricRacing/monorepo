@@ -6,6 +6,7 @@ Assemble the validated unit config into a unit graph
 
 from .codegen import generate_headers
 from .config_loader import UnitConfigBundle
+from .graph import generate_unit_graphs
 from .models import BaseQuantity, DerivedQuantity, DimensionTerm, Relation, Unit, UnitGraph
 from core.artifacts import Artifact
 
@@ -47,4 +48,4 @@ class DearUnits:
         return graph
 
     def generate(self, graph: UnitGraph) -> list[Artifact]:
-        return generate_headers(graph)
+        return [*generate_headers(graph), *generate_unit_graphs(graph)]
