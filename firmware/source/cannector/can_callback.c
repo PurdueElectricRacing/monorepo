@@ -25,7 +25,7 @@ static inline uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
     else if (peripheral == FDCAN2) {
         return MCAN_BUS_ID;
     }
-    else {
+    else { // peripheral == FDCAN3
         return SCAN_BUS_ID;
     }
 }
