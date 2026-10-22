@@ -2,7 +2,8 @@
  * @file imd.c
  * @brief ABOX IMD PWM capture and CAN reporting
  *
- * @author Aditya Saini (saini19@purdue.edu), Millan Kumar (kumar798@purdue.edu)
+ * @author Aditya Saini (saini19@purdue.edu)
+ * @author Millan Kumar (kumar798@purdue.edu)
  */
 
 #include "imd.h"
