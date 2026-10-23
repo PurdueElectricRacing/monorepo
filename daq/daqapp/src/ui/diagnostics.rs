@@ -68,8 +68,21 @@ impl Diagnostics {
         ui.heading(&self.title);
         ui.separator();
 
+        ui.horizontal(|ui| { 
+            ui.label("Search:");
+            ui.text_edit_singleline(&mut self.search);
+
+            if ui.button("Clear").clicked() {
+                self.search.clear();
+            }
+        });
+
+        ui.add_space(8.0);
+
         egui::ScrollArea::vertical().show(ui, |ui| {
+            let query = self.search.to_lowercase();
             for (board_name, board) in &self.boards {
+            
             ui.label(egui::RichText::new(board_name).strong().size(16.0));
 
             let cpu_str = match board.cpu_util {
@@ -98,6 +111,9 @@ impl Diagnostics {
                     ui.end_row();
 
                     for task in &board.tasks {
+                        if !query.is_empty() && !board_name.to_lowercase().contains(&query) && !task.name.to_lowercase().contains(&query) {
+                continue;
+            }
                         ui.monospace(task.task_id.to_string());
                         ui.monospace(&task.name);
                         ui.label(task.state.as_str());
