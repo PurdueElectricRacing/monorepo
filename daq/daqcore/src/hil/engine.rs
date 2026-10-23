@@ -27,7 +27,6 @@ pub struct HilSnapshot {
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
-    pub superdbc: Option<Database>,
     pub finished: bool,
     pub skipped_from: Option<usize>,
     pub has_decoder: bool,
@@ -42,7 +41,6 @@ impl HilSnapshot {
             preset: None,
             tests: Vec::new(),
             start_error: None,
-            superdbc: None,
             finished: false,
             skipped_from: None,
             has_decoder: false,
@@ -132,6 +130,10 @@ impl HilEngine {
     }
 
     pub fn handle_command(&mut self, command: HilCommand, now: time::Instant) {
+        if !matches!(&command, HilCommand::Stop) && !self.allowed_start() {
+            return;
+        }
+
         match command {
             HilCommand::StartTest(test_info) => {
                 match hil::run::HilRunningTest::new(&self.base, &test_info) {
@@ -209,7 +211,11 @@ impl HilEngine {
                                     continue;
                                 }
 
-                                match Self::hil_tx_to_send_message(&tx_message, superdbc, selection) {
+                                match Self::hil_tx_to_send_message(
+                                    &tx_message,
+                                    superdbc,
+                                    selection,
+                                ) {
                                     Ok(message) => tx_messages.push(message),
                                     Err(error) => {
                                         errors.push(format!(
@@ -226,37 +232,37 @@ impl HilEngine {
                 }
 
                 ExecutionMode::SequentialAlways | ExecutionMode::SequentialStopFail => {
-                    if let Some(test) = tests.get_mut(*active_test) {
-                        if !test.tx_remaining.is_empty() {
-                            let pending = std::mem::take(&mut test.tx_remaining);
-                            let mut remaining = Vec::new();
-                            let elapsed_ms: f64 =
-                                now.saturating_duration_since(*active_start_time).as_secs_f64() * 1000f64;
+                    if let Some(test) = tests.get_mut(*active_test)
+                        && !test.tx_remaining.is_empty()
+                    {
+                        let pending = std::mem::take(&mut test.tx_remaining);
+                        let mut remaining = Vec::new();
+                        let elapsed_ms: f64 = now
+                            .saturating_duration_since(*active_start_time)
+                            .as_secs_f64()
+                            * 1000f64;
 
-                            for tx_message in pending {
-                                if elapsed_ms < tx_message.timestamp {
-                                    remaining.push(tx_message);
-                                    continue;
-                                }
-
-                                match Self::hil_tx_to_send_message(&tx_message, superdbc, selection) {
-                                    Ok(message) => tx_messages.push(message),
-                                    Err(error) => {
-                                        errors.push(format!(
-                                            "Error while encoding and converting TX message {}: {}",
-                                            tx_message.msg_name, error
-                                        ));
-                                    }
-                                }
+                        for tx_message in pending {
+                            if elapsed_ms < tx_message.timestamp {
+                                remaining.push(tx_message);
+                                continue;
                             }
 
-                            test.tx_remaining = remaining;
+                            match Self::hil_tx_to_send_message(&tx_message, superdbc, selection) {
+                                Ok(message) => tx_messages.push(message),
+                                Err(error) => {
+                                    errors.push(format!(
+                                        "Error while encoding and converting TX message {}: {}",
+                                        tx_message.msg_name, error
+                                    ));
+                                }
+                            }
                         }
+
+                        test.tx_remaining = remaining;
                     }
                 }
             }
-
-            
 
             Ok((tx_messages, errors))
         } else {
@@ -269,29 +275,16 @@ impl HilEngine {
         superdbc: &Database,
         selection: &BusSelection,
     ) -> Result<AddSendMessage, String> {
+        let Some(active_buses) = selection.resolve_buses(superdbc) else {
+            return Err("CAN Bus not selected".to_string())
+        };
+
         let message = superdbc
             .messages()
-            .find(|message| message.name() == tx_message.msg_name)
-            .ok_or("Message name not found")?;
+            .find(|message| active_buses.iter().any(|bus| bus.bus_id() == message.key().bus_id) && message.name() == tx_message.msg_name)
+            .ok_or("Message name not found on CAN bus selection")?;
 
         let key = message.key();
-        let contains_bus = selection.resolve_buses(superdbc)
-            .is_some_and(|buses| buses.iter().any(|bus| bus.bus_id() == key.bus_id));
-        if !contains_bus {
-            let active_buses = selection
-                .resolve_buses(superdbc)
-                .map_or(
-                    "None".to_string(),
-                    |buses| buses.iter()
-                        .map(|bus| bus.bus_id().to_string())
-                        .collect::<Vec<_>>()
-                        .join(", "));
-            return Err(format!(
-                "Message on CAN bus {} does not exist on CAN bus selection {}",
-                key.bus_id, active_buses
-            ));
-        }
-
         let values: Vec<(&str, f64)> = tx_message
             .signals
             .iter()
@@ -403,7 +396,6 @@ impl HilEngine {
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
-                superdbc: self.superdbc.clone(),
                 finished: false,
                 skipped_from: None,
                 has_decoder: self.has_decoder(),
@@ -422,7 +414,6 @@ impl HilEngine {
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
-                superdbc: self.superdbc.clone(),
                 has_decoder: self.has_decoder(),
 
                 finished: self.all_finished(),
@@ -449,6 +440,15 @@ impl HilEngine {
             active_start_time: now,
             stopped_early: false,
         };
+    }
+
+    fn allowed_start(&mut self) -> bool {
+        if !self.has_decoder() {
+            self.fail_start("SuperDBC has not been loaded".to_owned());
+            return false;
+        }
+
+        true
     }
 
     fn fail_start(&mut self, message: String) {
