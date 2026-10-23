@@ -1,10 +1,9 @@
-use crate::hil::config::ExecutionMode;
+use crate::{connection::CanBusSpeed, hil::config::ExecutionMode};
 use std::{path, time};
 
 use crate::{
     can_thread::tx::{AddSendMessage, SendAmount::Once},
-    frame,
-    hil,
+    frame, hil,
     superdbc::database::Database,
 };
 
@@ -181,7 +180,11 @@ impl HilEngine {
                                     continue;
                                 }
 
-                                match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
+                                match Self::hil_tx_to_send_message(
+                                    &tx_message,
+                                    superdbc,
+                                    self.bus_id,
+                                ) {
                                     Ok(message) => tx_messages.push(message),
                                     Err(error) => {
                                         errors.push(format!(
@@ -202,8 +205,10 @@ impl HilEngine {
                         if !test.tx_remaining.is_empty() {
                             let pending = std::mem::take(&mut test.tx_remaining);
                             let mut remaining = Vec::new();
-                            let elapsed_ms: f64 =
-                                now.saturating_duration_since(*active_start_time).as_secs_f64() * 1000f64;
+                            let elapsed_ms: f64 = now
+                                .saturating_duration_since(*active_start_time)
+                                .as_secs_f64()
+                                * 1000f64;
 
                             for tx_message in pending {
                                 if elapsed_ms < tx_message.timestamp {
@@ -211,7 +216,11 @@ impl HilEngine {
                                     continue;
                                 }
 
-                                match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
+                                match Self::hil_tx_to_send_message(
+                                    &tx_message,
+                                    superdbc,
+                                    self.bus_id,
+                                ) {
                                     Ok(message) => tx_messages.push(message),
                                     Err(error) => {
                                         errors.push(format!(
@@ -228,8 +237,6 @@ impl HilEngine {
                 }
             }
 
-            
-
             Ok((tx_messages, errors))
         } else {
             Err("Hil is not running".to_owned())
@@ -243,16 +250,10 @@ impl HilEngine {
     ) -> Result<AddSendMessage, String> {
         let message = superdbc
             .messages()
-            .find(|message| message.name() == tx_message.msg_name)
-            .ok_or("Message name not found")?;
+            .find(|message| message.key().bus_id == bus_id && message.name() == tx_message.msg_name)
+            .ok_or("Message name not found on CAN bus")?;
 
         let key = message.key();
-        if key.bus_id != bus_id {
-            return Err(format!(
-                "Message on CAN bus {} does not exist on selected CAN bus {}",
-                key.bus_id, bus_id
-            ));
-        }
 
         let values: Vec<(&str, f64)> = tx_message
             .signals
