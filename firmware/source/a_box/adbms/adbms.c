@@ -409,11 +409,16 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
     // Transition bookkeeping
     if (next_state == ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_RECOVERING) {
         bms->recover_start_tick_ms = xTaskGetTickCount();
+
+        // guard increment to avoid overflow
+        if (bms->recovery_attempts < ADBMS_RECOVERY_MAX_ATTEMPTS) {
+            bms->recovery_attempts++;
+        }
+
         bms->is_connected = false;
     }
     if (next_state == ADBMS_STATE_ERROR && bms->state != ADBMS_STATE_ERROR) {
         bms->error_start_tick_ms = xTaskGetTickCount();
-        bms->recovery_attempts++;
         bms->is_connected = false;
     }
 
