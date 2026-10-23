@@ -1,8 +1,6 @@
-use std::collections::BTreeMap;
-
+use std::collections::{BTreeMap, VecDeque};
 use eframe::egui;
 
-use crate::ui::diagnostics::TaskState::Running;
 
 pub struct TaskDiagnostics {
     pub task_id: u32,
@@ -19,6 +17,7 @@ pub struct BoardDiagnostics {
     pub sample_count: u32,
     pub task_count: u32,
     pub timestamp_ms: u32,
+    pub cpu_history: VecDeque<(f64, f64)>,
 }
 
 pub struct Diagnostics {
@@ -55,6 +54,11 @@ impl Diagnostics {
                 }
             ],
             timestamp_ms: 10000,
+            cpu_history: VecDeque::from([
+                       (0.0, 45.0),
+                       (1.0, 52.0),
+                       (2.0, 67.4),
+                   ]),
         },);
         Self {
         title: format!("Diagnostics #{}", instance_num),
@@ -76,6 +80,27 @@ impl Diagnostics {
                 self.search.clear();
             }
         });
+
+        ui.add_space(8.0);
+
+        egui_plot::Plot::new(format!("diagnostics_cpu_plot{}", self.title))
+            .height(180.0)
+            .y_axis_label("CPU Usage (%)")
+            .include_y(0.0)
+            .include_y(100.0)
+            .legend(egui_plot::Legend::default())
+            .show(ui, |plot_ui| {
+                for (board_name, board) in &self.boards {
+                    let points: egui_plot::PlotPoints = board
+                    .cpu_history
+                    .iter()
+                    .map(|(time, cpu)| [*time, *cpu])
+                    .collect();
+                    
+                    plot_ui.line(egui_plot::Line::new(board_name, points));
+                }
+            }
+        );
 
         ui.add_space(8.0);
 
