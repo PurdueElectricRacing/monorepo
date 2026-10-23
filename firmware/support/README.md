@@ -12,7 +12,8 @@ Per-target GNU linker scripts. [`cmake/common_component.cmake`](../cmake/common_
 
 ## `svd/`
 CMSIS-SVD register descriptions used by Cortex-Debug to render peripheral state in VS Code.
-- `STM32F407.svd` Used by F4 launch configs (DAQ, f4_testing).
+- `STM32F407.svd` Used by the retained F407 `f4_testing` launch config.
+- `STM32F423.svd` Used by the DAQ launch config for STM32F423RHT6.
 - `STM32G474.svd` Used by G4 launch configs (Main Module, Dashboard, Driveline, Torque Vectoring, A_Box, PDU, g4_testing).
 
 ## `openocd/`
