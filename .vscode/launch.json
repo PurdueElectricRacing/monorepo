@@ -172,8 +172,8 @@
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
-            "device": "STM32F407VG",
-            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32F407.svd",
+            "device": "STM32F423RHT6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32F423.svd",
             "configFiles": [
                 "interface/stlink.cfg",
                 "target/stm32f4x.cfg",
