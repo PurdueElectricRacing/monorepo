@@ -35,6 +35,7 @@ void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf) {
         bms->modules[i].err_regb_mismatch = false;
     }
 
+    bms->is_connected      = false;
     bms->err_spi           = false;
     bms->err_rega_mismatch = false;
     bms->err_regb_mismatch = false;
@@ -329,29 +330,47 @@ bool adbms_read_therms(adbms_bms_t *bms) {
 }
 
 void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
-    // Flat per-phase state machine: the switch computes the next state and
-    // exactly one phase is serviced per call. next_state is transient and
-    // never stored; it is promoted into bms->state once at the end of the
-    // cycle so the new state does not affect this cycle's decisions.
     adbms_state_t next_state = bms->state;
 
     switch (bms->state) {
         case ADBMS_STATE_DISCONNECTED: {
-            // Entry state: wake the chain, then begin the connect sequence.
-            // This is the only place the wake command is issued, so recovery
-            // always runs a full sleep-wake cycle before reconnecting.
             adbms6380_wake(bms->spi, ADBMS_MODULE_COUNT);
             next_state = ADBMS_STATE_WRITE_REGA;
             break;
         }
         case ADBMS_STATE_WRITE_REGA: {
             adbms_write_rega(bms);
-            next_state = ADBMS_STATE_CHECK_REGA;
+            next_state = ADBMS_STATE_WRITE_REGB;
             break;
         }
         case ADBMS_STATE_CHECK_REGA: {
             if (adbms_read_and_check_rega(bms)) {
-                next_state = ADBMS_STATE_START_ADCV;
+                next_state = ADBMS_STATE_CHECK_REGB;
+            } else {
+                next_state = ADBMS_STATE_RECOVERING;
+            }
+            break;
+        }
+        case ADBMS_STATE_WRITE_REGB: {
+            adbms_write_regb(bms);
+            // WRITE_REGB is reached both by the connect chain and the read/balance loop
+            if (bms->is_connected) {
+                next_state = ADBMS_STATE_CHECK_REGB;
+            } else {
+                next_state = ADBMS_STATE_CHECK_REGA;
+            }
+            break;
+        }
+        case ADBMS_STATE_CHECK_REGB: {
+            if (adbms_read_and_check_regb(bms)) {
+                if (bms->is_connected) {
+                    // REGB as part of the read/balance loop (write discharge bits)
+                    next_state = ADBMS_STATE_READ_CELLS;
+                } else {
+                    // REGB as part of the connect chain
+                    bms->recovery_attempts = 0;
+                    next_state = ADBMS_STATE_START_ADCV;
+                }
             } else {
                 next_state = ADBMS_STATE_RECOVERING;
             }
@@ -359,31 +378,17 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
         }
         case ADBMS_STATE_START_ADCV: {
             adbms_start_adcv(bms);
-            next_state = ADBMS_STATE_WRITE_REGB;
-            break;
-        }
-        case ADBMS_STATE_WRITE_REGB: {
-            adbms_write_regb(bms);
-            next_state = ADBMS_STATE_CHECK_REGB;
-            break;
-        }
-        case ADBMS_STATE_CHECK_REGB: {
-            if (adbms_read_and_check_regb(bms)) {
-                // Full connect sequence verified: REGA and REGB both match
-                // and ADCV is running. Reset the failed-recovery count.
-                bms->recovery_attempts = 0;
-                next_state = ADBMS_STATE_READ_CELLS;
-            } else {
-                next_state = ADBMS_STATE_RECOVERING;
-            }
+            // Reached read cells/temps loop now!
+            bms->is_connected = true;
+            next_state = ADBMS_STATE_READ_CELLS;
             break;
         }
         case ADBMS_STATE_READ_CELLS: {
-            if (adbms_read_cells(bms) &&
+            bool no_spi_err = adbms_read_cells(bms);
+            if (no_spi_err &&
                 bms->min_voltage >= ADBMS_CELL_MIN_VALID_V &&
-                bms->max_voltage <= ADBMS_CELL_MAX_VALID_V) {
-                // Readings inside the physically plausible Li-ion range.
-                bms->recovery_attempts = 0;
+                bms->max_voltage <= ADBMS_CELL_MAX_VALID_V
+            ) {
                 next_state = ADBMS_STATE_READ_TEMPS;
             } else {
                 next_state = ADBMS_STATE_RECOVERING;
@@ -400,15 +405,14 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
         }
         case ADBMS_STATE_SET_BALANCE: {
             adbms_calculate_balance_cells(bms, min_voltage_for_balance, min_delta_for_balance);
-            // Steady-state loop: rewrite REGB to apply the new balance
-            // flags, verify it, then read cells/temps again.
+            // Rewrite REGB to apply the new balance flags and verify it
             next_state = ADBMS_STATE_WRITE_REGB;
             break;
         }
         case ADBMS_STATE_RECOVERING: {
-            // Non-blocking wait for a full chip sleep-wake cycle; ticks are
-            // 1 ms each, and the unsigned difference handles wraparound.
-            if (xTaskGetTickCount() - bms->recover_start_tick_ms >= (TickType_t)ADBMS_CHIP_SLEEP_CYCLE_MS) {
+            // Non-blocking wait for a full chip sleep-wake cycle
+            uint32_t elapsed_ms = xTaskGetTickCount() - bms->recover_start_tick_ms;
+            if (elapsed_ms >= ADBMS_CHIP_SLEEP_CYCLE_MS) {
                 if (bms->recovery_attempts >= ADBMS_RECOVERY_MAX_ATTEMPTS) {
                     next_state = ADBMS_STATE_ERROR;
                 } else {
@@ -418,26 +422,26 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             break;
         }
         case ADBMS_STATE_ERROR: {
-            // Non-latching backoff: after the cooldown, retry the connect
-            // sequence from DISCONNECTED. The machine can always exit ERROR.
-            if (xTaskGetTickCount() - bms->error_start_tick_ms >= (TickType_t)ADBMS_ERROR_BACKOFF_MS) {
+            // Non-blocking wait for the error backoff period
+            uint32_t elapsed_ms = xTaskGetTickCount() - bms->error_start_tick_ms;
+            if (elapsed_ms >= ADBMS_ERROR_BACKOFF_MS) {
                 next_state = ADBMS_STATE_DISCONNECTED;
             }
             break;
         }
     }
 
-    // Transition bookkeeping, part of the state machine (not the switch
-    // itself): stamp entry ticks exactly once per entry so each wait is
-    // measured from entry, and count each entry to ERROR as one exhausted
-    // recovery round.
+    // Transition bookkeeping
     if (next_state == ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_RECOVERING) {
         bms->recover_start_tick_ms = xTaskGetTickCount();
+        bms->is_connected = false;
     }
     if (next_state == ADBMS_STATE_ERROR && bms->state != ADBMS_STATE_ERROR) {
         bms->error_start_tick_ms = xTaskGetTickCount();
         bms->recovery_attempts++;
+        bms->is_connected = false;
     }
 
+    // Update the state
     bms->state = next_state;
 }

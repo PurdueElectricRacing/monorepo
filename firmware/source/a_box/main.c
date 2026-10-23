@@ -232,7 +232,7 @@ void bms_task(void) {
 
     // Disconnect fault is raised whenever the BMS is not in its normal
     // connected steady-state loop (connecting, recovering, or error).
-    bool is_bms_disconnected = !adbms_is_connected(&g_bms);
+    bool is_bms_disconnected = !g_bms.is_connected;
     update_fault(FAULT_ID_BMS_DISCONNECTED, is_bms_disconnected);
 
     // Pull SDC only on repeated failed recovery (ERROR state), not on a
