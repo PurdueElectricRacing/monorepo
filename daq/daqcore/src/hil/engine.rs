@@ -1,4 +1,4 @@
-use crate::{connection::CanBusSpeed, hil::config::ExecutionMode};
+use crate::hil::config::ExecutionMode;
 use std::{path, time};
 
 use crate::{
@@ -26,7 +26,6 @@ pub struct HilSnapshot {
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
-    pub superdbc: Option<Database>,
     pub finished: bool,
     pub skipped_from: Option<usize>,
     pub has_decoder: bool,
@@ -40,7 +39,6 @@ impl HilSnapshot {
             preset: None,
             tests: Vec::new(),
             start_error: None,
-            superdbc: None,
             finished: false,
             skipped_from: None,
             has_decoder: false,
@@ -201,38 +199,34 @@ impl HilEngine {
                 }
 
                 ExecutionMode::SequentialAlways | ExecutionMode::SequentialStopFail => {
-                    if let Some(test) = tests.get_mut(*active_test) {
-                        if !test.tx_remaining.is_empty() {
-                            let pending = std::mem::take(&mut test.tx_remaining);
-                            let mut remaining = Vec::new();
-                            let elapsed_ms: f64 = now
-                                .saturating_duration_since(*active_start_time)
-                                .as_secs_f64()
-                                * 1000f64;
+                    if let Some(test) = tests.get_mut(*active_test)
+                        && !test.tx_remaining.is_empty()
+                    {
+                        let pending = std::mem::take(&mut test.tx_remaining);
+                        let mut remaining = Vec::new();
+                        let elapsed_ms: f64 = now
+                            .saturating_duration_since(*active_start_time)
+                            .as_secs_f64()
+                            * 1000f64;
 
-                            for tx_message in pending {
-                                if elapsed_ms < tx_message.timestamp {
-                                    remaining.push(tx_message);
-                                    continue;
-                                }
-
-                                match Self::hil_tx_to_send_message(
-                                    &tx_message,
-                                    superdbc,
-                                    self.bus_id,
-                                ) {
-                                    Ok(message) => tx_messages.push(message),
-                                    Err(error) => {
-                                        errors.push(format!(
-                                            "Error while encoding and converting TX message {}: {}",
-                                            tx_message.msg_name, error
-                                        ));
-                                    }
-                                }
+                        for tx_message in pending {
+                            if elapsed_ms < tx_message.timestamp {
+                                remaining.push(tx_message);
+                                continue;
                             }
 
-                            test.tx_remaining = remaining;
+                            match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
+                                Ok(message) => tx_messages.push(message),
+                                Err(error) => {
+                                    errors.push(format!(
+                                        "Error while encoding and converting TX message {}: {}",
+                                        tx_message.msg_name, error
+                                    ));
+                                }
+                            }
                         }
+
+                        test.tx_remaining = remaining;
                     }
                 }
             }
@@ -370,7 +364,6 @@ impl HilEngine {
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
-                superdbc: self.superdbc.clone(),
                 finished: false,
                 skipped_from: None,
                 has_decoder: self.has_decoder(),
@@ -388,7 +381,6 @@ impl HilEngine {
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
-                superdbc: self.superdbc.clone(),
                 has_decoder: self.has_decoder(),
 
                 finished: self.all_finished(),

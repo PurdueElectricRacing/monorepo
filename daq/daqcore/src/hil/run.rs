@@ -185,6 +185,7 @@ impl HilRunningTest {
         self.in_progress_expects
             .iter()
             .all(|e| e.result.is_finished())
+            && self.tx_remaining.is_empty()
     }
 
     pub fn has_failed(&self) -> bool {

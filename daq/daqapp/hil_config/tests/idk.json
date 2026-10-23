@@ -6,7 +6,7 @@
 
 	"tx": [
 		{
-			"timestamp": 2000,
+			"timestamp": 10000,
 			"msg_name": "pack_analog",
 			"signals": {
 				"pack_voltage": 540.0,
@@ -15,7 +15,7 @@
 		},
 
 		{
-			"timestamp": 10000,
+			"timestamp": 2000,
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": 35.0,
@@ -38,7 +38,7 @@
 	],
 	"expect": [
 		{
-			"window": [10000, 10120],
+			"window": [2000, 2120],
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": [30.0, 40.0]
