@@ -20,8 +20,10 @@
 #include "common/rtos/rtos.h"
 
 void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf) {
-    bms->spi   = spi;
-    bms->state = ADBMS_STATE_IDLE;
+    bms->spi                   = spi;
+    bms->recover_start_tick_ms = 0;
+    bms->next_state            = ADBMS_STATE_IDLE;
+    bms->state                 = ADBMS_STATE_IDLE;
 
     bms->is_balancing_enabled = false;
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
@@ -153,18 +155,16 @@ bool adbms_read_and_check_regb(adbms_bms_t *bms) {
     return !bms->err_regb_mismatch;
 }
 
-void adbms_connect(adbms_bms_t *bms) {
+bool adbms_connect(adbms_bms_t *bms) {
     adbms_write_rega(bms);
     adbms_write_regb(bms);
     if (!adbms_read_and_check_rega(bms)) {
-        bms->state       = ADBMS_STATE_IDLE;
         bms->err_connect = true;
-        return;
+        return false;
     }
     if (!adbms_read_and_check_regb(bms)) {
-        bms->state       = ADBMS_STATE_IDLE;
         bms->err_connect = true;
-        return;
+        return false;
     }
 
     // Start ADCV
@@ -182,7 +182,7 @@ void adbms_connect(adbms_bms_t *bms) {
     adbms6380_set_cs_high(bms->spi);
 
     bms->err_connect = false;
-    bms->state       = ADBMS_STATE_CONNECTED;
+    return true;
 }
 
 void adbms_calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float min_delta) {
@@ -218,17 +218,14 @@ void adbms_calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float mi
     }
 }
 
-void adbms_balance_and_update_regb(adbms_bms_t *bms, float min_voltage, float min_delta) {
+bool adbms_balance_and_update_regb(adbms_bms_t *bms, float min_voltage, float min_delta) {
     adbms_calculate_balance_cells(bms, min_voltage, min_delta);
 
     adbms_write_regb(bms);
-    if (!adbms_read_and_check_regb(bms)) {
-        bms->state = ADBMS_STATE_IDLE;
-        return;
-    }
+    return adbms_read_and_check_regb(bms);
 }
 
-void adbms_read_cells(adbms_bms_t *bms) {
+bool adbms_read_cells(adbms_bms_t *bms) {
     float *cell_voltage_ptrs[ADBMS_MODULE_COUNT]        = {0};
     int16_t *cell_voltages_raw_ptrs[ADBMS_MODULE_COUNT] = {0};
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
@@ -244,9 +241,8 @@ void adbms_read_cells(adbms_bms_t *bms) {
                                       bms->err_cell_voltage_pecs,
                                       ADBMS_MODULE_COUNT,
                                       ADBMS_PEC_FAIL_MAX_RETRIES)) {
-        bms->state   = ADBMS_STATE_IDLE;
         bms->err_spi = true;
-        return;
+        return false;
     }
 
     // Calculate min/avg/max for each module and overall pack
@@ -278,9 +274,10 @@ void adbms_read_cells(adbms_bms_t *bms) {
         bms->sum_voltage += bms->modules[i].sum_voltage;
     }
     bms->avg_voltage = bms->sum_voltage / (ADBMS_MODULE_COUNT * ADBMS6380_CELL_COUNT);
+    return true;
 }
 
-void adbms_read_therms(adbms_bms_t *bms) {
+bool adbms_read_therms(adbms_bms_t *bms) {
     float *gpio_voltage_ptrs[ADBMS_MODULE_COUNT] = {0};
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
         gpio_voltage_ptrs[i] = bms->modules[i].therms_voltages;
@@ -302,9 +299,8 @@ void adbms_read_therms(adbms_bms_t *bms) {
                                       bms->err_gpio_voltage_pecs,
                                       ADBMS_MODULE_COUNT,
                                       ADBMS_PEC_FAIL_MAX_RETRIES)) {
-        bms->state   = ADBMS_STATE_IDLE;
         bms->err_spi = true;
-        return;
+        return false;
     }
 
     // Convert all GPIO voltages to temperatures
@@ -349,42 +345,51 @@ void adbms_read_therms(adbms_bms_t *bms) {
         bms_sum_therm_temp += module_sum_therm_temp;
     }
     bms->avg_therm_temp = bms_sum_therm_temp / (ADBMS_MODULE_COUNT * ADBMS6380_GPIO_COUNT);
+    return true;
 }
 
 void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
-    static int connect_attempts = 0;
+    // Promote last cycle's decision into the live state, then pre-load it so
+    // that cases in this cycle only ever write next_state (double buffer).
+    bms->state = bms->next_state;
+    bms->next_state = bms->state;
+
     adbms6380_wake(bms->spi, ADBMS_MODULE_COUNT);
+
     switch (bms->state) {
         case ADBMS_STATE_IDLE: {
-            adbms_connect(bms);
-            if (bms->state == ADBMS_STATE_CONNECTED) {
-                connect_attempts = 0;
-            } else {
-                connect_attempts++;
-                if (connect_attempts >= 4) {
-                    bms->state = ADBMS_STATE_RECOVERING;
-                }
-            }
+            bms->next_state = adbms_connect(bms) ? ADBMS_STATE_CONNECTED : ADBMS_STATE_RECOVERING;
             break;
         }
         case ADBMS_STATE_CONNECTED: {
-            adbms_read_cells(bms);
-            adbms_read_therms(bms);
-            adbms_balance_and_update_regb(bms, min_voltage_for_balance, min_delta_for_balance);
+            // Short-circuiting replicates the old early-exit: the first
+            // failing step stops the pass, so a failed cell read skips
+            // thermistor reads and balancing.
+            bool read_ok = adbms_read_cells(bms)
+                         && adbms_read_therms(bms)
+                         && adbms_balance_and_update_regb(bms, min_voltage_for_balance, min_delta_for_balance);
 
-            // todo add more robust corruption checks
-            bool corruption_detected = (bms->min_voltage < 1.0f) || (bms->max_voltage > 5.0f);
-            if (corruption_detected) {
-                bms->state = ADBMS_STATE_RECOVERING;
-            }
+            // Readings outside the physically plausible Li-ion range are
+            // treated as corrupted rather than real measurements.
+            bool corruption_detected =
+                (bms->min_voltage < ADBMS_CELL_MIN_VALID_V) || (bms->max_voltage > ADBMS_CELL_MAX_VALID_V);
+
+            bms->next_state = (read_ok && !corruption_detected) ? ADBMS_STATE_CONNECTED : ADBMS_STATE_RECOVERING;
             break;
         }
         case ADBMS_STATE_RECOVERING: {
-            // Do a full sleep-wake cycle
-            RTOS_delay_ms(2500); // ADBMS6380 chips sleep after 2.2s of inactivity
-            connect_attempts = 0;
-            bms->state = ADBMS_STATE_IDLE;
+            // Non-blocking wait for a full chip sleep-wake cycle; ticks are
+            // 1 ms each, and the unsigned difference handles wraparound.
+            if (xTaskGetTickCount() - bms->recover_start_tick_ms >= (TickType_t)ADBMS_CHIP_SLEEP_CYCLE_MS) {
+                bms->next_state = ADBMS_STATE_IDLE;
+            }
             break;
         }
+    }
+
+    // Stamp the recovery start only on the cycle we transition into it, so
+    // the sleep-wake wait is measured from entry, not every cycle in it.
+    if (bms->next_state == ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_RECOVERING) {
+        bms->recover_start_tick_ms = xTaskGetTickCount();
     }
 }

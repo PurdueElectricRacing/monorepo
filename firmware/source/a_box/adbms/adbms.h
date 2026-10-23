@@ -27,6 +27,15 @@
 // VREF2 = 3.0v and is the input to the thermistor voltage divider
 #define ADBMS_GPIO_VIN (3.0f)
 
+// Wait longer than the ADBMS6380 ~2.2 s inactivity sleep timeout so that a
+// full sleep-wake cycle elapses during recovery before we retry connecting.
+#define ADBMS_CHIP_SLEEP_CYCLE_MS (2'500)
+
+// Sanity bounds for cell voltages. Readings outside these are treated as
+// corrupted data rather than real measurements.
+#define ADBMS_CELL_MIN_VALID_V (1.0f)
+#define ADBMS_CELL_MAX_VALID_V (5.0f)
+
 // Max SPI TX is a command + all the data packets for all the modules.
 #define ADBMS_SPI_TX_BUFFER_SIZE \
     (ADBMS6380_COMMAND_PKT_SIZE + (ADBMS_MODULE_COUNT * ADBMS6380_SINGLE_DATA_PKT_SIZE))
@@ -49,7 +58,7 @@
 /**
  * @brief ADBMS driver connection/operation state.
  */
-typedef enum {
+typedef enum : uint8_t {
     ADBMS_STATE_IDLE       = 0, // Not connected or awaiting re-connection.
     ADBMS_STATE_CONNECTED  = 1, // Actively connected and reading/controlling
     ADBMS_STATE_RECOVERING = 2, // Detected an error and attempting to recover
@@ -102,8 +111,21 @@ typedef struct {
  * @brief Top-level ADBMS driver state, I/O buffers, measurements, and error flags.
  */
 typedef struct {
-    /** Current driver state. */
+    /**
+     * Current driver state, applied at the start of each periodic cycle.
+     *
+     * State transitions use a double buffer: each state case only writes
+     * next_state, which is promoted into state once per cycle. This keeps
+     * the new state from affecting the rest of the cycle that computed it.
+     */
     adbms_state_t state;
+    /** State to enter on the next periodic cycle. Written by adbms_init() and adbms_periodic() only. */
+    adbms_state_t next_state;
+    /**
+     * FreeRTOS tick (1 ms per tick) captured when entering recovery.
+     * Unsigned subtraction from the current tick handles counter wraparound.
+     */
+    uint32_t recover_start_tick_ms;
 
     /** Per-module state and measurements. */
     adbms_module_t modules[ADBMS_MODULE_COUNT];
@@ -205,30 +227,36 @@ bool adbms_read_and_check_regb(adbms_bms_t *bms);
  * @brief Perform the connect/bring-up sequence for all modules.
  *
  * Writes REGA/REGB, verifies read-back, and starts ADCV conversions.
+ * Does not modify driver state; the caller decides the transition.
  *
  * @param bms Pointer to driver state.
+ * @return True if the connect sequence succeeded; false otherwise.
  */
-void adbms_connect(adbms_bms_t *bms);
+bool adbms_connect(adbms_bms_t *bms);
 
 /**
  * @brief Read all cell voltages and update module/pack statistics.
  *
  * Updates per-module min/max/avg/sum and aggregated min/max/avg/sum for
- * the full pack.
+ * the full pack. Does not modify driver state; the caller decides the
+ * transition.
  *
  * @param bms Pointer to driver state.
+ * @return True if the read succeeded; false on SPI failure.
  */
-void adbms_read_cells(adbms_bms_t *bms);
+bool adbms_read_cells(adbms_bms_t *bms);
 /**
  * @brief Read all GPIO/thermistor values (voltage and calculate temperature)
  * and update module/pack statistics.
  *
  * Updates per-module min/max/avg for thermistor temperatures and aggregated
- * min/max/avg for the full pack.
+ * min/max/avg for the full pack. Does not modify driver state; the caller
+ * decides the transition.
  *
  * @param bms Pointer to driver state.
+ * @return True if the read succeeded; false on SPI failure.
  */
-void adbms_read_therms(adbms_bms_t *bms);
+bool adbms_read_therms(adbms_bms_t *bms);
 
 /**
  * @brief Compute per-cell discharge flags based on pack voltage spread.
@@ -250,14 +278,17 @@ void adbms_calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float mi
  * @param bms Pointer to driver state.
  * @param min_voltage Minimum pack voltage required to allow balancing.
  * @param min_delta Voltage delta above minimum to start discharging.
+ * @return True if the REGB read-back verified; false otherwise.
  */
-void adbms_balance_and_update_regb(adbms_bms_t *bms, float min_voltage, float min_delta);
+bool adbms_balance_and_update_regb(adbms_bms_t *bms, float min_voltage, float min_delta);
 
 /**
  * @brief Periodic service routine for connection, measurements, and balancing.
  *
- * If idle, attempts to connect. When connected, reads cells and thermistors,
- * then updates balancing + REGB.
+ * Owns all driver state transitions. If idle, attempts to connect. When
+ * connected, reads cells and thermistors, then updates balancing + REGB.
+ * Any failure transitions to recovering, which waits non-blockingly for a
+ * full chip sleep-wake cycle before retrying from idle.
  *
  * @param bms Pointer to driver state.
  * @param min_voltage_for_balance Minimum pack voltage required to allow balancing.
