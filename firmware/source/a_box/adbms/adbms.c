@@ -326,6 +326,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             if (adbms_read_and_check_rega(bms)) {
                 next_state = ADBMS_STATE_CHECK_REGB;
             } else {
+                bms->is_connected = false;
                 next_state = ADBMS_STATE_RECOVERING;
             }
             break;
@@ -351,6 +352,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
                     next_state = ADBMS_STATE_START_ADCV;
                 }
             } else {
+                bms->is_connected = false;
                 next_state = ADBMS_STATE_RECOVERING;
             }
             break;
@@ -367,6 +369,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             if (bms->min_voltage < ADBMS_CELL_MIN_VALID_V ||
                 bms->max_voltage > ADBMS_CELL_MAX_VALID_V
             ) {
+                bms->is_connected = false;
                 next_state = ADBMS_STATE_RECOVERING;
             } else {
                 next_state = ADBMS_STATE_READ_TEMPS;
@@ -388,6 +391,12 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             // Non-blocking wait for a full chip sleep-wake cycle
             uint32_t elapsed_ms = xTaskGetTickCount() - bms->recover_start_tick_ms;
             if (elapsed_ms >= ADBMS_CHIP_SLEEP_CYCLE_MS) {
+                
+                // guard increment to avoid overflow
+                if (bms->recovery_attempts < ADBMS_RECOVERY_MAX_ATTEMPTS) {
+                    bms->recovery_attempts++;
+                }
+    
                 if (bms->recovery_attempts >= ADBMS_RECOVERY_MAX_ATTEMPTS) {
                     next_state = ADBMS_STATE_ERROR;
                 } else {
@@ -406,20 +415,12 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
         }
     }
 
-    // Transition bookkeeping
+    // Capture state entry timestamps
     if (next_state == ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_RECOVERING) {
         bms->recover_start_tick_ms = xTaskGetTickCount();
-
-        // guard increment to avoid overflow
-        if (bms->recovery_attempts < ADBMS_RECOVERY_MAX_ATTEMPTS) {
-            bms->recovery_attempts++;
-        }
-
-        bms->is_connected = false;
     }
     if (next_state == ADBMS_STATE_ERROR && bms->state != ADBMS_STATE_ERROR) {
         bms->error_start_tick_ms = xTaskGetTickCount();
-        bms->is_connected = false;
     }
 
     // Update the state
