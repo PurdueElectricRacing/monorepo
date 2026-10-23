@@ -28,19 +28,19 @@
 #define ADBMS_GPIO_VIN (3.0f)
 
 // Wait longer than the ADBMS6380 ~2.2 s inactivity sleep timeout so that a
-// full sleep-wake cycle elapses during recovery before we retry connecting.
+// full sleep-wake cycle elapses during recovery before we retry connecting
 #define ADBMS_CHIP_SLEEP_CYCLE_MS (2'500)
 
 // Number of consecutive failed recovery cycles (each a full sleep-wake
-// attempt) before the driver parks in ERROR instead of retrying again.
+// attempt) before the driver goes into ERROR instead of retrying again
 #define ADBMS_RECOVERY_MAX_ATTEMPTS (4)
 
-// Non-blocking backoff spent in ERROR before attempting to reconnect again.
-// Longer than a sleep cycle so a flapping link gets a real cooldown.
+// Time spent in ERROR before attempting to reconnect again
 #define ADBMS_ERROR_BACKOFF_MS (10'000)
+static_assert(ADBMS_ERROR_BACKOFF_MS > ADBMS_CHIP_SLEEP_CYCLE_MS, "backoff should be longer than a full sleep-wake cycle");
 
-// Sanity bounds for cell voltages. Readings outside these are treated as
-// corrupted data rather than real measurements.
+// Readings outside these are treated as corrupted data rather than real measurements
+// and causes a transition to RECOVERING.
 #define ADBMS_CELL_MIN_VALID_V (1.0f)
 #define ADBMS_CELL_MAX_VALID_V (5.0f)
 
@@ -66,26 +66,25 @@
 /**
  * @brief ADBMS driver connection/operation state.
  *
- * The machine is flat and one phase advances per periodic cycle.
- * Connect: DISCONNECTED -> WRITE_REGA -> WRITE_REGB -> CHECK_REGA ->
- * CHECK_REGB -> START_ADCV -> READ_CELLS. Steady state: SET_BALANCE ->
- * WRITE_REGB -> CHECK_REGB -> READ_CELLS -> READ_TEMPS -> SET_BALANCE.
- * RECOVERING and ERROR are both non-blocking waits and are always
- * exitable: recovery is always possible, and the machine retries the
- * full connect sequence from DISCONNECTED.
+ * Connect chain:
+ *   DISCONNECTED -> WRITE_REGA -> WRITE_REGB -> CHECK_REGA -> CHECK_REGB -> START_ADCV -> read/balance loop
+ * Read/balance loop:
+ *   READ_CELLS -> READ_TEMPS -> SET_BALANCE -> WRITE_REGB -> CHECK_REGB -> READ_CELLS
+ * On failures: CHECK_REGA/B, READ_CELLS -> RECOVERING -> DISCONNECTED
+ * On repeated failures: RECOVERING -> ERROR -> DISCONNECTED
  */
 typedef enum : uint8_t {
-    ADBMS_STATE_DISCONNECTED = 0, // Entry state; wakes the chain and begins the connect sequence.
-    ADBMS_STATE_WRITE_REGA   = 1, // Write REGA configuration to all modules.
-    ADBMS_STATE_WRITE_REGB   = 2, // Write REGB configuration (incl. balance flags).
-    ADBMS_STATE_CHECK_REGA   = 3, // Read REGA back and verify it matches.
-    ADBMS_STATE_CHECK_REGB   = 4, // Read REGB back and verify it matches.
-    ADBMS_STATE_START_ADCV   = 5, // Start continuous cell voltage conversions.
-    ADBMS_STATE_READ_CELLS   = 6, // Read all cell voltages and sanity-check the range.
-    ADBMS_STATE_READ_TEMPS   = 7, // Read all thermistor voltages and convert to temperature.
-    ADBMS_STATE_SET_BALANCE  = 8, // Compute per-cell discharge flags for balancing.
-    ADBMS_STATE_RECOVERING   = 9, // Non-blocking wait for a full chip sleep-wake cycle.
-    ADBMS_STATE_ERROR       = 10, // Non-latching backoff after failed recovery; SDC pin pulled.
+    ADBMS_STATE_DISCONNECTED = 0, // Wakes the chain and begins the connect sequence
+    ADBMS_STATE_WRITE_REGA   = 1, // Write REGA configuration to all modules
+    ADBMS_STATE_WRITE_REGB   = 2, // Write REGB configuration to all modules
+    ADBMS_STATE_CHECK_REGA   = 3, // Read REGA back and verify it matches what was written
+    ADBMS_STATE_CHECK_REGB   = 4, // Read REGB back and verify it matches what was written
+    ADBMS_STATE_START_ADCV   = 5, // Start continuous cell voltage conversions
+    ADBMS_STATE_READ_CELLS   = 6, // Read all cell voltages and sanity-check the range
+    ADBMS_STATE_READ_TEMPS   = 7, // Read all thermistor voltages and convert to temperature
+    ADBMS_STATE_SET_BALANCE  = 8, // Compute per-cell discharge flags for balancing
+    ADBMS_STATE_RECOVERING   = 9, // Non-blocking wait for a full chip sleep-wake cycle
+    ADBMS_STATE_ERROR       = 10, // Non-latching backoff after repeat failed recovery, SDC pin pulled
 } adbms_state_t;
 
 /**
@@ -135,31 +134,17 @@ typedef struct {
  * @brief Top-level ADBMS driver state, I/O buffers, measurements, and error flags.
  */
 typedef struct {
-    /**
-     * Current driver state. Written by adbms_init() and adbms_periodic() only;
-     * each periodic cycle advances the machine by exactly one phase.
-     */
+    /** Current driver state. */
     adbms_state_t state;
-    /**
-     * FreeRTOS tick (1 ms per tick) captured when entering RECOVERING.
-     * Unsigned subtraction from the current tick handles counter wraparound.
-     */
+    /** Time captured when entering RECOVERING. */
     uint32_t recover_start_tick_ms;
-    /**
-     * FreeRTOS tick (1 ms per tick) captured when entering ERROR.
-     * Unsigned subtraction from the current tick handles counter wraparound.
-     */
+    /** Time captured when entering ERROR. */
     uint32_t error_start_tick_ms;
-    /**
-     * Consecutive recovery cycles (sleep-wake retries) without a verified
-     * connect. Incremented on each entry to ERROR, cleared when the connect
-     * sequence completes and is verified.
-     */
+    /** Consecutive recovery cycles (sleep-wake retries) without a succesful connect. */
     uint8_t recovery_attempts;
     /**
      * true once the connect sequence has fully verified and continuous
      * conversion is running; cleared when entering RECOVERING or ERROR.
-     * Set only by the state machine.
      */
     bool is_connected;
 
@@ -300,19 +285,6 @@ void adbms_calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float mi
 
 /**
  * @brief Periodic service routine for connection, measurements, and balancing.
- *
- * Owns all driver state transitions; the machine advances exactly one phase
- * per call, so a full connect sequence (DISCONNECTED -> WRITE_REGA ->
- * WRITE_REGB -> CHECK_REGA -> CHECK_REGB -> START_ADCV -> READ_CELLS) takes
- * 7 cycles (~1.4 s at a 200 ms period) to reach the first cell read, and the
- * steady-state loop (SET_BALANCE -> WRITE_REGB -> CHECK_REGB -> READ_CELLS
- * -> READ_TEMPS) runs one full read+balance+verify pass every 5 cycles
- * (~1 s at a 200 ms period). CHECK_REGA is connect-only; WRITE_REGB and
- * CHECK_REGB are shared by both paths. Any failed phase goes to RECOVERING, which waits non-blockingly
- * for a full chip sleep-wake cycle before retrying from DISCONNECTED.
- * After ADBMS_RECOVERY_MAX_ATTEMPTS failed recoveries the machine parks in
- * ERROR for ADBMS_ERROR_BACKOFF_MS, then retries from DISCONNECTED; the
- * error is never latching.
  *
  * @param bms Pointer to driver state.
  * @param min_voltage_for_balance Minimum pack voltage required to allow balancing.
