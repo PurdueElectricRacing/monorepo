@@ -157,7 +157,7 @@ typedef struct {
      */
     uint8_t recovery_attempts;
     /**
-     * True once the connect sequence has fully verified and continuous
+     * true once the connect sequence has fully verified and continuous
      * conversion is running; cleared when entering RECOVERING or ERROR.
      * Set only by the state machine.
      */
@@ -182,7 +182,7 @@ typedef struct {
     /** Average thermistor temperature across all modules (Celsius). */
     float avg_therm_temp;
 
-    /** True if cell discharge balancing is permitted by higher-level logic. */
+    /** true if cell discharge balancing is permitted by higher-level logic. */
     bool is_balancing_enabled;
 
     /** SPI instance used for ADBMS communication (CS control is manual by ADBMS6380 driver). */
@@ -192,8 +192,6 @@ typedef struct {
     /** RX buffer for multi-module readouts. */
     uint8_t rx_buf[ADBMS_SPI_RX_BUFFER_SIZE];
 
-    /** Set on any SPI transfer/read failure. Should be a terminal error. */
-    bool err_spi;
     /** Aggregated REGA mismatch flag across modules. */
     bool err_rega_mismatch;
     /** Aggregated REGB mismatch flag across modules. */
@@ -243,7 +241,7 @@ void adbms_write_regb(adbms_bms_t *bms);
  * not match the cached REGA data.
  *
  * @param bms Pointer to driver state.
- * @return False on SPI failure, PEC error, or when there is a mismatch; true otherwise.
+ * @return false on PEC error or when there is a mismatch; true otherwise.
  */
 bool adbms_read_and_check_rega(adbms_bms_t *bms);
 /**
@@ -253,7 +251,7 @@ bool adbms_read_and_check_rega(adbms_bms_t *bms);
  * not match the cached REGB data.
  *
  * @param bms Pointer to driver state.
- * @return False on SPI failure, PEC error, or when there is a mismatch; true otherwise.
+ * @return false on PEC error or when there is a mismatch; true otherwise.
  */
 bool adbms_read_and_check_regb(adbms_bms_t *bms);
 
@@ -264,10 +262,13 @@ bool adbms_read_and_check_regb(adbms_bms_t *bms);
  * the full pack. Does not modify driver state; the caller decides the
  * transition.
  *
+ * PEC failures are recorded in @ref err_cell_voltage_pecs. If there is one,
+ * the corresponding command's cell voltages are not updated, but the other
+ * modules' cell voltages are still updated.
+ *
  * @param bms Pointer to driver state.
- * @return True if the read succeeded; false on SPI failure.
  */
-bool adbms_read_cells(adbms_bms_t *bms);
+void adbms_read_cells(adbms_bms_t *bms);
 /**
  * @brief Read all GPIO/thermistor values (voltage and calculate temperature)
  * and update module/pack statistics.
@@ -276,10 +277,13 @@ bool adbms_read_cells(adbms_bms_t *bms);
  * min/max/avg for the full pack. Does not modify driver state; the caller
  * decides the transition.
  *
+ * PEC failures are recorded in @ref err_gpio_voltage_pecs. If there is one,
+ * the corresponding command's GPIO voltages are not updated, but the other
+ * modules' GPIO voltages are still updated.
+ *
  * @param bms Pointer to driver state.
- * @return True if the read succeeded; false on SPI failure.
  */
-bool adbms_read_therms(adbms_bms_t *bms);
+void adbms_read_therms(adbms_bms_t *bms);
 
 /**
  * @brief Compute per-cell discharge flags based on pack voltage spread.

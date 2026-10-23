@@ -36,7 +36,6 @@ void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf) {
     }
 
     bms->is_connected      = false;
-    bms->err_spi           = false;
     bms->err_rega_mismatch = false;
     bms->err_regb_mismatch = false;
     bms->err_rega_pec      = false;
@@ -91,24 +90,18 @@ void adbms_write_regb(adbms_bms_t *bms) {
 bool adbms_read_and_check_rega(adbms_bms_t *bms) {
     strbuf_clear(&bms->tx_strbuf);
     adbms6380_prepare_command(&bms->tx_strbuf, RDCFGA);
-    adbms6380_read_result_t rdcfga_result =
-        adbms6380_read_data_with_retries(bms->spi,
-                                         ADBMS_PEC_FAIL_MAX_RETRIES,
-                                         ADBMS_MODULE_COUNT,
-                                         bms->tx_strbuf.data,
-                                         bms->rx_buf);
-    switch (rdcfga_result) {
-        case ADBMS6380_READ_SUCCESS:
-            // continue to check for mismatch
-            bms->err_rega_pec = false;
-            break;
-        case ADBMS6380_READ_PEC_FAILURE:
-            bms->err_rega_pec = true;
-            return false;
-        case ADBMS6380_READ_SPI_FAILURE:
-            bms->err_spi = true;
-            return false;
+    bool rdcfga_pec_ok = adbms6380_read_data_with_retries(bms->spi,
+                                                          ADBMS_PEC_FAIL_MAX_RETRIES,
+                                                          ADBMS_MODULE_COUNT,
+                                                          bms->tx_strbuf.data,
+                                                          bms->rx_buf);
+    if (rdcfga_pec_ok) {
+        bms->err_rega_pec = false;
+    } else {
+        bms->err_rega_pec = true;
+        return false;
     }
+
     bms->err_rega_mismatch = false;
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
         const uint8_t *module_data = &bms->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
@@ -125,24 +118,18 @@ bool adbms_read_and_check_rega(adbms_bms_t *bms) {
 bool adbms_read_and_check_regb(adbms_bms_t *bms) {
     strbuf_clear(&bms->tx_strbuf);
     adbms6380_prepare_command(&bms->tx_strbuf, RDCFGB);
-    adbms6380_read_result_t rdcfgb_result =
-        adbms6380_read_data_with_retries(bms->spi,
-                                         ADBMS_PEC_FAIL_MAX_RETRIES,
-                                         ADBMS_MODULE_COUNT,
-                                         bms->tx_strbuf.data,
-                                         bms->rx_buf);
-    switch (rdcfgb_result) {
-        case ADBMS6380_READ_SUCCESS:
-            // continue to check for mismatch
-            bms->err_regb_pec = false;
-            break;
-        case ADBMS6380_READ_PEC_FAILURE:
-            bms->err_regb_pec = true;
-            return false;
-        case ADBMS6380_READ_SPI_FAILURE:
-            bms->err_spi = true;
-            return false;
+    bool rdcfgb_pec_ok = adbms6380_read_data_with_retries(bms->spi,
+                                                          ADBMS_PEC_FAIL_MAX_RETRIES,
+                                                          ADBMS_MODULE_COUNT,
+                                                          bms->tx_strbuf.data,
+                                                          bms->rx_buf);
+    if (rdcfgb_pec_ok) {
+        bms->err_regb_pec = false;
+    } else {
+        bms->err_regb_pec = true;
+        return false;
     }
+
     bms->err_regb_mismatch = false;
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
         const uint8_t *module_data = &bms->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
@@ -206,7 +193,7 @@ void adbms_calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float mi
     }
 }
 
-bool adbms_read_cells(adbms_bms_t *bms) {
+void adbms_read_cells(adbms_bms_t *bms) {
     float *cell_voltage_ptrs[ADBMS_MODULE_COUNT]        = {0};
     int16_t *cell_voltages_raw_ptrs[ADBMS_MODULE_COUNT] = {0};
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
@@ -214,17 +201,14 @@ bool adbms_read_cells(adbms_bms_t *bms) {
         cell_voltages_raw_ptrs[i] = bms->modules[i].cell_voltages_raw;
     }
 
-    if (!adbms6380_read_cell_voltages(bms->spi,
-                                      &bms->tx_strbuf,
-                                      bms->rx_buf,
-                                      cell_voltage_ptrs,
-                                      cell_voltages_raw_ptrs,
-                                      bms->err_cell_voltage_pecs,
-                                      ADBMS_MODULE_COUNT,
-                                      ADBMS_PEC_FAIL_MAX_RETRIES)) {
-        bms->err_spi = true;
-        return false;
-    }
+    adbms6380_read_cell_voltages(bms->spi,
+                                 &bms->tx_strbuf,
+                                 bms->rx_buf,
+                                 cell_voltage_ptrs,
+                                 cell_voltages_raw_ptrs,
+                                 bms->err_cell_voltage_pecs,
+                                 ADBMS_MODULE_COUNT,
+                                 ADBMS_PEC_FAIL_MAX_RETRIES);
 
     // Calculate min/avg/max for each module and overall pack
     bms->max_voltage = bms->modules[0].cell_voltages[0];
@@ -255,10 +239,9 @@ bool adbms_read_cells(adbms_bms_t *bms) {
         bms->sum_voltage += bms->modules[i].sum_voltage;
     }
     bms->avg_voltage = bms->sum_voltage / (ADBMS_MODULE_COUNT * ADBMS6380_CELL_COUNT);
-    return true;
 }
 
-bool adbms_read_therms(adbms_bms_t *bms) {
+void adbms_read_therms(adbms_bms_t *bms) {
     float *gpio_voltage_ptrs[ADBMS_MODULE_COUNT] = {0};
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
         gpio_voltage_ptrs[i] = bms->modules[i].therms_voltages;
@@ -273,16 +256,13 @@ bool adbms_read_therms(adbms_bms_t *bms) {
     PHAL_SPI_transferBlocking(bms->spi, bms->tx_strbuf.data, NULL, (uint16_t)bms->tx_strbuf.length);
     adbms6380_set_cs_high(bms->spi);
 
-    if (!adbms6380_read_gpio_voltages(bms->spi,
-                                      &bms->tx_strbuf,
-                                      bms->rx_buf,
-                                      gpio_voltage_ptrs,
-                                      bms->err_gpio_voltage_pecs,
-                                      ADBMS_MODULE_COUNT,
-                                      ADBMS_PEC_FAIL_MAX_RETRIES)) {
-        bms->err_spi = true;
-        return false;
-    }
+    adbms6380_read_gpio_voltages(bms->spi,
+                                 &bms->tx_strbuf,
+                                 bms->rx_buf,
+                                 gpio_voltage_ptrs,
+                                 bms->err_gpio_voltage_pecs,
+                                 ADBMS_MODULE_COUNT,
+                                 ADBMS_PEC_FAIL_MAX_RETRIES);
 
     // Convert all GPIO voltages to temperatures
     // GPIO voltage -> R2 in the thermistor divider -> temperature via thermistor curve
@@ -326,7 +306,6 @@ bool adbms_read_therms(adbms_bms_t *bms) {
         bms_sum_therm_temp += module_sum_therm_temp;
     }
     bms->avg_therm_temp = bms_sum_therm_temp / (ADBMS_MODULE_COUNT * ADBMS6380_GPIO_COUNT);
-    return true;
 }
 
 void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
@@ -384,23 +363,19 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             break;
         }
         case ADBMS_STATE_READ_CELLS: {
-            bool no_spi_err = adbms_read_cells(bms);
-            if (no_spi_err &&
-                bms->min_voltage >= ADBMS_CELL_MIN_VALID_V &&
-                bms->max_voltage <= ADBMS_CELL_MAX_VALID_V
+            adbms_read_cells(bms);
+            if (bms->min_voltage < ADBMS_CELL_MIN_VALID_V ||
+                bms->max_voltage > ADBMS_CELL_MAX_VALID_V
             ) {
-                next_state = ADBMS_STATE_READ_TEMPS;
-            } else {
                 next_state = ADBMS_STATE_RECOVERING;
+            } else {
+                next_state = ADBMS_STATE_READ_TEMPS;
             }
             break;
         }
         case ADBMS_STATE_READ_TEMPS: {
-            if (adbms_read_therms(bms)) {
-                next_state = ADBMS_STATE_SET_BALANCE;
-            } else {
-                next_state = ADBMS_STATE_RECOVERING;
-            }
+            adbms_read_therms(bms);
+            next_state = ADBMS_STATE_SET_BALANCE;
             break;
         }
         case ADBMS_STATE_SET_BALANCE: {
