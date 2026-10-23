@@ -106,6 +106,10 @@ impl HilEngine {
     }
 
     pub fn handle_command(&mut self, command: HilCommand, now: time::Instant) {
+        if !matches!(&command, HilCommand::Stop) && !self.allowed_start() {
+            return;
+        }
+
         match command {
             HilCommand::StartTest(test_info) => {
                 match hil::run::HilRunningTest::new(&self.base, &test_info) {
@@ -407,6 +411,15 @@ impl HilEngine {
             active_start_time: now,
             stopped_early: false,
         };
+    }
+
+    fn allowed_start(&mut self) -> bool {
+        if !self.has_decoder() {
+            self.fail_start("SuperDBC has not been loaded".to_owned());
+            return false;
+        }
+
+        true
     }
 
     fn fail_start(&mut self, message: String) {
