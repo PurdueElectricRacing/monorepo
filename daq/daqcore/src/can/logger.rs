@@ -64,9 +64,9 @@ impl DaqLogger {
     }
 
     pub fn log_frame(&mut self, frame: &frame::CanFrame, bus_id: u8) -> Result<(), String> {
-        if bus_id > 1 {
+        if bus_id > 3 {
             return Err(format!(
-                "legacy logging is unavailable for bus {bus_id}; only buses 0/1 are supported"
+                "legacy logging is unavailable for bus {bus_id}; only buses 0-3 are supported"
             ));
         }
 
@@ -86,11 +86,8 @@ impl DaqLogger {
             0
         };
 
-        let bus_id_flag = if bus_id == 1 {
-            log_parse::consts::BUS_ID_MASK
-        } else {
-            0
-        };
+        let bus_id_flag = (bus_id as u32) << log_parse::consts::BUS_ID_OFFSET;
+        
         let logged_id = frame.identity.raw_id() | identity_flag | bus_id_flag;
 
         self.add_frame(log_parse::parse::RawFrame {

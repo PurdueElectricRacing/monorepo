@@ -88,11 +88,7 @@ fn parse_log_file(
             }
         };
 
-        let bus_id = if (frame.identity & log_parse::consts::BUS_ID_MASK) != 0 {
-            1
-        } else {
-            0
-        };
+        let bus_id = ((frame.identity & log_parse::consts::BUS_ID_MASK) >> log_parse::consts::BUS_ID_OFFSET) as u8;
 
         let Some(bus) = database.bus_by_id(bus_id) else {
             log::error!("Unknown bus {bus_id} in {}", in_file.display());
