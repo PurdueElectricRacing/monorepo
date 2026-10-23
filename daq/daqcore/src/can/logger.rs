@@ -87,7 +87,7 @@ impl DaqLogger {
         };
 
         let bus_id_flag = (bus_id as u32) << log_parse::consts::BUS_ID_OFFSET;
-        
+
         let logged_id = frame.identity.raw_id() | identity_flag | bus_id_flag;
 
         self.add_frame(log_parse::parse::RawFrame {
