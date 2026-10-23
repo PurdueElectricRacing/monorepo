@@ -1,11 +1,10 @@
 use crate::hil::config::ExecutionMode;
-use crate::{frame, hil};
 use std::{path, time};
 
 use crate::{
     can_thread::tx::{AddSendMessage, SendAmount::Once},
     frame,
-    hil::{self, config},
+    hil,
     superdbc::database::Database,
 };
 
@@ -147,42 +146,89 @@ impl HilEngine {
             .ok_or("SuperDBC has not been loaded")?;
 
         if let HilState::Running {
-            start_time, preset: _, tests,
-            active_test: _,
-            active_start_time: _,
-            stopped_early: _,
+            start_time,
+            preset,
+            tests,
+            active_test,
+            active_start_time,
+            stopped_early,
         } = &mut self.state
         {
+            if *stopped_early {
+                return Err("Hil stopped early".to_owned());
+            }
+
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
             let mut errors = Vec::new();
-            let elapsed_ms: f64 =
-                now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
 
-            for test in tests.iter_mut() {
-                if !test.tx_remaining.is_empty() {
-                    let pending = std::mem::take(&mut test.tx_remaining);
-                    let mut remaining = Vec::new();
+            let mode = match preset.as_ref() {
+                Some(preset_info) => &preset_info.mode,
+                None => &ExecutionMode::Parallel,
+            };
 
-                    for tx_message in pending {
-                        if elapsed_ms < tx_message.timestamp {
-                            remaining.push(tx_message);
-                            continue;
-                        }
+            match mode {
+                ExecutionMode::Parallel => {
+                    for test in tests.iter_mut() {
+                        if !test.tx_remaining.is_empty() {
+                            let pending = std::mem::take(&mut test.tx_remaining);
+                            let mut remaining = Vec::new();
+                            let elapsed_ms: f64 =
+                                now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
 
-                        match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
-                            Ok(message) => tx_messages.push(message),
-                            Err(error) => {
-                                errors.push(format!(
-                                    "Error while encoding and converting TX message {}: {}",
-                                    tx_message.msg_name, error
-                                ));
+                            for tx_message in pending {
+                                if elapsed_ms < tx_message.timestamp {
+                                    remaining.push(tx_message);
+                                    continue;
+                                }
+
+                                match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
+                                    Ok(message) => tx_messages.push(message),
+                                    Err(error) => {
+                                        errors.push(format!(
+                                            "Error while encoding and converting TX message {}: {}",
+                                            tx_message.msg_name, error
+                                        ));
+                                    }
+                                }
                             }
+
+                            test.tx_remaining = remaining;
                         }
                     }
+                }
 
-                    test.tx_remaining = remaining;
+                ExecutionMode::SequentialAlways | ExecutionMode::SequentialStopFail => {
+                    if let Some(test) = tests.get_mut(*active_test) {
+                        if !test.tx_remaining.is_empty() {
+                            let pending = std::mem::take(&mut test.tx_remaining);
+                            let mut remaining = Vec::new();
+                            let elapsed_ms: f64 =
+                                now.saturating_duration_since(*active_start_time).as_secs_f64() * 1000f64;
+
+                            for tx_message in pending {
+                                if elapsed_ms < tx_message.timestamp {
+                                    remaining.push(tx_message);
+                                    continue;
+                                }
+
+                                match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
+                                    Ok(message) => tx_messages.push(message),
+                                    Err(error) => {
+                                        errors.push(format!(
+                                            "Error while encoding and converting TX message {}: {}",
+                                            tx_message.msg_name, error
+                                        ));
+                                    }
+                                }
+                            }
+
+                            test.tx_remaining = remaining;
+                        }
+                    }
                 }
             }
+
+            
 
             Ok((tx_messages, errors))
         } else {
@@ -191,7 +237,7 @@ impl HilEngine {
     }
 
     fn hil_tx_to_send_message(
-        tx_message: &config::TxMessage,
+        tx_message: &hil::config::TxMessage,
         superdbc: &Database,
         bus_id: u8,
     ) -> Result<AddSendMessage, String> {
