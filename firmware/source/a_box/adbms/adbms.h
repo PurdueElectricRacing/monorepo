@@ -31,6 +31,14 @@
 // full sleep-wake cycle elapses during recovery before we retry connecting.
 #define ADBMS_CHIP_SLEEP_CYCLE_MS (2'500)
 
+// Number of consecutive failed recovery cycles (each a full sleep-wake
+// attempt) before the driver parks in ERROR instead of retrying again.
+#define ADBMS_RECOVERY_MAX_ATTEMPTS (4)
+
+// Non-blocking backoff spent in ERROR before attempting to reconnect again.
+// Longer than a sleep cycle so a flapping link gets a real cooldown.
+#define ADBMS_ERROR_BACKOFF_MS (10'000)
+
 // Sanity bounds for cell voltages. Readings outside these are treated as
 // corrupted data rather than real measurements.
 #define ADBMS_CELL_MIN_VALID_V (1.0f)
@@ -57,11 +65,24 @@
 
 /**
  * @brief ADBMS driver connection/operation state.
+ *
+ * The machine is flat and one phase advances per periodic cycle.
+ * RECOVERING and ERROR are both non-blocking waits and are always
+ * exitable: recovery is always possible, and the machine retries the
+ * full connect sequence from DISCONNECTED.
  */
 typedef enum : uint8_t {
-    ADBMS_STATE_IDLE       = 0, // Not connected or awaiting re-connection.
-    ADBMS_STATE_CONNECTED  = 1, // Actively connected and reading/controlling
-    ADBMS_STATE_RECOVERING = 2, // Detected an error and attempting to recover
+    ADBMS_STATE_DISCONNECTED = 0, // Entry state; wakes the chain and begins the connect sequence.
+    ADBMS_STATE_WRITE_REGA   = 1, // Write REGA configuration to all modules.
+    ADBMS_STATE_CHECK_REGA   = 2, // Read REGA back and verify it matches.
+    ADBMS_STATE_START_ADCV   = 3, // Start continuous cell voltage conversions.
+    ADBMS_STATE_WRITE_REGB   = 4, // Write REGB configuration (incl. balance flags).
+    ADBMS_STATE_CHECK_REGB   = 5, // Read REGB back and verify it matches.
+    ADBMS_STATE_READ_CELLS   = 6, // Read all cell voltages and sanity-check the range.
+    ADBMS_STATE_READ_TEMPS   = 7, // Read all thermistor voltages and convert to temperature.
+    ADBMS_STATE_SET_BALANCE  = 8, // Compute per-cell discharge flags for balancing.
+    ADBMS_STATE_RECOVERING   = 9, // Non-blocking wait for a full chip sleep-wake cycle.
+    ADBMS_STATE_ERROR       = 10, // Non-latching backoff after failed recovery; SDC pin pulled.
 } adbms_state_t;
 
 /**
@@ -112,20 +133,26 @@ typedef struct {
  */
 typedef struct {
     /**
-     * Current driver state, applied at the start of each periodic cycle.
-     *
-     * State transitions use a double buffer: each state case only writes
-     * next_state, which is promoted into state once per cycle. This keeps
-     * the new state from affecting the rest of the cycle that computed it.
+     * Current driver state. Written by adbms_init() and adbms_periodic() only;
+     * each periodic cycle advances the machine by exactly one phase.
      */
     adbms_state_t state;
-    /** State to enter on the next periodic cycle. Written by adbms_init() and adbms_periodic() only. */
-    adbms_state_t next_state;
     /**
-     * FreeRTOS tick (1 ms per tick) captured when entering recovery.
+     * FreeRTOS tick (1 ms per tick) captured when entering RECOVERING.
      * Unsigned subtraction from the current tick handles counter wraparound.
      */
     uint32_t recover_start_tick_ms;
+    /**
+     * FreeRTOS tick (1 ms per tick) captured when entering ERROR.
+     * Unsigned subtraction from the current tick handles counter wraparound.
+     */
+    uint32_t error_start_tick_ms;
+    /**
+     * Consecutive recovery cycles (sleep-wake retries) without a verified
+     * connect. Incremented on each entry to ERROR, cleared when the connect
+     * sequence completes and is verified.
+     */
+    uint8_t recovery_attempts;
 
     /** Per-module state and measurements. */
     adbms_module_t modules[ADBMS_MODULE_COUNT];
@@ -158,8 +185,6 @@ typedef struct {
 
     /** Set on any SPI transfer/read failure. Should be a terminal error. */
     bool err_spi;
-    /** Set when connect/initialization sequence fails. Retry logic up to higher-level logic. */
-    bool err_connect;
     /** Aggregated REGA mismatch flag across modules. */
     bool err_rega_mismatch;
     /** Aggregated REGB mismatch flag across modules. */
@@ -178,14 +203,32 @@ typedef struct {
 /**
  * @brief Initialize the ADBMS driver instance and TX buffer.
  *
- * Sets the driver state to idle, clears discharge flags (and discharged enabled),
- * and sets the provided SPI config and TX buffer into the internal strbuf.
+ * Sets the driver state to disconnected, clears discharge flags and error
+ * flags, and sets the provided SPI config and TX buffer into the internal strbuf.
  *
  * @param bms Pointer to driver state to initialize.
  * @param spi SPI configuration used for ADBMS transactions.
  * @param tx_buf Backing buffer for TX command/data packets.
  */
 void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf);
+
+/**
+ * @brief Report whether the BMS is in its normal connected steady-state loop.
+ *
+ * True for the connected phases (START_ADCV through SET_BALANCE); false
+ * while disconnected, recovering, or in error backoff.
+ *
+ * @param bms Pointer to driver state.
+ * @return True if the BMS is actively connected; false otherwise.
+ */
+static inline bool adbms_is_connected(const adbms_bms_t *bms) {
+    if (bms->state == ADBMS_STATE_DISCONNECTED || bms->state == ADBMS_STATE_WRITE_REGA ||
+        bms->state == ADBMS_STATE_CHECK_REGA || bms->state == ADBMS_STATE_RECOVERING ||
+        bms->state == ADBMS_STATE_ERROR) {
+        return false;
+    }
+    return true;
+}
 
 /**
  * @brief Calculate and write REGA configuration to all modules.
@@ -224,17 +267,6 @@ bool adbms_read_and_check_rega(adbms_bms_t *bms);
 bool adbms_read_and_check_regb(adbms_bms_t *bms);
 
 /**
- * @brief Perform the connect/bring-up sequence for all modules.
- *
- * Writes REGA/REGB, verifies read-back, and starts ADCV conversions.
- * Does not modify driver state; the caller decides the transition.
- *
- * @param bms Pointer to driver state.
- * @return True if the connect sequence succeeded; false otherwise.
- */
-bool adbms_connect(adbms_bms_t *bms);
-
-/**
  * @brief Read all cell voltages and update module/pack statistics.
  *
  * Updates per-module min/max/avg/sum and aggregated min/max/avg/sum for
@@ -270,25 +302,21 @@ bool adbms_read_therms(adbms_bms_t *bms);
  * @param min_delta Voltage delta above minimum to start discharging.
  */
 void adbms_calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float min_delta);
-/**
- * @brief Compute discharge flags and write REGB to apply balancing.
- *
- * Calls adbms_calculate_balance_cells(), writes REGB, and verifies it.
- *
- * @param bms Pointer to driver state.
- * @param min_voltage Minimum pack voltage required to allow balancing.
- * @param min_delta Voltage delta above minimum to start discharging.
- * @return True if the REGB read-back verified; false otherwise.
- */
-bool adbms_balance_and_update_regb(adbms_bms_t *bms, float min_voltage, float min_delta);
 
 /**
  * @brief Periodic service routine for connection, measurements, and balancing.
  *
- * Owns all driver state transitions. If idle, attempts to connect. When
- * connected, reads cells and thermistors, then updates balancing + REGB.
- * Any failure transitions to recovering, which waits non-blockingly for a
- * full chip sleep-wake cycle before retrying from idle.
+ * Owns all driver state transitions; the machine advances exactly one phase
+ * per call, so a full connect sequence (DISCONNECTED -> WRITE_REGA ->
+ * CHECK_REGA -> START_ADCV -> WRITE_REGB -> CHECK_REGB) takes 6 cycles
+ * (~1.2 s at a 200 ms period) to reach the first cell read, and the
+ * steady-state loop (WRITE_REGB -> CHECK_REGB -> READ_CELLS -> READ_TEMPS
+ * -> SET_BALANCE) runs one full read+balance+verify pass every 5 cycles
+ * (~1 s at a 200 ms period). Any failed phase goes to RECOVERING, which waits non-blockingly
+ * for a full chip sleep-wake cycle before retrying from DISCONNECTED.
+ * After ADBMS_RECOVERY_MAX_ATTEMPTS failed recoveries the machine parks in
+ * ERROR for ADBMS_ERROR_BACKOFF_MS, then retries from DISCONNECTED; the
+ * error is never latching.
  *
  * @param bms Pointer to driver state.
  * @param min_voltage_for_balance Minimum pack voltage required to allow balancing.

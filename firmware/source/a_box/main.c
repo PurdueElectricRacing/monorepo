@@ -230,9 +230,15 @@ void bms_task(void) {
         g_bms.err_gpio_voltage_pecs[3]
     );
 
-    bool is_bms_disconnected = g_bms.state != ADBMS_STATE_CONNECTED;
+    // Disconnect fault is raised whenever the BMS is not in its normal
+    // connected steady-state loop (connecting, recovering, or error).
+    bool is_bms_disconnected = !adbms_is_connected(&g_bms);
     update_fault(FAULT_ID_BMS_DISCONNECTED, is_bms_disconnected);
-    PHAL_GPIO_write(BMS_SDC_CTRL_PORT, BMS_SDC_CTRL_PIN, is_clear(FAULT_ID_BMS_DISCONNECTED));
+
+    // Pull SDC only on repeated failed recovery (ERROR state), not on a
+    // transient disconnect.
+    bool sdc_in_error = g_bms.state == ADBMS_STATE_ERROR;
+    PHAL_GPIO_write(BMS_SDC_CTRL_PORT, BMS_SDC_CTRL_PIN, sdc_in_error);
 
     // Pack voltage checks
     update_fault(FAULT_ID_PACK_FULL, g_bms.sum_voltage);
