@@ -119,6 +119,12 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 ));
             }
 
+            if ui.button("Add Diagnostics").clicked() {
+                app.action_queue.push(action::AppAction::SpawnWidget(
+                    widget_constructor::WidgetConstructor::Diagnostics,
+                ));
+            }
+
             ui.separator();
             ui.heading("Connection Settings");
 
