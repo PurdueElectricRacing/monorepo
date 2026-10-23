@@ -16,6 +16,7 @@ pub enum Widget {
     Dynamics(ui::dynamics::Dynamics),
     Jitter(ui::jitter::Jitter),
     Hil(ui::hil::Hil),
+    Diagnostics(ui::diagnostics::Diagnostics),
 }
 
 pub struct WidgetContext<'a> {
@@ -44,6 +45,7 @@ impl Widget {
             Widget::Dynamics(w) => &w.title,
             Widget::Jitter(w) => &w.title,
             Widget::Hil(w) => &w.title,
+            Widget::Diagnostics(w) => &w.title,
         }
     }
 
@@ -63,6 +65,7 @@ impl Widget {
             Widget::Dynamics(_) => widget_constructor::WidgetKind::Dynamics,
             Widget::Jitter(_) => widget_constructor::WidgetKind::Jitter,
             Widget::Hil(_) => widget_constructor::WidgetKind::Hil,
+            Widget::Diagnostics(_) => widget_constructor::WidgetKind::Diagnostics,
         }
     }
 
@@ -92,6 +95,7 @@ impl Widget {
             Widget::Dynamics(w) => w.show(ui, context.view),
             Widget::Jitter(w) => w.show(ui, context.database, context.view),
             Widget::Hil(w) => w.show(ui),
+            Widget::Diagnostics(w) => w.show(ui),
         }
     }
 
