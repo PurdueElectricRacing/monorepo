@@ -17,6 +17,7 @@
 #include "common/phal_G4/adc/adc.h"
 #include "common/utils/countof.h"
 #include "common/watchdog/watchdog.h"
+#include "common/heartbeat/heartbeat.h"
 
 /* Module Includes */
 #include "cooling_fsm.h"
@@ -120,6 +121,7 @@ RTOS_DEFINE_TASK(cooling_fsm_periodic, COOLING_FSM_PERIOD_MS, TASK_PRIORITY_LOW,
 RTOS_DEFINE_TASK(current_sense_periodic, CURRENT_SENSE_TASK_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(SWITCH_enable_all, 0, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
+DEFINE_HEARTBEAT_TASK(nullptr);
 
 int main() {
     // Hardware Initialization
@@ -150,6 +152,7 @@ int main() {
     RTOS_START_TASK(cooling_fsm_periodic);
     RTOS_START_TASK(SWITCH_enable_all);
     START_WATCHDOG_TASK();
+    START_HEARTBEAT_TASK();
 
     vTaskStartScheduler();
 
