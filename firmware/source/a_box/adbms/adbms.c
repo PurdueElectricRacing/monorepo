@@ -24,7 +24,7 @@ void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf) {
     bms->recover_start_tick_ms = 0;
     bms->error_start_tick_ms   = 0;
     bms->recovery_attempts     = 0;
-    bms->state                 = ADBMS_STATE_DISCONNECTED;
+    bms->state                 = ADBMS_STATE_WRITE_REGA;
 
     bms->is_balancing_enabled = false;
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
@@ -311,12 +311,13 @@ void adbms_read_therms(adbms_bms_t *bms) {
 void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
     adbms_state_t next_state = bms->state;
 
+    // Keep recovery/error backoff silent to complete their sleep cycle
+    // Otherwise prep the chips for communication
+    if (bms->state != ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_ERROR) {
+        adbms6380_wake(bms->spi, ADBMS_MODULE_COUNT);
+    }
+
     switch (bms->state) {
-        case ADBMS_STATE_DISCONNECTED: {
-            adbms6380_wake(bms->spi, ADBMS_MODULE_COUNT);
-            next_state = ADBMS_STATE_WRITE_REGA;
-            break;
-        }
         case ADBMS_STATE_WRITE_REGA: {
             adbms_write_rega(bms);
             next_state = ADBMS_STATE_CHECK_REGA;
@@ -395,7 +396,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
                 if (bms->recovery_attempts >= ADBMS_RECOVERY_MAX_ATTEMPTS) {
                     next_state = ADBMS_STATE_ERROR;
                 } else {
-                    next_state = ADBMS_STATE_DISCONNECTED;
+                    next_state = ADBMS_STATE_WRITE_REGA;
                 }
             }
             break;
@@ -404,7 +405,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             // Non-blocking wait for the error backoff period
             uint32_t elapsed_ms = xTaskGetTickCount() - bms->error_start_tick_ms;
             if (elapsed_ms >= ADBMS_ERROR_BACKOFF_MS) {
-                next_state = ADBMS_STATE_DISCONNECTED;
+                next_state = ADBMS_STATE_WRITE_REGA;
             }
             break;
         }

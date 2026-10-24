@@ -67,24 +67,25 @@ static_assert(ADBMS_ERROR_BACKOFF_MS > ADBMS_CHIP_SLEEP_CYCLE_MS, "backoff shoul
  * @brief ADBMS driver connection/operation state.
  *
  * Connect chain:
- *   DISCONNECTED -> WRITE_REGA -> CHECK_REGA -> WRITE_REGB -> CHECK_REGB -> START_ADCV -> read/balance loop
+ *   WRITE_REGA -> CHECK_REGA -> WRITE_REGB -> CHECK_REGB -> START_ADCV -> read/balance loop
  * Read/balance loop:
  *   READ_CELLS -> READ_TEMPS -> SET_BALANCE -> WRITE_REGB -> CHECK_REGB -> READ_CELLS
- * On failures: CHECK_REGA/B, READ_CELLS -> RECOVERING -> DISCONNECTED
- * On repeated failures: RECOVERING -> ERROR -> DISCONNECTED
+ * On failures:
+ *   CHECK_REGA/B, READ_CELLS -> RECOVERING -> WRITE_REGA
+ * On repeated failures:
+ *   RECOVERING -> ERROR -> WRITE_REGA
  */
 typedef enum : uint8_t {
-    ADBMS_STATE_DISCONNECTED = 0, // Wakes the chain and begins the connect sequence
-    ADBMS_STATE_WRITE_REGA   = 1, // Write REGA configuration to all modules
-    ADBMS_STATE_CHECK_REGA   = 2, // Read REGA back and verify it matches what was written
-    ADBMS_STATE_WRITE_REGB   = 3, // Write REGB configuration to all modules
-    ADBMS_STATE_CHECK_REGB   = 4, // Read REGB back and verify it matches what was written
-    ADBMS_STATE_START_ADCV   = 5, // Start continuous cell voltage conversions
-    ADBMS_STATE_READ_CELLS   = 6, // Read all cell voltages and sanity-check the range
-    ADBMS_STATE_READ_TEMPS   = 7, // Read all thermistor voltages and convert to temperature
-    ADBMS_STATE_SET_BALANCE  = 8, // Compute per-cell discharge flags for balancing
-    ADBMS_STATE_RECOVERING   = 9, // Non-blocking wait for a full chip sleep-wake cycle
-    ADBMS_STATE_ERROR       = 10, // Non-latching backoff after repeat failed recovery, SDC pin pulled
+    ADBMS_STATE_WRITE_REGA   = 0, // Write REGA configuration to all modules
+    ADBMS_STATE_CHECK_REGA   = 1, // Read REGA back and verify it matches what was written
+    ADBMS_STATE_WRITE_REGB   = 2, // Write REGB configuration to all modules
+    ADBMS_STATE_CHECK_REGB   = 3, // Read REGB back and verify it matches what was written
+    ADBMS_STATE_START_ADCV   = 4, // Start continuous cell voltage conversions
+    ADBMS_STATE_READ_CELLS   = 5, // Read all cell voltages and sanity-check the range
+    ADBMS_STATE_READ_TEMPS   = 6, // Read all thermistor voltages and convert to temperature
+    ADBMS_STATE_SET_BALANCE  = 7, // Compute per-cell discharge flags for balancing
+    ADBMS_STATE_RECOVERING   = 8, // Non-blocking wait for a full chip sleep-wake cycle
+    ADBMS_STATE_ERROR        = 9, // Non-latching backoff after repeat failed recovery, SDC pin pulled
 } adbms_state_t;
 
 /**
