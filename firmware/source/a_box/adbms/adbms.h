@@ -66,26 +66,32 @@ static_assert(ADBMS_ERROR_BACKOFF_MS > ADBMS_CHIP_SLEEP_CYCLE_MS, "backoff shoul
 /**
  * @brief ADBMS driver connection/operation state.
  *
- * Connect chain:
- *   WRITE_REGA -> CHECK_REGA -> WRITE_REGB -> CHECK_REGB -> START_ADCV -> read/balance loop
- * Read/balance loop:
- *   READ_CELLS -> READ_TEMPS -> SET_BALANCE -> WRITE_REGB -> CHECK_REGB -> READ_CELLS
+ * The FSM is a single straight-line chain that runs back-to-back within one
+ * adbms_periodic() call. Each state advances next_state to its successor on
+ * success; any failure diverts to RECOVERING.
+ *
+ * Single chain (one pass per call, starting from the current state):
+ *   WRITE_REGA -> CHECK_REGA -> CONNECT_WRITE_REGB -> CONNECT_CHECK_REGB -> START_ADCV
+ *   -> READ_CELLS -> READ_TEMPS -> SET_BALANCE -> BALANCE_WRITE_REGB
+ *   -> BALANCE_CHECK_REGB -> (resumes at READ_CELLS)
  * On failures:
- *   CHECK_REGA/B, READ_CELLS -> RECOVERING -> WRITE_REGA
+ *   CHECK_REGA, CONNECT_CHECK_REGB, READ_CELLS, BALANCE_CHECK_REGB -> RECOVERING -> WRITE_REGA
  * On repeated failures:
- *   RECOVERING -> ERROR -> WRITE_REGA
+ *   RECOVERING -> ERROR -> WRITE_REGA (non-latching backoff)
  */
 typedef enum : uint8_t {
-    ADBMS_STATE_WRITE_REGA   = 0, // Write REGA configuration to all modules
-    ADBMS_STATE_CHECK_REGA   = 1, // Read REGA back and verify it matches what was written
-    ADBMS_STATE_WRITE_REGB   = 2, // Write REGB configuration to all modules
-    ADBMS_STATE_CHECK_REGB   = 3, // Read REGB back and verify it matches what was written
-    ADBMS_STATE_START_ADCV   = 4, // Start continuous cell voltage conversions
-    ADBMS_STATE_READ_CELLS   = 5, // Read all cell voltages and sanity-check the range
-    ADBMS_STATE_READ_TEMPS   = 6, // Read all thermistor voltages and convert to temperature
-    ADBMS_STATE_SET_BALANCE  = 7, // Compute per-cell discharge flags for balancing
-    ADBMS_STATE_RECOVERING   = 8, // Non-blocking wait for a full chip sleep-wake cycle
-    ADBMS_STATE_ERROR        = 9, // Non-latching backoff after repeat failed recovery, SDC pin pulled
+    ADBMS_STATE_WRITE_REGA           = 0,  // Write REGA configuration to all modules
+    ADBMS_STATE_CHECK_REGA           = 1,  // Read REGA back and verify it matches what was written
+    ADBMS_STATE_CONNECT_WRITE_REGB   = 2,  // connect-chain REGB write
+    ADBMS_STATE_CONNECT_CHECK_REGB   = 3,  // connect-chain REGB verify
+    ADBMS_STATE_START_ADCV           = 4,  // Start continuous cell voltage conversions
+    ADBMS_STATE_READ_CELLS           = 5,  // Read all cell voltages and sanity-check the range
+    ADBMS_STATE_READ_TEMPS           = 6,  // Read all thermistor voltages and convert to temperature
+    ADBMS_STATE_SET_BALANCE          = 7,  // Compute per-cell discharge flags for balancing
+    ADBMS_STATE_BALANCE_WRITE_REGB   = 8,  // steady-loop REGB write (new discharge bits)
+    ADBMS_STATE_BALANCE_CHECK_REGB   = 9,  // steady-loop REGB verify
+    ADBMS_STATE_RECOVERING           = 10, // Non-blocking wait for a full chip sleep-wake cycle
+    ADBMS_STATE_ERROR                = 11, // Non-latching backoff after repeat failed recovery, SDC pin pulled
 } adbms_state_t;
 
 /**
@@ -143,12 +149,6 @@ typedef struct {
     uint32_t error_start_tick_ms;
     /** Consecutive recovery cycles (sleep-wake retries) without a succesful connect. */
     uint8_t recovery_attempts;
-    /**
-     * true once the connect sequence has fully verified and continuous
-     * conversion is running; cleared when entering RECOVERING or ERROR.
-     */
-    bool is_connected;
-
     /** Per-module state and measurements. */
     adbms_module_t modules[ADBMS_MODULE_COUNT];
 
