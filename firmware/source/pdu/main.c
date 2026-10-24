@@ -138,6 +138,10 @@ int main() {
 
     CAN_init();
 
+    for (switch_id_t id = 0; id < NUM_SWITCHES; id++) {
+        SWITCH_enable(id);
+    }
+
     START_CAN_TASKS();
     CAN_SEND_pdu_init(WDG_get_CSR());
     RTOS_START_TASK(fault_library_periodic);
