@@ -4,17 +4,17 @@
     "tx": [
         {
             "message_name": "INVC_CRIT",
-            "description": "Contains the status word and actual values",
+            "description": "Actual speed, torque and motor/inverter I2t overload at 100 Hz",
             "signals": [
                 {
                     "signal_name": "AMK_ActualSpeed",
-                    "description": "Actual speed value",
+                    "description": "AMK special signal 5: actual motor speed (1 rpm per count)",
                     "data_type": "int16_t",
                     "unit": "rpm"
                 },
                 {
                     "signal_name": "AMK_ActualTorque",
-                    "description": "Actual torque value",
+                    "description": "AMK special signal 19: actual torque relative to ID32771 nominal motor torque (0.1% per count)",
                     "data_type": "int16_t",
                     "unit": "%",
                     "scale": 0.1
@@ -23,22 +23,25 @@
                     "signal_name": "AMK_DisplayOverloadInverter",
                     "data_type": "uint16_t",
                     "unit": "%",
-                    "scale": 0.1
+                    "scale": 0.1,
+                    "description": "AMK SERCOS ID33101: inverter I2t overload (0.1% per count)"
                 },
                 {
                     "signal_name": "AMK_DisplayOverloadMotor",
                     "data_type": "uint16_t",
                     "unit": "%",
-                    "scale": 0.1
+                    "scale": 0.1,
+                    "description": "AMK SERCOS ID33102: motor I2t overload (0.1% per count)"
                 }
             ],
-            "period_ms": 15,
+            "period_ms": 10,
             "id_override": "0x123",
-            "priority": 1
+            "priority": 1,
+            "byte_order": "little_endian"
         },
         {
             "message_name": "INVC_INFO",
-            "description": "Contains the status word and actual values",
+            "description": "AMK special signal 3: 16-bit status word at 2 Hz",
             "signals": [
                 {
                     "signal_name": "AMK_Status_bReserve",
@@ -85,99 +88,122 @@
                     "signal_name": "AMK_Status_bDerating",
                     "description": "Status word: torque limit activation",
                     "data_type": "bool"
-                },
-                {
-                    "signal_name": "AMK_DCBusVoltage",
-                    "description": "Voltage of the DC bus",
-                    "data_type": "uint16_t",
-                    "unit": "V"
                 }
             ],
             "period_ms": 500,
             "id_override": "0x233",
-            "priority": 2
+            "priority": 2,
+            "byte_order": "little_endian"
         },
         {
             "message_name": "INVC_ERR_1",
-            "description": "All error information",
+            "description": "AMK diagnostic number and additional information at 2 Hz",
             "signals": [
                 {
                     "signal_name": "AMK_DiagnosticNumber",
-                    "description": "Error number",
+                    "description": "AMK special signal 21: diagnostic number (unsigned 32-bit)",
                     "data_type": "uint32_t"
                 },
                 {
                     "signal_name": "AMK_ErrorInfo1",
-                    "description": "Error info",
+                    "description": "AMK special signal 22: diagnostic additional information 1 (unsigned 32-bit)",
                     "data_type": "uint32_t"
                 }
             ],
-            "period_ms": 2000,
+            "period_ms": 500,
             "id_override": "0x443",
-            "priority": 4
+            "priority": 4,
+            "byte_order": "little_endian"
         },
         {
             "message_name": "INVC_ERR_2",
-            "description": "All error information",
+            "description": "AMK diagnostic additional information at 2 Hz",
             "signals": [
                 {
                     "signal_name": "AMK_ErrorInfo2",
-                    "description": "Error info",
+                    "description": "AMK special signal 23: diagnostic additional information 2 (unsigned 32-bit)",
                     "data_type": "uint32_t"
                 },
                 {
                     "signal_name": "AMK_ErrorInfo3",
-                    "description": "Error info",
+                    "description": "AMK special signal 24: diagnostic additional information 3 (unsigned 32-bit)",
                     "data_type": "uint32_t"
                 }
             ],
-            "period_ms": 2000,
+            "period_ms": 500,
             "id_override": "0x453",
-            "priority": 4
+            "priority": 4,
+            "byte_order": "little_endian"
         },
         {
             "message_name": "INVC_TEMPS",
-            "description": "Contains temperatures",
+            "description": "Motor, inverter cold plate and IGBT temperatures at 10 Hz",
             "signals": [
                 {
                     "signal_name": "AMK_MotorTemp",
-                    "description": "Motor temperature",
+                    "description": "AMK special signal 7: motor temperature (0.1 C per count)",
                     "data_type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "AMK_InverterTemp",
-                    "description": "Inverter cold plate temperature",
+                    "description": "AMK special signal 8: inverter cold plate temperature (0.1 C per count)",
                     "data_type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 },
                 {
                     "signal_name": "AMK_IGBTTemp",
-                    "description": "IGBT temperature",
+                    "description": "AMK special signal 27: IGBT temperature (0.1 C per count)",
                     "data_type": "int16_t",
                     "unit": "C",
                     "scale": 0.1
                 }
             ],
-            "period_ms": 500,
-            "id_override": "0x463",
-            "priority": 4
+            "period_ms": 100,
+            "id_override": "0x563",
+            "priority": 5,
+            "byte_order": "little_endian"
         },
         {
             "message_name": "INVC_PHASE_I",
-            "description": "All error information",
+            "description": "Motor phase U current at 100 Hz",
             "signals": [
                 {
                     "signal_name": "AMK_PhaseUCurrent",
-                    "description": "INVC Phase U Current",
-                    "data_type": "int32_t"
+                    "description": "AMK SERCOS ID32828: instantaneous motor phase U current (0.01 A per count)",
+                    "data_type": "int32_t",
+                    "unit": "A",
+                    "scale": 0.01
                 }
             ],
-            "period_ms": 250,
+            "period_ms": 10,
             "id_override": "0x573",
-            "priority": 4
+            "priority": 5,
+            "byte_order": "little_endian"
+        },
+        {
+            "message_name": "INVC_POWER",
+            "description": "Electrical active power and DC bus voltage at 100 Hz",
+            "signals": [
+                {
+                    "signal_name": "AMK_ActualElectricalPower",
+                    "description": "AMK SERCOS ID33171: electrical active power; positive motoring, negative regeneration (1 W per count)",
+                    "data_type": "int32_t",
+                    "unit": "W"
+                },
+                {
+                    "signal_name": "AMK_DCBusVoltage",
+                    "description": "AMK SERCOS ID32836: DC bus voltage (1 V per count)",
+                    "data_type": "uint16_t",
+                    "unit": "V"
+                }
+            ],
+            "period_ms": 10,
+            "id_override": "0x583",
+            "priority": 5,
+            "byte_order": "little_endian"
         }
     ],
     "rx": [
