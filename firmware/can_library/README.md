@@ -33,8 +33,10 @@ Periodic CAN messages are assigned a deadline of 2.5x their expected period. If 
     1. Use STM32G474 peripherals `FDCAN1`, `FDCAN2`, or `FDCAN3`.
 2. Add `can_node_<NODE_NAME>` to `LIBS` in your board's `add_firmware_component(...)` call (must match the uppercase node name from CMake).
 3. Include the generated header for your node (e.g. `#include "can_library/generated/PDU.h"` / `#include "can_library/generated/<NODE_NAME>.h"`) in your `main.c`.
-4. Initialize the CAN library in your `main.c` with `CAN_init()`.
+4. Call `CAN_init()` after setting up RCC and GPIO.
+    - This function also handles the initalization of relevant hardware
 5. Setup CAN tasks in your `main.c` using `DEFINE_CAN_TASKS()` and `START_CAN_TASKS()`.
+    - `START_CAN_TASKS()` enables the CAN IRQs
 
 The most recent rx'd data is available in the `can_data` struct, which is updated by the CAN RX task.
 Sending CAN messages is done via the generated `CAN_SEND_<message_name>()` functions, which enqueue messages to be sent by the CAN TX task.

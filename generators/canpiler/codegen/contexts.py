@@ -32,13 +32,26 @@ def build_signal_codec(signal: CompiledSignal) -> SignalCodecRenderView:
     )
 
 
-def build_peripheral_views(peripherals: tuple[str, ...]) -> tuple[PeripheralRenderView, ...]:
+def build_peripheral_views(node: CompiledNode, linked: LinkedCan) -> tuple[PeripheralRenderView, ...]:
+    buses_by_peripheral: dict[str, list[str]] = defaultdict(list)
+    for bus_name, bus in sorted(node.busses.items()):
+        buses_by_peripheral[bus.peripheral].append(bus_name)
+
     views = []
-    for peripheral in peripherals:
+    for peripheral, bus_names in sorted(buses_by_peripheral.items()):
+        rates = {linked.bus_configs[name].baud_rate for name in bus_names}
+        if len(rates) != 1:
+            details = ", ".join(
+                f"{name}={linked.bus_configs[name].baud_rate}" for name in bus_names
+            )
+            raise ValueError(
+                f"Node '{node.name}': peripheral '{peripheral}' has conflicting bus bitrates: {details}"
+            )
         views.append(
             PeripheralRenderView(
                 name=peripheral,
                 enqueue_func=f"CAN_enqueue_tx_{peripheral}",
+                baud_rate_constant=f"{bus_names[0].upper()}_BAUD_RATE",
             )
         )
     return tuple(views)
@@ -50,8 +63,7 @@ def build_node_header_context(
     mapping: NodeHardwareMap | None,
     version: str,
 ) -> NodeHeaderRenderContext:
-    peripherals = tuple(sorted({bus.peripheral for bus in node.busses.values()}))
-    peripheral_views = build_peripheral_views(peripherals)
+    peripheral_views = build_peripheral_views(node, linked)
     rx_entries = []
     tx_entries = []
     for bus_name in sorted(node.busses):

@@ -39,7 +39,7 @@ extern QueueHandle_t can_rx_queue;
 void CAN_tx_update(void);
 void CAN_rx_update(void);
 void CAN_init(void);
-void CAN_enable_IRQs(void);
+void CAN_enable_irqs(void);
 void CAN_rx_init(void);
 void CAN_tx_init(void);
 
@@ -50,7 +50,7 @@ void CAN_tx_init(void);
 #define START_CAN_TASKS() \
     RTOS_START_TASK(CAN_rx_update); \
     RTOS_START_TASK(CAN_tx_update); \
-    CAN_enable_IRQs();
+    CAN_enable_irqs();
 
 #define CAN_TX_QUEUE_LENGTH (32) // Length of software queue for each CAN peripheral
 #define CAN_RX_QUEUE_LENGTH (32) // Length of software queue for received messages

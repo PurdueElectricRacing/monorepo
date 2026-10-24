@@ -79,7 +79,6 @@ int main(void) {
         HardFault_Handler();
     }
     PHAL_USART_rx(GPS_USART, (uint8_t *)rover_rx_buffer, sizeof(rover_rx_buffer), true);
-    PHAL_FDCAN_init(FDCAN2, VCAN_BAUD_RATE);
     CAN_init();
 
     initialize_calibration();
