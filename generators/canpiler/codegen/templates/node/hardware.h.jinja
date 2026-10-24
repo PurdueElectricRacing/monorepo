@@ -9,7 +9,7 @@ static inline void CAN_init_peripherals(void) {
 {% for peripheral in ctx.peripheral_entries if peripheral.name in ctx.filters %}
 {% set filters = ctx.filters[peripheral.name] %}
 // CAN filter setup for {{ peripheral.name }}
-static inline void {{ peripheral.name }}_set_filters() {
+static inline void {{ peripheral.name }}_init_filters() {
     {% if filters.accept_all %}
     // Accept all messages - filters configured in PHAL_FDCAN_init() by default
     (void)0;
