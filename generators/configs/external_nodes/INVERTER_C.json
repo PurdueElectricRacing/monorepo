@@ -168,7 +168,7 @@
         },
         {
             "message_name": "INVC_PHASE_I",
-            "description": "Motor phase U current at 100 Hz",
+            "description": "Motor phase U current and normalized torque-producing Iq / field-weakening Id currents at 100 Hz",
             "signals": [
                 {
                     "signal_name": "AMK_PhaseUCurrent",
@@ -176,6 +176,20 @@
                     "data_type": "int32_t",
                     "unit": "A",
                     "scale": 0.01
+                },
+                {
+                    "signal_name": "AMK_TorqueCurrentRaw",
+                    "description": "AMK special signal 25: normalized actual torque-producing current Iq; Iq[A] = raw * ID110[A] / 16384",
+                    "data_type": "int16_t",
+                    "unit": "count",
+                    "scale": 1
+                },
+                {
+                    "signal_name": "AMK_MagnetizingCurrentRaw",
+                    "description": "AMK special signal 26: normalized actual field-weakening current Id; Id[A] = raw * ID110[A] / 16384",
+                    "data_type": "int16_t",
+                    "unit": "count",
+                    "scale": 1
                 }
             ],
             "period_ms": 10,
@@ -202,6 +216,23 @@
             ],
             "period_ms": 10,
             "id_override": "0x583",
+            "priority": 5,
+            "byte_order": "little_endian"
+        },
+        {
+            "message_name": "INVC_REACTIVE_POWER",
+            "description": "Electrical reactive power at 100 Hz",
+            "signals": [
+                {
+                    "signal_name": "AMK_ReactiveElectricalPower",
+                    "description": "AMK SERCOS ID33172: electrical reactive power; positive inductive, negative capacitive (1 var per count)",
+                    "data_type": "int32_t",
+                    "unit": "var",
+                    "scale": 1
+                }
+            ],
+            "period_ms": 10,
+            "id_override": "0x593",
             "priority": 5,
             "byte_order": "little_endian"
         }

@@ -13,6 +13,7 @@ AMK related messages have a CAN ID in the format `0xXYZ`, where:
     - `6` TEMPS
     - `7` PHASE_I
     - `8` POWER
+    - `9` REACTIVE_POWER
 - `Z` is the node identifier (A = 1, B = 2, C = 3, D = 4).
 
 For example, `0x114` is a priority 1 SET message for node D.
@@ -33,19 +34,21 @@ digits 2, 3, and 4. Payload offsets are zero-based byte offsets, in Intel
 | ERR_1 | `0x441` | 500 ms (2 Hz) | 8 | diagnostic number @0, error info 1 @4 |
 | ERR_2 | `0x451` | 500 ms (2 Hz) | 8 | error info 2 @0, error info 3 @4 |
 | TEMPS | `0x561` | 100 ms (10 Hz) | 6 | motor @0, cold plate @2, IGBT @4 |
-| PHASE_I | `0x571` | 10 ms (100 Hz) | 4 | phase U current @0 |
+| PHASE_I | `0x571` | 10 ms (100 Hz) | 8 | phase U current @0, normalized Iq @4, normalized Id @6 |
 | POWER | `0x581` | 10 ms (100 Hz) | 6 | electrical active power @0, DC bus voltage @4 |
+| REACTIVE_POWER | `0x591` | 10 ms (100 Hz) | 4 | electrical reactive power @0 |
 
-POWER combines power and voltage in one frame. The fast signals occupy 20 bytes,
-so three classical CAN frames are the minimum at their native widths. The three
+POWER combines power and voltage in one frame. PHASE_I combines phase U current
+with Iq and Id, filling its previously unused four bytes. The fast signals occupy
+28 bytes, so four classical CAN frames are the minimum at their native widths. The three
 temperatures occupy 6 bytes at 10 Hz. The complete status word and four 32-bit
 diagnostic values occupy 18 bytes at 2 Hz, requiring three more frames. This gives
-seven message definitions and **316 transmitted frames/s per inverter**, or
-**1,264 frames/s for four inverters**, excluding commands and other MCAN traffic.
+eight message definitions and **416 transmitted frames/s per inverter**, or
+**1,664 frames/s for four inverters**, excluding commands and other MCAN traffic.
 These counts preserve each requested rate exactly, without narrowing signals or
 transmitting slower signals at a higher rate. Use the exact DLCs above to avoid
 unnecessary padding on the bus. The generator estimates total MCAN utilization
-at 35.95% at 500 kbit/s, including the other configured traffic and its 1.2
+at 46.61% at 500 kbit/s, including the other configured traffic and its 1.2
 bit-stuffing factor; this is an estimate, not a measured bus load.
 
 ### Signal definitions and sources
@@ -60,11 +63,30 @@ zero. Torque percentages refer to nominal motor torque, not peak torque.
 | Inverter overload | SERCOS ID33101 | unsigned 16-bit | % (I²t utilization) | 0.1 |
 | Motor overload | SERCOS ID33102 | unsigned 16-bit | % (I²t utilization) | 0.1 |
 | Electrical active power | SERCOS ID33171 | signed 32-bit | W | 1 |
+| Electrical reactive power | SERCOS ID33172 | signed 32-bit | var | 1 |
 | DC bus voltage | SERCOS ID32836 | unsigned 16-bit | V | 1 |
 | Motor / cold plate / IGBT temperature | Special 7 / 8 / 27 | signed 16-bit each | °C | 0.1 |
 | Status word | Special 3 | unsigned 16-bit | flags | 1 |
 | Diagnostic number / error info 1 / 2 / 3 | Special 21 / 22 / 23 / 24 | unsigned 32-bit each | code / context | 1 |
 | Phase U current | SERCOS ID32828 | signed 32-bit | A | 0.01 |
+| Torque-producing current Iq | Special 25 | signed 16-bit | normalized count | 1 |
+| Field-weakening current Id | Special 26 | signed 16-bit | normalized count | 1 |
+
+Iq and Id use `AMK_TorqueCurrentRaw` and `AMK_MagnetizingCurrentRaw` in the
+configs. The datasheet's p. 81 conversion is:
+
+```text
+Iq[A] = AMK_TorqueCurrentRaw * ID110[A] / 16384
+Id[A] = AMK_MagnetizingCurrentRaw * ID110[A] / 16384
+```
+
+ID110 is the device-specific converter peak current. The DBC deliberately labels
+these as counts with scale 1: a fixed amp-per-count scale would require a
+confirmed ID110 value for each inverter. Use the active inverter's ID110 in
+amperes when converting; do not apply the phase U current scale. All three
+PHASE_I values are sampled at 100 Hz. Reactive power uses 1 var/count; positive
+values represent inductive load and negative values capacitive load (the
+supplementary power reference below, printed p. 193).
 
 Status bits retain AMK's layout: bits 0–7 reserved, then system ready, error,
 warning, quit DC on, DC on, quit inverter on, inverter on, and derating at bits
@@ -122,9 +144,11 @@ archives have not been rewritten.
 
 TEMPS moves from `0x46Z` to `0x56Z` to follow the high-frequency telemetry
 priority convention. DC bus voltage moves out of INFO and into POWER; INFO now
-has DLC 2. POWER is new at `0x58Z`. The remaining telemetry IDs and command
-messages are unchanged. Configure receiver subscriptions separately if an
-application needs to consume POWER; adding a DBC definition does not add an
+has DLC 2. POWER is new at `0x58Z`. PHASE_I retains `0x57Z` and now has DLC 8,
+with Iq and Id at byte offsets 4 and 6. REACTIVE_POWER is new at `0x59Z` with
+DLC 4. The remaining telemetry IDs and command messages are unchanged.
+Configure receiver subscriptions separately if an application needs to consume
+POWER, PHASE_I, or REACTIVE_POWER; adding a DBC definition does not add an
 application RX subscription.
 
 ### Other useful data (not configured)
@@ -132,11 +156,6 @@ application RX subscription.
 - **Higher-resolution speed (Special 20, signed 32-bit, 0.0001 rpm/count):** could
   improve low-speed wheel-slip estimation for TV/TC. Sensor noise, acquisition
   filtering, and end-to-end latency still need assessment.
-- **Torque-producing current Iq and field-weakening current Id (Special 25/26,
-  signed 16-bit):** useful for checking delivered torque and identifying
-  field-weakening operation. These are normalized raw values; use the p. 81
-  conversion and the inverter-specific ID110 peak current, rather than the
-  phase-current scale.
 - **Torque setpoint and positive/negative torque limits (Special 17/13/14,
   signed 16-bit, 0.1% of nominal torque):** inverter-side command feedback could
   help TV/TC distinguish requested torque from applied limits.
@@ -145,9 +164,6 @@ application RX subscription.
 - **Phase V/W currents (SERCOS ID32829/32830, signed 32-bit, 0.01 A/count):** could
   support phase-imbalance checks with suitable sampling; the 100 Hz waveform
   limitation also applies.
-- **Reactive electrical power (SERCOS ID33172, signed 32-bit, 1 var/count):** could
-  aid analysis of inverter loading alongside active power and field weakening.
-  See the supplementary power reference, printed p. 193.
 
 The existing derating flag is useful when correlating lost torque with thermal,
 I²t, or battery-voltage limits, but does not identify which limit is responsible

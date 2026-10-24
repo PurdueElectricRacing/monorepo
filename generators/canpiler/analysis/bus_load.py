@@ -27,6 +27,8 @@ def calculate_bus_load(context: LinkedCan) -> None:
         bus_name for node in context.nodes for bus_name in node.busses
     })
     for bus_name in bus_names:
+        if bus_name == "CCAN": continue
+
         total_bits_per_sec = 0.0
         baud_rate = context.bus_configs[bus_name].baud_rate
 
