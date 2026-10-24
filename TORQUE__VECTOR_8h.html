@@ -200,8 +200,8 @@ Functions</h2></td></tr>
 <tr class="separator:a3829b4361128389982af69e734c16659"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff36dceea73ab4dc71f856487bb97237" id="r_aff36dceea73ab4dc71f856487bb97237"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff36dceea73ab4dc71f856487bb97237">is_pdu_fault_sync_stale</a> ()</td></tr>
 <tr class="separator:aff36dceea73ab4dc71f856487bb97237"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7648a5b3e6b1d5a97d23a27cfdecde87" id="r_a7648a5b3e6b1d5a97d23a27cfdecde87"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7648a5b3e6b1d5a97d23a27cfdecde87">CAN_data_init</a> ()</td></tr>
-<tr class="separator:a7648a5b3e6b1d5a97d23a27cfdecde87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa74d2751bf997adba50be76251291997" id="r_aa74d2751bf997adba50be76251291997"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa74d2751bf997adba50be76251291997">CAN_init_data</a> (void)</td></tr>
+<tr class="separator:aa74d2751bf997adba50be76251291997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71f974c8e4e9ab8d9193fcadcdb05b24" id="r_a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71f974c8e4e9ab8d9193fcadcdb05b24">CAN_SEND_tv_init</a> (uint32_t value_csr)</td></tr>
 <tr class="separator:a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31f56bd64c3ad5c0091aa93a8eb59ab0" id="r_a31f56bd64c3ad5c0091aa93a8eb59ab0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31f56bd64c3ad5c0091aa93a8eb59ab0">CAN_SEND_gps_velocity</a> (int32_t value_gps_vel_n, int32_t value_gps_vel_e)</td></tr>
@@ -226,8 +226,10 @@ Functions</h2></td></tr>
 <tr class="separator:a1c5465867635ac9a17699ae5e462aaf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0644feeedc6560a9340f65a64b039cb" id="r_ad0644feeedc6560a9340f65a64b039cb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0644feeedc6560a9340f65a64b039cb">CAN_SEND_torque_vector_fault_sync</a> (bool value_GPS_INVALID_FIX, bool value_GPS_WEAK_FIX, bool value_GPS_INVALID_UTC)</td></tr>
 <tr class="separator:ad0644feeedc6560a9340f65a64b039cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5353dcc79f7d3b1a2d1ef18933d5e81" id="r_ae5353dcc79f7d3b1a2d1ef18933d5e81"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5353dcc79f7d3b1a2d1ef18933d5e81">FDCAN2_set_filters</a> ()</td></tr>
-<tr class="separator:ae5353dcc79f7d3b1a2d1ef18933d5e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa807ade5b93f6697cfac0ae05b7f5255" id="r_aa807ade5b93f6697cfac0ae05b7f5255"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa807ade5b93f6697cfac0ae05b7f5255">CAN_init_peripherals</a> (void)</td></tr>
+<tr class="separator:aa807ade5b93f6697cfac0ae05b7f5255"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78eb33b279c10bc3c4f9813223091a7a" id="r_a78eb33b279c10bc3c4f9813223091a7a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78eb33b279c10bc3c4f9813223091a7a">FDCAN2_init_filters</a> ()</td></tr>
+<tr class="separator:a78eb33b279c10bc3c4f9813223091a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -422,36 +424,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a7648a5b3e6b1d5a97d23a27cfdecde87" name="a7648a5b3e6b1d5a97d23a27cfdecde87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7648a5b3e6b1d5a97d23a27cfdecde87">&#9670;&#160;</a></span>CAN_data_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CAN_data_init </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a7648a5b3e6b1d5a97d23a27cfdecde87_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
 <a id="a0da956162efe3e0016f181cee58961e6" name="a0da956162efe3e0016f181cee58961e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0da956162efe3e0016f181cee58961e6">&#9670;&#160;</a></span>CAN_enqueue_tx_FDCAN2()</h2>
 
@@ -470,6 +442,66 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a0da956162efe3e0016f181cee58961e6_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="aa74d2751bf997adba50be76251291997" name="aa74d2751bf997adba50be76251291997"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa74d2751bf997adba50be76251291997">&#9670;&#160;</a></span>CAN_init_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_init_data </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_aa74d2751bf997adba50be76251291997_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="aa807ade5b93f6697cfac0ae05b7f5255" name="aa807ade5b93f6697cfac0ae05b7f5255"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa807ade5b93f6697cfac0ae05b7f5255">&#9670;&#160;</a></span>CAN_init_peripherals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_init_peripherals </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_aa807ade5b93f6697cfac0ae05b7f5255_cgraph.svg" width="603" height="414"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1127,8 +1159,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ae5353dcc79f7d3b1a2d1ef18933d5e81" name="ae5353dcc79f7d3b1a2d1ef18933d5e81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5353dcc79f7d3b1a2d1ef18933d5e81">&#9670;&#160;</a></span>FDCAN2_set_filters()</h2>
+<a id="a78eb33b279c10bc3c4f9813223091a7a" name="a78eb33b279c10bc3c4f9813223091a7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78eb33b279c10bc3c4f9813223091a7a">&#9670;&#160;</a></span>FDCAN2_init_filters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1137,7 +1169,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void FDCAN2_set_filters </td>
+          <td class="memname">static void FDCAN2_init_filters </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1152,7 +1184,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_ae5353dcc79f7d3b1a2d1ef18933d5e81_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a78eb33b279c10bc3c4f9813223091a7a_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

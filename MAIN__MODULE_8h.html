@@ -225,8 +225,8 @@ Functions</h2></td></tr>
 <tr class="separator:aff36dceea73ab4dc71f856487bb97237"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67d98ecf4d917c5aac5c64d991d5d59a" id="r_a67d98ecf4d917c5aac5c64d991d5d59a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67d98ecf4d917c5aac5c64d991d5d59a">is_torque_vector_fault_sync_stale</a> ()</td></tr>
 <tr class="separator:a67d98ecf4d917c5aac5c64d991d5d59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7648a5b3e6b1d5a97d23a27cfdecde87" id="r_a7648a5b3e6b1d5a97d23a27cfdecde87"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7648a5b3e6b1d5a97d23a27cfdecde87">CAN_data_init</a> ()</td></tr>
-<tr class="separator:a7648a5b3e6b1d5a97d23a27cfdecde87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa74d2751bf997adba50be76251291997" id="r_aa74d2751bf997adba50be76251291997"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa74d2751bf997adba50be76251291997">CAN_init_data</a> (void)</td></tr>
+<tr class="separator:aa74d2751bf997adba50be76251291997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63eff556f2a4943ff5fb61175f5e2df7" id="r_a63eff556f2a4943ff5fb61175f5e2df7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63eff556f2a4943ff5fb61175f5e2df7">CAN_SEND_main_hb_amk</a> (uint8_t value_car_state, bool value_precharge_state)</td></tr>
 <tr class="separator:a63eff556f2a4943ff5fb61175f5e2df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35df366293bacc008a0af0096b560335" id="r_a35df366293bacc008a0af0096b560335"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35df366293bacc008a0af0096b560335">CAN_SEND_INVA_SET</a> (uint8_t value_AMK_Control_bReserve, bool value_AMK_Control_bInverterOn, bool value_AMK_Control_bDcOn, bool value_AMK_Control_bEnable, bool value_AMK_Control_bErrorReset, uint8_t value_AMK_Control_bReserve2, int16_t value_AMK_TorqueSetpoint, int16_t value_AMK_PositiveTorqueLimit, int16_t value_AMK_NegativeTorqueLimit)</td></tr>
@@ -261,10 +261,12 @@ Functions</h2></td></tr>
 <tr class="separator:ac75a1862b72edecacd4a2f724dc279d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a429cb8d5c3a82659039cae30cec94211" id="r_a429cb8d5c3a82659039cae30cec94211"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a429cb8d5c3a82659039cae30cec94211">CAN_SEND_main_module_fault_sync</a> (bool value_SDC1_IMD, bool value_SDC2_BMS, bool value_SDC3_BSPD, bool value_SDC4_MAIN_OK, bool value_SDC5_BOTS, bool value_SDC6_INERTIA, bool value_SDC7_COCKPIT_ESTOP, bool value_SDC9_FRONT_INTERLOCK, bool value_SDC10_RIGHT_ESTOP, bool value_SDC11_LEFT_ESTOP, bool value_SDC12_MSD, bool value_SDC13_E_METER, bool value_SDC15_REAR_INTERLOCK, bool value_SDC16_TSMS, bool value_SDC17_AIR_M, bool value_PRECHARGE_INCOMPLETE)</td></tr>
 <tr class="separator:a429cb8d5c3a82659039cae30cec94211"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afba0a04c386ae2ff86a7d67c0a0a9ad0" id="r_afba0a04c386ae2ff86a7d67c0a0a9ad0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afba0a04c386ae2ff86a7d67c0a0a9ad0">FDCAN1_set_filters</a> ()</td></tr>
-<tr class="separator:afba0a04c386ae2ff86a7d67c0a0a9ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5353dcc79f7d3b1a2d1ef18933d5e81" id="r_ae5353dcc79f7d3b1a2d1ef18933d5e81"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5353dcc79f7d3b1a2d1ef18933d5e81">FDCAN2_set_filters</a> ()</td></tr>
-<tr class="separator:ae5353dcc79f7d3b1a2d1ef18933d5e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa807ade5b93f6697cfac0ae05b7f5255" id="r_aa807ade5b93f6697cfac0ae05b7f5255"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa807ade5b93f6697cfac0ae05b7f5255">CAN_init_peripherals</a> (void)</td></tr>
+<tr class="separator:aa807ade5b93f6697cfac0ae05b7f5255"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a500b6be206fba2002ed925d335a72173" id="r_a500b6be206fba2002ed925d335a72173"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a500b6be206fba2002ed925d335a72173">FDCAN1_init_filters</a> ()</td></tr>
+<tr class="separator:a500b6be206fba2002ed925d335a72173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78eb33b279c10bc3c4f9813223091a7a" id="r_a78eb33b279c10bc3c4f9813223091a7a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78eb33b279c10bc3c4f9813223091a7a">FDCAN2_init_filters</a> ()</td></tr>
+<tr class="separator:a78eb33b279c10bc3c4f9813223091a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -489,36 +491,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a7648a5b3e6b1d5a97d23a27cfdecde87" name="a7648a5b3e6b1d5a97d23a27cfdecde87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7648a5b3e6b1d5a97d23a27cfdecde87">&#9670;&#160;</a></span>CAN_data_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CAN_data_init </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a7648a5b3e6b1d5a97d23a27cfdecde87_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
 <a id="a90647dbc98bbf7bc6c1e9ef85f4d2f01" name="a90647dbc98bbf7bc6c1e9ef85f4d2f01"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a90647dbc98bbf7bc6c1e9ef85f4d2f01">&#9670;&#160;</a></span>CAN_enqueue_tx_FDCAN1()</h2>
 
@@ -559,6 +531,66 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a0da956162efe3e0016f181cee58961e6_icgraph.svg" width="100%" height="475"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="aa74d2751bf997adba50be76251291997" name="aa74d2751bf997adba50be76251291997"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa74d2751bf997adba50be76251291997">&#9670;&#160;</a></span>CAN_init_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_init_data </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_aa74d2751bf997adba50be76251291997_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="aa807ade5b93f6697cfac0ae05b7f5255" name="aa807ade5b93f6697cfac0ae05b7f5255"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa807ade5b93f6697cfac0ae05b7f5255">&#9670;&#160;</a></span>CAN_init_peripherals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_init_peripherals </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_aa807ade5b93f6697cfac0ae05b7f5255_cgraph.svg" width="603" height="414"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1627,8 +1659,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="afba0a04c386ae2ff86a7d67c0a0a9ad0" name="afba0a04c386ae2ff86a7d67c0a0a9ad0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afba0a04c386ae2ff86a7d67c0a0a9ad0">&#9670;&#160;</a></span>FDCAN1_set_filters()</h2>
+<a id="a500b6be206fba2002ed925d335a72173" name="a500b6be206fba2002ed925d335a72173"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a500b6be206fba2002ed925d335a72173">&#9670;&#160;</a></span>FDCAN1_init_filters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1637,7 +1669,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void FDCAN1_set_filters </td>
+          <td class="memname">static void FDCAN1_init_filters </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1652,13 +1684,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_afba0a04c386ae2ff86a7d67c0a0a9ad0_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a500b6be206fba2002ed925d335a72173_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="ae5353dcc79f7d3b1a2d1ef18933d5e81" name="ae5353dcc79f7d3b1a2d1ef18933d5e81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5353dcc79f7d3b1a2d1ef18933d5e81">&#9670;&#160;</a></span>FDCAN2_set_filters()</h2>
+<a id="a78eb33b279c10bc3c4f9813223091a7a" name="a78eb33b279c10bc3c4f9813223091a7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78eb33b279c10bc3c4f9813223091a7a">&#9670;&#160;</a></span>FDCAN2_init_filters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1667,7 +1699,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void FDCAN2_set_filters </td>
+          <td class="memname">static void FDCAN2_init_filters </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1682,7 +1714,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_ae5353dcc79f7d3b1a2d1ef18933d5e81_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a78eb33b279c10bc3c4f9813223091a7a_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

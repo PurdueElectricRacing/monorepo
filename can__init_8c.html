@@ -115,12 +115,12 @@ Include dependency graph for can_init.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3b585e92c28e68093702e7d507555fad" id="r_a3b585e92c28e68093702e7d507555fad"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b585e92c28e68093702e7d507555fad">CAN_setup_IRQs</a> (void)</td></tr>
-<tr class="separator:a3b585e92c28e68093702e7d507555fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07e18f33cac0ec4f9597c0b46cde9c17" id="r_a07e18f33cac0ec4f9597c0b46cde9c17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07e18f33cac0ec4f9597c0b46cde9c17">CAN_enable_IRQs</a> (void)</td></tr>
-<tr class="separator:a07e18f33cac0ec4f9597c0b46cde9c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36ad6677349a91f6af9d0cff15d025b0" id="r_a36ad6677349a91f6af9d0cff15d025b0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36ad6677349a91f6af9d0cff15d025b0">CAN_setup_filters</a> (void)</td></tr>
-<tr class="separator:a36ad6677349a91f6af9d0cff15d025b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac02deb396ce5c9f7ded85fc8263edf2a" id="r_ac02deb396ce5c9f7ded85fc8263edf2a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac02deb396ce5c9f7ded85fc8263edf2a">CAN_init_irqs</a> (void)</td></tr>
+<tr class="separator:ac02deb396ce5c9f7ded85fc8263edf2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa2e2d8203b6a59c06640c0df83c43e1" id="r_afa2e2d8203b6a59c06640c0df83c43e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa2e2d8203b6a59c06640c0df83c43e1">CAN_enable_irqs</a> (void)</td></tr>
+<tr class="separator:afa2e2d8203b6a59c06640c0df83c43e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f52e08219489a941feaacbd258da0d2" id="r_a8f52e08219489a941feaacbd258da0d2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f52e08219489a941feaacbd258da0d2">CAN_init_filters</a> (void)</td></tr>
+<tr class="separator:a8f52e08219489a941feaacbd258da0d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace7de72cc97ae2a35d63c3a4a4772a31" id="r_ace7de72cc97ae2a35d63c3a4a4772a31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace7de72cc97ae2a35d63c3a4a4772a31">CAN_init</a> (void)</td></tr>
 <tr class="separator:ace7de72cc97ae2a35d63c3a4a4772a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -128,14 +128,14 @@ Functions</h2></td></tr>
 <div class="textblock"><p>CAN library initialization, IRQ setup, and filter setup. </p>
 <dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a07e18f33cac0ec4f9597c0b46cde9c17" name="a07e18f33cac0ec4f9597c0b46cde9c17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07e18f33cac0ec4f9597c0b46cde9c17">&#9670;&#160;</a></span>CAN_enable_IRQs()</h2>
+<a id="afa2e2d8203b6a59c06640c0df83c43e1" name="afa2e2d8203b6a59c06640c0df83c43e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa2e2d8203b6a59c06640c0df83c43e1">&#9670;&#160;</a></span>CAN_enable_irqs()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CAN_enable_IRQs </td>
+          <td class="memname">void CAN_enable_irqs </td>
           <td>(</td>
           <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -172,8 +172,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a36ad6677349a91f6af9d0cff15d025b0" name="a36ad6677349a91f6af9d0cff15d025b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36ad6677349a91f6af9d0cff15d025b0">&#9670;&#160;</a></span>CAN_setup_filters()</h2>
+<a id="a8f52e08219489a941feaacbd258da0d2" name="a8f52e08219489a941feaacbd258da0d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f52e08219489a941feaacbd258da0d2">&#9670;&#160;</a></span>CAN_init_filters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +182,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void CAN_setup_filters </td>
+          <td class="memname">static void CAN_init_filters </td>
           <td>(</td>
           <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -197,18 +197,18 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="can__init_8c_a36ad6677349a91f6af9d0cff15d025b0_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="can__init_8c_a8f52e08219489a941feaacbd258da0d2_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="can__init_8c_a36ad6677349a91f6af9d0cff15d025b0_icgraph.svg" width="356" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="can__init_8c_a8f52e08219489a941feaacbd258da0d2_icgraph.svg" width="342" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a3b585e92c28e68093702e7d507555fad" name="a3b585e92c28e68093702e7d507555fad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b585e92c28e68093702e7d507555fad">&#9670;&#160;</a></span>CAN_setup_IRQs()</h2>
+<a id="ac02deb396ce5c9f7ded85fc8263edf2a" name="ac02deb396ce5c9f7ded85fc8263edf2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac02deb396ce5c9f7ded85fc8263edf2a">&#9670;&#160;</a></span>CAN_init_irqs()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +217,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void CAN_setup_IRQs </td>
+          <td class="memname">static void CAN_init_irqs </td>
           <td>(</td>
           <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -232,7 +232,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="can__init_8c_a3b585e92c28e68093702e7d507555fad_icgraph.svg" width="355" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="can__init_8c_ac02deb396ce5c9f7ded85fc8263edf2a_icgraph.svg" width="331" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

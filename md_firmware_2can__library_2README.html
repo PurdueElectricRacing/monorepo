@@ -133,8 +133,14 @@ Usage</h1>
 </li>
 <li>Add <code>can_node_&lt;NODE_NAME&gt;</code> to <code>LIBS</code> in your board's <code>add_firmware_component(...)</code> call (must match the uppercase node name from CMake).</li>
 <li>Include the generated header for your node (e.g. <code>#include "can_library/generated/PDU.h"</code> / <code>#include "can_library/generated/&lt;NODE_NAME&gt;.h"</code>) in your <code>main.c</code>.</li>
-<li>Initialize the CAN library in your <code>main.c</code> with <code><a class="el" href="can__common_8h.html#ace7de72cc97ae2a35d63c3a4a4772a31">CAN_init()</a></code>.</li>
-<li>Setup CAN tasks in your <code>main.c</code> using <code><a class="el" href="can__common_8h.html#a35dcd4b006eb1dd53b4e6fdd725b0e31">DEFINE_CAN_TASKS()</a></code> and <code><a class="el" href="can__common_8h.html#ac317291d89637f7774465ae715792e48">START_CAN_TASKS()</a></code>.</li>
+<li>Call <code><a class="el" href="can__common_8h.html#ace7de72cc97ae2a35d63c3a4a4772a31">CAN_init()</a></code> after setting up RCC and GPIO.<ul>
+<li>This function also handles the initalization of relevant hardware</li>
+</ul>
+</li>
+<li>Setup CAN tasks in your <code>main.c</code> using <code><a class="el" href="can__common_8h.html#a35dcd4b006eb1dd53b4e6fdd725b0e31">DEFINE_CAN_TASKS()</a></code> and <code><a class="el" href="can__common_8h.html#ac317291d89637f7774465ae715792e48">START_CAN_TASKS()</a></code>.<ul>
+<li><code><a class="el" href="can__common_8h.html#ac317291d89637f7774465ae715792e48">START_CAN_TASKS()</a></code> enables the CAN IRQs</li>
+</ul>
+</li>
 </ol>
 <p>The most recent rx'd data is available in the <code>can_data</code> struct, which is updated by the CAN RX task. Sending CAN messages is done via the generated <code>CAN_SEND_&lt;message_name&gt;()</code> functions, which enqueue messages to be sent by the CAN TX task.</p>
 <h1><a class="anchor" id="autotoc_md151"></a>

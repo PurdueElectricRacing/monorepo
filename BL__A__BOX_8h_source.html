@@ -191,7 +191,7 @@ $(function(){initNavTree('BL__A__BOX_8h_source.html',''); initResizable(true); }
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="comment">// Data initialization</span></div>
 <div class="foldopen" id="foldopen00096" data-start="{" data-end="}">
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="BL__A__BOX_8h.html#a7648a5b3e6b1d5a97d23a27cfdecde87">   96</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="BL__A__BOX_8h.html#a7648a5b3e6b1d5a97d23a27cfdecde87">CAN_data_init</a>() {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="BL__A__BOX_8h.html#aa74d2751bf997adba50be76251291997">   96</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="BL__A__BOX_8h.html#aa74d2751bf997adba50be76251291997">CAN_init_data</a>(<span class="keywordtype">void</span>) {</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    memset((<span class="keywordtype">void</span> *)&amp;<a class="code hl_variable" href="BL__A__BOX_8h.html#a9cc3168cebc21b033138ae90b755e5a8">can_data</a>, 0, <span class="keyword">sizeof</span>(<a class="code hl_variable" href="BL__A__BOX_8h.html#a9cc3168cebc21b033138ae90b755e5a8">can_data</a>));</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="comment">// Underflow the last_rx timers to ensure messages are stale until first rx</span></div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="comment">// Setup the stale function pointers</span></div>
@@ -258,35 +258,44 @@ $(function(){initNavTree('BL__A__BOX_8h_source.html',''); initResizable(true); }
 </div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="comment">// Filter configuration</span></div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="comment">// CAN filter setup for FDCAN1</span></div>
-<div class="foldopen" id="foldopen00160" data-start="{" data-end="}">
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="BL__A__BOX_8h.html#afba0a04c386ae2ff86a7d67c0a0a9ad0">  160</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="BL__A__BOX_8h.html#afba0a04c386ae2ff86a7d67c0a0a9ad0">FDCAN1_set_filters</a>() {</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    <span class="keyword">static</span> <span class="keyword">const</span> uint32_t sid_list[] = {</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <a class="code hl_variable" href="VCAN_8h.html#a9940ee35de2f2ada66e8c2ff57164184">BL_A_BOX_START_MSG_ID</a>,</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        <a class="code hl_variable" href="VCAN_8h.html#a82119ba5ad4debe56b5d414aab5e0977">BL_A_BOX_CRC_MSG_ID</a>,</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <a class="code hl_variable" href="VCAN_8h.html#a913e66f28c1f773e80257b7d2737b709">BL_A_BOX_JUMP_MSG_ID</a>,</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <a class="code hl_variable" href="VCAN_8h.html#aec2338cf884886c534711015b88e9b3d">BL_A_BOX_DATA_MSG_ID</a></div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    };</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <a class="code hl_function" href="fdcan_8c.html#ac89d6a90c4f53644b4189ddb0e1fea18">PHAL_FDCAN_setFilters</a>(</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        FDCAN1,</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        sid_list, 4,</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        NULL, 0</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    );</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>}</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="comment">// Peripheral initialization (board clocks and GPIO must be configured first)</span></div>
+<div class="foldopen" id="foldopen00159" data-start="{" data-end="}">
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="BL__A__BOX_8h.html#aa807ade5b93f6697cfac0ae05b7f5255">  159</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="BL__A__BOX_8h.html#aa807ade5b93f6697cfac0ae05b7f5255">CAN_init_peripherals</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <a class="code hl_function" href="fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d">PHAL_FDCAN_init</a>(FDCAN1, <a class="code hl_variable" href="VCAN_8h.html#a04f43a870064cf90eb018b19e4234a2e">VCAN_BAUD_RATE</a>);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>}</div>
 </div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="preprocessor">#endif </span><span class="comment">// BL_A_BOX_H</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="comment">// Filter configuration</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="comment">// CAN filter setup for FDCAN1</span></div>
+<div class="foldopen" id="foldopen00165" data-start="{" data-end="}">
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="BL__A__BOX_8h.html#a500b6be206fba2002ed925d335a72173">  165</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="BL__A__BOX_8h.html#a500b6be206fba2002ed925d335a72173">FDCAN1_init_filters</a>() {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keyword">static</span> <span class="keyword">const</span> uint32_t sid_list[] = {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <a class="code hl_variable" href="VCAN_8h.html#a9940ee35de2f2ada66e8c2ff57164184">BL_A_BOX_START_MSG_ID</a>,</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <a class="code hl_variable" href="VCAN_8h.html#a82119ba5ad4debe56b5d414aab5e0977">BL_A_BOX_CRC_MSG_ID</a>,</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <a class="code hl_variable" href="VCAN_8h.html#a913e66f28c1f773e80257b7d2737b709">BL_A_BOX_JUMP_MSG_ID</a>,</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <a class="code hl_variable" href="VCAN_8h.html#aec2338cf884886c534711015b88e9b3d">BL_A_BOX_DATA_MSG_ID</a></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    };</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <a class="code hl_function" href="fdcan_8c.html#ac89d6a90c4f53644b4189ddb0e1fea18">PHAL_FDCAN_setFilters</a>(</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        FDCAN1,</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        sid_list, 4,</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        NULL, 0</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    );</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>}</div>
+</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="preprocessor">#endif </span><span class="comment">// BL_A_BOX_H</span></div>
 <div class="ttc" id="aBL__A__BOX_8h_html_a29cfba7c5cba1422f71ef0920ee3cdc9"><div class="ttname"><a href="BL__A__BOX_8h.html#a29cfba7c5cba1422f71ef0920ee3cdc9">CAN_SEND_bl_a_box_info</a></div><div class="ttdeci">static void CAN_SEND_bl_a_box_info(uint8_t value_protocol_version, uint32_t value_git_hash, bootloader_target_id_t value_target_id, uint8_t value_flags)</div><div class="ttdef"><b>Definition</b> BL_A_BOX.h:128</div></div>
+<div class="ttc" id="aBL__A__BOX_8h_html_a500b6be206fba2002ed925d335a72173"><div class="ttname"><a href="BL__A__BOX_8h.html#a500b6be206fba2002ed925d335a72173">FDCAN1_init_filters</a></div><div class="ttdeci">static void FDCAN1_init_filters()</div><div class="ttdef"><b>Definition</b> BL_A_BOX.h:165</div></div>
 <div class="ttc" id="aBL__A__BOX_8h_html_a5a9310ab77bd6d4fe5e4f1bcc6ce3635"><div class="ttname"><a href="BL__A__BOX_8h.html#a5a9310ab77bd6d4fe5e4f1bcc6ce3635">CAN_SEND_bl_a_box_resp</a></div><div class="ttdeci">static void CAN_SEND_bl_a_box_resp(bootloader_status_t value_status, uint32_t value_detail)</div><div class="ttdef"><b>Definition</b> BL_A_BOX.h:104</div></div>
-<div class="ttc" id="aBL__A__BOX_8h_html_a7648a5b3e6b1d5a97d23a27cfdecde87"><div class="ttname"><a href="BL__A__BOX_8h.html#a7648a5b3e6b1d5a97d23a27cfdecde87">CAN_data_init</a></div><div class="ttdeci">static void CAN_data_init()</div><div class="ttdef"><b>Definition</b> BL_A_BOX.h:96</div></div>
 <div class="ttc" id="aBL__A__BOX_8h_html_a90647dbc98bbf7bc6c1e9ef85f4d2f01"><div class="ttname"><a href="BL__A__BOX_8h.html#a90647dbc98bbf7bc6c1e9ef85f4d2f01">CAN_enqueue_tx_FDCAN1</a></div><div class="ttdeci">void CAN_enqueue_tx_FDCAN1(CanMsgTypeDef_t *msg)</div></div>
 <div class="ttc" id="aBL__A__BOX_8h_html_a9cc3168cebc21b033138ae90b755e5a8"><div class="ttname"><a href="BL__A__BOX_8h.html#a9cc3168cebc21b033138ae90b755e5a8">can_data</a></div><div class="ttdeci">volatile can_data_t can_data</div><div class="ttdef"><b>Definition</b> can_rx.c:11</div></div>
+<div class="ttc" id="aBL__A__BOX_8h_html_aa74d2751bf997adba50be76251291997"><div class="ttname"><a href="BL__A__BOX_8h.html#aa74d2751bf997adba50be76251291997">CAN_init_data</a></div><div class="ttdeci">static void CAN_init_data(void)</div><div class="ttdef"><b>Definition</b> BL_A_BOX.h:96</div></div>
+<div class="ttc" id="aBL__A__BOX_8h_html_aa807ade5b93f6697cfac0ae05b7f5255"><div class="ttname"><a href="BL__A__BOX_8h.html#aa807ade5b93f6697cfac0ae05b7f5255">CAN_init_peripherals</a></div><div class="ttdeci">static void CAN_init_peripherals(void)</div><div class="ttdef"><b>Definition</b> BL_A_BOX.h:159</div></div>
 <div class="ttc" id="aBL__A__BOX_8h_html_aba60db2ca6b351f91082c06fc4d18cd5"><div class="ttname"><a href="BL__A__BOX_8h.html#aba60db2ca6b351f91082c06fc4d18cd5">CAN_rx_dispatcher</a></div><div class="ttdeci">static void CAN_rx_dispatcher(uint32_t id, const uint8_t *data, uint8_t len, const FDCAN_GlobalTypeDef *bus)</div><div class="ttdef"><b>Definition</b> BL_A_BOX.h:46</div></div>
-<div class="ttc" id="aBL__A__BOX_8h_html_afba0a04c386ae2ff86a7d67c0a0a9ad0"><div class="ttname"><a href="BL__A__BOX_8h.html#afba0a04c386ae2ff86a7d67c0a0a9ad0">FDCAN1_set_filters</a></div><div class="ttdeci">static void FDCAN1_set_filters()</div><div class="ttdef"><b>Definition</b> BL_A_BOX.h:160</div></div>
 <div class="ttc" id="aVCAN_8h_html"><div class="ttname"><a href="VCAN_8h.html">VCAN.h</a></div><div class="ttdoc">Auto-generated CAN bus definitions for VCAN.</div></div>
+<div class="ttc" id="aVCAN_8h_html_a04f43a870064cf90eb018b19e4234a2e"><div class="ttname"><a href="VCAN_8h.html#a04f43a870064cf90eb018b19e4234a2e">VCAN_BAUD_RATE</a></div><div class="ttdeci">static constexpr PHAL_FDCAN_BaudRate_t VCAN_BAUD_RATE</div><div class="ttdef"><b>Definition</b> VCAN.h:22</div></div>
 <div class="ttc" id="aVCAN_8h_html_a518d577cf588be71ace8349fd551b636"><div class="ttname"><a href="VCAN_8h.html#a518d577cf588be71ace8349fd551b636">BL_A_BOX_INFO_DLC</a></div><div class="ttdeci">static constexpr uint8_t BL_A_BOX_INFO_DLC</div><div class="ttdef"><b>Definition</b> VCAN.h:1156</div></div>
 <div class="ttc" id="aVCAN_8h_html_a53d71158204cf9f3317b50cbe29f5033"><div class="ttname"><a href="VCAN_8h.html#a53d71158204cf9f3317b50cbe29f5033">BL_A_BOX_INFO_MSG_ID</a></div><div class="ttdeci">static constexpr uint32_t BL_A_BOX_INFO_MSG_ID</div><div class="ttdef"><b>Definition</b> VCAN.h:1155</div></div>
 <div class="ttc" id="aVCAN_8h_html_a82119ba5ad4debe56b5d414aab5e0977"><div class="ttname"><a href="VCAN_8h.html#a82119ba5ad4debe56b5d414aab5e0977">BL_A_BOX_CRC_MSG_ID</a></div><div class="ttdeci">static constexpr uint32_t BL_A_BOX_CRC_MSG_ID</div><div class="ttdef"><b>Definition</b> VCAN.h:387</div></div>
@@ -306,6 +315,7 @@ $(function(){initNavTree('BL__A__BOX_8h_source.html',''); initResizable(true); }
 <div class="ttc" id="acan__types_8h_html_a6240b2888266f1d584c0a7bd57f51421"><div class="ttname"><a href="can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421">bootloader_target_id_t</a></div><div class="ttdeci">bootloader_target_id_t</div><div class="ttdef"><b>Definition</b> can_types.h:108</div></div>
 <div class="ttc" id="acan__types_8h_html_a8bd8b746690f284cbd524f248f4bb598"><div class="ttname"><a href="can__types_8h.html#a8bd8b746690f284cbd524f248f4bb598">bootloader_status_t</a></div><div class="ttdeci">bootloader_status_t</div><div class="ttdef"><b>Definition</b> can_types.h:101</div></div>
 <div class="ttc" id="acan__version_8h_html"><div class="ttname"><a href="can__version_8h.html">can_version.h</a></div></div>
+<div class="ttc" id="afdcan_8c_html_aba16c779399bc36e855cefa3df29c74d"><div class="ttname"><a href="fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d">PHAL_FDCAN_init</a></div><div class="ttdeci">void PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate)</div><div class="ttdoc">Initialize an FDCAN peripheral for classic (non-FD) CAN operation.</div><div class="ttdef"><b>Definition</b> fdcan.c:14</div></div>
 <div class="ttc" id="afdcan_8c_html_ac89d6a90c4f53644b4189ddb0e1fea18"><div class="ttname"><a href="fdcan_8c.html#ac89d6a90c4f53644b4189ddb0e1fea18">PHAL_FDCAN_setFilters</a></div><div class="ttdeci">bool PHAL_FDCAN_setFilters(FDCAN_GlobalTypeDef *fdcan, const uint32_t *sid_list, uint32_t num_sid, const uint32_t *xid_list, uint32_t num_xid)</div><div class="ttdoc">Configure exact-match acceptance filters for RX FIFO0.</div><div class="ttdef"><b>Definition</b> fdcan.c:37</div></div>
 <div class="ttc" id="astructCanMsgTypeDef__t_html"><div class="ttname"><a href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a></div><div class="ttdoc">Classic CAN frame.</div><div class="ttdef"><b>Definition</b> can.h:47</div></div>
 <div class="ttc" id="astructCanMsgTypeDef__t_html_a0d52afc8b4b2d41691788a27de382b78"><div class="ttname"><a href="structCanMsgTypeDef__t.html#a0d52afc8b4b2d41691788a27de382b78">CanMsgTypeDef_t::Data</a></div><div class="ttdeci">uint8_t Data[8]</div><div class="ttdef"><b>Definition</b> can.h:58</div></div>
