@@ -112,6 +112,10 @@ fn run_with_connection(
                                             continue;
                                         }
                                     };
+                                    update = can_thread::DatabaseUpdate::Loaded {
+                                        database: Box::new(loaded_database.clone()),
+                                        bus_id: selected_bus_id,
+                                    };
                                     Some(loaded_database)
                                 }
                                 Err(error) => {
@@ -121,12 +125,6 @@ fn run_with_connection(
                                     });
                                     continue;
                                 }
-                            };
-                            update = can_thread::DatabaseUpdate::Loaded {
-                                database: Box::new(
-                                    database.as_ref().expect("database was loaded").clone(),
-                                ),
-                                bus_id: selected_bus_id,
                             };
                         }
 
@@ -225,9 +223,10 @@ fn run_with_connection(
 
         // Reconnect the selected source when its retry delay has elapsed.
         let now = time::Instant::now();
-        if let Some(result) =
-            connection.connect(now, can_thread::decode::bus(database.as_ref(), selected_bus_id))
-        {
+        if let Some(result) = connection.connect(
+            now,
+            can_thread::decode::bus(database.as_ref(), selected_bus_id),
+        ) {
             match result {
                 Ok(()) => {
                     if let Some(logger) = &mut logger {

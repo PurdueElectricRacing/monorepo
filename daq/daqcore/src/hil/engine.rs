@@ -1,5 +1,5 @@
 use crate::hil::config::ExecutionMode;
-use std::{fmt::format, path, time};
+use std::{path, time};
 
 use crate::{
     can_thread::tx::{AddSendMessage, SendAmount::Once},
@@ -134,9 +134,10 @@ impl HilEngine {
         database: Option<&Database>,
         bus_id: u8,
     ) -> Result<(Vec<AddSendMessage>, Vec<String>), String> {
-        if !self.has_decoder(database, bus_id) {
+        let Some(database) = database.filter(|database| database.bus_by_id(bus_id).is_some())
+        else {
             return Err("Decoder has not been loaded properly".to_owned());
-        }
+        };
 
         if let HilState::Running {
             start_time,
@@ -174,11 +175,7 @@ impl HilEngine {
                                     continue;
                                 }
 
-                                match Self::hil_tx_to_send_message(
-                                    &tx_message,
-                                    database.expect("Checked database earlier"),
-                                    bus_id,
-                                ) {
+                                match Self::hil_tx_to_send_message(&tx_message, database, bus_id) {
                                     Ok(message) => tx_messages.push(message),
                                     Err(error) => {
                                         errors.push(format!(
@@ -211,11 +208,7 @@ impl HilEngine {
                                 continue;
                             }
 
-                            match Self::hil_tx_to_send_message(
-                                &tx_message,
-                                database.expect("Checked database earlier"),
-                                bus_id,
-                            ) {
+                            match Self::hil_tx_to_send_message(&tx_message, database, bus_id) {
                                 Ok(message) => tx_messages.push(message),
                                 Err(error) => {
                                     errors.push(format!(
