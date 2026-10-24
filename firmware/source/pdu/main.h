@@ -13,10 +13,10 @@
 // Status indicators
 #define HEARTBEAT_LED_PORT  (GPIOC)
 #define HEARTBEAT_LED_PIN   (15)
-#define ERROR_LED_PORT      (GPIOC)
-#define ERROR_LED_PIN       (13)
 #define CONNECTION_LED_PORT (GPIOC)
 #define CONNECTION_LED_PIN  (14)
+#define ERROR_LED_PORT      (GPIOC)
+#define ERROR_LED_PIN       (13)
 
 // Switch control lines
 #define CTRL1_PORT  (GPIOA)

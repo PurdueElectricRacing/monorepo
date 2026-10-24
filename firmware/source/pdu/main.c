@@ -70,6 +70,10 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     // VCAN
     PHAL_PIN_DEFS_FDCAN1_TX_PA12,
     PHAL_PIN_DEFS_FDCAN1_RX_PA11,
+
+    // SCAN
+    PHAL_PIN_DEFS_FDCAN2_TX_PB13,
+    PHAL_PIN_DEFS_FDCAN2_RX_PB12
 };
 
 // !! ADC PHAL this api sucks
