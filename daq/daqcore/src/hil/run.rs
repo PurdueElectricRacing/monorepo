@@ -90,9 +90,13 @@ impl HilRunningTest {
             .map(InProgressExpect::new)
             .collect::<Vec<_>>();
         in_progress_expects.sort_by(|a, b| a.expect.window[0].total_cmp(&b.expect.window[0]));
+        
+        let mut tx_remaining = test.tx;
+        tx_remaining.sort_by(|a, b| a.timestamp.total_cmp(&b.timestamp));
+        
         Self {
             test_info,
-            tx_remaining: test.tx,
+            tx_remaining,
             in_progress_expects,
         }
     }
