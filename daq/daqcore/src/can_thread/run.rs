@@ -365,6 +365,7 @@ fn run_with_connection(
                         let raw_bus_id = decoder.raw_frame_bus(&frame);
                         // Bus ID is 3 bits so 0-7 supported
                         if raw_bus_id <= 7
+                        // if selected_bus_id <= 1
                             && let Some(logger) = &mut logger
                             && let Err(error) = logger.log_frame(&frame, raw_bus_id)
                         {

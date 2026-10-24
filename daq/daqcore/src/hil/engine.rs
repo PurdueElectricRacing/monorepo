@@ -29,7 +29,6 @@ pub struct HilSnapshot {
     pub start_error: Option<String>,
     pub finished: bool,
     pub skipped_from: Option<usize>,
-    pub has_decoder: bool,
 }
 
 impl HilSnapshot {
@@ -43,7 +42,6 @@ impl HilSnapshot {
             start_error: None,
             finished: false,
             skipped_from: None,
-            has_decoder: false,
         }
     }
 }
@@ -65,8 +63,6 @@ enum HilState {
 pub struct HilEngine {
     state: HilState,
     base: path::PathBuf,
-    superdbc: Option<Database>,
-    bus_id: u8,
 }
 
 impl HilEngine {
@@ -74,26 +70,7 @@ impl HilEngine {
         Self {
             state: HilState::Idle { start_error: None },
             base,
-            superdbc: None,
-            bus_id: 0,
         }
-    }
-
-    pub fn set_decoder(&mut self, superdbc: Database, bus_id: u8) {
-        self.superdbc = Some(superdbc);
-        self.bus_id = bus_id;
-    }
-
-    pub fn set_bus_id(&mut self, bus_id: u8) {
-        self.bus_id = bus_id;
-    }
-
-    pub fn has_decoder(&self) -> bool {
-        self.superdbc.is_some()
-    }
-
-    pub fn has_decoder(&self, database: Option<&Database>, bus_id: u8) -> bool {
-        database.is_some_and(|database| database.bus_by_id(bus_id).is_some())
     }
 
     pub fn has_decoder(&self, database: Option<&Database>, bus_id: u8) -> bool {
@@ -250,11 +227,7 @@ impl HilEngine {
                                     continue;
                                 }
 
-                                match Self::hil_tx_to_send_message(
-                                    &tx_message,
-                                    superdbc,
-                                    self.bus_id,
-                                ) {
+                                match Self::hil_tx_to_send_message(&tx_message, database, bus_id) {
                                     Ok(message) => tx_messages.push(message),
                                     Err(error) => {
                                         errors.push(format!(
@@ -290,7 +263,7 @@ impl HilEngine {
                             continue;
                         }
 
-                            match Self::hil_tx_to_send_message(&tx_message, superdbc, self.bus_id) {
+                            match Self::hil_tx_to_send_message(&tx_message, database, bus_id) {
                                 Ok(message) => tx_messages.push(message),
                                 Err(error) => {
                                     errors.push(format!(
@@ -314,13 +287,13 @@ impl HilEngine {
 
     fn hil_tx_to_send_message(
         tx_message: &hil::config::TxMessage,
-        superdbc: &Database,
+        database: &Database,
         bus_id: u8,
     ) -> Result<AddSendMessage, String> {
-        let message = superdbc
+        let message = database
             .messages()
             .find(|message| message.key().bus_id == bus_id && message.name() == tx_message.msg_name)
-            .ok_or("Message name not found on CAN bus")?;
+            .ok_or(format!("Message name not found on CAN bus {}", bus_id))?;
 
         let key = message.key();
 
@@ -594,7 +567,6 @@ impl HilEngine {
                 start_error: start_error.clone(),
                 finished: false,
                 skipped_from: None,
-                has_decoder: self.has_decoder(),
             },
             HilState::Running {
                 start_time,
@@ -610,7 +582,6 @@ impl HilEngine {
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
-                has_decoder: self.has_decoder(),
 
                 finished: self.all_finished(),
                 skipped_from: if *stopped_early {
