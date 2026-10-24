@@ -12,10 +12,15 @@ serde.workspace = true
 serde_json.workspace = true
 slcan = { workspace = true }
 serialport.workspace = true
+
 rand = { version = "0.10.1" }
 globset = { version = "0.4.18" }
 indexmap = { version = "2.14.0", features = ["serde"] }
 regress = "0.12"
+
+arrow-array = "60.0.0"
+arrow-schema = "60.0.0"
+parquet = { version = "60.0.0", default-features = false, features = ["arrow", "zstd"] }
 
 [build-dependencies]
 typify = { version = "=0.8.0", default-features = false }

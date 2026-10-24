@@ -17,6 +17,10 @@ pub struct CorrelationFunction {
 }
 
 impl CorrelationFunction {
+    pub fn coefficients(&self) -> (f64, f64) {
+        (self.slope, self.intercept_ms)
+    }
+
     pub fn correlate(&self, log_ts: u32) -> Option<chrono::DateTime<chrono::Utc>> {
         let unix_ms = self.slope * log_ts as f64 + self.intercept_ms;
         match chrono::DateTime::from_timestamp_millis(unix_ms.round() as i64) {

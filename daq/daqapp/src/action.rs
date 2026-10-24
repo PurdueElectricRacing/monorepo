@@ -29,8 +29,12 @@ impl AppAction {
                 widget_constructor::WidgetConstructor::Bootloader,
             ),
             (
-                "Spawn Log Parser",
-                widget_constructor::WidgetConstructor::LogParser,
+                "Spawn CSV Export",
+                widget_constructor::WidgetConstructor::CsvExport,
+            ),
+            (
+                "Spawn Parquet Export",
+                widget_constructor::WidgetConstructor::ParquetExport,
             ),
             (
                 "Spawn Send UI",

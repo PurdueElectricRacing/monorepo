@@ -1,5 +1,5 @@
 use crate::{log_parse, superdbc};
-use std::{collections::HashMap, fs, path};
+use std::{collections, fs, path};
 
 const HEADER_ROW_COUNT: usize = 7;
 const HEADER_COLUMN_COUNT: usize = 3; // real time, daq timestamp, then per-row header label
@@ -42,8 +42,8 @@ pub struct TableBuilder {
     header_columns: Vec<TableColumn>,
 
     // Key is (bus name, msg name, signal name), value is numeric column index
-    indexer: HashMap<(String, String, String), usize>,
-    enum_indexer: HashMap<(String, String, String), usize>,
+    indexer: collections::HashMap<(String, String, String), usize>,
+    enum_indexer: collections::HashMap<(String, String, String), usize>,
     next_col_idx: usize,
 }
 
@@ -52,8 +52,8 @@ impl Default for TableBuilder {
         Self {
             header_columns: Vec::new(),
             next_col_idx: HEADER_COLUMN_COUNT,
-            indexer: HashMap::new(),
-            enum_indexer: HashMap::new(),
+            indexer: collections::HashMap::new(),
+            enum_indexer: collections::HashMap::new(),
         }
     }
 }

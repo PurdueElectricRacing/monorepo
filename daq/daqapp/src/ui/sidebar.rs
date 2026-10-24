@@ -59,9 +59,15 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 ));
             }
 
-            if ui.button("Add Log Parser").clicked() {
+            if ui.button("Add CSV Export").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
-                    widget_constructor::WidgetConstructor::LogParser,
+                    widget_constructor::WidgetConstructor::CsvExport,
+                ));
+            }
+
+            if ui.button("Add Parquet Export").clicked() {
+                app.action_queue.push(action::AppAction::SpawnWidget(
+                    widget_constructor::WidgetConstructor::ParquetExport,
                 ));
             }
 

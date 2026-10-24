@@ -1,7 +1,7 @@
 use crate::{app, settings};
 use std::{path, sync::mpsc, thread};
 
-pub struct LogParser {
+pub struct CsvExport {
     pub title: String,
     pub logs_dir: Option<path::PathBuf>,
     pub output_dir: Option<path::PathBuf>,
@@ -12,7 +12,7 @@ pub struct LogParser {
     parse_text: String,
 }
 
-impl LogParser {
+impl CsvExport {
     pub fn new(instance_num: usize) -> Self {
         Self {
             title: format!("Log Parser #{instance_num}"),
@@ -58,7 +58,7 @@ impl LogParser {
             let result = daqcore::superdbc::database::Database::load(&path)
                 .map_err(|error| error.to_string())
                 .and_then(|database| {
-                    daqcore::log_parse::parse_logs_to_tables(
+                    daqcore::log_parse::csv_export::parse_logs_to_tables(
                         &logs_dir,
                         &output_dir,
                         &prefix,
