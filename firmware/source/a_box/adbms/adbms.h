@@ -76,8 +76,8 @@ static_assert(ADBMS_ERROR_BACKOFF_MS > ADBMS_CHIP_SLEEP_CYCLE_MS, "backoff shoul
 typedef enum : uint8_t {
     ADBMS_STATE_DISCONNECTED = 0, // Wakes the chain and begins the connect sequence
     ADBMS_STATE_WRITE_REGA   = 1, // Write REGA configuration to all modules
-    ADBMS_STATE_WRITE_REGB   = 2, // Write REGB configuration to all modules
-    ADBMS_STATE_CHECK_REGA   = 3, // Read REGA back and verify it matches what was written
+    ADBMS_STATE_CHECK_REGA   = 2, // Read REGA back and verify it matches what was written
+    ADBMS_STATE_WRITE_REGB   = 3, // Write REGB configuration to all modules
     ADBMS_STATE_CHECK_REGB   = 4, // Read REGB back and verify it matches what was written
     ADBMS_STATE_START_ADCV   = 5, // Start continuous cell voltage conversions
     ADBMS_STATE_READ_CELLS   = 6, // Read all cell voltages and sanity-check the range
