@@ -319,12 +319,12 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
         }
         case ADBMS_STATE_WRITE_REGA: {
             adbms_write_rega(bms);
-            next_state = ADBMS_STATE_WRITE_REGB;
+            next_state = ADBMS_STATE_CHECK_REGA;
             break;
         }
         case ADBMS_STATE_CHECK_REGA: {
             if (adbms_read_and_check_rega(bms)) {
-                next_state = ADBMS_STATE_CHECK_REGB;
+                next_state = ADBMS_STATE_WRITE_REGB;
             } else {
                 bms->is_connected = false;
                 next_state = ADBMS_STATE_RECOVERING;
@@ -333,12 +333,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
         }
         case ADBMS_STATE_WRITE_REGB: {
             adbms_write_regb(bms);
-            // WRITE_REGB is reached both by the connect chain and the read/balance loop
-            if (bms->is_connected) {
-                next_state = ADBMS_STATE_CHECK_REGB;
-            } else {
-                next_state = ADBMS_STATE_CHECK_REGA;
-            }
+            next_state = ADBMS_STATE_CHECK_REGB;
             break;
         }
         case ADBMS_STATE_CHECK_REGB: {

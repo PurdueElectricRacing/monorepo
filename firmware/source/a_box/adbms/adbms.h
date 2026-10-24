@@ -67,7 +67,7 @@ static_assert(ADBMS_ERROR_BACKOFF_MS > ADBMS_CHIP_SLEEP_CYCLE_MS, "backoff shoul
  * @brief ADBMS driver connection/operation state.
  *
  * Connect chain:
- *   DISCONNECTED -> WRITE_REGA -> WRITE_REGB -> CHECK_REGA -> CHECK_REGB -> START_ADCV -> read/balance loop
+ *   DISCONNECTED -> WRITE_REGA -> CHECK_REGA -> WRITE_REGB -> CHECK_REGB -> START_ADCV -> read/balance loop
  * Read/balance loop:
  *   READ_CELLS -> READ_TEMPS -> SET_BALANCE -> WRITE_REGB -> CHECK_REGB -> READ_CELLS
  * On failures: CHECK_REGA/B, READ_CELLS -> RECOVERING -> DISCONNECTED
