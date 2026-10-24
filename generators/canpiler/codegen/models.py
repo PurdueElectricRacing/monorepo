@@ -52,6 +52,7 @@ class SignalConstantsRenderView:
 class PeripheralRenderView:
     name: str
     enqueue_func: str
+    baud_rate_constant: str
 
 
 @dataclass(frozen=True)

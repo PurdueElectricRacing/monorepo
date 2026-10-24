@@ -67,5 +67,6 @@ void CAN_init(void) {
 
     CAN_setup_IRQs();
 
+    CAN_init_peripherals();
     CAN_setup_filters();
 }

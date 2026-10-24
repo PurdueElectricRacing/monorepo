@@ -54,7 +54,6 @@ int main() {
         HardFault_Handler();
     }
 
-    PHAL_FDCAN_init(FDCAN2, TEST_CAN_BAUD_RATE);
     CAN_init();
 
     START_CAN_TASKS();  

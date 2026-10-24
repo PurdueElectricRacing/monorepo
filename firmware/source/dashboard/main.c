@@ -142,8 +142,6 @@ int main(void) {
         HardFault_Handler();
     }
 
-    PHAL_FDCAN_init(FDCAN2, VCAN_BAUD_RATE);
-    PHAL_FDCAN_init(FDCAN3, SCAN_BAUD_RATE);
     CAN_init();
 
     // Software Initialization
