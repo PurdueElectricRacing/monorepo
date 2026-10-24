@@ -53,9 +53,9 @@ def calculate_bus_load(context: LinkedCan) -> None:
 
         # Determine color formatting
         color = bcolors.GREEN
-        if load_percent >= 70:
+        if load_percent >= 50:
             color = bcolors.RED
-        elif load_percent >= 50:
+        elif load_percent >= 35:
             color = bcolors.ORANGE
 
         if color != bcolors.GREEN:
