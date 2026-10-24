@@ -1,5 +1,5 @@
 use crate::{
-    can, can_thread::{self, DatabaseUpdate, tx::AddSendMessage}, driver, hil,
+    can, can_thread::{self, DatabaseUpdate, tx::AddSendMessage}, driver, hil, superdbc,
 };
 use std::{sync::mpsc, thread, time};
 
@@ -27,7 +27,8 @@ fn run_with_connection(
     mut connection: can_thread::connection::ConnectionManager,
 ) {
     let events = can_thread::events::Events(out);
-    let mut decoder = can_thread::decode::FrameDecoder::default();
+    let mut database: Option<superdbc::database::Database> = Option::default();
+    let mut selected_selection: can_thread::BusSelection = can_thread::BusSelection::default();
     let mut sends = can_thread::tx::SendTable::default();
     let mut load = can::bus_load::BusLoadTracker::new(time::Instant::now());
     let mut logger = config.log_folder.map(can::logger::DaqLogger::new);
@@ -75,25 +76,85 @@ fn run_with_connection(
                     request_id,
                     selection,
                 } => {
-                    let update = match decoder.select(&selection) {
-                        Ok(update) => update,
-                        Err(error) => {
-                            emit!(can_thread::CanThreadEvent::DatabaseSelected {
-                                request_id,
-                                result: Err(error)
-                            });
-                            continue;
+                    let update: DatabaseUpdate;
+
+                    // Load and validate file replacements on the worker
+                    // Failures leave both the definitions and bus selection unchanged.
+                    match &selection {
+                        can_thread::DatabaseRequest::Load {
+                            path,
+                            preferred_selection,
+                        } => {
+                            database = match superdbc::database::Database::load(path)
+                                .map_err(|error| error.to_string())
+                            {
+                                Ok(loaded_database) => {
+                                    let fallback_preset = match preferred_selection {
+                                        Some(can_thread::BusSelection::Single(_)) => None,
+                                        _ => Some(can_thread::BusSelection::Vehicle),
+                                    };
+                                    let selection = match [*preferred_selection, fallback_preset]
+                                        .into_iter()
+                                        .flatten()
+                                        .find(|sel| sel.resolve_buses(&loaded_database).is_some())
+                                        .or_else(|| can_thread::BusSelection::default_single(&loaded_database))
+                                        .ok_or_else(|| "SuperDBC contains no selectable buses".to_owned())
+                                    {
+                                        Ok(selection) => selection,
+                                        Err(error) => {
+                                            emit!(can_thread::CanThreadEvent::DatabaseSelected {
+                                                request_id,
+                                                result: Err(error)
+                                            });
+                                            continue;
+                                        }
+                                    };
+                                    selected_selection = selection.clone();
+                                    update = can_thread::DatabaseUpdate::Loaded {
+                                        database: Box::new(loaded_database.clone()),
+                                        selection: selection,
+                                    };
+                                    Some(loaded_database)
+                                }
+                                Err(error) => {
+                                    emit!(can_thread::CanThreadEvent::DatabaseSelected {
+                                        request_id,
+                                        result: Err(error)
+                                    });
+                                    continue;
+                                }
+                            };
                         }
-                    };
-                    match &update {
-                        DatabaseUpdate::Loaded { database, selection } => {
-                            hil.set_decoder((**database).clone(), *selection)
+
+                        can_thread::DatabaseRequest::Bus { selection } => {
+                            if database.is_none() {
+                                emit!(can_thread::CanThreadEvent::DatabaseSelected {
+                                    request_id,
+                                    result: Err("No SuperDBC database is loaded".to_owned())
+                                });
+                                continue;
+                            } else if let Some(db) = &database {
+                                if selection.resolve_buses(db).is_none() {
+                                    emit!(can_thread::CanThreadEvent::DatabaseSelected {
+                                        request_id,
+                                        result: Err(format!("SuperDBC does not support {:?}", selection))
+                                    });
+                                    continue;
+                                }
+                            }
+                            selected_selection = *selection;
+                            update = can_thread::DatabaseUpdate::Bus { selection: *selection };
                         }
-                        DatabaseUpdate::Bus { selection } => hil.set_selection(*selection),
                     }
+
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
-                    hil.handle_command(hil::engine::HilCommand::Stop, now);
+                    hil.handle_command(
+                        hil::engine::HilCommand::Stop,
+                        now,
+                        database.as_ref(),
+                        &selected_selection,
+                    );
                     hil_capture_complete = false;
                     load.reset(now);
                     if let Some(logger) = &mut logger {
@@ -123,7 +184,7 @@ fn run_with_connection(
                 },
                 can_thread::CanThreadCommand::Hil(command) => {
                     let now = time::Instant::now();
-                    hil.handle_command(command, now);
+                    hil.handle_command(command, now, database.as_ref(), &selected_selection);
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                     hil_last = now;
                     hil_capture_complete = false;
@@ -152,7 +213,10 @@ fn run_with_connection(
 
         // Reconnect the selected source when its retry delay has elapsed.
         let now = time::Instant::now();
-        if let Some(result) = connection.connect(now, &decoder.active_buses()) {
+        if let Some(result) = connection.connect(
+            now,
+            &can_thread::decode::active_buses(database.as_ref(), selected_selection),
+        ) {
             match result {
                 Ok(()) => {
                     if let Some(logger) = &mut logger {
@@ -170,7 +234,7 @@ fn run_with_connection(
             && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
         {
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
-            match hil.queue_tx(now) {
+            match hil.queue_tx(now, database.as_ref(), &selected_selection) {
                 Ok((messages, errors)) => {
                     tx_messages = messages;
                     for error in errors {
@@ -274,7 +338,7 @@ fn run_with_connection(
                 Ok(frames) => {
                     got_frames = !frames.is_empty();
                     for frame in frames {
-                        let raw_bus_id = decoder.raw_frame_bus(&frame);
+                        let raw_bus_id = can_thread::decode::raw_frame_bus(database.as_ref(), selected_selection, &frame);
                         // Bus ID is 3 bits so 0-7 supported
                         if raw_bus_id <= 7
                             && let Some(logger) = &mut logger
@@ -291,12 +355,16 @@ fn run_with_connection(
                             emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                         }
 
-                        let Some(bus_id) = decoder.resolve_frame_bus(&frame) else {
+                        let Some(bus_id) = can_thread::decode::resolve_frame_bus(database.as_ref(), selected_selection, &frame) else {
                             continue;
                         };
                         load.record_frame(bus_id, frame.data.len(), time::Instant::now());
 
-                        let frame = decoder.decode(frame, bus_id, crate::time::Time::now());
+                        let frame = can_thread::decode::decode(
+                            database.as_ref(),
+                            frame,
+                            bus_id, crate::time::Time::now(),
+                        );
                         if !updating {
                             hil.process_parsed(&frame, time::Instant::now());
                         }
@@ -315,7 +383,7 @@ fn run_with_connection(
         }
 
         if let Some(buses) = load.poll(
-            &decoder.active_buses(),
+            &can_thread::decode::active_buses(database.as_ref(), selected_selection),
             connection.driver_speed(),
             time::Instant::now(),
         ) {
