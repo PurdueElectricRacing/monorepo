@@ -118,6 +118,7 @@ DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(fault_library_periodic, PDU_FAULT_SYNC_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
 RTOS_DEFINE_TASK(cooling_fsm_periodic, COOLING_FSM_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024);
 RTOS_DEFINE_TASK(current_sense_periodic, CURRENT_SENSE_TASK_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(SWITCH_enable_all, 0, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
 
 int main() {
@@ -147,6 +148,7 @@ int main() {
     RTOS_START_TASK(fault_library_periodic);
     RTOS_START_TASK(current_sense_periodic);
     RTOS_START_TASK(cooling_fsm_periodic);
+    RTOS_START_TASK(SWITCH_enable_all);
     START_WATCHDOG_TASK();
 
     vTaskStartScheduler();

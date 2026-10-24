@@ -7,6 +7,8 @@
 
 #include "switch.h"
 #include "main.h"
+#include "common/phal_G4/gpio/gpio.h"
+#include "common/rtos/rtos.h"
 
 switch_t g_switches[NUM_SWITCHES] = {
     [SWITCH_SDC] = {
@@ -174,4 +176,40 @@ void SWITCH_disable(switch_id_t switch_id) {
         g_switches[switch_id].ctrl_pin,
         false
     );
+}
+
+void SWITCH_enable_all() {
+    static constexpr uint32_t SWITCH_ENABLE_DELAY_MS = 100;
+    static const switch_id_t enable_order[NUM_SWITCHES] = {
+        // Left column, top to bottom.
+        SWITCH_HXFAN,
+        SWITCH_SDC_LOOP,
+        SWITCH_PUMP1,
+        SWITCH_PUMP2,
+        SWITCH_DL_FRONT,
+        SWITCH_TV,
+        SWITCH_ABOX,
+        SWITCH_DASH,
+        SWITCH_SDC,
+        SWITCH_FAN4,
+        SWITCH_FAN5,
+        // Right column, top to bottom.
+        SWITCH_FAN1,
+        SWITCH_DAQ,
+        SWITCH_HV_BOARD,
+        SWITCH_AMK1,
+        SWITCH_AMK2,
+        SWITCH_FAN2,
+        SWITCH_FAN3,
+        SWITCH_DL_REAR,
+        SWITCH_EMETER,
+        SWITCH_MAIN,
+    };
+
+    for (uint32_t i = 0; i < NUM_SWITCHES; i++) {
+        SWITCH_enable(enable_order[i]);
+        RTOS_delay_ms(SWITCH_ENABLE_DELAY_MS);
+    }
+
+    vTaskDelete(NULL);
 }
