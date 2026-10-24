@@ -568,8 +568,8 @@
             "max": 1,
             "min": 0,
             "priority": "error",
-            "time_to_latch": 10000,
-            "time_to_unlatch": 1000,
+            "time_to_latch": 1000,
+            "time_to_unlatch": 200,
             "lcd_message": "BMS Disconnected"
         },
         {
