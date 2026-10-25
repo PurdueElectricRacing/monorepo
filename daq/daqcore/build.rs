@@ -9,8 +9,8 @@ fn main() -> Result<(), Box<dyn error::Error>> {
         env::var_os("CARGO_MANIFEST_DIR").ok_or("Cargo did not set CARGO_MANIFEST_DIR")?,
     );
 
-    // CANpiler writes its schema into the repository's ignored dbc directory
-    let schema = manifest.join("../../dbc/superdbc.schema.json");
+    // CANpiler writes its schema into the repository's ignored superdbc directory
+    let schema = manifest.join("../../superdbc/superdbc.schema.json");
 
     // The checked-in fallback is used when the schema is missing
     // The fallback is also always refreshed when the schema is present
@@ -26,7 +26,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     println!("cargo::rerun-if-changed=build_support");
     println!("cargo::rerun-if-changed={}", schema.display());
     println!("cargo::rerun-if-changed={}", fallback.display());
-    // A fresh checkout may have neither the schema nor the dbc directory
+    // A fresh checkout may have neither the schema nor the superdbc directory
     // Watch the nearest existing directory so Cargo notices them appearing
     let mut directory = schema
         .parent()

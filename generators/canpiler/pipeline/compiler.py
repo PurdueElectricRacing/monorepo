@@ -380,7 +380,7 @@ def _place_signal(
     length: int,
     bit_shift: int,
 ) -> tuple[int, ByteOrder]:
-    """Convert the sequential packing position to the DBC start bit and byte order."""
+    """Convert the sequential packing position to the signal start bit and byte order."""
     if byte_order == "big_endian" and length > 8:
         if bit_shift % 8 != 0 or length not in (16, 32, 64):
             raise ValueError(

@@ -41,12 +41,12 @@ Maps a firmware node onto hardware peripherals and message lists.
 - `description`: (Optional) Short description of signal purpose.
 - `data_type`: C type (`uint8_t`...`float`) or a custom type defined in `configs/system/common_types.json`.
 - `length`: (Optional for standard types) Bit-length. Required for custom packing or sub-byte types.
-- `unit`: (Optional) Physical unit label for DBC generation (e.g., `V`, `Amps`, `C`).
+- `unit`: (Optional) Physical unit label exported in SuperDBC (e.g., `V`, `Amps`, `C`).
 - `scale`: Multiplier for physical value conversion. Default 1.0.
 - `offset`: Optional. Linear offset applied during physical conversion. Default 0.0.
 - `min`: (Optional) Minimum theoretical value.
 - `max`: (Optional) Maximum theoretical value.
-- `choices`: (Optional) List of strings for enum-like labels in DBC.
+- `choices`: (Optional) List of strings for enum-like labels in SuperDBC.
 - `display_format`: (Optional) Display override exported in SuperDBC: `"hex"`, `"binary"`, `"integer"`, `"0f"`, `"1f"`, `"2f"`, `"3f"`, `"4f"`, `"5f"`, `"6f"`, or `"7f"`. `"integer"` and `"0f"` both mean zero decimal places. CANpiler infers the display format from the signal type, scale, and offset if this field is omitted. Inferred precision beyond seven decimal places requires an explicit supported override.
 
 
@@ -54,7 +54,7 @@ Maps a firmware node onto hardware peripherals and message lists.
 > If `scale` is present, `unit` is required by the schema.
 
 > [!NOTE]
-> Signals named `reserved`, `reserved1`, etc. remain part of the message layout, RX data structs, and DBC output. For local TX helpers, reserved signals are omitted from the `CAN_SEND_*` arguments and automatically packed as zero.
+> Signals named `reserved`, `reserved1`, etc. remain part of the message layout, RX data structs, and SuperDBC output. For local TX helpers, reserved signals are omitted from the `CAN_SEND_*` arguments and automatically packed as zero.
 
 > [!TIP]
 > **Scaling Constants:** Node headers generate directional `static constexpr float` constants for every local signal with a scale != 1.0.

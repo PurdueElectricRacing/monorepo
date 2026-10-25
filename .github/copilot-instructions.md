@@ -25,7 +25,7 @@ These review checks capture the essence of consistent, safe, and maintainable co
 - Firmware uses CMake and `arm-none-eabi-gcc` for STM32 Cortex-M (G4, F4) targets.
 - Firmware is C23: `bool`, `nullptr`, `constexpr`, and `static_assert` are valid.
 - DAQ is a Rust Cargo workspace. Firmware allocation and C naming restrictions do not apply to Rust or Python host tools.
-- CAN, fault, unit, and DBC artifacts are generated from `generators/` inputs. Check fixes in configurations, generator logic, or templates rather than hand-edited generated outputs.
+- CAN, fault, unit, and SuperDBC artifacts are generated from `generators/` inputs. Check fixes in configurations, generator logic, or templates rather than hand-edited generated outputs.
 
 ## Code Standards
 
@@ -75,7 +75,7 @@ These review checks capture the essence of consistent, safe, and maintainable co
 - Check CAN IDs, bus mappings, payload sizes, signedness, byte order, units, and scale/offset across generators, firmware, and DAQ consumers.
 - Check bootloader compatibility across resident firmware, applications, package manifests, and the DAQ updater: board names, addresses, image size/padding, CRC, CAN IDs, and protocol handshakes.
 - Check telemetry time alignment, derived signals, and missing/non-finite data in decoding and plotting. Check numeric narrowing and lossy conversions.
-- Check runtime file paths against the DAQ package working directories, including settings, logs, themes, HIL presets, and generated DBC files.
+- Check runtime file paths against the DAQ package working directories, including settings, logs, themes, HIL presets, and generated SuperDBC files.
 
 ## Errors
 

@@ -45,9 +45,8 @@ jobs:
             firmware/output/**/*.elf
             firmware/output/**/*.hex
             firmware/output/**/*.tar.gz
-            dbc/*.dbc
-            dbc/superdbc_*.json
-            dbc/superdbc.schema.json
+            superdbc/superdbc_*.json
+            superdbc/superdbc.schema.json
           retention-days: ${{ github.ref == 'refs/heads/master' && 90 || 7 }}
 
   cppcheck:

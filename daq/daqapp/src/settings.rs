@@ -5,7 +5,7 @@ pub const SETTINGS_PATH: &str = "settings.json";
 pub const DEFAULT_LOG_FOLDER: &str = "logs";
 
 pub fn database_dir() -> Option<path::PathBuf> {
-    let path = path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../dbc");
+    let path = path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../superdbc");
     path.is_dir().then_some(path)
 }
 
