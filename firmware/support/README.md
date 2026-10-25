@@ -16,8 +16,9 @@ CMSIS-SVD register descriptions used by Cortex-Debug to render peripheral state 
 - `STM32G474.svd` Used by G4 launch configs (Main Module, Dashboard, Driveline, Torque Vectoring, A_Box, PDU, g4_testing).
 
 ## `openocd/`
-OpenOCD helpers loaded from VS Code debug configs. Only `openocd-gdb.cfg` is wired into the standard flow; the others are kept as ad-hoc helpers.
+OpenOCD configs for debugging and board provisioning, plus ad-hoc helpers.
 - `openocd-gdb.cfg` Auto-`resume` on `gdb-detach`. Loaded by the DAQ debug config.
+- `cannector-option-bytes.cfg` Configures CANnector to boot from main flash independently of the BOOT0 pin. Run once per board using the VS Code option-byte launch entry or `openocd -f firmware/support/openocd/cannector-option-bytes.cfg` from the repository root. Reloading the persistent option bytes resets the MCU.
 - `stlink.cfg` Local ST-Link interface override (not referenced from `.vscode/`).
 - `mem_helper.tcl` Memory-access helper script (not referenced from `.vscode/`).
 - `swj-dp.tcl` SWJ/SWD helper script (not referenced from `.vscode/`).

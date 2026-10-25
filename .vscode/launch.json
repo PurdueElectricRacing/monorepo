@@ -411,7 +411,7 @@
             "type": "node-terminal",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "command": "openocd -f interface/stlink.cfg -f target/stm32g4x.cfg -c \"init\" -c \"reset halt\" -c \"stm32l4x option_read 0 0x20\" -c \"stm32l4x option_write 0 0x20 0x08000000 0x0C000000\" -c \"stm32l4x option_read 0 0x20\" -c \"stm32l4x option_load 0\" -c \"shutdown\""
+            "command": "openocd -f firmware/support/openocd/cannector-option-bytes.cfg"
         }
     ]
 }
