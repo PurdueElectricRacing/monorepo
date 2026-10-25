@@ -50,7 +50,7 @@
             "peripheral": "FDCAN2",
             "tx": [
                 {
-                    "message_name": "coolant_out",
+                    "message_name": "cooling_outputs",
                     "description": "outputs to coolant loops",
                     "signals": [
                         {
