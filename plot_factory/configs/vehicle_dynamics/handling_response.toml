@@ -10,7 +10,7 @@ forward_fill = true
 label = "Steering angle"
 
 [[panels.traces]]
-column = "VCAN.DASHBOARD.steering_angle.angle"
+column = "VCAN.BOSCH_LWS.LWS_Standard.LWS_ANGLE"
 label = "Steering angle"
 color = "tab:blue"
 

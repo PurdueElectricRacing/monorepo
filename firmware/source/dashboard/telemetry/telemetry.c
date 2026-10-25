@@ -10,18 +10,6 @@
 #include "can_library/generated/can_version.h"
 #include "common/bootloader/bootloader_common.h"
 
-// Callback to parse LWS data and forward to VCAN
-void LWS_Standard_CALLBACK(void) {
-    // forwards LWS data onto VCAN, simplifies flag parsing
-    bool data_valid = can_data.LWS_Standard.OK && can_data.LWS_Standard.CAL && can_data.LWS_Standard.TRIM;
-
-    CAN_SEND_steering_angle(
-        can_data.LWS_Standard.LWS_ANGLE,
-        can_data.LWS_Standard.LWS_SPEED,
-        data_valid
-    );
-}
-
 /**
  * @brief Reports telemetry data at 0.2 Hz rate
  * Includes: Dashboard version string

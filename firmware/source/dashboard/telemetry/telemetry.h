@@ -13,6 +13,4 @@
 static constexpr uint32_t TELEMETRY_02HZ_PERIOD_MS = 5000;
 void report_telemetry_02hz(void);
 
-void LWS_Standard_CALLBACK(void); // async LWS data callback
-
 #endif // TELEMETRY_H
