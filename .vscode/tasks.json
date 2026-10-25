@@ -51,14 +51,6 @@
             }
         },
         {
-            "label": "build firmware with generators",
-            "dependsOn": [
-                "run generators",
-                "build firmware"
-            ],
-            "dependsOrder": "sequence"
-        },
-        {
             "label": "run tests",
             "type": "shell",
             "command": "clear && python3 tests/run_tests.py",
