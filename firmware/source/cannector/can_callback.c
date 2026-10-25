@@ -8,12 +8,27 @@
 #include <string.h>
 #include "activity_leds.h"
 
+#include "can_library/generated/MCAN.h"
+#include "can_library/generated/SCAN.h"
+#include "can_library/generated/VCAN.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/rtos/rtos.h"
 #include "common/timestamped_frame/timestamped_frame.h"
 #include "main.h"
 
 volatile uint32_t last_can_rx_time_ms = 0;
+
+static inline uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
+    if (peripheral == FDCAN1) {
+        return VCAN_BUS_ID;
+    }
+    else if (peripheral == FDCAN2) {
+        return MCAN_BUS_ID;
+    }
+    else { // peripheral == FDCAN3
+        return SCAN_BUS_ID;
+    }
+}
 
 // Callback must be ISR safe
 void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
@@ -23,7 +38,7 @@ void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
     last_can_rx_time_ms = frame.ticks_ms;
 
     // todo replace when superDBC is merged
-    set_bus_id(&frame, (msg->Bus == FDCAN1) ? 0 : 1); 
+    set_bus_id(&frame, get_bus_id(msg->Bus)); 
     set_xid(&frame, msg->IDE);
     set_can_id(&frame, msg->IDE ? msg->ExtId : msg->StdId);
 

@@ -64,12 +64,6 @@ impl DaqLogger {
     }
 
     pub fn log_frame(&mut self, frame: &frame::CanFrame, bus_id: u8) -> Result<(), String> {
-        if bus_id > 1 {
-            return Err(format!(
-                "legacy logging is unavailable for bus {bus_id}; only buses 0/1 are supported"
-            ));
-        }
-
         if matches!(frame.kind, frame::FrameKind::Fd { .. }) {
             return Ok(());
         }
@@ -78,26 +72,17 @@ impl DaqLogger {
             return Err("classic CAN log payload exceeds 8 bytes".into());
         }
 
-        let mut data = [0; 8];
-        data[..frame.data.len()].copy_from_slice(&frame.data);
-        let identity_flag = if frame.identity.is_extended() {
-            log_parse::consts::IS_EID_MASK
-        } else {
-            0
-        };
+        // Convert vec to array, fill with 0s
+        let data = std::array::from_fn(|i| frame.data.get(i).copied().unwrap_or(0));
 
-        let bus_id_flag = if bus_id == 1 {
-            log_parse::consts::BUS_ID_MASK
-        } else {
-            0
-        };
-        let logged_id = frame.identity.raw_id() | identity_flag | bus_id_flag;
-
-        self.add_frame(log_parse::parse::RawFrame {
-            ticks_ms: self.start_time.elapsed().as_millis() as u32,
-            identity: logged_id,
+        let raw = log_parse::parse::RawFrame::new(
+            self.start_time.elapsed().as_millis() as u32,
+            frame.identity,
+            bus_id,
             data,
-        });
+        )?;
+
+        self.add_frame(raw);
 
         Ok(())
     }

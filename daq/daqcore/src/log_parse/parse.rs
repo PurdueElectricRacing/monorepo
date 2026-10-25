@@ -17,6 +17,49 @@ pub struct RawFrame {
     pub data: [u8; 8],
 }
 
+impl RawFrame {
+    /// Encode a classic CAN frame using the timestamped wire/log format.
+    /// Return an error on invalid bus ID
+    pub fn new(
+        ticks_ms: u32,
+        identity: frame::CanIdentity,
+        bus_id: u8,
+        data: [u8; 8],
+    ) -> Result<Self, String> {
+        if bus_id > 3 {
+            return Err(format!(
+                "legacy logging is unavailable for bus {bus_id}; only buses 0-3 are supported"
+            ));
+        }
+        let extended_flag = if identity.is_extended() {
+            log_parse::consts::IS_EID_MASK
+        } else {
+            0
+        };
+        Ok(Self {
+            ticks_ms,
+            identity: identity.raw_id()
+                | extended_flag
+                | ((bus_id as u32) << log_parse::consts::BUS_ID_OFFSET),
+            data,
+        })
+    }
+
+    pub fn bus_id(&self) -> u8 {
+        ((self.identity & log_parse::consts::BUS_ID_MASK) >> log_parse::consts::BUS_ID_OFFSET) as u8
+    }
+
+    pub fn is_extended(&self) -> bool {
+        self.identity & log_parse::consts::IS_EID_MASK != 0
+    }
+
+    /// Convert wire/log metadata into the application's CAN identity representation.
+    pub fn can_identity(&self) -> Result<frame::CanIdentity, frame::InvalidCanId> {
+        let flags = log_parse::consts::IS_EID_MASK | log_parse::consts::BUS_ID_MASK;
+        frame::CanIdentity::new(self.identity & !flags, self.is_extended())
+    }
+}
+
 pub fn parse_log_files(
     in_folder: &path::Path,
     database: &superdbc::database::Database,
@@ -77,10 +120,7 @@ fn parse_log_file(
             break;
         }
 
-        let extended = frame.identity & log_parse::consts::IS_EID_MASK != 0;
-        let transport_flags = log_parse::consts::IS_EID_MASK | log_parse::consts::BUS_ID_MASK;
-        let raw_id = frame.identity & !transport_flags;
-        let identity = match frame::CanIdentity::new(raw_id, extended) {
+        let identity = match frame.can_identity() {
             Ok(identity) => identity,
             Err(error) => {
                 log::error!("Invalid CAN identity in {}: {error}", in_file.display());
@@ -88,11 +128,7 @@ fn parse_log_file(
             }
         };
 
-        let bus_id = if (frame.identity & log_parse::consts::BUS_ID_MASK) != 0 {
-            1
-        } else {
-            0
-        };
+        let bus_id = frame.bus_id();
 
         let Some(bus) = database.bus_by_id(bus_id) else {
             log::error!("Unknown bus {bus_id} in {}", in_file.display());

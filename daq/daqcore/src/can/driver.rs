@@ -127,14 +127,12 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .0
         .iter()
         .map(|bytes| {
-            let identity_bytes = [bytes[4], bytes[5], bytes[6], bytes[7]];
-            let identity = u32::from_le_bytes(identity_bytes);
-            let extended = identity & log_parse::consts::IS_EID_MASK != 0;
-            let transport_flags = log_parse::consts::IS_EID_MASK | log_parse::consts::BUS_ID_MASK;
-            let id = identity & !transport_flags;
-            let identity = frame::CanIdentity::new(id, extended)
+            let raw = bytemuck::try_pod_read_unaligned::<log_parse::parse::RawFrame>(bytes)
                 .map_err(|error| DriverError::Read(error.to_string()))?;
-            frame::CanFrame::data(identity, bytes[8..16].to_vec()).map_err(DriverError::Read)
+            let identity = raw
+                .can_identity()
+                .map_err(|error| DriverError::Read(error.to_string()))?;
+            frame::CanFrame::data(identity, raw.data.to_vec()).map_err(DriverError::Read)
         })
         .collect()
 }

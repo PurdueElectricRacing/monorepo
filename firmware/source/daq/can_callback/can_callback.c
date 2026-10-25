@@ -8,6 +8,8 @@
 
 #include <string.h>
 
+#include "can_library/generated/MCAN.h"
+#include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
 #include "common/phal_F4/can/can.h"
 #include "common/rtos/rtos.h"
@@ -17,6 +19,26 @@
 
 volatile uint32_t last_can_rx_time_ms = 0;
 
+static inline uint32_t get_bus_id(CAN_TypeDef* peripheral) {
+    //TODO: Replace this with selection structure below once F423 migration is done
+    if (peripheral == CAN1) {
+        return VCAN_BUS_ID;
+    }
+    return MCAN_BUS_ID; // CAN2
+
+    /*
+    if (peripheral == CAN1) {
+        return SCAN_BUS_ID;
+    }
+    else if (peripheral == CAN2) {
+        return VCAN_BUS_ID;
+    }
+    else { // peripheral == CAN3
+        return MCAN_BUS_ID;
+    }
+    */
+}
+
 void PHAL_CAN_rxCallback(CanMsgTypeDef_t *msg) {
     portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 
@@ -24,8 +46,7 @@ void PHAL_CAN_rxCallback(CanMsgTypeDef_t *msg) {
     rx.ticks_ms            = xTaskGetTickCountFromISR();
     last_can_rx_time_ms    = rx.ticks_ms;
 
-    // CAN1 = VCAN = bus 0
-    set_bus_id(&rx, (msg->Bus == CAN1) ? 0 : 1);
+    set_bus_id(&rx, get_bus_id(msg->Bus));
     set_xid(&rx, msg->IDE);
     set_can_id(&rx, msg->IDE ? msg->ExtId : msg->StdId);
 
