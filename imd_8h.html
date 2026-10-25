@@ -104,7 +104,7 @@ $(function(){initNavTree('imd_8h.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
-<p>ABOX IMD PWM measurement and state reporting.  
+<p>ABOX IMD PWM capture and CAN reporting.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -115,7 +115,7 @@ Include dependency graph for imd.h:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="imd_8h__dep__incl.svg" width="339" height="140"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="imd_8h__dep__incl.svg" width="452" height="230"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="imd_8h_source.html">Go to the source code of this file.</a></p>
@@ -131,25 +131,47 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a802922776dd2b43199919717a5d75c65" id="r_a802922776dd2b43199919717a5d75c65"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a802922776dd2b43199919717a5d75c65">IMD_PERIOD_MS</a> = 1000</td></tr>
 <tr class="separator:a802922776dd2b43199919717a5d75c65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a724b99114f4193f096209880219ae8d7" id="r_a724b99114f4193f096209880219ae8d7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a724b99114f4193f096209880219ae8d7">IMD_TIMER_TICK_HZ</a> = 100000</td></tr>
-<tr class="separator:a724b99114f4193f096209880219ae8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a941b19da94c090b683a36540ab5679ae" id="r_a941b19da94c090b683a36540ab5679ae"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a941b19da94c090b683a36540ab5679ae">IMD_TIMER_ARR</a> = 0xFFFFU</td></tr>
 <tr class="separator:a941b19da94c090b683a36540ab5679ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a155e9f640eabc0941e3844ecfe0e4c28" id="r_a155e9f640eabc0941e3844ecfe0e4c28"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a155e9f640eabc0941e3844ecfe0e4c28">IMD_FREQ_TOLERANCE_HZ</a> = 3</td></tr>
-<tr class="separator:a155e9f640eabc0941e3844ecfe0e4c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad333f972bd8b462bb58a850da854cc9b" id="r_ad333f972bd8b462bb58a850da854cc9b"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad333f972bd8b462bb58a850da854cc9b">IMD_FREQ_NORMAL_HZ</a> = 10</td></tr>
-<tr class="separator:ad333f972bd8b462bb58a850da854cc9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91e4e370b3866fc34d5175251c9107e4" id="r_a91e4e370b3866fc34d5175251c9107e4"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91e4e370b3866fc34d5175251c9107e4">IMD_FREQ_UNDERVOLTAGE_HZ</a> = 20</td></tr>
-<tr class="separator:a91e4e370b3866fc34d5175251c9107e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acec2ccf314c81cb404a8b14488e3f382" id="r_acec2ccf314c81cb404a8b14488e3f382"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acec2ccf314c81cb404a8b14488e3f382">IMD_FREQ_SPEED_START_HZ</a> = 30</td></tr>
-<tr class="separator:acec2ccf314c81cb404a8b14488e3f382"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab17a21843b4ff82f012b7b8d14fc59d2" id="r_ab17a21843b4ff82f012b7b8d14fc59d2"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab17a21843b4ff82f012b7b8d14fc59d2">IMD_FREQ_DEVICE_ERROR_HZ</a> = 40</td></tr>
-<tr class="separator:ab17a21843b4ff82f012b7b8d14fc59d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12036ff92c483b54badeefc5ea73b9cb" id="r_a12036ff92c483b54badeefc5ea73b9cb"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12036ff92c483b54badeefc5ea73b9cb">IMD_FREQ_CONN_FAULT_HZ</a> = 50</td></tr>
-<tr class="separator:a12036ff92c483b54badeefc5ea73b9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c139f5c57386be7d4e6fc67ce68d5a3" id="r_a7c139f5c57386be7d4e6fc67ce68d5a3"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c139f5c57386be7d4e6fc67ce68d5a3">IMD_CAPTURE_IRQ_PRIORITY</a> = 6U</td></tr>
+<tr class="separator:a7c139f5c57386be7d4e6fc67ce68d5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a724b99114f4193f096209880219ae8d7" id="r_a724b99114f4193f096209880219ae8d7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a724b99114f4193f096209880219ae8d7">IMD_TIMER_TICK_HZ</a> = 100000U</td></tr>
+<tr class="separator:a724b99114f4193f096209880219ae8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2646bfa124d21e02b0e933d9f680f2d8" id="r_a2646bfa124d21e02b0e933d9f680f2d8"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2646bfa124d21e02b0e933d9f680f2d8">IMD_CAPTURE_TIMEOUT_MS</a> = 250U</td></tr>
+<tr class="separator:a2646bfa124d21e02b0e933d9f680f2d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10236e884c4aa8f60b4dfd7f0d077f03" id="r_a10236e884c4aa8f60b4dfd7f0d077f03"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10236e884c4aa8f60b4dfd7f0d077f03">IMD_NORMAL_FREQUENCY_HZ</a> = 10.0</td></tr>
+<tr class="separator:a10236e884c4aa8f60b4dfd7f0d077f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac975d418f77481543ea8a05d8b323453" id="r_ac975d418f77481543ea8a05d8b323453"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac975d418f77481543ea8a05d8b323453">IMD_UNDERVOLTAGE_FREQUENCY_HZ</a> = 20.0</td></tr>
+<tr class="separator:ac975d418f77481543ea8a05d8b323453"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55ebfea76870d611921d4f052a2dae5f" id="r_a55ebfea76870d611921d4f052a2dae5f"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55ebfea76870d611921d4f052a2dae5f">IMD_STARTUP_FREQUENCY_HZ</a> = 30.0</td></tr>
+<tr class="separator:a55ebfea76870d611921d4f052a2dae5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c406f355314aef6294ca19abe2b327f" id="r_a1c406f355314aef6294ca19abe2b327f"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c406f355314aef6294ca19abe2b327f">IMD_DEVICE_ERROR_FREQUENCY_HZ</a> = 40.0</td></tr>
+<tr class="separator:a1c406f355314aef6294ca19abe2b327f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1eee5a2c9c1057e70febdc15d16cd965" id="r_a1eee5a2c9c1057e70febdc15d16cd965"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1eee5a2c9c1057e70febdc15d16cd965">IMD_CONNECTION_FAULT_FREQUENCY_HZ</a> = 50.0</td></tr>
+<tr class="separator:a1eee5a2c9c1057e70febdc15d16cd965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2633635508f7cc1b9ef827e6b934ff8f" id="r_a2633635508f7cc1b9ef827e6b934ff8f"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2633635508f7cc1b9ef827e6b934ff8f">IMD_FREQUENCY_TOLERANCE_PCT</a> = 5.0</td></tr>
+<tr class="separator:a2633635508f7cc1b9ef827e6b934ff8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9afbe4cdc173f4b2bf3d18fa2cf1458" id="r_aa9afbe4cdc173f4b2bf3d18fa2cf1458"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9afbe4cdc173f4b2bf3d18fa2cf1458">IMD_PERCENT_SCALE</a> = 100.0</td></tr>
+<tr class="separator:aa9afbe4cdc173f4b2bf3d18fa2cf1458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43cb2b6361faab760e5b2d47c2cfa620" id="r_a43cb2b6361faab760e5b2d47c2cfa620"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43cb2b6361faab760e5b2d47c2cfa620">IMD_MEASUREMENT_MIN_DUTY_PCT</a> = 5.0</td></tr>
+<tr class="separator:a43cb2b6361faab760e5b2d47c2cfa620"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af12431e1dfd82d64717eae67cb54891a" id="r_af12431e1dfd82d64717eae67cb54891a"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af12431e1dfd82d64717eae67cb54891a">IMD_MEASUREMENT_MAX_DUTY_PCT</a> = 95.0</td></tr>
+<tr class="separator:af12431e1dfd82d64717eae67cb54891a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84064b74c715379b2dd7237a6a7793ea" id="r_a84064b74c715379b2dd7237a6a7793ea"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84064b74c715379b2dd7237a6a7793ea">IMD_STARTUP_GOOD_MAX_DUTY_PCT</a> = 10.0</td></tr>
+<tr class="separator:a84064b74c715379b2dd7237a6a7793ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d883e94303294cdc25cde9aa33f0f24" id="r_a0d883e94303294cdc25cde9aa33f0f24"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d883e94303294cdc25cde9aa33f0f24">IMD_STARTUP_BAD_MIN_DUTY_PCT</a> = 90.0</td></tr>
+<tr class="separator:a0d883e94303294cdc25cde9aa33f0f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b03c8834dee6f9a1034d8387db6193a" id="r_a2b03c8834dee6f9a1034d8387db6193a"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b03c8834dee6f9a1034d8387db6193a">IMD_FAULT_MIN_DUTY_PCT</a> = 47.5</td></tr>
+<tr class="separator:a2b03c8834dee6f9a1034d8387db6193a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa87f9009e0c5f017a5159ca08a8dc5c1" id="r_aa87f9009e0c5f017a5159ca08a8dc5c1"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa87f9009e0c5f017a5159ca08a8dc5c1">IMD_FAULT_MAX_DUTY_PCT</a> = 52.5</td></tr>
+<tr class="separator:aa87f9009e0c5f017a5159ca08a8dc5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65b36aec36ddf9e3087354c9b01bed9c" id="r_a65b36aec36ddf9e3087354c9b01bed9c"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65b36aec36ddf9e3087354c9b01bed9c">IMD_RESISTANCE_AT_HALF_DUTY_KOHM</a> = 1200.0</td></tr>
+<tr class="separator:a65b36aec36ddf9e3087354c9b01bed9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89ff976557d66ac0623e1f5af6dd52df" id="r_a89ff976557d66ac0623e1f5af6dd52df"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89ff976557d66ac0623e1f5af6dd52df">IMD_MAX_MEASURABLE_RESISTANCE_KOHM</a> = 10000.0</td></tr>
+<tr class="separator:a89ff976557d66ac0623e1f5af6dd52df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>ABOX IMD PWM measurement and state reporting. </p>
+<div class="textblock"><p>ABOX IMD PWM capture and CAN reporting. </p>
 <dl class="section author"><dt>Author</dt><dd>Aditya Saini (<a href="#" onclick="location.href='mai'+'lto:'+'sai'+'ni'+'19@'+'pu'+'rdu'+'e.'+'edu'; return false;">saini<span class="obfuscator">.nosp@m.</span>19@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a8e85faef813ea02335ba963b2ffdeb20" name="a8e85faef813ea02335ba963b2ffdeb20"></a>
@@ -196,7 +218,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="imd_8h_a27a1e852f51f1793ae060eb58571afcb_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="imd_8h_a27a1e852f51f1793ae060eb58571afcb_cgraph.svg" width="100%" height="475"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -207,8 +229,8 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a12036ff92c483b54badeefc5ea73b9cb" name="a12036ff92c483b54badeefc5ea73b9cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12036ff92c483b54badeefc5ea73b9cb">&#9670;&#160;</a></span>IMD_FREQ_CONN_FAULT_HZ</h2>
+<a id="a7c139f5c57386be7d4e6fc67ce68d5a3" name="a7c139f5c57386be7d4e6fc67ce68d5a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c139f5c57386be7d4e6fc67ce68d5a3">&#9670;&#160;</a></span>IMD_CAPTURE_IRQ_PRIORITY</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +239,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t IMD_FREQ_CONN_FAULT_HZ = 50</td>
+          <td class="memname">uint32_t IMD_CAPTURE_IRQ_PRIORITY = 6U</td>
         </tr>
       </table>
   </td>
@@ -229,8 +251,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ab17a21843b4ff82f012b7b8d14fc59d2" name="ab17a21843b4ff82f012b7b8d14fc59d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab17a21843b4ff82f012b7b8d14fc59d2">&#9670;&#160;</a></span>IMD_FREQ_DEVICE_ERROR_HZ</h2>
+<a id="a2646bfa124d21e02b0e933d9f680f2d8" name="a2646bfa124d21e02b0e933d9f680f2d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2646bfa124d21e02b0e933d9f680f2d8">&#9670;&#160;</a></span>IMD_CAPTURE_TIMEOUT_MS</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,7 +261,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t IMD_FREQ_DEVICE_ERROR_HZ = 40</td>
+          <td class="memname">uint32_t IMD_CAPTURE_TIMEOUT_MS = 250U</td>
         </tr>
       </table>
   </td>
@@ -251,8 +273,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ad333f972bd8b462bb58a850da854cc9b" name="ad333f972bd8b462bb58a850da854cc9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad333f972bd8b462bb58a850da854cc9b">&#9670;&#160;</a></span>IMD_FREQ_NORMAL_HZ</h2>
+<a id="a1eee5a2c9c1057e70febdc15d16cd965" name="a1eee5a2c9c1057e70febdc15d16cd965"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1eee5a2c9c1057e70febdc15d16cd965">&#9670;&#160;</a></span>IMD_CONNECTION_FAULT_FREQUENCY_HZ</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -261,7 +283,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t IMD_FREQ_NORMAL_HZ = 10</td>
+          <td class="memname">float IMD_CONNECTION_FAULT_FREQUENCY_HZ = 50.0</td>
         </tr>
       </table>
   </td>
@@ -273,8 +295,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="acec2ccf314c81cb404a8b14488e3f382" name="acec2ccf314c81cb404a8b14488e3f382"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acec2ccf314c81cb404a8b14488e3f382">&#9670;&#160;</a></span>IMD_FREQ_SPEED_START_HZ</h2>
+<a id="a1c406f355314aef6294ca19abe2b327f" name="a1c406f355314aef6294ca19abe2b327f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c406f355314aef6294ca19abe2b327f">&#9670;&#160;</a></span>IMD_DEVICE_ERROR_FREQUENCY_HZ</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -283,7 +305,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t IMD_FREQ_SPEED_START_HZ = 30</td>
+          <td class="memname">float IMD_DEVICE_ERROR_FREQUENCY_HZ = 40.0</td>
         </tr>
       </table>
   </td>
@@ -295,8 +317,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a155e9f640eabc0941e3844ecfe0e4c28" name="a155e9f640eabc0941e3844ecfe0e4c28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a155e9f640eabc0941e3844ecfe0e4c28">&#9670;&#160;</a></span>IMD_FREQ_TOLERANCE_HZ</h2>
+<a id="aa87f9009e0c5f017a5159ca08a8dc5c1" name="aa87f9009e0c5f017a5159ca08a8dc5c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa87f9009e0c5f017a5159ca08a8dc5c1">&#9670;&#160;</a></span>IMD_FAULT_MAX_DUTY_PCT</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -305,7 +327,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t IMD_FREQ_TOLERANCE_HZ = 3</td>
+          <td class="memname">float IMD_FAULT_MAX_DUTY_PCT = 52.5</td>
         </tr>
       </table>
   </td>
@@ -317,8 +339,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a91e4e370b3866fc34d5175251c9107e4" name="a91e4e370b3866fc34d5175251c9107e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91e4e370b3866fc34d5175251c9107e4">&#9670;&#160;</a></span>IMD_FREQ_UNDERVOLTAGE_HZ</h2>
+<a id="a2b03c8834dee6f9a1034d8387db6193a" name="a2b03c8834dee6f9a1034d8387db6193a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b03c8834dee6f9a1034d8387db6193a">&#9670;&#160;</a></span>IMD_FAULT_MIN_DUTY_PCT</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -327,7 +349,139 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t IMD_FREQ_UNDERVOLTAGE_HZ = 20</td>
+          <td class="memname">float IMD_FAULT_MIN_DUTY_PCT = 47.5</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2633635508f7cc1b9ef827e6b934ff8f" name="a2633635508f7cc1b9ef827e6b934ff8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2633635508f7cc1b9ef827e6b934ff8f">&#9670;&#160;</a></span>IMD_FREQUENCY_TOLERANCE_PCT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_FREQUENCY_TOLERANCE_PCT = 5.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89ff976557d66ac0623e1f5af6dd52df" name="a89ff976557d66ac0623e1f5af6dd52df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89ff976557d66ac0623e1f5af6dd52df">&#9670;&#160;</a></span>IMD_MAX_MEASURABLE_RESISTANCE_KOHM</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_MAX_MEASURABLE_RESISTANCE_KOHM = 10000.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af12431e1dfd82d64717eae67cb54891a" name="af12431e1dfd82d64717eae67cb54891a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af12431e1dfd82d64717eae67cb54891a">&#9670;&#160;</a></span>IMD_MEASUREMENT_MAX_DUTY_PCT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_MEASUREMENT_MAX_DUTY_PCT = 95.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a43cb2b6361faab760e5b2d47c2cfa620" name="a43cb2b6361faab760e5b2d47c2cfa620"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43cb2b6361faab760e5b2d47c2cfa620">&#9670;&#160;</a></span>IMD_MEASUREMENT_MIN_DUTY_PCT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_MEASUREMENT_MIN_DUTY_PCT = 5.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a10236e884c4aa8f60b4dfd7f0d077f03" name="a10236e884c4aa8f60b4dfd7f0d077f03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10236e884c4aa8f60b4dfd7f0d077f03">&#9670;&#160;</a></span>IMD_NORMAL_FREQUENCY_HZ</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_NORMAL_FREQUENCY_HZ = 10.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa9afbe4cdc173f4b2bf3d18fa2cf1458" name="aa9afbe4cdc173f4b2bf3d18fa2cf1458"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9afbe4cdc173f4b2bf3d18fa2cf1458">&#9670;&#160;</a></span>IMD_PERCENT_SCALE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_PERCENT_SCALE = 100.0</td>
         </tr>
       </table>
   </td>
@@ -350,6 +504,94 @@ Here is the caller graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">uint32_t IMD_PERIOD_MS = 1000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a65b36aec36ddf9e3087354c9b01bed9c" name="a65b36aec36ddf9e3087354c9b01bed9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65b36aec36ddf9e3087354c9b01bed9c">&#9670;&#160;</a></span>IMD_RESISTANCE_AT_HALF_DUTY_KOHM</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_RESISTANCE_AT_HALF_DUTY_KOHM = 1200.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d883e94303294cdc25cde9aa33f0f24" name="a0d883e94303294cdc25cde9aa33f0f24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d883e94303294cdc25cde9aa33f0f24">&#9670;&#160;</a></span>IMD_STARTUP_BAD_MIN_DUTY_PCT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_STARTUP_BAD_MIN_DUTY_PCT = 90.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a55ebfea76870d611921d4f052a2dae5f" name="a55ebfea76870d611921d4f052a2dae5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55ebfea76870d611921d4f052a2dae5f">&#9670;&#160;</a></span>IMD_STARTUP_FREQUENCY_HZ</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_STARTUP_FREQUENCY_HZ = 30.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a84064b74c715379b2dd7237a6a7793ea" name="a84064b74c715379b2dd7237a6a7793ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84064b74c715379b2dd7237a6a7793ea">&#9670;&#160;</a></span>IMD_STARTUP_GOOD_MAX_DUTY_PCT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_STARTUP_GOOD_MAX_DUTY_PCT = 10.0</td>
         </tr>
       </table>
   </td>
@@ -393,7 +635,29 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t IMD_TIMER_TICK_HZ = 100000</td>
+          <td class="memname">uint32_t IMD_TIMER_TICK_HZ = 100000U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac975d418f77481543ea8a05d8b323453" name="ac975d418f77481543ea8a05d8b323453"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac975d418f77481543ea8a05d8b323453">&#9670;&#160;</a></span>IMD_UNDERVOLTAGE_FREQUENCY_HZ</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float IMD_UNDERVOLTAGE_FREQUENCY_HZ = 20.0</td>
         </tr>
       </table>
   </td>

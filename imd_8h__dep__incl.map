@@ -1,7 +1,12 @@
 <map id="firmware/source/a_box/imd/imd.h" name="firmware/source/a_box/imd/imd.h">
-<area shape="rect" id="Node000001" title="ABOX IMD PWM measurement and state reporting." alt="" coords="93,5,245,46"/>
-<area shape="rect" id="Node000002" href="$imd_8c.html" title="ABOX IMD PWM measurement and state reporting." alt="" coords="5,94,157,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,59,103,95,99,92,136,55"/>
-<area shape="rect" id="Node000003" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="181,94,333,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,55,239,92,235,95,198,59"/>
+<area shape="rect" id="Node000001" title="ABOX IMD PWM capture and CAN reporting." alt="" coords="119,5,270,46"/>
+<area shape="rect" id="Node000002" href="$imd_8c.html" title="ABOX IMD PWM capture and CAN reporting." alt="" coords="5,183,157,223"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,57,126,75,109,95,98,117,91,140,84,183,79,182,85,139,93,115,104,93,122,71,144,53"/>
+<area shape="rect" id="Node000003" href="$imd__decode_8h.html" title="IMD PWM state decoding and insulation resistance calculation." alt="" coords="119,94,270,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,62,197,94,192,94,192,62"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="295,94,446,135"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="249,51,332,91,329,96,247,56"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="158,146,108,184,105,180,155,142"/>
+<area shape="rect" id="Node000004" href="$imd__decode_8c.html" title="IMD PWM state decoding and insulation resistance calculation." alt="" coords="181,183,333,223"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="219,146,245,181,241,184,215,149"/>
 </map>

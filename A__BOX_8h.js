@@ -19,7 +19,7 @@ var A__BOX_8h =
     [ "CAN_SEND_cell_telemetry_ccan", "A__BOX_8h.html#a9928fb25e658efd3f7f8ea6d6bd379ca", null ],
     [ "CAN_SEND_charging_fsm_internals", "A__BOX_8h.html#a8e8d0b3951983e4482e1e0876b77c033", null ],
     [ "CAN_SEND_elcon_command", "A__BOX_8h.html#a1d2c326ec65a3480aa5e0335969bad73", null ],
-    [ "CAN_SEND_imd_state", "A__BOX_8h.html#a6ed16b64b79b7834cffd7113d90386a7", null ],
+    [ "CAN_SEND_imd_state", "A__BOX_8h.html#a4e4893841e8526aee263a12c0b566f54", null ],
     [ "CAN_SEND_pack_analog", "A__BOX_8h.html#a83fc46e5b06a41621822e760d3f5126c", null ],
     [ "CAN_SEND_pack_analog_ccan", "A__BOX_8h.html#a2faa41f77d663e1d6ff85292ccc4adcb", null ],
     [ "CAN_SEND_pack_bms", "A__BOX_8h.html#a534aca623fdbe5a25f16a97815d2153e", null ],

@@ -91,6 +91,11 @@ var can__types_8h =
       [ "FAULT_ID_GPS_WEAK_FIX", "can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63af7804985bf80515189bc8d8af1aca4a1", null ],
       [ "FAULT_ID_GPS_INVALID_UTC", "can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63a355737722dc81c11da9e999650875628", null ]
     ] ],
+    [ "imd_r_iso_quality_t", "can__types_8h.html#a62e41cf1451c6e4e1a708dc7533efc6b", [
+      [ "IMD_R_ISO_QUALITY_INVALID", "can__types_8h.html#a62e41cf1451c6e4e1a708dc7533efc6bac8bb0545ccffa76d050607bc905f7f42", null ],
+      [ "IMD_R_ISO_QUALITY_VALID", "can__types_8h.html#a62e41cf1451c6e4e1a708dc7533efc6ba3698fb59bd2212d97de6ecea7025fc3a", null ],
+      [ "IMD_R_ISO_QUALITY_ABOVE_RANGE", "can__types_8h.html#a62e41cf1451c6e4e1a708dc7533efc6ba26be05408ac043083cf00e889acc5aa4", null ]
+    ] ],
     [ "imd_state_t", "can__types_8h.html#a04233948512e221ae12f0c12994fa8b2", [
       [ "IMD_STATE_OFF_OR_SHORT_CIRCUIT", "can__types_8h.html#a04233948512e221ae12f0c12994fa8b2a22c304dcb68860d69d89b147025e1913", null ],
       [ "IMD_STATE_NORMAL", "can__types_8h.html#a04233948512e221ae12f0c12994fa8b2ab7666c00ffe32463291b69f6b9a97125", null ],

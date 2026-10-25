@@ -52,5 +52,6 @@ var searchData=
   ['foot_5ffrom_5fmeter_49',['foot_from_meter',['../dearunits_8h.html#a3c76450fb588c3fb28c8c0dc1321c2d7',1,'dearunits.h']]],
   ['force_5ffrom_50',['force_from',['../dearunits_8h.html#aacb1d16c3fa51761baf115486fcc5ea2',1,'dearunits.h']]],
   ['format_5ftime_5fms_51',['format_time_ms',['../race_8c.html#aaf2d1816e9925ab2fbf217eaf6e4de0e',1,'race.c']]],
-  ['frequency_5ffrom_52',['frequency_from',['../dearunits_8h.html#a74dfd3e6ea8b0acef95cee97ee5ca06c',1,'dearunits.h']]]
+  ['frequency_5ffrom_52',['frequency_from',['../dearunits_8h.html#a74dfd3e6ea8b0acef95cee97ee5ca06c',1,'dearunits.h']]],
+  ['frequency_5fmatches_53',['frequency_matches',['../imd__decode_8c.html#a318673e9307dcc4ba55acc0149f75bdb',1,'imd_decode.c']]]
 ];
