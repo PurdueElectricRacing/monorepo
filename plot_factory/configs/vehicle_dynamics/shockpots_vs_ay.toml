@@ -10,24 +10,24 @@ y_label = "Shockpot displacement"
 
 [[traces]]
 x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
-y_column = "VCAN.DRIVELINE.front_shockpots.left"
+y_column = "SCAN.DRIVELINE.front_shockpots.left"
 label = "Front Left"
 color = "tab:blue"
 
 [[traces]]
 x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
-y_column = "VCAN.DRIVELINE.front_shockpots.right"
+y_column = "SCAN.DRIVELINE.front_shockpots.right"
 label = "Front Right"
 color = "tab:orange"
 
 [[traces]]
 x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
-y_column = "VCAN.DRIVELINE.rear_shockpots.left"
+y_column = "SCAN.DRIVELINE.rear_shockpots.left"
 label = "Rear Left"
 color = "tab:green"
 
 [[traces]]
 x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
-y_column = "VCAN.DRIVELINE.rear_shockpots.right"
+y_column = "SCAN.DRIVELINE.rear_shockpots.right"
 label = "Rear Right"
 color = "tab:red"

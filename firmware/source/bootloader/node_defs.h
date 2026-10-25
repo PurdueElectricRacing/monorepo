@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include "can_library/generated/VCAN.h"
+#include "can_library/generated/SCAN.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/pin_defs/g474ret6.h"
@@ -123,13 +124,13 @@ typedef struct {
     }
 #elif (APP_ID == APP_FRONT_DRIVELINE)
 #define BL_TARGET_ID BOOTLOADER_TARGET_ID_FRONT_DRIVELINE
-/* VCAN: FDCAN2 on PB5/PB6. */
+/* SCAN: FDCAN1 on PA11/PA12. */
 #define BL_TRANSPORT_CONFIG \
     { \
-        .peripheral = FDCAN2, \
+        .peripheral = FDCAN1, \
         .baud_rate = FDCAN_BAUD_500K, \
-        .rx_gpio = PHAL_PIN_DEFS_FDCAN2_RX_PB5, \
-        .tx_gpio = PHAL_PIN_DEFS_FDCAN2_TX_PB6, \
+        .rx_gpio = PHAL_PIN_DEFS_FDCAN1_RX_PA11, \
+        .tx_gpio = PHAL_PIN_DEFS_FDCAN1_TX_PA12, \
         .is_extended_id = false, \
         .start_id = BL_FRONT_DRIVELINE_START_MSG_ID, \
         .crc_id = BL_FRONT_DRIVELINE_CRC_MSG_ID, \
@@ -143,13 +144,13 @@ typedef struct {
     }
 #elif (APP_ID == APP_REAR_DRIVELINE)
 #define BL_TARGET_ID BOOTLOADER_TARGET_ID_REAR_DRIVELINE
-/* VCAN: FDCAN2 on PB5/PB6. */
+/* SCAN: FDCAN1 on PA11/PA12. */
 #define BL_TRANSPORT_CONFIG \
     { \
-        .peripheral = FDCAN2, \
+        .peripheral = FDCAN1, \
         .baud_rate = FDCAN_BAUD_500K, \
-        .rx_gpio = PHAL_PIN_DEFS_FDCAN2_RX_PB5, \
-        .tx_gpio = PHAL_PIN_DEFS_FDCAN2_TX_PB6, \
+        .rx_gpio = PHAL_PIN_DEFS_FDCAN1_RX_PA11, \
+        .tx_gpio = PHAL_PIN_DEFS_FDCAN1_TX_PA12, \
         .is_extended_id = false, \
         .start_id = BL_REAR_DRIVELINE_START_MSG_ID, \
         .crc_id = BL_REAR_DRIVELINE_CRC_MSG_ID, \

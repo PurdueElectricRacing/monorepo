@@ -289,12 +289,6 @@
             ],
             "rx": [
                 {
-                    "message_name": "front_shockpots"
-                },
-                {
-                    "message_name": "rear_shockpots"
-                },
-                {
                     "message_name": "IZZE_angular_rate",
                     "callback": true
                 },

@@ -1,8 +1,8 @@
 {
     "node_name": "BL_FRONT_DRIVELINE",
     "busses": {
-        "VCAN": {
-            "peripheral": "FDCAN2",
+        "SCAN": {
+            "peripheral": "FDCAN1",
             "tx": [
                 {
                     "message_name": "bl_front_driveline_resp",
