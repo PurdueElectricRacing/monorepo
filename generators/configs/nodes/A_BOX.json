@@ -516,6 +516,11 @@
                 }
             ],
             "accept_all_messages": false
+        },
+        "SCAN": {
+            "peripheral": "FDCAN3",
+            "tx": [],
+            "rx": []
         }
     },
     "fault_library_enabled": true,
