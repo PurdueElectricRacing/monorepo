@@ -69,16 +69,16 @@
 #define LVBATT_CS_PORT        (GPIOB)
 #define LVBATT_CS_PIN         (0)
 #define LVBATT_CS_ADC_CHANNEL (12)
-#define MUX1_OUT_PORT         (GPIOA)
-#define MUX1_OUT_PIN          (5)
-#define MUX1_OUT_ADC_CHANNEL  (13)
+#define MUX1_OUT_PORT         (GPIOC)
+#define MUX1_OUT_PIN          (4)
+#define MUX1_OUT_ADC_CHANNEL  (5)
 #define MUX2_OUT_PORT         (GPIOA)
 #define MUX2_OUT_PIN          (4)
 #define MUX2_OUT_ADC_CHANNEL  (17)
 
 // Analog multiplexer controls
-#define MUX1_CTRL_A_PORT (GPIOC) // todo flip this with MUX1_OUT in altium
-#define MUX1_CTRL_A_PIN  (4)
+#define MUX1_CTRL_A_PORT (GPIOA)
+#define MUX1_CTRL_A_PIN  (5)
 #define MUX1_CTRL_B_PORT (GPIOA)
 #define MUX1_CTRL_B_PIN  (6)
 #define MUX1_CTRL_C_PORT (GPIOA)
