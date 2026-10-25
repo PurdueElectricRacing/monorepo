@@ -5,11 +5,18 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from core.artifacts import clear_artifacts, write_artifacts
-from core.config import CAN_GRAPHS_DIR, SUPERDBC_DIR, GENERATED_DIR, UNITS_GENERATED_DIR
+from core.config import (
+    CAN_GRAPHS_DIR,
+    FIL_CONFIG_DIR,
+    SUPERDBC_DIR,
+    GENERATED_DIR,
+    UNITS_GENERATED_DIR,
+)
 from core.declaration_loader import DeclarationValidationError, load_declarations
 from canpiler.api import Canpiler
 from canpiler.pipeline.compiler import CanCompilationError
 from faultgen.api import FaultGenerator
+from filgen.api import FilGenerator
 from dearunits.api import DearUnits
 from dearunits.config_loader import UnitConfigValidationError, load_unit_config_bundle
 from core.utils import get_git_hash, print_as_error
@@ -18,6 +25,7 @@ def generate() -> None:
     canpiler = Canpiler()
     faultgen = FaultGenerator()
     dearunits = DearUnits()
+    filgen = FilGenerator()
     declarations = load_declarations()
     unit_config = load_unit_config_bundle()
 
@@ -34,6 +42,7 @@ def generate() -> None:
 
     artifacts  = canpiler.generate(linked_can, version)
     artifacts += faultgen.generate(fault_plan, version)
+    artifacts += filgen.generate(linked_can, version)
     artifacts += dearunits.generate(unit_graph)
 
     output_roots = {
@@ -41,6 +50,7 @@ def generate() -> None:
         "superdbc": SUPERDBC_DIR,
         "can_graphs": CAN_GRAPHS_DIR,
         "units_generated": UNITS_GENERATED_DIR,
+        "fil": FIL_CONFIG_DIR,
     }
     clear_artifacts(
         output_roots,
@@ -58,6 +68,11 @@ def generate() -> None:
                 "node_communication.dot",
             ),
             "units_generated": "*",
+            "fil": (
+                "boards/*.json",
+                "network.json",
+                "ready_to_drive.json",
+            ),
         },
     )
     write_artifacts(output_roots, artifacts)
