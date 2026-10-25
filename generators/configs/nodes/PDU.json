@@ -17,29 +17,6 @@
                     "priority": 0
                 },
                 {
-                    "message_name": "coolant_out",
-                    "description": "outputs to coolant loops",
-                    "signals": [
-                        {
-                            "signal_name": "is_powertrain_pumps_enabled",
-                            "description": "Powertrain pumps enabled",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "is_hx_fan_enabled",
-                            "description": "Heat exchanger fan enabled",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "is_batt_fans_enabled",
-                            "description": "Battery fans enabled",
-                            "data_type": "bool"
-                        }
-                    ],
-                    "period_ms": 1000,
-                    "priority": 4
-                },
-                {
                     "message_name": "pdu_version",
                     "description": "PDU version",
                     "signals": [
@@ -71,7 +48,31 @@
         },
         "SCAN": {
             "peripheral": "FDCAN2",
-            "tx": [],
+            "tx": [
+                {
+                    "message_name": "coolant_out",
+                    "description": "outputs to coolant loops",
+                    "signals": [
+                        {
+                            "signal_name": "is_powertrain_pumps_enabled",
+                            "description": "Powertrain pumps enabled",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "is_hx_fan_enabled",
+                            "description": "Heat exchanger fan enabled",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "is_batt_fans_enabled",
+                            "description": "Battery fans enabled",
+                            "data_type": "bool"
+                        }
+                    ],
+                    "period_ms": 1000,
+                    "priority": 4
+                }
+            ],
             "rx": []
         }
     },
