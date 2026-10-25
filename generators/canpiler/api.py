@@ -11,7 +11,6 @@ from core.declarations import CanDeclarations
 from core.contributions import DeclarationContribution
 from .codegen.generator import generate_headers
 from .pipeline.compiler import assemble_source, compile_source
-from .dbc.generator import generate_dbcs
 from .superdbc.generator import generate_superdbc_schema, generate_superdbc
 from .pipeline.models import CanSource, CompiledCan, LinkedCan
 from .pipeline.linker import link_can
@@ -45,7 +44,6 @@ class Canpiler:
         artifacts = generate_headers(linked, hardware_map, version)
         artifacts.append(generate_superdbc(linked, version))
         artifacts.append(generate_superdbc_schema())
-        artifacts.extend(generate_dbcs(linked, version))
         artifacts.extend(generate_message_flow_graphs(linked))
         artifacts.append(generate_bus_membership_graph(linked))
         artifacts.append(generate_node_communication_graph(linked))

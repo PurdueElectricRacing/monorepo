@@ -38,7 +38,6 @@ jobs:
           name: Firmware Release ${{ steps.workflow_info.outputs.short_hash }}
           files: |
             ./artifacts/**/*.tar.gz
-            ./artifacts/**/*.dbc
             ./artifacts/**/superdbc_*.json
             ./artifacts/**/superdbc.schema.json
           prerelease: true

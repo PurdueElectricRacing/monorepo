@@ -24,7 +24,7 @@ void HardFault_Handler();
  * @brief Encode and transmit canpiler_test message
  *
  * Sends canpiler_test with fixed physical values, encoded using the
- * generated constants. Daqapp decodes via the DBC and should show the PHYS
+ * generated constants. Daqapp decodes via SuperDBC and should show the PHYS
  * values below. physical = raw * scale + offset
  *
  * signal       encode                        PHYS(shown by daqapp)     raw     

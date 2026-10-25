@@ -17,7 +17,7 @@ cargo run -p daqcli -- \
     --superdbc <path to superdbc_*.json>
 ```
 
-SuperDBC artifacts are firmware build outputs found in `monorepo/dbc`.
+SuperDBC artifacts are firmware build outputs found in `monorepo/superdbc`.
 
 ## Options
 

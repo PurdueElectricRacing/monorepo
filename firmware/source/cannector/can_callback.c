@@ -37,7 +37,6 @@ void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
     frame.ticks_ms      = xTaskGetTickCountFromISR();
     last_can_rx_time_ms = frame.ticks_ms;
 
-    // todo replace when superDBC is merged
     set_bus_id(&frame, get_bus_id(msg->Bus)); 
     set_xid(&frame, msg->IDE);
     set_can_id(&frame, msg->IDE ? msg->ExtId : msg->StdId);

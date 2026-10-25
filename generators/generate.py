@@ -5,7 +5,7 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from core.artifacts import clear_artifacts, write_artifacts
-from core.config import CAN_GRAPHS_DIR, DBC_DIR, GENERATED_DIR, UNITS_GENERATED_DIR
+from core.config import CAN_GRAPHS_DIR, SUPERDBC_DIR, GENERATED_DIR, UNITS_GENERATED_DIR
 from core.declaration_loader import DeclarationValidationError, load_declarations
 from canpiler.api import Canpiler
 from canpiler.pipeline.compiler import CanCompilationError
@@ -38,7 +38,7 @@ def generate() -> None:
 
     output_roots = {
         "generated": GENERATED_DIR,
-        "dbc": DBC_DIR,
+        "superdbc": SUPERDBC_DIR,
         "can_graphs": CAN_GRAPHS_DIR,
         "units_generated": UNITS_GENERATED_DIR,
     }
@@ -46,8 +46,7 @@ def generate() -> None:
         output_roots,
         {
             "generated": "*",
-            "dbc": (
-                "*.dbc",
+            "superdbc": (
                 "superdbc_*.json",
                 "superdbc.schema.json"
             ),

@@ -49,7 +49,7 @@ The firmware helper creates these local build products:
 - `output/` — target `.elf` and `.hex` files.
 - `output/firmware_<git-ref>.tar.gz` — packaged firmware.
 - `can_library/generated/` — generated headers for CAN message packing, unpacking, stale detection, and more.
-- `../dbc/` — generated DBC files for use in the DAQ app and other tools.
+- `../superdbc/` — generated SuperDBC definitions and schema for use in the DAQ app and other tools.
 
 > [!WARNING]
 > Every invocation performs a clean build.

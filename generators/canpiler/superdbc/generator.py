@@ -16,7 +16,7 @@ from ..pipeline.models import LinkedCan, CompiledSignal
 
 def generate_superdbc_schema() -> Artifact:
     return Artifact(
-        "dbc",
+        "superdbc",
         "superdbc.schema.json",
         json.dumps(superdbc_json_schema(), indent=2, ensure_ascii=False, allow_nan=False) + "\n",
     )
@@ -115,6 +115,6 @@ def generate_superdbc(linked: LinkedCan, version: str) -> Artifact:
     )
     filename = f"superdbc_{version}.json"
     print_as_ok(f"Generated {filename}")
-    return Artifact("dbc", filename, json.dumps(
+    return Artifact("superdbc", filename, json.dumps(
         document.model_dump(mode="json"), indent=2, ensure_ascii=False, allow_nan=False,
     ) + "\n")
