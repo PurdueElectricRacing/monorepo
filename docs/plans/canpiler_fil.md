@@ -35,7 +35,7 @@ Scenario file schema (hand-maintained, the only new hand-written data):
 
 ## Work packages
 
-- [ ] WP0: Baseline verification. Run `python3 generators/generate.py` on a scratch copy of `tests/fil/`; record the current resolved ids (INVA-D info 0x231-0x234, INVA-D set 0x111-0x114, main_hb 0x46) and the exact current JSON content of every file filgen will emit, as the golden reference.
+- [x] WP0: Baseline verification. Run `python3 generators/generate.py` on a scratch copy of `tests/fil/`; record the current resolved ids (INVA-D info 0x231-0x234, INVA-D set 0x111-0x114, main_hb 0x46) and the exact current JSON content of every file filgen will emit, as the golden reference.
 - [ ] WP1: `filgen` skeleton. `generators/filgen/{__init__?no, api.py, models.py}`, add `FIL_*` path constants to `core/config.py`, wire `FilGenerator.generate(linked_can, scenarios_dir, version)` into `generate.py` with a "fil" output root. Scenario pydantic models with strict validation.
 - [ ] WP2: Board + network emission. Emit the 6 board files, `network.json`, `ready_to_drive.json`. Golden diff: emitted bytes must equal the current checked-in files exactly.
 - [ ] WP3: Scenario + stimulus resolver. Write `tests/fil/scenarios/ready_to_drive.json` expressing the current ready_to_drive stimuli by name; implement id/bus/payload resolution (reuse canpiler packing; if the compile-stage signal layout is the right source, use `LinkedCan` compiled messages). Golden diff: resolved stimulus JSON must equal the current checked-in `ready_to_drive_stimuli.json` exactly (same ids, same bytes, same order).
@@ -53,4 +53,4 @@ Scenario file schema (hand-maintained, the only new hand-written data):
 
 ## Check-off log
 
-(as work proceeds, each WP gets a dated line under its checkbox)
+- 2026-10-25 WP0 done: `generators/generate.py` runs clean; linked-id baseline recorded at /tmp/nix-shell.PqrAm2/fil_baseline/linked_ids.txt (VCAN 99 + MCAN 30 messages). Confirmed INVA/B/C/D_INFO -> 0x231-0x234, INVA/B/C/D_SET -> 0x111-0x114, main_hb -> 0x46 (dynamic). Golden copies of all 9 checked-in tests/fil JSONs saved to /tmp/nix-shell.PqrAm2/fil_baseline/golden/. Python env: venv at /tmp/nix-shell.PqrAm2/fil_venv (pydantic 2.13.5, Jinja2 3.1.6), PYTHONPATH=generators.
