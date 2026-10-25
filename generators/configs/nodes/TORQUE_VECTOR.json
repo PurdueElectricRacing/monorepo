@@ -17,66 +17,6 @@
                     "priority": 0
                 },
                 {
-                    "message_name": "gps_velocity",
-                    "description": "gps velocity",
-                    "signals": [
-                        {
-                            "signal_name": "gps_vel_n",
-                            "data_type": "int32_t",
-                            "unit": "m/s",
-                            "scale": 1e-3
-                        },
-                        {
-                            "signal_name": "gps_vel_e",
-                            "data_type": "int32_t",
-                            "unit": "m/s",
-                            "scale": 1e-3
-                        }
-                    ],
-                    "period_ms": 40,
-                    "priority": 5
-                },
-                {
-                    "message_name": "gps_speed_heading",
-                    "description": "gps 2D ground speed and heading",
-                    "signals": [
-                        {
-                            "signal_name": "gps_speed",
-                            "data_type": "int32_t",
-                            "unit": "m/s",
-                            "scale": 1e-3
-                        },
-                        {
-                            "signal_name": "gps_heading",
-                            "data_type": "int32_t",
-                            "unit": "deg",
-                            "scale": 1e-5
-                        }
-                    ],
-                    "period_ms": 40,
-                    "priority": 3
-                },
-                {
-                    "message_name": "gps_coordinates",
-                    "description": "gps coordinates",
-                    "signals": [
-                        {
-                            "signal_name": "latitude",
-                            "data_type": "int32_t",
-                            "unit": "deg",
-                            "scale": 1e-7
-                        },
-                        {
-                            "signal_name": "longitude",
-                            "data_type": "int32_t",
-                            "unit": "deg",
-                            "scale": 1e-7
-                        }
-                    ],
-                    "period_ms": 40,
-                    "priority": 5
-                },
-                {
                     "message_name": "gps_time",
                     "description": "gps time in UTC",
                     "signals": [
@@ -326,6 +266,72 @@
                     "callback": true
                 }
             ]
+        },
+        "SCAN": {
+            "peripheral": "FDCAN1",
+            "tx": [
+                {
+                    "message_name": "gps_velocity",
+                    "description": "gps velocity",
+                    "signals": [
+                        {
+                            "signal_name": "gps_vel_n",
+                            "data_type": "int32_t",
+                            "unit": "m/s",
+                            "scale": 1e-3
+                        },
+                        {
+                            "signal_name": "gps_vel_e",
+                            "data_type": "int32_t",
+                            "unit": "m/s",
+                            "scale": 1e-3
+                        }
+                    ],
+                    "period_ms": 40,
+                    "priority": 5
+                },
+                {
+                    "message_name": "gps_speed_heading",
+                    "description": "gps 2D ground speed and heading",
+                    "signals": [
+                        {
+                            "signal_name": "gps_speed",
+                            "data_type": "int32_t",
+                            "unit": "m/s",
+                            "scale": 1e-3
+                        },
+                        {
+                            "signal_name": "gps_heading",
+                            "data_type": "int32_t",
+                            "unit": "deg",
+                            "scale": 1e-5
+                        }
+                    ],
+                    "period_ms": 40,
+                    "priority": 3
+                },
+                {
+                    "message_name": "gps_coordinates",
+                    "description": "gps coordinates",
+                    "signals": [
+                        {
+                            "signal_name": "latitude",
+                            "data_type": "int32_t",
+                            "unit": "deg",
+                            "scale": 1e-7
+                        },
+                        {
+                            "signal_name": "longitude",
+                            "data_type": "int32_t",
+                            "unit": "deg",
+                            "scale": 1e-7
+                        }
+                    ],
+                    "period_ms": 40,
+                    "priority": 5
+                }
+            ],
+            "rx": []
         }
     },
     "fault_library_enabled": true,

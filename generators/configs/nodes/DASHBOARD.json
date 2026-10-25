@@ -181,9 +181,6 @@
                     "message_name": "invd_diagnostics"
                 },
                 {
-                    "message_name": "gps_coordinates"
-                },
-                {
                     "message_name": "vcu_settings",
                     "callback": true
                 },
@@ -233,7 +230,11 @@
                     "period_ms": 0
                 }
             ],
-            "rx": []
+            "rx": [
+                {
+                    "message_name": "gps_coordinates"
+                }
+            ]
         }
     },
     "fault_library_enabled": true,

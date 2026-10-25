@@ -10,7 +10,7 @@ forward_fill = true
 label = "Ground speed"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.gps_speed_heading.gps_speed"
+column = "SCAN.TORQUE_VECTOR.gps_speed_heading.gps_speed"
 label = "GPS ground speed"
 color = "tab:blue"
 
@@ -18,7 +18,7 @@ color = "tab:blue"
 label = "Heading"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.gps_speed_heading.gps_heading"
+column = "SCAN.TORQUE_VECTOR.gps_speed_heading.gps_heading"
 label = "GPS heading"
 color = "tab:orange"
 
@@ -26,7 +26,7 @@ color = "tab:orange"
 label = "East velocity"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.gps_velocity.gps_vel_e"
+column = "SCAN.TORQUE_VECTOR.gps_velocity.gps_vel_e"
 label = "East velocity"
 color = "tab:green"
 
@@ -34,7 +34,7 @@ color = "tab:green"
 label = "North velocity"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.gps_velocity.gps_vel_n"
+column = "SCAN.TORQUE_VECTOR.gps_velocity.gps_vel_n"
 label = "North velocity"
 color = "tab:red"
 
@@ -42,7 +42,7 @@ color = "tab:red"
 label = "Latitude"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.gps_coordinates.latitude"
+column = "SCAN.TORQUE_VECTOR.gps_coordinates.latitude"
 label = "Latitude"
 color = "tab:purple"
 
@@ -50,6 +50,6 @@ color = "tab:purple"
 label = "Longitude"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.gps_coordinates.longitude"
+column = "SCAN.TORQUE_VECTOR.gps_coordinates.longitude"
 label = "Longitude"
 color = "tab:brown"
