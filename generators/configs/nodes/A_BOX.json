@@ -80,31 +80,6 @@
                     "period_ms": 200
                 },
                 {
-                    "message_name": "thermistor_telemetry",
-                    "description": "Individual thermistor readings",
-                    "signals": [
-                        {
-                            "signal_name": "temperature",
-                            "description": "Individual thermistor temperature",
-                            "data_type": "uint16_t",
-                            "unit": "C",
-                            "scale": 0.1
-                        },
-                        {
-                            "signal_name": "module_num",
-                            "description": "Module number of the cell being reported, 0 indexed",
-                            "data_type": "uint8_t"
-                        },
-                        {
-                            "signal_name": "thermistor_num",
-                            "description": "Thermistor number within the module, 0 indexed",
-                            "data_type": "uint8_t"
-                        }
-                    ],
-                    "priority": 5,
-                    "period_ms": 125
-                },
-                {
                     "message_name": "abox_version",
                     "description": "ABox version",
                     "signals": [
@@ -519,6 +494,31 @@
                     ],
                     "priority": 5,
                     "period_ms": 10
+                },
+                {
+                    "message_name": "thermistor_telemetry",
+                    "description": "Individual thermistor readings",
+                    "signals": [
+                        {
+                            "signal_name": "temperature",
+                            "description": "Individual thermistor temperature",
+                            "data_type": "uint16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "module_num",
+                            "description": "Module number of the cell being reported, 0 indexed",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "thermistor_num",
+                            "description": "Thermistor number within the module, 0 indexed",
+                            "data_type": "uint8_t"
+                        }
+                    ],
+                    "priority": 5,
+                    "period_ms": 125
                 }
             ],
             "rx": []
