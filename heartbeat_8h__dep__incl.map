@@ -1,21 +1,23 @@
 <map id="firmware/common/heartbeat/heartbeat.h" name="firmware/common/heartbeat/heartbeat.h">
-<area shape="rect" id="Node000001" title="Shared heartbeat task implementation for status LEDs." alt="" coords="744,5,926,46"/>
+<area shape="rect" id="Node000001" title="Shared heartbeat task implementation for status LEDs." alt="" coords="844,5,1026,46"/>
 <area shape="rect" id="Node000002" href="$heartbeat_8c.html" title="Shared heartbeat task implementation for status LEDs." alt="" coords="5,102,188,142"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="729,36,486,57,342,74,200,97,167,103,166,98,199,91,342,69,485,52,728,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="829,34,543,53,371,72,200,97,167,103,166,98,199,91,371,66,543,48,828,29"/>
 <area shape="rect" id="Node000003" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="212,102,363,142"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="729,41,562,63,376,97,349,104,347,98,375,91,561,57,728,35"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="829,37,618,58,496,75,376,97,348,103,347,98,375,91,495,70,618,53,828,32"/>
 <area shape="rect" id="Node000004" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="387,102,561,142"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="744,53,573,97,547,103,546,98,572,91,742,48"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="829,47,706,69,573,97,545,103,544,98,572,91,705,64,828,42"/>
 <area shape="rect" id="Node000005" href="$daq_2main_8c.html" title="&quot;DAQ&quot; node source code" alt="" coords="585,102,723,142"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="785,56,693,103,691,99,783,51"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="863,54,714,103,712,98,861,49"/>
 <area shape="rect" id="Node000006" href="$driver__interface_8c.html" title="thread to manage driver&#45;facing LCD, buttons, LEDs" alt="" coords="746,94,924,150"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="838,61,838,93,832,93,832,61"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="905,59,866,95,862,91,902,55"/>
 <area shape="rect" id="Node000007" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="948,102,1125,142"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="892,51,995,99,993,103,890,55"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="969,54,1017,99,1014,103,965,58"/>
 <area shape="rect" id="Node000008" href="$driveline_2main_8c.html" title="&quot;Driveline&quot; node source code" alt="" coords="1150,102,1315,142"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="942,46,1138,91,1165,98,1164,104,1137,97,941,52"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1012,49,1171,98,1169,103,1011,54"/>
 <area shape="rect" id="Node000009" href="$main__module_2main_8c.html" title="&quot;Main Module&quot; node source code" alt="" coords="1340,102,1485,142"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="942,34,1123,55,1226,71,1328,91,1355,98,1353,104,1327,97,1225,77,1122,61,941,39"/>
-<area shape="rect" id="Node000010" href="$torque__vector_2main_8c.html" title="&quot;Torque Vector&quot; node source code" alt="" coords="1509,102,1662,142"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="942,29,1197,48,1348,66,1498,91,1527,98,1525,103,1497,97,1347,72,1196,54,942,34"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1042,39,1179,61,1328,91,1354,98,1352,104,1327,97,1178,66,1041,44"/>
+<area shape="rect" id="Node000010" href="$pdu_2main_8c.html" title="&quot;PDU&quot; node source code" alt="" coords="1509,102,1647,142"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1042,31,1254,51,1377,68,1498,91,1524,98,1523,103,1497,97,1376,74,1254,56,1042,36"/>
+<area shape="rect" id="Node000011" href="$torque__vector_2main_8c.html" title="&quot;Torque Vector&quot; node source code" alt="" coords="1670,102,1824,142"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1042,28,1168,34,1323,46,1492,64,1660,91,1689,98,1687,103,1659,97,1491,70,1322,51,1168,39,1042,33"/>
 </map>

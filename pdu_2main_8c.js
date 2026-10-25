@@ -1,12 +1,14 @@
 var pdu_2main_8c =
 [
     [ "DEFINE_CAN_TASKS", "pdu_2main_8c.html#a577e29103ef4d1e1121dc63cfb074498", null ],
+    [ "DEFINE_HEARTBEAT_TASK", "pdu_2main_8c.html#a845eaf447179a8baf75c69794c49856d", null ],
     [ "DEFINE_WATCHDOG_TASK", "pdu_2main_8c.html#a11a067a3a0541dc1ed61e5c9bb7591b5", null ],
     [ "HardFault_Handler", "pdu_2main_8c.html#a2af56a8bf3197b2f06cac4c0b84ffc3e", null ],
     [ "main", "pdu_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ],
     [ "RTOS_DEFINE_TASK", "pdu_2main_8c.html#a0433fb1019241ded944636b053b6194a", null ],
     [ "RTOS_DEFINE_TASK", "pdu_2main_8c.html#a80fa685f6637d641a5f77e188475d81e", null ],
     [ "RTOS_DEFINE_TASK", "pdu_2main_8c.html#a029ca396592ecd52550422fe3d5c436a", null ],
+    [ "RTOS_DEFINE_TASK", "pdu_2main_8c.html#a6bc9944bd0dbe5e9d730f154924bbfda", null ],
     [ "adc1_channels", "pdu_2main_8c.html#a855cda75692c284e6b359fc369d129a9", null ],
     [ "adc1_config", "pdu_2main_8c.html#a3c930f9fe2623c01b2a1309966bfb741", null ],
     [ "adc1_handle", "pdu_2main_8c.html#aad78a3228b1d1bb22091448347f62037", null ],

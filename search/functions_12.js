@@ -64,5 +64,8 @@ var searchData=
   ['strbuf_5fclear_61',['strbuf_clear',['../strbuf_8c.html#a64d216f0276598d2d7f68c8a0c453fb7',1,'strbuf_clear(strbuf_t *sb):&#160;strbuf.c'],['../strbuf_8h.html#a64d216f0276598d2d7f68c8a0c453fb7',1,'strbuf_clear(strbuf_t *sb):&#160;strbuf.c']]],
   ['strbuf_5fprintf_62',['strbuf_printf',['../strbuf_8c.html#a52ce36e86451c208f1846411e1f67dcf',1,'strbuf_printf(strbuf_t *sb, const char *format,...):&#160;strbuf.c'],['../strbuf_8h.html#a52ce36e86451c208f1846411e1f67dcf',1,'strbuf_printf(strbuf_t *sb, const char *format,...):&#160;strbuf.c']]],
   ['sweep_5fexternal_5fleds_63',['sweep_external_leds',['../dashboard_2main_8c.html#afde7bfa6b37748d965fb66a4803f2ced',1,'main.c']]],
-  ['systick_5fhandler_64',['SysTick_Handler',['../bootloader_8c.html#ab5e09814056d617c521549e542639b7e',1,'bootloader.c']]]
+  ['switch_5fdisable_64',['SWITCH_disable',['../switch_8c.html#a0330ac3f2698f04048c663f8ef91f692',1,'SWITCH_disable(switch_id_t switch_id):&#160;switch.c'],['../switch_8h.html#a0330ac3f2698f04048c663f8ef91f692',1,'SWITCH_disable(switch_id_t switch_id):&#160;switch.c']]],
+  ['switch_5fenable_65',['SWITCH_enable',['../switch_8c.html#a6fad4820fc201f6b1bf302cab284b902',1,'SWITCH_enable(switch_id_t switch_id):&#160;switch.c'],['../switch_8h.html#a6fad4820fc201f6b1bf302cab284b902',1,'SWITCH_enable(switch_id_t switch_id):&#160;switch.c']]],
+  ['switch_5fenable_5fall_66',['SWITCH_enable_all',['../switch_8c.html#a8b4bc35239dd1f38c1ad844d03b540fe',1,'SWITCH_enable_all():&#160;switch.c'],['../switch_8h.html#a1413b27bfa66d750d99794f6e2eda670',1,'SWITCH_enable_all(void):&#160;switch.c']]],
+  ['systick_5fhandler_67',['SysTick_Handler',['../bootloader_8c.html#ab5e09814056d617c521549e542639b7e',1,'bootloader.c']]]
 ];

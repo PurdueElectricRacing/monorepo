@@ -171,9 +171,9 @@ var viewHeight = 1374;
 <!-- bus:SCAN -->
 <g id="node3" class="node">
 <title>bus:SCAN</title>
-<ellipse fill="#b8d6ef" stroke="#777777" cx="62.76" cy="-342" rx="52.68" ry="27.93"/>
-<text text-anchor="middle" x="62.76" y="-344.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">SCAN</text>
-<text text-anchor="middle" x="62.76" y="-328.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">500 kbit/s</text>
+<ellipse fill="#b8d6ef" stroke="#777777" cx="62.76" cy="-369" rx="52.68" ry="27.93"/>
+<text text-anchor="middle" x="62.76" y="-371.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">SCAN</text>
+<text text-anchor="middle" x="62.76" y="-355.7" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">500 kbit/s</text>
 </g>
 <!-- node:BOSCH_LWS -->
 <g id="node14" class="node">
@@ -184,23 +184,34 @@ var viewHeight = 1374;
 <!-- bus:SCAN&#45;&#45;node:BOSCH_LWS -->
 <g id="edge10" class="edge">
 <title>bus:SCAN&#45;&#45;node:BOSCH_LWS</title>
-<path fill="none" stroke="#2f70ad" d="M88.32,-317.07C106.99,-299.33 134.07,-276.05 161.51,-261 171.84,-255.34 183.54,-250.64 194.86,-246.83"/>
+<path fill="none" stroke="#2f70ad" d="M81.34,-342.7C98.94,-318.28 128.15,-282.54 161.51,-261 171.66,-254.45 183.54,-249.36 195.1,-245.47"/>
 </g>
 <!-- bus:SCAN&#45;&#45;node:CANNECTOR -->
 <g id="edge12" class="edge">
 <title>bus:SCAN&#45;&#45;node:CANNECTOR</title>
-<path fill="none" stroke="#2f70ad" d="M115.8,-342C140.23,-342 169.26,-342 193.65,-342"/>
+<path fill="none" stroke="#2f70ad" d="M113.87,-361.55C138.75,-357.85 168.78,-353.39 193.86,-349.66"/>
 </g>
 <!-- node:DASHBOARD -->
 <g id="node18" class="node">
 <title>node:DASHBOARD</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="297.51,-414 195.26,-414 195.26,-378 297.51,-378 297.51,-414"/>
-<text text-anchor="middle" x="246.39" y="-390.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">DASHBOARD</text>
+<polygon fill="#d5d5d5" stroke="#777777" points="297.51,-468 195.26,-468 195.26,-432 297.51,-432 297.51,-468"/>
+<text text-anchor="middle" x="246.39" y="-444.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">DASHBOARD</text>
 </g>
 <!-- bus:SCAN&#45;&#45;node:DASHBOARD -->
 <g id="edge16" class="edge">
 <title>bus:SCAN&#45;&#45;node:DASHBOARD</title>
-<path fill="none" stroke="#2f70ad" d="M109.12,-355.49C135.18,-363.23 167.96,-372.98 194.84,-380.97"/>
+<path fill="none" stroke="#2f70ad" d="M98.22,-390.18C116.58,-400.91 139.8,-413.61 161.51,-423 172.18,-427.61 183.91,-431.87 195.13,-435.57"/>
+</g>
+<!-- node:PDU -->
+<g id="node29" class="node">
+<title>node:PDU</title>
+<polygon fill="#d5d5d5" stroke="#777777" points="273.39,-414 219.39,-414 219.39,-378 273.39,-378 273.39,-414"/>
+<text text-anchor="middle" x="246.39" y="-390.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">PDU</text>
+</g>
+<!-- bus:SCAN&#45;&#45;node:PDU -->
+<g id="edge29" class="edge">
+<title>bus:SCAN&#45;&#45;node:PDU</title>
+<path fill="none" stroke="#2f70ad" d="M113.87,-376.45C147.89,-381.51 191.52,-387.99 218.97,-392.07"/>
 </g>
 <!-- bus:TEST_CAN -->
 <g id="node4" class="node">
@@ -235,79 +246,79 @@ var viewHeight = 1374;
 <!-- node:BL_A_BOX -->
 <g id="node7" class="node">
 <title>node:BL_A_BOX</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="289.64,-738 203.14,-738 203.14,-702 289.64,-702 289.64,-738"/>
-<text text-anchor="middle" x="246.39" y="-714.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_A_BOX</text>
+<polygon fill="#d5d5d5" stroke="#777777" points="289.64,-1116 203.14,-1116 203.14,-1080 289.64,-1080 289.64,-1116"/>
+<text text-anchor="middle" x="246.39" y="-1092.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_A_BOX</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:BL_A_BOX -->
 <g id="edge3" class="edge">
 <title>bus:VCAN&#45;&#45;node:BL_A_BOX</title>
-<path fill="none" stroke="#2f70ad" d="M115.8,-720C143.37,-720 176.81,-720 202.81,-720"/>
+<path fill="none" stroke="#2f70ad" d="M63.15,-747.97C63.3,-813.59 72.97,-978.87 161.51,-1071 172.43,-1082.36 188.14,-1088.95 203.02,-1092.77"/>
 </g>
 <!-- node:BL_DASHBOARD -->
 <g id="node8" class="node">
 <title>node:BL_DASHBOARD</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="309.89,-684 182.89,-684 182.89,-648 309.89,-648 309.89,-684"/>
-<text text-anchor="middle" x="246.39" y="-660.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_DASHBOARD</text>
+<polygon fill="#d5d5d5" stroke="#777777" points="309.89,-1062 182.89,-1062 182.89,-1026 309.89,-1026 309.89,-1062"/>
+<text text-anchor="middle" x="246.39" y="-1038.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_DASHBOARD</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:BL_DASHBOARD -->
 <g id="edge4" class="edge">
 <title>bus:VCAN&#45;&#45;node:BL_DASHBOARD</title>
-<path fill="none" stroke="#2f70ad" d="M109.12,-706.51C131.61,-699.83 159.1,-691.65 183.49,-684.4"/>
+<path fill="none" stroke="#2f70ad" d="M64.85,-748.04C68.65,-806.38 85.65,-941.63 161.51,-1017 167.48,-1022.93 174.76,-1027.56 182.5,-1031.17"/>
 </g>
 <!-- node:BL_FRONT_DRIVELINE -->
 <g id="node9" class="node">
 <title>node:BL_FRONT_DRIVELINE</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="331.26,-630 161.51,-630 161.51,-594 331.26,-594 331.26,-630"/>
-<text text-anchor="middle" x="246.39" y="-606.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_FRONT_DRIVELINE</text>
+<polygon fill="#d5d5d5" stroke="#777777" points="331.26,-1008 161.51,-1008 161.51,-972 331.26,-972 331.26,-1008"/>
+<text text-anchor="middle" x="246.39" y="-984.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_FRONT_DRIVELINE</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:BL_FRONT_DRIVELINE -->
 <g id="edge5" class="edge">
 <title>bus:VCAN&#45;&#45;node:BL_FRONT_DRIVELINE</title>
-<path fill="none" stroke="#2f70ad" d="M88.32,-695.07C106.99,-677.33 134.07,-654.05 161.51,-639 167.28,-635.84 173.48,-632.97 179.79,-630.4"/>
+<path fill="none" stroke="#2f70ad" d="M67.23,-747.99C74.94,-798.23 98.12,-903.96 161.51,-963 164.98,-966.23 168.84,-969.08 172.95,-971.58"/>
 </g>
 <!-- node:BL_MAIN_MODULE -->
 <g id="node10" class="node">
 <title>node:BL_MAIN_MODULE</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="318.14,-576 174.64,-576 174.64,-540 318.14,-540 318.14,-576"/>
-<text text-anchor="middle" x="246.39" y="-552.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_MAIN_MODULE</text>
+<polygon fill="#d5d5d5" stroke="#777777" points="318.14,-954 174.64,-954 174.64,-918 318.14,-918 318.14,-954"/>
+<text text-anchor="middle" x="246.39" y="-930.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_MAIN_MODULE</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:BL_MAIN_MODULE -->
 <g id="edge6" class="edge">
 <title>bus:VCAN&#45;&#45;node:BL_MAIN_MODULE</title>
-<path fill="none" stroke="#2f70ad" d="M76.8,-692.69C92.72,-662.18 122.4,-613.38 161.51,-585 165.97,-581.77 170.83,-578.91 175.9,-576.38"/>
+<path fill="none" stroke="#2f70ad" d="M70.87,-748.04C82.74,-789.21 110.48,-865.8 161.51,-909 165.48,-912.36 169.88,-915.3 174.51,-917.88"/>
 </g>
 <!-- node:BL_REAR_DRIVELINE -->
 <g id="node11" class="node">
 <title>node:BL_REAR_DRIVELINE</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="325.64,-522 167.14,-522 167.14,-486 325.64,-486 325.64,-522"/>
-<text text-anchor="middle" x="246.39" y="-498.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_REAR_DRIVELINE</text>
+<polygon fill="#d5d5d5" stroke="#777777" points="325.64,-900 167.14,-900 167.14,-864 325.64,-864 325.64,-900"/>
+<text text-anchor="middle" x="246.39" y="-876.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_REAR_DRIVELINE</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:BL_REAR_DRIVELINE -->
 <g id="edge7" class="edge">
 <title>bus:VCAN&#45;&#45;node:BL_REAR_DRIVELINE</title>
-<path fill="none" stroke="#2f70ad" d="M70.87,-691.96C82.74,-650.79 110.48,-574.2 161.51,-531 165.36,-527.74 169.62,-524.87 174.1,-522.35"/>
+<path fill="none" stroke="#2f70ad" d="M76.8,-747.31C92.72,-777.82 122.4,-826.62 161.51,-855 165.97,-858.23 170.83,-861.09 175.9,-863.62"/>
 </g>
 <!-- node:BL_TORQUE_VECTOR -->
 <g id="node12" class="node">
 <title>node:BL_TORQUE_VECTOR</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="329.39,-468 163.39,-468 163.39,-432 329.39,-432 329.39,-468"/>
-<text text-anchor="middle" x="246.39" y="-444.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_TORQUE_VECTOR</text>
+<polygon fill="#d5d5d5" stroke="#777777" points="329.39,-846 163.39,-846 163.39,-810 329.39,-810 329.39,-846"/>
+<text text-anchor="middle" x="246.39" y="-822.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BL_TORQUE_VECTOR</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:BL_TORQUE_VECTOR -->
 <g id="edge8" class="edge">
 <title>bus:VCAN&#45;&#45;node:BL_TORQUE_VECTOR</title>
-<path fill="none" stroke="#2f70ad" d="M67.23,-692.01C74.94,-641.77 98.12,-536.04 161.51,-477 164.98,-473.77 168.84,-470.92 172.95,-468.42"/>
+<path fill="none" stroke="#2f70ad" d="M88.32,-744.93C106.99,-762.67 134.07,-785.95 161.51,-801 167.28,-804.16 173.48,-807.03 179.79,-809.6"/>
 </g>
 <!-- node:BOOTLOADER -->
 <g id="node13" class="node">
 <title>node:BOOTLOADER</title>
-<polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="303.14,-1116 189.64,-1116 189.64,-1080 303.14,-1080 303.14,-1116"/>
-<text text-anchor="middle" x="246.39" y="-1092.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BOOTLOADER</text>
+<polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="303.14,-792 189.64,-792 189.64,-756 303.14,-756 303.14,-792"/>
+<text text-anchor="middle" x="246.39" y="-768.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">BOOTLOADER</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:BOOTLOADER -->
 <g id="edge9" class="edge">
 <title>bus:VCAN&#45;&#45;node:BOOTLOADER</title>
-<path fill="none" stroke="#2f70ad" d="M63.15,-747.97C63.3,-813.59 72.97,-978.87 161.51,-1071 169.14,-1078.94 179.12,-1084.55 189.51,-1088.51"/>
+<path fill="none" stroke="#2f70ad" d="M109.12,-733.49C133.39,-740.7 163.5,-749.65 189.24,-757.31"/>
 </g>
 <!-- bus:VCAN&#45;&#45;node:CANNECTOR -->
 <g id="edge13" class="edge">
@@ -317,78 +328,72 @@ var viewHeight = 1374;
 <!-- node:DAQ -->
 <g id="node16" class="node">
 <title>node:DAQ</title>
-<polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="273.39,-1062 219.39,-1062 219.39,-1026 273.39,-1026 273.39,-1062"/>
-<text text-anchor="middle" x="246.39" y="-1038.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">DAQ</text>
+<polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="273.39,-738 219.39,-738 219.39,-702 273.39,-702 273.39,-738"/>
+<text text-anchor="middle" x="246.39" y="-714.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">DAQ</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:DAQ -->
 <g id="edge14" class="edge">
 <title>bus:VCAN&#45;&#45;node:DAQ</title>
-<path fill="none" stroke="#2f70ad" d="M64.85,-748.04C68.65,-806.38 85.65,-941.63 161.51,-1017 176.81,-1032.2 200.7,-1038.85 219.08,-1041.75"/>
+<path fill="none" stroke="#2f70ad" d="M115.8,-720C149.56,-720 192.11,-720 219.04,-720"/>
 </g>
 <!-- bus:VCAN&#45;&#45;node:DASHBOARD -->
 <g id="edge17" class="edge">
 <title>bus:VCAN&#45;&#45;node:DASHBOARD</title>
-<path fill="none" stroke="#2f70ad" d="M64.85,-691.96C68.65,-633.62 85.65,-498.37 161.51,-423 170.63,-413.94 182.79,-407.92 195.02,-403.92"/>
+<path fill="none" stroke="#2f70ad" d="M67.23,-692.01C74.94,-641.77 98.12,-536.04 161.51,-477 170.8,-468.35 182.89,-462.47 194.97,-458.47"/>
 </g>
 <!-- node:DRIVELINE -->
 <g id="node19" class="node">
 <title>node:DRIVELINE</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="290.76,-1008 202.01,-1008 202.01,-972 290.76,-972 290.76,-1008"/>
-<text text-anchor="middle" x="246.39" y="-984.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">DRIVELINE</text>
+<polygon fill="#d5d5d5" stroke="#777777" points="290.76,-684 202.01,-684 202.01,-648 290.76,-648 290.76,-684"/>
+<text text-anchor="middle" x="246.39" y="-660.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">DRIVELINE</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:DRIVELINE -->
 <g id="edge18" class="edge">
 <title>bus:VCAN&#45;&#45;node:DRIVELINE</title>
-<path fill="none" stroke="#2f70ad" d="M67.23,-747.99C74.94,-798.23 98.12,-903.96 161.51,-963 172.48,-973.22 187.34,-979.57 201.51,-983.52"/>
+<path fill="none" stroke="#2f70ad" d="M109.12,-706.51C137.39,-698.11 173.56,-687.35 201.54,-679.04"/>
 </g>
 <!-- node:E_METER -->
 <g id="node21" class="node">
 <title>node:E_METER</title>
-<polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="287.01,-954 205.76,-954 205.76,-918 287.01,-918 287.01,-954"/>
-<text text-anchor="middle" x="246.39" y="-930.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">E_METER</text>
+<polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="287.01,-630 205.76,-630 205.76,-594 287.01,-594 287.01,-630"/>
+<text text-anchor="middle" x="246.39" y="-606.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">E_METER</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:E_METER -->
 <g id="edge20" class="edge">
 <title>bus:VCAN&#45;&#45;node:E_METER</title>
-<path fill="none" stroke="#2f70ad" d="M70.87,-748.04C82.74,-789.21 110.48,-865.8 161.51,-909 173.89,-919.48 190.4,-925.91 205.49,-929.84"/>
+<path fill="none" stroke="#2f70ad" d="M88.32,-695.07C106.99,-677.33 134.07,-654.05 161.51,-639 175.06,-631.57 190.97,-625.8 205.27,-621.54"/>
 </g>
 <!-- node:IZZE_IMU -->
 <g id="node27" class="node">
 <title>node:IZZE_IMU</title>
-<polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="285.51,-900 207.26,-900 207.26,-864 285.51,-864 285.51,-900"/>
-<text text-anchor="middle" x="246.39" y="-876.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">IZZE_IMU</text>
+<polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="285.51,-576 207.26,-576 207.26,-540 285.51,-540 285.51,-576"/>
+<text text-anchor="middle" x="246.39" y="-552.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">IZZE_IMU</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:IZZE_IMU -->
 <g id="edge26" class="edge">
 <title>bus:VCAN&#45;&#45;node:IZZE_IMU</title>
-<path fill="none" stroke="#2f70ad" d="M76.8,-747.31C92.72,-777.82 122.4,-826.62 161.51,-855 174.88,-864.7 191.9,-871.02 207.11,-875.09"/>
+<path fill="none" stroke="#2f70ad" d="M76.8,-692.69C92.72,-662.18 122.4,-613.38 161.51,-585 174.88,-575.3 191.9,-568.98 207.11,-564.91"/>
 </g>
 <!-- bus:VCAN&#45;&#45;node:MAIN_MODULE -->
 <g id="edge28" class="edge">
 <title>bus:VCAN&#45;&#45;node:MAIN_MODULE</title>
-<path fill="none" stroke="#2f70ad" d="M66.98,-691.75C76.93,-609.23 109.66,-370.87 161.51,-315 168.38,-307.6 177.28,-302.22 186.71,-298.31"/>
-</g>
-<!-- node:PDU -->
-<g id="node29" class="node">
-<title>node:PDU</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="273.39,-846 219.39,-846 219.39,-810 273.39,-810 273.39,-846"/>
-<text text-anchor="middle" x="246.39" y="-822.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">PDU</text>
+<path fill="none" stroke="#2f70ad" d="M68.89,-691.95C85.04,-604.86 135.31,-343.23 161.51,-315 168.38,-307.6 177.28,-302.22 186.71,-298.31"/>
 </g>
 <!-- bus:VCAN&#45;&#45;node:PDU -->
-<g id="edge29" class="edge">
+<g id="edge30" class="edge">
 <title>bus:VCAN&#45;&#45;node:PDU</title>
-<path fill="none" stroke="#2f70ad" d="M88.32,-744.93C106.99,-762.67 134.07,-785.95 161.51,-801 179.62,-810.93 201.95,-817.9 219.02,-822.26"/>
+<path fill="none" stroke="#2f70ad" d="M64.85,-691.96C68.65,-633.62 85.65,-498.37 161.51,-423 176.81,-407.8 200.7,-401.15 219.08,-398.25"/>
 </g>
 <!-- node:TORQUE_VECTOR -->
 <g id="node30" class="node">
 <title>node:TORQUE_VECTOR</title>
-<polygon fill="#d5d5d5" stroke="#777777" points="317.01,-792 175.76,-792 175.76,-756 317.01,-756 317.01,-792"/>
-<text text-anchor="middle" x="246.39" y="-768.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">TORQUE_VECTOR</text>
+<polygon fill="#d5d5d5" stroke="#777777" points="317.01,-522 175.76,-522 175.76,-486 317.01,-486 317.01,-522"/>
+<text text-anchor="middle" x="246.39" y="-498.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">TORQUE_VECTOR</text>
 </g>
 <!-- bus:VCAN&#45;&#45;node:TORQUE_VECTOR -->
-<g id="edge30" class="edge">
+<g id="edge31" class="edge">
 <title>bus:VCAN&#45;&#45;node:TORQUE_VECTOR</title>
-<path fill="none" stroke="#2f70ad" d="M109.12,-733.49C131.61,-740.17 159.1,-748.35 183.49,-755.6"/>
+<path fill="none" stroke="#2f70ad" d="M70.87,-691.96C82.74,-650.79 110.48,-574.2 161.51,-531 165.71,-527.44 170.39,-524.35 175.33,-521.67"/>
 </g>
 </g>
 </svg>

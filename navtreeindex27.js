@@ -1,5 +1,10 @@
 var NAVTREEINDEX27 =
 {
+"structmilliamp__t.html#a82c542ed12643f039296f5d6c0d2e834":[32,0,180,0],
+"structmillimeter__t.html":[32,0,181],
+"structmillimeter__t.html#a6d5469afc064fe31e66adfb43155eec0":[32,0,181,0],
+"structmilliohm__t.html":[32,0,182],
+"structmilliohm__t.html#ad1fd12622d1f3c42077cdabef8083ca9":[32,0,182,0],
 "structmillisecond__t.html":[32,0,183],
 "structmillisecond__t.html#ad30744bf97da9bda275e22c5453594b4":[32,0,183,0],
 "structmillivolt__t.html":[32,0,184],
@@ -244,10 +249,5 @@ var NAVTREEINDEX27 =
 "structstandard__gravity__t.html#ad400a27bec6e7f0ad1b4f3afe85be56e":[32,0,255,0],
 "structstart__button__data__t.html":[32,0,256],
 "structstart__button__data__t.html#a2ba8dfa122838ef9cb7344b67d548197":[32,0,256,2],
-"structstart__button__data__t.html#aace843db6454e0ebf260a6e43e6cf38e":[32,0,256,0],
-"structstart__button__data__t.html#adbd9847a0eee8b2dabf45c0ceaa2df69":[32,0,256,1],
-"structstatus__leds__t.html":[32,0,257],
-"structstatus__leds__t.html#a238032a6d020cb33b2d2152306336498":[32,0,257,2],
-"structstatus__leds__t.html#a316cd8754648c56856cdaed69dd9f72e":[32,0,257,7],
-"structstatus__leds__t.html#a6cc07c4442bf7158ab552581c3ae924e":[32,0,257,1]
+"structstart__button__data__t.html#aace843db6454e0ebf260a6e43e6cf38e":[32,0,256,0]
 };

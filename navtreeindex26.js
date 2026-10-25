@@ -1,5 +1,10 @@
 var NAVTREEINDEX26 =
 {
+"structethernet__config__t.html#ade31c56fc593c739ef1e6d93078c132a":[32,0,88,2],
+"structethernet__config__t.html#ae16d802d1eaf8c5eb1e45e91d8394bc8":[32,0,88,1],
+"structeuler__angles__t.html":[32,0,89],
+"structeuler__angles__t.html#a11c885d1265e328d41f48916230bd17c":[32,0,89,2],
+"structeuler__angles__t.html#a27484bbbc2279ad726f80dee91c64ddc":[32,0,89,1],
 "structeuler__angles__t.html#ab530ad6bf1ee511e9e6f27b85637bac8":[32,0,89,0],
 "structfahrenheit__t.html":[32,0,90],
 "structfahrenheit__t.html#ad73bc690a53281f4b8a0ae8dd0106071":[32,0,90,0],
@@ -244,10 +249,5 @@ var NAVTREEINDEX26 =
 "structmile__t.html#a42f092487a5c8850480ade98a00eae2b":[32,0,178,0],
 "structmiles__per__hour__t.html":[32,0,179],
 "structmiles__per__hour__t.html#aa9e58ef74cd74c662c17bd191b8d36da":[32,0,179,0],
-"structmilliamp__t.html":[32,0,180],
-"structmilliamp__t.html#a82c542ed12643f039296f5d6c0d2e834":[32,0,180,0],
-"structmillimeter__t.html":[32,0,181],
-"structmillimeter__t.html#a6d5469afc064fe31e66adfb43155eec0":[32,0,181,0],
-"structmilliohm__t.html":[32,0,182],
-"structmilliohm__t.html#ad1fd12622d1f3c42077cdabef8083ca9":[32,0,182,0]
+"structmilliamp__t.html":[32,0,180]
 };

@@ -1,21 +1,37 @@
 <map id="firmware/source/pdu/power/switch.c" name="firmware/source/pdu/power/switch.c">
-<area shape="rect" id="Node000001" title="switch mappings and control code" alt="" coords="175,5,314,46"/>
-<area shape="rect" id="Node000002" href="$switch_8h.html" title="switch mappings and control code" alt="" coords="166,94,235,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,48,217,82,212,79,231,45"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="259,94,318,120"/>
-<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="258,45,277,79,272,82,253,48"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="45,168,196,208"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="190,122,153,159,149,155,186,118"/>
-<area shape="rect" id="Node000007" href="$faults__common_8h.html" title="Event&#45;based FIDR system." alt="" coords="231,168,351,208"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="216,118,259,155,255,159,212,122"/>
+<area shape="rect" id="Node000001" title="switch mappings and control code" alt="" coords="279,5,418,46"/>
+<area shape="rect" id="Node000002" href="$switch_8h.html" title="switch mappings and control code" alt="" coords="270,94,339,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="340,48,321,82,316,79,335,45"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2gpio_2gpio_8h.html" title="G4 GPIO public API." alt="" coords="90,168,241,208"/>
+<area shape="poly" id="edge11_Node000001_Node000003" title=" " alt="" coords="321,49,259,96,195,158,192,155,256,92,318,44"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="363,94,422,120"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="362,45,381,79,376,82,357,48"/>
+<area shape="rect" id="Node000010" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="662,94,795,120"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="419,39,655,88,654,93,417,44"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="285,122,214,162,212,158,282,118"/>
+<area shape="rect" id="Node000007" href="$faults__common_8h.html" title="Event&#45;based FIDR system." alt="" coords="266,168,385,208"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="310,119,319,152,314,153,305,121"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="5,264,73,290"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="104,211,62,255,58,251,100,207"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="259,345,323,371"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="120,209,120,252,126,275,137,295,160,316,187,332,217,342,245,349,244,354,215,347,185,337,157,321,133,299,121,277,115,253,115,209"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="138,211,71,257,68,253,135,207"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="314,345,377,371"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="153,210,141,230,132,252,130,275,137,295,162,313,204,327,299,347,298,352,202,332,160,317,133,299,124,276,127,251,137,227,149,207"/>
 <area shape="rect" id="Node000006" title=" " alt="" coords="147,264,254,290"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="140,207,181,251,177,255,137,211"/>
-<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="294,209,294,330,288,330,288,209"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="176,208,192,249,188,251,171,210"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="323,209,316,250,316,273,319,296,333,330,328,332,314,298,311,274,311,249,318,208"/>
 <area shape="rect" id="Node000008" href="$can__types_8h.html" title="Auto&#45;generated custom types and enums for the CAN library." alt="" coords="328,256,472,297"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="317,207,365,244,362,249,314,211"/>
-<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="375,300,322,338,319,333,372,295"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="345,207,376,243,372,246,341,211"/>
+<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="389,299,365,334,361,330,385,296"/>
+<area shape="poly" id="edge19_Node000010_Node000005" title=" " alt="" coords="662,117,596,134,565,149,537,170,524,185,517,200,511,232,507,265,499,282,486,299,465,316,441,330,394,349,392,344,439,326,462,312,482,295,495,279,501,263,506,231,511,199,519,182,533,166,562,145,595,129,660,112"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="547,175,640,201"/>
+<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="709,122,629,169,626,165,707,118"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="664,175,712,201"/>
+<area shape="poly" id="edge14_Node000010_Node000012" title=" " alt="" coords="725,121,704,162,699,160,720,119"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="736,175,803,201"/>
+<area shape="poly" id="edge15_Node000010_Node000013" title=" " alt="" coords="737,119,759,160,754,162,732,121"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="827,175,902,201"/>
+<area shape="poly" id="edge16_Node000010_Node000014" title=" " alt="" coords="750,118,832,165,829,169,748,122"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="926,175,982,201"/>
+<area shape="poly" id="edge17_Node000010_Node000015" title=" " alt="" coords="772,118,840,138,915,165,917,166,915,171,913,170,838,144,771,123"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="1005,175,1073,201"/>
+<area shape="poly" id="edge18_Node000010_Node000016" title=" " alt="" coords="796,117,890,137,994,165,999,167,998,172,993,170,889,142,795,122"/>
 </map>

@@ -29,6 +29,9 @@ var switch_8h =
       [ "SWITCH_EMETER", "switch_8h.html#af89bbbc9db3e225538dbfa6fc3d97838a09e92500db76febc0323c7c64875eb64", null ],
       [ "NUM_SWITCHES", "switch_8h.html#af89bbbc9db3e225538dbfa6fc3d97838a30feaf3abb229ebb97fce793cbecae56", null ]
     ] ],
+    [ "SWITCH_disable", "switch_8h.html#a0330ac3f2698f04048c663f8ef91f692", null ],
+    [ "SWITCH_enable", "switch_8h.html#a6fad4820fc201f6b1bf302cab284b902", null ],
+    [ "SWITCH_enable_all", "switch_8h.html#a1413b27bfa66d750d99794f6e2eda670", null ],
     [ "ADC_VREF_V", "switch_8h.html#a38e2a4d6499d0401c10f147cb7ef3db3", null ],
     [ "g_switches", "switch_8h.html#a24ab88f88adeea9e9cd4141da6e007e8", null ],
     [ "SWITCH_FAULT_ADC_THRESHOLD", "switch_8h.html#a906e29a588e55d93cb70d71f582ab63a", null ],

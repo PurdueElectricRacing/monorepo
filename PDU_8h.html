@@ -114,6 +114,7 @@ $(function(){initNavTree('PDU_8h.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="can__common_8h_source.html">can_library/can_common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="can__types_8h_source.html">can_library/generated/can_types.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="can__version_8h_source.html">can_library/generated/can_version.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="SCAN_8h_source.html">can_library/generated/SCAN.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="VCAN_8h_source.html">can_library/generated/VCAN.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for PDU.h:</div>
@@ -137,11 +138,15 @@ Classes</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:aa6f2e9810d43532cf45597c1d5d527cb" id="r_aa6f2e9810d43532cf45597c1d5d527cb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6f2e9810d43532cf45597c1d5d527cb">USE_FDCAN1</a></td></tr>
 <tr class="separator:aa6f2e9810d43532cf45597c1d5d527cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09389f719514180e1356522315f12b33" id="r_a09389f719514180e1356522315f12b33"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09389f719514180e1356522315f12b33">USE_FDCAN2</a></td></tr>
+<tr class="separator:a09389f719514180e1356522315f12b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a90647dbc98bbf7bc6c1e9ef85f4d2f01" id="r_a90647dbc98bbf7bc6c1e9ef85f4d2f01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90647dbc98bbf7bc6c1e9ef85f4d2f01">CAN_enqueue_tx_FDCAN1</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
 <tr class="separator:a90647dbc98bbf7bc6c1e9ef85f4d2f01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0da956162efe3e0016f181cee58961e6" id="r_a0da956162efe3e0016f181cee58961e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0da956162efe3e0016f181cee58961e6">CAN_enqueue_tx_FDCAN2</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
+<tr class="separator:a0da956162efe3e0016f181cee58961e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa873c4950ddbb6ff735af725068dec4f" id="r_aa873c4950ddbb6ff735af725068dec4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa873c4950ddbb6ff735af725068dec4f">a_box_fault_event_CALLBACK</a> ()</td></tr>
 <tr class="separator:aa873c4950ddbb6ff735af725068dec4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bcfce9b94d677f6570b38112209ce37" id="r_a8bcfce9b94d677f6570b38112209ce37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bcfce9b94d677f6570b38112209ce37">dashboard_fault_event_CALLBACK</a> ()</td></tr>
@@ -192,6 +197,8 @@ Functions</h2></td></tr>
 <tr class="separator:aa807ade5b93f6697cfac0ae05b7f5255"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a500b6be206fba2002ed925d335a72173" id="r_a500b6be206fba2002ed925d335a72173"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a500b6be206fba2002ed925d335a72173">FDCAN1_init_filters</a> ()</td></tr>
 <tr class="separator:a500b6be206fba2002ed925d335a72173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78eb33b279c10bc3c4f9813223091a7a" id="r_a78eb33b279c10bc3c4f9813223091a7a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78eb33b279c10bc3c4f9813223091a7a">FDCAN2_init_filters</a> ()</td></tr>
+<tr class="separator:a78eb33b279c10bc3c4f9813223091a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -233,6 +240,20 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define USE_FDCAN1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a09389f719514180e1356522315f12b33" name="a09389f719514180e1356522315f12b33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09389f719514180e1356522315f12b33">&#9670;&#160;</a></span>USE_FDCAN2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USE_FDCAN2</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -319,6 +340,23 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PDU_8h_a90647dbc98bbf7bc6c1e9ef85f4d2f01_icgraph.svg" width="100%" height="489"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
+
+</div>
+</div>
+<a id="a0da956162efe3e0016f181cee58961e6" name="a0da956162efe3e0016f181cee58961e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0da956162efe3e0016f181cee58961e6">&#9670;&#160;</a></span>CAN_enqueue_tx_FDCAN2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CAN_enqueue_tx_FDCAN2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *</td>          <td class="paramname"><span class="paramname"><em>msg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -800,6 +838,31 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PDU_8h_a500b6be206fba2002ed925d335a72173_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
+
+</div>
+</div>
+<a id="a78eb33b279c10bc3c4f9813223091a7a" name="a78eb33b279c10bc3c4f9813223091a7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78eb33b279c10bc3c4f9813223091a7a">&#9670;&#160;</a></span>FDCAN2_init_filters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void FDCAN2_init_filters </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
