@@ -347,8 +347,15 @@ def _validate_signal_encoding(
     base_type: str,
     length: int,
     choices: list[EnumChoiceDeclaration] | None,
+    scale: float | None,
+    offset: float | None,
 ) -> None:
     """Check that every raw enum value fits the signal encoding."""
+    if choices and (scale is not None or offset is not None):
+        raise ValueError(
+            f"Signal '{signal_name}' in message "
+            f"'{message_name}': enum signals cannot have scale or offset"
+        )
     if base_type == "float":
         if length != 32 or choices:
             raise ValueError(
@@ -401,7 +408,10 @@ def _compile_signal(
     base_type = _resolve_signal_base_type(signal, message_name, custom_types)
     length = signal.length or CTYPE_SIZES[base_type]
     choices = _resolve_signal_choices(signal, custom_types)
-    _validate_signal_encoding(signal.signal_name, message_name, base_type, length, choices)
+    _validate_signal_encoding(
+        signal.signal_name, message_name, base_type, length, choices,
+        signal.scale, signal.offset,
+    )
     bit_offset, signal_byte_order = _place_signal(
         signal.signal_name, message_name, byte_order, length, bit_shift,
     )
