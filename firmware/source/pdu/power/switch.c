@@ -178,6 +178,9 @@ void SWITCH_disable(switch_id_t switch_id) {
     );
 }
 
+// TODO: temporary function to enable switches in an asthetic order for testing
+// final solution will be to enable switches in a smart order based on init order
+// and to avoid inrush current
 void SWITCH_enable_all() {
     static constexpr uint32_t SWITCH_ENABLE_DELAY_MS = 100;
     static const switch_id_t enable_order[NUM_SWITCHES] = {
