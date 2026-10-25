@@ -347,8 +347,15 @@ def _validate_signal_encoding(
     base_type: str,
     length: int,
     choices: list[EnumChoiceDeclaration] | None,
+    scale: float | None,
+    offset: float | None,
 ) -> None:
     """Check that every raw enum value fits the signal encoding."""
+    if choices and (scale is not None or offset is not None):
+        raise ValueError(
+            f"Signal '{signal_name}' in message "
+            f"'{message_name}': enum signals cannot have scale or offset"
+        )
     if base_type == "float":
         if length != 32 or choices:
             raise ValueError(
@@ -401,10 +408,23 @@ def _compile_signal(
     base_type = _resolve_signal_base_type(signal, message_name, custom_types)
     length = signal.length or CTYPE_SIZES[base_type]
     choices = _resolve_signal_choices(signal, custom_types)
-    _validate_signal_encoding(signal.signal_name, message_name, base_type, length, choices)
+    _validate_signal_encoding(
+        signal.signal_name, message_name, base_type, length, choices,
+        signal.scale, signal.offset,
+    )
     bit_offset, signal_byte_order = _place_signal(
         signal.signal_name, message_name, byte_order, length, bit_shift,
     )
+    signal_min = signal.min
+    signal_max = signal.max
+    if choices:
+        values = []
+        for choice in choices:
+            values.append(choice.value)
+        if signal_min is None:
+            signal_min = min(values)
+        if signal_max is None:
+            signal_max = max(values)
     return CompiledSignal(
         signal_name=signal.signal_name,
         data_type=signal.data_type,
@@ -414,8 +434,8 @@ def _compile_signal(
         choices=tuple(choices) if choices else None,
         scale=signal.scale,
         offset=signal.offset,
-        min=signal.min,
-        max=signal.max,
+        min=signal_min,
+        max=signal_max,
         byte_order=signal_byte_order,
         bit_offset=bit_offset,
         bit_shift=bit_shift,

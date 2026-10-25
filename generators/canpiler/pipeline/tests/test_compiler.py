@@ -164,6 +164,22 @@ def test_enum_capacity_boundary(base_type, length, labels):
         compile_message(message([]), False, types)
 
 
+def test_enum_limits_inferred():
+    types = {"test_t": CustomTypeDeclaration(name="test_t", base_type="uint8_t",
+                                             choices=[{"name": "A", "value": 2}, {"name": "B", "value": 7}])}
+    message = MessageDeclaration(
+        message_name="test", description="", priority=0,
+        signals=[
+            SignalDeclaration(signal_name="custom", data_type="test_t"),
+            SignalDeclaration(signal_name="inline", data_type="uint8_t", choices=["A", "B", "C"]),
+            SignalDeclaration(signal_name="explicit", data_type="uint8_t", choices=["A", "B"], min=0, max=5),
+            SignalDeclaration(signal_name="plain", data_type="uint8_t"),
+        ],
+    )
+    limits = [(signal.min, signal.max) for signal in compile_message(message, False, types).signals]
+    assert limits == [(2, 7), (0, 2), (0, 5), (None, None)]
+
+
 def test_float_enum_rejected():
     with pytest.raises(ValueError, match="float cannot have enum choices"):
         CustomTypeDeclaration(name="test_t", base_type="float",
