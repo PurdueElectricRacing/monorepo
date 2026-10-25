@@ -120,8 +120,9 @@ $(function(){initNavTree('md_firmware_2support_2README.html',''); initResizable(
 </ul>
 <h1><a class="anchor" id="autotoc_md156"></a>
 <code>openocd/</code></h1>
-<p>OpenOCD helpers loaded from VS Code debug configs. Only <code>openocd-gdb.cfg</code> is wired into the standard flow; the others are kept as ad-hoc helpers.</p><ul>
+<p>OpenOCD configs for debugging and board provisioning, plus ad-hoc helpers.</p><ul>
 <li><code>openocd-gdb.cfg</code> Auto-<code>resume</code> on <code>gdb-detach</code>. Loaded by the DAQ debug config.</li>
+<li><code>cannector-option-bytes.cfg</code> Configures CANnector to boot from main flash independently of the BOOT0 pin. Run once per board using the VS Code option-byte launch entry or <code>openocd -f firmware/support/openocd/cannector-option-bytes.cfg</code> from the repository root. Reloading the persistent option bytes resets the MCU.</li>
 <li><code>stlink.cfg</code> Local ST-Link interface override (not referenced from <code>.vscode/</code>).</li>
 <li><code>mem_helper.tcl</code> Memory-access helper script (not referenced from <code>.vscode/</code>).</li>
 <li><code>swj-dp.tcl</code> SWJ/SWD helper script (not referenced from <code>.vscode/</code>). </li>
