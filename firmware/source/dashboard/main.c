@@ -117,6 +117,7 @@ DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(pedals_periodic, PEDALS_PERIOD_MS, TASK_PRIORITY_HIGH, STACK_1024);
 RTOS_DEFINE_TASK(fault_library_periodic, DASHBOARD_FAULT_SYNC_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
 RTOS_DEFINE_TASK(driver_interface_periodic, DRIVER_INTERFACE_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024);
+RTOS_DEFINE_TASK(report_telemetry_25hz, TELEMETRY_25HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(report_telemetry_02hz, TELEMETRY_02HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(lap_timer_periodic, GPS_COORDINATES_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 // RTOS_DEFINE_TASK(calibrate_LWS, 0, TASK_PRIORITY_LOW, STACK_512); // ! only enable for calibration
@@ -150,6 +151,7 @@ int main(void) {
     RTOS_START_TASK(pedals_periodic);
     RTOS_START_TASK(fault_library_periodic);
     RTOS_START_TASK(driver_interface_periodic);
+    RTOS_START_TASK(report_telemetry_25hz);
     RTOS_START_TASK(report_telemetry_02hz);
     RTOS_START_TASK(lap_timer_periodic);
     // RTOS_START_TASK(calibrate_LWS); // ! only enable for calibration
