@@ -101,24 +101,6 @@
                     "priority": 3
                 },
                 {
-                    "message_name": "mark_data",
-                    "description": "Mark data for telemetry correlation",
-                    "signals": [
-                        {
-                            "signal_name": "os_tick",
-                            "description": "milliseconds since startup",
-                            "data_type": "uint32_t"
-                        },
-                        {
-                            "signal_name": "mark_index",
-                            "description": "incremented each time the mark button is pressed",
-                            "data_type": "uint16_t"
-                        }
-                    ],
-                    "priority": 3,
-                    "period_ms": 0
-                },
-                {
                     "message_name": "dash_version",
                     "description": "Dashboard version",
                     "signals": [
@@ -231,6 +213,24 @@
                     ],
                     "priority": 5,
                     "period_ms": 40
+                },
+                {
+                    "message_name": "mark_data",
+                    "description": "Mark data for telemetry correlation",
+                    "signals": [
+                        {
+                            "signal_name": "os_tick",
+                            "description": "milliseconds since startup",
+                            "data_type": "uint32_t"
+                        },
+                        {
+                            "signal_name": "mark_index",
+                            "description": "incremented each time the mark button is pressed",
+                            "data_type": "uint16_t"
+                        }
+                    ],
+                    "priority": 3,
+                    "period_ms": 0
                 }
             ],
             "rx": []
