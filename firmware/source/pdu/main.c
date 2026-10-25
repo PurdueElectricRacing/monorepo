@@ -145,8 +145,10 @@ int main() {
 
     CAN_init();
 
+    // Disable all switches immediately on startup
+    // SWITCH_enable_all will do the proper enabling of switches in a safe order
     for (switch_id_t id = 0; id < NUM_SWITCHES; id++) {
-        SWITCH_enable(id);
+        SWITCH_disable(id);
     }
 
     START_CAN_TASKS();
