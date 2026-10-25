@@ -1,5 +1,7 @@
 var NAVTREEINDEX26 =
 {
+"structethernet__config__t.html#a14a07be5023722a06a9f72d5502c23cb":[32,0,88,0],
+"structethernet__config__t.html#ad6b24c64df2b7ced38dd17d45fa30401":[32,0,88,3],
 "structethernet__config__t.html#ade31c56fc593c739ef1e6d93078c132a":[32,0,88,2],
 "structethernet__config__t.html#ae16d802d1eaf8c5eb1e45e91d8394bc8":[32,0,88,1],
 "structeuler__angles__t.html":[32,0,89],
@@ -247,7 +249,5 @@ var NAVTREEINDEX26 =
 "structmeters__per__second__t.html#ac2cf22596dcc74696e3d5f28f83dac38":[32,0,177,0],
 "structmile__t.html":[32,0,178],
 "structmile__t.html#a42f092487a5c8850480ade98a00eae2b":[32,0,178,0],
-"structmiles__per__hour__t.html":[32,0,179],
-"structmiles__per__hour__t.html#aa9e58ef74cd74c662c17bd191b8d36da":[32,0,179,0],
-"structmilliamp__t.html":[32,0,180]
+"structmiles__per__hour__t.html":[32,0,179]
 };

@@ -1,5 +1,7 @@
 var NAVTREEINDEX24 =
 {
+"structSPI__InitConfig__t.html#ada152e2e047c6680d60ff8e66857b349":[32,0,250,2],
+"structSPI__InitConfig__t.html#addc6a2b00505e696c1d179696010713c":[32,0,250,7],
 "structSPI__InitConfig__t.html#ae82235e4faf01aa37ffcb212f626abc2":[32,0,250,12],
 "structSPI__InitConfig__t.html#af9eedccb06edcc4fcf10f3eca321238d":[32,0,250,9],
 "structSPMC__t.html":[32,0,251],
@@ -247,7 +249,5 @@ var NAVTREEINDEX24 =
 "structbms__pecs__ccan__data__t.html#aafcb93fe6ccb5c96582cde354a7236e6":[32,0,54,10],
 "structbms__pecs__ccan__data__t.html#ae41884a6cc75b2e31c47e379148c9b00":[32,0,54,7],
 "structbms__pecs__ccan__data__t.html#aee1d9a4c0ae62af21b583f6bf6762253":[32,0,54,1],
-"structbms__pecs__ccan__data__t.html#af3c01c1a86cac055c3e93c3e7fc399a0":[32,0,54,11],
-"structbms__pecs__ccan__data__t.html#afda7fa8b50a1f07f5abb6806e871850c":[32,0,54,9],
-"structbms__pecs__data__t.html":[32,0,55]
+"structbms__pecs__ccan__data__t.html#af3c01c1a86cac055c3e93c3e7fc399a0":[32,0,54,11]
 };

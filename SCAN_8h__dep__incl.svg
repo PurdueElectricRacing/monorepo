@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript">
-var viewWidth = 1301;
+var viewWidth = 1611;
 var viewHeight = 249;
 var sectionId = 'dynsection-1';
 </script>
@@ -59,9 +59,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title="Auto&#45;generated CAN bus definitions for SCAN.">
-<polygon fill="#999999" stroke="#666666" points="1143.75,-241.25 1041.5,-241.25 1041.5,-210.75 1143.75,-210.75 1143.75,-241.25"/>
-<text text-anchor="start" x="1049.5" y="-227.75" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="1092.62" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/SCAN.h</text>
+<polygon fill="#999999" stroke="#666666" points="1278.75,-241.25 1176.5,-241.25 1176.5,-210.75 1278.75,-210.75 1278.75,-241.25"/>
+<text text-anchor="start" x="1184.5" y="-227.75" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="1227.62" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/SCAN.h</text>
 </a>
 </g>
 </g>
@@ -79,8 +79,8 @@ var sectionId = 'dynsection-1';
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1030.25,-213.76C966.54,-202.28 867.91,-184.51 802.33,-172.7"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1029.38,-217.16 1039.84,-215.49 1030.62,-210.27 1029.38,-217.16"/>
+<path fill="none" stroke="#63b8ff" d="M1165.06,-216.81C1072.09,-204.65 898.17,-181.9 802.32,-169.36"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1164.39,-220.26 1174.76,-218.08 1165.3,-213.32 1164.39,-220.26"/>
 </a>
 </g>
 </g>
@@ -98,18 +98,18 @@ var sectionId = 'dynsection-1';
 <g id="edge14_Node000001_Node000012" class="edge">
 <title>Node1&#45;&gt;Node12</title>
 <g id="a_edge14_Node000001_Node000012"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1092.62,-199.06C1092.62,-190.89 1092.62,-182.16 1092.62,-175.08"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1089.13,-198.85 1092.63,-208.85 1096.13,-198.85 1089.13,-198.85"/>
+<path fill="none" stroke="#63b8ff" d="M1186.7,-205.45C1166.25,-195.68 1141.93,-184.06 1123.14,-175.08"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1185.09,-208.56 1195.63,-209.71 1188.11,-202.24 1185.09,-208.56"/>
 </a>
 </g>
 </g>
 <!-- Node15 -->
 <g id="Node000015" class="node">
 <title>Node15</title>
-<g id="a_Node000015"><a xlink:href="cannector_2main_8c.html" target="_top" xlink:title="&quot;CANnector&quot; node source code">
+<g id="a_Node000015"><a xlink:href="cannector_2can__callback_8c.html" target="_top" xlink:title="CAN callback implementation.">
 <polygon fill="white" stroke="#666666" points="1293,-174.75 1162.25,-174.75 1162.25,-144.25 1293,-144.25 1293,-174.75"/>
 <text text-anchor="start" x="1170.25" y="-161.25" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/cannector</text>
-<text text-anchor="middle" x="1227.62" y="-150" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
+<text text-anchor="middle" x="1227.62" y="-150" font-family="Helvetica,sans-Serif" font-size="10.00">/can_callback.c</text>
 </a>
 </g>
 </g>
@@ -117,8 +117,46 @@ var sectionId = 'dynsection-1';
 <g id="edge17_Node000001_Node000015" class="edge">
 <title>Node1&#45;&gt;Node15</title>
 <g id="a_edge17_Node000001_Node000015"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1133.55,-205.45C1154,-195.68 1178.32,-184.06 1197.11,-175.08"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1132.14,-202.24 1124.62,-209.71 1135.16,-208.56 1132.14,-202.24"/>
+<path fill="none" stroke="#63b8ff" d="M1227.62,-199.06C1227.62,-190.89 1227.62,-182.16 1227.62,-175.08"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1224.13,-198.85 1227.63,-208.85 1231.13,-198.85 1224.13,-198.85"/>
+</a>
+</g>
+</g>
+<!-- Node16 -->
+<g id="Node000016" class="node">
+<title>Node16</title>
+<g id="a_Node000016"><a xlink:href="cannector_2main_8c.html" target="_top" xlink:title="&quot;CANnector&quot; node source code">
+<polygon fill="white" stroke="#666666" points="1442,-174.75 1311.25,-174.75 1311.25,-144.25 1442,-144.25 1442,-174.75"/>
+<text text-anchor="start" x="1319.25" y="-161.25" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/cannector</text>
+<text text-anchor="middle" x="1376.62" y="-150" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node16 -->
+<g id="edge18_Node000001_Node000016" class="edge">
+<title>Node1&#45;&gt;Node16</title>
+<g id="a_edge18_Node000001_Node000016"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1271.83,-205.87C1294.5,-196.05 1321.69,-184.28 1342.69,-175.19"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1270.61,-202.58 1262.82,-209.76 1273.39,-209 1270.61,-202.58"/>
+</a>
+</g>
+</g>
+<!-- Node17 -->
+<g id="Node000017" class="node">
+<title>Node17</title>
+<g id="a_Node000017"><a xlink:href="daq_2can__callback_2can__callback_8c.html" target="_top" xlink:title="Timestamped frame producer from the CAN RX callback.">
+<polygon fill="white" stroke="#666666" points="1603.38,-174.75 1459.88,-174.75 1459.88,-144.25 1603.38,-144.25 1603.38,-174.75"/>
+<text text-anchor="start" x="1467.88" y="-161.25" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/daq</text>
+<text text-anchor="middle" x="1531.62" y="-150" font-family="Helvetica,sans-Serif" font-size="10.00">/can_callback/can_callback.c</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node17 -->
+<g id="edge19_Node000001_Node000017" class="edge">
+<title>Node1&#45;&gt;Node17</title>
+<g id="a_edge19_Node000001_Node000017"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1290.2,-211.72C1340.32,-201.09 1410.57,-186.19 1462.37,-175.19"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1289.73,-208.24 1280.68,-213.74 1291.18,-215.09 1289.73,-208.24"/>
 </a>
 </g>
 </g>

@@ -1,5 +1,7 @@
 var NAVTREEINDEX21 =
 {
+"sdio_8h.html#ad37fe2cf88496122b5fdf14ae7f529b5":[33,0,1,1,11,1,127],
+"sdio_8h.html#ad3dc52f076ae8145e105cb4d8a37b043":[33,0,1,1,11,1,148],
 "sdio_8h.html#ad3f9516a5e6764baf2083f76f4bc0eea":[33,0,1,1,11,1,76],
 "sdio_8h.html#ad4677c73c4e8e7e1ec2161554cfdfeeb":[33,0,1,1,11,1,104],
 "sdio_8h.html#ad469cc842f03b1d49e08e91b515b7ded":[33,0,1,1,11,1,134],
@@ -247,7 +249,5 @@ var NAVTREEINDEX21 =
 "structE__METER__TEMPERATURE__data__t.html#afb8f3c3019386c683c3f390e4fec71d9":[32,0,85,4],
 "structGPIOInitConfig__t.html":[32,0,99],
 "structGPIOInitConfig__t.html#a1754a3977a0df8a75a29b4960910cdb2":[32,0,99,7],
-"structGPIOInitConfig__t.html#a5cccb3d6f1fc7d1ade98fcec56390452":[32,0,99,4],
-"structGPIOInitConfig__t.html#a68e727cefe42c5c140ebbfea6fa19856":[32,0,99,0],
-"structGPIOInitConfig__t.html#a6ae4176a281a687406c1bfa19c32a1f9":[32,0,99,6]
+"structGPIOInitConfig__t.html#a5cccb3d6f1fc7d1ade98fcec56390452":[32,0,99,4]
 };

@@ -108,6 +108,9 @@ $(function(){initNavTree('cannector_2can__callback_8c.html',''); initResizable(t
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="activity__leds_8h_source.html">activity_leds.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="MCAN_8h_source.html">can_library/generated/MCAN.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="SCAN_8h_source.html">can_library/generated/SCAN.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="VCAN_8h_source.html">can_library/generated/VCAN.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="fdcan_8h_source.html">common/phal_G4/fdcan/fdcan.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="timestamped__frame_8h_source.html">common/timestamped_frame/timestamped_frame.h</a>&quot;</code><br />
@@ -120,6 +123,8 @@ Include dependency graph for can_callback.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a2c9f2363e9e3ec6ee76b87dbf0cc063f" id="r_a2c9f2363e9e3ec6ee76b87dbf0cc063f"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c9f2363e9e3ec6ee76b87dbf0cc063f">get_bus_id</a> (FDCAN_GlobalTypeDef *peripheral)</td></tr>
+<tr class="separator:a2c9f2363e9e3ec6ee76b87dbf0cc063f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b126471775c8ec5765594c0c9bbbdff" id="r_a8b126471775c8ec5765594c0c9bbbdff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b126471775c8ec5765594c0c9bbbdff">PHAL_FDCAN_rxCallback</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
 <tr class="memdesc:a8b126471775c8ec5765594c0c9bbbdff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weak callback fired once per received frame.  <br /></td></tr>
 <tr class="separator:a8b126471775c8ec5765594c0c9bbbdff"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,6 +138,36 @@ Variables</h2></td></tr>
 <div class="textblock"><p>CAN callback implementation. </p>
 <dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a2c9f2363e9e3ec6ee76b87dbf0cc063f" name="a2c9f2363e9e3ec6ee76b87dbf0cc063f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c9f2363e9e3ec6ee76b87dbf0cc063f">&#9670;&#160;</a></span>get_bus_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t get_bus_id </td>
+          <td>(</td>
+          <td class="paramtype">FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>peripheral</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="cannector_2can__callback_8c_a2c9f2363e9e3ec6ee76b87dbf0cc063f_icgraph.svg" width="320" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a8b126471775c8ec5765594c0c9bbbdff" name="a8b126471775c8ec5765594c0c9bbbdff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b126471775c8ec5765594c0c9bbbdff">&#9670;&#160;</a></span>PHAL_FDCAN_rxCallback()</h2>
 
@@ -160,7 +195,7 @@ Variables</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="cannector_2can__callback_8c_a8b126471775c8ec5765594c0c9bbbdff_cgraph.svg" width="372" height="184"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="cannector_2can__callback_8c_a8b126471775c8ec5765594c0c9bbbdff_cgraph.svg" width="372" height="234"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

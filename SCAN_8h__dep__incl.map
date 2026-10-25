@@ -1,11 +1,15 @@
 <map id="firmware/can_library/generated/SCAN.h" name="firmware/can_library/generated/SCAN.h">
-<area shape="rect" id="Node000001" title="Auto&#45;generated CAN bus definitions for SCAN." alt="" coords="1394,5,1530,46"/>
+<area shape="rect" id="Node000001" title="Auto&#45;generated CAN bus definitions for SCAN." alt="" coords="1574,5,1710,46"/>
 <area shape="rect" id="Node000002" href="$DASHBOARD_8h.html" title="Auto&#45;generated CAN driver for DASHBOARD." alt="" coords="895,94,1074,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1379,45,1076,99,1075,94,1379,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1559,41,1075,104,1075,99,1558,35"/>
 <area shape="rect" id="Node000012" href="$PDU_8h.html" title="Auto&#45;generated CAN driver for PDU." alt="" coords="1394,94,1530,135"/>
-<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="1465,62,1465,94,1460,94,1460,62"/>
-<area shape="rect" id="Node000015" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="1555,94,1729,135"/>
-<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="1518,51,1603,91,1600,96,1516,55"/>
+<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="1589,55,1504,96,1502,91,1586,51"/>
+<area shape="rect" id="Node000015" href="$cannector_2can__callback_8c.html" title="CAN callback implementation." alt="" coords="1555,94,1729,135"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="1645,62,1645,94,1640,94,1640,62"/>
+<area shape="rect" id="Node000016" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="1754,94,1928,135"/>
+<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="1702,50,1797,91,1795,96,1700,55"/>
+<area shape="rect" id="Node000017" href="$daq_2can__callback_2can__callback_8c.html" title="Timestamped frame producer from the CAN RX callback." alt="" coords="1952,94,2143,135"/>
+<area shape="poly" id="edge19_Node000001_Node000017" title=" " alt="" coords="1726,42,1956,91,1955,96,1725,47"/>
 <area shape="rect" id="Node000003" href="$driver__interface_8c.html" title="thread to manage driver&#45;facing LCD, buttons, LEDs" alt="" coords="620,183,798,238"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="914,143,789,185,788,180,912,138"/>
 <area shape="rect" id="Node000004" href="$source_2dashboard_2driver__interface_2pages_2amk_8c.html" title="AMK page implementation." alt="" coords="822,190,1014,231"/>

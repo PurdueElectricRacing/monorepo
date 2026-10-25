@@ -108,7 +108,7 @@ $(function(){initNavTree('timestamped__frame_8h_source.html',''); initResizable(
 <div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="structtimestamped__frame__t.html">   13</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="structtimestamped__frame__t.html#a25dcb68918bb5005bc62f3c143220bb9">   14</a></span>    uint32_t <a class="code hl_variable" href="structtimestamped__frame__t.html#a25dcb68918bb5005bc62f3c143220bb9">ticks_ms</a>; <span class="comment">// ms timestamp of reception</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">   15</a></span>    uint32_t <a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a>; <span class="comment">// [1 bit bus ID] [1 bit isExtID] [1 bit reserved] [29 bits CAN ID]</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">   15</a></span>    uint32_t <a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a>; <span class="comment">// [2 bit bus ID] [1 bit isExtID] [29 bits CAN ID]</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="structtimestamped__frame__t.html#a58806c857111f4f175952cc5da3f4bc4">   16</a></span>    uint64_t <a class="code hl_variable" href="structtimestamped__frame__t.html#a58806c857111f4f175952cc5da3f4bc4">payload</a>;  <span class="comment">// message data</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>} <a class="code hl_struct" href="structtimestamped__frame__t.html">timestamped_frame_t</a>;</div>
 </div>
@@ -121,48 +121,46 @@ $(function(){initNavTree('timestamped__frame_8h_source.html',''); initResizable(
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">// helper functions</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>[[gnu::always_inline]]</div>
 <div class="foldopen" id="foldopen00026" data-start="{" data-end="}">
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="timestamped__frame_8h.html#ac28171e9120619fc3fac4b2ce4052f6b">   26</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="timestamped__frame_8h.html#ac28171e9120619fc3fac4b2ce4052f6b">set_bus_id</a>(<a class="code hl_struct" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *frame, uint8_t bus_id) {</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> uint32_t BUS_ID_MASK = (1u &lt;&lt; 31u);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="timestamped__frame_8h.html#a1da3ca34d13aa13e3f9696d8edbc77c0">   26</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="timestamped__frame_8h.html#a1da3ca34d13aa13e3f9696d8edbc77c0">set_bus_id</a>(<a class="code hl_struct" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *frame, uint32_t bus_id) {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> uint32_t BUS_ID_MASK = (0b11u &lt;&lt; 30u); <span class="comment">// 2 bits for bus ID</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">if</span> (bus_id == 0) {</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> &amp;= ~BUS_ID_MASK;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> |= BUS_ID_MASK;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    }</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    uint32_t shifted_id = bus_id &lt;&lt; 30u;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> &amp;= ~BUS_ID_MASK; <span class="comment">// Clear existing bus ID bits</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> |= (shifted_id &amp; BUS_ID_MASK); <span class="comment">//Set new bus ID bits</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
 </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>[[gnu::always_inline]]</div>
-<div class="foldopen" id="foldopen00037" data-start="{" data-end="}">
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810">   37</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810">set_xid</a>(<a class="code hl_struct" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *frame, <span class="keywordtype">bool</span> is_xid) {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> uint32_t IS_XID_MASK = (1u &lt;&lt; 30u);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">if</span> (is_xid) {</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> |= IS_XID_MASK;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> &amp;= ~IS_XID_MASK;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>[[gnu::always_inline]]</div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810">   35</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810">set_xid</a>(<a class="code hl_struct" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *frame, <span class="keywordtype">bool</span> is_xid) {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> uint32_t IS_XID_MASK = (1u &lt;&lt; 29u); <span class="comment">// 1 bit for extended flag</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">if</span> (is_xid) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> |= IS_XID_MASK;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> &amp;= ~IS_XID_MASK;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
 </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>[[gnu::always_inline]]</div>
-<div class="foldopen" id="foldopen00048" data-start="{" data-end="}">
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="timestamped__frame_8h.html#aa49122d19022c27ac7ff1de84eb7bc61">   48</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="timestamped__frame_8h.html#aa49122d19022c27ac7ff1de84eb7bc61">set_can_id</a>(<a class="code hl_struct" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *frame, uint32_t can_id) {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> uint32_t CAN_ID_MASK = 0x1FFFFFFFu; <span class="comment">// 29 bits for CAN ID</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> &amp;= ~CAN_ID_MASK; <span class="comment">// Clear existing CAN ID bits</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> |= (can_id &amp; CAN_ID_MASK); <span class="comment">// Set new CAN ID bits</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>[[gnu::always_inline]]</div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="timestamped__frame_8h.html#aa49122d19022c27ac7ff1de84eb7bc61">   46</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="timestamped__frame_8h.html#aa49122d19022c27ac7ff1de84eb7bc61">set_can_id</a>(<a class="code hl_struct" href="structtimestamped__frame__t.html">timestamped_frame_t</a> *frame, uint32_t can_id) {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> uint32_t CAN_ID_MASK = 0x1FFFFFFFu; <span class="comment">// 29 bits for CAN ID</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> &amp;= ~CAN_ID_MASK; <span class="comment">// Clear existing CAN ID bits</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    frame-&gt;<a class="code hl_variable" href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">identity</a> |= (can_id &amp; CAN_ID_MASK); <span class="comment">// Set new CAN ID bits</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
 </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#endif </span><span class="comment">// TIMESTAMPED_FRAME_H</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#endif </span><span class="comment">// TIMESTAMPED_FRAME_H</span></div>
 <div class="ttc" id="astructtimestamped__frame__t_html"><div class="ttname"><a href="structtimestamped__frame__t.html">timestamped_frame_t</a></div><div class="ttdef"><b>Definition</b> timestamped_frame.h:13</div></div>
 <div class="ttc" id="astructtimestamped__frame__t_html_a0d4fc07ddbad8c2d4869412dfd120be8"><div class="ttname"><a href="structtimestamped__frame__t.html#a0d4fc07ddbad8c2d4869412dfd120be8">timestamped_frame_t::identity</a></div><div class="ttdeci">uint32_t identity</div><div class="ttdef"><b>Definition</b> timestamped_frame.h:15</div></div>
 <div class="ttc" id="astructtimestamped__frame__t_html_a25dcb68918bb5005bc62f3c143220bb9"><div class="ttname"><a href="structtimestamped__frame__t.html#a25dcb68918bb5005bc62f3c143220bb9">timestamped_frame_t::ticks_ms</a></div><div class="ttdeci">uint32_t ticks_ms</div><div class="ttdef"><b>Definition</b> timestamped_frame.h:14</div></div>
 <div class="ttc" id="astructtimestamped__frame__t_html_a58806c857111f4f175952cc5da3f4bc4"><div class="ttname"><a href="structtimestamped__frame__t.html#a58806c857111f4f175952cc5da3f4bc4">timestamped_frame_t::payload</a></div><div class="ttdeci">uint64_t payload</div><div class="ttdef"><b>Definition</b> timestamped_frame.h:16</div></div>
-<div class="ttc" id="atimestamped__frame_8h_html_a270cffe83263dd5f38b0bde6f9f83810"><div class="ttname"><a href="timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810">set_xid</a></div><div class="ttdeci">static void set_xid(timestamped_frame_t *frame, bool is_xid)</div><div class="ttdef"><b>Definition</b> timestamped_frame.h:37</div></div>
-<div class="ttc" id="atimestamped__frame_8h_html_aa49122d19022c27ac7ff1de84eb7bc61"><div class="ttname"><a href="timestamped__frame_8h.html#aa49122d19022c27ac7ff1de84eb7bc61">set_can_id</a></div><div class="ttdeci">static void set_can_id(timestamped_frame_t *frame, uint32_t can_id)</div><div class="ttdef"><b>Definition</b> timestamped_frame.h:48</div></div>
-<div class="ttc" id="atimestamped__frame_8h_html_ac28171e9120619fc3fac4b2ce4052f6b"><div class="ttname"><a href="timestamped__frame_8h.html#ac28171e9120619fc3fac4b2ce4052f6b">set_bus_id</a></div><div class="ttdeci">static void set_bus_id(timestamped_frame_t *frame, uint8_t bus_id)</div><div class="ttdef"><b>Definition</b> timestamped_frame.h:26</div></div>
+<div class="ttc" id="atimestamped__frame_8h_html_a1da3ca34d13aa13e3f9696d8edbc77c0"><div class="ttname"><a href="timestamped__frame_8h.html#a1da3ca34d13aa13e3f9696d8edbc77c0">set_bus_id</a></div><div class="ttdeci">static void set_bus_id(timestamped_frame_t *frame, uint32_t bus_id)</div><div class="ttdef"><b>Definition</b> timestamped_frame.h:26</div></div>
+<div class="ttc" id="atimestamped__frame_8h_html_a270cffe83263dd5f38b0bde6f9f83810"><div class="ttname"><a href="timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810">set_xid</a></div><div class="ttdeci">static void set_xid(timestamped_frame_t *frame, bool is_xid)</div><div class="ttdef"><b>Definition</b> timestamped_frame.h:35</div></div>
+<div class="ttc" id="atimestamped__frame_8h_html_aa49122d19022c27ac7ff1de84eb7bc61"><div class="ttname"><a href="timestamped__frame_8h.html#aa49122d19022c27ac7ff1de84eb7bc61">set_can_id</a></div><div class="ttdeci">static void set_can_id(timestamped_frame_t *frame, uint32_t can_id)</div><div class="ttdef"><b>Definition</b> timestamped_frame.h:46</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

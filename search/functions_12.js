@@ -35,7 +35,7 @@ var searchData=
   ['selectitem_32',['selectItem',['../lcd_8c.html#ac609e22e16c9e8ab1b73acd57e5b7664',1,'selectItem():&#160;lcd.c'],['../lcd_8h.html#a8834a26aed8ec5f812aa1e55512047c6',1,'selectItem(void):&#160;lcd.c']]],
   ['send_5fvcu_5fdriver_5frequest_33',['send_vcu_driver_request',['../vcu_8c.html#a6caabd0f1b9de183fbb9454dd432bbc7',1,'send_vcu_driver_request(void):&#160;vcu.c'],['../dashboard_2driver__interface_2pages_2vcu_8h.html#a6caabd0f1b9de183fbb9454dd432bbc7',1,'send_vcu_driver_request(void):&#160;vcu.c']]],
   ['service_5fstart_5fbutton_34',['service_start_button',['../dashboard_2main_8c.html#a18c3e1428bba19774305c0d3b3b97942',1,'main.c']]],
-  ['set_5fbus_5fid_35',['set_bus_id',['../timestamped__frame_8h.html#ac28171e9120619fc3fac4b2ce4052f6b',1,'timestamped_frame.h']]],
+  ['set_5fbus_5fid_35',['set_bus_id',['../timestamped__frame_8h.html#a1da3ca34d13aa13e3f9696d8edbc77c0',1,'timestamped_frame.h']]],
   ['set_5fcan_5fid_36',['set_can_id',['../timestamped__frame_8h.html#aa49122d19022c27ac7ff1de84eb7bc61',1,'timestamped_frame.h']]],
   ['set_5fexternal_5fleds_37',['set_external_leds',['../driver__interface_8c.html#ac7b90a0489ad0ee285e2ddbc1d76de4a',1,'driver_interface.c']]],
   ['set_5fxid_38',['set_xid',['../timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810',1,'timestamped_frame.h']]],

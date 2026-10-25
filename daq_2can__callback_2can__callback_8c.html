@@ -107,6 +107,8 @@ $(function(){initNavTree('daq_2can__callback_2can__callback_8c.html',''); initRe
 <p>Timestamped frame producer from the CAN RX callback.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;string.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="MCAN_8h_source.html">can_library/generated/MCAN.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="SCAN_8h_source.html">can_library/generated/SCAN.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="VCAN_8h_source.html">can_library/generated/VCAN.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="can_8h_source.html">common/phal_F4/can/can.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
@@ -121,6 +123,8 @@ Include dependency graph for can_callback.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a2d8fe5578a2547bc9de47e9bba341e7e" id="r_a2d8fe5578a2547bc9de47e9bba341e7e"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d8fe5578a2547bc9de47e9bba341e7e">get_bus_id</a> (CAN_TypeDef *peripheral)</td></tr>
+<tr class="separator:a2d8fe5578a2547bc9de47e9bba341e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af35b2b3e9e95b56cdedbc9e86b628303" id="r_af35b2b3e9e95b56cdedbc9e86b628303"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af35b2b3e9e95b56cdedbc9e86b628303">PHAL_CAN_rxCallback</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
 <tr class="separator:af35b2b3e9e95b56cdedbc9e86b628303"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -135,6 +139,31 @@ Variables</h2></td></tr>
 <dd>
 Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'@p'+'urd'+'ue'+'.ed'+'u'; return false;">kumar<span class="obfuscator">.nosp@m.</span>798@<span class="obfuscator">.nosp@m.</span>purdu<span class="obfuscator">.nosp@m.</span>e.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a2d8fe5578a2547bc9de47e9bba341e7e" name="a2d8fe5578a2547bc9de47e9bba341e7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d8fe5578a2547bc9de47e9bba341e7e">&#9670;&#160;</a></span>get_bus_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t get_bus_id </td>
+          <td>(</td>
+          <td class="paramtype">CAN_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>peripheral</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="af35b2b3e9e95b56cdedbc9e86b628303" name="af35b2b3e9e95b56cdedbc9e86b628303"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af35b2b3e9e95b56cdedbc9e86b628303">&#9670;&#160;</a></span>PHAL_CAN_rxCallback()</h2>
 
@@ -152,7 +181,7 @@ Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="daq_2can__callback_2can__callback_8c_af35b2b3e9e95b56cdedbc9e86b628303_cgraph.svg" width="396" height="184"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="daq_2can__callback_2can__callback_8c_af35b2b3e9e95b56cdedbc9e86b628303_cgraph.svg" width="396" height="234"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

@@ -1,5 +1,7 @@
 var NAVTREEINDEX22 =
 {
+"structGPIOInitConfig__t.html#a68e727cefe42c5c140ebbfea6fa19856":[32,0,99,0],
+"structGPIOInitConfig__t.html#a6ae4176a281a687406c1bfa19c32a1f9":[32,0,99,6],
 "structGPIOInitConfig__t.html#a9e91fe0f71b365a8fc0243c59721ecda":[32,0,99,3],
 "structGPIOInitConfig__t.html#a9fec47b09fc90e799db443bdcffb53f4":[32,0,99,1],
 "structGPIOInitConfig__t.html#ac271361b13ba110d2af3699fe610f596":[32,0,99,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX22 =
 "structIZZE__angular__rate__data__t.html#a4e6c9a24650b23bb66729283de80cf0e":[32,0,149,1],
 "structIZZE__angular__rate__data__t.html#a95778430138651fd59efbd6ad8c8f8f2":[32,0,149,2],
 "structIZZE__angular__rate__data__t.html#a9853c19d805aec980727a36d3ffc22c8":[32,0,149,4],
-"structIZZE__angular__rate__data__t.html#aa27fbbc46a19025d0078ddc7a463bb9f":[32,0,149,5],
-"structIZZE__angular__rate__data__t.html#aac8149ccef8ea137a001f26534f990cf":[32,0,149,3],
-"structLWS__Config__data__t.html":[32,0,163]
+"structIZZE__angular__rate__data__t.html#aa27fbbc46a19025d0078ddc7a463bb9f":[32,0,149,5]
 };

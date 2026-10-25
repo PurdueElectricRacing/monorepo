@@ -1,13 +1,17 @@
 <map id="firmware/can_library/generated/MCAN.h" name="firmware/can_library/generated/MCAN.h">
-<area shape="rect" id="Node000001" title="Auto&#45;generated CAN bus definitions for MCAN." alt="" coords="388,5,524,46"/>
+<area shape="rect" id="Node000001" title="Auto&#45;generated CAN bus definitions for MCAN." alt="" coords="581,5,718,46"/>
 <area shape="rect" id="Node000002" href="$MAIN__MODULE_8h.html" title="Auto&#45;generated CAN driver for MAIN_MODULE." alt="" coords="69,183,262,223"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="374,52,324,71,276,96,248,117,223,140,183,184,179,180,219,136,245,113,273,92,322,66,372,47"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="565,31,500,36,425,47,349,67,276,96,247,115,220,139,181,184,177,180,217,135,243,111,273,92,347,62,424,42,499,31,565,25"/>
 <area shape="rect" id="Node000008" href="$common_2amk_2amk_8h.html" title="Modernized AMK driver." alt="" coords="286,94,439,135"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="426,59,386,96,382,92,422,55"/>
-<area shape="rect" id="Node000012" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="464,94,638,135"/>
-<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="491,55,531,92,527,96,487,59"/>
-<area shape="rect" id="Node000013" href="$daq_2main_8c.html" title="&quot;DAQ&quot; node source code" alt="" coords="662,94,800,135"/>
-<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="534,49,669,91,667,96,533,54"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="571,53,429,96,427,91,569,48"/>
+<area shape="rect" id="Node000012" href="$cannector_2can__callback_8c.html" title="CAN callback implementation." alt="" coords="464,94,638,135"/>
+<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="617,58,575,96,571,92,614,54"/>
+<area shape="rect" id="Node000013" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="662,94,837,135"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="685,54,728,92,725,96,682,58"/>
+<area shape="rect" id="Node000014" href="$daq_2can__callback_2can__callback_8c.html" title="Timestamped frame producer from the CAN RX callback." alt="" coords="860,94,1052,135"/>
+<area shape="poly" id="edge19_Node000001_Node000014" title=" " alt="" coords="733,48,887,91,886,96,732,53"/>
+<area shape="rect" id="Node000015" href="$daq_2main_8c.html" title="&quot;DAQ&quot; node source code" alt="" coords="1076,94,1215,135"/>
+<area shape="poly" id="edge20_Node000001_Node000015" title=" " alt="" coords="733,36,888,60,1065,91,1076,94,1075,99,1064,97,887,65,733,41"/>
 <area shape="rect" id="Node000003" href="$main__module_2main_8c.html" title="&quot;Main Module&quot; node source code" alt="" coords="290,279,435,320"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="222,228,323,276,320,281,219,233"/>
 <area shape="rect" id="Node000004" href="$powertrain_8c.html" title="Powertrain implementation." alt="" coords="460,279,668,320"/>
