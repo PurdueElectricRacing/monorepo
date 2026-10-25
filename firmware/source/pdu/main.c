@@ -17,6 +17,7 @@
 #include "common/phal_G4/adc/adc.h"
 #include "common/utils/countof.h"
 #include "common/watchdog/watchdog.h"
+#include "common/heartbeat/heartbeat.h"
 
 /* Module Includes */
 #include "cooling_fsm.h"
@@ -69,6 +70,10 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     // VCAN
     PHAL_PIN_DEFS_FDCAN1_TX_PA12,
     PHAL_PIN_DEFS_FDCAN1_RX_PA11,
+
+    // SCAN
+    PHAL_PIN_DEFS_FDCAN2_TX_PB13,
+    PHAL_PIN_DEFS_FDCAN2_RX_PB12
 };
 
 // !! ADC PHAL this api sucks
@@ -118,7 +123,9 @@ DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(fault_library_periodic, PDU_FAULT_SYNC_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_1024);
 RTOS_DEFINE_TASK(cooling_fsm_periodic, COOLING_FSM_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024);
 RTOS_DEFINE_TASK(current_sense_periodic, CURRENT_SENSE_TASK_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(SWITCH_enable_all, 0, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
+DEFINE_HEARTBEAT_TASK(nullptr);
 
 int main() {
     // Hardware Initialization
@@ -138,12 +145,20 @@ int main() {
 
     CAN_init();
 
+    // Disable all switches immediately on startup
+    // SWITCH_enable_all will do the proper enabling of switches in a safe order
+    for (switch_id_t id = 0; id < NUM_SWITCHES; id++) {
+        SWITCH_disable(id);
+    }
+
     START_CAN_TASKS();
     CAN_SEND_pdu_init(WDG_get_CSR());
     RTOS_START_TASK(fault_library_periodic);
     RTOS_START_TASK(current_sense_periodic);
     RTOS_START_TASK(cooling_fsm_periodic);
+    RTOS_START_TASK(SWITCH_enable_all);
     START_WATCHDOG_TASK();
+    START_HEARTBEAT_TASK();
 
     vTaskStartScheduler();
 
