@@ -60,76 +60,6 @@
                     "priority": 4
                 },
                 {
-                    "message_name": "IMU_angular_rate",
-                    "description": "rotated IMU data",
-                    "signals": [
-                        {
-                            "signal_name": "X_axis",
-                            "description": "Angular Rate around X-axis",
-                            "data_type": "int16_t",
-                            "unit": "deg/s",
-                            "scale": 0.1
-                        },
-                        {
-                            "signal_name": "Y_axis",
-                            "description": "Angular Rate around Y-axis",
-                            "data_type": "int16_t",
-                            "unit": "deg/s",
-                            "scale": 0.1
-                        },
-                        {
-                            "signal_name": "Z_axis",
-                            "description": "Angular Rate around Z-axis",
-                            "data_type": "int16_t",
-                            "unit": "deg/s",
-                            "scale": 0.1
-                        },
-                        {
-                            "signal_name": "reserved",
-                            "description": "reserved",
-                            "data_type": "uint16_t"
-                        }
-                    ],
-                    "period_ms": 10,
-                    "priority": 5
-                },
-                {
-                    "message_name": "IMU_acceleration",
-                    "description": "rotated IMU ",
-                    "signals": [
-                        {
-                            "signal_name": "X_axis",
-                            "description": "Acceleration along X-axis",
-                            "data_type": "int16_t",
-                            "unit": "g",
-                            "scale": 0.01
-                        },
-                        {
-                            "signal_name": "Y_axis",
-                            "description": "Acceleration along Y-axis",
-                            "data_type": "int16_t",
-                            "unit": "g",
-                            "scale": 0.01
-                        },
-                        {
-                            "signal_name": "Z_axis",
-                            "description": "Acceleration along Z-axis",
-                            "data_type": "int16_t",
-                            "unit": "g",
-                            "scale": 0.01
-                        },
-                        {
-                            "signal_name": "temperature",
-                            "description": "IMU Temperature",
-                            "data_type": "int16_t",
-                            "unit": "C",
-                            "scale": 0.1
-                        }
-                    ],
-                    "period_ms": 10,
-                    "priority": 5
-                },
-                {
                     "message_name": "vcu_settings",
                     "description": "currently configured VCU settings",
                     "signals": [
@@ -328,6 +258,76 @@
                         }
                     ],
                     "period_ms": 40,
+                    "priority": 5
+                },
+                {
+                    "message_name": "IMU_angular_rate",
+                    "description": "rotated IMU data",
+                    "signals": [
+                        {
+                            "signal_name": "X_axis",
+                            "description": "Angular Rate around X-axis",
+                            "data_type": "int16_t",
+                            "unit": "deg/s",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "Y_axis",
+                            "description": "Angular Rate around Y-axis",
+                            "data_type": "int16_t",
+                            "unit": "deg/s",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "Z_axis",
+                            "description": "Angular Rate around Z-axis",
+                            "data_type": "int16_t",
+                            "unit": "deg/s",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "reserved",
+                            "description": "reserved",
+                            "data_type": "uint16_t"
+                        }
+                    ],
+                    "period_ms": 10,
+                    "priority": 5
+                },
+                {
+                    "message_name": "IMU_acceleration",
+                    "description": "rotated IMU ",
+                    "signals": [
+                        {
+                            "signal_name": "X_axis",
+                            "description": "Acceleration along X-axis",
+                            "data_type": "int16_t",
+                            "unit": "g",
+                            "scale": 0.01
+                        },
+                        {
+                            "signal_name": "Y_axis",
+                            "description": "Acceleration along Y-axis",
+                            "data_type": "int16_t",
+                            "unit": "g",
+                            "scale": 0.01
+                        },
+                        {
+                            "signal_name": "Z_axis",
+                            "description": "Acceleration along Z-axis",
+                            "data_type": "int16_t",
+                            "unit": "g",
+                            "scale": 0.01
+                        },
+                        {
+                            "signal_name": "temperature",
+                            "description": "IMU Temperature",
+                            "data_type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        }
+                    ],
+                    "period_ms": 10,
                     "priority": 5
                 }
             ],

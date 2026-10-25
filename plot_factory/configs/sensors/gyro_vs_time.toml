@@ -10,7 +10,7 @@ forward_fill = true
 label = "Roll (X)"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.IMU_angular_rate.X_axis"
+column = "SCAN.TORQUE_VECTOR.IMU_angular_rate.X_axis"
 label = "Roll (X)"
 color = "tab:blue"
 
@@ -18,7 +18,7 @@ color = "tab:blue"
 label = "Pitch (Y)"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.IMU_angular_rate.Y_axis"
+column = "SCAN.TORQUE_VECTOR.IMU_angular_rate.Y_axis"
 label = "Pitch (Y)"
 color = "tab:orange"
 
@@ -26,7 +26,7 @@ color = "tab:orange"
 label = "Yaw (Z)"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
+column = "SCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
 label = "Yaw (Z)"
 color = "tab:green"
 

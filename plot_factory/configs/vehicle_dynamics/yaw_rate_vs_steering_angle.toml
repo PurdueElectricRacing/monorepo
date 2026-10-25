@@ -10,6 +10,6 @@ y_label = "Yaw rate (deg/s)"
 
 [[traces]]
 x_column = "VCAN.BOSCH_LWS.LWS_Standard.LWS_ANGLE"
-y_column = "VCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
+y_column = "SCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
 label = "Yaw rate"
 color = "tab:blue"
