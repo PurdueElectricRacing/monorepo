@@ -64,7 +64,8 @@ config change regenerate with `python3 generators/generate.py` and commit the
 updated JSONs. The stimulus file
 `stimuli/ready_to_drive_stimuli.json` is gitignored as a derived artifact of
 the scenario; regenerate it with `python3 generators/generate.py` locally
-before running the FIL suite.
+before running the FIL suite. If it is missing, `run_tests.py` fails fast
+with a pointer to `generators/generate.py`.
 
 ## Build and run
 
