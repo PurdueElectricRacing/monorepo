@@ -1,5 +1,5 @@
 use eframe::egui;
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::{BTreeMap, VecDeque}; // can you explain what a btreemap, vecdeque is?
 
 pub struct TaskDiagnostics {
     pub task_id: u32,
@@ -8,8 +8,8 @@ pub struct TaskDiagnostics {
     pub stack_hwm: u32,
     pub cpu_util: Option<f32>,
 }
-pub struct BoardDiagnostics {
-    pub name: String,
+pub struct BoardDiagnostics { // some of this stuff is never used - why?
+    pub name: String, 
     pub cpu_util: Option<f32>,
     pub capacity_exceeded: bool,
     pub tasks: Vec<TaskDiagnostics>,
@@ -24,12 +24,12 @@ pub struct Diagnostics {
 
     pub boards: BTreeMap<String, BoardDiagnostics>,
     pub search: String,
-    pub selected_board: Option<String>,
+    pub selected_board: Option<String>, // selected board never used?
 }
 
 impl Diagnostics {
-    pub fn new(instance_num: usize) -> Self {
-        let mut boards = BTreeMap::new();
+    pub fn new(instance_num: usize) -> Self { // why does 
+        let mut boards = BTreeMap::new(); // why i need ts, why cant i just use an array
         boards.insert(
             "main_module".to_string(),
             BoardDiagnostics {
@@ -58,7 +58,7 @@ impl Diagnostics {
                 cpu_history: VecDeque::from([(0.0, 45.0), (1.0, 52.0), (2.0, 67.4)]),
             },
         );
-        Self {
+        Self { // i forget what self does again. is this just filling out a new diagnostisc struct?
             title: format!("Diagnostics #{}", instance_num),
             boards: boards,
             search: String::new(),
@@ -66,8 +66,13 @@ impl Diagnostics {
         }
     }
 
-    pub fn show(&mut self, ui: &mut egui::Ui) -> egui_tiles::UiResponse {
+    pub fn show(&mut self, ui: &mut egui::Ui, view: &crate::telemetry::TelemetryView<'_>) -> egui_tiles::UiResponse { // explain what all of these params are
         ui.heading(&self.title);
+        ui.label(format!(
+            "CAN frames up to timeline cursor: {}",
+            view.setpoint_frames.len()
+        ));
+
         ui.separator();
 
         ui.horizontal(|ui| {
@@ -87,12 +92,12 @@ impl Diagnostics {
             .include_y(0.0)
             .include_y(100.0)
             .legend(egui_plot::Legend::default())
-            .show(ui, |plot_ui| {
+            .show(ui, |plot_ui| { // whats with the | | syntax? 
                 for (board_name, board) in &self.boards {
                     let points: egui_plot::PlotPoints = board
                         .cpu_history
                         .iter()
-                        .map(|(time, cpu)| [*time, *cpu])
+                        .map(|(time, cpu)| [*time, *cpu]) // wtf is happening here
                         .collect();
 
                     plot_ui.line(egui_plot::Line::new(board_name, points));
@@ -168,11 +173,9 @@ impl Diagnostics {
             _ => None,
         }
     }
-    // TODO: Read diagnostics samples through the new telemetry view API.
-    // The former MsgFromCan API was removed by the daqapp refactor.
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)] // what does this do again? Is this like java extend or include?
 pub enum TaskState {
     Running,
     Ready,
@@ -183,6 +186,17 @@ pub enum TaskState {
 }
 
 impl TaskState {
+    pub fn from_raw(raw: u8) -> Self {
+        match raw {
+            0 => Self::Running,
+            1 => Self::Ready,
+            2 => Self::Blocked,
+            3 => Self::Suspended,
+            4 => Self::Deleted,
+            _ => Self::Invalid,
+        }
+    }
+
     pub fn as_str(&self) -> &'static str {
         match self {
             TaskState::Running => "Running",
