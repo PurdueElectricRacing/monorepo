@@ -39,38 +39,39 @@ This updates cell voltage, thermistor readings, and error flags
 
 ### State Machine
 
-`adbms_periodic()` implements a single straight-line state chain. Each state
-advances to its successor within the **same** `adbms_periodic()` call
-(fallthrough), so the connect chain runs back-to-back in a single call, and in
-steady state one full measure/balance cycle completes per call and resumes at
-`READ_CELLS` next tick. Only `RECOVERING` and `ERROR` span multiple ticks.
-The position in the chain encodes connect vs. steady state — there is no
-`is_connected` flag; the two REGB pairs (`CONNECT_*` vs. `BALANCE_*`) are
-distinct states.
+`adbms_periodic()` implements a 4-state machine. Each state is entered once per
+tick, and its body runs a complete straight-line sequence in one call via a
+chain helper. Any failure mid-sequence jumps the state to `RECOVERING`.
+`RECOVERING` and `ERROR` are non-blocking waits spanning multiple ticks.
 
 | State | Action |
 |-------|--------|
-| `ADBMS_STATE_WRITE_REGA` | Write REGA configuration to all modules |
-| `ADBMS_STATE_CHECK_REGA` | Read REGA back and verify (failure → RECOVERING) |
-| `ADBMS_STATE_CONNECT_WRITE_REGB` | Connect-chain REGB write |
-| `ADBMS_STATE_CONNECT_CHECK_REGB` | Connect-chain REGB verify; on success clears `recovery_attempts` (failure → RECOVERING) |
-| `ADBMS_STATE_START_ADCV` | Start continuous cell voltage conversions |
-| `ADBMS_STATE_READ_CELLS` | Read cell voltages and sanity-check range (failure → RECOVERING) |
-| `ADBMS_STATE_READ_TEMPS` | Read thermistor voltages and convert to temperature |
-| `ADBMS_STATE_SET_BALANCE` | Compute per-cell discharge flags for balancing |
-| `ADBMS_STATE_BALANCE_WRITE_REGB` | Steady-loop REGB write with new discharge bits |
-| `ADBMS_STATE_BALANCE_CHECK_REGB` | Steady-loop REGB verify; on success resumes at `READ_CELLS` next call (failure → RECOVERING) |
-| `ADBMS_STATE_RECOVERING` | Non-blocking wait for a full chip sleep-wake cycle |
-| `ADBMS_STATE_ERROR` | Non-latching backoff after repeated failed recovery (SDC pin pulled) |
+| `ADBMS_STATE_CONNECTING` | Run the full connect sequence (below); on success → `READ_LOOP`, any failure → `RECOVERING` |
+| `ADBMS_STATE_READ_LOOP` | Run one full measure/balance cycle (below); on success stay in `READ_LOOP`, any failure → `RECOVERING` |
+| `ADBMS_STATE_RECOVERING` | Non-blocking wait for a full chip sleep-wake cycle (2.5 s) |
+| `ADBMS_STATE_ERROR` | Non-latching backoff after repeated failed recovery (10 s, SDC pin pulled) |
 
-Chain order:
-`WRITE_REGA → CHECK_REGA → CONNECT_WRITE_REGB → CONNECT_CHECK_REGB → START_ADCV → READ_CELLS → READ_TEMPS → SET_BALANCE → BALANCE_WRITE_REGB → BALANCE_CHECK_REGB → (back to READ_CELLS)`.
+Connect sequence (runs in order inside `CONNECTING`, early-exiting on the first failure):
+1. Write REGA configuration to all modules
+2. Read REGA back and verify
+3. Write REGB configuration to all modules
+4. Read REGB back and verify
+5. Reset `recovery_attempts`
+6. Start continuous cell voltage conversions (ADCV)
 
-Recovery: each completed `RECOVERING` cycle increments `recovery_attempts`
-(clamped at `ADBMS_RECOVERY_MAX_ATTEMPTS` = 4). After 4 consecutive failed
-recovery cycles the driver enters `ERROR`; after the 10 s error backoff it
-always retries the connect chain at `WRITE_REGA`. `recovery_attempts` is reset
-on a successful connect (`CONNECT_CHECK_REGB`) and on ERROR backoff expiry.
+Measure/balance cycle (runs in order inside `READ_LOOP`, early-exiting on the first failure):
+1. Read cell voltages and sanity-check the range
+2. Read thermistor voltages and convert to temperature
+3. Compute per-cell discharge flags for balancing
+4. Write REGB with the new discharge bits
+5. Read REGB back and verify
+
+Recovery: each completed `RECOVERING` cycle (2.5 s) increments
+`recovery_attempts` (clamped at `ADBMS_RECOVERY_MAX_ATTEMPTS` = 4). After 4
+consecutive failed recovery cycles the driver enters `ERROR`; after the 10 s
+error backoff the counter is reset and it returns to `CONNECTING`.
+`recovery_attempts` is also reset by a successful connect sequence. In steady
+state the driver runs one full measure/balance cycle per tick (200 ms).
 
 #### For example
 

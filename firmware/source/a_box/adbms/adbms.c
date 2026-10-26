@@ -24,7 +24,7 @@ void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf) {
     bms->recover_start_tick_ms = 0;
     bms->error_start_tick_ms   = 0;
     bms->recovery_attempts     = 0;
-    bms->state                 = ADBMS_STATE_WRITE_REGA;
+    bms->state                 = ADBMS_STATE_CONNECTING;
 
     bms->is_balancing_enabled = false;
     for (size_t i = 0; i < ADBMS_MODULE_COUNT; i++) {
@@ -307,86 +307,58 @@ void adbms_read_therms(adbms_bms_t *bms) {
     bms->avg_therm_temp = bms_sum_therm_temp / (ADBMS_MODULE_COUNT * ADBMS6380_GPIO_COUNT);
 }
 
+static bool adbms_connect_sequence(adbms_bms_t *bms) {
+    adbms_write_rega(bms);
+    if (!adbms_read_and_check_rega(bms)) {
+        return false;
+    }
+
+    adbms_write_regb(bms);
+    if (!adbms_read_and_check_regb(bms)) {
+        return false;
+    }
+
+    bms->recovery_attempts = 0; // successful connect
+    adbms_start_adcv(bms);
+    return true;
+}
+
+static bool adbms_read_loop_cycle(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
+    adbms_read_cells(bms);
+    if (bms->min_voltage < ADBMS_CELL_MIN_VALID_V || bms->max_voltage > ADBMS_CELL_MAX_VALID_V) {
+        return false;
+    }
+
+    adbms_read_therms(bms);
+    adbms_calculate_balance_cells(bms, min_voltage_for_balance, min_delta_for_balance);
+    adbms_write_regb(bms); // apply new discharge bits
+    if (!adbms_read_and_check_regb(bms)) {
+        return false;
+    }
+    return true;
+}
+
 void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
     adbms_state_t next_state = bms->state;
 
-    // Keep recovery/error backoff silent to complete their sleep cycle
-    // Otherwise prep the chips for communication
+    // Keep recovery/error backoff silent to complete their sleep cycle;
+    // otherwise prep the chips for communication
     if (bms->state != ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_ERROR) {
         adbms6380_wake(bms->spi, ADBMS_MODULE_COUNT);
     }
 
-    // The switch runs straight-line: on success each case body executes and
-    // falls through to the next case within this call, while next_state is
-    // advanced to the chain successor so the committed state always equals the
-    // last phase that completed. Any failure diverts to RECOVERING.
-    adbms_state_t phase = bms->state;
-    switch (phase) {
-        case ADBMS_STATE_WRITE_REGA: {
-            adbms_write_rega(bms);
-            next_state = ADBMS_STATE_CHECK_REGA;
-        }
-        // fallthrough
-        case ADBMS_STATE_CHECK_REGA: {
-            if (adbms_read_and_check_rega(bms)) {
-                next_state = ADBMS_STATE_CONNECT_WRITE_REGB;
+    switch (bms->state) {
+        case ADBMS_STATE_CONNECTING: {
+            if (adbms_connect_sequence(bms)) {
+                next_state = ADBMS_STATE_READ_LOOP;
             } else {
                 next_state = ADBMS_STATE_RECOVERING;
-                break;
             }
+            break;
         }
-        // fallthrough
-        case ADBMS_STATE_CONNECT_WRITE_REGB: {
-            adbms_write_regb(bms);
-            next_state = ADBMS_STATE_CONNECT_CHECK_REGB;
-        }
-        // fallthrough
-        case ADBMS_STATE_CONNECT_CHECK_REGB: {
-            if (adbms_read_and_check_regb(bms)) {
-                bms->recovery_attempts = 0;
-                next_state = ADBMS_STATE_START_ADCV;
-            } else {
-                next_state = ADBMS_STATE_RECOVERING;
-                break;
-            }
-        }
-        // fallthrough
-        case ADBMS_STATE_START_ADCV: {
-            adbms_start_adcv(bms);
-            next_state = ADBMS_STATE_READ_CELLS;
-        }
-        // fallthrough
-        case ADBMS_STATE_READ_CELLS: {
-            adbms_read_cells(bms);
-            if (bms->min_voltage < ADBMS_CELL_MIN_VALID_V ||
-                bms->max_voltage > ADBMS_CELL_MAX_VALID_V
-            ) {
-                next_state = ADBMS_STATE_RECOVERING;
-                break;
-            } else {
-                next_state = ADBMS_STATE_READ_TEMPS;
-            }
-        }
-        // fallthrough
-        case ADBMS_STATE_READ_TEMPS: {
-            adbms_read_therms(bms);
-            next_state = ADBMS_STATE_SET_BALANCE;
-        }
-        // fallthrough
-        case ADBMS_STATE_SET_BALANCE: {
-            adbms_calculate_balance_cells(bms, min_voltage_for_balance, min_delta_for_balance);
-            next_state = ADBMS_STATE_BALANCE_WRITE_REGB;
-        }
-        // fallthrough
-        case ADBMS_STATE_BALANCE_WRITE_REGB: {
-            adbms_write_regb(bms);
-            next_state = ADBMS_STATE_BALANCE_CHECK_REGB;
-        }
-        // fallthrough
-        case ADBMS_STATE_BALANCE_CHECK_REGB: {
-            if (adbms_read_and_check_regb(bms)) {
-                // Full measure/balance cycle done; resume at READ_CELLS next call
-                next_state = ADBMS_STATE_READ_CELLS;
+        case ADBMS_STATE_READ_LOOP: {
+            if (adbms_read_loop_cycle(bms, min_voltage_for_balance, min_delta_for_balance)) {
+                next_state = ADBMS_STATE_READ_LOOP;
             } else {
                 next_state = ADBMS_STATE_RECOVERING;
             }
@@ -405,7 +377,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
                 if (bms->recovery_attempts >= ADBMS_RECOVERY_MAX_ATTEMPTS) {
                     next_state = ADBMS_STATE_ERROR;
                 } else {
-                    next_state = ADBMS_STATE_WRITE_REGA;
+                    next_state = ADBMS_STATE_CONNECTING;
                 }
             }
             break;
@@ -415,7 +387,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             uint32_t elapsed_ms = xTaskGetTickCount() - bms->error_start_tick_ms;
             if (elapsed_ms >= ADBMS_ERROR_BACKOFF_MS) {
                 bms->recovery_attempts = 0;
-                next_state = ADBMS_STATE_WRITE_REGA;
+                next_state = ADBMS_STATE_CONNECTING;
             }
             break;
         }
