@@ -95,7 +95,7 @@ impl Widget {
             Widget::Dynamics(w) => w.show(ui, context.view),
             Widget::Jitter(w) => w.show(ui, context.database, context.view),
             Widget::Hil(w) => w.show(ui),
-            Widget::Diagnostics(w) => w.show(ui),
+            Widget::Diagnostics(w) => w.show(ui, context.view),
         }
     }
 
