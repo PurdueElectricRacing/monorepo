@@ -10,6 +10,9 @@
 #include "pin_defs/g474ret6.h"
 #include "common/utils/countof.h"
 #include "rtos.h"
+#include "common/phal_G4/fdcan/fdcan.h"
+#include "can_library/can_common.h"
+#include "can_library/generated/G4_TESTING.h"
 
 #define MAX_TASKS 16
 
@@ -29,6 +32,7 @@ static configRUN_TIME_COUNTER_TYPE total_runtime;
 volatile UBaseType_t task_count      = 0;
 PHAL_GPIO_InitConfig_t gpio_config[] = {PHAL_PIN_DEFS_FDCAN2_RX_PB12, PHAL_PIN_DEFS_FDCAN2_TX_PB13};
 
+DEFINE_CAN_TASKS();
 DEFINE_DIAGNOSTICS_TASK();
 RTOS_DEFINE_TASK(dumb_task, 10, TASK_PRIORITY_HIGH, 1024);
 
@@ -38,7 +42,10 @@ int main() {
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
-
+    PHAL_FDCAN_init(FDCAN2, TEST_CAN_BAUD_RATE);
+    CAN_init();
+    
+    START_CAN_TASKS();
     START_DIAGNOSTICS_TASK();
     RTOS_START_TASK(dumb_task);
 

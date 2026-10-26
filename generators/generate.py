@@ -21,7 +21,7 @@ from faultgen.api import FaultGenerator
 from dearunits.api import DearUnits
 from dearunits.config_loader import UnitConfigValidationError, load_unit_config_bundle
 from core.utils import get_git_hash, print_as_error
-from diagnosticsgen.api import diagnostics_contribution
+from diagnosticsgen.api import diagnostics_contribution, diagnostics_artifacts
 
 def generate() -> None:
     canpiler = Canpiler()
@@ -44,6 +44,7 @@ def generate() -> None:
     artifacts  = canpiler.generate(linked_can, version)
     artifacts += faultgen.generate(fault_plan, version)
     artifacts += dearunits.generate(unit_graph)
+    artifacts += diagnostics_artifacts()
 
     output_roots = {
         "generated": GENERATED_DIR,
