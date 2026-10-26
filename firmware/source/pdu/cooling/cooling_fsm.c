@@ -143,7 +143,7 @@ void cooling_fsm_periodic(void) {
         }
     }
 
-    CAN_SEND_coolant_out(
+    CAN_SEND_cooling_outputs(
         powertrain_pumps.is_on,
         hx_fan.is_on,
         battery_fans.is_on

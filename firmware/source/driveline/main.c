@@ -13,7 +13,6 @@
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/adc/adc.h"
-#include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/pin_defs/g474ret6.h"
@@ -32,9 +31,9 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
     PHAL_GPIO_INIT_OUTPUT(CONNECTION_LED_PORT, CONNECTION_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
 
-    // VCAN
-    PHAL_PIN_DEFS_FDCAN2_RX_PB5,
-    PHAL_PIN_DEFS_FDCAN2_TX_PB6,
+    // SCAN
+    PHAL_PIN_DEFS_FDCAN1_RX_PA11,
+    PHAL_PIN_DEFS_FDCAN1_TX_PA12,
 
     // Shock Pots
     PHAL_GPIO_INIT_ANALOG(SHOCKPOT_LEFT_GPIO_PORT , SHOCKPOT_LEFT_GPIO_PIN),

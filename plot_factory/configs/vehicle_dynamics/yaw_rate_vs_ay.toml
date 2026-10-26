@@ -7,6 +7,6 @@ time_column = "real_time"
 match_tolerance_seconds = 0.1
 
 [[traces]]
-x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
-y_column = "VCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
+x_column = "SCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+y_column = "SCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
 label = "Yaw rate vs Ay"

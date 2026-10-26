@@ -17,66 +17,6 @@
                     "priority": 0
                 },
                 {
-                    "message_name": "gps_velocity",
-                    "description": "gps velocity",
-                    "signals": [
-                        {
-                            "signal_name": "gps_vel_n",
-                            "data_type": "int32_t",
-                            "unit": "m/s",
-                            "scale": 1e-3
-                        },
-                        {
-                            "signal_name": "gps_vel_e",
-                            "data_type": "int32_t",
-                            "unit": "m/s",
-                            "scale": 1e-3
-                        }
-                    ],
-                    "period_ms": 40,
-                    "priority": 5
-                },
-                {
-                    "message_name": "gps_speed_heading",
-                    "description": "gps 2D ground speed and heading",
-                    "signals": [
-                        {
-                            "signal_name": "gps_speed",
-                            "data_type": "int32_t",
-                            "unit": "m/s",
-                            "scale": 1e-3
-                        },
-                        {
-                            "signal_name": "gps_heading",
-                            "data_type": "int32_t",
-                            "unit": "deg",
-                            "scale": 1e-5
-                        }
-                    ],
-                    "period_ms": 40,
-                    "priority": 3
-                },
-                {
-                    "message_name": "gps_coordinates",
-                    "description": "gps coordinates",
-                    "signals": [
-                        {
-                            "signal_name": "latitude",
-                            "data_type": "int32_t",
-                            "unit": "deg",
-                            "scale": 1e-7
-                        },
-                        {
-                            "signal_name": "longitude",
-                            "data_type": "int32_t",
-                            "unit": "deg",
-                            "scale": 1e-7
-                        }
-                    ],
-                    "period_ms": 40,
-                    "priority": 5
-                },
-                {
                     "message_name": "gps_time",
                     "description": "gps time in UTC",
                     "signals": [
@@ -118,76 +58,6 @@
                     ],
                     "period_ms": 1000,
                     "priority": 4
-                },
-                {
-                    "message_name": "IMU_angular_rate",
-                    "description": "rotated IMU data",
-                    "signals": [
-                        {
-                            "signal_name": "X_axis",
-                            "description": "Angular Rate around X-axis",
-                            "data_type": "int16_t",
-                            "unit": "deg/s",
-                            "scale": 0.1
-                        },
-                        {
-                            "signal_name": "Y_axis",
-                            "description": "Angular Rate around Y-axis",
-                            "data_type": "int16_t",
-                            "unit": "deg/s",
-                            "scale": 0.1
-                        },
-                        {
-                            "signal_name": "Z_axis",
-                            "description": "Angular Rate around Z-axis",
-                            "data_type": "int16_t",
-                            "unit": "deg/s",
-                            "scale": 0.1
-                        },
-                        {
-                            "signal_name": "reserved",
-                            "description": "reserved",
-                            "data_type": "uint16_t"
-                        }
-                    ],
-                    "period_ms": 10,
-                    "priority": 5
-                },
-                {
-                    "message_name": "IMU_acceleration",
-                    "description": "rotated IMU ",
-                    "signals": [
-                        {
-                            "signal_name": "X_axis",
-                            "description": "Acceleration along X-axis",
-                            "data_type": "int16_t",
-                            "unit": "g",
-                            "scale": 0.01
-                        },
-                        {
-                            "signal_name": "Y_axis",
-                            "description": "Acceleration along Y-axis",
-                            "data_type": "int16_t",
-                            "unit": "g",
-                            "scale": 0.01
-                        },
-                        {
-                            "signal_name": "Z_axis",
-                            "description": "Acceleration along Z-axis",
-                            "data_type": "int16_t",
-                            "unit": "g",
-                            "scale": 0.01
-                        },
-                        {
-                            "signal_name": "temperature",
-                            "description": "IMU Temperature",
-                            "data_type": "int16_t",
-                            "unit": "C",
-                            "scale": 0.1
-                        }
-                    ],
-                    "period_ms": 10,
-                    "priority": 5
                 },
                 {
                     "message_name": "vcu_settings",
@@ -289,12 +159,6 @@
             ],
             "rx": [
                 {
-                    "message_name": "front_shockpots"
-                },
-                {
-                    "message_name": "rear_shockpots"
-                },
-                {
                     "message_name": "IZZE_angular_rate",
                     "callback": true
                 },
@@ -306,7 +170,7 @@
                     "message_name": "pedals"
                 },
                 {
-                    "message_name": "steering_angle"
+                    "message_name": "LWS_Standard"
                 },
                 {
                     "message_name": "pack_bms"
@@ -332,6 +196,142 @@
                     "callback": true
                 }
             ]
+        },
+        "SCAN": {
+            "peripheral": "FDCAN1",
+            "tx": [
+                {
+                    "message_name": "gps_velocity",
+                    "description": "gps velocity",
+                    "signals": [
+                        {
+                            "signal_name": "gps_vel_n",
+                            "data_type": "int32_t",
+                            "unit": "m/s",
+                            "scale": 1e-3
+                        },
+                        {
+                            "signal_name": "gps_vel_e",
+                            "data_type": "int32_t",
+                            "unit": "m/s",
+                            "scale": 1e-3
+                        }
+                    ],
+                    "period_ms": 40,
+                    "priority": 5
+                },
+                {
+                    "message_name": "gps_speed_heading",
+                    "description": "gps 2D ground speed and heading",
+                    "signals": [
+                        {
+                            "signal_name": "gps_speed",
+                            "data_type": "int32_t",
+                            "unit": "m/s",
+                            "scale": 1e-3
+                        },
+                        {
+                            "signal_name": "gps_heading",
+                            "data_type": "int32_t",
+                            "unit": "deg",
+                            "scale": 1e-5
+                        }
+                    ],
+                    "period_ms": 40,
+                    "priority": 3
+                },
+                {
+                    "message_name": "gps_coordinates",
+                    "description": "gps coordinates",
+                    "signals": [
+                        {
+                            "signal_name": "latitude",
+                            "data_type": "int32_t",
+                            "unit": "deg",
+                            "scale": 1e-7
+                        },
+                        {
+                            "signal_name": "longitude",
+                            "data_type": "int32_t",
+                            "unit": "deg",
+                            "scale": 1e-7
+                        }
+                    ],
+                    "period_ms": 40,
+                    "priority": 5
+                },
+                {
+                    "message_name": "IMU_angular_rate",
+                    "description": "rotated IMU data",
+                    "signals": [
+                        {
+                            "signal_name": "X_axis",
+                            "description": "Angular Rate around X-axis",
+                            "data_type": "int16_t",
+                            "unit": "deg/s",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "Y_axis",
+                            "description": "Angular Rate around Y-axis",
+                            "data_type": "int16_t",
+                            "unit": "deg/s",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "Z_axis",
+                            "description": "Angular Rate around Z-axis",
+                            "data_type": "int16_t",
+                            "unit": "deg/s",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "reserved",
+                            "description": "reserved",
+                            "data_type": "uint16_t"
+                        }
+                    ],
+                    "period_ms": 10,
+                    "priority": 5
+                },
+                {
+                    "message_name": "IMU_acceleration",
+                    "description": "rotated IMU ",
+                    "signals": [
+                        {
+                            "signal_name": "X_axis",
+                            "description": "Acceleration along X-axis",
+                            "data_type": "int16_t",
+                            "unit": "g",
+                            "scale": 0.01
+                        },
+                        {
+                            "signal_name": "Y_axis",
+                            "description": "Acceleration along Y-axis",
+                            "data_type": "int16_t",
+                            "unit": "g",
+                            "scale": 0.01
+                        },
+                        {
+                            "signal_name": "Z_axis",
+                            "description": "Acceleration along Z-axis",
+                            "data_type": "int16_t",
+                            "unit": "g",
+                            "scale": 0.01
+                        },
+                        {
+                            "signal_name": "temperature",
+                            "description": "IMU Temperature",
+                            "data_type": "int16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        }
+                    ],
+                    "period_ms": 10,
+                    "priority": 5
+                }
+            ],
+            "rx": []
         }
     },
     "fault_library_enabled": true,

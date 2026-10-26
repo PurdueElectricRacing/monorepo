@@ -5,8 +5,8 @@
   "elf": "../../../firmware/output/front_driveline/front_driveline.elf",
   "vector_base": "0x08000000",
   "can": {
-    "FDCAN2": {
-      "bus": "0"
+    "FDCAN1": {
+      "bus": "3"
     }
   }
 }

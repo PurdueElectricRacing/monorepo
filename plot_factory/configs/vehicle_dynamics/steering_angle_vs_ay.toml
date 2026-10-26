@@ -9,7 +9,7 @@ x_label = "Lateral acceleration (g)"
 y_label = "Steering angle (deg)"
 
 [[traces]]
-x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
-y_column = "VCAN.DASHBOARD.steering_angle.angle"
+x_column = "SCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+y_column = "VCAN.BOSCH_LWS.LWS_Standard.LWS_ANGLE"
 label = "Steering angle"
 color = "tab:blue"

@@ -12,7 +12,6 @@
 #include "can_library/generated/MAIN_MODULE.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
-#include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/pin_defs/g474ret6.h"

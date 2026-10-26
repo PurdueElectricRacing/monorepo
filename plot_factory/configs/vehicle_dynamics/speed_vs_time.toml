@@ -10,6 +10,6 @@ forward_fill = true
 label = "GPS ground speed"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.gps_speed_heading.gps_speed"
+column = "SCAN.TORQUE_VECTOR.gps_speed_heading.gps_speed"
 label = "GPS ground speed"
 color = "tab:blue"

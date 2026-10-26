@@ -91,7 +91,7 @@ void vcu_driver_request_CALLBACK(void) {
 
 static inline bool is_any_crit_stale() {
     return can_data.pedals.is_stale()
-        || can_data.steering_angle.is_stale()
+        || can_data.LWS_Standard.is_stale()
         || can_data.motor_speeds.is_stale()
         || can_data.IZZE_angular_rate.is_stale();
 }
@@ -116,7 +116,7 @@ void control_loop() {
     xVCU.REGEN_RAW = can_data.pedals.regen / 100.0f;
     xVCU.BRAKE_RAW = can_data.pedals.brake / 100.0f;
 
-    xVCU.ST_RAW = can_data.steering_angle.angle * UNPACK_COEFF_STEERING_ANGLE_ANGLE * -1;
+    xVCU.ST_RAW = can_data.LWS_Standard.LWS_ANGLE * UNPACK_COEFF_LWS_STANDARD_LWS_ANGLE * -1;
     xVCU.VB_RAW = can_data.pack_bms.pack_voltage * UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE;
     static constexpr float RPM_TO_RADS = 2.0f * 3.14f / 60.0f;
     xVCU.WM_RAW[0] = can_data.motor_speeds.front_left * RPM_TO_RADS;

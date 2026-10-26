@@ -11,7 +11,6 @@
 #include "can_library/generated/TORQUE_VECTOR.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
-#include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/usart/usart.h"
@@ -35,10 +34,10 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_TX_PB13, // we fly swapped TX/RX
     PHAL_PIN_DEFS_FDCAN2_RX_PB12,
 
-    // TEST_CAN
     // ! these pin are erroneously swapped on the schematic
-    // GPIO_INIT_FDCAN1TX_PA12,
-    // PHAL_PIN_DEFS_FDCAN2_TX_PB13,
+    // ! For CAN bus modeling purposes, this node will be nuked later
+    PHAL_PIN_DEFS_FDCAN1_RX_PA11,
+    PHAL_PIN_DEFS_FDCAN1_TX_PA12,
 
     // Rover GPS
     PHAL_PIN_DEFS_USART3_RX_PB11,

@@ -9,7 +9,7 @@ x_label = "GPS ground speed (m/s)"
 y_label = "Steering angle (deg)"
 
 [[traces]]
-x_column = "VCAN.TORQUE_VECTOR.gps_speed_heading.gps_speed"
-y_column = "VCAN.DASHBOARD.steering_angle.angle"
+x_column = "SCAN.TORQUE_VECTOR.gps_speed_heading.gps_speed"
+y_column = "VCAN.BOSCH_LWS.LWS_Standard.LWS_ANGLE"
 label = "Steering angle"
 color = "tab:blue"

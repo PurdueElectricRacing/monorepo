@@ -101,64 +101,6 @@
                     "priority": 3
                 },
                 {
-                    "message_name": "steering_angle",
-                    "description": "steering data",
-                    "signals": [
-                        {
-                            "signal_name": "angle",
-                            "data_type": "int16_t",
-                            "unit": "deg",
-                            "scale": 0.1
-                        },
-                        {
-                            "signal_name": "angular_rate",
-                            "data_type": "uint16_t",
-                            "unit": "deg/s",
-                            "scale": 4
-                        },
-                        {
-                            "signal_name": "data_valid",
-                            "data_type": "bool"
-                        }
-                    ],
-                    "period_ms": 50,
-                    "priority": 3
-                },
-                {
-                    "message_name": "mark_data",
-                    "description": "Mark data for telemetry correlation",
-                    "signals": [
-                        {
-                            "signal_name": "os_tick",
-                            "description": "milliseconds since startup",
-                            "data_type": "uint32_t"
-                        },
-                        {
-                            "signal_name": "mark_index",
-                            "description": "incremented each time the mark button is pressed",
-                            "data_type": "uint16_t"
-                        }
-                    ],
-                    "priority": 3,
-                    "period_ms": 0
-                },
-                {
-                    "message_name": "brake_pressure",
-                    "description": "brake line hydraulic pressure in PSI",
-                    "signals": [
-                        {
-                            "signal_name": "brake_pressure",
-                            "data_type": "uint16_t",
-                            "description": "brake line hydraulic pressure in PSI",
-                            "unit": "psi",
-                            "scale": 0.01
-
-                        }
-                    ],
-                    "priority": 5,
-                    "period_ms": 0
-                },
-                {
                     "message_name": "dash_version",
                     "description": "Dashboard version",
                     "signals": [
@@ -180,6 +122,31 @@
                     ],
                     "priority": 4,
                     "period_ms": 5000
+                },
+                {
+                    "message_name": "LWS_Config",
+                    "description": "Steering sensor configuration",
+                    "signals": [
+                        {
+                            "signal_name": "CCW",
+                            "description": "Command Code Word",
+                            "data_type": "uint8_t",
+                            "length": 3
+                        },
+                        {
+                            "signal_name": "reserved1",
+                            "data_type": "uint8_t",
+                            "length": 5
+                        },
+                        {
+                            "signal_name": "reserved2",
+                            "data_type": "uint8_t",
+                            "length": 8
+                        }
+                    ],
+                    "period_ms": 0,
+                    "id_override": "0x7C0",
+                    "priority": 5
                 }
             ],
             "rx": [
@@ -214,9 +181,6 @@
                     "message_name": "invd_diagnostics"
                 },
                 {
-                    "message_name": "gps_coordinates"
-                },
-                {
                     "message_name": "vcu_settings",
                     "callback": true
                 },
@@ -233,35 +197,42 @@
             "peripheral": "FDCAN3",
             "tx": [
                 {
-                    "message_name": "LWS_Config",
-                    "description": "Steering sensor configuration",
+                    "message_name": "brake_pressure",
+                    "description": "brake line hydraulic pressure in PSI",
                     "signals": [
                         {
-                            "signal_name": "CCW",
-                            "description": "Command Code Word",
-                            "data_type": "uint8_t",
-                            "length": 3
-                        },
-                        {
-                            "signal_name": "reserved1",
-                            "data_type": "uint8_t",
-                            "length": 5
-                        },
-                        {
-                            "signal_name": "reserved2",
-                            "data_type": "uint8_t",
-                            "length": 8
+                            "signal_name": "brake_pressure",
+                            "data_type": "uint16_t",
+                            "description": "brake line hydraulic pressure in PSI",
+                            "unit": "psi",
+                            "scale": 0.01
                         }
                     ],
-                    "period_ms": 0,
-                    "id_override": "0x7C0",
-                    "priority": 3
+                    "priority": 5,
+                    "period_ms": 40
+                },
+                {
+                    "message_name": "mark_data",
+                    "description": "Mark data for telemetry correlation",
+                    "signals": [
+                        {
+                            "signal_name": "os_tick",
+                            "description": "milliseconds since startup",
+                            "data_type": "uint32_t"
+                        },
+                        {
+                            "signal_name": "mark_index",
+                            "description": "incremented each time the mark button is pressed",
+                            "data_type": "uint16_t"
+                        }
+                    ],
+                    "priority": 3,
+                    "period_ms": 0
                 }
             ],
             "rx": [
                 {
-                    "message_name": "LWS_Standard",
-                    "callback": true
+                    "message_name": "gps_coordinates"
                 }
             ]
         }

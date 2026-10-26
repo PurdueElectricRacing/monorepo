@@ -9,7 +9,7 @@ x_label = "Lateral acceleration (g)"
 y_label = "Longitudinal acceleration (g, + forward)"
 
 [[traces]]
-x_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
-y_column = "VCAN.TORQUE_VECTOR.IMU_acceleration.X_axis"
+x_column = "SCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+y_column = "SCAN.TORQUE_VECTOR.IMU_acceleration.X_axis"
 label = "Acceleration"
 color = "tab:blue"

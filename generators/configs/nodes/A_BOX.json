@@ -80,119 +80,6 @@
                     "period_ms": 200
                 },
                 {
-                    "message_name": "bms_pecs",
-                    "description": "PEC statuses from BMS",
-                    "signals": [
-                        {
-                            "signal_name": "RDCV_0_PEC",
-                            "description": "High if the RDCV (cell voltage) group A (0) PEC is invalid",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "RDCV_1_PEC",
-                            "description": "High if the RDCV (cell voltage) group B (1) PEC is invalid",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "RDCV_2_PEC",
-                            "description": "High if the RDCV (cell voltage) group C (2) PEC is invalid",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "RDCV_3_PEC",
-                            "description": "High if the RDCV (cell voltage) group D (3) PEC is invalid",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "RDCV_4_PEC",
-                            "description": "High if the RDCV (cell voltage) group E (4) PEC is invalid",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "RDCV_5_PEC",
-                            "description": "High if the RDCV (cell voltage) group F (5) PEC is invalid",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "RDAUX_0_PEC",
-                            "description": "High if the RDAUX (GPIO voltage) group A (0) PEC is invalid",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "RDAUX_1_PEC",
-                            "description": "High if the RDAUX (GPIO voltage) group B (1) PEC is invalid",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "RDAUX_2_PEC",
-                            "description": "High if the RDAUX (GPIO voltage) group C (2) PEC is invalid",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "RDAUX_3_PEC",
-                            "description": "High if the RDAUX (GPIO voltage) group D (3) PEC is invalid",
-                            "data_type": "bool"
-                        }
-                    ],
-                    "priority": 1,
-                    "period_ms": 200
-                },
-                {
-                    "message_name": "cell_telemetry",
-                    "description": "Individual cell voltages and balancing status",
-                    "signals": [
-                        {
-                            "signal_name": "voltage",
-                            "description": "individual cell voltage",
-                            "data_type": "uint16_t",
-                            "unit": "V",
-                            "scale": 0.01
-                        },
-                        {
-                            "signal_name": "module_num",
-                            "description": "Module number of the cell being reported, 0 indexed",
-                            "data_type": "uint8_t"
-                        },
-                        {
-                            "signal_name": "cell_num",
-                            "description": "Cell number within the module, 0 indexed",
-                            "data_type": "uint8_t"
-                        },
-                        {
-                            "signal_name": "balance_status",
-                            "description": "Whether the cell is currently being balanced",
-                            "data_type": "bool"
-                        }
-                    ],
-                    "priority": 5,
-                    "period_ms": 10
-                },
-                {
-                    "message_name": "thermistor_telemetry",
-                    "description": "Individual thermistor readings",
-                    "signals": [
-                        {
-                            "signal_name": "temperature",
-                            "description": "Individual thermistor temperature",
-                            "data_type": "uint16_t",
-                            "unit": "C",
-                            "scale": 0.1
-                        },
-                        {
-                            "signal_name": "module_num",
-                            "description": "Module number of the cell being reported, 0 indexed",
-                            "data_type": "uint8_t"
-                        },
-                        {
-                            "signal_name": "thermistor_num",
-                            "description": "Thermistor number within the module, 0 indexed",
-                            "data_type": "uint8_t"
-                        }
-                    ],
-                    "priority": 5,
-                    "period_ms": 125
-                },
-                {
                     "message_name": "abox_version",
                     "description": "ABox version",
                     "signals": [
@@ -214,35 +101,6 @@
                     ],
                     "priority": 4,
                     "period_ms": 5000
-                },
-                {
-                    "message_name": "imd_state",
-                    "description": "IMD state",
-                    "signals": [
-                        {
-                            "signal_name": "imd_state",
-                            "data_type": "imd_state_t",
-                            "description": "current state of the IMD from M_LS output"
-                        },
-                        {
-                            "signal_name": "imd_status",
-                            "data_type": "bool",
-                            "description": "raw IMD status pin, high = OK, low = faulted"
-                        },
-                        {
-                            "signal_name": "imd_r_iso_quality",
-                            "data_type": "imd_r_iso_quality_t",
-                            "description": "Validity and range of the insulation resistance reading"
-                        },
-                        {
-                            "signal_name": "r_iso",
-                            "data_type": "uint16_t",
-                            "description": "Insulation resistance. Valid depending on the value of r_iso_quality",
-                            "unit": "kOhm"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 1000
                 }
             ],
             "rx": [
@@ -516,6 +374,154 @@
                 }
             ],
             "accept_all_messages": false
+        },
+        "SCAN": {
+            "peripheral": "FDCAN3",
+            "tx": [
+                {
+                    "message_name": "bms_pecs",
+                    "description": "PEC statuses from BMS",
+                    "signals": [
+                        {
+                            "signal_name": "RDCV_0_PEC",
+                            "description": "High if the RDCV (cell voltage) group A (0) PEC is invalid",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "RDCV_1_PEC",
+                            "description": "High if the RDCV (cell voltage) group B (1) PEC is invalid",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "RDCV_2_PEC",
+                            "description": "High if the RDCV (cell voltage) group C (2) PEC is invalid",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "RDCV_3_PEC",
+                            "description": "High if the RDCV (cell voltage) group D (3) PEC is invalid",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "RDCV_4_PEC",
+                            "description": "High if the RDCV (cell voltage) group E (4) PEC is invalid",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "RDCV_5_PEC",
+                            "description": "High if the RDCV (cell voltage) group F (5) PEC is invalid",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "RDAUX_0_PEC",
+                            "description": "High if the RDAUX (GPIO voltage) group A (0) PEC is invalid",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "RDAUX_1_PEC",
+                            "description": "High if the RDAUX (GPIO voltage) group B (1) PEC is invalid",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "RDAUX_2_PEC",
+                            "description": "High if the RDAUX (GPIO voltage) group C (2) PEC is invalid",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "RDAUX_3_PEC",
+                            "description": "High if the RDAUX (GPIO voltage) group D (3) PEC is invalid",
+                            "data_type": "bool"
+                        }
+                    ],
+                    "priority": 1,
+                    "period_ms": 200
+                },
+                {
+                    "message_name": "cell_telemetry",
+                    "description": "Individual cell voltages and balancing status",
+                    "signals": [
+                        {
+                            "signal_name": "voltage",
+                            "description": "individual cell voltage",
+                            "data_type": "uint16_t",
+                            "unit": "V",
+                            "scale": 0.01
+                        },
+                        {
+                            "signal_name": "module_num",
+                            "description": "Module number of the cell being reported, 0 indexed",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "cell_num",
+                            "description": "Cell number within the module, 0 indexed",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "balance_status",
+                            "description": "Whether the cell is currently being balanced",
+                            "data_type": "bool"
+                        }
+                    ],
+                    "priority": 5,
+                    "period_ms": 10
+                },
+                {
+                    "message_name": "thermistor_telemetry",
+                    "description": "Individual thermistor readings",
+                    "signals": [
+                        {
+                            "signal_name": "temperature",
+                            "description": "Individual thermistor temperature",
+                            "data_type": "uint16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "module_num",
+                            "description": "Module number of the cell being reported, 0 indexed",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "thermistor_num",
+                            "description": "Thermistor number within the module, 0 indexed",
+                            "data_type": "uint8_t"
+                        }
+                    ],
+                    "priority": 5,
+                    "period_ms": 125
+                },
+                {
+                    "message_name": "imd_state",
+                    "description": "IMD state",
+                    "signals": [
+                        {
+                            "signal_name": "imd_state",
+                            "data_type": "imd_state_t",
+                            "description": "current state of the IMD from M_LS output"
+                        },
+                        {
+                            "signal_name": "imd_status",
+                            "data_type": "bool",
+                            "description": "raw IMD status pin, high = OK, low = faulted"
+                        },
+                        {
+                            "signal_name": "imd_r_iso_quality",
+                            "data_type": "imd_r_iso_quality_t",
+                            "description": "Validity and range of the insulation resistance reading"
+                        },
+                        {
+                            "signal_name": "r_iso",
+                            "data_type": "uint16_t",
+                            "description": "Insulation resistance. Valid depending on the value of r_iso_quality",
+                            "unit": "kOhm"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 1000
+                }
+            ],
+            "rx": []
         }
     },
     "fault_library_enabled": true,

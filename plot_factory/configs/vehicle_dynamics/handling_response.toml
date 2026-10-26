@@ -10,7 +10,7 @@ forward_fill = true
 label = "Steering angle"
 
 [[panels.traces]]
-column = "VCAN.DASHBOARD.steering_angle.angle"
+column = "VCAN.BOSCH_LWS.LWS_Standard.LWS_ANGLE"
 label = "Steering angle"
 color = "tab:blue"
 
@@ -18,7 +18,7 @@ color = "tab:blue"
 label = "Yaw rate"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
+column = "SCAN.TORQUE_VECTOR.IMU_angular_rate.Z_axis"
 label = "Yaw rate"
 color = "tab:orange"
 
@@ -26,6 +26,6 @@ color = "tab:orange"
 label = "Lateral acceleration"
 
 [[panels.traces]]
-column = "VCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
+column = "SCAN.TORQUE_VECTOR.IMU_acceleration.Y_axis"
 label = "Lateral acceleration"
 color = "tab:green"

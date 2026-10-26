@@ -15,7 +15,6 @@
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/adc/adc.h"
-#include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/pin_defs/g474ret6.h"
@@ -92,6 +91,10 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_RX_PB12,
     PHAL_PIN_DEFS_FDCAN2_TX_PB13,
 
+    // SCAN
+    PHAL_PIN_DEFS_FDCAN3_RX_PA8,
+    PHAL_PIN_DEFS_FDCAN3_TX_PA15,
+
     // SPI for BMS
     PHAL_GPIO_INIT_OUTPUT(SPI1_CS_PORT, SPI1_CS_PIN, GPIO_OUTPUT_ULTRA_SPEED),
     PHAL_PIN_DEFS_SPI1_SCK_PA5,
@@ -107,8 +110,8 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_INPUT(NOT_PRECHARGE_COMPLETE_PORT, NOT_PRECHARGE_COMPLETE_PIN, GPIO_INPUT_OPEN_DRAIN),
     PHAL_GPIO_INIT_INPUT(IMD_STATUS_PORT, IMD_STATUS_PIN, GPIO_INPUT_OPEN_DRAIN),
 
-    // IMD PWM measurement (TIM1_CH1 input)
-    PHAL_PIN_DEFS_TIM1_CH1_PA8,
+    // TODO: Update IMD PWM capture for PC12 during A_BOX bringup; PA8 is SCAN RX.
+    // PHAL_PIN_DEFS_TIM1_CH1_PA8,
 
     // BMS SDC Control
     PHAL_GPIO_INIT_OUTPUT(BMS_SDC_CTRL_PORT, BMS_SDC_CTRL_PIN, GPIO_OUTPUT_LOW_SPEED)
@@ -143,7 +146,8 @@ int main(void) {
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
-    imd_init();
+    // TODO: Re-enable after IMD PWM capture is updated for the new schematic.
+    // imd_init();
 
     adbms6380_set_cs_high(&bms_spi_config);
 

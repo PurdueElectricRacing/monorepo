@@ -121,9 +121,9 @@ fn dynamics_values(frames: &[daqcore::frame::ParsedFrame]) -> DynamicsValues {
                     }
                     values.last_update = Some(parsed.timestamp);
                 }
-                "steering_angle" => {
+                "LWS_Standard" => {
                     for (name, sig) in parsed.decoded.iter() {
-                        if name == "angle" {
+                        if name == "LWS_ANGLE" {
                             values.steer_angle_rad = sig.physical().to_radians() as f32;
                         }
                     }

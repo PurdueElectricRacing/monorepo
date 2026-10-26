@@ -10,7 +10,7 @@ forward_fill = true
 label = "Front left"
 
 [[panels.traces]]
-column = "VCAN.DRIVELINE.front_shockpots.left"
+column = "SCAN.DRIVELINE.front_shockpots.left"
 label = "Front left"
 color = "tab:blue"
 
@@ -18,7 +18,7 @@ color = "tab:blue"
 label = "Front right"
 
 [[panels.traces]]
-column = "VCAN.DRIVELINE.front_shockpots.right"
+column = "SCAN.DRIVELINE.front_shockpots.right"
 label = "Front right"
 color = "tab:orange"
 
@@ -26,7 +26,7 @@ color = "tab:orange"
 label = "Rear left"
 
 [[panels.traces]]
-column = "VCAN.DRIVELINE.rear_shockpots.left"
+column = "SCAN.DRIVELINE.rear_shockpots.left"
 label = "Rear left"
 color = "tab:green"
 
@@ -34,7 +34,7 @@ color = "tab:green"
 label = "Rear right"
 
 [[panels.traces]]
-column = "VCAN.DRIVELINE.rear_shockpots.right"
+column = "SCAN.DRIVELINE.rear_shockpots.right"
 label = "Rear right"
 color = "tab:red"
 
