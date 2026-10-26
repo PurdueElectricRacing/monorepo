@@ -175,6 +175,10 @@ impl Diagnostics {
             cpu_util: Self::decode_cpu(cpu),
         })
     }
+    
+    fn update_from_view(&mut self, view: &crate::telemetry::TelemetryView<'_>) {
+        
+    }
 
 }
 
