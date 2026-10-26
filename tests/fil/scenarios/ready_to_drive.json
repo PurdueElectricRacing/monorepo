@@ -11,10 +11,10 @@
     {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 2, "value": 2550},
     {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 9, "value": 650},
 
-    {"type": "can", "bus": "MCAN", "message": "INVA_INFO", "at_ms": 500, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_DCBusVoltage": 41}},
-    {"type": "can", "bus": "MCAN", "message": "INVB_INFO", "at_ms": 510, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_DCBusVoltage": 41}},
-    {"type": "can", "bus": "MCAN", "message": "INVC_INFO", "at_ms": 520, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_DCBusVoltage": 41}},
-    {"type": "can", "bus": "MCAN", "message": "INVD_INFO", "at_ms": 530, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_DCBusVoltage": 41}},
+    {"type": "can", "bus": "MCAN", "message": "INVA_INFO", "at_ms": 500, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_Status_bSystemReady": true, "AMK_Status_bQuitDcOn": true, "AMK_Status_bQuitInverterOn": true}},
+    {"type": "can", "bus": "MCAN", "message": "INVB_INFO", "at_ms": 510, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_Status_bSystemReady": true, "AMK_Status_bQuitDcOn": true, "AMK_Status_bQuitInverterOn": true}},
+    {"type": "can", "bus": "MCAN", "message": "INVC_INFO", "at_ms": 520, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_Status_bSystemReady": true, "AMK_Status_bQuitDcOn": true, "AMK_Status_bQuitInverterOn": true}},
+    {"type": "can", "bus": "MCAN", "message": "INVD_INFO", "at_ms": 530, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_Status_bSystemReady": true, "AMK_Status_bQuitDcOn": true, "AMK_Status_bQuitInverterOn": true}},
 
     {"type": "gpio", "at_ms": 2500, "board": "dashboard", "pin": "PB14", "value": false},
     {"type": "gpio", "at_ms": 2600, "board": "dashboard", "pin": "PB14", "value": true}

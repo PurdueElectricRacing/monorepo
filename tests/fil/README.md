@@ -48,9 +48,13 @@ expectation's acceptance window, and `repeat` re-sends a stimulus.
 
 Message ids and payload bytes are resolved from the linked CAN declarations
 using the same packing rules as the generated firmware macros, so they stay
-correct through re-linking. One deliberate correction from the old hand
-maintenance: the old hand-written stimuli placed `AMK_DCBusVoltage` in the
-wrong byte (see commit `938efad41`).
+correct through re-linking. Note on the original INVA/B/C/D_INFO frames:
+their `41` byte (0x29) sat in the status word (bits 8-15) and set the HV
+status flags — `AMK_Status_bSystemReady`, `AMK_Status_bQuitDcOn`, and
+`AMK_Status_bQuitInverterOn` — that gate the main module's ready-to-drive
+sequence; `AMK_DCBusVoltage` (bit 16) was always 0. The scenario now names
+those status flags, so the generated stimulus is byte-identical to the
+original master file.
 
 ### Staleness guard
 
