@@ -9,6 +9,8 @@
 #include <string.h>
 
 #include "common/rtos/rtos.h"
+#include "can_library/generated/diagnostics_can.h"
+
 
 static diagnostics_context_t g_diagnostics_context;
 
@@ -63,6 +65,20 @@ static void save_task_runtimes(UBaseType_t task_count) {
     g_diagnostics_context.previous_task_count    = task_count;
 }
 
+static uint8_t encode_cpu_percent(float percent, bool valid) {
+    if (!valid || !(percent >= 0.0f && percent <= 100.0f)) {
+        return UINT8_MAX;
+    }
+    return (uint8_t) (percent + 0.5f); // round to nearest percent
+}
+
+static uint16_t encode_stack_hwm(uint32_t bytes) {
+    if (bytes > UINT16_MAX) {
+        return UINT16_MAX;
+    }
+    return (uint16_t) bytes;
+}
+
 void diagnostics_periodic(void) {
     // returns the number of tasks, reads them into the raw_tasks array, returns 0 if DIAGNOSTICS_MAX_TASKS < number of running tasks
     UBaseType_t task_count = uxTaskGetSystemState(g_diagnostics_context.raw_tasks,
@@ -88,6 +104,12 @@ void diagnostics_periodic(void) {
             raw_task->usStackHighWaterMark * sizeof(StackType_t);
         task->state = raw_task->eCurrentState;
         calculate_task_utilization(raw_task, task, total_delta);
+        DIAGNOSTICS_SEND_TASK(
+            task -> task_id,
+            encode_stack_hwm(task -> stack_min_free_bytes),
+            encode_cpu_percent(task -> cpu_usage_percent, task -> cpu_usage_valid),
+            (uint8_t) task -> state 
+        );
 
         // Calculate overall CPU usage
         if (raw_task->xHandle == idle_task && task->cpu_usage_valid) {
