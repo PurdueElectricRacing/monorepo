@@ -310,15 +310,17 @@ void adbms_read_therms(adbms_bms_t *bms) {
 void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
     adbms_state_t next_state = bms->state;
 
-    // Keep recovery/error backoff silent to complete their sleep cycle;
-    // otherwise prep the chips for communication
+    // Keep recovery/error silent to complete sleep cycle
+    // Otherwise prep the chips for communication
     if (bms->state != ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_ERROR) {
         adbms6380_wake(bms->spi, ADBMS_MODULE_COUNT);
     }
 
     switch (bms->state) {
         case ADBMS_STATE_CONNECTING: {
-            // Run the connect sequence; any verification failure goes to RECOVERING.
+            // Run the connect sequence
+            // Any verification failure goes to RECOVERING.
+
             adbms_write_rega(bms);
             if (!adbms_read_and_check_rega(bms)) {
                 next_state = ADBMS_STATE_RECOVERING;
@@ -337,20 +339,24 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             break;
         }
         case ADBMS_STATE_READ_LOOP: {
-            // Run one full measure/balance cycle; any failure goes to RECOVERING.
+            // One full read/balance cycle
+            // Any failure goes to RECOVERING
             adbms_read_cells(bms);
             if (bms->min_voltage < ADBMS_CELL_MIN_VALID_V || bms->max_voltage > ADBMS_CELL_MAX_VALID_V) {
                 next_state = ADBMS_STATE_RECOVERING;
                 break;
             }
-
             adbms_read_therms(bms);
+            
             adbms_calculate_balance_cells(bms, min_voltage_for_balance, min_delta_for_balance);
-            adbms_write_regb(bms); // apply new discharge bits
+            
+            // apply new discharge bits
+            adbms_write_regb(bms);
             if (!adbms_read_and_check_regb(bms)) {
                 next_state = ADBMS_STATE_RECOVERING;
                 break;
             }
+            
             next_state = ADBMS_STATE_READ_LOOP;
             break;
         }
