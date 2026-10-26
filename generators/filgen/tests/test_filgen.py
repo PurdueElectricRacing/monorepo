@@ -161,6 +161,34 @@ def test_scaled_signal_packing(linked, generator) -> None:
     assert data == [0, 0, 20, 0, 0, 0, 0, 0]
 
 
+def test_bool_and_signed_limit_packing(linked, generator) -> None:
+    # The ready_to_drive 5000 ms INVA_SET expect: control bits, positive and
+    # negative torque limits. Pins the bool, scaled, and signed packing paths.
+    # Control word: InverterOn(bit 8) | DcOn(bit 9) | Enable(bit 10) =
+    # 0b0111 = 7 -> byte 1. AMK_PositiveTorqueLimit: 214.0 / 0.1 = 2140 =
+    # 0x085C little-endian -> bytes [92, 8]. AMK_NegativeTorqueLimit:
+    # -50.0 / 0.1 = -500 -> int16 two's complement 65536 - 500 = 0xFE0C
+    # little-endian -> bytes [12, 254]. Zero-valued signals stay 0.
+    message = _linked_message(linked, "MCAN", "INVA_SET")
+    data = generator._data(
+        linked,
+        message,
+        _can_entry(
+            bus="MCAN",
+            message="INVA_SET",
+            at_ms=0,
+            values={
+                "AMK_Control_bInverterOn": True,
+                "AMK_Control_bDcOn": True,
+                "AMK_Control_bEnable": True,
+                "AMK_PositiveTorqueLimit": 214.0,
+                "AMK_NegativeTorqueLimit": -50.0,
+            },
+        ),
+    )
+    assert data == [0, 7, 0, 0, 92, 8, 12, 254]
+
+
 def test_default_zero_frame(linked, generator) -> None:
     # Empty values packs every signal to raw 0.
     message = _linked_message(linked, "MCAN", "INVA_SET")

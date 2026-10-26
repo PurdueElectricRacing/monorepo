@@ -24,10 +24,10 @@
     {"type": "can", "bus": "MCAN", "message": "INVB_SET", "at_ms": 90, "window_ms": 30, "values": {}},
     {"type": "can", "bus": "MCAN", "message": "INVC_SET", "at_ms": 90, "window_ms": 30, "values": {}},
     {"type": "can", "bus": "MCAN", "message": "INVD_SET", "at_ms": 90, "window_ms": 30, "values": {}},
-    {"type": "can", "bus": "MCAN", "message": "INVA_SET", "at_ms": 5000, "window_ms": 200, "raw": [0, 7, 0, 0, 92, 8, 12, 254]},
-    {"type": "can", "bus": "MCAN", "message": "INVB_SET", "at_ms": 5000, "window_ms": 200, "raw": [0, 7, 0, 0, 92, 8, 12, 254]},
-    {"type": "can", "bus": "MCAN", "message": "INVC_SET", "at_ms": 5000, "window_ms": 200, "raw": [0, 7, 0, 0, 92, 8, 12, 254]},
-    {"type": "can", "bus": "MCAN", "message": "INVD_SET", "at_ms": 5000, "window_ms": 200, "raw": [0, 7, 0, 0, 92, 8, 12, 254]},
+    {"type": "can", "bus": "MCAN", "message": "INVA_SET", "at_ms": 5000, "window_ms": 200, "values": {"AMK_Control_bInverterOn": true, "AMK_Control_bDcOn": true, "AMK_Control_bEnable": true, "AMK_PositiveTorqueLimit": 214.0, "AMK_NegativeTorqueLimit": -50.0}},
+    {"type": "can", "bus": "MCAN", "message": "INVB_SET", "at_ms": 5000, "window_ms": 200, "values": {"AMK_Control_bInverterOn": true, "AMK_Control_bDcOn": true, "AMK_Control_bEnable": true, "AMK_PositiveTorqueLimit": 214.0, "AMK_NegativeTorqueLimit": -50.0}},
+    {"type": "can", "bus": "MCAN", "message": "INVC_SET", "at_ms": 5000, "window_ms": 200, "values": {"AMK_Control_bInverterOn": true, "AMK_Control_bDcOn": true, "AMK_Control_bEnable": true, "AMK_PositiveTorqueLimit": 214.0, "AMK_NegativeTorqueLimit": -50.0}},
+    {"type": "can", "bus": "MCAN", "message": "INVD_SET", "at_ms": 5000, "window_ms": 200, "values": {"AMK_Control_bInverterOn": true, "AMK_Control_bDcOn": true, "AMK_Control_bEnable": true, "AMK_PositiveTorqueLimit": 214.0, "AMK_NegativeTorqueLimit": -50.0}},
     {"type": "can", "bus": "VCAN", "message": "main_hb", "at_ms": 5000, "window_ms": 200, "values": {"car_state": "ready2drive"}}
   ]
 }

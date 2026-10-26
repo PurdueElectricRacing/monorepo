@@ -91,7 +91,7 @@ class FilScenarioCan(FilModel):
     message: str
     at_ms: int
     repeat: FilScenarioRepeat | None = None
-    values: dict[str, int | float | str] | None = None
+    values: dict[str, bool | int | float | str] | None = None
     raw: list[int] | None = None
     window_ms: int | None = None
 
