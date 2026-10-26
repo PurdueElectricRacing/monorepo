@@ -114,6 +114,7 @@ $(function(){initNavTree('TORQUE__VECTOR_8h.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="can__common_8h_source.html">can_library/can_common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="can__types_8h_source.html">can_library/generated/can_types.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="can__version_8h_source.html">can_library/generated/can_version.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="SCAN_8h_source.html">can_library/generated/SCAN.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="VCAN_8h_source.html">can_library/generated/VCAN.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for TORQUE_VECTOR.h:</div>
@@ -135,11 +136,15 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:aa6f2e9810d43532cf45597c1d5d527cb" id="r_aa6f2e9810d43532cf45597c1d5d527cb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6f2e9810d43532cf45597c1d5d527cb">USE_FDCAN1</a></td></tr>
+<tr class="separator:aa6f2e9810d43532cf45597c1d5d527cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09389f719514180e1356522315f12b33" id="r_a09389f719514180e1356522315f12b33"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09389f719514180e1356522315f12b33">USE_FDCAN2</a></td></tr>
 <tr class="separator:a09389f719514180e1356522315f12b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a90647dbc98bbf7bc6c1e9ef85f4d2f01" id="r_a90647dbc98bbf7bc6c1e9ef85f4d2f01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90647dbc98bbf7bc6c1e9ef85f4d2f01">CAN_enqueue_tx_FDCAN1</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
+<tr class="separator:a90647dbc98bbf7bc6c1e9ef85f4d2f01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0da956162efe3e0016f181cee58961e6" id="r_a0da956162efe3e0016f181cee58961e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0da956162efe3e0016f181cee58961e6">CAN_enqueue_tx_FDCAN2</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
 <tr class="separator:a0da956162efe3e0016f181cee58961e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b276651c5252fc81456fe441b281f5a" id="r_a1b276651c5252fc81456fe441b281f5a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b276651c5252fc81456fe441b281f5a">IZZE_angular_rate_CALLBACK</a> ()</td></tr>
@@ -170,18 +175,14 @@ Functions</h2></td></tr>
 <tr class="separator:ac99ef32e8e9aab31934d767d7b481ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba60db2ca6b351f91082c06fc4d18cd5" id="r_aba60db2ca6b351f91082c06fc4d18cd5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba60db2ca6b351f91082c06fc4d18cd5">CAN_rx_dispatcher</a> (uint32_t id, const uint8_t *data, uint8_t len, const FDCAN_GlobalTypeDef *bus)</td></tr>
 <tr class="separator:aba60db2ca6b351f91082c06fc4d18cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87d967054a1bb6a04ca670ba3ab068c2" id="r_a87d967054a1bb6a04ca670ba3ab068c2"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87d967054a1bb6a04ca670ba3ab068c2">is_front_shockpots_stale</a> ()</td></tr>
-<tr class="separator:a87d967054a1bb6a04ca670ba3ab068c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdbeb7bfa04320de53c9c7faa438067e" id="r_acdbeb7bfa04320de53c9c7faa438067e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdbeb7bfa04320de53c9c7faa438067e">is_rear_shockpots_stale</a> ()</td></tr>
-<tr class="separator:acdbeb7bfa04320de53c9c7faa438067e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38c9a043d6395a2960990df3af29f8bb" id="r_a38c9a043d6395a2960990df3af29f8bb"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38c9a043d6395a2960990df3af29f8bb">is_IZZE_angular_rate_stale</a> ()</td></tr>
 <tr class="separator:a38c9a043d6395a2960990df3af29f8bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8748e570bed3dc5bd57614a782521418" id="r_a8748e570bed3dc5bd57614a782521418"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8748e570bed3dc5bd57614a782521418">is_IZZE_acceleration_stale</a> ()</td></tr>
 <tr class="separator:a8748e570bed3dc5bd57614a782521418"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfdbb769feadf999d514218e9175e47d" id="r_acfdbb769feadf999d514218e9175e47d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfdbb769feadf999d514218e9175e47d">is_pedals_stale</a> ()</td></tr>
 <tr class="separator:acfdbb769feadf999d514218e9175e47d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0d74cd650a049d5dcbe3133b1585feb" id="r_ac0d74cd650a049d5dcbe3133b1585feb"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac0d74cd650a049d5dcbe3133b1585feb">is_steering_angle_stale</a> ()</td></tr>
-<tr class="separator:ac0d74cd650a049d5dcbe3133b1585feb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95eff3fd927be6a394dc2089bd4feadb" id="r_a95eff3fd927be6a394dc2089bd4feadb"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95eff3fd927be6a394dc2089bd4feadb">is_LWS_Standard_stale</a> ()</td></tr>
+<tr class="separator:a95eff3fd927be6a394dc2089bd4feadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65318e8ba5c6723c49dc9fbb323f6e0e" id="r_a65318e8ba5c6723c49dc9fbb323f6e0e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65318e8ba5c6723c49dc9fbb323f6e0e">is_pack_bms_stale</a> ()</td></tr>
 <tr class="separator:a65318e8ba5c6723c49dc9fbb323f6e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0052660897972f25c425b9c4aeb4781" id="r_aa0052660897972f25c425b9c4aeb4781"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0052660897972f25c425b9c4aeb4781">is_pack_analog_stale</a> ()</td></tr>
@@ -202,20 +203,20 @@ Functions</h2></td></tr>
 <tr class="separator:aff36dceea73ab4dc71f856487bb97237"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa74d2751bf997adba50be76251291997" id="r_aa74d2751bf997adba50be76251291997"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa74d2751bf997adba50be76251291997">CAN_init_data</a> (void)</td></tr>
 <tr class="separator:aa74d2751bf997adba50be76251291997"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71f974c8e4e9ab8d9193fcadcdb05b24" id="r_a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71f974c8e4e9ab8d9193fcadcdb05b24">CAN_SEND_tv_init</a> (uint32_t value_csr)</td></tr>
-<tr class="separator:a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31f56bd64c3ad5c0091aa93a8eb59ab0" id="r_a31f56bd64c3ad5c0091aa93a8eb59ab0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31f56bd64c3ad5c0091aa93a8eb59ab0">CAN_SEND_gps_velocity</a> (int32_t value_gps_vel_n, int32_t value_gps_vel_e)</td></tr>
 <tr class="separator:a31f56bd64c3ad5c0091aa93a8eb59ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe37eb8c0322d854d5fd55adec36b922" id="r_abe37eb8c0322d854d5fd55adec36b922"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe37eb8c0322d854d5fd55adec36b922">CAN_SEND_gps_speed_heading</a> (int32_t value_gps_speed, int32_t value_gps_heading)</td></tr>
 <tr class="separator:abe37eb8c0322d854d5fd55adec36b922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c9e25bb67dce2c39e27baa8abece5a3" id="r_a2c9e25bb67dce2c39e27baa8abece5a3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c9e25bb67dce2c39e27baa8abece5a3">CAN_SEND_gps_coordinates</a> (int32_t value_latitude, int32_t value_longitude)</td></tr>
 <tr class="separator:a2c9e25bb67dce2c39e27baa8abece5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4450e1f3f7253174d7e25c3cc0ce8f78" id="r_a4450e1f3f7253174d7e25c3cc0ce8f78"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4450e1f3f7253174d7e25c3cc0ce8f78">CAN_SEND_gps_time</a> (uint8_t value_year, uint8_t value_month, uint8_t value_day, uint8_t value_hour, uint8_t value_minute, uint8_t value_second, uint16_t value_millisecond)</td></tr>
-<tr class="separator:a4450e1f3f7253174d7e25c3cc0ce8f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe525a03cf44d94006666683e2690c27" id="r_afe525a03cf44d94006666683e2690c27"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe525a03cf44d94006666683e2690c27">CAN_SEND_IMU_angular_rate</a> (int16_t value_X_axis, int16_t value_Y_axis, int16_t value_Z_axis)</td></tr>
 <tr class="separator:afe525a03cf44d94006666683e2690c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f360630d4c860622b5d7ed495b092bb" id="r_a4f360630d4c860622b5d7ed495b092bb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f360630d4c860622b5d7ed495b092bb">CAN_SEND_IMU_acceleration</a> (int16_t value_X_axis, int16_t value_Y_axis, int16_t value_Z_axis, int16_t value_temperature)</td></tr>
 <tr class="separator:a4f360630d4c860622b5d7ed495b092bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71f974c8e4e9ab8d9193fcadcdb05b24" id="r_a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71f974c8e4e9ab8d9193fcadcdb05b24">CAN_SEND_tv_init</a> (uint32_t value_csr)</td></tr>
+<tr class="separator:a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4450e1f3f7253174d7e25c3cc0ce8f78" id="r_a4450e1f3f7253174d7e25c3cc0ce8f78"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4450e1f3f7253174d7e25c3cc0ce8f78">CAN_SEND_gps_time</a> (uint8_t value_year, uint8_t value_month, uint8_t value_day, uint8_t value_hour, uint8_t value_minute, uint8_t value_second, uint16_t value_millisecond)</td></tr>
+<tr class="separator:a4450e1f3f7253174d7e25c3cc0ce8f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a712ff796a0fb6581993f3bc17daa1dba" id="r_a712ff796a0fb6581993f3bc17daa1dba"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a712ff796a0fb6581993f3bc17daa1dba">CAN_SEND_vcu_settings</a> (<a class="el" href="can__types_8h.html#a82019ed8603553c37b4aac2361f53a1a">vcu_mode_t</a> value_vcu_mode, uint8_t value_lateral_gain, uint8_t value_longitudinal_gain, uint8_t value_electronic_brake_bias, bool value_is_regen_enabled, bool value_is_tv_enabled)</td></tr>
 <tr class="separator:a712ff796a0fb6581993f3bc17daa1dba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38e1ff252fd4aee6861b6ebb993448cd" id="r_a38e1ff252fd4aee6861b6ebb993448cd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38e1ff252fd4aee6861b6ebb993448cd">CAN_SEND_vcu_torque_request</a> (int16_t value_front_right, int16_t value_front_left, int16_t value_rear_left, int16_t value_rear_right)</td></tr>
@@ -228,6 +229,8 @@ Functions</h2></td></tr>
 <tr class="separator:ad0644feeedc6560a9340f65a64b039cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa807ade5b93f6697cfac0ae05b7f5255" id="r_aa807ade5b93f6697cfac0ae05b7f5255"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa807ade5b93f6697cfac0ae05b7f5255">CAN_init_peripherals</a> (void)</td></tr>
 <tr class="separator:aa807ade5b93f6697cfac0ae05b7f5255"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a500b6be206fba2002ed925d335a72173" id="r_a500b6be206fba2002ed925d335a72173"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a500b6be206fba2002ed925d335a72173">FDCAN1_init_filters</a> ()</td></tr>
+<tr class="separator:a500b6be206fba2002ed925d335a72173"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78eb33b279c10bc3c4f9813223091a7a" id="r_a78eb33b279c10bc3c4f9813223091a7a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78eb33b279c10bc3c4f9813223091a7a">FDCAN2_init_filters</a> ()</td></tr>
 <tr class="separator:a78eb33b279c10bc3c4f9813223091a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -261,10 +264,10 @@ Variables</h2></td></tr>
 <tr class="separator:aca715b74dc5b60336c52cdfeacf56a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e02d17f611b6b1206bab385a030b744" id="r_a0e02d17f611b6b1206bab385a030b744"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e02d17f611b6b1206bab385a030b744">UNPACK_COEFF_IZZE_ANGULAR_RATE_Z_AXIS</a> = 0.1f</td></tr>
 <tr class="separator:a0e02d17f611b6b1206bab385a030b744"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12deaf83b612a95f408045075a0b56cd" id="r_a12deaf83b612a95f408045075a0b56cd"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12deaf83b612a95f408045075a0b56cd">UNPACK_COEFF_FRONT_SHOCKPOTS_LEFT</a> = 0.01f</td></tr>
-<tr class="separator:a12deaf83b612a95f408045075a0b56cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a727d9f3069860a1b61ffedaac26a8cd3" id="r_a727d9f3069860a1b61ffedaac26a8cd3"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a727d9f3069860a1b61ffedaac26a8cd3">UNPACK_COEFF_FRONT_SHOCKPOTS_RIGHT</a> = 0.01f</td></tr>
-<tr class="separator:a727d9f3069860a1b61ffedaac26a8cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0ce090b2b938cd15afaf8a7251731d8" id="r_ad0ce090b2b938cd15afaf8a7251731d8"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0ce090b2b938cd15afaf8a7251731d8">UNPACK_COEFF_LWS_STANDARD_LWS_ANGLE</a> = 0.1f</td></tr>
+<tr class="separator:ad0ce090b2b938cd15afaf8a7251731d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ec4de07a9e01dfa3ee8d00cd3eac354" id="r_a1ec4de07a9e01dfa3ee8d00cd3eac354"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ec4de07a9e01dfa3ee8d00cd3eac354">UNPACK_COEFF_LWS_STANDARD_LWS_SPEED</a> = 4.0f</td></tr>
+<tr class="separator:a1ec4de07a9e01dfa3ee8d00cd3eac354"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8213d5b4d9a678b51f7d1d201906efc" id="r_ac8213d5b4d9a678b51f7d1d201906efc"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8213d5b4d9a678b51f7d1d201906efc">PACK_COEFF_GPS_COORDINATES_LATITUDE</a> = 10000000.0f</td></tr>
 <tr class="separator:ac8213d5b4d9a678b51f7d1d201906efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accac1df26ba6322c5dde2a96dbdd8032" id="r_accac1df26ba6322c5dde2a96dbdd8032"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accac1df26ba6322c5dde2a96dbdd8032">PACK_COEFF_GPS_COORDINATES_LONGITUDE</a> = 10000000.0f</td></tr>
@@ -303,14 +306,6 @@ Variables</h2></td></tr>
 <tr class="separator:ac9d971843078377c5c67b08a48ad02be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9412e2e9850adfe37e23644f15898a1" id="r_ae9412e2e9850adfe37e23644f15898a1"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9412e2e9850adfe37e23644f15898a1">UNPACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE</a> = 0.01f</td></tr>
 <tr class="separator:ae9412e2e9850adfe37e23644f15898a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48f0c779c0512e5973517a3f378af94a" id="r_a48f0c779c0512e5973517a3f378af94a"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48f0c779c0512e5973517a3f378af94a">UNPACK_COEFF_REAR_SHOCKPOTS_LEFT</a> = 0.01f</td></tr>
-<tr class="separator:a48f0c779c0512e5973517a3f378af94a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf7f9fc482de3c35df433be8de10fe65" id="r_aaf7f9fc482de3c35df433be8de10fe65"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf7f9fc482de3c35df433be8de10fe65">UNPACK_COEFF_REAR_SHOCKPOTS_RIGHT</a> = 0.01f</td></tr>
-<tr class="separator:aaf7f9fc482de3c35df433be8de10fe65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a183a5e61bf1417bb05ee20fff17217a2" id="r_a183a5e61bf1417bb05ee20fff17217a2"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a183a5e61bf1417bb05ee20fff17217a2">UNPACK_COEFF_STEERING_ANGLE_ANGLE</a> = 0.1f</td></tr>
-<tr class="separator:a183a5e61bf1417bb05ee20fff17217a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd8142a86b6f8f05079cba7ccf70e700" id="r_abd8142a86b6f8f05079cba7ccf70e700"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd8142a86b6f8f05079cba7ccf70e700">UNPACK_COEFF_STEERING_ANGLE_ANGULAR_RATE</a> = 4.0f</td></tr>
-<tr class="separator:abd8142a86b6f8f05079cba7ccf70e700"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cc3168cebc21b033138ae90b755e5a8" id="r_a9cc3168cebc21b033138ae90b755e5a8"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="structcan__data__t.html">can_data_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cc3168cebc21b033138ae90b755e5a8">can_data</a></td></tr>
 <tr class="separator:a9cc3168cebc21b033138ae90b755e5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -319,6 +314,20 @@ Variables</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>This file is auto-generated; do not modify manually. </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="aa6f2e9810d43532cf45597c1d5d527cb" name="aa6f2e9810d43532cf45597c1d5d527cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6f2e9810d43532cf45597c1d5d527cb">&#9670;&#160;</a></span>USE_FDCAN1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USE_FDCAN1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a09389f719514180e1356522315f12b33" name="a09389f719514180e1356522315f12b33"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a09389f719514180e1356522315f12b33">&#9670;&#160;</a></span>USE_FDCAN2</h2>
 
@@ -420,6 +429,28 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a8320b1a093bb801b88d92d0cc0eb7b40_icgraph.svg" width="343" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a90647dbc98bbf7bc6c1e9ef85f4d2f01" name="a90647dbc98bbf7bc6c1e9ef85f4d2f01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90647dbc98bbf7bc6c1e9ef85f4d2f01">&#9670;&#160;</a></span>CAN_enqueue_tx_FDCAN1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CAN_enqueue_tx_FDCAN1 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *</td>          <td class="paramname"><span class="paramname"><em>msg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a90647dbc98bbf7bc6c1e9ef85f4d2f01_icgraph.svg" width="100%" height="487"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -584,7 +615,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a2c9e25bb67dce2c39e27baa8abece5a3_icgraph.svg" width="499" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a2c9e25bb67dce2c39e27baa8abece5a3_icgraph.svg" width="402" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -623,7 +654,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_abe37eb8c0322d854d5fd55adec36b922_icgraph.svg" width="467" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_abe37eb8c0322d854d5fd55adec36b922_icgraph.svg" width="370" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -726,7 +757,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a31f56bd64c3ad5c0091aa93a8eb59ab0_icgraph.svg" width="476" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a31f56bd64c3ad5c0091aa93a8eb59ab0_icgraph.svg" width="379" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1159,6 +1190,31 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a500b6be206fba2002ed925d335a72173" name="a500b6be206fba2002ed925d335a72173"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a500b6be206fba2002ed925d335a72173">&#9670;&#160;</a></span>FDCAN1_init_filters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void FDCAN1_init_filters </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a78eb33b279c10bc3c4f9813223091a7a" name="a78eb33b279c10bc3c4f9813223091a7a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a78eb33b279c10bc3c4f9813223091a7a">&#9670;&#160;</a></span>FDCAN2_init_filters()</h2>
 
@@ -1249,36 +1305,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a87d967054a1bb6a04ca670ba3ab068c2" name="a87d967054a1bb6a04ca670ba3ab068c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87d967054a1bb6a04ca670ba3ab068c2">&#9670;&#160;</a></span>is_front_shockpots_stale()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool is_front_shockpots_stale </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a87d967054a1bb6a04ca670ba3ab068c2_icgraph.svg" width="296" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
 <a id="a5e74cd8edf1f5fced8432f378a59bc6a" name="a5e74cd8edf1f5fced8432f378a59bc6a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5e74cd8edf1f5fced8432f378a59bc6a">&#9670;&#160;</a></span>is_igbt_temps_stale()</h2>
 
@@ -1365,6 +1391,36 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a38c9a043d6395a2960990df3af29f8bb_icgraph.svg" width="308" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a95eff3fd927be6a394dc2089bd4feadb" name="a95eff3fd927be6a394dc2089bd4feadb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95eff3fd927be6a394dc2089bd4feadb">&#9670;&#160;</a></span>is_LWS_Standard_stale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool is_LWS_Standard_stale </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a95eff3fd927be6a394dc2089bd4feadb_icgraph.svg" width="326" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1575,66 +1631,6 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_acfdbb769feadf999d514218e9175e47d_icgraph.svg" width="276" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="acdbeb7bfa04320de53c9c7faa438067e" name="acdbeb7bfa04320de53c9c7faa438067e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdbeb7bfa04320de53c9c7faa438067e">&#9670;&#160;</a></span>is_rear_shockpots_stale()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool is_rear_shockpots_stale </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_acdbeb7bfa04320de53c9c7faa438067e_icgraph.svg" width="327" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="ac0d74cd650a049d5dcbe3133b1585feb" name="ac0d74cd650a049d5dcbe3133b1585feb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0d74cd650a049d5dcbe3133b1585feb">&#9670;&#160;</a></span>is_steering_angle_stale()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool is_steering_angle_stale </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_ac0d74cd650a049d5dcbe3133b1585feb_icgraph.svg" width="322" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2180,50 +2176,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a12deaf83b612a95f408045075a0b56cd" name="a12deaf83b612a95f408045075a0b56cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12deaf83b612a95f408045075a0b56cd">&#9670;&#160;</a></span>UNPACK_COEFF_FRONT_SHOCKPOTS_LEFT</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float UNPACK_COEFF_FRONT_SHOCKPOTS_LEFT = 0.01f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a727d9f3069860a1b61ffedaac26a8cd3" name="a727d9f3069860a1b61ffedaac26a8cd3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a727d9f3069860a1b61ffedaac26a8cd3">&#9670;&#160;</a></span>UNPACK_COEFF_FRONT_SHOCKPOTS_RIGHT</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float UNPACK_COEFF_FRONT_SHOCKPOTS_RIGHT = 0.01f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="adf0bbcf4bebc5ad7e44062ea7b114eeb" name="adf0bbcf4bebc5ad7e44062ea7b114eeb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adf0bbcf4bebc5ad7e44062ea7b114eeb">&#9670;&#160;</a></span>UNPACK_COEFF_IGBT_TEMPS_FRONT_LEFT</h2>
 
@@ -2466,6 +2418,50 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="ad0ce090b2b938cd15afaf8a7251731d8" name="ad0ce090b2b938cd15afaf8a7251731d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0ce090b2b938cd15afaf8a7251731d8">&#9670;&#160;</a></span>UNPACK_COEFF_LWS_STANDARD_LWS_ANGLE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float UNPACK_COEFF_LWS_STANDARD_LWS_ANGLE = 0.1f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ec4de07a9e01dfa3ee8d00cd3eac354" name="a1ec4de07a9e01dfa3ee8d00cd3eac354"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ec4de07a9e01dfa3ee8d00cd3eac354">&#9670;&#160;</a></span>UNPACK_COEFF_LWS_STANDARD_LWS_SPEED</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float UNPACK_COEFF_LWS_STANDARD_LWS_SPEED = 4.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a39775102098f1c63d75441f64e0b60fb" name="a39775102098f1c63d75441f64e0b60fb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a39775102098f1c63d75441f64e0b60fb">&#9670;&#160;</a></span>UNPACK_COEFF_MOTOR_TEMPS_FRONT_LEFT</h2>
 
@@ -2653,94 +2649,6 @@ Here is the caller graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">float UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE = 0.01f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a48f0c779c0512e5973517a3f378af94a" name="a48f0c779c0512e5973517a3f378af94a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48f0c779c0512e5973517a3f378af94a">&#9670;&#160;</a></span>UNPACK_COEFF_REAR_SHOCKPOTS_LEFT</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float UNPACK_COEFF_REAR_SHOCKPOTS_LEFT = 0.01f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aaf7f9fc482de3c35df433be8de10fe65" name="aaf7f9fc482de3c35df433be8de10fe65"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf7f9fc482de3c35df433be8de10fe65">&#9670;&#160;</a></span>UNPACK_COEFF_REAR_SHOCKPOTS_RIGHT</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float UNPACK_COEFF_REAR_SHOCKPOTS_RIGHT = 0.01f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a183a5e61bf1417bb05ee20fff17217a2" name="a183a5e61bf1417bb05ee20fff17217a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a183a5e61bf1417bb05ee20fff17217a2">&#9670;&#160;</a></span>UNPACK_COEFF_STEERING_ANGLE_ANGLE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float UNPACK_COEFF_STEERING_ANGLE_ANGLE = 0.1f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abd8142a86b6f8f05079cba7ccf70e700" name="abd8142a86b6f8f05079cba7ccf70e700"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd8142a86b6f8f05079cba7ccf70e700">&#9670;&#160;</a></span>UNPACK_COEFF_STEERING_ANGLE_ANGULAR_RATE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float UNPACK_COEFF_STEERING_ANGLE_ANGULAR_RATE = 4.0f</td>
         </tr>
       </table>
   </td>

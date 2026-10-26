@@ -37,5 +37,6 @@ var searchData=
   ['bl_5fvector_5fis_5fvalid_34',['bl_vector_is_valid',['../bootloader_8c.html#aa6598f2edbd2e32a9210f610fedec433',1,'bootloader.c']]],
   ['bl_5fwrite_5fmetadata_35',['bl_write_metadata',['../bootloader_8c.html#a3c2e98b614b2928512c9575943fa286a',1,'bootloader.c']]],
   ['bl_5fwrite_5fword_36',['bl_write_word',['../bootloader_8c.html#ac67d8f3c1b3d2c648d6a5ac3489eb654',1,'bootloader.c']]],
-  ['bms_5ftask_37',['bms_task',['../a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4',1,'main.c']]]
+  ['bms_5ftask_37',['bms_task',['../a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4',1,'main.c']]],
+  ['brake_5fadc_5fto_5fpressure_38',['brake_adc_to_pressure',['../dashboard_2telemetry_2telemetry_8c.html#a4d0a42c348f068fdbff2ffbc1f38245e',1,'telemetry.c']]]
 ];

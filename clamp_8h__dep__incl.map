@@ -1,21 +1,23 @@
 <map id="firmware/common/utils/clamp.h" name="firmware/common/utils/clamp.h">
-<area shape="rect" id="Node000001" title="Utility header to clamp a value to a bounded range." alt="" coords="725,5,878,46"/>
+<area shape="rect" id="Node000001" title="Utility header to clamp a value to a bounded range." alt="" coords="821,5,974,46"/>
 <area shape="rect" id="Node000002" href="$phal__F4_2spi_2spi_8c.html" title="PER Serial Peripheral Interface Device driver for STM32F4." alt="" coords="5,94,158,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="710,36,465,59,317,76,170,97,159,99,158,93,169,91,317,70,465,53,709,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="806,35,522,56,346,73,170,97,159,99,158,93,169,91,345,68,521,50,806,29"/>
 <area shape="rect" id="Node000003" href="$phal__G4_2spi_2spi_8c.html" title="G4 SPI." alt="" coords="181,94,334,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="710,41,541,65,346,97,335,99,334,93,345,91,540,60,710,36"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="806,38,595,61,346,97,335,99,334,93,345,91,595,56,806,33"/>
 <area shape="rect" id="Node000004" href="$spi__priv_8c.html" title="G4 SPI Peripheral private/register level implementation." alt="" coords="357,94,510,135"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="711,51,511,98,509,93,709,46"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="807,45,522,97,511,99,510,94,521,91,806,40"/>
 <area shape="rect" id="Node000005" href="$clamp__test__shim_8c.html" title=" " alt="" coords="534,94,701,135"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="747,55,660,96,658,91,745,50"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="820,54,682,96,680,91,818,48"/>
 <area shape="rect" id="Node000006" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="726,94,877,135"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="804,62,804,94,799,94,799,62"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="866,59,825,96,821,92,863,55"/>
 <area shape="rect" id="Node000007" href="$vcu_8c.html" title="VCU page implementation." alt="" coords="901,94,1089,135"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="860,50,952,91,950,96,858,55"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="932,54,975,92,971,96,929,58"/>
 <area shape="rect" id="Node000008" href="$pedals_8c.html" title="Pedal processing logic." alt="" coords="1113,94,1290,135"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="894,44,1113,91,1112,96,893,49"/>
-<area shape="rect" id="Node000009" href="$imu_8c.html" title="IMU calibration and coordinate transformations." alt="" coords="1314,94,1468,135"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="894,34,1083,58,1303,91,1314,93,1313,99,1302,97,1082,63,893,40"/>
-<area shape="rect" id="Node000010" href="$torque__vector_2telemetry_2telemetry_8c.html" title="TORQUE VECTOR telemetry task implementations." alt="" coords="1491,94,1680,135"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="893,31,1157,54,1481,91,1491,93,1490,98,1480,97,1157,59,893,36"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="982,48,1133,91,1132,96,981,53"/>
+<area shape="rect" id="Node000009" href="$dashboard_2telemetry_2telemetry_8c.html" title="DASHBOARD telemetry task implementations." alt="" coords="1314,94,1492,135"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="989,39,1303,91,1314,93,1314,99,1302,97,989,44"/>
+<area shape="rect" id="Node000010" href="$imu_8c.html" title="IMU calibration and coordinate transformations." alt="" coords="1516,94,1669,135"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="989,32,1223,54,1364,71,1505,91,1515,93,1515,98,1504,97,1363,76,1223,59,989,37"/>
+<area shape="rect" id="Node000011" href="$torque__vector_2telemetry_2telemetry_8c.html" title="TORQUE VECTOR telemetry task implementations." alt="" coords="1693,94,1881,135"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="989,29,1297,51,1489,69,1682,91,1693,93,1692,98,1681,97,1488,74,1296,57,989,35"/>
 </map>

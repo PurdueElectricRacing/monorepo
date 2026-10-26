@@ -12,6 +12,6 @@ var searchData=
   ['charge_5frequest_5fdata_5ft_9',['charge_request_data_t',['../structcharge__request__data__t.html',1,'']]],
   ['charging_5ffsm_5finternals_5fdata_5ft_10',['charging_fsm_internals_data_t',['../structcharging__fsm__internals__data__t.html',1,'']]],
   ['clockrateconfig_5ft_11',['ClockRateConfig_t',['../structClockRateConfig__t.html',1,'']]],
-  ['coolant_5fout_5fdata_5ft_12',['coolant_out_data_t',['../structcoolant__out__data__t.html',1,'']]],
+  ['cooling_5foutputs_5fdata_5ft_12',['cooling_outputs_data_t',['../structcooling__outputs__data__t.html',1,'']]],
   ['coulomb_5ft_13',['coulomb_t',['../structcoulomb__t.html',1,'']]]
 ];

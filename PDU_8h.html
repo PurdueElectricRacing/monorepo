@@ -183,10 +183,10 @@ Functions</h2></td></tr>
 <tr class="separator:a67d98ecf4d917c5aac5c64d991d5d59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa74d2751bf997adba50be76251291997" id="r_aa74d2751bf997adba50be76251291997"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa74d2751bf997adba50be76251291997">CAN_init_data</a> (void)</td></tr>
 <tr class="separator:aa74d2751bf997adba50be76251291997"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45366166e8de145429fab369e3885bb1" id="r_a45366166e8de145429fab369e3885bb1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45366166e8de145429fab369e3885bb1">CAN_SEND_cooling_outputs</a> (bool value_is_powertrain_pumps_enabled, bool value_is_hx_fan_enabled, bool value_is_batt_fans_enabled)</td></tr>
+<tr class="separator:a45366166e8de145429fab369e3885bb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a984d4c08c875de80bf03a51eca2fb6ce" id="r_a984d4c08c875de80bf03a51eca2fb6ce"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a984d4c08c875de80bf03a51eca2fb6ce">CAN_SEND_pdu_init</a> (uint32_t value_csr)</td></tr>
 <tr class="separator:a984d4c08c875de80bf03a51eca2fb6ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af237495897276dabfb25440f4d41d374" id="r_af237495897276dabfb25440f4d41d374"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af237495897276dabfb25440f4d41d374">CAN_SEND_coolant_out</a> (bool value_is_powertrain_pumps_enabled, bool value_is_hx_fan_enabled, bool value_is_batt_fans_enabled)</td></tr>
-<tr class="separator:af237495897276dabfb25440f4d41d374"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16832d8cf99185c8ae2c7a30c7bbb205" id="r_a16832d8cf99185c8ae2c7a30c7bbb205"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16832d8cf99185c8ae2c7a30c7bbb205">CAN_SEND_pdu_version</a> (uint32_t value_git_hash)</td></tr>
 <tr class="separator:a16832d8cf99185c8ae2c7a30c7bbb205"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80badc80d1121e8d450502c72b46f28a" id="r_a80badc80d1121e8d450502c72b46f28a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80badc80d1121e8d450502c72b46f28a">CAN_SEND_pdu_fault_event</a> (<a class="el" href="can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63">fault_id_t</a> value_idx, uint16_t value_val, bool value_state)</td></tr>
@@ -338,7 +338,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PDU_8h_a90647dbc98bbf7bc6c1e9ef85f4d2f01_icgraph.svg" width="100%" height="489"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_a90647dbc98bbf7bc6c1e9ef85f4d2f01_icgraph.svg" width="578" height="200"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -357,6 +357,11 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PDU_8h_a0da956162efe3e0016f181cee58961e6_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
 
 </div>
 </div>
@@ -464,8 +469,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="af237495897276dabfb25440f4d41d374" name="af237495897276dabfb25440f4d41d374"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af237495897276dabfb25440f4d41d374">&#9670;&#160;</a></span>CAN_SEND_coolant_out()</h2>
+<a id="a45366166e8de145429fab369e3885bb1" name="a45366166e8de145429fab369e3885bb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45366166e8de145429fab369e3885bb1">&#9670;&#160;</a></span>CAN_SEND_cooling_outputs()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -474,7 +479,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void CAN_SEND_coolant_out </td>
+          <td class="memname">static void CAN_SEND_cooling_outputs </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_is_powertrain_pumps_enabled</em></span>, </td>
         </tr>
@@ -498,12 +503,12 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_af237495897276dabfb25440f4d41d374_cgraph.svg" width="586" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_a45366166e8de145429fab369e3885bb1_cgraph.svg" width="610" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_af237495897276dabfb25440f4d41d374_icgraph.svg" width="466" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_a45366166e8de145429fab369e3885bb1_icgraph.svg" width="490" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

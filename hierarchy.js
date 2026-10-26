@@ -68,7 +68,7 @@ var hierarchy =
     [ "charge_request_data_t", "structcharge__request__data__t.html", null ],
     [ "charging_fsm_internals_data_t", "structcharging__fsm__internals__data__t.html", null ],
     [ "ClockRateConfig_t", "structClockRateConfig__t.html", null ],
-    [ "coolant_out_data_t", "structcoolant__out__data__t.html", null ],
+    [ "cooling_outputs_data_t", "structcooling__outputs__data__t.html", null ],
     [ "coulomb_t", "structcoulomb__t.html", null ],
     [ "dash_init_data_t", "structdash__init__data__t.html", null ],
     [ "dash_version_data_t", "structdash__version__data__t.html", null ],
@@ -257,7 +257,6 @@ var hierarchy =
     [ "standard_gravity_t", "structstandard__gravity__t.html", null ],
     [ "start_button_data_t", "structstart__button__data__t.html", null ],
     [ "status_leds_t", "structstatus__leds__t.html", null ],
-    [ "steering_angle_data_t", "structsteering__angle__data__t.html", null ],
     [ "strbuf_t", "structstrbuf__t.html", null ],
     [ "switch_t", "structswitch__t.html", null ],
     [ "testing::Test", null, [

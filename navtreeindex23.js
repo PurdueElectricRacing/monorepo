@@ -1,17 +1,5 @@
 var NAVTREEINDEX23 =
 {
-"structIZZE__angular__rate__data__t.html#aac8149ccef8ea137a001f26534f990cf":[32,0,149,3],
-"structLWS__Config__data__t.html":[32,0,163],
-"structLWS__Config__data__t.html#a7f863d0b32dff34beb0facd46d6b86ac":[32,0,163,1],
-"structLWS__Config__data__t.html#a9d34008c09e870380801c9365c1b7a77":[32,0,163,2],
-"structLWS__Config__data__t.html#abe42f13960bb7b3661da653f136d2328":[32,0,163,0],
-"structLWS__Config__data__t.html#ae661c13120e05e7caaa580ff3207352a":[32,0,163,3],
-"structLWS__Standard__data__t.html":[32,0,164],
-"structLWS__Standard__data__t.html#a18d6189160c3c141b4110f22dca42c2c":[32,0,164,8],
-"structLWS__Standard__data__t.html#a51fa3aee106488c99a3d94b43cde55e3":[32,0,164,7],
-"structLWS__Standard__data__t.html#a560419cf0f99a82303e304c8c3629b5c":[32,0,164,2],
-"structLWS__Standard__data__t.html#a65651ecbc369c28c625e5a42884e6732":[32,0,164,0],
-"structLWS__Standard__data__t.html#a88f6bd4f9123abdf6bd91a061dc6edfe":[32,0,164,5],
 "structLWS__Standard__data__t.html#ab0311be8bd07e7db9100a72fa827bf2c":[32,0,164,1],
 "structLWS__Standard__data__t.html#acad1729f09353959faf67e52a7454ffa":[32,0,164,3],
 "structLWS__Standard__data__t.html#ad6252d63fe2956c6db7092b69794d16f":[32,0,164,4],
@@ -249,5 +237,17 @@ var NAVTREEINDEX23 =
 "structSPI__InitConfig__t.html#ac75a422add1ff6d8c63084fdcdadda2f":[32,0,250,17],
 "structSPI__InitConfig__t.html#ac7b65af149334e39252e9d91e1d324ba":[32,0,250,13],
 "structSPI__InitConfig__t.html#acf07ab5b69592a0549da59ce4b6a26a1":[32,0,250,4],
-"structSPI__InitConfig__t.html#ad0862369c85d703198c28df1f085ad11":[32,0,250,10]
+"structSPI__InitConfig__t.html#ad0862369c85d703198c28df1f085ad11":[32,0,250,10],
+"structSPI__InitConfig__t.html#ada152e2e047c6680d60ff8e66857b349":[32,0,250,2],
+"structSPI__InitConfig__t.html#addc6a2b00505e696c1d179696010713c":[32,0,250,7],
+"structSPI__InitConfig__t.html#ae82235e4faf01aa37ffcb212f626abc2":[32,0,250,12],
+"structSPI__InitConfig__t.html#af9eedccb06edcc4fcf10f3eca321238d":[32,0,250,9],
+"structSPMC__t.html":[32,0,251],
+"structSPMC__t.html#a009324383a55dc9bf2a85103a52193ec":[32,0,251,1],
+"structSPMC__t.html#a3dd7037229d6f97a0442de956749abe0":[32,0,251,0],
+"structSPMC__t.html#a5003121e3d30842fb02163cdb9609305":[32,0,251,5],
+"structSPMC__t.html#a6e92e9eabf6fb0592258f55087885ca7":[32,0,251,6],
+"structSPMC__t.html#a819c0967e831284aa97a85f53587e065":[32,0,251,3],
+"structSPMC__t.html#ac0a7c8a294bceeea6c58520509dba607":[32,0,251,2],
+"structSPMC__t.html#ac18347d74c0b3587e649811ec0265ed9":[32,0,251,4]
 };

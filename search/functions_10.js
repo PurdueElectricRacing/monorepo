@@ -233,6 +233,5 @@ var searchData=
   ['powertrain_5fpumps_5fon_230',['powertrain_pumps_on',['../cooling__callbacks_8c.html#aa951da7b5aaa3453cc637a7bfa031797',1,'powertrain_pumps_on(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#aa951da7b5aaa3453cc637a7bfa031797',1,'powertrain_pumps_on(void):&#160;cooling_callbacks.c']]],
   ['powertrain_5fset_5ftorque_5frequest_231',['powertrain_set_torque_request',['../powertrain_8c.html#aab8a88dd8dded2b6c4dfdfbd6b2d8907',1,'powertrain_set_torque_request(torque_request_t request):&#160;powertrain.c'],['../powertrain_8h.html#aab8a88dd8dded2b6c4dfdfbd6b2d8907',1,'powertrain_set_torque_request(torque_request_t request):&#160;powertrain.c']]],
   ['preflight_5fled_5fsweep_232',['preflight_led_sweep',['../heartbeat_8c.html#a1d58d4db1dcf0ec5b290850c6ae31f3b',1,'heartbeat.c']]],
-  ['pressure_5ffrom_233',['pressure_from',['../dearunits_8h.html#a7dce494ff1286c07f57a43fbe46c08e5',1,'dearunits.h']]],
-  ['process_5fand_5fsend_5fbrake_5fpsi_234',['process_and_send_brake_psi',['../pedals_8c.html#aefac6b2a7223c64d1e38379c5677a9bb',1,'pedals.c']]]
+  ['pressure_5ffrom_233',['pressure_from',['../dearunits_8h.html#a7dce494ff1286c07f57a43fbe46c08e5',1,'dearunits.h']]]
 ];

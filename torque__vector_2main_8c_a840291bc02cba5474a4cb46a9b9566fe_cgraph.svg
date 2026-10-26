@@ -337,7 +337,7 @@ var sectionId = 'dynsection-2';
 <!-- Node131 -->
 <g id="Node000131" class="node">
 <title>Node131</title>
-<g id="a_Node000131"><a xlink:href="torque__vector_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1" target="_top" xlink:title="Reports telemetry data at 25HZ rate Includes: GPS coordinates, velocity, speed, heading.">
+<g id="a_Node000131"><a xlink:href="dashboard_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1" target="_top" xlink:title="Reports telemetry data at 25 Hz rate Includes: Brake pressure.">
 <polygon fill="#fff0f0" stroke="red" points="203.38,-93.25 92.12,-93.25 92.12,-74 203.38,-74 203.38,-93.25"/>
 <text text-anchor="middle" x="147.75" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">report_telemetry_25hz</text>
 </a>
@@ -352,37 +352,37 @@ var sectionId = 'dynsection-2';
 </a>
 </g>
 </g>
-<!-- Node136 -->
-<g id="Node000136" class="node">
-<title>Node136</title>
-<g id="a_Node000136"><a xlink:href="watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" target="_top" xlink:title=" ">
+<!-- Node135 -->
+<g id="Node000135" class="node">
+<title>Node135</title>
+<g id="a_Node000135"><a xlink:href="watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="189.5,-56.25 106,-56.25 106,-37 189.5,-37 189.5,-56.25"/>
 <text text-anchor="middle" x="147.75" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">WDG_get_CSR</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node136 -->
-<g id="edge52_Node000001_Node000136" class="edge">
-<title>Node1&#45;&gt;Node136</title>
-<g id="a_edge52_Node000001_Node000136"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node135 -->
+<g id="edge52_Node000001_Node000135" class="edge">
+<title>Node1&#45;&gt;Node135</title>
+<g id="a_edge52_Node000001_Node000135"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M20.17,-313.66C23.24,-270.65 37.45,-101.47 73,-64.62 78.98,-58.43 86.72,-54.22 94.92,-51.39"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="95.67,-54.81 104.4,-48.81 93.83,-48.06 95.67,-54.81"/>
 </a>
 </g>
 </g>
-<!-- Node137 -->
-<g id="Node000137" class="node">
-<title>Node137</title>
-<g id="a_Node000137"><a xlink:href="watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" target="_top" xlink:title=" ">
+<!-- Node136 -->
+<g id="Node000136" class="node">
+<title>Node136</title>
+<g id="a_Node000136"><a xlink:href="watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="176.38,-19.25 119.12,-19.25 119.12,0 176.38,0 176.38,-19.25"/>
 <text text-anchor="middle" x="147.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">WDG_init</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node137 -->
-<g id="edge53_Node000001_Node000137" class="edge">
-<title>Node1&#45;&gt;Node137</title>
-<g id="a_edge53_Node000001_Node000137"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node136 -->
+<g id="edge53_Node000001_Node000136" class="edge">
+<title>Node1&#45;&gt;Node136</title>
+<g id="a_edge53_Node000001_Node000136"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M19.89,-313.54C21.92,-266.64 32.74,-70.41 73,-27.62 81.92,-18.15 94.94,-13.3 107.56,-10.93"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="107.98,-14.4 117.41,-9.58 107.03,-7.47 107.98,-14.4"/>
 </a>

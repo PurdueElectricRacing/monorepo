@@ -1,17 +1,5 @@
 var NAVTREEINDEX21 =
 {
-"sdio_8h.html#ad37fe2cf88496122b5fdf14ae7f529b5":[33,0,1,1,11,1,127],
-"sdio_8h.html#ad3dc52f076ae8145e105cb4d8a37b043":[33,0,1,1,11,1,148],
-"sdio_8h.html#ad3f9516a5e6764baf2083f76f4bc0eea":[33,0,1,1,11,1,76],
-"sdio_8h.html#ad4677c73c4e8e7e1ec2161554cfdfeeb":[33,0,1,1,11,1,104],
-"sdio_8h.html#ad469cc842f03b1d49e08e91b515b7ded":[33,0,1,1,11,1,134],
-"sdio_8h.html#ad528da3ef5cf61ecf6d500a9b527c3e9":[33,0,1,1,11,1,87],
-"sdio_8h.html#ad55967ea67075f01671fb2144c7f7b0d":[33,0,1,1,11,1,150],
-"sdio_8h.html#ad5a86eaeba6869b6b2139b92ddfb3a1f":[33,0,1,1,11,1,79],
-"sdio_8h.html#ad6c4df3070c195bbc2067e19a702f495":[33,0,1,1,11,1,142],
-"sdio_8h.html#ad8cbc04a4adf7c5588ddeb8e29f391f2":[33,0,1,1,11,1,13],
-"sdio_8h.html#adbeb08085e7282275fd5684b5d59d5aa":[33,0,1,1,11,1,86],
-"sdio_8h.html#addc5cf2423f043d0ffbfc2c51e0fbc1c":[33,0,1,1,11,1,128],
 "sdio_8h.html#addc5cf2423f043d0ffbfc2c51e0fbc1ca0951e33a667ab37ca65958c2d023d688":[33,0,1,1,11,1,128,2],
 "sdio_8h.html#addc5cf2423f043d0ffbfc2c51e0fbc1ca1fb3e314080b31c23f317799f116f830":[33,0,1,1,11,1,128,1],
 "sdio_8h.html#addc5cf2423f043d0ffbfc2c51e0fbc1ca4bdcb7ff8b5fb0026405fcd559142b6b":[33,0,1,1,11,1,128,0],
@@ -249,5 +237,17 @@ var NAVTREEINDEX21 =
 "structE__METER__TEMPERATURE__data__t.html#afb8f3c3019386c683c3f390e4fec71d9":[32,0,85,4],
 "structGPIOInitConfig__t.html":[32,0,99],
 "structGPIOInitConfig__t.html#a1754a3977a0df8a75a29b4960910cdb2":[32,0,99,7],
-"structGPIOInitConfig__t.html#a5cccb3d6f1fc7d1ade98fcec56390452":[32,0,99,4]
+"structGPIOInitConfig__t.html#a5cccb3d6f1fc7d1ade98fcec56390452":[32,0,99,4],
+"structGPIOInitConfig__t.html#a68e727cefe42c5c140ebbfea6fa19856":[32,0,99,0],
+"structGPIOInitConfig__t.html#a6ae4176a281a687406c1bfa19c32a1f9":[32,0,99,6],
+"structGPIOInitConfig__t.html#a9e91fe0f71b365a8fc0243c59721ecda":[32,0,99,3],
+"structGPIOInitConfig__t.html#a9fec47b09fc90e799db443bdcffb53f4":[32,0,99,1],
+"structGPIOInitConfig__t.html#ac271361b13ba110d2af3699fe610f596":[32,0,99,2],
+"structGPIOInitConfig__t.html#af7c70bb08d9f2d4900cd0cb0a733bd72":[32,0,99,5],
+"structIMU__acceleration__data__t.html":[32,0,112],
+"structIMU__acceleration__data__t.html#a2454dc03b8e07b3fb4817f6a835c307c":[32,0,112,5],
+"structIMU__acceleration__data__t.html#a3202102b7af0641b1962ea603b102dcc":[32,0,112,4],
+"structIMU__acceleration__data__t.html#a34950fa4b5bad20ff05e721db8756451":[32,0,112,3],
+"structIMU__acceleration__data__t.html#a4d8d1d20df746645e8e383361d2144af":[32,0,112,2],
+"structIMU__acceleration__data__t.html#a7d8f02b869909cf593431dd4e931cd0c":[32,0,112,0]
 };

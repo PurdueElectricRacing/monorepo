@@ -14,8 +14,7 @@ var searchData=
   ['standard_5fgravity_5ft_11',['standard_gravity_t',['../structstandard__gravity__t.html',1,'']]],
   ['start_5fbutton_5fdata_5ft_12',['start_button_data_t',['../structstart__button__data__t.html',1,'']]],
   ['status_5fleds_5ft_13',['status_leds_t',['../structstatus__leds__t.html',1,'']]],
-  ['steering_5fangle_5fdata_5ft_14',['steering_angle_data_t',['../structsteering__angle__data__t.html',1,'']]],
-  ['strbuf_5ft_15',['strbuf_t',['../structstrbuf__t.html',1,'']]],
-  ['strbuftest_16',['StrbufTest',['../classStrbufTest.html',1,'']]],
-  ['switch_5ft_17',['switch_t',['../structswitch__t.html',1,'']]]
+  ['strbuf_5ft_14',['strbuf_t',['../structstrbuf__t.html',1,'']]],
+  ['strbuftest_15',['StrbufTest',['../classStrbufTest.html',1,'']]],
+  ['switch_5ft_16',['switch_t',['../structswitch__t.html',1,'']]]
 ];

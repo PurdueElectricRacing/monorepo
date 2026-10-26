@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript">
-var viewWidth = 3457;
+var viewWidth = 3404;
 var viewHeight = 261;
 var sectionId = 'dynsection-1';
 </script>
@@ -59,9 +59,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title="Auto&#45;generated CAN bus definitions for VCAN.">
-<polygon fill="#999999" stroke="#666666" points="1899.88,-252.5 1797.62,-252.5 1797.62,-222 1899.88,-222 1899.88,-252.5"/>
-<text text-anchor="start" x="1805.62" y="-239" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="1848.75" y="-227.75" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/VCAN.h</text>
+<polygon fill="#999999" stroke="#666666" points="2364.88,-252.5 2262.62,-252.5 2262.62,-222 2364.88,-222 2364.88,-252.5"/>
+<text text-anchor="start" x="2270.62" y="-239" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="2313.75" y="-227.75" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/VCAN.h</text>
 </a>
 </g>
 </g>
@@ -69,9 +69,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000002" class="node">
 <title>Node2</title>
 <g id="a_Node000002"><a xlink:href="A__BOX_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for A_BOX.">
-<polygon fill="white" stroke="#666666" points="317.38,-180.38 212.12,-180.38 212.12,-149.88 317.38,-149.88 317.38,-180.38"/>
-<text text-anchor="start" x="220.12" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="264.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/A_BOX.h</text>
+<polygon fill="white" stroke="#666666" points="377.38,-180.38 272.12,-180.38 272.12,-149.88 377.38,-149.88 377.38,-180.38"/>
+<text text-anchor="start" x="280.12" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="324.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/A_BOX.h</text>
 </a>
 </g>
 </g>
@@ -79,8 +79,8 @@ var sectionId = 'dynsection-1';
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1786.06,-236.17C1537.65,-235.53 622.12,-230.18 335.75,-186 327.65,-184.75 319.17,-182.88 310.99,-180.79"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1785.85,-239.67 1795.86,-236.19 1785.87,-232.67 1785.85,-239.67"/>
+<path fill="none" stroke="#63b8ff" d="M2250.82,-234.69C2036.51,-229.29 1315.33,-210.37 719.75,-186 597.29,-180.99 453.56,-173.3 377.76,-169.11"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2250.53,-238.18 2260.62,-234.94 2250.71,-231.19 2250.53,-238.18"/>
 </a>
 </g>
 </g>
@@ -88,9 +88,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000008" class="node">
 <title>Node8</title>
 <g id="a_Node000008"><a xlink:href="BL__A__BOX_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for BL_A_BOX.">
-<polygon fill="white" stroke="#666666" points="468.38,-180.38 345.12,-180.38 345.12,-149.88 468.38,-149.88 468.38,-180.38"/>
-<text text-anchor="start" x="353.12" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="406.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_A_BOX.h</text>
+<polygon fill="white" stroke="#666666" points="852.38,-180.38 729.12,-180.38 729.12,-149.88 852.38,-149.88 852.38,-180.38"/>
+<text text-anchor="start" x="737.12" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="790.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_A_BOX.h</text>
 </a>
 </g>
 </g>
@@ -98,8 +98,8 @@ var sectionId = 'dynsection-1';
 <g id="edge9_Node000001_Node000008" class="edge">
 <title>Node1&#45;&gt;Node8</title>
 <g id="a_edge9_Node000001_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1785.86,-235.91C1552.28,-234.36 734.92,-226.13 477.75,-186 469.78,-184.76 461.44,-182.92 453.38,-180.86"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1785.65,-239.41 1795.67,-235.98 1785.69,-232.41 1785.65,-239.41"/>
+<path fill="none" stroke="#63b8ff" d="M2250.81,-236.06C2008.44,-235.04 1135.5,-228.43 861.75,-186 853.65,-184.75 845.17,-182.88 837,-180.78"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2250.67,-239.56 2260.69,-236.1 2250.7,-232.56 2250.67,-239.56"/>
 </a>
 </g>
 </g>
@@ -107,9 +107,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000009" class="node">
 <title>Node9</title>
 <g id="a_Node000009"><a xlink:href="BL__DASHBOARD_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for BL_DASHBOARD.">
-<polygon fill="white" stroke="#666666" points="639,-180.38 486.5,-180.38 486.5,-149.88 639,-149.88 639,-180.38"/>
-<text text-anchor="start" x="494.5" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="562.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_DASHBOARD.h</text>
+<polygon fill="white" stroke="#666666" points="1023,-180.38 870.5,-180.38 870.5,-149.88 1023,-149.88 1023,-180.38"/>
+<text text-anchor="start" x="878.5" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="946.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_DASHBOARD.h</text>
 </a>
 </g>
 </g>
@@ -117,18 +117,18 @@ var sectionId = 'dynsection-1';
 <g id="edge10_Node000001_Node000009" class="edge">
 <title>Node1&#45;&gt;Node9</title>
 <g id="a_edge10_Node000001_Node000009"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1786.07,-235.16C1572.15,-231.2 871.81,-216.18 648.75,-186 639.33,-184.73 629.44,-182.9 619.84,-180.87"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1785.8,-238.65 1795.86,-235.34 1785.93,-231.66 1785.8,-238.65"/>
+<path fill="none" stroke="#63b8ff" d="M2250.97,-235.37C2027.52,-232 1271.51,-218.43 1031.75,-186 1022.29,-184.72 1012.34,-182.87 1002.71,-180.8"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2250.88,-238.87 2260.93,-235.52 2250.98,-231.87 2250.88,-238.87"/>
 </a>
 </g>
 </g>
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="BL__FRONT__DRIVELINE_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for BL_FRONT_DRIVELINE.">
-<polygon fill="white" stroke="#666666" points="838.25,-180.38 657.25,-180.38 657.25,-149.88 838.25,-149.88 838.25,-180.38"/>
-<text text-anchor="start" x="665.25" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="747.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_FRONT_DRIVELINE.h</text>
+<g id="a_Node000010"><a xlink:href="BL__MAIN__MODULE_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for BL_MAIN_MODULE.">
+<polygon fill="white" stroke="#666666" points="1204.25,-180.38 1041.25,-180.38 1041.25,-149.88 1204.25,-149.88 1204.25,-180.38"/>
+<text text-anchor="start" x="1049.25" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="1122.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_MAIN_MODULE.h</text>
 </a>
 </g>
 </g>
@@ -136,18 +136,19 @@ var sectionId = 'dynsection-1';
 <g id="edge11_Node000001_Node000010" class="edge">
 <title>Node1&#45;&gt;Node10</title>
 <g id="a_edge11_Node000001_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1785.84,-236.27C1627.61,-235.64 1200.48,-229.67 847.75,-186 837.03,-184.67 825.75,-182.85 814.77,-180.84"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1785.69,-239.77 1795.7,-236.31 1785.71,-232.77 1785.69,-239.77"/>
+<path fill="none" stroke="#63b8ff" d="M2250.94,-234.78C2048.8,-229.83 1416.54,-212.58 1213.75,-186 1203.81,-184.7 1193.35,-182.86 1183.2,-180.82"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2250.62,-238.27 2260.7,-235.02 2250.79,-231.28 2250.62,-238.27"/>
 </a>
 </g>
 </g>
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="BL__MAIN__MODULE_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for BL_MAIN_MODULE.">
-<polygon fill="white" stroke="#666666" points="1019.25,-180.38 856.25,-180.38 856.25,-149.88 1019.25,-149.88 1019.25,-180.38"/>
-<text text-anchor="start" x="864.25" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="937.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_MAIN_MODULE.h</text>
+<g id="a_Node000011"><a xlink:href="BL__TORQUE__VECTOR_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for BL_TORQUE_VECTOR.">
+<polygon fill="white" stroke="#666666" points="1346.75,-186 1222.75,-186 1222.75,-144.25 1346.75,-144.25 1346.75,-186"/>
+<text text-anchor="start" x="1230.75" y="-172.5" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="start" x="1230.75" y="-161.25" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_TORQUE</text>
+<text text-anchor="middle" x="1284.75" y="-150" font-family="Helvetica,sans-Serif" font-size="10.00">_VECTOR.h</text>
 </a>
 </g>
 </g>
@@ -155,18 +156,18 @@ var sectionId = 'dynsection-1';
 <g id="edge12_Node000001_Node000011" class="edge">
 <title>Node1&#45;&gt;Node11</title>
 <g id="a_edge12_Node000001_Node000011"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1786.44,-235.75C1648.86,-233.92 1309.04,-225.42 1027.75,-186 1018.08,-184.65 1007.91,-182.81 998.03,-180.79"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1786,-239.24 1796.04,-235.87 1786.08,-232.24 1786,-239.24"/>
+<path fill="none" stroke="#63b8ff" d="M2251.04,-234.77C2066.76,-230.12 1529.02,-214.44 1355.75,-186 1352.84,-185.52 1349.89,-184.97 1346.91,-184.36"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2250.8,-238.26 2260.89,-235.01 2250.98,-231.26 2250.8,-238.26"/>
 </a>
 </g>
 </g>
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="BL__REAR__DRIVELINE_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for BL_REAR_DRIVELINE.">
-<polygon fill="white" stroke="#666666" points="1210.5,-180.38 1037,-180.38 1037,-149.88 1210.5,-149.88 1210.5,-180.38"/>
-<text text-anchor="start" x="1045" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="1123.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_REAR_DRIVELINE.h</text>
+<g id="a_Node000012"><a xlink:href="DASHBOARD_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for DASHBOARD.">
+<polygon fill="white" stroke="#666666" points="1499,-180.38 1364.5,-180.38 1364.5,-149.88 1499,-149.88 1499,-180.38"/>
+<text text-anchor="start" x="1372.5" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="1431.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/DASHBOARD.h</text>
 </a>
 </g>
 </g>
@@ -174,133 +175,132 @@ var sectionId = 'dynsection-1';
 <g id="edge13_Node000001_Node000012" class="edge">
 <title>Node1&#45;&gt;Node12</title>
 <g id="a_edge13_Node000001_Node000012"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1785.93,-233.82C1672.41,-228.86 1425.77,-215.44 1219.75,-186 1209.89,-184.59 1199.53,-182.79 1189.4,-180.85"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1785.49,-237.31 1795.63,-234.24 1785.79,-230.31 1785.49,-237.31"/>
+<path fill="none" stroke="#63b8ff" d="M2251.09,-231.27C2090.46,-218.5 1664.96,-184.67 1499.2,-171.49"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2250.44,-234.73 2260.69,-232.03 2250.99,-227.75 2250.44,-234.73"/>
 </a>
 </g>
 </g>
-<!-- Node13 -->
-<g id="Node000013" class="node">
-<title>Node13</title>
-<g id="a_Node000013"><a xlink:href="BL__TORQUE__VECTOR_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for BL_TORQUE_VECTOR.">
-<polygon fill="white" stroke="#666666" points="1352.75,-186 1228.75,-186 1228.75,-144.25 1352.75,-144.25 1352.75,-186"/>
-<text text-anchor="start" x="1236.75" y="-172.5" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="start" x="1236.75" y="-161.25" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/BL_TORQUE</text>
-<text text-anchor="middle" x="1290.75" y="-150" font-family="Helvetica,sans-Serif" font-size="10.00">_VECTOR.h</text>
+<!-- Node22 -->
+<g id="Node000022" class="node">
+<title>Node22</title>
+<g id="a_Node000022"><a xlink:href="MAIN__MODULE_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for MAIN_MODULE.">
+<polygon fill="white" stroke="#666666" points="2082.25,-180.38 1937.25,-180.38 1937.25,-149.88 2082.25,-149.88 2082.25,-180.38"/>
+<text text-anchor="start" x="1945.25" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="2009.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/MAIN_MODULE.h</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node13 -->
-<g id="edge14_Node000001_Node000013" class="edge">
-<title>Node1&#45;&gt;Node13</title>
-<g id="a_edge14_Node000001_Node000013"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1785.66,-233.17C1692.34,-227.85 1512.29,-214.62 1361.75,-186 1358.86,-185.45 1355.91,-184.84 1352.95,-184.18"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1785.46,-236.67 1795.64,-233.73 1785.85,-229.68 1785.46,-236.67"/>
+<!-- Node1&#45;&gt;Node22 -->
+<g id="edge26_Node000001_Node000022" class="edge">
+<title>Node1&#45;&gt;Node22</title>
+<g id="a_edge26_Node000001_Node000022"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2251.12,-221.8C2199.19,-209.82 2125.68,-192.87 2073.46,-180.82"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2250.17,-225.18 2260.71,-224.01 2251.75,-218.36 2250.17,-225.18"/>
 </a>
 </g>
 </g>
-<!-- Node14 -->
-<g id="Node000014" class="node">
-<title>Node14</title>
-<g id="a_Node000014"><a xlink:href="DASHBOARD_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for DASHBOARD.">
-<polygon fill="white" stroke="#666666" points="1505,-180.38 1370.5,-180.38 1370.5,-149.88 1505,-149.88 1505,-180.38"/>
-<text text-anchor="start" x="1378.5" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="1437.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/DASHBOARD.h</text>
+<!-- Node28 -->
+<g id="Node000028" class="node">
+<title>Node28</title>
+<g id="a_Node000028"><a xlink:href="PDU_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for PDU.">
+<polygon fill="white" stroke="#666666" points="2364.88,-180.38 2262.62,-180.38 2262.62,-149.88 2364.88,-149.88 2364.88,-180.38"/>
+<text text-anchor="start" x="2270.62" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="2313.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/PDU.h</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node14 -->
-<g id="edge15_Node000001_Node000014" class="edge">
-<title>Node1&#45;&gt;Node14</title>
-<g id="a_edge15_Node000001_Node000014"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1786.28,-225.59C1710.53,-212.67 1583.33,-190.96 1505.34,-177.66"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1785.59,-229.02 1796.04,-227.26 1786.77,-222.12 1785.59,-229.02"/>
+<!-- Node1&#45;&gt;Node28 -->
+<g id="edge32_Node000001_Node000028" class="edge">
+<title>Node1&#45;&gt;Node28</title>
+<g id="a_edge32_Node000001_Node000028"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2313.75,-210.27C2313.75,-200.26 2313.75,-189.19 2313.75,-180.64"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2310.25,-210.21 2313.75,-220.21 2317.25,-210.21 2310.25,-210.21"/>
 </a>
 </g>
 </g>
-<!-- Node24 -->
-<g id="Node000024" class="node">
-<title>Node24</title>
-<g id="a_Node000024"><a xlink:href="DRIVELINE_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for DRIVELINE.">
-<polygon fill="white" stroke="#666666" points="1747.75,-180.38 1623.75,-180.38 1623.75,-149.88 1747.75,-149.88 1747.75,-180.38"/>
-<text text-anchor="start" x="1631.75" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="1685.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/DRIVELINE.h</text>
+<!-- Node31 -->
+<g id="Node000031" class="node">
+<title>Node31</title>
+<g id="a_Node000031"><a xlink:href="TORQUE__VECTOR_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for TORQUE_VECTOR.">
+<polygon fill="white" stroke="#666666" points="2541,-180.38 2382.5,-180.38 2382.5,-149.88 2541,-149.88 2541,-180.38"/>
+<text text-anchor="start" x="2390.5" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="2461.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/TORQUE_VECTOR.h</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node24 -->
-<g id="edge28_Node000001_Node000024" class="edge">
-<title>Node1&#45;&gt;Node24</title>
-<g id="a_edge28_Node000001_Node000024"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1804.02,-217.01C1777.46,-205.58 1744.31,-191.32 1719.88,-180.81"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1802.62,-220.21 1813.19,-220.95 1805.39,-213.78 1802.62,-220.21"/>
+<!-- Node1&#45;&gt;Node31 -->
+<g id="edge35_Node000001_Node000031" class="edge">
+<title>Node1&#45;&gt;Node31</title>
+<g id="a_edge35_Node000001_Node000031"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2355.01,-216.7C2379.01,-205.33 2408.77,-191.23 2430.77,-180.81"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2353.68,-213.46 2346.14,-220.9 2356.68,-219.78 2353.68,-213.46"/>
 </a>
 </g>
 </g>
-<!-- Node26 -->
-<g id="Node000026" class="node">
-<title>Node26</title>
-<g id="a_Node000026"><a xlink:href="MAIN__MODULE_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for MAIN_MODULE.">
-<polygon fill="white" stroke="#666666" points="2003.25,-180.38 1858.25,-180.38 1858.25,-149.88 2003.25,-149.88 2003.25,-180.38"/>
-<text text-anchor="start" x="1866.25" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="1930.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/MAIN_MODULE.h</text>
+<!-- Node36 -->
+<g id="Node000036" class="node">
+<title>Node36</title>
+<g id="a_Node000036"><a xlink:href="node__defs_8h.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="2692.25,-180.38 2559.25,-180.38 2559.25,-149.88 2692.25,-149.88 2692.25,-180.38"/>
+<text text-anchor="start" x="2567.25" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/bootloader</text>
+<text text-anchor="middle" x="2625.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/node_defs.h</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node26 -->
-<g id="edge30_Node000001_Node000026" class="edge">
-<title>Node1&#45;&gt;Node26</title>
-<g id="a_edge30_Node000001_Node000026"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1874.19,-214.49C1887.07,-203.48 1902.35,-190.41 1913.78,-180.64"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1872.22,-211.58 1866.89,-220.74 1876.77,-216.9 1872.22,-211.58"/>
+<!-- Node1&#45;&gt;Node36 -->
+<g id="edge40_Node000001_Node000036" class="edge">
+<title>Node1&#45;&gt;Node36</title>
+<g id="a_edge40_Node000001_Node000036"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2376.08,-223.79C2423.76,-214.07 2491.07,-199.91 2549.75,-186 2556.52,-184.4 2563.61,-182.64 2570.62,-180.86"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2375.59,-220.32 2366.49,-225.74 2376.98,-227.18 2375.59,-220.32"/>
 </a>
 </g>
 </g>
-<!-- Node32 -->
-<g id="Node000032" class="node">
-<title>Node32</title>
-<g id="a_Node000032"><a xlink:href="PDU_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for PDU.">
-<polygon fill="white" stroke="#666666" points="2123.88,-180.38 2021.62,-180.38 2021.62,-149.88 2123.88,-149.88 2123.88,-180.38"/>
-<text text-anchor="start" x="2029.62" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="2072.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/PDU.h</text>
+<!-- Node38 -->
+<g id="Node000038" class="node">
+<title>Node38</title>
+<g id="a_Node000038"><a xlink:href="cannector_2can__callback_8c.html" target="_top" xlink:title="CAN callback implementation.">
+<polygon fill="white" stroke="#666666" points="2841.12,-180.38 2710.38,-180.38 2710.38,-149.88 2841.12,-149.88 2841.12,-180.38"/>
+<text text-anchor="start" x="2718.38" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/cannector</text>
+<text text-anchor="middle" x="2775.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/can_callback.c</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node32 -->
-<g id="edge36_Node000001_Node000032" class="edge">
-<title>Node1&#45;&gt;Node32</title>
-<g id="a_edge36_Node000001_Node000032"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1908.32,-218.35C1939.49,-208.9 1978.23,-197 2012.75,-186 2017.98,-184.33 2023.45,-182.56 2028.88,-180.78"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1907.64,-214.9 1899.09,-221.15 1909.67,-221.6 1907.64,-214.9"/>
+<!-- Node1&#45;&gt;Node38 -->
+<g id="edge42_Node000001_Node000038" class="edge">
+<title>Node1&#45;&gt;Node38</title>
+<g id="a_edge42_Node000001_Node000038"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2376.67,-230.71C2453.76,-223.32 2588.15,-208.51 2701.75,-186 2709.19,-184.53 2716.98,-182.72 2724.61,-180.81"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2376.39,-227.22 2366.76,-231.65 2377.05,-234.19 2376.39,-227.22"/>
 </a>
 </g>
 </g>
-<!-- Node35 -->
-<g id="Node000035" class="node">
-<title>Node35</title>
-<g id="a_Node000035"><a xlink:href="TORQUE__VECTOR_8h.html" target="_top" xlink:title="Auto&#45;generated CAN driver for TORQUE_VECTOR.">
-<polygon fill="white" stroke="#666666" points="2300,-180.38 2141.5,-180.38 2141.5,-149.88 2300,-149.88 2300,-180.38"/>
-<text text-anchor="start" x="2149.5" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="2220.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/TORQUE_VECTOR.h</text>
+<!-- Node39 -->
+<g id="Node000039" class="node">
+<title>Node39</title>
+<g id="a_Node000039"><a xlink:href="cannector_2main_8c.html" target="_top" xlink:title="&quot;CANnector&quot; node source code">
+<polygon fill="white" stroke="#666666" points="2990.12,-180.38 2859.38,-180.38 2859.38,-149.88 2990.12,-149.88 2990.12,-180.38"/>
+<text text-anchor="start" x="2867.38" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/cannector</text>
+<text text-anchor="middle" x="2924.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node35 -->
-<g id="edge39_Node000001_Node000035" class="edge">
-<title>Node1&#45;&gt;Node35</title>
-<g id="a_edge39_Node000001_Node000035"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1911.31,-226.05C1968.96,-216.44 2056.82,-201.28 2132.75,-186 2140.73,-184.39 2149.11,-182.62 2157.38,-180.81"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1910.98,-222.56 1901.69,-227.65 1912.12,-229.46 1910.98,-222.56"/>
+<!-- Node1&#45;&gt;Node39 -->
+<g id="edge43_Node000001_Node000039" class="edge">
+<title>Node1&#45;&gt;Node39</title>
+<g id="a_edge43_Node000001_Node000039"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2376.58,-233.73C2477.16,-228.95 2680.25,-216.19 2849.75,-186 2857.57,-184.61 2865.78,-182.8 2873.77,-180.84"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2376.46,-230.24 2366.64,-234.19 2376.79,-237.23 2376.46,-230.24"/>
 </a>
 </g>
 </g>
 <!-- Node40 -->
 <g id="Node000040" class="node">
 <title>Node40</title>
-<g id="a_Node000040"><a xlink:href="node__defs_8h.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="2451.25,-180.38 2318.25,-180.38 2318.25,-149.88 2451.25,-149.88 2451.25,-180.38"/>
-<text text-anchor="start" x="2326.25" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/bootloader</text>
-<text text-anchor="middle" x="2384.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/node_defs.h</text>
+<g id="a_Node000040"><a xlink:href="daq_2can__callback_2can__callback_8c.html" target="_top" xlink:title="Timestamped frame producer from the CAN RX callback.">
+<polygon fill="white" stroke="#666666" points="3151.5,-180.38 3008,-180.38 3008,-149.88 3151.5,-149.88 3151.5,-180.38"/>
+<text text-anchor="start" x="3016" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/daq</text>
+<text text-anchor="middle" x="3079.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/can_callback/can_callback.c</text>
 </a>
 </g>
 </g>
@@ -308,18 +308,37 @@ var sectionId = 'dynsection-1';
 <g id="edge44_Node000001_Node000040" class="edge">
 <title>Node1&#45;&gt;Node40</title>
 <g id="a_edge44_Node000001_Node000040"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1911.39,-232.34C2000.31,-226.12 2167.97,-211.95 2308.75,-186 2316.53,-184.57 2324.68,-182.76 2332.65,-180.83"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1911.41,-228.83 1901.67,-233.01 1911.89,-235.81 1911.41,-228.83"/>
+<path fill="none" stroke="#63b8ff" d="M2376.44,-235.15C2497.47,-232.27 2771.41,-221.97 2998.75,-186 3007.33,-184.64 3016.34,-182.83 3025.1,-180.85"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2376.65,-231.65 2366.73,-235.38 2376.81,-238.65 2376.65,-231.65"/>
+</a>
+</g>
+</g>
+<!-- Node41 -->
+<g id="Node000041" class="node">
+<title>Node41</title>
+<g id="a_Node000041"><a xlink:href="daq_2main_8c.html" target="_top" xlink:title="&quot;DAQ&quot; node source code">
+<polygon fill="white" stroke="#666666" points="3273.62,-180.38 3169.88,-180.38 3169.88,-149.88 3273.62,-149.88 3273.62,-180.38"/>
+<text text-anchor="start" x="3177.88" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/daq</text>
+<text text-anchor="middle" x="3221.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node41 -->
+<g id="edge45_Node000001_Node000041" class="edge">
+<title>Node1&#45;&gt;Node41</title>
+<g id="a_edge45_Node000001_Node000041"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2376.66,-234.6C2546.29,-229.82 3010.41,-214.46 3160.75,-186 3167.54,-184.72 3174.61,-182.89 3181.44,-180.85"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2376.62,-231.1 2366.72,-234.88 2376.81,-238.1 2376.62,-231.1"/>
 </a>
 </g>
 </g>
 <!-- Node42 -->
 <g id="Node000042" class="node">
 <title>Node42</title>
-<g id="a_Node000042"><a xlink:href="cannector_2can__callback_8c.html" target="_top" xlink:title="CAN callback implementation.">
-<polygon fill="white" stroke="#666666" points="2600.12,-180.38 2469.38,-180.38 2469.38,-149.88 2600.12,-149.88 2600.12,-180.38"/>
-<text text-anchor="start" x="2477.38" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/cannector</text>
-<text text-anchor="middle" x="2534.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/can_callback.c</text>
+<g id="a_Node000042"><a xlink:href="rtc__sync_8c.html" target="_top" xlink:title="Synchronization of the RTC peripheral with the GPS UTC time.">
+<polygon fill="white" stroke="#666666" points="3395.62,-180.38 3291.88,-180.38 3291.88,-149.88 3395.62,-149.88 3395.62,-180.38"/>
+<text text-anchor="start" x="3299.88" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/daq</text>
+<text text-anchor="middle" x="3343.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/rtc_sync/rtc_sync.c</text>
 </a>
 </g>
 </g>
@@ -327,84 +346,8 @@ var sectionId = 'dynsection-1';
 <g id="edge46_Node000001_Node000042" class="edge">
 <title>Node1&#45;&gt;Node42</title>
 <g id="a_edge46_Node000001_Node000042"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1911.67,-234.82C2023.12,-231.46 2262.18,-220.53 2460.75,-186 2468.61,-184.63 2476.86,-182.81 2484.87,-180.83"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1911.73,-231.32 1901.84,-235.11 1911.94,-238.32 1911.73,-231.32"/>
-</a>
-</g>
-</g>
-<!-- Node43 -->
-<g id="Node000043" class="node">
-<title>Node43</title>
-<g id="a_Node000043"><a xlink:href="cannector_2main_8c.html" target="_top" xlink:title="&quot;CANnector&quot; node source code">
-<polygon fill="white" stroke="#666666" points="2749.12,-180.38 2618.38,-180.38 2618.38,-149.88 2749.12,-149.88 2749.12,-180.38"/>
-<text text-anchor="start" x="2626.38" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/cannector</text>
-<text text-anchor="middle" x="2683.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node43 -->
-<g id="edge47_Node000001_Node000043" class="edge">
-<title>Node1&#45;&gt;Node43</title>
-<g id="a_edge47_Node000001_Node000043"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1911.63,-236.18C2042.34,-235.14 2352.57,-228.01 2608.75,-186 2616.86,-184.67 2625.36,-182.85 2633.61,-180.84"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1911.78,-232.68 1901.8,-236.25 1911.83,-239.68 1911.78,-232.68"/>
-</a>
-</g>
-</g>
-<!-- Node44 -->
-<g id="Node000044" class="node">
-<title>Node44</title>
-<g id="a_Node000044"><a xlink:href="daq_2can__callback_2can__callback_8c.html" target="_top" xlink:title="Timestamped frame producer from the CAN RX callback.">
-<polygon fill="white" stroke="#666666" points="2910.5,-180.38 2767,-180.38 2767,-149.88 2910.5,-149.88 2910.5,-180.38"/>
-<text text-anchor="start" x="2775" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/daq</text>
-<text text-anchor="middle" x="2838.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/can_callback/can_callback.c</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node44 -->
-<g id="edge48_Node000001_Node000044" class="edge">
-<title>Node1&#45;&gt;Node44</title>
-<g id="a_edge48_Node000001_Node000044"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1911.43,-236.77C2059.54,-237.13 2442.37,-232.99 2757.75,-186 2766.63,-184.68 2775.96,-182.83 2785,-180.79"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1911.87,-233.27 1901.86,-236.74 1911.84,-240.27 1911.87,-233.27"/>
-</a>
-</g>
-</g>
-<!-- Node45 -->
-<g id="Node000045" class="node">
-<title>Node45</title>
-<g id="a_Node000045"><a xlink:href="daq_2main_8c.html" target="_top" xlink:title="&quot;DAQ&quot; node source code">
-<polygon fill="white" stroke="#666666" points="3032.62,-180.38 2928.88,-180.38 2928.88,-149.88 3032.62,-149.88 3032.62,-180.38"/>
-<text text-anchor="start" x="2936.88" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/daq</text>
-<text text-anchor="middle" x="2980.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node45 -->
-<g id="edge49_Node000001_Node000045" class="edge">
-<title>Node1&#45;&gt;Node45</title>
-<g id="a_edge49_Node000001_Node000045"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1911.69,-235.51C2110.66,-232.81 2724.4,-221.73 2919.75,-186 2926.65,-184.74 2933.85,-182.89 2940.78,-180.83"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1911.77,-232.01 1901.82,-235.64 1911.86,-239 1911.77,-232.01"/>
-</a>
-</g>
-</g>
-<!-- Node46 -->
-<g id="Node000046" class="node">
-<title>Node46</title>
-<g id="a_Node000046"><a xlink:href="rtc__sync_8c.html" target="_top" xlink:title="Synchronization of the RTC peripheral with the GPS UTC time.">
-<polygon fill="white" stroke="#666666" points="3154.62,-180.38 3050.88,-180.38 3050.88,-149.88 3154.62,-149.88 3154.62,-180.38"/>
-<text text-anchor="start" x="3058.88" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/daq</text>
-<text text-anchor="middle" x="3102.75" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/rtc_sync/rtc_sync.c</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node46 -->
-<g id="edge50_Node000001_Node000046" class="edge">
-<title>Node1&#45;&gt;Node46</title>
-<g id="a_edge50_Node000001_Node000046"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1911.54,-235.86C2125.01,-234.18 2821.65,-225.72 3041.75,-186 3048.66,-184.75 3055.86,-182.92 3062.79,-180.86"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1911.74,-232.36 1901.77,-235.93 1911.79,-239.36 1911.74,-232.36"/>
+<path fill="none" stroke="#63b8ff" d="M2376.59,-235.15C2562.54,-231.54 3107.93,-218.43 3282.75,-186 3289.65,-184.72 3296.85,-182.87 3303.78,-180.8"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2376.58,-231.65 2366.64,-235.34 2376.71,-238.65 2376.58,-231.65"/>
 </a>
 </g>
 </g>
@@ -412,9 +355,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000003" class="node">
 <title>Node3</title>
 <g id="a_Node000003"><a xlink:href="charging__fsm_8c.html" target="_top" xlink:title="Charger control state machine implementation.">
-<polygon fill="white" stroke="#666666" points="412,-30.5 265.5,-30.5 265.5,0 412,0 412,-30.5"/>
-<text text-anchor="start" x="273.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
-<text text-anchor="middle" x="338.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/charging_fsm/charging_fsm.c</text>
+<polygon fill="white" stroke="#666666" points="522,-30.5 375.5,-30.5 375.5,0 522,0 522,-30.5"/>
+<text text-anchor="start" x="383.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
+<text text-anchor="middle" x="448.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/charging_fsm/charging_fsm.c</text>
 </a>
 </g>
 </g>
@@ -422,8 +365,8 @@ var sectionId = 'dynsection-1';
 <g id="edge2_Node000002_Node000003" class="edge">
 <title>Node2&#45;&gt;Node3</title>
 <g id="a_edge2_Node000002_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M327.73,-146.36C381.59,-131.02 450.77,-110.91 452.75,-108.25 463.85,-93.38 462.88,-82.04 452.75,-66.5 441.76,-49.65 423.71,-38.41 405.18,-30.93"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="326.96,-142.94 318.3,-149.04 328.87,-149.67 326.96,-142.94"/>
+<path fill="none" stroke="#63b8ff" d="M388.45,-153.03C414.17,-145.08 441.36,-131.48 456.75,-108.25 472.34,-84.73 462.71,-50.06 455.17,-30.7"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="387.69,-149.61 379.01,-155.69 389.59,-156.35 387.69,-149.61"/>
 </a>
 </g>
 </g>
@@ -431,9 +374,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000004" class="node">
 <title>Node4</title>
 <g id="a_Node000004"><a xlink:href="charging__fsm_8h.html" target="_top" xlink:title="Charger control state machine implementation.">
-<polygon fill="white" stroke="#666666" points="180,-102.62 33.5,-102.62 33.5,-72.12 180,-72.12 180,-102.62"/>
-<text text-anchor="start" x="41.5" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
-<text text-anchor="middle" x="106.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/charging_fsm/charging_fsm.h</text>
+<polygon fill="white" stroke="#666666" points="448,-102.62 301.5,-102.62 301.5,-72.12 448,-72.12 448,-102.62"/>
+<text text-anchor="start" x="309.5" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
+<text text-anchor="middle" x="374.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/charging_fsm/charging_fsm.h</text>
 </a>
 </g>
 </g>
@@ -441,8 +384,8 @@ var sectionId = 'dynsection-1';
 <g id="edge3_Node000002_Node000004" class="edge">
 <title>Node2&#45;&gt;Node4</title>
 <g id="a_edge3_Node000002_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M223.98,-144.58C196.95,-131.62 162.06,-114.89 137.39,-103.06"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="222.39,-147.7 232.92,-148.87 225.42,-141.39 222.39,-147.7"/>
+<path fill="none" stroke="#63b8ff" d="M340.72,-139.94C348.75,-127.76 358.23,-113.4 365.14,-102.94"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="337.81,-137.98 335.22,-148.26 343.65,-141.84 337.81,-137.98"/>
 </a>
 </g>
 </g>
@@ -450,9 +393,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000005" class="node">
 <title>Node5</title>
 <g id="a_Node000005"><a xlink:href="a__box_2main_8c.html" target="_top" xlink:title="&quot;Abox&quot; node source code">
-<polygon fill="white" stroke="#666666" points="113.5,-30.5 0,-30.5 0,0 113.5,0 113.5,-30.5"/>
-<text text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
-<text text-anchor="middle" x="56.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
+<polygon fill="white" stroke="#666666" points="344.5,-30.5 231,-30.5 231,0 344.5,0 344.5,-30.5"/>
+<text text-anchor="start" x="239" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
+<text text-anchor="middle" x="287.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
 </a>
 </g>
 </g>
@@ -460,8 +403,8 @@ var sectionId = 'dynsection-1';
 <g id="edge7_Node000002_Node000005" class="edge">
 <title>Node2&#45;&gt;Node5</title>
 <g id="a_edge7_Node000002_Node000005"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M200.73,-158.1C137.23,-150.65 46.36,-135.47 24.75,-108.25 6.24,-84.94 28.31,-50.2 43.91,-30.76"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="200.02,-161.54 210.35,-159.19 200.81,-154.59 200.02,-161.54"/>
+<path fill="none" stroke="#63b8ff" d="M307.83,-140.29C301.97,-130.77 296.05,-119.43 292.75,-108.25 284.96,-81.86 285.38,-49.4 286.49,-30.94"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="304.82,-142.08 313.21,-148.54 310.68,-138.25 304.82,-142.08"/>
 </a>
 </g>
 </g>
@@ -469,9 +412,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000006" class="node">
 <title>Node6</title>
 <g id="a_Node000006"><a xlink:href="imd_8c.html" target="_top" xlink:title="ABOX IMD PWM capture and CAN reporting.">
-<polygon fill="white" stroke="#666666" points="311.5,-102.62 198,-102.62 198,-72.12 311.5,-72.12 311.5,-102.62"/>
-<text text-anchor="start" x="206" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
-<text text-anchor="middle" x="254.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/imd/imd.c</text>
+<polygon fill="white" stroke="#666666" points="113.5,-102.62 0,-102.62 0,-72.12 113.5,-72.12 113.5,-102.62"/>
+<text text-anchor="start" x="8" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
+<text text-anchor="middle" x="56.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/imd/imd.c</text>
 </a>
 </g>
 </g>
@@ -479,8 +422,8 @@ var sectionId = 'dynsection-1';
 <g id="edge6_Node000002_Node000006" class="edge">
 <title>Node2&#45;&gt;Node6</title>
 <g id="a_edge6_Node000002_Node000006"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M261.36,-138.47C259.8,-126.62 258,-112.99 256.67,-102.94"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="257.85,-138.56 262.62,-148.02 264.78,-137.65 257.85,-138.56"/>
+<path fill="none" stroke="#63b8ff" d="M261.04,-146.9C221.22,-136.03 168.92,-121.59 122.75,-108.25 117,-106.59 110.98,-104.82 105.01,-103.05"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="259.89,-150.21 270.46,-149.46 261.73,-143.46 259.89,-150.21"/>
 </a>
 </g>
 </g>
@@ -488,9 +431,9 @@ var sectionId = 'dynsection-1';
 <g id="Node000007" class="node">
 <title>Node7</title>
 <g id="a_Node000007"><a xlink:href="a__box_2telemetry_2telemetry_8c.html" target="_top" xlink:title="ABOX Telemetry task implementations.">
-<polygon fill="white" stroke="#666666" points="443.5,-102.62 330,-102.62 330,-72.12 443.5,-72.12 443.5,-102.62"/>
-<text text-anchor="start" x="338" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
-<text text-anchor="middle" x="386.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/telemetry/telemetry.c</text>
+<polygon fill="white" stroke="#666666" points="245.5,-102.62 132,-102.62 132,-72.12 245.5,-72.12 245.5,-102.62"/>
+<text text-anchor="start" x="140" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
+<text text-anchor="middle" x="188.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/telemetry/telemetry.c</text>
 </a>
 </g>
 </g>
@@ -498,8 +441,8 @@ var sectionId = 'dynsection-1';
 <g id="edge8_Node000002_Node000007" class="edge">
 <title>Node2&#45;&gt;Node7</title>
 <g id="a_edge8_Node000002_Node000007"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M297.94,-143.52C318.63,-130.67 344.75,-114.45 363.3,-102.94"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="296.21,-140.47 289.56,-148.72 299.9,-146.42 296.21,-140.47"/>
+<path fill="none" stroke="#63b8ff" d="M288.69,-144.04C265.48,-131.11 235.85,-114.61 214.89,-102.94"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="286.77,-146.97 297.21,-148.78 290.17,-140.86 286.77,-146.97"/>
 </a>
 </g>
 </g>
@@ -507,8 +450,8 @@ var sectionId = 'dynsection-1';
 <g id="edge4_Node000004_Node000003" class="edge">
 <title>Node4&#45;&gt;Node3</title>
 <g id="a_edge4_Node000004_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M165.93,-68.49C204.42,-56.85 254,-41.87 290.18,-30.93"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="165.39,-64.99 156.83,-71.24 167.42,-71.69 165.39,-64.99"/>
+<path fill="none" stroke="#63b8ff" d="M398.38,-63.98C409.86,-53.1 423.32,-40.35 433.44,-30.76"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="396.03,-61.38 391.18,-70.8 400.85,-66.47 396.03,-61.38"/>
 </a>
 </g>
 </g>
@@ -516,456 +459,437 @@ var sectionId = 'dynsection-1';
 <g id="edge5_Node000004_Node000005" class="edge">
 <title>Node4&#45;&gt;Node5</title>
 <g id="a_edge5_Node000004_Node000005"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M89.86,-62.69C82.32,-52.11 73.66,-39.97 67.1,-30.76"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="86.86,-64.5 95.51,-70.61 92.56,-60.44 86.86,-64.5"/>
+<path fill="none" stroke="#63b8ff" d="M348.15,-64.93C334.4,-53.85 318,-40.63 305.75,-30.76"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="345.56,-67.34 355.55,-70.9 349.96,-61.89 345.56,-67.34"/>
+</a>
+</g>
+</g>
+<!-- Node13 -->
+<g id="Node000013" class="node">
+<title>Node13</title>
+<g id="a_Node000013"><a xlink:href="driver__interface_8c.html" target="_top" xlink:title="thread to manage driver&#45;facing LCD, buttons, LEDs">
+<polygon fill="white" stroke="#666666" points="1098.25,-108.25 965.25,-108.25 965.25,-66.5 1098.25,-66.5 1098.25,-108.25"/>
+<text text-anchor="start" x="973.25" y="-94.75" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
+<text text-anchor="start" x="973.25" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">/driver_interface/driver</text>
+<text text-anchor="middle" x="1031.75" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">_interface.c</text>
+</a>
+</g>
+</g>
+<!-- Node12&#45;&gt;Node13 -->
+<g id="edge14_Node000012_Node000013" class="edge">
+<title>Node12&#45;&gt;Node13</title>
+<g id="a_edge14_Node000012_Node000013"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1367.91,-146.88C1363.81,-145.94 1359.73,-145.06 1355.75,-144.25 1246.59,-122.13 1216.91,-130.37 1107.75,-108.25 1104.68,-107.63 1101.54,-106.96 1098.38,-106.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1366.76,-150.21 1377.3,-149.11 1368.38,-143.4 1366.76,-150.21"/>
+</a>
+</g>
+</g>
+<!-- Node14 -->
+<g id="Node000014" class="node">
+<title>Node14</title>
+<g id="a_Node000014"><a xlink:href="source_2dashboard_2driver__interface_2pages_2amk_8c.html" target="_top" xlink:title="AMK page implementation.">
+<polygon fill="white" stroke="#666666" points="1260.88,-102.62 1116.62,-102.62 1116.62,-72.12 1260.88,-72.12 1260.88,-102.62"/>
+<text text-anchor="start" x="1124.62" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
+<text text-anchor="middle" x="1188.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/driver_interface/pages/amk.c</text>
+</a>
+</g>
+</g>
+<!-- Node12&#45;&gt;Node14 -->
+<g id="edge15_Node000012_Node000014" class="edge">
+<title>Node12&#45;&gt;Node14</title>
+<g id="a_edge15_Node000012_Node000014"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1373.66,-146.02C1331.48,-132.87 1275.12,-115.3 1235.76,-103.03"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1372.58,-149.34 1383.16,-148.98 1374.66,-142.66 1372.58,-149.34"/>
 </a>
 </g>
 </g>
 <!-- Node15 -->
 <g id="Node000015" class="node">
 <title>Node15</title>
-<g id="a_Node000015"><a xlink:href="driver__interface_8c.html" target="_top" xlink:title="thread to manage driver&#45;facing LCD, buttons, LEDs">
-<polygon fill="white" stroke="#666666" points="633.25,-108.25 500.25,-108.25 500.25,-66.5 633.25,-66.5 633.25,-108.25"/>
-<text text-anchor="start" x="508.25" y="-94.75" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
-<text text-anchor="start" x="508.25" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">/driver_interface/driver</text>
-<text text-anchor="middle" x="566.75" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">_interface.c</text>
+<g id="a_Node000015"><a xlink:href="race_8c.html" target="_top" xlink:title="Race page implementation.">
+<polygon fill="white" stroke="#666666" points="1329.88,-30.5 1185.62,-30.5 1185.62,0 1329.88,0 1329.88,-30.5"/>
+<text text-anchor="start" x="1193.62" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
+<text text-anchor="middle" x="1257.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/driver_interface/pages/race.c</text>
 </a>
 </g>
 </g>
-<!-- Node14&#45;&gt;Node15 -->
-<g id="edge16_Node000014_Node000015" class="edge">
-<title>Node14&#45;&gt;Node15</title>
-<g id="a_edge16_Node000014_Node000015"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1376.52,-146.96C1371.55,-145.92 1366.58,-144.99 1361.75,-144.25 1045.53,-95.52 958.97,-156.98 642.75,-108.25 639.78,-107.79 636.77,-107.27 633.73,-106.69"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1375.36,-150.29 1385.89,-149.07 1376.9,-143.46 1375.36,-150.29"/>
+<!-- Node12&#45;&gt;Node15 -->
+<g id="edge16_Node000012_Node000015" class="edge">
+<title>Node12&#45;&gt;Node15</title>
+<g id="a_edge16_Node000012_Node000015"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1370.46,-145.25C1349.14,-136.5 1326.22,-124.38 1308.75,-108.25 1285,-86.32 1269.71,-50.74 1262.54,-30.86"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1369.09,-148.47 1379.68,-148.85 1371.64,-141.95 1369.09,-148.47"/>
 </a>
 </g>
 </g>
 <!-- Node16 -->
 <g id="Node000016" class="node">
 <title>Node16</title>
-<g id="a_Node000016"><a xlink:href="source_2dashboard_2driver__interface_2pages_2amk_8c.html" target="_top" xlink:title="AMK page implementation.">
-<polygon fill="white" stroke="#666666" points="795.88,-102.62 651.62,-102.62 651.62,-72.12 795.88,-72.12 795.88,-102.62"/>
-<text text-anchor="start" x="659.62" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
-<text text-anchor="middle" x="723.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/driver_interface/pages/amk.c</text>
+<g id="a_Node000016"><a xlink:href="vcu_8c.html" target="_top" xlink:title="VCU page implementation.">
+<polygon fill="white" stroke="#666666" points="645.38,-102.62 504.12,-102.62 504.12,-72.12 645.38,-72.12 645.38,-102.62"/>
+<text text-anchor="start" x="512.12" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
+<text text-anchor="middle" x="574.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/driver_interface/pages/vcu.c</text>
 </a>
 </g>
 </g>
-<!-- Node14&#45;&gt;Node16 -->
-<g id="edge17_Node000014_Node000016" class="edge">
-<title>Node14&#45;&gt;Node16</title>
-<g id="a_edge17_Node000014_Node000016"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1375.87,-146.91C1371.12,-145.9 1366.37,-145 1361.75,-144.25 1119.05,-104.97 1052.98,-144.05 809.75,-108.25 800.5,-106.89 790.78,-105.05 781.33,-103.03"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1374.93,-150.28 1385.46,-149.08 1376.48,-143.46 1374.93,-150.28"/>
+<!-- Node12&#45;&gt;Node16 -->
+<g id="edge17_Node000012_Node000016" class="edge">
+<title>Node12&#45;&gt;Node16</title>
+<g id="a_edge17_Node000012_Node000016"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1370.52,-146.97C1365.55,-145.93 1360.58,-145 1355.75,-144.25 1047.01,-96.48 962.71,-154.58 653.75,-108.25 645.08,-106.95 635.97,-105.11 627.15,-103.08"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1369.36,-150.29 1379.88,-149.08 1370.9,-143.47 1369.36,-150.29"/>
 </a>
 </g>
 </g>
 <!-- Node17 -->
 <g id="Node000017" class="node">
 <title>Node17</title>
-<g id="a_Node000017"><a xlink:href="race_8c.html" target="_top" xlink:title="Race page implementation.">
-<polygon fill="white" stroke="#666666" points="843.88,-30.5 699.62,-30.5 699.62,0 843.88,0 843.88,-30.5"/>
-<text text-anchor="start" x="707.62" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
-<text text-anchor="middle" x="771.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/driver_interface/pages/race.c</text>
+<g id="a_Node000017"><a xlink:href="lap__timer_8c.html" target="_top" xlink:title="DASHBOARD lap timer task implementations.">
+<polygon fill="white" stroke="#666666" points="796.25,-102.62 663.25,-102.62 663.25,-72.12 796.25,-72.12 796.25,-102.62"/>
+<text text-anchor="start" x="671.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
+<text text-anchor="middle" x="729.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/lap_timer/lap_timer.c</text>
 </a>
 </g>
 </g>
-<!-- Node14&#45;&gt;Node17 -->
-<g id="edge18_Node000014_Node000017" class="edge">
-<title>Node14&#45;&gt;Node17</title>
-<g id="a_edge18_Node000014_Node000017"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1375.87,-146.95C1371.11,-145.93 1366.37,-145.02 1361.75,-144.25 1253.82,-126.34 971.04,-151.96 870.75,-108.25 831.82,-91.28 798.45,-52.32 782.24,-30.94"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1374.92,-150.32 1385.45,-149.13 1376.48,-143.5 1374.92,-150.32"/>
+<!-- Node12&#45;&gt;Node17 -->
+<g id="edge18_Node000012_Node000017" class="edge">
+<title>Node12&#45;&gt;Node17</title>
+<g id="a_edge18_Node000012_Node000017"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1369.87,-146.91C1365.12,-145.9 1360.37,-145 1355.75,-144.25 1113.49,-105.03 1046.94,-147.87 804.75,-108.25 796.64,-106.92 788.14,-105.1 779.89,-103.09"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1368.93,-150.28 1379.46,-149.08 1370.48,-143.46 1368.93,-150.28"/>
 </a>
 </g>
 </g>
 <!-- Node18 -->
 <g id="Node000018" class="node">
 <title>Node18</title>
-<g id="a_Node000018"><a xlink:href="vcu_8c.html" target="_top" xlink:title="VCU page implementation.">
-<polygon fill="white" stroke="#666666" points="1221.38,-102.62 1080.12,-102.62 1080.12,-72.12 1221.38,-72.12 1221.38,-102.62"/>
-<text text-anchor="start" x="1088.12" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
-<text text-anchor="middle" x="1150.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/driver_interface/pages/vcu.c</text>
+<g id="a_Node000018"><a xlink:href="dashboard_2main_8c.html" target="_top" xlink:title="&quot;Dashboard&quot; node source code">
+<polygon fill="white" stroke="#666666" points="1481.25,-30.5 1348.25,-30.5 1348.25,0 1481.25,0 1481.25,-30.5"/>
+<text text-anchor="start" x="1356.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
+<text text-anchor="middle" x="1414.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
 </a>
 </g>
 </g>
-<!-- Node14&#45;&gt;Node18 -->
-<g id="edge19_Node000014_Node000018" class="edge">
-<title>Node14&#45;&gt;Node18</title>
-<g id="a_edge19_Node000014_Node000018"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1371.04,-146.52C1321.02,-133.32 1253.36,-115.46 1206.27,-103.03"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1370.05,-149.88 1380.61,-149.04 1371.83,-143.11 1370.05,-149.88"/>
+<!-- Node12&#45;&gt;Node18 -->
+<g id="edge19_Node000012_Node000018" class="edge">
+<title>Node12&#45;&gt;Node18</title>
+<g id="a_edge19_Node000012_Node000018"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1447.4,-139.81C1458.2,-119.83 1469.09,-90.93 1459.75,-66.5 1454.4,-52.5 1443.15,-39.94 1433.24,-30.87"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1444.44,-137.93 1442.45,-148.34 1450.5,-141.44 1444.44,-137.93"/>
 </a>
 </g>
 </g>
 <!-- Node19 -->
 <g id="Node000019" class="node">
 <title>Node19</title>
-<g id="a_Node000019"><a xlink:href="lap__timer_8c.html" target="_top" xlink:title="DASHBOARD lap timer task implementations.">
-<polygon fill="white" stroke="#666666" points="1372.25,-102.62 1239.25,-102.62 1239.25,-72.12 1372.25,-72.12 1372.25,-102.62"/>
-<text text-anchor="start" x="1247.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
-<text text-anchor="middle" x="1305.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/lap_timer/lap_timer.c</text>
+<g id="a_Node000019"><a xlink:href="pedals_8c.html" target="_top" xlink:title="Pedal processing logic.">
+<polygon fill="white" stroke="#666666" points="1632.25,-30.5 1499.25,-30.5 1499.25,0 1632.25,0 1632.25,-30.5"/>
+<text text-anchor="start" x="1507.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
+<text text-anchor="middle" x="1565.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/pedals/pedals.c</text>
 </a>
 </g>
 </g>
-<!-- Node14&#45;&gt;Node19 -->
-<g id="edge20_Node000014_Node000019" class="edge">
-<title>Node14&#45;&gt;Node19</title>
-<g id="a_edge20_Node000014_Node000019"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1402.45,-143.87C1379.97,-130.97 1351.37,-114.56 1331.12,-102.94"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1400.57,-146.82 1410.99,-148.77 1404.06,-140.75 1400.57,-146.82"/>
+<!-- Node12&#45;&gt;Node19 -->
+<g id="edge20_Node000012_Node000019" class="edge">
+<title>Node12&#45;&gt;Node19</title>
+<g id="a_edge20_Node000012_Node000019"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1452.7,-141C1480.6,-110.22 1529.13,-56.67 1552.47,-30.91"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1450.23,-138.52 1446.1,-148.28 1455.41,-143.22 1450.23,-138.52"/>
 </a>
 </g>
 </g>
 <!-- Node20 -->
 <g id="Node000020" class="node">
 <title>Node20</title>
-<g id="a_Node000020"><a xlink:href="dashboard_2main_8c.html" target="_top" xlink:title="&quot;Dashboard&quot; node source code">
-<polygon fill="white" stroke="#666666" points="995.25,-30.5 862.25,-30.5 862.25,0 995.25,0 995.25,-30.5"/>
-<text text-anchor="start" x="870.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
-<text text-anchor="middle" x="928.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
+<g id="a_Node000020"><a xlink:href="pedals_8h.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="1450.25,-102.62 1317.25,-102.62 1317.25,-72.12 1450.25,-72.12 1450.25,-102.62"/>
+<text text-anchor="start" x="1325.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
+<text text-anchor="middle" x="1383.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/pedals/pedals.h</text>
 </a>
 </g>
 </g>
-<!-- Node14&#45;&gt;Node20 -->
-<g id="edge21_Node000014_Node000020" class="edge">
-<title>Node14&#45;&gt;Node20</title>
-<g id="a_edge21_Node000014_Node000020"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1375.63,-146.91C1370.95,-145.91 1366.29,-145.01 1361.75,-144.25 1309,-135.45 918.13,-147.46 881.75,-108.25 860.28,-85.11 890.55,-50.3 911.56,-30.81"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1374.51,-150.24 1385.04,-149.05 1376.06,-143.42 1374.51,-150.24"/>
+<!-- Node12&#45;&gt;Node20 -->
+<g id="edge21_Node000012_Node000020" class="edge">
+<title>Node12&#45;&gt;Node20</title>
+<g id="a_edge21_Node000012_Node000020"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1416.42,-139.94C1408.71,-127.76 1399.61,-113.4 1392.98,-102.94"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1413.38,-141.67 1421.68,-148.24 1419.29,-137.92 1413.38,-141.67"/>
 </a>
 </g>
 </g>
 <!-- Node21 -->
 <g id="Node000021" class="node">
 <title>Node21</title>
-<g id="a_Node000021"><a xlink:href="pedals_8c.html" target="_top" xlink:title="Pedal processing logic.">
-<polygon fill="white" stroke="#666666" points="1146.25,-30.5 1013.25,-30.5 1013.25,0 1146.25,0 1146.25,-30.5"/>
-<text text-anchor="start" x="1021.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
-<text text-anchor="middle" x="1079.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/pedals/pedals.c</text>
+<g id="a_Node000021"><a xlink:href="dashboard_2telemetry_2telemetry_8c.html" target="_top" xlink:title="DASHBOARD telemetry task implementations.">
+<polygon fill="white" stroke="#666666" points="947.25,-102.62 814.25,-102.62 814.25,-72.12 947.25,-72.12 947.25,-102.62"/>
+<text text-anchor="start" x="822.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
+<text text-anchor="middle" x="880.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/telemetry/telemetry.c</text>
 </a>
 </g>
 </g>
-<!-- Node14&#45;&gt;Node21 -->
-<g id="edge22_Node000014_Node000021" class="edge">
-<title>Node14&#45;&gt;Node21</title>
-<g id="a_edge22_Node000014_Node000021"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1374.15,-146.83C1369.97,-145.9 1365.81,-145.03 1361.75,-144.25 1297.76,-131.98 1113.9,-157.07 1070.75,-108.25 1051.83,-86.85 1063.57,-50.73 1072.48,-30.71"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1373.21,-150.21 1383.74,-149.08 1374.8,-143.39 1373.21,-150.21"/>
+<!-- Node12&#45;&gt;Node21 -->
+<g id="edge25_Node000012_Node000021" class="edge">
+<title>Node12&#45;&gt;Node21</title>
+<g id="a_edge25_Node000012_Node000021"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1369,-146.85C1364.53,-145.89 1360.08,-145.01 1355.75,-144.25 1179.91,-113.56 1131.54,-139.22 955.75,-108.25 947.92,-106.87 939.72,-105.07 931.73,-103.12"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1368.08,-150.23 1378.61,-149.05 1369.64,-143.41 1368.08,-150.23"/>
 </a>
 </g>
 </g>
-<!-- Node22 -->
-<g id="Node000022" class="node">
-<title>Node22</title>
-<g id="a_Node000022"><a xlink:href="pedals_8h.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="1023.25,-102.62 890.25,-102.62 890.25,-72.12 1023.25,-72.12 1023.25,-102.62"/>
-<text text-anchor="start" x="898.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
-<text text-anchor="middle" x="956.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/pedals/pedals.h</text>
+<!-- Node20&#45;&gt;Node15 -->
+<g id="edge22_Node000020_Node000015" class="edge">
+<title>Node20&#45;&gt;Node15</title>
+<g id="a_edge22_Node000020_Node000015"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1347.52,-66.21C1327.28,-54.95 1302.52,-41.17 1284.13,-30.93"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1345.57,-69.13 1356.01,-70.94 1348.98,-63.02 1345.57,-69.13"/>
 </a>
 </g>
 </g>
-<!-- Node14&#45;&gt;Node22 -->
-<g id="edge23_Node000014_Node000022" class="edge">
-<title>Node14&#45;&gt;Node22</title>
-<g id="a_edge23_Node000014_Node000022"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1374.76,-146.9C1370.37,-145.94 1366,-145.04 1361.75,-144.25 1219.29,-117.85 1180.41,-133.57 1037.75,-108.25 1029.62,-106.81 1021.1,-105.02 1012.76,-103.12"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1373.64,-150.24 1384.17,-149.09 1375.22,-143.42 1373.64,-150.24"/>
+<!-- Node20&#45;&gt;Node18 -->
+<g id="edge23_Node000020_Node000018" class="edge">
+<title>Node20&#45;&gt;Node18</title>
+<g id="a_edge23_Node000020_Node000018"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1394.8,-61.39C1399.33,-51.12 1404.43,-39.6 1408.34,-30.76"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1391.63,-59.9 1390.79,-70.46 1398.03,-62.73 1391.63,-59.9"/>
+</a>
+</g>
+</g>
+<!-- Node20&#45;&gt;Node19 -->
+<g id="edge24_Node000020_Node000019" class="edge">
+<title>Node20&#45;&gt;Node19</title>
+<g id="a_edge24_Node000020_Node000019"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1432.51,-67.59C1462.36,-56.09 1499.99,-41.59 1527.65,-30.93"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1431.39,-64.27 1423.32,-71.13 1433.91,-70.8 1431.39,-64.27"/>
 </a>
 </g>
 </g>
 <!-- Node23 -->
 <g id="Node000023" class="node">
 <title>Node23</title>
-<g id="a_Node000023"><a xlink:href="dashboard_2telemetry_2telemetry_8c.html" target="_top" xlink:title="DASHBOARD telemetry task implementations.">
-<polygon fill="white" stroke="#666666" points="1523.25,-102.62 1390.25,-102.62 1390.25,-72.12 1523.25,-72.12 1523.25,-102.62"/>
-<text text-anchor="start" x="1398.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/dashboard</text>
-<text text-anchor="middle" x="1456.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/telemetry/telemetry.c</text>
+<g id="a_Node000023"><a xlink:href="main__module_2main_8c.html" target="_top" xlink:title="&quot;Main Module&quot; node source code">
+<polygon fill="white" stroke="#666666" points="1989.25,-102.62 1880.25,-102.62 1880.25,-72.12 1989.25,-72.12 1989.25,-102.62"/>
+<text text-anchor="start" x="1888.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
+<text text-anchor="middle" x="1934.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_module/main.c</text>
 </a>
 </g>
 </g>
-<!-- Node14&#45;&gt;Node23 -->
-<g id="edge27_Node000014_Node000023" class="edge">
-<title>Node14&#45;&gt;Node23</title>
-<g id="a_edge27_Node000014_Node000023"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1444.19,-138.47C1447.16,-126.62 1450.58,-112.99 1453.1,-102.94"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1440.82,-137.5 1441.78,-148.05 1447.61,-139.2 1440.82,-137.5"/>
+<!-- Node22&#45;&gt;Node23 -->
+<g id="edge27_Node000022_Node000023" class="edge">
+<title>Node22&#45;&gt;Node23</title>
+<g id="a_edge27_Node000022_Node000023"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1987.24,-141.39C1974.89,-128.92 1959.95,-113.82 1949.17,-102.94"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1984.7,-143.8 1994.22,-148.44 1989.68,-138.88 1984.7,-143.8"/>
 </a>
 </g>
 </g>
-<!-- Node22&#45;&gt;Node17 -->
-<g id="edge24_Node000022_Node000017" class="edge">
-<title>Node22&#45;&gt;Node17</title>
-<g id="a_edge24_Node000022_Node000017"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M907.58,-67.74C877.18,-56.21 838.71,-41.63 810.48,-30.93"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="905.96,-70.87 916.55,-71.14 908.44,-64.32 905.96,-70.87"/>
+<!-- Node24 -->
+<g id="Node000024" class="node">
+<title>Node24</title>
+<g id="a_Node000024"><a xlink:href="powertrain_8c.html" target="_top" xlink:title="Powertrain implementation.">
+<polygon fill="white" stroke="#666666" points="2163.88,-102.62 2007.62,-102.62 2007.62,-72.12 2163.88,-72.12 2163.88,-102.62"/>
+<text text-anchor="start" x="2015.62" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
+<text text-anchor="middle" x="2085.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_module/powertrain/powertrain.c</text>
 </a>
 </g>
 </g>
-<!-- Node22&#45;&gt;Node20 -->
-<g id="edge25_Node000022_Node000020" class="edge">
-<title>Node22&#45;&gt;Node20</title>
-<g id="a_edge25_Node000022_Node000020"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M946.77,-61.39C942.67,-51.12 938.07,-39.6 934.54,-30.76"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="943.43,-62.45 950.39,-70.44 949.93,-59.85 943.43,-62.45"/>
-</a>
-</g>
-</g>
-<!-- Node22&#45;&gt;Node21 -->
-<g id="edge26_Node000022_Node000021" class="edge">
-<title>Node22&#45;&gt;Node21</title>
-<g id="a_edge26_Node000022_Node000021"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M992.39,-66.06C1012.09,-54.82 1036.13,-41.12 1054,-30.93"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="990.8,-62.93 983.85,-70.92 994.27,-69.01 990.8,-62.93"/>
+<!-- Node22&#45;&gt;Node24 -->
+<g id="edge28_Node000022_Node000024" class="edge">
+<title>Node22&#45;&gt;Node24</title>
+<g id="a_edge28_Node000022_Node000024"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2032.2,-141.75C2044.78,-129.21 2060.11,-113.93 2071.14,-102.94"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2030.09,-138.91 2025.48,-148.45 2035.03,-143.87 2030.09,-138.91"/>
 </a>
 </g>
 </g>
 <!-- Node25 -->
 <g id="Node000025" class="node">
 <title>Node25</title>
-<g id="a_Node000025"><a xlink:href="driveline_2main_8c.html" target="_top" xlink:title="&quot;Driveline&quot; node source code">
-<polygon fill="white" stroke="#666666" points="1665.75,-102.62 1541.75,-102.62 1541.75,-72.12 1665.75,-72.12 1665.75,-102.62"/>
-<text text-anchor="start" x="1549.75" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/driveline</text>
-<text text-anchor="middle" x="1603.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
+<g id="a_Node000025"><a xlink:href="main__module_2telemetry_2telemetry_8c.html" target="_top" xlink:title="MAIN MODULE telemetry task implementations.">
+<polygon fill="white" stroke="#666666" points="2327.62,-102.62 2181.88,-102.62 2181.88,-72.12 2327.62,-72.12 2327.62,-102.62"/>
+<text text-anchor="start" x="2189.88" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
+<text text-anchor="middle" x="2254.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_module/telemetry/telemetry.c</text>
 </a>
 </g>
 </g>
-<!-- Node24&#45;&gt;Node25 -->
-<g id="edge29_Node000024_Node000025" class="edge">
-<title>Node24&#45;&gt;Node25</title>
-<g id="a_edge29_Node000024_Node000025"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1661.53,-141.75C1647.95,-129.21 1631.41,-113.93 1619.51,-102.94"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1659.11,-144.28 1668.83,-148.49 1663.86,-139.14 1659.11,-144.28"/>
+<!-- Node22&#45;&gt;Node25 -->
+<g id="edge29_Node000022_Node000025" class="edge">
+<title>Node22&#45;&gt;Node25</title>
+<g id="a_edge29_Node000022_Node000025"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2068.04,-146.1C2110.61,-132.94 2167.58,-115.33 2207.35,-103.03"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2067.24,-142.68 2058.72,-148.98 2069.31,-149.37 2067.24,-142.68"/>
+</a>
+</g>
+</g>
+<!-- Node26 -->
+<g id="Node000026" class="node">
+<title>Node26</title>
+<g id="a_Node000026"><a xlink:href="torque__controller_8c.html" target="_top" xlink:title="Vehicle torque request calculation.">
+<polygon fill="white" stroke="#666666" points="1672.62,-108.25 1544.88,-108.25 1544.88,-66.5 1672.62,-66.5 1672.62,-108.25"/>
+<text text-anchor="start" x="1552.88" y="-94.75" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
+<text text-anchor="start" x="1552.88" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">_module/torque_controller</text>
+<text text-anchor="middle" x="1608.75" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">/torque_controller.c</text>
+</a>
+</g>
+</g>
+<!-- Node22&#45;&gt;Node26 -->
+<g id="edge30_Node000022_Node000026" class="edge">
+<title>Node22&#45;&gt;Node26</title>
+<g id="a_edge30_Node000022_Node000026"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1925.8,-152.12C1859.27,-142.06 1764.13,-126.44 1681.75,-108.25 1678.8,-107.6 1675.79,-106.9 1672.76,-106.18"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1925.15,-155.56 1935.55,-153.59 1926.19,-148.64 1925.15,-155.56"/>
 </a>
 </g>
 </g>
 <!-- Node27 -->
 <g id="Node000027" class="node">
 <title>Node27</title>
-<g id="a_Node000027"><a xlink:href="main__module_2main_8c.html" target="_top" xlink:title="&quot;Main Module&quot; node source code">
-<polygon fill="white" stroke="#666666" points="2466.25,-102.62 2357.25,-102.62 2357.25,-72.12 2466.25,-72.12 2466.25,-102.62"/>
-<text text-anchor="start" x="2365.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
-<text text-anchor="middle" x="2411.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_module/main.c</text>
+<g id="a_Node000027"><a xlink:href="vehicle__fsm_8c.html" target="_top" xlink:title="Master vehicle state machine implementation.">
+<polygon fill="white" stroke="#666666" points="1862.38,-102.62 1691.12,-102.62 1691.12,-72.12 1862.38,-72.12 1862.38,-102.62"/>
+<text text-anchor="start" x="1699.12" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
+<text text-anchor="middle" x="1776.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_module/vehicle_fsm/vehicle_fsm.c</text>
 </a>
 </g>
 </g>
-<!-- Node26&#45;&gt;Node27 -->
-<g id="edge31_Node000026_Node000027" class="edge">
-<title>Node26&#45;&gt;Node27</title>
-<g id="a_edge31_Node000026_Node000027"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1997.93,-147.09C2002.93,-146.05 2007.91,-145.09 2012.75,-144.25 2160.72,-118.51 2201.74,-138.99 2348.75,-108.25 2355.37,-106.86 2362.29,-105.06 2369.01,-103.11"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1997.52,-143.6 1988.49,-149.14 1999,-150.44 1997.52,-143.6"/>
-</a>
-</g>
-</g>
-<!-- Node28 -->
-<g id="Node000028" class="node">
-<title>Node28</title>
-<g id="a_Node000028"><a xlink:href="powertrain_8c.html" target="_top" xlink:title="Powertrain implementation.">
-<polygon fill="white" stroke="#666666" points="1839.88,-102.62 1683.62,-102.62 1683.62,-72.12 1839.88,-72.12 1839.88,-102.62"/>
-<text text-anchor="start" x="1691.62" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
-<text text-anchor="middle" x="1761.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_module/powertrain/powertrain.c</text>
-</a>
-</g>
-</g>
-<!-- Node26&#45;&gt;Node28 -->
-<g id="edge32_Node000026_Node000028" class="edge">
-<title>Node26&#45;&gt;Node28</title>
-<g id="a_edge32_Node000026_Node000028"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1887.91,-144.92C1858.89,-131.92 1821.14,-115 1794.52,-103.06"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1886.23,-148 1896.78,-148.9 1889.09,-141.62 1886.23,-148"/>
+<!-- Node22&#45;&gt;Node27 -->
+<g id="edge31_Node000022_Node000027" class="edge">
+<title>Node22&#45;&gt;Node27</title>
+<g id="a_edge31_Node000022_Node000027"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M1953.79,-145.93C1913.37,-132.79 1859.49,-115.27 1821.83,-103.03"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="1952.52,-149.2 1963.11,-148.96 1954.68,-142.54 1952.52,-149.2"/>
 </a>
 </g>
 </g>
 <!-- Node29 -->
 <g id="Node000029" class="node">
 <title>Node29</title>
-<g id="a_Node000029"><a xlink:href="main__module_2telemetry_2telemetry_8c.html" target="_top" xlink:title="MAIN MODULE telemetry task implementations.">
-<polygon fill="white" stroke="#666666" points="2003.62,-102.62 1857.88,-102.62 1857.88,-72.12 2003.62,-72.12 2003.62,-102.62"/>
-<text text-anchor="start" x="1865.88" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
-<text text-anchor="middle" x="1930.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_module/telemetry/telemetry.c</text>
+<g id="a_Node000029"><a xlink:href="cooling__fsm_8c.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="2458.12,-102.62 2345.38,-102.62 2345.38,-72.12 2458.12,-72.12 2458.12,-102.62"/>
+<text text-anchor="start" x="2353.38" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/pdu</text>
+<text text-anchor="middle" x="2401.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/cooling/cooling_fsm.c</text>
 </a>
 </g>
 </g>
-<!-- Node26&#45;&gt;Node29 -->
-<g id="edge33_Node000026_Node000029" class="edge">
-<title>Node26&#45;&gt;Node29</title>
-<g id="a_edge33_Node000026_Node000029"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1930.75,-138.1C1930.75,-126.34 1930.75,-112.88 1930.75,-102.94"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1927.25,-138.01 1930.75,-148.01 1934.25,-138.01 1927.25,-138.01"/>
+<!-- Node28&#45;&gt;Node29 -->
+<g id="edge33_Node000028_Node000029" class="edge">
+<title>Node28&#45;&gt;Node29</title>
+<g id="a_edge33_Node000028_Node000029"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2339.33,-142.1C2353.98,-129.5 2371.94,-114.03 2384.83,-102.94"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2337.16,-139.36 2331.86,-148.53 2341.73,-144.66 2337.16,-139.36"/>
 </a>
 </g>
 </g>
 <!-- Node30 -->
 <g id="Node000030" class="node">
 <title>Node30</title>
-<g id="a_Node000030"><a xlink:href="torque__controller_8c.html" target="_top" xlink:title="Vehicle torque request calculation.">
-<polygon fill="white" stroke="#666666" points="2149.62,-108.25 2021.88,-108.25 2021.88,-66.5 2149.62,-66.5 2149.62,-108.25"/>
-<text text-anchor="start" x="2029.88" y="-94.75" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
-<text text-anchor="start" x="2029.88" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">_module/torque_controller</text>
-<text text-anchor="middle" x="2085.75" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">/torque_controller.c</text>
+<g id="a_Node000030"><a xlink:href="pdu_2main_8c.html" target="_top" xlink:title="&quot;PDU&quot; node source code">
+<polygon fill="white" stroke="#666666" points="2579.62,-102.62 2475.88,-102.62 2475.88,-72.12 2579.62,-72.12 2579.62,-102.62"/>
+<text text-anchor="start" x="2483.88" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/pdu</text>
+<text text-anchor="middle" x="2527.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
 </a>
 </g>
 </g>
-<!-- Node26&#45;&gt;Node30 -->
-<g id="edge34_Node000026_Node000030" class="edge">
-<title>Node26&#45;&gt;Node30</title>
-<g id="a_edge34_Node000026_Node000030"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M1970.88,-144.51C1993.41,-133.5 2021.49,-119.78 2044.24,-108.66"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="1969.44,-141.32 1962,-148.86 1972.52,-147.61 1969.44,-141.32"/>
+<!-- Node28&#45;&gt;Node30 -->
+<g id="edge34_Node000028_Node000030" class="edge">
+<title>Node28&#45;&gt;Node30</title>
+<g id="a_edge34_Node000028_Node000030"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2365.86,-145.68C2402.9,-132.57 2451.98,-115.2 2486.35,-103.03"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2364.95,-142.29 2356.69,-148.92 2367.29,-148.89 2364.95,-142.29"/>
 </a>
 </g>
 </g>
-<!-- Node31 -->
-<g id="Node000031" class="node">
-<title>Node31</title>
-<g id="a_Node000031"><a xlink:href="vehicle__fsm_8c.html" target="_top" xlink:title="Master vehicle state machine implementation.">
-<polygon fill="white" stroke="#666666" points="2339.38,-102.62 2168.12,-102.62 2168.12,-72.12 2339.38,-72.12 2339.38,-102.62"/>
-<text text-anchor="start" x="2176.12" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/main</text>
-<text text-anchor="middle" x="2253.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_module/vehicle_fsm/vehicle_fsm.c</text>
+<!-- Node32 -->
+<g id="Node000032" class="node">
+<title>Node32</title>
+<g id="a_Node000032"><a xlink:href="control__loop_8c.html" target="_top" xlink:title="Main torque vectoring control loop.">
+<polygon fill="white" stroke="#666666" points="3025.75,-108.25 2889.75,-108.25 2889.75,-66.5 3025.75,-66.5 3025.75,-108.25"/>
+<text text-anchor="start" x="2897.75" y="-94.75" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/torque</text>
+<text text-anchor="start" x="2897.75" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">_vector/control_loop/control</text>
+<text text-anchor="middle" x="2957.75" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">_loop.c</text>
 </a>
 </g>
 </g>
-<!-- Node26&#45;&gt;Node31 -->
-<g id="edge35_Node000026_Node000031" class="edge">
-<title>Node26&#45;&gt;Node31</title>
-<g id="a_edge35_Node000026_Node000031"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M2002.07,-146.79C2005.68,-145.93 2009.26,-145.08 2012.75,-144.25 2072.62,-130.06 2140.95,-114.25 2189.52,-103.08"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="2001.57,-143.31 1992.66,-149.05 2003.2,-150.12 2001.57,-143.31"/>
+<!-- Node31&#45;&gt;Node32 -->
+<g id="edge36_Node000031_Node000032" class="edge">
+<title>Node31&#45;&gt;Node32</title>
+<g id="a_edge36_Node000031_Node000032"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2534.55,-147.18C2540.02,-146.12 2545.46,-145.13 2550.75,-144.25 2696.3,-120.14 2735.61,-134.76 2880.75,-108.25 2883.6,-107.73 2886.5,-107.16 2889.43,-106.55"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2533.93,-143.73 2524.82,-149.14 2535.32,-150.59 2533.93,-143.73"/>
 </a>
 </g>
 </g>
 <!-- Node33 -->
 <g id="Node000033" class="node">
 <title>Node33</title>
-<g id="a_Node000033"><a xlink:href="cooling__fsm_8c.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="2718.12,-102.62 2605.38,-102.62 2605.38,-72.12 2718.12,-72.12 2718.12,-102.62"/>
-<text text-anchor="start" x="2613.38" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/pdu</text>
-<text text-anchor="middle" x="2661.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/cooling/cooling_fsm.c</text>
+<g id="a_Node000033"><a xlink:href="torque__vector_2main_8c.html" target="_top" xlink:title="&quot;Torque Vector&quot; node source code">
+<polygon fill="white" stroke="#666666" points="3159.25,-102.62 3044.25,-102.62 3044.25,-72.12 3159.25,-72.12 3159.25,-102.62"/>
+<text text-anchor="start" x="3052.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/torque</text>
+<text text-anchor="middle" x="3101.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_vector/main.c</text>
 </a>
 </g>
 </g>
-<!-- Node32&#45;&gt;Node33 -->
-<g id="edge37_Node000032_Node000033" class="edge">
-<title>Node32&#45;&gt;Node33</title>
-<g id="a_edge37_Node000032_Node000033"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M2123.7,-146.32C2126.75,-145.55 2129.78,-144.85 2132.75,-144.25 2335.52,-103.43 2393.52,-146.72 2596.75,-108.25 2603.82,-106.91 2611.22,-105.08 2618.37,-103.07"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="2122.87,-142.92 2114.19,-148.99 2124.76,-149.66 2122.87,-142.92"/>
+<!-- Node31&#45;&gt;Node33 -->
+<g id="edge37_Node000031_Node000033" class="edge">
+<title>Node31&#45;&gt;Node33</title>
+<g id="a_edge37_Node000031_Node000033"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2532.75,-147.3C2538.81,-146.16 2544.88,-145.12 2550.75,-144.25 2764.13,-112.66 2822.58,-147.15 3034.75,-108.25 3042.03,-106.92 3049.64,-105.09 3057.02,-103.08"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2532.47,-143.79 2523.34,-149.17 2533.82,-150.66 2532.47,-143.79"/>
 </a>
 </g>
 </g>
 <!-- Node34 -->
 <g id="Node000034" class="node">
 <title>Node34</title>
-<g id="a_Node000034"><a xlink:href="pdu_2main_8c.html" target="_top" xlink:title="&quot;PDU&quot; node source code">
-<polygon fill="white" stroke="#666666" points="2587.62,-102.62 2483.88,-102.62 2483.88,-72.12 2587.62,-72.12 2587.62,-102.62"/>
-<text text-anchor="start" x="2491.88" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/pdu</text>
-<text text-anchor="middle" x="2535.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
+<g id="a_Node000034"><a xlink:href="imu_8c.html" target="_top" xlink:title="IMU calibration and coordinate transformations.">
+<polygon fill="white" stroke="#666666" points="2712.25,-102.62 2597.25,-102.62 2597.25,-72.12 2712.25,-72.12 2712.25,-102.62"/>
+<text text-anchor="start" x="2605.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/torque</text>
+<text text-anchor="middle" x="2654.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_vector/sensors/imu.c</text>
 </a>
 </g>
 </g>
-<!-- Node32&#45;&gt;Node34 -->
-<g id="edge38_Node000032_Node000034" class="edge">
-<title>Node32&#45;&gt;Node34</title>
-<g id="a_edge38_Node000032_Node000034"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M2123.87,-146.38C2126.86,-145.6 2129.83,-144.88 2132.75,-144.25 2282.59,-111.96 2325.91,-140.54 2475.75,-108.25 2482.19,-106.86 2488.9,-105.03 2495.41,-103.05"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="2123.2,-142.93 2114.54,-149.04 2125.12,-149.66 2123.2,-142.93"/>
+<!-- Node31&#45;&gt;Node34 -->
+<g id="edge38_Node000031_Node000034" class="edge">
+<title>Node31&#45;&gt;Node34</title>
+<g id="a_edge38_Node000031_Node000034"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2509.37,-145.43C2542.67,-132.36 2586.52,-115.15 2617.32,-103.06"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2508.4,-142.06 2500.37,-148.97 2510.96,-148.57 2508.4,-142.06"/>
 </a>
 </g>
 </g>
-<!-- Node36 -->
-<g id="Node000036" class="node">
-<title>Node36</title>
-<g id="a_Node000036"><a xlink:href="control__loop_8c.html" target="_top" xlink:title="Main torque vectoring control loop.">
-<polygon fill="white" stroke="#666666" points="3297.75,-108.25 3161.75,-108.25 3161.75,-66.5 3297.75,-66.5 3297.75,-108.25"/>
-<text text-anchor="start" x="3169.75" y="-94.75" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/torque</text>
-<text text-anchor="start" x="3169.75" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">_vector/control_loop/control</text>
-<text text-anchor="middle" x="3229.75" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">_loop.c</text>
+<!-- Node35 -->
+<g id="Node000035" class="node">
+<title>Node35</title>
+<g id="a_Node000035"><a xlink:href="torque__vector_2telemetry_2telemetry_8c.html" target="_top" xlink:title="TORQUE VECTOR telemetry task implementations.">
+<polygon fill="white" stroke="#666666" points="2871.38,-102.62 2730.12,-102.62 2730.12,-72.12 2871.38,-72.12 2871.38,-102.62"/>
+<text text-anchor="start" x="2738.12" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/torque</text>
+<text text-anchor="middle" x="2800.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_vector/telemetry/telemetry.c</text>
 </a>
 </g>
 </g>
-<!-- Node35&#45;&gt;Node36 -->
-<g id="edge40_Node000035_Node000036" class="edge">
-<title>Node35&#45;&gt;Node36</title>
-<g id="a_edge40_Node000035_Node000036"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M2291.11,-147.21C2297.39,-146.07 2303.67,-145.05 2309.75,-144.25 2681.54,-95.19 2781.82,-163.42 3152.75,-108.25 3155.62,-107.82 3158.53,-107.33 3161.47,-106.79"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="2290.49,-143.77 2281.34,-149.11 2291.82,-150.64 2290.49,-143.77"/>
+<!-- Node31&#45;&gt;Node35 -->
+<g id="edge39_Node000031_Node000035" class="edge">
+<title>Node31&#45;&gt;Node35</title>
+<g id="a_edge39_Node000031_Node000035"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2538.43,-146.94C2542.59,-146.03 2546.72,-145.12 2550.75,-144.25 2626.65,-127.79 2646.08,-125.73 2721.75,-108.25 2728.78,-106.63 2736.14,-104.86 2743.43,-103.08"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2537.84,-143.49 2528.82,-149.06 2539.34,-150.32 2537.84,-143.49"/>
 </a>
 </g>
 </g>
 <!-- Node37 -->
 <g id="Node000037" class="node">
 <title>Node37</title>
-<g id="a_Node000037"><a xlink:href="torque__vector_2main_8c.html" target="_top" xlink:title="&quot;Torque Vector&quot; node source code">
-<polygon fill="white" stroke="#666666" points="2851.25,-102.62 2736.25,-102.62 2736.25,-72.12 2851.25,-72.12 2851.25,-102.62"/>
-<text text-anchor="start" x="2744.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/torque</text>
-<text text-anchor="middle" x="2793.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_vector/main.c</text>
+<g id="a_Node000037"><a xlink:href="bootloader_8c.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="3310.25,-102.62 3177.25,-102.62 3177.25,-72.12 3310.25,-72.12 3310.25,-102.62"/>
+<text text-anchor="start" x="3185.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/bootloader</text>
+<text text-anchor="middle" x="3243.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/bootloader/bootloader.c</text>
 </a>
 </g>
 </g>
-<!-- Node35&#45;&gt;Node37 -->
-<g id="edge41_Node000035_Node000037" class="edge">
-<title>Node35&#45;&gt;Node37</title>
-<g id="a_edge41_Node000035_Node000037"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M2292.51,-147.24C2298.32,-146.13 2304.12,-145.12 2309.75,-144.25 2493.6,-115.92 2543.98,-142.88 2726.75,-108.25 2733.9,-106.89 2741.38,-105.08 2748.64,-103.1"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="2291.96,-143.78 2282.83,-149.16 2293.32,-150.64 2291.96,-143.78"/>
-</a>
-</g>
-</g>
-<!-- Node38 -->
-<g id="Node000038" class="node">
-<title>Node38</title>
-<g id="a_Node000038"><a xlink:href="imu_8c.html" target="_top" xlink:title="IMU calibration and coordinate transformations.">
-<polygon fill="white" stroke="#666666" points="2984.25,-102.62 2869.25,-102.62 2869.25,-72.12 2984.25,-72.12 2984.25,-102.62"/>
-<text text-anchor="start" x="2877.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/torque</text>
-<text text-anchor="middle" x="2926.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_vector/sensors/imu.c</text>
-</a>
-</g>
-</g>
-<!-- Node35&#45;&gt;Node38 -->
-<g id="edge42_Node000035_Node000038" class="edge">
-<title>Node35&#45;&gt;Node38</title>
-<g id="a_edge42_Node000035_Node000038"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M2291.74,-147.25C2297.81,-146.12 2303.87,-145.09 2309.75,-144.25 2552.67,-109.4 2619.25,-151.91 2860.75,-108.25 2868.05,-106.93 2875.69,-105.08 2883.07,-103.04"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="2291.46,-143.73 2282.32,-149.09 2292.81,-150.6 2291.46,-143.73"/>
-</a>
-</g>
-</g>
-<!-- Node39 -->
-<g id="Node000039" class="node">
-<title>Node39</title>
-<g id="a_Node000039"><a xlink:href="torque__vector_2telemetry_2telemetry_8c.html" target="_top" xlink:title="TORQUE VECTOR telemetry task implementations.">
-<polygon fill="white" stroke="#666666" points="3143.38,-102.62 3002.12,-102.62 3002.12,-72.12 3143.38,-72.12 3143.38,-102.62"/>
-<text text-anchor="start" x="3010.12" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/torque</text>
-<text text-anchor="middle" x="3072.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">_vector/telemetry/telemetry.c</text>
-</a>
-</g>
-</g>
-<!-- Node35&#45;&gt;Node39 -->
-<g id="edge43_Node000035_Node000039" class="edge">
-<title>Node35&#45;&gt;Node39</title>
-<g id="a_edge43_Node000035_Node000039"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M2291.42,-147.22C2297.6,-146.09 2303.77,-145.07 2309.75,-144.25 2611.35,-102.93 2692.73,-153.6 2993.75,-108.25 3002.42,-106.94 3011.53,-105.1 3020.34,-103.07"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="2290.98,-143.74 2281.83,-149.09 2292.31,-150.61 2290.98,-143.74"/>
-</a>
-</g>
-</g>
-<!-- Node41 -->
-<g id="Node000041" class="node">
-<title>Node41</title>
-<g id="a_Node000041"><a xlink:href="bootloader_8c.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="3449.25,-102.62 3316.25,-102.62 3316.25,-72.12 3449.25,-72.12 3449.25,-102.62"/>
-<text text-anchor="start" x="3324.25" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/bootloader</text>
-<text text-anchor="middle" x="3382.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/bootloader/bootloader.c</text>
-</a>
-</g>
-</g>
-<!-- Node40&#45;&gt;Node41 -->
-<g id="edge45_Node000040_Node000041" class="edge">
-<title>Node40&#45;&gt;Node41</title>
-<g id="a_edge45_Node000040_Node000041"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M2445.73,-146.97C2450.79,-145.92 2455.84,-144.99 2460.75,-144.25 2832.91,-88.32 2934.59,-164.18 3306.75,-108.25 3315.25,-106.97 3324.16,-105.12 3332.78,-103.05"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="2445.19,-143.51 2436.2,-149.11 2446.72,-150.34 2445.19,-143.51"/>
+<!-- Node36&#45;&gt;Node37 -->
+<g id="edge41_Node000036_Node000037" class="edge">
+<title>Node36&#45;&gt;Node37</title>
+<g id="a_edge41_Node000036_Node000037"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M2687.87,-146.92C2692.55,-145.92 2697.21,-145.01 2701.75,-144.25 2907.05,-109.78 2963.51,-143.06 3168.75,-108.25 3176.72,-106.9 3185.07,-105.09 3193.19,-103.11"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="2687.44,-143.43 2678.47,-149.06 2688.99,-150.25 2687.44,-143.43"/>
 </a>
 </g>
 </g>

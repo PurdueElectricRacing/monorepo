@@ -11,6 +11,7 @@ var dashboard_2main_8c =
     [ "RTOS_DEFINE_TASK", "dashboard_2main_8c.html#a73dc496c1c425cc288e825a44db847bd", null ],
     [ "RTOS_DEFINE_TASK", "dashboard_2main_8c.html#a8a6793195dfc8b6359030a5aad38dd8c", null ],
     [ "RTOS_DEFINE_TASK", "dashboard_2main_8c.html#a82fe837997b54030e3e2773da5e6dba5", null ],
+    [ "RTOS_DEFINE_TASK", "dashboard_2main_8c.html#a8999bb473ba368e6b2643fa45b4b8e39", null ],
     [ "service_start_button", "dashboard_2main_8c.html#a18c3e1428bba19774305c0d3b3b97942", null ],
     [ "sweep_external_leds", "dashboard_2main_8c.html#afde7bfa6b37748d965fb66a4803f2ced", null ],
     [ "adc_channels", "dashboard_2main_8c.html#aac4007a039922c17a75b7297b2cb0d72", null ],

@@ -10,7 +10,7 @@ var PDU_8h =
     [ "CAN_init_data", "PDU_8h.html#aa74d2751bf997adba50be76251291997", null ],
     [ "CAN_init_peripherals", "PDU_8h.html#aa807ade5b93f6697cfac0ae05b7f5255", null ],
     [ "CAN_rx_dispatcher", "PDU_8h.html#aba60db2ca6b351f91082c06fc4d18cd5", null ],
-    [ "CAN_SEND_coolant_out", "PDU_8h.html#af237495897276dabfb25440f4d41d374", null ],
+    [ "CAN_SEND_cooling_outputs", "PDU_8h.html#a45366166e8de145429fab369e3885bb1", null ],
     [ "CAN_SEND_pdu_fault_event", "PDU_8h.html#a80badc80d1121e8d450502c72b46f28a", null ],
     [ "CAN_SEND_pdu_fault_sync", "PDU_8h.html#ae708f591718b4d247f28ab7cd0cb78a3", null ],
     [ "CAN_SEND_pdu_init", "PDU_8h.html#a984d4c08c875de80bf03a51eca2fb6ce", null ],

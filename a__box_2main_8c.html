@@ -113,7 +113,6 @@ $(function(){initNavTree('a__box_2main_8c.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="heartbeat_8h_source.html">common/heartbeat/heartbeat.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2adc_2adc_8h_source.html">common/phal_G4/adc/adc.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="fdcan_8h_source.html">common/phal_G4/fdcan/fdcan.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2gpio_2gpio_8h_source.html">common/phal_G4/gpio/gpio.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2rcc_2rcc_8h_source.html">common/phal_G4/rcc/rcc.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="g474ret6_8h_source.html">common/phal_G4/pin_defs/g474ret6.h</a>&quot;</code><br />
@@ -605,7 +604,7 @@ Here is the call graph for this function:</div>
 <div class="line">    .channels      = <a class="code hl_variable" href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a>,</div>
 <div class="line">    .channel_count = <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a>) / <span class="keyword">sizeof</span>(<a class="code hl_variable" href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a>[0]),</div>
 <div class="line">}</div>
-<div class="ttc" id="aa__box_2main_8c_html_aac4007a039922c17a75b7297b2cb0d72"><div class="ttname"><a href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc_channels[]</div><div class="ttdef"><b>Definition</b> main.c:67</div></div>
+<div class="ttc" id="aa__box_2main_8c_html_aac4007a039922c17a75b7297b2cb0d72"><div class="ttname"><a href="#aac4007a039922c17a75b7297b2cb0d72">adc_channels</a></div><div class="ttdeci">static const PHAL_ADC_ChannelConfig_t adc_channels[]</div><div class="ttdef"><b>Definition</b> main.c:66</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -646,8 +645,8 @@ Here is the call graph for this function:</div>
 <div class="line">    .cpha = <a class="code hl_enumvalue" href="phal__G4_2spi_2spi_8h.html#a26da2bbd284e1fb8d8517cac6bd79bf4a938aa9bf0d6f5c65656fbc49b478b55f">SPI_CPHA_FIRST_EDGE</a>,</div>
 <div class="line">    .data_rate     = 500&#39;000, </div>
 <div class="line">}</div>
-<div class="ttc" id="aa__box_2main_8c_html_a40a59859bbadb9d8ab250430b7793916"><div class="ttname"><a href="#a40a59859bbadb9d8ab250430b7793916">spi1_tx_dma</a></div><div class="ttdeci">static PHAL_DMA_Handle_t spi1_tx_dma</div><div class="ttdef"><b>Definition</b> main.c:42</div></div>
-<div class="ttc" id="aa__box_2main_8c_html_a74b59d963c2e2e12058d027a4392f3e8"><div class="ttname"><a href="#a74b59d963c2e2e12058d027a4392f3e8">spi1_rx_dma</a></div><div class="ttdeci">static PHAL_DMA_Handle_t spi1_rx_dma</div><div class="ttdef"><b>Definition</b> main.c:32</div></div>
+<div class="ttc" id="aa__box_2main_8c_html_a40a59859bbadb9d8ab250430b7793916"><div class="ttname"><a href="#a40a59859bbadb9d8ab250430b7793916">spi1_tx_dma</a></div><div class="ttdeci">static PHAL_DMA_Handle_t spi1_tx_dma</div><div class="ttdef"><b>Definition</b> main.c:41</div></div>
+<div class="ttc" id="aa__box_2main_8c_html_a74b59d963c2e2e12058d027a4392f3e8"><div class="ttname"><a href="#a74b59d963c2e2e12058d027a4392f3e8">spi1_rx_dma</a></div><div class="ttdeci">static PHAL_DMA_Handle_t spi1_rx_dma</div><div class="ttdef"><b>Definition</b> main.c:31</div></div>
 <div class="ttc" id="aa__box_2main_8h_html_a28e3b9a83990e6c65c180a9c03d9747a"><div class="ttname"><a href="a__box_2main_8h.html#a28e3b9a83990e6c65c180a9c03d9747a">SPI1_CS_PIN</a></div><div class="ttdeci">#define SPI1_CS_PIN</div><div class="ttdef"><b>Definition</b> main.h:32</div></div>
 <div class="ttc" id="aa__box_2main_8h_html_a898214e0ac884181dd81f34d8821829f"><div class="ttname"><a href="a__box_2main_8h.html#a898214e0ac884181dd81f34d8821829f">SPI1_CS_PORT</a></div><div class="ttdeci">#define SPI1_CS_PORT</div><div class="ttdef"><b>Definition</b> main.h:31</div></div>
 <div class="ttc" id="aphal__G4_2spi_2spi_8h_html_a26da2bbd284e1fb8d8517cac6bd79bf4a938aa9bf0d6f5c65656fbc49b478b55f"><div class="ttname"><a href="phal__G4_2spi_2spi_8h.html#a26da2bbd284e1fb8d8517cac6bd79bf4a938aa9bf0d6f5c65656fbc49b478b55f">SPI_CPHA_FIRST_EDGE</a></div><div class="ttdeci">@ SPI_CPHA_FIRST_EDGE</div><div class="ttdef"><b>Definition</b> spi.h:35</div></div>

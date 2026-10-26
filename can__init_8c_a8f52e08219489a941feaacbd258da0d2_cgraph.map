@@ -1,13 +1,13 @@
 <map id="CAN_init_filters" name="CAN_init_filters">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,112,117,138"/>
-<area shape="rect" id="Node000002" href="$A__BOX_8h.html#a500b6be206fba2002ed925d335a72173" title=" " alt="" coords="165,63,300,88"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,109,170,91,171,96,109,114"/>
-<area shape="rect" id="Node000010" href="$A__BOX_8h.html#a78eb33b279c10bc3c4f9813223091a7a" title=" " alt="" coords="165,112,300,138"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="117,122,149,122,149,128,117,128"/>
-<area shape="rect" id="Node000011" href="$DASHBOARD_8h.html#acf88135d43c094d19b41a9295ec4a6e4" title=" " alt="" coords="165,161,300,187"/>
-<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="109,136,171,154,170,159,108,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,136,117,162"/>
+<area shape="rect" id="Node000002" href="$A__BOX_8h.html#a500b6be206fba2002ed925d335a72173" title=" " alt="" coords="165,87,300,112"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,133,170,115,171,120,109,138"/>
+<area shape="rect" id="Node000010" href="$A__BOX_8h.html#a78eb33b279c10bc3c4f9813223091a7a" title=" " alt="" coords="165,136,300,162"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="117,146,149,146,149,152,117,152"/>
+<area shape="rect" id="Node000011" href="$A__BOX_8h.html#acf88135d43c094d19b41a9295ec4a6e4" title=" " alt="" coords="165,185,300,211"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="109,160,171,178,170,183,108,165"/>
 <area shape="rect" id="Node000003" href="$fdcan_8c.html#ac89d6a90c4f53644b4189ddb0e1fea18" title="Configure exact&#45;match acceptance filters for RX FIFO0." alt="" coords="348,112,518,138"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="288,86,364,105,362,110,287,92"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="301,105,333,110,332,115,300,111"/>
 <area shape="rect" id="Node000004" href="$fdcan__priv_8c.html#ab936d0060d65f2f18ed211714e7b0746" title="Enter INIT mode and unlock configuration registers. Blocks until entered." alt="" coords="574,5,784,31"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="450,109,500,74,565,40,583,33,585,38,567,45,503,79,453,114"/>
 <area shape="rect" id="Node000005" href="$fdcan__priv_8c.html#ab58932032e5748d11d6fbcd04c68a322" title="Leave INIT mode, ending configuration. Blocks until left." alt="" coords="579,55,779,80"/>
@@ -21,6 +21,5 @@
 <area shape="rect" id="Node000007" href="$fdcan__priv_8c.html#ac30a34edfbc6b2742bc45ea2a2931d71" title="Base address of this peripheral&#39;s slice of shared message RAM." alt="" coords="840,177,1036,203"/>
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="763,143,870,170,869,176,762,148"/>
 <area shape="poly" id="edge9_Node000009_Node000007" title=" " alt="" coords="762,232,869,205,870,210,763,237"/>
-<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="300,122,332,122,332,128,300,128"/>
-<area shape="poly" id="edge13_Node000011_Node000003" title=" " alt="" coords="287,158,362,139,364,145,288,163"/>
+<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="300,138,332,134,333,139,301,143"/>
 </map>
