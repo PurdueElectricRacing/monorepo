@@ -99,9 +99,50 @@ def test_ready_to_drive_json_matches_committed(artifacts) -> None:
     assert artifacts["ready_to_drive.json"] == _committed("ready_to_drive.json")
 
 
-def test_stimuli_match_committed(artifacts) -> None:
+def test_stimuli_match_expected_content(artifacts) -> None:
+    # The stimulus file is gitignored (a derived artifact of the scenario),
+    # so its correctness is pinned in-memory against the expected document
+    # rather than against a committed file.
     relative_path = "stimuli/ready_to_drive_stimuli.json"
-    assert artifacts[relative_path] == _committed(relative_path)
+    expected = (
+        '{\n'
+        '  "schema_version": 1,\n'
+        '  "name": "per_car_ready_to_drive",\n'
+        '  "events": [\n'
+        '    {"type": "gpio", "at_ms": 0, "board": "main_module", "pin": "PB9", "value": true},\n'
+        '    {"type": "gpio", "at_ms": 0, "board": "main_module", "pin": "PC4", "value": false},\n'
+        '    {"type": "gpio", "at_ms": 0, "board": "dashboard", "pin": "PB14", "value": true},\n'
+        '\n'
+        '    {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 8, "value": 200},\n'
+        '    {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 7, "value": 775},\n'
+        '    {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 2, "value": 2550},\n'
+        '    {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 9, "value": 650},\n'
+        '\n'
+        '    {"type": "can", "at_ms": 500, "repeat": {"every_ms": 500, "count": 13}, "bus": "1", "id": "0x231", "data": [0, 41, 0, 0]},\n'
+        '    {"type": "can", "at_ms": 510, "repeat": {"every_ms": 500, "count": 13}, "bus": "1", "id": "0x232", "data": [0, 41, 0, 0]},\n'
+        '    {"type": "can", "at_ms": 520, "repeat": {"every_ms": 500, "count": 13}, "bus": "1", "id": "0x233", "data": [0, 41, 0, 0]},\n'
+        '    {"type": "can", "at_ms": 530, "repeat": {"every_ms": 500, "count": 13}, "bus": "1", "id": "0x234", "data": [0, 41, 0, 0]},\n'
+        '\n'
+        '    {"type": "gpio", "at_ms": 2500, "board": "dashboard", "pin": "PB14", "value": false},\n'
+        '    {"type": "gpio", "at_ms": 2600, "board": "dashboard", "pin": "PB14", "value": true}\n'
+        '  ],\n'
+        '  "expect": [\n'
+        '    {"type": "can", "bus": "1", "id": "0x111", "data": [0, 0, 0, 0, 0, 0, 0, 0], "at_ms": 90, "window_ms": 30},\n'
+        '    {"type": "can", "bus": "1", "id": "0x112", "data": [0, 0, 0, 0, 0, 0, 0, 0], "at_ms": 90, "window_ms": 30},\n'
+        '    {"type": "can", "bus": "1", "id": "0x113", "data": [0, 0, 0, 0, 0, 0, 0, 0], "at_ms": 90, "window_ms": 30},\n'
+        '    {"type": "can", "bus": "1", "id": "0x114", "data": [0, 0, 0, 0, 0, 0, 0, 0], "at_ms": 90, "window_ms": 30},\n'
+        '    {"type": "can", "bus": "1", "id": "0x111", "data": [0, 7, 0, 0, 92, 8, 12, 254], "at_ms": 5000, "window_ms": 200},\n'
+        '    {"type": "can", "bus": "1", "id": "0x112", "data": [0, 7, 0, 0, 92, 8, 12, 254], "at_ms": 5000, "window_ms": 200},\n'
+        '    {"type": "can", "bus": "1", "id": "0x113", "data": [0, 7, 0, 0, 92, 8, 12, 254], "at_ms": 5000, "window_ms": 200},\n'
+        '    {"type": "can", "bus": "1", "id": "0x114", "data": [0, 7, 0, 0, 92, 8, 12, 254], "at_ms": 5000, "window_ms": 200},\n'
+        '    {"type": "can", "bus": "0", "id": "0x46", "data": [5], "at_ms": 5000, "window_ms": 200}\n'
+        '  ]\n'
+        '}\n'
+    )
+    assert artifacts[relative_path] == expected, (
+        f"{relative_path} drifted from the expected stimulus content; regenerate "
+        "with generators/generate.py"
+    )
 
 
 # ---------------------------------------------------------------------------
