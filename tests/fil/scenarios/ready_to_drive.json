@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "name": "per_car_ready_to_drive",
+  "events": [
+    {"type": "gpio", "at_ms": 0, "board": "main_module", "pin": "PB9", "value": true},
+    {"type": "gpio", "at_ms": 0, "board": "main_module", "pin": "PC4", "value": false},
+    {"type": "gpio", "at_ms": 0, "board": "dashboard", "pin": "PB14", "value": true},
+
+    {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 8, "value": 200},
+    {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 7, "value": 775},
+    {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 2, "value": 2550},
+    {"type": "adc", "at_ms": 0, "board": "dashboard", "instance": "ADC1", "channel": 9, "value": 650},
+
+    {"type": "can", "bus": "MCAN", "message": "INVA_INFO", "at_ms": 500, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_DCBusVoltage": 41}},
+    {"type": "can", "bus": "MCAN", "message": "INVB_INFO", "at_ms": 510, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_DCBusVoltage": 41}},
+    {"type": "can", "bus": "MCAN", "message": "INVC_INFO", "at_ms": 520, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_DCBusVoltage": 41}},
+    {"type": "can", "bus": "MCAN", "message": "INVD_INFO", "at_ms": 530, "repeat": {"every_ms": 500, "count": 13}, "values": {"AMK_DCBusVoltage": 41}},
+
+    {"type": "gpio", "at_ms": 2500, "board": "dashboard", "pin": "PB14", "value": false},
+    {"type": "gpio", "at_ms": 2600, "board": "dashboard", "pin": "PB14", "value": true}
+  ],
+  "expect": [
+    {"type": "can", "bus": "MCAN", "message": "INVA_SET", "at_ms": 90, "window_ms": 30, "values": {}},
+    {"type": "can", "bus": "MCAN", "message": "INVB_SET", "at_ms": 90, "window_ms": 30, "values": {}},
+    {"type": "can", "bus": "MCAN", "message": "INVC_SET", "at_ms": 90, "window_ms": 30, "values": {}},
+    {"type": "can", "bus": "MCAN", "message": "INVD_SET", "at_ms": 90, "window_ms": 30, "values": {}},
+    {"type": "can", "bus": "MCAN", "message": "INVA_SET", "at_ms": 5000, "window_ms": 200, "raw": [0, 7, 0, 0, 92, 8, 12, 254]},
+    {"type": "can", "bus": "MCAN", "message": "INVB_SET", "at_ms": 5000, "window_ms": 200, "raw": [0, 7, 0, 0, 92, 8, 12, 254]},
+    {"type": "can", "bus": "MCAN", "message": "INVC_SET", "at_ms": 5000, "window_ms": 200, "raw": [0, 7, 0, 0, 92, 8, 12, 254]},
+    {"type": "can", "bus": "MCAN", "message": "INVD_SET", "at_ms": 5000, "window_ms": 200, "raw": [0, 7, 0, 0, 92, 8, 12, 254]},
+    {"type": "can", "bus": "VCAN", "message": "main_hb", "at_ms": 5000, "window_ms": 200, "values": {"car_state": "ready2drive"}}
+  ]
+}

@@ -16,7 +16,12 @@ from core.declaration_loader import DeclarationValidationError, load_declaration
 from canpiler.api import Canpiler
 from canpiler.pipeline.compiler import CanCompilationError
 from faultgen.api import FaultGenerator
-from filgen.api import FilGenerator
+from filgen.api import (
+    FilGenerator,
+    FilScenarioError,
+    READY_TO_DRIVE_SCENARIO_FILE,
+    load_fil_scenario,
+)
 from dearunits.api import DearUnits
 from dearunits.config_loader import UnitConfigValidationError, load_unit_config_bundle
 from core.utils import get_git_hash, print_as_error
@@ -39,10 +44,11 @@ def generate() -> None:
     linked_can         = canpiler.link(compiled)
     version            = get_git_hash()
     unit_graph         = dearunits.parse(unit_config)
+    fil_scenario       = load_fil_scenario(READY_TO_DRIVE_SCENARIO_FILE)
 
     artifacts  = canpiler.generate(linked_can, version)
     artifacts += faultgen.generate(fault_plan, version)
-    artifacts += filgen.generate(linked_can, version)
+    artifacts += filgen.generate(linked_can, fil_scenario, version)
     artifacts += dearunits.generate(unit_graph)
 
     output_roots = {
@@ -72,6 +78,7 @@ def generate() -> None:
                 "boards/*.json",
                 "network.json",
                 "ready_to_drive.json",
+                "stimuli/*.json",
             ),
         },
     )
