@@ -61,7 +61,10 @@ original master file.
 `pytest` (the tests under `generators/filgen/tests`) fails if the committed
 `tests/fil/` JSONs drift from what the generator produces, so after any CAN
 config change regenerate with `python3 generators/generate.py` and commit the
-updated JSONs.
+updated JSONs. The stimulus file
+`stimuli/ready_to_drive_stimuli.json` is gitignored as a derived artifact of
+the scenario; regenerate it with `python3 generators/generate.py` locally
+before running the FIL suite.
 
 ## Build and run
 
