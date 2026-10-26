@@ -307,37 +307,6 @@ void adbms_read_therms(adbms_bms_t *bms) {
     bms->avg_therm_temp = bms_sum_therm_temp / (ADBMS_MODULE_COUNT * ADBMS6380_GPIO_COUNT);
 }
 
-static bool adbms_connect_sequence(adbms_bms_t *bms) {
-    adbms_write_rega(bms);
-    if (!adbms_read_and_check_rega(bms)) {
-        return false;
-    }
-
-    adbms_write_regb(bms);
-    if (!adbms_read_and_check_regb(bms)) {
-        return false;
-    }
-
-    bms->recovery_attempts = 0; // successful connect
-    adbms_start_adcv(bms);
-    return true;
-}
-
-static bool adbms_read_loop_cycle(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
-    adbms_read_cells(bms);
-    if (bms->min_voltage < ADBMS_CELL_MIN_VALID_V || bms->max_voltage > ADBMS_CELL_MAX_VALID_V) {
-        return false;
-    }
-
-    adbms_read_therms(bms);
-    adbms_calculate_balance_cells(bms, min_voltage_for_balance, min_delta_for_balance);
-    adbms_write_regb(bms); // apply new discharge bits
-    if (!adbms_read_and_check_regb(bms)) {
-        return false;
-    }
-    return true;
-}
-
 void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
     adbms_state_t next_state = bms->state;
 
@@ -349,19 +318,40 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
 
     switch (bms->state) {
         case ADBMS_STATE_CONNECTING: {
-            if (adbms_connect_sequence(bms)) {
-                next_state = ADBMS_STATE_READ_LOOP;
-            } else {
+            // Run the connect sequence; any verification failure goes to RECOVERING.
+            adbms_write_rega(bms);
+            if (!adbms_read_and_check_rega(bms)) {
                 next_state = ADBMS_STATE_RECOVERING;
+                break;
             }
+
+            adbms_write_regb(bms);
+            if (!adbms_read_and_check_regb(bms)) {
+                next_state = ADBMS_STATE_RECOVERING;
+                break;
+            }
+
+            bms->recovery_attempts = 0; // successful connect
+            adbms_start_adcv(bms);
+            next_state = ADBMS_STATE_READ_LOOP;
             break;
         }
         case ADBMS_STATE_READ_LOOP: {
-            if (adbms_read_loop_cycle(bms, min_voltage_for_balance, min_delta_for_balance)) {
-                next_state = ADBMS_STATE_READ_LOOP;
-            } else {
+            // Run one full measure/balance cycle; any failure goes to RECOVERING.
+            adbms_read_cells(bms);
+            if (bms->min_voltage < ADBMS_CELL_MIN_VALID_V || bms->max_voltage > ADBMS_CELL_MAX_VALID_V) {
                 next_state = ADBMS_STATE_RECOVERING;
+                break;
             }
+
+            adbms_read_therms(bms);
+            adbms_calculate_balance_cells(bms, min_voltage_for_balance, min_delta_for_balance);
+            adbms_write_regb(bms); // apply new discharge bits
+            if (!adbms_read_and_check_regb(bms)) {
+                next_state = ADBMS_STATE_RECOVERING;
+                break;
+            }
+            next_state = ADBMS_STATE_READ_LOOP;
             break;
         }
         case ADBMS_STATE_RECOVERING: {

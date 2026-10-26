@@ -40,8 +40,8 @@ This updates cell voltage, thermistor readings, and error flags
 ### State Machine
 
 `adbms_periodic()` implements a 4-state machine. Each state is entered once per
-tick, and its body runs a complete straight-line sequence in one call via a
-chain helper. Any failure mid-sequence jumps the state to `RECOVERING`.
+tick, and its body runs a complete straight-line sequence in one call, written
+inline in the state's switch case. Any failure mid-sequence jumps the state to `RECOVERING`.
 `RECOVERING` and `ERROR` are non-blocking waits spanning multiple ticks.
 
 | State | Action |
