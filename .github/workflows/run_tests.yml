@@ -38,10 +38,8 @@ jobs:
       - name: Build vehicle firmware
         run: python3 firmware/build_firmware.py
 
-      - name: Regenerate FIL configs
-        run: |
-          python3 -c "import pydantic, jinja2" 2>/dev/null || python3 -m pip install pydantic jinja2
-          PYTHONPATH=generators python3 generators/generate.py
+      - name: Generate FIL configs
+        run: python3 generators/generate.py
 
       - name: Build FIL with PGO and run integration tests
         env:

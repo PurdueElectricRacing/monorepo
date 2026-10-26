@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Build FIL with PGO and validate the real PER vehicle firmware without hardware."""
+"""Build FIL with PGO and validate the real PER vehicle firmware without hardware.
+
+The FIL configs are generated; run `python3 generators/generate.py` after
+changing tests/fil/scenarios/ or generators/.
+"""
 
 import argparse
 import json
@@ -75,6 +79,10 @@ def main() -> None:
         elf = ROOT / f"firmware/output/{board}/{board}.elf"
         if not elf.is_file():
             raise FileNotFoundError(f"{elf}: run python3 firmware/build_firmware.py first")
+    if not (CONFIGS / "stimuli/ready_to_drive_stimuli.json").is_file():
+        raise FileNotFoundError(
+            "tests/fil/stimuli/ready_to_drive_stimuli.json: "
+            "run python3 generators/generate.py first")
     if args.build:
         build()
     for board in BOARDS:
