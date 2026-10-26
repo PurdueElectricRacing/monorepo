@@ -1,15 +1,15 @@
 use eframe::egui;
-use std::collections::{BTreeMap, VecDeque}; // can you explain what a btreemap, vecdeque is?
+use std::collections::{BTreeMap, VecDeque};
 
 pub struct TaskDiagnostics {
     pub task_id: u32,
     pub name: String,
     pub state: TaskState,
-    pub stack_hwm: u32,
+    pub stack_hwm: u16,
     pub cpu_util: Option<f32>,
 }
-pub struct BoardDiagnostics { // some of this stuff is never used - why?
-    pub name: String, 
+pub struct BoardDiagnostics {
+    pub name: String,
     pub cpu_util: Option<f32>,
     pub capacity_exceeded: bool,
     pub tasks: Vec<TaskDiagnostics>,
@@ -24,49 +24,24 @@ pub struct Diagnostics {
 
     pub boards: BTreeMap<String, BoardDiagnostics>,
     pub search: String,
-    pub selected_board: Option<String>, // selected board never used?
+    pub selected_board: Option<String>,
 }
 
 impl Diagnostics {
-    pub fn new(instance_num: usize) -> Self { // why does 
-        let mut boards = BTreeMap::new(); // why i need ts, why cant i just use an array
-        boards.insert(
-            "main_module".to_string(),
-            BoardDiagnostics {
-                name: "main_module".to_string(),
-                cpu_util: Some(67.420),
-                capacity_exceeded: false,
-                sample_count: 10,
-                task_count: 1,
-                tasks: vec![
-                    TaskDiagnostics {
-                        task_id: 1,
-                        name: "idle task".to_string(),
-                        state: TaskState::Ready,
-                        stack_hwm: 100,
-                        cpu_util: Some(1.0),
-                    },
-                    TaskDiagnostics {
-                        task_id: 2,
-                        name: "random stuff".to_string(),
-                        state: TaskState::Running,
-                        stack_hwm: 50,
-                        cpu_util: Some(5.0),
-                    },
-                ],
-                timestamp_ms: 10000,
-                cpu_history: VecDeque::from([(0.0, 45.0), (1.0, 52.0), (2.0, 67.4)]),
-            },
-        );
-        Self { // i forget what self does again. is this just filling out a new diagnostisc struct?
+    pub fn new(instance_num: usize) -> Self {
+        Self {
             title: format!("Diagnostics #{}", instance_num),
-            boards: boards,
+            boards: BTreeMap::new(),
             search: String::new(),
             selected_board: None,
         }
     }
 
-    pub fn show(&mut self, ui: &mut egui::Ui, view: &crate::telemetry::TelemetryView<'_>) -> egui_tiles::UiResponse { // explain what all of these params are
+    pub fn show(
+        &mut self,
+        ui: &mut egui::Ui,
+        view: &crate::telemetry::TelemetryView<'_>,
+    ) -> egui_tiles::UiResponse {
         ui.heading(&self.title);
         ui.label(format!(
             "CAN frames up to timeline cursor: {}",
@@ -92,12 +67,12 @@ impl Diagnostics {
             .include_y(0.0)
             .include_y(100.0)
             .legend(egui_plot::Legend::default())
-            .show(ui, |plot_ui| { // whats with the | | syntax? 
+            .show(ui, |plot_ui| {
                 for (board_name, board) in &self.boards {
                     let points: egui_plot::PlotPoints = board
                         .cpu_history
                         .iter()
-                        .map(|(time, cpu)| [*time, *cpu]) // wtf is happening here
+                        .map(|(time, cpu)| [*time, *cpu])
                         .collect();
 
                     plot_ui.line(egui_plot::Line::new(board_name, points));
@@ -173,9 +148,37 @@ impl Diagnostics {
             _ => None,
         }
     }
+
+    fn integer_signal(msg: &daqcore::superdbc::decode::DecodedMessage, name: &str) -> Option<i128> {
+        match msg.signal(name)?.raw() {
+            daqcore::superdbc::message::RawValue::Integer(value) => Some(value),
+            _ => None,
+        }
+    }
+
+    fn decode_task(msg: &daqcore::superdbc::decode::DecodedMessage) -> Option<TaskDiagnostics> {
+        let expected_name = format!("{}_diag_task", msg.tx_node().to_lowercase());
+
+        if msg.name() != expected_name {
+            return None;
+        }
+        let task_id = u32::try_from(Self::integer_signal(msg, "task_id")?).ok()?;
+        let stack_hwm = u16::try_from(Self::integer_signal(msg, "stack_hwm")?).ok()?;
+        let cpu = u8::try_from(Self::integer_signal(msg, "cpu_percent")?).ok()?;
+        let state = u8::try_from(Self::integer_signal(msg, "state")?).ok()?;
+
+        Some(TaskDiagnostics {
+            task_id,
+            name: format!("Task {}", task_id),
+            state: TaskState::from_raw(state),
+            stack_hwm,
+            cpu_util: Self::decode_cpu(cpu),
+        })
+    }
+
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)] // what does this do again? Is this like java extend or include?
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TaskState {
     Running,
     Ready,
