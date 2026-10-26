@@ -1,6 +1,8 @@
 """
 api.py
 
+Author: Irving Wang (irvingw@purdue.edu)
+
 FilGenerator emits the FIL board and network JSON files under
 tests/fil/ as derived artifacts of the linked CAN graph.
 
@@ -19,6 +21,8 @@ packed exactly like the generated PACK/UNPACK macros.
 import json
 
 from pydantic import ValidationError
+
+from core.config import FIL_STIMULI_DIR
 
 from canpiler.pipeline.models import CompiledMessage, LinkedCan, LinkedMessage
 from core.artifacts import Artifact
@@ -44,29 +48,22 @@ class FilScenarioError(ValueError):
 # deliberately excluded from board and network emission.
 FIL_BUS_NAMES = frozenset({"VCAN", "MCAN"})
 
-# The six PER vehicle boards emitted to FIL, in network-list order.
-# DRIVELINE drives both the front and rear driveline boards; every other
-# board name is the lowercase form of its node name.
-FIL_BOARD_NAMES = (
-    "dashboard",
-    "main_module",
-    "torque_vector",
-    "a_box",
-    "front_driveline",
-    "rear_driveline",
+# Board name -> node name, in network-list order. The DRIVELINE node is
+# deliberately mapped to two boards because its physical hardware splits
+# front and rear; both boards share its VCAN peripheral attachment.
+# Every other board name is the lowercase form of its node name. A
+# single mapping makes a names/mapping drift unrepresentable.
+FIL_BOARD_TO_NODE = (
+    ("dashboard", "DASHBOARD"),
+    ("main_module", "MAIN_MODULE"),
+    ("torque_vector", "TORQUE_VECTOR"),
+    ("a_box", "A_BOX"),
+    ("front_driveline", "DRIVELINE"),
+    ("rear_driveline", "DRIVELINE"),
 )
 
-# Board name -> node name. The DRIVELINE node is deliberately mapped to
-# two boards because its physical hardware splits front and rear; both
-# boards share its VCAN peripheral attachment.
-FIL_BOARD_TO_NODE = {
-    "dashboard": "DASHBOARD",
-    "main_module": "MAIN_MODULE",
-    "torque_vector": "TORQUE_VECTOR",
-    "a_box": "A_BOX",
-    "front_driveline": "DRIVELINE",
-    "rear_driveline": "DRIVELINE",
-}
+# Derived from FIL_BOARD_TO_NODE so the two can never drift apart.
+FIL_BOARD_NAMES = tuple(board for board, _node in FIL_BOARD_TO_NODE)
 
 FIL_SCHEMA_VERSION = 1
 FIL_MCU_FILENAME = "stm32g474retx.json"
@@ -83,7 +80,9 @@ READY_TO_DRIVE_FILE = "ready_to_drive.json"
 # ready_to_drive.json references.
 READY_TO_DRIVE_SCENARIO_NAME = "ready_to_drive"
 READY_TO_DRIVE_SCENARIO_FILE = f"{READY_TO_DRIVE_SCENARIO_NAME}.json"
-READY_TO_DRIVE_STIMULI_FILE = f"stimuli/{READY_TO_DRIVE_SCENARIO_NAME}_stimuli.json"
+READY_TO_DRIVE_STIMULI_FILE = (
+    f"{FIL_STIMULI_DIR.name}/{READY_TO_DRIVE_SCENARIO_NAME}_stimuli.json"
+)
 
 JSON_INDENT = 2
 
@@ -92,21 +91,22 @@ class FilGenerator:
     """Generates the FIL board and network config artifacts."""
 
     def generate(
-        self, linked: LinkedCan, scenario: FilScenario, version: str
+        self, linked: LinkedCan, scenario: FilScenario
     ) -> list[Artifact]:
         nodes = {node.name: node for node in linked.nodes}
 
-        for node_name in FIL_BOARD_TO_NODE.values():
+        for _board, node_name in FIL_BOARD_TO_NODE:
             if node_name not in nodes:
                 raise ValueError(
                     f"FIL board node '{node_name}' missing from linked CAN"
                 )
 
+        board_to_node = dict(FIL_BOARD_TO_NODE)
         artifacts = [
             Artifact(
                 "fil",
                 f"boards/{board}.json",
-                _dump_json(self._board(board, nodes[FIL_BOARD_TO_NODE[board]], linked)),
+                _dump_json(self._board(board, nodes[board_to_node[board]], linked)),
             )
             for board in FIL_BOARD_NAMES
         ]

@@ -48,7 +48,9 @@ def generate() -> None:
 
     artifacts  = canpiler.generate(linked_can, version)
     artifacts += faultgen.generate(fault_plan, version)
-    artifacts += filgen.generate(linked_can, fil_scenario, version)
+    # No version argument here: the FIL JSON schemas forbid unknown keys,
+    # so the git version cannot be embedded in the emitted files.
+    artifacts += filgen.generate(linked_can, fil_scenario)
     artifacts += dearunits.generate(unit_graph)
 
     output_roots = {
