@@ -1,5 +1,16 @@
 from core.declarations import MessageDeclaration, SignalDeclaration
 from core.contributions import DeclarationContribution, TxDeclaration
+from core.artifacts import Artifact
+
+DIAGNOSTICS_NODES = (
+    ("A_BOX", "VCAN"),
+    ("DASHBOARD", "VCAN"),
+    ("DRIVELINE", "VCAN"),
+    ("MAIN_MODULE", "VCAN"),
+    ("PDU", "VCAN"),
+    ("TORQUE_VECTOR", "VCAN"),
+    ("G4_TESTING", "TEST_CAN"),
+)
 
 def task_status_message(node_name: str) -> MessageDeclaration:
     return MessageDeclaration(
@@ -29,12 +40,43 @@ def task_status_message(node_name: str) -> MessageDeclaration:
         ],
     )
 def diagnostics_contribution() -> DeclarationContribution:
-    return DeclarationContribution(
-        tx_messages=(
+    tx_messages = []
+    for node_name, bus_name in DIAGNOSTICS_NODES:
+        tx_messages.append(
             TxDeclaration(
-                node_name="G4_TESTING",
-                bus_name="TEST_CAN",
-                message=task_status_message("G4_TESTING"),
-            ),
-        ),
+                node_name=node_name,
+                bus_name=bus_name,
+                message=task_status_message(node_name),
+            )
+        )
+    return DeclarationContribution(
+        tx_messages=tuple(tx_messages)
     )
+
+def diagnostics_artifacts() -> list[Artifact]:
+    lines = [
+        "#ifndef DIAGNOSTICS_CAN_H",
+        "#define DIAGNOSTICS_CAN_H",
+        "",
+        '#include "can_library/generated/can_router.h"',
+        "",
+    ]
+
+    for index, (node_name, _) in enumerate(DIAGNOSTICS_NODES):
+        directive = "#if" if index == 0 else '#elif'
+
+        lines.append(f"{directive} defined(CAN_NODE_{node_name})")
+        lines.append(
+            f"#define DIAGNOSTICS_SEND_TASK "
+            f"CAN_SEND_{node_name.lower()}_diag_task"
+        )
+
+    lines.extend([
+        "#else",
+        '#error "Diagnostics CAN is not configured for this node"',
+        "#endif",
+        "",
+        "#endif // DIAGNOSTICS_CAN_H",
+        "",
+    ])
+    return [Artifact(collection="generated", relative_path="diagnostics_can.h",content="\n".join(lines),)]
