@@ -99,7 +99,7 @@ def test_stimuli_match_expected_content(artifacts) -> None:
         '    {"type": "can", "bus": "1", "id": "0x112", "data": [0, 7, 0, 0, 92, 8, 12, 254], "at_ms": 5000, "window_ms": 200},\n'
         '    {"type": "can", "bus": "1", "id": "0x113", "data": [0, 7, 0, 0, 92, 8, 12, 254], "at_ms": 5000, "window_ms": 200},\n'
         '    {"type": "can", "bus": "1", "id": "0x114", "data": [0, 7, 0, 0, 92, 8, 12, 254], "at_ms": 5000, "window_ms": 200},\n'
-        '    {"type": "can", "bus": "0", "id": "0x46", "data": [5], "at_ms": 5000, "window_ms": 200}\n'
+        '    {"type": "can", "bus": "0", "id": "0x43", "data": [5], "at_ms": 5000, "window_ms": 200}\n'
         '  ]\n'
         '}\n'
     )
@@ -173,11 +173,12 @@ def test_message_id_resolution(linked, generator) -> None:
     inva_info = _linked_message(linked, "MCAN", "INVA_INFO")
     assert f"0x{inva_info.final_id:x}" == "0x231"
 
-    # main_hb on VCAN gets 0x46 from the dynamic link (priority ordering).
+    # main_hb on VCAN gets 0x43 from the dynamic link (priority ordering,
+    # renumbered after the SCAN baseline moved VCAN messages in the graph).
     main_hb = _linked_message(linked, "VCAN", "main_hb")
-    assert f"0x{main_hb.final_id:x}" == "0x46"
+    assert f"0x{main_hb.final_id:x}" == "0x43"
 
-    for name, expected in (("INVA_INFO", "0x231"), ("main_hb", "0x46")):
+    for name, expected in (("INVA_INFO", "0x231"), ("main_hb", "0x43")):
         entry = _can_entry(bus="MCAN" if name == "INVA_INFO" else "VCAN", message=name, at_ms=0)
         message = generator._message(linked, entry)
         assert f"0x{message.final_id:x}" == expected
