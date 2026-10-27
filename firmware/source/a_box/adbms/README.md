@@ -140,6 +140,10 @@ The balancing algorithm is a simple threshold-based approach:
 - `commands.c` / `commands.h`: Command definitions for ADBMS6380.
 - `pec.c` / `pec.h`: PEC (CRC) calculation utilities.
 
+## State Machine
+
+![ADBMS FSM](./ADBMS_FSM.drawio.png)
+
 ## Notes
 
 - The driver is designed for FreeRTOS-based systems with a 1000Hz tick rate (1ms tick period).
