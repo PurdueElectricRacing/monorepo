@@ -29,7 +29,7 @@
 
 // Wait longer than the ADBMS6380 ~2.2 s inactivity sleep timeout so that a
 // full sleep-wake cycle elapses during recovery before we retry connecting
-#define ADBMS_CHIP_SLEEP_CYCLE_MS (2'500)
+#define ADBMS_CHIP_SLEEP_CYCLE_MS (2'500U)
 
 // Number of consecutive failed recovery cycles (each a full sleep-wake
 // attempt) before the driver enters the latching FATAL state
