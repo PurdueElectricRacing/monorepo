@@ -376,7 +376,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
         case ADBMS_STATE_RECOVERING: {
             // Non-blocking wait for a full chip sleep-wake cycle
             uint32_t elapsed_ms = xTaskGetTickCount() - bms->recover_start_tick_ms;
-            uint32_t total_sleep_time = ADBMS_CHIP_SLEEP_CYCLE_MS * bms->recovery_attempts;
+            uint32_t total_sleep_time = ADBMS_CHIP_SLEEP_CYCLE_MS * (bms->recovery_attempts + 1);
             if (elapsed_ms >= total_sleep_time) {
                 bms->recovery_attempts++;
 
