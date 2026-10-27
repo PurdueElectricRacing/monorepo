@@ -74,10 +74,12 @@ void adbms_write_regb(adbms_bms_t *bms) {
     adbms6380_prepare_command(&bms->tx_strbuf, WRCFGB);
     // i must be signed
     for (int i = ADBMS_MODULE_COUNT - 1; i >= 0; i--) {
-        adbms6380_calculate_cfg_regb(bms->modules[i].regb,
-                                     ADBMS_REGB_OV_THRESHOLD,
-                                     ADBMS_REGB_UV_THRESHOLD,
-                                     bms->modules[i].is_discharging);
+        adbms6380_calculate_cfg_regb(
+            bms->modules[i].regb,
+            ADBMS_REGB_OV_THRESHOLD,
+            ADBMS_REGB_UV_THRESHOLD,
+            bms->modules[i].is_discharging
+        );
         adbms6380_prepare_data_packet(&bms->tx_strbuf, bms->modules[i].regb);
     }
 
@@ -89,11 +91,13 @@ void adbms_write_regb(adbms_bms_t *bms) {
 bool adbms_read_and_check_rega(adbms_bms_t *bms) {
     strbuf_clear(&bms->tx_strbuf);
     adbms6380_prepare_command(&bms->tx_strbuf, RDCFGA);
-    bool rdcfga_pec_ok = adbms6380_read_data_with_retries(bms->spi,
-                                                          ADBMS_PEC_FAIL_MAX_RETRIES,
-                                                          ADBMS_MODULE_COUNT,
-                                                          bms->tx_strbuf.data,
-                                                          bms->rx_buf);
+    bool rdcfga_pec_ok = adbms6380_read_data_with_retries(
+        bms->spi,
+        ADBMS_PEC_FAIL_MAX_RETRIES,
+        ADBMS_MODULE_COUNT,
+        bms->tx_strbuf.data,
+        bms->rx_buf
+    );
     if (rdcfga_pec_ok) {
         bms->err_rega_pec = false;
     } else {
@@ -117,11 +121,13 @@ bool adbms_read_and_check_rega(adbms_bms_t *bms) {
 bool adbms_read_and_check_regb(adbms_bms_t *bms) {
     strbuf_clear(&bms->tx_strbuf);
     adbms6380_prepare_command(&bms->tx_strbuf, RDCFGB);
-    bool rdcfgb_pec_ok = adbms6380_read_data_with_retries(bms->spi,
-                                                          ADBMS_PEC_FAIL_MAX_RETRIES,
-                                                          ADBMS_MODULE_COUNT,
-                                                          bms->tx_strbuf.data,
-                                                          bms->rx_buf);
+    bool rdcfgb_pec_ok = adbms6380_read_data_with_retries(
+        bms->spi,
+        ADBMS_PEC_FAIL_MAX_RETRIES,
+        ADBMS_MODULE_COUNT,
+        bms->tx_strbuf.data,
+        bms->rx_buf
+    );
     if (rdcfgb_pec_ok) {
         bms->err_regb_pec = false;
     } else {
@@ -145,12 +151,14 @@ bool adbms_read_and_check_regb(adbms_bms_t *bms) {
 void adbms_start_adcv(adbms_bms_t *bms) {
     strbuf_clear(&bms->tx_strbuf);
     uint8_t adcv_cmd[2] = {0};
-    adbms6380_adcv(adcv_cmd,
-                   ADBMS_ADCV_RD,
-                   ADBMS_ADCV_CONT,
-                   ADBMS_ADCV_DCP,
-                   ADBMS_ADCV_RSTF,
-                   ADBMS_ADCV_OW);
+    adbms6380_adcv(
+        adcv_cmd,
+        ADBMS_ADCV_RD,
+        ADBMS_ADCV_CONT,
+        ADBMS_ADCV_DCP,
+        ADBMS_ADCV_RSTF,
+        ADBMS_ADCV_OW
+    );
     adbms6380_prepare_command(&bms->tx_strbuf, adcv_cmd);
     adbms6380_set_cs_low(bms->spi);
     PHAL_SPI_transferBlocking(bms->spi, bms->tx_strbuf.data, NULL, (uint16_t)bms->tx_strbuf.length);
@@ -198,14 +206,16 @@ void adbms_read_cells(adbms_bms_t *bms) {
         cell_voltages_raw_ptrs[i] = bms->modules[i].cell_voltages_raw;
     }
 
-    adbms6380_read_cell_voltages(bms->spi,
-                                 &bms->tx_strbuf,
-                                 bms->rx_buf,
-                                 cell_voltage_ptrs,
-                                 cell_voltages_raw_ptrs,
-                                 bms->err_cell_voltage_pecs,
-                                 ADBMS_MODULE_COUNT,
-                                 ADBMS_PEC_FAIL_MAX_RETRIES);
+    adbms6380_read_cell_voltages(
+        bms->spi,
+        &bms->tx_strbuf,
+        bms->rx_buf,
+        cell_voltage_ptrs,
+        cell_voltages_raw_ptrs,
+        bms->err_cell_voltage_pecs,
+        ADBMS_MODULE_COUNT,
+        ADBMS_PEC_FAIL_MAX_RETRIES
+    );
 
     // Calculate min/avg/max for each module and overall pack
     bms->max_voltage = bms->modules[0].cell_voltages[0];
@@ -257,13 +267,15 @@ void adbms_read_therms(adbms_bms_t *bms) {
     // ADAX preserves previous results, so this immediate read may return the
     // previous scan or mixed old/new values.
     // This is not terrible, but should be fixed later.
-    adbms6380_read_gpio_voltages(bms->spi,
-                                 &bms->tx_strbuf,
-                                 bms->rx_buf,
-                                 gpio_voltage_ptrs,
-                                 bms->err_gpio_voltage_pecs,
-                                 ADBMS_MODULE_COUNT,
-                                 ADBMS_PEC_FAIL_MAX_RETRIES);
+    adbms6380_read_gpio_voltages(
+        bms->spi,
+        &bms->tx_strbuf,
+        bms->rx_buf,
+        gpio_voltage_ptrs,
+        bms->err_gpio_voltage_pecs,
+        ADBMS_MODULE_COUNT,
+        ADBMS_PEC_FAIL_MAX_RETRIES
+    );
 
     // Convert all GPIO voltages to temperatures
     // GPIO voltage -> R2 in the thermistor divider -> temperature via thermistor curve
