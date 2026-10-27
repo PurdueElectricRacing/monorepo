@@ -67,8 +67,8 @@ static_assert(ADBMS_ERROR_BACKOFF_MS > ADBMS_CHIP_SLEEP_CYCLE_MS, "backoff shoul
  * @brief ADBMS driver connection/operation state.
  */
 typedef enum : uint8_t {
-    ADBMS_STATE_CONNECTING = 0, // Run the full connect sequence (REGA/REGB write+verify, start conversions)
-    ADBMS_STATE_READ_LOOP  = 1, // Run one full measure/balance cycle (cells, temps, balance, REGB write+verify)
+    ADBMS_STATE_CONNECTING = 0, // Connect sequence (write then verify for rega/regb, start conversions)
+    ADBMS_STATE_READ_LOOP  = 1, // Measure/balance cycle (cells, temps, balance, REGB write/verify)
     ADBMS_STATE_RECOVERING = 2, // Non-blocking wait for a full chip sleep-wake cycle
     ADBMS_STATE_ERROR      = 3, // Non-latching backoff after repeat failed recovery, SDC pin pulled
 } adbms_state_t;
