@@ -142,9 +142,7 @@ bool adbms_read_and_check_regb(adbms_bms_t *bms) {
     return !bms->err_regb_mismatch;
 }
 
-static void adbms_start_adcv(adbms_bms_t *bms) {
-    // Start continuous ADCV cell voltage conversions. Success is verified
-    // implicitly by the READ_CELLS phase; the state machine handles errors.
+void adbms_start_adcv(adbms_bms_t *bms) {
     strbuf_clear(&bms->tx_strbuf);
     uint8_t adcv_cmd[2] = {0};
     adbms6380_adcv(adcv_cmd,

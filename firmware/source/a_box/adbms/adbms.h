@@ -221,6 +221,15 @@ bool adbms_read_and_check_rega(adbms_bms_t *bms);
 bool adbms_read_and_check_regb(adbms_bms_t *bms);
 
 /**
+ * @brief Start continuous cell voltage conversions on all modules.
+ *
+ * Sends ADCV and returns immediately.
+ *
+ * @param bms Pointer to driver state.
+ */
+void adbms_start_adcv(adbms_bms_t *bms);
+
+/**
  * @brief Read all cell voltages and update module/pack statistics.
  *
  * Updates per-module min/max/avg/sum and aggregated min/max/avg/sum for
