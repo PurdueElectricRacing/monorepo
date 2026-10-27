@@ -22,7 +22,6 @@
 void adbms_init(adbms_bms_t *bms, SPI_InitConfig_t *spi, uint8_t *tx_buf) {
     bms->spi                   = spi;
     bms->recover_start_tick_ms = 0;
-    bms->error_start_tick_ms   = 0;
     bms->recovery_attempts     = 0;
     bms->state                 = ADBMS_STATE_CONNECTING;
 
@@ -324,9 +323,9 @@ void adbms_read_therms(adbms_bms_t *bms) {
 void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
     adbms_state_t next_state = bms->state;
 
-    // Keep recovery/error silent to complete sleep cycle
+    // Keep recovery/fatal silent to complete sleep cycle
     // Otherwise prep the chips for communication
-    if (bms->state != ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_ERROR) {
+    if (bms->state != ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_FATAL) {
         adbms6380_wake(bms->spi, ADBMS_MODULE_COUNT);
     }
 
@@ -377,28 +376,20 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
         case ADBMS_STATE_RECOVERING: {
             // Non-blocking wait for a full chip sleep-wake cycle
             uint32_t elapsed_ms = xTaskGetTickCount() - bms->recover_start_tick_ms;
-            if (elapsed_ms >= ADBMS_CHIP_SLEEP_CYCLE_MS) {
-
-                // guard increment to avoid overflow
-                if (bms->recovery_attempts < ADBMS_RECOVERY_MAX_ATTEMPTS) {
-                    bms->recovery_attempts++;
-                }
+            uint32_t total_sleep_time = ADBMS_CHIP_SLEEP_CYCLE_MS * bms->recovery_attempts;
+            if (elapsed_ms >= total_sleep_time) {
+                bms->recovery_attempts++;
 
                 if (bms->recovery_attempts >= ADBMS_RECOVERY_MAX_ATTEMPTS) {
-                    next_state = ADBMS_STATE_ERROR;
+                    next_state = ADBMS_STATE_FATAL;
                 } else {
                     next_state = ADBMS_STATE_CONNECTING;
                 }
             }
             break;
         }
-        case ADBMS_STATE_ERROR: {
-            // Non-blocking wait for the error backoff period
-            // Don't reset recovery_attempts until a successful connect
-            uint32_t elapsed_ms = xTaskGetTickCount() - bms->error_start_tick_ms;
-            if (elapsed_ms >= ADBMS_ERROR_BACKOFF_MS) {
-                next_state = ADBMS_STATE_CONNECTING;
-            }
+        case ADBMS_STATE_FATAL: {
+            // Latching terminal state after repeated failed recovery
             break;
         }
     }
@@ -406,9 +397,6 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
     // Capture state entry timestamps
     if (next_state == ADBMS_STATE_RECOVERING && bms->state != ADBMS_STATE_RECOVERING) {
         bms->recover_start_tick_ms = xTaskGetTickCount();
-    }
-    if (next_state == ADBMS_STATE_ERROR && bms->state != ADBMS_STATE_ERROR) {
-        bms->error_start_tick_ms = xTaskGetTickCount();
     }
 
     // Update the state

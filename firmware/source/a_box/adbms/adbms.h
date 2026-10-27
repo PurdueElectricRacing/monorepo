@@ -32,12 +32,8 @@
 #define ADBMS_CHIP_SLEEP_CYCLE_MS (2'500)
 
 // Number of consecutive failed recovery cycles (each a full sleep-wake
-// attempt) before the driver goes into ERROR instead of retrying again
+// attempt) before the driver enters the latching FATAL state
 #define ADBMS_RECOVERY_MAX_ATTEMPTS (4)
-
-// Time spent in ERROR before attempting to reconnect again
-#define ADBMS_ERROR_BACKOFF_MS (10'000)
-static_assert(ADBMS_ERROR_BACKOFF_MS > ADBMS_CHIP_SLEEP_CYCLE_MS, "backoff should be longer than a full sleep-wake cycle");
 
 // Readings outside these are treated as corrupted data rather than real measurements
 // and causes a transition to RECOVERING.
@@ -70,7 +66,7 @@ typedef enum : uint8_t {
     ADBMS_STATE_CONNECTING = 0, // Connect sequence (write then verify for rega/regb, start conversions)
     ADBMS_STATE_READ_LOOP  = 1, // Measure/balance cycle (cells, temps, balance, REGB write/verify)
     ADBMS_STATE_RECOVERING = 2, // Non-blocking wait for a full chip sleep-wake cycle
-    ADBMS_STATE_ERROR      = 3, // Non-latching backoff after repeat failed recovery, SDC pin pulled
+    ADBMS_STATE_FATAL      = 3, // Latching terminal state after repeated failed recovery
 } adbms_state_t;
 
 /**
@@ -124,9 +120,7 @@ typedef struct {
     adbms_state_t state;
     /** Time captured when entering RECOVERING. */
     uint32_t recover_start_tick_ms;
-    /** Time captured when entering ERROR. */
-    uint32_t error_start_tick_ms;
-    /** Consecutive recovery cycles (sleep-wake retries) without a succesful connect. */
+    /** Consecutive recovery cycles (sleep-wake retries) without a successful connect. */
     uint8_t recovery_attempts;
     /** Per-module state and measurements. */
     adbms_module_t modules[ADBMS_MODULE_COUNT];
