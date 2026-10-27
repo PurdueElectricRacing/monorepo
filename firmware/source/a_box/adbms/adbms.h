@@ -217,7 +217,8 @@ bool adbms_read_and_check_regb(adbms_bms_t *bms);
 /**
  * @brief Start continuous cell voltage conversions on all modules.
  *
- * Sends ADCV and returns immediately.
+ * Sends ADCV and returns immediately. We can't know if the call failed,
+ * but the corruption check in the next read will catch it.
  *
  * @param bms Pointer to driver state.
  */
