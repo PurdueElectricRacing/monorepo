@@ -230,6 +230,9 @@ void bms_task(void) {
         g_bms.err_gpio_voltage_pecs[3]
     );
 
+    // BMS_DISCONNECTED unlatch time > connection sequence time
+    // so make sure BMS pin remains pulled during an unsuccessful connection
+    // attempt (in CONNECTING) before it returns to the ERROR state
     bool bms_in_error = g_bms.state == ADBMS_STATE_ERROR;
     update_fault(FAULT_ID_BMS_DISCONNECTED, bms_in_error);
 
