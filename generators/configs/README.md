@@ -1,10 +1,5 @@
 # CAN Configs
 
-These configs are the source of truth for CAN message layout, ids, and bus
-definitions. Besides the firmware codegen and SuperDBC exports, `filgen`
-(`generators/generate.py`) derives the FIL board/network/stimulus configs in
-`tests/fil/` from them, so regenerate those after any change here.
-
 ## Bus Definition (`configs/system/bus_configs.json`)
 Validated by the Pydantic models in `core/declarations.py`. Describes each logical CAN bus (not how a node attaches to it).
 
