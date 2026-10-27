@@ -65,13 +65,6 @@ static_assert(ADBMS_ERROR_BACKOFF_MS > ADBMS_CHIP_SLEEP_CYCLE_MS, "backoff shoul
 
 /**
  * @brief ADBMS driver connection/operation state.
- *
- * Each state is an enterable phase. CONNECTING and READ_LOOP each run a full
- * straight-line sequence within a single adbms_periodic() call via a chain
- * helper; any failure mid-sequence diverts to RECOVERING. RECOVERING and
- * ERROR are non-blocking waits spanning multiple ticks; RECOVERING exits to
- * CONNECTING, or to ERROR after ADBMS_RECOVERY_MAX_ATTEMPTS failed cycles,
- * and ERROR exits to CONNECTING (non-latching backoff).
  */
 typedef enum : uint8_t {
     ADBMS_STATE_CONNECTING = 0, // Run the full connect sequence (REGA/REGB write+verify, start conversions)
