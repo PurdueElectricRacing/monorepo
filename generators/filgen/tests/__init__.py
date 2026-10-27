@@ -1,5 +1,5 @@
 """
 __init__.py
 
-Author: Irving Wang (irvingw@purdue.edu)
+Author: Millan Kumar (kumar798@purdue.edu)
 """
