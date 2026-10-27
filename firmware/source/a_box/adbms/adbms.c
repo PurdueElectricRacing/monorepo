@@ -374,18 +374,24 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             break;
         }
         case ADBMS_STATE_RECOVERING: {
-            // Non-blocking wait for a full chip sleep-wake cycle
+            // Either redirect to FATAL or
+            // non-blocking wait for a full chip sleep-wake cycle with backoff
+
+            // Already attempted max recovery attempts, go to fatal
+            if (bms->recovery_attempts >= ADBMS_RECOVERY_MAX_ATTEMPTS) {
+                next_state = ADBMS_STATE_FATAL;
+                break;
+            }
+
+
+            // Else, sleep-wake cycle with backoff
             uint32_t elapsed_ms = xTaskGetTickCount() - bms->recover_start_tick_ms;
             uint32_t total_sleep_time = ADBMS_CHIP_SLEEP_CYCLE_MS * (bms->recovery_attempts + 1);
             if (elapsed_ms >= total_sleep_time) {
                 bms->recovery_attempts++;
-
-                if (bms->recovery_attempts >= ADBMS_RECOVERY_MAX_ATTEMPTS) {
-                    next_state = ADBMS_STATE_FATAL;
-                } else {
-                    next_state = ADBMS_STATE_CONNECTING;
-                }
+                next_state = ADBMS_STATE_CONNECTING;
             }
+            
             break;
         }
         case ADBMS_STATE_FATAL: {
