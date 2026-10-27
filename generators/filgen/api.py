@@ -10,10 +10,12 @@ are built from the node peripheral mappings. DRIVELINE physically
 splits into two boards (front and rear), so the board-to-node mapping
 is explicit rather than derived.
 
-Ready-to-drive stimuli are resolved from the hand-maintained scenario
-file in tests/fil/scenarios/: logical bus and message names are mapped
-to bus IDs and CAN IDs from the linked graph, and signal values are
-packed exactly like the generated PACK/UNPACK macros.
+Scenario stimuli are resolved from the hand-maintained scenario files
+in tests/fil/scenarios/: logical bus and message names are mapped to
+bus IDs and CAN IDs from the linked graph, and signal values are
+packed exactly like the generated PACK/UNPACK macros. Every scenario
+gets one network document (named by the scenario's own name field)
+referencing its own stimulus file, derived from the scenario file stem.
 """
 
 import json
@@ -70,17 +72,8 @@ FIL_ELF_RELATIVE_TEMPLATE = "../../../firmware/output/{board}/{board}.elf"
 FIL_VECTOR_BASE = "0x08000000"
 
 VEHICLE_NETWORK_NAME = "per_vehicle"
-READY_TO_DRIVE_NETWORK_NAME = "per_ready_to_drive"
 
 VEHICLE_NETWORK_FILE = "network.json"
-READY_TO_DRIVE_FILE = "ready_to_drive.json"
-# The single ready-to-drive scenario; resolved to a stimuli file that
-# ready_to_drive.json references.
-READY_TO_DRIVE_SCENARIO_NAME = "ready_to_drive"
-READY_TO_DRIVE_SCENARIO_FILE = f"{READY_TO_DRIVE_SCENARIO_NAME}.json"
-READY_TO_DRIVE_STIMULI_FILE = (
-    f"{FIL_STIMULI_DIR.name}/{READY_TO_DRIVE_SCENARIO_NAME}_stimuli.json"
-)
 
 JSON_INDENT = 2
 
@@ -89,7 +82,9 @@ class FilGenerator:
     """Generates the FIL board and network config artifacts."""
 
     def generate(
-        self, linked: LinkedCan, scenario: FilScenario
+        self,
+        linked: LinkedCan,
+        scenarios: list[tuple[str, FilScenario]],
     ) -> list[Artifact]:
         nodes = {node.name: node for node in linked.nodes}
 
@@ -126,28 +121,29 @@ class FilGenerator:
                 ),
             )
         )
-        artifacts.append(
-            Artifact(
-                "fil",
-                READY_TO_DRIVE_FILE,
-                _dump_json(
-                    self._network(
-                        READY_TO_DRIVE_NETWORK_NAME,
-                        [READY_TO_DRIVE_STIMULI_FILE],
-                        network_buses,
-                        network_boards,
-                    )
-                ),
+        for stem, scenario in scenarios:
+            stimuli_file = f"{FIL_STIMULI_DIR.name}/{stem}_stimuli.json"
+            artifacts.append(
+                Artifact(
+                    "fil",
+                    f"{stem}.json",
+                    _dump_json(
+                        self._network(
+                            scenario.name,
+                            [stimuli_file],
+                            network_buses,
+                            network_boards,
+                        )
+                    ),
+                )
             )
-        )
-
-        artifacts.append(
-            Artifact(
-                "fil",
-                READY_TO_DRIVE_STIMULI_FILE,
-                _dump_stimulus(self._stimulus(linked, scenario)),
+            artifacts.append(
+                Artifact(
+                    "fil",
+                    stimuli_file,
+                    _dump_stimulus(self._stimulus(linked, scenario)),
+                )
             )
-        )
 
         for artifact in artifacts:
             print_as_ok(f"Generated {artifact.relative_path}")

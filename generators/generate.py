@@ -8,6 +8,7 @@ from core.artifacts import clear_artifacts, write_artifacts
 from core.config import (
     CAN_GRAPHS_DIR,
     FIL_CONFIG_DIR,
+    FIL_SCENARIO_DIR,
     SUPERDBC_DIR,
     GENERATED_DIR,
     UNITS_GENERATED_DIR,
@@ -16,12 +17,7 @@ from core.declaration_loader import DeclarationValidationError, load_declaration
 from canpiler.api import Canpiler
 from canpiler.pipeline.compiler import CanCompilationError
 from faultgen.api import FaultGenerator
-from filgen.api import (
-    FilGenerator,
-    FilScenarioError,
-    READY_TO_DRIVE_SCENARIO_FILE,
-    load_fil_scenario,
-)
+from filgen.api import FilGenerator, load_fil_scenario
 from dearunits.api import DearUnits
 from dearunits.config_loader import UnitConfigValidationError, load_unit_config_bundle
 from core.utils import get_git_hash, print_as_error
@@ -44,13 +40,17 @@ def generate() -> None:
     linked_can         = canpiler.link(compiled)
     version            = get_git_hash()
     unit_graph         = dearunits.parse(unit_config)
-    fil_scenario       = load_fil_scenario(READY_TO_DRIVE_SCENARIO_FILE)
+    # Every hand-maintained scenario file gets its own network + stimuli.
+    fil_scenarios      = [
+        (path.stem, load_fil_scenario(path.name))
+        for path in sorted(FIL_SCENARIO_DIR.glob("*.json"))
+    ]
 
     artifacts  = canpiler.generate(linked_can, version)
     artifacts += faultgen.generate(fault_plan, version)
     # No version argument here: the FIL JSON schemas forbid unknown keys,
     # so the git version cannot be embedded in the emitted files.
-    artifacts += filgen.generate(linked_can, fil_scenario)
+    artifacts += filgen.generate(linked_can, fil_scenarios)
     artifacts += dearunits.generate(unit_graph)
 
     output_roots = {
@@ -79,8 +79,8 @@ def generate() -> None:
             "fil": (
                 "boards/*.json",
                 "network.json",
-                "ready_to_drive.json",
                 "stimuli/*.json",
+                *tuple(f"{stem}.json" for stem, _scenario in fil_scenarios),
             ),
         },
     )

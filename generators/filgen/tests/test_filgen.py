@@ -15,12 +15,7 @@ from canpiler.api import Canpiler
 from canpiler.pipeline.models import LinkedCan, LinkedMessage
 from core.declaration_loader import load_declarations
 from faultgen.api import FaultGenerator
-from filgen.api import (
-    FilGenerator,
-    FilScenarioError,
-    READY_TO_DRIVE_SCENARIO_FILE,
-    load_fil_scenario,
-)
+from filgen.api import FilGenerator, FilScenarioError, load_fil_scenario
 from filgen.models import FilScenario, FilScenarioCan
 
 
@@ -45,10 +40,10 @@ def generator() -> FilGenerator:
 @pytest.fixture(scope="module")
 def artifacts(linked, generator) -> dict[str, str]:
     """Emit every FIL artifact once, keyed by relative path."""
-    scenario = load_fil_scenario(READY_TO_DRIVE_SCENARIO_FILE)
+    scenario = load_fil_scenario("ready_to_drive.json")
     return {
         artifact.relative_path: artifact.content
-        for artifact in generator.generate(linked, scenario)
+        for artifact in generator.generate(linked, [("ready_to_drive", scenario)])
     }
 
 
@@ -112,6 +107,56 @@ def test_stimuli_match_expected_content(artifacts) -> None:
         f"{relative_path} drifted from the expected stimulus content; regenerate "
         "with generators/generate.py"
     )
+
+
+def test_multi_scenario_emits_one_network_per_scenario(linked, generator) -> None:
+    import json
+
+    # The stimulus dumper requires at least one event and one expectation;
+    # the CAN expectation resolves against the linked graph (VCAN main_hb).
+    expect = [
+        _can_entry(bus="VCAN", message="main_hb", at_ms=0, window_ms=1, values={})
+    ]
+    alpha = FilScenario(
+        schema_version=1,
+        name="per_alpha",
+        events=[{"type": "gpio", "at_ms": 0, "board": "dashboard", "pin": "PB14", "value": True}],
+        expect=expect,
+    )
+    beta = FilScenario(
+        schema_version=1,
+        name="per_beta",
+        events=[{"type": "gpio", "at_ms": 0, "board": "dashboard", "pin": "PB14", "value": True}],
+        expect=expect,
+    )
+    artifacts = {
+        artifact.relative_path: artifact.content
+        for artifact in generator.generate(linked, [("alpha", alpha), ("beta", beta)])
+    }
+
+    board_paths = {f"boards/{board}.json" for board in (
+        "dashboard",
+        "main_module",
+        "torque_vector",
+        "a_box",
+        "front_driveline",
+        "rear_driveline",
+    )}
+    assert set(artifacts) == board_paths | {
+        "network.json",
+        "alpha.json",
+        "beta.json",
+        "stimuli/alpha_stimuli.json",
+        "stimuli/beta_stimuli.json",
+    }
+    # Each per-scenario network doc carries its scenario's own name and
+    # references its own stem-derived stimulus file.
+    for stem, scenario in (("alpha", alpha), ("beta", beta)):
+        network = json.loads(artifacts[f"{stem}.json"])
+        assert network["name"] == scenario.name
+        assert network["stimuli"] == [f"stimuli/{stem}_stimuli.json"]
+    # The static vehicle network stays stimulus-free.
+    assert json.loads(artifacts["network.json"])["stimuli"] == []
 
 
 # ---------------------------------------------------------------------------
