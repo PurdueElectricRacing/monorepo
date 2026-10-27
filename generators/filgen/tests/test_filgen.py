@@ -1,8 +1,6 @@
 """
 test_filgen.py
 
-Author: Irving Wang (irvingw@purdue.edu)
-
 Golden-drift and resolution/packing tests for filgen. The pipeline
 fixture builds a real LinkedCan exactly the way generators/generate.py
 does; the golden tests then compare FilGenerator's emitted content

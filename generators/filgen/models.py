@@ -1,8 +1,6 @@
 """
 models.py
 
-Author: Irving Wang (irvingw@purdue.edu)
-
 Pydantic models mirroring the FIL board and network JSON schemas, so
 filgen output is type-checked rather than assembled from raw dicts.
 """

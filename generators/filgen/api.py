@@ -1,8 +1,6 @@
 """
 api.py
 
-Author: Irving Wang (irvingw@purdue.edu)
-
 FilGenerator emits the FIL board and network JSON files under
 tests/fil/ as derived artifacts of the linked CAN graph.
 
