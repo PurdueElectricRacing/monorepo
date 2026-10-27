@@ -320,6 +320,11 @@ void adbms_read_therms(adbms_bms_t *bms) {
     bms->avg_therm_temp = bms_sum_therm_temp / (ADBMS_MODULE_COUNT * ADBMS6380_GPIO_COUNT);
 }
 
+// Catch corrupted readings
+static bool is_valid_voltage(float voltage) {
+    return voltage >= ADBMS_CELL_MIN_VALID_V && voltage <= ADBMS_CELL_MAX_VALID_V;
+}
+
 void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance) {
     adbms_state_t next_state = bms->state;
 
@@ -355,7 +360,7 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             // One full read/balance cycle
             // Any failure goes to RECOVERING
             adbms_read_cells(bms);
-            if (bms->min_voltage < ADBMS_CELL_MIN_VALID_V || bms->max_voltage > ADBMS_CELL_MAX_VALID_V) {
+            if (!is_valid_voltage(bms->min_voltage) || !is_valid_voltage(bms->max_voltage)) {
                 next_state = ADBMS_STATE_RECOVERING;
                 break;
             }
