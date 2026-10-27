@@ -382,9 +382,9 @@ void adbms_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
         }
         case ADBMS_STATE_ERROR: {
             // Non-blocking wait for the error backoff period
+            // Don't reset recovery_attempts until a successful connect
             uint32_t elapsed_ms = xTaskGetTickCount() - bms->error_start_tick_ms;
             if (elapsed_ms >= ADBMS_ERROR_BACKOFF_MS) {
-                bms->recovery_attempts = 0;
                 next_state = ADBMS_STATE_CONNECTING;
             }
             break;

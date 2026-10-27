@@ -69,8 +69,9 @@ Measure/balance cycle (runs in order inside `READ_LOOP`, early-exiting on the fi
 Recovery: each completed `RECOVERING` cycle (2.5 s) increments
 `recovery_attempts` (clamped at `ADBMS_RECOVERY_MAX_ATTEMPTS` = 4). After 4
 consecutive failed recovery cycles the driver enters `ERROR`; after the 10 s
-error backoff the counter is reset and it returns to `CONNECTING`.
-`recovery_attempts` is also reset by a successful connect sequence. In steady
+error backoff it returns to `CONNECTING` with the counter still saturated.
+A failed reconnect returns to `ERROR` after one 2.5 s recovery cycle. After
+initialization, `recovery_attempts` resets only on a successful connect sequence. In steady
 state the driver runs one full measure/balance cycle per tick (200 ms).
 
 #### For example
