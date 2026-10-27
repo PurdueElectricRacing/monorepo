@@ -1,11 +1,11 @@
 """
 test_filgen.py
 
-Golden-drift and resolution/packing tests for filgen. The pipeline
-fixture builds a real LinkedCan exactly the way generators/generate.py
-does; the golden tests then compare FilGenerator's emitted content
-against the committed files under tests/fil/, so any hand edit or
-config change that is not regenerated is caught.
+In-memory content pin and resolution/packing tests for filgen. The
+pipeline fixture builds a real LinkedCan exactly the way
+generators/generate.py does; the content test pins FilGenerator's
+emitted stimulus against the expected document, and the unit tests
+cover bus/id resolution and signal packing.
 """
 
 import pytest
@@ -13,7 +13,6 @@ from pydantic import ValidationError
 
 from canpiler.api import Canpiler
 from canpiler.pipeline.models import LinkedCan, LinkedMessage
-from core.config import FIL_CONFIG_DIR
 from core.declaration_loader import load_declarations
 from faultgen.api import FaultGenerator
 from filgen.api import (
@@ -53,10 +52,6 @@ def artifacts(linked, generator) -> dict[str, str]:
     }
 
 
-def _committed(relative_path: str) -> str:
-    return (FIL_CONFIG_DIR / relative_path).read_text()
-
-
 def _can_entry(**kwargs) -> FilScenarioCan:
     return FilScenarioCan(**kwargs)
 
@@ -70,32 +65,8 @@ def _linked_message(linked: LinkedCan, bus: str, name: str) -> LinkedMessage:
 
 
 # ---------------------------------------------------------------------------
-# Golden-drift tests: emitted content must match the committed files.
+# In-memory content pin: the gitignored stimulus must match exactly.
 # ---------------------------------------------------------------------------
-
-@pytest.mark.parametrize("board", [
-    "a_box",
-    "dashboard",
-    "front_driveline",
-    "main_module",
-    "rear_driveline",
-    "torque_vector",
-])
-def test_board_files_match_committed(artifacts, board) -> None:
-    relative_path = f"boards/{board}.json"
-    assert artifacts[relative_path] == _committed(relative_path), (
-        f"{relative_path} drifted from filgen output; regenerate with "
-        "generators/generate.py"
-    )
-
-
-def test_network_json_matches_committed(artifacts) -> None:
-    assert artifacts["network.json"] == _committed("network.json")
-
-
-def test_ready_to_drive_json_matches_committed(artifacts) -> None:
-    assert artifacts["ready_to_drive.json"] == _committed("ready_to_drive.json")
-
 
 def test_stimuli_match_expected_content(artifacts) -> None:
     # The stimulus file is gitignored (a derived artifact of the scenario),

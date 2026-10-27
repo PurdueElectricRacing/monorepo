@@ -20,6 +20,11 @@ and start at `0x08000000`.
 (node configs and `bus_configs`) plus the scenario file. Do not edit them by
 hand.
 
+All of these generated files are gitignored. CI regenerates them before the
+suite; locally, run `python3 generators/generate.py` after changing
+`tests/fil/scenarios/` or `generators/` (and once on a fresh checkout) before
+running `run_tests.py`.
+
 The hand-maintained files are `scenarios/ready_to_drive.json`,
 `run_tests.py`, and this README.
 
@@ -55,17 +60,6 @@ status flags — `AMK_Status_bSystemReady`, `AMK_Status_bQuitDcOn`, and
 sequence; `AMK_DCBusVoltage` (bit 16) was always 0. The scenario now names
 those status flags, so the generated stimulus is byte-identical to the
 original master file.
-
-### Staleness guard
-
-`pytest` (the tests under `generators/filgen/tests`) fails if the committed
-`tests/fil/` JSONs drift from what the generator produces, so after any CAN
-config change regenerate with `python3 generators/generate.py` and commit the
-updated JSONs. The stimulus file
-`stimuli/ready_to_drive_stimuli.json` is gitignored as a derived artifact of
-the scenario; regenerate it with `python3 generators/generate.py` locally
-before running the FIL suite. If it is missing, `run_tests.py` fails fast
-with a pointer to `generators/generate.py`.
 
 ## Build and run
 
