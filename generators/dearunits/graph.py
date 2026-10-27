@@ -143,66 +143,6 @@ def _generate_conversions_graph(graph: UnitGraph) -> Artifact:
 
     return _unit_graph_artifact(filename, lines)
 
-
-def _flow_candidates(graph: UnitGraph, names: list[str]) -> dict[str, list[tuple[str, str, int, bool]]]:
-    dims = {name: _dimensions(name, graph) for name in names}
-    by_dims: dict[tuple[tuple[str, int], ...], list[str]] = {}
-    for name, quantity_dims in dims.items():
-        by_dims.setdefault(tuple(sorted(quantity_dims.items())), []).append(name)
-    ambiguous = {name for name, quantity_dims in dims.items() if len(by_dims[tuple(sorted(quantity_dims.items()))]) > 1}
-
-    products: dict[tuple[str, str], str] = {}
-    quotients: dict[tuple[str, str], str] = {}
-    for relation in graph.relations:
-        products[(relation.factor_a, relation.factor_b)] = relation.result
-        products[(relation.factor_b, relation.factor_a)] = relation.result
-        quotients[(relation.result, relation.factor_a)] = relation.factor_b
-        quotients[(relation.result, relation.factor_b)] = relation.factor_a
-
-    def result(a: str, b: str, sign: int) -> tuple[str | None, bool]:
-        explicit = (products if sign > 0 else quotients).get((a, b))
-        if explicit:
-            return explicit, True
-        if a in ambiguous or b in ambiguous:
-            return None, False
-        matches = by_dims.get(_combine(dims[a], dims[b], sign), [])
-        return (matches[0] if len(matches) == 1 else None), False
-
-    candidates: dict[str, list[tuple[str, str, int, bool]]] = {}
-    for a in names:
-        for b in names:
-            for sign in (1, -1):
-                name, explicit = result(a, b, sign)
-                if name and name in graph.derived_quantities and name not in (a, b):
-                    candidates.setdefault(name, []).append((a, b, sign, explicit))
-    return candidates
-
-
-def _flow_choices(graph: UnitGraph) -> dict[str, tuple[str, str, int] | DimensionTerm]:
-    candidates = _flow_candidates(graph, [*graph.base_quantities, *graph.derived_quantities])
-    level = {name: 0 for name in graph.base_quantities}
-    choices: dict[str, tuple[str, str, int] | DimensionTerm] = {}
-    pending = set(graph.derived_quantities)
-    while pending:
-        best = None
-        for name in sorted(pending):
-            for a, b, sign, explicit in candidates.get(name, []):
-                if a in level and b in level:
-                    key = (max(level[a], level[b]), not explicit, sign < 0, a, b)
-                    if best is None or key < best[0]:
-                        best = (key, name, (a, b, sign))
-        if best is None:
-            break
-        key, name, choice = best
-        level[name] = key[0] + 1
-        choices[name] = choice
-        pending.discard(name)
-
-    for name, derived in graph.derived_quantities.items():
-        if len(derived.dimensions) == 1:
-            choices[name] = derived.dimensions[0]
-    return choices
-
 def _generate_flow_graph(graph: UnitGraph) -> Artifact:
     filename = "unit_flow.dot"
     lines = _graph_header(filename, "DearUnits Flow", edge_color=COMPOSITION_EDGE_COLOR)
