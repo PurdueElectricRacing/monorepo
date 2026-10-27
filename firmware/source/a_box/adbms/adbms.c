@@ -255,6 +255,10 @@ void adbms_read_therms(adbms_bms_t *bms) {
     PHAL_SPI_transferBlocking(bms->spi, bms->tx_strbuf.data, NULL, (uint16_t)bms->tx_strbuf.length);
     adbms6380_set_cs_high(bms->spi);
 
+    // TODO: wait for AUX conversion completion before reading (PLAUX)
+    // ADAX preserves previous results, so this immediate read may return the
+    // previous scan or mixed old/new values.
+    // This is not terrible, but should be fixed later.
     adbms6380_read_gpio_voltages(bms->spi,
                                  &bms->tx_strbuf,
                                  bms->rx_buf,
