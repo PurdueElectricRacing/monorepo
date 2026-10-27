@@ -559,8 +559,8 @@
             "max": 1,
             "min": 0,
             "priority": "error",
-            "time_to_latch": 2000,
-            "time_to_unlatch": 3000,
+            "time_to_latch": 5000,
+            "time_to_unlatch": 5000,
             "lcd_message": "IMD Isolation Fault"
         },
         {
