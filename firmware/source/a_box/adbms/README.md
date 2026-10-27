@@ -37,43 +37,6 @@ void g_bms_periodic() {
 This updates cell voltage, thermistor readings, and error flags
 (and all the aggregate statistics) in the `adbms_bms_t g_bms` struct.
 
-### State Machine
-
-`adbms_periodic()` implements a 4-state machine. Each state is entered once per
-tick, and its body runs a complete straight-line sequence in one call, written
-inline in the state's switch case. Any failure mid-sequence jumps the state to `RECOVERING`.
-`RECOVERING` and `ERROR` are non-blocking waits spanning multiple ticks.
-
-| State | Action |
-|-------|--------|
-| `ADBMS_STATE_CONNECTING` | Run the full connect sequence (below); on success → `READ_LOOP`, any failure → `RECOVERING` |
-| `ADBMS_STATE_READ_LOOP` | Run one full measure/balance cycle (below); on success stay in `READ_LOOP`, any failure → `RECOVERING` |
-| `ADBMS_STATE_RECOVERING` | Non-blocking wait for a full chip sleep-wake cycle (2.5 s) |
-| `ADBMS_STATE_ERROR` | Non-latching backoff after repeated failed recovery (10 s, SDC pin pulled) |
-
-Connect sequence (runs in order inside `CONNECTING`, early-exiting on the first failure):
-1. Write REGA configuration to all modules
-2. Read REGA back and verify
-3. Write REGB configuration to all modules
-4. Read REGB back and verify
-5. Reset `recovery_attempts`
-6. Start continuous cell voltage conversions (ADCV)
-
-Measure/balance cycle (runs in order inside `READ_LOOP`, early-exiting on the first failure):
-1. Read cell voltages and sanity-check the range
-2. Read thermistor voltages and convert to temperature
-3. Compute per-cell discharge flags for balancing
-4. Write REGB with the new discharge bits
-5. Read REGB back and verify
-
-Recovery: each completed `RECOVERING` cycle (2.5 s) increments
-`recovery_attempts` (clamped at `ADBMS_RECOVERY_MAX_ATTEMPTS` = 4). After 4
-consecutive failed recovery cycles the driver enters `ERROR`; after the 10 s
-error backoff it returns to `CONNECTING` with the counter still saturated.
-A failed reconnect returns to `ERROR` after one 2.5 s recovery cycle. After
-initialization, `recovery_attempts` resets only on a successful connect sequence. In steady
-state the driver runs one full measure/balance cycle per tick (200 ms).
-
 #### For example
 
 ```c
