@@ -203,58 +203,57 @@ def _flow_choices(graph: UnitGraph) -> dict[str, tuple[str, str, int] | Dimensio
             choices[name] = derived.dimensions[0]
     return choices
 
-
 def _generate_flow_graph(graph: UnitGraph) -> Artifact:
     filename = "unit_flow.dot"
     lines = _graph_header(filename, "DearUnits Flow", edge_color=COMPOSITION_EDGE_COLOR)
     lines[-1:-1] = ["\tnodesep=0.3;", "\tranksep=0.8;"]
 
-    hub_ids = []
+    # Base quantities: same table node as derived ones, blue base row
+    base_ids = []
     for name, base in sorted(graph.base_quantities.items()):
-        hub = _quantity_id(name)
-        hub_ids.append(hub)
-        lines.append(
-            f"\t{hub} [label=<<B>{html.escape(name)}</B><BR/>{html.escape(base.base_name)}>, "
-            f"fillcolor={_quote(BASE_FILL_COLOR)}];"
-        )
-        for unit_name, unit in sorted(base.units.items()):
-            if unit_name == base.base_name:
-                continue
-            unit_id = _quote(f"unit:{name}:{unit_name}")
-            lines.append(f"\t{unit_id} [label={_quote(unit_name)}, fillcolor=\"white\"];")
-            lines.append(
-                f"\t{unit_id} -> {hub} [label={_quote(_conversion_label(unit))}, "
-                f"color={_quote(BORDER_COLOR)}, tailport=e, headport=w];"
-            )
-    lines.append("\t{ rank=same; " + "; ".join(hub_ids) + "; }")
+        base_ids.append(_quantity_id(name))
+        lines.append(_hub_node(name, base.base_name, base.units, BASE_FILL_COLOR))
+    lines.append("\t{ rank=same; " + "; ".join(base_ids) + "; }")
 
+    # Derived quantities: green base row
     for name, derived in sorted(graph.derived_quantities.items()):
         lines.append(_hub_node(name, derived.base_name, derived.units, DERIVED_FILL_COLOR))
 
+    # Every quantity (base or derived) exposes its hub row on the east side,
+    # and every derived quantity receives edges on the west side of its hub row.
     def source(name: str) -> str:
-        return f"{_quantity_id(name)}:e" if name in graph.base_quantities else f"{_quantity_id(name)}:hub:e"
+        return f"{_quantity_id(name)}:hub:e"
 
     def target(name: str) -> str:
         return f"{_quantity_id(name)}:hub:w"
 
+    def exponent_label(exponent: int) -> str:
+        return "" if exponent == 1 else f", label={_quote(str(exponent))}"
+
     lines.append("")
-    for name, choice in sorted(_flow_choices(graph).items()):
-        if isinstance(choice, DimensionTerm):
-            label = "" if choice.exponent == 1 else f" [label={_quote(str(choice.exponent))}]"
-            lines.append(f"\t{source(choice.quantity_name)} -> {target(name)}{label};")
+    for name, derived in sorted(graph.derived_quantities.items()):
+        terms = derived.dimensions
+        if not terms:
             continue
-        a, b, sign = choice
+
+        if len(terms) == 1:
+            # Single dependency: direct edge, labeled with the exponent if != 1
+            term = terms[0]
+            label = f" [{exponent_label(term.exponent).lstrip(', ')}]" if term.exponent != 1 else ""
+            lines.append(f"\t{source(term.quantity_name)} -> {target(name)}{label};")
+            continue
+
+        # Multiple dependencies: a "×" junction with exponent-labeled inputs
         junction = _quote(f"op:{name}")
-        lines.append(_junction_node(junction, COMPOSITION_EDGE_COLOR, "×" if sign > 0 else "÷"))
-        if a == b:
-            lines.append(f"\t{source(a)} -> {junction} [arrowhead=none, label=\"2\"];")
-        else:
-            lines.append(f"\t{source(a)} -> {junction} [arrowhead=none];")
-            lines.append(f"\t{source(b)} -> {junction} [arrowhead=none{', style=dashed' if sign < 0 else ''}];")
+        lines.append(_junction_node(junction, COMPOSITION_EDGE_COLOR, "×"))
+        for term in terms:
+            lines.append(
+                f"\t{source(term.quantity_name)} -> {junction} "
+                f"[arrowhead=none{exponent_label(term.exponent)}];"
+            )
         lines.append(f"\t{junction} -> {target(name)};")
 
     return _unit_graph_artifact(filename, lines)
-
 
 def generate_unit_graphs(graph: UnitGraph) -> list[Artifact]:
     return [
