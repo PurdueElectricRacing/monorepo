@@ -42,6 +42,7 @@ pub struct AddSendMessage {
     pub key: superdbc::message::MessageKey,
     pub is_extended_id: bool,
     pub msg_bytes: Vec<u8>,
+    pub is_hil: bool,
 }
 
 struct Scheduled {
@@ -51,7 +52,7 @@ struct Scheduled {
 }
 
 #[derive(Default)]
-pub struct SendTable(BTreeMap<superdbc::message::MessageKey, Scheduled>);
+pub struct SendTable(BTreeMap<(superdbc::message::MessageKey, u8), Scheduled>);
 
 impl SendTable {
     pub fn add(&mut self, msg: AddSendMessage) -> Result<(), String> {
@@ -70,28 +71,51 @@ impl SendTable {
             msg.msg_bytes,
         )?;
 
-        self.0.insert(
-            msg.key,
-            Scheduled {
-                frame,
-                amount: msg.amount,
-                sent: None,
-            },
-        );
+        if msg.is_hil {
+            for i in 1..=u8::MAX {
+                if let std::collections::btree_map::Entry::Vacant(e) =
+                    self.0.entry((msg.key, i))
+                {
+                    e.insert(Scheduled {
+                        frame,
+                        amount: msg.amount,
+                        sent: None,
+                    });
+                    break;
+                }
+
+                if i == u8::MAX {
+                    return Err("No more space in send table".to_owned());
+                }
+            }
+        } else {
+            self.0.insert(
+                (msg.key, 0),
+                Scheduled {
+                    frame,
+                    amount: msg.amount,
+                    sent: None,
+                },
+            );
+        }
         Ok(())
     }
 
     pub fn delete(&mut self, key: superdbc::message::MessageKey) {
-        self.0.remove(&key);
+        self.0.remove(&(key, 0));
+    }
+
+    pub fn delete_all(&mut self, key: superdbc::message::MessageKey) {
+        self.0.retain(|(message_key, _), _| *message_key != key);
     }
 
     pub fn due(
         &self,
         now: time::Instant,
-    ) -> Vec<(superdbc::message::MessageKey, frame::CanFrameTx)> {
+    ) -> Vec<((superdbc::message::MessageKey, u8), frame::CanFrameTx)> {
         self.0
             .iter()
-            .filter(|(_, scheduled)| {
+            .filter(|((_, _), scheduled)| {
                 let Some(last_sent) = scheduled.sent else {
                     return true;
                 };
@@ -108,21 +132,18 @@ impl SendTable {
     pub fn commit(
         &mut self,
         key: superdbc::message::MessageKey,
+        index: u8,
         now: time::Instant,
     ) -> Option<SendAmount> {
-        let scheduled = self.0.get_mut(&key)?;
+        let scheduled = self.0.get_mut(&(key, index))?;
         scheduled.sent = Some(now);
         let amount_left = scheduled.amount.subtract_one();
 
         if let Some(amount) = amount_left {
             scheduled.amount = amount;
         } else {
-            self.0.remove(&key);
+            self.0.remove(&(key, index));
         }
         amount_left
-    }
-
-    pub fn contains(&self, key: superdbc::message::MessageKey) -> bool {
-        self.0.contains_key(&key)
     }
 }

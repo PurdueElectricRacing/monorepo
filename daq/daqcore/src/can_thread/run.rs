@@ -245,19 +245,12 @@ fn run_with_connection(
             }
             for message in tx_messages {
                 let key = message.key;
-                if !sends.contains(key) {
-                    if let Err(error) = sends.add(message) {
-                        sends.delete(key);
-                        emit!(can_thread::CanThreadEvent::SendFailed {
-                            key,
-                            error,
-                            retrying: false
-                        });
-                    }
-                } else {
-                    emit!(can_thread::CanThreadEvent::Diagnostic(
-                        "Attempted HIL message is already being sent".to_owned()
-                    ));
+                if let Err(error) = sends.add(message) {
+                    emit!(can_thread::CanThreadEvent::SendFailed {
+                        key,
+                        error,
+                        retrying: false
+                    });
                 }
             }
             emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
@@ -271,9 +264,9 @@ fn run_with_connection(
             for (key, tx_frame) in sends.due(now) {
                 match connection.write(tx_frame) {
                     Ok(()) => {
-                        let amount_left = sends.commit(key, time::Instant::now());
+                        let amount_left = sends.commit(key.0, key.1, time::Instant::now());
                         emit!(can_thread::CanThreadEvent::MessageSent {
-                            key,
+                            key: key.0,
                             timestamp: crate::time::Time::now(),
                             amount_left
                         });
@@ -282,12 +275,12 @@ fn run_with_connection(
                         let unsupported = matches!(error, driver::DriverError::Unsupported(_));
 
                         emit!(can_thread::CanThreadEvent::SendFailed {
-                            key,
+                            key: key.0,
                             error: error.to_string(),
                             retrying: !unsupported,
                         });
                         if unsupported {
-                            sends.delete(key);
+                            sends.delete_all(key.0);
                         } else {
                             connection.failed(time::Instant::now());
                             emit!(can_thread::CanThreadEvent::ConnectionFailed(

@@ -284,6 +284,7 @@ impl HilEngine {
             key,
             is_extended_id: message.is_extended_id(),
             msg_bytes: encoded_message,
+            is_hil: true,
         })
     }
 
