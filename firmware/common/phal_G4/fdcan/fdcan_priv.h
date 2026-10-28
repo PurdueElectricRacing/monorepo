@@ -12,10 +12,36 @@
 #include "stm32g474xx.h"
 
 
-/// The FDCAN kernel clock frequency (the clock NBTP's prescaler divides down.
-/// Our HAL for FDCAN is always clocked from PCLK1.
-/// NOTE: delicate to PCLK1 changes!!
-static constexpr uint32_t FDCAN_PRIV_KER_CLK_HZ = 16'000'000U;
+/// Nominal bit timing for one supported FDCAN kernel clock rate.
+/// Our HAL for FDCAN is always clocked from PCLK1, so there is one entry per
+/// APB1 rate PHAL_RCC_init can produce.
+/// seg1/seg2/sjw are in real time-quanta (TQ) units; a bit is 1 (sync) + seg1 + seg2 TQ
+typedef struct {
+    uint32_t kernel_clock_hz; ///< the clock NBTP's prescaler divides down (PCLK1)
+    uint32_t seg1;            ///< TSEG1: propagation + phase segment 1, before the sample point
+    uint32_t seg2;            ///< TSEG2: phase segment 2, after the sample point
+    uint32_t sjw;             ///< max TQ the core may lengthen/shorten a segment by to resynchronize
+} FDCAN_PRIV_BitTiming_t;
+
+/// 16 MHz PCLK1: 1 + 13 + 2 = 16 TQ per bit, sample point at (1+13)/16 = 87.5%
+static constexpr FDCAN_PRIV_BitTiming_t FDCAN_PRIV_BIT_TIMING_16MHZ = {
+    .kernel_clock_hz = 16'000'000U,
+    .seg1            = 13U,
+    .seg2            = 2U,
+    .sjw             = 2U,
+};
+
+/// 170 MHz PCLK1: 16 TQ per bit doesn't divide 170 MHz evenly for any supported
+/// bit rate, so use 1 + 14 + 2 = 17 TQ per bit, sample point at (1+14)/17 ~= 88.2%
+static constexpr FDCAN_PRIV_BitTiming_t FDCAN_PRIV_BIT_TIMING_170MHZ = {
+    .kernel_clock_hz = 170'000'000U,
+    .seg1            = 14U,
+    .seg2            = 2U,
+    .sjw             = 2U,
+};
+
+/// NBRP is a 9-bit (value - 1) field, so the largest encodable prescaler is 512
+static constexpr uint32_t FDCAN_PRIV_NBRP_MAX = 512U;
 
 // Values originate from ST's HAL & documentation
 
@@ -99,8 +125,9 @@ void PHAL_FDCAN_setInterruptLines(FDCAN_GlobalTypeDef *fdcan);
 /// Write a filter action to RXGFC (accept/reject all)
 void PHAL_FDCAN_priv_writeFilterAction(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_DefaultFilterAction_t action);
 
-/// Compute the NBTP register value for one of the supported bit rates.
-/// 16-time-quantum nominal bit time (~87.5% sample point)
+/// Compute the NBTP register value for one of the supported bit rates, using
+/// the FDCAN_PRIV_BIT_TIMING_* entry that matches the current PCLK1.
+/// Traps if PCLK1 has no timing entry
 uint32_t PHAL_FDCAN_priv_getNBTP(PHAL_FDCAN_BaudRate_t bit_rate);
 
 /// Set num_sid exact-match standard filters and forward to RX FIFO0

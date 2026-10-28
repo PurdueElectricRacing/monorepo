@@ -48,7 +48,8 @@ typedef enum : uint32_t {
  * @brief Initialize an FDCAN peripheral for classic (non-FD) CAN operation
  *
  * - Setups up FDCAN clock (from PCLK1)
- * - ~87.5% sample point
+ *    - Call after PHAL_RCC_init: bit timing is chosen for the current PCLK1
+ * - ~87.5% (16 MHz) / ~88.2% (170 MHz) sample point
  * - Classic CAN mode (FD/BRS off), auto-retransmission disabled, TX pause on
  * - TX FIFO mode
  * - RX FIFO0 new message (line 0) and TX complete interrupts (line 1)

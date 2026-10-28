@@ -6,7 +6,36 @@
 
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/fdcan/fdcan_priv.h"
- 
+#include "common/phal_G4/rcc/rcc.h"
+
+// Compile time check that a timing entry divides its kernel clock into an
+// exact, encodable prescaler for a bit rate (an inexact one would be off-rate)
+#define FDCAN_PRIV_ASSERT_EXACT_BRP(timing, bit_rate)                                                  \
+    static_assert((timing).kernel_clock_hz % ((uint32_t)(bit_rate) * (1U + (timing).seg1 + (timing).seg2)) \
+                      == 0U,                                                                        \
+                  "bit timing does not divide the kernel clock exactly");                           \
+    static_assert((timing).kernel_clock_hz / ((uint32_t)(bit_rate) * (1U + (timing).seg1 + (timing).seg2)) \
+                      <= FDCAN_PRIV_NBRP_MAX,                                                       \
+                  "bit rate prescaler exceeds the NBRP field")
+
+FDCAN_PRIV_ASSERT_EXACT_BRP(FDCAN_PRIV_BIT_TIMING_16MHZ, FDCAN_BAUD_250K);
+FDCAN_PRIV_ASSERT_EXACT_BRP(FDCAN_PRIV_BIT_TIMING_16MHZ, FDCAN_BAUD_500K);
+FDCAN_PRIV_ASSERT_EXACT_BRP(FDCAN_PRIV_BIT_TIMING_16MHZ, FDCAN_BAUD_1M);
+FDCAN_PRIV_ASSERT_EXACT_BRP(FDCAN_PRIV_BIT_TIMING_170MHZ, FDCAN_BAUD_250K);
+FDCAN_PRIV_ASSERT_EXACT_BRP(FDCAN_PRIV_BIT_TIMING_170MHZ, FDCAN_BAUD_500K);
+FDCAN_PRIV_ASSERT_EXACT_BRP(FDCAN_PRIV_BIT_TIMING_170MHZ, FDCAN_BAUD_1M);
+
+/// Return the bit timing entry for a kernel clock rate, or nullptr if unsupported
+static const FDCAN_PRIV_BitTiming_t *fdcan_selectBitTiming(uint32_t kernel_clock_hz) {
+    if (kernel_clock_hz == FDCAN_PRIV_BIT_TIMING_16MHZ.kernel_clock_hz) {
+        return &FDCAN_PRIV_BIT_TIMING_16MHZ;
+    }
+    if (kernel_clock_hz == FDCAN_PRIV_BIT_TIMING_170MHZ.kernel_clock_hz) {
+        return &FDCAN_PRIV_BIT_TIMING_170MHZ;
+    }
+    return nullptr;
+}
+
 uint32_t PHAL_FDCAN_priv_ramBase(const FDCAN_GlobalTypeDef *fdcan) {
     // SRAMCAN_BASE = start address of the single block of SRAM
     // It is shared by all FDCAN instances for their Message RAM (filters/FIFOs/TX buffers)
@@ -183,39 +212,37 @@ uint32_t PHAL_FDCAN_priv_getNBTP(PHAL_FDCAN_BaudRate_t bit_rate) {
         case FDCAN_BAUD_250K:
         case FDCAN_BAUD_500K:
         case FDCAN_BAUD_1M:
-            // seg1/seg2/sjw are in real time-quanta (TQ) units
-            // TSEG1 = Time Segment 1
-            // - propagation + phase segment 1, before the sample point
-            // TSEG2 = Time Segment 2
-            // - phase segment 2, after the sample point
-            // SJW  = Synchronization Jump Width
-            // max TQ the core may lengthen/shorten a segment by to resynchronize with the bus
-            // 1 + 13 (TSEG1) + 2 (TSEG2) = 16 TQ per bit with a 
-            // sample point at (1+13)/16 = 87.5% into the bit
-            const uint32_t seg1 = 13;
-            const uint32_t seg2 = 2;
-            const uint32_t sjw = 2;
-            const uint32_t tq_per_bit = 1 + seg1 + seg2; 
-
-            // BRP (Baud Rate Prescaler) = kernel_clock_Hz / (bit_rate * TQ_per_bit)
-            uint32_t brp = FDCAN_PRIV_KER_CLK_HZ / ((uint32_t)bit_rate * tq_per_bit);
-            
-            // NBTP = Nominal Bit Timing and Prescaler register
-            // - configures the bit timing used for the arbitration/nominal phase of every frame
-            // - Class CAN only has this one phase
-            // NBRP = Nominal Baud Rate Prescaler field
-            // - divides the FDCAN kernel clock down to produce 1 time quantum (TQ) per tick
-            // NTSEG1 = Nominal Time Segment 1 field
-            // NTSEG2 = Nominal Time Segment 2 field
-            // NSJW = Nominal (re)Synchronization Jump Width field
-            // Fields require a bias-correction (-1) to match hardware's internal encoding
-            return ((brp - 1U) << FDCAN_NBTP_NBRP_Pos)
-                | ((seg1 - 1U) << FDCAN_NBTP_NTSEG1_Pos)
-                | ((seg2 - 1U) << FDCAN_NBTP_NTSEG2_Pos)
-                | ((sjw - 1U) << FDCAN_NBTP_NSJW_Pos);
+            break;
         default:
             __builtin_trap();
     }
+
+    // Before PHAL_RCC_init, PCLK1 is the reset HSI16 rate, which has an entry.
+    // No match means a clock mode was added without a timing entry
+    const FDCAN_PRIV_BitTiming_t *timing = fdcan_selectBitTiming(PHAL_RCC_getAPB1ClockHz());
+    if (timing == nullptr) {
+        __builtin_trap();
+    }
+
+    const uint32_t tq_per_bit = 1U + timing->seg1 + timing->seg2;
+
+    // BRP (Baud Rate Prescaler) = kernel_clock_Hz / (bit_rate * TQ_per_bit)
+    // Exact for every supported entry/bit rate (checked at compile time above)
+    const uint32_t brp = timing->kernel_clock_hz / ((uint32_t)bit_rate * tq_per_bit);
+
+    // NBTP = Nominal Bit Timing and Prescaler register
+    // - configures the bit timing used for the arbitration/nominal phase of every frame
+    // - Class CAN only has this one phase
+    // NBRP = Nominal Baud Rate Prescaler field
+    // - divides the FDCAN kernel clock down to produce 1 time quantum (TQ) per tick
+    // NTSEG1 = Nominal Time Segment 1 field
+    // NTSEG2 = Nominal Time Segment 2 field
+    // NSJW = Nominal (re)Synchronization Jump Width field
+    // Fields require a bias-correction (-1) to match hardware's internal encoding
+    return ((brp - 1U) << FDCAN_NBTP_NBRP_Pos)
+        | ((timing->seg1 - 1U) << FDCAN_NBTP_NTSEG1_Pos)
+        | ((timing->seg2 - 1U) << FDCAN_NBTP_NTSEG2_Pos)
+        | ((timing->sjw - 1U) << FDCAN_NBTP_NSJW_Pos);
 }
  
 void PHAL_FDCAN_priv_writeStandardFilters(FDCAN_GlobalTypeDef *fdcan, const uint32_t *sid_list, uint32_t num_sid) {
