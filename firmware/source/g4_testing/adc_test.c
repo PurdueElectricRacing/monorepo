@@ -167,8 +167,8 @@ static adc_test_result_t run_adc_dac_test_step(void) {
 }
 
 int main(void) {
-    // 16 MHz system clock, no PLL
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    // 170 MHz system clock from HSI16 through the PLL
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();

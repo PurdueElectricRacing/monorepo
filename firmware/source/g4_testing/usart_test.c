@@ -73,7 +73,7 @@ static constexpr uint32_t LENGTH_MARKER = 0xFFFFFFFEu;
 // real-world duration is inversely proportional to core clock. Scale the
 // iteration count from the actual AHB clock (read at startup) instead of a
 // fixed constant, so the timeout doesn't silently shrink if PHAL_RCC_init is
-// ever switched to a different clock preset (e.g. PHAL_RCC_HSI_170MHZ).
+// ever switched to a different clock preset (e.g. PHAL_RCC_HSI_16MHZ).
 static constexpr uint32_t TIMEOUT_TARGET_MS = 200u;
 static constexpr uint32_t WAIT_LOOP_CYCLES_PER_ITER = 4u; // deliberately low estimate - biases toward waiting longer, never shorter
 
@@ -331,7 +331,7 @@ static const usart_subtest_t subtests[NUM_SUBTESTS] = {
 };
 
 int main(void) {
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
     usart_test_timeout_iters = compute_timeout_iters(PHAL_RCC_getAHBClockHz());
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {

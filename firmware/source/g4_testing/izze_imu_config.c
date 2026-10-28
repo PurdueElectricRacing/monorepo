@@ -55,7 +55,7 @@ DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(config_imu, IZZE_IMU_CONFIG_PERIOD_MS, TASK_PRIORITY_NORMAL, 1024);
 
 int main() {
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();

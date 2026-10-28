@@ -122,7 +122,7 @@ volatile uint32_t iteration  = 0;
 volatile uint32_t ms_ticks = 0;
 
 int main() {
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
 
     // Config systick for 1 ms
     SysTick_Config(SystemCoreClock / 1000);

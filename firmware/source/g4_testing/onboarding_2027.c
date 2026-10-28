@@ -21,8 +21,8 @@ void HardFault_Handler();
 // Hmmm... something(s) may go here
 
 int main() {
-    // NUCLEO-G474RE does not have an external oscillator so use the internal 16MHz HSI clock
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    // NUCLEO-G474RE does not have an external oscillator so run the PLL from the internal 16MHz HSI clock
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();

@@ -58,7 +58,9 @@ SPI_InitConfig_t bms_spi_config = {
     .periph        = SPI1,
     .cpol = SPI_CPOL_IDLE_LOW,
     .cpha = SPI_CPHA_FIRST_EDGE,
-    .data_rate     = 500'000, // 500 kHz SPI clock for ADBMS6380
+    // ADBMS6380 maximum SPI clock; the driver picks the fastest rate at or
+    // below this (1 MHz at 16 MHz APB2, 664 kHz at 170 MHz APB2)
+    .data_rate     = 1'000'000,
 };
 
 volatile adc1_dma_buffer_t adc1_dma_buffer;
@@ -152,7 +154,7 @@ DEFINE_HEARTBEAT_TASK(nullptr);
 
 int main(void) {
     // Hardware Initilization
-    PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSE_170MHZ);
 
     WDG_init();
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {

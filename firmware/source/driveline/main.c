@@ -130,7 +130,7 @@ DEFINE_HEARTBEAT_TASK(nullptr);
 
 int main(void) {
     // Hardware Initilization
-    PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSE_170MHZ);
 
     WDG_init();
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {

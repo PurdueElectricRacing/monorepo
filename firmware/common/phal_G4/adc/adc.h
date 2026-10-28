@@ -116,8 +116,10 @@ bool PHAL_ADC_readDMA(PHAL_ADC_Handle_t *handle, uint16_t *buffer, uint16_t leng
  * `PHAL_ADC_conversionCompleteCallback()` before returning.
  *
  * Note: `timeout` is a count of busy-wait iterations, not a wall-clock time.
- * At 16 MHz one iteration is a handful of CPU cycles; the ADC itself takes
- * roughly (640.5 + 12.5) / fADC seconds per sample (about 163 us at 4 MHz fADC).
+ * One iteration is a handful of CPU cycles; the ADC itself takes roughly
+ * (640.5 + 12.5) / fADC seconds per sample (about 163 us at 4 MHz fADC /
+ * 16 MHz HCLK, about 15 us at 42.5 MHz fADC / 170 MHz HCLK). fADC = HCLK / 4,
+ * so a given timeout covers the same number of samples at either clock.
  *
  * @param handle initialized handle
  * @param buffer destination for the samples

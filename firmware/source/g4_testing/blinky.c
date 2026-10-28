@@ -29,7 +29,7 @@ RTOS_DEFINE_TASK(ledblink3, 500, TASK_PRIORITY_NORMAL, 64);
 RTOS_DEFINE_TASK(ledblink4, 1000, TASK_PRIORITY_NORMAL, 64);
 
 int main() {
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();

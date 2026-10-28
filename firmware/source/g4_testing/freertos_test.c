@@ -40,7 +40,7 @@ RTOS_DEFINE_COUNTING_SEMAPHORE(work_sem);
 
 
 int main() {
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
 
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
