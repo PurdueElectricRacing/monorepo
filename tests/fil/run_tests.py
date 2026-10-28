@@ -18,6 +18,16 @@ BOARDS = (
     "dashboard", "main_module", "torque_vector", "a_box",
     "front_driveline", "rear_driveline",
 )
+# Boards run at up to 170 MHz and their idle task spins instead of sleeping, so
+# a simulated millisecond can cost up to one instruction per core cycle. FIL's
+# default 50M-instruction budget only reaches ~0.3 s of simulated time there.
+MAX_SYSCLK_HZ = 170_000_000
+MS_PER_S = 1000
+
+
+def instruction_budget(duration_ms: int) -> int:
+    """Upper bound on instructions one board can execute in duration_ms."""
+    return duration_ms * MAX_SYSCLK_HZ // MS_PER_S
 
 
 def run(command: list[str], **kwargs) -> subprocess.CompletedProcess:
@@ -53,6 +63,7 @@ def simulate(executable: Path, config: Path, duration_ms: int,
     command = [
         str(executable), "run-network" if config.parent == CONFIGS else "run",
         str(config), "--duration-ms", str(duration_ms),
+        "--max-instructions", str(instruction_budget(duration_ms)),
         "--strict-mmio", "--adc-decimation", "1",
     ]
     if config.parent == CONFIGS:
