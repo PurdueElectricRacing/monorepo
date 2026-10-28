@@ -76,46 +76,17 @@ fn run_with_connection(
                     request_id,
                     selection,
                 } => {
-                    let update: DatabaseUpdate;
-
                     // Load and validate file replacements on the worker
                     // Failures leave both the definitions and bus selection unchanged.
-                    match &selection {
+                    let update: DatabaseUpdate = match &selection {
                         can_thread::DatabaseRequest::Load {
                             path,
                             preferred_selection,
                         } => {
-                            database = match superdbc::database::Database::load(path)
+                            let loaded_database = match superdbc::database::Database::load(path)
                                 .map_err(|error| error.to_string())
                             {
-                                Ok(loaded_database) => {
-                                    let fallback_preset = match preferred_selection {
-                                        Some(can_thread::BusSelection::Single(_)) => None,
-                                        _ => Some(can_thread::BusSelection::Vehicle),
-                                    };
-                                    let selection = match [*preferred_selection, fallback_preset]
-                                        .into_iter()
-                                        .flatten()
-                                        .find(|sel| sel.resolve_buses(&loaded_database).is_some())
-                                        .or_else(|| can_thread::BusSelection::default_single(&loaded_database))
-                                        .ok_or_else(|| "SuperDBC contains no selectable buses".to_owned())
-                                    {
-                                        Ok(selection) => selection,
-                                        Err(error) => {
-                                            emit!(can_thread::CanThreadEvent::DatabaseSelected {
-                                                request_id,
-                                                result: Err(error)
-                                            });
-                                            continue;
-                                        }
-                                    };
-                                    selected_selection = selection.clone();
-                                    update = can_thread::DatabaseUpdate::Loaded {
-                                        database: Box::new(loaded_database.clone()),
-                                        selection: selection,
-                                    };
-                                    Some(loaded_database)
-                                }
+                                Ok(database) => database,
                                 Err(error) => {
                                     emit!(can_thread::CanThreadEvent::DatabaseSelected {
                                         request_id,
@@ -124,6 +95,36 @@ fn run_with_connection(
                                     continue;
                                 }
                             };
+
+                            let fallback_preset = match preferred_selection {
+                                Some(can_thread::BusSelection::Single(_)) => None,
+                                _ => Some(can_thread::BusSelection::Vehicle),
+                            };
+                            selected_selection = match [*preferred_selection, fallback_preset]
+                                .into_iter()
+                                .flatten()
+                                .find(|sel| sel.resolve_buses(&loaded_database).is_some())
+                                .or_else(|| can_thread::BusSelection::default_single(&loaded_database))
+                                .ok_or_else(|| "SuperDBC contains no selectable buses".to_owned())
+                            {
+                                Ok(selection) => selection,
+                                Err(error) => {
+                                    emit!(can_thread::CanThreadEvent::DatabaseSelected {
+                                        request_id,
+                                        result: Err(error)
+                                    });
+                                    continue;
+                                }
+                            };
+
+                            let loaded_update = can_thread::DatabaseUpdate::Loaded {
+                                database: Box::new(loaded_database.clone()),
+                                selection: selected_selection,
+                            };
+
+                            database = Some(loaded_database);
+
+                            loaded_update
                         }
 
                         can_thread::DatabaseRequest::Bus { selection } => {
@@ -143,9 +144,9 @@ fn run_with_connection(
                                 }
                             }
                             selected_selection = *selection;
-                            update = can_thread::DatabaseUpdate::Bus { selection: *selection };
+                            can_thread::DatabaseUpdate::Bus { selection: *selection }
                         }
-                    }
+                    };
 
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
@@ -173,7 +174,8 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::SendFailed {
                             key,
                             error,
-                            retrying: false
+                            retrying: false,
+                            is_hil: false,
                         });
                     }
                 }
@@ -249,7 +251,8 @@ fn run_with_connection(
                     emit!(can_thread::CanThreadEvent::SendFailed {
                         key,
                         error,
-                        retrying: false
+                        retrying: false,
+                        is_hil: true,
                     });
                 }
             }
@@ -268,7 +271,8 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::MessageSent {
                             key: key.0,
                             timestamp: crate::time::Time::now(),
-                            amount_left
+                            amount_left,
+                            slot_index: key.1,
                         });
                     }
                     Err(error) => {
@@ -278,6 +282,7 @@ fn run_with_connection(
                             key: key.0,
                             error: error.to_string(),
                             retrying: !unsupported,
+                            is_hil: false,
                         });
                         if unsupported {
                             sends.delete_all(key.0);

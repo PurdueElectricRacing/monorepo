@@ -136,11 +136,13 @@ pub enum CanThreadEvent {
         key: superdbc::message::MessageKey,
         timestamp: time::Time,
         amount_left: Option<can_thread::tx::SendAmount>,
+        slot_index: u8,
     },
     SendFailed {
         key: superdbc::message::MessageKey,
         error: String,
         retrying: bool,
+        is_hil: bool,
     },
     Diagnostic(String),
     BusLoad {
