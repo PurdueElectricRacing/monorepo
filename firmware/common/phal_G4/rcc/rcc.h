@@ -16,7 +16,10 @@
  * @brief Supported system clock configurations.
  *
  * Every mode configures AHB, APB1, and APB2 to run undivided at the
- * resulting system clock rate
+ * resulting system clock rate.
+ *
+ * The *_170MHZ modes are the default for applications. The *_16MHZ modes
+ * remain for images that don't need the speed (e.g. the bootloader)
  */
 typedef enum {
     PHAL_RCC_HSI_16MHZ,  /*!< HSI16 direct, no PLL, 16 MHz system clock   */
@@ -37,6 +40,10 @@ typedef enum {
  *   - Enable Range 1 boost mode
  *   - Set 4 Flash wait states
  *   - AHB = APB1 = APB2 = 170 MHz
+ *
+ * Safe to call from any prior clock state, not just reset (e.g. after the
+ * bootloader jumps to the app with its own clock tree applied): it first
+ * drops SYSCLK to HSI16, then builds the requested tree.
  *
  * The unselected input oscillator will be disabled once this function ends:
  * - HSI is on by default out of reset

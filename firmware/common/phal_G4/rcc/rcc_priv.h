@@ -77,6 +77,10 @@ void PHAL_RCC_priv_switchSysclkToHSE(void);
 /// Switch SYSCLK to the PLL and block until the switch is confirmed
 void PHAL_RCC_priv_switchSysclkToPLL(void);
 
+/// Hold HCLK at SYSCLK/2 for the >= 1 us RM0440 requires after switching
+/// SYSCLK above 80 MHz, before the AHB prescaler may return to /1
+void PHAL_RCC_priv_waitBoostTransition(void);
+
 /// Set the AHB, APB1, and APB2 prescalers to divide-by-1 (undivided)
 void PHAL_RCC_priv_setBusPrescalersToDiv1(void);
 

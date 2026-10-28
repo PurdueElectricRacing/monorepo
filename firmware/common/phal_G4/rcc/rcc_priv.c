@@ -6,6 +6,13 @@
 
 #include "common/phal_G4/rcc/rcc_priv.h"
 
+// Boost mode has no ready flag to poll, so wait a short fixed interval
+static constexpr uint32_t RCC_PRIV_BOOST_SETTLE_ITERATIONS = 100U;
+
+// Each loop iteration takes at least one cycle, so at HCLK = 85 MHz this
+// waits >= 2 us: double the 1 us RM0440 requires
+static constexpr uint32_t RCC_PRIV_BOOST_TRANSITION_ITERATIONS = 170U;
+
 void PHAL_RCC_priv_enableHSI(void) {
     // CR = Clock control register
     // - top-level enable/ready bits for each clock source
@@ -62,10 +69,11 @@ void PHAL_RCC_priv_setFlashLatency(uint32_t latency_ws) {
     acr |= (latency_ws << FLASH_ACR_LATENCY_Pos);
     FLASH->ACR = acr;
 
-    // DSB = Data Synchronization Barrier
-    // - blocks until this write has completed, so nothing after
-    //   this call can run at a higher clock before Flash is ready for it
-    __DSB();
+    // RM0440 requires reading LATENCY back to confirm the new wait states
+    // are in effect before the clock is raised
+    while (((FLASH->ACR & FLASH_ACR_LATENCY_Msk) >> FLASH_ACR_LATENCY_Pos) != latency_ws) {
+        __asm__("nop");
+    }
 }
 
 void PHAL_RCC_priv_configurePLL(RCC_PRIV_PLLSource_t src) {
@@ -121,6 +129,8 @@ void PHAL_RCC_priv_enableBoostMode(void) {
     // PWREN = Power interface clock Enable bit
     // - PWR peripheral (and PWR_CR5 below) isn't accessible until this is set
     RCC->APB1ENR1 |= RCC_APB1ENR1_PWREN;
+    // Read back so the PWR clock is running before PWR_CR5 is written
+    (void)RCC->APB1ENR1;
 
     // CFGR = Clock configuration register
     // HPRE = AHB Prescaler field
@@ -137,8 +147,7 @@ void PHAL_RCC_priv_enableBoostMode(void) {
     //   for HCLK to exceed 150 MHz
     PWR->CR5 &= ~PWR_CR5_R1MODE;
 
-    // Brief settle delay, no status flag to poll for it
-    for (volatile uint32_t i = 0; i < 100U; i++) {
+    for (volatile uint32_t i = 0; i < RCC_PRIV_BOOST_SETTLE_ITERATIONS; i++) {
         __asm__("nop");
     }
 }
@@ -174,6 +183,12 @@ void PHAL_RCC_priv_switchSysclkToPLL(void) {
     // Wait for SWS (System clock Switch Status field) to confirm the PLL
     // is driving SYSCLK now
     while ((RCC->CFGR & RCC_CFGR_SWS_Msk) != RCC_CFGR_SWS_PLL) {
+        __asm__("nop");
+    }
+}
+
+void PHAL_RCC_priv_waitBoostTransition(void) {
+    for (volatile uint32_t i = 0; i < RCC_PRIV_BOOST_TRANSITION_ITERATIONS; i++) {
         __asm__("nop");
     }
 }

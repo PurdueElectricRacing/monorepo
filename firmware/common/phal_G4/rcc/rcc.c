@@ -17,10 +17,14 @@ static uint32_t g_apb2_clock_hz   = RCC_PRIV_HSI_CLOCK_RATE_HZ;
 
 
 static void rcc_initFromOscillator(bool use_hse, bool use_pll) {
+    // The bootloader jumps to the app with its clock tree still applied (HSI
+    // may be off, SYSCLK may be on the PLL). Dropping to HSI16 first is safe at
+    // any flash latency, and frees the PLL so it can be reconfigured below
+    PHAL_RCC_priv_enableHSI();
+    PHAL_RCC_priv_switchSysclkToHSI();
+
     if (use_hse) {
         PHAL_RCC_priv_enableHSE();
-    } else {
-        PHAL_RCC_priv_enableHSI();
     }
 
     if (use_pll) {
@@ -29,6 +33,7 @@ static void rcc_initFromOscillator(bool use_hse, bool use_pll) {
         PHAL_RCC_priv_setFlashLatency(FLASH_ACR_LATENCY_4WS);
         PHAL_RCC_priv_enableBoostMode();
         PHAL_RCC_priv_switchSysclkToPLL();
+        PHAL_RCC_priv_waitBoostTransition();
         g_system_clock_hz = RCC_PRIV_PLL_OUTPUT_HZ;
     } else {
         PHAL_RCC_priv_setFlashLatency(FLASH_ACR_LATENCY_0WS);
