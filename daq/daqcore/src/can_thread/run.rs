@@ -186,6 +186,9 @@ fn run_with_connection(
                     }
                 }
                 can_thread::CanThreadCommand::DeleteSendMessage { key } => sends.delete(key),
+                // can_thread::CanThreadCommand::DeleteSendMessage { identity } => {
+                //     sends.delete(identity)
+                // }
                 can_thread::CanThreadCommand::UpdateLogFolder(path) => match &mut logger {
                     Some(logger) => logger.update_folder(path),
                     None => logger = Some(can::logger::DaqLogger::new(path)),

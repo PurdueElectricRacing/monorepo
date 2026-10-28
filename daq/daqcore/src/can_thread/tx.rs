@@ -153,8 +153,4 @@ impl SendTable {
         }
         amount_left
     }
-
-    pub fn contains(&self, id: frame::CanIdentity) -> bool {
-        self.0.contains_key(&id)
-    }
 }
