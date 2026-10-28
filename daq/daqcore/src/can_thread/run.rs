@@ -181,12 +181,13 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::SendFailed {
                             identity,
                             error,
-                            retrying: false
+                            retrying: false,
+                            is_hil: false,
                         });
                     }
                 }
                 can_thread::CanThreadCommand::DeleteSendMessage { identity } => {
-                    sends.delete(identity);
+                    sends.delete(identity)
                 }
                 can_thread::CanThreadCommand::UpdateLogFolder(path) => match &mut logger {
                     Some(logger) => logger.update_folder(path),
@@ -257,7 +258,8 @@ fn run_with_connection(
                     emit!(can_thread::CanThreadEvent::SendFailed {
                         identity,
                         error,
-                        retrying: false
+                        retrying: false,
+                        is_hil: true,
                     });
                 }
             }
@@ -277,7 +279,8 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::MessageSent {
                             identity,
                             timestamp: crate::time::Time::now(),
-                            amount_left
+                            amount_left,
+                            slot_index: key.1,
                         });
                     }
                     Err(error) => {
@@ -287,6 +290,7 @@ fn run_with_connection(
                             identity,
                             error: error.to_string(),
                             retrying: !unsupported,
+                            is_hil: false,
                         });
                         if unsupported {
                             sends.delete_all(identity);

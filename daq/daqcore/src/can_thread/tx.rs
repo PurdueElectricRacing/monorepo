@@ -65,6 +65,9 @@ impl SendTable {
 
         let frame = frame::CanFrame::data(msg.identity, msg.msg_bytes)?;
 
+        // Allow HIL messages to populate slots past slot 0
+        // which is reserved for traditional messages sent
+        // from Send UI
         if msg.is_hil {
             for i in 1..=u8::MAX {
                 if let std::collections::btree_map::Entry::Vacant(e) =
