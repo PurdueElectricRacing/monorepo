@@ -207,18 +207,23 @@ var NAVTREE =
       [ "Build from VS Code", "md_docs_2setup.html#autotoc_md145", null ],
       [ "Hardware Debugging", "md_docs_2setup.html#autotoc_md146", null ]
     ] ],
+    [ "DearUnits Unit Graphs", "md_docs_2unit__graphs.html", [
+      [ "Unit Flow", "md_docs_2unit__graphs.html#autotoc_md148", null ],
+      [ "Unit Relations", "md_docs_2unit__graphs.html#autotoc_md149", null ],
+      [ "Unit Conversions", "md_docs_2unit__graphs.html#autotoc_md150", null ]
+    ] ],
     [ "PER CAN Library", "md_firmware_2can__library_2README.html", [
-      [ "Logic", "md_firmware_2can__library_2README.html#autotoc_md148", null ],
-      [ "Stale Detection", "md_firmware_2can__library_2README.html#autotoc_md149", null ],
-      [ "Usage", "md_firmware_2can__library_2README.html#autotoc_md150", null ],
-      [ "Fault System", "md_firmware_2can__library_2README.html#autotoc_md151", [
-        [ "Usage:", "md_firmware_2can__library_2README.html#autotoc_md152", null ]
+      [ "Logic", "md_firmware_2can__library_2README.html#autotoc_md152", null ],
+      [ "Stale Detection", "md_firmware_2can__library_2README.html#autotoc_md153", null ],
+      [ "Usage", "md_firmware_2can__library_2README.html#autotoc_md154", null ],
+      [ "Fault System", "md_firmware_2can__library_2README.html#autotoc_md155", [
+        [ "Usage:", "md_firmware_2can__library_2README.html#autotoc_md156", null ]
       ] ]
     ] ],
     [ "Support", "md_firmware_2support_2README.html", [
-      [ "linker/", "md_firmware_2support_2README.html#autotoc_md154", null ],
-      [ "svd/", "md_firmware_2support_2README.html#autotoc_md155", null ],
-      [ "openocd/", "md_firmware_2support_2README.html#autotoc_md156", null ]
+      [ "linker/", "md_firmware_2support_2README.html#autotoc_md158", null ],
+      [ "svd/", "md_firmware_2support_2README.html#autotoc_md159", null ],
+      [ "openocd/", "md_firmware_2support_2README.html#autotoc_md160", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -271,21 +276,21 @@ var NAVTREEINDEX =
 "g4__testing_2pwm__testing_8c.html",
 "imd__decode_8h.html#aa96f6dbb1ccab521a1d55d676a0c661a",
 "md_docs_2library.html#autotoc_md111",
-"nav__pvt_8h.html#aab0b940e0c2b2f588ef823a759194126a1acfb0ead3561d7c45331cb1b1a509a8",
-"phal__F4_2adc_2adc_8h.html#a2edfa2a3740bb7d5dedc7e0093b09999a1c9cbe09a700434b3b4c941b6114ab12",
-"phal__F4_2usart_2usart_8h.html#a8c9f47bdc80c9f4db63b7bf8b1ad5290a0f865113d224387520fe0272ef9cbcac",
-"phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252af1e9820a41fe92a92e5c09875e0eb087",
-"sd__card_8h.html#acb425a95edaf884fd443c15be109f574a56c516eb912a5cbc615f1a47718d27fe",
-"sdio_8h.html#addc5cf2423f043d0ffbfc2c51e0fbc1ca0951e33a667ab37ca65958c2d023d688",
-"structIMU__acceleration__data__t.html#ae36bd3c561c4c08c63dd164b3dbf0344",
-"structLWS__Standard__data__t.html#ab0311be8bd07e7db9100a72fa827bf2c",
-"structa__box__fault__event__data__t.html",
-"structbms__pecs__data__t.html#ad8d170faabfa89ca1d12544217050ef8",
-"structfault__t.html#a44150f7d234be00ace86ad125102a674",
-"structmotor__speeds__data__t.html#a0822d2ed8cdf4f64a531532984638cb6",
-"structstrbuf__t.html#addc680368a33683a2831efe9f919f672",
-"syscalls_8c.html#a5aab5e2acfd600e3667dc915a2bbc7cb",
-"usb__device_8h.html"
+"nav__pvt_8h.html#aa5a3cd3229fca20ad474c18623498c9fa8a75113ae000e05c8d582011a849cf52",
+"phal__F4_2adc_2adc_8h.html",
+"phal__F4_2usart_2usart_8h.html#a898ff57758aab4eeeae844c6708938e9",
+"phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252",
+"sd__card_8h.html#a5baebc8abad93c04f29b9e894166d692",
+"sdio_8h.html#ad6c4df3070c195bbc2067e19a702f495",
+"structIMU__acceleration__data__t.html#a3202102b7af0641b1962ea603b102dcc",
+"structLWS__Standard__data__t.html#a51fa3aee106488c99a3d94b43cde55e3",
+"structSPMC__t.html#a6e92e9eabf6fb0592258f55087885ca7",
+"structbms__pecs__data__t.html#a65c1cc1d3b757bf277319032fc379ab3",
+"structfault__t.html",
+"structmillivolt__t.html#a0ff7a97e35fc12ecb5340df9f2323046",
+"structstatus__leds__t.html#ae4dc83c710e18df7170a9dc432e03fa8",
+"syscalls_8c.html#a38f8394eee3a086b87ff6d431e1e5343",
+"usb__descriptors_8h.html#af56d8fe62e6a5118bf08849e11b4ba89"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
