@@ -33,6 +33,7 @@ static constexpr uint32_t RCC_PRIV_PLL_VCO_OUTPUT_HZ = RCC_PRIV_PLL_VCO_INPUT_HZ
 static constexpr uint32_t RCC_PRIV_PLL_OUTPUT_HZ     = RCC_PRIV_PLL_VCO_OUTPUT_HZ / RCC_PRIV_PLL_R;
 
 // Compile time check that chosen M/N/R choice is legal and results in a perfect 170 MHZ
+static_assert(RCC_PRIV_HSE_CLOCK_RATE_HZ == HSE_VALUE, "HSE_VALUE (used by SystemCoreClockUpdate) must match the board HSE");
 static_assert(RCC_PRIV_HSI_CLOCK_RATE_HZ == RCC_PRIV_HSE_CLOCK_RATE_HZ, "PLL config assumes HSI and HSE");
 static_assert(RCC_PRIV_PLL_VCO_INPUT_HZ >= 2'660'000U && RCC_PRIV_PLL_VCO_INPUT_HZ <= 16'000'000U, "PLL VCO input out of valid range");
 static_assert(RCC_PRIV_PLL_VCO_OUTPUT_HZ >= 96'000'000U && RCC_PRIV_PLL_VCO_OUTPUT_HZ <= 344'000'000U, "PLL VCO output out of valid range");
