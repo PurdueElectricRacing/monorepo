@@ -8,13 +8,10 @@
 
 #include "common/phal_G4/spi/spi.h"
 #include "common/phal_G4/spi/spi_priv.h"
+#include "common/phal_G4/spi/spi_baud.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/utils/clamp.h"
 
-
-static inline uint32_t LOG2_DOWN(uint32_t x) {
-    return 31U - (uint32_t)__builtin_clz(x);
-}
 
 void PHAL_SPI_priv_enableClock(const SPI_TypeDef *periph) {
     if (periph == SPI1) {
@@ -56,19 +53,13 @@ void PHAL_SPI_priv_configCR1(SPI_InitConfig_t *cfg, uint32_t f_div) {
     }
 }
 
-uint32_t PHAL_SPI_priv_calcBaudRatePrescaler(uint32_t data_rate, const SPI_TypeDef *periph) {
-    /// See RM0440 42.9.1 SPI control register 1 (SPIx_CR1) 
+bool PHAL_SPI_priv_calcBaudRatePrescaler(uint32_t data_rate, const SPI_TypeDef *periph, uint32_t *f_div) {
+    /// See RM0440 42.9.1 SPI control register 1 (SPIx_CR1)
     // BR prescaler in CR1 takes values 0b000 to 0b111, which correspond to divisors of 2, 4, 8, 16, 32, 64, 128, and 256.
-    // This function calculates the BR value for a given data rate and SPI peripheral.
-    uint32_t f_div;
-    if ((uint32_t)periph == SPI1_BASE) {
-        f_div = LOG2_DOWN(PHAL_RCC_getAPB2ClockHz() / data_rate) - 1;
-    } else {
-        f_div = LOG2_DOWN(PHAL_RCC_getAPB1ClockHz() / data_rate) - 1;
-    }
-    f_div = CLAMP(f_div, 0, 0b111);
-    return f_div;
-} 
+    // SPI1 is on APB2; SPI2/SPI3 are on APB1
+    const uint32_t bus_clock_hz = (periph == SPI1) ? PHAL_RCC_getAPB2ClockHz() : PHAL_RCC_getAPB1ClockHz();
+    return PHAL_SPI_selectBaudRatePrescaler(bus_clock_hz, data_rate, f_div);
+}
 
 void PHAL_SPI_priv_configCR2(SPI_InitConfig_t *cfg) {
     // Frame size via CR2 DS[3:0] on G4

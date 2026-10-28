@@ -72,6 +72,7 @@ Unit tests live alongside their production modules in `tests` directories:
 
 - `lerp_lut_test.cpp` covers exact lookup points, interpolation, and upper and lower clamping in `firmware/common/lerp_lut/lerp_lut.c`.
 - `strbuf_test.cpp` covers fixed-size buffer initialization, clearing, appending, and formatted output in `firmware/common/strbuf/strbuf.c`.
+- `spi_baud_test.cpp` covers SPI prescaler selection (never faster than requested, failure when unreachable) in `firmware/common/phal_G4/spi/spi_baud.c`.
 - `can_codec_test.cpp` covers payload loading and storage, byte swapping, signal packing and unpacking, sign extension, and float bit conversion in `firmware/can_library/can_codec.h`. A C23 shim ensures these header-only inline functions are compiled as C rather than as part of the C++20 GoogleTest translation unit.
 - `abs_test.cpp` covers the processing of both float and int values of various types in `firmware/common/utils/abs.h` A C23 shim ensures these header-only inline functions are compiled as C rather than as part of the C++20 GoogleTest translation unit.
 - `clamp_test.cpp` covers the operation of the clamp macro with a wide variety of input types, from `firmware/common/utils/clamp.h`.  C23 shim ensures these header-only inline functions are compiled as C rather than as part of the C++20 GoogleTest translation unit.

@@ -166,6 +166,11 @@ add_subdirectory(
     "${CMAKE_BINARY_DIR}/unit/utils"
 )
 
+add_subdirectory(
+    "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/phal_G4/spi/tests"
+    "${CMAKE_BINARY_DIR}/unit/spi_baud"
+)
+
 if(PER_TEST_COVERAGE)
     get_property(
         PER_TEST_TARGETS

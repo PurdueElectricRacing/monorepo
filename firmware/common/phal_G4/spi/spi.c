@@ -31,7 +31,12 @@ bool PHAL_SPI_init(SPI_InitConfig_t *cfg) {
     PHAL_SPI_priv_enableClock(cfg->periph);
 
     /// Peripheral configuration (See RM0440 42.5.7 Configuration of SPI section)
-    uint32_t f_div = PHAL_SPI_priv_calcBaudRatePrescaler(cfg->data_rate, cfg->periph);
+    // Only the master drives SCK; BR is ignored in slave mode
+    uint32_t f_div = 0U;
+    if (cfg->mode == SPI_MODE_MASTER
+        && !PHAL_SPI_priv_calcBaudRatePrescaler(cfg->data_rate, cfg->periph, &f_div)) {
+        return false;
+    }
 
     // Write to the SPI_CR1 register (baud rate, CPOL/CPHA, simplex/half-duplex, frame format, CRC, slave select, master/slave configs)
     PHAL_SPI_priv_configCR1(cfg, f_div);
