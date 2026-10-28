@@ -331,7 +331,7 @@ static const usart_subtest_t subtests[NUM_SUBTESTS] = {
 };
 
 int main(void) {
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
     usart_test_timeout_iters = compute_timeout_iters(PHAL_RCC_getAHBClockHz());
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {

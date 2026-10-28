@@ -9,13 +9,8 @@
 
 #include <stdint.h>
 
-#include "stm32g474xx.h"
+#include "common/phal_G4/fdcan/fdcan.h"
 
-
-/// The FDCAN kernel clock frequency (the clock NBTP's prescaler divides down.
-/// Our HAL for FDCAN is always clocked from PCLK1.
-/// NOTE: delicate to PCLK1 changes!!
-static constexpr uint32_t FDCAN_PRIV_KER_CLK_HZ = 16'000'000U;
 
 // Values originate from ST's HAL & documentation
 
@@ -100,7 +95,7 @@ void PHAL_FDCAN_setInterruptLines(FDCAN_GlobalTypeDef *fdcan);
 void PHAL_FDCAN_priv_writeFilterAction(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_DefaultFilterAction_t action);
 
 /// Compute the NBTP register value for one of the supported bit rates.
-/// 16-time-quantum nominal bit time (~87.5% sample point)
+/// Uses the runtime PCLK1 rate (16 or 170 MHz), with a sample point near 87.5%.
 uint32_t PHAL_FDCAN_priv_getNBTP(PHAL_FDCAN_BaudRate_t bit_rate);
 
 /// Set num_sid exact-match standard filters and forward to RX FIFO0

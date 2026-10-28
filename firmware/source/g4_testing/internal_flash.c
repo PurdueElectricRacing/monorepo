@@ -51,7 +51,7 @@ static bool flash_copy(uint32_t source_address, uint32_t destination_address, ui
 } 
 
 int main() {
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
 
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {

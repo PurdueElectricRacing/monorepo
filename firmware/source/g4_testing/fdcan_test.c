@@ -6,6 +6,7 @@
 
 #include "common/rtos/rtos.h"
 #include "common/phal_G4/fdcan/fdcan.h"
+#include "common/phal_G4/fdcan/fdcan_priv.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/pin_defs/g474ret6.h"
@@ -31,8 +32,26 @@ RTOS_DEFINE_TASK(can_rx_1khz, 1, TASK_PRIORITY_HIGH, STACK_256);
 
 RTOS_DEFINE_QUEUE(q_can_rx, CanMsgTypeDef_t, 256);
 
+static void check_can_timing(void) {
+    const PHAL_FDCAN_BaudRate_t rates[] = {FDCAN_BAUD_250K, FDCAN_BAUD_500K, FDCAN_BAUD_1M};
+    for (uint32_t i = 0; i < countof(rates); ++i) {
+        const uint32_t nbtp = PHAL_FDCAN_priv_getNBTP(rates[i]);
+        const uint32_t brp = ((nbtp & FDCAN_NBTP_NBRP_Msk) >> FDCAN_NBTP_NBRP_Pos) + 1U;
+        const uint32_t seg1 = ((nbtp & FDCAN_NBTP_NTSEG1_Msk) >> FDCAN_NBTP_NTSEG1_Pos) + 1U;
+        const uint32_t seg2 = ((nbtp & FDCAN_NBTP_NTSEG2_Msk) >> FDCAN_NBTP_NTSEG2_Pos) + 1U;
+        const uint32_t sjw = ((nbtp & FDCAN_NBTP_NSJW_Msk) >> FDCAN_NBTP_NSJW_Pos) + 1U;
+        const uint32_t quanta = 1U + seg1 + seg2;
+        const uint32_t sample_per_mille = (1U + seg1) * 1000U / quanta;
+        if (PHAL_RCC_getAPB1ClockHz() != (uint32_t)rates[i] * brp * quanta
+            || sample_per_mille < 870U || sample_per_mille > 880U || sjw > seg2) {
+            HardFault_Handler();
+        }
+    }
+}
+
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
+    check_can_timing();
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();

@@ -6,6 +6,7 @@
 
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/fdcan/fdcan_priv.h"
+#include "common/phal_G4/rcc/rcc.h"
  
 uint32_t PHAL_FDCAN_priv_ramBase(const FDCAN_GlobalTypeDef *fdcan) {
     // SRAMCAN_BASE = start address of the single block of SRAM
@@ -190,15 +191,22 @@ uint32_t PHAL_FDCAN_priv_getNBTP(PHAL_FDCAN_BaudRate_t bit_rate) {
             // - phase segment 2, after the sample point
             // SJW  = Synchronization Jump Width
             // max TQ the core may lengthen/shorten a segment by to resynchronize with the bus
-            // 1 + 13 (TSEG1) + 2 (TSEG2) = 16 TQ per bit with a 
-            // sample point at (1+13)/16 = 87.5% into the bit
-            const uint32_t seg1 = 13;
-            const uint32_t seg2 = 2;
-            const uint32_t sjw = 2;
-            const uint32_t tq_per_bit = 1 + seg1 + seg2; 
+            // 16 MHz: 16 TQ, sample at 14/16 = 87.5%.
+            // 170 MHz: 170 TQ, sample at 149/170 = 87.65%.
+            // Both trees give exact 250k/500k/1M rates with BRP = 4/2/1.
+            // Scaling the segments also preserves the ~125 ns SJW at 1 Mbit/s.
+            const uint32_t kernel_clock_hz = PHAL_RCC_getAPB1ClockHz();
+            if (kernel_clock_hz != 16'000'000U && kernel_clock_hz != 170'000'000U) {
+                __builtin_trap();
+            }
+            const bool fast_clock = kernel_clock_hz == 170'000'000U;
+            const uint32_t seg1 = fast_clock ? 148U : 13U;
+            const uint32_t seg2 = fast_clock ? 21U : 2U;
+            const uint32_t sjw = seg2;
+            const uint32_t tq_per_bit = 1U + seg1 + seg2;
 
             // BRP (Baud Rate Prescaler) = kernel_clock_Hz / (bit_rate * TQ_per_bit)
-            uint32_t brp = FDCAN_PRIV_KER_CLK_HZ / ((uint32_t)bit_rate * tq_per_bit);
+            uint32_t brp = kernel_clock_hz / ((uint32_t)bit_rate * tq_per_bit);
             
             // NBTP = Nominal Bit Timing and Prescaler register
             // - configures the bit timing used for the arbitration/nominal phase of every frame

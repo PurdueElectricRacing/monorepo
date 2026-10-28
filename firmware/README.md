@@ -21,6 +21,15 @@ Vehicle targets include `main_module`, `dashboard`, `torque_vector`, `pdu`,
 `a_box`, `daq`, and `driveline`. `driveline` produces separate front and rear
 binaries. `f4_testing` and `g4_testing` are bench-testing targets.
 
+## G4 clocks
+
+STM32G4 applications and bench tests run SYSCLK, AHB, APB1, and APB2 at
+170 MHz using the RCC PLL/Range 1 boost preset. Resident bootloaders remain
+at 16 MHz directly from HSE, leaving the PLL unused for application startup.
+Vehicle boards retain their 16 MHz external clock input; bench tests use
+HSI16. Peripheral timing must use the RCC clock getters rather than assume
+a 16 MHz bus clock.
+
 ## G4 bootloader
 
 The [bootloader guide](source/bootloader/README.md) documents architecture,

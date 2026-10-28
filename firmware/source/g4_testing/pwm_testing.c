@@ -27,7 +27,7 @@ static void pwm_update_2s(void);
 RTOS_DEFINE_TASK(pwm_update_2s, 2'000, TASK_PRIORITY_HIGH, STACK_256);
 
 int main() {
-    PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
     
     if(!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();

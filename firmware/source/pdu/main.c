@@ -129,7 +129,7 @@ DEFINE_HEARTBEAT_TASK(nullptr);
 
 int main() {
     // Hardware Initialization
-    PHAL_RCC_init(PHAL_RCC_HSE_16MHZ);
+    PHAL_RCC_init(PHAL_RCC_HSE_170MHZ);
     WDG_init();
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
