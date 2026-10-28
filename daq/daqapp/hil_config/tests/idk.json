@@ -25,6 +25,26 @@
 		},
 
 		{
+			"timestamp": 2010,
+			"msg_name": "thermistor_telemetry",
+			"signals": {
+				"temperature": 15.0,
+				"module_num": 1,
+    			"thermistor_num": 2
+			}
+		},
+
+		{
+			"timestamp": 2035,
+			"msg_name": "thermistor_telemetry",
+			"signals": {
+				"temperature": 62.3,
+				"module_num": 1,
+    			"thermistor_num": 2
+			}
+		},
+
+		{
 			"msg_name": "canpiler_test",
 			"timestamp": 3000,
 			"signals": {
@@ -38,10 +58,26 @@
 	],
 	"expect": [
 		{
-			"window": [2000, 2120],
+			"window": [2000, 2025],
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": [30.0, 40.0]
+			}
+		},
+
+		{
+			"window": [2010, 2050],
+			"msg_name": "thermistor_telemetry",
+			"signals": {
+				"temperature": [10.0, 20.0]
+			}
+		},
+
+		{
+			"window": [2030, 2090],
+			"msg_name": "thermistor_telemetry",
+			"signals": {
+				"temperature": [60.0, 70.0]
 			}
 		}
 	]

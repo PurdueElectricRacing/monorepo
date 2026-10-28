@@ -186,7 +186,7 @@ fn run_with_connection(
                     }
                 }
                 can_thread::CanThreadCommand::DeleteSendMessage { identity } => {
-                    sends.delete(identity)
+                    sends.delete(identity);
                 }
                 can_thread::CanThreadCommand::UpdateLogFolder(path) => match &mut logger {
                     Some(logger) => logger.update_folder(path),
@@ -253,19 +253,12 @@ fn run_with_connection(
             }
             for message in tx_messages {
                 let identity = message.identity;
-                if !sends.contains(identity) {
-                    if let Err(error) = sends.add(message) {
-                        sends.delete(identity);
-                        emit!(can_thread::CanThreadEvent::SendFailed {
-                            identity,
-                            error,
-                            retrying: false
-                        });
-                    }
-                } else {
-                    emit!(can_thread::CanThreadEvent::Diagnostic(
-                        "Attempted HIL message is already being sent".to_owned()
-                    ));
+                if let Err(error) = sends.add(message) {
+                    emit!(can_thread::CanThreadEvent::SendFailed {
+                        identity,
+                        error,
+                        retrying: false
+                    });
                 }
             }
             emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
@@ -276,11 +269,11 @@ fn run_with_connection(
         // Ordinary sends are suspended while firmware owns transmission.
         let updating = firmware.active();
         if connection.connected() && !updating {
-            for frame in sends.due(now) {
+            for (key, frame) in sends.due(now) {
                 let identity = frame.identity;
                 match connection.write(frame) {
                     Ok(()) => {
-                        let amount_left = sends.commit(identity, time::Instant::now());
+                        let amount_left = sends.commit(key.0, key.1, time::Instant::now());
                         emit!(can_thread::CanThreadEvent::MessageSent {
                             identity,
                             timestamp: crate::time::Time::now(),
@@ -296,7 +289,7 @@ fn run_with_connection(
                             retrying: !unsupported,
                         });
                         if unsupported {
-                            sends.delete(identity);
+                            sends.delete_all(identity);
                         } else {
                             connection.failed(time::Instant::now());
                             emit!(can_thread::CanThreadEvent::ConnectionFailed(

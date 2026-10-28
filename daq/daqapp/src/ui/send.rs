@@ -276,6 +276,7 @@ impl SendUi {
                                 amount: send_amount,
                                 identity,
                                 msg_bytes,
+                                is_hil: false,
                             };
 
                             self.selected_msg = None;
@@ -336,6 +337,7 @@ impl SendUi {
                                     amount: self.sending_messages[idx].amount,
                                     identity: self.sending_messages[idx].identity,
                                     msg_bytes,
+                                    is_hil: false,
                                 },
                             ))
                             .unwrap_or_else(|error| log::error!("Failed to submit send: {error}"));

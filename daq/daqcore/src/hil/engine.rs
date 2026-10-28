@@ -256,6 +256,7 @@ impl HilEngine {
             amount: Once,
             identity: key.identity,
             msg_bytes: encoded_message,
+            is_hil: true,
         })
     }
 
