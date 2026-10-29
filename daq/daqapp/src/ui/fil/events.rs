@@ -5,6 +5,7 @@ pub fn clear_expectations(
     events.clear();
     order.clear();
 }
+
 pub fn update_expectations(
     events: &mut HashMap<String, daqcore::can::driver::FilExpectationEvent>,
     order: &mut Vec<String>,
@@ -19,6 +20,7 @@ pub fn update_expectations(
         events.remove(&id);
     }
 }
+
 use super::*;
 
 impl FilControl {

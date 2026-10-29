@@ -2,6 +2,7 @@ use crate::fil::{
     annotations, config,
     messages::{FilAdcInstance, FilGpioPort},
 };
+
 use crate::{action, app, settings};
 use daqcore::connection;
 use eframe::egui;
@@ -19,6 +20,7 @@ pub struct GpioPinState {
     pub input: Option<bool>,
     pub output: Option<bool>,
 }
+
 pub struct FilControl {
     pub title: String,
     /// Persisted FIL configuration, mirrored from the app settings.
@@ -41,6 +43,7 @@ pub struct FilControl {
     expectations: HashMap<String, daqcore::can::driver::FilExpectationEvent>,
     expectation_order: Vec<String>,
 }
+
 mod boards;
 mod builder;
 mod events;
