@@ -12,6 +12,7 @@ pub fn expectation_name(event: &daqcore::can::driver::FilExpectationEvent) -> St
         .unwrap_or("?");
     format!("{script} · check {index} · script {attachment}")
 }
+
 pub fn expectation_bytes(data: &[u8]) -> String {
     if data.is_empty() {
         return "(empty)".into();
@@ -21,6 +22,7 @@ pub fn expectation_bytes(data: &[u8]) -> String {
         .collect::<Vec<_>>()
         .join(" ")
 }
+
 pub fn expectation_ms(ns: u64) -> String {
     let whole = ns / 1_000_000;
     let remainder = ns % 1_000_000;
@@ -32,6 +34,7 @@ pub fn expectation_ms(ns: u64) -> String {
             .to_owned()
     }
 }
+
 #[cfg(test)]
 mod expectation_tests {
     use super::super::{

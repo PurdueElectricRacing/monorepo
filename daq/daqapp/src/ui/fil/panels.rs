@@ -506,12 +506,14 @@ pub fn network_result_is_current(
 ) -> bool {
     selected_network == Some(result_network)
 }
+
 pub fn annotated_text(identifier: &str, annotation: Option<&str>) -> String {
     match annotation.map(str::trim).filter(|label| !label.is_empty()) {
         Some(label) => format!("{identifier} — {label}"),
         None => identifier.to_owned(),
     }
 }
+
 pub fn elf_status(effective: &Option<std::path::PathBuf>, is_override: bool) -> egui::RichText {
     match effective {
         Some(elf) if elf.is_file() => {
@@ -527,6 +529,7 @@ pub fn elf_status(effective: &Option<std::path::PathBuf>, is_override: bool) -> 
         None => egui::RichText::new("No ELF configured").color(egui::Color32::LIGHT_RED),
     }
 }
+
 pub fn level_text(value: Option<bool>, unset: &str) -> egui::RichText {
     match value {
         Some(true) => egui::RichText::new("HIGH").color(egui::Color32::LIGHT_GREEN),
