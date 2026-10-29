@@ -108,7 +108,7 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
             let bus = values
                 .get("bus")
                 .and_then(serde_json::Value::as_str)
-                .unwrap_or("vehicle")
+                .unwrap_or("0")
                 .to_owned();
             let trace_bus = values
                 .get("trace_bus")
