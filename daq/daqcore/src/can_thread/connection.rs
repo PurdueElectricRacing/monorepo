@@ -99,24 +99,26 @@ impl ConnectionManager {
             *trace_bus = None;
         }
 
-        if let Some(driver) = self.driver.as_mut() {
-            driver.set_fil_bus(selected_bus)?;
+        if let Some(driver) = self.driver.as_mut()
+            && let ActiveDriver::Fil(fil) = driver
+        {
+            fil.set_bus_selection(selected_bus)?;
         }
         Ok(())
     }
 
     pub fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
-        self.driver
-            .as_mut()
-            .map(|d| d.take_fil_gpio_events())
-            .unwrap_or_default()
+        match self.driver.as_mut() {
+            Some(ActiveDriver::Fil(fil)) => fil.take_gpio_events(),
+            _ => Vec::new(),
+        }
     }
 
     pub fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
-        self.driver
-            .as_mut()
-            .map(|d| d.take_fil_expectation_events())
-            .unwrap_or_default()
+        match self.driver.as_mut() {
+            Some(ActiveDriver::Fil(fil)) => fil.take_expectation_events(),
+            _ => Vec::new(),
+        }
     }
 
     pub fn set_gpio(
@@ -126,11 +128,13 @@ impl ConnectionManager {
         pin: u8,
         value: Option<bool>,
     ) -> DriverResult<()> {
-        let driver = self
-            .driver
-            .as_mut()
-            .ok_or_else(|| DriverError::Write("disconnected".into()))?;
-        driver.set_gpio(board, port, pin, value)
+        match self.driver.as_mut() {
+            Some(ActiveDriver::Fil(fil)) => fil.set_gpio(board, port, pin, value),
+            Some(ActiveDriver::Can(_)) => Err(DriverError::Unsupported(
+                "GPIO control is not supported by this source".into(),
+            )),
+            None => Err(DriverError::Write("disconnected".into())),
+        }
     }
 
     pub fn set_adc(
@@ -140,11 +144,13 @@ impl ConnectionManager {
         channel: u8,
         value: u16,
     ) -> can::driver::DriverResult<()> {
-        let driver = self
-            .driver
-            .as_mut()
-            .ok_or_else(|| can::driver::DriverError::Write("disconnected".into()))?;
-        driver.set_adc(board, instance, channel, value)
+        match self.driver.as_mut() {
+            Some(ActiveDriver::Fil(fil)) => fil.set_adc(board, instance, channel, value),
+            Some(ActiveDriver::Can(_)) => Err(DriverError::Unsupported(
+                "ADC injection is not supported by this source".into(),
+            )),
+            None => Err(can::driver::DriverError::Write("disconnected".into())),
+        }
     }
 
     pub fn write(&mut self, frame: frame::CanFrame) -> can::driver::DriverResult<()> {
@@ -170,7 +176,10 @@ impl ConnectionManager {
     pub fn close(&mut self) -> Vec<FilExpectationEvent> {
         if let Some(mut driver) = self.driver.take() {
             let _ = driver.close();
-            driver.take_all_fil_expectation_events()
+            match &mut driver {
+                ActiveDriver::Fil(fil) => fil.take_all_expectation_events(),
+                ActiveDriver::Can(_) => Vec::new(),
+            }
         } else {
             Vec::new()
         }

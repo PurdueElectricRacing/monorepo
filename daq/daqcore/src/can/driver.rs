@@ -81,58 +81,6 @@ impl ActiveDriver {
     pub fn is_fil(&self) -> bool {
         matches!(self, Self::Fil(_))
     }
-    pub fn set_fil_bus(&mut self, bus: Option<u8>) -> DriverResult<()> {
-        match self {
-            Self::Fil(driver) => driver.set_bus_selection(bus),
-            Self::Can(_) => Ok(()),
-        }
-    }
-    pub fn take_fil_gpio_events(&mut self) -> Vec<FilGpioEvent> {
-        match self {
-            Self::Fil(driver) => driver.take_gpio_events(),
-            Self::Can(_) => Vec::new(),
-        }
-    }
-    pub fn take_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
-        match self {
-            Self::Fil(driver) => driver.take_expectation_events(),
-            Self::Can(_) => Vec::new(),
-        }
-    }
-    pub fn take_all_fil_expectation_events(&mut self) -> Vec<FilExpectationEvent> {
-        match self {
-            Self::Fil(driver) => driver.take_all_expectation_events(),
-            Self::Can(_) => Vec::new(),
-        }
-    }
-    pub fn set_gpio(
-        &mut self,
-        board: &str,
-        port: &str,
-        pin: u8,
-        value: Option<bool>,
-    ) -> DriverResult<()> {
-        match self {
-            Self::Fil(driver) => driver.set_gpio(board, port, pin, value),
-            Self::Can(_) => Err(DriverError::Unsupported(
-                "GPIO control is not supported by this source".into(),
-            )),
-        }
-    }
-    pub fn set_adc(
-        &mut self,
-        board: &str,
-        instance: &str,
-        channel: u8,
-        value: u16,
-    ) -> DriverResult<()> {
-        match self {
-            Self::Fil(driver) => driver.set_adc(board, instance, channel, value),
-            Self::Can(_) => Err(DriverError::Unsupported(
-                "ADC injection is not supported by this source".into(),
-            )),
-        }
-    }
 }
 
 pub fn create_driver(
