@@ -324,6 +324,7 @@ impl DAQApp {
                     &mut self.widget_ids,
                     self.ui_to_can_tx.clone(),
                     existing_count,
+                    &self.fil,
                 ) {
                     Some(mut widget) => {
                         widget.handle_operational_event(&daqcore::can_thread::CanThreadEvent::Hil(
@@ -361,8 +362,7 @@ impl DAQApp {
             }
             action::AppAction::UpdateFilConfig { fil } => {
                 self.fil = fil;
-                self.fil.adc_channel = self.fil.adc_channel.min(19);
-                self.fil.adc_value = self.fil.adc_value.min(4095);
+                self.fil.normalize();
                 self.save_settings();
             }
             action::AppAction::ConnectFil(source) => {

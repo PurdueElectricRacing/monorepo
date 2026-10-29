@@ -44,12 +44,8 @@ struct GpioPinState {
 
 pub struct FilControl {
     pub title: String,
-    executable: Option<std::path::PathBuf>,
-    network: Option<std::path::PathBuf>,
-    elf_overrides: HashMap<String, std::path::PathBuf>,
-    disabled_boards: Vec<String>,
-    use_builder: bool,
-    builder: config::BuiltNetwork,
+    /// Persisted FIL configuration, mirrored from the app settings.
+    settings: settings::FilSettings,
     network_info: Option<config::FilNetworkInfo>,
     network_info_error: Option<String>,
     network_info_rx: Option<(
@@ -60,11 +56,6 @@ pub struct FilControl {
     import_rx: Option<mpsc::Receiver<Result<config::BuiltBoard, String>>>,
     export_rx: Option<mpsc::Receiver<Result<(), String>>>,
     operation_error: Option<String>,
-    adc_board: String,
-    adc_instance: FilAdcInstance,
-    adc_channel: u8,
-    adc_value: u16,
-    run_options: connection::FilRunOptions,
     annotations: annotations::FilAnnotations,
     annotation_error: Option<String>,
     gpio_board: String,
@@ -75,20 +66,16 @@ pub struct FilControl {
 }
 
 impl FilControl {
-    pub fn new(instance_num: usize) -> Self {
-        let saved = settings::Settings::load().fil;
+    pub fn new(instance_num: usize, fil: &settings::FilSettings) -> Self {
+        let mut settings = fil.clone();
+        settings.normalize();
         let (annotations, annotation_error) = match annotations::load() {
             Ok(annotations) => (annotations, None),
             Err(error) => (annotations::FilAnnotations::default(), Some(error)),
         };
         let mut control = Self {
             title: format!("FIL Control #{}", instance_num),
-            executable: saved.executable,
-            network: saved.network,
-            elf_overrides: saved.elf_overrides,
-            disabled_boards: saved.disabled_boards,
-            use_builder: saved.use_builder,
-            builder: saved.builder,
+            settings,
             network_info: None,
             network_info_error: None,
             network_info_rx: None,
@@ -96,11 +83,6 @@ impl FilControl {
             import_rx: None,
             export_rx: None,
             operation_error: None,
-            adc_board: saved.adc_board,
-            adc_instance: saved.adc_instance,
-            adc_channel: saved.adc_channel.min(19),
-            adc_value: saved.adc_value.min(4095),
-            run_options: saved.run_options,
             annotations,
             annotation_error,
             gpio_board: "dashboard".into(),
@@ -117,13 +99,13 @@ impl FilControl {
     /// ADC/GPIO targets follow the newly selected network when their current
     /// board is not present in it.
     fn refresh_network_info(&mut self) {
-        if self.last_loaded_network == self.network {
+        if self.last_loaded_network == self.settings.network {
             return;
         }
-        self.last_loaded_network = self.network.clone();
+        self.last_loaded_network = self.settings.network.clone();
         self.network_info = None;
         self.network_info_error = None;
-        let Some(network) = self.network.clone() else {
+        let Some(network) = self.settings.network.clone() else {
             return;
         };
         let (tx, rx) = mpsc::channel();
@@ -137,7 +119,7 @@ impl FilControl {
         let Some((path, receiver)) = &self.network_info_rx else {
             return;
         };
-        if !network_result_is_current(self.network.as_deref(), path) {
+        if !network_result_is_current(self.settings.network.as_deref(), path) {
             self.network_info_rx = None;
             return;
         }
@@ -148,8 +130,8 @@ impl FilControl {
                     Ok(info) => {
                         let boards: Vec<String> =
                             info.boards.iter().map(|board| board.name.clone()).collect();
-                        if !boards.contains(&self.adc_board) && !boards.is_empty() {
-                            self.adc_board = boards[0].clone();
+                        if !boards.contains(&self.settings.adc_board) && !boards.is_empty() {
+                            self.settings.adc_board = boards[0].clone();
                         }
                         if !boards.contains(&self.gpio_board) && !boards.is_empty() {
                             self.gpio_board = boards[0].clone();
@@ -176,7 +158,7 @@ impl FilControl {
                     self.import_rx = None;
                     match result {
                         Ok(board) => {
-                            self.builder.boards.push(board);
+                            self.settings.builder.boards.push(board);
                             self.queue_builder_update(actions);
                         }
                         Err(error) => {
@@ -233,8 +215,8 @@ impl FilControl {
 
     /// Board names available for ADC/GPIO targeting in the active mode.
     fn available_board_names(&self) -> Vec<String> {
-        if self.use_builder {
-            self.builder
+        if self.settings.use_builder {
+            self.settings.builder
                 .boards
                 .iter()
                 .filter(|board| board.enabled)
@@ -249,7 +231,7 @@ impl FilControl {
     }
 
     fn enabled_file_boards(&self) -> Vec<&config::FilBoardInfo> {
-        let disabled: HashSet<&str> = self.disabled_boards.iter().map(String::as_str).collect();
+        let disabled: HashSet<&str> = self.settings.disabled_boards.iter().map(String::as_str).collect();
         self.network_info
             .as_ref()
             .map(|info| {
@@ -263,13 +245,13 @@ impl FilControl {
 
     /// Reasons the Connect button is currently unavailable.
     fn connect_issues(&self) -> Vec<String> {
-        if self.executable.is_none() {
+        if self.settings.executable.is_none() {
             return vec!["Select a FIL executable first".into()];
         }
-        if self.use_builder {
+        if self.settings.use_builder {
             return self.builder_issues();
         }
-        if self.network.is_none() {
+        if self.settings.network.is_none() {
             return vec!["Select a network config first".into()];
         }
         if let Some(error) = &self.network_info_error {
@@ -283,10 +265,10 @@ impl FilControl {
             issues.push("Enable at least one board below".into());
         }
         for board in &info.boards {
-            if self.disabled_boards.contains(&board.name) {
+            if self.settings.disabled_boards.contains(&board.name) {
                 continue;
             }
-            match config::effective_elf(board, &self.elf_overrides) {
+            match config::effective_elf(board, &self.settings.elf_overrides) {
                 Some(elf) if elf.is_file() => {}
                 Some(elf) => issues.push(format!(
                     "Board '{}' ELF does not exist: {}",
@@ -304,16 +286,16 @@ impl FilControl {
 
     fn builder_issues(&self) -> Vec<String> {
         let mut issues = Vec::new();
-        if self.builder.name.trim().is_empty() {
+        if self.settings.builder.name.trim().is_empty() {
             issues.push("Give the built network a name".into());
         }
-        if !matches!(self.builder.bus.parse::<u8>(), Ok(0..=7)) {
+        if !matches!(self.settings.builder.bus.parse::<u8>(), Ok(0..=7)) {
             issues.push("Use a SuperDBC bus ID from 0 to 7 for the built network".into());
         }
-        if self.builder.bitrate == 0 {
+        if self.settings.builder.bitrate == 0 {
             issues.push("Built network bitrate must be nonzero".into());
         }
-        for stimulus in &self.builder.stimuli {
+        for stimulus in &self.settings.builder.stimuli {
             if !stimulus.is_file() {
                 issues.push(format!(
                     "Stimulus script does not exist: {}",
@@ -322,6 +304,7 @@ impl FilControl {
             }
         }
         let enabled: Vec<&config::BuiltBoard> = self
+            .settings
             .builder
             .boards
             .iter()
@@ -355,7 +338,7 @@ impl FilControl {
                     board.elf.display()
                 ));
             }
-            match config::effective_mcu(board, self.executable.as_deref()) {
+            match config::effective_mcu(board, self.settings.executable.as_deref()) {
                 Some(mcu) if mcu.is_file() => {}
                 Some(mcu) => issues.push(format!(
                     "Board '{name}' MCU config does not exist: {}",
@@ -417,32 +400,16 @@ impl FilControl {
         }
     }
 
-    fn fil_settings(&self) -> settings::FilSettings {
-        settings::FilSettings {
-            executable: self.executable.clone(),
-            network: self.network.clone(),
-            elf_overrides: self.elf_overrides.clone(),
-            disabled_boards: self.disabled_boards.clone(),
-            use_builder: self.use_builder,
-            builder: self.builder.clone(),
-            adc_board: self.adc_board.clone(),
-            adc_instance: self.adc_instance,
-            adc_channel: self.adc_channel,
-            adc_value: self.adc_value,
-            run_options: self.run_options.clone(),
-        }
-    }
-
     fn queue_config_update(&self, actions: &mut Vec<action::AppAction>) {
         actions.push(action::AppAction::UpdateFilConfig {
-            fil: self.fil_settings(),
+            fil: self.settings.clone(),
         });
     }
 
     fn queue_builder_update(&self, actions: &mut Vec<action::AppAction>) {
         actions.push(action::AppAction::UpdateFilBuilder {
-            use_builder: self.use_builder,
-            builder: self.builder.clone(),
+            use_builder: self.settings.use_builder,
+            builder: self.settings.builder.clone(),
         });
     }
 
@@ -452,9 +419,9 @@ impl FilControl {
         enabled: bool,
         actions: &mut Vec<action::AppAction>,
     ) {
-        self.disabled_boards.retain(|disabled| disabled != board);
+        self.settings.disabled_boards.retain(|disabled| disabled != board);
         if !enabled {
-            self.disabled_boards.push(board.into());
+            self.settings.disabled_boards.push(board.into());
         }
         self.queue_config_update(actions);
     }
@@ -466,12 +433,12 @@ impl FilControl {
                     .add_filter("JSON network config", &["json"])
                     .pick_file()
             {
-                self.network = Some(path);
+                self.settings.network = Some(path);
                 self.refresh_network_info();
                 self.queue_config_update(actions);
             }
             ui.label(
-                self.network
+                self.settings.network
                     .as_ref()
                     .map(|path| path.display().to_string())
                     .unwrap_or_else(|| "None selected".into()),
@@ -506,13 +473,13 @@ impl FilControl {
                 ui.strong("");
                 ui.end_row();
                 for board in &info.boards {
-                    let mut enabled = !self.disabled_boards.contains(&board.name);
+                    let mut enabled = !self.settings.disabled_boards.contains(&board.name);
                     if ui.checkbox(&mut enabled, "").changed() {
                         self.set_board_enabled(&board.name, enabled, actions);
                     }
                     ui.label(&board.name);
-                    let effective = config::effective_elf(board, &self.elf_overrides);
-                    let is_override = self.elf_overrides.contains_key(&board.name);
+                    let effective = config::effective_elf(board, &self.settings.elf_overrides);
+                    let is_override = self.settings.elf_overrides.contains_key(&board.name);
                     ui.label(elf_status(&effective, is_override));
                     ui.horizontal(|ui| {
                         if ui.small_button("Select ELF…").clicked()
@@ -520,11 +487,11 @@ impl FilControl {
                                 .add_filter("ELF firmware", &["elf"])
                                 .pick_file()
                         {
-                            self.elf_overrides.insert(board.name.clone(), path);
+                            self.settings.elf_overrides.insert(board.name.clone(), path);
                             self.queue_config_update(actions);
                         }
                         if is_override && ui.small_button("Reset").clicked() {
-                            self.elf_overrides.remove(&board.name);
+                            self.settings.elf_overrides.remove(&board.name);
                             self.queue_config_update(actions);
                         }
                     });
@@ -536,12 +503,12 @@ impl FilControl {
     fn show_builder(&mut self, ui: &mut egui::Ui, actions: &mut Vec<action::AppAction>) {
         ui.horizontal(|ui| {
             ui.label("Name:");
-            if ui.text_edit_singleline(&mut self.builder.name).changed() {
+            if ui.text_edit_singleline(&mut self.settings.builder.name).changed() {
                 self.queue_builder_update(actions);
             }
             ui.label("Bus ID:");
             if ui
-                .text_edit_singleline(&mut self.builder.bus)
+                .text_edit_singleline(&mut self.settings.builder.bus)
                 .on_hover_text("Use the SuperDBC numeric bus ID, for example 0 for VCAN")
                 .changed()
             {
@@ -550,7 +517,7 @@ impl FilControl {
             ui.label("Bitrate:");
             if ui
                 .add(
-                    egui::DragValue::new(&mut self.builder.bitrate)
+                    egui::DragValue::new(&mut self.settings.builder.bitrate)
                         .range(1..=10_000_000)
                         .suffix(" bit/s"),
                 )
@@ -568,8 +535,8 @@ impl FilControl {
             {
                 let mut changed = false;
                 for path in paths {
-                    if !self.builder.stimuli.contains(&path) {
-                        self.builder.stimuli.push(path);
+                    if !self.settings.builder.stimuli.contains(&path) {
+                        self.settings.builder.stimuli.push(path);
                         changed = true;
                     }
                 }
@@ -579,7 +546,7 @@ impl FilControl {
             }
         });
         let mut remove_stimulus = None;
-        for (index, stimulus) in self.builder.stimuli.iter().enumerate() {
+        for (index, stimulus) in self.settings.builder.stimuli.iter().enumerate() {
             ui.horizontal(|ui| {
                 let label = stimulus.display().to_string();
                 if stimulus.is_file() {
@@ -596,11 +563,12 @@ impl FilControl {
             });
         }
         if let Some(index) = remove_stimulus {
-            self.builder.stimuli.remove(index);
+            self.settings.builder.stimuli.remove(index);
             self.queue_builder_update(actions);
         }
         ui.add_space(4.0);
         let enabled_count = self
+            .settings
             .builder
             .boards
             .iter()
@@ -611,18 +579,18 @@ impl FilControl {
             enabled_count
         ));
         let mut remove_index = None;
-        for (index, board) in self.builder.boards.clone().iter().enumerate() {
+        for (index, board) in self.settings.builder.boards.clone().iter().enumerate() {
             ui.group(|ui| {
                 ui.horizontal(|ui| {
                     let mut enabled = board.enabled;
                     if ui.checkbox(&mut enabled, "Run").changed() {
-                        self.builder.boards[index].enabled = enabled;
+                        self.settings.builder.boards[index].enabled = enabled;
                         self.queue_builder_update(actions);
                     }
                     ui.label("Name:");
                     let mut name = board.name.clone();
                     if ui.text_edit_singleline(&mut name).changed() {
-                        self.builder.boards[index].name = name;
+                        self.settings.builder.boards[index].name = name;
                         self.queue_builder_update(actions);
                     }
                     if ui.small_button("Remove").clicked() {
@@ -642,7 +610,7 @@ impl FilControl {
                             .add_filter("ELF firmware", &["elf"])
                             .pick_file()
                     {
-                        let entry = &mut self.builder.boards[index];
+                        let entry = &mut self.settings.builder.boards[index];
                         entry.elf = path;
                         if entry.name.trim().is_empty() {
                             entry.name = Self::builder_board_name(entry);
@@ -652,7 +620,7 @@ impl FilControl {
                 });
                 ui.horizontal(|ui| {
                     ui.label("MCU:");
-                    let effective = config::effective_mcu(board, self.executable.as_deref());
+                    let effective = config::effective_mcu(board, self.settings.executable.as_deref());
                     match &effective {
                         Some(mcu) if mcu.is_file() => {
                             ui.label(mcu.display().to_string()).on_hover_text(
@@ -675,11 +643,11 @@ impl FilControl {
                             .add_filter("JSON MCU config", &["json"])
                             .pick_file()
                     {
-                        self.builder.boards[index].mcu = path;
+                        self.settings.builder.boards[index].mcu = path;
                         self.queue_builder_update(actions);
                     }
                     if !board.mcu.as_os_str().is_empty() && ui.small_button("Auto").clicked() {
-                        self.builder.boards[index].mcu = std::path::PathBuf::new();
+                        self.settings.builder.boards[index].mcu = std::path::PathBuf::new();
                         self.queue_builder_update(actions);
                     }
                 });
@@ -704,7 +672,7 @@ impl FilControl {
                             if set.len() == 1 && set[0] == config::FIL_CAN_INSTANCES[0] {
                                 set.clear();
                             }
-                            self.builder.boards[index].can_instances = set;
+                            self.settings.builder.boards[index].can_instances = set;
                             self.queue_builder_update(actions);
                         }
                     }
@@ -715,14 +683,14 @@ impl FilControl {
                         .on_hover_text("Empty means the FIL default")
                         .changed()
                     {
-                        self.builder.boards[index].vector_base = base;
+                        self.settings.builder.boards[index].vector_base = base;
                         self.queue_builder_update(actions);
                     }
                 });
             });
         }
         if let Some(index) = remove_index {
-            self.builder.boards.remove(index);
+            self.settings.builder.boards.remove(index);
             self.queue_builder_update(actions);
         }
         ui.horizontal(|ui| {
@@ -742,7 +710,7 @@ impl FilControl {
                     elf_override: None,
                 };
                 entry.name = Self::builder_board_name(&entry);
-                self.builder.boards.push(entry);
+                self.settings.builder.boards.push(entry);
                 self.queue_builder_update(actions);
             }
             if ui
@@ -765,11 +733,11 @@ impl FilControl {
                 .clicked()
                 && let Some(path) = rfd::FileDialog::new()
                     .add_filter("JSON network config", &["json"])
-                    .set_file_name(format!("{}.json", self.builder.name))
+                    .set_file_name(format!("{}.json", self.settings.builder.name))
                     .save_file()
             {
-                let executable = self.executable.clone().unwrap_or_default();
-                let builder = self.builder.clone();
+                let executable = self.settings.executable.clone().unwrap_or_default();
+                let builder = self.settings.builder.clone();
                 let (tx, rx) = mpsc::channel();
                 self.export_rx = Some(rx);
                 self.operation_error = None;
@@ -835,7 +803,7 @@ impl FilControl {
     }
 
     fn connect_source(&self) -> Option<connection::ConnectionSource> {
-        self.fil_settings().connection_source()
+        self.settings.connection_source()
     }
 
     pub fn show(
@@ -890,11 +858,11 @@ impl FilControl {
                     if ui.button("Select FIL executable").clicked()
                         && let Some(path) = rfd::FileDialog::new().pick_file()
                     {
-                        self.executable = Some(path);
+                        self.settings.executable = Some(path);
                         self.queue_config_update(actions);
                     }
                     ui.label(
-                        self.executable
+                        self.settings.executable
                             .as_ref()
                             .map(|path| path.display().to_string())
                             .unwrap_or_else(|| "None selected".into()),
@@ -902,16 +870,16 @@ impl FilControl {
                 });
                 ui.horizontal(|ui| {
                     ui.label("Network source:");
-                    if ui.radio(!self.use_builder, "Network file").clicked() {
-                        self.use_builder = false;
+                    if ui.radio(!self.settings.use_builder, "Network file").clicked() {
+                        self.settings.use_builder = false;
                         self.queue_builder_update(actions);
                     }
-                    if ui.radio(self.use_builder, "Build network").clicked() {
-                        self.use_builder = true;
+                    if ui.radio(self.settings.use_builder, "Build network").clicked() {
+                        self.settings.use_builder = true;
                         self.queue_builder_update(actions);
                     }
                 });
-                if self.use_builder {
+                if self.settings.use_builder {
                     self.show_builder(ui, actions);
                 } else {
                     self.show_file_network(ui, actions);
@@ -923,7 +891,7 @@ impl FilControl {
                         ui.label("Duration (ms, 0 = unlimited):");
                         changed |= ui
                             .add(
-                                egui::DragValue::new(&mut self.run_options.duration_ms)
+                                egui::DragValue::new(&mut self.settings.run_options.duration_ms)
                                     .range(0..=u64::MAX / 1_000_000),
                             )
                             .changed();
@@ -932,7 +900,7 @@ impl FilControl {
                         ui.label("Max instructions per board:");
                         changed |= ui
                             .add(
-                                egui::DragValue::new(&mut self.run_options.max_instructions)
+                                egui::DragValue::new(&mut self.settings.run_options.max_instructions)
                                     .range(1..=u64::MAX),
                             )
                             .changed();
@@ -941,7 +909,7 @@ impl FilControl {
                         ui.label("Instruction quantum:");
                         changed |= ui
                             .add(
-                                egui::DragValue::new(&mut self.run_options.quantum)
+                                egui::DragValue::new(&mut self.settings.run_options.quantum)
                                     .range(1..=u64::MAX),
                             )
                             .changed();
@@ -950,7 +918,7 @@ impl FilControl {
                         ui.label("Refresh interval (ms):");
                         changed |= ui
                             .add(
-                                egui::DragValue::new(&mut self.run_options.refresh_ms)
+                                egui::DragValue::new(&mut self.settings.run_options.refresh_ms)
                                     .range(1..=i32::MAX as u32),
                             )
                             .changed();
@@ -959,12 +927,12 @@ impl FilControl {
                         ui.label("ADC decimation (1 = every scan):");
                         changed |= ui
                             .add(
-                                egui::DragValue::new(&mut self.run_options.adc_decimation)
+                                egui::DragValue::new(&mut self.settings.run_options.adc_decimation)
                                     .range(1..=1024),
                             )
                             .changed();
                     });
-                    if self.run_options.adc_decimation > 1 {
+                    if self.settings.run_options.adc_decimation > 1 {
                         ui.small(
                             "Decimation skips ADC scans; use 1 for pedal and fault validation.",
                         );
@@ -972,23 +940,23 @@ impl FilControl {
                     ui.horizontal(|ui| {
                         ui.label("Additional live trace filters (comma-separated):");
                         changed |= ui
-                            .text_edit_singleline(&mut self.run_options.extra_live_filters)
+                            .text_edit_singleline(&mut self.settings.run_options.extra_live_filters)
                             .changed();
                     });
                     changed |= ui
-                        .checkbox(&mut self.run_options.strict_mmio, "Strict MMIO")
+                        .checkbox(&mut self.settings.run_options.strict_mmio, "Strict MMIO")
                         .changed();
                     changed |= ui
-                        .checkbox(&mut self.run_options.wall_pacing, "Wall-clock pacing")
+                        .checkbox(&mut self.settings.run_options.wall_pacing, "Wall-clock pacing")
                         .changed();
                     changed |= ui
                         .checkbox(
-                            &mut self.run_options.trace_instructions,
+                            &mut self.settings.run_options.trace_instructions,
                             "Trace instructions",
                         )
                         .changed();
                     changed |= ui
-                        .checkbox(&mut self.run_options.detect_spin, "Detect spin loops")
+                        .checkbox(&mut self.settings.run_options.detect_spin, "Detect spin loops")
                         .changed();
                     if changed {
                         self.queue_config_update(actions);
@@ -1010,7 +978,7 @@ impl FilControl {
                             );
                         }
                     }
-                    if ui.button("Disconnect").clicked() && self.executable.is_some() {
+                    if ui.button("Disconnect").clicked() && self.settings.executable.is_some() {
                         let _ = tx.send(daqcore::can_thread::CanThreadCommand::Connect(None));
                     }
                 });
@@ -1155,25 +1123,25 @@ impl FilControl {
                 ui.heading("ADC injection");
                 ui.horizontal(|ui| {
                     ui.label("Board:");
-                    let mut board = std::mem::take(&mut self.adc_board);
+                    let mut board = std::mem::take(&mut self.settings.adc_board);
                     if self.show_config_board_picker(ui, "fil_adc_board", &mut board) {
                         actions.push(action::AppAction::UpdateFilAdc {
                             board: board.clone(),
-                            instance: self.adc_instance,
-                            channel: self.adc_channel,
-                            value: self.adc_value,
+                            instance: self.settings.adc_instance,
+                            channel: self.settings.adc_channel,
+                            value: self.settings.adc_value,
                         });
                     }
-                    self.adc_board = board;
+                    self.settings.adc_board = board;
                     ui.label("Instance:");
                     let adc_annotation = self
                         .annotations
                         .adc
                         .as_ref()
-                        .and_then(|boards| boards.get(&self.adc_board))
-                        .and_then(|instances| instances.get(self.adc_instance.as_str()));
+                        .and_then(|boards| boards.get(&self.settings.adc_board))
+                        .and_then(|instances| instances.get(self.settings.adc_instance.as_str()));
                     let selected_instance = annotated_text(
-                        self.adc_instance.as_str(),
+                        self.settings.adc_instance.as_str(),
                         adc_annotation.and_then(|annotation| annotation.label.as_deref()),
                     );
                     let instance_labels: Vec<(FilAdcInstance, String)> = FilAdcInstance::ALL
@@ -1183,7 +1151,7 @@ impl FilControl {
                                 .annotations
                                 .adc
                                 .as_ref()
-                                .and_then(|boards| boards.get(&self.adc_board))
+                                .and_then(|boards| boards.get(&self.settings.adc_board))
                                 .and_then(|instances| instances.get(instance.as_str()))
                                 .and_then(|annotation| annotation.label.as_deref());
                             (instance, annotated_text(instance.as_str(), label))
@@ -1194,7 +1162,7 @@ impl FilControl {
                         .selected_text(selected_instance)
                         .show_ui(ui, |ui| {
                             for (instance, label) in &instance_labels {
-                                ui.selectable_value(&mut self.adc_instance, *instance, label);
+                                ui.selectable_value(&mut self.settings.adc_instance, *instance, label);
                             }
                         });
                 });
@@ -1204,13 +1172,13 @@ impl FilControl {
                         .annotations
                         .adc
                         .as_ref()
-                        .and_then(|boards| boards.get(&self.adc_board))
-                        .and_then(|instances| instances.get(self.adc_instance.as_str()))
+                        .and_then(|boards| boards.get(&self.settings.adc_board))
+                        .and_then(|instances| instances.get(self.settings.adc_instance.as_str()))
                         .and_then(|annotation| annotation.channels.as_ref());
                     let selected_channel = annotated_text(
-                        &self.adc_channel.to_string(),
+                        &self.settings.adc_channel.to_string(),
                         channel_annotations
-                            .and_then(|channels| channels.get(&self.adc_channel))
+                            .and_then(|channels| channels.get(&self.settings.adc_channel))
                             .map(String::as_str),
                     );
                     egui::ComboBox::from_id_salt(("fil_adc_channel", &self.title))
@@ -1223,23 +1191,23 @@ impl FilControl {
                                         .and_then(|channels| channels.get(&channel))
                                         .map(String::as_str),
                                 );
-                                ui.selectable_value(&mut self.adc_channel, channel, label);
+                                ui.selectable_value(&mut self.settings.adc_channel, channel, label);
                             }
                         });
                     ui.label("Raw value:");
-                    ui.add(egui::Slider::new(&mut self.adc_value, 0..=4095));
+                    ui.add(egui::Slider::new(&mut self.settings.adc_value, 0..=4095));
                     if ui.button("Inject").clicked() {
                         actions.push(action::AppAction::UpdateFilAdc {
-                            board: self.adc_board.clone(),
-                            instance: self.adc_instance,
-                            channel: self.adc_channel,
-                            value: self.adc_value,
+                            board: self.settings.adc_board.clone(),
+                            instance: self.settings.adc_instance,
+                            channel: self.settings.adc_channel,
+                            value: self.settings.adc_value,
                         });
                         let _ = tx.send(daqcore::can_thread::CanThreadCommand::SetFilAdc {
-                            board: self.adc_board.clone(),
-                            instance: self.adc_instance.as_str().to_owned(),
-                            channel: self.adc_channel,
-                            value: self.adc_value,
+                            board: self.settings.adc_board.clone(),
+                            instance: self.settings.adc_instance.as_str().to_owned(),
+                            channel: self.settings.adc_channel,
+                            value: self.settings.adc_value,
                         });
                     }
                 });
