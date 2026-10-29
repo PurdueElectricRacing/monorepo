@@ -4,7 +4,10 @@ impl FilControl {
     pub fn show_builder(&mut self, ui: &mut egui::Ui, actions: &mut Vec<action::AppAction>) {
         ui.horizontal(|ui| {
             ui.label("Name:");
-            if ui.text_edit_singleline(&mut self.settings.builder.name).changed() {
+            if ui
+                .text_edit_singleline(&mut self.settings.builder.name)
+                .changed()
+            {
                 self.queue_builder_update(actions);
             }
             ui.label("Bus ID:");
@@ -121,7 +124,8 @@ impl FilControl {
                 });
                 ui.horizontal(|ui| {
                     ui.label("MCU:");
-                    let effective = config::effective_mcu(board, self.settings.executable.as_deref());
+                    let effective =
+                        config::effective_mcu(board, self.settings.executable.as_deref());
                     match &effective {
                         Some(mcu) if mcu.is_file() => {
                             ui.label(mcu.display().to_string()).on_hover_text(
@@ -276,4 +280,3 @@ impl FilControl {
         });
     }
 }
-

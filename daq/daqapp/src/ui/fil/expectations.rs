@@ -1,4 +1,3 @@
-
 pub fn expectation_name(event: &daqcore::can::driver::FilExpectationEvent) -> String {
     let script = event
         .script
@@ -35,11 +34,11 @@ pub fn expectation_ms(ns: u64) -> String {
 }
 #[cfg(test)]
 mod expectation_tests {
-    use std::collections::HashMap;
-    use crate::ui::fil::events::update_expectations;
     use super::super::{
         FIL_EXPECTATION_HISTORY_LIMIT, clear_expectations, network_result_is_current,
     };
+    use crate::ui::fil::events::update_expectations;
+    use std::collections::HashMap;
 
     fn event(
         status: daqcore::can::driver::FilExpectationStatus,
@@ -134,4 +133,3 @@ mod expectation_tests {
         assert!(order.is_empty());
     }
 }
-

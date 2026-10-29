@@ -18,7 +18,8 @@ pub const FIL_EXPECTATION_HISTORY_LIMIT: usize = 500;
 pub struct GpioPinState {
     pub input: Option<bool>,
     pub output: Option<bool>,
-}pub struct FilControl {
+}
+pub struct FilControl {
     pub title: String,
     /// Persisted FIL configuration, mirrored from the app settings.
     settings: settings::FilSettings,
@@ -51,7 +52,6 @@ mod validation;
 use events::clear_expectations;
 use expectations::{expectation_bytes, expectation_ms, expectation_name};
 use panels::{elf_status, network_result_is_current};
-
 
 impl FilControl {
     pub fn new(instance_num: usize, fil: &settings::FilSettings) -> Self {
@@ -99,7 +99,9 @@ impl FilControl {
         enabled: bool,
         actions: &mut Vec<action::AppAction>,
     ) {
-        self.settings.disabled_boards.retain(|disabled| disabled != board);
+        self.settings
+            .disabled_boards
+            .retain(|disabled| disabled != board);
         if !enabled {
             self.settings.disabled_boards.push(board.into());
         }
@@ -109,4 +111,3 @@ impl FilControl {
         self.settings.connection_source()
     }
 }
-
