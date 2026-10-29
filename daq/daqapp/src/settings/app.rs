@@ -70,7 +70,10 @@ impl Settings {
     }
 
     pub fn save(&self) {
-        let json = serde_json::to_string_pretty(self).expect("Failed to serialize settings");
+        let Ok(json) = serde_json::to_string_pretty(self) else {
+            log::error!("Failed to serialize settings");
+            return;
+        };
         let path = Self::path();
         std::fs::write(&path, json)
             .unwrap_or_else(|e| log::error!("Failed to write {}: {}", path.display(), e));
