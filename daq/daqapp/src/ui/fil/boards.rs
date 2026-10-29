@@ -3,7 +3,8 @@ use super::*;
 impl FilControl {
     pub fn available_board_names(&self) -> Vec<String> {
         if self.settings.use_builder {
-            self.settings.builder
+            self.settings
+                .builder
                 .boards
                 .iter()
                 .filter(|board| board.enabled)
@@ -17,7 +18,12 @@ impl FilControl {
         }
     }
     pub fn enabled_file_boards(&self) -> Vec<&config::FilBoardInfo> {
-        let disabled: HashSet<&str> = self.settings.disabled_boards.iter().map(String::as_str).collect();
+        let disabled: HashSet<&str> = self
+            .settings
+            .disabled_boards
+            .iter()
+            .map(String::as_str)
+            .collect();
         self.network_info
             .as_ref()
             .map(|info| {
@@ -40,7 +46,8 @@ impl FilControl {
                 self.queue_config_update(actions);
             }
             ui.label(
-                self.settings.network
+                self.settings
+                    .network
                     .as_ref()
                     .map(|path| path.display().to_string())
                     .unwrap_or_else(|| "None selected".into()),
@@ -123,4 +130,3 @@ impl FilControl {
             .unwrap_or(false)
     }
 }
-

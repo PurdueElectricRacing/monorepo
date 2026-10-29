@@ -101,4 +101,3 @@ impl FilControl {
         self.network_info_rx.is_some() || self.import_rx.is_some() || self.export_rx.is_some()
     }
 }
-
