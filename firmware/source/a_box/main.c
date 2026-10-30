@@ -112,8 +112,7 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_INPUT(IMD_STATUS_PORT, IMD_STATUS_PIN, GPIO_INPUT_OPEN_DRAIN),
 
     // IMD PWM reading
-    // TODO: Update IMD PWM capture for PC12 during A_BOX bringup; PA8 is SCAN RX.
-    // PHAL_PIN_DEFS_TIM1_CH1_PA8,
+    PHAL_PIN_DEFS_TIM5_CH2_PC12,
 
     // BMS SDC control
     PHAL_GPIO_INIT_OUTPUT(BMS_SDC_CTRL_PORT, BMS_SDC_CTRL_PIN, GPIO_OUTPUT_LOW_SPEED),
@@ -160,8 +159,7 @@ int main(void) {
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
-    // TODO: Re-enable after IMD PWM capture is updated for the new schematic.
-    // imd_init();
+    imd_init();
 
     PHAL_GPIO_write(SPI2_CS_PORT, SPI2_CS_PIN, true);
     adbms6380_set_cs_high(&bms_spi_config);
