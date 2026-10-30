@@ -1,4 +1,4 @@
-use eframe::egui;
+use eframe::egui::{self, accesskit::{Action::Expand, Role::ContentDeletion}};
 use std::collections::{BTreeMap, VecDeque};
 
 pub struct TaskDiagnostics {
@@ -27,6 +27,13 @@ pub struct Diagnostics {
     pub selected_board: Option<String>,
 }
 
+pub struct BoardSummary {
+    pub sample_count: u32,
+    pub task_count: u16,
+    pub cpu_util: Option<f32>,
+    pub capacity_exceeded: bool,
+}
+
 impl Diagnostics {
     pub fn new(instance_num: usize) -> Self {
         Self {
@@ -42,6 +49,7 @@ impl Diagnostics {
         ui: &mut egui::Ui,
         view: &crate::telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
+        self.update_from_view(view);
         ui.heading(&self.title);
         ui.label(format!(
             "CAN frames up to timeline cursor: {}",
@@ -92,13 +100,6 @@ impl Diagnostics {
                 };
 
                 ui.label(egui::RichText::new(cpu_str).strong());
-
-                ui.label(
-                    egui::RichText::new(format!("({} ms)", board.timestamp_ms))
-                        .italics()
-                        .weak(),
-                );
-
                 ui.add_space(4.0);
 
                 egui::Frame::group(ui.style())
@@ -175,9 +176,87 @@ impl Diagnostics {
             cpu_util: Self::decode_cpu(cpu),
         })
     }
+
+    fn decode_summary(
+        msg: &daqcore::superdbc::decode::DecodedMessage,
+    ) -> Option<BoardSummary> {
+        let expected_name = format!("{}_diag_summary", msg.tx_node().to_lowercase());
+
+        if msg.name() != expected_name {
+            return None;
+        }
+
+       let sample_count = Self::integer_signal(msg, "sample_count")?;
+       let task_count = Self::integer_signal(msg, "task_count")?;
+       let cpu = Self::integer_signal(msg, "cpu_percent")?;
+       let capacity = Self::integer_signal(msg, "capacity_exceeded")?;
+
+       let sample_count = u32::try_from(sample_count).ok()?;
+       let task_count = u16::try_from(task_count).ok()?;
+       let cpu = u8::try_from(cpu).ok()?;
+
+       let capacity_exceeded = match capacity {
+           0 => false,
+           1 => true,
+           _ => return None,
+       };
+
+       Some(BoardSummary {
+           sample_count,
+           task_count,
+           cpu_util: Self::decode_cpu(cpu),
+           capacity_exceeded,
+       })
+    }
     
     fn update_from_view(&mut self, view: &crate::telemetry::TelemetryView<'_>) {
-        
+        self.boards.clear();
+
+        for frame in view.setpoint_frames {
+            let msg = match &frame.decoded {
+                Some(msg) => msg,
+                None => continue,
+            };
+
+            let task = match Self::decode_task(msg) {
+                Some(task) => task,
+                None => continue,
+            };
+
+            let board_name = msg.tx_node().to_string();
+
+            if !self.boards.contains_key(&board_name) {
+                self.boards.insert(board_name.clone(), BoardDiagnostics {
+                    name: board_name.clone(),
+                    cpu_util: None,
+                    capacity_exceeded: false,
+                    tasks: Vec::new(),
+                    sample_count: 0,
+                    task_count: 0,
+                    timestamp_ms: 0,
+                    cpu_history: VecDeque::new(), 
+                },
+            );
+                
+            }
+            let board = self.boards.get_mut(&board_name).unwrap();
+
+            let mut existing_index = None;
+
+            for i in 0 .. board.tasks.len() {
+                if board.tasks[i].task_id == task.task_id {
+                    existing_index = Some(i);
+                    break;
+                }
+            }
+
+            match existing_index {
+                Some(i) => board.tasks[i] = task,
+                None => board.tasks.push(task),
+            }
+
+            board.task_count = board.tasks.len() as u32;
+        }
     }
 
 }
