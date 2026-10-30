@@ -79,6 +79,12 @@ impl ConnectionManager {
         self.retry_at = now + time::Duration::from_millis(200);
     }
 
+    pub fn update_bus(&mut self, bus: Option<&superdbc::database::Bus>) {
+        if let Some(driver) = &mut self.driver {
+            driver.update_bus(bus);
+        }
+    }
+
     pub fn close(&mut self) {
         if let Some(mut driver) = self.driver.take() {
             let _ = driver.close();
