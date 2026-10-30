@@ -39,6 +39,35 @@ def task_status_message(node_name: str) -> MessageDeclaration:
             ),
         ],
     )
+def board_summary_message(node_name: str) -> MessageDeclaration:
+    return MessageDeclaration(
+        message_name=f"{node_name.lower()}_diag_summary",
+        description="Overall CPU and task status",
+        priority=3,
+        period_ms=1000,
+        signals=[
+            SignalDeclaration(
+                signal_name="sample_count",
+                data_type="uint32_t",
+            ),
+            SignalDeclaration(
+                signal_name="task_count",
+                data_type="uint16_t",
+            ),
+            SignalDeclaration(
+                signal_name="cpu_percent",
+                data_type="uint8_t",
+                description="Whole number CPU pct. util.",
+            ),
+            SignalDeclaration(
+                signal_name="capacity_exceeded",
+                data_type="uint8_t",
+                description="1 if task capacity exceeded",
+            ),
+        ], 
+    )
+
+
 def diagnostics_contribution() -> DeclarationContribution:
     tx_messages = []
     for node_name, bus_name in DIAGNOSTICS_NODES:
@@ -47,6 +76,14 @@ def diagnostics_contribution() -> DeclarationContribution:
                 node_name=node_name,
                 bus_name=bus_name,
                 message=task_status_message(node_name),
+            )
+        )
+
+        tx_messages.append(
+            TxDeclaration(
+                node_name=node_name,
+                bus_name=bus_name,
+                message=board_summary_message(node_name),
             )
         )
     return DeclarationContribution(
@@ -69,6 +106,11 @@ def diagnostics_artifacts() -> list[Artifact]:
         lines.append(
             f"#define DIAGNOSTICS_SEND_TASK "
             f"CAN_SEND_{node_name.lower()}_diag_task"
+        )
+
+        lines.append(
+            f"#define DIAGNOSTICS_SEND_SUMMARY "
+            f"CAN_SEND_{node_name.lower()}_diag_summary"
         )
 
     lines.extend([
