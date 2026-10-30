@@ -1,40 +1,9 @@
 <map id="adbms_pec_get_pec15" name="adbms_pec_get_pec15">
-<area shape="rect" id="Node000001" title="CRC15 Pec Calculation Function." alt="" coords="1148,210,1304,236"/>
-<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a87779ad64f4a74f4550870855d30d4a2" title="Append a command and its PEC to an output buffer." alt="" coords="898,210,1100,236"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1133,226,1101,226,1101,220,1133,220"/>
-<area shape="rect" id="Node000003" href="$adbms6380_8c.html#a4a46bb68d67c18378f018232362631a6" title="Read all cell voltages from each module." alt="" coords="679,5,826,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="978,199,924,134,888,98,849,67,816,49,819,44,851,62,892,94,928,130,982,196"/>
-<area shape="rect" id="Node000008" href="$adbms6380_8c.html#a6bfb23ac7e49df096bc080f9808ea24f" title="Read all GPIO/aux voltages from each module." alt="" coords="677,120,828,161"/>
-<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="943,207,815,164,817,159,945,202"/>
-<area shape="rect" id="Node000009" href="$adbms_8c.html#a26b82e2eae1b0d9c34d5666901f29bce" title="Read all GPIO/thermistor values (voltage and calculate temperature) and update module/pack statistics..." alt="" coords="429,128,568,153"/>
-<area shape="poly" id="edge18_Node000002_Node000009" title=" " alt="" coords="974,200,921,152,887,128,849,111,808,100,764,95,721,95,678,98,600,112,539,129,537,124,598,107,677,93,721,90,765,90,809,95,851,106,889,124,924,147,978,196"/>
-<area shape="rect" id="Node000010" href="$adbms_8c.html#a27e3061d92f6ec452342978af2616bd8" title="Perform the connect/bring&#45;up sequence for all modules." alt="" coords="442,261,555,286"/>
-<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="882,217,772,216,714,219,656,226,589,242,532,263,530,258,588,237,655,220,713,214,772,210,882,211"/>
-<area shape="rect" id="Node000011" href="$adbms_8c.html#a68601bac2f608a0cb78fa1f018c22b1d" title="Read back REGA and compare with cached configuration." alt="" coords="656,236,850,261"/>
-<area shape="poly" id="edge12_Node000002_Node000011" title=" " alt="" coords="883,238,851,241,850,236,882,232"/>
-<area shape="rect" id="Node000012" href="$adbms_8c.html#ac10a3c0ceb09b1955434d8fc35cf8400" title="Read back REGB and compare with cached configuration." alt="" coords="656,334,850,360"/>
-<area shape="poly" id="edge14_Node000002_Node000012" title=" " alt="" coords="972,248,918,288,851,325,822,336,820,331,849,321,915,283,969,244"/>
-<area shape="rect" id="Node000014" href="$adbms_8c.html#a710830115ef52a6def439f645d0fc57d" title="Calculate and write REGA configuration to all modules." alt="" coords="689,285,816,310"/>
-<area shape="poly" id="edge19_Node000002_Node000014" title=" " alt="" coords="948,244,851,276,812,287,810,282,849,271,947,239"/>
-<area shape="rect" id="Node000015" href="$adbms_8c.html#a0833cbe8198d911a52d6a4f24dda2a38" title="Calculate and write REGB configuration to all modules." alt="" coords="689,384,816,409"/>
-<area shape="poly" id="edge21_Node000002_Node000015" title=" " alt="" coords="982,250,928,313,892,346,851,375,818,388,816,383,849,370,889,342,924,309,978,247"/>
-<area shape="rect" id="Node000004" href="$adbms_8c.html#a94fb74abf77c3ba46fb8e3babb734939" title="Read all cell voltages and update module/pack statistics." alt="" coords="435,46,562,72"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="664,40,563,53,562,48,663,35"/>
-<area shape="rect" id="Node000005" href="$adbms_8c.html#a0a1de1018dba58040d4cab70ead2ca28" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="229,182,341,208"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="456,81,391,117,342,152,304,184,300,180,339,148,388,113,453,76"/>
-<area shape="rect" id="Node000006" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,182,181,208"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="214,198,181,198,181,192,214,192"/>
-<area shape="rect" id="Node000007" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,182,55,208"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="87,198,55,198,55,192,87,192"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="662,143,569,143,569,138,662,138"/>
-<area shape="poly" id="edge9_Node000009_Node000005" title=" " alt="" coords="432,160,339,184,338,179,430,155"/>
-<area shape="poly" id="edge11_Node000010_Node000005" title=" " alt="" coords="447,258,321,211,323,206,448,253"/>
-<area shape="poly" id="edge13_Node000011_Node000010" title=" " alt="" coords="640,262,556,271,555,265,640,257"/>
-<area shape="poly" id="edge17_Node000012_Node000010" title=" " alt="" coords="681,332,655,326,539,290,541,285,656,320,682,327"/>
-<area shape="rect" id="Node000013" href="$adbms_8c.html#ab002d432c17c600b7ab08560de287272" title="Compute discharge flags and write REGB to apply balancing." alt="" coords="389,334,608,360"/>
-<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="640,350,608,350,608,344,640,344"/>
-<area shape="poly" id="edge16_Node000013_Node000005" title=" " alt="" coords="443,330,388,301,333,254,295,210,299,207,337,250,391,297,445,326"/>
-<area shape="poly" id="edge20_Node000014_Node000010" title=" " alt="" coords="674,293,555,282,556,276,674,288"/>
-<area shape="poly" id="edge23_Node000015_Node000010" title=" " alt="" coords="673,384,654,375,639,362,629,349,620,337,606,324,573,304,539,290,541,285,575,300,609,320,624,333,633,346,642,358,657,370,675,379"/>
-<area shape="poly" id="edge22_Node000015_Node000013" title=" " alt="" coords="673,384,568,363,569,358,674,378"/>
+<area shape="rect" id="Node000001" title="CRC15 Pec Calculation Function." alt="" coords="455,46,610,72"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a87779ad64f4a74f4550870855d30d4a2" title="Append a command and its PEC to an output buffer." alt="" coords="205,46,407,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="440,62,408,62,408,56,440,56"/>
+<area shape="rect" id="Node000003" href="$adbms6380_8c.html#a499f6612cccef1d392bbe9bf92f3e525" title="Read all cell voltages from each module." alt="" coords="7,5,155,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="199,46,155,39,155,34,200,41"/>
+<area shape="rect" id="Node000004" href="$adbms6380_8c.html#afe31398e48d217264ed77592d7b11aaa" title="Read all GPIO/aux voltages from each module." alt="" coords="5,71,157,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="197,77,158,83,157,78,196,72"/>
 </map>

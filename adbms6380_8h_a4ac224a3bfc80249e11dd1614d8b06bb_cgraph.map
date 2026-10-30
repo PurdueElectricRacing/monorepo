@@ -1,0 +1,30 @@
+<map id="adbms6380_read_data" name="adbms6380_read_data">
+<area shape="rect" id="Node000001" title="Read a single&#45;data&#45;packet response per module." alt="" coords="5,81,158,107"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a469042d4b560d5b80c7a69eef1a09cbc" title="Read a fixed&#45;length response from all modules after a command." alt="" coords="206,81,326,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,92,190,92,190,97,158,97"/>
+<area shape="rect" id="Node000003" href="$adbms6380_8c.html#ad065e19e0b9ff761f14abe8bf654750d" title="Verify the PEC of received data." alt="" coords="374,5,564,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="297,78,373,48,411,34,413,39,375,53,299,83"/>
+<area shape="rect" id="Node000005" href="$adbms6380_8c.html#ae50a5200f4ab61124ab070e8898f0cc9" title="Drive the ADBMS CS line to high." alt="" coords="612,56,778,82"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="326,88,597,72,597,77,327,93"/>
+<area shape="rect" id="Node000007" href="$adbms6380_8c.html#a12a7403f2f6b47af40cc7d278909ebe7" title="Drive the ADBMS CS line low." alt="" coords="388,107,550,132"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="327,99,373,105,372,110,326,104"/>
+<area shape="rect" id="Node000008" href="$phal__G4_2spi_2spi_8c.html#a099e78dc7abe0245acc89e47528b1867" title="Perform a blocking DMA&#45;backed SPI transfer. (Wrapper around PHAL_SPI_transfer.)" alt="" coords="376,157,563,183"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="293,105,375,142,398,150,397,155,373,147,291,110"/>
+<area shape="rect" id="Node000004" href="$pec_8c.html#a782269bdf85e4027448b295896258686" title=" " alt="" coords="617,5,773,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="564,16,601,16,601,21,564,21"/>
+<area shape="rect" id="Node000006" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="857,57,990,83"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="778,67,842,67,842,72,778,72"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="550,112,777,92,842,82,842,87,778,97,550,117"/>
+<area shape="rect" id="Node000009" href="$phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" title="Check for current SPI transaction to complete." alt="" coords="863,255,984,280"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="533,181,849,249,848,254,532,186"/>
+<area shape="rect" id="Node000010" href="$phal__F4_2spi_2spi_8c.html#aa44c022e7bafc2f33240d3fa837a4244" title="Transfer data_len bytes from out_data to SPI device and place MISO data in in_data This function just..." alt="" coords="626,157,764,183"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="563,168,611,168,611,173,563,173"/>
+<area shape="poly" id="edge14_Node000010_Node000006" title=" " alt="" coords="738,154,776,136,790,125,799,114,809,103,824,92,841,84,843,89,827,96,813,107,803,117,794,129,779,140,740,159"/>
+<area shape="poly" id="edge15_Node000010_Node000009" title=" " alt="" coords="717,181,766,211,827,241,849,249,847,254,825,246,763,216,715,186"/>
+<area shape="rect" id="Node000011" href="$phal__F4_2dma_2dma_8c.html#a87b11fd9c27f60363585940890fd2343" title=" " alt="" coords="848,205,998,231"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="760,181,844,199,843,204,759,186"/>
+<area shape="rect" id="Node000012" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="826,107,1021,132"/>
+<area shape="poly" id="edge12_Node000010_Node000012" title=" " alt="" coords="756,154,847,134,848,139,757,159"/>
+<area shape="rect" id="Node000013" href="$phal__F4_2dma_2dma_8c.html#a14faecce0cd8bd38b14c987e17ce1033" title=" " alt="" coords="830,156,1017,182"/>
+<area shape="poly" id="edge13_Node000010_Node000013" title=" " alt="" coords="764,167,814,167,814,172,764,172"/>
+</map>

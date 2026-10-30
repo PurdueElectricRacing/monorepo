@@ -4,8 +4,6 @@ var hierarchy =
     [ "a_box_fault_sync_data_t", "structa__box__fault__sync__data__t.html", null ],
     [ "abox_init_data_t", "structabox__init__data__t.html", null ],
     [ "abox_version_data_t", "structabox__version__data__t.html", null ],
-    [ "adbms_bms_t", "structadbms__bms__t.html", null ],
-    [ "adbms_module_t", "structadbms__module__t.html", null ],
     [ "adc1_dma_buffer_t", "structadc1__dma__buffer__t.html", null ],
     [ "ADCChannelConfig_t", "structADCChannelConfig__t.html", null ],
     [ "ADCInitConfig_t", "structADCInitConfig__t.html", null ],

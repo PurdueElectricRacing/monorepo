@@ -1,17 +1,16 @@
 <map id="firmware/source/a_box/adbms/adbms6380.h" name="firmware/source/a_box/adbms/adbms6380.h">
-<area shape="rect" id="Node000001" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="203,5,354,46"/>
-<area shape="rect" id="Node000002" href="$adbms_8c.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="5,183,157,223"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="240,58,192,96,101,184,97,180,189,92,237,54"/>
-<area shape="rect" id="Node000003" href="$adbms_8h.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="203,94,354,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,62,281,94,276,94,276,62"/>
-<area shape="rect" id="Node000007" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="379,94,530,135"/>
-<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="333,51,416,91,413,96,331,56"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="221,144,127,185,125,180,219,139"/>
+<area shape="rect" id="Node000001" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="357,5,509,46"/>
+<area shape="rect" id="Node000002" href="$adbms_8h.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="269,94,421,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="404,59,367,95,363,92,400,55"/>
+<area shape="rect" id="Node000007" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="445,94,597,135"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="466,55,503,92,499,95,462,59"/>
+<area shape="rect" id="Node000003" href="$adbms_8c.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="5,183,157,223"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="272,142,142,185,140,180,270,137"/>
 <area shape="rect" id="Node000004" href="$charging__fsm_8c.html" title="Charger control state machine implementation." alt="" coords="181,183,376,223"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="281,150,281,182,276,182,276,150"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="323,149,296,184,291,181,318,146"/>
 <area shape="rect" id="Node000005" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="393,271,545,312"/>
-<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="332,140,362,159,389,181,430,226,460,269,455,272,426,230,386,185,359,163,330,145"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="370,146,457,269,453,272,365,149"/>
 <area shape="rect" id="Node000006" href="$a__box_2main_8h.html" title="&quot;Abox&quot; node source code" alt="" coords="451,183,602,223"/>
-<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="350,138,471,180,469,185,348,143"/>
-<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="507,238,484,272,480,269,503,235"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="401,139,486,180,484,185,399,144"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="507,238,484,272,480,269,503,235"/>
 </map>

@@ -141,13 +141,32 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node7 -->
-<g id="Node000007" class="node">
-<title>Node7</title>
-<g id="a_Node000007"><a xlink:href="oil__temps__table_8c.html" target="_top" xlink:title="Oil temp lookup table from datasheet.">
+<!-- Node6 -->
+<g id="Node000006" class="node">
+<title>Node6</title>
+<g id="a_Node000006"><a xlink:href="oil__temps__table_8c.html" target="_top" xlink:title="Oil temp lookup table from datasheet.">
 <polygon fill="white" stroke="#666666" points="687.88,-97 548.12,-97 548.12,-66.5 687.88,-66.5 687.88,-97"/>
 <text text-anchor="start" x="556.12" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/driveline</text>
 <text text-anchor="middle" x="618" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">/oil_temps/oil_temps_table.c</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node6 -->
+<g id="edge5_Node000001_Node000006" class="edge">
+<title>Node1&#45;&gt;Node6</title>
+<g id="a_edge5_Node000001_Node000006"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M463.81,-129.22C497.12,-119.18 538.06,-106.84 569.38,-97.4"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="462.84,-125.86 454.28,-132.1 464.86,-132.56 462.84,-125.86"/>
+</a>
+</g>
+</g>
+<!-- Node7 -->
+<g id="Node000007" class="node">
+<title>Node7</title>
+<g id="a_Node000007"><a xlink:href="oil__temps__table_8h.html" target="_top" xlink:title="Oil temp lookup table from datasheet.">
+<polygon fill="white" stroke="#666666" points="845.88,-97 706.12,-97 706.12,-66.5 845.88,-66.5 845.88,-97"/>
+<text text-anchor="start" x="714.12" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/driveline</text>
+<text text-anchor="middle" x="776" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">/oil_temps/oil_temps_table.h</text>
 </a>
 </g>
 </g>
@@ -155,63 +174,25 @@ var sectionId = 'dynsection-1';
 <g id="edge6_Node000001_Node000007" class="edge">
 <title>Node1&#45;&gt;Node7</title>
 <g id="a_edge6_Node000001_Node000007"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M463.81,-129.22C497.12,-119.18 538.06,-106.84 569.38,-97.4"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="462.84,-125.86 454.28,-132.1 464.86,-132.56 462.84,-125.86"/>
+<path fill="none" stroke="#63b8ff" d="M471.58,-135.83C530.98,-125.75 619.76,-110.59 697,-97 699.88,-96.49 702.82,-95.97 705.79,-95.45"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="471.23,-132.34 461.96,-137.46 472.41,-139.24 471.23,-132.34"/>
 </a>
 </g>
 </g>
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="oil__temps__table_8h.html" target="_top" xlink:title="Oil temp lookup table from datasheet.">
-<polygon fill="white" stroke="#666666" points="845.88,-97 706.12,-97 706.12,-66.5 845.88,-66.5 845.88,-97"/>
-<text text-anchor="start" x="714.12" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/driveline</text>
-<text text-anchor="middle" x="776" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">/oil_temps/oil_temps_table.h</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node8 -->
-<g id="edge7_Node000001_Node000008" class="edge">
-<title>Node1&#45;&gt;Node8</title>
-<g id="a_edge7_Node000001_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M471.58,-135.83C530.98,-125.75 619.76,-110.59 697,-97 699.88,-96.49 702.82,-95.97 705.79,-95.45"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="471.23,-132.34 461.96,-137.46 472.41,-139.24 471.23,-132.34"/>
-</a>
-</g>
-</g>
-<!-- Node6 -->
-<g id="Node000006" class="node">
-<title>Node6</title>
-<g id="a_Node000006"><a xlink:href="adbms_8c.html" target="_top" xlink:title="Primary logic and interface for ADBMS battery management system driver.">
-<polygon fill="white" stroke="#666666" points="528.75,-30.5 415.25,-30.5 415.25,0 528.75,0 528.75,-30.5"/>
-<text text-anchor="start" x="423.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/a_box</text>
-<text text-anchor="middle" x="472" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/adbms/adbms.c</text>
-</a>
-</g>
-</g>
-<!-- Node5&#45;&gt;Node6 -->
-<g id="edge5_Node000005_Node000006" class="edge">
-<title>Node5&#45;&gt;Node6</title>
-<g id="a_edge5_Node000005_Node000006"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M472,-54.81C472,-46.64 472,-37.91 472,-30.83"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="468.5,-54.6 472,-64.6 475.5,-54.6 468.5,-54.6"/>
-</a>
-</g>
-</g>
-<!-- Node9 -->
-<g id="Node000009" class="node">
-<title>Node9</title>
-<g id="a_Node000009"><a xlink:href="driveline_2main_8c.html" target="_top" xlink:title="&quot;Driveline&quot; node source code">
+<g id="a_Node000008"><a xlink:href="driveline_2main_8c.html" target="_top" xlink:title="&quot;Driveline&quot; node source code">
 <polygon fill="white" stroke="#666666" points="838,-30.5 714,-30.5 714,0 838,0 838,-30.5"/>
 <text text-anchor="start" x="722" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/driveline</text>
 <text text-anchor="middle" x="776" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node9 -->
-<g id="edge8_Node000008_Node000009" class="edge">
-<title>Node8&#45;&gt;Node9</title>
-<g id="a_edge8_Node000008_Node000009"><a xlink:title=" ">
+<!-- Node7&#45;&gt;Node8 -->
+<g id="edge7_Node000007_Node000008" class="edge">
+<title>Node7&#45;&gt;Node8</title>
+<g id="a_edge7_Node000007_Node000008"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M776,-54.81C776,-46.64 776,-37.91 776,-30.83"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="772.5,-54.6 776,-64.6 779.5,-54.6 772.5,-54.6"/>
 </a>

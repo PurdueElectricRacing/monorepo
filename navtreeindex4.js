@@ -1,5 +1,6 @@
 var NAVTREEINDEX4 =
 {
+"VCAN_8h.html#a42b9fc47f3cceb5298418f986715363e":[34,0,1,0,0,22,111],
 "VCAN_8h.html#a43bfbe7e320ec4802c6a799c9f18a02a":[34,0,1,0,0,22,305],
 "VCAN_8h.html#a448ec1b10d2cb000f0af83636d8678b8":[34,0,1,0,0,22,315],
 "VCAN_8h.html#a4749a3785bd6f2043f9effdd91f2ee2e":[34,0,1,0,0,22,133],
@@ -248,6 +249,5 @@ var NAVTREEINDEX4 =
 "a__box_2telemetry_2telemetry_8h.html#a0cfb665eb39ecfde958c9a0d566d1877":[34,0,1,2,0,3,1,5],
 "a__box_2telemetry_2telemetry_8h.html#a3105b27fadc78e1d378148b2ed55550e":[34,0,1,2,0,3,1,6],
 "a__box_2telemetry_2telemetry_8h.html#a397ef9e2836a1a34b514df29d4211411":[34,0,1,2,0,3,1,3],
-"a__box_2telemetry_2telemetry_8h.html#a4449d362db0d4b464dc661c0682fbae9":[34,0,1,2,0,3,1,4],
-"a__box_2telemetry_2telemetry_8h.html#a74034e258280659c81e74c002594b2e2":[34,0,1,2,0,3,1,0]
+"a__box_2telemetry_2telemetry_8h.html#a4449d362db0d4b464dc661c0682fbae9":[34,0,1,2,0,3,1,4]
 };

@@ -99,7 +99,6 @@ $(function(){initNavTree('adbms6380_8h.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">adbms6380.h File Reference</div></div>
 </div><!--header-->
@@ -149,15 +148,6 @@ Macros</h2></td></tr>
 <tr class="memdesc:ad47b8f14ed18c53ee180477fdf87bdbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake pulse duration per CS toggle in milliseconds.  <br /></td></tr>
 <tr class="separator:ad47b8f14ed18c53ee180477fdf87bdbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a514ee53f3f0310557805cd8276287976" id="r_a514ee53f3f0310557805cd8276287976"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a514ee53f3f0310557805cd8276287976">adbms6380_read_result_t</a> { <a class="el" href="#a514ee53f3f0310557805cd8276287976a0470a9d1d2acf23110e5933111ecfa0b">ADBMS6380_READ_SUCCESS</a> = 0
-, <a class="el" href="#a514ee53f3f0310557805cd8276287976a05e3592c844324b7c34cc5646954c82f">ADBMS6380_READ_PEC_FAILURE</a>
-, <a class="el" href="#a514ee53f3f0310557805cd8276287976aa3a9fc75d02c6604da840a8b6f4ece65">ADBMS6380_READ_SPI_FAILURE</a>
- }</td></tr>
-<tr class="memdesc:a514ee53f3f0310557805cd8276287976"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of a read operation from the ADBMS6380.  <a href="#a514ee53f3f0310557805cd8276287976">More...</a><br /></td></tr>
-<tr class="separator:a514ee53f3f0310557805cd8276287976"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a12a7403f2f6b47af40cc7d278909ebe7" id="r_a12a7403f2f6b47af40cc7d278909ebe7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12a7403f2f6b47af40cc7d278909ebe7">adbms6380_set_cs_low</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
@@ -202,21 +192,21 @@ Functions</h2></td></tr>
 <tr class="memitem:ad065e19e0b9ff761f14abe8bf654750d" id="r_ad065e19e0b9ff761f14abe8bf654750d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad065e19e0b9ff761f14abe8bf654750d">adbms6380_check_data_pec</a> (const uint8_t *rx_bytes, size_t rx_len)</td></tr>
 <tr class="memdesc:ad065e19e0b9ff761f14abe8bf654750d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the PEC of received data.  <br /></td></tr>
 <tr class="separator:ad065e19e0b9ff761f14abe8bf654750d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabb23faf669f17e2bdb7360525b00581" id="r_aabb23faf669f17e2bdb7360525b00581"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a514ee53f3f0310557805cd8276287976">adbms6380_read_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabb23faf669f17e2bdb7360525b00581">adbms6380_read</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t module_count, const uint8_t cmd_buffer[<a class="el" href="#ab8248c41f0c4b71fea53867726fa3b87">ADBMS6380_COMMAND_PKT_SIZE</a>], uint8_t *rx_buffer, size_t rx_length_per_module)</td></tr>
-<tr class="memdesc:aabb23faf669f17e2bdb7360525b00581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a fixed-length response from all modules after a command.  <br /></td></tr>
-<tr class="separator:aabb23faf669f17e2bdb7360525b00581"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8650f2d32760e8714a197be510c7b82b" id="r_a8650f2d32760e8714a197be510c7b82b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a514ee53f3f0310557805cd8276287976">adbms6380_read_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8650f2d32760e8714a197be510c7b82b">adbms6380_read_data</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t module_count, const uint8_t cmd_buffer[<a class="el" href="#ab8248c41f0c4b71fea53867726fa3b87">ADBMS6380_COMMAND_PKT_SIZE</a>], uint8_t *rx_buffer)</td></tr>
-<tr class="memdesc:a8650f2d32760e8714a197be510c7b82b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a single-data-packet response per module.  <br /></td></tr>
-<tr class="separator:a8650f2d32760e8714a197be510c7b82b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab36d258ca42374cc3ac985197dff0516" id="r_ab36d258ca42374cc3ac985197dff0516"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a514ee53f3f0310557805cd8276287976">adbms6380_read_result_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab36d258ca42374cc3ac985197dff0516">adbms6380_read_data_with_retries</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t max_retries, size_t module_count, const uint8_t cmd_buffer[<a class="el" href="#ab8248c41f0c4b71fea53867726fa3b87">ADBMS6380_COMMAND_PKT_SIZE</a>], uint8_t *rx_buffer)</td></tr>
-<tr class="memdesc:ab36d258ca42374cc3ac985197dff0516"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a single-data-packet response per module and retries on PEC failure.  <br /></td></tr>
-<tr class="separator:ab36d258ca42374cc3ac985197dff0516"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a46bb68d67c18378f018232362631a6" id="r_a4a46bb68d67c18378f018232362631a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a46bb68d67c18378f018232362631a6">adbms6380_read_cell_voltages</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, <a class="el" href="structstrbuf__t.html">strbuf_t</a> *cmd_buffer, uint8_t *rx_buffer, float **cell_voltages, int16_t **cell_voltages_raw, bool pec_error_flags[<a class="el" href="#a7eb87239e09a87dd438cebddb5ab9647">ADBMS6380_RDCV_CMD_COUNT</a>], size_t module_count, size_t max_retries_on_pec_failure)</td></tr>
-<tr class="memdesc:a4a46bb68d67c18378f018232362631a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all cell voltages from each module.  <br /></td></tr>
-<tr class="separator:a4a46bb68d67c18378f018232362631a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bfb23ac7e49df096bc080f9808ea24f" id="r_a6bfb23ac7e49df096bc080f9808ea24f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6bfb23ac7e49df096bc080f9808ea24f">adbms6380_read_gpio_voltages</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, <a class="el" href="structstrbuf__t.html">strbuf_t</a> *cmd_buffer, uint8_t *rx_buffer, float **gpio_voltages, bool pec_error_flags[<a class="el" href="#a0d36f241a214c0e8a863de733f94e01d">ADBMS6380_RDAUX_CMD_COUNT</a>], size_t module_count, size_t max_retries_on_pec_failure)</td></tr>
-<tr class="memdesc:a6bfb23ac7e49df096bc080f9808ea24f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO/aux voltages from each module.  <br /></td></tr>
-<tr class="separator:a6bfb23ac7e49df096bc080f9808ea24f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a469042d4b560d5b80c7a69eef1a09cbc" id="r_a469042d4b560d5b80c7a69eef1a09cbc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a469042d4b560d5b80c7a69eef1a09cbc">adbms6380_read</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t module_count, const uint8_t cmd_buffer[<a class="el" href="#ab8248c41f0c4b71fea53867726fa3b87">ADBMS6380_COMMAND_PKT_SIZE</a>], uint8_t *rx_buffer, size_t rx_length_per_module)</td></tr>
+<tr class="memdesc:a469042d4b560d5b80c7a69eef1a09cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a fixed-length response from all modules after a command.  <br /></td></tr>
+<tr class="separator:a469042d4b560d5b80c7a69eef1a09cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ac224a3bfc80249e11dd1614d8b06bb" id="r_a4ac224a3bfc80249e11dd1614d8b06bb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ac224a3bfc80249e11dd1614d8b06bb">adbms6380_read_data</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t module_count, const uint8_t cmd_buffer[<a class="el" href="#ab8248c41f0c4b71fea53867726fa3b87">ADBMS6380_COMMAND_PKT_SIZE</a>], uint8_t *rx_buffer)</td></tr>
+<tr class="memdesc:a4ac224a3bfc80249e11dd1614d8b06bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a single-data-packet response per module.  <br /></td></tr>
+<tr class="separator:a4ac224a3bfc80249e11dd1614d8b06bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70386a08dccdc52b602a3fe13a38daf8" id="r_a70386a08dccdc52b602a3fe13a38daf8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70386a08dccdc52b602a3fe13a38daf8">adbms6380_read_data_with_retries</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t max_retries, size_t module_count, const uint8_t cmd_buffer[<a class="el" href="#ab8248c41f0c4b71fea53867726fa3b87">ADBMS6380_COMMAND_PKT_SIZE</a>], uint8_t *rx_buffer)</td></tr>
+<tr class="memdesc:a70386a08dccdc52b602a3fe13a38daf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a single-data-packet response per module and retries on PEC failure.  <br /></td></tr>
+<tr class="separator:a70386a08dccdc52b602a3fe13a38daf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a499f6612cccef1d392bbe9bf92f3e525" id="r_a499f6612cccef1d392bbe9bf92f3e525"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a499f6612cccef1d392bbe9bf92f3e525">adbms6380_read_cell_voltages</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, <a class="el" href="structstrbuf__t.html">strbuf_t</a> *cmd_buffer, uint8_t *rx_buffer, float **cell_voltages, int16_t **cell_voltages_raw, bool pec_error_flags[<a class="el" href="#a7eb87239e09a87dd438cebddb5ab9647">ADBMS6380_RDCV_CMD_COUNT</a>], size_t module_count, size_t max_retries_on_pec_failure)</td></tr>
+<tr class="memdesc:a499f6612cccef1d392bbe9bf92f3e525"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all cell voltages from each module.  <br /></td></tr>
+<tr class="separator:a499f6612cccef1d392bbe9bf92f3e525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe31398e48d217264ed77592d7b11aaa" id="r_afe31398e48d217264ed77592d7b11aaa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe31398e48d217264ed77592d7b11aaa">adbms6380_read_gpio_voltages</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, <a class="el" href="structstrbuf__t.html">strbuf_t</a> *cmd_buffer, uint8_t *rx_buffer, float **gpio_voltages, bool pec_error_flags[<a class="el" href="#a0d36f241a214c0e8a863de733f94e01d">ADBMS6380_RDAUX_CMD_COUNT</a>], size_t module_count, size_t max_retries_on_pec_failure)</td></tr>
+<tr class="memdesc:afe31398e48d217264ed77592d7b11aaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO/aux voltages from each module.  <br /></td></tr>
+<tr class="separator:afe31398e48d217264ed77592d7b11aaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Low level BMS driver specific to ADBMS6380 chip. </p>
@@ -365,29 +355,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a514ee53f3f0310557805cd8276287976" name="a514ee53f3f0310557805cd8276287976"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a514ee53f3f0310557805cd8276287976">&#9670;&#160;</a></span>adbms6380_read_result_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="#a514ee53f3f0310557805cd8276287976">adbms6380_read_result_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Result of a read operation from the ADBMS6380. </p>
-<p>Used to indicate success, PEC failure, or SPI communication failure. Success = 0. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a514ee53f3f0310557805cd8276287976a0470a9d1d2acf23110e5933111ecfa0b" name="a514ee53f3f0310557805cd8276287976a0470a9d1d2acf23110e5933111ecfa0b"></a>ADBMS6380_READ_SUCCESS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a514ee53f3f0310557805cd8276287976a05e3592c844324b7c34cc5646954c82f" name="a514ee53f3f0310557805cd8276287976a05e3592c844324b7c34cc5646954c82f"></a>ADBMS6380_READ_PEC_FAILURE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a514ee53f3f0310557805cd8276287976aa3a9fc75d02c6604da840a8b6f4ece65" name="a514ee53f3f0310557805cd8276287976aa3a9fc75d02c6604da840a8b6f4ece65"></a>ADBMS6380_READ_SPI_FAILURE&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a810f35acf333d387896a733e2987cadd" name="a810f35acf333d387896a733e2987cadd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a810f35acf333d387896a733e2987cadd">&#9670;&#160;</a></span>adbms6380_adax()</h2>
@@ -428,11 +395,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a810f35acf333d387896a733e2987cadd_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
 
 </div>
 </div>
@@ -487,11 +449,6 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_aa5e12ae30b128ce06afa0c0dfc19e2ac_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
 
 </div>
 </div>
@@ -571,11 +528,6 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_ad6309659e70a91acde06af856a1ff7c3_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
 
 </div>
 </div>
@@ -624,11 +576,6 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a7edc17528da09597a1ba5cd6d5e9671e_cgraph.svg" width="380" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a7edc17528da09597a1ba5cd6d5e9671e_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
 
 </div>
 </div>
@@ -659,7 +606,7 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the received PEC matches calculated value, false otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the received PEC matches calculated value, false otherwise. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -668,7 +615,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_ad065e19e0b9ff761f14abe8bf654750d_icgraph.svg" width="100%" height="462"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_ad065e19e0b9ff761f14abe8bf654750d_icgraph.svg" width="100%" height="400"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -704,7 +651,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a16817c8398c8a8542620eb7a9e131d0b_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a16817c8398c8a8542620eb7a9e131d0b_icgraph.svg" width="368" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -735,7 +682,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a7dba9c62715355f360c6e4f1b150d334_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a7dba9c62715355f360c6e4f1b150d334_icgraph.svg" width="380" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -775,7 +722,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a87779ad64f4a74f4550870855d30d4a2_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a87779ad64f4a74f4550870855d30d4a2_icgraph.svg" width="412" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -812,11 +759,6 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a8c34ef8839dcd0f491ade5e2f7146e9b_cgraph.svg" width="384" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a8c34ef8839dcd0f491ade5e2f7146e9b_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
 
 </div>
 </div>
@@ -846,19 +788,19 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a2e9f567aae9798e09e92280c8919a184_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a2e9f567aae9798e09e92280c8919a184_icgraph.svg" width="359" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="aabb23faf669f17e2bdb7360525b00581" name="aabb23faf669f17e2bdb7360525b00581"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabb23faf669f17e2bdb7360525b00581">&#9670;&#160;</a></span>adbms6380_read()</h2>
+<a id="a469042d4b560d5b80c7a69eef1a09cbc" name="a469042d4b560d5b80c7a69eef1a09cbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a469042d4b560d5b80c7a69eef1a09cbc">&#9670;&#160;</a></span>adbms6380_read()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a514ee53f3f0310557805cd8276287976">adbms6380_read_result_t</a> adbms6380_read </td>
+          <td class="memname">bool adbms6380_read </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
         </tr>
@@ -897,28 +839,28 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A result code indicating success, PEC failure, or SPI failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if all module data packets passed their PEC checks, false if any failed. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_aabb23faf669f17e2bdb7360525b00581_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a469042d4b560d5b80c7a69eef1a09cbc_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_aabb23faf669f17e2bdb7360525b00581_icgraph.svg" width="100%" height="462"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a469042d4b560d5b80c7a69eef1a09cbc_icgraph.svg" width="531" height="134"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a4a46bb68d67c18378f018232362631a6" name="a4a46bb68d67c18378f018232362631a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a46bb68d67c18378f018232362631a6">&#9670;&#160;</a></span>adbms6380_read_cell_voltages()</h2>
+<a id="a499f6612cccef1d392bbe9bf92f3e525" name="a499f6612cccef1d392bbe9bf92f3e525"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a499f6612cccef1d392bbe9bf92f3e525">&#9670;&#160;</a></span>adbms6380_read_cell_voltages()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool adbms6380_read_cell_voltages </td>
+          <td class="memname">void adbms6380_read_cell_voltages </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
         </tr>
@@ -971,32 +913,27 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramname">cell_voltages_raw</td><td>Per-module arrays of raw cell voltage codes to populate. </td></tr>
     <tr><td class="paramname">pec_error_flags</td><td>Output array of flags indicating which command (if any) had PEC failures after retries are exhausted. </td></tr>
     <tr><td class="paramname">module_count</td><td>Number of modules in the daisy chain. </td></tr>
-    <tr><td class="paramname">max_retries_on_pec_failure</td><td>Number of attempts to retry a read if a PEC failure is detected before giving up. </td></tr>
+    <tr><td class="paramname">max_retries_on_pec_failure</td><td>Number of attempts to retry a read if a PEC failure is detected before giving up.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True on success, false on SPI failure. </dd></dl>
+<p>Note: the SPI transfer cannot fail (void return). However, the PEC failures are recorded per-command in <code>pec_error_flags</code>. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a4a46bb68d67c18378f018232362631a6_cgraph.svg" width="100%" height="574"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a4a46bb68d67c18378f018232362631a6_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a499f6612cccef1d392bbe9bf92f3e525_cgraph.svg" width="100%" height="574"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a8650f2d32760e8714a197be510c7b82b" name="a8650f2d32760e8714a197be510c7b82b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8650f2d32760e8714a197be510c7b82b">&#9670;&#160;</a></span>adbms6380_read_data()</h2>
+<a id="a4ac224a3bfc80249e11dd1614d8b06bb" name="a4ac224a3bfc80249e11dd1614d8b06bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ac224a3bfc80249e11dd1614d8b06bb">&#9670;&#160;</a></span>adbms6380_read_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a514ee53f3f0310557805cd8276287976">adbms6380_read_result_t</a> adbms6380_read_data </td>
+          <td class="memname">bool adbms6380_read_data </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
         </tr>
@@ -1019,7 +956,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Read a single-data-packet response per module. </p>
-<p>Convenience wrapper around <a class="el" href="#aabb23faf669f17e2bdb7360525b00581" title="Read a fixed-length response from all modules after a command.">adbms6380_read()</a> with ADBMS6380_SINGLE_DATA_PKT_SIZE as the expected response length per module.</p>
+<p>Convenience wrapper around <a class="el" href="#a469042d4b560d5b80c7a69eef1a09cbc" title="Read a fixed-length response from all modules after a command.">adbms6380_read()</a> with ADBMS6380_SINGLE_DATA_PKT_SIZE as the expected response length per module.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">spi</td><td>SPI configuration used for the transfer. </td></tr>
@@ -1029,23 +966,23 @@ Here is the caller graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A result code indicating success, PEC failure, or SPI failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if all module data packets passed their PEC checks, false if any failed. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a8650f2d32760e8714a197be510c7b82b_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a4ac224a3bfc80249e11dd1614d8b06bb_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="ab36d258ca42374cc3ac985197dff0516" name="ab36d258ca42374cc3ac985197dff0516"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab36d258ca42374cc3ac985197dff0516">&#9670;&#160;</a></span>adbms6380_read_data_with_retries()</h2>
+<a id="a70386a08dccdc52b602a3fe13a38daf8" name="a70386a08dccdc52b602a3fe13a38daf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70386a08dccdc52b602a3fe13a38daf8">&#9670;&#160;</a></span>adbms6380_read_data_with_retries()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a514ee53f3f0310557805cd8276287976">adbms6380_read_result_t</a> adbms6380_read_data_with_retries </td>
+          <td class="memname">bool adbms6380_read_data_with_retries </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
         </tr>
@@ -1073,7 +1010,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Read a single-data-packet response per module and retries on PEC failure. </p>
-<p>Convenience wrapper around <a class="el" href="#a8650f2d32760e8714a197be510c7b82b" title="Read a single-data-packet response per module.">adbms6380_read_data()</a> that retries the read up to a fixed number of attempts if a PEC failure is detected.</p>
+<p>Convenience wrapper around <a class="el" href="#a4ac224a3bfc80249e11dd1614d8b06bb" title="Read a single-data-packet response per module.">adbms6380_read_data()</a> that retries the read up to a fixed number of attempts if a PEC failure is detected.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">spi</td><td>SPI configuration used for the transfer. </td></tr>
@@ -1084,28 +1021,28 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A result code indicating success, PEC failure, or SPI failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if a read passed all PEC checks within the retry budget, false if all attempts failed their PEC checks. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_ab36d258ca42374cc3ac985197dff0516_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a70386a08dccdc52b602a3fe13a38daf8_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_ab36d258ca42374cc3ac985197dff0516_icgraph.svg" width="100%" height="462"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a70386a08dccdc52b602a3fe13a38daf8_icgraph.svg" width="363" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a6bfb23ac7e49df096bc080f9808ea24f" name="a6bfb23ac7e49df096bc080f9808ea24f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bfb23ac7e49df096bc080f9808ea24f">&#9670;&#160;</a></span>adbms6380_read_gpio_voltages()</h2>
+<a id="afe31398e48d217264ed77592d7b11aaa" name="afe31398e48d217264ed77592d7b11aaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe31398e48d217264ed77592d7b11aaa">&#9670;&#160;</a></span>adbms6380_read_gpio_voltages()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool adbms6380_read_gpio_voltages </td>
+          <td class="memname">void adbms6380_read_gpio_voltages </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
         </tr>
@@ -1152,20 +1089,15 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramname">gpio_voltages</td><td>Per-module arrays of GPIO voltages to populate. </td></tr>
     <tr><td class="paramname">pec_error_flags</td><td>Output array of flags indicating which command (if any) had PEC failures after retries are exhausted. </td></tr>
     <tr><td class="paramname">module_count</td><td>Number of modules in the daisy chain. </td></tr>
-    <tr><td class="paramname">max_retries_on_pec_failure</td><td>Number of attempts to retry a read if a PEC failure is detected before giving up. </td></tr>
+    <tr><td class="paramname">max_retries_on_pec_failure</td><td>Number of attempts to retry a read if a PEC failure is detected before giving up.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True on success, false on SPI failure. </dd></dl>
+<p>Note: the SPI transfer cannot fail (void return). However, the PEC failures are recorded per-command in <code>pec_error_flags</code>. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a6bfb23ac7e49df096bc080f9808ea24f_cgraph.svg" width="100%" height="574"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a6bfb23ac7e49df096bc080f9808ea24f_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_afe31398e48d217264ed77592d7b11aaa_cgraph.svg" width="100%" height="574"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1200,7 +1132,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_ae50a5200f4ab61124ab070e8898f0cc9_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_ae50a5200f4ab61124ab070e8898f0cc9_icgraph.svg" width="100%" height="422"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1235,7 +1167,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a12a7403f2f6b47af40cc7d278909ebe7_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a12a7403f2f6b47af40cc7d278909ebe7_icgraph.svg" width="100%" height="400"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1272,11 +1204,6 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a98d7e305df1794e6146e9aa0e885bf65_cgraph.svg" width="531" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a98d7e305df1794e6146e9aa0e885bf65_icgraph.svg" width="522" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

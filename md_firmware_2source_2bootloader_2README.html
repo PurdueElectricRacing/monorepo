@@ -100,15 +100,15 @@ $(function(){initNavTree('md_firmware_2source_2bootloader_2README.html',''); ini
   <div class="headertitle"><div class="title">G4 CAN bootloader</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md21"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md22"></a></p>
 <p>The resident STM32G474RE bootloader validates application images written to the application slot over each board's configured CAN transport. Board images define their CAN IDs, bus, baud rate, and pin mapping. CRC detects corruption; it does not authenticate firmware.</p>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Architecture</h1>
 <div class="image">
 <img src="bootloader_architecture.drawio.png" alt=""/>
 <div class="caption">
 Bootloader architecture</div></div>
-    <h1><a class="anchor" id="autotoc_md23"></a>
+    <h1><a class="anchor" id="autotoc_md24"></a>
 State machine</h1>
 <div class="image">
 <img src="bootloader_state_machine.drawio.png" alt=""/>
@@ -127,7 +127,7 @@ Bootloader state machine</div></div>
 <td class="markdownTableBodyNone"><a href="../../common/bootloader/"><code>../../common/bootloader/</code></a>   </td><td class="markdownTableBodyNone">Shared protocol, metadata, and application reset callback.   </td></tr>
 </table>
 <p>After a watchdog reset, the bootloader immediately validates metadata, vectors, and CRC and launches a valid application without opening the update window. On other resets, it initializes CAN, advertises READY, and polls for START for 500 ms before validating and launching. A START that fails size or erase validation enters recovery; an invalid image remains resident.</p>
-<h1><a class="anchor" id="autotoc_md24"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 Update flow</h1>
 <ol type="1">
 <li>DaqApp sends <code>START</code>. A bootloader-aware application calls <code>NVIC_SystemReset()</code>; a resident bootloader treats the frame as an update request.</li>
@@ -136,7 +136,7 @@ Update flow</h1>
 <li><code>JUMP</code> validates the committed image and launches it.</li>
 </ol>
 <p>An interrupted transfer leaves metadata invalid. Resets during programming keep the bootloader resident; vector and CRC checks reject partial images.</p>
-<h1><a class="anchor" id="autotoc_md25"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 Protocol</h1>
 <p>START, CRC, JUMP, DATA, and response IDs come from <a href="../../can_library/configs/"><code>can_library/configs</code></a>; front and rear driveline use separate IDs. Each command is a separate CAN message with a four-byte little-endian argument. DATA uses a 24-bit little-endian word index followed by four word bytes (DLC 7); resident firmware also accepts the legacy DLC 6 frame with a 16-bit index.</p>
 <table class="markdownTable">
@@ -162,7 +162,7 @@ Protocol</h1>
 <td class="markdownTableBodyNone"><code>CRC_ERROR</code>   </td><td class="markdownTableBodyNone">Application image CRC mismatch.   </td></tr>
 </table>
 <p>Words are sequential; duplicate indices are ignored and gaps cancel the transfer. The receive interrupt queues frames; <code><a class="el" href="bootloader_8c.html#afbd1b6f14da46bdc0a6e199e0a84aeb2" title="Process every frame currently queued by the FDCAN receive interrupt.">BL_poll()</a></code> handles flash and CRC in main context. The FSM handles startup without blocking or reset-cause state.</p>
-<h1><a class="anchor" id="autotoc_md26"></a>
+<h1><a class="anchor" id="autotoc_md27"></a>
 Flash validation</h1>
 <div class="image">
 <img src="bootloader_flash_layout.drawio.png" alt=""/>
@@ -170,7 +170,7 @@ Flash validation</h1>
 Bootloader flash layout</div></div>
     <p>The STM32G474RE map reserves 16 KiB for the resident bootloader and 16 KiB for metadata, followed by the full 480 KiB application slot at <code>0x08008000</code> through <code>0x0807FFFF</code>. No flash remains reserved after the application slot. The bootloader linker script keeps executable code within the first 16 KiB and adds a loadable 16 KiB <code>0xFF</code> padding section for metadata at <code>0x08004000</code>. Consequently, the bootloader ELF and raw BIN include this erased-state padding. Programming <code>0xFF</code> cannot restore previously cleared flash bits, so use a programming operation that erases the metadata pages before writing, or erase <code>0x08004000–0x08007FFF</code> explicitly. For a raw BIN, program the whole image from <code>0x08000000</code> after erasing that metadata range; do not erase the application slot.</p>
 <p>Before launch, <code><a class="el" href="bootloader_8c.html#a29a8510cf432cd0aff5dd15073f561bb" title="Validate the committed image and transfer control to it.">BL_checkAndBoot()</a></code> requires valid metadata, a stack pointer in SRAM, a Thumb reset handler inside the image, and a matching application CRC. The package builder, DaqApp, and target use the same word-based STM32 CRC.</p>
-<h1><a class="anchor" id="autotoc_md27"></a>
+<h1><a class="anchor" id="autotoc_md28"></a>
 Recovery</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">

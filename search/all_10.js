@@ -1,7 +1,7 @@
 var searchData=
 [
   ['g4_20can_20bootloader_0',['G4 CAN bootloader',['../md_firmware_2source_2bootloader_2README.html',1,'']]],
-  ['g4_20node_1',['Adding a G4 node',['../md_firmware_2common_2bootloader_2README.html#autotoc_md65',1,'']]],
+  ['g4_20node_1',['Adding a G4 node',['../md_firmware_2common_2bootloader_2README.html#autotoc_md66',1,'']]],
   ['g4_20testing_2',['G4 Testing',['../md_firmware_2source_2g4__testing_2README.html',1,'']]],
   ['g474ret6_2eh_3',['g474ret6.h',['../g474ret6_8h.html',1,'']]],
   ['g4_5ftesting_2eh_4',['G4_TESTING.h',['../G4__TESTING_8h.html',1,'']]],
@@ -28,7 +28,7 @@ var searchData=
   ['g_5fsystem_5fclock_5fhz_25',['g_system_clock_hz',['../phal__G4_2rcc_2rcc_8c.html#a14f4321fc2e6ae5c0dc9a50a4dbc6072',1,'rcc.c']]],
   ['g_5fusb_5fcontext_26',['g_usb_context',['../usb__control_8c.html#a83c92d19112e413da3cc04249ae5101c',1,'usb_control.c']]],
   ['gear_5fratio_27',['GEAR_RATIO',['../torque__controller_8c.html#a7ceba12f5f5bd48ea9a93d64bb8ddf82',1,'torque_controller.c']]],
-  ['generator_20and_20firmware_20host_20tests_28',['7.4 Run Generator and Firmware Host Tests',['../md_docs_2setup.html#autotoc_md144',1,'']]],
+  ['generator_20and_20firmware_20host_20tests_28',['7.4 Run Generator and Firmware Host Tests',['../md_docs_2setup.html#autotoc_md145',1,'']]],
   ['geodetic_2eh_29',['geodetic.h',['../geodetic_8h.html',1,'']]],
   ['geodetic_5fcoord_5ft_30',['geodetic_coord_t',['../structgeodetic__coord__t.html',1,'']]],
   ['geodetic_5ffrom_5fscaled_31',['geodetic_from_scaled',['../geodetic_8h.html#affa8f558945f2f15b6ff146fcd86235f',1,'geodetic.h']]],
@@ -40,7 +40,7 @@ var searchData=
   ['get_5fcount_37',['get_count',['../spmc_8c.html#a881ea749d2dbf855d34372a7313f0495',1,'spmc.c']]],
   ['get_5fnext_5ffilename_38',['get_next_filename',['../sd__card_8c.html#ac8e3e1c6c9d36eada7e3938c604a37ad',1,'sd_card.c']]],
   ['getting_20started_39',['Getting Started',['../md_README.html#autotoc_md3',1,'']]],
-  ['git_40',['1.1 Install Git',['../md_docs_2setup.html#autotoc_md117',1,'']]],
+  ['git_40',['1.1 Install Git',['../md_docs_2setup.html#autotoc_md118',1,'']]],
   ['git_5fhash_41',['git_hash',['../structfront__driveline__version__data__t.html#a5bc6f7c933aaaa7e9e0de14b0019cb0f',1,'front_driveline_version_data_t::git_hash'],['../structrear__driveline__version__data__t.html#ac37c925ba3adfdfc2a81434555a6c9a6',1,'rear_driveline_version_data_t::git_hash'],['../structbl__front__driveline__info__data__t.html#afe6f590d2a55d3840e30fe8a1e251dc5',1,'bl_front_driveline_info_data_t::git_hash'],['../structbl__rear__driveline__info__data__t.html#a250a24e8f8a70502fbc2db0400d961d3',1,'bl_rear_driveline_info_data_t::git_hash'],['../structabox__version__data__t.html#a87361c9f849f9bacfa2e5ecd6f64b197',1,'abox_version_data_t::git_hash'],['../structdash__version__data__t.html#a4007007b257146cc52abd8b93a7df465',1,'dash_version_data_t::git_hash'],['../structmain__version__data__t.html#abc473a6451258638f320b5162b2c3e3a',1,'main_version_data_t::git_hash'],['../structpdu__version__data__t.html#a1e4ee2eefcb412482c6eaba47183351b',1,'pdu_version_data_t::git_hash'],['../structtorque__vector__version__data__t.html#aaa36f2d534b2701d65125e5761f3f46d',1,'torque_vector_version_data_t::git_hash'],['../structbl__main__module__info__data__t.html#ac1eeb864912d548d9b1e200a52ceb7e2',1,'bl_main_module_info_data_t::git_hash'],['../structbl__dashboard__info__data__t.html#a994d0f0834dfa64c6f0fd37a0c9ee76d',1,'bl_dashboard_info_data_t::git_hash'],['../structbl__torque__vector__info__data__t.html#a312c0a6e62282bdc153f8bb36ac764dd',1,'bl_torque_vector_info_data_t::git_hash'],['../structbl__a__box__info__data__t.html#a419a80af13b93feb1028ece64b3e9f12',1,'bl_a_box_info_data_t::git_hash']]],
   ['gpio_2ec_42',['gpio.c',['../phal__F4_2gpio_2gpio_8c.html',1,'(Global Namespace)'],['../phal__G4_2gpio_2gpio_8c.html',1,'(Global Namespace)']]],
   ['gpio_2eh_43',['gpio.h',['../phal__F4_2gpio_2gpio_8h.html',1,'(Global Namespace)'],['../phal__G4_2gpio_2gpio_8h.html',1,'(Global Namespace)']]],

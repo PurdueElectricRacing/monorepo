@@ -100,9 +100,9 @@ $(function(){initNavTree('md_firmware_2source_2a__box_2README.html',''); initRes
   <div class="headertitle"><div class="title">A_BOX</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md17"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md18"></a></p>
 <p>A_BOX (short for "accumulator box") is the BMS master. It owns battery telemetry, the BMS shutdown rail (<code>BMS_SDC_CTRL</code>), and the charger control state machine. It is a safety-critical board.</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 Notable Files</h1>
 <ul>
 <li><a href="main.c"><code>main.c</code></a> / <a href="main.h"><code>main.h</code></a>: Peripheral init (FDCAN1/2, SPI1, ADC1+DMA, GPIO), task startup order, and the <code>bms_task</code> periodic that runs ADBMS updates and pack/thermal fault checks.</li>
@@ -120,10 +120,10 @@ Notable Files</h1>
 <li><a href="thermistor/thermistor.c"><code>thermistor.c</code></a> / <a href="thermistor/thermistor.h"><code>thermistor.h</code></a>: Datasheet-derived lookup table and <code><a class="el" href="thermistor_8h.html#a026b496fe9ccc675fb110ee9bbc0e267">thermistor_R_to_T()</a></code> helper used by the ADBMS driver.</li>
 <li>Fault handling in <code>bms_task</code> (in <a href="main.c"><code>main.c</code></a>): raises <code>IMD</code>, <code>BMS_DISCONNECTED</code>, pack full/empty, cell under/overvoltage, and pack warm/cold/overtemp faults; <code>BMS_DISCONNECTED</code> also drives <code>BMS_SDC_CTRL</code>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 Hardware Block Diagram</h1>
 <p><img src="abox.drawio.png" alt="" class="inline" title="abox"/>    </p>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md21"></a>
 Charging</h1>
 <p><img src="charging_FSM.drawio.png" alt="" class="inline" title="charging fsm"/>     </p>
 </div></div><!-- contents -->

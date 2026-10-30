@@ -24,7 +24,7 @@ var searchData=
   ['winding_5fcollinear_21',['WINDING_COLLINEAR',['../geometry_8h.html#aad9b6852c3b76d3070948c0cc7853f5fa58b5232c263cdede74637777be0099b4',1,'geometry.h']]],
   ['winding_5fcounterclockwise_22',['WINDING_COUNTERCLOCKWISE',['../geometry_8h.html#aad9b6852c3b76d3070948c0cc7853f5fa37e776164f54202c8c4773b99f824cb6',1,'geometry.h']]],
   ['winding_5ft_23',['winding_t',['../geometry_8h.html#aad9b6852c3b76d3070948c0cc7853f5f',1,'geometry.h']]],
-  ['windows_20wsl_24',['3C. Windows - WSL',['../md_docs_2setup.html#autotoc_md129',1,'']]],
+  ['windows_20wsl_24',['3C. Windows - WSL',['../md_docs_2setup.html#autotoc_md130',1,'']]],
   ['wiring_25',['wiring',['../structPHAL__DMA__Handle__t.html#ab5815f270fe8d8548e8c70e34e93eae0',1,'PHAL_DMA_Handle_t']]],
   ['wm_26',['WM',['../structyVCU__struct.html#a4106077379b126d0530b97aa785c0df5',1,'yVCU_struct']]],
   ['wm_5fraw_27',['WM_RAW',['../structxVCU__struct.html#ab2eca154ead37d6d8d278341d5b81cc5',1,'xVCU_struct']]],
@@ -32,7 +32,7 @@ var searchData=
   ['word_5f9_29',['WORD_9',['../phal__F4_2usart_2usart_8h.html#a0c0f23ca19df3c59dfbc84e0d1e58493aaf384e56f1bc9d30d7733088c7ad3274',1,'usart.h']]],
   ['word_5flength_30',['word_length',['../structusart__init__t.html#a05cc99e8162f284a52d93388d800c782',1,'usart_init_t']]],
   ['word_5flength_5ft_31',['word_length_t',['../phal__F4_2usart_2usart_8h.html#a0c0f23ca19df3c59dfbc84e0d1e58493',1,'usart.h']]],
-  ['workspace_32',['7.3 DAQ Workspace',['../md_docs_2setup.html#autotoc_md143',1,'']]],
+  ['workspace_32',['7.3 DAQ Workspace',['../md_docs_2setup.html#autotoc_md144',1,'']]],
   ['wrblockmisalign_33',['WrBlockMisalign',['../structSD__CSD.html#a54d08d114ba504e72f0001fa922ec919',1,'SD_CSD']]],
   ['wrcfga_34',['WRCFGA',['../commands_8c.html#a2ed840d59cef20eae18f908d2379964d',1,'WRCFGA:&#160;commands.c'],['../commands_8h.html#a2ed840d59cef20eae18f908d2379964d',1,'WRCFGA:&#160;commands.c']]],
   ['wrcfgb_35',['WRCFGB',['../commands_8c.html#a26d470e28a1ae39f1a0484e788b2b60e',1,'WRCFGB:&#160;commands.c'],['../commands_8h.html#a26d470e28a1ae39f1a0484e788b2b60e',1,'WRCFGB:&#160;commands.c']]],
@@ -43,7 +43,7 @@ var searchData=
   ['wrpwma_40',['WRPWMA',['../commands_8c.html#a6aae54bfcb762c2fbb1c8fd742edea51',1,'WRPWMA:&#160;commands.c'],['../commands_8h.html#a6aae54bfcb762c2fbb1c8fd742edea51',1,'WRPWMA:&#160;commands.c']]],
   ['wrpwmb_41',['WRPWMB',['../commands_8c.html#ad1fe66d772ef1fc817d3c3a67671275e',1,'WRPWMB:&#160;commands.c'],['../commands_8h.html#ad1fe66d772ef1fc817d3c3a67671275e',1,'WRPWMB:&#160;commands.c']]],
   ['wrspeedfact_42',['WrSpeedFact',['../structSD__CSD.html#a471bde59e37efab5eb960510d4d94aca',1,'SD_CSD']]],
-  ['wsl_43',['WSL',['../md_docs_2setup.html#autotoc_md129',1,'3C. Windows - WSL'],['../md_docs_2setup.html#autotoc_md130',1,'3C.1 Install WSL'],['../md_docs_2setup.html#autotoc_md132',1,'3C.3 Use VS Code inside of WSL']]],
-  ['wsl_20daq_20dependencies_44',['5.2 Linux / WSL DAQ Dependencies',['../md_docs_2setup.html#autotoc_md137',1,'']]],
+  ['wsl_43',['WSL',['../md_docs_2setup.html#autotoc_md130',1,'3C. Windows - WSL'],['../md_docs_2setup.html#autotoc_md131',1,'3C.1 Install WSL'],['../md_docs_2setup.html#autotoc_md133',1,'3C.3 Use VS Code inside of WSL']]],
+  ['wsl_20daq_20dependencies_44',['5.2 Linux / WSL DAQ Dependencies',['../md_docs_2setup.html#autotoc_md138',1,'']]],
   ['ww_45',['WW',['../structyVCU__struct.html#ac3f218cb71a5c73a0e215af91f0e53df',1,'yVCU_struct']]]
 ];

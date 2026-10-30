@@ -4,8 +4,6 @@ var annotated_dup =
     [ "a_box_fault_sync_data_t", "structa__box__fault__sync__data__t.html", "structa__box__fault__sync__data__t" ],
     [ "abox_init_data_t", "structabox__init__data__t.html", "structabox__init__data__t" ],
     [ "abox_version_data_t", "structabox__version__data__t.html", "structabox__version__data__t" ],
-    [ "adbms_bms_t", "structadbms__bms__t.html", "structadbms__bms__t" ],
-    [ "adbms_module_t", "structadbms__module__t.html", "structadbms__module__t" ],
     [ "adc1_dma_buffer_t", "structadc1__dma__buffer__t.html", "structadc1__dma__buffer__t" ],
     [ "ADCChannelConfig_t", "structADCChannelConfig__t.html", "structADCChannelConfig__t" ],
     [ "ADCInitConfig_t", "structADCInitConfig__t.html", "structADCInitConfig__t" ],

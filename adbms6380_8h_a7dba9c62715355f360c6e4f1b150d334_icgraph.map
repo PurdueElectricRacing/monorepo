@@ -1,18 +1,5 @@
 <map id="adbms6380_get_threshold_voltage_cfg" name="adbms6380_get_threshold_voltage_cfg">
-<area shape="rect" id="Node000001" title="Convert a voltage threshold (V) into 12&#45;bit REG_B threshold encoding." alt="" coords="1026,23,1200,64"/>
-<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a7edc17528da09597a1ba5cd6d5e9671e" title="Calculate the REG_B configuration register value." alt="" coords="831,23,978,64"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1011,46,978,46,978,41,1011,41"/>
-<area shape="rect" id="Node000003" href="$adbms_8c.html#a0833cbe8198d911a52d6a4f24dda2a38" title="Calculate and write REGB configuration to all modules." alt="" coords="656,31,783,56"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="815,46,783,46,783,41,815,41"/>
-<area shape="rect" id="Node000004" href="$adbms_8c.html#ab002d432c17c600b7ab08560de287272" title="Compute discharge flags and write REGB to apply balancing." alt="" coords="389,5,608,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="640,37,608,33,608,28,641,32"/>
-<area shape="rect" id="Node000008" href="$adbms_8c.html#a27e3061d92f6ec452342978af2616bd8" title="Perform the connect/bring&#45;up sequence for all modules." alt="" coords="442,55,555,80"/>
-<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="641,55,556,64,555,59,640,49"/>
-<area shape="rect" id="Node000005" href="$adbms_8c.html#a0a1de1018dba58040d4cab70ead2ca28" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="229,31,341,56"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="374,36,342,40,341,34,373,30"/>
-<area shape="rect" id="Node000006" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,31,181,56"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="214,46,181,46,181,41,214,41"/>
-<area shape="rect" id="Node000007" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,31,55,56"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="87,46,55,46,55,41,87,41"/>
-<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="426,62,342,52,342,47,427,57"/>
+<area shape="rect" id="Node000001" title="Convert a voltage threshold (V) into 12&#45;bit REG_B threshold encoding." alt="" coords="201,5,374,46"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a7edc17528da09597a1ba5cd6d5e9671e" title="Calculate the REG_B configuration register value." alt="" coords="5,5,153,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,28,153,28,153,23,186,23"/>
 </map>
