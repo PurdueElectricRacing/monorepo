@@ -52,22 +52,26 @@ float adbms6380_raw_to_v(int16_t raw) {
     return (raw + 10000) * 0.000150f;
 }
 
-void adbms6380_adcv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
-                    bool rd,
-                    bool cont,
-                    bool dcp,
-                    bool rstf,
-                    uint8_t ow) {
+void adbms6380_adcv(
+    uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
+    bool rd,
+    bool cont,
+    bool dcp,
+    bool rstf,
+    uint8_t ow
+) {
     // 10-0: 0, 1, RD, CONT, 1, 1, DCP, 0, RSTF, OW[1], OW[0]
     output_cmd[0] = 0x02 | (uint8_t)rd;
     output_cmd[1] =
         (uint8_t)(((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | ((uint8_t)rstf << 2) | (ow & 0x03) | 0x60);
 }
 
-void adbms6380_adsv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
-                    bool cont,
-                    bool dcp,
-                    uint8_t ow) {
+void adbms6380_adsv(
+    uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
+    bool cont,
+    bool dcp,
+    uint8_t ow
+) {
     // 10-0: 0, 0, 1, CONT, 1, 1, DCP, 1, 0, OW[1], OW[0]
     output_cmd[0] = 0x01;
     output_cmd[1] = (uint8_t)(((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | (ow & 0x03) | 0x68);
@@ -79,25 +83,31 @@ void adbms6380_adax(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE], bool ow, boo
     output_cmd[1] = (uint8_t)((uint8_t)pup << 7 | ((ch >> 4) & 1) << 6 | 0b01 << 4 | (ch & 0b01111));
 }
 
-void adbms6380_prepare_command(strbuf_t *output_buffer,
-                               const uint8_t command[ADBMS6380_COMMAND_RAW_SIZE]) {
+void adbms6380_prepare_command(
+    strbuf_t *output_buffer,
+    const uint8_t command[ADBMS6380_COMMAND_RAW_SIZE]
+) {
     strbuf_append(output_buffer, command, ADBMS6380_COMMAND_RAW_SIZE);
     uint16_t pec = adbms_pec_get_pec15(ADBMS6380_COMMAND_RAW_SIZE, command);
     const uint8_t pec_bytes[ADBMS6380_PEC_SIZE] = {(uint8_t)((pec >> 8) & 0xFF), (uint8_t)(pec & 0xFF)};
     strbuf_append(output_buffer, pec_bytes, ADBMS6380_PEC_SIZE);
 }
 
-void adbms6380_prepare_data_packet(strbuf_t *output_buffer,
-                                   const uint8_t data[ADBMS6380_SINGLE_DATA_RAW_SIZE]) {
+void adbms6380_prepare_data_packet(
+    strbuf_t *output_buffer,
+    const uint8_t data[ADBMS6380_SINGLE_DATA_RAW_SIZE]
+) {
     strbuf_append(output_buffer, data, ADBMS6380_SINGLE_DATA_RAW_SIZE);
     uint16_t pec = adbms_pec_get_pec10(false, ADBMS6380_SINGLE_DATA_RAW_SIZE, data);
     const uint8_t pec_bytes[ADBMS6380_PEC_SIZE] = {(uint8_t)((pec >> 8) & 0xFF), (uint8_t)(pec & 0xFF)};
     strbuf_append(output_buffer, pec_bytes, ADBMS6380_PEC_SIZE);
 }
 
-void adbms6380_calculate_cfg_rega(uint8_t output_cfg_rega[ADBMS6380_SINGLE_DATA_RAW_SIZE],
-                                  bool refon,
-                                  uint8_t cth) {
+void adbms6380_calculate_cfg_rega(
+    uint8_t output_cfg_rega[ADBMS6380_SINGLE_DATA_RAW_SIZE],
+    bool refon,
+    uint8_t cth
+) {
     memset(output_cfg_rega, 0, ADBMS6380_SINGLE_DATA_RAW_SIZE);
 
     output_cfg_rega[0] = (uint8_t)(((uint8_t)refon << 7) | (cth & 0x07));
@@ -114,10 +124,12 @@ void adbms6380_calculate_cfg_rega(uint8_t output_cfg_rega[ADBMS6380_SINGLE_DATA_
     output_cfg_rega[5] = 0;
 }
 
-void adbms6380_calculate_cfg_regb(uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_RAW_SIZE],
-                                  float overvoltage_threshold,
-                                  float undervoltage_threshold,
-                                  const bool is_discharging[ADBMS6380_CELL_COUNT]) {
+void adbms6380_calculate_cfg_regb(
+    uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_RAW_SIZE],
+    float overvoltage_threshold,
+    float undervoltage_threshold,
+    const bool is_discharging[ADBMS6380_CELL_COUNT]
+) {
     memset(output_cfg_regb, 0, ADBMS6380_SINGLE_DATA_RAW_SIZE);
 
     uint16_t overvoltage_cfg  = adbms6380_get_threshold_voltage_cfg(overvoltage_threshold);
@@ -158,11 +170,13 @@ bool adbms6380_check_data_pec(const uint8_t *rx_bytes, size_t rx_len) {
     return calculated_pec == received_pec;
 }
 
-adbms6380_read_result_t adbms6380_read(SPI_InitConfig_t *spi,
-                                       size_t module_count,
-                                       const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-                                       uint8_t *rx_buffer,
-                                       size_t rx_length_per_module) {
+bool adbms6380_read(
+    SPI_InitConfig_t *spi,
+    size_t module_count,
+    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
+    uint8_t *rx_buffer,
+    size_t rx_length_per_module
+) {
     // Send command and get response
     adbms6380_set_cs_low(spi);
     // First send command. Command is passed to all modules in the daisy chain.
@@ -176,81 +190,79 @@ adbms6380_read_result_t adbms6380_read(SPI_InitConfig_t *spi,
     for (size_t module_idx = 0; module_idx < module_count; module_idx++) {
         const uint8_t *module_data = &rx_buffer[module_idx * rx_length_per_module];
         if (!adbms6380_check_data_pec(module_data, rx_length_per_module)) {
-            return ADBMS6380_READ_PEC_FAILURE;
+            return false;
         }
     }
 
-    return ADBMS6380_READ_SUCCESS;
+    return true;
 }
 
-adbms6380_read_result_t
-adbms6380_read_data_with_retries(SPI_InitConfig_t *spi,
-                                 size_t max_retries,
-                                 size_t module_count,
-                                 const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-                                 uint8_t *rx_buffer) {
+bool adbms6380_read_data_with_retries(
+    SPI_InitConfig_t *spi,
+    size_t max_retries,
+    size_t module_count,
+    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
+    uint8_t *rx_buffer
+) {
+    bool ok = false;
     for (size_t attempt = 0; attempt < max_retries; attempt++) {
-        adbms6380_read_result_t result = adbms6380_read(spi,
-                                                        module_count,
-                                                        cmd_buffer,
-                                                        rx_buffer,
-                                                        ADBMS6380_SINGLE_DATA_PKT_SIZE);
-        switch (result) {
-            case ADBMS6380_READ_SUCCESS:
-                return ADBMS6380_READ_SUCCESS;
-            case ADBMS6380_READ_PEC_FAILURE:
-                // Retry on PEC failure
-                continue;
-            case ADBMS6380_READ_SPI_FAILURE:
-                // Terminal error on SPI failure
-                return ADBMS6380_READ_SPI_FAILURE;
+        ok = adbms6380_read(
+            spi,
+            module_count,
+            cmd_buffer,
+            rx_buffer,
+            ADBMS6380_SINGLE_DATA_PKT_SIZE
+        );
+        if (ok) {
+            return true;
         }
+        // Retry on PEC failure
     }
     // If we reach here, all retries failed due to PEC errors
-    return ADBMS6380_READ_PEC_FAILURE;
+    return ok;
 }
 
-adbms6380_read_result_t adbms6380_read_data(SPI_InitConfig_t *spi,
-                                            size_t module_count,
-                                            const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-                                            uint8_t *rx_buffer) {
+bool adbms6380_read_data(
+    SPI_InitConfig_t *spi,
+    size_t module_count,
+    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
+    uint8_t *rx_buffer
+) {
     size_t rx_length_per_module = ADBMS6380_SINGLE_DATA_PKT_SIZE;
     return adbms6380_read(spi, module_count, cmd_buffer, rx_buffer, rx_length_per_module);
 }
 
-bool adbms6380_read_cell_voltages(SPI_InitConfig_t *spi,
-                                  strbuf_t *cmd_buffer,
-                                  uint8_t *rx_buffer,
-                                  float **cell_voltages,
-                                  int16_t **cell_voltages_raw,
-                                  bool pec_error_flags[ADBMS6380_RDCV_CMD_COUNT],
-                                  size_t module_count,
-                                  size_t max_retries_on_pec_failure) {
+void adbms6380_read_cell_voltages(
+    SPI_InitConfig_t *spi,
+    strbuf_t *cmd_buffer,
+    uint8_t *rx_buffer,
+    float **cell_voltages,
+    int16_t **cell_voltages_raw,
+    bool pec_error_flags[ADBMS6380_RDCV_CMD_COUNT],
+    size_t module_count,
+    size_t max_retries_on_pec_failure
+) {
     const uint8_t *cmd_list[ADBMS6380_RDCV_CMD_COUNT] = {RDCVA, RDCVB, RDCVC, RDCVD, RDCVE, RDCVF};
 
     for (size_t cmd_idx = 0; cmd_idx < ADBMS6380_RDCV_CMD_COUNT; cmd_idx++) {
         strbuf_clear(cmd_buffer);
         adbms6380_prepare_command(cmd_buffer, cmd_list[cmd_idx]);
 
-        adbms6380_read_result_t read_result =
-            adbms6380_read_data_with_retries(spi,
-                                             max_retries_on_pec_failure,
-                                             module_count,
-                                             cmd_buffer->data,
-                                             rx_buffer);
-        switch (read_result) {
-            case ADBMS6380_READ_SUCCESS:
-                // continue processing
-                pec_error_flags[cmd_idx] = false;
-                break;
-            case ADBMS6380_READ_PEC_FAILURE:
-                // skip to the next command but marked that we did not update values
-                // for this set of cells
-                pec_error_flags[cmd_idx] = true;
-                continue;
-            case ADBMS6380_READ_SPI_FAILURE:
-                // terminal error on SPI failure
-                return false;
+        bool pec_ok = adbms6380_read_data_with_retries(
+            spi,
+            max_retries_on_pec_failure,
+            module_count,
+            cmd_buffer->data,
+            rx_buffer
+        );
+        if (pec_ok) {
+            // continue processing
+            pec_error_flags[cmd_idx] = false;
+        } else {
+            // skip to the next command but marked that we did not update values
+            // for this set of cells
+            pec_error_flags[cmd_idx] = true;
+            continue;
         }
 
         // Data comes back as: module 1, module 2, ..., module N
@@ -272,42 +284,38 @@ bool adbms6380_read_cell_voltages(SPI_InitConfig_t *spi,
             }
         }
     }
-
-    return true;
 }
 
-bool adbms6380_read_gpio_voltages(SPI_InitConfig_t *spi,
-                                  strbuf_t *cmd_buffer,
-                                  uint8_t *rx_buffer,
-                                  float **gpio_voltages,
-                                  bool pec_error_flags[ADBMS6380_RDAUX_CMD_COUNT],
-                                  size_t module_count,
-                                  size_t max_retries_on_pec_failure) {
+void adbms6380_read_gpio_voltages(
+    SPI_InitConfig_t *spi,
+    strbuf_t *cmd_buffer,
+    uint8_t *rx_buffer,
+    float **gpio_voltages,
+    bool pec_error_flags[ADBMS6380_RDAUX_CMD_COUNT],
+    size_t module_count,
+    size_t max_retries_on_pec_failure
+) {
     const uint8_t *cmd_list[ADBMS6380_RDAUX_CMD_COUNT] = {RDAUXA, RDAUXB, RDAUXC, RDAUXD};
 
     for (size_t cmd_idx = 0; cmd_idx < ADBMS6380_RDAUX_CMD_COUNT; cmd_idx++) {
         strbuf_clear(cmd_buffer);
         adbms6380_prepare_command(cmd_buffer, cmd_list[cmd_idx]);
 
-        adbms6380_read_result_t read_result =
-            adbms6380_read_data_with_retries(spi,
-                                             max_retries_on_pec_failure,
-                                             module_count,
-                                             cmd_buffer->data,
-                                             rx_buffer);
-        switch (read_result) {
-            case ADBMS6380_READ_SUCCESS:
-                // continue processing
-                pec_error_flags[cmd_idx] = false;
-                break;
-            case ADBMS6380_READ_PEC_FAILURE:
-                // skip to the next command but marked that we did not update values
-                // for this set of GPIOs
-                pec_error_flags[cmd_idx] = true;
-                continue;
-            case ADBMS6380_READ_SPI_FAILURE:
-                // terminal error on SPI failure
-                return false;
+        bool pec_ok = adbms6380_read_data_with_retries(
+            spi,
+            max_retries_on_pec_failure,
+            module_count,
+            cmd_buffer->data,
+            rx_buffer
+        );
+        if (pec_ok) {
+            // continue processing
+            pec_error_flags[cmd_idx] = false;
+        } else {
+            // skip to the next command but marked that we did not update values
+            // for this set of GPIOs
+            pec_error_flags[cmd_idx] = true;
+            continue;
         }
 
         // AUXA/B/C: 3 GPIOs each, AUXD: GPIO10
@@ -326,6 +334,4 @@ bool adbms6380_read_gpio_voltages(SPI_InitConfig_t *spi,
             }
         }
     }
-
-    return true;
 }

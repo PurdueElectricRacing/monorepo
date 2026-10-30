@@ -47,18 +47,6 @@
 #define ADBMS6380_WAKE_DELAY_MS (1)
 
 /**
- * @brief Result of a read operation from the ADBMS6380.
- * 
- * Used to indicate success, PEC failure, or SPI communication failure.
- * Success = 0.
- */
-typedef enum {
-    ADBMS6380_READ_SUCCESS = 0,
-    ADBMS6380_READ_PEC_FAILURE,
-    ADBMS6380_READ_SPI_FAILURE,
-} adbms6380_read_result_t;
-
-/**
  * @brief Drive the ADBMS CS line low.
  *
  * @param spi SPI configuration containing the CS GPIO.
@@ -114,12 +102,14 @@ float adbms6380_raw_to_v(int16_t raw);
  * @param rstf Reset filter.
  * @param ow Open-wire setting (2-bit).
  */
-void adbms6380_adcv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
-                    bool rd,
-                    bool cont,
-                    bool dcp,
-                    bool rstf,
-                    uint8_t ow);
+void adbms6380_adcv(
+    uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
+    bool rd,
+    bool cont,
+    bool dcp,
+    bool rstf,
+    uint8_t ow
+);
 /**
  * @brief Build ADSV command bytes.
  *
@@ -128,10 +118,12 @@ void adbms6380_adcv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
  * @param dcp Discharge permitted during conversion (only affects PWM balancing, not DCC).
  * @param ow Open-wire setting (2-bit).
  */
-void adbms6380_adsv(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
-                    bool cont,
-                    bool dcp,
-                    uint8_t ow);
+void adbms6380_adsv(
+    uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
+    bool cont,
+    bool dcp,
+    uint8_t ow
+);
 
 /**
  * @brief Build ADAX (aux) command bytes.
@@ -149,16 +141,20 @@ void adbms6380_adax(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE], bool ow, boo
  * @param output_buffer Buffer to append into.
  * @param command 2-byte command payload.
  */
-void adbms6380_prepare_command(strbuf_t *output_buffer,
-                               const uint8_t command[ADBMS6380_COMMAND_RAW_SIZE]);
+void adbms6380_prepare_command(
+    strbuf_t *output_buffer,
+    const uint8_t command[ADBMS6380_COMMAND_RAW_SIZE]
+);
 /**
  * @brief Append a data payload and its PEC to an output buffer.
  *
  * @param output_buffer Buffer to append into.
  * @param data 6-byte data payload.
  */
-void adbms6380_prepare_data_packet(strbuf_t *output_buffer,
-                                   const uint8_t data[ADBMS6380_SINGLE_DATA_RAW_SIZE]);
+void adbms6380_prepare_data_packet(
+    strbuf_t *output_buffer,
+    const uint8_t data[ADBMS6380_SINGLE_DATA_RAW_SIZE]
+);
 
 /**
  * @brief Calculate the REG_A configuration register value.
@@ -169,9 +165,11 @@ void adbms6380_prepare_data_packet(strbuf_t *output_buffer,
  * @param refon 1 = reference remains powered up until watchdog timeout.
  * @param cth C-ADC vs. S-ADC comparison voltage threshold.
  */
-void adbms6380_calculate_cfg_rega(uint8_t output_cfg_rega[ADBMS6380_SINGLE_DATA_RAW_SIZE],
-                                  bool refon,
-                                  uint8_t cth);
+void adbms6380_calculate_cfg_rega(
+    uint8_t output_cfg_rega[ADBMS6380_SINGLE_DATA_RAW_SIZE],
+    bool refon,
+    uint8_t cth
+);
 /**
  * @brief Calculate the REG_B configuration register value.
  *
@@ -182,10 +180,12 @@ void adbms6380_calculate_cfg_rega(uint8_t output_cfg_rega[ADBMS6380_SINGLE_DATA_
  * @param undervoltage_threshold Undervoltage threshold in volts.
  * @param is_discharging Per-cell discharge enable flags.
  */
-void adbms6380_calculate_cfg_regb(uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_RAW_SIZE],
-                                  float overvoltage_threshold,
-                                  float undervoltage_threshold,
-                                  const bool is_discharging[ADBMS6380_CELL_COUNT]);
+void adbms6380_calculate_cfg_regb(
+    uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_RAW_SIZE],
+    float overvoltage_threshold,
+    float undervoltage_threshold,
+    const bool is_discharging[ADBMS6380_CELL_COUNT]
+);
 
 /**
  * @brief Verify the PEC of received data.
@@ -194,7 +194,7 @@ void adbms6380_calculate_cfg_regb(uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_
                    data bytes.
  * @param rx_len Length of the recieved data from a module in bytes (including PEC,
  *               so the raw data is actually rx_len - ADBMS6380_PEC_SIZE).
- * @return True if the received PEC matches calculated value, false otherwise.
+ * @return true if the received PEC matches calculated value, false otherwise.
  */
 bool adbms6380_check_data_pec(const uint8_t *rx_bytes, size_t rx_len);
 
@@ -209,13 +209,15 @@ bool adbms6380_check_data_pec(const uint8_t *rx_bytes, size_t rx_len);
  * @param cmd_buffer Command buffer including PEC.
  * @param rx_buffer Output buffer for received bytes.
  * @param rx_length_per_module Number of bytes expected from each module (including PEC).
- * @return A result code indicating success, PEC failure, or SPI failure.
+ * @return true if all module data packets passed their PEC checks, false if any failed.
  */
-adbms6380_read_result_t adbms6380_read(SPI_InitConfig_t *spi,
-                                       size_t module_count,
-                                       const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-                                       uint8_t *rx_buffer,
-                                       size_t rx_length_per_module);
+bool adbms6380_read(
+    SPI_InitConfig_t *spi,
+    size_t module_count,
+    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
+    uint8_t *rx_buffer,
+    size_t rx_length_per_module
+);
 /**
  * @brief Read a single-data-packet response per module.
  *
@@ -226,12 +228,14 @@ adbms6380_read_result_t adbms6380_read(SPI_InitConfig_t *spi,
  * @param module_count Number of modules in the daisy chain.
  * @param cmd_buffer Command buffer including PEC.
  * @param rx_buffer Output buffer for received bytes.
- * @return A result code indicating success, PEC failure, or SPI failure.
+ * @return true if all module data packets passed their PEC checks, false if any failed.
  */
-adbms6380_read_result_t adbms6380_read_data(SPI_InitConfig_t *spi,
-                                            size_t module_count,
-                                            const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-                                            uint8_t *rx_buffer);
+bool adbms6380_read_data(
+    SPI_InitConfig_t *spi,
+    size_t module_count,
+    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
+    uint8_t *rx_buffer
+);
 
 /**
  * @brief Read a single-data-packet response per module and retries on PEC failure.
@@ -244,14 +248,16 @@ adbms6380_read_result_t adbms6380_read_data(SPI_InitConfig_t *spi,
  * @param module_count Number of modules in the daisy chain.
  * @param cmd_buffer Command buffer including PEC.
  * @param rx_buffer Output buffer for received bytes.
- * @return A result code indicating success, PEC failure, or SPI failure.
+ * @return true if a read passed all PEC checks within the retry budget, false if
+ *         all attempts failed their PEC checks.
  */
-adbms6380_read_result_t
-adbms6380_read_data_with_retries(SPI_InitConfig_t *spi,
-                                 size_t max_retries,
-                                 size_t module_count,
-                                 const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-                                 uint8_t *rx_buffer);
+bool adbms6380_read_data_with_retries(
+    SPI_InitConfig_t *spi,
+    size_t max_retries,
+    size_t module_count,
+    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
+    uint8_t *rx_buffer
+);
 
 /**
  * @brief Read all cell voltages from each module.
@@ -271,16 +277,20 @@ adbms6380_read_data_with_retries(SPI_InitConfig_t *spi,
  * @param module_count Number of modules in the daisy chain.
  * @param max_retries_on_pec_failure Number of attempts to retry a read if a PEC
                                      failure is detected before giving up.
- * @return True on success, false on SPI failure.
+ *
+ * Note: the SPI transfer cannot fail (void return). However, the PEC failures
+ * are recorded per-command in @p pec_error_flags.
  */
-bool adbms6380_read_cell_voltages(SPI_InitConfig_t *spi,
-                                  strbuf_t *cmd_buffer,
-                                  uint8_t *rx_buffer,
-                                  float **cell_voltages,
-                                  int16_t **cell_voltages_raw,
-                                  bool pec_error_flags[ADBMS6380_RDCV_CMD_COUNT],
-                                  size_t module_count,
-                                  size_t max_retries_on_pec_failure);
+void adbms6380_read_cell_voltages(
+    SPI_InitConfig_t *spi,
+    strbuf_t *cmd_buffer,
+    uint8_t *rx_buffer,
+    float **cell_voltages,
+    int16_t **cell_voltages_raw,
+    bool pec_error_flags[ADBMS6380_RDCV_CMD_COUNT],
+    size_t module_count,
+    size_t max_retries_on_pec_failure
+);
 /**
  * @brief Read all GPIO/aux voltages from each module.
  *
@@ -298,15 +308,19 @@ bool adbms6380_read_cell_voltages(SPI_InitConfig_t *spi,
  * @param module_count Number of modules in the daisy chain.
  * @param max_retries_on_pec_failure Number of attempts to retry a read if a PEC
                                      failure is detected before giving up.
- * @return True on success, false on SPI failure.
+ *
+ * Note: the SPI transfer cannot fail (void return). However, the PEC failures
+ * are recorded per-command in @p pec_error_flags.
  */
-bool adbms6380_read_gpio_voltages(SPI_InitConfig_t *spi,
-                                  strbuf_t *cmd_buffer,
-                                  uint8_t *rx_buffer,
-                                  float **gpio_voltages,
-                                  bool pec_error_flags[ADBMS6380_RDAUX_CMD_COUNT],
-                                  size_t module_count,
-                                  size_t max_retries_on_pec_failure);
+void adbms6380_read_gpio_voltages(
+    SPI_InitConfig_t *spi,
+    strbuf_t *cmd_buffer,
+    uint8_t *rx_buffer,
+    float **gpio_voltages,
+    bool pec_error_flags[ADBMS6380_RDAUX_CMD_COUNT],
+    size_t module_count,
+    size_t max_retries_on_pec_failure
+);
 
 // Other adbms6380 related function declarations can go here
 
