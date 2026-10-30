@@ -118,5 +118,15 @@ void diagnostics_periodic(void) {
             g_diagnostics_context.snapshot.cpu_valid = true;
         }
     }
+    diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
+    
+    uint16_t reported_task_count =
+        snapshot -> task_count > UINT16_MAX ? UINT16_MAX : (uint16_t) snapshot -> task_count;
+    DIAGNOSTICS_SEND_SUMMARY(
+        snapshot-> sample_count,
+        reported_task_count,
+        encode_cpu_percent(snapshot->cpu_percent, snapshot->cpu_valid),
+        (uint8_t)snapshot->capacity_exceeded
+    );
     save_task_runtimes(task_count);
 }
