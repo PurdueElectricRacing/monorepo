@@ -180,6 +180,20 @@ def test_enum_limits_inferred():
     assert limits == [(2, 7), (0, 2), (0, 5), (None, None)]
 
 
+def test_percentage_limits_inferred():
+    message = MessageDeclaration(
+        message_name="test_pct", description="", priority=0,
+        signals=[
+            SignalDeclaration(signal_name="pct_default", data_type="uint8_t", unit="%"),
+            SignalDeclaration(signal_name="pct_explicit", data_type="uint8_t", unit="%", min=10, max=90),
+            SignalDeclaration(signal_name="pct_word", data_type="uint8_t", unit="percentage"),
+            SignalDeclaration(signal_name="no_unit", data_type="uint8_t"),
+        ],
+    )
+    limits = [(signal.min, signal.max) for signal in compile_message(message, False, {}).signals]
+    assert limits == [(0, 100), (10, 90), (0, 100), (None, None)]
+
+
 def test_float_enum_rejected():
     with pytest.raises(ValueError, match="float cannot have enum choices"):
         CustomTypeDeclaration(name="test_t", base_type="float",

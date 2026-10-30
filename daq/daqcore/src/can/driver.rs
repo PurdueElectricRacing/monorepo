@@ -27,6 +27,8 @@ pub trait Driver {
         None
     }
 
+    fn update_bus(&mut self, _bus: Option<&superdbc::database::Bus>) {}
+
     fn close(&mut self) -> DriverResult<()> {
         Ok(())
     }
@@ -51,12 +53,7 @@ pub fn create_driver(
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
         connection::ConnectionSource::Simulated(true) => {
             let messages = bus
-                .map(|bus| {
-                    bus.messages()
-                        .iter()
-                        .map(|message| (message.identity(), usize::from(message.length_bytes())))
-                        .collect()
-                })
+                .map(|bus| bus.messages().to_vec())
                 .unwrap_or_default();
             Ok(Box::new(SimulatedDriver {
                 messages,
@@ -138,37 +135,137 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
 }
 
 struct SimulatedDriver {
-    messages: Vec<(frame::CanIdentity, usize)>,
+    messages: Vec<superdbc::message::Message>,
     next: time::Instant,
 }
 
 impl Driver for SimulatedDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
+        use rand::prelude::IndexedRandom as _;
         use rand::Rng as _;
         use rand::RngExt as _;
-        use rand::prelude::IndexedRandom as _;
         let now = time::Instant::now();
         if now < self.next {
             return Err(DriverError::Timeout);
         }
         self.next += time::Duration::from_millis(1);
         let mut rng = rand::rng();
-        let (identity, size) = match self.messages.choose(&mut rng).copied() {
-            Some(message) => message,
-            None => {
-                let identity =
-                    frame::CanIdentity::new(rng.random_range(0..=can::STANDARD_ID_MASK), false)
-                        .map_err(|error| DriverError::Read(error.to_string()))?;
-                (identity, 8)
-            }
-        };
+
+        if self.messages.is_empty() {
+            let identity =
+                frame::CanIdentity::new(rng.random_range(0..=can::STANDARD_ID_MASK), false)
+                    .map_err(|error| DriverError::Read(error.to_string()))?;
+            let mut data = vec![0u8; 8];
+            rng.fill_bytes(&mut data);
+            let frame = frame::CanFrame::data(identity, data).map_err(DriverError::Read)?;
+            return Ok(vec![frame]);
+        }
+
+        let message = self.messages.choose(&mut rng).unwrap();
+        let identity = message.identity();
+        let size = usize::from(message.length_bytes());
 
         if size > 8 {
             return Err(DriverError::Timeout);
         }
 
-        let mut data = vec![0; size];
-        rng.fill_bytes(&mut data);
+        let mut data = vec![0u8; size];
+        if message.signals.is_empty() {
+            rng.fill_bytes(&mut data);
+        } else {
+            for signal in &message.signals {
+                let unit = signal.unit().trim();
+                let is_percentage = unit == "%"
+                    || unit.eq_ignore_ascii_case("percent")
+                    || unit.eq_ignore_ascii_case("percentage");
+
+                let bits: u64 = if is_percentage {
+                    let (min_phys, max_phys) = if let Some(limits) = signal.limits() {
+                        let min_p = limits.min.clamp(0.0, 100.0);
+                        let max_p = limits.max.clamp(0.0, 100.0);
+                        if min_p <= max_p {
+                            (min_p, max_p)
+                        } else {
+                            (0.0, 100.0)
+                        }
+                    } else {
+                        (0.0, 100.0)
+                    };
+
+                    match signal.raw_type() {
+                        superdbc::message::RawType::Float32 => {
+                            let phys = rng.random_range(min_phys as f32..=max_phys as f32);
+                            let raw = (phys - signal.offset() as f32) / signal.scale() as f32;
+                            u64::from(raw.to_bits())
+                        }
+                        _ => {
+                            let scale = signal.scale();
+                            let offset = signal.offset();
+                            let r1 = (min_phys - offset) / scale;
+                            let r2 = (max_phys - offset) / scale;
+                            let lower = (r1.min(r2).ceil() as i128)
+                                .clamp(signal.codec.min, signal.codec.max);
+                            let upper = (r1.max(r2).floor() as i128)
+                                .clamp(signal.codec.min, signal.codec.max);
+                            let raw = if lower <= upper {
+                                rng.random_range(lower..=upper)
+                            } else {
+                                (r1.round() as i128).clamp(signal.codec.min, signal.codec.max)
+                            };
+                            raw as u64
+                        }
+                    }
+                } else {
+                    let choices: Vec<i128> = signal.choices().map(|(val, _)| val).collect();
+                    if !choices.is_empty() {
+                        let &raw = choices.choose(&mut rng).unwrap();
+                        raw as u64
+                    } else {
+                        match signal.raw_type() {
+                            superdbc::message::RawType::Float32 => {
+                                let (min_p, max_p) = if let Some(limits) = signal.limits() {
+                                    (limits.min as f32, limits.max as f32)
+                                } else {
+                                    (-100.0f32, 100.0f32)
+                                };
+                                let (min_p, max_p) = if min_p <= max_p {
+                                    (min_p, max_p)
+                                } else {
+                                    (max_p, min_p)
+                                };
+                                let phys = rng.random_range(min_p..=max_p);
+                                let raw = (phys - signal.offset() as f32) / signal.scale() as f32;
+                                u64::from(raw.to_bits())
+                            }
+                            _ => {
+                                let (lower, upper) = if let Some(limits) = signal.limits() {
+                                    let scale = signal.scale();
+                                    let offset = signal.offset();
+                                    let r1 = (limits.min - offset) / scale;
+                                    let r2 = (limits.max - offset) / scale;
+                                    let lower = (r1.min(r2).ceil() as i128)
+                                        .clamp(signal.codec.min, signal.codec.max);
+                                    let upper = (r1.max(r2).floor() as i128)
+                                        .clamp(signal.codec.min, signal.codec.max);
+                                    if lower <= upper {
+                                        (lower, upper)
+                                    } else {
+                                        (signal.codec.min, signal.codec.max)
+                                    }
+                                } else {
+                                    (signal.codec.min, signal.codec.max)
+                                };
+                                let raw = rng.random_range(lower..=upper);
+                                raw as u64
+                            }
+                        }
+                    }
+                };
+
+                signal.codec.insert(&mut data, bits);
+            }
+        }
+
         let frame = frame::CanFrame::data(identity, data).map_err(DriverError::Read)?;
 
         Ok(vec![frame])
@@ -176,6 +273,10 @@ impl Driver for SimulatedDriver {
 
     fn write_frame(&mut self, _: frame::CanFrame) -> DriverResult<()> {
         Ok(())
+    }
+
+    fn update_bus(&mut self, bus: Option<&superdbc::database::Bus>) {
+        self.messages = bus.map(|b| b.messages().to_vec()).unwrap_or_default();
     }
 }
 mod serial {
@@ -297,5 +398,84 @@ mod serial {
                 .close()
                 .map_err(|e| can::driver::DriverError::Write(e.to_string()))
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path;
+
+    #[test]
+    fn test_simulated_driver_percentage_range() {
+        let path = path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../superdbc/superdbc_ff4fade.json");
+        let database = superdbc::database::Database::load(&path).expect("failed to load database");
+
+        for bus in database.buses() {
+            let mut driver = SimulatedDriver {
+                messages: bus.messages().to_vec(),
+                next: time::Instant::now(),
+            };
+
+            let mut checked_percentage_count = 0;
+
+            for _ in 0..1000 {
+                // Ensure next time does not cause timeout
+                driver.next = time::Instant::now() - time::Duration::from_millis(10);
+                let frames = driver.read_frames().expect("read_frames failed");
+                for frame in frames {
+                    if let Ok(decoded) = bus.decode(frame.identity, &frame.data) {
+                        let msg_def = bus.message(frame.identity).expect("message definition missing");
+                        for (name, value) in decoded.iter() {
+                            let sig_def = msg_def.signal(name).expect("signal definition missing");
+                            let unit = sig_def.unit().trim();
+                            if unit == "%" || unit.eq_ignore_ascii_case("percent") || unit.eq_ignore_ascii_case("percentage") {
+                                let phys = value.physical();
+                                assert!(
+                                    phys >= 0.0 && phys <= 100.0,
+                                    "Signal '{}' percentage value {} is out of 0..=100 range",
+                                    name,
+                                    phys
+                                );
+                                checked_percentage_count += 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if bus.messages().iter().any(|m| m.signals.iter().any(|s| s.unit() == "%")) {
+                assert!(checked_percentage_count > 0, "Expected to check at least one percentage signal on bus {}", bus.name());
+            }
+        }
+    }
+
+    #[test]
+    fn test_simulated_driver_update_bus() {
+        let path = path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../superdbc/superdbc_ff4fade.json");
+        let database = superdbc::database::Database::load(&path).expect("failed to load database");
+
+        let mut driver = SimulatedDriver {
+            messages: Vec::new(),
+            next: time::Instant::now() - time::Duration::from_millis(10),
+        };
+
+        // When empty, read_frames returns random fallback frame
+        let frames = driver.read_frames().expect("read_frames failed");
+        assert_eq!(frames.len(), 1);
+
+        // Update with first bus
+        let bus0 = database.buses().first().expect("no bus 0");
+        driver.update_bus(Some(bus0));
+        assert_eq!(driver.messages.len(), bus0.messages().len());
+
+        driver.next = time::Instant::now() - time::Duration::from_millis(10);
+        let frames = driver.read_frames().expect("read_frames failed");
+        assert_eq!(frames.len(), 1);
+        assert!(bus0.message(frames[0].identity).is_some());
+
+        // Update with None
+        driver.update_bus(None);
+        assert!(driver.messages.is_empty());
     }
 }
