@@ -27,6 +27,19 @@
 // VREF2 = 3.0v and is the input to the thermistor voltage divider
 #define ADBMS_GPIO_VIN (3.0f)
 
+// Wait longer than the ADBMS6380 ~2.2 s inactivity sleep timeout so that a
+// full sleep-wake cycle elapses during recovery before we retry connecting
+#define ADBMS_CHIP_SLEEP_CYCLE_MS (2'500U)
+
+// Number of consecutive failed recovery cycles (each a full sleep-wake
+// attempt) before the driver enters the latching FATAL state
+#define ADBMS_RECOVERY_MAX_ATTEMPTS (4)
+
+// Readings outside these are treated as corrupted data rather than real measurements
+// and causes a transition to RECOVERING.
+#define ADBMS_CELL_MIN_VALID_V (1.0f)
+#define ADBMS_CELL_MAX_VALID_V (5.0f)
+
 // Max SPI TX is a command + all the data packets for all the modules.
 #define ADBMS_SPI_TX_BUFFER_SIZE \
     (ADBMS6380_COMMAND_PKT_SIZE + (ADBMS_MODULE_COUNT * ADBMS6380_SINGLE_DATA_PKT_SIZE))
@@ -49,10 +62,11 @@
 /**
  * @brief ADBMS driver connection/operation state.
  */
-typedef enum {
-    ADBMS_STATE_IDLE       = 0, // Not connected or awaiting re-connection.
-    ADBMS_STATE_CONNECTED  = 1, // Actively connected and reading/controlling
-    ADBMS_STATE_RECOVERING = 2, // Detected an error and attempting to recover
+typedef enum : uint8_t {
+    ADBMS_STATE_CONNECTING = 0, // Connect sequence (write then verify for rega/regb, start conversions)
+    ADBMS_STATE_READ_LOOP  = 1, // Measure/balance cycle (cells, temps, balance, REGB write/verify)
+    ADBMS_STATE_RECOVERING = 2, // Non-blocking wait for a full chip sleep-wake cycle
+    ADBMS_STATE_FATAL      = 3, // Latching terminal state after repeated failed recovery
 } adbms_state_t;
 
 /**
@@ -104,7 +118,10 @@ typedef struct {
 typedef struct {
     /** Current driver state. */
     adbms_state_t state;
-
+    /** Time captured when entering RECOVERING. */
+    uint32_t recover_start_tick_ms;
+    /** Consecutive recovery cycles (sleep-wake retries) without a successful connect. */
+    uint8_t recovery_attempts;
     /** Per-module state and measurements. */
     adbms_module_t modules[ADBMS_MODULE_COUNT];
 
@@ -124,7 +141,7 @@ typedef struct {
     /** Average thermistor temperature across all modules (Celsius). */
     float avg_therm_temp;
 
-    /** True if cell discharge balancing is permitted by higher-level logic. */
+    /** true if cell discharge balancing is permitted by higher-level logic. */
     bool is_balancing_enabled;
 
     /** SPI instance used for ADBMS communication (CS control is manual by ADBMS6380 driver). */
@@ -134,10 +151,6 @@ typedef struct {
     /** RX buffer for multi-module readouts. */
     uint8_t rx_buf[ADBMS_SPI_RX_BUFFER_SIZE];
 
-    /** Set on any SPI transfer/read failure. Should be a terminal error. */
-    bool err_spi;
-    /** Set when connect/initialization sequence fails. Retry logic up to higher-level logic. */
-    bool err_connect;
     /** Aggregated REGA mismatch flag across modules. */
     bool err_rega_mismatch;
     /** Aggregated REGB mismatch flag across modules. */
@@ -156,8 +169,8 @@ typedef struct {
 /**
  * @brief Initialize the ADBMS driver instance and TX buffer.
  *
- * Sets the driver state to idle, clears discharge flags (and discharged enabled),
- * and sets the provided SPI config and TX buffer into the internal strbuf.
+ * Sets the driver state to disconnected, clears discharge flags and error
+ * flags, and sets the provided SPI config and TX buffer into the internal strbuf.
  *
  * @param bms Pointer to driver state to initialize.
  * @param spi SPI configuration used for ADBMS transactions.
@@ -187,7 +200,7 @@ void adbms_write_regb(adbms_bms_t *bms);
  * not match the cached REGA data.
  *
  * @param bms Pointer to driver state.
- * @return False on SPI failure, PEC error, or when there is a mismatch; true otherwise.
+ * @return false on PEC error or when there is a mismatch; true otherwise.
  */
 bool adbms_read_and_check_rega(adbms_bms_t *bms);
 /**
@@ -197,24 +210,30 @@ bool adbms_read_and_check_rega(adbms_bms_t *bms);
  * not match the cached REGB data.
  *
  * @param bms Pointer to driver state.
- * @return False on SPI failure, PEC error, or when there is a mismatch; true otherwise.
+ * @return false on PEC error or when there is a mismatch; true otherwise.
  */
 bool adbms_read_and_check_regb(adbms_bms_t *bms);
 
 /**
- * @brief Perform the connect/bring-up sequence for all modules.
+ * @brief Start continuous cell voltage conversions on all modules.
  *
- * Writes REGA/REGB, verifies read-back, and starts ADCV conversions.
+ * Sends ADCV and returns immediately. We can't know if the call failed,
+ * but the corruption check in the next read will catch it.
  *
  * @param bms Pointer to driver state.
  */
-void adbms_connect(adbms_bms_t *bms);
+void adbms_start_adcv(adbms_bms_t *bms);
 
 /**
  * @brief Read all cell voltages and update module/pack statistics.
  *
  * Updates per-module min/max/avg/sum and aggregated min/max/avg/sum for
- * the full pack.
+ * the full pack. Does not modify driver state; the caller decides the
+ * transition.
+ *
+ * PEC failures are recorded in @ref err_cell_voltage_pecs. If there is one,
+ * the corresponding command's cell voltages are not updated, but the other
+ * modules' cell voltages are still updated.
  *
  * @param bms Pointer to driver state.
  */
@@ -224,7 +243,12 @@ void adbms_read_cells(adbms_bms_t *bms);
  * and update module/pack statistics.
  *
  * Updates per-module min/max/avg for thermistor temperatures and aggregated
- * min/max/avg for the full pack.
+ * min/max/avg for the full pack. Does not modify driver state; the caller
+ * decides the transition.
+ *
+ * PEC failures are recorded in @ref err_gpio_voltage_pecs. If there is one,
+ * the corresponding command's GPIO voltages are not updated, but the other
+ * modules' GPIO voltages are still updated.
  *
  * @param bms Pointer to driver state.
  */
@@ -242,22 +266,9 @@ void adbms_read_therms(adbms_bms_t *bms);
  * @param min_delta Voltage delta above minimum to start discharging.
  */
 void adbms_calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float min_delta);
-/**
- * @brief Compute discharge flags and write REGB to apply balancing.
- *
- * Calls adbms_calculate_balance_cells(), writes REGB, and verifies it.
- *
- * @param bms Pointer to driver state.
- * @param min_voltage Minimum pack voltage required to allow balancing.
- * @param min_delta Voltage delta above minimum to start discharging.
- */
-void adbms_balance_and_update_regb(adbms_bms_t *bms, float min_voltage, float min_delta);
 
 /**
  * @brief Periodic service routine for connection, measurements, and balancing.
- *
- * If idle, attempts to connect. When connected, reads cells and thermistors,
- * then updates balancing + REGB.
  *
  * @param bms Pointer to driver state.
  * @param min_voltage_for_balance Minimum pack voltage required to allow balancing.
