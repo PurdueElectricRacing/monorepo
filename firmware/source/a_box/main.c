@@ -162,6 +162,7 @@ int main(void) {
     // TODO: Re-enable after IMD PWM capture is updated for the new schematic.
     // imd_init();
 
+    PHAL_GPIO_write(SPI2_CS_PORT, SPI2_CS_PIN, true);
     adbms6380_set_cs_high(&bms_spi_config);
 
     if (!PHAL_SPI_init(&bms_spi_config)) {
