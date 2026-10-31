@@ -17,3 +17,4 @@ pub mod viewer_list;
 pub mod viewer_table;
 
 pub mod timeline;
+pub mod diagnostics;
