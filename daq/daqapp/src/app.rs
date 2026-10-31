@@ -1,6 +1,7 @@
 use crate::{
     action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
 };
+
 use std::{error, mem, path, sync::mpsc};
 const MAX_CAN_EVENTS_PER_UPDATE: usize = 2_048;
 

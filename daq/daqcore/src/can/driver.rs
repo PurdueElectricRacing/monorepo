@@ -6,6 +6,7 @@ use crate::{
     can, connection, connection::CanBusSpeed, fil::config as fil_config, frame, frame::CanFrame,
     log_parse, superdbc,
 };
+
 use std::{error, fmt, io, mem, net, time};
 
 use rand::RngExt as _;
