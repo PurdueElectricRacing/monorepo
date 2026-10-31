@@ -14,7 +14,6 @@
 void PHAL_CRC32_Reset(void) {
     // CRC initializaion
     RCC->AHB1ENR |= RCC_AHB1ENR_CRCEN; // F4 only supports CRC-32b
-    (void)RCC->AHB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
     CRC->CR = CRC_CR_RESET;
 }
 

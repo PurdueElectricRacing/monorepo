@@ -426,15 +426,15 @@ behavior for unchanged hardware interfaces. Paths are under
 
 | Area / audit IDs | Minimum migration work |
 | --- | --- |
-| RCC-01/03/04/05/06 | Keep 16 MHz HSE, choose a legal F423 clock tree, set required VOS/flash latency and APB dividers before increasing clocks, and supply correct clocks to enabled consumers. Retain existing APIs/error policy. General PLL search, dynamic reconfiguration, timeout/fallback framework and arbitrary-request validation are deferred. |
+| RCC-01/03/04/05; RCC-06 deferred | Keep 16 MHz HSE, choose a legal F423 clock tree, set required VOS/flash latency and APB dividers before increasing clocks, and supply correct clocks to enabled consumers. Retain existing APIs/error policy. General PLL search, dynamic reconfiguration, timeout/fallback framework and arbitrary-request validation are deferred. |
 | GPIO-01/02/03; BOARD-01–03 | Fix device/register selection and provide bonded pins/AFs and required electrical settings. DAQ mapping stays in its stacked PR; preserve existing SD/power-loss behavior. New pin validation and unrelated GPIO cleanup are deferred. |
 | ADC-01 | Use the F423 common block and single ADC instance; keep existing conversion behavior. ADC-02/03 validation/reinitialization improvements are deferred unless an existing F4 target needs them to run. |
-| SPI-01–05; DMA-01–04 | Preserve compatible register/DMA interfaces and existing transfer modes. Supply a valid W5500 clock request and correct only demonstrated migration blockers or applicable F423 errata on enabled paths. General DMA/SPI lifecycle, input-validation and polling rewrites are deferred. |
+| SPI-01–05; DMA-01–04 | Preserve compatible register/DMA interfaces and existing transfer modes. Supply a valid W5500 clock request and correct only F423-specific differences or demonstrated migration blockers. General DMA/SPI lifecycle, input-validation and polling rewrites are deferred. |
 | UART-01/02 | Select the existing SR/DR path, correct F423-specific DMA routing (UART5 TX channel 8), and ensure enabled consumers have unique IRQ owners. Framing/flow-control/receive-policy redesign in UART-03/04 is deferred. |
 | FLASH-01 | Keep F423 geometry/address/sector lookup correct. A new table abstraction and generalized validation/status/cache refactors in FLASH-02–04 are deferred unless required by an enabled migration consumer. |
 | RTC-01–03; PWM-01–03; CRC-01; WDG-01/02 | Preserve compatible operation and public contracts; update device guards and changed clock dependencies where necessary. Inherited calendar, timer, watchdog and validation bugs remain follow-up unless demonstrated to block a migrated target. |
 | CAN-01/02/04; TOPO-01–03 | Add the board-required CAN3/filter/IRQ path, retain correct timing at the selected PCLK1, and carry three bus identities end to end. Change host/log format only where the current format cannot represent them. General CAN timeout/recovery work in CAN-03 is deferred. |
-| SDIO-01/02; ERR-01/02 | Remove reserved F423 bits, use the required pin/kernel-clock/divider settings and resolve applicable F423 errata for enabled transfers. Do not rewrite all peripheral enable sites or unused modes without a demonstrated requirement. |
+| SDIO-01/02; ERR-01–05 | Remove reserved F423 bits, use the required pin/kernel-clock/divider settings and review enabled transfers against the errata matrix. Inherited F407 limitations are deferred unless changed hardware/configuration or bring-up establishes a concrete blocker; retain new-board electrical validation. |
 | VAL-01–03; G | Build all existing F4 targets and G4 regression targets, check F423 memory/vectors, then verify migrated board functions on hardware. Broader audit defects are recorded, not silently marked fixed. |
 
 ### Audit follow-ups
@@ -500,31 +500,22 @@ the table above to each subtask before implementing it.
   range and measured clocks at bring-up; another range needs its table column.
   General live clock/VOS changes and latency reduction remain deferred, with
   the existing API, PLL search and wait/error policy preserved.
-- [x] **RCC-05 — select the 48 MHz SDIO kernel clock (2026-10-30).** Keep the
-  existing PLLQ calculation and reject VCO rates not exactly divisible by 48 MHz
-  before register writes. Explicitly clear `CK48MSEL` and `SDIOSEL` to select
-  main PLLQ → CK48 → SDIO (RM0430 §6.3.29), preserving unrelated mux fields.
-  DAQ's selected 192 MHz VCO / Q=4 supplies exactly 48 MHz; the old 200 MHz /
-  Q=4 result (50 MHz) is rejected. No clock API or other PLL search changes.
-  **Verified:** temporary ASan/UBSan register checks cover all four prior mux
-  combinations, Q=4/48 MHz, preservation of unrelated mux bits, and rejection of
-  200/201/202 MHz VCO requests before hardware writes. All configured F423/G4
-  targets and all three F4 bench variants build. Measure the resulting SDIO
-  clock on hardware with the stacked pinout PR; USB remains unused.
-- [x] **RCC-06 — synchronize startup clock reporting (2026-10-30).** Keep the
-  existing `SystemCoreClockUpdate()` calls after source switches; add the missing
-  call after HPRE changes. Set `AHBClockRateHz` from CMSIS HCLK and APB globals
-  from the programmed PPRE fields using CMSIS `APBPrescTable`. The selected DAQ
-  rates remain 96/24/24 MHz; bench examples retain their 16 MHz settings. Update
-  the APB maximum-rate comments to F423's 50/100 MHz limits.
-  **Verified:** 450 temporary ASan/UBSan arithmetic/register cases cover both
-  16/96 MHz sources, all supported AHB divisors and APB divisor combinations.
-  CMSIS HCLK and AHB/APB globals match the programmed rates. All configured
-  F423/G4 firmware targets and all three F4 bench variants build.
-  **Still open:** BOARD-01 must confirm HSE drive type before changing the
-  existing bypass policy. Measure the RTOS 1 ms tick and clocks on hardware
-  without stealing MCAN RX on PA8. General request validation and live clock
-  reconfiguration are deferred; API and error behavior are unchanged.
+- [x] **RCC-05 — select the 48 MHz SDIO kernel clock (2026-10-30).**
+  Explicitly clear `CK48MSEL` and `SDIOSEL` to select main PLLQ → CK48 → SDIO
+  (RM0430 §6.3.29), preserving unrelated mux fields. DAQ's selected 192 MHz
+  VCO / Q=4 supplies exactly 48 MHz with the existing PLLQ calculation.
+  **Scope correction:** reverted the new modulo-based rejection of arbitrary
+  VCO requests; it does not affect the selected configuration and changes the
+  inherited error policy. General PLL validation remains RCC-02 follow-up.
+  Rebuild all targets and measure the SDIO clock with the stacked pinout PR.
+- [ ] **RCC-06 — deferred: general clock reporting improvements.** Reverted
+  the extra CMSIS update after HPRE and deriving globals from actual divider
+  fields. All current targets use HPRE=/1 and exact requested APB divisors:
+  DAQ reports 96/24/24 MHz and bench examples 16/16/16 MHz with the existing
+  reporting. Keep source-switch CMSIS updates and F423 limit comments.
+  If a consumer needs other divisors or nonexact requests, update reporting
+  and test the real HCLK/PPRE values then. BOARD-01's HSE drive-type check and
+  measured RTOS tick/clock acceptance remain required independently.
 
 ### K.2. GPIO and board-independent pin macros
 
@@ -718,6 +709,9 @@ the table above to each subtask before implementing it.
   for synchronization before use or repeated INIT as ES0372 requires.
   **Verify:** cold start, software reset, repeated forced sync, absent LSI-ready,
   differing retained source and actual board VBAT/retention behavior.
+  **Scope correction (2026-10-30):** reverted new DBP readbacks and RSF waits.
+  These address inherited F407 errata, not a demonstrated migration blocker.
+  Keep the fix plan above as deferred work; investigate if bring-up shows a failure.
 - [ ] **RTC-03 — return a consistent timestamp.** Implement the documented
   shadow/snapshot sequence plus the applicable ES0372 consistency workaround,
   rather than rereading TR/DR independently per field. Keep the current decimal
@@ -725,6 +719,9 @@ the table above to each subtask before implementing it.
   inputs remain BCD where expected. Update callers atomically if API changes.
   **Verify:** midnight/month rollover snapshots and filename/GPS conversions
   cannot mix dates/times or reinterpret decimal as BCD.
+  **Scope correction (2026-10-30):** reverted the new snapshot/retry algorithm;
+  F407 has the same shadow-lock erratum. Preserve existing reads/decimal API
+  for this port; the detailed fix remains deferred unless a migration blocker appears.
 
 ### K.9. PWM
 
@@ -838,26 +835,37 @@ the table above to each subtask before implementing it.
   milliseconds. Account for flash stalls and flush duration. Apply the relevant
   IWDG errata if low-APB/Stop behavior is used. **Verify:** minimum/maximum
   expected reset interval and watchdog behavior during stress/power-loss tests.
-- [x] **ERR-01 — apply RCC enable settling (2026-10-30).** ES0372 Rev 8
-  §2.2.7 explicitly permits a dummy read of the corresponding RCC register
-  immediately after enabling a peripheral clock. Added volatile readbacks at
-  38 sites: GPIO A–H, DMA1/2, SPI1/2, ADC1, CAN1/2/3, USART1/2/3/6,
-  UART4/5, TIM1–5/8–14, PWR in RTC initialization, CRC, SDIO and DAQ SYSCFG.
-  The PWR enable in RCC voltage scaling already had one. Kept the workaround
-  at each enable write, without a new API or changes to peripheral settings.
-  **Verified:** all 39 AHB/APB enable sites in PHAL F4, SDIO and DAQ have an
-  immediate readback; optimized ADC disassembly retains the RCC load between
-  enable and first peripheral access. All configured firmware/G4 targets and
-  F4 bench variants 0/1/2 build. Initial-access observation on actual silicon
-  remains part of VAL-03; this does not close the separate RTC DBP erratum.
-- [ ] **ERR-02 — close the errata applicability record.** Record actual silicon
-  revision, enabled features, relevant ES0372 sections, implemented workaround
-  IDs and evidence. RTC DBP/calendar/INIT links to RTC-02/03; SPI to SPI-05;
-  SDIO to SDIO-02. SPI1+SDIO are both APB2 and do not alone establish §2.2.11's
-  AHB-peripheral DMA2 scenario. Mark it not triggered for that configuration
-  and reassess if QUADSPI/FSMC/GPIO DMA is introduced. Review core limitations
-  and newly enabled modes instead of marking all peripheral errata cleared.
-  **Verify:** no enabled-feature limitation lacks a resolution or explicit gate.
+- [ ] **ERR-01 — deferred: broad RCC enable settling.** Reverted the 38
+  added readbacks because this limitation also affects F407 (ES0182 §2.2.13).
+  Keep the readback in the new F423 voltage-scaling startup sequence: that
+  path newly enables PWR and immediately accesses it. For a demonstrated
+  initial-access failure, add the ES0372 §2.2.7 readback at that path and
+  verify the first access; do not rewrite unrelated drivers for this migration.
+- [x] **ERR-02 — complete the errata desk review (2026-10-30).**
+  [Full applicability matrix](f423_errata_review.md) covers every numbered
+  ES0372 Rev 8 limitation/documentation correction, including the inconsistent
+  §2.2.13 paragraph, against DAQ and the three bench selections. The subsequent
+  comparison with F407's ES0182 distinguishes inherited reliability findings
+  from F423 compatibility work. Review completion is not workaround completion.
+  SPI shutdown and the selected SDIO clocks already comply; SPI1+SDIO alone
+  do not trigger the AHB-peripheral DMA2 corruption condition. Known inherited
+  defects stay recorded, with fixes deferred absent a demonstrated blocker.
+- [ ] **ERR-03 — deferred: core exception-return workaround (§2.1.3).**
+  Reverted all 26 new ISR exit barriers and the three FreeRTOS hooks.
+  Arm 838869 also affects F407 (ES0182 §2.1.3); no new failure has been shown.
+  C1 in the matrix retains the proposed DSB/optimized-exit/IRQ-stress plan.
+  This is not a mandatory migration step under the user's minimum-change scope.
+- [ ] **ERR-04 — deferred: missed backup-domain POR (§2.2.12).**
+  Also inherited from F407 (ES0182 §2.2.20). Keep B1's conditional reset plan
+  in the matrix; do not add a new reset/retention policy solely for this port.
+  BOARD-01 still needs actual VBAT wiring/retention behavior. Reassess if the
+  new board's power contract or bring-up demonstrates a concrete requirement.
+- [ ] **ERR-05 — board/silicon acceptance.** Record actual chip marking and
+  DBGMCU revision; check S1's SCK load/supply/temperature condition for the new
+  board and test the enabled paths in VAL-03. U1's missed-IDLE limitation is
+  deferred for future USART RX consumers; the current bench transmits printf.
+  Hardware testing can reveal migration blockers; it does not automatically
+  authorize every inherited fix listed in the matrix.
 
 ## L. Audit coverage and resolution policy
 
@@ -882,7 +890,7 @@ only the minimum compatibility work in K is required for this migration.
 | CRC polynomial/seed/reset/word ordering and fallback | CRC-01 |
 | SDIO route/dividers/kernel clocks/IRQ ownership/flow-control errata | SDIO-01/02; RCC-05; DMA-04; BOARD-02 |
 | Watchdog APB1FZ compatibility, PR/RLR completion, LSI-derived timing | WDG-01/02 |
-| RCC delay, RTC errata, SDIO underrun, SPI timing, conditional DMA2 corruption, other core/peripheral limits | ERR-01/02 plus linked RTC/SPI/SDIO items |
+| RCC delay, RTC errata, SDIO underrun, SPI timing, conditional DMA2 corruption, other core/peripheral limits | ERR-01–05; [complete errata matrix](f423_errata_review.md); linked RTC/SPI/SDIO items |
 | Syntax checks are not runtime sign-off; source/binary/header and board evidence | VAL-01–03; M |
 
 For modes unused by migrated targets, preserve existing behavior and record
@@ -947,3 +955,38 @@ pinout integration from final new-board acceptance:
   **Verify:** provide an acceptance matrix linking every enabled path/work item
   to a passing result, a documented unsupported-mode policy, or an unresolved
   issue that blocks the corresponding completion claim.
+
+
+## N. Branch scope review (2026-10-30)
+
+Reviewed the project-owned runtime/build changes against the branch base
+`2e1b732d2` and compared shared errata with
+[ES0182 Rev 19](https://www.st.com/resource/en/errata_sheet/es0182-stm32f405407xx-and-stm32f415417xx-device-errata-stmicroelectronics.pdf).
+Reversions are working-tree changes; existing commits/history are preserved.
+
+| Change | Decision and reason |
+| --- | --- |
+| ISR barriers / FreeRTOS exit hooks | Reverted: inherited Arm 838869 reliability fix; no F423-specific failure established. |
+| RTC DBP/snapshot/INIT workarounds | Reverted: same F407 limitations (§§2.2.17, 2.9.2, 2.9.4); preserve original operation and decimal API. |
+| Broad peripheral enable readbacks | Reverted: same F407 clock-enable limitation. Retained only the settling read in the newly added PWR/VOS path. |
+| RCC HPRE reporting/APB-derived globals | Reverted: current HPRE=/1 and exact dividers already report correct clocks. General improvements are deferred. |
+| PLLQ modulo rejection | Reverted: selected 192 MHz / 4 is exact already; do not change arbitrary-request error policy. |
+| 100 MHz cap, DAQ 96 MHz/VCO 192 MHz, VOS/latency, startup APB1 divider and F423 muxes | Retained: legal selected F423 clock operation, including avoiding a transient APB1 overclock during the new startup. No general dynamic-clock rewrite. |
+| 16 MHz HSE/CMSIS agreement | Retained: user-confirmed board input; shared constant leaves G4's existing 16 MHz behavior unchanged. |
+| Device selection, startup, linker, SVD, flash geometry and obsolete project F407 removal | Retained: direct device/tooling/memory differences and explicitly requested removal. Vendor files remain intact. |
+| GPIO register aliases, package-valid bench pins and new board AF macros | Retained: compile/package/AF compatibility. Actual DAQ pin routing stays in the stacked PR. |
+| ADC1/common-block selection and API simplification | Retained: F423 has one ADC; removing instance arguments was explicitly requested. No general ADC reconfiguration rewrite. |
+| SPI DFF guard, W5500 rate and disabled-before-configuration ordering | Retained: compatible F423 register path; old zero rate is invalid for the divider calculation. Apply the newly defined baud/format with SPE disabled as the register contract requires. No transfer-lifecycle rewrite. |
+| UART5 DMA1 stream7/channel8 and SR/DR guard | Retained: F423 routing/selection differences; other UART behavior unchanged. |
+| CAN3, three-bus mapping/IRQs/GPS source and host 0–3 logging guard | Retained: new board requires the third controller; host guard change was explicitly requested. |
+| SDIO reserved-bit removal and clock review | Retained: bit 9 is reserved on F423; existing dividers satisfy the reviewed inequality without functional changes. |
+| Bench selection override/static-allocation hook link option | Retained: enables verification of every existing F4 example and fixes the demonstrated PWM example link failure. |
+
+**Verified after reversions:** all configured firmware/G4 targets and all three
+F4 bench selections build. A host probe of the actual selected RCC functions
+passes under ASan/UBSan: 16 MHz input, M=8/N=96, P=2/Q=4, 96 MHz HCLK,
+3 WS/Scale 1, initial APB1=/2 then final 24/24 MHz buses; bench globals remain
+16/16/16 MHz. Register readiness is simulated, not hardware timing validation.
+`git diff --check` passes. DMA/CRC match upstream, and the RTOS configuration
+is restored to its pre-barrier form. The full 75-entry errata matrix is retained;
+reverted fixes are documented as deferred rather than implemented.

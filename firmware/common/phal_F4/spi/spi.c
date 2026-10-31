@@ -27,10 +27,8 @@ bool PHAL_SPI_init(SPI_InitConfig_t* cfg) {
     // Enable RCC Clock - Add new cases for each SPI Peripheral, to enable their clocks
     if (cfg->periph == SPI1) {
         RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
-        (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
     } else if (cfg->periph == SPI2) {
         RCC->APB1ENR |= RCC_APB1ENR_SPI2EN;
-        (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
     } else {
         return false;
     }

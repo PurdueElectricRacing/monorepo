@@ -131,8 +131,7 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
     }
 
     uint8_t pll_q_divisor = PLLClockRateHz / 48000000;
-    // SDIO's existing dividers require an exact 48 MHz kernel clock.
-    if (PLLClockRateHz % 48'000'000U != 0 || pll_q_divisor <= 1 || pll_q_divisor > 15) {
+    if (pll_q_divisor <= 1 || pll_q_divisor > 15) {
         return false;
     }
 
@@ -290,8 +289,7 @@ bool PHAL_configureAHBClock(uint32_t ahb_clock_target_hz) {
     rcc_cfgr_temp |= (sys_clk_div);
     RCC->CFGR = rcc_cfgr_temp;
 
-    SystemCoreClockUpdate(); // HPRE changes HCLK, which CMSIS/FreeRTOS report as the core clock.
-    AHBClockRateHz = SystemCoreClock;
+    AHBClockRateHz = ahb_clock_target_hz; // Set global for AHB Clock Rate
     return true;
 }
 
@@ -329,8 +327,7 @@ bool PHAL_configureAPB1Clock(uint32_t apb1_clock_target_hz) {
     rcc_cfgr_temp |= (ahb_clk_div);
     RCC->CFGR = rcc_cfgr_temp;
 
-    APB1ClockRateHz = AHBClockRateHz
-        >> APBPrescTable[(RCC->CFGR & RCC_CFGR_PPRE1_Msk) >> RCC_CFGR_PPRE1_Pos];
+    APB1ClockRateHz = apb1_clock_target_hz; // Set global for APB1
     return true;
 }
 
@@ -368,8 +365,7 @@ bool PHAL_configureAPB2Clock(uint32_t apb2_clock_target_hz) {
     rcc_cfgr_temp |= ahb_clk_div;
     RCC->CFGR = rcc_cfgr_temp;
 
-    APB2ClockRateHz = AHBClockRateHz
-        >> APBPrescTable[(RCC->CFGR & RCC_CFGR_PPRE2_Msk) >> RCC_CFGR_PPRE2_Pos];
+    APB2ClockRateHz = apb2_clock_target_hz; // Set global for APB2
     return true;
 }
 

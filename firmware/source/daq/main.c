@@ -155,7 +155,6 @@ static void configure_interrupts(void) {
     // Configure exti interupt for power loss pin (PE15)
     // Enable the SYSCFG clock for interrupts
     RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
-    (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
     SYSCFG->EXTICR[3] |= SYSCFG_EXTICR4_EXTI15_PE; // Map PE15 to EXTI 15
     EXTI->IMR |= EXTI_IMR_MR15; // Unmask EXTI15
     EXTI->FTSR |= EXTI_FTSR_TR15; // Enable the falling edge trigger (active low reset)
