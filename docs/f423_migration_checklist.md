@@ -532,18 +532,20 @@ the table above to each subtask before implementing it.
 
 ### K.2. GPIO and board-independent pin macros
 
-- [ ] **GPIO-01 — repair F423 compilation.** Guard GPIOI support by actual
-  device availability and use the common `MODER` field names present in both
-  headers (or explicit compatibility definitions). Extend appropriate F4 guards.
-  **Verify:** compile every PHAL source under the F423 device macro;
-  selecting F423 must not depend on defining F407 simultaneously.
-- [ ] **GPIO-02 — make macros match the supported board.** Correct the PB4
-  SPI1 MISO name and introduce the AF12 SDIO PA6/PB15/PA9 alternatives used by
-  BOARD-02. Keep unsupported-package PD0/PD1/PD5/PD6 choices out of the F423RH
-  board table; migrate bench/example macros to valid temporary F423 pins and
-  document their assignments. Validate pin<16,
-  AF<16 and bank membership before shifts/register writes. **Verify:** review
-  every table entry against DS11580 and compile board init independently.
+- [x] **GPIO-01 — repair F423 compilation.** Already completed by the device
+  migration: remove the nonexistent GPIOI case, use F423's `MODER` field names
+  and select the F423 macro branch. All PHAL sources compile with F423 alone.
+- [x] **GPIO-02 — prepare F423 pin macros (2026-10-30).** Correct the unused
+  PB4 AF5 MISO macro name from SPI2 to SPI1. Add explicit AF12 alternatives
+  `GPIO_INIT_SDIO_CMD_PA6`, `GPIO_INIT_SDIO_CLK_PB15` and
+  `GPIO_INIT_SDIO_DT2_PA9`, preserving the existing electrical settings and
+  generic SDIO macros. Checked against DS11580 Rev 8 table 12, pp. 68–69.
+  All four macro initializers compile with the ARM compiler/F423 headers; all
+  configured F423/G4 targets and all three F4 bench variants build. Temporary
+  bench pins were already migrated and documented in `f4_testing/README.md`.
+  **Still open in BOARD-01/02:** apply the supplied DAQ pin map and check bonding,
+  conflicts and electrical settings there. No DAQ initialization table changes
+  are included here. General GPIO argument validation remains deferred.
 - [ ] **GPIO-03 — document electrical settings and reset behavior.** Replace
   absolute MHz comments with speed-grade encodings and datasheet-dependent
   limits. Specify pull, output type, LED polarity, safe initial level and drive
