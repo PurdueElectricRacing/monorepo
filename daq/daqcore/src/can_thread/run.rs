@@ -79,45 +79,17 @@ fn run_with_connection(
                     request_id,
                     selection,
                 } => {
-                    let update: DatabaseUpdate;
-
                     // Load and validate file replacements on the worker
                     // Failures leave both the definitions and bus unchanged.
-                    match &selection {
+                    let update: DatabaseUpdate = match &selection {
                         can_thread::DatabaseRequest::Load {
                             path,
                             preferred_bus,
                         } => {
-                            database = match superdbc::database::Database::load(path)
+                            let loaded_database = match superdbc::database::Database::load(path)
                                 .map_err(|error| error.to_string())
                             {
-                                Ok(loaded_database) => {
-                                    selected_bus_id = match preferred_bus
-                                        .filter(|id| loaded_database.bus_by_id(*id).is_some())
-                                        .or_else(|| {
-                                            loaded_database.bus_by_id(0).map(|bus| bus.bus_id())
-                                        })
-                                        .or_else(|| {
-                                            loaded_database.buses().first().map(|bus| bus.bus_id())
-                                        })
-                                        .ok_or_else(|| {
-                                            "SuperDBC contains no selectable buses".to_owned()
-                                        }) {
-                                        Ok(bus_id) => bus_id,
-                                        Err(error) => {
-                                            emit!(can_thread::CanThreadEvent::DatabaseSelected {
-                                                request_id,
-                                                result: Err(error)
-                                            });
-                                            continue;
-                                        }
-                                    };
-                                    update = can_thread::DatabaseUpdate::Loaded {
-                                        database: Box::new(loaded_database.clone()),
-                                        bus_id: selected_bus_id,
-                                    };
-                                    Some(loaded_database)
-                                }
+                                Ok(database) => database,
                                 Err(error) => {
                                     emit!(can_thread::CanThreadEvent::DatabaseSelected {
                                         request_id,
@@ -126,6 +98,31 @@ fn run_with_connection(
                                     continue;
                                 }
                             };
+
+                            selected_bus_id = match preferred_bus
+                                .filter(|id| loaded_database.bus_by_id(*id).is_some())
+                                .or_else(|| loaded_database.bus_by_id(0).map(|bus| bus.bus_id()))
+                                .or_else(|| loaded_database.buses().first().map(|bus| bus.bus_id()))
+                                .ok_or_else(|| "SuperDBC contains no selectable buses".to_owned())
+                            {
+                                Ok(bus_id) => bus_id,
+                                Err(error) => {
+                                    emit!(can_thread::CanThreadEvent::DatabaseSelected {
+                                        request_id,
+                                        result: Err(error)
+                                    });
+                                    continue;
+                                }
+                            };
+
+                            let loaded_update = can_thread::DatabaseUpdate::Loaded {
+                                database: Box::new(loaded_database.clone()),
+                                bus_id: selected_bus_id,
+                            };
+
+                            database = Some(loaded_database);
+
+                            loaded_update
                         }
 
                         can_thread::DatabaseRequest::Bus { bus_id } => {
@@ -144,9 +141,9 @@ fn run_with_connection(
                                 continue;
                             }
                             selected_bus_id = *bus_id;
-                            update = can_thread::DatabaseUpdate::Bus { bus_id: *bus_id };
+                            can_thread::DatabaseUpdate::Bus { bus_id: *bus_id }
                         }
-                    }
+                    };
 
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
