@@ -10,7 +10,7 @@
 
 extern uint32_t APB1ClockRateHz;
 
-// CAN1 and CAN2 each own half of the 28 shared filter banks.
+// CAN1/2 each own half of 28 shared banks; CAN3 owns 14 independent banks.
 static constexpr uint32_t PHAL_CAN_BANKS_PER_BUS  = 14U;
 static constexpr uint32_t PHAL_CAN_IDS_PER_BANK   = 2U;
 static constexpr uint32_t PHAL_CAN_MAX_FILTER_IDS = PHAL_CAN_BANKS_PER_BUS * PHAL_CAN_IDS_PER_BANK;
@@ -24,7 +24,7 @@ typedef struct {
 } PHAL_CAN_bit_timing_t;
 
 static bool is_valid_bus(const CAN_TypeDef *bus) {
-    return bus == CAN1 || bus == CAN2;
+    return bus == CAN1 || bus == CAN2 || bus == CAN3;
 }
 
 static bool get_bit_timing(PHAL_FDCAN_BaudRate_t bit_rate, uint32_t *timing) {
@@ -61,22 +61,26 @@ static void configure_filters(CAN_TypeDef *bus,
                                       const uint32_t *xid_list,
                                       uint32_t num_xid) {
     // Internal callers validate the bus, list pointers, counts, and IDs first.
-    // Filter configuration uses FINIT; neither CAN bus needs an INRQ transition.
+    // CAN3 has its own filter block; CAN1/2 share the block accessed via CAN1.
+    CAN_TypeDef *filters = (bus == CAN3) ? CAN3 : CAN1;
+    // Filter configuration uses FINIT; no controller needs an INRQ transition.
     uint32_t bank_offset = (bus == CAN2) ? PHAL_CAN_BANKS_PER_BUS : 0U;
     uint32_t bank_mask   = ((1U << PHAL_CAN_BANKS_PER_BUS) - 1U) << bank_offset;
-    CAN1->FMR |= CAN_FMR_FINIT;
-    CAN1->FMR = (CAN1->FMR & ~CAN_FMR_CAN2SB) | (PHAL_CAN_BANKS_PER_BUS << CAN_FMR_CAN2SB_Pos);
-    CAN1->FA1R &= ~bank_mask;
-    CAN1->FFA1R &= ~bank_mask; // Route this bus's banks to FIFO0.
-    CAN1->FS1R |= bank_mask;   // Two 32-bit filter words per bank.
-    CAN1->FM1R |= bank_mask;   // ID-list mode.
+    filters->FMR |= CAN_FMR_FINIT;
+    if (bus != CAN3) {
+        filters->FMR = (filters->FMR & ~CAN_FMR_CAN2SB) | (PHAL_CAN_BANKS_PER_BUS << CAN_FMR_CAN2SB_Pos);
+    }
+    filters->FA1R &= ~bank_mask;
+    filters->FFA1R &= ~bank_mask; // Route this bus's banks to FIFO0.
+    filters->FS1R |= bank_mask;   // Two 32-bit filter words per bank.
+    filters->FM1R |= bank_mask;   // ID-list mode.
 
     uint32_t count = num_sid + num_xid;
     if (count == 0) {
-        CAN1->FM1R &= ~(1U << bank_offset); // Mask mode: accept all.
-        CAN1->sFilterRegister[bank_offset].FR1 = 0;
-        CAN1->sFilterRegister[bank_offset].FR2 = 0;
-        CAN1->FA1R |= 1U << bank_offset;
+        filters->FM1R &= ~(1U << bank_offset); // Mask mode: accept all.
+        filters->sFilterRegister[bank_offset].FR1 = 0;
+        filters->sFilterRegister[bank_offset].FR2 = 0;
+        filters->FA1R |= 1U << bank_offset;
     } else {
         for (uint32_t i = 0; i < count; ++i) {
             uint32_t word = i < num_sid
@@ -84,16 +88,16 @@ static void configure_filters(CAN_TypeDef *bus,
                 : (xid_list[i - num_sid] << CAN_TI0R_EXID_Pos) | CAN_TI0R_IDE;
             uint32_t bank = bank_offset + i / PHAL_CAN_IDS_PER_BANK;
             if ((i % PHAL_CAN_IDS_PER_BANK) == 0) {
-                CAN1->sFilterRegister[bank].FR1 = word;
+                filters->sFilterRegister[bank].FR1 = word;
                 // Duplicate the ID until the second word is filled (odd counts stay exact).
-                CAN1->sFilterRegister[bank].FR2 = word;
-                CAN1->FA1R |= 1U << bank;
+                filters->sFilterRegister[bank].FR2 = word;
+                filters->FA1R |= 1U << bank;
             } else {
-                CAN1->sFilterRegister[bank].FR2 = word;
+                filters->sFilterRegister[bank].FR2 = word;
             }
         }
     }
-    CAN1->FMR &= ~CAN_FMR_FINIT;
+    filters->FMR &= ~CAN_FMR_FINIT;
 }
 
 bool PHAL_CAN_init(CAN_TypeDef *bus, PHAL_FDCAN_BaudRate_t bit_rate) {
@@ -102,10 +106,14 @@ bool PHAL_CAN_init(CAN_TypeDef *bus, PHAL_FDCAN_BaudRate_t bit_rate) {
         return false;
     }
 
-    // CAN2 depends on CAN1's clock, including for the shared filter registers.
-    RCC->APB1ENR |= RCC_APB1ENR_CAN1EN;
-    if (bus == CAN2) {
-        RCC->APB1ENR |= RCC_APB1ENR_CAN2EN;
+    if (bus == CAN3) {
+        RCC->APB1ENR |= RCC_APB1ENR_CAN3EN;
+    } else {
+        // CAN2 depends on CAN1's clock, including for the shared filter registers.
+        RCC->APB1ENR |= RCC_APB1ENR_CAN1EN;
+        if (bus == CAN2) {
+            RCC->APB1ENR |= RCC_APB1ENR_CAN2EN;
+        }
     }
     bus->MCR &= ~CAN_MCR_SLEEP;
     bus->MCR |= CAN_MCR_INRQ;
@@ -240,6 +248,14 @@ void CAN2_RX0_IRQHandler(void) {
 
 void CAN2_TX_IRQHandler(void) {
     tx_irq_handler(CAN2);
+}
+
+void CAN3_RX0_IRQHandler(void) {
+    rx_irq_handler(CAN3);
+}
+
+void CAN3_TX_IRQHandler(void) {
+    tx_irq_handler(CAN3);
 }
 
 [[gnu::weak]]
