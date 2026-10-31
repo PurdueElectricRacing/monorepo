@@ -1,11 +1,14 @@
 FROM ubuntu:26.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 # refresh apt
 RUN apt update
 
 # install deps
 RUN apt -y install --no-install-recommends \
     ca-certificates \
+    clang \
     clang-format \
     cmake \
     cppcheck \
@@ -15,7 +18,9 @@ RUN apt -y install --no-install-recommends \
     gcc-arm-none-eabi \
     git \
     lcov \
+    llvm \
     libgtest-dev \
+    libclang-rt-dev \
     libnewlib-arm-none-eabi \
     libssl-dev \
     libudev-dev \
@@ -23,6 +28,7 @@ RUN apt -y install --no-install-recommends \
     libxcb-shape0-dev \
     libxcb-xfixes0-dev \
     libxkbcommon-dev \
+    make \
     ninja-build \
     pkg-config
 
