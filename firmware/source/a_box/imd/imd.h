@@ -39,7 +39,7 @@ static constexpr float IMD_FAULT_MAX_DUTY_PCT = 52.5;
 static constexpr float IMD_RESISTANCE_AT_HALF_DUTY_KOHM = 1200.0;
 static constexpr float IMD_MAX_MEASURABLE_RESISTANCE_KOHM = 10000.0;
 
-// set up TIM1 to measure PWM input (IMD LS) on PA8
+// Set up TIM5 CH2 to measure PWM input (IMD LS) on PC12.
 void imd_init(void);
 
 // Report the newest completed cycle
