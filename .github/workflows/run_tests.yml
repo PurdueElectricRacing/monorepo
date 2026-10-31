@@ -10,14 +10,27 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
+  image:
+    name: CI image
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      image: ${{ steps.built.outputs.image }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: built
+        uses: ./.github/actions/per-image
+
   fil_tests:
     name: FIL PGO and PER integration tests
+    needs: [image]
     runs-on: ubuntu-latest
     timeout-minutes: 30
     container:
-      image: irvingywang/per-firmware:latest
+      image: ${{ needs.image.outputs.image }}
 
     steps:
       - name: Checkout
@@ -28,10 +41,8 @@ jobs:
       - name: Fix git ownership
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      - name: Install FIL PGO tools
+      - name: Verify FIL PGO tools
         run: |
-          apt-get update
-          apt-get install -y --no-install-recommends make clang llvm libclang-rt-dev
           clang++ --version
           llvm-profdata --version
 
@@ -48,9 +59,10 @@ jobs:
 
   unit_tests:
     name: Generator and firmware unit tests
+    needs: [image]
     runs-on: ubuntu-latest
     container:
-      image: irvingywang/per-firmware:latest
+      image: ${{ needs.image.outputs.image }}
 
     steps:
       - name: Checkout
