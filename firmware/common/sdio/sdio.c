@@ -55,6 +55,7 @@ bool PHAL_SDIO_init(void) {
     SDCardInfo       = (SD_CardInfo) {0};
 
     RCC->APB2ENR |= RCC_APB2ENR_SDIOEN;
+    (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
 
     // SDIO IRQ priority must be lower than DMA IRQ (STM SD HAL said so)
     NVIC_SetPriority(SDIO_IRQn, 7);

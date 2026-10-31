@@ -108,11 +108,14 @@ bool PHAL_CAN_init(CAN_TypeDef *bus, PHAL_FDCAN_BaudRate_t bit_rate) {
 
     if (bus == CAN3) {
         RCC->APB1ENR |= RCC_APB1ENR_CAN3EN;
+        (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
     } else {
         // CAN2 depends on CAN1's clock, including for the shared filter registers.
         RCC->APB1ENR |= RCC_APB1ENR_CAN1EN;
+        (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
         if (bus == CAN2) {
             RCC->APB1ENR |= RCC_APB1ENR_CAN2EN;
+            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
         }
     }
     bus->MCR &= ~CAN_MCR_SLEEP;
