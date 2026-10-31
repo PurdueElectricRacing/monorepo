@@ -79,6 +79,28 @@ static uint16_t encode_stack_hwm(uint32_t bytes) {
     return (uint16_t) bytes;
 }
 
+static void send_task_names(const diagnostics_snapshot_t *snapshot) {
+    for (uint32_t i = 0; i < snapshot->task_count; i++) {
+        const diagnostics_task_t *task = &snapshot->tasks[i];
+
+        for (uint8_t index = 0; index < sizeof(task->name); index++) {
+            uint8_t character = (uint8_t)task->name[index];
+
+            DIAGNOSTICS_SEND_NAME(
+                task->task_id,
+                index,
+                character
+            );
+
+            vTaskDelay(1);
+
+            if (character == 0) {
+                break;
+            }
+        }
+    }
+}
+
 void diagnostics_periodic(void) {
     // returns the number of tasks, reads them into the raw_tasks array, returns 0 if DIAGNOSTICS_MAX_TASKS < number of running tasks
     UBaseType_t task_count = uxTaskGetSystemState(g_diagnostics_context.raw_tasks,
@@ -129,4 +151,7 @@ void diagnostics_periodic(void) {
         (uint8_t)snapshot->capacity_exceeded
     );
     save_task_runtimes(task_count);
+    if (snapshot->sample_count % 10 == 1) {
+        send_task_names(snapshot);
+    }
 }
