@@ -195,6 +195,9 @@ fn run_with_connection(
                 can_thread::CanThreadCommand::Hil(command) => {
                     let now = time::Instant::now();
                     hil.handle_command(command, now, database.as_ref(), selected_bus_id);
+                    if !hil.is_running() {
+                        sends.delete_hil();
+                    }
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                     hil_last = now;
                     hil_finished = false;

@@ -106,6 +106,10 @@ impl SendTable {
         self.0.retain(|(identity, _), _| *identity != id);
     }
 
+    pub fn delete_hil(&mut self) {
+        self.0.retain(|(_, index), _| *index == 0);
+    }
+
     pub fn due(&self, now: time::Instant) -> Vec<((frame::CanIdentity, u8), frame::CanFrame)> {
         self.0
             .iter()
