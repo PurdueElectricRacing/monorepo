@@ -24,12 +24,12 @@ Specialized data structure designed specifically for DAQ.
 - DMA friendly
 
 DAQ26 setup:
-- Producer(s): CAN1 and CAN2 ISRs
+- Producers: CAN1/SCAN, CAN2/VCAN and CAN3/MCAN RX0 ISRs
 - Master Consumer: SD thread
 - Follower Consumer: Ethernet thread
 
 Notes:
-- Even though there are actually two producing ISRs (CAN1 and CAN2), they have the same priority and cannot preempt each other, so we can treat them as a single producer for the purposes of this data structure.
+- Even though there are three producing ISRs, they have the same priority and cannot preempt each other, so we can treat them as a single producer for the purposes of this data structure.
 - Data is returned to the consumers in contiguous chunks to optimize for DMA transfers.
     - The total capacity of the buffer is sized to be a multiple of chunk size to prevent fragmentation.
 - If the SD thread falls behind, data will be dropped until it catches up. These "overflows" are tracked in a counter.

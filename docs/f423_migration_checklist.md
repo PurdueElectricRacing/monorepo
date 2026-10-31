@@ -270,26 +270,28 @@ The old board initializes CAN1/VCAN and CAN2/MCAN. The supplied board routes
 not a silicon-driven loss of a bus. Full use of this board needs CAN3 support;
 a two-bus intermediate build must be labeled incomplete for this board.
 
-- [ ] **TOPO-01 — separate controller identity from logical bus ID.** Define one
-  board-owned mapping for CAN1/SCAN, CAN2/VCAN, CAN3/MCAN; use it for init,
-  callbacks, filters, LEDs, diagnostics, and subscriptions. Keep existing
-  logical network IDs from `generators/configs/system/bus_configs.json`
-  (VCAN=0, MCAN=1, SCAN=3); do not renumber the five network buses. Update
-  `generators/configs/external_nodes/DAQ.json` or an explicit DAQ board config
-  to describe the three physical connections; its current VCAN subscription
-  alone is not a physical topology. **Verify:** inject the same CAN identifier
-  on each interface and prove correct bus attribution in logs and UDP.
-  Move GPS-time subscription/queue routing to logical VCAN (now CAN2);
-  `can_callback.c` currently checks CAN1 explicitly. Verify GPS sync receives
-  VCAN messages and ignores the same identifier arriving on SCAN/MCAN.
-- [ ] **TOPO-02 — extend generator and common CAN integration.** Support F423
-  bxCAN architecture guards in `codegen/contexts.py` and remove project-owned
-  F407 selections. Add `CAN3` to `core/declarations.py` and all applicable peripheral
-  views/templates, generated enqueue/filter declarations, shared init/TX/RX
-  routing, queue/IRQ definitions, and exclusive-target checks. `hardware.py`'s
-  CAN/FDCAN distinction is reusable, but filter capacity must respect CAN3's
-  independent 14 banks. **Verify:** regenerate from source; compile examples
-  for F407 CAN1/2, F423 CAN1/2/3 and G474 FDCAN without hand-editing generated files.
+- [x] **TOPO-01 — DAQ controller/logical-bus mapping (2026-10-30).** Add the
+  board-owned `source/daq/can_buses.h`: CAN1=SCAN (3), CAN2=VCAN (0), CAN3=MCAN
+  (1), with corresponding RX0 IRQ aliases. Use it for initialization, frame bus
+  attribution and interrupt setup. Initialize all three using generated baud
+  constants; keep accept-all PHAL filters. Route GPS time by logical VCAN ID,
+  now on CAN2, instead of hard-coded CAN1. Existing generic activity LED behavior
+  is unchanged; physical/new LED assignments remain BOARD-02. The external DAQ
+  node config still describes its VCAN GPS subscription; `can_buses.h` supplies
+  the explicit physical-controller topology without changing subscription schema.
+  **Verified:** temporary ASan/UBSan checks of the actual callback and SPMC init
+  cover identical standard/extended IDs on all controllers, frame IDs 3/0/1,
+  GPS queue updates only for standard VCAN GPS messages, and all RX IRQs enabled
+  at priority 6. All configured F423/G4 targets and three F4 bench variants build.
+  **Still open:** supplied pinout integration and end-to-end on-board logging/
+  UDP tests. Host live bus attribution remains deferred under TOPO-03.
+- [x] **TOPO-02 — use existing generated bus definitions.** After rebasing,
+  generated bus headers already select F423 PHAL and expose all three baud/ID
+  definitions. DAQ initializes PHAL and captures frames directly; it does not
+  use common generated node init/TX/RX queues. No generator expansion is required
+  for the existing F4 targets. Preserve upstream's removal of F4 common node
+  generation; adding future F4 generated nodes is separate work, not a migration
+  prerequisite. Generated files are unchanged.
 - [ ] **TOPO-03 — host bus metadata deferred by user (2026-10-30).** The
   rebased timestamped frame/log format already has two bus-ID bits (31:30),
   IDE in bit 29 and CAN ID in bits 28:0. It supports IDs 0–3 without changing
@@ -302,9 +304,10 @@ a two-bus intermediate build must be labeled incomplete for this board.
   correct multi-bus live decoding/re-logging remains a separate host follow-up.
   Raw on-device logs retain their existing two-bit bus IDs. Historical one-bit
   captures are not newly qualified or converted by this change.
-- [ ] Complete **CAN-01–04** in K before three-bus acceptance. CAN3 requires
-  independent filters/clock/IRQs, and all three SPMC producer IRQs must share
-  the same preemption priority. Extending GPIO macros alone cannot enable it.
+- [ ] Complete on-board verification of CAN-01/02/04 and BOARD-01/02 before
+  three-bus acceptance. CAN3 needs its independent filters/clock/IRQs, and all
+  three SPMC producer IRQs share a preemption priority. General CAN-03 recovery
+  changes and TOPO-03 host attribution remain deferred by scope.
 
 ## G. Memory budget and performance
 
@@ -773,12 +776,17 @@ the table above to each subtask before implementing it.
   sequencing. Define behavior for an absent bus, bus-off and full mailboxes/FIFO.
   **Verify:** unplugged/no-ACK/reconnect and saturated-bus cases return/report
   controlled errors instead of hanging the firmware.
-- [ ] **CAN-04 — integrate three producers correctly.** Complete TOPO-01–03,
-  add CAN3 RX0/TX enable/priority/callback routing as used by DAQ, and give all
-  SPMC producer IRQs the same preemption priority to retain its single-producer
-  assumption. Trace bus→record→queue→SD/UDP→host and attach activity LEDs to
-  logical buses. **Verify:** simultaneous SCAN/VCAN/MCAN input at target load,
-  correct IDs/timestamps and measured overflow/follower-drop counters.
+- [x] **CAN-04 — integrate three DAQ receive producers (2026-10-30).** Initialize
+  the three mapped controllers and enable their RX0 interrupts at the same
+  preemption priority (6). All feed the existing SPMC queue and unchanged 16-byte
+  SD/UDP records. The shared callback supplies the logical bus ID and VCAN-only
+  GPS subscription. DAQ remains a passive CAN logger: TX NVIC interrupts are not
+  enabled because it does not queue CAN transmissions. PHAL TX vectors are ready
+  for a future transmitter. No queue, memory layout or wire-format redesign.
+  **Verified:** TOPO-01 callback/IRQ checks and all firmware/bench builds pass.
+  **Hardware acceptance open:** simultaneous three-bus load, IDs/timestamps in
+  SD/UDP records, overflow/drop counters and GPS sync. Combine with BOARD-02's
+  physical pins first; new activity LED wiring remains in that stacked PR.
 
 ### K.11. CRC, SDIO, watchdog and errata
 
