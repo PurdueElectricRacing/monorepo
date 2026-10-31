@@ -26,6 +26,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 database: app.database.as_ref(),
                 ui_to_can_tx: app.ui_to_can_tx.clone(),
                 formatter: &app.value_formatter,
+                connection_status: &app.connection_status,
             };
             ui.add_enabled_ui(!selection_pending, |ui| {
                 app.tile_tree.ui(&mut behavior, ui);
@@ -41,6 +42,7 @@ struct WorkspaceTileBehavior<'a> {
     database: Option<&'a app::DatabaseSelection>,
     ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
     formatter: &'a Option<daqcore::formatter::Formatter>,
+    connection_status: &'a app::ConnectionStatus,
 }
 
 impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
@@ -59,6 +61,7 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
                 database: self.database,
                 ui_to_can_tx: self.ui_to_can_tx.clone(),
                 formatter: self.formatter,
+                connection_status: self.connection_status,
             },
         )
     }

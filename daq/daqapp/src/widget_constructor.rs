@@ -1,4 +1,4 @@
-use crate::{ui, widget_ids, widgets};
+use crate::{settings, ui, widget_ids, widgets};
 use std::sync::mpsc;
 
 #[derive(Eq, PartialEq, Hash, Clone, Copy, Debug)]
@@ -17,6 +17,7 @@ pub enum WidgetKind {
     Dynamics,
     Jitter,
     Hil,
+    FilControl,
 }
 
 impl WidgetKind {
@@ -49,6 +50,7 @@ pub enum WidgetConstructor {
     Dynamics,
     Jitter,
     Hil,
+    FilControl,
 }
 
 impl WidgetConstructor {
@@ -69,6 +71,7 @@ impl WidgetConstructor {
             WidgetConstructor::Dynamics => WidgetKind::Dynamics,
             WidgetConstructor::Jitter => WidgetKind::Jitter,
             WidgetConstructor::Hil => WidgetKind::Hil,
+            WidgetConstructor::FilControl => WidgetKind::FilControl,
         }
     }
 
@@ -77,6 +80,7 @@ impl WidgetConstructor {
         widget_ids: &mut widget_ids::WidgetIds,
         ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
         existing_count: usize,
+        fil: &settings::FilSettings,
     ) -> Option<widgets::Widget> {
         let kind = self.kind();
         if existing_count >= kind.max_tabs_allowed() {
@@ -122,6 +126,9 @@ impl WidgetConstructor {
             }
             WidgetConstructor::Jitter => widgets::Widget::Jitter(ui::jitter::Jitter::new(id)),
             WidgetConstructor::Hil => widgets::Widget::Hil(ui::hil::Hil::new(ui_to_can_tx)),
+            WidgetConstructor::FilControl => {
+                widgets::Widget::FilControl(Box::new(ui::fil::FilControl::new(id, fil)))
+            }
         })
     }
 }

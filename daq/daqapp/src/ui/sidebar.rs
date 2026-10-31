@@ -47,6 +47,12 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 ));
             }
 
+            if ui.button("Add FIL Control").clicked() {
+                app.action_queue.push(action::AppAction::SpawnWidget(
+                    widget_constructor::WidgetConstructor::FilControl,
+                ));
+            }
+
             if ui.button("Add Scope").clicked() {
                 app.action_queue.push(action::AppAction::SpawnWidget(
                     widget_constructor::WidgetConstructor::ScopeEmpty,
@@ -157,9 +163,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
 
             ui.horizontal(|ui| {
                 let selected_text = match &app.selected_source {
-                    Some(daqcore::connection::ConnectionSource::Serial(path, speed)) => {
-                        format!("Serial: {} ({})", path, speed.display_name())
-                    }
+                    Some(daqcore::connection::ConnectionSource::Fil { .. }) => "FIL".into(),
                     Some(connection_source) => connection_source.display_name(),
                     None => "Select Source".to_string(),
                 };
@@ -203,6 +207,22 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                         {
                             app.connect_can();
                             app.save_settings();
+                        }
+                        ui.separator();
+                        ui.label("FIL Control widget");
+                        if let Some(fil_source) = app.fil_connect_source() {
+                            if ui
+                                .selectable_value(&mut app.selected_source, Some(fil_source), "FIL")
+                                .changed()
+                            {
+                                app.connect_can();
+                                app.save_settings();
+                            }
+                        } else {
+                            ui.add_enabled(
+                                false,
+                                eframe::egui::Button::new("FIL (configure in FIL Control widget)"),
+                            );
                         }
                         ui.separator();
                         ui.label("Simulated");

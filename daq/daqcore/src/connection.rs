@@ -1,8 +1,58 @@
+use crate::fil::config::BuiltNetwork;
+use std::collections::HashMap;
+use std::path::PathBuf;
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct FilRunOptions {
+    pub duration_ms: u64,
+    pub max_instructions: u64,
+    pub quantum: u64,
+    pub refresh_ms: u32,
+    pub adc_decimation: u16,
+    pub extra_live_filters: String,
+    pub strict_mmio: bool,
+    pub wall_pacing: bool,
+    pub trace_instructions: bool,
+    pub detect_spin: bool,
+}
+
+impl Default for FilRunOptions {
+    fn default() -> Self {
+        Self {
+            duration_ms: 0,
+            max_instructions: 50_000_000,
+            quantum: 1024,
+            refresh_ms: 1,
+            adc_decimation: 1,
+            extra_live_filters: String::new(),
+            strict_mmio: false,
+            wall_pacing: true,
+            trace_instructions: false,
+            detect_spin: false,
+        }
+    }
+}
+
 #[derive(serde::Serialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
     Udp(u16),
     Simulated(bool), // true for connected, false for disconnected
+    Fil {
+        executable: PathBuf,
+        network: PathBuf,
+        /// Bus used for outgoing Message Sender frames.
+        bus: String,
+        /// Bus whose CAN transmissions are viewed, or `None` for all buses.
+        trace_bus: Option<String>,
+        /// Per-board firmware ELF overrides keyed by board name.
+        elf_overrides: HashMap<String, PathBuf>,
+        /// Board names excluded from the emulated network.
+        disabled_boards: Vec<String>,
+        /// Widget-built network used instead of `network` when present.
+        built_network: Option<Box<BuiltNetwork>>,
+        run_options: Box<FilRunOptions>,
+    },
     Loopback,
 }
 
@@ -46,7 +96,69 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                 .ok_or_else(|| serde::de::Error::custom("invalid simulated connection source"))?;
             return Ok(Self::Simulated(connected));
         }
-
+        if let Some(fil) = object.get("Fil") {
+            let values = fil.as_object().ok_or_else(|| {
+                serde::de::Error::custom("FIL connection source must contain an object")
+            })?;
+            let executable = values
+                .get("executable")
+                .ok_or_else(|| serde::de::Error::custom("FIL executable is missing"))?;
+            let network = values
+                .get("network")
+                .ok_or_else(|| serde::de::Error::custom("FIL network is missing"))?;
+            let bus = values
+                .get("bus")
+                .and_then(serde_json::Value::as_str)
+                .unwrap_or("0")
+                .to_owned();
+            let trace_bus = values
+                .get("trace_bus")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or(None);
+            let elf_overrides = values
+                .get("elf_overrides")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or_default();
+            let disabled_boards = values
+                .get("disabled_boards")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or_default();
+            let built_network = values
+                .get("built_network")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or(None);
+            let run_options = values
+                .get("run_options")
+                .map(|value| {
+                    serde_json::from_value(value.clone()).map_err(serde::de::Error::custom)
+                })
+                .transpose()?
+                .unwrap_or_default();
+            return Ok(Self::Fil {
+                executable: serde_json::from_value(executable.clone())
+                    .map_err(serde::de::Error::custom)?,
+                network: serde_json::from_value(network.clone())
+                    .map_err(serde::de::Error::custom)?,
+                bus,
+                trace_bus,
+                elf_overrides,
+                disabled_boards,
+                built_network,
+                run_options,
+            });
+        }
         if object.get("Loopback").is_some() {
             return Ok(Self::Loopback);
         }
@@ -75,6 +187,23 @@ impl ConnectionSource {
                     "Simulated (disconnected)".into()
                 }
             }
+            ConnectionSource::Fil {
+                network,
+                built_network,
+                ..
+            } => {
+                if let Some(built) = built_network {
+                    format!("FIL: {} (built)", built.name)
+                } else {
+                    format!(
+                        "FIL: {}",
+                        network
+                            .file_name()
+                            .unwrap_or(network.as_os_str())
+                            .to_string_lossy()
+                    )
+                }
+            }
             ConnectionSource::Loopback => "Loopback".into(),
         }
     }
@@ -97,5 +226,40 @@ impl CanBusSpeed {
 
     pub fn options() -> Vec<CanBusSpeed> {
         vec![CanBusSpeed::Kbps250, CanBusSpeed::Kbps500]
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{ConnectionSource, FilRunOptions};
+
+    #[test]
+    fn fil_connection_with_explicit_options() {
+        let defaults = FilRunOptions::default();
+        assert_eq!(defaults.max_instructions, 50_000_000);
+        assert_eq!(defaults.adc_decimation, 1);
+        let source: ConnectionSource = serde_json::from_value(serde_json::json!({
+            "Fil": {
+                "executable": "fil",
+                "network": "network",
+                "bus": "vehicle",
+                "trace_bus": null,
+                "elf_overrides": {},
+                "disabled_boards": [],
+                "built_network": null,
+                "run_options": defaults,
+            }
+        }))
+        .expect("FIL connection source with explicit options should deserialize");
+        let ConnectionSource::Fil {
+            trace_bus,
+            run_options,
+            ..
+        } = source
+        else {
+            panic!("expected FIL connection source");
+        };
+        assert_eq!(trace_bus, None);
+        assert_eq!(*run_options, FilRunOptions::default());
     }
 }
