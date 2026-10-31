@@ -67,6 +67,27 @@ def board_summary_message(node_name: str) -> MessageDeclaration:
         ], 
     )
 
+def task_name_message(node_name: str) -> MessageDeclaration:
+    return MessageDeclaration(
+        message_name=f"{node_name.lower()}_diag_name",
+        description="Task name character",
+        priority=3,
+        signals=[
+            SignalDeclaration(
+                signal_name="task_id",
+                data_type="uint32_t",
+            ),
+            SignalDeclaration(
+                signal_name="char_index",
+                data_type="uint8_t",
+            ),
+            SignalDeclaration(
+                signal_name="character",
+                data_type="uint8_t",
+            ),
+        ],
+    )
+
 
 def diagnostics_contribution() -> DeclarationContribution:
     tx_messages = []
@@ -84,6 +105,14 @@ def diagnostics_contribution() -> DeclarationContribution:
                 node_name=node_name,
                 bus_name=bus_name,
                 message=board_summary_message(node_name),
+            )
+        )
+
+        tx_messages.append(
+            TxDeclaration(
+                node_name=node_name,
+                bus_name=bus_name,
+                message=task_name_message(node_name),
             )
         )
     return DeclarationContribution(
@@ -111,6 +140,11 @@ def diagnostics_artifacts() -> list[Artifact]:
         lines.append(
             f"#define DIAGNOSTICS_SEND_SUMMARY "
             f"CAN_SEND_{node_name.lower()}_diag_summary"
+        )
+
+        lines.append(
+            f"#define DIAGNOSTICS_SEND_NAME "
+            f"CAN_SEND_{node_name.lower()}_diag_name"
         )
 
     lines.extend([
