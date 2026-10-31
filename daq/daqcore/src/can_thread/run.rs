@@ -98,12 +98,6 @@ fn run_with_connection(
                         result: Ok(update)
                     });
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
-                    if decoder.bus_id() > 1 {
-                        emit!(can_thread::CanThreadEvent::Diagnostic(format!(
-                            "Legacy logging is unavailable for bus {}; only buses 0/1 are supported.",
-                            decoder.bus_id()
-                        )));
-                    }
                 }
                 can_thread::CanThreadCommand::AddSendMessage(message) => {
                     let identity = message.identity;
@@ -251,7 +245,9 @@ fn run_with_connection(
                     got_frames = !frames.is_empty();
                     for frame in frames {
                         load.record_frame(frame.data.len(), time::Instant::now());
-                        if decoder.bus_id() <= 1
+                        // The packed frame carries a 3-bit bus ID (0..=7), so
+                        // every valid bus is eligible for logging.
+                        if decoder.bus_id() <= 7
                             && let Some(logger) = &mut logger
                             && let Err(error) = logger.log_frame(&frame, decoder.bus_id())
                         {
@@ -259,7 +255,15 @@ fn run_with_connection(
                         }
 
                         let updating = firmware.active();
+                        // Bootloader protocol IDs are all standard CAN. Reject
+                        // frames only when the selected bus's artifact declares
+                        // extended framing; a numeric ID collision between a
+                        // 29-bit extended ID (<= 0x7FF) and a standard protocol
+                        // ID is the case the check excludes. Unknown framing
+                        // (no database, or 1.1 artifact without the key) keeps
+                        // the driver's raw-ID-width heuristic in force.
                         if updating
+                            && decoder.bus().and_then(|bus| bus.is_extended_id()) != Some(true)
                             && let Some(progress) = firmware.receive(
                                 frame.identity.raw_id(),
                                 &frame.data,
