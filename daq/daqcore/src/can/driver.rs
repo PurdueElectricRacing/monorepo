@@ -157,7 +157,7 @@ impl Driver for SimulatedDriver {
             Some(message) => message,
             None => {
                 let identity =
-                    frame::CanIdentity::new(rng.random_range(0..=can::STANDARD_ID_MASK), false)
+                    frame::CanIdentity::new(rng.random_range(0..=can::STANDARD_ID_MASK))
                         .map_err(|error| DriverError::Read(error.to_string()))?;
                 (identity, 8)
             }
@@ -212,8 +212,8 @@ mod serial {
 
     fn identity(id: slcan::Id) -> can::driver::DriverResult<frame::CanIdentity> {
         let identity = match id {
-            slcan::Id::Standard(id) => frame::CanIdentity::new(id.as_raw() as u32, false),
-            slcan::Id::Extended(id) => frame::CanIdentity::new(id.as_raw(), true),
+            slcan::Id::Standard(id) => frame::CanIdentity::new(id.as_raw() as u32),
+            slcan::Id::Extended(id) => frame::CanIdentity::new(id.as_raw()),
         };
 
         identity.map_err(|error| can::driver::DriverError::Read(error.to_string()))
@@ -265,10 +265,11 @@ mod serial {
         }
 
         fn write_frame(&mut self, f: frame::CanFrame) -> can::driver::DriverResult<()> {
-            let id = if f.identity.is_extended() {
-                slcan::ExtendedId::new(f.identity.raw_id()).map(slcan::Id::Extended)
+            let raw_id = f.identity.raw_id();
+            let id = if raw_id > can::STANDARD_ID_MASK {
+                slcan::ExtendedId::new(raw_id).map(slcan::Id::Extended)
             } else {
-                u16::try_from(f.identity.raw_id())
+                u16::try_from(raw_id)
                     .ok()
                     .and_then(slcan::StandardId::new)
                     .map(slcan::Id::Standard)

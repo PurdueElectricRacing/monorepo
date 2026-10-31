@@ -3,66 +3,41 @@
 use crate::{can, superdbc, time};
 use std::{error, fmt};
 
-/// Complete CAN identity. Ordering follows the packed identity representation.
+/// A 29-bit CAN identifier.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct CanIdentity(u32);
 
-/// An ID that exceeds the width allowed by its standard/extended format.
+/// A CAN ID that exceeds the 29-bit limit.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct InvalidCanId {
     pub id: u32,
-    pub extended: bool,
 }
 
 impl fmt::Display for InvalidCanId {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let format = if self.extended {
-            "extended"
-        } else {
-            "standard"
-        };
-
-        write!(formatter, "{format} CAN ID 0x{:X} is out of range", self.id)
+        write!(formatter, "CAN ID 0x{:X} is out of range", self.id)
     }
 }
 
 impl error::Error for InvalidCanId {}
 
 impl CanIdentity {
-    pub fn new(id: u32, extended: bool) -> Result<Self, InvalidCanId> {
-        let maximum_id = if extended {
-            can::EXTENDED_ID_MASK
-        } else {
-            can::STANDARD_ID_MASK
-        };
-
-        if id > maximum_id {
-            return Err(InvalidCanId { id, extended });
+    pub fn new(id: u32) -> Result<Self, InvalidCanId> {
+        if id > can::EXTENDED_ID_MASK {
+            return Err(InvalidCanId { id });
         }
 
-        let identity_flag = if extended { can::EXTENDED_ID_FLAG } else { 0 };
-
-        Ok(Self(id | identity_flag))
+        Ok(Self(id))
     }
 
     pub fn raw_id(self) -> u32 {
-        self.0 & can::EXTENDED_ID_MASK
-    }
-
-    pub fn is_extended(self) -> bool {
-        self.0 & can::EXTENDED_ID_FLAG != 0
+        self.0
     }
 }
 
 impl fmt::Display for CanIdentity {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let format = if self.is_extended() {
-            "extended"
-        } else {
-            "standard"
-        };
-
-        write!(f, "0x{:03X} ({format})", self.raw_id())
+        write!(f, "0x{:03X}", self.0)
     }
 }
 
@@ -123,5 +98,33 @@ impl ParsedFrame {
             raw_bytes: &self.raw_bytes,
             decoded: self.decoded.as_ref()?,
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn can_identity_accepts_full_29_bit_range() -> Result<(), InvalidCanId> {
+        CanIdentity::new(0)?;
+        CanIdentity::new(can::EXTENDED_ID_MASK)?;
+        let identity = CanIdentity::new(0x1ABCDEF)?;
+        assert_eq!(identity.raw_id(), 0x1ABCDEF);
+        Ok(())
+    }
+
+    #[test]
+    fn can_identity_rejects_30th_bit() {
+        let error = CanIdentity::new(can::EXTENDED_ID_MASK + 1)
+            .expect_err("bit 29 is outside the 29-bit limit");
+        assert_eq!(error, InvalidCanId { id: 0x20000000 });
+    }
+
+    #[test]
+    fn can_identity_orders_numerically() {
+        let low = CanIdentity::new(0x100).expect("in range");
+        let high = CanIdentity::new(0x1FFFFFFF).expect("in range");
+        assert!(low < high);
     }
 }

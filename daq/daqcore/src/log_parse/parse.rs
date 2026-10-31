@@ -1,4 +1,4 @@
-use crate::{frame, log_parse, superdbc};
+use crate::{can, frame, log_parse, superdbc};
 use std::{fs, io, mem, path};
 
 #[derive(Debug)]
@@ -31,7 +31,7 @@ impl RawFrame {
                 "legacy logging is unavailable for bus {bus_id}; only buses 0-3 are supported"
             ));
         }
-        let extended_flag = if identity.is_extended() {
+        let extended_flag = if identity.raw_id() > can::STANDARD_ID_MASK {
             log_parse::consts::IS_EID_MASK
         } else {
             0
@@ -56,7 +56,7 @@ impl RawFrame {
     /// Convert wire/log metadata into the application's CAN identity representation.
     pub fn can_identity(&self) -> Result<frame::CanIdentity, frame::InvalidCanId> {
         let flags = log_parse::consts::IS_EID_MASK | log_parse::consts::BUS_ID_MASK;
-        frame::CanIdentity::new(self.identity & !flags, self.is_extended())
+        frame::CanIdentity::new(self.identity & !flags)
     }
 }
 

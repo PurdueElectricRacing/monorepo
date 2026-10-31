@@ -222,7 +222,7 @@ fn run_with_connection(
                     break;
                 };
 
-                let frame = frame::CanIdentity::new(frame.id, false)
+                let frame = frame::CanIdentity::new(frame.id)
                     .map_err(|error| error.to_string())
                     .and_then(|identity| frame::CanFrame::data(identity, frame.data));
                 let result = frame
@@ -259,9 +259,7 @@ fn run_with_connection(
                         }
 
                         let updating = firmware.active();
-                        if updating
-                            && !frame.identity.is_extended()
-                            && let Some(progress) = firmware.receive(
+                        if updating && let Some(progress) = firmware.receive(
                                 frame.identity.raw_id(),
                                 &frame.data,
                                 time::Instant::now(),

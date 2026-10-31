@@ -8,7 +8,7 @@ use std::collections::{BTreeMap, HashMap};
 pub struct MessageKey {
     /// Bus containing the message; numeric IDs may repeat across buses.
     pub bus_id: u8,
-    /// CAN identifier including the standard/extended distinction.
+    /// Numeric 29-bit CAN identifier.
     pub identity: frame::CanIdentity,
 }
 
@@ -127,7 +127,7 @@ impl Message {
             .map(|period| superdbc::model::narrow(period.get(), context, "nominal_period_ms"))
             .transpose()?;
         let id = superdbc::model::narrow(model.id, context, "id")?;
-        let identity = frame::CanIdentity::new(id, model.is_extended_id)
+        let identity = frame::CanIdentity::new(id)
             .map_err(|error| superdbc::error::ParseError::definition(context, error.to_string()))?;
         let mut signals = Vec::with_capacity(model.signals.len());
         let mut signal_index = HashMap::with_capacity(model.signals.len());
@@ -174,7 +174,7 @@ impl Message {
         })
     }
 
-    /// Return the full lookup key, including bus ID and standard/extended CAN identity.
+    /// Return the full lookup key, including bus ID and CAN identity.
     pub fn key(&self) -> MessageKey {
         self.key
     }

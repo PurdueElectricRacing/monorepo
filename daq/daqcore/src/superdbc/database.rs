@@ -236,7 +236,7 @@ impl Database {
 
     /// Look up and decode a frame on the specified bus into an owned result.
     ///
-    /// `identity` includes the standard/extended distinction. `data` must contain
+    /// `identity` is the numeric 29-bit CAN identifier. `data` must contain
     /// at least the message's declared length and at most eight bytes; trailing
     /// padding is ignored. Scaling and offset are applied to physical values,
     /// while exact raw integers are retained. Non-finite telemetry is accepted.
@@ -255,7 +255,7 @@ impl Database {
     ///
     /// # fn main() -> Result<(), Box<dyn error::Error>> {
     /// let database = daqcore::superdbc::database::Database::load(path::Path::new("superdbc.json"))?;
-    /// let identity = daqcore::frame::CanIdentity::new(0x123, false)?;
+    /// let identity = daqcore::frame::CanIdentity::new(0x123)?;
     /// if let Some(message) = database.message(0, identity) {
     ///     let payload = vec![0; usize::from(message.length_bytes())];
     ///     let decoded = database.decode(0, identity, &payload)?;
