@@ -212,7 +212,7 @@
                 },
                 {
                     "message_name": "pack_bms_ccan",
-                    "id_override": "0x201",
+                    "id_override": "0x801",
                     "description": "Voltages and temperatures from BMS",
                     "signals": [
                         {
@@ -254,7 +254,7 @@
                 },
                 {
                     "message_name": "bms_pecs_ccan",
-                    "id_override": "0x200",
+                    "id_override": "0x800",
                     "description": "PEC statuses from BMS",
                     "signals": [
                         {
