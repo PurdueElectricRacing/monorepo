@@ -31,6 +31,7 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
     // The DBP bit must be set to enable RTC registers write access
 #if defined(STM32F423xx)
     PWR->CR |= PWR_CR_DBP;
+    (void)PWR->CR; // Backup-domain protection settling (ES0372 section 2.2.9).
     while ((PWR->CR & PWR_CR_DBP) == 0)
         ;
 #else
@@ -128,9 +129,17 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
     while (RTC->ISR & RTC_ISR_INITF)
         ;
 
+    // Synchronize before another INIT session (ES0372 section 2.10.3).
+    RTC->CR &= ~RTC_CR_BYPSHAD;
+    RTC->ISR &= ~RTC_ISR_RSF;
+    while (!(RTC->ISR & RTC_ISR_RSF)) {
+        // Wait for a fresh shadow-register synchronization.
+    }
+
     // Relock registers
 #if defined(STM32F423xx)
     PWR->CR &= ~(PWR_CR_DBP);
+    (void)PWR->CR; // Backup-domain protection settling (ES0372 section 2.2.9).
 #else
 #error "Please define a MCU arch"
 #endif
@@ -140,23 +149,35 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
 
 bool PHAL_getTimeRTC(RTC_timestamp_t* currentTimestamp) {
     if (RTC->ISR & RTC_ISR_INITS) {
-        uint8_t seconds = (RTC->TR & RTC_TR_SU_Msk) >> RTC_TR_SU_Pos;
-        seconds += ((RTC->TR & RTC_TR_ST_Msk) >> RTC_TR_ST_Pos) * 10;
+        uint32_t subseconds = 0;
+        uint32_t time = 0;
+        uint32_t date = 0;
+        // Confirm SSR/TR/DR came from the same update (ES0372 section 2.10.1).
+        do {
+            subseconds = RTC->SSR;
+            time = RTC->TR;
+            date = RTC->DR;
+        } while (subseconds != RTC->SSR);
+        // The final SSR read locks the shadows again; DR releases the lock.
+        (void)RTC->DR;
 
-        uint8_t minutes = (RTC->TR & RTC_TR_MNU_Msk) >> RTC_TR_MNU_Pos;
-        minutes += ((RTC->TR & RTC_TR_MNT_Msk) >> RTC_TR_MNT_Pos) * 10;
+        uint8_t seconds = (time & RTC_TR_SU_Msk) >> RTC_TR_SU_Pos;
+        seconds += ((time & RTC_TR_ST_Msk) >> RTC_TR_ST_Pos) * 10;
 
-        uint8_t hours = (RTC->TR & RTC_TR_HU_Msk) >> RTC_TR_HU_Pos;
-        hours += ((RTC->TR & RTC_TR_HT_Msk) >> RTC_TR_HT_Pos) * 10;
+        uint8_t minutes = (time & RTC_TR_MNU_Msk) >> RTC_TR_MNU_Pos;
+        minutes += ((time & RTC_TR_MNT_Msk) >> RTC_TR_MNT_Pos) * 10;
 
-        uint8_t day = (RTC->DR & RTC_DR_DU_Msk) >> RTC_DR_DU_Pos;
-        day += ((RTC->DR & RTC_DR_DT_Msk) >> RTC_DR_DT_Pos) * 10;
+        uint8_t hours = (time & RTC_TR_HU_Msk) >> RTC_TR_HU_Pos;
+        hours += ((time & RTC_TR_HT_Msk) >> RTC_TR_HT_Pos) * 10;
 
-        uint8_t month = (RTC->DR & RTC_DR_MU_Msk) >> RTC_DR_MU_Pos;
-        month += ((RTC->DR & RTC_DR_MT_Msk) >> RTC_DR_MT_Pos) * 10;
+        uint8_t day = (date & RTC_DR_DU_Msk) >> RTC_DR_DU_Pos;
+        day += ((date & RTC_DR_DT_Msk) >> RTC_DR_DT_Pos) * 10;
 
-        uint8_t year = (RTC->DR & RTC_DR_YU_Msk) >> RTC_DR_YU_Pos;
-        year += ((RTC->DR & RTC_DR_YT_Msk) >> RTC_DR_YT_Pos) * 10;
+        uint8_t month = (date & RTC_DR_MU_Msk) >> RTC_DR_MU_Pos;
+        month += ((date & RTC_DR_MT_Msk) >> RTC_DR_MT_Pos) * 10;
+
+        uint8_t year = (date & RTC_DR_YU_Msk) >> RTC_DR_YU_Pos;
+        year += ((date & RTC_DR_YT_Msk) >> RTC_DR_YT_Pos) * 10;
 
         currentTimestamp->date.year_bcd    = year;
         currentTimestamp->date.month_bcd   = month;
