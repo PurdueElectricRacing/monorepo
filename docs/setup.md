@@ -22,7 +22,6 @@ This guide sets up the complete PER software development environment.
 	- [3C.2 Update Ubuntu](#3c2-update-ubuntu)
 	- [3C.3 Use VS Code inside of WSL](#3c3-use-vs-code-inside-of-wsl)
 	- [3C.4 USB / ST-LINK Access](#3c4-usb--st-link-access)
-	- [3D. CI Container Image (Optional)](#3d-ci-container-image-optional)
 - [4. Install Python Dependencies](#4-install-python-dependencies)
 - [5. Install Rust/DAQ Tools](#5-install-rustdaq-tools)
   - [5.1 Rust](#51-rust)
@@ -328,18 +327,6 @@ However. You will need additional USB configuration to connect an ST-LINK debugg
 This can be configured like so:
 * Microsoft's WSL USB documentation:
 https://learn.microsoft.com/en-us/windows/wsl/connect-usb
-
-### 3D. CI Container Image (Optional)
-
-Instead of installing each tool individually, you can run the exact CI
-environment in a container. The CI toolchain (compilers, Rust, Python
-dependencies) is defined in the repo-root `Dockerfile` and published to GHCR
-on every master push:
-
-```bash
-docker pull ghcr.io/purdueelectricracing/monorepo/per-firmware:latest
-docker run --rm -it -v "$PWD":/work -w /work ghcr.io/purdueelectricracing/monorepo/per-firmware:latest bash
-```
 
 ## 4. Install Python Dependencies
 
