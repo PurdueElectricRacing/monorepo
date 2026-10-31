@@ -105,6 +105,7 @@ impl Widget {
             Widget::Bootloader(widget) => widget.reset_database(),
             Widget::Scope(widget) => widget.reset_database(),
             Widget::Jitter(widget) => widget.reset_database(),
+            Widget::Diagnostics(widget) => widget.reset_database(),
             _ => {}
         }
     }
@@ -114,6 +115,15 @@ impl Widget {
             Widget::Bootloader(w) => w.handle_can_message(event),
             Widget::SendUi(w) => w.handle_can_message(event),
             Widget::Hil(w) => w.handle_can_message(event),
+            Widget::Diagnostics(widget) => {
+                if matches!(
+                    event,
+                    daqcore::can_thread::CanThreadEvent::SourceSelected(_)
+                        | daqcore::can_thread::CanThreadEvent::ConnectionSuccessful
+                ) {
+                    widget.reset_database();
+                }
+            }
             _ => {}
         }
     }

@@ -1,4 +1,4 @@
-use eframe::egui::{self, accesskit::{Action::Expand, Role::ContentDeletion}};
+use eframe::egui;
 use std::collections::{BTreeMap, VecDeque};
 
 pub struct TaskDiagnostics {
@@ -9,13 +9,11 @@ pub struct TaskDiagnostics {
     pub cpu_util: Option<f32>,
 }
 pub struct BoardDiagnostics {
-    pub name: String,
     pub cpu_util: Option<f32>,
     pub capacity_exceeded: bool,
     pub tasks: Vec<TaskDiagnostics>,
-    pub sample_count: u32,
-    pub task_count: u32,
-    pub timestamp_ms: u32,
+    pub sample_count: Option<u32>,
+    pub task_count: Option<u16>,
     pub cpu_history: VecDeque<(f64, f64)>,
 }
 
@@ -24,7 +22,8 @@ pub struct Diagnostics {
 
     pub boards: BTreeMap<String, BoardDiagnostics>,
     pub search: String,
-    pub selected_board: Option<String>,
+    name_cache: BTreeMap<(String, u32), [Option<u8>; 16]>,
+    was_live: bool,
 }
 
 pub struct BoardSummary {
@@ -34,13 +33,20 @@ pub struct BoardSummary {
     pub capacity_exceeded: bool,
 }
 
+pub struct TaskNameChar {
+    pub task_id: u32,
+    pub char_index: u8,
+    pub character: u8,
+}
+
 impl Diagnostics {
     pub fn new(instance_num: usize) -> Self {
         Self {
             title: format!("Diagnostics #{}", instance_num),
             boards: BTreeMap::new(),
             search: String::new(),
-            selected_board: None,
+            name_cache: BTreeMap::new(),
+            was_live: false,
         }
     }
 
@@ -51,10 +57,6 @@ impl Diagnostics {
     ) -> egui_tiles::UiResponse {
         self.update_from_view(view);
         ui.heading(&self.title);
-        ui.label(format!(
-            "CAN frames up to timeline cursor: {}",
-            view.setpoint_frames.len()
-        ));
 
         ui.separator();
 
@@ -100,6 +102,20 @@ impl Diagnostics {
                 };
 
                 ui.label(egui::RichText::new(cpu_str).strong());
+                if let Some(sample_count) = board.sample_count {
+                    ui.label(format!("Sample #{}", sample_count));
+                }
+                if !board.capacity_exceeded {
+                    if let Some(task_count) = board.task_count {
+                        ui.label(format!("Reported tasks: {}", task_count));
+                    }
+                }
+                if board.capacity_exceeded {
+                    ui.colored_label(
+                        egui::Color32::YELLOW,
+                        "Task snapshot unavailable: capacity exceeded",
+                    );
+                }
                 ui.add_space(4.0);
 
                 egui::Frame::group(ui.style())
@@ -177,39 +193,48 @@ impl Diagnostics {
         })
     }
 
-    fn decode_summary(
-        msg: &daqcore::superdbc::decode::DecodedMessage,
-    ) -> Option<BoardSummary> {
+    fn decode_summary(msg: &daqcore::superdbc::decode::DecodedMessage) -> Option<BoardSummary> {
         let expected_name = format!("{}_diag_summary", msg.tx_node().to_lowercase());
 
         if msg.name() != expected_name {
             return None;
         }
 
-       let sample_count = Self::integer_signal(msg, "sample_count")?;
-       let task_count = Self::integer_signal(msg, "task_count")?;
-       let cpu = Self::integer_signal(msg, "cpu_percent")?;
-       let capacity = Self::integer_signal(msg, "capacity_exceeded")?;
+        let sample_count = Self::integer_signal(msg, "sample_count")?;
+        let task_count = Self::integer_signal(msg, "task_count")?;
+        let cpu = Self::integer_signal(msg, "cpu_percent")?;
+        let capacity = Self::integer_signal(msg, "capacity_exceeded")?;
 
-       let sample_count = u32::try_from(sample_count).ok()?;
-       let task_count = u16::try_from(task_count).ok()?;
-       let cpu = u8::try_from(cpu).ok()?;
+        let sample_count = u32::try_from(sample_count).ok()?;
+        let task_count = u16::try_from(task_count).ok()?;
+        let cpu = u8::try_from(cpu).ok()?;
 
-       let capacity_exceeded = match capacity {
-           0 => false,
-           1 => true,
-           _ => return None,
-       };
+        let capacity_exceeded = match capacity {
+            0 => false,
+            1 => true,
+            _ => return None,
+        };
 
-       Some(BoardSummary {
-           sample_count,
-           task_count,
-           cpu_util: Self::decode_cpu(cpu),
-           capacity_exceeded,
-       })
+        Some(BoardSummary {
+            sample_count,
+            task_count,
+            cpu_util: Self::decode_cpu(cpu),
+            capacity_exceeded,
+        })
     }
-    
+
+    pub fn reset_database(&mut self) {
+        self.boards.clear();
+        self.name_cache.clear();
+        self.was_live = false;
+    }
+
     fn update_from_view(&mut self, view: &crate::telemetry::TelemetryView<'_>) {
+        let is_live = view.timeline.is_live();
+        if !is_live || is_live != self.was_live {
+            self.name_cache.clear();
+        }
+        self.was_live = is_live;
         self.boards.clear();
 
         for frame in view.setpoint_frames {
@@ -218,32 +243,73 @@ impl Diagnostics {
                 None => continue,
             };
 
-            let task = match Self::decode_task(msg) {
-                Some(task) => task,
-                None => continue,
-            };
+            let task = Self::decode_task(msg);
+            let summary = Self::decode_summary(msg);
+            let name_char = Self::decode_name(msg);
+
+            if task.is_none() && summary.is_none() && name_char.is_none() {
+                continue;
+            }
 
             let board_name = msg.tx_node().to_string();
 
             if !self.boards.contains_key(&board_name) {
-                self.boards.insert(board_name.clone(), BoardDiagnostics {
-                    name: board_name.clone(),
-                    cpu_util: None,
-                    capacity_exceeded: false,
-                    tasks: Vec::new(),
-                    sample_count: 0,
-                    task_count: 0,
-                    timestamp_ms: 0,
-                    cpu_history: VecDeque::new(), 
-                },
-            );
-                
+                self.boards.insert(
+                    board_name.clone(),
+                    BoardDiagnostics {
+                        cpu_util: None,
+                        capacity_exceeded: false,
+                        tasks: Vec::new(),
+                        sample_count: None,
+                        task_count: None,
+                        cpu_history: VecDeque::new(),
+                    },
+                );
             }
             let board = self.boards.get_mut(&board_name).unwrap();
 
+            if let Some(name_char) = name_char {
+                let key = (board_name.clone(), name_char.task_id);
+                if !self.name_cache.contains_key(&key) {
+                    self.name_cache.insert(key.clone(), [None; 16]);
+                }
+
+                let characters = self.name_cache.get_mut(&key).unwrap();
+                let index = usize::from(name_char.char_index);
+
+                characters[index] = Some(name_char.character);
+
+                if name_char.character == 0 {
+                    for i in index + 1..16 {
+                        characters[i] = None;
+                    }
+                }
+
+                continue;
+            }
+
+            if let Some(summary) = summary {
+                board.sample_count = Some(summary.sample_count);
+                board.task_count = Some(summary.task_count);
+                board.cpu_util = summary.cpu_util;
+                board.capacity_exceeded = summary.capacity_exceeded;
+
+                if let Some(cpu) = summary.cpu_util {
+                    let seconds = frame.timestamp.secs(view.timeline.start());
+                    board.cpu_history.push_back((seconds, f64::from(cpu)));
+                }
+
+                continue;
+            }
+
+            let task = match task {
+                Some(task) => task,
+                None => continue,
+            };
+
             let mut existing_index = None;
 
-            for i in 0 .. board.tasks.len() {
+            for i in 0..board.tasks.len() {
                 if board.tasks[i].task_id == task.task_id {
                     existing_index = Some(i);
                     break;
@@ -254,11 +320,63 @@ impl Diagnostics {
                 Some(i) => board.tasks[i] = task,
                 None => board.tasks.push(task),
             }
+        }
+        for (board_name, board) in &mut self.boards {
+            for task in &mut board.tasks {
+                let key = (board_name.clone(), task.task_id);
+                let characters = match self.name_cache.get(&key) {
+                    Some(characters) => characters,
+                    None => continue,
+                };
 
-            board.task_count = board.tasks.len() as u32;
+                let mut bytes = Vec::new();
+                let mut complete = false;
+
+                for character in characters {
+                    match character {
+                        Some(0) => {
+                            complete = true;
+                            break;
+                        }
+                        Some(byte) => {
+                            bytes.push(*byte);
+                        }
+                        None => {
+                            break;
+                        }
+                    }
+                }
+                if complete {
+                    task.name = String::from_utf8_lossy(&bytes).into_owned();
+                }
+            }
         }
     }
 
+    fn decode_name(msg: &daqcore::superdbc::decode::DecodedMessage) -> Option<TaskNameChar> {
+        let expected_name = format!("{}_diag_name", msg.tx_node().to_lowercase());
+
+        if msg.name() != expected_name {
+            return None;
+        }
+
+        let task_id = Self::integer_signal(msg, "task_id")?;
+        let char_index = Self::integer_signal(msg, "char_index")?;
+        let character = Self::integer_signal(msg, "character")?;
+
+        let task_id = u32::try_from(task_id).ok()?;
+        let char_index = u8::try_from(char_index).ok()?;
+        let character = u8::try_from(character).ok()?;
+
+        if char_index >= 16 {
+            return None;
+        }
+        Some(TaskNameChar {
+            task_id,
+            char_index,
+            character,
+        })
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
