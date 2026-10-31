@@ -681,11 +681,10 @@ the table above to each subtask before implementing it.
 
 ### K.7. Flash
 
-- [ ] **FLASH-01 — describe geometry once.** Add a per-device sector table with
-  F423 sectors 0–15/end `0x0817FFFF`; remove F407-specific maps and drive lookup,
-  maximum sector and erase-range validation from it. Eliminate the unconditional
-  sector 7 fallback. **Verify:** every sector start/end and out-of-range address,
-  especially the 1 MiB boundary and sectors 12–15; cross-check linker regions.
+- [x] **FLASH-01 — F423 geometry.** Already completed during support removal:
+  sectors 0–15, end `0x0817FFFF`, correct lookup and no sector-7 fallback. Sector
+  boundary/linker checks are recorded in I. A new table abstraction and general
+  erase-range validation remain deferred under the minimum migration scope.
 - [ ] **FLASH-02 — preflight programming/erase requests.** Check alignment,
   range, erased state where required, count/size arithmetic overflow and empty
   request semantics before unlocking. Choose/document PSIZE from the board's
@@ -751,13 +750,19 @@ the table above to each subtask before implementing it.
 
 ### K.10. CAN
 
-- [ ] **CAN-01 — implement F423 CAN3 independently.** Add CAN3 instance/clock
-  support and TX/RX IRQs; operate its own 14 filter banks through CAN3 registers,
-  not CAN1's shared block. Keep CAN1/2's 28 banks and 14/14 split with the CAN1
-  clock dependency for CAN2. Respect standard/extended ID filter packing,
-  empty-list accept-all and per-controller capacity. **Verify:** mailbox/FIFO/
-  filter/error paths on all three, with disjoint filters proving no cross-bank
-  interference; F407 must reject unavailable CAN3 before touching hardware.
+- [x] **CAN-01 — add F423 CAN3 to PHAL (2026-10-30).** Accept CAN3 through the
+  existing init/filter/send/mailbox APIs, enable its independent APB1 clock and
+  dispatch CAN3 RX0/TX vectors through the existing handlers/callbacks. Select
+  CAN3's own filter registers with banks 0–13; do not write its reserved CAN2SB
+  field. Keep CAN1/2's shared registers, 14/14 split and CAN1 clock dependency.
+  Existing ID packing, capacities, timing and error/wait behavior are unchanged.
+  **Verified:** temporary ASan/UBSan register simulation covers CAN3 init/clock,
+  accept-all, mixed SID/XID, odd/full filter lists, rejected excess count, CAN1/2
+  filter isolation/shared split, mailbox availability, transmit and RX0/TX callback
+  routing. All configured F423/G4 targets and all three F4 bench variants build.
+  **Still open:** real-controller/transceiver/filter/error testing. DAQ mapping,
+  NVIC enable/priority and three-bus logging/transport remain CAN-04/TOPO-01–03;
+  this change does not enable CAN3 in DAQ or apply the stacked pinout PR.
 - [ ] **CAN-02 — tie baud tables to actual PCLK1.** Retain a supported 24 MHz
   PCLK1 or calculate validated timing entries for another selected rate. Verify
   bit time, sample point and SJW for each required bus baud rather than reusing
