@@ -801,6 +801,12 @@ the table above to each subtask before implementing it.
   CLKDIV 0 for 24 MHz transfer, four-bit mode and BOARD-02's new AF12 map. Keep
   DMA2 stream6/channel 4 and an exclusive handler. **Verify:** measured CMD/CLK,
   initialization, single/multiblock read/write and removal/reinsert recovery.
+  - [x] **Software configuration reviewed (2026-10-30).** RCC-05 selects the
+    48 MHz kernel; existing dividers 118/0 produce 400 kHz/24 MHz, and
+    `FATFS_SDIO_4BIT=1` selects four-bit transfers. RX/TX both use DMA2
+    stream6/channel 4 with one handler in `sdio.c`. Corrected obsolete divider
+    comments; no divider, clock or transfer behavior change is required.
+    New pin routing remains BOARD-02; measured clocks and card tests remain open.
 - [ ] **SDIO-02 — resolve underrun/CRC errata at real clocks.** Evaluate ES0372
   §2.5.2's inequality using the selected PCLK2/SDIOCLK/SDIO_CK and bus width,
   not a generic assumption that flow-control-off is safe. Raise PCLK2 or reduce
@@ -808,6 +814,20 @@ the table above to each subtask before implementing it.
   no-CRC response status per §2.5.1 for any command path that needs it.
   **Verify:** long readback/checksummed writes concurrent with CAN and W5500;
   retain timeout/error counters and exercise card/error/abort recovery.
+  - [x] **Clock/response applicability reviewed (2026-10-30).** ES0372 Rev 8
+    §2.5.2 requires avoiding
+    `3/PCLK2 + 3/SDIOCLK >= (32/BusWidth)/SDIO_CK` with flow control disabled.
+    At the implemented 24 MHz PCLK2, 48 MHz kernel, 24 MHz card clock and
+    four-bit width, the left side is 187.5 ns and the right side is
+    333.333 ns: 145.833 ns margin (43.75% of the right side). The one-bit
+    initialization/transfer modes also satisfy the inequality. Keep the
+    existing clocks and flow-control setting; higher APB2 is unnecessary.
+    Re-evaluate if any of these settings change. §2.5.1 names CMD5, which the
+    current SD-memory path does not issue. Its existing ACMD41/R3 helper
+    `CmdResp3Error()` already ignores CCRCFAIL and clears it with the static
+    flags after a response. No response-handling change is required.
+    This closes the software review only: concurrent checksummed card writes
+    and error/recovery tests remain mandatory hardware acceptance.
 - [ ] **WDG-01 — initialize and freeze correctly.** Extend F423 header/debug
   selection, enable LSI and wait for readiness as needed, unlock/configure PR/RLR,
   wait for update completion, reload/start and preserve reset-cause reporting.
