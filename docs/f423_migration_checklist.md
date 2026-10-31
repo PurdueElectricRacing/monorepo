@@ -555,10 +555,17 @@ the table above to each subtask before implementing it.
 
 ### K.3. ADC
 
-- [ ] **ADC-01 — select the real peripheral.** Use the device-appropriate ADC
-  common-block name and explicitly accept only ADC1 for F423; remove arithmetic
-  enabling of nonexistent ADC2/3 RCC bits. **Verify:** all PHAL sources compile
-  and invalid instances/numbers fail before any register write.
+- [x] **ADC-01 — select F423's ADC1 (2026-10-30).** Keep the already-migrated
+  `ADC1_COMMON` access. Reject a null config before register writes; enable only
+  `RCC_APB2ENR_ADC1EN`. With user approval, remove `adc_number` from the config
+  and the ADC pointer from init/start/stop/read: F423 has only ADC1, which these
+  functions access directly. No F4 callers need updating in the repository.
+  Valid ADC1 conversion behavior is unchanged.
+  **Verified:** temporary ASan/UBSan register checks cover successful ADC1 init,
+  null config rejection, start/stop and masked data reads, with no writes
+  for rejected requests and unrelated clock bits preserved. All configured
+  F423/G4 targets and all three F4 bench variants build. ADC sampling is not
+  exercised by DAQ; general ADC validation/reinitialization remains deferred.
 - [ ] **ADC-02 — validate and reset configuration.** Enforce sequence length
   1–16, legal channel/rank values and uniqueness where required, prescaler and
   datasheet ADC clock/acquisition limits. Clear/rewrite SCAN, DISCEN, CONT,
