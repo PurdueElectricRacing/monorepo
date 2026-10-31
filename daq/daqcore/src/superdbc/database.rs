@@ -384,10 +384,10 @@ impl Bus {
         &self.messages
     }
 
-    /// Look up a message on this bus by its standard or extended identity.
+    /// Look up a message on this bus by its numeric 29-bit CAN identity.
     ///
-    /// Returns `None` if absent. The extended flag is part of the identity, so a
-    /// standard and extended message can have the same numeric ID.
+    /// Returns `None` if absent. Framing is a bus-level property, so each
+    /// numeric ID appears at most once per bus.
     pub fn message(&self, identity: frame::CanIdentity) -> Option<&superdbc::message::Message> {
         self.message_index
             .get(&identity)
