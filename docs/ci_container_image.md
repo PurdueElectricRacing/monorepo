@@ -15,7 +15,7 @@ workflows consume. This removes:
 
 | Item | Detail |
 |---|---|
-| Dockerfile | Repo root `Dockerfile`, based on `ubuntu:26.04`. Installs apt toolchain (g++, clang-format, cmake, cppcheck, arm-none-eabi-gcc, ninja), a Python venv at `/opt/venv` from `requirements.txt`, and Rust `stable` at `/opt/cargo` + `/opt/rustup`. |
+| Dockerfile | Repo root `Dockerfile`, based on `ubuntu:26.04`. Installs apt toolchain (g++, clang-format, cmake, cppcheck, arm-none-eabi-gcc, ninja), a Python venv at `/opt/venv` from `requirements.txt`, Rust `stable` at `/opt/cargo` + `/opt/rustup` with the `clippy` and `rustfmt` components, and diesel-cli 2.3.3 (`sqlite-bundled`) on `PATH` as `diesel`. |
 | Consumers | 4 workflows, 8 job definitions use `container: image: irvingywang/per-firmware:latest` |
 
 | Workflow | Jobs using the image |
@@ -186,8 +186,13 @@ jobs:
 - For all five jobs (`daqcloud_schema`, `superdbc_models`, `build`, `fmt`, `clippy`):
   add `needs: [image]` and point `container: image:` at
   `${{ needs.image.outputs.image }}`.
-- No other changes; the existing `actions/cache` cargo steps complement the image
-  cache and should stay.
+- The runtime installs that existed here move into the `Dockerfile` (see section 5):
+  the `clippy` job's `rustup component add clippy` step is deleted, and the
+  `cargo install diesel_cli` step (with its `actions/cache` step) in
+  `daqcloud_schema` is deleted — the image now provides both. The workflows no
+  longer install any Rust components or diesel-cli at runtime.
+- The remaining `actions/cache` cargo steps (in `build` and `clippy`) complement
+  the image cache and should stay.
 
 ### 4. `.github/workflows/build_firmware.yml`
 
@@ -208,6 +213,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 ```dockerfile
 RUN apt -y install --no-install-recommends make clang llvm libclang-rt-dev
 ```
+
+- Move the Rust tooling the DAQ workflow installed at runtime in, so jobs consume
+  it from the image instead:
+
+  ```dockerfile
+  RUN rustup component add clippy rustfmt
+  RUN cargo install diesel_cli --version 2.3.3 --locked \
+      --no-default-features --features sqlite-bundled
+  ```
 
 - (Optional) Pin the base image by digest (`ubuntu:26.04@sha256:...`) for
   fully-deterministic toolchains across time. If done, update the digest on a
@@ -233,8 +247,7 @@ RUN apt -y install --no-install-recommends make clang llvm libclang-rt-dev
 |---|---|---|
 | BuildKit `type=gha` (`cache-from`/`cache-to`) | Per-repo, cross-run, cross-workflow | Every Docker layer: apt packages, pip venv, rustup install, toolchains. First build of a Dockerfile revision ≈ minutes; subsequent builds ≈ seconds. |
 | GHCR image pull | Per-job | Pull of the `sha-<sha>` image (~1–2 GB). GitHub runners pull from GHCR fast; unavoidable with `container:` jobs. |
-| `actions/cache` (existing) | Per-job, keyed on `daq/Cargo.lock` | `/opt/cargo/registry`, `/opt/cargo/git`, `daq/target`. Survives image rebuilds; keyed to dependency versions, not image layers. |
-| `actions/cache` diesel-cli (existing) | Per-job | Diesel CLI install dir. |
+| `actions/cache` (existing) | Per-job, keyed on `daq/Cargo.lock` | `/opt/cargo/registry`, `/opt/cargo/git`, `daq/target`. Survives image rebuilds; keyed to dependency versions, not image layers. The old diesel-cli cache row is gone — diesel-cli ships in the image now. |
 
 Net effect per CI run: one near-instant image build (cache hit) + one GHCR push (cache
 max) + one pull per job + existing cargo caches. No periodic manual image refreshes.
