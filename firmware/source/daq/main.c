@@ -69,12 +69,12 @@ extern uint32_t APB2ClockRateHz;
 extern uint32_t AHBClockRateHz;
 extern uint32_t PLLClockRateHz;
 
-#define TargetCoreClockrateHz 168'000'000
+#define TargetCoreClockrateHz 96'000'000
 ClockRateConfig_t clock_config = {
     .clock_source              = CLOCK_SOURCE_HSE,
     .use_pll                   = true,
     .pll_src                   = PLL_SRC_HSE,
-    .vco_output_rate_target_hz = 336'000'000,
+    .vco_output_rate_target_hz = 192'000'000,
     .system_clock_target_hz    = TargetCoreClockrateHz,
     .ahb_clock_target_hz       = (TargetCoreClockrateHz / 1),
     .apb1_clock_target_hz      = (TargetCoreClockrateHz / 4),

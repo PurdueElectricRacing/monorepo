@@ -7,8 +7,8 @@
 
 #include "watchdog.h"
 
-#if defined(STM32F407xx)
-#include "stm32f407xx.h"
+#if defined(STM32F423xx)
+#include "stm32f423xx.h"
 #elif defined(STM32G474xx)
 #include "stm32g474xx.h"
 #else
@@ -23,7 +23,7 @@ void WDG_init(void) {
     RCC->CSR |= RCC_CSR_RMVF;
 
     // pause the watchdog during debugging
-#if defined(STM32F407xx)
+#if defined(STM32F423xx)
     DBGMCU->APB1FZ |= DBGMCU_APB1_FZ_DBG_IWDG_STOP;
 #elif defined(STM32G474xx)
     DBGMCU->APB1FZR1 |= DBGMCU_APB1FZR1_DBG_IWDG_STOP;
