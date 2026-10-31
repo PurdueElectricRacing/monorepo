@@ -109,14 +109,14 @@ impl SendTable {
         self.0.remove(&key); //&(id, 0)
     }
 
-    pub fn delete_all(&mut self, id: frame::CanIdentity) {
-        self.0.retain(|(identity, _), _| *identity != id);
-    }
+    // pub fn delete_all(&mut self, id: frame::CanIdentity) {
+    //     self.0.retain(|(identity, _), _| *identity != key);
+    // }
 
-    pub fn delete_hil(&mut self) {
-        self.0.retain(|(_, index), _| *index == 0);
-    }
-    
+    // pub fn delete_hil(&mut self) {
+    //     self.0.retain(|(_, index), _| *index == 0);
+    // }
+
     pub fn due(
         &self,
         now: time::Instant,
