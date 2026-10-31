@@ -10,12 +10,25 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
+  image:
+    name: CI image
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      image: ${{ steps.built.outputs.image }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: built
+        uses: ./.github/actions/per-image
+
   firmware_build:
+    needs: [image]
     runs-on: ubuntu-latest
     container:
-      image: irvingywang/per-firmware:latest
+      image: ${{ needs.image.outputs.image }}
 
     steps:
       - name: Checkout repo
@@ -50,9 +63,10 @@ jobs:
           retention-days: ${{ github.ref == 'refs/heads/master' && 90 || 7 }}
 
   cppcheck:
+    needs: [image]
     runs-on: ubuntu-latest
     container:
-      image: irvingywang/per-firmware:latest
+      image: ${{ needs.image.outputs.image }}
 
     steps:
       - name: Checkout repo
