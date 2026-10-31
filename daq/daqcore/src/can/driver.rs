@@ -145,9 +145,10 @@ impl Driver for SimulatedDriver {
         &mut self,
         bus: Option<&superdbc::database::Bus>,
     ) -> DriverResult<Vec<frame::CanFrame>> {
-        use rand::prelude::IndexedRandom as _;
+        
         use rand::Rng as _;
         use rand::RngExt as _;
+        use rand::prelude::IndexedRandom as _;
 
         let now = time::Instant::now();
         if now < self.next {
@@ -183,51 +184,34 @@ impl Driver for SimulatedDriver {
                 let choices: Vec<i128> = signal.choices().map(|(val, _)| val).collect();
                 let bits: u64 = if let Some(&raw) = choices.choose(&mut rng) {
                     raw as u64
-                } else if let Some(limits) = signal.limits() {
-                    // Logic when explicit limits exist
-                    match signal.raw_type() {
-                        superdbc::message::RawType::Float32 => {
-                            let min_phys = limits.min as f32;
-                            let max_phys = limits.max as f32;
-                            let (min_p, max_p) = if min_phys <= max_phys {
-                                (min_phys, max_phys)
-                            } else {
-                                (max_phys, min_phys)
-                            };
-                            let phys = rng.random_range(min_p..=max_p);
-                            let raw = (phys - signal.offset() as f32) / signal.scale() as f32;
-                            u64::from(raw.to_bits())
-                        }
-                        _ => {
-                            let scale = signal.scale();
-                            let offset = signal.offset();
-                            let r1 = (limits.min - offset) / scale;
-                            let r2 = (limits.max - offset) / scale;
-                            let lower = (r1.min(r2).ceil() as i128)
-                                .clamp(signal.codec.min, signal.codec.max);
-                            let upper = (r1.max(r2).floor() as i128)
-                                .clamp(signal.codec.min, signal.codec.max);
-                            let raw = if lower <= upper {
-                                rng.random_range(lower..=upper)
-                            } else {
-                                (r1.round() as i128).clamp(signal.codec.min, signal.codec.max)
-                            };
-                            raw as u64
-                        }
-                    }
                 } else {
-                    // Fallback logic when no limits exist (using codec defaults)
                     match signal.raw_type() {
                         superdbc::message::RawType::Float32 => {
-                            let min_p = -100.0f32;
-                            let max_p = 100.0f32;
+                            let (min_p, max_p) = match signal.limits() {
+                                Some(limits) => (
+                                    (limits.min as f32).min(limits.max as f32),
+                                    (limits.min as f32).max(limits.max as f32),
+                                ),
+                                None => (-100.0f32, 100.0f32),
+                            };
                             let phys = rng.random_range(min_p..=max_p);
                             let raw = (phys - signal.offset() as f32) / signal.scale() as f32;
                             u64::from(raw.to_bits())
                         }
                         _ => {
-                            let raw = rng.random_range(signal.codec.min..=signal.codec.max);
-                            raw as u64
+                            let (lower, upper) = match signal.limits() {
+                                Some(limits) => {
+                                    let r1 = (limits.min - signal.offset()) / signal.scale();
+                                    let r2 = (limits.max - signal.offset()) / signal.scale();
+                                    let low = (r1.min(r2).ceil() as i128)
+                                        .clamp(signal.codec.min, signal.codec.max);
+                                    let high = (r1.max(r2).floor() as i128)
+                                        .clamp(signal.codec.min, signal.codec.max);
+                                    (low, high.max(low))
+                                }
+                                None => (signal.codec.min, signal.codec.max),
+                            };
+                            rng.random_range(lower..=upper) as u64
                         }
                     }
                 };
@@ -245,7 +229,6 @@ impl Driver for SimulatedDriver {
         Ok(())
     }
 }
-
 
 
 mod serial {
