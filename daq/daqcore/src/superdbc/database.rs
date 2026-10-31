@@ -23,6 +23,24 @@ pub struct Database {
     message_index: HashMap<superdbc::message::MessageKey, (usize, usize)>,
 }
 
+/// Lenient probe for the optional bus-level `is_extended_id` metadata.
+///
+/// The generated strict model rejects unknown bus keys, so this separate,
+/// permissive shape reads the key before the document is stripped and parsed
+/// against the 1.1 schema. Absent buses or keys deserialize to `None`-filled
+/// maps rather than errors.
+#[derive(Debug, Default, serde::Deserialize)]
+struct BusFramingProbe {
+    #[serde(default)]
+    buses: HashMap<String, BusFramingEntry>,
+}
+
+#[derive(Debug, Default, serde::Deserialize)]
+struct BusFramingEntry {
+    #[serde(default)]
+    is_extended_id: Option<bool>,
+}
+
 impl Database {
     /// Read a UTF-8 SuperDBC JSON artifact and compile its definitions.
     ///
@@ -76,7 +94,20 @@ impl Database {
             });
         }
 
-        let document: superdbc::model::Document = serde_json::from_str(json)?;
+        // Bus-level CAN framing is metadata ahead of the strict schema: read it
+        // leniently, then strip it so the generated model still validates 1.1
+        // documents that omit the key entirely.
+        let value: serde_json::Value = serde_json::from_str(json).unwrap_or_default();
+        let framing: BusFramingProbe = serde_json::from_value(value.clone()).unwrap_or_default();
+        let mut stripped = value;
+        if let Some(buses) = stripped.get_mut("buses").and_then(|buses| buses.as_object_mut()) {
+            for bus in buses.values_mut() {
+                if let Some(bus) = bus.as_object_mut() {
+                    bus.remove("is_extended_id");
+                }
+            }
+        }
+        let document: superdbc::model::Document = serde_json::from_value(stripped)?;
         // Keep definitions in document order; indexes point into the owned vectors
         // so fast lookups do not require duplicate definitions or shared ownership.
         let mut buses = Vec::with_capacity(document.buses.len());
@@ -107,6 +138,10 @@ impl Database {
             }
 
             bus_names.insert(name.clone(), bus_index);
+            let is_extended_id = framing
+                .buses
+                .get(&name)
+                .and_then(|entry| entry.is_extended_id);
             let mut nodes = Vec::with_capacity(model.nodes.len());
 
             for node in model.nodes {
@@ -155,6 +190,7 @@ impl Database {
                 name,
                 bus_id,
                 baud_rate: model.baud_rate.get(),
+                is_extended_id,
                 nodes,
                 messages,
                 message_index: identities,
@@ -334,6 +370,7 @@ pub struct Bus {
     name: String,
     bus_id: u8,
     baud_rate: u64,
+    is_extended_id: Option<bool>,
     nodes: Vec<Node>,
     messages: Vec<superdbc::message::Message>,
     message_index: HashMap<frame::CanIdentity, usize>,
@@ -362,6 +399,16 @@ impl Bus {
     /// Return the declared CAN bitrate in bits per second; this does not configure hardware.
     pub fn baud_rate(&self) -> u64 {
         self.baud_rate
+    }
+
+    /// Return the bus-level CAN framing declared by the artifact, if present.
+    ///
+    /// `Some(true)` means all frames on this bus use 29-bit extended IDs,
+    /// `Some(false)` means all frames use 11-bit standard IDs. `None` is
+    /// returned for schema 1.1 artifacts, which predate bus-level framing and
+    /// rely on the raw-ID-width heuristic at the driver layer.
+    pub fn is_extended_id(&self) -> Option<bool> {
+        self.is_extended_id
     }
 
     /// Borrow the declared nodes in artifact order.
@@ -455,5 +502,102 @@ impl Bus {
                     identity,
                 },
             })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{Database, superdbc};
+    use serde_json::json;
+
+    /// Build a minimal but strictly valid 1.1 artifact document as JSON.
+    ///
+    /// `is_extended_id` is injected at the bus level when `Some`; `None`
+    /// omits the key, matching artifacts generated before the field existed.
+    fn artifact(
+        schema_version: &str,
+        is_extended_id: Option<bool>,
+    ) -> serde_json::Value {
+        let mut bus = serde_json::Map::new();
+        bus.insert(
+            "bus_id".into(),
+            json!(0),
+        );
+        bus.insert("baud_rate".into(), json!(500000));
+        if let Some(extended) = is_extended_id {
+            bus.insert("is_extended_id".into(), json!(extended));
+        }
+        bus.insert(
+            "nodes".into(),
+            json!([{ "name": "ecu_a", "is_external": false }]),
+        );
+        bus.insert(
+            "messages".into(),
+            json!([{
+                "id": 0x123,
+                "is_extended_id": false,
+                "message_name": "Status",
+                "transmitter": "ecu_a",
+                "receivers": ["ecu_b"],
+                "length_bytes": 1,
+                "nominal_period_ms": 10,
+                "priority": 1,
+                "description": "status frame",
+                "signals": [{
+                    "signal_name": "Ready",
+                    "description": "ready flag",
+                    "data_type": "integer",
+                    "raw_type": "unsigned",
+                    "start_bit": 0,
+                    "bit_length": 1,
+                    "byte_order": "little_endian",
+                    "scale": 1.0,
+                    "offset": 0.0,
+                    "limits": { "min": 0.0, "max": 1.0 },
+                    "unit": "",
+                    "choices": null,
+                    "display_format": "integer"
+                }]
+            }]),
+        );
+        let mut document = serde_json::Map::new();
+        document.insert(
+            "content_hash".into(),
+            json!("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"),
+        );
+        document.insert("versions".into(), json!({ "schema_version": schema_version, "hash": "h1" }));
+        document.insert("buses".into(), json!({ "CAN0": bus }));
+        serde_json::Value::Object(document)
+    }
+
+    #[test]
+    fn bus_level_framing_false_is_authoritative() {
+        let database = Database::from_json(&artifact("1.1", Some(false)).to_string()).unwrap();
+        assert_eq!(database.bus("CAN0").unwrap().is_extended_id(), Some(false));
+    }
+
+    #[test]
+    fn bus_level_framing_true_is_authoritative() {
+        let database = Database::from_json(&artifact("1.1", Some(true)).to_string()).unwrap();
+        assert_eq!(database.bus("CAN0").unwrap().is_extended_id(), Some(true));
+    }
+
+    #[test]
+    fn omitted_bus_level_framing_is_none() {
+        let database = Database::from_json(&artifact("1.1", None).to_string()).unwrap();
+        assert_eq!(database.bus("CAN0").unwrap().is_extended_id(), None);
+    }
+
+    #[test]
+    fn unsupported_schema_version_is_rejected() {
+        let error =
+            Database::from_json(&artifact("1.2", Some(true)).to_string()).unwrap_err();
+        assert!(
+            matches!(
+                error,
+                superdbc::error::ParseError::UnsupportedSchemaVersion { .. }
+            ),
+            "unexpected error: {error:?}"
+        );
     }
 }
