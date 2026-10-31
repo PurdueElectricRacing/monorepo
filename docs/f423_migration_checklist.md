@@ -62,6 +62,22 @@ avoid collisions and SWD pins, and document the temporary mapping. These choices
 support compilation/bring-up and do not establish physical board compatibility.
 DAQ's supplied schematic remains the pinout contract for its separate stacked PR.
 
+**Implementation scope (user clarification, 2026-10-30):** make the minimum clean
+changes needed for existing F4 targets to run on F423. Preserve existing APIs,
+valid-input behavior, timeout/error policy and supported features unless the
+F423 hardware or the supplied board requires a difference. The audit remains a
+complete record of findings and proposed fixes, not authorization to repair every
+inherited F407 driver bug. The scope table in K determines migration requirements;
+other audit work is deferred unless bring-up demonstrates a concrete blocker.
+
+The broad RCC-03 transition rewrite was reverted before commit. The RCC-02 PLL
+search refactor from `7bfb33c11` is also reverted in the working tree: the selected
+16 MHz / M=8 / N=96 path already works with the original search. Its helper files
+and changes to clamping/invalid-request behavior are removed. Required F423 clock
+limits, startup divider ordering, voltage/latency and kernel clock selection still
+need the focused migration work described below.
+
+
 ## A. Device selection, CMSIS, and library targets
 
 - [x] Add/select `STM32F423xx` and `gcc/startup_stm32f423xx.s` through
@@ -215,9 +231,11 @@ The pinout PR depends on the core fixes in K and CAN3/data-format work in F.
 A compilable core port may land first; the new board is not ready for use until
 its stacked pinout PR and the end-to-end three-bus changes are integrated.
 
-## E. PHAL F4 and clocks — required before bring-up
+## E. PHAL F4 and clocks — compatibility and audit notes
 
 See [the complete PHAL audit](f423_phal_audit.md) for all eleven driver modules.
+The scope table in K separates required compatibility changes from inherited bugs
+in the following summary; these combined audit bullets are not all release gates.
 
 - [ ] Replace DAQ's 168 MHz request and PHAL's 168 MHz cap. F423 limits are
   SYSCLK/HCLK **100 MHz**, PCLK1 **50 MHz**, PCLK2 **100 MHz**. Select VOS and
@@ -360,7 +378,8 @@ a two-bus intermediate build must be labeled incomplete for this board.
 
 This completes support removal and compile/link migration only. DAQ's legacy
 pin map still needs BOARD-01/02 in its separate stacked PR; CAN3/protocol work,
-clock sequencing/latency and the remaining driver/errata fixes are still pending.
+clock sequencing/latency and applicable F423 compatibility/errata work are pending.
+Other inherited driver findings are follow-ups under K's scope table.
 
 ## J. Scope, errata, and acceptance checks
 
@@ -403,15 +422,36 @@ clock sequencing/latency and the remaining driver/errata fixes are still pending
 
 ## K. Detailed implementation work from the PHAL audit
 
-All items below are migration work unless explicitly marked as a bounded
-unsupported-feature policy. Existing bugs remain on the list even when they
-also affect F407. Paths for driver files are under `firmware/common/phal_F4/`.
-Each item defines the implementation and the evidence needed to close it;
-reference-only compatibility notes are retained in L rather than treated as fixes.
+Keep every audit note and its proposed resolution below. Only the portions in
+this table are migration implementation requirements; broader validation,
+recovery, API changes and driver refactors are follow-up work. Preserve existing
+behavior for unchanged hardware interfaces. Paths are under
+`firmware/common/phal_F4/` unless otherwise stated.
+
+| Area / audit IDs | Minimum migration work |
+| --- | --- |
+| RCC-01/03/04/05/06 | Keep 16 MHz HSE, choose a legal F423 clock tree, set required VOS/flash latency and APB dividers before increasing clocks, and supply correct clocks to enabled consumers. Retain existing APIs/error policy. General PLL search, dynamic reconfiguration, timeout/fallback framework and arbitrary-request validation are deferred. |
+| GPIO-01/02/03; BOARD-01–03 | Fix device/register selection and provide bonded pins/AFs and required electrical settings. DAQ mapping stays in its stacked PR; preserve existing SD/power-loss behavior. New pin validation and unrelated GPIO cleanup are deferred. |
+| ADC-01 | Use the F423 common block and single ADC instance; keep existing conversion behavior. ADC-02/03 validation/reinitialization improvements are deferred unless an existing F4 target needs them to run. |
+| SPI-01–05; DMA-01–04 | Preserve compatible register/DMA interfaces and existing transfer modes. Supply a valid W5500 clock request and correct only demonstrated migration blockers or applicable F423 errata on enabled paths. General DMA/SPI lifecycle, input-validation and polling rewrites are deferred. |
+| UART-01/02 | Select the existing SR/DR path, correct F423-specific DMA routing (UART5 TX channel 8), and ensure enabled consumers have unique IRQ owners. Framing/flow-control/receive-policy redesign in UART-03/04 is deferred. |
+| FLASH-01 | Keep F423 geometry/address/sector lookup correct. A new table abstraction and generalized validation/status/cache refactors in FLASH-02–04 are deferred unless required by an enabled migration consumer. |
+| RTC-01–03; PWM-01–03; CRC-01; WDG-01/02 | Preserve compatible operation and public contracts; update device guards and changed clock dependencies where necessary. Inherited calendar, timer, watchdog and validation bugs remain follow-up unless demonstrated to block a migrated target. |
+| CAN-01/02/04; TOPO-01–03 | Add the board-required CAN3/filter/IRQ path, retain correct timing at the selected PCLK1, and carry three bus identities end to end. Change host/log format only where the current format cannot represent them. General CAN timeout/recovery work in CAN-03 is deferred. |
+| SDIO-01/02; ERR-01/02 | Remove reserved F423 bits, use the required pin/kernel-clock/divider settings and resolve applicable F423 errata for enabled transfers. Do not rewrite all peripheral enable sites or unused modes without a demonstrated requirement. |
+| VAL-01–03; G | Build all existing F4 targets and G4 regression targets, check F423 memory/vectors, then verify migrated board functions on hardware. Broader audit defects are recorded, not silently marked fixed. |
+
+### Audit follow-ups
+
+Unchecked items below retain the detailed proposed fix and verification plan for
+future work. An unchecked follow-up is not a migration blocker by itself; apply
+the table above to each subtask before implementing it.
 
 ### K.1. RCC and flash latency
 
-- [ ] **RCC-01 — select and validate the clock tree.** In `rcc.h/.c`, introduce
+- [ ] **RCC-01 — select the F423 clock tree.** For migration, configure and
+  verify the selected target rates without changing the clock API or request
+  policy. General planner/validation proposal (deferred): in `rcc.h/.c`, introduce
   per-device SYSCLK/HCLK/APB/VOS limits and remove silent target clamping.
   Precompute an exact clock tree, including PLLM/N/P/Q and kernel selectors,
   before touching hardware. Use the 96/24/48 MHz candidate in E only after
@@ -420,21 +460,16 @@ reference-only compatibility notes are retained in L rather than treated as fixe
   audit, nonzero requests and supported ratios; leave PLLR at a documented valid
   setting unless I2S/DFSDM is enabled. **Verify:** arithmetic cases cover boundary,
   zero, non-divisible and unattainable requests; report actual achieved rates.
-- [x] **RCC-02 — correct the PLL search (2026-10-30).** Added hardware-independent
-  `PHAL_findPLLFactors()` in `rcc/pll.c`: scan M=2..63, compute N exactly with
-  64-bit cross-products, and enforce N=50..432, VCO input 1..2 MHz, and VCO
-  output 100..432 MHz (RM0430 Rev 9 §6.3.2). Prefer the smallest valid M as
-  recommended for low jitter. `PHAL_configurePLLVCO()` validates the source and
-  complete M/N solution before register writes, rejects invalid/unattainable
-  rates rather than clamping, and records the exact VCO rate. Seven host tests
-  cover N>255/N=432, a later M, fractional input/M precision, boundary/zero/
-  impossible requests, unchanged output on failure, and accepted-rate invariants.
-  **Verified:** all seven host tests pass with ASan/UBSan (leak detection disabled
-  because the sandbox uses ptrace); all configured F423 and G4 firmware targets
-  build/link successfully. Host target: `f423_pll_test` in the `tests` CMake project.
-  This closes the arithmetic search only; ready polling, transition safety,
-  PLLP/Q, voltage/latency and board source configuration remain RCC-01/03–06.
-- [ ] **RCC-03 — implement safe clock transitions.** Enable/wait for HSI; select
+- [ ] **RCC-02 — deferred: correct the general PLL search.** The previous
+  helper/refactor was reverted to preserve existing behavior. The migration's
+  16 MHz input and 192 MHz VCO use M=8/N=96, found by the existing search.
+  For a separate general driver fix, use counters wide enough for N=432, restart
+  N for each M and use exact wide arithmetic. Verify N>255, later-M solutions,
+  fractional input/M and impossible targets. Do not change clamping or error
+  policy as part of this migration without a concrete target requirement.
+- [ ] **RCC-03 — startup divider ordering; broader transitions deferred.**
+  Migration requirement: prevent APB overclock while entering the selected F423
+  clock tree. The remaining general transition proposal is follow-up work: Enable/wait for HSI; select
   SW with clear-and-set writes and compare the full SWS field. Keep a usable
   source enabled during transition, switch off the current PLL only after moving
   SYSCLK away from it, configure safe AHB/APB dividers before raising SYSCLK,
@@ -735,9 +770,10 @@ reference-only compatibility notes are retained in L rather than treated as fixe
 
 This table is the review checklist for keeping the audit and implementation plan
 in sync. Each row includes compatibility notes as well as defects; a valid
-interface is a constraint to preserve, not permission to omit its validation.
+interface is a constraint to preserve. The links include deferred follow-ups;
+only the minimum compatibility work in K is required for this migration.
 
-| Audit section / notes | Concrete migration work |
+| Audit section / notes | Resolution plan / follow-up IDs |
 | --- | --- |
 | Compile evidence; F407-only guards; unused code still compiled | A, GPIO-01, ADC-01, UART-01, VAL-01 |
 | RCC limits, PLL ranges/PLLR, search, transition order/errors, zero SW/SWS, VOS/latency, PLLQ/selectors, HPRE caches, HSE mode/frequency | RCC-01–06; BOARD-01; SDIO-01 |
@@ -756,13 +792,11 @@ interface is a constraint to preserve, not permission to omit its validation.
 | RCC delay, RTC errata, SDIO underrun, SPI timing, conditional DMA2 corruption, other core/peripheral limits | ERR-01/02 plus linked RTC/SPI/SDIO items |
 | Syntax checks are not runtime sign-off; source/binary/header and board evidence | VAL-01–03; M |
 
-For modes unused by DAQ (e.g. ADC sampling, PWM output, UART7–10, SPI3–5,
-DMA memory-to-memory, USB/I2S), resolve each audit note by either implementing
-and checking the advertised contract or rejecting/removing that unsupported
-contract explicitly. A compile pass or lack of a DAQ caller cannot close a
-known defect in an advertised supported path. Hardware qualification of unused
-modes may remain explicitly outside DAQ acceptance; it must not be reported as
-passed. All F4 paths must select F423; F407 compatibility is outside migration scope.
+For modes unused by migrated targets, preserve existing behavior and record
+hardware testing as not exercised. Do not add rejection paths or remove features
+to close audit notes. Inherited defects remain documented follow-ups; implement
+only a demonstrated compatibility/runtime blocker with the smallest coherent fix.
+All F4 paths select F423; retaining F407 compatibility is outside migration scope.
 
 ## M. PR sequence and final verification
 
@@ -772,17 +806,18 @@ pinout integration from final new-board acceptance:
 
 1. **Core migration work:** start with the next-step F407 removal item in A
    (section I and its A–C replacements), then complete the remaining
-   device/clock/memory/driver work in K,
+   compatibility work in K's scope table,
    for every F4 target, including `f4_testing`. Keep temporary example pin maps
    out of any claim that
    the binary is usable on the supplied board.
-2. **Three-bus integration work:** F and CAN-01–04, including host/log format
-   compatibility. It may be a dedicated PR in the stack, but must be ready before
+2. **Three-bus integration work:** the required portions of F and CAN-01/02/04,
+   including host/log compatibility only where the third bus requires a change.
+   It may be a dedicated PR in the stack, but must be ready before
    enabling all three physical interfaces on the new board.
 3. **Separate stacked pinout PR:** BOARD-01/02, the pin/IRQ routing portion of
    BOARD-03, and the table in D, plus board configuration/initialization and
-   final resolved controls. Functional power-loss/SD behavior belongs to core
-   integration work; this PR supplies its concrete pin mapping. Rebase on the core
+   final resolved controls. Preserve existing power-loss/SD behavior while adapting its concrete pin mapping;
+   add behavior only when required by the new hardware. Rebase on the core
    changes and the required CAN3/protocol interfaces. Document temporary F423
    example maps separately from the actual DAQ schematic.
 4. **Integration evidence:** final target build/map/debug review and real-board
@@ -794,7 +829,7 @@ pinout integration from final new-board acceptance:
   regenerate CAN source, and build the DAQ stack, F423 `f4_testing` and existing
   G474 targets. Verify exactly one device macro, correct startup/vector entries,
   exclusive IRQ owners, SVD/device selection and OpenOCD flash identification.
-  Run focused checks for the arithmetic/register-sequence defects listed in K;
+  Run focused checks for the compatibility changes selected by K's scope table;
   existing cppcheck suppression and G4 FIL tests cannot stand in for these.
   **Verify:** attach build/check commands, results, generated-source changes,
   map/vector inspection and debugger identification for the actual target set.

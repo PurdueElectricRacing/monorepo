@@ -12,7 +12,6 @@
 #define _PHAL_RCC_H_
 
 #include "common/phal_F4/phal_F4.h"
-#include "common/phal_F4/rcc/pll.h"
 
 #if !defined(HSE_VALUE) || HSE_VALUE == 0
 #error "Define HSE_VALUE to the board HSE frequency in Hz for both CMSIS and PHAL"
@@ -25,6 +24,12 @@
 // RCC Constants
 #if defined(STM32F423xx)
 
+#define RCC_MAX_VCO_RATE_HZ           ((uint32_t)432e6)
+#define RCC_MIN_VCO_RATE_HZ           ((uint32_t)100e6)
+#define RCC_MIN_PLL_INPUT_DIVISOR     (2U)
+#define RCC_MAX_PLL_INPUT_DIVISOR     (63U)
+#define RCC_MIN_PLL_OUTPUT_MULTIPLIER (50U)
+#define RCC_MAX_PLL_OUTPUT_MULTIPLIER (432U)
 #define RCC_MAX_SYSCLK_TARGET_HZ      (100000000)
 
 #else
@@ -96,12 +101,10 @@ uint8_t PHAL_configureClockRates(ClockRateConfig_t* config);
  * The VCO clock is the input clock for the different PLL outputs.
  * Each PLL output will divide the VCO clock to get its output.
  *
- * @param pll_source PLL input source (HSI16 or HSE)
+ * @param PLL Input rate for PLL, determined by PLL source
  * @param vco_output_rate_target_hz Target rate for PLL output
  * @return true
- * @return false Invalid source, out-of-range rate, or no exact M/N solution;
- *               these errors leave registers unchanged. Hardware transitions
- *               still require the RCC-03 timeout/safe-switch work.
+ * @return false
  */
 bool PHAL_configurePLLVCO(PLLSrc_t pll_source, uint32_t vco_output_rate_target_hz);
 
