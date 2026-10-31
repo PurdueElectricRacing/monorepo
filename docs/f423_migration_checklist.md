@@ -763,11 +763,18 @@ the table above to each subtask before implementing it.
   **Still open:** real-controller/transceiver/filter/error testing. DAQ mapping,
   NVIC enable/priority and three-bus logging/transport remain CAN-04/TOPO-01–03;
   this change does not enable CAN3 in DAQ or apply the stacked pinout PR.
-- [ ] **CAN-02 — tie baud tables to actual PCLK1.** Retain a supported 24 MHz
-  PCLK1 or calculate validated timing entries for another selected rate. Verify
-  bit time, sample point and SJW for each required bus baud rather than reusing
-  constants at 48/50 MHz. **Verify:** loopback then real transceiver traffic with
-  measured rates; unsupported PCLK/baud combinations fail before init.
+- [x] **CAN-02 — verify selected CAN timing (2026-10-30).** DAQ retains 24 MHz
+  PCLK1, and generated SCAN/VCAN/MCAN headers all request 500 kbit/s. The existing
+  `PHAL_CAN_24MHZ_500K` entry decodes to BRP=3, TS1=11, TS2=4 and SJW=4:
+  24 MHz / (3 × 16 tq) = 500 kbit/s, sample point 12/16 = 75%, SJW ≤ TS2.
+  `get_bit_timing()` already selects by actual `APB1ClockRateHz` and requested
+  baud; CAN3 uses the same APB1 timing. No runtime code change is needed.
+  **Verified:** temporary ASan/UBSan checks decode the actual constant, verify
+  selection at 24 MHz and rejection at unsupported 25 MHz before clock writes,
+  and exercise initialization on CAN1/2/3. Generated bus baud selections checked
+  against current headers. **Still open:** loopback and real transceiver traffic
+  with measured clocks after three-bus/pinout integration. Unused timing entries
+  are outside this selected-configuration check and remain unchanged.
 - [ ] **CAN-03 — bound initialization and bus recovery.** Add timeouts/error
   propagation for initialization/synchronization and verify transceiver/reset
   sequencing. Define behavior for an absent bus, bus-off and full mailboxes/FIFO.
