@@ -4,6 +4,7 @@
     "tx": [
         {
             "message_name": "charge_request",
+            "id_override": "0x202",
             "description": "Message from DAQ App to A_BOX to request charging",
             "signals": [
                 {
