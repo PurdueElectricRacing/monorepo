@@ -181,35 +181,31 @@ impl Driver for SimulatedDriver {
             rng.fill_bytes(&mut data);
         } else {
             for signal in &message.signals {
-                let unit = signal.unit().trim();
-                let is_percentage = unit == "%"
-                    || unit.eq_ignore_ascii_case("percent")
-                    || unit.eq_ignore_ascii_case("percentage");
-
-                let bits: u64 = if is_percentage {
-                    let (min_phys, max_phys) = if let Some(limits) = signal.limits() {
-                        let min_p = limits.min.clamp(0.0, 100.0);
-                        let max_p = limits.max.clamp(0.0, 100.0);
-                        if min_p <= max_p {
-                            (min_p, max_p)
-                        } else {
-                            (0.0, 100.0)
-                        }
-                    } else {
-                        (0.0, 100.0)
-                    };
-
+                let choices: Vec<i128> = signal.choices().map(|(val, _)| val).collect();
+                
+                let bits: u64 = if !choices.is_empty() {
+                    let &raw = choices.choose(&mut rng).unwrap();
+                    raw as u64
+                } else if let Some(limits) = signal.limits() {
+                    // Logic when explicit limits exist
                     match signal.raw_type() {
                         superdbc::message::RawType::Float32 => {
-                            let phys = rng.random_range(min_phys as f32..=max_phys as f32);
+                            let min_phys = limits.min as f32;
+                            let max_phys = limits.max as f32;
+                            let (min_p, max_p) = if min_phys <= max_phys {
+                                (min_phys, max_phys)
+                            } else {
+                                (max_phys, min_phys)
+                            };
+                            let phys = rng.random_range(min_p..=max_p);
                             let raw = (phys - signal.offset() as f32) / signal.scale() as f32;
                             u64::from(raw.to_bits())
                         }
                         _ => {
                             let scale = signal.scale();
                             let offset = signal.offset();
-                            let r1 = (min_phys - offset) / scale;
-                            let r2 = (max_phys - offset) / scale;
+                            let r1 = (limits.min - offset) / scale;
+                            let r2 = (limits.max - offset) / scale;
                             let lower = (r1.min(r2).ceil() as i128)
                                 .clamp(signal.codec.min, signal.codec.max);
                             let upper = (r1.max(r2).floor() as i128)
@@ -223,48 +219,18 @@ impl Driver for SimulatedDriver {
                         }
                     }
                 } else {
-                    let choices: Vec<i128> = signal.choices().map(|(val, _)| val).collect();
-                    if !choices.is_empty() {
-                        let &raw = choices.choose(&mut rng).unwrap();
-                        raw as u64
-                    } else {
-                        match signal.raw_type() {
-                            superdbc::message::RawType::Float32 => {
-                                let (min_p, max_p) = if let Some(limits) = signal.limits() {
-                                    (limits.min as f32, limits.max as f32)
-                                } else {
-                                    (-100.0f32, 100.0f32)
-                                };
-                                let (min_p, max_p) = if min_p <= max_p {
-                                    (min_p, max_p)
-                                } else {
-                                    (max_p, min_p)
-                                };
-                                let phys = rng.random_range(min_p..=max_p);
-                                let raw = (phys - signal.offset() as f32) / signal.scale() as f32;
-                                u64::from(raw.to_bits())
-                            }
-                            _ => {
-                                let (lower, upper) = if let Some(limits) = signal.limits() {
-                                    let scale = signal.scale();
-                                    let offset = signal.offset();
-                                    let r1 = (limits.min - offset) / scale;
-                                    let r2 = (limits.max - offset) / scale;
-                                    let lower = (r1.min(r2).ceil() as i128)
-                                        .clamp(signal.codec.min, signal.codec.max);
-                                    let upper = (r1.max(r2).floor() as i128)
-                                        .clamp(signal.codec.min, signal.codec.max);
-                                    if lower <= upper {
-                                        (lower, upper)
-                                    } else {
-                                        (signal.codec.min, signal.codec.max)
-                                    }
-                                } else {
-                                    (signal.codec.min, signal.codec.max)
-                                };
-                                let raw = rng.random_range(lower..=upper);
-                                raw as u64
-                            }
+                    // Fallback logic when no limits exist (using codec defaults)
+                    match signal.raw_type() {
+                        superdbc::message::RawType::Float32 => {
+                            let min_p = -100.0f32;
+                            let max_p = 100.0f32;
+                            let phys = rng.random_range(min_p..=max_p);
+                            let raw = (phys - signal.offset() as f32) / signal.scale() as f32;
+                            u64::from(raw.to_bits())
+                        }
+                        _ => {
+                            let raw = rng.random_range(signal.codec.min..=signal.codec.max);
+                            raw as u64
                         }
                     }
                 };
@@ -282,6 +248,7 @@ impl Driver for SimulatedDriver {
         Ok(())
     }
 }
+
 
 mod serial {
     use std::time;
