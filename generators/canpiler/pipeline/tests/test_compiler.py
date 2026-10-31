@@ -7,6 +7,12 @@ Author: Irving Wang (irvingw@purdue.edu)
 import pytest
 
 from canpiler.pipeline.compiler import compile_message
+from canpiler.pipeline.linker import link_can
+from canpiler.pipeline.models import (
+    CompiledCan,
+    CompiledMessage,
+    CompiledTxMessage,
+)
 from core.declarations import (
     CustomTypeDeclaration,
     MessageDeclaration,
@@ -225,3 +231,79 @@ def test_big_endian_invalid_placement(prefix_bits, value_bits):
     )
     with pytest.raises(ValueError, match="Signal 'value'.*must be byte-aligned"):
         compile_message(message, False, {})
+
+
+def _compiled_message(name: str, is_extended: bool, override: int | None) -> CompiledMessage:
+    return CompiledMessage(
+        message_name=name,
+        description="",
+        signals=(),
+        priority=0,
+        period_ms=0,
+        id_override=override,
+        is_extended=is_extended,
+        byte_order="little_endian",
+        dlc=0,
+        layout_hash="0x0000000000000000",
+    )
+
+
+def _compiled_tx(node: str, bus: str, message: CompiledMessage) -> CompiledTxMessage:
+    return CompiledTxMessage(
+        node_name=node,
+        bus_name=bus,
+        message=message,
+    )
+
+
+def _compiled_can(tx_messages: tuple[CompiledTxMessage, ...]) -> CompiledCan:
+    return CompiledCan(
+        nodes=(),
+        tx_messages=tx_messages,
+        rx_subscriptions=(),
+        bus_definitions={},
+        custom_types={},
+    )
+
+
+def test_link_std_ext_id_conflict_across_buses() -> None:
+    compiled = _compiled_can((
+        _compiled_tx("node_a", "bus_a", _compiled_message("std_msg", False, 12)),
+        _compiled_tx("node_b", "bus_b", _compiled_message("ext_msg", True, 12)),
+    ))
+
+    with pytest.raises(ValueError, match="0xC used with both standard and extended"):
+        link_can(compiled)
+
+
+def test_link_std_ext_id_conflict_within_one_bus() -> None:
+    compiled = _compiled_can((
+        _compiled_tx("node_a", "bus_a", _compiled_message("std_msg", False, 0x18)),
+        _compiled_tx("node_a", "bus_a", _compiled_message("ext_msg", True, 0x18)),
+    ))
+
+    with pytest.raises(ValueError, match="0x18 used with both standard and extended"):
+        link_can(compiled)
+
+
+def test_link_same_id_same_framing_across_buses_allowed() -> None:
+    compiled = _compiled_can((
+        _compiled_tx("node_a", "bus_a", _compiled_message("msg_a", False, 12)),
+        _compiled_tx("node_b", "bus_b", _compiled_message("msg_b", False, 12)),
+    ))
+
+    linked = link_can(compiled)
+    assert [tx.message.message_name for tx in linked.tx_messages] == [
+        "msg_a",
+        "msg_b",
+    ]
+
+
+def test_link_dynamic_id_conflict_across_buses() -> None:
+    compiled = _compiled_can((
+        _compiled_tx("node_a", "bus_a", _compiled_message("std_msg", False, None)),
+        _compiled_tx("node_b", "bus_b", _compiled_message("ext_msg", True, None)),
+    ))
+
+    with pytest.raises(ValueError, match="0x1 used with both standard and extended"):
+        link_can(compiled)

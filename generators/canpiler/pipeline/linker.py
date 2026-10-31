@@ -24,6 +24,7 @@ def link_can(compiled: CompiledCan) -> LinkedCan:
     print("Linking CAN IDs...")
     transmitters = _index_transmitters(compiled.tx_messages)
     linked_messages = _link_messages(compiled.tx_messages)
+    _validate_no_std_ext_conflicts(compiled.tx_messages, linked_messages)
     subscriptions = _resolve_subscriptions(
         compiled,
         transmitters,
@@ -130,17 +131,20 @@ def _assign_bus_ids(
     by_priority: dict[int, list[CompiledMessage]] = defaultdict(list)
     overrides_by_priority: dict[int, set[int]] = defaultdict(set)
     used_ids = set()
+    override_keys: set[tuple[int, bool]] = set()
     for message in messages:
         by_priority[message.priority].append(message)
 
         if message.id_override is None:
             continue
 
-        if message.id_override in used_ids:
+        override_key = (message.id_override, message.is_extended)
+        if override_key in override_keys:
             raise ValueError(
                 f"Bus '{bus_name}': duplicate ID override {hex(message.id_override)}"
             )
 
+        override_keys.add(override_key)
         overrides_by_priority[message.priority].add(message.id_override)
         used_ids.add(message.id_override)
 
@@ -215,3 +219,24 @@ def _select_id(
     used_ids.add(final_id)
 
     return final_id, next_available + 1
+
+
+def _validate_no_std_ext_conflicts(
+    messages: Iterable[CompiledTxMessage],
+    linked: dict[MessageKey, LinkedMessage],
+) -> None:
+    standard: dict[int, list[str]] = defaultdict(list)
+    extended: dict[int, list[str]] = defaultdict(list)
+    for placed in messages:
+        message = linked[placed.key]
+        label = f"bus '{placed.bus_name}' message '{message.message_name}'"
+        target = extended if message.is_extended else standard
+        target[message.final_id].append(label)
+
+    for can_id in sorted(set(standard) & set(extended)):
+        raise ValueError(
+            f"CAN ID 0x{can_id:X} used with both standard and extended "
+            f"framing: {', '.join(standard[can_id])} (standard) vs "
+            f"{', '.join(extended[can_id])} (extended); the same numeric "
+            f"ID must use one framing across the whole model"
+        )
