@@ -18,13 +18,3 @@ pub fn narrow<T: TryInto<U>, U>(
         )
     })
 }
-
-#[derive(serde::Deserialize)]
-pub struct VersionProbe {
-    pub versions: SchemaProbe,
-}
-
-#[derive(serde::Deserialize)]
-pub struct SchemaProbe {
-    pub schema_version: String,
-}

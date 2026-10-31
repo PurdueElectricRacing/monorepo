@@ -36,7 +36,7 @@ pub fn create_driver(
     source: &connection::ConnectionSource,
     bus: Option<&superdbc::database::Bus>,
 ) -> DriverResult<Box<dyn Driver>> {
-    let extended = bus.and_then(|bus| bus.is_extended_id());
+    let extended = bus.map(|bus| bus.is_extended_id());
     match source {
         connection::ConnectionSource::Serial(path, speed) => {
             Ok(Box::new(serial::SerialDriver::new(path, *speed, extended)?))
@@ -142,7 +142,7 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
 /// Choose the random ID range for a simulated bus without message definitions.
 ///
 /// A bus-level extended framing draws from the full 29-bit range; standard
-/// framing, or a schema 1.1 artifact without the field, stays within 11-bit IDs.
+/// framing, or no bus definitions, stays within 11-bit IDs.
 fn simulated_id_range(extended: Option<bool>) -> std::ops::RangeInclusive<u32> {
     match extended {
         Some(true) => 0..=can::EXTENDED_ID_MASK,
@@ -236,8 +236,8 @@ mod serial {
     ///
     /// `Some(true)` sends every frame with an extended (29-bit) ID;
     /// `Some(false)` requires the ID to fit in 11 standard bits. `None`
-    /// preserves the legacy 1.1 artifact behavior: the raw width alone
-    /// decides, and wide IDs fall back to extended framing.
+    /// (no bus supplied) falls back to the raw ID width: wide IDs use
+    /// extended framing.
     fn to_wire_id(raw_id: u32, extended: Option<bool>) -> Option<slcan::Id> {
         match extended {
             Some(true) => slcan::ExtendedId::new(raw_id).map(slcan::Id::Extended),

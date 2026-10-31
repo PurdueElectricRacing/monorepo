@@ -260,10 +260,10 @@ fn run_with_connection(
                         // extended framing; a numeric ID collision between a
                         // 29-bit extended ID (<= 0x7FF) and a standard protocol
                         // ID is the case the check excludes. Unknown framing
-                        // (no database, or 1.1 artifact without the key) keeps
+                        // (no database) keeps
                         // the driver's raw-ID-width heuristic in force.
                         if updating
-                            && decoder.bus().and_then(|bus| bus.is_extended_id()) != Some(true)
+                            && decoder.bus().map(|bus| bus.is_extended_id()) != Some(true)
                             && let Some(progress) = firmware.receive(
                                 frame.identity.raw_id(),
                                 &frame.data,

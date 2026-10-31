@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from core.declarations import DisplayFormat
 
-SchemaVersion = Literal["1.1"]
+SchemaVersion = Literal["1.2"]
 SCHEMA_VERSION = get_args(SchemaVersion)[0]
 
 Name = Annotated[str, Field(min_length=1)]
@@ -59,6 +59,7 @@ class NodeExport(ExportModel):
 class BusExport(ExportModel):
     bus_id: Annotated[int, Field(ge=0, le=0b111)]
     baud_rate: Annotated[int, Field(gt=0)]
+    is_extended_id: bool
     nodes: list[NodeExport]
     messages: list[MessageExport]
 
