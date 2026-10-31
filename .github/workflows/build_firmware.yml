@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - id: built
-        uses: ./.github/actions/per-image
+        uses: ./.github/actions/docker_image
 
   firmware_build:
     needs: [image]
