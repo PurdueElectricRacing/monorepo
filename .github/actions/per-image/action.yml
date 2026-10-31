@@ -1,8 +1,8 @@
 name: Build PER CI image
-description: Builds the repo Dockerfile and pushes it to GHCR with gha layer caching.
+description: Builds the repo Dockerfile and pushes it to GHCR with caching
 outputs:
   image:
-    description: Fully qualified image reference (name:tag).
+    description: Fully qualified image reference (name:tag)
     value: ghcr.io/${{ github.repository }}/per-firmware:${{ steps.meta.outputs.version }}
 runs:
   using: composite
