@@ -233,8 +233,7 @@ fn run_with_connection(
         hil.tick(now);
         if hil.is_running()
             && !hil_capture_complete
-            && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
-        {
+            {
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
             match hil.queue_tx(now, database.as_ref(), &selected_selection) {
                 Ok((messages, errors)) => {
@@ -256,9 +255,12 @@ fn run_with_connection(
                     });
                 }
             }
-            emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
-            hil_last = now;
-            hil_capture_complete = hil.capture_complete(now);
+
+            if now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL {
+                emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
+                hil_last = now;
+                hil_capture_complete = hil.capture_complete(now);
+            }
         }
 
         // Ordinary sends are suspended while firmware owns transmission.

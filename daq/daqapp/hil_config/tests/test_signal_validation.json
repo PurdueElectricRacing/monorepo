@@ -6,7 +6,7 @@
 
 	"tx": [
 		{
-			"timestamp": 10000,
+			"timestamp": 7500,
 			"msg_name": "pack_analog",
 			"signals": {
 				"pack_voltage": 540.0,
@@ -26,7 +26,7 @@
 		},
 
 		{
-			"timestamp": 2025,
+			"timestamp": 2005,
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": 15.0,
@@ -37,7 +37,7 @@
 		},
 
 		{
-			"timestamp": 2035,
+			"timestamp": 2007,
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": 62.3,
@@ -70,16 +70,7 @@
 		},
 
 		{
-			"window": [0, 20000],
-			"msg_name": "thermistor_telemetry",
-			"signals": {
-				"temperature": [30.0, 40.0]
-			},
-			"accept": "any"
-		},
-
-		{
-			"window": [2000, 2025],
+			"window": [2000, 2005],
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": [30.0, 40.0]
@@ -87,7 +78,7 @@
 		},
 
 		{
-			"window": [2025, 2050],
+			"window": [2005, 2007],
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": [10.0, 20.0]
@@ -95,7 +86,7 @@
 		},
 
 		{
-			"window": [2030, 2090],
+			"window": [2007, 2010],
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": [60.0, 70.0]
