@@ -42,7 +42,6 @@ typedef struct {
     ADCDataAlign_t data_align;
     bool cont_conv_mode;
     ADCDMAMode_t dma_mode;
-    uint8_t adc_number;
 } ADCInitConfig_t;
 
 typedef enum {
@@ -67,34 +66,31 @@ typedef struct {
     {.periph_addr = (uint32_t)&(ADC1->DR), .mem_addr = mem_addr_, .tx_size = tx_size_, .increment = true, .circular = true, .dir = 0b0, .mem_inc = true, .periph_inc = false, .mem_to_mem = false, .priority = priority_, .mem_size = 0b01, .periph_size = 0b01, .tx_isr_en = false, .dma_chan_request = 0b0000, .stream_idx = 0, .periph = DMA2, .stream = DMA2_Stream0}
 
 /**
- * @brief Initializes the ADC, requires GPIO config prior
+ * @brief Initializes ADC1, requires GPIO config prior
  *
- * @param adc ADC handle
  * @param config ADC initial config settings
  * @param channels List of channel configurations
  * @param num_channels Number of channels in the channel configuration list
+ * @return false if config is null.
 **/
-bool PHAL_initADC(ADC_TypeDef* adc, ADCInitConfig_t* config, ADCChannelConfig_t channels[], uint8_t num_channels);
+bool PHAL_initADC(ADCInitConfig_t* config, ADCChannelConfig_t channels[], uint8_t num_channels);
 
 /**
- * @brief Starts the ADC conversions, requires PHAL_initADC to be called prior
+ * @brief Starts ADC1 conversions, requires PHAL_initADC to be called prior
  *
- * @param adc ADC handle
 **/
-bool PHAL_startADC(ADC_TypeDef* adc);
+bool PHAL_startADC(void);
 /**
- * @brief Stops the ADC conversions, requires PHAL_initADC to be called prior
+ * @brief Stops ADC1 conversions, requires PHAL_initADC to be called prior
  *
- * @param adc ADC handle
 **/
-bool PHAL_stopADC(ADC_TypeDef* adc);
+bool PHAL_stopADC(void);
 
 /**
- * @brief Reads the ADC data register
+ * @brief Reads the ADC1 data register
  *
- * @param adc ADC handle
  * @return contents of the data register
 **/
-uint16_t PHAL_readADC(ADC_TypeDef* adc);
+uint16_t PHAL_readADC(void);
 
 #endif

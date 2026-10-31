@@ -363,18 +363,18 @@ bool PHAL_SDIO_init(void);
 #define SDIO_DATABLOCKSIZE ((uint32_t)((9 << 4)))
 
 /**
- * @brief  SDIO Intialization Frequency (400KHz max)
+ * @brief  SDIO initialization: 48 MHz kernel / (118 + 2) = 400 kHz.
  */
 #define SDIO_INIT_CLK_DIV ((uint8_t)118)
 
 /**
- * @brief  SDIO Data Transfer Frequency (25MHz max)
+ * @brief  SDIO transfer: 48 MHz kernel / (0 + 2) = 24 MHz (25 MHz max).
  */
 // SDIO_CK = SDIOCLK / (CLKDIV + 2)
 // Select even CLKDIV for 50% duty
-#define SDIO_TRANSFER_CLK_DIV ((uint8_t)0) //(46)
-// #define SDIO_TRANSFER_CLK_DIV           ((uint8_t)78)
-// TODO: see about increasing (1MHz now)
+// With flow control disabled, recheck ES0372 section 2.5.2 when changing
+// PCLK2, the SDIO kernel clock, this divider or the bus width.
+#define SDIO_TRANSFER_CLK_DIV ((uint8_t)0)
 
 #define SD_DMA_MODE ((uint32_t)0x00000000)
 

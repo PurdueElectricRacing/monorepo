@@ -6,9 +6,10 @@
  */
 
 #include "spmc.h"
+#include "can_buses.h"
 
 #include "common/rtos/rtos.h"
-#include "stm32f407xx.h"
+#include "stm32f423xx.h"
 
 // Singleton global allocation
 SPMC_t g_spmc;
@@ -46,16 +47,18 @@ void SPMC_init(SPMC_t *spmc) {
     spmc->follower_drops = 0;
     spmc->is_full = false;
 
-    // CAN1 and CAN2 RX0 IRQs must be set to the same priority to hold the SPMC single producer assumption
-    NVIC_SetPriority(CAN1_RX0_IRQn, CAN_RX_IRQ_PRIO);
-    NVIC_SetPriority(CAN2_RX0_IRQn, CAN_RX_IRQ_PRIO);
-    NVIC_EnableIRQ(CAN1_RX0_IRQn);
-    NVIC_EnableIRQ(CAN2_RX0_IRQn);
+    // All three RX0 IRQs share a priority to preserve the SPMC single-producer assumption.
+    NVIC_SetPriority(DAQ_SCAN_RX0_IRQ, CAN_RX_IRQ_PRIO);
+    NVIC_SetPriority(DAQ_VCAN_RX0_IRQ, CAN_RX_IRQ_PRIO);
+    NVIC_SetPriority(DAQ_MCAN_RX0_IRQ, CAN_RX_IRQ_PRIO);
+    NVIC_EnableIRQ(DAQ_SCAN_RX0_IRQ);
+    NVIC_EnableIRQ(DAQ_VCAN_RX0_IRQ);
+    NVIC_EnableIRQ(DAQ_MCAN_RX0_IRQ);
 }
 
 /**
  * @brief Enqueues a received CAN message into the SPMC buffer from an ISR context.
- * ! the two producer ISRs must have the same NVIC priority to prevent preemption of each other in the middle of a write
+ * ! the three producer ISRs must have the same NVIC priority to prevent preemption of each other in the middle of a write
  * 
  * @param spmc Pointer to the SPMC instance.
  * @param incoming_frame Pointer to the timestamped_frame_t containing the received CAN message.

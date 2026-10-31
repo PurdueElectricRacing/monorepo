@@ -98,9 +98,9 @@ fn run_with_connection(
                         result: Ok(update)
                     });
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
-                    if decoder.bus_id() > 1 {
+                    if decoder.bus_id() > 3 {
                         emit!(can_thread::CanThreadEvent::Diagnostic(format!(
-                            "Legacy logging is unavailable for bus {}; only buses 0/1 are supported.",
+                            "Legacy logging is unavailable for bus {}; only buses 0-3 are supported.",
                             decoder.bus_id()
                         )));
                     }
@@ -251,7 +251,7 @@ fn run_with_connection(
                     got_frames = !frames.is_empty();
                     for frame in frames {
                         load.record_frame(frame.data.len(), time::Instant::now());
-                        if decoder.bus_id() <= 1
+                        if decoder.bus_id() <= 3
                             && let Some(logger) = &mut logger
                             && let Err(error) = logger.log_frame(&frame, decoder.bus_id())
                         {

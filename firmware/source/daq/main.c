@@ -7,10 +7,9 @@
  */
 
 #include "main.h"
+#include "can_buses.h"
 
 /* System Includes */
-#include "can_library/generated/MCAN.h"
-#include "can_library/generated/VCAN.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_F4/can/can.h"
@@ -69,12 +68,12 @@ extern uint32_t APB2ClockRateHz;
 extern uint32_t AHBClockRateHz;
 extern uint32_t PLLClockRateHz;
 
-#define TargetCoreClockrateHz 168'000'000
+#define TargetCoreClockrateHz 96'000'000
 ClockRateConfig_t clock_config = {
     .clock_source              = CLOCK_SOURCE_HSE,
     .use_pll                   = true,
     .pll_src                   = PLL_SRC_HSE,
-    .vco_output_rate_target_hz = 336'000'000,
+    .vco_output_rate_target_hz = 192'000'000,
     .system_clock_target_hz    = TargetCoreClockrateHz,
     .ahb_clock_target_hz       = (TargetCoreClockrateHz / 1),
     .apb1_clock_target_hz      = (TargetCoreClockrateHz / 4),
@@ -85,6 +84,7 @@ ClockRateConfig_t clock_config = {
 dma_init_t spi_rx_dma_config    = SPI1_RXDMA_CONT_CONFIG(NULL, 2);
 dma_init_t spi_tx_dma_config    = SPI1_TXDMA_CONT_CONFIG(NULL, 1);
 SPI_InitConfig_t eth_spi_config = {
+    .data_rate     = 12'000'000, // SPI1: 24 MHz PCLK2 / 2; verify SCK on the new board.
     .data_len      = 8,
     .nss_sw        = false,
     .nss_gpio_port = ETH_CS_PORT,
@@ -122,10 +122,13 @@ int main() {
     if (!PHAL_configureRTC(&fallback_timestamp, false)) {
         HardFault_Handler();
     }
-    if (!PHAL_CAN_init(CAN1, VCAN_BAUD_RATE)) {
+    if (!PHAL_CAN_init(DAQ_SCAN_CAN, SCAN_BAUD_RATE)) {
         HardFault_Handler();
     }
-    if (!PHAL_CAN_init(CAN2, MCAN_BAUD_RATE)) {
+    if (!PHAL_CAN_init(DAQ_VCAN_CAN, VCAN_BAUD_RATE)) {
+        HardFault_Handler();
+    }
+    if (!PHAL_CAN_init(DAQ_MCAN_CAN, MCAN_BAUD_RATE)) {
         HardFault_Handler();
     }
 

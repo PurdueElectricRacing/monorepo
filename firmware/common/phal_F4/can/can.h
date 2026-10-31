@@ -60,7 +60,7 @@ typedef struct {
 
 /**
  * Initialize the bus with an accept-all FIFO0 filter, waiting for hardware acknowledgement.
- * Bus must be CAN1 or CAN2 (nullptr is rejected).
+ * Bus must be CAN1, CAN2 or CAN3 (nullptr is rejected).
  * Return false for an invalid bus or unsupported clock/baud combination, before changing hardware.
  */
 bool PHAL_CAN_init(CAN_TypeDef *bus, PHAL_FDCAN_BaudRate_t bit_rate);

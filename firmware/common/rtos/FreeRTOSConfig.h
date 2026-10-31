@@ -51,7 +51,7 @@ extern uint32_t SystemCoreClock;
 #undef CMSIS_device_header
 #endif
 
-#if defined(STM32F407xx)
+#if defined(STM32F423xx)
     #define CMSIS_device_header "stm32f4xx.h"
 #elif defined(STM32G474xx)
     #define CMSIS_device_header "stm32g4xx.h"

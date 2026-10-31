@@ -39,18 +39,14 @@ bool PHAL_initGPIO(GPIOInitConfig_t config[], uint8_t config_len) {
                 RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN;
                 break;
 
-            case (uint32_t)GPIOI:
-                RCC->AHB1ENR |= RCC_AHB1ENR_GPIOIEN;
-                break;
-
             default:
                 return false;
                 break;
         }
 
         // Setup GPIO output type
-        config[i].bank->MODER &= ~(GPIO_MODER_MODE0_Msk << (GPIO_MODER_MODE1_Pos * config[i].pin));
-        config[i].bank->MODER |= (config[i].type & GPIO_MODER_MODE0_Msk) << (GPIO_MODER_MODE1_Pos * config[i].pin);
+        config[i].bank->MODER &= ~(GPIO_MODER_MODER0_Msk << (GPIO_MODER_MODER1_Pos * config[i].pin));
+        config[i].bank->MODER |= (config[i].type & GPIO_MODER_MODER0_Msk) << (GPIO_MODER_MODER1_Pos * config[i].pin);
 
         switch (config[i].type) {
             case GPIO_TYPE_OUTPUT:
