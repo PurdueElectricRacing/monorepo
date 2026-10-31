@@ -1,8 +1,9 @@
 /**
  * @file sdc.c
  * @brief SDC task implementation
- * 
+ *
  * @author Irving Wang (irvingw@purdue.edu)
+ * @author Millan Kumar (kumar798@purdue.edu)
  */
 
 #include "sdc.h"
