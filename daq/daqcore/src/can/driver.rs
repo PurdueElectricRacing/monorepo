@@ -145,7 +145,6 @@ impl Driver for SimulatedDriver {
         &mut self,
         bus: Option<&superdbc::database::Bus>,
     ) -> DriverResult<Vec<frame::CanFrame>> {
-        
         use rand::Rng as _;
         use rand::RngExt as _;
         use rand::prelude::IndexedRandom as _;
@@ -229,7 +228,6 @@ impl Driver for SimulatedDriver {
         Ok(())
     }
 }
-
 
 mod serial {
     use std::time;
