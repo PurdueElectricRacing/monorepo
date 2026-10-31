@@ -8,7 +8,7 @@
 #include "spmc.h"
 
 #include "common/rtos/rtos.h"
-#include "stm32f407xx.h"
+#include "stm32f423xx.h"
 
 // Singleton global allocation
 SPMC_t g_spmc;

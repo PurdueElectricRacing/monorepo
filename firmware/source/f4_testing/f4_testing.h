@@ -7,6 +7,8 @@
 #define TEST_PWM 2
 
 // Change this define to set the test compiled
+#ifndef F4_TESTING_CHOSEN
 #define F4_TESTING_CHOSEN TEST_ONBOARDING_26
+#endif
 
 #endif // __F4_TESTING__

@@ -11,7 +11,7 @@
 
 #include "common/phal_F4/rtc/rtc.h"
 
-// Registers are in line 10400 of the stm32f407xx.h file
+// Register definitions are provided by stm32f423xx.h
 uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
     // Enable the LSI always (CSR is reset unlike the BDCR register)
     RCC->CSR |= RCC_CSR_LSION;
@@ -28,7 +28,7 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
     // After system reset, the RTC registers are protected against parasitic write access
     //  with the DBP bit of the PWR power control register (PWR_CR)
     // The DBP bit must be set to enable RTC registers write access
-#if defined(STM32F407xx)
+#if defined(STM32F423xx)
     PWR->CR |= PWR_CR_DBP;
     while ((PWR->CR & PWR_CR_DBP) == 0)
         ;
@@ -82,7 +82,7 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
     RTC->CR |= (RTC_FORMAT_24_HOUR << RTC_CR_FMT_Pos) & RTC_CR_FMT_Msk;
 
     // The TR, DR registers are write protected. The write access procedure is
-    //  described in RTC register write protection on RM 0090 page 803
+    //  described in RTC register write protection on RM0430
     uint8_t yearTens   = (initial_time->date.year_bcd >> 4) & 0x0F;
     uint8_t yearUnits  = initial_time->date.year_bcd & 0x0F;
     uint8_t monthTens  = (initial_time->date.month_bcd >> 4) & 0x0F;
@@ -128,7 +128,7 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
         ;
 
     // Relock registers
-#if defined(STM32F407xx)
+#if defined(STM32F423xx)
     PWR->CR &= ~(PWR_CR_DBP);
 #else
 #error "Please define a MCU arch"

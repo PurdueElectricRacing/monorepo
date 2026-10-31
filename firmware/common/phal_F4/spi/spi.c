@@ -38,7 +38,7 @@ bool PHAL_SPI_init(SPI_InitConfig_t* cfg) {
     cfg->periph->CR1 &= ~(SPI_CR1_CPOL);
     cfg->periph->CR2 &= ~(SPI_CR2_SSOE);
 
-#ifdef STM32F407xx
+#ifdef STM32F423xx
     if (cfg->data_len != 8 && cfg->data_len != 16)
         return false;
     // Set data frame size for SPI transaction to 8/16 bits depending on user configuration
@@ -351,7 +351,7 @@ static void PHAL_SPI_priv_handleTxComplete() {
     }
     // Transfer Complete interrupt flag
     if (*sr_reg & tcif_flag) {
-        // RM0090 p.895, wait for TXE and BSY to be cleared to satisfy timing requirements
+        // RM0430, wait for TXE and BSY to be cleared to satisfy timing requirements
         while (!(active_transfer->periph->SR & (SPI_SR_TXE)) || (active_transfer->periph->SR & (SPI_SR_BSY)))
             ;
         // Raise CS to end transaction

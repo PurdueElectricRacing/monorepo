@@ -22,10 +22,10 @@
 #include "common/utils/countof.h"
 
 GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_OUTPUT(GPIOD, 12, GPIO_OUTPUT_LOW_SPEED), // F407VGT disco LEDs
-    GPIO_INIT_OUTPUT(GPIOD, 13, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(GPIOD, 14, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(GPIOD, 15, GPIO_OUTPUT_LOW_SPEED),
+    GPIO_INIT_OUTPUT(GPIOC, 0, GPIO_OUTPUT_LOW_SPEED), // Temporary F423RH bench LEDs (see README.md)
+    GPIO_INIT_OUTPUT(GPIOC, 1, GPIO_OUTPUT_LOW_SPEED),
+    GPIO_INIT_OUTPUT(GPIOC, 2, GPIO_OUTPUT_LOW_SPEED),
+    GPIO_INIT_OUTPUT(GPIOC, 3, GPIO_OUTPUT_LOW_SPEED),
     GPIO_INIT_USART2TX_PA2,
     GPIO_INIT_USART2RX_PA3,
 };
@@ -110,19 +110,19 @@ int main() {
 }
 
 void ledblink1() {
-    PHAL_GPIO_toggle(GPIOD, 12);
+    PHAL_GPIO_toggle(GPIOC, 0);
 }
 
 void ledblink2() {
-    PHAL_GPIO_toggle(GPIOD, 13);
+    PHAL_GPIO_toggle(GPIOC, 1);
 }
 
 void ledblink3() {
-    PHAL_GPIO_toggle(GPIOD, 14);
+    PHAL_GPIO_toggle(GPIOC, 2);
 }
 
 void ledblink4() {
-    PHAL_GPIO_toggle(GPIOD, 15);
+    PHAL_GPIO_toggle(GPIOC, 3);
 }
 
 void usartSend() {

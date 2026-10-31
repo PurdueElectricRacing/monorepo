@@ -13,7 +13,7 @@
 #define _PHAL_USART_H_
 
 // Includes
-#if defined(STM32F407xx)
+#if defined(STM32F423xx)
 #define TOTAL_NUM_UART 8
 
 // Active Transfer list indexes (Add to this list if updating TOTAL_NUM_UART)
@@ -32,7 +32,7 @@
 
 typedef uint32_t ptr_int;
 
-// See USART section of Family reference manual (RM0090 for F4, or RM0431 for F7) for configuration information
+// See USART section of Family reference manual (RM0430 for F4, or RM0431 for F7) for configuration information
 
 // Enumerations
 // See Table 146 in RM. 0090
@@ -200,7 +200,7 @@ bool PHAL_usartRxBusy(usart_init_t* handle);
   */
 extern void usart_recieve_complete_callback(usart_init_t* handle);
 
-#ifdef STM32F407xx
+#ifdef STM32F423xx
 // 4,5,7,8 are UART, rest are USART
 #define PHAL_USART1_RXDMA_STREAM DMA2_Stream5
 #define PHAL_USART1_TXDMA_STREAM DMA2_Stream7

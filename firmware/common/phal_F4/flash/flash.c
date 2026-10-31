@@ -34,7 +34,6 @@ static uint32_t flashGetSector(uint32_t addr) {
         sector = 5;
     else if (addr < ADDR_FLASH_SECTOR_7)
         sector = 6;
-#ifdef STM32F407xx
     else if (addr < ADDR_FLASH_SECTOR_8)
         sector = 7;
     else if (addr < ADDR_FLASH_SECTOR_9)
@@ -43,11 +42,16 @@ static uint32_t flashGetSector(uint32_t addr) {
         sector = 9;
     else if (addr < ADDR_FLASH_SECTOR_11)
         sector = 10;
-    else
+    else if (addr < ADDR_FLASH_SECTOR_12)
         sector = 11;
-#else
-    sector = 7;
-#endif
+    else if (addr < ADDR_FLASH_SECTOR_13)
+        sector = 12;
+    else if (addr < ADDR_FLASH_SECTOR_14)
+        sector = 13;
+    else if (addr < ADDR_FLASH_SECTOR_15)
+        sector = 14;
+    else
+        sector = 15;
     return sector;
 }
 
@@ -108,7 +112,7 @@ uint8_t PHAL_flashWriteU32(uint32_t Address, uint32_t value) {
         return FLASH_TIMEOUT;
     timeout = 0;
 
-    // Set 32 bit parallelism (see RM 0090 Page 85)
+    // Set 32 bit parallelism (see RM0430 flash programming)
     FLASH->CR &= ~(FLASH_CR_PSIZE_Msk);
     FLASH->CR |= FLASH_CR_PSIZE_1;
 
@@ -159,7 +163,7 @@ uint8_t PHAL_flashWriteU32_Buffered(uint32_t Address, uint32_t* data, uint32_t c
         return FLASH_TIMEOUT;
     timeout = 0;
 
-    // Set 32 bit parallelism (see RM 0090 Page 85)
+    // Set 32 bit parallelism (see RM0430 flash programming)
     FLASH->CR &= ~(FLASH_CR_PSIZE_Msk);
     FLASH->CR |= FLASH_CR_PSIZE_1;
 

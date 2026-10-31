@@ -688,12 +688,12 @@ SD_Error SD_ReadMultiBlocks(uint8_t* readbuff, uint64_t ReadAddr, uint16_t Block
 
     SDIO->DCTRL = 0x0;
 
-    SDIO->MASK |= (SDIO_MASK_DCRCFAILIE | SDIO_MASK_DTIMEOUTIE | SDIO_MASK_DATAENDIE | SDIO_MASK_RXOVERRIE | SDIO_MASK_STBITERRIE);
+    SDIO->MASK |= (SDIO_MASK_DCRCFAILIE | SDIO_MASK_DTIMEOUTIE | SDIO_MASK_DATAENDIE | SDIO_MASK_RXOVERRIE);
     //if (NumberOfBlocks == 1) SDIO->MASK |= SDIO_MASK_DBCKENDIE;
     SD_LowLevel_DMA_RxConfig((uint32_t*)readbuff, (NumberOfBlocks * BlockSize));
     // TODO: check that hardware flow control set in CLKCR...
-    // Hardware flow control for STM32F407xx boards said to cause glitches on SDIOCLK output clock :(
-    // Hopefully that is not important/maybe doesn't apply to this version of the board?
+    // Hardware flow control remains disabled; verify ES0372's SDIO clock/bandwidth
+    // constraints on the target board (see the F423 migration plan).
 
     if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
         BlockSize = 512;
@@ -813,7 +813,7 @@ SD_Error SD_WriteMultiBlocks(uint8_t* writebuff, uint64_t WriteAddr, uint16_t Bl
 
     // Initialize data control register
     SDIO->DCTRL   = 0x0;
-    SDIO->MASK |= (SDIO_MASK_DCRCFAILIE | SDIO_MASK_DTIMEOUTIE | SDIO_MASK_DATAENDIE | SDIO_MASK_TXUNDERRIE | SDIO_MASK_STBITERRIE);
+    SDIO->MASK |= (SDIO_MASK_DCRCFAILIE | SDIO_MASK_DTIMEOUTIE | SDIO_MASK_DATAENDIE | SDIO_MASK_TXUNDERRIE);
     SD_LowLevel_DMA_TxConfig((uint32_t*)writebuff, (NumberOfBlocks * BlockSize));
 
     if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
@@ -1422,7 +1422,7 @@ static SD_Error FindSCR(uint16_t rca, uint32_t* pscr) {
         return (errorstatus);
     }
 
-    while (!(SDIO->STA & (SDIO_STA_RXOVERR | SDIO_STA_DCRCFAIL | SDIO_STA_DTIMEOUT | SDIO_STA_DBCKEND | SDIO_STA_STBITERR))) {
+    while (!(SDIO->STA & (SDIO_STA_RXOVERR | SDIO_STA_DCRCFAIL | SDIO_STA_DTIMEOUT | SDIO_STA_DBCKEND))) {
         if (SDIO->STA & SDIO_STA_RXDAVL) {
             *(tempscr + index) = SDIO->FIFO;
             index++;
@@ -1440,10 +1440,6 @@ static SD_Error FindSCR(uint16_t rca, uint32_t* pscr) {
     } else if (SDIO->STA & SDIO_STA_RXOVERR) {
         SDIO->ICR   = (SDIO_ICR_RXOVERRC);
         errorstatus = SD_RX_OVERRUN;
-        return (errorstatus);
-    } else if (SDIO->STA & SDIO_STA_STBITERR) {
-        SDIO->ICR   = (SDIO_ICR_STBITERRC);
-        errorstatus = SD_START_BIT_ERR;
         return (errorstatus);
     }
 
@@ -1492,13 +1488,9 @@ void SDIO_IRQHandler(void) {
         SDIO->ICR     = SDIO_ICR_TXUNDERRC;
         TransferError = SD_TX_UNDERRUN;
         SD_LOG("SDIO IRQ : SD_TX_UNDERRUN\r\n");
-    } else if (SDIO->STA & SDIO_STA_STBITERR) {
-        SDIO->ICR     = SDIO_ICR_STBITERRC;
-        TransferError = SD_START_BIT_ERR;
-        SD_LOG("SDIO IRQ : SD_START_BIT_ERR\r\n");
     }
     // Disable the following interrupts
-    SDIO->MASK &= ~(SDIO_MASK_DCRCFAILIE | SDIO_MASK_DTIMEOUTIE | SDIO_MASK_DATAENDIE | SDIO_MASK_TXFIFOHEIE | SDIO_MASK_RXFIFOHFIE | SDIO_MASK_TXUNDERRIE | SDIO_MASK_RXOVERRIE | SDIO_MASK_STBITERRIE);
+    SDIO->MASK &= ~(SDIO_MASK_DCRCFAILIE | SDIO_MASK_DTIMEOUTIE | SDIO_MASK_DATAENDIE | SDIO_MASK_TXFIFOHEIE | SDIO_MASK_RXFIFOHFIE | SDIO_MASK_TXUNDERRIE | SDIO_MASK_RXOVERRIE);
 }
 
 void DMA2_Stream6_IRQHandler(void) {

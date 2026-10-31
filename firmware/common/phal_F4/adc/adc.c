@@ -13,9 +13,9 @@ bool PHAL_initADC(ADC_TypeDef* adc, ADCInitConfig_t* config, ADCChannelConfig_t 
     RCC->APB2ENR |= (1 << (RCC_APB2ENR_ADC1EN_Pos + config->adc_number - 1)) & (0x7UL << RCC_APB2ENR_ADC1EN_Pos);
 
     // Set prescaler (todo maintain acceptable bounds)
-    ADC123_COMMON->CCR &= ~(ADC_CCR_ADCPRE_Msk);
-    ADC123_COMMON->CCR |= (config->clock_prescaler << ADC_CCR_ADCPRE_Pos) & ADC_CCR_ADCPRE_Msk;
-    ADC123_COMMON->CCR |= ADC_CCR_TSVREFE; // Enable internal temperature sensor
+    ADC1_COMMON->CCR &= ~(ADC_CCR_ADCPRE_Msk);
+    ADC1_COMMON->CCR |= (config->clock_prescaler << ADC_CCR_ADCPRE_Pos) & ADC_CCR_ADCPRE_Msk;
+    ADC1_COMMON->CCR |= ADC_CCR_TSVREFE; // Enable internal temperature sensor
 
     // Set conversion mode on regular channels
     adc->CR2 &= ~(ADC_CR2_CONT);

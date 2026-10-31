@@ -140,7 +140,7 @@ typedef struct
     If you find yourself adding the same pin mappings to multiple devices, add a macro below
     to cut down on duplication.
 */
-#ifdef STM32F407xx
+#ifdef STM32F423xx
 //CAN
 #define GPIO_INIT_CANRX_PD0 GPIO_INIT_AF(GPIOD, 0, 9, GPIO_OUTPUT_ULTRA_SPEED, GPIO_OUTPUT_OPEN_DRAIN, GPIO_INPUT_OPEN_DRAIN)
 #define GPIO_INIT_CANTX_PD1 GPIO_INIT_AF(GPIOD, 1, 9, GPIO_OUTPUT_ULTRA_SPEED, GPIO_OUTPUT_PUSH_PULL, GPIO_INPUT_OPEN_DRAIN)

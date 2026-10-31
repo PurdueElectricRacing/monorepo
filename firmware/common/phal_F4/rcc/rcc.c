@@ -147,7 +147,7 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
         ; // Wait for PLL to turn on
     __DSB();
 
-    //Flash latency adjustment, see ST RM 0090 Pg. 80, ST RM 0431 Pg. 69
+    // TODO(RCC-02): replace the legacy latency policy with RM0430 limits.
     uint32_t flash_acr_temp = FLASH->ACR;
     flash_acr_temp &= ~(FLASH_ACR_LATENCY_Msk);
 
@@ -186,7 +186,7 @@ bool PHAL_configureHSISystemClock() {
     while (!(RCC->CR & RCC_CR_HSIRDY))
         ;
 
-    //Flash latency adjustment, see ST RM 0090 Pg. 80
+    //Flash latency adjustment, see ST RM0430
     uint32_t flash_acr_temp = FLASH->ACR;
     flash_acr_temp &= ~(FLASH_ACR_LATENCY_Msk);
     flash_acr_temp |= FLASH_ACR_LATENCY_0WS << FLASH_ACR_LATENCY_Pos;
@@ -208,7 +208,7 @@ bool PHAL_configureHSESystemClock() {
     while (!(RCC->CR & RCC_CR_HSERDY))
         ;
 
-    //Flash latency adjustment, see ST RM 0090 Pg. 80
+    //Flash latency adjustment, see ST RM0430
     uint32_t flash_acr_temp = FLASH->ACR;
     flash_acr_temp &= ~(FLASH_ACR_LATENCY_Msk);
     flash_acr_temp |= FLASH_ACR_LATENCY_0WS << FLASH_ACR_LATENCY_Pos;
@@ -234,12 +234,12 @@ bool PHAL_configureHSESystemClock() {
 
 bool PHAL_configureAHBClock(uint32_t ahb_clock_target_hz) {
     // Map a required prescaler to achieve the target AHB clock speed from the SystemCoreClock
-    // HCLK has a maximum frequency of 144MHz VOS = 0 and 168 MHz VOS = 1 RM 0090 pg. 80
+    // F423 HCLK is limited to 100 MHz at voltage scale 1; see RM0430.
     uint32_t desired_psc = SystemCoreClock / ahb_clock_target_hz;
     uint32_t sys_clk_div;
 
     // CPU Clock Prescalar (1,2,4,8,16,64,128,256,512 allowed)
-    switch (desired_psc) // ST RM0090 pg. 230
+    switch (desired_psc) // ST RM0430
     {
         case 1:
             sys_clk_div = RCC_CFGR_HPRE_DIV1;
@@ -289,7 +289,7 @@ bool PHAL_configureAPB1Clock(uint32_t apb1_clock_target_hz) {
     uint32_t ahb_clk_div;
 
     // APB1 Prescaler (1,2,4,8,16 allowed)
-    switch (desired_psc) // ST RM0090 pg. 229
+    switch (desired_psc) // ST RM0430
     {
         case 1:
             ahb_clk_div = RCC_CFGR_PPRE1_DIV1;
@@ -327,7 +327,7 @@ bool PHAL_configureAPB2Clock(uint32_t apb2_clock_target_hz) {
     uint32_t ahb_clk_div;
 
     // APB1 Prescaler (1,2,4,8,16 allowed)
-    switch (desired_psc) // ST RM0090 pg. 229
+    switch (desired_psc) // ST RM0430
     {
         case 1:
             ahb_clk_div = RCC_CFGR_PPRE2_DIV1;

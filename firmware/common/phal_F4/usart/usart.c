@@ -53,8 +53,8 @@ bool PHAL_initUSART(usart_init_t* handle, const uint32_t fck) {
 
 // Enable peripheral clock in RCC
 // ADD: When adding a new peripheral, be sure to enable the clock here
-// RM0090 213
-#ifdef STM32F407xx
+// RM0430 USART chapter
+#ifdef STM32F423xx
     switch ((ptr_int)handle->periph) {
         case USART1_BASE:
             RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
@@ -79,7 +79,7 @@ bool PHAL_initUSART(usart_init_t* handle, const uint32_t fck) {
     }
 #endif
 
-    // The following FBRG configuration is based off RM0090 p. 978 - 980
+    // The following FBRG configuration is based off RM0430
     over8 = 8 << !handle->ovsample;
     carry = 0;
     // Calculate USARTDIV constant for given baud rate, convert to fixed point for easy manipulation
@@ -145,7 +145,7 @@ void PHAL_usartTxBl(usart_init_t* handle, uint8_t* data, uint32_t len) {
 
     handle->periph->CR1 |= USART_CR1_TE;
 
-#ifdef STM32F407xx
+#ifdef STM32F423xx
 
     for (i = 0; i < len; i++) {
         while (!(handle->periph->SR & USART_SR_TXE))
@@ -164,7 +164,7 @@ void PHAL_usartRxBl(usart_init_t* handle, uint8_t* data, uint32_t len) {
     unsigned int i;
     handle->periph->CR1 |= USART_CR1_RE;
 
-#ifdef STM32F407xx
+#ifdef STM32F423xx
 
     for (i = 0; i < len; i++) {
         while (!(handle->periph->SR & USART_SR_RXNE))
@@ -182,9 +182,9 @@ bool PHAL_usartTxDma(usart_init_t* handle, uint16_t* data, uint32_t len) {
 
 // Enable All Interrupts needed to complete Tx transaction
 // ADD: Ensure you enable the TX DMA interrupt for a new UART peripheral
-// RM0090 PG 310
+// RM0430 PG 310
 // Read table to ensure DMA streams do not overlap
-#ifdef STM32F407xx
+#ifdef STM32F423xx
     switch ((ptr_int)handle->periph) {
         case USART1_BASE:
             NVIC_EnableIRQ(DMA2_Stream7_IRQn);
@@ -215,7 +215,7 @@ bool PHAL_usartTxDma(usart_init_t* handle, uint16_t* data, uint32_t len) {
     // Configure DMA Peripheral, and set up USART for DMA Transactions
     handle->periph->CR3 |= USART_CR3_DMAT;
     handle->periph->CR1 |= USART_CR1_TE;
-#ifdef STM32F407xx
+#ifdef STM32F423xx
 // Ensure any RX data is not overwritten before continuing with transfer
 // while ((active_uarts[handle->usart_active_num].active_handle->periph->SR & USART_SR_RXNE))
 //     ;
@@ -239,7 +239,7 @@ bool PHAL_usartRxDma(usart_init_t* handle, uint16_t* data, uint32_t len, bool co
     handle->periph->CR1 |= USART_CR1_RE;
 // Enable All Interrupts needed to complete Tx transaction
 // ADD: Add cases to this switch statement to enable DMA and USART interrupts for RX USART peripherals
-#ifdef STM32F407xx
+#ifdef STM32F423xx
     switch ((ptr_int)handle->periph) {
         case USART1_BASE:
             NVIC_EnableIRQ(DMA2_Stream5_IRQn);
@@ -284,7 +284,7 @@ bool PHAL_disableContinousRxDMA(usart_init_t* handle) {
     handle->periph->CR3 &= ~USART_CR3_DMAR;
 // Enable All Interrupts needed to complete Tx transaction
 // ADD: Add cases to this switch statement to disable interrupts for new USART peripherals
-#ifdef STM32F407xx
+#ifdef STM32F423xx
     switch ((ptr_int)handle->periph) {
         case USART1_BASE:
             NVIC_DisableIRQ(DMA2_Stream5_IRQn);
@@ -325,7 +325,7 @@ bool PHAL_usartRxBusy(usart_init_t* handle) {
 }
 
 static void handleUsartIRQ(USART_TypeDef* handle, uint8_t idx) {
-#ifdef STM32F407xx
+#ifdef STM32F423xx
     uint32_t sr = handle->SR;
     // USART RX Not Empty interrupt flag
     if (sr & USART_SR_RXNE) {
@@ -385,12 +385,12 @@ static void handleUsartIRQ(USART_TypeDef* handle, uint8_t idx) {
             active_uarts[idx].active_handle->periph->CR1 &= ~USART_CR1_RE;
         }
         active_uarts[idx]._rx_busy = 0;
-        // Clear error + idle flags (Per RM 0090 Register map, a read to the SR followed by a read to the DR)
+        // Clear error + idle flags (Per RM0430 Register map, a read to the SR followed by a read to the DR)
         (void)active_uarts[idx].active_handle->periph->SR;
         (void)active_uarts[idx].active_handle->periph->DR;
         usart_recieve_complete_callback(active_uarts[idx].active_handle);
     }
-//NOTE: According to RM0090, it is not safe to clear the TC bit unless Multibuffer mode is enabled.
+//NOTE: According to RM0430, it is not safe to clear the TC bit unless Multibuffer mode is enabled.
 #endif
 
 #ifdef STM32F732xx
@@ -658,7 +658,7 @@ __WEAK void usart_recieve_complete_callback(usart_init_t* handle) {
  */
 
 //ADD:
-#ifdef STM32F407xx
+#ifdef STM32F423xx
 void DMA2_Stream5_IRQHandler() {
     handleDMAxComplete(USART1_ACTIVE_IDX, DMA2_Stream5_IRQn, USART_DMA_RX);
 } // USART1 RX
