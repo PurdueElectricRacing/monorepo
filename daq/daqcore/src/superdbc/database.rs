@@ -100,7 +100,10 @@ impl Database {
         let value: serde_json::Value = serde_json::from_str(json).unwrap_or_default();
         let framing: BusFramingProbe = serde_json::from_value(value.clone()).unwrap_or_default();
         let mut stripped = value;
-        if let Some(buses) = stripped.get_mut("buses").and_then(|buses| buses.as_object_mut()) {
+        if let Some(buses) = stripped
+            .get_mut("buses")
+            .and_then(|buses| buses.as_object_mut())
+        {
             for bus in buses.values_mut() {
                 if let Some(bus) = bus.as_object_mut() {
                     bus.remove("is_extended_id");
@@ -525,15 +528,9 @@ mod tests {
     ///
     /// `is_extended_id` is injected at the bus level when `Some`; `None`
     /// omits the key, matching artifacts generated before the field existed.
-    fn artifact(
-        schema_version: &str,
-        is_extended_id: Option<bool>,
-    ) -> serde_json::Value {
+    fn artifact(schema_version: &str, is_extended_id: Option<bool>) -> serde_json::Value {
         let mut bus = serde_json::Map::new();
-        bus.insert(
-            "bus_id".into(),
-            json!(0),
-        );
+        bus.insert("bus_id".into(), json!(0));
         bus.insert("baud_rate".into(), json!(500000));
         if let Some(extended) = is_extended_id {
             bus.insert("is_extended_id".into(), json!(extended));
@@ -576,7 +573,10 @@ mod tests {
             "content_hash".into(),
             json!("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"),
         );
-        document.insert("versions".into(), json!({ "schema_version": schema_version, "hash": "h1" }));
+        document.insert(
+            "versions".into(),
+            json!({ "schema_version": schema_version, "hash": "h1" }),
+        );
         document.insert("buses".into(), json!({ "CAN0": bus }));
         serde_json::Value::Object(document)
     }
@@ -610,14 +610,14 @@ mod tests {
         bus.insert("is_extended_id".into(), json!("yes"));
         let error = Database::from_json(&document.to_string()).unwrap_err();
         assert!(
-            matches!(
-                error,
-                superdbc::error::ParseError::InvalidDefinition { .. }
-            ),
+            matches!(error, superdbc::error::ParseError::InvalidDefinition { .. }),
             "unexpected error: {error:?}"
         );
         let message = error.to_string();
-        assert!(message.contains("CAN0"), "error should name the bus: {message}");
+        assert!(
+            message.contains("CAN0"),
+            "error should name the bus: {message}"
+        );
         assert!(
             message.contains("is_extended_id"),
             "error should name the key: {message}"
@@ -626,8 +626,7 @@ mod tests {
 
     #[test]
     fn unsupported_schema_version_is_rejected() {
-        let error =
-            Database::from_json(&artifact("1.2", Some(true)).to_string()).unwrap_err();
+        let error = Database::from_json(&artifact("1.2", Some(true)).to_string()).unwrap_err();
         assert!(
             matches!(
                 error,

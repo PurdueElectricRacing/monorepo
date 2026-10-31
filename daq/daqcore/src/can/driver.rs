@@ -170,9 +170,8 @@ impl Driver for SimulatedDriver {
         let (identity, size) = match self.messages.choose(&mut rng).copied() {
             Some(message) => message,
             None => {
-                let identity =
-                    frame::CanIdentity::new(rng.random_range(self.id_range.clone()))
-                        .map_err(|error| DriverError::Read(error.to_string()))?;
+                let identity = frame::CanIdentity::new(rng.random_range(self.id_range.clone()))
+                    .map_err(|error| DriverError::Read(error.to_string()))?;
                 (identity, 8)
             }
         };

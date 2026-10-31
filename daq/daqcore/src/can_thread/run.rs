@@ -259,7 +259,8 @@ fn run_with_connection(
                         }
 
                         let updating = firmware.active();
-                        if updating && let Some(progress) = firmware.receive(
+                        if updating
+                            && let Some(progress) = firmware.receive(
                                 frame.identity.raw_id(),
                                 &frame.data,
                                 time::Instant::now(),
