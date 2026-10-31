@@ -58,21 +58,27 @@ bool PHAL_initUSART(usart_init_t* handle, const uint32_t fck) {
     switch ((ptr_int)handle->periph) {
         case USART1_BASE:
             RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
+            (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
         case USART2_BASE:
             RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
+            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
         case USART3_BASE:
             RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
         case UART4_BASE:
             RCC->APB1ENR |= RCC_APB1ENR_UART4EN;
+            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
         case UART5_BASE:
             RCC->APB1ENR |= RCC_APB1ENR_UART5EN;
+            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
         case USART6_BASE:
             RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
+            (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
         default:
             return false;

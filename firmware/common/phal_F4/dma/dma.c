@@ -26,8 +26,10 @@ bool PHAL_initDMA(dma_init_t* init) {
     // Enable clock in RCC
     if (init->periph == DMA1) {
         RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN;
+        (void)RCC->AHB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
     } else if (init->periph == DMA2) {
         RCC->AHB1ENR |= RCC_AHB1ENR_DMA2EN;
+        (void)RCC->AHB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
     } else {
         return false;
     }

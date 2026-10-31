@@ -24,6 +24,7 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
         return true;
 
     RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+    (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
     // Once the RTCCLK clock source has been selected, the only possible way of modifying the selection is to reset the power domain
     // After system reset, the RTC registers are protected against parasitic write access
     //  with the DBP bit of the PWR power control register (PWR_CR)

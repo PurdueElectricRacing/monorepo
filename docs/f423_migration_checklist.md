@@ -838,12 +838,18 @@ the table above to each subtask before implementing it.
   milliseconds. Account for flash stalls and flush duration. Apply the relevant
   IWDG errata if low-APB/Stop behavior is used. **Verify:** minimum/maximum
   expected reset interval and watchdog behavior during stress/power-loss tests.
-- [ ] **ERR-01 — centralize RCC enable settling.** Add an appropriate readback,
-  barrier or documented delay after enabling each used peripheral before its
-  first register access; cover GPIO, DMA, SPI, ADC, CAN, PWR/RTC, CRC and SDIO.
-  **Verify:** review every enable site against ES0372 §2.2.7 and instrument
-  initial accesses in focused tests/bring-up; incidental instruction delay is
-  not the documented implementation contract.
+- [x] **ERR-01 — apply RCC enable settling (2026-10-30).** ES0372 Rev 8
+  §2.2.7 explicitly permits a dummy read of the corresponding RCC register
+  immediately after enabling a peripheral clock. Added volatile readbacks at
+  38 sites: GPIO A–H, DMA1/2, SPI1/2, ADC1, CAN1/2/3, USART1/2/3/6,
+  UART4/5, TIM1–5/8–14, PWR in RTC initialization, CRC, SDIO and DAQ SYSCFG.
+  The PWR enable in RCC voltage scaling already had one. Kept the workaround
+  at each enable write, without a new API or changes to peripheral settings.
+  **Verified:** all 39 AHB/APB enable sites in PHAL F4, SDIO and DAQ have an
+  immediate readback; optimized ADC disassembly retains the RCC load between
+  enable and first peripheral access. All configured firmware/G4 targets and
+  F4 bench variants 0/1/2 build. Initial-access observation on actual silicon
+  remains part of VAL-03; this does not close the separate RTC DBP erratum.
 - [ ] **ERR-02 — close the errata applicability record.** Record actual silicon
   revision, enabled features, relevant ES0372 sections, implemented workaround
   IDs and evidence. RTC DBP/calendar/INIT links to RTC-02/03; SPI to SPI-05;
