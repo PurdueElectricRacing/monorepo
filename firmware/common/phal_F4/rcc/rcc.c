@@ -50,54 +50,69 @@ uint8_t PHAL_configureClockRates(ClockRateConfig_t* config) {
 }
 
 bool PHAL_configurePLLVCO(PLLSrc_t pll_source, uint32_t vco_output_rate_target_hz) {
-    uint32_t pll_input_f_hz = 0;
-    switch (pll_source) {
-        case PLL_SRC_HSI16:
-            pll_input_f_hz = HSI_CLOCK_RATE_HZ;
-            break;
-        case PLL_SRC_HSE:
-            pll_input_f_hz = HSE_CLOCK_RATE_HZ;
-            break;
-        default:
-            return false;
-    }
-
-    PHAL_PLLFactors_t factors = {0};
-    if (!PHAL_findPLLFactors(pll_input_f_hz, vco_output_rate_target_hz, &factors)) {
-        return false;
-    }
+    // Ensure range for PLL output is 100Mhz <= PLL_CLK <= 432Mhz
+    vco_output_rate_target_hz = vco_output_rate_target_hz > RCC_MAX_VCO_RATE_HZ ? RCC_MAX_VCO_RATE_HZ : vco_output_rate_target_hz;
+    vco_output_rate_target_hz = vco_output_rate_target_hz < RCC_MIN_VCO_RATE_HZ ? RCC_MIN_VCO_RATE_HZ : vco_output_rate_target_hz;
 
     // Turn off and wait for PLL to disable
     RCC->CR &= ~RCC_CR_PLLON;
-    while ((RCC->CR & RCC_CR_PLLRDY)) {
-        // Wait for PLL to turn off.
-    }
+    while ((RCC->CR & RCC_CR_PLLRDY))
+        ; // Wait for PLL to turn off
     RCC->PLLCFGR &= ~(RCC_PLLCFGR_PLLSRC_Msk | RCC_PLLCFGR_PLLN_Msk | RCC_PLLCFGR_PLLM_Msk); // Clear any PLL source, N, and M configuration
 
-    // Select the already-validated PLL source.
+    // Select the PLL source and determine a desired input clock rate
+    uint32_t pll_input_f_hz;
     switch (pll_source) {
         // 16 MHz HSI
         case PLL_SRC_HSI16:
             RCC->PLLCFGR |= RCC_PLLCFGR_PLLSRC_HSI; // Select HSI source
-            while (!(RCC->CR & RCC_CR_HSIRDY)) {
-                // Wait for HSI to enable.
-            }
+            while (!(RCC->CR & RCC_CR_HSIRDY)) // Wait for HSI to enable
+                ;
+            pll_input_f_hz = HSI_CLOCK_RATE_HZ; // Set local for PLL input clock rate
             break;
         case PLL_SRC_HSE:
             RCC->PLLCFGR |= RCC_PLLCFGR_PLLSRC_HSE;
-            while (!(RCC->CR & RCC_CR_HSERDY)) {
-                // Wait for HSE to enable.
-            }
+            while (!(RCC->CR & RCC_CR_HSERDY))
+                ;
+            pll_input_f_hz = HSE_CLOCK_RATE_HZ;
             break;
         default:
             return false; // Invalid PLL source
     }
 
-    RCC->PLLCFGR |= (factors.m << RCC_PLLCFGR_PLLM_Pos) & RCC_PLLCFGR_PLLM_Msk; // Set PLLM
-    RCC->PLLCFGR |= (factors.n << RCC_PLLCFGR_PLLN_Pos) & RCC_PLLCFGR_PLLN_Msk; // Set PLLN
+    /* Search for a possible PLL configuration */
+    uint8_t pll_input_divisor     = RCC_MIN_PLL_INPUT_DIVISOR; // PLLM
+    uint8_t pll_output_multiplier = RCC_MIN_PLL_OUTPUT_MULTIPLIER; // PLLN
+    bool valid_rate               = false;
+    for (; pll_input_divisor <= RCC_MAX_PLL_INPUT_DIVISOR; pll_input_divisor++) // PLLM must be 2 to 63 (Pg. 227)
+    {
+        // VCO input frequency = PLL input clock frequency / PLLM with 2 <= PLLM <= 63
+        uint32_t pll_vco_in_rate = pll_input_f_hz / pll_input_divisor;
+        if (pll_vco_in_rate < 1000000 || pll_vco_in_rate > 2000000) // VCO input rate must be 1MHz to 2MHz (Pg. 227 PLLM)
+        {
+            continue;
+        }
+
+        // VCO output frequency = VCO input * PLLN
+        for (; pll_output_multiplier <= RCC_MAX_PLL_OUTPUT_MULTIPLIER; pll_output_multiplier++) // PLLN must be 50 to 432 (Pg. 227)
+        {
+            if ((pll_input_f_hz / pll_input_divisor) * pll_output_multiplier == vco_output_rate_target_hz) {
+                valid_rate = true;
+                break;
+            }
+        }
+        if (valid_rate)
+            break;
+    }
+
+    if (!valid_rate)
+        return false; // Unable to find a valid clock rate!
+
+    RCC->PLLCFGR |= ((pll_input_divisor) << RCC_PLLCFGR_PLLM_Pos) & RCC_PLLCFGR_PLLM_Msk; // Set PLLM
+    RCC->PLLCFGR |= ((pll_output_multiplier) << RCC_PLLCFGR_PLLN_Pos) & RCC_PLLCFGR_PLLN_Msk; // Set PLLN
 
     // Update global variable used to reference the PLL
-    PLLClockRateHz = vco_output_rate_target_hz; // Exact rate verified before register writes
+    PLLClockRateHz = ((pll_input_f_hz / pll_input_divisor) * pll_output_multiplier);
 
     SystemCoreClockUpdate(); // Must be called each time the core clock HCLK changes
     return true;
@@ -132,7 +147,7 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
         ; // Wait for PLL to turn on
     __DSB();
 
-    // TODO(RCC-04): replace the legacy latency policy with RM0430 limits.
+    // TODO(RCC-02): replace the legacy latency policy with RM0430 limits.
     uint32_t flash_acr_temp = FLASH->ACR;
     flash_acr_temp &= ~(FLASH_ACR_LATENCY_Msk);
 

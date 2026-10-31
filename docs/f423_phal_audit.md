@@ -1,5 +1,10 @@
 # PHAL F4 audit for STM32F423RHT6
 
+> Scope clarification (2026-10-30): this audit records inherited defects as well
+> as F423 differences. It is not a mandate to fix every finding during the port.
+> Implement only compatibility changes or demonstrated blockers for existing F4
+> targets; preserve other behavior. See the migration plan's section K scope table.
+
 Reviewed on 2026-10-23 at repository revision `6e4001ae7`. This supplements the
 [migration checklist](f423_migration_checklist.md). Every `.c` and `.h` under
 `firmware/common/phal_F4/` was inspected against the local
