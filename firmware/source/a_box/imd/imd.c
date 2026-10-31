@@ -21,7 +21,7 @@ static volatile imd_capture_tracker_t g_capture = {0};
 
 
 void imd_init(void) {
-    TIM_TypeDef *tim = TIM5;
+    TIM_TypeDef *tim = IMD_PWM_LS_TIM;
 
     // Turn TIM5's clock on
     RCC->APB1ENR1 |= RCC_APB1ENR1_TIM5EN;
@@ -79,7 +79,7 @@ void imd_init(void) {
 // Require a falling edge since the preceding rising-edge ISR
 // Overcapture or a new edge during the read results in a lost capture
 void TIM5_IRQHandler(void) {
-    TIM_TypeDef *tim = TIM5;
+    TIM_TypeDef *tim = IMD_PWM_LS_TIM;
     uint32_t before = tim->SR;
     if ((before & TIM_SR_CC2IF) == 0U) { // No rising-edge capture to process
         return;
