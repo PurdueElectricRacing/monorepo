@@ -1,11 +1,15 @@
 FROM ubuntu:26.04
 
+# prevent apt packages from prompting interactively during the build
+ENV DEBIAN_FRONTEND=noninteractive
+
 # refresh apt
 RUN apt update
 
 # install deps
 RUN apt -y install --no-install-recommends \
     ca-certificates \
+    clang \
     clang-format \
     cmake \
     cppcheck \
@@ -16,6 +20,7 @@ RUN apt -y install --no-install-recommends \
     git \
     lcov \
     libgtest-dev \
+    libclang-rt-dev \
     libnewlib-arm-none-eabi \
     libssl-dev \
     libudev-dev \
@@ -23,6 +28,8 @@ RUN apt -y install --no-install-recommends \
     libxcb-shape0-dev \
     libxcb-xfixes0-dev \
     libxkbcommon-dev \
+    llvm \
+    make \
     ninja-build \
     pkg-config
 
@@ -51,5 +58,9 @@ RUN curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
         --no-modify-path \
         --profile minimal \
         --default-toolchain stable \
-    && rustup component add rustfmt \
+    && rustup component add clippy rustfmt \
     && rm /tmp/rustup-init.sh
+
+# install diesel CLI
+RUN cargo install diesel_cli --version 2.3.3 --locked \
+    --no-default-features --features sqlite-bundled

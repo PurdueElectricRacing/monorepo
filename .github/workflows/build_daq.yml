@@ -10,13 +10,28 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
+  image:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    name: CI image
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      image: ${{ steps.built.outputs.image }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: built
+        uses: ./.github/actions/docker_image
+
   daqcloud_schema:
     name: Check generated diesel schema
+    needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: irvingywang/per-firmware:latest
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
@@ -25,20 +40,6 @@ jobs:
       - name: Fix git ownership
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      - name: Cache Diesel CLI
-        id: diesel_cli_cache
-        uses: actions/cache@v6
-        with:
-          path: ${{ runner.temp }}/diesel-cli
-          key: ${{ runner.os }}-${{ runner.arch }}-diesel-cli-2.3.3-sqlite-bundled-v1
-
-      - name: Install Diesel CLI
-        if: steps.diesel_cli_cache.outputs.cache-hit != 'true'
-        run: >-
-          cargo install diesel_cli --version 2.3.3 --locked
-          --no-default-features --features sqlite-bundled
-          --root "$RUNNER_TEMP/diesel-cli"
-
       - name: Regenerate schema from migrations and verify checked-in schema
         working-directory: daq/daqcloud
         shell: bash
@@ -46,14 +47,16 @@ jobs:
           database_dir="$(mktemp -d)"
           trap 'rm -rf "$database_dir"' EXIT
           export DATABASE_URL="$database_dir/daqcloud.db"
-          "$RUNNER_TEMP/diesel-cli/bin/diesel" migration run
+          diesel migration run
           git diff --exit-code -- src/db/schema.rs
 
   superdbc_models:
     name: Check generated SuperDBC models
+    needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: irvingywang/per-firmware:latest
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
@@ -74,9 +77,11 @@ jobs:
 
   build:
     name: Build DAQ Workspace
+    needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: irvingywang/per-firmware:latest
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
@@ -103,9 +108,11 @@ jobs:
 
   fmt:
     name: Check formatting
+    needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: irvingywang/per-firmware:latest
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
@@ -117,17 +124,15 @@ jobs:
 
   clippy:
     name: Clippy (DAQ)
-    needs: build
+    needs: [image, build]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: irvingywang/per-firmware:latest
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-
-      - name: Install Clippy
-        run: rustup component add clippy
 
       - name: Cache Cargo
         uses: actions/cache@v6
