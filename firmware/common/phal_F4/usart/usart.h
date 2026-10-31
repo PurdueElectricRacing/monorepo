@@ -277,7 +277,7 @@ extern void usart_recieve_complete_callback(usart_init_t* handle);
 #define USART4_RXDMA_CONT_CONFIG(a, p) _DEF_USART_RXDMA_CONFIG(a, p, UART4, 1, 2, 4)
 #define USART4_TXDMA_CONT_CONFIG(a, p) _DEF_USART_TXDMA_CONFIG(a, p, UART4, 1, 4, 4)
 #define USART5_RXDMA_CONT_CONFIG(a, p) _DEF_USART_RXDMA_CONFIG(a, p, UART5, 1, 0, 4)
-#define USART5_TXDMA_CONT_CONFIG(a, p) _DEF_USART_TXDMA_CONFIG(a, p, UART5, 1, 7, 4)
+#define USART5_TXDMA_CONT_CONFIG(a, p) _DEF_USART_TXDMA_CONFIG(a, p, UART5, 1, 7, 8)
 #define USART6_RXDMA_CONT_CONFIG(a, p) _DEF_USART_RXDMA_CONFIG(a, p, USART6, 2, 1, 5)
 #define USART6_TXDMA_CONT_CONFIG(a, p) _DEF_USART_TXDMA_CONFIG(a, p, USART6, 2, 6, 5)
 

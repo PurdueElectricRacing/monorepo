@@ -648,15 +648,21 @@ the table above to each subtask before implementing it.
 
 ### K.6. USART
 
-- [ ] **UART-01 — retain the correct F4 interface.** Extend device selection for
-  SR/DR, clock enables, BRR, constants, IRQs and DMA macros; avoid the RDR/TDR
-  fallback for F423. Define the supported set as USART1/2/3/6 and UART4/5;
-  explicitly reject UART7–10 until implemented and document array/index limits.
-  **Verify:** instantiate each supported configuration macro under F423,
-  reject unsupported peripherals/indices and compile both header branches.
-- [ ] **UART-02 — fix routing and vector conflicts.** Change only F423 UART5_TX
-  to DMA1 stream7/channel 8, retain valid routes for other instances, and fix
-  stream7's DMEIF flag. USART6 TX cannot own SDIO's DMA2 stream6 concurrently;
+- [x] **UART-01 — retain the correct F4 interface.** Device-selection migration
+  already selects F423's SR/DR, clock, BRR, IRQ and DMA paths rather than the
+  RDR/TDR fallback. Existing interfaces compile with F423 headers. New instance/
+  array validation and rejection policies remain deferred under the scope table.
+- [x] **UART-02 — correct F423 UART5 TX routing (2026-10-30).** Change only
+  `USART5_TXDMA_CONT_CONFIG` to DMA1 stream7/channel 8 (RM0430 table 30).
+  Keep UART5 RX on DMA1 stream0/channel 4 and all other routes unchanged; the
+  existing TX handler already dispatches DMA1 stream7. F423's four-bit CHSEL
+  field and existing DMA code support channel 8 without changes.
+  **Verified:** ARM compilation and temporary ASan/UBSan descriptor checks cover
+  controller/stream/channel, UART5 DR address, CHSEL encoding and unchanged RX.
+  All configured F423/G4 targets and all three F4 bench variants build/link with
+  no duplicate vector definitions. UART5 DMA loopback remains hardware work.
+  **Deferred follow-up:** fix stream7's inherited DMEIF flag and resolve IRQ
+  conflicts if these consumers are enabled together. USART6 TX cannot own SDIO's DMA2 stream6 concurrently;
   provide a device-valid alternative with its handler or reject that combination.
   Resolve UART4/SPI2 DMA1 stream4 conflicts similarly. **Verify:** route table
   review, link-time vector ownership, and loopback on each enabled route.
