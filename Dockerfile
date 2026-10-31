@@ -59,3 +59,7 @@ RUN curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
         --default-toolchain stable \
     && rustup component add clippy rustfmt \
     && rm /tmp/rustup-init.sh
+
+# install diesel CLI
+RUN cargo install diesel_cli --version 2.3.3 --locked \
+    --no-default-features --features sqlite-bundled
