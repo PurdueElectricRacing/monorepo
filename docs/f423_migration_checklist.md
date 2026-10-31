@@ -420,11 +420,20 @@ reference-only compatibility notes are retained in L rather than treated as fixe
   audit, nonzero requests and supported ratios; leave PLLR at a documented valid
   setting unless I2S/DFSDM is enabled. **Verify:** arithmetic cases cover boundary,
   zero, non-divisible and unattainable requests; report actual achieved rates.
-- [ ] **RCC-02 — correct the PLL search.** Use counters wide enough for N=432,
-  reset the N search for every M, and use multiplication/cross-products wide
-  enough to avoid overflow or premature division. Return a bounded error if no
-  exact solution exists. **Verify:** include solutions requiring N>255, a later
-  M divisor, and impossible targets; no input causes a wrap or infinite search.
+- [x] **RCC-02 — correct the PLL search (2026-10-30).** Added hardware-independent
+  `PHAL_findPLLFactors()` in `rcc/pll.c`: scan M=2..63, compute N exactly with
+  64-bit cross-products, and enforce N=50..432, VCO input 1..2 MHz, and VCO
+  output 100..432 MHz (RM0430 Rev 9 §6.3.2). Prefer the smallest valid M as
+  recommended for low jitter. `PHAL_configurePLLVCO()` validates the source and
+  complete M/N solution before register writes, rejects invalid/unattainable
+  rates rather than clamping, and records the exact VCO rate. Seven host tests
+  cover N>255/N=432, a later M, fractional input/M precision, boundary/zero/
+  impossible requests, unchanged output on failure, and accepted-rate invariants.
+  **Verified:** all seven host tests pass with ASan/UBSan (leak detection disabled
+  because the sandbox uses ptrace); all configured F423 and G4 firmware targets
+  build/link successfully. Host target: `f423_pll_test` in the `tests` CMake project.
+  This closes the arithmetic search only; ready polling, transition safety,
+  PLLP/Q, voltage/latency and board source configuration remain RCC-01/03–06.
 - [ ] **RCC-03 — implement safe clock transitions.** Enable/wait for HSI; select
   SW with clear-and-set writes and compare the full SWS field. Keep a usable
   source enabled during transition, switch off the current PLL only after moving
