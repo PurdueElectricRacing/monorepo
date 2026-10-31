@@ -65,6 +65,10 @@ per_add_stm32_cmsis_target(
     "${CMAKE_SOURCE_DIR}/external/cmsis-device-f4"
 )
 per_add_stm32_cmsis_target(
+    CMSIS_F423 STM32F4xx STM32F423xx
+    "${CMAKE_SOURCE_DIR}/external/cmsis-device-f4"
+)
+per_add_stm32_cmsis_target(
     CMSIS_G474 STM32G4xx STM32G474xx
     "${CMAKE_SOURCE_DIR}/external/cmsis-device-g4"
 )
