@@ -18,7 +18,6 @@ RUN apt -y install --no-install-recommends \
     gcc-arm-none-eabi \
     git \
     lcov \
-    llvm \
     libgtest-dev \
     libclang-rt-dev \
     libnewlib-arm-none-eabi \
@@ -28,6 +27,7 @@ RUN apt -y install --no-install-recommends \
     libxcb-shape0-dev \
     libxcb-xfixes0-dev \
     libxkbcommon-dev \
+    llvm \
     make \
     ninja-build \
     pkg-config

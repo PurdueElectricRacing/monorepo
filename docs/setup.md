@@ -22,7 +22,7 @@ This guide sets up the complete PER software development environment.
 	- [3C.2 Update Ubuntu](#3c2-update-ubuntu)
 	- [3C.3 Use VS Code inside of WSL](#3c3-use-vs-code-inside-of-wsl)
 	- [3C.4 USB / ST-LINK Access](#3c4-usb--st-link-access)
-  - [3D. CI Container Image (Optional)](#3d-ci-container-image-optional)
+	- [3D. CI Container Image (Optional)](#3d-ci-container-image-optional)
 - [4. Install Python Dependencies](#4-install-python-dependencies)
 - [5. Install Rust/DAQ Tools](#5-install-rustdaq-tools)
   - [5.1 Rust](#51-rust)

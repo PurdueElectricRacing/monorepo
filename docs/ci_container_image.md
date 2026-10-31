@@ -40,8 +40,11 @@ choice:
 
 - No account, token, or "link to CI/CD" setup is required — every GitHub org has an
   implicit GHCR (`ghcr.io/purdueelectricracing/...`).
-- Auth is the per-run `GITHUB_TOKEN`; it can push/pull once the workflow declares
-  `packages: write`. No secrets, no `docker login` with credentials.
+- Auth is the per-run `GITHUB_TOKEN`, which — once the workflow declares
+  `packages: write` — is sufficient to push/pull, so there are no personal secrets or
+  tokens to manage. The composite action still performs an explicit
+  `docker/login-action` step because `docker/build-push-action` does not authenticate
+  with any registry by itself.
 - Free for public repos.
 - **Cross-run, cross-workflow BuildKit layer cache (`type=gha`)** scoped to the repo:
   the first build of a given Dockerfile revision takes minutes; every later build
@@ -69,9 +72,13 @@ PR / push to master
 
 - Tags: `sha-<commit sha>` on every build; `latest` **only** on pushes to `master`.
   PRs and feature branches never touch `latest`.
-- Fork PRs: `ghcr.io/${{ github.repository }}/per-firmware` resolves to the *fork's*
-  repository on fork PRs, and the fork's token can push to its own GHCR. Fork CI works
-  without any extra permissions.
+- Fork PRs: `github.repository` is the *base* repository on fork PRs, and the
+  `GITHUB_TOKEN` is read-only there, so the `image` job carries
+  `if: github.event_name != 'pull_request' ||
+  github.event.pull_request.head.repo.full_name == github.repository` and is skipped
+  for fork PRs (the containerized jobs that `needs: [image]` are skipped as a result,
+  keeping the workflow green). PRs from branches of the org repo, master pushes, and
+  `workflow_dispatch` are unaffected.
 
 ## Files to Create
 
@@ -83,7 +90,7 @@ description: Builds the repo Dockerfile and pushes it to GHCR with gha layer cac
 outputs:
   image:
     description: Fully qualified image reference (name:tag).
-    value: ${{ steps.meta.outputs.name }}:${{ steps.meta.outputs.version }}
+    value: ghcr.io/${{ github.repository }}/per-firmware:${{ steps.meta.outputs.version }}
 runs:
   using: composite
   steps:
@@ -96,6 +103,12 @@ runs:
         tags: |
           type=sha,prefix=sha-
           type=raw,value=latest,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+
+    - uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
 
     - uses: docker/build-push-action@v7
       with:
@@ -260,7 +273,9 @@ max) + one pull per job + existing cargo caches. No periodic manual image refres
      `arm-none-eabi-gcc`, `python3 -m pytest`, etc.).
    - Second PR/commit: BuildKit log shows cache hits for apt/pip/rustup layers.
 2. **Fork PR test (the easy-to-miss case):** open a PR from a fork. Confirm the `image`
-   job pushes to the fork's GHCR without permission errors, and consumers pull it.
+   job is SKIPPED (fork tokens are read-only on the base repo's GHCR) and the
+   containerized jobs are skipped as a result — the workflow shows skipped/green, not
+   failing.
 3. **Master test:** merge to master. Confirm:
    - `:latest` is minted (only `push` + `refs/heads/master` enables it).
    - `build_image.yml` (path-filtered) does not double-build on unrelated pushes.
@@ -297,6 +312,10 @@ alive until step 6.
 - **Fork PRs cost a full image build on first contact per fork** (no shared gha cache
   across repos — the cache is per-repo). Subsequent commits in the same fork PR are
   fast.
+- **Fork PRs do not run the containerized CI jobs** (the image build is skipped because
+  fork tokens cannot push to the base repo's GHCR); contributors using forks get no
+  automated CI for those jobs. This is accepted because the team's normal workflow is
+  branches of the org repo, where full CI runs.
 - **GHCR `packages: write` scope:** ensure the token context is the org repo (it is, by
   default, for org workflows) and the repo remains public (free pulls are unlimited
   for public repos regardless).
