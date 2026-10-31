@@ -79,11 +79,13 @@ pub enum CanThreadEvent {
         identity: frame::CanIdentity,
         timestamp: time::Time,
         amount_left: Option<can_thread::tx::SendAmount>,
+        slot_index: u8,
     },
     SendFailed {
         identity: frame::CanIdentity,
         error: String,
         retrying: bool,
+        is_hil: bool,
     },
     Diagnostic(String),
     BusLoad {

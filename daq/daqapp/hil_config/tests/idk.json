@@ -6,20 +6,78 @@
 
 	"tx": [
 		{
-			"timestamp": 15,
+			"timestamp": 10000,
 			"msg_name": "pack_analog",
 			"signals": {
 				"pack_voltage": 540.0,
 				"pack_current": 10.0
 			}
+		},
+
+		{
+			"timestamp": 2000,
+			"msg_name": "thermistor_telemetry",
+			"signals": {
+				"temperature": 35.0,
+				"module_num": 1,
+    			"thermistor_num": 2
+			}
+		},
+
+		{
+			"timestamp": 2005,
+			"msg_name": "thermistor_telemetry",
+			"signals": {
+				"temperature": 15.0,
+				"module_num": 1,
+    			"thermistor_num": 2
+			}
+		},
+
+		{
+			"timestamp": 2010,
+			"msg_name": "thermistor_telemetry",
+			"signals": {
+				"temperature": 62.3,
+				"module_num": 1,
+    			"thermistor_num": 2
+			}
+		},
+
+		{
+			"msg_name": "canpiler_test",
+			"timestamp": 3000,
+			"signals": {
+				"temperature": 25,
+				"current": 10,
+				"voltage": 3.3,
+				"pressure": 100,
+				"status": 1
+			}
 		}
 	],
 	"expect": [
 		{
-			"window": [15, 20],
+			"window": [2000, 2005],
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": [30.0, 40.0]
+			}
+		},
+
+		{
+			"window": [2005, 2010],
+			"msg_name": "thermistor_telemetry",
+			"signals": {
+				"temperature": [10.0, 20.0]
+			}
+		},
+
+		{
+			"window": [2010, 2015],
+			"msg_name": "thermistor_telemetry",
+			"signals": {
+				"temperature": [60.0, 70.0]
 			}
 		}
 	]

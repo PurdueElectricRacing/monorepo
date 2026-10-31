@@ -10,6 +10,12 @@ pub enum ExpectResult {
     FailedValueOutOfRange,
 }
 
+#[derive(PartialEq, Eq, Clone)]
+pub enum TxResult {
+    Sent,
+    Failed,
+}
+
 /// Single signal failure, captured at evaluation used for displaying in the UI
 #[derive(Clone)]
 pub enum SignalFailure {
@@ -43,6 +49,7 @@ pub struct InProgressExpect {
 pub struct HilRunningTest {
     pub test_info: hil::config::TestInfo,
     pub tx_remaining: Vec<hil::config::TxMessage>,
+    pub tx_completed: Vec<(hil::config::TxMessage, TxResult)>,
     pub in_progress_expects: Vec<InProgressExpect>,
 }
 
@@ -90,9 +97,14 @@ impl HilRunningTest {
             .map(InProgressExpect::new)
             .collect::<Vec<_>>();
         in_progress_expects.sort_by(|a, b| a.expect.window[0].total_cmp(&b.expect.window[0]));
+
+        let mut tx_remaining = test.tx;
+        tx_remaining.sort_by(|a, b| a.timestamp.total_cmp(&b.timestamp));
+
         Self {
             test_info,
-            tx_remaining: test.tx,
+            tx_remaining,
+            tx_completed: Vec::new(),
             in_progress_expects,
         }
     }
@@ -185,6 +197,7 @@ impl HilRunningTest {
         self.in_progress_expects
             .iter()
             .all(|e| e.result.is_finished())
+            && self.tx_remaining.is_empty()
     }
 
     pub fn has_failed(&self) -> bool {
@@ -193,7 +206,10 @@ impl HilRunningTest {
                 e.result,
                 ExpectResult::FailedNoMessage | ExpectResult::FailedValueOutOfRange
             )
-        })
+        }) || self
+            .tx_completed
+            .iter()
+            .any(|(_, result)| matches!(result, TxResult::Failed))
     }
 }
 

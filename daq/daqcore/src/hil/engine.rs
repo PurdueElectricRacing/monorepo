@@ -1,6 +1,11 @@
 use crate::hil::config::ExecutionMode;
-use crate::{frame, hil};
 use std::{path, time};
+
+use crate::{
+    can_thread::tx::{AddSendMessage, SendAmount::Once},
+    frame, hil,
+    superdbc::database::Database,
+};
 
 pub enum HilCommand {
     StartTest(hil::config::TestInfo),
@@ -66,6 +71,10 @@ impl HilEngine {
         }
     }
 
+    pub fn has_decoder(&self, database: Option<&Database>, bus_id: u8) -> bool {
+        database.is_some_and(|database| database.bus_by_id(bus_id).is_some())
+    }
+
     pub fn is_running(&self) -> bool {
         matches!(self.state, HilState::Running { .. })
     }
@@ -81,7 +90,17 @@ impl HilEngine {
         }
     }
 
-    pub fn handle_command(&mut self, command: HilCommand, now: time::Instant) {
+    pub fn handle_command(
+        &mut self,
+        command: HilCommand,
+        now: time::Instant,
+        database: Option<&Database>,
+        bus_id: u8,
+    ) {
+        if !matches!(&command, HilCommand::Stop) && !self.allowed_start(database, bus_id) {
+            return;
+        }
+
         match command {
             HilCommand::StartTest(test_info) => {
                 match hil::run::HilRunningTest::new(&self.base, &test_info) {
@@ -107,6 +126,152 @@ impl HilEngine {
                 self.state = HilState::Idle { start_error: None };
             }
         }
+    }
+
+    pub fn queue_tx(
+        &mut self,
+        now: std::time::Instant,
+        database: Option<&Database>,
+        bus_id: u8,
+    ) -> Result<(Vec<AddSendMessage>, Vec<String>), String> {
+        let Some(database) = database.filter(|database| database.bus_by_id(bus_id).is_some())
+        else {
+            return Err("Decoder has not been loaded properly".to_owned());
+        };
+
+        if let HilState::Running {
+            start_time,
+            preset,
+            tests,
+            active_test,
+            active_start_time,
+            stopped_early,
+        } = &mut self.state
+        {
+            let mut tx_messages: Vec<AddSendMessage> = Vec::new();
+            let mut errors = Vec::new();
+
+            if *stopped_early {
+                return Ok((tx_messages, errors));
+            }
+
+            let mode = match preset.as_ref() {
+                Some(preset_info) => &preset_info.mode,
+                None => &ExecutionMode::Parallel,
+            };
+
+            match mode {
+                ExecutionMode::Parallel => {
+                    for test in tests.iter_mut() {
+                        if !test.tx_remaining.is_empty() {
+                            let pending = std::mem::take(&mut test.tx_remaining);
+                            let mut remaining = Vec::new();
+                            let elapsed_ms: f64 =
+                                now.saturating_duration_since(*start_time).as_secs_f64() * 1000f64;
+
+                            for tx_message in pending {
+                                if elapsed_ms < tx_message.timestamp {
+                                    remaining.push(tx_message);
+                                    continue;
+                                }
+
+                                match Self::hil_tx_to_send_message(&tx_message, database, bus_id) {
+                                    Ok(message) => {
+                                        tx_messages.push(message);
+                                        test.tx_completed
+                                            .push((tx_message, hil::run::TxResult::Sent));
+                                    }
+                                    Err(error) => {
+                                        errors.push(format!(
+                                            "Error while encoding and converting TX message {}: {}",
+                                            tx_message.msg_name.as_str(),
+                                            error
+                                        ));
+                                        test.tx_completed
+                                            .push((tx_message, hil::run::TxResult::Failed));
+                                    }
+                                }
+                            }
+
+                            test.tx_remaining = remaining;
+                        }
+                    }
+                }
+
+                ExecutionMode::SequentialAlways | ExecutionMode::SequentialStopFail => {
+                    if let Some(test) = tests.get_mut(*active_test)
+                        && !test.tx_remaining.is_empty()
+                    {
+                        let pending = std::mem::take(&mut test.tx_remaining);
+                        let mut remaining = Vec::new();
+                        let elapsed_ms: f64 = now
+                            .saturating_duration_since(*active_start_time)
+                            .as_secs_f64()
+                            * 1000f64;
+
+                        for tx_message in pending {
+                            if elapsed_ms < tx_message.timestamp {
+                                remaining.push(tx_message);
+                                continue;
+                            }
+
+                            match Self::hil_tx_to_send_message(&tx_message, database, bus_id) {
+                                Ok(message) => {
+                                    tx_messages.push(message);
+                                    test.tx_completed
+                                        .push((tx_message, hil::run::TxResult::Sent));
+                                }
+                                Err(error) => {
+                                    errors.push(format!(
+                                        "Error while encoding and converting TX message {}: {}",
+                                        tx_message.msg_name.as_str(),
+                                        error
+                                    ));
+                                    test.tx_completed
+                                        .push((tx_message, hil::run::TxResult::Failed));
+                                }
+                            }
+                        }
+
+                        test.tx_remaining = remaining;
+                    }
+                }
+            }
+
+            Ok((tx_messages, errors))
+        } else {
+            Err("Hil is not running".to_owned())
+        }
+    }
+
+    fn hil_tx_to_send_message(
+        tx_message: &hil::config::TxMessage,
+        database: &Database,
+        bus_id: u8,
+    ) -> Result<AddSendMessage, String> {
+        let message = database
+            .messages()
+            .find(|message| message.key().bus_id == bus_id && message.name() == tx_message.msg_name)
+            .ok_or(format!("Message name not found on CAN bus {}", bus_id))?;
+
+        let key = message.key();
+
+        let values: Vec<(&str, f64)> = tx_message
+            .signals
+            .iter()
+            .map(|(name, value)| (name.as_str(), *value))
+            .collect();
+
+        let encoded_message = database
+            .encode(key.bus_id, key.identity, &values)
+            .map_err(|error| error.to_string())?;
+
+        Ok(AddSendMessage {
+            amount: Once,
+            identity: key.identity,
+            msg_bytes: encoded_message,
+            is_hil: true,
+        })
     }
 
     pub fn process_parsed(&mut self, parsed: &frame::ParsedFrame, now: time::Instant) {
@@ -248,6 +413,15 @@ impl HilEngine {
             active_start_time: now,
             stopped_early: false,
         };
+    }
+
+    fn allowed_start(&mut self, database: Option<&Database>, bus_id: u8) -> bool {
+        if !self.has_decoder(database, bus_id) {
+            self.fail_start("Decoder has not been loaded properly".to_owned());
+            return false;
+        }
+
+        true
     }
 
     fn fail_start(&mut self, message: String) {
