@@ -39,6 +39,7 @@ fn run_with_connection(
     let mut hil = hil::engine::HilEngine::new(config.hil_dir);
     let mut hil_last = time::Instant::now();
     let mut hil_finished = false;
+    let mut last_hil_snapshot_sent = false;
     let mut load_last = time::Instant::now();
     let mut pending = None;
 
@@ -154,6 +155,7 @@ fn run_with_connection(
                         selected_bus_id,
                     );
                     hil_finished = false;
+                    last_hil_snapshot_sent = false;
                     load = can::bus_load::BusLoadTracker::default();
                     load_last = now;
                     if let Some(logger) = &mut logger {
@@ -196,6 +198,7 @@ fn run_with_connection(
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                     hil_last = now;
                     hil_finished = false;
+                    last_hil_snapshot_sent = false;
                 }
                 can_thread::CanThreadCommand::StartFirmwareUpdate(package) => {
                     let progress = firmware.start(
@@ -237,34 +240,40 @@ fn run_with_connection(
         }
 
         hil.tick(now);
-        if hil.is_running() && !hil_finished {
-            let mut tx_messages: Vec<AddSendMessage> = Vec::new();
-            match hil.queue_tx(now, database.as_ref(), selected_bus_id) {
-                Ok((messages, errors)) => {
-                    tx_messages = messages;
-                    for error in errors {
-                        emit!(can_thread::CanThreadEvent::Diagnostic(error));
+        if hil.is_running() {
+            if !hil_finished {
+                let mut tx_messages: Vec<AddSendMessage> = Vec::new();
+                match hil.queue_tx(now, database.as_ref(), selected_bus_id) {
+                    Ok((messages, errors)) => {
+                        tx_messages = messages;
+                        for error in errors {
+                            emit!(can_thread::CanThreadEvent::Diagnostic(error));
+                        }
+                    }
+                    Err(error) => emit!(can_thread::CanThreadEvent::Diagnostic(error)),
+                }
+                for message in tx_messages {
+                    let identity = message.identity;
+                    if let Err(error) = sends.add(message) {
+                        emit!(can_thread::CanThreadEvent::SendFailed {
+                            identity,
+                            error,
+                            retrying: false,
+                            is_hil: true,
+                        });
                     }
                 }
-                Err(error) => emit!(can_thread::CanThreadEvent::Diagnostic(error)),
             }
-            for message in tx_messages {
-                let identity = message.identity;
-                if let Err(error) = sends.add(message) {
-                    emit!(can_thread::CanThreadEvent::SendFailed {
-                        identity,
-                        error,
-                        retrying: false,
-                        is_hil: true,
-                    });
+
+            if !last_hil_snapshot_sent && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL {
+                emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
+                hil_last = now;
+                if hil_finished {
+                    last_hil_snapshot_sent = true;
                 }
             }
 
             hil_finished = hil.all_finished();
-            if hil.is_running() || now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL {
-                emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
-                hil_last = now;
-            }
         }
 
         // Ordinary sends are suspended while firmware owns transmission.
@@ -289,7 +298,7 @@ fn run_with_connection(
                             identity,
                             error: error.to_string(),
                             retrying: !unsupported,
-                            is_hil: false,
+                            is_hil: key.1 > 0,
                         });
                         if unsupported {
                             sends.delete_all(identity);

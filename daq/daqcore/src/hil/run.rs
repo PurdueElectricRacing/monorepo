@@ -206,7 +206,10 @@ impl HilRunningTest {
                 e.result,
                 ExpectResult::FailedNoMessage | ExpectResult::FailedValueOutOfRange
             )
-        })
+        }) || self
+            .tx_completed
+            .iter()
+            .any(|(_, result)| matches!(result, TxResult::Failed))
     }
 }
 
