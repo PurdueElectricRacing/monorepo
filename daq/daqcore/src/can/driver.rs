@@ -19,10 +19,17 @@ impl fmt::Display for DriverError {
 }
 
 impl error::Error for DriverError {}
+
 pub type DriverResult<T> = Result<T, DriverError>;
+
 pub trait Driver {
-    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>>;
+    fn read_frames(
+        &mut self,
+        bus: Option<&superdbc::database::Bus>,
+    ) -> DriverResult<Vec<frame::CanFrame>>;
+
     fn write_frame(&mut self, frame: frame::CanFrame) -> DriverResult<()>;
+
     fn bus_speed(&self) -> Option<connection::CanBusSpeed> {
         None
     }
@@ -32,10 +39,7 @@ pub trait Driver {
     }
 }
 
-pub fn create_driver(
-    source: &connection::ConnectionSource,
-    bus: Option<&superdbc::database::Bus>,
-) -> DriverResult<Box<dyn Driver>> {
+pub fn create_driver(source: &connection::ConnectionSource) -> DriverResult<Box<dyn Driver>> {
     match source {
         connection::ConnectionSource::Serial(path, speed) => {
             Ok(Box::new(serial::SerialDriver::new(path, *speed)?))
@@ -49,20 +53,9 @@ pub fn create_driver(
             Ok(Box::new(UdpDriver(socket)))
         }
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
-        connection::ConnectionSource::Simulated(true) => {
-            let messages = bus
-                .map(|bus| {
-                    bus.messages()
-                        .iter()
-                        .map(|message| (message.identity(), usize::from(message.length_bytes())))
-                        .collect()
-                })
-                .unwrap_or_default();
-            Ok(Box::new(SimulatedDriver {
-                messages,
-                next: time::Instant::now(),
-            }))
-        }
+        connection::ConnectionSource::Simulated(true) => Ok(Box::new(SimulatedDriver {
+            next: time::Instant::now(),
+        })),
         _ => Err(DriverError::ConnectionFailed(format!(
             "source unavailable: {}",
             source.display_name()
@@ -76,7 +69,10 @@ struct LoopbackDriver {
 }
 
 impl Driver for LoopbackDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
+    fn read_frames(
+        &mut self,
+        _bus: Option<&superdbc::database::Bus>,
+    ) -> DriverResult<Vec<frame::CanFrame>> {
         if self.queued.is_empty() {
             Err(DriverError::Timeout)
         } else {
@@ -93,7 +89,10 @@ impl Driver for LoopbackDriver {
 struct UdpDriver(net::UdpSocket);
 
 impl Driver for UdpDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
+    fn read_frames(
+        &mut self,
+        _bus: Option<&superdbc::database::Bus>,
+    ) -> DriverResult<Vec<frame::CanFrame>> {
         let mut buf = [0; 65536];
         let len = self.0.recv(&mut buf).map_err(io_read)?;
         parse_udp_buffer(&buf[..len])
@@ -138,37 +137,88 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
 }
 
 struct SimulatedDriver {
-    messages: Vec<(frame::CanIdentity, usize)>,
     next: time::Instant,
 }
 
 impl Driver for SimulatedDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
+    fn read_frames(
+        &mut self,
+        bus: Option<&superdbc::database::Bus>,
+    ) -> DriverResult<Vec<frame::CanFrame>> {
         use rand::Rng as _;
         use rand::RngExt as _;
         use rand::prelude::IndexedRandom as _;
+
         let now = time::Instant::now();
         if now < self.next {
             return Err(DriverError::Timeout);
         }
         self.next += time::Duration::from_millis(1);
         let mut rng = rand::rng();
-        let (identity, size) = match self.messages.choose(&mut rng).copied() {
-            Some(message) => message,
-            None => {
-                let identity =
-                    frame::CanIdentity::new(rng.random_range(0..=can::STANDARD_ID_MASK), false)
-                        .map_err(|error| DriverError::Read(error.to_string()))?;
-                (identity, 8)
-            }
+
+        let messages = bus.map(|b| b.messages()).unwrap_or(&[]);
+
+        let Some(message) = messages.choose(&mut rng) else {
+            let identity =
+                frame::CanIdentity::new(rng.random_range(0..=can::STANDARD_ID_MASK), false)
+                    .map_err(|error| DriverError::Read(error.to_string()))?;
+            let mut data = vec![0u8; 8];
+            rng.fill_bytes(&mut data);
+            let frame = frame::CanFrame::data(identity, data).map_err(DriverError::Read)?;
+            return Ok(vec![frame]);
         };
+
+        let identity = message.identity();
+        let size = usize::from(message.length_bytes());
 
         if size > 8 {
             return Err(DriverError::Timeout);
         }
 
-        let mut data = vec![0; size];
-        rng.fill_bytes(&mut data);
+        let mut data = vec![0u8; size];
+        if message.signals.is_empty() {
+            rng.fill_bytes(&mut data);
+        } else {
+            for signal in &message.signals {
+                let choices: Vec<i128> = signal.choices().map(|(val, _)| val).collect();
+                let bits: u64 = if let Some(&raw) = choices.choose(&mut rng) {
+                    raw as u64
+                } else {
+                    match signal.raw_type() {
+                        superdbc::message::RawType::Float32 => {
+                            let (min_p, max_p) = match signal.limits() {
+                                Some(limits) => (
+                                    (limits.min as f32).min(limits.max as f32),
+                                    (limits.min as f32).max(limits.max as f32),
+                                ),
+                                None => (-100.0f32, 100.0f32),
+                            };
+                            let phys = rng.random_range(min_p..=max_p);
+                            let raw = (phys - signal.offset() as f32) / signal.scale() as f32;
+                            u64::from(raw.to_bits())
+                        }
+                        _ => {
+                            let (lower, upper) = match signal.limits() {
+                                Some(limits) => {
+                                    let r1 = (limits.min - signal.offset()) / signal.scale();
+                                    let r2 = (limits.max - signal.offset()) / signal.scale();
+                                    let low = (r1.min(r2).ceil() as i128)
+                                        .clamp(signal.codec.min, signal.codec.max);
+                                    let high = (r1.max(r2).floor() as i128)
+                                        .clamp(signal.codec.min, signal.codec.max);
+                                    (low, high.max(low))
+                                }
+                                None => (signal.codec.min, signal.codec.max),
+                            };
+                            rng.random_range(lower..=upper) as u64
+                        }
+                    }
+                };
+
+                signal.codec.insert(&mut data, bits);
+            }
+        }
+
         let frame = frame::CanFrame::data(identity, data).map_err(DriverError::Read)?;
 
         Ok(vec![frame])
@@ -178,10 +228,11 @@ impl Driver for SimulatedDriver {
         Ok(())
     }
 }
+
 mod serial {
     use std::time;
 
-    use crate::{can, connection, frame};
+    use crate::{can, connection, frame, superdbc};
 
     pub struct SerialDriver {
         socket: slcan::sync::CanSocket<Box<dyn serialport::SerialPort>>,
@@ -253,7 +304,10 @@ mod serial {
     }
 
     impl can::driver::Driver for SerialDriver {
-        fn read_frames(&mut self) -> can::driver::DriverResult<Vec<frame::CanFrame>> {
+        fn read_frames(
+            &mut self,
+            _bus: Option<&superdbc::database::Bus>,
+        ) -> can::driver::DriverResult<Vec<frame::CanFrame>> {
             self.socket
                 .read()
                 .map_err(|e| match e {
