@@ -61,10 +61,6 @@ function(per_add_freertos_target target cmsis_target)
 endfunction()
 
 per_add_stm32_cmsis_target(
-    CMSIS_F407 STM32F4xx STM32F407xx
-    "${CMAKE_SOURCE_DIR}/external/cmsis-device-f4"
-)
-per_add_stm32_cmsis_target(
     CMSIS_F423 STM32F4xx STM32F423xx
     "${CMAKE_SOURCE_DIR}/external/cmsis-device-f4"
 )
@@ -73,5 +69,5 @@ per_add_stm32_cmsis_target(
     "${CMAKE_SOURCE_DIR}/external/cmsis-device-g4"
 )
 
-per_add_freertos_target(FREERTOS_LIB_F407 CMSIS_F407)
+per_add_freertos_target(FREERTOS_LIB_F423 CMSIS_F423)
 per_add_freertos_target(FREERTOS_LIB_G474 CMSIS_G474)
