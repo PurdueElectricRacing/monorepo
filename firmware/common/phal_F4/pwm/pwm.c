@@ -18,63 +18,51 @@ bool PHAL_initPWM(uint32_t frequency_hz, TIM_TypeDef* tim, uint8_t channelsToEna
         /* --- APB2 Timers --- */
         case (uint32_t)TIM1:
             RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
-            (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM8:
             RCC->APB2ENR |= RCC_APB2ENR_TIM8EN;
-            (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM9:
             RCC->APB2ENR |= RCC_APB2ENR_TIM9EN;
-            (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM10:
             RCC->APB2ENR |= RCC_APB2ENR_TIM10EN;
-            (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM11:
             RCC->APB2ENR |= RCC_APB2ENR_TIM11EN;
-            (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         /* --- APB1 Timers --- */
         case (uint32_t)TIM2:
             RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM3:
             RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
-            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM4:
             RCC->APB1ENR |= RCC_APB1ENR_TIM4EN;
-            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM5:
             RCC->APB1ENR |= RCC_APB1ENR_TIM5EN;
-            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM12:
             RCC->APB1ENR |= RCC_APB1ENR_TIM12EN;
-            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM13:
             RCC->APB1ENR |= RCC_APB1ENR_TIM13EN;
-            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM14:
             RCC->APB1ENR |= RCC_APB1ENR_TIM14EN;
-            (void)RCC->APB1ENR; // Clock-enable settling (ES0372 section 2.2.7).
             break;
 
         case (uint32_t)TIM6:

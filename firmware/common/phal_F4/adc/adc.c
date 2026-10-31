@@ -14,7 +14,6 @@ bool PHAL_initADC(ADCInitConfig_t* config, ADCChannelConfig_t channels[], uint8_
         return false;
     }
     RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;
-    (void)RCC->APB2ENR; // Clock-enable settling (ES0372 section 2.2.7).
 
     // Set prescaler (todo maintain acceptable bounds)
     ADC1_COMMON->CCR &= ~(ADC_CCR_ADCPRE_Msk);
