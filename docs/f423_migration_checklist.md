@@ -103,8 +103,14 @@ DAQ's supplied schematic remains the pinout contract for its separate stacked PR
   The baseline had nine F407 guards in `usart.c`; selection now uses F423.
 - [x] Fix the additional **GPIO and ADC compile blockers** in the PHAL audit.
   CMake globs all PHAL `.c` files, so unused ADC code still has to compile.
-- [ ] Keep `HSE_VALUE` and PHAL's HSE frequency consistent with the actual board.
-  Both currently use 16 MHz. DAQ now requests 96 MHz / 192 MHz VCO and PHAL
+- [x] Keep `HSE_VALUE` and PHAL's HSE frequency consistent with the actual board.
+  The board owner confirmed 16 MHz for all PER boards, including G4, on
+  2026-10-30. `PER_HSE_HZ` in `dependencies.cmake` exports the shared CMSIS
+  `HSE_VALUE`; PHAL F4 derives `HSE_CLOCK_RATE_HZ` from it and rejects missing
+  configuration. All firmware targets build; compile-command checks confirm
+  16 MHz for all F423/G4 units, and compile probes verify the PHAL alias follows
+  CMSIS. No CMSIS vendor-source or CPU/FreeRTOS-port changes were needed.
+  DAQ now requests 96 MHz / 192 MHz VCO and PHAL
   caps SYSCLK at 100 MHz; these choices still need the RCC fixes and hardware
   measurements below. No F423-specific CMSIS system-source patch is needed
   for the present internal-memory configuration. CPU hard-float flags and the
@@ -171,7 +177,7 @@ against DS11580 Tables 10/12. The screenshot itself is not stored in this repo.
 | VCAN RX LED / VCAN TX LED | PB8 (61) / PB9 (62) | Additional GPIO activity indicators; drive from the corresponding bus events. |
 | SD_Enable | PB1 (27) | Confirm direction/polarity and whether this controls power or requests logging before replacing any old input. |
 | SPF_ALERT | PB2 (28) | Candidate replacement power-loss alert; verify meaning, polarity, pull, and hold-up timing. If confirmed, use EXTI2/PB2, not EXTI15/PE15. |
-| HSE_IN | PH0 (5); PH1 (6) marked unused | Consistent with a driven HSE input; confirm source frequency/drive before retaining 16 MHz/bypass assumptions. |
+| HSE_IN | PH0 (5); PH1 (6) marked unused | Board owner confirmed 16 MHz. Consistent with a driven HSE input; confirm drive/source type before qualifying bypass mode. |
 | SWDIO / SWCLK / SWO / NRST | PA13 (46) / PA14 (49) / PB3 (55) / NRST (7) | Preserve SWD/debug. PB4 and PA15 are repurposed JTAG pins; use SWD. |
 
 The old map's six unbonded signals (PD13/14/15 LEDs, PE3 reset, PE15 alert,
@@ -184,7 +190,7 @@ LOG_ENABLE roles have no explicit one-to-one assignment in the image.
   transcription against the final netlist, capture named GPIO/AF assignments and
   active levels in board configuration, and resolve `USE_SD_LED`, `SD_Enable`,
   `SPF_ALERT`, the old log-enable/error-LED roles, and W5500 nINT policy. Confirm
-  3V3 operating range, HSE frequency/drive, and backup supply: VBAT is marked
+  3V3 operating range, HSE drive/source type (16 MHz confirmed), and backup supply: VBAT is marked
   unconnected in the image, so RTC supply/retention must be checked against the
   complete schematic. **Verify:** review every used pin and its direction/pull;
   no unresolved control signal may be enabled with an assumed polarity.
@@ -216,7 +222,7 @@ See [the complete PHAL audit](f423_phal_audit.md) for all eleven driver modules.
 - [ ] Replace DAQ's 168 MHz request and PHAL's 168 MHz cap. F423 limits are
   SYSCLK/HCLK **100 MHz**, PCLK1 **50 MHz**, PCLK2 **100 MHz**. Select VOS and
   flash latency using RM0430; set safe bus dividers before increasing SYSCLK.
-- [ ] One **candidate**, assuming a real 16 MHz HSE and suitable supply, is
+- [ ] One **candidate**, using the confirmed 16 MHz HSE and assuming suitable supply, is
   PLLM=8, PLLN=96, PLLP=2, PLLQ=4: VCO=192 MHz, SYSCLK/HCLK=96 MHz,
   PCLK1=24 MHz (`/4`), PCLK2=48 MHz (`/2`), PLLQ=48 MHz. Scale 1 and 3 flash
   wait states apply at 2.7–3.6 V. This preserves existing 24 MHz CAN entries
@@ -409,7 +415,8 @@ reference-only compatibility notes are retained in L rather than treated as fixe
   per-device SYSCLK/HCLK/APB/VOS limits and remove silent target clamping.
   Precompute an exact clock tree, including PLLM/N/P/Q and kernel selectors,
   before touching hardware. Use the 96/24/48 MHz candidate in E only after
-  BOARD-01 confirms the HSE and supply. Validate unchanged PLL ranges from the
+  BOARD-01 confirms the HSE drive/source type and supply (16 MHz is confirmed).
+  Validate unchanged PLL ranges from the
   audit, nonzero requests and supported ratios; leave PLLR at a documented valid
   setting unless I2S/DFSDM is enabled. **Verify:** arithmetic cases cover boundary,
   zero, non-divisible and unattainable requests; report actual achieved rates.
@@ -441,8 +448,9 @@ reference-only compatibility notes are retained in L rather than treated as fixe
 - [ ] **RCC-06 — synchronize software clock state.** After changes to SW or
   HPRE, run `SystemCoreClockUpdate()` and derive AHB/APB globals from read-back
   registers. Validate prescalers exactly, including divide-by-zero and unsupported
-  division factors. Supply one board-owned HSE frequency/bypass setting to PHAL
-  and CMSIS instead of competing constants. **Verify:** divide-by-one and divided
+  division factors. Frequency now comes from the shared `PER_HSE_HZ`/`HSE_VALUE`
+  definition; finish explicit board-owned bypass/source-mode selection.
+  **Verify:** divide-by-one and divided
   HCLK cases, RTOS tick measured at 1 ms, and clock output measured without
   stealing PA8, which is MCAN RX on this board.
 
