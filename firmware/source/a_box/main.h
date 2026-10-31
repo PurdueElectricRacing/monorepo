@@ -72,6 +72,7 @@
 // IMD PWM reading
 #define IMD_PWM_LS_PORT             (GPIOC)
 #define IMD_PWM_LS_PIN              (12)
+#define IMD_PWM_LS_TIM              (TIM5)
 
 // BMS SDC control
 #define BMS_SDC_CTRL_PORT (GPIOA)
