@@ -467,9 +467,18 @@ the table above to each subtask before implementing it.
   N for each M and use exact wide arithmetic. Verify N>255, later-M solutions,
   fractional input/M and impossible targets. Do not change clamping or error
   policy as part of this migration without a concrete target requirement.
-- [ ] **RCC-03 — startup divider ordering; broader transitions deferred.**
-  Migration requirement: prevent APB overclock while entering the selected F423
-  clock tree. The remaining general transition proposal is follow-up work: Enable/wait for HSI; select
+- [x] **RCC-03 — startup APB1 divider ordering (2026-10-30).** Before selecting
+  PLL as SYSCLK, `PHAL_configurePLLSystemClock()` changes an undivided APB1 to
+  `/2`, preserving an existing `/2` or slower divider. This keeps APB1 at or below
+  50 MHz for F423's maximum 100 MHz SYSCLK; APB2 and HPRE are unchanged. The
+  existing final bus configuration still sets DAQ's requested `/4` (24 MHz).
+  **Verified:** temporary ASan/UBSan register checks of the actual functions
+  cover all eight PPRE1 encodings at 96/100 MHz, the intermediate APB1 limit,
+  preservation of slower dividers/APB2/HPRE, and final `/4` application. All
+  configured F423/G4 targets and all three F4 bench variants build. Hardware
+  verification and RCC-04's VOS/latency configuration remain open.
+  **Deferred follow-up:** the remaining general transition proposal is not
+  implemented by this checkbox: enable/wait for HSI; select
   SW with clear-and-set writes and compare the full SWS field. Keep a usable
   source enabled during transition, switch off the current PLL only after moving
   SYSCLK away from it, configure safe AHB/APB dividers before raising SYSCLK,
@@ -477,26 +486,49 @@ the table above to each subtask before implementing it.
   the scheduler/tick exists; return an error with the system on a known safe
   source where possible. **Verify:** reset→PLL, PLL→HSI, HSE/PLL reconfiguration,
   and simulated missing-ready conditions; inspect intermediate APB rates too.
-- [ ] **RCC-04 — program voltage scale and latency in order.** Add F423 PWR
-  clock/readback, VOS programming while PLL is off, and the documented
-  regulator-ready sequence. Choose latency from HCLK and the board's guaranteed
-  voltage range, not SYSCLK or F407 thresholds; read it back. Raise latency before
-  a frequency increase and reduce it only after a confirmed decrease.
-  **Verify:** table boundaries, the 80 MHz/3V3 case (3 WS), and the selected
-  96 MHz case (scale 1, 3 WS); check measured supply/rates at bring-up.
-- [ ] **RCC-05 — make kernel clocks explicit.** Select `SDIOSEL`/`CK48MSEL`,
-  calculate PLLQ exactly and reject any clock outside the consumer's limit.
-  Keep the selected SDIO source at 48 MHz for its current dividers; require exact
-  48 MHz if USB is ever enabled. **Verify:** reject the audit's 200 MHz/Q=4
-  result for this SDIO configuration and demonstrate 192 MHz/Q=4=48 MHz.
-- [ ] **RCC-06 — synchronize software clock state.** After changes to SW or
-  HPRE, run `SystemCoreClockUpdate()` and derive AHB/APB globals from read-back
-  registers. Validate prescalers exactly, including divide-by-zero and unsupported
-  division factors. Frequency now comes from the shared `PER_HSE_HZ`/`HSE_VALUE`
-  definition; finish explicit board-owned bypass/source-mode selection.
-  **Verify:** divide-by-one and divided
-  HCLK cases, RTOS tick measured at 1 ms, and clock output measured without
-  stealing PA8, which is MCAN RX on this board.
+- [x] **RCC-04 — F423 startup VOS/flash latency (2026-10-30).** For a PLL
+  SYSCLK above 84 MHz, enable/read back PWR's clock and select Scale 1 while
+  PLL is off. After enabling PLL, wait for PLLRDY and VOSRDY before selecting
+  PLL as SYSCLK (RM0430 §5.1.3/§5.4.1). Lower-rate startup retains the existing
+  voltage-scale setting. Replace the F407 flash thresholds with RM0430 table 6's
+  2.7–3.6 V column: 0/1/2/3 WS through 25/50/75/100 MHz. SYSCLK is used as a
+  conservative upper bound on HCLK, so the final AHB divider cannot require more
+  latency. Raise/read back latency before switching; retain any higher existing
+  latency. The selected 96 MHz startup uses Scale 1 and 3 WS.
+  **Verified:** 22 temporary ASan/UBSan register cases cover table boundaries,
+  80/96 MHz, VOS writes with PLL off, ready-before-switch ordering, unchanged
+  unrelated PWR/FLASH bits and preservation of higher latency. All configured
+  F423/G4 firmware targets and all three F4 bench variants build.
+  **Board qualification remains open:** this implements the supplied schematic's
+  nominal 3V3 supply, assuming VDD stays within 2.7–3.6 V. Confirm its guaranteed
+  range and measured clocks at bring-up; another range needs its table column.
+  General live clock/VOS changes and latency reduction remain deferred, with
+  the existing API, PLL search and wait/error policy preserved.
+- [x] **RCC-05 — select the 48 MHz SDIO kernel clock (2026-10-30).** Keep the
+  existing PLLQ calculation and reject VCO rates not exactly divisible by 48 MHz
+  before register writes. Explicitly clear `CK48MSEL` and `SDIOSEL` to select
+  main PLLQ → CK48 → SDIO (RM0430 §6.3.29), preserving unrelated mux fields.
+  DAQ's selected 192 MHz VCO / Q=4 supplies exactly 48 MHz; the old 200 MHz /
+  Q=4 result (50 MHz) is rejected. No clock API or other PLL search changes.
+  **Verified:** temporary ASan/UBSan register checks cover all four prior mux
+  combinations, Q=4/48 MHz, preservation of unrelated mux bits, and rejection of
+  200/201/202 MHz VCO requests before hardware writes. All configured F423/G4
+  targets and all three F4 bench variants build. Measure the resulting SDIO
+  clock on hardware with the stacked pinout PR; USB remains unused.
+- [x] **RCC-06 — synchronize startup clock reporting (2026-10-30).** Keep the
+  existing `SystemCoreClockUpdate()` calls after source switches; add the missing
+  call after HPRE changes. Set `AHBClockRateHz` from CMSIS HCLK and APB globals
+  from the programmed PPRE fields using CMSIS `APBPrescTable`. The selected DAQ
+  rates remain 96/24/24 MHz; bench examples retain their 16 MHz settings. Update
+  the APB maximum-rate comments to F423's 50/100 MHz limits.
+  **Verified:** 450 temporary ASan/UBSan arithmetic/register cases cover both
+  16/96 MHz sources, all supported AHB divisors and APB divisor combinations.
+  CMSIS HCLK and AHB/APB globals match the programmed rates. All configured
+  F423/G4 firmware targets and all three F4 bench variants build.
+  **Still open:** BOARD-01 must confirm HSE drive type before changing the
+  existing bypass policy. Measure the RTOS 1 ms tick and clocks on hardware
+  without stealing MCAN RX on PA8. General request validation and live clock
+  reconfiguration are deferred; API and error behavior are unchanged.
 
 ### K.2. GPIO and board-independent pin macros
 
