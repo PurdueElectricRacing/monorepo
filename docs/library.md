@@ -6,7 +6,6 @@ Irving Wang (irvingw@purdue.edu)
 - [FSAE 2026](rules/FSAE2026_V1.pdf) Rules for the FSAE 2026 Season
 
 ## About the microcontrollers
-- [RM0090](datasheets/STM32F407_RM0090.pdf) contains register and peripheral information for STM32F407 boards.
 - [RM0430](datasheets/STM32F423_RM0430.pdf) contains register and peripheral information for STM32F423 boards.
 - [RM0440](datasheets/STM32G4_RM0440.pdf) contains register and peripheral information for G4 series boards.
 - [STM Cortex-M4](datasheets/STM32_cortexM4_PM0214.pdf) programming manual for the Cortex-M4 core itself, which is used in both F4 and G4 series boards.
