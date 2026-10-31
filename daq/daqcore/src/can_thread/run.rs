@@ -260,10 +260,10 @@ fn run_with_connection(
                 }
             }
 
-            if now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL {
+            hil_finished = hil.all_finished();
+            if hil.is_running() || now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL {
                 emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                 hil_last = now;
-                hil_finished = hil.all_finished();
             }
         }
 

@@ -148,12 +148,12 @@ impl HilEngine {
             stopped_early,
         } = &mut self.state
         {
-            if *stopped_early {
-                return Err("Hil stopped early".to_owned());
-            }
-
             let mut tx_messages: Vec<AddSendMessage> = Vec::new();
             let mut errors = Vec::new();
+
+            if *stopped_early {
+                return Ok((tx_messages, errors));
+            }
 
             let mode = match preset.as_ref() {
                 Some(preset_info) => &preset_info.mode,
@@ -176,12 +176,19 @@ impl HilEngine {
                                 }
 
                                 match Self::hil_tx_to_send_message(&tx_message, database, bus_id) {
-                                    Ok(message) => tx_messages.push(message),
+                                    Ok(message) => {
+                                        tx_messages.push(message);
+                                        test.tx_completed
+                                            .push((tx_message, hil::run::TxResult::Sent));
+                                    }
                                     Err(error) => {
                                         errors.push(format!(
                                             "Error while encoding and converting TX message {}: {}",
-                                            tx_message.msg_name, error
+                                            tx_message.msg_name.as_str(),
+                                            error
                                         ));
+                                        test.tx_completed
+                                            .push((tx_message, hil::run::TxResult::Failed));
                                     }
                                 }
                             }
@@ -209,12 +216,19 @@ impl HilEngine {
                             }
 
                             match Self::hil_tx_to_send_message(&tx_message, database, bus_id) {
-                                Ok(message) => tx_messages.push(message),
+                                Ok(message) => {
+                                    tx_messages.push(message);
+                                    test.tx_completed
+                                        .push((tx_message, hil::run::TxResult::Sent));
+                                }
                                 Err(error) => {
                                     errors.push(format!(
                                         "Error while encoding and converting TX message {}: {}",
-                                        tx_message.msg_name, error
+                                        tx_message.msg_name.as_str(),
+                                        error
                                     ));
+                                    test.tx_completed
+                                        .push((tx_message, hil::run::TxResult::Failed));
                                 }
                             }
                         }

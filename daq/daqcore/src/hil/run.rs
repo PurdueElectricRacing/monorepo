@@ -10,6 +10,12 @@ pub enum ExpectResult {
     FailedValueOutOfRange,
 }
 
+#[derive(PartialEq, Eq, Clone)]
+pub enum TxResult {
+    Sent,
+    Failed,
+}
+
 /// Single signal failure, captured at evaluation used for displaying in the UI
 #[derive(Clone)]
 pub enum SignalFailure {
@@ -43,6 +49,7 @@ pub struct InProgressExpect {
 pub struct HilRunningTest {
     pub test_info: hil::config::TestInfo,
     pub tx_remaining: Vec<hil::config::TxMessage>,
+    pub tx_completed: Vec<(hil::config::TxMessage, TxResult)>,
     pub in_progress_expects: Vec<InProgressExpect>,
 }
 
@@ -97,6 +104,7 @@ impl HilRunningTest {
         Self {
             test_info,
             tx_remaining,
+            tx_completed: Vec::new(),
             in_progress_expects,
         }
     }
