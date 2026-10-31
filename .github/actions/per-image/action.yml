@@ -3,7 +3,7 @@ description: Builds the repo Dockerfile and pushes it to GHCR with caching
 outputs:
   image:
     description: Fully qualified image reference (name:tag)
-    value: ghcr.io/${{ toLower(github.repository) }}/per-firmware:${{ steps.meta.outputs.version }}
+    value: ghcr.io/purdueelectricracing/monorepo/per-firmware:${{ steps.meta.outputs.version }}
 runs:
   using: composite
   steps:
@@ -12,7 +12,7 @@ runs:
     - id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ghcr.io/${{ toLower(github.repository) }}/per-firmware
+        images: ghcr.io/purdueelectricracing/monorepo/per-firmware
         tags: |
           type=sha,prefix=sha-
           type=raw,value=latest,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
