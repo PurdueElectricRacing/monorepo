@@ -13,12 +13,10 @@
 
 #include "common/phal_F4/phal_F4.h"
 
-#define HSE_CLOCK_RATE_HZ (16000000)
-
-#define HSE_CLOCK_RATE_HZ_INVALID (1) /* High Speed External oscilator value */
-#ifndef HSE_CLOCK_RATE_HZ
-#define HSE_CLOCK_RATE_HZ HSE_CLOCK_RATE_HZ_INVALID /* Define this in order to configure clocks to use the HSE clock */
-#endif // HSE_CLOCK_RATE_HZ
+#if !defined(HSE_VALUE) || HSE_VALUE == 0
+#error "Define HSE_VALUE to the board HSE frequency in Hz for both CMSIS and PHAL"
+#endif
+#define HSE_CLOCK_RATE_HZ (HSE_VALUE)
 
 #define HSI_CLOCK_RATE_HZ (16000000)
 #define MCO_OUT_PIN       (8)
