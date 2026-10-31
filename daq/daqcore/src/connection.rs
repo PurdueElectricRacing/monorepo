@@ -15,6 +15,7 @@ pub struct FilRunOptions {
     pub trace_instructions: bool,
     pub detect_spin: bool,
 }
+
 impl Default for FilRunOptions {
     fn default() -> Self {
         Self {

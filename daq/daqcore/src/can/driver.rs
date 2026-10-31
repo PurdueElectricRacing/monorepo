@@ -6,6 +6,7 @@ use crate::{
     can, connection, connection::CanBusSpeed, fil::config as fil_config, frame, frame::CanFrame,
     log_parse, superdbc,
 };
+
 use std::{error, fmt, io, mem, net, time};
 
 #[derive(Debug)]
@@ -270,6 +271,7 @@ impl CanDriver for SimulatedDriver {
         Ok(())
     }
 }
+
 mod serial {
     use crate::{can, connection, frame};
     use std::time;
