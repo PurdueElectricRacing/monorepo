@@ -290,25 +290,18 @@ a two-bus intermediate build must be labeled incomplete for this board.
   CAN/FDCAN distinction is reusable, but filter capacity must respect CAN3's
   independent 14 banks. **Verify:** regenerate from source; compile examples
   for F407 CAN1/2, F423 CAN1/2/3 and G474 FDCAN without hand-editing generated files.
-- [ ] **TOPO-03 — version the DAQ frame format before enabling three buses.**
-  `common/timestamped_frame/timestamped_frame.h` currently stores a one-bit bus
-  ID; `source/daq/can_callback/can_callback.c` maps all non-CAN1 frames to 1.
-  Update UDP encode/decode and Rust live/log consumers, including
-  `daq/daqcore/src/log_parse/{parse,consts}.rs`, `can/driver.rs`, `can/logger.rs`
-  and `can_thread/run.rs`. The current UDP parser strips the bus flag when
-  constructing `CanFrame`; preserve bus metadata through decoding, dispatch,
-  logging and UI selection instead of assigning every received frame to the
-  selected decoder's bus. Remove the current bus>1 legacy-logging rejection
-  only for the newly versioned format, keeping old-format restrictions explicit.
-  Define a versioned bus encoding
-  capable of IDs 0, 1, 3, update masks/validation and all consumers, and document
-  compatibility with old captures/hosts. Reusing reserved identity bit 29 along
-  with bit 31 is one candidate that preserves 29-bit CAN IDs and bit 30 IDE;
-  approve/document the layout and version negotiation/identification before
-  implementation. Do not silently reinterpret old data or collide with CAN IDs.
-  **Verify:** old-format fixtures remain readable, new SCAN/VCAN/MCAN frames
-  round-trip live and from disk, and unsupported versions/bus IDs fail clearly.
-  Recalculate memory/packet sizing if the current 16-byte record changes.
+- [ ] **TOPO-03 — host bus metadata deferred by user (2026-10-30).** The
+  rebased timestamped frame/log format already has two bus-ID bits (31:30),
+  IDE in bit 29 and CAN ID in bits 28:0. It supports IDs 0–3 without changing
+  the 16-byte layout. Correct the stale host logging guards from bus>1 to bus>3
+  and bus<=1 to bus<=3, including their diagnostic text.
+  Per user scope, do not add optional bus metadata to `CanFrame` or change UDP
+  decoding, receive routing, UI selection or logging attribution now. The prior
+  metadata implementation and tests were reverted. UDP frames still lose source
+  bus metadata and host logging attributes them to the selected decoder bus;
+  correct multi-bus live decoding/re-logging remains a separate host follow-up.
+  Raw on-device logs retain their existing two-bit bus IDs. Historical one-bit
+  captures are not newly qualified or converted by this change.
 - [ ] Complete **CAN-01–04** in K before three-bus acceptance. CAN3 requires
   independent filters/clock/IRQs, and all three SPMC producer IRQs must share
   the same preemption priority. Extending GPIO macros alone cannot enable it.
