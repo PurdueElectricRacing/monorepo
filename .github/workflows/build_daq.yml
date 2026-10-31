@@ -28,9 +28,10 @@ jobs:
   daqcloud_schema:
     name: Check generated diesel schema
     needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ needs.image.outputs.image }}
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
@@ -52,9 +53,10 @@ jobs:
   superdbc_models:
     name: Check generated SuperDBC models
     needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ needs.image.outputs.image }}
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
@@ -76,9 +78,10 @@ jobs:
   build:
     name: Build DAQ Workspace
     needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ needs.image.outputs.image }}
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
@@ -106,9 +109,10 @@ jobs:
   fmt:
     name: Check formatting
     needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ needs.image.outputs.image }}
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
@@ -121,9 +125,10 @@ jobs:
   clippy:
     name: Clippy (DAQ)
     needs: [image, build]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ needs.image.outputs.image }}
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout

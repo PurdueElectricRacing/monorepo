@@ -27,9 +27,10 @@ jobs:
 
   firmware_build:
     needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ needs.image.outputs.image }}
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout repo
@@ -65,9 +66,10 @@ jobs:
 
   cppcheck:
     needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ needs.image.outputs.image }}
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout repo

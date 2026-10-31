@@ -28,10 +28,11 @@ jobs:
   fil_tests:
     name: FIL PGO and PER integration tests
     needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     container:
-      image: ${{ needs.image.outputs.image }}
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
@@ -56,9 +57,10 @@ jobs:
   unit_tests:
     name: Generator and firmware unit tests
     needs: [image]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
-      image: ${{ needs.image.outputs.image }}
+      image: ${{ needs.image.outputs.image || 'ghcr.io/purdueelectricracing/monorepo/per-firmware:latest' }}
 
     steps:
       - name: Checkout
