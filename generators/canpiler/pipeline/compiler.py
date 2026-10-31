@@ -425,11 +425,6 @@ def _compile_signal(
             signal_min = min(values)
         if signal_max is None:
             signal_max = max(values)
-    elif signal.unit in ("%", "percent", "percentage"):
-        if signal_min is None:
-            signal_min = 0
-        if signal_max is None:
-            signal_max = 100
     return CompiledSignal(
         signal_name=signal.signal_name,
         data_type=signal.data_type,

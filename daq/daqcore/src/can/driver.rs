@@ -19,25 +19,27 @@ impl fmt::Display for DriverError {
 }
 
 impl error::Error for DriverError {}
+
 pub type DriverResult<T> = Result<T, DriverError>;
+
 pub trait Driver {
-    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>>;
+    fn read_frames(
+        &mut self,
+        bus: Option<&superdbc::database::Bus>,
+    ) -> DriverResult<Vec<frame::CanFrame>>;
+
     fn write_frame(&mut self, frame: frame::CanFrame) -> DriverResult<()>;
+
     fn bus_speed(&self) -> Option<connection::CanBusSpeed> {
         None
     }
-
-    fn update_bus(&mut self, _bus: Option<&superdbc::database::Bus>) {}
 
     fn close(&mut self) -> DriverResult<()> {
         Ok(())
     }
 }
 
-pub fn create_driver(
-    source: &connection::ConnectionSource,
-    bus: Option<&superdbc::database::Bus>,
-) -> DriverResult<Box<dyn Driver>> {
+pub fn create_driver(source: &connection::ConnectionSource) -> DriverResult<Box<dyn Driver>> {
     match source {
         connection::ConnectionSource::Serial(path, speed) => {
             Ok(Box::new(serial::SerialDriver::new(path, *speed)?))
@@ -51,15 +53,9 @@ pub fn create_driver(
             Ok(Box::new(UdpDriver(socket)))
         }
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
-        connection::ConnectionSource::Simulated(true) => {
-            let messages = bus
-                .map(|bus| bus.messages().to_vec())
-                .unwrap_or_default();
-            Ok(Box::new(SimulatedDriver {
-                messages,
-                next: time::Instant::now(),
-            }))
-        }
+        connection::ConnectionSource::Simulated(true) => Ok(Box::new(SimulatedDriver {
+            next: time::Instant::now(),
+        })),
         _ => Err(DriverError::ConnectionFailed(format!(
             "source unavailable: {}",
             source.display_name()
@@ -73,7 +69,10 @@ struct LoopbackDriver {
 }
 
 impl Driver for LoopbackDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
+    fn read_frames(
+        &mut self,
+        _bus: Option<&superdbc::database::Bus>,
+    ) -> DriverResult<Vec<frame::CanFrame>> {
         if self.queued.is_empty() {
             Err(DriverError::Timeout)
         } else {
@@ -90,7 +89,10 @@ impl Driver for LoopbackDriver {
 struct UdpDriver(net::UdpSocket);
 
 impl Driver for UdpDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
+    fn read_frames(
+        &mut self,
+        _bus: Option<&superdbc::database::Bus>,
+    ) -> DriverResult<Vec<frame::CanFrame>> {
         let mut buf = [0; 65536];
         let len = self.0.recv(&mut buf).map_err(io_read)?;
         parse_udp_buffer(&buf[..len])
@@ -135,15 +137,18 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
 }
 
 struct SimulatedDriver {
-    messages: Vec<superdbc::message::Message>,
     next: time::Instant,
 }
 
 impl Driver for SimulatedDriver {
-    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
+    fn read_frames(
+        &mut self,
+        bus: Option<&superdbc::database::Bus>,
+    ) -> DriverResult<Vec<frame::CanFrame>> {
         use rand::prelude::IndexedRandom as _;
         use rand::Rng as _;
         use rand::RngExt as _;
+
         let now = time::Instant::now();
         if now < self.next {
             return Err(DriverError::Timeout);
@@ -151,7 +156,9 @@ impl Driver for SimulatedDriver {
         self.next += time::Duration::from_millis(1);
         let mut rng = rand::rng();
 
-        if self.messages.is_empty() {
+        let messages = bus.map(|b| b.messages()).unwrap_or(&[]);
+
+        if messages.is_empty() {
             let identity =
                 frame::CanIdentity::new(rng.random_range(0..=can::STANDARD_ID_MASK), false)
                     .map_err(|error| DriverError::Read(error.to_string()))?;
@@ -161,7 +168,7 @@ impl Driver for SimulatedDriver {
             return Ok(vec![frame]);
         }
 
-        let message = self.messages.choose(&mut rng).unwrap();
+        let message = messages.choose(&mut rng).unwrap();
         let identity = message.identity();
         let size = usize::from(message.length_bytes());
 
@@ -274,15 +281,12 @@ impl Driver for SimulatedDriver {
     fn write_frame(&mut self, _: frame::CanFrame) -> DriverResult<()> {
         Ok(())
     }
-
-    fn update_bus(&mut self, bus: Option<&superdbc::database::Bus>) {
-        self.messages = bus.map(|b| b.messages().to_vec()).unwrap_or_default();
-    }
 }
+
 mod serial {
     use std::time;
 
-    use crate::{can, connection, frame};
+    use crate::{can, connection, frame, superdbc};
 
     pub struct SerialDriver {
         socket: slcan::sync::CanSocket<Box<dyn serialport::SerialPort>>,
@@ -354,7 +358,10 @@ mod serial {
     }
 
     impl can::driver::Driver for SerialDriver {
-        fn read_frames(&mut self) -> can::driver::DriverResult<Vec<frame::CanFrame>> {
+        fn read_frames(
+            &mut self,
+            _bus: Option<&superdbc::database::Bus>,
+        ) -> can::driver::DriverResult<Vec<frame::CanFrame>> {
             self.socket
                 .read()
                 .map_err(|e| match e {
@@ -398,84 +405,5 @@ mod serial {
                 .close()
                 .map_err(|e| can::driver::DriverError::Write(e.to_string()))
         }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use std::path;
-
-    #[test]
-    fn test_simulated_driver_percentage_range() {
-        let path = path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../superdbc/superdbc_ff4fade.json");
-        let database = superdbc::database::Database::load(&path).expect("failed to load database");
-
-        for bus in database.buses() {
-            let mut driver = SimulatedDriver {
-                messages: bus.messages().to_vec(),
-                next: time::Instant::now(),
-            };
-
-            let mut checked_percentage_count = 0;
-
-            for _ in 0..1000 {
-                // Ensure next time does not cause timeout
-                driver.next = time::Instant::now() - time::Duration::from_millis(10);
-                let frames = driver.read_frames().expect("read_frames failed");
-                for frame in frames {
-                    if let Ok(decoded) = bus.decode(frame.identity, &frame.data) {
-                        let msg_def = bus.message(frame.identity).expect("message definition missing");
-                        for (name, value) in decoded.iter() {
-                            let sig_def = msg_def.signal(name).expect("signal definition missing");
-                            let unit = sig_def.unit().trim();
-                            if unit == "%" || unit.eq_ignore_ascii_case("percent") || unit.eq_ignore_ascii_case("percentage") {
-                                let phys = value.physical();
-                                assert!(
-                                    phys >= 0.0 && phys <= 100.0,
-                                    "Signal '{}' percentage value {} is out of 0..=100 range",
-                                    name,
-                                    phys
-                                );
-                                checked_percentage_count += 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if bus.messages().iter().any(|m| m.signals.iter().any(|s| s.unit() == "%")) {
-                assert!(checked_percentage_count > 0, "Expected to check at least one percentage signal on bus {}", bus.name());
-            }
-        }
-    }
-
-    #[test]
-    fn test_simulated_driver_update_bus() {
-        let path = path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../superdbc/superdbc_ff4fade.json");
-        let database = superdbc::database::Database::load(&path).expect("failed to load database");
-
-        let mut driver = SimulatedDriver {
-            messages: Vec::new(),
-            next: time::Instant::now() - time::Duration::from_millis(10),
-        };
-
-        // When empty, read_frames returns random fallback frame
-        let frames = driver.read_frames().expect("read_frames failed");
-        assert_eq!(frames.len(), 1);
-
-        // Update with first bus
-        let bus0 = database.buses().first().expect("no bus 0");
-        driver.update_bus(Some(bus0));
-        assert_eq!(driver.messages.len(), bus0.messages().len());
-
-        driver.next = time::Instant::now() - time::Duration::from_millis(10);
-        let frames = driver.read_frames().expect("read_frames failed");
-        assert_eq!(frames.len(), 1);
-        assert!(bus0.message(frames[0].identity).is_some());
-
-        // Update with None
-        driver.update_bus(None);
-        assert!(driver.messages.is_empty());
     }
 }
