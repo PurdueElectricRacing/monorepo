@@ -35,7 +35,9 @@ fn run_with_connection(
     let mut firmware = can_thread::firmware_session::FirmwareSession::default();
     let mut hil = hil::engine::HilEngine::new(config.hil_dir);
     let mut hil_last = time::Instant::now();
+    let mut hil_finished = false;
     let mut hil_capture_complete = false;
+    let mut last_hil_snapshot_sent = false;
     let mut pending = None;
 
     'worker: loop {
@@ -157,6 +159,8 @@ fn run_with_connection(
                         &selected_selection,
                     );
                     hil_capture_complete = false;
+                    hil_finished = false;
+                    last_hil_snapshot_sent = false;
                     load.reset(now);
                     if let Some(logger) = &mut logger {
                         logger.flush();
@@ -187,9 +191,14 @@ fn run_with_connection(
                 can_thread::CanThreadCommand::Hil(command) => {
                     let now = time::Instant::now();
                     hil.handle_command(command, now, database.as_ref(), &selected_selection);
+                    if !hil.is_running() {
+                        sends.delete_hil();
+                    }
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                     hil_last = now;
                     hil_capture_complete = false;
+                    hil_finished = false;
+                    last_hil_snapshot_sent = false;
                 }
                 can_thread::CanThreadCommand::StartFirmwareUpdate(package) => {
                     let progress = firmware.start(
@@ -232,35 +241,41 @@ fn run_with_connection(
 
         hil.tick(now);
         if hil.is_running()
-            && !hil_capture_complete
             {
-            let mut tx_messages: Vec<AddSendMessage> = Vec::new();
-            match hil.queue_tx(now, database.as_ref(), &selected_selection) {
-                Ok((messages, errors)) => {
-                    tx_messages = messages;
-                    for error in errors {
-                        emit!(can_thread::CanThreadEvent::Diagnostic(error));
+            if !hil_finished
+            {
+                let mut tx_messages: Vec<AddSendMessage> = Vec::new();
+                match hil.queue_tx(now, database.as_ref(), &selected_selection) {
+                    Ok((messages, errors)) => {
+                        tx_messages = messages;
+                        for error in errors {
+                            emit!(can_thread::CanThreadEvent::Diagnostic(error));
+                        }
                     }
+                    Err(error) => emit!(can_thread::CanThreadEvent::Diagnostic(error)),
                 }
-                Err(error) => emit!(can_thread::CanThreadEvent::Diagnostic(error)),
-            }
-            for message in tx_messages {
-                let key = message.key;
-                if let Err(error) = sends.add(message) {
-                    emit!(can_thread::CanThreadEvent::SendFailed {
-                        key,
-                        error,
-                        retrying: false,
-                        is_hil: true,
-                    });
+                for message in tx_messages {
+                    let key = message.key;
+                    if let Err(error) = sends.add(message) {
+                        emit!(can_thread::CanThreadEvent::SendFailed {
+                            key,
+                            error,
+                            retrying: false,
+                            is_hil: true,
+                        });
+                    }
                 }
             }
 
-            if now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL {
+            if !last_hil_snapshot_sent && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL {
                 emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                 hil_last = now;
-                hil_capture_complete = hil.capture_complete(now);
+                if hil_finished && hil_capture_complete {
+                    last_hil_snapshot_sent = true;
+                }
             }
+
+            hil_finished = hil.all_finished();
         }
 
         // Ordinary sends are suspended while firmware owns transmission.
@@ -284,7 +299,7 @@ fn run_with_connection(
                             key: key.0,
                             error: error.to_string(),
                             retrying: !unsupported,
-                            is_hil: false,
+                            is_hil: key.1 > 0,
                         });
                         if unsupported {
                             sends.delete_all(key.0);

@@ -10,6 +10,12 @@ pub enum ExpectResult {
     FailedValueOutOfRange,
 }
 
+#[derive(PartialEq, Eq, Clone)]
+pub enum TxResult {
+    Sent,
+    Failed,
+}
+
 /// Missing and non-finite values never satisfy an expected signal range.
 pub fn signal_in_range(value: Option<f64>, range: [f64; 2]) -> bool {
     value.is_some_and(|value| value.is_finite() && value >= range[0] && value <= range[1])
@@ -45,6 +51,7 @@ pub struct InProgressExpect {
 pub struct HilRunningTest {
     pub test_info: hil::config::TestInfo,
     pub tx_remaining: Vec<hil::config::TxMessage>,
+    pub tx_completed: Vec<(hil::config::TxMessage, TxResult)>,
     pub in_progress_expects: Vec<InProgressExpect>,
 }
 
@@ -99,6 +106,7 @@ impl HilRunningTest {
         Self {
             test_info,
             tx_remaining,
+            tx_completed: Vec::new(),
             in_progress_expects,
         }
     }
@@ -214,7 +222,10 @@ impl HilRunningTest {
                 e.result,
                 ExpectResult::FailedNoMessage | ExpectResult::FailedValueOutOfRange
             )
-        })
+        }) || self
+            .tx_completed
+            .iter()
+            .any(|(_, result)| matches!(result, TxResult::Failed))
     }
 }
 

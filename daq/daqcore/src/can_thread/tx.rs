@@ -112,6 +112,10 @@ impl SendTable {
         self.0.retain(|(message_key, _), _| *message_key != key);
     }
 
+    pub fn delete_hil(&mut self) {
+        self.0.retain(|(_, index), _| *index == 0);
+    }
+
     pub fn due(
         &self,
         now: time::Instant,
