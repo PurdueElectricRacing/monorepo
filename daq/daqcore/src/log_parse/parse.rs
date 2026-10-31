@@ -1,4 +1,4 @@
-use crate::{can, frame, log_parse, superdbc};
+use crate::{frame, log_parse, superdbc};
 use std::{fs, io, mem, path};
 
 #[derive(Debug)]
@@ -19,28 +19,21 @@ pub struct RawFrame {
 
 impl RawFrame {
     /// Encode a classic CAN frame using the timestamped wire/log format.
-    /// Return an error on invalid bus ID
+    /// Return an error on invalid bus ID (only buses 0-7 are supported).
     pub fn new(
         ticks_ms: u32,
         identity: frame::CanIdentity,
         bus_id: u8,
         data: [u8; 8],
     ) -> Result<Self, String> {
-        if bus_id > 3 {
+        if bus_id > 7 {
             return Err(format!(
-                "legacy logging is unavailable for bus {bus_id}; only buses 0-3 are supported"
+                "legacy logging is unavailable for bus {bus_id}; only buses 0-7 are supported"
             ));
         }
-        let extended_flag = if identity.raw_id() > can::STANDARD_ID_MASK {
-            log_parse::consts::IS_EID_MASK
-        } else {
-            0
-        };
         Ok(Self {
             ticks_ms,
-            identity: identity.raw_id()
-                | extended_flag
-                | ((bus_id as u32) << log_parse::consts::BUS_ID_OFFSET),
+            identity: identity.raw_id() | ((bus_id as u32) << log_parse::consts::BUS_ID_OFFSET),
             data,
         })
     }
@@ -49,14 +42,12 @@ impl RawFrame {
         ((self.identity & log_parse::consts::BUS_ID_MASK) >> log_parse::consts::BUS_ID_OFFSET) as u8
     }
 
-    pub fn is_extended(&self) -> bool {
-        self.identity & log_parse::consts::IS_EID_MASK != 0
-    }
-
     /// Convert wire/log metadata into the application's CAN identity representation.
+    ///
+    /// Masks out the 3-bit bus ID, leaving the 29-bit CAN ID. [`frame::CanIdentity::new`]
+    /// rejects any value that would not fit in 29 bits.
     pub fn can_identity(&self) -> Result<frame::CanIdentity, frame::InvalidCanId> {
-        let flags = log_parse::consts::IS_EID_MASK | log_parse::consts::BUS_ID_MASK;
-        frame::CanIdentity::new(self.identity & !flags)
+        frame::CanIdentity::new(self.identity & !log_parse::consts::BUS_ID_MASK)
     }
 }
 
