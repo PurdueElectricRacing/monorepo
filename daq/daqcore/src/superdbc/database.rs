@@ -38,7 +38,7 @@ struct BusFramingProbe {
 #[derive(Debug, Default, serde::Deserialize)]
 struct BusFramingEntry {
     #[serde(default)]
-    is_extended_id: Option<bool>,
+    is_extended_id: Option<serde_json::Value>,
 }
 
 impl Database {
@@ -138,10 +138,20 @@ impl Database {
             }
 
             bus_names.insert(name.clone(), bus_index);
-            let is_extended_id = framing
+            let is_extended_id = match framing
                 .buses
                 .get(&name)
-                .and_then(|entry| entry.is_extended_id);
+                .and_then(|entry| entry.is_extended_id.as_ref())
+            {
+                None | Some(serde_json::Value::Null) => None,
+                Some(serde_json::Value::Bool(flag)) => Some(*flag),
+                Some(other) => {
+                    return Err(superdbc::error::ParseError::definition(
+                        &context,
+                        format!("is_extended_id must be a boolean, found {other}"),
+                    ));
+                }
+            };
             let mut nodes = Vec::with_capacity(model.nodes.len());
 
             for node in model.nodes {
@@ -405,8 +415,9 @@ impl Bus {
     ///
     /// `Some(true)` means all frames on this bus use 29-bit extended IDs,
     /// `Some(false)` means all frames use 11-bit standard IDs. `None` is
-    /// returned for schema 1.1 artifacts, which predate bus-level framing and
-    /// rely on the raw-ID-width heuristic at the driver layer.
+    /// returned when the artifact's bus entry does not declare the key, which
+    /// is the case for all existing schema 1.1 artifacts; the driver layer
+    /// then falls back to the raw-ID-width heuristic.
     pub fn is_extended_id(&self) -> Option<bool> {
         self.is_extended_id
     }
@@ -586,6 +597,31 @@ mod tests {
     fn omitted_bus_level_framing_is_none() {
         let database = Database::from_json(&artifact("1.1", None).to_string()).unwrap();
         assert_eq!(database.bus("CAN0").unwrap().is_extended_id(), None);
+    }
+
+    #[test]
+    fn wrong_typed_bus_level_framing_is_rejected() {
+        let mut document = artifact("1.1", Some(true));
+        let bus = document
+            .get_mut("buses")
+            .and_then(|buses| buses.get_mut("CAN0"))
+            .and_then(serde_json::Value::as_object_mut)
+            .unwrap();
+        bus.insert("is_extended_id".into(), json!("yes"));
+        let error = Database::from_json(&document.to_string()).unwrap_err();
+        assert!(
+            matches!(
+                error,
+                superdbc::error::ParseError::InvalidDefinition { .. }
+            ),
+            "unexpected error: {error:?}"
+        );
+        let message = error.to_string();
+        assert!(message.contains("CAN0"), "error should name the bus: {message}");
+        assert!(
+            message.contains("is_extended_id"),
+            "error should name the key: {message}"
+        );
     }
 
     #[test]
