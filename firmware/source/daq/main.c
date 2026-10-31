@@ -85,6 +85,7 @@ ClockRateConfig_t clock_config = {
 dma_init_t spi_rx_dma_config    = SPI1_RXDMA_CONT_CONFIG(NULL, 2);
 dma_init_t spi_tx_dma_config    = SPI1_TXDMA_CONT_CONFIG(NULL, 1);
 SPI_InitConfig_t eth_spi_config = {
+    .data_rate     = 12'000'000, // SPI1: 24 MHz PCLK2 / 2; verify SCK on the new board.
     .data_len      = 8,
     .nss_sw        = false,
     .nss_gpio_port = ETH_CS_PORT,
