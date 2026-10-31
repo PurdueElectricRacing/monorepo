@@ -3,7 +3,7 @@ description: Builds the repo Dockerfile and pushes it to GHCR with gha layer cac
 outputs:
   image:
     description: Fully qualified image reference (name:tag).
-    value: ${{ steps.meta.outputs.name }}:${{ steps.meta.outputs.version }}
+    value: ghcr.io/${{ github.repository }}/per-firmware:${{ steps.meta.outputs.version }}
 runs:
   using: composite
   steps:
@@ -16,6 +16,12 @@ runs:
         tags: |
           type=sha,prefix=sha-
           type=raw,value=latest,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+
+    - uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
 
     - uses: docker/build-push-action@v7
       with:
