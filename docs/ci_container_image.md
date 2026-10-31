@@ -57,11 +57,12 @@ choice:
 PR / push to master
         │
         ▼
-┌─────────────┐   ┌──────────────┐   ┌──────────────────┐
-│  image job  │──▶│ GHCR         │◀──┤  image job       │   (every workflow builds it;
-│  (build +   │   │ gha BuildKit │   │  (other workflow)│    same key → cache hit,
-│   push)     │   │ layer cache  │   └──────────────────┘    near-instant)
-└─────────────┘   └──────┬───────┘
+┌─────────────┐   ┌──────────────┐   ┌────────────────────────┐
+│  image job  │──▶│ GHCR         │◀──┤  image job             │   (each of the three main
+│  (build +   │   │ gha BuildKit │   │  (each other main      │    workflows carries the
+│   push)     │   │ layer cache  │   │  workflow)             │    same image job; same
+└─────────────┘   └──────┬───────┘   └────────────────────────┘    key → cache hit,
+                                                                 near-instant)
                          │ pull (sha-pinned)
           ┌──────────────┼──────────────┐
           ▼              ▼              ▼
@@ -70,15 +71,19 @@ PR / push to master
       needs.image)   needs.image)     needs.image)
 ```
 
+- Each of the three main workflows (`run_tests`, `build_daq`, `build_firmware`)
+  runs an `image` job on every PR and master push; BuildKit's `gha` cache makes
+  builds of an unchanged image near-instant.
 - Tags: `sha-<commit sha>` on every build; `latest` **only** on pushes to `master`.
+  `latest` stays fresh because the main workflows trigger on every master push.
   PRs and feature branches never touch `latest`.
 - Fork PRs: `github.repository` is the *base* repository on fork PRs, and the
   `GITHUB_TOKEN` is read-only there, so the `image` job carries
   `if: github.event_name != 'pull_request' ||
   github.event.pull_request.head.repo.full_name == github.repository` and is skipped
   for fork PRs (the containerized jobs that `needs: [image]` are skipped as a result,
-  keeping the workflow green). PRs from branches of the org repo, master pushes, and
-  `workflow_dispatch` are unaffected.
+  keeping the workflow green). PRs from branches of the org repo and master pushes
+  are unaffected.
 
 ## Files to Create
 
@@ -130,39 +135,9 @@ Notes:
 - `actions/checkout@v7` must run **before** this action in the calling job (the
   composite action does not check out).
 
-### 2. `.github/workflows/build_image.yml` (new — standalone, master-only refresh + manual dispatch)
-
-Purpose: keeps `:latest` fresh when the Dockerfile changes on master even if no other
-workflow runs, and gives a manual `workflow_dispatch` escape hatch.
-
-```yaml
-name: Build Image
-
-on:
-  push:
-    branches: [master]
-    paths:
-      - Dockerfile
-      - requirements.txt
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  packages: write
-
-jobs:
-  image:
-    name: Build & push CI image
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-      - uses: ./.github/actions/per-image
-```
-
 ## Files to Modify
 
-### 3. `.github/workflows/run_tests.yml`
+### 2. `.github/workflows/run_tests.yml`
 
 - Add `packages: write` to the top-level `permissions:`.
 - Add the `image` job:
@@ -204,7 +179,7 @@ jobs:
   `Dockerfile` (they are stable CI dependencies) and delete that step; leave the
   `--version` sanity echoes as plain `run` lines if desired.
 
-### 4. `.github/workflows/build_daq.yml`
+### 3. `.github/workflows/build_daq.yml`
 
 - Add `packages: write` to `permissions:`.
 - Add the same `image` job as above.
@@ -214,13 +189,13 @@ jobs:
 - No other changes; the existing `actions/cache` cargo steps complement the image
   cache and should stay.
 
-### 5. `.github/workflows/build_firmware.yml`
+### 4. `.github/workflows/build_firmware.yml`
 
 - Add `packages: write` to `permissions:`.
 - Add the same `image` job.
 - For `firmware_build` and `cppcheck`: add `needs: [image]`, swap the container line.
 
-### 6. `Dockerfile` (small hardening while we own it)
+### 5. `Dockerfile` (small hardening while we own it)
 
 - Add near the top:
 
@@ -278,7 +253,6 @@ max) + one pull per job + existing cargo caches. No periodic manual image refres
    failing.
 3. **Master test:** merge to master. Confirm:
    - `:latest` is minted (only `push` + `refs/heads/master` enables it).
-   - `build_image.yml` (path-filtered) does not double-build on unrelated pushes.
    - `release_firmware.yml` still fires off the successful Build Firmware run.
 4. **Local dev test:**
    `docker pull ghcr.io/purdueelectricracing/monorepo/per-firmware:latest` and run a
@@ -286,22 +260,21 @@ max) + one pull per job + existing cargo caches. No periodic manual image refres
 
 ## Rollout / Migration Sequence
 
-1. Land the composite action + `build_image.yml` (no behavior change yet; verify a
-   `workflow_dispatch` run builds and pushes successfully).
-2. Migrate `build_firmware.yml` (smallest surface: 2 jobs). Verify per plan above.
-3. Migrate `run_tests.yml` (includes the FIL apt-install move into the Dockerfile).
+1. Land the composite action and migrate `build_firmware.yml` first as a canary;
+   verify the `image` job builds and pushes successfully and consumers consume it.
+2. Migrate `run_tests.yml` (includes the FIL apt-install move into the Dockerfile).
    Verify.
-4. Migrate `build_daq.yml` (most jobs, but mechanical). Verify.
-5. Update `docs/setup.md` (or equivalent dev docs): pull
+3. Migrate `build_daq.yml` (most jobs, but mechanical). Verify.
+4. Update `docs/setup.md` (or equivalent dev docs): pull
    `ghcr.io/purdueelectricracing/monorepo/per-firmware:latest` for local work.
-6. After a week of green CI, deprecate `irvingywang/per-firmware` on Docker Hub
+5. After a week of green CI, deprecate `irvingywang/per-firmware` on Docker Hub
    (mark deprecated / delete) and remove any references in docs.
 
 ## Rollback
 
 Reverting the workflow files restores the old `container: image:` references; the old
 personal image must still be pulled until the first revert is green. Keep the old image
-alive until step 6.
+alive until step 5.
 
 ## Risks / Trade-offs
 
