@@ -143,9 +143,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Install Clippy
-        run: rustup component add clippy
-
       - name: Cache Cargo
         uses: actions/cache@v6
         with:

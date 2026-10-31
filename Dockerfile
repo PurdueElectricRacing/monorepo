@@ -57,5 +57,5 @@ RUN curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
         --no-modify-path \
         --profile minimal \
         --default-toolchain stable \
-    && rustup component add rustfmt \
+    && rustup component add clippy rustfmt \
     && rm /tmp/rustup-init.sh
