@@ -119,7 +119,7 @@ bool PHAL_configurePLLVCO(PLLSrc_t pll_source, uint32_t vco_output_rate_target_h
 }
 
 bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
-    // Ensure sysetm clock target is valid (Must be under 168 MHz)
+    // F423 SYSCLK is limited to 100 MHz.
     if (system_clock_target_hz > RCC_MAX_SYSCLK_TARGET_HZ) {
         system_clock_target_hz = RCC_MAX_SYSCLK_TARGET_HZ;
     }
@@ -131,7 +131,8 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
     }
 
     uint8_t pll_q_divisor = PLLClockRateHz / 48000000;
-    if (pll_q_divisor <= 1 || pll_q_divisor > 15) {
+    // SDIO's existing dividers require an exact 48 MHz kernel clock.
+    if (PLLClockRateHz % 48'000'000U != 0 || pll_q_divisor <= 1 || pll_q_divisor > 15) {
         return false;
     }
 
@@ -140,34 +141,45 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
     RCC->PLLCFGR |= (((pll_p_divisor / 2) - 1) << RCC_PLLCFGR_PLLP_Pos) & RCC_PLLCFGR_PLLP_Msk; // Divisor value to PLLP bits (Pg. 227)
     RCC->PLLCFGR |= (pll_q_divisor << RCC_PLLCFGR_PLLQ_Pos) & RCC_PLLCFGR_PLLQ_Msk;
 
-    __DSB(); // Wait for explicit memory accesses to finish
+    // F423: CK48MSEL=0 selects main PLLQ; SDIOSEL=0 selects that CK48 clock.
+    RCC->DCKCFGR2 &= ~(RCC_DCKCFGR2_CK48MSEL | RCC_DCKCFGR2_SDIOSEL);
 
-    RCC->CR |= RCC_CR_PLLON; // Enable PLL
-    while (!(RCC->CR & RCC_CR_PLLRDY))
-        ; // Wait for PLL to turn on
-    __DSB();
+    // PWR_CR.VOS is writable with PLL off; the caller's VCO setup leaves it off.
+    // Scale 2 (reset) supports up to 84 MHz; F423 needs Scale 1 above that.
+    if (system_clock_target_hz > 84'000'000) {
+        RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+        (void)RCC->APB1ENR; // Peripheral-clock enable settling (ES0372 section 2.2.7).
+        PWR->CR = (PWR->CR & ~PWR_CR_VOS_Msk) | PWR_CR_VOS;
+    }
 
-    // TODO(RCC-02): replace the legacy latency policy with RM0430 limits.
-    uint32_t flash_acr_temp = FLASH->ACR;
-    flash_acr_temp &= ~(FLASH_ACR_LATENCY_Msk);
+    __DSB(); // Complete PLL/VOS configuration before enabling PLL.
+    RCC->CR |= RCC_CR_PLLON;
+    while (!(RCC->CR & RCC_CR_PLLRDY)) {
+        // Wait for PLL to turn on.
+    }
+    // VOS takes effect only with PLL on, while SYSCLK is still HSI/HSE.
+    if (system_clock_target_hz > 84'000'000) {
+        while (!(PWR->CSR & PWR_CSR_VOSRDY)) {
+            // Wait for Scale 1 before selecting the faster system clock.
+        }
+    }
 
-    if (system_clock_target_hz >= 210000000)
-        flash_acr_temp |= FLASH_ACR_LATENCY_7WS << FLASH_ACR_LATENCY_Pos;
-    else if (system_clock_target_hz >= 180000000)
-        flash_acr_temp |= FLASH_ACR_LATENCY_6WS << FLASH_ACR_LATENCY_Pos;
-    else if (system_clock_target_hz >= 150000000)
-        flash_acr_temp |= FLASH_ACR_LATENCY_5WS << FLASH_ACR_LATENCY_Pos;
-    else if (system_clock_target_hz >= 120000000)
-        flash_acr_temp |= FLASH_ACR_LATENCY_4WS << FLASH_ACR_LATENCY_Pos;
-    else if (system_clock_target_hz >= 90000000)
-        flash_acr_temp |= FLASH_ACR_LATENCY_3WS << FLASH_ACR_LATENCY_Pos;
-    else if (system_clock_target_hz >= 60000000)
-        flash_acr_temp |= FLASH_ACR_LATENCY_2WS << FLASH_ACR_LATENCY_Pos;
-    else if (system_clock_target_hz >= 30000000)
-        flash_acr_temp |= FLASH_ACR_LATENCY_1WS << FLASH_ACR_LATENCY_Pos;
-    else
-        flash_acr_temp |= FLASH_ACR_LATENCY_0WS << FLASH_ACR_LATENCY_Pos;
-    FLASH->ACR = flash_acr_temp;
+    // RM0430 table 6: 25 MHz per wait state at VDD=2.7–3.6 V (3V3 board).
+    // SYSCLK bounds HCLK, including its final prescaler. Keep a higher existing
+    // latency rather than reducing it before a possible clock decrease.
+    const uint32_t latency = (system_clock_target_hz - 1U) / 25'000'000U;
+    if ((FLASH->ACR & FLASH_ACR_LATENCY_Msk) < (latency << FLASH_ACR_LATENCY_Pos)) {
+        FLASH->ACR = (FLASH->ACR & ~FLASH_ACR_LATENCY_Msk) | (latency << FLASH_ACR_LATENCY_Pos);
+        while ((FLASH->ACR & FLASH_ACR_LATENCY_Msk) != (latency << FLASH_ACR_LATENCY_Pos)) {
+            // Confirm the new latency before increasing HCLK (RM0430 section 3.4.1).
+        }
+    }
+
+    // F423 APB1 is limited to 50 MHz; SYSCLK may reach 100 MHz before the
+    // caller applies its final bus dividers. Preserve any existing /2 or slower.
+    if ((RCC->CFGR & RCC_CFGR_PPRE1_Msk) < RCC_CFGR_PPRE1_DIV2) {
+        RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE1_Msk) | RCC_CFGR_PPRE1_DIV2;
+    }
 
     __DSB(); // Wait for explicit memory accesses to finish
     RCC->CFGR &= ~RCC_CFGR_SW;
@@ -278,11 +290,12 @@ bool PHAL_configureAHBClock(uint32_t ahb_clock_target_hz) {
     rcc_cfgr_temp |= (sys_clk_div);
     RCC->CFGR = rcc_cfgr_temp;
 
-    AHBClockRateHz = ahb_clock_target_hz; // Set global for AHB Clock Rate
+    SystemCoreClockUpdate(); // HPRE changes HCLK, which CMSIS/FreeRTOS report as the core clock.
+    AHBClockRateHz = SystemCoreClock;
     return true;
 }
 
-// Low speed peripheral bus (Max speed 42 MHz)
+// Low speed peripheral bus (F423 maximum 50 MHz)
 bool PHAL_configureAPB1Clock(uint32_t apb1_clock_target_hz) {
     // Map a required prescaler to achieve the target APB1 clock speed from AHB
     uint32_t desired_psc = AHBClockRateHz / apb1_clock_target_hz;
@@ -316,11 +329,12 @@ bool PHAL_configureAPB1Clock(uint32_t apb1_clock_target_hz) {
     rcc_cfgr_temp |= (ahb_clk_div);
     RCC->CFGR = rcc_cfgr_temp;
 
-    APB1ClockRateHz = apb1_clock_target_hz; // Set global for APB1
+    APB1ClockRateHz = AHBClockRateHz
+        >> APBPrescTable[(RCC->CFGR & RCC_CFGR_PPRE1_Msk) >> RCC_CFGR_PPRE1_Pos];
     return true;
 }
 
-// High speed peripheral bus (Max speed 84 MHz)
+// High speed peripheral bus (F423 maximum 100 MHz)
 bool PHAL_configureAPB2Clock(uint32_t apb2_clock_target_hz) {
     // Map a required prescaler to achieve the target APB2 clock speed from AHB
     uint32_t desired_psc = AHBClockRateHz / apb2_clock_target_hz;
@@ -354,7 +368,8 @@ bool PHAL_configureAPB2Clock(uint32_t apb2_clock_target_hz) {
     rcc_cfgr_temp |= ahb_clk_div;
     RCC->CFGR = rcc_cfgr_temp;
 
-    APB2ClockRateHz = apb2_clock_target_hz; // Set global for APB2
+    APB2ClockRateHz = AHBClockRateHz
+        >> APBPrescTable[(RCC->CFGR & RCC_CFGR_PPRE2_Msk) >> RCC_CFGR_PPRE2_Pos];
     return true;
 }
 
