@@ -582,12 +582,19 @@ the table above to each subtask before implementing it.
 
 ### K.4. SPI and the actual W5500 path
 
-- [ ] **SPI-01 — fix init and rate selection.** Require 8/16-bit DFF and a
-  nonzero requested speed; configure DFF/BR/CPOL/CPHA/NSS with SPE=0. Pick the
-  smallest legal power-of-two divider whose actual SCK does not exceed the
-  request or board/device limit; reject unattainable inputs. Set a board-owned
-  nonzero W5500 rate in DAQ. **Verify:** divider bounds and rates around each
-  boundary, then measure SCK and read W5500's version register on PB4 MISO.
+- [x] **SPI-01 — configure DAQ's SPI startup (2026-10-30).** Set the missing
+  board-owned W5500 rate to 12 MHz: SPI1's current 24 MHz PCLK2 divided by two.
+  This removes the zero-rate division at startup without changing the divider
+  algorithm. Clear SPE before master/polarity/NSS, DFF and BR configuration;
+  enable SPI after successful DMA/CS initialization, preserving the successful
+  init contract. Keep the F423 8/16-bit DFF interface and all transfer paths.
+  **Verified:** temporary ASan/UBSan register cases exercise both frame widths,
+  initially enabled/disabled SPI, DFF/BR and DMA setup with SPE=0, enabled-on-
+  success behavior, and /2 (12 MHz). All configured F423/G4 targets and all three
+  F4 bench variants build. **Still open on hardware:** verify the board
+  wiring and W5500 timing, measure SCK and read its version register on PB4 MISO.
+  General zero/invalid-rate validation, divider rounding and unsupported-request
+  behavior remain deferred; the selected exact /2 request needs none of them.
 - [ ] **SPI-02 — define supported instances/modes.** Keep SPI1/2 as the supported
   set for this migration and explicitly reject SPI3–5; retain DFF rather than
   adding unrelated DS/FRXTH logic. Validate transfer configuration before

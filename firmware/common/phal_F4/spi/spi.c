@@ -33,14 +33,16 @@ bool PHAL_SPI_init(SPI_InitConfig_t* cfg) {
         return false;
     }
 
-    // Setup for Master, positive polarity
-    cfg->periph->CR1 |= SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_SSM | SPI_CR1_SSI;
+    // Configure format and baud rate with SPI disabled (RM0430 SPI_CR1).
+    cfg->periph->CR1 &= ~SPI_CR1_SPE;
+    cfg->periph->CR1 |= SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI;
     cfg->periph->CR1 &= ~(SPI_CR1_CPOL);
     cfg->periph->CR2 &= ~(SPI_CR2_SSOE);
 
 #ifdef STM32F423xx
-    if (cfg->data_len != 8 && cfg->data_len != 16)
+    if (cfg->data_len != 8 && cfg->data_len != 16) {
         return false;
+    }
     // Set data frame size for SPI transaction to 8/16 bits depending on user configuration
     cfg->periph->CR1 &= ~(SPI_CR1_DFF);
     cfg->periph->CR1 |= (cfg->data_len != 8) << SPI_CR1_DFF_Pos;
@@ -74,6 +76,7 @@ bool PHAL_SPI_init(SPI_InitConfig_t* cfg) {
     cfg->_direct_mode_error = false;
     cfg->_fifo_overrun      = false;
 
+    cfg->periph->CR1 |= SPI_CR1_SPE;
     return true;
 }
 
