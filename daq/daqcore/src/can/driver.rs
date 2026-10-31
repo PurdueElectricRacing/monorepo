@@ -158,7 +158,7 @@ impl Driver for SimulatedDriver {
 
         let messages = bus.map(|b| b.messages()).unwrap_or(&[]);
 
-        if messages.is_empty() {
+        let Some(message) = messages.choose(&mut rng) else {
             let identity =
                 frame::CanIdentity::new(rng.random_range(0..=can::STANDARD_ID_MASK), false)
                     .map_err(|error| DriverError::Read(error.to_string()))?;
@@ -166,9 +166,8 @@ impl Driver for SimulatedDriver {
             rng.fill_bytes(&mut data);
             let frame = frame::CanFrame::data(identity, data).map_err(DriverError::Read)?;
             return Ok(vec![frame]);
-        }
+        };
 
-        let message = messages.choose(&mut rng).unwrap();
         let identity = message.identity();
         let size = usize::from(message.length_bytes());
 
@@ -182,9 +181,7 @@ impl Driver for SimulatedDriver {
         } else {
             for signal in &message.signals {
                 let choices: Vec<i128> = signal.choices().map(|(val, _)| val).collect();
-                
-                let bits: u64 = if !choices.is_empty() {
-                    let &raw = choices.choose(&mut rng).unwrap();
+                let bits: u64 = if let Some(&raw) = choices.choose(&mut rng) {
                     raw as u64
                 } else if let Some(limits) = signal.limits() {
                     // Logic when explicit limits exist
@@ -248,6 +245,7 @@ impl Driver for SimulatedDriver {
         Ok(())
     }
 }
+
 
 
 mod serial {
