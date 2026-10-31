@@ -1,5 +1,6 @@
 FROM ubuntu:26.04
 
+# prevent apt packages from prompting interactively during the build
 ENV DEBIAN_FRONTEND=noninteractive
 
 # refresh apt
