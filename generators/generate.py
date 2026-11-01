@@ -34,7 +34,7 @@ def generate() -> None:
     fault_contribution = faultgen.contribute(fault_plan)
     source             = canpiler.assemble_source(
         declarations,
-        [fault_contribution, diagnostics_contribution()],
+        [fault_contribution, diagnostics_contribution(declarations)],
     )
     compiled           = canpiler.compile(source)
     linked_can         = canpiler.link(compiled)
