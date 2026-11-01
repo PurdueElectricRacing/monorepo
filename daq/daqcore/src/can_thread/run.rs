@@ -243,8 +243,7 @@ fn run_with_connection(
                     got_frames = !frames.is_empty();
                     for frame in frames {
                         load.record_frame(frame.data.len(), time::Instant::now());
-                        // The packed frame carries a 3-bit bus ID (0..=7), so
-                        // every valid bus is eligible for logging.
+                        // Bus ID is 3 bits so 0-7 supported
                         if decoder.bus_id() <= 7
                             && let Some(logger) = &mut logger
                             && let Err(error) = logger.log_frame(&frame, decoder.bus_id())
