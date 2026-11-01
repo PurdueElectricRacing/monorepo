@@ -1,4 +1,4 @@
-use crate::{can, can_thread, firmware, frame, hil};
+use crate::{can, can_thread, hil};
 use std::{sync::mpsc, thread, time};
 
 const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
@@ -216,7 +216,7 @@ fn run_with_connection(
                     break;
                 };
 
-                let tx_frame = firmware_tx_frame(frame);
+                let tx_frame = frame.into_can_frame();
                 let result = tx_frame
                     .map_err(can::driver::DriverError::Write)
                     .and_then(|frame| connection.write(frame));
@@ -320,6 +320,3 @@ fn run_with_connection(
     connection.close();
 }
 
-fn firmware_tx_frame(frame: firmware::updater::OutboundFrame) -> Result<frame::CanFrameTx, String> {
-    frame::CanFrameTx::data(frame.id, false, frame.data)
-}

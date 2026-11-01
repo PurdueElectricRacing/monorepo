@@ -1,4 +1,4 @@
-use crate::firmware;
+use crate::{firmware, frame};
 use std::time;
 
 // Values mirror bootloader_status_t in firmware/can_library/generated/can_types.h.
@@ -18,6 +18,13 @@ const MAX_RETRIES: u8 = 3;
 pub struct OutboundFrame {
     pub id: u32,
     pub data: Vec<u8>,
+}
+
+impl OutboundFrame {
+    /// Convert a bootloader frame to a standard CAN transmit frame.
+    pub fn into_can_frame(self) -> Result<frame::CanFrameTx, String> {
+        frame::CanFrameTx::data(self.id, false, self.data)
+    }
 }
 
 #[derive(Debug)]
