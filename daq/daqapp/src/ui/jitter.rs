@@ -53,7 +53,7 @@ impl Jitter {
         });
         if let Some(msg) = self.selected_msg.and_then(|key| bus.message(key.identity)) {
             let identity = msg.identity();
-            ui.label(format!("{} ({identity})", msg.name()));
+            ui.label(format!("{} (0x{identity:03X})", msg.name()));
 
             let deviations = interval_deviations(view.setpoint_frames, identity, self.period_ms);
             ui.label("Absolute deviation from nominal period over the shared interval");

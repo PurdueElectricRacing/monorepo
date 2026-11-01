@@ -40,11 +40,12 @@ impl SendAmount {
 pub struct AddSendMessage {
     pub amount: SendAmount,
     pub identity: frame::CanIdentity,
+    pub is_extended_id: bool,
     pub msg_bytes: Vec<u8>,
 }
 
 struct Scheduled {
-    frame: frame::CanFrame,
+    frame: frame::CanFrameTx,
     amount: SendAmount,
     sent: Option<time::Instant>,
 }
@@ -62,7 +63,7 @@ impl SendTable {
             return Err("send count and period must be positive".into());
         }
 
-        let frame = frame::CanFrame::data(msg.identity, msg.msg_bytes)?;
+        let frame = frame::CanFrameTx::data(msg.identity, msg.is_extended_id, msg.msg_bytes)?;
 
         self.0.insert(
             msg.identity,
@@ -79,7 +80,7 @@ impl SendTable {
         self.0.remove(&id);
     }
 
-    pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrame> {
+    pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrameTx> {
         self.0
             .values()
             .filter(|scheduled| {
