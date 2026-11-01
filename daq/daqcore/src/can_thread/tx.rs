@@ -41,6 +41,7 @@ pub struct AddSendMessage {
     pub amount: SendAmount,
     pub identity: frame::CanIdentity,
     pub msg_bytes: Vec<u8>,
+    pub is_hil: bool,
 }
 
 struct Scheduled {
@@ -50,7 +51,7 @@ struct Scheduled {
 }
 
 #[derive(Default)]
-pub struct SendTable(BTreeMap<frame::CanIdentity, Scheduled>);
+pub struct SendTable(BTreeMap<(frame::CanIdentity, u8), Scheduled>);
 
 impl SendTable {
     pub fn add(&mut self, msg: AddSendMessage) -> Result<(), String> {
@@ -64,25 +65,55 @@ impl SendTable {
 
         let frame = frame::CanFrame::data(msg.identity, msg.msg_bytes)?;
 
-        self.0.insert(
-            msg.identity,
-            Scheduled {
-                frame,
-                amount: msg.amount,
-                sent: None,
-            },
-        );
+        // Allow HIL messages to populate slots past slot 0
+        // which is reserved for traditional messages sent
+        // from Send UI
+        if msg.is_hil {
+            for i in 1..=u8::MAX {
+                if let std::collections::btree_map::Entry::Vacant(e) =
+                    self.0.entry((msg.identity, i))
+                {
+                    e.insert(Scheduled {
+                        frame,
+                        amount: msg.amount,
+                        sent: None,
+                    });
+                    break;
+                }
+
+                if i == u8::MAX {
+                    return Err("No more space in send table".to_owned());
+                }
+            }
+        } else {
+            self.0.insert(
+                (msg.identity, 0),
+                Scheduled {
+                    frame,
+                    amount: msg.amount,
+                    sent: None,
+                },
+            );
+        }
         Ok(())
     }
 
     pub fn delete(&mut self, id: frame::CanIdentity) {
-        self.0.remove(&id);
+        self.0.remove(&(id, 0));
     }
 
-    pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrame> {
+    pub fn delete_all(&mut self, id: frame::CanIdentity) {
+        self.0.retain(|(identity, _), _| *identity != id);
+    }
+
+    pub fn delete_hil(&mut self) {
+        self.0.retain(|(_, index), _| *index == 0);
+    }
+
+    pub fn due(&self, now: time::Instant) -> Vec<((frame::CanIdentity, u8), frame::CanFrame)> {
         self.0
-            .values()
-            .filter(|scheduled| {
+            .iter()
+            .filter(|((_, _), scheduled)| {
                 let Some(last_sent) = scheduled.sent else {
                     return true;
                 };
@@ -92,19 +123,24 @@ impl SendTable {
 
                 elapsed >= period
             })
-            .map(|scheduled| scheduled.frame.clone())
+            .map(|(key, scheduled)| (*key, scheduled.frame.clone()))
             .collect()
     }
 
-    pub fn commit(&mut self, id: frame::CanIdentity, now: time::Instant) -> Option<SendAmount> {
-        let scheduled = self.0.get_mut(&id)?;
+    pub fn commit(
+        &mut self,
+        id: frame::CanIdentity,
+        index: u8,
+        now: time::Instant,
+    ) -> Option<SendAmount> {
+        let scheduled = self.0.get_mut(&(id, index))?;
         scheduled.sent = Some(now);
         let amount_left = scheduled.amount.subtract_one();
 
         if let Some(amount) = amount_left {
             scheduled.amount = amount;
         } else {
-            self.0.remove(&id);
+            self.0.remove(&(id, index));
         }
         amount_left
     }

@@ -191,22 +191,36 @@ impl Hil {
             return;
         }
 
-        let (mut total_passed, mut total_expects, mut subtests_all_passed) = (0, 0, 0);
+        let (
+            mut total_expects_passed,
+            mut total_expects,
+            mut total_tx_passed,
+            mut total_tx,
+            mut subtests_all_passed,
+        ) = (0, 0, 0, 0, 0);
         for t in tests {
-            let total = t.in_progress_expects.len();
-            let passed = t
+            let test_expects = t.in_progress_expects.len();
+            let test_tx = t.tx_completed.len();
+            let passed_expects = t
                 .in_progress_expects
                 .iter()
                 .filter(|e| matches!(e.result, daqcore::hil::run::ExpectResult::Passed))
                 .count();
-            total_passed += passed;
-            total_expects += total;
-            if passed == total {
+            let passed_tx = t
+                .tx_completed
+                .iter()
+                .filter(|(_, result)| matches!(result, daqcore::hil::run::TxResult::Sent))
+                .count();
+
+            total_expects_passed += passed_expects;
+            total_expects += test_expects;
+            total_tx_passed += passed_tx;
+            total_tx += test_tx;
+            if total_expects_passed == total_expects && total_tx_passed == total_tx {
                 subtests_all_passed += 1;
             }
         }
-
-        let color = if total_passed == total_expects {
+        let color = if total_expects_passed == total_expects && total_tx_passed == total_tx {
             eframe::egui::Color32::GREEN
         } else {
             eframe::egui::Color32::RED
@@ -215,9 +229,11 @@ impl Hil {
         ui.colored_label(
             color,
             format!(
-                "Executed tests: {}/{} expects passed, {}/{} subtests fully passed",
-                total_passed,
+                "Executed tests: {}/{} expects passed, {}/{} TX passed, {}/{} subtests fully passed",
+                total_expects_passed,
                 total_expects,
+                total_tx_passed,
+                total_tx,
                 subtests_all_passed,
                 tests.len()
             ),
@@ -262,14 +278,20 @@ impl Hil {
             return;
         }
 
-        let total = test.in_progress_expects.len();
-        let passed = test
+        let total_expects = test.in_progress_expects.len();
+        let total_tx = test.tx_completed.len();
+        let passed_expects = test
             .in_progress_expects
             .iter()
             .filter(|e| matches!(e.result, daqcore::hil::run::ExpectResult::Passed))
             .count();
+        let passed_tx = test
+            .tx_completed
+            .iter()
+            .filter(|(_, result)| matches!(result, daqcore::hil::run::TxResult::Sent))
+            .count();
 
-        let color = if passed == total {
+        let color = if passed_expects == total_expects && passed_tx == total_tx {
             eframe::egui::Color32::GREEN
         } else {
             eframe::egui::Color32::RED
@@ -277,7 +299,10 @@ impl Hil {
 
         ui.colored_label(
             color,
-            format!("Test finished: {} passed of {} expects", passed, total),
+            format!(
+                "Test finished: {} passed of {} expects | {} sent of {} TX messages",
+                passed_expects, total_expects, passed_tx, total_tx,
+            ),
         );
     }
 
