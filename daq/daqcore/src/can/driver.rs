@@ -159,10 +159,6 @@ impl Driver for SimulatedDriver {
         Self::message_frame(message, &mut rng).map(|frame| vec![frame])
     }
 
-    fn update_bus(&mut self, bus: Option<&superdbc::database::Bus>) {
-        self.messages = bus.map(|bus| bus.messages().to_vec()).unwrap_or_default();
-    }
-
     fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
         Ok(())
     }
