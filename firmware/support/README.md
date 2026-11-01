@@ -33,8 +33,3 @@ OpenOCD configs for debugging and board provisioning, plus ad-hoc helpers.
 - `stlink.cfg` Local ST-Link interface override (not referenced from `.vscode/`).
 - `mem_helper.tcl` Memory-access helper script (not referenced from `.vscode/`).
 - `swj-dp.tcl` SWJ/SWD helper script (not referenced from `.vscode/`).
-
-Both F4 targets select F423 CMSIS/startup/PHAL/RTOS libraries. This selects the
-silicon and memory map; it does not complete the driver/clock audit or DAQ board
-integration in [the migration plan](../../docs/f423_migration_checklist.md).
-The DAQ schematic pinout remains assigned to a separate stacked PR.
