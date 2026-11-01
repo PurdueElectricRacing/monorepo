@@ -1,6 +1,6 @@
 //! Message identities, validated signal definitions, and presentation metadata.
 
-use crate::{frame, superdbc};
+use crate::{frame, can, superdbc};
 use std::collections::{BTreeMap, HashMap};
 
 /// Complete lookup key within one active database version.
@@ -129,9 +129,9 @@ impl Message {
             .transpose()?;
         let identity: frame::CanIdentity = superdbc::model::narrow(model.id, context, "id")?;
         let maximum_id = if model.is_extended_id {
-            crate::can::EXTENDED_ID_MASK
+            can::EXTENDED_ID_MASK
         } else {
-            crate::can::STANDARD_ID_MASK
+            can::STANDARD_ID_MASK
         };
         if identity > maximum_id {
             return Err(superdbc::error::ParseError::definition(

@@ -1,4 +1,4 @@
-use crate::{can, can_thread, frame, hil};
+use crate::{can, can_thread, frame, hil, firmware};
 use std::{sync::mpsc, thread, time};
 
 const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
@@ -171,9 +171,9 @@ fn run_with_connection(
         // Ordinary sends are suspended while firmware owns transmission.
         let updating = firmware.active();
         if connection.connected() && !updating {
-            for frame in sends.due(now) {
-                let identity = frame.frame.identity;
-                match connection.write(frame) {
+            for tx_frame in sends.due(now) {
+                let identity = tx_frame.frame.identity;
+                match connection.write(tx_frame) {
                     Ok(()) => {
                         let amount_left = sends.commit(identity, time::Instant::now());
                         emit!(can_thread::CanThreadEvent::MessageSent {
@@ -216,8 +216,8 @@ fn run_with_connection(
                     break;
                 };
 
-                let frame = firmware_tx_frame(frame);
-                let result = frame
+                let tx_frame = firmware_tx_frame(frame);
+                let result = tx_frame
                     .map_err(can::driver::DriverError::Write)
                     .and_then(|frame| connection.write(frame));
                 if let Err(error) = result {
@@ -322,7 +322,7 @@ fn run_with_connection(
 }
 
 fn firmware_tx_frame(
-    frame: crate::firmware::updater::OutboundFrame,
+    frame: firmware::updater::OutboundFrame,
 ) -> Result<frame::CanFrameTx, String> {
     frame::CanFrameTx::data(frame.id, false, frame.data)
 }
