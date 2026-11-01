@@ -126,9 +126,7 @@ impl Message {
             .nominal_period_ms
             .map(|period| superdbc::model::narrow(period.get(), context, "nominal_period_ms"))
             .transpose()?;
-        let id = superdbc::model::narrow(model.id, context, "id")?;
-        let identity = frame::CanIdentity::new(id)
-            .map_err(|error| superdbc::error::ParseError::definition(context, error.to_string()))?;
+        let identity: frame::CanIdentity = superdbc::model::narrow(model.id, context, "id")?;
         let mut signals = Vec::with_capacity(model.signals.len());
         let mut signal_index = HashMap::with_capacity(model.signals.len());
         let mut occupied = 0u64;

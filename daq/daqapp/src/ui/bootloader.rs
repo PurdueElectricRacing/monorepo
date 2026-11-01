@@ -713,7 +713,7 @@ impl Bootloader {
             }
             daqcore::can_thread::CanThreadEvent::Frame(frame) => {
                 self.observe_protocol_frame(
-                    frame.identity.raw_id(),
+                    frame.identity,
                     frame.decoded.as_ref().map(|d| d.name()),
                 );
             }

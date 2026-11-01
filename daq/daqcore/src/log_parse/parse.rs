@@ -33,7 +33,7 @@ impl RawFrame {
         }
         Ok(Self {
             ticks_ms,
-            identity: identity.raw_id() | ((bus_id as u32) << log_parse::consts::BUS_ID_OFFSET),
+            identity: identity | ((bus_id as u32) << log_parse::consts::BUS_ID_OFFSET),
             data,
         })
     }
@@ -44,10 +44,10 @@ impl RawFrame {
 
     /// Convert wire/log metadata into the application's CAN identity representation.
     ///
-    /// Masks out the 3-bit bus ID, leaving the 29-bit CAN ID. [`frame::CanIdentity::new`]
-    /// rejects any value that would not fit in 29 bits.
-    pub fn can_identity(&self) -> Result<frame::CanIdentity, frame::InvalidCanId> {
-        frame::CanIdentity::new(self.identity & !log_parse::consts::BUS_ID_MASK)
+    /// Masks out the 3-bit bus ID, leaving the 29-bit CAN ID. Infallible because
+    /// the mask bounds the result to 29 bits.
+    pub fn can_identity(&self) -> frame::CanIdentity {
+        self.identity & !log_parse::consts::BUS_ID_MASK
     }
 }
 
@@ -111,13 +111,7 @@ fn parse_log_file(
             break;
         }
 
-        let identity = match frame.can_identity() {
-            Ok(identity) => identity,
-            Err(error) => {
-                log::error!("Invalid CAN identity in {}: {error}", in_file.display());
-                continue;
-            }
-        };
+        let identity = frame.can_identity();
 
         let bus_id = frame.bus_id();
 
@@ -136,7 +130,7 @@ fn parse_log_file(
             log::error!(
                 "Failed to decode message at {} ms with CAN ID {:X} and data {:?} on bus {}",
                 frame.ticks_ms,
-                identity.raw_id(),
+                identity,
                 frame.data,
                 bus_id
             );

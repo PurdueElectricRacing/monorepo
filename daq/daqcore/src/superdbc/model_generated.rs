@@ -1,7 +1,7 @@
 // Generated from canpiler's Pydantic SuperDBC schema. Do not edit manually.
 // HOWEVER MAKE SURE THIS IS CHECKED IN TO GIT!
 
-pub const SCHEMA_VERSION: &str = "1.2";
+pub const SCHEMA_VERSION: &str = "1.1";
 
 ///`BusExport`
 #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
@@ -9,7 +9,6 @@ pub const SCHEMA_VERSION: &str = "1.2";
 pub struct BusExport {
     pub baud_rate: ::std::num::NonZeroU64,
     pub bus_id: i64,
-    pub is_extended_id: bool,
     pub messages: ::std::vec::Vec<MessageExport>,
     pub nodes: ::std::vec::Vec<NodeExport>,
 }

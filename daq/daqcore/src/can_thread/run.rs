@@ -216,9 +216,7 @@ fn run_with_connection(
                     break;
                 };
 
-                let frame = frame::CanIdentity::new(frame.id)
-                    .map_err(|error| error.to_string())
-                    .and_then(|identity| frame::CanFrame::data(identity, frame.data));
+                let frame = frame::CanFrame::data(frame.id, frame.data);
                 let result = frame
                     .map_err(can::driver::DriverError::Write)
                     .and_then(|frame| connection.write(frame));
@@ -264,11 +262,8 @@ fn run_with_connection(
                         // the driver's raw-ID-width heuristic in force.
                         if updating
                             && decoder.bus().map(|bus| bus.is_extended_id()) != Some(true)
-                            && let Some(progress) = firmware.receive(
-                                frame.identity.raw_id(),
-                                &frame.data,
-                                time::Instant::now(),
-                            )
+                            && let Some(progress) =
+                                firmware.receive(frame.identity, &frame.data, time::Instant::now())
                         {
                             emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                         }

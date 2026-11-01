@@ -131,10 +131,7 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .map(|bytes| {
             let raw = bytemuck::try_pod_read_unaligned::<log_parse::parse::RawFrame>(bytes)
                 .map_err(|error| DriverError::Read(error.to_string()))?;
-            let identity = raw
-                .can_identity()
-                .map_err(|error| DriverError::Read(error.to_string()))?;
-            frame::CanFrame::data(identity, raw.data.to_vec()).map_err(DriverError::Read)
+            frame::CanFrame::data(raw.can_identity(), raw.data.to_vec()).map_err(DriverError::Read)
         })
         .collect()
 }
@@ -169,11 +166,7 @@ impl Driver for SimulatedDriver {
         let mut rng = rand::rng();
         let (identity, size) = match self.messages.choose(&mut rng).copied() {
             Some(message) => message,
-            None => {
-                let identity = frame::CanIdentity::new(rng.random_range(self.id_range.clone()))
-                    .map_err(|error| DriverError::Read(error.to_string()))?;
-                (identity, 8)
-            }
+            None => (rng.random_range(self.id_range.clone()), 8),
         };
 
         if size > 8 {
@@ -258,19 +251,18 @@ mod serial {
         }
     }
 
-    fn identity(id: slcan::Id) -> can::driver::DriverResult<frame::CanIdentity> {
-        let identity = match id {
-            slcan::Id::Standard(id) => frame::CanIdentity::new(id.as_raw() as u32),
-            slcan::Id::Extended(id) => frame::CanIdentity::new(id.as_raw()),
-        };
-
-        identity.map_err(|error| can::driver::DriverError::Read(error.to_string()))
+    /// Infallible: slcan's `StandardId`/`ExtendedId` constructors already reject out-of-range IDs.
+    fn identity(id: slcan::Id) -> frame::CanIdentity {
+        match id {
+            slcan::Id::Standard(id) => id.as_raw() as u32,
+            slcan::Id::Extended(id) => id.as_raw(),
+        }
     }
 
     fn from_wire(frame: slcan::CanFrame) -> can::driver::DriverResult<frame::CanFrame> {
         let frame = match frame {
             slcan::CanFrame::Can2(f) => {
-                let identity = identity(f.id())?;
+                let identity = identity(f.id());
                 let kind = if f.is_remote() {
                     frame::FrameKind::Remote
                 } else {
@@ -285,7 +277,7 @@ mod serial {
                 }
             }
             slcan::CanFrame::CanFd(f) => {
-                let identity = identity(f.id())?;
+                let identity = identity(f.id());
                 frame::CanFrame {
                     identity,
                     kind: frame::FrameKind::Fd {
@@ -313,7 +305,7 @@ mod serial {
         }
 
         fn write_frame(&mut self, f: frame::CanFrame) -> can::driver::DriverResult<()> {
-            let id = to_wire_id(f.identity.raw_id(), self.extended)
+            let id = to_wire_id(f.identity, self.extended)
                 .ok_or_else(|| can::driver::DriverError::Write("invalid ID".into()))?;
             let wire: slcan::CanFrame = match f.kind {
                 frame::FrameKind::Data => slcan::Can2Frame::new_data(id, &f.data).map(Into::into),

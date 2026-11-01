@@ -71,7 +71,7 @@ impl Drop for SendUi {
             {
                 // Don't panic in Drop, just log the error
                 log::error!(
-                    "Failed to send DeleteSendMessage for identity {}: {}",
+                    "Failed to send DeleteSendMessage for identity 0x{:03X}: {}",
                     identity,
                     e
                 );
@@ -162,7 +162,7 @@ impl SendUi {
                             eframe::egui::RichText::new(format!(
                                 "Selected Message: {} (0x{:03X})",
                                 selected_msg.name(),
-                                selected_msg.identity().raw_id()
+                                selected_msg.identity()
                             ))
                             .strong()
                             .size(16.0),
@@ -382,7 +382,7 @@ impl SendUi {
             if !retrying {
                 self.sending_messages.retain(|m| m.identity != *identity);
             }
-            log::error!("Send {identity} failed: {error}");
+            log::error!("Send 0x{identity:03X} failed: {error}");
         }
 
         if let daqcore::can_thread::CanThreadEvent::MessageSent {
@@ -428,10 +428,13 @@ impl SendingMessage {
         // Header (outside card)
         ui.horizontal(|ui| {
             ui.label(
-                eframe::egui::RichText::new(format!("{}  ({})", self.msg_name, self.identity))
-                    .strong()
-                    .size(16.0)
-                    .color(ui.visuals().text_color()),
+                eframe::egui::RichText::new(format!(
+                    "{}  (0x{:03X})",
+                    self.msg_name, self.identity
+                ))
+                .strong()
+                .size(16.0)
+                .color(ui.visuals().text_color()),
             );
             ui.label(
                 eframe::egui::RichText::new(self.amount.display()).color(ui.visuals().text_color()),

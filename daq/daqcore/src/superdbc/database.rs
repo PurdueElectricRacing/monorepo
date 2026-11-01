@@ -255,7 +255,7 @@ impl Database {
     ///
     /// # fn main() -> Result<(), Box<dyn error::Error>> {
     /// let database = daqcore::superdbc::database::Database::load(path::Path::new("superdbc.json"))?;
-    /// let identity = daqcore::frame::CanIdentity::new(0x123)?;
+    /// let identity: daqcore::frame::CanIdentity = 0x123;
     /// if let Some(message) = database.message(0, identity) {
     ///     let payload = vec![0; usize::from(message.length_bytes())];
     ///     let decoded = database.decode(0, identity, &payload)?;
