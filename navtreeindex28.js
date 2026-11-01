@@ -1,5 +1,6 @@
 var NAVTREEINDEX28 =
 {
+"structusart__init__t.html#a800535a10dcb513f67b6792ff478e957":[33,0,270,3],
 "structusart__init__t.html#a97856b392b293a232c769bb4175d4cc3":[33,0,270,6],
 "structusart__init__t.html#aa6c3fafc12f5c502d6d1fa956bb58cad":[33,0,270,10],
 "structusart__init__t.html#ac36a6ddfa1405916862f19954981bea4":[33,0,270,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX28 =
 "torque__vector_2main_8c.html#a845eaf447179a8baf75c69794c49856d":[34,0,1,2,10,4,1],
 "torque__vector_2main_8c.html#a8999bb473ba368e6b2643fa45b4b8e39":[34,0,1,2,10,4,9],
 "torque__vector_2main_8h.html":[34,0,1,2,10,5],
-"torque__vector_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12":[34,0,1,2,10,5,4],
-"torque__vector_2main_8h.html#a3da9ac80a8c57bdb3013735d6cb72dbe":[34,0,1,2,10,5,0]
+"torque__vector_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12":[34,0,1,2,10,5,4]
 };

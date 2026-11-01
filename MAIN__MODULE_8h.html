@@ -259,8 +259,8 @@ Functions</h2></td></tr>
 <tr class="separator:aabf0685d6933f10e58d9171d134b1885"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac75a1862b72edecacd4a2f724dc279d1" id="r_ac75a1862b72edecacd4a2f724dc279d1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac75a1862b72edecacd4a2f724dc279d1">CAN_SEND_main_module_fault_event</a> (<a class="el" href="can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63">fault_id_t</a> value_idx, uint16_t value_val, bool value_state)</td></tr>
 <tr class="separator:ac75a1862b72edecacd4a2f724dc279d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a429cb8d5c3a82659039cae30cec94211" id="r_a429cb8d5c3a82659039cae30cec94211"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a429cb8d5c3a82659039cae30cec94211">CAN_SEND_main_module_fault_sync</a> (bool value_SDC1_IMD, bool value_SDC2_BMS, bool value_SDC3_BSPD, bool value_SDC4_MAIN_OK, bool value_SDC5_BOTS, bool value_SDC6_INERTIA, bool value_SDC7_COCKPIT_ESTOP, bool value_SDC9_FRONT_INTERLOCK, bool value_SDC10_RIGHT_ESTOP, bool value_SDC11_LEFT_ESTOP, bool value_SDC12_MSD, bool value_SDC13_E_METER, bool value_SDC15_REAR_INTERLOCK, bool value_SDC16_TSMS, bool value_SDC17_AIR_M, bool value_PRECHARGE_INCOMPLETE)</td></tr>
-<tr class="separator:a429cb8d5c3a82659039cae30cec94211"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace712438f8caf190d7d6e5e70f0bd5e9" id="r_ace712438f8caf190d7d6e5e70f0bd5e9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace712438f8caf190d7d6e5e70f0bd5e9">CAN_SEND_main_module_fault_sync</a> (bool value_SDC1_IMD, bool value_SDC2_BMS, bool value_SDC3_BSPD, bool value_SDC4_ECU_OK, bool value_SDC5_BOTS, bool value_SDC6_INERTIA, bool value_SDC7_COCKPIT_ESTOP, bool value_SDC9_FRONT_INTERLOCK, bool value_SDC10_RIGHT_ESTOP, bool value_SDC11_LEFT_ESTOP, bool value_SDC12_MSD, bool value_SDC13_E_METER, bool value_SDC14_HVD, bool value_SDC16_REAR_INTERLOCK, bool value_SDC17_TSMS, bool value_SDC19_PRECHARGE_COMPLETE, bool value_PRECHARGE_INCOMPLETE)</td></tr>
+<tr class="separator:ace712438f8caf190d7d6e5e70f0bd5e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa807ade5b93f6697cfac0ae05b7f5255" id="r_aa807ade5b93f6697cfac0ae05b7f5255"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa807ade5b93f6697cfac0ae05b7f5255">CAN_init_peripherals</a> (void)</td></tr>
 <tr class="separator:aa807ade5b93f6697cfac0ae05b7f5255"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a500b6be206fba2002ed925d335a72173" id="r_a500b6be206fba2002ed925d335a72173"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a500b6be206fba2002ed925d335a72173">FDCAN1_init_filters</a> ()</td></tr>
@@ -1348,8 +1348,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a429cb8d5c3a82659039cae30cec94211" name="a429cb8d5c3a82659039cae30cec94211"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a429cb8d5c3a82659039cae30cec94211">&#9670;&#160;</a></span>CAN_SEND_main_module_fault_sync()</h2>
+<a id="ace712438f8caf190d7d6e5e70f0bd5e9" name="ace712438f8caf190d7d6e5e70f0bd5e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace712438f8caf190d7d6e5e70f0bd5e9">&#9670;&#160;</a></span>CAN_SEND_main_module_fault_sync()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1375,7 +1375,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_SDC4_MAIN_OK</em></span>, </td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_SDC4_ECU_OK</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1420,17 +1420,22 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_SDC15_REAR_INTERLOCK</em></span>, </td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_SDC14_HVD</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_SDC16_TSMS</em></span>, </td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_SDC16_REAR_INTERLOCK</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_SDC17_AIR_M</em></span>, </td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_SDC17_TSMS</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_SDC19_PRECHARGE_COMPLETE</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1447,12 +1452,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a429cb8d5c3a82659039cae30cec94211_cgraph.svg" width="596" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_ace712438f8caf190d7d6e5e70f0bd5e9_cgraph.svg" width="596" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a429cb8d5c3a82659039cae30cec94211_icgraph.svg" width="332" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_ace712438f8caf190d7d6e5e70f0bd5e9_icgraph.svg" width="332" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

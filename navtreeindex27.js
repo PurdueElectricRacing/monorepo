@@ -1,5 +1,6 @@
 var NAVTREEINDEX27 =
 {
+"structpVCU__struct.html#af1c90f23434645f0fdac01e58d96a196":[33,0,222,19],
 "structpVCU__struct.html#af4a570c7da020aed2b281b6565014430":[33,0,222,17],
 "structpVCU__struct.html#af621964678bba80dc09790abe03c68db":[33,0,222,2],
 "structpVCU__struct.html#afbca91accfdb087a053f9aa8ad0b67cf":[33,0,222,56],
@@ -248,6 +249,5 @@ var NAVTREEINDEX27 =
 "structusart__init__t.html#a2820018bf22cf98f54b55244fe1ffc80":[33,0,270,4],
 "structusart__init__t.html#a2ba906ee7666896dbd3d8735604a3532":[33,0,270,7],
 "structusart__init__t.html#a72b5f7df2bcce44b8d47c08e616df66f":[33,0,270,13],
-"structusart__init__t.html#a793120df7198e36da9fa5342b1acd35a":[33,0,270,0],
-"structusart__init__t.html#a800535a10dcb513f67b6792ff478e957":[33,0,270,3]
+"structusart__init__t.html#a793120df7198e36da9fa5342b1acd35a":[33,0,270,0]
 };

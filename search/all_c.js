@@ -120,7 +120,7 @@ var searchData=
   ['can_5fsend_5fmain_5fhb_5famk_117',['CAN_SEND_main_hb_amk',['../MAIN__MODULE_8h.html#a63eff556f2a4943ff5fb61175f5e2df7',1,'MAIN_MODULE.h']]],
   ['can_5fsend_5fmain_5finit_118',['CAN_SEND_main_init',['../MAIN__MODULE_8h.html#a22712736f646cde540cb15e873617533',1,'MAIN_MODULE.h']]],
   ['can_5fsend_5fmain_5fmodule_5ffault_5fevent_119',['CAN_SEND_main_module_fault_event',['../MAIN__MODULE_8h.html#ac75a1862b72edecacd4a2f724dc279d1',1,'MAIN_MODULE.h']]],
-  ['can_5fsend_5fmain_5fmodule_5ffault_5fsync_120',['CAN_SEND_main_module_fault_sync',['../MAIN__MODULE_8h.html#a429cb8d5c3a82659039cae30cec94211',1,'MAIN_MODULE.h']]],
+  ['can_5fsend_5fmain_5fmodule_5ffault_5fsync_120',['CAN_SEND_main_module_fault_sync',['../MAIN__MODULE_8h.html#ace712438f8caf190d7d6e5e70f0bd5e9',1,'MAIN_MODULE.h']]],
   ['can_5fsend_5fmain_5fversion_121',['CAN_SEND_main_version',['../MAIN__MODULE_8h.html#aeef7c7296bf1fc904bbbe6c3216b3bf1',1,'MAIN_MODULE.h']]],
   ['can_5fsend_5fmark_5fdata_122',['CAN_SEND_mark_data',['../DASHBOARD_8h.html#aaec438ab0bc6a8ec4867d966c7f39c4c',1,'DASHBOARD.h']]],
   ['can_5fsend_5fmotor_5fspeeds_123',['CAN_SEND_motor_speeds',['../MAIN__MODULE_8h.html#a29b1cbb2de31574aeab2ccb3eee8de88',1,'MAIN_MODULE.h']]],

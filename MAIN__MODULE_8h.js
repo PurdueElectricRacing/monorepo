@@ -24,7 +24,7 @@ var MAIN__MODULE_8h =
     [ "CAN_SEND_main_hb_amk", "MAIN__MODULE_8h.html#a63eff556f2a4943ff5fb61175f5e2df7", null ],
     [ "CAN_SEND_main_init", "MAIN__MODULE_8h.html#a22712736f646cde540cb15e873617533", null ],
     [ "CAN_SEND_main_module_fault_event", "MAIN__MODULE_8h.html#ac75a1862b72edecacd4a2f724dc279d1", null ],
-    [ "CAN_SEND_main_module_fault_sync", "MAIN__MODULE_8h.html#a429cb8d5c3a82659039cae30cec94211", null ],
+    [ "CAN_SEND_main_module_fault_sync", "MAIN__MODULE_8h.html#ace712438f8caf190d7d6e5e70f0bd5e9", null ],
     [ "CAN_SEND_main_version", "MAIN__MODULE_8h.html#aeef7c7296bf1fc904bbbe6c3216b3bf1", null ],
     [ "CAN_SEND_motor_speeds", "MAIN__MODULE_8h.html#a29b1cbb2de31574aeab2ccb3eee8de88", null ],
     [ "CAN_SEND_motor_temps", "MAIN__MODULE_8h.html#a3b8dba56e53546e2d2660f6d1b2cf321", null ],

@@ -23,7 +23,6 @@ var searchData=
   ['nss_5fgpio_5fport_20',['nss_gpio_port',['../structSPI__InitConfig__t.html#ae82235e4faf01aa37ffcb212f626abc2',1,'SPI_InitConfig_t']]],
   ['nss_5fsw_21',['nss_sw',['../structSPI__InitConfig__t.html#ac7b65af149334e39252e9d91e1d324ba',1,'SPI_InitConfig_t']]],
   ['num_5felements_22',['num_elements',['../structmenu__page__t.html#af8408d9007e4a01b547ae1f2ddaac0b7',1,'menu_page_t']]],
-  ['num_5fsdc_5fnodes_23',['NUM_SDC_NODES',['../sdc_8c.html#aa1d2d338acd39c4c1b960d8eecbc5571',1,'sdc.c']]],
-  ['num_5fsensors_24',['num_sensors',['../structE__METER__TEMPERATURE__data__t.html#a4c3207c1320610542b89d93507610fe5',1,'E_METER_TEMPERATURE_data_t']]],
-  ['numsatellites_25',['numSatellites',['../structNAV__PVT__payload__t.html#a425dfee9bd9d8043859fab6cf6df3740',1,'NAV_PVT_payload_t']]]
+  ['num_5fsensors_23',['num_sensors',['../structE__METER__TEMPERATURE__data__t.html#a4c3207c1320610542b89d93507610fe5',1,'E_METER_TEMPERATURE_data_t']]],
+  ['numsatellites_24',['numSatellites',['../structNAV__PVT__payload__t.html#a425dfee9bd9d8043859fab6cf6df3740',1,'NAV_PVT_payload_t']]]
 ];

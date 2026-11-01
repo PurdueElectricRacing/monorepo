@@ -1,5 +1,6 @@
 var NAVTREEINDEX12 =
 {
+"fdcan__priv_8h.html":[34,0,1,1,9,4,3],
 "fdcan__priv_8h.html#a0472c0a3f1bad4132f88309758ae8d1c":[34,0,1,1,9,4,3,30],
 "fdcan__priv_8h.html#a0c95e2ed85574cceb022f9d170f434c3":[34,0,1,1,9,4,3,39],
 "fdcan__priv_8h.html#a0fed4338eaa5e76c37bdbb72648c1de9":[34,0,1,1,9,4,3,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX12 =
 "globals_a.html":[34,1,0,1],
 "globals_b.html":[34,1,0,2],
 "globals_c.html":[34,1,0,3],
-"globals_d.html":[34,1,0,4],
-"globals_defs.html":[34,1,6]
+"globals_d.html":[34,1,0,4]
 };

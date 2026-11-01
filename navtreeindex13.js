@@ -1,5 +1,6 @@
 var NAVTREEINDEX13 =
 {
+"globals_defs.html":[34,1,6],
 "globals_defs.html":[34,1,6,0],
 "globals_defs_a.html":[34,1,6,1],
 "globals_defs_b.html":[34,1,6,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX13 =
 "laptimer__statemachine_8drawio_8png.html":[34,0,1,2,4,2,2],
 "laptimer__vectors_8drawio_8png.html":[34,0,1,2,4,2,3],
 "lcd_8c.html":[34,0,1,2,4,1,4],
-"lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece":[34,0,1,2,4,1,4,3],
-"lcd_8c.html#a486267210dfc8118e23e6b1bc6090286":[34,0,1,2,4,1,4,5]
+"lcd_8c.html#a249040ab9dd6b041b4412dbed6546ece":[34,0,1,2,4,1,4,3]
 };
