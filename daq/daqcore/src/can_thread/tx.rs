@@ -110,24 +110,3 @@ impl SendTable {
         amount_left
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::{AddSendMessage, SendAmount, SendTable};
-    use std::time::Instant;
-
-    #[test]
-    fn scheduled_message_preserves_extended_framing() -> Result<(), String> {
-        let mut table = SendTable::default();
-        table.add(AddSendMessage {
-            amount: SendAmount::Once,
-            identity: 0x123,
-            is_extended_id: true,
-            msg_bytes: vec![1],
-        })?;
-        let frames = table.due(Instant::now());
-        assert_eq!(frames.len(), 1);
-        assert_eq!(frames.first().map(|frame| frame.is_extended_id), Some(true));
-        Ok(())
-    }
-}

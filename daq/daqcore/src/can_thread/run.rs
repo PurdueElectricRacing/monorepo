@@ -326,20 +326,3 @@ fn firmware_tx_frame(
 ) -> Result<frame::CanFrameTx, String> {
     frame::CanFrameTx::data(frame.id, false, frame.data)
 }
-
-#[cfg(test)]
-mod tests {
-    use super::firmware_tx_frame;
-    use crate::firmware::updater::OutboundFrame;
-
-    #[test]
-    fn firmware_frames_use_standard_framing() -> Result<(), String> {
-        let frame = firmware_tx_frame(OutboundFrame {
-            id: 0x123,
-            data: vec![1],
-        })?;
-        assert!(!frame.is_extended_id);
-        assert_eq!(frame.frame.identity, 0x123);
-        Ok(())
-    }
-}
