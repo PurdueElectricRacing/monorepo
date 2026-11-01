@@ -8,7 +8,7 @@ use std::collections::{BTreeMap, HashMap};
 pub struct MessageKey {
     /// Bus containing the message; numeric IDs may repeat across buses.
     pub bus_id: u8,
-    /// Numeric 29-bit CAN identifier.
+    /// 11-bit or 29-bit CAN identifier.
     pub identity: frame::CanIdentity,
 }
 

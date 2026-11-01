@@ -234,7 +234,7 @@ impl Database {
 
     /// Look up and decode a frame on the specified bus into an owned result.
     ///
-    /// `identity` is the numeric 29-bit CAN identifier. `data` must contain
+    /// `identity` is an 11-bit or 29-bit CAN identifier. `data` must contain
     /// at least the message's declared length and at most eight bytes; trailing
     /// padding is ignored. Scaling and offset are applied to physical values,
     /// while exact raw integers are retained. Non-finite telemetry is accepted.
@@ -372,7 +372,7 @@ impl Bus {
         &self.messages
     }
 
-    /// Look up a message on this bus by its numeric 29-bit CAN identity.
+    /// Look up a message on this bus by its 11-bit or 29-bit CAN identifier.
     ///
     /// Returns `None` if absent. Each numeric ID appears at most once per bus.
     pub fn message(&self, identity: frame::CanIdentity) -> Option<&superdbc::message::Message> {
