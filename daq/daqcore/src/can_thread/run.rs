@@ -282,9 +282,12 @@ fn run_with_connection(
         // Ordinary sends are suspended while firmware owns transmission.
         let updating = firmware.active();
         if connection.connected() && !updating {
-            for (key, frame) in sends.due(now) {
-                let identity = frame.identity;
-                match connection.write(frame) {
+            for tx_frame in sends.due(now) {
+                let identity = tx_frame.frame.identity;
+                match connection.write(tx_frame) {
+            // for (key, frame) in sends.due(now) {
+            //     let identity = frame.identity;
+            //     match connection.write(frame) {
                     Ok(()) => {
                         let amount_left = sends.commit(key.0, key.1, time::Instant::now());
                         emit!(can_thread::CanThreadEvent::MessageSent {
@@ -329,10 +332,8 @@ fn run_with_connection(
                     break;
                 };
 
-                let frame = frame::CanIdentity::new(frame.id, false)
-                    .map_err(|error| error.to_string())
-                    .and_then(|identity| frame::CanFrame::data(identity, frame.data));
-                let result = frame
+                let tx_frame = frame.into_can_frame();
+                let result = tx_frame
                     .map_err(can::driver::DriverError::Write)
                     .and_then(|frame| connection.write(frame));
                 if let Err(error) = result {
@@ -358,7 +359,8 @@ fn run_with_connection(
                     got_frames = !frames.is_empty();
                     for frame in frames {
                         load.record_frame(frame.data.len(), time::Instant::now());
-                        if selected_bus_id <= 1
+                        // Bus ID is 3 bits so 0-7 supported
+                        if decoder.bus_id() <= 7
                             && let Some(logger) = &mut logger
                             && let Err(error) = logger.log_frame(&frame, selected_bus_id)
                         {
@@ -367,12 +369,8 @@ fn run_with_connection(
 
                         let updating = firmware.active();
                         if updating
-                            && !frame.identity.is_extended()
-                            && let Some(progress) = firmware.receive(
-                                frame.identity.raw_id(),
-                                &frame.data,
-                                time::Instant::now(),
-                            )
+                            && let Some(progress) =
+                                firmware.receive(frame.identity, &frame.data, time::Instant::now())
                         {
                             emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                         }

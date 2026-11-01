@@ -1,70 +1,9 @@
 //! Transport-neutral frames; owned by the receiving thread until moved to its caller.
 
-use crate::{can, superdbc, time};
-use std::{error, fmt};
+use crate::{superdbc, time};
 
-/// Complete CAN identity. Ordering follows the packed identity representation.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct CanIdentity(u32);
-
-/// An ID that exceeds the width allowed by its standard/extended format.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct InvalidCanId {
-    pub id: u32,
-    pub extended: bool,
-}
-
-impl fmt::Display for InvalidCanId {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let format = if self.extended {
-            "extended"
-        } else {
-            "standard"
-        };
-
-        write!(formatter, "{format} CAN ID 0x{:X} is out of range", self.id)
-    }
-}
-
-impl error::Error for InvalidCanId {}
-
-impl CanIdentity {
-    pub fn new(id: u32, extended: bool) -> Result<Self, InvalidCanId> {
-        let maximum_id = if extended {
-            can::EXTENDED_ID_MASK
-        } else {
-            can::STANDARD_ID_MASK
-        };
-
-        if id > maximum_id {
-            return Err(InvalidCanId { id, extended });
-        }
-
-        let identity_flag = if extended { can::EXTENDED_ID_FLAG } else { 0 };
-
-        Ok(Self(id | identity_flag))
-    }
-
-    pub fn raw_id(self) -> u32 {
-        self.0 & can::EXTENDED_ID_MASK
-    }
-
-    pub fn is_extended(self) -> bool {
-        self.0 & can::EXTENDED_ID_FLAG != 0
-    }
-}
-
-impl fmt::Display for CanIdentity {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let format = if self.is_extended() {
-            "extended"
-        } else {
-            "standard"
-        };
-
-        write!(f, "0x{:03X} ({format})", self.raw_id())
-    }
-}
+/// A 11-bit or 29-bit CAN identifier.
+pub type CanIdentity = u32;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FrameKind {
@@ -73,6 +12,7 @@ pub enum FrameKind {
     Fd { bit_rate_switched: bool },
 }
 
+/// A received CAN frame without wire framing metadata
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CanFrame {
     pub identity: CanIdentity,
@@ -93,6 +33,26 @@ impl CanFrame {
             kind: FrameKind::Data,
             dlc: data.len() as u8,
             data,
+        })
+    }
+}
+
+/// A frame to transmit, with its required CAN wire framing.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CanFrameTx {
+    pub frame: CanFrame,
+    pub is_extended_id: bool,
+}
+
+impl CanFrameTx {
+    pub fn data(
+        identity: CanIdentity,
+        is_extended_id: bool,
+        data: Vec<u8>,
+    ) -> Result<Self, String> {
+        Ok(Self {
+            frame: CanFrame::data(identity, data)?,
+            is_extended_id,
         })
     }
 }

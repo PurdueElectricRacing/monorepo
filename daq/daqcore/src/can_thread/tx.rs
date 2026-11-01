@@ -40,12 +40,13 @@ impl SendAmount {
 pub struct AddSendMessage {
     pub amount: SendAmount,
     pub identity: frame::CanIdentity,
+    pub is_extended_id: bool,
     pub msg_bytes: Vec<u8>,
     pub is_hil: bool,
 }
 
 struct Scheduled {
-    frame: frame::CanFrame,
+    frame: frame::CanFrameTx,
     amount: SendAmount,
     sent: Option<time::Instant>,
 }
@@ -63,7 +64,7 @@ impl SendTable {
             return Err("send count and period must be positive".into());
         }
 
-        let frame = frame::CanFrame::data(msg.identity, msg.msg_bytes)?;
+        let frame = frame::CanFrameTx::data(msg.identity, msg.is_extended_id, msg.msg_bytes)?;
 
         // Allow HIL messages to populate slots past slot 0
         // which is reserved for traditional messages sent
@@ -111,6 +112,7 @@ impl SendTable {
     }
 
     pub fn due(&self, now: time::Instant) -> Vec<((frame::CanIdentity, u8), frame::CanFrame)> {
+    // pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrameTx> {
         self.0
             .iter()
             .filter(|((_, _), scheduled)| {

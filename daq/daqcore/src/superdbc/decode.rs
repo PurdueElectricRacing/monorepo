@@ -14,7 +14,7 @@ pub struct DecodedMessage {
 }
 
 impl DecodedMessage {
-    /// Return the original bus ID and standard/extended CAN identity.
+    /// Return the original bus ID and CAN identity.
     pub fn key(&self) -> superdbc::message::MessageKey {
         self.key
     }

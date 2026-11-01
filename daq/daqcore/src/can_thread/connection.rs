@@ -65,7 +65,7 @@ impl ConnectionManager {
         driver.read_frames()
     }
 
-    pub fn write(&mut self, frame: frame::CanFrame) -> can::driver::DriverResult<()> {
+    pub fn write(&mut self, frame: frame::CanFrameTx) -> can::driver::DriverResult<()> {
         let driver = self
             .driver
             .as_mut()

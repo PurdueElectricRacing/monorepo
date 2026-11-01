@@ -623,8 +623,8 @@ impl Bootloader {
         }
     }
 
-    fn observe_protocol_frame(&mut self, id: u32, is_extended: bool, decoded_name: Option<&str>) {
-        if !is_protocol_frame_candidate(is_extended, decoded_name) {
+    fn observe_protocol_frame(&mut self, id: u32, decoded_name: Option<&str>) {
+        if !is_protocol_frame_candidate(decoded_name) {
             return;
         }
 
@@ -713,8 +713,7 @@ impl Bootloader {
             }
             daqcore::can_thread::CanThreadEvent::Frame(frame) => {
                 self.observe_protocol_frame(
-                    frame.identity.raw_id(),
-                    frame.identity.is_extended(),
+                    frame.identity,
                     frame.decoded.as_ref().map(|d| d.name()),
                 );
             }
@@ -827,9 +826,8 @@ fn image_protocol_ids(image: &daqcore::firmware::protocol::FirmwareImage) -> [u3
     [image.start_id, image.crc_id, image.jump_id, image.data_id]
 }
 
-fn is_protocol_frame_candidate(is_extended: bool, decoded_name: Option<&str>) -> bool {
-    !is_extended
-        && !decoded_name.is_some_and(|name| name.starts_with("bl_") && name.ends_with("_info"))
+fn is_protocol_frame_candidate(decoded_name: Option<&str>) -> bool {
+    !decoded_name.is_some_and(|name| name.starts_with("bl_") && name.ends_with("_info"))
 }
 
 fn can_start_update(

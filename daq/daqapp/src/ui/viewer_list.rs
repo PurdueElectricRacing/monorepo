@@ -60,7 +60,7 @@ impl ViewerList {
                                     ui.label(format!(
                                         "{} (0x{:X})",
                                         decoded.name(),
-                                        frame.identity.raw_id()
+                                        frame.identity
                                     ));
                                 });
                                 row.col(|ui| {
@@ -77,7 +77,7 @@ impl ViewerList {
                                 ui.label(frame.timestamp.label());
                             });
                             row.col(|ui| {
-                                ui.label(format!("0x{:X}", frame.identity.raw_id()));
+                                ui.label(format!("0x{:X}", frame.identity));
                             });
                             row.col(|ui| {
                                 ui.label("Unknown");

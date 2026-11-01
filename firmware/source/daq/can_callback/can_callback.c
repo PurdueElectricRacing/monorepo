@@ -47,7 +47,6 @@ void PHAL_CAN_rxCallback(CanMsgTypeDef_t *msg) {
     last_can_rx_time_ms    = rx.ticks_ms;
 
     set_bus_id(&rx, get_bus_id(msg->Bus));
-    set_xid(&rx, msg->IDE);
     set_can_id(&rx, msg->IDE ? msg->ExtId : msg->StdId);
 
     memcpy(&rx.payload, msg->Data, msg->DLC);

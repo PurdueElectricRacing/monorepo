@@ -12,7 +12,7 @@
 
 typedef struct {
     uint32_t ticks_ms; // ms timestamp of reception
-    uint32_t identity; // [2 bit bus ID] [1 bit isExtID] [29 bits CAN ID]
+    uint32_t identity; // [3 bit bus ID @31-29] [29 bits CAN ID @28-0]
     uint64_t payload;  // message data
 } timestamped_frame_t;
 
@@ -24,22 +24,11 @@ static_assert(
 // helper functions
 [[gnu::always_inline]]
 static inline void set_bus_id(timestamped_frame_t *frame, uint32_t bus_id) {
-    static constexpr uint32_t BUS_ID_MASK = (0b11u << 30u); // 2 bits for bus ID
+    static constexpr uint32_t BUS_ID_MASK = (0b111u << 29u); // 3 bits for bus ID
 
-    uint32_t shifted_id = bus_id << 30u;
+    uint32_t shifted_id = bus_id << 29u;
     frame->identity &= ~BUS_ID_MASK; // Clear existing bus ID bits
-    frame->identity |= (shifted_id & BUS_ID_MASK); //Set new bus ID bits
-}
-
-[[gnu::always_inline]]
-static inline void set_xid(timestamped_frame_t *frame, bool is_xid) {
-    static constexpr uint32_t IS_XID_MASK = (1u << 29u); // 1 bit for extended flag
-
-    if (is_xid) {
-        frame->identity |= IS_XID_MASK;
-    } else {
-        frame->identity &= ~IS_XID_MASK;
-    }
+    frame->identity |= (shifted_id & BUS_ID_MASK); // Set new bus ID bits
 }
 
 [[gnu::always_inline]]

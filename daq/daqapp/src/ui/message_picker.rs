@@ -37,11 +37,11 @@ impl MessagePickerState {
         for message in bus.messages().iter().filter(|message| {
             search.trim() == "*"
                 || message.name().to_lowercase().contains(&search)
-                || format!("0x{:03x}", message.identity().raw_id()).contains(&search)
+                || format!("0x{:03x}", message.identity()).contains(&search)
         }) {
             found = true;
             if ui
-                .button(format!("{} ({})", message.name(), message.identity()))
+                .button(format!("{} (0x{:03X})", message.name(), message.identity()))
                 .clicked()
             {
                 picked = Some(message.key());

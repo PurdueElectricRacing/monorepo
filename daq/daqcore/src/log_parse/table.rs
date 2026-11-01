@@ -101,12 +101,7 @@ impl TableBuilder {
 
     pub fn create_header(&mut self, bus: &superdbc::database::Bus) {
         let mut messages: Vec<_> = bus.messages().iter().collect();
-        messages.sort_by_key(|message| {
-            (
-                message.identity().raw_id(),
-                message.identity().is_extended(),
-            )
-        });
+        messages.sort_by_key(|message| message.identity());
         for message in messages {
             for (i, signal) in message.signals().iter().enumerate() {
                 let key = (

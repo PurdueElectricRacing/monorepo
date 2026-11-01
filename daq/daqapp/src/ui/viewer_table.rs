@@ -61,7 +61,7 @@ impl ViewerTable {
                 if !search.is_empty()
                     && !name.to_lowercase().contains(&search)
                     && !node.to_lowercase().contains(&search)
-                    && !format!("{:03X}", frame.identity.raw_id())
+                    && !format!("{:03X}", frame.identity)
                         .to_lowercase()
                         .contains(&search)
                     && !decoded.is_some_and(|d| {
@@ -146,10 +146,13 @@ impl MessageCard<'_> {
             };
 
             ui.label(
-                eframe::egui::RichText::new(format!("{}  ({})", self.msg_name, self.identity))
-                    .strong()
-                    .size(16.0)
-                    .color(name_color),
+                eframe::egui::RichText::new(format!(
+                    "{}  (0x{:03X})",
+                    self.msg_name, self.identity
+                ))
+                .strong()
+                .size(16.0)
+                .color(name_color),
             );
 
             let matches_node = search.is_empty() || self.tx_node.to_lowercase().contains(&search);
