@@ -23,7 +23,7 @@ Specialized data structure designed specifically for DAQ.
 - High throughput
 - DMA friendly
 
-DAQ26 setup:
+DAQ27 setup:
 - Producers: CAN1/SCAN, CAN2/VCAN and CAN3/MCAN RX0 ISRs
 - Master Consumer: SD thread
 - Follower Consumer: Ethernet thread
