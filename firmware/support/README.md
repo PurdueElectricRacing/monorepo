@@ -4,10 +4,7 @@ Vendor and host-side files used by the build system and debugger. Not compiled i
 ## `linker/`
 
 Per-target GNU linker scripts. [`cmake/common_component.cmake`](../cmake/common_component.cmake) selects one based on the `LINKER_SCRIPT` argument plus a suffix (`.ld`, `_APP.ld`, or `_BL.ld`).
-- `STM32F423RHTx_FLASH.ld` Standalone layout for DAQ and f4_testing: 1536 KiB flash,
-  320 KiB ordinary SRAM. Legacy `.ccmram` input sections are initialized with
-  `.data` in SRAM; no separate CCM or alias region is allocated. No F4 bootloader
-  or bootloadable-app layout is currently supported.
+- `STM32F423RHTx_FLASH.ld` Standalone-app layout for the F4 targets (DAQ, f4_testing).
 - `STM32G474RETX_FLASH.ld` Standalone-app layout for the G4 targets.
 - `STM32G474RETX_FLASH_APP.ld` G4 app layout when paired with the bootloader.
 - `STM32G474RETX_FLASH_BL.ld` G4 bootloader layout.
