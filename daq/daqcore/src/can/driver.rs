@@ -213,7 +213,6 @@ mod serial {
         }
     }
 
-    /// Infallible: slcan's `StandardId`/`ExtendedId` constructors already reject out-of-range IDs.
     fn identity(id: slcan::Id) -> frame::CanIdentity {
         match id {
             slcan::Id::Standard(id) => id.as_raw() as u32,
