@@ -665,13 +665,13 @@
             "lcd_message": "SDC3 (BSPD) is open"
         },
         {
-            "fault_name": "SDC4_MAIN_OK",
+            "fault_name": "SDC4_ECU_OK",
             "max": 1,
             "min": 0,
             "priority": "fatal",
             "time_to_latch": 32,
             "time_to_unlatch": 100,
-            "lcd_message": "SDC4 (MAIN_OK) is open"
+            "lcd_message": "SDC4 (ECU_OK) is open"
         },
         {
             "fault_name": "SDC5_BOTS",
@@ -746,31 +746,40 @@
             "lcd_message": "SDC13 (E_METER) is open"
         },
         {
-            "fault_name": "SDC15_REAR_INTERLOCK",
+            "fault_name": "SDC14_HVD",
             "max": 1,
             "min": 0,
             "priority": "fatal",
             "time_to_latch": 32,
             "time_to_unlatch": 100,
-            "lcd_message": "SDC15 (REAR_INTERLOCK) is open"
+            "lcd_message": "SDC14 (HVD) is open"
         },
         {
-            "fault_name": "SDC16_TSMS",
+            "fault_name": "SDC16_REAR_INTERLOCK",
             "max": 1,
             "min": 0,
             "priority": "fatal",
             "time_to_latch": 32,
             "time_to_unlatch": 100,
-            "lcd_message": "SDC16 (TSMS) is open"
+            "lcd_message": "SDC16 (REAR_INTERLOCK) is open"
         },
         {
-            "fault_name": "SDC17_AIR_M",
+            "fault_name": "SDC17_TSMS",
             "max": 1,
             "min": 0,
             "priority": "fatal",
             "time_to_latch": 32,
             "time_to_unlatch": 100,
-            "lcd_message": "SDC17 (AIR_M) is open"
+            "lcd_message": "SDC17 (TSMS) is open"
+        },
+        {
+            "fault_name": "SDC19_PRECHARGE_COMPLETE",
+            "max": 1,
+            "min": 0,
+            "priority": "fatal",
+            "time_to_latch": 32,
+            "time_to_unlatch": 100,
+            "lcd_message": "SDC19 (PRECHARGE_COMPLETE) is open"
         },
         {
             "fault_name": "PRECHARGE_INCOMPLETE",
