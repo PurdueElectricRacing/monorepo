@@ -66,15 +66,17 @@ impl Database {
     /// [`crate::superdbc::error::ParseError::UnsupportedSchemaVersion`] for a different schema version,
     /// or [`crate::superdbc::error::ParseError::InvalidDefinition`] for invalid metadata or wire layouts.
     pub fn from_json(json: &str) -> Result<Self, superdbc::error::ParseError> {
-        // Parse the strict 1.1 document from the original text so bus
-        // declaration order is retained.
-        let document: superdbc::model::Document = serde_json::from_str(json)?;
+        // Probe the version before interpreting fields under the 1.1 schema.
+        // Deserialize from the original text to retain bus order.
+        let probe: superdbc::model::VersionProbe = serde_json::from_str(json)?;
 
-        if document.versions.schema_version != superdbc::model::SCHEMA_VERSION {
+        if probe.versions.schema_version != superdbc::model::SCHEMA_VERSION {
             return Err(superdbc::error::ParseError::UnsupportedSchemaVersion {
-                found: document.versions.schema_version.clone(),
+                found: probe.versions.schema_version,
             });
         }
+
+        let document: superdbc::model::Document = serde_json::from_str(json)?;
         // Keep definitions in document order; indexes point into the owned vectors
         // so fast lookups do not require duplicate definitions or shared ownership.
         let mut buses = Vec::with_capacity(document.buses.len());
