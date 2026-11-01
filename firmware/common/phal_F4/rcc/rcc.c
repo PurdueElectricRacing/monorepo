@@ -17,6 +17,8 @@ uint32_t APB2ClockRateHz;
 uint32_t AHBClockRateHz;
 uint32_t PLLClockRateHz;
 
+static bool configurePLLI2S48MHz(void);
+
 uint8_t PHAL_configureClockRates(ClockRateConfig_t* config) {
     // Nonzero Bit Encoded Error Code Indicates Error
     uint8_t ret_code = 0;
@@ -31,7 +33,20 @@ uint8_t PHAL_configureClockRates(ClockRateConfig_t* config) {
     /* Configure PLL */
     if (config->use_pll) {
         ret_code |= (!PHAL_configurePLLVCO(config->pll_src, config->vco_output_rate_target_hz)) << RCC_ERROR_PLLVCO_INIT;
+        if (ret_code & (1U << RCC_ERROR_PLLVCO_INIT)) {
+            return ret_code;
+        }
+        if (config->use_plli2s_for_48mhz) {
+            ret_code |= (!configurePLLI2S48MHz()) << RCC_ERROR_PLLI2S_INIT;
+        }
         ret_code |= (!PHAL_configurePLLSystemClock(config->system_clock_target_hz)) << RCC_ERROR_PLLSYS_INIT;
+        if (config->use_plli2s_for_48mhz && !(ret_code & (1U << RCC_ERROR_PLLI2S_INIT))) {
+            RCC->CR |= RCC_CR_PLLI2SON;
+            while (!(RCC->CR & RCC_CR_PLLI2SRDY)) {
+                // Wait for the SDIO clock source to stabilize.
+            }
+            RCC->DCKCFGR2 |= RCC_DCKCFGR2_CK48MSEL;
+        }
     }
     /* No PLL */
     else {
@@ -47,6 +62,22 @@ uint8_t PHAL_configureClockRates(ClockRateConfig_t* config) {
     ret_code |= (!PHAL_configureAPB2Clock(config->apb2_clock_target_hz)) << RCC_ERROR_APB2_INIT; // Configure APB2 Clock
 
     return ret_code;
+}
+
+// Configure the independent 48 MHz clock while both PLLs are disabled.
+// The selected PLL source must be the 16 MHz PER HSE or the 16 MHz HSI.
+static bool configurePLLI2S48MHz(void) {
+    const uint32_t source_hz = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) ? HSE_CLOCK_RATE_HZ : HSI_CLOCK_RATE_HZ;
+    if (source_hz != 16'000'000U || (RCC->CR & (RCC_CR_PLLON | RCC_CR_PLLI2SON | RCC_CR_PLLI2SRDY))) {
+        return false;
+    }
+
+    // 16 MHz / 8 * 96 / 4 = 48 MHz. PLLI2SM is writable only with both PLLs off.
+    RCC->PLLI2SCFGR = (RCC->PLLI2SCFGR & ~(RCC_PLLI2SCFGR_PLLI2SM_Msk | RCC_PLLI2SCFGR_PLLI2SN_Msk |
+                                            RCC_PLLI2SCFGR_PLLI2SQ_Msk | RCC_PLLI2SCFGR_PLLI2SSRC)) |
+                       (8U << RCC_PLLI2SCFGR_PLLI2SM_Pos) | (96U << RCC_PLLI2SCFGR_PLLI2SN_Pos) |
+                       (4U << RCC_PLLI2SCFGR_PLLI2SQ_Pos);
+    return true;
 }
 
 bool PHAL_configurePLLVCO(PLLSrc_t pll_source, uint32_t vco_output_rate_target_hz) {
@@ -130,7 +161,8 @@ bool PHAL_configurePLLSystemClock(uint32_t system_clock_target_hz) {
         return false;
     }
 
-    uint8_t pll_q_divisor = PLLClockRateHz / 48000000;
+    // Round up so the main PLLQ output does not exceed the 48 MHz domain limit.
+    uint8_t pll_q_divisor = (PLLClockRateHz + 48'000'000U - 1U) / 48'000'000U;
     if (pll_q_divisor <= 1 || pll_q_divisor > 15) {
         return false;
     }

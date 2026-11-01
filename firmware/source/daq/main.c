@@ -68,12 +68,13 @@ extern uint32_t APB2ClockRateHz;
 extern uint32_t AHBClockRateHz;
 extern uint32_t PLLClockRateHz;
 
-#define TargetCoreClockrateHz 96'000'000
+#define TargetCoreClockrateHz 100'000'000
 ClockRateConfig_t clock_config = {
     .clock_source              = CLOCK_SOURCE_HSE,
     .use_pll                   = true,
+    .use_plli2s_for_48mhz      = true,
     .pll_src                   = PLL_SRC_HSE,
-    .vco_output_rate_target_hz = 192'000'000,
+    .vco_output_rate_target_hz = 200'000'000,
     .system_clock_target_hz    = TargetCoreClockrateHz,
     .ahb_clock_target_hz       = (TargetCoreClockrateHz / 1),
     .apb1_clock_target_hz      = (TargetCoreClockrateHz / 4),
@@ -84,7 +85,7 @@ ClockRateConfig_t clock_config = {
 dma_init_t spi_rx_dma_config    = SPI1_RXDMA_CONT_CONFIG(NULL, 2);
 dma_init_t spi_tx_dma_config    = SPI1_TXDMA_CONT_CONFIG(NULL, 1);
 SPI_InitConfig_t eth_spi_config = {
-    .data_rate     = 12'000'000, // SPI1: 24 MHz PCLK2 / 2
+    .data_rate     = 12'500'000, // SPI1: 25 MHz PCLK2 / 2
     .data_len      = 8,
     .nss_sw        = false,
     .nss_gpio_port = ETH_CS_PORT,

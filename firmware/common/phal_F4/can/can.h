@@ -20,6 +20,7 @@
 
 #define PHAL_CAN_16MHZ_500K (0x033a0001) // sample point = 75%, SJW = 4
 #define PHAL_CAN_24MHZ_500K (0x033a0002) // sample point = 75%, SJW = 4
+#define PHAL_CAN_25MHZ_500K (0x01160004) // 10 time quanta, sample point = 80%, SJW = 2
 #define PHAL_CAN_36MHZ_500K (0x03270005)
 #define PHAL_CAN_42MHZ_500K (0x034e0003) // sample point = 75%, SJW = 4
 

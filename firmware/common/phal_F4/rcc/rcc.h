@@ -71,11 +71,13 @@ typedef enum {
     RCC_ERROR_PLLSYS_INIT = 4,
     RCC_ERROR_PLLVCO_INIT = 5,
     RCC_ERROR_HSE_INIT    = 6,
+    RCC_ERROR_PLLI2S_INIT = 7,
 } RCCErrors_t;
 
 typedef struct {
     ClockSrc_t clock_source; /* Use HSE or not */
     bool use_pll; /* Use PLL or not */
+    bool use_plli2s_for_48mhz; /* Generate the SDIO/USB clock from PLLI2S */
     uint32_t system_clock_target_hz; /* System Core Clock rate */
     uint32_t ahb_clock_target_hz; /* AHB clock rate target */
     uint32_t apb1_clock_target_hz; /* APB1 clock rate target */
