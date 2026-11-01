@@ -3,6 +3,9 @@
 use crate::{can, connection, frame, log_parse, superdbc};
 use std::{error, fmt, io, mem, net, time};
 
+use rand::RngExt as _;
+use rand::seq::IteratorRandom as _;
+
 #[derive(Debug)]
 pub enum DriverError {
     ConnectionFailed(String),
@@ -193,7 +196,6 @@ impl SimulatedDriver {
     }
 
     fn signal_bits(signal: &superdbc::message::SignalDefinition, rng: &mut impl rand::Rng) -> u64 {
-        use rand::seq::IteratorRandom as _;
         if let Some((raw, _)) = signal.choices().choose(rng) {
             return raw as u64;
         }
@@ -204,7 +206,6 @@ impl SimulatedDriver {
     }
 
     fn integer_bits(signal: &superdbc::message::SignalDefinition, rng: &mut impl rand::Rng) -> u64 {
-        use rand::RngExt as _;
         let (mut lower, mut upper) = (signal.codec.min, signal.codec.max);
         if let Some(limits) = signal.limits() {
             let r1 = (limits.min - signal.offset()) / signal.scale();
@@ -226,7 +227,6 @@ impl SimulatedDriver {
     }
 
     fn float_bits(signal: &superdbc::message::SignalDefinition, rng: &mut impl rand::Rng) -> u64 {
-        use rand::RngExt as _;
         let (min, max) = signal
             .limits()
             .map(|limits| (limits.min, limits.max))
