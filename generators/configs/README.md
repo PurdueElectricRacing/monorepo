@@ -6,7 +6,7 @@ Validated by the Pydantic models in `core/declarations.py`. Describes each logic
 - `name`: Logical bus name (referenced by nodes and external nodes).
 - `bus_id`: unique unsigned logical bus ID. Keep this stable when adding or renaming buses.
 - `baud_rate`: CAN bitrate for this bus. Must be '250000', '500000', or '1000000' (250k, 500k, 1M).
-- `is_extended_id`: Required boolean, set per bus. All messages on the bus share this framing: `true` frames use 29-bit extended IDs, `false` frames use 11-bit standard IDs (mixed-ID buses are not supported). The generated message definitions carry this framing for transmission.
+- `is_extended_id`: Boolean. Mixed-ID buses are not supported; all messages on a bus share this framing.
 - `is_flexible_data_rate`: Boolean. Whether this bus uses CAN FD.
 - `host_fault_library`: Boolean. If true, this bus is the primary uplink for fault communication (usually VCAN).
 
@@ -29,10 +29,7 @@ Maps a firmware node onto hardware peripherals and message lists.
 - `priority`: [0-5]. See priority convention below.
 - `period_ms`: Optional. Transmission period in milliseconds. Omit or use `0` for event-triggered (non-periodic) messages.
 - `byte_order`: Optional. `little_endian` (default) or `big_endian` for multi-byte signal packing within the frame.
-- `id_override`: Optional. Manual ID (supports hex `0x...`). Overrides automatic linking. Must respect the bus framing limits. CANpiler rejects a link in which a numeric CAN ID is used with both standard and extended framing anywhere in the model, so the duplicate-`id_override` check is framing-aware: the same ID may be pinned once standard and once extended.
-
-> [!NOTE]
-> CCAN is the only extended bus. Its dynamically-assigned messages (`bms_pecs_ccan`, `pack_bms_ccan`, `charge_request`) are pinned to `0x800`–`0x802` via `id_override`, above the 11-bit standard ID range, so they cannot collide with standard-framed protocol IDs.
+- `id_override`: Optional. Manual ID (supports hex `0x...`). Overrides automatic linking. Must respect the bus framing limits.
 
 ## RX Message Attributes
 - `message_name`: Name of the message to receive (must exist on the bus).
