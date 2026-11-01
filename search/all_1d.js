@@ -155,7 +155,7 @@ var searchData=
   ['throttle2_5fpin_152',['THROTTLE2_PIN',['../dashboard_2main_8h.html#ad9f3f902584d110bd59f142068f4502b',1,'main.h']]],
   ['throttle2_5fport_153',['THROTTLE2_PORT',['../dashboard_2main_8h.html#abb76b313bd4051960417f6437a41df9d',1,'main.h']]],
   ['ticks_5fms_154',['ticks_ms',['../structtimestamped__frame__t.html#a25dcb68918bb5005bc62f3c143220bb9',1,'timestamped_frame_t']]],
-  ['tim1_5fcc_5firqhandler_155',['TIM1_CC_IRQHandler',['../imd_8c.html#ae8a61b27afdb07c70d6b863c44284ca6',1,'imd.c']]],
+  ['tim5_5firqhandler_155',['TIM5_IRQHandler',['../imd_8c.html#a5e66446caf21dd90191dc07a13ce2378',1,'imd.c']]],
   ['time_156',['time',['../structRTC__timestamp__t.html#a02769562ef56d7afc087ec869ef9df62',1,'RTC_timestamp_t']]],
   ['time_5fdisplay_5ft_157',['time_display_t',['../structtime__display__t.html',1,'']]],
   ['time_5fformat_158',['time_format',['../structRTC__time__t.html#a9e98540c8057580c8e558925dca0f9d3',1,'RTC_time_t']]],
