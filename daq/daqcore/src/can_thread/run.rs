@@ -319,4 +319,3 @@ fn run_with_connection(
 
     connection.close();
 }
-
