@@ -12,6 +12,7 @@ pub enum FrameKind {
     Fd { bit_rate_switched: bool },
 }
 
+/// A received CAN frame without wire framing metadata
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CanFrame {
     pub identity: CanIdentity,
