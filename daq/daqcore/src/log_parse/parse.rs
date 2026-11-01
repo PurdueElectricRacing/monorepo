@@ -28,7 +28,7 @@ impl RawFrame {
     ) -> Result<Self, String> {
         if bus_id > 7 {
             return Err(format!(
-                "legacy logging is unavailable for bus {bus_id}; only buses 0-7 are supported"
+                "logging is unavailable for bus {bus_id}; only buses 0-7 are supported"
             ));
         }
         Ok(Self {
