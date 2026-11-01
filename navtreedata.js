@@ -290,8 +290,8 @@ var NAVTREEINDEX =
 "structimd__capture__tracker__t.html#afda5b44ac5de883986b37acc47309e3f",
 "structpVCU__struct.html#af1c90f23434645f0fdac01e58d96a196",
 "structusart__init__t.html#a800535a10dcb513f67b6792ff478e957",
-"torque__vector_2main_8h.html#a3da9ac80a8c57bdb3013735d6cb72dbe",
-"vcu_8c.html#a9ed43192c6ad8509d1fdfcf32ab26a4c"
+"torque__vector_2main_8h.html#a5e9e4203b861d671cdcd3bf5f08655a3",
+"vcu_8c.html#aa1e50b257477672961d3d089dd2531ed"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

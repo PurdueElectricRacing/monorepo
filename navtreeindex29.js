@@ -1,6 +1,5 @@
 var NAVTREEINDEX29 =
 {
-"torque__vector_2main_8h.html#a3da9ac80a8c57bdb3013735d6cb72dbe":[34,0,1,2,10,5,0],
 "torque__vector_2main_8h.html#a5e9e4203b861d671cdcd3bf5f08655a3":[34,0,1,2,10,5,6],
 "torque__vector_2main_8h.html#a7ae278ce6f02efe797067be6a337df91":[34,0,1,2,10,5,1],
 "torque__vector_2main_8h.html#a84357dafca10c0bedd27ddf562ec038f":[34,0,1,2,10,5,5],
@@ -249,5 +248,6 @@ var NAVTREEINDEX29 =
 "vcu_8c.html#a672215bcbc9931629a7e8a03c96c8417":[34,0,1,2,4,1,0,8,13],
 "vcu_8c.html#a6caabd0f1b9de183fbb9454dd432bbc7":[34,0,1,2,4,1,0,8,3],
 "vcu_8c.html#a7584d411418c72e61404ff410c27acc3":[34,0,1,2,4,1,0,8,5],
-"vcu_8c.html#a9ea411de5d6491ca8504437f27b08ef2":[34,0,1,2,4,1,0,8,12]
+"vcu_8c.html#a9ea411de5d6491ca8504437f27b08ef2":[34,0,1,2,4,1,0,8,12],
+"vcu_8c.html#a9ed43192c6ad8509d1fdfcf32ab26a4c":[34,0,1,2,4,1,0,8,2]
 };

@@ -66,7 +66,7 @@ var viewHeight = 501;
 <title>message:CCAN:bms_pecs_ccan</title>
 <path fill="#e0e0e0" stroke="#777777" d="M485.25,-384.25C485.25,-384.25 331.25,-384.25 331.25,-384.25 325.25,-384.25 319.25,-378.25 319.25,-372.25 319.25,-372.25 319.25,-341 319.25,-341 319.25,-335 325.25,-329 331.25,-329 331.25,-329 485.25,-329 485.25,-329 491.25,-329 497.25,-335 497.25,-341 497.25,-341 497.25,-372.25 497.25,-372.25 497.25,-378.25 491.25,-384.25 485.25,-384.25"/>
 <text text-anchor="middle" x="408.25" y="-366.95" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">bms_pecs_ccan</text>
-<text text-anchor="middle" x="408.25" y="-351.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x1 (extended)</text>
+<text text-anchor="middle" x="408.25" y="-351.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x800 (extended)</text>
 <text text-anchor="middle" x="408.25" y="-335.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">200 ms · 2 bytes · priority 1</text>
 </g>
 <!-- node:CCAN:A_BOX&#45;&gt;message:CCAN:bms_pecs_ccan -->
@@ -81,7 +81,7 @@ var viewHeight = 501;
 <title>message:CCAN:pack_bms_ccan</title>
 <path fill="#e0e0e0" stroke="#777777" d="M485.25,-321.25C485.25,-321.25 331.25,-321.25 331.25,-321.25 325.25,-321.25 319.25,-315.25 319.25,-309.25 319.25,-309.25 319.25,-278 319.25,-278 319.25,-272 325.25,-266 331.25,-266 331.25,-266 485.25,-266 485.25,-266 491.25,-266 497.25,-272 497.25,-278 497.25,-278 497.25,-309.25 497.25,-309.25 497.25,-315.25 491.25,-321.25 485.25,-321.25"/>
 <text text-anchor="middle" x="408.25" y="-303.95" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">pack_bms_ccan</text>
-<text text-anchor="middle" x="408.25" y="-288.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x2 (extended)</text>
+<text text-anchor="middle" x="408.25" y="-288.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x801 (extended)</text>
 <text text-anchor="middle" x="408.25" y="-272.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">200 ms · 8 bytes · priority 1</text>
 </g>
 <!-- node:CCAN:A_BOX&#45;&gt;message:CCAN:pack_bms_ccan -->
@@ -177,7 +177,7 @@ var viewHeight = 501;
 <title>message:CCAN:charge_request</title>
 <path fill="#e0e0e0" stroke="#777777" d="M1449.5,-55.25C1449.5,-55.25 1295.5,-55.25 1295.5,-55.25 1289.5,-55.25 1283.5,-49.25 1283.5,-43.25 1283.5,-43.25 1283.5,-12 1283.5,-12 1283.5,-6 1289.5,0 1295.5,0 1295.5,0 1449.5,0 1449.5,0 1455.5,0 1461.5,-6 1461.5,-12 1461.5,-12 1461.5,-43.25 1461.5,-43.25 1461.5,-49.25 1455.5,-55.25 1449.5,-55.25"/>
 <text text-anchor="middle" x="1372.5" y="-37.95" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">charge_request</text>
-<text text-anchor="middle" x="1372.5" y="-22.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x3 (extended)</text>
+<text text-anchor="middle" x="1372.5" y="-22.2" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">ID 0x802 (extended)</text>
 <text text-anchor="middle" x="1372.5" y="-6.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">500 ms · 5 bytes · priority 3</text>
 </g>
 <!-- node:CCAN:DAQ_APP&#45;&gt;message:CCAN:charge_request -->

@@ -213,7 +213,6 @@ var NAVTREEINDEX28 =
 "thermistor_8h_source.html":[34,0,1,2,0,4,1],
 "timestamped__frame_8h.html":[34,0,1,1,14,0],
 "timestamped__frame_8h.html#a1da3ca34d13aa13e3f9696d8edbc77c0":[34,0,1,1,14,0,1],
-"timestamped__frame_8h.html#a270cffe83263dd5f38b0bde6f9f83810":[34,0,1,1,14,0,3],
 "timestamped__frame_8h.html#aa49122d19022c27ac7ff1de84eb7bc61":[34,0,1,1,14,0,2],
 "timestamped__frame_8h_source.html":[34,0,1,1,14,0],
 "torque__controller_8c.html":[34,0,1,2,8,3,0],
@@ -249,5 +248,6 @@ var NAVTREEINDEX28 =
 "torque__vector_2main_8c.html#a845eaf447179a8baf75c69794c49856d":[34,0,1,2,10,4,1],
 "torque__vector_2main_8c.html#a8999bb473ba368e6b2643fa45b4b8e39":[34,0,1,2,10,4,9],
 "torque__vector_2main_8h.html":[34,0,1,2,10,5],
-"torque__vector_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12":[34,0,1,2,10,5,4]
+"torque__vector_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12":[34,0,1,2,10,5,4],
+"torque__vector_2main_8h.html#a3da9ac80a8c57bdb3013735d6cb72dbe":[34,0,1,2,10,5,0]
 };
