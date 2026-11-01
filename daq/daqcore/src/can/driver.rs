@@ -205,6 +205,7 @@ impl SimulatedDriver {
         }
     }
 
+    // Sample a representable raw integer within physical limits when possible
     fn integer_bits(signal: &superdbc::message::SignalDefinition, rng: &mut impl rand::Rng) -> u64 {
         let (mut lower, mut upper) = (signal.codec.min, signal.codec.max);
         if let Some(limits) = signal.limits() {
@@ -226,13 +227,15 @@ impl SimulatedDriver {
         rng.random_range(lower..=upper) as u64
     }
 
+    // Sample a finite raw float within physical limits when possible and return its wire bits
     fn float_bits(signal: &superdbc::message::SignalDefinition, rng: &mut impl rand::Rng) -> u64 {
-        let (min, max) = signal
-            .limits()
-            .map(|limits| (limits.min, limits.max))
-            .unwrap_or((-100.0, 100.0));
-        let r1 = (min - signal.offset()) / signal.scale();
-        let r2 = (max - signal.offset()) / signal.scale();
+        let (r1, r2) = match signal.limits() {
+            Some(limits) => (
+                (limits.min - signal.offset()) / signal.scale(),
+                (limits.max - signal.offset()) / signal.scale(),
+            ),
+            None => (-f64::from(f32::MAX), f64::from(f32::MAX)),
+        };
         let low = r1.min(r2).max(-f64::from(f32::MAX));
         let high = r1.max(r2).min(f64::from(f32::MAX));
         let mut lower = low as f32;
@@ -244,10 +247,9 @@ impl SimulatedDriver {
             upper = upper.next_down();
         }
         if !lower.is_finite() || !upper.is_finite() || lower > upper {
-            lower = -100.0;
-            upper = 100.0;
+            lower = -f32::MAX;
+            upper = f32::MAX;
         }
-        // f64 sampling avoids overflow of the width of a finite f32 range.
         let raw = rng.random_range(f64::from(lower)..=f64::from(upper)) as f32;
         u64::from(raw.to_bits())
     }
