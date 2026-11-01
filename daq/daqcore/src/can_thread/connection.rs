@@ -22,7 +22,11 @@ impl ConnectionManager {
         self.retry_at = now;
     }
 
-    pub fn connect(&mut self, now: time::Instant) -> Option<Result<(), String>> {
+    pub fn connect(
+        &mut self,
+        now: time::Instant,
+        bus: Option<&superdbc::database::Bus>,
+    ) -> Option<Result<(), String>> {
         if self.driver.is_some() || now < self.retry_at {
             return None;
         }
@@ -30,7 +34,7 @@ impl ConnectionManager {
         let source = self.source.as_ref()?;
         self.retry_at = now + time::Duration::from_millis(200);
 
-        let result = match can::driver::create_driver(source) {
+        let result = match can::driver::create_driver(source, bus) {
             Ok(driver) => {
                 self.driver = Some(driver);
                 Ok(())
@@ -52,16 +56,13 @@ impl ConnectionManager {
             .unwrap_or_default()
     }
 
-    pub fn read(
-        &mut self,
-        bus: Option<&superdbc::database::Bus>,
-    ) -> can::driver::DriverResult<Vec<frame::CanFrame>> {
+    pub fn read(&mut self) -> can::driver::DriverResult<Vec<frame::CanFrame>> {
         let driver = self
             .driver
             .as_mut()
             .ok_or(can::driver::DriverError::Timeout)?;
 
-        driver.read_frames(bus)
+        driver.read_frames()
     }
 
     pub fn write(&mut self, frame: frame::CanFrameTx) -> can::driver::DriverResult<()> {

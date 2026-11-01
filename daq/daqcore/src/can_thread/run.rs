@@ -148,7 +148,7 @@ fn run_with_connection(
 
         // Reconnect the selected source when its retry delay has elapsed.
         let now = time::Instant::now();
-        if let Some(result) = connection.connect(now) {
+        if let Some(result) = connection.connect(now, decoder.bus()) {
             match result {
                 Ok(()) => {
                     if let Some(logger) = &mut logger {
@@ -238,7 +238,7 @@ fn run_with_connection(
         // Each received frame is logged, decoded, then moved into an event.
         let mut got_frames = false;
         if connection.connected() {
-            match connection.read(decoder.bus()) {
+            match connection.read() {
                 Ok(frames) => {
                     got_frames = !frames.is_empty();
                     for frame in frames {

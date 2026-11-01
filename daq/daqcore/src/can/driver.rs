@@ -19,16 +19,11 @@ impl fmt::Display for DriverError {
 }
 
 impl error::Error for DriverError {}
-
 pub type DriverResult<T> = Result<T, DriverError>;
-
 pub trait Driver {
-    fn read_frames(
-        &mut self,
-        bus: Option<&superdbc::database::Bus>,
-    ) -> DriverResult<Vec<frame::CanFrame>>;
-
-    fn write_frame(&mut self, frame: frame::CanFrame) -> DriverResult<()>;
+    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>>;
+    fn write_frame(&mut self, tx_frame: frame::CanFrameTx) -> DriverResult<()>;
+    fn update_bus(&mut self, _bus: Option<&superdbc::database::Bus>) {}
 
     fn bus_speed(&self) -> Option<connection::CanBusSpeed> {
         None
@@ -39,7 +34,10 @@ pub trait Driver {
     }
 }
 
-pub fn create_driver(source: &connection::ConnectionSource) -> DriverResult<Box<dyn Driver>> {
+pub fn create_driver(
+    source: &connection::ConnectionSource,
+    bus: Option<&superdbc::database::Bus>,
+) -> DriverResult<Box<dyn Driver>> {
     match source {
         connection::ConnectionSource::Serial(path, speed) => {
             Ok(Box::new(serial::SerialDriver::new(path, *speed)?))
@@ -53,9 +51,13 @@ pub fn create_driver(source: &connection::ConnectionSource) -> DriverResult<Box<
             Ok(Box::new(UdpDriver(socket)))
         }
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
-        connection::ConnectionSource::Simulated(true) => Ok(Box::new(SimulatedDriver {
-            next: time::Instant::now(),
-        })),
+        connection::ConnectionSource::Simulated(true) => {
+            let messages = bus.map(|bus| bus.messages().to_vec()).unwrap_or_default();
+            Ok(Box::new(SimulatedDriver {
+                messages,
+                next: time::Instant::now(),
+            }))
+        }
         _ => Err(DriverError::ConnectionFailed(format!(
             "source unavailable: {}",
             source.display_name()
