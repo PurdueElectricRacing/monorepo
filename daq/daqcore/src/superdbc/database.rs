@@ -236,7 +236,7 @@ impl Database {
 
     /// Look up and decode a frame on the specified bus into an owned result.
     ///
-    /// `identity` includes the standard/extended distinction. `data` must contain
+    /// `identity` is an 11-bit or 29-bit CAN identifier. `data` must contain
     /// at least the message's declared length and at most eight bytes; trailing
     /// padding is ignored. Scaling and offset are applied to physical values,
     /// while exact raw integers are retained. Non-finite telemetry is accepted.
@@ -255,7 +255,7 @@ impl Database {
     ///
     /// # fn main() -> Result<(), Box<dyn error::Error>> {
     /// let database = daqcore::superdbc::database::Database::load(path::Path::new("superdbc.json"))?;
-    /// let identity = daqcore::frame::CanIdentity::new(0x123, false)?;
+    /// let identity: daqcore::frame::CanIdentity = 0x123;
     /// if let Some(message) = database.message(0, identity) {
     ///     let payload = vec![0; usize::from(message.length_bytes())];
     ///     let decoded = database.decode(0, identity, &payload)?;
@@ -374,10 +374,9 @@ impl Bus {
         &self.messages
     }
 
-    /// Look up a message on this bus by its standard or extended identity.
+    /// Look up a message on this bus by its 11-bit or 29-bit CAN identifier.
     ///
-    /// Returns `None` if absent. The extended flag is part of the identity, so a
-    /// standard and extended message can have the same numeric ID.
+    /// Returns `None` if absent. Each numeric ID appears at most once per bus.
     pub fn message(&self, identity: frame::CanIdentity) -> Option<&superdbc::message::Message> {
         self.message_index
             .get(&identity)

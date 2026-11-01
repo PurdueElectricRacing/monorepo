@@ -22,7 +22,7 @@ impl error::Error for DriverError {}
 pub type DriverResult<T> = Result<T, DriverError>;
 pub trait Driver {
     fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>>;
-    fn write_frame(&mut self, frame: frame::CanFrame) -> DriverResult<()>;
+    fn write_frame(&mut self, frame: frame::CanFrameTx) -> DriverResult<()>;
     fn bus_speed(&self) -> Option<connection::CanBusSpeed> {
         None
     }
@@ -84,8 +84,8 @@ impl Driver for LoopbackDriver {
         }
     }
 
-    fn write_frame(&mut self, frame: frame::CanFrame) -> DriverResult<()> {
-        self.queued.push(frame);
+    fn write_frame(&mut self, frame: frame::CanFrameTx) -> DriverResult<()> {
+        self.queued.push(frame.frame);
         Ok(())
     }
 }
@@ -99,7 +99,7 @@ impl Driver for UdpDriver {
         parse_udp_buffer(&buf[..len])
     }
 
-    fn write_frame(&mut self, _: frame::CanFrame) -> DriverResult<()> {
+    fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
         Err(DriverError::Unsupported(
             "UDP transmission is unsupported".into(),
         ))
@@ -129,10 +129,7 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .map(|bytes| {
             let raw = bytemuck::try_pod_read_unaligned::<log_parse::parse::RawFrame>(bytes)
                 .map_err(|error| DriverError::Read(error.to_string()))?;
-            let identity = raw
-                .can_identity()
-                .map_err(|error| DriverError::Read(error.to_string()))?;
-            frame::CanFrame::data(identity, raw.data.to_vec()).map_err(DriverError::Read)
+            frame::CanFrame::data(raw.can_identity(), raw.data.to_vec()).map_err(DriverError::Read)
         })
         .collect()
 }
@@ -155,12 +152,7 @@ impl Driver for SimulatedDriver {
         let mut rng = rand::rng();
         let (identity, size) = match self.messages.choose(&mut rng).copied() {
             Some(message) => message,
-            None => {
-                let identity =
-                    frame::CanIdentity::new(rng.random_range(0..=can::STANDARD_ID_MASK), false)
-                        .map_err(|error| DriverError::Read(error.to_string()))?;
-                (identity, 8)
-            }
+            None => (rng.random_range(0..=can::STANDARD_ID_MASK), 8),
         };
 
         if size > 8 {
@@ -174,7 +166,7 @@ impl Driver for SimulatedDriver {
         Ok(vec![frame])
     }
 
-    fn write_frame(&mut self, _: frame::CanFrame) -> DriverResult<()> {
+    fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
         Ok(())
     }
 }
@@ -210,19 +202,28 @@ mod serial {
         }
     }
 
-    fn identity(id: slcan::Id) -> can::driver::DriverResult<frame::CanIdentity> {
-        let identity = match id {
-            slcan::Id::Standard(id) => frame::CanIdentity::new(id.as_raw() as u32, false),
-            slcan::Id::Extended(id) => frame::CanIdentity::new(id.as_raw(), true),
-        };
+    fn to_wire_id(raw_id: u32, is_extended_id: bool) -> Option<slcan::Id> {
+        if is_extended_id {
+            slcan::ExtendedId::new(raw_id).map(slcan::Id::Extended)
+        } else {
+            u16::try_from(raw_id)
+                .ok()
+                .and_then(slcan::StandardId::new)
+                .map(slcan::Id::Standard)
+        }
+    }
 
-        identity.map_err(|error| can::driver::DriverError::Read(error.to_string()))
+    fn identity(id: slcan::Id) -> frame::CanIdentity {
+        match id {
+            slcan::Id::Standard(id) => id.as_raw() as u32,
+            slcan::Id::Extended(id) => id.as_raw(),
+        }
     }
 
     fn from_wire(frame: slcan::CanFrame) -> can::driver::DriverResult<frame::CanFrame> {
         let frame = match frame {
             slcan::CanFrame::Can2(f) => {
-                let identity = identity(f.id())?;
+                let identity = identity(f.id());
                 let kind = if f.is_remote() {
                     frame::FrameKind::Remote
                 } else {
@@ -237,7 +238,7 @@ mod serial {
                 }
             }
             slcan::CanFrame::CanFd(f) => {
-                let identity = identity(f.id())?;
+                let identity = identity(f.id());
                 frame::CanFrame {
                     identity,
                     kind: frame::FrameKind::Fd {
@@ -264,16 +265,10 @@ mod serial {
                 .map(|frame| vec![frame])
         }
 
-        fn write_frame(&mut self, f: frame::CanFrame) -> can::driver::DriverResult<()> {
-            let id = if f.identity.is_extended() {
-                slcan::ExtendedId::new(f.identity.raw_id()).map(slcan::Id::Extended)
-            } else {
-                u16::try_from(f.identity.raw_id())
-                    .ok()
-                    .and_then(slcan::StandardId::new)
-                    .map(slcan::Id::Standard)
-            }
-            .ok_or_else(|| can::driver::DriverError::Write("invalid ID".into()))?;
+        fn write_frame(&mut self, f: frame::CanFrameTx) -> can::driver::DriverResult<()> {
+            let id = to_wire_id(f.frame.identity, f.is_extended_id)
+                .ok_or_else(|| can::driver::DriverError::Write("invalid ID".into()))?;
+            let f = f.frame;
             let wire: slcan::CanFrame = match f.kind {
                 frame::FrameKind::Data => slcan::Can2Frame::new_data(id, &f.data).map(Into::into),
                 frame::FrameKind::Remote => {

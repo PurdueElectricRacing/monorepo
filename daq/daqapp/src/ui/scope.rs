@@ -179,7 +179,7 @@ impl Scope {
         let mut change = false;
         ui.horizontal(|ui| {
             ui.heading(format!(
-                "{}: {msg_name} ({identity}) - {signal}",
+                "{}: {msg_name} (0x{identity:03X}) - {signal}",
                 self.title
             ));
             change = ui.button("Change signal").clicked();
