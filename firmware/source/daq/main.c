@@ -7,9 +7,11 @@
  */
 
 #include "main.h"
-#include "can_buses.h"
 
 /* System Includes */
+#include "can_library/generated/MCAN.h"
+#include "can_library/generated/SCAN.h"
+#include "can_library/generated/VCAN.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_F4/can/can.h"
@@ -123,13 +125,13 @@ int main() {
     if (!PHAL_configureRTC(&fallback_timestamp, false)) {
         HardFault_Handler();
     }
-    if (!PHAL_CAN_init(DAQ_SCAN_CAN, SCAN_BAUD_RATE)) {
+    if (!PHAL_CAN_init(CAN1, SCAN_BAUD_RATE)) {
         HardFault_Handler();
     }
-    if (!PHAL_CAN_init(DAQ_VCAN_CAN, VCAN_BAUD_RATE)) {
+    if (!PHAL_CAN_init(CAN2, VCAN_BAUD_RATE)) {
         HardFault_Handler();
     }
-    if (!PHAL_CAN_init(DAQ_MCAN_CAN, MCAN_BAUD_RATE)) {
+    if (!PHAL_CAN_init(CAN3, MCAN_BAUD_RATE)) {
         HardFault_Handler();
     }
 

@@ -6,7 +6,6 @@
  */
 
 #include "spmc.h"
-#include "can_buses.h"
 
 #include "common/rtos/rtos.h"
 #include "stm32f423xx.h"
@@ -48,12 +47,12 @@ void SPMC_init(SPMC_t *spmc) {
     spmc->is_full = false;
 
     // All three RX0 IRQs share a priority to preserve the SPMC single-producer assumption.
-    NVIC_SetPriority(DAQ_SCAN_RX0_IRQ, CAN_RX_IRQ_PRIO);
-    NVIC_SetPriority(DAQ_VCAN_RX0_IRQ, CAN_RX_IRQ_PRIO);
-    NVIC_SetPriority(DAQ_MCAN_RX0_IRQ, CAN_RX_IRQ_PRIO);
-    NVIC_EnableIRQ(DAQ_SCAN_RX0_IRQ);
-    NVIC_EnableIRQ(DAQ_VCAN_RX0_IRQ);
-    NVIC_EnableIRQ(DAQ_MCAN_RX0_IRQ);
+    NVIC_SetPriority(CAN1_RX0_IRQn, CAN_RX_IRQ_PRIO);
+    NVIC_SetPriority(CAN2_RX0_IRQn, CAN_RX_IRQ_PRIO);
+    NVIC_SetPriority(CAN3_RX0_IRQn, CAN_RX_IRQ_PRIO);
+    NVIC_EnableIRQ(CAN1_RX0_IRQn);
+    NVIC_EnableIRQ(CAN2_RX0_IRQn);
+    NVIC_EnableIRQ(CAN3_RX0_IRQn);
 }
 
 /**
