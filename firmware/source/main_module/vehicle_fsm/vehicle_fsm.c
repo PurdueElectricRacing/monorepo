@@ -95,11 +95,11 @@ void vehicle_fsm_periodic(void) {
     bool precharge_pin = PHAL_GPIO_read(NOT_PRECHARGE_COMPLETE_PORT, NOT_PRECHARGE_COMPLETE_PIN);
     update_fault(FAULT_ID_PRECHARGE_INCOMPLETE, precharge_pin == true);
 
-    // any SDCs latched 1-15 faults will cause a fatal state
-    if (is_latched(FAULT_ID_SDC15_REAR_INTERLOCK)) {
+    // any SDCs latched 1-16 (rear interlock or earlier) faults will cause a fatal state
+    if (is_latched(FAULT_ID_SDC16_REAR_INTERLOCK)) {
         g_car.current_state = CAR_STATE_FATAL;
         g_car.next_state = CAR_STATE_FATAL;
-    } else if (is_latched(FAULT_ID_SDC16_TSMS)) { // return to idle if TSMS is opened
+    } else if (is_latched(FAULT_ID_SDC17_TSMS)) { // return to idle if TSMS is opened
         g_car.current_state = CAR_STATE_IDLE;
         g_car.next_state = CAR_STATE_IDLE;
     }
@@ -108,7 +108,7 @@ void vehicle_fsm_periodic(void) {
         case CAR_STATE_FATAL: {
             // nothing for now
 
-            if (is_clear(FAULT_ID_SDC15_REAR_INTERLOCK)) {
+            if (is_clear(FAULT_ID_SDC16_REAR_INTERLOCK)) {
                 g_car.next_state = CAR_STATE_IDLE;
             }
             break;
@@ -116,7 +116,7 @@ void vehicle_fsm_periodic(void) {
         case CAR_STATE_IDLE: {
             // do nothing for now
 
-            if (is_clear(FAULT_ID_SDC16_TSMS)) { // TSMS is closed
+            if (is_clear(FAULT_ID_SDC17_TSMS)) { // TSMS is closed
                 g_car.next_state = CAR_STATE_PRECHARGING;
             }
             break;
