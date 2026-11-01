@@ -42,10 +42,7 @@ impl RawFrame {
         ((self.identity & log_parse::consts::BUS_ID_MASK) >> log_parse::consts::BUS_ID_OFFSET) as u8
     }
 
-    /// Convert wire/log metadata into the application's CAN identity representation.
-    ///
-    /// Masks out the 3-bit bus ID, leaving the 29-bit CAN ID. Infallible because
-    /// the mask bounds the result to 29 bits.
+    /// Convert log fmt into standard CAN identity (i.e. remove bus ID bits)
     pub fn can_identity(&self) -> frame::CanIdentity {
         self.identity & !log_parse::consts::BUS_ID_MASK
     }
