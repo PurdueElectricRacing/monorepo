@@ -82,7 +82,7 @@ uint8_t PHAL_configureRTC(RTC_timestamp_t* initial_time, bool force_time) {
     RTC->CR |= (RTC_FORMAT_24_HOUR << RTC_CR_FMT_Pos) & RTC_CR_FMT_Msk;
 
     // The TR, DR registers are write protected. The write access procedure is
-    //  described in RTC register write protection on RM0430
+    //  described in RM0430 section 25.3.5 (RTC register write protection)
     uint8_t yearTens   = (initial_time->date.year_bcd >> 4) & 0x0F;
     uint8_t yearUnits  = initial_time->date.year_bcd & 0x0F;
     uint8_t monthTens  = (initial_time->date.month_bcd >> 4) & 0x0F;

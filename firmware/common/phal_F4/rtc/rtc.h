@@ -18,7 +18,7 @@
 
 /*
     When both prescalers are used, it is recommended to configure the asynchronous
-    prescaler to a high value to minimize consumption. (RM0430 RTC chapter)
+    prescaler to a high value to minimize consumption. (RM0430 section 25.3.1)
 
     Default Configuration STM32F4
     =======================================================

@@ -53,7 +53,7 @@ bool PHAL_initUSART(usart_init_t* handle, const uint32_t fck) {
 
 // Enable peripheral clock in RCC
 // ADD: When adding a new peripheral, be sure to enable the clock here
-// RM0430 USART chapter
+// RM0430 sections 6.3.15 and 6.3.16 (peripheral clock enables)
 #ifdef STM32F423xx
     switch ((ptr_int)handle->periph) {
         case USART1_BASE:
@@ -79,7 +79,7 @@ bool PHAL_initUSART(usart_init_t* handle, const uint32_t fck) {
     }
 #endif
 
-    // The following FBRG configuration is based off RM0430
+    // The following FBRG configuration is based on RM0430 section 28.4.4
     over8 = 8 << !handle->ovsample;
     carry = 0;
     // Calculate USARTDIV constant for given baud rate, convert to fixed point for easy manipulation
@@ -182,7 +182,7 @@ bool PHAL_usartTxDma(usart_init_t* handle, uint16_t* data, uint32_t len) {
 
 // Enable All Interrupts needed to complete Tx transaction
 // ADD: Ensure you enable the TX DMA interrupt for a new UART peripheral
-// RM0430 PG 310
+// RM0430 tables 30 and 31 (DMA request mapping)
 // Read table to ensure DMA streams do not overlap
 #ifdef STM32F423xx
     switch ((ptr_int)handle->periph) {
@@ -385,12 +385,12 @@ static void handleUsartIRQ(USART_TypeDef* handle, uint8_t idx) {
             active_uarts[idx].active_handle->periph->CR1 &= ~USART_CR1_RE;
         }
         active_uarts[idx]._rx_busy = 0;
-        // Clear error + idle flags (Per RM0430 Register map, a read to the SR followed by a read to the DR)
+        // Clear error + idle flags (RM0430 section 28.6.1: read SR followed by DR)
         (void)active_uarts[idx].active_handle->periph->SR;
         (void)active_uarts[idx].active_handle->periph->DR;
         usart_recieve_complete_callback(active_uarts[idx].active_handle);
     }
-//NOTE: According to RM0430, it is not safe to clear the TC bit unless Multibuffer mode is enabled.
+// RM0430 section 28.6.1: clearing TC by writing zero only for multibuffer communication
 #endif
 
 #ifdef STM32F732xx

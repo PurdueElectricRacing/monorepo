@@ -33,7 +33,7 @@ bool PHAL_SPI_init(SPI_InitConfig_t* cfg) {
         return false;
     }
 
-    // Configure format and baud rate with SPI disabled (RM0430 SPI_CR1).
+    // Configure format and baud rate with SPI disabled (RM0430 section 29.7.1 (SPI_CR1)).
     cfg->periph->CR1 &= ~SPI_CR1_SPE;
     cfg->periph->CR1 |= SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI;
     cfg->periph->CR1 &= ~(SPI_CR1_CPOL);
@@ -354,7 +354,7 @@ static void PHAL_SPI_priv_handleTxComplete() {
     }
     // Transfer Complete interrupt flag
     if (*sr_reg & tcif_flag) {
-        // RM0430, wait for TXE and BSY to be cleared to satisfy timing requirements
+        // RM0430 section 29.3.10: wait for TXE to be set and BSY to clear
         while (!(active_transfer->periph->SR & (SPI_SR_TXE)) || (active_transfer->periph->SR & (SPI_SR_BSY)))
             ;
         // Raise CS to end transaction

@@ -32,7 +32,7 @@
 
 typedef uint32_t ptr_int;
 
-// See USART section of Family reference manual (RM0430) for configuration information
+// See RM0430 section 28.4 for USART configuration information
 
 // Enumerations
 // See Table 146 in RM. 0090
