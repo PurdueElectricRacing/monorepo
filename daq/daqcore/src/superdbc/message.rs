@@ -69,6 +69,7 @@ pub struct Message {
     key: MessageKey,
     name: String,
     length_bytes: u8,
+    is_extended_id: bool,
     transmitter: String,
     receivers: Vec<String>,
     nominal_period_ms: Option<u32>,
@@ -127,6 +128,17 @@ impl Message {
             .map(|period| superdbc::model::narrow(period.get(), context, "nominal_period_ms"))
             .transpose()?;
         let identity: frame::CanIdentity = superdbc::model::narrow(model.id, context, "id")?;
+        let maximum_id = if model.is_extended_id {
+            crate::can::EXTENDED_ID_MASK
+        } else {
+            crate::can::STANDARD_ID_MASK
+        };
+        if identity > maximum_id {
+            return Err(superdbc::error::ParseError::definition(
+                context,
+                "CAN ID exceeds its framing limit",
+            ));
+        }
         let mut signals = Vec::with_capacity(model.signals.len());
         let mut signal_index = HashMap::with_capacity(model.signals.len());
         let mut occupied = 0u64;
@@ -162,6 +174,7 @@ impl Message {
             key: MessageKey { bus_id, identity },
             name: model.message_name.into(),
             length_bytes,
+            is_extended_id: model.is_extended_id,
             transmitter: model.transmitter.into(),
             receivers: model.receivers.into_iter().map(Into::into).collect(),
             nominal_period_ms,
@@ -180,6 +193,11 @@ impl Message {
     /// Return the CAN identity; use [`Self::key`] when the bus must also be identified.
     pub fn identity(&self) -> frame::CanIdentity {
         self.key.identity
+    }
+
+    /// Return whether the message uses extended CAN framing.
+    pub fn is_extended_id(&self) -> bool {
+        self.is_extended_id
     }
 
     /// Return the message name declared in the artifact.

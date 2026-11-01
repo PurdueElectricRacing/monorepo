@@ -22,7 +22,7 @@ impl error::Error for DriverError {}
 pub type DriverResult<T> = Result<T, DriverError>;
 pub trait Driver {
     fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>>;
-    fn write_frame(&mut self, frame: frame::CanFrame) -> DriverResult<()>;
+    fn write_frame(&mut self, frame: frame::CanFrameTx) -> DriverResult<()>;
     fn bus_speed(&self) -> Option<connection::CanBusSpeed> {
         None
     }
@@ -36,10 +36,9 @@ pub fn create_driver(
     source: &connection::ConnectionSource,
     bus: Option<&superdbc::database::Bus>,
 ) -> DriverResult<Box<dyn Driver>> {
-    let extended = bus.map(|bus| bus.is_extended_id());
     match source {
         connection::ConnectionSource::Serial(path, speed) => {
-            Ok(Box::new(serial::SerialDriver::new(path, *speed, extended)?))
+            Ok(Box::new(serial::SerialDriver::new(path, *speed)?))
         }
         connection::ConnectionSource::Udp(port) => {
             let socket = net::UdpSocket::bind(("0.0.0.0", *port))
@@ -61,7 +60,6 @@ pub fn create_driver(
                 .unwrap_or_default();
             Ok(Box::new(SimulatedDriver {
                 messages,
-                id_range: simulated_id_range(extended),
                 next: time::Instant::now(),
             }))
         }
@@ -86,8 +84,8 @@ impl Driver for LoopbackDriver {
         }
     }
 
-    fn write_frame(&mut self, frame: frame::CanFrame) -> DriverResult<()> {
-        self.queued.push(frame);
+    fn write_frame(&mut self, frame: frame::CanFrameTx) -> DriverResult<()> {
+        self.queued.push(frame.frame);
         Ok(())
     }
 }
@@ -101,7 +99,7 @@ impl Driver for UdpDriver {
         parse_udp_buffer(&buf[..len])
     }
 
-    fn write_frame(&mut self, _: frame::CanFrame) -> DriverResult<()> {
+    fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
         Err(DriverError::Unsupported(
             "UDP transmission is unsupported".into(),
         ))
@@ -136,20 +134,8 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .collect()
 }
 
-/// Choose the random ID range for a simulated bus without message definitions.
-///
-/// A bus-level extended framing draws from the full 29-bit range; standard
-/// framing, or no bus definitions, stays within 11-bit IDs.
-fn simulated_id_range(extended: Option<bool>) -> std::ops::RangeInclusive<u32> {
-    match extended {
-        Some(true) => 0..=can::EXTENDED_ID_MASK,
-        _ => 0..=can::STANDARD_ID_MASK,
-    }
-}
-
 struct SimulatedDriver {
     messages: Vec<(frame::CanIdentity, usize)>,
-    id_range: std::ops::RangeInclusive<u32>,
     next: time::Instant,
 }
 
@@ -166,7 +152,7 @@ impl Driver for SimulatedDriver {
         let mut rng = rand::rng();
         let (identity, size) = match self.messages.choose(&mut rng).copied() {
             Some(message) => message,
-            None => (rng.random_range(self.id_range.clone()), 8),
+            None => (rng.random_range(0..=can::STANDARD_ID_MASK), 8),
         };
 
         if size > 8 {
@@ -180,7 +166,7 @@ impl Driver for SimulatedDriver {
         Ok(vec![frame])
     }
 
-    fn write_frame(&mut self, _: frame::CanFrame) -> DriverResult<()> {
+    fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
         Ok(())
     }
 }
@@ -192,15 +178,10 @@ mod serial {
     pub struct SerialDriver {
         socket: slcan::sync::CanSocket<Box<dyn serialport::SerialPort>>,
         speed: connection::CanBusSpeed,
-        extended: Option<bool>,
     }
 
     impl SerialDriver {
-        pub fn new(
-            path: &str,
-            speed: connection::CanBusSpeed,
-            extended: Option<bool>,
-        ) -> can::driver::DriverResult<Self> {
+        pub fn new(path: &str, speed: connection::CanBusSpeed) -> can::driver::DriverResult<Self> {
             let port = serialport::new(path, 115200)
                 .timeout(time::Duration::from_millis(10))
                 .open()
@@ -217,37 +198,18 @@ mod serial {
             socket
                 .open(bitrate)
                 .map_err(|e| can::driver::DriverError::ConnectionFailed(e.to_string()))?;
-            Ok(Self {
-                socket,
-                speed,
-                extended,
-            })
+            Ok(Self { socket, speed })
         }
     }
 
-    /// Map a 29-bit numeric CAN identity onto the bus wire framing.
-    ///
-    /// `Some(true)` sends every frame with an extended (29-bit) ID;
-    /// `Some(false)` requires the ID to fit in 11 standard bits. `None`
-    /// (no bus supplied) falls back to the raw ID width: wide IDs use
-    /// extended framing.
-    fn to_wire_id(raw_id: u32, extended: Option<bool>) -> Option<slcan::Id> {
-        match extended {
-            Some(true) => slcan::ExtendedId::new(raw_id).map(slcan::Id::Extended),
-            Some(false) => u16::try_from(raw_id)
+    fn to_wire_id(raw_id: u32, is_extended_id: bool) -> Option<slcan::Id> {
+        if is_extended_id {
+            slcan::ExtendedId::new(raw_id).map(slcan::Id::Extended)
+        } else {
+            u16::try_from(raw_id)
                 .ok()
                 .and_then(slcan::StandardId::new)
-                .map(slcan::Id::Standard),
-            None => {
-                if raw_id > can::STANDARD_ID_MASK {
-                    slcan::ExtendedId::new(raw_id).map(slcan::Id::Extended)
-                } else {
-                    u16::try_from(raw_id)
-                        .ok()
-                        .and_then(slcan::StandardId::new)
-                        .map(slcan::Id::Standard)
-                }
-            }
+                .map(slcan::Id::Standard)
         }
     }
 
@@ -304,9 +266,10 @@ mod serial {
                 .map(|frame| vec![frame])
         }
 
-        fn write_frame(&mut self, f: frame::CanFrame) -> can::driver::DriverResult<()> {
-            let id = to_wire_id(f.identity, self.extended)
+        fn write_frame(&mut self, f: frame::CanFrameTx) -> can::driver::DriverResult<()> {
+            let id = to_wire_id(f.frame.identity, f.is_extended_id)
                 .ok_or_else(|| can::driver::DriverError::Write("invalid ID".into()))?;
+            let f = f.frame;
             let wire: slcan::CanFrame = match f.kind {
                 frame::FrameKind::Data => slcan::Can2Frame::new_data(id, &f.data).map(Into::into),
                 frame::FrameKind::Remote => {
@@ -337,49 +300,45 @@ mod serial {
         use super::to_wire_id;
 
         #[test]
-        fn bus_level_extended_frames_use_extended_ids() {
+        fn wire_framing_comes_from_message() {
             assert!(matches!(
-                to_wire_id(0x123, Some(true)),
-                Some(slcan::Id::Extended(_))
-            ));
-            assert!(matches!(
-                to_wire_id(0x12345678, Some(true)),
-                Some(slcan::Id::Extended(_))
-            ));
-        }
-
-        #[test]
-        fn bus_level_standard_frames_require_11_bit_ids() {
-            assert!(matches!(
-                to_wire_id(0x123, Some(false)),
-                Some(slcan::Id::Standard(_))
-            ));
-            assert_eq!(to_wire_id(0x800, Some(false)), None);
-        }
-
-        #[test]
-        fn legacy_width_heuristic_applies_without_bus_level_framing() {
-            assert!(matches!(
-                to_wire_id(0x123, None),
+                to_wire_id(0x123, false),
                 Some(slcan::Id::Standard(_))
             ));
             assert!(matches!(
-                to_wire_id(0x12345678, None),
+                to_wire_id(0x123, true),
                 Some(slcan::Id::Extended(_))
             ));
+            assert!(matches!(
+                to_wire_id(0x12345678, true),
+                Some(slcan::Id::Extended(_))
+            ));
+            assert_eq!(to_wire_id(0x800, false), None);
         }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::simulated_id_range;
-    use crate::can;
+    use super::{Driver, LoopbackDriver};
+    use crate::frame::{CanFrame, CanFrameTx, FrameKind};
 
     #[test]
-    fn simulated_ids_follow_bus_level_framing() {
-        assert_eq!(simulated_id_range(Some(true)), 0..=can::EXTENDED_ID_MASK);
-        assert_eq!(simulated_id_range(Some(false)), 0..=can::STANDARD_ID_MASK);
-        assert_eq!(simulated_id_range(None), 0..=can::STANDARD_ID_MASK);
+    fn loopback_returns_received_frame() -> Result<(), Box<dyn std::error::Error>> {
+        let received = CanFrame {
+            identity: 0x123,
+            kind: FrameKind::Fd {
+                bit_rate_switched: true,
+            },
+            dlc: 9,
+            data: vec![1, 2, 3],
+        };
+        let mut driver = LoopbackDriver::default();
+        driver.write_frame(CanFrameTx {
+            frame: received.clone(),
+            is_extended_id: true,
+        })?;
+        assert_eq!(driver.read_frames()?, vec![received]);
+        Ok(())
     }
 }

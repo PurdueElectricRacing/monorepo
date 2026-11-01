@@ -172,7 +172,7 @@ fn run_with_connection(
         let updating = firmware.active();
         if connection.connected() && !updating {
             for frame in sends.due(now) {
-                let identity = frame.identity;
+                let identity = frame.frame.identity;
                 match connection.write(frame) {
                     Ok(()) => {
                         let amount_left = sends.commit(identity, time::Instant::now());
@@ -216,7 +216,7 @@ fn run_with_connection(
                     break;
                 };
 
-                let frame = frame::CanFrame::data(frame.id, frame.data);
+                let frame = firmware_tx_frame(frame);
                 let result = frame
                     .map_err(can::driver::DriverError::Write)
                     .and_then(|frame| connection.write(frame));
@@ -253,15 +253,7 @@ fn run_with_connection(
                         }
 
                         let updating = firmware.active();
-                        // Bootloader protocol IDs are all standard CAN. Reject
-                        // frames only when the selected bus's artifact declares
-                        // extended framing; a numeric ID collision between a
-                        // 29-bit extended ID (<= 0x7FF) and a standard protocol
-                        // ID is the case the check excludes. Unknown framing
-                        // (no database) keeps
-                        // the driver's raw-ID-width heuristic in force.
                         if updating
-                            && decoder.bus().map(|bus| bus.is_extended_id()) != Some(true)
                             && let Some(progress) =
                                 firmware.receive(frame.identity, &frame.data, time::Instant::now())
                         {
@@ -327,4 +319,27 @@ fn run_with_connection(
     }
 
     connection.close();
+}
+
+fn firmware_tx_frame(
+    frame: crate::firmware::updater::OutboundFrame,
+) -> Result<frame::CanFrameTx, String> {
+    frame::CanFrameTx::data(frame.id, false, frame.data)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::firmware_tx_frame;
+    use crate::firmware::updater::OutboundFrame;
+
+    #[test]
+    fn firmware_frames_use_standard_framing() -> Result<(), String> {
+        let frame = firmware_tx_frame(OutboundFrame {
+            id: 0x123,
+            data: vec![1],
+        })?;
+        assert!(!frame.is_extended_id);
+        assert_eq!(frame.frame.identity, 0x123);
+        Ok(())
+    }
 }

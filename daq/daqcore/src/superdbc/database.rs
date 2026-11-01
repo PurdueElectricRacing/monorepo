@@ -9,7 +9,7 @@ use std::{
 /// An owned, validated SuperDBC database containing all of its buses.
 ///
 /// Load a replacement database when switching artifacts at runtime. Only schema
-/// version 1.2 is supported; decoded results own their data and remain usable
+/// version 1.1 is supported; decoded results own their data and remain usable
 /// after the database that produced them is dropped.
 #[derive(Debug, Clone)]
 pub struct Database {
@@ -66,7 +66,7 @@ impl Database {
     /// [`crate::superdbc::error::ParseError::UnsupportedSchemaVersion`] for a different schema version,
     /// or [`crate::superdbc::error::ParseError::InvalidDefinition`] for invalid metadata or wire layouts.
     pub fn from_json(json: &str) -> Result<Self, superdbc::error::ParseError> {
-        // Parse the strict 1.2 document from the original text so bus
+        // Parse the strict 1.1 document from the original text so bus
         // declaration order is retained.
         let document: superdbc::model::Document = serde_json::from_str(json)?;
 
@@ -105,7 +105,6 @@ impl Database {
             }
 
             bus_names.insert(name.clone(), bus_index);
-            let is_extended_id = model.is_extended_id;
             let mut nodes = Vec::with_capacity(model.nodes.len());
 
             for node in model.nodes {
@@ -154,7 +153,6 @@ impl Database {
                 name,
                 bus_id,
                 baud_rate: model.baud_rate.get(),
-                is_extended_id,
                 nodes,
                 messages,
                 message_index: identities,
@@ -189,7 +187,7 @@ impl Database {
         &self.version_hash
     }
 
-    /// Return the format version used to interpret this artifact (currently `"1.2"`).
+    /// Return the format version used to interpret this artifact (currently `"1.1"`).
     pub fn schema_version(&self) -> &str {
         &self.schema_version
     }
@@ -334,7 +332,6 @@ pub struct Bus {
     name: String,
     bus_id: u8,
     baud_rate: u64,
-    is_extended_id: bool,
     nodes: Vec<Node>,
     messages: Vec<superdbc::message::Message>,
     message_index: HashMap<frame::CanIdentity, usize>,
@@ -365,15 +362,6 @@ impl Bus {
         self.baud_rate
     }
 
-    /// Return the bus-level CAN framing declared by the artifact.
-    ///
-    /// `true` means all frames on this bus use 29-bit extended IDs; `false`
-    /// means all frames use 11-bit standard IDs. The key is required in
-    /// schema 1.2 artifacts.
-    pub fn is_extended_id(&self) -> bool {
-        self.is_extended_id
-    }
-
     /// Borrow the declared nodes in artifact order.
     pub fn nodes(&self) -> &[Node] {
         &self.nodes
@@ -386,8 +374,7 @@ impl Bus {
 
     /// Look up a message on this bus by its numeric 29-bit CAN identity.
     ///
-    /// Returns `None` if absent. Framing is a bus-level property, so each
-    /// numeric ID appears at most once per bus.
+    /// Returns `None` if absent. Each numeric ID appears at most once per bus.
     pub fn message(&self, identity: frame::CanIdentity) -> Option<&superdbc::message::Message> {
         self.message_index
             .get(&identity)
@@ -473,17 +460,10 @@ mod tests {
     use super::{Database, superdbc};
     use serde_json::json;
 
-    /// Build a minimal 1.2 artifact document as JSON.
-    ///
-    /// `is_extended_id` is injected at the bus level when `Some`; `None`
-    /// omits the required key, producing an invalid 1.2 document.
-    fn artifact(schema_version: &str, is_extended_id: Option<bool>) -> serde_json::Value {
+    fn artifact(schema_version: &str, is_extended_id: bool) -> serde_json::Value {
         let mut bus = serde_json::Map::new();
         bus.insert("bus_id".into(), json!(0));
         bus.insert("baud_rate".into(), json!(500000));
-        if let Some(extended) = is_extended_id {
-            bus.insert("is_extended_id".into(), json!(extended));
-        }
         bus.insert(
             "nodes".into(),
             json!([{ "name": "ecu_a", "is_external": false }]),
@@ -492,7 +472,7 @@ mod tests {
             "messages".into(),
             json!([{
                 "id": 0x123,
-                "is_extended_id": false,
+                "is_extended_id": is_extended_id,
                 "message_name": "Status",
                 "transmitter": "ecu_a",
                 "receivers": ["ecu_b"],
@@ -531,56 +511,24 @@ mod tests {
     }
 
     #[test]
-    fn bus_level_framing_false_is_authoritative() {
-        let database = Database::from_json(&artifact("1.2", Some(false)).to_string()).unwrap();
-        assert_eq!(database.bus("CAN0").unwrap().is_extended_id(), false);
-    }
-
-    #[test]
-    fn bus_level_framing_true_is_authoritative() {
-        let database = Database::from_json(&artifact("1.2", Some(true)).to_string()).unwrap();
-        assert_eq!(database.bus("CAN0").unwrap().is_extended_id(), true);
-    }
-
-    #[test]
-    fn omitted_bus_level_framing_is_rejected() {
-        let error = Database::from_json(&artifact("1.2", None).to_string()).unwrap_err();
-        assert!(
-            matches!(error, superdbc::error::ParseError::InvalidJson { .. }),
-            "unexpected error: {error:?}"
-        );
-    }
-
-    #[test]
-    fn wrong_typed_bus_level_framing_is_rejected() {
-        let mut document = artifact("1.2", Some(true));
-        let bus = document
-            .get_mut("buses")
-            .and_then(|buses| buses.get_mut("CAN0"))
-            .and_then(serde_json::Value::as_object_mut)
-            .unwrap();
-        bus.insert("is_extended_id".into(), json!("yes"));
-        let error = Database::from_json(&document.to_string()).unwrap_err();
-        assert!(
-            matches!(error, superdbc::error::ParseError::InvalidJson { .. }),
-            "unexpected error: {error:?}"
-        );
-        let message = error.to_string();
-        assert!(
-            message.contains("expected a boolean"),
-            "error should report a boolean type mismatch: {message}"
-        );
+    fn message_framing_is_preserved() -> Result<(), Box<dyn std::error::Error>> {
+        for extended in [false, true] {
+            let database = Database::from_json(&artifact("1.1", extended).to_string())?;
+            let message = database
+                .bus("CAN0")
+                .and_then(|bus| bus.message(0x123))
+                .ok_or("message missing")?;
+            assert_eq!(message.is_extended_id(), extended);
+        }
+        Ok(())
     }
 
     #[test]
     fn unsupported_schema_version_is_rejected() {
-        let error = Database::from_json(&artifact("1.1", Some(true)).to_string()).unwrap_err();
-        assert!(
-            matches!(
-                error,
-                superdbc::error::ParseError::UnsupportedSchemaVersion { .. }
-            ),
-            "unexpected error: {error:?}"
-        );
+        let result = Database::from_json(&artifact("1.2", false).to_string());
+        assert!(matches!(
+            result,
+            Err(superdbc::error::ParseError::UnsupportedSchemaVersion { .. })
+        ));
     }
 }

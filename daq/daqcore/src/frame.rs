@@ -41,6 +41,26 @@ impl CanFrame {
     }
 }
 
+/// A frame to transmit, with its required CAN wire framing.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CanFrameTx {
+    pub frame: CanFrame,
+    pub is_extended_id: bool,
+}
+
+impl CanFrameTx {
+    pub fn data(
+        identity: CanIdentity,
+        is_extended_id: bool,
+        data: Vec<u8>,
+    ) -> Result<Self, String> {
+        Ok(Self {
+            frame: CanFrame::data(identity, data)?,
+            is_extended_id,
+        })
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct ParsedFrame {
     pub timestamp: time::Time,

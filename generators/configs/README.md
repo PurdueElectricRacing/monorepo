@@ -6,7 +6,7 @@ Validated by the Pydantic models in `core/declarations.py`. Describes each logic
 - `name`: Logical bus name (referenced by nodes and external nodes).
 - `bus_id`: unique unsigned logical bus ID. Keep this stable when adding or renaming buses.
 - `baud_rate`: CAN bitrate for this bus. Must be '250000', '500000', or '1000000' (250k, 500k, 1M).
-- `is_extended_id`: Required boolean, set per bus. All messages on the bus share this framing: `true` frames use 29-bit extended IDs, `false` frames use 11-bit standard IDs (mixed-ID buses are not supported). The DAQ driver sends and accepts only IDs matching the bus framing.
+- `is_extended_id`: Required boolean, set per bus. All messages on the bus share this framing: `true` frames use 29-bit extended IDs, `false` frames use 11-bit standard IDs (mixed-ID buses are not supported). The generated message definitions carry this framing for transmission.
 - `is_flexible_data_rate`: Boolean. Whether this bus uses CAN FD.
 - `host_fault_library`: Boolean. If true, this bus is the primary uplink for fault communication (usually VCAN).
 

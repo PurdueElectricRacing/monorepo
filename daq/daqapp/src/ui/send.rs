@@ -41,6 +41,7 @@ struct SendingMessage {
     pub amount: daqcore::can_thread::tx::SendAmount,
     pub msg_name: String,
     pub identity: daqcore::frame::CanIdentity,
+    pub is_extended_id: bool,
     pub msg_bytes: Vec<u8>,
     pub signal_values: Vec<SignalValue>,
     pub adjustable_values_enabled: bool,
@@ -266,6 +267,7 @@ impl SendUi {
                                 amount: send_amount,
                                 msg_name: selected_msg.name().to_owned(),
                                 identity,
+                                is_extended_id: selected_msg.is_extended_id(),
                                 msg_bytes: msg_bytes.clone(),
                                 signal_values: self.signal_values.clone(),
                                 adjustable_values_enabled: self.adjustable_values_enabled,
@@ -275,6 +277,7 @@ impl SendUi {
                             let add_send_msg = daqcore::can_thread::tx::AddSendMessage {
                                 amount: send_amount,
                                 identity,
+                                is_extended_id: selected_msg.is_extended_id(),
                                 msg_bytes,
                             };
 
@@ -335,6 +338,7 @@ impl SendUi {
                                 daqcore::can_thread::tx::AddSendMessage {
                                     amount: self.sending_messages[idx].amount,
                                     identity: self.sending_messages[idx].identity,
+                                    is_extended_id: self.sending_messages[idx].is_extended_id,
                                     msg_bytes,
                                 },
                             ))

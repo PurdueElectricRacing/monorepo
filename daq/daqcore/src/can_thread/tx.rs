@@ -40,11 +40,12 @@ impl SendAmount {
 pub struct AddSendMessage {
     pub amount: SendAmount,
     pub identity: frame::CanIdentity,
+    pub is_extended_id: bool,
     pub msg_bytes: Vec<u8>,
 }
 
 struct Scheduled {
-    frame: frame::CanFrame,
+    frame: frame::CanFrameTx,
     amount: SendAmount,
     sent: Option<time::Instant>,
 }
@@ -62,7 +63,7 @@ impl SendTable {
             return Err("send count and period must be positive".into());
         }
 
-        let frame = frame::CanFrame::data(msg.identity, msg.msg_bytes)?;
+        let frame = frame::CanFrameTx::data(msg.identity, msg.is_extended_id, msg.msg_bytes)?;
 
         self.0.insert(
             msg.identity,
@@ -79,7 +80,7 @@ impl SendTable {
         self.0.remove(&id);
     }
 
-    pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrame> {
+    pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrameTx> {
         self.0
             .values()
             .filter(|scheduled| {
@@ -107,5 +108,26 @@ impl SendTable {
             self.0.remove(&id);
         }
         amount_left
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{AddSendMessage, SendAmount, SendTable};
+    use std::time::Instant;
+
+    #[test]
+    fn scheduled_message_preserves_extended_framing() -> Result<(), String> {
+        let mut table = SendTable::default();
+        table.add(AddSendMessage {
+            amount: SendAmount::Once,
+            identity: 0x123,
+            is_extended_id: true,
+            msg_bytes: vec![1],
+        })?;
+        let frames = table.due(Instant::now());
+        assert_eq!(frames.len(), 1);
+        assert_eq!(frames.first().map(|frame| frame.is_extended_id), Some(true));
+        Ok(())
     }
 }
