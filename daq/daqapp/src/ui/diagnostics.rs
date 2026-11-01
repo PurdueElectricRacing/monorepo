@@ -105,10 +105,10 @@ impl Diagnostics {
                 if let Some(sample_count) = board.sample_count {
                     ui.label(format!("Sample #{}", sample_count));
                 }
-                if !board.capacity_exceeded {
-                    if let Some(task_count) = board.task_count {
-                        ui.label(format!("Reported tasks: {}", task_count));
-                    }
+                if !board.capacity_exceeded
+                    && let Some(task_count) = board.task_count
+                {
+                    ui.label(format!("Reported tasks: {}", task_count));
                 }
                 if board.capacity_exceeded {
                     ui.colored_label(
@@ -253,36 +253,27 @@ impl Diagnostics {
 
             let board_name = msg.tx_node().to_string();
 
-            if !self.boards.contains_key(&board_name) {
-                self.boards.insert(
-                    board_name.clone(),
-                    BoardDiagnostics {
-                        cpu_util: None,
-                        capacity_exceeded: false,
-                        tasks: Vec::new(),
-                        sample_count: None,
-                        task_count: None,
-                        cpu_history: VecDeque::new(),
-                    },
-                );
-            }
-            let board = self.boards.get_mut(&board_name).unwrap();
+            let board = self
+                .boards
+                .entry(board_name.clone())
+                .or_insert_with(|| BoardDiagnostics {
+                    cpu_util: None,
+                    capacity_exceeded: false,
+                    tasks: Vec::new(),
+                    sample_count: None,
+                    task_count: None,
+                    cpu_history: VecDeque::new(),
+                });
 
             if let Some(name_char) = name_char {
                 let key = (board_name.clone(), name_char.task_id);
-                if !self.name_cache.contains_key(&key) {
-                    self.name_cache.insert(key.clone(), [None; 16]);
-                }
-
-                let characters = self.name_cache.get_mut(&key).unwrap();
+                let characters = self.name_cache.entry(key).or_insert([None; 16]);
                 let index = usize::from(name_char.char_index);
 
                 characters[index] = Some(name_char.character);
 
                 if name_char.character == 0 {
-                    for i in index + 1..16 {
-                        characters[i] = None;
-                    }
+                    characters[index + 1..].fill(None);
                 }
 
                 continue;

@@ -1,4 +1,4 @@
-from core.declarations import MessageDeclaration, SignalDeclaration
+from core.declarations import CanDeclarations, MessageDeclaration, SignalDeclaration
 from core.contributions import DeclarationContribution, TxDeclaration
 from core.artifacts import Artifact
 
@@ -89,9 +89,25 @@ def task_name_message(node_name: str) -> MessageDeclaration:
     )
 
 
-def diagnostics_contribution() -> DeclarationContribution:
+def diagnostics_contribution(declarations: CanDeclarations) -> DeclarationContribution:
+    nodes = {node.node_name: node for node in declarations.internal_nodes}
     tx_messages = []
-    for node_name, bus_name in DIAGNOSTICS_NODES:
+    for node_name, preferred_bus in DIAGNOSTICS_NODES:
+        node = nodes.get(node_name)
+        if node is None:
+            raise ValueError(f"Diagnostics node '{node_name}' is not configured")
+
+        if preferred_bus in node.busses:
+            bus_name = preferred_bus
+        elif len(node.busses) == 1:
+            bus_name = next(iter(node.busses))
+        else:
+            raise ValueError(
+                f"Diagnostics node '{node_name}' has no preferred bus "
+                f"'{preferred_bus}' and multiple attachments; "
+                "update DIAGNOSTICS_NODES to select its diagnostics bus"
+            )
+
         tx_messages.append(
             TxDeclaration(
                 node_name=node_name,

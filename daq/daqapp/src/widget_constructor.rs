@@ -127,7 +127,7 @@ impl WidgetConstructor {
             WidgetConstructor::Hil => widgets::Widget::Hil(ui::hil::Hil::new(ui_to_can_tx)),
             WidgetConstructor::Diagnostics => {
                 widgets::Widget::Diagnostics(ui::diagnostics::Diagnostics::new(id))
-            },
+            }
         })
     }
 }
