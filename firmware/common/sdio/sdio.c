@@ -692,8 +692,7 @@ SD_Error SD_ReadMultiBlocks(uint8_t* readbuff, uint64_t ReadAddr, uint16_t Block
     //if (NumberOfBlocks == 1) SDIO->MASK |= SDIO_MASK_DBCKENDIE;
     SD_LowLevel_DMA_RxConfig((uint32_t*)readbuff, (NumberOfBlocks * BlockSize));
     // TODO: check that hardware flow control set in CLKCR...
-    // Hardware flow control remains disabled; verify ES0372's SDIO clock/bandwidth
-    // constraints on the target board (see the F423 migration plan).
+    // Hardware flow control remains disabled
 
     if (CardType == SDIO_HIGH_CAPACITY_SD_CARD) {
         BlockSize = 512;
