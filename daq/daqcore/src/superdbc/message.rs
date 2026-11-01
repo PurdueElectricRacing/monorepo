@@ -1,6 +1,6 @@
 //! Message identities, validated signal definitions, and presentation metadata.
 
-use crate::{can, frame, superdbc};
+use crate::{frame, superdbc};
 use std::collections::{BTreeMap, HashMap};
 
 /// Complete lookup key within one active database version.
@@ -128,17 +128,6 @@ impl Message {
             .map(|period| superdbc::model::narrow(period.get(), context, "nominal_period_ms"))
             .transpose()?;
         let identity: frame::CanIdentity = superdbc::model::narrow(model.id, context, "id")?;
-        let maximum_id = if model.is_extended_id {
-            can::EXTENDED_ID_MASK
-        } else {
-            can::STANDARD_ID_MASK
-        };
-        if identity > maximum_id {
-            return Err(superdbc::error::ParseError::definition(
-                context,
-                "CAN ID exceeds its framing limit",
-            ));
-        }
         let mut signals = Vec::with_capacity(model.signals.len());
         let mut signal_index = HashMap::with_capacity(model.signals.len());
         let mut occupied = 0u64;
