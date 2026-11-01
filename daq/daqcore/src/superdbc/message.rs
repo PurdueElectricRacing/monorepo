@@ -1,6 +1,6 @@
 //! Message identities, validated signal definitions, and presentation metadata.
 
-use crate::{frame, can, superdbc};
+use crate::{can, frame, superdbc};
 use std::collections::{BTreeMap, HashMap};
 
 /// Complete lookup key within one active database version.

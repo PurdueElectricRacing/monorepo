@@ -294,5 +294,4 @@ mod serial {
                 .map_err(|e| can::driver::DriverError::Write(e.to_string()))
         }
     }
-
 }
