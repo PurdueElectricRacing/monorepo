@@ -2,12 +2,7 @@
 
 use crate::{superdbc, time};
 
-/// A 29-bit CAN identifier.
-///
-/// Every value that reaches the daq layer is already range-checked, so a plain
-/// `u32` suffices: slcan's `StandardId`/`ExtendedId` constructors reject
-/// out-of-range values, and the packed log identity masks the 3-bit bus field,
-/// leaving 29 bits.
+/// A 11-bit or 29-bit CAN identifier.
 pub type CanIdentity = u32;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
