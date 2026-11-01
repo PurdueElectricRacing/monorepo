@@ -37,7 +37,7 @@ static const sdc_node_t SDC_NODE_LUT[] = {
     {FAULT_ID_SDC19_PRECHARGE_COMPLETE, 0},
 };
 
-static uint8_t g_sdc_poll_index = 0;
+static size_t g_sdc_poll_index = 0;
 
 void SDC_task_periodic(void) {
     const sdc_node_t *current_node = &SDC_NODE_LUT[g_sdc_poll_index];
@@ -63,5 +63,4 @@ void SDC_task_periodic(void) {
     // Advance poll
     size_t num_nodes = sizeof(SDC_NODE_LUT) / sizeof(SDC_NODE_LUT[0]);
     g_sdc_poll_index = (g_sdc_poll_index + 1) % num_nodes;
-
 }
