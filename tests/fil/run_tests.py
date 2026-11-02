@@ -35,8 +35,8 @@ def run(command: list[str], **kwargs) -> subprocess.CompletedProcess:
 def build() -> None:
     """Use FIL's complete instrument/train/merge/build/test workflow."""
     training = shlex.join([
-        "run-network", str(CONFIGS / "network.json"),
-        "--duration-ms", "1000", "--max-instructions", "50000000",
+        "run", str(CONFIGS / "network.json"),
+        "--duration", "1s", "--instruction-budget", "50000000",
         "--quantum", "1024", "--strict-mmio", "--adc-decimation", "1",
     ])
     run([
@@ -51,8 +51,8 @@ def build() -> None:
 def simulate(executable: Path, config: Path, duration_ms: int,
              trace: Path | None = None) -> None:
     command = [
-        str(executable), "run-network" if config.parent == CONFIGS else "run",
-        str(config), "--duration-ms", str(duration_ms),
+        str(executable), "run", str(config),
+        "--duration", f"{duration_ms}ms",
         "--strict-mmio", "--adc-decimation", "1",
     ]
     if config.parent == CONFIGS:

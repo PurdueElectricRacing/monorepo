@@ -2,7 +2,7 @@
 
 Run the firmware-in-the-loop ([FIL](https://github.com/ronakpjain/fil)) emulator as a live CAN
 source. It executes real node firmware, so DBC-decoded telemetry matches hardware. DaqApp
-communicates with FIL's `serve-network --transport stdio` binary protocol; see the [serve-network
+communicates with FIL's `serve` binary protocol; see the [serve
 protocol](https://github.com/ronakpjain/fil/blob/main/docs/serve_network.md).
 
 ## Architecture
@@ -39,7 +39,7 @@ firmware-visible DMA updates.
 Additional comma-separated live trace filters may be added; CAN transmit and GPIO input/output
 filters, expectation lifecycle filters, and binary stdio control always remain enabled for DaqApp.
 Add `instr` to the extra filters when enabling instruction tracing. Changes take effect on the next
-**Connect / Restart**. Use a FIL executable that supports `serve-network --transport stdio`.
+**Connect / Restart**. Use a FIL executable that supports `fil serve`.
 
 The sidebar **Bus** selector controls both the CAN frames DaqApp displays/logs and the
 Message Sender injection target. FIL uses the selected SuperDBC numeric `bus_id`, encoded as
@@ -65,7 +65,7 @@ all buses are visible and the connection retains its injection fallback.
 
 ## Stimulus scripts
 
-FIL stimulus scripts are attached to network configs and run by `serve-network` on the simulation
+FIL stimulus scripts are attached to network configs and run by `serve` on the simulation
 clock. In **Network file** mode, DaqApp uses the config's existing `stimuli` array. FIL resolves
 relative script paths against the original network file; when board overrides or disabled boards
 require DaqApp to materialize a temporary network config, it rewrites those paths to absolute paths

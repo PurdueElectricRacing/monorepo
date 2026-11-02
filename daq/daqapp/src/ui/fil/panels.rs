@@ -99,11 +99,11 @@ impl FilControl {
                             .changed();
                     });
                     ui.horizontal(|ui| {
-                        ui.label("Max instructions per board:");
+                        ui.label("Max instructions per board (0 = unlimited):");
                         changed |= ui
                             .add(
                                 egui::DragValue::new(&mut self.settings.run_options.max_instructions)
-                                    .range(1..=u64::MAX),
+                                    .range(0..=u64::MAX),
                             )
                             .changed();
                     });

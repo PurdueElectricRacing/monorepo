@@ -188,7 +188,7 @@ impl FilDriver {
                 "FIL bus name is empty or contains an invalid character".into(),
             ));
         }
-        let args = serve_network_args(network, run_options)?;
+        let args = serve_args(network, run_options)?;
         let mut child = std::process::Command::new(executable)
             .args(args)
             .stdin(std::process::Stdio::piped())
@@ -318,37 +318,30 @@ impl FilDriver {
         })
     }
 }
-fn serve_network_args(
+fn serve_args(
     network: &std::path::Path,
     options: &FilRunOptions,
 ) -> DriverResult<Vec<std::ffi::OsString>> {
     if options.duration_ms > u64::MAX / 1_000_000
-        || options.max_instructions == 0
         || options.quantum == 0
         || options.refresh_ms == 0
         || options.refresh_ms > i32::MAX as u32
         || !(1..=1024).contains(&options.adc_decimation)
     {
         return Err(DriverError::ConnectionFailed(
-            "Invalid FIL run options: duration, instruction limit, quantum, or refresh interval"
-                .into(),
+            "Invalid FIL run options: duration, quantum, or refresh interval".into(),
         ));
     }
-    let mut args: Vec<std::ffi::OsString> = vec![
-        "serve-network".into(),
-        network.as_os_str().to_owned(),
-        "--transport".into(),
-        "stdio".into(),
-    ];
+    let mut args: Vec<std::ffi::OsString> = vec!["serve".into(), network.as_os_str().to_owned()];
     for (enabled, flag, value) in [
         (
             options.duration_ms != 0,
-            "--duration-ms",
-            options.duration_ms.to_string(),
+            "--duration",
+            format!("{}ms", options.duration_ms),
         ),
         (
-            options.max_instructions != 50_000_000,
-            "--max-instructions",
+            options.max_instructions != 0,
+            "--instruction-budget",
             options.max_instructions.to_string(),
         ),
         (
