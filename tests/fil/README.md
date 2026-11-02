@@ -14,9 +14,9 @@ and start at `0x08000000`.
 
 ## Scenarios and generated stimuli
 
-`tests/fil/scenarios/*.json` holds the hand-maintained test behavior. Scenario
-entries reference a logical bus name, a CAN message name, and signal names with
-physical values (or enum choice names), never raw ids or payload bytes:
+`tests/fil/scenarios/*.json` holds the maintained test behavior. Each CAN
+entry has a logical bus, a CAN message, and signals with physical values or
+enum choice names:
 
 ```json
 {"type": "can", "bus": "MCAN", "message": "INVA_INFO", "at_ms": 500,
@@ -24,21 +24,19 @@ physical values (or enum choice names), never raw ids or payload bytes:
  "values": {"AMK_Status_bSystemReady": true, "AMK_Status_bQuitDcOn": true}}
 ```
 
-GPIO and ADC entries stay as raw device stimuli because they are physical, not
-CAN, data. A CAN entry may instead use `raw: [bytes]` as an escape hatch for
-frames with no declaration. Expectations add `window_ms`; the `values` map is
-the subset of signals the entry checks, and omitted signals are packed as zero.
+`raw: [bytes]` is for frames with no declaration. Entries under
+`expect` also take `window_ms`, and their `values` is the subset of signals to
+check. GPIO and ADC entries stay as raw device stimuli, since they are physical
+rather than CAN data.
 
-The `canpiler` FIL pass resolves every scenario into
-`tests/fil/stimuli/{stem}_stimuli.json`, the raw FIL stimulus format (buses as
-ids, ids and packed payloads). These stimuli are generated and not committed.
-Message ids come from the linked CAN graph and
-values are packed with the same scale/offset, enum, sign, and byte-order rules
-as the generated firmware macros, so scenarios stay correct as configs evolve.
+The `canpiler` FIL pass resolves each scenario into
+`tests/fil/stimuli/{stem}_stimuli.json` in the raw FIL stimulus format (buses as
+ids, plus ids and packed payloads). Message ids come from canpiler,
+and values are packed with the same scale/offset, enum, sign, and byte-order
+rules as the generated firmware macros.
 
-`tests/fil/network.json` and `tests/fil/ready_to_drive.json` are hand-maintained
-FIL networks; the latter references its generated stimulus, so run the
-generator once on a fresh checkout before `run_tests.py`.
+`tests/fil/network.json` and `tests/fil/ready_to_drive.json` hand-maintained
+FIL networks.
 
 ## Build and run
 
