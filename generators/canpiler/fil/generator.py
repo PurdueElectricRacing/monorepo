@@ -219,22 +219,29 @@ def _choice_value(signal: CompiledSignal, name: str) -> int:
 
 
 def _render(name: str, events: list[dict], expect: list[dict]) -> str:
+    """Serialize one stimulus document, one entry per line grouped by type."""
     lines = [
         "{",
-        "  \"schema_version\": 1,",
-        f"  \"name\": {json.dumps(name)},",
-        "  \"events\": [",
+        f"  {json.dumps('schema_version')}: 1,",
+        f"  {json.dumps('name')}: {json.dumps(name)},",
+        f"  {json.dumps('events')}: [",
     ]
-    previous_type = None
-    for index, event in enumerate(events):
-        if previous_type is not None and event["type"] != previous_type:
-            lines.append("")
-        separator = "," if index != len(events) - 1 else ""
-        lines.append(f"    {json.dumps(event)}{separator}")
-        previous_type = event["type"]
-    lines.extend(["  ],", "  \"expect\": ["])
-    for index, entry in enumerate(expect):
-        separator = "," if index != len(expect) - 1 else ""
-        lines.append(f"    {json.dumps(entry)}{separator}")
+    lines.extend(_render_entries(events))
+    lines.append("  ],")
+    lines.append(f"  {json.dumps('expect')}: [")
+    lines.extend(_render_entries(expect))
     lines.extend(["  ]", "}", ""])
     return "\n".join(lines)
+
+
+def _render_entries(entries: list[dict]) -> list[str]:
+    """Render entries as compact one-per-line JSON, separated by blank lines."""
+    lines = []
+    previous_type = None
+    for index, entry in enumerate(entries):
+        if previous_type is not None and entry["type"] != previous_type:
+            lines.append("")
+        separator = "," if index != len(entries) - 1 else ""
+        lines.append(f"    {json.dumps(entry)}{separator}")
+        previous_type = entry["type"]
+    return lines
