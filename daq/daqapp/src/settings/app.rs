@@ -50,7 +50,7 @@ impl Settings {
     pub fn load() -> Self {
         let path = Self::path();
         if let Ok(json) = std::fs::read_to_string(&path) {
-            let mut settings: Self = serde_json::from_str(&json).unwrap_or_default();
+            let mut settings: Self = parse_settings(&json).unwrap_or_default();
             settings.normalize();
             settings
         } else {
@@ -78,4 +78,17 @@ impl Settings {
         std::fs::write(&path, json)
             .unwrap_or_else(|e| log::error!("Failed to write {}: {}", path.display(), e));
     }
+}
+
+/// Reads settings while ignoring the trailing element of a legacy three-element Serial source.
+fn parse_settings(json: &str) -> Result<Settings, serde_json::Error> {
+    let mut value: serde_json::Value = serde_json::from_str(json)?;
+    if let Some(serial) = value
+        .get_mut("selected_source")
+        .and_then(|source| source.get_mut("Serial"))
+        .and_then(serde_json::Value::as_array_mut)
+    {
+        serial.truncate(2);
+    }
+    serde_json::from_value(value)
 }
