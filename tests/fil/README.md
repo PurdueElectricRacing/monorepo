@@ -35,8 +35,14 @@ ids, plus ids and packed payloads). Message ids come from canpiler,
 and values are packed with the same scale/offset, enum, sign, and byte-order
 rules as the generated firmware macros.
 
-`tests/fil/network.json` and `tests/fil/ready_to_drive.json` hand-maintained
-FIL networks.
+`tests/fil/network.json` and `tests/fil/ready_to_drive.json` are
+hand-maintained FIL networks. The latter references its generated stimulus,
+which is not committed, so run the canpiler generator once on a fresh checkout
+before `run_tests.py`:
+
+```sh
+python3 generators/generate.py
+```
 
 ## Build and run
 

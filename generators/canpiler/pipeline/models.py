@@ -53,6 +53,7 @@ class CanSource:
 class CompiledSignal:
     signal_name: str
     data_type: str
+    base_type: str
     description: str
     length: int
     unit: str | None

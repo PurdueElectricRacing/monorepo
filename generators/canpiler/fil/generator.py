@@ -10,6 +10,7 @@ macros, so named scenarios stay correct as configs evolve.
 from __future__ import annotations
 
 import json
+import math
 import struct
 from pathlib import Path
 
@@ -27,7 +28,6 @@ class FilScenarioError(ValueError):
     """A scenario is malformed or references unknown CAN names."""
 
 
-FLOAT_LENGTH = 32
 BYTE_SWAPPED_LENGTHS = (16, 32, 64)
 BYTE_MAX = 0xFF
 
@@ -67,9 +67,13 @@ def generate_stimuli(linked: LinkedCan) -> list[Artifact]:
 
 def render_stimulus(linked: LinkedCan, scenario: FilScenario) -> str:
     """Resolve a scenario and serialize it as a FIL stimulus document."""
-    events = [_event(linked, entry) for entry in scenario.events]
-    expect = [_expect(linked, entry) for entry in scenario.expect]
-    return _render(scenario.name, events, expect)
+    document = {
+        "schema_version": scenario.schema_version,
+        "name": scenario.name,
+        "events": [_event(linked, entry) for entry in scenario.events],
+        "expect": [_expect(linked, entry) for entry in scenario.expect],
+    }
+    return json.dumps(document, indent=2) + "\n"
 
 
 def _event(linked: LinkedCan, entry) -> dict:
@@ -159,15 +163,12 @@ def _raw_bytes(message: CompiledMessage, raw: list[int]) -> list[int]:
 
 def _pack_signal(signal: CompiledSignal, value: SignalValue) -> int:
     """Encode one physical value, mirroring the generated PACK macros."""
-    if isinstance(value, str):
-        value = _choice_value(signal, value)
-    if signal.data_type == "float" and signal.length == FLOAT_LENGTH:
-        raw = int.from_bytes(struct.pack("<f", float(value)), "little")
+    physical = _physical_value(signal, value)
+    if signal.base_type == "float":
+        raw = _encode_float(signal, physical)
     else:
-        raw = _encode_scaled(signal, value)
-
-    if not signal.data_type == "float":
-        _check_range(signal, value, raw)
+        raw = _encode_scaled(signal, physical)
+        _check_range(signal, physical, raw)
 
     raw &= signal.mask
     if signal.byte_order == "big_endian" and signal.length in BYTE_SWAPPED_LENGTHS:
@@ -175,7 +176,31 @@ def _pack_signal(signal: CompiledSignal, value: SignalValue) -> int:
     return raw & signal.mask
 
 
-def _encode_scaled(signal: CompiledSignal, value: SignalValue) -> int:
+def _physical_value(signal: CompiledSignal, value: SignalValue) -> int | float:
+    """Resolve enum choice names and booleans to a numeric physical value."""
+    if isinstance(value, str):
+        return _choice_value(signal, value)
+    if isinstance(value, bool):
+        return int(value)
+    return value
+
+
+def _encode_float(signal: CompiledSignal, value: int | float) -> int:
+    """Pack a float signal as IEEE-754 binary32, the firmware's wire format."""
+    physical = float(value)
+    if not math.isfinite(physical):
+        raise FilScenarioError(
+            f"signal '{signal.signal_name}' value {value} is not a finite float"
+        )
+    try:
+        return int.from_bytes(struct.pack("<f", physical), "little")
+    except OverflowError as error:
+        raise FilScenarioError(
+            f"signal '{signal.signal_name}' value {value} does not fit a 32-bit float"
+        ) from error
+
+
+def _encode_scaled(signal: CompiledSignal, value: int | float) -> int:
     """Scale one physical value in float32, mirroring the firmware PACK macros.
 
     The firmware stores `1/scale` and `offset` as float32 constants and packs
@@ -190,7 +215,7 @@ def _encode_scaled(signal: CompiledSignal, value: SignalValue) -> int:
     return int(_f32(shifted * coeff))
 
 
-def _check_range(signal: CompiledSignal, value: SignalValue, raw: int) -> None:
+def _check_range(signal: CompiledSignal, value: int | float, raw: int) -> None:
     """Reject physical values that do not fit the signal's width or signedness."""
     if signal.is_signed:
         low, high = -(1 << (signal.length - 1)), (1 << (signal.length - 1)) - 1
@@ -217,31 +242,3 @@ def _choice_value(signal: CompiledSignal, name: str) -> int:
         f"(known: {known})"
     )
 
-
-def _render(name: str, events: list[dict], expect: list[dict]) -> str:
-    """Serialize one stimulus document, one entry per line grouped by type."""
-    lines = [
-        "{",
-        f"  {json.dumps('schema_version')}: 1,",
-        f"  {json.dumps('name')}: {json.dumps(name)},",
-        f"  {json.dumps('events')}: [",
-    ]
-    lines.extend(_render_entries(events))
-    lines.append("  ],")
-    lines.append(f"  {json.dumps('expect')}: [")
-    lines.extend(_render_entries(expect))
-    lines.extend(["  ]", "}", ""])
-    return "\n".join(lines)
-
-
-def _render_entries(entries: list[dict]) -> list[str]:
-    """Render entries as compact one-per-line JSON, separated by blank lines."""
-    lines = []
-    previous_type = None
-    for index, entry in enumerate(entries):
-        if previous_type is not None and entry["type"] != previous_type:
-            lines.append("")
-        separator = "," if index != len(entries) - 1 else ""
-        lines.append(f"    {json.dumps(entry)}{separator}")
-        previous_type = entry["type"]
-    return lines
