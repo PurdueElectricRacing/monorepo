@@ -32,6 +32,11 @@ BYTE_SWAPPED_LENGTHS = (16, 32, 64)
 BYTE_MAX = 0xFF
 
 
+def _f32(value: float) -> float:
+    """Round a Python float through float32, matching the firmware constants."""
+    return struct.unpack("<f", struct.pack("<f", value))[0]
+
+
 def load_scenario(path: Path) -> FilScenario:
     """Read and validate one scenario file."""
     try:
@@ -159,14 +164,43 @@ def _pack_signal(signal: CompiledSignal, value: SignalValue) -> int:
     if signal.data_type == "float" and signal.length == FLOAT_LENGTH:
         raw = int.from_bytes(struct.pack("<f", float(value)), "little")
     else:
-        scale = signal.scale if signal.scale is not None else 1.0
-        offset = signal.offset if signal.offset is not None else 0.0
-        raw = int((float(value) - offset) / scale)
+        raw = _encode_scaled(signal, value)
+
+    if not signal.data_type == "float":
+        _check_range(signal, value, raw)
 
     raw &= signal.mask
     if signal.byte_order == "big_endian" and signal.length in BYTE_SWAPPED_LENGTHS:
         raw = int.from_bytes(raw.to_bytes(signal.length // 8, "little"), "big")
     return raw & signal.mask
+
+
+def _encode_scaled(signal: CompiledSignal, value: SignalValue) -> int:
+    """Scale one physical value in float32, mirroring the firmware PACK macros.
+
+    The firmware stores `1/scale` and `offset` as float32 constants and packs
+    with `(value - OFFSET) * PACK_COEFF`, so the arithmetic is done in float32
+    rather than double precision. Doing it in double here can truncate
+    differently (e.g. 0.7 at scale 0.1 gives 6 instead of 7).
+    """
+    scale = signal.scale if signal.scale is not None else 1.0
+    offset = signal.offset if signal.offset is not None else 0.0
+    coeff = _f32(1.0 / scale)
+    shifted = _f32(_f32(float(value)) - _f32(float(offset)))
+    return int(_f32(shifted * coeff))
+
+
+def _check_range(signal: CompiledSignal, value: SignalValue, raw: int) -> None:
+    """Reject physical values that do not fit the signal's width or signedness."""
+    if signal.is_signed:
+        low, high = -(1 << (signal.length - 1)), (1 << (signal.length - 1)) - 1
+    else:
+        low, high = 0, (1 << signal.length) - 1
+    if not low <= raw <= high:
+        raise FilScenarioError(
+            f"signal '{signal.signal_name}' value {value} encodes to {raw}, "
+            f"outside [{low}, {high}]"
+        )
 
 
 def _choice_value(signal: CompiledSignal, name: str) -> int:
