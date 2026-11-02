@@ -30,6 +30,8 @@ PACKAGE_FORMAT = "per-firmware-package-v1"
 STM32_CRC_INIT = 0xFFFFFFFF
 BL_APP_ADDRESS = 0x08008000
 BL_APP_SLOT_SIZE = 480 * 1024
+BL_BOOTLOADER_ADDRESS = 0x08000000
+BL_BOOTLOADER_REGION_SIZE = 16 * 1024
 ERASED_FLASH_BYTE = 0xFF
 
 
@@ -154,11 +156,56 @@ def configured_bootloader_protocol() -> dict[str, dict[str, str]]:
     return protocol
 
 
+def _tx_ids_by_name(path: Path) -> dict[str, str]:
+    config = json.loads(path.read_text(encoding="utf-8"))
+    ids: dict[str, str] = {}
+    for bus in config.get("busses", {}).values():
+        for message in bus.get("tx", []):
+            if "id_override" in message:
+                ids[message["message_name"]] = message["id_override"]
+    return ids
+
+
+def configured_bootloader_self_update_protocol() -> dict[str, dict[str, str]]:
+    """Resolve the application-handled resident bootloader update command IDs."""
+    updater_ids = _tx_ids_by_name(BOOTLOADER_UPDATER_CONFIG)
+    node_ids: dict[str, str] = {}
+    for node_path in sorted(CAN_NODE_CONFIG_DIR.glob("*.json")):
+        node_ids.update(_tx_ids_by_name(node_path))
+
+    protocol = {}
+    for board in BOARD_TARGETS:
+        values = {}
+        for suffix, field in (
+            ("start", "start_id"),
+            ("crc", "crc_id"),
+            ("jump", "jump_id"),
+            ("data", "data_id"),
+            ("resp", "response_id"),
+        ):
+            name = f"bl_{board}_bootloader_{suffix}"
+            id_override = (node_ids if suffix == "resp" else updater_ids).get(name)
+            if id_override is None:
+                raise RuntimeError(f"missing explicit ID for Canpiler message {name}")
+            try:
+                can_id = int(id_override, 0)
+            except (TypeError, ValueError) as error:
+                raise RuntimeError(f"invalid ID for Canpiler message {name}") from error
+            if not 0 <= can_id <= 0x7FF:
+                raise RuntimeError(f"Canpiler message {name} must use a standard CAN ID")
+            values[field] = f"0x{can_id:X}"
+        protocol[board] = values
+
+    return protocol
+
+
 def build_manifest() -> Path:
     images_dir = OUTPUT_DIR / "images"
     images_dir.mkdir(parents=True, exist_ok=True)
     board_protocol = configured_bootloader_protocol()
+    bootloader_protocol = configured_bootloader_self_update_protocol()
     manifest_boards = []
+    manifest_bootloaders = []
 
     for board in BOARD_TARGETS:
         artifact = f"bootloadable_{board}"
@@ -185,6 +232,24 @@ def build_manifest() -> Path:
             **board_protocol[board],
         })
 
+        resident = OUTPUT_DIR / f"bootloader_{board}" / f"bootloader_{board}.bin"
+        resident_data = resident.read_bytes()
+        if len(resident_data) < BL_BOOTLOADER_REGION_SIZE:
+            raise RuntimeError(f"resident bootloader image for {board} is too small")
+        # The resident image occupies the first 16 KiB; the remainder is
+        # erased-state metadata padding that must not be copied into the region.
+        bootloader_data = resident_data[:BL_BOOTLOADER_REGION_SIZE]
+        (images_dir / f"bootloader_{board}.bin").write_bytes(bootloader_data)
+        bootloader_crc = stm32_crc32_words(bootloader_data)
+        manifest_bootloaders.append({
+            "name": board,
+            "binary": f"images/bootloader_{board}.bin",
+            "size_bytes": len(bootloader_data),
+            "crc32": f"0x{bootloader_crc:08X}",
+            "bootloader_address": f"0x{BL_BOOTLOADER_ADDRESS:08X}",
+            **bootloader_protocol[board],
+        })
+
     manifest = {
         "format": PACKAGE_FORMAT,
         "protocol_version": 1,
@@ -195,6 +260,7 @@ def build_manifest() -> Path:
             else "MIXED"
         ),
         "boards": manifest_boards,
+        "bootloaders": manifest_bootloaders,
     }
     path = OUTPUT_DIR / "manifest.json"
     path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
@@ -224,6 +290,11 @@ def create_tarball(manifest_path: Path) -> Path:
                     archive.add(
                         OUTPUT_DIR / "images" / f"{board}.bin",
                         arcname=f"images/{board}.bin",
+                        filter=normalized_tarinfo,
+                    )
+                    archive.add(
+                        OUTPUT_DIR / "images" / f"bootloader_{board}.bin",
+                        arcname=f"images/bootloader_{board}.bin",
                         filter=normalized_tarinfo,
                     )
                     archive.add(

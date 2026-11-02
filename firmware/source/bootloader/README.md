@@ -40,6 +40,30 @@ enters recovery; an invalid image remains resident.
 An interrupted transfer leaves metadata invalid. Resets during programming keep
 the bootloader resident; vector and CRC checks reject partial images.
 
+## Updating the resident bootloader
+
+The resident bootloader executes from the region it would have to erase, so it
+cannot reprogram itself. A bootloader-aware application instead handles a
+dedicated per-board command set: `START`, `DATA`, `CRC`, and `JUMP` as above, on
+the target's own bus. The application erases the whole
+16 KiB region at `0x08000000`, streams image words into it, verifies the CRC plus
+the initial stack pointer and reset vector, and resets on `JUMP`.
+
+The running application answers `START` with `ACK(size)` directly, so the update
+requires a running application; the bootloader never advertises READY or INFO
+for this command set. A board already resident in the bootloader cannot replace
+its own bootloader region and must be recovered over SWD.
+
+This operation has no staging slot and no rollback. Erase and programming write
+the live bootloader region in place, so a reset, power loss, or interrupted
+transfer midway leaves the resident image invalid. Start it only with stable
+power and a trusted bus, and retain a known-good resident image for reflashing.
+
+The application reports the resident build from the metadata record, which only a
+bootloader rewrites when it installs an application. Until the next application
+update, an application therefore keeps reporting the previous resident build in
+its `bootloader_git_hash` telemetry even after the region is replaced.
+
 ## Protocol
 
 START, CRC, JUMP, DATA, and response IDs come from

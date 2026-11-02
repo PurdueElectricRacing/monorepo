@@ -161,6 +161,38 @@
                     ],
                     "priority": 4,
                     "period_ms": 5000
+                },
+                {
+                    "message_name": "bl_front_driveline_bootloader_resp",
+                    "description": "Resident bootloader update response for front driveline",
+                    "signals": [
+                        {
+                            "signal_name": "status",
+                            "data_type": "bootloader_status_t"
+                        },
+                        {
+                            "signal_name": "detail",
+                            "data_type": "uint32_t"
+                        }
+                    ],
+                    "id_override": "0x013",
+                    "priority": 0
+                },
+                {
+                    "message_name": "bl_rear_driveline_bootloader_resp",
+                    "description": "Resident bootloader update response for rear driveline",
+                    "signals": [
+                        {
+                            "signal_name": "status",
+                            "data_type": "bootloader_status_t"
+                        },
+                        {
+                            "signal_name": "detail",
+                            "data_type": "uint32_t"
+                        }
+                    ],
+                    "id_override": "0x014",
+                    "priority": 0
                 }
             ],
             "rx": [
@@ -170,6 +202,38 @@
                 },
                 {
                     "message_name": "bl_rear_driveline_start",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_front_driveline_bootloader_start",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_rear_driveline_bootloader_start",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_front_driveline_bootloader_data",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_rear_driveline_bootloader_data",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_front_driveline_bootloader_crc",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_rear_driveline_bootloader_crc",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_front_driveline_bootloader_jump",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_rear_driveline_bootloader_jump",
                     "callback": true
                 }
             ]
