@@ -324,8 +324,8 @@ fn serve_args(
 ) -> DriverResult<Vec<std::ffi::OsString>> {
     if options.duration_ms > u64::MAX / 1_000_000
         || options.quantum == 0
-        || options.refresh_ms == 0
-        || options.refresh_ms > i32::MAX as u32
+        || options.refresh_us == 0
+        || options.refresh_us > i32::MAX as u64
         || !(1..=1024).contains(&options.adc_decimation)
     {
         return Err(DriverError::ConnectionFailed(
@@ -350,9 +350,9 @@ fn serve_args(
             options.quantum.to_string(),
         ),
         (
-            options.refresh_ms != 1,
-            "--refresh-ms",
-            options.refresh_ms.to_string(),
+            options.refresh_us != 100,
+            "--refresh-us",
+            options.refresh_us.to_string(),
         ),
         (
             options.adc_decimation != 1,

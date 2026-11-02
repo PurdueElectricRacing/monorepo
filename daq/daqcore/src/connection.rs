@@ -7,7 +7,8 @@ pub struct FilRunOptions {
     pub duration_ms: u64,
     pub max_instructions: u64,
     pub quantum: u64,
-    pub refresh_ms: u32,
+    /// Simulated microseconds per scheduler slice.
+    pub refresh_us: u64,
     pub adc_decimation: u16,
     pub extra_live_filters: String,
     pub strict_mmio: bool,
@@ -22,7 +23,7 @@ impl Default for FilRunOptions {
             duration_ms: 0,
             max_instructions: 0,
             quantum: 1024,
-            refresh_ms: 1,
+            refresh_us: 100,
             adc_decimation: 1,
             extra_live_filters: String::new(),
             strict_mmio: false,

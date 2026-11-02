@@ -69,7 +69,7 @@ impl FilSettings {
         self.adc_value = self.adc_value.min(4095);
         self.run_options.duration_ms = self.run_options.duration_ms.min(u64::MAX / 1_000_000);
         self.run_options.quantum = self.run_options.quantum.max(1);
-        self.run_options.refresh_ms = self.run_options.refresh_ms.clamp(1, i32::MAX as u32);
+        self.run_options.refresh_us = self.run_options.refresh_us.clamp(1, i32::MAX as u64);
         self.run_options.adc_decimation = self.run_options.adc_decimation.clamp(1, 1024);
         if self.builder.bitrate == 0 {
             self.builder.bitrate = 500_000;

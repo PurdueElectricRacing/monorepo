@@ -117,11 +117,11 @@ impl FilControl {
                             .changed();
                     });
                     ui.horizontal(|ui| {
-                        ui.label("Refresh interval (ms):");
+                        ui.label("Refresh interval (µs):");
                         changed |= ui
                             .add(
-                                egui::DragValue::new(&mut self.settings.run_options.refresh_ms)
-                                    .range(1..=i32::MAX as u32),
+                                egui::DragValue::new(&mut self.settings.run_options.refresh_us)
+                                    .range(1..=i32::MAX as u64),
                             )
                             .changed();
                     });

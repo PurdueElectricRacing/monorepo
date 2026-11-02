@@ -30,7 +30,7 @@ network discards results from the previous selection.
 **Run options** in FIL Control configure duration (0 runs until stopped), per-board instruction
 budget (0 = unlimited), scheduling quantum, refresh interval, ADC decimation (1–1024), strict
 MMIO, wall-clock pacing, instruction tracing, and spin detection. Defaults run with unlimited
-duration and instruction budget, 1 ms refresh, wall-clock pacing, and ADC decimation 1 (no skipped
+duration and instruction budget, 100 µs refresh, wall-clock pacing, and ADC decimation 1 (no skipped
 scans). Increase decimation only when trading firmware-visible ADC fidelity for viewing
 performance is acceptable.
 Network loop batching is disabled by FIL and has no enabling CLI option, so DaqApp does
