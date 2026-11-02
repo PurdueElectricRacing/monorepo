@@ -1,17 +1,8 @@
-use crate::fil::{
-    annotations, config,
-    messages::{FilAdcInstance, FilGpioPort},
-};
+use crate::fil::{annotations, config, messages::FilGpioPort};
 
-use crate::{action, app, settings};
+use crate::{action, settings};
 use daqcore::connection;
-use eframe::egui;
-use std::{
-    collections::{HashMap, HashSet},
-    sync::mpsc,
-    thread,
-    time::Duration,
-};
+use std::{collections::HashMap, sync::mpsc};
 
 pub const FIL_EXPECTATION_HISTORY_LIMIT: usize = 500;
 
@@ -51,10 +42,6 @@ mod expectations;
 mod panels;
 mod state;
 mod validation;
-
-use events::clear_expectations;
-use expectations::{expectation_bytes, expectation_ms, expectation_name};
-use panels::{elf_status, network_result_is_current};
 
 impl FilControl {
     pub fn new(instance_num: usize, fil: &settings::FilSettings) -> Self {

@@ -1,4 +1,9 @@
-use super::*;
+use crate::action;
+use crate::fil::config;
+use crate::ui::fil::FilControl;
+use crate::ui::fil::panels::network_result_is_current;
+use std::sync::mpsc;
+use std::thread;
 
 impl FilControl {
     pub fn refresh_network_info(&mut self) {

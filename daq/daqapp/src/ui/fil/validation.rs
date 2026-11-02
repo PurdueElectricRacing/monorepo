@@ -1,4 +1,6 @@
-use super::*;
+use crate::fil::config;
+use crate::ui::fil::FilControl;
+use std::collections::HashSet;
 
 impl FilControl {
     pub fn builder_board_name(board: &config::BuiltBoard) -> String {

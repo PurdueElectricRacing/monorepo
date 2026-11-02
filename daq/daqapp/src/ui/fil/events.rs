@@ -21,7 +21,9 @@ pub fn update_expectations(
     }
 }
 
-use super::*;
+use crate::fil::messages::FilGpioPort;
+use crate::ui::fil::{FIL_EXPECTATION_HISTORY_LIMIT, FilControl};
+use std::collections::HashMap;
 
 impl FilControl {
     pub fn handle_can_message(&mut self, msg: &daqcore::can_thread::CanThreadEvent) {
