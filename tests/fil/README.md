@@ -35,11 +35,6 @@ ids, ids and packed payloads). These stimuli are generated and not committed.
 Message ids come from the linked CAN graph and
 values are packed with the same scale/offset, enum, sign, and byte-order rules
 as the generated firmware macros, so scenarios stay correct as configs evolve.
-Regenerate after changing a scenario or any `generators/configs/` input:
-
-```sh
-python3 generators/generate.py
-```
 
 `tests/fil/network.json` and `tests/fil/ready_to_drive.json` are hand-maintained
 FIL networks; the latter references its generated stimulus, so run the
