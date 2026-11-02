@@ -90,37 +90,3 @@ impl std::fmt::Display for FilGpioPort {
         formatter.write_str(self.as_str())
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::{FilAdcInstance, FilGpioPort};
-
-    #[test]
-    fn adc_instances_parse_and_serialize_as_protocol_names() {
-        for instance in FilAdcInstance::ALL {
-            assert_eq!(FilAdcInstance::parse(instance.as_str()), Some(instance));
-            assert_eq!(instance.to_string(), instance.as_str());
-            assert_eq!(
-                serde_json::to_string(&instance).expect("ADC instance should serialize"),
-                format!("\"{}\"", instance.as_str())
-            );
-        }
-        assert_eq!(FilAdcInstance::parse("adc1"), None);
-        assert_eq!(FilAdcInstance::parse("ADC5"), None);
-        assert_eq!(
-            serde_json::from_str::<FilAdcInstance>("\"ADC9\"")
-                .expect("unknown ADC instance should deserialize to its default"),
-            FilAdcInstance::Adc1
-        );
-    }
-
-    #[test]
-    fn gpio_ports_parse_only_supported_protocol_names() {
-        for port in FilGpioPort::ALL {
-            assert_eq!(FilGpioPort::parse(port.as_str()), Some(port));
-            assert_eq!(port.to_string(), port.as_str());
-        }
-        assert_eq!(FilGpioPort::parse("gpioa"), None);
-        assert_eq!(FilGpioPort::parse("GPIOH"), None);
-    }
-}

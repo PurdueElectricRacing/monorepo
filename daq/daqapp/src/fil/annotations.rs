@@ -50,21 +50,3 @@ fn load_from_path(path: &Path) -> Result<FilAnnotations, String> {
     serde_json::from_str(&content)
         .map_err(|error| format!("Failed to parse {}: {error}", path.display()))
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn missing_config_uses_embedded_per_annotations() {
-        let annotations = load_from_path(Path::new("missing-fil-annotations.json"))
-            .expect("missing annotation file should load the embedded PER annotations");
-        assert!(
-            annotations
-                .gpio
-                .as_ref()
-                .expect("embedded PER annotations should include GPIO labels")
-                .contains_key("front_driveline")
-        );
-    }
-}

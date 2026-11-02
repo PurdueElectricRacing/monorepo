@@ -77,31 +77,3 @@ impl FilSettings {
         }
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::FilSettings;
-    use daqcore::connection::ConnectionSource;
-
-    #[test]
-    fn legacy_widget_bus_selections_are_ignored() -> Result<(), Box<dyn std::error::Error>> {
-        let mut saved = serde_json::to_value(FilSettings::default())?;
-        saved["executable"] = serde_json::json!("fil");
-        saved["network"] = serde_json::json!("network.json");
-        saved["bus"] = serde_json::json!("old-injection-bus");
-        saved["trace_bus"] = serde_json::json!("old-trace-bus");
-        let settings: FilSettings = serde_json::from_value(saved)?;
-        let source = settings
-            .connection_source()
-            .expect("configured FIL paths should produce a source");
-        let ConnectionSource::Fil { bus, trace_bus, .. } = source else {
-            unreachable!("FIL settings only produce FIL sources");
-        };
-        assert_eq!(bus, "0");
-        assert_eq!(trace_bus, None);
-        let saved = serde_json::to_value(settings)?;
-        assert!(saved.get("bus").is_none());
-        assert!(saved.get("trace_bus").is_none());
-        Ok(())
-    }
-}

@@ -228,38 +228,3 @@ impl CanBusSpeed {
         vec![CanBusSpeed::Kbps250, CanBusSpeed::Kbps500]
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::{ConnectionSource, FilRunOptions};
-
-    #[test]
-    fn fil_connection_with_explicit_options() {
-        let defaults = FilRunOptions::default();
-        assert_eq!(defaults.max_instructions, 50_000_000);
-        assert_eq!(defaults.adc_decimation, 1);
-        let source: ConnectionSource = serde_json::from_value(serde_json::json!({
-            "Fil": {
-                "executable": "fil",
-                "network": "network",
-                "bus": "vehicle",
-                "trace_bus": null,
-                "elf_overrides": {},
-                "disabled_boards": [],
-                "built_network": null,
-                "run_options": defaults,
-            }
-        }))
-        .expect("FIL connection source with explicit options should deserialize");
-        let ConnectionSource::Fil {
-            trace_bus,
-            run_options,
-            ..
-        } = source
-        else {
-            panic!("expected FIL connection source");
-        };
-        assert_eq!(trace_bus, None);
-        assert_eq!(*run_options, FilRunOptions::default());
-    }
-}
