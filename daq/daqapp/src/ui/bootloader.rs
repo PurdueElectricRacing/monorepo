@@ -54,6 +54,7 @@ pub struct Bootloader {
     board_statuses: HashMap<String, BoardUpdateStatus>,
     run_board_names: Vec<String>,
     confirming_update: bool,
+    resident_bootloaders: bool,
     package_error: Option<String>,
     protocol_observations: HashMap<u32, (HashSet<String>, time::Instant)>,
 }
@@ -71,6 +72,7 @@ impl Bootloader {
             board_statuses: HashMap::new(),
             run_board_names: Vec::new(),
             confirming_update: false,
+            resident_bootloaders: false,
             package_error: None,
             protocol_observations: HashMap::new(),
         }
@@ -96,6 +98,15 @@ impl Bootloader {
                 ui.add_space(12.0);
 
                 self.show_package_panel(ui);
+                ui.add_space(8.0);
+                ui.horizontal(|ui| {
+                    ui.label("Update type:");
+                    ui.selectable_value(&mut self.resident_bootloaders, false, "Applications");
+                    ui.selectable_value(&mut self.resident_bootloaders, true, "Resident bootloaders");
+                });
+                if self.resident_bootloaders {
+                    status_banner(ui, "DANGER: Resident bootloader updates have no staging slot or rollback. Only update while the application is running with fresh telemetry; interruption can leave the target unusable.", ui.visuals().error_fg_color);
+                }
                 ui.add_space(12.0);
 
                 if let Some(error) = &self.package_error {
@@ -107,11 +118,12 @@ impl Bootloader {
                     return;
                 };
 
-                let target_names: Vec<_> = package.images.iter().map(|image| image.name.clone()).collect();
+                let selected_images = if self.resident_bootloaders { &package.bootloader_images } else { &package.images };
+                let target_names: Vec<_> = selected_images.iter().map(|image| image.name.clone()).collect();
                 let now = time::Instant::now();
 
                 let available_count = target_names.iter()
-                    .filter(|name| self.capability_state(name, now) == CapabilityState::Available)
+                    .filter(|name| self.target_capability(name, now) == CapabilityState::Available)
                     .count();
                 let selected_names: Vec<_> = target_names.iter()
                     .filter(|name| self.selected_targets.contains(*name))
@@ -320,7 +332,7 @@ impl Bootloader {
                         self.selected_targets = target_names
                             .iter()
                             .filter(|name| {
-                                self.capability_state(name, now) == CapabilityState::Available
+                                self.target_capability(name, now) == CapabilityState::Available
                             })
                             .cloned()
                             .collect();
@@ -353,12 +365,12 @@ impl Bootloader {
                         ui.end_row();
 
                         for name in target_names {
-                            let capability = self.capability_state(name, now);
+                            let capability = self.target_capability(name, now);
                             let available = capability == CapabilityState::Available;
                             let mut selected = self.selected_targets.contains(name);
                             if ui
                                 .add_enabled(
-                                    !self.running,
+                                    !self.running && (!self.resident_bootloaders || available),
                                     eframe::egui::Checkbox::without_text(&mut selected),
                                 )
                                 .on_hover_text(if available {
@@ -450,6 +462,10 @@ impl Bootloader {
                     .collect::<Vec<_>>()
                     .join(", "),
             );
+            if self.resident_bootloaders {
+                ui.colored_label(ui.visuals().error_fg_color, "RESIDENT BOOTLOADER: no staging slot and no rollback. An interruption can leave the target unable to start; only proceed with the application running and fresh application telemetry.");
+                ui.label("The reported resident build updates only after the next application update.");
+            }
             ui.label(
                 eframe::egui::RichText::new(
                     "Keep vehicle power and CAN connected until every target completes. An interrupted update must be retried.",
@@ -475,7 +491,7 @@ impl Bootloader {
             }
 
             let selected_targets_available = selected_names.iter().all(|name| {
-                self.capability_state(name, now) == CapabilityState::Available
+                self.target_capability(name, now) == CapabilityState::Available
             });
             if !selected_targets_available {
                 ui.label(
@@ -528,7 +544,7 @@ impl Bootloader {
                     eframe::egui::Button::new(start_label),
                 );
                 let arm_button = ui.add_enabled(
-                    selected_names.len() == 1,
+                    !self.resident_bootloaders && selected_names.len() == 1,
                     eframe::egui::Button::new(arm_label),
                 );
                 let action = if start_button.clicked() {
@@ -553,7 +569,7 @@ impl Bootloader {
                     let now = time::Instant::now();
                     if !armed
                         && !action_names.iter().all(|name| {
-                            self.capability_state(name, now) == CapabilityState::Available
+                            self.target_capability(name, now) == CapabilityState::Available
                         })
                     {
                         ui.ctx().request_repaint();
@@ -571,11 +587,11 @@ impl Bootloader {
                     }
 
                     let action_images = self.package.as_ref().into_iter()
-                        .flat_map(|package| package.images.iter())
+                        .flat_map(|package| if self.resident_bootloaders { package.bootloader_images.iter() } else { package.images.iter() })
                         .filter(|image| action_names.contains(&image.name))
                         .cloned()
                         .collect();
-                    let package = daqcore::firmware::protocol::FirmwarePackage { images: action_images };
+                    let package = daqcore::firmware::protocol::FirmwarePackage { images: action_images, bootloader_images: Vec::new() };
                     let message = if armed {
                         daqcore::can_thread::CanThreadCommand::ArmFirmwareUpdate(package)
                     } else {
@@ -632,8 +648,12 @@ impl Bootloader {
             return;
         };
 
-        let boards: HashSet<_> = package
-            .images
+        let selected_images = if self.resident_bootloaders {
+            &package.bootloader_images
+        } else {
+            &package.images
+        };
+        let boards: HashSet<_> = selected_images
             .iter()
             .filter(|image| image_protocol_ids(image).contains(&id))
             .map(|image| image.name.clone())
@@ -673,6 +693,28 @@ impl Bootloader {
 
     fn capability_state(&self, target: &str, now: time::Instant) -> CapabilityState {
         capability_state(self.observations.get(target), now, CAPABILITY_TIMEOUT)
+    }
+
+    fn target_capability(&self, target: &str, now: time::Instant) -> CapabilityState {
+        if self.resident_bootloaders {
+            let recent_application = self
+                .observations
+                .get(target)
+                .and_then(|observations| observations.application)
+                .filter(|observation| {
+                    now.duration_since(observation.last_seen) <= CAPABILITY_TIMEOUT
+                });
+            let Some(observation) = recent_application else {
+                return CapabilityState::NoRecentTelemetry;
+            };
+            if observation.bootloadable == Some(true) {
+                CapabilityState::Available
+            } else {
+                CapabilityState::NotBootloadable
+            }
+        } else {
+            self.capability_state(target, now)
+        }
     }
 
     fn hash_label(&self, target: &str, application: bool, now: time::Instant) -> String {

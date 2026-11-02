@@ -5,11 +5,14 @@ pub const PACKAGE_FORMAT: &str = "per-firmware-package-v1";
 pub const APPLICATION_ADDRESS: u32 = 0x0800_8000;
 /// Maximum application payload accepted by the bootloader and package loader.
 pub const APPLICATION_SLOT_SIZE: usize = 480 * 1024;
+pub const BOOTLOADER_ADDRESS: u32 = 0x0800_0000;
+pub const BOOTLOADER_SIZE: usize = 16 * 1024;
 
 #[derive(Clone, Debug)]
 pub struct FirmwareImage {
     pub name: String,
     pub bytes: Vec<u8>,
+    pub address: u32,
     pub crc32: u32,
     pub start_id: u32,
     pub crc_id: u32,
@@ -21,6 +24,7 @@ pub struct FirmwareImage {
 #[derive(Clone, Debug)]
 pub struct FirmwarePackage {
     pub images: Vec<FirmwareImage>,
+    pub bootloader_images: Vec<FirmwareImage>,
 }
 
 #[derive(Debug)]
@@ -38,6 +42,22 @@ struct Manifest {
     protocol_version: u32,
     crc_algorithm: String,
     boards: Vec<ManifestBoard>,
+    #[serde(default)]
+    bootloaders: Vec<ManifestBootloader>,
+}
+
+#[derive(Debug, serde::Deserialize)]
+struct ManifestBootloader {
+    name: String,
+    binary: String,
+    size_bytes: usize,
+    crc32: String,
+    bootloader_address: String,
+    start_id: String,
+    crc_id: String,
+    jump_id: String,
+    data_id: String,
+    response_id: String,
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -228,6 +248,7 @@ impl FirmwarePackage {
             images.push(FirmwareImage {
                 name: board.name,
                 bytes,
+                address: APPLICATION_ADDRESS,
                 crc32: expected_crc,
                 start_id,
                 crc_id,
@@ -237,8 +258,85 @@ impl FirmwarePackage {
             });
         }
 
+        let mut bootloader_images = Vec::with_capacity(manifest.bootloaders.len());
+        let mut bootloader_names = HashSet::new();
+        for bootloader in manifest.bootloaders {
+            if !bootloader_names.insert(bootloader.name.clone()) {
+                return Err(format!("duplicate bootloader target {}", bootloader.name));
+            }
+            if !BOARDS.contains(&bootloader.name.as_str()) {
+                return Err(format!("unsupported bootloader target {}", bootloader.name));
+            }
+            if parse_hex_u32(&bootloader.bootloader_address, "bootloader_address")?
+                != BOOTLOADER_ADDRESS
+            {
+                return Err(format!(
+                    "bootloader {} has an invalid bootloader address",
+                    bootloader.name
+                ));
+            }
+            let relative_binary = path::Path::new(&bootloader.binary);
+            if relative_binary.is_absolute()
+                || relative_binary
+                    .components()
+                    .any(|component| matches!(component, path::Component::ParentDir))
+            {
+                return Err(format!(
+                    "unsafe binary path for bootloader {}",
+                    bootloader.name
+                ));
+            }
+            let binary_path = secure_file_path(&root.join(relative_binary), "binary")
+                .map_err(|error| format!("unsafe binary path for {}: {error}", bootloader.name))?;
+            if !binary_path.starts_with(&root) {
+                return Err(format!(
+                    "binary path escapes package root for {}",
+                    bootloader.name
+                ));
+            }
+            let bytes = fs::read(&binary_path)
+                .map_err(|error| format!("cannot read {}: {error}", binary_path.display()))?;
+            if bytes.len() != bootloader.size_bytes
+                || bytes.len() != BOOTLOADER_SIZE
+                || !bytes.len().is_multiple_of(4)
+            {
+                return Err(format!(
+                    "invalid bootloader image size for {} (expected {BOOTLOADER_SIZE} bytes)",
+                    bootloader.name
+                ));
+            }
+            let expected_crc = parse_hex_u32(&bootloader.crc32, "crc32")?;
+            if crc32_words(&bytes) != expected_crc {
+                return Err(format!("CRC mismatch for bootloader {}", bootloader.name));
+            }
+            let ids = [
+                parse_standard_can_id(&bootloader.start_id, "start_id")?,
+                parse_standard_can_id(&bootloader.crc_id, "crc_id")?,
+                parse_standard_can_id(&bootloader.jump_id, "jump_id")?,
+                parse_standard_can_id(&bootloader.data_id, "data_id")?,
+                parse_standard_can_id(&bootloader.response_id, "response_id")?,
+            ];
+            if ids.into_iter().any(|id| !protocol_ids.insert(id)) {
+                return Err(format!("bootloader {} reuses a CAN ID", bootloader.name));
+            }
+            bootloader_images.push(FirmwareImage {
+                name: bootloader.name,
+                bytes,
+                address: BOOTLOADER_ADDRESS,
+                crc32: expected_crc,
+                start_id: ids[0],
+                crc_id: ids[1],
+                jump_id: ids[2],
+                data_id: ids[3],
+                response_id: ids[4],
+            });
+        }
+
         drop(storage);
-        Ok(Self { images })
+        Ok(Self {
+            images,
+            bootloader_images,
+        })
     }
 }
 

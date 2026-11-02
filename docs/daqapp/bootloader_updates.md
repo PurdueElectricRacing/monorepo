@@ -19,8 +19,9 @@ python3 firmware/build_firmware.py
 The command writes `firmware/output/manifest.json`,
 `firmware/output/firmware_<git-ref>.tar.gz`, and resident images under
 `firmware/output/bootloader_<node>/`. Flash the matching
-`bootloader_<node>.bin` before the first application update. The archive contains
-application payloads; it does not replace resident bootloaders.
+`bootloader_<node>.bin` over SWD before the first application update. The archive
+also carries a 16 KiB resident image per board for the in-application bootloader
+update described below.
 
 ## Update an application
 
@@ -57,6 +58,25 @@ become ready.
 
 See the [resident guide](../../firmware/source/bootloader/README.md) for
 protocol and flash details.
+
+## Update a resident bootloader
+
+The same package also carries a 16 KiB resident image for each board, and DaqApp
+can select **Resident bootloaders** instead of applications. The running
+application handles this command set, so a target is only selectable while its
+application telemetry is recent; a board already resident in the bootloader must
+be reflashed over SWD instead.
+
+In this mode DaqApp sends the dedicated bootloader update `START`, `DATA`, `CRC`,
+and `JUMP` frames directly to the running application. `START` erases the live
+16 KiB bootloader region at `0x08000000`, `CRC` validates the received image, and
+`JUMP` resets the board so the new resident bootloader runs. There is no
+reset-to-bootloader step and the target never sends `READY` in this mode.
+
+There is no staging slot and no rollback: the erase and programming write the
+live bootloader region in place. A reset, power loss, or interrupted transfer
+midway leaves the resident bootloader invalid and requires reflashing over SWD.
+Keep power stable and a known-good resident image available.
 
 **Cancel** stops DaqApp's host state machine but cannot undo target writes. Retry
 a cancelled or failed board before vehicle use. The protocol has no
