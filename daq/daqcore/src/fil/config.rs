@@ -133,33 +133,21 @@ fn board_name(board_json: &serde_json::Value, board_path: &Path) -> String {
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq)]
 pub struct BuiltBoard {
     /// Board name used for scheduling, GPIO/ADC targeting, and file names.
-    #[serde(default)]
     pub name: String,
     /// Firmware ELF image.
-    #[serde(default)]
     pub elf: PathBuf,
     /// MCU config JSON. Empty means auto-located next to the FIL executable.
-    #[serde(default)]
     pub mcu: PathBuf,
     /// FDCAN instances attached to the network bus. Empty means FDCAN1.
-    #[serde(default)]
     pub can_instances: Vec<String>,
     /// Optional vector-table base (e.g. bootloader offset). Empty means omit.
-    #[serde(default)]
     pub vector_base: String,
     /// Whether the board participates in the emulated network.
-    #[serde(default = "default_board_enabled")]
     pub enabled: bool,
     /// Legacy: board JSON config file, migrated to direct fields on load.
-    #[serde(default)]
     pub board: PathBuf,
     /// Legacy: firmware ELF override for `board`.
-    #[serde(default)]
     pub elf_override: Option<PathBuf>,
-}
-
-fn default_board_enabled() -> bool {
-    true
 }
 
 /// A user-built network composed in the FIL widget without hand-writing JSON.

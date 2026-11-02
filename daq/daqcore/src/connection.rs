@@ -43,28 +43,18 @@ pub enum ConnectionSource {
         executable: PathBuf,
         network: PathBuf,
         /// Bus used for outgoing Message Sender frames.
-        #[serde(default = "default_fil_bus")]
         bus: String,
         /// Bus whose CAN transmissions are viewed, or `None` for all buses.
-        #[serde(default)]
         trace_bus: Option<String>,
         /// Per-board firmware ELF overrides keyed by board name.
-        #[serde(default)]
         elf_overrides: HashMap<String, PathBuf>,
         /// Board names excluded from the emulated network.
-        #[serde(default)]
         disabled_boards: Vec<String>,
         /// Widget-built network used instead of `network` when present.
-        #[serde(default)]
         built_network: Option<Box<BuiltNetwork>>,
-        #[serde(default)]
         run_options: Box<FilRunOptions>,
     },
     Loopback,
-}
-
-fn default_fil_bus() -> String {
-    "0".into()
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug, Default)]
