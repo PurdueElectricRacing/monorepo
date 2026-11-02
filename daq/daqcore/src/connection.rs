@@ -20,7 +20,7 @@ impl Default for FilRunOptions {
     fn default() -> Self {
         Self {
             duration_ms: 0,
-            max_instructions: 50_000_000,
+            max_instructions: 0,
             quantum: 1024,
             refresh_ms: 1,
             adc_decimation: 1,
