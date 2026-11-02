@@ -23,7 +23,7 @@ pub enum WidgetKind {
 impl WidgetKind {
     pub fn max_tabs_allowed(&self) -> usize {
         match self {
-            WidgetKind::Hil => 1,
+            WidgetKind::Hil | WidgetKind::FilControl => 1,
             _ => usize::MAX,
         }
     }
