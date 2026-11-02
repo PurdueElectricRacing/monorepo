@@ -47,7 +47,7 @@ pub struct FilExpectationEvent {
 }
 
 const FIL_MAGIC: &[u8; 4] = b"FILN";
-const FIL_VERSION: u8 = 1;
+const FIL_VERSION: u8 = 2;
 const FIL_MAX_PAYLOAD: usize = 65_536;
 const FIL_CAN_INJECT: u8 = 1;
 const FIL_ADC_SET: u8 = 2;
@@ -267,7 +267,7 @@ impl FilDriver {
                             if at != frame.payload.len() {
                                 return Err("trailing FIL REPLY data".into());
                             }
-                            if status > 3 {
+                            if status > 4 {
                                 return Err(format!("unknown FIL reply status {status}"));
                             }
                             if status != 0 {
