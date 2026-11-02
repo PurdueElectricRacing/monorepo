@@ -1,7 +1,7 @@
 use crate::{
     can::driver::{CanDriver, DriverError, DriverResult},
     connection::FilRunOptions,
-    frame::{CanFrame, CanIdentity, FrameKind},
+    frame::{CanFrame, CanFrameTx, FrameKind},
 };
 use std::time::Duration;
 
@@ -481,7 +481,6 @@ fn parse_fil_wire_trace(
             16,
         )
         .map_err(|e| e.to_string())?;
-        let extended = f.get("extended").is_some_and(|x| x == "true");
         if f.get("fd").is_some_and(|x| x == "true") {
             return Ok(());
         }
@@ -499,10 +498,9 @@ fn parse_fil_wire_trace(
                     .map_err(|e| e.to_string())
             })
             .collect::<Result<Vec<_>, _>>()?;
-        let ident = CanIdentity::new(id, extended).map_err(|e| e.to_string())?;
         can.send(Ok(QueuedCanFrame {
             source,
-            frame: CanFrame::data(ident, data).map_err(|e| e.to_string())?,
+            frame: CanFrame::data(id, data).map_err(|e| e.to_string())?,
         }))
         .map_err(|e| e.to_string())?;
     } else if kind == "gpio_input" || kind == "gpio_output" {
@@ -659,14 +657,14 @@ impl FilDriver {
         }
         Ok(frames)
     }
-    pub fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
-        validate_fil_frame_kind(frame.kind)?;
+    pub fn write_frame(&mut self, frame: CanFrameTx) -> DriverResult<()> {
+        validate_fil_frame_kind(frame.frame.kind)?;
         let mut payload = Vec::new();
         fil_put_string(&mut payload, &self.bus)?;
-        payload.extend_from_slice(&frame.identity.raw_id().to_le_bytes());
-        payload.push(u8::from(frame.identity.is_extended()));
-        payload.push(frame.data.len() as u8);
-        payload.extend_from_slice(&frame.data);
+        payload.extend_from_slice(&frame.frame.identity.to_le_bytes());
+        payload.push(u8::from(frame.is_extended_id));
+        payload.push(frame.frame.data.len() as u8);
+        payload.extend_from_slice(&frame.frame.data);
         self.send_request(FIL_CAN_INJECT, &payload)
     }
     pub fn close(&mut self) -> DriverResult<()> {
@@ -764,7 +762,7 @@ impl CanDriver for FilDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<CanFrame>> {
         FilDriver::read_frames(self)
     }
-    fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
+    fn write_frame(&mut self, frame: CanFrameTx) -> DriverResult<()> {
         FilDriver::write_frame(self, frame)
     }
     fn close(&mut self) -> DriverResult<()> {
@@ -788,7 +786,7 @@ mod fil_transport_tests {
     use crate::{
         can::driver::{DriverError, FilExpectationEvent, FilExpectationStatus},
         connection::FilRunOptions,
-        frame::{CanFrame, CanIdentity, FrameKind},
+        frame::{CanFrame, FrameKind},
     };
     #[test]
     fn default_args_match_fil_stdio_defaults_and_enable_expectation_traces() {
@@ -900,22 +898,14 @@ mod fil_transport_tests {
     fn queued_frame_from_old_bus_is_dropped_after_selection_changes() {
         let queued_before_switch = QueuedCanFrame {
             source: "0/controller/FDCAN1".into(),
-            frame: CanFrame::data(
-                CanIdentity::new(0x123, false).expect("0x123 is a valid standard CAN ID"),
-                vec![1],
-            )
-            .expect("one byte fits in a CAN data frame"),
+            frame: CanFrame::data(0x123, vec![1]).expect("one byte fits in a CAN data frame"),
         };
 
         assert!(take_selected_can_frame(queued_before_switch, Some("1")).is_none());
 
         let current_bus_frame = QueuedCanFrame {
             source: "1/controller/FDCAN1".into(),
-            frame: CanFrame::data(
-                CanIdentity::new(0x123, false).expect("0x123 is a valid standard CAN ID"),
-                vec![1],
-            )
-            .expect("one byte fits in a CAN data frame"),
+            frame: CanFrame::data(0x123, vec![1]).expect("one byte fits in a CAN data frame"),
         };
         assert!(take_selected_can_frame(current_bus_frame, Some("1")).is_some());
     }

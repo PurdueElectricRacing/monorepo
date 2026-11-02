@@ -59,7 +59,7 @@ impl ActiveDriver {
             Self::Fil(driver) => driver.read_frames(),
         }
     }
-    pub fn write_frame(&mut self, frame: CanFrame) -> DriverResult<()> {
+    pub fn write_frame(&mut self, frame: frame::CanFrameTx) -> DriverResult<()> {
         match self {
             Self::Can(driver) => driver.write_frame(frame),
             Self::Fil(driver) => driver.write_frame(frame),
