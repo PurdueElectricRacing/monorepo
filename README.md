@@ -4,12 +4,7 @@
 ![DAQ Workspace](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/build_daq.yml/badge.svg?branch=master)
 ![Documentation](https://github.com/PurdueElectricRacing/monorepo/actions/workflows/deploy_doxygen.yml/badge.svg?branch=master)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/PurdueElectricRacing/monorepo?style=flat-square)
-<a href="https://www.vultr.com/">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/vultr-logo-dark.svg">
-    <img alt="Vultr" src="docs/assets/vultr-logo-light.svg" height="18">
-  </picture>
-</a>
+[![Vultr](https://img.shields.io/badge/Vultr-white?logo=vultr&logoColor=007BFC&labelColor=white&color=white&style=flat-square)](https://www.vultr.com/)
 
 A monorepo of all firmware projects, shared libraries, code generation, and off-car tooling for PER FSAE EV.
 
