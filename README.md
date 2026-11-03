@@ -6,8 +6,8 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/PurdueElectricRacing/monorepo?style=flat-square)
 <a href="https://www.vultr.com/">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://www.vultr.com/media/logo_ondark.svg">
-    <img alt="Vultr" src="https://www.vultr.com/media/logo_onwhite.svg" height="18">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/vultr-logo-dark.svg">
+    <img alt="Vultr" src="docs/assets/vultr-logo-light.svg" height="18">
   </picture>
 </a>
 
