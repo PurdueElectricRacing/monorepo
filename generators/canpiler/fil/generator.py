@@ -206,8 +206,12 @@ def _encode_scaled(signal: CompiledSignal, value: int | float) -> int:
     The firmware stores `1/scale` and `offset` as float32 constants and packs
     with `(value - OFFSET) * PACK_COEFF`, so the arithmetic is done in float32
     rather than double precision. Doing it in double here can truncate
-    differently (e.g. 0.7 at scale 0.1 gives 6 instead of 7).
+    differently (e.g. 0.7 at scale 0.1 gives 6 instead of 7). Signals with no
+    scale or offset are packed as integers without a float32 round-trip.
     """
+    if signal.scale is None and signal.offset is None:
+        return int(value)
+
     scale = signal.scale if signal.scale is not None else 1.0
     offset = signal.offset if signal.offset is not None else 0.0
     coeff = _f32(1.0 / scale)
