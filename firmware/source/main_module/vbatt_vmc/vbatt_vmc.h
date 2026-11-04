@@ -1,15 +1,14 @@
-/**
- * @file main.c
- * @brief "Dashboard" node source code
- * 
- * @author Irving Wang (irvingw@purdue.edu)
- * @author Luke Oxley (lcoxley@purdue.edu)
- * @author Chris Mcgalliard (cpmcgalliard@gmail.com)
- */
-
 #ifndef VBATT_VMC_H
 #define VBATT_VMC_H
 
+/**
+ * @file vbatt_vmc.h
+ * @brief MAIN MODULE vbatt and vmc reading
+ */
 
 
-#endif // VBATT_VMC
+float vbatt_get_voltage(void);
+
+float vmc_get_voltage(void);
+
+#endif // VBATT_VMC_H
