@@ -104,8 +104,11 @@ fn run_with_connection(
                 }
                 can_thread::CanThreadCommand::AddSendMessage(message) => {
                     let identity = message.identity;
+                    let periodic = !matches!(message.amount, can_thread::tx::SendAmount::Once);
                     if let Err(error) = sends.add(message) {
-                        sends.delete(identity);
+                        if periodic {
+                            sends.delete(identity);
+                        }
                         emit!(can_thread::CanThreadEvent::SendFailed {
                             identity,
                             error,

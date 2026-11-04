@@ -80,6 +80,8 @@ impl SendTable {
             if self.one_shot.len() >= MAX_PENDING_ONE_SHOT_SENDS {
                 return Err("CAN one-shot send queue is full".into());
             }
+            // Match the Message Sender's single-row-per-ID replacement behavior.
+            self.scheduled.remove(&msg.identity);
             self.one_shot.push_back(frame);
             return Ok(());
         }
