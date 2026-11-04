@@ -52,10 +52,8 @@ class CanSource:
 @dataclass(frozen=True)
 class CompiledSignal:
     signal_name: str
-    # data_type preserves the declared type (including custom names); base_type
-    # resolves it to the primitive C type used for layout and value encoding.
-    data_type: str
-    base_type: str
+    data_type: str # preserves the declared type (including custom names)
+    base_type: str # resolved primitive C type (layout + value encoding)
     description: str
     length: int
     unit: str | None
