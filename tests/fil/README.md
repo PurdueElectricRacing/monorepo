@@ -75,7 +75,10 @@ python3 tests/fil/run_tests.py --fil /path/to/fil
 The runner fails on simulation errors, early stops, or unmet stimulus
 expectations. It discovers every network config in this directory (a JSON file
 with `boards` and `buses`), derives a run duration from the scenario's stimuli,
-and runs each one. It checks:
+and runs each one. `runner.json` holds the smoke-test board list, run budgets,
+shared traffic buses, and expected final program counters. Required ELF files
+are resolved from the board configs used by those boards and networks, rather
+than a separate Python artifact list. It checks:
 
 - All six boards start independently and reach 10 ms with strict MMIO.
 - Each network reaches the time budget with a successful exit.
@@ -93,7 +96,9 @@ The application-update scenario uses a small synthetic image (a stack pointer,
 a reset vector, and a one-instruction loop) rather than the packaged firmware,
 so it exercises the protocol and flash path without depending on application
 contents. The CAN expectations cover the `ACK(size)` and `ACK(CRC)` responses;
-the runner separately checks the final program counter after JUMP.
+the runner separately checks the final program counter after JUMP against
+`runner.json`. The pinned FIL CLI reports final registers in its text summary,
+so that parsing is isolated in `check_final_pcs`.
 
 The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
