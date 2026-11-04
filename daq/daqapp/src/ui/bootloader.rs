@@ -659,7 +659,9 @@ impl Bootloader {
         let boards: HashSet<_> = selected_images
             .iter()
             .filter(|image| image_protocol_ids(image).contains(&id))
-            .filter(|image| decoded_name.is_none_or(|name| name.starts_with(&format!("bl_{}_", image.name))))
+            .filter(|image| {
+                decoded_name.is_none_or(|name| name.starts_with(&format!("bl_{}_", image.name)))
+            })
             .map(|image| image.name.clone())
             .collect();
         if !boards.is_empty() {
