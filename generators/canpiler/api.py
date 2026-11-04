@@ -19,6 +19,7 @@ from .analysis.bus_membership import generate_bus_membership_graph
 from .analysis.node_communication import generate_node_communication_graph
 from .analysis.message_flow import generate_message_flow_graphs
 from .codegen.hardware import map_hardware
+from .fil.generator import generate_stimuli
 
 
 class Canpiler:
@@ -47,5 +48,6 @@ class Canpiler:
         artifacts.extend(generate_message_flow_graphs(linked))
         artifacts.append(generate_bus_membership_graph(linked))
         artifacts.append(generate_node_communication_graph(linked))
+        artifacts.extend(generate_stimuli(linked))
         calculate_bus_load(linked)
         return artifacts

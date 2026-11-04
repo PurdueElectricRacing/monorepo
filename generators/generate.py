@@ -5,7 +5,15 @@ Author: Irving Wang (irvingw@purdue.edu)
 """
 
 from core.artifacts import clear_artifacts, write_artifacts
-from core.config import CAN_GRAPHS_DIR, SUPERDBC_DIR, GENERATED_DIR, UNIT_GRAPHS_DIR, UNITS_GENERATED_DIR
+from core.config import (
+    CAN_GRAPHS_DIR,
+    FIL_CONFIG_DIR,
+    FIL_STIMULI_DIR,
+    GENERATED_DIR,
+    SUPERDBC_DIR,
+    UNIT_GRAPHS_DIR,
+    UNITS_GENERATED_DIR,
+)
 from core.declaration_loader import DeclarationValidationError, load_declarations
 from canpiler.api import Canpiler
 from canpiler.pipeline.compiler import CanCompilationError
@@ -42,6 +50,7 @@ def generate() -> None:
         "can_graphs": CAN_GRAPHS_DIR,
         "units_generated": UNITS_GENERATED_DIR,
         "unit_graphs": UNIT_GRAPHS_DIR,
+        "fil": FIL_CONFIG_DIR,
     }
     clear_artifacts(
         output_roots,
@@ -60,6 +69,7 @@ def generate() -> None:
             ),
             "units_generated": "*",
             "unit_graphs": "unit_*.dot",
+            "fil": (f"{FIL_STIMULI_DIR.name}/*.json",),
         },
     )
     write_artifacts(output_roots, artifacts)

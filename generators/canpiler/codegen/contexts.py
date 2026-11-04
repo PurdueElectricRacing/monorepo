@@ -28,7 +28,7 @@ def build_signal_codec(signal: CompiledSignal) -> SignalCodecRenderView:
         sign_extend_shift=(
             64 - signal.length if signal.is_signed and signal.length < 64 else None
         ),
-        is_float32=signal.data_type == "float" and signal.length == 32,
+        is_float32=signal.base_type == "float" and signal.length == 32,
     )
 
 
