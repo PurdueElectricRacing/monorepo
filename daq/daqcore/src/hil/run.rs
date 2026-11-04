@@ -51,8 +51,6 @@ pub struct InProgressExpect {
     pub expect: hil::config::Expectation,
     pub result: ExpectResult,
 
-    /// Failures of the policy-selected message; None before any matching message.
-    pub failures: Option<Vec<SignalFailure>>,
     pub messages: Vec<CapturedMessage>,
 
     // The index of the message to display in the HIL testing UI,
@@ -128,9 +126,9 @@ impl HilRunningTest {
 
             // Check if window for HIL test expired, resolve test state accordingly.
             if ts > expect.expect.window[1] as u128 {
-                expect.result = match &expect.failures {
+                expect.result = match expect.selected_message() {
                     None => ExpectResult::FailedNoMessage,
-                    Some(failures) if failures.is_empty() => ExpectResult::Passed,
+                    Some(message) if message.is_valid() => ExpectResult::Passed,
                     Some(_) => ExpectResult::FailedValueOutOfRange,
                 };
 
@@ -207,7 +205,6 @@ impl HilRunningTest {
                 };
                 if select {
                     expect.selected_message_index = Some(expect.messages.len());
-                    expect.failures = Some(message.failures.clone());
                 }
                 if !expect.result.is_finished() {
                     expect.result = match expect.expect.accept {
@@ -276,7 +273,6 @@ impl InProgressExpect {
         Self {
             expect,
             result: ExpectResult::NotInWindow,
-            failures: None,
             messages: Vec::new(),
             selected_message_index: None,
         }
