@@ -61,8 +61,15 @@ impl StdinInjections {
                 return;
             }
             match parse_injection(line, &self.context) {
-                Ok(command) => {
-                    if self.sender.send(command).is_err() {
+                Ok(frame) => {
+                    // One outstanding submission bounds the shared command backlog
+                    // without making GUI command senders block on a full channel.
+                    let (processed_tx, processed_rx) = mpsc::sync_channel(1);
+                    let command = can_thread::CanThreadCommand::InjectFrame {
+                        frame,
+                        processed: processed_tx,
+                    };
+                    if self.sender.send(command).is_err() || processed_rx.recv().is_err() {
                         // The worker already stopped; the monitor reports the shutdown.
                         return;
                     }
@@ -75,10 +82,7 @@ impl StdinInjections {
 }
 
 /// Parses a stdin injection line, validating against daqcore frame rules.
-fn parse_injection(
-    line: &str,
-    context: &InjectionContext,
-) -> Result<can_thread::CanThreadCommand, String> {
+fn parse_injection(line: &str, context: &InjectionContext) -> Result<frame::CanFrameTx, String> {
     let mut fields = line.splitn(3, ':');
     let first = fields.next().ok_or_else(|| injection_format(context))?;
     let second = fields.next().ok_or_else(|| injection_format(context))?;
@@ -116,27 +120,17 @@ fn parse_injection(
     };
 
     let data = parse_hex_bytes(data_text)?;
-    let frame = frame::CanFrameTx::data(identity, is_extended_id, data)?;
-    Ok(can_thread::CanThreadCommand::AddSendMessage(
-        can_thread::tx::AddSendMessage {
-            amount: can_thread::tx::SendAmount::Once,
-            identity: frame.frame.identity,
-            is_extended_id: frame.is_extended_id,
-            msg_bytes: frame.frame.data,
-        },
-    ))
+    frame::CanFrameTx::data(identity, is_extended_id, data)
 }
 
 fn injection_format(context: &InjectionContext) -> String {
     match context {
         InjectionContext::Raw => "expected ID:HEXDATA".to_owned(),
-        InjectionContext::Defined { .. } => {
-            "expected BUS[@TIME_MS]:ID:HEXDATA or ID:HEXDATA".to_owned()
-        }
+        InjectionContext::Defined { .. } => "expected BUS:ID:HEXDATA or ID:HEXDATA".to_owned(),
     }
 }
 
-/// Validates a `BUS[@TIME_MS]` prefix against the selected SuperDBC bus.
+/// Validates a `BUS` prefix against the selected SuperDBC bus.
 fn validate_injection_bus(endpoint: &str, bus_id: u8, bus_name: &str) -> Result<(), String> {
     let bus = endpoint;
     let numeric = bus.parse::<u8>().ok();

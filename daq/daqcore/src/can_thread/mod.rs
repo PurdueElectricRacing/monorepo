@@ -55,6 +55,11 @@ pub enum CanThreadCommand {
         selection: DatabaseRequest,
     },
     AddSendMessage(can_thread::tx::AddSendMessage),
+    /// FIFO injection; acknowledge processing so the stdin producer stays bounded.
+    InjectFrame {
+        frame: frame::CanFrameTx,
+        processed: mpsc::SyncSender<()>,
+    },
     DeleteSendMessage {
         identity: frame::CanIdentity,
     },

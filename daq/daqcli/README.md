@@ -61,8 +61,10 @@ Format: `ID:HEXDATA` or `BUS:ID:HEXDATA`. IDs are decimal or `0x`-prefixed hex;
 payloads contain 0–8 bytes. A bus prefix requires `--superdbc` and must match the
 selected bus name or decimal bus ID. Timestamps are not supported.
 
-Frames are queued in input order, including repeated IDs. Invalid commands are
-reported on stderr. **Sending to a physical adapter transmits onto the CAN bus.**
+Frames are queued in input order, including repeated IDs. Stdin waits for the
+worker to process each submission; the pending injection queue holds at most
+65,536 frames. Invalid commands and queue overflow are reported on stderr.
+**Sending to a physical adapter transmits onto the CAN bus.**
 
 `quit`/`exit` drains accepted one-shot sends for up to two seconds while connected,
 then stops. Unsent frames are reported. EOF leaves monitoring running. A broken

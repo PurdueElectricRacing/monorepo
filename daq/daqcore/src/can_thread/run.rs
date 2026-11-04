@@ -131,6 +131,18 @@ fn run_with_connection(
                         });
                     }
                 }
+                can_thread::CanThreadCommand::InjectFrame { frame, processed } => {
+                    let identity = frame.frame.identity;
+                    if let Err(error) = sends.add_injection(frame) {
+                        emit!(can_thread::CanThreadEvent::SendFailed {
+                            identity,
+                            error,
+                            retrying: false,
+                        });
+                    }
+                    // A dropped reader needs no acknowledgement during cleanup.
+                    let _ = processed.send(());
+                }
                 can_thread::CanThreadCommand::DeleteSendMessage { identity } => {
                     sends.delete(identity)
                 }

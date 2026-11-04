@@ -1,7 +1,7 @@
 use crate::frame;
 use std::{
     collections::{BTreeMap, VecDeque},
-    time,
+    mem, time,
 };
 
 /// Bounds queued one-shot sends that are waiting for a connection.
@@ -74,18 +74,8 @@ impl SendTable {
 
         let frame = frame::CanFrameTx::data(msg.identity, msg.is_extended_id, msg.msg_bytes)?;
 
-        if matches!(msg.amount, SendAmount::Once) {
-            // One-shot frames keep insertion order and are never merged,
-            // unlike the identity-keyed periodic table below.
-            if self.one_shot.len() >= MAX_PENDING_ONE_SHOT_SENDS {
-                return Err("CAN one-shot send queue is full".into());
-            }
-            // Match the Message Sender's single-row-per-ID replacement behavior.
-            self.scheduled.remove(&msg.identity);
-            self.one_shot.push_back(frame);
-            return Ok(());
-        }
-
+        // GUI jobs replace the previous job for this ID in either direction,
+        // including Once -> periodic. CLI injections use their own FIFO below.
         self.scheduled.insert(
             msg.identity,
             Scheduled {
@@ -94,6 +84,14 @@ impl SendTable {
                 sent: None,
             },
         );
+        Ok(())
+    }
+
+    pub fn add_injection(&mut self, frame: frame::CanFrameTx) -> Result<(), String> {
+        if self.one_shot.len() >= MAX_PENDING_ONE_SHOT_SENDS {
+            return Err("CAN one-shot send queue is full".into());
+        }
+        self.one_shot.push_back(frame);
         Ok(())
     }
 
@@ -112,9 +110,13 @@ impl SendTable {
         self.one_shot.pop_front();
     }
 
-    /// Drains the remaining one-shot frames, for example to report them on shutdown.
+    /// Clears all jobs at shutdown and returns unwritten one-shots for reporting.
     pub fn drain_one_shot(&mut self) -> impl Iterator<Item = frame::CanFrameTx> + '_ {
-        self.one_shot.drain(..)
+        let scheduled = mem::take(&mut self.scheduled)
+            .into_values()
+            .filter(|job| matches!(job.amount, SendAmount::Once))
+            .map(|job| job.frame);
+        self.one_shot.drain(..).chain(scheduled)
     }
 
     pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrameTx> {
