@@ -12,6 +12,37 @@ relative to their JSON files, so they work regardless of the current directory.
 The MCU model comes from FIL; standalone ELF files come from `firmware/output`
 and start at `0x08000000`.
 
+## Scenarios and generated stimuli
+
+`tests/fil/scenarios/*.json` holds the maintained test behavior. Each CAN
+entry has a logical bus, a CAN message, and signals with physical values or
+enum choice names:
+
+```json
+{"type": "can", "bus": "MCAN", "message": "INVA_INFO", "at_ms": 500,
+ "repeat": {"every_ms": 500, "count": 13},
+ "values": {"AMK_Status_bSystemReady": true, "AMK_Status_bQuitDcOn": true}}
+```
+
+`raw: [bytes]` supplies the payload bytes instead of named signal values.
+For both CAN events and expectations, signals omitted from `values` leave their
+wire bits at zero.
+
+The `canpiler` FIL pass resolves each scenario into
+`tests/fil/stimuli/{stem}_stimuli.json` in the raw FIL stimulus format (buses as
+ids, plus ids and packed payloads). Message ids come from canpiler,
+and values are packed with the same scale/offset, enum, sign, and byte-order
+rules as the generated firmware macros.
+
+`tests/fil/network.json` and `tests/fil/ready_to_drive.json` are
+hand-maintained FIL networks. The latter references its generated stimulus,
+which is not committed, so run the canpiler generator once on a fresh checkout
+before `run_tests.py`:
+
+```sh
+python3 generators/generate.py
+```
+
 ## Build and run
 
 Requirements: built PER firmware, Python 3.11+, Make, CMake, a C++20 Clang
@@ -47,9 +78,6 @@ expectations. It checks:
 - The shared network reaches 20 ms and carries firmware-originated CAN TX/RX.
 - The vehicle reaches 6 seconds with the ready-to-drive stimulus expectations
   satisfied (initial zero torque commands, later drive commands, and vehicle state).
-
-`ready_to_drive_stimuli.json` is the PER-owned copy of the scenario initially
-imported from FIL. Keep it aligned with vehicle behavior as firmware evolves.
 
 The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL

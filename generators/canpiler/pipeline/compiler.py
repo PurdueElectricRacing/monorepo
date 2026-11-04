@@ -428,6 +428,7 @@ def _compile_signal(
     return CompiledSignal(
         signal_name=signal.signal_name,
         data_type=signal.data_type,
+        base_type=base_type,
         description=signal.description,
         length=length,
         unit=signal.unit,
