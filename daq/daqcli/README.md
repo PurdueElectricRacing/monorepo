@@ -5,13 +5,13 @@ the same `daqcore::log_parse` pipeline as the app's Log Parser, so recorded `.lo
 files can be parsed and correlated into CSV tables without opening the GUI, which
 is handy for scripts, batch jobs, and CI.
 
-## Usage
+## Parse logs
 
-DaqCLI takes explicit paths as arguments, so it can be run from any working
-directory:
+`daqcli parse` takes explicit paths as arguments, so it can be run from any
+working directory:
 
 ```bash
-cargo run -p daqcli -- \
+cargo run -p daqcli -- parse \
     --logs-dir <dir with .log files> \
     --output-dir <dir for CSV output> \
     --superdbc <path to superdbc_*.json>
