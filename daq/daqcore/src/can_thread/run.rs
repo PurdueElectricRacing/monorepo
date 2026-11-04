@@ -368,14 +368,13 @@ fn run_with_connection(
         }
 
         // Graceful shutdown is bounded; Stop still cancels immediately.
-        if let Some(deadline) = drain_deadline {
-            if Instant::now() >= deadline
+        if let Some(deadline) = drain_deadline
+            && (Instant::now() >= deadline
                 || updating
                 || !connection.connected()
-                || sends.next_one_shot().is_none()
-            {
-                break 'worker;
-            }
+                || sends.next_one_shot().is_none())
+        {
+            break 'worker;
         }
 
         let wait = if !connection.connected() {
