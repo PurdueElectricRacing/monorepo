@@ -108,15 +108,15 @@ quit
 ```
 
 Injections use the same `CanThreadCommand::AddSendMessage` path as DaqApp's
-Message Sender, so a line replaces any send still queued for the same CAN ID.
-Each line is validated against `daqcore` frame rules and the selected SuperDBC
-bus before it is queued.
+Message Sender. One-shot frames are queued in input order and never merged, so
+repeated CAN IDs all transmit. Each line is validated against `daqcore` frame
+rules and the selected SuperDBC bus before it is queued.
 
-`quit` or `exit` stops the watch after one final send pass, so messages queued
-just before quitting are written when the source is connected. Stdin EOF leaves
-the stream running, so `printf ... | daqcli watch` keeps monitoring after the
-pipe closes, and a closed stdout (for example `| head`) stops the watch on the
-next received frame, like `tail -f`.
+`quit` or `exit` stops the watch after flushing queued one-shot sends, so
+messages queued just before quitting are written when the source is connected.
+Stdin EOF leaves the stream running, so `printf ... | daqcli watch` keeps
+monitoring after the pipe closes, and a closed stdout (for example `| head`)
+stops the watch on the next received frame, like `tail -f`.
 
 Set `RUST_LOG` to control log verbosity (for example `RUST_LOG=debug`).
 Defaults to `info`.
