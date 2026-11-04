@@ -37,7 +37,7 @@ To compile software for the PER vehicle, make sure your system is set up by foll
 ## Building
 
 `build_all.py` is the repository-level build entry point. It runs the complete
-firmware, FIL PGO build and PER integration tests, DAQ workspace, and host-test
+firmware, FIL build and PER integration tests, DAQ workspace, and host-test
 workflows in order.
 
 From the repository root, build all projects and run tests with:
