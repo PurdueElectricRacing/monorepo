@@ -58,8 +58,6 @@ pub enum CanThreadCommand {
         identity: frame::CanIdentity,
     },
     UpdateLogFolder(path::PathBuf),
-    /// Transmit one frame immediately, bypassing the periodic send table.
-    SendOnce(frame::CanFrameTx),
     Stop,
     Hil(hil::engine::HilCommand),
     StartFirmwareUpdate(firmware::protocol::FirmwarePackage),

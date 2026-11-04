@@ -118,7 +118,14 @@ fn parse_injection(
 
     let data = parse_hex_bytes(data_text)?;
     let frame = frame::CanFrameTx::data(identity, is_extended_id, data)?;
-    Ok(can_thread::CanThreadCommand::SendOnce(frame))
+    Ok(can_thread::CanThreadCommand::AddSendMessage(
+        can_thread::tx::AddSendMessage {
+            amount: can_thread::tx::SendAmount::Once,
+            identity: frame.frame.identity,
+            is_extended_id: frame.is_extended_id,
+            msg_bytes: frame.frame.data,
+        },
+    ))
 }
 
 fn injection_format(context: &InjectionContext) -> String {

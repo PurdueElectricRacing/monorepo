@@ -5,8 +5,6 @@ const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
 const BUS_LOAD_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(200);
 const FIRMWARE_FRAMES_PER_BURST: usize = 8;
 const FIRMWARE_FRAME_DELAY: time::Duration = time::Duration::from_millis(4);
-/// Caps queued one-shot writes per pass so reads and periodic sends keep running.
-const ONE_SHOT_SENDS_PER_BURST: usize = 8;
 
 pub fn run(
     config: can_thread::CanThreadConfig,
@@ -102,16 +100,6 @@ fn run_with_connection(
                     });
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                 }
-                can_thread::CanThreadCommand::SendOnce(frame) => {
-                    let identity = frame.frame.identity;
-                    if let Err(error) = sends.add_one_shot(frame) {
-                        emit!(can_thread::CanThreadEvent::SendFailed {
-                            identity,
-                            error,
-                            retrying: false
-                        });
-                    }
-                }
                 can_thread::CanThreadCommand::AddSendMessage(message) => {
                     let identity = message.identity;
                     if let Err(error) = sends.add(message) {
@@ -181,45 +169,9 @@ fn run_with_connection(
             hil_finished = hil.all_finished();
         }
 
-        // Sends are suspended while firmware owns transmission; user one-shot
-        // sends take priority over the periodic table.
+        // Ordinary sends are suspended while firmware owns transmission.
         let updating = firmware.active();
         if connection.connected() && !updating {
-            for _ in 0..ONE_SHOT_SENDS_PER_BURST {
-                let Some(tx_frame) = sends.next_one_shot() else {
-                    break;
-                };
-                let identity = tx_frame.frame.identity;
-                // Clone so a failed write leaves the frame queued for reconnection.
-                match connection.write(tx_frame.clone()) {
-                    Ok(()) => {
-                        sends.commit_one_shot();
-                        emit!(can_thread::CanThreadEvent::MessageSent {
-                            identity,
-                            timestamp: Time::now(),
-                            amount_left: None
-                        });
-                    }
-                    Err(error) => {
-                        let unsupported = matches!(error, can::driver::DriverError::Unsupported(_));
-                        emit!(can_thread::CanThreadEvent::SendFailed {
-                            identity,
-                            error: error.to_string(),
-                            retrying: !unsupported,
-                        });
-                        if unsupported {
-                            sends.commit_one_shot();
-                            continue;
-                        }
-                        connection.failed(time::Instant::now());
-                        emit!(can_thread::CanThreadEvent::ConnectionFailed(
-                            error.to_string()
-                        ));
-                        break;
-                    }
-                }
-            }
-
             for tx_frame in sends.due(now) {
                 let identity = tx_frame.frame.identity;
                 match connection.write(tx_frame) {
@@ -340,13 +292,9 @@ fn run_with_connection(
             load_last = now;
         }
 
-        // A stopped worker keeps flushing queued one-shot sends, and reading
-        // their echoes, until nothing can be sent.
+        // Finish the pass so sends queued just before a stop are still written.
         if stop_requested {
-            if updating || !connection.connected() || sends.next_one_shot().is_none() {
-                break 'worker;
-            }
-            continue;
+            break 'worker;
         }
 
         let wait = if !connection.connected() {
@@ -373,15 +321,6 @@ fn run_with_connection(
 
     if let Some(logger) = &mut logger {
         logger.flush();
-    }
-
-    // Report one-shot sends that never reached a connection.
-    for frame in sends.drain_one_shot() {
-        let _ = events.emit(can_thread::CanThreadEvent::SendFailed {
-            identity: frame.frame.identity,
-            error: "CAN injection was not sent before shutdown".into(),
-            retrying: false,
-        });
     }
 
     connection.close();
