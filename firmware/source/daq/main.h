@@ -23,8 +23,9 @@
 // SD Card SDIO
 #define SD_ACTIVITY_LED_PORT (GPIOA)
 #define SD_ACTIVITY_LED_PIN  (9)
-#define SD_ERROR_LED_PORT    (GPIOA)
-#define SD_ERROR_LED_PIN     (8)
+// TODO: Replace with real pins @shriya
+#define SD_ERROR_LED_PORT    (GPIOB)
+#define SD_ERROR_LED_PIN     (0)
 #define SD_DETECT_LED_PORT   (GPIOA)
 #define SD_DETECT_LED_PIN    (10)
 #define SD_CD_PORT           (GPIOD)
