@@ -419,7 +419,7 @@ impl Hil {
                     row.col(|ui| {
                         Self::paint_message_cell(ui, tint);
                         if let Some(message) = message {
-                            ui.monospace(format!("{}.00", message.elapsed_ms));
+                            ui.monospace(message.elapsed_ms.to_string());
                         } else {
                             ui.weak("-");
                         }
