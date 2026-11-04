@@ -63,6 +63,20 @@
 #define ETH_nINT_PORT (GPIOC)
 #define ETH_nINT_PIN  (2)
 
+// CAN
+#define CAN1_RX_PORT (GPIOA)
+#define CAN1_RX_PIN  (11)
+#define CAN1_TX_PORT (GPIOA)
+#define CAN1_TX_PIN  (12)
+#define CAN2_RX_PORT (GPIOB)
+#define CAN2_RX_PIN  (12)
+#define CAN2_TX_PORT (GPIOB)
+#define CAN2_TX_PIN  (13)
+#define CAN3_RX_PORT (GPIOA)
+#define CAN3_RX_PIN  (8)
+#define CAN3_TX_PORT (GPIOA)
+#define CAN3_TX_PIN  (15)
+
 // MISC
 #define PWR_LOSS_PORT   (GPIOE)
 #define PWR_LOSS_PIN    (15)
