@@ -136,6 +136,9 @@ impl Hil {
                     stop_requested = true;
                 }
                 if all_finished {
+                    // Although all tests have resolved, inform the user that
+                    // the HIL engine is still capturing messages for debugging
+                    // purposes.
                     let end = tests
                         .iter()
                         .flat_map(|t| &t.in_progress_expects)
@@ -319,33 +322,38 @@ impl Hil {
         let heights = rows.iter().map(|(index, message)| {
             let signals = test.in_progress_expects[*index].expect.signals.len().max(1);
             let lines = if message.is_none() {
+                // Ensures that each row is always at least 3 lines tall.
                 (signals * 2).max(3)
             } else {
                 signals
             };
-            lines as f32 * line_height + 8.0
+            ((lines as f32) * line_height) + 8.0
         });
         egui_extras::TableBuilder::new(ui)
             .id_salt("hil_messages")
             .cell_layout(eframe::egui::Layout::top_down(eframe::egui::Align::Min))
+            // Message
             .column(
                 egui_extras::Column::initial(210.0)
                     .at_least(120.0)
                     .resizable(true)
                     .clip(true),
             )
+            // Time (ms)
             .column(
                 egui_extras::Column::initial(105.0)
                     .at_least(75.0)
                     .resizable(true)
                     .clip(true),
             )
+            // Validation
             .column(
                 egui_extras::Column::initial(155.0)
                     .at_least(100.0)
                     .resizable(true)
                     .clip(true),
             )
+            // Signals
             .column(egui_extras::Column::remainder().at_least(150.0).clip(true))
             .max_scroll_height(400.0)
             .auto_shrink([false, true])
@@ -365,10 +373,13 @@ impl Hil {
                         .map(|i| &ipe.messages[i])
                         .or_else(|| ipe.selected_message());
                     let tint = if primary {
+                        // Blue
                         eframe::egui::Color32::from_rgba_unmultiplied(80, 140, 220, 28)
                     } else if message.is_some_and(|m| m.is_valid()) {
+                        // Green
                         eframe::egui::Color32::from_rgba_unmultiplied(60, 180, 120, 24)
                     } else {
+                        // Red
                         eframe::egui::Color32::from_rgba_unmultiplied(220, 80, 90, 24)
                     };
                     row.col(|ui| {

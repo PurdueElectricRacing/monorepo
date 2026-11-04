@@ -188,10 +188,16 @@ impl HilRunningTest {
                     signals,
                     failures,
                 };
-                // Capture and selection continue independently of result completion.
+                // Whether the current message and failures should be the new
+                // items displayed in the UI. This keeps the UI representative
+                // of the selected AcceptPolicy.
                 let select = match expect.expect.accept {
+                    // The very first matching message is the only one that counts.
                     hil::config::AcceptPolicy::First => expect.selected_message_index.is_none(),
+                    // Displayed message should always be updated to the latest message received.
                     hil::config::AcceptPolicy::Last => true,
+                    // Will keep updating to the latest message until a valid one
+                    // is received.
                     hil::config::AcceptPolicy::Any => expect
                         .selected_message()
                         .is_none_or(|selected| !selected.is_valid()),
@@ -202,6 +208,7 @@ impl HilRunningTest {
                 }
                 if !expect.result.is_finished() {
                     expect.result = match expect.expect.accept {
+                        // Immediately validates the first message that arrives.
                         hil::config::AcceptPolicy::First => {
                             if message.is_valid() {
                                 ExpectResult::Passed
@@ -212,6 +219,8 @@ impl HilRunningTest {
                         hil::config::AcceptPolicy::Any if message.is_valid() => {
                             ExpectResult::Passed
                         }
+                        // Expectations with AcceptPolicy::Last are evaluated after
+                        // the window closes.
                         _ => ExpectResult::InProgress,
                     };
                 }
@@ -236,6 +245,7 @@ impl HilRunningTest {
         (not_in_window, in_progress, completed)
     }
 
+    /// Returns true once all expectations' time windows have closed.
     pub fn capture_complete(&self, elapsed: time::Duration) -> bool {
         self.in_progress_expects
             .iter()
@@ -265,10 +275,13 @@ impl InProgressExpect {
             result: ExpectResult::NotInWindow,
             failures: None,
             messages: Vec::new(),
+            /// The index of the message to display in the HIL testing UI,
+            /// based on the active AcceptPolicy for the expectation.
             selected_message_index: None,
         }
     }
 
+    /// Returns the current message displayed in the UI, or None.
     pub fn selected_message(&self) -> Option<&CapturedMessage> {
         self.selected_message_index
             .and_then(|i| self.messages.get(i))
