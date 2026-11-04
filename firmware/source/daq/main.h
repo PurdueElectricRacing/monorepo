@@ -36,7 +36,7 @@
 #define SD_DETECT_LED_PORT   (GPIOC)
 #define SD_DETECT_LED_PIN    (1)
 #define SD_CD_PORT           (GPIOC)
-#define SD_CD_PIN            (1)
+#define SD_CD_PIN            (4)
 
 // SD Card SPI
 #define SDIO_CLK_PORT  (GPIOB)
@@ -82,10 +82,10 @@
 #define CAN3_TX_PIN  (15)
 
 // MISC
-#define PWR_LOSS_PORT   (GPIOE)
-#define PWR_LOSS_PIN    (15)
-#define LOG_ENABLE_PORT (GPIOC)
-#define LOG_ENABLE_PIN  (15)
+#define PWR_LOSS_PORT   (GPIOB)
+#define PWR_LOSS_PIN    (1)
+#define LOG_ENABLE_PORT (GPIOB)
+#define LOG_ENABLE_PIN  (2)
 
 #define PER   1
 #define GREAT PER
