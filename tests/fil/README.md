@@ -34,10 +34,11 @@ ids, plus ids and packed payloads). Message ids come from canpiler,
 and values are packed with the same scale/offset, enum, sign, and byte-order
 rules as the generated firmware macros.
 
-`tests/fil/network.json` and `tests/fil/ready_to_drive.json` are
-hand-maintained FIL networks. The latter references its generated stimulus,
-which is not committed, so run the canpiler generator once on a fresh checkout
-before `run_tests.py`:
+`tests/fil/network.json`, `tests/fil/ready_to_drive.json`,
+and `tests/fil/application_update.json` are
+hand-maintained FIL networks. The scenario-driven networks reference generated
+stimuli, which are not committed, so run the canpiler generator once on a fresh
+checkout before `run_tests.py`:
 
 ```sh
 python3 generators/generate.py
@@ -72,12 +73,23 @@ python3 tests/fil/run_tests.py --fil /path/to/fil
 ```
 
 The runner fails on simulation errors, early stops, or unmet stimulus
-expectations. It checks:
+expectations. It discovers every network config in this directory (a JSON file
+with `boards` and `buses`), derives a run duration from the scenario's stimuli,
+and runs each one. It checks:
 
 - All six boards start independently and reach 10 ms with strict MMIO.
-- The shared network reaches 20 ms and carries firmware-originated CAN TX/RX.
-- The vehicle reaches 6 seconds with the ready-to-drive stimulus expectations
-  satisfied (initial zero torque commands, later drive commands, and vehicle state).
+- Each network reaches the time budget with a successful exit.
+- `network.json` (no expectations) reaches 20 ms and carries
+  firmware-originated CAN TX/RX.
+- `ready_to_drive.json` satisfies the ready-to-drive stimulus expectations
+  (initial zero torque commands, later drive commands, and vehicle state).
+- `application_update.json` installs a synthetic application image through the
+  resident bootloader's `START`/`DATA`/`CRC`/`JUMP` command set.
+
+The application-update scenario uses a small synthetic image (a stack pointer,
+a reset vector, and a one-instruction loop) rather than the packaged firmware,
+so it exercises the protocol and flash path without depending on application
+contents. Its expectations cover the `ACK(size)` and `ACK(CRC)` responses.
 
 The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "name": "per_application_update",
+  "buses": {
+    "0": {
+      "type": "can",
+      "bitrate": 500000
+    }
+  },
+  "boards": [
+    "boards/bootloader_dashboard.json"
+  ],
+  "stimuli": [
+    "stimuli/application_update_stimuli.json"
+  ]
+}
