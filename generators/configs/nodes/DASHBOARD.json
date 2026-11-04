@@ -197,6 +197,25 @@
             "peripheral": "FDCAN3",
             "tx": [
                 {
+                    "message_name": "can_overflow",
+                    "description": "count of dropped CAN packets due to queue overflow",
+                    "signals": [
+                        {
+                            "signal_name": "rx_overflow",
+                            "data_type": "uint32_t",
+                            "description": "number of recieved packets dropped due to queue overflow"
+                        },
+                        {
+                            "signal_name": "tx_overflow",
+                            "data_type": "uint32_t",
+                            "description": "number of packets to send dropped due to queue overflow"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
+                },
+                {
+                    
                     "message_name": "brake_pressure",
                     "description": "brake line hydraulic pressure in PSI",
                     "signals": [
