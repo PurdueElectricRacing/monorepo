@@ -1,3 +1,8 @@
+use daqcore::{
+    can_thread,
+    firmware::{self, protocol},
+};
+use eframe::egui;
 use std::{
     collections::{HashMap, HashSet},
     path,
@@ -46,7 +51,7 @@ enum CapabilityState {
 pub struct Bootloader {
     pub title: String,
     manifest_path: Option<path::PathBuf>,
-    package: Option<daqcore::firmware::protocol::FirmwarePackage>,
+    package: Option<protocol::FirmwarePackage>,
     status: String,
     running: bool,
     observations: HashMap<String, TargetObservations>,
@@ -80,17 +85,17 @@ impl Bootloader {
 
     pub fn show(
         &mut self,
-        ui: &mut eframe::egui::Ui,
-        ui_to_can_tx: &mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+        ui: &mut egui::Ui,
+        ui_to_can_tx: &mpsc::Sender<can_thread::CanThreadCommand>,
     ) -> egui_tiles::UiResponse {
         ui.ctx().request_repaint_after(time::Duration::from_secs(1));
 
-        eframe::egui::ScrollArea::vertical()
+        egui::ScrollArea::vertical()
             .auto_shrink([false, false])
             .show(ui, |ui| {
                 ui.heading("Firmware updates");
                 ui.label(
-                    eframe::egui::RichText::new(
+                    egui::RichText::new(
                         "Select responding targets for normal updates, or arm one target for manual recovery.",
                     )
                     .weak(),
@@ -99,10 +104,12 @@ impl Bootloader {
 
                 self.show_package_panel(ui);
                 ui.add_space(8.0);
-                ui.horizontal(|ui| {
-                    ui.label("Update type:");
-                    ui.selectable_value(&mut self.resident_bootloaders, false, "Applications");
-                    ui.selectable_value(&mut self.resident_bootloaders, true, "Resident bootloaders");
+                ui.add_enabled_ui(!self.running, |ui| {
+                    ui.horizontal(|ui| {
+                        ui.label("Update type:");
+                        ui.selectable_value(&mut self.resident_bootloaders, false, "Applications");
+                        ui.selectable_value(&mut self.resident_bootloaders, true, "Resident bootloaders");
+                    });
                 });
                 if self.resident_bootloaders {
                     status_banner(ui, "DANGER: Resident bootloader updates have no staging slot or rollback. Only update while the application is running with fresh telemetry; interruption can leave the target unusable.", ui.visuals().error_fg_color);
@@ -114,12 +121,12 @@ impl Bootloader {
                     ui.add_space(12.0);
                 }
 
-                let Some(package) = &self.package else {
+                if self.package.is_none() {
                     return;
-                };
+                }
 
-                let selected_images = if self.resident_bootloaders { &package.bootloader_images } else { &package.images };
-                let target_names: Vec<_> = selected_images.iter().map(|image| image.name.clone()).collect();
+                let target_names: Vec<_> = self.selected_images().iter()
+                    .map(|image| image.name.clone()).collect();
                 let now = time::Instant::now();
 
                 let available_count = target_names.iter()
@@ -152,7 +159,7 @@ impl Bootloader {
                     ui.horizontal(|ui| {
                         if ui.button("Cancel update").clicked() {
                             if ui_to_can_tx
-                                .send(daqcore::can_thread::CanThreadCommand::CancelFirmwareUpdate)
+                                .send(can_thread::CanThreadCommand::CancelFirmwareUpdate)
                                 .is_ok()
                             {
                                 self.status = "Cancelling update…".to_string();
@@ -165,7 +172,7 @@ impl Bootloader {
                             }
                         }
                         ui.label(
-                            eframe::egui::RichText::new(
+                            egui::RichText::new(
                                 "Cancelling stops after the current protocol step; it cannot undo writes.",
                             )
                             .small()
@@ -185,7 +192,7 @@ impl Bootloader {
                     ui.horizontal(|ui| {
                         let upload = ui.add_enabled(
                             !selected_names.is_empty(),
-                            eframe::egui::Button::new(format!(
+                            egui::Button::new(format!(
                                 "Review update ({})",
                                 selected_names.len()
                             )),
@@ -197,7 +204,7 @@ impl Bootloader {
 
                         if selected_names.is_empty() {
                             ui.label(
-                                eframe::egui::RichText::new(
+                                egui::RichText::new(
                                     "Select at least one target to continue.",
                                 )
                                 .small()
@@ -211,8 +218,8 @@ impl Bootloader {
         egui_tiles::UiResponse::None
     }
 
-    fn show_package_panel(&mut self, ui: &mut eframe::egui::Ui) {
-        eframe::egui::Frame::group(ui.style()).show(ui, |ui| {
+    fn show_package_panel(&mut self, ui: &mut egui::Ui) {
+        egui::Frame::group(ui.style()).show(ui, |ui| {
             ui.set_min_width(ui.available_width());
             ui.horizontal(|ui| {
                 ui.vertical(|ui| {
@@ -222,12 +229,12 @@ impl Bootloader {
                             .file_name()
                             .map(|name| name.to_string_lossy())
                             .unwrap_or_else(|| path.display().to_string().into());
-                        ui.label(eframe::egui::RichText::new(filename).monospace())
+                        ui.label(egui::RichText::new(filename).monospace())
                             .on_hover_text(path.display().to_string());
                         let total_bytes: usize =
                             package.images.iter().map(|image| image.bytes.len()).sum();
                         ui.label(
-                            eframe::egui::RichText::new(format!(
+                            egui::RichText::new(format!(
                                 "{} verified images • {}",
                                 package.images.len(),
                                 format_bytes(total_bytes)
@@ -238,7 +245,7 @@ impl Bootloader {
                     } else {
                         ui.label("Choose a manifest.json or firmware_*.tar.gz package.");
                         ui.label(
-                            eframe::egui::RichText::new(
+                            egui::RichText::new(
                                 "DaqApp validates every image and checksum before enabling updates.",
                             )
                             .small()
@@ -246,14 +253,14 @@ impl Bootloader {
                         );
                     }
                 });
-                ui.with_layout(eframe::egui::Layout::right_to_left(eframe::egui::Align::Center), |ui| {
+                ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                     let label = if self.package.is_some() {
                         "Change package"
                     } else {
                         "Choose package"
                     };
 
-                    if ui.add_enabled(!self.running, eframe::egui::Button::new(label)).clicked()
+                    if ui.add_enabled(!self.running, egui::Button::new(label)).clicked()
                         && let Some(path) = rfd::FileDialog::new()
                             .add_filter("Firmware package", &["json", "gz"])
                             .pick_file()
@@ -267,7 +274,7 @@ impl Bootloader {
 
     fn load_package(&mut self, path: path::PathBuf) {
         self.protocol_observations.clear();
-        match daqcore::firmware::protocol::FirmwarePackage::load(path.clone()) {
+        match protocol::FirmwarePackage::load(path.clone()) {
             Ok(package) => {
                 self.manifest_path = Some(path);
                 self.package = Some(package);
@@ -292,7 +299,7 @@ impl Bootloader {
 
     fn show_target_header(
         &mut self,
-        ui: &mut eframe::egui::Ui,
+        ui: &mut egui::Ui,
         target_names: &[String],
         available_count: usize,
         selected_count: usize,
@@ -301,57 +308,49 @@ impl Bootloader {
         ui.horizontal(|ui| {
             ui.strong("Targets");
             ui.label(
-                eframe::egui::RichText::new(format!(
+                egui::RichText::new(format!(
                     "{available_count} of {} available • {selected_count} selected",
                     target_names.len()
                 ))
                 .small()
                 .weak(),
             );
-            ui.with_layout(
-                eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
-                |ui| {
-                    if ui
-                        .add_enabled(
-                            !self.running && !self.selected_targets.is_empty(),
-                            eframe::egui::Button::new("Clear"),
-                        )
-                        .clicked()
-                    {
-                        self.selected_targets.clear();
-                        self.confirming_update = false;
-                    }
+            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                if ui
+                    .add_enabled(
+                        !self.running && !self.selected_targets.is_empty(),
+                        egui::Button::new("Clear"),
+                    )
+                    .clicked()
+                {
+                    self.selected_targets.clear();
+                    self.confirming_update = false;
+                }
 
-                    if ui
-                        .add_enabled(
-                            !self.running && available_count > 0,
-                            eframe::egui::Button::new("Select available"),
-                        )
-                        .clicked()
-                    {
-                        self.selected_targets = target_names
-                            .iter()
-                            .filter(|name| {
-                                self.target_capability(name, now) == CapabilityState::Available
-                            })
-                            .cloned()
-                            .collect();
-                        self.confirming_update = false;
-                    }
-                },
-            );
+                if ui
+                    .add_enabled(
+                        !self.running && available_count > 0,
+                        egui::Button::new("Select available"),
+                    )
+                    .clicked()
+                {
+                    self.selected_targets = target_names
+                        .iter()
+                        .filter(|name| {
+                            self.target_capability(name, now) == CapabilityState::Available
+                        })
+                        .cloned()
+                        .collect();
+                    self.confirming_update = false;
+                }
+            });
         });
     }
 
-    fn show_targets(
-        &mut self,
-        ui: &mut eframe::egui::Ui,
-        target_names: &[String],
-        now: time::Instant,
-    ) {
-        eframe::egui::Frame::group(ui.style()).show(ui, |ui| {
-            eframe::egui::ScrollArea::horizontal().show(ui, |ui| {
-                eframe::egui::Grid::new(eframe::egui::Id::new(("bootloader-targets", &self.title)))
+    fn show_targets(&mut self, ui: &mut egui::Ui, target_names: &[String], now: time::Instant) {
+        egui::Frame::group(ui.style()).show(ui, |ui| {
+            egui::ScrollArea::horizontal().show(ui, |ui| {
+                egui::Grid::new(egui::Id::new(("bootloader-targets", &self.title)))
                     .striped(true)
                     .num_columns(6)
                     .spacing([14.0, 8.0])
@@ -371,7 +370,7 @@ impl Bootloader {
                             if ui
                                 .add_enabled(
                                     !self.running && (!self.resident_bootloaders || available),
-                                    eframe::egui::Checkbox::without_text(&mut selected),
+                                    egui::Checkbox::without_text(&mut selected),
                                 )
                                 .on_hover_text(if available {
                                     "Include this target in a normal update or arm it for recovery"
@@ -390,15 +389,15 @@ impl Bootloader {
 
                             let bus = self.package.as_ref()
                                 .and_then(|package| package.images.iter().find(|image| image.name == *name))
-                                .map(|image| image.can_bus.name()).unwrap_or("unknown bus");
+                                .map(|image| image.can_bus.as_str()).unwrap_or("unknown bus");
                             ui.strong(format!("{} ({bus})", display_target_name(name)));
                             show_capability(ui, capability);
                             ui.label(
-                                eframe::egui::RichText::new(self.hash_label(name, true, now))
+                                egui::RichText::new(self.hash_label(name, true, now))
                                     .monospace(),
                             );
                             ui.label(
-                                eframe::egui::RichText::new(self.hash_label(name, false, now))
+                                egui::RichText::new(self.hash_label(name, false, now))
                                     .monospace(),
                             );
                             show_board_status(
@@ -414,7 +413,7 @@ impl Bootloader {
         });
     }
 
-    fn show_run_summary(&self, ui: &mut eframe::egui::Ui) {
+    fn show_run_summary(&self, ui: &mut egui::Ui) {
         let mut completed = 0.0;
         for name in &self.run_board_names {
             completed += match self.board_statuses.get(name) {
@@ -436,7 +435,7 @@ impl Bootloader {
         };
         ui.strong(&self.status);
         ui.add(
-            eframe::egui::ProgressBar::new(fraction.clamp(0.0, 1.0))
+            egui::ProgressBar::new(fraction.clamp(0.0, 1.0))
                 .text(format!("{completed:.1} of {total} targets"))
                 .animate(true),
         );
@@ -444,14 +443,14 @@ impl Bootloader {
 
     fn show_update_confirmation(
         &mut self,
-        ui: &mut eframe::egui::Ui,
-        ui_to_can_tx: &mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+        ui: &mut egui::Ui,
+        ui_to_can_tx: &mpsc::Sender<can_thread::CanThreadCommand>,
         package_names: &[String],
         selected_names: &[String],
         protocol_matches: &[ProtocolMatch],
         now: time::Instant,
     ) {
-        eframe::egui::Frame::group(ui.style()).show(ui, |ui| {
+        egui::Frame::group(ui.style()).show(ui, |ui| {
             ui.set_min_width(ui.available_width());
             ui.strong(format!(
                 "Ready to update {} target{}",
@@ -470,14 +469,14 @@ impl Bootloader {
                 ui.label("Completion requires fresh bootloader INFO telemetry matching the packaged build after reset.");
             }
             ui.label(
-                eframe::egui::RichText::new(
+                egui::RichText::new(
                     "Keep vehicle power and CAN connected until every target completes. An interrupted update must be retried.",
                 )
                 .small()
                 .color(ui.visuals().warn_fg_color),
             );
             ui.label(
-                eframe::egui::RichText::new(
+                egui::RichText::new(
                     "Arm sends no reset/start frame. After arming, manually reset or power-cycle the selected target; DaqApp starts the update when it reports READY.",
                 )
                 .small()
@@ -485,7 +484,7 @@ impl Bootloader {
             );
             if selected_names.len() > 1 {
                 ui.label(
-                    eframe::egui::RichText::new(
+                    egui::RichText::new(
                         "Arm mode requires exactly one selected target; use Start update for multiple targets.",
                     )
                     .small()
@@ -498,7 +497,7 @@ impl Bootloader {
             });
             if !selected_targets_available {
                 ui.label(
-                    eframe::egui::RichText::new(
+                    egui::RichText::new(
                         "Start update requires recent bootloadable telemetry for every selected target. Arm one target for manual recovery.",
                     )
                     .small()
@@ -521,7 +520,7 @@ impl Bootloader {
                     ));
                 }
                 ui.label(
-                    eframe::egui::RichText::new(
+                    egui::RichText::new(
                         "Choosing either action acknowledges this warning for the current update.",
                     )
                     .small()
@@ -544,11 +543,11 @@ impl Bootloader {
 
                 let start_button = ui.add_enabled(
                     !selected_names.is_empty() && selected_targets_available,
-                    eframe::egui::Button::new(start_label),
+                    egui::Button::new(start_label),
                 );
                 let arm_button = ui.add_enabled(
                     !self.resident_bootloaders && selected_names.len() == 1,
-                    eframe::egui::Button::new(arm_label),
+                    egui::Button::new(arm_label),
                 );
                 let action = if start_button.clicked() {
                     Some(false)
@@ -589,16 +588,15 @@ impl Bootloader {
                         return;
                     }
 
-                    let action_images = self.package.as_ref().into_iter()
-                        .flat_map(|package| if self.resident_bootloaders { package.bootloader_images.iter() } else { package.images.iter() })
+                    let action_images = self.selected_images().iter()
                         .filter(|image| action_names.contains(&image.name))
                         .cloned()
                         .collect();
-                    let package = daqcore::firmware::protocol::FirmwarePackage { images: action_images, bootloader_images: Vec::new() };
+                    let package = protocol::FirmwarePackage { images: action_images, bootloader_images: Vec::new() };
                     let message = if armed {
-                        daqcore::can_thread::CanThreadCommand::ArmFirmwareUpdate(package)
+                        can_thread::CanThreadCommand::ArmFirmwareUpdate(package)
                     } else {
-                        daqcore::can_thread::CanThreadCommand::StartFirmwareUpdate(package)
+                        can_thread::CanThreadCommand::StartFirmwareUpdate(package)
                     };
 
                     if ui_to_can_tx.send(message).is_ok() {
@@ -642,21 +640,24 @@ impl Bootloader {
         }
     }
 
+    fn selected_images(&self) -> &[protocol::FirmwareImage] {
+        let Some(package) = &self.package else {
+            return &[];
+        };
+        if self.resident_bootloaders {
+            &package.bootloader_images
+        } else {
+            &package.images
+        }
+    }
+
     fn observe_protocol_frame(&mut self, id: u32, decoded_name: Option<&str>) {
         if !is_protocol_frame_candidate(decoded_name) {
             return;
         }
 
-        let Some(package) = &self.package else {
-            return;
-        };
-
-        let selected_images = if self.resident_bootloaders {
-            &package.bootloader_images
-        } else {
-            &package.images
-        };
-        let boards: HashSet<_> = selected_images
+        let boards: HashSet<_> = self
+            .selected_images()
             .iter()
             .filter(|image| image_protocol_ids(image).contains(&id))
             .filter(|image| {
@@ -751,15 +752,15 @@ impl Bootloader {
         self.observations.clear();
     }
 
-    pub fn handle_can_message(&mut self, msg: &daqcore::can_thread::CanThreadEvent) {
+    pub fn handle_can_message(&mut self, msg: &can_thread::CanThreadEvent) {
         match msg {
-            daqcore::can_thread::CanThreadEvent::Disconnection
-            | daqcore::can_thread::CanThreadEvent::ConnectionSuccessful
-            | daqcore::can_thread::CanThreadEvent::ConnectionFailed(_) => {
+            can_thread::CanThreadEvent::Disconnection
+            | can_thread::CanThreadEvent::ConnectionSuccessful
+            | can_thread::CanThreadEvent::ConnectionFailed(_) => {
                 self.protocol_observations.clear();
                 return;
             }
-            daqcore::can_thread::CanThreadEvent::Frame(frame) => {
+            can_thread::CanThreadEvent::Frame(frame) => {
                 self.observe_protocol_frame(
                     frame.identity,
                     frame.decoded.as_ref().map(|d| d.name()),
@@ -768,7 +769,7 @@ impl Bootloader {
             _ => {}
         }
 
-        if let daqcore::can_thread::CanThreadEvent::Frame(frame) = msg {
+        if let can_thread::CanThreadEvent::Frame(frame) = msg {
             let Some(parsed) = frame.decoded_view() else {
                 return;
             };
@@ -844,7 +845,7 @@ impl Bootloader {
             return;
         }
 
-        let daqcore::can_thread::CanThreadEvent::FirmwareProgress(progress) = msg else {
+        let can_thread::CanThreadEvent::FirmwareProgress(progress) = msg else {
             return;
         };
         apply_progress(&mut self.board_statuses, &self.run_board_names, progress);
@@ -870,7 +871,7 @@ struct ProtocolMatch {
     boards: Vec<String>,
 }
 
-fn image_protocol_ids(image: &daqcore::firmware::protocol::FirmwareImage) -> [u32; 4] {
+fn image_protocol_ids(image: &protocol::FirmwareImage) -> [u32; 4] {
     [image.start_id, image.crc_id, image.jump_id, image.data_id]
 }
 
@@ -886,16 +887,16 @@ fn can_start_update(
     has_targets && (observations.is_empty() || acknowledged_now)
 }
 
-fn status_banner(ui: &mut eframe::egui::Ui, message: &str, color: eframe::egui::Color32) {
-    eframe::egui::Frame::group(ui.style())
-        .stroke(eframe::egui::Stroke::new(1.0_f32, color))
+fn status_banner(ui: &mut egui::Ui, message: &str, color: egui::Color32) {
+    egui::Frame::group(ui.style())
+        .stroke(egui::Stroke::new(1.0_f32, color))
         .show(ui, |ui| {
             ui.set_min_width(ui.available_width());
             ui.colored_label(color, message);
         });
 }
 
-fn show_capability(ui: &mut eframe::egui::Ui, capability: CapabilityState) {
+fn show_capability(ui: &mut egui::Ui, capability: CapabilityState) {
     match capability {
         CapabilityState::Available => {
             ui.label("Available");
@@ -905,7 +906,7 @@ fn show_capability(ui: &mut eframe::egui::Ui, capability: CapabilityState) {
                 .on_hover_text("The target is responding but does not advertise update support.");
         }
         CapabilityState::NoRecentTelemetry => {
-            ui.label(eframe::egui::RichText::new("Waiting for telemetry").weak())
+            ui.label(egui::RichText::new("Waiting for telemetry").weak())
                 .on_hover_text("No target telemetry has been received in the last 12 seconds.");
         }
     }
@@ -963,7 +964,7 @@ fn capability_state(
 fn apply_progress(
     statuses: &mut HashMap<String, BoardUpdateStatus>,
     board_names: &[String],
-    progress: &daqcore::firmware::FirmwareProgress,
+    progress: &firmware::FirmwareProgress,
 ) {
     if progress.phase == "complete" {
         for status in statuses.values_mut() {
@@ -1031,10 +1032,10 @@ fn apply_progress(
     }
 }
 
-fn show_board_status(ui: &mut eframe::egui::Ui, status: &BoardUpdateStatus) {
+fn show_board_status(ui: &mut egui::Ui, status: &BoardUpdateStatus) {
     match status {
         BoardUpdateStatus::Idle => {
-            ui.label(eframe::egui::RichText::new("Not selected").weak());
+            ui.label(egui::RichText::new("Not selected").weak());
         }
         BoardUpdateStatus::Pending => {
             ui.label("Queued");
@@ -1052,7 +1053,7 @@ fn show_board_status(ui: &mut eframe::egui::Ui, status: &BoardUpdateStatus) {
                     *sent_bytes as f32 / *total_bytes as f32
                 };
                 ui.add(
-                    eframe::egui::ProgressBar::new(fraction.clamp(0.0, 1.0))
+                    egui::ProgressBar::new(fraction.clamp(0.0, 1.0))
                         .desired_width(115.0)
                         .show_percentage(),
                 );
@@ -1069,7 +1070,7 @@ fn show_board_status(ui: &mut eframe::egui::Ui, status: &BoardUpdateStatus) {
             ui.colored_label(ui.visuals().warn_fg_color, "Cancelled");
         }
         BoardUpdateStatus::Skipped => {
-            ui.label(eframe::egui::RichText::new("Skipped").weak());
+            ui.label(egui::RichText::new("Skipped").weak());
         }
     };
 }

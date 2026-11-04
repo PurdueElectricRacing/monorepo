@@ -1,4 +1,4 @@
-use crate::{firmware, frame};
+use crate::{firmware, frame, superdbc::decode};
 use std::time;
 
 // Values mirror bootloader_status_t in firmware/can_library/generated/can_types.h.
@@ -112,7 +112,7 @@ impl FirmwareUpdater {
     /// Only telemetry received after sending JUMP can confirm the hand-off.
     pub fn observe_telemetry(
         &mut self,
-        decoded: &crate::superdbc::decode::DecodedMessage,
+        decoded: &decode::DecodedMessage,
         now: time::Instant,
     ) -> Option<firmware::FirmwareProgress> {
         if !matches!(self.stage, Stage::WaitJump) || !self.jump_sent {

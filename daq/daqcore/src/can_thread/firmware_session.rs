@@ -1,4 +1,4 @@
-use crate::firmware;
+use crate::{firmware, superdbc::decode};
 use std::time;
 
 #[derive(Default)]
@@ -45,7 +45,7 @@ impl FirmwareSession {
         } else if package
             .images
             .iter()
-            .any(|image| Some(image.can_bus.name()) != bus_name)
+            .any(|image| Some(image.can_bus.as_str()) != bus_name)
         {
             Some("firmware targets must all use the selected CAN bus")
         } else if invalid_image || mixed_image_kinds {
@@ -113,7 +113,7 @@ impl FirmwareSession {
 
     pub fn observe_telemetry(
         &mut self,
-        decoded: &crate::superdbc::decode::DecodedMessage,
+        decoded: &decode::DecodedMessage,
         now: time::Instant,
     ) -> Option<firmware::FirmwareProgress> {
         let progress = self.0.as_mut()?.observe_telemetry(decoded, now);

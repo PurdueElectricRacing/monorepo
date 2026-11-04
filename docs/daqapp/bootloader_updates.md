@@ -23,6 +23,9 @@ The command writes `firmware/output/manifest.json`,
 also carries a 16 KiB resident image per board for the in-application bootloader
 update described below. Each image entry records `can_bus` and `git_hash`.
 CAN IDs must be unique within a bus; the same ID may be reused on another bus.
+Bus names come from the manifest and are matched against the selected SuperDBC
+bus rather than a fixed application-side bus enum. Each resident image must name
+the same bus as its corresponding application image.
 Older application-only manifests may omit these fields; their buses are inferred
 from the supported board names, and completion then checks telemetry without a
 build-hash comparison.

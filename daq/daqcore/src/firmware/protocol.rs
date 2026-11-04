@@ -8,27 +8,10 @@ pub const APPLICATION_SLOT_SIZE: usize = 480 * 1024;
 pub const BOOTLOADER_ADDRESS: u32 = 0x0800_0000;
 pub const BOOTLOADER_SIZE: usize = 16 * 1024;
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, serde::Deserialize)]
-pub enum CanBus {
-    #[serde(rename = "VCAN")]
-    Vcan,
-    #[serde(rename = "SCAN")]
-    Scan,
-}
-
-impl CanBus {
-    pub fn name(self) -> &'static str {
-        match self {
-            Self::Vcan => "VCAN",
-            Self::Scan => "SCAN",
-        }
-    }
-}
-
 #[derive(Clone, Debug)]
 pub struct FirmwareImage {
     pub name: String,
-    pub can_bus: CanBus,
+    pub can_bus: String,
     pub git_hash: Option<u32>,
     pub bytes: Vec<u8>,
     pub address: u32,
@@ -68,7 +51,7 @@ struct Manifest {
 #[derive(Debug, serde::Deserialize)]
 struct ManifestBootloader {
     name: String,
-    can_bus: CanBus,
+    can_bus: String,
     git_hash: String,
     binary: String,
     size_bytes: usize,
@@ -85,7 +68,7 @@ struct ManifestBootloader {
 struct ManifestBoard {
     name: String,
     #[serde(default)]
-    can_bus: Option<CanBus>,
+    can_bus: Option<String>,
     #[serde(default)]
     git_hash: Option<String>,
     binary: String,
@@ -264,13 +247,16 @@ impl FirmwarePackage {
             let data_id = parse_standard_can_id(&board.data_id, "data_id")?;
             let response_id = parse_standard_can_id(&board.response_id, "response_id")?;
             // Older application-only manifests omitted the per-board bus.
-            let can_bus = board.can_bus.unwrap_or(match board.name.as_str() {
-                "front_driveline" | "rear_driveline" => CanBus::Scan,
-                _ => CanBus::Vcan,
+            let can_bus = board.can_bus.unwrap_or_else(|| match board.name.as_str() {
+                "front_driveline" | "rear_driveline" => "SCAN".to_owned(),
+                _ => "VCAN".to_owned(),
             });
+            if can_bus.trim().is_empty() {
+                return Err(format!("board {} has an empty CAN bus", board.name));
+            }
             if [start_id, crc_id, jump_id, data_id, response_id]
                 .into_iter()
-                .any(|id| !protocol_ids.insert((can_bus, id)))
+                .any(|id| !protocol_ids.insert((can_bus.clone(), id)))
             {
                 return Err(format!("board {} reuses a bootloader CAN ID", board.name));
             }
@@ -352,9 +338,18 @@ impl FirmwarePackage {
                 parse_standard_can_id(&bootloader.data_id, "data_id")?,
                 parse_standard_can_id(&bootloader.response_id, "response_id")?,
             ];
+            if !images
+                .iter()
+                .any(|image| image.name == bootloader.name && image.can_bus == bootloader.can_bus)
+            {
+                return Err(format!(
+                    "bootloader {} must use the same CAN bus as its application",
+                    bootloader.name
+                ));
+            }
             if ids
                 .into_iter()
-                .any(|id| !protocol_ids.insert((bootloader.can_bus, id)))
+                .any(|id| !protocol_ids.insert((bootloader.can_bus.clone(), id)))
             {
                 return Err(format!("bootloader {} reuses a CAN ID", bootloader.name));
             }
