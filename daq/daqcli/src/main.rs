@@ -1,9 +1,10 @@
-//! DaqCLI entry point.
+//! DaqCLI entry point: offline log parsing and live CAN monitoring.
 
 use clap::Parser as _;
 use std::process;
 
 mod parse;
+mod watch;
 
 #[derive(clap::Parser)]
 #[command(name = "daqcli", about = "DAQ command-line tools")]
@@ -16,6 +17,8 @@ struct Cli {
 enum Command {
     /// Parse recorded DAQ logs into CSV tables
     Parse(parse::ParseArgs),
+    /// Stream live CAN as JSON Lines to stdout and inject CAN frames from stdin
+    Watch(watch::WatchArgs),
 }
 
 fn main() -> process::ExitCode {
@@ -23,5 +26,6 @@ fn main() -> process::ExitCode {
 
     match Cli::parse().command {
         Command::Parse(args) => parse::run(args),
+        Command::Watch(args) => watch::run(args),
     }
 }
