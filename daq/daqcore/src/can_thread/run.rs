@@ -408,7 +408,8 @@ mod tests {
                         amount: 3,
                         period: 20,
                     },
-                    identity: frame::CanIdentity::new(1, false).unwrap(),
+                    identity: 1,
+                    is_extended_id: false,
                     msg_bytes: payload,
                 },
             ))

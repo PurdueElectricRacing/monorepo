@@ -341,7 +341,7 @@ mod tests {
         engine.begin(None, vec![running(AcceptPolicy::Any)], start);
         let frame = frame::ParsedFrame {
             timestamp: crate::time::Time::now(),
-            identity: crate::frame::CanIdentity::new(1, false).unwrap(),
+            identity: 1,
             kind: frame::FrameKind::Data,
             dlc: 0,
             raw_bytes: vec![],
