@@ -4,10 +4,12 @@
 //! `ID:HEXDATA` lines, or `fil watch`-style `BUS[@TIME_MS]:ID:HEXDATA` lines
 //! when a SuperDBC artifact is selected for decoding.
 
-use daqcore::{can, can_thread, connection, frame, superdbc};
+mod injection;
+mod record;
+
+use daqcore::{can_thread, connection};
 use std::{
-    io::{self, BufRead as _},
-    path, process,
+    io, path, process,
     sync::{
         Arc,
         atomic::{AtomicBool, Ordering},
@@ -158,7 +160,7 @@ impl<W: io::Write> Monitor<'_, W> {
 
         if self.superdbc_path.is_none() {
             log::info!("watching raw CAN; JSON Lines on stdout");
-            self.start_injections(InjectionContext::Raw);
+            self.start_injections(injection::InjectionContext::Raw);
         }
 
         loop {
@@ -207,7 +209,7 @@ impl<W: io::Write> Monitor<'_, W> {
 
                     let bus_name = bus.name().to_owned();
                     log::info!("decoding bus {bus_id} ({bus_name}); JSON Lines on stdout");
-                    self.start_injections(InjectionContext::Defined {
+                    self.start_injections(injection::InjectionContext::Defined {
                         database,
                         bus_id,
                         bus_name: bus_name.clone(),
@@ -224,8 +226,8 @@ impl<W: io::Write> Monitor<'_, W> {
                     }
 
                     let bus = selected.as_ref().map(|bus| (bus.id, bus.name.as_str()));
-                    let record = FrameRecord::from_frame(&parsed, sequence, bus);
-                    if let Err(error) = write_record(self.output, &record) {
+                    let record = record::FrameRecord::from_frame(&parsed, sequence, bus);
+                    if let Err(error) = record.write_json_line(self.output) {
                         if error.kind() == io::ErrorKind::BrokenPipe {
                             // A closed consumer, such as `head`, ends the stream normally.
                             return process::ExitCode::SUCCESS;
@@ -266,12 +268,12 @@ impl<W: io::Write> Monitor<'_, W> {
         }
     }
 
-    fn start_injections(&self, context: InjectionContext) {
-        let injections = StdinInjections {
+    fn start_injections(&self, context: injection::InjectionContext) {
+        let injections = injection::StdinInjections::new(
             context,
-            sender: self.command_sender.clone(),
-            quit_requested: Arc::clone(&self.quit_requested),
-        };
+            self.command_sender.clone(),
+            Arc::clone(&self.quit_requested),
+        );
         let spawned = thread::Builder::new()
             .name("daqcli-stdin".into())
             .spawn(move || injections.run());
@@ -279,294 +281,4 @@ impl<W: io::Write> Monitor<'_, W> {
             log::error!("failed to start the stdin injection reader: {error}");
         }
     }
-}
-
-fn write_record(output: &mut impl io::Write, record: &FrameRecord<'_>) -> io::Result<()> {
-    serde_json::to_writer(&mut *output, record)?;
-    output.write_all(b"\n")?;
-    output.flush()
-}
-
-/// Decoding context for stdin injection lines.
-enum InjectionContext {
-    /// No SuperDBC artifact; `ID:HEXDATA` lines only.
-    Raw,
-    /// SuperDBC-selected bus; `BUS[@TIME_MS]:ID:HEXDATA` lines allowed.
-    Defined {
-        database: Box<superdbc::database::Database>,
-        bus_id: u8,
-        bus_name: String,
-    },
-}
-
-/// Reads CAN injection commands from stdin for as long as it is open.
-struct StdinInjections {
-    context: InjectionContext,
-    sender: mpsc::Sender<can_thread::CanThreadCommand>,
-    quit_requested: Arc<AtomicBool>,
-}
-
-impl StdinInjections {
-    fn run(self) {
-        for line in io::stdin().lock().lines() {
-            let line = match line {
-                Ok(line) => line,
-                Err(error) => {
-                    log::error!("failed to read stdin: {error}");
-                    return;
-                }
-            };
-            let line = line.trim();
-            if line.is_empty() {
-                continue;
-            }
-            if line == "quit" || line == "exit" {
-                self.quit_requested.store(true, Ordering::SeqCst);
-                // A closed worker is reported by the monitor, not from here.
-                let _ = self.sender.send(can_thread::CanThreadCommand::Stop);
-                return;
-            }
-            match parse_injection(line, &self.context) {
-                Ok(command) => {
-                    if self.sender.send(command).is_err() {
-                        // The worker already stopped; the monitor reports the shutdown.
-                        return;
-                    }
-                }
-                Err(error) => log::warn!("ignored stdin CAN command: {error}"),
-            }
-        }
-        log::info!("stdin closed; continuing without injection input");
-    }
-}
-
-/// Parses a stdin injection line, validating against daqcore frame rules.
-fn parse_injection(
-    line: &str,
-    context: &InjectionContext,
-) -> Result<can_thread::CanThreadCommand, String> {
-    let mut fields = line.splitn(3, ':');
-    let first = fields.next().ok_or_else(|| injection_format(context))?;
-    let second = fields.next().ok_or_else(|| injection_format(context))?;
-    let third = fields.next();
-
-    let (id_text, data_text) = match third {
-        None => (first, second),
-        Some(data_text) => {
-            match context {
-                InjectionContext::Defined {
-                    bus_id, bus_name, ..
-                } => validate_injection_bus(first, *bus_id, bus_name)?,
-                InjectionContext::Raw => {
-                    return Err("bus prefixes require --superdbc; use ID:HEXDATA".to_owned());
-                }
-            }
-            (second, data_text)
-        }
-    };
-
-    let identity = parse_unsigned(id_text)
-        .filter(|identity| *identity <= u64::from(can::EXTENDED_ID_MASK))
-        .ok_or_else(|| "invalid CAN injection identifier".to_owned())?;
-    let identity =
-        u32::try_from(identity).map_err(|_| "invalid CAN injection identifier".to_owned())?;
-
-    let is_extended_id = match context {
-        InjectionContext::Defined {
-            database, bus_id, ..
-        } => database.message(*bus_id, identity).map_or(
-            identity > can::STANDARD_ID_MASK,
-            superdbc::message::Message::is_extended_id,
-        ),
-        InjectionContext::Raw => identity > can::STANDARD_ID_MASK,
-    };
-
-    let data = parse_hex_bytes(data_text)?;
-    let frame = frame::CanFrameTx::data(identity, is_extended_id, data)?;
-    Ok(can_thread::CanThreadCommand::SendOnce(frame))
-}
-
-fn injection_format(context: &InjectionContext) -> String {
-    match context {
-        InjectionContext::Raw => "expected ID:HEXDATA".to_owned(),
-        InjectionContext::Defined { .. } => {
-            "expected BUS[@TIME_MS]:ID:HEXDATA or ID:HEXDATA".to_owned()
-        }
-    }
-}
-
-/// Validates a `BUS[@TIME_MS]` prefix against the selected SuperDBC bus.
-fn validate_injection_bus(endpoint: &str, bus_id: u8, bus_name: &str) -> Result<(), String> {
-    let (bus, at_time) = match endpoint.split_once('@') {
-        Some((bus, at_time)) => (bus, Some(at_time)),
-        None => (endpoint, None),
-    };
-    if let Some(at_time) = at_time {
-        if at_time.is_empty() || parse_unsigned(at_time).is_none() {
-            return Err("invalid CAN injection time".to_owned());
-        }
-        // `fil watch` parses a time prefix but injects stdin frames immediately too.
-        log::debug!("ignoring stdin injection time; sending immediately");
-    }
-    let numeric = bus.parse::<u8>().ok();
-    if bus != bus_name && numeric != Some(bus_id) {
-        return Err(format!(
-            "injection names bus {bus}, but {bus_name} is selected"
-        ));
-    }
-    Ok(())
-}
-
-fn parse_unsigned(text: &str) -> Option<u64> {
-    match text.strip_prefix("0x").or_else(|| text.strip_prefix("0X")) {
-        Some(digits) => u64::from_str_radix(digits, 16).ok(),
-        None => text.parse::<u64>().ok(),
-    }
-}
-
-fn parse_hex_bytes(text: &str) -> Result<Vec<u8>, String> {
-    if !text.len().is_multiple_of(2) {
-        return Err("CAN injection payload must contain complete hex bytes".to_owned());
-    }
-    text.as_bytes()
-        .as_chunks::<2>()
-        .0
-        .iter()
-        .map(|pair| {
-            let high = hex_nibble(pair[0])
-                .ok_or_else(|| "CAN injection payload is not hexadecimal".to_owned())?;
-            let low = hex_nibble(pair[1])
-                .ok_or_else(|| "CAN injection payload is not hexadecimal".to_owned())?;
-            Ok((high << 4) | low)
-        })
-        .collect()
-}
-
-fn hex_nibble(byte: u8) -> Option<u8> {
-    match byte {
-        b'0'..=b'9' => Some(byte - b'0'),
-        b'a'..=b'f' => Some(byte - b'a' + 10),
-        b'A'..=b'F' => Some(byte - b'A' + 10),
-        _ => None,
-    }
-}
-
-/// One JSON Lines record describing a received CAN frame.
-#[derive(serde::Serialize)]
-struct FrameRecord<'a> {
-    /// Host receive time as Unix milliseconds.
-    time_ms: i64,
-    /// Zero-based position of the frame in this stream.
-    sequence: u64,
-    /// SuperDBC bus ID; omitted when no SuperDBC is selected.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    bus_id: Option<u8>,
-    /// SuperDBC bus name; omitted when no SuperDBC is selected.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    bus: Option<&'a str>,
-    /// CAN identifier as lowercase hexadecimal with a `0x` prefix.
-    id: String,
-    remote: bool,
-    fd: bool,
-    brs: bool,
-    dlc: u8,
-    /// Payload byte count.
-    length: usize,
-    /// Payload bytes as lowercase hexadecimal without separators.
-    data: String,
-    /// SuperDBC message name; omitted when the frame is not defined.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    message: Option<&'a str>,
-    /// SuperDBC transmitting node; omitted when the frame is not defined.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    tx_node: Option<&'a str>,
-    /// Decoded signal values; omitted when the frame is not defined.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    signals: Option<serde_json::Map<String, serde_json::Value>>,
-}
-
-impl<'a> FrameRecord<'a> {
-    fn from_frame(
-        parsed: &'a frame::ParsedFrame,
-        sequence: u64,
-        bus: Option<(u8, &'a str)>,
-    ) -> Self {
-        let decoded = parsed.decoded.as_ref();
-        let flags = FrameFlags::from_kind(parsed.kind);
-        Self {
-            time_ms: parsed.timestamp.unix_millis(),
-            sequence,
-            bus_id: bus.map(|(bus_id, _)| bus_id),
-            bus: bus.map(|(_, bus_name)| bus_name),
-            id: format!("0x{:x}", parsed.identity),
-            remote: flags.remote,
-            fd: flags.fd,
-            brs: flags.brs,
-            dlc: parsed.dlc,
-            length: parsed.raw_bytes.len(),
-            data: hex_encode(&parsed.raw_bytes),
-            message: decoded.map(superdbc::decode::DecodedMessage::name),
-            tx_node: decoded.map(superdbc::decode::DecodedMessage::tx_node),
-            signals: decoded.map(signal_map),
-        }
-    }
-}
-
-struct FrameFlags {
-    remote: bool,
-    fd: bool,
-    brs: bool,
-}
-
-impl FrameFlags {
-    fn from_kind(kind: frame::FrameKind) -> Self {
-        match kind {
-            frame::FrameKind::Data => Self {
-                remote: false,
-                fd: false,
-                brs: false,
-            },
-            frame::FrameKind::Remote => Self {
-                remote: true,
-                fd: false,
-                brs: false,
-            },
-            frame::FrameKind::Fd { bit_rate_switched } => Self {
-                remote: false,
-                fd: true,
-                brs: bit_rate_switched,
-            },
-        }
-    }
-}
-
-fn signal_map(
-    decoded: &superdbc::decode::DecodedMessage,
-) -> serde_json::Map<String, serde_json::Value> {
-    decoded
-        .iter()
-        .map(|(name, value)| (name.to_owned(), signal_value(value)))
-        .collect()
-}
-
-fn signal_value(value: &superdbc::decode::DecodedSignalValue) -> serde_json::Value {
-    if let Some(label) = value.enum_label() {
-        return serde_json::Value::String(label.to_owned());
-    }
-    match serde_json::Number::from_f64(value.physical()) {
-        Some(number) => serde_json::Value::Number(number),
-        // JSON cannot represent non-finite telemetry.
-        None => serde_json::Value::Null,
-    }
-}
-
-fn hex_encode(bytes: &[u8]) -> String {
-    const HEXADECIMAL: &[u8; 16] = b"0123456789abcdef";
-    let mut encoded = String::with_capacity(bytes.len() * 2);
-    for byte in bytes {
-        // Nibbles are in 0..=15, so both lookups are in bounds.
-        encoded.push(char::from(HEXADECIMAL[usize::from(byte >> 4)]));
-        encoded.push(char::from(HEXADECIMAL[usize::from(byte & 0x0f)]));
-    }
-    encoded
 }
