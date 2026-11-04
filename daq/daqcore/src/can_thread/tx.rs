@@ -1,5 +1,11 @@
 use crate::frame;
-use std::{collections::BTreeMap, time};
+use std::{
+    collections::{BTreeMap, VecDeque},
+    time,
+};
+
+/// Bounds one-shot frames that are waiting for a connection.
+const MAX_PENDING_ONE_SHOT_SENDS: usize = 65_536;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SendAmount {
@@ -51,7 +57,10 @@ struct Scheduled {
 }
 
 #[derive(Default)]
-pub struct SendTable(BTreeMap<frame::CanIdentity, Scheduled>);
+pub struct SendTable {
+    scheduled: BTreeMap<frame::CanIdentity, Scheduled>,
+    one_shot: VecDeque<frame::CanFrameTx>,
+}
 
 impl SendTable {
     pub fn add(&mut self, msg: AddSendMessage) -> Result<(), String> {
@@ -65,7 +74,7 @@ impl SendTable {
 
         let frame = frame::CanFrameTx::data(msg.identity, msg.is_extended_id, msg.msg_bytes)?;
 
-        self.0.insert(
+        self.scheduled.insert(
             msg.identity,
             Scheduled {
                 frame,
@@ -77,11 +86,37 @@ impl SendTable {
     }
 
     pub fn delete(&mut self, id: frame::CanIdentity) {
-        self.0.remove(&id);
+        self.scheduled.remove(&id);
+    }
+
+    /// Queues a frame that bypasses the identity-keyed periodic table.
+    ///
+    /// One-shot frames keep insertion order and are not deduplicated.
+    pub fn add_one_shot(&mut self, frame: frame::CanFrameTx) -> Result<(), String> {
+        if self.one_shot.len() >= MAX_PENDING_ONE_SHOT_SENDS {
+            return Err("CAN injection queue is full".into());
+        }
+        self.one_shot.push_back(frame);
+        Ok(())
+    }
+
+    /// Borrows the oldest queued one-shot frame.
+    pub fn next_one_shot(&self) -> Option<&frame::CanFrameTx> {
+        self.one_shot.front()
+    }
+
+    /// Removes the oldest queued one-shot frame once it is written.
+    pub fn commit_one_shot(&mut self) {
+        self.one_shot.pop_front();
+    }
+
+    /// Drains the remaining one-shot frames, for example to report them on shutdown.
+    pub fn drain_one_shot(&mut self) -> impl Iterator<Item = frame::CanFrameTx> + '_ {
+        self.one_shot.drain(..)
     }
 
     pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrameTx> {
-        self.0
+        self.scheduled
             .values()
             .filter(|scheduled| {
                 let Some(last_sent) = scheduled.sent else {
@@ -98,14 +133,14 @@ impl SendTable {
     }
 
     pub fn commit(&mut self, id: frame::CanIdentity, now: time::Instant) -> Option<SendAmount> {
-        let scheduled = self.0.get_mut(&id)?;
+        let scheduled = self.scheduled.get_mut(&id)?;
         scheduled.sent = Some(now);
         let amount_left = scheduled.amount.subtract_one();
 
         if let Some(amount) = amount_left {
             scheduled.amount = amount;
         } else {
-            self.0.remove(&id);
+            self.scheduled.remove(&id);
         }
         amount_left
     }

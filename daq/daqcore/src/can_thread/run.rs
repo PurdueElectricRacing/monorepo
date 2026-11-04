@@ -1,12 +1,10 @@
-use crate::{can, can_thread, frame, hil, time::Time};
-use std::{collections::VecDeque, sync::mpsc, thread, time};
+use crate::{can, can_thread, hil, time::Time};
+use std::{sync::mpsc, thread, time};
 
 const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
 const BUS_LOAD_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(200);
 const FIRMWARE_FRAMES_PER_BURST: usize = 8;
 const FIRMWARE_FRAME_DELAY: time::Duration = time::Duration::from_millis(4);
-/// Bounds user-submitted one-shot frames that are waiting for a connection.
-const MAX_PENDING_INJECTIONS: usize = 65_536;
 
 pub fn run(
     config: can_thread::CanThreadConfig,
@@ -38,7 +36,6 @@ fn run_with_connection(
     let mut hil_finished = false;
     let mut load_last = time::Instant::now();
     let mut pending = None;
-    let mut injections = VecDeque::new();
     let mut stop_requested = false;
 
     'worker: loop {
@@ -104,14 +101,13 @@ fn run_with_connection(
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                 }
                 can_thread::CanThreadCommand::SendOnce(frame) => {
-                    if injections.len() >= MAX_PENDING_INJECTIONS {
+                    let identity = frame.frame.identity;
+                    if let Err(error) = sends.add_one_shot(frame) {
                         emit!(can_thread::CanThreadEvent::SendFailed {
-                            identity: frame.frame.identity,
-                            error: "CAN injection queue is full".into(),
+                            identity,
+                            error,
                             retrying: false
                         });
-                    } else {
-                        injections.push_back(frame);
                     }
                 }
                 can_thread::CanThreadCommand::AddSendMessage(message) => {
@@ -183,14 +179,42 @@ fn run_with_connection(
             hil_finished = hil.all_finished();
         }
 
-        // User one-shot injections take priority over periodic sends.
+        // Sends are suspended while firmware owns transmission; user one-shot
+        // sends take priority over the periodic table.
         let updating = firmware.active();
-        if !updating && !drain_injections(&mut connection, &mut injections, &events) {
-            break 'worker;
-        }
-
-        // Ordinary sends are suspended while firmware owns transmission.
         if connection.connected() && !updating {
+            while let Some(tx_frame) = sends.next_one_shot() {
+                let identity = tx_frame.frame.identity;
+                // Clone so a failed write leaves the frame queued for reconnection.
+                match connection.write(tx_frame.clone()) {
+                    Ok(()) => {
+                        sends.commit_one_shot();
+                        emit!(can_thread::CanThreadEvent::MessageSent {
+                            identity,
+                            timestamp: Time::now(),
+                            amount_left: None
+                        });
+                    }
+                    Err(error) => {
+                        let unsupported = matches!(error, can::driver::DriverError::Unsupported(_));
+                        emit!(can_thread::CanThreadEvent::SendFailed {
+                            identity,
+                            error: error.to_string(),
+                            retrying: !unsupported,
+                        });
+                        if unsupported {
+                            sends.commit_one_shot();
+                            continue;
+                        }
+                        connection.failed(time::Instant::now());
+                        emit!(can_thread::CanThreadEvent::ConnectionFailed(
+                            error.to_string()
+                        ));
+                        break;
+                    }
+                }
+            }
+
             for tx_frame in sends.due(now) {
                 let identity = tx_frame.frame.identity;
                 match connection.write(tx_frame) {
@@ -342,8 +366,8 @@ fn run_with_connection(
         logger.flush();
     }
 
-    // Report injections that never reached a connection.
-    for frame in injections.drain(..) {
+    // Report one-shot sends that never reached a connection.
+    for frame in sends.drain_one_shot() {
         let _ = events.emit(can_thread::CanThreadEvent::SendFailed {
             identity: frame.frame.identity,
             error: "CAN injection was not sent before shutdown".into(),
@@ -352,57 +376,4 @@ fn run_with_connection(
     }
 
     connection.close();
-}
-
-/// Writes queued one-shot injections in order.
-///
-/// Returns false when the event receiver is gone and the worker should stop.
-fn drain_injections(
-    connection: &mut can_thread::connection::ConnectionManager,
-    injections: &mut VecDeque<frame::CanFrameTx>,
-    events: &can_thread::events::Events,
-) -> bool {
-    if !connection.connected() {
-        return true;
-    }
-
-    while let Some(tx_frame) = injections.front() {
-        let identity = tx_frame.frame.identity;
-        // Clone so a failed write leaves the frame queued for reconnection.
-        match connection.write(tx_frame.clone()) {
-            Ok(()) => {
-                injections.pop_front();
-                if !events.emit(can_thread::CanThreadEvent::MessageSent {
-                    identity,
-                    timestamp: Time::now(),
-                    amount_left: None,
-                }) {
-                    return false;
-                }
-            }
-            Err(error) => {
-                let unsupported = matches!(error, can::driver::DriverError::Unsupported(_));
-                if !events.emit(can_thread::CanThreadEvent::SendFailed {
-                    identity,
-                    error: error.to_string(),
-                    retrying: !unsupported,
-                }) {
-                    return false;
-                }
-                if unsupported {
-                    injections.pop_front();
-                    continue;
-                }
-                connection.failed(time::Instant::now());
-                if !events.emit(can_thread::CanThreadEvent::ConnectionFailed(
-                    error.to_string(),
-                )) {
-                    return false;
-                }
-                // The frame stays queued until the source reconnects.
-                return true;
-            }
-        }
-    }
-    true
 }
