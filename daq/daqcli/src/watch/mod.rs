@@ -1,10 +1,17 @@
 //! Live CAN monitoring and injection over stdio.
 
 mod injection;
+mod output;
 mod record;
+mod signals;
 
 use daqcore::{can_thread, connection};
-use std::{io, path, process, sync::mpsc, thread};
+use std::{io, path, process, sync::mpsc, thread, time};
+
+/// Bounds decoded worker events waiting for CLI processing.
+const EVENT_QUEUE_CAPACITY: usize = 1_024;
+/// Poll output failures even when no CAN events arrive.
+const EVENT_POLL_INTERVAL: time::Duration = time::Duration::from_millis(50);
 
 /// Live CAN source options; exactly one source is required.
 #[derive(clap::Args)]
@@ -77,21 +84,33 @@ impl From<Speed> for connection::CanBusSpeed {
 pub fn run(args: WatchArgs) -> process::ExitCode {
     let source = args.connection_source();
 
-    let (event_tx, event_rx) = mpsc::channel();
-    let mut worker =
-        match can_thread::spawn_can_thread(can_thread::CanThreadConfig::default(), event_tx) {
-            Ok(worker) => worker,
-            Err(error) => {
-                log::error!("failed to start the CAN worker: {error}");
-                return process::ExitCode::FAILURE;
-            }
-        };
+    let (event_tx, event_rx) = mpsc::sync_channel(EVENT_QUEUE_CAPACITY);
+    let (overflow_tx, overflow_rx) = mpsc::sync_channel(1);
+    let mut worker = match can_thread::spawn_can_thread_bounded(
+        can_thread::CanThreadConfig::default(),
+        event_tx,
+        overflow_tx,
+    ) {
+        Ok(worker) => worker,
+        Err(error) => {
+            log::error!("failed to start the CAN worker: {error}");
+            return process::ExitCode::FAILURE;
+        }
+    };
 
+    let mut output = match output::Output::spawn() {
+        Ok(output) => output,
+        Err(error) => {
+            log::error!("failed to start stdout writer: {error}");
+            return process::ExitCode::FAILURE;
+        }
+    };
     let (quit_tx, quit_rx) = mpsc::channel();
     let monitor = Monitor {
         can_to_ui_rx: &event_rx,
         ui_to_can_tx: worker.sender(),
-        output: &mut io::stdout().lock(),
+        output: &mut output,
+        overflow_rx,
         superdbc_path: args.superdbc,
         requested_bus: args.bus,
         state: can_thread::state::CanState::default(),
@@ -104,13 +123,28 @@ pub fn run(args: WatchArgs) -> process::ExitCode {
     if worker.stop().is_err() {
         log::warn!("CAN worker stopped unexpectedly");
     }
+    if exit == process::ExitCode::SUCCESS
+        && let Err(error) = output.finish()
+    {
+        return output_exit(error);
+    }
     exit
 }
 
-struct Monitor<'a, W> {
+fn output_exit(error: io::Error) -> process::ExitCode {
+    if error.kind() == io::ErrorKind::BrokenPipe {
+        // A closed consumer, such as `head`, ends the stream normally.
+        return process::ExitCode::SUCCESS;
+    }
+    log::error!("CAN output stopped: {error}");
+    process::ExitCode::FAILURE
+}
+
+struct Monitor<'a> {
     can_to_ui_rx: &'a mpsc::Receiver<can_thread::CanThreadEvent>,
     ui_to_can_tx: mpsc::Sender<can_thread::CanThreadCommand>,
-    output: &'a mut W,
+    output: &'a mut output::Output,
+    overflow_rx: mpsc::Receiver<()>,
     superdbc_path: Option<path::PathBuf>,
     requested_bus: Option<u8>,
     state: can_thread::state::CanState,
@@ -119,7 +153,7 @@ struct Monitor<'a, W> {
     quit_rx: mpsc::Receiver<()>,
 }
 
-impl<W: io::Write> Monitor<'_, W> {
+impl Monitor<'_> {
     fn run(mut self, source: connection::ConnectionSource) -> process::ExitCode {
         self.request_database();
         self.connect_can(source);
@@ -129,20 +163,39 @@ impl<W: io::Write> Monitor<'_, W> {
         }
 
         loop {
-            let event = match self.can_to_ui_rx.recv() {
+            if let Some(exit) = self.check_delivery() {
+                return exit;
+            }
+            let event = match self.can_to_ui_rx.recv_timeout(EVENT_POLL_INTERVAL) {
                 Ok(event) => event,
-                Err(error) => {
-                    if self.quit_rx.try_recv().is_ok() {
-                        return process::ExitCode::SUCCESS;
-                    }
-                    log::error!("CAN worker stopped: {error}");
-                    return process::ExitCode::FAILURE;
-                }
+                Err(mpsc::RecvTimeoutError::Timeout) => continue,
+                Err(mpsc::RecvTimeoutError::Disconnected) => return self.worker_stopped(),
             };
             if let Some(exit) = self.handle_event(event) {
                 return exit;
             }
         }
+    }
+
+    fn check_delivery(&mut self) -> Option<process::ExitCode> {
+        if self.overflow_rx.try_recv().is_ok() {
+            log::error!("CAN event queue is full; CLI cannot keep up, capture stopped");
+            return Some(process::ExitCode::FAILURE);
+        }
+        self.output.check().err().map(output_exit)
+    }
+
+    fn worker_stopped(&mut self) -> process::ExitCode {
+        // Recheck after observing disconnection: the worker may have overflowed
+        // between the previous delivery check and the receive operation.
+        if let Some(exit) = self.check_delivery() {
+            return exit;
+        }
+        if self.quit_rx.try_recv().is_ok() {
+            return process::ExitCode::SUCCESS;
+        }
+        log::error!("CAN worker stopped unexpectedly");
+        process::ExitCode::FAILURE
     }
 
     fn request_database(&mut self) {
@@ -206,13 +259,12 @@ impl<W: io::Write> Monitor<'_, W> {
                     selection.bus().map(|bus| (selection.bus_id, bus.name()))
                 });
                 let record = record::FrameRecord::from_frame(&frame, self.sequence, bus);
-                if let Err(error) = record.write_json_line(self.output) {
-                    if error.kind() == io::ErrorKind::BrokenPipe {
-                        // A closed consumer, such as `head`, ends the stream normally.
-                        return Some(process::ExitCode::SUCCESS);
-                    }
-                    log::error!("failed to write a frame record: {error}");
-                    return Some(process::ExitCode::FAILURE);
+                let mut bytes = Vec::new();
+                if let Err(error) = record.write_json_line(&mut bytes) {
+                    return Some(output_exit(error));
+                }
+                if let Err(error) = self.output.enqueue(bytes) {
+                    return Some(output_exit(error));
                 }
                 self.sequence = self.sequence.wrapping_add(1);
             }

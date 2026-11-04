@@ -143,10 +143,30 @@ pub fn spawn_can_thread(
     config: CanThreadConfig,
     out: mpsc::Sender<CanThreadEvent>,
 ) -> io::Result<CanThreadHandle> {
+    spawn_worker(config, events::Events::Unbounded(out))
+}
+
+/// Stops rather than blocking CAN I/O when the frontend event queue fills.
+/// `overflow` should have capacity one and is notified separately from events.
+pub fn spawn_can_thread_bounded(
+    config: CanThreadConfig,
+    out: mpsc::SyncSender<CanThreadEvent>,
+    overflow: mpsc::SyncSender<()>,
+) -> io::Result<CanThreadHandle> {
+    spawn_worker(
+        config,
+        events::Events::Bounded {
+            sender: out,
+            overflow,
+        },
+    )
+}
+
+fn spawn_worker(config: CanThreadConfig, events: events::Events) -> io::Result<CanThreadHandle> {
     let (tx, rx) = mpsc::channel();
     let join = thread::Builder::new()
         .name("daq-can".into())
-        .spawn(move || run::run(config, out, rx))?;
+        .spawn(move || run::run(config, events, rx))?;
     Ok(CanThreadHandle {
         tx,
         join: Some(join),

@@ -1,5 +1,6 @@
 //! Stdin CAN injection commands.
 
+use crate::watch;
 use daqcore::{can, can_thread, frame, superdbc};
 use std::{
     io::{self, BufRead as _},
@@ -10,7 +11,7 @@ use std::{
 pub enum InjectionContext {
     /// No SuperDBC artifact; `ID:HEXDATA` lines only.
     Raw,
-    /// SuperDBC-selected bus; `BUS:ID:HEXDATA` lines allowed.
+    /// SuperDBC-selected bus; bus prefixes and named signal commands allowed.
     Defined {
         database: Box<superdbc::database::Database>,
         bus_id: u8,
@@ -60,29 +61,43 @@ impl StdinInjections {
                 let _ = self.sender.send(can_thread::CanThreadCommand::DrainAndStop);
                 return;
             }
-            match parse_injection(line, &self.context) {
-                Ok(frame) => {
-                    // One outstanding submission bounds the shared command backlog
-                    // without making GUI command senders block on a full channel.
-                    let (processed_tx, processed_rx) = mpsc::sync_channel(1);
-                    let command = can_thread::CanThreadCommand::InjectFrame {
-                        frame,
-                        processed: processed_tx,
-                    };
-                    if self.sender.send(command).is_err() || processed_rx.recv().is_err() {
-                        // The worker already stopped; the monitor reports the shutdown.
-                        return;
-                    }
+            let frame = match parse_injection(line, &self.context) {
+                Ok(frame) => frame,
+                Err(error) => {
+                    log::warn!("ignored stdin CAN command: {error}");
+                    continue;
                 }
-                Err(error) => log::warn!("ignored stdin CAN command: {error}"),
+            };
+            if !self.submit_frame(frame) {
+                return;
             }
         }
         log::info!("stdin closed; continuing without injection input");
+    }
+
+    fn submit_frame(&self, frame: frame::CanFrameTx) -> bool {
+        // One outstanding submission bounds the shared command backlog
+        // without making GUI command senders block on a full channel.
+        let (processed_tx, processed_rx) = mpsc::sync_channel(1);
+        let command = can_thread::CanThreadCommand::InjectFrame {
+            frame,
+            processed: processed_tx,
+        };
+        // A stopped worker is reported by the monitor, not the stdin reader.
+        self.sender.send(command).is_ok() && processed_rx.recv().is_ok()
     }
 }
 
 /// Parses a stdin injection line, validating against daqcore frame rules.
 fn parse_injection(line: &str, context: &InjectionContext) -> Result<frame::CanFrameTx, String> {
+    if line.split_whitespace().next() == Some("signals") {
+        return match context {
+            InjectionContext::Raw => Err("signal commands require --superdbc".to_owned()),
+            InjectionContext::Defined {
+                database, bus_id, ..
+            } => watch::signals::parse(line, database, *bus_id),
+        };
+    }
     let mut fields = line.splitn(3, ':');
     let first = fields.next().ok_or_else(|| injection_format(context))?;
     let second = fields.next().ok_or_else(|| injection_format(context))?;
