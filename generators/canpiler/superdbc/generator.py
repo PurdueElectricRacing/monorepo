@@ -34,9 +34,8 @@ def content_hash(buses: dict, schema_version: str = SCHEMA_VERSION) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
-def _signal(signal: CompiledSignal, linked: LinkedCan) -> SignalExport:
-    custom = linked.custom_types.get(signal.data_type)
-    base = custom.base_type if custom else signal.data_type
+def _signal(signal: CompiledSignal) -> SignalExport:
+    base = signal.base_type
     choices = {choice.value: choice.name for choice in signal.choices or ()}
     if not choices and base == "bool":
         choices = {0: "OFF", 1: "ON"}
@@ -92,7 +91,7 @@ def generate_superdbc(linked: LinkedCan, version: str) -> Artifact:
                 priority=message.priority,
                 description=message.description,
                 signals=[
-                    _signal(signal, linked)
+                    _signal(signal)
                     for signal in sorted(message.signals, key=lambda s: (s.bit_offset, s.signal_name))
                 ],
             ))
