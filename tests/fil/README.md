@@ -76,28 +76,7 @@ python3 tests/fil/run_tests.py --fil /path/to/fil
 The runner fails on simulation errors, early stops, or unmet stimulus
 expectations. It discovers every network config in this directory (a JSON file
 with `boards` and `buses`), derives a run duration from the scenario's stimuli,
-and runs each one. It checks:
-
-- All six boards start independently and reach 10 ms with strict MMIO.
-- Each network reaches the time budget with a successful exit. Only
-  `bootloader_update.json` may return FIL runtime error 4 for a dashboard reset:
-  it must report no other board stops or stderr diagnostics besides the
-  expected network board-failure summary. FIL does not restart that board.
-- `network.json` (no expectations) reaches 20 ms and carries
-  firmware-originated CAN TX/RX.
-- `ready_to_drive.json` satisfies the ready-to-drive stimulus expectations
-  (initial zero torque commands, later drive commands, and vehicle state).
-- `bootloader_update.json` reprograms the resident bootloader region from a
-  running application through its dedicated update command set.
-- `bootloader_update_incomplete.json` rejects a premature CRC even when the
-  unsent trailing words are erased-state bytes matching the CRC, refuses JUMP,
-  and locks the aborted transfer.
-
-The update scenarios use small synthetic images (a stack pointer, a reset
-vector, and a one-instruction loop) rather than the packaged firmware, so they
-exercise the protocol and flash path without depending on application contents.
-Their expectations cover the `ACK(size)` and `ACK(CRC)` responses; FIL reports a
-reset request after the application-side `JUMP`.
+and runs each one.
 
 The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
