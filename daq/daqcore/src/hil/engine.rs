@@ -92,12 +92,12 @@ impl HilEngine {
                 active_test,
                 stopped_early,
                 ..
-            } => match preset.as_ref().map(|preset| &preset.mode) {
-                Some(ExecutionMode::SequentialAlways | ExecutionMode::SequentialStopFail) => {
+            } => match preset.as_ref().map_or(ExecutionMode::Parallel, |p| p.mode) {
+                ExecutionMode::SequentialAlways | ExecutionMode::SequentialStopFail => {
                     // Sequential tests advance as soon as their results are decided.
                     *stopped_early || *active_test >= tests.len()
                 }
-                Some(ExecutionMode::Parallel) | None => tests
+                ExecutionMode::Parallel => tests
                     .iter()
                     .all(|test| test.capture_complete(now.saturating_duration_since(*start_time))),
             },
@@ -151,10 +151,7 @@ impl HilEngine {
                 return;
             };
 
-            let mode = match preset.as_ref() {
-                Some(preset_info) => &preset_info.mode,
-                None => &ExecutionMode::Parallel,
-            };
+            let mode = preset.as_ref().map_or(ExecutionMode::Parallel, |p| p.mode);
 
             match mode {
                 ExecutionMode::Parallel => {
@@ -189,10 +186,7 @@ impl HilEngine {
                 return;
             }
 
-            let mode = match preset.as_ref() {
-                Some(preset_info) => &preset_info.mode,
-                None => &ExecutionMode::Parallel,
-            };
+            let mode = preset.as_ref().map_or(ExecutionMode::Parallel, |p| p.mode);
 
             match mode {
                 ExecutionMode::Parallel => {
