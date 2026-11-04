@@ -54,6 +54,9 @@ pub struct InProgressExpect {
     /// Failures of the policy-selected message; None before any matching message.
     pub failures: Option<Vec<SignalFailure>>,
     pub messages: Vec<CapturedMessage>,
+
+    // The index of the message to display in the HIL testing UI,
+    // based on the active AcceptPolicy for the expectation.
     pub selected_message_index: Option<usize>,
 }
 
@@ -275,8 +278,6 @@ impl InProgressExpect {
             result: ExpectResult::NotInWindow,
             failures: None,
             messages: Vec::new(),
-            /// The index of the message to display in the HIL testing UI,
-            /// based on the active AcceptPolicy for the expectation.
             selected_message_index: None,
         }
     }
