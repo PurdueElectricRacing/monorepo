@@ -184,6 +184,12 @@ bool BL_bootloaderUpdateCrc(uint32_t expected_crc) {
         bl_app_send_error(BLERROR_LOCKED);
         return false;
     }
+    /* Erased trailing words can match the CRC even if they were never sent. */
+    if (bl_app_next_word != bl_app_total_words) {
+        bl_app_update_active = false;
+        bl_app_send_error(BLERROR_SEQUENCE);
+        return false;
+    }
     if (!bl_app_flush_pending_word()) {
         return false;
     }

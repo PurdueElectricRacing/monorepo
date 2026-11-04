@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "name": "bootloader_update",
+  "events": [
+    {"type": "can", "bus": "VCAN", "message": "bl_dashboard_bootloader_start", "at_ms": 50, "values": {"image_size_bytes": 8}},
+    {"type": "can", "bus": "VCAN", "message": "bl_dashboard_bootloader_data", "at_ms": 60, "values": {"index": 0, "data": 537001984}},
+    {"type": "can", "bus": "VCAN", "message": "bl_dashboard_bootloader_data", "at_ms": 70, "values": {"index": 1, "data": 134217729}},
+    {"type": "can", "bus": "VCAN", "message": "bl_dashboard_bootloader_crc", "at_ms": 80, "values": {"data": 1441905895}},
+    {"type": "can", "bus": "VCAN", "message": "bl_dashboard_bootloader_jump", "at_ms": 130, "values": {"data": 0}}
+  ],
+  "expect": [
+    {"type": "can", "bus": "VCAN", "message": "bl_dashboard_bootloader_resp", "at_ms": 50, "window_ms": 25, "values": {"status": "ACK", "detail": 8}},
+    {"type": "can", "bus": "VCAN", "message": "bl_dashboard_bootloader_resp", "at_ms": 80, "window_ms": 100, "values": {"status": "ACK", "detail": 1441905895}}
+  ]
+}
