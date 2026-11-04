@@ -78,27 +78,7 @@ with `boards` and `buses`), derives a run duration from the scenario's stimuli,
 and runs each one. `runner.json` holds the smoke-test board list, run budgets,
 shared traffic buses, and expected final program counters. Required ELF files
 are resolved from the board configs used by those boards and networks, rather
-than a separate Python artifact list. It checks:
-
-- All six boards start independently and reach 10 ms with strict MMIO.
-- Each network reaches the time budget with a successful exit.
-- `network.json` (no expectations) reaches 20 ms and carries
-  firmware-originated CAN TX/RX.
-- `ready_to_drive.json` satisfies the ready-to-drive stimulus expectations
-  (initial zero torque commands, later drive commands, and vehicle state).
-- `application_update.json` transfers a synthetic application image through the
-  resident bootloader's `START`/`DATA`/`CRC` commands and sends `JUMP`. It asserts
-  `ACK(size)` and `ACK(CRC)`, then requires the board's final program counter to
-  be at the synthetic application's self-branching loop (`0x08008008`), proving
-  that the hand-off reached the installed image.
-
-The application-update scenario uses a small synthetic image (a stack pointer,
-a reset vector, and a one-instruction loop) rather than the packaged firmware,
-so it exercises the protocol and flash path without depending on application
-contents. The CAN expectations cover the `ACK(size)` and `ACK(CRC)` responses;
-the runner separately checks the final program counter after JUMP against
-`runner.json`. The pinned FIL CLI reports final registers in its text summary,
-so that parsing is isolated in `check_final_pcs`.
+than a separate Python artifact list.
 
 The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
