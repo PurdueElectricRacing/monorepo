@@ -72,7 +72,7 @@ impl HilEngine {
         matches!(self.state, HilState::Running { .. })
     }
 
-    pub fn all_finished(&self) -> bool {
+    fn all_finished(&self) -> bool {
         match &self.state {
             HilState::Running {
                 tests,
