@@ -127,10 +127,8 @@ and select Install All under the recommended extensions.
 
 Install the tools for your operating system.
 
-The FIL profile-guided optimization (PGO) build requires Make (`make`), Clang
-(`clang++`), and `llvm-profdata`. Clang and `llvm-profdata` must come from the
-same LLVM release. All three tools must be available on `PATH`.
-If using versioned executables, set `PGO_CXX` and `LLVM_PROFDATA` to their paths.
+The FIL build requires Make (`make`), CMake, and a C++20 compiler (`clang++`
+or `g++`). All three tools must be available on `PATH`.
 See [PER FIL tests](../tests/fil/README.md) for details.
 
 ### 3A. macOS
@@ -201,7 +199,6 @@ openocd --version
 make --version
 llvm-cov --version
 clang++ --version
-llvm-profdata --version
 ```
 
 ### 3B. Linux
@@ -256,7 +253,6 @@ arm-none-eabi-gcc --version
 openocd --version
 make --version
 clang++ --version
-llvm-profdata --version
 ```
 
 ### 3C. Windows - WSL
@@ -412,7 +408,7 @@ The repository's main build entry point is:
 python3 build_all.py
 ```
 
-This builds the firmware, builds FIL with PGO and runs the PER integration tests,
+This builds the firmware, builds FIL and runs the PER integration tests,
 then builds all DAQ workspace targets and runs the generator and firmware
 host-test workflow.
 

@@ -11,7 +11,7 @@ protocol](https://github.com/ronakpjain/fil/blob/main/docs/serve_network.md).
 
 ## Connect
 
-1. Build FIL (Release; `build-pgo/fil` if available — Debug builds emulate too slowly):
+1. Build FIL (Release; `build/fil` — Debug builds emulate too slowly):
    ```bash
    python tests/fil/run_tests.py --build
    ```
