@@ -86,10 +86,21 @@ impl HilEngine {
     pub fn capture_complete(&self, now: time::Instant) -> bool {
         match &self.state {
             HilState::Running {
-                start_time, tests, ..
-            } => tests
-                .iter()
-                .all(|test| test.capture_complete(now.saturating_duration_since(*start_time))),
+                start_time,
+                preset,
+                tests,
+                active_test,
+                stopped_early,
+                ..
+            } => match preset.as_ref().map(|preset| &preset.mode) {
+                Some(ExecutionMode::SequentialAlways | ExecutionMode::SequentialStopFail) => {
+                    // Sequential tests advance as soon as their results are decided.
+                    *stopped_early || *active_test >= tests.len()
+                }
+                Some(ExecutionMode::Parallel) | None => tests.iter().all(|test| {
+                    test.capture_complete(now.saturating_duration_since(*start_time))
+                }),
+            },
             HilState::Idle { .. } => true,
         }
     }
