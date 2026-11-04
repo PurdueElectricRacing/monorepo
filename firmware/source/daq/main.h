@@ -24,6 +24,10 @@
 #define ERROR_LED_PORT      (GPIOB)
 #define ERROR_LED_PIN       (6)
 
+// Connection LED (temporary define as VCAN as that bc we dont have a separate connection LED)
+#define CONNECTION_LED_PORT VCAN_LED_PORT
+#define CONNECTION_LED_PIN  VCAN_LED_PIN
+
 // SD Card Status LEDs 
 #define SD_ACTIVITY_LED_PORT (GPIOB)
 #define SD_ACTIVITY_LED_PIN  (0)
