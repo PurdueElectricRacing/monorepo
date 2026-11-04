@@ -2,13 +2,14 @@
 
 use std::{io, path, sync::mpsc, thread};
 
-mod connection;
 mod decode;
 mod events;
 mod firmware_session;
+mod manager;
 mod run;
+pub mod state;
 pub mod tx;
-use crate::{can_thread, connection::ConnectionSource, firmware, frame, hil, superdbc, time};
+use crate::{can_thread, connection, firmware, frame, hil, superdbc, time};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DatabaseSource {
@@ -48,7 +49,7 @@ pub struct CanThreadConfig {
 }
 
 pub enum CanThreadCommand {
-    Connect(Option<ConnectionSource>),
+    Connect(Option<connection::ConnectionSource>),
     SelectDatabase {
         request_id: u64,
         selection: DatabaseRequest,
@@ -58,7 +59,10 @@ pub enum CanThreadCommand {
         identity: frame::CanIdentity,
     },
     UpdateLogFolder(path::PathBuf),
+    /// Cancel immediately; pending one-shot sends are reported as failed.
     Stop,
+    /// Drain accepted one-shot sends for at most two seconds, then stop.
+    DrainAndStop,
     Hil(hil::engine::HilCommand),
     StartFirmwareUpdate(firmware::protocol::FirmwarePackage),
     ArmFirmwareUpdate(firmware::protocol::FirmwarePackage),
@@ -71,7 +75,7 @@ pub enum CanThreadEvent {
         result: Result<DatabaseUpdate, String>,
     },
     Frame(frame::ParsedFrame),
-    SourceSelected(Option<ConnectionSource>),
+    SourceSelected(Option<connection::ConnectionSource>),
     Disconnection,
     ConnectionSuccessful,
     ConnectionFailed(String),
