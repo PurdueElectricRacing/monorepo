@@ -14,6 +14,7 @@
 #include "adbms.h"
 
 // Status LEDs
+// ! silk screen flip: HB and ERR are flipped
 #define HEARTBEAT_LED_PORT  (GPIOC)
 #define HEARTBEAT_LED_PIN   (9)
 #define ERROR_LED_PORT      (GPIOC)
