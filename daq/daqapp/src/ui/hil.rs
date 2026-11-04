@@ -461,15 +461,9 @@ impl Hil {
         }
         for (name, range) in &ipe.expect.signals {
             if let Some(message) = message {
-                let failed = message
-                    .failures
-                    .iter()
-                    .any(|failure| failure.name() == name);
-                let value = message
-                    .signals
-                    .get(name)
-                    .copied()
-                    .flatten()
+                let raw_value = message.signals.get(name).copied().flatten();
+                let failed = !daqcore::hil::run::signal_in_range(raw_value, *range);
+                let value = raw_value
                     .map(|value| format!("{value:.2}"))
                     .unwrap_or_else(|| "missing".to_owned());
                 let detail = format!("{name}: {value} | {}", if failed { "Fail" } else { "Pass" });

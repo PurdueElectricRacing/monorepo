@@ -10,26 +10,9 @@ pub enum ExpectResult {
     FailedValueOutOfRange,
 }
 
-/// Single signal failure, captured at evaluation used for displaying in the UI
-#[derive(Clone)]
-pub enum SignalFailure {
-    /// Signal present but value is out of range
-    OutOfRange {
-        name: String,
-        value: f64,
-        range: [f64; 2],
-    },
-    /// Signal missing from the message
-    MissingSignal { name: String, range: [f64; 2] },
-}
-
-impl SignalFailure {
-    pub fn name(&self) -> &str {
-        match self {
-            SignalFailure::OutOfRange { name, .. } => name,
-            SignalFailure::MissingSignal { name, .. } => name,
-        }
-    }
+/// Missing and non-finite values never satisfy an expected signal range.
+pub fn signal_in_range(value: Option<f64>, range: [f64; 2]) -> bool {
+    value.is_some_and(|value| value.is_finite() && value >= range[0] && value <= range[1])
 }
 
 /// One reception evaluated against the signals configured for an expectation.
@@ -37,12 +20,12 @@ impl SignalFailure {
 pub struct CapturedMessage {
     pub elapsed_ms: u128,
     pub signals: indexmap::IndexMap<String, Option<f64>>,
-    pub failures: Vec<SignalFailure>,
+    pub valid: bool,
 }
 
 impl CapturedMessage {
     pub fn is_valid(&self) -> bool {
-        self.failures.is_empty()
+        self.valid
     }
 }
 
@@ -153,40 +136,21 @@ impl HilRunningTest {
                 && ts <= expect.expect.window[1] as u128
                 && expect.matches_message(decoded)
             {
-                let mut failures = Vec::new();
+                let mut valid = true;
                 let mut signals = indexmap::IndexMap::new();
 
                 for (sig_name, sig_range) in &expect.expect.signals {
                     let value = decoded.signal(sig_name).map(|signal| signal.physical());
+                    valid &= signal_in_range(value, *sig_range);
                     signals.insert(sig_name.clone(), value);
-                    match value {
-                        Some(value) => {
-
-                            // If signal value out of expected bounds, record as
-                            // a "failure".
-                            if !value.is_finite() || value < sig_range[0] || value > sig_range[1] {
-                                failures.push(SignalFailure::OutOfRange {
-                                    name: sig_name.clone(),
-                                    value,
-                                    range: *sig_range,
-                                });
-                            }
-                        }
-                        None => {
-                            failures.push(SignalFailure::MissingSignal {
-                                name: sig_name.clone(),
-                                range: *sig_range,
-                            });
-                        }
-                    }
                 }
 
                 let message = CapturedMessage {
                     elapsed_ms: ts,
                     signals,
-                    failures,
+                    valid,
                 };
-                // Whether the current message and failures should be the new
+                // Whether the current message should be the new
                 // items displayed in the UI. This keeps the UI representative
                 // of the selected AcceptPolicy.
                 let select = match expect.expect.accept {
