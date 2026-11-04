@@ -1,122 +1,70 @@
-# PER DaqCLI
+# DaqCLI
 
-DaqCLI is a command-line companion to DaqApp. It runs the same `daqcore`
-pipelines as the app without opening the GUI, which is handy for scripts, batch
-jobs, and CI.
+Run commands from `daq/` with `cargo run -p daqcli -- ...`.
 
 ## Parse logs
 
-`daqcli parse` runs the `daqcore::log_parse` pipeline used by the app's Log
-Parser, so recorded `.log` files can be correlated into CSV tables. It takes
-explicit paths, so it can be run from any working directory:
+Convert recorded `.log` files into CSV tables:
 
-```bash
+```sh
 cargo run -p daqcli -- parse \
-    --logs-dir <dir with .log files> \
-    --output-dir <dir for CSV output> \
-    --superdbc <path to superdbc_*.json>
+    --logs-dir <logs> --output-dir <csv> --superdbc <superdbc.json>
 ```
 
-Options:
+`--prefix` sets the output filename prefix (default: `out`). Generated SuperDBC
+artifacts are in the repository's `superdbc/` directory.
 
-- `--logs-dir` (required) - directory containing the raw `.log` files
-- `--output-dir` (required) - directory to write CSV tables into
-- `--superdbc` (required) - SuperDBC JSON artifact containing the bus definitions
-- `--prefix` - output filename prefix (default: `out`)
+## Watch CAN
 
-SuperDBC artifacts are firmware build outputs found in `monorepo/superdbc`.
+Receive frames as JSON Lines on stdout. Logs go to stderr.
 
-## Watch live CAN
-
-`daqcli watch` connects to a live CAN source through the same `daqcore` worker
-and driver stack as DaqApp. Received frames are written to stdout as JSON Lines,
-and injection commands are read from stdin.
-
-```bash
-# CANable-compatible serial adapter
-cargo run -p daqcli -- watch --serial /dev/tty.usbmodem101
-cargo run -p daqcli -- watch --serial COM4 --speed 250k --superdbc <superdbc.json>
-
-# UDP stream of 16-byte timestamped frames
-cargo run -p daqcli -- watch --udp 8000 --superdbc <superdbc.json>
-
-# Random frames for every message defined on the selected bus
+```sh
+cargo run -p daqcli -- watch --serial /dev/tty.usbmodem101 --speed 500k
+cargo run -p daqcli -- watch --udp 8000 --superdbc <superdbc.json> --bus 0
 cargo run -p daqcli -- watch --simulated --superdbc <superdbc.json>
-
-# Echo frames transmitted by the adapter
 cargo run -p daqcli -- watch --loopback
 ```
 
-Options:
+Choose exactly one source: `--serial <path>`, `--udp <port>`, `--simulated`, or
+`--loopback`. Serial speed is `250k` or `500k` (default). UDP receives 16-byte
+timestamped frames. Loopback echoes transmitted frames.
 
-- `--superdbc` - SuperDBC JSON artifact used to name the bus and decode
-  messages; without it, frames are emitted and injected as raw CAN
-- `--bus` - SuperDBC bus ID to decode (defaults to the first bus)
-- `--speed <250k|500k>` - serial adapter bit rate (default: `500k`)
-- exactly one of:
-  - `--serial <path>` - slcan adapter
-  - `--udp <port>` - UDP receiver
-  - `--simulated` - random frames for the selected bus definitions
-  - `--loopback` - echo transmitted frames back as received frames
+`--superdbc` enables decoding; `--bus` requires it. The default is bus 0, or the
+first bus in the artifact if bus 0 is absent. Without a database, watch uses raw
+CAN IDs and payloads.
 
 ### Output
 
-Each received frame is one JSON object followed by a newline:
-
 ```json
-{"time_ms":1762345678901,"sequence":0,"bus_id":0,"bus":"VCAN","id":"0x51","remote":false,"fd":false,"brs":false,"dlc":8,"length":8,"data":"cffb1364bc42cda6","message":"motor_temps","tx_node":"MAIN_MODULE","signals":{"front_left":2561.9,"rear_right":-2283.5}}
+{"time_ms":1762345678901,"sequence":0,"id":"0x100","dlc":2,"length":2,"data":"0102"}
 ```
 
-- `time_ms` - host receive time, Unix milliseconds
-- `sequence` - zero-based frame counter for this stream
-- `bus_id`, `bus` - SuperDBC bus ID and name (omitted without `--superdbc`)
-- `id` - CAN identifier in lowercase hexadecimal
-- `remote`, `fd`, `brs` - CAN wire framing flags
-- `dlc`, `length` - CAN DLC code and payload byte count
-- `data` - payload bytes in lowercase hexadecimal
-- `message`, `tx_node` - SuperDBC message and transmitting node; omitted when
-  the frame has no definition (or no `--superdbc` is configured)
-- `signals` - decoded values keyed by signal name, with the same omission
-  rules; values are enum choice labels when available and physical values
-  otherwise, and non-finite values are `null`
+`time_ms` is host receive time in Unix milliseconds. `sequence` starts at zero.
+`id` and `data` are lowercase hexadecimal; `dlc` is the CAN DLC code and `length`
+is the payload byte count.
 
-Logs go to stderr, so stdout carries only JSON Lines and can be piped directly
-into tools like `jq`.
+With a database, records include `bus_id` and `bus`. Defined messages also have
+`message`, `tx_node`, and `signals`. Signals are enum labels or physical numbers;
+non-finite numbers are `null`.
 
-### Sending frames
+### Send frames
 
-While watching, stdin accepts one injection per line, following
-`fil watch`:
+Stdin accepts one classic CAN frame per line:
 
 ```text
-BUS[@TIME_MS]:ID:HEXDATA
-ID:HEXDATA
-```
-
-- `BUS` - selected SuperDBC bus name or numeric bus ID; the bus prefix is
-  optional with `--superdbc` and unavailable without it
-- `TIME_MS` - accepted for `fil watch` compatibility; injections are immediate
-- `ID` - CAN identifier, decimal or `0x`-prefixed hexadecimal
-- `HEXDATA` - 0 to 8 payload bytes in hexadecimal (DAQ logs and adapters are
-  classic CAN)
-
-```text
-VCAN:0x51:0102030405060708
-VCAN@100:123:
-456:aa
+0x100:0102
+VCAN:0x101:ff
 quit
 ```
 
-Injections use the same `CanThreadCommand::AddSendMessage` path as DaqApp's
-Message Sender. One-shot frames are queued in input order and never merged, so
-repeated CAN IDs all transmit. Each line is validated against `daqcore` frame
-rules and the selected SuperDBC bus before it is queued.
+Format: `ID:HEXDATA` or `BUS:ID:HEXDATA`. IDs are decimal or `0x`-prefixed hex;
+payloads contain 0–8 bytes. A bus prefix requires `--superdbc` and must match the
+selected bus name or decimal bus ID. Timestamps are not supported.
 
-`quit` or `exit` stops the watch after flushing queued one-shot sends, so
-messages queued just before quitting are written when the source is connected.
-Stdin EOF leaves the stream running, so `printf ... | daqcli watch` keeps
-monitoring after the pipe closes, and a closed stdout (for example `| head`)
-stops the watch on the next received frame, like `tail -f`.
+Frames are queued in input order, including repeated IDs. Invalid commands are
+reported on stderr. **Sending to a physical adapter transmits onto the CAN bus.**
 
-Set `RUST_LOG` to control log verbosity (for example `RUST_LOG=debug`).
-Defaults to `info`.
+`quit`/`exit` drains accepted one-shot sends for up to two seconds while connected,
+then stops. Unsent frames are reported. EOF leaves monitoring running. A broken
+stdout pipe stops watch on the next frame. Set `RUST_LOG` to change logging
+verbosity (default: `info`).

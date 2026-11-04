@@ -4,9 +4,6 @@ use daqcore::{frame, superdbc};
 use std::io;
 
 /// One JSON Lines record describing a received CAN frame.
-///
-/// This is an output-only type: only `Serialize` is implemented because
-/// consumers read the records as JSON text.
 #[derive(serde::Serialize)]
 pub struct FrameRecord<'a> {
     /// Host receive time as Unix milliseconds.
@@ -21,9 +18,6 @@ pub struct FrameRecord<'a> {
     bus: Option<&'a str>,
     /// CAN identifier as lowercase hexadecimal with a `0x` prefix.
     id: String,
-    remote: bool,
-    fd: bool,
-    brs: bool,
     dlc: u8,
     /// Payload byte count.
     length: usize,
@@ -47,16 +41,12 @@ impl<'a> FrameRecord<'a> {
         bus: Option<(u8, &'a str)>,
     ) -> Self {
         let decoded = parsed.decoded.as_ref();
-        let flags = FrameFlags::from_kind(parsed.kind);
         Self {
             time_ms: parsed.timestamp.unix_millis(),
             sequence,
             bus_id: bus.map(|(bus_id, _)| bus_id),
             bus: bus.map(|(_, bus_name)| bus_name),
             id: format!("0x{:x}", parsed.identity),
-            remote: flags.remote,
-            fd: flags.fd,
-            brs: flags.brs,
             dlc: parsed.dlc,
             length: parsed.raw_bytes.len(),
             data: hex_encode(&parsed.raw_bytes),
@@ -71,34 +61,6 @@ impl<'a> FrameRecord<'a> {
         serde_json::to_writer(&mut *output, self)?;
         output.write_all(b"\n")?;
         output.flush()
-    }
-}
-
-struct FrameFlags {
-    remote: bool,
-    fd: bool,
-    brs: bool,
-}
-
-impl FrameFlags {
-    fn from_kind(kind: frame::FrameKind) -> Self {
-        match kind {
-            frame::FrameKind::Data => Self {
-                remote: false,
-                fd: false,
-                brs: false,
-            },
-            frame::FrameKind::Remote => Self {
-                remote: true,
-                fd: false,
-                brs: false,
-            },
-            frame::FrameKind::Fd { bit_rate_switched } => Self {
-                remote: false,
-                fd: true,
-                brs: bit_rate_switched,
-            },
-        }
     }
 }
 
