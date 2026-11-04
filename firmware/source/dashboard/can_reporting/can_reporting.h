@@ -4,6 +4,6 @@
 #include <stdint.h>
 
 static constexpr uint32_t CAN_REPORTING_PERIOD_MS = 5000;
-void report_can_status(void);
+void can_report_periodic(void);
 
 #endif // CAN_REPORTING_H

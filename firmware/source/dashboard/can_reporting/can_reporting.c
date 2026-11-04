@@ -4,6 +4,6 @@
 
 volatile can_stats_t can_stats;
 
-void report_can_status(void) {
+void can_report_periodic(void) {
     CAN_SEND_can_overflow(can_stats.rx_overflow, can_stats.tx_overflow);
 }
