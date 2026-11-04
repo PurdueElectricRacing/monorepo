@@ -83,8 +83,10 @@ and runs each one. It checks:
   firmware-originated CAN TX/RX.
 - `ready_to_drive.json` satisfies the ready-to-drive stimulus expectations
   (initial zero torque commands, later drive commands, and vehicle state).
-- `application_update.json` installs a synthetic application image through the
-  resident bootloader's `START`/`DATA`/`CRC`/`JUMP` command set.
+- `application_update.json` transfers a synthetic application image through the
+  resident bootloader's `START`/`DATA`/`CRC` commands and sends `JUMP`. Only the
+  `ACK(size)` and `ACK(CRC)` responses are asserted; the jump itself is not
+  verified.
 
 The application-update scenario uses a small synthetic image (a stack pointer,
 a reset vector, and a one-instruction loop) rather than the packaged firmware,
