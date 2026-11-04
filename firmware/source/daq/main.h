@@ -12,36 +12,42 @@
 #include "common/rtos/rtos.h"
 
 // Pinouts
-// LEDs
-#define HEARTBEAT_LED_PORT  (GPIOD)
-#define HEARTBEAT_LED_PIN   (13)
-#define CONNECTION_LED_PORT (GPIOD)
-#define CONNECTION_LED_PIN  (14)
-#define ERROR_LED_PORT      (GPIOD)
-#define ERROR_LED_PIN       (15)
+// LEDs (HB, CAN, ERR)
+#define HEARTBEAT_LED_PORT  (GPIOB)
+#define HEARTBEAT_LED_PIN   (5)
+#define VCAN_LED_PORT       (GPIOB)
+#define VCAN_LED_PIN        (8)
+#define MCAN_LED_PORT       (GPIOB)
+#define MCAN_LED_PIN        (9)
+#define SCAN_LED_PORT       (GPIOB)
+#define SCAN_LED_PIN        (7)
+#define ERROR_LED_PORT      (GPIOB)
+#define ERROR_LED_PIN       (6)
 
-// SD Card SDIO
-#define SD_ACTIVITY_LED_PORT (GPIOA)
-#define SD_ACTIVITY_LED_PIN  (9)
-// TODO: Replace with real pins @shriya
-#define SD_ERROR_LED_PORT    (GPIOB)
-#define SD_ERROR_LED_PIN     (0)
-#define SD_DETECT_LED_PORT   (GPIOA)
-#define SD_DETECT_LED_PIN    (10)
-#define SD_CD_PORT           (GPIOD)
-#define SD_CD_PIN            (4)
+// SD Card Status LEDs 
+#define SD_ACTIVITY_LED_PORT (GPIOB)
+#define SD_ACTIVITY_LED_PIN  (0)
+#define SD_ERROR_LED_PORT    (GPIOC)
+#define SD_ERROR_LED_PIN     (5)
+#define SD_DETECT_LED_PORT   (GPIOC)
+#define SD_DETECT_LED_PIN    (1)
+#define SD_CD_PORT           (GPIOC)
+#define SD_CD_PIN            (1)
 
 // W5500 ETH SPI1
+// CS should be renamed to NSS imo but its also not that deep
 #define ETH_CS_PORT   (GPIOA)
 #define ETH_CS_PIN    (4)
 #define ETH_SCK_PORT  (GPIOA)
 #define ETH_SCK_PIN   (5)
-#define ETH_MISO_PORT (GPIOA)
-#define ETH_MISO_PIN  (6)
+#define ETH_MISO_PORT (GPIOB)
+#define ETH_MISO_PIN  (4)
 #define ETH_MOSI_PORT (GPIOA)
 #define ETH_MOSI_PIN  (7)
-#define ETH_RST_PORT  (GPIOE)
+#define ETH_RST_PORT  (GPIOC)
 #define ETH_RST_PIN   (3)
+#define ETH_nINT_PORT (GPIOC)
+#define ETH_nINT_PIN  (2)
 
 // MISC
 #define PWR_LOSS_PORT   (GPIOE)
