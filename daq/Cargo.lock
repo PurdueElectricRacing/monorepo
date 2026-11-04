@@ -1080,6 +1080,8 @@ dependencies = [
  "daqcore",
  "env_logger",
  "log",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

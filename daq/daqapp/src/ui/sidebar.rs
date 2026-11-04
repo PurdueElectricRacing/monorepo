@@ -1,4 +1,5 @@
 use crate::{action, app, assets, settings, util, widget_constructor};
+use daqcore::can_thread;
 use std::path;
 
 pub fn select_database(app: &mut app::DAQApp) {
@@ -7,7 +8,11 @@ pub fn select_database(app: &mut app::DAQApp) {
         dialog = dialog.set_directory(dir);
     }
     if let Some(path) = dialog.pick_file() {
-        let preferred = app.database.as_ref().map(|selection| selection.bus_id);
+        let preferred = app
+            .can_state
+            .database
+            .as_ref()
+            .map(|selection| selection.bus_id);
         app.request_database(&path, preferred);
     }
 }
@@ -250,14 +255,14 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
 
             ui.horizontal(|ui| {
                 // Connection status indicator
-                let (status_icon, status_color) = match &app.connection_status {
-                    app::ConnectionStatus::Disconnected => {
+                let (status_icon, status_color) = match &app.can_state.connection_status {
+                    can_thread::state::ConnectionStatus::Disconnected => {
                         ("⚪ Disconnected".to_string(), eframe::egui::Color32::GRAY)
                     }
-                    app::ConnectionStatus::Connected => {
+                    can_thread::state::ConnectionStatus::Connected => {
                         ("🟢 Connected".to_string(), eframe::egui::Color32::GREEN)
                     }
-                    app::ConnectionStatus::Error(e) => {
+                    can_thread::state::ConnectionStatus::Error(e) => {
                         (format!("🔴 Error: {}", e), eframe::egui::Color32::RED)
                     }
                 };
@@ -268,7 +273,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 if ui.button("📁 Select SuperDBC").clicked() {
                     select_database(app);
                 }
-                if let Some(selection) = &app.database {
+                if let Some(selection) = &app.can_state.database {
                     if let Some(source) = selection.source() {
                         ui.label(
                             source
@@ -310,8 +315,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 if ui.button("Select Log Folder").clicked()
                     && let Some(path) = rfd::FileDialog::new().pick_folder()
                 {
-                    let command =
-                        daqcore::can_thread::CanThreadCommand::UpdateLogFolder(path.clone());
+                    let command = can_thread::CanThreadCommand::UpdateLogFolder(path.clone());
 
                     if let Err(error) = app.ui_to_can_tx.send(command) {
                         log::error!("Failed to send log folder update: {error}");

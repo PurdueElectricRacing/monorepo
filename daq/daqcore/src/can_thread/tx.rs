@@ -1,5 +1,11 @@
 use crate::frame;
-use std::{collections::BTreeMap, time};
+use std::{
+    collections::{BTreeMap, VecDeque},
+    mem, time,
+};
+
+/// Bounds queued one-shot sends that are waiting for a connection.
+const MAX_PENDING_ONE_SHOT_SENDS: usize = 65_536;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SendAmount {
@@ -51,7 +57,10 @@ struct Scheduled {
 }
 
 #[derive(Default)]
-pub struct SendTable(BTreeMap<frame::CanIdentity, Scheduled>);
+pub struct SendTable {
+    scheduled: BTreeMap<frame::CanIdentity, Scheduled>,
+    one_shot: VecDeque<frame::CanFrameTx>,
+}
 
 impl SendTable {
     pub fn add(&mut self, msg: AddSendMessage) -> Result<(), String> {
@@ -65,7 +74,9 @@ impl SendTable {
 
         let frame = frame::CanFrameTx::data(msg.identity, msg.is_extended_id, msg.msg_bytes)?;
 
-        self.0.insert(
+        // GUI jobs replace the previous job for this ID in either direction,
+        // including Once -> periodic. CLI injections use their own FIFO below.
+        self.scheduled.insert(
             msg.identity,
             Scheduled {
                 frame,
@@ -76,12 +87,40 @@ impl SendTable {
         Ok(())
     }
 
+    pub fn add_injection(&mut self, frame: frame::CanFrameTx) -> Result<(), String> {
+        if self.one_shot.len() >= MAX_PENDING_ONE_SHOT_SENDS {
+            return Err("CAN one-shot send queue is full".into());
+        }
+        self.one_shot.push_back(frame);
+        Ok(())
+    }
+
     pub fn delete(&mut self, id: frame::CanIdentity) {
-        self.0.remove(&id);
+        self.scheduled.remove(&id);
+        self.one_shot.retain(|frame| frame.frame.identity != id);
+    }
+
+    /// Borrows the oldest queued one-shot frame.
+    pub fn next_one_shot(&self) -> Option<&frame::CanFrameTx> {
+        self.one_shot.front()
+    }
+
+    /// Removes the oldest queued one-shot frame once it is written.
+    pub fn commit_one_shot(&mut self) {
+        self.one_shot.pop_front();
+    }
+
+    /// Clears all jobs at shutdown and returns unwritten one-shots for reporting.
+    pub fn drain_one_shot(&mut self) -> impl Iterator<Item = frame::CanFrameTx> + '_ {
+        let scheduled = mem::take(&mut self.scheduled)
+            .into_values()
+            .filter(|job| matches!(job.amount, SendAmount::Once))
+            .map(|job| job.frame);
+        self.one_shot.drain(..).chain(scheduled)
     }
 
     pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrameTx> {
-        self.0
+        self.scheduled
             .values()
             .filter(|scheduled| {
                 let Some(last_sent) = scheduled.sent else {
@@ -98,14 +137,14 @@ impl SendTable {
     }
 
     pub fn commit(&mut self, id: frame::CanIdentity, now: time::Instant) -> Option<SendAmount> {
-        let scheduled = self.0.get_mut(&id)?;
+        let scheduled = self.scheduled.get_mut(&id)?;
         scheduled.sent = Some(now);
         let amount_left = scheduled.amount.subtract_one();
 
         if let Some(amount) = amount_left {
             scheduled.amount = amount;
         } else {
-            self.0.remove(&id);
+            self.scheduled.remove(&id);
         }
         amount_left
     }

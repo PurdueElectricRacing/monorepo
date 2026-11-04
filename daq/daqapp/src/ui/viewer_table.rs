@@ -1,4 +1,5 @@
-use crate::{action, app, telemetry, widget_constructor};
+use crate::{action, telemetry, widget_constructor};
+use daqcore::can_thread;
 
 pub struct ViewerTable {
     pub title: String,
@@ -20,7 +21,7 @@ impl ViewerTable {
         ui: &mut eframe::egui::Ui,
         actions: &mut Vec<action::AppAction>,
         formatter: &Option<daqcore::formatter::Formatter>,
-        database: Option<&app::DatabaseSelection>,
+        database: Option<&can_thread::state::DatabaseSelection>,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         ui.heading(&self.title);

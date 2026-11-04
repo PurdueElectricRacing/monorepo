@@ -1,4 +1,5 @@
-use crate::{app, telemetry};
+use crate::telemetry;
+use daqcore::can_thread;
 
 pub struct ViewerList {
     pub title: String,
@@ -15,7 +16,7 @@ impl ViewerList {
         &self,
         ui: &mut eframe::egui::Ui,
         formatter: &Option<daqcore::formatter::Formatter>,
-        database: Option<&app::DatabaseSelection>,
+        database: Option<&can_thread::state::DatabaseSelection>,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         ui.heading(&self.title);

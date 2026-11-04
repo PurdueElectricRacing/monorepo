@@ -2,13 +2,14 @@
 
 use std::{io, path, sync::mpsc, thread};
 
-mod connection;
 mod decode;
 mod events;
 mod firmware_session;
+mod manager;
 mod run;
+pub mod state;
 pub mod tx;
-use crate::{can_thread, firmware, frame, hil, superdbc, time};
+use crate::{can_thread, connection, firmware, frame, hil, superdbc, time};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DatabaseSource {
@@ -48,17 +49,25 @@ pub struct CanThreadConfig {
 }
 
 pub enum CanThreadCommand {
-    Connect(Option<crate::connection::ConnectionSource>),
+    Connect(Option<connection::ConnectionSource>),
     SelectDatabase {
         request_id: u64,
         selection: DatabaseRequest,
     },
     AddSendMessage(can_thread::tx::AddSendMessage),
+    /// FIFO injection; acknowledge processing so the stdin producer stays bounded.
+    InjectFrame {
+        frame: frame::CanFrameTx,
+        processed: mpsc::SyncSender<()>,
+    },
     DeleteSendMessage {
         identity: frame::CanIdentity,
     },
     UpdateLogFolder(path::PathBuf),
+    /// Cancel immediately; pending one-shot sends are reported as failed.
     Stop,
+    /// Drain accepted one-shot sends for at most two seconds, then stop.
+    DrainAndStop,
     Hil(hil::engine::HilCommand),
     StartFirmwareUpdate(firmware::protocol::FirmwarePackage),
     ArmFirmwareUpdate(firmware::protocol::FirmwarePackage),
@@ -71,7 +80,7 @@ pub enum CanThreadEvent {
         result: Result<DatabaseUpdate, String>,
     },
     Frame(frame::ParsedFrame),
-    SourceSelected(Option<crate::connection::ConnectionSource>),
+    SourceSelected(Option<connection::ConnectionSource>),
     Disconnection,
     ConnectionSuccessful,
     ConnectionFailed(String),
@@ -134,10 +143,30 @@ pub fn spawn_can_thread(
     config: CanThreadConfig,
     out: mpsc::Sender<CanThreadEvent>,
 ) -> io::Result<CanThreadHandle> {
+    spawn_worker(config, events::Events::Unbounded(out))
+}
+
+/// Stops rather than blocking CAN I/O when the frontend event queue fills.
+/// `overflow` should have capacity one and is notified separately from events.
+pub fn spawn_can_thread_bounded(
+    config: CanThreadConfig,
+    out: mpsc::SyncSender<CanThreadEvent>,
+    overflow: mpsc::SyncSender<()>,
+) -> io::Result<CanThreadHandle> {
+    spawn_worker(
+        config,
+        events::Events::Bounded {
+            sender: out,
+            overflow,
+        },
+    )
+}
+
+fn spawn_worker(config: CanThreadConfig, events: events::Events) -> io::Result<CanThreadHandle> {
     let (tx, rx) = mpsc::channel();
     let join = thread::Builder::new()
         .name("daq-can".into())
-        .spawn(move || run::run(config, out, rx))?;
+        .spawn(move || run::run(config, events, rx))?;
     Ok(CanThreadHandle {
         tx,
         join: Some(join),

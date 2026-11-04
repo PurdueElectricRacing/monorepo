@@ -1,41 +1,48 @@
-use crate::{can, can_thread, hil};
-use std::{sync::mpsc, thread, time};
+use crate::{can, can_thread, frame, hil, time};
+use std::{
+    sync::mpsc,
+    thread,
+    time::{Duration, Instant},
+};
 
-const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
-const BUS_LOAD_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(200);
+const HIL_UPDATE_INTERVAL: Duration = Duration::from_millis(50);
+const BUS_LOAD_UPDATE_INTERVAL: Duration = Duration::from_millis(200);
 const FIRMWARE_FRAMES_PER_BURST: usize = 8;
-const FIRMWARE_FRAME_DELAY: time::Duration = time::Duration::from_millis(4);
+const FIRMWARE_FRAME_DELAY: Duration = Duration::from_millis(4);
+/// Caps queued one-shot writes per pass so reads and periodic sends keep running.
+const ONE_SHOT_SENDS_PER_BURST: usize = 8;
+const SHUTDOWN_DRAIN_TIMEOUT: Duration = Duration::from_secs(2);
 
 pub fn run(
     config: can_thread::CanThreadConfig,
-    out: mpsc::Sender<can_thread::CanThreadEvent>,
+    events: can_thread::events::Events,
     commands: mpsc::Receiver<can_thread::CanThreadCommand>,
 ) {
     run_with_connection(
         config,
-        out,
+        events,
         commands,
-        can_thread::connection::ConnectionManager::new(time::Instant::now()),
+        can_thread::manager::ConnectionManager::new(Instant::now()),
     );
 }
 
 fn run_with_connection(
     config: can_thread::CanThreadConfig,
-    out: mpsc::Sender<can_thread::CanThreadEvent>,
+    events: can_thread::events::Events,
     commands: mpsc::Receiver<can_thread::CanThreadCommand>,
-    mut connection: can_thread::connection::ConnectionManager,
+    mut connection: can_thread::manager::ConnectionManager,
 ) {
-    let events = can_thread::events::Events(out);
     let mut decoder = can_thread::decode::FrameDecoder::default();
     let mut sends = can_thread::tx::SendTable::default();
     let mut load = can::bus_load::BusLoadTracker::default();
     let mut logger = config.log_folder.map(can::logger::DaqLogger::new);
     let mut firmware = can_thread::firmware_session::FirmwareSession::default();
     let mut hil = hil::engine::HilEngine::new(config.hil_dir);
-    let mut hil_last = time::Instant::now();
+    let mut hil_last = Instant::now();
     let mut hil_finished = false;
-    let mut load_last = time::Instant::now();
+    let mut load_last = Instant::now();
     let mut pending = None;
+    let mut drain_deadline = None;
 
     'worker: loop {
         macro_rules! emit {
@@ -46,7 +53,9 @@ fn run_with_connection(
             };
         }
 
-        // Apply pending commands before advancing scheduled work or reading CAN.
+        // Drain pending control commands before transmission so queued Stop,
+        // delete, and firmware cancellation commands take effect first.
+        let mut processed_injections = Vec::new();
         loop {
             let next_command = match pending.take() {
                 Some(command) => Ok(command),
@@ -61,11 +70,20 @@ fn run_with_connection(
 
             match command {
                 can_thread::CanThreadCommand::Stop => break 'worker,
+                _ if drain_deadline.is_some() => {
+                    emit!(can_thread::CanThreadEvent::Diagnostic(
+                        "CAN command rejected during shutdown".into()
+                    ));
+                }
+                can_thread::CanThreadCommand::DrainAndStop => {
+                    drain_deadline = Some(Instant::now() + SHUTDOWN_DRAIN_TIMEOUT);
+                    break;
+                }
                 can_thread::CanThreadCommand::Connect(source) => {
                     if let Some(progress) = firmware.cancel() {
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
-                    connection.select(source.clone(), time::Instant::now());
+                    connection.select(source.clone(), Instant::now());
                     load = can::bus_load::BusLoadTracker::default();
                     emit!(can_thread::CanThreadEvent::SourceSelected(source));
                     emit!(can_thread::CanThreadEvent::Disconnection);
@@ -85,7 +103,7 @@ fn run_with_connection(
                         }
                     };
                     sends = can_thread::tx::SendTable::default();
-                    let now = time::Instant::now();
+                    let now = Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
                     hil_finished = false;
                     load = can::bus_load::BusLoadTracker::default();
@@ -101,14 +119,30 @@ fn run_with_connection(
                 }
                 can_thread::CanThreadCommand::AddSendMessage(message) => {
                     let identity = message.identity;
+                    let periodic = !matches!(message.amount, can_thread::tx::SendAmount::Once);
                     if let Err(error) = sends.add(message) {
-                        sends.delete(identity);
+                        if periodic {
+                            sends.delete(identity);
+                        }
                         emit!(can_thread::CanThreadEvent::SendFailed {
                             identity,
                             error,
                             retrying: false
                         });
                     }
+                }
+                can_thread::CanThreadCommand::InjectFrame { frame, processed } => {
+                    let identity = frame.frame.identity;
+                    if let Err(error) = sends.add_injection(frame) {
+                        emit!(can_thread::CanThreadEvent::SendFailed {
+                            identity,
+                            error,
+                            retrying: false,
+                        });
+                    }
+                    // Acknowledge after the command pass so stdin cannot keep
+                    // refilling this loop and starve CAN reads and writes.
+                    processed_injections.push(processed);
                 }
                 can_thread::CanThreadCommand::DeleteSendMessage { identity } => {
                     sends.delete(identity)
@@ -118,24 +152,20 @@ fn run_with_connection(
                     None => logger = Some(can::logger::DaqLogger::new(path)),
                 },
                 can_thread::CanThreadCommand::Hil(command) => {
-                    let now = time::Instant::now();
+                    let now = Instant::now();
                     hil.handle_command(command, now);
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                     hil_last = now;
                     hil_finished = false;
                 }
                 can_thread::CanThreadCommand::StartFirmwareUpdate(package) => {
-                    let progress = firmware.start(
-                        package,
-                        false,
-                        connection.connected(),
-                        time::Instant::now(),
-                    );
+                    let progress =
+                        firmware.start(package, false, connection.connected(), Instant::now());
                     emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                 }
                 can_thread::CanThreadCommand::ArmFirmwareUpdate(package) => {
                     let progress =
-                        firmware.start(package, true, connection.connected(), time::Instant::now());
+                        firmware.start(package, true, connection.connected(), Instant::now());
                     emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                 }
                 can_thread::CanThreadCommand::CancelFirmwareUpdate => {
@@ -146,8 +176,19 @@ fn run_with_connection(
             }
         }
 
+        for processed in processed_injections {
+            // A dropped stdin reader needs no acknowledgement.
+            let _ = processed.send(());
+        }
+
+        if drain_deadline.is_some_and(|deadline| Instant::now() >= deadline)
+            || (drain_deadline.is_some() && firmware.active())
+        {
+            break 'worker;
+        }
+
         // Reconnect the selected source when its retry delay has elapsed.
-        let now = time::Instant::now();
+        let now = Instant::now();
         if let Some(result) = connection.connect(now, decoder.bus()) {
             match result {
                 Ok(()) => {
@@ -160,7 +201,9 @@ fn run_with_connection(
             }
         }
 
-        hil.tick(now);
+        if drain_deadline.is_none() {
+            hil.tick(now);
+        }
         if hil.is_running() && !hil_finished && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
         {
             emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
@@ -168,17 +211,25 @@ fn run_with_connection(
             hil_finished = hil.all_finished();
         }
 
-        // Ordinary sends are suspended while firmware owns transmission.
+        // Sends are suspended while firmware owns transmission; queued one-shot
+        // sends take priority over the periodic table.
         let updating = firmware.active();
         if connection.connected() && !updating {
+            if !send_injections(&mut connection, &mut sends, &events) {
+                break 'worker;
+            }
+
             for tx_frame in sends.due(now) {
+                if drain_deadline.is_some() {
+                    break;
+                }
                 let identity = tx_frame.frame.identity;
                 match connection.write(tx_frame) {
                     Ok(()) => {
-                        let amount_left = sends.commit(identity, time::Instant::now());
+                        let amount_left = sends.commit(identity, Instant::now());
                         emit!(can_thread::CanThreadEvent::MessageSent {
                             identity,
-                            timestamp: crate::time::Time::now(),
+                            timestamp: time::Time::now(),
                             amount_left
                         });
                     }
@@ -193,7 +244,7 @@ fn run_with_connection(
                         if unsupported {
                             sends.delete(identity);
                         } else {
-                            connection.failed(time::Instant::now());
+                            connection.failed(Instant::now());
                             emit!(can_thread::CanThreadEvent::ConnectionFailed(
                                 error.to_string()
                             ));
@@ -207,7 +258,7 @@ fn run_with_connection(
         // Pace firmware words in bounded bursts to protect the target RX queue.
         if firmware.active() && connection.connected() {
             for _ in 0..FIRMWARE_FRAMES_PER_BURST {
-                let result = firmware.tick(time::Instant::now());
+                let result = firmware.tick(Instant::now());
                 if let Some(progress) = result.progress {
                     emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                 }
@@ -225,7 +276,7 @@ fn run_with_connection(
                         progress.error = Some(format!("firmware write failed: {error}"));
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
-                    connection.failed(time::Instant::now());
+                    connection.failed(Instant::now());
                     emit!(can_thread::CanThreadEvent::ConnectionFailed(
                         error.to_string()
                     ));
@@ -242,7 +293,7 @@ fn run_with_connection(
                 Ok(frames) => {
                     got_frames = !frames.is_empty();
                     for frame in frames {
-                        load.record_frame(frame.data.len(), time::Instant::now());
+                        load.record_frame(frame.data.len(), Instant::now());
                         // Bus ID is 3 bits so 0-7 supported
                         if decoder.bus_id() <= 7
                             && let Some(logger) = &mut logger
@@ -254,14 +305,14 @@ fn run_with_connection(
                         let updating = firmware.active();
                         if updating
                             && let Some(progress) =
-                                firmware.receive(frame.identity, &frame.data, time::Instant::now())
+                                firmware.receive(frame.identity, &frame.data, Instant::now())
                         {
                             emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                         }
 
-                        let frame = decoder.decode(frame, crate::time::Time::now());
+                        let frame = decoder.decode(frame, time::Time::now());
                         if !updating {
-                            hil.process_parsed(&frame, time::Instant::now());
+                            hil.process_parsed(&frame, Instant::now());
                         }
 
                         emit!(can_thread::CanThreadEvent::Frame(frame));
@@ -269,7 +320,7 @@ fn run_with_connection(
                 }
                 Err(can::driver::DriverError::Timeout) => {}
                 Err(error) => {
-                    connection.failed(time::Instant::now());
+                    connection.failed(Instant::now());
                     emit!(can_thread::CanThreadEvent::ConnectionFailed(
                         error.to_string()
                     ));
@@ -277,12 +328,12 @@ fn run_with_connection(
             }
         }
 
-        let now = time::Instant::now();
+        let now = Instant::now();
         if now.duration_since(load_last) >= BUS_LOAD_UPDATE_INTERVAL {
             load.cleanup(now);
             let speed = connection.speed();
             emit!(can_thread::CanThreadEvent::BusLoad {
-                timestamp: crate::time::Time::now(),
+                timestamp: time::Time::now(),
                 load_1s: load.get_load(1, speed, now),
                 load_5s: load.get_load(5, speed, now),
                 load_10s: load.get_load(10, speed, now),
@@ -291,14 +342,24 @@ fn run_with_connection(
             load_last = now;
         }
 
+        // Graceful shutdown is bounded; Stop still cancels immediately.
+        if let Some(deadline) = drain_deadline
+            && (Instant::now() >= deadline
+                || updating
+                || !connection.connected()
+                || sends.next_one_shot().is_none())
+        {
+            break 'worker;
+        }
+
         let wait = if !connection.connected() {
-            time::Duration::from_millis(50)
+            Duration::from_millis(50)
         } else if got_frames {
             // Drain queued traffic without delaying the next read; commands and
             // scheduled work still run between driver batches.
-            time::Duration::ZERO
+            Duration::ZERO
         } else {
-            time::Duration::from_millis(2)
+            Duration::from_millis(2)
         };
 
         match commands.recv_timeout(wait) {
@@ -317,5 +378,72 @@ fn run_with_connection(
         logger.flush();
     }
 
+    // Report one-shot sends that never reached a connection.
+    for frame in sends.drain_one_shot() {
+        let _ = events.emit(can_thread::CanThreadEvent::SendFailed {
+            identity: frame.frame.identity,
+            error: "CAN one-shot send was not written before shutdown".into(),
+            retrying: false,
+        });
+    }
+
     connection.close();
+}
+
+/// Returns false when the frontend can no longer receive events.
+fn send_injections(
+    connection: &mut can_thread::manager::ConnectionManager,
+    sends: &mut can_thread::tx::SendTable,
+    events: &can_thread::events::Events,
+) -> bool {
+    for _ in 0..ONE_SHOT_SENDS_PER_BURST {
+        let Some(tx_frame) = sends.next_one_shot() else {
+            break;
+        };
+        let identity = tx_frame.frame.identity;
+        // Clone so a failed write leaves the frame queued for reconnection.
+        let delivered = match connection.write(tx_frame.clone()) {
+            Ok(()) => {
+                sends.commit_one_shot();
+                events.emit(can_thread::CanThreadEvent::MessageSent {
+                    identity,
+                    timestamp: time::Time::now(),
+                    amount_left: None,
+                })
+            }
+            Err(error) => injection_failed(connection, sends, events, identity, error),
+        };
+        if !delivered {
+            return false;
+        }
+        if !connection.connected() {
+            break;
+        }
+    }
+    true
+}
+
+fn injection_failed(
+    connection: &mut can_thread::manager::ConnectionManager,
+    sends: &mut can_thread::tx::SendTable,
+    events: &can_thread::events::Events,
+    identity: frame::CanIdentity,
+    error: can::driver::DriverError,
+) -> bool {
+    let unsupported = matches!(error, can::driver::DriverError::Unsupported(_));
+    if !events.emit(can_thread::CanThreadEvent::SendFailed {
+        identity,
+        error: error.to_string(),
+        retrying: !unsupported,
+    }) {
+        return false;
+    }
+    if unsupported {
+        sends.commit_one_shot();
+        return true;
+    }
+    connection.failed(Instant::now());
+    events.emit(can_thread::CanThreadEvent::ConnectionFailed(
+        error.to_string(),
+    ))
 }

@@ -1,4 +1,5 @@
 use crate::{action, app, telemetry, ui, widgets};
+use daqcore::can_thread;
 use std::sync::mpsc;
 
 pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
@@ -23,7 +24,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 view: &view,
                 bus_load: &app.bus_load_samples,
                 action_queue: &mut app.action_queue,
-                database: app.database.as_ref(),
+                database: app.can_state.database.as_ref(),
                 ui_to_can_tx: app.ui_to_can_tx.clone(),
                 formatter: &app.value_formatter,
             };
@@ -38,8 +39,8 @@ struct WorkspaceTileBehavior<'a> {
     view: &'a telemetry::TelemetryView<'a>,
     bus_load: &'a [telemetry::BusLoadSample],
     action_queue: &'a mut Vec<action::AppAction>,
-    database: Option<&'a app::DatabaseSelection>,
-    ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+    database: Option<&'a can_thread::state::DatabaseSelection>,
+    ui_to_can_tx: mpsc::Sender<can_thread::CanThreadCommand>,
     formatter: &'a Option<daqcore::formatter::Formatter>,
 }
 
