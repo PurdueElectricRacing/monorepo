@@ -97,9 +97,9 @@ impl HilEngine {
                     // Sequential tests advance as soon as their results are decided.
                     *stopped_early || *active_test >= tests.len()
                 }
-                Some(ExecutionMode::Parallel) | None => tests.iter().all(|test| {
-                    test.capture_complete(now.saturating_duration_since(*start_time))
-                }),
+                Some(ExecutionMode::Parallel) | None => tests
+                    .iter()
+                    .all(|test| test.capture_complete(now.saturating_duration_since(*start_time))),
             },
             HilState::Idle { .. } => true,
         }
