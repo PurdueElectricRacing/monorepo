@@ -8,7 +8,15 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#include "common/phal_G4/gpio/gpio.h"
+#include "adc/adc.h"
+
+typedef volatile struct {
+    uint16_t vbatt;
+    uint16_t vmc;
+} raw_adc_values_t;
+extern volatile raw_adc_values_t raw_adc_values;
+
+extern PHAL_ADC_Handle_t adc_handle;
 
 // Status LEDs
 #define HEARTBEAT_LED_PORT  (GPIOC)
@@ -53,11 +61,17 @@
 #define IMD_STATUS_PIN              (6)
 #define NOT_PRECHARGE_COMPLETE_PORT (GPIOC)
 #define NOT_PRECHARGE_COMPLETE_PIN  (4)
+#define VMC_PORT           (GPIOA)
+#define VMC_PIN           (3)
+#define VMC_ADC_CHANNEL   (9)
+#define VBATT_PORT        (GPIOA)
+#define VBATT_PIN         (4)
+#define VBATT_ADC_CHANNEL (1)
 
 // Analog input status pins
-#define VBATT_ECU_PORT              (GPIOA)
-#define VBATT_ECU_PIN               (4)
-#define VMC_ECU_PORT                (GPIOA)
-#define VMC_ECU_PIN                 (3)
+// #define VBATT_ECU_PORT              (GPIOA)
+// #define VBATT_ECU_PIN               (4)
+// #define VMC_ECU_PORT                (GPIOA)
+// #define VMC_ECU_PIN                 (3)
 
 #endif // MAIN_H

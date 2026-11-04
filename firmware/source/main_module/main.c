@@ -22,6 +22,7 @@
 #include "sdc.h"
 #include "telemetry.h"
 #include "powertrain.h"
+#include "vbatt_vmc/vbatt_vmc.h"
 #include "vehicle_fsm.h"
 
 /* PER HAL Initialization Structures */
@@ -54,9 +55,9 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_INPUT(IMD_STATUS_PORT, IMD_STATUS_PIN, GPIO_INPUT_OPEN_DRAIN),
     PHAL_GPIO_INIT_INPUT(NOT_PRECHARGE_COMPLETE_PORT, NOT_PRECHARGE_COMPLETE_PIN, GPIO_INPUT_PULL_DOWN),
 
-    // Analog input status pins
-    PHAL_GPIO_INIT_INPUT(VBATT_ECU_PORT, VBATT_ECU_PIN, GPIO_INPUT_OPEN_DRAIN),
-    PHAL_GPIO_INIT_INPUT(VMC_ECU_PORT, VMC_ECU_PIN, GPIO_INPUT_OPEN_DRAIN),
+    // // Analog input status pins
+    // PHAL_GPIO_INIT_INPUT(VBATT_ECU_PORT, VBATT_ECU_PIN, GPIO_INPUT_OPEN_DRAIN),
+    // PHAL_GPIO_INIT_INPUT(VMC_ECU_PORT, VMC_ECU_PIN, GPIO_INPUT_OPEN_DRAIN),
 
     // VCAN
     PHAL_PIN_DEFS_FDCAN1_TX_PA12,
@@ -66,6 +67,26 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_TX_PB13,
     PHAL_PIN_DEFS_FDCAN2_RX_PB12
 };
+
+/* ADC Configuration */
+static const PHAL_ADC_ChannelConfig_t adc_channels[] = {
+    {.channel = VBATT_ADC_CHANNEL},
+    {.channel = VMC_ADC_CHANNEL},
+};
+static const PHAL_ADC_Config_t adc_config = {
+    .instance      = ADC1,
+    .channels      = adc_channels,
+    .channel_count = sizeof(adc_channels) / sizeof(adc_channels[0]),
+};
+
+static_assert(
+    (sizeof(raw_adc_values_t) / sizeof(uint16_t)) ==
+    (sizeof(adc_channels) / sizeof(adc_channels[0])),
+    "ADC channel config and raw ADC values struct must have the same number of channels"
+);
+
+volatile raw_adc_values_t raw_adc_values; // DMA target
+PHAL_ADC_Handle_t adc_handle;
 
 extern void HardFault_Handler(void);
 
@@ -95,6 +116,14 @@ int main(void) {
     powertrain_init();
 
     PHAL_GPIO_write(ECU_SDC_CTRL_PORT, ECU_SDC_CTRL_PIN, true); // set SDC high
+
+    if (false == PHAL_ADC_init(&adc_handle, &adc_config)) {
+        HardFault_Handler();
+    }
+    if (!PHAL_ADC_readDMA(&adc_handle, (uint16_t *)&raw_adc_values,
+                          sizeof(raw_adc_values) / sizeof(uint16_t))) {
+        HardFault_Handler();
+    }
 
     START_CAN_TASKS();
     CAN_SEND_main_init(WDG_get_CSR());
