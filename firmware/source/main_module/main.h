@@ -10,13 +10,19 @@
 
 #include "adc/adc.h"
 
-typedef volatile struct {
-    uint16_t vbatt;
+// VMC is PA3 (ADC1_IN4). VBATT is PA4 (ADC2_IN17). One DMA buffer per ADC.
+typedef struct {
     uint16_t vmc;
-} raw_adc_values_t;
-extern volatile raw_adc_values_t raw_adc_values;
+} raw_adc1_values_t;
+extern volatile raw_adc1_values_t raw_adc1_values;
 
-extern PHAL_ADC_Handle_t adc_handle;
+typedef struct {
+    uint16_t vbatt;
+} raw_adc2_values_t;
+extern volatile raw_adc2_values_t raw_adc2_values;
+
+extern PHAL_ADC_Handle_t adc1_handle;
+extern PHAL_ADC_Handle_t adc2_handle;
 
 // Status LEDs
 #define HEARTBEAT_LED_PORT  (GPIOC)
@@ -61,17 +67,12 @@ extern PHAL_ADC_Handle_t adc_handle;
 #define IMD_STATUS_PIN              (6)
 #define NOT_PRECHARGE_COMPLETE_PORT (GPIOC)
 #define NOT_PRECHARGE_COMPLETE_PIN  (4)
-#define VMC_PORT           (GPIOA)
+// PA3 = ADC1_IN4. PA4 = ADC2_IN17 (not an ADC1 channel).
+#define VMC_PORT          (GPIOA)
 #define VMC_PIN           (3)
-#define VMC_ADC_CHANNEL   (9)
+#define VMC_ADC_CHANNEL   (4)
 #define VBATT_PORT        (GPIOA)
 #define VBATT_PIN         (4)
-#define VBATT_ADC_CHANNEL (1)
-
-// Analog input status pins
-// #define VBATT_ECU_PORT              (GPIOA)
-// #define VBATT_ECU_PIN               (4)
-// #define VMC_ECU_PORT                (GPIOA)
-// #define VMC_ECU_PIN                 (3)
+#define VBATT_ADC_CHANNEL (17)
 
 #endif // MAIN_H
