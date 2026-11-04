@@ -1,13 +1,14 @@
 //! Live CAN monitoring and injection over stdio.
 //!
-//! Received frames stream to stdout as JSON Lines. Stdin accepts raw CAN
-//! `ID:HEXDATA` lines, or `fil watch`-style `BUS[@TIME_MS]:ID:HEXDATA` lines
-//! when a SuperDBC artifact is selected for decoding.
+//! `watch` is the headless counterpart to DaqApp's live CAN pipeline: it drives
+//! the same daqcore can thread worker, applies the same database, bus, and
+//! connection state transitions, streams frames as JSON Lines, and accepts
+//! CAN injection commands on stdin.
 
 mod injection;
 mod record;
 
-use daqcore::{can_thread, connection};
+use daqcore::{can_thread, connection, superdbc};
 use std::{
     io, path, process,
     sync::{
@@ -17,9 +18,6 @@ use std::{
     },
     thread,
 };
-
-/// Request ID for the CLI's single SuperDBC selection request.
-const DATABASE_REQUEST_ID: u64 = 1;
 
 /// Live CAN source options; exactly one source is required.
 #[derive(clap::Args)]
@@ -55,6 +53,22 @@ pub struct WatchArgs {
     loopback: bool,
 }
 
+impl WatchArgs {
+    fn connection_source(&self) -> connection::ConnectionSource {
+        if let Some(path) = &self.serial {
+            return connection::ConnectionSource::Serial(path.clone(), self.speed.into());
+        }
+        if let Some(port) = self.udp {
+            return connection::ConnectionSource::Udp(port);
+        }
+        if self.simulated {
+            return connection::ConnectionSource::Simulated(true);
+        }
+        // The clap source group guarantees exactly one source option.
+        connection::ConnectionSource::Loopback
+    }
+}
+
 #[derive(Clone, Copy, clap::ValueEnum)]
 enum Speed {
     #[value(name = "250k")]
@@ -74,9 +88,7 @@ impl From<Speed> for connection::CanBusSpeed {
 
 /// Streams frames from a live CAN source to stdout as JSON Lines.
 pub fn run(args: WatchArgs) -> process::ExitCode {
-    let source = connection_source(&args);
-    let superdbc_path = args.superdbc;
-    let requested_bus = args.bus;
+    let source = args.connection_source();
 
     let (event_tx, event_rx) = mpsc::channel();
     let mut worker =
@@ -88,33 +100,21 @@ pub fn run(args: WatchArgs) -> process::ExitCode {
             }
         };
 
-    if let Some(path) = &superdbc_path {
-        let selection = can_thread::CanThreadCommand::SelectDatabase {
-            request_id: DATABASE_REQUEST_ID,
-            selection: can_thread::DatabaseRequest::Load {
-                path: path.clone(),
-                preferred_bus: requested_bus,
-            },
-        };
-        if let Err(error) = worker.command(selection) {
-            log::error!("failed to send the SuperDBC selection: {error}");
-            return process::ExitCode::FAILURE;
-        }
-    }
-    if let Err(error) = worker.command(can_thread::CanThreadCommand::Connect(Some(source))) {
-        log::error!("failed to send the CAN source selection: {error}");
-        return process::ExitCode::FAILURE;
-    }
-
     let monitor = Monitor {
-        events: &event_rx,
+        can_to_ui_rx: &event_rx,
+        ui_to_can_tx: worker.sender(),
         output: &mut io::stdout().lock(),
-        superdbc_path: superdbc_path.as_deref(),
-        requested_bus,
-        command_sender: worker.sender(),
+        superdbc_path: args.superdbc,
+        requested_bus: args.bus,
+        pending_database: None,
+        selection_request: 0,
+        database: None,
+        connection_status: ConnectionStatus::Disconnected,
+        active_source: None,
+        sequence: 0,
         quit_requested: Arc::new(AtomicBool::new(false)),
     };
-    let exit = monitor.run();
+    let exit = monitor.run(source);
 
     if worker.stop().is_err() {
         log::warn!("CAN worker stopped unexpectedly");
@@ -122,49 +122,53 @@ pub fn run(args: WatchArgs) -> process::ExitCode {
     exit
 }
 
-fn connection_source(args: &WatchArgs) -> connection::ConnectionSource {
-    if let Some(path) = &args.serial {
-        return connection::ConnectionSource::Serial(path.clone(), args.speed.into());
-    }
-    if let Some(port) = args.udp {
-        return connection::ConnectionSource::Udp(port);
-    }
-    if args.simulated {
-        return connection::ConnectionSource::Simulated(true);
-    }
-    // The clap source group guarantees exactly one source option.
-    connection::ConnectionSource::Loopback
+/// Connection lifecycle mirrored from DaqApp.
+#[derive(Debug, PartialEq, Clone)]
+enum ConnectionStatus {
+    Disconnected,
+    Connected,
+    Error(String),
 }
 
-/// A resolved SuperDBC bus used to label received frames.
-struct SelectedBus {
-    id: u8,
-    name: String,
+/// The SuperDBC database and bus used to label frames, mirroring DaqApp.
+struct DatabaseSelection {
+    database: superdbc::database::Database,
+    bus_id: u8,
 }
 
-/// Consumes worker events until a failure or stdout closure ends the stream.
+impl DatabaseSelection {
+    fn bus(&self) -> Option<&superdbc::database::Bus> {
+        self.database.bus_by_id(self.bus_id)
+    }
+}
+
+/// Headless counterpart to DaqApp's can thread handling.
 struct Monitor<'a, W> {
-    events: &'a mpsc::Receiver<can_thread::CanThreadEvent>,
+    can_to_ui_rx: &'a mpsc::Receiver<can_thread::CanThreadEvent>,
+    ui_to_can_tx: mpsc::Sender<can_thread::CanThreadCommand>,
     output: &'a mut W,
-    superdbc_path: Option<&'a path::Path>,
+    superdbc_path: Option<path::PathBuf>,
     requested_bus: Option<u8>,
-    command_sender: mpsc::Sender<can_thread::CanThreadCommand>,
+    pending_database: Option<u64>,
+    selection_request: u64,
+    database: Option<DatabaseSelection>,
+    connection_status: ConnectionStatus,
+    active_source: Option<connection::ConnectionSource>,
+    sequence: u64,
     quit_requested: Arc<AtomicBool>,
 }
 
 impl<W: io::Write> Monitor<'_, W> {
-    fn run(self) -> process::ExitCode {
-        let mut sequence = 0u64;
-        let mut selected: Option<SelectedBus> = None;
-        let mut last_connection_error: Option<String> = None;
-
+    fn run(mut self, source: connection::ConnectionSource) -> process::ExitCode {
         if self.superdbc_path.is_none() {
             log::info!("watching raw CAN; JSON Lines on stdout");
-            self.start_injections(injection::InjectionContext::Raw);
+            self.spawn_injection_reader(injection::InjectionContext::Raw);
         }
+        self.request_database();
+        self.connect_can(source);
 
         loop {
-            let event = match self.events.recv() {
+            let event = match self.can_to_ui_rx.recv() {
                 Ok(event) => event,
                 Err(error) => {
                     if self.quit_requested.load(Ordering::SeqCst) {
@@ -174,104 +178,157 @@ impl<W: io::Write> Monitor<'_, W> {
                     return process::ExitCode::FAILURE;
                 }
             };
-
-            match event {
-                can_thread::CanThreadEvent::DatabaseSelected { result, .. } => {
-                    let (database, bus_id) = match result {
-                        Ok(can_thread::DatabaseUpdate::Loaded { database, bus_id }) => {
-                            (database, bus_id)
-                        }
-                        Ok(can_thread::DatabaseUpdate::Bus { bus_id }) => {
-                            log::error!("CAN worker selected bus {bus_id} without a database");
-                            return process::ExitCode::FAILURE;
-                        }
-                        Err(error) => {
-                            if let Some(path) = self.superdbc_path {
-                                log::error!("SuperDBC load failed ({}): {error}", path.display());
-                            } else {
-                                log::error!("SuperDBC load failed: {error}");
-                            }
-                            return process::ExitCode::FAILURE;
-                        }
-                    };
-
-                    if let Some(requested) = self.requested_bus
-                        && requested != bus_id
-                    {
-                        log::error!("SuperDBC has no bus {requested}");
-                        return process::ExitCode::FAILURE;
-                    }
-
-                    let Some(bus) = database.bus_by_id(bus_id) else {
-                        log::error!("SuperDBC has no bus {bus_id}");
-                        return process::ExitCode::FAILURE;
-                    };
-
-                    let bus_name = bus.name().to_owned();
-                    log::info!("decoding bus {bus_id} ({bus_name}); JSON Lines on stdout");
-                    self.start_injections(injection::InjectionContext::Defined {
-                        database,
-                        bus_id,
-                        bus_name: bus_name.clone(),
-                    });
-                    selected = Some(SelectedBus {
-                        id: bus_id,
-                        name: bus_name,
-                    });
-                }
-                can_thread::CanThreadEvent::Frame(parsed) => {
-                    if self.superdbc_path.is_some() && selected.is_none() {
-                        log::error!("received a frame before the SuperDBC selection completed");
-                        return process::ExitCode::FAILURE;
-                    }
-
-                    let bus = selected.as_ref().map(|bus| (bus.id, bus.name.as_str()));
-                    let record = record::FrameRecord::from_frame(&parsed, sequence, bus);
-                    if let Err(error) = record.write_json_line(self.output) {
-                        if error.kind() == io::ErrorKind::BrokenPipe {
-                            // A closed consumer, such as `head`, ends the stream normally.
-                            return process::ExitCode::SUCCESS;
-                        }
-                        log::error!("failed to write a frame record: {error}");
-                        return process::ExitCode::FAILURE;
-                    }
-                    sequence = sequence.wrapping_add(1);
-                }
-                can_thread::CanThreadEvent::MessageSent { identity, .. } => {
-                    log::info!("sent CAN frame 0x{identity:x}");
-                }
-                can_thread::CanThreadEvent::SendFailed {
-                    identity, error, ..
-                } => {
-                    log::warn!("failed to send CAN frame 0x{identity:x}: {error}");
-                }
-                can_thread::CanThreadEvent::SourceSelected(source) => {
-                    let name =
-                        source.map_or_else(|| "disconnected".to_owned(), |s| s.display_name());
-                    log::info!("CAN source selected: {name}");
-                }
-                can_thread::CanThreadEvent::ConnectionSuccessful => {
-                    last_connection_error = None;
-                    log::info!("CAN connection established");
-                }
-                can_thread::CanThreadEvent::ConnectionFailed(error) => {
-                    if last_connection_error.as_deref() != Some(error.as_str()) {
-                        log::warn!("CAN connection failed, retrying: {error}");
-                        last_connection_error = Some(error);
-                    }
-                }
-                can_thread::CanThreadEvent::Diagnostic(message) => {
-                    log::warn!("CAN worker diagnostic: {message}");
-                }
-                _ => {}
+            if let Some(exit) = self.handle_event(event) {
+                return exit;
             }
         }
     }
 
-    fn start_injections(&self, context: injection::InjectionContext) {
+    fn request_database(&mut self) {
+        if self.pending_database.is_some() {
+            return;
+        }
+        let Some(path) = &self.superdbc_path else {
+            return;
+        };
+        self.selection_request += 1;
+        let request_id = self.selection_request;
+        let command = can_thread::CanThreadCommand::SelectDatabase {
+            request_id,
+            selection: can_thread::DatabaseRequest::Load {
+                path: path.clone(),
+                preferred_bus: self.requested_bus,
+            },
+        };
+        match self.ui_to_can_tx.send(command) {
+            Ok(()) => self.pending_database = Some(request_id),
+            Err(error) => log::error!("failed to request the SuperDBC: {error}"),
+        }
+    }
+
+    fn connect_can(&mut self, source: connection::ConnectionSource) {
+        self.set_connection_status(ConnectionStatus::Disconnected);
+        let command = can_thread::CanThreadCommand::Connect(Some(source));
+        if let Err(error) = self.ui_to_can_tx.send(command) {
+            log::error!("failed to select the CAN source: {error}");
+        }
+    }
+
+    fn apply_database_result(
+        &mut self,
+        request_id: u64,
+        result: Result<can_thread::DatabaseUpdate, String>,
+    ) -> Result<(), String> {
+        if self.pending_database != Some(request_id) {
+            return Ok(());
+        }
+        self.pending_database = None;
+        match result {
+            Ok(can_thread::DatabaseUpdate::Loaded { database, bus_id }) => {
+                if let Some(requested) = self.requested_bus
+                    && requested != bus_id
+                {
+                    return Err(format!("SuperDBC has no bus {requested}"));
+                }
+                let selection = DatabaseSelection {
+                    database: *database,
+                    bus_id,
+                };
+                let Some(bus) = selection.bus() else {
+                    return Err(format!("SuperDBC has no bus {bus_id}"));
+                };
+                log::info!("decoding bus {bus_id} ({})", bus.name());
+                self.spawn_injection_reader(injection::InjectionContext::Defined {
+                    database: Box::new(selection.database.clone()),
+                    bus_id,
+                    bus_name: bus.name().to_owned(),
+                });
+                self.database = Some(selection);
+                Ok(())
+            }
+            Ok(can_thread::DatabaseUpdate::Bus { bus_id }) => Err(format!(
+                "CAN worker selected bus {bus_id} without a database"
+            )),
+            Err(error) => Err(error),
+        }
+    }
+
+    fn handle_event(&mut self, event: can_thread::CanThreadEvent) -> Option<process::ExitCode> {
+        match event {
+            can_thread::CanThreadEvent::DatabaseSelected { request_id, result } => {
+                if let Err(error) = self.apply_database_result(request_id, result) {
+                    if let Some(path) = &self.superdbc_path {
+                        log::error!("SuperDBC load failed ({}): {error}", path.display());
+                    } else {
+                        log::error!("SuperDBC load failed: {error}");
+                    }
+                    return Some(process::ExitCode::FAILURE);
+                }
+            }
+            can_thread::CanThreadEvent::Frame(frame) => {
+                let bus = self.database.as_ref().and_then(|selection| {
+                    selection.bus().map(|bus| (selection.bus_id, bus.name()))
+                });
+                let record = record::FrameRecord::from_frame(&frame, self.sequence, bus);
+                if let Err(error) = record.write_json_line(self.output) {
+                    if error.kind() == io::ErrorKind::BrokenPipe {
+                        // A closed consumer, such as `head`, ends the stream normally.
+                        return Some(process::ExitCode::SUCCESS);
+                    }
+                    log::error!("failed to write a frame record: {error}");
+                    return Some(process::ExitCode::FAILURE);
+                }
+                self.sequence = self.sequence.wrapping_add(1);
+            }
+            can_thread::CanThreadEvent::MessageSent { identity, .. } => {
+                log::info!("sent CAN frame 0x{identity:x}");
+            }
+            can_thread::CanThreadEvent::SendFailed {
+                identity, error, ..
+            } => {
+                log::warn!("failed to send CAN frame 0x{identity:x}: {error}");
+            }
+            can_thread::CanThreadEvent::Diagnostic(message) => {
+                log::warn!("CAN worker diagnostic: {message}");
+            }
+            can_thread::CanThreadEvent::SourceSelected(Some(source)) => {
+                if self.active_source.as_ref() != Some(&source) {
+                    log::info!("CAN source selected: {}", source.display_name());
+                }
+                self.active_source = Some(source);
+            }
+            can_thread::CanThreadEvent::ConnectionSuccessful => {
+                self.set_connection_status(ConnectionStatus::Connected);
+            }
+            can_thread::CanThreadEvent::ConnectionFailed(error) => {
+                self.set_connection_status(ConnectionStatus::Error(error));
+            }
+            can_thread::CanThreadEvent::Disconnection => {
+                self.set_connection_status(ConnectionStatus::Disconnected);
+            }
+            _ => {}
+        }
+        None
+    }
+
+    fn set_connection_status(&mut self, status: ConnectionStatus) {
+        if self.connection_status == status {
+            return;
+        }
+        match &status {
+            ConnectionStatus::Disconnected => log::info!("CAN disconnected"),
+            ConnectionStatus::Connected => log::info!("CAN connection established"),
+            ConnectionStatus::Error(error) => {
+                log::warn!("CAN connection failed, retrying: {error}");
+            }
+        }
+        self.connection_status = status;
+    }
+
+    fn spawn_injection_reader(&self, context: injection::InjectionContext) {
         let injections = injection::StdinInjections::new(
             context,
-            self.command_sender.clone(),
+            self.ui_to_can_tx.clone(),
             Arc::clone(&self.quit_requested),
         );
         let spawned = thread::Builder::new()
