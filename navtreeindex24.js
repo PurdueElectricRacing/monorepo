@@ -1,5 +1,6 @@
 var NAVTREEINDEX24 =
 {
+"structabox__init__data__t.html":[33,0,2],
 "structabox__init__data__t.html#a95232c2bd5c6850262062f9a51a231df":[33,0,2,1],
 "structabox__init__data__t.html#adc75d842c61cbcc5ae2971a8acee981e":[33,0,2,0],
 "structabox__version__data__t.html":[33,0,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX24 =
 "structcan__data__t.html#aab01513770b5adad229475cfbfa0e2dc":[33,0,55,49],
 "structcan__data__t.html#aab9f93fb039b67bff08b706fb9e05f27":[33,0,55,34],
 "structcan__data__t.html#aad41d6be038f0ee9fad71746d9929c13":[33,0,55,13],
-"structcan__data__t.html#ab1b96947e6e19a9e63c69520c3a882c8":[33,0,55,17],
-"structcan__data__t.html#ab3a945b468de0e28ea1947d7cbf765ad":[33,0,55,36]
+"structcan__data__t.html#ab1b96947e6e19a9e63c69520c3a882c8":[33,0,55,17]
 };

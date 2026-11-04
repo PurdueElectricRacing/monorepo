@@ -1,5 +1,6 @@
 var NAVTREEINDEX26 =
 {
+"structgram__t.html":[33,0,102],
 "structgram__t.html#a620d084b5f12fa2bd61df9511ceb038e":[33,0,102,0],
 "structhertz__t.html":[33,0,103],
 "structhertz__t.html#a0c75148a54ec3b62fbf690ba1f8d501c":[33,0,103,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX26 =
 "structpVCU__struct.html#a8487ab28baf82ec2c16ffe9bf2853215":[33,0,222,40],
 "structpVCU__struct.html#a896eb96b3ab59a7d6c35e83dca0e672a":[33,0,222,45],
 "structpVCU__struct.html#a8bce1277f4788d08c356301f9260df5a":[33,0,222,60],
-"structpVCU__struct.html#a94e545eaf4295132baaf2ed86047257d":[33,0,222,7],
-"structpVCU__struct.html#a96eeea2f899ee3b8aa81309f48fe7582":[33,0,222,27]
+"structpVCU__struct.html#a94e545eaf4295132baaf2ed86047257d":[33,0,222,7]
 };

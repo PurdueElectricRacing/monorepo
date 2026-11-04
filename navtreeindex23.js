@@ -1,5 +1,6 @@
 var NAVTREEINDEX23 =
 {
+"structNAV__PVT__payload__t.html#a66a0bd5b0c4590b3c5a7aa20854b5b15":[33,0,186,24],
 "structNAV__PVT__payload__t.html#a75373847d544de806da2fc29552b0d8b":[33,0,186,31],
 "structNAV__PVT__payload__t.html#a7c2c4b5935b9549e99f5902bc3037c3d":[33,0,186,17],
 "structNAV__PVT__payload__t.html#a7f32ba1d9cc20dbbb4c232a8fc100da4":[33,0,186,18],
@@ -248,6 +249,5 @@ var NAVTREEINDEX23 =
 "structa__box__fault__sync__data__t.html#adcca2d435e6a383c54962e717e74a91c":[33,0,1,0],
 "structa__box__fault__sync__data__t.html#aee8a275d3a0dff79839debc43ac5fd2b":[33,0,1,5],
 "structa__box__fault__sync__data__t.html#af1a03f972acf03218735e4da485fbd90":[33,0,1,6],
-"structa__box__fault__sync__data__t.html#afa60ad1f4cc7c37f70fd0edec22b93e0":[33,0,1,1],
-"structabox__init__data__t.html":[33,0,2]
+"structa__box__fault__sync__data__t.html#afa60ad1f4cc7c37f70fd0edec22b93e0":[33,0,1,1]
 };

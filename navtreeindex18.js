@@ -1,5 +1,6 @@
 var NAVTREEINDEX18 =
 {
+"phal__F4_2usart_2usart_8h_source.html":[34,0,1,1,8,10,1],
 "phal__F4_8h.html":[34,0,1,1,8,11],
 "phal__F4_8h_source.html":[34,0,1,1,8,11],
 "phal__G4_2adc_2adc_8c.html":[34,0,1,1,9,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX18 =
 "pin__defs_8h.html#a679c018529d29f732fac994ac24abc6a":[34,0,1,2,5,4,14],
 "pin__defs_8h.html#a84106b66256d8a1513944b0711185fc8":[34,0,1,2,5,4,15],
 "pin__defs_8h.html#a84357dafca10c0bedd27ddf562ec038f":[34,0,1,2,5,4,3],
-"pin__defs_8h.html#a8437cdc43b488d816a5e56f7b6457b86":[34,0,1,2,5,4,0],
-"pin__defs_8h.html#a8a762e1254b034eba6b4993ae11cee50":[34,0,1,2,5,4,5]
+"pin__defs_8h.html#a8437cdc43b488d816a5e56f7b6457b86":[34,0,1,2,5,4,0]
 };

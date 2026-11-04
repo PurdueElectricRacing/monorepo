@@ -1,5 +1,6 @@
 var NAVTREEINDEX19 =
 {
+"pin__defs_8h.html#a8a762e1254b034eba6b4993ae11cee50":[34,0,1,2,5,4,5],
 "pin__defs_8h.html#aa277719996795ecb8dee70daca77d760":[34,0,1,2,5,4,13],
 "pin__defs_8h.html#aa5bf4e4a187f66b98a273bb051ec3877":[34,0,1,2,5,4,1],
 "pin__defs_8h.html#abbe24052ba674055e0c586e8062221d0":[34,0,1,2,5,4,12],
@@ -248,6 +249,5 @@ var NAVTREEINDEX19 =
 "sdc_8c.html#abe061ee2b199bb82296440005e5d23fc":[34,0,1,2,8,1,0,1],
 "sdc_8h.html":[34,0,1,2,8,1,1],
 "sdc_8h.html#a446798ef14115f9aec2aeed7cbb75f2a":[34,0,1,2,8,1,1,1],
-"sdc_8h.html#abe061ee2b199bb82296440005e5d23fc":[34,0,1,2,8,1,1,0],
-"sdc_8h_source.html":[34,0,1,2,8,1,1]
+"sdc_8h.html#abe061ee2b199bb82296440005e5d23fc":[34,0,1,2,8,1,1,0]
 };

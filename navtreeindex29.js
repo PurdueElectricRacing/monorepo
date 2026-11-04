@@ -1,5 +1,6 @@
 var NAVTREEINDEX29 =
 {
+"torque__controller_8h.html":[34,0,1,2,8,3,1],
 "torque__controller_8h.html#a88fc0cd3cc59c087ab0e0f1518a81462":[34,0,1,2,8,3,1,0],
 "torque__controller_8h_source.html":[34,0,1,2,8,3,1],
 "torque__path_8drawio_8png.html":[34,0,1,2,11],
@@ -248,6 +249,5 @@ var NAVTREEINDEX29 =
 "usb__priv_8c.html#af415075b0182f3a9bc7d505d8e6e37a0":[34,0,1,1,9,12,2,39],
 "usb__priv_8c.html#afde36da2f9f9310cd72f06a4b3b5ed45":[34,0,1,1,9,12,2,10],
 "usb__priv_8h.html":[34,0,1,1,9,12,3],
-"usb__priv_8h.html#a057acf6e380b2c8f1d44231ce40468ab":[34,0,1,1,9,12,3,4],
-"usb__priv_8h.html#a3b7fdac0fb67607273cf7aabc6f8494f":[34,0,1,1,9,12,3,5]
+"usb__priv_8h.html#a057acf6e380b2c8f1d44231ce40468ab":[34,0,1,1,9,12,3,4]
 };

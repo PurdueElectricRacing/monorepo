@@ -247,7 +247,7 @@ var NAVTREEINDEX8 =
 "daq_2main_8h.html#afb17ee7288cff3ea95ff86218c1a57b7":[34,0,1,2,3,8,22],
 "daq_2main_8h_source.html":[34,0,1,2,3,8],
 "daq_8drawio_8png.html":[34,0,1,2,3,5],
-"daqapp__bootloader__architecture_8drawio_8png.html":[34,0,0,0,0],
-"daqapp__bootloader__state__machine_8drawio_8png.html":[34,0,0,0,1],
-"daqapp__overview_8drawio_8png.html":[34,0,0,0,2]
+"daqapp__bootloader__architecture_8drawio_8png.html":[34,0,0,1,0],
+"daqapp__bootloader__state__machine_8drawio_8png.html":[34,0,0,1,1],
+"daqapp__overview_8drawio_8png.html":[34,0,0,1,2]
 };
