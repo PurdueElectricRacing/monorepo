@@ -1,4 +1,5 @@
-use crate::{app, ui};
+use crate::ui;
+use daqcore::can_thread;
 use std::sync::mpsc;
 
 pub struct SendUi {
@@ -19,7 +20,7 @@ pub struct SendUi {
     error: Option<String>,
 
     // Required to be stored on the struct so Drop can send cancellation messages when the UI closes
-    ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+    ui_to_can_tx: mpsc::Sender<can_thread::CanThreadCommand>,
 }
 
 #[derive(Clone, Copy, PartialEq)]
@@ -38,7 +39,7 @@ struct SignalValue {
 }
 
 struct SendingMessage {
-    pub amount: daqcore::can_thread::tx::SendAmount,
+    pub amount: can_thread::tx::SendAmount,
     pub msg_name: String,
     pub identity: daqcore::frame::CanIdentity,
     pub is_extended_id: bool,
@@ -68,7 +69,7 @@ impl Drop for SendUi {
             let identity = msg.identity;
             if let Err(e) = self
                 .ui_to_can_tx
-                .send(daqcore::can_thread::CanThreadCommand::DeleteSendMessage { identity })
+                .send(can_thread::CanThreadCommand::DeleteSendMessage { identity })
             {
                 // Don't panic in Drop, just log the error
                 log::error!(
@@ -82,10 +83,7 @@ impl Drop for SendUi {
 }
 
 impl SendUi {
-    pub fn new(
-        num: usize,
-        ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
-    ) -> Self {
+    pub fn new(num: usize, ui_to_can_tx: mpsc::Sender<can_thread::CanThreadCommand>) -> Self {
         Self {
             title: format!("Send UI {}", num),
 
@@ -110,7 +108,7 @@ impl SendUi {
     pub fn show(
         &mut self,
         ui: &mut eframe::egui::Ui,
-        database: Option<&app::DatabaseSelection>,
+        database: Option<&can_thread::state::DatabaseSelection>,
         formatter: &Option<daqcore::formatter::Formatter>,
     ) -> egui_tiles::UiResponse {
         let Some(database) = database else {
@@ -246,15 +244,13 @@ impl SendUi {
                             self.error = None;
 
                             let send_amount = match self.send_mode {
-                                SendMode::Once => daqcore::can_thread::tx::SendAmount::Once,
+                                SendMode::Once => can_thread::tx::SendAmount::Once,
 
-                                SendMode::Infinite => {
-                                    daqcore::can_thread::tx::SendAmount::Infinite {
-                                        period: self.period_ms,
-                                    }
-                                }
+                                SendMode::Infinite => can_thread::tx::SendAmount::Infinite {
+                                    period: self.period_ms,
+                                },
 
-                                SendMode::Finite => daqcore::can_thread::tx::SendAmount::Finite {
+                                SendMode::Finite => can_thread::tx::SendAmount::Finite {
                                     amount: self.finite_amount,
                                     period: self.period_ms,
                                 },
@@ -274,7 +270,7 @@ impl SendUi {
                                 last_sent: daqcore::time::Time::now(),
                             });
 
-                            let add_send_msg = daqcore::can_thread::tx::AddSendMessage {
+                            let add_send_msg = can_thread::tx::AddSendMessage {
                                 amount: send_amount,
                                 identity,
                                 is_extended_id: selected_msg.is_extended_id(),
@@ -286,9 +282,7 @@ impl SendUi {
                             self.adjustable_values_enabled = false;
 
                             self.ui_to_can_tx
-                                .send(daqcore::can_thread::CanThreadCommand::AddSendMessage(
-                                    add_send_msg,
-                                ))
+                                .send(can_thread::CanThreadCommand::AddSendMessage(add_send_msg))
                                 .unwrap_or_else(|error| {
                                     log::error!("Failed to submit send: {error}")
                                 });
@@ -334,8 +328,8 @@ impl SendUi {
                         self.error = None;
 
                         self.ui_to_can_tx
-                            .send(daqcore::can_thread::CanThreadCommand::AddSendMessage(
-                                daqcore::can_thread::tx::AddSendMessage {
+                            .send(can_thread::CanThreadCommand::AddSendMessage(
+                                can_thread::tx::AddSendMessage {
                                     amount: self.sending_messages[idx].amount,
                                     identity: self.sending_messages[idx].identity,
                                     is_extended_id: self.sending_messages[idx].is_extended_id,
@@ -350,11 +344,9 @@ impl SendUi {
                             SendUiActions::DeleteMessage { identity } => {
                                 self.sending_messages.retain(|msg| msg.identity != identity);
                                 self.ui_to_can_tx
-                                    .send(
-                                        daqcore::can_thread::CanThreadCommand::DeleteSendMessage {
-                                            identity,
-                                        },
-                                    )
+                                    .send(can_thread::CanThreadCommand::DeleteSendMessage {
+                                        identity,
+                                    })
                                     .unwrap_or_else(|error| {
                                         log::error!("Failed to delete send: {error}")
                                     });
@@ -376,8 +368,8 @@ impl SendUi {
         self.error = None;
     }
 
-    pub fn handle_can_message(&mut self, msg: &daqcore::can_thread::CanThreadEvent) {
-        if let daqcore::can_thread::CanThreadEvent::SendFailed {
+    pub fn handle_can_message(&mut self, msg: &can_thread::CanThreadEvent) {
+        if let can_thread::CanThreadEvent::SendFailed {
             identity,
             error,
             retrying,
@@ -389,7 +381,7 @@ impl SendUi {
             log::error!("Send 0x{identity:03X} failed: {error}");
         }
 
-        if let daqcore::can_thread::CanThreadEvent::MessageSent {
+        if let can_thread::CanThreadEvent::MessageSent {
             identity,
             timestamp,
             amount_left,

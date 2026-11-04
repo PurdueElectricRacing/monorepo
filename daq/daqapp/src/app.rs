@@ -1,60 +1,32 @@
 use crate::{
     action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
 };
+use daqcore::can_thread;
 use std::{error, mem, path, sync::mpsc};
 
 const UI_SCALE_STEP: f32 = 0.2;
 
-pub struct DatabaseSelection {
-    pub database: daqcore::superdbc::database::Database,
-    pub bus_id: u8,
-}
-
-impl DatabaseSelection {
-    pub fn bus(&self) -> Option<&daqcore::superdbc::database::Bus> {
-        self.database.bus_by_id(self.bus_id)
-    }
-
-    pub fn source(&self) -> Option<daqcore::can_thread::DatabaseSource> {
-        Some(daqcore::can_thread::DatabaseSource {
-            path: self.database.path()?.to_owned(),
-            bus_id: self.bus_id,
-        })
-    }
-}
-
-#[derive(Debug, PartialEq, Clone)]
-pub enum ConnectionStatus {
-    Disconnected,
-    Connected,
-    Error(String),
-}
-
 pub struct DAQApp {
-    pub connection_status: ConnectionStatus,
+    pub can_state: can_thread::state::CanState,
     pub value_formatter: Option<daqcore::formatter::Formatter>,
     pub is_sidebar_open: bool,
     pub command_palette: ui::command_palette::CommandPalette,
     pub tile_tree: egui_tiles::Tree<widgets::Widget>,
     pub widget_ids: widget_ids::WidgetIds,
-    pub can_to_ui_rx: mpsc::Receiver<daqcore::can_thread::CanThreadEvent>,
-    pub ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+    pub can_to_ui_rx: mpsc::Receiver<can_thread::CanThreadEvent>,
+    pub ui_to_can_tx: mpsc::Sender<can_thread::CanThreadCommand>,
     pub action_queue: Vec<action::AppAction>,
     pub selected_source: Option<daqcore::connection::ConnectionSource>,
     pub theme: eframe::egui::Style,
     pub theme_selection: ui::theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
     pub serial_ports: Vec<serialport::SerialPortInfo>,
-    pub database: Option<DatabaseSelection>,
-    pending_database: Option<u64>,
-    selection_request: u64,
     pub can_bus_speed: daqcore::connection::CanBusSpeed,
     pub udp_port: u16,
     pub session: daqcore::session::Session,
     pub bus_load_samples: Vec<telemetry::BusLoadSample>,
-    pub can_thread: daqcore::can_thread::CanThreadHandle,
+    pub can_thread: can_thread::CanThreadHandle,
     hil_snapshot: daqcore::hil::engine::HilSnapshot,
-    active_source: Option<daqcore::connection::ConnectionSource>,
     pub diagnostic: Option<String>,
     pub log_folder: Option<path::PathBuf>,
 }
@@ -63,11 +35,16 @@ impl DAQApp {
     pub fn save_settings(&self) {
         let settings = settings::Settings {
             superdbc_path: self
+                .can_state
                 .database
                 .as_ref()
                 .and_then(|selection| selection.source())
                 .map(|source| source.path),
-            bus_id: self.database.as_ref().map(|selection| selection.bus_id),
+            bus_id: self
+                .can_state
+                .database
+                .as_ref()
+                .map(|selection| selection.bus_id),
             selected_source: self.selected_source.clone(),
             selected_speed: self.can_bus_speed,
             udp_port: self.udp_port,
@@ -80,8 +57,8 @@ impl DAQApp {
     }
 
     pub fn new(
-        can_to_ui_rx: mpsc::Receiver<daqcore::can_thread::CanThreadEvent>,
-        can_thread: daqcore::can_thread::CanThreadHandle,
+        can_to_ui_rx: mpsc::Receiver<can_thread::CanThreadEvent>,
+        can_thread: can_thread::CanThreadHandle,
         settings: settings::Settings,
         cc: &eframe::CreationContext,
     ) -> Result<Self, Box<dyn error::Error + Send + Sync>> {
@@ -100,7 +77,7 @@ impl DAQApp {
         let session = daqcore::session::Session::live(daqcore::time::Time::now(), window_secs)?;
 
         let mut app = Self {
-            connection_status: ConnectionStatus::Disconnected,
+            can_state: can_thread::state::CanState::default(),
             value_formatter: load_formatter(),
             is_sidebar_open: true,
             command_palette: ui::command_palette::CommandPalette::new(),
@@ -115,15 +92,11 @@ impl DAQApp {
             theme_selection,
             pixels_per_point: settings.pixels_per_point,
             serial_ports: util::get_available_serial_ports(),
-            database: None,
-            pending_database: None,
-            selection_request: 0,
             can_bus_speed: settings.selected_speed,
             udp_port: settings.udp_port,
             session,
             bus_load_samples: Vec::new(),
             hil_snapshot: daqcore::hil::engine::HilSnapshot::idle(),
-            active_source: None,
             diagnostic: None,
             log_folder: settings.log_folder,
         };
@@ -134,69 +107,37 @@ impl DAQApp {
     }
 
     pub fn selection_pending(&self) -> bool {
-        self.pending_database.is_some()
+        self.can_state.selection_pending()
     }
 
     pub fn request_database(&mut self, path: &path::Path, preferred_bus: Option<u8>) {
-        self.request_selection(daqcore::can_thread::DatabaseRequest::Load {
+        self.request_selection(can_thread::DatabaseRequest::Load {
             path: path.to_owned(),
             preferred_bus,
         });
     }
 
     pub fn request_bus(&mut self, bus_id: u8) {
-        let Some(selection) = &self.database else {
-            return;
-        };
-        if selection.bus_id == bus_id {
-            return;
-        }
-        if selection.database.bus_by_id(bus_id).is_none() {
-            self.diagnostic = Some(format!("SuperDBC has no bus {bus_id}"));
-            return;
-        }
-        self.request_selection(daqcore::can_thread::DatabaseRequest::Bus { bus_id });
+        self.request_selection(can_thread::DatabaseRequest::Bus { bus_id });
     }
 
-    fn request_selection(&mut self, selection: daqcore::can_thread::DatabaseRequest) {
-        if self.selection_pending() {
-            return;
-        }
-        self.selection_request += 1;
-        let request_id = self.selection_request;
-        let command = daqcore::can_thread::CanThreadCommand::SelectDatabase {
-            request_id,
-            selection,
-        };
-        match self.ui_to_can_tx.send(command) {
-            Ok(()) => self.pending_database = Some(request_id),
-            Err(error) => self.diagnostic = Some(error.to_string()),
+    fn request_selection(&mut self, selection: can_thread::DatabaseRequest) {
+        if let Err(error) = self
+            .can_state
+            .request_selection(&self.ui_to_can_tx, selection)
+        {
+            self.diagnostic = Some(error);
         }
     }
 
     fn apply_database_result(
         &mut self,
         request_id: u64,
-        result: Result<daqcore::can_thread::DatabaseUpdate, String>,
+        result: Result<can_thread::DatabaseUpdate, String>,
     ) -> bool {
-        if self.pending_database != Some(request_id) {
-            return false;
-        }
-        self.pending_database = None;
-        match result {
-            Ok(daqcore::can_thread::DatabaseUpdate::Loaded { database, bus_id }) => {
-                self.database = Some(DatabaseSelection {
-                    database: *database,
-                    bus_id,
-                });
-            }
-            Ok(daqcore::can_thread::DatabaseUpdate::Bus { bus_id }) => {
-                let Some(selection) = &mut self.database else {
-                    self.diagnostic = Some("No UI database is loaded".to_owned());
-                    return false;
-                };
-                selection.bus_id = bus_id;
-            }
+        match self.can_state.apply_database_result(request_id, result) {
+            Ok(true) => {}
+            Ok(false) => return false,
             Err(error) => {
                 self.diagnostic = Some(error);
                 return false;
@@ -246,13 +187,9 @@ impl DAQApp {
             return;
         };
 
-        self.connection_status = ConnectionStatus::Disconnected;
-
-        let _ = self
-            .ui_to_can_tx
-            .send(daqcore::can_thread::CanThreadCommand::Connect(Some(
-                source.clone(),
-            )));
+        if let Err(error) = self.can_state.connect(&self.ui_to_can_tx, source.clone()) {
+            self.diagnostic = Some(error);
+        }
     }
 
     pub fn handle_action(&mut self, action: action::AppAction, ctx: &eframe::egui::Context) {
@@ -271,7 +208,7 @@ impl DAQApp {
                     existing_count,
                 ) {
                     Some(mut widget) => {
-                        widget.handle_operational_event(&daqcore::can_thread::CanThreadEvent::Hil(
+                        widget.handle_operational_event(&can_thread::CanThreadEvent::Hil(
                             self.hil_snapshot.clone(),
                         ));
                         self.add_widget_to_tree(widget);
@@ -335,32 +272,20 @@ impl eframe::App for DAQApp {
                 }
             }
 
+            if self.can_state.observe_connection(&event) {
+                self.session.reset(daqcore::time::Time::now());
+                self.bus_load_samples.clear();
+            }
             match event {
-                daqcore::can_thread::CanThreadEvent::DatabaseSelected { request_id, result } => {
+                can_thread::CanThreadEvent::DatabaseSelected { request_id, result } => {
                     if self.apply_database_result(request_id, result) {
                         self.save_settings();
                     }
                 }
-                daqcore::can_thread::CanThreadEvent::Frame(frame) => {
+                can_thread::CanThreadEvent::Frame(frame) => {
                     self.session.ingest_frame(frame);
                 }
-                daqcore::can_thread::CanThreadEvent::SourceSelected(Some(source)) => {
-                    if self.active_source.as_ref() != Some(&source) {
-                        self.session.reset(daqcore::time::Time::now());
-                        self.bus_load_samples.clear();
-                    }
-                    self.active_source = Some(source);
-                }
-                daqcore::can_thread::CanThreadEvent::ConnectionFailed(error) => {
-                    self.connection_status = ConnectionStatus::Error(error)
-                }
-                daqcore::can_thread::CanThreadEvent::ConnectionSuccessful => {
-                    self.connection_status = ConnectionStatus::Connected
-                }
-                daqcore::can_thread::CanThreadEvent::Disconnection => {
-                    self.connection_status = ConnectionStatus::Disconnected;
-                }
-                daqcore::can_thread::CanThreadEvent::BusLoad {
+                can_thread::CanThreadEvent::BusLoad {
                     timestamp,
                     load_1s,
                     load_5s,
@@ -377,9 +302,9 @@ impl eframe::App for DAQApp {
                         .partition_point(|s| s.timestamp <= timestamp);
                     self.bus_load_samples.insert(index, sample);
                 }
-                daqcore::can_thread::CanThreadEvent::Hil(snapshot) => self.hil_snapshot = snapshot,
-                daqcore::can_thread::CanThreadEvent::Diagnostic(error)
-                | daqcore::can_thread::CanThreadEvent::SendFailed { error, .. } => {
+                can_thread::CanThreadEvent::Hil(snapshot) => self.hil_snapshot = snapshot,
+                can_thread::CanThreadEvent::Diagnostic(error)
+                | can_thread::CanThreadEvent::SendFailed { error, .. } => {
                     log::error!("{error}");
                     self.diagnostic = Some(error);
                 }

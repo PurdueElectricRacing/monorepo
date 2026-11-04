@@ -1,4 +1,5 @@
-use crate::{app, settings};
+use crate::settings;
+use daqcore::can_thread;
 use std::{path, sync::mpsc, thread};
 
 pub struct LogParser {
@@ -26,7 +27,7 @@ impl LogParser {
         }
     }
 
-    fn parse_logs(&mut self, sidebar_database: Option<&app::DatabaseSelection>) {
+    fn parse_logs(&mut self, sidebar_database: Option<&can_thread::state::DatabaseSelection>) {
         let Some(logs_dir) = self.logs_dir.clone() else {
             self.parse_text = "Error: Logs directory not selected".to_owned();
             return;
@@ -79,7 +80,7 @@ impl LogParser {
     pub fn show(
         &mut self,
         ui: &mut eframe::egui::Ui,
-        sidebar_database: Option<&app::DatabaseSelection>,
+        sidebar_database: Option<&can_thread::state::DatabaseSelection>,
     ) -> egui_tiles::UiResponse {
         ui.heading(format!("🔧 {}", self.title));
         ui.separator();

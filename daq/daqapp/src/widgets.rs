@@ -1,4 +1,5 @@
-use crate::{action, app, telemetry, ui, widget_constructor};
+use crate::{action, telemetry, ui, widget_constructor};
+use daqcore::can_thread;
 use std::sync::mpsc;
 
 pub enum Widget {
@@ -22,8 +23,8 @@ pub struct WidgetContext<'a> {
     pub view: &'a telemetry::TelemetryView<'a>,
     pub bus_load: &'a [telemetry::BusLoadSample],
     pub action_queue: &'a mut Vec<action::AppAction>,
-    pub database: Option<&'a app::DatabaseSelection>,
-    pub ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
+    pub database: Option<&'a can_thread::state::DatabaseSelection>,
+    pub ui_to_can_tx: mpsc::Sender<can_thread::CanThreadCommand>,
     pub formatter: &'a Option<daqcore::formatter::Formatter>,
 }
 
@@ -105,7 +106,7 @@ impl Widget {
         }
     }
 
-    pub fn handle_operational_event(&mut self, event: &daqcore::can_thread::CanThreadEvent) {
+    pub fn handle_operational_event(&mut self, event: &can_thread::CanThreadEvent) {
         match self {
             Widget::Bootloader(w) => w.handle_can_message(event),
             Widget::SendUi(w) => w.handle_can_message(event),

@@ -1,4 +1,5 @@
-use crate::{app, telemetry, ui};
+use crate::{telemetry, ui};
+use daqcore::can_thread;
 
 pub struct Jitter {
     pub title: String,
@@ -25,7 +26,7 @@ impl Jitter {
     pub fn show(
         &mut self,
         ui: &mut eframe::egui::Ui,
-        database: Option<&app::DatabaseSelection>,
+        database: Option<&can_thread::state::DatabaseSelection>,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         let Some(database) = database else {

@@ -3,18 +3,14 @@
 use daqcore::{can, can_thread, frame, superdbc};
 use std::{
     io::{self, BufRead as _},
-    sync::{
-        Arc,
-        atomic::{AtomicBool, Ordering},
-        mpsc,
-    },
+    sync::mpsc,
 };
 
 /// Decoding context for stdin injection lines.
 pub enum InjectionContext {
     /// No SuperDBC artifact; `ID:HEXDATA` lines only.
     Raw,
-    /// SuperDBC-selected bus; `BUS[@TIME_MS]:ID:HEXDATA` lines allowed.
+    /// SuperDBC-selected bus; `BUS:ID:HEXDATA` lines allowed.
     Defined {
         database: Box<superdbc::database::Database>,
         bus_id: u8,
@@ -26,14 +22,14 @@ pub enum InjectionContext {
 pub struct StdinInjections {
     context: InjectionContext,
     sender: mpsc::Sender<can_thread::CanThreadCommand>,
-    quit_requested: Arc<AtomicBool>,
+    quit_requested: mpsc::Sender<()>,
 }
 
 impl StdinInjections {
     pub fn new(
         context: InjectionContext,
         sender: mpsc::Sender<can_thread::CanThreadCommand>,
-        quit_requested: Arc<AtomicBool>,
+        quit_requested: mpsc::Sender<()>,
     ) -> Self {
         Self {
             context,
@@ -56,9 +52,12 @@ impl StdinInjections {
                 continue;
             }
             if line == "quit" || line == "exit" {
-                self.quit_requested.store(true, Ordering::SeqCst);
+                // Notify the monitor before the worker closes its event channel.
+                if self.quit_requested.send(()).is_err() {
+                    return;
+                }
                 // A closed worker is reported by the monitor, not from here.
-                let _ = self.sender.send(can_thread::CanThreadCommand::Stop);
+                let _ = self.sender.send(can_thread::CanThreadCommand::DrainAndStop);
                 return;
             }
             match parse_injection(line, &self.context) {
@@ -139,17 +138,7 @@ fn injection_format(context: &InjectionContext) -> String {
 
 /// Validates a `BUS[@TIME_MS]` prefix against the selected SuperDBC bus.
 fn validate_injection_bus(endpoint: &str, bus_id: u8, bus_name: &str) -> Result<(), String> {
-    let (bus, at_time) = match endpoint.split_once('@') {
-        Some((bus, at_time)) => (bus, Some(at_time)),
-        None => (endpoint, None),
-    };
-    if let Some(at_time) = at_time {
-        if at_time.is_empty() || parse_unsigned(at_time).is_none() {
-            return Err("invalid CAN injection time".to_owned());
-        }
-        // `fil watch` parses a time prefix but injects stdin frames immediately too.
-        log::debug!("ignoring stdin injection time; sending immediately");
-    }
+    let bus = endpoint;
     let numeric = bus.parse::<u8>().ok();
     if bus != bus_name && numeric != Some(bus_id) {
         return Err(format!(

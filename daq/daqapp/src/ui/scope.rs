@@ -1,4 +1,5 @@
-use crate::{app, telemetry, ui};
+use crate::{telemetry, ui};
+use daqcore::can_thread;
 use std::{fs, mem};
 
 // Makes invalid combinations of id/name/signal name unrepresentable
@@ -59,7 +60,7 @@ impl Scope {
     fn show_picker(
         &mut self,
         ui: &mut eframe::egui::Ui,
-        database: &app::DatabaseSelection,
+        database: &can_thread::state::DatabaseSelection,
     ) -> bool {
         let Some(bus) = database.bus() else {
             return false;
@@ -140,7 +141,7 @@ impl Scope {
     pub fn show(
         &mut self,
         ui: &mut eframe::egui::Ui,
-        database: Option<&app::DatabaseSelection>,
+        database: Option<&can_thread::state::DatabaseSelection>,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         if !matches!(self.state, ScopeState::Configured { .. }) {
