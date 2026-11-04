@@ -4,6 +4,7 @@
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 import shlex
 import subprocess
@@ -19,6 +20,8 @@ BOARDS = (
     "front_driveline", "rear_driveline",
 )
 UPDATE_ARTIFACTS = ("bootloader_dashboard",)
+# The synthetic application's reset vector points at this self-branching loop.
+APPLICATION_LOOP_ADDRESS = 0x08008008
 
 
 def run(command: list[str], **kwargs) -> subprocess.CompletedProcess:
@@ -114,6 +117,13 @@ def simulate_network(executable: Path, config: Path, duration_ms: int,
     result.check_returncode()
     if "stop: time-budget" not in result.stdout.splitlines():
         raise RuntimeError(f"{config.name} did not reach the requested time budget")
+    if config.name == "application_update.json":
+        board = re.search(
+            r"^board bootloader_dashboard: stop=time-budget instructions=\d+ pc=(0x[0-9a-fA-F]+)$",
+            result.stdout, re.MULTILINE,
+        )
+        if board is None or int(board.group(1), 16) != APPLICATION_LOOP_ADDRESS:
+            raise RuntimeError(f"{config.name} did not jump to the synthetic application loop")
     return result
 
 

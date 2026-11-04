@@ -84,14 +84,16 @@ and runs each one. It checks:
 - `ready_to_drive.json` satisfies the ready-to-drive stimulus expectations
   (initial zero torque commands, later drive commands, and vehicle state).
 - `application_update.json` transfers a synthetic application image through the
-  resident bootloader's `START`/`DATA`/`CRC` commands and sends `JUMP`. Only the
-  `ACK(size)` and `ACK(CRC)` responses are asserted; the jump itself is not
-  verified.
+  resident bootloader's `START`/`DATA`/`CRC` commands and sends `JUMP`. It asserts
+  `ACK(size)` and `ACK(CRC)`, then requires the board's final program counter to
+  be at the synthetic application's self-branching loop (`0x08008008`), proving
+  that the hand-off reached the installed image.
 
 The application-update scenario uses a small synthetic image (a stack pointer,
 a reset vector, and a one-instruction loop) rather than the packaged firmware,
 so it exercises the protocol and flash path without depending on application
-contents. Its expectations cover the `ACK(size)` and `ACK(CRC)` responses.
+contents. The CAN expectations cover the `ACK(size)` and `ACK(CRC)` responses;
+the runner separately checks the final program counter after JUMP.
 
 The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
