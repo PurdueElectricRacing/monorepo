@@ -24,10 +24,9 @@ enum choice names:
  "values": {"AMK_Status_bSystemReady": true, "AMK_Status_bQuitDcOn": true}}
 ```
 
-`raw: [bytes]` is for frames with no declaration. Entries under
-`expect` also take `window_ms`, and their `values` is the subset of signals to
-check. GPIO and ADC entries stay as raw device stimuli, since they are physical
-rather than CAN data.
+`raw: [bytes]` supplies the payload bytes instead of named signal values.
+For both CAN events and expectations, signals omitted from `values` leave their
+wire bits at zero.
 
 The `canpiler` FIL pass resolves each scenario into
 `tests/fil/stimuli/{stem}_stimuli.json` in the raw FIL stimulus format (buses as
