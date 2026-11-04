@@ -304,9 +304,14 @@ impl Hil {
         let mut expanded = Vec::new();
         for (index, ipe) in test.in_progress_expects.iter().enumerate() {
             let id = ui.id().with(("hil_history", index));
-            let open = ui
-                .ctx()
-                .data_mut(|data| data.get_temp::<bool>(id).unwrap_or(false));
+            let other_count = ipe
+                .messages
+                .len()
+                .saturating_sub(usize::from(ipe.selected_message_index.is_some()));
+            let open = other_count > 0
+                && ui
+                    .ctx()
+                    .data_mut(|data| data.get_temp::<bool>(id).unwrap_or(false));
             expanded.push((id, open));
             rows.push((index, None));
             if open {
