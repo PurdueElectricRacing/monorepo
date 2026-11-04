@@ -1,4 +1,4 @@
-use crate::{can, can_thread, frame, hil};
+use crate::{can, can_thread, frame, hil, time::Time};
 use std::{collections::VecDeque, sync::mpsc, thread, time};
 
 const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
@@ -198,7 +198,7 @@ fn run_with_connection(
                         let amount_left = sends.commit(identity, time::Instant::now());
                         emit!(can_thread::CanThreadEvent::MessageSent {
                             identity,
-                            timestamp: crate::time::Time::now(),
+                            timestamp: Time::now(),
                             amount_left
                         });
                     }
@@ -279,7 +279,7 @@ fn run_with_connection(
                             emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                         }
 
-                        let frame = decoder.decode(frame, crate::time::Time::now());
+                        let frame = decoder.decode(frame, Time::now());
                         if !updating {
                             hil.process_parsed(&frame, time::Instant::now());
                         }
@@ -302,7 +302,7 @@ fn run_with_connection(
             load.cleanup(now);
             let speed = connection.speed();
             emit!(can_thread::CanThreadEvent::BusLoad {
-                timestamp: crate::time::Time::now(),
+                timestamp: Time::now(),
                 load_1s: load.get_load(1, speed, now),
                 load_5s: load.get_load(5, speed, now),
                 load_10s: load.get_load(10, speed, now),
@@ -374,7 +374,7 @@ fn drain_injections(
                 injections.pop_front();
                 if !events.emit(can_thread::CanThreadEvent::MessageSent {
                     identity,
-                    timestamp: crate::time::Time::now(),
+                    timestamp: Time::now(),
                     amount_left: None,
                 }) {
                     return false;

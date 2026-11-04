@@ -8,7 +8,7 @@ mod events;
 mod firmware_session;
 mod run;
 pub mod tx;
-use crate::{can_thread, firmware, frame, hil, superdbc, time};
+use crate::{can_thread, connection::ConnectionSource, firmware, frame, hil, superdbc, time};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DatabaseSource {
@@ -48,7 +48,7 @@ pub struct CanThreadConfig {
 }
 
 pub enum CanThreadCommand {
-    Connect(Option<crate::connection::ConnectionSource>),
+    Connect(Option<ConnectionSource>),
     SelectDatabase {
         request_id: u64,
         selection: DatabaseRequest,
@@ -73,7 +73,7 @@ pub enum CanThreadEvent {
         result: Result<DatabaseUpdate, String>,
     },
     Frame(frame::ParsedFrame),
-    SourceSelected(Option<crate::connection::ConnectionSource>),
+    SourceSelected(Option<ConnectionSource>),
     Disconnection,
     ConnectionSuccessful,
     ConnectionFailed(String),
