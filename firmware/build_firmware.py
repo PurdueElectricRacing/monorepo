@@ -4,6 +4,7 @@
 from pathlib import Path
 import gzip
 import json
+import re
 import shutil
 import subprocess
 import tarfile
@@ -174,8 +175,9 @@ def configured_bootloader_self_update_protocol() -> dict[str, dict[str, str]]:
         node_ids.update(_tx_ids_by_name(node_path))
 
     protocol = {}
+    application_protocol = configured_bootloader_protocol()
     for board in BOARD_TARGETS:
-        values = {}
+        values = {"can_bus": application_protocol[board]["can_bus"]}
         for suffix, field in (
             ("start", "start_id"),
             ("crc", "crc_id"),
@@ -204,6 +206,11 @@ def build_manifest() -> Path:
     images_dir.mkdir(parents=True, exist_ok=True)
     board_protocol = configured_bootloader_protocol()
     bootloader_protocol = configured_bootloader_self_update_protocol()
+    version_header = (CAN_GENERATED_DIR / "can_version.h").read_text(encoding="utf-8")
+    version = re.search(r"^#define FIRMWARE_GIT_HASH (0x[0-9A-Fa-f]+)U$", version_header, re.MULTILINE)
+    if version is None:
+        raise RuntimeError("missing firmware build hash in can_version.h")
+    git_hash = version.group(1)
     manifest_boards = []
     manifest_bootloaders = []
 
@@ -229,6 +236,7 @@ def build_manifest() -> Path:
             "size_bytes": len(data),
             "crc32": f"0x{crc:08X}",
             "application_address": f"0x{BL_APP_ADDRESS:08X}",
+            "git_hash": git_hash,
             **board_protocol[board],
         })
 
@@ -247,6 +255,7 @@ def build_manifest() -> Path:
             "size_bytes": len(bootloader_data),
             "crc32": f"0x{bootloader_crc:08X}",
             "bootloader_address": f"0x{BL_BOOTLOADER_ADDRESS:08X}",
+            "git_hash": git_hash,
             **bootloader_protocol[board],
         })
 

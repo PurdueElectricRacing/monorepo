@@ -14,6 +14,7 @@ impl FirmwareSession {
         package: firmware::protocol::FirmwarePackage,
         armed: bool,
         connected: bool,
+        bus_name: Option<&str>,
         now: time::Instant,
     ) -> firmware::FirmwareProgress {
         let invalid_image = package.images.iter().any(|image| {
@@ -41,6 +42,12 @@ impl FirmwareSession {
             Some("CAN source is disconnected")
         } else if package.images.is_empty() {
             Some("firmware package is empty")
+        } else if package
+            .images
+            .iter()
+            .any(|image| Some(image.can_bus.name()) != bus_name)
+        {
+            Some("firmware targets must all use the selected CAN bus")
         } else if invalid_image || mixed_image_kinds {
             Some("firmware image exceeds its target region or has an invalid address")
         } else if armed && bootloader_update {
@@ -100,6 +107,16 @@ impl FirmwareSession {
             .as_mut()
             .and_then(|updater| updater.on_response(id, data, now));
 
+        self.finish();
+        progress
+    }
+
+    pub fn observe_telemetry(
+        &mut self,
+        decoded: &crate::superdbc::decode::DecodedMessage,
+        now: time::Instant,
+    ) -> Option<firmware::FirmwareProgress> {
+        let progress = self.0.as_mut()?.observe_telemetry(decoded, now);
         self.finish();
         progress
     }

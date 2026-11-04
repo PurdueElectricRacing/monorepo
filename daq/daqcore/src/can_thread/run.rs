@@ -74,6 +74,15 @@ fn run_with_connection(
                     request_id,
                     selection,
                 } => {
+                    if firmware.active() {
+                        emit!(can_thread::CanThreadEvent::DatabaseSelected {
+                            request_id,
+                            result: Err(
+                                "cannot change database or bus during a firmware update".into()
+                            )
+                        });
+                        continue;
+                    }
                     let update = match decoder.select(&selection) {
                         Ok(update) => update,
                         Err(error) => {
@@ -129,13 +138,19 @@ fn run_with_connection(
                         package,
                         false,
                         connection.connected(),
+                        decoder.bus().map(|bus| bus.name()),
                         time::Instant::now(),
                     );
                     emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                 }
                 can_thread::CanThreadCommand::ArmFirmwareUpdate(package) => {
-                    let progress =
-                        firmware.start(package, true, connection.connected(), time::Instant::now());
+                    let progress = firmware.start(
+                        package,
+                        true,
+                        connection.connected(),
+                        decoder.bus().map(|bus| bus.name()),
+                        time::Instant::now(),
+                    );
                     emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                 }
                 can_thread::CanThreadCommand::CancelFirmwareUpdate => {
@@ -260,6 +275,12 @@ fn run_with_connection(
                         }
 
                         let frame = decoder.decode(frame, crate::time::Time::now());
+                        if let Some(decoded) = &frame.decoded
+                            && let Some(progress) =
+                                firmware.observe_telemetry(decoded, time::Instant::now())
+                        {
+                            emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
+                        }
                         if !updating {
                             hil.process_parsed(&frame, time::Instant::now());
                         }

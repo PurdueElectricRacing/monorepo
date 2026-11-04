@@ -388,7 +388,10 @@ impl Bootloader {
                                 self.confirming_update = false;
                             }
 
-                            ui.strong(display_target_name(name));
+                            let bus = self.package.as_ref()
+                                .and_then(|package| package.images.iter().find(|image| image.name == *name))
+                                .map(|image| image.can_bus.name()).unwrap_or("unknown bus");
+                            ui.strong(format!("{} ({bus})", display_target_name(name)));
                             show_capability(ui, capability);
                             ui.label(
                                 eframe::egui::RichText::new(self.hash_label(name, true, now))
@@ -464,7 +467,7 @@ impl Bootloader {
             );
             if self.resident_bootloaders {
                 ui.colored_label(ui.visuals().error_fg_color, "RESIDENT BOOTLOADER: no staging slot and no rollback. An interruption can leave the target unable to start; only proceed with the application running and fresh application telemetry.");
-                ui.label("The reported resident build updates only after the next application update.");
+                ui.label("Completion requires fresh bootloader INFO telemetry matching the packaged build after reset.");
             }
             ui.label(
                 eframe::egui::RichText::new(
@@ -656,6 +659,7 @@ impl Bootloader {
         let boards: HashSet<_> = selected_images
             .iter()
             .filter(|image| image_protocol_ids(image).contains(&id))
+            .filter(|image| decoded_name.is_none_or(|name| name.starts_with(&format!("bl_{}_", image.name))))
             .map(|image| image.name.clone())
             .collect();
         if !boards.is_empty() {
