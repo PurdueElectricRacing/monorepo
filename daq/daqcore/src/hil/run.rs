@@ -157,13 +157,10 @@ impl HilRunningTest {
                 let mut signals = indexmap::IndexMap::new();
 
                 for (sig_name, sig_range) in &expect.expect.signals {
-                    signals.insert(
-                        sig_name.clone(),
-                        decoded.signal(sig_name).map(|s| s.physical()),
-                    );
-                    match decoded.signal(sig_name) {
-                        Some(sig_value) => {
-                            let value = sig_value.physical();
+                    let value = decoded.signal(sig_name).map(|signal| signal.physical());
+                    signals.insert(sig_name.clone(), value);
+                    match value {
+                        Some(value) => {
 
                             // If signal value out of expected bounds, record as
                             // a "failure".
