@@ -103,11 +103,7 @@ fn parse_injection(line: &str, context: &InjectionContext) -> Result<frame::CanF
         }
     };
 
-    let identity = parse_unsigned(id_text)
-        .filter(|identity| *identity <= u64::from(can::EXTENDED_ID_MASK))
-        .ok_or_else(|| "invalid CAN injection identifier".to_owned())?;
-    let identity =
-        u32::try_from(identity).map_err(|_| "invalid CAN injection identifier".to_owned())?;
+    let identity = parse_identity(id_text)?;
 
     let is_extended_id = match context {
         InjectionContext::Defined {
@@ -142,11 +138,16 @@ fn validate_injection_bus(endpoint: &str, bus_id: u8, bus_name: &str) -> Result<
     Ok(())
 }
 
-fn parse_unsigned(text: &str) -> Option<u64> {
-    match text.strip_prefix("0x").or_else(|| text.strip_prefix("0X")) {
-        Some(digits) => u64::from_str_radix(digits, 16).ok(),
-        None => text.parse::<u64>().ok(),
+fn parse_identity(text: &str) -> Result<frame::CanIdentity, String> {
+    let parsed = match text.strip_prefix("0x").or_else(|| text.strip_prefix("0X")) {
+        Some(digits) => u32::from_str_radix(digits, 16),
+        None => text.parse::<u32>(),
+    };
+    let identity = parsed.map_err(|_| "invalid CAN injection identifier".to_owned())?;
+    if identity > can::EXTENDED_ID_MASK {
+        return Err("CAN injection identifier exceeds 29 bits".to_owned());
     }
+    Ok(identity)
 }
 
 fn parse_hex_bytes(text: &str) -> Result<Vec<u8>, String> {
