@@ -5,6 +5,8 @@ const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
 const BUS_LOAD_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(200);
 const FIRMWARE_FRAMES_PER_BURST: usize = 8;
 const FIRMWARE_FRAME_DELAY: time::Duration = time::Duration::from_millis(4);
+/// Caps queued one-shot writes per pass so reads and periodic sends keep running.
+const ONE_SHOT_SENDS_PER_BURST: usize = 8;
 
 pub fn run(
     config: can_thread::CanThreadConfig,
@@ -183,7 +185,10 @@ fn run_with_connection(
         // sends take priority over the periodic table.
         let updating = firmware.active();
         if connection.connected() && !updating {
-            while let Some(tx_frame) = sends.next_one_shot() {
+            for _ in 0..ONE_SHOT_SENDS_PER_BURST {
+                let Some(tx_frame) = sends.next_one_shot() else {
+                    break;
+                };
                 let identity = tx_frame.frame.identity;
                 // Clone so a failed write leaves the frame queued for reconnection.
                 match connection.write(tx_frame.clone()) {
@@ -335,9 +340,13 @@ fn run_with_connection(
             load_last = now;
         }
 
-        // A stop request still drains injections and reads their echoes first.
+        // A stopped worker keeps flushing queued one-shot sends, and reading
+        // their echoes, until nothing can be sent.
         if stop_requested {
-            break 'worker;
+            if updating || !connection.connected() || sends.next_one_shot().is_none() {
+                break 'worker;
+            }
+            continue;
         }
 
         let wait = if !connection.connected() {
