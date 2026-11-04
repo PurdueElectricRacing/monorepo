@@ -150,24 +150,8 @@ impl HilRunningTest {
                     signals,
                     valid,
                 };
-                // Whether the current message should be the new
-                // items displayed in the UI. This keeps the UI representative
-                // of the selected AcceptPolicy.
-                let select = match expect.expect.accept {
-                    // The very first matching message is the only one that counts.
-                    hil::config::AcceptPolicy::First => expect.selected_message_index.is_none(),
-                    // Displayed message should always be updated to the latest message received.
-                    hil::config::AcceptPolicy::Last => true,
-                    // Will keep updating to the latest message until a valid one
-                    // is received.
-                    hil::config::AcceptPolicy::Any => expect
-                        .selected_message()
-                        .is_none_or(|selected| !selected.is_valid()),
-                };
-                if select {
-                    expect.selected_message_index = Some(expect.messages.len());
-                }
                 if !expect.result.is_finished() {
+                    expect.selected_message_index = Some(expect.messages.len());
                     expect.result = match expect.expect.accept {
                         // Immediately validates the first message that arrives.
                         hil::config::AcceptPolicy::First => {
