@@ -62,6 +62,10 @@ GPIOInitConfig_t gpio_config[] = {
     // CAN2
     GPIO_INIT_CAN2RX_PB5,
     GPIO_INIT_CAN2TX_PB6,
+
+    // CAN3
+    GPIO_INIT_CAN3RX_PA8,
+    GPIO_INIT_CAN3TX_PA15,
 };
 
 /* CLOCK CONFIG */
