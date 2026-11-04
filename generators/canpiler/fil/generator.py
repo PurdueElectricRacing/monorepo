@@ -86,6 +86,7 @@ def _event(linked: LinkedCan, entry) -> dict:
         event["repeat"] = {"every_ms": entry.repeat.every_ms, "count": entry.repeat.count}
     event["bus"] = bus_id
     event["id"] = f"0x{message.final_id:x}"
+    event["extended"] = message.is_extended
     event["data"] = _payload(message, entry.values, entry.raw)
     return event
 
@@ -97,6 +98,7 @@ def _expect(linked: LinkedCan, entry: FilCanExpect) -> dict:
         "type": "can",
         "bus": bus_id,
         "id": f"0x{message.final_id:x}",
+        "extended": message.is_extended,
         "data": _payload(message, entry.values, entry.raw),
         "at_ms": entry.at_ms,
         "window_ms": entry.window_ms,
