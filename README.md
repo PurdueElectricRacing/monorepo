@@ -96,4 +96,4 @@ which runs the monorepo build process automatically.
 Every vehicle board also runs in FIL, PER's firmware-in-the-loop emulator, with
 no hardware attached. Build the firmware once, then in
 **View → Run and Debug** pick an `Emulator: <board>` configuration and press the
-green ▶️ arrow:
+green ▶️ arrow.

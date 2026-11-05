@@ -255,6 +255,21 @@ make --version
 clang++ --version
 ```
 
+For VS Code hardware and emulator debugging, configure cortex-debug to use
+`gdb-multiarch`. Add this to **User Settings (JSON)**, or **Remote Settings
+(JSON)** when using WSL:
+
+```json
+{
+    "cortex-debug.gdbPath.linux": "gdb-multiarch"
+}
+```
+
+The shared launch configurations leave the GDB executable selection to
+cortex-debug. On macOS, the default `arm-none-eabi-gdb` from the ARM toolchain
+can be used. If GDB is not on `PATH`, set `cortex-debug.gdbPath` to its absolute
+path in your own settings rather than editing the shared launch configuration.
+
 ### 3C. Windows - WSL
 
 If your primary OS is Windows, it is highly advised to use:

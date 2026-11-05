@@ -423,7 +423,6 @@
             "gdbTarget": "127.0.0.1:3333",
             "device": "STM32G474RET6",
             "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
-            "gdbPath": "arm-none-eabi-gdb",
             "preLaunchTask": "fil debug (a_box)",
             "runToEntryPoint": "main",
             "liveWatch": {
@@ -444,7 +443,6 @@
             "gdbTarget": "127.0.0.1:3333",
             "device": "STM32G474RET6",
             "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
-            "gdbPath": "arm-none-eabi-gdb",
             "preLaunchTask": "fil debug (dashboard)",
             "runToEntryPoint": "main",
             "liveWatch": {
@@ -465,7 +463,6 @@
             "gdbTarget": "127.0.0.1:3333",
             "device": "STM32G474RET6",
             "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
-            "gdbPath": "arm-none-eabi-gdb",
             "preLaunchTask": "fil debug (front_driveline)",
             "runToEntryPoint": "main",
             "liveWatch": {
@@ -486,7 +483,6 @@
             "gdbTarget": "127.0.0.1:3333",
             "device": "STM32G474RET6",
             "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
-            "gdbPath": "arm-none-eabi-gdb",
             "preLaunchTask": "fil debug (main_module)",
             "runToEntryPoint": "main",
             "liveWatch": {
@@ -507,7 +503,6 @@
             "gdbTarget": "127.0.0.1:3333",
             "device": "STM32G474RET6",
             "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
-            "gdbPath": "arm-none-eabi-gdb",
             "preLaunchTask": "fil debug (rear_driveline)",
             "runToEntryPoint": "main",
             "liveWatch": {
@@ -528,7 +523,6 @@
             "gdbTarget": "127.0.0.1:3333",
             "device": "STM32G474RET6",
             "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
-            "gdbPath": "arm-none-eabi-gdb",
             "preLaunchTask": "fil debug (torque_vector)",
             "runToEntryPoint": "main",
             "liveWatch": {
