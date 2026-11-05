@@ -201,6 +201,132 @@
             }
         },
         {
+            "label": "fil network debug (a_box)",
+            "type": "shell",
+            "command": "make -C tests/external/fil build BUILD_ARGS=\"--target fil\" && echo fil debug: starting gdb server && tests/external/fil/build/fil debug tests/fil/network.json --board a_box --gdb-port 3333 --once",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "owner": "fil",
+                "pattern": {
+                    "regexp": "^$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "fil debug: starting gdb server",
+                    "endsPattern": "GDB on "
+                }
+            }
+        },
+        {
+            "label": "fil network debug (dashboard)",
+            "type": "shell",
+            "command": "make -C tests/external/fil build BUILD_ARGS=\"--target fil\" && echo fil debug: starting gdb server && tests/external/fil/build/fil debug tests/fil/network.json --board dashboard --gdb-port 3333 --once",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "owner": "fil",
+                "pattern": {
+                    "regexp": "^$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "fil debug: starting gdb server",
+                    "endsPattern": "GDB on "
+                }
+            }
+        },
+        {
+            "label": "fil network debug (front_driveline)",
+            "type": "shell",
+            "command": "make -C tests/external/fil build BUILD_ARGS=\"--target fil\" && echo fil debug: starting gdb server && tests/external/fil/build/fil debug tests/fil/network.json --board front_driveline --gdb-port 3333 --once",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "owner": "fil",
+                "pattern": {
+                    "regexp": "^$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "fil debug: starting gdb server",
+                    "endsPattern": "GDB on "
+                }
+            }
+        },
+        {
+            "label": "fil network debug (main_module)",
+            "type": "shell",
+            "command": "make -C tests/external/fil build BUILD_ARGS=\"--target fil\" && echo fil debug: starting gdb server && tests/external/fil/build/fil debug tests/fil/network.json --board main_module --gdb-port 3333 --once",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "owner": "fil",
+                "pattern": {
+                    "regexp": "^$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "fil debug: starting gdb server",
+                    "endsPattern": "GDB on "
+                }
+            }
+        },
+        {
+            "label": "fil network debug (rear_driveline)",
+            "type": "shell",
+            "command": "make -C tests/external/fil build BUILD_ARGS=\"--target fil\" && echo fil debug: starting gdb server && tests/external/fil/build/fil debug tests/fil/network.json --board rear_driveline --gdb-port 3333 --once",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "owner": "fil",
+                "pattern": {
+                    "regexp": "^$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "fil debug: starting gdb server",
+                    "endsPattern": "GDB on "
+                }
+            }
+        },
+        {
+            "label": "fil network debug (torque_vector)",
+            "type": "shell",
+            "command": "make -C tests/external/fil build BUILD_ARGS=\"--target fil\" && echo fil debug: starting gdb server && tests/external/fil/build/fil debug tests/fil/network.json --board torque_vector --gdb-port 3333 --once",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "owner": "fil",
+                "pattern": {
+                    "regexp": "^$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "fil debug: starting gdb server",
+                    "endsPattern": "GDB on "
+                }
+            }
+        },
+        {
             "label": "fil network run",
             "type": "shell",
             "command": "make -C tests/external/fil build BUILD_ARGS=\"--target fil\" && tests/external/fil/build/fil run tests/fil/network.json --duration 1s --strict-mmio",

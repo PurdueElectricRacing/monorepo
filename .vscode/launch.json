@@ -532,6 +532,126 @@
             "preLaunchCommands": [
                 "monitor arm semihosting enable"
             ]
+        },
+        {
+            "name": "Emulator Network: A_Box",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/a_box/a_box.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "external",
+            "gdbTarget": "127.0.0.1:3333",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "preLaunchTask": "fil network debug (a_box)",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
+        },
+        {
+            "name": "Emulator Network: Dashboard",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/dashboard/dashboard.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "external",
+            "gdbTarget": "127.0.0.1:3333",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "preLaunchTask": "fil network debug (dashboard)",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
+        },
+        {
+            "name": "Emulator Network: Front Driveline",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/front_driveline/front_driveline.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "external",
+            "gdbTarget": "127.0.0.1:3333",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "preLaunchTask": "fil network debug (front_driveline)",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
+        },
+        {
+            "name": "Emulator Network: Main Module",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/main_module/main_module.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "external",
+            "gdbTarget": "127.0.0.1:3333",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "preLaunchTask": "fil network debug (main_module)",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
+        },
+        {
+            "name": "Emulator Network: Rear Driveline",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/rear_driveline/rear_driveline.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "external",
+            "gdbTarget": "127.0.0.1:3333",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "preLaunchTask": "fil network debug (rear_driveline)",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
+        },
+        {
+            "name": "Emulator Network: Torque Vectoring",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/torque_vector/torque_vector.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "external",
+            "gdbTarget": "127.0.0.1:3333",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "preLaunchTask": "fil network debug (torque_vector)",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
         }
     ]
 }

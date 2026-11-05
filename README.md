@@ -97,3 +97,6 @@ Every vehicle board also runs in FIL, PER's firmware-in-the-loop emulator, with
 no hardware attached. Build the firmware once, then in
 **View → Run and Debug** pick an `Emulator: <board>` configuration and press the
 green ▶️ arrow.
+
+`Emulator Network: <board>` runs that board inside the six-board network, so the
+other boards and CAN traffic keep running while it is stopped.
