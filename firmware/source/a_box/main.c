@@ -130,8 +130,7 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN3_TX_PA15,
 };
 
-adbms_bms_t g_bms                              = {0};
-uint8_t g_bms_tx_buf[ADBMS_SPI_TX_BUFFER_SIZE] = {0};
+adbms_bms_t g_bms = {0};
 
 static constexpr float MIN_V_FOR_BALANCE     = 3.2f; // hardstop to prevent cell drain
 static constexpr float MIN_DELTA_FOR_BALANCE = 0.05f; // ~3% diff
@@ -162,13 +161,11 @@ int main(void) {
     imd_init();
 
     PHAL_GPIO_write(SPI2_CS_PORT, SPI2_CS_PIN, true);
-    adbms6380_set_cs_high(&bms_spi_config);
+    ADBMS_init(&g_bms, &bms_spi_config);
 
     if (!PHAL_SPI_init(&bms_spi_config)) {
         HardFault_Handler();
     }
-
-    adbms_init(&g_bms, &bms_spi_config, g_bms_tx_buf);
 
     if (false == PHAL_ADC_init(&adc_handle, &adc_config)) {
         HardFault_Handler();
@@ -207,7 +204,7 @@ void bms_task(void) {
     update_fault(FAULT_ID_IMD, imd_faulted);
 
     // ADBMS
-    adbms_periodic(&g_bms, MIN_V_FOR_BALANCE, MIN_DELTA_FOR_BALANCE);
+    ADBMS_periodic(&g_bms, MIN_V_FOR_BALANCE, MIN_DELTA_FOR_BALANCE);
 
     // CAN
     uint16_t pack_voltage = (uint16_t)(g_bms.sum_voltage * PACK_COEFF_PACK_BMS_PACK_VOLTAGE);
@@ -219,28 +216,28 @@ void bms_task(void) {
     CAN_SEND_pack_bms_ccan(pack_voltage, min_cell_voltage, max_cell_voltage, max_temp, avg_temp);
 
     CAN_SEND_bms_pecs(
-        g_bms.err_cell_voltage_pecs[0],
-        g_bms.err_cell_voltage_pecs[1],
-        g_bms.err_cell_voltage_pecs[2],
-        g_bms.err_cell_voltage_pecs[3],
-        g_bms.err_cell_voltage_pecs[4],
-        g_bms.err_cell_voltage_pecs[5],
-        g_bms.err_gpio_voltage_pecs[0],
-        g_bms.err_gpio_voltage_pecs[1],
-        g_bms.err_gpio_voltage_pecs[2],
-        g_bms.err_gpio_voltage_pecs[3]
+        g_bms.dev.err_cell_voltage_pecs[0],
+        g_bms.dev.err_cell_voltage_pecs[1],
+        g_bms.dev.err_cell_voltage_pecs[2],
+        g_bms.dev.err_cell_voltage_pecs[3],
+        g_bms.dev.err_cell_voltage_pecs[4],
+        g_bms.dev.err_cell_voltage_pecs[5],
+        g_bms.dev.err_gpio_voltage_pecs[0],
+        g_bms.dev.err_gpio_voltage_pecs[1],
+        g_bms.dev.err_gpio_voltage_pecs[2],
+        g_bms.dev.err_gpio_voltage_pecs[3]
     );
     CAN_SEND_bms_pecs_ccan(
-        g_bms.err_cell_voltage_pecs[0],
-        g_bms.err_cell_voltage_pecs[1],
-        g_bms.err_cell_voltage_pecs[2],
-        g_bms.err_cell_voltage_pecs[3],
-        g_bms.err_cell_voltage_pecs[4],
-        g_bms.err_cell_voltage_pecs[5],
-        g_bms.err_gpio_voltage_pecs[0],
-        g_bms.err_gpio_voltage_pecs[1],
-        g_bms.err_gpio_voltage_pecs[2],
-        g_bms.err_gpio_voltage_pecs[3]
+        g_bms.dev.err_cell_voltage_pecs[0],
+        g_bms.dev.err_cell_voltage_pecs[1],
+        g_bms.dev.err_cell_voltage_pecs[2],
+        g_bms.dev.err_cell_voltage_pecs[3],
+        g_bms.dev.err_cell_voltage_pecs[4],
+        g_bms.dev.err_cell_voltage_pecs[5],
+        g_bms.dev.err_gpio_voltage_pecs[0],
+        g_bms.dev.err_gpio_voltage_pecs[1],
+        g_bms.dev.err_gpio_voltage_pecs[2],
+        g_bms.dev.err_gpio_voltage_pecs[3]
     );
 
     bool bms_in_fatal = g_bms.state == ADBMS_STATE_FATAL;

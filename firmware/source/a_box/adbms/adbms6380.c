@@ -13,183 +13,176 @@
 #include <string.h>
 
 #include "commands.h"
-#include "common/rtos/rtos.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/spi/spi.h"
+#include "common/rtos/rtos.h"
 #include "pec.h"
 
-void adbms6380_set_cs_low(SPI_InitConfig_t *spi) {
+// ADBMS6380 ADC conversion constants from datasheet:
+// Voltage = (raw + 10,000) * 150 uV, where 10,000 codes = 1.5 V offset
+static constexpr float ADBMS6380_VOLTAGE_OFFSET_V   = 1.5f;
+static constexpr float ADBMS6380_ADC_LSB_V          = 0.000150f;
+static constexpr float ADBMS6380_THRESHOLD_SCALE    = 16.0f;
+static constexpr int32_t ADBMS6380_RAW_OFFSET_CODES = 10'000;
+static constexpr uint8_t ADBMS6380_THRESHOLD_BITS   = 12U;
+static constexpr uint16_t ADBMS6380_THRESHOLD_MASK  = 0x0FFFU;
+
+static void set_cs_low(SPI_InitConfig_t *spi) {
     PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, false);
 }
 
-void adbms6380_set_cs_high(SPI_InitConfig_t *spi) {
+static void set_cs_high(SPI_InitConfig_t *spi) {
     PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, true);
 }
 
-void adbms6380_wake(SPI_InitConfig_t *spi, size_t module_count) {
-    for (size_t i = 0; i < module_count; i++) {
-        adbms6380_set_cs_low(spi);
-        RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
-        adbms6380_set_cs_high(spi);
-        RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
-    }
+static void transfer_tx(adbms6380_t *dev) {
+    set_cs_low(dev->spi);
+    PHAL_SPI_transferBlocking(dev->spi, dev->tx_strbuf.data, nullptr, (uint16_t)dev->tx_strbuf.length);
+    set_cs_high(dev->spi);
 }
 
-uint16_t adbms6380_get_threshold_voltage_cfg(float threshold_voltage) {
-    uint8_t rbits     = 12;
-    threshold_voltage = (threshold_voltage - 1.5f);
-    threshold_voltage = threshold_voltage / (16.0f * 0.000150f);
-    uint16_t cfg      = (uint16_t)(threshold_voltage + (float)(2 * (1U << (rbits - 1))));
-    cfg &= 0xFFF;
-    return cfg;
+static uint16_t get_threshold_voltage_cfg(float threshold_voltage_v) {
+    float scaled = (threshold_voltage_v - ADBMS6380_VOLTAGE_OFFSET_V)
+        / (ADBMS6380_THRESHOLD_SCALE * ADBMS6380_ADC_LSB_V);
+    uint16_t cfg = (uint16_t)(scaled + (float)(2U * (1U << (ADBMS6380_THRESHOLD_BITS - 1U))));
+    return cfg & ADBMS6380_THRESHOLD_MASK;
 }
 
-int16_t adbms6380_extract_i16(const uint8_t *data, size_t idx) {
-    return (int16_t)((int16_t)(data[idx * 2 + 0] & 0xff) | ((int16_t)(data[idx * 2 + 1] & 0xff) << 8));
+static int16_t extract_i16(const uint8_t *data, size_t idx) {
+    return (int16_t)((int16_t)(data[idx * 2U + 0U] & 0xFFU)
+                     | ((int16_t)(data[idx * 2U + 1U] & 0xFFU) << 8U));
 }
 
-float adbms6380_raw_to_v(int16_t raw) {
-    return (raw + 10000) * 0.000150f;
+static float raw_to_v(int16_t raw) {
+    return (float)(raw + ADBMS6380_RAW_OFFSET_CODES) * ADBMS6380_ADC_LSB_V;
 }
 
-void adbms6380_adcv(
+static void encode_adcv(
     uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
-    bool rd,
-    bool cont,
-    bool dcp,
-    bool rstf,
-    uint8_t ow
+    const adbms6380_adcv_config_t *cfg
 ) {
     // 10-0: 0, 1, RD, CONT, 1, 1, DCP, 0, RSTF, OW[1], OW[0]
-    output_cmd[0] = 0x02 | (uint8_t)rd;
-    output_cmd[1] =
-        (uint8_t)(((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | ((uint8_t)rstf << 2) | (ow & 0x03) | 0x60);
+    output_cmd[0] = 0x02U | (uint8_t)cfg->rd;
+    output_cmd[1] = (uint8_t)(((uint8_t)cfg->cont << 7U) | ((uint8_t)cfg->dcp << 4U)
+                              | ((uint8_t)cfg->rstf << 2U) | (cfg->ow & 0x03U) | 0x60U);
 }
 
-void adbms6380_adsv(
+static void encode_adax(
     uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
-    bool cont,
-    bool dcp,
-    uint8_t ow
+    const adbms6380_adax_config_t *cfg
 ) {
-    // 10-0: 0, 0, 1, CONT, 1, 1, DCP, 1, 0, OW[1], OW[0]
-    output_cmd[0] = 0x01;
-    output_cmd[1] = (uint8_t)(((uint8_t)cont << 7) | ((uint8_t)dcp << 4) | (ow & 0x03) | 0x68);
-}
-
-void adbms6380_adax(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE], bool ow, bool pup, uint8_t ch) {
     // 10-0: 1 0 OW PUP CH[4] 0 1 CH[3] CH[2] CH[1] CH[0]
-    output_cmd[0] = 0b100 | (uint8_t)ow;
-    output_cmd[1] = (uint8_t)((uint8_t)pup << 7 | ((ch >> 4) & 1) << 6 | 0b01 << 4 | (ch & 0b01111));
+    output_cmd[0] = 0b100U | (uint8_t)cfg->ow;
+    output_cmd[1] = (uint8_t)(((uint8_t)cfg->pup << 7U) | (((cfg->ch >> 4U) & 1U) << 6U)
+                              | (0b01U << 4U) | (cfg->ch & 0b01111U));
 }
 
-void adbms6380_prepare_command(
+static void prepare_command(
     strbuf_t *output_buffer,
     const uint8_t command[ADBMS6380_COMMAND_RAW_SIZE]
 ) {
     strbuf_append(output_buffer, command, ADBMS6380_COMMAND_RAW_SIZE);
-    uint16_t pec = adbms_pec_get_pec15(ADBMS6380_COMMAND_RAW_SIZE, command);
-    const uint8_t pec_bytes[ADBMS6380_PEC_SIZE] = {(uint8_t)((pec >> 8) & 0xFF), (uint8_t)(pec & 0xFF)};
+    uint16_t pec = PEC_calc_pec15(command, (uint8_t)ADBMS6380_COMMAND_RAW_SIZE);
+    const uint8_t pec_bytes[ADBMS6380_PEC_SIZE] = {
+        (uint8_t)((pec >> 8U) & 0xFFU),
+        (uint8_t)(pec & 0xFFU),
+    };
     strbuf_append(output_buffer, pec_bytes, ADBMS6380_PEC_SIZE);
 }
 
-void adbms6380_prepare_data_packet(
+static void prepare_data_packet(
     strbuf_t *output_buffer,
     const uint8_t data[ADBMS6380_SINGLE_DATA_RAW_SIZE]
 ) {
     strbuf_append(output_buffer, data, ADBMS6380_SINGLE_DATA_RAW_SIZE);
-    uint16_t pec = adbms_pec_get_pec10(false, ADBMS6380_SINGLE_DATA_RAW_SIZE, data);
-    const uint8_t pec_bytes[ADBMS6380_PEC_SIZE] = {(uint8_t)((pec >> 8) & 0xFF), (uint8_t)(pec & 0xFF)};
+    uint16_t pec = PEC_calc_pec10(data, ADBMS6380_SINGLE_DATA_RAW_SIZE, false);
+    const uint8_t pec_bytes[ADBMS6380_PEC_SIZE] = {
+        (uint8_t)((pec >> 8U) & 0xFFU),
+        (uint8_t)(pec & 0xFFU),
+    };
     strbuf_append(output_buffer, pec_bytes, ADBMS6380_PEC_SIZE);
 }
 
-void adbms6380_calculate_cfg_rega(
+static void pack_cfg_rega(
     uint8_t output_cfg_rega[ADBMS6380_SINGLE_DATA_RAW_SIZE],
-    bool refon,
-    uint8_t cth
+    const adbms6380_rega_config_t *cfg
 ) {
     memset(output_cfg_rega, 0, ADBMS6380_SINGLE_DATA_RAW_SIZE);
 
-    output_cfg_rega[0] = (uint8_t)(((uint8_t)refon << 7) | (cth & 0x07));
+    output_cfg_rega[0] = (uint8_t)(((uint8_t)cfg->refon << 7U) | (cfg->cth & 0x07U));
     // all flags 0
-    output_cfg_rega[1] = 0b00000000;
+    output_cfg_rega[1] = 0b00000000U;
     // no soak
-    output_cfg_rega[2] = 0;
+    output_cfg_rega[2] = 0U;
 
     // All GPIO pull down off
-    output_cfg_rega[3] = 0b11111111; // GPIOs [8:0] pull down OFF
-    output_cfg_rega[4] = 0b00000011; // GPIOs [10:9] pull down OFF
+    output_cfg_rega[3] = 0b11111111U; // GPIOs [8:0] pull down OFF
+    output_cfg_rega[4] = 0b00000011U; // GPIOs [10:9] pull down OFF
 
     // No SNAP_ST MUTE_ST COMM_BK FC
-    output_cfg_rega[5] = 0;
+    output_cfg_rega[5] = 0U;
 }
 
-void adbms6380_calculate_cfg_regb(
+static void pack_cfg_regb(
     uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_RAW_SIZE],
-    float overvoltage_threshold,
-    float undervoltage_threshold,
+    const adbms6380_regb_config_t *cfg,
     const bool is_discharging[ADBMS6380_CELL_COUNT]
 ) {
     memset(output_cfg_regb, 0, ADBMS6380_SINGLE_DATA_RAW_SIZE);
 
-    uint16_t overvoltage_cfg  = adbms6380_get_threshold_voltage_cfg(overvoltage_threshold);
-    uint16_t undervoltage_cfg = adbms6380_get_threshold_voltage_cfg(undervoltage_threshold);
+    uint16_t overvoltage_cfg  = get_threshold_voltage_cfg(cfg->overvoltage_threshold_v);
+    uint16_t undervoltage_cfg = get_threshold_voltage_cfg(cfg->undervoltage_threshold_v);
     // 12 bits vov
-    output_cfg_regb[0] = (uint8_t)(overvoltage_cfg & 0xFF);
-    output_cfg_regb[1] |= (uint8_t)((overvoltage_cfg >> 8) & 0xF);
-    output_cfg_regb[0] = (uint8_t)(overvoltage_cfg & 0xFF);
-    output_cfg_regb[1] |= (uint8_t)((overvoltage_cfg >> 8) & 0xF);
+    output_cfg_regb[0] = (uint8_t)(overvoltage_cfg & 0xFFU);
+    output_cfg_regb[1] |= (uint8_t)((overvoltage_cfg >> 8U) & 0x0FU);
     // 12 bits vuv
-    output_cfg_regb[1] |= (uint8_t)((undervoltage_cfg << 4) & 0xF0);
-    output_cfg_regb[2] |= (uint8_t)((undervoltage_cfg >> 4) & 0xFF);
-    output_cfg_regb[1] |= (uint8_t)((undervoltage_cfg << 4) & 0xF0);
-    output_cfg_regb[2] |= (uint8_t)((undervoltage_cfg >> 4) & 0xFF);
+    output_cfg_regb[1] |= (uint8_t)((undervoltage_cfg << 4U) & 0xF0U);
+    output_cfg_regb[2] |= (uint8_t)((undervoltage_cfg >> 4U) & 0xFFU);
     // all else default
-    output_cfg_regb[3] = 0;
+    output_cfg_regb[3] = 0U;
 
     // DCC
-    output_cfg_regb[4] = 0;
-    output_cfg_regb[5] = 0;
-    for (size_t i = 0; i < ADBMS6380_CELL_COUNT; i++) {
+    output_cfg_regb[4] = 0U;
+    output_cfg_regb[5] = 0U;
+    for (size_t i = 0U; i < ADBMS6380_CELL_COUNT; i++) {
         if (is_discharging[i]) {
-            size_t byte_idx = 4 + (i / 8);
-            size_t bit_idx  = i % 8;
-            output_cfg_regb[byte_idx] |= (1U << bit_idx);
+            size_t byte_idx = 4U + (i / 8U);
+            size_t bit_idx  = i % 8U;
+            output_cfg_regb[byte_idx] |= (uint8_t)(1U << bit_idx);
         }
     }
 }
 
-bool adbms6380_check_data_pec(const uint8_t *rx_bytes, size_t rx_len) {
+static bool check_data_pec(const uint8_t *rx_bytes, size_t rx_len) {
     size_t raw_data_len     = rx_len - ADBMS6380_PEC_SIZE;
-    uint16_t calculated_pec = adbms_pec_get_pec10(true, (uint8_t)raw_data_len, rx_bytes);
+    uint16_t calculated_pec = PEC_calc_pec10(rx_bytes, raw_data_len, true);
 
     uint8_t pec_msb_packed = rx_bytes[raw_data_len];
-    uint8_t pec_lsb        = rx_bytes[raw_data_len + 1];
-    uint16_t received_pec  = (uint16_t)(((uint16_t)(pec_msb_packed & 0x03) << 8) | (uint16_t)pec_lsb);
+    uint8_t pec_lsb        = rx_bytes[raw_data_len + 1U];
+    uint16_t received_pec  = (uint16_t)(((uint16_t)(pec_msb_packed & 0x03U) << 8U) | (uint16_t)pec_lsb);
 
     return calculated_pec == received_pec;
 }
 
-bool adbms6380_read(
-    SPI_InitConfig_t *spi,
-    size_t module_count,
-    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-    uint8_t *rx_buffer,
-    size_t rx_length_per_module
-) {
+static bool read_response(adbms6380_t *dev, size_t rx_length_per_module) {
     // Send command and get response
-    adbms6380_set_cs_low(spi);
+    set_cs_low(dev->spi);
     // First send command. Command is passed to all modules in the daisy chain.
-    PHAL_SPI_transferBlocking(spi, cmd_buffer, NULL, ADBMS6380_COMMAND_PKT_SIZE);
+    PHAL_SPI_transferBlocking(
+        dev->spi,
+        dev->tx_strbuf.data,
+        nullptr,
+        (uint16_t)ADBMS6380_COMMAND_PKT_SIZE
+    );
     // Then read data back. Data is in order of module 0 ... module N-1
-    size_t total_rx_length = module_count * rx_length_per_module;
-    PHAL_SPI_transferBlocking(spi, NULL, rx_buffer, (uint16_t)total_rx_length);
-    adbms6380_set_cs_high(spi);
+    size_t total_rx_length = ADBMS6380_MODULE_COUNT * rx_length_per_module;
+    PHAL_SPI_transferBlocking(dev->spi, nullptr, dev->rx_buf, (uint16_t)total_rx_length);
+    set_cs_high(dev->spi);
 
     // Check PEC for each module's data packet
-    for (size_t module_idx = 0; module_idx < module_count; module_idx++) {
-        const uint8_t *module_data = &rx_buffer[module_idx * rx_length_per_module];
-        if (!adbms6380_check_data_pec(module_data, rx_length_per_module)) {
+    for (size_t module_idx = 0U; module_idx < ADBMS6380_MODULE_COUNT; module_idx++) {
+        const uint8_t *module_data = &dev->rx_buf[module_idx * rx_length_per_module];
+        if (!check_data_pec(module_data, rx_length_per_module)) {
             return false;
         }
     }
@@ -197,140 +190,192 @@ bool adbms6380_read(
     return true;
 }
 
-bool adbms6380_read_data_with_retries(
-    SPI_InitConfig_t *spi,
-    size_t max_retries,
-    size_t module_count,
-    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-    uint8_t *rx_buffer
-) {
-    bool ok = false;
-    for (size_t attempt = 0; attempt < max_retries; attempt++) {
-        ok = adbms6380_read(
-            spi,
-            module_count,
-            cmd_buffer,
-            rx_buffer,
-            ADBMS6380_SINGLE_DATA_PKT_SIZE
-        );
-        if (ok) {
+static bool read_data_with_retries(adbms6380_t *dev) {
+    for (size_t attempt = 0U; attempt < ADBMS6380_PEC_FAIL_MAX_RETRIES; attempt++) {
+        if (read_response(dev, ADBMS6380_SINGLE_DATA_PKT_SIZE)) {
             return true;
         }
         // Retry on PEC failure
     }
-    // If we reach here, all retries failed due to PEC errors
-    return ok;
+    // All retries failed due to PEC errors
+    return false;
 }
 
-bool adbms6380_read_data(
-    SPI_InitConfig_t *spi,
-    size_t module_count,
-    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-    uint8_t *rx_buffer
-) {
-    size_t rx_length_per_module = ADBMS6380_SINGLE_DATA_PKT_SIZE;
-    return adbms6380_read(spi, module_count, cmd_buffer, rx_buffer, rx_length_per_module);
+void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi) {
+    *dev     = (adbms6380_t){0};
+    dev->spi = spi;
+    set_cs_high(dev->spi);
+
+    dev->tx_strbuf = (strbuf_t){
+        .data    = dev->tx_buf,
+        .length  = 0U,
+        .max_len = ADBMS6380_SPI_TX_BUFFER_SIZE,
+    };
 }
 
-void adbms6380_read_cell_voltages(
-    SPI_InitConfig_t *spi,
-    strbuf_t *cmd_buffer,
-    uint8_t *rx_buffer,
-    float **cell_voltages,
-    int16_t **cell_voltages_raw,
-    bool pec_error_flags[ADBMS6380_RDCV_CMD_COUNT],
-    size_t module_count,
-    size_t max_retries_on_pec_failure
-) {
-    const uint8_t *cmd_list[ADBMS6380_RDCV_CMD_COUNT] = {RDCVA, RDCVB, RDCVC, RDCVD, RDCVE, RDCVF};
+void ADBMS6380_wake(adbms6380_t *dev) {
+    for (size_t i = 0U; i < ADBMS6380_MODULE_COUNT; i++) {
+        set_cs_low(dev->spi);
+        RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
+        set_cs_high(dev->spi);
+        RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
+    }
+}
 
-    for (size_t cmd_idx = 0; cmd_idx < ADBMS6380_RDCV_CMD_COUNT; cmd_idx++) {
-        strbuf_clear(cmd_buffer);
-        adbms6380_prepare_command(cmd_buffer, cmd_list[cmd_idx]);
+void ADBMS6380_write_rega(adbms6380_t *dev, const adbms6380_rega_config_t *cfg) {
+    strbuf_clear(&dev->tx_strbuf);
+    prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGA);
+    for (size_t idx = ADBMS6380_MODULE_COUNT; idx > 0U; idx--) {
+        size_t module_idx = idx - 1U;
+        pack_cfg_rega(dev->modules[module_idx].rega, cfg);
+        prepare_data_packet(&dev->tx_strbuf, dev->modules[module_idx].rega);
+    }
 
-        bool pec_ok = adbms6380_read_data_with_retries(
-            spi,
-            max_retries_on_pec_failure,
-            module_count,
-            cmd_buffer->data,
-            rx_buffer
-        );
-        if (pec_ok) {
-            // continue processing
-            pec_error_flags[cmd_idx] = false;
-        } else {
-            // skip to the next command but marked that we did not update values
-            // for this set of cells
-            pec_error_flags[cmd_idx] = true;
+    transfer_tx(dev);
+}
+
+bool ADBMS6380_verify_rega(adbms6380_t *dev) {
+    strbuf_clear(&dev->tx_strbuf);
+    prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_RDCFGA);
+    if (!read_data_with_retries(dev)) {
+        dev->err_rega_pec = true;
+        return false;
+    }
+    dev->err_rega_pec = false;
+
+    dev->err_rega_mismatch = false;
+    for (size_t i = 0U; i < ADBMS6380_MODULE_COUNT; i++) {
+        const uint8_t *module_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        bool mismatch =
+            memcmp(module_data, dev->modules[i].rega, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
+        dev->modules[i].err_rega_mismatch = mismatch;
+        if (mismatch) {
+            dev->err_rega_mismatch = true;
+        }
+    }
+    return !dev->err_rega_mismatch;
+}
+
+void ADBMS6380_write_regb(adbms6380_t *dev, const adbms6380_regb_config_t *cfg) {
+    strbuf_clear(&dev->tx_strbuf);
+    prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGB);
+    for (size_t idx = ADBMS6380_MODULE_COUNT; idx > 0U; idx--) {
+        size_t module_idx = idx - 1U;
+        pack_cfg_regb(dev->modules[module_idx].regb, cfg, dev->modules[module_idx].is_discharging);
+        prepare_data_packet(&dev->tx_strbuf, dev->modules[module_idx].regb);
+    }
+
+    transfer_tx(dev);
+}
+
+bool ADBMS6380_verify_regb(adbms6380_t *dev) {
+    strbuf_clear(&dev->tx_strbuf);
+    prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_RDCFGB);
+    if (!read_data_with_retries(dev)) {
+        dev->err_regb_pec = true;
+        return false;
+    }
+    dev->err_regb_pec = false;
+
+    dev->err_regb_mismatch = false;
+    for (size_t i = 0U; i < ADBMS6380_MODULE_COUNT; i++) {
+        const uint8_t *module_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        bool mismatch =
+            memcmp(module_data, dev->modules[i].regb, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
+        dev->modules[i].err_regb_mismatch = mismatch;
+        if (mismatch) {
+            dev->err_regb_mismatch = true;
+        }
+    }
+    return !dev->err_regb_mismatch;
+}
+
+void ADBMS6380_start_adcv(adbms6380_t *dev, const adbms6380_adcv_config_t *cfg) {
+    strbuf_clear(&dev->tx_strbuf);
+    uint8_t adcv_cmd[ADBMS6380_COMMAND_RAW_SIZE] = {0};
+    encode_adcv(adcv_cmd, cfg);
+    prepare_command(&dev->tx_strbuf, adcv_cmd);
+    transfer_tx(dev);
+}
+
+void ADBMS6380_start_adax(adbms6380_t *dev, const adbms6380_adax_config_t *cfg) {
+    strbuf_clear(&dev->tx_strbuf);
+    uint8_t adax_cmd[ADBMS6380_COMMAND_RAW_SIZE] = {0};
+    encode_adax(adax_cmd, cfg);
+    prepare_command(&dev->tx_strbuf, adax_cmd);
+    transfer_tx(dev);
+}
+
+void ADBMS6380_read_cell_voltages(adbms6380_t *dev) {
+    const uint8_t *cmd_list[ADBMS6380_RDCV_CMD_COUNT] = {
+        ADBMS6380_CMD_RDCVA,
+        ADBMS6380_CMD_RDCVB,
+        ADBMS6380_CMD_RDCVC,
+        ADBMS6380_CMD_RDCVD,
+        ADBMS6380_CMD_RDCVE,
+        ADBMS6380_CMD_RDCVF,
+    };
+
+    for (size_t cmd_idx = 0U; cmd_idx < ADBMS6380_RDCV_CMD_COUNT; cmd_idx++) {
+        strbuf_clear(&dev->tx_strbuf);
+        prepare_command(&dev->tx_strbuf, cmd_list[cmd_idx]);
+
+        if (!read_data_with_retries(dev)) {
+            // Skip to the next command, marking that values were not updated for this set of cells
+            dev->err_cell_voltage_pecs[cmd_idx] = true;
             continue;
         }
+        dev->err_cell_voltage_pecs[cmd_idx] = false;
 
-        // Data comes back as: module 1, module 2, ..., module N
-        size_t cells_read =
-            (cmd_idx < 5) ? 3 : 1; // First 5 commands read 3 cells, last reads 1 cell = 16 total
-        size_t cell_in_module_idx_base = cmd_idx * 3;
+        // First 5 commands read 3 cells, last reads 1 cell = 16 total
+        size_t cells_read              = (cmd_idx < 5U) ? 3U : 1U;
+        size_t cell_in_module_idx_base = cmd_idx * 3U;
 
-        for (size_t module_idx = 0; module_idx < module_count; module_idx++) {
-            const uint8_t *module_data = &rx_buffer[module_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
-            for (size_t j = 0; j < cells_read; j++) {
+        // Data comes back as: module 0, module 1, ..., module N-1
+        for (size_t module_idx = 0U; module_idx < ADBMS6380_MODULE_COUNT; module_idx++) {
+            const uint8_t *module_data = &dev->rx_buf[module_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+            for (size_t j = 0U; j < cells_read; j++) {
                 size_t cell_idx = cell_in_module_idx_base + j;
                 if (cell_idx >= ADBMS6380_CELL_COUNT) {
                     break; // safety check
                 }
-                int16_t raw                             = adbms6380_extract_i16(module_data, j);
-                cell_voltages_raw[module_idx][cell_idx] = raw;
-                float cell_v                            = adbms6380_raw_to_v(raw);
-                cell_voltages[module_idx][cell_idx]     = cell_v;
+                int16_t raw = extract_i16(module_data, j);
+                dev->modules[module_idx].cell_voltages[cell_idx] = raw_to_v(raw);
             }
         }
     }
 }
 
-void adbms6380_read_gpio_voltages(
-    SPI_InitConfig_t *spi,
-    strbuf_t *cmd_buffer,
-    uint8_t *rx_buffer,
-    float **gpio_voltages,
-    bool pec_error_flags[ADBMS6380_RDAUX_CMD_COUNT],
-    size_t module_count,
-    size_t max_retries_on_pec_failure
-) {
-    const uint8_t *cmd_list[ADBMS6380_RDAUX_CMD_COUNT] = {RDAUXA, RDAUXB, RDAUXC, RDAUXD};
+void ADBMS6380_read_gpio_voltages(adbms6380_t *dev) {
+    const uint8_t *cmd_list[ADBMS6380_RDAUX_CMD_COUNT] = {
+        ADBMS6380_CMD_RDAUXA,
+        ADBMS6380_CMD_RDAUXB,
+        ADBMS6380_CMD_RDAUXC,
+        ADBMS6380_CMD_RDAUXD,
+    };
 
-    for (size_t cmd_idx = 0; cmd_idx < ADBMS6380_RDAUX_CMD_COUNT; cmd_idx++) {
-        strbuf_clear(cmd_buffer);
-        adbms6380_prepare_command(cmd_buffer, cmd_list[cmd_idx]);
+    for (size_t cmd_idx = 0U; cmd_idx < ADBMS6380_RDAUX_CMD_COUNT; cmd_idx++) {
+        strbuf_clear(&dev->tx_strbuf);
+        prepare_command(&dev->tx_strbuf, cmd_list[cmd_idx]);
 
-        bool pec_ok = adbms6380_read_data_with_retries(
-            spi,
-            max_retries_on_pec_failure,
-            module_count,
-            cmd_buffer->data,
-            rx_buffer
-        );
-        if (pec_ok) {
-            // continue processing
-            pec_error_flags[cmd_idx] = false;
-        } else {
-            // skip to the next command but marked that we did not update values
-            // for this set of GPIOs
-            pec_error_flags[cmd_idx] = true;
+        if (!read_data_with_retries(dev)) {
+            // Skip to the next command, marking that values were not updated for this set of GPIOs
+            dev->err_gpio_voltage_pecs[cmd_idx] = true;
             continue;
         }
+        dev->err_gpio_voltage_pecs[cmd_idx] = false;
 
         // AUXA/B/C: 3 GPIOs each, AUXD: GPIO10
-        size_t gpios_read    = (cmd_idx < 3) ? 3 : 1;
-        size_t gpio_idx_base = cmd_idx * 3;
+        size_t gpios_read    = (cmd_idx < 3U) ? 3U : 1U;
+        size_t gpio_idx_base = cmd_idx * 3U;
 
-        // Data comes back as: module 1, module 2, ..., module N
-        for (size_t module_idx = 0; module_idx < module_count; module_idx++) {
-            const uint8_t *module_data = &rx_buffer[module_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
-
-            for (size_t j = 0; j < gpios_read; j++) {
-                size_t gpio_idx                     = gpio_idx_base + j;
-                int16_t raw                         = adbms6380_extract_i16(module_data, j);
-                float gpio_v                        = adbms6380_raw_to_v(raw);
-                gpio_voltages[module_idx][gpio_idx] = gpio_v;
+        // Data comes back as: module 0, module 1, ..., module N-1
+        for (size_t module_idx = 0U; module_idx < ADBMS6380_MODULE_COUNT; module_idx++) {
+            const uint8_t *module_data = &dev->rx_buf[module_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+            for (size_t j = 0U; j < gpios_read; j++) {
+                size_t gpio_idx = gpio_idx_base + j;
+                int16_t raw     = extract_i16(module_data, j);
+                dev->modules[module_idx].gpio_voltages[gpio_idx] = raw_to_v(raw);
             }
         }
     }

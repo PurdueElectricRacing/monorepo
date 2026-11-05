@@ -11,10 +11,10 @@
 #define PEC_H
 
 #include <stdbool.h>
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
-uint16_t adbms_pec_get_pec15(uint8_t len, const uint8_t *data);
-uint16_t adbms_pec_get_pec10(bool bIsRxCmd, size_t nLength, const uint8_t *pDataBuf);
+uint16_t PEC_calc_pec15(const uint8_t *data, uint8_t len);
+uint16_t PEC_calc_pec10(const uint8_t *data_buf, size_t length, bool is_rx_cmd);
 
 #endif // PEC_H

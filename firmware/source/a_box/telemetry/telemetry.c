@@ -66,9 +66,9 @@ void report_telemetry_100hz(void) {
     CAN_SEND_pack_analog_ccan(pack_voltage, pack_current);
 
     // Report cell voltages one at a time
-    static uint8_t module_num      = 0;
-    static uint8_t cell_num        = 0;
-    adbms_module_t *current_module = &g_bms.modules[module_num];
+    static uint8_t module_num            = 0;
+    static uint8_t cell_num              = 0;
+    adbms6380_module_t *current_module   = &g_bms.dev.modules[module_num];
 
     float cell_voltage = current_module->cell_voltages[cell_num];
     uint16_t scaled_cell_voltage = (uint16_t)(cell_voltage * PACK_COEFF_CELL_TELEMETRY_VOLTAGE);
