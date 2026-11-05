@@ -66,13 +66,12 @@ void report_telemetry_100hz(void) {
     CAN_SEND_pack_analog_ccan(pack_voltage, pack_current);
 
     // Report cell voltages one at a time
-    static uint8_t module_num            = 0;
-    static uint8_t cell_num              = 0;
-    adbms6380_module_t *current_module   = &g_bms.dev.modules[module_num];
+    static uint8_t module_num = 0;
+    static uint8_t cell_num   = 0;
 
-    float cell_voltage = current_module->cell_voltages[cell_num];
+    float cell_voltage = ADBMS_get_cell_voltage(&g_bms, module_num, cell_num);
     uint16_t scaled_cell_voltage = (uint16_t)(cell_voltage * PACK_COEFF_CELL_TELEMETRY_VOLTAGE);
-    bool is_balancing  = current_module->is_discharging[cell_num];
+    bool is_balancing = ADBMS_is_cell_discharging(&g_bms, module_num, cell_num);
 
     CAN_SEND_cell_telemetry(scaled_cell_voltage, module_num, cell_num, is_balancing);
     CAN_SEND_cell_telemetry_ccan(scaled_cell_voltage, module_num, cell_num, is_balancing);
@@ -95,11 +94,10 @@ static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 void report_telemetry_8hz(void) {
     // Report thermistor temperatures one at a time
-    static uint8_t module_num          = 0;
-    static uint8_t thermistor_num      = 0;
-    adbms6380_module_t *current_module = &g_bms.dev.modules[module_num];
+    static uint8_t module_num     = 0;
+    static uint8_t thermistor_num = 0;
 
-    float thermistor_temperature = current_module->therms_temps[thermistor_num];
+    float thermistor_temperature = ADBMS_get_therm_temp(&g_bms, module_num, thermistor_num);
     uint16_t scaled_temperature = (uint16_t)(thermistor_temperature * PACK_COEFF_THERMISTOR_TELEMETRY_TEMPERATURE);
 
     CAN_SEND_thermistor_telemetry(scaled_temperature, module_num, thermistor_num);
