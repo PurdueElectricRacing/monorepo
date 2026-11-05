@@ -12,11 +12,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "adbms_config.h"
 #include "common/phal_G4/spi/spi.h"
 #include "common/strbuf/strbuf.h"
 
-// Number of ADBMS6380 modules in the daisy chain.
-static constexpr size_t ADBMS6380_MODULE_COUNT = 7U;
 // Number of cells per ADBMS6380 device.
 static constexpr size_t ADBMS6380_CELL_COUNT = 16U;
 // Number of GPIO/aux channels per ADBMS6380 device.
@@ -42,22 +41,12 @@ static constexpr size_t ADBMS6380_RDCV_CMD_COUNT = 6U;
 // {RDAUXA, RDAUXB, RDAUXC, RDAUXD}
 static constexpr size_t ADBMS6380_RDAUX_CMD_COUNT = 4U;
 
-// Number of attempts to retry a read if a PEC failure is detected before continuing.
-static constexpr size_t ADBMS6380_PEC_FAIL_MAX_RETRIES = 3U;
-
-/**
- * @brief Wake pulse duration per CS toggle in milliseconds.
- *
- * Note: usage of this expects the FreeRTOS tick rate to be 1000 Hz (1 tick = 1 ms).
- */
-static constexpr uint32_t ADBMS6380_WAKE_DELAY_MS = 1U;
-
 // Max SPI TX is a command + all the data packets for all the modules.
 static constexpr size_t ADBMS6380_SPI_TX_BUFFER_SIZE =
-    ADBMS6380_COMMAND_PKT_SIZE + (ADBMS6380_MODULE_COUNT * ADBMS6380_SINGLE_DATA_PKT_SIZE);
+    ADBMS6380_COMMAND_PKT_SIZE + (ADBMS_MODULE_COUNT * ADBMS6380_SINGLE_DATA_PKT_SIZE);
 // Max SPI RX is all the data packets for all the modules.
 static constexpr size_t ADBMS6380_SPI_RX_BUFFER_SIZE =
-    ADBMS6380_SINGLE_DATA_PKT_SIZE * ADBMS6380_MODULE_COUNT;
+    ADBMS6380_SINGLE_DATA_PKT_SIZE * ADBMS_MODULE_COUNT;
 
 /**
  * @brief Configuration parameters for the CFGA register group.
@@ -108,15 +97,15 @@ typedef struct {
 } adbms6380_adax_config_t;
 
 /**
- * @brief Per-module device-level measurements, register caches, and mismatch flags.
+ * @brief Per-module device-level measurements, register cache, and mismatch flags.
  */
 typedef struct {
     /** Latest cell voltage readings for this module (volts). */
     float cell_voltages[ADBMS6380_CELL_COUNT];
     /** Latest GPIO/aux voltage readings for this module (volts). */
     float gpio_voltages[ADBMS6380_GPIO_COUNT];
-    /** Cached REGA bytes written to the device. Used to compare against read-back data. */
-    uint8_t rega[ADBMS6380_SINGLE_DATA_RAW_SIZE];
+    /** Latest thermistor temperatures for this module (Celsius). */
+    float therms_temps[ADBMS6380_GPIO_COUNT];
     /** Cached REGB bytes written to the device. Used to compare against read-back data. */
     uint8_t regb[ADBMS6380_SINGLE_DATA_RAW_SIZE];
     /** Per-cell discharge enable flags used for balancing. */
@@ -135,12 +124,14 @@ typedef struct {
     SPI_InitConfig_t *spi;
     /** Scratch TX buffer wrapper for command/data packets. */
     strbuf_t tx_strbuf;
-    /** Per-module device state and raw/converted voltage readings. */
-    adbms6380_module_t modules[ADBMS6380_MODULE_COUNT];
+    /** Per-module device state and raw/converted voltage and temperature readings. */
+    adbms6380_module_t modules[ADBMS_MODULE_COUNT];
     /** Backing TX buffer for command/data packets. */
     uint8_t tx_buf[ADBMS6380_SPI_TX_BUFFER_SIZE];
     /** RX buffer for multi-module readouts. */
     uint8_t rx_buf[ADBMS6380_SPI_RX_BUFFER_SIZE];
+    /** Cached REGA bytes written to all modules in the device chain. */
+    uint8_t rega[ADBMS6380_SINGLE_DATA_RAW_SIZE];
     /** Per-command PEC error flags for cell voltage reads. */
     bool err_cell_voltage_pecs[ADBMS6380_RDCV_CMD_COUNT];
     /** Per-command PEC error flags for GPIO voltage reads. */
@@ -149,10 +140,6 @@ typedef struct {
     bool err_rega_pec;
     /** Set when REGB read has a PEC failure. */
     bool err_regb_pec;
-    /** Aggregated REGA mismatch flag across modules. */
-    bool err_rega_mismatch;
-    /** Aggregated REGB mismatch flag across modules. */
-    bool err_regb_mismatch;
 } adbms6380_t;
 
 /**
@@ -186,8 +173,8 @@ void ADBMS6380_write_rega(adbms6380_t *dev, const adbms6380_rega_config_t *cfg);
 /**
  * @brief Read back REGA from all modules and compare with cached configuration.
  *
- * Sets per-module and aggregated mismatch/PEC flags when the read-back fails
- * or does not match the cached REGA data.
+ * Sets per-module mismatch or PEC flags when the read-back fails or does not
+ * match the cached REGA data.
  *
  * @param dev Non-null pointer to device state.
  * @return false on PEC error or when there is a mismatch; true otherwise.
@@ -205,13 +192,29 @@ void ADBMS6380_write_regb(adbms6380_t *dev, const adbms6380_regb_config_t *cfg);
 /**
  * @brief Read back REGB from all modules and compare with cached configuration.
  *
- * Sets per-module and aggregated mismatch/PEC flags when the read-back fails
- * or does not match the cached REGB data.
+ * Sets per-module mismatch or PEC flags when the read-back fails or does not
+ * match the cached REGB data.
  *
  * @param dev Non-null pointer to device state.
  * @return false on PEC error or when there is a mismatch; true otherwise.
  */
 bool ADBMS6380_verify_regb(adbms6380_t *dev);
+
+/**
+ * @brief Check whether any module in the chain has a REGA mismatch error.
+ *
+ * @param dev Non-null pointer to device state.
+ * @return true if any module has @ref adbms6380_module_t::err_rega_mismatch set.
+ */
+bool ADBMS6380_has_rega_mismatch(const adbms6380_t *dev);
+
+/**
+ * @brief Check whether any module in the chain has a REGB mismatch error.
+ *
+ * @param dev Non-null pointer to device state.
+ * @return true if any module has @ref adbms6380_module_t::err_regb_mismatch set.
+ */
+bool ADBMS6380_has_regb_mismatch(const adbms6380_t *dev);
 
 /**
  * @brief Issue the ADCV command to start cell voltage conversions across all modules.
@@ -252,5 +255,15 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev);
  * @param dev Non-null pointer to device state.
  */
 void ADBMS6380_read_gpio_voltages(adbms6380_t *dev);
+
+/**
+ * @brief Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.
+ *
+ * Populates each module's @ref gpio_voltages and @ref therms_temps arrays.
+ *
+ * @param dev Non-null pointer to device state.
+ * @param cfg Non-null pointer to ADAX command parameters.
+ */
+void ADBMS6380_read_temperatures(adbms6380_t *dev, const adbms6380_adax_config_t *cfg);
 
 #endif // ADBMS6380_H

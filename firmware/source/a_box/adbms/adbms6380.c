@@ -16,7 +16,25 @@
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/spi/spi.h"
 #include "common/rtos/rtos.h"
+#include "common/utils/countof.h"
 #include "pec.h"
+#include "thermistor.h"
+
+// Number of attempts to retry a read if a PEC failure is detected before continuing.
+static constexpr size_t ADBMS6380_PEC_FAIL_MAX_RETRIES = 3U;
+
+/**
+ * @brief Wake pulse duration per CS toggle in milliseconds.
+ *
+ * Note: usage of this expects the FreeRTOS tick rate to be 1000 Hz (1 tick = 1 ms).
+ */
+static constexpr uint32_t ADBMS6380_WAKE_DELAY_MS = 1U;
+
+// 10kOhm voltage divider on the thermistor input.
+static constexpr float ADBMS6380_GPIO_R1_OHM       = 10'000.0f;
+// VREF2 = 3.0v and is the input to the thermistor voltage divider.
+static constexpr float ADBMS6380_GPIO_VIN_V        = 3.0f;
+static constexpr float ADBMS6380_DIVIDER_EPSILON_V = 0.00001f;
 
 // ADBMS6380 ADC conversion constants from datasheet:
 // Voltage = (raw + 10,000) * 150 uV, where 10,000 codes = 1.5 V offset
@@ -26,6 +44,24 @@ static constexpr float ADBMS6380_THRESHOLD_SCALE    = 16.0f;
 static constexpr int32_t ADBMS6380_RAW_OFFSET_CODES = 10'000;
 static constexpr uint8_t ADBMS6380_THRESHOLD_BITS   = 12U;
 static constexpr uint16_t ADBMS6380_THRESHOLD_MASK  = 0x0FFFU;
+
+static const uint8_t *const RDCV_CMDS[] = {
+    ADBMS6380_CMD_RDCVA,
+    ADBMS6380_CMD_RDCVB,
+    ADBMS6380_CMD_RDCVC,
+    ADBMS6380_CMD_RDCVD,
+    ADBMS6380_CMD_RDCVE,
+    ADBMS6380_CMD_RDCVF,
+};
+static_assert(sizeof(RDCV_CMDS) / sizeof(RDCV_CMDS[0]) == ADBMS6380_RDCV_CMD_COUNT);
+
+static const uint8_t *const RDAUX_CMDS[] = {
+    ADBMS6380_CMD_RDAUXA,
+    ADBMS6380_CMD_RDAUXB,
+    ADBMS6380_CMD_RDAUXC,
+    ADBMS6380_CMD_RDAUXD,
+};
+static_assert(sizeof(RDAUX_CMDS) / sizeof(RDAUX_CMDS[0]) == ADBMS6380_RDAUX_CMD_COUNT);
 
 static void set_cs_low(SPI_InitConfig_t *spi) {
     PHAL_GPIO_write(spi->nss_gpio_port, spi->nss_gpio_pin, false);
@@ -175,12 +211,12 @@ static bool read_response(adbms6380_t *dev, size_t rx_length_per_module) {
         (uint16_t)ADBMS6380_COMMAND_PKT_SIZE
     );
     // Then read data back. Data is in order of module 0 ... module N-1
-    size_t total_rx_length = ADBMS6380_MODULE_COUNT * rx_length_per_module;
+    size_t total_rx_length = ADBMS_MODULE_COUNT * rx_length_per_module;
     PHAL_SPI_transferBlocking(dev->spi, nullptr, dev->rx_buf, (uint16_t)total_rx_length);
     set_cs_high(dev->spi);
 
     // Check PEC for each module's data packet
-    for (size_t module_idx = 0U; module_idx < ADBMS6380_MODULE_COUNT; module_idx++) {
+    for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
         const uint8_t *module_data = &dev->rx_buf[module_idx * rx_length_per_module];
         if (!check_data_pec(module_data, rx_length_per_module)) {
             return false;
@@ -214,7 +250,7 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi) {
 }
 
 void ADBMS6380_wake(adbms6380_t *dev) {
-    for (size_t i = 0U; i < ADBMS6380_MODULE_COUNT; i++) {
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
         set_cs_low(dev->spi);
         RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
         set_cs_high(dev->spi);
@@ -225,10 +261,9 @@ void ADBMS6380_wake(adbms6380_t *dev) {
 void ADBMS6380_write_rega(adbms6380_t *dev, const adbms6380_rega_config_t *cfg) {
     strbuf_clear(&dev->tx_strbuf);
     prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGA);
-    for (size_t idx = ADBMS6380_MODULE_COUNT; idx > 0U; idx--) {
-        size_t module_idx = idx - 1U;
-        pack_cfg_rega(dev->modules[module_idx].rega, cfg);
-        prepare_data_packet(&dev->tx_strbuf, dev->modules[module_idx].rega);
+    pack_cfg_rega(dev->rega, cfg);
+    for (size_t idx = ADBMS_MODULE_COUNT; idx > 0U; idx--) {
+        prepare_data_packet(&dev->tx_strbuf, dev->rega);
     }
 
     transfer_tx(dev);
@@ -243,23 +278,18 @@ bool ADBMS6380_verify_rega(adbms6380_t *dev) {
     }
     dev->err_rega_pec = false;
 
-    dev->err_rega_mismatch = false;
-    for (size_t i = 0U; i < ADBMS6380_MODULE_COUNT; i++) {
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
         const uint8_t *module_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
-        bool mismatch =
-            memcmp(module_data, dev->modules[i].rega, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
-        dev->modules[i].err_rega_mismatch = mismatch;
-        if (mismatch) {
-            dev->err_rega_mismatch = true;
-        }
+        dev->modules[i].err_rega_mismatch =
+            memcmp(module_data, dev->rega, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
     }
-    return !dev->err_rega_mismatch;
+    return !ADBMS6380_has_rega_mismatch(dev);
 }
 
 void ADBMS6380_write_regb(adbms6380_t *dev, const adbms6380_regb_config_t *cfg) {
     strbuf_clear(&dev->tx_strbuf);
     prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGB);
-    for (size_t idx = ADBMS6380_MODULE_COUNT; idx > 0U; idx--) {
+    for (size_t idx = ADBMS_MODULE_COUNT; idx > 0U; idx--) {
         size_t module_idx = idx - 1U;
         pack_cfg_regb(dev->modules[module_idx].regb, cfg, dev->modules[module_idx].is_discharging);
         prepare_data_packet(&dev->tx_strbuf, dev->modules[module_idx].regb);
@@ -277,17 +307,30 @@ bool ADBMS6380_verify_regb(adbms6380_t *dev) {
     }
     dev->err_regb_pec = false;
 
-    dev->err_regb_mismatch = false;
-    for (size_t i = 0U; i < ADBMS6380_MODULE_COUNT; i++) {
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
         const uint8_t *module_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
-        bool mismatch =
+        dev->modules[i].err_regb_mismatch =
             memcmp(module_data, dev->modules[i].regb, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
-        dev->modules[i].err_regb_mismatch = mismatch;
-        if (mismatch) {
-            dev->err_regb_mismatch = true;
+    }
+    return !ADBMS6380_has_regb_mismatch(dev);
+}
+
+bool ADBMS6380_has_rega_mismatch(const adbms6380_t *dev) {
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+        if (dev->modules[i].err_rega_mismatch) {
+            return true;
         }
     }
-    return !dev->err_regb_mismatch;
+    return false;
+}
+
+bool ADBMS6380_has_regb_mismatch(const adbms6380_t *dev) {
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+        if (dev->modules[i].err_regb_mismatch) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void ADBMS6380_start_adcv(adbms6380_t *dev, const adbms6380_adcv_config_t *cfg) {
@@ -307,18 +350,9 @@ void ADBMS6380_start_adax(adbms6380_t *dev, const adbms6380_adax_config_t *cfg) 
 }
 
 void ADBMS6380_read_cell_voltages(adbms6380_t *dev) {
-    const uint8_t *cmd_list[ADBMS6380_RDCV_CMD_COUNT] = {
-        ADBMS6380_CMD_RDCVA,
-        ADBMS6380_CMD_RDCVB,
-        ADBMS6380_CMD_RDCVC,
-        ADBMS6380_CMD_RDCVD,
-        ADBMS6380_CMD_RDCVE,
-        ADBMS6380_CMD_RDCVF,
-    };
-
-    for (size_t cmd_idx = 0U; cmd_idx < ADBMS6380_RDCV_CMD_COUNT; cmd_idx++) {
+    for (size_t cmd_idx = 0U; cmd_idx < countof(RDCV_CMDS); cmd_idx++) {
         strbuf_clear(&dev->tx_strbuf);
-        prepare_command(&dev->tx_strbuf, cmd_list[cmd_idx]);
+        prepare_command(&dev->tx_strbuf, RDCV_CMDS[cmd_idx]);
 
         if (!read_data_with_retries(dev)) {
             // Skip to the next command, marking that values were not updated for this set of cells
@@ -332,7 +366,7 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev) {
         size_t cell_in_module_idx_base = cmd_idx * 3U;
 
         // Data comes back as: module 0, module 1, ..., module N-1
-        for (size_t module_idx = 0U; module_idx < ADBMS6380_MODULE_COUNT; module_idx++) {
+        for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
             const uint8_t *module_data = &dev->rx_buf[module_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
             for (size_t j = 0U; j < cells_read; j++) {
                 size_t cell_idx = cell_in_module_idx_base + j;
@@ -347,16 +381,9 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev) {
 }
 
 void ADBMS6380_read_gpio_voltages(adbms6380_t *dev) {
-    const uint8_t *cmd_list[ADBMS6380_RDAUX_CMD_COUNT] = {
-        ADBMS6380_CMD_RDAUXA,
-        ADBMS6380_CMD_RDAUXB,
-        ADBMS6380_CMD_RDAUXC,
-        ADBMS6380_CMD_RDAUXD,
-    };
-
-    for (size_t cmd_idx = 0U; cmd_idx < ADBMS6380_RDAUX_CMD_COUNT; cmd_idx++) {
+    for (size_t cmd_idx = 0U; cmd_idx < countof(RDAUX_CMDS); cmd_idx++) {
         strbuf_clear(&dev->tx_strbuf);
-        prepare_command(&dev->tx_strbuf, cmd_list[cmd_idx]);
+        prepare_command(&dev->tx_strbuf, RDAUX_CMDS[cmd_idx]);
 
         if (!read_data_with_retries(dev)) {
             // Skip to the next command, marking that values were not updated for this set of GPIOs
@@ -370,13 +397,37 @@ void ADBMS6380_read_gpio_voltages(adbms6380_t *dev) {
         size_t gpio_idx_base = cmd_idx * 3U;
 
         // Data comes back as: module 0, module 1, ..., module N-1
-        for (size_t module_idx = 0U; module_idx < ADBMS6380_MODULE_COUNT; module_idx++) {
+        for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
             const uint8_t *module_data = &dev->rx_buf[module_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
             for (size_t j = 0U; j < gpios_read; j++) {
                 size_t gpio_idx = gpio_idx_base + j;
                 int16_t raw     = extract_i16(module_data, j);
                 dev->modules[module_idx].gpio_voltages[gpio_idx] = raw_to_v(raw);
             }
+        }
+    }
+}
+
+void ADBMS6380_read_temperatures(adbms6380_t *dev, const adbms6380_adax_config_t *cfg) {
+    ADBMS6380_start_adax(dev, cfg);
+
+    // TODO: wait for AUX conversion completion before reading (PLAUX)
+    // ADAX preserves previous results, so this immediate read may return the
+    // previous scan or mixed old/new values.
+    // This is not terrible, but should be fixed later.
+    ADBMS6380_read_gpio_voltages(dev);
+
+    // Convert all GPIO voltages to temperatures
+    // GPIO voltage -> R2 in the thermistor divider -> temperature via thermistor curve
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+        for (size_t j = 0U; j < ADBMS6380_GPIO_COUNT; j++) {
+            float v_out = dev->modules[i].gpio_voltages[j];
+            // Avoid divide by 0:
+            if (v_out == ADBMS6380_GPIO_VIN_V) {
+                v_out = ADBMS6380_GPIO_VIN_V - ADBMS6380_DIVIDER_EPSILON_V;
+            }
+            float r2                        = (v_out * ADBMS6380_GPIO_R1_OHM) / (ADBMS6380_GPIO_VIN_V - v_out);
+            dev->modules[i].therms_temps[j] = thermistor_R_to_T(r2);
         }
     }
 }

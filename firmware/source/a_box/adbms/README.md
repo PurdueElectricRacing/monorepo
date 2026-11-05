@@ -63,22 +63,21 @@ so that SPI communication is not delayed/interrupted.
 After each periodic call, values can be read from the `adbms_bms_t` struct:
 - `g_bms.dev.modules[i].cell_voltages`: Per-module cell voltages
 	- `ADBMS6380_CELL_COUNT` (16) per module
-- `g_bms.modules[i].therms_temps`: Per-module thermistor temperatures in Celsius
+- `g_bms.dev.modules[i].therms_temps`: Per-module thermistor temperatures in Celsius
 	- `ADBMS6380_GPIO_COUNT` (10) per module
 	- Temps calculated with the following flow:
 		1. GPIO voltage (`g_bms.dev.modules[i].gpio_voltages`)
 		2. R2 in the thermistor divider
-			- R1 = `ADBMS_GPIO_R1_OHM` = 10kOhms
-			- Vin = VREG2 = `ADBMS_GPIO_VIN_V` = 3.0v
+			- R1 = `ADBMS6380_GPIO_R1_OHM` = 10kOhms
+			- Vin = VREG2 = `ADBMS6380_GPIO_VIN_V` = 3.0v
 		3. Temperature via lerp of datasheet values
 - `g_bms.min_voltage`/`g_bms.max_voltage`/`g_bms.avg_voltage`/`g_bms.sum_voltage`: Pack-level cell voltage statistics
 - `g_bms.min_therm_temp`/`g_bms.max_therm_temp`/`g_bms.avg_therm_temp`: Pack-level thermistor temperature statistics
 - Error flags:
-	- `g_bms.dev.err_rega_mismatch`: REGA register mismatch error
+	- `g_bms.dev.modules[i].err_rega_mismatch`: Per-module REGA register mismatch error
 		- The configuration we tried to write did not match the reading. Indicates a potential communication issue or misconfiguration.
-		- Same for REGB (`g_bms.dev.err_regb_mismatch`).
-		- There is also a flag in each device module struct for per-module REGA and REGB mismatch errors (`g_bms.dev.modules[i].err_rega_mismatch` and `g_bms.dev.modules[i].err_regb_mismatch`)
-			- Indicate if there was a mismatch for that specific module (as opposed to the pack-level flags which indicate if there was a mismatch for any module in the pack).
+		- Same for REGB (`g_bms.dev.modules[i].err_regb_mismatch`).
+		- Pack-level aggregate mismatch status can be queried via `ADBMS6380_has_rega_mismatch(&g_bms.dev)` and `ADBMS6380_has_regb_mismatch(&g_bms.dev)`.
 	- `g_bms.dev.err_*_pec`: PEC error flags for various operations (register reads, cell voltage reads, GPIO voltage reads). Indicates potential communication issues or data corruption. In the case of a PEC error during reading cell or GPIO voltages (which require multiple read commands), only the specific command that failed will have its PEC error flag set and the rest of the voltages for successful commands will still be updated/valid and the pack-level statistics will be updated based on the new valid readings and the old readings for the failed commands.
 
 ### Controlling the Balancing
@@ -98,8 +97,9 @@ The balancing algorithm is a simple threshold-based approach:
 
 ## File Structure
 
-- `adbms.c` / `adbms.h`: High-level flow driver logic, thermistor conversion, balancing, and state management (`ADBMS_` prefix).
-- `adbms6380.c` / `adbms6380.h`: Low-level chip-specific protocol, SPI framing, register packing, and multi-command readout (`ADBMS6380_` prefix).
+- `adbms_config.h`: Shared pack topology configuration (`ADBMS_MODULE_COUNT`).
+- `adbms.c` / `adbms.h`: High-level flow driver logic, pack statistics, balancing, and state management (`ADBMS_` prefix).
+- `adbms6380.c` / `adbms6380.h`: Low-level chip-specific protocol, SPI framing, register packing, multi-command readout, and thermistor conversion (`ADBMS6380_` prefix).
 - `commands.h`: `static constexpr` command definitions for ADBMS6380.
 - `pec.c` / `pec.h`: PEC (CRC15/CRC10) calculation utilities (`PEC_` prefix).
 
@@ -114,7 +114,7 @@ The balancing algorithm is a simple threshold-based approach:
 - All communication is performed via SPI, with manual CS control for timing.
 	- The SPI transfer is a blocking DMA operation and should not fail (returns void)
 - Error handling: flags for PEC checksum failures and register read-back mismatches
-- Make sure the `ADBMS6380_MODULE_COUNT` constant matches the actual number of modules in your daisy chain configuration!!
+- Make sure the `ADBMS_MODULE_COUNT` constant in `adbms_config.h` matches the actual number of modules in your daisy chain configuration!!
 - There is a hidden reliance on a global variable defined in `../thermistor/thermistor.c` (and `extern`ed in the header): `thermistor_lut`
 
 ## Authors

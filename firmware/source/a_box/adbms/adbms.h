@@ -13,28 +13,8 @@
 #include <stdint.h>
 
 #include "adbms6380.h"
+#include "adbms_config.h"
 #include "common/phal_G4/spi/spi.h"
-
-// Number of ADBMS modules in the daisy chain
-static constexpr size_t ADBMS_MODULE_COUNT = ADBMS6380_MODULE_COUNT;
-
-// 10kOhm voltage divider on the thermistor input
-static constexpr float ADBMS_GPIO_R1_OHM = 10'000.0f;
-// VREF2 = 3.0v and is the input to the thermistor voltage divider
-static constexpr float ADBMS_GPIO_VIN_V = 3.0f;
-
-// Wait longer than the ADBMS6380 ~2.2 s inactivity sleep timeout so that a
-// full sleep-wake cycle elapses during recovery before we retry connecting
-static constexpr uint32_t ADBMS_CHIP_SLEEP_CYCLE_MS = 2'500U;
-
-// Number of consecutive failed recovery cycles (each a full sleep-wake
-// attempt) before the driver enters the latching FATAL state
-static constexpr uint8_t ADBMS_RECOVERY_MAX_ATTEMPTS = 4U;
-
-// Readings outside these are treated as corrupted data rather than real measurements
-// and causes a transition to RECOVERING.
-static constexpr float ADBMS_CELL_MIN_VALID_V = 1.0f;
-static constexpr float ADBMS_CELL_MAX_VALID_V = 5.0f;
 
 /**
  * @brief ADBMS driver connection/operation state.
@@ -47,37 +27,11 @@ typedef enum : uint8_t {
 } adbms_state_t;
 
 /**
- * @brief Per-ADBMS module derived temperatures and aggregate statistics.
- */
-typedef struct {
-    /** Latest thermistor temperatures in Celsius */
-    float therms_temps[ADBMS6380_GPIO_COUNT];
-
-    /** Minimum cell voltage within this module (volts). */
-    float min_voltage;
-    /** Maximum cell voltage within this module (volts). */
-    float max_voltage;
-    /** Average cell voltage within this module (volts). */
-    float avg_voltage;
-    /** Sum of cell voltages within this module (volts). */
-    float sum_voltage;
-
-    /** Minimum thermistor temperature within this module (Celsius). */
-    float min_therm_temp;
-    /** Maximum thermistor temperature within this module (Celsius). */
-    float max_therm_temp;
-    /** Average thermistor temperature within this module (Celsius). */
-    float avg_therm_temp;
-} adbms_module_t;
-
-/**
  * @brief Top-level ADBMS driver state, device handle, and pack-level statistics.
  */
 typedef struct {
     /** Low-level ADBMS6380 daisy-chain device state, SPI buffers, and error flags. */
     adbms6380_t dev;
-    /** Per-module derived temperatures and aggregate statistics. */
-    adbms_module_t modules[ADBMS_MODULE_COUNT];
 
     /** Minimum cell voltage across all modules (volts). */
     float min_voltage;

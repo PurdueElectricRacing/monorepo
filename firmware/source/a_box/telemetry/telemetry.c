@@ -95,9 +95,9 @@ static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 void report_telemetry_8hz(void) {
     // Report thermistor temperatures one at a time
-    static uint8_t module_num      = 0;
-    static uint8_t thermistor_num  = 0;
-    adbms_module_t *current_module = &g_bms.modules[module_num];
+    static uint8_t module_num          = 0;
+    static uint8_t thermistor_num      = 0;
+    adbms6380_module_t *current_module = &g_bms.dev.modules[module_num];
 
     float thermistor_temperature = current_module->therms_temps[thermistor_num];
     uint16_t scaled_temperature = (uint16_t)(thermistor_temperature * PACK_COEFF_THERMISTOR_TELEMETRY_TEMPERATURE);
