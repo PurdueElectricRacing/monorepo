@@ -40,6 +40,7 @@ fn run_with_connection(
     let mut hil_last = time::Instant::now();
     let mut hil_finished = false;
     let mut last_hil_snapshot_sent = false;
+    let mut hil_capture_complete = false;
     let mut load_last = time::Instant::now();
     let mut pending = None;
 
@@ -156,6 +157,7 @@ fn run_with_connection(
                     );
                     hil_finished = false;
                     last_hil_snapshot_sent = false;
+                    hil_capture_complete = false;
                     load = can::bus_load::BusLoadTracker::default();
                     load_last = now;
                     if let Some(logger) = &mut logger {
@@ -200,6 +202,7 @@ fn run_with_connection(
                     }
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                     hil_last = now;
+                    hil_capture_complete = false;
                     hil_finished = false;
                     last_hil_snapshot_sent = false;
                 }
@@ -243,8 +246,10 @@ fn run_with_connection(
         }
 
         hil.tick(now);
-        if hil.is_running() {
-            if !hil_finished {
+        if hil.is_running()
+            {
+            if !hil_capture_complete
+            {
                 let mut tx_messages: Vec<AddSendMessage> = Vec::new();
                 match hil.queue_tx(now, database.as_ref(), selected_bus_id) {
                     Ok((messages, errors)) => {
@@ -276,7 +281,8 @@ fn run_with_connection(
                 }
             }
 
-            hil_finished = hil.all_finished();
+            hil_capture_complete = hil.capture_complete(now);
+            // hil_finished = hil.all_finished();
         }
 
         // Ordinary sends are suspended while firmware owns transmission.

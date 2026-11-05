@@ -62,7 +62,8 @@
 			"msg_name": "thermistor_telemetry",
 			"signals": {
 				"temperature": [30.0, 40.0]
-			}
+			},
+			"accept": "any"
 		},
 
 		{

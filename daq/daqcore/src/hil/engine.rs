@@ -23,6 +23,7 @@ pub enum HilStatus {
 pub struct HilSnapshot {
     pub status: HilStatus,
     pub elapsed_ms: u128,
+    pub capture_complete: bool,
     pub preset: Option<hil::config::PresetInfo>,
     pub tests: Vec<hil::run::HilRunningTest>,
     pub start_error: Option<String>,
@@ -35,6 +36,7 @@ impl HilSnapshot {
         Self {
             status: HilStatus::Idle,
             elapsed_ms: 0,
+            capture_complete: true,
             preset: None,
             tests: Vec::new(),
             start_error: None,
@@ -79,7 +81,7 @@ impl HilEngine {
         matches!(self.state, HilState::Running { .. })
     }
 
-    pub fn all_finished(&self) -> bool {
+    fn all_finished(&self) -> bool {
         match &self.state {
             HilState::Running {
                 tests,
@@ -87,6 +89,50 @@ impl HilEngine {
                 ..
             } => *stopped_early || tests.iter().all(|t| t.is_finished()),
             HilState::Idle { .. } => false,
+        }
+    }
+
+    pub fn capture_complete(&self, now: time::Instant) -> bool {
+        match &self.state {
+            HilState::Running {
+                start_time,
+                preset,
+                tests,
+                active_test,
+                stopped_early,
+                ..
+            } => match preset.as_ref().map_or(ExecutionMode::Parallel, |p| p.mode) {
+                ExecutionMode::SequentialAlways | ExecutionMode::SequentialStopFail => {
+                    // Sequential tests advance as soon as their results are decided.
+                    *stopped_early || *active_test >= tests.len()
+                }
+                ExecutionMode::Parallel => tests
+                    .iter()
+                    .all(|test| test.capture_complete(now.saturating_duration_since(*start_time))),
+            },
+            HilState::Idle { .. } => true,
+        }
+    }
+
+    pub fn capture_complete(&self, now: time::Instant) -> bool {
+        match &self.state {
+            HilState::Running {
+                start_time,
+                preset,
+                tests,
+                active_test,
+                stopped_early,
+                ..
+            } => match preset.as_ref().map_or(ExecutionMode::Parallel, |p| p.mode) {
+                ExecutionMode::SequentialAlways | ExecutionMode::SequentialStopFail => {
+                    // Sequential tests advance as soon as their results are decided.
+                    *stopped_early || *active_test >= tests.len()
+                }
+                ExecutionMode::Parallel => tests
+                    .iter()
+                    .all(|test| test.capture_complete(now.saturating_duration_since(*start_time))),
+            },
+            HilState::Idle { .. } => true,
         }
     }
 
@@ -292,10 +338,7 @@ impl HilEngine {
                 return;
             };
 
-            let mode = match preset.as_ref() {
-                Some(preset_info) => &preset_info.mode,
-                None => &ExecutionMode::Parallel,
-            };
+            let mode = preset.as_ref().map_or(ExecutionMode::Parallel, |p| p.mode);
 
             match mode {
                 ExecutionMode::Parallel => {
@@ -330,10 +373,7 @@ impl HilEngine {
                 return;
             }
 
-            let mode = match preset.as_ref() {
-                Some(preset_info) => &preset_info.mode,
-                None => &ExecutionMode::Parallel,
-            };
+            let mode = preset.as_ref().map_or(ExecutionMode::Parallel, |p| p.mode);
 
             match mode {
                 ExecutionMode::Parallel => {
@@ -369,6 +409,7 @@ impl HilEngine {
             HilState::Idle { start_error } => HilSnapshot {
                 status: HilStatus::Idle,
                 elapsed_ms: 0,
+                capture_complete: true,
                 preset: None,
                 tests: Vec::new(),
                 start_error: start_error.clone(),
@@ -385,6 +426,7 @@ impl HilEngine {
             } => HilSnapshot {
                 status: HilStatus::Running,
                 elapsed_ms: now.saturating_duration_since(*start_time).as_millis(),
+                capture_complete: self.capture_complete(now),
                 preset: preset.clone(),
                 tests: tests.clone(),
                 start_error: None,
