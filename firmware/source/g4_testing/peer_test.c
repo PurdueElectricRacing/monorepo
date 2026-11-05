@@ -13,7 +13,7 @@
  * A loopback test on one board can't catch a wrong bit rate (both ends are
  * wrong the same way); two boards at different clocks can.
  *
- * Wiring (A <-> B):
+ * Wiring (A <-> B), only for the links enabled below (PEER_*_ENABLED):
  *   GND <-> GND
  *   USART1: A.PA9 (TX) -> B.PA10 (RX), B.PA9 (TX) -> A.PA10 (RX)
  *   FDCAN2: PB13 (TX) / PB12 (RX) -> a 3.3 V CAN transceiver on each board,
@@ -39,6 +39,7 @@
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/spi/spi.h"
 #include "common/phal_G4/usart/usart.h"
+#include "common/rtos/rtos.h"
 #include "common/utils/countof.h"
 #include "main.h"
 
@@ -47,6 +48,11 @@ static constexpr uint32_t PEER_NODE_ID            = 1U;
 static constexpr PHAL_RCC_Mode_t PEER_RCC_MODE    = PHAL_RCC_HSI_170MHZ;
 static constexpr uint32_t PEER_SPI_MASTER_NODE_ID = 1U;
 static constexpr PHAL_FDCAN_BaudRate_t PEER_CAN_BAUD = FDCAN_BAUD_500K;
+// Links under test; set identically on both boards. CAN is off by default
+// because it needs a transceiver on each board (otherwise it only reports errors)
+static constexpr bool PEER_UART_ENABLED = true;
+static constexpr bool PEER_SPI_ENABLED  = true;
+static constexpr bool PEER_CAN_ENABLED  = false;
 // ----------------------------------------------------------------
 
 static_assert(PEER_NODE_ID <= 1U && PEER_SPI_MASTER_NODE_ID <= 1U, "the peer test has exactly two nodes: 0 and 1");
@@ -54,7 +60,9 @@ static constexpr uint32_t PEER_OTHER_NODE_ID = 1U - PEER_NODE_ID;
 static constexpr bool PEER_IS_SPI_MASTER     = (PEER_NODE_ID == PEER_SPI_MASTER_NODE_ID);
 
 static constexpr uint32_t PEER_PERIOD_MS     = 100U;
-static constexpr uint32_t PEER_TICK_RATE_HZ  = 1000U;
+// Fast enough to timestamp each UART frame and re-arm the SPI slave promptly
+static constexpr uint32_t PEER_FAST_SERVICE_MS = 1U;
+static_assert(configTICK_RATE_HZ == 1000U, "UART timestamps assume 1 RTOS tick = 1 ms");
 static constexpr uint32_t PEER_UART_BAUD     = 115'200U;
 static constexpr uint32_t PEER_SPI_RATE      = 1'000'000U;
 static constexpr uint16_t PEER_CAN_BASE_ID   = 0x400U;
@@ -90,21 +98,36 @@ typedef struct {
     uint32_t can_tx_dropped;  ///< TX FIFO full: frames not being acknowledged
     uint32_t can_max_tec;     ///< worst FDCAN transmit error count seen
     uint32_t can_max_rec;     ///< worst FDCAN receive error count seen
+    uint32_t uart_timed_frames; ///< frames timestamped by the fast service task
     uint32_t uart_first_rx_ms;
     uint32_t uart_last_rx_ms;
-    uint32_t uart_rx_interval_avg_ms; ///< ~PEER_PERIOD_MS when both clocks are right
+    uint32_t uart_rx_interval_avg_ms; ///< ~PEER_PERIOD_MS when both boards' clocks and RTOS ticks are right
 } peer_results_t;
 
 volatile peer_results_t peer_results;
-static volatile uint32_t ms_ticks;
 
-PHAL_GPIO_InitConfig_t gpio_config_common[] = {
+static void peer_periodic(void);
+static void peer_fast_service(void);
+
+RTOS_DEFINE_TASK(peer_periodic, PEER_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
+RTOS_DEFINE_TASK(peer_fast_service, PEER_FAST_SERVICE_MS, TASK_PRIORITY_NORMAL, STACK_512);
+
+PHAL_GPIO_InitConfig_t gpio_config_leds[] = {
     PHAL_GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
     PHAL_GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
+};
+
+PHAL_GPIO_InitConfig_t gpio_config_uart[] = {
     PHAL_PIN_DEFS_USART1_TX_PA9,
     PHAL_PIN_DEFS_USART1_RX_PA10,
+};
+
+PHAL_GPIO_InitConfig_t gpio_config_can[] = {
     PHAL_PIN_DEFS_FDCAN2_RX_PB12,
     PHAL_PIN_DEFS_FDCAN2_TX_PB13,
+};
+
+PHAL_GPIO_InitConfig_t gpio_config_spi[] = {
     PHAL_PIN_DEFS_SPI1_SCK_PA5,
     PHAL_PIN_DEFS_SPI1_MISO_PA6,
     PHAL_PIN_DEFS_SPI1_MOSI_PA7,
@@ -179,12 +202,8 @@ void PHAL_USART_rxCallback(PHAL_USART_Idx_t periph_idx, uint16_t len) {
         peer_results.uart.bad++;
         return;
     }
-
-    const uint32_t now = ms_ticks;
-    if (!peer_results.uart.synced) {
-        peer_results.uart_first_rx_ms = now;
-    }
-    peer_results.uart_last_rx_ms = now;
+    // No timestamp here: this ISR's priority is above what FreeRTOS calls allow,
+    // so peer_fast_service timestamps new frames instead
     peer_record_seq(&peer_results.uart, peer_read_u32_le(&uart_rx_buf[2]));
 }
 
@@ -284,11 +303,21 @@ static void peer_service_spi(bool period_elapsed) {
     slave_armed = true;
 }
 
-static void peer_update_uart_interval(void) {
-    const uint32_t frames = peer_results.uart.good;
-    if (frames >= 2U) {
+/// Timestamp each newly received good UART frame (to 1 ms) and update the average interval
+static void peer_timestamp_uart_rx(void) {
+    const uint32_t good_frames = peer_results.uart.good;
+    if (good_frames == peer_results.uart_timed_frames) {
+        return;
+    }
+    const uint32_t now_ms = xTaskGetTickCount();
+    if (peer_results.uart_timed_frames == 0U) {
+        peer_results.uart_first_rx_ms = now_ms;
+    }
+    peer_results.uart_last_rx_ms   = now_ms;
+    peer_results.uart_timed_frames = good_frames;
+    if (good_frames >= 2U) {
         peer_results.uart_rx_interval_avg_ms =
-            (peer_results.uart_last_rx_ms - peer_results.uart_first_rx_ms) / (frames - 1U);
+            (peer_results.uart_last_rx_ms - peer_results.uart_first_rx_ms) / (good_frames - 1U);
     }
 }
 
@@ -298,56 +327,92 @@ static bool peer_any_errors(void) {
         || peer_results.can_max_rec != 0U;
 }
 
-static void peer_init_peripherals(void) {
-    const bool gpio_ok = PHAL_GPIO_init(gpio_config_common, countof(gpio_config_common))
-        && (PEER_IS_SPI_MASTER ? PHAL_GPIO_init(gpio_config_spi_master, countof(gpio_config_spi_master))
-                               : PHAL_GPIO_init(gpio_config_spi_slave, countof(gpio_config_spi_slave)));
-    if (!gpio_ok
-        || !PHAL_USART_init(USART1_IDX, PEER_UART_BAUD, PHAL_RCC_getAPB2ClockHz())
-        || !PHAL_SPI_init(&spi1)) {
+static void peer_init_uart(void) {
+    if (!PHAL_GPIO_init(gpio_config_uart, countof(gpio_config_uart))
+        || !PHAL_USART_init(USART1_IDX, PEER_UART_BAUD, PHAL_RCC_getAPB2ClockHz())) {
         HardFault_Handler();
     }
+    PHAL_USART_rx(USART1_IDX, uart_rx_buf, PEER_UART_RX_BUF_LEN, true);
+}
 
+static void peer_init_spi(void) {
+    const bool cs_ok = PEER_IS_SPI_MASTER
+        ? PHAL_GPIO_init(gpio_config_spi_master, countof(gpio_config_spi_master))
+        : PHAL_GPIO_init(gpio_config_spi_slave, countof(gpio_config_spi_slave));
+    if (!cs_ok || !PHAL_GPIO_init(gpio_config_spi, countof(gpio_config_spi)) || !PHAL_SPI_init(&spi1)) {
+        HardFault_Handler();
+    }
+    peer_fill_spi_tx();
+}
+
+static void peer_init_can(void) {
+    if (!PHAL_GPIO_init(gpio_config_can, countof(gpio_config_can))) {
+        HardFault_Handler();
+    }
     PHAL_FDCAN_init(FDCAN2, PEER_CAN_BAUD);
     const uint32_t other_can_id = PEER_CAN_BASE_ID + PEER_OTHER_NODE_ID;
     if (!PHAL_FDCAN_setFilters(FDCAN2, &other_can_id, 1U, nullptr, 0U)) {
         HardFault_Handler();
     }
     NVIC_EnableIRQ(FDCAN2_IT0_IRQn);
+}
 
-    PHAL_USART_rx(USART1_IDX, uart_rx_buf, PEER_UART_RX_BUF_LEN, true);
-    peer_fill_spi_tx();
+static void peer_init_peripherals(void) {
+    if (!PHAL_GPIO_init(gpio_config_leds, countof(gpio_config_leds))) {
+        HardFault_Handler();
+    }
+    if (PEER_UART_ENABLED) {
+        peer_init_uart();
+    }
+    if (PEER_SPI_ENABLED) {
+        peer_init_spi();
+    }
+    if (PEER_CAN_ENABLED) {
+        peer_init_can();
+    }
+}
+
+/// Every PEER_PERIOD_MS: send on each enabled link and update the LEDs
+static void peer_periodic(void) {
+    static uint32_t seq = 0U;
+    if (PEER_UART_ENABLED) {
+        peer_send_uart(seq);
+    }
+    if (PEER_CAN_ENABLED) {
+        peer_send_can(seq);
+        peer_track_can_errors();
+    }
+    if (PEER_SPI_ENABLED && PEER_IS_SPI_MASTER) {
+        peer_service_spi(true);
+    }
+    seq++;
+
+    const bool errors = peer_any_errors();
+    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, errors);
+    if (!errors) {
+        PHAL_GPIO_toggle(LED_GREEN_PORT, LED_GREEN_PIN);
+    }
+}
+
+/// Every PEER_FAST_SERVICE_MS: timestamp UART frames and keep the SPI slave armed
+static void peer_fast_service(void) {
+    if (PEER_UART_ENABLED) {
+        peer_timestamp_uart_rx();
+    }
+    if (PEER_SPI_ENABLED && !PEER_IS_SPI_MASTER) {
+        peer_service_spi(false);
+    }
 }
 
 int main(void) {
     PHAL_RCC_init(PEER_RCC_MODE);
-    (void)SysTick_Config(PHAL_RCC_getAHBClockHz() / PEER_TICK_RATE_HZ);
     peer_init_peripherals();
 
-    uint32_t seq           = 0U;
-    uint32_t last_period_ms = ms_ticks;
-    while (1) {
-        const bool period_elapsed = (ms_ticks - last_period_ms) >= PEER_PERIOD_MS;
-        if (period_elapsed) {
-            last_period_ms += PEER_PERIOD_MS;
-            peer_send_uart(seq);
-            peer_send_can(seq);
-            seq++;
-            peer_track_can_errors();
-            peer_update_uart_interval();
+    RTOS_START_TASK(peer_periodic);
+    RTOS_START_TASK(peer_fast_service);
+    vTaskStartScheduler();
 
-            const bool errors = peer_any_errors();
-            PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, errors);
-            if (!errors) {
-                PHAL_GPIO_toggle(LED_GREEN_PORT, LED_GREEN_PIN);
-            }
-        }
-        peer_service_spi(period_elapsed);
-    }
-}
-
-void SysTick_Handler(void) {
-    ms_ticks++;
+    return 0;
 }
 
 void HardFault_Handler(void) {
