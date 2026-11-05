@@ -64,7 +64,7 @@ static adbms_stats_t reduce_values(const float *values, size_t count) {
         .max = values[0],
         .sum = 0.0f,
     };
-    for (size_t i = 0U; i < count; i++) {
+    for (size_t i = 0; i < count; i++) {
         float val = values[i];
         if (val > stats.max) {
             stats.max = val;
@@ -108,8 +108,7 @@ static void read_cells(adbms_bms_t *bms) {
     bms->min_voltage = bms->dev.modules[0].cell_voltages[0];
     bms->sum_voltage = 0.0f;
     for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        adbms_stats_t mod_stats =
-            reduce_values(bms->dev.modules[i].cell_voltages, ADBMS6380_CELL_COUNT);
+        adbms_stats_t mod_stats = reduce_values(bms->dev.modules[i].cell_voltages, ADBMS6380_CELL_COUNT);
         if (mod_stats.max > bms->max_voltage) {
             bms->max_voltage = mod_stats.max;
         }
@@ -129,8 +128,7 @@ static void read_therms(adbms_bms_t *bms) {
     bms->min_therm_temp      = bms->dev.modules[0].therms_temps[0];
     float bms_sum_therm_temp = 0.0f;
     for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        adbms_stats_t mod_stats =
-            reduce_values(bms->dev.modules[i].therms_temps, ADBMS6380_GPIO_COUNT);
+        adbms_stats_t mod_stats = reduce_values(bms->dev.modules[i].therms_temps, ADBMS6380_GPIO_COUNT);
         if (mod_stats.max > bms->max_therm_temp) {
             bms->max_therm_temp = mod_stats.max;
         }
