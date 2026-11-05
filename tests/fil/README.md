@@ -93,6 +93,12 @@ exit when the debug session disconnects. A separate `fil build` task builds
 only the FIL executable, and `fil network run` executes the six-board network
 for one simulated second with strict MMIO.
 
+The emulator configurations enable cortex-debug Live Watch. FIL serves the
+extension's second read-only GDB session on the same port and answers variable
+reads between execution slices, so watched RAM symbols refresh while the
+firmware runs. Nothing is halted; peripheral (MMIO) reads and any write request
+are refused while running.
+
 The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
 job uses the existing firmware container, installs the PGO tools, and builds
