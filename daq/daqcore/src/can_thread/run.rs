@@ -129,13 +129,19 @@ fn run_with_connection(
                         package,
                         false,
                         connection.connected(),
+                        connection.can_transmit(),
                         time::Instant::now(),
                     );
                     emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                 }
                 can_thread::CanThreadCommand::ArmFirmwareUpdate(package) => {
-                    let progress =
-                        firmware.start(package, true, connection.connected(), time::Instant::now());
+                    let progress = firmware.start(
+                        package,
+                        true,
+                        connection.connected(),
+                        connection.can_transmit(),
+                        time::Instant::now(),
+                    );
                     emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                 }
                 can_thread::CanThreadCommand::CancelFirmwareUpdate => {
