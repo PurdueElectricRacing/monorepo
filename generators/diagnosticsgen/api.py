@@ -1,6 +1,7 @@
-from core.declarations import CanDeclarations, MessageDeclaration, SignalDeclaration
-from core.contributions import DeclarationContribution, TxDeclaration
 from core.artifacts import Artifact
+from core.contributions import DeclarationContribution, TxDeclaration
+from core.declarations import CanDeclarations, MessageDeclaration, SignalDeclaration
+from core.utils import get_jinja_env, render_template
 
 def task_status_message(node_name: str) -> MessageDeclaration:
     return MessageDeclaration(
@@ -137,39 +138,12 @@ def diagnostics_contribution(declarations: CanDeclarations) -> DeclarationContri
     )
 
 def diagnostics_artifacts(declarations: CanDeclarations) -> list[Artifact]:
-    lines = [
-        "#ifndef DIAGNOSTICS_CAN_H",
-        "#define DIAGNOSTICS_CAN_H",
-        "",
-        '#include "can_library/generated/can_router.h"',
-        "",
+    env = get_jinja_env()
+    node_names = [node_name for node_name, _ in diagnostics_targets(declarations)]
+    return [
+        Artifact(
+            collection="generated",
+            relative_path="diagnostics_can.h",
+            content=render_template(env, "diagnostics_can.h.jinja", node_names=node_names),
+        )
     ]
-
-    for index, (node_name, _) in enumerate(diagnostics_targets(declarations)):
-        directive = "#if" if index == 0 else '#elif'
-
-        lines.append(f"{directive} defined(CAN_NODE_{node_name})")
-        lines.append(
-            f"#define DIAGNOSTICS_SEND_TASK "
-            f"CAN_SEND_{node_name.lower()}_diag_task"
-        )
-
-        lines.append(
-            f"#define DIAGNOSTICS_SEND_SUMMARY "
-            f"CAN_SEND_{node_name.lower()}_diag_summary"
-        )
-
-        lines.append(
-            f"#define DIAGNOSTICS_SEND_NAME "
-            f"CAN_SEND_{node_name.lower()}_diag_name"
-        )
-
-    lines.extend([
-        "#else",
-        '#error "Diagnostics CAN is not configured for this node"',
-        "#endif",
-        "",
-        "#endif // DIAGNOSTICS_CAN_H",
-        "",
-    ])
-    return [Artifact(collection="generated", relative_path="diagnostics_can.h",content="\n".join(lines),)]
