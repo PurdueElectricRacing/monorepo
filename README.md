@@ -97,24 +97,3 @@ Every vehicle board also runs in FIL, PER's firmware-in-the-loop emulator, with
 no hardware attached. Build the firmware once, then in
 **View → Run and Debug** pick an `Emulator: <board>` configuration and press the
 green ▶️ arrow:
-
-```bash
-python3 firmware/build_firmware.py
-```
-
-The configuration builds FIL from `tests/external/fil`, starts
-`fil debug tests/fil/boards/<board>.json --gdb-port 3333 --once`, and attaches
-`arm-none-eabi-gdb` to it. Breakpoints, data watchpoints, stepping, flash
-`load`, reset/restart, and the SVD peripheral view work as they do on hardware.
-Semihosting is enabled in every emulator configuration, so `printf`-style debug
-output appears in the Debug Console. Live Watch also works:
-FIL serves the extension's second read-only GDB session on the same port and
-answers variable reads between execution slices, so watched RAM symbols refresh
-while the firmware runs without halting it. Peripheral (MMIO) reads and writes
-are refused while the target runs.
-
-The VS Code tasks also include `fil build` (build only the emulator binary),
-`fil network run` (one simulated second of the six-board vehicle network), and
-`fil monitor (telnet)` (attach to the live monitor: `mdw`/`mdb`/`regs` while the
-firmware keeps running). See [tests/fil/README.md](tests/fil/README.md) for the
-emulator scenarios and test runner.

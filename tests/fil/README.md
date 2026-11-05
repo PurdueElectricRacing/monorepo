@@ -82,34 +82,9 @@ vehicle boards, and `.vscode/tasks.json` has the matching `fil debug (<board>)`
 background tasks. Both use the board configs in `tests/fil/boards`, which
 resolve their `firmware/output` ELFs relative to the repository.
 
-Select a configuration and press F5: the pre-launch task builds the FIL binary
-in `tests/external/fil`, starts `fil debug ... --gdb-port 3333 --once`, and the
-cortex-debug extension attaches `arm-none-eabi-gdb` to it. `--once` makes FIL
-exit when the debug session disconnects. A separate `fil build` task builds
-only the FIL executable, and `fil network run` executes the six-board network
-for one simulated second with strict MMIO.
-
-The emulator configurations enable cortex-debug Live Watch. FIL serves the
-extension's second read-only GDB session on the same port and answers variable
-reads between execution slices, so watched RAM symbols refresh while the
-firmware runs. Nothing is halted; peripheral (MMIO) reads and any write request
-are refused while running.
-
-The FIL backend also supports GDB data watchpoints (`watch`, `rwatch`,
-`awatch`), flash programming through `load`, the target memory map, and the
-OpenOCD-style monitor commands (`reset halt`, `halt`, `gdb_sync`,
-`mdw`/`mdh`/`mdb`, `mww`/`mwh`/`mwb`, `regs`). The emulator configurations pass
-`monitor arm semihosting enable` in `preLaunchCommands`, so semihosting output
-appears in the Debug Console. With a flash memory map present GDB refuses direct
-`set {…}` writes to flash; use `load` or `monitor mww`/`mwh`/`mwb` to patch
-flash. The `fil monitor (telnet)` task attaches to the live monitor (port 4444)
-for `mdw`/`mdb`/`regs` reads while the firmware runs.
+## CI/CD
 
 The `run_tests.yml` GitHub Actions workflow also builds FIL and runs the PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
 job uses the existing firmware container and builds vehicle firmware before
 running the tests, independently of host unit tests.
-
-`python3 build_all.py` builds firmware, builds FIL, then builds DAQ and runs
-the existing host-test workflow. The standalone host-test runner
-remains independent and does not require FIL or prebuilt vehicle firmware.
