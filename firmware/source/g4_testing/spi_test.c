@@ -118,14 +118,13 @@ volatile uint32_t pass_count = 0;
 volatile uint32_t fail_count = 0;
 volatile uint32_t iteration  = 0;
 
-// Tick counter
-volatile uint32_t ms_ticks = 0;
-
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_170MHZ);
 
-    // Config systick for 1 ms
-    SysTick_Config(SystemCoreClock / 1000);
+    // delay_ms counts CPU cycles; SysTick belongs to FreeRTOS's port, which defines its handler
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    DWT->CYCCNT = 0U;
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
@@ -201,13 +200,15 @@ static bool verify_buffers(const uint8_t *tx, const uint8_t *rx, uint32_t len) {
     return true;
 }
 
-void SysTick_Handler(void) {
-    ms_ticks++;
-}
-
 static void delay_ms(uint32_t ms) {
-    uint32_t start = ms_ticks;
-    while ((ms_ticks - start) < ms);
+    const uint32_t cycles_per_ms = PHAL_RCC_getAHBClockHz() / 1000U;
+    for (uint32_t elapsed_ms = 0U; elapsed_ms < ms; elapsed_ms++) {
+        // Unsigned subtraction stays correct across CYCCNT wrapping
+        const uint32_t start = DWT->CYCCNT;
+        while ((DWT->CYCCNT - start) < cycles_per_ms) {
+            __asm__("nop");
+        }
+    }
 }
 
 void HardFault_Handler() {
