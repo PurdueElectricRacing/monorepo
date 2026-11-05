@@ -104,12 +104,14 @@ python3 firmware/build_firmware.py
 
 The configuration builds FIL from `tests/external/fil`, starts
 `fil debug tests/fil/boards/<board>.json --gdb-port 3333 --once`, and attaches
-`arm-none-eabi-gdb` to it. Breakpoints, stepping, `load`, reset/restart, and the
-SVD peripheral view work as they do on hardware. Live Watch also works: FIL
-serves the extension's second read-only GDB session on the same port and answers
-variable reads between execution slices, so watched RAM symbols refresh while the
-firmware runs without halting it. Peripheral (MMIO) reads and writes are refused
-while the target runs.
+`arm-none-eabi-gdb` to it. Breakpoints, data watchpoints, stepping, flash
+`load`, reset/restart, and the SVD peripheral view work as they do on hardware.
+Semihosting output reaches the debug console after
+`"preLaunchCommands": ["monitor arm semihosting enable"]`. Live Watch also works:
+FIL serves the extension's second read-only GDB session on the same port and
+answers variable reads between execution slices, so watched RAM symbols refresh
+while the firmware runs without halting it. Peripheral (MMIO) reads and writes
+are refused while the target runs.
 
 The VS Code tasks also include `fil build` (build only the emulator binary) and
 `fil network run` (one simulated second of the six-board vehicle network). See
