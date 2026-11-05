@@ -79,6 +79,20 @@ expectations. It checks:
 - The vehicle reaches 6 seconds with the ready-to-drive stimulus expectations
   satisfied (initial zero torque commands, later drive commands, and vehicle state).
 
+## VS Code: debug the emulator with cortex-debug
+
+`.vscode/launch.json` has `Emulator: <board>` configurations for the six
+vehicle boards, and `.vscode/tasks.json` has the matching `fil debug (<board>)`
+background tasks. Both use the board configs in `tests/fil/boards`, which
+resolve their `firmware/output` ELFs relative to the repository.
+
+Select a configuration and press F5: the pre-launch task builds the FIL binary
+in `tests/external/fil`, starts `fil debug ... --gdb-port 3333 --once`, and the
+cortex-debug extension attaches `arm-none-eabi-gdb` to it. `--once` makes FIL
+exit when the debug session disconnects. A separate `fil build` task builds
+only the FIL executable, and `fil network run` executes the six-board network
+for one simulated second with strict MMIO.
+
 The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
 job uses the existing firmware container, installs the PGO tools, and builds
