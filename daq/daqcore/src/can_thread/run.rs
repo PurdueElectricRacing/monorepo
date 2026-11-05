@@ -33,7 +33,7 @@ fn run_with_connection(
     let mut firmware = can_thread::firmware_session::FirmwareSession::default();
     let mut hil = hil::engine::HilEngine::new(config.hil_dir);
     let mut hil_last = time::Instant::now();
-    let mut hil_finished = false;
+    let mut hil_capture_complete = false;
     let mut load_last = time::Instant::now();
     let mut pending = None;
 
@@ -87,7 +87,7 @@ fn run_with_connection(
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
-                    hil_finished = false;
+                    hil_capture_complete = false;
                     load = can::bus_load::BusLoadTracker::default();
                     load_last = now;
                     if let Some(logger) = &mut logger {
@@ -122,7 +122,7 @@ fn run_with_connection(
                     hil.handle_command(command, now);
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                     hil_last = now;
-                    hil_finished = false;
+                    hil_capture_complete = false;
                 }
                 can_thread::CanThreadCommand::StartFirmwareUpdate(package) => {
                     let progress = firmware.start(
@@ -161,11 +161,13 @@ fn run_with_connection(
         }
 
         hil.tick(now);
-        if hil.is_running() && !hil_finished && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
+        if hil.is_running()
+            && !hil_capture_complete
+            && now.duration_since(hil_last) >= HIL_UPDATE_INTERVAL
         {
             emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
             hil_last = now;
-            hil_finished = hil.all_finished();
+            hil_capture_complete = hil.capture_complete(now);
         }
 
         // Ordinary sends are suspended while firmware owns transmission.
