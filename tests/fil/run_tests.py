@@ -43,8 +43,8 @@ def build() -> None:
 def simulate(executable: Path, config: Path, duration_ms: int,
              trace: Path | None = None) -> None:
     command = [
-        str(executable), "run-network" if config.parent == CONFIGS else "run",
-        str(config), "--duration-ms", str(duration_ms),
+        str(executable), "run", str(config),
+        "--duration", f"{duration_ms}ms",
         "--strict-mmio", "--adc-decimation", "1",
     ]
     if config.parent == CONFIGS:
@@ -54,7 +54,8 @@ def simulate(executable: Path, config: Path, duration_ms: int,
     result = run(command, capture_output=True, text=True)
     print(result.stdout, end="")
     print(result.stderr, end="")
-    if "stop: time-budget" not in result.stdout:
+    if not any(line.split() == ["stop:", "time-budget"]
+               for line in result.stdout.splitlines()):
         raise RuntimeError(f"{config.name} did not reach the requested time budget")
 
 
