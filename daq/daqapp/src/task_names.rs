@@ -1,6 +1,6 @@
 //! Reassemble diagnostics task names without keeping their original CAN frames.
 
-use crate::{frame, superdbc, time};
+use daqcore::{frame, superdbc, time};
 use std::collections::BTreeMap;
 
 #[derive(Clone, Copy)]
@@ -15,6 +15,10 @@ pub struct TaskNames {
 }
 
 impl TaskNames {
+    pub fn clear(&mut self) {
+        self.boards.clear();
+    }
+
     pub fn observe(&mut self, frame: &frame::ParsedFrame) {
         let Some(message) = &frame.decoded else {
             return;

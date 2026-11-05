@@ -1,5 +1,6 @@
 //! Borrowed per-render projections of the single shared history.
 
+use crate::task_names;
 use std::collections::BTreeMap;
 
 pub struct TelemetryView<'a> {
@@ -13,11 +14,14 @@ pub struct TelemetryView<'a> {
         BTreeMap<daqcore::frame::CanIdentity, &'a daqcore::frame::ParsedFrame>,
     pub timeline: &'a daqcore::timeline::Timeline,
     view_time: daqcore::time::Time,
-    session: &'a daqcore::session::Session,
+    task_name_baseline: &'a task_names::TaskNames,
 }
 
 impl<'a> TelemetryView<'a> {
-    pub fn new(session: &'a daqcore::session::Session) -> Self {
+    pub fn new(
+        session: &'a daqcore::session::Session,
+        task_name_baseline: &'a task_names::TaskNames,
+    ) -> Self {
         let cache = session.cache();
         let timeline = session.timeline();
         let all_frames = cache.frames_in_range(timeline.range());
@@ -45,12 +49,17 @@ impl<'a> TelemetryView<'a> {
             timeline,
             latest_setpoint_frames,
             view_time,
-            session,
+            task_name_baseline,
         }
     }
 
-    pub fn task_names_at_setpoint(&self) -> daqcore::task_names::TaskNames {
-        self.session.task_names_at(self.timeline.setpoint())
+    /// Names at the playhead, seeded with fragments from evicted frames.
+    pub fn task_names_at_setpoint(&self) -> task_names::TaskNames {
+        let mut names = self.task_name_baseline.clone();
+        for frame in self.setpoint_frames {
+            names.observe(frame);
+        }
+        names
     }
 
     pub fn view_time(&self) -> daqcore::time::Time {

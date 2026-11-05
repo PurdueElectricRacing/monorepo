@@ -3,14 +3,14 @@ use std::sync::mpsc;
 
 pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
     ui::timeline::show(app, ctx);
-    app.session.evict();
+    app.evict_history();
     let start = app.session.timeline().start();
     let removed = app
         .bus_load_samples
         .partition_point(|s| s.timestamp < start);
     app.bus_load_samples.drain(..removed);
     let selection_pending = app.selection_pending();
-    let view = telemetry::TelemetryView::new(&app.session);
+    let view = telemetry::TelemetryView::new(&app.session, &app.task_names);
     eframe::egui::CentralPanel::default().show(ctx, |ui| {
         if app.tile_tree.is_empty() {
             ui.vertical_centered(|ui| {

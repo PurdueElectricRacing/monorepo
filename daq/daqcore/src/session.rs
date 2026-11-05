@@ -1,9 +1,7 @@
-use crate::{cache, frame, task_names, time, timeline};
+use crate::{cache, frame, time, timeline};
 pub struct Session {
     cache: cache::RamCache,
     timeline: timeline::Timeline,
-    // Name fragments from evicted frames; retained frames are replayed per view.
-    task_name_baseline: task_names::TaskNames,
 }
 
 impl Session {
@@ -13,7 +11,6 @@ impl Session {
         Ok(Self {
             cache: cache::RamCache::new(),
             timeline,
-            task_name_baseline: task_names::TaskNames::default(),
         })
     }
 
@@ -34,31 +31,12 @@ impl Session {
     }
 
     pub fn evict(&mut self) -> usize {
-        let floor = self.timeline.start();
-        for frame in self
-            .cache
-            .frames_before(floor, self.cache.len())
-            .iter()
-            .take_while(|frame| frame.timestamp < floor)
-        {
-            self.task_name_baseline.observe(frame);
-        }
-        self.cache.evict(floor)
+        self.cache.evict(self.timeline.start())
     }
 
     pub fn reset(&mut self, now: time::Time) {
         self.cache.clear();
         self.timeline.reset(now);
-        self.task_name_baseline = task_names::TaskNames::default();
-    }
-
-    /// Reconstruct names at the playhead, including fragments older than the window.
-    pub fn task_names_at(&self, at: time::Time) -> task_names::TaskNames {
-        let mut names = self.task_name_baseline.clone();
-        for frame in self.cache.frames_before(at, self.cache.len()) {
-            names.observe(frame);
-        }
-        names
     }
 
     pub fn cache(&self) -> &cache::RamCache {
