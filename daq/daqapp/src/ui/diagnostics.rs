@@ -1,61 +1,55 @@
+use crate::telemetry;
 use eframe::egui;
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::BTreeMap;
 
-pub struct TaskDiagnostics {
-    pub task_id: u32,
-    pub name: String,
-    pub state: TaskState,
-    pub stack_hwm: u16,
-    pub cpu_util: Option<f32>,
+struct TaskDiagnostics {
+    task_id: u32,
+    name: String,
+    state: String,
+    stack_hwm: u16,
+    cpu_util: Option<f32>,
 }
-pub struct BoardDiagnostics {
-    pub cpu_util: Option<f32>,
-    pub capacity_exceeded: bool,
-    pub tasks: Vec<TaskDiagnostics>,
-    pub sample_count: Option<u32>,
-    pub task_count: Option<u16>,
-    pub cpu_history: VecDeque<(f64, f64)>,
+
+#[derive(Default)]
+struct BoardDiagnostics {
+    cpu_util: Option<f32>,
+    capacity_exceeded: bool,
+    // Retained even when search hides every task, for search matching.
+    tasks: Vec<TaskDiagnostics>,
+    sample_count: Option<u32>,
+    task_count: Option<u16>,
 }
 
 pub struct Diagnostics {
     pub title: String,
-
-    pub boards: BTreeMap<String, BoardDiagnostics>,
     pub search: String,
-    name_cache: BTreeMap<(String, u32), [Option<u8>; 16]>,
-    was_live: bool,
 }
 
-pub struct BoardSummary {
-    pub sample_count: u32,
-    pub task_count: u16,
-    pub cpu_util: Option<f32>,
-    pub capacity_exceeded: bool,
-}
-
-pub struct TaskNameChar {
-    pub task_id: u32,
-    pub char_index: u8,
-    pub character: u8,
+struct BoardSummary {
+    sample_count: u32,
+    task_count: u16,
+    cpu_util: Option<f32>,
+    capacity_exceeded: bool,
 }
 
 impl Diagnostics {
     pub fn new(instance_num: usize) -> Self {
         Self {
             title: format!("Diagnostics #{}", instance_num),
-            boards: BTreeMap::new(),
             search: String::new(),
-            name_cache: BTreeMap::new(),
-            was_live: false,
         }
     }
 
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
-        view: &crate::telemetry::TelemetryView<'_>,
+        view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        self.update_from_view(view);
+        let boards = Self::snapshot(view);
+        let cpu_history = Self::cpu_history(view);
+        let start = view.timeline.start();
+        let duration = view.timeline.end().secs(start).max(0.001);
+        let playhead = view.timeline.setpoint().secs(start);
         ui.heading(&self.title);
 
         ui.separator();
@@ -71,29 +65,50 @@ impl Diagnostics {
 
         ui.add_space(8.0);
 
+        let pixels = ui.available_width().max(1.0) as usize;
         egui_plot::Plot::new(format!("diagnostics_cpu_plot{}", self.title))
             .height(180.0)
             .y_axis_label("CPU Usage (%)")
             .include_y(0.0)
             .include_y(100.0)
+            .allow_zoom([false, true])
+            .allow_drag([false, true])
+            .allow_scroll([false, true])
+            .x_axis_label("Time")
+            .x_axis_formatter(|mark, _| start.offset((mark.value * 1000.0).round() as i64).label())
             .legend(egui_plot::Legend::default())
             .show(ui, |plot_ui| {
-                for (board_name, board) in &self.boards {
-                    let points: egui_plot::PlotPoints = board
-                        .cpu_history
-                        .iter()
-                        .map(|(time, cpu)| [*time, *cpu])
-                        .collect();
-
-                    plot_ui.line(egui_plot::Line::new(board_name, points));
+                plot_ui.set_plot_bounds_x(0.0..=duration);
+                for (board_name, history) in &cpu_history {
+                    let points = telemetry::decimate(history, pixels);
+                    plot_ui.line(egui_plot::Line::new(
+                        board_name,
+                        egui_plot::PlotPoints::from(points),
+                    ));
                 }
+                plot_ui.vline(
+                    egui_plot::VLine::new("Playhead", playhead).color(egui::Color32::YELLOW),
+                );
             });
 
         ui.add_space(8.0);
 
         egui::ScrollArea::vertical().show(ui, |ui| {
             let query = self.search.to_lowercase();
-            for (board_name, board) in &self.boards {
+            for (board_name, board) in &boards {
+                let board_matches = board_name.to_lowercase().contains(&query);
+                let matching_tasks: Vec<_> = board
+                    .tasks
+                    .iter()
+                    .filter(|task| {
+                        query.is_empty()
+                            || board_matches
+                            || task.name.to_lowercase().contains(&query)
+                    })
+                    .collect();
+                if !query.is_empty() && !board_matches && matching_tasks.is_empty() {
+                    continue;
+                }
                 ui.label(egui::RichText::new(board_name).strong().size(16.0));
 
                 let cpu_str = match board.cpu_util {
@@ -134,16 +149,10 @@ impl Diagnostics {
                                 ui.strong("CPU %");
                                 ui.end_row();
 
-                                for task in &board.tasks {
-                                    if !query.is_empty()
-                                        && !board_name.to_lowercase().contains(&query)
-                                        && !task.name.to_lowercase().contains(&query)
-                                    {
-                                        continue;
-                                    }
+                                for task in &matching_tasks {
                                     ui.monospace(task.task_id.to_string());
                                     ui.monospace(&task.name);
-                                    ui.label(task.state.as_str());
+                                    ui.label(&task.state);
                                     ui.monospace(format!("{} B", task.stack_hwm));
 
                                     match task.cpu_util {
@@ -183,11 +192,16 @@ impl Diagnostics {
         let stack_hwm = u16::try_from(Self::integer_signal(msg, "stack_hwm")?).ok()?;
         let cpu = u8::try_from(Self::integer_signal(msg, "cpu_percent")?).ok()?;
         let state = u8::try_from(Self::integer_signal(msg, "state")?).ok()?;
+        let state = msg
+            .signal("state")?
+            .enum_label()
+            .map(str::to_owned)
+            .unwrap_or_else(|| format!("Unknown ({state})"));
 
         Some(TaskDiagnostics {
             task_id,
             name: format!("Task {}", task_id),
-            state: TaskState::from_raw(state),
+            state,
             stack_hwm,
             cpu_util: Self::decode_cpu(cpu),
         })
@@ -223,183 +237,67 @@ impl Diagnostics {
         })
     }
 
-    pub fn reset_database(&mut self) {
-        self.boards.clear();
-        self.name_cache.clear();
-        self.was_live = false;
-    }
+    fn snapshot(view: &telemetry::TelemetryView<'_>) -> BTreeMap<String, BoardDiagnostics> {
+        let mut boards = BTreeMap::<String, BoardDiagnostics>::new();
+        let names = view.task_names_at_setpoint();
 
-    fn update_from_view(&mut self, view: &crate::telemetry::TelemetryView<'_>) {
-        let is_live = view.timeline.is_live();
-        if !is_live || is_live != self.was_live {
-            self.name_cache.clear();
-        }
-        self.was_live = is_live;
-        self.boards.clear();
-
+        // Task stats share a CAN identity: keep the latest frame per task ID,
+        // not just the latest message for each board.
         for frame in view.setpoint_frames {
-            let msg = match &frame.decoded {
-                Some(msg) => msg,
-                None => continue,
+            let Some(message) = &frame.decoded else {
+                continue;
             };
-
-            let task = Self::decode_task(msg);
-            let summary = Self::decode_summary(msg);
-            let name_char = Self::decode_name(msg);
-
-            if task.is_none() && summary.is_none() && name_char.is_none() {
+            let task = Self::decode_task(message);
+            let summary = Self::decode_summary(message);
+            if task.is_none() && summary.is_none() {
                 continue;
             }
-
-            let board_name = msg.tx_node().to_string();
-
-            let board = self
-                .boards
-                .entry(board_name.clone())
-                .or_insert_with(|| BoardDiagnostics {
-                    cpu_util: None,
-                    capacity_exceeded: false,
-                    tasks: Vec::new(),
-                    sample_count: None,
-                    task_count: None,
-                    cpu_history: VecDeque::new(),
-                });
-
-            if let Some(name_char) = name_char {
-                let key = (board_name.clone(), name_char.task_id);
-                let characters = self.name_cache.entry(key).or_insert([None; 16]);
-                let index = usize::from(name_char.char_index);
-
-                characters[index] = Some(name_char.character);
-
-                if name_char.character == 0 {
-                    characters[index + 1..].fill(None);
-                }
-
-                continue;
-            }
+            let board = boards.entry(message.tx_node().to_owned()).or_default();
 
             if let Some(summary) = summary {
                 board.sample_count = Some(summary.sample_count);
                 board.task_count = Some(summary.task_count);
                 board.cpu_util = summary.cpu_util;
                 board.capacity_exceeded = summary.capacity_exceeded;
-
-                if let Some(cpu) = summary.cpu_util {
-                    let seconds = frame.timestamp.secs(view.timeline.start());
-                    board.cpu_history.push_back((seconds, f64::from(cpu)));
-                }
-
-                continue;
             }
 
-            let task = match task {
-                Some(task) => task,
-                None => continue,
-            };
-
-            let mut existing_index = None;
-
-            for i in 0..board.tasks.len() {
-                if board.tasks[i].task_id == task.task_id {
-                    existing_index = Some(i);
-                    break;
+            if let Some(task) = task {
+                if let Some(existing) = board.tasks.iter_mut().find(|t| t.task_id == task.task_id) {
+                    *existing = task;
+                } else {
+                    board.tasks.push(task);
                 }
-            }
-
-            match existing_index {
-                Some(i) => board.tasks[i] = task,
-                None => board.tasks.push(task),
             }
         }
-        for (board_name, board) in &mut self.boards {
+
+        for (board_name, board) in &mut boards {
             for task in &mut board.tasks {
-                let key = (board_name.clone(), task.task_id);
-                let characters = match self.name_cache.get(&key) {
-                    Some(characters) => characters,
-                    None => continue,
-                };
-
-                let mut bytes = Vec::new();
-                let mut complete = false;
-
-                for character in characters {
-                    match character {
-                        Some(0) => {
-                            complete = true;
-                            break;
-                        }
-                        Some(byte) => {
-                            bytes.push(*byte);
-                        }
-                        None => {
-                            break;
-                        }
-                    }
-                }
-                if complete {
-                    task.name = String::from_utf8_lossy(&bytes).into_owned();
+                if let Some(name) =
+                    names.name_at(board_name, task.task_id, view.timeline.setpoint())
+                {
+                    task.name = name;
                 }
             }
         }
+        boards
     }
 
-    fn decode_name(msg: &daqcore::superdbc::decode::DecodedMessage) -> Option<TaskNameChar> {
-        let expected_name = format!("{}_diag_name", msg.tx_node().to_lowercase());
-
-        if msg.name() != expected_name {
-            return None;
+    fn cpu_history(view: &telemetry::TelemetryView<'_>) -> BTreeMap<String, Vec<[f64; 2]>> {
+        let mut history = BTreeMap::<String, Vec<[f64; 2]>>::new();
+        for frame in view.all_frames {
+            let Some(message) = &frame.decoded else {
+                continue;
+            };
+            let Some(summary) = Self::decode_summary(message) else {
+                continue;
+            };
+            if let Some(cpu) = summary.cpu_util {
+                history
+                    .entry(message.tx_node().to_owned())
+                    .or_default()
+                    .push([frame.timestamp.secs(view.timeline.start()), f64::from(cpu)]);
+            }
         }
-
-        let task_id = Self::integer_signal(msg, "task_id")?;
-        let char_index = Self::integer_signal(msg, "char_index")?;
-        let character = Self::integer_signal(msg, "character")?;
-
-        let task_id = u32::try_from(task_id).ok()?;
-        let char_index = u8::try_from(char_index).ok()?;
-        let character = u8::try_from(character).ok()?;
-
-        if char_index >= 16 {
-            return None;
-        }
-        Some(TaskNameChar {
-            task_id,
-            char_index,
-            character,
-        })
-    }
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum TaskState {
-    Running,
-    Ready,
-    Blocked,
-    Suspended,
-    Deleted,
-    Invalid,
-}
-
-impl TaskState {
-    pub fn from_raw(raw: u8) -> Self {
-        match raw {
-            0 => Self::Running,
-            1 => Self::Ready,
-            2 => Self::Blocked,
-            3 => Self::Suspended,
-            4 => Self::Deleted,
-            _ => Self::Invalid,
-        }
-    }
-
-    pub fn as_str(&self) -> &'static str {
-        match self {
-            TaskState::Running => "Running",
-            TaskState::Ready => "Ready",
-            TaskState::Blocked => "Blocked",
-            TaskState::Suspended => "Suspended",
-            TaskState::Deleted => "Deleted",
-            TaskState::Invalid => "Invalid",
-        }
+        history
     }
 }
