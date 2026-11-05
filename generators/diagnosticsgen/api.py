@@ -2,15 +2,7 @@ from core.declarations import CanDeclarations, MessageDeclaration, SignalDeclara
 from core.contributions import DeclarationContribution, TxDeclaration
 from core.artifacts import Artifact
 
-DIAGNOSTICS_NODES = (
-    ("A_BOX", "VCAN"),
-    ("DASHBOARD", "VCAN"),
-    ("DRIVELINE", "VCAN"),
-    ("MAIN_MODULE", "VCAN"),
-    ("PDU", "VCAN"),
-    ("TORQUE_VECTOR", "VCAN"),
-    ("G4_TESTING", "TEST_CAN"),
-)
+from .config import DiagnosticsConfig
 
 def task_status_message(node_name: str) -> MessageDeclaration:
     return MessageDeclaration(
@@ -34,8 +26,8 @@ def task_status_message(node_name: str) -> MessageDeclaration:
             ),
             SignalDeclaration(
                 signal_name="state",
-                data_type="uint8_t",
-                description="0: Running, 1: Ready, 2: Blocked, 3: Suspended, 4: Deleted, 5: Invalid",
+                data_type="diagnostics_task_state_t",
+                description="FreeRTOS task state",
             ),
         ],
     )
@@ -89,10 +81,13 @@ def task_name_message(node_name: str) -> MessageDeclaration:
     )
 
 
-def diagnostics_contribution(declarations: CanDeclarations) -> DeclarationContribution:
+def diagnostics_contribution(
+    declarations: CanDeclarations,
+    config: DiagnosticsConfig,
+) -> DeclarationContribution:
     nodes = {node.node_name: node for node in declarations.internal_nodes}
     tx_messages = []
-    for node_name, preferred_bus in DIAGNOSTICS_NODES:
+    for node_name, preferred_bus in config.nodes.items():
         node = nodes.get(node_name)
         if node is None:
             raise ValueError(f"Diagnostics node '{node_name}' is not configured")
@@ -105,7 +100,7 @@ def diagnostics_contribution(declarations: CanDeclarations) -> DeclarationContri
             raise ValueError(
                 f"Diagnostics node '{node_name}' has no preferred bus "
                 f"'{preferred_bus}' and multiple attachments; "
-                "update DIAGNOSTICS_NODES to select its diagnostics bus"
+                "update configs/system/diagnostics.json to select its diagnostics bus"
             )
 
         tx_messages.append(
@@ -135,7 +130,7 @@ def diagnostics_contribution(declarations: CanDeclarations) -> DeclarationContri
         tx_messages=tuple(tx_messages)
     )
 
-def diagnostics_artifacts() -> list[Artifact]:
+def diagnostics_artifacts(config: DiagnosticsConfig) -> list[Artifact]:
     lines = [
         "#ifndef DIAGNOSTICS_CAN_H",
         "#define DIAGNOSTICS_CAN_H",
@@ -144,7 +139,7 @@ def diagnostics_artifacts() -> list[Artifact]:
         "",
     ]
 
-    for index, (node_name, _) in enumerate(DIAGNOSTICS_NODES):
+    for index, node_name in enumerate(config.nodes):
         directive = "#if" if index == 0 else '#elif'
 
         lines.append(f"{directive} defined(CAN_NODE_{node_name})")
