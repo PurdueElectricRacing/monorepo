@@ -2,8 +2,6 @@ from core.declarations import CanDeclarations, MessageDeclaration, SignalDeclara
 from core.contributions import DeclarationContribution, TxDeclaration
 from core.artifacts import Artifact
 
-from .config import DiagnosticsConfig
-
 def task_status_message(node_name: str) -> MessageDeclaration:
     return MessageDeclaration(
         message_name=f"{node_name.lower()}_diag_task",
@@ -81,28 +79,36 @@ def task_name_message(node_name: str) -> MessageDeclaration:
     )
 
 
-def diagnostics_contribution(
-    declarations: CanDeclarations,
-    config: DiagnosticsConfig,
-) -> DeclarationContribution:
-    nodes = {node.node_name: node for node in declarations.internal_nodes}
-    tx_messages = []
-    for node_name, preferred_bus in config.nodes.items():
-        node = nodes.get(node_name)
-        if node is None:
-            raise ValueError(f"Diagnostics node '{node_name}' is not configured")
+def diagnostics_targets(declarations: CanDeclarations) -> list[tuple[str, str]]:
+    """Return each opted-in node and the bus its diagnostics messages go on."""
+    targets = []
+    for node in declarations.internal_nodes:
+        config = node.diagnostics
+        if config is None:
+            continue
 
-        if preferred_bus in node.busses:
-            bus_name = preferred_bus
+        if config.bus is not None:
+            if config.bus not in node.busses:
+                raise ValueError(
+                    f"Diagnostics node '{node.node_name}' is not attached to bus "
+                    f"'{config.bus}'; choose one of: {', '.join(node.busses)}"
+                )
+            bus_name = config.bus
         elif len(node.busses) == 1:
             bus_name = next(iter(node.busses))
         else:
             raise ValueError(
-                f"Diagnostics node '{node_name}' has no preferred bus "
-                f"'{preferred_bus}' and multiple attachments; "
-                "update configs/system/diagnostics.json to select its diagnostics bus"
+                f"Diagnostics node '{node.node_name}' is attached to multiple buses "
+                f"({', '.join(node.busses)}); set diagnostics.bus in its node config"
             )
 
+        targets.append((node.node_name, bus_name))
+    return targets
+
+
+def diagnostics_contribution(declarations: CanDeclarations) -> DeclarationContribution:
+    tx_messages = []
+    for node_name, bus_name in diagnostics_targets(declarations):
         tx_messages.append(
             TxDeclaration(
                 node_name=node_name,
@@ -130,7 +136,7 @@ def diagnostics_contribution(
         tx_messages=tuple(tx_messages)
     )
 
-def diagnostics_artifacts(config: DiagnosticsConfig) -> list[Artifact]:
+def diagnostics_artifacts(declarations: CanDeclarations) -> list[Artifact]:
     lines = [
         "#ifndef DIAGNOSTICS_CAN_H",
         "#define DIAGNOSTICS_CAN_H",
@@ -139,7 +145,7 @@ def diagnostics_artifacts(config: DiagnosticsConfig) -> list[Artifact]:
         "",
     ]
 
-    for index, node_name in enumerate(config.nodes):
+    for index, (node_name, _) in enumerate(diagnostics_targets(declarations)):
         directive = "#if" if index == 0 else '#elif'
 
         lines.append(f"{directive} defined(CAN_NODE_{node_name})")

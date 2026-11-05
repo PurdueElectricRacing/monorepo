@@ -238,6 +238,7 @@
         }
     },
     "fault_library_enabled": true,
+    "diagnostics": { "bus": "VCAN" },
     "generate_fault_messages": true,
     "faults": [
         {
