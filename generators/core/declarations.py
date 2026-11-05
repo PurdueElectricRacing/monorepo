@@ -152,12 +152,19 @@ class FaultDeclaration(DeclarationModel):
         return self
 
 
+class DiagnosticsDeclaration(DeclarationModel):
+    """Opt a node into RTOS task profiling; the bus defaults to its only attachment."""
+
+    bus: str | None = None
+
+
 class NodeDeclaration(DeclarationModel):
     node_name: str
     busses: Annotated[dict[str, BusAttachmentDeclaration], Field(min_length=1)]
     fault_library_enabled: bool
     generate_fault_messages: bool = False
     faults: list[FaultDeclaration] = Field(default_factory=list)
+    diagnostics: DiagnosticsDeclaration | None = None
 
     @model_validator(mode="after")
     def validate_fault_configuration(self) -> Self:
