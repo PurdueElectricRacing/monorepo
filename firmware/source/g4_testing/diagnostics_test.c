@@ -30,7 +30,12 @@ static TaskStatus_t task_snapshots[MAX_TASKS];
 static configRUN_TIME_COUNTER_TYPE total_runtime;
 
 volatile UBaseType_t task_count      = 0;
-PHAL_GPIO_InitConfig_t gpio_config[] = {PHAL_PIN_DEFS_FDCAN2_RX_PB12, PHAL_PIN_DEFS_FDCAN2_TX_PB13};
+PHAL_GPIO_InitConfig_t gpio_config[] = {
+    PHAL_PIN_DEFS_FDCAN2_RX_PB12,
+    PHAL_PIN_DEFS_FDCAN2_TX_PB13,
+    PHAL_PIN_DEFS_FDCAN3_RX_PA8,
+    PHAL_PIN_DEFS_FDCAN3_TX_PB4,
+};
 
 DEFINE_CAN_TASKS();
 DEFINE_DIAGNOSTICS_TASK();
@@ -42,7 +47,6 @@ int main() {
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
-    PHAL_FDCAN_init(FDCAN2, TEST_CAN_BAUD_RATE);
     CAN_init();
     
     START_CAN_TASKS();
