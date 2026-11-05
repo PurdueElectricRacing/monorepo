@@ -19,6 +19,15 @@ impl TaskNames {
         self.boards.clear();
     }
 
+    /// Names after replaying frames, seeded with fragments older than them.
+    pub fn names_at(&self, frames: &[frame::ParsedFrame]) -> Self {
+        let mut names = self.clone();
+        for frame in frames {
+            names.observe(frame);
+        }
+        names
+    }
+
     pub fn observe(&mut self, frame: &frame::ParsedFrame) {
         let Some(message) = &frame.decoded else {
             return;
