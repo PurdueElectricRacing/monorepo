@@ -1,6 +1,7 @@
 #[derive(serde::Serialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
+    Cannector(CannectorChannel),
     Udp(u16),
     Simulated(bool), // true for connected, false for disconnected
     Loopback,
@@ -34,6 +35,12 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
             };
         }
 
+        if let Some(channel) = object.get("Cannector") {
+            return Ok(Self::Cannector(
+                serde_json::from_value(channel.clone()).map_err(serde::de::Error::custom)?,
+            ));
+        }
+
         if let Some(port) = object.get("Udp") {
             return Ok(Self::Udp(
                 serde_json::from_value(port.clone()).map_err(serde::de::Error::custom)?,
@@ -54,6 +61,31 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
     }
 }
 
+#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug)]
+pub enum CannectorChannel {
+    Vcan,
+    Mcan,
+    Scan,
+}
+
+impl CannectorChannel {
+    pub fn display_name(&self) -> String {
+        match self {
+            CannectorChannel::Vcan => "VCAN input".into(),
+            CannectorChannel::Mcan => "MCAN input".into(),
+            CannectorChannel::Scan => "SCAN input".into(),
+        }
+    }
+
+    pub fn options() -> Vec<CannectorChannel> {
+        vec![
+            CannectorChannel::Vcan,
+            CannectorChannel::Mcan,
+            CannectorChannel::Scan,
+        ]
+    }
+}
+
 #[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug, Default)]
 pub enum CanBusSpeed {
     Kbps250,
@@ -66,6 +98,9 @@ impl ConnectionSource {
         match self {
             ConnectionSource::Serial(path, speed) => {
                 format!("Serial: {} ({})", path, speed.display_name())
+            }
+            ConnectionSource::Cannector(channel) => {
+                format!("CANnector USB: {} (500k, RX only)", channel.display_name())
             }
             ConnectionSource::Udp(port) => format!("UDP: {}", port),
             ConnectionSource::Simulated(connected) => {
@@ -97,5 +132,54 @@ impl CanBusSpeed {
 
     pub fn options() -> Vec<CanBusSpeed> {
         vec![CanBusSpeed::Kbps250, CanBusSpeed::Kbps500]
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn cannector_sources_round_trip_settings() {
+        for channel in CannectorChannel::options() {
+            let source = ConnectionSource::Cannector(channel);
+            let json = serde_json::to_string(&source).unwrap();
+            assert_eq!(
+                serde_json::from_str::<ConnectionSource>(&json).unwrap(),
+                source
+            );
+        }
+    }
+
+    #[test]
+    fn rejects_unknown_cannector_channels() {
+        for json in [r#"{"Cannector":"McanScan"}"#, r#"{"Cannector":"Ccan"}"#] {
+            assert!(serde_json::from_str::<ConnectionSource>(json).is_err());
+        }
+    }
+
+    #[test]
+    fn existing_sources_still_deserialize() {
+        for json in [
+            r#"{"Serial":["/dev/test","Kbps500"]}"#,
+            r#"{"Serial":["/dev/test","Kbps500",null]}"#,
+        ] {
+            assert_eq!(
+                serde_json::from_str::<ConnectionSource>(json).unwrap(),
+                ConnectionSource::Serial("/dev/test".into(), CanBusSpeed::Kbps500),
+            );
+        }
+        for source in [
+            ConnectionSource::Udp(5005),
+            ConnectionSource::Loopback,
+            ConnectionSource::Simulated(true),
+            ConnectionSource::Simulated(false),
+        ] {
+            let json = serde_json::to_string(&source).unwrap();
+            assert_eq!(
+                serde_json::from_str::<ConnectionSource>(&json).unwrap(),
+                source
+            );
+        }
     }
 }
