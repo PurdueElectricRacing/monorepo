@@ -13,6 +13,7 @@ pub struct TelemetryView<'a> {
         BTreeMap<daqcore::frame::CanIdentity, &'a daqcore::frame::ParsedFrame>,
     pub timeline: &'a daqcore::timeline::Timeline,
     view_time: daqcore::time::Time,
+    session: &'a daqcore::session::Session,
 }
 
 impl<'a> TelemetryView<'a> {
@@ -44,7 +45,12 @@ impl<'a> TelemetryView<'a> {
             timeline,
             latest_setpoint_frames,
             view_time,
+            session,
         }
+    }
+
+    pub fn task_names_at_setpoint(&self) -> daqcore::task_names::TaskNames {
+        self.session.task_names_at(self.timeline.setpoint())
     }
 
     pub fn view_time(&self) -> daqcore::time::Time {

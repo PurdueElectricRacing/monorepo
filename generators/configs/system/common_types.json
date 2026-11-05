@@ -35,6 +35,36 @@
             "base_type": "uint16_t"
         },
         {
+            "name": "diagnostics_task_state_t",
+            "base_type": "uint8_t",
+            "choices": [
+                {
+                    "name": "Running",
+                    "value": 0
+                },
+                {
+                    "name": "Ready",
+                    "value": 1
+                },
+                {
+                    "name": "Blocked",
+                    "value": 2
+                },
+                {
+                    "name": "Suspended",
+                    "value": 3
+                },
+                {
+                    "name": "Deleted",
+                    "value": 4
+                },
+                {
+                    "name": "Invalid",
+                    "value": 5
+                }
+            ]
+        },
+        {
             "name": "charging_state_t",
             "base_type": "uint8_t",
             "choices": [

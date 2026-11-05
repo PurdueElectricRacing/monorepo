@@ -79,25 +79,14 @@ static uint16_t encode_stack_hwm(uint32_t bytes) {
     return (uint16_t) bytes;
 }
 
-static void send_task_names(const diagnostics_snapshot_t *snapshot) {
+static void send_task_name_characters(const diagnostics_snapshot_t *snapshot) {
     for (uint32_t i = 0; i < snapshot->task_count; i++) {
         const diagnostics_task_t *task = &snapshot->tasks[i];
+        // Cycle through each name, including its terminating NUL.
+        size_t name_length = strlen(task->name);
+        uint8_t index      = (uint8_t)((snapshot->sample_count - 1U) % (name_length + 1U));
 
-        for (uint8_t index = 0; index < sizeof(task->name); index++) {
-            uint8_t character = (uint8_t)task->name[index];
-
-            DIAGNOSTICS_SEND_NAME(
-                task->task_id,
-                index,
-                character
-            );
-
-            vTaskDelay(1);
-
-            if (character == 0) {
-                break;
-            }
-        }
+        DIAGNOSTICS_SEND_NAME(task->task_id, index, (uint8_t)task->name[index]);
     }
 }
 
@@ -127,10 +116,10 @@ void diagnostics_periodic(void) {
         task->state = raw_task->eCurrentState;
         calculate_task_utilization(raw_task, task, total_delta);
         DIAGNOSTICS_SEND_TASK(
-            task -> task_id,
-            encode_stack_hwm(task -> stack_min_free_bytes),
-            encode_cpu_percent(task -> cpu_usage_percent, task -> cpu_usage_valid),
-            (uint8_t) task -> state 
+            task->task_id,
+            encode_stack_hwm(task->stack_min_free_bytes),
+            encode_cpu_percent(task->cpu_usage_percent, task->cpu_usage_valid),
+            (uint8_t) task->state
         );
 
         // Calculate overall CPU usage
@@ -143,15 +132,13 @@ void diagnostics_periodic(void) {
     diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
     
     uint16_t reported_task_count =
-        snapshot -> task_count > UINT16_MAX ? UINT16_MAX : (uint16_t) snapshot -> task_count;
+        snapshot->task_count > UINT16_MAX ? UINT16_MAX : (uint16_t) snapshot->task_count;
     DIAGNOSTICS_SEND_SUMMARY(
-        snapshot-> sample_count,
+        snapshot->sample_count,
         reported_task_count,
         encode_cpu_percent(snapshot->cpu_percent, snapshot->cpu_valid),
         (uint8_t)snapshot->capacity_exceeded
     );
     save_task_runtimes(task_count);
-    if (snapshot->sample_count % 10 == 1) {
-        send_task_names(snapshot);
-    }
+    send_task_name_characters(snapshot);
 }
