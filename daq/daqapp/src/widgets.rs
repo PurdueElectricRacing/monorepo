@@ -22,6 +22,7 @@ pub enum Widget {
 pub struct WidgetContext<'a> {
     pub view: &'a telemetry::TelemetryView<'a>,
     pub bus_load: &'a [telemetry::BusLoadSample],
+    pub task_names: &'a crate::task_names::TaskNames,
     pub action_queue: &'a mut Vec<action::AppAction>,
     pub database: Option<&'a app::DatabaseSelection>,
     pub ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
@@ -95,7 +96,7 @@ impl Widget {
             Widget::Dynamics(w) => w.show(ui, context.view),
             Widget::Jitter(w) => w.show(ui, context.database, context.view),
             Widget::Hil(w) => w.show(ui),
-            Widget::Diagnostics(w) => w.show(ui, context.view),
+            Widget::Diagnostics(w) => w.show(ui, context.view, context.task_names),
         }
     }
 

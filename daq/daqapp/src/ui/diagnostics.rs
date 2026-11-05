@@ -44,8 +44,9 @@ impl Diagnostics {
         &mut self,
         ui: &mut egui::Ui,
         view: &telemetry::TelemetryView<'_>,
+        task_names: &crate::task_names::TaskNames,
     ) -> egui_tiles::UiResponse {
-        let boards = Self::snapshot(view);
+        let boards = Self::snapshot(view, task_names);
         let cpu_history = Self::cpu_history(view);
         let start = view.timeline.start();
         let duration = view.timeline.end().secs(start).max(0.001);
@@ -237,9 +238,12 @@ impl Diagnostics {
         })
     }
 
-    fn snapshot(view: &telemetry::TelemetryView<'_>) -> BTreeMap<String, BoardDiagnostics> {
+    fn snapshot(
+        view: &telemetry::TelemetryView<'_>,
+        task_names: &crate::task_names::TaskNames,
+    ) -> BTreeMap<String, BoardDiagnostics> {
         let mut boards = BTreeMap::<String, BoardDiagnostics>::new();
-        let names = view.task_names_at_setpoint();
+        let names = task_names.names_at(view.setpoint_frames);
 
         // Task stats share a CAN identity: keep the latest frame per task ID,
         // not just the latest message for each board.
