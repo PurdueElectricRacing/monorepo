@@ -100,11 +100,14 @@ firmware runs. Nothing is halted; peripheral (MMIO) reads and any write request
 are refused while running.
 
 The FIL backend also supports GDB data watchpoints (`watch`, `rwatch`,
-`awatch`), flash programming through `load`, the target memory map, semihosting
-(`monitor arm semihosting enable`), and the OpenOCD-style monitor commands
-(`reset halt`, `halt`, `gdb_sync`, `mdw`/`mdh`/`mdb`, `mww`/`mwh`/`mwb`,
-`regs`). With a flash memory map present GDB refuses direct `set {…}` writes to
-flash; use `load` or `monitor mww`/`mwh`/`mwb` to patch flash.
+`awatch`), flash programming through `load`, the target memory map, and the
+OpenOCD-style monitor commands (`reset halt`, `halt`, `gdb_sync`,
+`mdw`/`mdh`/`mdb`, `mww`/`mwh`/`mwb`, `regs`). The emulator configurations pass
+`monitor arm semihosting enable` in `preLaunchCommands`, so semihosting output
+appears in the Debug Console. With a flash memory map present GDB refuses direct
+`set {…}` writes to flash; use `load` or `monitor mww`/`mwh`/`mwb` to patch
+flash. The `fil monitor (telnet)` task attaches to the live monitor (port 4444)
+for `mdw`/`mdb`/`regs` reads while the firmware runs.
 
 The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
 scenarios on pull requests targeting `master` and pushes to `master`. Its FIL

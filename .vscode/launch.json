@@ -429,7 +429,10 @@
             "liveWatch": {
                 "enabled": true,
                 "samplesPerSecond": 4
-            }
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
         },
         {
             "name": "Emulator: Dashboard",
@@ -447,7 +450,10 @@
             "liveWatch": {
                 "enabled": true,
                 "samplesPerSecond": 4
-            }
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
         },
         {
             "name": "Emulator: Front Driveline",
@@ -465,7 +471,10 @@
             "liveWatch": {
                 "enabled": true,
                 "samplesPerSecond": 4
-            }
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
         },
         {
             "name": "Emulator: Main Module",
@@ -483,7 +492,10 @@
             "liveWatch": {
                 "enabled": true,
                 "samplesPerSecond": 4
-            }
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
         },
         {
             "name": "Emulator: Rear Driveline",
@@ -501,7 +513,10 @@
             "liveWatch": {
                 "enabled": true,
                 "samplesPerSecond": 4
-            }
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
         },
         {
             "name": "Emulator: Torque Vectoring",
@@ -519,7 +534,10 @@
             "liveWatch": {
                 "enabled": true,
                 "samplesPerSecond": 4
-            }
+            },
+            "preLaunchCommands": [
+                "monitor arm semihosting enable"
+            ]
         }
     ]
 }

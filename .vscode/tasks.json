@@ -207,6 +207,16 @@
             "group": {
                 "kind": "test"
             }
+        },
+        {
+            "label": "fil monitor (telnet)",
+            "type": "shell",
+            "command": "nc 127.0.0.1 4444",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
         }
     ]
 }
