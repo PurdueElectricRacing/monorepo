@@ -79,4 +79,87 @@ void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi);
  */
 void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance);
 
+
+/// Get the latest voltage reading (volts) for a specific module and cell
+static inline float ADBMS_get_cell_voltage(
+    const adbms_bms_t *bms,
+    size_t module_idx,
+    size_t cell_idx
+) {
+    return bms->dev.modules[module_idx].cell_voltages[cell_idx];
+}
+
+/// Get the latest thermistor temperature (Celsius) for a specific module and channel
+static inline float ADBMS_get_therm_temp(
+    const adbms_bms_t *bms,
+    size_t module_idx,
+    size_t therm_idx
+) {
+    return bms->dev.modules[module_idx].therms_temps[therm_idx];
+}
+
+/// Check whether a specific cell is currently discharging (balancing)
+static inline bool ADBMS_is_cell_discharging(
+    const adbms_bms_t *bms,
+    size_t module_idx,
+    size_t cell_idx
+) {
+    return bms->dev.modules[module_idx].is_discharging[cell_idx];
+}
+
+/// Get the minimum cell voltage across all modules in volts
+static inline float ADBMS_get_min_voltage(const adbms_bms_t *bms) {
+    return bms->min_voltage;
+}
+
+/// Get the maximum cell voltage across all modules in volts
+static inline float ADBMS_get_max_voltage(const adbms_bms_t *bms) {
+    return bms->max_voltage;
+}
+
+/// Get the sum of all cell voltages across all modules in volts
+static inline float ADBMS_get_sum_voltage(const adbms_bms_t *bms) {
+    return bms->sum_voltage;
+}
+
+/// Get the minimum thermistor temperature across all modules in Celsius
+static inline float ADBMS_get_min_therm_temp(const adbms_bms_t *bms) {
+    return bms->min_therm_temp;
+}
+
+/// Get the maximum thermistor temperature across all modules in Celsius
+static inline float ADBMS_get_max_therm_temp(const adbms_bms_t *bms) {
+    return bms->max_therm_temp;
+}
+
+/// Get the average thermistor temperature across all modules in Celsius
+static inline float ADBMS_get_avg_therm_temp(const adbms_bms_t *bms) {
+    return bms->avg_therm_temp;
+}
+
+/// Check whether a cell voltage read command (`0 .. ADBMS6380_RDCV_CMD_COUNT - 1`) failed PEC
+static inline bool ADBMS_get_cell_voltage_pec_err(const adbms_bms_t *bms, size_t cmd_idx) {
+    return bms->dev.err_cell_voltage_pecs[cmd_idx];
+}
+
+/// Check whether a GPIO voltage read command (`0 .. ADBMS6380_RDAUX_CMD_COUNT - 1`) failed PEC
+static inline bool ADBMS_get_gpio_voltage_pec_err(const adbms_bms_t *bms, size_t cmd_idx) {
+    return bms->dev.err_gpio_voltage_pecs[cmd_idx];
+}
+
+/// Get the current ADBMS driver state
+static inline adbms_state_t ADBMS_get_state(const adbms_bms_t *bms) {
+    return bms->state;
+}
+
+/// Check whether cell discharge balancing is currently enabled
+static inline bool ADBMS_is_balancing_enabled(const adbms_bms_t *bms) {
+    return bms->is_balancing_enabled;
+}
+
+/// Enable or disable cell discharge balancing
+static inline void ADBMS_set_balancing_enabled(adbms_bms_t *bms, bool enabled) {
+    bms->is_balancing_enabled = enabled;
+}
+
 #endif // ADBMS_H
