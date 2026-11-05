@@ -60,30 +60,27 @@ so that SPI communication is not delayed/interrupted.
 
 ### Accessing Measurements
 
-After each periodic call, values can be read from the `adbms_bms_t` struct:
-- `g_bms.dev.modules[i].cell_voltages`: Per-module cell voltages
-	- `ADBMS6380_CELL_COUNT` (16) per module
-- `g_bms.dev.modules[i].therms_temps`: Per-module thermistor temperatures in Celsius
-	- `ADBMS6380_GPIO_COUNT` (10) per module
+After each periodic call, measurements, statistics, and status can be queried via the `ADBMS_` getters:
+- `ADBMS_get_cell_voltage(&g_bms, module_idx, cell_idx)`: Per-module cell voltage in volts (`ADBMS6380_CELL_COUNT` (16) per module)
+- `ADBMS_is_cell_discharging(&g_bms, module_idx, cell_idx)`: Whether a cell is actively discharging (balancing)
+- `ADBMS_get_therm_temp(&g_bms, module_idx, therm_idx)`: Per-module thermistor temperature in Celsius (`ADBMS6380_GPIO_COUNT` (10) per module)
 	- Temps calculated with the following flow:
 		1. GPIO voltage (`g_bms.dev.modules[i].gpio_voltages`)
 		2. R2 in the thermistor divider
 			- R1 = `ADBMS6380_GPIO_R1_OHM` = 10kOhms
 			- Vin = VREG2 = `ADBMS6380_GPIO_VIN_V` = 3.0v
 		3. Temperature via lerp of datasheet values
-- `g_bms.min_voltage`/`g_bms.max_voltage`/`g_bms.avg_voltage`/`g_bms.sum_voltage`: Pack-level cell voltage statistics
-- `g_bms.min_therm_temp`/`g_bms.max_therm_temp`/`g_bms.avg_therm_temp`: Pack-level thermistor temperature statistics
+- `ADBMS_get_min_voltage(&g_bms)` / `ADBMS_get_max_voltage(&g_bms)` / `ADBMS_get_sum_voltage(&g_bms)`: Pack-level cell voltage statistics
+- `ADBMS_get_min_therm_temp(&g_bms)` / `ADBMS_get_max_therm_temp(&g_bms)` / `ADBMS_get_avg_therm_temp(&g_bms)`: Pack-level thermistor temperature statistics
+- `ADBMS_get_state(&g_bms)`: Current `adbms_state_t` (`ADBMS_STATE_CONNECTING`, `ADBMS_STATE_READ_LOOP`, `ADBMS_STATE_RECOVERING`, `ADBMS_STATE_FATAL`)
 - Error flags:
-	- `g_bms.dev.modules[i].err_rega_mismatch`: Per-module REGA register mismatch error
-		- The configuration we tried to write did not match the reading. Indicates a potential communication issue or misconfiguration.
-		- Same for REGB (`g_bms.dev.modules[i].err_regb_mismatch`).
-		- Pack-level aggregate mismatch status can be queried via `ADBMS6380_has_rega_mismatch(&g_bms.dev)` and `ADBMS6380_has_regb_mismatch(&g_bms.dev)`.
-	- `g_bms.dev.err_*_pec`: PEC error flags for various operations (register reads, cell voltage reads, GPIO voltage reads). Indicates potential communication issues or data corruption. In the case of a PEC error during reading cell or GPIO voltages (which require multiple read commands), only the specific command that failed will have its PEC error flag set and the rest of the voltages for successful commands will still be updated/valid and the pack-level statistics will be updated based on the new valid readings and the old readings for the failed commands.
+	- `ADBMS_get_cell_voltage_pec_err(&g_bms, cmd_idx)` and `ADBMS_get_gpio_voltage_pec_err(&g_bms, cmd_idx)`: PEC error flags for cell and GPIO voltage read commands. In the case of a PEC error during reading cell or GPIO voltages (which require multiple read commands), only the specific command that failed will have its PEC error flag set and the rest of the voltages for successful commands will still be updated/valid and the pack-level statistics will be updated based on the new valid readings and the old readings for the failed commands.
+	- Internal register mismatch and PEC flags on `g_bms.dev`: `g_bms.dev.modules[i].err_rega_mismatch`, `g_bms.dev.modules[i].err_regb_mismatch`, `ADBMS6380_has_rega_mismatch(&g_bms.dev)`, `ADBMS6380_has_regb_mismatch(&g_bms.dev)`, `g_bms.dev.err_rega_pec`, and `g_bms.dev.err_regb_pec`.
 
 ### Controlling the Balancing
-- To enable or disable BMS balancing, simply set the `is_balancing_enabled` field in the `adbms_bms_t` struct before the next periodic call:
+- To enable or disable BMS balancing, call `ADBMS_set_balancing_enabled` before the next periodic call (and query with `ADBMS_is_balancing_enabled`):
 ```c
-g_bms.is_balancing_enabled = true; // or false to disable balancing
+ADBMS_set_balancing_enabled(&g_bms, true); // or false to disable balancing
 ```
 The driver will handle the rest (setting the appropriate bits in the REGB register of each module based on the cell voltages and the configured thresholds).
 
