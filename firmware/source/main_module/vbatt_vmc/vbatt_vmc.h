@@ -6,9 +6,11 @@
  * @brief MAIN MODULE vbatt and vmc reading
  */
 
+#include <stdbool.h>
 
-float vbatt_get_voltage(void);
+// Both return false if acquisition has stopped (DMA error); *voltage_v is untouched.
+bool vbatt_get_voltage(float *voltage_v);
 
-float vmc_get_voltage(void);
+bool vmc_get_voltage(float *voltage_v);
 
 #endif // VBATT_VMC_H
