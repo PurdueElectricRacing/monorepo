@@ -63,7 +63,7 @@ impl Jitter {
                 let maximum = deviations.iter().copied().fold(0.0, f64::max);
                 let average = deviations.iter().sum::<f64>() / deviations.len() as f64;
 
-                // 1. Calculate Standard Deviation (% and raw ms)
+                // Calculate Standard Deviation (% and raw ms)
                 let variance = deviations
                     .iter()
                     .map(|&dev| (dev - average).powi(2))
@@ -72,7 +72,7 @@ impl Jitter {
                 let std_dev_pct = variance.sqrt();
                 let std_dev_ms = (std_dev_pct / 100.0) * (self.period_ms as f64);
 
-                // 2. Calculate 99th Percentile Error
+                // Calculate 99th Percentile Error
                 let mut sorted_devs = deviations.clone();
 
                 let idx_99 = ((sorted_devs.len() as f64 * 0.99).ceil() as usize)
@@ -89,7 +89,7 @@ impl Jitter {
                 let p99_ms = (p99_error / 100.0) * period;
                 let avg_ms = (average / 100.0) * period;
 
-                // 3. Print the new labels to the UI
+                // Print the new labels to the UI
                 ui.label(format!("Worst Error (Max): {maximum:.2}% ({max_ms:.2} ms)"));
                 ui.label(format!(
                     "99th Percentile Error: {p99_error:.2}% ({p99_ms:.2} ms)"
@@ -97,7 +97,7 @@ impl Jitter {
                 ui.label(format!("Average Error: {average:.2}% ({avg_ms:.2} ms)"));
                 ui.label(format!("Std Dev: {std_dev_pct:.2}% ({std_dev_ms:.2} ms)"));
 
-                // 4. Generate the Bell Curve / Histogram
+                // Generate the Bell Curve / Histogram
                 let num_buckets = 200;
                 let bucket_size = (maximum / num_buckets as f64).max(0.0001); // Prevent divide-by-zero
                 let mut buckets = vec![0; num_buckets + 1];
