@@ -6,6 +6,8 @@ use std::{error, fmt, io, mem, net, time};
 use rand::RngExt as _;
 use rand::seq::IteratorRandom as _;
 
+const READ_TIMEOUT: time::Duration = time::Duration::from_millis(10);
+
 #[derive(Debug)]
 pub enum DriverError {
     ConnectionFailed(String),
@@ -48,7 +50,7 @@ pub fn create_driver(
             let socket = net::UdpSocket::bind(("0.0.0.0", *port))
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
             socket
-                .set_read_timeout(Some(time::Duration::from_millis(10)))
+                .set_read_timeout(Some(READ_TIMEOUT))
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
             Ok(Box::new(UdpDriver(socket)))
         }
@@ -145,7 +147,6 @@ impl CannectorDriver {
     const INTERFACE: u8 = 0;
     const BULK_IN_ENDPOINT: u8 = 0x81;
     const PACKET_SIZE: usize = 64; // 4 timestamped frames
-    const READ_TIMEOUT: time::Duration = time::Duration::from_millis(10);
 
     fn new() -> DriverResult<Self> {
         let handle = rusb::open_device_with_vid_pid(Self::VID, Self::PID).ok_or_else(|| {
@@ -167,7 +168,7 @@ impl Driver for CannectorDriver {
         let mut buffer = [0; Self::PACKET_SIZE];
         let len = self
             .handle
-            .read_bulk(Self::BULK_IN_ENDPOINT, &mut buffer, Self::READ_TIMEOUT)
+            .read_bulk(Self::BULK_IN_ENDPOINT, &mut buffer, READ_TIMEOUT)
             .map_err(|error| match error {
                 rusb::Error::Timeout => DriverError::Timeout,
                 other => DriverError::Read(other.to_string()),
@@ -307,8 +308,6 @@ impl SimulatedDriver {
 }
 
 mod serial {
-    use std::time;
-
     use crate::{can, connection, frame};
 
     pub struct SerialDriver {
@@ -319,7 +318,7 @@ mod serial {
     impl SerialDriver {
         pub fn new(path: &str, speed: connection::CanBusSpeed) -> can::driver::DriverResult<Self> {
             let port = serialport::new(path, 115200)
-                .timeout(time::Duration::from_millis(10))
+                .timeout(can::driver::READ_TIMEOUT)
                 .open()
                 .map_err(|e| can::driver::DriverError::ConnectionFailed(e.to_string()))?;
             let _ = port.clear(serialport::ClearBuffer::All);
