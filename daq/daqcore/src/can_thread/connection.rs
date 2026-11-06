@@ -56,11 +56,6 @@ impl ConnectionManager {
             .unwrap_or_default()
     }
 
-    /// A disconnected manager reports true so connection errors stay first.
-    pub fn can_transmit(&self) -> bool {
-        self.driver.as_ref().is_none_or(|d| d.can_transmit())
-    }
-
     pub fn read(&mut self) -> can::driver::DriverResult<Vec<frame::CanFrame>> {
         let driver = self
             .driver
