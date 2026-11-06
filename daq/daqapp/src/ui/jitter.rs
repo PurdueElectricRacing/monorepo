@@ -59,10 +59,7 @@ impl Jitter {
             ui.label("Absolute deviation from nominal period over the shared interval");
             ui.label(format!("Intervals recorded: {}", deviations.len()));
 
-            
             if !deviations.is_empty() {
-               
-
                 let maximum = deviations.iter().copied().fold(0.0, f64::max);
                 let average = deviations.iter().sum::<f64>() / deviations.len() as f64;
 
@@ -70,15 +67,21 @@ impl Jitter {
                 let variance = deviations
                     .iter()
                     .map(|&dev| (dev - average).powi(2))
-                    .sum::<f64>() / deviations.len() as f64;
+                    .sum::<f64>()
+                    / deviations.len() as f64;
                 let std_dev_pct = variance.sqrt();
                 let std_dev_ms = (std_dev_pct / 100.0) * (self.period_ms as f64);
 
                 // 2. Calculate 99th Percentile Error
                 let mut sorted_devs = deviations.clone();
-                sorted_devs.sort_by(|a, b| a.total_cmp(b)); // Sort smallest to largest
-                let idx_99 = ((sorted_devs.len() as f64 * 0.99) as usize).min(sorted_devs.len().saturating_sub(1));
-                let p99_error = sorted_devs[idx_99];
+
+                let idx_99 = ((sorted_devs.len() as f64 * 0.99).ceil() as usize)
+                    .saturating_sub(1)
+                    .min(sorted_devs.len().saturating_sub(1));
+
+                let (_, p99, _) = sorted_devs.select_nth_unstable_by(idx_99, |a, b| a.total_cmp(b));
+
+                let p99_error = *p99;
 
                 // Calculate the raw millisecond equivalents
                 let period = self.period_ms as f64;
@@ -88,14 +91,14 @@ impl Jitter {
 
                 // 3. Print the new labels to the UI
                 ui.label(format!("Worst Error (Max): {maximum:.2}% ({max_ms:.2} ms)"));
-                ui.label(format!("99th Percentile Error: {p99_error:.2}% ({p99_ms:.2} ms)"));
+                ui.label(format!(
+                    "99th Percentile Error: {p99_error:.2}% ({p99_ms:.2} ms)"
+                ));
                 ui.label(format!("Average Error: {average:.2}% ({avg_ms:.2} ms)"));
                 ui.label(format!("Std Dev: {std_dev_pct:.2}% ({std_dev_ms:.2} ms)"));
 
-                //ui.label(format!("DEBUG: max_ms = {max_ms:.2}"));
-
                 // 4. Generate the Bell Curve / Histogram
-                let num_buckets = 50;
+                let num_buckets = 200;
                 let bucket_size = (maximum / num_buckets as f64).max(0.0001); // Prevent divide-by-zero
                 let mut buckets = vec![0; num_buckets + 1];
 
@@ -115,23 +118,23 @@ impl Jitter {
                     })
                     .collect();
 
-                    // Find the highest count in any bucket to calculate headroom
-                    let max_bucket_count = buckets.into_iter().max().unwrap_or(0) as f64;
+                // Find the highest count in any bucket to calculate headroom
+                let max_bucket_count = buckets.into_iter().max().unwrap_or(0) as f64;
 
-                    let chart = egui_plot::BarChart::new("Histogram", bars).color(eframe::egui::Color32::LIGHT_BLUE);
+                let chart = egui_plot::BarChart::new("Histogram", bars)
+                    .color(eframe::egui::Color32::LIGHT_BLUE);
 
-                    // Draw the actual plot graph on the screen
-                    egui_plot::Plot::new("jitter_histogram")
-                        .height(ui.available_height()) // Expands to fill all remaining vertical space
-                        .allow_zoom(false)
-                        .allow_drag(false)
-                        .allow_scroll(false) // Prevents the mouse wheel from moving the graph
-                        .auto_bounds(true) // Forces the graph to auto-fit the data
-                        .include_y(0.0)
-                        .include_y(max_bucket_count * 1.1) // Adds 10% blank space above the tallest bar
-                        .include_x(0.0)
-                        .show(ui, |plot_ui| plot_ui.bar_chart(chart));
-
+                // Draw the actual plot graph on the screen
+                egui_plot::Plot::new(format!("jitter_histogram_{}", self.title))
+                    .height(ui.available_height()) // Expands to fill all remaining vertical space
+                    .allow_zoom(false)
+                    .allow_drag(false)
+                    .allow_scroll(false) // Prevents the mouse wheel from moving the graph
+                    .auto_bounds(true) // Forces the graph to auto-fit the data
+                    .include_y(0.0)
+                    .include_y(max_bucket_count * 1.1) // Adds 10% blank space above the tallest bar
+                    .include_x(0.0)
+                    .show(ui, |plot_ui| plot_ui.bar_chart(chart));
             }
         }
         egui_tiles::UiResponse::None
