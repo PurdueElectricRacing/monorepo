@@ -206,6 +206,8 @@ Functions</h2></td></tr>
 <tr class="separator:a6d7fe97284b63e20a8aced5820f70a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bfdb7d9caa9fae0f4447e02142c517c" id="r_a1bfdb7d9caa9fae0f4447e02142c517c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bfdb7d9caa9fae0f4447e02142c517c">CAN_SEND_thermistor_telemetry</a> (uint16_t value_temperature, uint8_t value_module_num, uint8_t value_thermistor_num)</td></tr>
 <tr class="separator:a1bfdb7d9caa9fae0f4447e02142c517c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dfaa4cd32ce08921c4b7f6e0a1a61fc" id="r_a8dfaa4cd32ce08921c4b7f6e0a1a61fc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8dfaa4cd32ce08921c4b7f6e0a1a61fc">CAN_SEND_e_meter_temperature</a> (uint16_t value_max_cell_temp, uint16_t value_min_cell_temp, uint16_t value_avg_cell_temp)</td></tr>
+<tr class="separator:a8dfaa4cd32ce08921c4b7f6e0a1a61fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e4893841e8526aee263a12c0b566f54" id="r_a4e4893841e8526aee263a12c0b566f54"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e4893841e8526aee263a12c0b566f54">CAN_SEND_imd_state</a> (<a class="el" href="can__types_8h.html#a04233948512e221ae12f0c12994fa8b2">imd_state_t</a> value_imd_state, bool value_imd_status, <a class="el" href="can__types_8h.html#a62e41cf1451c6e4e1a708dc7533efc6b">imd_r_iso_quality_t</a> value_imd_r_iso_quality, uint16_t value_r_iso)</td></tr>
 <tr class="separator:a4e4893841e8526aee263a12c0b566f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ca6000d83a48ae976dd499a740f1474" id="r_a6ca6000d83a48ae976dd499a740f1474"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ca6000d83a48ae976dd499a740f1474">CAN_SEND_abox_init</a> (uint32_t value_csr)</td></tr>
@@ -243,6 +245,12 @@ Variables</h2></td></tr>
 <tr class="separator:a89725147b86c62e920c7908ece35be01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60f113a4615273e93357fcdc50a16697" id="r_a60f113a4615273e93357fcdc50a16697"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60f113a4615273e93357fcdc50a16697">PACK_COEFF_CHARGING_FSM_INTERNALS_CURRENT_LIMIT</a> = 10.0f</td></tr>
 <tr class="separator:a60f113a4615273e93357fcdc50a16697"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab40fb2c8f32307da9f18f9b7e37fc6c2" id="r_ab40fb2c8f32307da9f18f9b7e37fc6c2"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab40fb2c8f32307da9f18f9b7e37fc6c2">PACK_COEFF_E_METER_TEMPERATURE_MAX_CELL_TEMP</a> = 10.0f</td></tr>
+<tr class="separator:ab40fb2c8f32307da9f18f9b7e37fc6c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a415d40cb3ac40c09d13112318bde5d80" id="r_a415d40cb3ac40c09d13112318bde5d80"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a415d40cb3ac40c09d13112318bde5d80">PACK_COEFF_E_METER_TEMPERATURE_MIN_CELL_TEMP</a> = 10.0f</td></tr>
+<tr class="separator:a415d40cb3ac40c09d13112318bde5d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c65af6cf833d41c379907926031081f" id="r_a5c65af6cf833d41c379907926031081f"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c65af6cf833d41c379907926031081f">PACK_COEFF_E_METER_TEMPERATURE_AVG_CELL_TEMP</a> = 10.0f</td></tr>
+<tr class="separator:a5c65af6cf833d41c379907926031081f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef967797053434b99a20fd824212055d" id="r_aef967797053434b99a20fd824212055d"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef967797053434b99a20fd824212055d">PACK_COEFF_ELCON_COMMAND_VOLTAGE_LIMIT</a> = 10.0f</td></tr>
 <tr class="separator:aef967797053434b99a20fd824212055d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8b4d5da993630da3f44b6923ab3ef02" id="r_ae8b4d5da993630da3f44b6923ab3ef02"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8b4d5da993630da3f44b6923ab3ef02">PACK_COEFF_ELCON_COMMAND_CURRENT_LIMIT</a> = 10.0f</td></tr>
@@ -417,7 +425,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_ae0afd2c16e8c1125c2d62d717a8fc155_icgraph.svg" width="100%" height="450"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_ae0afd2c16e8c1125c2d62d717a8fc155_icgraph.svg" width="100%" height="487"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1039,6 +1047,50 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a8e8d0b3951983e4482e1e0876b77c033_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a8dfaa4cd32ce08921c4b7f6e0a1a61fc" name="a8dfaa4cd32ce08921c4b7f6e0a1a61fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dfaa4cd32ce08921c4b7f6e0a1a61fc">&#9670;&#160;</a></span>CAN_SEND_e_meter_temperature()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_e_meter_temperature </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_max_cell_temp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_min_cell_temp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_avg_cell_temp</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a8dfaa4cd32ce08921c4b7f6e0a1a61fc_cgraph.svg" width="642" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a8dfaa4cd32ce08921c4b7f6e0a1a61fc_icgraph.svg" width="520" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2030,6 +2082,72 @@ Here is the caller graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">float PACK_COEFF_CHARGING_FSM_INTERNALS_VOLTAGE_LIMIT = 10.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5c65af6cf833d41c379907926031081f" name="a5c65af6cf833d41c379907926031081f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c65af6cf833d41c379907926031081f">&#9670;&#160;</a></span>PACK_COEFF_E_METER_TEMPERATURE_AVG_CELL_TEMP</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float PACK_COEFF_E_METER_TEMPERATURE_AVG_CELL_TEMP = 10.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab40fb2c8f32307da9f18f9b7e37fc6c2" name="ab40fb2c8f32307da9f18f9b7e37fc6c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab40fb2c8f32307da9f18f9b7e37fc6c2">&#9670;&#160;</a></span>PACK_COEFF_E_METER_TEMPERATURE_MAX_CELL_TEMP</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float PACK_COEFF_E_METER_TEMPERATURE_MAX_CELL_TEMP = 10.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a415d40cb3ac40c09d13112318bde5d80" name="a415d40cb3ac40c09d13112318bde5d80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a415d40cb3ac40c09d13112318bde5d80">&#9670;&#160;</a></span>PACK_COEFF_E_METER_TEMPERATURE_MIN_CELL_TEMP</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float PACK_COEFF_E_METER_TEMPERATURE_MIN_CELL_TEMP = 10.0f</td>
         </tr>
       </table>
   </td>

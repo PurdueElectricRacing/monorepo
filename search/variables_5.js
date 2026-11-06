@@ -33,7 +33,7 @@ var searchData=
   ['emeter_5fswitch_5ffault_30',['EMETER_SWITCH_FAULT',['../structpdu__fault__sync__data__t.html#a69b0e01f6ef1f9108f29bc576a9b80de',1,'pdu_fault_sync_data_t']]],
   ['end_31',['end',['../structsegment2__t.html#a1a5964ed780b78276dac6d308db9006f',1,'segment2_t']]],
   ['endpoint_32',['endpoint',['../structPHAL__USB__TransferEvent__t.html#ae35eb5b84240c6933ec592d17f33c6a5',1,'PHAL_USB_TransferEvent_t']]],
-  ['energy_33',['energy',['../structE__METER__STATUS__data__t.html#aecaad46483fd56c588ff8c64bc06f452',1,'E_METER_STATUS_data_t']]],
+  ['energy_33',['energy',['../structe__meter__status__data__t.html#a16353c2922f4ed7f01562e820dc88a6e',1,'e_meter_status_data_t']]],
   ['entries_34',['entries',['../structlerp__lut__t.html#a51d33d655932fb544fbe78ac5f5e7fd0',1,'lerp_lut_t']]],
   ['erasegrmul_35',['EraseGrMul',['../structSD__CSD.html#a7aac5c37c5a01ad59f8e54c35985df00',1,'SD_CSD']]],
   ['erasegrsize_36',['EraseGrSize',['../structSD__CSD.html#ab96f260933654d16a42b4682dbe9b823',1,'SD_CSD']]],
