@@ -60,12 +60,13 @@ impl Jitter {
             ui.label(format!("Intervals recorded: {}", deviations.len()));
 
             if !deviations.is_empty() {
-                let worst_error = deviations
-                    .iter()
-                    .copied()
-                    .max_by(|a, b| a.abs().total_cmp(&b.abs()))
-                    .unwrap_or(0.0);
-                let max_abs = worst_error.abs();
+                let minimum = deviations.iter().copied().fold(0.0, f64::min);
+                let maximum = deviations.iter().copied().fold(0.0, f64::max);
+                let worst_error = if minimum.abs() > maximum.abs() {
+                    minimum
+                } else {
+                    maximum
+                };
                 let average = deviations.iter().sum::<f64>() / deviations.len() as f64;
 
                 // Calculate Standard Deviation (% and raw ms)
@@ -107,17 +108,13 @@ impl Jitter {
 
                 // Generate the Bell Curve / Histogram
                 let num_buckets = 200;
-                let bucket_size = ((2.0 * max_abs) / num_buckets as f64).max(0.0001); // Prevent divide-by-zero
-                let min_val = -(bucket_size * num_buckets as f64) / 2.0;
+                let bucket_size = ((maximum - minimum) / num_buckets as f64).max(0.0001); // Prevent divide-by-zero
                 let mut buckets = vec![0; num_buckets + 1];
 
                 // Sort the deviations into the buckets
                 for &dev in &deviations {
-                    let bucket_idx = ((dev - min_val) / bucket_size)
-                        .round()
-                        .clamp(0.0, num_buckets as f64)
-                        as usize;
-                    buckets[bucket_idx] += 1;
+                    let bucket_idx = ((dev - minimum) / bucket_size) as usize;
+                    buckets[bucket_idx.min(num_buckets)] += 1;
                 }
 
                 // Convert the buckets into egui_plot Bars
@@ -125,7 +122,7 @@ impl Jitter {
                     .iter() // Use iter() here so we don't consume the buckets list yet
                     .enumerate()
                     .map(|(i, &count)| {
-                        let x_val = min_val + (i as f64) * bucket_size;
+                        let x_val = minimum + (i as f64) * bucket_size + (bucket_size / 2.0);
                         egui_plot::Bar::new(x_val, count as f64).width(bucket_size * 0.9)
                     })
                     .collect();
