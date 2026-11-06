@@ -31,7 +31,9 @@
 GPIOInitConfig_t gpio_config[] = {
     // LEDs
     GPIO_INIT_OUTPUT(HEARTBEAT_LED_PORT, HEARTBEAT_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
-    GPIO_INIT_OUTPUT(CONNECTION_LED_PORT, CONNECTION_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    GPIO_INIT_OUTPUT(VCAN_LED_PORT, VCAN_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    GPIO_INIT_OUTPUT(MCAN_LED_PORT, MCAN_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
+    GPIO_INIT_OUTPUT(SCAN_LED_PORT, SCAN_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
     GPIO_INIT_OUTPUT(ERROR_LED_PORT, ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
     GPIO_INIT_OUTPUT(SD_ACTIVITY_LED_PORT, SD_ACTIVITY_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
     GPIO_INIT_OUTPUT(SD_ERROR_LED_PORT, SD_ERROR_LED_PIN, GPIO_OUTPUT_LOW_SPEED),
@@ -51,17 +53,18 @@ GPIOInitConfig_t gpio_config[] = {
     GPIO_INIT_SDIO_DT1,
     GPIO_INIT_SDIO_DT2,
     GPIO_INIT_SDIO_DT3,
+
     GPIO_INIT_INPUT(SD_CD_PORT, SD_CD_PIN, GPIO_INPUT_PULL_UP),
     GPIO_INIT_INPUT(LOG_ENABLE_PORT, LOG_ENABLE_PIN, GPIO_INPUT_PULL_DOWN), // ! pull down to fix floating input issue
     GPIO_INIT_INPUT(PWR_LOSS_PORT, PWR_LOSS_PIN, GPIO_INPUT_OPEN_DRAIN), // SPL EXTI
 
     // CAN1
-    GPIO_INIT_CANRX_PA11,
-    GPIO_INIT_CANTX_PA12,
+    GPIO_INIT_CAN1RX_PA11,
+    GPIO_INIT_CAN1TX_PA12,
 
     // CAN2
-    GPIO_INIT_CAN2RX_PB5,
-    GPIO_INIT_CAN2TX_PB6,
+    GPIO_INIT_CAN2RX_PB12,
+    GPIO_INIT_CAN2TX_PB13,
 
     // CAN3
     GPIO_INIT_CAN3RX_PA8,
@@ -75,6 +78,7 @@ extern uint32_t AHBClockRateHz;
 extern uint32_t PLLClockRateHz;
 
 #define TargetCoreClockrateHz 100'000'000
+#define BLINK_PERIOD_MS 500
 ClockRateConfig_t clock_config = {
     .clock_source              = CLOCK_SOURCE_HSE,
     .use_pll                   = true,
@@ -161,12 +165,12 @@ int main() {
 static void configure_interrupts(void) {
     // Configure exti interupt for power loss pin (PE15)
     // Enable the SYSCFG clock for interrupts
-    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
-    SYSCFG->EXTICR[3] |= SYSCFG_EXTICR4_EXTI15_PE; // Map PE15 to EXTI 15
-    EXTI->IMR |= EXTI_IMR_MR15; // Unmask EXTI15
-    EXTI->FTSR |= EXTI_FTSR_TR15; // Enable the falling edge trigger (active low reset)
-    NVIC_SetPriority(EXTI15_10_IRQn, 15); // allow other interrupts to preempt this one (especially systick and dma)
-    NVIC_EnableIRQ(EXTI15_10_IRQn);
+    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN; 
+    SYSCFG->EXTICR[0] |= SYSCFG_EXTICR1_EXTI1_PB; // Map PB1 to EXTI 1
+    EXTI->IMR |= EXTI_IMR_MR1; // Unmask EXTI1
+    EXTI->FTSR |= EXTI_FTSR_TR1; // Enable the falling edge trigger (active low reset)
+    NVIC_SetPriority(EXTI1_IRQn, 15); // allow other interrupts to preempt this one (especially systick and dma)
+    NVIC_EnableIRQ(EXTI1_IRQn);
 }
 
 // disables high power devices to give time for the SD card to flush
@@ -185,12 +189,9 @@ void power_loss_callback(void) {
 
 // Interrupt handler for power loss detection
 // Note: this is set to lowest priority to allow preemption by other interrupts
-void EXTI15_10_IRQHandler() {
-    if (EXTI->PR & EXTI_PR_PR15) {
-        EXTI->PR |= EXTI_PR_PR15; // Clear interrupt
-        // power_loss_callback();
-        // dont call it in the context of the ISR, instead use notify to trigger it
-        // sd_power_loss_callback();
+void EXTI1_IRQHandler() {
+    if (EXTI->PR & EXTI_PR_PR1) {
+        EXTI->PR |= EXTI_PR_PR1; // Clear interrupt
     }
 }
 
