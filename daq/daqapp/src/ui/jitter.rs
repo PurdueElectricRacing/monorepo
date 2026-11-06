@@ -69,6 +69,8 @@ impl Jitter {
                     maximum
                 };
                 let average = deviations.iter().sum::<f64>() / deviations.len() as f64;
+                let mean_abs_error =
+                    deviations.iter().map(|dev| dev.abs()).sum::<f64>() / deviations.len() as f64;
                 let period = self.period_ms as f64;
 
                 // Calculate Standard Deviation (% and raw ms)
@@ -93,7 +95,7 @@ impl Jitter {
                 // Calculate the raw millisecond equivalents
                 let max_ms = (worst_error / 100.0) * period;
                 let p99_ms = (p99_error / 100.0) * period;
-                let avg_ms = (average / 100.0) * period;
+                let avg_ms = (mean_abs_error / 100.0) * period;
 
                 // Print the new labels to the UI
                 ui.label(format!(
@@ -102,7 +104,9 @@ impl Jitter {
                 ui.label(format!(
                     "99th Percentile Error: {p99_error:.2}% ({p99_ms:.2} ms)"
                 ));
-                ui.label(format!("Average Error: {average:.2}% ({avg_ms:.2} ms)"));
+                ui.label(format!(
+                    "Average Error: {mean_abs_error:.2}% ({avg_ms:.2} ms)"
+                ));
                 ui.label(format!("Std Dev: {std_dev_pct:.2}% ({std_dev_ms:.2} ms)"));
 
                 // Generate the Bell Curve / Histogram
