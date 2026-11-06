@@ -39,7 +39,7 @@ static inline void report_internal_state() {
     CAN_SEND_charging_fsm_internals(
         scaled_charge_command_volts,
         scaled_charge_command_amps,
-        g_bms.is_balancing_enabled,
+        ADBMS_is_balancing_enabled(&g_bms),
         charging_state
     );
 }
@@ -72,11 +72,11 @@ static inline void update_charge_command() {
 
 static inline void update_balance_command() {
     if (can_data.charge_request.is_stale()) {
-        g_bms.is_balancing_enabled = false;
+        ADBMS_set_balancing_enabled(&g_bms, false);
         return;
     }
 
-    g_bms.is_balancing_enabled = can_data.charge_request.balance_enable;
+    ADBMS_set_balancing_enabled(&g_bms, can_data.charge_request.balance_enable);
 }
 
 static inline bool is_charging_permitted() {

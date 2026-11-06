@@ -130,8 +130,7 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN3_TX_PA15,
 };
 
-adbms_bms_t g_bms                              = {0};
-uint8_t g_bms_tx_buf[ADBMS_SPI_TX_BUFFER_SIZE] = {0};
+adbms_bms_t g_bms = {0};
 
 static constexpr float MIN_V_FOR_BALANCE     = 3.2f; // hardstop to prevent cell drain
 static constexpr float MIN_DELTA_FOR_BALANCE = 0.05f; // ~3% diff
@@ -162,13 +161,11 @@ int main(void) {
     imd_init();
 
     PHAL_GPIO_write(SPI2_CS_PORT, SPI2_CS_PIN, true);
-    adbms6380_set_cs_high(&bms_spi_config);
+    ADBMS_init(&g_bms, &bms_spi_config);
 
     if (!PHAL_SPI_init(&bms_spi_config)) {
         HardFault_Handler();
     }
-
-    adbms_init(&g_bms, &bms_spi_config, g_bms_tx_buf);
 
     if (false == PHAL_ADC_init(&adc_handle, &adc_config)) {
         HardFault_Handler();
@@ -207,43 +204,50 @@ void bms_task(void) {
     update_fault(FAULT_ID_IMD, imd_faulted);
 
     // ADBMS
-    adbms_periodic(&g_bms, MIN_V_FOR_BALANCE, MIN_DELTA_FOR_BALANCE);
+    ADBMS_periodic(&g_bms, MIN_V_FOR_BALANCE, MIN_DELTA_FOR_BALANCE);
 
     // CAN
-    uint16_t pack_voltage = (uint16_t)(g_bms.sum_voltage * PACK_COEFF_PACK_BMS_PACK_VOLTAGE);
-    uint16_t min_cell_voltage = (uint16_t)(g_bms.min_voltage * PACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE);
-    uint16_t max_cell_voltage = (uint16_t)(g_bms.max_voltage * PACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE);
-    uint8_t max_temp = (uint8_t)CLAMP(g_bms.max_therm_temp, 0, UINT8_MAX);
-    uint8_t avg_temp = (uint8_t)CLAMP(g_bms.avg_therm_temp, 0, UINT8_MAX);
+    float sum_voltage    = ADBMS_get_sum_voltage(&g_bms);
+    float min_voltage    = ADBMS_get_min_voltage(&g_bms);
+    float max_voltage    = ADBMS_get_max_voltage(&g_bms);
+    float min_therm_temp = ADBMS_get_min_therm_temp(&g_bms);
+    float max_therm_temp = ADBMS_get_max_therm_temp(&g_bms);
+    float avg_therm_temp = ADBMS_get_avg_therm_temp(&g_bms);
+
+    uint16_t pack_voltage = (uint16_t)(sum_voltage * PACK_COEFF_PACK_BMS_PACK_VOLTAGE);
+    uint16_t min_cell_voltage = (uint16_t)(min_voltage * PACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE);
+    uint16_t max_cell_voltage = (uint16_t)(max_voltage * PACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE);
+    uint8_t max_temp = (uint8_t)CLAMP(max_therm_temp, 0, UINT8_MAX);
+    uint8_t avg_temp = (uint8_t)CLAMP(avg_therm_temp, 0, UINT8_MAX);
     CAN_SEND_pack_bms(pack_voltage, min_cell_voltage, max_cell_voltage, max_temp, avg_temp);
     CAN_SEND_pack_bms_ccan(pack_voltage, min_cell_voltage, max_cell_voltage, max_temp, avg_temp);
 
     CAN_SEND_bms_pecs(
-        g_bms.err_cell_voltage_pecs[0],
-        g_bms.err_cell_voltage_pecs[1],
-        g_bms.err_cell_voltage_pecs[2],
-        g_bms.err_cell_voltage_pecs[3],
-        g_bms.err_cell_voltage_pecs[4],
-        g_bms.err_cell_voltage_pecs[5],
-        g_bms.err_gpio_voltage_pecs[0],
-        g_bms.err_gpio_voltage_pecs[1],
-        g_bms.err_gpio_voltage_pecs[2],
-        g_bms.err_gpio_voltage_pecs[3]
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 0U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 1U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 2U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 3U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 4U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 5U),
+        ADBMS_get_gpio_voltage_pec_err(&g_bms, 0U),
+        ADBMS_get_gpio_voltage_pec_err(&g_bms, 1U),
+        ADBMS_get_gpio_voltage_pec_err(&g_bms, 2U),
+        ADBMS_get_gpio_voltage_pec_err(&g_bms, 3U)
     );
     CAN_SEND_bms_pecs_ccan(
-        g_bms.err_cell_voltage_pecs[0],
-        g_bms.err_cell_voltage_pecs[1],
-        g_bms.err_cell_voltage_pecs[2],
-        g_bms.err_cell_voltage_pecs[3],
-        g_bms.err_cell_voltage_pecs[4],
-        g_bms.err_cell_voltage_pecs[5],
-        g_bms.err_gpio_voltage_pecs[0],
-        g_bms.err_gpio_voltage_pecs[1],
-        g_bms.err_gpio_voltage_pecs[2],
-        g_bms.err_gpio_voltage_pecs[3]
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 0U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 1U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 2U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 3U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 4U),
+        ADBMS_get_cell_voltage_pec_err(&g_bms, 5U),
+        ADBMS_get_gpio_voltage_pec_err(&g_bms, 0U),
+        ADBMS_get_gpio_voltage_pec_err(&g_bms, 1U),
+        ADBMS_get_gpio_voltage_pec_err(&g_bms, 2U),
+        ADBMS_get_gpio_voltage_pec_err(&g_bms, 3U)
     );
 
-    bool bms_in_fatal = g_bms.state == ADBMS_STATE_FATAL;
+    bool bms_in_fatal = ADBMS_get_state(&g_bms) == ADBMS_STATE_FATAL;
     update_fault(FAULT_ID_BMS_DISCONNECTED, bms_in_fatal);
 
     // Output high for fault
@@ -251,17 +255,17 @@ void bms_task(void) {
     PHAL_GPIO_write(BMS_SDC_CTRL_PORT, BMS_SDC_CTRL_PIN, bms_fault);
 
     // Pack voltage checks
-    update_fault(FAULT_ID_PACK_FULL, g_bms.sum_voltage);
-    update_fault(FAULT_ID_PACK_EMPTY,g_bms.sum_voltage);
+    update_fault(FAULT_ID_PACK_FULL, sum_voltage);
+    update_fault(FAULT_ID_PACK_EMPTY, sum_voltage);
 
     // Cell voltage bounds
-    update_fault(FAULT_ID_CELL_UNDERVOLTAGE, g_bms.min_voltage);
-    update_fault(FAULT_ID_CELL_OVERVOLTAGE, g_bms.max_voltage);
+    update_fault(FAULT_ID_CELL_UNDERVOLTAGE, min_voltage);
+    update_fault(FAULT_ID_CELL_OVERVOLTAGE, max_voltage);
 
     // Temperature related
-    update_fault(FAULT_ID_PACK_OVERTEMP, g_bms.max_therm_temp);
-    update_fault(FAULT_ID_PACK_WARM, g_bms.max_therm_temp);
-    update_fault(FAULT_ID_PACK_COLD, g_bms.min_therm_temp);
+    update_fault(FAULT_ID_PACK_OVERTEMP, max_therm_temp);
+    update_fault(FAULT_ID_PACK_WARM, max_therm_temp);
+    update_fault(FAULT_ID_PACK_COLD, min_therm_temp);
 }
 
 void HardFault_Handler() {
