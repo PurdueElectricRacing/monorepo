@@ -165,12 +165,12 @@ int main() {
 static void configure_interrupts(void) {
     // Configure exti interupt for power loss pin (PE15)
     // Enable the SYSCFG clock for interrupts
-    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
-    SYSCFG->EXTICR[3] |= SYSCFG_EXTICR4_EXTI15_PE; // Map PE15 to EXTI 15
-    EXTI->IMR |= EXTI_IMR_MR15; // Unmask EXTI15
-    EXTI->FTSR |= EXTI_FTSR_TR15; // Enable the falling edge trigger (active low reset)
-    NVIC_SetPriority(EXTI15_10_IRQn, 15); // allow other interrupts to preempt this one (especially systick and dma)
-    NVIC_EnableIRQ(EXTI15_10_IRQn);
+    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN; 
+    SYSCFG->EXTICR[0] |= SYSCFG_EXTICR1_EXTI1_PB; // Map PB1 to EXTI 1
+    EXTI->IMR |= EXTI_IMR_MR1; // Unmask EXTI1
+    EXTI->FTSR |= EXTI_FTSR_TR1; // Enable the falling edge trigger (active low reset)
+    NVIC_SetPriority(EXTI1_IRQn, 15); // allow other interrupts to preempt this one (especially systick and dma)
+    NVIC_EnableIRQ(EXTI1_IRQn);
 }
 
 // disables high power devices to give time for the SD card to flush
@@ -189,12 +189,9 @@ void power_loss_callback(void) {
 
 // Interrupt handler for power loss detection
 // Note: this is set to lowest priority to allow preemption by other interrupts
-void EXTI15_10_IRQHandler() {
-    if (EXTI->PR & EXTI_PR_PR15) {
-        EXTI->PR |= EXTI_PR_PR15; // Clear interrupt
-        // power_loss_callback();
-        // dont call it in the context of the ISR, instead use notify to trigger it
-        // sd_power_loss_callback();
+void EXTI1_IRQHandler() {
+    if (EXTI->PR & EXTI_PR_PR1) {
+        EXTI->PR |= EXTI_PR_PR1; // Clear interrupt
     }
 }
 
