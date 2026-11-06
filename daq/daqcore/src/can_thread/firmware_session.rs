@@ -1,4 +1,4 @@
-use crate::firmware;
+use crate::{firmware, superdbc::decode};
 use std::time;
 
 #[derive(Default)]
@@ -14,11 +14,27 @@ impl FirmwareSession {
         package: firmware::protocol::FirmwarePackage,
         armed: bool,
         connected: bool,
+        bus_name: Option<&str>,
         now: time::Instant,
     ) -> firmware::FirmwareProgress {
         let invalid_image = package.images.iter().any(|image| {
-            image.bytes.is_empty() || image.bytes.len() > firmware::protocol::APPLICATION_SLOT_SIZE
+            let limit = match image.address {
+                firmware::protocol::APPLICATION_ADDRESS => {
+                    firmware::protocol::APPLICATION_SLOT_SIZE
+                }
+                firmware::protocol::BOOTLOADER_ADDRESS => firmware::protocol::BOOTLOADER_SIZE,
+                _ => 0,
+            };
+            image.bytes.is_empty() || image.bytes.len() > limit
         });
+        let mixed_image_kinds = package
+            .images
+            .iter()
+            .any(|image| image.address != package.images[0].address);
+        let bootloader_update = package
+            .images
+            .first()
+            .is_some_and(|image| image.address == firmware::protocol::BOOTLOADER_ADDRESS);
 
         let error = if self.active() {
             Some("another firmware update is running")
@@ -26,8 +42,16 @@ impl FirmwareSession {
             Some("CAN source is disconnected")
         } else if package.images.is_empty() {
             Some("firmware package is empty")
-        } else if invalid_image {
-            Some("firmware image must fit the 480 KiB application slot")
+        } else if package
+            .images
+            .iter()
+            .any(|image| Some(image.can_bus.as_str()) != bus_name)
+        {
+            Some("firmware targets must all use the selected CAN bus")
+        } else if invalid_image || mixed_image_kinds {
+            Some("firmware image exceeds its target region or has an invalid address")
+        } else if armed && bootloader_update {
+            Some("resident bootloader updates cannot be armed")
         } else if armed && package.images.len() != 1 {
             Some("armed updates require exactly one target")
         } else {
@@ -83,6 +107,16 @@ impl FirmwareSession {
             .as_mut()
             .and_then(|updater| updater.on_response(id, data, now));
 
+        self.finish();
+        progress
+    }
+
+    pub fn observe_telemetry(
+        &mut self,
+        decoded: &decode::DecodedMessage,
+        now: time::Instant,
+    ) -> Option<firmware::FirmwareProgress> {
+        let progress = self.0.as_mut()?.observe_telemetry(decoded, now);
         self.finish();
         progress
     }

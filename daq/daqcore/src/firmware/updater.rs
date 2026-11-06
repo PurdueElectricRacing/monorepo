@@ -1,4 +1,4 @@
-use crate::{firmware, frame};
+use crate::{firmware, frame, superdbc::decode};
 use std::time;
 
 // Values mirror bootloader_status_t in firmware/can_library/generated/can_types.h.
@@ -11,7 +11,7 @@ const CRC_ERROR: u8 = 0x03;
 
 // Flash erase/verification operations get a longer timeout; all retries remain bounded.
 const BOOT_TIMEOUT: time::Duration = time::Duration::from_secs(5);
-const JUMP_DELAY: time::Duration = time::Duration::from_millis(700);
+const JUMP_TIMEOUT: time::Duration = time::Duration::from_secs(12);
 const MAX_RETRIES: u8 = 3;
 
 #[derive(Clone, Debug)]
@@ -46,6 +46,7 @@ pub struct FirmwareUpdater {
     pending_frame: Option<OutboundFrame>,
     deadline: time::Instant,
     retries: u8,
+    jump_sent: bool,
 }
 
 pub struct TickResult {
@@ -90,6 +91,7 @@ impl FirmwareUpdater {
             pending_frame: None,
             deadline: now + BOOT_TIMEOUT,
             retries: 0,
+            jump_sent: false,
         };
 
         let first = updater.current_image();
@@ -105,6 +107,52 @@ impl FirmwareUpdater {
 
         let progress = updater.progress(phase, None);
         (updater, progress)
+    }
+
+    /// Only telemetry received after sending JUMP can confirm the hand-off.
+    pub fn observe_telemetry(
+        &mut self,
+        decoded: &decode::DecodedMessage,
+        now: time::Instant,
+    ) -> Option<firmware::FirmwareProgress> {
+        if !matches!(self.stage, Stage::WaitJump) || !self.jump_sent {
+            return None;
+        }
+        let image = self.current_image();
+        let application_name = match image.name.as_str() {
+            "main_module" => "main_version",
+            "dashboard" => "dash_version",
+            "torque_vector" => "torque_vector_version",
+            "a_box" => "abox_version",
+            "front_driveline" => "front_driveline_version",
+            "rear_driveline" => "rear_driveline_version",
+            _ => return None,
+        };
+        let expected_name = if image.address == firmware::protocol::BOOTLOADER_ADDRESS {
+            format!("bl_{}_info", image.name)
+        } else {
+            application_name.to_owned()
+        };
+        if decoded.name() != expected_name {
+            return None;
+        }
+        let hash = decoded.signal("git_hash")?.int_rounded() as u32;
+        if image.git_hash.is_some_and(|expected| expected != hash) {
+            return None;
+        }
+        if self.board_index + 1 < self.package.images.len() {
+            self.board_index += 1;
+            self.byte_offset = 0;
+            self.stage = Stage::WaitReady;
+            self.retries = 0;
+            self.jump_sent = false;
+            self.deadline = now + BOOT_TIMEOUT;
+            self.pending_frame = Some(Self::start_frame(self.current_image()));
+            Some(self.progress("requesting bootloader", None))
+        } else {
+            self.stage = Stage::Finished;
+            Some(self.progress("complete", None))
+        }
     }
 
     fn current_image(&self) -> &firmware::protocol::FirmwareImage {
@@ -174,6 +222,10 @@ impl FirmwareUpdater {
         }
 
         if let Some(frame) = self.pending_frame.take() {
+            if matches!(self.stage, Stage::WaitJump) {
+                self.jump_sent = true;
+                self.deadline = now + JUMP_TIMEOUT;
+            }
             return TickResult {
                 frame: Some(frame),
                 progress: None,
@@ -199,23 +251,11 @@ impl FirmwareUpdater {
                 ),
                 Stage::WaitCrcAck => (Some(Self::crc_frame(self.current_image())), "retrying CRC"),
                 Stage::WaitJump => {
-                    // JUMP transfers control to the application and has no response.
-                    if self.board_index + 1 < self.package.images.len() {
-                        self.board_index += 1;
-                        self.byte_offset = 0;
-                        self.stage = Stage::WaitReady;
-                        self.retries = 0;
-                        self.deadline = now + BOOT_TIMEOUT;
-                        let frame = Self::start_frame(self.current_image());
-                        return TickResult {
-                            frame: Some(frame),
-                            progress: Some(self.progress("requesting bootloader", None)),
-                        };
-                    }
-                    self.stage = Stage::Finished;
+                    let progress = self
+                        .fail("no fresh target telemetry after JUMP; launch not verified".into());
                     return TickResult {
                         frame: None,
-                        progress: Some(self.progress("complete", None)),
+                        progress: Some(progress),
                     };
                 }
                 Stage::Armed => {
@@ -376,9 +416,9 @@ impl FirmwareUpdater {
             Stage::WaitCrcAck if status == ACK => {
                 let jump_frame = Self::jump_frame(self.current_image());
                 self.stage = Stage::WaitJump;
-                self.deadline = now + JUMP_DELAY;
+                self.deadline = now + JUMP_TIMEOUT;
                 self.pending_frame = Some(jump_frame);
-                Some(self.progress("launching application", None))
+                Some(self.progress("waiting for post-JUMP telemetry", None))
             }
             _ => None,
         }

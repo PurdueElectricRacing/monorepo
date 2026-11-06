@@ -44,6 +44,10 @@
 #define BL_APP_END            (BL_APP_ADDRESS + BL_APP_SLOT_SIZE - 1U)
 #define BL_RESERVED_ADDRESS   (BL_FLASH_END + 1U)
 #define BL_RESERVED_SIZE      0U
+/** Start of the resident bootloader region applications may reprogram. */
+#define BL_BOOTLOADER_ADDRESS BL_FLASH_BASE
+/** Size of the resident bootloader region applications may reprogram. */
+#define BL_BOOTLOADER_REGION_SIZE (BL_METADATA_ADDRESS - BL_FLASH_BASE)
 
 _Static_assert(BL_METADATA_ADDRESS == (BL_FLASH_BASE + (16U * 1024U)),
                "Bootloader metadata must follow the 16 KiB resident image");
@@ -87,6 +91,51 @@ _Static_assert((sizeof(BootloaderMetadata_t) % BL_FLASH_WRITE_SIZE) == 0U,
 
 /** Return the installed resident bootloader hash, or zero when unavailable. */
 uint32_t BL_getGitHash(void);
+
+/**
+ * @brief Begin reprogramming the resident bootloader from the application.
+ *
+ * Erases the complete bootloader region and prepares to accept the image words.
+ * A bootloader-aware application handles this protocol while it is running; the
+ * resident bootloader cannot reprogram the region it executes from. Replies
+ * with BOOTLOADER_STATUS_ACK(size_bytes) or BOOTLOADER_STATUS_ERROR.
+ *
+ * @param size_bytes Word-aligned image size no larger than BL_BOOTLOADER_REGION_SIZE.
+ * @return true when the region is erased and index zero is accepted.
+ */
+bool BL_bootloaderUpdateStart(uint32_t size_bytes);
+
+/**
+ * @brief Program one sequential image word into the bootloader region.
+ *
+ * Duplicate indices are ignored; a gap cancels the transfer. Pairs of words are
+ * written as one 64-bit flash word, padding an unpaired final word with 0xFF.
+ * Replies with BOOTLOADER_STATUS_ERROR on a locked, sequence, address, or flash
+ * failure.
+ *
+ * @param index Zero-based word index within the announced image.
+ * @param word  Image word at @p index.
+ * @return true when the word is accepted or already programmed.
+ */
+bool BL_bootloaderUpdateWord(uint32_t index, uint32_t word);
+
+/**
+ * @brief Validate the received bootloader image and confirm it.
+ *
+ * Verifies the image CRC, initial stack pointer, and reset vector before
+ * replying BOOTLOADER_STATUS_ACK(calculated_crc) or BOOTLOADER_STATUS_CRC_ERROR.
+ *
+ * @param expected_crc Host-computed CRC-32/MPEG-2 over the image words.
+ * @return true when the image passes validation and is confirmed.
+ */
+bool BL_bootloaderUpdateCrc(uint32_t expected_crc);
+
+/**
+ * @brief Reset the device so the newly programmed resident bootloader runs.
+ *
+ * @return Never; the device restarts.
+ */
+bool BL_bootloaderUpdateJump(void);
 
 /** @brief Detail values accompanying BOOTLOADER_STATUS_ERROR. */
 typedef enum {

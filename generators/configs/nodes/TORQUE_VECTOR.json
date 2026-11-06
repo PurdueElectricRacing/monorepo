@@ -155,6 +155,22 @@
                     ],
                     "period_ms": 5000,
                     "priority": 4
+                },
+                {
+                    "message_name": "bl_torque_vector_bootloader_resp",
+                    "description": "Resident bootloader update response for torque vector",
+                    "signals": [
+                        {
+                            "signal_name": "status",
+                            "data_type": "bootloader_status_t"
+                        },
+                        {
+                            "signal_name": "detail",
+                            "data_type": "uint32_t"
+                        }
+                    ],
+                    "id_override": "0x01D",
+                    "priority": 0
                 }
             ],
             "rx": [
@@ -193,6 +209,22 @@
                 },
                 {
                     "message_name": "bl_torque_vector_start",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_torque_vector_bootloader_start",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_torque_vector_bootloader_data",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_torque_vector_bootloader_crc",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_torque_vector_bootloader_jump",
                     "callback": true
                 }
             ]
