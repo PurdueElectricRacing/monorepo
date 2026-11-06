@@ -1,8 +1,8 @@
 #[derive(serde::Serialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
-    Cannector(CannectorChannel),
     Udp(u16),
+    Cannector,
     Simulated(bool), // true for connected, false for disconnected
     Loopback,
 }
@@ -13,6 +13,9 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
         D: serde::Deserializer<'de>,
     {
         let value = serde_json::Value::deserialize(deserializer)?;
+        if value.as_str() == Some("Cannector") {
+            return Ok(Self::Cannector);
+        }
         if value.as_str() == Some("Loopback") {
             return Ok(Self::Loopback);
         }
@@ -33,12 +36,6 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
                     "Serial connection source must contain path and speed",
                 )),
             };
-        }
-
-        if let Some(channel) = object.get("Cannector") {
-            return Ok(Self::Cannector(
-                serde_json::from_value(channel.clone()).map_err(serde::de::Error::custom)?,
-            ));
         }
 
         if let Some(port) = object.get("Udp") {
@@ -74,9 +71,7 @@ impl ConnectionSource {
             ConnectionSource::Serial(path, speed) => {
                 format!("Serial: {} ({})", path, speed.display_name())
             }
-            ConnectionSource::Cannector(channel) => {
-                format!("CANnector USB: {} (500k, RX only)", channel.display_name())
-            }
+            ConnectionSource::Cannector => "CANnector (USB)".into(),
             ConnectionSource::Udp(port) => format!("UDP: {}", port),
             ConnectionSource::Simulated(connected) => {
                 if *connected {
