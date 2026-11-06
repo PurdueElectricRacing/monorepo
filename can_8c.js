@@ -5,6 +5,8 @@ var can_8c =
     [ "CAN1_TX_IRQHandler", "can_8c.html#af98ac8adc0ee3edc95863fab9bc77a29", null ],
     [ "CAN2_RX0_IRQHandler", "can_8c.html#abf0ada95bd65ea0a24a25606a59a319d", null ],
     [ "CAN2_TX_IRQHandler", "can_8c.html#abc8a61d83a243d1d571a628a10f55733", null ],
+    [ "CAN3_RX0_IRQHandler", "can_8c.html#ab71a0ae5b567661d91322ce748f594fe", null ],
+    [ "CAN3_TX_IRQHandler", "can_8c.html#a13fb1992929ef513ed8c977e2611abce", null ],
     [ "configure_filters", "can_8c.html#acae4ecda758065ea655c06f9f493f315", null ],
     [ "get_bit_timing", "can_8c.html#a831a0bf6a293d9697b6ed975ad87e850", null ],
     [ "is_valid_bus", "can_8c.html#aa877b8e7dc2458f103b534a8851939f9", null ],

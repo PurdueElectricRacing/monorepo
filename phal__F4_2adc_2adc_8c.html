@@ -111,26 +111,26 @@ Include dependency graph for adc.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af6535c258806559b8e64a6a26bf304a3" id="r_af6535c258806559b8e64a6a26bf304a3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6535c258806559b8e64a6a26bf304a3">PHAL_initADC</a> (ADC_TypeDef *adc, <a class="el" href="structADCInitConfig__t.html">ADCInitConfig_t</a> *<a class="el" href="ethernet_8c.html#afdcaea2c7210f2679ea25aefc7f9bfd4">config</a>, <a class="el" href="structADCChannelConfig__t.html">ADCChannelConfig_t</a> channels[], uint8_t num_channels)</td></tr>
-<tr class="memdesc:af6535c258806559b8e64a6a26bf304a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the ADC, requires GPIO config prior.  <br /></td></tr>
-<tr class="separator:af6535c258806559b8e64a6a26bf304a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23932b8ec76a6b766af8b9036eb35e56" id="r_a23932b8ec76a6b766af8b9036eb35e56"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23932b8ec76a6b766af8b9036eb35e56">PHAL_startADC</a> (ADC_TypeDef *adc)</td></tr>
-<tr class="memdesc:a23932b8ec76a6b766af8b9036eb35e56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the ADC conversions, requires PHAL_initADC to be called prior.  <br /></td></tr>
-<tr class="separator:a23932b8ec76a6b766af8b9036eb35e56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3db42e7d07d6b3ed2bbffd5d36627b5" id="r_ab3db42e7d07d6b3ed2bbffd5d36627b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3db42e7d07d6b3ed2bbffd5d36627b5">PHAL_stopADC</a> (ADC_TypeDef *adc)</td></tr>
-<tr class="memdesc:ab3db42e7d07d6b3ed2bbffd5d36627b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the ADC conversions, requires PHAL_initADC to be called prior.  <br /></td></tr>
-<tr class="separator:ab3db42e7d07d6b3ed2bbffd5d36627b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26bb2a11a3a7492c2e7ac2eb004234d8" id="r_a26bb2a11a3a7492c2e7ac2eb004234d8"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26bb2a11a3a7492c2e7ac2eb004234d8">PHAL_readADC</a> (ADC_TypeDef *adc)</td></tr>
-<tr class="memdesc:a26bb2a11a3a7492c2e7ac2eb004234d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the ADC data register.  <br /></td></tr>
-<tr class="separator:a26bb2a11a3a7492c2e7ac2eb004234d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae40226a1d0575a52ce95e5ac385719e3" id="r_ae40226a1d0575a52ce95e5ac385719e3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae40226a1d0575a52ce95e5ac385719e3">PHAL_initADC</a> (<a class="el" href="structADCInitConfig__t.html">ADCInitConfig_t</a> *<a class="el" href="ethernet_8c.html#afdcaea2c7210f2679ea25aefc7f9bfd4">config</a>, <a class="el" href="structADCChannelConfig__t.html">ADCChannelConfig_t</a> channels[], uint8_t num_channels)</td></tr>
+<tr class="memdesc:ae40226a1d0575a52ce95e5ac385719e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes ADC1, requires GPIO config prior.  <br /></td></tr>
+<tr class="separator:ae40226a1d0575a52ce95e5ac385719e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c2bde8dc0194f77846a1e5f3615e7c9" id="r_a1c2bde8dc0194f77846a1e5f3615e7c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c2bde8dc0194f77846a1e5f3615e7c9">PHAL_startADC</a> (void)</td></tr>
+<tr class="memdesc:a1c2bde8dc0194f77846a1e5f3615e7c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts ADC1 conversions, requires PHAL_initADC to be called prior.  <br /></td></tr>
+<tr class="separator:a1c2bde8dc0194f77846a1e5f3615e7c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1581f5539e1f1cb961e4e534a744d36" id="r_ad1581f5539e1f1cb961e4e534a744d36"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1581f5539e1f1cb961e4e534a744d36">PHAL_stopADC</a> (void)</td></tr>
+<tr class="memdesc:ad1581f5539e1f1cb961e4e534a744d36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops ADC1 conversions, requires PHAL_initADC to be called prior.  <br /></td></tr>
+<tr class="separator:ad1581f5539e1f1cb961e4e534a744d36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48d3da7c677956e927127f9235fc3ca3" id="r_a48d3da7c677956e927127f9235fc3ca3"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48d3da7c677956e927127f9235fc3ca3">PHAL_readADC</a> (void)</td></tr>
+<tr class="memdesc:a48d3da7c677956e927127f9235fc3ca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the ADC1 data register.  <br /></td></tr>
+<tr class="separator:a48d3da7c677956e927127f9235fc3ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Aditya Anand, Chris McGalliard - port of L4 HAL by Luke Oxley (<a href="#" onclick="location.href='mai'+'lto:'+'lco'+'xl'+'ey@'+'pu'+'rdu'+'e.'+'edu'; return false;">lcoxl<span class="obfuscator">.nosp@m.</span>ey@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2023-09-17 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="af6535c258806559b8e64a6a26bf304a3" name="af6535c258806559b8e64a6a26bf304a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6535c258806559b8e64a6a26bf304a3">&#9670;&#160;</a></span>PHAL_initADC()</h2>
+<a id="ae40226a1d0575a52ce95e5ac385719e3" name="ae40226a1d0575a52ce95e5ac385719e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae40226a1d0575a52ce95e5ac385719e3">&#9670;&#160;</a></span>PHAL_initADC()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -138,11 +138,6 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool PHAL_initADC </td>
           <td>(</td>
-          <td class="paramtype">ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>adc</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="structADCInitConfig__t.html">ADCInitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
         </tr>
         <tr>
@@ -158,21 +153,21 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initializes the ADC, requires GPIO config prior. </p>
+<p>Initializes ADC1, requires GPIO config prior. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">adc</td><td>ADC handle </td></tr>
     <tr><td class="paramname">config</td><td>ADC initial config settings </td></tr>
     <tr><td class="paramname">channels</td><td>List of channel configurations </td></tr>
     <tr><td class="paramname">num_channels</td><td>Number of channels in the channel configuration list </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>false if config is null. </dd></dl>
 
 </div>
 </div>
-<a id="a26bb2a11a3a7492c2e7ac2eb004234d8" name="a26bb2a11a3a7492c2e7ac2eb004234d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26bb2a11a3a7492c2e7ac2eb004234d8">&#9670;&#160;</a></span>PHAL_readADC()</h2>
+<a id="a48d3da7c677956e927127f9235fc3ca3" name="a48d3da7c677956e927127f9235fc3ca3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48d3da7c677956e927127f9235fc3ca3">&#9670;&#160;</a></span>PHAL_readADC()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,25 +175,19 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">uint16_t PHAL_readADC </td>
           <td>(</td>
-          <td class="paramtype">ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>adc</em></span></td><td>)</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Reads the ADC data register. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">adc</td><td>ADC handle </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Reads the ADC1 data register. </p>
 <dl class="section return"><dt>Returns</dt><dd>contents of the data register </dd></dl>
 
 </div>
 </div>
-<a id="a23932b8ec76a6b766af8b9036eb35e56" name="a23932b8ec76a6b766af8b9036eb35e56"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23932b8ec76a6b766af8b9036eb35e56">&#9670;&#160;</a></span>PHAL_startADC()</h2>
+<a id="a1c2bde8dc0194f77846a1e5f3615e7c9" name="a1c2bde8dc0194f77846a1e5f3615e7c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c2bde8dc0194f77846a1e5f3615e7c9">&#9670;&#160;</a></span>PHAL_startADC()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,24 +195,18 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool PHAL_startADC </td>
           <td>(</td>
-          <td class="paramtype">ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>adc</em></span></td><td>)</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Starts the ADC conversions, requires PHAL_initADC to be called prior. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">adc</td><td>ADC handle </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Starts ADC1 conversions, requires PHAL_initADC to be called prior. </p>
 
 </div>
 </div>
-<a id="ab3db42e7d07d6b3ed2bbffd5d36627b5" name="ab3db42e7d07d6b3ed2bbffd5d36627b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3db42e7d07d6b3ed2bbffd5d36627b5">&#9670;&#160;</a></span>PHAL_stopADC()</h2>
+<a id="ad1581f5539e1f1cb961e4e534a744d36" name="ad1581f5539e1f1cb961e4e534a744d36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1581f5539e1f1cb961e4e534a744d36">&#9670;&#160;</a></span>PHAL_stopADC()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -231,19 +214,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool PHAL_stopADC </td>
           <td>(</td>
-          <td class="paramtype">ADC_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>adc</em></span></td><td>)</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Stops the ADC conversions, requires PHAL_initADC to be called prior. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">adc</td><td>ADC handle </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Stops ADC1 conversions, requires PHAL_initADC to be called prior. </p>
 
 </div>
 </div>

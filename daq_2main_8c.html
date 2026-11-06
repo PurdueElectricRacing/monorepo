@@ -109,6 +109,7 @@ $(function(){initNavTree('daq_2main_8c.html',''); initResizable(true); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="daq_2main_8h_source.html">main.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="MCAN_8h_source.html">can_library/generated/MCAN.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="SCAN_8h_source.html">can_library/generated/SCAN.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="VCAN_8h_source.html">can_library/generated/VCAN.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="heartbeat_8h_source.html">common/heartbeat/heartbeat.h</a>&quot;</code><br />
@@ -131,7 +132,7 @@ Include dependency graph for main.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a041cbdf351ae1da6f864d0d249c93008" id="r_a041cbdf351ae1da6f864d0d249c93008"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a041cbdf351ae1da6f864d0d249c93008">TargetCoreClockrateHz</a>&#160;&#160;&#160;168'000'000</td></tr>
+<tr class="memitem:a041cbdf351ae1da6f864d0d249c93008" id="r_a041cbdf351ae1da6f864d0d249c93008"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a041cbdf351ae1da6f864d0d249c93008">TargetCoreClockrateHz</a>&#160;&#160;&#160;100'000'000</td></tr>
 <tr class="separator:a041cbdf351ae1da6f864d0d249c93008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -197,7 +198,7 @@ Luke Oxley (<a href="#" onclick="location.href='mai'+'lto:'+'lco'+'xl'+'ey@'+'pu
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define TargetCoreClockrateHz&#160;&#160;&#160;168'000'000</td>
+          <td class="memname">#define TargetCoreClockrateHz&#160;&#160;&#160;100'000'000</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -555,16 +556,17 @@ Here is the call graph for this function:</div>
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
 <div class="line">    .clock_source              = <a class="code hl_enumvalue" href="phal__F4_2rcc_2rcc_8h.html#a02e55ce66a310468cd5996a5769a1e77a83999f711affe9959bfc98c0dd47ed23">CLOCK_SOURCE_HSE</a>,</div>
 <div class="line">    .use_pll                   = <span class="keyword">true</span>,</div>
+<div class="line">    .use_plli2s_for_48mhz      = <span class="keyword">true</span>,</div>
 <div class="line">    .pll_src                   = <a class="code hl_enumvalue" href="phal__F4_2rcc_2rcc_8h.html#adeb732f119f49950327326f5e4d20522a90c35a70486e9eacb68fe3febf7dd078">PLL_SRC_HSE</a>,</div>
-<div class="line">    .vco_output_rate_target_hz = 336&#39;000&#39;000,</div>
+<div class="line">    .vco_output_rate_target_hz = 200&#39;000&#39;000,</div>
 <div class="line">    .system_clock_target_hz    = <a class="code hl_define" href="#a041cbdf351ae1da6f864d0d249c93008">TargetCoreClockrateHz</a>,</div>
 <div class="line">    .ahb_clock_target_hz       = (<a class="code hl_define" href="#a041cbdf351ae1da6f864d0d249c93008">TargetCoreClockrateHz</a> / 1),</div>
 <div class="line">    .apb1_clock_target_hz      = (<a class="code hl_define" href="#a041cbdf351ae1da6f864d0d249c93008">TargetCoreClockrateHz</a> / 4),</div>
 <div class="line">    .apb2_clock_target_hz      = (<a class="code hl_define" href="#a041cbdf351ae1da6f864d0d249c93008">TargetCoreClockrateHz</a> / 4),</div>
 <div class="line">}</div>
-<div class="ttc" id="adaq_2main_8c_html_a041cbdf351ae1da6f864d0d249c93008"><div class="ttname"><a href="#a041cbdf351ae1da6f864d0d249c93008">TargetCoreClockrateHz</a></div><div class="ttdeci">#define TargetCoreClockrateHz</div><div class="ttdef"><b>Definition</b> main.c:72</div></div>
-<div class="ttc" id="aphal__F4_2rcc_2rcc_8h_html_a02e55ce66a310468cd5996a5769a1e77a83999f711affe9959bfc98c0dd47ed23"><div class="ttname"><a href="phal__F4_2rcc_2rcc_8h.html#a02e55ce66a310468cd5996a5769a1e77a83999f711affe9959bfc98c0dd47ed23">CLOCK_SOURCE_HSE</a></div><div class="ttdeci">@ CLOCK_SOURCE_HSE</div><div class="ttdef"><b>Definition</b> rcc.h:65</div></div>
-<div class="ttc" id="aphal__F4_2rcc_2rcc_8h_html_adeb732f119f49950327326f5e4d20522a90c35a70486e9eacb68fe3febf7dd078"><div class="ttname"><a href="phal__F4_2rcc_2rcc_8h.html#adeb732f119f49950327326f5e4d20522a90c35a70486e9eacb68fe3febf7dd078">PLL_SRC_HSE</a></div><div class="ttdeci">@ PLL_SRC_HSE</div><div class="ttdef"><b>Definition</b> rcc.h:43</div></div>
+<div class="ttc" id="adaq_2main_8c_html_a041cbdf351ae1da6f864d0d249c93008"><div class="ttname"><a href="#a041cbdf351ae1da6f864d0d249c93008">TargetCoreClockrateHz</a></div><div class="ttdeci">#define TargetCoreClockrateHz</div><div class="ttdef"><b>Definition</b> main.c:77</div></div>
+<div class="ttc" id="aphal__F4_2rcc_2rcc_8h_html_a02e55ce66a310468cd5996a5769a1e77a83999f711affe9959bfc98c0dd47ed23"><div class="ttname"><a href="phal__F4_2rcc_2rcc_8h.html#a02e55ce66a310468cd5996a5769a1e77a83999f711affe9959bfc98c0dd47ed23">CLOCK_SOURCE_HSE</a></div><div class="ttdeci">@ CLOCK_SOURCE_HSE</div><div class="ttdef"><b>Definition</b> rcc.h:63</div></div>
+<div class="ttc" id="aphal__F4_2rcc_2rcc_8h_html_adeb732f119f49950327326f5e4d20522a90c35a70486e9eacb68fe3febf7dd078"><div class="ttname"><a href="phal__F4_2rcc_2rcc_8h.html#adeb732f119f49950327326f5e4d20522a90c35a70486e9eacb68fe3febf7dd078">PLL_SRC_HSE</a></div><div class="ttdeci">@ PLL_SRC_HSE</div><div class="ttdef"><b>Definition</b> rcc.h:41</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -580,6 +582,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    .data_rate     = 12&#39;500&#39;000, </div>
 <div class="line">    .data_len      = 8,</div>
 <div class="line">    .nss_sw        = <span class="keyword">false</span>,</div>
 <div class="line">    .nss_gpio_port = <a class="code hl_define" href="daq_2main_8h.html#a2107ae7691edb9a15edccada3ee54a43">ETH_CS_PORT</a>,</div>
@@ -588,10 +591,10 @@ Here is the call graph for this function:</div>
 <div class="line">    .tx_dma_cfg    = &amp;<a class="code hl_variable" href="#ac9d88a12a20b964301d43f839eee3f94">spi_tx_dma_config</a>,</div>
 <div class="line">    .<a class="code hl_variable" href="structdma__init__t.html#a76980a0cbb123155c1912dc30cf9285e">periph</a>        = SPI1,</div>
 <div class="line">}</div>
-<div class="ttc" id="adaq_2main_8c_html_a048ceaccc44b006a77f0c988ae1877ce"><div class="ttname"><a href="#a048ceaccc44b006a77f0c988ae1877ce">spi_rx_dma_config</a></div><div class="ttdeci">dma_init_t spi_rx_dma_config</div><div class="ttdef"><b>Definition</b> main.c:85</div></div>
-<div class="ttc" id="adaq_2main_8c_html_ac9d88a12a20b964301d43f839eee3f94"><div class="ttname"><a href="#ac9d88a12a20b964301d43f839eee3f94">spi_tx_dma_config</a></div><div class="ttdeci">dma_init_t spi_tx_dma_config</div><div class="ttdef"><b>Definition</b> main.c:86</div></div>
-<div class="ttc" id="adaq_2main_8h_html_a2107ae7691edb9a15edccada3ee54a43"><div class="ttname"><a href="daq_2main_8h.html#a2107ae7691edb9a15edccada3ee54a43">ETH_CS_PORT</a></div><div class="ttdeci">#define ETH_CS_PORT</div><div class="ttdef"><b>Definition</b> main.h:34</div></div>
-<div class="ttc" id="adaq_2main_8h_html_a8c72b0130a3a8067c2e9ce362cd305b9"><div class="ttname"><a href="daq_2main_8h.html#a8c72b0130a3a8067c2e9ce362cd305b9">ETH_CS_PIN</a></div><div class="ttdeci">#define ETH_CS_PIN</div><div class="ttdef"><b>Definition</b> main.h:35</div></div>
+<div class="ttc" id="adaq_2main_8c_html_a048ceaccc44b006a77f0c988ae1877ce"><div class="ttname"><a href="#a048ceaccc44b006a77f0c988ae1877ce">spi_rx_dma_config</a></div><div class="ttdeci">dma_init_t spi_rx_dma_config</div><div class="ttdef"><b>Definition</b> main.c:91</div></div>
+<div class="ttc" id="adaq_2main_8c_html_ac9d88a12a20b964301d43f839eee3f94"><div class="ttname"><a href="#ac9d88a12a20b964301d43f839eee3f94">spi_tx_dma_config</a></div><div class="ttdeci">dma_init_t spi_tx_dma_config</div><div class="ttdef"><b>Definition</b> main.c:92</div></div>
+<div class="ttc" id="adaq_2main_8h_html_a2107ae7691edb9a15edccada3ee54a43"><div class="ttname"><a href="daq_2main_8h.html#a2107ae7691edb9a15edccada3ee54a43">ETH_CS_PORT</a></div><div class="ttdeci">#define ETH_CS_PORT</div><div class="ttdef"><b>Definition</b> main.h:35</div></div>
+<div class="ttc" id="adaq_2main_8h_html_a8c72b0130a3a8067c2e9ce362cd305b9"><div class="ttname"><a href="daq_2main_8h.html#a8c72b0130a3a8067c2e9ce362cd305b9">ETH_CS_PIN</a></div><div class="ttdeci">#define ETH_CS_PIN</div><div class="ttdef"><b>Definition</b> main.h:36</div></div>
 <div class="ttc" id="astructdma__init__t_html_a76980a0cbb123155c1912dc30cf9285e"><div class="ttname"><a href="structdma__init__t.html#a76980a0cbb123155c1912dc30cf9285e">dma_init_t::periph</a></div><div class="ttdeci">DMA_TypeDef * periph</div><div class="ttdef"><b>Definition</b> dma.h:35</div></div>
 </div><!-- fragment -->
 </div>

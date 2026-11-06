@@ -98,5 +98,6 @@ var searchData=
   ['usb_5fpriv_5fstatus_5fvalid_95',['USB_PRIV_STATUS_VALID',['../usb__priv_8c.html#a11a84a6e5cfb7633c2db88163ca2b0d4',1,'usb_priv.c']]],
   ['usb_5fproduct_5fname_96',['USB_PRODUCT_NAME',['../usb__descriptors_8h.html#ac97e116fbc5cf0c6c4bf5e70d7277c2a',1,'usb_descriptors.h']]],
   ['usb_5fproduct_5fstring_5findex_97',['USB_PRODUCT_STRING_INDEX',['../usb__descriptors_8h.html#af56d8fe62e6a5118bf08849e11b4ba89',1,'usb_descriptors.h']]],
-  ['use_5fpll_98',['use_pll',['../structClockRateConfig__t.html#acac53bfa913d0aee434ec90f5acdc394',1,'ClockRateConfig_t']]]
+  ['use_5fpll_98',['use_pll',['../structClockRateConfig__t.html#acac53bfa913d0aee434ec90f5acdc394',1,'ClockRateConfig_t']]],
+  ['use_5fplli2s_5ffor_5f48mhz_99',['use_plli2s_for_48mhz',['../structClockRateConfig__t.html#aa758a575fb537b0a131ded62cf768f22',1,'ClockRateConfig_t']]]
 ];

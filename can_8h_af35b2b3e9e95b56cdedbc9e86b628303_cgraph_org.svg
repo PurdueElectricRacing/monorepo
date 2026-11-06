@@ -74,7 +74,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="spmc_8c.html#aa5d44422fa9926dd46517b00c1416841" target="_top" xlink:title="Enqueues a received CAN message into the SPMC buffer from an ISR context. ! the two producer ISRs mus...">
+<g id="a_Node000005"><a xlink:href="spmc_8c.html#aa5d44422fa9926dd46517b00c1416841" target="_top" xlink:title="Enqueues a received CAN message into the SPMC buffer from an ISR context. ! the three producer ISRs m...">
 <polygon fill="white" stroke="#666666" points="288.5,-19.25 155.5,-19.25 155.5,0 288.5,0 288.5,-19.25"/>
 <text text-anchor="middle" x="222" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">SPMC_enqueue_from_ISR</text>
 </a>

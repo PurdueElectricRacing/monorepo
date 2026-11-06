@@ -8,10 +8,13 @@ var phal__F4_2gpio_2gpio_8h =
     [ "GPIO_INIT_OUTPUT", "phal__F4_2gpio_2gpio_8h.html#a3e9b27b94f7c10702f9a82a6b87d31a5", null ],
     [ "GPIO_INIT_OUTPUT_OPEN_DRAIN", "phal__F4_2gpio_2gpio_8h.html#a8ad755fa19c86966f386fd96ac5c1283", null ],
     [ "GPIO_INIT_SDIO_CLK", "phal__F4_2gpio_2gpio_8h.html#ae7a7e83c92511ee52bb89d28a5b52fb3", null ],
+    [ "GPIO_INIT_SDIO_CLK_PB15", "phal__F4_2gpio_2gpio_8h.html#a04ad67253cea35425a9f8009f7bddd05", null ],
     [ "GPIO_INIT_SDIO_CMD", "phal__F4_2gpio_2gpio_8h.html#a88b363794fe4f8c5034f72ee157ddbcd", null ],
+    [ "GPIO_INIT_SDIO_CMD_PA6", "phal__F4_2gpio_2gpio_8h.html#af73c493a457af8b02339772ea6a6ebb3", null ],
     [ "GPIO_INIT_SDIO_DT0", "phal__F4_2gpio_2gpio_8h.html#a26c482a4cad6faedaca9b37c1b98d74b", null ],
     [ "GPIO_INIT_SDIO_DT1", "phal__F4_2gpio_2gpio_8h.html#ad218dc69d5d4bb96baf68003fed14340", null ],
     [ "GPIO_INIT_SDIO_DT2", "phal__F4_2gpio_2gpio_8h.html#abecf0ada9b3911882c9b825de9d9a85c", null ],
+    [ "GPIO_INIT_SDIO_DT2_PA9", "phal__F4_2gpio_2gpio_8h.html#a7582a6a461ecf77646aba505d815bc2e", null ],
     [ "GPIO_INIT_SDIO_DT3", "phal__F4_2gpio_2gpio_8h.html#af21ca806681aa376af548363dc40ff95", null ],
     [ "GPIOInputPull_t", "phal__F4_2gpio_2gpio_8h.html#ae55c4a0103f207b80bce6ee4413b8a23", [
       [ "GPIO_INPUT_OPEN_DRAIN", "phal__F4_2gpio_2gpio_8h.html#ae55c4a0103f207b80bce6ee4413b8a23a7dfaecf9a2876e9573415842538af8d8", null ],

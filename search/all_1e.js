@@ -226,7 +226,9 @@ var searchData=
   ['use_5ffdcan2_223',['USE_FDCAN2',['../A__BOX_8h.html#a09389f719514180e1356522315f12b33',1,'USE_FDCAN2:&#160;A_BOX.h'],['../BL__DASHBOARD_8h.html#a09389f719514180e1356522315f12b33',1,'USE_FDCAN2:&#160;BL_DASHBOARD.h'],['../BL__MAIN__MODULE_8h.html#a09389f719514180e1356522315f12b33',1,'USE_FDCAN2:&#160;BL_MAIN_MODULE.h'],['../BL__TORQUE__VECTOR_8h.html#a09389f719514180e1356522315f12b33',1,'USE_FDCAN2:&#160;BL_TORQUE_VECTOR.h'],['../DASHBOARD_8h.html#a09389f719514180e1356522315f12b33',1,'USE_FDCAN2:&#160;DASHBOARD.h'],['../G4__TESTING_8h.html#a09389f719514180e1356522315f12b33',1,'USE_FDCAN2:&#160;G4_TESTING.h'],['../MAIN__MODULE_8h.html#a09389f719514180e1356522315f12b33',1,'USE_FDCAN2:&#160;MAIN_MODULE.h'],['../PDU_8h.html#a09389f719514180e1356522315f12b33',1,'USE_FDCAN2:&#160;PDU.h'],['../TORQUE__VECTOR_8h.html#a09389f719514180e1356522315f12b33',1,'USE_FDCAN2:&#160;TORQUE_VECTOR.h']]],
   ['use_5ffdcan3_224',['USE_FDCAN3',['../A__BOX_8h.html#a68f162d00f13a607ac12d1142ff42be9',1,'USE_FDCAN3:&#160;A_BOX.h'],['../DASHBOARD_8h.html#a68f162d00f13a607ac12d1142ff42be9',1,'USE_FDCAN3:&#160;DASHBOARD.h']]],
   ['use_5fpll_225',['use_pll',['../structClockRateConfig__t.html#acac53bfa913d0aee434ec90f5acdc394',1,'ClockRateConfig_t']]],
-  ['using_20the_20debugging_20tools_226',['Using the Debugging Tools',['../md_docs_2deploy__n__debug.html#autotoc_md107',1,'']]],
-  ['utility_20functions_227',['PER Utility Functions',['../md_firmware_2common_2utils_2README.html',1,'']]],
-  ['utility_20libraries_228',['Utility libraries',['../md_firmware_2common_2README.html#autotoc_md76',1,'']]]
+  ['use_5fplli2s_5ffor_5f48mhz_226',['use_plli2s_for_48mhz',['../structClockRateConfig__t.html#aa758a575fb537b0a131ded62cf768f22',1,'ClockRateConfig_t']]],
+  ['user_5fflash_5fend_5faddress_227',['USER_FLASH_END_ADDRESS',['../phal__F4_2flash_2flash_8h.html#a4f0a8629e7ecc999503c0054da5538a3',1,'flash.h']]],
+  ['using_20the_20debugging_20tools_228',['Using the Debugging Tools',['../md_docs_2deploy__n__debug.html#autotoc_md107',1,'']]],
+  ['utility_20functions_229',['PER Utility Functions',['../md_firmware_2common_2utils_2README.html',1,'']]],
+  ['utility_20libraries_230',['Utility libraries',['../md_firmware_2common_2README.html#autotoc_md76',1,'']]]
 ];

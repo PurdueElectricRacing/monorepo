@@ -7,6 +7,7 @@ var can_8h =
     [ "PHAL_CAN_24MHZ_1M", "can_8h.html#ad78a17a4d057bb1206a5e4ea0668ce2f", null ],
     [ "PHAL_CAN_24MHZ_250K", "can_8h.html#a03b769ca093cfe7daebcabb3ebcb7ec2", null ],
     [ "PHAL_CAN_24MHZ_500K", "can_8h.html#a206805a8d85d4c26f41d3f3c6dfb864d", null ],
+    [ "PHAL_CAN_25MHZ_500K", "can_8h.html#a3c2dfbc5bbfa062499587e4e7a0d9d65", null ],
     [ "PHAL_CAN_36MHZ_1M", "can_8h.html#aa1b9723700ad5efc6bb04ab679819881", null ],
     [ "PHAL_CAN_36MHZ_250K", "can_8h.html#aa37f93f5dd5ed47de708b5a5a58d344c", null ],
     [ "PHAL_CAN_36MHZ_500K", "can_8h.html#a5b47da2183950beb7b21bd39493c929e", null ],

@@ -105,7 +105,7 @@ $(function(){initNavTree('phal__F4_2usart_2usart_8h_source.html',''); initResiza
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define _PHAL_USART_H_</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">// Includes</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#if defined(STM32F407xx)</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#if defined(STM32F423xx)</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#define TOTAL_NUM_UART 8</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">// Active Transfer list indexes (Add to this list if updating TOTAL_NUM_UART)</span></div>
@@ -124,7 +124,7 @@ $(function(){initNavTree('phal__F4_2usart_2usart_8h_source.html',''); initResiza
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="phal__F4_2usart_2usart_8h.html#a44e0b82277af9738fcb79164886954c9">   33</a></span><span class="keyword">typedef</span> uint32_t <a class="code hl_typedef" href="phal__F4_2usart_2usart_8h.html#a44e0b82277af9738fcb79164886954c9">ptr_int</a>;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">// See USART section of Family reference manual (RM0090 for F4, or RM0431 for F7) for configuration information</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">// See RM0430 section 28.4 for USART configuration information</span></div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">// Enumerations</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment">// See Table 146 in RM. 0090</span></div>
@@ -248,7 +248,7 @@ $(function(){initNavTree('phal__F4_2usart_2usart_8h_source.html',''); initResiza
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code hl_function" href="phal__F4_2usart_2usart_8h.html#a61341976b0cee71be1b6cf3bc17db4de">usart_recieve_complete_callback</a>(<a class="code hl_struct" href="structusart__init__t.html">usart_init_t</a>* handle);</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="preprocessor">#ifdef STM32F407xx</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="preprocessor">#ifdef STM32F423xx</span></div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="comment">// 4,5,7,8 are UART, rest are USART</span></div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="preprocessor">#define PHAL_USART1_RXDMA_STREAM DMA2_Stream5</span></div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="preprocessor">#define PHAL_USART1_TXDMA_STREAM DMA2_Stream7</span></div>
@@ -325,7 +325,7 @@ $(function(){initNavTree('phal__F4_2usart_2usart_8h_source.html',''); initResiza
 <div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="preprocessor">#define USART4_RXDMA_CONT_CONFIG(a, p) _DEF_USART_RXDMA_CONFIG(a, p, UART4, 1, 2, 4)</span></div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><span class="preprocessor">#define USART4_TXDMA_CONT_CONFIG(a, p) _DEF_USART_TXDMA_CONFIG(a, p, UART4, 1, 4, 4)</span></div>
 <div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span><span class="preprocessor">#define USART5_RXDMA_CONT_CONFIG(a, p) _DEF_USART_RXDMA_CONFIG(a, p, UART5, 1, 0, 4)</span></div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span><span class="preprocessor">#define USART5_TXDMA_CONT_CONFIG(a, p) _DEF_USART_TXDMA_CONFIG(a, p, UART5, 1, 7, 4)</span></div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span><span class="preprocessor">#define USART5_TXDMA_CONT_CONFIG(a, p) _DEF_USART_TXDMA_CONFIG(a, p, UART5, 1, 7, 8)</span></div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="preprocessor">#define USART6_RXDMA_CONT_CONFIG(a, p) _DEF_USART_RXDMA_CONFIG(a, p, USART6, 2, 1, 5)</span></div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span><span class="preprocessor">#define USART6_TXDMA_CONT_CONFIG(a, p) _DEF_USART_TXDMA_CONFIG(a, p, USART6, 2, 6, 5)</span></div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>

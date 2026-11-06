@@ -1,5 +1,6 @@
 var phal__F4_2rcc_2rcc_8c =
 [
+    [ "configurePLLI2S48MHz", "phal__F4_2rcc_2rcc_8c.html#acf7350a29aa7d9ff37144dc0bf8de9e7", null ],
     [ "PHAL_configureAHBClock", "phal__F4_2rcc_2rcc_8c.html#a1509d2e2c10b134bcc26f1465881db33", null ],
     [ "PHAL_configureAPB1Clock", "phal__F4_2rcc_2rcc_8c.html#a0bbab857de2d2d1e08975dc977b68342", null ],
     [ "PHAL_configureAPB2Clock", "phal__F4_2rcc_2rcc_8c.html#acb32cd6570e5e56268df32a141c188f0", null ],

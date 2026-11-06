@@ -391,10 +391,10 @@ Macros</h2></td></tr>
 <tr class="memitem:aa5972c381e6cfed2137ba88dd3987ed0" id="r_aa5972c381e6cfed2137ba88dd3987ed0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5972c381e6cfed2137ba88dd3987ed0">SDIO_DATABLOCKSIZE</a>&#160;&#160;&#160;((uint32_t)((9 &lt;&lt; 4)))</td></tr>
 <tr class="separator:aa5972c381e6cfed2137ba88dd3987ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3afd2159b8f378c90ccd48a4afab3691" id="r_a3afd2159b8f378c90ccd48a4afab3691"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3afd2159b8f378c90ccd48a4afab3691">SDIO_INIT_CLK_DIV</a>&#160;&#160;&#160;((uint8_t)118)</td></tr>
-<tr class="memdesc:a3afd2159b8f378c90ccd48a4afab3691"><td class="mdescLeft">&#160;</td><td class="mdescRight">SDIO Intialization Frequency (400KHz max)  <br /></td></tr>
+<tr class="memdesc:a3afd2159b8f378c90ccd48a4afab3691"><td class="mdescLeft">&#160;</td><td class="mdescRight">SDIO initialization: 48 MHz kernel / (118 + 2) = 400 kHz.  <br /></td></tr>
 <tr class="separator:a3afd2159b8f378c90ccd48a4afab3691"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad37fe2cf88496122b5fdf14ae7f529b5" id="r_ad37fe2cf88496122b5fdf14ae7f529b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad37fe2cf88496122b5fdf14ae7f529b5">SDIO_TRANSFER_CLK_DIV</a>&#160;&#160;&#160;((uint8_t)0)</td></tr>
-<tr class="memdesc:ad37fe2cf88496122b5fdf14ae7f529b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">SDIO Data Transfer Frequency (25MHz max)  <br /></td></tr>
+<tr class="memdesc:ad37fe2cf88496122b5fdf14ae7f529b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">SDIO transfer: 48 MHz kernel / (0 + 2) = 24 MHz (25 MHz max).  <br /></td></tr>
 <tr class="separator:ad37fe2cf88496122b5fdf14ae7f529b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3f9516a5e6764baf2083f76f4bc0eea" id="r_ad3f9516a5e6764baf2083f76f4bc0eea"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3f9516a5e6764baf2083f76f4bc0eea">SD_DMA_MODE</a>&#160;&#160;&#160;((uint32_t)0x00000000)</td></tr>
 <tr class="separator:ad3f9516a5e6764baf2083f76f4bc0eea"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2214,7 +2214,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>SDIO Intialization Frequency (400KHz max) </p>
+<p>SDIO initialization: 48 MHz kernel / (118 + 2) = 400 kHz. </p>
 
 </div>
 </div>
@@ -2332,7 +2332,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>SDIO Data Transfer Frequency (25MHz max) </p>
+<p>SDIO transfer: 48 MHz kernel / (0 + 2) = 24 MHz (25 MHz max). </p>
 
 </div>
 </div>

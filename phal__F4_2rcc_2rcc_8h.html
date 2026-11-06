@@ -129,10 +129,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a6f4ca605cce4be908b761c7a5bb90692" id="r_a6f4ca605cce4be908b761c7a5bb90692"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f4ca605cce4be908b761c7a5bb90692">HSE_CLOCK_RATE_HZ</a>&#160;&#160;&#160;(16000000)</td></tr>
+<tr class="memitem:a6f4ca605cce4be908b761c7a5bb90692" id="r_a6f4ca605cce4be908b761c7a5bb90692"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f4ca605cce4be908b761c7a5bb90692">HSE_CLOCK_RATE_HZ</a>&#160;&#160;&#160;(HSE_VALUE)</td></tr>
 <tr class="separator:a6f4ca605cce4be908b761c7a5bb90692"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a806f47f30aefdcc387743342ac78fe31" id="r_a806f47f30aefdcc387743342ac78fe31"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a806f47f30aefdcc387743342ac78fe31">HSE_CLOCK_RATE_HZ_INVALID</a>&#160;&#160;&#160;(1) /* High Speed External oscilator value */</td></tr>
-<tr class="separator:a806f47f30aefdcc387743342ac78fe31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a931e4bece2bc8e45e95492702b1a79db" id="r_a931e4bece2bc8e45e95492702b1a79db"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a931e4bece2bc8e45e95492702b1a79db">HSI_CLOCK_RATE_HZ</a>&#160;&#160;&#160;(16000000)</td></tr>
 <tr class="separator:a931e4bece2bc8e45e95492702b1a79db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e83112285247a22f8b4caa6740395b4" id="r_a2e83112285247a22f8b4caa6740395b4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e83112285247a22f8b4caa6740395b4">MCO_OUT_PIN</a>&#160;&#160;&#160;(8)</td></tr>
@@ -173,6 +171,7 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="#ab6f8f367c97e6af2cbbd58fed3d29e49ae1561336b193fd1af4c08f5475244a20">RCC_ERROR_PLLSYS_INIT</a> = 4
 , <a class="el" href="#ab6f8f367c97e6af2cbbd58fed3d29e49a8110d7e9cdd461241fd2f3255736cb7e">RCC_ERROR_PLLVCO_INIT</a> = 5
 , <a class="el" href="#ab6f8f367c97e6af2cbbd58fed3d29e49a4c8f52a1fc27b2921fdf63639ccae65c">RCC_ERROR_HSE_INIT</a> = 6
+, <a class="el" href="#ab6f8f367c97e6af2cbbd58fed3d29e49ac61ef878af266e21bb1352301af87758">RCC_ERROR_PLLI2S_INIT</a> = 7
 <br />
  }</td></tr>
 <tr class="separator:ab6f8f367c97e6af2cbbd58fed3d29e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,21 +223,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HSE_CLOCK_RATE_HZ&#160;&#160;&#160;(16000000)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a806f47f30aefdcc387743342ac78fe31" name="a806f47f30aefdcc387743342ac78fe31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a806f47f30aefdcc387743342ac78fe31">&#9670;&#160;</a></span>HSE_CLOCK_RATE_HZ_INVALID</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define HSE_CLOCK_RATE_HZ_INVALID&#160;&#160;&#160;(1) /* High Speed External oscilator value */</td>
+          <td class="memname">#define HSE_CLOCK_RATE_HZ&#160;&#160;&#160;(HSE_VALUE)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -370,6 +355,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="ab6f8f367c97e6af2cbbd58fed3d29e49ae1561336b193fd1af4c08f5475244a20" name="ab6f8f367c97e6af2cbbd58fed3d29e49ae1561336b193fd1af4c08f5475244a20"></a>RCC_ERROR_PLLSYS_INIT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab6f8f367c97e6af2cbbd58fed3d29e49a8110d7e9cdd461241fd2f3255736cb7e" name="ab6f8f367c97e6af2cbbd58fed3d29e49a8110d7e9cdd461241fd2f3255736cb7e"></a>RCC_ERROR_PLLVCO_INIT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab6f8f367c97e6af2cbbd58fed3d29e49a4c8f52a1fc27b2921fdf63639ccae65c" name="ab6f8f367c97e6af2cbbd58fed3d29e49a4c8f52a1fc27b2921fdf63639ccae65c"></a>RCC_ERROR_HSE_INIT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab6f8f367c97e6af2cbbd58fed3d29e49ac61ef878af266e21bb1352301af87758" name="ab6f8f367c97e6af2cbbd58fed3d29e49ac61ef878af266e21bb1352301af87758"></a>RCC_ERROR_PLLI2S_INIT&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -515,7 +501,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="phal__F4_2rcc_2rcc_8h_a7e9d115c0ba7b71bc58eafed17751479_cgraph.svg" width="463" height="332"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="phal__F4_2rcc_2rcc_8h_a7e9d115c0ba7b71bc58eafed17751479_cgraph.svg" width="463" height="382"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>

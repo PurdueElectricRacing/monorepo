@@ -2,7 +2,6 @@ var phal__F4_2rcc_2rcc_8h =
 [
     [ "ClockRateConfig_t", "structClockRateConfig__t.html", "structClockRateConfig__t" ],
     [ "HSE_CLOCK_RATE_HZ", "phal__F4_2rcc_2rcc_8h.html#a6f4ca605cce4be908b761c7a5bb90692", null ],
-    [ "HSE_CLOCK_RATE_HZ_INVALID", "phal__F4_2rcc_2rcc_8h.html#a806f47f30aefdcc387743342ac78fe31", null ],
     [ "HSI_CLOCK_RATE_HZ", "phal__F4_2rcc_2rcc_8h.html#a931e4bece2bc8e45e95492702b1a79db", null ],
     [ "MCO_OUT_PIN", "phal__F4_2rcc_2rcc_8h.html#a2e83112285247a22f8b4caa6740395b4", null ],
     [ "ClockSrc_t", "phal__F4_2rcc_2rcc_8h.html#a02e55ce66a310468cd5996a5769a1e77", [
@@ -33,7 +32,8 @@ var phal__F4_2rcc_2rcc_8h =
       [ "RCC_ERROR_HSI_INIT", "phal__F4_2rcc_2rcc_8h.html#ab6f8f367c97e6af2cbbd58fed3d29e49a8ecafd8427b2e0ccd9ac81f6d03bf57e", null ],
       [ "RCC_ERROR_PLLSYS_INIT", "phal__F4_2rcc_2rcc_8h.html#ab6f8f367c97e6af2cbbd58fed3d29e49ae1561336b193fd1af4c08f5475244a20", null ],
       [ "RCC_ERROR_PLLVCO_INIT", "phal__F4_2rcc_2rcc_8h.html#ab6f8f367c97e6af2cbbd58fed3d29e49a8110d7e9cdd461241fd2f3255736cb7e", null ],
-      [ "RCC_ERROR_HSE_INIT", "phal__F4_2rcc_2rcc_8h.html#ab6f8f367c97e6af2cbbd58fed3d29e49a4c8f52a1fc27b2921fdf63639ccae65c", null ]
+      [ "RCC_ERROR_HSE_INIT", "phal__F4_2rcc_2rcc_8h.html#ab6f8f367c97e6af2cbbd58fed3d29e49a4c8f52a1fc27b2921fdf63639ccae65c", null ],
+      [ "RCC_ERROR_PLLI2S_INIT", "phal__F4_2rcc_2rcc_8h.html#ab6f8f367c97e6af2cbbd58fed3d29e49ac61ef878af266e21bb1352301af87758", null ]
     ] ],
     [ "PHAL_configureAHBClock", "phal__F4_2rcc_2rcc_8h.html#a1509d2e2c10b134bcc26f1465881db33", null ],
     [ "PHAL_configureAPB1Clock", "phal__F4_2rcc_2rcc_8h.html#a0bbab857de2d2d1e08975dc977b68342", null ],

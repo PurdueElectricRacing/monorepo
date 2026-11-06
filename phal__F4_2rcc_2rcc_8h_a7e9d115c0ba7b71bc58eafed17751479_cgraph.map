@@ -1,17 +1,19 @@
 <map id="PHAL_configureClockRates" name="PHAL_configureClockRates">
-<area shape="rect" id="Node000001" title="Configure all AHB/APB/System clocks from the provided configuration." alt="" coords="5,153,189,179"/>
-<area shape="rect" id="Node000002" href="$phal__F4_2rcc_2rcc_8c.html#a1509d2e2c10b134bcc26f1465881db33" title="Configure AHB Clock rate by modifying the AHB prescaler value." alt="" coords="258,5,436,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,151,158,97,195,66,235,40,248,34,250,39,238,45,198,70,162,101,111,155"/>
-<area shape="rect" id="Node000003" href="$phal__F4_2rcc_2rcc_8c.html#a0bbab857de2d2d1e08975dc977b68342" title="Configure APB1 Clock rate by modifying the APB1 prescaler value." alt="" coords="255,55,438,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="117,151,170,120,236,89,256,82,258,87,238,94,172,124,120,155"/>
-<area shape="rect" id="Node000004" href="$phal__F4_2rcc_2rcc_8c.html#acb32cd6570e5e56268df32a141c188f0" title="Configure APB1 Clock rate by modifying the APB2 prescaler value." alt="" coords="255,104,438,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="165,150,263,131,264,136,166,155"/>
-<area shape="rect" id="Node000005" href="$phal__F4_2rcc_2rcc_8c.html#ac2cfc3641ee4abbb3480dc5f401a7235" title="Configure HSE CLK as the System Clock. SHOULD BE DONE BEFORE ANY OF THE AHB OR APB CLOCKS ARE CHANGED..." alt="" coords="237,153,457,179"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="189,164,221,164,221,169,189,169"/>
-<area shape="rect" id="Node000006" href="$phal__F4_2rcc_2rcc_8c.html#a29b119d6f21bf411f02442d651ac4ff9" title="Configure HSI CLK as the System Clock. SHOULD BE DONE BEFORE ANY OF THE AHB OR APB CLOCKS ARE CHANGED..." alt="" coords="239,203,455,228"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="166,177,264,196,263,202,165,182"/>
-<area shape="rect" id="Node000007" href="$phal__F4_2rcc_2rcc_8c.html#abd0ea1bcc85ce9ff20dc37966d0286d0" title="Configure PLL CLK as the System Clock at the desired target frequency. SHOULD BE DONE BEFORE ANY OF T..." alt="" coords="238,252,456,278"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="120,177,172,208,238,238,258,245,256,250,236,243,170,213,117,182"/>
-<area shape="rect" id="Node000008" href="$phal__F4_2rcc_2rcc_8c.html#ae8e3a1b142cf74b1b38984c805673cf5" title="Configure PLL VCO Clock rate The VCO clock is the input clock for the different PLL outputs...." alt="" coords="262,301,432,327"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="111,178,162,232,198,262,238,288,250,293,248,298,235,293,195,267,158,236,107,181"/>
+<area shape="rect" id="Node000001" title="Configure all AHB/APB/System clocks from the provided configuration." alt="" coords="5,179,189,204"/>
+<area shape="rect" id="Node000002" href="$phal__F4_2rcc_2rcc_8c.html#acf7350a29aa7d9ff37144dc0bf8de9e7" title=" " alt="" coords="267,5,426,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,177,154,111,191,72,235,40,251,32,254,37,238,44,195,76,158,114,109,180"/>
+<area shape="rect" id="Node000003" href="$phal__F4_2rcc_2rcc_8c.html#a1509d2e2c10b134bcc26f1465881db33" title="Configure AHB Clock rate by modifying the AHB prescaler value." alt="" coords="258,55,436,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="111,176,163,133,198,109,236,89,251,83,253,88,238,94,201,114,166,137,114,180"/>
+<area shape="rect" id="Node000004" href="$phal__F4_2rcc_2rcc_8c.html#a0bbab857de2d2d1e08975dc977b68342" title="Configure APB1 Clock rate by modifying the APB1 prescaler value." alt="" coords="255,104,438,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="130,176,236,138,262,131,264,136,237,143,132,181"/>
+<area shape="rect" id="Node000005" href="$phal__F4_2rcc_2rcc_8c.html#acb32cd6570e5e56268df32a141c188f0" title="Configure APB1 Clock rate by modifying the APB2 prescaler value." alt="" coords="255,153,438,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="189,180,239,174,240,180,190,185"/>
+<area shape="rect" id="Node000006" href="$phal__F4_2rcc_2rcc_8c.html#ac2cfc3641ee4abbb3480dc5f401a7235" title="Configure HSE CLK as the System Clock. SHOULD BE DONE BEFORE ANY OF THE AHB OR APB CLOCKS ARE CHANGED..." alt="" coords="237,203,457,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="190,198,221,201,221,206,189,203"/>
+<area shape="rect" id="Node000007" href="$phal__F4_2rcc_2rcc_8c.html#a29b119d6f21bf411f02442d651ac4ff9" title="Configure HSI CLK as the System Clock. SHOULD BE DONE BEFORE ANY OF THE AHB OR APB CLOCKS ARE CHANGED..." alt="" coords="239,252,455,278"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="133,202,237,238,265,245,263,251,236,243,131,207"/>
+<area shape="rect" id="Node000008" href="$phal__F4_2rcc_2rcc_8c.html#abd0ea1bcc85ce9ff20dc37966d0286d0" title="Configure PLL CLK as the System Clock at the desired target frequency. SHOULD BE DONE BEFORE ANY OF T..." alt="" coords="238,301,456,327"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="115,203,167,245,201,268,238,288,253,294,251,299,236,293,198,273,163,249,111,207"/>
+<area shape="rect" id="Node000009" href="$phal__F4_2rcc_2rcc_8c.html#ae8e3a1b142cf74b1b38984c805673cf5" title="Configure PLL VCO Clock rate The VCO clock is the input clock for the different PLL outputs...." alt="" coords="262,351,432,376"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="109,203,158,268,195,306,238,337,249,343,246,347,235,342,191,310,154,272,104,206"/>
 </map>

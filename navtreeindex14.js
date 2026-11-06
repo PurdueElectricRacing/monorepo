@@ -1,5 +1,8 @@
 var NAVTREEINDEX14 =
 {
+"lap__timer_8c.html#a7220f3edbfb4c8e5b3956ab663092676":[34,0,1,2,4,2,0,5],
+"lap__timer_8c.html#a7493e5f951bef3893ee50a9eff6d9565":[34,0,1,2,4,2,0,7],
+"lap__timer_8c.html#a8d23b35ef5885a379cace15e9861478f":[34,0,1,2,4,2,0,1],
 "lap__timer_8c.html#a922bb1fc5c4fe5ec8f82bc735890ee69":[34,0,1,2,4,2,0,3],
 "lap__timer_8c.html#aafe0175f912d425adac2bb7d450643a3":[34,0,1,2,4,2,0,0],
 "lap__timer_8c.html#ac15d5d84d2d64875ce0d0c0352af35e3":[34,0,1,2,4,2,0,4],
@@ -246,8 +249,5 @@ var NAVTREEINDEX14 =
 "md_docs_2setup.html#autotoc_md126":[28,3,0,2],
 "md_docs_2setup.html#autotoc_md127":[28,3,1],
 "md_docs_2setup.html#autotoc_md128":[28,3,1,0],
-"md_docs_2setup.html#autotoc_md129":[28,3,1,1],
-"md_docs_2setup.html#autotoc_md130":[28,3,2],
-"md_docs_2setup.html#autotoc_md131":[28,3,2,0],
-"md_docs_2setup.html#autotoc_md132":[28,3,2,1]
+"md_docs_2setup.html#autotoc_md129":[28,3,1,1]
 };

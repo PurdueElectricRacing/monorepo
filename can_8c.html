@@ -147,6 +147,10 @@ Functions</h2></td></tr>
 <tr class="separator:abf0ada95bd65ea0a24a25606a59a319d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc8a61d83a243d1d571a628a10f55733" id="r_abc8a61d83a243d1d571a628a10f55733"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc8a61d83a243d1d571a628a10f55733">CAN2_TX_IRQHandler</a> (void)</td></tr>
 <tr class="separator:abc8a61d83a243d1d571a628a10f55733"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab71a0ae5b567661d91322ce748f594fe" id="r_ab71a0ae5b567661d91322ce748f594fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab71a0ae5b567661d91322ce748f594fe">CAN3_RX0_IRQHandler</a> (void)</td></tr>
+<tr class="separator:ab71a0ae5b567661d91322ce748f594fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13fb1992929ef513ed8c977e2611abce" id="r_a13fb1992929ef513ed8c977e2611abce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13fb1992929ef513ed8c977e2611abce">CAN3_TX_IRQHandler</a> (void)</td></tr>
+<tr class="separator:a13fb1992929ef513ed8c977e2611abce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abea544fd85dbc838418e27db4c2842df" id="r_abea544fd85dbc838418e27db4c2842df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abea544fd85dbc838418e27db4c2842df">PHAL_CAN_txCallback</a> (CAN_TypeDef *can)</td></tr>
 <tr class="separator:abea544fd85dbc838418e27db4c2842df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af35b2b3e9e95b56cdedbc9e86b628303" id="r_af35b2b3e9e95b56cdedbc9e86b628303"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af35b2b3e9e95b56cdedbc9e86b628303">PHAL_CAN_rxCallback</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
@@ -257,6 +261,50 @@ Here is the call graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_abc8a61d83a243d1d571a628a10f55733_cgraph.svg" width="523" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ab71a0ae5b567661d91322ce748f594fe" name="ab71a0ae5b567661d91322ce748f594fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab71a0ae5b567661d91322ce748f594fe">&#9670;&#160;</a></span>CAN3_RX0_IRQHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CAN3_RX0_IRQHandler </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_ab71a0ae5b567661d91322ce748f594fe_cgraph.svg" width="531" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a13fb1992929ef513ed8c977e2611abce" name="a13fb1992929ef513ed8c977e2611abce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13fb1992929ef513ed8c977e2611abce">&#9670;&#160;</a></span>CAN3_TX_IRQHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CAN3_TX_IRQHandler </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_a13fb1992929ef513ed8c977e2611abce_cgraph.svg" width="523" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -392,7 +440,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initialize the bus with an accept-all FIFO0 filter, waiting for hardware acknowledgement. Bus must be CAN1 or CAN2 (nullptr is rejected). Return false for an invalid bus or unsupported clock/baud combination, before changing hardware. </p>
+<p>Initialize the bus with an accept-all FIFO0 filter, waiting for hardware acknowledgement. Bus must be CAN1, CAN2 or CAN3 (nullptr is rejected). Return false for an invalid bus or unsupported clock/baud combination, before changing hardware. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -423,7 +471,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_af35b2b3e9e95b56cdedbc9e86b628303_icgraph.svg" width="531" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_af35b2b3e9e95b56cdedbc9e86b628303_icgraph.svg" width="531" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -510,7 +558,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_abea544fd85dbc838418e27db4c2842df_icgraph.svg" width="523" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_abea544fd85dbc838418e27db4c2842df_icgraph.svg" width="523" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -568,7 +616,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_a119953e088a16dc5b750316803e9e8d4_icgraph.svg" width="324" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_a119953e088a16dc5b750316803e9e8d4_icgraph.svg" width="324" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -603,7 +651,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_affe063fbeee14da999c1a5006a63720f_icgraph.svg" width="316" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="can_8c_affe063fbeee14da999c1a5006a63720f_icgraph.svg" width="316" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

@@ -126,13 +126,13 @@ SPMC Queue</h1>
 <li>High throughput</li>
 <li>DMA friendly</li>
 </ul>
-<p>DAQ26 setup:</p><ul>
-<li>Producer(s): CAN1 and CAN2 ISRs</li>
+<p>DAQ27 setup:</p><ul>
+<li>Producers: CAN1/SCAN, CAN2/VCAN and CAN3/MCAN RX0 ISRs</li>
 <li>Master Consumer: SD thread</li>
 <li>Follower Consumer: Ethernet thread</li>
 </ul>
 <p>Notes:</p><ul>
-<li>Even though there are actually two producing ISRs (CAN1 and CAN2), they have the same priority and cannot preempt each other, so we can treat them as a single producer for the purposes of this data structure.</li>
+<li>Even though there are three producing ISRs, they have the same priority and cannot preempt each other, so we can treat them as a single producer for the purposes of this data structure.</li>
 <li>Data is returned to the consumers in contiguous chunks to optimize for DMA transfers.<ul>
 <li>The total capacity of the buffer is sized to be a multiple of chunk size to prevent fragmentation.</li>
 </ul>
