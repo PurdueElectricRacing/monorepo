@@ -108,12 +108,12 @@ impl Jitter {
                 // Generate the Bell Curve / Histogram
                 let num_buckets = 200;
                 let bucket_size = ((maximum - minimum) / num_buckets as f64).max(0.0001); // Prevent divide-by-zero
-                let mut buckets = vec![0; num_buckets + 1];
+                let mut buckets = vec![0; num_buckets];
 
                 // Sort the deviations into the buckets
                 for &dev in &deviations {
                     let bucket_idx = ((dev - minimum) / bucket_size) as usize;
-                    buckets[bucket_idx.min(num_buckets)] += 1;
+                    buckets[bucket_idx.min(num_buckets - 1)] += 1;
                 }
 
                 // Convert the buckets into egui_plot Bars
