@@ -313,7 +313,7 @@
                 },
                 {
                     "message_name": "cell_telemetry_ccan",
-                    "description": "Individual cell voltages and balancing status",
+                    "description": "Individual physical module cell voltages and balancing status",
                     "signals": [
                         {
                             "signal_name": "voltage",
@@ -324,12 +324,12 @@
                         },
                         {
                             "signal_name": "module_num",
-                            "description": "Module number of the cell being reported, 0 indexed",
+                            "description": "Physical module number of the cell being reported, 0-indexed (0..4)",
                             "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "cell_num",
-                            "description": "Cell number within the module, 0 indexed",
+                            "description": "Physical cell number within the module, 0-indexed (0..28)",
                             "data_type": "uint8_t"
                         },
                         {
@@ -343,7 +343,7 @@
                 },
                 {
                     "message_name": "thermistor_telemetry_ccan",
-                    "description": "Individual thermistor readings",
+                    "description": "Individual physical module thermistor readings",
                     "signals": [
                         {
                             "signal_name": "temperature",
@@ -354,12 +354,12 @@
                         },
                         {
                             "signal_name": "module_num",
-                            "description": "Module number of the cell being reported, 0 indexed",
+                            "description": "Physical module number of the thermistor being reported, 0-indexed (0..4)",
                             "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "thermistor_num",
-                            "description": "Thermistor number within the module, 0 indexed",
+                            "description": "Logical thermistor number within the physical module, 0-indexed (0..19)",
                             "data_type": "uint8_t"
                         }
                     ],
@@ -440,7 +440,7 @@
                 },
                 {
                     "message_name": "cell_telemetry",
-                    "description": "Individual cell voltages and balancing status",
+                    "description": "Individual physical module cell voltages and balancing status",
                     "signals": [
                         {
                             "signal_name": "voltage",
@@ -451,12 +451,12 @@
                         },
                         {
                             "signal_name": "module_num",
-                            "description": "Module number of the cell being reported, 0 indexed",
+                            "description": "Physical module number of the cell being reported, 0-indexed (0..4)",
                             "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "cell_num",
-                            "description": "Cell number within the module, 0 indexed",
+                            "description": "Physical cell number within the module, 0-indexed (0..28)",
                             "data_type": "uint8_t"
                         },
                         {
@@ -470,7 +470,7 @@
                 },
                 {
                     "message_name": "thermistor_telemetry",
-                    "description": "Individual thermistor readings",
+                    "description": "Individual physical module thermistor readings",
                     "signals": [
                         {
                             "signal_name": "temperature",
@@ -481,12 +481,12 @@
                         },
                         {
                             "signal_name": "module_num",
-                            "description": "Module number of the cell being reported, 0 indexed",
+                            "description": "Physical module number of the thermistor being reported, 0-indexed (0..4)",
                             "data_type": "uint8_t"
                         },
                         {
                             "signal_name": "thermistor_num",
-                            "description": "Thermistor number within the module, 0 indexed",
+                            "description": "Logical thermistor number within the physical module, 0-indexed (0..19)",
                             "data_type": "uint8_t"
                         }
                     ],
