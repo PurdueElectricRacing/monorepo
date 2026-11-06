@@ -167,22 +167,6 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 eframe::egui::ComboBox::from_label("Source")
                     .selected_text(selected_text)
                     .show_ui(ui, |ui| {
-                        ui.label("Native USB");
-                        for channel in daqcore::connection::CannectorChannel::options() {
-                            let source = daqcore::connection::ConnectionSource::Cannector(channel);
-                            if ui
-                                .selectable_value(
-                                    &mut app.selected_source,
-                                    Some(source.clone()),
-                                    source.display_name(),
-                                )
-                                .changed()
-                            {
-                                app.connect_can();
-                                app.save_settings();
-                            }
-                        }
-                        ui.separator();
                         ui.label("Serial Ports");
                         let ports: Vec<_> = app
                             .serial_ports
@@ -205,6 +189,18 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                                 app.connect_can();
                                 app.save_settings();
                             }
+                        }
+                        ui.separator();
+                        if ui
+                            .selectable_value(
+                                &mut app.selected_source,
+                                Some(daqcore::connection::ConnectionSource::Cannector),
+                                "CANnector (USB)",
+                            )
+                            .changed()
+                        {
+                            app.connect_can();
+                            app.save_settings();
                         }
                         ui.separator();
                         ui.label("Network");
@@ -263,14 +259,6 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                     app.serial_ports = util::get_available_serial_ports();
                 }
             });
-
-            if let Some(daqcore::connection::ConnectionSource::Cannector(_)) = &app.selected_source
-            {
-                ui.label(
-                    "CANnector: fixed 500 kbps, receive-only. CAN Speed does not configure it.",
-                );
-                ui.label("Select the SuperDBC bus matching the traffic you are sniffing.");
-            }
 
             ui.horizontal(|ui| {
                 // Connection status indicator
