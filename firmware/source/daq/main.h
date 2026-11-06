@@ -38,22 +38,7 @@
 #define SD_CD_PORT           (GPIOC)
 #define SD_CD_PIN            (4)
 
-// SD Card SPI
-#define SDIO_CLK_PORT  (GPIOB)
-#define SDIO_CLK_PIN   (15)
-#define SDIO_CMD_PORT  (GPIOA)
-#define SDIO_CMD_PIN   (6)
-#define SDIO_DAT0_PORT (GPIOC)
-#define SDIO_DAT0_PIN  (8)
-#define SDIO_DAT1_PORT (GPIOC)
-#define SDIO_DAT1_PIN  (9)
-#define SDIO_DAT2_PORT (GPIOA)
-#define SDIO_DAT2_PIN  (9)
-#define SDIO_DAT3_PORT (GPIOC)
-#define SDIO_DAT3_PIN  (11)
-
 // W5500 ETH SPI1
-// CS should be renamed to NSS imo but its also not that deep
 #define ETH_CS_PORT   (GPIOA)
 #define ETH_CS_PIN    (4)
 #define ETH_SCK_PORT  (GPIOA)
