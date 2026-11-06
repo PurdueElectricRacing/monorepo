@@ -55,7 +55,8 @@ impl Jitter {
             let identity = msg.identity();
             ui.label(format!("{} (0x{identity:03X})", msg.name()));
 
-            let deviations = interval_deviations(view.setpoint_frames, identity, self.period_ms);
+            let mut deviations =
+                interval_deviations(view.setpoint_frames, identity, self.period_ms);
             ui.label("Deviation from nominal period over the shared interval");
             ui.label(format!("Intervals recorded: {}", deviations.len()));
 
@@ -79,14 +80,12 @@ impl Jitter {
                 let std_dev_ms = (std_dev_pct / 100.0) * (self.period_ms as f64);
 
                 // Calculate 99th Percentile Error
-                let mut sorted_devs = deviations.clone();
-
-                let idx_99 = ((sorted_devs.len() as f64 * 0.99).ceil() as usize)
+                let idx_99 = ((deviations.len() as f64 * 0.99).ceil() as usize)
                     .saturating_sub(1)
-                    .min(sorted_devs.len().saturating_sub(1));
+                    .min(deviations.len().saturating_sub(1));
 
                 let (_, p99, _) =
-                    sorted_devs.select_nth_unstable_by(idx_99, |a, b| a.abs().total_cmp(&b.abs()));
+                    deviations.select_nth_unstable_by(idx_99, |a, b| a.abs().total_cmp(&b.abs()));
 
                 let p99_error = *p99;
 
