@@ -26,7 +26,7 @@ jobs:
         uses: ./.github/actions/docker_image
 
   fil_tests:
-    name: FIL PGO and PER integration tests
+    name: FIL and PER integration tests
     needs: [image]
     if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
@@ -46,10 +46,8 @@ jobs:
       - name: Build vehicle firmware
         run: python3 firmware/build_firmware.py
 
-      - name: Build FIL with PGO and run integration tests
+      - name: Build FIL and run integration tests
         env:
-          PGO_CXX: clang++
-          LLVM_PROFDATA: llvm-profdata
           CMAKE_GENERATOR: Ninja
           CMAKE_BUILD_PARALLEL_LEVEL: "2"
         run: python3 tests/fil/run_tests.py --build
