@@ -50,7 +50,6 @@
             clang
             libclang
             clang-tools
-            llvmPackages.llvm
             lcov
             gtest
             cppcheck
@@ -97,8 +96,6 @@
 
             export CC="${pkgs.gcc}/bin/gcc"
             export CXX="${pkgs.gcc}/bin/g++"
-            export PGO_CXX="${pkgs.llvmPackages.clang}/bin/clang++"
-            export LLVM_PROFDATA="${pkgs.llvmPackages.llvm}/bin/llvm-profdata"
 
             echo "Purdue Electric Racing development environment"
             echo "  CMake:      $(cmake --version | head -n1)"

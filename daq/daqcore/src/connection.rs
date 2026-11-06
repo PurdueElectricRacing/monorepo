@@ -1,57 +1,60 @@
-#[derive(serde::Serialize, Clone, Debug, PartialEq)]
+use crate::fil::config::BuiltNetwork;
+use std::collections::HashMap;
+use std::path::PathBuf;
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct FilRunOptions {
+    pub duration_ms: u64,
+    pub max_instructions: u64,
+    pub quantum: u64,
+    /// Simulated microseconds per scheduler slice.
+    pub refresh_us: u64,
+    pub adc_decimation: u16,
+    pub extra_live_filters: String,
+    pub strict_mmio: bool,
+    pub wall_pacing: bool,
+    pub trace_instructions: bool,
+    pub detect_spin: bool,
+}
+
+impl Default for FilRunOptions {
+    fn default() -> Self {
+        Self {
+            duration_ms: 0,
+            max_instructions: 0,
+            quantum: 1024,
+            refresh_us: 100,
+            adc_decimation: 1,
+            extra_live_filters: String::new(),
+            strict_mmio: false,
+            wall_pacing: true,
+            trace_instructions: false,
+            detect_spin: false,
+        }
+    }
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, PartialEq)]
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
     Udp(u16),
     Simulated(bool), // true for connected, false for disconnected
+    Fil {
+        executable: PathBuf,
+        network: PathBuf,
+        /// Bus used for outgoing Message Sender frames.
+        bus: String,
+        /// Bus whose CAN transmissions are viewed, or `None` for all buses.
+        trace_bus: Option<String>,
+        /// Per-board firmware ELF overrides keyed by board name.
+        elf_overrides: HashMap<String, PathBuf>,
+        /// Board names excluded from the emulated network.
+        disabled_boards: Vec<String>,
+        /// Widget-built network used instead of `network` when present.
+        built_network: Option<Box<BuiltNetwork>>,
+        run_options: Box<FilRunOptions>,
+    },
     Loopback,
-}
-
-impl<'de> serde::Deserialize<'de> for ConnectionSource {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let value = serde_json::Value::deserialize(deserializer)?;
-        if value.as_str() == Some("Loopback") {
-            return Ok(Self::Loopback);
-        }
-
-        let object = value
-            .as_object()
-            .ok_or_else(|| serde::de::Error::custom("connection source must be an object"))?;
-        if let Some(serial) = object.get("Serial") {
-            let values = serial.as_array().ok_or_else(|| {
-                serde::de::Error::custom("Serial connection source must contain an array")
-            })?;
-            return match values.as_slice() {
-                [path, speed] | [path, speed, _] => Ok(Self::Serial(
-                    serde_json::from_value(path.clone()).map_err(serde::de::Error::custom)?,
-                    serde_json::from_value(speed.clone()).map_err(serde::de::Error::custom)?,
-                )),
-                _ => Err(serde::de::Error::custom(
-                    "Serial connection source must contain path and speed",
-                )),
-            };
-        }
-
-        if let Some(port) = object.get("Udp") {
-            return Ok(Self::Udp(
-                serde_json::from_value(port.clone()).map_err(serde::de::Error::custom)?,
-            ));
-        }
-
-        if let Some(simulated) = object.get("Simulated") {
-            let connected = simulated
-                .as_bool()
-                .ok_or_else(|| serde::de::Error::custom("invalid simulated connection source"))?;
-            return Ok(Self::Simulated(connected));
-        }
-
-        if object.get("Loopback").is_some() {
-            return Ok(Self::Loopback);
-        }
-        Err(serde::de::Error::custom("unknown connection source"))
-    }
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug, Default)]
@@ -73,6 +76,23 @@ impl ConnectionSource {
                     "Simulated (connected)".into()
                 } else {
                     "Simulated (disconnected)".into()
+                }
+            }
+            ConnectionSource::Fil {
+                network,
+                built_network,
+                ..
+            } => {
+                if let Some(built) = built_network {
+                    format!("FIL: {} (built)", built.name)
+                } else {
+                    format!(
+                        "FIL: {}",
+                        network
+                            .file_name()
+                            .unwrap_or(network.as_os_str())
+                            .to_string_lossy()
+                    )
                 }
             }
             ConnectionSource::Loopback => "Loopback".into(),

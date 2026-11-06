@@ -10,6 +10,8 @@ mod run;
 pub mod tx;
 use crate::{can_thread, firmware, frame, hil, superdbc, time};
 
+pub use crate::can::driver::FilGpioDirection;
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DatabaseSource {
     pub path: path::PathBuf,
@@ -63,6 +65,18 @@ pub enum CanThreadCommand {
     StartFirmwareUpdate(firmware::protocol::FirmwarePackage),
     ArmFirmwareUpdate(firmware::protocol::FirmwarePackage),
     CancelFirmwareUpdate,
+    SetFilAdc {
+        board: String,
+        instance: String,
+        channel: u8,
+        value: u16,
+    },
+    SetFilGpio {
+        board: String,
+        port: String,
+        pin: u8,
+        value: Option<bool>,
+    },
 }
 
 pub enum CanThreadEvent {
@@ -95,6 +109,14 @@ pub enum CanThreadEvent {
     },
     Hil(hil::engine::HilSnapshot),
     FirmwareProgress(firmware::FirmwareProgress),
+    FilGpio {
+        board: String,
+        port: String,
+        pin: u8,
+        value: Option<bool>,
+        direction: crate::can::driver::FilGpioDirection,
+    },
+    FilExpectation(crate::can::driver::FilExpectationEvent),
 }
 
 /// Single caller owns shutdown; cloned senders submit commands but do not own the worker.
@@ -107,8 +129,8 @@ impl CanThreadHandle {
     pub fn command(
         &self,
         command: CanThreadCommand,
-    ) -> Result<(), mpsc::SendError<CanThreadCommand>> {
-        self.tx.send(command)
+    ) -> Result<(), Box<mpsc::SendError<CanThreadCommand>>> {
+        self.tx.send(command).map_err(Box::new)
     }
 
     pub fn sender(&self) -> mpsc::Sender<CanThreadCommand> {
