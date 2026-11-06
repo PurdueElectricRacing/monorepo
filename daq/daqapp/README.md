@@ -36,46 +36,6 @@ DaqApp is PER's complete trackside data acquisition and analysis desktop applica
 
 Sidebar settings (source, SuperDBC, etc) are saved to a local settings file to persist between sessions.
 
-## CANnector USB
-
-The custom CANnector board uses native USB bulk transfers, not SLCAN/serial.
-It appears as `CANnector27_<firmware hash>` (USB VID:PID `5045:0271`), so no
-`/dev/tty.*` or COM port is expected.
-
-1. Connect one CANnector over USB-C.
-2. Under **Source → Native USB**, select the input the board is wired to:
-   **VCAN input**, **MCAN input**, or **SCAN input**.
-3. Select a SuperDBC and the bus describing the traffic. The physical input
-   selection and the decoding bus are independent, so a board's VCAN can be
-   decoded with whatever message definitions that board actually uses.
-
-Current firmware/driver limitations:
-
-- All inputs run at **500 kbps**, fixed in firmware. The CAN Speed dropdown
-  configures serial adapters, not CANnector. Traffic on a bus running at another
-  rate (250 kbps CCAN, 1 Mbps TEST_CAN in `bus_configs.json`) cannot be captured.
-- Receive-only: sending messages, HIL actions requiring transmission, and
-  bootloader uploads are unsupported. The app refuses a firmware update up front
-  rather than failing partway through.
-- Records contain eight padded payload bytes, but no original DLC/RTR/FD flags.
-  Frames are displayed as classic data frames with DLC 8. SuperDBC decoding
-  ignores padding. The app uses host receive timestamps, not board timestamps.
-- The driver rejects multiple connected CANnectors rather than selecting one
-  arbitrarily. The USB protocol has no per-device serial number.
-- Bus load is estimated from those padded eight-byte payloads, so it reads high
-  for traffic with short frames.
-
-The driver uses vendored libusb. macOS needs no serial driver. Linux may need
-a udev permission rule for `idVendor=5045`, `idProduct=0271`; Windows needs
-WinUSB bound to this device's interface (not the Nucleo/ST-LINK).
-
-A bounded receive-only check, independent of DAQApp and its DBC, can be run from
-the repository root while DAQApp is not using the CANnector:
-
-```bash
-cargo run --manifest-path daq/daqcore/Cargo.toml --example cannector_probe -- vcan 5
-```
-
 ## Getting started
 
 Install Rust/Cargo and the platform prerequisites described in the repository
