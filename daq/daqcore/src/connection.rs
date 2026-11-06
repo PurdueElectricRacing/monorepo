@@ -61,31 +61,6 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Eq, Debug)]
-pub enum CannectorChannel {
-    Vcan,
-    Mcan,
-    Scan,
-}
-
-impl CannectorChannel {
-    pub fn display_name(&self) -> String {
-        match self {
-            CannectorChannel::Vcan => "VCAN input".into(),
-            CannectorChannel::Mcan => "MCAN input".into(),
-            CannectorChannel::Scan => "SCAN input".into(),
-        }
-    }
-
-    pub fn options() -> Vec<CannectorChannel> {
-        vec![
-            CannectorChannel::Vcan,
-            CannectorChannel::Mcan,
-            CannectorChannel::Scan,
-        ]
-    }
-}
-
 #[derive(serde::Serialize, serde::Deserialize, Copy, Clone, PartialEq, Debug, Default)]
 pub enum CanBusSpeed {
     Kbps250,
