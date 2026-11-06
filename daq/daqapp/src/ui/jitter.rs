@@ -106,7 +106,8 @@ impl Jitter {
                 ui.label(format!("Std Dev: {std_dev_pct:.2}% ({std_dev_ms:.2} ms)"));
 
                 // Generate the Bell Curve / Histogram
-                let num_buckets = 200;
+                let span_ms = (((maximum - minimum) / 100.0) * period).round() as usize;
+                let num_buckets = (span_ms + 1).min(200);
                 let bucket_size = ((maximum - minimum) / num_buckets as f64).max(0.0001); // Prevent divide-by-zero
                 let mut buckets = vec![0; num_buckets];
 
