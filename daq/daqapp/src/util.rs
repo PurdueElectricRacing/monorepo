@@ -18,6 +18,17 @@ pub fn get_available_serial_ports() -> Vec<serialport::SerialPortInfo> {
     }
 }
 
+pub fn is_cannector_available() -> bool {
+    rusb::devices().is_ok_and(|devices| {
+        devices.iter().any(|device| {
+            device.device_descriptor().is_ok_and(|desc| {
+                desc.vendor_id() == daqcore::can::driver::CannectorDriver::VID
+                    && desc.product_id() == daqcore::can::driver::CannectorDriver::PID
+            })
+        })
+    })
+}
+
 // Linear interpolation helper
 pub fn lerp(a: f64, b: f64, t: f64) -> f64 {
     a + (b - a) * t
