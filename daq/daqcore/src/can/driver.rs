@@ -6,8 +6,6 @@ use std::{error, fmt, io, mem, net, time};
 use rand::RngExt as _;
 use rand::seq::IteratorRandom as _;
 
-mod cannector;
-
 #[derive(Debug)]
 pub enum DriverError {
     ConnectionFailed(String),
@@ -29,11 +27,6 @@ pub trait Driver {
     fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>>;
     fn write_frame(&mut self, tx_frame: frame::CanFrameTx) -> DriverResult<()>;
 
-    /// Whether this transport can transmit; receive-only sources report false.
-    fn can_transmit(&self) -> bool {
-        true
-    }
-
     fn bus_speed(&self) -> Option<connection::CanBusSpeed> {
         None
     }
@@ -50,9 +43,6 @@ pub fn create_driver(
     match source {
         connection::ConnectionSource::Serial(path, speed) => {
             Ok(Box::new(serial::SerialDriver::new(path, *speed)?))
-        }
-        connection::ConnectionSource::Cannector(channel) => {
-            Ok(Box::new(cannector::CannectorDriver::new(*channel)?))
         }
         connection::ConnectionSource::Udp(port) => {
             let socket = net::UdpSocket::bind(("0.0.0.0", *port))
@@ -110,10 +100,6 @@ impl Driver for UdpDriver {
         Err(DriverError::Unsupported(
             "UDP transmission is unsupported".into(),
         ))
-    }
-
-    fn can_transmit(&self) -> bool {
-        false
     }
 }
 
