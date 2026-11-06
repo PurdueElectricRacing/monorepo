@@ -191,20 +191,20 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                             }
                         }
                         ui.separator();
-                        if app.cannector_available {
-                            if ui
+                        ui.label("CANnector");
+                        if app.cannector_available
+                            && ui
                                 .selectable_value(
                                     &mut app.selected_source,
                                     Some(daqcore::connection::ConnectionSource::Cannector),
                                     "CANnector (USB)",
                                 )
                                 .changed()
-                            {
-                                app.connect_can();
-                                app.save_settings();
-                            }
-                            ui.separator();
+                        {
+                            app.connect_can();
+                            app.save_settings();
                         }
+                        ui.separator();
                         ui.label("Network");
                         let udp_source = daqcore::connection::ConnectionSource::Udp(app.udp_port);
                         if ui
