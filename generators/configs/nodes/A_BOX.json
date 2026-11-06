@@ -495,7 +495,7 @@
                 },
                 {
                     "message_name": "E_METER_TEMPERATURE",
-                    "description": "Pack thermal summary sent to the FSAE Energy Meter (Temperature Message, 0x60d)",
+                    "description": "Pack thermal summary sent to the emeter",
                     "byte_order": "little_endian",
                     "signals": [
                         {

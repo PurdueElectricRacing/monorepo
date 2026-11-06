@@ -89,14 +89,13 @@ void report_telemetry_100hz(void) {
 
 /**
  * @brief Reports telemetry data at 8 Hz rate
- * Includes: Thermal stats and the Energy Meter thermal summary
+ * Includes: Thermal stats and the emeter thermal summary
  */
 static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(E_METER_TEMPERATURE_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 void report_telemetry_8hz(void) {
-    // Send the pack thermal summary to the FSAE Energy Meter (0x60d).
-    // Temperatures are unsigned and scaled to 0.1 C.
+    // Send the pack thermal summary to the emeter
     float max_therm_temp = ADBMS_get_max_therm_temp(&g_bms);
     float min_therm_temp = ADBMS_get_min_therm_temp(&g_bms);
     float avg_therm_temp = ADBMS_get_avg_therm_temp(&g_bms);
@@ -113,7 +112,7 @@ void report_telemetry_8hz(void) {
 
     CAN_SEND_E_METER_TEMPERATURE(max_cell_temp, min_cell_temp, avg_cell_temp);
 
-    // Report thermistor temperatures one at a time
+    // Report individual thermistor temperatures one at a time
     static uint8_t module_num     = 0;
     static uint8_t thermistor_num = 0;
 
