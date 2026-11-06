@@ -59,6 +59,8 @@ var searchData=
   ['ov_5fmot_5fderating_5fzero_5ft_56',['OV_MOT_derating_zero_T',['../structpVCU__struct.html#ac0ce457857db6bc81797b948c00f2992',1,'pVCU_struct']]],
   ['overflows_57',['overflows',['../structSPMC__t.html#a6e92e9eabf6fb0592258f55087885ca7',1,'SPMC_t']]],
   ['overrun_58',['overrun',['../structusart__rx__errors__t.html#abf71439361d0c2575b46c7eb42f61f8b',1,'usart_rx_errors_t']]],
-  ['ovsample_59',['ovsample',['../structusart__init__t.html#a2820018bf22cf98f54b55244fe1ffc80',1,'usart_init_t']]],
-  ['ovsample_5ft_60',['ovsample_t',['../phal__F4_2usart_2usart_8h.html#a9fb60e9f8236a52b6c9bd8a310f589a7',1,'usart.h']]]
+  ['overvoltage_5fthreshold_5fv_59',['overvoltage_threshold_v',['../structadbms6380__regb__config__t.html#aa9f5e0b67320a054b851ee6bae033d1e',1,'adbms6380_regb_config_t']]],
+  ['ovsample_60',['ovsample',['../structusart__init__t.html#a2820018bf22cf98f54b55244fe1ffc80',1,'usart_init_t']]],
+  ['ovsample_5ft_61',['ovsample_t',['../phal__F4_2usart_2usart_8h.html#a9fb60e9f8236a52b6c9bd8a310f589a7',1,'usart.h']]],
+  ['ow_62',['ow',['../structadbms6380__adcv__config__t.html#af8b88b0d19ad4bc637563b17d073bbc4',1,'adbms6380_adcv_config_t::ow'],['../structadbms6380__adax__config__t.html#a4412f17da8ac7f09709ab61992817e12',1,'adbms6380_adax_config_t::ow']]]
 ];

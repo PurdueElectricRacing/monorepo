@@ -117,11 +117,11 @@ Include dependency graph for pec.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:acf61d2142265cf21d2a680bff41883b9" id="r_acf61d2142265cf21d2a680bff41883b9"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf61d2142265cf21d2a680bff41883b9">adbms_pec_get_pec15</a> (uint8_t len, const uint8_t *data)</td></tr>
-<tr class="memdesc:acf61d2142265cf21d2a680bff41883b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRC15 Pec Calculation Function.  <br /></td></tr>
-<tr class="separator:acf61d2142265cf21d2a680bff41883b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a782269bdf85e4027448b295896258686" id="r_a782269bdf85e4027448b295896258686"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a782269bdf85e4027448b295896258686">adbms_pec_get_pec10</a> (bool bIsRxCmd, size_t nLength, const uint8_t *pDataBuf)</td></tr>
-<tr class="separator:a782269bdf85e4027448b295896258686"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfdb13c48ece2669912098bc5fa0df20" id="r_adfdb13c48ece2669912098bc5fa0df20"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfdb13c48ece2669912098bc5fa0df20">PEC_calc_pec15</a> (const uint8_t *data, uint8_t len)</td></tr>
+<tr class="memdesc:adfdb13c48ece2669912098bc5fa0df20"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRC15 Pec Calculation Function.  <br /></td></tr>
+<tr class="separator:adfdb13c48ece2669912098bc5fa0df20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedc3f788a817022f5d878adac6dce2e5" id="r_aedc3f788a817022f5d878adac6dce2e5"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedc3f788a817022f5d878adac6dce2e5">PEC_calc_pec10</a> (const uint8_t *data_buf, size_t length, bool is_rx_cmd)</td></tr>
+<tr class="separator:aedc3f788a817022f5d878adac6dce2e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -138,63 +138,63 @@ Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'p
 <dd>
 Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'@p'+'urd'+'ue'+'.ed'+'u'; return false;">kumar<span class="obfuscator">.nosp@m.</span>798@<span class="obfuscator">.nosp@m.</span>purdu<span class="obfuscator">.nosp@m.</span>e.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a782269bdf85e4027448b295896258686" name="a782269bdf85e4027448b295896258686"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a782269bdf85e4027448b295896258686">&#9670;&#160;</a></span>adbms_pec_get_pec10()</h2>
+<a id="aedc3f788a817022f5d878adac6dce2e5" name="aedc3f788a817022f5d878adac6dce2e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedc3f788a817022f5d878adac6dce2e5">&#9670;&#160;</a></span>PEC_calc_pec10()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t adbms_pec_get_pec10 </td>
+          <td class="memname">uint16_t PEC_calc_pec10 </td>
           <td>(</td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>bIsRxCmd</em></span>, </td>
+          <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>data_buf</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>nLength</em></span>, </td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>length</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>pDataBuf</em></span>&#160;)</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>is_rx_cmd</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pec_8c_a782269bdf85e4027448b295896258686_icgraph.svg" width="100%" height="400"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pec_8c_aedc3f788a817022f5d878adac6dce2e5_icgraph.svg" width="100%" height="536"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="acf61d2142265cf21d2a680bff41883b9" name="acf61d2142265cf21d2a680bff41883b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf61d2142265cf21d2a680bff41883b9">&#9670;&#160;</a></span>adbms_pec_get_pec15()</h2>
+<a id="adfdb13c48ece2669912098bc5fa0df20" name="adfdb13c48ece2669912098bc5fa0df20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfdb13c48ece2669912098bc5fa0df20">&#9670;&#160;</a></span>PEC_calc_pec15()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t adbms_pec_get_pec15 </td>
+          <td class="memname">uint16_t PEC_calc_pec15 </td>
           <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>, </td>
+          <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>CRC15 Pec Calculation Function. </p>
-<p>Function: Pec15_Calc </p>
+<p>Function: PEC_calc_pec15 </p>
 <p>This function calculates and return the CRC15 value</p>
 <p>Parameters: </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">Len</td><td>Number of bytes that will be used to calculate a PEC</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">*data</td><td>Array of data that will be used to calculate a PEC</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*data</td><td>Array of data that will be used to calculate a PEC </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">len</td><td>Number of bytes that will be used to calculate a PEC</td></tr>
   </table>
   </dd>
 </dl>
@@ -202,7 +202,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="pec_8c_acf61d2142265cf21d2a680bff41883b9_icgraph.svg" width="616" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pec_8c_adfdb13c48ece2669912098bc5fa0df20_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

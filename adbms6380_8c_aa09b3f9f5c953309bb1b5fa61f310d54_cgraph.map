@@ -1,0 +1,36 @@
+<map id="ADBMS6380_start_adcv" name="ADBMS6380_start_adcv">
+<area shape="rect" id="Node000001" title="Issue the ADCV command to start cell voltage conversions across all modules." alt="" coords="5,80,170,106"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a15e7e7ef8477a33555dcfd0d429fcd57" title=" " alt="" coords="233,5,331,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,77,217,40,230,35,232,40,219,45,124,82"/>
+<area shape="rect" id="Node000003" href="$adbms6380_8c.html#afcb2720a50ea90439d14a568c8119c32" title=" " alt="" coords="218,55,346,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,79,202,75,202,81,170,85"/>
+<area shape="rect" id="Node000006" href="$strbuf_8c.html#a64d216f0276598d2d7f68c8a0c453fb7" title="Clears the buffer by resetting length to 0." alt="" coords="237,104,326,130"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="170,100,222,107,221,112,170,106"/>
+<area shape="rect" id="Node000007" href="$adbms6380_8c.html#af3ac94078b13ac245b54b2248db0ce11" title=" " alt="" coords="241,153,323,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="125,104,219,140,232,145,230,150,217,145,123,109"/>
+<area shape="rect" id="Node000004" href="$pec_8c.html#adfdb13c48ece2669912098bc5fa0df20" title="CRC15 Pec Calculation Function." alt="" coords="428,5,548,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="338,51,415,33,417,38,339,57"/>
+<area shape="rect" id="Node000005" href="$strbuf_8c.html#a15380dc153a462b38a9b54f274c9c3b5" title="Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended." alt="" coords="436,55,539,80"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="346,65,420,65,420,70,346,70"/>
+<area shape="rect" id="Node000008" href="$phal__G4_2spi_2spi_8c.html#a099e78dc7abe0245acc89e47528b1867" title="Perform a blocking DMA&#45;backed SPI transfer. (Wrapper around PHAL_SPI_transfer.)" alt="" coords="394,104,581,130"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="323,154,415,131,417,136,324,159"/>
+<area shape="rect" id="Node000015" href="$adbms6380_8c.html#a0fbc190f11658ecf5ce9c00849595363" title=" " alt="" coords="652,156,744,182"/>
+<area shape="poly" id="edge15_Node000007_Node000015" title=" " alt="" coords="324,164,637,166,637,171,324,169"/>
+<area shape="rect" id="Node000016" href="$adbms6380_8c.html#a1277b27c98c88984589d85ad6adcdb5f" title=" " alt="" coords="654,205,742,231"/>
+<area shape="poly" id="edge17_Node000007_Node000016" title=" " alt="" coords="324,169,640,208,639,214,323,174"/>
+<area shape="rect" id="Node000009" href="$phal__F4_2spi_2spi_8c.html#a35fd94eb02f487e09065ddc0ecb92e53" title="Check for current SPI transaction to complete." alt="" coords="852,8,972,34"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="548,101,837,35,838,40,549,106"/>
+<area shape="rect" id="Node000010" href="$phal__F4_2spi_2spi_8c.html#aa44c022e7bafc2f33240d3fa837a4244" title="Transfer data_len bytes from out_data to SPI device and place MISO data in in_data This function just..." alt="" coords="629,107,767,132"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="582,115,614,116,614,121,582,121"/>
+<area shape="poly" id="edge14_Node000010_Node000009" title=" " alt="" coords="714,104,758,73,814,42,837,34,839,39,816,47,761,78,717,108"/>
+<area shape="rect" id="Node000011" href="$phal__F4_2dma_2dma_8c.html#a87b11fd9c27f60363585940890fd2343" title=" " alt="" coords="837,57,988,83"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="757,103,838,84,839,90,758,109"/>
+<area shape="rect" id="Node000012" href="$phal__F4_2dma_2dma_8c.html#a2a989d2d9b7c591de33e96581ac3bb11" title=" " alt="" coords="815,107,1010,132"/>
+<area shape="poly" id="edge11_Node000010_Node000012" title=" " alt="" coords="767,117,799,117,799,122,767,122"/>
+<area shape="rect" id="Node000013" href="$phal__F4_2dma_2dma_8c.html#a14faecce0cd8bd38b14c987e17ce1033" title=" " alt="" coords="819,156,1006,182"/>
+<area shape="poly" id="edge12_Node000010_Node000013" title=" " alt="" coords="758,130,839,149,838,155,757,136"/>
+<area shape="rect" id="Node000014" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="846,205,978,231"/>
+<area shape="poly" id="edge13_Node000010_Node000014" title=" " alt="" coords="747,130,768,141,783,155,793,168,801,180,816,192,833,200,831,205,813,196,798,184,788,171,779,158,765,146,745,135"/>
+<area shape="poly" id="edge16_Node000015_Node000014" title=" " alt="" coords="745,177,839,199,838,204,744,182"/>
+<area shape="poly" id="edge18_Node000016_Node000014" title=" " alt="" coords="742,216,831,216,831,221,742,221"/>
+</map>

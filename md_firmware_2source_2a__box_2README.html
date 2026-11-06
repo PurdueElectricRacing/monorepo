@@ -108,7 +108,7 @@ Notable Files</h1>
 <li><a href="main.c"><code>main.c</code></a> / <a href="main.h"><code>main.h</code></a>: Peripheral init (FDCAN1/2, SPI1, ADC1+DMA, GPIO), task startup order, and the <code>bms_task</code> periodic that runs ADBMS updates and pack/thermal fault checks.</li>
 <li><code>CMakeLists.txt</code>: Build configuration for the A_BOX target.</li>
 <li><a class="el" href="md_firmware_2source_2a__box_2adbms_2README.html"><code>adbms/README.md</code></a>: Canonical ADBMS6380 driver docs (high-level state machine, balancing, command/PEC flow). <code>g_bms</code> is shared with <code>bms_task</code> and the charger FSM.</li>
-<li><a href="charging_fsm/charging_fsm.c"><code>charging_fsm.c</code></a> / <a href="charging_fsm/charging_fsm.h"><code>charging_fsm.h</code></a>: Charger control FSM (<code>CHARGING_FSM_PERIOD_MS = 1000</code>) that clamps charge requests, toggles <code>g_bms.is_balancing_enabled</code>, and publishes <code>charging_fsm_internals</code>.</li>
+<li><a href="charging_fsm/charging_fsm.c"><code>charging_fsm.c</code></a> / <a href="charging_fsm/charging_fsm.h"><code>charging_fsm.h</code></a>: Charger control FSM (<code>CHARGING_FSM_PERIOD_MS = 1000</code>) that clamps charge requests, toggles BMS balancing via <code>ADBMS_set_balancing_enabled</code>, and publishes <code>charging_fsm_internals</code>.</li>
 <li><a href="telemetry/telemetry.c"><code>telemetry.c</code></a> / <a href="telemetry/telemetry.h"><code>telemetry.h</code></a>: Multi-rate CAN telemetry publishers (on both VCAN and CCAN with <code>_ccan</code> suffix):<ul>
 <li>100 Hz: <code>pack_analog</code>, rotating <code>cell_telemetry</code></li>
 <li>8 Hz: rotating <code>thermistor_telemetry</code></li>

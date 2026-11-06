@@ -39,9 +39,15 @@ var searchData=
   ['erasegrsize_36',['EraseGrSize',['../structSD__CSD.html#ab96f260933654d16a42b4682dbe9b823',1,'SD_CSD']]],
   ['err1_37',['err1',['../structAMK__config__t.html#a0cd8c0f509f7f80f14c6c86562c37754',1,'AMK_config_t::err1'],['../structAMK__t.html#abd3462434e4aaaa3b9ed4dc5fa5b17f1',1,'AMK_t::err1']]],
   ['err2_38',['err2',['../structAMK__config__t.html#a0031131645ac07f0518b6f5620d0326b',1,'AMK_config_t::err2'],['../structAMK__t.html#af2c9ac5d52b7c14887e6d0fdc6271a16',1,'AMK_t::err2']]],
-  ['error_39',['error',['../structAMK__objects__t.html#a67ddf3c916a589c1402a221612088b39',1,'AMK_objects_t']]],
-  ['error_5fpin_40',['error_pin',['../structstatus__leds__t.html#a238032a6d020cb33b2d2152306336498',1,'status_leds_t']]],
-  ['error_5fport_41',['error_port',['../structstatus__leds__t.html#a7ff9a556d30478d37f75254365fee7f7',1,'status_leds_t']]],
-  ['eth_5fspi_5fconfig_42',['eth_spi_config',['../w5500__callbacks_8c.html#a9a42a1a6599015412816e4954c32f1bb',1,'eth_spi_config:&#160;main.c'],['../daq_2main_8c.html#a9a42a1a6599015412816e4954c32f1bb',1,'eth_spi_config:&#160;main.c']]],
-  ['extid_43',['ExtId',['../structCanMsgTypeDef__t.html#a184c6e876770b9bc3a766986921cc35c',1,'CanMsgTypeDef_t']]]
+  ['err_5fcell_5fvoltage_5fpecs_39',['err_cell_voltage_pecs',['../structadbms6380__t.html#a146c5fa9f09aeba5133c8d09beb21a45',1,'adbms6380_t']]],
+  ['err_5fgpio_5fvoltage_5fpecs_40',['err_gpio_voltage_pecs',['../structadbms6380__t.html#af7499375b4e352a86c9e755d0ddd52ae',1,'adbms6380_t']]],
+  ['err_5frega_5fmismatch_41',['err_rega_mismatch',['../structadbms6380__module__t.html#a2e54dbff5156c37716cfaa06173cb41f',1,'adbms6380_module_t']]],
+  ['err_5frega_5fpec_42',['err_rega_pec',['../structadbms6380__t.html#af8fdcc02be17ccc7393dade454d898cb',1,'adbms6380_t']]],
+  ['err_5fregb_5fmismatch_43',['err_regb_mismatch',['../structadbms6380__module__t.html#a0c0684253c986ae54e450c074ebdbb60',1,'adbms6380_module_t']]],
+  ['err_5fregb_5fpec_44',['err_regb_pec',['../structadbms6380__t.html#a89d29b74e0d359f80488358aa5af2b26',1,'adbms6380_t']]],
+  ['error_45',['error',['../structAMK__objects__t.html#a67ddf3c916a589c1402a221612088b39',1,'AMK_objects_t']]],
+  ['error_5fpin_46',['error_pin',['../structstatus__leds__t.html#a238032a6d020cb33b2d2152306336498',1,'status_leds_t']]],
+  ['error_5fport_47',['error_port',['../structstatus__leds__t.html#a7ff9a556d30478d37f75254365fee7f7',1,'status_leds_t']]],
+  ['eth_5fspi_5fconfig_48',['eth_spi_config',['../w5500__callbacks_8c.html#a9a42a1a6599015412816e4954c32f1bb',1,'eth_spi_config:&#160;main.c'],['../daq_2main_8c.html#a9a42a1a6599015412816e4954c32f1bb',1,'eth_spi_config:&#160;main.c']]],
+  ['extid_49',['ExtId',['../structCanMsgTypeDef__t.html#a184c6e876770b9bc3a766986921cc35c',1,'CanMsgTypeDef_t']]]
 ];

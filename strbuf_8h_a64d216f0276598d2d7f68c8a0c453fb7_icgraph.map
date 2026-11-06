@@ -1,15 +1,46 @@
 <map id="strbuf_clear" name="strbuf_clear">
-<area shape="rect" id="Node000001" title="Clears the buffer by resetting length to 0." alt="" coords="512,108,602,133"/>
-<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a499f6612cccef1d392bbe9bf92f3e525" title="Read all cell voltages from each module." alt="" coords="315,5,462,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="524,100,463,61,439,49,441,44,466,57,527,96"/>
-<area shape="rect" id="Node000003" href="$adbms6380_8c.html#afe31398e48d217264ed77592d7b11aaa" title="Read all GPIO/aux voltages from each module." alt="" coords="313,71,464,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="496,113,464,107,465,102,497,107"/>
-<area shape="rect" id="Node000004" href="$lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9" title="Called periodically to send commands to the Nextion LCD display via USART." alt="" coords="334,136,444,161"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="498,133,445,142,444,137,497,128"/>
-<area shape="rect" id="Node000007" href="$strbuf__test_8cpp.html#a21e9c0745c5ff7b98f563544f7ea9b01" title=" " alt="" coords="354,185,423,210"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="524,144,465,176,425,191,423,186,463,171,522,139"/>
-<area shape="rect" id="Node000005" href="$driver__interface_8c.html#ac599c66976c348cb0287266b60aa49c5" title=" " alt="" coords="103,136,265,161"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="318,151,265,151,265,146,318,146"/>
-<area shape="rect" id="Node000006" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,136,55,161"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="87,151,55,151,55,146,87,146"/>
+<area shape="rect" id="Node000001" title="Clears the buffer by resetting length to 0." alt="" coords="1082,262,1172,288"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" title="Read all cell voltages from each module via RDCVA..RDCVF." alt="" coords="875,5,1030,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1118,247,1108,207,1092,157,1067,106,1032,61,1016,49,1020,44,1036,57,1071,103,1097,155,1114,205,1123,246"/>
+<area shape="rect" id="Node000007" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD." alt="" coords="873,71,1032,111"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1113,249,1083,187,1060,154,1033,125,1017,114,1020,110,1036,121,1064,151,1087,184,1118,246"/>
+<area shape="rect" id="Node000010" href="$adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" title="Issue the ADAX command to start GPIO/aux voltage conversions across all modules." alt="" coords="871,136,1034,161"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="1105,252,1073,216,1033,183,996,164,999,159,1036,178,1077,213,1109,248"/>
+<area shape="rect" id="Node000011" href="$adbms6380_8c.html#aa09b3f9f5c953309bb1b5fa61f310d54" title="Issue the ADCV command to start cell voltage conversions across all modules." alt="" coords="398,188,563,213"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="1075,259,1034,248,906,228,777,215,563,204,563,199,778,209,907,223,1035,243,1076,254"/>
+<area shape="rect" id="Node000012" href="$adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" title="Read back REGA from all modules and compare with cached configuration." alt="" coords="397,237,564,262"/>
+<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="1067,273,1034,271,777,260,564,254,564,249,777,255,1034,266,1067,268"/>
+<area shape="rect" id="Node000013" href="$adbms6380_8c.html#ab8ca2a5aa91fd37ad09a7f7285bfd5f8" title="Read back REGB from all modules and compare with cached configuration." alt="" coords="634,288,800,313"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="1067,281,801,298,801,293,1067,276"/>
+<area shape="rect" id="Node000014" href="$adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" title="Encode and write REGA configuration to all modules in the daisy chain." alt="" coords="636,338,799,364"/>
+<area shape="poly" id="edge18_Node000001_Node000014" title=" " alt="" coords="1068,292,1035,299,800,341,799,336,1034,294,1067,287"/>
+<area shape="rect" id="Node000015" href="$adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules." alt="" coords="399,389,562,414"/>
+<area shape="poly" id="edge20_Node000001_Node000015" title=" " alt="" coords="1098,299,1069,318,1035,335,974,356,910,373,781,395,661,405,563,407,563,402,661,400,780,390,909,368,972,351,1033,330,1066,314,1095,295"/>
+<area shape="rect" id="Node000016" href="$lcd_8c.html#ab1da20573be93be73a9d5e72e133b7e9" title="Called periodically to send commands to the Nextion LCD display via USART." alt="" coords="898,440,1008,465"/>
+<area shape="poly" id="edge22_Node000001_Node000016" title=" " alt="" coords="1117,303,1086,363,1063,394,1036,422,1003,441,1000,437,1033,418,1059,391,1082,360,1113,301"/>
+<area shape="rect" id="Node000019" href="$strbuf__test_8cpp.html#a21e9c0745c5ff7b98f563544f7ea9b01" title=" " alt="" coords="918,489,987,514"/>
+<area shape="poly" id="edge25_Node000001_Node000019" title=" " alt="" coords="1123,303,1114,343,1097,390,1071,438,1036,480,1013,493,989,501,987,495,1011,488,1033,476,1067,435,1092,388,1108,341,1118,302"/>
+<area shape="rect" id="Node000003" href="$adbms_8c.html#a8e32099ef8c96913484c6551d8e94196" title=" " alt="" coords="677,50,758,76"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="860,43,758,59,757,54,859,38"/>
+<area shape="rect" id="Node000004" href="$adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="229,237,349,262"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="662,65,604,69,536,79,465,97,399,127,365,152,337,183,300,238,295,235,333,180,362,148,396,122,464,92,535,73,604,64,662,60"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,237,181,262"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="213,252,181,252,181,247,213,247"/>
+<area shape="rect" id="Node000006" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,237,55,262"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="87,252,55,252,55,247,87,247"/>
+<area shape="rect" id="Node000008" href="$adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" title="Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures." alt="" coords="612,136,823,161"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="858,117,774,137,773,132,857,111"/>
+<area shape="rect" id="Node000009" href="$adbms_8c.html#a7f12e5ede5ee02045acd6f4bf4e145c7" title=" " alt="" coords="434,137,527,162"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="596,152,527,152,527,147,596,146"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="420,168,399,177,348,208,308,238,305,234,345,204,396,173,418,163"/>
+<area shape="poly" id="edge11_Node000010_Node000008" title=" " alt="" coords="855,151,823,151,823,146,855,146"/>
+<area shape="poly" id="edge13_Node000011_Node000004" title=" " alt="" coords="413,220,343,239,341,234,412,215"/>
+<area shape="poly" id="edge15_Node000012_Node000004" title=" " alt="" coords="382,252,350,252,350,247,382,247"/>
+<area shape="poly" id="edge17_Node000013_Node000004" title=" " alt="" coords="618,299,512,291,397,278,340,266,341,261,398,272,512,286,619,294"/>
+<area shape="poly" id="edge19_Node000014_Node000004" title=" " alt="" coords="620,344,512,328,397,300,352,284,314,265,316,261,354,279,398,295,513,322,621,339"/>
+<area shape="poly" id="edge21_Node000015_Node000004" title=" " alt="" coords="419,385,396,372,364,346,336,316,297,265,301,261,340,312,368,342,399,367,422,380"/>
+<area shape="rect" id="Node000017" href="$driver__interface_8c.html#ac599c66976c348cb0287266b60aa49c5" title=" " alt="" coords="636,440,798,465"/>
+<area shape="poly" id="edge23_Node000016_Node000017" title=" " alt="" coords="882,455,799,455,799,450,882,450"/>
+<area shape="rect" id="Node000018" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="456,440,505,465"/>
+<area shape="poly" id="edge24_Node000017_Node000018" title=" " alt="" coords="621,455,506,455,506,450,621,450"/>
 </map>

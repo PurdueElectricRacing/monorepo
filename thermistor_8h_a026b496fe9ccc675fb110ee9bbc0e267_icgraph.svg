@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript">
-var viewWidth = 533;
+var viewWidth = 699;
 var viewHeight = 27;
 var sectionId = 'dynsection-3';
 </script>
@@ -59,17 +59,17 @@ var sectionId = 'dynsection-3';
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title=" ">
-<polygon fill="#999999" stroke="#666666" points="524.75,-19.25 428.5,-19.25 428.5,0 524.75,0 524.75,-19.25"/>
-<text text-anchor="middle" x="476.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">thermistor_R_to_T</text>
+<polygon fill="#999999" stroke="#666666" points="690.75,-19.25 594.5,-19.25 594.5,0 690.75,0 690.75,-19.25"/>
+<text text-anchor="middle" x="642.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">thermistor_R_to_T</text>
 </a>
 </g>
 </g>
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="adbms_8c.html#a26b82e2eae1b0d9c34d5666901f29bce" target="_top" xlink:title="Read all GPIO/thermistor values (voltage and calculate temperature) and update module/pack statistics...">
-<polygon fill="white" stroke="#666666" points="392.5,-19.25 288,-19.25 288,0 392.5,0 392.5,-19.25"/>
-<text text-anchor="middle" x="340.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">adbms_read_therms</text>
+<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" target="_top" xlink:title="Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.">
+<polygon fill="white" stroke="#666666" points="558.5,-19.25 400,-19.25 400,0 558.5,0 558.5,-19.25"/>
+<text text-anchor="middle" x="479.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_temperatures</text>
 </a>
 </g>
 </g>
@@ -77,17 +77,17 @@ var sectionId = 'dynsection-3';
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M417,-9.62C408.93,-9.62 400.69,-9.62 392.76,-9.62"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="416.74,-13.13 426.74,-9.63 416.74,-6.13 416.74,-13.13"/>
+<path fill="none" stroke="#63b8ff" d="M582.63,-9.62C574.91,-9.62 566.91,-9.62 558.94,-9.62"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="582.57,-13.13 592.57,-9.63 582.57,-6.13 582.57,-13.13"/>
 </a>
 </g>
 </g>
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="adbms_8c.html#a0a1de1018dba58040d4cab70ead2ca28" target="_top" xlink:title="Periodic service routine for connection, measurements, and balancing.">
-<polygon fill="white" stroke="#666666" points="252,-19.25 167.75,-19.25 167.75,0 252,0 252,-19.25"/>
-<text text-anchor="middle" x="209.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">adbms_periodic</text>
+<g id="a_Node000003"><a xlink:href="adbms_8c.html#a7f12e5ede5ee02045acd6f4bf4e145c7" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="364,-19.25 294,-19.25 294,0 364,0 364,-19.25"/>
+<text text-anchor="middle" x="329" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">read_therms</text>
 </a>
 </g>
 </g>
@@ -95,17 +95,17 @@ var sectionId = 'dynsection-3';
 <g id="edge2_Node000002_Node000003" class="edge">
 <title>Node2&#45;&gt;Node3</title>
 <g id="a_edge2_Node000002_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M276.39,-9.62C268.28,-9.62 260.14,-9.62 252.5,-9.62"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="276.26,-13.13 286.26,-9.63 276.26,-6.13 276.26,-13.13"/>
+<path fill="none" stroke="#63b8ff" d="M388.44,-9.62C379.91,-9.62 371.67,-9.62 364.2,-9.62"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="388.27,-13.13 398.27,-9.63 388.27,-6.13 388.27,-13.13"/>
 </a>
 </g>
 </g>
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="131.75,-19.25 73,-19.25 73,0 131.75,0 131.75,-19.25"/>
-<text text-anchor="middle" x="102.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">bms_task</text>
+<g id="a_Node000004"><a xlink:href="adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf" target="_top" xlink:title="Periodic service routine for connection, measurements, and balancing.">
+<polygon fill="white" stroke="#666666" points="258,-19.25 167.75,-19.25 167.75,0 258,0 258,-19.25"/>
+<text text-anchor="middle" x="212.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS_periodic</text>
 </a>
 </g>
 </g>
@@ -113,17 +113,17 @@ var sectionId = 'dynsection-3';
 <g id="edge3_Node000003_Node000004" class="edge">
 <title>Node3&#45;&gt;Node4</title>
 <g id="a_edge3_Node000003_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M156.17,-9.62C147.82,-9.62 139.47,-9.62 131.96,-9.62"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="155.97,-13.13 165.97,-9.63 155.97,-6.13 155.97,-13.13"/>
+<path fill="none" stroke="#63b8ff" d="M282.4,-9.62C274.44,-9.62 266.17,-9.62 258.25,-9.62"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="282.25,-13.13 292.25,-9.63 282.25,-6.13 282.25,-13.13"/>
 </a>
 </g>
 </g>
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="37,-19.25 0,-19.25 0,0 37,0 37,-19.25"/>
-<text text-anchor="middle" x="18.5" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">main</text>
+<g id="a_Node000005"><a xlink:href="a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="131.75,-19.25 73,-19.25 73,0 131.75,0 131.75,-19.25"/>
+<text text-anchor="middle" x="102.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">bms_task</text>
 </a>
 </g>
 </g>
@@ -131,6 +131,24 @@ var sectionId = 'dynsection-3';
 <g id="edge4_Node000004_Node000005" class="edge">
 <title>Node4&#45;&gt;Node5</title>
 <g id="a_edge4_Node000004_Node000005"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M156.12,-9.62C147.79,-9.62 139.51,-9.62 132.07,-9.62"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="155.92,-13.13 165.92,-9.63 155.92,-6.13 155.92,-13.13"/>
+</a>
+</g>
+</g>
+<!-- Node6 -->
+<g id="Node000006" class="node">
+<title>Node6</title>
+<g id="a_Node000006"><a xlink:href="a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="37,-19.25 0,-19.25 0,0 37,0 37,-19.25"/>
+<text text-anchor="middle" x="18.5" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">main</text>
+</a>
+</g>
+</g>
+<!-- Node5&#45;&gt;Node6 -->
+<g id="edge5_Node000005_Node000006" class="edge">
+<title>Node5&#45;&gt;Node6</title>
+<g id="a_edge5_Node000005_Node000006"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M61.37,-9.62C52.9,-9.62 44.39,-9.62 37.27,-9.62"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="61.23,-13.13 71.23,-9.63 61.23,-6.13 61.23,-13.13"/>
 </a>

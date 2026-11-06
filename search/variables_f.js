@@ -32,5 +32,7 @@ var searchData=
   ['ov_5fmot_5fderating_5fzero_5ft_29',['OV_MOT_derating_zero_T',['../structpVCU__struct.html#ac0ce457857db6bc81797b948c00f2992',1,'pVCU_struct']]],
   ['overflows_30',['overflows',['../structSPMC__t.html#a6e92e9eabf6fb0592258f55087885ca7',1,'SPMC_t']]],
   ['overrun_31',['overrun',['../structusart__rx__errors__t.html#abf71439361d0c2575b46c7eb42f61f8b',1,'usart_rx_errors_t']]],
-  ['ovsample_32',['ovsample',['../structusart__init__t.html#a2820018bf22cf98f54b55244fe1ffc80',1,'usart_init_t']]]
+  ['overvoltage_5fthreshold_5fv_32',['overvoltage_threshold_v',['../structadbms6380__regb__config__t.html#aa9f5e0b67320a054b851ee6bae033d1e',1,'adbms6380_regb_config_t']]],
+  ['ovsample_33',['ovsample',['../structusart__init__t.html#a2820018bf22cf98f54b55244fe1ffc80',1,'usart_init_t']]],
+  ['ow_34',['ow',['../structadbms6380__adcv__config__t.html#af8b88b0d19ad4bc637563b17d073bbc4',1,'adbms6380_adcv_config_t::ow'],['../structadbms6380__adax__config__t.html#a4412f17da8ac7f09709ab61992817e12',1,'adbms6380_adax_config_t::ow']]]
 ];

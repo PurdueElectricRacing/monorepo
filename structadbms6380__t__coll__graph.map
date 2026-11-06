@@ -1,0 +1,19 @@
+<map id="adbms6380_t" name="adbms6380_t">
+<area shape="rect" id="Node000001" title="Daisy&#45;chain ADBMS6380 device driver state, SPI transport, buffers, and error flags." alt="" coords="229,286,329,312"/>
+<area shape="rect" id="Node000002" href="$structSPI__InitConfig__t.html" title="Configuration entry for SPI initilization." alt="" coords="107,198,222,223"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,231,264,284,261,288,191,235"/>
+<area shape="rect" id="Node000003" href="$structdma__init__t.html" title=" " alt="" coords="73,94,154,120"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="123,134,138,172,155,196,151,199,133,175,118,136"/>
+<area shape="rect" id="Node000004" href="$structPHAL__DMA__Handle__t.html" title="A configured DMA transfer: fixed wiring + chosen parameters." alt="" coords="179,94,331,120"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="241,134,208,175,182,199,178,195,204,172,237,131"/>
+<area shape="rect" id="Node000005" href="$structPHAL__DMA__Wiring__t.html" title="Fixed hardware wiring for one peripheral + direction&#39;s DMA use." alt="" coords="5,5,153,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="119,36,231,91,229,96,116,41"/>
+<area shape="rect" id="Node000006" href="$structPHAL__DMA__Params__t.html" title="Per&#45;transfer parameters (user can configure)" alt="" coords="177,5,333,31"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="258,47,258,94,252,94,252,47"/>
+<area shape="rect" id="Node000007" href="$structPHAL__DMA__Callback__t.html" title="A DMA channel interrupt callback and the context passed to it." alt="" coords="357,5,518,31"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="399,41,282,96,280,91,397,36"/>
+<area shape="rect" id="Node000008" href="$structstrbuf__t.html" title=" " alt="" coords="246,198,312,223"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="282,239,282,286,276,286,276,239"/>
+<area shape="rect" id="Node000009" href="$structadbms6380__module__t.html" title="Per&#45;module device&#45;level measurements, register cache, and mismatch flags." alt="" coords="336,198,484,223"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="382,235,339,265,301,288,298,283,336,260,379,231"/>
+</map>

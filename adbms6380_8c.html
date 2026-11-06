@@ -98,7 +98,8 @@ $(function(){initNavTree('adbms6380_8c.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">adbms6380.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -111,10 +112,12 @@ $(function(){initNavTree('adbms6380_8c.html',''); initResizable(true); });
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="commands_8h_source.html">commands.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2gpio_2gpio_8h_source.html">common/phal_G4/gpio/gpio.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2spi_2spi_8h_source.html">common/phal_G4/spi/spi.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="countof_8h_source.html">common/utils/countof.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pec_8h_source.html">pec.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="thermistor_8h_source.html">thermistor.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for adbms6380.c:</div>
 <div class="dyncontent">
@@ -123,299 +126,607 @@ Include dependency graph for adbms6380.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a12a7403f2f6b47af40cc7d278909ebe7" id="r_a12a7403f2f6b47af40cc7d278909ebe7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12a7403f2f6b47af40cc7d278909ebe7">adbms6380_set_cs_low</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
-<tr class="memdesc:a12a7403f2f6b47af40cc7d278909ebe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drive the ADBMS CS line low.  <br /></td></tr>
-<tr class="separator:a12a7403f2f6b47af40cc7d278909ebe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae50a5200f4ab61124ab070e8898f0cc9" id="r_ae50a5200f4ab61124ab070e8898f0cc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae50a5200f4ab61124ab070e8898f0cc9">adbms6380_set_cs_high</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
-<tr class="memdesc:ae50a5200f4ab61124ab070e8898f0cc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drive the ADBMS CS line to high.  <br /></td></tr>
-<tr class="separator:ae50a5200f4ab61124ab070e8898f0cc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98d7e305df1794e6146e9aa0e885bf65" id="r_a98d7e305df1794e6146e9aa0e885bf65"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98d7e305df1794e6146e9aa0e885bf65">adbms6380_wake</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t module_count)</td></tr>
-<tr class="memdesc:a98d7e305df1794e6146e9aa0e885bf65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake a daisy-chained set of ADBMS devices.  <br /></td></tr>
-<tr class="separator:a98d7e305df1794e6146e9aa0e885bf65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dba9c62715355f360c6e4f1b150d334" id="r_a7dba9c62715355f360c6e4f1b150d334"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7dba9c62715355f360c6e4f1b150d334">adbms6380_get_threshold_voltage_cfg</a> (float threshold_voltage)</td></tr>
-<tr class="memdesc:a7dba9c62715355f360c6e4f1b150d334"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a voltage threshold (V) into 12-bit REG_B threshold encoding.  <br /></td></tr>
-<tr class="separator:a7dba9c62715355f360c6e4f1b150d334"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16817c8398c8a8542620eb7a9e131d0b" id="r_a16817c8398c8a8542620eb7a9e131d0b"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16817c8398c8a8542620eb7a9e131d0b">adbms6380_extract_i16</a> (const uint8_t *data, size_t idx)</td></tr>
-<tr class="memdesc:a16817c8398c8a8542620eb7a9e131d0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a little-endian 16-bit signed value from a byte buffer.  <br /></td></tr>
-<tr class="separator:a16817c8398c8a8542620eb7a9e131d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e9f567aae9798e09e92280c8919a184" id="r_a2e9f567aae9798e09e92280c8919a184"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e9f567aae9798e09e92280c8919a184">adbms6380_raw_to_v</a> (int16_t raw)</td></tr>
-<tr class="memdesc:a2e9f567aae9798e09e92280c8919a184"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert raw voltage measurement from the ADBMS6380 to volts.  <br /></td></tr>
-<tr class="separator:a2e9f567aae9798e09e92280c8919a184"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5e12ae30b128ce06afa0c0dfc19e2ac" id="r_aa5e12ae30b128ce06afa0c0dfc19e2ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5e12ae30b128ce06afa0c0dfc19e2ac">adbms6380_adcv</a> (uint8_t output_cmd[<a class="el" href="adbms6380_8h.html#abb0d4748227668be895e371af4b96454">ADBMS6380_COMMAND_RAW_SIZE</a>], bool rd, bool cont, bool dcp, bool rstf, uint8_t ow)</td></tr>
-<tr class="memdesc:aa5e12ae30b128ce06afa0c0dfc19e2ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build ADCV command bytes.  <br /></td></tr>
-<tr class="separator:aa5e12ae30b128ce06afa0c0dfc19e2ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9849bfe4b93c2a5ce93af04ff58d79d5" id="r_a9849bfe4b93c2a5ce93af04ff58d79d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9849bfe4b93c2a5ce93af04ff58d79d5">adbms6380_adsv</a> (uint8_t output_cmd[<a class="el" href="adbms6380_8h.html#abb0d4748227668be895e371af4b96454">ADBMS6380_COMMAND_RAW_SIZE</a>], bool cont, bool dcp, uint8_t ow)</td></tr>
-<tr class="memdesc:a9849bfe4b93c2a5ce93af04ff58d79d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build ADSV command bytes.  <br /></td></tr>
-<tr class="separator:a9849bfe4b93c2a5ce93af04ff58d79d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a810f35acf333d387896a733e2987cadd" id="r_a810f35acf333d387896a733e2987cadd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a810f35acf333d387896a733e2987cadd">adbms6380_adax</a> (uint8_t output_cmd[<a class="el" href="adbms6380_8h.html#abb0d4748227668be895e371af4b96454">ADBMS6380_COMMAND_RAW_SIZE</a>], bool ow, bool pup, uint8_t ch)</td></tr>
-<tr class="memdesc:a810f35acf333d387896a733e2987cadd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build ADAX (aux) command bytes.  <br /></td></tr>
-<tr class="separator:a810f35acf333d387896a733e2987cadd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87779ad64f4a74f4550870855d30d4a2" id="r_a87779ad64f4a74f4550870855d30d4a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87779ad64f4a74f4550870855d30d4a2">adbms6380_prepare_command</a> (<a class="el" href="structstrbuf__t.html">strbuf_t</a> *output_buffer, const uint8_t command[<a class="el" href="adbms6380_8h.html#abb0d4748227668be895e371af4b96454">ADBMS6380_COMMAND_RAW_SIZE</a>])</td></tr>
-<tr class="memdesc:a87779ad64f4a74f4550870855d30d4a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a command and its PEC to an output buffer.  <br /></td></tr>
-<tr class="separator:a87779ad64f4a74f4550870855d30d4a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c34ef8839dcd0f491ade5e2f7146e9b" id="r_a8c34ef8839dcd0f491ade5e2f7146e9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c34ef8839dcd0f491ade5e2f7146e9b">adbms6380_prepare_data_packet</a> (<a class="el" href="structstrbuf__t.html">strbuf_t</a> *output_buffer, const uint8_t data[<a class="el" href="adbms6380_8h.html#a05594a85d957953e99e26e8e75d9c9d7">ADBMS6380_SINGLE_DATA_RAW_SIZE</a>])</td></tr>
-<tr class="memdesc:a8c34ef8839dcd0f491ade5e2f7146e9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a data payload and its PEC to an output buffer.  <br /></td></tr>
-<tr class="separator:a8c34ef8839dcd0f491ade5e2f7146e9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6309659e70a91acde06af856a1ff7c3" id="r_ad6309659e70a91acde06af856a1ff7c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6309659e70a91acde06af856a1ff7c3">adbms6380_calculate_cfg_rega</a> (uint8_t output_cfg_rega[<a class="el" href="adbms6380_8h.html#a05594a85d957953e99e26e8e75d9c9d7">ADBMS6380_SINGLE_DATA_RAW_SIZE</a>], bool refon, uint8_t cth)</td></tr>
-<tr class="memdesc:ad6309659e70a91acde06af856a1ff7c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the REG_A configuration register value.  <br /></td></tr>
-<tr class="separator:ad6309659e70a91acde06af856a1ff7c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7edc17528da09597a1ba5cd6d5e9671e" id="r_a7edc17528da09597a1ba5cd6d5e9671e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7edc17528da09597a1ba5cd6d5e9671e">adbms6380_calculate_cfg_regb</a> (uint8_t output_cfg_regb[<a class="el" href="adbms6380_8h.html#a05594a85d957953e99e26e8e75d9c9d7">ADBMS6380_SINGLE_DATA_RAW_SIZE</a>], float overvoltage_threshold, float undervoltage_threshold, const bool is_discharging[<a class="el" href="adbms6380_8h.html#a9e8247a946b3c04fac7b53fe6ac5649b">ADBMS6380_CELL_COUNT</a>])</td></tr>
-<tr class="memdesc:a7edc17528da09597a1ba5cd6d5e9671e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the REG_B configuration register value.  <br /></td></tr>
-<tr class="separator:a7edc17528da09597a1ba5cd6d5e9671e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad065e19e0b9ff761f14abe8bf654750d" id="r_ad065e19e0b9ff761f14abe8bf654750d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad065e19e0b9ff761f14abe8bf654750d">adbms6380_check_data_pec</a> (const uint8_t *rx_bytes, size_t rx_len)</td></tr>
-<tr class="memdesc:ad065e19e0b9ff761f14abe8bf654750d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the PEC of received data.  <br /></td></tr>
-<tr class="separator:ad065e19e0b9ff761f14abe8bf654750d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a469042d4b560d5b80c7a69eef1a09cbc" id="r_a469042d4b560d5b80c7a69eef1a09cbc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a469042d4b560d5b80c7a69eef1a09cbc">adbms6380_read</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t module_count, const uint8_t cmd_buffer[<a class="el" href="adbms6380_8h.html#ab8248c41f0c4b71fea53867726fa3b87">ADBMS6380_COMMAND_PKT_SIZE</a>], uint8_t *rx_buffer, size_t rx_length_per_module)</td></tr>
-<tr class="memdesc:a469042d4b560d5b80c7a69eef1a09cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a fixed-length response from all modules after a command.  <br /></td></tr>
-<tr class="separator:a469042d4b560d5b80c7a69eef1a09cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70386a08dccdc52b602a3fe13a38daf8" id="r_a70386a08dccdc52b602a3fe13a38daf8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70386a08dccdc52b602a3fe13a38daf8">adbms6380_read_data_with_retries</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t max_retries, size_t module_count, const uint8_t cmd_buffer[<a class="el" href="adbms6380_8h.html#ab8248c41f0c4b71fea53867726fa3b87">ADBMS6380_COMMAND_PKT_SIZE</a>], uint8_t *rx_buffer)</td></tr>
-<tr class="memdesc:a70386a08dccdc52b602a3fe13a38daf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a single-data-packet response per module and retries on PEC failure.  <br /></td></tr>
-<tr class="separator:a70386a08dccdc52b602a3fe13a38daf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ac224a3bfc80249e11dd1614d8b06bb" id="r_a4ac224a3bfc80249e11dd1614d8b06bb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ac224a3bfc80249e11dd1614d8b06bb">adbms6380_read_data</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, size_t module_count, const uint8_t cmd_buffer[<a class="el" href="adbms6380_8h.html#ab8248c41f0c4b71fea53867726fa3b87">ADBMS6380_COMMAND_PKT_SIZE</a>], uint8_t *rx_buffer)</td></tr>
-<tr class="memdesc:a4ac224a3bfc80249e11dd1614d8b06bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a single-data-packet response per module.  <br /></td></tr>
-<tr class="separator:a4ac224a3bfc80249e11dd1614d8b06bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a499f6612cccef1d392bbe9bf92f3e525" id="r_a499f6612cccef1d392bbe9bf92f3e525"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a499f6612cccef1d392bbe9bf92f3e525">adbms6380_read_cell_voltages</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, <a class="el" href="structstrbuf__t.html">strbuf_t</a> *cmd_buffer, uint8_t *rx_buffer, float **cell_voltages, int16_t **cell_voltages_raw, bool pec_error_flags[<a class="el" href="adbms6380_8h.html#a7eb87239e09a87dd438cebddb5ab9647">ADBMS6380_RDCV_CMD_COUNT</a>], size_t module_count, size_t max_retries_on_pec_failure)</td></tr>
-<tr class="memdesc:a499f6612cccef1d392bbe9bf92f3e525"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all cell voltages from each module.  <br /></td></tr>
-<tr class="separator:a499f6612cccef1d392bbe9bf92f3e525"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe31398e48d217264ed77592d7b11aaa" id="r_afe31398e48d217264ed77592d7b11aaa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe31398e48d217264ed77592d7b11aaa">adbms6380_read_gpio_voltages</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi, <a class="el" href="structstrbuf__t.html">strbuf_t</a> *cmd_buffer, uint8_t *rx_buffer, float **gpio_voltages, bool pec_error_flags[<a class="el" href="adbms6380_8h.html#a0d36f241a214c0e8a863de733f94e01d">ADBMS6380_RDAUX_CMD_COUNT</a>], size_t module_count, size_t max_retries_on_pec_failure)</td></tr>
-<tr class="memdesc:afe31398e48d217264ed77592d7b11aaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO/aux voltages from each module.  <br /></td></tr>
-<tr class="separator:afe31398e48d217264ed77592d7b11aaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1277b27c98c88984589d85ad6adcdb5f" id="r_a1277b27c98c88984589d85ad6adcdb5f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1277b27c98c88984589d85ad6adcdb5f">set_cs_low</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
+<tr class="separator:a1277b27c98c88984589d85ad6adcdb5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fbc190f11658ecf5ce9c00849595363" id="r_a0fbc190f11658ecf5ce9c00849595363"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0fbc190f11658ecf5ce9c00849595363">set_cs_high</a> (<a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
+<tr class="separator:a0fbc190f11658ecf5ce9c00849595363"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3ac94078b13ac245b54b2248db0ce11" id="r_af3ac94078b13ac245b54b2248db0ce11"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3ac94078b13ac245b54b2248db0ce11">transfer_tx</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
+<tr class="separator:af3ac94078b13ac245b54b2248db0ce11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8a177a330ddc2b8f8217345bc9fb1d2" id="r_aa8a177a330ddc2b8f8217345bc9fb1d2"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8a177a330ddc2b8f8217345bc9fb1d2">get_threshold_voltage_cfg</a> (float threshold_voltage_v)</td></tr>
+<tr class="separator:aa8a177a330ddc2b8f8217345bc9fb1d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdd74e7fab01d528227daa20e7f17c53" id="r_acdd74e7fab01d528227daa20e7f17c53"><td class="memItemLeft" align="right" valign="top">static int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acdd74e7fab01d528227daa20e7f17c53">extract_i16</a> (const uint8_t *data, size_t idx)</td></tr>
+<tr class="separator:acdd74e7fab01d528227daa20e7f17c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78276e601ae16e9e616291d1a6299755" id="r_a78276e601ae16e9e616291d1a6299755"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78276e601ae16e9e616291d1a6299755">raw_to_v</a> (int16_t raw)</td></tr>
+<tr class="separator:a78276e601ae16e9e616291d1a6299755"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15e7e7ef8477a33555dcfd0d429fcd57" id="r_a15e7e7ef8477a33555dcfd0d429fcd57"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15e7e7ef8477a33555dcfd0d429fcd57">encode_adcv</a> (uint8_t output_cmd[<a class="el" href="adbms6380_8h.html#a25f5885607f9f8c5ee85cc53d34354eb">ADBMS6380_COMMAND_RAW_SIZE</a>], const <a class="el" href="structadbms6380__adcv__config__t.html">adbms6380_adcv_config_t</a> *cfg)</td></tr>
+<tr class="separator:a15e7e7ef8477a33555dcfd0d429fcd57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8263dd435c9b93a81f89cfa573373615" id="r_a8263dd435c9b93a81f89cfa573373615"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8263dd435c9b93a81f89cfa573373615">encode_adax</a> (uint8_t output_cmd[<a class="el" href="adbms6380_8h.html#a25f5885607f9f8c5ee85cc53d34354eb">ADBMS6380_COMMAND_RAW_SIZE</a>], const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *cfg)</td></tr>
+<tr class="separator:a8263dd435c9b93a81f89cfa573373615"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcb2720a50ea90439d14a568c8119c32" id="r_afcb2720a50ea90439d14a568c8119c32"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcb2720a50ea90439d14a568c8119c32">prepare_command</a> (<a class="el" href="structstrbuf__t.html">strbuf_t</a> *output_buffer, const uint8_t command[<a class="el" href="adbms6380_8h.html#a25f5885607f9f8c5ee85cc53d34354eb">ADBMS6380_COMMAND_RAW_SIZE</a>])</td></tr>
+<tr class="separator:afcb2720a50ea90439d14a568c8119c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d7ce49113bf9841b4aa4f1e38956ebd" id="r_a3d7ce49113bf9841b4aa4f1e38956ebd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d7ce49113bf9841b4aa4f1e38956ebd">prepare_data_packet</a> (<a class="el" href="structstrbuf__t.html">strbuf_t</a> *output_buffer, const uint8_t data[<a class="el" href="adbms6380_8h.html#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a>])</td></tr>
+<tr class="separator:a3d7ce49113bf9841b4aa4f1e38956ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb108a639c63f16f8fcb860b97e5ca97" id="r_afb108a639c63f16f8fcb860b97e5ca97"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb108a639c63f16f8fcb860b97e5ca97">pack_cfg_rega</a> (uint8_t output_cfg_rega[<a class="el" href="adbms6380_8h.html#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a>], const <a class="el" href="structadbms6380__rega__config__t.html">adbms6380_rega_config_t</a> *cfg)</td></tr>
+<tr class="separator:afb108a639c63f16f8fcb860b97e5ca97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6618686ac7196d434398a2ea673f4bba" id="r_a6618686ac7196d434398a2ea673f4bba"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6618686ac7196d434398a2ea673f4bba">pack_cfg_regb</a> (uint8_t output_cfg_regb[<a class="el" href="adbms6380_8h.html#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a>], const <a class="el" href="structadbms6380__regb__config__t.html">adbms6380_regb_config_t</a> *cfg, const bool is_discharging[<a class="el" href="adbms6380_8h.html#a0b8962c63f063854a32cbaba04bdb769">ADBMS6380_CELL_COUNT</a>])</td></tr>
+<tr class="separator:a6618686ac7196d434398a2ea673f4bba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28822aaed957976af4e2e20250b48a8a" id="r_a28822aaed957976af4e2e20250b48a8a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a28822aaed957976af4e2e20250b48a8a">check_data_pec</a> (const uint8_t *rx_bytes, size_t rx_len)</td></tr>
+<tr class="separator:a28822aaed957976af4e2e20250b48a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" id="r_a5bbcf4c8fd7f1b002f7400e2fb3ad5e1"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1">read_response</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, size_t rx_length_per_module)</td></tr>
+<tr class="separator:a5bbcf4c8fd7f1b002f7400e2fb3ad5e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e8e83783b9da5c69b8a6bef35f010f5" id="r_a4e8e83783b9da5c69b8a6bef35f010f5"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e8e83783b9da5c69b8a6bef35f010f5">read_data_with_retries</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
+<tr class="separator:a4e8e83783b9da5c69b8a6bef35f010f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad44be82376949cf91d9b4a0216f7ba26" id="r_ad44be82376949cf91d9b4a0216f7ba26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad44be82376949cf91d9b4a0216f7ba26">ADBMS6380_init</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, <a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
+<tr class="memdesc:ad44be82376949cf91d9b4a0216f7ba26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the ADBMS6380 device driver instance, SPI buffers, and CS line.  <br /></td></tr>
+<tr class="separator:ad44be82376949cf91d9b4a0216f7ba26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a092e9d0a8566b9f48e23ce2efe66d2af" id="r_a092e9d0a8566b9f48e23ce2efe66d2af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a092e9d0a8566b9f48e23ce2efe66d2af">ADBMS6380_wake</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
+<tr class="memdesc:a092e9d0a8566b9f48e23ce2efe66d2af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake the daisy-chained set of ADBMS6380 devices.  <br /></td></tr>
+<tr class="separator:a092e9d0a8566b9f48e23ce2efe66d2af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4790855abf91e0638244eae6f1d3b168" id="r_a4790855abf91e0638244eae6f1d3b168"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4790855abf91e0638244eae6f1d3b168">ADBMS6380_write_rega</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__rega__config__t.html">adbms6380_rega_config_t</a> *cfg)</td></tr>
+<tr class="memdesc:a4790855abf91e0638244eae6f1d3b168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode and write REGA configuration to all modules in the daisy chain.  <br /></td></tr>
+<tr class="separator:a4790855abf91e0638244eae6f1d3b168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0963dcf6690f0adb7561f61b472427e8" id="r_a0963dcf6690f0adb7561f61b472427e8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0963dcf6690f0adb7561f61b472427e8">ADBMS6380_verify_rega</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
+<tr class="memdesc:a0963dcf6690f0adb7561f61b472427e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read back REGA from all modules and compare with cached configuration.  <br /></td></tr>
+<tr class="separator:a0963dcf6690f0adb7561f61b472427e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cdbd620cf34a8065b37c2eeab6a8ab6" id="r_a0cdbd620cf34a8065b37c2eeab6a8ab6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cdbd620cf34a8065b37c2eeab6a8ab6">ADBMS6380_write_regb</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__regb__config__t.html">adbms6380_regb_config_t</a> *cfg)</td></tr>
+<tr class="memdesc:a0cdbd620cf34a8065b37c2eeab6a8ab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules.  <br /></td></tr>
+<tr class="separator:a0cdbd620cf34a8065b37c2eeab6a8ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8ca2a5aa91fd37ad09a7f7285bfd5f8" id="r_ab8ca2a5aa91fd37ad09a7f7285bfd5f8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8ca2a5aa91fd37ad09a7f7285bfd5f8">ADBMS6380_verify_regb</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
+<tr class="memdesc:ab8ca2a5aa91fd37ad09a7f7285bfd5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read back REGB from all modules and compare with cached configuration.  <br /></td></tr>
+<tr class="separator:ab8ca2a5aa91fd37ad09a7f7285bfd5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a300ff96432feb9fae89bd29e4d0919" id="r_a7a300ff96432feb9fae89bd29e4d0919"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a300ff96432feb9fae89bd29e4d0919">ADBMS6380_has_rega_mismatch</a> (const <a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
+<tr class="memdesc:a7a300ff96432feb9fae89bd29e4d0919"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether any module in the chain has a REGA mismatch error.  <br /></td></tr>
+<tr class="separator:a7a300ff96432feb9fae89bd29e4d0919"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd953d8559ba00f614313e52d6e9bb4c" id="r_afd953d8559ba00f614313e52d6e9bb4c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd953d8559ba00f614313e52d6e9bb4c">ADBMS6380_has_regb_mismatch</a> (const <a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
+<tr class="memdesc:afd953d8559ba00f614313e52d6e9bb4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether any module in the chain has a REGB mismatch error.  <br /></td></tr>
+<tr class="separator:afd953d8559ba00f614313e52d6e9bb4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa09b3f9f5c953309bb1b5fa61f310d54" id="r_aa09b3f9f5c953309bb1b5fa61f310d54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa09b3f9f5c953309bb1b5fa61f310d54">ADBMS6380_start_adcv</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__adcv__config__t.html">adbms6380_adcv_config_t</a> *cfg)</td></tr>
+<tr class="memdesc:aa09b3f9f5c953309bb1b5fa61f310d54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Issue the ADCV command to start cell voltage conversions across all modules.  <br /></td></tr>
+<tr class="separator:aa09b3f9f5c953309bb1b5fa61f310d54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a797933ebb8aeaf7dc228e5f9f51e47e2" id="r_a797933ebb8aeaf7dc228e5f9f51e47e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a797933ebb8aeaf7dc228e5f9f51e47e2">ADBMS6380_start_adax</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *cfg)</td></tr>
+<tr class="memdesc:a797933ebb8aeaf7dc228e5f9f51e47e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Issue the ADAX command to start GPIO/aux voltage conversions across all modules.  <br /></td></tr>
+<tr class="separator:a797933ebb8aeaf7dc228e5f9f51e47e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4011d4493881a897342178e4e04f150a" id="r_a4011d4493881a897342178e4e04f150a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4011d4493881a897342178e4e04f150a">ADBMS6380_read_cell_voltages</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
+<tr class="memdesc:a4011d4493881a897342178e4e04f150a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all cell voltages from each module via RDCVA..RDCVF.  <br /></td></tr>
+<tr class="separator:a4011d4493881a897342178e4e04f150a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74b0ad1cee164427d5c561a707f72675" id="r_a74b0ad1cee164427d5c561a707f72675"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74b0ad1cee164427d5c561a707f72675">ADBMS6380_read_gpio_voltages</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
+<tr class="memdesc:a74b0ad1cee164427d5c561a707f72675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD.  <br /></td></tr>
+<tr class="separator:a74b0ad1cee164427d5c561a707f72675"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3032c5c23786e6e09339992bd8ba8d84" id="r_a3032c5c23786e6e09339992bd8ba8d84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3032c5c23786e6e09339992bd8ba8d84">ADBMS6380_read_temperatures</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *cfg)</td></tr>
+<tr class="memdesc:a3032c5c23786e6e09339992bd8ba8d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.  <br /></td></tr>
+<tr class="separator:a3032c5c23786e6e09339992bd8ba8d84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:acb42bffedd28f187135475320369366c" id="r_acb42bffedd28f187135475320369366c"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb42bffedd28f187135475320369366c">ADBMS6380_PEC_FAIL_MAX_RETRIES</a> = 3U</td></tr>
+<tr class="separator:acb42bffedd28f187135475320369366c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d27e9f1d0f7f58e94d32927ae64736d" id="r_a7d27e9f1d0f7f58e94d32927ae64736d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d27e9f1d0f7f58e94d32927ae64736d">ADBMS6380_WAKE_DELAY_MS</a> = 1U</td></tr>
+<tr class="memdesc:a7d27e9f1d0f7f58e94d32927ae64736d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake pulse duration per CS toggle in milliseconds.  <br /></td></tr>
+<tr class="separator:a7d27e9f1d0f7f58e94d32927ae64736d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d844931efb4a00bf3394e95891bc53e" id="r_a6d844931efb4a00bf3394e95891bc53e"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d844931efb4a00bf3394e95891bc53e">ADBMS6380_GPIO_R1_OHM</a> = 10'000.0f</td></tr>
+<tr class="separator:a6d844931efb4a00bf3394e95891bc53e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1a21f9669951e64641d62944ae46938" id="r_ac1a21f9669951e64641d62944ae46938"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1a21f9669951e64641d62944ae46938">ADBMS6380_GPIO_VIN_V</a> = 3.0f</td></tr>
+<tr class="separator:ac1a21f9669951e64641d62944ae46938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7af1d8b226bca1da00378cd8d9bc41cb" id="r_a7af1d8b226bca1da00378cd8d9bc41cb"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7af1d8b226bca1da00378cd8d9bc41cb">ADBMS6380_DIVIDER_EPSILON_V</a> = 0.00001f</td></tr>
+<tr class="separator:a7af1d8b226bca1da00378cd8d9bc41cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2448d8a5b13bdd1e43f5e6079a19d3cf" id="r_a2448d8a5b13bdd1e43f5e6079a19d3cf"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2448d8a5b13bdd1e43f5e6079a19d3cf">ADBMS6380_VOLTAGE_OFFSET_V</a> = 1.5f</td></tr>
+<tr class="separator:a2448d8a5b13bdd1e43f5e6079a19d3cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38029721093744d695ca74135b48613e" id="r_a38029721093744d695ca74135b48613e"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38029721093744d695ca74135b48613e">ADBMS6380_ADC_LSB_V</a> = 0.000150f</td></tr>
+<tr class="separator:a38029721093744d695ca74135b48613e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b38de4faba1dc81864f068c8fa1aa0f" id="r_a9b38de4faba1dc81864f068c8fa1aa0f"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b38de4faba1dc81864f068c8fa1aa0f">ADBMS6380_THRESHOLD_SCALE</a> = 16.0f</td></tr>
+<tr class="separator:a9b38de4faba1dc81864f068c8fa1aa0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2345c4517bcd53b7de2b550fef5063a" id="r_ae2345c4517bcd53b7de2b550fef5063a"><td class="memItemLeft" align="right" valign="top">static constexpr int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2345c4517bcd53b7de2b550fef5063a">ADBMS6380_RAW_OFFSET_CODES</a> = 10'000</td></tr>
+<tr class="separator:ae2345c4517bcd53b7de2b550fef5063a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f75bc2f43787411f5bccf84d58f467a" id="r_a1f75bc2f43787411f5bccf84d58f467a"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f75bc2f43787411f5bccf84d58f467a">ADBMS6380_THRESHOLD_BITS</a> = 12U</td></tr>
+<tr class="separator:a1f75bc2f43787411f5bccf84d58f467a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90e3be5e5b483076ab33dddc2fb83a79" id="r_a90e3be5e5b483076ab33dddc2fb83a79"><td class="memItemLeft" align="right" valign="top">static constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90e3be5e5b483076ab33dddc2fb83a79">ADBMS6380_THRESHOLD_MASK</a> = 0x0FFFU</td></tr>
+<tr class="separator:a90e3be5e5b483076ab33dddc2fb83a79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac496a805537c9b21ba5a53fb864ecce1" id="r_ac496a805537c9b21ba5a53fb864ecce1"><td class="memItemLeft" align="right" valign="top">static const uint8_t *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac496a805537c9b21ba5a53fb864ecce1">RDCV_CMDS</a> []</td></tr>
+<tr class="separator:ac496a805537c9b21ba5a53fb864ecce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9d6dd0d190dda30b9e35fc91e63eae4" id="r_aa9d6dd0d190dda30b9e35fc91e63eae4"><td class="memItemLeft" align="right" valign="top">static const uint8_t *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9d6dd0d190dda30b9e35fc91e63eae4">RDAUX_CMDS</a> []</td></tr>
+<tr class="separator:aa9d6dd0d190dda30b9e35fc91e63eae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Low level BMS driver specific to ADBMS6380 chip. </p>
 <dl class="section author"><dt>Author</dt><dd>Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'@p'+'urd'+'ue'+'.ed'+'u'; return false;">kumar<span class="obfuscator">.nosp@m.</span>798@<span class="obfuscator">.nosp@m.</span>purdu<span class="obfuscator">.nosp@m.</span>e.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a810f35acf333d387896a733e2987cadd" name="a810f35acf333d387896a733e2987cadd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a810f35acf333d387896a733e2987cadd">&#9670;&#160;</a></span>adbms6380_adax()</h2>
+<a id="a7a300ff96432feb9fae89bd29e4d0919" name="a7a300ff96432feb9fae89bd29e4d0919"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a300ff96432feb9fae89bd29e4d0919">&#9670;&#160;</a></span>ADBMS6380_has_rega_mismatch()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void adbms6380_adax </td>
+          <td class="memname">bool ADBMS6380_has_rega_mismatch </td>
           <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>output_cmd</em></span>[ADBMS6380_COMMAND_RAW_SIZE], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>ow</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>pup</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Build ADAX (aux) command bytes. </p>
+<p>Check whether any module in the chain has a REGA mismatch error. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">output_cmd</td><td>Output buffer for 2-byte command. </td></tr>
-    <tr><td class="paramname">ow</td><td>Open-wire detection enable. </td></tr>
-    <tr><td class="paramname">pup</td><td>Pull-up enable for open-wire detection. </td></tr>
-    <tr><td class="paramname">ch</td><td>Channel selection (5-bit). 0 for all. </td></tr>
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true if any module has <a class="el" href="structadbms6380__module__t.html#a2e54dbff5156c37716cfaa06173cb41f">adbms6380_module_t::err_rega_mismatch</a> set. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a7a300ff96432feb9fae89bd29e4d0919_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
 
 </div>
 </div>
-<a id="aa5e12ae30b128ce06afa0c0dfc19e2ac" name="aa5e12ae30b128ce06afa0c0dfc19e2ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5e12ae30b128ce06afa0c0dfc19e2ac">&#9670;&#160;</a></span>adbms6380_adcv()</h2>
+<a id="afd953d8559ba00f614313e52d6e9bb4c" name="afd953d8559ba00f614313e52d6e9bb4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd953d8559ba00f614313e52d6e9bb4c">&#9670;&#160;</a></span>ADBMS6380_has_regb_mismatch()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void adbms6380_adcv </td>
+          <td class="memname">bool ADBMS6380_has_regb_mismatch </td>
           <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>output_cmd</em></span>[ADBMS6380_COMMAND_RAW_SIZE], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rd</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>cont</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>dcp</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>rstf</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ow</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Build ADCV command bytes. </p>
+<p>Check whether any module in the chain has a REGB mismatch error. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">output_cmd</td><td>Output buffer for 2-byte command. </td></tr>
-    <tr><td class="paramname">rd</td><td>Redundant mode. </td></tr>
-    <tr><td class="paramname">cont</td><td>Continuous conversion enable. </td></tr>
-    <tr><td class="paramname">dcp</td><td>Discharge permitted during conversion (only affects PWM balancing, not DCC). </td></tr>
-    <tr><td class="paramname">rstf</td><td>Reset filter. </td></tr>
-    <tr><td class="paramname">ow</td><td>Open-wire setting (2-bit). </td></tr>
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true if any module has <a class="el" href="structadbms6380__module__t.html#a0c0684253c986ae54e450c074ebdbb60">adbms6380_module_t::err_regb_mismatch</a> set. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_afd953d8559ba00f614313e52d6e9bb4c_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
 
 </div>
 </div>
-<a id="a9849bfe4b93c2a5ce93af04ff58d79d5" name="a9849bfe4b93c2a5ce93af04ff58d79d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9849bfe4b93c2a5ce93af04ff58d79d5">&#9670;&#160;</a></span>adbms6380_adsv()</h2>
+<a id="ad44be82376949cf91d9b4a0216f7ba26" name="ad44be82376949cf91d9b4a0216f7ba26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad44be82376949cf91d9b4a0216f7ba26">&#9670;&#160;</a></span>ADBMS6380_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void adbms6380_adsv </td>
+          <td class="memname">void ADBMS6380_init </td>
           <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>output_cmd</em></span>[ADBMS6380_COMMAND_RAW_SIZE], </td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>cont</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>dcp</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>ow</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Build ADSV command bytes. </p>
+<p>Initialize the ADBMS6380 device driver instance, SPI buffers, and CS line. </p>
+<p>Deasserts CS high, initializes the internal TX strbuf, and clears discharge and error flags across all modules.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">output_cmd</td><td>Output buffer for 2-byte command. </td></tr>
-    <tr><td class="paramname">cont</td><td>Continuous conversion enable. </td></tr>
-    <tr><td class="paramname">dcp</td><td>Discharge permitted during conversion (only affects PWM balancing, not DCC). </td></tr>
-    <tr><td class="paramname">ow</td><td>Open-wire setting (2-bit). </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ad6309659e70a91acde06af856a1ff7c3" name="ad6309659e70a91acde06af856a1ff7c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6309659e70a91acde06af856a1ff7c3">&#9670;&#160;</a></span>adbms6380_calculate_cfg_rega()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void adbms6380_calculate_cfg_rega </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>output_cfg_rega</em></span>[ADBMS6380_SINGLE_DATA_RAW_SIZE], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>refon</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>cth</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Calculate the REG_A configuration register value. </p>
-<p>Populates GPIO pull-downs, reference behavior, and comparator threshold.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">output_cfg_rega</td><td>Output buffer for REG_A configuration (6 bytes). </td></tr>
-    <tr><td class="paramname">refon</td><td>1 = reference remains powered up until watchdog timeout. </td></tr>
-    <tr><td class="paramname">cth</td><td>C-ADC vs. S-ADC comparison voltage threshold. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a7edc17528da09597a1ba5cd6d5e9671e" name="a7edc17528da09597a1ba5cd6d5e9671e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7edc17528da09597a1ba5cd6d5e9671e">&#9670;&#160;</a></span>adbms6380_calculate_cfg_regb()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void adbms6380_calculate_cfg_regb </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>output_cfg_regb</em></span>[ADBMS6380_SINGLE_DATA_RAW_SIZE], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>overvoltage_threshold</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>undervoltage_threshold</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>is_discharging</em></span>[ADBMS6380_CELL_COUNT]&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Calculate the REG_B configuration register value. </p>
-<p>Encodes VOV/VUV thresholds and discharge control bits.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">output_cfg_regb</td><td>Output buffer for REG_B configuration (6 bytes). </td></tr>
-    <tr><td class="paramname">overvoltage_threshold</td><td>Overvoltage threshold in volts. </td></tr>
-    <tr><td class="paramname">undervoltage_threshold</td><td>Undervoltage threshold in volts. </td></tr>
-    <tr><td class="paramname">is_discharging</td><td>Per-cell discharge enable flags. </td></tr>
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state to initialize. </td></tr>
+    <tr><td class="paramname">spi</td><td>Non-null SPI configuration used for ADBMS transactions. </td></tr>
   </table>
   </dd>
 </dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a7edc17528da09597a1ba5cd6d5e9671e_cgraph.svg" width="380" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_ad44be82376949cf91d9b4a0216f7ba26_cgraph.svg" width="451" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_ad44be82376949cf91d9b4a0216f7ba26_icgraph.svg" width="370" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="ad065e19e0b9ff761f14abe8bf654750d" name="ad065e19e0b9ff761f14abe8bf654750d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad065e19e0b9ff761f14abe8bf654750d">&#9670;&#160;</a></span>adbms6380_check_data_pec()</h2>
+<a id="a4011d4493881a897342178e4e04f150a" name="a4011d4493881a897342178e4e04f150a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4011d4493881a897342178e4e04f150a">&#9670;&#160;</a></span>ADBMS6380_read_cell_voltages()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool adbms6380_check_data_pec </td>
+          <td class="memname">void ADBMS6380_read_cell_voltages </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read all cell voltages from each module via RDCVA..RDCVF. </p>
+<p>Converts raw values to volts and populates each module's cell_voltages array. If any command fails with a PEC error after retries, the successfully read cell voltages are still updated and the corresponding flag in err_cell_voltage_pecs is set.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a4011d4493881a897342178e4e04f150a_cgraph.svg" width="100%" height="495"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a4011d4493881a897342178e4e04f150a_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a74b0ad1cee164427d5c561a707f72675" name="a74b0ad1cee164427d5c561a707f72675"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74b0ad1cee164427d5c561a707f72675">&#9670;&#160;</a></span>ADBMS6380_read_gpio_voltages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADBMS6380_read_gpio_voltages </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD. </p>
+<p>Converts raw values to volts and populates each module's gpio_voltages array. If any command fails with a PEC error after retries, the successfully read GPIO voltages are still updated and the corresponding flag in err_gpio_voltage_pecs is set.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a74b0ad1cee164427d5c561a707f72675_cgraph.svg" width="100%" height="495"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a74b0ad1cee164427d5c561a707f72675_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a3032c5c23786e6e09339992bd8ba8d84" name="a3032c5c23786e6e09339992bd8ba8d84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3032c5c23786e6e09339992bd8ba8d84">&#9670;&#160;</a></span>ADBMS6380_read_temperatures()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADBMS6380_read_temperatures </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures. </p>
+<p>Populates each module's gpio_voltages and therms_temps arrays.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+    <tr><td class="paramname">cfg</td><td>Non-null pointer to ADAX command parameters. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a3032c5c23786e6e09339992bd8ba8d84_cgraph.svg" width="100%" height="588"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a3032c5c23786e6e09339992bd8ba8d84_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a797933ebb8aeaf7dc228e5f9f51e47e2" name="a797933ebb8aeaf7dc228e5f9f51e47e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a797933ebb8aeaf7dc228e5f9f51e47e2">&#9670;&#160;</a></span>ADBMS6380_start_adax()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADBMS6380_start_adax </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Issue the ADAX command to start GPIO/aux voltage conversions across all modules. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+    <tr><td class="paramname">cfg</td><td>Non-null pointer to ADAX command parameters. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a797933ebb8aeaf7dc228e5f9f51e47e2_cgraph.svg" width="100%" height="477"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a797933ebb8aeaf7dc228e5f9f51e47e2_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="aa09b3f9f5c953309bb1b5fa61f310d54" name="aa09b3f9f5c953309bb1b5fa61f310d54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa09b3f9f5c953309bb1b5fa61f310d54">&#9670;&#160;</a></span>ADBMS6380_start_adcv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADBMS6380_start_adcv </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__adcv__config__t.html">adbms6380_adcv_config_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Issue the ADCV command to start cell voltage conversions across all modules. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+    <tr><td class="paramname">cfg</td><td>Non-null pointer to ADCV command parameters. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_aa09b3f9f5c953309bb1b5fa61f310d54_cgraph.svg" width="100%" height="477"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_aa09b3f9f5c953309bb1b5fa61f310d54_icgraph.svg" width="567" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a0963dcf6690f0adb7561f61b472427e8" name="a0963dcf6690f0adb7561f61b472427e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0963dcf6690f0adb7561f61b472427e8">&#9670;&#160;</a></span>ADBMS6380_verify_rega()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ADBMS6380_verify_rega </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read back REGA from all modules and compare with cached configuration. </p>
+<p>Sets per-module mismatch or PEC flags when the read-back fails or does not match the cached REGA data.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>false on PEC error or when there is a mismatch; true otherwise. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a0963dcf6690f0adb7561f61b472427e8_cgraph.svg" width="100%" height="478"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a0963dcf6690f0adb7561f61b472427e8_icgraph.svg" width="570" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ab8ca2a5aa91fd37ad09a7f7285bfd5f8" name="ab8ca2a5aa91fd37ad09a7f7285bfd5f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8ca2a5aa91fd37ad09a7f7285bfd5f8">&#9670;&#160;</a></span>ADBMS6380_verify_regb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ADBMS6380_verify_regb </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read back REGB from all modules and compare with cached configuration. </p>
+<p>Sets per-module mismatch or PEC flags when the read-back fails or does not match the cached REGB data.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>false on PEC error or when there is a mismatch; true otherwise. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_ab8ca2a5aa91fd37ad09a7f7285bfd5f8_cgraph.svg" width="100%" height="478"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_ab8ca2a5aa91fd37ad09a7f7285bfd5f8_icgraph.svg" width="570" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a092e9d0a8566b9f48e23ce2efe66d2af" name="a092e9d0a8566b9f48e23ce2efe66d2af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a092e9d0a8566b9f48e23ce2efe66d2af">&#9670;&#160;</a></span>ADBMS6380_wake()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADBMS6380_wake </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Wake the daisy-chained set of ADBMS6380 devices. </p>
+<p>Toggles CS with blocking delays to bring each module out of sleep.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a092e9d0a8566b9f48e23ce2efe66d2af_cgraph.svg" width="494" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a092e9d0a8566b9f48e23ce2efe66d2af_icgraph.svg" width="538" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a4790855abf91e0638244eae6f1d3b168" name="a4790855abf91e0638244eae6f1d3b168"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4790855abf91e0638244eae6f1d3b168">&#9670;&#160;</a></span>ADBMS6380_write_rega()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADBMS6380_write_rega </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__rega__config__t.html">adbms6380_rega_config_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Encode and write REGA configuration to all modules in the daisy chain. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+    <tr><td class="paramname">cfg</td><td>Non-null pointer to REGA configuration parameters. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a4790855abf91e0638244eae6f1d3b168_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a4790855abf91e0638244eae6f1d3b168_icgraph.svg" width="567" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a0cdbd620cf34a8065b37c2eeab6a8ab6" name="a0cdbd620cf34a8065b37c2eeab6a8ab6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cdbd620cf34a8065b37c2eeab6a8ab6">&#9670;&#160;</a></span>ADBMS6380_write_regb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ADBMS6380_write_regb </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__regb__config__t.html">adbms6380_regb_config_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
+    <tr><td class="paramname">cfg</td><td>Non-null pointer to REGB configuration parameters. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a0cdbd620cf34a8065b37c2eeab6a8ab6_cgraph.svg" width="100%" height="551"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a0cdbd620cf34a8065b37c2eeab6a8ab6_icgraph.svg" width="567" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a28822aaed957976af4e2e20250b48a8a" name="a28822aaed957976af4e2e20250b48a8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28822aaed957976af4e2e20250b48a8a">&#9670;&#160;</a></span>check_data_pec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool check_data_pec </td>
           <td>(</td>
           <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>rx_bytes</em></span>, </td>
         </tr>
@@ -425,38 +736,104 @@ Here is the call graph for this function:</div>
           <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>rx_len</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Verify the PEC of received data. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">rx_bytes</td><td>Pointer to received bytes from a module. PEC10 must follow the raw data bytes. </td></tr>
-    <tr><td class="paramname">rx_len</td><td>Length of the recieved data from a module in bytes (including PEC, so the raw data is actually rx_len - ADBMS6380_PEC_SIZE). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the received PEC matches calculated value, false otherwise. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_ad065e19e0b9ff761f14abe8bf654750d_cgraph.svg" width="404" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a28822aaed957976af4e2e20250b48a8a_cgraph.svg" width="296" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_ad065e19e0b9ff761f14abe8bf654750d_icgraph.svg" width="100%" height="400"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a28822aaed957976af4e2e20250b48a8a_icgraph.svg" width="100%" height="463"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a16817c8398c8a8542620eb7a9e131d0b" name="a16817c8398c8a8542620eb7a9e131d0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16817c8398c8a8542620eb7a9e131d0b">&#9670;&#160;</a></span>adbms6380_extract_i16()</h2>
+<a id="a8263dd435c9b93a81f89cfa573373615" name="a8263dd435c9b93a81f89cfa573373615"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8263dd435c9b93a81f89cfa573373615">&#9670;&#160;</a></span>encode_adax()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int16_t adbms6380_extract_i16 </td>
+          <td class="memname">static void encode_adax </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>output_cmd</em></span>[ADBMS6380_COMMAND_RAW_SIZE], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a8263dd435c9b93a81f89cfa573373615_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a15e7e7ef8477a33555dcfd0d429fcd57" name="a15e7e7ef8477a33555dcfd0d429fcd57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15e7e7ef8477a33555dcfd0d429fcd57">&#9670;&#160;</a></span>encode_adcv()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void encode_adcv </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>output_cmd</em></span>[ADBMS6380_COMMAND_RAW_SIZE], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__adcv__config__t.html">adbms6380_adcv_config_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a15e7e7ef8477a33555dcfd0d429fcd57_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="acdd74e7fab01d528227daa20e7f17c53" name="acdd74e7fab01d528227daa20e7f17c53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdd74e7fab01d528227daa20e7f17c53">&#9670;&#160;</a></span>extract_i16()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int16_t extract_i16 </td>
           <td>(</td>
           <td class="paramtype">const uint8_t *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
         </tr>
@@ -466,64 +843,139 @@ Here is the caller graph for this function:</div>
           <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>idx</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Extract a little-endian 16-bit signed value from a byte buffer. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>Pointer to byte buffer containing 16-bit words. </td></tr>
-    <tr><td class="paramname">idx</td><td>Index of the 16-bit word to extract. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Signed 16-bit value. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a16817c8398c8a8542620eb7a9e131d0b_icgraph.svg" width="368" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_acdd74e7fab01d528227daa20e7f17c53_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a7dba9c62715355f360c6e4f1b150d334" name="a7dba9c62715355f360c6e4f1b150d334"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dba9c62715355f360c6e4f1b150d334">&#9670;&#160;</a></span>adbms6380_get_threshold_voltage_cfg()</h2>
+<a id="aa8a177a330ddc2b8f8217345bc9fb1d2" name="aa8a177a330ddc2b8f8217345bc9fb1d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8a177a330ddc2b8f8217345bc9fb1d2">&#9670;&#160;</a></span>get_threshold_voltage_cfg()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t adbms6380_get_threshold_voltage_cfg </td>
+          <td class="memname">static uint16_t get_threshold_voltage_cfg </td>
           <td>(</td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>threshold_voltage</em></span></td><td>)</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>threshold_voltage_v</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Convert a voltage threshold (V) into 12-bit REG_B threshold encoding. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">threshold_voltage</td><td>Threshold voltage in volts. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>12-bit configuration value suitable for VOV/VUV fields. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a7dba9c62715355f360c6e4f1b150d334_icgraph.svg" width="380" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_aa8a177a330ddc2b8f8217345bc9fb1d2_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a87779ad64f4a74f4550870855d30d4a2" name="a87779ad64f4a74f4550870855d30d4a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87779ad64f4a74f4550870855d30d4a2">&#9670;&#160;</a></span>adbms6380_prepare_command()</h2>
+<a id="afb108a639c63f16f8fcb860b97e5ca97" name="afb108a639c63f16f8fcb860b97e5ca97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb108a639c63f16f8fcb860b97e5ca97">&#9670;&#160;</a></span>pack_cfg_rega()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void adbms6380_prepare_command </td>
+          <td class="memname">static void pack_cfg_rega </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>output_cfg_rega</em></span>[ADBMS6380_SINGLE_DATA_RAW_SIZE], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__rega__config__t.html">adbms6380_rega_config_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_afb108a639c63f16f8fcb860b97e5ca97_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a6618686ac7196d434398a2ea673f4bba" name="a6618686ac7196d434398a2ea673f4bba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6618686ac7196d434398a2ea673f4bba">&#9670;&#160;</a></span>pack_cfg_regb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void pack_cfg_regb </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>output_cfg_regb</em></span>[ADBMS6380_SINGLE_DATA_RAW_SIZE], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structadbms6380__regb__config__t.html">adbms6380_regb_config_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cfg</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>is_discharging</em></span>[ADBMS6380_CELL_COUNT]&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a6618686ac7196d434398a2ea673f4bba_cgraph.svg" width="339" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a6618686ac7196d434398a2ea673f4bba_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="afcb2720a50ea90439d14a568c8119c32" name="afcb2720a50ea90439d14a568c8119c32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcb2720a50ea90439d14a568c8119c32">&#9670;&#160;</a></span>prepare_command()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void prepare_command </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structstrbuf__t.html">strbuf_t</a> *</td>          <td class="paramname"><span class="paramname"><em>output_buffer</em></span>, </td>
         </tr>
@@ -533,37 +985,36 @@ Here is the caller graph for this function:</div>
           <td class="paramtype">const uint8_t</td>          <td class="paramname"><span class="paramname"><em>command</em></span>[ADBMS6380_COMMAND_RAW_SIZE]&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Append a command and its PEC to an output buffer. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">output_buffer</td><td>Buffer to append into. </td></tr>
-    <tr><td class="paramname">command</td><td>2-byte command payload. </td></tr>
-  </table>
-  </dd>
-</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a87779ad64f4a74f4550870855d30d4a2_cgraph.svg" width="416" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_afcb2720a50ea90439d14a568c8119c32_cgraph.svg" width="308" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a87779ad64f4a74f4550870855d30d4a2_icgraph.svg" width="412" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_afcb2720a50ea90439d14a568c8119c32_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a8c34ef8839dcd0f491ade5e2f7146e9b" name="a8c34ef8839dcd0f491ade5e2f7146e9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c34ef8839dcd0f491ade5e2f7146e9b">&#9670;&#160;</a></span>adbms6380_prepare_data_packet()</h2>
+<a id="a3d7ce49113bf9841b4aa4f1e38956ebd" name="a3d7ce49113bf9841b4aa4f1e38956ebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d7ce49113bf9841b4aa4f1e38956ebd">&#9670;&#160;</a></span>prepare_data_packet()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void adbms6380_prepare_data_packet </td>
+          <td class="memname">static void prepare_data_packet </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structstrbuf__t.html">strbuf_t</a> *</td>          <td class="paramname"><span class="paramname"><em>output_buffer</em></span>, </td>
         </tr>
@@ -573,80 +1024,103 @@ Here is the caller graph for this function:</div>
           <td class="paramtype">const uint8_t</td>          <td class="paramname"><span class="paramname"><em>data</em></span>[ADBMS6380_SINGLE_DATA_RAW_SIZE]&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Append a data payload and its PEC to an output buffer. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">output_buffer</td><td>Buffer to append into. </td></tr>
-    <tr><td class="paramname">data</td><td>6-byte data payload. </td></tr>
-  </table>
-  </dd>
-</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a8c34ef8839dcd0f491ade5e2f7146e9b_cgraph.svg" width="384" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a3d7ce49113bf9841b4aa4f1e38956ebd_cgraph.svg" width="322" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a3d7ce49113bf9841b4aa4f1e38956ebd_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a2e9f567aae9798e09e92280c8919a184" name="a2e9f567aae9798e09e92280c8919a184"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e9f567aae9798e09e92280c8919a184">&#9670;&#160;</a></span>adbms6380_raw_to_v()</h2>
+<a id="a78276e601ae16e9e616291d1a6299755" name="a78276e601ae16e9e616291d1a6299755"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78276e601ae16e9e616291d1a6299755">&#9670;&#160;</a></span>raw_to_v()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float adbms6380_raw_to_v </td>
+          <td class="memname">static float raw_to_v </td>
           <td>(</td>
           <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>raw</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Convert raw voltage measurement from the ADBMS6380 to volts. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">raw</td><td>Raw code from ADBMS. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Corresponding voltage in volts. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a2e9f567aae9798e09e92280c8919a184_icgraph.svg" width="359" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a78276e601ae16e9e616291d1a6299755_icgraph.svg" width="100%" height="388"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a469042d4b560d5b80c7a69eef1a09cbc" name="a469042d4b560d5b80c7a69eef1a09cbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a469042d4b560d5b80c7a69eef1a09cbc">&#9670;&#160;</a></span>adbms6380_read()</h2>
+<a id="a4e8e83783b9da5c69b8a6bef35f010f5" name="a4e8e83783b9da5c69b8a6bef35f010f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e8e83783b9da5c69b8a6bef35f010f5">&#9670;&#160;</a></span>read_data_with_retries()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool adbms6380_read </td>
+          <td class="memname">static bool read_data_with_retries </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_count</em></span>, </td>
         </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a4e8e83783b9da5c69b8a6bef35f010f5_cgraph.svg" width="100%" height="478"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a4e8e83783b9da5c69b8a6bef35f010f5_icgraph.svg" width="100%" height="461"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" name="a5bbcf4c8fd7f1b002f7400e2fb3ad5e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1">&#9670;&#160;</a></span>read_response()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
         <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const uint8_t</td>          <td class="paramname"><span class="paramname"><em>cmd_buffer</em></span>[ADBMS6380_COMMAND_PKT_SIZE], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>rx_buffer</em></span>, </td>
+          <td class="memname">static bool read_response </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -654,387 +1128,442 @@ Here is the caller graph for this function:</div>
           <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>rx_length_per_module</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Read a fixed-length response from all modules after a command. </p>
-<p>Sends the command to the daisy chain, then reads <code>rx_length</code> bytes into <code>rx_buffer</code>. Data is returned in module order (0..N-1).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">spi</td><td>SPI configuration used for the transfer. </td></tr>
-    <tr><td class="paramname">module_count</td><td>Number of modules in the daisy chain. </td></tr>
-    <tr><td class="paramname">cmd_buffer</td><td>Command buffer including PEC. </td></tr>
-    <tr><td class="paramname">rx_buffer</td><td>Output buffer for received bytes. </td></tr>
-    <tr><td class="paramname">rx_length_per_module</td><td>Number of bytes expected from each module (including PEC). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if all module data packets passed their PEC checks, false if any failed. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a469042d4b560d5b80c7a69eef1a09cbc_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a5bbcf4c8fd7f1b002f7400e2fb3ad5e1_cgraph.svg" width="100%" height="479"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a469042d4b560d5b80c7a69eef1a09cbc_icgraph.svg" width="531" height="134"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a5bbcf4c8fd7f1b002f7400e2fb3ad5e1_icgraph.svg" width="100%" height="463"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a499f6612cccef1d392bbe9bf92f3e525" name="a499f6612cccef1d392bbe9bf92f3e525"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a499f6612cccef1d392bbe9bf92f3e525">&#9670;&#160;</a></span>adbms6380_read_cell_voltages()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void adbms6380_read_cell_voltages </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structstrbuf__t.html">strbuf_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cmd_buffer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>rx_buffer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float **</td>          <td class="paramname"><span class="paramname"><em>cell_voltages</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int16_t **</td>          <td class="paramname"><span class="paramname"><em>cell_voltages_raw</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>pec_error_flags</em></span>[ADBMS6380_RDCV_CMD_COUNT], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_count</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>max_retries_on_pec_failure</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Read all cell voltages from each module. </p>
-<p>Issues the RDCVALL command, converts raw values to volts, and fills the provided per-module cell voltage arrays. If any of the commands fail with a PEC error (even with the retries), the successfully read cell voltages will still be updated but the corresponding PEC error flag will be set.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">spi</td><td>SPI configuration used for the transfer. </td></tr>
-    <tr><td class="paramname">cmd_buffer</td><td>Scratch buffer for command + PEC. </td></tr>
-    <tr><td class="paramname">rx_buffer</td><td>RX buffer for raw bytes. </td></tr>
-    <tr><td class="paramname">cell_voltages</td><td>Per-module arrays of cell voltages to populate. </td></tr>
-    <tr><td class="paramname">cell_voltages_raw</td><td>Per-module arrays of raw cell voltage codes to populate. </td></tr>
-    <tr><td class="paramname">pec_error_flags</td><td>Output array of flags indicating which command (if any) had PEC failures after retries are exhausted. </td></tr>
-    <tr><td class="paramname">module_count</td><td>Number of modules in the daisy chain. </td></tr>
-    <tr><td class="paramname">max_retries_on_pec_failure</td><td>Number of attempts to retry a read if a PEC failure is detected before giving up.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Note: the SPI transfer cannot fail (void return). However, the PEC failures are recorded per-command in <code>pec_error_flags</code>. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a499f6612cccef1d392bbe9bf92f3e525_cgraph.svg" width="100%" height="574"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="a4ac224a3bfc80249e11dd1614d8b06bb" name="a4ac224a3bfc80249e11dd1614d8b06bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ac224a3bfc80249e11dd1614d8b06bb">&#9670;&#160;</a></span>adbms6380_read_data()</h2>
+<a id="a0fbc190f11658ecf5ce9c00849595363" name="a0fbc190f11658ecf5ce9c00849595363"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fbc190f11658ecf5ce9c00849595363">&#9670;&#160;</a></span>set_cs_high()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool adbms6380_read_data </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_count</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const uint8_t</td>          <td class="paramname"><span class="paramname"><em>cmd_buffer</em></span>[ADBMS6380_COMMAND_PKT_SIZE], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>rx_buffer</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Read a single-data-packet response per module. </p>
-<p>Convenience wrapper around <a class="el" href="adbms6380_8h.html#a469042d4b560d5b80c7a69eef1a09cbc" title="Read a fixed-length response from all modules after a command.">adbms6380_read()</a> with ADBMS6380_SINGLE_DATA_PKT_SIZE as the expected response length per module.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">spi</td><td>SPI configuration used for the transfer. </td></tr>
-    <tr><td class="paramname">module_count</td><td>Number of modules in the daisy chain. </td></tr>
-    <tr><td class="paramname">cmd_buffer</td><td>Command buffer including PEC. </td></tr>
-    <tr><td class="paramname">rx_buffer</td><td>Output buffer for received bytes. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if all module data packets passed their PEC checks, false if any failed. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a4ac224a3bfc80249e11dd1614d8b06bb_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="a70386a08dccdc52b602a3fe13a38daf8" name="a70386a08dccdc52b602a3fe13a38daf8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70386a08dccdc52b602a3fe13a38daf8">&#9670;&#160;</a></span>adbms6380_read_data_with_retries()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool adbms6380_read_data_with_retries </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>max_retries</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_count</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const uint8_t</td>          <td class="paramname"><span class="paramname"><em>cmd_buffer</em></span>[ADBMS6380_COMMAND_PKT_SIZE], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>rx_buffer</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Read a single-data-packet response per module and retries on PEC failure. </p>
-<p>Convenience wrapper around <a class="el" href="adbms6380_8h.html#a4ac224a3bfc80249e11dd1614d8b06bb" title="Read a single-data-packet response per module.">adbms6380_read_data()</a> that retries the read up to a fixed number of attempts if a PEC failure is detected.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">spi</td><td>SPI configuration used for the transfer. </td></tr>
-    <tr><td class="paramname">max_retries</td><td>Maximum number of read attempts if PEC failures occur. </td></tr>
-    <tr><td class="paramname">module_count</td><td>Number of modules in the daisy chain. </td></tr>
-    <tr><td class="paramname">cmd_buffer</td><td>Command buffer including PEC. </td></tr>
-    <tr><td class="paramname">rx_buffer</td><td>Output buffer for received bytes. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if a read passed all PEC checks within the retry budget, false if all attempts failed their PEC checks. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a70386a08dccdc52b602a3fe13a38daf8_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a70386a08dccdc52b602a3fe13a38daf8_icgraph.svg" width="363" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="afe31398e48d217264ed77592d7b11aaa" name="afe31398e48d217264ed77592d7b11aaa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe31398e48d217264ed77592d7b11aaa">&#9670;&#160;</a></span>adbms6380_read_gpio_voltages()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void adbms6380_read_gpio_voltages </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structstrbuf__t.html">strbuf_t</a> *</td>          <td class="paramname"><span class="paramname"><em>cmd_buffer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>rx_buffer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float **</td>          <td class="paramname"><span class="paramname"><em>gpio_voltages</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>pec_error_flags</em></span>[ADBMS6380_RDAUX_CMD_COUNT], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_count</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>max_retries_on_pec_failure</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Read all GPIO/aux voltages from each module. </p>
-<p>Issues RDAUXA/B/C/D commands, converts raw values to volts, and fills the provided per-module GPIO voltage arrays. If any of the commands fail with a PEC error (even with the retries), the successfully read GPIO voltages will still be updated but the corresponding PEC error flag will be set.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">spi</td><td>SPI configuration used for the transfer. </td></tr>
-    <tr><td class="paramname">cmd_buffer</td><td>Scratch buffer for command + PEC. </td></tr>
-    <tr><td class="paramname">rx_buffer</td><td>RX buffer for raw bytes. </td></tr>
-    <tr><td class="paramname">gpio_voltages</td><td>Per-module arrays of GPIO voltages to populate. </td></tr>
-    <tr><td class="paramname">pec_error_flags</td><td>Output array of flags indicating which command (if any) had PEC failures after retries are exhausted. </td></tr>
-    <tr><td class="paramname">module_count</td><td>Number of modules in the daisy chain. </td></tr>
-    <tr><td class="paramname">max_retries_on_pec_failure</td><td>Number of attempts to retry a read if a PEC failure is detected before giving up.</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Note: the SPI transfer cannot fail (void return). However, the PEC failures are recorded per-command in <code>pec_error_flags</code>. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_afe31398e48d217264ed77592d7b11aaa_cgraph.svg" width="100%" height="574"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
-</div>
-</div>
-<a id="ae50a5200f4ab61124ab070e8898f0cc9" name="ae50a5200f4ab61124ab070e8898f0cc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae50a5200f4ab61124ab070e8898f0cc9">&#9670;&#160;</a></span>adbms6380_set_cs_high()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void adbms6380_set_cs_high </td>
+          <td class="memname">static void set_cs_high </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Drive the ADBMS CS line to high. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">spi</td><td>SPI configuration containing the CS GPIO. </td></tr>
-  </table>
-  </dd>
-</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_ae50a5200f4ab61124ab070e8898f0cc9_cgraph.svg" width="356" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a0fbc190f11658ecf5ce9c00849595363_cgraph.svg" width="283" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_ae50a5200f4ab61124ab070e8898f0cc9_icgraph.svg" width="100%" height="422"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a0fbc190f11658ecf5ce9c00849595363_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a12a7403f2f6b47af40cc7d278909ebe7" name="a12a7403f2f6b47af40cc7d278909ebe7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12a7403f2f6b47af40cc7d278909ebe7">&#9670;&#160;</a></span>adbms6380_set_cs_low()</h2>
+<a id="a1277b27c98c88984589d85ad6adcdb5f" name="a1277b27c98c88984589d85ad6adcdb5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1277b27c98c88984589d85ad6adcdb5f">&#9670;&#160;</a></span>set_cs_low()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void adbms6380_set_cs_low </td>
+          <td class="memname">static void set_cs_low </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Drive the ADBMS CS line low. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">spi</td><td>SPI configuration containing the CS GPIO. </td></tr>
-  </table>
-  </dd>
-</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a12a7403f2f6b47af40cc7d278909ebe7_cgraph.svg" width="352" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a1277b27c98c88984589d85ad6adcdb5f_cgraph.svg" width="279" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a12a7403f2f6b47af40cc7d278909ebe7_icgraph.svg" width="100%" height="400"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a1277b27c98c88984589d85ad6adcdb5f_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a98d7e305df1794e6146e9aa0e885bf65" name="a98d7e305df1794e6146e9aa0e885bf65"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98d7e305df1794e6146e9aa0e885bf65">&#9670;&#160;</a></span>adbms6380_wake()</h2>
+<a id="af3ac94078b13ac245b54b2248db0ce11" name="af3ac94078b13ac245b54b2248db0ce11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3ac94078b13ac245b54b2248db0ce11">&#9670;&#160;</a></span>transfer_tx()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void adbms6380_wake </td>
+          <td class="memname">static void transfer_tx </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> *</td>          <td class="paramname"><span class="paramname"><em>dev</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_count</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Wake a daisy-chained set of ADBMS devices. </p>
-<p>Toggles CS with blocking delays to bring each module out of sleep.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">spi</td><td>SPI configuration containing the CS GPIO. </td></tr>
-    <tr><td class="paramname">module_count</td><td>Number of modules in the daisy chain. </td></tr>
-  </table>
-  </dd>
-</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a98d7e305df1794e6146e9aa0e885bf65_cgraph.svg" width="531" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_af3ac94078b13ac245b54b2248db0ce11_cgraph.svg" width="100%" height="475"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_af3ac94078b13ac245b54b2248db0ce11_icgraph.svg" width="100%" height="441"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a38029721093744d695ca74135b48613e" name="a38029721093744d695ca74135b48613e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38029721093744d695ca74135b48613e">&#9670;&#160;</a></span>ADBMS6380_ADC_LSB_V</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float ADBMS6380_ADC_LSB_V = 0.000150f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7af1d8b226bca1da00378cd8d9bc41cb" name="a7af1d8b226bca1da00378cd8d9bc41cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7af1d8b226bca1da00378cd8d9bc41cb">&#9670;&#160;</a></span>ADBMS6380_DIVIDER_EPSILON_V</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float ADBMS6380_DIVIDER_EPSILON_V = 0.00001f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6d844931efb4a00bf3394e95891bc53e" name="a6d844931efb4a00bf3394e95891bc53e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d844931efb4a00bf3394e95891bc53e">&#9670;&#160;</a></span>ADBMS6380_GPIO_R1_OHM</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float ADBMS6380_GPIO_R1_OHM = 10'000.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac1a21f9669951e64641d62944ae46938" name="ac1a21f9669951e64641d62944ae46938"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1a21f9669951e64641d62944ae46938">&#9670;&#160;</a></span>ADBMS6380_GPIO_VIN_V</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float ADBMS6380_GPIO_VIN_V = 3.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb42bffedd28f187135475320369366c" name="acb42bffedd28f187135475320369366c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb42bffedd28f187135475320369366c">&#9670;&#160;</a></span>ADBMS6380_PEC_FAIL_MAX_RETRIES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t ADBMS6380_PEC_FAIL_MAX_RETRIES = 3U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2345c4517bcd53b7de2b550fef5063a" name="ae2345c4517bcd53b7de2b550fef5063a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2345c4517bcd53b7de2b550fef5063a">&#9670;&#160;</a></span>ADBMS6380_RAW_OFFSET_CODES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t ADBMS6380_RAW_OFFSET_CODES = 10'000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1f75bc2f43787411f5bccf84d58f467a" name="a1f75bc2f43787411f5bccf84d58f467a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f75bc2f43787411f5bccf84d58f467a">&#9670;&#160;</a></span>ADBMS6380_THRESHOLD_BITS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t ADBMS6380_THRESHOLD_BITS = 12U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a90e3be5e5b483076ab33dddc2fb83a79" name="a90e3be5e5b483076ab33dddc2fb83a79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90e3be5e5b483076ab33dddc2fb83a79">&#9670;&#160;</a></span>ADBMS6380_THRESHOLD_MASK</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t ADBMS6380_THRESHOLD_MASK = 0x0FFFU</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9b38de4faba1dc81864f068c8fa1aa0f" name="a9b38de4faba1dc81864f068c8fa1aa0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b38de4faba1dc81864f068c8fa1aa0f">&#9670;&#160;</a></span>ADBMS6380_THRESHOLD_SCALE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float ADBMS6380_THRESHOLD_SCALE = 16.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2448d8a5b13bdd1e43f5e6079a19d3cf" name="a2448d8a5b13bdd1e43f5e6079a19d3cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2448d8a5b13bdd1e43f5e6079a19d3cf">&#9670;&#160;</a></span>ADBMS6380_VOLTAGE_OFFSET_V</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float ADBMS6380_VOLTAGE_OFFSET_V = 1.5f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7d27e9f1d0f7f58e94d32927ae64736d" name="a7d27e9f1d0f7f58e94d32927ae64736d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d27e9f1d0f7f58e94d32927ae64736d">&#9670;&#160;</a></span>ADBMS6380_WAKE_DELAY_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t ADBMS6380_WAKE_DELAY_MS = 1U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wake pulse duration per CS toggle in milliseconds. </p>
+<p>Note: usage of this expects the FreeRTOS tick rate to be 1000 Hz (1 tick = 1 ms). </p>
+
+</div>
+</div>
+<a id="aa9d6dd0d190dda30b9e35fc91e63eae4" name="aa9d6dd0d190dda30b9e35fc91e63eae4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9d6dd0d190dda30b9e35fc91e63eae4">&#9670;&#160;</a></span>RDAUX_CMDS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t* const RDAUX_CMDS[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#a42cd115d96d31bca581e6847ef3556eb">ADBMS6380_CMD_RDAUXA</a>,</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#abaee53239f2f7d8505d653bf4cf577fc">ADBMS6380_CMD_RDAUXB</a>,</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#a8994c2e7a89819b210d0108a3f7589ec">ADBMS6380_CMD_RDAUXC</a>,</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#a2f06c30e74a01f102f56f44c593e3b5b">ADBMS6380_CMD_RDAUXD</a>,</div>
+<div class="line">}</div>
+<div class="ttc" id="acommands_8h_html_a2f06c30e74a01f102f56f44c593e3b5b"><div class="ttname"><a href="commands_8h.html#a2f06c30e74a01f102f56f44c593e3b5b">ADBMS6380_CMD_RDAUXD</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDAUXD[2]</div><div class="ttdef"><b>Definition</b> commands.h:68</div></div>
+<div class="ttc" id="acommands_8h_html_a42cd115d96d31bca581e6847ef3556eb"><div class="ttname"><a href="commands_8h.html#a42cd115d96d31bca581e6847ef3556eb">ADBMS6380_CMD_RDAUXA</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDAUXA[2]</div><div class="ttdef"><b>Definition</b> commands.h:65</div></div>
+<div class="ttc" id="acommands_8h_html_a8994c2e7a89819b210d0108a3f7589ec"><div class="ttname"><a href="commands_8h.html#a8994c2e7a89819b210d0108a3f7589ec">ADBMS6380_CMD_RDAUXC</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDAUXC[2]</div><div class="ttdef"><b>Definition</b> commands.h:67</div></div>
+<div class="ttc" id="acommands_8h_html_abaee53239f2f7d8505d653bf4cf577fc"><div class="ttname"><a href="commands_8h.html#abaee53239f2f7d8505d653bf4cf577fc">ADBMS6380_CMD_RDAUXB</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDAUXB[2]</div><div class="ttdef"><b>Definition</b> commands.h:66</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ac496a805537c9b21ba5a53fb864ecce1" name="ac496a805537c9b21ba5a53fb864ecce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac496a805537c9b21ba5a53fb864ecce1">&#9670;&#160;</a></span>RDCV_CMDS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const uint8_t* const RDCV_CMDS[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#a31866314e8621347528a9fa230923217">ADBMS6380_CMD_RDCVA</a>,</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#a361da7a314c53c29c6e530cb208f695b">ADBMS6380_CMD_RDCVB</a>,</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#a97215db1d7276ba3124c83a2add2177a">ADBMS6380_CMD_RDCVC</a>,</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#a744848dc0d6b321179337558f47f8da2">ADBMS6380_CMD_RDCVD</a>,</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#ac991d9668e4768643e127aa0e445f0ab">ADBMS6380_CMD_RDCVE</a>,</div>
+<div class="line">    <a class="code hl_variable" href="commands_8h.html#a1199e997445e5c7f07a02ab1c7916151">ADBMS6380_CMD_RDCVF</a>,</div>
+<div class="line">}</div>
+<div class="ttc" id="acommands_8h_html_a1199e997445e5c7f07a02ab1c7916151"><div class="ttname"><a href="commands_8h.html#a1199e997445e5c7f07a02ab1c7916151">ADBMS6380_CMD_RDCVF</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDCVF[2]</div><div class="ttdef"><b>Definition</b> commands.h:27</div></div>
+<div class="ttc" id="acommands_8h_html_a31866314e8621347528a9fa230923217"><div class="ttname"><a href="commands_8h.html#a31866314e8621347528a9fa230923217">ADBMS6380_CMD_RDCVA</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDCVA[2]</div><div class="ttdef"><b>Definition</b> commands.h:22</div></div>
+<div class="ttc" id="acommands_8h_html_a361da7a314c53c29c6e530cb208f695b"><div class="ttname"><a href="commands_8h.html#a361da7a314c53c29c6e530cb208f695b">ADBMS6380_CMD_RDCVB</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDCVB[2]</div><div class="ttdef"><b>Definition</b> commands.h:23</div></div>
+<div class="ttc" id="acommands_8h_html_a744848dc0d6b321179337558f47f8da2"><div class="ttname"><a href="commands_8h.html#a744848dc0d6b321179337558f47f8da2">ADBMS6380_CMD_RDCVD</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDCVD[2]</div><div class="ttdef"><b>Definition</b> commands.h:25</div></div>
+<div class="ttc" id="acommands_8h_html_a97215db1d7276ba3124c83a2add2177a"><div class="ttname"><a href="commands_8h.html#a97215db1d7276ba3124c83a2add2177a">ADBMS6380_CMD_RDCVC</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDCVC[2]</div><div class="ttdef"><b>Definition</b> commands.h:24</div></div>
+<div class="ttc" id="acommands_8h_html_ac991d9668e4768643e127aa0e445f0ab"><div class="ttname"><a href="commands_8h.html#ac991d9668e4768643e127aa0e445f0ab">ADBMS6380_CMD_RDCVE</a></div><div class="ttdeci">static constexpr uint8_t ADBMS6380_CMD_RDCVE[2]</div><div class="ttdef"><b>Definition</b> commands.h:26</div></div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

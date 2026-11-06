@@ -1,24 +1,27 @@
 <map id="firmware/source/a_box/adbms/adbms6380.h" name="firmware/source/a_box/adbms/adbms6380.h">
-<area shape="rect" id="Node000001" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="156,5,307,46"/>
+<area shape="rect" id="Node000001" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="213,5,364,46"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,102,79,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,49,83,97,81,92,187,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="288,190,356,216"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="274,44,301,65,323,93,330,113,333,135,331,175,325,175,328,136,325,115,318,95,298,69,271,49"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="200,279,263,304"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="192,49,165,69,144,95,140,114,145,134,158,172,176,207,214,265,210,268,172,210,153,174,139,135,135,114,140,93,161,65,189,44"/>
-<area shape="rect" id="Node000005" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="383,94,528,135"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="283,44,391,85,389,90,281,49"/>
-<area shape="rect" id="Node000009" href="$strbuf_8h.html" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="154,102,309,127"/>
-<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="234,47,234,86,229,86,229,47"/>
-<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="427,137,355,184,352,179,424,133"/>
-<area shape="rect" id="Node000006" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="379,183,532,223"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="458,135,458,167,453,167,453,135"/>
-<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="405,226,277,275,276,271,404,221"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="400,360,508,386"/>
-<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="446,225,434,247,426,272,423,292,426,311,440,345,435,348,421,313,418,292,421,271,430,245,441,222"/>
-<area shape="rect" id="Node000008" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="435,271,588,312"/>
-<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="470,222,493,257,488,260,466,225"/>
-<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="499,314,474,349,470,345,495,311"/>
-<area shape="poly" id="edge13_Node000009_Node000003" title=" " alt="" coords="246,126,300,177,297,181,242,130"/>
-<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="234,128,234,263,229,263,229,128"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,49,92,98,90,93,232,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="252,190,320,216"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,46,174,66,158,79,144,95,137,114,144,133,163,154,186,170,238,191,236,195,184,175,159,158,140,136,132,114,140,93,154,75,172,61,211,41"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="432,279,495,304"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="366,36,417,56,440,72,459,92,470,113,478,136,484,183,480,228,473,264,468,263,475,227,478,183,473,137,466,115,455,96,436,76,414,61,364,41"/>
+<area shape="rect" id="Node000005" href="$adbms__config_8h.html" title="Shared pack topology configuration for the ADBMS driver." alt="" coords="154,102,266,127"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="273,48,233,92,229,88,269,45"/>
+<area shape="rect" id="Node000006" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="519,94,664,135"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="358,44,509,87,508,92,357,49"/>
+<area shape="rect" id="Node000010" href="$strbuf_8h.html" title="Fixed&#45;size string builder. Useful for building large CMD strings before transmission." alt="" coords="290,102,445,127"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="308,45,348,88,344,92,305,48"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="223,126,267,177,263,180,219,129"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="522,138,335,191,334,185,521,133"/>
+<area shape="rect" id="Node000007" href="$phal__G4_2dma_2dma_8h.html" title="G4 DMA Peripheral public API implementation." alt="" coords="519,183,672,223"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="595,135,596,167,591,167,590,135"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="567,226,496,273,493,268,564,222"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="598,360,705,386"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="637,222,664,242,686,270,691,291,688,311,672,348,667,346,683,310,685,291,681,272,660,246,634,226"/>
+<area shape="rect" id="Node000009" href="$dma__wiring_8h.html" title="G4 DMA Peripheral wiring configuration and definitions." alt="" coords="519,271,672,312"/>
+<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="598,224,598,256,593,256,593,224"/>
+<area shape="poly" id="edge12_Node000009_Node000008" title=" " alt="" coords="611,311,636,345,632,349,607,314"/>
+<area shape="poly" id="edge15_Node000010_Node000003" title=" " alt="" coords="358,129,309,181,306,177,354,126"/>
+<area shape="poly" id="edge14_Node000010_Node000004" title=" " alt="" coords="376,126,452,264,447,266,372,129"/>
 </map>

@@ -8,7 +8,7 @@ var searchData=
   ['balance_5fenable_5',['balance_enable',['../structcharge__request__data__t.html#a25b847c52c0eb0e01fb17585c1eb82d8',1,'charge_request_data_t']]],
   ['balance_5fstatus_6',['balance_status',['../structcell__telemetry__ccan__data__t.html#a132fb6b188c43018a15e58fe5ee70f38',1,'cell_telemetry_ccan_data_t::balance_status'],['../structcell__telemetry__data__t.html#a3febd6490200ca0263c15d830bafef33',1,'cell_telemetry_data_t::balance_status']]],
   ['balancing_7',['Controlling the Balancing',['../md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md12',1,'']]],
-  ['balancing_20algorithim_8',['Balancing algorithim',['../md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md13',1,'']]],
+  ['balancing_20algorithm_8',['Balancing algorithm',['../md_firmware_2source_2a__box_2adbms_2README.html#autotoc_md13',1,'']]],
   ['balancing_5fstatus_9',['balancing_status',['../structcharging__fsm__internals__data__t.html#a73cfacbc3f37bd4c317db01a58bb4fce',1,'charging_fsm_internals_data_t']]],
   ['bangbang_2ec_10',['bangbang.c',['../bangbang_8c.html',1,'']]],
   ['bangbang_2eh_11',['bangbang.h',['../bangbang_8h.html',1,'']]],

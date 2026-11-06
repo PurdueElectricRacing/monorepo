@@ -98,7 +98,9 @@ $(function(){initNavTree('adbms_8h.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">adbms.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -109,12 +111,12 @@ $(function(){initNavTree('adbms_8h.html',''); initResizable(true); });
 <code>#include &lt;stddef.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="adbms6380_8h_source.html">adbms6380.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="adbms__config_8h_source.html">adbms_config.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="phal__G4_2spi_2spi_8h_source.html">common/phal_G4/spi/spi.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="strbuf_8h_source.html">common/strbuf/strbuf.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for adbms.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h__incl.svg" width="590" height="466"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -124,74 +126,671 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="adbms_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a67c1855256feb303fd35313c53ba7e81" id="r_a67c1855256feb303fd35313c53ba7e81"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67c1855256feb303fd35313c53ba7e81">ADBMS_MODULE_COUNT</a>&#160;&#160;&#160;(7)</td></tr>
-<tr class="separator:a67c1855256feb303fd35313c53ba7e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fe0f383babd68ba85e6a77237ad37ad" id="r_a0fe0f383babd68ba85e6a77237ad37ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0fe0f383babd68ba85e6a77237ad37ad">ADBMS_PEC_FAIL_MAX_RETRIES</a>&#160;&#160;&#160;(3)</td></tr>
-<tr class="separator:a0fe0f383babd68ba85e6a77237ad37ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa51ed2031792e682b6016650334e82bd" id="r_aa51ed2031792e682b6016650334e82bd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa51ed2031792e682b6016650334e82bd">ADBMS_GPIO_R1</a>&#160;&#160;&#160;(10000.0f)</td></tr>
-<tr class="separator:aa51ed2031792e682b6016650334e82bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af967efbf7aee79e9d0bc50e161e46e9b" id="r_af967efbf7aee79e9d0bc50e161e46e9b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af967efbf7aee79e9d0bc50e161e46e9b">ADBMS_GPIO_VIN</a>&#160;&#160;&#160;(3.0f)</td></tr>
-<tr class="separator:af967efbf7aee79e9d0bc50e161e46e9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structadbms__bms__t.html">adbms_bms_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Top-level ADBMS driver state, device handle, and pack-level statistics.  <a href="structadbms__bms__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a7848a968b907c08481726fb5c98a9358" id="r_a7848a968b907c08481726fb5c98a9358"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7848a968b907c08481726fb5c98a9358">adbms_state_t</a> : uint8_t { <a class="el" href="#a7848a968b907c08481726fb5c98a9358aef7afe3f53ab3c7de683418f3a348544">ADBMS_STATE_CONNECTING</a> = 0
+, <a class="el" href="#a7848a968b907c08481726fb5c98a9358ac804dbae6621943eaddf429896fe6365">ADBMS_STATE_READ_LOOP</a> = 1
+, <a class="el" href="#a7848a968b907c08481726fb5c98a9358aaf1566728500e40a8766ae03c9765024">ADBMS_STATE_RECOVERING</a> = 2
+, <a class="el" href="#a7848a968b907c08481726fb5c98a9358a040dd7d2cf6e4791cbba65e4fbb63da0">ADBMS_STATE_FATAL</a> = 3
+ }</td></tr>
+<tr class="memdesc:a7848a968b907c08481726fb5c98a9358"><td class="mdescLeft">&#160;</td><td class="mdescRight">ADBMS driver connection/operation state.  <a href="#a7848a968b907c08481726fb5c98a9358">More...</a><br /></td></tr>
+<tr class="separator:a7848a968b907c08481726fb5c98a9358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a2fe87f399de3fa5272ffe1e544846962" id="r_a2fe87f399de3fa5272ffe1e544846962"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fe87f399de3fa5272ffe1e544846962">ADBMS_init</a> (<a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, <a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
+<tr class="memdesc:a2fe87f399de3fa5272ffe1e544846962"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the ADBMS driver instance and underlying ADBMS6380 device chain.  <br /></td></tr>
+<tr class="separator:a2fe87f399de3fa5272ffe1e544846962"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab54ce393023f40b4bb60ac0e2ede56bf" id="r_ab54ce393023f40b4bb60ac0e2ede56bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab54ce393023f40b4bb60ac0e2ede56bf">ADBMS_periodic</a> (<a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, float min_voltage_for_balance, float min_delta_for_balance)</td></tr>
+<tr class="memdesc:ab54ce393023f40b4bb60ac0e2ede56bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Periodic service routine for connection, measurements, and balancing.  <br /></td></tr>
+<tr class="separator:ab54ce393023f40b4bb60ac0e2ede56bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acda557f6e48d38157bc08fa6cc1afd51" id="r_acda557f6e48d38157bc08fa6cc1afd51"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acda557f6e48d38157bc08fa6cc1afd51">ADBMS_get_cell_voltage</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t module_idx, size_t cell_idx)</td></tr>
+<tr class="memdesc:acda557f6e48d38157bc08fa6cc1afd51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the latest voltage reading (volts) for a specific module and cell.  <br /></td></tr>
+<tr class="separator:acda557f6e48d38157bc08fa6cc1afd51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7c3483644fb9f81864a6a5e0e10b224" id="r_af7c3483644fb9f81864a6a5e0e10b224"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7c3483644fb9f81864a6a5e0e10b224">ADBMS_get_therm_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t module_idx, size_t therm_idx)</td></tr>
+<tr class="memdesc:af7c3483644fb9f81864a6a5e0e10b224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the latest thermistor temperature (Celsius) for a specific module and channel.  <br /></td></tr>
+<tr class="separator:af7c3483644fb9f81864a6a5e0e10b224"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdf3aad580be7e11607800ab411552d" id="r_afcdf3aad580be7e11607800ab411552d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcdf3aad580be7e11607800ab411552d">ADBMS_is_cell_discharging</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t module_idx, size_t cell_idx)</td></tr>
+<tr class="memdesc:afcdf3aad580be7e11607800ab411552d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a specific cell is currently discharging (balancing)  <br /></td></tr>
+<tr class="separator:afcdf3aad580be7e11607800ab411552d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e14636e406801b3bb12fd2aa81b11f5" id="r_a5e14636e406801b3bb12fd2aa81b11f5"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e14636e406801b3bb12fd2aa81b11f5">ADBMS_get_min_voltage</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a5e14636e406801b3bb12fd2aa81b11f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum cell voltage across all modules in volts.  <br /></td></tr>
+<tr class="separator:a5e14636e406801b3bb12fd2aa81b11f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a849fdc4ff065bcfdd5b778ad53b2a256" id="r_a849fdc4ff065bcfdd5b778ad53b2a256"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a849fdc4ff065bcfdd5b778ad53b2a256">ADBMS_get_max_voltage</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a849fdc4ff065bcfdd5b778ad53b2a256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum cell voltage across all modules in volts.  <br /></td></tr>
+<tr class="separator:a849fdc4ff065bcfdd5b778ad53b2a256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97180ef109e7503d66e3ebc853c09244" id="r_a97180ef109e7503d66e3ebc853c09244"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97180ef109e7503d66e3ebc853c09244">ADBMS_get_sum_voltage</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a97180ef109e7503d66e3ebc853c09244"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the sum of all cell voltages across all modules in volts.  <br /></td></tr>
+<tr class="separator:a97180ef109e7503d66e3ebc853c09244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53ad71389411be0c3f979267a35bbbb9" id="r_a53ad71389411be0c3f979267a35bbbb9"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53ad71389411be0c3f979267a35bbbb9">ADBMS_get_min_therm_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a53ad71389411be0c3f979267a35bbbb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum thermistor temperature across all modules in Celsius.  <br /></td></tr>
+<tr class="separator:a53ad71389411be0c3f979267a35bbbb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a607d484c1071f9c39ebb1be6d8198f5c" id="r_a607d484c1071f9c39ebb1be6d8198f5c"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a607d484c1071f9c39ebb1be6d8198f5c">ADBMS_get_max_therm_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a607d484c1071f9c39ebb1be6d8198f5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum thermistor temperature across all modules in Celsius.  <br /></td></tr>
+<tr class="separator:a607d484c1071f9c39ebb1be6d8198f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29e487623d4cb1ea8b136c7ee9d0b7ce" id="r_a29e487623d4cb1ea8b136c7ee9d0b7ce"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29e487623d4cb1ea8b136c7ee9d0b7ce">ADBMS_get_avg_therm_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a29e487623d4cb1ea8b136c7ee9d0b7ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the average thermistor temperature across all modules in Celsius.  <br /></td></tr>
+<tr class="separator:a29e487623d4cb1ea8b136c7ee9d0b7ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeacae70284b52c91b4a0ff0950f7bac" id="r_aaeacae70284b52c91b4a0ff0950f7bac"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaeacae70284b52c91b4a0ff0950f7bac">ADBMS_get_cell_voltage_pec_err</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t cmd_idx)</td></tr>
+<tr class="memdesc:aaeacae70284b52c91b4a0ff0950f7bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a cell voltage read command (<code>0 .. ADBMS6380_RDCV_CMD_COUNT - 1</code>) failed PEC.  <br /></td></tr>
+<tr class="separator:aaeacae70284b52c91b4a0ff0950f7bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45f191f07396bfe915faa373500b9306" id="r_a45f191f07396bfe915faa373500b9306"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45f191f07396bfe915faa373500b9306">ADBMS_get_gpio_voltage_pec_err</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t cmd_idx)</td></tr>
+<tr class="memdesc:a45f191f07396bfe915faa373500b9306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a GPIO voltage read command (<code>0 .. ADBMS6380_RDAUX_CMD_COUNT - 1</code>) failed PEC.  <br /></td></tr>
+<tr class="separator:a45f191f07396bfe915faa373500b9306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78b7ab5a53ff58a2a0ad67d4da07258a" id="r_a78b7ab5a53ff58a2a0ad67d4da07258a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a7848a968b907c08481726fb5c98a9358">adbms_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78b7ab5a53ff58a2a0ad67d4da07258a">ADBMS_get_state</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a78b7ab5a53ff58a2a0ad67d4da07258a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current ADBMS driver state.  <br /></td></tr>
+<tr class="separator:a78b7ab5a53ff58a2a0ad67d4da07258a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9de7b59257be3644e232ec367cd8b8e6" id="r_a9de7b59257be3644e232ec367cd8b8e6"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9de7b59257be3644e232ec367cd8b8e6">ADBMS_is_balancing_enabled</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a9de7b59257be3644e232ec367cd8b8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether cell discharge balancing is currently enabled.  <br /></td></tr>
+<tr class="separator:a9de7b59257be3644e232ec367cd8b8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87abd0a009f92d9cc0d2d3be3334b347" id="r_a87abd0a009f92d9cc0d2d3be3334b347"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87abd0a009f92d9cc0d2d3be3334b347">ADBMS_set_balancing_enabled</a> (<a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, bool enabled)</td></tr>
+<tr class="memdesc:a87abd0a009f92d9cc0d2d3be3334b347"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable cell discharge balancing.  <br /></td></tr>
+<tr class="separator:a87abd0a009f92d9cc0d2d3be3334b347"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Primary logic and interface for ADBMS battery management system driver. </p>
 <dl class="section author"><dt>Author</dt><dd>Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'@p'+'urd'+'ue'+'.ed'+'u'; return false;">kumar<span class="obfuscator">.nosp@m.</span>798@<span class="obfuscator">.nosp@m.</span>purdu<span class="obfuscator">.nosp@m.</span>e.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aa51ed2031792e682b6016650334e82bd" name="aa51ed2031792e682b6016650334e82bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa51ed2031792e682b6016650334e82bd">&#9670;&#160;</a></span>ADBMS_GPIO_R1</h2>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a7848a968b907c08481726fb5c98a9358" name="a7848a968b907c08481726fb5c98a9358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7848a968b907c08481726fb5c98a9358">&#9670;&#160;</a></span>adbms_state_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ADBMS_GPIO_R1&#160;&#160;&#160;(10000.0f)</td>
+          <td class="memname">enum <a class="el" href="#a7848a968b907c08481726fb5c98a9358">adbms_state_t</a> : uint8_t</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>ADBMS driver connection/operation state. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7848a968b907c08481726fb5c98a9358aef7afe3f53ab3c7de683418f3a348544" name="a7848a968b907c08481726fb5c98a9358aef7afe3f53ab3c7de683418f3a348544"></a>ADBMS_STATE_CONNECTING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7848a968b907c08481726fb5c98a9358ac804dbae6621943eaddf429896fe6365" name="a7848a968b907c08481726fb5c98a9358ac804dbae6621943eaddf429896fe6365"></a>ADBMS_STATE_READ_LOOP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7848a968b907c08481726fb5c98a9358aaf1566728500e40a8766ae03c9765024" name="a7848a968b907c08481726fb5c98a9358aaf1566728500e40a8766ae03c9765024"></a>ADBMS_STATE_RECOVERING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7848a968b907c08481726fb5c98a9358a040dd7d2cf6e4791cbba65e4fbb63da0" name="a7848a968b907c08481726fb5c98a9358a040dd7d2cf6e4791cbba65e4fbb63da0"></a>ADBMS_STATE_FATAL&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
 </div>
 </div>
-<a id="af967efbf7aee79e9d0bc50e161e46e9b" name="af967efbf7aee79e9d0bc50e161e46e9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af967efbf7aee79e9d0bc50e161e46e9b">&#9670;&#160;</a></span>ADBMS_GPIO_VIN</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a29e487623d4cb1ea8b136c7ee9d0b7ce" name="a29e487623d4cb1ea8b136c7ee9d0b7ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29e487623d4cb1ea8b136c7ee9d0b7ce">&#9670;&#160;</a></span>ADBMS_get_avg_therm_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_avg_therm_temp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the average thermistor temperature across all modules in Celsius. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a29e487623d4cb1ea8b136c7ee9d0b7ce_icgraph.svg" width="432" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="acda557f6e48d38157bc08fa6cc1afd51" name="acda557f6e48d38157bc08fa6cc1afd51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acda557f6e48d38157bc08fa6cc1afd51">&#9670;&#160;</a></span>ADBMS_get_cell_voltage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_cell_voltage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_idx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>cell_idx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the latest voltage reading (volts) for a specific module and cell. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_acda557f6e48d38157bc08fa6cc1afd51_icgraph.svg" width="482" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="aaeacae70284b52c91b4a0ff0950f7bac" name="aaeacae70284b52c91b4a0ff0950f7bac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeacae70284b52c91b4a0ff0950f7bac">&#9670;&#160;</a></span>ADBMS_get_cell_voltage_pec_err()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool ADBMS_get_cell_voltage_pec_err </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>cmd_idx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether a cell voltage read command (<code>0 .. ADBMS6380_RDCV_CMD_COUNT - 1</code>) failed PEC. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_aaeacae70284b52c91b4a0ff0950f7bac_icgraph.svg" width="404" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a45f191f07396bfe915faa373500b9306" name="a45f191f07396bfe915faa373500b9306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45f191f07396bfe915faa373500b9306">&#9670;&#160;</a></span>ADBMS_get_gpio_voltage_pec_err()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool ADBMS_get_gpio_voltage_pec_err </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>cmd_idx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether a GPIO voltage read command (<code>0 .. ADBMS6380_RDAUX_CMD_COUNT - 1</code>) failed PEC. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a45f191f07396bfe915faa373500b9306_icgraph.svg" width="408" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a607d484c1071f9c39ebb1be6d8198f5c" name="a607d484c1071f9c39ebb1be6d8198f5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a607d484c1071f9c39ebb1be6d8198f5c">&#9670;&#160;</a></span>ADBMS_get_max_therm_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_max_therm_temp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the maximum thermistor temperature across all modules in Celsius. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a607d484c1071f9c39ebb1be6d8198f5c_icgraph.svg" width="435" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a849fdc4ff065bcfdd5b778ad53b2a256" name="a849fdc4ff065bcfdd5b778ad53b2a256"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a849fdc4ff065bcfdd5b778ad53b2a256">&#9670;&#160;</a></span>ADBMS_get_max_voltage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_max_voltage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the maximum cell voltage across all modules in volts. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a849fdc4ff065bcfdd5b778ad53b2a256_icgraph.svg" width="408" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a53ad71389411be0c3f979267a35bbbb9" name="a53ad71389411be0c3f979267a35bbbb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53ad71389411be0c3f979267a35bbbb9">&#9670;&#160;</a></span>ADBMS_get_min_therm_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_min_therm_temp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the minimum thermistor temperature across all modules in Celsius. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a53ad71389411be0c3f979267a35bbbb9_icgraph.svg" width="432" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a5e14636e406801b3bb12fd2aa81b11f5" name="a5e14636e406801b3bb12fd2aa81b11f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e14636e406801b3bb12fd2aa81b11f5">&#9670;&#160;</a></span>ADBMS_get_min_voltage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_min_voltage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the minimum cell voltage across all modules in volts. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a5e14636e406801b3bb12fd2aa81b11f5_icgraph.svg" width="406" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a78b7ab5a53ff58a2a0ad67d4da07258a" name="a78b7ab5a53ff58a2a0ad67d4da07258a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78b7ab5a53ff58a2a0ad67d4da07258a">&#9670;&#160;</a></span>ADBMS_get_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="#a7848a968b907c08481726fb5c98a9358">adbms_state_t</a> ADBMS_get_state </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the current ADBMS driver state. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a78b7ab5a53ff58a2a0ad67d4da07258a_icgraph.svg" width="364" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a97180ef109e7503d66e3ebc853c09244" name="a97180ef109e7503d66e3ebc853c09244"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97180ef109e7503d66e3ebc853c09244">&#9670;&#160;</a></span>ADBMS_get_sum_voltage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_sum_voltage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the sum of all cell voltages across all modules in volts. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a97180ef109e7503d66e3ebc853c09244_icgraph.svg" width="410" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="af7c3483644fb9f81864a6a5e0e10b224" name="af7c3483644fb9f81864a6a5e0e10b224"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7c3483644fb9f81864a6a5e0e10b224">&#9670;&#160;</a></span>ADBMS_get_therm_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_therm_temp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_idx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>therm_idx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the latest thermistor temperature (Celsius) for a specific module and channel. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_af7c3483644fb9f81864a6a5e0e10b224_icgraph.svg" width="467" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a2fe87f399de3fa5272ffe1e544846962" name="a2fe87f399de3fa5272ffe1e544846962"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fe87f399de3fa5272ffe1e544846962">&#9670;&#160;</a></span>ADBMS_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ADBMS_GPIO_VIN&#160;&#160;&#160;(3.0f)</td>
+          <td class="memname">void ADBMS_init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Initialize the ADBMS driver instance and underlying ADBMS6380 device chain. </p>
+<p>Sets the driver state to CONNECTING, clears discharge and error flags, deasserts CS, and configures the internal SPI TX/RX buffers.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bms</td><td>Non-null pointer to driver state to initialize. </td></tr>
+    <tr><td class="paramname">spi</td><td>Non-null SPI configuration used for ADBMS transactions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a2fe87f399de3fa5272ffe1e544846962_cgraph.svg" width="591" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a2fe87f399de3fa5272ffe1e544846962_icgraph.svg" width="200" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
 </div>
 </div>
-<a id="a67c1855256feb303fd35313c53ba7e81" name="a67c1855256feb303fd35313c53ba7e81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67c1855256feb303fd35313c53ba7e81">&#9670;&#160;</a></span>ADBMS_MODULE_COUNT</h2>
+<a id="a9de7b59257be3644e232ec367cd8b8e6" name="a9de7b59257be3644e232ec367cd8b8e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9de7b59257be3644e232ec367cd8b8e6">&#9670;&#160;</a></span>ADBMS_is_balancing_enabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool ADBMS_is_balancing_enabled </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether cell discharge balancing is currently enabled. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a9de7b59257be3644e232ec367cd8b8e6_icgraph.svg" width="643" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="afcdf3aad580be7e11607800ab411552d" name="afcdf3aad580be7e11607800ab411552d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcdf3aad580be7e11607800ab411552d">&#9670;&#160;</a></span>ADBMS_is_cell_discharging()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool ADBMS_is_cell_discharging </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_idx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>cell_idx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether a specific cell is currently discharging (balancing) </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_afcdf3aad580be7e11607800ab411552d_icgraph.svg" width="498" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ab54ce393023f40b4bb60ac0e2ede56bf" name="ab54ce393023f40b4bb60ac0e2ede56bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab54ce393023f40b4bb60ac0e2ede56bf">&#9670;&#160;</a></span>ADBMS_periodic()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ADBMS_MODULE_COUNT&#160;&#160;&#160;(7)</td>
+          <td class="memname">void ADBMS_periodic </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>min_voltage_for_balance</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>min_delta_for_balance</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Periodic service routine for connection, measurements, and balancing. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bms</td><td>Non-null pointer to driver state. </td></tr>
+    <tr><td class="paramname">min_voltage_for_balance</td><td>Minimum pack voltage required to allow balancing. </td></tr>
+    <tr><td class="paramname">min_delta_for_balance</td><td>Voltage delta above minimum to start discharging. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8h_ab54ce393023f40b4bb60ac0e2ede56bf_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_ab54ce393023f40b4bb60ac0e2ede56bf_icgraph.svg" width="355" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
 </div>
 </div>
-<a id="a0fe0f383babd68ba85e6a77237ad37ad" name="a0fe0f383babd68ba85e6a77237ad37ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0fe0f383babd68ba85e6a77237ad37ad">&#9670;&#160;</a></span>ADBMS_PEC_FAIL_MAX_RETRIES</h2>
+<a id="a87abd0a009f92d9cc0d2d3be3334b347" name="a87abd0a009f92d9cc0d2d3be3334b347"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87abd0a009f92d9cc0d2d3be3334b347">&#9670;&#160;</a></span>ADBMS_set_balancing_enabled()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">#define ADBMS_PEC_FAIL_MAX_RETRIES&#160;&#160;&#160;(3)</td>
+          <td class="memname">static void ADBMS_set_balancing_enabled </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>enabled</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Enable or disable cell discharge balancing. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8h_a87abd0a009f92d9cc0d2d3be3334b347_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
 
 </div>
 </div>

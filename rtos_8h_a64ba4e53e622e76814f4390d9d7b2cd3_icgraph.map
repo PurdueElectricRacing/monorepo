@@ -1,32 +1,38 @@
 <map id="RTOS_delay_ms" name="RTOS_delay_ms">
-<area shape="rect" id="Node000001" title="Delays the current task for the specified number of milliseconds." alt="" coords="481,203,601,228"/>
-<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a98d7e305df1794e6146e9aa0e885bf65" title="Wake a daisy&#45;chained set of ADBMS devices." alt="" coords="289,5,415,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="528,189,513,156,493,117,465,78,432,44,414,34,416,29,435,40,469,74,497,114,518,153,533,187"/>
-<area shape="rect" id="Node000003" href="$dashboard_2main_8c.html#a358cf5443fb73a60b7d12d4c2c707728" title=" " alt="" coords="299,55,405,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="522,191,484,141,460,116,432,94,405,81,407,76,435,89,463,112,488,138,526,188"/>
-<area shape="rect" id="Node000004" href="$current__sense_8c.html#ad25eae622b200363d4025160b032c656" title=" " alt="" coords="274,104,430,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="511,195,475,168,432,143,406,133,408,128,435,138,477,164,514,191"/>
-<area shape="rect" id="Node000006" href="$driver__interface_8c.html#ac599c66976c348cb0287266b60aa49c5" title=" " alt="" coords="271,203,433,228"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="466,218,434,218,434,213,466,213"/>
-<area shape="rect" id="Node000008" href="$ethernet_8c.html#a1ea4f11f8d51c291e709aa8730f23910" title=" " alt="" coords="103,304,223,330"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="476,235,214,306,213,301,474,230"/>
-<area shape="rect" id="Node000010" href="$ethernet_8c.html#a35a615d9efc9dc590f030ac374d57931" title=" " alt="" coords="310,304,394,330"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="510,240,435,287,393,306,390,301,432,282,508,235"/>
-<area shape="rect" id="Node000011" href="$sd__card_8c.html#a1be8d347ac90e89922850113d6c264df" title=" " alt="" coords="103,355,222,380"/>
-<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="528,243,491,297,465,323,435,345,381,365,325,375,271,378,223,377,223,372,271,373,324,370,380,360,432,340,462,319,487,293,524,240"/>
-<area shape="rect" id="Node000012" href="$sdc_8c.html#abe061ee2b199bb82296440005e5d23fc" title=" " alt="" coords="286,405,418,431"/>
-<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="532,244,496,315,468,354,435,388,402,407,400,403,432,384,464,350,491,312,527,241"/>
-<area shape="rect" id="Node000014" href="$switch_8c.html#a8b4bc35239dd1f38c1ad844d03b540fe" title=" " alt="" coords="283,153,421,179"/>
-<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="473,201,404,182,405,177,475,196"/>
-<area shape="rect" id="Node000005" href="$pdu_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="138,129,188,155"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="260,132,188,142,188,136,259,127"/>
-<area shape="rect" id="Node000007" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="138,203,188,228"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="255,218,188,218,188,213,255,213"/>
-<area shape="rect" id="Node000009" href="$daq_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="5,329,55,355"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="88,334,56,340,55,335,87,329"/>
-<area shape="poly" id="edge10_Node000010_Node000008" title=" " alt="" coords="295,320,223,320,223,314,295,314"/>
-<area shape="poly" id="edge12_Node000011_Node000009" title=" " alt="" coords="87,356,55,349,56,344,88,351"/>
-<area shape="rect" id="Node000013" href="$main__module_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="138,405,188,431"/>
-<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="271,421,188,421,188,416,271,416"/>
-<area shape="poly" id="edge16_Node000014_Node000005" title=" " alt="" coords="267,158,188,148,188,143,268,153"/>
+<area shape="rect" id="Node000001" title="Delays the current task for the specified number of milliseconds." alt="" coords="608,203,727,228"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a092e9d0a8566b9f48e23ce2efe66d2af" title="Wake the daisy&#45;chained set of ADBMS6380 devices." alt="" coords="411,5,546,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="654,189,640,156,619,117,592,78,558,44,540,34,543,29,561,40,596,74,623,114,644,153,659,187"/>
+<area shape="rect" id="Node000006" href="$dashboard_2main_8c.html#a358cf5443fb73a60b7d12d4c2c707728" title=" " alt="" coords="425,55,532,80"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="648,191,611,141,586,116,558,94,531,81,533,76,561,89,590,112,615,138,652,188"/>
+<area shape="rect" id="Node000007" href="$current__sense_8c.html#ad25eae622b200363d4025160b032c656" title=" " alt="" coords="401,104,556,130"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="637,195,601,168,558,143,532,133,534,128,561,138,604,164,640,191"/>
+<area shape="rect" id="Node000009" href="$driver__interface_8c.html#ac599c66976c348cb0287266b60aa49c5" title=" " alt="" coords="397,203,560,228"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="592,218,560,218,560,213,592,213"/>
+<area shape="rect" id="Node000011" href="$ethernet_8c.html#a1ea4f11f8d51c291e709aa8730f23910" title=" " alt="" coords="229,304,349,330"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="602,235,341,306,339,301,601,230"/>
+<area shape="rect" id="Node000013" href="$ethernet_8c.html#a35a615d9efc9dc590f030ac374d57931" title=" " alt="" coords="437,304,520,330"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="637,240,561,287,519,306,517,301,558,282,634,235"/>
+<area shape="rect" id="Node000014" href="$sd__card_8c.html#a1be8d347ac90e89922850113d6c264df" title=" " alt="" coords="230,353,349,379"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="654,243,618,297,592,323,561,345,508,365,451,375,397,378,349,376,349,371,397,372,451,370,506,360,558,340,588,319,614,293,650,240"/>
+<area shape="rect" id="Node000015" href="$sdc_8c.html#abe061ee2b199bb82296440005e5d23fc" title=" " alt="" coords="412,405,545,431"/>
+<area shape="poly" id="edge16_Node000001_Node000015" title=" " alt="" coords="658,244,622,315,595,354,561,388,529,407,526,403,558,384,590,350,617,312,653,241"/>
+<area shape="rect" id="Node000017" href="$switch_8c.html#a8b4bc35239dd1f38c1ad844d03b540fe" title=" " alt="" coords="409,153,548,179"/>
+<area shape="poly" id="edge18_Node000001_Node000017" title=" " alt="" coords="600,201,530,182,531,177,601,196"/>
+<area shape="rect" id="Node000003" href="$adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="229,5,349,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="396,21,350,21,350,16,396,16"/>
+<area shape="rect" id="Node000004" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,5,181,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="213,21,181,21,181,16,213,16"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
+<area shape="rect" id="Node000008" href="$pdu_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="264,128,314,154"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="386,131,315,140,314,135,385,126"/>
+<area shape="rect" id="Node000010" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="264,203,314,228"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="382,218,314,218,314,213,382,213"/>
+<area shape="rect" id="Node000012" href="$daq_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title=" " alt="" coords="117,328,166,354"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="214,332,168,339,167,334,213,326"/>
+<area shape="poly" id="edge13_Node000013_Node000011" title=" " alt="" coords="421,320,350,320,350,314,421,314"/>
+<area shape="poly" id="edge15_Node000014_Node000012" title=" " alt="" coords="214,356,166,348,167,342,215,351"/>
+<area shape="rect" id="Node000016" href="$main__module_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="264,405,314,431"/>
+<area shape="poly" id="edge17_Node000015_Node000016" title=" " alt="" coords="397,421,314,421,314,416,397,416"/>
+<area shape="poly" id="edge19_Node000017_Node000008" title=" " alt="" coords="393,157,314,147,315,141,394,152"/>
 </map>

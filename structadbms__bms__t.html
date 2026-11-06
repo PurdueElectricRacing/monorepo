@@ -104,22 +104,20 @@ $(function(){initNavTree('structadbms__bms__t.html',''); initResizable(true); })
 </div><!--header-->
 <div class="contents">
 
-<p>Top-level ADBMS driver state, I/O buffers, measurements, and error flags.  
+<p>Top-level ADBMS driver state, device handle, and pack-level statistics.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="adbms_8h_source.html">adbms.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for adbms_bms_t:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structadbms__bms__t__coll__graph.svg" width="556" height="318"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structadbms__bms__t__coll__graph.svg" width="524" height="407"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:afc7fc5bdf29ce7b09cf708a901413d1e" id="r_afc7fc5bdf29ce7b09cf708a901413d1e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="adbms_8h.html#ae3c531589407da7b11a35ed5ac463a6a">adbms_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc7fc5bdf29ce7b09cf708a901413d1e">state</a></td></tr>
-<tr class="separator:afc7fc5bdf29ce7b09cf708a901413d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18b6c94b1c0a31a05056466e4e86d595" id="r_a18b6c94b1c0a31a05056466e4e86d595"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadbms__module__t.html">adbms_module_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18b6c94b1c0a31a05056466e4e86d595">modules</a> [<a class="el" href="adbms_8h.html#a67c1855256feb303fd35313c53ba7e81">ADBMS_MODULE_COUNT</a>]</td></tr>
-<tr class="separator:a18b6c94b1c0a31a05056466e4e86d595"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60c308fe6b1da5199f3a9c4ee089aeb4" id="r_a60c308fe6b1da5199f3a9c4ee089aeb4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadbms6380__t.html">adbms6380_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60c308fe6b1da5199f3a9c4ee089aeb4">dev</a></td></tr>
+<tr class="separator:a60c308fe6b1da5199f3a9c4ee089aeb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02a24766efa845b293ffeb298f0e4971" id="r_a02a24766efa845b293ffeb298f0e4971"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02a24766efa845b293ffeb298f0e4971">min_voltage</a></td></tr>
 <tr class="separator:a02a24766efa845b293ffeb298f0e4971"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b2b1769ea04b93271a037d87444bb03" id="r_a5b2b1769ea04b93271a037d87444bb03"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b2b1769ea04b93271a037d87444bb03">max_voltage</a></td></tr>
@@ -134,33 +132,17 @@ Public Attributes</h2></td></tr>
 <tr class="separator:af1d1ccfa36199d33a19d0ccf292a5512"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac842f4644460db3d691381284d55f0df" id="r_ac842f4644460db3d691381284d55f0df"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac842f4644460db3d691381284d55f0df">avg_therm_temp</a></td></tr>
 <tr class="separator:ac842f4644460db3d691381284d55f0df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1509ed581513a61afa57a13ec74a4219" id="r_a1509ed581513a61afa57a13ec74a4219"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1509ed581513a61afa57a13ec74a4219">recover_start_tick_ms</a></td></tr>
+<tr class="separator:a1509ed581513a61afa57a13ec74a4219"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc7fc5bdf29ce7b09cf708a901413d1e" id="r_afc7fc5bdf29ce7b09cf708a901413d1e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="adbms_8h.html#a7848a968b907c08481726fb5c98a9358">adbms_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc7fc5bdf29ce7b09cf708a901413d1e">state</a></td></tr>
+<tr class="separator:afc7fc5bdf29ce7b09cf708a901413d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1a4ba1901673109e9bc956ae02e8032" id="r_aa1a4ba1901673109e9bc956ae02e8032"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1a4ba1901673109e9bc956ae02e8032">recovery_attempts</a></td></tr>
+<tr class="separator:aa1a4ba1901673109e9bc956ae02e8032"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab87eec2db519f610e2f4a751437aeda" id="r_aab87eec2db519f610e2f4a751437aeda"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab87eec2db519f610e2f4a751437aeda">is_balancing_enabled</a></td></tr>
 <tr class="separator:aab87eec2db519f610e2f4a751437aeda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a19d01495a286d680a300f33173e5e5" id="r_a9a19d01495a286d680a300f33173e5e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a19d01495a286d680a300f33173e5e5">spi</a></td></tr>
-<tr class="separator:a9a19d01495a286d680a300f33173e5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f5eb054ed27b5b9c6dc84903d6d23c7" id="r_a9f5eb054ed27b5b9c6dc84903d6d23c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structstrbuf__t.html">strbuf_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f5eb054ed27b5b9c6dc84903d6d23c7">tx_strbuf</a></td></tr>
-<tr class="separator:a9f5eb054ed27b5b9c6dc84903d6d23c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cddb3b0c704e3f172d4fa7653276acc" id="r_a0cddb3b0c704e3f172d4fa7653276acc"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cddb3b0c704e3f172d4fa7653276acc">rx_buf</a> [<a class="el" href="adbms_8h.html#a9b94af409277ca6db2a563a956c0a51e">ADBMS_SPI_RX_BUFFER_SIZE</a>]</td></tr>
-<tr class="separator:a0cddb3b0c704e3f172d4fa7653276acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a888891baf62b77d0c0ecdf617d736f79" id="r_a888891baf62b77d0c0ecdf617d736f79"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a888891baf62b77d0c0ecdf617d736f79">err_spi</a></td></tr>
-<tr class="separator:a888891baf62b77d0c0ecdf617d736f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f35a3debc951e3533be8f8142a6c398" id="r_a3f35a3debc951e3533be8f8142a6c398"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f35a3debc951e3533be8f8142a6c398">err_connect</a></td></tr>
-<tr class="separator:a3f35a3debc951e3533be8f8142a6c398"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bf82d8f5b88621abee2f73ce7a56640" id="r_a5bf82d8f5b88621abee2f73ce7a56640"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bf82d8f5b88621abee2f73ce7a56640">err_rega_mismatch</a></td></tr>
-<tr class="separator:a5bf82d8f5b88621abee2f73ce7a56640"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bb229e3800846e87da3e599b5f7526e" id="r_a2bb229e3800846e87da3e599b5f7526e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bb229e3800846e87da3e599b5f7526e">err_regb_mismatch</a></td></tr>
-<tr class="separator:a2bb229e3800846e87da3e599b5f7526e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6b9d27ff449a8cb200328724045f2db" id="r_ab6b9d27ff449a8cb200328724045f2db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6b9d27ff449a8cb200328724045f2db">err_rega_pec</a></td></tr>
-<tr class="separator:ab6b9d27ff449a8cb200328724045f2db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71c09b1df557cb246e4784fb4d1a6ff5" id="r_a71c09b1df557cb246e4784fb4d1a6ff5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71c09b1df557cb246e4784fb4d1a6ff5">err_regb_pec</a></td></tr>
-<tr class="separator:a71c09b1df557cb246e4784fb4d1a6ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f5a5ff3ffb9b1466aad745ca1a063eb" id="r_a2f5a5ff3ffb9b1466aad745ca1a063eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f5a5ff3ffb9b1466aad745ca1a063eb">err_cell_voltage_pecs</a> [<a class="el" href="adbms6380_8h.html#a7eb87239e09a87dd438cebddb5ab9647">ADBMS6380_RDCV_CMD_COUNT</a>]</td></tr>
-<tr class="separator:a2f5a5ff3ffb9b1466aad745ca1a063eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6adba977011dc6761a31748bd740a16f" id="r_a6adba977011dc6761a31748bd740a16f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6adba977011dc6761a31748bd740a16f">err_gpio_voltage_pecs</a> [<a class="el" href="adbms6380_8h.html#a0d36f241a214c0e8a863de733f94e01d">ADBMS6380_RDAUX_CMD_COUNT</a>]</td></tr>
-<tr class="separator:a6adba977011dc6761a31748bd740a16f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Top-level ADBMS driver state, I/O buffers, measurements, and error flags. </p>
+<div class="textblock"><p>Top-level ADBMS driver state, device handle, and pack-level statistics. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ac842f4644460db3d691381284d55f0df" name="ac842f4644460db3d691381284d55f0df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac842f4644460db3d691381284d55f0df">&#9670;&#160;</a></span>avg_therm_temp</h2>
@@ -192,123 +174,18 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a2f5a5ff3ffb9b1466aad745ca1a063eb" name="a2f5a5ff3ffb9b1466aad745ca1a063eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f5a5ff3ffb9b1466aad745ca1a063eb">&#9670;&#160;</a></span>err_cell_voltage_pecs</h2>
+<a id="a60c308fe6b1da5199f3a9c4ee089aeb4" name="a60c308fe6b1da5199f3a9c4ee089aeb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60c308fe6b1da5199f3a9c4ee089aeb4">&#9670;&#160;</a></span>dev</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool adbms_bms_t::err_cell_voltage_pecs[<a class="el" href="adbms6380_8h.html#a7eb87239e09a87dd438cebddb5ab9647">ADBMS6380_RDCV_CMD_COUNT</a>]</td>
+          <td class="memname"><a class="el" href="structadbms6380__t.html">adbms6380_t</a> adbms_bms_t::dev</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Per-command PEC error flags for cell voltage reads. </p>
-
-</div>
-</div>
-<a id="a3f35a3debc951e3533be8f8142a6c398" name="a3f35a3debc951e3533be8f8142a6c398"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f35a3debc951e3533be8f8142a6c398">&#9670;&#160;</a></span>err_connect</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool adbms_bms_t::err_connect</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Set when connect/initialization sequence fails. Retry logic up to higher-level logic. </p>
-
-</div>
-</div>
-<a id="a6adba977011dc6761a31748bd740a16f" name="a6adba977011dc6761a31748bd740a16f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6adba977011dc6761a31748bd740a16f">&#9670;&#160;</a></span>err_gpio_voltage_pecs</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool adbms_bms_t::err_gpio_voltage_pecs[<a class="el" href="adbms6380_8h.html#a0d36f241a214c0e8a863de733f94e01d">ADBMS6380_RDAUX_CMD_COUNT</a>]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Per-command PEC error flags for GPIO voltage reads. </p>
-
-</div>
-</div>
-<a id="a5bf82d8f5b88621abee2f73ce7a56640" name="a5bf82d8f5b88621abee2f73ce7a56640"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bf82d8f5b88621abee2f73ce7a56640">&#9670;&#160;</a></span>err_rega_mismatch</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool adbms_bms_t::err_rega_mismatch</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Aggregated REGA mismatch flag across modules. </p>
-
-</div>
-</div>
-<a id="ab6b9d27ff449a8cb200328724045f2db" name="ab6b9d27ff449a8cb200328724045f2db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6b9d27ff449a8cb200328724045f2db">&#9670;&#160;</a></span>err_rega_pec</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool adbms_bms_t::err_rega_pec</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Set when REGA read has a PEC failure. </p>
-
-</div>
-</div>
-<a id="a2bb229e3800846e87da3e599b5f7526e" name="a2bb229e3800846e87da3e599b5f7526e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2bb229e3800846e87da3e599b5f7526e">&#9670;&#160;</a></span>err_regb_mismatch</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool adbms_bms_t::err_regb_mismatch</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Aggregated REGB mismatch flag across modules. </p>
-
-</div>
-</div>
-<a id="a71c09b1df557cb246e4784fb4d1a6ff5" name="a71c09b1df557cb246e4784fb4d1a6ff5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71c09b1df557cb246e4784fb4d1a6ff5">&#9670;&#160;</a></span>err_regb_pec</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool adbms_bms_t::err_regb_pec</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Set when REGB read has a PEC failure. </p>
-
-</div>
-</div>
-<a id="a888891baf62b77d0c0ecdf617d736f79" name="a888891baf62b77d0c0ecdf617d736f79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a888891baf62b77d0c0ecdf617d736f79">&#9670;&#160;</a></span>err_spi</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool adbms_bms_t::err_spi</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Set on any SPI transfer/read failure. Should be a terminal error. </p>
+<p>Low-level ADBMS6380 daisy-chain device state, SPI buffers, and error flags. </p>
 
 </div>
 </div>
@@ -323,7 +200,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>True if cell discharge balancing is permitted by higher-level logic. </p>
+<p>true if cell discharge balancing is permitted by higher-level logic. </p>
 
 </div>
 </div>
@@ -387,48 +264,33 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a18b6c94b1c0a31a05056466e4e86d595" name="a18b6c94b1c0a31a05056466e4e86d595"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18b6c94b1c0a31a05056466e4e86d595">&#9670;&#160;</a></span>modules</h2>
+<a id="a1509ed581513a61afa57a13ec74a4219" name="a1509ed581513a61afa57a13ec74a4219"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1509ed581513a61afa57a13ec74a4219">&#9670;&#160;</a></span>recover_start_tick_ms</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structadbms__module__t.html">adbms_module_t</a> adbms_bms_t::modules[<a class="el" href="adbms_8h.html#a67c1855256feb303fd35313c53ba7e81">ADBMS_MODULE_COUNT</a>]</td>
+          <td class="memname">uint32_t adbms_bms_t::recover_start_tick_ms</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Per-module state and measurements. </p>
+<p>Time captured when entering RECOVERING. </p>
 
 </div>
 </div>
-<a id="a0cddb3b0c704e3f172d4fa7653276acc" name="a0cddb3b0c704e3f172d4fa7653276acc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cddb3b0c704e3f172d4fa7653276acc">&#9670;&#160;</a></span>rx_buf</h2>
+<a id="aa1a4ba1901673109e9bc956ae02e8032" name="aa1a4ba1901673109e9bc956ae02e8032"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1a4ba1901673109e9bc956ae02e8032">&#9670;&#160;</a></span>recovery_attempts</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t adbms_bms_t::rx_buf[<a class="el" href="adbms_8h.html#a9b94af409277ca6db2a563a956c0a51e">ADBMS_SPI_RX_BUFFER_SIZE</a>]</td>
+          <td class="memname">uint8_t adbms_bms_t::recovery_attempts</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>RX buffer for multi-module readouts. </p>
-
-</div>
-</div>
-<a id="a9a19d01495a286d680a300f33173e5e5" name="a9a19d01495a286d680a300f33173e5e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a19d01495a286d680a300f33173e5e5">&#9670;&#160;</a></span>spi</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a>* adbms_bms_t::spi</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>SPI instance used for ADBMS communication (CS control is manual by ADBMS6380 driver). </p>
+<p>Consecutive recovery cycles (sleep-wake retries) without a successful connect. </p>
 
 </div>
 </div>
@@ -439,7 +301,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="adbms_8h.html#ae3c531589407da7b11a35ed5ac463a6a">adbms_state_t</a> adbms_bms_t::state</td>
+          <td class="memname"><a class="el" href="adbms_8h.html#a7848a968b907c08481726fb5c98a9358">adbms_state_t</a> adbms_bms_t::state</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -459,21 +321,6 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Sum of cell voltages across all modules (volts). </p>
-
-</div>
-</div>
-<a id="a9f5eb054ed27b5b9c6dc84903d6d23c7" name="a9f5eb054ed27b5b9c6dc84903d6d23c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f5eb054ed27b5b9c6dc84903d6d23c7">&#9670;&#160;</a></span>tx_strbuf</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structstrbuf__t.html">strbuf_t</a> adbms_bms_t::tx_strbuf</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Scratch TX buffer wrapper for command/data packets. </p>
 
 </div>
 </div>

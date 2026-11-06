@@ -1,14 +1,20 @@
 var adbms_8c =
 [
-    [ "adbms_balance_and_update_regb", "adbms_8c.html#ab002d432c17c600b7ab08560de287272", null ],
-    [ "adbms_calculate_balance_cells", "adbms_8c.html#a2824a26859b556b5b6935bf933f931c2", null ],
-    [ "adbms_connect", "adbms_8c.html#a27e3061d92f6ec452342978af2616bd8", null ],
-    [ "adbms_init", "adbms_8c.html#a5cc683403abbabe7a848dd389b42489a", null ],
-    [ "adbms_periodic", "adbms_8c.html#a0a1de1018dba58040d4cab70ead2ca28", null ],
-    [ "adbms_read_and_check_rega", "adbms_8c.html#a68601bac2f608a0cb78fa1f018c22b1d", null ],
-    [ "adbms_read_and_check_regb", "adbms_8c.html#ac10a3c0ceb09b1955434d8fc35cf8400", null ],
-    [ "adbms_read_cells", "adbms_8c.html#a94fb74abf77c3ba46fb8e3babb734939", null ],
-    [ "adbms_read_therms", "adbms_8c.html#a26b82e2eae1b0d9c34d5666901f29bce", null ],
-    [ "adbms_write_rega", "adbms_8c.html#a710830115ef52a6def439f645d0fc57d", null ],
-    [ "adbms_write_regb", "adbms_8c.html#a0833cbe8198d911a52d6a4f24dda2a38", null ]
+    [ "adbms_stats_t", "structadbms__stats__t.html", "structadbms__stats__t" ],
+    [ "ADBMS_init", "adbms_8c.html#a2fe87f399de3fa5272ffe1e544846962", null ],
+    [ "ADBMS_periodic", "adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf", null ],
+    [ "calculate_balance_cells", "adbms_8c.html#a5a1c2e7071fb18eb012ee073720adae7", null ],
+    [ "clear_discharging", "adbms_8c.html#a24f96fa184191f280ead1ffbc61572fe", null ],
+    [ "is_valid_voltage", "adbms_8c.html#a3272eb51efea4b74c1cb6af0c194af27", null ],
+    [ "read_cells", "adbms_8c.html#a8e32099ef8c96913484c6551d8e94196", null ],
+    [ "read_therms", "adbms_8c.html#a7f12e5ede5ee02045acd6f4bf4e145c7", null ],
+    [ "reduce_values", "adbms_8c.html#a42b362838c537ad4b051052a3dda6354", null ],
+    [ "ADBMS_ADAX_CFG", "adbms_8c.html#a5fe3260045733e85fa65241eb831c570", null ],
+    [ "ADBMS_ADCV_CFG", "adbms_8c.html#a1cf727e3e8ad61f07828d582df3639e4", null ],
+    [ "ADBMS_CELL_MAX_VALID_V", "adbms_8c.html#a78dc2f9a086578f1ef34f601ce79d4e4", null ],
+    [ "ADBMS_CELL_MIN_VALID_V", "adbms_8c.html#a5c632bb276bfada8e37355694cb42499", null ],
+    [ "ADBMS_CHIP_SLEEP_CYCLE_MS", "adbms_8c.html#a05706c73ea95b0445b4de7e75acce4d9", null ],
+    [ "ADBMS_RECOVERY_MAX_ATTEMPTS", "adbms_8c.html#ad7f3bd117f50f4807e0daec3306eb161", null ],
+    [ "ADBMS_REGA_CFG", "adbms_8c.html#a7c8a4ff88aa2c51abdacf5a5f78b6122", null ],
+    [ "ADBMS_REGB_CFG", "adbms_8c.html#a7c847d9c1dcb27e15de43a22b4ccee28", null ]
 ];

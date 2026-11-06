@@ -13,14 +13,9 @@ var searchData=
   ['wm_5fraw_10',['WM_RAW',['../structxVCU__struct.html#ab2eca154ead37d6d8d278341d5b81cc5',1,'xVCU_struct']]],
   ['word_5flength_11',['word_length',['../structusart__init__t.html#a05cc99e8162f284a52d93388d800c782',1,'usart_init_t']]],
   ['wrblockmisalign_12',['WrBlockMisalign',['../structSD__CSD.html#a54d08d114ba504e72f0001fa922ec919',1,'SD_CSD']]],
-  ['wrcfga_13',['WRCFGA',['../commands_8c.html#a2ed840d59cef20eae18f908d2379964d',1,'WRCFGA:&#160;commands.c'],['../commands_8h.html#a2ed840d59cef20eae18f908d2379964d',1,'WRCFGA:&#160;commands.c']]],
-  ['wrcfgb_14',['WRCFGB',['../commands_8c.html#a26d470e28a1ae39f1a0484e788b2b60e',1,'WRCFGB:&#160;commands.c'],['../commands_8h.html#a26d470e28a1ae39f1a0484e788b2b60e',1,'WRCFGB:&#160;commands.c']]],
-  ['wrcomm_15',['WRCOMM',['../commands_8c.html#a477da7837fbe8ebe69470f19754c4e79',1,'WRCOMM:&#160;commands.c'],['../commands_8h.html#a477da7837fbe8ebe69470f19754c4e79',1,'WRCOMM:&#160;commands.c']]],
-  ['writeblockpapartial_16',['WriteBlockPaPartial',['../structSD__CSD.html#a27824f576bf5d6a01dd7602aae8dad96',1,'SD_CSD']]],
-  ['wrprotectgrenable_17',['WrProtectGrEnable',['../structSD__CSD.html#a7cf93c94ebd2f9092b62e791f1565d30',1,'SD_CSD']]],
-  ['wrprotectgrsize_18',['WrProtectGrSize',['../structSD__CSD.html#a03486966abee0e50401e2a56d33bf1bb',1,'SD_CSD']]],
-  ['wrpwma_19',['WRPWMA',['../commands_8c.html#a6aae54bfcb762c2fbb1c8fd742edea51',1,'WRPWMA:&#160;commands.c'],['../commands_8h.html#a6aae54bfcb762c2fbb1c8fd742edea51',1,'WRPWMA:&#160;commands.c']]],
-  ['wrpwmb_20',['WRPWMB',['../commands_8c.html#ad1fe66d772ef1fc817d3c3a67671275e',1,'WRPWMB:&#160;commands.c'],['../commands_8h.html#ad1fe66d772ef1fc817d3c3a67671275e',1,'WRPWMB:&#160;commands.c']]],
-  ['wrspeedfact_21',['WrSpeedFact',['../structSD__CSD.html#a471bde59e37efab5eb960510d4d94aca',1,'SD_CSD']]],
-  ['ww_22',['WW',['../structyVCU__struct.html#ac3f218cb71a5c73a0e215af91f0e53df',1,'yVCU_struct']]]
+  ['writeblockpapartial_13',['WriteBlockPaPartial',['../structSD__CSD.html#a27824f576bf5d6a01dd7602aae8dad96',1,'SD_CSD']]],
+  ['wrprotectgrenable_14',['WrProtectGrEnable',['../structSD__CSD.html#a7cf93c94ebd2f9092b62e791f1565d30',1,'SD_CSD']]],
+  ['wrprotectgrsize_15',['WrProtectGrSize',['../structSD__CSD.html#a03486966abee0e50401e2a56d33bf1bb',1,'SD_CSD']]],
+  ['wrspeedfact_16',['WrSpeedFact',['../structSD__CSD.html#a471bde59e37efab5eb960510d4d94aca',1,'SD_CSD']]],
+  ['ww_17',['WW',['../structyVCU__struct.html#ac3f218cb71a5c73a0e215af91f0e53df',1,'yVCU_struct']]]
 ];
