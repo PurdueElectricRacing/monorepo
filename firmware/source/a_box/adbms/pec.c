@@ -61,56 +61,51 @@ static const uint16_t adbms_pec10_table[256] = {
     0x049, 0x313, 0x39c, 0x20d, 0x282, 0x12f, 0x1a0, 0x031, 0x0be};
 
 /**
-* Function: Pec15_Calc
-* @brief CRC15 Pec Calculation Function
-*
-* @details This function calculates and return the CRC15 value
-*      
-* Parameters:
-* @param [in] Len Number of bytes that will be used to calculate a PEC
-*
-* @param [in] *data Array of data that will be used to calculate a PEC
-*
-* @return CRC15_Value
-*
-*/
-uint16_t adbms_pec_get_pec15(uint8_t len, const uint8_t *data) {
-    uint16_t remainder;
-    remainder = 16;                                        /* initialize the PEC */
-    for (uint8_t i = 0; i < len; i++) {                    /* loops for each byte in data array */
-        uint16_t addr = (((remainder >> 7) ^ data[i]) & 0xff); /* calculate PEC table address */
-        remainder = ((uint16_t)(remainder << 8) ^ adbms_pec15_table[addr]);
+ * Function: PEC_calc_pec15
+ * @brief CRC15 Pec Calculation Function
+ *
+ * @details This function calculates and return the CRC15 value
+ *
+ * Parameters:
+ * @param [in] *data Array of data that will be used to calculate a PEC
+ * @param [in] len Number of bytes that will be used to calculate a PEC
+ *
+ * @return CRC15_Value
+ */
+uint16_t PEC_calc_pec15(const uint8_t *data, uint8_t len) {
+    uint16_t remainder = 16U;                                  /* initialize the PEC */
+    for (uint8_t i = 0U; i < len; i++) {                       /* loops for each byte in data array */
+        uint16_t addr = (((remainder >> 7U) ^ data[i]) & 0xffU); /* calculate PEC table address */
+        remainder     = ((uint16_t)(remainder << 8U) ^ adbms_pec15_table[addr]);
     }
-    return (remainder
-            * 2); /* The CRC15 has a 0 in the LSB so the remainder must be multiplied by 2 */
+    return (uint16_t)(remainder
+                      * 2U); /* The CRC15 has a 0 in the LSB so the remainder must be multiplied by 2 */
 }
 
-uint16_t adbms_pec_get_pec10(bool bIsRxCmd, size_t nLength, const uint8_t *pDataBuf) {
-    uint16_t nRemainder = 16u; /* PEC_SEED */
+uint16_t PEC_calc_pec10(const uint8_t *data_buf, size_t length, bool is_rx_cmd) {
+    uint16_t remainder = 16U; /* PEC_SEED */
     /* x10 + x7 + x3 + x2 + x + 1 <- the CRC10 polynomial 100 1000 1111 */
-    uint16_t nPolynomial = 0x8Fu;
-    size_t nByteIndex;
-    uint8_t nBitIndex;
+    uint16_t polynomial = 0x8FU;
 
-    for (nByteIndex = 0u; nByteIndex < nLength; ++nByteIndex) {
+    for (size_t byte_index = 0U; byte_index < length; ++byte_index) {
         /* calculate PEC table address */
-        uint16_t nTableAddr = (uint16_t)(((uint16_t)(nRemainder >> 2) ^ (uint8_t)pDataBuf[nByteIndex])
-                                & (uint8_t)0xff);
-        nRemainder = (uint16_t)(((uint16_t)(nRemainder << 8)) ^ adbms_pec10_table[nTableAddr]);
+        uint16_t table_addr =
+            (uint16_t)(((uint16_t)(remainder >> 2U) ^ (uint8_t)data_buf[byte_index]) & (uint8_t)0xffU);
+        remainder = (uint16_t)(((uint16_t)(remainder << 8U)) ^ adbms_pec10_table[table_addr]);
     }
     /* If array is from received buffer add command counter to crc calculation */
-    if (bIsRxCmd == true) {
-        nRemainder ^= (uint16_t)(((uint16_t)pDataBuf[nLength] & (uint8_t)0xFC) << 2u);
+    if (is_rx_cmd) {
+        remainder ^= (uint16_t)(((uint16_t)data_buf[length] & (uint8_t)0xFCU) << 2U);
     }
     /* Perform modulo-2 division, a bit at a time */
-    for (nBitIndex = 6u; nBitIndex > 0u; --nBitIndex) {
+    for (uint8_t bit_index = 6U; bit_index > 0U; --bit_index) {
         /* Try to divide the current data bit */
-        if ((nRemainder & 0x200u) > 0u) {
-            nRemainder = (uint16_t)((nRemainder << 1u));
-            nRemainder = (uint16_t)(nRemainder ^ nPolynomial);
+        if ((remainder & 0x200U) > 0U) {
+            remainder = (uint16_t)((remainder << 1U));
+            remainder = (uint16_t)(remainder ^ polynomial);
         } else {
-            nRemainder = (uint16_t)((nRemainder << 1u));
+            remainder = (uint16_t)((remainder << 1U));
         }
     }
-    return ((uint16_t)(nRemainder & 0x3FFu));
+    return ((uint16_t)(remainder & 0x3FFU));
 }

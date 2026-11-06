@@ -12,316 +12,258 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "adbms_config.h"
 #include "common/phal_G4/spi/spi.h"
 #include "common/strbuf/strbuf.h"
 
 // Number of cells per ADBMS6380 device.
-#define ADBMS6380_CELL_COUNT (16)
+static constexpr size_t ADBMS6380_CELL_COUNT = 16U;
 // Number of GPIO/aux channels per ADBMS6380 device.
-#define ADBMS6380_GPIO_COUNT (10)
+static constexpr size_t ADBMS6380_GPIO_COUNT = 10U;
 
 // PEC size in bytes for ADBMS6380 commands and data packets. Is 2 bytes for both PEC10 (data) and PEC15 (commands).
-#define ADBMS6380_PEC_SIZE (2)
+static constexpr size_t ADBMS6380_PEC_SIZE = 2U;
 // Raw command size (bytes) for one module without PEC.
-#define ADBMS6380_COMMAND_RAW_SIZE (2)
+static constexpr size_t ADBMS6380_COMMAND_RAW_SIZE = 2U;
 // Command packet size (bytes) for one module including PEC.
-#define ADBMS6380_COMMAND_PKT_SIZE (ADBMS6380_COMMAND_RAW_SIZE + ADBMS6380_PEC_SIZE)
+static constexpr size_t ADBMS6380_COMMAND_PKT_SIZE = ADBMS6380_COMMAND_RAW_SIZE + ADBMS6380_PEC_SIZE;
 // Single data payload size (bytes) for one module without PEC.
-#define ADBMS6380_SINGLE_DATA_RAW_SIZE (6)
+static constexpr size_t ADBMS6380_SINGLE_DATA_RAW_SIZE = 6U;
 // Single data packet size (bytes) for one module including PEC.
-#define ADBMS6380_SINGLE_DATA_PKT_SIZE (ADBMS6380_SINGLE_DATA_RAW_SIZE + ADBMS6380_PEC_SIZE)
+static constexpr size_t ADBMS6380_SINGLE_DATA_PKT_SIZE =
+    ADBMS6380_SINGLE_DATA_RAW_SIZE + ADBMS6380_PEC_SIZE;
 
 // Number of commands to read all 16 cell voltages (5 for 3 cells each, 1 for the last cell)
 // {RDCVA, RDCVB, RDCVC, RDCVD, RDCVE, RDCVF}
-#define ADBMS6380_RDCV_CMD_COUNT (6)
+static constexpr size_t ADBMS6380_RDCV_CMD_COUNT = 6U;
 
 // Number of commands to read all 10 GPIO voltages (3 for 3 GPIOs each, 1 for the last GPIO)
 // {RDAUXA, RDAUXB, RDAUXC, RDAUXD}
-#define ADBMS6380_RDAUX_CMD_COUNT (4)
+static constexpr size_t ADBMS6380_RDAUX_CMD_COUNT = 4U;
+
+// Max SPI TX is a command + all the data packets for all the modules.
+static constexpr size_t ADBMS6380_SPI_TX_BUFFER_SIZE =
+    ADBMS6380_COMMAND_PKT_SIZE + (ADBMS_MODULE_COUNT * ADBMS6380_SINGLE_DATA_PKT_SIZE);
+// Max SPI RX is all the data packets for all the modules.
+static constexpr size_t ADBMS6380_SPI_RX_BUFFER_SIZE =
+    ADBMS6380_SINGLE_DATA_PKT_SIZE * ADBMS_MODULE_COUNT;
 
 /**
- * @brief Wake pulse duration per CS toggle in milliseconds.
- * 
- * Note: usage of this expects the FreeRTOS tick rate to be 1000 Hz (1 tick = 1 ms).
+ * @brief Configuration parameters for the CFGA register group.
  */
-#define ADBMS6380_WAKE_DELAY_MS (1)
+typedef struct {
+    /** C-ADC vs. S-ADC comparison voltage threshold (3-bit). */
+    uint8_t cth;
+    /** true = reference remains powered up until watchdog timeout. */
+    bool refon;
+} adbms6380_rega_config_t;
 
 /**
- * @brief Drive the ADBMS CS line low.
+ * @brief Configuration parameters for the CFGB register group.
+ */
+typedef struct {
+    /** Overvoltage threshold in volts. */
+    float overvoltage_threshold_v;
+    /** Undervoltage threshold in volts. */
+    float undervoltage_threshold_v;
+} adbms6380_regb_config_t;
+
+/**
+ * @brief Configuration parameters for the ADCV command.
+ */
+typedef struct {
+    /** Open-wire setting (2-bit). */
+    uint8_t ow;
+    /** Redundant mode. */
+    bool rd;
+    /** Continuous conversion enable. */
+    bool cont;
+    /** Discharge permitted during conversion (only affects PWM balancing, not DCC). */
+    bool dcp;
+    /** Reset filter. */
+    bool rstf;
+} adbms6380_adcv_config_t;
+
+/**
+ * @brief Configuration parameters for the ADAX (aux) command.
+ */
+typedef struct {
+    /** Channel selection (5-bit). 0 for all. */
+    uint8_t ch;
+    /** Open-wire detection enable. */
+    bool ow;
+    /** Pull-up enable for open-wire detection. */
+    bool pup;
+} adbms6380_adax_config_t;
+
+/**
+ * @brief Per-module device-level measurements, register cache, and mismatch flags.
+ */
+typedef struct {
+    /** Latest cell voltage readings for this module (volts). */
+    float cell_voltages[ADBMS6380_CELL_COUNT];
+    /** Latest GPIO/aux voltage readings for this module (volts). */
+    float gpio_voltages[ADBMS6380_GPIO_COUNT];
+    /** Latest thermistor temperatures for this module (Celsius). */
+    float therms_temps[ADBMS6380_GPIO_COUNT];
+    /** Cached REGB bytes written to the device. Used to compare against read-back data. */
+    uint8_t regb[ADBMS6380_SINGLE_DATA_RAW_SIZE];
+    /** Per-cell discharge enable flags used for balancing. */
+    bool is_discharging[ADBMS6380_CELL_COUNT];
+    /** Set if a read-back REGA does not match cached REGA. */
+    bool err_rega_mismatch;
+    /** Set if a read-back REGB does not match cached REGB. */
+    bool err_regb_mismatch;
+} adbms6380_module_t;
+
+/**
+ * @brief Daisy-chain ADBMS6380 device driver state, SPI transport, buffers, and error flags.
+ */
+typedef struct {
+    /** SPI instance used for ADBMS communication (CS control is manual by ADBMS6380 driver). */
+    SPI_InitConfig_t *spi;
+    /** Scratch TX buffer wrapper for command/data packets. */
+    strbuf_t tx_strbuf;
+    /** Per-module device state and raw/converted voltage and temperature readings. */
+    adbms6380_module_t modules[ADBMS_MODULE_COUNT];
+    /** Backing TX buffer for command/data packets. */
+    uint8_t tx_buf[ADBMS6380_SPI_TX_BUFFER_SIZE];
+    /** RX buffer for multi-module readouts. */
+    uint8_t rx_buf[ADBMS6380_SPI_RX_BUFFER_SIZE];
+    /** Cached REGA bytes written to all modules in the device chain. */
+    uint8_t rega[ADBMS6380_SINGLE_DATA_RAW_SIZE];
+    /** Per-command PEC error flags for cell voltage reads. */
+    bool err_cell_voltage_pecs[ADBMS6380_RDCV_CMD_COUNT];
+    /** Per-command PEC error flags for GPIO voltage reads. */
+    bool err_gpio_voltage_pecs[ADBMS6380_RDAUX_CMD_COUNT];
+    /** Set when REGA read has a PEC failure. */
+    bool err_rega_pec;
+    /** Set when REGB read has a PEC failure. */
+    bool err_regb_pec;
+} adbms6380_t;
+
+/**
+ * @brief Initialize the ADBMS6380 device driver instance, SPI buffers, and CS line.
  *
- * @param spi SPI configuration containing the CS GPIO.
- */
-void adbms6380_set_cs_low(SPI_InitConfig_t *spi);
-/**
- * @brief Drive the ADBMS CS line to high.
+ * Deasserts CS high, initializes the internal TX strbuf, and clears discharge
+ * and error flags across all modules.
  *
- * @param spi SPI configuration containing the CS GPIO.
+ * @param dev Non-null pointer to device state to initialize.
+ * @param spi Non-null SPI configuration used for ADBMS transactions.
  */
-void adbms6380_set_cs_high(SPI_InitConfig_t *spi);
+void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi);
 
 /**
- * @brief Wake a daisy-chained set of ADBMS devices.
+ * @brief Wake the daisy-chained set of ADBMS6380 devices.
  *
  * Toggles CS with blocking delays to bring each module out of sleep.
  *
- * @param spi SPI configuration containing the CS GPIO.
- * @param module_count Number of modules in the daisy chain.
+ * @param dev Non-null pointer to device state.
  */
-void adbms6380_wake(SPI_InitConfig_t *spi, size_t module_count);
+void ADBMS6380_wake(adbms6380_t *dev);
 
 /**
- * @brief Convert a voltage threshold (V) into 12-bit REG_B threshold encoding.
+ * @brief Encode and write REGA configuration to all modules in the daisy chain.
  *
- * @param threshold_voltage Threshold voltage in volts.
- * @return 12-bit configuration value suitable for VOV/VUV fields.
+ * @param dev Non-null pointer to device state.
+ * @param cfg Non-null pointer to REGA configuration parameters.
  */
-uint16_t adbms6380_get_threshold_voltage_cfg(float threshold_voltage);
-/**
- * @brief Extract a little-endian 16-bit signed value from a byte buffer.
- *
- * @param data Pointer to byte buffer containing 16-bit words.
- * @param idx Index of the 16-bit word to extract.
- * @return Signed 16-bit value.
- */
-int16_t adbms6380_extract_i16(const uint8_t *data, size_t idx);
-/**
- * @brief Convert raw voltage measurement from the ADBMS6380 to volts.
- *
- * @param raw Raw code from ADBMS.
- * @return Corresponding voltage in volts.
- */
-float adbms6380_raw_to_v(int16_t raw);
+void ADBMS6380_write_rega(adbms6380_t *dev, const adbms6380_rega_config_t *cfg);
 
 /**
- * @brief Build ADCV command bytes.
+ * @brief Read back REGA from all modules and compare with cached configuration.
  *
- * @param output_cmd Output buffer for 2-byte command.
- * @param rd Redundant mode.
- * @param cont Continuous conversion enable.
- * @param dcp Discharge permitted during conversion (only affects PWM balancing, not DCC).
- * @param rstf Reset filter.
- * @param ow Open-wire setting (2-bit).
- */
-void adbms6380_adcv(
-    uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
-    bool rd,
-    bool cont,
-    bool dcp,
-    bool rstf,
-    uint8_t ow
-);
-/**
- * @brief Build ADSV command bytes.
+ * Sets per-module mismatch or PEC flags when the read-back fails or does not
+ * match the cached REGA data.
  *
- * @param output_cmd Output buffer for 2-byte command.
- * @param cont Continuous conversion enable.
- * @param dcp Discharge permitted during conversion (only affects PWM balancing, not DCC).
- * @param ow Open-wire setting (2-bit).
+ * @param dev Non-null pointer to device state.
+ * @return false on PEC error or when there is a mismatch; true otherwise.
  */
-void adbms6380_adsv(
-    uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE],
-    bool cont,
-    bool dcp,
-    uint8_t ow
-);
+bool ADBMS6380_verify_rega(adbms6380_t *dev);
 
 /**
- * @brief Build ADAX (aux) command bytes.
- * 
- * @param output_cmd Output buffer for 2-byte command.
- * @param ow Open-wire detection enable.
- * @param pup Pull-up enable for open-wire detection.
- * @param ch Channel selection (5-bit). 0 for all.
+ * @brief Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules.
+ *
+ * @param dev Non-null pointer to device state.
+ * @param cfg Non-null pointer to REGB configuration parameters.
  */
-void adbms6380_adax(uint8_t output_cmd[ADBMS6380_COMMAND_RAW_SIZE], bool ow, bool pup, uint8_t ch);
+void ADBMS6380_write_regb(adbms6380_t *dev, const adbms6380_regb_config_t *cfg);
 
 /**
- * @brief Append a command and its PEC to an output buffer.
+ * @brief Read back REGB from all modules and compare with cached configuration.
  *
- * @param output_buffer Buffer to append into.
- * @param command 2-byte command payload.
- */
-void adbms6380_prepare_command(
-    strbuf_t *output_buffer,
-    const uint8_t command[ADBMS6380_COMMAND_RAW_SIZE]
-);
-/**
- * @brief Append a data payload and its PEC to an output buffer.
+ * Sets per-module mismatch or PEC flags when the read-back fails or does not
+ * match the cached REGB data.
  *
- * @param output_buffer Buffer to append into.
- * @param data 6-byte data payload.
+ * @param dev Non-null pointer to device state.
+ * @return false on PEC error or when there is a mismatch; true otherwise.
  */
-void adbms6380_prepare_data_packet(
-    strbuf_t *output_buffer,
-    const uint8_t data[ADBMS6380_SINGLE_DATA_RAW_SIZE]
-);
+bool ADBMS6380_verify_regb(adbms6380_t *dev);
 
 /**
- * @brief Calculate the REG_A configuration register value.
+ * @brief Check whether any module in the chain has a REGA mismatch error.
  *
- * Populates GPIO pull-downs, reference behavior, and comparator threshold.
- *
- * @param output_cfg_rega Output buffer for REG_A configuration (6 bytes).
- * @param refon 1 = reference remains powered up until watchdog timeout.
- * @param cth C-ADC vs. S-ADC comparison voltage threshold.
+ * @param dev Non-null pointer to device state.
+ * @return true if any module has @ref adbms6380_module_t::err_rega_mismatch set.
  */
-void adbms6380_calculate_cfg_rega(
-    uint8_t output_cfg_rega[ADBMS6380_SINGLE_DATA_RAW_SIZE],
-    bool refon,
-    uint8_t cth
-);
-/**
- * @brief Calculate the REG_B configuration register value.
- *
- * Encodes VOV/VUV thresholds and discharge control bits.
- *
- * @param output_cfg_regb Output buffer for REG_B configuration (6 bytes).
- * @param overvoltage_threshold Overvoltage threshold in volts.
- * @param undervoltage_threshold Undervoltage threshold in volts.
- * @param is_discharging Per-cell discharge enable flags.
- */
-void adbms6380_calculate_cfg_regb(
-    uint8_t output_cfg_regb[ADBMS6380_SINGLE_DATA_RAW_SIZE],
-    float overvoltage_threshold,
-    float undervoltage_threshold,
-    const bool is_discharging[ADBMS6380_CELL_COUNT]
-);
+bool ADBMS6380_has_rega_mismatch(const adbms6380_t *dev);
 
 /**
- * @brief Verify the PEC of received data.
- * 
- * @param rx_bytes Pointer to received bytes from a module. PEC10 must follow the raw
-                   data bytes.
- * @param rx_len Length of the recieved data from a module in bytes (including PEC,
- *               so the raw data is actually rx_len - ADBMS6380_PEC_SIZE).
- * @return true if the received PEC matches calculated value, false otherwise.
+ * @brief Check whether any module in the chain has a REGB mismatch error.
+ *
+ * @param dev Non-null pointer to device state.
+ * @return true if any module has @ref adbms6380_module_t::err_regb_mismatch set.
  */
-bool adbms6380_check_data_pec(const uint8_t *rx_bytes, size_t rx_len);
+bool ADBMS6380_has_regb_mismatch(const adbms6380_t *dev);
 
 /**
- * @brief Read a fixed-length response from all modules after a command.
+ * @brief Issue the ADCV command to start cell voltage conversions across all modules.
  *
- * Sends the command to the daisy chain, then reads @p rx_length bytes into
- * @p rx_buffer. Data is returned in module order (0..N-1).
- *
- * @param spi SPI configuration used for the transfer.
- * @param module_count Number of modules in the daisy chain.
- * @param cmd_buffer Command buffer including PEC.
- * @param rx_buffer Output buffer for received bytes.
- * @param rx_length_per_module Number of bytes expected from each module (including PEC).
- * @return true if all module data packets passed their PEC checks, false if any failed.
+ * @param dev Non-null pointer to device state.
+ * @param cfg Non-null pointer to ADCV command parameters.
  */
-bool adbms6380_read(
-    SPI_InitConfig_t *spi,
-    size_t module_count,
-    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-    uint8_t *rx_buffer,
-    size_t rx_length_per_module
-);
-/**
- * @brief Read a single-data-packet response per module.
- *
- * Convenience wrapper around adbms6380_read() with
- * ADBMS6380_SINGLE_DATA_PKT_SIZE as the expected response length per module.
- *
- * @param spi SPI configuration used for the transfer.
- * @param module_count Number of modules in the daisy chain.
- * @param cmd_buffer Command buffer including PEC.
- * @param rx_buffer Output buffer for received bytes.
- * @return true if all module data packets passed their PEC checks, false if any failed.
- */
-bool adbms6380_read_data(
-    SPI_InitConfig_t *spi,
-    size_t module_count,
-    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-    uint8_t *rx_buffer
-);
+void ADBMS6380_start_adcv(adbms6380_t *dev, const adbms6380_adcv_config_t *cfg);
 
 /**
- * @brief Read a single-data-packet response per module and retries on PEC failure.
+ * @brief Issue the ADAX command to start GPIO/aux voltage conversions across all modules.
  *
- * Convenience wrapper around adbms6380_read_data() that retries the read up to
- * a fixed number of attempts if a PEC failure is detected.
- *
- * @param spi SPI configuration used for the transfer.
- * @param max_retries Maximum number of read attempts if PEC failures occur.
- * @param module_count Number of modules in the daisy chain.
- * @param cmd_buffer Command buffer including PEC.
- * @param rx_buffer Output buffer for received bytes.
- * @return true if a read passed all PEC checks within the retry budget, false if
- *         all attempts failed their PEC checks.
+ * @param dev Non-null pointer to device state.
+ * @param cfg Non-null pointer to ADAX command parameters.
  */
-bool adbms6380_read_data_with_retries(
-    SPI_InitConfig_t *spi,
-    size_t max_retries,
-    size_t module_count,
-    const uint8_t cmd_buffer[ADBMS6380_COMMAND_PKT_SIZE],
-    uint8_t *rx_buffer
-);
+void ADBMS6380_start_adax(adbms6380_t *dev, const adbms6380_adax_config_t *cfg);
 
 /**
- * @brief Read all cell voltages from each module.
+ * @brief Read all cell voltages from each module via RDCVA..RDCVF.
  *
- * Issues the RDCVALL command, converts raw values to volts, and fills
- * the provided per-module cell voltage arrays. If any of the commands fail with
- * a PEC error (even with the retries), the successfully read cell voltages will
- * still be updated but the corresponding PEC error flag will be set.
+ * Converts raw values to volts and populates each module's @ref cell_voltages array.
+ * If any command fails with a PEC error after retries, the successfully read
+ * cell voltages are still updated and the corresponding flag in
+ * @ref err_cell_voltage_pecs is set.
  *
- * @param spi SPI configuration used for the transfer.
- * @param cmd_buffer Scratch buffer for command + PEC.
- * @param rx_buffer RX buffer for raw bytes.
- * @param cell_voltages Per-module arrays of cell voltages to populate.
- * @param cell_voltages_raw Per-module arrays of raw cell voltage codes to populate.
- * @param pec_error_flags Output array of flags indicating which command (if any)
-                          had PEC failures after retries are exhausted.
- * @param module_count Number of modules in the daisy chain.
- * @param max_retries_on_pec_failure Number of attempts to retry a read if a PEC
-                                     failure is detected before giving up.
- *
- * Note: the SPI transfer cannot fail (void return). However, the PEC failures
- * are recorded per-command in @p pec_error_flags.
+ * @param dev Non-null pointer to device state.
  */
-void adbms6380_read_cell_voltages(
-    SPI_InitConfig_t *spi,
-    strbuf_t *cmd_buffer,
-    uint8_t *rx_buffer,
-    float **cell_voltages,
-    int16_t **cell_voltages_raw,
-    bool pec_error_flags[ADBMS6380_RDCV_CMD_COUNT],
-    size_t module_count,
-    size_t max_retries_on_pec_failure
-);
-/**
- * @brief Read all GPIO/aux voltages from each module.
- *
- * Issues RDAUXA/B/C/D commands, converts raw values to volts, and fills
- * the provided per-module GPIO voltage arrays. If any of the commands fail with
- * a PEC error (even with the retries), the successfully read GPIO voltages will
- * still be updated but the corresponding PEC error flag will be set.
- *
- * @param spi SPI configuration used for the transfer.
- * @param cmd_buffer Scratch buffer for command + PEC.
- * @param rx_buffer RX buffer for raw bytes.
- * @param gpio_voltages Per-module arrays of GPIO voltages to populate.
- * @param pec_error_flags Output array of flags indicating which command (if any)
-                          had PEC failures after retries are exhausted.
- * @param module_count Number of modules in the daisy chain.
- * @param max_retries_on_pec_failure Number of attempts to retry a read if a PEC
-                                     failure is detected before giving up.
- *
- * Note: the SPI transfer cannot fail (void return). However, the PEC failures
- * are recorded per-command in @p pec_error_flags.
- */
-void adbms6380_read_gpio_voltages(
-    SPI_InitConfig_t *spi,
-    strbuf_t *cmd_buffer,
-    uint8_t *rx_buffer,
-    float **gpio_voltages,
-    bool pec_error_flags[ADBMS6380_RDAUX_CMD_COUNT],
-    size_t module_count,
-    size_t max_retries_on_pec_failure
-);
+void ADBMS6380_read_cell_voltages(adbms6380_t *dev);
 
-// Other adbms6380 related function declarations can go here
+/**
+ * @brief Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD.
+ *
+ * Converts raw values to volts and populates each module's @ref gpio_voltages array.
+ * If any command fails with a PEC error after retries, the successfully read
+ * GPIO voltages are still updated and the corresponding flag in
+ * @ref err_gpio_voltage_pecs is set.
+ *
+ * @param dev Non-null pointer to device state.
+ */
+void ADBMS6380_read_gpio_voltages(adbms6380_t *dev);
+
+/**
+ * @brief Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.
+ *
+ * Populates each module's @ref gpio_voltages and @ref therms_temps arrays.
+ *
+ * @param dev Non-null pointer to device state.
+ * @param cfg Non-null pointer to ADAX command parameters.
+ */
+void ADBMS6380_read_temperatures(adbms6380_t *dev, const adbms6380_adax_config_t *cfg);
 
 #endif // ADBMS6380_H
