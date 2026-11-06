@@ -10,6 +10,7 @@
 
 /* System Includes */
 #include "can_library/generated/MCAN.h"
+#include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
@@ -61,6 +62,10 @@ GPIOInitConfig_t gpio_config[] = {
     // CAN2
     GPIO_INIT_CAN2RX_PB5,
     GPIO_INIT_CAN2TX_PB6,
+
+    // CAN3
+    GPIO_INIT_CAN3RX_PA8,
+    GPIO_INIT_CAN3TX_PA15,
 };
 
 /* CLOCK CONFIG */
@@ -69,12 +74,13 @@ extern uint32_t APB2ClockRateHz;
 extern uint32_t AHBClockRateHz;
 extern uint32_t PLLClockRateHz;
 
-#define TargetCoreClockrateHz 168'000'000
+#define TargetCoreClockrateHz 100'000'000
 ClockRateConfig_t clock_config = {
     .clock_source              = CLOCK_SOURCE_HSE,
     .use_pll                   = true,
+    .use_plli2s_for_48mhz      = true,
     .pll_src                   = PLL_SRC_HSE,
-    .vco_output_rate_target_hz = 336'000'000,
+    .vco_output_rate_target_hz = 200'000'000,
     .system_clock_target_hz    = TargetCoreClockrateHz,
     .ahb_clock_target_hz       = (TargetCoreClockrateHz / 1),
     .apb1_clock_target_hz      = (TargetCoreClockrateHz / 4),
@@ -85,6 +91,7 @@ ClockRateConfig_t clock_config = {
 dma_init_t spi_rx_dma_config    = SPI1_RXDMA_CONT_CONFIG(NULL, 2);
 dma_init_t spi_tx_dma_config    = SPI1_TXDMA_CONT_CONFIG(NULL, 1);
 SPI_InitConfig_t eth_spi_config = {
+    .data_rate     = 12'500'000, // SPI1: 25 MHz PCLK2 / 2
     .data_len      = 8,
     .nss_sw        = false,
     .nss_gpio_port = ETH_CS_PORT,
@@ -122,10 +129,13 @@ int main() {
     if (!PHAL_configureRTC(&fallback_timestamp, false)) {
         HardFault_Handler();
     }
-    if (!PHAL_CAN_init(CAN1, VCAN_BAUD_RATE)) {
+    if (!PHAL_CAN_init(CAN1, SCAN_BAUD_RATE)) {
         HardFault_Handler();
     }
-    if (!PHAL_CAN_init(CAN2, MCAN_BAUD_RATE)) {
+    if (!PHAL_CAN_init(CAN2, VCAN_BAUD_RATE)) {
+        HardFault_Handler();
+    }
+    if (!PHAL_CAN_init(CAN3, MCAN_BAUD_RATE)) {
         HardFault_Handler();
     }
 

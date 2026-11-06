@@ -3,6 +3,9 @@
 set(CMSIS_CORE_DIR "${CMAKE_SOURCE_DIR}/external/CMSIS_6/CMSIS/Core/Include")
 set(FREERTOS_KERNEL_DIR "${CMAKE_SOURCE_DIR}/external/FreeRTOS-Kernel")
 
+# All PER boards use a 16 MHz HSE
+set(PER_HSE_HZ 16000000)
+
 function(per_require_path path description)
     if(NOT EXISTS "${path}")
         message(FATAL_ERROR
@@ -30,7 +33,7 @@ function(per_add_stm32_cmsis_target target family device device_dir)
     target_link_options(${target} INTERFACE ${cpu_flags})
     target_compile_options(${target} PRIVATE -fno-analyzer)
 
-    target_compile_definitions(${target} PUBLIC ${family} ${device} HSE_VALUE=16000000U)
+    target_compile_definitions(${target} PUBLIC ${family} ${device} HSE_VALUE=${PER_HSE_HZ}U)
     target_include_directories(${target} PUBLIC
         "${CMSIS_CORE_DIR}"
         "${device_dir}/Include"
@@ -61,7 +64,7 @@ function(per_add_freertos_target target cmsis_target)
 endfunction()
 
 per_add_stm32_cmsis_target(
-    CMSIS_F407 STM32F4xx STM32F407xx
+    CMSIS_F423 STM32F4xx STM32F423xx
     "${CMAKE_SOURCE_DIR}/external/cmsis-device-f4"
 )
 per_add_stm32_cmsis_target(
@@ -69,5 +72,5 @@ per_add_stm32_cmsis_target(
     "${CMAKE_SOURCE_DIR}/external/cmsis-device-g4"
 )
 
-per_add_freertos_target(FREERTOS_LIB_F407 CMSIS_F407)
+per_add_freertos_target(FREERTOS_LIB_F423 CMSIS_F423)
 per_add_freertos_target(FREERTOS_LIB_G474 CMSIS_G474)

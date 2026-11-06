@@ -13,18 +13,16 @@
 
 #include "common/phal_F4/phal_F4.h"
 
-#define HSE_CLOCK_RATE_HZ (16000000)
-
-#define HSE_CLOCK_RATE_HZ_INVALID (1) /* High Speed External oscilator value */
-#ifndef HSE_CLOCK_RATE_HZ
-#define HSE_CLOCK_RATE_HZ HSE_CLOCK_RATE_HZ_INVALID /* Define this in order to configure clocks to use the HSE clock */
-#endif // HSE_CLOCK_RATE_HZ
+#if !defined(HSE_VALUE) || HSE_VALUE == 0
+#error "Define HSE_VALUE to the board HSE frequency in Hz for both CMSIS and PHAL"
+#endif
+#define HSE_CLOCK_RATE_HZ (HSE_VALUE)
 
 #define HSI_CLOCK_RATE_HZ (16000000)
 #define MCO_OUT_PIN       (8)
 
 // RCC Constants
-#if defined(STM32F407xx)
+#if defined(STM32F423xx)
 
 #define RCC_MAX_VCO_RATE_HZ           ((uint32_t)432e6)
 #define RCC_MIN_VCO_RATE_HZ           ((uint32_t)100e6)
@@ -32,7 +30,7 @@
 #define RCC_MAX_PLL_INPUT_DIVISOR     (63U)
 #define RCC_MIN_PLL_OUTPUT_MULTIPLIER (50U)
 #define RCC_MAX_PLL_OUTPUT_MULTIPLIER (432U)
-#define RCC_MAX_SYSCLK_TARGET_HZ      (168000000)
+#define RCC_MAX_SYSCLK_TARGET_HZ      (100000000)
 
 #else
 #error "Please define a MCU arch"
@@ -73,11 +71,13 @@ typedef enum {
     RCC_ERROR_PLLSYS_INIT = 4,
     RCC_ERROR_PLLVCO_INIT = 5,
     RCC_ERROR_HSE_INIT    = 6,
+    RCC_ERROR_PLLI2S_INIT = 7,
 } RCCErrors_t;
 
 typedef struct {
     ClockSrc_t clock_source; /* Use HSE or not */
     bool use_pll; /* Use PLL or not */
+    bool use_plli2s_for_48mhz; /* Generate the SDIO/USB clock from PLLI2S */
     uint32_t system_clock_target_hz; /* System Core Clock rate */
     uint32_t ahb_clock_target_hz; /* AHB clock rate target */
     uint32_t apb1_clock_target_hz; /* APB1 clock rate target */

@@ -80,12 +80,12 @@ int main() {
 
     //TIM2 
     // PHAL_initPWM(25000, TIM2, 4);
-    // //there is no CH1 on disco
+    // //CH1 is not assigned in this example
     // PHAL_PWMsetPercent(TIM2, 2, 70);
     // PHAL_PWMsetPercent(TIM2, 3, 20);
     // PHAL_PWMsetPercent(TIM2, 4, 30);
 
-    //TIM8 (discovery only)
+    //TIM8 bench outputs
     // PHAL_initPWM(25000, TIM8, 4);
     // PHAL_PWMsetPercent(TIM8, 1, 20);
     // PHAL_PWMsetPercent(TIM8, 2, 70);

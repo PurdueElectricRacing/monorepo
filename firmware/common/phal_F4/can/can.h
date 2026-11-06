@@ -20,6 +20,7 @@
 
 #define PHAL_CAN_16MHZ_500K (0x033a0001) // sample point = 75%, SJW = 4
 #define PHAL_CAN_24MHZ_500K (0x033a0002) // sample point = 75%, SJW = 4
+#define PHAL_CAN_25MHZ_500K (0x01160004) // 10 time quanta, sample point = 80%, SJW = 2
 #define PHAL_CAN_36MHZ_500K (0x03270005)
 #define PHAL_CAN_42MHZ_500K (0x034e0003) // sample point = 75%, SJW = 4
 
@@ -60,7 +61,7 @@ typedef struct {
 
 /**
  * Initialize the bus with an accept-all FIFO0 filter, waiting for hardware acknowledgement.
- * Bus must be CAN1 or CAN2 (nullptr is rejected).
+ * Bus must be CAN1, CAN2 or CAN3 (nullptr is rejected).
  * Return false for an invalid bus or unsupported clock/baud combination, before changing hardware.
  */
 bool PHAL_CAN_init(CAN_TypeDef *bus, PHAL_FDCAN_BaudRate_t bit_rate);
