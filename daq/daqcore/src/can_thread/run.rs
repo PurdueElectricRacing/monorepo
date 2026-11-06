@@ -84,6 +84,7 @@ fn run_with_connection(
                             continue;
                         }
                     };
+                    connection.select_bus(decoder.bus_id());
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
@@ -129,19 +130,13 @@ fn run_with_connection(
                         package,
                         false,
                         connection.connected(),
-                        connection.can_transmit(),
                         time::Instant::now(),
                     );
                     emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                 }
                 can_thread::CanThreadCommand::ArmFirmwareUpdate(package) => {
-                    let progress = firmware.start(
-                        package,
-                        true,
-                        connection.connected(),
-                        connection.can_transmit(),
-                        time::Instant::now(),
-                    );
+                    let progress =
+                        firmware.start(package, true, connection.connected(), time::Instant::now());
                     emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                 }
                 can_thread::CanThreadCommand::CancelFirmwareUpdate => {

@@ -14,7 +14,6 @@ impl FirmwareSession {
         package: firmware::protocol::FirmwarePackage,
         armed: bool,
         connected: bool,
-        can_transmit: bool,
         now: time::Instant,
     ) -> firmware::FirmwareProgress {
         let invalid_image = package.images.iter().any(|image| {
@@ -25,8 +24,6 @@ impl FirmwareSession {
             Some("another firmware update is running")
         } else if !connected {
             Some("CAN source is disconnected")
-        } else if !can_transmit {
-            Some("CAN source is receive-only; connect an SLCAN adapter to update firmware")
         } else if package.images.is_empty() {
             Some("firmware package is empty")
         } else if invalid_image {
