@@ -19,14 +19,24 @@ pub fn get_available_serial_ports() -> Vec<serialport::SerialPortInfo> {
 }
 
 pub fn is_cannector_available() -> bool {
-    rusb::devices().is_ok_and(|devices| {
-        devices.iter().any(|device| {
-            device.device_descriptor().is_ok_and(|desc| {
-                desc.vendor_id() == daqcore::can::driver::CannectorDriver::VID
-                    && desc.product_id() == daqcore::can::driver::CannectorDriver::PID
-            })
-        })
-    })
+    match rusb::devices() {
+        Ok(devices) => devices
+            .iter()
+            .any(|device| match device.device_descriptor() {
+                Ok(desc) => {
+                    desc.vendor_id() == daqcore::can::driver::CannectorDriver::VID
+                        && desc.product_id() == daqcore::can::driver::CannectorDriver::PID
+                }
+                Err(err) => {
+                    log::warn!("Failed to read USB descriptor: {}", err);
+                    false
+                }
+            }),
+        Err(err) => {
+            log::error!("Error listing USB devices: {}", err);
+            false
+        }
+    }
 }
 
 // Linear interpolation helper
