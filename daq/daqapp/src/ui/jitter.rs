@@ -142,6 +142,8 @@ impl Jitter {
                     .include_y(0.0)
                     .include_y(max_bucket_count * 1.1) // Adds 10% blank space above the tallest bar
                     .include_x(0.0)
+                    .x_axis_label("Error (%)")
+                    .y_axis_label("Intervals")
                     .show(ui, |plot_ui| plot_ui.bar_chart(chart));
             }
         }
