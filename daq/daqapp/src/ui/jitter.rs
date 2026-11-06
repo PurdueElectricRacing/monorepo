@@ -69,6 +69,7 @@ impl Jitter {
                     maximum
                 };
                 let average = deviations.iter().sum::<f64>() / deviations.len() as f64;
+                let period = self.period_ms as f64;
 
                 // Calculate Standard Deviation (% and raw ms)
                 let variance = deviations
@@ -77,7 +78,7 @@ impl Jitter {
                     .sum::<f64>()
                     / deviations.len() as f64;
                 let std_dev_pct = variance.sqrt();
-                let std_dev_ms = (std_dev_pct / 100.0) * (self.period_ms as f64);
+                let std_dev_ms = (std_dev_pct / 100.0) * period;
 
                 // Calculate 99th Percentile Error
                 let idx_99 = ((deviations.len() as f64 * 0.99).ceil() as usize)
@@ -90,7 +91,6 @@ impl Jitter {
                 let p99_error = *p99;
 
                 // Calculate the raw millisecond equivalents
-                let period = self.period_ms as f64;
                 let max_ms = (worst_error / 100.0) * period;
                 let p99_ms = (p99_error / 100.0) * period;
                 let avg_ms = (average / 100.0) * period;
