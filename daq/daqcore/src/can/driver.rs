@@ -115,13 +115,15 @@ fn io_read(e: io::Error) -> DriverError {
     }
 }
 
-    if buf.len() < 16 || !buf.len().is_multiple_of(16) {
 fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
+    const RAW_FRAME_SIZE: usize = mem::size_of::<log_parse::parse::RawFrame>();
+
+    if buf.len() < RAW_FRAME_SIZE || !buf.len().is_multiple_of(RAW_FRAME_SIZE) {
         return Err(DriverError::Read(
-            "UDP packet must contain complete 16-byte records".into(),
+            "DAQ packet must contain complete frame records".into(),
         ));
     }
-    buf.as_chunks::<16>()
+    buf.as_chunks::<RAW_FRAME_SIZE>()
         .0
         .iter()
         .map(|bytes| {
@@ -132,19 +134,29 @@ fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .collect()
 }
 
-struct CannectorDriver(rusb::DeviceHandle<rusb::GlobalContext>);
+struct CannectorDriver {
+    handle: rusb::DeviceHandle<rusb::GlobalContext>,
+}
 
 impl CannectorDriver {
+    const VID: u16 = 0x5045;
+    const PID: u16 = 0x0271;
+    const CONFIGURATION: u8 = 1;
+    const INTERFACE: u8 = 0;
+    const BULK_IN_ENDPOINT: u8 = 0x81;
+    const PACKET_SIZE: usize = 64; // 4 timestamped frames
+    const READ_TIMEOUT: time::Duration = time::Duration::from_millis(10);
+
     fn new() -> DriverResult<Self> {
-        let handle = rusb::open_device_with_vid_pid(0x5045, 0x0271).ok_or_else(|| {
+        let handle = rusb::open_device_with_vid_pid(Self::VID, Self::PID).ok_or_else(|| {
             DriverError::ConnectionFailed("CANnector not found or USB access denied".into())
         })?;
         let _ = handle.set_auto_detach_kernel_driver(true);
         handle
-            .set_active_configuration(1)
-            .and_then(|()| handle.claim_interface(0))
+            .set_active_configuration(Self::CONFIGURATION)
+            .and_then(|()| handle.claim_interface(Self::INTERFACE))
             .map_err(|error| DriverError::ConnectionFailed(error.to_string()))?;
-        Ok(Self(handle))
+        Ok(Self { handle })
     }
 }
 
@@ -152,10 +164,10 @@ impl Driver for CannectorDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
         // Read one packet
         // Avoids timeout after a full 64-byte packet
-        let mut buffer = [0; 64];
+        let mut buffer = [0; Self::PACKET_SIZE];
         let len = self
-            .0
-            .read_bulk(0x81, &mut buffer, time::Duration::from_millis(10))
+            .handle
+            .read_bulk(Self::BULK_IN_ENDPOINT, &mut buffer, Self::READ_TIMEOUT)
             .map_err(|error| match error {
                 rusb::Error::Timeout => DriverError::Timeout,
                 other => DriverError::Read(other.to_string()),
