@@ -18,6 +18,7 @@
 // Wait longer than the ADBMS6380 ~2.2 s inactivity sleep timeout so that a
 // full sleep-wake cycle elapses during recovery before we retry connecting
 static constexpr uint32_t ADBMS_CHIP_SLEEP_CYCLE_MS = 2'500U;
+static_assert(ADBMS_CHIP_SLEEP_CYCLE_MS > 2'200U, "cycle time must be longer than the chip sleep timeout");
 
 // Number of consecutive failed recovery cycles (each a full sleep-wake
 // attempt) before the driver enters the latching FATAL state
