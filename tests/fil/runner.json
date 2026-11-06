@@ -1,0 +1,19 @@
+{
+  "boards": [
+    "boards/dashboard.json",
+    "boards/main_module.json",
+    "boards/torque_vector.json",
+    "boards/a_box.json",
+    "boards/front_driveline.json",
+    "boards/rear_driveline.json"
+  ],
+  "board_duration_ms": 10,
+  "network_idle_duration_ms": 20,
+  "network_settle_ms": 500,
+  "traffic_buses": ["0", "1"],
+  "final_pcs": {
+    "application_update.json": {
+      "bootloader_dashboard": "0x08008008"
+    }
+  }
+}
