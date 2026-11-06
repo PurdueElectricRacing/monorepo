@@ -56,11 +56,16 @@ impl Jitter {
             ui.label(format!("{} (0x{identity:03X})", msg.name()));
 
             let deviations = interval_deviations(view.setpoint_frames, identity, self.period_ms);
-            ui.label("Absolute deviation from nominal period over the shared interval");
+            ui.label("Deviation from nominal period over the shared interval");
             ui.label(format!("Intervals recorded: {}", deviations.len()));
 
             if !deviations.is_empty() {
-                let maximum = deviations.iter().copied().fold(0.0, f64::max);
+                let worst_error = deviations
+                    .iter()
+                    .copied()
+                    .max_by(|a, b| a.abs().total_cmp(&b.abs()))
+                    .unwrap_or(0.0);
+                let max_abs = worst_error.abs();
                 let average = deviations.iter().sum::<f64>() / deviations.len() as f64;
 
                 // Calculate Standard Deviation (% and raw ms)
@@ -79,18 +84,21 @@ impl Jitter {
                     .saturating_sub(1)
                     .min(sorted_devs.len().saturating_sub(1));
 
-                let (_, p99, _) = sorted_devs.select_nth_unstable_by(idx_99, |a, b| a.total_cmp(b));
+                let (_, p99, _) =
+                    sorted_devs.select_nth_unstable_by(idx_99, |a, b| a.abs().total_cmp(&b.abs()));
 
                 let p99_error = *p99;
 
                 // Calculate the raw millisecond equivalents
                 let period = self.period_ms as f64;
-                let max_ms = (maximum / 100.0) * period;
+                let max_ms = (worst_error / 100.0) * period;
                 let p99_ms = (p99_error / 100.0) * period;
                 let avg_ms = (average / 100.0) * period;
 
                 // Print the new labels to the UI
-                ui.label(format!("Worst Error (Max): {maximum:.2}% ({max_ms:.2} ms)"));
+                ui.label(format!(
+                    "Worst Error (Max): {worst_error:.2}% ({max_ms:.2} ms)"
+                ));
                 ui.label(format!(
                     "99th Percentile Error: {p99_error:.2}% ({p99_ms:.2} ms)"
                 ));
@@ -99,13 +107,17 @@ impl Jitter {
 
                 // Generate the Bell Curve / Histogram
                 let num_buckets = 200;
-                let bucket_size = (maximum / num_buckets as f64).max(0.0001); // Prevent divide-by-zero
+                let bucket_size = ((2.0 * max_abs) / num_buckets as f64).max(0.0001); // Prevent divide-by-zero
+                let min_val = -(bucket_size * num_buckets as f64) / 2.0;
                 let mut buckets = vec![0; num_buckets + 1];
 
                 // Sort the deviations into the buckets
                 for &dev in &deviations {
-                    let bucket_idx = (dev / bucket_size) as usize;
-                    buckets[bucket_idx.min(num_buckets)] += 1;
+                    let bucket_idx = ((dev - min_val) / bucket_size)
+                        .round()
+                        .clamp(0.0, num_buckets as f64)
+                        as usize;
+                    buckets[bucket_idx] += 1;
                 }
 
                 // Convert the buckets into egui_plot Bars
@@ -113,7 +125,7 @@ impl Jitter {
                     .iter() // Use iter() here so we don't consume the buckets list yet
                     .enumerate()
                     .map(|(i, &count)| {
-                        let x_val = (i as f64) * bucket_size + (bucket_size / 2.0);
+                        let x_val = min_val + (i as f64) * bucket_size;
                         egui_plot::Bar::new(x_val, count as f64).width(bucket_size * 0.9)
                     })
                     .collect();
@@ -155,7 +167,7 @@ fn interval_deviations(
         .windows(2)
         .map(|interval| {
             let elapsed_ms = interval[1].secs(interval[0]) * 1000.0;
-            let deviation_ms = (elapsed_ms - period_ms as f64).abs();
+            let deviation_ms = elapsed_ms - period_ms as f64;
 
             100.0 * deviation_ms / period_ms.max(1) as f64
         })
