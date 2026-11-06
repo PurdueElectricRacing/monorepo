@@ -52,6 +52,7 @@ pub fn create_driver(
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
             Ok(Box::new(UdpDriver(socket)))
         }
+        connection::ConnectionSource::Cannector => Ok(Box::new(CannectorDriver::new()?)),
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
         connection::ConnectionSource::Simulated(true) => {
             let messages = bus.map(|bus| bus.messages().to_vec()).unwrap_or_default();
@@ -129,6 +130,45 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
             frame::CanFrame::data(raw.can_identity(), raw.data.to_vec()).map_err(DriverError::Read)
         })
         .collect()
+}
+
+// Matches firmware/source/cannector/usb/usb_descriptors.h.
+// Receive only (firmware has no bulk OUT).
+struct CannectorDriver(rusb::DeviceHandle<rusb::GlobalContext>);
+
+impl CannectorDriver {
+    fn new() -> DriverResult<Self> {
+        let handle = rusb::open_device_with_vid_pid(0x5045, 0x0271).ok_or_else(|| {
+            DriverError::ConnectionFailed("CANnector not found or USB access denied".into())
+        })?;
+        let _ = handle.set_auto_detach_kernel_driver(true);
+        handle
+            .set_active_configuration(1)
+            .and_then(|()| handle.claim_interface(0))
+            .map_err(|error| DriverError::ConnectionFailed(error.to_string()))?;
+        Ok(Self(handle))
+    }
+}
+
+impl Driver for CannectorDriver {
+    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
+        // Read one firmware packet, avoiding a timeout after a full 64-byte packet.
+        let mut buffer = [0; 64];
+        let len = self
+            .0
+            .read_bulk(0x81, &mut buffer, time::Duration::from_millis(10))
+            .map_err(|error| match error {
+                rusb::Error::Timeout => DriverError::Timeout,
+                other => DriverError::Read(other.to_string()),
+            })?;
+        parse_udp_buffer(&buffer[..len])
+    }
+
+    fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
+        Err(DriverError::Unsupported(
+            "CANnector transmission is unsupported".into(),
+        ))
+    }
 }
 
 struct SimulatedDriver {
