@@ -136,13 +136,13 @@ fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .collect()
 }
 
-struct CannectorDriver {
+pub struct CannectorDriver {
     handle: rusb::DeviceHandle<rusb::GlobalContext>,
 }
 
 impl CannectorDriver {
-    const VID: u16 = 0x5045;
-    const PID: u16 = 0x0271;
+    pub const VID: u16 = 0x5045;
+    pub const PID: u16 = 0x0271;
     const CONFIGURATION: u8 = 1;
     const INTERFACE: u8 = 0;
     const BULK_IN_ENDPOINT: u8 = 0x81;
