@@ -10,7 +10,7 @@ bytemuck.workspace = true
 csv.workspace = true
 serde.workspace = true
 serde_json.workspace = true
-slcan = { workspace = true }
+slcan.workspace = true
 serialport.workspace = true
 rusb.workspace = true
 rand = { version = "0.10.1" }
