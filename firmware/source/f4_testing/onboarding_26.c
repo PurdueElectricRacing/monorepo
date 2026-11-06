@@ -19,7 +19,7 @@
 #include "common/utils/countof.h"
 
 GPIOInitConfig_t gpio_config[] = {
-    GPIO_INIT_OUTPUT(GPIOD, 12, GPIO_OUTPUT_LOW_SPEED),
+    GPIO_INIT_OUTPUT(GPIOC, 0, GPIO_OUTPUT_LOW_SPEED),
     // TODO: Add GPIO LEDs here...
 };
 

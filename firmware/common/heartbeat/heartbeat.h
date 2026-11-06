@@ -8,7 +8,7 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#if defined(STM32F407xx)
+#if defined(STM32F423xx)
 #include "common/phal_F4/gpio/gpio.h"
 #elif defined(STM32G474xx)
 #include "common/phal_G4/gpio/gpio.h"
