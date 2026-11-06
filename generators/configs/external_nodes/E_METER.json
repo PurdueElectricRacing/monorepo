@@ -3,7 +3,7 @@
     "bus_name": "SCAN",
     "tx": [
         {
-            "message_name": "E_METER_MEASUREMENT",
+            "message_name": "e_meter_measurement",
             "description": "Contains current (A) and voltage (V) as measured by the E Meter",
             "byte_order": "little_endian",
             "signals": [
@@ -25,7 +25,7 @@
             "priority": 5
         },
         {
-            "message_name": "E_METER_STATUS",
+            "message_name": "e_meter_status",
             "description": "Contains violation, logging, and Energy (Whr) status signals.",
             "byte_order": "little_endian",
             "signals": [
@@ -87,78 +87,11 @@
             "period_ms": 100,
             "id_override": "0x40d",
             "priority": 5
-        },
-        {
-            "message_name": "E_METER_TEMPERATURE",
-            "description": "Reports sensor count, minimum and maximum temperatures, and a group of temperature sensors as selected by multiplexor.",
-            "byte_order": "little_endian",
-            "signals": [
-                {
-                    "signal_name": "multiplexor",
-                    "description": "Multiplexor selection",
-                    "data_type": "uint8_t",
-                    "length": 3
-                },
-                {
-                    "signal_name": "num_sensors",
-                    "description": "The number of temperature sensors",
-                    "data_type": "uint8_t",
-                    "length": 5
-                },
-                {
-                    "signal_name": "min_temperature",
-                    "description": "Minimum temperature.",
-                    "data_type": "uint8_t",
-                    "unit": "C",
-                    "scale": 0.5
-                },
-                {
-                    "signal_name": "max_temperature",
-                    "description": "Maximum temperature.",
-                    "data_type": "uint8_t",
-                    "unit": "C",
-                    "scale": 0.5
-                },
-                {
-                    "signal_name": "temperature_slot_0",
-                    "description": "Multiplexor * 5",
-                    "data_type": "uint8_t",
-                    "unit": "C",
-                    "scale": 0.5
-                },
-                {
-                    "signal_name": "temperature_slot_1",
-                    "description": "Multiplexor * 5 + 1",
-                    "data_type": "uint8_t",
-                    "unit": "C",
-                    "scale": 0.5
-                },
-                {
-                    "signal_name": "temperature_slot_2",
-                    "description": "Multiplexor * 5 + 2",
-                    "data_type": "uint8_t",
-                    "unit": "C",
-                    "scale": 0.5
-                },
-                {
-                    "signal_name": "temperature_slot_3",
-                    "description": "Multiplexor * 5 + 3",
-                    "data_type": "uint8_t",
-                    "unit": "C",
-                    "scale": 0.5
-                },
-                {
-                    "signal_name": "temperature_slot_4",
-                    "description": "Multiplexor * 5 + 4",
-                    "data_type": "uint8_t",
-                    "unit": "C",
-                    "scale": 0.5
-                }
-            ],
-            "period_ms": 250,
-            "id_override": "0x60d",
-            "priority": 5
         }
     ],
-    "rx": []
+    "rx": [
+        {
+            "message_name": "e_meter_temperature"
+        }
+    ]
 }
