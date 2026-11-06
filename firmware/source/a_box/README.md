@@ -8,7 +8,7 @@ A_BOX (short for "accumulator box") is the BMS master. It owns battery telemetry
 - [`charging_fsm.c`](charging_fsm/charging_fsm.c) / [`charging_fsm.h`](charging_fsm/charging_fsm.h): Charger control FSM (`CHARGING_FSM_PERIOD_MS = 1000`) that clamps charge requests, toggles BMS balancing via `ADBMS_set_balancing_enabled`, and publishes `charging_fsm_internals`.
 - [`telemetry.c`](telemetry/telemetry.c) / [`telemetry.h`](telemetry/telemetry.h): Multi-rate CAN telemetry publishers (on both VCAN and CCAN with `_ccan` suffix):
   - 100 Hz: `pack_analog`, rotating `cell_telemetry`
-  - 8 Hz: rotating `thermistor_telemetry`, plus `emeter_team_data_1` / `emeter_team_data_2` with the pack thermal summary for the FSAE Energy Meter
+  - 8 Hz: rotating `thermistor_telemetry`, plus `E_METER_TEMPERATURE` with the pack thermal summary for the FSAE Energy Meter
   - 0.2 Hz: `abox_version` with `FIRMWARE_GIT_HASH`
 - `bms_task` in [`main.c`](main.c) (5 Hz): `pack_bms`, `bms_pecs`
 - [`charging_fsm.c`](charging_fsm/charging_fsm.c) (1 Hz on CCAN): `charging_fsm_internals`
