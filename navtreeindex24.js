@@ -1,5 +1,17 @@
 var NAVTREEINDEX24 =
 {
+"structSPI__InitConfig__t.html#a930475fa937af84ff5c968663f813aa9":[33,0,248,11],
+"structSPI__InitConfig__t.html#aadfb91be77d4793f5dd8331b1c7e892d":[33,0,248,3],
+"structSPI__InitConfig__t.html#ab20a4701e255ce07d88bc24e16594566":[33,0,248,8],
+"structSPI__InitConfig__t.html#ac02b6e47a9ed988d3e835a6cfe3fe76e":[33,0,248,15],
+"structSPI__InitConfig__t.html#ac75a422add1ff6d8c63084fdcdadda2f":[33,0,248,17],
+"structSPI__InitConfig__t.html#ac7b65af149334e39252e9d91e1d324ba":[33,0,248,13],
+"structSPI__InitConfig__t.html#acf07ab5b69592a0549da59ce4b6a26a1":[33,0,248,4],
+"structSPI__InitConfig__t.html#ad0862369c85d703198c28df1f085ad11":[33,0,248,10],
+"structSPI__InitConfig__t.html#ada152e2e047c6680d60ff8e66857b349":[33,0,248,2],
+"structSPI__InitConfig__t.html#addc6a2b00505e696c1d179696010713c":[33,0,248,7],
+"structSPI__InitConfig__t.html#ae82235e4faf01aa37ffcb212f626abc2":[33,0,248,12],
+"structSPI__InitConfig__t.html#af9eedccb06edcc4fcf10f3eca321238d":[33,0,248,9],
 "structSPMC__t.html":[33,0,249],
 "structSPMC__t.html#a009324383a55dc9bf2a85103a52193ec":[33,0,249,1],
 "structSPMC__t.html#a3dd7037229d6f97a0442de956749abe0":[33,0,249,0],
@@ -237,17 +249,5 @@ var NAVTREEINDEX24 =
 "structcan__data__t.html#a17d056065761bab64899494bcc71abae":[33,0,55,19],
 "structcan__data__t.html#a1da6c465969ca521521a3f1ff2f2daf4":[33,0,55,25],
 "structcan__data__t.html#a27d71ff10d62caf9fba57561134318a5":[33,0,55,43],
-"structcan__data__t.html#a2b20e2469efb57c1ad74a4d3763cff6f":[33,0,55,50],
-"structcan__data__t.html#a2e6b8c86533a17a613e8dc8080f29c99":[33,0,55,74],
-"structcan__data__t.html#a35b8763e09099621b0098ecf47946e3e":[33,0,55,37],
-"structcan__data__t.html#a36a24615c899bfe14db897347bf72f49":[33,0,55,5],
-"structcan__data__t.html#a41ffc71a5b9099e6d32421301e3d5c18":[33,0,55,14],
-"structcan__data__t.html#a44bcfd81d5c51387375e1dfa55a4e58c":[33,0,55,7],
-"structcan__data__t.html#a468d0bf90c2f798f49eafe21d5a3d1aa":[33,0,55,58],
-"structcan__data__t.html#a480cf24a6249e9c6c81d39dc77f52fea":[33,0,55,10],
-"structcan__data__t.html#a48af39dffb2d940c2f441271e89ccc2c":[33,0,55,39],
-"structcan__data__t.html#a4945a940f48559420558aa078431c6c4":[33,0,55,42],
-"structcan__data__t.html#a4f072d93cbb200fd0f660b304612df1b":[33,0,55,52],
-"structcan__data__t.html#a4f592219d884449cf892701104296746":[33,0,55,21],
-"structcan__data__t.html#a5dabe503866cbe6acad4b15e514f5410":[33,0,55,23]
+"structcan__data__t.html#a2b20e2469efb57c1ad74a4d3763cff6f":[33,0,55,50]
 };

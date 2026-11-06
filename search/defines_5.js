@@ -15,8 +15,10 @@ var searchData=
   ['eth_5fmiso_5fport_12',['ETH_MISO_PORT',['../daq_2main_8h.html#a9e837dff4fd5a6e86623b296ced51bc6',1,'main.h']]],
   ['eth_5fmosi_5fpin_13',['ETH_MOSI_PIN',['../daq_2main_8h.html#a6800098c29d5d9c74e87e14739cdd093',1,'main.h']]],
   ['eth_5fmosi_5fport_14',['ETH_MOSI_PORT',['../daq_2main_8h.html#acd2afafee463123e202955079f85d669',1,'main.h']]],
-  ['eth_5frst_5fpin_15',['ETH_RST_PIN',['../daq_2main_8h.html#a1490c3e7f89523f1e04bc3e221815470',1,'main.h']]],
-  ['eth_5frst_5fport_16',['ETH_RST_PORT',['../daq_2main_8h.html#a6165c9b14969b8791d71fcb9aec7ec43',1,'main.h']]],
-  ['eth_5fsck_5fpin_17',['ETH_SCK_PIN',['../daq_2main_8h.html#a04ae6aa599b3dd0e13976c6e00c1d485',1,'main.h']]],
-  ['eth_5fsck_5fport_18',['ETH_SCK_PORT',['../daq_2main_8h.html#a69bb22bad34b2a805ba69912f406874e',1,'main.h']]]
+  ['eth_5fnint_5fpin_15',['ETH_nINT_PIN',['../daq_2main_8h.html#a39b7e45af15f715ffb9bfac5a341ef28',1,'main.h']]],
+  ['eth_5fnint_5fport_16',['ETH_nINT_PORT',['../daq_2main_8h.html#a43efe17422adeb8b02dc330d0ade15b4',1,'main.h']]],
+  ['eth_5frst_5fpin_17',['ETH_RST_PIN',['../daq_2main_8h.html#a1490c3e7f89523f1e04bc3e221815470',1,'main.h']]],
+  ['eth_5frst_5fport_18',['ETH_RST_PORT',['../daq_2main_8h.html#a6165c9b14969b8791d71fcb9aec7ec43',1,'main.h']]],
+  ['eth_5fsck_5fpin_19',['ETH_SCK_PIN',['../daq_2main_8h.html#a04ae6aa599b3dd0e13976c6e00c1d485',1,'main.h']]],
+  ['eth_5fsck_5fport_20',['ETH_SCK_PORT',['../daq_2main_8h.html#a69bb22bad34b2a805ba69912f406874e',1,'main.h']]]
 ];

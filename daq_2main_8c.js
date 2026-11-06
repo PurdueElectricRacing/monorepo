@@ -1,10 +1,11 @@
 var daq_2main_8c =
 [
+    [ "BLINK_PERIOD_MS", "daq_2main_8c.html#a8cfc4352ae90bdf0d97b6f3599f73acc", null ],
     [ "TargetCoreClockrateHz", "daq_2main_8c.html#a041cbdf351ae1da6f864d0d249c93008", null ],
     [ "configure_interrupts", "daq_2main_8c.html#aabdbaa50d97bdb9d077e752af668866d", null ],
     [ "DEFINE_HEARTBEAT_TASK", "daq_2main_8c.html#a845eaf447179a8baf75c69794c49856d", null ],
     [ "DEFINE_WATCHDOG_TASK", "daq_2main_8c.html#a11a067a3a0541dc1ed61e5c9bb7591b5", null ],
-    [ "EXTI15_10_IRQHandler", "daq_2main_8c.html#a2089b233bd8d6f7dbf78e075033696e3", null ],
+    [ "EXTI1_IRQHandler", "daq_2main_8c.html#a7e9055d1f4a14ef6eb3990a77efc8983", null ],
     [ "HardFault_Handler", "daq_2main_8c.html#a2af56a8bf3197b2f06cac4c0b84ffc3e", null ],
     [ "main", "daq_2main_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ],
     [ "power_loss_callback", "daq_2main_8c.html#aee75e971579a3bde03234c6ab1fdf840", null ],

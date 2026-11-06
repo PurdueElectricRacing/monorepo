@@ -1,5 +1,17 @@
 var NAVTREEINDEX23 =
 {
+"structIZZE__acceleration__data__t.html#ad2d78841538ef4a7a7f4c4733f656da7":[33,0,146,5],
+"structIZZE__acceleration__data__t.html#af9d341cafcf972d8d8a56239ec4d3aa2":[33,0,146,0],
+"structIZZE__angular__rate__data__t.html":[33,0,147],
+"structIZZE__angular__rate__data__t.html#a44009c5efc990e2bf084f744eb0c0747":[33,0,147,0],
+"structIZZE__angular__rate__data__t.html#a4e6c9a24650b23bb66729283de80cf0e":[33,0,147,1],
+"structIZZE__angular__rate__data__t.html#a95778430138651fd59efbd6ad8c8f8f2":[33,0,147,2],
+"structIZZE__angular__rate__data__t.html#a9853c19d805aec980727a36d3ffc22c8":[33,0,147,4],
+"structIZZE__angular__rate__data__t.html#aa27fbbc46a19025d0078ddc7a463bb9f":[33,0,147,5],
+"structIZZE__angular__rate__data__t.html#aac8149ccef8ea137a001f26534f990cf":[33,0,147,3],
+"structLWS__Config__data__t.html":[33,0,161],
+"structLWS__Config__data__t.html#a7f863d0b32dff34beb0facd46d6b86ac":[33,0,161,1],
+"structLWS__Config__data__t.html#a9d34008c09e870380801c9365c1b7a77":[33,0,161,2],
 "structLWS__Config__data__t.html#abe42f13960bb7b3661da653f136d2328":[33,0,161,0],
 "structLWS__Config__data__t.html#ae661c13120e05e7caaa580ff3207352a":[33,0,161,3],
 "structLWS__Standard__data__t.html":[33,0,162],
@@ -237,17 +249,5 @@ var NAVTREEINDEX23 =
 "structSPI__InitConfig__t.html#a5020aa67597cd45fb1912e0f6a1fa89e":[33,0,248,6],
 "structSPI__InitConfig__t.html#a78b3215df4119fcd02c1d4e6822648e7":[33,0,248,5],
 "structSPI__InitConfig__t.html#a7d8e16b0433752f3d6d31b7ca211f874":[33,0,248,14],
-"structSPI__InitConfig__t.html#a92647f9f9aff6346411f17e6343b93ad":[33,0,248,18],
-"structSPI__InitConfig__t.html#a930475fa937af84ff5c968663f813aa9":[33,0,248,11],
-"structSPI__InitConfig__t.html#aadfb91be77d4793f5dd8331b1c7e892d":[33,0,248,3],
-"structSPI__InitConfig__t.html#ab20a4701e255ce07d88bc24e16594566":[33,0,248,8],
-"structSPI__InitConfig__t.html#ac02b6e47a9ed988d3e835a6cfe3fe76e":[33,0,248,15],
-"structSPI__InitConfig__t.html#ac75a422add1ff6d8c63084fdcdadda2f":[33,0,248,17],
-"structSPI__InitConfig__t.html#ac7b65af149334e39252e9d91e1d324ba":[33,0,248,13],
-"structSPI__InitConfig__t.html#acf07ab5b69592a0549da59ce4b6a26a1":[33,0,248,4],
-"structSPI__InitConfig__t.html#ad0862369c85d703198c28df1f085ad11":[33,0,248,10],
-"structSPI__InitConfig__t.html#ada152e2e047c6680d60ff8e66857b349":[33,0,248,2],
-"structSPI__InitConfig__t.html#addc6a2b00505e696c1d179696010713c":[33,0,248,7],
-"structSPI__InitConfig__t.html#ae82235e4faf01aa37ffcb212f626abc2":[33,0,248,12],
-"structSPI__InitConfig__t.html#af9eedccb06edcc4fcf10f3eca321238d":[33,0,248,9]
+"structSPI__InitConfig__t.html#a92647f9f9aff6346411f17e6343b93ad":[33,0,248,18]
 };
