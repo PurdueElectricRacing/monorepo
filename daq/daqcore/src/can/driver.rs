@@ -132,8 +132,6 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .collect()
 }
 
-// Matches firmware/source/cannector/usb/usb_descriptors.h.
-// Receive only (firmware has no bulk OUT).
 struct CannectorDriver(rusb::DeviceHandle<rusb::GlobalContext>);
 
 impl CannectorDriver {
@@ -152,7 +150,8 @@ impl CannectorDriver {
 
 impl Driver for CannectorDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
-        // Read one firmware packet, avoiding a timeout after a full 64-byte packet.
+        // Read one packet
+        // Avoids timeout after a full 64-byte packet
         let mut buffer = [0; 64];
         let len = self
             .0
