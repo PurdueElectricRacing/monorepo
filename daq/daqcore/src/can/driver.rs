@@ -94,7 +94,7 @@ impl Driver for UdpDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
         let mut buf = [0; 65536];
         let len = self.0.recv(&mut buf).map_err(io_read)?;
-        parse_udp_buffer(&buf[..len])
+        parse_daq_buffer(&buf[..len])
     }
 
     fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
@@ -115,8 +115,8 @@ fn io_read(e: io::Error) -> DriverError {
     }
 }
 
-fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
     if buf.len() < 16 || !buf.len().is_multiple_of(16) {
+fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         return Err(DriverError::Read(
             "UDP packet must contain complete 16-byte records".into(),
         ));
@@ -160,7 +160,7 @@ impl Driver for CannectorDriver {
                 rusb::Error::Timeout => DriverError::Timeout,
                 other => DriverError::Read(other.to_string()),
             })?;
-        parse_udp_buffer(&buffer[..len])
+        parse_daq_buffer(&buffer[..len])
     }
 
     fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
