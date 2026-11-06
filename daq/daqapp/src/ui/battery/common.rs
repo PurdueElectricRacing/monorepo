@@ -1,8 +1,10 @@
 use crate::ui;
 
-pub const NUM_MODULES: usize = 7;
-pub const CELLS_PER_MODULE: usize = 16;
-pub const THERMISTORS_PER_MODULE: usize = 10;
+// Keep synchronized with firmware/source/a_box/adbms/adbms_config.h
+// and docs/bms_29s_implementation_plan.md (5 modules x 29S cells / 20 thermistors).
+pub const NUM_MODULES: usize = 5;
+pub const CELLS_PER_MODULE: usize = 29;
+pub const THERMISTORS_PER_MODULE: usize = 20;
 
 pub const STALE_TIMEOUT_SECONDS: u64 = 1;
 

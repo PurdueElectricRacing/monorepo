@@ -58,6 +58,8 @@ static_assert(PACK_ANALOG_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 static_assert(PACK_ANALOG_CCAN_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 static_assert(CELL_TELEMETRY_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 static_assert(CELL_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
+static_assert(ADBMS_MODULE_COUNT <= UINT8_MAX);
+static_assert(ADBMS_CELLS_PER_MODULE <= UINT8_MAX);
 void report_telemetry_100hz(void) {
     uint16_t pack_voltage = (uint16_t)(vbatt_to_voltage(adc1_dma_buffer.vbatt_raw) * PACK_COEFF_PACK_ANALOG_PACK_VOLTAGE);
     int16_t pack_current  = (int16_t)(isense_to_current(adc1_dma_buffer.isense_raw) * PACK_COEFF_PACK_ANALOG_PACK_CURRENT);
@@ -65,7 +67,7 @@ void report_telemetry_100hz(void) {
     CAN_SEND_pack_analog(pack_voltage, pack_current);
     CAN_SEND_pack_analog_ccan(pack_voltage, pack_current);
 
-    // Report cell voltages one at a time
+    // Report physical module cell voltages one at a time
     static uint8_t module_num = 0;
     static uint8_t cell_num   = 0;
 
@@ -77,7 +79,7 @@ void report_telemetry_100hz(void) {
     CAN_SEND_cell_telemetry_ccan(scaled_cell_voltage, module_num, cell_num, is_balancing);
 
     cell_num++;
-    if (cell_num >= ADBMS6380_CELL_COUNT) {
+    if (cell_num >= ADBMS_CELLS_PER_MODULE) {
         cell_num = 0;
         module_num++;
         if (module_num >= ADBMS_MODULE_COUNT) {
@@ -92,8 +94,9 @@ void report_telemetry_100hz(void) {
  */
 static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
+static_assert(ADBMS_THERMISTORS_PER_MODULE <= UINT8_MAX);
 void report_telemetry_8hz(void) {
-    // Report thermistor temperatures one at a time
+    // Report physical module thermistor temperatures one at a time
     static uint8_t module_num     = 0;
     static uint8_t thermistor_num = 0;
 
@@ -103,7 +106,7 @@ void report_telemetry_8hz(void) {
     CAN_SEND_thermistor_telemetry(scaled_temperature, module_num, thermistor_num);
     CAN_SEND_thermistor_telemetry_ccan(scaled_temperature, module_num, thermistor_num);
 
-    if (++thermistor_num >= ADBMS6380_GPIO_COUNT) {
+    if (++thermistor_num >= ADBMS_THERMISTORS_PER_MODULE) {
         thermistor_num = 0;
         if (++module_num >= ADBMS_MODULE_COUNT) {
             module_num = 0;
