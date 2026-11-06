@@ -10,6 +10,7 @@
 #include "can_library/generated/A_BOX.h"
 #include "can_library/generated/can_version.h"
 #include "common/bootloader/bootloader_common.h"
+#include "common/utils/clamp.h"
 #include "main.h"
 
 static inline float vbatt_to_voltage(uint16_t vbatt_raw) {
@@ -87,41 +88,30 @@ void report_telemetry_100hz(void) {
 }
 
 /**
- * @brief Returns the zero-indexed module containing the hottest thermistor.
- */
-static uint8_t hottest_thermistor_module(void) {
-    uint8_t hottest_module = 0;
-
-    for (uint8_t module_num = 1; module_num < ADBMS_MODULE_COUNT; module_num++) {
-        if (g_bms.modules[module_num].max_therm_temp >
-            g_bms.modules[hottest_module].max_therm_temp) {
-            hottest_module = module_num;
-        }
-    }
-
-    return hottest_module;
-}
-
-/**
  * @brief Reports telemetry data at 8 Hz rate
  * Includes: Thermal stats and the Energy Meter thermal summary
  */
 static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
-static_assert(EMETER_TEAM_DATA_1_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
-static_assert(EMETER_TEAM_DATA_2_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
+static_assert(E_METER_TEMPERATURE_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 void report_telemetry_8hz(void) {
-    // Send the pack thermal summary to the FSAE Energy Meter. Temperatures are
-    // scaled to 0.1 C, matching the E_METER team data message definitions.
-    int32_t max_temperature =
-        (int32_t)(g_bms.max_therm_temp * PACK_COEFF_EMETER_TEAM_DATA_1_MAX_TEMPERATURE);
-    int32_t min_temperature =
-        (int32_t)(g_bms.min_therm_temp * PACK_COEFF_EMETER_TEAM_DATA_1_MIN_TEMPERATURE);
-    int32_t avg_temperature =
-        (int32_t)(g_bms.avg_therm_temp * PACK_COEFF_EMETER_TEAM_DATA_2_AVG_TEMPERATURE);
+    // Send the pack thermal summary to the FSAE Energy Meter (0x60d).
+    // Temperatures are unsigned and scaled to 0.1 C.
+    float max_therm_temp = ADBMS_get_max_therm_temp(&g_bms);
+    float min_therm_temp = ADBMS_get_min_therm_temp(&g_bms);
+    float avg_therm_temp = ADBMS_get_avg_therm_temp(&g_bms);
 
-    CAN_SEND_emeter_team_data_1(max_temperature, min_temperature);
-    CAN_SEND_emeter_team_data_2(avg_temperature, hottest_thermistor_module());
+    uint16_t max_cell_temp = (uint16_t)CLAMP(
+        max_therm_temp * PACK_COEFF_E_METER_TEMPERATURE_MAX_CELL_TEMP, 0.0f, (float)UINT16_MAX
+    );
+    uint16_t min_cell_temp = (uint16_t)CLAMP(
+        min_therm_temp * PACK_COEFF_E_METER_TEMPERATURE_MIN_CELL_TEMP, 0.0f, (float)UINT16_MAX
+    );
+    uint16_t avg_cell_temp = (uint16_t)CLAMP(
+        avg_therm_temp * PACK_COEFF_E_METER_TEMPERATURE_AVG_CELL_TEMP, 0.0f, (float)UINT16_MAX
+    );
+
+    CAN_SEND_E_METER_TEMPERATURE(max_cell_temp, min_cell_temp, avg_cell_temp);
 
     // Report thermistor temperatures one at a time
     static uint8_t module_num     = 0;
