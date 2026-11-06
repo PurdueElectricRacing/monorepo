@@ -494,7 +494,7 @@
                     "period_ms": 125
                 },
                 {
-                    "message_name": "E_METER_TEMPERATURE",
+                    "message_name": "e_meter_temperature",
                     "description": "Pack thermal summary sent to the emeter",
                     "byte_order": "little_endian",
                     "signals": [

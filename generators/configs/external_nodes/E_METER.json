@@ -3,7 +3,7 @@
     "bus_name": "SCAN",
     "tx": [
         {
-            "message_name": "E_METER_MEASUREMENT",
+            "message_name": "e_meter_measurement",
             "description": "Contains current (A) and voltage (V) as measured by the E Meter",
             "byte_order": "little_endian",
             "signals": [
@@ -25,7 +25,7 @@
             "priority": 5
         },
         {
-            "message_name": "E_METER_STATUS",
+            "message_name": "e_meter_status",
             "description": "Contains violation, logging, and Energy (Whr) status signals.",
             "byte_order": "little_endian",
             "signals": [
@@ -91,7 +91,7 @@
     ],
     "rx": [
         {
-            "message_name": "E_METER_TEMPERATURE"
+            "message_name": "e_meter_temperature"
         }
     ]
 }

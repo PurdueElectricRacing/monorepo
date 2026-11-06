@@ -110,7 +110,7 @@ void report_telemetry_8hz(void) {
         avg_therm_temp * PACK_COEFF_E_METER_TEMPERATURE_AVG_CELL_TEMP, 0.0f, (float)UINT16_MAX
     );
 
-    CAN_SEND_E_METER_TEMPERATURE(max_cell_temp, min_cell_temp, avg_cell_temp);
+    CAN_SEND_e_meter_temperature(max_cell_temp, min_cell_temp, avg_cell_temp);
 
     // Report individual thermistor temperatures one at a time
     static uint8_t module_num     = 0;
