@@ -10,6 +10,7 @@
 #include "can_library/generated/A_BOX.h"
 #include "can_library/generated/can_version.h"
 #include "common/bootloader/bootloader_common.h"
+#include "common/utils/clamp.h"
 #include "main.h"
 
 static inline float vbatt_to_voltage(uint16_t vbatt_raw) {
@@ -88,12 +89,30 @@ void report_telemetry_100hz(void) {
 
 /**
  * @brief Reports telemetry data at 8 Hz rate
- * Includes: Thermal stats
+ * Includes: Thermal stats and the emeter thermal summary
  */
 static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
+static_assert(E_METER_TEMPERATURE_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 void report_telemetry_8hz(void) {
-    // Report thermistor temperatures one at a time
+    // Send the pack thermal summary to the emeter
+    float max_therm_temp = ADBMS_get_max_therm_temp(&g_bms);
+    float min_therm_temp = ADBMS_get_min_therm_temp(&g_bms);
+    float avg_therm_temp = ADBMS_get_avg_therm_temp(&g_bms);
+
+    uint16_t max_cell_temp = (uint16_t)CLAMP(
+        max_therm_temp * PACK_COEFF_E_METER_TEMPERATURE_MAX_CELL_TEMP, 0.0f, (float)UINT16_MAX
+    );
+    uint16_t min_cell_temp = (uint16_t)CLAMP(
+        min_therm_temp * PACK_COEFF_E_METER_TEMPERATURE_MIN_CELL_TEMP, 0.0f, (float)UINT16_MAX
+    );
+    uint16_t avg_cell_temp = (uint16_t)CLAMP(
+        avg_therm_temp * PACK_COEFF_E_METER_TEMPERATURE_AVG_CELL_TEMP, 0.0f, (float)UINT16_MAX
+    );
+
+    CAN_SEND_e_meter_temperature(max_cell_temp, min_cell_temp, avg_cell_temp);
+
+    // Report individual thermistor temperatures one at a time
     static uint8_t module_num     = 0;
     static uint8_t thermistor_num = 0;
 

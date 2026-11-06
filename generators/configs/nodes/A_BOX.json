@@ -494,6 +494,45 @@
                     "period_ms": 125
                 },
                 {
+                    "message_name": "e_meter_temperature",
+                    "description": "Pack thermal summary sent to the emeter",
+                    "byte_order": "little_endian",
+                    "signals": [
+                        {
+                            "signal_name": "max_cell_temp",
+                            "description": "Maximum cell temperature in the pack",
+                            "data_type": "uint16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "min_cell_temp",
+                            "description": "Minimum cell temperature in the pack",
+                            "data_type": "uint16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "avg_cell_temp",
+                            "description": "Average cell temperature across the pack",
+                            "data_type": "uint16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "reserved1",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "reserved2",
+                            "data_type": "uint8_t"
+                        }
+                    ],
+                    "priority": 5,
+                    "period_ms": 125,
+                    "id_override": "0x60d"
+                },
+                {
                     "message_name": "imd_state",
                     "description": "IMD state",
                     "signals": [
