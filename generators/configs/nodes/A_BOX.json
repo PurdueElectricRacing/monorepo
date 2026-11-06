@@ -494,48 +494,43 @@
                     "period_ms": 125
                 },
                 {
-                    "message_name": "emeter_team_data_1",
-                    "description": "Pack thermal summary sent to the FSAE Energy Meter (Team Data 1, 0x30D)",
+                    "message_name": "E_METER_TEMPERATURE",
+                    "description": "Pack thermal summary sent to the FSAE Energy Meter (Temperature Message, 0x60d)",
+                    "byte_order": "little_endian",
                     "signals": [
                         {
-                            "signal_name": "max_temperature",
-                            "description": "Hottest BMS thermistor temperature in the pack",
-                            "data_type": "int32_t",
+                            "signal_name": "max_cell_temp",
+                            "description": "Maximum cell temperature in the pack",
+                            "data_type": "uint16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
-                            "signal_name": "min_temperature",
-                            "description": "Coldest BMS thermistor temperature in the pack",
-                            "data_type": "int32_t",
-                            "unit": "C",
-                            "scale": 0.1
-                        }
-                    ],
-                    "priority": 5,
-                    "period_ms": 125,
-                    "id_override": "0x30d"
-                },
-                {
-                    "message_name": "emeter_team_data_2",
-                    "description": "Pack thermal summary sent to the FSAE Energy Meter (Team Data 2, 0x30E)",
-                    "signals": [
-                        {
-                            "signal_name": "avg_temperature",
-                            "description": "Average BMS thermistor temperature across the pack",
-                            "data_type": "int32_t",
+                            "signal_name": "min_cell_temp",
+                            "description": "Minimum cell temperature in the pack",
+                            "data_type": "uint16_t",
                             "unit": "C",
                             "scale": 0.1
                         },
                         {
-                            "signal_name": "max_temperature_module",
-                            "description": "Zero-indexed module containing the hottest BMS thermistor",
-                            "data_type": "int32_t"
+                            "signal_name": "avg_cell_temp",
+                            "description": "Average cell temperature across the pack",
+                            "data_type": "uint16_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "reserved1",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "reserved2",
+                            "data_type": "uint8_t"
                         }
                     ],
                     "priority": 5,
                     "period_ms": 125,
-                    "id_override": "0x30e"
+                    "id_override": "0x60d"
                 },
                 {
                     "message_name": "imd_state",
