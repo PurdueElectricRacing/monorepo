@@ -87,12 +87,42 @@ void report_telemetry_100hz(void) {
 }
 
 /**
+ * @brief Returns the zero-indexed module containing the hottest thermistor.
+ */
+static uint8_t hottest_thermistor_module(void) {
+    uint8_t hottest_module = 0;
+
+    for (uint8_t module_num = 1; module_num < ADBMS_MODULE_COUNT; module_num++) {
+        if (g_bms.modules[module_num].max_therm_temp >
+            g_bms.modules[hottest_module].max_therm_temp) {
+            hottest_module = module_num;
+        }
+    }
+
+    return hottest_module;
+}
+
+/**
  * @brief Reports telemetry data at 8 Hz rate
- * Includes: Thermal stats
+ * Includes: Thermal stats and the Energy Meter thermal summary
  */
 static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
+static_assert(EMETER_TEAM_DATA_1_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
+static_assert(EMETER_TEAM_DATA_2_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 void report_telemetry_8hz(void) {
+    // Send the pack thermal summary to the FSAE Energy Meter. Temperatures are
+    // scaled to 0.1 C, matching the E_METER team data message definitions.
+    int32_t max_temperature =
+        (int32_t)(g_bms.max_therm_temp * PACK_COEFF_EMETER_TEAM_DATA_1_MAX_TEMPERATURE);
+    int32_t min_temperature =
+        (int32_t)(g_bms.min_therm_temp * PACK_COEFF_EMETER_TEAM_DATA_1_MIN_TEMPERATURE);
+    int32_t avg_temperature =
+        (int32_t)(g_bms.avg_therm_temp * PACK_COEFF_EMETER_TEAM_DATA_2_AVG_TEMPERATURE);
+
+    CAN_SEND_emeter_team_data_1(max_temperature, min_temperature);
+    CAN_SEND_emeter_team_data_2(avg_temperature, hottest_thermistor_module());
+
     // Report thermistor temperatures one at a time
     static uint8_t module_num     = 0;
     static uint8_t thermistor_num = 0;

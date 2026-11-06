@@ -494,6 +494,50 @@
                     "period_ms": 125
                 },
                 {
+                    "message_name": "emeter_team_data_1",
+                    "description": "Pack thermal summary sent to the FSAE Energy Meter (Team Data 1, 0x30D)",
+                    "signals": [
+                        {
+                            "signal_name": "max_temperature",
+                            "description": "Hottest BMS thermistor temperature in the pack",
+                            "data_type": "int32_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "min_temperature",
+                            "description": "Coldest BMS thermistor temperature in the pack",
+                            "data_type": "int32_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        }
+                    ],
+                    "priority": 5,
+                    "period_ms": 125,
+                    "id_override": "0x30d"
+                },
+                {
+                    "message_name": "emeter_team_data_2",
+                    "description": "Pack thermal summary sent to the FSAE Energy Meter (Team Data 2, 0x30E)",
+                    "signals": [
+                        {
+                            "signal_name": "avg_temperature",
+                            "description": "Average BMS thermistor temperature across the pack",
+                            "data_type": "int32_t",
+                            "unit": "C",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "max_temperature_module",
+                            "description": "Zero-indexed module containing the hottest BMS thermistor",
+                            "data_type": "int32_t"
+                        }
+                    ],
+                    "priority": 5,
+                    "period_ms": 125,
+                    "id_override": "0x30e"
+                },
+                {
                     "message_name": "imd_state",
                     "description": "IMD state",
                     "signals": [
