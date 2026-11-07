@@ -43,8 +43,8 @@
                     "period_ms": 10
                 },
                 {
-                    "message_name": "pack_bms",
-                    "description": "Voltages and temperatures from BMS",
+                    "message_name": "bms_voltages",
+                    "description": "Cell voltage statistics from BMS",
                     "signals": [
                         {
                             "signal_name": "pack_voltage",
@@ -74,6 +74,31 @@
                             "max": 4.2
                         },
                         {
+                            "signal_name": "avg_cell_voltage",
+                            "description": "Average cell voltage in the pack",
+                            "data_type": "uint16_t",
+                            "unit": "V",
+                            "scale": 0.01,
+                            "min": 2.5,
+                            "max": 4.2
+                        }
+                    ],
+                    "priority": 1,
+                    "period_ms": 200
+                },
+                {
+                    "message_name": "bms_temps",
+                    "description": "Cell and onboard temperature statistics from BMS",
+                    "signals": [
+                        {
+                            "signal_name": "min_cell_temp",
+                            "description": "Minimum cell temperature in the pack",
+                            "data_type": "uint8_t",
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
+                        },
+                        {
                             "signal_name": "max_cell_temp",
                             "description": "Maximum cell temperature in the pack",
                             "data_type": "uint8_t",
@@ -84,6 +109,30 @@
                         {
                             "signal_name": "avg_cell_temp",
                             "description": "Average cell temperature in the pack",
+                            "data_type": "uint8_t",
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
+                        },
+                        {
+                            "signal_name": "min_board_temp",
+                            "description": "Minimum onboard BMS temperature in the pack",
+                            "data_type": "uint8_t",
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
+                        },
+                        {
+                            "signal_name": "max_board_temp",
+                            "description": "Maximum onboard BMS temperature in the pack",
+                            "data_type": "uint8_t",
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
+                        },
+                        {
+                            "signal_name": "avg_board_temp",
+                            "description": "Average onboard BMS temperature in the pack",
                             "data_type": "uint8_t",
                             "unit": "C",
                             "min": 0,
@@ -229,9 +278,9 @@
                     "period_ms": 10
                 },
                 {
-                    "message_name": "pack_bms_ccan",
+                    "message_name": "bms_voltages_ccan",
                     "id_override": "0x801",
-                    "description": "Voltages and temperatures from BMS",
+                    "description": "Cell voltage statistics from BMS",
                     "signals": [
                         {
                             "signal_name": "pack_voltage",
@@ -261,6 +310,32 @@
                             "max": 4.2
                         },
                         {
+                            "signal_name": "avg_cell_voltage",
+                            "description": "Average cell voltage in the pack",
+                            "data_type": "uint16_t",
+                            "unit": "V",
+                            "scale": 0.01,
+                            "min": 2.5,
+                            "max": 4.2
+                        }
+                    ],
+                    "priority": 1,
+                    "period_ms": 200
+                },
+                {
+                    "message_name": "bms_temps_ccan",
+                    "id_override": "0x802",
+                    "description": "Cell and onboard temperature statistics from BMS",
+                    "signals": [
+                        {
+                            "signal_name": "min_cell_temp",
+                            "description": "Minimum cell temperature in the pack",
+                            "data_type": "uint8_t",
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
+                        },
+                        {
                             "signal_name": "max_cell_temp",
                             "description": "Maximum cell temperature in the pack",
                             "data_type": "uint8_t",
@@ -271,6 +346,30 @@
                         {
                             "signal_name": "avg_cell_temp",
                             "description": "Average cell temperature in the pack",
+                            "data_type": "uint8_t",
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
+                        },
+                        {
+                            "signal_name": "min_board_temp",
+                            "description": "Minimum onboard BMS temperature in the pack",
+                            "data_type": "uint8_t",
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
+                        },
+                        {
+                            "signal_name": "max_board_temp",
+                            "description": "Maximum onboard BMS temperature in the pack",
+                            "data_type": "uint8_t",
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
+                        },
+                        {
+                            "signal_name": "avg_board_temp",
+                            "description": "Average onboard BMS temperature in the pack",
                             "data_type": "uint8_t",
                             "unit": "C",
                             "min": 0,
