@@ -23,6 +23,7 @@
 #include "config.h"
 #include "oil_temps_table.h"
 #include "pin_defs.h"
+#include "can_reporting/can_reporting.h"
 
 /* PER HAL Initilization Structures */
 PHAL_GPIO_InitConfig_t gpio_config[] = {
@@ -125,6 +126,7 @@ DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(shockpots_periodic, FRONT_SHOCKPOTS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
 RTOS_DEFINE_TASK(oil_temps_periodic, FRONT_OIL_TEMPS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
 RTOS_DEFINE_TASK(version_periodic, FRONT_DRIVELINE_VERSION_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(can_report_periodic, CAN_REPORTING_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -163,6 +165,7 @@ int main(void) {
     RTOS_START_TASK(shockpots_periodic);
     RTOS_START_TASK(oil_temps_periodic);
     RTOS_START_TASK(version_periodic);
+    RTOS_START_TASK(can_report_periodic);
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 
