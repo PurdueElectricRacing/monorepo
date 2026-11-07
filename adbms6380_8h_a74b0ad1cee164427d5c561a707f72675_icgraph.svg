@@ -58,7 +58,7 @@ var sectionId = 'dynsection-9';
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD.">
+<g id="a_Node000001"><a xlink:title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.">
 <polygon fill="#999999" stroke="#666666" points="714,-30.5 594.5,-30.5 594.5,0 714,0 714,-30.5"/>
 <text text-anchor="start" x="602.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_gpio</text>
 <text text-anchor="middle" x="654.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>

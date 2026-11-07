@@ -67,7 +67,7 @@ var sectionId = 'dynsection-40';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" target="_top" xlink:title="Read all cell voltages from each module via RDCVA..RDCVF.">
+<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" target="_top" xlink:title="Read all cell voltages from each chip via RDCVA..RDCVF.">
 <polygon fill="white" stroke="#666666" points="767.25,-152.88 650.75,-152.88 650.75,-122.38 767.25,-122.38 767.25,-152.88"/>
 <text text-anchor="start" x="658.75" y="-139.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_cell</text>
 <text text-anchor="middle" x="709" y="-128.12" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -86,7 +86,7 @@ var sectionId = 'dynsection-40';
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD.">
+<g id="a_Node000007"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.">
 <polygon fill="white" stroke="#666666" points="768.75,-103.88 649.25,-103.88 649.25,-73.38 768.75,-73.38 768.75,-103.88"/>
 <text text-anchor="start" x="657.25" y="-90.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_gpio</text>
 <text text-anchor="middle" x="709" y="-79.12" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -105,7 +105,7 @@ var sectionId = 'dynsection-40';
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" target="_top" xlink:title="Read back REGA from all modules and compare with cached configuration.">
+<g id="a_Node000010"><a xlink:href="adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" target="_top" xlink:title="Read back REGA from all chips and compare with cached configuration.">
 <polygon fill="white" stroke="#666666" points="596.38,-57.25 471.62,-57.25 471.62,-38 596.38,-38 596.38,-57.25"/>
 <text text-anchor="middle" x="534" y="-43.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_verify_rega</text>
 </a>
@@ -123,7 +123,7 @@ var sectionId = 'dynsection-40';
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="adbms6380_8c.html#ab8ca2a5aa91fd37ad09a7f7285bfd5f8" target="_top" xlink:title="Read back REGB from all modules and compare with cached configuration.">
+<g id="a_Node000011"><a xlink:href="adbms6380_8c.html#ab8ca2a5aa91fd37ad09a7f7285bfd5f8" target="_top" xlink:title="Read back REGB from all chips and compare with cached configuration.">
 <polygon fill="white" stroke="#666666" points="418.75,-19.25 294,-19.25 294,0 418.75,0 418.75,-19.25"/>
 <text text-anchor="middle" x="356.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_verify_regb</text>
 </a>

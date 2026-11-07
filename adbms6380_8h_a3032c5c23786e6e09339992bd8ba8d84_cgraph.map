@@ -1,8 +1,8 @@
 <map id="ADBMS6380_read_temperatures" name="ADBMS6380_read_temperatures">
 <area shape="rect" id="Node000001" title="Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures." alt="" coords="5,228,217,254"/>
-<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD." alt="" coords="267,122,426,162"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD." alt="" coords="267,122,426,162"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,225,281,166,283,171,145,230"/>
-<area shape="rect" id="Node000022" href="$adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" title="Issue the ADAX command to start GPIO/aux voltage conversions across all modules." alt="" coords="265,228,428,254"/>
+<area shape="rect" id="Node000022" href="$adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" title="Issue the ADAX command to start GPIO/aux voltage conversions across all chips." alt="" coords="265,228,428,254"/>
 <area shape="poly" id="edge24_Node000001_Node000022" title=" " alt="" coords="217,238,249,238,249,244,217,244"/>
 <area shape="rect" id="Node000025" href="$thermistor_8h.html#a026b496fe9ccc675fb110ee9bbc0e267" title=" " alt="" coords="282,303,410,328"/>
 <area shape="poly" id="edge32_Node000001_Node000025" title=" " alt="" coords="155,252,289,295,288,300,153,257"/>
@@ -20,7 +20,7 @@
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="617,172,661,178,660,184,616,178"/>
 <area shape="rect" id="Node000006" href="$strbuf_8c.html#a15380dc153a462b38a9b54f274c9c3b5" title="Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended." alt="" coords="685,129,788,155"/>
 <area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="616,155,669,148,670,153,617,160"/>
-<area shape="rect" id="Node000009" href="$adbms6380_8c.html#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" title=" " alt="" coords="683,80,790,106"/>
+<area shape="rect" id="Node000009" href="$adbms6380_8c.html#a1492bca11de6c99b8e7bf86d8f2533f7" title=" " alt="" coords="683,80,790,106"/>
 <area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="599,29,629,40,697,70,695,75,627,45,598,34"/>
 <area shape="rect" id="Node000010" href="$adbms6380_8c.html#a28822aaed957976af4e2e20250b48a8a" title=" " alt="" coords="880,40,996,66"/>
 <area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="790,80,864,65,865,70,791,85"/>

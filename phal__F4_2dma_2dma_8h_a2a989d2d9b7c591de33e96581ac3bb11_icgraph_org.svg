@@ -254,7 +254,7 @@
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="adbms6380_8c.html#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" target="_top" xlink:title=" ">
+<g id="a_Node000009"><a xlink:href="adbms6380_8c.html#a1492bca11de6c99b8e7bf86d8f2533f7" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="1058.75,-219.25 979,-219.25 979,-200 1058.75,-200 1058.75,-219.25"/>
 <text text-anchor="middle" x="1018.88" y="-205.75" font-family="Helvetica,sans-Serif" font-size="10.00">read_response</text>
 </a>
@@ -308,7 +308,7 @@
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" target="_top" xlink:title="Read all cell voltages from each module via RDCVA..RDCVF.">
+<g id="a_Node000011"><a xlink:href="adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" target="_top" xlink:title="Read all cell voltages from each chip via RDCVA..RDCVF.">
 <polygon fill="white" stroke="#666666" points="768.75,-273.88 652.25,-273.88 652.25,-243.38 768.75,-243.38 768.75,-273.88"/>
 <text text-anchor="start" x="660.25" y="-260.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_cell</text>
 <text text-anchor="middle" x="710.5" y="-249.12" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -327,7 +327,7 @@
 <!-- Node15 -->
 <g id="Node000015" class="node">
 <title>Node15</title>
-<g id="a_Node000015"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD.">
+<g id="a_Node000015"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.">
 <polygon fill="white" stroke="#666666" points="770.25,-187.88 650.75,-187.88 650.75,-157.38 770.25,-157.38 770.25,-187.88"/>
 <text text-anchor="start" x="658.75" y="-174.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_gpio</text>
 <text text-anchor="middle" x="710.5" y="-163.12" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -346,7 +346,7 @@
 <!-- Node18 -->
 <g id="Node000018" class="node">
 <title>Node18</title>
-<g id="a_Node000018"><a xlink:href="adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" target="_top" xlink:title="Read back REGA from all modules and compare with cached configuration.">
+<g id="a_Node000018"><a xlink:href="adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" target="_top" xlink:title="Read back REGA from all chips and compare with cached configuration.">
 <polygon fill="white" stroke="#666666" points="418.75,-225.25 294,-225.25 294,-206 418.75,-206 418.75,-225.25"/>
 <text text-anchor="middle" x="356.38" y="-211.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_verify_rega</text>
 </a>
@@ -364,7 +364,7 @@
 <!-- Node19 -->
 <g id="Node000019" class="node">
 <title>Node19</title>
-<g id="a_Node000019"><a xlink:href="adbms6380_8c.html#ab8ca2a5aa91fd37ad09a7f7285bfd5f8" target="_top" xlink:title="Read back REGB from all modules and compare with cached configuration.">
+<g id="a_Node000019"><a xlink:href="adbms6380_8c.html#ab8ca2a5aa91fd37ad09a7f7285bfd5f8" target="_top" xlink:title="Read back REGB from all chips and compare with cached configuration.">
 <polygon fill="white" stroke="#666666" points="596.38,-304.25 471.62,-304.25 471.62,-285 596.38,-285 596.38,-304.25"/>
 <text text-anchor="middle" x="534" y="-290.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_verify_regb</text>
 </a>
@@ -508,7 +508,7 @@
 <!-- Node21 -->
 <g id="Node000021" class="node">
 <title>Node21</title>
-<g id="a_Node000021"><a xlink:href="adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" target="_top" xlink:title="Issue the ADAX command to start GPIO/aux voltage conversions across all modules.">
+<g id="a_Node000021"><a xlink:href="adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" target="_top" xlink:title="Issue the ADAX command to start GPIO/aux voltage conversions across all chips.">
 <polygon fill="white" stroke="#666666" points="771.75,-139.25 649.25,-139.25 649.25,-120 771.75,-120 771.75,-139.25"/>
 <text text-anchor="middle" x="710.5" y="-125.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_start_adax</text>
 </a>
@@ -526,7 +526,7 @@
 <!-- Node22 -->
 <g id="Node000022" class="node">
 <title>Node22</title>
-<g id="a_Node000022"><a xlink:href="adbms6380_8c.html#aa09b3f9f5c953309bb1b5fa61f310d54" target="_top" xlink:title="Issue the ADCV command to start cell voltage conversions across all modules.">
+<g id="a_Node000022"><a xlink:href="adbms6380_8c.html#aa09b3f9f5c953309bb1b5fa61f310d54" target="_top" xlink:title="Issue the ADCV command to start cell voltage conversions across all chips.">
 <polygon fill="white" stroke="#666666" points="418,-91.25 294.75,-91.25 294.75,-72 418,-72 418,-91.25"/>
 <text text-anchor="middle" x="356.38" y="-77.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_start_adcv</text>
 </a>
@@ -544,7 +544,7 @@
 <!-- Node23 -->
 <g id="Node000023" class="node">
 <title>Node23</title>
-<g id="a_Node000023"><a xlink:href="adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" target="_top" xlink:title="Encode and write REGA configuration to all modules in the daisy chain.">
+<g id="a_Node000023"><a xlink:href="adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" target="_top" xlink:title="Encode and write REGA configuration to all chips in the daisy chain.">
 <polygon fill="white" stroke="#666666" points="417.62,-29.25 295.12,-29.25 295.12,-10 417.62,-10 417.62,-29.25"/>
 <text text-anchor="middle" x="356.38" y="-15.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_write_rega</text>
 </a>
@@ -562,7 +562,7 @@
 <!-- Node24 -->
 <g id="Node000024" class="node">
 <title>Node24</title>
-<g id="a_Node000024"><a xlink:href="adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" target="_top" xlink:title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules.">
+<g id="a_Node000024"><a xlink:href="adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" target="_top" xlink:title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all chips.">
 <polygon fill="white" stroke="#666666" points="595.25,-123.25 472.75,-123.25 472.75,-104 595.25,-104 595.25,-123.25"/>
 <text text-anchor="middle" x="534" y="-109.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_write_regb</text>
 </a>

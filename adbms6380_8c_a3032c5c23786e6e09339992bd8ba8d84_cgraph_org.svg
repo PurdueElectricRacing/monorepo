@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD.">
+<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.">
 <polygon fill="white" stroke="#666666" points="315.5,-192.88 196,-192.88 196,-162.38 315.5,-162.38 315.5,-192.88"/>
 <text text-anchor="start" x="204" y="-179.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_gpio</text>
 <text text-anchor="middle" x="255.75" y="-168.12" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -39,7 +39,7 @@
 <!-- Node22 -->
 <g id="Node000022" class="node">
 <title>Node22</title>
-<g id="a_Node000022"><a xlink:href="adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" target="_top" xlink:title="Issue the ADAX command to start GPIO/aux voltage conversions across all modules.">
+<g id="a_Node000022"><a xlink:href="adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" target="_top" xlink:title="Issue the ADAX command to start GPIO/aux voltage conversions across all chips.">
 <polygon fill="white" stroke="#666666" points="317,-113.25 194.5,-113.25 194.5,-94 317,-94 317,-113.25"/>
 <text text-anchor="middle" x="255.75" y="-99.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_start_adax</text>
 </a>
@@ -201,7 +201,7 @@
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="adbms6380_8c.html#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" target="_top" xlink:title=" ">
+<g id="a_Node000009"><a xlink:href="adbms6380_8c.html#a1492bca11de6c99b8e7bf86d8f2533f7" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="588.25,-224.25 508.5,-224.25 508.5,-205 588.25,-205 588.25,-224.25"/>
 <text text-anchor="middle" x="548.38" y="-210.75" font-family="Helvetica,sans-Serif" font-size="10.00">read_response</text>
 </a>

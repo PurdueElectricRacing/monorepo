@@ -4,7 +4,7 @@ var adbms6380_8h =
     [ "adbms6380_regb_config_t", "structadbms6380__regb__config__t.html", "structadbms6380__regb__config__t" ],
     [ "adbms6380_adcv_config_t", "structadbms6380__adcv__config__t.html", "structadbms6380__adcv__config__t" ],
     [ "adbms6380_adax_config_t", "structadbms6380__adax__config__t.html", "structadbms6380__adax__config__t" ],
-    [ "adbms6380_module_t", "structadbms6380__module__t.html", "structadbms6380__module__t" ],
+    [ "adbms6380_chip_t", "structadbms6380__chip__t.html", "structadbms6380__chip__t" ],
     [ "adbms6380_t", "structadbms6380__t.html", "structadbms6380__t" ],
     [ "ADBMS6380_has_rega_mismatch", "adbms6380_8h.html#a7a300ff96432feb9fae89bd29e4d0919", null ],
     [ "ADBMS6380_has_regb_mismatch", "adbms6380_8h.html#afd953d8559ba00f614313e52d6e9bb4c", null ],

@@ -2,21 +2,21 @@
 <area shape="rect" id="Node000001" title="CRC15 Pec Calculation Function." alt="" coords="1259,212,1379,237"/>
 <area shape="rect" id="Node000002" href="$adbms6380_8c.html#afcb2720a50ea90439d14a568c8119c32" title=" " alt="" coords="1082,212,1211,237"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1243,227,1211,227,1211,222,1243,222"/>
-<area shape="rect" id="Node000003" href="$adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" title="Read all cell voltages from each module via RDCVA..RDCVF." alt="" coords="875,5,1030,46"/>
+<area shape="rect" id="Node000003" href="$adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" title="Read all cell voltages from each chip via RDCVA..RDCVF." alt="" coords="875,5,1030,46"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1131,199,1093,131,1065,94,1033,61,1014,49,1017,44,1036,57,1069,90,1097,128,1136,196"/>
-<area shape="rect" id="Node000008" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD." alt="" coords="873,71,1032,111"/>
+<area shape="rect" id="Node000008" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD." alt="" coords="873,71,1032,111"/>
 <area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="1121,201,1082,163,1033,125,1012,114,1015,110,1036,121,1085,159,1125,198"/>
-<area shape="rect" id="Node000011" href="$adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" title="Issue the ADAX command to start GPIO/aux voltage conversions across all modules." alt="" coords="871,136,1034,161"/>
+<area shape="rect" id="Node000011" href="$adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" title="Issue the ADAX command to start GPIO/aux voltage conversions across all chips." alt="" coords="871,136,1034,161"/>
 <area shape="poly" id="edge11_Node000002_Node000011" title=" " alt="" coords="1097,208,986,164,988,159,1098,203"/>
-<area shape="rect" id="Node000012" href="$adbms6380_8c.html#aa09b3f9f5c953309bb1b5fa61f310d54" title="Issue the ADCV command to start cell voltage conversions across all modules." alt="" coords="635,186,800,212"/>
+<area shape="rect" id="Node000012" href="$adbms6380_8c.html#aa09b3f9f5c953309bb1b5fa61f310d54" title="Issue the ADCV command to start cell voltage conversions across all chips." alt="" coords="635,186,800,212"/>
 <area shape="poly" id="edge13_Node000002_Node000012" title=" " alt="" coords="1067,222,800,206,800,201,1067,217"/>
-<area shape="rect" id="Node000013" href="$adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" title="Read back REGA from all modules and compare with cached configuration." alt="" coords="397,237,564,262"/>
+<area shape="rect" id="Node000013" href="$adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" title="Read back REGA from all chips and compare with cached configuration." alt="" coords="397,237,564,262"/>
 <area shape="poly" id="edge15_Node000002_Node000013" title=" " alt="" coords="1067,230,564,249,564,244,1067,225"/>
-<area shape="rect" id="Node000014" href="$adbms6380_8c.html#ab8ca2a5aa91fd37ad09a7f7285bfd5f8" title="Read back REGB from all modules and compare with cached configuration." alt="" coords="397,286,564,312"/>
+<area shape="rect" id="Node000014" href="$adbms6380_8c.html#ab8ca2a5aa91fd37ad09a7f7285bfd5f8" title="Read back REGB from all chips and compare with cached configuration." alt="" coords="397,286,564,312"/>
 <area shape="poly" id="edge17_Node000002_Node000014" title=" " alt="" coords="1067,238,1035,242,565,293,564,288,1034,236,1066,232"/>
-<area shape="rect" id="Node000015" href="$adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" title="Encode and write REGA configuration to all modules in the daisy chain." alt="" coords="636,338,799,364"/>
+<area shape="rect" id="Node000015" href="$adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" title="Encode and write REGA configuration to all chips in the daisy chain." alt="" coords="636,338,799,364"/>
 <area shape="poly" id="edge19_Node000002_Node000015" title=" " alt="" coords="1126,251,1087,289,1062,307,1035,321,976,341,914,352,853,358,799,358,799,353,853,352,913,347,974,336,1033,317,1060,302,1084,284,1123,247"/>
-<area shape="rect" id="Node000016" href="$adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules." alt="" coords="399,388,562,413"/>
+<area shape="rect" id="Node000016" href="$adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all chips." alt="" coords="399,388,562,413"/>
 <area shape="poly" id="edge21_Node000002_Node000016" title=" " alt="" coords="1134,253,1096,310,1068,339,1036,361,976,387,913,405,849,417,784,424,663,425,562,416,563,411,663,419,784,418,848,412,912,400,974,382,1033,357,1065,334,1092,306,1130,250"/>
 <area shape="rect" id="Node000004" href="$adbms_8c.html#a8e32099ef8c96913484c6551d8e94196" title=" " alt="" coords="677,32,758,57"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="860,36,758,44,757,39,859,30"/>

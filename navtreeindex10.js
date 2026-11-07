@@ -1,5 +1,8 @@
 var NAVTREEINDEX10 =
 {
+"dearunits__priv_8h.html#a20855effed9c963dea26924ed2a7dbd0":[34,0,1,1,3,2,1],
+"dearunits__priv_8h.html#a2ea120531c0642c11c9800269e3400a1":[34,0,1,1,3,2,4],
+"dearunits__priv_8h.html#a481cfe88c5b7f493c3fe1acb2f5118c5":[34,0,1,1,3,2,6],
 "dearunits__priv_8h.html#a4f3d21f9ca2008dedb8a03178ddbf993":[34,0,1,1,3,2,2],
 "dearunits__priv_8h.html#a64bf9325ee8180c3cd4c388f7df8aacc":[34,0,1,1,3,2,5],
 "dearunits__priv_8h.html#a8a6dddbaf51f9f9043e323d46a846244":[34,0,1,1,3,2,7],
@@ -246,8 +249,5 @@ var NAVTREEINDEX10 =
 "dma__wiring_8h.html#a139c0682e2a9488cd549bc9510ddfc44af5201a7cdf466a564bd1e2d0b53ee652":[34,0,1,1,9,2,4,2,11],
 "dma__wiring_8h.html#a13b365bb92a4c627f592966a123aad95":[34,0,1,1,9,2,4,7],
 "dma__wiring_8h.html#a2f1e50116d323d46ccdd8ace56847c95":[34,0,1,1,9,2,4,14],
-"dma__wiring_8h.html#a4396459854ee794efaf904c7bb9e7604":[34,0,1,1,9,2,4,18],
-"dma__wiring_8h.html#a44224c107d458831ae296a632dff5e42":[34,0,1,1,9,2,4,6],
-"dma__wiring_8h.html#a51c3230d7e90389602ccd9497e297b10":[34,0,1,1,9,2,4,4],
-"dma__wiring_8h.html#a52ccab6b19709690cf18623e0f74ef51":[34,0,1,1,9,2,4,5]
+"dma__wiring_8h.html#a4396459854ee794efaf904c7bb9e7604":[34,0,1,1,9,2,4,18]
 };

@@ -33,7 +33,7 @@ var searchData=
   ['gpio_5fpriv_5fport_5fstride_30',['GPIO_PRIV_PORT_STRIDE',['../gpio__priv_8h.html#a4036eb852d94f27c1141b9e82a0f4a0f',1,'gpio_priv.h']]],
   ['gpio_5fpriv_5fpupdr_5ffield_5fbits_31',['GPIO_PRIV_PUPDR_FIELD_BITS',['../gpio__priv_8h.html#a0717f172fdfcdfee44bb13bb44529460',1,'gpio_priv.h']]],
   ['gpio_5fpriv_5frcc_5fenable_5fbits_32',['GPIO_PRIV_RCC_ENABLE_BITS',['../gpio__priv_8h.html#aaaf361ff28ab4d11b187e9874e4816ff',1,'gpio_priv.h']]],
-  ['gpio_5fvoltages_33',['gpio_voltages',['../structadbms6380__module__t.html#aabdd0fef71a3914cf5219d294d812cf6',1,'adbms6380_module_t']]],
+  ['gpio_5fvoltages_33',['gpio_voltages',['../structadbms6380__chip__t.html#abd1884dfb40426537913c4f680a35cc1',1,'adbms6380_chip_t']]],
   ['gps_5fbaud_5frate_34',['GPS_BAUD_RATE',['../torque__vector_2main_8c.html#a446cf1f11ef577601271779d15f827f8',1,'main.c']]],
   ['gps_5fcoordinates_35',['gps_coordinates',['../structcan__data__t.html#acdeb3ac69a1ce2abf2133a149aa47645',1,'can_data_t']]],
   ['gps_5fcoordinates_5fdlc_36',['GPS_COORDINATES_DLC',['../SCAN_8h.html#a171ab81bd87590eb34fa4aa010a7727f',1,'SCAN.h']]],

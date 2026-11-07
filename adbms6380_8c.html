@@ -152,8 +152,8 @@ Functions</h2></td></tr>
 <tr class="separator:a6618686ac7196d434398a2ea673f4bba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28822aaed957976af4e2e20250b48a8a" id="r_a28822aaed957976af4e2e20250b48a8a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a28822aaed957976af4e2e20250b48a8a">check_data_pec</a> (const uint8_t *rx_bytes, size_t rx_len)</td></tr>
 <tr class="separator:a28822aaed957976af4e2e20250b48a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" id="r_a5bbcf4c8fd7f1b002f7400e2fb3ad5e1"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1">read_response</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, size_t rx_length_per_module)</td></tr>
-<tr class="separator:a5bbcf4c8fd7f1b002f7400e2fb3ad5e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1492bca11de6c99b8e7bf86d8f2533f7" id="r_a1492bca11de6c99b8e7bf86d8f2533f7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1492bca11de6c99b8e7bf86d8f2533f7">read_response</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, size_t rx_length_per_chip)</td></tr>
+<tr class="separator:a1492bca11de6c99b8e7bf86d8f2533f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e8e83783b9da5c69b8a6bef35f010f5" id="r_a4e8e83783b9da5c69b8a6bef35f010f5"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e8e83783b9da5c69b8a6bef35f010f5">read_data_with_retries</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
 <tr class="separator:a4e8e83783b9da5c69b8a6bef35f010f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad44be82376949cf91d9b4a0216f7ba26" id="r_ad44be82376949cf91d9b4a0216f7ba26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad44be82376949cf91d9b4a0216f7ba26">ADBMS6380_init</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, <a class="el" href="structSPI__InitConfig__t.html">SPI_InitConfig_t</a> *spi)</td></tr>
@@ -163,34 +163,34 @@ Functions</h2></td></tr>
 <tr class="memdesc:a092e9d0a8566b9f48e23ce2efe66d2af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake the daisy-chained set of ADBMS6380 devices.  <br /></td></tr>
 <tr class="separator:a092e9d0a8566b9f48e23ce2efe66d2af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4790855abf91e0638244eae6f1d3b168" id="r_a4790855abf91e0638244eae6f1d3b168"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4790855abf91e0638244eae6f1d3b168">ADBMS6380_write_rega</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__rega__config__t.html">adbms6380_rega_config_t</a> *cfg)</td></tr>
-<tr class="memdesc:a4790855abf91e0638244eae6f1d3b168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode and write REGA configuration to all modules in the daisy chain.  <br /></td></tr>
+<tr class="memdesc:a4790855abf91e0638244eae6f1d3b168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode and write REGA configuration to all chips in the daisy chain.  <br /></td></tr>
 <tr class="separator:a4790855abf91e0638244eae6f1d3b168"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0963dcf6690f0adb7561f61b472427e8" id="r_a0963dcf6690f0adb7561f61b472427e8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0963dcf6690f0adb7561f61b472427e8">ADBMS6380_verify_rega</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
-<tr class="memdesc:a0963dcf6690f0adb7561f61b472427e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read back REGA from all modules and compare with cached configuration.  <br /></td></tr>
+<tr class="memdesc:a0963dcf6690f0adb7561f61b472427e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read back REGA from all chips and compare with cached configuration.  <br /></td></tr>
 <tr class="separator:a0963dcf6690f0adb7561f61b472427e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cdbd620cf34a8065b37c2eeab6a8ab6" id="r_a0cdbd620cf34a8065b37c2eeab6a8ab6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cdbd620cf34a8065b37c2eeab6a8ab6">ADBMS6380_write_regb</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__regb__config__t.html">adbms6380_regb_config_t</a> *cfg)</td></tr>
-<tr class="memdesc:a0cdbd620cf34a8065b37c2eeab6a8ab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules.  <br /></td></tr>
+<tr class="memdesc:a0cdbd620cf34a8065b37c2eeab6a8ab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all chips.  <br /></td></tr>
 <tr class="separator:a0cdbd620cf34a8065b37c2eeab6a8ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8ca2a5aa91fd37ad09a7f7285bfd5f8" id="r_ab8ca2a5aa91fd37ad09a7f7285bfd5f8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8ca2a5aa91fd37ad09a7f7285bfd5f8">ADBMS6380_verify_regb</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
-<tr class="memdesc:ab8ca2a5aa91fd37ad09a7f7285bfd5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read back REGB from all modules and compare with cached configuration.  <br /></td></tr>
+<tr class="memdesc:ab8ca2a5aa91fd37ad09a7f7285bfd5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read back REGB from all chips and compare with cached configuration.  <br /></td></tr>
 <tr class="separator:ab8ca2a5aa91fd37ad09a7f7285bfd5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a300ff96432feb9fae89bd29e4d0919" id="r_a7a300ff96432feb9fae89bd29e4d0919"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a300ff96432feb9fae89bd29e4d0919">ADBMS6380_has_rega_mismatch</a> (const <a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
-<tr class="memdesc:a7a300ff96432feb9fae89bd29e4d0919"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether any module in the chain has a REGA mismatch error.  <br /></td></tr>
+<tr class="memdesc:a7a300ff96432feb9fae89bd29e4d0919"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether any chip in the chain has a REGA mismatch error.  <br /></td></tr>
 <tr class="separator:a7a300ff96432feb9fae89bd29e4d0919"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd953d8559ba00f614313e52d6e9bb4c" id="r_afd953d8559ba00f614313e52d6e9bb4c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd953d8559ba00f614313e52d6e9bb4c">ADBMS6380_has_regb_mismatch</a> (const <a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
-<tr class="memdesc:afd953d8559ba00f614313e52d6e9bb4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether any module in the chain has a REGB mismatch error.  <br /></td></tr>
+<tr class="memdesc:afd953d8559ba00f614313e52d6e9bb4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether any chip in the chain has a REGB mismatch error.  <br /></td></tr>
 <tr class="separator:afd953d8559ba00f614313e52d6e9bb4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa09b3f9f5c953309bb1b5fa61f310d54" id="r_aa09b3f9f5c953309bb1b5fa61f310d54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa09b3f9f5c953309bb1b5fa61f310d54">ADBMS6380_start_adcv</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__adcv__config__t.html">adbms6380_adcv_config_t</a> *cfg)</td></tr>
-<tr class="memdesc:aa09b3f9f5c953309bb1b5fa61f310d54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Issue the ADCV command to start cell voltage conversions across all modules.  <br /></td></tr>
+<tr class="memdesc:aa09b3f9f5c953309bb1b5fa61f310d54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Issue the ADCV command to start cell voltage conversions across all chips.  <br /></td></tr>
 <tr class="separator:aa09b3f9f5c953309bb1b5fa61f310d54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a797933ebb8aeaf7dc228e5f9f51e47e2" id="r_a797933ebb8aeaf7dc228e5f9f51e47e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a797933ebb8aeaf7dc228e5f9f51e47e2">ADBMS6380_start_adax</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *cfg)</td></tr>
-<tr class="memdesc:a797933ebb8aeaf7dc228e5f9f51e47e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Issue the ADAX command to start GPIO/aux voltage conversions across all modules.  <br /></td></tr>
+<tr class="memdesc:a797933ebb8aeaf7dc228e5f9f51e47e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Issue the ADAX command to start GPIO/aux voltage conversions across all chips.  <br /></td></tr>
 <tr class="separator:a797933ebb8aeaf7dc228e5f9f51e47e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4011d4493881a897342178e4e04f150a" id="r_a4011d4493881a897342178e4e04f150a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4011d4493881a897342178e4e04f150a">ADBMS6380_read_cell_voltages</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
-<tr class="memdesc:a4011d4493881a897342178e4e04f150a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all cell voltages from each module via RDCVA..RDCVF.  <br /></td></tr>
+<tr class="memdesc:a4011d4493881a897342178e4e04f150a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all cell voltages from each chip via RDCVA..RDCVF.  <br /></td></tr>
 <tr class="separator:a4011d4493881a897342178e4e04f150a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74b0ad1cee164427d5c561a707f72675" id="r_a74b0ad1cee164427d5c561a707f72675"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74b0ad1cee164427d5c561a707f72675">ADBMS6380_read_gpio_voltages</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
-<tr class="memdesc:a74b0ad1cee164427d5c561a707f72675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD.  <br /></td></tr>
+<tr class="memdesc:a74b0ad1cee164427d5c561a707f72675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.  <br /></td></tr>
 <tr class="separator:a74b0ad1cee164427d5c561a707f72675"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3032c5c23786e6e09339992bd8ba8d84" id="r_a3032c5c23786e6e09339992bd8ba8d84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3032c5c23786e6e09339992bd8ba8d84">ADBMS6380_read_temperatures</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *cfg)</td></tr>
 <tr class="memdesc:a3032c5c23786e6e09339992bd8ba8d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.  <br /></td></tr>
@@ -245,14 +245,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Check whether any module in the chain has a REGA mismatch error. </p>
+<p>Check whether any chip in the chain has a REGA mismatch error. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if any module has <a class="el" href="structadbms6380__module__t.html#a2e54dbff5156c37716cfaa06173cb41f">adbms6380_module_t::err_rega_mismatch</a> set. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if any chip has <a class="el" href="structadbms6380__chip__t.html#a6544691a7f52cfaeeba48e4efa737897">adbms6380_chip_t::err_rega_mismatch</a> set. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -276,14 +276,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Check whether any module in the chain has a REGB mismatch error. </p>
+<p>Check whether any chip in the chain has a REGB mismatch error. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if any module has <a class="el" href="structadbms6380__module__t.html#a0c0684253c986ae54e450c074ebdbb60">adbms6380_module_t::err_regb_mismatch</a> set. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if any chip has <a class="el" href="structadbms6380__chip__t.html#a5f018433556a03c50ed1a579bbd76301">adbms6380_chip_t::err_regb_mismatch</a> set. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -312,7 +312,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Initialize the ADBMS6380 device driver instance, SPI buffers, and CS line. </p>
-<p>Deasserts CS high, initializes the internal TX strbuf, and clears discharge and error flags across all modules.</p>
+<p>Deasserts CS high, initializes the internal TX strbuf, and clears discharge and error flags across all chips.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state to initialize. </td></tr>
@@ -348,8 +348,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Read all cell voltages from each module via RDCVA..RDCVF. </p>
-<p>Converts raw values to volts and populates each module's cell_voltages array. If any command fails with a PEC error after retries, the successfully read cell voltages are still updated and the corresponding flag in err_cell_voltage_pecs is set.</p>
+<p>Read all cell voltages from each chip via RDCVA..RDCVF. </p>
+<p>Converts raw values to volts and populates each chip's cell_voltages array. If any command fails with a PEC error after retries, the successfully read cell voltages are still updated and the corresponding flag in err_cell_voltage_pecs is set.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -384,8 +384,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD. </p>
-<p>Converts raw values to volts and populates each module's gpio_voltages array. If any command fails with a PEC error after retries, the successfully read GPIO voltages are still updated and the corresponding flag in err_gpio_voltage_pecs is set.</p>
+<p>Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD. </p>
+<p>Converts raw values to volts and populates each chip's gpio_voltages array. If any command fails with a PEC error after retries, the successfully read GPIO voltages are still updated and the corresponding flag in err_gpio_voltage_pecs is set.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -425,7 +425,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures. </p>
-<p>Populates each module's gpio_voltages and therms_temps arrays.</p>
+<p>Populates each chip's gpio_voltages and therms_temps arrays.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -465,7 +465,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Issue the ADAX command to start GPIO/aux voltage conversions across all modules. </p>
+<p>Issue the ADAX command to start GPIO/aux voltage conversions across all chips. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -505,7 +505,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Issue the ADCV command to start cell voltage conversions across all modules. </p>
+<p>Issue the ADCV command to start cell voltage conversions across all chips. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -541,8 +541,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Read back REGA from all modules and compare with cached configuration. </p>
-<p>Sets per-module mismatch or PEC flags when the read-back fails or does not match the cached REGA data.</p>
+<p>Read back REGA from all chips and compare with cached configuration. </p>
+<p>Sets per-chip mismatch or PEC flags when the read-back fails or does not match the cached REGA data.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -578,8 +578,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Read back REGB from all modules and compare with cached configuration. </p>
-<p>Sets per-module mismatch or PEC flags when the read-back fails or does not match the cached REGB data.</p>
+<p>Read back REGB from all chips and compare with cached configuration. </p>
+<p>Sets per-chip mismatch or PEC flags when the read-back fails or does not match the cached REGB data.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -616,7 +616,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Wake the daisy-chained set of ADBMS6380 devices. </p>
-<p>Toggles CS with blocking delays to bring each module out of sleep.</p>
+<p>Toggles CS with blocking delays to bring each chip out of sleep.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -655,7 +655,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Encode and write REGA configuration to all modules in the daisy chain. </p>
+<p>Encode and write REGA configuration to all chips in the daisy chain. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -695,7 +695,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules. </p>
+<p>Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all chips. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -1108,8 +1108,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" name="a5bbcf4c8fd7f1b002f7400e2fb3ad5e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1">&#9670;&#160;</a></span>read_response()</h2>
+<a id="a1492bca11de6c99b8e7bf86d8f2533f7" name="a1492bca11de6c99b8e7bf86d8f2533f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1492bca11de6c99b8e7bf86d8f2533f7">&#9670;&#160;</a></span>read_response()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1125,7 +1125,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>rx_length_per_module</em></span>&#160;)</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>rx_length_per_chip</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1137,12 +1137,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a5bbcf4c8fd7f1b002f7400e2fb3ad5e1_cgraph.svg" width="100%" height="479"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a1492bca11de6c99b8e7bf86d8f2533f7_cgraph.svg" width="100%" height="479"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a5bbcf4c8fd7f1b002f7400e2fb3ad5e1_icgraph.svg" width="100%" height="463"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8c_a1492bca11de6c99b8e7bf86d8f2533f7_icgraph.svg" width="100%" height="463"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

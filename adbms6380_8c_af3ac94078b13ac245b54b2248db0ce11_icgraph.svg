@@ -67,7 +67,7 @@ var sectionId = 'dynsection-48';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" target="_top" xlink:title="Issue the ADAX command to start GPIO/aux voltage conversions across all modules.">
+<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" target="_top" xlink:title="Issue the ADAX command to start GPIO/aux voltage conversions across all chips.">
 <polygon fill="white" stroke="#666666" points="769.88,-132.25 647.38,-132.25 647.38,-113 769.88,-113 769.88,-132.25"/>
 <text text-anchor="middle" x="708.62" y="-118.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_start_adax</text>
 </a>
@@ -85,7 +85,7 @@ var sectionId = 'dynsection-48';
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="adbms6380_8c.html#aa09b3f9f5c953309bb1b5fa61f310d54" target="_top" xlink:title="Issue the ADCV command to start cell voltage conversions across all modules.">
+<g id="a_Node000008"><a xlink:href="adbms6380_8c.html#aa09b3f9f5c953309bb1b5fa61f310d54" target="_top" xlink:title="Issue the ADCV command to start cell voltage conversions across all chips.">
 <polygon fill="white" stroke="#666666" points="770.25,-95.25 647,-95.25 647,-76 770.25,-76 770.25,-95.25"/>
 <text text-anchor="middle" x="708.62" y="-81.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_start_adcv</text>
 </a>
@@ -103,7 +103,7 @@ var sectionId = 'dynsection-48';
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" target="_top" xlink:title="Encode and write REGA configuration to all modules in the daisy chain.">
+<g id="a_Node000009"><a xlink:href="adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" target="_top" xlink:title="Encode and write REGA configuration to all chips in the daisy chain.">
 <polygon fill="white" stroke="#666666" points="593,-57.25 470.5,-57.25 470.5,-38 593,-38 593,-57.25"/>
 <text text-anchor="middle" x="531.75" y="-43.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_write_rega</text>
 </a>
@@ -121,7 +121,7 @@ var sectionId = 'dynsection-48';
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" target="_top" xlink:title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules.">
+<g id="a_Node000010"><a xlink:href="adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" target="_top" xlink:title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all chips.">
 <polygon fill="white" stroke="#666666" points="416.5,-19.25 294,-19.25 294,0 416.5,0 416.5,-19.25"/>
 <text text-anchor="middle" x="355.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_write_regb</text>
 </a>

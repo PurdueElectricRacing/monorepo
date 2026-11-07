@@ -105,13 +105,12 @@ var searchData=
   ['stream_102',['stream',['../structdma__init__t.html#ac59bfe8352c96f0a92288a00fdbf7a86',1,'dma_init_t']]],
   ['stream_5fidx_103',['stream_idx',['../structdma__init__t.html#a253be14908866ba881348a5abb33a467',1,'dma_init_t']]],
   ['string_104',['string',['../structpage__handler__t.html#a26b90f92fec11cabad0f6a67730ab926',1,'page_handler_t']]],
-  ['sum_105',['sum',['../structadbms__stats__t.html#a29feb0aa06dc4a31a53e490ee8838ab4',1,'adbms_stats_t']]],
-  ['sum_5fvoltage_106',['sum_voltage',['../structadbms__bms__t.html#a9ae7b72a5ac37a212c39ce2c0b69f6af',1,'adbms_bms_t']]],
-  ['switch_5ffault_5fadc_5fthreshold_107',['SWITCH_FAULT_ADC_THRESHOLD',['../switch_8h.html#a906e29a588e55d93cb70d71f582ab63a',1,'switch.h']]],
-  ['switch_5ffault_5fmargin_108',['SWITCH_FAULT_MARGIN',['../switch_8h.html#a57bd5f18276831d06b332454cd2b809a',1,'switch.h']]],
-  ['switch_5ffault_5fsense_5fv_109',['SWITCH_FAULT_SENSE_V',['../switch_8h.html#affcc397fe5accc45327c6f0d2cfd93bb',1,'switch.h']]],
-  ['switch_5fsense_5fdivider_5fgain_110',['SWITCH_SENSE_DIVIDER_GAIN',['../switch_8h.html#a939691f64f50fc649d359798c2bda78e',1,'switch.h']]],
-  ['sync_5fword_111',['sync_word',['../structubx__header__t.html#a669ff7b3507dff29ec84676a09fb7988',1,'ubx_header_t']]],
-  ['sysspecversion_112',['SysSpecVersion',['../structSD__CSD.html#aab56e6f7b3656603520250d072ca806c',1,'SD_CSD']]],
-  ['system_5fclock_5ftarget_5fhz_113',['system_clock_target_hz',['../structClockRateConfig__t.html#a4bcd01af800a1ff65cf10ee4c699dcf9',1,'ClockRateConfig_t']]]
+  ['sum_5fvoltage_105',['sum_voltage',['../structadbms__bms__t.html#a9ae7b72a5ac37a212c39ce2c0b69f6af',1,'adbms_bms_t']]],
+  ['switch_5ffault_5fadc_5fthreshold_106',['SWITCH_FAULT_ADC_THRESHOLD',['../switch_8h.html#a906e29a588e55d93cb70d71f582ab63a',1,'switch.h']]],
+  ['switch_5ffault_5fmargin_107',['SWITCH_FAULT_MARGIN',['../switch_8h.html#a57bd5f18276831d06b332454cd2b809a',1,'switch.h']]],
+  ['switch_5ffault_5fsense_5fv_108',['SWITCH_FAULT_SENSE_V',['../switch_8h.html#affcc397fe5accc45327c6f0d2cfd93bb',1,'switch.h']]],
+  ['switch_5fsense_5fdivider_5fgain_109',['SWITCH_SENSE_DIVIDER_GAIN',['../switch_8h.html#a939691f64f50fc649d359798c2bda78e',1,'switch.h']]],
+  ['sync_5fword_110',['sync_word',['../structubx__header__t.html#a669ff7b3507dff29ec84676a09fb7988',1,'ubx_header_t']]],
+  ['sysspecversion_111',['SysSpecVersion',['../structSD__CSD.html#aab56e6f7b3656603520250d072ca806c',1,'SD_CSD']]],
+  ['system_5fclock_5ftarget_5fhz_112',['system_clock_target_hz',['../structClockRateConfig__t.html#a4bcd01af800a1ff65cf10ee4c699dcf9',1,'ClockRateConfig_t']]]
 ];

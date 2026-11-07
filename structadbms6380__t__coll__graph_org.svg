@@ -155,9 +155,9 @@
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="structadbms6380__module__t.html" target="_top" xlink:title="Per&#45;module device&#45;level measurements, register cache, and mismatch flags.">
-<polygon fill="white" stroke="#666666" points="358.88,-85.75 247.62,-85.75 247.62,-66.5 358.88,-66.5 358.88,-85.75"/>
-<text text-anchor="middle" x="303.25" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">adbms6380_module_t</text>
+<g id="a_Node000009"><a xlink:href="structadbms6380__chip__t.html" target="_top" xlink:title="Per&#45;chip device&#45;level measurements, register cache, and mismatch flags.">
+<polygon fill="white" stroke="#666666" points="345.12,-85.75 247.38,-85.75 247.38,-66.5 345.12,-66.5 345.12,-85.75"/>
+<text text-anchor="middle" x="296.25" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">adbms6380_chip_t</text>
 </a>
 </g>
 </g>
@@ -165,11 +165,11 @@
 <g id="edge8_Node000001_Node000009" class="edge">
 <title>Node9&#45;&gt;Node1</title>
 <g id="a_edge8_Node000001_Node000009"><a xlink:title=" ">
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M281.62,-59.46C271.84,-52.5 260.07,-44.31 249.25,-37.25 239.98,-31.2 229.36,-24.77 220.88,-19.74"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="279.58,-62.3 289.74,-65.28 283.65,-56.61 279.58,-62.3"/>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M277.47,-59.03C269.04,-52.06 258.85,-43.98 249.25,-37.25 240.33,-31 229.92,-24.66 221.46,-19.73"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="275.04,-61.56 284.95,-65.32 279.54,-56.2 275.04,-61.56"/>
 </a>
 </g>
-<text text-anchor="middle" x="285.3" y="-39" font-family="Helvetica,sans-Serif" font-size="10.00" fill="grey"> modules</text>
+<text text-anchor="middle" x="276.65" y="-39" font-family="Helvetica,sans-Serif" font-size="10.00" fill="grey"> chips</text>
 </g>
 </g>
 </svg>

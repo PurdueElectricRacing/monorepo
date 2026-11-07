@@ -134,7 +134,7 @@ var searchData=
   ['thermistor_5ftelemetry_5fmsg_5fid_131',['THERMISTOR_TELEMETRY_MSG_ID',['../SCAN_8h.html#a9d4c72f0c01c04cd85b76cfaa0e2fd56',1,'SCAN.h']]],
   ['thermistor_5ftelemetry_5fperiod_5fms_132',['THERMISTOR_TELEMETRY_PERIOD_MS',['../SCAN_8h.html#a00cc37ffe7172eadcb2354a56615432e',1,'SCAN.h']]],
   ['thermistor_5ftelemetry_5fstale_5ftimeout_5fms_133',['THERMISTOR_TELEMETRY_STALE_TIMEOUT_MS',['../SCAN_8h.html#a22e368323c9b967cbef41e81bcc1425a',1,'SCAN.h']]],
-  ['therms_5ftemps_134',['therms_temps',['../structadbms6380__module__t.html#ab54d61d214bdcfed158828a6cacc7787',1,'adbms6380_module_t']]],
+  ['therms_5ftemps_134',['therms_temps',['../structadbms6380__chip__t.html#aaf41f6b6e9b18786df0563fd749a8bb9',1,'adbms6380_chip_t']]],
   ['throt_5fbar_135',['THROT_BAR',['../race_8h.html#acfd30e79279478e4cdec0f61c217f3c6',1,'race.h']]],
   ['throt_5fraw_136',['THROT_RAW',['../structxVCU__struct.html#aab2b919b99569486b2cc188f3b5a5556',1,'xVCU_struct']]],
   ['throttle_137',['throttle',['../structpedals__data__t.html#aee4abbf97d55ab7783851e8150e0a80a',1,'pedals_data_t']]],

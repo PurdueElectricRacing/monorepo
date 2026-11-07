@@ -270,7 +270,7 @@ var searchData=
   ['is_5fany_5fstale_267',['is_any_stale',['../structinva__diagnostics__data__t.html#ab2963874e4963fde8d8fad7e69c99a9f',1,'inva_diagnostics_data_t::is_any_stale'],['../structinvb__diagnostics__data__t.html#a4543d7eb28716c3f00fed3173c17f583',1,'invb_diagnostics_data_t::is_any_stale'],['../structinvc__diagnostics__data__t.html#ae0960f2c69fd5d03d8ff0e899e017bfe',1,'invc_diagnostics_data_t::is_any_stale'],['../structinvd__diagnostics__data__t.html#aa81931393417bce1e00eae7408568d7b',1,'invd_diagnostics_data_t::is_any_stale']]],
   ['is_5fbalancing_5fenabled_268',['is_balancing_enabled',['../structadbms__bms__t.html#aab87eec2db519f610e2f4a751437aeda',1,'adbms_bms_t']]],
   ['is_5fbatt_5ffans_5fenabled_269',['is_batt_fans_enabled',['../structcooling__outputs__data__t.html#a3dccf6de6531d2502a7e627b5835f8a5',1,'cooling_outputs_data_t']]],
-  ['is_5fdischarging_270',['is_discharging',['../structadbms6380__module__t.html#a9417766585a17de717959f60af752822',1,'adbms6380_module_t']]],
+  ['is_5fdischarging_270',['is_discharging',['../structadbms6380__chip__t.html#a0346caf5d655b9f94c4986bd93660549',1,'adbms6380_chip_t']]],
   ['is_5felement_5fselected_271',['is_element_selected',['../structmenu__page__t.html#ab067c4d439e3513799f408ec1d184a36',1,'menu_page_t']]],
   ['is_5fextended_5fid_272',['is_extended_id',['../structBLTransportConfig__t.html#a1bebc6737a748522c943ed94a1792338',1,'BLTransportConfig_t']]],
   ['is_5ffile_5fopen_273',['is_file_open',['../sd__card_8c.html#a51604a644cf6b5c8e6cd54ffc7b67a5c',1,'sd_card.c']]],

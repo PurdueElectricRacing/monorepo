@@ -24,7 +24,7 @@ var adbms6380_8c =
     [ "prepare_data_packet", "adbms6380_8c.html#a3d7ce49113bf9841b4aa4f1e38956ebd", null ],
     [ "raw_to_v", "adbms6380_8c.html#a78276e601ae16e9e616291d1a6299755", null ],
     [ "read_data_with_retries", "adbms6380_8c.html#a4e8e83783b9da5c69b8a6bef35f010f5", null ],
-    [ "read_response", "adbms6380_8c.html#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1", null ],
+    [ "read_response", "adbms6380_8c.html#a1492bca11de6c99b8e7bf86d8f2533f7", null ],
     [ "set_cs_high", "adbms6380_8c.html#a0fbc190f11658ecf5ce9c00849595363", null ],
     [ "set_cs_low", "adbms6380_8c.html#a1277b27c98c88984589d85ad6adcdb5f", null ],
     [ "transfer_tx", "adbms6380_8c.html#af3ac94078b13ac245b54b2248db0ce11", null ],

@@ -65,7 +65,7 @@ var searchData=
   ['refon_62',['refon',['../structadbms6380__rega__config__t.html#a7e78affc7146dbb16d634313fe6219b2',1,'adbms6380_rega_config_t']]],
   ['refstationid_63',['refStationId',['../structNAV__RELPOSNED__payload__t.html#a09715dcffa9fa9ed69e6a5b61fdb5a64',1,'NAV_RELPOSNED_payload_t']]],
   ['rega_64',['rega',['../structadbms6380__t.html#a9265f095559349a54b703f8a11778a5a',1,'adbms6380_t']]],
-  ['regb_65',['regb',['../structadbms6380__module__t.html#ab40448ef8ac65a44edcea7363bed7444',1,'adbms6380_module_t']]],
+  ['regb_65',['regb',['../structadbms6380__chip__t.html#aa113dc876ffd61fdd447f39c7eebfa56',1,'adbms6380_chip_t']]],
   ['regen_66',['regen',['../structpedals__data__t.html#a433a8672393cc1be8bfde79de16aaae4',1,'pedals_data_t']]],
   ['regen1_67',['regen1',['../structraw__adc__values__t.html#aaa58fc936baddfd34bf71f2241da5022',1,'raw_adc_values_t']]],
   ['regen1_5fmax_68',['REGEN1_MAX',['../pedals_8c.html#a4cf3d4c340e3c0a1c7006342f3cb8739',1,'pedals.c']]],

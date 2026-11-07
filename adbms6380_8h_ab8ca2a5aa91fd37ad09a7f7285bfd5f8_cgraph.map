@@ -1,6 +1,6 @@
 <map id="ADBMS6380_verify_regb" name="ADBMS6380_verify_regb">
-<area shape="rect" id="Node000001" title="Read back REGB from all modules and compare with cached configuration." alt="" coords="5,107,172,132"/>
-<area shape="rect" id="Node000002" href="$adbms6380_8c.html#afd953d8559ba00f614313e52d6e9bb4c" title="Check whether any module in the chain has a REGB mismatch error." alt="" coords="220,16,376,57"/>
+<area shape="rect" id="Node000001" title="Read back REGB from all chips and compare with cached configuration." alt="" coords="5,107,172,132"/>
+<area shape="rect" id="Node000002" href="$adbms6380_8c.html#afd953d8559ba00f614313e52d6e9bb4c" title="Check whether any chip in the chain has a REGB mismatch error." alt="" coords="220,16,376,57"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,104,229,61,231,66,124,109"/>
 <area shape="rect" id="Node000003" href="$adbms6380_8c.html#afcb2720a50ea90439d14a568c8119c32" title=" " alt="" coords="234,81,362,107"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,107,218,101,219,106,172,112"/>
@@ -12,7 +12,7 @@
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="349,78,418,60,419,65,350,83"/>
 <area shape="rect" id="Node000005" href="$strbuf_8c.html#a15380dc153a462b38a9b54f274c9c3b5" title="Appends raw data to the buffer. If the data exceeds the buffer size, no data is appended." alt="" coords="432,81,536,107"/>
 <area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="362,92,417,92,417,97,362,97"/>
-<area shape="rect" id="Node000007" href="$adbms6380_8c.html#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" title=" " alt="" coords="431,131,537,156"/>
+<area shape="rect" id="Node000007" href="$adbms6380_8c.html#a1492bca11de6c99b8e7bf86d8f2533f7" title=" " alt="" coords="431,131,537,156"/>
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="374,141,415,141,415,146,374,146"/>
 <area shape="rect" id="Node000008" href="$adbms6380_8c.html#a28822aaed957976af4e2e20250b48a8a" title=" " alt="" coords="628,31,744,56"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="519,128,543,117,591,90,645,62,647,66,594,95,546,122,521,133"/>

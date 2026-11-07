@@ -1,7 +1,14 @@
 <map id="ADBMS_get_therm_temp" name="ADBMS_get_therm_temp">
-<area shape="rect" id="Node000001" title="Get the latest thermistor temperature (Celsius) for a specific module and channel." alt="" coords="292,5,461,31"/>
-<area shape="rect" id="Node000002" href="$a__box_2telemetry_2telemetry_8c.html#ac7b8e9d406934bf5c0130f05ae09c5b4" title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary." alt="" coords="103,5,244,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="276,21,244,21,244,16,276,16"/>
-<area shape="rect" id="Node000003" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,55,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
+<area shape="rect" id="Node000001" title="Get the latest thermistor temperature (Celsius) for a specific module and channel." alt="" coords="560,31,729,56"/>
+<area shape="rect" id="Node000002" href="$adbms_8c.html#a7f12e5ede5ee02045acd6f4bf4e145c7" title=" " alt="" coords="418,5,512,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="544,32,512,27,513,22,545,27"/>
+<area shape="rect" id="Node000006" href="$a__box_2telemetry_2telemetry_8c.html#ac7b8e9d406934bf5c0130f05ae09c5b4" title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary." alt="" coords="229,56,370,82"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="545,53,371,66,370,61,544,48"/>
+<area shape="rect" id="Node000003" href="$adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="240,5,360,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="403,21,360,21,360,16,403,16"/>
+<area shape="rect" id="Node000004" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,5,181,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="224,21,181,21,181,16,224,16"/>
+<area shape="rect" id="Node000005" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,31,55,56"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="88,33,56,41,54,35,87,28"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="213,63,55,48,55,43,214,58"/>
 </map>

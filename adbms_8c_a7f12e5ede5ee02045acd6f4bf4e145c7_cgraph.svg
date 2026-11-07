@@ -85,9 +85,9 @@ var sectionId = 'dynsection-11';
 <!-- Node28 -->
 <g id="Node000028" class="node">
 <title>Node28</title>
-<g id="a_Node000028"><a xlink:href="adbms_8c.html#a42b362838c537ad4b051052a3dda6354" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="224.75,-76.25 145.75,-76.25 145.75,-57 224.75,-57 224.75,-76.25"/>
-<text text-anchor="middle" x="185.25" y="-62.75" font-family="Helvetica,sans-Serif" font-size="10.00">reduce_values</text>
+<g id="a_Node000028"><a xlink:href="adbms_8h.html#af7c3483644fb9f81864a6a5e0e10b224" target="_top" xlink:title="Get the latest thermistor temperature (Celsius) for a specific module and channel.">
+<polygon fill="white" stroke="#666666" points="248.75,-76.25 121.75,-76.25 121.75,-57 248.75,-57 248.75,-76.25"/>
+<text text-anchor="middle" x="185.25" y="-62.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS_get_therm_temp</text>
 </a>
 </g>
 </g>
@@ -95,15 +95,15 @@ var sectionId = 'dynsection-11';
 <g id="edge35_Node000001_Node000028" class="edge">
 <title>Node1&#45;&gt;Node28</title>
 <g id="a_edge35_Node000001_Node000028"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M70.38,-80.45C89.29,-78.15 113.1,-75.26 134.05,-72.72"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="134.34,-76.21 143.84,-71.53 133.5,-69.26 134.34,-76.21"/>
+<path fill="none" stroke="#63b8ff" d="M70.38,-80.45C82.4,-78.99 96.39,-77.29 110.37,-75.6"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="110.53,-79.1 120.04,-74.42 109.69,-72.15 110.53,-79.1"/>
 </a>
 </g>
 </g>
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each module via RDAUXA..RDAUXD.">
+<g id="a_Node000003"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.">
 <polygon fill="white" stroke="#666666" points="421.5,-192.88 302,-192.88 302,-162.38 421.5,-162.38 421.5,-192.88"/>
 <text text-anchor="start" x="310" y="-179.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_gpio</text>
 <text text-anchor="middle" x="361.75" y="-168.12" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -122,7 +122,7 @@ var sectionId = 'dynsection-11';
 <!-- Node23 -->
 <g id="Node000023" class="node">
 <title>Node23</title>
-<g id="a_Node000023"><a xlink:href="adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" target="_top" xlink:title="Issue the ADAX command to start GPIO/aux voltage conversions across all modules.">
+<g id="a_Node000023"><a xlink:href="adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" target="_top" xlink:title="Issue the ADAX command to start GPIO/aux voltage conversions across all chips.">
 <polygon fill="white" stroke="#666666" points="423,-113.25 300.5,-113.25 300.5,-94 423,-94 423,-113.25"/>
 <text text-anchor="middle" x="361.75" y="-99.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_start_adax</text>
 </a>
@@ -284,7 +284,7 @@ var sectionId = 'dynsection-11';
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="adbms6380_8c.html#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" target="_top" xlink:title=" ">
+<g id="a_Node000010"><a xlink:href="adbms6380_8c.html#a1492bca11de6c99b8e7bf86d8f2533f7" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="694.25,-224.25 614.5,-224.25 614.5,-205 694.25,-205 694.25,-224.25"/>
 <text text-anchor="middle" x="654.38" y="-210.75" font-family="Helvetica,sans-Serif" font-size="10.00">read_response</text>
 </a>

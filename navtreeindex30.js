@@ -1,6 +1,5 @@
 var NAVTREEINDEX30 =
 {
-"usb__descriptors_8h.html#a0b3c17bf918cef3aa66d8b67557e7242":[34,0,1,2,2,0,2,0],
 "usb__descriptors_8h.html#a2db9972d92557324a3a49e1a00761d06":[34,0,1,2,2,0,2,4],
 "usb__descriptors_8h.html#a645779e5cdbd378fa7e019d75e71ec6b":[34,0,1,2,2,0,2,2],
 "usb__descriptors_8h.html#a8507b6118ceb03ea4eb4239870a758fe":[34,0,1,2,2,0,2,1],

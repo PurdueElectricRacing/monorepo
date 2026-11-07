@@ -58,7 +58,7 @@ var sectionId = 'dynsection-2';
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Check whether any module in the chain has a REGA mismatch error.">
+<g id="a_Node000001"><a xlink:title="Check whether any chip in the chain has a REGA mismatch error.">
 <polygon fill="#999999" stroke="#666666" points="572,-30.5 454.75,-30.5 454.75,0 572,0 572,-30.5"/>
 <text text-anchor="start" x="462.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_has_rega</text>
 <text text-anchor="middle" x="513.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">_mismatch</text>
@@ -68,7 +68,7 @@ var sectionId = 'dynsection-2';
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" target="_top" xlink:title="Read back REGA from all modules and compare with cached configuration.">
+<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" target="_top" xlink:title="Read back REGA from all chips and compare with cached configuration.">
 <polygon fill="white" stroke="#666666" points="418.75,-24.88 294,-24.88 294,-5.63 418.75,-5.63 418.75,-24.88"/>
 <text text-anchor="middle" x="356.38" y="-11.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_verify_rega</text>
 </a>

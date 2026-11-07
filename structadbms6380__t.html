@@ -120,8 +120,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a96eb3d99262341991a966727f0f8b8c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadaf052d82cf8f6f629f2918103af72c" id="r_aadaf052d82cf8f6f629f2918103af72c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structstrbuf__t.html">strbuf_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadaf052d82cf8f6f629f2918103af72c">tx_strbuf</a></td></tr>
 <tr class="separator:aadaf052d82cf8f6f629f2918103af72c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59b29369e9f7ea10c62bb5ae919e915b" id="r_a59b29369e9f7ea10c62bb5ae919e915b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadbms6380__module__t.html">adbms6380_module_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59b29369e9f7ea10c62bb5ae919e915b">modules</a> [<a class="el" href="adbms__config_8h.html#abd5c347a74146eccb23d9024d38b1445">ADBMS_MODULE_COUNT</a>]</td></tr>
-<tr class="separator:a59b29369e9f7ea10c62bb5ae919e915b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c734c12e2497293d784cf294d95c64b" id="r_a9c734c12e2497293d784cf294d95c64b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structadbms6380__chip__t.html">adbms6380_chip_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c734c12e2497293d784cf294d95c64b">chips</a> [<a class="el" href="adbms__config_8h.html#aa1a279c187a35cbe461f78ef64d4d9c1">ADBMS_CHIP_COUNT</a>]</td></tr>
+<tr class="separator:a9c734c12e2497293d784cf294d95c64b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b4c0e761fff3d8ea398c83b5b39c735" id="r_a1b4c0e761fff3d8ea398c83b5b39c735"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b4c0e761fff3d8ea398c83b5b39c735">tx_buf</a> [<a class="el" href="adbms6380_8h.html#a0cd7bdc76cf148c656db6c9e813ff6c7">ADBMS6380_SPI_TX_BUFFER_SIZE</a>]</td></tr>
 <tr class="separator:a1b4c0e761fff3d8ea398c83b5b39c735"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc670bfc90e6df059650d0c4b42e6120" id="r_acc670bfc90e6df059650d0c4b42e6120"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc670bfc90e6df059650d0c4b42e6120">rx_buf</a> [<a class="el" href="adbms6380_8h.html#aa9df37f95df5429d05c606b24498b9e6">ADBMS6380_SPI_RX_BUFFER_SIZE</a>]</td></tr>
@@ -140,6 +140,21 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Daisy-chain ADBMS6380 device driver state, SPI transport, buffers, and error flags. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a9c734c12e2497293d784cf294d95c64b" name="a9c734c12e2497293d784cf294d95c64b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c734c12e2497293d784cf294d95c64b">&#9670;&#160;</a></span>chips</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structadbms6380__chip__t.html">adbms6380_chip_t</a> adbms6380_t::chips[<a class="el" href="adbms__config_8h.html#aa1a279c187a35cbe461f78ef64d4d9c1">ADBMS_CHIP_COUNT</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Per-chip device state and raw/converted voltage and temperature readings. </p>
+
+</div>
+</div>
 <a id="a146c5fa9f09aeba5133c8d09beb21a45" name="a146c5fa9f09aeba5133c8d09beb21a45"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a146c5fa9f09aeba5133c8d09beb21a45">&#9670;&#160;</a></span>err_cell_voltage_pecs</h2>
 
@@ -200,21 +215,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a59b29369e9f7ea10c62bb5ae919e915b" name="a59b29369e9f7ea10c62bb5ae919e915b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59b29369e9f7ea10c62bb5ae919e915b">&#9670;&#160;</a></span>modules</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structadbms6380__module__t.html">adbms6380_module_t</a> adbms6380_t::modules[<a class="el" href="adbms__config_8h.html#abd5c347a74146eccb23d9024d38b1445">ADBMS_MODULE_COUNT</a>]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Per-module device state and raw/converted voltage and temperature readings. </p>
-
-</div>
-</div>
 <a id="a9265f095559349a54b703f8a11778a5a" name="a9265f095559349a54b703f8a11778a5a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9265f095559349a54b703f8a11778a5a">&#9670;&#160;</a></span>rega</h2>
 
@@ -226,7 +226,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Cached REGA bytes written to all modules in the device chain. </p>
+<p>Cached REGA bytes written to all chips in the device chain. </p>
 
 </div>
 </div>
@@ -241,7 +241,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>RX buffer for multi-module readouts. </p>
+<p>RX buffer for multi-chip readouts. </p>
 
 </div>
 </div>

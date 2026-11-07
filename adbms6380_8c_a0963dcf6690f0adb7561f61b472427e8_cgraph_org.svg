@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Read back REGA from all modules and compare with cached configuration.">
+<g id="a_Node000001"><a xlink:title="Read back REGA from all chips and compare with cached configuration.">
 <polygon fill="#999999" stroke="#666666" points="124.75,-94.25 0,-94.25 0,-75 124.75,-75 124.75,-94.25"/>
 <text text-anchor="middle" x="62.38" y="-80.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_verify_rega</text>
 </a>
@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a7a300ff96432feb9fae89bd29e4d0919" target="_top" xlink:title="Check whether any module in the chain has a REGA mismatch error.">
+<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a7a300ff96432feb9fae89bd29e4d0919" target="_top" xlink:title="Check whether any chip in the chain has a REGA mismatch error.">
 <polygon fill="white" stroke="#666666" points="278,-161.88 160.75,-161.88 160.75,-131.38 278,-131.38 278,-161.88"/>
 <text text-anchor="start" x="168.75" y="-148.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_has_rega</text>
 <text text-anchor="middle" x="219.38" y="-137.12" font-family="Helvetica,sans-Serif" font-size="10.00">_mismatch</text>
@@ -129,7 +129,7 @@
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="adbms6380_8c.html#a5bbcf4c8fd7f1b002f7400e2fb3ad5e1" target="_top" xlink:title=" ">
+<g id="a_Node000007"><a xlink:href="adbms6380_8c.html#a1492bca11de6c99b8e7bf86d8f2533f7" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="399,-76.25 319.25,-76.25 319.25,-57 399,-57 399,-76.25"/>
 <text text-anchor="middle" x="359.12" y="-62.75" font-family="Helvetica,sans-Serif" font-size="10.00">read_response</text>
 </a>

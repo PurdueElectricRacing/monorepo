@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" target="_top" xlink:title="Encode and write REGA configuration to all modules in the daisy chain.">
+<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" target="_top" xlink:title="Encode and write REGA configuration to all chips in the daisy chain.">
 <polygon fill="white" stroke="#666666" points="416.5,-56.25 294,-56.25 294,-37 416.5,-37 416.5,-56.25"/>
 <text text-anchor="middle" x="355.25" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_write_rega</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" target="_top" xlink:title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all modules.">
+<g id="a_Node000006"><a xlink:href="adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" target="_top" xlink:title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all chips.">
 <polygon fill="white" stroke="#666666" points="416.5,-19.25 294,-19.25 294,0 416.5,0 416.5,-19.25"/>
 <text text-anchor="middle" x="355.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_write_regb</text>
 </a>

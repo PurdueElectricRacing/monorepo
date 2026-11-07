@@ -1,6 +1,5 @@
 var adbms_8c =
 [
-    [ "adbms_stats_t", "structadbms__stats__t.html", "structadbms__stats__t" ],
     [ "ADBMS_init", "adbms_8c.html#a2fe87f399de3fa5272ffe1e544846962", null ],
     [ "ADBMS_periodic", "adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf", null ],
     [ "calculate_balance_cells", "adbms_8c.html#a5a1c2e7071fb18eb012ee073720adae7", null ],
@@ -8,7 +7,6 @@ var adbms_8c =
     [ "is_valid_voltage", "adbms_8c.html#a3272eb51efea4b74c1cb6af0c194af27", null ],
     [ "read_cells", "adbms_8c.html#a8e32099ef8c96913484c6551d8e94196", null ],
     [ "read_therms", "adbms_8c.html#a7f12e5ede5ee02045acd6f4bf4e145c7", null ],
-    [ "reduce_values", "adbms_8c.html#a42b362838c537ad4b051052a3dda6354", null ],
     [ "ADBMS_ADAX_CFG", "adbms_8c.html#a5fe3260045733e85fa65241eb831c570", null ],
     [ "ADBMS_ADCV_CFG", "adbms_8c.html#a1cf727e3e8ad61f07828d582df3639e4", null ],
     [ "ADBMS_CELL_MAX_VALID_V", "adbms_8c.html#a78dc2f9a086578f1ef34f601ce79d4e4", null ],

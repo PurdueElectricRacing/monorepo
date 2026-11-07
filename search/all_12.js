@@ -413,7 +413,7 @@ var searchData=
   ['is_5fcurr_5fmcu_5flatched_410',['is_curr_mcu_latched',['../faults__common_8h.html#afd3df4a64e1643d0a79942b5228af63a',1,'faults_common.h']]],
   ['is_5fdaqapp_5frequesting_5fcharge_411',['is_daqapp_requesting_charge',['../charging__fsm_8c.html#a1eeb74bea95978e6037605518acaa940',1,'charging_fsm.c']]],
   ['is_5fdashboard_5ffault_5fsync_5fstale_412',['is_dashboard_fault_sync_stale',['../A__BOX_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4',1,'is_dashboard_fault_sync_stale():&#160;A_BOX.h'],['../MAIN__MODULE_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4',1,'is_dashboard_fault_sync_stale():&#160;MAIN_MODULE.h'],['../PDU_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4',1,'is_dashboard_fault_sync_stale():&#160;PDU.h'],['../TORQUE__VECTOR_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4',1,'is_dashboard_fault_sync_stale():&#160;TORQUE_VECTOR.h']]],
-  ['is_5fdischarging_413',['is_discharging',['../structadbms6380__module__t.html#a9417766585a17de717959f60af752822',1,'adbms6380_module_t']]],
+  ['is_5fdischarging_413',['is_discharging',['../structadbms6380__chip__t.html#a0346caf5d655b9f94c4986bd93660549',1,'adbms6380_chip_t']]],
   ['is_5felcon_5fready_414',['is_elcon_ready',['../charging__fsm_8c.html#ab281666eaa24da6546c73d18fe6c88ba',1,'charging_fsm.c']]],
   ['is_5felcon_5fstatus_5fstale_415',['is_elcon_status_stale',['../A__BOX_8h.html#a69c040c488af2e39f59324797e8909e9',1,'A_BOX.h']]],
   ['is_5felement_5fselected_416',['is_element_selected',['../structmenu__page__t.html#ab067c4d439e3513799f408ec1d184a36',1,'menu_page_t']]],

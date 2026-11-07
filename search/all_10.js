@@ -81,7 +81,7 @@ var searchData=
   ['gpio_5ftype_5fanalog_78',['GPIO_TYPE_ANALOG',['../phal__F4_2gpio_2gpio_8h.html#a976b33799b2b8c4fe7d2a4415a88991baf0d3c2f5e6b6a52247a85482f03476bc',1,'GPIO_TYPE_ANALOG:&#160;gpio.h'],['../phal__G4_2gpio_2gpio_8h.html#a900400448db55bb8395acf3ce69a6ca5af0d3c2f5e6b6a52247a85482f03476bc',1,'GPIO_TYPE_ANALOG:&#160;gpio.h']]],
   ['gpio_5ftype_5finput_79',['GPIO_TYPE_INPUT',['../phal__F4_2gpio_2gpio_8h.html#a976b33799b2b8c4fe7d2a4415a88991ba72133d3b8e4b2479ea80add2e9b8f00a',1,'GPIO_TYPE_INPUT:&#160;gpio.h'],['../phal__G4_2gpio_2gpio_8h.html#a900400448db55bb8395acf3ce69a6ca5a72133d3b8e4b2479ea80add2e9b8f00a',1,'GPIO_TYPE_INPUT:&#160;gpio.h']]],
   ['gpio_5ftype_5foutput_80',['GPIO_TYPE_OUTPUT',['../phal__F4_2gpio_2gpio_8h.html#a976b33799b2b8c4fe7d2a4415a88991ba9e41e0e3d9a09dbc9bcd8f73fb3c65b1',1,'GPIO_TYPE_OUTPUT:&#160;gpio.h'],['../phal__G4_2gpio_2gpio_8h.html#a900400448db55bb8395acf3ce69a6ca5a9e41e0e3d9a09dbc9bcd8f73fb3c65b1',1,'GPIO_TYPE_OUTPUT:&#160;gpio.h']]],
-  ['gpio_5fvoltages_81',['gpio_voltages',['../structadbms6380__module__t.html#aabdd0fef71a3914cf5219d294d812cf6',1,'adbms6380_module_t']]],
+  ['gpio_5fvoltages_81',['gpio_voltages',['../structadbms6380__chip__t.html#abd1884dfb40426537913c4f680a35cc1',1,'adbms6380_chip_t']]],
   ['gpioinitconfig_5ft_82',['GPIOInitConfig_t',['../structGPIOInitConfig__t.html',1,'']]],
   ['gpioinputpull_5ft_83',['GPIOInputPull_t',['../phal__F4_2gpio_2gpio_8h.html#ae55c4a0103f207b80bce6ee4413b8a23',1,'gpio.h']]],
   ['gpiooutputpull_5ft_84',['GPIOOutputPull_t',['../phal__F4_2gpio_2gpio_8h.html#a3dd7cce66aaf32796899d7ac03588ebd',1,'gpio.h']]],
