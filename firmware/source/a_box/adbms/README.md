@@ -108,9 +108,9 @@ The balancing algorithm is a simple threshold-based approach:
 - All communication is performed via SPI, with manual CS control for timing.
 	- The SPI transfer is a blocking DMA operation and should not fail (returns void)
 - Error handling: flags for PEC checksum failures and register read-back mismatches
-- Make sure the `ADBMS_MODULE_COUNT` constant in `adbms_config.h` matches the actual number of modules and chips in your daisy chain configuration (and keep `daq/daqapp/src/ui/battery/common.rs` in sync)!!
+- Make sure the `ADBMS_MODULE_COUNT` constant in `adbms_config.h` matches the actual number of modules and chips in your daisy chain configuration!!
     - Additionally, if you are bench testing, make sure corruption checks are disabled (comment them out)
-- There is a reliance on lookup tables defined in `../thermistor/cell_thermistor.c` (`cell_thermistor_lut`) and `../thermistor/board_thermistor.c` (`board_thermistor_lut`), declared in `../thermistor/thermistor.h`
+- There is a reliance on lookup tables (`cell_thermistor_lut` and `board_thermistor_lut`) from `../thermistor/thermistor.h`
 
 ## Authors
 
