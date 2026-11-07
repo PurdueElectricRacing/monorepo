@@ -158,6 +158,8 @@ class NodeDeclaration(DeclarationModel):
     fault_library_enabled: bool
     generate_fault_messages: bool = False
     faults: list[FaultDeclaration] = Field(default_factory=list)
+    # Bus a node reports RTOS task profiling on; absent means no diagnostics.
+    diagnostics_bus: str | None = None
 
     @model_validator(mode="after")
     def validate_fault_configuration(self) -> Self:
