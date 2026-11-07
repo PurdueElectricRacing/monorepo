@@ -408,6 +408,14 @@ void ADBMS6380_read_gpio_voltages(adbms6380_t *dev) {
     }
 }
 
+static float gpio_v_to_r2(float v_out) {
+    // Avoid divide by 0:
+    if (v_out == ADBMS6380_GPIO_VIN_V) {
+        v_out = ADBMS6380_GPIO_VIN_V - ADBMS6380_DIVIDER_EPSILON_V;
+    }
+    return (v_out * ADBMS6380_GPIO_R1_OHM) / (ADBMS6380_GPIO_VIN_V - v_out);
+}
+
 void ADBMS6380_read_temperatures(adbms6380_t *dev, const adbms6380_adax_config_t *cfg) {
     ADBMS6380_start_adax(dev, cfg);
 
