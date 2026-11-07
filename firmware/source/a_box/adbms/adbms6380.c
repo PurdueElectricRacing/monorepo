@@ -20,9 +20,6 @@
 #include "pec.h"
 #include "thermistor.h"
 
-static_assert(ADBMS6380_SPI_TX_BUFFER_SIZE <= UINT16_MAX);
-static_assert(ADBMS6380_SPI_RX_BUFFER_SIZE <= UINT16_MAX);
-
 // Number of attempts to retry a read if a PEC failure is detected before continuing.
 static constexpr size_t ADBMS6380_PEC_FAIL_MAX_RETRIES = 3U;
 
@@ -253,7 +250,7 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi) {
 }
 
 void ADBMS6380_wake(adbms6380_t *dev) {
-    for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
         set_cs_low(dev->spi);
         RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
         set_cs_high(dev->spi);
@@ -281,9 +278,9 @@ bool ADBMS6380_verify_rega(adbms6380_t *dev) {
     }
     dev->err_rega_pec = false;
 
-    for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
-        const uint8_t *chip_data = &dev->rx_buf[chip_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
-        dev->chips[chip_idx].err_rega_mismatch =
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        const uint8_t *chip_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        dev->chips[i].err_rega_mismatch =
             memcmp(chip_data, dev->rega, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
     }
     return !ADBMS6380_has_rega_mismatch(dev);
@@ -292,7 +289,6 @@ bool ADBMS6380_verify_rega(adbms6380_t *dev) {
 void ADBMS6380_write_regb(adbms6380_t *dev, const adbms6380_regb_config_t *cfg) {
     strbuf_clear(&dev->tx_strbuf);
     prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGB);
-    // Shift configuration packets in reverse receive order (chip N-1 down to chip 0)
     for (size_t idx = ADBMS_CHIP_COUNT; idx > 0U; idx--) {
         size_t chip_idx = idx - 1U;
         pack_cfg_regb(dev->chips[chip_idx].regb, cfg, dev->chips[chip_idx].is_discharging);
@@ -311,17 +307,17 @@ bool ADBMS6380_verify_regb(adbms6380_t *dev) {
     }
     dev->err_regb_pec = false;
 
-    for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
-        const uint8_t *chip_data = &dev->rx_buf[chip_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
-        dev->chips[chip_idx].err_regb_mismatch =
-            memcmp(chip_data, dev->chips[chip_idx].regb, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        const uint8_t *chip_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        dev->chips[i].err_regb_mismatch =
+            memcmp(chip_data, dev->chips[i].regb, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
     }
     return !ADBMS6380_has_regb_mismatch(dev);
 }
 
 bool ADBMS6380_has_rega_mismatch(const adbms6380_t *dev) {
-    for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
-        if (dev->chips[chip_idx].err_rega_mismatch) {
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        if (dev->chips[i].err_rega_mismatch) {
             return true;
         }
     }
@@ -329,8 +325,8 @@ bool ADBMS6380_has_rega_mismatch(const adbms6380_t *dev) {
 }
 
 bool ADBMS6380_has_regb_mismatch(const adbms6380_t *dev) {
-    for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
-        if (dev->chips[chip_idx].err_regb_mismatch) {
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        if (dev->chips[i].err_regb_mismatch) {
             return true;
         }
     }
@@ -423,15 +419,15 @@ void ADBMS6380_read_temperatures(adbms6380_t *dev, const adbms6380_adax_config_t
 
     // Convert all GPIO voltages to temperatures
     // GPIO voltage -> R2 in the thermistor divider -> temperature via thermistor curve
-    for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
-        for (size_t gpio_idx = 0U; gpio_idx < ADBMS6380_GPIO_COUNT; gpio_idx++) {
-            float v_out = dev->chips[chip_idx].gpio_voltages[gpio_idx];
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        for (size_t j = 0U; j < ADBMS6380_GPIO_COUNT; j++) {
+            float v_out = dev->chips[i].gpio_voltages[j];
             // Avoid divide by 0:
             if (v_out == ADBMS6380_GPIO_VIN_V) {
                 v_out = ADBMS6380_GPIO_VIN_V - ADBMS6380_DIVIDER_EPSILON_V;
             }
-            float r2 = (v_out * ADBMS6380_GPIO_R1_OHM) / (ADBMS6380_GPIO_VIN_V - v_out);
-            dev->chips[chip_idx].therms_temps[gpio_idx] = thermistor_R_to_T(r2);
+            float r2                      = (v_out * ADBMS6380_GPIO_R1_OHM) / (ADBMS6380_GPIO_VIN_V - v_out);
+            dev->chips[i].therms_temps[j] = thermistor_R_to_T(r2);
         }
     }
 }

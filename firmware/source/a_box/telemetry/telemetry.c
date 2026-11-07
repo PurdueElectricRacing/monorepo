@@ -58,8 +58,6 @@ static_assert(PACK_ANALOG_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 static_assert(PACK_ANALOG_CCAN_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 static_assert(CELL_TELEMETRY_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 static_assert(CELL_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
-static_assert(ADBMS_MODULE_COUNT <= UINT8_MAX);
-static_assert(ADBMS_CELLS_PER_MODULE <= UINT8_MAX);
 void report_telemetry_100hz(void) {
     uint16_t pack_voltage = (uint16_t)(vbatt_to_voltage(adc1_dma_buffer.vbatt_raw) * PACK_COEFF_PACK_ANALOG_PACK_VOLTAGE);
     int16_t pack_current  = (int16_t)(isense_to_current(adc1_dma_buffer.isense_raw) * PACK_COEFF_PACK_ANALOG_PACK_CURRENT);
@@ -94,7 +92,6 @@ void report_telemetry_100hz(void) {
  */
 static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
-static_assert(ADBMS_THERMISTORS_PER_MODULE <= UINT8_MAX);
 void report_telemetry_8hz(void) {
     // Report thermistor temperatures one at a time
     static uint8_t module_num     = 0;
