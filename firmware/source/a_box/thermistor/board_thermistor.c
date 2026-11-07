@@ -7,6 +7,9 @@
 
 #include "thermistor.h"
 
+#include "common/lerp_lut/lerp_lut.h"
+
+
 // https://pages.hmc.edu/spjut/RocketE80/PDFs/MurataThermistor.pdf (Murata Cat. No. R44E.pdf)
 // from pg 16 (catalog pg 15): Part Number NCP/NCU XH103 (10 kOhm, B = 3380 K)
 static constexpr size_t NCU18XH103F60RB_LUT_SIZE = 34;

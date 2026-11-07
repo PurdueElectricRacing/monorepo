@@ -8,6 +8,9 @@
 
 #include "thermistor.h"
 
+#include "common/lerp_lut/lerp_lut.h"
+
+
 // https://www.tdk-electronics.tdk.com/inf/50/db/ntc/NTC_Mini_sensors_S861.pdf
 // from pg 6: R/T No. 8016
 static constexpr size_t B57861S0103A039_LUT_SIZE = 43;
