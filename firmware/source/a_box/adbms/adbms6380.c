@@ -200,25 +200,25 @@ static bool check_data_pec(const uint8_t *rx_bytes, size_t rx_len) {
     return calculated_pec == received_pec;
 }
 
-static bool read_response(adbms6380_t *dev, size_t rx_length_per_module) {
+static bool read_response(adbms6380_t *dev, size_t rx_length_per_chip) {
     // Send command and get response
     set_cs_low(dev->spi);
-    // First send command. Command is passed to all modules in the daisy chain.
+    // First send command. Command is passed to all chips in the daisy chain.
     PHAL_SPI_transferBlocking(
         dev->spi,
         dev->tx_strbuf.data,
         nullptr,
         (uint16_t)ADBMS6380_COMMAND_PKT_SIZE
     );
-    // Then read data back. Data is in order of module 0 ... module N-1
-    size_t total_rx_length = ADBMS_MODULE_COUNT * rx_length_per_module;
+    // Then read data back. Data arrives in receive order: chip 0 ... chip N-1
+    size_t total_rx_length = ADBMS_CHIP_COUNT * rx_length_per_chip;
     PHAL_SPI_transferBlocking(dev->spi, nullptr, dev->rx_buf, (uint16_t)total_rx_length);
     set_cs_high(dev->spi);
 
-    // Check PEC for each module's data packet
-    for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
-        const uint8_t *module_data = &dev->rx_buf[module_idx * rx_length_per_module];
-        if (!check_data_pec(module_data, rx_length_per_module)) {
+    // Check PEC for each chip's data packet
+    for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
+        const uint8_t *chip_data = &dev->rx_buf[chip_idx * rx_length_per_chip];
+        if (!check_data_pec(chip_data, rx_length_per_chip)) {
             return false;
         }
     }
@@ -250,7 +250,7 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi) {
 }
 
 void ADBMS6380_wake(adbms6380_t *dev) {
-    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
         set_cs_low(dev->spi);
         RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS);
         set_cs_high(dev->spi);
@@ -262,7 +262,7 @@ void ADBMS6380_write_rega(adbms6380_t *dev, const adbms6380_rega_config_t *cfg) 
     strbuf_clear(&dev->tx_strbuf);
     prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGA);
     pack_cfg_rega(dev->rega, cfg);
-    for (size_t idx = ADBMS_MODULE_COUNT; idx > 0U; idx--) {
+    for (size_t idx = ADBMS_CHIP_COUNT; idx > 0U; idx--) {
         prepare_data_packet(&dev->tx_strbuf, dev->rega);
     }
 
@@ -278,10 +278,10 @@ bool ADBMS6380_verify_rega(adbms6380_t *dev) {
     }
     dev->err_rega_pec = false;
 
-    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        const uint8_t *module_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
-        dev->modules[i].err_rega_mismatch =
-            memcmp(module_data, dev->rega, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        const uint8_t *chip_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        dev->chips[i].err_rega_mismatch =
+            memcmp(chip_data, dev->rega, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
     }
     return !ADBMS6380_has_rega_mismatch(dev);
 }
@@ -289,10 +289,10 @@ bool ADBMS6380_verify_rega(adbms6380_t *dev) {
 void ADBMS6380_write_regb(adbms6380_t *dev, const adbms6380_regb_config_t *cfg) {
     strbuf_clear(&dev->tx_strbuf);
     prepare_command(&dev->tx_strbuf, ADBMS6380_CMD_WRCFGB);
-    for (size_t idx = ADBMS_MODULE_COUNT; idx > 0U; idx--) {
-        size_t module_idx = idx - 1U;
-        pack_cfg_regb(dev->modules[module_idx].regb, cfg, dev->modules[module_idx].is_discharging);
-        prepare_data_packet(&dev->tx_strbuf, dev->modules[module_idx].regb);
+    for (size_t idx = ADBMS_CHIP_COUNT; idx > 0U; idx--) {
+        size_t chip_idx = idx - 1U;
+        pack_cfg_regb(dev->chips[chip_idx].regb, cfg, dev->chips[chip_idx].is_discharging);
+        prepare_data_packet(&dev->tx_strbuf, dev->chips[chip_idx].regb);
     }
 
     transfer_tx(dev);
@@ -307,17 +307,17 @@ bool ADBMS6380_verify_regb(adbms6380_t *dev) {
     }
     dev->err_regb_pec = false;
 
-    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        const uint8_t *module_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
-        dev->modules[i].err_regb_mismatch =
-            memcmp(module_data, dev->modules[i].regb, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        const uint8_t *chip_data = &dev->rx_buf[i * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        dev->chips[i].err_regb_mismatch =
+            memcmp(chip_data, dev->chips[i].regb, ADBMS6380_SINGLE_DATA_RAW_SIZE) != 0;
     }
     return !ADBMS6380_has_regb_mismatch(dev);
 }
 
 bool ADBMS6380_has_rega_mismatch(const adbms6380_t *dev) {
-    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        if (dev->modules[i].err_rega_mismatch) {
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        if (dev->chips[i].err_rega_mismatch) {
             return true;
         }
     }
@@ -325,8 +325,8 @@ bool ADBMS6380_has_rega_mismatch(const adbms6380_t *dev) {
 }
 
 bool ADBMS6380_has_regb_mismatch(const adbms6380_t *dev) {
-    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        if (dev->modules[i].err_regb_mismatch) {
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        if (dev->chips[i].err_regb_mismatch) {
             return true;
         }
     }
@@ -362,19 +362,19 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev) {
         dev->err_cell_voltage_pecs[cmd_idx] = false;
 
         // First 5 commands read 3 cells, last reads 1 cell = 16 total
-        size_t cells_read              = (cmd_idx < 5U) ? 3U : 1U;
-        size_t cell_in_module_idx_base = cmd_idx * 3U;
+        size_t cells_read            = (cmd_idx < 5U) ? 3U : 1U;
+        size_t cell_in_chip_idx_base = cmd_idx * 3U;
 
-        // Data comes back as: module 0, module 1, ..., module N-1
-        for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
-            const uint8_t *module_data = &dev->rx_buf[module_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        // Data comes back in receive order: chip 0, chip 1, ..., chip N-1
+        for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
+            const uint8_t *chip_data = &dev->rx_buf[chip_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
             for (size_t j = 0U; j < cells_read; j++) {
-                size_t cell_idx = cell_in_module_idx_base + j;
+                size_t cell_idx = cell_in_chip_idx_base + j;
                 if (cell_idx >= ADBMS6380_CELL_COUNT) {
                     break; // safety check
                 }
-                int16_t raw = extract_i16(module_data, j);
-                dev->modules[module_idx].cell_voltages[cell_idx] = raw_to_v(raw);
+                int16_t raw = extract_i16(chip_data, j);
+                dev->chips[chip_idx].cell_voltages[cell_idx] = raw_to_v(raw);
             }
         }
     }
@@ -396,13 +396,13 @@ void ADBMS6380_read_gpio_voltages(adbms6380_t *dev) {
         size_t gpios_read    = (cmd_idx < 3U) ? 3U : 1U;
         size_t gpio_idx_base = cmd_idx * 3U;
 
-        // Data comes back as: module 0, module 1, ..., module N-1
-        for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
-            const uint8_t *module_data = &dev->rx_buf[module_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
+        // Data comes back in receive order: chip 0, chip 1, ..., chip N-1
+        for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
+            const uint8_t *chip_data = &dev->rx_buf[chip_idx * ADBMS6380_SINGLE_DATA_PKT_SIZE];
             for (size_t j = 0U; j < gpios_read; j++) {
                 size_t gpio_idx = gpio_idx_base + j;
-                int16_t raw     = extract_i16(module_data, j);
-                dev->modules[module_idx].gpio_voltages[gpio_idx] = raw_to_v(raw);
+                int16_t raw     = extract_i16(chip_data, j);
+                dev->chips[chip_idx].gpio_voltages[gpio_idx] = raw_to_v(raw);
             }
         }
     }
@@ -419,15 +419,15 @@ void ADBMS6380_read_temperatures(adbms6380_t *dev, const adbms6380_adax_config_t
 
     // Convert all GPIO voltages to temperatures
     // GPIO voltage -> R2 in the thermistor divider -> temperature via thermistor curve
-    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
         for (size_t j = 0U; j < ADBMS6380_GPIO_COUNT; j++) {
-            float v_out = dev->modules[i].gpio_voltages[j];
+            float v_out = dev->chips[i].gpio_voltages[j];
             // Avoid divide by 0:
             if (v_out == ADBMS6380_GPIO_VIN_V) {
                 v_out = ADBMS6380_GPIO_VIN_V - ADBMS6380_DIVIDER_EPSILON_V;
             }
-            float r2                        = (v_out * ADBMS6380_GPIO_R1_OHM) / (ADBMS6380_GPIO_VIN_V - v_out);
-            dev->modules[i].therms_temps[j] = thermistor_R_to_T(r2);
+            float r2                      = (v_out * ADBMS6380_GPIO_R1_OHM) / (ADBMS6380_GPIO_VIN_V - v_out);
+            dev->chips[i].therms_temps[j] = thermistor_R_to_T(r2);
         }
     }
 }

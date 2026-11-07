@@ -1,8 +1,8 @@
 use crate::ui;
 
-pub const NUM_MODULES: usize = 7;
-pub const CELLS_PER_MODULE: usize = 16;
-pub const THERMISTORS_PER_MODULE: usize = 10;
+pub const NUM_MODULES: usize = 5;
+pub const CELLS_PER_MODULE: usize = 29;
+pub const THERMISTORS_PER_MODULE: usize = 20;
 
 pub const STALE_TIMEOUT_SECONDS: u64 = 1;
 

@@ -16,6 +16,15 @@
 #include "adbms_config.h"
 #include "common/phal_G4/spi/spi.h"
 
+static_assert(
+    ADBMS_CELLS_PER_MODULE <= ADBMS_CHIPS_PER_MODULE * ADBMS6380_CELL_COUNT,
+    "cells per module exceed available chip channels"
+);
+static_assert(
+    ADBMS_THERMISTORS_PER_MODULE <= ADBMS_CHIPS_PER_MODULE * ADBMS6380_GPIO_COUNT,
+    "thermistors per module exceed available chip GPIOs"
+);
+
 /**
  * @brief ADBMS driver connection/operation state.
  */
@@ -86,7 +95,9 @@ static inline float ADBMS_get_cell_voltage(
     size_t module_idx,
     size_t cell_idx
 ) {
-    return bms->dev.modules[module_idx].cell_voltages[cell_idx];
+    size_t chip_idx = (module_idx * ADBMS_CHIPS_PER_MODULE) + (cell_idx / ADBMS6380_CELL_COUNT);
+    size_t chan_idx = cell_idx % ADBMS6380_CELL_COUNT;
+    return bms->dev.chips[chip_idx].cell_voltages[chan_idx];
 }
 
 /// Get the latest thermistor temperature (Celsius) for a specific module and channel
@@ -95,7 +106,9 @@ static inline float ADBMS_get_therm_temp(
     size_t module_idx,
     size_t therm_idx
 ) {
-    return bms->dev.modules[module_idx].therms_temps[therm_idx];
+    size_t chip_idx = (module_idx * ADBMS_CHIPS_PER_MODULE) + (therm_idx / ADBMS6380_GPIO_COUNT);
+    size_t chan_idx = therm_idx % ADBMS6380_GPIO_COUNT;
+    return bms->dev.chips[chip_idx].therms_temps[chan_idx];
 }
 
 /// Check whether a specific cell is currently discharging (balancing)
@@ -104,7 +117,9 @@ static inline bool ADBMS_is_cell_discharging(
     size_t module_idx,
     size_t cell_idx
 ) {
-    return bms->dev.modules[module_idx].is_discharging[cell_idx];
+    size_t chip_idx = (module_idx * ADBMS_CHIPS_PER_MODULE) + (cell_idx / ADBMS6380_CELL_COUNT);
+    size_t chan_idx = cell_idx % ADBMS6380_CELL_COUNT;
+    return bms->dev.chips[chip_idx].is_discharging[chan_idx];
 }
 
 /// Get the minimum cell voltage across all modules in volts

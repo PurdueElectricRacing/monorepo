@@ -1,6 +1,6 @@
 # ADBMS(6380)
 
-Provides a high-level interface for managing `ADBMS6380` battery management modules
+Provides a high-level interface for managing `ADBMS6380` battery management chips
 in a single-direction daisy chain configuration.
 It handles communication, configuration, measurement collection, and balancing
 for multi-module battery packs, supporting cell voltage, thermistor, and GPIO readings
@@ -77,14 +77,14 @@ After each periodic call, measurements, statistics, and status can be accessed v
 ```c
 ADBMS_set_balancing_enabled(&g_bms, true); // or false to disable balancing
 ```
-The driver will handle the rest (setting the appropriate bits in the REGB register of each module based on the cell voltages and the configured thresholds).
+The driver will handle the rest (setting the appropriate bits in the REGB register of each chip based on the cell voltages and the configured thresholds).
 
 #### Balancing algorithm
 
 The balancing algorithm is a simple threshold-based approach:
 - If the minimum cell voltage in the pack exceeds `MIN_V_FOR_BALANCE` (defined in ABOX)
 - And the difference between a cell voltage and the minimum cell voltage is greater than `MIN_DELTA_FOR_BALANCE` (also defined in ABOX)
-- Then the discharge (balancing) for that cell will be enabled by setting the appropriate bit in the REGB register of the module that contains that cell.
+- Then the discharge (balancing) for that cell will be enabled by setting the appropriate bit in the REGB register of the chip that contains that cell.
 - Otherwise, discharge for that cell will be disabled.
 
 ## File Structure
@@ -106,7 +106,8 @@ The balancing algorithm is a simple threshold-based approach:
 - All communication is performed via SPI, with manual CS control for timing.
 	- The SPI transfer is a blocking DMA operation and should not fail (returns void)
 - Error handling: flags for PEC checksum failures and register read-back mismatches
-- Make sure the `ADBMS_MODULE_COUNT` constant in `adbms_config.h` matches the actual number of modules in your daisy chain configuration!!
+- Make sure the `ADBMS_MODULE_COUNT` constant in `adbms_config.h` match the actual number of modules and chips in your daisy chain configuration!!
+    - Additionally, if you are bench testing, make sure corruption checks are disabled (comment them out)
 - There is a hidden reliance on a global variable defined in `../thermistor/thermistor.c` (and `extern`ed in the header): `thermistor_lut`
 
 ## Authors
