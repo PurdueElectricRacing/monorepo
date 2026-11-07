@@ -68,7 +68,7 @@ void report_telemetry_100hz(void) {
     CAN_SEND_pack_analog(pack_voltage, pack_current);
     CAN_SEND_pack_analog_ccan(pack_voltage, pack_current);
 
-    // Report physical module cell voltages one at a time
+    // Report cell voltages one at a time
     static uint8_t module_num = 0;
     static uint8_t cell_num   = 0;
 
@@ -115,7 +115,7 @@ void report_telemetry_8hz(void) {
 
     CAN_SEND_e_meter_temperature(max_cell_temp, min_cell_temp, avg_cell_temp);
 
-    // Report physical module thermistor temperatures one at a time
+    // Report thermistor temperatures one at a time
     static uint8_t module_num     = 0;
     static uint8_t thermistor_num = 0;
 
