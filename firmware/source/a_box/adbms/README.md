@@ -106,7 +106,8 @@ The balancing algorithm is a simple threshold-based approach:
 - All communication is performed via SPI, with manual CS control for timing.
 	- The SPI transfer is a blocking DMA operation and should not fail (returns void)
 - Error handling: flags for PEC checksum failures and register read-back mismatches
-- Make sure the `ADBMS_MODULE_COUNT` and `ADBMS_CHIPS_PER_MODULE` constants in `adbms_config.h` match the actual number of modules and chips in your daisy chain configuration!!
+- Make sure the `ADBMS_MODULE_COUNT` constant in `adbms_config.h` match the actual number of modules and chips in your daisy chain configuration!!
+    - Additionally, if you are bench testing, make sure corruption checks are disabled (comment them out)
 - There is a hidden reliance on a global variable defined in `../thermistor/thermistor.c` (and `extern`ed in the header): `thermistor_lut`
 
 ## Authors
