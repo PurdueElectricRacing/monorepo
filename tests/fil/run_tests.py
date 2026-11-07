@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build FIL with PGO and validate the real PER vehicle firmware without hardware."""
+"""Build FIL and validate the real PER vehicle firmware without hardware."""
 
 import argparse
 import json
@@ -33,17 +33,9 @@ def run(command: list[str], **kwargs) -> subprocess.CompletedProcess:
 
 
 def build() -> None:
-    """Use FIL's complete instrument/train/merge/build/test workflow."""
-    training = shlex.join([
-        "run-network", str(CONFIGS / "network.json"),
-        "--duration-ms", "1000", "--max-instructions", "50000000",
-        "--quantum", "1024", "--strict-mmio", "--adc-decimation", "1",
-    ])
+    """Build FIL with its default (fast Release) configuration."""
     run([
-        "make", "-C", str(FIL_SOURCE), "pgo", "DOCS=OFF",
-        f"PGO_GENERATE_BUILD_DIR={BUILD / 'build-pgo-generate'}",
-        f"PGO_BUILD_DIR={BUILD / 'build-pgo'}",
-        f"PGO_TRAIN_ARGS={training}",
+        "make", "-C", str(FIL_SOURCE), "DOCS=OFF",
         f"JOBS={os.environ.get('CMAKE_BUILD_PARALLEL_LEVEL') or os.cpu_count() or 1}",
     ])
 
@@ -51,8 +43,8 @@ def build() -> None:
 def simulate(executable: Path, config: Path, duration_ms: int,
              trace: Path | None = None) -> None:
     command = [
-        str(executable), "run-network" if config.parent == CONFIGS else "run",
-        str(config), "--duration-ms", str(duration_ms),
+        str(executable), "run", str(config),
+        "--duration", f"{duration_ms}ms",
         "--strict-mmio", "--adc-decimation", "1",
     ]
     if config.parent == CONFIGS:
@@ -68,8 +60,8 @@ def simulate(executable: Path, config: Path, duration_ms: int,
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--build", action="store_true", help="build FIL with PGO first")
-    parser.add_argument("--fil", type=Path, default=BUILD / "build-pgo/fil")
+    parser.add_argument("--build", action="store_true", help="build FIL first")
+    parser.add_argument("--fil", type=Path, default=BUILD / "build/fil")
     args = parser.parse_args()
     for board in BOARDS:
         elf = ROOT / f"firmware/output/{board}/{board}.elf"

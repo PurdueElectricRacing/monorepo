@@ -16,6 +16,7 @@ pub enum Widget {
     Dynamics(ui::dynamics::Dynamics),
     Jitter(ui::jitter::Jitter),
     Hil(ui::hil::Hil),
+    FilControl(Box<ui::fil::FilControl>),
 }
 
 pub struct WidgetContext<'a> {
@@ -25,6 +26,7 @@ pub struct WidgetContext<'a> {
     pub database: Option<&'a app::DatabaseSelection>,
     pub ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
     pub formatter: &'a Option<daqcore::formatter::Formatter>,
+    pub connection_status: &'a app::ConnectionStatus,
 }
 
 impl Widget {
@@ -44,6 +46,7 @@ impl Widget {
             Widget::Dynamics(w) => &w.title,
             Widget::Jitter(w) => &w.title,
             Widget::Hil(w) => &w.title,
+            Widget::FilControl(w) => &w.title,
         }
     }
 
@@ -63,6 +66,7 @@ impl Widget {
             Widget::Dynamics(_) => widget_constructor::WidgetKind::Dynamics,
             Widget::Jitter(_) => widget_constructor::WidgetKind::Jitter,
             Widget::Hil(_) => widget_constructor::WidgetKind::Hil,
+            Widget::FilControl(_) => widget_constructor::WidgetKind::FilControl,
         }
     }
 
@@ -92,6 +96,12 @@ impl Widget {
             Widget::Dynamics(w) => w.show(ui, context.view),
             Widget::Jitter(w) => w.show(ui, context.database, context.view),
             Widget::Hil(w) => w.show(ui),
+            Widget::FilControl(w) => w.show(
+                ui,
+                context.action_queue,
+                &context.ui_to_can_tx,
+                context.connection_status,
+            ),
         }
     }
 
@@ -110,6 +120,7 @@ impl Widget {
             Widget::Bootloader(w) => w.handle_can_message(event),
             Widget::SendUi(w) => w.handle_can_message(event),
             Widget::Hil(w) => w.handle_can_message(event),
+            Widget::FilControl(w) => w.handle_can_message(event),
             _ => {}
         }
     }
