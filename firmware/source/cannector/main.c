@@ -11,6 +11,7 @@
 #include "can_library/generated/MCAN.h"
 #include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
+#include "can_library/generated/CCAN.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
@@ -52,6 +53,8 @@ DEFINE_HEARTBEAT_TASK(nullptr);
 
 RTOS_DEFINE_QUEUE(can_queue, timestamped_frame_t, 256);
 
+uint32_t g_fdcan2_bus_id = MCAN_BUS_ID;
+
 void HardFault_Handler(void);
 
 void main() {
@@ -64,7 +67,12 @@ void main() {
     RTOS_INIT_QUEUE(can_queue);
 
     PHAL_FDCAN_init(FDCAN1, VCAN_BAUD_RATE);
-    PHAL_FDCAN_init(FDCAN2, MCAN_BAUD_RATE);
+
+    // Check if charger mode (active low)
+    bool is_charger_mode = !PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN);
+    g_fdcan2_bus_id = is_charger_mode ? CCAN_BUS_ID : MCAN_BUS_ID;
+    PHAL_FDCAN_init(FDCAN2, is_charger_mode ? CCAN_BAUD_RATE : MCAN_BAUD_RATE);
+
     PHAL_FDCAN_init(FDCAN3, SCAN_BAUD_RATE);
 
     if (!PHAL_USB_init() || !PHAL_USB_connect()) {

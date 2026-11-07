@@ -30,5 +30,6 @@
 #define CHARGER_PIN  (2)
 
 extern QueueHandle_t can_queue;
+extern uint32_t g_fdcan2_bus_id;
 
 #endif // MAIN_H
