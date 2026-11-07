@@ -16,6 +16,15 @@
 #include "adbms_config.h"
 #include "common/phal_G4/spi/spi.h"
 
+static_assert(
+    ADBMS_CELLS_PER_MODULE <= ADBMS_CHIPS_PER_MODULE * ADBMS6380_CELL_COUNT,
+    "cells per module exceed available chip channels"
+);
+static_assert(
+    ADBMS_THERMISTORS_PER_MODULE <= ADBMS_CHIPS_PER_MODULE * ADBMS6380_GPIO_COUNT,
+    "thermistors per module exceed available chip GPIOs"
+);
+
 /**
  * @brief ADBMS driver connection/operation state.
  */
