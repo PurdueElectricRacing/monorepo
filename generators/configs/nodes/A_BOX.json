@@ -401,6 +401,11 @@
                             "data_type": "uint8_t",
                             "min": 0,
                             "max": 19
+                        },
+                        {
+                            "signal_name": "is_board_temp",
+                            "description": "Whether this thermistor is an onboard BMS sensor rather than a cell sensor",
+                            "data_type": "bool"
                         }
                     ],
                     "priority": 5,
@@ -540,6 +545,11 @@
                             "data_type": "uint8_t",
                             "min": 0,
                             "max": 19
+                        },
+                        {
+                            "signal_name": "is_board_temp",
+                            "description": "Whether this thermistor is an onboard BMS sensor rather than a cell sensor",
+                            "data_type": "bool"
                         }
                     ],
                     "priority": 5,
