@@ -20,6 +20,8 @@
 #define TEST_SOC_UKF         15
 
 // Change this define to set the test compiled
+#ifndef G4_TESTING_CHOSEN
 #define G4_TESTING_CHOSEN TEST_BLINKY
+#endif
 
 #endif // __G4_TESTING__
