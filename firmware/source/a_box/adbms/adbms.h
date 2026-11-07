@@ -190,12 +190,12 @@ static inline float ADBMS_get_avg_board_temp(const adbms_bms_t *bms) {
     return bms->avg_board_temp;
 }
 
-/// Check whether a cell voltage read command (`0 .. ADBMS6380_RDCV_CMD_COUNT - 1`) failed PEC
+/// Check whether a cell voltage read command failed PEC
 static inline bool ADBMS_get_cell_voltage_pec_err(const adbms_bms_t *bms, size_t cmd_idx) {
     return bms->dev.err_cell_voltage_pecs[cmd_idx];
 }
 
-/// Check whether a GPIO voltage read command (`0 .. ADBMS6380_RDAUX_CMD_COUNT - 1`) failed PEC
+/// Check whether a GPIO voltage read command failed PEC
 static inline bool ADBMS_get_gpio_voltage_pec_err(const adbms_bms_t *bms, size_t cmd_idx) {
     return bms->dev.err_gpio_voltage_pecs[cmd_idx];
 }
