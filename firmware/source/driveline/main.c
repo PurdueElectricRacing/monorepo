@@ -23,7 +23,7 @@
 #include "config.h"
 #include "oil_temps_table.h"
 #include "pin_defs.h"
-#include "can_reporting/can_reporting.h"
+#include "can_reporting.h"
 
 /* PER HAL Initilization Structures */
 PHAL_GPIO_InitConfig_t gpio_config[] = {
