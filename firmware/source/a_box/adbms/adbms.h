@@ -150,6 +150,11 @@ static inline float ADBMS_get_max_voltage(const adbms_bms_t *bms) {
     return bms->max_voltage;
 }
 
+/// Get the average cell voltage across all modules in volts
+static inline float ADBMS_get_avg_voltage(const adbms_bms_t *bms) {
+    return bms->avg_voltage;
+}
+
 /// Get the sum of all cell voltages across all modules in volts
 static inline float ADBMS_get_sum_voltage(const adbms_bms_t *bms) {
     return bms->sum_voltage;
