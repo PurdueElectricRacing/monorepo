@@ -329,6 +329,60 @@
                     ],
                     "period_ms": 10,
                     "priority": 5
+                },
+                {
+                    "message_name": "torque_vector_can_overflow",
+                    "description": "count of dropped CAN packets due to queue overflow",
+                    "signals": [
+                        {
+                            "signal_name": "rx_overflow",
+                            "data_type": "uint32_t",
+                            "description": "number of recieved packets dropped due to queue overflow"
+                        },
+                        {
+                            "signal_name": "tx_overflow",
+                            "data_type": "uint32_t",
+                            "description": "number of packets to send dropped due to queue overflow"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
+                },
+                {
+                    "message_name": "torque_vector_can_tx_actions",
+                    "description": "counts of software actions taken before CAN transmissions",
+                    "signals": [
+                        {
+                            "signal_name": "enqueue_count",
+                            "data_type": "uint32_t",
+                            "description": "number of packets enqueued to be sent since startup"
+                        },
+                        {
+                            "signal_name": "task_wake_count",
+                            "data_type": "uint32_t",
+                            "description": "number of times the tx task has be called since startup"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
+                },
+                {
+                    "message_name": "torque_vector_can_tx_messages",
+                    "description": "counts of CAN packets transmitted",
+                    "signals": [
+                        {
+                            "signal_name": "tx_sent",
+                            "data_type": "uint32_t",
+                            "description": "number of packets transmitted since startup"
+                        },
+                        {
+                            "signal_name": "callbacks_sent",
+                            "data_type": "uint32_t",
+                            "description": "number of callback packets sent since startup"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
                 }
             ],
             "rx": []
