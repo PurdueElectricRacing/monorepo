@@ -78,7 +78,7 @@ void report_telemetry_100hz(void) {
     CAN_SEND_cell_telemetry_ccan(scaled_cell_voltage, module_num, cell_num, is_balancing);
 
     cell_num++;
-    if (cell_num >= ADBMS6380_CELL_COUNT) {
+    if (cell_num >= ADBMS_CELLS_PER_MODULE) {
         cell_num = 0;
         module_num++;
         if (module_num >= ADBMS_MODULE_COUNT) {
@@ -112,7 +112,7 @@ void report_telemetry_8hz(void) {
 
     CAN_SEND_e_meter_temperature(max_cell_temp, min_cell_temp, avg_cell_temp);
 
-    // Report individual thermistor temperatures one at a time
+    // Report thermistor temperatures one at a time
     static uint8_t module_num     = 0;
     static uint8_t thermistor_num = 0;
 
@@ -122,9 +122,11 @@ void report_telemetry_8hz(void) {
     CAN_SEND_thermistor_telemetry(scaled_temperature, module_num, thermistor_num);
     CAN_SEND_thermistor_telemetry_ccan(scaled_temperature, module_num, thermistor_num);
 
-    if (++thermistor_num >= ADBMS6380_GPIO_COUNT) {
+    thermistor_num++;
+    if (thermistor_num >= ADBMS_THERMISTORS_PER_MODULE) {
         thermistor_num = 0;
-        if (++module_num >= ADBMS_MODULE_COUNT) {
+        module_num++;
+        if (module_num >= ADBMS_MODULE_COUNT) {
             module_num = 0;
         }
     }

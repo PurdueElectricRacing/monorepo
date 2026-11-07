@@ -25,14 +25,18 @@
                             "description": "Total pack voltage",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 362.5,
+                            "max": 609
                         },
                         {
                             "signal_name": "pack_current",
                             "description": "Total pack current, positive is discharge",
                             "data_type": "int16_t",
                             "unit": "A",
-                            "scale": 0.1
+                            "scale": 0.1,
+                            "min": -250,
+                            "max": 250
                         }
                     ],
                     "priority": 5,
@@ -47,33 +51,43 @@
                             "description": "Total pack voltage",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 362.5,
+                            "max": 609
                         },
                         {
                             "signal_name": "min_cell_voltage",
                             "description": "Minimum cell voltage in the pack",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 2.5,
+                            "max": 4.2
                         },
                         {
                             "signal_name": "max_cell_voltage",
                             "description": "Maximum cell voltage in the pack",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 2.5,
+                            "max": 4.2
                         },
                         {
                             "signal_name": "max_temp",
                             "description": "Max thermistor reading in the pack",
                             "data_type": "uint8_t",
-                            "unit": "C"
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
                         },
                         {
                             "signal_name": "avg_temp",
                             "description": "Average thermistor reading in the pack",
                             "data_type": "uint8_t",
-                            "unit": "C"
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
                         }
                     ],
                     "priority": 1,
@@ -197,14 +211,18 @@
                             "description": "Total pack voltage",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 362.5,
+                            "max": 609
                         },
                         {
                             "signal_name": "pack_current",
                             "description": "Total pack current, positive is discharge",
                             "data_type": "int16_t",
                             "unit": "A",
-                            "scale": 0.1
+                            "scale": 0.1,
+                            "min": -250,
+                            "max": 250
                         }
                     ],
                     "priority": 5,
@@ -220,33 +238,43 @@
                             "description": "Total pack voltage",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 362.5,
+                            "max": 609
                         },
                         {
                             "signal_name": "min_cell_voltage",
                             "description": "Minimum cell voltage in the pack",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 2.5,
+                            "max": 4.2
                         },
                         {
                             "signal_name": "max_cell_voltage",
                             "description": "Maximum cell voltage in the pack",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 2.5,
+                            "max": 4.2
                         },
                         {
                             "signal_name": "max_temp",
                             "description": "Max thermistor reading in the pack",
                             "data_type": "uint8_t",
-                            "unit": "C"
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
                         },
                         {
                             "signal_name": "avg_temp",
                             "description": "Average thermistor reading in the pack",
                             "data_type": "uint8_t",
-                            "unit": "C"
+                            "unit": "C",
+                            "min": 0,
+                            "max": 80
                         }
                     ],
                     "priority": 1,
@@ -320,17 +348,23 @@
                             "description": "individual cell voltage",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 2.5,
+                            "max": 4.2
                         },
                         {
                             "signal_name": "module_num",
                             "description": "Module number of the cell being reported, 0 indexed",
-                            "data_type": "uint8_t"
+                            "data_type": "uint8_t",
+                            "min": 0,
+                            "max": 4
                         },
                         {
                             "signal_name": "cell_num",
                             "description": "Cell number within the module, 0 indexed",
-                            "data_type": "uint8_t"
+                            "data_type": "uint8_t",
+                            "min": 0,
+                            "max": 28
                         },
                         {
                             "signal_name": "balance_status",
@@ -350,17 +384,23 @@
                             "description": "Individual thermistor temperature",
                             "data_type": "uint16_t",
                             "unit": "C",
-                            "scale": 0.1
+                            "scale": 0.1,
+                            "min": 0,
+                            "max": 80
                         },
                         {
                             "signal_name": "module_num",
                             "description": "Module number of the cell being reported, 0 indexed",
-                            "data_type": "uint8_t"
+                            "data_type": "uint8_t",
+                            "min": 0,
+                            "max": 4
                         },
                         {
                             "signal_name": "thermistor_num",
                             "description": "Thermistor number within the module, 0 indexed",
-                            "data_type": "uint8_t"
+                            "data_type": "uint8_t",
+                            "min": 0,
+                            "max": 19
                         }
                     ],
                     "priority": 5,
@@ -447,17 +487,23 @@
                             "description": "individual cell voltage",
                             "data_type": "uint16_t",
                             "unit": "V",
-                            "scale": 0.01
+                            "scale": 0.01,
+                            "min": 2.5,
+                            "max": 4.2
                         },
                         {
                             "signal_name": "module_num",
                             "description": "Module number of the cell being reported, 0 indexed",
-                            "data_type": "uint8_t"
+                            "data_type": "uint8_t",
+                            "min": 0,
+                            "max": 4
                         },
                         {
                             "signal_name": "cell_num",
                             "description": "Cell number within the module, 0 indexed",
-                            "data_type": "uint8_t"
+                            "data_type": "uint8_t",
+                            "min": 0,
+                            "max": 28
                         },
                         {
                             "signal_name": "balance_status",
@@ -477,17 +523,23 @@
                             "description": "Individual thermistor temperature",
                             "data_type": "uint16_t",
                             "unit": "C",
-                            "scale": 0.1
+                            "scale": 0.1,
+                            "min": 0,
+                            "max": 80
                         },
                         {
                             "signal_name": "module_num",
                             "description": "Module number of the cell being reported, 0 indexed",
-                            "data_type": "uint8_t"
+                            "data_type": "uint8_t",
+                            "min": 0,
+                            "max": 4
                         },
                         {
                             "signal_name": "thermistor_num",
                             "description": "Thermistor number within the module, 0 indexed",
-                            "data_type": "uint8_t"
+                            "data_type": "uint8_t",
+                            "min": 0,
+                            "max": 19
                         }
                     ],
                     "priority": 5,

@@ -53,35 +53,10 @@ static constexpr adbms6380_adax_config_t ADBMS_ADAX_CFG = {
     .pup = false,
 };
 
-typedef struct {
-    float min;
-    float max;
-    float sum;
-} adbms_stats_t;
-
-static adbms_stats_t reduce_values(const float *values, size_t count) {
-    adbms_stats_t stats = {
-        .min = values[0],
-        .max = values[0],
-        .sum = 0.0f,
-    };
-    for (size_t i = 0; i < count; i++) {
-        float val = values[i];
-        if (val > stats.max) {
-            stats.max = val;
-        }
-        if (val < stats.min) {
-            stats.min = val;
-        }
-        stats.sum += val;
-    }
-    return stats;
-}
-
 static void clear_discharging(adbms_bms_t *bms) {
-    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
         for (size_t j = 0U; j < ADBMS6380_CELL_COUNT; j++) {
-            bms->dev.modules[i].is_discharging[j] = false;
+            bms->dev.chips[i].is_discharging[j] = false;
         }
     }
 }
@@ -94,9 +69,11 @@ static void calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float m
 
     float balance_threshold = bms->min_voltage + min_delta;
     for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        for (size_t j = 0U; j < ADBMS6380_CELL_COUNT; j++) {
-            bms->dev.modules[i].is_discharging[j] =
-                bms->dev.modules[i].cell_voltages[j] > balance_threshold;
+        for (size_t j = 0U; j < ADBMS_CELLS_PER_MODULE; j++) {
+            size_t chip_idx = (i * ADBMS_CHIPS_PER_MODULE) + (j / ADBMS6380_CELL_COUNT);
+            size_t chan_idx = j % ADBMS6380_CELL_COUNT;
+            bms->dev.chips[chip_idx].is_discharging[chan_idx] =
+                bms->dev.chips[chip_idx].cell_voltages[chan_idx] > balance_threshold;
         }
     }
 }
@@ -104,41 +81,45 @@ static void calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float m
 static void read_cells(adbms_bms_t *bms) {
     ADBMS6380_read_cell_voltages(&bms->dev);
 
-    // Calculate min/avg/max for overall pack using per-module reductions
-    bms->max_voltage = bms->dev.modules[0].cell_voltages[0];
-    bms->min_voltage = bms->dev.modules[0].cell_voltages[0];
+    // Calculate min/avg/max for overall pack
+    bms->max_voltage = ADBMS_get_cell_voltage(bms, 0U, 0U);
+    bms->min_voltage = ADBMS_get_cell_voltage(bms, 0U, 0U);
     bms->sum_voltage = 0.0f;
     for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        adbms_stats_t mod_stats = reduce_values(bms->dev.modules[i].cell_voltages, ADBMS6380_CELL_COUNT);
-        if (mod_stats.max > bms->max_voltage) {
-            bms->max_voltage = mod_stats.max;
+        for (size_t j = 0U; j < ADBMS_CELLS_PER_MODULE; j++) {
+            float val = ADBMS_get_cell_voltage(bms, i, j);
+            if (val > bms->max_voltage) {
+                bms->max_voltage = val;
+            }
+            if (val < bms->min_voltage) {
+                bms->min_voltage = val;
+            }
+            bms->sum_voltage += val;
         }
-        if (mod_stats.min < bms->min_voltage) {
-            bms->min_voltage = mod_stats.min;
-        }
-        bms->sum_voltage += mod_stats.sum;
     }
-    bms->avg_voltage = bms->sum_voltage / (float)(ADBMS_MODULE_COUNT * ADBMS6380_CELL_COUNT);
+    bms->avg_voltage = bms->sum_voltage / (float)(ADBMS_MODULE_COUNT * ADBMS_CELLS_PER_MODULE);
 }
 
 static void read_therms(adbms_bms_t *bms) {
     ADBMS6380_read_temperatures(&bms->dev, &ADBMS_ADAX_CFG);
 
-    // Calculate min/avg/max thermistor temps for overall pack using per-module reductions
-    bms->max_therm_temp      = bms->dev.modules[0].therms_temps[0];
-    bms->min_therm_temp      = bms->dev.modules[0].therms_temps[0];
+    // Calculate min/avg/max thermistor temps for overall pack
+    bms->max_therm_temp      = ADBMS_get_therm_temp(bms, 0U, 0U);
+    bms->min_therm_temp      = ADBMS_get_therm_temp(bms, 0U, 0U);
     float bms_sum_therm_temp = 0.0f;
     for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        adbms_stats_t mod_stats = reduce_values(bms->dev.modules[i].therms_temps, ADBMS6380_GPIO_COUNT);
-        if (mod_stats.max > bms->max_therm_temp) {
-            bms->max_therm_temp = mod_stats.max;
+        for (size_t j = 0U; j < ADBMS_THERMISTORS_PER_MODULE; j++) {
+            float val = ADBMS_get_therm_temp(bms, i, j);
+            if (val > bms->max_therm_temp) {
+                bms->max_therm_temp = val;
+            }
+            if (val < bms->min_therm_temp) {
+                bms->min_therm_temp = val;
+            }
+            bms_sum_therm_temp += val;
         }
-        if (mod_stats.min < bms->min_therm_temp) {
-            bms->min_therm_temp = mod_stats.min;
-        }
-        bms_sum_therm_temp += mod_stats.sum;
     }
-    bms->avg_therm_temp = bms_sum_therm_temp / (float)(ADBMS_MODULE_COUNT * ADBMS6380_GPIO_COUNT);
+    bms->avg_therm_temp = bms_sum_therm_temp / (float)(ADBMS_MODULE_COUNT * ADBMS_THERMISTORS_PER_MODULE);
 }
 
 // Catch corrupted readings
