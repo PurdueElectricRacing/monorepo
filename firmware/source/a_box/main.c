@@ -207,20 +207,20 @@ void bms_task(void) {
     ADBMS_periodic(&g_bms, MIN_V_FOR_BALANCE, MIN_DELTA_FOR_BALANCE);
 
     // CAN
-    float sum_voltage    = ADBMS_get_sum_voltage(&g_bms);
-    float min_voltage    = ADBMS_get_min_voltage(&g_bms);
-    float max_voltage    = ADBMS_get_max_voltage(&g_bms);
-    float min_therm_temp = ADBMS_get_min_therm_temp(&g_bms);
-    float max_therm_temp = ADBMS_get_max_therm_temp(&g_bms);
-    float avg_therm_temp = ADBMS_get_avg_therm_temp(&g_bms);
+    float sum_voltage   = ADBMS_get_sum_voltage(&g_bms);
+    float min_voltage   = ADBMS_get_min_voltage(&g_bms);
+    float max_voltage   = ADBMS_get_max_voltage(&g_bms);
+    float min_cell_temp = ADBMS_get_min_cell_temp(&g_bms);
+    float max_cell_temp = ADBMS_get_max_cell_temp(&g_bms);
+    float avg_cell_temp = ADBMS_get_avg_cell_temp(&g_bms);
 
     uint16_t pack_voltage = (uint16_t)(sum_voltage * PACK_COEFF_PACK_BMS_PACK_VOLTAGE);
     uint16_t min_cell_voltage = (uint16_t)(min_voltage * PACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE);
     uint16_t max_cell_voltage = (uint16_t)(max_voltage * PACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE);
-    uint8_t max_temp = (uint8_t)CLAMP(max_therm_temp, 0, UINT8_MAX);
-    uint8_t avg_temp = (uint8_t)CLAMP(avg_therm_temp, 0, UINT8_MAX);
-    CAN_SEND_pack_bms(pack_voltage, min_cell_voltage, max_cell_voltage, max_temp, avg_temp);
-    CAN_SEND_pack_bms_ccan(pack_voltage, min_cell_voltage, max_cell_voltage, max_temp, avg_temp);
+    uint8_t scaled_max_cell_temp = (uint8_t)CLAMP(max_cell_temp, 0, UINT8_MAX);
+    uint8_t scaled_avg_cell_temp = (uint8_t)CLAMP(avg_cell_temp, 0, UINT8_MAX);
+    CAN_SEND_pack_bms(pack_voltage, min_cell_voltage, max_cell_voltage, scaled_max_cell_temp, scaled_avg_cell_temp);
+    CAN_SEND_pack_bms_ccan(pack_voltage, min_cell_voltage, max_cell_voltage, scaled_max_cell_temp, scaled_avg_cell_temp);
 
     CAN_SEND_bms_pecs(
         ADBMS_get_cell_voltage_pec_err(&g_bms, 0U),
@@ -263,9 +263,9 @@ void bms_task(void) {
     update_fault(FAULT_ID_CELL_OVERVOLTAGE, max_voltage);
 
     // Temperature related
-    update_fault(FAULT_ID_PACK_OVERTEMP, max_therm_temp);
-    update_fault(FAULT_ID_PACK_WARM, max_therm_temp);
-    update_fault(FAULT_ID_PACK_COLD, min_therm_temp);
+    update_fault(FAULT_ID_PACK_OVERTEMP, max_cell_temp);
+    update_fault(FAULT_ID_PACK_WARM, max_cell_temp);
+    update_fault(FAULT_ID_PACK_COLD, min_cell_temp);
 }
 
 void HardFault_Handler() {
