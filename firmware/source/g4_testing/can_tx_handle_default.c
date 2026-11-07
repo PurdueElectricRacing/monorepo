@@ -1,10 +1,11 @@
 /**
  * @file can_tx_handle_default.c
- * @brief Weak default CAN TX task handle.
+ * @brief Weak default for the CAN TX task handle.
  *
- * Every bench test links the CAN node library, but only CAN tests start the CAN
- * tasks. DEFINE_CAN_TASKS() provides the real handle when a CAN test is
- * selected; this weak default keeps the other tests linking.
+ * The diagnostics code is linked into every g4_testing image, so its CAN send
+ * calls pull can_tx.c in even for tests like blinky that never bring up CAN. can_tx.c needs
+ * CAN_tx_update_handle, which only DEFINE_CAN_TASKS() defines, so tests
+ * without it don't link. This weak handle is only used when CAN isn't defined.
  */
 #include <stddef.h>
 
