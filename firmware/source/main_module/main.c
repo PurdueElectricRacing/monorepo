@@ -23,7 +23,7 @@
 #include "telemetry.h"
 #include "powertrain.h"
 #include "vehicle_fsm.h"
-#include "can_reporting/can_reporting.h"
+#include "can_reporting.h"
 
 /* PER HAL Initialization Structures */
 PHAL_GPIO_InitConfig_t gpio_config[] = {
