@@ -12,6 +12,9 @@
 #include "common/phal_G4/pin_defs/g474ret6.h"
 #include "can_library/can_common.h"
 #include "can_library/generated/G4_TESTING.h"
+#include "can_library/generated/can_router.h"
+// #include "can_library/source/can_init.h"
+
 
 void HardFault_Handler() {
     while (1) {
@@ -35,7 +38,8 @@ void get_error_counter() {
     
 }
 
-DEFINE_CAN_TASKS(get_error_counter, 250, TASK_PRIORITY_NORMAL, 256);
+DEFINE_CAN_TASKS();
+RTOS_DEFINE_TASK(get_error_counter, 250, TASK_PRIORITY_NORMAL, 256);
 // RTOS_DEFINE_TASK(ledblinkk, 250, TASK_PRIORITY_NORMAL, 64);
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
@@ -45,12 +49,12 @@ int main() {
     }
 
     PHAL_FDCAN_init(FDCAN1, TEST_CAN_BAUD_RATE);
-    CAN_init();
+    // CAN_init();
 
     START_CAN_TASKS();
     RTOS_START_TASK(get_error_counter);
 
-    CAN_send_error_counter(0xDEADBEEF);
+    // CAN_send_error_counter(0xDEADBEEF);
 
     vTaskStartScheduler();
 
