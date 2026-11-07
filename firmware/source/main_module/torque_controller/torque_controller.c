@@ -84,7 +84,7 @@ torque_request_t torque_controller_get_request(void) {
         g_powertrain.rear_right.crit->AMK_ActualSpeed
     );
     bool is_vehicle_speed_high = min_wheelspeed * RPM_TO_MPH > 5;
-    bool is_pack_low_enough = can_data.pack_bms.pack_voltage < 470;
+    bool is_pack_low_enough = can_data.bms_voltages.pack_voltage < 470;
     bool is_regen_allowed = is_braking && is_vehicle_speed_high && is_pack_low_enough;
 
     if (can_data.pedals.throttle > 0) {
