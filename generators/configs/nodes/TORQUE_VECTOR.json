@@ -335,7 +335,7 @@
         }
     },
     "fault_library_enabled": true,
-    "diagnostics": { "bus": "VCAN" },
+    "diagnostics_bus": "SCAN",
     "generate_fault_messages": false,
     "faults": [
         {

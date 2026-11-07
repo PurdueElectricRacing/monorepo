@@ -96,13 +96,8 @@
                 }
             ],
             "rx": []
-        },
-        "SCAN": {
-            "peripheral": "FDCAN3",
-            "tx": [],
-            "rx": []
         }
     },
     "fault_library_enabled": false,
-    "diagnostics": { "bus": "SCAN" }
+    "diagnostics_bus": "TEST_CAN"
 }

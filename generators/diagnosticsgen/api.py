@@ -84,25 +84,15 @@ def diagnostics_targets(declarations: CanDeclarations) -> list[tuple[str, str]]:
     """Return each opted-in node and the bus its diagnostics messages go on."""
     targets = []
     for node in declarations.internal_nodes:
-        config = node.diagnostics
-        if config is None:
+        bus_name = node.diagnostics_bus
+        if bus_name is None:
             continue
-
-        if config.bus is not None:
-            if config.bus not in node.busses:
-                raise ValueError(
-                    f"Diagnostics node '{node.node_name}' is not attached to bus "
-                    f"'{config.bus}'; choose one of: {', '.join(node.busses)}"
-                )
-            bus_name = config.bus
-        elif len(node.busses) == 1:
-            bus_name = next(iter(node.busses))
-        else:
+        if bus_name not in node.busses:
             raise ValueError(
-                f"Diagnostics node '{node.node_name}' is attached to multiple buses "
-                f"({', '.join(node.busses)}); set diagnostics.bus in its node config"
+                f"Diagnostics node '{node.node_name}' sets diagnostics_bus "
+                f"'{bus_name}' but is not attached to it; choose one of: "
+                f"{', '.join(node.busses)}"
             )
-
         targets.append((node.node_name, bus_name))
     return targets
 
