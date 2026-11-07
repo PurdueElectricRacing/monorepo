@@ -1,34 +1,10 @@
 # ADBMS(6380)
 
 Provides a high-level interface for managing `ADBMS6380` battery management chips
-in a single-direction isoSPI daisy chain configuration (`ADBMS6830B` in Analog Devices
-datasheets; the `ADBMS6380` identifier spelling is retained across firmware for API stability).
+in a single-direction daisy chain configuration.
 It handles communication, configuration, measurement collection, and balancing
 for multi-module battery packs, supporting cell voltage, thermistor, and GPIO readings
 as well as error detection via PEC checks.
-
-## Pack & Daisy-Chain Topology (5 Modules / 29S / 10 Chips)
-
-The pack consists of **5 physical battery modules**, each containing **2 ADBMS chips**
-(`Chip A` and `Chip B`), for **10 chips** total in the single isoSPI daisy chain.
-
-| Quantity | Value | Notes |
-| --- | --- | --- |
-| Physical modules (`ADBMS_MODULE_COUNT`) | `5` (`0..4`) | Public module numbering used by getters and CAN telemetry |
-| Chips per module (`ADBMS_CHIPS_PER_MODULE`) | `2` (`Chip A`, `Chip B`) | Both chips sit on the same isoSPI daisy chain |
-| Total chips (`ADBMS_CHIP_COUNT`) | `10` (`0..9`) | Raw protocol/storage sizing (`dev.chips[10]`) |
-| Cells per module (`ADBMS_CELLS_PER_MODULE`) | `29` (`0..28`) | `0..15` on `Chip A` (`C1..C16`), `16..28` on `Chip B` (`C1..C13`) |
-| Unused cell channels on `Chip B` | `3` (zero-based `13..15`, 1-based `C14..C16`) | Shorted on hardware; excluded from stats, validity checks, telemetry, and balancing (`DCC14..DCC16` forced clear) |
-| Total pack series cells (`ADBMS_PACK_CELL_COUNT`) | `145` | `5 * 29` |
-| Thermistors per module (`ADBMS_THERMISTORS_PER_MODULE`) | `20` (`0..19`) | `0..9` on `Chip A` (`GPIO1..GPIO10`), `10..19` on `Chip B` (`GPIO1..GPIO10`); all 20 assumed populated |
-| Total pack thermistors (`ADBMS_PACK_THERMISTOR_COUNT`) | `100` | `5 * 20` |
-
-### Physical-to-Chain Mapping (`ADBMS_MODULE_CHIP_INDICES`)
-
-- Raw protocol and register storage in `adbms6380_driver_t` is indexed by daisy-chain chip index (`dev.chips[0..9]`, each with `16` cell channels and `10` GPIO channels).
-- Public APIs (`ADBMS_get_cell_voltage`, `ADBMS_get_therm_temp`, `ADBMS_is_cell_discharging`) and CAN telemetry (`cell_telemetry`, `thermistor_telemetry`) use **physical module and channel indices** (`module_idx` in `0..4`, `cell_idx` in `0..28`, `therm_idx` in `0..19`).
-- `ADBMS_MODULE_CHIP_INDICES` in `adbms_config.h` is the single source of truth mapping `(module_idx, ADBMS_CHIP_ROLE_A / B)` to daisy-chain chip index `0..9` (defaulting to contiguous `[2 * m, 2 * m + 1]` ordering).
-- **Hardware bring-up requirement**: Verify the physical isoSPI harness and board-to-board chain order on the accumulator before hardware acceptance; if the physical wiring differs from `[2 * m, 2 * m + 1]`, update only `ADBMS_MODULE_CHIP_INDICES` in `adbms_config.h`.
 
 ## Usage
 
@@ -101,7 +77,7 @@ After each periodic call, measurements, statistics, and status can be accessed v
 ```c
 ADBMS_set_balancing_enabled(&g_bms, true); // or false to disable balancing
 ```
-The driver will handle the rest (setting the appropriate bits in the REGB register of each module based on the cell voltages and the configured thresholds).
+The driver will handle the rest (setting the appropriate bits in the REGB register of each chip based on the cell voltages and the configured thresholds).
 
 #### Balancing algorithm
 
@@ -110,11 +86,10 @@ The balancing algorithm is a simple threshold-based approach:
 - And the difference between a cell voltage and the minimum cell voltage is greater than `MIN_DELTA_FOR_BALANCE` (also defined in ABOX)
 - Then the discharge (balancing) for that cell will be enabled by setting the appropriate bit in the REGB register of the chip that contains that cell.
 - Otherwise, discharge for that cell will be disabled.
-- Unused `Chip B` channels (`13..15` zero-based, `DCC14..DCC16` one-based) are never evaluated for balancing and are explicitly cleared before every `ADBMS6380_write_regb` call (in both `ADBMS_STATE_CONNECTING` and `ADBMS_STATE_READ_LOOP`).
 
 ## File Structure
 
-- `adbms_config.h`: Shared pack topology configuration (`ADBMS_MODULE_COUNT`, `ADBMS_CHIP_COUNT`, `ADBMS_MODULE_CHIP_INDICES`, channel mapping helpers)
+- `adbms_config.h`: Shared pack topology configuration
 - `adbms.c` / `adbms.h`: High-level flow driver logic, pack statistics, balancing, state management
 - `adbms6380.c` / `adbms6380.h`: Low-level chip-specific protocol, SPI framing, register packing, multi-command readout, thermistor conversion
 - `commands.h`: `static constexpr` command definitions for ADBMS6380.
@@ -130,10 +105,8 @@ The balancing algorithm is a simple threshold-based approach:
   - Its primary reliance on FreeRTOS comes from the use of `RTOS_delay_ms(ADBMS6380_WAKE_DELAY_MS)` in the wake-up sequence.
 - All communication is performed via SPI, with manual CS control for timing.
 	- The SPI transfer is a blocking DMA operation and should not fail (returns void)
-- Error handling: flags for PEC checksum failures and register read-back mismatches. During `ADBMS_STATE_READ_LOOP`, if a single cell or GPIO read command group fails PEC validation, only that command group's PEC error flag is set and its channels retain their previous sample while successful command groups update normally.
-- Thermistor readout (`ADBMS6380_read_therms`) assumes all `20` thermistors per module (`10` per chip, `100` total) are populated and starts an `ADAX` conversion immediately followed by `RDAUXA..D` reads without conversion-completion polling. If hardware bring-up reveals conversion-latency artifacts or unpopulated GPIO channels, handle conversion polling / open-circuit rejection in a dedicated follow-up.
-- Sampling vs. CAN telemetry sweep rates: `bms_task` runs `ADBMS_periodic` at `5 Hz` (`200 ms`), updating all `145` cell voltages and `100` thermistor temperatures in `g_bms` every `200 ms`. CAN telemetry rotates one slot per frame: `cell_telemetry` at `100 Hz` sweeps all `145` cells in `1.45 s` (`145 / 100 Hz`), and `thermistor_telemetry` at `8 Hz` sweeps all `100` thermistors in `12.5 s` (`100 / 8 Hz`).
-- Make sure `ADBMS_MODULE_COUNT`, `ADBMS_CHIP_COUNT`, and `ADBMS_MODULE_CHIP_INDICES` in `adbms_config.h` match the physical accumulator daisy-chain configuration.
+- Error handling: flags for PEC checksum failures and register read-back mismatches
+- Make sure the `ADBMS_MODULE_COUNT` and `ADBMS_CHIPS_PER_MODULE` constants in `adbms_config.h` match the actual number of modules and chips in your daisy chain configuration!!
 - There is a hidden reliance on a global variable defined in `../thermistor/thermistor.c` (and `extern`ed in the header): `thermistor_lut`
 
 ## Authors
