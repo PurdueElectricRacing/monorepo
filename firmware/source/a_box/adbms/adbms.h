@@ -16,9 +16,8 @@
 #include "adbms_config.h"
 #include "common/phal_G4/spi/spi.h"
 
-static_assert(ADBMS_CHIP_A_CELL_COUNT <= ADBMS6380_CELL_COUNT);
-static_assert(ADBMS_CHIP_B_CELL_COUNT <= ADBMS6380_CELL_COUNT);
-static_assert(ADBMS_THERMISTORS_PER_CHIP == ADBMS6380_GPIO_COUNT);
+static_assert(ADBMS_CELLS_PER_MODULE <= ADBMS_CHIPS_PER_MODULE * ADBMS6380_CELL_COUNT);
+static_assert(ADBMS_THERMISTORS_PER_MODULE <= ADBMS_CHIPS_PER_MODULE * ADBMS6380_GPIO_COUNT);
 
 /**
  * @brief ADBMS driver connection/operation state.
@@ -37,20 +36,20 @@ typedef struct {
     /** Low-level ADBMS6380 daisy-chain device state, SPI buffers, and error flags. */
     adbms6380_t dev;
 
-    /** Minimum connected cell voltage across all physical modules (volts). */
+    /** Minimum cell voltage across all modules (volts). */
     float min_voltage;
-    /** Maximum connected cell voltage across all physical modules (volts). */
+    /** Maximum cell voltage across all modules (volts). */
     float max_voltage;
-    /** Average connected cell voltage across all physical modules (volts). */
+    /** Average cell voltage across all modules (volts). */
     float avg_voltage;
-    /** Sum of connected cell voltages across all physical modules (volts). */
+    /** Sum of cell voltages across all modules (volts). */
     float sum_voltage;
 
-    /** Minimum thermistor temperature across all physical modules (Celsius). */
+    /** Minimum thermistor temperature across all modules (Celsius). */
     float min_therm_temp;
-    /** Maximum thermistor temperature across all physical modules (Celsius). */
+    /** Maximum thermistor temperature across all modules (Celsius). */
     float max_therm_temp;
-    /** Average thermistor temperature across all physical modules (Celsius). */
+    /** Average thermistor temperature across all modules (Celsius). */
     float avg_therm_temp;
 
     /** Time captured when entering RECOVERING. */
@@ -83,77 +82,51 @@ void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi);
  */
 void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance);
 
-/**
- * @brief Get the latest voltage reading (volts) for a physical module and cell.
- *
- * @param bms Non-null pointer to driver state.
- * @param module_idx Physical module index (`0 .. ADBMS_MODULE_COUNT - 1`).
- * @param cell_idx Physical cell index within the module (`0 .. ADBMS_CELLS_PER_MODULE - 1`).
- * @return Cell voltage in volts.
- *
- * @pre `module_idx < ADBMS_MODULE_COUNT` (`0 .. 4`)
- * @pre `cell_idx < ADBMS_CELLS_PER_MODULE` (`0 .. 28`)
- */
+
+/// Get the latest voltage reading (volts) for a specific module and cell
 static inline float ADBMS_get_cell_voltage(
     const adbms_bms_t *bms,
     size_t module_idx,
     size_t cell_idx
 ) {
-    adbms_channel_map_t map = ADBMS_map_cell(module_idx, cell_idx);
-    return bms->dev.chips[map.chip_idx].cell_voltages[map.channel_idx];
+    size_t chip_idx = (module_idx * ADBMS_CHIPS_PER_MODULE) + (cell_idx / ADBMS6380_CELL_COUNT);
+    size_t chan_idx = cell_idx % ADBMS6380_CELL_COUNT;
+    return bms->dev.chips[chip_idx].cell_voltages[chan_idx];
 }
 
-/**
- * @brief Get the latest thermistor temperature (Celsius) for a physical module and channel.
- *
- * @param bms Non-null pointer to driver state.
- * @param module_idx Physical module index (`0 .. ADBMS_MODULE_COUNT - 1`).
- * @param therm_idx Logical thermistor index within the module (`0 .. ADBMS_THERMISTORS_PER_MODULE - 1`).
- * @return Thermistor temperature in Celsius.
- *
- * @pre `module_idx < ADBMS_MODULE_COUNT` (`0 .. 4`)
- * @pre `therm_idx < ADBMS_THERMISTORS_PER_MODULE` (`0 .. 19`)
- */
+/// Get the latest thermistor temperature (Celsius) for a specific module and channel
 static inline float ADBMS_get_therm_temp(
     const adbms_bms_t *bms,
     size_t module_idx,
     size_t therm_idx
 ) {
-    adbms_channel_map_t map = ADBMS_map_therm(module_idx, therm_idx);
-    return bms->dev.chips[map.chip_idx].therms_temps[map.channel_idx];
+    size_t chip_idx = (module_idx * ADBMS_CHIPS_PER_MODULE) + (therm_idx / ADBMS6380_GPIO_COUNT);
+    size_t chan_idx = therm_idx % ADBMS6380_GPIO_COUNT;
+    return bms->dev.chips[chip_idx].therms_temps[chan_idx];
 }
 
-/**
- * @brief Check whether a specific cell is currently discharging (balancing).
- *
- * @param bms Non-null pointer to driver state.
- * @param module_idx Physical module index (`0 .. ADBMS_MODULE_COUNT - 1`).
- * @param cell_idx Physical cell index within the module (`0 .. ADBMS_CELLS_PER_MODULE - 1`).
- * @return true if balancing discharge is requested for this cell.
- *
- * @pre `module_idx < ADBMS_MODULE_COUNT` (`0 .. 4`)
- * @pre `cell_idx < ADBMS_CELLS_PER_MODULE` (`0 .. 28`)
- */
+/// Check whether a specific cell is currently discharging (balancing)
 static inline bool ADBMS_is_cell_discharging(
     const adbms_bms_t *bms,
     size_t module_idx,
     size_t cell_idx
 ) {
-    adbms_channel_map_t map = ADBMS_map_cell(module_idx, cell_idx);
-    return bms->dev.chips[map.chip_idx].is_discharging[map.channel_idx];
+    size_t chip_idx = (module_idx * ADBMS_CHIPS_PER_MODULE) + (cell_idx / ADBMS6380_CELL_COUNT);
+    size_t chan_idx = cell_idx % ADBMS6380_CELL_COUNT;
+    return bms->dev.chips[chip_idx].is_discharging[chan_idx];
 }
 
-/// Get the minimum connected cell voltage across all modules in volts
+/// Get the minimum cell voltage across all modules in volts
 static inline float ADBMS_get_min_voltage(const adbms_bms_t *bms) {
     return bms->min_voltage;
 }
 
-/// Get the maximum connected cell voltage across all modules in volts
+/// Get the maximum cell voltage across all modules in volts
 static inline float ADBMS_get_max_voltage(const adbms_bms_t *bms) {
     return bms->max_voltage;
 }
 
-/// Get the sum of all connected cell voltages across all modules in volts
+/// Get the sum of all cell voltages across all modules in volts
 static inline float ADBMS_get_sum_voltage(const adbms_bms_t *bms) {
     return bms->sum_voltage;
 }

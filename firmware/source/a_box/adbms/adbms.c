@@ -53,80 +53,27 @@ static constexpr adbms6380_adax_config_t ADBMS_ADAX_CFG = {
     .pup = false,
 };
 
-typedef struct {
-    float min;
-    float max;
-    float sum;
-} adbms_stats_t;
-
-static adbms_stats_t reduce_values(const float *values, size_t count) {
-    adbms_stats_t stats = {
-        .min = values[0],
-        .max = values[0],
-        .sum = 0.0f,
-    };
-    for (size_t i = 0; i < count; i++) {
-        float val = values[i];
-        if (val > stats.max) {
-            stats.max = val;
-        }
-        if (val < stats.min) {
-            stats.min = val;
-        }
-        stats.sum += val;
-    }
-    return stats;
-}
-
-static void merge_stats(adbms_stats_t *total, adbms_stats_t part) {
-    if (part.max > total->max) {
-        total->max = part.max;
-    }
-    if (part.min < total->min) {
-        total->min = part.min;
-    }
-    total->sum += part.sum;
-}
-
 static void clear_discharging(adbms_bms_t *bms) {
-    for (size_t chip_idx = 0U; chip_idx < ADBMS_CHIP_COUNT; chip_idx++) {
-        for (size_t cell_idx = 0U; cell_idx < ADBMS6380_CELL_COUNT; cell_idx++) {
-            bms->dev.chips[chip_idx].is_discharging[cell_idx] = false;
+    for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
+        for (size_t j = 0U; j < ADBMS6380_CELL_COUNT; j++) {
+            bms->dev.chips[i].is_discharging[j] = false;
         }
     }
-}
-
-static void clear_unused_discharging(adbms_bms_t *bms) {
-    for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
-        size_t chip_a_idx = ADBMS_module_chip_index(module_idx, ADBMS_CHIP_ROLE_A);
-        for (size_t ch = ADBMS_CHIP_A_CELL_COUNT; ch < ADBMS6380_CELL_COUNT; ch++) {
-            bms->dev.chips[chip_a_idx].is_discharging[ch] = false;
-        }
-
-        size_t chip_b_idx = ADBMS_module_chip_index(module_idx, ADBMS_CHIP_ROLE_B);
-        for (size_t ch = ADBMS_CHIP_B_CELL_COUNT; ch < ADBMS6380_CELL_COUNT; ch++) {
-            bms->dev.chips[chip_b_idx].is_discharging[ch] = false;
-        }
-    }
-}
-
-static void write_regb(adbms_bms_t *bms) {
-    clear_unused_discharging(bms);
-    ADBMS6380_write_regb(&bms->dev, &ADBMS_REGB_CFG);
 }
 
 static void calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float min_delta) {
-    clear_discharging(bms);
     if (!bms->is_balancing_enabled || bms->min_voltage < min_voltage) {
+        clear_discharging(bms);
         return;
     }
 
     float balance_threshold = bms->min_voltage + min_delta;
-    for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
-        for (size_t cell_idx = 0U; cell_idx < ADBMS_CELLS_PER_MODULE; cell_idx++) {
-            adbms_channel_map_t map = ADBMS_map_cell(module_idx, cell_idx);
-            bms->dev.chips[map.chip_idx].is_discharging[map.channel_idx] =
-                bms->dev.chips[map.chip_idx].cell_voltages[map.channel_idx] > balance_threshold;
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+        for (size_t j = 0U; j < ADBMS_CELLS_PER_MODULE; j++) {
+            size_t chip_idx = (i * ADBMS_CHIPS_PER_MODULE) + (j / ADBMS6380_CELL_COUNT);
+            size_t chan_idx = j % ADBMS6380_CELL_COUNT;
+            bms->dev.chips[chip_idx].is_discharging[chan_idx] =
+                bms->dev.chips[chip_idx].cell_voltages[chan_idx] > balance_threshold;
         }
     }
 }
@@ -134,60 +81,45 @@ static void calculate_balance_cells(adbms_bms_t *bms, float min_voltage, float m
 static void read_cells(adbms_bms_t *bms) {
     ADBMS6380_read_cell_voltages(&bms->dev);
 
-    // Calculate min/avg/max for overall pack using per-module reductions of connected cells
-    float first_cell_v = ADBMS_get_cell_voltage(bms, 0U, 0U);
-    adbms_stats_t pack_stats = {
-        .min = first_cell_v,
-        .max = first_cell_v,
-        .sum = 0.0f,
-    };
-
-    for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
-        size_t chip_a_idx = ADBMS_module_chip_index(module_idx, ADBMS_CHIP_ROLE_A);
-        size_t chip_b_idx = ADBMS_module_chip_index(module_idx, ADBMS_CHIP_ROLE_B);
-
-        adbms_stats_t chip_a_stats =
-            reduce_values(bms->dev.chips[chip_a_idx].cell_voltages, ADBMS_CHIP_A_CELL_COUNT);
-        adbms_stats_t chip_b_stats =
-            reduce_values(bms->dev.chips[chip_b_idx].cell_voltages, ADBMS_CHIP_B_CELL_COUNT);
-
-        merge_stats(&pack_stats, chip_a_stats);
-        merge_stats(&pack_stats, chip_b_stats);
+    // Calculate min/avg/max for overall pack
+    bms->max_voltage = ADBMS_get_cell_voltage(bms, 0U, 0U);
+    bms->min_voltage = ADBMS_get_cell_voltage(bms, 0U, 0U);
+    bms->sum_voltage = 0.0f;
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+        for (size_t j = 0U; j < ADBMS_CELLS_PER_MODULE; j++) {
+            float val = ADBMS_get_cell_voltage(bms, i, j);
+            if (val > bms->max_voltage) {
+                bms->max_voltage = val;
+            }
+            if (val < bms->min_voltage) {
+                bms->min_voltage = val;
+            }
+            bms->sum_voltage += val;
+        }
     }
-
-    bms->min_voltage = pack_stats.min;
-    bms->max_voltage = pack_stats.max;
-    bms->sum_voltage = pack_stats.sum;
-    bms->avg_voltage = pack_stats.sum / (float)ADBMS_PACK_CELL_COUNT;
+    bms->avg_voltage = bms->sum_voltage / (float)(ADBMS_MODULE_COUNT * ADBMS_CELLS_PER_MODULE);
 }
 
 static void read_therms(adbms_bms_t *bms) {
     ADBMS6380_read_temperatures(&bms->dev, &ADBMS_ADAX_CFG);
 
-    // Calculate min/avg/max thermistor temps for overall pack across all populated thermistors
-    float first_therm_temp = ADBMS_get_therm_temp(bms, 0U, 0U);
-    adbms_stats_t pack_stats = {
-        .min = first_therm_temp,
-        .max = first_therm_temp,
-        .sum = 0.0f,
-    };
-
-    for (size_t module_idx = 0U; module_idx < ADBMS_MODULE_COUNT; module_idx++) {
-        size_t chip_a_idx = ADBMS_module_chip_index(module_idx, ADBMS_CHIP_ROLE_A);
-        size_t chip_b_idx = ADBMS_module_chip_index(module_idx, ADBMS_CHIP_ROLE_B);
-
-        adbms_stats_t chip_a_stats =
-            reduce_values(bms->dev.chips[chip_a_idx].therms_temps, ADBMS_THERMISTORS_PER_CHIP);
-        adbms_stats_t chip_b_stats =
-            reduce_values(bms->dev.chips[chip_b_idx].therms_temps, ADBMS_THERMISTORS_PER_CHIP);
-
-        merge_stats(&pack_stats, chip_a_stats);
-        merge_stats(&pack_stats, chip_b_stats);
+    // Calculate min/avg/max thermistor temps for overall pack
+    bms->max_therm_temp      = ADBMS_get_therm_temp(bms, 0U, 0U);
+    bms->min_therm_temp      = ADBMS_get_therm_temp(bms, 0U, 0U);
+    float bms_sum_therm_temp = 0.0f;
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+        for (size_t j = 0U; j < ADBMS_THERMISTORS_PER_MODULE; j++) {
+            float val = ADBMS_get_therm_temp(bms, i, j);
+            if (val > bms->max_therm_temp) {
+                bms->max_therm_temp = val;
+            }
+            if (val < bms->min_therm_temp) {
+                bms->min_therm_temp = val;
+            }
+            bms_sum_therm_temp += val;
+        }
     }
-
-    bms->min_therm_temp = pack_stats.min;
-    bms->max_therm_temp = pack_stats.max;
-    bms->avg_therm_temp = pack_stats.sum / (float)ADBMS_PACK_THERMISTOR_COUNT;
+    bms->avg_therm_temp = bms_sum_therm_temp / (float)(ADBMS_MODULE_COUNT * ADBMS_THERMISTORS_PER_MODULE);
 }
 
 // Catch corrupted readings
@@ -224,7 +156,7 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
                 break;
             }
 
-            write_regb(bms);
+            ADBMS6380_write_regb(&bms->dev, &ADBMS_REGB_CFG);
             if (!ADBMS6380_verify_regb(&bms->dev)) {
                 next_state = ADBMS_STATE_RECOVERING;
                 break;
@@ -248,7 +180,7 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             calculate_balance_cells(bms, min_voltage_for_balance, min_delta_for_balance);
 
             // apply new discharge bits
-            write_regb(bms);
+            ADBMS6380_write_regb(&bms->dev, &ADBMS_REGB_CFG);
             if (!ADBMS6380_verify_regb(&bms->dev)) {
                 next_state = ADBMS_STATE_RECOVERING;
                 break;

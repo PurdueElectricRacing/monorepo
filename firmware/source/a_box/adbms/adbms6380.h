@@ -2,9 +2,6 @@
  * @file adbms6380.h
  * @brief Low level BMS driver specific to ADBMS6380 chip.
  *
- * @note The local datasheet is `docs/datasheets/ADBMS6830B_public.pdf`; the source retains
- *       `ADBMS6380` identifiers to avoid mixing a mechanical rename into topology changes.
- *
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
@@ -127,7 +124,7 @@ typedef struct {
     SPI_InitConfig_t *spi;
     /** Scratch TX buffer wrapper for command/data packets. */
     strbuf_t tx_strbuf;
-    /** Per-chip device state and raw/converted voltage and temperature readings, in receive order (`0 .. ADBMS_CHIP_COUNT - 1`). */
+    /** Per-chip device state and raw/converted voltage and temperature readings. */
     adbms6380_chip_t chips[ADBMS_CHIP_COUNT];
     /** Backing TX buffer for command/data packets. */
     uint8_t tx_buf[ADBMS6380_SPI_TX_BUFFER_SIZE];
@@ -187,9 +184,6 @@ bool ADBMS6380_verify_rega(adbms6380_t *dev);
 /**
  * @brief Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all chips.
  *
- * Packets are shifted out in reverse receive order (`ADBMS_CHIP_COUNT - 1` down to `0`)
- * so that each chip latches its own configuration when CS is deasserted.
- *
  * @param dev Non-null pointer to device state.
  * @param cfg Non-null pointer to REGB configuration parameters.
  */
@@ -241,10 +235,10 @@ void ADBMS6380_start_adax(adbms6380_t *dev, const adbms6380_adax_config_t *cfg);
 /**
  * @brief Read all cell voltages from each chip via RDCVA..RDCVF.
  *
- * Converts raw values to volts and populates each chip's @ref adbms6380_chip_t::cell_voltages array.
+ * Converts raw values to volts and populates each chip's @ref cell_voltages array.
  * If any command fails with a PEC error after retries, the successfully read
- * cell voltages are still updated, failed command groups retain their previous samples,
- * and the corresponding flag in @ref adbms6380_t::err_cell_voltage_pecs is set.
+ * cell voltages are still updated and the corresponding flag in
+ * @ref err_cell_voltage_pecs is set.
  *
  * @param dev Non-null pointer to device state.
  */
@@ -253,10 +247,10 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev);
 /**
  * @brief Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.
  *
- * Converts raw values to volts and populates each chip's @ref adbms6380_chip_t::gpio_voltages array.
+ * Converts raw values to volts and populates each chip's @ref gpio_voltages array.
  * If any command fails with a PEC error after retries, the successfully read
- * GPIO voltages are still updated, failed command groups retain their previous samples,
- * and the corresponding flag in @ref adbms6380_t::err_gpio_voltage_pecs is set.
+ * GPIO voltages are still updated and the corresponding flag in
+ * @ref err_gpio_voltage_pecs is set.
  *
  * @param dev Non-null pointer to device state.
  */
@@ -265,7 +259,7 @@ void ADBMS6380_read_gpio_voltages(adbms6380_t *dev);
 /**
  * @brief Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.
  *
- * Populates each chip's @ref adbms6380_chip_t::gpio_voltages and @ref adbms6380_chip_t::therms_temps arrays.
+ * Populates each chip's @ref gpio_voltages and @ref therms_temps arrays.
  *
  * @param dev Non-null pointer to device state.
  * @param cfg Non-null pointer to ADAX command parameters.
