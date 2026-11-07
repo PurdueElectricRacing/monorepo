@@ -26,6 +26,7 @@
 #include "common/watchdog/watchdog.h"
 #include "imd.h"
 #include "telemetry.h"
+#include "can_reporting.h"
 
 
 static PHAL_DMA_Handle_t spi1_rx_dma = {
@@ -147,6 +148,7 @@ RTOS_DEFINE_TASK(report_telemetry_100hz, TELEMETRY_100HZ_PERIOD_MS, TASK_PRIORIT
 RTOS_DEFINE_TASK(report_telemetry_8hz, TELEMETRY_8HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(report_telemetry_02hz, TELEMETRY_02HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(imd_periodic, IMD_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(can_report_periodic, CAN_REPORTING_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -186,6 +188,7 @@ int main(void) {
     RTOS_START_TASK(report_telemetry_02hz);
     RTOS_START_TASK(charging_fsm_periodic);
     RTOS_START_TASK(imd_periodic);
+    RTOS_START_TASK(can_report_periodic);
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 
