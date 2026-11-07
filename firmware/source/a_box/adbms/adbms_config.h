@@ -22,16 +22,18 @@ static constexpr size_t ADBMS_CHIP_COUNT = ADBMS_MODULE_COUNT * ADBMS_CHIPS_PER_
 // Number of series cells per physical battery module (16 on first chip, 13 on second chip)
 static constexpr size_t ADBMS_CELLS_PER_MODULE = 29U;
 
-// Number of cell thermistors per physical battery module (9 per chip)
-// First 9 of the 10 on a chip are cell thermistors
-static constexpr size_t ADBMS_CELL_THERMS_PER_MODULE = 18U;
+// First 9 of the 10 GPIOs on a chip are cell thermistors
+// Last is an on board thermistor
+static constexpr size_t ADBMS_CELL_THERMS_PER_CHIP  = 9U;
+static constexpr size_t ADBMS_BOARD_THERMS_PER_CHIP = 1U;
 
-// Number of onboard PCB thermistors per physical battery module (1 per chip)
-// Always the last thermistor
-static constexpr size_t ADBMS_BOARD_THERMS_PER_MODULE = 2U;
+// Number of cell thermistors per physical battery module
+static constexpr size_t ADBMS_CELL_THERMS_PER_MODULE = ADBMS_CHIPS_PER_MODULE * ADBMS_CELL_THERMS_PER_CHIP;
 
-// Total number of temperature sensors per physical battery module (18 cell + 2 onboard)
-static constexpr size_t ADBMS_THERMISTORS_PER_MODULE =
-    ADBMS_CELL_THERMS_PER_MODULE + ADBMS_BOARD_THERMS_PER_MODULE;
+// Number of onboard PCB thermistors per physical battery module
+static constexpr size_t ADBMS_BOARD_THERMS_PER_MODULE = ADBMS_CHIPS_PER_MODULE * ADBMS_BOARD_THERMS_PER_CHIP;
+
+// Total number of temperature sensors per physical battery module
+static constexpr size_t ADBMS_THERMISTORS_PER_MODULE = ADBMS_CELL_THERMS_PER_MODULE + ADBMS_BOARD_THERMS_PER_MODULE;
 
 #endif // ADBMS_CONFIG_H

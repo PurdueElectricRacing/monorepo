@@ -114,8 +114,8 @@ static inline float ADBMS_get_cell_temp(
     size_t cell_therm_idx
 ) {
     size_t chip_idx =
-        (module_idx * ADBMS_CHIPS_PER_MODULE) + (cell_therm_idx / ADBMS6380_CELL_THERM_COUNT);
-    size_t chan_idx = cell_therm_idx % ADBMS6380_CELL_THERM_COUNT;
+        (module_idx * ADBMS_CHIPS_PER_MODULE) + (cell_therm_idx / ADBMS_CELL_THERMS_PER_CHIP);
+    size_t chan_idx = cell_therm_idx % ADBMS_CELL_THERMS_PER_CHIP;
     return bms->dev.chips[chip_idx].cell_temps[chan_idx];
 }
 
