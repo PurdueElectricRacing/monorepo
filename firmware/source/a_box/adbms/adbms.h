@@ -107,15 +107,26 @@ static inline float ADBMS_get_cell_voltage(
     return bms->dev.chips[chip_idx].cell_voltages[chan_idx];
 }
 
-/// Get the latest thermistor temperature (Celsius) for a specific module and channel
-static inline float ADBMS_get_therm_temp(
+/// Get the latest cell thermistor temperature (Celsius) for a specific module and cell thermistor
+static inline float ADBMS_get_cell_temp(
     const adbms_bms_t *bms,
     size_t module_idx,
-    size_t therm_idx
+    size_t cell_therm_idx
 ) {
-    size_t chip_idx = (module_idx * ADBMS_CHIPS_PER_MODULE) + (therm_idx / ADBMS6380_GPIO_COUNT);
-    size_t chan_idx = therm_idx % ADBMS6380_GPIO_COUNT;
-    return bms->dev.chips[chip_idx].therms_temps[chan_idx];
+    size_t chip_idx =
+        (module_idx * ADBMS_CHIPS_PER_MODULE) + (cell_therm_idx / ADBMS6380_CELL_THERM_COUNT);
+    size_t chan_idx = cell_therm_idx % ADBMS6380_CELL_THERM_COUNT;
+    return bms->dev.chips[chip_idx].cell_temps[chan_idx];
+}
+
+/// Get the latest onboard PCB temperature (Celsius) for a specific module and board thermistor
+static inline float ADBMS_get_board_temp(
+    const adbms_bms_t *bms,
+    size_t module_idx,
+    size_t board_therm_idx
+) {
+    size_t chip_idx = (module_idx * ADBMS_CHIPS_PER_MODULE) + board_therm_idx;
+    return bms->dev.chips[chip_idx].board_temp;
 }
 
 /// Check whether a specific cell is currently discharging (balancing)
@@ -144,19 +155,34 @@ static inline float ADBMS_get_sum_voltage(const adbms_bms_t *bms) {
     return bms->sum_voltage;
 }
 
-/// Get the minimum thermistor temperature across all modules in Celsius
-static inline float ADBMS_get_min_therm_temp(const adbms_bms_t *bms) {
-    return bms->min_therm_temp;
+/// Get the minimum cell thermistor temperature across all modules in Celsius
+static inline float ADBMS_get_min_cell_temp(const adbms_bms_t *bms) {
+    return bms->min_cell_temp;
 }
 
-/// Get the maximum thermistor temperature across all modules in Celsius
-static inline float ADBMS_get_max_therm_temp(const adbms_bms_t *bms) {
-    return bms->max_therm_temp;
+/// Get the maximum cell thermistor temperature across all modules in Celsius
+static inline float ADBMS_get_max_cell_temp(const adbms_bms_t *bms) {
+    return bms->max_cell_temp;
 }
 
-/// Get the average thermistor temperature across all modules in Celsius
-static inline float ADBMS_get_avg_therm_temp(const adbms_bms_t *bms) {
-    return bms->avg_therm_temp;
+/// Get the average cell thermistor temperature across all modules in Celsius
+static inline float ADBMS_get_avg_cell_temp(const adbms_bms_t *bms) {
+    return bms->avg_cell_temp;
+}
+
+/// Get the minimum onboard PCB temperature across all chips in Celsius
+static inline float ADBMS_get_min_board_temp(const adbms_bms_t *bms) {
+    return bms->min_board_temp;
+}
+
+/// Get the maximum onboard PCB temperature across all chips in Celsius
+static inline float ADBMS_get_max_board_temp(const adbms_bms_t *bms) {
+    return bms->max_board_temp;
+}
+
+/// Get the average onboard PCB temperature across all chips in Celsius
+static inline float ADBMS_get_avg_board_temp(const adbms_bms_t *bms) {
+    return bms->avg_board_temp;
 }
 
 /// Check whether a cell voltage read command (`0 .. ADBMS6380_RDCV_CMD_COUNT - 1`) failed PEC
