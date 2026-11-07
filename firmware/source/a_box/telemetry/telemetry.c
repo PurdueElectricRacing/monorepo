@@ -122,9 +122,11 @@ void report_telemetry_8hz(void) {
     CAN_SEND_thermistor_telemetry(scaled_temperature, module_num, thermistor_num);
     CAN_SEND_thermistor_telemetry_ccan(scaled_temperature, module_num, thermistor_num);
 
-    if (++thermistor_num >= ADBMS_THERMISTORS_PER_MODULE) {
+    thermistor_num++;
+    if (thermistor_num >= ADBMS_THERMISTORS_PER_MODULE) {
         thermistor_num = 0;
-        if (++module_num >= ADBMS_MODULE_COUNT) {
+        module_num++;
+        if (module_num >= ADBMS_MODULE_COUNT) {
             module_num = 0;
         }
     }
