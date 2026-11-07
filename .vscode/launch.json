@@ -7,7 +7,7 @@
             "executable": "${workspaceRoot}/firmware/output/main_module/main_module.elf",
             "request": "launch",
             "type": "cortex-debug",
-            "servertype": "openocd",
+            "servertype": "openocd", // !!!!!
             "device": "STM32G474RET6",
             "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
             "configFiles": [
