@@ -11,6 +11,8 @@
 #include "can_library/generated/MCAN.h"
 #include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
+#include "can_library/generated/CCAN.h"
+#include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/rtos/rtos.h"
 #include "common/timestamped_frame/timestamped_frame.h"
@@ -23,7 +25,12 @@ static inline uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
         return VCAN_BUS_ID;
     }
     else if (peripheral == FDCAN2) {
-        return MCAN_BUS_ID;
+        // Check if the charger pin is shorted (assuming active-low / 0 means shorted)
+        if (PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN) == 0) { 
+            return CCAN_BUS_ID;
+        } else {
+            return MCAN_BUS_ID;
+        }
     }
     else { // peripheral == FDCAN3
         return SCAN_BUS_ID;
@@ -55,6 +62,7 @@ void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
     if (msg->Bus == FDCAN1) {
         activity_leds_record(ACTIVITY_VCAN, frame.ticks_ms);
     } else if (msg->Bus == FDCAN2) {
+        //Will blink the same LED for both MCAN and CCAN, since they are on the same bus
         activity_leds_record(ACTIVITY_MCAN, frame.ticks_ms);
     } else if (msg->Bus == FDCAN3) {
         activity_leds_record(ACTIVITY_SCAN, frame.ticks_ms);

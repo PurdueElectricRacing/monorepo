@@ -11,6 +11,7 @@
 #include "can_library/generated/MCAN.h"
 #include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
+#include "can_library/generated/CCAN.h"
 #include "common/heartbeat/heartbeat.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/phal_G4/gpio/gpio.h"
@@ -64,7 +65,14 @@ void main() {
     RTOS_INIT_QUEUE(can_queue);
 
     PHAL_FDCAN_init(FDCAN1, VCAN_BAUD_RATE);
-    PHAL_FDCAN_init(FDCAN2, MCAN_BAUD_RATE);
+
+    // Check if the charger pin is shorted (assuming active-low / 0 means shorted)
+    if (PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN) == 0) { 
+        PHAL_FDCAN_init(FDCAN2, CCAN_BAUD_RATE);
+    } else {
+        PHAL_FDCAN_init(FDCAN2, MCAN_BAUD_RATE);
+    }
+
     PHAL_FDCAN_init(FDCAN3, SCAN_BAUD_RATE);
 
     if (!PHAL_USB_init() || !PHAL_USB_connect()) {
