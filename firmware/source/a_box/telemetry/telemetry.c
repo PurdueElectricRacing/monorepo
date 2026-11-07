@@ -96,9 +96,9 @@ static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(E_METER_TEMPERATURE_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 void report_telemetry_8hz(void) {
     // Send the pack thermal summary to the emeter
-    float max_therm_temp = ADBMS_get_max_therm_temp(&g_bms);
-    float min_therm_temp = ADBMS_get_min_therm_temp(&g_bms);
-    float avg_therm_temp = ADBMS_get_avg_therm_temp(&g_bms);
+    float max_therm_temp = ADBMS_get_max_cell_temp(&g_bms);
+    float min_therm_temp = ADBMS_get_min_cell_temp(&g_bms);
+    float avg_therm_temp = ADBMS_get_avg_cell_temp(&g_bms);
 
     uint16_t max_cell_temp = (uint16_t)CLAMP(
         max_therm_temp * PACK_COEFF_E_METER_TEMPERATURE_MAX_CELL_TEMP, 0.0f, (float)UINT16_MAX
@@ -116,11 +116,14 @@ void report_telemetry_8hz(void) {
     static uint8_t module_num     = 0;
     static uint8_t thermistor_num = 0;
 
-    float thermistor_temperature = ADBMS_get_therm_temp(&g_bms, module_num, thermistor_num);
+    bool is_board_temp = thermistor_num >= ADBMS_CELL_THERMS_PER_MODULE;
+    float thermistor_temperature = is_board_temp
+        ? ADBMS_get_board_temp(&g_bms, module_num, thermistor_num - ADBMS_CELL_THERMS_PER_MODULE)
+        : ADBMS_get_cell_temp(&g_bms, module_num, thermistor_num);
     uint16_t scaled_temperature = (uint16_t)(thermistor_temperature * PACK_COEFF_THERMISTOR_TELEMETRY_TEMPERATURE);
 
-    CAN_SEND_thermistor_telemetry(scaled_temperature, module_num, thermistor_num);
-    CAN_SEND_thermistor_telemetry_ccan(scaled_temperature, module_num, thermistor_num);
+    CAN_SEND_thermistor_telemetry(scaled_temperature, module_num, thermistor_num, is_board_temp);
+    CAN_SEND_thermistor_telemetry_ccan(scaled_temperature, module_num, thermistor_num, is_board_temp);
 
     thermistor_num++;
     if (thermistor_num >= ADBMS_THERMISTORS_PER_MODULE) {
