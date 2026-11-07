@@ -40,25 +40,12 @@ static float adc_counts_to_pin_volts(uint16_t raw) {
     return (float)raw * (ADC_VREF_V / ADC_FULL_SCALE);
 }
 
-// A DMA error stops the transfer, leaving a stale sample in the buffer.
-static bool adc_is_sampling(const PHAL_ADC_Handle_t *handle) {
-    return PHAL_ADC_busy(handle) && !handle->transfer_error;
-}
-
-bool vbatt_get_voltage(float *voltage_v) {
-    if (voltage_v == nullptr || !adc_is_sampling(&adc2_handle)) {
-        return false;
-    }
+float vbatt_get_voltage(void) {
     uint16_t raw = raw_adc2_values.vbatt;
-    *voltage_v   = adc_counts_to_pin_volts(raw) * VBATT_PIN_TO_SOURCE_GAIN;
-    return true;
+    return adc_counts_to_pin_volts(raw) * VBATT_PIN_TO_SOURCE_GAIN;
 }
 
-bool vmc_get_voltage(float *voltage_v) {
-    if (voltage_v == nullptr || !adc_is_sampling(&adc1_handle)) {
-        return false;
-    }
+float vmc_get_voltage(void) {
     uint16_t raw = raw_adc1_values.vmc;
-    *voltage_v   = adc_counts_to_pin_volts(raw) * VMC_PIN_TO_SOURCE_GAIN;
-    return true;
+    return adc_counts_to_pin_volts(raw) * VMC_PIN_TO_SOURCE_GAIN;
 }

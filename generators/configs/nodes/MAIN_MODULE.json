@@ -138,16 +138,6 @@
                             "data_type": "uint16_t",
                             "unit": "V",
                             "scale": 0.1
-                        },
-                        {
-                            "signal_name": "vbatt_valid",
-                            "description": "VBATT ADC acquisition is running",
-                            "data_type": "bool"
-                        },
-                        {
-                            "signal_name": "vmc_valid",
-                            "description": "VMC ADC acquisition is running",
-                            "data_type": "bool"
                         }
                     ],
                     "period_ms": 20,

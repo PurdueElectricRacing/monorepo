@@ -6,11 +6,9 @@
  * @brief MAIN MODULE vbatt and vmc reading
  */
 
-#include <stdbool.h>
+// Returns the sensed HV voltage in volts.
+float vbatt_get_voltage(void);
 
-// Both return false if acquisition has stopped (DMA error); *voltage_v is untouched.
-bool vbatt_get_voltage(float *voltage_v);
-
-bool vmc_get_voltage(float *voltage_v);
+float vmc_get_voltage(void);
 
 #endif // VBATT_VMC_H

@@ -32,16 +32,9 @@ void report_telemetry_50hz(void) {
         g_powertrain.rear_right.crit->AMK_ActualSpeed
     );
 
-    float vbatt_v = 0.0f;
-    float vmc_v   = 0.0f;
-    bool vbatt_valid = vbatt_get_voltage(&vbatt_v);
-    bool vmc_valid   = vmc_get_voltage(&vmc_v);
-
     CAN_SEND_vbatt_vmc(
-        pack_hv_voltage(vbatt_v, PACK_COEFF_VBATT_VMC_VBATT),
-        pack_hv_voltage(vmc_v, PACK_COEFF_VBATT_VMC_VMC),
-        vbatt_valid,
-        vmc_valid
+        pack_hv_voltage(vbatt_get_voltage(), PACK_COEFF_VBATT_VMC_VBATT),
+        pack_hv_voltage(vmc_get_voltage(), PACK_COEFF_VBATT_VMC_VMC)
     );
 }
 
