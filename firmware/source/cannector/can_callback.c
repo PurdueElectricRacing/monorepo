@@ -25,8 +25,8 @@ static inline uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
         return VCAN_BUS_ID;
     }
     else if (peripheral == FDCAN2) {
-        // Check if the charger pin is shorted (assuming active-low / 0 means shorted)
-        if (PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN) == 0) { 
+        // Check if charger mode (active low)
+        if (PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN) == false) {
             return CCAN_BUS_ID;
         } else {
             return MCAN_BUS_ID;
@@ -62,7 +62,7 @@ void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
     if (msg->Bus == FDCAN1) {
         activity_leds_record(ACTIVITY_VCAN, frame.ticks_ms);
     } else if (msg->Bus == FDCAN2) {
-        //Will blink the same LED for both MCAN and CCAN, since they are on the same bus
+        // Same LED for both MCAN and CCAN
         activity_leds_record(ACTIVITY_MCAN, frame.ticks_ms);
     } else if (msg->Bus == FDCAN3) {
         activity_leds_record(ACTIVITY_SCAN, frame.ticks_ms);
