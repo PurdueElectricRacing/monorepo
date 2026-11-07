@@ -8,11 +8,8 @@
 #include <string.h>
 #include "activity_leds.h"
 
-#include "can_library/generated/MCAN.h"
 #include "can_library/generated/SCAN.h"
 #include "can_library/generated/VCAN.h"
-#include "can_library/generated/CCAN.h"
-#include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/fdcan/fdcan.h"
 #include "common/rtos/rtos.h"
 #include "common/timestamped_frame/timestamped_frame.h"
@@ -25,12 +22,7 @@ static inline uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
         return VCAN_BUS_ID;
     }
     else if (peripheral == FDCAN2) {
-        // Check if charger mode (active low)
-        if (!PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN)) {
-            return CCAN_BUS_ID;
-        } else {
-            return MCAN_BUS_ID;
-        }
+        return g_fdcan2_bus_id;
     }
     else { // peripheral == FDCAN3
         return SCAN_BUS_ID;

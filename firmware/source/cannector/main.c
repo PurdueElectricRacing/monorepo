@@ -53,6 +53,8 @@ DEFINE_HEARTBEAT_TASK(nullptr);
 
 RTOS_DEFINE_QUEUE(can_queue, timestamped_frame_t, 256);
 
+uint32_t g_fdcan2_bus_id = MCAN_BUS_ID;
+
 void HardFault_Handler(void);
 
 void main() {
@@ -67,11 +69,9 @@ void main() {
     PHAL_FDCAN_init(FDCAN1, VCAN_BAUD_RATE);
 
     // Check if charger mode (active low)
-    if (!PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN)) { 
-        PHAL_FDCAN_init(FDCAN2, CCAN_BAUD_RATE);
-    } else {
-        PHAL_FDCAN_init(FDCAN2, MCAN_BAUD_RATE);
-    }
+    bool is_charger_mode = !PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN);
+    g_fdcan2_bus_id = is_charger_mode ? CCAN_BUS_ID : MCAN_BUS_ID;
+    PHAL_FDCAN_init(FDCAN2, is_charger_mode ? CCAN_BAUD_RATE : MCAN_BAUD_RATE);
 
     PHAL_FDCAN_init(FDCAN3, SCAN_BAUD_RATE);
 
