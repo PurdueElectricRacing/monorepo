@@ -15,8 +15,10 @@
 #include "common/phal_G4/pwm/pwm.h"
 #include "common/utils/countof.h"
 
+//Designed to test on the GPIO PA0 pin on PDU for PER27
+
 PHAL_GPIO_InitConfig_t gpio_config[] = {
-    PHAL_GPIO_INIT_AF(GPIOA, 8, 6, GPIO_OUTPUT_HIGH_SPEED, GPIO_OUTPUT_PUSH_PULL, GPIO_INPUT_OPEN_DRAIN),
+    PHAL_GPIO_INIT_AF(GPIOA, 0, 1, GPIO_OUTPUT_HIGH_SPEED, GPIO_OUTPUT_PUSH_PULL, GPIO_INPUT_OPEN_DRAIN),
 };
 
 void HardFault_Handler(void);
@@ -33,7 +35,7 @@ int main() {
         HardFault_Handler();
     }
 
-    if(!PHAL_PWM_init(TIM1, 1'000, 1)) {
+    if(!PHAL_PWM_init(TIM2, 1'000, 1)) {
         HardFault_Handler();
     }
 
@@ -52,9 +54,9 @@ static void pwm_update_2s(void) {
 
     static uint8_t duty_cycle_index = 0;
 
-    PHAL_PWM_setPercent(TIM1, 1, duty_cycles[duty_cycle_index]);
+    PHAL_PWM_setPercent(TIM2, 1, duty_cycles[duty_cycle_index]);
 
-    duty_cycle_index = (duty_cycle_index + 1) % countof(duty_cycles);
+    duty_cycle_index = (uint8_t)((duty_cycle_index + 1) % countof(duty_cycles));
 }
 
 void HardFault_Handler(void) {
