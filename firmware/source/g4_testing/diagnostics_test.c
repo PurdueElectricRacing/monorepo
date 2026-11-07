@@ -33,8 +33,6 @@ volatile UBaseType_t task_count      = 0;
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_RX_PB12,
     PHAL_PIN_DEFS_FDCAN2_TX_PB13,
-    PHAL_PIN_DEFS_FDCAN3_RX_PA8,
-    PHAL_PIN_DEFS_FDCAN3_TX_PB4,
 };
 
 DEFINE_CAN_TASKS();
