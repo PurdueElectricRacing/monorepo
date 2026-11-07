@@ -11,7 +11,7 @@
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "node_defs.h"
-
+// !!!!! this is probably where we initialize the STM chip
 /*
  * Single-producer/single-consumer queue: the FDCAN ISR owns head and BL_poll()
  * owns tail. One slot stays empty so head == tail means empty, giving a usable
