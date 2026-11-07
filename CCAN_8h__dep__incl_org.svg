@@ -12,9 +12,9 @@
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title="Auto&#45;generated CAN bus definitions for CCAN.">
-<polygon fill="#999999" stroke="#666666" points="299.38,-230 197.12,-230 197.12,-199.5 299.38,-199.5 299.38,-230"/>
-<text text-anchor="start" x="205.12" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
-<text text-anchor="middle" x="248.25" y="-205.25" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/CCAN.h</text>
+<polygon fill="#999999" stroke="#666666" points="367.38,-230 265.12,-230 265.12,-199.5 367.38,-199.5 367.38,-230"/>
+<text text-anchor="start" x="273.12" y="-216.5" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/can_library</text>
+<text text-anchor="middle" x="316.25" y="-205.25" font-family="Helvetica,sans-Serif" font-size="10.00">/generated/CCAN.h</text>
 </a>
 </g>
 </g>
@@ -32,8 +32,27 @@
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M248.25,-187.81C248.25,-179.64 248.25,-170.91 248.25,-163.83"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="244.75,-187.6 248.25,-197.6 251.75,-187.6 244.75,-187.6"/>
+<path fill="none" stroke="#63b8ff" d="M292.76,-191.46C283.11,-182.32 272.22,-171.98 263.62,-163.83"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="290.06,-193.73 299.72,-198.07 294.87,-188.65 290.06,-193.73"/>
+</a>
+</g>
+</g>
+<!-- Node8 -->
+<g id="Node000008" class="node">
+<title>Node8</title>
+<g id="a_Node000008"><a xlink:href="cannector_2main_8c.html" target="_top" xlink:title="&quot;CANnector&quot; node source code">
+<polygon fill="white" stroke="#666666" points="449.62,-163.5 318.88,-163.5 318.88,-133 449.62,-133 449.62,-163.5"/>
+<text text-anchor="start" x="326.88" y="-150" font-family="Helvetica,sans-Serif" font-size="10.00">firmware/source/cannector</text>
+<text text-anchor="middle" x="384.25" y="-138.75" font-family="Helvetica,sans-Serif" font-size="10.00">/main.c</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node8 -->
+<g id="edge9_Node000001_Node000008" class="edge">
+<title>Node1&#45;&gt;Node8</title>
+<g id="a_edge9_Node000001_Node000008"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M339.74,-191.46C349.39,-182.32 360.28,-171.98 368.88,-163.83"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="337.63,-188.65 332.78,-198.07 342.44,-193.73 337.63,-188.65"/>
 </a>
 </g>
 </g>

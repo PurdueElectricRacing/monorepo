@@ -1,21 +1,23 @@
 <map id="main" name="main">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,703,55,728"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,740,55,766"/>
 <area shape="rect" id="Node000002" href="$activity__leds_8c.html#ab6c8c2aeda7554db08899cf2ca238ac5" title=" " alt="" coords="103,80,248,106"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="29,702,32,628,41,507,63,364,79,290,100,219,125,163,153,117,158,120,130,166,105,220,84,291,68,365,47,508,37,628,34,702"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="29,740,30,660,39,531,61,376,78,296,100,219,125,163,153,117,158,120,130,165,105,220,83,297,66,377,45,532,36,661,34,740"/>
 <area shape="rect" id="Node000004" href="$a__box_2main_8c.html#a2bffc10d5bd4106753b7c30e86903bea" title=" " alt="" coords="110,232,240,258"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="29,702,33,616,44,486,53,418,65,355,81,303,100,267,102,266,106,269,105,270,86,305,70,357,58,419,49,486,38,616,34,702"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="29,739,32,646,42,505,50,431,63,363,79,306,100,267,102,266,106,269,105,270,84,309,68,364,56,432,47,506,37,647,34,739"/>
 <area shape="rect" id="Node000005" href="$fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d" title="Initialize an FDCAN peripheral for classic (non&#45;FD) CAN operation." alt="" coords="109,281,242,307"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="33,702,162,321,167,323,38,703"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="33,739,163,321,168,323,38,740"/>
 <area shape="rect" id="Node000014" href="$phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="115,637,236,663"/>
-<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="54,702,130,667,132,672,56,707"/>
-<area shape="rect" id="Node000025" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="118,780,233,806"/>
-<area shape="poly" id="edge24_Node000001_Node000025" title=" " alt="" coords="56,726,137,770,135,775,54,731"/>
-<area shape="rect" id="Node000037" href="$usb_8c.html#aeb368b052e158657e657e27c236f70b5" title="Attach the initialized USB device to the host." alt="" coords="103,868,248,894"/>
-<area shape="poly" id="edge36_Node000001_Node000037" title=" " alt="" coords="41,727,68,769,105,816,147,856,143,860,101,820,63,772,37,730"/>
-<area shape="rect" id="Node000039" href="$usb_8c.html#a06c08ebbf291a1e1f7dca05a6660271d" title="Initialize the USB device hardware and endpoints." alt="" coords="117,1113,234,1139"/>
-<area shape="poly" id="edge38_Node000001_Node000039" title=" " alt="" coords="38,728,167,1098,162,1099,33,730"/>
-<area shape="rect" id="Node000053" href="$usb__device_8c.html#ab07772c7097c38a915f51871f9ac6104" title=" " alt="" coords="120,1391,231,1416"/>
-<area shape="poly" id="edge46_Node000001_Node000053" title=" " alt="" coords="36,728,59,898,80,1023,105,1151,138,1277,168,1375,163,1377,133,1278,100,1152,75,1024,54,899,30,729"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="48,737,141,670,144,675,52,742"/>
+<area shape="rect" id="Node000025" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="111,740,240,766"/>
+<area shape="poly" id="edge24_Node000001_Node000025" title=" " alt="" coords="55,750,95,750,95,756,55,756"/>
+<area shape="rect" id="Node000026" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="118,804,233,830"/>
+<area shape="poly" id="edge25_Node000001_Node000026" title=" " alt="" coords="56,761,131,795,129,800,54,766"/>
+<area shape="rect" id="Node000038" href="$usb_8c.html#aeb368b052e158657e657e27c236f70b5" title="Attach the initialized USB device to the host." alt="" coords="103,881,248,907"/>
+<area shape="poly" id="edge37_Node000001_Node000038" title=" " alt="" coords="42,764,69,800,105,840,142,870,139,875,101,844,64,803,38,767"/>
+<area shape="rect" id="Node000040" href="$usb_8c.html#a06c08ebbf291a1e1f7dca05a6660271d" title="Initialize the USB device hardware and endpoints." alt="" coords="117,1088,234,1114"/>
+<area shape="poly" id="edge39_Node000001_Node000040" title=" " alt="" coords="39,765,165,1073,160,1075,34,767"/>
+<area shape="rect" id="Node000054" href="$usb__device_8c.html#ab07772c7097c38a915f51871f9ac6104" title=" " alt="" coords="120,1365,231,1391"/>
+<area shape="poly" id="edge46_Node000001_Node000054" title=" " alt="" coords="36,766,61,911,105,1126,139,1251,168,1350,163,1351,133,1253,100,1127,56,912,31,767"/>
 <area shape="rect" id="Node000003" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="340,5,472,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="203,77,295,40,324,32,325,37,297,45,205,82"/>
 <area shape="rect" id="Node000006" href="$fdcan__priv_8c.html#a5989bf0267b012b516dea18271539715" title=" " alt="" coords="296,55,515,80"/>
@@ -54,48 +56,46 @@
 <area shape="poly" id="edge21_Node000021_Node000022" title=" " alt="" coords="480,692,514,680,538,663,562,646,607,632,609,637,565,651,541,668,517,685,482,697"/>
 <area shape="rect" id="Node000024" href="$gpio__priv_8c.html#ab327360b29d2588b06a0687aa036e314" title="Get the bit pattern for a pin&#39;s PUPDR field from its pull selection." alt="" coords="628,661,729,687"/>
 <area shape="poly" id="edge23_Node000023_Node000024" title=" " alt="" coords="485,741,514,730,528,722,538,713,547,704,562,696,612,680,614,685,564,701,551,709,541,717,531,727,516,735,487,746"/>
-<area shape="rect" id="Node000026" href="$phal__G4_2rcc_2rcc_8c.html#af54790732c9560e8d675f78a03486d58" title=" " alt="" coords="332,884,480,910"/>
-<area shape="poly" id="edge25_Node000025_Node000026" title=" " alt="" coords="207,804,362,875,360,879,205,809"/>
-<area shape="rect" id="Node000027" href="$rcc__priv_8c.html#a50d76be796629d46a38a42d44eb66de8" title=" " alt="" coords="577,711,780,736"/>
-<area shape="poly" id="edge26_Node000026_Node000027" title=" " alt="" coords="417,882,488,808,529,770,562,745,574,740,576,745,565,750,532,774,492,812,421,885"/>
-<area shape="rect" id="Node000028" href="$rcc__priv_8c.html#af6a23fb139af68392809e9f4b6df780c" title="Disable HSI16 and block until it&#39;s off." alt="" coords="583,760,774,786"/>
-<area shape="poly" id="edge27_Node000026_Node000028" title=" " alt="" coords="422,881,481,838,521,815,562,794,580,788,582,793,564,799,523,819,484,843,425,886"/>
-<area shape="rect" id="Node000029" href="$rcc__priv_8c.html#abbb9fd124f523af3b6897e508f23d8df" title=" " alt="" coords="563,809,794,835"/>
-<area shape="poly" id="edge28_Node000026_Node000029" title=" " alt="" coords="444,881,563,844,592,836,593,842,564,849,445,886"/>
-<area shape="rect" id="Node000030" href="$rcc__priv_8c.html#a32fe0492b8a8d72fdcc5cddbdaa6fb83" title=" " alt="" coords="583,859,774,884"/>
-<area shape="poly" id="edge29_Node000026_Node000030" title=" " alt="" coords="480,887,567,879,568,884,481,893"/>
-<area shape="rect" id="Node000031" href="$rcc__priv_8c.html#a300d3d7b11d4d40bdede8cf6809054ed" title="Enable HSI16 and block until it&#39;s ready." alt="" coords="585,908,772,934"/>
-<area shape="poly" id="edge30_Node000026_Node000031" title=" " alt="" coords="481,901,570,909,569,914,480,906"/>
-<area shape="rect" id="Node000032" href="$rcc__priv_8c.html#aaa3c315b2d9914f1f4a08f6e90b20b14" title="Set the AHB, APB1, and APB2 prescalers to divide&#45;by&#45;1 (undivided)" alt="" coords="564,958,793,998"/>
-<area shape="poly" id="edge31_Node000026_Node000032" title=" " alt="" coords="481,908,516,918,541,931,564,944,582,950,580,955,562,949,538,936,514,923,479,913"/>
-<area shape="rect" id="Node000033" href="$rcc__priv_8c.html#a7132fb1976567126eda1d646d5004f4d" title=" " alt="" coords="567,1023,790,1048"/>
-<area shape="poly" id="edge32_Node000026_Node000033" title=" " alt="" coords="481,902,517,919,528,930,535,941,542,965,548,987,555,998,565,1008,572,1013,569,1017,562,1012,550,1001,543,990,537,966,530,943,524,933,514,923,479,906"/>
-<area shape="rect" id="Node000034" href="$rcc__priv_8c.html#a22006c33eaa9815180109be23241efd7" title="Switch SYSCLK to HSE and block until the switch is confirmed." alt="" coords="577,1072,780,1113"/>
-<area shape="poly" id="edge33_Node000026_Node000034" title=" " alt="" coords="481,900,500,907,517,919,532,936,539,954,542,990,545,1025,552,1042,565,1059,568,1061,564,1065,561,1063,547,1045,540,1027,537,991,534,955,527,939,514,923,498,912,479,905"/>
-<area shape="rect" id="Node000035" href="$rcc__priv_8c.html#a9d764d1ad952cbde1cde6d794b88add7" title="Switch SYSCLK to HSI16 and block until the switch is confirmed." alt="" coords="577,1138,780,1178"/>
-<area shape="poly" id="edge34_Node000026_Node000035" title=" " alt="" coords="481,899,500,907,517,919,536,944,544,970,545,996,543,1022,540,1048,541,1073,548,1098,565,1123,569,1126,565,1130,561,1127,543,1100,535,1074,535,1048,538,1022,540,996,539,971,531,947,513,923,498,911,479,904"/>
-<area shape="rect" id="Node000036" href="$rcc__priv_8c.html#a8a440b6372df82c3f5e994b5fd41a6d4" title="Switch SYSCLK to the PLL and block until the switch is confirmed." alt="" coords="577,1203,780,1244"/>
-<area shape="poly" id="edge35_Node000026_Node000036" title=" " alt="" coords="481,898,500,906,517,919,541,953,550,987,549,1021,543,1055,537,1089,536,1122,544,1155,565,1189,568,1191,564,1195,561,1192,539,1157,531,1122,532,1088,538,1054,543,1020,544,988,536,955,513,923,498,911,479,903"/>
-<area shape="rect" id="Node000038" href="$usb__priv_8c.html#a8f4223ca64ff2db2fdecae4d66c0d2ec" title="Attach to the bus by enabling the internal D+ pull&#45;up." alt="" coords="336,933,476,959"/>
-<area shape="poly" id="edge37_Node000037_Node000038" title=" " alt="" coords="213,892,297,920,324,927,323,932,295,925,211,897"/>
-<area shape="rect" id="Node000040" href="$usb__priv_8c.html#a6a84dcb07b21e54a2b506cec9165693b" title="Enable USB event interrupts and endpoint operation." alt="" coords="312,1113,499,1139"/>
-<area shape="poly" id="edge39_Node000039_Node000040" title=" " alt="" coords="234,1124,297,1124,297,1129,234,1129"/>
-<area shape="rect" id="Node000041" href="$usb__priv_8c.html#a88feef2613c47bacaa4b3a2a768c8ae4" title="Enable and reset the USB hardware, configure pins and packet memory." alt="" coords="350,1317,461,1343"/>
-<area shape="poly" id="edge40_Node000039_Node000041" title=" " alt="" coords="193,1138,380,1305,377,1309,190,1142"/>
-<area shape="rect" id="Node000042" href="$usb__priv_8c.html#a7a65179705ed513c172183fd44417b8a" title=" " alt="" coords="596,1268,761,1294"/>
-<area shape="poly" id="edge41_Node000041_Node000042" title=" " alt="" coords="461,1318,588,1294,589,1300,462,1323"/>
-<area shape="rect" id="Node000048" href="$usb__priv_8c.html#ab350ec22eeaee49c28ca41cc6c1badf8" title=" " alt="" coords="612,1317,745,1343"/>
-<area shape="poly" id="edge42_Node000041_Node000048" title=" " alt="" coords="462,1328,597,1328,597,1333,462,1333"/>
-<area shape="rect" id="Node000049" href="$usb__priv_8c.html#ae5c38a37080513ad9b42fe2ae880ee00" title=" " alt="" coords="612,1367,745,1408"/>
-<area shape="poly" id="edge43_Node000041_Node000049" title=" " alt="" coords="462,1339,598,1368,597,1373,461,1344"/>
-<area shape="rect" id="Node000050" href="$usb__priv_8c.html#afde36da2f9f9310cd72f06a4b3b5ed45" title=" " alt="" coords="616,1432,741,1458"/>
-<area shape="poly" id="edge44_Node000041_Node000050" title=" " alt="" coords="462,1332,490,1339,517,1352,533,1368,542,1386,550,1402,565,1417,602,1433,600,1438,562,1422,545,1405,537,1388,529,1371,514,1356,489,1344,461,1337"/>
-<area shape="rect" id="Node000045" href="$usb__priv_8c.html#a34ead234195e6e26e97662c2db3b9dbb" title=" " alt="" coords="604,1481,753,1507"/>
-<area shape="poly" id="edge45_Node000041_Node000045" title=" " alt="" coords="462,1330,491,1337,517,1352,530,1366,537,1382,542,1412,546,1441,553,1455,565,1468,591,1483,588,1487,562,1472,548,1458,541,1443,537,1413,532,1383,526,1369,514,1356,489,1342,461,1335"/>
-<area shape="rect" id="Node000054" href="$activity__leds_8c.html#a6e7c2c5996edb04a3921c879d5253bf6" title=" " alt="" coords="338,1367,474,1392"/>
-<area shape="poly" id="edge47_Node000053_Node000054" title=" " alt="" coords="231,1395,322,1386,322,1391,231,1400"/>
-<area shape="rect" id="Node000055" href="$usb_8c.html#a47d401544e89e5c4e84a478fa6c581b5" title="Queue one device&#45;to&#45;host packet." alt="" coords="342,1416,469,1442"/>
-<area shape="poly" id="edge48_Node000053_Node000055" title=" " alt="" coords="231,1407,327,1418,326,1423,231,1412"/>
-<area shape="rect" id="Node000062" href="$usb__control_8c.html#abe9c0e5af4436d1693b38a37de472f88" title=" " alt="" coords="342,1465,469,1491"/>
-<area shape="poly" id="edge49_Node000053_Node000062" title=" " alt="" coords="205,1414,297,1452,328,1460,326,1465,295,1457,203,1419"/>
+<area shape="rect" id="Node000027" href="$phal__G4_2rcc_2rcc_8c.html#af54790732c9560e8d675f78a03486d58" title=" " alt="" coords="332,884,480,910"/>
+<area shape="poly" id="edge26_Node000026_Node000027" title=" " alt="" coords="216,828,353,876,351,881,214,833"/>
+<area shape="rect" id="Node000028" href="$rcc__priv_8c.html#a50d76be796629d46a38a42d44eb66de8" title=" " alt="" coords="577,711,780,736"/>
+<area shape="poly" id="edge27_Node000027_Node000028" title=" " alt="" coords="417,882,488,808,529,770,562,745,574,740,576,745,565,750,532,774,492,812,421,885"/>
+<area shape="rect" id="Node000029" href="$rcc__priv_8c.html#af6a23fb139af68392809e9f4b6df780c" title="Disable HSI16 and block until it&#39;s off." alt="" coords="583,760,774,786"/>
+<area shape="poly" id="edge28_Node000027_Node000029" title=" " alt="" coords="422,881,481,838,521,815,562,794,580,788,582,793,564,799,523,819,484,843,425,886"/>
+<area shape="rect" id="Node000030" href="$rcc__priv_8c.html#abbb9fd124f523af3b6897e508f23d8df" title=" " alt="" coords="563,809,794,835"/>
+<area shape="poly" id="edge29_Node000027_Node000030" title=" " alt="" coords="444,881,563,844,592,836,593,842,564,849,445,886"/>
+<area shape="rect" id="Node000031" href="$rcc__priv_8c.html#a32fe0492b8a8d72fdcc5cddbdaa6fb83" title=" " alt="" coords="583,859,774,884"/>
+<area shape="poly" id="edge30_Node000027_Node000031" title=" " alt="" coords="480,887,567,879,568,884,481,893"/>
+<area shape="rect" id="Node000032" href="$rcc__priv_8c.html#a300d3d7b11d4d40bdede8cf6809054ed" title="Enable HSI16 and block until it&#39;s ready." alt="" coords="585,908,772,934"/>
+<area shape="poly" id="edge31_Node000027_Node000032" title=" " alt="" coords="481,901,570,909,569,914,480,906"/>
+<area shape="rect" id="Node000033" href="$rcc__priv_8c.html#aaa3c315b2d9914f1f4a08f6e90b20b14" title="Set the AHB, APB1, and APB2 prescalers to divide&#45;by&#45;1 (undivided)" alt="" coords="564,958,793,998"/>
+<area shape="poly" id="edge32_Node000027_Node000033" title=" " alt="" coords="481,908,516,918,541,931,564,944,582,950,580,955,562,949,538,936,514,923,479,913"/>
+<area shape="rect" id="Node000034" href="$rcc__priv_8c.html#a7132fb1976567126eda1d646d5004f4d" title=" " alt="" coords="567,1023,790,1048"/>
+<area shape="poly" id="edge33_Node000027_Node000034" title=" " alt="" coords="481,902,517,919,528,930,535,941,542,965,548,987,555,998,565,1008,572,1013,569,1017,562,1012,550,1001,543,990,537,966,530,943,524,933,514,923,479,906"/>
+<area shape="rect" id="Node000035" href="$rcc__priv_8c.html#a22006c33eaa9815180109be23241efd7" title="Switch SYSCLK to HSE and block until the switch is confirmed." alt="" coords="577,1072,780,1113"/>
+<area shape="poly" id="edge34_Node000027_Node000035" title=" " alt="" coords="481,900,500,907,517,919,532,936,539,954,542,990,545,1025,552,1042,565,1059,568,1061,564,1065,561,1063,547,1045,540,1027,537,991,534,955,527,939,514,923,498,912,479,905"/>
+<area shape="rect" id="Node000036" href="$rcc__priv_8c.html#a9d764d1ad952cbde1cde6d794b88add7" title="Switch SYSCLK to HSI16 and block until the switch is confirmed." alt="" coords="577,1138,780,1178"/>
+<area shape="poly" id="edge35_Node000027_Node000036" title=" " alt="" coords="481,899,500,907,517,919,536,944,544,970,545,996,543,1022,540,1048,541,1073,548,1098,565,1123,569,1126,565,1130,561,1127,543,1100,535,1074,535,1048,538,1022,540,996,539,971,531,947,513,923,498,911,479,904"/>
+<area shape="rect" id="Node000037" href="$rcc__priv_8c.html#a8a440b6372df82c3f5e994b5fd41a6d4" title="Switch SYSCLK to the PLL and block until the switch is confirmed." alt="" coords="577,1203,780,1244"/>
+<area shape="poly" id="edge36_Node000027_Node000037" title=" " alt="" coords="481,898,500,906,517,919,541,953,550,987,549,1021,543,1055,537,1089,536,1122,544,1155,565,1189,568,1191,564,1195,561,1192,539,1157,531,1122,532,1088,538,1054,543,1020,544,988,536,955,513,923,498,911,479,903"/>
+<area shape="rect" id="Node000039" href="$usb__priv_8c.html#a8f4223ca64ff2db2fdecae4d66c0d2ec" title="Attach to the bus by enabling the internal D+ pull&#45;up." alt="" coords="336,933,476,959"/>
+<area shape="poly" id="edge38_Node000038_Node000039" title=" " alt="" coords="234,905,297,920,329,927,328,932,295,925,232,910"/>
+<area shape="rect" id="Node000041" href="$usb__priv_8c.html#a6a84dcb07b21e54a2b506cec9165693b" title="Enable USB event interrupts and endpoint operation." alt="" coords="312,1088,499,1114"/>
+<area shape="poly" id="edge40_Node000040_Node000041" title=" " alt="" coords="234,1098,297,1098,297,1104,234,1104"/>
+<area shape="rect" id="Node000042" href="$usb__priv_8c.html#a88feef2613c47bacaa4b3a2a768c8ae4" title="Enable and reset the USB hardware, configure pins and packet memory." alt="" coords="350,1292,461,1318"/>
+<area shape="poly" id="edge41_Node000040_Node000042" title=" " alt="" coords="193,1112,380,1280,377,1284,190,1116"/>
+<area shape="rect" id="Node000043" href="$usb__priv_8c.html#a7a65179705ed513c172183fd44417b8a" title=" " alt="" coords="596,1268,761,1294"/>
+<area shape="poly" id="edge42_Node000042_Node000043" title=" " alt="" coords="461,1297,581,1287,581,1292,462,1303"/>
+<area shape="rect" id="Node000049" href="$usb__priv_8c.html#ab350ec22eeaee49c28ca41cc6c1badf8" title=" " alt="" coords="612,1317,745,1343"/>
+<area shape="poly" id="edge43_Node000042_Node000049" title=" " alt="" coords="462,1307,597,1320,597,1325,461,1313"/>
+<area shape="rect" id="Node000050" href="$usb__priv_8c.html#ae5c38a37080513ad9b42fe2ae880ee00" title=" " alt="" coords="612,1367,745,1408"/>
+<area shape="poly" id="edge44_Node000042_Node000050" title=" " alt="" coords="463,1311,516,1326,541,1340,564,1353,598,1365,596,1370,562,1358,538,1344,514,1331,461,1316"/>
+<area shape="rect" id="Node000051" href="$usb__priv_8c.html#afde36da2f9f9310cd72f06a4b3b5ed45" title=" " alt="" coords="616,1432,741,1458"/>
+<area shape="poly" id="edge45_Node000042_Node000051" title=" " alt="" coords="462,1305,491,1313,517,1327,528,1338,535,1350,542,1373,548,1397,554,1407,565,1417,582,1428,602,1435,600,1440,580,1433,562,1422,550,1410,543,1399,537,1375,531,1352,524,1341,514,1331,489,1318,461,1310"/>
+<area shape="rect" id="Node000055" href="$activity__leds_8c.html#a6e7c2c5996edb04a3921c879d5253bf6" title=" " alt="" coords="338,1341,474,1367"/>
+<area shape="poly" id="edge47_Node000054_Node000055" title=" " alt="" coords="231,1370,322,1360,322,1365,231,1375"/>
+<area shape="rect" id="Node000056" href="$usb_8c.html#a47d401544e89e5c4e84a478fa6c581b5" title="Queue one device&#45;to&#45;host packet." alt="" coords="342,1391,469,1416"/>
+<area shape="poly" id="edge48_Node000054_Node000056" title=" " alt="" coords="231,1382,327,1392,326,1397,231,1387"/>
+<area shape="rect" id="Node000063" href="$usb__control_8c.html#abe9c0e5af4436d1693b38a37de472f88" title=" " alt="" coords="342,1440,469,1466"/>
+<area shape="poly" id="edge49_Node000054_Node000063" title=" " alt="" coords="205,1389,297,1426,328,1435,326,1440,295,1431,203,1394"/>
 </map>

@@ -1,5 +1,7 @@
 var NAVTREEINDEX26 =
 {
+"structeuler__angles__t.html":[33,0,95],
+"structeuler__angles__t.html#a11c885d1265e328d41f48916230bd17c":[33,0,95,2],
 "structeuler__angles__t.html#a27484bbbc2279ad726f80dee91c64ddc":[33,0,95,1],
 "structeuler__angles__t.html#ab530ad6bf1ee511e9e6f27b85637bac8":[33,0,95,0],
 "structfahrenheit__t.html":[33,0,96],
@@ -247,7 +249,5 @@ var NAVTREEINDEX26 =
 "structmiles__per__hour__t.html":[33,0,185],
 "structmiles__per__hour__t.html#aa9e58ef74cd74c662c17bd191b8d36da":[33,0,185,0],
 "structmilliamp__t.html":[33,0,186],
-"structmilliamp__t.html#a82c542ed12643f039296f5d6c0d2e834":[33,0,186,0],
-"structmillimeter__t.html":[33,0,187],
-"structmillimeter__t.html#a6d5469afc064fe31e66adfb43155eec0":[33,0,187,0]
+"structmilliamp__t.html#a82c542ed12643f039296f5d6c0d2e834":[33,0,186,0]
 };

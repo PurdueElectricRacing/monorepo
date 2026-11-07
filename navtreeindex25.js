@@ -1,5 +1,7 @@
 var NAVTREEINDEX25 =
 {
+"structcan__data__t.html#a2b20e2469efb57c1ad74a4d3763cff6f":[33,0,63,50],
+"structcan__data__t.html#a2e6b8c86533a17a613e8dc8080f29c99":[33,0,63,74],
 "structcan__data__t.html#a35b8763e09099621b0098ecf47946e3e":[33,0,63,37],
 "structcan__data__t.html#a36a24615c899bfe14db897347bf72f49":[33,0,63,5],
 "structcan__data__t.html#a41ffc71a5b9099e6d32421301e3d5c18":[33,0,63,14],
@@ -247,7 +249,5 @@ var NAVTREEINDEX25 =
 "structethernet__config__t.html#a14a07be5023722a06a9f72d5502c23cb":[33,0,94,0],
 "structethernet__config__t.html#ad6b24c64df2b7ced38dd17d45fa30401":[33,0,94,3],
 "structethernet__config__t.html#ade31c56fc593c739ef1e6d93078c132a":[33,0,94,2],
-"structethernet__config__t.html#ae16d802d1eaf8c5eb1e45e91d8394bc8":[33,0,94,1],
-"structeuler__angles__t.html":[33,0,95],
-"structeuler__angles__t.html#a11c885d1265e328d41f48916230bd17c":[33,0,95,2]
+"structethernet__config__t.html#ae16d802d1eaf8c5eb1e45e91d8394bc8":[33,0,94,1]
 };

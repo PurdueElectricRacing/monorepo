@@ -1,5 +1,7 @@
 var NAVTREEINDEX13 =
 {
+"g4__testing_8h.html#adf39fdc7d1f3b76e7c361abdc7144e86":[34,0,1,2,7,7,7],
+"g4__testing_8h.html#af34c78aee83aefb9cadaaecefdd0d45b":[34,0,1,2,7,7,14],
 "g4__testing_8h_source.html":[34,0,1,2,7,7],
 "geodetic_8h.html":[34,0,1,1,16,4],
 "geodetic_8h.html#a4a8aae9e5800f848ecbf3e08df43c0bd":[34,0,1,1,16,4,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX13 =
 "imu_8c.html#ad05791227c5727b377212319c5bc48e4":[34,0,1,2,10,1,1,5],
 "index.html":[],
 "internal__flash_8c.html":[34,0,1,2,7,9],
-"izze__imu__config_8c.html":[34,0,1,2,7,10],
-"lap__timer_8c.html":[34,0,1,2,4,2,0],
-"lap__timer_8c.html#a382636387f4db3d2b08c71b5e7c03f2b":[34,0,1,2,4,2,0,6]
+"izze__imu__config_8c.html":[34,0,1,2,7,10]
 };

@@ -1,5 +1,7 @@
 var NAVTREEINDEX24 =
 {
+"structadbms6380__adcv__config__t.html#a28a9bf2b1602dcf900eaa4c21bd5d306":[33,0,5,3],
+"structadbms6380__adcv__config__t.html#a4a48d4874439d06218d3659de5bb832e":[33,0,5,1],
 "structadbms6380__adcv__config__t.html#a93fb5dbf2036bbe44e26ffb1815a1357":[33,0,5,4],
 "structadbms6380__adcv__config__t.html#ad653f142402decb4ad91dc4b417d482b":[33,0,5,0],
 "structadbms6380__adcv__config__t.html#af8b88b0d19ad4bc637563b17d073bbc4":[33,0,5,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX24 =
 "structcan__data__t.html#a155ccf300d17b59c5905c0942502adb3":[33,0,63,11],
 "structcan__data__t.html#a17d056065761bab64899494bcc71abae":[33,0,63,19],
 "structcan__data__t.html#a1da6c465969ca521521a3f1ff2f2daf4":[33,0,63,25],
-"structcan__data__t.html#a27d71ff10d62caf9fba57561134318a5":[33,0,63,43],
-"structcan__data__t.html#a2b20e2469efb57c1ad74a4d3763cff6f":[33,0,63,50],
-"structcan__data__t.html#a2e6b8c86533a17a613e8dc8080f29c99":[33,0,63,74]
+"structcan__data__t.html#a27d71ff10d62caf9fba57561134318a5":[33,0,63,43]
 };

@@ -1,5 +1,7 @@
 var NAVTREEINDEX27 =
 {
+"structmillimeter__t.html":[33,0,187],
+"structmillimeter__t.html#a6d5469afc064fe31e66adfb43155eec0":[33,0,187,0],
 "structmilliohm__t.html":[33,0,188],
 "structmilliohm__t.html#ad1fd12622d1f3c42077cdabef8083ca9":[33,0,188,0],
 "structmillisecond__t.html":[33,0,189],
@@ -247,7 +249,5 @@ var NAVTREEINDEX27 =
 "structstart__button__data__t.html":[33,0,262],
 "structstart__button__data__t.html#a2ba8dfa122838ef9cb7344b67d548197":[33,0,262,2],
 "structstart__button__data__t.html#aace843db6454e0ebf260a6e43e6cf38e":[33,0,262,0],
-"structstart__button__data__t.html#adbd9847a0eee8b2dabf45c0ceaa2df69":[33,0,262,1],
-"structstatus__leds__t.html":[33,0,263],
-"structstatus__leds__t.html#a238032a6d020cb33b2d2152306336498":[33,0,263,2]
+"structstart__button__data__t.html#adbd9847a0eee8b2dabf45c0ceaa2df69":[33,0,262,1]
 };

@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"daq_2main_8h_source.html":[34,0,1,2,3,8],
+"daq_8drawio_8png.html":[34,0,1,2,3,5],
 "daqapp__bootloader__architecture_8drawio_8png.html":[34,0,0,1,0],
 "daqapp__bootloader__state__machine_8drawio_8png.html":[34,0,0,1,1],
 "daqapp__overview_8drawio_8png.html":[34,0,0,1,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX9 =
 "dearunits__priv_8h.html#a0512bb6d8f39e89220aeee6c51868720":[34,0,1,1,3,2,0],
 "dearunits__priv_8h.html#a20855effed9c963dea26924ed2a7dbd0":[34,0,1,1,3,2,1],
 "dearunits__priv_8h.html#a2ea120531c0642c11c9800269e3400a1":[34,0,1,1,3,2,4],
-"dearunits__priv_8h.html#a481cfe88c5b7f493c3fe1acb2f5118c5":[34,0,1,1,3,2,6],
-"dearunits__priv_8h.html#a4f3d21f9ca2008dedb8a03178ddbf993":[34,0,1,1,3,2,2],
-"dearunits__priv_8h.html#a64bf9325ee8180c3cd4c388f7df8aacc":[34,0,1,1,3,2,5]
+"dearunits__priv_8h.html#a481cfe88c5b7f493c3fe1acb2f5118c5":[34,0,1,1,3,2,6]
 };

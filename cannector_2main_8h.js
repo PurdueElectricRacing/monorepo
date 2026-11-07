@@ -16,5 +16,6 @@ var cannector_2main_8h =
     [ "USB_LED_PORT", "cannector_2main_8h.html#aab8e671ce455bca4a75ffd2f047bd33b", null ],
     [ "VCAN_LED_PIN", "cannector_2main_8h.html#a2923e3ca0fa2a069c9ec1520c5094870", null ],
     [ "VCAN_LED_PORT", "cannector_2main_8h.html#ab038b1231518030fd05904f219382134", null ],
-    [ "can_queue", "cannector_2main_8h.html#a6ae643a6c345b50c16f667ed312fdd4b", null ]
+    [ "can_queue", "cannector_2main_8h.html#a6ae643a6c345b50c16f667ed312fdd4b", null ],
+    [ "g_fdcan2_bus_id", "cannector_2main_8h.html#acdfff23055d71c9a68249f6d00137d62", null ]
 ];
