@@ -67,7 +67,7 @@ void report_telemetry_100hz(void) {
     CAN_SEND_pack_analog(pack_voltage, pack_current);
     CAN_SEND_pack_analog_ccan(pack_voltage, pack_current);
 
-    // Report physical module cell voltages one at a time
+    // Report cell voltages one at a time
     static uint8_t module_num = 0;
     static uint8_t cell_num   = 0;
 
@@ -96,7 +96,7 @@ static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(ADBMS_THERMISTORS_PER_MODULE <= UINT8_MAX);
 void report_telemetry_8hz(void) {
-    // Report physical module thermistor temperatures one at a time
+    // Report thermistor temperatures one at a time
     static uint8_t module_num     = 0;
     static uint8_t thermistor_num = 0;
 
