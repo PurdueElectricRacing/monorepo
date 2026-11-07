@@ -66,8 +66,8 @@ void main() {
 
     PHAL_FDCAN_init(FDCAN1, VCAN_BAUD_RATE);
 
-    // Check if the charger pin is shorted (assuming active-low / 0 means shorted)
-    if (PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN) == 0) { 
+    // Check if charger mode (active low)
+    if (!PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN)) { 
         PHAL_FDCAN_init(FDCAN2, CCAN_BAUD_RATE);
     } else {
         PHAL_FDCAN_init(FDCAN2, MCAN_BAUD_RATE);

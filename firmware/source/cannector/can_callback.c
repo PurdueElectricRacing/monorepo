@@ -26,7 +26,7 @@ static inline uint32_t get_bus_id(FDCAN_GlobalTypeDef* peripheral) {
     }
     else if (peripheral == FDCAN2) {
         // Check if charger mode (active low)
-        if (PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN) == false) {
+        if (!PHAL_GPIO_read(CHARGER_PORT, CHARGER_PIN)) {
             return CCAN_BUS_ID;
         } else {
             return MCAN_BUS_ID;
