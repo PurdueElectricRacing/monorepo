@@ -10,19 +10,38 @@
 #include "can_library/generated/MAIN_MODULE.h"
 #include "can_library/generated/can_version.h"
 #include "common/bootloader/bootloader_common.h"
+#include "common/utils/clamp.h"
 #include "powertrain.h"
+#include "vbatt_vmc/vbatt_vmc.h"
+
+static inline uint16_t pack_hv_voltage(float voltage_v, float coeff) {
+    return (uint16_t)CLAMP(voltage_v * coeff, 0.0f, (float)UINT16_MAX);
+}
 
 /**
  * @brief Reports telemetry data at 50 Hz rate
- * Includes: AMK-reported motor shaft speeds before gear reduction
+ * Includes: AMK-reported motor shaft speeds before gear reduction, VBATT and VMC HV voltages
  */
 static_assert(MOTOR_SPEEDS_PERIOD_MS == TELEMETRY_50HZ_PERIOD_MS);
+static_assert(VBATT_VMC_PERIOD_MS == TELEMETRY_50HZ_PERIOD_MS);
 void report_telemetry_50hz(void) {
     CAN_SEND_motor_speeds(
         g_powertrain.front_right.crit->AMK_ActualSpeed,
         g_powertrain.front_left.crit->AMK_ActualSpeed,
         g_powertrain.rear_left.crit->AMK_ActualSpeed,
         g_powertrain.rear_right.crit->AMK_ActualSpeed
+    );
+
+    float vbatt_v = 0.0f;
+    float vmc_v   = 0.0f;
+    bool vbatt_valid = vbatt_get_voltage(&vbatt_v);
+    bool vmc_valid   = vmc_get_voltage(&vmc_v);
+
+    CAN_SEND_vbatt_vmc(
+        pack_hv_voltage(vbatt_v, PACK_COEFF_VBATT_VMC_VBATT),
+        pack_hv_voltage(vmc_v, PACK_COEFF_VBATT_VMC_VMC),
+        vbatt_valid,
+        vmc_valid
     );
 }
 
