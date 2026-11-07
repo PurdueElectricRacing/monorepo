@@ -51,12 +51,19 @@ typedef struct {
     /** Sum of cell voltages across all modules (volts). */
     float sum_voltage;
 
-    /** Minimum thermistor temperature across all modules (Celsius). */
-    float min_therm_temp;
-    /** Maximum thermistor temperature across all modules (Celsius). */
-    float max_therm_temp;
-    /** Average thermistor temperature across all modules (Celsius). */
-    float avg_therm_temp;
+    /** Minimum cell thermistor temperature across all modules (Celsius). */
+    float min_cell_temp;
+    /** Maximum cell thermistor temperature across all modules (Celsius). */
+    float max_cell_temp;
+    /** Average cell thermistor temperature across all modules (Celsius). */
+    float avg_cell_temp;
+
+    /** Minimum onboard PCB temperature across all chips (Celsius). */
+    float min_board_temp;
+    /** Maximum onboard PCB temperature across all chips (Celsius). */
+    float max_board_temp;
+    /** Average onboard PCB temperature across all chips (Celsius). */
+    float avg_board_temp;
 
     /** Time captured when entering RECOVERING. */
     uint32_t recover_start_tick_ms;
