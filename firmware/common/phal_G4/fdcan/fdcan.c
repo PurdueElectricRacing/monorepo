@@ -76,6 +76,8 @@ bool PHAL_FDCAN_send(CanMsgTypeDef_t *msg) {
     return true;
 }
 
+
+
 [[gnu::always_inline]]
 static inline void fdcan_rxIRQHandler(FDCAN_GlobalTypeDef *fdcan) {
     if (!PHAL_FDCAN_priv_readReceiveFifo0NewMessageInterruptFlag(fdcan)) {

@@ -56,7 +56,7 @@ void PHAL_FDCAN_priv_enterConfig(FDCAN_GlobalTypeDef *fdcan) {
     // INIT = Initialization bit
     // - must be set to 1 before configuring CCCR
     // - now RAM configuration is allowed to change
-    fdcan->CCCR |= FDCAN_CCCR_INIT;
+    fdcan->CCCR |= FDCAN_CCCR_INIT; // !!!!! INIT MUST BE SET
 
     // Wait until hardware reflects INIT=1 back
     while (!(fdcan->CCCR & FDCAN_CCCR_INIT)) {
@@ -66,7 +66,7 @@ void PHAL_FDCAN_priv_enterConfig(FDCAN_GlobalTypeDef *fdcan) {
     // CCE = Configuration Change Enable bit
     // - CCE unlocks the protected configuration registers
     //   (NBTP, TXBC, RXGFC) for writing
-    fdcan->CCCR |= FDCAN_CCCR_CCE;
+    fdcan->CCCR |= FDCAN_CCCR_CCE; // !!!!! update G4 chip (stm32g474xx.h) to include CCE bit in CCCR register
 }
  
 void PHAL_FDCAN_priv_exitConfig(FDCAN_GlobalTypeDef *fdcan) {
@@ -334,7 +334,7 @@ void PHAL_FDCAN_priv_writeTxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t 
     fdcan->TXBAR = (1U << put);
 }
  
-bool PHAL_FDCAN_priv_readRxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t *msg) {
+bool PHAL_FDCAN_priv_readRxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t *msg) { // !!!!! this is where we read the RX element from the FIFO and decode it into a CanMsgTypeDef_t
     // RXF0S = Rx FIFO 0 Status register
     // - reports current state of RX FIFO 0
     // F0FL = Fill Level field
