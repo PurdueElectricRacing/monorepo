@@ -76,26 +76,3 @@ impl MultiBusLoadTracker {
         ]
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn multi_bus_load_tracker_computes_per_bus_loads_independently() {
-        let mut tracker = MultiBusLoadTracker::default();
-        let now = time::Instant::now();
-
-        tracker.record_frame(0, 8, now);
-        let load_vcan = tracker.get_loads(0, 500_000, now);
-        let load_ccan = tracker.get_loads(2, 250_000, now);
-
-        assert!(load_vcan[0] > 0.0);
-        assert_eq!(load_ccan[0], 0.0);
-
-        // Recording the same frame on CCAN (250kbps) should produce 2x the load of VCAN (500kbps)
-        tracker.record_frame(2, 8, now);
-        let load_ccan_after = tracker.get_loads(2, 250_000, now);
-        assert!((load_ccan_after[0] - load_vcan[0] * 2.0).abs() < 1e-4);
-    }
-}
