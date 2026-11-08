@@ -17,17 +17,10 @@ impl DatabaseSelection {
             .unwrap_or_default()
     }
 
-    pub fn bus_name(&self, bus_id: u8) -> Option<&str> {
-        self.database.bus_by_id(bus_id).map(|bus| bus.name())
-    }
-
-    pub fn single_bus_fallback(&self) -> Option<daqcore::can_thread::BusSelection> {
-        self.active_buses()
-            .into_iter()
-            .next()
-            .or_else(|| self.database.bus_by_id(0))
-            .or_else(|| self.database.buses().first())
-            .map(|bus| daqcore::can_thread::BusSelection::Single(bus.bus_id()))
+    pub fn bus_name(&self, bus_id: u8) -> &str {
+        self.database
+            .bus_by_id(bus_id)
+            .map_or("Unknown", |bus| bus.name())
     }
 
     pub fn source(&self) -> Option<daqcore::can_thread::DatabaseSource> {
@@ -155,16 +148,18 @@ impl DAQApp {
         self.pending_database.is_some()
     }
 
+    pub fn supports_multi_bus(&self) -> bool {
+        self.selected_source
+            .as_ref()
+            .is_none_or(|source| source.supports_multi_bus())
+    }
+
     pub fn request_database(
         &mut self,
         path: &path::Path,
         preferred_selection: Option<daqcore::can_thread::BusSelection>,
     ) {
-        let single_bus_only = self
-            .selected_source
-            .as_ref()
-            .is_some_and(|source| !source.supports_multi_bus());
-        let preferred_selection = if single_bus_only
+        let preferred_selection = if !self.supports_multi_bus()
             && preferred_selection.is_none_or(|selection| selection.is_multi_bus())
         {
             Some(daqcore::can_thread::BusSelection::Single(0))
@@ -197,14 +192,10 @@ impl DAQApp {
     }
 
     pub fn enforce_single_bus_if_needed(&mut self) {
-        let single_bus_only = self
-            .selected_source
-            .as_ref()
-            .is_some_and(|source| !source.supports_multi_bus());
-        if single_bus_only
+        if !self.supports_multi_bus()
             && let Some(db) = &self.database
             && db.selection.is_multi_bus()
-            && let Some(fallback) = db.single_bus_fallback()
+            && let Some(fallback) = daqcore::can_thread::BusSelection::default_single(&db.database)
         {
             self.request_bus_selection(fallback);
         }

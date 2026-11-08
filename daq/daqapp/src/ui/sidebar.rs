@@ -294,10 +294,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                         );
                     }
                     let mut current_selection = selection.selection;
-                    let multi_bus_allowed = app
-                        .selected_source
-                        .as_ref()
-                        .is_none_or(|source| source.supports_multi_bus());
+                    let multi_bus_allowed = app.supports_multi_bus();
                     eframe::egui::ComboBox::from_label("CAN Bus")
                         .selected_text(current_selection.display_name(&selection.database))
                         .show_ui(ui, |ui| {

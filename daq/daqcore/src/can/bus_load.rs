@@ -5,6 +5,8 @@ use std::{
     time,
 };
 
+pub const WINDOWS_SECS: [u64; 4] = [1, 5, 10, 30];
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct BusLoadReading {
     pub bus_id: u8,
@@ -14,65 +16,50 @@ pub struct BusLoadReading {
 
 #[derive(Default)]
 pub struct BusLoadTracker {
-    frames: VecDeque<(time::Instant, usize)>,
+    frames: BTreeMap<u8, VecDeque<(time::Instant, usize)>>,
 }
 
 impl BusLoadTracker {
-    pub fn record_frame(&mut self, data_bytes: usize, now: time::Instant) {
-        self.frames.push_back((now, data_bytes * 8 + 66));
+    pub fn record_frame(&mut self, bus_id: u8, data_bytes: usize, now: time::Instant) {
+        self.frames
+            .entry(bus_id)
+            .or_default()
+            .push_back((now, data_bytes * 8 + 66));
         self.cleanup(now);
     }
 
     pub fn cleanup(&mut self, now: time::Instant) {
-        while self.frames.front().is_some_and(|(t, _)| {
-            now.saturating_duration_since(*t) >= time::Duration::from_secs(30)
-        }) {
-            self.frames.pop_front();
+        for frames in self.frames.values_mut() {
+            while frames.front().is_some_and(|(t, _)| {
+                now.saturating_duration_since(*t) >= time::Duration::from_secs(30)
+            }) {
+                frames.pop_front();
+            }
         }
     }
 
-    pub fn get_load(&self, seconds: u64, baud_rate_bps: u64, now: time::Instant) -> f32 {
+    pub fn get_load(
+        &self,
+        bus_id: u8,
+        seconds: u64,
+        baud_rate_bps: u64,
+        now: time::Instant,
+    ) -> f32 {
         if baud_rate_bps == 0 || seconds == 0 {
             return 0.0;
         }
-        let bits: usize = self
-            .frames
+        let Some(frames) = self.frames.get(&bus_id) else {
+            return 0.0;
+        };
+        let bits: usize = frames
             .iter()
             .filter(|(t, _)| now.saturating_duration_since(*t) < time::Duration::from_secs(seconds))
             .map(|(_, n)| n)
             .sum();
         bits as f32 / (baud_rate_bps as f32 * seconds as f32) * 100.0
     }
-}
-
-#[derive(Default)]
-pub struct MultiBusLoadTracker {
-    trackers: BTreeMap<u8, BusLoadTracker>,
-}
-
-impl MultiBusLoadTracker {
-    pub fn record_frame(&mut self, bus_id: u8, data_bytes: usize, now: time::Instant) {
-        self.trackers
-            .entry(bus_id)
-            .or_default()
-            .record_frame(data_bytes, now);
-    }
-
-    pub fn cleanup(&mut self, now: time::Instant) {
-        for tracker in self.trackers.values_mut() {
-            tracker.cleanup(now);
-        }
-    }
 
     pub fn get_loads(&self, bus_id: u8, baud_rate_bps: u64, now: time::Instant) -> [f32; 4] {
-        let Some(tracker) = self.trackers.get(&bus_id) else {
-            return [0.0; 4];
-        };
-        [
-            tracker.get_load(1, baud_rate_bps, now),
-            tracker.get_load(5, baud_rate_bps, now),
-            tracker.get_load(10, baud_rate_bps, now),
-            tracker.get_load(30, baud_rate_bps, now),
-        ]
+        WINDOWS_SECS.map(|seconds| self.get_load(bus_id, seconds, baud_rate_bps, now))
     }
 }

@@ -54,10 +54,7 @@ impl ViewerTable {
                 let decoded = frame.decoded.as_ref();
                 let name = decoded.map_or("Error: Unknown", |d| d.name());
                 let node = decoded.map_or("Unparsed", |d| d.tx_node());
-                let bus_name = database
-                    .and_then(|db| db.bus_name(frame.bus_id))
-                    .map(ToOwned::to_owned)
-                    .unwrap_or_else(|| format!("Bus {}", frame.bus_id));
+                let bus_name = database.map_or("Unknown", |db| db.bus_name(frame.bus_id));
                 if self.tx_node != "Any" && self.tx_node != node {
                     continue;
                 }
@@ -110,7 +107,7 @@ impl ViewerTable {
                 actions.extend(
                     MessageCard {
                         msg_name: name,
-                        bus_name: &bus_name,
+                        bus_name,
                         key: frame.key(),
                         tx_node: node,
                         raw_bytes: &bytes,

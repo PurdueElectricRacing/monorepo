@@ -63,7 +63,7 @@ impl SendTable {
             return Err("send count and period must be positive".into());
         }
 
-        let frame = frame::CanFrameTx::data_on_bus(
+        let frame = frame::CanFrameTx::data(
             Some(msg.key.bus_id),
             msg.key.identity,
             msg.is_extended_id,

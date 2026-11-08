@@ -37,10 +37,7 @@ impl ViewerList {
             })
             .body(|mut body| {
                 for frame in view.setpoint_frames.iter().rev().take(200) {
-                    let bus_name = database
-                        .and_then(|selection| selection.bus_name(frame.bus_id))
-                        .map(ToOwned::to_owned)
-                        .unwrap_or_else(|| format!("Bus {}", frame.bus_id));
+                    let bus_name = database.map_or("Unknown", |db| db.bus_name(frame.bus_id));
                     if let Some(decoded) = &frame.decoded {
                         let key = decoded.key();
                         let def =

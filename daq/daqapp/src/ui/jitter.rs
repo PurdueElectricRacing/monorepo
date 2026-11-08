@@ -56,7 +56,7 @@ impl Jitter {
             && let Some(msg) = database.database.message_by_key(key)
         {
             let identity = msg.identity();
-            let bus_name = database.bus_name(key.bus_id).unwrap_or("Unknown");
+            let bus_name = database.bus_name(key.bus_id);
             ui.label(format!("[{bus_name}] {} (0x{identity:03X})", msg.name()));
 
             let mut deviations = interval_deviations(view.setpoint_frames, key, self.period_ms);

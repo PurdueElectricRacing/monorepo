@@ -57,16 +57,9 @@ pub fn create_driver(
         connection::ConnectionSource::Cannector => Ok(Box::new(CannectorDriver::new()?)),
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
         connection::ConnectionSource::Simulated(true) => {
-            let bus_messages = if buses.is_empty() {
-                vec![(0, Vec::new())]
-            } else {
-                buses
-                    .iter()
-                    .map(|bus| (bus.bus_id(), bus.messages().to_vec()))
-                    .collect()
-            };
+            let buses = buses.iter().map(|bus| bus.messages().to_vec()).collect();
             Ok(Box::new(SimulatedDriver {
-                bus_messages,
+                buses,
                 next: time::Instant::now(),
             }))
         }
@@ -138,7 +131,7 @@ fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .map(|bytes| {
             let raw = bytemuck::try_pod_read_unaligned::<log_parse::parse::RawFrame>(bytes)
                 .map_err(|error| DriverError::Read(error.to_string()))?;
-            frame::CanFrame::data_on_bus(Some(raw.bus_id()), raw.can_identity(), raw.data.to_vec())
+            frame::CanFrame::data(Some(raw.bus_id()), raw.can_identity(), raw.data.to_vec())
                 .map_err(DriverError::Read)
         })
         .collect()
@@ -192,7 +185,7 @@ impl Driver for CannectorDriver {
 }
 
 struct SimulatedDriver {
-    bus_messages: Vec<(u8, Vec<superdbc::message::Message>)>,
+    buses: Vec<Vec<superdbc::message::Message>>,
     next: time::Instant,
 }
 
@@ -209,26 +202,24 @@ impl Driver for SimulatedDriver {
         self.next += time::Duration::from_millis(1);
         let mut rng = rand::rng();
 
-        let mut frames = Vec::with_capacity(self.bus_messages.len().max(1));
-        for (bus_id, messages) in &self.bus_messages {
-            let frame = match messages.choose(&mut rng) {
-                Some(message) => Self::message_frame(message, &mut rng)?,
-                None => {
-                    let identity = rng.random_range(0..=can::STANDARD_ID_MASK);
-                    let mut data = vec![0u8; 8];
-                    rng.fill_bytes(&mut data);
-                    frame::CanFrame::data_on_bus(Some(*bus_id), identity, data)
-                        .map_err(DriverError::Read)?
-                }
-            };
-            frames.push(frame);
+        let frames: Vec<_> = self
+            .buses
+            .iter()
+            .filter_map(|messages| {
+                let message = messages.choose(&mut rng)?;
+                Some(Self::message_frame(message, &mut rng))
+            })
+            .collect::<DriverResult<_>>()?;
+
+        if !frames.is_empty() {
+            return Ok(frames);
         }
 
-        if frames.is_empty() {
-            return Err(DriverError::Timeout);
-        }
-
-        Ok(frames)
+        let identity = rng.random_range(0..=can::STANDARD_ID_MASK);
+        let mut data = vec![0u8; 8];
+        rng.fill_bytes(&mut data);
+        let frame = frame::CanFrame::data(None, identity, data).map_err(DriverError::Read)?;
+        Ok(vec![frame])
     }
 
     fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
@@ -260,8 +251,8 @@ impl SimulatedDriver {
             }
         }
 
-        let frame = frame::CanFrame::data_on_bus(Some(bus_id), identity, data)
-            .map_err(DriverError::Read)?;
+        let frame =
+            frame::CanFrame::data(Some(bus_id), identity, data).map_err(DriverError::Read)?;
 
         Ok(frame)
     }

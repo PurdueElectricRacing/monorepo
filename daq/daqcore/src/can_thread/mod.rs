@@ -31,6 +31,13 @@ impl BusSelection {
         matches!(self, Self::Vehicle | Self::Charger)
     }
 
+    pub fn default_single(database: &superdbc::database::Database) -> Option<Self> {
+        database
+            .bus_by_id(0)
+            .or_else(|| database.buses().first())
+            .map(|bus| Self::Single(bus.bus_id()))
+    }
+
     pub fn resolve_buses(
         self,
         database: &superdbc::database::Database,

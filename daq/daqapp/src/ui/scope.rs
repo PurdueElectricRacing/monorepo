@@ -76,7 +76,7 @@ impl Scope {
                     self.state = ScopeState::default();
                     return false;
                 };
-                let bus_name = database.bus_name(selected_msg.bus_id).unwrap_or("Unknown");
+                let bus_name = database.bus_name(selected_msg.bus_id);
                 let identity = message.identity();
 
                 ui.separator();
@@ -164,10 +164,7 @@ impl Scope {
         let signal = signal_name.clone();
         let target_key = *key;
         let identity = target_key.identity;
-        let bus_label = database
-            .and_then(|db| db.bus_name(target_key.bus_id))
-            .map(ToOwned::to_owned)
-            .unwrap_or_else(|| format!("Bus {}", target_key.bus_id));
+        let bus_name = database.map_or("Unknown", |db| db.bus_name(target_key.bus_id));
         let start = view.timeline.start();
         let duration = view.timeline.end().secs(start).max(0.001);
         let playhead = view.timeline.setpoint().secs(start);
@@ -183,7 +180,7 @@ impl Scope {
         let mut change = false;
         ui.horizontal(|ui| {
             ui.heading(format!(
-                "{}: [{bus_label}] {msg_name} (0x{identity:03X}) - {signal}",
+                "{}: [{bus_name}] {msg_name} (0x{identity:03X}) - {signal}",
                 self.title
             ));
             change = ui.button("Change signal").clicked();

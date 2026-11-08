@@ -24,15 +24,7 @@ pub struct CanFrame {
 }
 
 impl CanFrame {
-    pub fn data(identity: CanIdentity, data: Vec<u8>) -> Result<Self, String> {
-        Self::data_on_bus(None, identity, data)
-    }
-
-    pub fn data_on_bus(
-        bus_id: Option<u8>,
-        identity: CanIdentity,
-        data: Vec<u8>,
-    ) -> Result<Self, String> {
+    pub fn data(bus_id: Option<u8>, identity: CanIdentity, data: Vec<u8>) -> Result<Self, String> {
         if data.len() > 8 {
             return Err("classic CAN payload exceeds 8 bytes".into());
         }
@@ -56,21 +48,13 @@ pub struct CanFrameTx {
 
 impl CanFrameTx {
     pub fn data(
-        identity: CanIdentity,
-        is_extended_id: bool,
-        data: Vec<u8>,
-    ) -> Result<Self, String> {
-        Self::data_on_bus(None, identity, is_extended_id, data)
-    }
-
-    pub fn data_on_bus(
         bus_id: Option<u8>,
         identity: CanIdentity,
         is_extended_id: bool,
         data: Vec<u8>,
     ) -> Result<Self, String> {
         Ok(Self {
-            frame: CanFrame::data_on_bus(bus_id, identity, data)?,
+            frame: CanFrame::data(bus_id, identity, data)?,
             is_extended_id,
         })
     }

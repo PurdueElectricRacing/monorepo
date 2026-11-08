@@ -28,7 +28,7 @@ fn run_with_connection(
     let events = can_thread::events::Events(out);
     let mut decoder = can_thread::decode::FrameDecoder::default();
     let mut sends = can_thread::tx::SendTable::default();
-    let mut load = can::bus_load::MultiBusLoadTracker::default();
+    let mut load = can::bus_load::BusLoadTracker::default();
     let mut logger = config.log_folder.map(can::logger::DaqLogger::new);
     let mut firmware = can_thread::firmware_session::FirmwareSession::default();
     let mut hil = hil::engine::HilEngine::new(config.hil_dir);
@@ -66,7 +66,7 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
                     connection.select(source.clone(), time::Instant::now());
-                    load = can::bus_load::MultiBusLoadTracker::default();
+                    load = can::bus_load::BusLoadTracker::default();
                     emit!(can_thread::CanThreadEvent::SourceSelected(source));
                     emit!(can_thread::CanThreadEvent::Disconnection);
                 }
@@ -89,7 +89,7 @@ fn run_with_connection(
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
                     hil_capture_complete = false;
-                    load = can::bus_load::MultiBusLoadTracker::default();
+                    load = can::bus_load::BusLoadTracker::default();
                     load_last = now;
                     if let Some(logger) = &mut logger {
                         logger.flush();
@@ -283,27 +283,29 @@ fn run_with_connection(
         let now = time::Instant::now();
         if now.duration_since(load_last) >= BUS_LOAD_UPDATE_INTERVAL {
             load.cleanup(now);
-            let driver_speed = connection.driver_speed();
-            let fallback_bps = connection::CanBusSpeed::default().to_bps() as u64;
-            let buses = decoder
-                .active_bus_ids()
-                .into_iter()
-                .map(|bus_id| {
-                    let bus = decoder.bus_by_id(bus_id);
-                    let baud_rate_bps = driver_speed
-                        .map(|speed| speed.to_bps() as u64)
-                        .or_else(|| bus.map(|b| b.baud_rate()))
-                        .unwrap_or(fallback_bps);
-                    let bus_name = bus
-                        .map(|b| b.name().to_owned())
-                        .unwrap_or_else(|| format!("Bus {bus_id}"));
-                    can::bus_load::BusLoadReading {
-                        bus_id,
-                        bus_name,
-                        values: load.get_loads(bus_id, baud_rate_bps, now),
-                    }
-                })
-                .collect();
+            let driver_speed = connection.driver_speed().map(|s| s.to_bps() as u64);
+            let active_buses = decoder.active_buses();
+            let buses = if active_buses.is_empty() {
+                let baud_rate_bps = driver_speed
+                    .unwrap_or_else(|| connection::CanBusSpeed::default().to_bps() as u64);
+                vec![can::bus_load::BusLoadReading {
+                    bus_id: 0,
+                    bus_name: "Bus 0".to_owned(),
+                    values: load.get_loads(0, baud_rate_bps, now),
+                }]
+            } else {
+                active_buses
+                    .into_iter()
+                    .map(|bus| {
+                        let baud_rate_bps = driver_speed.unwrap_or_else(|| bus.baud_rate());
+                        can::bus_load::BusLoadReading {
+                            bus_id: bus.bus_id(),
+                            bus_name: bus.name().to_owned(),
+                            values: load.get_loads(bus.bus_id(), baud_rate_bps, now),
+                        }
+                    })
+                    .collect()
+            };
             emit!(can_thread::CanThreadEvent::BusLoad {
                 timestamp: crate::time::Time::now(),
                 buses,

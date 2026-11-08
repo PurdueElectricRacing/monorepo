@@ -160,7 +160,7 @@ impl SendUi {
                             );
                         }
 
-                        let bus_name = database.bus_name(key.bus_id).unwrap_or("Unknown");
+                        let bus_name = database.bus_name(key.bus_id);
                         ui.label(
                             eframe::egui::RichText::new(format!(
                                 "Selected Message: [{}] {} (0x{:03X})",
