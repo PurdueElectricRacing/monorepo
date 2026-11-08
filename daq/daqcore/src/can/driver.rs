@@ -41,7 +41,6 @@ pub trait Driver {
 pub fn create_driver(
     source: &connection::ConnectionSource,
     buses: &[&superdbc::database::Bus],
-    fallback_bus_ids: &[u8],
 ) -> DriverResult<Box<dyn Driver>> {
     match source {
         connection::ConnectionSource::Serial(path, speed) => {
@@ -59,12 +58,7 @@ pub fn create_driver(
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
         connection::ConnectionSource::Simulated(true) => {
             let bus_messages = if buses.is_empty() {
-                let ids = if fallback_bus_ids.is_empty() {
-                    vec![0]
-                } else {
-                    fallback_bus_ids.to_vec()
-                };
-                ids.into_iter().map(|id| (id, Vec::new())).collect()
+                vec![(0, Vec::new())]
             } else {
                 buses
                     .iter()

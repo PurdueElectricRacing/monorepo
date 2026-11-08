@@ -48,19 +48,6 @@ impl BusSelection {
         }
     }
 
-    pub fn resolve_bus_ids(self, database: &superdbc::database::Database) -> Option<Vec<u8>> {
-        self.resolve_buses(database)
-            .map(|buses| buses.into_iter().map(|bus| bus.bus_id()).collect())
-    }
-
-    pub fn fallback_bus_ids(self) -> Vec<u8> {
-        match self {
-            Self::Vehicle => vec![0, 1, 3],
-            Self::Charger => vec![0, 2, 3],
-            Self::Single(bus_id) => vec![bus_id],
-        }
-    }
-
     pub fn display_name(self, database: &superdbc::database::Database) -> String {
         match self {
             Self::Vehicle => "Vehicle (VCAN, MCAN, SCAN)".to_owned(),

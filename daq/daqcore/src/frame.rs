@@ -90,7 +90,6 @@ pub struct ParsedFrame {
 /// Borrowed decoded view; no frame or decoded-message clone is required for projections.
 pub struct DecodedFrame<'a> {
     pub timestamp: time::Time,
-    pub bus_id: u8,
     pub identity: CanIdentity,
     pub raw_bytes: &'a [u8],
     pub decoded: &'a superdbc::decode::DecodedMessage,
@@ -107,7 +106,6 @@ impl ParsedFrame {
     pub fn decoded_view(&self) -> Option<DecodedFrame<'_>> {
         Some(DecodedFrame {
             timestamp: self.timestamp,
-            bus_id: self.bus_id,
             identity: self.identity,
             raw_bytes: &self.raw_bytes,
             decoded: self.decoded.as_ref()?,

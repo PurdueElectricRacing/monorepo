@@ -23,19 +23,11 @@ impl DatabaseSelection {
 
     pub fn single_bus_fallback(&self) -> Option<daqcore::can_thread::BusSelection> {
         self.active_buses()
-            .first()
+            .into_iter()
+            .next()
+            .or_else(|| self.database.bus_by_id(0))
+            .or_else(|| self.database.buses().first())
             .map(|bus| daqcore::can_thread::BusSelection::Single(bus.bus_id()))
-            .or_else(|| {
-                self.database
-                    .bus_by_id(0)
-                    .map(|bus| daqcore::can_thread::BusSelection::Single(bus.bus_id()))
-            })
-            .or_else(|| {
-                self.database
-                    .buses()
-                    .first()
-                    .map(|bus| daqcore::can_thread::BusSelection::Single(bus.bus_id()))
-            })
     }
 
     pub fn source(&self) -> Option<daqcore::can_thread::DatabaseSource> {
@@ -92,7 +84,6 @@ impl DAQApp {
                 .and_then(|selection| selection.source())
                 .map(|source| source.path),
             bus_selection: self.database.as_ref().map(|selection| selection.selection),
-            bus_id: None,
             selected_source: self.selected_source.clone(),
             selected_speed: self.can_bus_speed,
             udp_port: self.udp_port,
@@ -123,7 +114,7 @@ impl DAQApp {
         };
 
         let session = daqcore::session::Session::live(daqcore::time::Time::now(), window_secs)?;
-        let preferred_selection = settings.resolved_bus_selection();
+        let preferred_selection = settings.bus_selection;
 
         let mut app = Self {
             connection_status: ConnectionStatus::Disconnected,

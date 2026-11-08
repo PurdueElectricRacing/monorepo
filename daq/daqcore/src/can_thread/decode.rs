@@ -71,10 +71,12 @@ impl FrameDecoder {
     }
 
     pub fn active_bus_ids(&self) -> Vec<u8> {
-        self.database
-            .as_ref()
-            .and_then(|db| self.selection.resolve_bus_ids(db))
-            .unwrap_or_else(|| self.selection.fallback_bus_ids())
+        let ids: Vec<u8> = self
+            .active_buses()
+            .into_iter()
+            .map(|bus| bus.bus_id())
+            .collect();
+        if ids.is_empty() { vec![0] } else { ids }
     }
 
     pub fn bus_by_id(&self, bus_id: u8) -> Option<&superdbc::database::Bus> {
@@ -87,10 +89,7 @@ impl FrameDecoder {
         let active_ids = self.active_bus_ids();
         match frame.bus_id {
             Some(bus_id) => active_ids.contains(&bus_id).then_some(bus_id),
-            None => match self.selection {
-                can_thread::BusSelection::Single(bus_id) => Some(bus_id),
-                _ => active_ids.first().copied(),
-            },
+            None => active_ids.first().copied(),
         }
     }
 

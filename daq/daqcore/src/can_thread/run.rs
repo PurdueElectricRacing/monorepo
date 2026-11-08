@@ -1,4 +1,4 @@
-use crate::{can, can_thread, hil};
+use crate::{can, can_thread, connection, hil};
 use std::{sync::mpsc, thread, time};
 
 const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
@@ -84,8 +84,7 @@ fn run_with_connection(
                             continue;
                         }
                     };
-                    connection
-                        .refresh_simulated(&decoder.active_buses(), &decoder.active_bus_ids());
+                    connection.refresh_simulated(&decoder.active_buses());
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
@@ -148,9 +147,7 @@ fn run_with_connection(
 
         // Reconnect the selected source when its retry delay has elapsed.
         let now = time::Instant::now();
-        if let Some(result) =
-            connection.connect(now, &decoder.active_buses(), &decoder.active_bus_ids())
-        {
+        if let Some(result) = connection.connect(now, &decoder.active_buses()) {
             match result {
                 Ok(()) => {
                     if let Some(logger) = &mut logger {
@@ -287,7 +284,7 @@ fn run_with_connection(
         if now.duration_since(load_last) >= BUS_LOAD_UPDATE_INTERVAL {
             load.cleanup(now);
             let driver_speed = connection.driver_speed();
-            let fallback_bps = connection.speed().to_bps() as u64;
+            let fallback_bps = connection::CanBusSpeed::default().to_bps() as u64;
             let buses = decoder
                 .active_bus_ids()
                 .into_iter()
