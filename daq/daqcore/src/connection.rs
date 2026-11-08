@@ -2,6 +2,7 @@
 pub enum ConnectionSource {
     Serial(String, CanBusSpeed),
     Udp(u16),
+    Cannector,
     Simulated(bool), // true for connected, false for disconnected
     Loopback,
 }
@@ -12,6 +13,9 @@ impl<'de> serde::Deserialize<'de> for ConnectionSource {
         D: serde::Deserializer<'de>,
     {
         let value = serde_json::Value::deserialize(deserializer)?;
+        if value.as_str() == Some("Cannector") {
+            return Ok(Self::Cannector);
+        }
         if value.as_str() == Some("Loopback") {
             return Ok(Self::Loopback);
         }
@@ -67,6 +71,7 @@ impl ConnectionSource {
             ConnectionSource::Serial(path, speed) => {
                 format!("Serial: {} ({})", path, speed.display_name())
             }
+            ConnectionSource::Cannector => "CANnector (USB)".into(),
             ConnectionSource::Udp(port) => format!("UDP: {}", port),
             ConnectionSource::Simulated(connected) => {
                 if *connected {

@@ -28,7 +28,7 @@ DaqApp is PER's complete trackside data acquisition and analysis desktop applica
 
 ## Using the app
 
-1. Use sidebar to select a CAN source from the connection controls (SLCAN, UDP, or dev modes)
+1. Use sidebar to select a CAN source from the connection controls (SLCAN, CANnector USB, UDP, or dev modes)
 2. Use the sidebar to select a `superdbc_*.json` artifact and its CAN bus. The file picker opens in `monorepo/superdbc`, which is an output from the firmware build process
 3. Use the sidebar (or ctrl-P) to launch widgets
 4. Use **Bootloader** to validate and upload a package. See the

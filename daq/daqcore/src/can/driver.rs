@@ -6,6 +6,8 @@ use std::{error, fmt, io, mem, net, time};
 use rand::RngExt as _;
 use rand::seq::IteratorRandom as _;
 
+const READ_TIMEOUT: time::Duration = time::Duration::from_millis(10);
+
 #[derive(Debug)]
 pub enum DriverError {
     ConnectionFailed(String),
@@ -48,10 +50,11 @@ pub fn create_driver(
             let socket = net::UdpSocket::bind(("0.0.0.0", *port))
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
             socket
-                .set_read_timeout(Some(time::Duration::from_millis(10)))
+                .set_read_timeout(Some(READ_TIMEOUT))
                 .map_err(|e| DriverError::ConnectionFailed(e.to_string()))?;
             Ok(Box::new(UdpDriver(socket)))
         }
+        connection::ConnectionSource::Cannector => Ok(Box::new(CannectorDriver::new()?)),
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
         connection::ConnectionSource::Simulated(true) => {
             let messages = bus.map(|bus| bus.messages().to_vec()).unwrap_or_default();
@@ -93,7 +96,7 @@ impl Driver for UdpDriver {
     fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
         let mut buf = [0; 65536];
         let len = self.0.recv(&mut buf).map_err(io_read)?;
-        parse_udp_buffer(&buf[..len])
+        parse_daq_buffer(&buf[..len])
     }
 
     fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
@@ -114,13 +117,15 @@ fn io_read(e: io::Error) -> DriverError {
     }
 }
 
-fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
-    if buf.len() < 16 || !buf.len().is_multiple_of(16) {
+fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
+    const RAW_FRAME_SIZE: usize = mem::size_of::<log_parse::parse::RawFrame>();
+
+    if buf.len() < RAW_FRAME_SIZE || !buf.len().is_multiple_of(RAW_FRAME_SIZE) {
         return Err(DriverError::Read(
-            "UDP packet must contain complete 16-byte records".into(),
+            "DAQ packet must contain complete frame records".into(),
         ));
     }
-    buf.as_chunks::<16>()
+    buf.as_chunks::<RAW_FRAME_SIZE>()
         .0
         .iter()
         .map(|bytes| {
@@ -129,6 +134,53 @@ fn parse_udp_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
             frame::CanFrame::data(raw.can_identity(), raw.data.to_vec()).map_err(DriverError::Read)
         })
         .collect()
+}
+
+pub struct CannectorDriver {
+    handle: rusb::DeviceHandle<rusb::GlobalContext>,
+}
+
+impl CannectorDriver {
+    pub const VID: u16 = 0x5045;
+    pub const PID: u16 = 0x0271;
+    const CONFIGURATION: u8 = 1;
+    const INTERFACE: u8 = 0;
+    const BULK_IN_ENDPOINT: u8 = 0x81;
+    const PACKET_SIZE: usize = 64; // 4 timestamped frames
+
+    fn new() -> DriverResult<Self> {
+        let handle = rusb::open_device_with_vid_pid(Self::VID, Self::PID).ok_or_else(|| {
+            DriverError::ConnectionFailed("CANnector not found or USB access denied".into())
+        })?;
+        let _ = handle.set_auto_detach_kernel_driver(true);
+        handle
+            .set_active_configuration(Self::CONFIGURATION)
+            .and_then(|()| handle.claim_interface(Self::INTERFACE))
+            .map_err(|error| DriverError::ConnectionFailed(error.to_string()))?;
+        Ok(Self { handle })
+    }
+}
+
+impl Driver for CannectorDriver {
+    fn read_frames(&mut self) -> DriverResult<Vec<frame::CanFrame>> {
+        // Read one packet
+        // Avoids timeout after a full 64-byte packet
+        let mut buffer = [0; Self::PACKET_SIZE];
+        let len = self
+            .handle
+            .read_bulk(Self::BULK_IN_ENDPOINT, &mut buffer, READ_TIMEOUT)
+            .map_err(|error| match error {
+                rusb::Error::Timeout => DriverError::Timeout,
+                other => DriverError::Read(other.to_string()),
+            })?;
+        parse_daq_buffer(&buffer[..len])
+    }
+
+    fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
+        Err(DriverError::Unsupported(
+            "CANnector transmission is unsupported".into(),
+        ))
+    }
 }
 
 struct SimulatedDriver {
@@ -256,8 +308,6 @@ impl SimulatedDriver {
 }
 
 mod serial {
-    use std::time;
-
     use crate::{can, connection, frame};
 
     pub struct SerialDriver {
@@ -268,7 +318,7 @@ mod serial {
     impl SerialDriver {
         pub fn new(path: &str, speed: connection::CanBusSpeed) -> can::driver::DriverResult<Self> {
             let port = serialport::new(path, 115200)
-                .timeout(time::Duration::from_millis(10))
+                .timeout(can::driver::READ_TIMEOUT)
                 .open()
                 .map_err(|e| can::driver::DriverError::ConnectionFailed(e.to_string()))?;
             let _ = port.clear(serialport::ClearBuffer::All);
