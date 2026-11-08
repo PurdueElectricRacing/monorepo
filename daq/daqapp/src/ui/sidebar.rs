@@ -7,7 +7,7 @@ pub fn select_database(app: &mut app::DAQApp) {
         dialog = dialog.set_directory(dir);
     }
     if let Some(path) = dialog.pick_file() {
-        let preferred = app.database.as_ref().map(|selection| selection.bus_id);
+        let preferred = app.database.as_ref().map(|selection| selection.selection);
         app.request_database(&path, preferred);
     }
 }
@@ -293,22 +293,42 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                                 .to_string_lossy(),
                         );
                     }
-                    let mut bus_id = selection.bus_id;
-                    if let Some(bus) = selection.bus() {
-                        eframe::egui::ComboBox::from_label("CAN Bus")
-                            .selected_text(format!("{} ({})", bus.name(), bus_id))
-                            .show_ui(ui, |ui| {
-                                for bus in selection.database.buses() {
+                    let mut current_selection = selection.selection;
+                    let multi_bus_allowed = app
+                        .selected_source
+                        .as_ref()
+                        .is_none_or(|source| source.supports_multi_bus());
+                    eframe::egui::ComboBox::from_label("CAN Bus")
+                        .selected_text(current_selection.display_name(&selection.database))
+                        .show_ui(ui, |ui| {
+                            let presets = [
+                                daqcore::can_thread::BusSelection::Vehicle,
+                                daqcore::can_thread::BusSelection::Charger,
+                            ];
+                            for preset in presets {
+                                let preset_supported = multi_bus_allowed
+                                    && preset.resolve_buses(&selection.database).is_some();
+                                ui.add_enabled_ui(preset_supported, |ui| {
                                     ui.selectable_value(
-                                        &mut bus_id,
-                                        bus.bus_id(),
-                                        format!("{} ({})", bus.name(), bus.bus_id()),
+                                        &mut current_selection,
+                                        preset,
+                                        preset.display_name(&selection.database),
                                     );
-                                }
-                            });
-                    }
-                    if bus_id != selection.bus_id {
-                        app.request_bus(bus_id);
+                                });
+                            }
+                            ui.separator();
+                            for bus in selection.database.buses() {
+                                let single =
+                                    daqcore::can_thread::BusSelection::Single(bus.bus_id());
+                                ui.selectable_value(
+                                    &mut current_selection,
+                                    single,
+                                    single.display_name(&selection.database),
+                                );
+                            }
+                        });
+                    if current_selection != selection.selection {
+                        app.request_bus_selection(current_selection);
                     }
                 } else {
                     ui.label("SuperDBC: None selected");

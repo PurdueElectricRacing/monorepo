@@ -7,18 +7,41 @@ const UI_SCALE_STEP: f32 = 0.2;
 
 pub struct DatabaseSelection {
     pub database: daqcore::superdbc::database::Database,
-    pub bus_id: u8,
+    pub selection: daqcore::can_thread::BusSelection,
 }
 
 impl DatabaseSelection {
-    pub fn bus(&self) -> Option<&daqcore::superdbc::database::Bus> {
-        self.database.bus_by_id(self.bus_id)
+    pub fn active_buses(&self) -> Vec<&daqcore::superdbc::database::Bus> {
+        self.selection
+            .resolve_buses(&self.database)
+            .unwrap_or_default()
+    }
+
+    pub fn bus_name(&self, bus_id: u8) -> Option<&str> {
+        self.database.bus_by_id(bus_id).map(|bus| bus.name())
+    }
+
+    pub fn single_bus_fallback(&self) -> Option<daqcore::can_thread::BusSelection> {
+        self.active_buses()
+            .first()
+            .map(|bus| daqcore::can_thread::BusSelection::Single(bus.bus_id()))
+            .or_else(|| {
+                self.database
+                    .bus_by_id(0)
+                    .map(|bus| daqcore::can_thread::BusSelection::Single(bus.bus_id()))
+            })
+            .or_else(|| {
+                self.database
+                    .buses()
+                    .first()
+                    .map(|bus| daqcore::can_thread::BusSelection::Single(bus.bus_id()))
+            })
     }
 
     pub fn source(&self) -> Option<daqcore::can_thread::DatabaseSource> {
         Some(daqcore::can_thread::DatabaseSource {
             path: self.database.path()?.to_owned(),
-            bus_id: self.bus_id,
+            selection: self.selection,
         })
     }
 }
@@ -68,7 +91,8 @@ impl DAQApp {
                 .as_ref()
                 .and_then(|selection| selection.source())
                 .map(|source| source.path),
-            bus_id: self.database.as_ref().map(|selection| selection.bus_id),
+            bus_selection: self.database.as_ref().map(|selection| selection.selection),
+            bus_id: None,
             selected_source: self.selected_source.clone(),
             selected_speed: self.can_bus_speed,
             udp_port: self.udp_port,
@@ -99,6 +123,7 @@ impl DAQApp {
         };
 
         let session = daqcore::session::Session::live(daqcore::time::Time::now(), window_secs)?;
+        let preferred_selection = settings.resolved_bus_selection();
 
         let mut app = Self {
             connection_status: ConnectionStatus::Disconnected,
@@ -130,7 +155,7 @@ impl DAQApp {
             log_folder: settings.log_folder,
         };
         if let Some(path) = settings.superdbc_path {
-            app.request_database(&path, settings.bus_id);
+            app.request_database(&path, preferred_selection);
         }
         Ok(app)
     }
@@ -139,25 +164,59 @@ impl DAQApp {
         self.pending_database.is_some()
     }
 
-    pub fn request_database(&mut self, path: &path::Path, preferred_bus: Option<u8>) {
+    pub fn request_database(
+        &mut self,
+        path: &path::Path,
+        preferred_selection: Option<daqcore::can_thread::BusSelection>,
+    ) {
+        let single_bus_only = self
+            .selected_source
+            .as_ref()
+            .is_some_and(|source| !source.supports_multi_bus());
+        let preferred_selection = if single_bus_only
+            && preferred_selection.is_none_or(|selection| selection.is_multi_bus())
+        {
+            Some(daqcore::can_thread::BusSelection::Single(0))
+        } else {
+            preferred_selection
+        };
         self.request_selection(daqcore::can_thread::DatabaseRequest::Load {
             path: path.to_owned(),
-            preferred_bus,
+            preferred_selection,
         });
     }
 
-    pub fn request_bus(&mut self, bus_id: u8) {
+    pub fn request_bus_selection(&mut self, new_selection: daqcore::can_thread::BusSelection) {
         let Some(selection) = &self.database else {
             return;
         };
-        if selection.bus_id == bus_id {
+        if selection.selection == new_selection {
             return;
         }
-        if selection.database.bus_by_id(bus_id).is_none() {
-            self.diagnostic = Some(format!("SuperDBC has no bus {bus_id}"));
+        if new_selection.resolve_buses(&selection.database).is_none() {
+            self.diagnostic = Some(format!(
+                "SuperDBC does not support selection {}",
+                new_selection.display_name(&selection.database)
+            ));
             return;
         }
-        self.request_selection(daqcore::can_thread::DatabaseRequest::Bus { bus_id });
+        self.request_selection(daqcore::can_thread::DatabaseRequest::Bus {
+            selection: new_selection,
+        });
+    }
+
+    pub fn enforce_single_bus_if_needed(&mut self) {
+        let single_bus_only = self
+            .selected_source
+            .as_ref()
+            .is_some_and(|source| !source.supports_multi_bus());
+        if single_bus_only
+            && let Some(db) = &self.database
+            && db.selection.is_multi_bus()
+            && let Some(fallback) = db.single_bus_fallback()
+        {
+            self.request_bus_selection(fallback);
+        }
     }
 
     fn request_selection(&mut self, selection: daqcore::can_thread::DatabaseRequest) {
@@ -186,18 +245,21 @@ impl DAQApp {
         }
         self.pending_database = None;
         match result {
-            Ok(daqcore::can_thread::DatabaseUpdate::Loaded { database, bus_id }) => {
+            Ok(daqcore::can_thread::DatabaseUpdate::Loaded {
+                database,
+                selection,
+            }) => {
                 self.database = Some(DatabaseSelection {
                     database: *database,
-                    bus_id,
+                    selection,
                 });
             }
-            Ok(daqcore::can_thread::DatabaseUpdate::Bus { bus_id }) => {
-                let Some(selection) = &mut self.database else {
+            Ok(daqcore::can_thread::DatabaseUpdate::Bus { selection }) => {
+                let Some(db_selection) = &mut self.database else {
                     self.diagnostic = Some("No UI database is loaded".to_owned());
                     return false;
                 };
-                selection.bus_id = bus_id;
+                db_selection.selection = selection;
             }
             Err(error) => {
                 self.diagnostic = Some(error);
@@ -213,6 +275,7 @@ impl DAQApp {
                 widget.reset_database();
             }
         }
+        self.enforce_single_bus_if_needed();
         true
     }
 
@@ -244,6 +307,7 @@ impl DAQApp {
     }
 
     pub fn connect_can(&mut self) {
+        self.enforce_single_bus_if_needed();
         let Some(source) = &self.selected_source else {
             return;
         };
@@ -362,17 +426,8 @@ impl eframe::App for DAQApp {
                 daqcore::can_thread::CanThreadEvent::Disconnection => {
                     self.connection_status = ConnectionStatus::Disconnected;
                 }
-                daqcore::can_thread::CanThreadEvent::BusLoad {
-                    timestamp,
-                    load_1s,
-                    load_5s,
-                    load_10s,
-                    load_30s,
-                } => {
-                    let sample = telemetry::BusLoadSample {
-                        timestamp,
-                        values: [load_1s, load_5s, load_10s, load_30s],
-                    };
+                daqcore::can_thread::CanThreadEvent::BusLoad { timestamp, buses } => {
+                    let sample = telemetry::BusLoadSample { timestamp, buses };
 
                     let index = self
                         .bus_load_samples

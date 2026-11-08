@@ -4,7 +4,7 @@ use crate::{frame, superdbc};
 use std::collections::{BTreeMap, HashMap};
 
 /// Complete lookup key within one active database version.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct MessageKey {
     /// Bus containing the message; numeric IDs may repeat across buses.
     pub bus_id: u8,

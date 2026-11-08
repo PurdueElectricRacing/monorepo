@@ -1,4 +1,4 @@
-use crate::frame;
+use crate::{frame, superdbc};
 use std::{collections::BTreeMap, time};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -39,7 +39,7 @@ impl SendAmount {
 
 pub struct AddSendMessage {
     pub amount: SendAmount,
-    pub identity: frame::CanIdentity,
+    pub key: superdbc::message::MessageKey,
     pub is_extended_id: bool,
     pub msg_bytes: Vec<u8>,
 }
@@ -51,7 +51,7 @@ struct Scheduled {
 }
 
 #[derive(Default)]
-pub struct SendTable(BTreeMap<frame::CanIdentity, Scheduled>);
+pub struct SendTable(BTreeMap<superdbc::message::MessageKey, Scheduled>);
 
 impl SendTable {
     pub fn add(&mut self, msg: AddSendMessage) -> Result<(), String> {
@@ -63,10 +63,15 @@ impl SendTable {
             return Err("send count and period must be positive".into());
         }
 
-        let frame = frame::CanFrameTx::data(msg.identity, msg.is_extended_id, msg.msg_bytes)?;
+        let frame = frame::CanFrameTx::data_on_bus(
+            Some(msg.key.bus_id),
+            msg.key.identity,
+            msg.is_extended_id,
+            msg.msg_bytes,
+        )?;
 
         self.0.insert(
-            msg.identity,
+            msg.key,
             Scheduled {
                 frame,
                 amount: msg.amount,
@@ -76,14 +81,17 @@ impl SendTable {
         Ok(())
     }
 
-    pub fn delete(&mut self, id: frame::CanIdentity) {
-        self.0.remove(&id);
+    pub fn delete(&mut self, key: superdbc::message::MessageKey) {
+        self.0.remove(&key);
     }
 
-    pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrameTx> {
+    pub fn due(
+        &self,
+        now: time::Instant,
+    ) -> Vec<(superdbc::message::MessageKey, frame::CanFrameTx)> {
         self.0
-            .values()
-            .filter(|scheduled| {
+            .iter()
+            .filter(|(_, scheduled)| {
                 let Some(last_sent) = scheduled.sent else {
                     return true;
                 };
@@ -93,20 +101,79 @@ impl SendTable {
 
                 elapsed >= period
             })
-            .map(|scheduled| scheduled.frame.clone())
+            .map(|(key, scheduled)| (*key, scheduled.frame.clone()))
             .collect()
     }
 
-    pub fn commit(&mut self, id: frame::CanIdentity, now: time::Instant) -> Option<SendAmount> {
-        let scheduled = self.0.get_mut(&id)?;
+    pub fn commit(
+        &mut self,
+        key: superdbc::message::MessageKey,
+        now: time::Instant,
+    ) -> Option<SendAmount> {
+        let scheduled = self.0.get_mut(&key)?;
         scheduled.sent = Some(now);
         let amount_left = scheduled.amount.subtract_one();
 
         if let Some(amount) = amount_left {
             scheduled.amount = amount;
         } else {
-            self.0.remove(&id);
+            self.0.remove(&key);
         }
         amount_left
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn send_table_isolates_messages_across_buses_with_same_can_id() {
+        let mut table = SendTable::default();
+        let key_vcan = superdbc::message::MessageKey {
+            bus_id: 0,
+            identity: 0x03C,
+        };
+        let key_scan = superdbc::message::MessageKey {
+            bus_id: 3,
+            identity: 0x03C,
+        };
+
+        table
+            .add(AddSendMessage {
+                amount: SendAmount::Infinite { period: 100 },
+                key: key_vcan,
+                is_extended_id: false,
+                msg_bytes: vec![0x01],
+            })
+            .unwrap();
+        table
+            .add(AddSendMessage {
+                amount: SendAmount::Infinite { period: 100 },
+                key: key_scan,
+                is_extended_id: false,
+                msg_bytes: vec![0x02],
+            })
+            .unwrap();
+
+        let mut due_buses: Vec<_> = table
+            .due(time::Instant::now())
+            .into_iter()
+            .map(|(k, tx)| (k, tx.frame.bus_id, tx.frame.data))
+            .collect();
+        due_buses.sort_by_key(|(k, _, _)| *k);
+
+        assert_eq!(
+            due_buses,
+            vec![
+                (key_vcan, Some(0), vec![0x01]),
+                (key_scan, Some(3), vec![0x02]),
+            ]
+        );
+
+        table.delete(key_vcan);
+        let remaining = table.due(time::Instant::now());
+        assert_eq!(remaining.len(), 1);
+        assert_eq!(remaining[0].0, key_scan);
     }
 }

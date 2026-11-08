@@ -37,6 +37,10 @@ impl ViewerList {
             })
             .body(|mut body| {
                 for frame in view.setpoint_frames.iter().rev().take(200) {
+                    let bus_name = database
+                        .and_then(|selection| selection.bus_name(frame.bus_id))
+                        .map(ToOwned::to_owned)
+                        .unwrap_or_else(|| format!("Bus {}", frame.bus_id));
                     if let Some(decoded) = &frame.decoded {
                         let key = decoded.key();
                         let def =
@@ -58,7 +62,8 @@ impl ViewerList {
                                 });
                                 row.col(|ui| {
                                     ui.label(format!(
-                                        "{} (0x{:X})",
+                                        "[{}] {} (0x{:X})",
+                                        bus_name,
                                         decoded.name(),
                                         frame.identity
                                     ));
@@ -77,7 +82,7 @@ impl ViewerList {
                                 ui.label(frame.timestamp.label());
                             });
                             row.col(|ui| {
-                                ui.label(format!("0x{:X}", frame.identity));
+                                ui.label(format!("[{}] 0x{:X}", bus_name, frame.identity));
                             });
                             row.col(|ui| {
                                 ui.label("Unknown");

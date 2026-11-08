@@ -40,7 +40,8 @@ pub trait Driver {
 
 pub fn create_driver(
     source: &connection::ConnectionSource,
-    bus: Option<&superdbc::database::Bus>,
+    buses: &[&superdbc::database::Bus],
+    fallback_bus_ids: &[u8],
 ) -> DriverResult<Box<dyn Driver>> {
     match source {
         connection::ConnectionSource::Serial(path, speed) => {
@@ -57,9 +58,21 @@ pub fn create_driver(
         connection::ConnectionSource::Cannector => Ok(Box::new(CannectorDriver::new()?)),
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
         connection::ConnectionSource::Simulated(true) => {
-            let messages = bus.map(|bus| bus.messages().to_vec()).unwrap_or_default();
+            let bus_messages = if buses.is_empty() {
+                let ids = if fallback_bus_ids.is_empty() {
+                    vec![0]
+                } else {
+                    fallback_bus_ids.to_vec()
+                };
+                ids.into_iter().map(|id| (id, Vec::new())).collect()
+            } else {
+                buses
+                    .iter()
+                    .map(|bus| (bus.bus_id(), bus.messages().to_vec()))
+                    .collect()
+            };
             Ok(Box::new(SimulatedDriver {
-                messages,
+                bus_messages,
                 next: time::Instant::now(),
             }))
         }
@@ -131,7 +144,8 @@ fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .map(|bytes| {
             let raw = bytemuck::try_pod_read_unaligned::<log_parse::parse::RawFrame>(bytes)
                 .map_err(|error| DriverError::Read(error.to_string()))?;
-            frame::CanFrame::data(raw.can_identity(), raw.data.to_vec()).map_err(DriverError::Read)
+            frame::CanFrame::data_on_bus(Some(raw.bus_id()), raw.can_identity(), raw.data.to_vec())
+                .map_err(DriverError::Read)
         })
         .collect()
 }
@@ -184,7 +198,7 @@ impl Driver for CannectorDriver {
 }
 
 struct SimulatedDriver {
-    messages: Vec<superdbc::message::Message>,
+    bus_messages: Vec<(u8, Vec<superdbc::message::Message>)>,
     next: time::Instant,
 }
 
@@ -201,17 +215,26 @@ impl Driver for SimulatedDriver {
         self.next += time::Duration::from_millis(1);
         let mut rng = rand::rng();
 
-        let messages = &self.messages;
+        let mut frames = Vec::with_capacity(self.bus_messages.len().max(1));
+        for (bus_id, messages) in &self.bus_messages {
+            let frame = match messages.choose(&mut rng) {
+                Some(message) => Self::message_frame(message, &mut rng)?,
+                None => {
+                    let identity = rng.random_range(0..=can::STANDARD_ID_MASK);
+                    let mut data = vec![0u8; 8];
+                    rng.fill_bytes(&mut data);
+                    frame::CanFrame::data_on_bus(Some(*bus_id), identity, data)
+                        .map_err(DriverError::Read)?
+                }
+            };
+            frames.push(frame);
+        }
 
-        let Some(message) = messages.choose(&mut rng) else {
-            let identity = rng.random_range(0..=can::STANDARD_ID_MASK);
-            let mut data = vec![0u8; 8];
-            rng.fill_bytes(&mut data);
-            let frame = frame::CanFrame::data(identity, data).map_err(DriverError::Read)?;
-            return Ok(vec![frame]);
-        };
+        if frames.is_empty() {
+            return Err(DriverError::Timeout);
+        }
 
-        Self::message_frame(message, &mut rng).map(|frame| vec![frame])
+        Ok(frames)
     }
 
     fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
@@ -225,6 +248,7 @@ impl SimulatedDriver {
         rng: &mut impl rand::Rng,
     ) -> DriverResult<frame::CanFrame> {
         let identity = message.identity();
+        let bus_id = message.key().bus_id;
         let size = usize::from(message.length_bytes());
 
         if size > 8 {
@@ -242,7 +266,8 @@ impl SimulatedDriver {
             }
         }
 
-        let frame = frame::CanFrame::data(identity, data).map_err(DriverError::Read)?;
+        let frame = frame::CanFrame::data_on_bus(Some(bus_id), identity, data)
+            .map_err(DriverError::Read)?;
 
         Ok(frame)
     }
@@ -366,6 +391,7 @@ mod serial {
                 };
 
                 frame::CanFrame {
+                    bus_id: None,
                     identity,
                     kind,
                     dlc: f.dlc() as u8,
@@ -375,6 +401,7 @@ mod serial {
             slcan::CanFrame::CanFd(f) => {
                 let identity = identity(f.id());
                 frame::CanFrame {
+                    bus_id: None,
                     identity,
                     kind: frame::FrameKind::Fd {
                         bit_rate_switched: f.is_bit_rate_switched(),
@@ -427,5 +454,49 @@ mod serial {
                 .close()
                 .map_err(|e| can::driver::DriverError::Write(e.to_string()))
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::log_parse::parse::RawFrame;
+
+    #[test]
+    fn parse_daq_buffer_extracts_bus_id_for_triple_bus_frames() {
+        let mut buf = Vec::new();
+        for (bus_id, can_id, byte) in [(0u8, 0x03Cu32, 0xAAu8), (1, 0x100, 0xBB), (3, 0x03C, 0xCC)]
+        {
+            let raw = RawFrame::new(1234, can_id, bus_id, [byte, 0, 0, 0, 0, 0, 0, 0])
+                .expect("valid raw frame");
+            buf.extend_from_slice(bytemuck::bytes_of(&raw));
+        }
+
+        let frames = parse_daq_buffer(&buf).expect("parse should succeed");
+        assert_eq!(frames.len(), 3);
+        assert_eq!(frames[0].bus_id, Some(0));
+        assert_eq!(frames[0].identity, 0x03C);
+        assert_eq!(frames[0].data[0], 0xAA);
+
+        assert_eq!(frames[1].bus_id, Some(1));
+        assert_eq!(frames[1].identity, 0x100);
+        assert_eq!(frames[1].data[0], 0xBB);
+
+        assert_eq!(frames[2].bus_id, Some(3));
+        assert_eq!(frames[2].identity, 0x03C);
+        assert_eq!(frames[2].data[0], 0xCC);
+    }
+
+    #[test]
+    fn simulated_driver_generates_frames_for_all_active_buses() {
+        let mut driver = create_driver(
+            &connection::ConnectionSource::Simulated(true),
+            &[],
+            &[0, 1, 3],
+        )
+        .expect("simulated driver should be created");
+        let frames = driver.read_frames().expect("simulated read should succeed");
+        let bus_ids: Vec<Option<u8>> = frames.iter().map(|f| f.bus_id).collect();
+        assert_eq!(bus_ids, vec![Some(0), Some(1), Some(3)]);
     }
 }

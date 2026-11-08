@@ -1,4 +1,4 @@
-use crate::{frame, time};
+use crate::{frame, superdbc, time};
 use std::{collections::HashMap, mem, ops};
 
 pub type CachedFrame = frame::ParsedFrame;
@@ -7,7 +7,7 @@ pub type CachedFrame = frame::ParsedFrame;
 pub struct RamCache {
     frames: Vec<CachedFrame>,
     first_index: usize,
-    latest: HashMap<frame::CanIdentity, CachedFrame>,
+    latest: HashMap<superdbc::message::MessageKey, CachedFrame>,
 }
 
 impl RamCache {
@@ -36,11 +36,11 @@ impl RamCache {
         Some((first, last))
     }
 
-    pub fn latest(&self, id: frame::CanIdentity) -> Option<&CachedFrame> {
-        self.latest.get(&id)
+    pub fn latest(&self, key: superdbc::message::MessageKey) -> Option<&CachedFrame> {
+        self.latest.get(&key)
     }
 
-    pub fn latest_map(&self) -> &HashMap<frame::CanIdentity, CachedFrame> {
+    pub fn latest_map(&self) -> &HashMap<superdbc::message::MessageKey, CachedFrame> {
         &self.latest
     }
 
@@ -60,7 +60,7 @@ impl RamCache {
             return;
         }
 
-        self.latest.insert(frame.identity, frame.clone());
+        self.latest.insert(frame.key(), frame.clone());
         self.frames.push(frame);
     }
 
@@ -100,7 +100,7 @@ impl RamCache {
         self.latest.clear();
         for frame in self.frames.iter().rev() {
             self.latest
-                .entry(frame.identity)
+                .entry(frame.key())
                 .or_insert_with(|| frame.clone());
         }
     }
@@ -145,13 +145,13 @@ impl RamCache {
 
     pub fn signal_series(
         &self,
-        id: frame::CanIdentity,
+        key: superdbc::message::MessageKey,
         signal: &str,
         range: ops::RangeInclusive<time::Time>,
     ) -> Vec<(time::Time, f64)> {
         self.frames_in_range(range)
             .iter()
-            .filter(|f| f.identity == id)
+            .filter(|f| f.key() == key)
             .filter_map(|f| {
                 let decoded = f.decoded.as_ref()?;
                 let value = decoded.signal(signal)?.physical();
@@ -159,5 +159,51 @@ impl RamCache {
                 Some((f.timestamp, value))
             })
             .collect()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn ram_cache_isolates_colliding_can_ids_by_bus_id() {
+        let mut cache = RamCache::new();
+        let t0 = time::Time::now();
+        let t1 = t0.offset(10);
+
+        let f_vcan = frame::ParsedFrame {
+            kind: frame::FrameKind::Data,
+            dlc: 1,
+            timestamp: t0,
+            bus_id: 0,
+            identity: 0x03C,
+            raw_bytes: vec![0x11],
+            decoded: None,
+        };
+        let f_scan = frame::ParsedFrame {
+            kind: frame::FrameKind::Data,
+            dlc: 1,
+            timestamp: t1,
+            bus_id: 3,
+            identity: 0x03C,
+            raw_bytes: vec![0x22],
+            decoded: None,
+        };
+
+        cache.push(f_vcan);
+        cache.push(f_scan);
+
+        let key_vcan = superdbc::message::MessageKey {
+            bus_id: 0,
+            identity: 0x03C,
+        };
+        let key_scan = superdbc::message::MessageKey {
+            bus_id: 3,
+            identity: 0x03C,
+        };
+
+        assert_eq!(cache.latest(key_vcan).unwrap().raw_bytes, vec![0x11]);
+        assert_eq!(cache.latest(key_scan).unwrap().raw_bytes, vec![0x22]);
     }
 }

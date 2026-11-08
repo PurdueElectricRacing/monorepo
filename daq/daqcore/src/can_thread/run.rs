@@ -28,7 +28,7 @@ fn run_with_connection(
     let events = can_thread::events::Events(out);
     let mut decoder = can_thread::decode::FrameDecoder::default();
     let mut sends = can_thread::tx::SendTable::default();
-    let mut load = can::bus_load::BusLoadTracker::default();
+    let mut load = can::bus_load::MultiBusLoadTracker::default();
     let mut logger = config.log_folder.map(can::logger::DaqLogger::new);
     let mut firmware = can_thread::firmware_session::FirmwareSession::default();
     let mut hil = hil::engine::HilEngine::new(config.hil_dir);
@@ -66,7 +66,7 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                     }
                     connection.select(source.clone(), time::Instant::now());
-                    load = can::bus_load::BusLoadTracker::default();
+                    load = can::bus_load::MultiBusLoadTracker::default();
                     emit!(can_thread::CanThreadEvent::SourceSelected(source));
                     emit!(can_thread::CanThreadEvent::Disconnection);
                 }
@@ -84,11 +84,13 @@ fn run_with_connection(
                             continue;
                         }
                     };
+                    connection
+                        .refresh_simulated(&decoder.active_buses(), &decoder.active_bus_ids());
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
                     hil_capture_complete = false;
-                    load = can::bus_load::BusLoadTracker::default();
+                    load = can::bus_load::MultiBusLoadTracker::default();
                     load_last = now;
                     if let Some(logger) = &mut logger {
                         logger.flush();
@@ -100,19 +102,17 @@ fn run_with_connection(
                     emit!(can_thread::CanThreadEvent::Hil(hil.snapshot(now)));
                 }
                 can_thread::CanThreadCommand::AddSendMessage(message) => {
-                    let identity = message.identity;
+                    let key = message.key;
                     if let Err(error) = sends.add(message) {
-                        sends.delete(identity);
+                        sends.delete(key);
                         emit!(can_thread::CanThreadEvent::SendFailed {
-                            identity,
+                            key,
                             error,
                             retrying: false
                         });
                     }
                 }
-                can_thread::CanThreadCommand::DeleteSendMessage { identity } => {
-                    sends.delete(identity)
-                }
+                can_thread::CanThreadCommand::DeleteSendMessage { key } => sends.delete(key),
                 can_thread::CanThreadCommand::UpdateLogFolder(path) => match &mut logger {
                     Some(logger) => logger.update_folder(path),
                     None => logger = Some(can::logger::DaqLogger::new(path)),
@@ -148,7 +148,9 @@ fn run_with_connection(
 
         // Reconnect the selected source when its retry delay has elapsed.
         let now = time::Instant::now();
-        if let Some(result) = connection.connect(now, decoder.bus()) {
+        if let Some(result) =
+            connection.connect(now, &decoder.active_buses(), &decoder.active_bus_ids())
+        {
             match result {
                 Ok(()) => {
                     if let Some(logger) = &mut logger {
@@ -173,13 +175,12 @@ fn run_with_connection(
         // Ordinary sends are suspended while firmware owns transmission.
         let updating = firmware.active();
         if connection.connected() && !updating {
-            for tx_frame in sends.due(now) {
-                let identity = tx_frame.frame.identity;
+            for (key, tx_frame) in sends.due(now) {
                 match connection.write(tx_frame) {
                     Ok(()) => {
-                        let amount_left = sends.commit(identity, time::Instant::now());
+                        let amount_left = sends.commit(key, time::Instant::now());
                         emit!(can_thread::CanThreadEvent::MessageSent {
-                            identity,
+                            key,
                             timestamp: crate::time::Time::now(),
                             amount_left
                         });
@@ -188,12 +189,12 @@ fn run_with_connection(
                         let unsupported = matches!(error, can::driver::DriverError::Unsupported(_));
 
                         emit!(can_thread::CanThreadEvent::SendFailed {
-                            identity,
+                            key,
                             error: error.to_string(),
                             retrying: !unsupported,
                         });
                         if unsupported {
-                            sends.delete(identity);
+                            sends.delete(key);
                         } else {
                             connection.failed(time::Instant::now());
                             emit!(can_thread::CanThreadEvent::ConnectionFailed(
@@ -244,11 +245,14 @@ fn run_with_connection(
                 Ok(frames) => {
                     got_frames = !frames.is_empty();
                     for frame in frames {
-                        load.record_frame(frame.data.len(), time::Instant::now());
+                        let Some(bus_id) = decoder.resolve_frame_bus(&frame) else {
+                            continue;
+                        };
+                        load.record_frame(bus_id, frame.data.len(), time::Instant::now());
                         // Bus ID is 3 bits so 0-7 supported
-                        if decoder.bus_id() <= 7
+                        if bus_id <= 7
                             && let Some(logger) = &mut logger
-                            && let Err(error) = logger.log_frame(&frame, decoder.bus_id())
+                            && let Err(error) = logger.log_frame(&frame, bus_id)
                         {
                             emit!(can_thread::CanThreadEvent::Diagnostic(error));
                         }
@@ -261,7 +265,7 @@ fn run_with_connection(
                             emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                         }
 
-                        let frame = decoder.decode(frame, crate::time::Time::now());
+                        let frame = decoder.decode(frame, bus_id, crate::time::Time::now());
                         if !updating {
                             hil.process_parsed(&frame, time::Instant::now());
                         }
@@ -282,13 +286,30 @@ fn run_with_connection(
         let now = time::Instant::now();
         if now.duration_since(load_last) >= BUS_LOAD_UPDATE_INTERVAL {
             load.cleanup(now);
-            let speed = connection.speed();
+            let driver_speed = connection.driver_speed();
+            let fallback_bps = connection.speed().to_bps() as u64;
+            let buses = decoder
+                .active_bus_ids()
+                .into_iter()
+                .map(|bus_id| {
+                    let bus = decoder.bus_by_id(bus_id);
+                    let baud_rate_bps = driver_speed
+                        .map(|speed| speed.to_bps() as u64)
+                        .or_else(|| bus.map(|b| b.baud_rate()))
+                        .unwrap_or(fallback_bps);
+                    let bus_name = bus
+                        .map(|b| b.name().to_owned())
+                        .unwrap_or_else(|| format!("Bus {bus_id}"));
+                    can::bus_load::BusLoadReading {
+                        bus_id,
+                        bus_name,
+                        values: load.get_loads(bus_id, baud_rate_bps, now),
+                    }
+                })
+                .collect();
             emit!(can_thread::CanThreadEvent::BusLoad {
                 timestamp: crate::time::Time::now(),
-                load_1s: load.get_load(1, speed, now),
-                load_5s: load.get_load(5, speed, now),
-                load_10s: load.get_load(10, speed, now),
-                load_30s: load.get_load(30, speed, now)
+                buses,
             });
             load_last = now;
         }

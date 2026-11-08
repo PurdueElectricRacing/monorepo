@@ -8,12 +8,75 @@ mod events;
 mod firmware_session;
 mod run;
 pub mod tx;
-use crate::{can_thread, firmware, frame, hil, superdbc, time};
+use crate::{can, can_thread, firmware, frame, hil, superdbc, time};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
+pub enum BusSelection {
+    Vehicle,
+    Charger,
+    Single(u8),
+}
+
+impl Default for BusSelection {
+    fn default() -> Self {
+        Self::Single(0)
+    }
+}
+
+impl BusSelection {
+    pub const VEHICLE_BUS_NAMES: [&'static str; 3] = ["VCAN", "MCAN", "SCAN"];
+    pub const CHARGER_BUS_NAMES: [&'static str; 3] = ["VCAN", "CCAN", "SCAN"];
+
+    pub fn is_multi_bus(self) -> bool {
+        matches!(self, Self::Vehicle | Self::Charger)
+    }
+
+    pub fn resolve_buses(
+        self,
+        database: &superdbc::database::Database,
+    ) -> Option<Vec<&superdbc::database::Bus>> {
+        match self {
+            Self::Vehicle => Self::VEHICLE_BUS_NAMES
+                .into_iter()
+                .map(|name| database.bus(name))
+                .collect(),
+            Self::Charger => Self::CHARGER_BUS_NAMES
+                .into_iter()
+                .map(|name| database.bus(name))
+                .collect(),
+            Self::Single(bus_id) => database.bus_by_id(bus_id).map(|bus| vec![bus]),
+        }
+    }
+
+    pub fn resolve_bus_ids(self, database: &superdbc::database::Database) -> Option<Vec<u8>> {
+        self.resolve_buses(database)
+            .map(|buses| buses.into_iter().map(|bus| bus.bus_id()).collect())
+    }
+
+    pub fn fallback_bus_ids(self) -> Vec<u8> {
+        match self {
+            Self::Vehicle => vec![0, 1, 3],
+            Self::Charger => vec![0, 2, 3],
+            Self::Single(bus_id) => vec![bus_id],
+        }
+    }
+
+    pub fn display_name(self, database: &superdbc::database::Database) -> String {
+        match self {
+            Self::Vehicle => "Vehicle (VCAN, MCAN, SCAN)".to_owned(),
+            Self::Charger => "Charger (VCAN, CCAN, SCAN)".to_owned(),
+            Self::Single(bus_id) => match database.bus_by_id(bus_id) {
+                Some(bus) => format!("{} ({})", bus.name(), bus_id),
+                None => format!("Bus {bus_id}"),
+            },
+        }
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct DatabaseSource {
     pub path: path::PathBuf,
-    pub bus_id: u8,
+    pub selection: BusSelection,
 }
 
 /// A file replacement loads on the worker.
@@ -22,10 +85,10 @@ pub struct DatabaseSource {
 pub enum DatabaseRequest {
     Load {
         path: path::PathBuf,
-        preferred_bus: Option<u8>,
+        preferred_selection: Option<BusSelection>,
     },
     Bus {
-        bus_id: u8,
+        selection: BusSelection,
     },
 }
 
@@ -34,10 +97,10 @@ pub enum DatabaseRequest {
 pub enum DatabaseUpdate {
     Loaded {
         database: Box<superdbc::database::Database>,
-        bus_id: u8,
+        selection: BusSelection,
     },
     Bus {
-        bus_id: u8,
+        selection: BusSelection,
     },
 }
 
@@ -55,7 +118,7 @@ pub enum CanThreadCommand {
     },
     AddSendMessage(can_thread::tx::AddSendMessage),
     DeleteSendMessage {
-        identity: frame::CanIdentity,
+        key: superdbc::message::MessageKey,
     },
     UpdateLogFolder(path::PathBuf),
     Stop,
@@ -76,22 +139,19 @@ pub enum CanThreadEvent {
     ConnectionSuccessful,
     ConnectionFailed(String),
     MessageSent {
-        identity: frame::CanIdentity,
+        key: superdbc::message::MessageKey,
         timestamp: time::Time,
         amount_left: Option<can_thread::tx::SendAmount>,
     },
     SendFailed {
-        identity: frame::CanIdentity,
+        key: superdbc::message::MessageKey,
         error: String,
         retrying: bool,
     },
     Diagnostic(String),
     BusLoad {
         timestamp: time::Time,
-        load_1s: f32,
-        load_5s: f32,
-        load_10s: f32,
-        load_30s: f32,
+        buses: Vec<can::bus_load::BusLoadReading>,
     },
     Hil(hil::engine::HilSnapshot),
     FirmwareProgress(firmware::FirmwareProgress),

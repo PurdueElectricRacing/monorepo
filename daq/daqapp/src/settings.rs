@@ -16,6 +16,9 @@ const DEFAULT_CAN_SPEED: daqcore::connection::CanBusSpeed =
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Settings {
     pub superdbc_path: Option<path::PathBuf>,
+    #[serde(default)]
+    pub bus_selection: Option<daqcore::can_thread::BusSelection>,
+    #[serde(default, skip_serializing)]
     pub bus_id: Option<u8>,
     pub selected_source: Option<daqcore::connection::ConnectionSource>,
     pub selected_speed: daqcore::connection::CanBusSpeed,
@@ -30,6 +33,7 @@ impl Default for Settings {
     fn default() -> Self {
         Self {
             superdbc_path: None,
+            bus_selection: None,
             bus_id: None,
             selected_source: None,
             selected_speed: DEFAULT_CAN_SPEED,
@@ -43,6 +47,10 @@ impl Default for Settings {
 }
 
 impl Settings {
+    pub fn resolved_bus_selection(&self) -> Option<daqcore::can_thread::BusSelection> {
+        self.bus_selection
+            .or_else(|| self.bus_id.map(daqcore::can_thread::BusSelection::Single))
+    }
     fn path() -> path::PathBuf {
         path::PathBuf::from(SETTINGS_PATH)
     }
