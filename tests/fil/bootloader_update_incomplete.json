@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "name": "per_bootloader_update_incomplete",
+  "buses": {
+    "0": {"type": "can", "bitrate": 500000}
+  },
+  "boards": ["boards/dashboard_bootloadable.json"],
+  "stimuli": ["stimuli/bootloader_update_incomplete_stimuli.json"]
+}

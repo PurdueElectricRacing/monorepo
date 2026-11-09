@@ -147,6 +147,22 @@
                     "period_ms": 0,
                     "id_override": "0x7C0",
                     "priority": 5
+                },
+                {
+                    "message_name": "bl_dashboard_bootloader_resp",
+                    "description": "Resident bootloader update response for dashboard",
+                    "signals": [
+                        {
+                            "signal_name": "status",
+                            "data_type": "bootloader_status_t"
+                        },
+                        {
+                            "signal_name": "detail",
+                            "data_type": "uint32_t"
+                        }
+                    ],
+                    "id_override": "0x01C",
+                    "priority": 0
                 }
             ],
             "rx": [
@@ -189,6 +205,22 @@
                 },
                 {
                     "message_name": "bl_dashboard_start",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_dashboard_bootloader_start",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_dashboard_bootloader_data",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_dashboard_bootloader_crc",
+                    "callback": true
+                },
+                {
+                    "message_name": "bl_dashboard_bootloader_jump",
                     "callback": true
                 }
             ]

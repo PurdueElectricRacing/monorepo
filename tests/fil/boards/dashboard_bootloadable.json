@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "name": "dashboard",
+  "mcu": "../../external/fil/configs/mcus/stm32g474retx.json",
+  "elf": "../../../firmware/output/bootloadable_dashboard/bootloadable_dashboard.elf",
+  "vector_base": "0x08008000",
+  "can": {
+    "FDCAN2": {
+      "bus": "0"
+    }
+  }
+}
