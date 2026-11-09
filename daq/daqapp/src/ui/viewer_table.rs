@@ -153,8 +153,8 @@ impl MessageCard<'_> {
 
             ui.label(
                 eframe::egui::RichText::new(format!(
-                    "[{}] {}  (0x{:03X})",
-                    self.bus_name, self.msg_name, self.key.identity
+                    "{}: {}  [0x{:X} | 0x{:03X}]",
+                    self.bus_name, self.msg_name, self.key.bus_id, self.key.identity
                 ))
                 .strong()
                 .size(16.0)
