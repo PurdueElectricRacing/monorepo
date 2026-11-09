@@ -24,12 +24,13 @@ impl ViewerList {
         }
         egui_extras::TableBuilder::new(ui)
             .striped(true)
-            .column(egui_extras::Column::auto().at_least(150.0).resizable(true))
+            .column(egui_extras::Column::auto().at_least(100.0).resizable(true))
+            .column(egui_extras::Column::auto().at_least(50.0).resizable(true))
             .column(egui_extras::Column::auto().at_least(300.0).resizable(true))
             .column(egui_extras::Column::auto().at_least(250.0).resizable(true))
             .column(egui_extras::Column::remainder().resizable(true))
             .header(20.0, |mut header| {
-                for text in ["Timestamp", "Message (ID)", "Signal", "Value"] {
+                for text in ["Timestamp", "Bus", "Message (ID)", "Signal", "Value"] {
                     header.col(|ui| {
                         ui.label(text);
                     });
@@ -58,9 +59,11 @@ impl ViewerList {
                                     ui.label(frame.timestamp.label());
                                 });
                                 row.col(|ui| {
+                                    ui.label(bus_name);
+                                });
+                                row.col(|ui| {
                                     ui.label(format!(
-                                        "[{}] {} (0x{:X})",
-                                        bus_name,
+                                        "{} (0x{:X})",
                                         decoded.name(),
                                         frame.identity
                                     ));
@@ -79,7 +82,10 @@ impl ViewerList {
                                 ui.label(frame.timestamp.label());
                             });
                             row.col(|ui| {
-                                ui.label(format!("[{}] 0x{:X}", bus_name, frame.identity));
+                                ui.label(bus_name);
+                            });
+                            row.col(|ui| {
+                                ui.label(format!("0x{:X}", frame.identity));
                             });
                             row.col(|ui| {
                                 ui.label("Unknown");
