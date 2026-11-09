@@ -73,6 +73,18 @@ impl BusLoad {
             })
             .collect();
 
+        let cursor =
+            window_samples.partition_point(|sample| sample.timestamp <= view.timeline.setpoint());
+        let upto_cursor = &window_samples[..cursor];
+
+        eframe::egui::TopBottomPanel::bottom(eframe::egui::Id::new((&self.title, "loads_panel")))
+            .frame(eframe::egui::Frame::NONE)
+            .show_separator_line(false)
+            .show_inside(ui, |ui| {
+                ui.add_space(4.0);
+                self.show_load_table(ui, upto_cursor);
+            });
+
         if !decimated_series.is_empty() {
             ui.horizontal_wrapped(|ui| {
                 ui.label(eframe::egui::RichText::new("Key:").strong());
@@ -84,7 +96,7 @@ impl BusLoad {
         }
 
         egui_plot::Plot::new(&self.title)
-            .view_aspect(2.0)
+            .height(ui.available_height())
             .allow_zoom([false, true])
             .allow_drag([false, true])
             .allow_scroll([false, true])
@@ -105,39 +117,36 @@ impl BusLoad {
                         .color(eframe::egui::Color32::YELLOW),
                 );
             });
-
-        let cursor =
-            window_samples.partition_point(|sample| sample.timestamp <= view.timeline.setpoint());
-        let upto_cursor = &window_samples[..cursor];
-
-        if let Some(last) = upto_cursor.last() {
-            eframe::egui::Grid::new((&self.title, "loads"))
-                .striped(true)
-                .show(ui, |ui| {
-                    ui.label(eframe::egui::RichText::new("Bus").strong());
-                    ui.label(eframe::egui::RichText::new("Window").strong());
-                    ui.label(eframe::egui::RichText::new("Current Load").strong());
-                    ui.label(eframe::egui::RichText::new("Max in Interval").strong());
-                    ui.end_row();
-
-                    for reading in &last.buses {
-                        let color = color_for_bus(reading.bus_id);
-                        for (win_idx, seconds) in
-                            daqcore::can::bus_load::WINDOWS_SECS.into_iter().enumerate()
-                        {
-                            let maximum = max_bus_load(upto_cursor, reading.bus_id, win_idx);
-
-                            ui.colored_label(color, &reading.bus_name);
-                            ui.label(format!("{seconds}s"));
-                            ui.label(format!("{:.2}%", reading.values[win_idx]));
-                            ui.label(format!("{maximum:.2}%"));
-                            ui.end_row();
-                        }
-                    }
-                });
-        } else {
-            ui.label("No bus-load samples in the selected interval.");
-        }
         egui_tiles::UiResponse::None
+    }
+
+    fn show_load_table(&self, ui: &mut eframe::egui::Ui, samples: &[telemetry::BusLoadSample]) {
+        let Some(last) = samples.last() else {
+            ui.label("No bus-load samples in the selected interval.");
+            return;
+        };
+
+        eframe::egui::Grid::new((&self.title, "loads"))
+            .striped(true)
+            .spacing([16.0, 4.0])
+            .show(ui, |ui| {
+                ui.label(eframe::egui::RichText::new("Bus").strong());
+                for seconds in daqcore::can::bus_load::WINDOWS_SECS {
+                    ui.label(
+                        eframe::egui::RichText::new(format!("{seconds}s (Cur / Max)")).strong(),
+                    );
+                }
+                ui.end_row();
+
+                for reading in &last.buses {
+                    let color = color_for_bus(reading.bus_id);
+                    ui.colored_label(color, format!("■ {}", reading.bus_name));
+                    for (win_idx, &current) in reading.values.iter().enumerate() {
+                        let maximum = max_bus_load(samples, reading.bus_id, win_idx);
+                        ui.label(format!("{current:.2}% / {maximum:.2}%"));
+                    }
+                    ui.end_row();
+                }
+            });
     }
 }
