@@ -60,10 +60,6 @@ impl FrameDecoder {
             .unwrap_or_default()
     }
 
-    pub fn bus_by_id(&self, bus_id: u8) -> Option<&superdbc::database::Bus> {
-        self.database.as_ref()?.bus_by_id(bus_id)
-    }
-
     /// Resolve the bus ID for a received frame, returning `None` if the frame
     /// belongs to a bus outside the active selection.
     pub fn resolve_frame_bus(&self, frame: &frame::CanFrame) -> Option<u8> {
@@ -87,7 +83,9 @@ impl FrameDecoder {
         timestamp: time::Time,
     ) -> frame::ParsedFrame {
         let decoded = if frame.kind == frame::FrameKind::Data {
-            self.bus_by_id(bus_id)
+            self.database
+                .as_ref()
+                .and_then(|db| db.bus_by_id(bus_id))
                 .and_then(|bus| bus.decode(frame.identity, &frame.data).ok())
         } else {
             None
