@@ -45,15 +45,6 @@ impl ConnectionManager {
         Some(result)
     }
 
-    pub fn refresh_simulated(&mut self, buses: &[&superdbc::database::Bus]) {
-        if let Some(source @ connection::ConnectionSource::Simulated(true)) = &self.source
-            && self.driver.is_some()
-            && let Ok(driver) = can::driver::create_driver(source, buses)
-        {
-            self.driver = Some(driver);
-        }
-    }
-
     pub fn connected(&self) -> bool {
         self.driver.is_some()
     }

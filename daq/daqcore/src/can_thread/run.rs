@@ -83,7 +83,6 @@ fn run_with_connection(
                             continue;
                         }
                     };
-                    connection.refresh_simulated(&decoder.active_buses());
                     sends = can_thread::tx::SendTable::default();
                     let now = time::Instant::now();
                     hil.handle_command(hil::engine::HilCommand::Stop, now);
