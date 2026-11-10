@@ -114,7 +114,6 @@ impl BusLoad {
             .allow_zoom([false, true])
             .allow_drag([false, true])
             .allow_scroll([false, true])
-            .legend(egui_plot::Legend::default())
             .x_axis_formatter(|mark, _| {
                 let offset_ms = (mark.value * 1000.0).round() as i64;
                 start_time.offset(offset_ms).label()
