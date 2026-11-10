@@ -179,8 +179,12 @@ static bool handle_get_status(const PHAL_USB_SetupPacket_t *setup) {
     // Device status is zero: bus-powered, no remote wakeup. Interface status
     // is also zero. Endpoint status uses bit 0 to report its halt state.
     uint8_t status[2] = {0U, 0U};
-    if (setup->type == PHAL_USB_REQUEST_TYPE_ENDPOINT_IN && setup->index == BULK_IN_ADDRESS) {
-        status[0] = g_usb_context.bulk_halted ? 1U : 0U;
+    if (setup->type == PHAL_USB_REQUEST_TYPE_ENDPOINT_IN) {
+        if (setup->index == BULK_IN_ADDRESS) {
+            status[0] = g_usb_context.bulk_in_halted ? 1U : 0U;
+        } else if (setup->index == BULK_OUT_ADDRESS) {
+            status[0] = g_usb_context.bulk_out_halted ? 1U : 0U;
+        }
     }
     respond(status, sizeof(status), setup->length);
     return true;
