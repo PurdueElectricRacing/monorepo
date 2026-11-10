@@ -344,6 +344,20 @@ static void handle_control_in(void) {
     }
 }
 
+static void handle_bulk_out(void) {
+    can_tx_frame_t packet[MAX_FRAMES_PER_PACKET];
+    uint16_t length = 0U;
+    if (!PHAL_USB_read(PHAL_USB_DATA_ENDPOINT, packet, sizeof(packet), &length)) {
+        return;
+    }
+    if (!g_usb_context.configured || g_usb_context.bulk_out_halted) {
+        return;
+    }
+    if (length == 0U || (length % sizeof(can_tx_frame_t)) != 0U) {
+        return;
+    }
+}
+
 void PHAL_USB_callback(const PHAL_USB_Event_t *event) {
     if (event == nullptr) {
         return;
