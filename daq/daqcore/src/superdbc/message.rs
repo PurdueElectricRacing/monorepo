@@ -3,6 +3,7 @@
 use crate::{frame, superdbc, time};
 use std::collections::{BTreeMap, HashMap};
 
+// Matches the 2.5x nominal period stale timeout defined by CANpiler
 const STALE_TIMEOUT_MULTIPLIER: f64 = 2.5;
 
 /// Complete lookup key within one active database version.
@@ -217,20 +218,22 @@ impl Message {
     }
 
     /// Return the stale timeout in milliseconds (`2.5 * nominal_period_ms`),
-    /// or `None` when the message has no nominal period.
-    pub fn stale_timeout_ms(&self) -> Option<u64> {
-        self.nominal_period_ms.map(|period| (period as f64 * STALE_TIMEOUT_MULTIPLIER).ceil() as u64)
+    /// or `None` when the message has no nominal period
+    pub fn stale_timeout_ms(&self) -> Option<i64> {
+        self.nominal_period_ms.map(|period_ms| {
+            (period_ms as f64 * STALE_TIMEOUT_MULTIPLIER).ceil() as i64
+        })
     }
 
-    /// Return whether a frame received at `last_rx` is stale at `reference_time`.
-    pub fn is_stale(&self, last_rx: time::Time, reference_time: time::Time) -> bool {
+    /// Return whether a frame received at `last_received` is stale at `reference_time`.
+    pub fn is_stale(&self, last_received: time::Time, reference_time: time::Time) -> bool {
         let Some(timeout_ms) = self.stale_timeout_ms() else {
             return false;
         };
         let elapsed_ms = reference_time
             .unix_millis()
-            .saturating_sub(last_rx.unix_millis());
-        elapsed_ms > timeout_ms.min(i64::MAX as u64) as i64
+            .saturating_sub(last_received.unix_millis());
+        elapsed_ms > timeout_ms
     }
 
     /// Return the declared priority (0 through 5); the codec does not schedule or reorder traffic.
