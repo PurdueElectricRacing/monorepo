@@ -15,6 +15,7 @@ pub enum FrameKind {
 /// A received CAN frame without wire framing metadata
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CanFrame {
+    pub bus_id: Option<u8>,
     pub identity: CanIdentity,
     pub kind: FrameKind,
     /// CAN DLC code (0..8 classic, 0..15 FD).
@@ -23,12 +24,13 @@ pub struct CanFrame {
 }
 
 impl CanFrame {
-    pub fn data(identity: CanIdentity, data: Vec<u8>) -> Result<Self, String> {
+    pub fn data(bus_id: Option<u8>, identity: CanIdentity, data: Vec<u8>) -> Result<Self, String> {
         if data.len() > 8 {
             return Err("classic CAN payload exceeds 8 bytes".into());
         }
 
         Ok(Self {
+            bus_id,
             identity,
             kind: FrameKind::Data,
             dlc: data.len() as u8,
@@ -46,12 +48,13 @@ pub struct CanFrameTx {
 
 impl CanFrameTx {
     pub fn data(
+        bus_id: Option<u8>,
         identity: CanIdentity,
         is_extended_id: bool,
         data: Vec<u8>,
     ) -> Result<Self, String> {
         Ok(Self {
-            frame: CanFrame::data(identity, data)?,
+            frame: CanFrame::data(bus_id, identity, data)?,
             is_extended_id,
         })
     }
@@ -60,6 +63,7 @@ impl CanFrameTx {
 #[derive(Debug, Clone)]
 pub struct ParsedFrame {
     pub timestamp: time::Time,
+    pub bus_id: u8,
     pub kind: FrameKind,
     pub dlc: u8,
     pub identity: CanIdentity,
@@ -76,6 +80,13 @@ pub struct DecodedFrame<'a> {
 }
 
 impl ParsedFrame {
+    pub fn key(&self) -> superdbc::message::MessageKey {
+        superdbc::message::MessageKey {
+            bus_id: self.bus_id,
+            identity: self.identity,
+        }
+    }
+
     pub fn decoded_view(&self) -> Option<DecodedFrame<'_>> {
         Some(DecodedFrame {
             timestamp: self.timestamp,

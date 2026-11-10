@@ -34,7 +34,7 @@ pub enum WidgetConstructor {
     ViewerList,
     Bootloader,
     Scope {
-        identity: daqcore::frame::CanIdentity,
+        key: daqcore::superdbc::message::MessageKey,
         msg_name: String,
         signal_name: String,
     },
@@ -95,10 +95,10 @@ impl WidgetConstructor {
                 widgets::Widget::Bootloader(ui::bootloader::Bootloader::new(id))
             }
             WidgetConstructor::Scope {
-                identity,
+                key,
                 msg_name,
                 signal_name,
-            } => widgets::Widget::Scope(ui::scope::Scope::new(id, identity, msg_name, signal_name)),
+            } => widgets::Widget::Scope(ui::scope::Scope::new(id, key, msg_name, signal_name)),
             WidgetConstructor::ScopeEmpty => {
                 widgets::Widget::Scope(ui::scope::Scope::new_empty(id))
             }

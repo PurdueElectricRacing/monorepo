@@ -32,14 +32,15 @@ impl Jitter {
             ui::message_picker::no_database_placeholder(ui);
             return egui_tiles::UiResponse::None;
         };
-        let Some(bus) = database.bus() else {
-            return egui_tiles::UiResponse::None;
-        };
 
-        if let Some(msg) = self.msg_picker.show(ui, bus, self.selected_msg.is_none()) {
+        if let Some(msg) = self
+            .msg_picker
+            .show(ui, database, self.selected_msg.is_none())
+        {
             self.selected_msg = Some(msg);
-            self.period_ms = bus
-                .message(msg.identity)
+            self.period_ms = database
+                .database
+                .message_by_key(msg)
                 .and_then(|message| message.nominal_period_ms())
                 .map_or(100, |ms| ms as usize);
         }
@@ -51,12 +52,14 @@ impl Jitter {
                     .suffix(" ms"),
             );
         });
-        if let Some(msg) = self.selected_msg.and_then(|key| bus.message(key.identity)) {
+        if let Some(key) = self.selected_msg
+            && let Some(msg) = database.database.message_by_key(key)
+        {
             let identity = msg.identity();
-            ui.label(format!("{} (0x{identity:03X})", msg.name()));
+            let bus_name = database.bus_name(key.bus_id);
+            ui.label(format!("[{bus_name}] {} (0x{identity:03X})", msg.name()));
 
-            let mut deviations =
-                interval_deviations(view.setpoint_frames, identity, self.period_ms);
+            let mut deviations = interval_deviations(view.setpoint_frames, key, self.period_ms);
             ui.label("Deviation from nominal period over the shared interval");
             ui.label(format!("Intervals recorded: {}", deviations.len()));
 
@@ -158,12 +161,12 @@ impl Jitter {
 
 fn interval_deviations(
     frames: &[daqcore::frame::ParsedFrame],
-    identity: daqcore::frame::CanIdentity,
+    key: daqcore::superdbc::message::MessageKey,
     period_ms: usize,
 ) -> Vec<f64> {
     let timestamps: Vec<_> = frames
         .iter()
-        .filter(|f| f.identity == identity)
+        .filter(|f| f.key() == key)
         .map(|f| f.timestamp)
         .collect();
     timestamps

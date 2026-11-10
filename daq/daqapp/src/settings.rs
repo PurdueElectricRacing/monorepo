@@ -16,7 +16,7 @@ const DEFAULT_CAN_SPEED: daqcore::connection::CanBusSpeed =
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Settings {
     pub superdbc_path: Option<path::PathBuf>,
-    pub bus_id: Option<u8>,
+    pub bus_selection: Option<daqcore::can_thread::BusSelection>,
     pub selected_source: Option<daqcore::connection::ConnectionSource>,
     pub selected_speed: daqcore::connection::CanBusSpeed,
     pub udp_port: u16,
@@ -30,7 +30,7 @@ impl Default for Settings {
     fn default() -> Self {
         Self {
             superdbc_path: None,
-            bus_id: None,
+            bus_selection: None,
             selected_source: None,
             selected_speed: DEFAULT_CAN_SPEED,
             udp_port: DEFAULT_UDP_PORT,

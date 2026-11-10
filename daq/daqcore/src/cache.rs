@@ -1,4 +1,4 @@
-use crate::{frame, time};
+use crate::{frame, superdbc, time};
 use std::{collections::HashMap, mem, ops};
 
 pub type CachedFrame = frame::ParsedFrame;
@@ -7,7 +7,7 @@ pub type CachedFrame = frame::ParsedFrame;
 pub struct RamCache {
     frames: Vec<CachedFrame>,
     first_index: usize,
-    latest: HashMap<frame::CanIdentity, CachedFrame>,
+    latest: HashMap<superdbc::message::MessageKey, CachedFrame>,
 }
 
 impl RamCache {
@@ -36,11 +36,11 @@ impl RamCache {
         Some((first, last))
     }
 
-    pub fn latest(&self, id: frame::CanIdentity) -> Option<&CachedFrame> {
-        self.latest.get(&id)
+    pub fn latest(&self, key: superdbc::message::MessageKey) -> Option<&CachedFrame> {
+        self.latest.get(&key)
     }
 
-    pub fn latest_map(&self) -> &HashMap<frame::CanIdentity, CachedFrame> {
+    pub fn latest_map(&self) -> &HashMap<superdbc::message::MessageKey, CachedFrame> {
         &self.latest
     }
 
@@ -60,7 +60,7 @@ impl RamCache {
             return;
         }
 
-        self.latest.insert(frame.identity, frame.clone());
+        self.latest.insert(frame.key(), frame.clone());
         self.frames.push(frame);
     }
 
@@ -100,7 +100,7 @@ impl RamCache {
         self.latest.clear();
         for frame in self.frames.iter().rev() {
             self.latest
-                .entry(frame.identity)
+                .entry(frame.key())
                 .or_insert_with(|| frame.clone());
         }
     }
@@ -145,13 +145,13 @@ impl RamCache {
 
     pub fn signal_series(
         &self,
-        id: frame::CanIdentity,
+        key: superdbc::message::MessageKey,
         signal: &str,
         range: ops::RangeInclusive<time::Time>,
     ) -> Vec<(time::Time, f64)> {
         self.frames_in_range(range)
             .iter()
-            .filter(|f| f.identity == id)
+            .filter(|f| f.key() == key)
             .filter_map(|f| {
                 let decoded = f.decoded.as_ref()?;
                 let value = decoded.signal(signal)?.physical();
