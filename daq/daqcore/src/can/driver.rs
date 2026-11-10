@@ -149,6 +149,49 @@ struct CannectorTxFrame {
     data: [u8; 8],
 }
 
+impl CannectorTxFrame {
+    fn from_tx_frame(tx_frame: frame::CanFrameTx) -> DriverResult<Self> {
+        let f = tx_frame.frame;
+        match f.kind {
+            frame::FrameKind::Data => {}
+            frame::FrameKind::Remote => {
+                return Err(DriverError::Unsupported(
+                    "CANnector remote frame transmission is unsupported".into(),
+                ));
+            }
+            frame::FrameKind::Fd { .. } => {
+                return Err(DriverError::Unsupported(
+                    "CANnector CAN FD transmission is unsupported".into(),
+                ));
+            }
+        }
+
+        let max_id = if tx_frame.is_extended_id {
+            can::EXTENDED_ID_MASK
+        } else {
+            can::STANDARD_ID_MASK
+        };
+        if f.identity > max_id {
+            return Err(DriverError::Write("invalid ID".into()));
+        }
+        if f.data.len() > 8 || usize::from(f.dlc) != f.data.len() {
+            return Err(DriverError::Write("invalid payload".into()));
+        }
+
+        let mut data = [0u8; 8];
+        data[..f.data.len()].copy_from_slice(&f.data);
+
+        Ok(Self {
+            can_id: f.identity,
+            bus_id: f.bus_id.unwrap_or(0),
+            dlc: f.dlc,
+            is_extended_id: u8::from(tx_frame.is_extended_id),
+            reserved: 0,
+            data,
+        })
+    }
+}
+
 pub struct CannectorDriver {
     handle: rusb::DeviceHandle<rusb::GlobalContext>,
 }
