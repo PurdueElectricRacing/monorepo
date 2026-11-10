@@ -264,7 +264,7 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev);
 void ADBMS6380_read_gpio_voltages(adbms6380_t *dev);
 
 /**
- * @brief Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures.
+ * @brief Read all GPIO voltages, start the next ADAX conversion, and convert to cell and onboard temperatures.
  *
  * Populates each chip's @ref gpio_voltages, @ref cell_temps, and @ref board_temp fields.
  *

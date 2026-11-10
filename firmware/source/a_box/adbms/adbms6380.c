@@ -417,13 +417,10 @@ static float gpio_v_to_r2(float v_out) {
 }
 
 void ADBMS6380_read_temperatures(adbms6380_t *dev, const adbms6380_adax_config_t *cfg) {
-    ADBMS6380_start_adax(dev, cfg);
-
-    // TODO: wait for AUX conversion completion before reading (PLAUX)
-    // ADAX preserves previous results, so this immediate read may return the
-    // previous scan or mixed old/new values.
-    // This is not terrible, but should be fixed later.
+    // Read the completed AUX results from the previous cycle's ADAX command,
+    // then start the next ADAX conversion for the following cycle.
     ADBMS6380_read_gpio_voltages(dev);
+    ADBMS6380_start_adax(dev, cfg);
 
     // Convert GPIO voltages to cell and onboard temperatures
     // GPIO voltage -> R2 in the thermistor divider -> temperature via respective thermistor curve
