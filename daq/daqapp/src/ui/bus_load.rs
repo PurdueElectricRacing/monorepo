@@ -23,6 +23,20 @@ fn max_bus_load(samples: &[telemetry::BusLoadSample], bus_id: u8, window_idx: us
         .fold(0.0, f32::max)
 }
 
+fn show_load_row(
+    ui: &mut eframe::egui::Ui,
+    samples: &[telemetry::BusLoadSample],
+    reading: &daqcore::can::bus_load::BusLoadReading,
+) {
+    let color = color_for_bus(reading.bus_id);
+    ui.colored_label(color, format!("■ {}", reading.bus_name));
+    for (win_idx, &current) in reading.values.iter().enumerate() {
+        let maximum = max_bus_load(samples, reading.bus_id, win_idx);
+        ui.label(format!("{current:.2}% / {maximum:.2}%"));
+    }
+    ui.end_row();
+}
+
 pub struct BusLoad {
     pub title: String,
 }
@@ -139,13 +153,7 @@ impl BusLoad {
                 ui.end_row();
 
                 for reading in &last.buses {
-                    let color = color_for_bus(reading.bus_id);
-                    ui.colored_label(color, format!("■ {}", reading.bus_name));
-                    for (win_idx, &current) in reading.values.iter().enumerate() {
-                        let maximum = max_bus_load(samples, reading.bus_id, win_idx);
-                        ui.label(format!("{current:.2}% / {maximum:.2}%"));
-                    }
-                    ui.end_row();
+                    show_load_row(ui, samples, reading);
                 }
             });
     }
