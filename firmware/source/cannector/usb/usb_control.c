@@ -1,10 +1,8 @@
 /**
  * @file usb_control.c
- * @brief Host enumeration and endpoint-zero control transfers (USB ISR context).
- *
- * The HAL owns hardware and packet memory. This module supplies descriptors,
- * validates host requests, and tracks when the CAN data endpoint may be used.
+ * @brief Host enumeration and endpoint-zero control transfers (USB ISR context)
  */
+
 #include "usb_control.h"
 
 #include <string.h>

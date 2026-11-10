@@ -5,12 +5,11 @@
 #ifndef CANNECTOR_USB_CONTROL_H
 #define CANNECTOR_USB_CONTROL_H
 
-#include "common/phal_G4/usb/usb.h"
+#include <stdint.h>
 
 // Zero is a valid address/configuration
 // UINT16_MAX is an out-of-range pending sentinel
 static constexpr uint16_t NO_PENDING_VALUE = UINT16_MAX;
-
 
 typedef struct {
     volatile bool configured;       // The host has selected configuration 1 and completed its acknowledgement

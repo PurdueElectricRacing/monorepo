@@ -1,8 +1,9 @@
 /**
  * @file usb_device.h
- * @brief USB tx thread
+ * @brief Periodic CAN<->USB forwarding
  *
  * @author Irving Wang (irvingw@purdue.edu)
+ * @author Millan Kumar (kumar798@purdue.edu)
  */
 
 #ifndef USB_DEVICE_H
@@ -16,6 +17,8 @@
 
 static constexpr size_t MAX_FRAMES_PER_PACKET = 4U;
 static_assert(MAX_FRAMES_PER_PACKET * sizeof(timestamped_frame_t) == PHAL_USB_PACKET_SIZE_BYTES);
+
+static constexpr size_t USB_RX_QUEUE_CAPACITY = 32U;
 
 /**
  * @brief CAN frame structure for USB -> CAN transmission
@@ -32,7 +35,7 @@ typedef struct {
 static_assert(sizeof(can_tx_frame_t) == 16U);
 static_assert(MAX_FRAMES_PER_PACKET * sizeof(can_tx_frame_t) == PHAL_USB_PACKET_SIZE_BYTES);
 
-void usb_rx_enqueue(const can_tx_frame_t *frames, size_t count);
+void usb_rx_enqueue(const can_tx_frame_t* frames, size_t count);
 void usb_tx_periodic(void);
 
 #endif // USB_DEVICE_H
