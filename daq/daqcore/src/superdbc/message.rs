@@ -220,9 +220,8 @@ impl Message {
     /// Return the stale timeout in milliseconds (`2.5 * nominal_period_ms`),
     /// or `None` when the message has no nominal period
     pub fn stale_timeout_ms(&self) -> Option<i64> {
-        self.nominal_period_ms.map(|period_ms| {
-            (period_ms as f64 * STALE_TIMEOUT_MULTIPLIER).ceil() as i64
-        })
+        self.nominal_period_ms
+            .map(|period_ms| (period_ms as f64 * STALE_TIMEOUT_MULTIPLIER).ceil() as i64)
     }
 
     /// Return whether a frame received at `last_received` is stale at `reference_time`.
