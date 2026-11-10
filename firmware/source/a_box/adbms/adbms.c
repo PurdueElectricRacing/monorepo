@@ -184,6 +184,7 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
 
             bms->recovery_attempts = 0U; // successful connect
             ADBMS6380_start_adcv(&bms->dev, &ADBMS_ADCV_CFG);
+            ADBMS6380_start_adax(&bms->dev, &ADBMS_ADAX_CFG);
             next_state = ADBMS_STATE_READ_LOOP;
             break;
         }
