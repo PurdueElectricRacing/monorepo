@@ -20,8 +20,9 @@ static const uint8_t LANGUAGE_DESCRIPTOR[] = {
 // Keep the complete UTF-16LE descriptor within the HAL's single-packet limit.
 static_assert(2U + 2U * (sizeof(USB_PRODUCT_NAME) - 1U) <= PHAL_USB_PACKET_SIZE_BYTES);
 
-// IN is named from the host's perspective: board -> laptop, endpoint 1
+// IN/OUT are named from the host's perspective: endpoint 1
 static constexpr uint8_t BULK_IN_ADDRESS = PHAL_USB_ENDPOINT_ADDRESS_IN | PHAL_USB_DATA_ENDPOINT;
+static constexpr uint8_t BULK_OUT_ADDRESS = PHAL_USB_DATA_ENDPOINT;
 
 /**
  * Device identity:
@@ -54,13 +55,13 @@ static const uint8_t DEVICE_DESCRIPTOR[] = {
 /**
  * Configuration 1 is the CAN-to-USB bridge.
  * Configuration 0 disables it.
- * One interface (0), with one alternate setting (0), advertises one bulk IN endpoint (0x81).
+ * One interface (0), with one alternate setting (0), advertises bulk IN (0x81) and bulk OUT (0x01).
  */
 static const uint8_t CONFIGURATION_DESCRIPTOR[] = {
     // Configuration descriptor: 9 bytes
     PHAL_USB_CONFIGURATION_DESCRIPTOR_LENGTH,
     PHAL_USB_DESCRIPTOR_CONFIGURATION,
-    25U, 0U,                             // Total length: 9 + 9 + 7 bytes
+    32U, 0U,                             // Total length: 9 + 9 + 7 + 7 bytes
     1U,                                  // Number of interfaces
     1U,                                  // Configuration value selected by host
     0U,                                  // No configuration string
@@ -73,22 +74,30 @@ static const uint8_t CONFIGURATION_DESCRIPTOR[] = {
     PHAL_USB_DESCRIPTOR_INTERFACE,
     0U,                                  // Interface number
     0U,                                  // Alternate setting
-    1U,                                  // Number of endpoints (excluding EP0)
+    2U,                                  // Number of endpoints (excluding EP0)
     PHAL_USB_DEVICE_CLASS_VENDOR_SPECIFIC,
     0U,                                  // Interface subclass
     0U,                                  // Interface protocol
     0U,                                  // No interface string
 
-    // Endpoint descriptor: 7 bytes
+    // Endpoint descriptor: 7 bytes (Bulk IN)
     PHAL_USB_ENDPOINT_DESCRIPTOR_LENGTH,
     PHAL_USB_DESCRIPTOR_ENDPOINT,
     BULK_IN_ADDRESS,
     PHAL_USB_ENDPOINT_TRANSFER_TYPE_BULK,
     PHAL_USB_PACKET_SIZE_BYTES, 0U,      // Maximum packet size: 64 bytes
     0U,                                  // Polling interval unused for bulk IN
+
+    // Endpoint descriptor: 7 bytes (Bulk OUT)
+    PHAL_USB_ENDPOINT_DESCRIPTOR_LENGTH,
+    PHAL_USB_DESCRIPTOR_ENDPOINT,
+    BULK_OUT_ADDRESS,
+    PHAL_USB_ENDPOINT_TRANSFER_TYPE_BULK,
+    PHAL_USB_PACKET_SIZE_BYTES, 0U,      // Maximum packet size: 64 bytes
+    0U,                                  // Polling interval unused for bulk OUT
 };
 
 static_assert(sizeof(DEVICE_DESCRIPTOR) == PHAL_USB_DEVICE_DESCRIPTOR_LENGTH);
-static_assert(sizeof(CONFIGURATION_DESCRIPTOR) == 25U);
+static_assert(sizeof(CONFIGURATION_DESCRIPTOR) == 32U);
 
 #endif
