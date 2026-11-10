@@ -20,15 +20,16 @@ impl FrameDecoder {
             } => {
                 let database =
                     superdbc::database::Database::load(path).map_err(|error| error.to_string())?;
-                let selection = [
-                    *preferred_selection,
-                    Some(can_thread::BusSelection::Vehicle),
-                ]
-                .into_iter()
-                .flatten()
-                .find(|sel| sel.resolve_buses(&database).is_some())
-                .or_else(|| can_thread::BusSelection::default_single(&database))
-                .ok_or_else(|| "SuperDBC contains no selectable buses".to_owned())?;
+                let fallback_preset = match preferred_selection {
+                    Some(can_thread::BusSelection::Single(_)) => None,
+                    _ => Some(can_thread::BusSelection::Vehicle),
+                };
+                let selection = [*preferred_selection, fallback_preset]
+                    .into_iter()
+                    .flatten()
+                    .find(|sel| sel.resolve_buses(&database).is_some())
+                    .or_else(|| can_thread::BusSelection::default_single(&database))
+                    .ok_or_else(|| "SuperDBC contains no selectable buses".to_owned())?;
                 let update = can_thread::DatabaseUpdate::Loaded {
                     database: Box::new(database.clone()),
                     selection,
