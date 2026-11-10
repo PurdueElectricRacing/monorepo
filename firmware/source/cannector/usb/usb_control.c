@@ -46,11 +46,11 @@ static bool valid_endpoint(uint16_t index) {
     }
 
     // EP0 supports both directions.
-    // Only bulk IN is advertised for application data.
+    // Bulk IN and bulk OUT are advertised for application data.
     if (index == 0U || index == PHAL_USB_ENDPOINT_ADDRESS_IN) {
         return true;
     }
-    return g_usb_context.configured && index == BULK_IN_ADDRESS;
+    return g_usb_context.configured && (index == BULK_IN_ADDRESS || index == BULK_OUT_ADDRESS);
 }
 
 static bool handle_get_descriptor(const PHAL_USB_SetupPacket_t *setup) {
