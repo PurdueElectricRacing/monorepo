@@ -7,6 +7,7 @@ use rand::RngExt as _;
 use rand::seq::IteratorRandom as _;
 
 const READ_TIMEOUT: time::Duration = time::Duration::from_millis(10);
+const WRITE_TIMEOUT: time::Duration = time::Duration::from_millis(10);
 
 #[derive(Debug)]
 pub enum DriverError {
@@ -202,6 +203,7 @@ impl CannectorDriver {
     const CONFIGURATION: u8 = 1;
     const INTERFACE: u8 = 0;
     const BULK_IN_ENDPOINT: u8 = 0x81;
+    const BULK_OUT_ENDPOINT: u8 = 0x01;
     const PACKET_SIZE: usize = 64; // 4 timestamped frames
 
     fn new() -> DriverResult<Self> {
@@ -232,10 +234,17 @@ impl Driver for CannectorDriver {
         parse_daq_buffer(&buffer[..len])
     }
 
-    fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
-        Err(DriverError::Unsupported(
-            "CANnector transmission is unsupported".into(),
-        ))
+    fn write_frame(&mut self, tx_frame: frame::CanFrameTx) -> DriverResult<()> {
+        let raw = CannectorTxFrame::from_tx_frame(tx_frame)?;
+        let bytes = bytemuck::bytes_of(&raw);
+        let written = self
+            .handle
+            .write_bulk(Self::BULK_OUT_ENDPOINT, bytes, WRITE_TIMEOUT)
+            .map_err(|error| DriverError::Write(error.to_string()))?;
+        if written != bytes.len() {
+            return Err(DriverError::Write("incomplete USB bulk write".into()));
+        }
+        Ok(())
     }
 }
 
