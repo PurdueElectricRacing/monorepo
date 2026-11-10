@@ -224,7 +224,7 @@ void PHAL_FDCAN_priv_writeStandardFilters(FDCAN_GlobalTypeDef *fdcan, const uint
  
     // Set up each filter element
     for (uint32_t i = 0; i < num_sid; i++) {
-        uint32_t sid = sid_list[i] & 0x7FFU; // 11-bit standard ID
+        uint32_t sid = sid_list[i] & PHAL_FDCAN_MAX_STD_ID; // 11-bit standard ID
         // SFT=10 (classic mask), SFEC=001 (store to FIFO0), SFID1=sid, SFID2=mask (all 1s -> exact match)
         // Packed:
         // SFT = Standard Filter Type, bits[31:30]
@@ -236,7 +236,7 @@ void PHAL_FDCAN_priv_writeStandardFilters(FDCAN_GlobalTypeDef *fdcan, const uint
         // SFID2: Standard Filter ID 2, bits[10:0]
         // - comparison mask in classic filter mode
         // - all-1s: every bit of SFID1 must match exactly
-        ram[i] = (2U << 30) | (1U << 27) | (sid << 16) | 0x7FFU;
+        ram[i] = (2U << 30) | (1U << 27) | (sid << 16) | PHAL_FDCAN_MAX_STD_ID;
     }
  
     // Set the number of standard filters
@@ -253,7 +253,7 @@ void PHAL_FDCAN_priv_writeExtendedFilters(FDCAN_GlobalTypeDef *fdcan, const uint
  
     // Set up each filter element
     for (uint32_t i = 0; i < num_xid; i++) {
-        uint32_t xid = xid_list[i] & 0x1FFFFFFFU; // 29-bit extended ID
+        uint32_t xid = xid_list[i] & PHAL_FDCAN_MAX_EXT_ID; // 29-bit extended ID
 
         // Word 0:
         // - EFEC = Extended Filter Element Configuration, bits[31:29]
@@ -267,7 +267,7 @@ void PHAL_FDCAN_priv_writeExtendedFilters(FDCAN_GlobalTypeDef *fdcan, const uint
         //   - 2: selects classic filter: match EFID1 exactly under a mask
         // - [29:0]: the mask
         //   - all-1s means every bit of EFID1 must match exactly
-        ram[i * 2 + 1] = (2U << 30) | 0x1FFFFFFFU;
+        ram[i * 2 + 1] = (2U << 30) | PHAL_FDCAN_MAX_EXT_ID;
     }
  
     // Set the number of extended filters
@@ -280,7 +280,7 @@ void PHAL_FDCAN_priv_writeExtendedFilters(FDCAN_GlobalTypeDef *fdcan, const uint
     // - a single, global mask ANDed against every incoming extended ID before
     //   filter matching
     // - all-1s: means do not prematurely filter, only the per-filter-element masks are used
-    fdcan->XIDAM = 0x1FFFFFFFU;
+    fdcan->XIDAM = PHAL_FDCAN_MAX_EXT_ID;
 }
  
 void PHAL_FDCAN_priv_writeTxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t *msg) {
@@ -299,10 +299,10 @@ void PHAL_FDCAN_priv_writeTxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t 
     // Standard id/extended id
     if (msg->IDE) {
         // Extended-ID frames place their 29-bit ID in bits [28:0]
-        tx[0] = (msg->ExtId & 0x1FFFFFFFU) | (1U << 30); // extended ID, IDE=1
+        tx[0] = (msg->ExtId & PHAL_FDCAN_MAX_EXT_ID) | (1U << 30); // extended ID, IDE=1
     } else {
         // Standard-ID frames place their 11-bit ID in bits [28:18]
-        tx[0] = ((uint32_t)(msg->StdId & 0x7FFU) << 18);  // standard ID, IDE=0
+        tx[0] = ((uint32_t)(msg->StdId & PHAL_FDCAN_MAX_STD_ID) << 18); // standard ID, IDE=0
     }
 
     // Word 1 of a TX element header:
@@ -361,9 +361,9 @@ bool PHAL_FDCAN_priv_readRxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t *
     msg->IDE = ((w0 & (1U << 30)) != 0); // bit 30 = XTD (extended id flag)
     
     if (msg->IDE) {
-        msg->ExtId = w0 & 0x1FFFFFFFU; // 29-bit extended ID
+        msg->ExtId = w0 & PHAL_FDCAN_MAX_EXT_ID; // 29-bit extended ID
     } else {
-        msg->StdId = (uint16_t)((w0 >> 18) & 0x7FFU); // 11-bit standard id
+        msg->StdId = (uint16_t)((w0 >> 18) & PHAL_FDCAN_MAX_STD_ID); // 11-bit standard id
     }
  
     // Decode DLC
