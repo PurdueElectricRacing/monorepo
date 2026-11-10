@@ -4,7 +4,9 @@ use crate::{frame, superdbc, time};
 use std::collections::{BTreeMap, HashMap};
 
 // Matches the 2.5x nominal period stale timeout defined by CANpiler
-const STALE_TIMEOUT_MULTIPLIER: f64 = 2.5;
+// Uses the same integer arithmetic as CANpiler
+const STALE_TIMEOUT_MULTIPLIER_NUMERATOR: i64 = 5;
+const STALE_TIMEOUT_MULTIPLIER_DENOMINATOR: i64 = 2;
 
 /// Complete lookup key within one active database version.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -220,8 +222,10 @@ impl Message {
     /// Return the stale timeout in milliseconds (`2.5 * nominal_period_ms`),
     /// or `None` when the message has no nominal period
     pub fn stale_timeout_ms(&self) -> Option<i64> {
-        self.nominal_period_ms
-            .map(|period_ms| (period_ms as f64 * STALE_TIMEOUT_MULTIPLIER).ceil() as i64)
+        self.nominal_period_ms.map(|period_ms| {
+            (period_ms as i64) * STALE_TIMEOUT_MULTIPLIER_NUMERATOR
+                / STALE_TIMEOUT_MULTIPLIER_DENOMINATOR
+        })
     }
 
     /// Return whether a frame received at `last_received` is stale at `reference_time`.
