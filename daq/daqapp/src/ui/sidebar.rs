@@ -1,4 +1,4 @@
-use crate::{action, app, assets, settings, util, widget_constructor};
+use crate::{action, app, assets, settings, ui, util, widget_constructor};
 use std::path;
 
 pub fn select_database(app: &mut app::DAQApp) {
@@ -24,15 +24,6 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 );
                 ui.heading("Side bar");
             });
-            ui.separator();
-
-            let theme_label = format!("🎨 Theme: {}", app.theme_selection.get_name());
-
-            if ui.button(theme_label).clicked() {
-                app.toggle_theme(ui.ctx());
-                app.save_settings();
-            }
-
             ui.separator();
 
             if ui.button("Add CAN Viewer Table").clicked() {
@@ -267,13 +258,13 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
                 // Connection status indicator
                 let (status_icon, status_color) = match &app.connection_status {
                     app::ConnectionStatus::Disconnected => {
-                        ("⚪ Disconnected".to_string(), eframe::egui::Color32::GRAY)
+                        ("⚪ Disconnected".to_string(), ui::colors::DARK_GRAY)
                     }
                     app::ConnectionStatus::Connected => {
-                        ("🟢 Connected".to_string(), eframe::egui::Color32::GREEN)
+                        ("🟢 Connected".to_string(), ui::colors::GREEN)
                     }
                     app::ConnectionStatus::Error(e) => {
-                        (format!("🔴 Error: {}", e), eframe::egui::Color32::RED)
+                        (format!("🔴 Error: {}", e), ui::colors::RED)
                     }
                 };
                 ui.label(eframe::egui::RichText::new(status_icon).color(status_color));

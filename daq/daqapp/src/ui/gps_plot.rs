@@ -1,4 +1,4 @@
-use crate::telemetry;
+use crate::{telemetry, ui};
 
 const DEFAULT_CENTER_LAT: f64 = 40.4344;
 const DEFAULT_CENTER_LON: f64 = -86.9183;
@@ -89,7 +89,7 @@ impl GpsPlot {
             walkers::Map::new(Some(tiles), &mut self.map_memory, position).with_plugin(CarDot {
                 trail,
                 visible: fix.is_some(),
-                color: eframe::egui::Color32::BLACK,
+                color: ui::colors::BLUE,
             }),
         );
         egui_tiles::UiResponse::None
@@ -125,12 +125,11 @@ impl walkers::Plugin for CarDot {
         for i in 1..screen_points.len() {
             // age of the segment's newer endpoint drives its look
             let (_, age) = self.trail[i];
-            let fade = 0.15 + 0.85 * age;
             let width = 1.0 + 2.5 * age;
 
             painter.line_segment(
                 [screen_points[i - 1], screen_points[i]],
-                eframe::egui::Stroke::new(width, self.color.gamma_multiply(fade)),
+                eframe::egui::Stroke::new(width, self.color),
             );
         }
 
@@ -140,7 +139,7 @@ impl walkers::Plugin for CarDot {
             painter.circle_stroke(
                 current,
                 4.0,
-                eframe::egui::Stroke::new(1.5_f32, eframe::egui::Color32::WHITE),
+                eframe::egui::Stroke::new(1.5_f32, ui::colors::WHITE),
             );
         }
     }

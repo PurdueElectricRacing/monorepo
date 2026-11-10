@@ -1,4 +1,4 @@
-use crate::{telemetry, ui, util};
+use crate::{telemetry, ui};
 
 const T_MIN: f64 = 15.0;
 const T_MAX: f64 = 45.0;
@@ -20,20 +20,18 @@ impl Default for ThermistorTemperature {
 impl ThermistorTemperature {
     pub fn color(&self) -> eframe::egui::Color32 {
         if !self.temperature.is_finite() {
-            return eframe::egui::Color32::GRAY;
+            return ui::colors::DARK_GRAY;
         }
 
         let temperature = self.temperature.clamp(T_MIN, T_MAX);
 
-        let hue = if temperature <= T_NOM {
+        if temperature <= T_NOM {
             let t = (temperature - T_MIN) / (T_NOM - T_MIN);
-            util::lerp(120.0, 45.0, t)
+            ui::colors::lerp_color(ui::colors::GREEN, ui::colors::YELLOW, t)
         } else {
             let t = (temperature - T_NOM) / (T_MAX - T_NOM);
-            util::lerp(45.0, 0.0, t)
-        };
-
-        util::hsv_to_color32(hue, 1.0, 1.0)
+            ui::colors::lerp_color(ui::colors::YELLOW, ui::colors::RED, t)
+        }
     }
 }
 
@@ -56,8 +54,6 @@ impl BatteryTemps {
         let (modules, last_update) = thermistor_temperatures(view.setpoint_frames);
         let (stale, elapsed) = ui::battery::common::sample_age(last_update, view.view_time());
 
-        let theme = ui::theme::get_theme(ui.ctx());
-
         let temperatures = modules
             .iter()
             .flatten()
@@ -70,11 +66,11 @@ impl BatteryTemps {
         let temp_avg = temp_sum / temp_count;
         let temp_range = temp_max - temp_min;
         let range_color = if temp_range > 10.0 {
-            theme.error_color()
+            ui::colors::RED
         } else if temp_range > 5.0 {
-            theme.warning_color()
+            ui::colors::YELLOW
         } else {
-            theme.success_color()
+            ui::colors::GREEN
         };
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
@@ -82,20 +78,19 @@ impl BatteryTemps {
             ui.heading(&self.title);
             ui.add_space(4.0);
 
-            ui::battery::common::stale_banner(ui, &theme, stale, elapsed);
+            ui::battery::common::stale_banner(ui, stale, elapsed);
 
             ui.add_space(8.0);
             ui.label(
                 eframe::egui::RichText::new("PACK SUMMARY")
                     .size(10.0)
-                    .color(theme.text_color().linear_multiply(0.5)),
+                    .color(ui::colors::DARK_GRAY),
             );
             ui.add_space(4.0);
 
             ui.columns(4, |cols| {
                 ui::battery::common::stat_card(
                     &mut cols[0],
-                    &theme,
                     "TEMP MIN",
                     Some(temp_min),
                     "°C",
@@ -104,7 +99,6 @@ impl BatteryTemps {
                 );
                 ui::battery::common::stat_card(
                     &mut cols[1],
-                    &theme,
                     "TEMP AVG",
                     Some(temp_avg),
                     "°C",
@@ -113,7 +107,6 @@ impl BatteryTemps {
                 );
                 ui::battery::common::stat_card(
                     &mut cols[2],
-                    &theme,
                     "TEMP MAX",
                     Some(temp_max),
                     "°C",
@@ -122,7 +115,6 @@ impl BatteryTemps {
                 );
                 ui::battery::common::stat_card(
                     &mut cols[3],
-                    &theme,
                     "TEMP RANGE",
                     Some(temp_range),
                     "°C",
@@ -158,8 +150,8 @@ impl BatteryTemps {
                         .count() as f64;
 
                 eframe::egui::Frame::NONE
-                    .fill(theme.panel_color())
-                    .stroke(eframe::egui::Stroke::new(1.0_f32, theme.accent_color()))
+                    .fill(ui.visuals().faint_bg_color)
+                    .stroke(ui.visuals().widgets.noninteractive.bg_stroke)
                     .inner_margin(eframe::egui::Margin::same(10))
                     .corner_radius(eframe::egui::CornerRadius::same(4))
                     .show(ui, |ui| {
@@ -176,7 +168,7 @@ impl BatteryTemps {
                                     ui::battery::common::reading(module_avg, 1)
                                 ))
                                 .size(10.0)
-                                .color(theme.text_color().linear_multiply(0.55)),
+                                .color(ui::colors::DARK_GRAY),
                             );
                             ui.label(
                                 eframe::egui::RichText::new(format!(
@@ -184,7 +176,7 @@ impl BatteryTemps {
                                     ui::battery::common::reading(module_min, 1)
                                 ))
                                 .size(10.0)
-                                .color(theme.text_color().linear_multiply(0.55)),
+                                .color(ui::colors::DARK_GRAY),
                             );
                             ui.label(
                                 eframe::egui::RichText::new(format!(
@@ -192,7 +184,7 @@ impl BatteryTemps {
                                     ui::battery::common::reading(module_max, 1)
                                 ))
                                 .size(10.0)
-                                .color(theme.text_color().linear_multiply(0.55)),
+                                .color(ui::colors::DARK_GRAY),
                             );
                         });
 
@@ -206,7 +198,7 @@ impl BatteryTemps {
 
                         ui.horizontal(|ui| {
                             for cell in module.iter() {
-                                temp_bar(ui, &theme, cell, stale, bar_width);
+                                temp_bar(ui, cell, stale, bar_width);
                             }
                         });
                     });
@@ -219,15 +211,9 @@ impl BatteryTemps {
     }
 }
 
-fn temp_bar(
-    ui: &mut eframe::egui::Ui,
-    theme: &ui::theme::ThemeColors,
-    cell: &ThermistorTemperature,
-    stale: bool,
-    bar_w: f32,
-) {
+fn temp_bar(ui: &mut eframe::egui::Ui, cell: &ThermistorTemperature, stale: bool, bar_w: f32) {
     let fill_color = if stale {
-        theme.text_color().linear_multiply(0.12)
+        ui::colors::DARK_GRAY
     } else {
         cell.color()
     };
@@ -247,11 +233,11 @@ fn temp_bar(
         );
 
         let painter = ui.painter();
-        painter.rect_filled(outer_rect, 3.0, theme.text_color().linear_multiply(0.06));
+        painter.rect_filled(outer_rect, 3.0, ui.visuals().extreme_bg_color);
         painter.rect_stroke(
             outer_rect,
             3.0,
-            eframe::egui::Stroke::new(0.5_f32, theme.accent_color()),
+            ui.visuals().widgets.noninteractive.bg_stroke,
             eframe::egui::StrokeKind::Inside,
         );
 
@@ -269,11 +255,11 @@ fn temp_bar(
         };
 
         let text_color = if stale {
-            theme.text_color().linear_multiply(0.25)
+            ui::colors::DARK_GRAY
         } else if fill_frac > 0.5 {
-            eframe::egui::Color32::BLACK
+            ui::colors::BLACK
         } else {
-            eframe::egui::Color32::WHITE
+            ui::colors::WHITE
         };
 
         painter.text(

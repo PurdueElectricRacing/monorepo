@@ -34,14 +34,12 @@ impl Dynamics {
             .unwrap_or(f64::INFINITY);
         let stale = elapsed > STALE_TIMEOUT_SECONDS as f64;
 
-        let theme = ui::theme::get_theme(ui.ctx());
-
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
             ui.heading(&self.title);
             ui.add_space(4.0);
 
-            draw_status_banner(ui, &theme, stale, elapsed);
+            ui::battery::common::stale_banner(ui, stale, elapsed);
 
             ui.add_space(8.0);
 
@@ -51,11 +49,11 @@ impl Dynamics {
             let (rect, _response) = ui.allocate_exact_size(size, eframe::egui::Sense::hover());
 
             let painter = ui.painter();
-            painter.rect_filled(rect, 4.0, theme.panel_color());
+            painter.rect_filled(rect, 4.0, ui.visuals().faint_bg_color);
             painter.rect_stroke(
                 rect,
                 4.0,
-                eframe::egui::Stroke::new(1.0_f32, theme.accent_color()),
+                ui.visuals().widgets.noninteractive.bg_stroke,
                 eframe::egui::StrokeKind::Inside,
             );
 
@@ -63,10 +61,10 @@ impl Dynamics {
             let center = rect.center();
             let pixels_per_meter = rect.width() / 6.0; // 6 meters total width
 
-            draw_chassis(painter, center, pixels_per_meter, &theme);
+            draw_chassis(painter, center, pixels_per_meter);
 
             if !stale {
-                draw_dynamics(painter, center, pixels_per_meter, &theme, &values);
+                draw_dynamics(painter, center, pixels_per_meter, &values);
             }
         });
 
@@ -137,50 +135,10 @@ fn dynamics_values(frames: &[daqcore::frame::ParsedFrame]) -> DynamicsValues {
     values
 }
 
-fn draw_status_banner(
-    ui: &mut eframe::egui::Ui,
-    theme: &ui::theme::ThemeColors,
-    stale: bool,
-    elapsed: f64,
-) {
-    let (bg, dot, text) = if stale {
-        let c = theme.warning_color();
-        (
-            eframe::egui::Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
-            c,
-            format!("No data — last message {:.1} s ago", elapsed),
-        )
-    } else {
-        let c = theme.success_color();
-        (
-            eframe::egui::Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
-            c,
-            format!("Live — last message {:.1} s ago", elapsed),
-        )
-    };
-    eframe::egui::Frame::NONE
-        .fill(bg)
-        .stroke(eframe::egui::Stroke::new(1.0_f32, dot.linear_multiply(0.5)))
-        .inner_margin(eframe::egui::Margin::symmetric(10, 6))
-        .corner_radius(eframe::egui::CornerRadius::same(4))
-        .show(ui, |ui| {
-            ui.horizontal(|ui| {
-                let (rect, _) = ui.allocate_exact_size(
-                    eframe::egui::Vec2::splat(8.0),
-                    eframe::egui::Sense::hover(),
-                );
-                ui.painter().circle_filled(rect.center(), 4.0, dot);
-                ui.add_space(4.0);
-                ui.colored_label(dot, &text);
-            });
-        });
-}
-
 fn draw_chassis(
     painter: &eframe::egui::Painter,
     center: eframe::egui::Pos2,
     pixels_per_meter: f32,
-    theme: &ui::theme::ThemeColors,
 ) {
     // 1. Draw Chassis (Top-down)
     let chassis_w = CHASSIS_WIDTH_M * pixels_per_meter;
@@ -191,7 +149,7 @@ fn draw_chassis(
     painter.rect_stroke(
         chassis_rect,
         2.0,
-        eframe::egui::Stroke::new(2.0_f32, theme.text_color().linear_multiply(0.3)),
+        eframe::egui::Stroke::new(2.0_f32, ui::colors::LIGHT_GRAY),
         eframe::egui::StrokeKind::Outside,
     );
 
@@ -205,14 +163,14 @@ fn draw_chassis(
             eframe::egui::Pos2::new(center.x - chassis_w / 2.0, front_axle_y),
             eframe::egui::Pos2::new(center.x + chassis_w / 2.0, front_axle_y),
         ],
-        eframe::egui::Stroke::new(1.0_f32, theme.text_color().linear_multiply(0.2)),
+        eframe::egui::Stroke::new(1.0_f32, ui::colors::DARK_GRAY),
     );
     painter.line_segment(
         [
             eframe::egui::Pos2::new(center.x - chassis_w / 2.0, rear_axle_y),
             eframe::egui::Pos2::new(center.x + chassis_w / 2.0, rear_axle_y),
         ],
-        eframe::egui::Stroke::new(1.0_f32, theme.text_color().linear_multiply(0.2)),
+        eframe::egui::Stroke::new(1.0_f32, ui::colors::DARK_GRAY),
     );
 }
 
@@ -220,7 +178,6 @@ fn draw_dynamics(
     painter: &eframe::egui::Painter,
     center: eframe::egui::Pos2,
     pixels_per_meter: f32,
-    theme: &ui::theme::ThemeColors,
     values: &DynamicsValues,
 ) {
     let axle_dist_px = WHEELBASE_M * pixels_per_meter;
@@ -232,14 +189,14 @@ fn draw_dynamics(
     let accel_y_vec = eframe::egui::Vec2::new(-values.accel_y * ACCEL_VECTOR_SCALE, 0.0);
     painter.line_segment(
         [center, center + accel_x_vec],
-        eframe::egui::Stroke::new(3.0_f32, theme.error_color()),
+        eframe::egui::Stroke::new(3.0_f32, ui::colors::RED),
     );
-    painter.circle_filled(center + accel_x_vec, 4.0, theme.error_color());
+    painter.circle_filled(center + accel_x_vec, 4.0, ui::colors::RED);
     painter.line_segment(
         [center, center + accel_y_vec],
-        eframe::egui::Stroke::new(3.0_f32, theme.error_color()),
+        eframe::egui::Stroke::new(3.0_f32, ui::colors::RED),
     );
-    painter.circle_filled(center + accel_y_vec, 4.0, theme.error_color());
+    painter.circle_filled(center + accel_y_vec, 4.0, ui::colors::RED);
 
     // 4. Velocity Vector (Green)
     let vel_vec = eframe::egui::Vec2::new(0.0, -values.velocity_mps * SPEED_VECTOR_SCALE);
@@ -248,11 +205,11 @@ fn draw_dynamics(
             eframe::egui::Pos2::new(center.x, front_axle_y),
             eframe::egui::Pos2::new(center.x, front_axle_y) + vel_vec,
         ],
-        eframe::egui::Stroke::new(3.0_f32, theme.success_color()),
+        eframe::egui::Stroke::new(3.0_f32, ui::colors::GREEN),
     );
 
     // 5. Yaw rotation arc + arrowhead
-    draw_yaw_rotation_arrow(painter, center, pixels_per_meter, theme, values);
+    draw_yaw_rotation_arrow(painter, center, pixels_per_meter, values);
 
     // 6. Labels
     let label_top_left = eframe::egui::Pos2::new(
@@ -264,21 +221,21 @@ fn draw_dynamics(
         eframe::egui::Align2::LEFT_TOP,
         format!("Yaw: {:+.2} rad/s", values.yaw_rate_rads),
         eframe::egui::FontId::monospace(12.0),
-        theme.text_color(),
+        ui::colors::WHITE,
     );
     painter.text(
         label_top_left + eframe::egui::Vec2::new(0.0, 16.0),
         eframe::egui::Align2::LEFT_TOP,
         format!("Accel X: {:+.2} m/s²", values.accel_x),
         eframe::egui::FontId::monospace(12.0),
-        theme.error_color(),
+        ui::colors::RED,
     );
     painter.text(
         label_top_left + eframe::egui::Vec2::new(0.0, 32.0),
         eframe::egui::Align2::LEFT_TOP,
         format!("Accel Y: {:+.2} m/s²", values.accel_y),
         eframe::egui::FontId::monospace(12.0),
-        theme.error_color(),
+        ui::colors::RED,
     );
 
     // 7. Turn Radius Projection
@@ -290,7 +247,7 @@ fn draw_dynamics(
         painter.circle_stroke(
             turn_center,
             r_px.abs(),
-            eframe::egui::Stroke::new(1.0_f32, theme.info_color().linear_multiply(0.3)),
+            eframe::egui::Stroke::new(1.0_f32, ui::colors::BLUE),
         );
     }
 }
@@ -299,7 +256,6 @@ fn draw_yaw_rotation_arrow(
     painter: &eframe::egui::Painter,
     center: eframe::egui::Pos2,
     pixels_per_meter: f32,
-    theme: &ui::theme::ThemeColors,
     values: &DynamicsValues,
 ) {
     let yaw_abs = values.yaw_rate_rads.abs();
@@ -319,7 +275,7 @@ fn draw_yaw_rotation_arrow(
     let start_angle = -std::f32::consts::PI / 2.0;
     let end_angle = start_angle + direction * sweep;
     let radius = pixels_per_meter * (CHASSIS_WIDTH_M * 0.75);
-    let stroke = eframe::egui::Stroke::new(1.5 + 1.5 * yaw_norm, theme.success_color());
+    let stroke = eframe::egui::Stroke::new(1.5 + 1.5 * yaw_norm, ui::colors::GREEN);
 
     let mut prev = point_on_circle(center, radius, start_angle);
     for i in 1..=YAW_ARC_SEGMENTS {
@@ -331,7 +287,7 @@ fn draw_yaw_rotation_arrow(
     }
 
     // Dot marker at arc end
-    painter.circle_filled(prev, 4.0, theme.success_color());
+    painter.circle_filled(prev, 4.0, ui::colors::GREEN);
 }
 
 fn point_on_circle(center: eframe::egui::Pos2, radius: f32, angle: f32) -> eframe::egui::Pos2 {

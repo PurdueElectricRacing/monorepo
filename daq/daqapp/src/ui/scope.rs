@@ -224,14 +224,11 @@ impl Scope {
             .y_axis_label(&signal)
             .show(ui, |plot| {
                 plot.set_plot_bounds_x(0.0..=duration);
-                plot.line(egui_plot::Line::new(
-                    &signal,
-                    egui_plot::PlotPoints::from(points),
-                ));
-                plot.vline(
-                    egui_plot::VLine::new("Playhead", playhead)
-                        .color(eframe::egui::Color32::YELLOW),
+                plot.line(
+                    egui_plot::Line::new(&signal, egui_plot::PlotPoints::from(points))
+                        .color(ui::colors::BLUE),
                 );
+                plot.vline(egui_plot::VLine::new("Playhead", playhead).color(ui::colors::YELLOW));
             });
         egui_tiles::UiResponse::None
     }

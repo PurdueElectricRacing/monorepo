@@ -1,4 +1,4 @@
-use crate::app;
+use crate::{app, ui};
 
 pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
     eframe::egui::TopBottomPanel::top("shared_timeline").show(ctx, |ui| {
@@ -134,11 +134,8 @@ fn ruler(
         eframe::egui::pos2(x(timeline.start()), area.top() + 8.0),
         eframe::egui::pos2(x(timeline.end()), axis),
     );
-    ui.painter().rect_filled(
-        selected,
-        2.0,
-        ui.visuals().selection.bg_fill.linear_multiply(0.3),
-    );
+    ui.painter()
+        .rect_filled(selected, 2.0, ui::colors::MUTED_BLUE);
     ui.painter().line_segment(
         [
             eframe::egui::pos2(area.left(), axis),
@@ -175,9 +172,9 @@ fn ruler(
             )
             .on_hover_text(format!("Drag {name}: {}", value.label()));
         let color = if field == 2 {
-            eframe::egui::Color32::YELLOW
+            ui::colors::YELLOW
         } else {
-            ui.visuals().selection.stroke.color
+            ui::colors::BLUE
         };
         ui.painter().line_segment(
             [eframe::egui::pos2(px, y), eframe::egui::pos2(px, axis)],

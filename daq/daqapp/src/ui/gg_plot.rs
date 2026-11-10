@@ -18,15 +18,11 @@ impl GgPlot {
         }
     }
 
-    fn draw_background(
-        &self,
-        plot_ui: &mut egui_plot::PlotUi<'_>,
-        text_color: eframe::egui::Color32,
-    ) {
+    fn draw_background(&self, plot_ui: &mut egui_plot::PlotUi<'_>) {
         for (label, points) in &self.ring_points {
             plot_ui.line(
                 egui_plot::Line::new(label.clone(), egui_plot::PlotPoints::from(points.clone()))
-                    .color(text_color.linear_multiply(0.18)),
+                    .color(ui::colors::DARK_GRAY),
             );
         }
     }
@@ -50,7 +46,6 @@ impl GgPlot {
                 ))
             })
             .collect();
-        let theme = ui::theme::get_theme(ui.ctx());
         if points.is_empty() {
             ui.label("No retained acceleration samples in the selected interval.");
         }
@@ -66,7 +61,7 @@ impl GgPlot {
             .x_axis_label("Longitudinal acceleration")
             .y_axis_label("Lateral acceleration")
             .show(ui, |plot| {
-                self.draw_background(plot, theme.text_color());
+                self.draw_background(plot);
                 let stride = points.len().div_ceil(4096).max(1);
                 plot.points(
                     egui_plot::Points::new(
@@ -76,13 +71,13 @@ impl GgPlot {
                         ),
                     )
                     .radius(2.0_f32)
-                    .color(theme.error_color().linear_multiply(0.45)),
+                    .color(ui::colors::MUTED_RED),
                 );
                 if let Some(point) = points.last() {
                     plot.points(
                         egui_plot::Points::new("current", vec![*point])
                             .radius(4.5_f32)
-                            .color(theme.error_color()),
+                            .color(ui::colors::RED),
                     );
                 }
             });

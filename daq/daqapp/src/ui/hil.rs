@@ -1,3 +1,4 @@
+use crate::ui;
 use std::{path, sync::mpsc};
 
 pub struct Hil {
@@ -77,7 +78,7 @@ impl Hil {
         }
 
         if let Some(error) = &self.snapshot.start_error {
-            ui.colored_label(eframe::egui::Color32::RED, error);
+            ui.colored_label(ui::colors::RED, error);
             ui.separator();
         }
 
@@ -184,7 +185,7 @@ impl Hil {
 
             if skipped {
                 ui.colored_label(
-                    eframe::egui::Color32::GRAY,
+                    ui::colors::DARK_GRAY,
                     format!(
                         "{} — skipped after an earlier test failed",
                         test.test_info.name
@@ -223,9 +224,9 @@ impl Hil {
         }
 
         let color = if total_passed == total_expects {
-            eframe::egui::Color32::GREEN
+            ui::colors::GREEN
         } else {
-            eframe::egui::Color32::RED
+            ui::colors::RED
         };
 
         ui.colored_label(
@@ -286,9 +287,9 @@ impl Hil {
             .count();
 
         let color = if passed == total {
-            eframe::egui::Color32::GREEN
+            ui::colors::GREEN
         } else {
-            eframe::egui::Color32::RED
+            ui::colors::RED
         };
 
         ui.colored_label(
@@ -378,14 +379,11 @@ impl Hil {
                         .map(|i| &ipe.messages[i])
                         .or_else(|| ipe.selected_message());
                     let tint = if primary {
-                        // Blue
-                        eframe::egui::Color32::from_rgba_unmultiplied(80, 140, 220, 28)
+                        ui::colors::MUTED_BLUE
                     } else if message.is_some_and(|m| m.is_valid()) {
-                        // Green
-                        eframe::egui::Color32::from_rgba_unmultiplied(60, 180, 120, 24)
+                        ui::colors::MUTED_GREEN
                     } else {
-                        // Red
-                        eframe::egui::Color32::from_rgba_unmultiplied(220, 80, 90, 24)
+                        ui::colors::MUTED_RED
                     };
                     row.col(|ui| {
                         Self::paint_message_cell(ui, tint);
@@ -431,9 +429,9 @@ impl Hil {
                         }
                         if let Some(message) = message {
                             let (color, label) = if message.is_valid() {
-                                (eframe::egui::Color32::GREEN, "Valid")
+                                (ui::colors::GREEN, "Valid")
                             } else {
-                                (eframe::egui::Color32::RED, "Invalid")
+                                (ui::colors::RED, "Invalid")
                             };
                             ui.colored_label(color, label);
                         } else {
@@ -473,9 +471,9 @@ impl Hil {
                     .unwrap_or_else(|| "missing".to_owned());
                 let detail = format!("{name}: {value} | {}", if failed { "Fail" } else { "Pass" });
                 let color = if failed {
-                    eframe::egui::Color32::RED
+                    ui::colors::RED
                 } else {
-                    eframe::egui::Color32::GREEN
+                    ui::colors::GREEN
                 };
                 ui.add(
                     eframe::egui::Label::new(eframe::egui::RichText::new(&detail).color(color))
@@ -516,10 +514,10 @@ impl Drop for Hil {
 
 fn expect_color(result: daqcore::hil::run::ExpectResult) -> eframe::egui::Color32 {
     match result {
-        daqcore::hil::run::ExpectResult::NotInWindow => eframe::egui::Color32::GRAY,
-        daqcore::hil::run::ExpectResult::InProgress => eframe::egui::Color32::YELLOW,
-        daqcore::hil::run::ExpectResult::Passed => eframe::egui::Color32::GREEN,
+        daqcore::hil::run::ExpectResult::NotInWindow => ui::colors::DARK_GRAY,
+        daqcore::hil::run::ExpectResult::InProgress => ui::colors::YELLOW,
+        daqcore::hil::run::ExpectResult::Passed => ui::colors::GREEN,
         daqcore::hil::run::ExpectResult::FailedNoMessage
-        | daqcore::hil::run::ExpectResult::FailedValueOutOfRange => eframe::egui::Color32::RED,
+        | daqcore::hil::run::ExpectResult::FailedValueOutOfRange => ui::colors::RED,
     }
 }

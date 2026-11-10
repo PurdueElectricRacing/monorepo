@@ -1,9 +1,6 @@
 use crate::{action, app, telemetry, ui, widget_constructor};
 
-const STALE_BACKGROUND_ALPHA: u8 = 25;
 const STALE_BORDER_WIDTH: f32 = 1.0;
-const STALE_BORDER_ALPHA_FACTOR: f32 = 0.5;
-const UNMATCHED_STALE_GAMMA: f32 = 0.6;
 
 pub struct ViewerTable {
     pub title: String,
@@ -149,8 +146,7 @@ struct MessageCard<'a> {
 impl MessageCard<'_> {
     fn ui(&self, ui: &mut eframe::egui::Ui) -> Vec<action::AppAction> {
         let mut action_queue = Vec::new();
-        let theme = ui::theme::get_theme(ui.ctx());
-        let error_color = theme.error_color();
+        let error_color = ui::colors::RED;
 
         // Header (outside card)
         ui.horizontal(|ui| {
@@ -162,7 +158,7 @@ impl MessageCard<'_> {
                 if matches_name {
                     error_color
                 } else {
-                    error_color.gamma_multiply(UNMATCHED_STALE_GAMMA)
+                    ui::colors::DARK_GRAY
                 }
             } else if matches_name {
                 ui.visuals().text_color()
@@ -224,16 +220,8 @@ impl MessageCard<'_> {
 
         let (card_fill, card_stroke) = if self.stale {
             (
-                eframe::egui::Color32::from_rgba_unmultiplied(
-                    error_color.r(),
-                    error_color.g(),
-                    error_color.b(),
-                    STALE_BACKGROUND_ALPHA,
-                ),
-                eframe::egui::Stroke::new(
-                    STALE_BORDER_WIDTH,
-                    error_color.linear_multiply(STALE_BORDER_ALPHA_FACTOR),
-                ),
+                ui::colors::MUTED_RED,
+                eframe::egui::Stroke::new(STALE_BORDER_WIDTH, error_color),
             )
         } else {
             (

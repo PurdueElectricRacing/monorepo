@@ -137,8 +137,7 @@ impl Jitter {
                 // Find the highest count in any bucket to calculate headroom
                 let max_bucket_count = buckets.into_iter().max().unwrap_or(0) as f64;
 
-                let chart = egui_plot::BarChart::new("Histogram", bars)
-                    .color(eframe::egui::Color32::LIGHT_BLUE);
+                let chart = egui_plot::BarChart::new("Histogram", bars).color(ui::colors::BLUE);
 
                 // Draw the actual plot graph on the screen
                 egui_plot::Plot::new(format!("jitter_histogram_{}", self.title))

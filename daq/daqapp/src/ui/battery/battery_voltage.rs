@@ -1,4 +1,4 @@
-use crate::{telemetry, ui, util};
+use crate::{telemetry, ui};
 
 const V_MIN: f64 = 2.7;
 const V_MAX: f64 = 4.2;
@@ -22,24 +22,22 @@ impl Default for CellVoltage {
 impl CellVoltage {
     pub fn color(&self) -> eframe::egui::Color32 {
         if self.balancing {
-            return eframe::egui::Color32::from_rgb(33, 150, 243);
+            return ui::colors::BLUE;
         }
 
         if !self.voltage.is_finite() {
-            return eframe::egui::Color32::GRAY;
+            return ui::colors::DARK_GRAY;
         }
 
         let voltage = self.voltage.clamp(V_MIN, V_MAX);
 
-        let hue = if voltage <= V_NOM {
+        if voltage <= V_NOM {
             let t = (voltage - V_MIN) / (V_NOM - V_MIN);
-            util::lerp(0.0, 45.0, t)
+            ui::colors::lerp_color(ui::colors::RED, ui::colors::YELLOW, t)
         } else {
             let t = (voltage - V_NOM) / (V_MAX - V_NOM);
-            util::lerp(45.0, 120.0, t)
-        };
-
-        util::hsv_to_color32(hue, 1.0, 1.0)
+            ui::colors::lerp_color(ui::colors::YELLOW, ui::colors::GREEN, t)
+        }
     }
 }
 
@@ -82,8 +80,6 @@ impl BatteryVoltage {
         let (stale, elapsed) =
             ui::battery::common::sample_age(cell_time.max(charging_time), view.view_time());
 
-        let theme = ui::theme::get_theme(ui.ctx());
-
         let pack_sum = charging_telemetry.as_ref().map(|t| t.pack_voltage);
         let current = charging_telemetry.as_ref().map(|t| t.pack_current);
         let pack_min = charging_telemetry.as_ref().map(|t| t.min_cell_voltage);
@@ -99,38 +95,28 @@ impl BatteryVoltage {
             ui.heading(&self.title);
             ui.add_space(4.0);
 
-            ui::battery::common::stale_banner(ui, &theme, stale, elapsed);
+            ui::battery::common::stale_banner(ui, stale, elapsed);
 
             ui.add_space(8.0);
             ui.label(
                 eframe::egui::RichText::new("PACK SUMMARY")
                     .size(10.0)
-                    .color(theme.text_color().linear_multiply(0.5)),
+                    .color(ui::colors::DARK_GRAY),
             );
             ui.add_space(4.0);
 
             ui.columns(5, |cols| {
                 ui::battery::common::stat_card(
                     &mut cols[0],
-                    &theme,
                     "PACK SUM",
                     pack_sum,
                     "V",
                     stale,
                     None,
                 );
-                ui::battery::common::stat_card(
-                    &mut cols[1],
-                    &theme,
-                    "CURRENT",
-                    current,
-                    "A",
-                    stale,
-                    None,
-                );
+                ui::battery::common::stat_card(&mut cols[1], "CURRENT", current, "A", stale, None);
                 ui::battery::common::stat_card(
                     &mut cols[2],
-                    &theme,
                     "CELL MIN",
                     pack_min,
                     "V",
@@ -139,7 +125,6 @@ impl BatteryVoltage {
                 );
                 ui::battery::common::stat_card(
                     &mut cols[3],
-                    &theme,
                     "CELL MAX",
                     pack_max,
                     "V",
@@ -148,18 +133,17 @@ impl BatteryVoltage {
                 );
                 ui::battery::common::stat_card(
                     &mut cols[4],
-                    &theme,
                     "DELTA",
                     pack_delta,
                     "V",
                     stale,
                     pack_delta.map(|delta| {
                         if delta > 0.050 {
-                            theme.error_color()
+                            ui::colors::RED
                         } else if delta > 0.020 {
-                            theme.warning_color()
+                            ui::colors::YELLOW
                         } else {
-                            theme.success_color()
+                            ui::colors::GREEN
                         }
                     }),
                 );
@@ -192,16 +176,16 @@ impl BatteryVoltage {
                 };
 
                 let delta_color = if module_delta > 0.050 {
-                    theme.error_color()
+                    ui::colors::RED
                 } else if module_delta > 0.020 {
-                    theme.warning_color()
+                    ui::colors::YELLOW
                 } else {
-                    theme.text_color().linear_multiply(0.55)
+                    ui::colors::DARK_GRAY
                 };
 
                 eframe::egui::Frame::NONE
-                    .fill(theme.panel_color())
-                    .stroke(eframe::egui::Stroke::new(1.0_f32, theme.accent_color()))
+                    .fill(ui.visuals().faint_bg_color)
+                    .stroke(ui.visuals().widgets.noninteractive.bg_stroke)
                     .inner_margin(eframe::egui::Margin::same(10))
                     .corner_radius(eframe::egui::CornerRadius::same(4))
                     .show(ui, |ui| {
@@ -218,7 +202,7 @@ impl BatteryVoltage {
                                     ui::battery::common::reading(module_sum, 2)
                                 ))
                                 .size(10.0)
-                                .color(theme.text_color().linear_multiply(0.55)),
+                                .color(ui::colors::DARK_GRAY),
                             );
                             ui.label(
                                 eframe::egui::RichText::new(format!(
@@ -226,7 +210,7 @@ impl BatteryVoltage {
                                     ui::battery::common::reading(module_min, 2)
                                 ))
                                 .size(10.0)
-                                .color(theme.text_color().linear_multiply(0.55)),
+                                .color(ui::colors::DARK_GRAY),
                             );
                             ui.label(
                                 eframe::egui::RichText::new(format!(
@@ -234,7 +218,7 @@ impl BatteryVoltage {
                                     ui::battery::common::reading(module_max, 2)
                                 ))
                                 .size(10.0)
-                                .color(theme.text_color().linear_multiply(0.55)),
+                                .color(ui::colors::DARK_GRAY),
                             );
                             ui.label(
                                 eframe::egui::RichText::new(format!(
@@ -256,7 +240,7 @@ impl BatteryVoltage {
 
                         ui.horizontal(|ui| {
                             for cell in module.iter() {
-                                cell_bar(ui, &theme, cell, stale, bar_width);
+                                cell_bar(ui, cell, stale, bar_width);
                             }
                         });
                     });
@@ -269,15 +253,9 @@ impl BatteryVoltage {
     }
 }
 
-fn cell_bar(
-    ui: &mut eframe::egui::Ui,
-    theme: &ui::theme::ThemeColors,
-    cell: &CellVoltage,
-    stale: bool,
-    bar_w: f32,
-) {
+fn cell_bar(ui: &mut eframe::egui::Ui, cell: &CellVoltage, stale: bool, bar_w: f32) {
     let fill_color = if stale {
-        theme.text_color().linear_multiply(0.12)
+        ui::colors::DARK_GRAY
     } else {
         cell.color()
     };
@@ -297,11 +275,11 @@ fn cell_bar(
         );
 
         let painter = ui.painter();
-        painter.rect_filled(outer_rect, 3.0, theme.text_color().linear_multiply(0.06));
+        painter.rect_filled(outer_rect, 3.0, ui.visuals().extreme_bg_color);
         painter.rect_stroke(
             outer_rect,
             3.0,
-            eframe::egui::Stroke::new(0.5_f32, theme.accent_color()),
+            ui.visuals().widgets.noninteractive.bg_stroke,
             eframe::egui::StrokeKind::Inside,
         );
 
@@ -319,11 +297,11 @@ fn cell_bar(
         };
 
         let text_color = if stale {
-            theme.text_color().linear_multiply(0.25)
+            ui::colors::DARK_GRAY
         } else if fill_frac > 0.5 {
-            eframe::egui::Color32::BLACK
+            ui::colors::BLACK
         } else {
-            eframe::egui::Color32::WHITE
+            ui::colors::WHITE
         };
 
         painter.text(

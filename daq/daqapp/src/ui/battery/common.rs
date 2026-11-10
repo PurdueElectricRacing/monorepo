@@ -16,31 +16,24 @@ pub fn sample_age(
     (elapsed > STALE_TIMEOUT_SECONDS as f64, elapsed)
 }
 
-pub fn stale_banner(
-    ui: &mut eframe::egui::Ui,
-    theme: &ui::theme::ThemeColors,
-    stale: bool,
-    elapsed: f64,
-) {
+pub fn stale_banner(ui: &mut eframe::egui::Ui, stale: bool, elapsed: f64) {
     let (bg, dot, text) = if stale {
-        let c = theme.warning_color();
         (
-            eframe::egui::Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
-            c,
+            ui::colors::MUTED_YELLOW,
+            ui::colors::YELLOW,
             format!("No data — last message {:.1} s ago", elapsed),
         )
     } else {
-        let c = theme.success_color();
         (
-            eframe::egui::Color32::from_rgba_unmultiplied(c.r(), c.g(), c.b(), 30),
-            c,
+            ui::colors::MUTED_GREEN,
+            ui::colors::GREEN,
             format!("Live — last message {:.1} s ago", elapsed),
         )
     };
 
     eframe::egui::Frame::NONE
         .fill(bg)
-        .stroke(eframe::egui::Stroke::new(1.0_f32, dot.linear_multiply(0.5)))
+        .stroke(eframe::egui::Stroke::new(1.0_f32, dot))
         .inner_margin(eframe::egui::Margin::symmetric(10, 6))
         .corner_radius(eframe::egui::CornerRadius::same(4))
         .show(ui, |ui| {
@@ -58,7 +51,6 @@ pub fn stale_banner(
 
 pub fn stat_card(
     ui: &mut eframe::egui::Ui,
-    theme: &ui::theme::ThemeColors,
     label: &str,
     value: Option<f64>,
     unit: &str,
@@ -66,8 +58,8 @@ pub fn stat_card(
     override_color: Option<eframe::egui::Color32>,
 ) {
     eframe::egui::Frame::NONE
-        .fill(theme.panel_color())
-        .stroke(eframe::egui::Stroke::new(1.0_f32, theme.accent_color()))
+        .fill(ui.visuals().faint_bg_color)
+        .stroke(ui.visuals().widgets.noninteractive.bg_stroke)
         .inner_margin(eframe::egui::Margin::same(10))
         .corner_radius(eframe::egui::CornerRadius::same(4))
         .show(ui, |ui| {
@@ -76,15 +68,15 @@ pub fn stat_card(
                 ui.label(
                     eframe::egui::RichText::new(label)
                         .size(10.0)
-                        .color(theme.text_color().linear_multiply(0.5)),
+                        .color(ui::colors::DARK_GRAY),
                 );
                 ui.add_space(2.0);
-                let val_color = override_color.unwrap_or(theme.info_color());
+                let val_color = override_color.unwrap_or(ui::colors::BLUE);
                 if stale {
                     ui.label(
                         eframe::egui::RichText::new("—")
                             .size(20.0)
-                            .color(theme.text_color().linear_multiply(0.25)),
+                            .color(ui::colors::DARK_GRAY),
                     );
                 } else {
                     let text = if let Some(value) = value.filter(|value| value.is_finite()) {
@@ -101,7 +93,7 @@ pub fn stat_card(
                     ui.label(
                         eframe::egui::RichText::new(unit)
                             .size(10.0)
-                            .color(theme.text_color().linear_multiply(0.4)),
+                            .color(ui::colors::DARK_GRAY),
                     );
                 }
             });

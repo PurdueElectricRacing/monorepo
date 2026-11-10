@@ -1,13 +1,13 @@
-use crate::telemetry;
+use crate::{telemetry, ui};
 use std::collections::BTreeMap;
 
 const BUS_COLORS: [eframe::egui::Color32; 6] = [
-    eframe::egui::Color32::from_rgb(66, 165, 245),  // Blue
-    eframe::egui::Color32::from_rgb(102, 187, 106), // Green
-    eframe::egui::Color32::from_rgb(255, 167, 38),  // Orange
-    eframe::egui::Color32::from_rgb(171, 71, 188),  // Purple
-    eframe::egui::Color32::from_rgb(239, 83, 80),   // Red
-    eframe::egui::Color32::from_rgb(38, 198, 218),  // Cyan
+    ui::colors::BLUE,
+    ui::colors::GREEN,
+    ui::colors::RED,
+    ui::colors::YELLOW,
+    ui::colors::LIGHT_GRAY,
+    ui::colors::WHITE,
 ];
 
 fn color_for_bus(bus_id: u8) -> eframe::egui::Color32 {
@@ -125,10 +125,7 @@ impl BusLoad {
                 for (bus_name, color, points) in decimated_series {
                     plot.line(egui_plot::Line::new(bus_name, points).color(color));
                 }
-                plot.vline(
-                    egui_plot::VLine::new("Playhead", playhead)
-                        .color(eframe::egui::Color32::YELLOW),
-                );
+                plot.vline(egui_plot::VLine::new("Playhead", playhead).color(ui::colors::YELLOW));
             });
         egui_tiles::UiResponse::None
     }
