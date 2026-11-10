@@ -54,7 +54,7 @@ static bool usb_rx_dequeue(can_tx_frame_t* frame) {
 
 // RX over USB -> CAN
 static void process_usb_rx_frames(void) {
-    can_tx_frame_t rx_frame;
+    can_tx_frame_t rx_frame = {0};
     bool any_received = false;
     uint32_t now = xTaskGetTickCount();
 
