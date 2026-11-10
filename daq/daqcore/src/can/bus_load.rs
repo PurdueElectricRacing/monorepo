@@ -7,7 +7,11 @@ use std::{
 };
 
 pub const WINDOWS_SECS: [u64; 4] = [1, 5, 10, 30];
+const MAX_WINDOW: time::Duration = time::Duration::from_secs(WINDOWS_SECS[WINDOWS_SECS.len() - 1]);
 const UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(200);
+const BITS_PER_BYTE: usize = 8;
+/// Estimated classic CAN framing, arbitration, CRC, and stuff-bit overhead per frame.
+const CLASSIC_CAN_OVERHEAD_BITS: usize = 66;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct BusLoadReading {
@@ -35,10 +39,11 @@ impl BusLoadTracker {
     }
 
     pub fn record_frame(&mut self, bus_id: u8, data_bytes: usize, now: time::Instant) {
+        let frame_bits = data_bytes * BITS_PER_BYTE + CLASSIC_CAN_OVERHEAD_BITS;
         self.frames
             .entry(bus_id)
             .or_default()
-            .push_back((now, data_bytes * 8 + 66));
+            .push_back((now, frame_bits));
         self.cleanup(now);
     }
 
@@ -92,9 +97,10 @@ impl BusLoadTracker {
 
     fn cleanup(&mut self, now: time::Instant) {
         for frames in self.frames.values_mut() {
-            while frames.front().is_some_and(|(t, _)| {
-                now.saturating_duration_since(*t) >= time::Duration::from_secs(30)
-            }) {
+            while frames
+                .front()
+                .is_some_and(|(t, _)| now.saturating_duration_since(*t) >= MAX_WINDOW)
+            {
                 frames.pop_front();
             }
         }
