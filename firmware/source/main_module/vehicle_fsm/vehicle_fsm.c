@@ -70,13 +70,29 @@ static void update_brake_light() {
 }
 
 static void update_tsal() {
-    // FSAE 2026 EV.5.11.5: flash TSAL red either IMD or BMS are faulted
-    if (is_latched(FAULT_ID_SDC1_IMD) || is_latched(FAULT_ID_SDC2_BMS)) { 
+    // FSAE 2027 EV.6.3.2: Lamp Check must start <= 1s after GLVMS ON and stay ON continuously for 2 to 6 seconds
+    static constexpr uint32_t LAMP_CHECK_DURATION_MS = 4000;
+    // FSAE 2027 EV.6.1.7.c: Flash 2.5 Hz to 5 Hz, 50% duty cycle (150 ms toggle = 300 ms period = 3.33 Hz)
+    static constexpr uint32_t TSAL_RED_TOGGLE_MS = 150;
+    static_assert(TSAL_RED_TOGGLE_MS % VEHICLE_FSM_PERIOD_MS == 0);
+
+    uint32_t now = xTaskGetTickCount();
+
+    if (now < LAMP_CHECK_DURATION_MS) {
+        g_car.tsal_green_enable = true;
+        g_car.tsal_red_enable   = true;
+        return;
+    }
+
+    // FSAE 2027 EV.6.1.7:
+    // - Green ON when no faults
+    // - Red flashing 2.5-5 Hz when IMD or BMS faulted
+    if (is_latched(FAULT_ID_SDC1_IMD) || is_latched(FAULT_ID_SDC2_BMS)) {
         g_car.tsal_green_enable = false;
-        g_car.tsal_red_enable = true;
+        g_car.tsal_red_enable   = ((now / TSAL_RED_TOGGLE_MS) % 2) == 0;
     } else {
         g_car.tsal_green_enable = true;
-        g_car.tsal_red_enable = false;
+        g_car.tsal_red_enable   = false;
     }
 }
 
