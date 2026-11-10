@@ -1,61 +1,62 @@
 <map id="PHAL_SPI_busy" name="PHAL_SPI_busy">
-<area shape="rect" id="Node000001" title="Check for current SPI transaction to complete." alt="" coords="1908,182,2028,208"/>
-<area shape="rect" id="Node000002" href="$phal__F4_2spi_2spi_8c.html#ac35bd14ad3b560e0ad69320caef4d4ac" title="Blocking function to read a single byte from a SPI device. Useful for Initilization functions that ju..." alt="" coords="1458,108,1603,133"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1946,171,1909,131,1885,112,1859,97,1821,86,1781,80,1741,79,1702,82,1628,94,1571,110,1569,104,1627,89,1701,76,1741,74,1782,75,1822,81,1861,93,1888,107,1913,127,1950,168"/>
-<area shape="rect" id="Node000003" href="$phal__F4_2spi_2spi_8c.html#aa44c022e7bafc2f33240d3fa837a4244" title="Transfer data_len bytes from out_data to SPI device and place MISO data in in_data This function just..." alt="" coords="1697,157,1835,182"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1892,188,1835,181,1835,176,1893,183"/>
-<area shape="rect" id="Node000004" href="$phal__G4_2spi_2spi_8c.html#a099e78dc7abe0245acc89e47528b1867" title="Perform a blocking DMA&#45;backed SPI transfer. (Wrapper around PHAL_SPI_transfer.)" alt="" coords="1437,232,1624,257"/>
-<area shape="poly" id="edge34_Node000001_Node000004" title=" " alt="" coords="1893,206,1625,236,1624,231,1892,201"/>
-<area shape="rect" id="Node000022" href="$phal__F4_2spi_2spi_8c.html#a214be7044d1c8a6193ccf7f3e883fab2" title="Blocking function to write a single byte to a SPI device. Useful for Initilization functions that jus..." alt="" coords="1457,157,1604,182"/>
-<area shape="poly" id="edge35_Node000001_Node000022" title=" " alt="" coords="1892,201,1788,203,1672,198,1593,186,1594,181,1673,192,1788,197,1892,196"/>
-<area shape="rect" id="Node000023" href="$phal__G4_2spi_2spi_8c.html#abaa77fcece18637807ca0650e8eb5961" title="Start a DMA&#45;backed SPI transfer." alt="" coords="1697,309,1835,334"/>
-<area shape="poly" id="edge30_Node000001_Node000023" title=" " alt="" coords="1946,221,1909,257,1861,292,1818,311,1816,306,1858,287,1905,253,1943,217"/>
-<area shape="rect" id="Node000024" href="$phal__F4_2spi_2spi_8c.html#a7593e1c8be8711c7bda6d7de43913816" title="SPI handle." alt="" coords="1672,108,1860,133"/>
-<area shape="poly" id="edge31_Node000001_Node000024" title=" " alt="" coords="1927,177,1859,147,1825,136,1827,131,1861,142,1929,172"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="1686,156,1595,136,1596,131,1687,150"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="1709,190,1575,233,1573,228,1708,185"/>
-<area shape="poly" id="edge29_Node000003_Node000022" title=" " alt="" coords="1681,172,1605,172,1605,167,1681,167"/>
-<area shape="rect" id="Node000005" href="$adbms6380_8c.html#a1492bca11de6c99b8e7bf86d8f2533f7" title=" " alt="" coords="1283,149,1389,174"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="1483,227,1367,178,1370,173,1485,222"/>
+<area shape="rect" id="Node000001" title="Check for current SPI transaction to complete." alt="" coords="1908,184,2028,209"/>
+<area shape="rect" id="Node000002" href="$phal__F4_2spi_2spi_8c.html#ac35bd14ad3b560e0ad69320caef4d4ac" title="Blocking function to read a single byte from a SPI device. Useful for Initilization functions that ju..." alt="" coords="1458,109,1603,134"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1946,173,1909,132,1885,113,1859,99,1821,87,1781,82,1741,80,1702,83,1628,95,1571,111,1569,106,1627,90,1701,78,1741,75,1782,76,1822,82,1861,94,1888,109,1913,128,1950,169"/>
+<area shape="rect" id="Node000003" href="$phal__F4_2spi_2spi_8c.html#aa44c022e7bafc2f33240d3fa837a4244" title="Transfer data_len bytes from out_data to SPI device and place MISO data in in_data This function just..." alt="" coords="1697,158,1835,184"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1892,190,1835,182,1835,177,1893,184"/>
+<area shape="rect" id="Node000004" href="$phal__G4_2spi_2spi_8c.html#a099e78dc7abe0245acc89e47528b1867" title="Perform a blocking DMA&#45;backed SPI transfer. (Wrapper around PHAL_SPI_transfer.)" alt="" coords="1437,233,1624,258"/>
+<area shape="poly" id="edge35_Node000001_Node000004" title=" " alt="" coords="1893,207,1625,238,1624,232,1892,202"/>
+<area shape="rect" id="Node000022" href="$phal__F4_2spi_2spi_8c.html#a214be7044d1c8a6193ccf7f3e883fab2" title="Blocking function to write a single byte to a SPI device. Useful for Initilization functions that jus..." alt="" coords="1457,158,1604,184"/>
+<area shape="poly" id="edge36_Node000001_Node000022" title=" " alt="" coords="1892,203,1788,204,1672,199,1593,187,1594,182,1673,194,1788,199,1892,197"/>
+<area shape="rect" id="Node000023" href="$phal__G4_2spi_2spi_8c.html#abaa77fcece18637807ca0650e8eb5961" title="Start a DMA&#45;backed SPI transfer." alt="" coords="1697,310,1835,336"/>
+<area shape="poly" id="edge31_Node000001_Node000023" title=" " alt="" coords="1946,222,1909,258,1861,293,1818,312,1816,307,1858,289,1905,254,1943,219"/>
+<area shape="rect" id="Node000024" href="$phal__F4_2spi_2spi_8c.html#a7593e1c8be8711c7bda6d7de43913816" title="SPI handle." alt="" coords="1672,109,1860,134"/>
+<area shape="poly" id="edge32_Node000001_Node000024" title=" " alt="" coords="1927,178,1859,148,1825,138,1827,133,1861,143,1929,173"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="1686,157,1595,138,1596,133,1687,152"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="1709,192,1575,235,1573,230,1708,186"/>
+<area shape="poly" id="edge30_Node000003_Node000022" title=" " alt="" coords="1681,174,1605,174,1605,168,1681,168"/>
+<area shape="rect" id="Node000005" href="$adbms6380_8c.html#a1492bca11de6c99b8e7bf86d8f2533f7" title=" " alt="" coords="1283,154,1389,180"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="1482,229,1369,183,1371,178,1484,224"/>
 <area shape="rect" id="Node000017" href="$adbms6380_8c.html#af3ac94078b13ac245b54b2248db0ce11" title=" " alt="" coords="1117,286,1200,312"/>
-<area shape="poly" id="edge20_Node000004_Node000017" title=" " alt="" coords="1424,263,1200,296,1200,290,1423,257"/>
-<area shape="rect" id="Node000006" href="$adbms6380_8c.html#a4e8e83783b9da5c69b8a6bef35f010f5" title=" " alt="" coords="1082,121,1235,146"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1267,153,1234,148,1235,143,1267,148"/>
+<area shape="poly" id="edge20_Node000004_Node000017" title=" " alt="" coords="1422,264,1200,296,1200,291,1421,259"/>
+<area shape="rect" id="Node000006" href="$adbms6380_8c.html#a4e8e83783b9da5c69b8a6bef35f010f5" title=" " alt="" coords="1082,128,1235,153"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1267,159,1234,154,1235,149,1267,154"/>
 <area shape="rect" id="Node000007" href="$adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" title="Read all cell voltages from each chip." alt="" coords="875,5,1030,46"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="1120,115,1033,67,998,49,1000,44,1036,62,1122,110"/>
-<area shape="rect" id="Node000012" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each chip." alt="" coords="873,171,1032,211"/>
-<area shape="poly" id="edge12_Node000006_Node000012" title=" " alt="" coords="1096,154,1029,173,1028,167,1094,149"/>
-<area shape="rect" id="Node000015" href="$adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" title="Read back REGA from all chips and compare with cached configuration." alt="" coords="634,70,800,96"/>
-<area shape="poly" id="edge16_Node000006_Node000015" title=" " alt="" coords="1067,122,1034,118,800,93,801,88,1035,112,1067,117"/>
-<area shape="rect" id="Node000016" href="$adbms6380_8c.html#ab8ca2a5aa91fd37ad09a7f7285bfd5f8" title="Read back REGB from all chips and compare with cached configuration." alt="" coords="397,150,564,176"/>
-<area shape="poly" id="edge18_Node000006_Node000016" title=" " alt="" coords="1067,140,564,162,564,157,1067,135"/>
-<area shape="rect" id="Node000008" href="$adbms_8c.html#a8e32099ef8c96913484c6551d8e94196" title=" " alt="" coords="677,17,758,42"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="860,30,758,32,758,26,859,25"/>
-<area shape="rect" id="Node000009" href="$adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="229,232,349,257"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="662,32,604,36,535,46,464,66,430,81,399,99,363,130,334,167,312,204,298,232,294,230,307,201,329,164,359,126,396,94,428,76,463,61,534,41,603,31,661,27"/>
-<area shape="rect" id="Node000010" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,232,181,257"/>
-<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="213,247,181,247,181,242,213,242"/>
-<area shape="rect" id="Node000011" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,232,55,257"/>
-<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="87,247,55,247,55,242,87,242"/>
-<area shape="rect" id="Node000013" href="$adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" title="Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures." alt="" coords="612,232,823,257"/>
-<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="858,215,778,233,777,228,857,210"/>
-<area shape="rect" id="Node000014" href="$adbms_8c.html#a7f12e5ede5ee02045acd6f4bf4e145c7" title=" " alt="" coords="434,232,527,257"/>
-<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="596,247,527,247,527,242,596,242"/>
-<area shape="poly" id="edge15_Node000014_Node000009" title=" " alt="" coords="419,247,350,247,350,242,419,242"/>
-<area shape="poly" id="edge17_Node000015_Node000009" title=" " alt="" coords="619,87,566,92,510,102,453,118,399,140,367,161,340,186,302,233,298,229,336,182,364,156,396,135,451,112,509,97,566,87,619,82"/>
-<area shape="poly" id="edge19_Node000016_Node000009" title=" " alt="" coords="435,185,323,233,321,228,433,180"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="1123,121,1033,67,998,49,1001,44,1036,62,1126,116"/>
+<area shape="rect" id="Node000012" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each chip." alt="" coords="873,120,1032,161"/>
+<area shape="poly" id="edge12_Node000006_Node000012" title=" " alt="" coords="1067,143,1033,143,1033,138,1067,138"/>
+<area shape="rect" id="Node000015" href="$adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" title="Read back REGA from all chips and compare with cached configuration." alt="" coords="634,73,800,98"/>
+<area shape="poly" id="edge16_Node000006_Node000015" title=" " alt="" coords="1099,126,1034,111,912,97,801,90,801,85,912,91,1035,106,1100,120"/>
+<area shape="rect" id="Node000016" href="$adbms6380_8c.html#ab8ca2a5aa91fd37ad09a7f7285bfd5f8" title="Read back REGB from all chips and compare with cached configuration." alt="" coords="397,185,564,210"/>
+<area shape="poly" id="edge18_Node000006_Node000016" title=" " alt="" coords="1101,160,1035,175,907,190,778,198,564,202,564,197,778,193,906,185,1034,170,1099,155"/>
+<area shape="rect" id="Node000008" href="$adbms_8c.html#a8e32099ef8c96913484c6551d8e94196" title=" " alt="" coords="677,22,758,48"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="860,32,758,36,757,31,859,27"/>
+<area shape="rect" id="Node000009" href="$adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="229,210,349,236"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="662,35,604,36,536,43,465,59,431,72,399,88,364,116,335,150,299,211,294,208,331,147,360,112,396,83,429,67,463,54,535,37,603,30,661,29"/>
+<area shape="rect" id="Node000010" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="103,210,181,236"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="213,226,181,226,181,220,213,220"/>
+<area shape="rect" id="Node000011" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,210,55,236"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="87,226,55,226,55,220,87,220"/>
+<area shape="rect" id="Node000013" href="$adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" title="Read all GPIO voltages, start the next ADAX conversion, and convert to cell and onboard temperatures." alt="" coords="612,134,823,160"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="858,146,823,147,823,141,857,140"/>
+<area shape="rect" id="Node000014" href="$adbms_8c.html#a7f12e5ede5ee02045acd6f4bf4e145c7" title=" " alt="" coords="434,136,527,161"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="596,150,527,151,527,145,596,145"/>
+<area shape="poly" id="edge15_Node000014_Node000009" title=" " alt="" coords="420,167,398,175,317,212,315,207,396,170,418,162"/>
+<area shape="poly" id="edge17_Node000015_Node000009" title=" " alt="" coords="618,84,566,87,510,93,453,106,398,125,368,144,341,168,302,212,298,208,337,164,365,140,396,121,451,101,509,88,566,81,618,79"/>
+<area shape="poly" id="edge19_Node000016_Node000009" title=" " alt="" coords="382,213,350,218,349,212,382,208"/>
 <area shape="rect" id="Node000018" href="$adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" title="Issue the ADAX command to start GPIO/aux voltage conversions across all chips." alt="" coords="871,236,1034,261"/>
 <area shape="poly" id="edge21_Node000017_Node000018" title=" " alt="" coords="1102,288,1007,264,1009,259,1103,283"/>
-<area shape="rect" id="Node000019" href="$adbms6380_8c.html#aa09b3f9f5c953309bb1b5fa61f310d54" title="Issue the ADCV command to start cell voltage conversions across all chips." alt="" coords="635,337,800,362"/>
-<area shape="poly" id="edge23_Node000017_Node000019" title=" " alt="" coords="1102,311,1035,320,800,345,800,340,1034,315,1102,305"/>
-<area shape="rect" id="Node000020" href="$adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" title="Encode and write REGA configuration to all chips in the daisy chain." alt="" coords="399,382,562,408"/>
-<area shape="poly" id="edge25_Node000017_Node000020" title=" " alt="" coords="1109,320,1035,343,907,368,778,384,659,393,563,397,563,392,659,388,777,379,906,363,1034,338,1107,315"/>
-<area shape="rect" id="Node000021" href="$adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all chips." alt="" coords="399,281,562,306"/>
-<area shape="poly" id="edge27_Node000017_Node000021" title=" " alt="" coords="1102,301,562,297,562,292,1102,296"/>
-<area shape="poly" id="edge22_Node000018_Node000013" title=" " alt="" coords="855,249,823,249,823,243,855,244"/>
-<area shape="poly" id="edge24_Node000019_Node000009" title=" " alt="" coords="619,356,511,348,452,338,396,321,368,308,342,292,303,260,306,256,346,288,371,304,398,317,454,333,511,343,620,350"/>
-<area shape="poly" id="edge26_Node000020_Node000009" title=" " alt="" coords="419,378,396,365,364,339,336,310,297,259,301,256,340,306,368,335,399,361,422,374"/>
-<area shape="poly" id="edge28_Node000021_Node000009" title=" " alt="" coords="412,279,341,260,343,255,413,274"/>
-<area shape="poly" id="edge32_Node000024_Node000002" title=" " alt="" coords="1657,123,1603,123,1603,118,1657,118"/>
-<area shape="poly" id="edge33_Node000024_Node000022" title=" " alt="" coords="1687,140,1596,159,1595,154,1686,134"/>
+<area shape="rect" id="Node000019" href="$adbms6380_8c.html#aa09b3f9f5c953309bb1b5fa61f310d54" title="Issue the ADCV command to start cell voltage conversions across all chips." alt="" coords="635,286,800,312"/>
+<area shape="poly" id="edge24_Node000017_Node000019" title=" " alt="" coords="1101,302,800,302,800,296,1101,296"/>
+<area shape="rect" id="Node000020" href="$adbms6380_8c.html#a4790855abf91e0638244eae6f1d3b168" title="Encode and write REGA configuration to all chips in the daisy chain." alt="" coords="399,337,562,362"/>
+<area shape="poly" id="edge26_Node000017_Node000020" title=" " alt="" coords="1102,306,823,327,563,346,563,341,823,322,1102,301"/>
+<area shape="rect" id="Node000021" href="$adbms6380_8c.html#a0cdbd620cf34a8065b37c2eeab6a8ab6" title="Encode and write REGB configuration (OV/UV thresholds + discharge bits) to all chips." alt="" coords="399,386,562,412"/>
+<area shape="poly" id="edge28_Node000017_Node000021" title=" " alt="" coords="1103,315,1035,328,777,367,563,393,562,388,776,362,1034,323,1102,309"/>
+<area shape="poly" id="edge23_Node000018_Node000009" title=" " alt="" coords="856,247,350,228,350,223,856,242"/>
+<area shape="poly" id="edge22_Node000018_Node000013" title=" " alt="" coords="905,231,748,163,750,158,907,226"/>
+<area shape="poly" id="edge25_Node000019_Node000009" title=" " alt="" coords="620,299,512,290,397,270,353,255,316,239,318,234,355,250,398,264,513,285,620,294"/>
+<area shape="poly" id="edge27_Node000020_Node000009" title=" " alt="" coords="422,333,396,320,341,278,301,238,304,234,344,274,399,315,424,328"/>
+<area shape="poly" id="edge29_Node000021_Node000009" title=" " alt="" coords="402,381,396,377,359,343,330,304,294,238,298,235,334,301,363,340,399,373,405,377"/>
+<area shape="poly" id="edge33_Node000024_Node000002" title=" " alt="" coords="1657,124,1603,124,1603,119,1657,119"/>
+<area shape="poly" id="edge34_Node000024_Node000022" title=" " alt="" coords="1687,141,1596,160,1595,155,1686,136"/>
 </map>

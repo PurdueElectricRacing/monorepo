@@ -1,5 +1,5 @@
 <map id="ADBMS6380_read_temperatures" name="ADBMS6380_read_temperatures">
-<area shape="rect" id="Node000001" title="Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures." alt="" coords="5,303,217,328"/>
+<area shape="rect" id="Node000001" title="Read all GPIO voltages, start the next ADAX conversion, and convert to cell and onboard temperatures." alt="" coords="5,303,217,328"/>
 <area shape="rect" id="Node000002" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each chip." alt="" coords="269,122,428,162"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,300,305,170,308,174,132,304"/>
 <area shape="rect" id="Node000022" href="$adbms6380_8c.html#a797933ebb8aeaf7dc228e5f9f51e47e2" title="Issue the ADAX command to start GPIO/aux voltage conversions across all chips." alt="" coords="267,252,430,278"/>

@@ -19,6 +19,7 @@ var adbms6380_8h =
     [ "ADBMS6380_wake", "adbms6380_8h.html#a092e9d0a8566b9f48e23ce2efe66d2af", null ],
     [ "ADBMS6380_write_rega", "adbms6380_8h.html#a4790855abf91e0638244eae6f1d3b168", null ],
     [ "ADBMS6380_write_regb", "adbms6380_8h.html#a0cdbd620cf34a8065b37c2eeab6a8ab6", null ],
+    [ "ADBMS6380_ADAX_ALL_CONV_TIME_MS", "adbms6380_8h.html#ae8db5f42b17ed79bfc248e5075c6ddd4", null ],
     [ "ADBMS6380_CELL_COUNT", "adbms6380_8h.html#a0b8962c63f063854a32cbaba04bdb769", null ],
     [ "ADBMS6380_COMMAND_PKT_SIZE", "adbms6380_8h.html#a6cb3c62b3ead5b846dd2a821774e222e", null ],
     [ "ADBMS6380_COMMAND_RAW_SIZE", "adbms6380_8h.html#a25f5885607f9f8c5ee85cc53d34354eb", null ],

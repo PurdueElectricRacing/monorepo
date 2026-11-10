@@ -1,5 +1,9 @@
 var NAVTREEINDEX26 =
 {
+"structdiagnostics__task__t.html#a6f953405a5d086c7335fa66122186410":[33,0,90,3],
+"structdiagnostics__task__t.html#aa49b7b63d54e440aca119b9d3ef8062e":[33,0,90,4],
+"structdiagnostics__task__t.html#ae05720db286a50f8b7a7ae57cecb6f9f":[33,0,90,1],
+"structdma__init__t.html":[33,0,91],
 "structdma__init__t.html#a04a45cddca6ff1eb87116b3dcc0eeba5":[33,0,91,5],
 "structdma__init__t.html#a1a76ea0998de3b495c6d0d7aaa60f22d":[33,0,91,10],
 "structdma__init__t.html#a253be14908866ba881348a5abb33a467":[33,0,91,14],
@@ -245,9 +249,5 @@ var NAVTREEINDEX26 =
 "structmain__hb__amk__data__t.html":[33,0,174],
 "structmain__hb__amk__data__t.html#a07ffcf165a4d311e858f07d5a605d6e6":[33,0,174,3],
 "structmain__hb__amk__data__t.html#a1bc5b00a0f2c5da958a5a92ba577a622":[33,0,174,2],
-"structmain__hb__amk__data__t.html#a5d2da5555439f27eb199efbd2f1e60d0":[33,0,174,0],
-"structmain__hb__amk__data__t.html#af898b8b1608d8c7a7ce97d25196c1bd4":[33,0,174,1],
-"structmain__hb__data__t.html":[33,0,175],
-"structmain__hb__data__t.html#a00c731c1944044e91d6005d923c763ec":[33,0,175,2],
-"structmain__hb__data__t.html#a214c6caf39f0768039b59811990055d6":[33,0,175,1]
+"structmain__hb__amk__data__t.html#a5d2da5555439f27eb199efbd2f1e60d0":[33,0,174,0]
 };

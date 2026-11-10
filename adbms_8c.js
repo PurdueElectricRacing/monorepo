@@ -4,6 +4,7 @@ var adbms_8c =
     [ "ADBMS_periodic", "adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf", null ],
     [ "calculate_balance_cells", "adbms_8c.html#a5a1c2e7071fb18eb012ee073720adae7", null ],
     [ "clear_discharging", "adbms_8c.html#a24f96fa184191f280ead1ffbc61572fe", null ],
+    [ "is_valid_temp", "adbms_8c.html#a24ab4be4b383a504ca126921724f36af", null ],
     [ "is_valid_voltage", "adbms_8c.html#a3272eb51efea4b74c1cb6af0c194af27", null ],
     [ "read_cells", "adbms_8c.html#a8e32099ef8c96913484c6551d8e94196", null ],
     [ "read_therms", "adbms_8c.html#a7f12e5ede5ee02045acd6f4bf4e145c7", null ],
@@ -14,5 +15,7 @@ var adbms_8c =
     [ "ADBMS_CHIP_SLEEP_CYCLE_MS", "adbms_8c.html#a05706c73ea95b0445b4de7e75acce4d9", null ],
     [ "ADBMS_RECOVERY_MAX_ATTEMPTS", "adbms_8c.html#ad7f3bd117f50f4807e0daec3306eb161", null ],
     [ "ADBMS_REGA_CFG", "adbms_8c.html#a7c8a4ff88aa2c51abdacf5a5f78b6122", null ],
-    [ "ADBMS_REGB_CFG", "adbms_8c.html#a7c847d9c1dcb27e15de43a22b4ccee28", null ]
+    [ "ADBMS_REGB_CFG", "adbms_8c.html#a7c847d9c1dcb27e15de43a22b4ccee28", null ],
+    [ "ADBMS_TEMP_MAX_VALID_C", "adbms_8c.html#a7d32d08df483f37f0ea7af91b4498182", null ],
+    [ "ADBMS_TEMP_MIN_VALID_C", "adbms_8c.html#aee603da0052eb736ee003545f8be99e0", null ]
 ];

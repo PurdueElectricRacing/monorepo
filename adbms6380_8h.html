@@ -186,7 +186,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a74b0ad1cee164427d5c561a707f72675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO/aux voltages from each chip.  <br /></td></tr>
 <tr class="separator:a74b0ad1cee164427d5c561a707f72675"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3032c5c23786e6e09339992bd8ba8d84" id="r_a3032c5c23786e6e09339992bd8ba8d84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3032c5c23786e6e09339992bd8ba8d84">ADBMS6380_read_temperatures</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *cfg)</td></tr>
-<tr class="memdesc:a3032c5c23786e6e09339992bd8ba8d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures.  <br /></td></tr>
+<tr class="memdesc:a3032c5c23786e6e09339992bd8ba8d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO voltages, start the next ADAX conversion, and convert to cell and onboard temperatures.  <br /></td></tr>
 <tr class="separator:a3032c5c23786e6e09339992bd8ba8d84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
@@ -195,6 +195,8 @@ Variables</h2></td></tr>
 <tr class="separator:a0b8962c63f063854a32cbaba04bdb769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d10269c05bdf56ab339f0584658eeb1" id="r_a4d10269c05bdf56ab339f0584658eeb1"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d10269c05bdf56ab339f0584658eeb1">ADBMS6380_GPIO_COUNT</a> = 10U</td></tr>
 <tr class="separator:a4d10269c05bdf56ab339f0584658eeb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8db5f42b17ed79bfc248e5075c6ddd4" id="r_ae8db5f42b17ed79bfc248e5075c6ddd4"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8db5f42b17ed79bfc248e5075c6ddd4">ADBMS6380_ADAX_ALL_CONV_TIME_MS</a> = 20U</td></tr>
+<tr class="separator:ae8db5f42b17ed79bfc248e5075c6ddd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb0744d06f17240e253c2a7c640f2894" id="r_adb0744d06f17240e253c2a7c640f2894"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb0744d06f17240e253c2a7c640f2894">ADBMS6380_PEC_SIZE</a> = 2U</td></tr>
 <tr class="separator:adb0744d06f17240e253c2a7c640f2894"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25f5885607f9f8c5ee85cc53d34354eb" id="r_a25f5885607f9f8c5ee85cc53d34354eb"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25f5885607f9f8c5ee85cc53d34354eb">ADBMS6380_COMMAND_RAW_SIZE</a> = 2U</td></tr>
@@ -412,7 +414,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures. </p>
+<p>Read all GPIO voltages, start the next ADAX conversion, and convert to cell and onboard temperatures. </p>
 <p>Populates each chip's gpio_voltages, cell_temps, and board_temp fields.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -705,6 +707,28 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="ae8db5f42b17ed79bfc248e5075c6ddd4" name="ae8db5f42b17ed79bfc248e5075c6ddd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8db5f42b17ed79bfc248e5075c6ddd4">&#9670;&#160;</a></span>ADBMS6380_ADAX_ALL_CONV_TIME_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t ADBMS6380_ADAX_ALL_CONV_TIME_MS = 20U</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0b8962c63f063854a32cbaba04bdb769" name="a0b8962c63f063854a32cbaba04bdb769"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0b8962c63f063854a32cbaba04bdb769">&#9670;&#160;</a></span>ADBMS6380_CELL_COUNT</h2>
 
@@ -880,8 +904,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    <a class="code hl_variable" href="#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a> + <a class="code hl_variable" href="#adb0744d06f17240e253c2a7c640f2894">ADBMS6380_PEC_SIZE</a></div>
-<div class="ttc" id="aadbms6380_8h_html_a9b1746883bcd70ca4ce4349eab1df962"><div class="ttname"><a href="#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_SINGLE_DATA_RAW_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:36</div></div>
-<div class="ttc" id="aadbms6380_8h_html_adb0744d06f17240e253c2a7c640f2894"><div class="ttname"><a href="#adb0744d06f17240e253c2a7c640f2894">ADBMS6380_PEC_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_PEC_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:30</div></div>
+<div class="ttc" id="aadbms6380_8h_html_a9b1746883bcd70ca4ce4349eab1df962"><div class="ttname"><a href="#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_SINGLE_DATA_RAW_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:38</div></div>
+<div class="ttc" id="aadbms6380_8h_html_adb0744d06f17240e253c2a7c640f2894"><div class="ttname"><a href="#adb0744d06f17240e253c2a7c640f2894">ADBMS6380_PEC_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_PEC_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:32</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -928,7 +952,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    <a class="code hl_variable" href="#af70094c50548a0d38dbe8e28f54a8508">ADBMS6380_SINGLE_DATA_PKT_SIZE</a> * <a class="code hl_variable" href="adbms__config_8h.html#aa1a279c187a35cbe461f78ef64d4d9c1">ADBMS_CHIP_COUNT</a></div>
-<div class="ttc" id="aadbms6380_8h_html_af70094c50548a0d38dbe8e28f54a8508"><div class="ttname"><a href="#af70094c50548a0d38dbe8e28f54a8508">ADBMS6380_SINGLE_DATA_PKT_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_SINGLE_DATA_PKT_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:38</div></div>
+<div class="ttc" id="aadbms6380_8h_html_af70094c50548a0d38dbe8e28f54a8508"><div class="ttname"><a href="#af70094c50548a0d38dbe8e28f54a8508">ADBMS6380_SINGLE_DATA_PKT_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_SINGLE_DATA_PKT_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:40</div></div>
 <div class="ttc" id="aadbms__config_8h_html_aa1a279c187a35cbe461f78ef64d4d9c1"><div class="ttname"><a href="adbms__config_8h.html#aa1a279c187a35cbe461f78ef64d4d9c1">ADBMS_CHIP_COUNT</a></div><div class="ttdeci">static constexpr size_t ADBMS_CHIP_COUNT</div><div class="ttdef"><b>Definition</b> adbms_config.h:20</div></div>
 </div><!-- fragment -->
 </div>
@@ -954,7 +978,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    <a class="code hl_variable" href="#a6cb3c62b3ead5b846dd2a821774e222e">ADBMS6380_COMMAND_PKT_SIZE</a> + (<a class="code hl_variable" href="adbms__config_8h.html#aa1a279c187a35cbe461f78ef64d4d9c1">ADBMS_CHIP_COUNT</a> * <a class="code hl_variable" href="#af70094c50548a0d38dbe8e28f54a8508">ADBMS6380_SINGLE_DATA_PKT_SIZE</a>)</div>
-<div class="ttc" id="aadbms6380_8h_html_a6cb3c62b3ead5b846dd2a821774e222e"><div class="ttname"><a href="#a6cb3c62b3ead5b846dd2a821774e222e">ADBMS6380_COMMAND_PKT_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_COMMAND_PKT_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:34</div></div>
+<div class="ttc" id="aadbms6380_8h_html_a6cb3c62b3ead5b846dd2a821774e222e"><div class="ttname"><a href="#a6cb3c62b3ead5b846dd2a821774e222e">ADBMS6380_COMMAND_PKT_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_COMMAND_PKT_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:36</div></div>
 </div><!-- fragment -->
 </div>
 </div>

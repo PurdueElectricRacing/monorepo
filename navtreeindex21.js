@@ -1,5 +1,9 @@
 var NAVTREEINDEX21 =
 {
+"sdio_8h.html#acff91fa68daa1d1ee967b5b3fb3dbd8ca4e295d82b6481694f927367f35aa182d":[34,0,1,1,11,1,129,12],
+"sdio_8h.html#acff91fa68daa1d1ee967b5b3fb3dbd8ca544f7094c7417e8e3be527d83c65d024":[34,0,1,1,11,1,129,32],
+"sdio_8h.html#acff91fa68daa1d1ee967b5b3fb3dbd8ca59f8949439bd7871cb2cf3238c6282c5":[34,0,1,1,11,1,129,24],
+"sdio_8h.html#acff91fa68daa1d1ee967b5b3fb3dbd8ca6dfaca7c6ace1889e0294f4ec3ec535c":[34,0,1,1,11,1,129,0],
 "sdio_8h.html#acff91fa68daa1d1ee967b5b3fb3dbd8ca788dcef7dd77feb8a8ba97d84813a8fb":[34,0,1,1,11,1,129,38],
 "sdio_8h.html#acff91fa68daa1d1ee967b5b3fb3dbd8ca7b3c2c028697b45c7e4ab738dfb32732":[34,0,1,1,11,1,129,4],
 "sdio_8h.html#acff91fa68daa1d1ee967b5b3fb3dbd8ca7fefea39264d07dd179b12be8bf2e51c":[34,0,1,1,11,1,129,15],
@@ -245,9 +249,5 @@ var NAVTREEINDEX21 =
 "structGPIOInitConfig__t.html#a5cccb3d6f1fc7d1ade98fcec56390452":[33,0,108,4],
 "structGPIOInitConfig__t.html#a68e727cefe42c5c140ebbfea6fa19856":[33,0,108,0],
 "structGPIOInitConfig__t.html#a6ae4176a281a687406c1bfa19c32a1f9":[33,0,108,6],
-"structGPIOInitConfig__t.html#a9e91fe0f71b365a8fc0243c59721ecda":[33,0,108,3],
-"structGPIOInitConfig__t.html#a9fec47b09fc90e799db443bdcffb53f4":[33,0,108,1],
-"structGPIOInitConfig__t.html#ac271361b13ba110d2af3699fe610f596":[33,0,108,2],
-"structGPIOInitConfig__t.html#af7c70bb08d9f2d4900cd0cb0a733bd72":[33,0,108,5],
-"structIMU__acceleration__data__t.html":[33,0,121]
+"structGPIOInitConfig__t.html#a9e91fe0f71b365a8fc0243c59721ecda":[33,0,108,3]
 };
