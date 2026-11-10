@@ -1,4 +1,3 @@
-use crate::ui;
 use std::{fs, path};
 
 pub const SETTINGS_PATH: &str = "settings.json";
@@ -20,7 +19,6 @@ pub struct Settings {
     pub selected_source: Option<daqcore::connection::ConnectionSource>,
     pub selected_speed: daqcore::connection::CanBusSpeed,
     pub udp_port: u16,
-    pub theme: ui::theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
     pub log_folder: Option<path::PathBuf>,
     pub window_secs: f64,
@@ -34,7 +32,6 @@ impl Default for Settings {
             selected_source: None,
             selected_speed: DEFAULT_CAN_SPEED,
             udp_port: DEFAULT_UDP_PORT,
-            theme: ui::theme::ThemeSelection::Default,
             pixels_per_point: None,
             log_folder: None,
             window_secs: 30.0,
