@@ -10,9 +10,9 @@ A_BOX (short for "accumulator box") is the BMS master. It owns battery telemetry
   - 100 Hz: `pack_analog`, rotating `cell_telemetry`
   - 8 Hz: rotating `thermistor_telemetry`, plus `e_meter_temperature` with the pack thermal summary for the FSAE Energy Meter
   - 0.2 Hz: `abox_version` with `FIRMWARE_GIT_HASH`
-- `bms_task` in [`main.c`](main.c) (5 Hz): `pack_bms`, `bms_pecs`
+- `bms_task` in [`main.c`](main.c) (5 Hz): `bms_voltages`, `bms_temps`, `bms_pecs`
 - [`charging_fsm.c`](charging_fsm/charging_fsm.c) (1 Hz on CCAN): `charging_fsm_internals`
-- [`thermistor.c`](thermistor/thermistor.c) / [`thermistor.h`](thermistor/thermistor.h): Datasheet-derived lookup table and `thermistor_R_to_T()` helper used by the ADBMS driver.
+- [`cell_thermistor.c`](thermistor/cell_thermistor.c) / [`board_thermistor.c`](thermistor/board_thermistor.c) / [`thermistor.h`](thermistor/thermistor.h): Datasheet-derived lookup tables and `cell_thermistor_R_to_T()` / `board_thermistor_R_to_T()` helpers used by the ADBMS driver.
 - Fault handling in `bms_task` (in [`main.c`](main.c)): raises `IMD`, `BMS_DISCONNECTED`, pack full/empty, cell under/overvoltage, and pack warm/cold/overtemp faults; `BMS_DISCONNECTED` also drives `BMS_SDC_CTRL`.
 
 ## Hardware Block Diagram

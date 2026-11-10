@@ -396,7 +396,7 @@ fn charging_voltages(
         };
 
         match decoded.name() {
-            "pack_bms" | "pack_bms_ccan" => {
+            "bms_voltages" | "bms_voltages_ccan" => {
                 for (name, signal) in decoded.iter() {
                     let field = match name {
                         "pack_voltage" => &mut values.get_or_insert_default().pack_voltage,

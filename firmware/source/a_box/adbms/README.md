@@ -60,12 +60,14 @@ so that SPI communication is not delayed/interrupted.
 
 ### Accessing Measurements
 
-After each periodic call, measurements, statistics, and status can be accessed via thez `ADBMS_` getters:
+After each periodic call, measurements, statistics, and status can be accessed via the `ADBMS_` getters:
 - `ADBMS_get_cell_voltage(&g_bms, module_idx, cell_idx)`: Per-module cell voltage in volts
 - `ADBMS_is_cell_discharging(&g_bms, module_idx, cell_idx)`: Whether a cell is actively discharging (balancing)
-- `ADBMS_get_therm_temp(&g_bms, module_idx, therm_idx)`: Per-module thermistor temperature in Celsius
-- `ADBMS_get_min/max/sum_voltage(&g_bms)`: Pack-level cell voltage statistics
-- `ADBMS_get_min/max/avg_therm_temp(&g_bms)`: Pack-level thermistor temperature statistics
+- `ADBMS_get_cell_temp(&g_bms, module_idx, cell_therm_idx)`: Per-module cell thermistor temperature in Celsius (`0 .. ADBMS_CELL_THERMS_PER_MODULE - 1`)
+- `ADBMS_get_board_temp(&g_bms, module_idx, board_therm_idx)`: Per-module onboard PCB thermistor temperature in Celsius (`0 .. ADBMS_BOARD_THERMS_PER_MODULE - 1`)
+- `ADBMS_get_min/max/avg/sum_voltage(&g_bms)`: Pack-level cell voltage statistics
+- `ADBMS_get_min/max/avg_cell_temp(&g_bms)`: Pack-level cell thermistor temperature statistics
+- `ADBMS_get_min/max/avg_board_temp(&g_bms)`: Pack-level onboard PCB temperature statistics
 - `ADBMS_get_state(&g_bms)`: Current `adbms_state_t` (connecting, read loop, recovering, fatal)
 - Error flags:
 	- `ADBMS_get_cell_voltage_pec_err(&g_bms, cmd_idx)` and `ADBMS_get_gpio_voltage_pec_err(&g_bms, cmd_idx)`: PEC error flags for cell and GPIO voltage read commands. In the case of a PEC error during reading cell or GPIO voltages (which require multiple read commands), only the specific command that failed will have its PEC error flag set and the rest of the voltages for successful commands will still be updated/valid and the pack-level statistics will be updated based on the new valid readings and the old readings for the failed commands.
@@ -106,9 +108,9 @@ The balancing algorithm is a simple threshold-based approach:
 - All communication is performed via SPI, with manual CS control for timing.
 	- The SPI transfer is a blocking DMA operation and should not fail (returns void)
 - Error handling: flags for PEC checksum failures and register read-back mismatches
-- Make sure the `ADBMS_MODULE_COUNT` constant in `adbms_config.h` match the actual number of modules and chips in your daisy chain configuration!!
+- Make sure the `ADBMS_MODULE_COUNT` constant in `adbms_config.h` matches the actual number of modules and chips in your daisy chain configuration!!
     - Additionally, if you are bench testing, make sure corruption checks are disabled (comment them out)
-- There is a hidden reliance on a global variable defined in `../thermistor/thermistor.c` (and `extern`ed in the header): `thermistor_lut`
+- There is a reliance on lookup tables (`cell_thermistor_lut` and `board_thermistor_lut`) from `../thermistor/thermistor.h`
 
 ## Authors
 

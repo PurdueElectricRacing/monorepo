@@ -101,12 +101,12 @@ static inline void update_bangbang(void) {
         bangbang_update(&powertrain_pumps, higher_temp, now);
     }
 
-    if (can_data.pack_bms.is_stale()) {
+    if (can_data.bms_temps.is_stale()) {
         // force on
         bangbang_update(&battery_fans, BATTERY_FAN_UPPER_LIMIT + 1, now);
     } else {
-        uint8_t max_temp = can_data.pack_bms.max_temp;
-        bangbang_update(&battery_fans, max_temp, now);
+        uint8_t max_cell_temp = can_data.bms_temps.max_cell_temp;
+        bangbang_update(&battery_fans, max_cell_temp, now);
     }
 
     // todo: read water temps, force on for now

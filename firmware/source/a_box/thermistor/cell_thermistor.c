@@ -1,12 +1,15 @@
 /**
- * @file thermistor.c
- * @brief Thermistor lookup table from datasheet.
+ * @file cell_thermistor.c
+ * @brief Cell thermistor lookup table from datasheet.
  *
  * @author Irving Wang (irvingw@purdue.edu)
  * @author Millan Kumar (kumar798@purdue.edu)
  */
 
+#include "thermistor.h"
+
 #include "common/lerp_lut/lerp_lut.h"
+
 
 // https://www.tdk-electronics.tdk.com/inf/50/db/ntc/NTC_Mini_sensors_S861.pdf
 // from pg 6: R/T No. 8016
@@ -58,4 +61,4 @@ const lut_entry_t B57861S0103A039_data[B57861S0103A039_LUT_SIZE] = {
     {.key = 963'000.0f, .value = -55.0f }
 };
 
-LERP_LUT_INIT(thermistor_lut, B57861S0103A039_data, B57861S0103A039_LUT_SIZE);
+LERP_LUT_INIT(cell_thermistor_lut, B57861S0103A039_data, B57861S0103A039_LUT_SIZE);
