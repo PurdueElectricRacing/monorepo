@@ -21,10 +21,10 @@ typedef struct {
 } usb_context_t;
 
 
-// Check configured/halted state.
+// Check whether the bulk IN endpoint is configured and not halted.
 // The caller must exclude USB interrupts through the subsequent packet submission
 // to avoid racing reset/deconfiguration.
-bool usb_data_enabled(void);
+bool usb_bulk_in_enabled(void);
 
 
 #endif

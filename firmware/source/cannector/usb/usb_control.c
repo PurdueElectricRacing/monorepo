@@ -386,6 +386,6 @@ void PHAL_USB_callback(const PHAL_USB_Event_t *event) {
 }
 
 // The TX task excludes USB interrupts while checking this and submitting data.
-bool usb_data_enabled(void) {
+bool usb_bulk_in_enabled(void) {
     return g_usb_context.configured && !g_usb_context.bulk_in_halted;
 }
