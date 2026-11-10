@@ -221,7 +221,9 @@ static bool handle_set_interface(const PHAL_USB_SetupPacket_t *setup) {
         is_length_zero
     ) {
         PHAL_USB_clearHalt(PHAL_USB_DATA_ENDPOINT, PHAL_USB_ENDPOINT_DIRECTION_IN);
-        g_usb_context.bulk_halted = false;
+        PHAL_USB_clearHalt(PHAL_USB_DATA_ENDPOINT, PHAL_USB_ENDPOINT_DIRECTION_OUT);
+        g_usb_context.bulk_in_halted = false;
+        g_usb_context.bulk_out_halted = false;
         respond(nullptr, 0U, 0U);
         return true;
     }
