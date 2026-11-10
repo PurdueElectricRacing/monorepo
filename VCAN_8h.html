@@ -185,11 +185,13 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structa__box__fault__sync__data__t.html">a_box_fault_sync_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbms__temps__data__t.html">bms_temps_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbms__voltages__data__t.html">bms_voltages_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdashboard__fault__sync__data__t.html">dashboard_fault_sync_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmain__module__fault__sync__data__t.html">main_module_fault_sync_data_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpack__bms__data__t.html">pack_bms_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpdu__fault__sync__data__t.html">pdu_fault_sync_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -448,7 +450,27 @@ Variables</h2></td></tr>
 <tr class="separator:a57e98e761f8bd41001290462f7f99a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a0cfb892574b8386aee061456002f5f" id="r_a1a0cfb892574b8386aee061456002f5f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a0cfb892574b8386aee061456002f5f">A_BOX_FAULT_SYNC_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:a1a0cfb892574b8386aee061456002f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb4b01d02e9266309200f667c3440d8a" id="r_aeb4b01d02e9266309200f667c3440d8a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb4b01d02e9266309200f667c3440d8a">DASHBOARD_FAULT_SYNC_MSG_ID</a> = 0x3D</td></tr>
+<tr class="memitem:a47ae49eb7078a5cf399ad29764da3b3c" id="r_a47ae49eb7078a5cf399ad29764da3b3c"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47ae49eb7078a5cf399ad29764da3b3c">BMS_TEMPS_MSG_ID</a> = 0x3D</td></tr>
+<tr class="separator:a47ae49eb7078a5cf399ad29764da3b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90433f6b06c095f2a507ed17276d3716" id="r_a90433f6b06c095f2a507ed17276d3716"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90433f6b06c095f2a507ed17276d3716">BMS_TEMPS_DLC</a> = 6</td></tr>
+<tr class="separator:a90433f6b06c095f2a507ed17276d3716"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add5c92d175c0afe71a111c7d05e5a79e" id="r_add5c92d175c0afe71a111c7d05e5a79e"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add5c92d175c0afe71a111c7d05e5a79e">BMS_TEMPS_LAYOUT_HASH</a> = 0x4776F0D21CB8D88F</td></tr>
+<tr class="separator:add5c92d175c0afe71a111c7d05e5a79e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5f2ba4ce17bd96e0c709e4f116603cc" id="r_ab5f2ba4ce17bd96e0c709e4f116603cc"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5f2ba4ce17bd96e0c709e4f116603cc">BMS_TEMPS_PERIOD_MS</a> = 200</td></tr>
+<tr class="separator:ab5f2ba4ce17bd96e0c709e4f116603cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c0ec5ffe54bebae64542bd04099f644" id="r_a0c0ec5ffe54bebae64542bd04099f644"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c0ec5ffe54bebae64542bd04099f644">BMS_TEMPS_STALE_TIMEOUT_MS</a> = 500</td></tr>
+<tr class="separator:a0c0ec5ffe54bebae64542bd04099f644"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1772ee462d11672720f458e1125ba81" id="r_ab1772ee462d11672720f458e1125ba81"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1772ee462d11672720f458e1125ba81">BMS_VOLTAGES_MSG_ID</a> = 0x3E</td></tr>
+<tr class="separator:ab1772ee462d11672720f458e1125ba81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d2c8fe6005b9db9f38d0bba5c0c4eb4" id="r_a4d2c8fe6005b9db9f38d0bba5c0c4eb4"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d2c8fe6005b9db9f38d0bba5c0c4eb4">BMS_VOLTAGES_DLC</a> = 8</td></tr>
+<tr class="separator:a4d2c8fe6005b9db9f38d0bba5c0c4eb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a672e0ccc1953bd53d2706e3e93d862ea" id="r_a672e0ccc1953bd53d2706e3e93d862ea"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a672e0ccc1953bd53d2706e3e93d862ea">BMS_VOLTAGES_LAYOUT_HASH</a> = 0x3B8969C6E5AD8494</td></tr>
+<tr class="separator:a672e0ccc1953bd53d2706e3e93d862ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad23a167926b2f5d8eb3e76a1c722d552" id="r_ad23a167926b2f5d8eb3e76a1c722d552"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad23a167926b2f5d8eb3e76a1c722d552">BMS_VOLTAGES_PERIOD_MS</a> = 200</td></tr>
+<tr class="separator:ad23a167926b2f5d8eb3e76a1c722d552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a915cf8523d4c4e68819bc5f68ad9f9e2" id="r_a915cf8523d4c4e68819bc5f68ad9f9e2"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a915cf8523d4c4e68819bc5f68ad9f9e2">BMS_VOLTAGES_STALE_TIMEOUT_MS</a> = 500</td></tr>
+<tr class="separator:a915cf8523d4c4e68819bc5f68ad9f9e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb4b01d02e9266309200f667c3440d8a" id="r_aeb4b01d02e9266309200f667c3440d8a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb4b01d02e9266309200f667c3440d8a">DASHBOARD_FAULT_SYNC_MSG_ID</a> = 0x3F</td></tr>
 <tr class="separator:aeb4b01d02e9266309200f667c3440d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7110c2da092a80965964a230eb6c5b8c" id="r_a7110c2da092a80965964a230eb6c5b8c"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7110c2da092a80965964a230eb6c5b8c">DASHBOARD_FAULT_SYNC_DLC</a> = 1</td></tr>
 <tr class="separator:a7110c2da092a80965964a230eb6c5b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -458,7 +480,7 @@ Variables</h2></td></tr>
 <tr class="separator:ac6a3c9c5e369ecc974d9a023f6c97e1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75c0796fefa5ac8f13c12472b14b1937" id="r_a75c0796fefa5ac8f13c12472b14b1937"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75c0796fefa5ac8f13c12472b14b1937">DASHBOARD_FAULT_SYNC_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:a75c0796fefa5ac8f13c12472b14b1937"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a530cb859ae70419f605fc28f092472e9" id="r_a530cb859ae70419f605fc28f092472e9"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a530cb859ae70419f605fc28f092472e9">MAIN_MODULE_FAULT_SYNC_MSG_ID</a> = 0x3E</td></tr>
+<tr class="memitem:a530cb859ae70419f605fc28f092472e9" id="r_a530cb859ae70419f605fc28f092472e9"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a530cb859ae70419f605fc28f092472e9">MAIN_MODULE_FAULT_SYNC_MSG_ID</a> = 0x40</td></tr>
 <tr class="separator:a530cb859ae70419f605fc28f092472e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a390f528d89b83dc009354c654edd6b79" id="r_a390f528d89b83dc009354c654edd6b79"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a390f528d89b83dc009354c654edd6b79">MAIN_MODULE_FAULT_SYNC_DLC</a> = 3</td></tr>
 <tr class="separator:a390f528d89b83dc009354c654edd6b79"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -468,17 +490,7 @@ Variables</h2></td></tr>
 <tr class="separator:a5719f90b392171a25e4345a0cf107056"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac51cbefbce1ad752b27ec2b60f00e298" id="r_ac51cbefbce1ad752b27ec2b60f00e298"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac51cbefbce1ad752b27ec2b60f00e298">MAIN_MODULE_FAULT_SYNC_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:ac51cbefbce1ad752b27ec2b60f00e298"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a236dfcc2c4cba30ce74bea556118e8e7" id="r_a236dfcc2c4cba30ce74bea556118e8e7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a236dfcc2c4cba30ce74bea556118e8e7">PACK_BMS_MSG_ID</a> = 0x3F</td></tr>
-<tr class="separator:a236dfcc2c4cba30ce74bea556118e8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07c774f7e070b59c7544fe8cbb6aa679" id="r_a07c774f7e070b59c7544fe8cbb6aa679"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07c774f7e070b59c7544fe8cbb6aa679">PACK_BMS_DLC</a> = 8</td></tr>
-<tr class="separator:a07c774f7e070b59c7544fe8cbb6aa679"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98204c0e89b769c1382e502de0c92ada" id="r_a98204c0e89b769c1382e502de0c92ada"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98204c0e89b769c1382e502de0c92ada">PACK_BMS_LAYOUT_HASH</a> = 0x99ACC2C6CC798652</td></tr>
-<tr class="separator:a98204c0e89b769c1382e502de0c92ada"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2af79faf1b74fc93d9c5f19bb1e28d5c" id="r_a2af79faf1b74fc93d9c5f19bb1e28d5c"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2af79faf1b74fc93d9c5f19bb1e28d5c">PACK_BMS_PERIOD_MS</a> = 200</td></tr>
-<tr class="separator:a2af79faf1b74fc93d9c5f19bb1e28d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41a37909a74edb7bd12bd5f7ff55992f" id="r_a41a37909a74edb7bd12bd5f7ff55992f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41a37909a74edb7bd12bd5f7ff55992f">PACK_BMS_STALE_TIMEOUT_MS</a> = 500</td></tr>
-<tr class="separator:a41a37909a74edb7bd12bd5f7ff55992f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75ff1ff7b0587b997331b09347c981e7" id="r_a75ff1ff7b0587b997331b09347c981e7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75ff1ff7b0587b997331b09347c981e7">PDU_FAULT_SYNC_MSG_ID</a> = 0x40</td></tr>
+<tr class="memitem:a75ff1ff7b0587b997331b09347c981e7" id="r_a75ff1ff7b0587b997331b09347c981e7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75ff1ff7b0587b997331b09347c981e7">PDU_FAULT_SYNC_MSG_ID</a> = 0x41</td></tr>
 <tr class="separator:a75ff1ff7b0587b997331b09347c981e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0633437488b4732cf595f9d730221f47" id="r_a0633437488b4732cf595f9d730221f47"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0633437488b4732cf595f9d730221f47">PDU_FAULT_SYNC_DLC</a> = 3</td></tr>
 <tr class="separator:a0633437488b4732cf595f9d730221f47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -488,7 +500,7 @@ Variables</h2></td></tr>
 <tr class="separator:ab69a61a188d5c8567a9601aad4c27ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b690ec3184236d82567cbfcf31abd2e" id="r_a9b690ec3184236d82567cbfcf31abd2e"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b690ec3184236d82567cbfcf31abd2e">PDU_FAULT_SYNC_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:a9b690ec3184236d82567cbfcf31abd2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3a5500cc8f0717aa13c7da0b414d5df" id="r_aa3a5500cc8f0717aa13c7da0b414d5df"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3a5500cc8f0717aa13c7da0b414d5df">START_BUTTON_MSG_ID</a> = 0x41</td></tr>
+<tr class="memitem:aa3a5500cc8f0717aa13c7da0b414d5df" id="r_aa3a5500cc8f0717aa13c7da0b414d5df"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3a5500cc8f0717aa13c7da0b414d5df">START_BUTTON_MSG_ID</a> = 0x42</td></tr>
 <tr class="separator:aa3a5500cc8f0717aa13c7da0b414d5df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac585c5677fb74b7e7bf6739a34f2f495" id="r_ac585c5677fb74b7e7bf6739a34f2f495"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac585c5677fb74b7e7bf6739a34f2f495">START_BUTTON_DLC</a> = 1</td></tr>
 <tr class="separator:ac585c5677fb74b7e7bf6739a34f2f495"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -498,7 +510,7 @@ Variables</h2></td></tr>
 <tr class="separator:afe27a6da3adfe3f438d6aacf0feffc1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d86904f6c15f686c19b652b86f02a0d" id="r_a1d86904f6c15f686c19b652b86f02a0d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d86904f6c15f686c19b652b86f02a0d">START_BUTTON_STALE_TIMEOUT_MS</a> = 500</td></tr>
 <tr class="separator:a1d86904f6c15f686c19b652b86f02a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3781b4b83c47995de04d1b0e328241a" id="r_ac3781b4b83c47995de04d1b0e328241a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3781b4b83c47995de04d1b0e328241a">TORQUE_VECTOR_FAULT_SYNC_MSG_ID</a> = 0x42</td></tr>
+<tr class="memitem:ac3781b4b83c47995de04d1b0e328241a" id="r_ac3781b4b83c47995de04d1b0e328241a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3781b4b83c47995de04d1b0e328241a">TORQUE_VECTOR_FAULT_SYNC_MSG_ID</a> = 0x43</td></tr>
 <tr class="separator:ac3781b4b83c47995de04d1b0e328241a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00dd5a1da13d947a583161904bfc5fa6" id="r_a00dd5a1da13d947a583161904bfc5fa6"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00dd5a1da13d947a583161904bfc5fa6">TORQUE_VECTOR_FAULT_SYNC_DLC</a> = 1</td></tr>
 <tr class="separator:a00dd5a1da13d947a583161904bfc5fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -508,7 +520,7 @@ Variables</h2></td></tr>
 <tr class="separator:a21f7c470f8dcd2bbd25d434f0460e45b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f3cdb637341f8ea61b761132e8ff67b" id="r_a3f3cdb637341f8ea61b761132e8ff67b"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f3cdb637341f8ea61b761132e8ff67b">TORQUE_VECTOR_FAULT_SYNC_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:a3f3cdb637341f8ea61b761132e8ff67b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac50dce2c842f7fe9d1d2b28ffa3c6da2" id="r_ac50dce2c842f7fe9d1d2b28ffa3c6da2"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac50dce2c842f7fe9d1d2b28ffa3c6da2">MAIN_HB_MSG_ID</a> = 0x43</td></tr>
+<tr class="memitem:ac50dce2c842f7fe9d1d2b28ffa3c6da2" id="r_ac50dce2c842f7fe9d1d2b28ffa3c6da2"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac50dce2c842f7fe9d1d2b28ffa3c6da2">MAIN_HB_MSG_ID</a> = 0x44</td></tr>
 <tr class="separator:ac50dce2c842f7fe9d1d2b28ffa3c6da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74c483e7c17c51ab63570bade774208e" id="r_a74c483e7c17c51ab63570bade774208e"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74c483e7c17c51ab63570bade774208e">MAIN_HB_DLC</a> = 1</td></tr>
 <tr class="separator:a74c483e7c17c51ab63570bade774208e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -518,7 +530,7 @@ Variables</h2></td></tr>
 <tr class="separator:adaf3cfc6581d66c83345f7432763a3e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae04dbbe7a3abe25114ce47e828b7477a" id="r_ae04dbbe7a3abe25114ce47e828b7477a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae04dbbe7a3abe25114ce47e828b7477a">MAIN_HB_STALE_TIMEOUT_MS</a> = 1250</td></tr>
 <tr class="separator:ae04dbbe7a3abe25114ce47e828b7477a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad844dff23576cdc1b1bb839cfcdc9285" id="r_ad844dff23576cdc1b1bb839cfcdc9285"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad844dff23576cdc1b1bb839cfcdc9285">PEDALS_MSG_ID</a> = 0x44</td></tr>
+<tr class="memitem:ad844dff23576cdc1b1bb839cfcdc9285" id="r_ad844dff23576cdc1b1bb839cfcdc9285"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad844dff23576cdc1b1bb839cfcdc9285">PEDALS_MSG_ID</a> = 0x45</td></tr>
 <tr class="separator:ad844dff23576cdc1b1bb839cfcdc9285"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a195a9496e491ad68bac2f6a9d21aa482" id="r_a195a9496e491ad68bac2f6a9d21aa482"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a195a9496e491ad68bac2f6a9d21aa482">PEDALS_DLC</a> = 3</td></tr>
 <tr class="separator:a195a9496e491ad68bac2f6a9d21aa482"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -528,7 +540,7 @@ Variables</h2></td></tr>
 <tr class="separator:a39bba32e5d744a0e619b0621b52ae53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e0773cfa7bc59a46d0e03d36ac9fec8" id="r_a8e0773cfa7bc59a46d0e03d36ac9fec8"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e0773cfa7bc59a46d0e03d36ac9fec8">PEDALS_STALE_TIMEOUT_MS</a> = 37</td></tr>
 <tr class="separator:a8e0773cfa7bc59a46d0e03d36ac9fec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77e9e9e1e7c18ae88b5863f5a7da0e94" id="r_a77e9e9e1e7c18ae88b5863f5a7da0e94"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77e9e9e1e7c18ae88b5863f5a7da0e94">VCU_TORQUE_REQUEST_MSG_ID</a> = 0x45</td></tr>
+<tr class="memitem:a77e9e9e1e7c18ae88b5863f5a7da0e94" id="r_a77e9e9e1e7c18ae88b5863f5a7da0e94"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77e9e9e1e7c18ae88b5863f5a7da0e94">VCU_TORQUE_REQUEST_MSG_ID</a> = 0x46</td></tr>
 <tr class="separator:a77e9e9e1e7c18ae88b5863f5a7da0e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9b211a1f055e1419270ec6465f2aa04" id="r_ad9b211a1f055e1419270ec6465f2aa04"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9b211a1f055e1419270ec6465f2aa04">VCU_TORQUE_REQUEST_DLC</a> = 8</td></tr>
 <tr class="separator:ad9b211a1f055e1419270ec6465f2aa04"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -538,13 +550,13 @@ Variables</h2></td></tr>
 <tr class="separator:a1ce0286d933fd5273a16060990ed0dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a3943c5215fdff75f26ba541b4ed4a5" id="r_a0a3943c5215fdff75f26ba541b4ed4a5"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a3943c5215fdff75f26ba541b4ed4a5">VCU_TORQUE_REQUEST_STALE_TIMEOUT_MS</a> = 37</td></tr>
 <tr class="separator:a0a3943c5215fdff75f26ba541b4ed4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8be2b2b2d962cececcb6534c5f95d683" id="r_a8be2b2b2d962cececcb6534c5f95d683"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8be2b2b2d962cececcb6534c5f95d683">VCU_DRIVER_REQUEST_MSG_ID</a> = 0x46</td></tr>
+<tr class="memitem:a8be2b2b2d962cececcb6534c5f95d683" id="r_a8be2b2b2d962cececcb6534c5f95d683"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8be2b2b2d962cececcb6534c5f95d683">VCU_DRIVER_REQUEST_MSG_ID</a> = 0x47</td></tr>
 <tr class="separator:a8be2b2b2d962cececcb6534c5f95d683"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a51b994bfa413a87d52e516931d5d39" id="r_a9a51b994bfa413a87d52e516931d5d39"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a51b994bfa413a87d52e516931d5d39">VCU_DRIVER_REQUEST_DLC</a> = 5</td></tr>
 <tr class="separator:a9a51b994bfa413a87d52e516931d5d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5794b891e9513defefb51138e8105354" id="r_a5794b891e9513defefb51138e8105354"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5794b891e9513defefb51138e8105354">VCU_DRIVER_REQUEST_LAYOUT_HASH</a> = 0xD33922BE6FE9B1A9</td></tr>
 <tr class="separator:a5794b891e9513defefb51138e8105354"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a244b0bfc954fd887193c8ab5be589c9d" id="r_a244b0bfc954fd887193c8ab5be589c9d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a244b0bfc954fd887193c8ab5be589c9d">VCU_SETTINGS_MSG_ID</a> = 0x47</td></tr>
+<tr class="memitem:a244b0bfc954fd887193c8ab5be589c9d" id="r_a244b0bfc954fd887193c8ab5be589c9d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a244b0bfc954fd887193c8ab5be589c9d">VCU_SETTINGS_MSG_ID</a> = 0x48</td></tr>
 <tr class="separator:a244b0bfc954fd887193c8ab5be589c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18d063108da4c580ff34c148c2f31f1f" id="r_a18d063108da4c580ff34c148c2f31f1f"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18d063108da4c580ff34c148c2f31f1f">VCU_SETTINGS_DLC</a> = 5</td></tr>
 <tr class="separator:a18d063108da4c580ff34c148c2f31f1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -554,7 +566,7 @@ Variables</h2></td></tr>
 <tr class="separator:a448ec1b10d2cb000f0af83636d8678b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e533498634b34ebb1b1f16e3b6cffef" id="r_a0e533498634b34ebb1b1f16e3b6cffef"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e533498634b34ebb1b1f16e3b6cffef">VCU_SETTINGS_STALE_TIMEOUT_MS</a> = 2500</td></tr>
 <tr class="separator:a0e533498634b34ebb1b1f16e3b6cffef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9803ce2ec4c2aa9ea3b0699705d7644" id="r_aa9803ce2ec4c2aa9ea3b0699705d7644"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9803ce2ec4c2aa9ea3b0699705d7644">ABOX_VERSION_MSG_ID</a> = 0x48</td></tr>
+<tr class="memitem:aa9803ce2ec4c2aa9ea3b0699705d7644" id="r_aa9803ce2ec4c2aa9ea3b0699705d7644"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9803ce2ec4c2aa9ea3b0699705d7644">ABOX_VERSION_MSG_ID</a> = 0x49</td></tr>
 <tr class="separator:aa9803ce2ec4c2aa9ea3b0699705d7644"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f144c75f2bcf648add3d59a2fff1dd5" id="r_a2f144c75f2bcf648add3d59a2fff1dd5"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f144c75f2bcf648add3d59a2fff1dd5">ABOX_VERSION_DLC</a> = 8</td></tr>
 <tr class="separator:a2f144c75f2bcf648add3d59a2fff1dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -564,7 +576,7 @@ Variables</h2></td></tr>
 <tr class="separator:a7b5c3aaec8034b7f19f4fc7cc153f32b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afdf2adc72a7db9a1cbff915e5d910ec7" id="r_afdf2adc72a7db9a1cbff915e5d910ec7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdf2adc72a7db9a1cbff915e5d910ec7">ABOX_VERSION_STALE_TIMEOUT_MS</a> = 12500</td></tr>
 <tr class="separator:afdf2adc72a7db9a1cbff915e5d910ec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ab43aef9ff6e099568eb56ca0bf3d3d" id="r_a0ab43aef9ff6e099568eb56ca0bf3d3d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ab43aef9ff6e099568eb56ca0bf3d3d">DASH_VERSION_MSG_ID</a> = 0x49</td></tr>
+<tr class="memitem:a0ab43aef9ff6e099568eb56ca0bf3d3d" id="r_a0ab43aef9ff6e099568eb56ca0bf3d3d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ab43aef9ff6e099568eb56ca0bf3d3d">DASH_VERSION_MSG_ID</a> = 0x4A</td></tr>
 <tr class="separator:a0ab43aef9ff6e099568eb56ca0bf3d3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dc407414ab08d8500b3a2972ba0ba0c" id="r_a2dc407414ab08d8500b3a2972ba0ba0c"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2dc407414ab08d8500b3a2972ba0ba0c">DASH_VERSION_DLC</a> = 8</td></tr>
 <tr class="separator:a2dc407414ab08d8500b3a2972ba0ba0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -574,7 +586,7 @@ Variables</h2></td></tr>
 <tr class="separator:a94e05dc676ef8f2864e3550a330c250d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab73f810bac11d58450bcab399554a34" id="r_aab73f810bac11d58450bcab399554a34"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab73f810bac11d58450bcab399554a34">DASH_VERSION_STALE_TIMEOUT_MS</a> = 12500</td></tr>
 <tr class="separator:aab73f810bac11d58450bcab399554a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ae4ef0728166448ebd9fd2adfcdb60f" id="r_a9ae4ef0728166448ebd9fd2adfcdb60f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ae4ef0728166448ebd9fd2adfcdb60f">GPS_TIME_MSG_ID</a> = 0x4A</td></tr>
+<tr class="memitem:a9ae4ef0728166448ebd9fd2adfcdb60f" id="r_a9ae4ef0728166448ebd9fd2adfcdb60f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ae4ef0728166448ebd9fd2adfcdb60f">GPS_TIME_MSG_ID</a> = 0x4B</td></tr>
 <tr class="separator:a9ae4ef0728166448ebd9fd2adfcdb60f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24aa6b00f65e52bfae2ee995375d45e8" id="r_a24aa6b00f65e52bfae2ee995375d45e8"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24aa6b00f65e52bfae2ee995375d45e8">GPS_TIME_DLC</a> = 8</td></tr>
 <tr class="separator:a24aa6b00f65e52bfae2ee995375d45e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -584,7 +596,7 @@ Variables</h2></td></tr>
 <tr class="separator:ab20651f573bd3e4b56af4b1896948c85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fee98380edc97b939ec916720285fb9" id="r_a4fee98380edc97b939ec916720285fb9"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4fee98380edc97b939ec916720285fb9">GPS_TIME_STALE_TIMEOUT_MS</a> = 2500</td></tr>
 <tr class="separator:a4fee98380edc97b939ec916720285fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f4ab8c859b4a91febf182184fe9b727" id="r_a0f4ab8c859b4a91febf182184fe9b727"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f4ab8c859b4a91febf182184fe9b727">IGBT_TEMPS_MSG_ID</a> = 0x4B</td></tr>
+<tr class="memitem:a0f4ab8c859b4a91febf182184fe9b727" id="r_a0f4ab8c859b4a91febf182184fe9b727"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f4ab8c859b4a91febf182184fe9b727">IGBT_TEMPS_MSG_ID</a> = 0x4C</td></tr>
 <tr class="separator:a0f4ab8c859b4a91febf182184fe9b727"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae94baf7a04a6f7ae10215264fa134955" id="r_ae94baf7a04a6f7ae10215264fa134955"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae94baf7a04a6f7ae10215264fa134955">IGBT_TEMPS_DLC</a> = 8</td></tr>
 <tr class="separator:ae94baf7a04a6f7ae10215264fa134955"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -594,7 +606,7 @@ Variables</h2></td></tr>
 <tr class="separator:ad973e5f1f0a1783b35fe9cd655dd9c1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22febe1822e08d41c482acdb6d873f3a" id="r_a22febe1822e08d41c482acdb6d873f3a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22febe1822e08d41c482acdb6d873f3a">IGBT_TEMPS_STALE_TIMEOUT_MS</a> = 12500</td></tr>
 <tr class="separator:a22febe1822e08d41c482acdb6d873f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83a0be0f5bdc59539ecde339355f2356" id="r_a83a0be0f5bdc59539ecde339355f2356"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83a0be0f5bdc59539ecde339355f2356">INVA_DIAGNOSTICS_MSG_ID</a> = 0x4C</td></tr>
+<tr class="memitem:a83a0be0f5bdc59539ecde339355f2356" id="r_a83a0be0f5bdc59539ecde339355f2356"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83a0be0f5bdc59539ecde339355f2356">INVA_DIAGNOSTICS_MSG_ID</a> = 0x4D</td></tr>
 <tr class="separator:a83a0be0f5bdc59539ecde339355f2356"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ffbe761a9ce129ab85d36d877389446" id="r_a1ffbe761a9ce129ab85d36d877389446"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ffbe761a9ce129ab85d36d877389446">INVA_DIAGNOSTICS_DLC</a> = 6</td></tr>
 <tr class="separator:a1ffbe761a9ce129ab85d36d877389446"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -604,7 +616,7 @@ Variables</h2></td></tr>
 <tr class="separator:a8f2dff8e6d9e20d8644fa5db65f4d8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeabcc6a58983fe1912b21499d8af8a42" id="r_aeabcc6a58983fe1912b21499d8af8a42"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeabcc6a58983fe1912b21499d8af8a42">INVA_DIAGNOSTICS_STALE_TIMEOUT_MS</a> = 2500</td></tr>
 <tr class="separator:aeabcc6a58983fe1912b21499d8af8a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c4685c79f252106915fa862b98ca2f1" id="r_a0c4685c79f252106915fa862b98ca2f1"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c4685c79f252106915fa862b98ca2f1">INVB_DIAGNOSTICS_MSG_ID</a> = 0x4D</td></tr>
+<tr class="memitem:a0c4685c79f252106915fa862b98ca2f1" id="r_a0c4685c79f252106915fa862b98ca2f1"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c4685c79f252106915fa862b98ca2f1">INVB_DIAGNOSTICS_MSG_ID</a> = 0x4E</td></tr>
 <tr class="separator:a0c4685c79f252106915fa862b98ca2f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09ebc363385e928aa736a8712c4a4b62" id="r_a09ebc363385e928aa736a8712c4a4b62"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09ebc363385e928aa736a8712c4a4b62">INVB_DIAGNOSTICS_DLC</a> = 6</td></tr>
 <tr class="separator:a09ebc363385e928aa736a8712c4a4b62"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -614,7 +626,7 @@ Variables</h2></td></tr>
 <tr class="separator:a12182c383a4ad67adf7bb366b58cbde7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a954407dec851d0eb4fb7cbdee010f08e" id="r_a954407dec851d0eb4fb7cbdee010f08e"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a954407dec851d0eb4fb7cbdee010f08e">INVB_DIAGNOSTICS_STALE_TIMEOUT_MS</a> = 2500</td></tr>
 <tr class="separator:a954407dec851d0eb4fb7cbdee010f08e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2d5a296c013c6850b9c7fe1b2da069f" id="r_ab2d5a296c013c6850b9c7fe1b2da069f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2d5a296c013c6850b9c7fe1b2da069f">INVC_DIAGNOSTICS_MSG_ID</a> = 0x4E</td></tr>
+<tr class="memitem:ab2d5a296c013c6850b9c7fe1b2da069f" id="r_ab2d5a296c013c6850b9c7fe1b2da069f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2d5a296c013c6850b9c7fe1b2da069f">INVC_DIAGNOSTICS_MSG_ID</a> = 0x4F</td></tr>
 <tr class="separator:ab2d5a296c013c6850b9c7fe1b2da069f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abeb10555727ecd1b0bec6e77dbdad6ae" id="r_abeb10555727ecd1b0bec6e77dbdad6ae"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abeb10555727ecd1b0bec6e77dbdad6ae">INVC_DIAGNOSTICS_DLC</a> = 6</td></tr>
 <tr class="separator:abeb10555727ecd1b0bec6e77dbdad6ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -624,7 +636,7 @@ Variables</h2></td></tr>
 <tr class="separator:aa3e8bec4ad5979da374b82c2d74a3533"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f1c95a9818c1ac8579423564bc1cd16" id="r_a3f1c95a9818c1ac8579423564bc1cd16"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f1c95a9818c1ac8579423564bc1cd16">INVC_DIAGNOSTICS_STALE_TIMEOUT_MS</a> = 2500</td></tr>
 <tr class="separator:a3f1c95a9818c1ac8579423564bc1cd16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ba73bbb5ffe200aa0f04b21c48c65eb" id="r_a4ba73bbb5ffe200aa0f04b21c48c65eb"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ba73bbb5ffe200aa0f04b21c48c65eb">INVD_DIAGNOSTICS_MSG_ID</a> = 0x4F</td></tr>
+<tr class="memitem:a4ba73bbb5ffe200aa0f04b21c48c65eb" id="r_a4ba73bbb5ffe200aa0f04b21c48c65eb"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ba73bbb5ffe200aa0f04b21c48c65eb">INVD_DIAGNOSTICS_MSG_ID</a> = 0x50</td></tr>
 <tr class="separator:a4ba73bbb5ffe200aa0f04b21c48c65eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33cd19053ba2b75873bf931c17706cfa" id="r_a33cd19053ba2b75873bf931c17706cfa"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33cd19053ba2b75873bf931c17706cfa">INVD_DIAGNOSTICS_DLC</a> = 6</td></tr>
 <tr class="separator:a33cd19053ba2b75873bf931c17706cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -634,7 +646,7 @@ Variables</h2></td></tr>
 <tr class="separator:a37781ab181ca4869a21270568cbe784b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49c9dc86ceb0dd89932e74260b5ad643" id="r_a49c9dc86ceb0dd89932e74260b5ad643"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49c9dc86ceb0dd89932e74260b5ad643">INVD_DIAGNOSTICS_STALE_TIMEOUT_MS</a> = 2500</td></tr>
 <tr class="separator:a49c9dc86ceb0dd89932e74260b5ad643"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b5c2a86e3ec0069f0b30b9224af01f5" id="r_a0b5c2a86e3ec0069f0b30b9224af01f5"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b5c2a86e3ec0069f0b30b9224af01f5">MAIN_VERSION_MSG_ID</a> = 0x50</td></tr>
+<tr class="memitem:a0b5c2a86e3ec0069f0b30b9224af01f5" id="r_a0b5c2a86e3ec0069f0b30b9224af01f5"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b5c2a86e3ec0069f0b30b9224af01f5">MAIN_VERSION_MSG_ID</a> = 0x51</td></tr>
 <tr class="separator:a0b5c2a86e3ec0069f0b30b9224af01f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab660b9763b2792a4d61bfd6d7989dbac" id="r_ab660b9763b2792a4d61bfd6d7989dbac"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab660b9763b2792a4d61bfd6d7989dbac">MAIN_VERSION_DLC</a> = 8</td></tr>
 <tr class="separator:ab660b9763b2792a4d61bfd6d7989dbac"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -644,7 +656,7 @@ Variables</h2></td></tr>
 <tr class="separator:a0e6b124a93879270168a0e9d42ee5a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48152fda0dbecc906bb598b3b14b36fb" id="r_a48152fda0dbecc906bb598b3b14b36fb"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48152fda0dbecc906bb598b3b14b36fb">MAIN_VERSION_STALE_TIMEOUT_MS</a> = 12500</td></tr>
 <tr class="separator:a48152fda0dbecc906bb598b3b14b36fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2182a814adb3443e697e446a4e32e9d3" id="r_a2182a814adb3443e697e446a4e32e9d3"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2182a814adb3443e697e446a4e32e9d3">MOTOR_TEMPS_MSG_ID</a> = 0x51</td></tr>
+<tr class="memitem:a2182a814adb3443e697e446a4e32e9d3" id="r_a2182a814adb3443e697e446a4e32e9d3"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2182a814adb3443e697e446a4e32e9d3">MOTOR_TEMPS_MSG_ID</a> = 0x52</td></tr>
 <tr class="separator:a2182a814adb3443e697e446a4e32e9d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae47e182fbac66954802e4a6eaf997251" id="r_ae47e182fbac66954802e4a6eaf997251"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae47e182fbac66954802e4a6eaf997251">MOTOR_TEMPS_DLC</a> = 8</td></tr>
 <tr class="separator:ae47e182fbac66954802e4a6eaf997251"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -654,7 +666,7 @@ Variables</h2></td></tr>
 <tr class="separator:a79597f4fb1df520210d14c40f506fab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d504917a08e2de4a676ee7ce5e7704b" id="r_a0d504917a08e2de4a676ee7ce5e7704b"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d504917a08e2de4a676ee7ce5e7704b">MOTOR_TEMPS_STALE_TIMEOUT_MS</a> = 12500</td></tr>
 <tr class="separator:a0d504917a08e2de4a676ee7ce5e7704b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a354459a2a6af809728821b0b0807b907" id="r_a354459a2a6af809728821b0b0807b907"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a354459a2a6af809728821b0b0807b907">PDU_VERSION_MSG_ID</a> = 0x52</td></tr>
+<tr class="memitem:a354459a2a6af809728821b0b0807b907" id="r_a354459a2a6af809728821b0b0807b907"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a354459a2a6af809728821b0b0807b907">PDU_VERSION_MSG_ID</a> = 0x53</td></tr>
 <tr class="separator:a354459a2a6af809728821b0b0807b907"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adea87017c5d271c229b18c5860b05adf" id="r_adea87017c5d271c229b18c5860b05adf"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adea87017c5d271c229b18c5860b05adf">PDU_VERSION_DLC</a> = 4</td></tr>
 <tr class="separator:adea87017c5d271c229b18c5860b05adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -664,7 +676,7 @@ Variables</h2></td></tr>
 <tr class="separator:a0fd6d99dc8990bf51068862d2f3341d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04cc94fa05edc824a5e54959e3edfa78" id="r_a04cc94fa05edc824a5e54959e3edfa78"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a04cc94fa05edc824a5e54959e3edfa78">PDU_VERSION_STALE_TIMEOUT_MS</a> = 12500</td></tr>
 <tr class="separator:a04cc94fa05edc824a5e54959e3edfa78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4aa1bd1951845e6cb2f08f691e093a6a" id="r_a4aa1bd1951845e6cb2f08f691e093a6a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aa1bd1951845e6cb2f08f691e093a6a">TORQUE_VECTOR_VERSION_MSG_ID</a> = 0x53</td></tr>
+<tr class="memitem:a4aa1bd1951845e6cb2f08f691e093a6a" id="r_a4aa1bd1951845e6cb2f08f691e093a6a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aa1bd1951845e6cb2f08f691e093a6a">TORQUE_VECTOR_VERSION_MSG_ID</a> = 0x54</td></tr>
 <tr class="separator:a4aa1bd1951845e6cb2f08f691e093a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79cf7f6444cd7e90ddeadd9169afd5b9" id="r_a79cf7f6444cd7e90ddeadd9169afd5b9"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79cf7f6444cd7e90ddeadd9169afd5b9">TORQUE_VECTOR_VERSION_DLC</a> = 8</td></tr>
 <tr class="separator:a79cf7f6444cd7e90ddeadd9169afd5b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1072,7 +1084,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t ABOX_VERSION_MSG_ID = 0x48</td>
+          <td class="memname">uint32_t ABOX_VERSION_MSG_ID = 0x49</td>
         </tr>
       </table>
   </td>
@@ -2888,6 +2900,226 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a90433f6b06c095f2a507ed17276d3716" name="a90433f6b06c095f2a507ed17276d3716"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90433f6b06c095f2a507ed17276d3716">&#9670;&#160;</a></span>BMS_TEMPS_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BMS_TEMPS_DLC = 6</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add5c92d175c0afe71a111c7d05e5a79e" name="add5c92d175c0afe71a111c7d05e5a79e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add5c92d175c0afe71a111c7d05e5a79e">&#9670;&#160;</a></span>BMS_TEMPS_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t BMS_TEMPS_LAYOUT_HASH = 0x4776F0D21CB8D88F</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a47ae49eb7078a5cf399ad29764da3b3c" name="a47ae49eb7078a5cf399ad29764da3b3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47ae49eb7078a5cf399ad29764da3b3c">&#9670;&#160;</a></span>BMS_TEMPS_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_TEMPS_MSG_ID = 0x3D</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab5f2ba4ce17bd96e0c709e4f116603cc" name="ab5f2ba4ce17bd96e0c709e4f116603cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5f2ba4ce17bd96e0c709e4f116603cc">&#9670;&#160;</a></span>BMS_TEMPS_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_TEMPS_PERIOD_MS = 200</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c0ec5ffe54bebae64542bd04099f644" name="a0c0ec5ffe54bebae64542bd04099f644"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c0ec5ffe54bebae64542bd04099f644">&#9670;&#160;</a></span>BMS_TEMPS_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_TEMPS_STALE_TIMEOUT_MS = 500</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d2c8fe6005b9db9f38d0bba5c0c4eb4" name="a4d2c8fe6005b9db9f38d0bba5c0c4eb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d2c8fe6005b9db9f38d0bba5c0c4eb4">&#9670;&#160;</a></span>BMS_VOLTAGES_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BMS_VOLTAGES_DLC = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a672e0ccc1953bd53d2706e3e93d862ea" name="a672e0ccc1953bd53d2706e3e93d862ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a672e0ccc1953bd53d2706e3e93d862ea">&#9670;&#160;</a></span>BMS_VOLTAGES_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t BMS_VOLTAGES_LAYOUT_HASH = 0x3B8969C6E5AD8494</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab1772ee462d11672720f458e1125ba81" name="ab1772ee462d11672720f458e1125ba81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1772ee462d11672720f458e1125ba81">&#9670;&#160;</a></span>BMS_VOLTAGES_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_VOLTAGES_MSG_ID = 0x3E</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad23a167926b2f5d8eb3e76a1c722d552" name="ad23a167926b2f5d8eb3e76a1c722d552"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad23a167926b2f5d8eb3e76a1c722d552">&#9670;&#160;</a></span>BMS_VOLTAGES_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_VOLTAGES_PERIOD_MS = 200</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a915cf8523d4c4e68819bc5f68ad9f9e2" name="a915cf8523d4c4e68819bc5f68ad9f9e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a915cf8523d4c4e68819bc5f68ad9f9e2">&#9670;&#160;</a></span>BMS_VOLTAGES_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_VOLTAGES_STALE_TIMEOUT_MS = 500</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="acaecc4097c224c4006253794f6e0b2fc" name="acaecc4097c224c4006253794f6e0b2fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acaecc4097c224c4006253794f6e0b2fc">&#9670;&#160;</a></span>DASH_INIT_DLC</h2>
 
@@ -3008,7 +3240,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t DASH_VERSION_MSG_ID = 0x49</td>
+          <td class="memname">uint32_t DASH_VERSION_MSG_ID = 0x4A</td>
         </tr>
       </table>
   </td>
@@ -3184,7 +3416,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t DASHBOARD_FAULT_SYNC_MSG_ID = 0x3D</td>
+          <td class="memname">uint32_t DASHBOARD_FAULT_SYNC_MSG_ID = 0x3F</td>
         </tr>
       </table>
   </td>
@@ -3294,7 +3526,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t GPS_TIME_MSG_ID = 0x4A</td>
+          <td class="memname">uint32_t GPS_TIME_MSG_ID = 0x4B</td>
         </tr>
       </table>
   </td>
@@ -3404,7 +3636,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t IGBT_TEMPS_MSG_ID = 0x4B</td>
+          <td class="memname">uint32_t IGBT_TEMPS_MSG_ID = 0x4C</td>
         </tr>
       </table>
   </td>
@@ -3514,7 +3746,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t INVA_DIAGNOSTICS_MSG_ID = 0x4C</td>
+          <td class="memname">uint32_t INVA_DIAGNOSTICS_MSG_ID = 0x4D</td>
         </tr>
       </table>
   </td>
@@ -3624,7 +3856,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t INVB_DIAGNOSTICS_MSG_ID = 0x4D</td>
+          <td class="memname">uint32_t INVB_DIAGNOSTICS_MSG_ID = 0x4E</td>
         </tr>
       </table>
   </td>
@@ -3734,7 +3966,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t INVC_DIAGNOSTICS_MSG_ID = 0x4E</td>
+          <td class="memname">uint32_t INVC_DIAGNOSTICS_MSG_ID = 0x4F</td>
         </tr>
       </table>
   </td>
@@ -3844,7 +4076,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t INVD_DIAGNOSTICS_MSG_ID = 0x4F</td>
+          <td class="memname">uint32_t INVD_DIAGNOSTICS_MSG_ID = 0x50</td>
         </tr>
       </table>
   </td>
@@ -4350,7 +4582,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t MAIN_HB_MSG_ID = 0x43</td>
+          <td class="memname">uint32_t MAIN_HB_MSG_ID = 0x44</td>
         </tr>
       </table>
   </td>
@@ -4592,7 +4824,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t MAIN_MODULE_FAULT_SYNC_MSG_ID = 0x3E</td>
+          <td class="memname">uint32_t MAIN_MODULE_FAULT_SYNC_MSG_ID = 0x40</td>
         </tr>
       </table>
   </td>
@@ -4702,7 +4934,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t MAIN_VERSION_MSG_ID = 0x50</td>
+          <td class="memname">uint32_t MAIN_VERSION_MSG_ID = 0x51</td>
         </tr>
       </table>
   </td>
@@ -4922,7 +5154,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t MOTOR_TEMPS_MSG_ID = 0x51</td>
+          <td class="memname">uint32_t MOTOR_TEMPS_MSG_ID = 0x52</td>
         </tr>
       </table>
   </td>
@@ -5088,116 +5320,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a07c774f7e070b59c7544fe8cbb6aa679" name="a07c774f7e070b59c7544fe8cbb6aa679"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07c774f7e070b59c7544fe8cbb6aa679">&#9670;&#160;</a></span>PACK_BMS_DLC</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t PACK_BMS_DLC = 8</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a98204c0e89b769c1382e502de0c92ada" name="a98204c0e89b769c1382e502de0c92ada"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98204c0e89b769c1382e502de0c92ada">&#9670;&#160;</a></span>PACK_BMS_LAYOUT_HASH</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint64_t PACK_BMS_LAYOUT_HASH = 0x99ACC2C6CC798652</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a236dfcc2c4cba30ce74bea556118e8e7" name="a236dfcc2c4cba30ce74bea556118e8e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a236dfcc2c4cba30ce74bea556118e8e7">&#9670;&#160;</a></span>PACK_BMS_MSG_ID</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t PACK_BMS_MSG_ID = 0x3F</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2af79faf1b74fc93d9c5f19bb1e28d5c" name="a2af79faf1b74fc93d9c5f19bb1e28d5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2af79faf1b74fc93d9c5f19bb1e28d5c">&#9670;&#160;</a></span>PACK_BMS_PERIOD_MS</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t PACK_BMS_PERIOD_MS = 200</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a41a37909a74edb7bd12bd5f7ff55992f" name="a41a37909a74edb7bd12bd5f7ff55992f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41a37909a74edb7bd12bd5f7ff55992f">&#9670;&#160;</a></span>PACK_BMS_STALE_TIMEOUT_MS</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t PACK_BMS_STALE_TIMEOUT_MS = 500</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ad4e9af2991cabfa84e9d481cf119e732" name="ad4e9af2991cabfa84e9d481cf119e732"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad4e9af2991cabfa84e9d481cf119e732">&#9670;&#160;</a></span>PDU_FAULT_EVENT_DLC</h2>
 
@@ -5318,7 +5440,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t PDU_FAULT_SYNC_MSG_ID = 0x40</td>
+          <td class="memname">uint32_t PDU_FAULT_SYNC_MSG_ID = 0x41</td>
         </tr>
       </table>
   </td>
@@ -5494,7 +5616,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t PDU_VERSION_MSG_ID = 0x52</td>
+          <td class="memname">uint32_t PDU_VERSION_MSG_ID = 0x53</td>
         </tr>
       </table>
   </td>
@@ -5604,7 +5726,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t PEDALS_MSG_ID = 0x44</td>
+          <td class="memname">uint32_t PEDALS_MSG_ID = 0x45</td>
         </tr>
       </table>
   </td>
@@ -5714,7 +5836,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t START_BUTTON_MSG_ID = 0x41</td>
+          <td class="memname">uint32_t START_BUTTON_MSG_ID = 0x42</td>
         </tr>
       </table>
   </td>
@@ -5890,7 +6012,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t TORQUE_VECTOR_FAULT_SYNC_MSG_ID = 0x42</td>
+          <td class="memname">uint32_t TORQUE_VECTOR_FAULT_SYNC_MSG_ID = 0x43</td>
         </tr>
       </table>
   </td>
@@ -6000,7 +6122,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t TORQUE_VECTOR_VERSION_MSG_ID = 0x53</td>
+          <td class="memname">uint32_t TORQUE_VECTOR_VERSION_MSG_ID = 0x54</td>
         </tr>
       </table>
   </td>
@@ -6220,7 +6342,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t VCU_DRIVER_REQUEST_MSG_ID = 0x46</td>
+          <td class="memname">uint32_t VCU_DRIVER_REQUEST_MSG_ID = 0x47</td>
         </tr>
       </table>
   </td>
@@ -6286,7 +6408,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t VCU_SETTINGS_MSG_ID = 0x47</td>
+          <td class="memname">uint32_t VCU_SETTINGS_MSG_ID = 0x48</td>
         </tr>
       </table>
   </td>
@@ -6396,7 +6518,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t VCU_TORQUE_REQUEST_MSG_ID = 0x45</td>
+          <td class="memname">uint32_t VCU_TORQUE_REQUEST_MSG_ID = 0x46</td>
         </tr>
       </table>
   </td>

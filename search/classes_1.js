@@ -42,5 +42,9 @@ var searchData=
   ['bltransportconfig_5ft_39',['BLTransportConfig_t',['../structBLTransportConfig__t.html',1,'']]],
   ['bms_5fpecs_5fccan_5fdata_5ft_40',['bms_pecs_ccan_data_t',['../structbms__pecs__ccan__data__t.html',1,'']]],
   ['bms_5fpecs_5fdata_5ft_41',['bms_pecs_data_t',['../structbms__pecs__data__t.html',1,'']]],
-  ['brake_5fpressure_5fdata_5ft_42',['brake_pressure_data_t',['../structbrake__pressure__data__t.html',1,'']]]
+  ['bms_5ftemps_5fccan_5fdata_5ft_42',['bms_temps_ccan_data_t',['../structbms__temps__ccan__data__t.html',1,'']]],
+  ['bms_5ftemps_5fdata_5ft_43',['bms_temps_data_t',['../structbms__temps__data__t.html',1,'']]],
+  ['bms_5fvoltages_5fccan_5fdata_5ft_44',['bms_voltages_ccan_data_t',['../structbms__voltages__ccan__data__t.html',1,'']]],
+  ['bms_5fvoltages_5fdata_5ft_45',['bms_voltages_data_t',['../structbms__voltages__data__t.html',1,'']]],
+  ['brake_5fpressure_5fdata_5ft_46',['brake_pressure_data_t',['../structbrake__pressure__data__t.html',1,'']]]
 ];

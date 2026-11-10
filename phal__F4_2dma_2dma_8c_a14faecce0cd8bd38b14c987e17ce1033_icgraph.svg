@@ -391,7 +391,7 @@ var sectionId = 'dynsection-3';
 <!-- Node17 -->
 <g id="Node000017" class="node">
 <title>Node17</title>
-<g id="a_Node000017"><a xlink:href="adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" target="_top" xlink:title="Read all cell voltages from each chip via RDCVA..RDCVF.">
+<g id="a_Node000017"><a xlink:href="adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" target="_top" xlink:title="Read all cell voltages from each chip.">
 <polygon fill="white" stroke="#666666" points="768.75,-264.88 652.25,-264.88 652.25,-234.38 768.75,-234.38 768.75,-264.88"/>
 <text text-anchor="start" x="660.25" y="-251.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_cell</text>
 <text text-anchor="middle" x="710.5" y="-240.12" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -410,7 +410,7 @@ var sectionId = 'dynsection-3';
 <!-- Node21 -->
 <g id="Node000021" class="node">
 <title>Node21</title>
-<g id="a_Node000021"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.">
+<g id="a_Node000021"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each chip.">
 <polygon fill="white" stroke="#666666" points="770.25,-178.88 650.75,-178.88 650.75,-148.38 770.25,-148.38 770.25,-178.88"/>
 <text text-anchor="start" x="658.75" y="-165.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_gpio</text>
 <text text-anchor="middle" x="710.5" y="-154.12" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -528,7 +528,7 @@ var sectionId = 'dynsection-3';
 <!-- Node22 -->
 <g id="Node000022" class="node">
 <title>Node22</title>
-<g id="a_Node000022"><a xlink:href="adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" target="_top" xlink:title="Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.">
+<g id="a_Node000022"><a xlink:href="adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" target="_top" xlink:title="Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures.">
 <polygon fill="white" stroke="#666666" points="613.25,-173.25 454.75,-173.25 454.75,-154 613.25,-154 613.25,-173.25"/>
 <text text-anchor="middle" x="534" y="-159.75" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_temperatures</text>
 </a>

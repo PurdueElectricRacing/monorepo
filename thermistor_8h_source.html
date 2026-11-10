@@ -106,22 +106,33 @@ $(function(){initNavTree('thermistor_8h_source.html',''); initResizable(true); }
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="lerp__lut_8h.html">common/lerp_lut/lerp_lut.h</a>&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">extern</span> <span class="keyword">const</span> <a class="code hl_struct" href="structlerp__lut__t.html">lerp_lut_t</a> <a class="code hl_variable" href="thermistor_8h.html#a8302cb9eebdd6ddbaca93f268a5cd7f8">thermistor_lut</a>;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">// Convert a thermistor resistance to a temperature using the LUT</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>[[gnu::always_inline]]</div>
-<div class="foldopen" id="foldopen00018" data-start="{" data-end="}">
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="thermistor_8h.html#a026b496fe9ccc675fb110ee9bbc0e267">   18</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span> <a class="code hl_function" href="thermistor_8h.html#a026b496fe9ccc675fb110ee9bbc0e267">thermistor_R_to_T</a>(<span class="keywordtype">float</span> resistance) {</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="lerp__lut_8c.html#aa6730914e04aa912dcb777e28f9e4004">lut_lookup</a>(&amp;<a class="code hl_variable" href="thermistor_8h.html#a8302cb9eebdd6ddbaca93f268a5cd7f8">thermistor_lut</a>, resistance);</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">extern</span> <span class="keyword">const</span> <a class="code hl_struct" href="structlerp__lut__t.html">lerp_lut_t</a> <a class="code hl_variable" href="thermistor_8h.html#afd694c642b1b3cdea789ce306e6484c8">cell_thermistor_lut</a>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">extern</span> <span class="keyword">const</span> <a class="code hl_struct" href="structlerp__lut__t.html">lerp_lut_t</a> <a class="code hl_variable" href="thermistor_8h.html#aba2821f6a8f706b5179fffe4ab2a680a">board_thermistor_lut</a>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// Convert a cell thermistor resistance to temperature (Celsius)</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>[[gnu::always_inline]]</div>
+<div class="foldopen" id="foldopen00019" data-start="{" data-end="}">
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="thermistor_8h.html#ac70468d9ff828466d8d4406251dbc45d">   19</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span> <a class="code hl_function" href="thermistor_8h.html#ac70468d9ff828466d8d4406251dbc45d">cell_thermistor_R_to_T</a>(<span class="keywordtype">float</span> resistance) {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="lerp__lut_8c.html#aa6730914e04aa912dcb777e28f9e4004">lut_lookup</a>(&amp;<a class="code hl_variable" href="thermistor_8h.html#afd694c642b1b3cdea789ce306e6484c8">cell_thermistor_lut</a>, resistance);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
 </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#endif </span><span class="comment">// THERMISTOR_H</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">// Convert an onboard thermistor resistance to temperature (Celsius)</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>[[gnu::always_inline]]</div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="thermistor_8h.html#aa4e42f4a8aa0f05e85f4e6c6a4e13c65">   25</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span> <a class="code hl_function" href="thermistor_8h.html#aa4e42f4a8aa0f05e85f4e6c6a4e13c65">board_thermistor_R_to_T</a>(<span class="keywordtype">float</span> resistance) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="lerp__lut_8c.html#aa6730914e04aa912dcb777e28f9e4004">lut_lookup</a>(&amp;<a class="code hl_variable" href="thermistor_8h.html#aba2821f6a8f706b5179fffe4ab2a680a">board_thermistor_lut</a>, resistance);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#endif </span><span class="comment">// THERMISTOR_H</span></div>
 <div class="ttc" id="alerp__lut_8c_html_aa6730914e04aa912dcb777e28f9e4004"><div class="ttname"><a href="lerp__lut_8c.html#aa6730914e04aa912dcb777e28f9e4004">lut_lookup</a></div><div class="ttdeci">float lut_lookup(const lerp_lut_t *lut, float key)</div><div class="ttdoc">Lookup a value in a linear interpolation lookup table (LUT).</div><div class="ttdef"><b>Definition</b> lerp_lut.c:20</div></div>
 <div class="ttc" id="alerp__lut_8h_html"><div class="ttname"><a href="lerp__lut_8h.html">lerp_lut.h</a></div><div class="ttdoc">Linear interpolation lookup table (LUT).</div></div>
 <div class="ttc" id="astructlerp__lut__t_html"><div class="ttname"><a href="structlerp__lut__t.html">lerp_lut_t</a></div><div class="ttdef"><b>Definition</b> lerp_lut.h:18</div></div>
-<div class="ttc" id="athermistor_8h_html_a026b496fe9ccc675fb110ee9bbc0e267"><div class="ttname"><a href="thermistor_8h.html#a026b496fe9ccc675fb110ee9bbc0e267">thermistor_R_to_T</a></div><div class="ttdeci">static float thermistor_R_to_T(float resistance)</div><div class="ttdef"><b>Definition</b> thermistor.h:18</div></div>
-<div class="ttc" id="athermistor_8h_html_a8302cb9eebdd6ddbaca93f268a5cd7f8"><div class="ttname"><a href="thermistor_8h.html#a8302cb9eebdd6ddbaca93f268a5cd7f8">thermistor_lut</a></div><div class="ttdeci">const lerp_lut_t thermistor_lut</div></div>
+<div class="ttc" id="athermistor_8h_html_aa4e42f4a8aa0f05e85f4e6c6a4e13c65"><div class="ttname"><a href="thermistor_8h.html#aa4e42f4a8aa0f05e85f4e6c6a4e13c65">board_thermistor_R_to_T</a></div><div class="ttdeci">static float board_thermistor_R_to_T(float resistance)</div><div class="ttdef"><b>Definition</b> thermistor.h:25</div></div>
+<div class="ttc" id="athermistor_8h_html_aba2821f6a8f706b5179fffe4ab2a680a"><div class="ttname"><a href="thermistor_8h.html#aba2821f6a8f706b5179fffe4ab2a680a">board_thermistor_lut</a></div><div class="ttdeci">const lerp_lut_t board_thermistor_lut</div></div>
+<div class="ttc" id="athermistor_8h_html_ac70468d9ff828466d8d4406251dbc45d"><div class="ttname"><a href="thermistor_8h.html#ac70468d9ff828466d8d4406251dbc45d">cell_thermistor_R_to_T</a></div><div class="ttdeci">static float cell_thermistor_R_to_T(float resistance)</div><div class="ttdef"><b>Definition</b> thermistor.h:19</div></div>
+<div class="ttc" id="athermistor_8h_html_afd694c642b1b3cdea789ce306e6484c8"><div class="ttname"><a href="thermistor_8h.html#afd694c642b1b3cdea789ce306e6484c8">cell_thermistor_lut</a></div><div class="ttdeci">const lerp_lut_t cell_thermistor_lut</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

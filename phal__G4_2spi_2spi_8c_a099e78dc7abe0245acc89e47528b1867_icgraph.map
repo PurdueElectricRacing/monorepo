@@ -6,9 +6,9 @@
 <area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="1422,263,1198,296,1198,290,1421,257"/>
 <area shape="rect" id="Node000003" href="$adbms6380_8c.html#a4e8e83783b9da5c69b8a6bef35f010f5" title=" " alt="" coords="1080,121,1233,146"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1265,153,1232,148,1233,143,1265,148"/>
-<area shape="rect" id="Node000004" href="$adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" title="Read all cell voltages from each chip via RDCVA..RDCVF." alt="" coords="873,5,1028,46"/>
+<area shape="rect" id="Node000004" href="$adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" title="Read all cell voltages from each chip." alt="" coords="873,5,1028,46"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1118,115,1031,67,996,49,998,44,1034,62,1120,110"/>
-<area shape="rect" id="Node000009" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD." alt="" coords="871,171,1030,211"/>
+<area shape="rect" id="Node000009" href="$adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" title="Read all GPIO/aux voltages from each chip." alt="" coords="871,171,1030,211"/>
 <area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="1094,154,1027,173,1026,167,1092,149"/>
 <area shape="rect" id="Node000012" href="$adbms6380_8c.html#a0963dcf6690f0adb7561f61b472427e8" title="Read back REGA from all chips and compare with cached configuration." alt="" coords="632,73,798,98"/>
 <area shape="poly" id="edge12_Node000003_Node000012" title=" " alt="" coords="1065,123,1032,119,798,95,799,90,1033,114,1065,118"/>
@@ -22,7 +22,7 @@
 <area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="213,223,181,223,181,218,213,218"/>
 <area shape="rect" id="Node000008" href="$a__box_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,208,55,233"/>
 <area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="87,223,55,223,55,218,87,218"/>
-<area shape="rect" id="Node000010" href="$adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" title="Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures." alt="" coords="610,208,821,233"/>
+<area shape="rect" id="Node000010" href="$adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" title="Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures." alt="" coords="610,208,821,233"/>
 <area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="856,205,822,210,821,204,855,200"/>
 <area shape="rect" id="Node000011" href="$adbms_8c.html#a7f12e5ede5ee02045acd6f4bf4e145c7" title=" " alt="" coords="433,208,526,233"/>
 <area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="594,223,526,223,526,218,594,218"/>

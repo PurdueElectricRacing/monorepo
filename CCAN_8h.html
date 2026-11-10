@@ -125,7 +125,9 @@ This graph shows which files directly or indirectly include this file:</div>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbms__pecs__ccan__data__t.html">bms_pecs_ccan_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpack__bms__ccan__data__t.html">pack_bms_ccan_data_t</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbms__voltages__ccan__data__t.html">bms_voltages_ccan_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structbms__temps__ccan__data__t.html">bms_temps_ccan_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcharge__request__data__t.html">charge_request_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,17 +160,27 @@ Variables</h2></td></tr>
 <tr class="separator:acf35db27e674efa2ad99507bd93c42ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed8c4e3d25586c4976afabdceac33eff" id="r_aed8c4e3d25586c4976afabdceac33eff"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed8c4e3d25586c4976afabdceac33eff">BMS_PECS_CCAN_STALE_TIMEOUT_MS</a> = 500</td></tr>
 <tr class="separator:aed8c4e3d25586c4976afabdceac33eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa41a8ca66aad706a728647833272b5fa" id="r_aa41a8ca66aad706a728647833272b5fa"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa41a8ca66aad706a728647833272b5fa">PACK_BMS_CCAN_MSG_ID</a> = 0x801</td></tr>
-<tr class="separator:aa41a8ca66aad706a728647833272b5fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ee95d0322321eb1e1aab70b02510051" id="r_a5ee95d0322321eb1e1aab70b02510051"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ee95d0322321eb1e1aab70b02510051">PACK_BMS_CCAN_DLC</a> = 8</td></tr>
-<tr class="separator:a5ee95d0322321eb1e1aab70b02510051"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90fbe1643e62020ada91310d0c1e9678" id="r_a90fbe1643e62020ada91310d0c1e9678"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90fbe1643e62020ada91310d0c1e9678">PACK_BMS_CCAN_LAYOUT_HASH</a> = 0x99ACC2C6CC798652</td></tr>
-<tr class="separator:a90fbe1643e62020ada91310d0c1e9678"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f0dc487d4269a6b3d111052398234c0" id="r_a3f0dc487d4269a6b3d111052398234c0"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f0dc487d4269a6b3d111052398234c0">PACK_BMS_CCAN_PERIOD_MS</a> = 200</td></tr>
-<tr class="separator:a3f0dc487d4269a6b3d111052398234c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a15a569ee6d4969ce3464e204e9a213" id="r_a6a15a569ee6d4969ce3464e204e9a213"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a15a569ee6d4969ce3464e204e9a213">PACK_BMS_CCAN_STALE_TIMEOUT_MS</a> = 500</td></tr>
-<tr class="separator:a6a15a569ee6d4969ce3464e204e9a213"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a459a9d1290ee6f9d76f3266330e16e74" id="r_a459a9d1290ee6f9d76f3266330e16e74"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a459a9d1290ee6f9d76f3266330e16e74">CHARGE_REQUEST_MSG_ID</a> = 0x802</td></tr>
+<tr class="memitem:a86b29980963b7052f1964f174901dff8" id="r_a86b29980963b7052f1964f174901dff8"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86b29980963b7052f1964f174901dff8">BMS_VOLTAGES_CCAN_MSG_ID</a> = 0x801</td></tr>
+<tr class="separator:a86b29980963b7052f1964f174901dff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b84a0354ea354959bce17ccc5f14637" id="r_a2b84a0354ea354959bce17ccc5f14637"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b84a0354ea354959bce17ccc5f14637">BMS_VOLTAGES_CCAN_DLC</a> = 8</td></tr>
+<tr class="separator:a2b84a0354ea354959bce17ccc5f14637"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb165c1038387ee2aa3144d94ff4621d" id="r_afb165c1038387ee2aa3144d94ff4621d"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb165c1038387ee2aa3144d94ff4621d">BMS_VOLTAGES_CCAN_LAYOUT_HASH</a> = 0x3B8969C6E5AD8494</td></tr>
+<tr class="separator:afb165c1038387ee2aa3144d94ff4621d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acef1857949866da429407e1363c105aa" id="r_acef1857949866da429407e1363c105aa"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acef1857949866da429407e1363c105aa">BMS_VOLTAGES_CCAN_PERIOD_MS</a> = 200</td></tr>
+<tr class="separator:acef1857949866da429407e1363c105aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3508f0f592247c8aa0485eabbdd391bd" id="r_a3508f0f592247c8aa0485eabbdd391bd"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3508f0f592247c8aa0485eabbdd391bd">BMS_VOLTAGES_CCAN_STALE_TIMEOUT_MS</a> = 500</td></tr>
+<tr class="separator:a3508f0f592247c8aa0485eabbdd391bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae048b28b5f36dec4a950f480b91de7e8" id="r_ae048b28b5f36dec4a950f480b91de7e8"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae048b28b5f36dec4a950f480b91de7e8">BMS_TEMPS_CCAN_MSG_ID</a> = 0x802</td></tr>
+<tr class="separator:ae048b28b5f36dec4a950f480b91de7e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba55221633f89bbbc57920b696da51b5" id="r_aba55221633f89bbbc57920b696da51b5"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba55221633f89bbbc57920b696da51b5">BMS_TEMPS_CCAN_DLC</a> = 6</td></tr>
+<tr class="separator:aba55221633f89bbbc57920b696da51b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87e4ecf6e93ee6228c7b0faedcd4557d" id="r_a87e4ecf6e93ee6228c7b0faedcd4557d"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87e4ecf6e93ee6228c7b0faedcd4557d">BMS_TEMPS_CCAN_LAYOUT_HASH</a> = 0x4776F0D21CB8D88F</td></tr>
+<tr class="separator:a87e4ecf6e93ee6228c7b0faedcd4557d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f863388a9c0ec768cf257b478deae7c" id="r_a9f863388a9c0ec768cf257b478deae7c"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f863388a9c0ec768cf257b478deae7c">BMS_TEMPS_CCAN_PERIOD_MS</a> = 200</td></tr>
+<tr class="separator:a9f863388a9c0ec768cf257b478deae7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a77acbc3936907f905189e33d282505" id="r_a0a77acbc3936907f905189e33d282505"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a77acbc3936907f905189e33d282505">BMS_TEMPS_CCAN_STALE_TIMEOUT_MS</a> = 500</td></tr>
+<tr class="separator:a0a77acbc3936907f905189e33d282505"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a459a9d1290ee6f9d76f3266330e16e74" id="r_a459a9d1290ee6f9d76f3266330e16e74"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a459a9d1290ee6f9d76f3266330e16e74">CHARGE_REQUEST_MSG_ID</a> = 0x803</td></tr>
 <tr class="separator:a459a9d1290ee6f9d76f3266330e16e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6468b488516e74c0b2d119b96942a8d" id="r_aa6468b488516e74c0b2d119b96942a8d"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6468b488516e74c0b2d119b96942a8d">CHARGE_REQUEST_DLC</a> = 5</td></tr>
 <tr class="separator:aa6468b488516e74c0b2d119b96942a8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,9 +242,9 @@ Variables</h2></td></tr>
 <tr class="separator:a31635d3f6cea0ca3e369ae53c4a8f98b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03ac3dae722735537b8018ef141ab98f" id="r_a03ac3dae722735537b8018ef141ab98f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03ac3dae722735537b8018ef141ab98f">THERMISTOR_TELEMETRY_CCAN_MSG_ID</a> = 0x18FF50E9</td></tr>
 <tr class="separator:a03ac3dae722735537b8018ef141ab98f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3da973e20a843fa8b78ba7391f2d17a" id="r_ab3da973e20a843fa8b78ba7391f2d17a"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3da973e20a843fa8b78ba7391f2d17a">THERMISTOR_TELEMETRY_CCAN_DLC</a> = 4</td></tr>
+<tr class="memitem:ab3da973e20a843fa8b78ba7391f2d17a" id="r_ab3da973e20a843fa8b78ba7391f2d17a"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3da973e20a843fa8b78ba7391f2d17a">THERMISTOR_TELEMETRY_CCAN_DLC</a> = 5</td></tr>
 <tr class="separator:ab3da973e20a843fa8b78ba7391f2d17a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1b5f8d862665817d0318e90008994f0" id="r_ac1b5f8d862665817d0318e90008994f0"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1b5f8d862665817d0318e90008994f0">THERMISTOR_TELEMETRY_CCAN_LAYOUT_HASH</a> = 0x3BEFCB12591A2796</td></tr>
+<tr class="memitem:ac1b5f8d862665817d0318e90008994f0" id="r_ac1b5f8d862665817d0318e90008994f0"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1b5f8d862665817d0318e90008994f0">THERMISTOR_TELEMETRY_CCAN_LAYOUT_HASH</a> = 0x0E727A25C2834112</td></tr>
 <tr class="separator:ac1b5f8d862665817d0318e90008994f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71d577ea7fe88a3627821add7a43ae9c" id="r_a71d577ea7fe88a3627821add7a43ae9c"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71d577ea7fe88a3627821add7a43ae9c">THERMISTOR_TELEMETRY_CCAN_PERIOD_MS</a> = 125</td></tr>
 <tr class="separator:a71d577ea7fe88a3627821add7a43ae9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -343,6 +355,226 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">uint32_t BMS_PECS_CCAN_STALE_TIMEOUT_MS = 500</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aba55221633f89bbbc57920b696da51b5" name="aba55221633f89bbbc57920b696da51b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba55221633f89bbbc57920b696da51b5">&#9670;&#160;</a></span>BMS_TEMPS_CCAN_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BMS_TEMPS_CCAN_DLC = 6</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a87e4ecf6e93ee6228c7b0faedcd4557d" name="a87e4ecf6e93ee6228c7b0faedcd4557d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87e4ecf6e93ee6228c7b0faedcd4557d">&#9670;&#160;</a></span>BMS_TEMPS_CCAN_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t BMS_TEMPS_CCAN_LAYOUT_HASH = 0x4776F0D21CB8D88F</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae048b28b5f36dec4a950f480b91de7e8" name="ae048b28b5f36dec4a950f480b91de7e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae048b28b5f36dec4a950f480b91de7e8">&#9670;&#160;</a></span>BMS_TEMPS_CCAN_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_TEMPS_CCAN_MSG_ID = 0x802</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f863388a9c0ec768cf257b478deae7c" name="a9f863388a9c0ec768cf257b478deae7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f863388a9c0ec768cf257b478deae7c">&#9670;&#160;</a></span>BMS_TEMPS_CCAN_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_TEMPS_CCAN_PERIOD_MS = 200</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a77acbc3936907f905189e33d282505" name="a0a77acbc3936907f905189e33d282505"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a77acbc3936907f905189e33d282505">&#9670;&#160;</a></span>BMS_TEMPS_CCAN_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_TEMPS_CCAN_STALE_TIMEOUT_MS = 500</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b84a0354ea354959bce17ccc5f14637" name="a2b84a0354ea354959bce17ccc5f14637"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b84a0354ea354959bce17ccc5f14637">&#9670;&#160;</a></span>BMS_VOLTAGES_CCAN_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BMS_VOLTAGES_CCAN_DLC = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb165c1038387ee2aa3144d94ff4621d" name="afb165c1038387ee2aa3144d94ff4621d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb165c1038387ee2aa3144d94ff4621d">&#9670;&#160;</a></span>BMS_VOLTAGES_CCAN_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t BMS_VOLTAGES_CCAN_LAYOUT_HASH = 0x3B8969C6E5AD8494</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a86b29980963b7052f1964f174901dff8" name="a86b29980963b7052f1964f174901dff8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86b29980963b7052f1964f174901dff8">&#9670;&#160;</a></span>BMS_VOLTAGES_CCAN_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_VOLTAGES_CCAN_MSG_ID = 0x801</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acef1857949866da429407e1363c105aa" name="acef1857949866da429407e1363c105aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acef1857949866da429407e1363c105aa">&#9670;&#160;</a></span>BMS_VOLTAGES_CCAN_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_VOLTAGES_CCAN_PERIOD_MS = 200</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3508f0f592247c8aa0485eabbdd391bd" name="a3508f0f592247c8aa0485eabbdd391bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3508f0f592247c8aa0485eabbdd391bd">&#9670;&#160;</a></span>BMS_VOLTAGES_CCAN_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t BMS_VOLTAGES_CCAN_STALE_TIMEOUT_MS = 500</td>
         </tr>
       </table>
   </td>
@@ -562,7 +794,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t CHARGE_REQUEST_MSG_ID = 0x802</td>
+          <td class="memname">uint32_t CHARGE_REQUEST_MSG_ID = 0x803</td>
         </tr>
       </table>
   </td>
@@ -1058,116 +1290,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a5ee95d0322321eb1e1aab70b02510051" name="a5ee95d0322321eb1e1aab70b02510051"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ee95d0322321eb1e1aab70b02510051">&#9670;&#160;</a></span>PACK_BMS_CCAN_DLC</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t PACK_BMS_CCAN_DLC = 8</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a90fbe1643e62020ada91310d0c1e9678" name="a90fbe1643e62020ada91310d0c1e9678"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90fbe1643e62020ada91310d0c1e9678">&#9670;&#160;</a></span>PACK_BMS_CCAN_LAYOUT_HASH</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint64_t PACK_BMS_CCAN_LAYOUT_HASH = 0x99ACC2C6CC798652</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa41a8ca66aad706a728647833272b5fa" name="aa41a8ca66aad706a728647833272b5fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa41a8ca66aad706a728647833272b5fa">&#9670;&#160;</a></span>PACK_BMS_CCAN_MSG_ID</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t PACK_BMS_CCAN_MSG_ID = 0x801</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3f0dc487d4269a6b3d111052398234c0" name="a3f0dc487d4269a6b3d111052398234c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f0dc487d4269a6b3d111052398234c0">&#9670;&#160;</a></span>PACK_BMS_CCAN_PERIOD_MS</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t PACK_BMS_CCAN_PERIOD_MS = 200</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6a15a569ee6d4969ce3464e204e9a213" name="a6a15a569ee6d4969ce3464e204e9a213"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a15a569ee6d4969ce3464e204e9a213">&#9670;&#160;</a></span>PACK_BMS_CCAN_STALE_TIMEOUT_MS</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t PACK_BMS_CCAN_STALE_TIMEOUT_MS = 500</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ab3da973e20a843fa8b78ba7391f2d17a" name="ab3da973e20a843fa8b78ba7391f2d17a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab3da973e20a843fa8b78ba7391f2d17a">&#9670;&#160;</a></span>THERMISTOR_TELEMETRY_CCAN_DLC</h2>
 
@@ -1178,7 +1300,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t THERMISTOR_TELEMETRY_CCAN_DLC = 4</td>
+          <td class="memname">uint8_t THERMISTOR_TELEMETRY_CCAN_DLC = 5</td>
         </tr>
       </table>
   </td>
@@ -1200,7 +1322,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint64_t THERMISTOR_TELEMETRY_CCAN_LAYOUT_HASH = 0x3BEFCB12591A2796</td>
+          <td class="memname">uint64_t THERMISTOR_TELEMETRY_CCAN_LAYOUT_HASH = 0x0E727A25C2834112</td>
         </tr>
       </table>
   </td>

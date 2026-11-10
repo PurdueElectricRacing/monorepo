@@ -115,9 +115,9 @@ Notable Files</h1>
 <li>0.2 Hz: <code>abox_version</code> with <code>FIRMWARE_GIT_HASH</code></li>
 </ul>
 </li>
-<li><code>bms_task</code> in <a href="main.c"><code>main.c</code></a> (5 Hz): <code>pack_bms</code>, <code>bms_pecs</code></li>
+<li><code>bms_task</code> in <a href="main.c"><code>main.c</code></a> (5 Hz): <code>bms_voltages</code>, <code>bms_temps</code>, <code>bms_pecs</code></li>
 <li><a href="charging_fsm/charging_fsm.c"><code>charging_fsm.c</code></a> (1 Hz on CCAN): <code>charging_fsm_internals</code></li>
-<li><a href="thermistor/thermistor.c"><code>thermistor.c</code></a> / <a href="thermistor/thermistor.h"><code>thermistor.h</code></a>: Datasheet-derived lookup table and <code><a class="el" href="thermistor_8h.html#a026b496fe9ccc675fb110ee9bbc0e267">thermistor_R_to_T()</a></code> helper used by the ADBMS driver.</li>
+<li><a href="thermistor/cell_thermistor.c"><code>cell_thermistor.c</code></a> / <a href="thermistor/board_thermistor.c"><code>board_thermistor.c</code></a> / <a href="thermistor/thermistor.h"><code>thermistor.h</code></a>: Datasheet-derived lookup tables and <code><a class="el" href="thermistor_8h.html#ac70468d9ff828466d8d4406251dbc45d">cell_thermistor_R_to_T()</a></code> / <code><a class="el" href="thermistor_8h.html#aa4e42f4a8aa0f05e85f4e6c6a4e13c65">board_thermistor_R_to_T()</a></code> helpers used by the ADBMS driver.</li>
 <li>Fault handling in <code>bms_task</code> (in <a href="main.c"><code>main.c</code></a>): raises <code>IMD</code>, <code>BMS_DISCONNECTED</code>, pack full/empty, cell under/overvoltage, and pack warm/cold/overtemp faults; <code>BMS_DISCONNECTED</code> also drives <code>BMS_SDC_CTRL</code>.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md20"></a>

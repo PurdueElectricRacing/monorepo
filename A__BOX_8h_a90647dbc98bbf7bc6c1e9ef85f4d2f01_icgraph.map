@@ -1,17 +1,19 @@
 <map id="CAN_enqueue_tx_FDCAN1" name="CAN_enqueue_tx_FDCAN1">
-<area shape="rect" id="Node000001" title=" " alt="" coords="553,146,735,172"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="553,172,735,197"/>
 <area shape="rect" id="Node000002" href="$A__BOX_8h.html#a35c361fc698ca3426d164eaad6f7d7f6" title=" " alt="" coords="323,5,488,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="615,138,565,99,504,60,479,49,481,44,507,55,569,94,619,134"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="620,161,570,110,538,83,504,60,481,49,484,44,507,55,541,79,574,106,624,158"/>
 <area shape="rect" id="Node000004" href="$A__BOX_8h.html#ab0f66e577a751b58b5caaa5c07de356f" title=" " alt="" coords="306,70,505,96"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="586,144,448,99,449,94,588,138"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="605,166,504,117,452,99,454,94,506,113,607,161"/>
 <area shape="rect" id="Node000006" href="$A__BOX_8h.html#a6ca6000d83a48ae976dd499a740f1474" title=" " alt="" coords="105,121,256,146"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="537,156,256,140,256,135,538,151"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="562,171,505,162,373,148,256,140,256,135,373,143,506,156,563,166"/>
 <area shape="rect" id="Node000008" href="$A__BOX_8h.html#a6927a6d972f54b6c24a46506a1435731" title=" " alt="" coords="318,172,493,197"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="538,173,494,178,494,172,537,168"/>
-<area shape="rect" id="Node000010" href="$A__BOX_8h.html#a83fc46e5b06a41621822e760d3f5126c" title=" " alt="" coords="320,221,492,246"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="596,180,506,212,467,223,466,218,505,207,595,175"/>
-<area shape="rect" id="Node000012" href="$A__BOX_8h.html#a534aca623fdbe5a25f16a97815d2153e" title=" " alt="" coords="326,270,485,296"/>
-<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="619,184,569,224,506,261,478,272,476,267,504,257,566,220,616,180"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="538,187,494,187,494,182,538,182"/>
+<area shape="rect" id="Node000010" href="$A__BOX_8h.html#a07a86e84ff4645004ec5be4a1fd57db2" title=" " alt="" coords="322,221,489,246"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="564,204,472,223,471,218,563,198"/>
+<area shape="rect" id="Node000012" href="$A__BOX_8h.html#a0c6e8c72bca2db31f97157427d7fed57" title=" " alt="" coords="316,270,496,296"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="610,208,562,236,506,261,473,272,471,267,504,257,560,231,608,203"/>
+<area shape="rect" id="Node000013" href="$A__BOX_8h.html#a83fc46e5b06a41621822e760d3f5126c" title=" " alt="" coords="320,320,492,345"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="624,211,574,262,542,288,507,311,481,321,479,316,504,306,539,284,571,258,620,207"/>
 <area shape="rect" id="Node000003" href="$fault__data_8c.html#af975d7425654bc9ee59390f875799b63" title=" " alt="" coords="129,13,232,38"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="307,28,232,28,232,23,307,23"/>
 <area shape="rect" id="Node000005" href="$fault__data_8c.html#ab067e06d568cd2e1e9aea488c15bab43" title=" " alt="" coords="132,70,229,96"/>
@@ -21,10 +23,11 @@
 <area shape="rect" id="Node000009" href="$a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash." alt="" coords="106,172,254,197"/>
 <area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="302,187,255,187,255,182,302,182"/>
 <area shape="poly" id="edge9_Node000009_Node000007" title=" " alt="" coords="91,202,56,208,55,203,90,197"/>
-<area shape="rect" id="Node000011" href="$a__box_2telemetry_2telemetry_8c.html#ad17b4787e885938a20f35bd144928f22" title="Reports telemetry data at 100 Hz rate Includes: Pack analog stats and cell telemetry." alt="" coords="103,221,258,246"/>
-<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="304,236,259,236,259,231,304,231"/>
-<area shape="poly" id="edge12_Node000011_Node000007" title=" " alt="" coords="87,221,55,216,56,211,87,216"/>
-<area shape="rect" id="Node000013" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="141,270,220,296"/>
-<area shape="poly" id="edge14_Node000012_Node000013" title=" " alt="" coords="311,286,220,286,220,280,311,280"/>
-<area shape="poly" id="edge15_Node000013_Node000007" title=" " alt="" coords="125,271,101,261,71,244,46,225,49,221,74,239,104,257,127,266"/>
+<area shape="rect" id="Node000011" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="141,221,220,246"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="306,236,220,236,220,231,306,231"/>
+<area shape="poly" id="edge12_Node000011_Node000007" title=" " alt="" coords="125,228,55,216,56,211,126,222"/>
+<area shape="poly" id="edge14_Node000012_Node000011" title=" " alt="" coords="328,269,219,245,221,240,329,264"/>
+<area shape="rect" id="Node000014" href="$a__box_2telemetry_2telemetry_8c.html#ad17b4787e885938a20f35bd144928f22" title="Reports telemetry data at 100 Hz rate Includes: Pack analog stats and cell telemetry." alt="" coords="103,294,258,320"/>
+<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="304,324,258,318,259,313,304,318"/>
+<area shape="poly" id="edge17_Node000014_Node000007" title=" " alt="" coords="143,288,101,261,48,225,51,221,104,257,146,284"/>
 </map>

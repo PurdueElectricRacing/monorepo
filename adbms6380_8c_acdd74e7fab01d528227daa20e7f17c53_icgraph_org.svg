@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" target="_top" xlink:title="Read all cell voltages from each chip via RDCVA..RDCVF.">
+<g id="a_Node000002"><a xlink:href="adbms6380_8c.html#a4011d4493881a897342178e4e04f150a" target="_top" xlink:title="Read all cell voltages from each chip.">
 <polygon fill="white" stroke="#666666" points="712.5,-79.5 596,-79.5 596,-49 712.5,-49 712.5,-79.5"/>
 <text text-anchor="start" x="604" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_cell</text>
 <text text-anchor="middle" x="654.25" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -39,7 +39,7 @@
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.">
+<g id="a_Node000007"><a xlink:href="adbms6380_8c.html#a74b0ad1cee164427d5c561a707f72675" target="_top" xlink:title="Read all GPIO/aux voltages from each chip.">
 <polygon fill="white" stroke="#666666" points="714,-30.5 594.5,-30.5 594.5,0 714,0 714,-30.5"/>
 <text text-anchor="start" x="602.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_gpio</text>
 <text text-anchor="middle" x="654.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">_voltages</text>
@@ -130,7 +130,7 @@
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" target="_top" xlink:title="Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.">
+<g id="a_Node000008"><a xlink:href="adbms6380_8c.html#a3032c5c23786e6e09339992bd8ba8d84" target="_top" xlink:title="Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures.">
 <polygon fill="white" stroke="#666666" points="558.5,-29.88 400,-29.88 400,-10.62 558.5,-10.62 558.5,-29.88"/>
 <text text-anchor="middle" x="479.25" y="-16.38" font-family="Helvetica,sans-Serif" font-size="10.00">ADBMS6380_read_temperatures</text>
 </a>

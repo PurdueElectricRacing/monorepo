@@ -114,7 +114,7 @@ Initialization</h2>
 <li>Configure your SPI peripheral and GPIOs. Note that the driver expects manual control of the CS line (<code>nss_sw</code> must be false in the SPI config).</li>
 <li>Initialize the driver in <code>main</code> (after GPIO setup): <div class="fragment"><div class="line"><a class="code hl_function" href="adbms_8c.html#a2fe87f399de3fa5272ffe1e544846962">ADBMS_init</a>(&amp;<a class="code hl_variable" href="charging__fsm_8c.html#a54910fb29db8c9eac2409cc73cc828c5">g_bms</a>, &amp;<a class="code hl_variable" href="a__box_2main_8c.html#ad139ebffcf7f11feddfec40191b40aef">bms_spi_config</a>);</div>
 <div class="ttc" id="aa__box_2main_8c_html_ad139ebffcf7f11feddfec40191b40aef"><div class="ttname"><a href="a__box_2main_8c.html#ad139ebffcf7f11feddfec40191b40aef">bms_spi_config</a></div><div class="ttdeci">SPI_InitConfig_t bms_spi_config</div><div class="ttdef"><b>Definition</b> main.c:51</div></div>
-<div class="ttc" id="aadbms_8c_html_a2fe87f399de3fa5272ffe1e544846962"><div class="ttname"><a href="adbms_8c.html#a2fe87f399de3fa5272ffe1e544846962">ADBMS_init</a></div><div class="ttdeci">void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi)</div><div class="ttdoc">Initialize the ADBMS driver instance and underlying ADBMS6380 device chain.</div><div class="ttdef"><b>Definition</b> adbms.c:130</div></div>
+<div class="ttc" id="aadbms_8c_html_a2fe87f399de3fa5272ffe1e544846962"><div class="ttname"><a href="adbms_8c.html#a2fe87f399de3fa5272ffe1e544846962">ADBMS_init</a></div><div class="ttdeci">void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi)</div><div class="ttdoc">Initialize the ADBMS driver instance and underlying ADBMS6380 device chain.</div><div class="ttdef"><b>Definition</b> adbms.c:150</div></div>
 </div><!-- fragment --></li>
 </ol>
 <h2><a class="anchor" id="autotoc_md9"></a>
@@ -124,7 +124,7 @@ Periodic Operation</h2>
 <div class="line">}</div>
 <div class="ttc" id="aa__box_2main_8c_html_aa3fb4752f26486b9d8283433f0d7a39e"><div class="ttname"><a href="a__box_2main_8c.html#aa3fb4752f26486b9d8283433f0d7a39e">MIN_V_FOR_BALANCE</a></div><div class="ttdeci">static constexpr float MIN_V_FOR_BALANCE</div><div class="ttdef"><b>Definition</b> main.c:135</div></div>
 <div class="ttc" id="aa__box_2main_8c_html_af63a5e708a1a061eacf7c3437a371490"><div class="ttname"><a href="a__box_2main_8c.html#af63a5e708a1a061eacf7c3437a371490">MIN_DELTA_FOR_BALANCE</a></div><div class="ttdeci">static constexpr float MIN_DELTA_FOR_BALANCE</div><div class="ttdef"><b>Definition</b> main.c:136</div></div>
-<div class="ttc" id="aadbms_8c_html_ab54ce393023f40b4bb60ac0e2ede56bf"><div class="ttname"><a href="adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf">ADBMS_periodic</a></div><div class="ttdeci">void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance)</div><div class="ttdoc">Periodic service routine for connection, measurements, and balancing.</div><div class="ttdef"><b>Definition</b> adbms.c:140</div></div>
+<div class="ttc" id="aadbms_8c_html_ab54ce393023f40b4bb60ac0e2ede56bf"><div class="ttname"><a href="adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf">ADBMS_periodic</a></div><div class="ttdeci">void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_delta_for_balance)</div><div class="ttdoc">Periodic service routine for connection, measurements, and balancing.</div><div class="ttdef"><b>Definition</b> adbms.c:160</div></div>
 </div><!-- fragment --><p>This updates cell voltage, thermistor readings, and error flags (and all the aggregate statistics) in the <code><a class="el" href="structadbms__bms__t.html" title="Top-level ADBMS driver state, device handle, and pack-level statistics.">adbms_bms_t</a> g_bms</code> struct.</p>
 <h3><a class="anchor" id="autotoc_md10"></a>
 For example</h3>
@@ -148,12 +148,14 @@ For example</h3>
 </div><!-- fragment --><p>BMS task should have high priority to ensure timely updates of measurements and so that SPI communication is not delayed/interrupted.</p>
 <h2><a class="anchor" id="autotoc_md11"></a>
 Accessing Measurements</h2>
-<p>After each periodic call, measurements, statistics, and status can be accessed via thez <code>ADBMS_</code> getters:</p><ul>
+<p>After each periodic call, measurements, statistics, and status can be accessed via the <code>ADBMS_</code> getters:</p><ul>
 <li><code>ADBMS_get_cell_voltage(&amp;g_bms, module_idx, cell_idx)</code>: Per-module cell voltage in volts</li>
 <li><code>ADBMS_is_cell_discharging(&amp;g_bms, module_idx, cell_idx)</code>: Whether a cell is actively discharging (balancing)</li>
-<li><code>ADBMS_get_therm_temp(&amp;g_bms, module_idx, therm_idx)</code>: Per-module thermistor temperature in Celsius</li>
-<li><code>ADBMS_get_min/max/sum_voltage(&amp;g_bms)</code>: Pack-level cell voltage statistics</li>
-<li><code>ADBMS_get_min/max/avg_therm_temp(&amp;g_bms)</code>: Pack-level thermistor temperature statistics</li>
+<li><code>ADBMS_get_cell_temp(&amp;g_bms, module_idx, cell_therm_idx)</code>: Per-module cell thermistor temperature in Celsius (<code>0 .. ADBMS_CELL_THERMS_PER_MODULE - 1</code>)</li>
+<li><code>ADBMS_get_board_temp(&amp;g_bms, module_idx, board_therm_idx)</code>: Per-module onboard PCB thermistor temperature in Celsius (<code>0 .. ADBMS_BOARD_THERMS_PER_MODULE - 1</code>)</li>
+<li><code>ADBMS_get_min/max/avg/sum_voltage(&amp;g_bms)</code>: Pack-level cell voltage statistics</li>
+<li><code>ADBMS_get_min/max/avg_cell_temp(&amp;g_bms)</code>: Pack-level cell thermistor temperature statistics</li>
+<li><code>ADBMS_get_min/max/avg_board_temp(&amp;g_bms)</code>: Pack-level onboard PCB temperature statistics</li>
 <li><code>ADBMS_get_state(&amp;g_bms)</code>: Current <code>adbms_state_t</code> (connecting, read loop, recovering, fatal)</li>
 <li>Error flags:<ul>
 <li><code>ADBMS_get_cell_voltage_pec_err(&amp;g_bms, cmd_idx)</code> and <code>ADBMS_get_gpio_voltage_pec_err(&amp;g_bms, cmd_idx)</code>: PEC error flags for cell and GPIO voltage read commands. In the case of a PEC error during reading cell or GPIO voltages (which require multiple read commands), only the specific command that failed will have its PEC error flag set and the rest of the voltages for successful commands will still be updated/valid and the pack-level statistics will be updated based on the new valid readings and the old readings for the failed commands.</li>
@@ -165,7 +167,7 @@ Accessing Measurements</h2>
 Controlling the Balancing</h2>
 <ul>
 <li>To enable or disable BMS balancing, call <code>ADBMS_set_balancing_enabled</code> before the next periodic call: <div class="fragment"><div class="line"><a class="code hl_function" href="adbms_8h.html#a87abd0a009f92d9cc0d2d3be3334b347">ADBMS_set_balancing_enabled</a>(&amp;<a class="code hl_variable" href="charging__fsm_8c.html#a54910fb29db8c9eac2409cc73cc828c5">g_bms</a>, <span class="keyword">true</span>); <span class="comment">// or false to disable balancing</span></div>
-<div class="ttc" id="aadbms_8h_html_a87abd0a009f92d9cc0d2d3be3334b347"><div class="ttname"><a href="adbms_8h.html#a87abd0a009f92d9cc0d2d3be3334b347">ADBMS_set_balancing_enabled</a></div><div class="ttdeci">static void ADBMS_set_balancing_enabled(adbms_bms_t *bms, bool enabled)</div><div class="ttdoc">Enable or disable cell discharge balancing.</div><div class="ttdef"><b>Definition</b> adbms.h:176</div></div>
+<div class="ttc" id="aadbms_8h_html_a87abd0a009f92d9cc0d2d3be3334b347"><div class="ttname"><a href="adbms_8h.html#a87abd0a009f92d9cc0d2d3be3334b347">ADBMS_set_balancing_enabled</a></div><div class="ttdeci">static void ADBMS_set_balancing_enabled(adbms_bms_t *bms, bool enabled)</div><div class="ttdoc">Enable or disable cell discharge balancing.</div><div class="ttdef"><b>Definition</b> adbms.h:214</div></div>
 </div><!-- fragment --> The driver will handle the rest (setting the appropriate bits in the REGB register of each chip based on the cell voltages and the configured thresholds).</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md13"></a>
@@ -203,11 +205,11 @@ Notes</h1>
 </ul>
 </li>
 <li>Error handling: flags for PEC checksum failures and register read-back mismatches</li>
-<li>Make sure the <code>ADBMS_MODULE_COUNT</code> constant in <code><a class="el" href="adbms__config_8h.html" title="Shared pack topology configuration for the ADBMS driver.">adbms_config.h</a></code> match the actual number of modules and chips in your daisy chain configuration!!<ul>
+<li>Make sure the <code>ADBMS_MODULE_COUNT</code> constant in <code><a class="el" href="adbms__config_8h.html" title="Shared pack topology configuration for the ADBMS driver.">adbms_config.h</a></code> matches the actual number of modules and chips in your daisy chain configuration!!<ul>
 <li>Additionally, if you are bench testing, make sure corruption checks are disabled (comment them out)</li>
 </ul>
 </li>
-<li>There is a hidden reliance on a global variable defined in <code>../thermistor/thermistor.c</code> (and <code>extern</code>ed in the header): <code>thermistor_lut</code></li>
+<li>There is a reliance on lookup tables (<code>cell_thermistor_lut</code> and <code>board_thermistor_lut</code>) from <code>../thermistor/thermistor.h</code></li>
 </ul>
 <h1><a class="anchor" id="autotoc_md17"></a>
 Authors</h1>

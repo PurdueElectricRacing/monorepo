@@ -1,32 +1,34 @@
 <map id="report_telemetry_8hz" name="report_telemetry_8hz">
-<area shape="rect" id="Node000001" title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary." alt="" coords="5,153,147,179"/>
-<area shape="rect" id="Node000002" href="$adbms_8h.html#a29e487623d4cb1ea8b136c7ee9d0b7ce" title="Get the average thermistor temperature across all modules in Celsius." alt="" coords="207,5,404,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,151,126,97,157,66,193,40,203,35,206,40,196,44,161,70,130,100,88,154"/>
-<area shape="rect" id="Node000003" href="$adbms_8h.html#a607d484c1071f9c39ebb1be6d8198f5c" title="Get the maximum thermistor temperature across all modules in Celsius." alt="" coords="206,55,406,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="93,151,137,120,194,89,211,83,213,88,196,94,140,124,96,155"/>
-<area shape="rect" id="Node000004" href="$adbms_8h.html#a53ad71389411be0c3f979267a35bbbb9" title="Get the minimum thermistor temperature across all modules in Celsius." alt="" coords="207,104,404,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="139,150,227,131,228,136,140,155"/>
-<area shape="rect" id="Node000005" href="$adbms_8h.html#af7c3483644fb9f81864a6a5e0e10b224" title="Get the latest thermistor temperature (Celsius) for a specific module and channel." alt="" coords="221,153,390,179"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="147,164,206,164,206,169,147,169"/>
-<area shape="rect" id="Node000006" href="$A__BOX_8h.html#a8dfaa4cd32ce08921c4b7f6e0a1a61fc" title=" " alt="" coords="195,268,417,294"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="93,178,136,215,165,236,196,253,214,261,212,265,194,258,162,240,133,220,89,182"/>
-<area shape="rect" id="Node000011" href="$A__BOX_8h.html#a1bfdb7d9caa9fae0f4447e02142c517c" title=" " alt="" coords="227,203,384,244"/>
-<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="131,177,213,198,211,203,130,182"/>
-<area shape="rect" id="Node000012" href="$A__BOX_8h.html#af32f1c72e5deaba9ca16cb32cfc72d98" title=" " alt="" coords="227,318,384,358"/>
-<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="87,178,128,239,160,274,196,304,214,314,212,318,193,308,156,278,124,242,83,181"/>
-<area shape="rect" id="Node000007" href="$A__BOX_8h.html#ae0afd2c16e8c1125c2d62d717a8fc155" title=" " alt="" coords="465,211,646,236"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="365,265,416,253,481,238,482,243,418,258,366,270"/>
-<area shape="rect" id="Node000008" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="479,260,632,286"/>
-<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="417,275,463,273,463,278,417,280"/>
-<area shape="rect" id="Node000010" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="474,309,638,335"/>
-<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="388,292,459,304,459,309,387,297"/>
-<area shape="rect" id="Node000009" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="694,260,826,286"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="633,270,679,270,679,276,633,276"/>
-<area shape="poly" id="edge11_Node000011_Node000007" title=" " alt="" coords="385,221,450,221,450,226,385,226"/>
-<area shape="poly" id="edge12_Node000011_Node000008" title=" " alt="" coords="386,236,473,254,472,259,385,242"/>
-<area shape="poly" id="edge13_Node000011_Node000010" title=" " alt="" coords="386,239,418,253,433,264,443,275,452,286,466,296,477,301,475,306,464,300,449,290,439,279,430,268,416,258,384,244"/>
-<area shape="poly" id="edge16_Node000012_Node000008" title=" " alt="" coords="384,315,488,288,489,293,386,320"/>
-<area shape="poly" id="edge17_Node000012_Node000010" title=" " alt="" coords="385,330,458,326,458,331,385,336"/>
-<area shape="rect" id="Node000013" href="$A__BOX_8h.html#a0da956162efe3e0016f181cee58961e6" title=" " alt="" coords="465,359,646,384"/>
-<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="385,346,450,355,449,360,385,351"/>
+<area shape="rect" id="Node000001" title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary." alt="" coords="5,179,147,204"/>
+<area shape="rect" id="Node000002" href="$adbms_8h.html#a6e1fad78e5f407e881ae751613b9679b" title="Get the average cell thermistor temperature across all modules in Celsius." alt="" coords="214,5,398,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,177,97,148,122,111,154,72,193,40,201,35,204,40,196,44,158,76,126,114,102,151,86,179"/>
+<area shape="rect" id="Node000003" href="$adbms_8h.html#aa450eb9eaee8eefdb98574259f0bdedf" title="Get the latest onboard PCB temperature (Celsius) for a specific module and board thermistor." alt="" coords="222,55,390,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="87,176,131,133,161,109,193,89,207,83,209,88,196,94,164,113,134,137,91,180"/>
+<area shape="rect" id="Node000004" href="$adbms_8h.html#a6f6ef5a061ea48c88c53059b3f78be53" title="Get the latest cell thermistor temperature (Celsius) for a specific module and cell thermistor." alt="" coords="228,104,384,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="103,176,194,138,218,131,220,136,196,143,105,181"/>
+<area shape="rect" id="Node000005" href="$adbms_8h.html#ac23feea83e55e6257895353a2b614dd8" title="Get the maximum cell thermistor temperature across all modules in Celsius." alt="" coords="212,153,400,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="146,181,197,176,197,181,147,186"/>
+<area shape="rect" id="Node000006" href="$adbms_8h.html#ab5d2269c4b2a78ed6c22353246b4ebfd" title="Get the minimum cell thermistor temperature across all modules in Celsius." alt="" coords="214,203,398,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="147,196,198,202,198,207,146,201"/>
+<area shape="rect" id="Node000007" href="$A__BOX_8h.html#a8dfaa4cd32ce08921c4b7f6e0a1a61fc" title=" " alt="" coords="195,252,417,278"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="106,202,196,238,220,245,218,250,194,243,104,207"/>
+<area shape="rect" id="Node000012" href="$A__BOX_8h.html#ad3a4fee9b6a15d3e7b35044f2adbc6e4" title=" " alt="" coords="227,302,384,342"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="91,203,135,245,164,268,196,288,214,296,212,301,193,293,161,272,131,249,88,207"/>
+<area shape="rect" id="Node000013" href="$A__BOX_8h.html#a0ae65b14ea809150bc8a4fb9953b2f2d" title=" " alt="" coords="227,367,384,408"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="86,204,101,234,125,274,157,316,196,352,215,363,212,367,193,356,153,320,121,277,96,237,81,206"/>
+<area shape="rect" id="Node000008" href="$A__BOX_8h.html#ae0afd2c16e8c1125c2d62d717a8fc155" title=" " alt="" coords="465,252,646,278"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="417,262,449,262,449,268,417,268"/>
+<area shape="rect" id="Node000009" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="479,301,632,327"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="375,276,473,295,472,300,374,281"/>
+<area shape="rect" id="Node000011" href="$can__codec_8h.html#a2ba7cd673ebc72d6164e744be452602f" title=" " alt="" coords="474,351,638,376"/>
+<area shape="poly" id="edge10_Node000007_Node000011" title=" " alt="" coords="391,276,418,288,434,300,443,313,452,326,466,337,475,342,473,347,464,342,448,329,439,316,430,304,416,292,388,281"/>
+<area shape="rect" id="Node000010" href="$can__codec_8h.html#a1ffbd7318559fdd74ae2cb491a424bda" title=" " alt="" coords="694,301,826,327"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="633,312,679,312,679,317,633,317"/>
+<area shape="poly" id="edge12_Node000012_Node000008" title=" " alt="" coords="384,302,481,279,482,284,386,307"/>
+<area shape="poly" id="edge13_Node000012_Node000009" title=" " alt="" coords="385,317,463,314,463,320,385,322"/>
+<area shape="poly" id="edge14_Node000012_Node000011" title=" " alt="" coords="385,333,459,345,458,350,385,338"/>
+<area shape="poly" id="edge17_Node000013_Node000009" title=" " alt="" coords="376,364,416,352,464,336,487,329,488,334,466,341,418,357,378,369"/>
+<area shape="poly" id="edge18_Node000013_Node000011" title=" " alt="" coords="385,377,458,370,458,376,385,383"/>
+<area shape="rect" id="Node000014" href="$A__BOX_8h.html#a0da956162efe3e0016f181cee58961e6" title=" " alt="" coords="465,400,646,426"/>
+<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="385,393,450,399,449,405,385,398"/>
 </map>

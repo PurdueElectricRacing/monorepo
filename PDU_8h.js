@@ -20,12 +20,12 @@ var PDU_8h =
     [ "FDCAN1_init_filters", "PDU_8h.html#a500b6be206fba2002ed925d335a72173", null ],
     [ "FDCAN2_init_filters", "PDU_8h.html#a78eb33b279c10bc3c4f9813223091a7a", null ],
     [ "is_a_box_fault_sync_stale", "PDU_8h.html#a5f70eb297014e827043ecdb554cb9135", null ],
+    [ "is_bms_temps_stale", "PDU_8h.html#a375a048c60ee8b8dc6b823c51ca41de0", null ],
     [ "is_dashboard_fault_sync_stale", "PDU_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4", null ],
     [ "is_igbt_temps_stale", "PDU_8h.html#a5e74cd8edf1f5fced8432f378a59bc6a", null ],
     [ "is_main_hb_stale", "PDU_8h.html#a7087cac0d0fa48478011cac103698214", null ],
     [ "is_main_module_fault_sync_stale", "PDU_8h.html#a3829b4361128389982af69e734c16659", null ],
     [ "is_motor_temps_stale", "PDU_8h.html#a88f3e342a9ae8209c335cda7377c954d", null ],
-    [ "is_pack_bms_stale", "PDU_8h.html#a65318e8ba5c6723c49dc9fbb323f6e0e", null ],
     [ "is_torque_vector_fault_sync_stale", "PDU_8h.html#a67d98ecf4d917c5aac5c64d991d5d59a", null ],
     [ "main_module_fault_event_CALLBACK", "PDU_8h.html#a9f1ae12004be91191cee7a2729d34ae1", null ],
     [ "main_module_fault_sync_CALLBACK", "PDU_8h.html#a490cdfee26c857a167656db6017973cc", null ],
@@ -39,8 +39,5 @@ var PDU_8h =
     [ "UNPACK_COEFF_MOTOR_TEMPS_FRONT_LEFT", "PDU_8h.html#a39775102098f1c63d75441f64e0b60fb", null ],
     [ "UNPACK_COEFF_MOTOR_TEMPS_FRONT_RIGHT", "PDU_8h.html#a8f1926a66166a9a1330e36ac97d5186c", null ],
     [ "UNPACK_COEFF_MOTOR_TEMPS_REAR_LEFT", "PDU_8h.html#a0d8de7fb0e371c5117510d536a328cef", null ],
-    [ "UNPACK_COEFF_MOTOR_TEMPS_REAR_RIGHT", "PDU_8h.html#a428e366438453d34213961fab3ca142e", null ],
-    [ "UNPACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE", "PDU_8h.html#ae9412e2e9850adfe37e23644f15898a1", null ],
-    [ "UNPACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE", "PDU_8h.html#ac9d971843078377c5c67b08a48ad02be", null ],
-    [ "UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE", "PDU_8h.html#acaf62185675025fc7074fa724afdbec6", null ]
+    [ "UNPACK_COEFF_MOTOR_TEMPS_REAR_RIGHT", "PDU_8h.html#a428e366438453d34213961fab3ca142e", null ]
 ];

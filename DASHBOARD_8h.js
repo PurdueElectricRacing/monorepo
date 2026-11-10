@@ -24,6 +24,8 @@ var DASHBOARD_8h =
     [ "FDCAN2_init_filters", "DASHBOARD_8h.html#a78eb33b279c10bc3c4f9813223091a7a", null ],
     [ "FDCAN3_init_filters", "DASHBOARD_8h.html#acf88135d43c094d19b41a9295ec4a6e4", null ],
     [ "is_a_box_fault_sync_stale", "DASHBOARD_8h.html#a5f70eb297014e827043ecdb554cb9135", null ],
+    [ "is_bms_temps_stale", "DASHBOARD_8h.html#a375a048c60ee8b8dc6b823c51ca41de0", null ],
+    [ "is_bms_voltages_stale", "DASHBOARD_8h.html#ae59ad7cb1fbe0c85939168a1d2c30ed7", null ],
     [ "is_gps_coordinates_stale", "DASHBOARD_8h.html#ae5906459026256cf7884ea63cd197919", null ],
     [ "is_igbt_temps_stale", "DASHBOARD_8h.html#a5e74cd8edf1f5fced8432f378a59bc6a", null ],
     [ "is_inva_diagnostics_stale", "DASHBOARD_8h.html#a53102a905199e0e0dc0831490b630ca1", null ],
@@ -35,7 +37,6 @@ var DASHBOARD_8h =
     [ "is_motor_speeds_stale", "DASHBOARD_8h.html#a6fbaac592b706ba92b5a8b639a49415a", null ],
     [ "is_motor_temps_stale", "DASHBOARD_8h.html#a88f3e342a9ae8209c335cda7377c954d", null ],
     [ "is_pack_analog_stale", "DASHBOARD_8h.html#aa0052660897972f25c425b9c4aeb4781", null ],
-    [ "is_pack_bms_stale", "DASHBOARD_8h.html#a65318e8ba5c6723c49dc9fbb323f6e0e", null ],
     [ "is_pdu_fault_sync_stale", "DASHBOARD_8h.html#aff36dceea73ab4dc71f856487bb97237", null ],
     [ "is_torque_vector_fault_sync_stale", "DASHBOARD_8h.html#a67d98ecf4d917c5aac5c64d991d5d59a", null ],
     [ "is_vcu_settings_stale", "DASHBOARD_8h.html#a7c82dad17c575875f43e0e2b0c626782", null ],
@@ -49,6 +50,10 @@ var DASHBOARD_8h =
     [ "vcu_settings_CALLBACK", "DASHBOARD_8h.html#ae7b6beb0832ad61885df04a005751395", null ],
     [ "can_data", "DASHBOARD_8h.html#a9cc3168cebc21b033138ae90b755e5a8", null ],
     [ "PACK_COEFF_BRAKE_PRESSURE_BRAKE_PRESSURE", "DASHBOARD_8h.html#afc3e86e3ade64d880f027e372f3b8c82", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_AVG_CELL_VOLTAGE", "DASHBOARD_8h.html#a78a7989d1bc490472d6a5003eb51fb1e", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_MAX_CELL_VOLTAGE", "DASHBOARD_8h.html#a09c7a7c26bd13b1e4257695a98d99a8f", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_MIN_CELL_VOLTAGE", "DASHBOARD_8h.html#a335a99ba00822edd04b1385d732c9515", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_PACK_VOLTAGE", "DASHBOARD_8h.html#aa87c5f2a26b1c89f2f85844fb665bb4f", null ],
     [ "UNPACK_COEFF_GPS_COORDINATES_LATITUDE", "DASHBOARD_8h.html#a3b85e39ba99e01c7038c2e53dd8eb048", null ],
     [ "UNPACK_COEFF_GPS_COORDINATES_LONGITUDE", "DASHBOARD_8h.html#ad286b0a723f145a4667b6482c9a3a05c", null ],
     [ "UNPACK_COEFF_IGBT_TEMPS_FRONT_LEFT", "DASHBOARD_8h.html#adf0bbcf4bebc5ad7e44062ea7b114eeb", null ],
@@ -60,8 +65,5 @@ var DASHBOARD_8h =
     [ "UNPACK_COEFF_MOTOR_TEMPS_REAR_LEFT", "DASHBOARD_8h.html#a0d8de7fb0e371c5117510d536a328cef", null ],
     [ "UNPACK_COEFF_MOTOR_TEMPS_REAR_RIGHT", "DASHBOARD_8h.html#a428e366438453d34213961fab3ca142e", null ],
     [ "UNPACK_COEFF_PACK_ANALOG_PACK_CURRENT", "DASHBOARD_8h.html#ab4586065a131b07e10bc730b20b11137", null ],
-    [ "UNPACK_COEFF_PACK_ANALOG_PACK_VOLTAGE", "DASHBOARD_8h.html#a2eb8b2666f0f124653a26316a0c7f464", null ],
-    [ "UNPACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE", "DASHBOARD_8h.html#ae9412e2e9850adfe37e23644f15898a1", null ],
-    [ "UNPACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE", "DASHBOARD_8h.html#ac9d971843078377c5c67b08a48ad02be", null ],
-    [ "UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE", "DASHBOARD_8h.html#acaf62185675025fc7074fa724afdbec6", null ]
+    [ "UNPACK_COEFF_PACK_ANALOG_PACK_VOLTAGE", "DASHBOARD_8h.html#a2eb8b2666f0f124653a26316a0c7f464", null ]
 ];

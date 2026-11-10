@@ -33,6 +33,7 @@ var MAIN__MODULE_8h =
     [ "FDCAN1_init_filters", "MAIN__MODULE_8h.html#a500b6be206fba2002ed925d335a72173", null ],
     [ "FDCAN2_init_filters", "MAIN__MODULE_8h.html#a78eb33b279c10bc3c4f9813223091a7a", null ],
     [ "is_a_box_fault_sync_stale", "MAIN__MODULE_8h.html#a5f70eb297014e827043ecdb554cb9135", null ],
+    [ "is_bms_voltages_stale", "MAIN__MODULE_8h.html#ae59ad7cb1fbe0c85939168a1d2c30ed7", null ],
     [ "is_dashboard_fault_sync_stale", "MAIN__MODULE_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4", null ],
     [ "is_INVA_CRIT_stale", "MAIN__MODULE_8h.html#ad2ff8d1f2f77e9098d5699962a4ead90", null ],
     [ "is_INVA_ERR_1_stale", "MAIN__MODULE_8h.html#a026487a7b22b5370d72f62e9f83e5ca3", null ],
@@ -54,7 +55,6 @@ var MAIN__MODULE_8h =
     [ "is_INVD_ERR_2_stale", "MAIN__MODULE_8h.html#a3d247f9121b0f0b846224afda56f3d49", null ],
     [ "is_INVD_INFO_stale", "MAIN__MODULE_8h.html#aa108884d422566d298d092ac90755985", null ],
     [ "is_INVD_TEMPS_stale", "MAIN__MODULE_8h.html#aad6eca446c802ce2a4e3968d36206305", null ],
-    [ "is_pack_bms_stale", "MAIN__MODULE_8h.html#a65318e8ba5c6723c49dc9fbb323f6e0e", null ],
     [ "is_pdu_fault_sync_stale", "MAIN__MODULE_8h.html#aff36dceea73ab4dc71f856487bb97237", null ],
     [ "is_pedals_stale", "MAIN__MODULE_8h.html#acfdbb769feadf999d514218e9175e47d", null ],
     [ "is_start_button_stale", "MAIN__MODULE_8h.html#a45588be6221154c3242e10f762c5f060", null ],
@@ -86,6 +86,10 @@ var MAIN__MODULE_8h =
     [ "PACK_COEFF_MOTOR_TEMPS_FRONT_RIGHT", "MAIN__MODULE_8h.html#a921b8fc35cd11cda495a0de6bad6e2e8", null ],
     [ "PACK_COEFF_MOTOR_TEMPS_REAR_LEFT", "MAIN__MODULE_8h.html#a3a16649b5c6b6aa634e8398acf8a6e7c", null ],
     [ "PACK_COEFF_MOTOR_TEMPS_REAR_RIGHT", "MAIN__MODULE_8h.html#a98f57d831ee87ef5479c87188e56fad3", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_AVG_CELL_VOLTAGE", "MAIN__MODULE_8h.html#a78a7989d1bc490472d6a5003eb51fb1e", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_MAX_CELL_VOLTAGE", "MAIN__MODULE_8h.html#a09c7a7c26bd13b1e4257695a98d99a8f", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_MIN_CELL_VOLTAGE", "MAIN__MODULE_8h.html#a335a99ba00822edd04b1385d732c9515", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_PACK_VOLTAGE", "MAIN__MODULE_8h.html#aa87c5f2a26b1c89f2f85844fb665bb4f", null ],
     [ "UNPACK_COEFF_INVA_CRIT_AMK_ACTUALTORQUE", "MAIN__MODULE_8h.html#a2a7351cf08c567cccb7c416f4bfdd93b", null ],
     [ "UNPACK_COEFF_INVA_CRIT_AMK_DISPLAYOVERLOADINVERTER", "MAIN__MODULE_8h.html#a8322effc5ed54b4e3eda1855832b5e47", null ],
     [ "UNPACK_COEFF_INVA_CRIT_AMK_DISPLAYOVERLOADMOTOR", "MAIN__MODULE_8h.html#aa3384202cf253a0f4379873579d8e471", null ],
@@ -109,8 +113,5 @@ var MAIN__MODULE_8h =
     [ "UNPACK_COEFF_INVD_CRIT_AMK_DISPLAYOVERLOADMOTOR", "MAIN__MODULE_8h.html#a94414cd020dd1caa29cb1f5336b4e0f0", null ],
     [ "UNPACK_COEFF_INVD_TEMPS_AMK_IGBTTEMP", "MAIN__MODULE_8h.html#af7f8b360ef849ca3f4c5e57f50d882d2", null ],
     [ "UNPACK_COEFF_INVD_TEMPS_AMK_INVERTERTEMP", "MAIN__MODULE_8h.html#a8815202838449638bf74e9cc940381b4", null ],
-    [ "UNPACK_COEFF_INVD_TEMPS_AMK_MOTORTEMP", "MAIN__MODULE_8h.html#a7508ffcbd04246a44d155cfb74059ef6", null ],
-    [ "UNPACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE", "MAIN__MODULE_8h.html#ae9412e2e9850adfe37e23644f15898a1", null ],
-    [ "UNPACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE", "MAIN__MODULE_8h.html#ac9d971843078377c5c67b08a48ad02be", null ],
-    [ "UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE", "MAIN__MODULE_8h.html#acaf62185675025fc7074fa724afdbec6", null ]
+    [ "UNPACK_COEFF_INVD_TEMPS_AMK_MOTORTEMP", "MAIN__MODULE_8h.html#a7508ffcbd04246a44d155cfb74059ef6", null ]
 ];

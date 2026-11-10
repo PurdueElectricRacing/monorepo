@@ -18,6 +18,7 @@ var adbms6380_8c =
     [ "encode_adcv", "adbms6380_8c.html#a15e7e7ef8477a33555dcfd0d429fcd57", null ],
     [ "extract_i16", "adbms6380_8c.html#acdd74e7fab01d528227daa20e7f17c53", null ],
     [ "get_threshold_voltage_cfg", "adbms6380_8c.html#aa8a177a330ddc2b8f8217345bc9fb1d2", null ],
+    [ "gpio_v_to_r2", "adbms6380_8c.html#a1689c4b9655437b805a0856d06eae2d0", null ],
     [ "pack_cfg_rega", "adbms6380_8c.html#afb108a639c63f16f8fcb860b97e5ca97", null ],
     [ "pack_cfg_regb", "adbms6380_8c.html#a6618686ac7196d434398a2ea673f4bba", null ],
     [ "prepare_command", "adbms6380_8c.html#afcb2720a50ea90439d14a568c8119c32", null ],

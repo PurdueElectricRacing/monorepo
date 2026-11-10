@@ -28,6 +28,7 @@ var TORQUE__VECTOR_8h =
     [ "FDCAN1_init_filters", "TORQUE__VECTOR_8h.html#a500b6be206fba2002ed925d335a72173", null ],
     [ "FDCAN2_init_filters", "TORQUE__VECTOR_8h.html#a78eb33b279c10bc3c4f9813223091a7a", null ],
     [ "is_a_box_fault_sync_stale", "TORQUE__VECTOR_8h.html#a5f70eb297014e827043ecdb554cb9135", null ],
+    [ "is_bms_voltages_stale", "TORQUE__VECTOR_8h.html#ae59ad7cb1fbe0c85939168a1d2c30ed7", null ],
     [ "is_dashboard_fault_sync_stale", "TORQUE__VECTOR_8h.html#ab96c9ea78ab9ad6f8a0f7dd1daf363e4", null ],
     [ "is_igbt_temps_stale", "TORQUE__VECTOR_8h.html#a5e74cd8edf1f5fced8432f378a59bc6a", null ],
     [ "is_IZZE_acceleration_stale", "TORQUE__VECTOR_8h.html#a8748e570bed3dc5bd57614a782521418", null ],
@@ -37,7 +38,6 @@ var TORQUE__VECTOR_8h =
     [ "is_motor_speeds_stale", "TORQUE__VECTOR_8h.html#a6fbaac592b706ba92b5a8b639a49415a", null ],
     [ "is_motor_temps_stale", "TORQUE__VECTOR_8h.html#a88f3e342a9ae8209c335cda7377c954d", null ],
     [ "is_pack_analog_stale", "TORQUE__VECTOR_8h.html#aa0052660897972f25c425b9c4aeb4781", null ],
-    [ "is_pack_bms_stale", "TORQUE__VECTOR_8h.html#a65318e8ba5c6723c49dc9fbb323f6e0e", null ],
     [ "is_pdu_fault_sync_stale", "TORQUE__VECTOR_8h.html#aff36dceea73ab4dc71f856487bb97237", null ],
     [ "is_pedals_stale", "TORQUE__VECTOR_8h.html#acfdbb769feadf999d514218e9175e47d", null ],
     [ "IZZE_acceleration_CALLBACK", "TORQUE__VECTOR_8h.html#a4018320f6e3a115cc61c80f87c2ee0d1", null ],
@@ -61,6 +61,10 @@ var TORQUE__VECTOR_8h =
     [ "PACK_COEFF_IMU_ANGULAR_RATE_X_AXIS", "TORQUE__VECTOR_8h.html#af9ec2d4ae7d2b6e4030b8728ad22ef9b", null ],
     [ "PACK_COEFF_IMU_ANGULAR_RATE_Y_AXIS", "TORQUE__VECTOR_8h.html#aba14310f1bb68b3abf9b4c5ef3e6137f", null ],
     [ "PACK_COEFF_IMU_ANGULAR_RATE_Z_AXIS", "TORQUE__VECTOR_8h.html#a24f0472ce051a8be95641fa4a192cf89", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_AVG_CELL_VOLTAGE", "TORQUE__VECTOR_8h.html#a78a7989d1bc490472d6a5003eb51fb1e", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_MAX_CELL_VOLTAGE", "TORQUE__VECTOR_8h.html#a09c7a7c26bd13b1e4257695a98d99a8f", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_MIN_CELL_VOLTAGE", "TORQUE__VECTOR_8h.html#a335a99ba00822edd04b1385d732c9515", null ],
+    [ "UNPACK_COEFF_BMS_VOLTAGES_PACK_VOLTAGE", "TORQUE__VECTOR_8h.html#aa87c5f2a26b1c89f2f85844fb665bb4f", null ],
     [ "UNPACK_COEFF_IGBT_TEMPS_FRONT_LEFT", "TORQUE__VECTOR_8h.html#adf0bbcf4bebc5ad7e44062ea7b114eeb", null ],
     [ "UNPACK_COEFF_IGBT_TEMPS_FRONT_RIGHT", "TORQUE__VECTOR_8h.html#ab5ab6962b1a400c328ff45e15f0d7088", null ],
     [ "UNPACK_COEFF_IGBT_TEMPS_REAR_LEFT", "TORQUE__VECTOR_8h.html#a0fa0081a378f22e5363f0a5e3fb47d78", null ],
@@ -79,8 +83,5 @@ var TORQUE__VECTOR_8h =
     [ "UNPACK_COEFF_MOTOR_TEMPS_REAR_LEFT", "TORQUE__VECTOR_8h.html#a0d8de7fb0e371c5117510d536a328cef", null ],
     [ "UNPACK_COEFF_MOTOR_TEMPS_REAR_RIGHT", "TORQUE__VECTOR_8h.html#a428e366438453d34213961fab3ca142e", null ],
     [ "UNPACK_COEFF_PACK_ANALOG_PACK_CURRENT", "TORQUE__VECTOR_8h.html#ab4586065a131b07e10bc730b20b11137", null ],
-    [ "UNPACK_COEFF_PACK_ANALOG_PACK_VOLTAGE", "TORQUE__VECTOR_8h.html#a2eb8b2666f0f124653a26316a0c7f464", null ],
-    [ "UNPACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE", "TORQUE__VECTOR_8h.html#ae9412e2e9850adfe37e23644f15898a1", null ],
-    [ "UNPACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE", "TORQUE__VECTOR_8h.html#ac9d971843078377c5c67b08a48ad02be", null ],
-    [ "UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE", "TORQUE__VECTOR_8h.html#acaf62185675025fc7074fa724afdbec6", null ]
+    [ "UNPACK_COEFF_PACK_ANALOG_PACK_VOLTAGE", "TORQUE__VECTOR_8h.html#a2eb8b2666f0f124653a26316a0c7f464", null ]
 ];

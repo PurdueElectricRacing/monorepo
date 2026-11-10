@@ -183,8 +183,8 @@ Functions</h2></td></tr>
 <tr class="separator:acfdbb769feadf999d514218e9175e47d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95eff3fd927be6a394dc2089bd4feadb" id="r_a95eff3fd927be6a394dc2089bd4feadb"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95eff3fd927be6a394dc2089bd4feadb">is_LWS_Standard_stale</a> ()</td></tr>
 <tr class="separator:a95eff3fd927be6a394dc2089bd4feadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65318e8ba5c6723c49dc9fbb323f6e0e" id="r_a65318e8ba5c6723c49dc9fbb323f6e0e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65318e8ba5c6723c49dc9fbb323f6e0e">is_pack_bms_stale</a> ()</td></tr>
-<tr class="separator:a65318e8ba5c6723c49dc9fbb323f6e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae59ad7cb1fbe0c85939168a1d2c30ed7" id="r_ae59ad7cb1fbe0c85939168a1d2c30ed7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae59ad7cb1fbe0c85939168a1d2c30ed7">is_bms_voltages_stale</a> ()</td></tr>
+<tr class="separator:ae59ad7cb1fbe0c85939168a1d2c30ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0052660897972f25c425b9c4aeb4781" id="r_aa0052660897972f25c425b9c4aeb4781"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0052660897972f25c425b9c4aeb4781">is_pack_analog_stale</a> ()</td></tr>
 <tr class="separator:aa0052660897972f25c425b9c4aeb4781"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fbaac592b706ba92b5a8b639a49415a" id="r_a6fbaac592b706ba92b5a8b639a49415a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6fbaac592b706ba92b5a8b639a49415a">is_motor_speeds_stale</a> ()</td></tr>
@@ -268,6 +268,14 @@ Variables</h2></td></tr>
 <tr class="separator:ad0ce090b2b938cd15afaf8a7251731d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ec4de07a9e01dfa3ee8d00cd3eac354" id="r_a1ec4de07a9e01dfa3ee8d00cd3eac354"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ec4de07a9e01dfa3ee8d00cd3eac354">UNPACK_COEFF_LWS_STANDARD_LWS_SPEED</a> = 4.0f</td></tr>
 <tr class="separator:a1ec4de07a9e01dfa3ee8d00cd3eac354"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa87c5f2a26b1c89f2f85844fb665bb4f" id="r_aa87c5f2a26b1c89f2f85844fb665bb4f"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa87c5f2a26b1c89f2f85844fb665bb4f">UNPACK_COEFF_BMS_VOLTAGES_PACK_VOLTAGE</a> = 0.01f</td></tr>
+<tr class="separator:aa87c5f2a26b1c89f2f85844fb665bb4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a335a99ba00822edd04b1385d732c9515" id="r_a335a99ba00822edd04b1385d732c9515"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a335a99ba00822edd04b1385d732c9515">UNPACK_COEFF_BMS_VOLTAGES_MIN_CELL_VOLTAGE</a> = 0.01f</td></tr>
+<tr class="separator:a335a99ba00822edd04b1385d732c9515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09c7a7c26bd13b1e4257695a98d99a8f" id="r_a09c7a7c26bd13b1e4257695a98d99a8f"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09c7a7c26bd13b1e4257695a98d99a8f">UNPACK_COEFF_BMS_VOLTAGES_MAX_CELL_VOLTAGE</a> = 0.01f</td></tr>
+<tr class="separator:a09c7a7c26bd13b1e4257695a98d99a8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78a7989d1bc490472d6a5003eb51fb1e" id="r_a78a7989d1bc490472d6a5003eb51fb1e"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78a7989d1bc490472d6a5003eb51fb1e">UNPACK_COEFF_BMS_VOLTAGES_AVG_CELL_VOLTAGE</a> = 0.01f</td></tr>
+<tr class="separator:a78a7989d1bc490472d6a5003eb51fb1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8213d5b4d9a678b51f7d1d201906efc" id="r_ac8213d5b4d9a678b51f7d1d201906efc"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8213d5b4d9a678b51f7d1d201906efc">PACK_COEFF_GPS_COORDINATES_LATITUDE</a> = 10000000.0f</td></tr>
 <tr class="separator:ac8213d5b4d9a678b51f7d1d201906efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accac1df26ba6322c5dde2a96dbdd8032" id="r_accac1df26ba6322c5dde2a96dbdd8032"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accac1df26ba6322c5dde2a96dbdd8032">PACK_COEFF_GPS_COORDINATES_LONGITUDE</a> = 10000000.0f</td></tr>
@@ -300,12 +308,6 @@ Variables</h2></td></tr>
 <tr class="separator:a2eb8b2666f0f124653a26316a0c7f464"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4586065a131b07e10bc730b20b11137" id="r_ab4586065a131b07e10bc730b20b11137"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4586065a131b07e10bc730b20b11137">UNPACK_COEFF_PACK_ANALOG_PACK_CURRENT</a> = 0.1f</td></tr>
 <tr class="separator:ab4586065a131b07e10bc730b20b11137"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaf62185675025fc7074fa724afdbec6" id="r_acaf62185675025fc7074fa724afdbec6"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acaf62185675025fc7074fa724afdbec6">UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE</a> = 0.01f</td></tr>
-<tr class="separator:acaf62185675025fc7074fa724afdbec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9d971843078377c5c67b08a48ad02be" id="r_ac9d971843078377c5c67b08a48ad02be"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9d971843078377c5c67b08a48ad02be">UNPACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE</a> = 0.01f</td></tr>
-<tr class="separator:ac9d971843078377c5c67b08a48ad02be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9412e2e9850adfe37e23644f15898a1" id="r_ae9412e2e9850adfe37e23644f15898a1"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9412e2e9850adfe37e23644f15898a1">UNPACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE</a> = 0.01f</td></tr>
-<tr class="separator:ae9412e2e9850adfe37e23644f15898a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cc3168cebc21b033138ae90b755e5a8" id="r_a9cc3168cebc21b033138ae90b755e5a8"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="structcan__data__t.html">can_data_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cc3168cebc21b033138ae90b755e5a8">can_data</a></td></tr>
 <tr class="separator:a9cc3168cebc21b033138ae90b755e5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -1275,6 +1277,36 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="ae59ad7cb1fbe0c85939168a1d2c30ed7" name="ae59ad7cb1fbe0c85939168a1d2c30ed7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae59ad7cb1fbe0c85939168a1d2c30ed7">&#9670;&#160;</a></span>is_bms_voltages_stale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool is_bms_voltages_stale </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_ae59ad7cb1fbe0c85939168a1d2c30ed7_icgraph.svg" width="319" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="ab96c9ea78ab9ad6f8a0f7dd1daf363e4" name="ab96c9ea78ab9ad6f8a0f7dd1daf363e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab96c9ea78ab9ad6f8a0f7dd1daf363e4">&#9670;&#160;</a></span>is_dashboard_fault_sync_stale()</h2>
 
@@ -1541,36 +1573,6 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_aa0052660897972f25c425b9c4aeb4781_icgraph.svg" width="311" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="a65318e8ba5c6723c49dc9fbb323f6e0e" name="a65318e8ba5c6723c49dc9fbb323f6e0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65318e8ba5c6723c49dc9fbb323f6e0e">&#9670;&#160;</a></span>is_pack_bms_stale()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool is_pack_bms_stale </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a65318e8ba5c6723c49dc9fbb323f6e0e_icgraph.svg" width="298" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2176,6 +2178,94 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a78a7989d1bc490472d6a5003eb51fb1e" name="a78a7989d1bc490472d6a5003eb51fb1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78a7989d1bc490472d6a5003eb51fb1e">&#9670;&#160;</a></span>UNPACK_COEFF_BMS_VOLTAGES_AVG_CELL_VOLTAGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float UNPACK_COEFF_BMS_VOLTAGES_AVG_CELL_VOLTAGE = 0.01f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a09c7a7c26bd13b1e4257695a98d99a8f" name="a09c7a7c26bd13b1e4257695a98d99a8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09c7a7c26bd13b1e4257695a98d99a8f">&#9670;&#160;</a></span>UNPACK_COEFF_BMS_VOLTAGES_MAX_CELL_VOLTAGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float UNPACK_COEFF_BMS_VOLTAGES_MAX_CELL_VOLTAGE = 0.01f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a335a99ba00822edd04b1385d732c9515" name="a335a99ba00822edd04b1385d732c9515"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a335a99ba00822edd04b1385d732c9515">&#9670;&#160;</a></span>UNPACK_COEFF_BMS_VOLTAGES_MIN_CELL_VOLTAGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float UNPACK_COEFF_BMS_VOLTAGES_MIN_CELL_VOLTAGE = 0.01f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa87c5f2a26b1c89f2f85844fb665bb4f" name="aa87c5f2a26b1c89f2f85844fb665bb4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa87c5f2a26b1c89f2f85844fb665bb4f">&#9670;&#160;</a></span>UNPACK_COEFF_BMS_VOLTAGES_PACK_VOLTAGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float UNPACK_COEFF_BMS_VOLTAGES_PACK_VOLTAGE = 0.01f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="adf0bbcf4bebc5ad7e44062ea7b114eeb" name="adf0bbcf4bebc5ad7e44062ea7b114eeb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adf0bbcf4bebc5ad7e44062ea7b114eeb">&#9670;&#160;</a></span>UNPACK_COEFF_IGBT_TEMPS_FRONT_LEFT</h2>
 
@@ -2583,72 +2673,6 @@ Here is the caller graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">float UNPACK_COEFF_PACK_ANALOG_PACK_VOLTAGE = 0.01f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae9412e2e9850adfe37e23644f15898a1" name="ae9412e2e9850adfe37e23644f15898a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9412e2e9850adfe37e23644f15898a1">&#9670;&#160;</a></span>UNPACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float UNPACK_COEFF_PACK_BMS_MAX_CELL_VOLTAGE = 0.01f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac9d971843078377c5c67b08a48ad02be" name="ac9d971843078377c5c67b08a48ad02be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9d971843078377c5c67b08a48ad02be">&#9670;&#160;</a></span>UNPACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float UNPACK_COEFF_PACK_BMS_MIN_CELL_VOLTAGE = 0.01f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="acaf62185675025fc7074fa724afdbec6" name="acaf62185675025fc7074fa724afdbec6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acaf62185675025fc7074fa724afdbec6">&#9670;&#160;</a></span>UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE = 0.01f</td>
         </tr>
       </table>
   </td>

@@ -153,9 +153,12 @@ Functions</h2></td></tr>
 <tr class="memitem:acda557f6e48d38157bc08fa6cc1afd51" id="r_acda557f6e48d38157bc08fa6cc1afd51"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acda557f6e48d38157bc08fa6cc1afd51">ADBMS_get_cell_voltage</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t module_idx, size_t cell_idx)</td></tr>
 <tr class="memdesc:acda557f6e48d38157bc08fa6cc1afd51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the latest voltage reading (volts) for a specific module and cell.  <br /></td></tr>
 <tr class="separator:acda557f6e48d38157bc08fa6cc1afd51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7c3483644fb9f81864a6a5e0e10b224" id="r_af7c3483644fb9f81864a6a5e0e10b224"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7c3483644fb9f81864a6a5e0e10b224">ADBMS_get_therm_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t module_idx, size_t therm_idx)</td></tr>
-<tr class="memdesc:af7c3483644fb9f81864a6a5e0e10b224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the latest thermistor temperature (Celsius) for a specific module and channel.  <br /></td></tr>
-<tr class="separator:af7c3483644fb9f81864a6a5e0e10b224"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f6ef5a061ea48c88c53059b3f78be53" id="r_a6f6ef5a061ea48c88c53059b3f78be53"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f6ef5a061ea48c88c53059b3f78be53">ADBMS_get_cell_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t module_idx, size_t cell_therm_idx)</td></tr>
+<tr class="memdesc:a6f6ef5a061ea48c88c53059b3f78be53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the latest cell thermistor temperature (Celsius) for a specific module and cell thermistor.  <br /></td></tr>
+<tr class="separator:a6f6ef5a061ea48c88c53059b3f78be53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa450eb9eaee8eefdb98574259f0bdedf" id="r_aa450eb9eaee8eefdb98574259f0bdedf"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa450eb9eaee8eefdb98574259f0bdedf">ADBMS_get_board_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t module_idx, size_t board_therm_idx)</td></tr>
+<tr class="memdesc:aa450eb9eaee8eefdb98574259f0bdedf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the latest onboard PCB temperature (Celsius) for a specific module and board thermistor.  <br /></td></tr>
+<tr class="separator:aa450eb9eaee8eefdb98574259f0bdedf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcdf3aad580be7e11607800ab411552d" id="r_afcdf3aad580be7e11607800ab411552d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcdf3aad580be7e11607800ab411552d">ADBMS_is_cell_discharging</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t module_idx, size_t cell_idx)</td></tr>
 <tr class="memdesc:afcdf3aad580be7e11607800ab411552d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a specific cell is currently discharging (balancing)  <br /></td></tr>
 <tr class="separator:afcdf3aad580be7e11607800ab411552d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,23 +168,35 @@ Functions</h2></td></tr>
 <tr class="memitem:a849fdc4ff065bcfdd5b778ad53b2a256" id="r_a849fdc4ff065bcfdd5b778ad53b2a256"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a849fdc4ff065bcfdd5b778ad53b2a256">ADBMS_get_max_voltage</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
 <tr class="memdesc:a849fdc4ff065bcfdd5b778ad53b2a256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum cell voltage across all modules in volts.  <br /></td></tr>
 <tr class="separator:a849fdc4ff065bcfdd5b778ad53b2a256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae867cfd5dfd4bbb8406630813b7306ba" id="r_ae867cfd5dfd4bbb8406630813b7306ba"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae867cfd5dfd4bbb8406630813b7306ba">ADBMS_get_avg_voltage</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:ae867cfd5dfd4bbb8406630813b7306ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the average cell voltage across all modules in volts.  <br /></td></tr>
+<tr class="separator:ae867cfd5dfd4bbb8406630813b7306ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97180ef109e7503d66e3ebc853c09244" id="r_a97180ef109e7503d66e3ebc853c09244"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97180ef109e7503d66e3ebc853c09244">ADBMS_get_sum_voltage</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
 <tr class="memdesc:a97180ef109e7503d66e3ebc853c09244"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the sum of all cell voltages across all modules in volts.  <br /></td></tr>
 <tr class="separator:a97180ef109e7503d66e3ebc853c09244"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53ad71389411be0c3f979267a35bbbb9" id="r_a53ad71389411be0c3f979267a35bbbb9"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53ad71389411be0c3f979267a35bbbb9">ADBMS_get_min_therm_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
-<tr class="memdesc:a53ad71389411be0c3f979267a35bbbb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum thermistor temperature across all modules in Celsius.  <br /></td></tr>
-<tr class="separator:a53ad71389411be0c3f979267a35bbbb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a607d484c1071f9c39ebb1be6d8198f5c" id="r_a607d484c1071f9c39ebb1be6d8198f5c"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a607d484c1071f9c39ebb1be6d8198f5c">ADBMS_get_max_therm_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
-<tr class="memdesc:a607d484c1071f9c39ebb1be6d8198f5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum thermistor temperature across all modules in Celsius.  <br /></td></tr>
-<tr class="separator:a607d484c1071f9c39ebb1be6d8198f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29e487623d4cb1ea8b136c7ee9d0b7ce" id="r_a29e487623d4cb1ea8b136c7ee9d0b7ce"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29e487623d4cb1ea8b136c7ee9d0b7ce">ADBMS_get_avg_therm_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
-<tr class="memdesc:a29e487623d4cb1ea8b136c7ee9d0b7ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the average thermistor temperature across all modules in Celsius.  <br /></td></tr>
-<tr class="separator:a29e487623d4cb1ea8b136c7ee9d0b7ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5d2269c4b2a78ed6c22353246b4ebfd" id="r_ab5d2269c4b2a78ed6c22353246b4ebfd"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5d2269c4b2a78ed6c22353246b4ebfd">ADBMS_get_min_cell_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:ab5d2269c4b2a78ed6c22353246b4ebfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum cell thermistor temperature across all modules in Celsius.  <br /></td></tr>
+<tr class="separator:ab5d2269c4b2a78ed6c22353246b4ebfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac23feea83e55e6257895353a2b614dd8" id="r_ac23feea83e55e6257895353a2b614dd8"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac23feea83e55e6257895353a2b614dd8">ADBMS_get_max_cell_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:ac23feea83e55e6257895353a2b614dd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum cell thermistor temperature across all modules in Celsius.  <br /></td></tr>
+<tr class="separator:ac23feea83e55e6257895353a2b614dd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e1fad78e5f407e881ae751613b9679b" id="r_a6e1fad78e5f407e881ae751613b9679b"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e1fad78e5f407e881ae751613b9679b">ADBMS_get_avg_cell_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a6e1fad78e5f407e881ae751613b9679b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the average cell thermistor temperature across all modules in Celsius.  <br /></td></tr>
+<tr class="separator:a6e1fad78e5f407e881ae751613b9679b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3ce06dfe35a7d0d516c67462dd40023" id="r_ac3ce06dfe35a7d0d516c67462dd40023"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3ce06dfe35a7d0d516c67462dd40023">ADBMS_get_min_board_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:ac3ce06dfe35a7d0d516c67462dd40023"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum onboard PCB temperature across all chips in Celsius.  <br /></td></tr>
+<tr class="separator:ac3ce06dfe35a7d0d516c67462dd40023"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af08c56c172cb5084064331e3c8dfa6a9" id="r_af08c56c172cb5084064331e3c8dfa6a9"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af08c56c172cb5084064331e3c8dfa6a9">ADBMS_get_max_board_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:af08c56c172cb5084064331e3c8dfa6a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum onboard PCB temperature across all chips in Celsius.  <br /></td></tr>
+<tr class="separator:af08c56c172cb5084064331e3c8dfa6a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ee2e22d744f2e7e3a6710af6aca2d8d" id="r_a3ee2e22d744f2e7e3a6710af6aca2d8d"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ee2e22d744f2e7e3a6710af6aca2d8d">ADBMS_get_avg_board_temp</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
+<tr class="memdesc:a3ee2e22d744f2e7e3a6710af6aca2d8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the average onboard PCB temperature across all chips in Celsius.  <br /></td></tr>
+<tr class="separator:a3ee2e22d744f2e7e3a6710af6aca2d8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaeacae70284b52c91b4a0ff0950f7bac" id="r_aaeacae70284b52c91b4a0ff0950f7bac"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaeacae70284b52c91b4a0ff0950f7bac">ADBMS_get_cell_voltage_pec_err</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t cmd_idx)</td></tr>
-<tr class="memdesc:aaeacae70284b52c91b4a0ff0950f7bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a cell voltage read command (<code>0 .. ADBMS6380_RDCV_CMD_COUNT - 1</code>) failed PEC.  <br /></td></tr>
+<tr class="memdesc:aaeacae70284b52c91b4a0ff0950f7bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a cell voltage read command failed PEC.  <br /></td></tr>
 <tr class="separator:aaeacae70284b52c91b4a0ff0950f7bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45f191f07396bfe915faa373500b9306" id="r_a45f191f07396bfe915faa373500b9306"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45f191f07396bfe915faa373500b9306">ADBMS_get_gpio_voltage_pec_err</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms, size_t cmd_idx)</td></tr>
-<tr class="memdesc:a45f191f07396bfe915faa373500b9306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a GPIO voltage read command (<code>0 .. ADBMS6380_RDAUX_CMD_COUNT - 1</code>) failed PEC.  <br /></td></tr>
+<tr class="memdesc:a45f191f07396bfe915faa373500b9306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether a GPIO voltage read command failed PEC.  <br /></td></tr>
 <tr class="separator:a45f191f07396bfe915faa373500b9306"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78b7ab5a53ff58a2a0ad67d4da07258a" id="r_a78b7ab5a53ff58a2a0ad67d4da07258a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#a7848a968b907c08481726fb5c98a9358">adbms_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78b7ab5a53ff58a2a0ad67d4da07258a">ADBMS_get_state</a> (const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *bms)</td></tr>
 <tr class="memdesc:a78b7ab5a53ff58a2a0ad67d4da07258a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current ADBMS driver state.  <br /></td></tr>
@@ -220,8 +235,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a29e487623d4cb1ea8b136c7ee9d0b7ce" name="a29e487623d4cb1ea8b136c7ee9d0b7ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29e487623d4cb1ea8b136c7ee9d0b7ce">&#9670;&#160;</a></span>ADBMS_get_avg_therm_temp()</h2>
+<a id="a3ee2e22d744f2e7e3a6710af6aca2d8d" name="a3ee2e22d744f2e7e3a6710af6aca2d8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ee2e22d744f2e7e3a6710af6aca2d8d">&#9670;&#160;</a></span>ADBMS_get_avg_board_temp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -230,7 +245,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static float ADBMS_get_avg_therm_temp </td>
+          <td class="memname">static float ADBMS_get_avg_board_temp </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
           <td></td>
@@ -243,11 +258,157 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the average thermistor temperature across all modules in Celsius. </p>
+<p>Get the average onboard PCB temperature across all chips in Celsius. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a29e487623d4cb1ea8b136c7ee9d0b7ce_icgraph.svg" width="495" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a3ee2e22d744f2e7e3a6710af6aca2d8d_icgraph.svg" width="431" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a6e1fad78e5f407e881ae751613b9679b" name="a6e1fad78e5f407e881ae751613b9679b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e1fad78e5f407e881ae751613b9679b">&#9670;&#160;</a></span>ADBMS_get_avg_cell_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_avg_cell_temp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the average cell thermistor temperature across all modules in Celsius. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a6e1fad78e5f407e881ae751613b9679b_icgraph.svg" width="482" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ae867cfd5dfd4bbb8406630813b7306ba" name="ae867cfd5dfd4bbb8406630813b7306ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae867cfd5dfd4bbb8406630813b7306ba">&#9670;&#160;</a></span>ADBMS_get_avg_voltage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_avg_voltage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the average cell voltage across all modules in volts. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_ae867cfd5dfd4bbb8406630813b7306ba_icgraph.svg" width="406" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="aa450eb9eaee8eefdb98574259f0bdedf" name="aa450eb9eaee8eefdb98574259f0bdedf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa450eb9eaee8eefdb98574259f0bdedf">&#9670;&#160;</a></span>ADBMS_get_board_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_board_temp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_idx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>board_therm_idx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the latest onboard PCB temperature (Celsius) for a specific module and board thermistor. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8h_aa450eb9eaee8eefdb98574259f0bdedf_icgraph.svg" width="100%" height="365"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="a6f6ef5a061ea48c88c53059b3f78be53" name="a6f6ef5a061ea48c88c53059b3f78be53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f6ef5a061ea48c88c53059b3f78be53">&#9670;&#160;</a></span>ADBMS_get_cell_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_cell_temp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_idx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>cell_therm_idx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the latest cell thermistor temperature (Celsius) for a specific module and cell thermistor. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8h_a6f6ef5a061ea48c88c53059b3f78be53_icgraph.svg" width="100%" height="365"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -320,7 +481,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Check whether a cell voltage read command (<code>0 .. ADBMS6380_RDCV_CMD_COUNT - 1</code>) failed PEC. </p>
+<p>Check whether a cell voltage read command failed PEC. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -356,7 +517,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Check whether a GPIO voltage read command (<code>0 .. ADBMS6380_RDAUX_CMD_COUNT - 1</code>) failed PEC. </p>
+<p>Check whether a GPIO voltage read command failed PEC. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -365,8 +526,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a607d484c1071f9c39ebb1be6d8198f5c" name="a607d484c1071f9c39ebb1be6d8198f5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a607d484c1071f9c39ebb1be6d8198f5c">&#9670;&#160;</a></span>ADBMS_get_max_therm_temp()</h2>
+<a id="af08c56c172cb5084064331e3c8dfa6a9" name="af08c56c172cb5084064331e3c8dfa6a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af08c56c172cb5084064331e3c8dfa6a9">&#9670;&#160;</a></span>ADBMS_get_max_board_temp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -375,7 +536,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static float ADBMS_get_max_therm_temp </td>
+          <td class="memname">static float ADBMS_get_max_board_temp </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
           <td></td>
@@ -388,11 +549,43 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Get the maximum thermistor temperature across all modules in Celsius. </p>
+<p>Get the maximum onboard PCB temperature across all chips in Celsius. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a607d484c1071f9c39ebb1be6d8198f5c_icgraph.svg" width="498" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_af08c56c172cb5084064331e3c8dfa6a9_icgraph.svg" width="434" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ac23feea83e55e6257895353a2b614dd8" name="ac23feea83e55e6257895353a2b614dd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac23feea83e55e6257895353a2b614dd8">&#9670;&#160;</a></span>ADBMS_get_max_cell_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_max_cell_temp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the maximum cell thermistor temperature across all modules in Celsius. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_ac23feea83e55e6257895353a2b614dd8_icgraph.svg" width="486" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -429,8 +622,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a53ad71389411be0c3f979267a35bbbb9" name="a53ad71389411be0c3f979267a35bbbb9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53ad71389411be0c3f979267a35bbbb9">&#9670;&#160;</a></span>ADBMS_get_min_therm_temp()</h2>
+<a id="ac3ce06dfe35a7d0d516c67462dd40023" name="ac3ce06dfe35a7d0d516c67462dd40023"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3ce06dfe35a7d0d516c67462dd40023">&#9670;&#160;</a></span>ADBMS_get_min_board_temp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -439,7 +632,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static float ADBMS_get_min_therm_temp </td>
+          <td class="memname">static float ADBMS_get_min_board_temp </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
           <td></td>
@@ -452,11 +645,43 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Get the minimum thermistor temperature across all modules in Celsius. </p>
+<p>Get the minimum onboard PCB temperature across all chips in Celsius. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a53ad71389411be0c3f979267a35bbbb9_icgraph.svg" width="495" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_ac3ce06dfe35a7d0d516c67462dd40023_icgraph.svg" width="431" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ab5d2269c4b2a78ed6c22353246b4ebfd" name="ab5d2269c4b2a78ed6c22353246b4ebfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5d2269c4b2a78ed6c22353246b4ebfd">&#9670;&#160;</a></span>ADBMS_get_min_cell_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float ADBMS_get_min_cell_temp </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the minimum cell thermistor temperature across all modules in Celsius. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_ab5d2269c4b2a78ed6c22353246b4ebfd_icgraph.svg" width="482" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -553,47 +778,6 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="adbms_8h_a97180ef109e7503d66e3ebc853c09244_icgraph.svg" width="410" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="af7c3483644fb9f81864a6a5e0e10b224" name="af7c3483644fb9f81864a6a5e0e10b224"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7c3483644fb9f81864a6a5e0e10b224">&#9670;&#160;</a></span>ADBMS_get_therm_temp()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static float ADBMS_get_therm_temp </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structadbms__bms__t.html">adbms_bms_t</a> *</td>          <td class="paramname"><span class="paramname"><em>bms</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_idx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>therm_idx</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the latest thermistor temperature (Celsius) for a specific module and channel. </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms_8h_af7c3483644fb9f81864a6a5e0e10b224_icgraph.svg" width="100%" height="365"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

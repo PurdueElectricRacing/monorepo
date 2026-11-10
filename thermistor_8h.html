@@ -104,7 +104,7 @@ $(function(){initNavTree('thermistor_8h.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
-<p>Thermistor lookup table from datasheet.  
+<p>Cell and onboard thermistor lookup tables from datasheets.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="lerp__lut_8h_source.html">common/lerp_lut/lerp_lut.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -115,29 +115,33 @@ Include dependency graph for thermistor.h:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="thermistor_8h__dep__incl.svg" width="167" height="140"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="thermistor_8h__dep__incl.svg" width="587" height="140"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="thermistor_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a026b496fe9ccc675fb110ee9bbc0e267" id="r_a026b496fe9ccc675fb110ee9bbc0e267"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a026b496fe9ccc675fb110ee9bbc0e267">thermistor_R_to_T</a> (float resistance)</td></tr>
-<tr class="separator:a026b496fe9ccc675fb110ee9bbc0e267"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac70468d9ff828466d8d4406251dbc45d" id="r_ac70468d9ff828466d8d4406251dbc45d"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac70468d9ff828466d8d4406251dbc45d">cell_thermistor_R_to_T</a> (float resistance)</td></tr>
+<tr class="separator:ac70468d9ff828466d8d4406251dbc45d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4e42f4a8aa0f05e85f4e6c6a4e13c65" id="r_aa4e42f4a8aa0f05e85f4e6c6a4e13c65"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4e42f4a8aa0f05e85f4e6c6a4e13c65">board_thermistor_R_to_T</a> (float resistance)</td></tr>
+<tr class="separator:aa4e42f4a8aa0f05e85f4e6c6a4e13c65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a8302cb9eebdd6ddbaca93f268a5cd7f8" id="r_a8302cb9eebdd6ddbaca93f268a5cd7f8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structlerp__lut__t.html">lerp_lut_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8302cb9eebdd6ddbaca93f268a5cd7f8">thermistor_lut</a></td></tr>
-<tr class="separator:a8302cb9eebdd6ddbaca93f268a5cd7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd694c642b1b3cdea789ce306e6484c8" id="r_afd694c642b1b3cdea789ce306e6484c8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structlerp__lut__t.html">lerp_lut_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd694c642b1b3cdea789ce306e6484c8">cell_thermistor_lut</a></td></tr>
+<tr class="separator:afd694c642b1b3cdea789ce306e6484c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba2821f6a8f706b5179fffe4ab2a680a" id="r_aba2821f6a8f706b5179fffe4ab2a680a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structlerp__lut__t.html">lerp_lut_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba2821f6a8f706b5179fffe4ab2a680a">board_thermistor_lut</a></td></tr>
+<tr class="separator:aba2821f6a8f706b5179fffe4ab2a680a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Thermistor lookup table from datasheet. </p>
+<div class="textblock"><p>Cell and onboard thermistor lookup tables from datasheets. </p>
 <dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd>
 <dd>
 Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'@p'+'urd'+'ue'+'.ed'+'u'; return false;">kumar<span class="obfuscator">.nosp@m.</span>798@<span class="obfuscator">.nosp@m.</span>purdu<span class="obfuscator">.nosp@m.</span>e.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a026b496fe9ccc675fb110ee9bbc0e267" name="a026b496fe9ccc675fb110ee9bbc0e267"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a026b496fe9ccc675fb110ee9bbc0e267">&#9670;&#160;</a></span>thermistor_R_to_T()</h2>
+<a id="aa4e42f4a8aa0f05e85f4e6c6a4e13c65" name="aa4e42f4a8aa0f05e85f4e6c6a4e13c65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4e42f4a8aa0f05e85f4e6c6a4e13c65">&#9670;&#160;</a></span>board_thermistor_R_to_T()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -146,7 +150,7 @@ Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static float thermistor_R_to_T </td>
+          <td class="memname">static float board_thermistor_R_to_T </td>
           <td>(</td>
           <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>resistance</em></span></td><td>)</td>
           <td></td>
@@ -161,19 +165,18 @@ Millan Kumar (<a href="#" onclick="location.href='mai'+'lto:'+'kum'+'ar'+'798'+'
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="thermistor_8h_a026b496fe9ccc675fb110ee9bbc0e267_cgraph.svg" width="268" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="thermistor_8h_aa4e42f4a8aa0f05e85f4e6c6a4e13c65_cgraph.svg" width="307" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="thermistor_8h_a026b496fe9ccc675fb110ee9bbc0e267_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="thermistor_8h_aa4e42f4a8aa0f05e85f4e6c6a4e13c65_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a8302cb9eebdd6ddbaca93f268a5cd7f8" name="a8302cb9eebdd6ddbaca93f268a5cd7f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8302cb9eebdd6ddbaca93f268a5cd7f8">&#9670;&#160;</a></span>thermistor_lut</h2>
+<a id="ac70468d9ff828466d8d4406251dbc45d" name="ac70468d9ff828466d8d4406251dbc45d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac70468d9ff828466d8d4406251dbc45d">&#9670;&#160;</a></span>cell_thermistor_R_to_T()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +185,65 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structlerp__lut__t.html">lerp_lut_t</a> thermistor_lut</td>
+          <td class="memname">static float cell_thermistor_R_to_T </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>resistance</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="thermistor_8h_ac70468d9ff828466d8d4406251dbc45d_cgraph.svg" width="295" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="thermistor_8h_ac70468d9ff828466d8d4406251dbc45d_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="aba2821f6a8f706b5179fffe4ab2a680a" name="aba2821f6a8f706b5179fffe4ab2a680a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba2821f6a8f706b5179fffe4ab2a680a">&#9670;&#160;</a></span>board_thermistor_lut</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structlerp__lut__t.html">lerp_lut_t</a> board_thermistor_lut</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afd694c642b1b3cdea789ce306e6484c8" name="afd694c642b1b3cdea789ce306e6484c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd694c642b1b3cdea789ce306e6484c8">&#9670;&#160;</a></span>cell_thermistor_lut</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structlerp__lut__t.html">lerp_lut_t</a> cell_thermistor_lut</td>
         </tr>
       </table>
   </td>

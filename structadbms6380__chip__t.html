@@ -115,8 +115,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aa0d9948699a230836f585cd9db1925ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd1884dfb40426537913c4f680a35cc1" id="r_abd1884dfb40426537913c4f680a35cc1"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd1884dfb40426537913c4f680a35cc1">gpio_voltages</a> [<a class="el" href="adbms6380_8h.html#a4d10269c05bdf56ab339f0584658eeb1">ADBMS6380_GPIO_COUNT</a>]</td></tr>
 <tr class="separator:abd1884dfb40426537913c4f680a35cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf41f6b6e9b18786df0563fd749a8bb9" id="r_aaf41f6b6e9b18786df0563fd749a8bb9"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf41f6b6e9b18786df0563fd749a8bb9">therms_temps</a> [<a class="el" href="adbms6380_8h.html#a4d10269c05bdf56ab339f0584658eeb1">ADBMS6380_GPIO_COUNT</a>]</td></tr>
-<tr class="separator:aaf41f6b6e9b18786df0563fd749a8bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57c3500d85e4570f5a846d9286308508" id="r_a57c3500d85e4570f5a846d9286308508"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57c3500d85e4570f5a846d9286308508">cell_temps</a> [<a class="el" href="adbms__config_8h.html#a73c19a885afd832a57f4778b490a560f">ADBMS_CELL_THERMS_PER_CHIP</a>]</td></tr>
+<tr class="separator:a57c3500d85e4570f5a846d9286308508"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab33620dbc87383aa230cfef5ee76ac9e" id="r_ab33620dbc87383aa230cfef5ee76ac9e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab33620dbc87383aa230cfef5ee76ac9e">board_temp</a></td></tr>
+<tr class="separator:ab33620dbc87383aa230cfef5ee76ac9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa113dc876ffd61fdd447f39c7eebfa56" id="r_aa113dc876ffd61fdd447f39c7eebfa56"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa113dc876ffd61fdd447f39c7eebfa56">regb</a> [<a class="el" href="adbms6380_8h.html#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a>]</td></tr>
 <tr class="separator:aa113dc876ffd61fdd447f39c7eebfa56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0346caf5d655b9f94c4986bd93660549" id="r_a0346caf5d655b9f94c4986bd93660549"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0346caf5d655b9f94c4986bd93660549">is_discharging</a> [<a class="el" href="adbms6380_8h.html#a0b8962c63f063854a32cbaba04bdb769">ADBMS6380_CELL_COUNT</a>]</td></tr>
@@ -129,6 +131,36 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Per-chip device-level measurements, register cache, and mismatch flags. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab33620dbc87383aa230cfef5ee76ac9e" name="ab33620dbc87383aa230cfef5ee76ac9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab33620dbc87383aa230cfef5ee76ac9e">&#9670;&#160;</a></span>board_temp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float adbms6380_chip_t::board_temp</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Latest onboard PCB thermistor temperature for this chip (Celsius). </p>
+
+</div>
+</div>
+<a id="a57c3500d85e4570f5a846d9286308508" name="a57c3500d85e4570f5a846d9286308508"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57c3500d85e4570f5a846d9286308508">&#9670;&#160;</a></span>cell_temps</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float adbms6380_chip_t::cell_temps[<a class="el" href="adbms__config_8h.html#a73c19a885afd832a57f4778b490a560f">ADBMS_CELL_THERMS_PER_CHIP</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Latest cell thermistor temperatures for this chip (Celsius). </p>
+
+</div>
+</div>
 <a id="aa0d9948699a230836f585cd9db1925ce" name="aa0d9948699a230836f585cd9db1925ce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa0d9948699a230836f585cd9db1925ce">&#9670;&#160;</a></span>cell_voltages</h2>
 
@@ -216,21 +248,6 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Cached REGB bytes written to this chip. Used to compare against read-back data. </p>
-
-</div>
-</div>
-<a id="aaf41f6b6e9b18786df0563fd749a8bb9" name="aaf41f6b6e9b18786df0563fd749a8bb9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf41f6b6e9b18786df0563fd749a8bb9">&#9670;&#160;</a></span>therms_temps</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">float adbms6380_chip_t::therms_temps[<a class="el" href="adbms6380_8h.html#a4d10269c05bdf56ab339f0584658eeb1">ADBMS6380_GPIO_COUNT</a>]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Latest thermistor temperatures for this chip (Celsius). </p>
 
 </div>
 </div>

@@ -180,13 +180,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:a797933ebb8aeaf7dc228e5f9f51e47e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Issue the ADAX command to start GPIO/aux voltage conversions across all chips.  <br /></td></tr>
 <tr class="separator:a797933ebb8aeaf7dc228e5f9f51e47e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4011d4493881a897342178e4e04f150a" id="r_a4011d4493881a897342178e4e04f150a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4011d4493881a897342178e4e04f150a">ADBMS6380_read_cell_voltages</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
-<tr class="memdesc:a4011d4493881a897342178e4e04f150a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all cell voltages from each chip via RDCVA..RDCVF.  <br /></td></tr>
+<tr class="memdesc:a4011d4493881a897342178e4e04f150a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all cell voltages from each chip.  <br /></td></tr>
 <tr class="separator:a4011d4493881a897342178e4e04f150a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74b0ad1cee164427d5c561a707f72675" id="r_a74b0ad1cee164427d5c561a707f72675"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74b0ad1cee164427d5c561a707f72675">ADBMS6380_read_gpio_voltages</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev)</td></tr>
-<tr class="memdesc:a74b0ad1cee164427d5c561a707f72675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.  <br /></td></tr>
+<tr class="memdesc:a74b0ad1cee164427d5c561a707f72675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read all GPIO/aux voltages from each chip.  <br /></td></tr>
 <tr class="separator:a74b0ad1cee164427d5c561a707f72675"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3032c5c23786e6e09339992bd8ba8d84" id="r_a3032c5c23786e6e09339992bd8ba8d84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3032c5c23786e6e09339992bd8ba8d84">ADBMS6380_read_temperatures</a> (<a class="el" href="structadbms6380__t.html">adbms6380_t</a> *dev, const <a class="el" href="structadbms6380__adax__config__t.html">adbms6380_adax_config_t</a> *cfg)</td></tr>
-<tr class="memdesc:a3032c5c23786e6e09339992bd8ba8d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.  <br /></td></tr>
+<tr class="memdesc:a3032c5c23786e6e09339992bd8ba8d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures.  <br /></td></tr>
 <tr class="separator:a3032c5c23786e6e09339992bd8ba8d84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
@@ -336,7 +336,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Read all cell voltages from each chip via RDCVA..RDCVF. </p>
+<p>Read all cell voltages from each chip. </p>
 <p>Converts raw values to volts and populates each chip's cell_voltages array. If any command fails with a PEC error after retries, the successfully read cell voltages are still updated and the corresponding flag in err_cell_voltage_pecs is set.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -372,7 +372,7 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD. </p>
+<p>Read all GPIO/aux voltages from each chip. </p>
 <p>Converts raw values to volts and populates each chip's gpio_voltages array. If any command fails with a PEC error after retries, the successfully read GPIO voltages are still updated and the corresponding flag in err_gpio_voltage_pecs is set.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -412,8 +412,8 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures. </p>
-<p>Populates each chip's gpio_voltages and therms_temps arrays.</p>
+<p>Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures. </p>
+<p>Populates each chip's gpio_voltages, cell_temps, and board_temp fields.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dev</td><td>Non-null pointer to device state. </td></tr>
@@ -424,7 +424,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a3032c5c23786e6e09339992bd8ba8d84_cgraph.svg" width="100%" height="588"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="adbms6380_8h_a3032c5c23786e6e09339992bd8ba8d84_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -880,8 +880,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    <a class="code hl_variable" href="#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a> + <a class="code hl_variable" href="#adb0744d06f17240e253c2a7c640f2894">ADBMS6380_PEC_SIZE</a></div>
-<div class="ttc" id="aadbms6380_8h_html_a9b1746883bcd70ca4ce4349eab1df962"><div class="ttname"><a href="#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_SINGLE_DATA_RAW_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:31</div></div>
-<div class="ttc" id="aadbms6380_8h_html_adb0744d06f17240e253c2a7c640f2894"><div class="ttname"><a href="#adb0744d06f17240e253c2a7c640f2894">ADBMS6380_PEC_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_PEC_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:25</div></div>
+<div class="ttc" id="aadbms6380_8h_html_a9b1746883bcd70ca4ce4349eab1df962"><div class="ttname"><a href="#a9b1746883bcd70ca4ce4349eab1df962">ADBMS6380_SINGLE_DATA_RAW_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_SINGLE_DATA_RAW_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:36</div></div>
+<div class="ttc" id="aadbms6380_8h_html_adb0744d06f17240e253c2a7c640f2894"><div class="ttname"><a href="#adb0744d06f17240e253c2a7c640f2894">ADBMS6380_PEC_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_PEC_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:30</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -928,7 +928,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    <a class="code hl_variable" href="#af70094c50548a0d38dbe8e28f54a8508">ADBMS6380_SINGLE_DATA_PKT_SIZE</a> * <a class="code hl_variable" href="adbms__config_8h.html#aa1a279c187a35cbe461f78ef64d4d9c1">ADBMS_CHIP_COUNT</a></div>
-<div class="ttc" id="aadbms6380_8h_html_af70094c50548a0d38dbe8e28f54a8508"><div class="ttname"><a href="#af70094c50548a0d38dbe8e28f54a8508">ADBMS6380_SINGLE_DATA_PKT_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_SINGLE_DATA_PKT_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:33</div></div>
+<div class="ttc" id="aadbms6380_8h_html_af70094c50548a0d38dbe8e28f54a8508"><div class="ttname"><a href="#af70094c50548a0d38dbe8e28f54a8508">ADBMS6380_SINGLE_DATA_PKT_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_SINGLE_DATA_PKT_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:38</div></div>
 <div class="ttc" id="aadbms__config_8h_html_aa1a279c187a35cbe461f78ef64d4d9c1"><div class="ttname"><a href="adbms__config_8h.html#aa1a279c187a35cbe461f78ef64d4d9c1">ADBMS_CHIP_COUNT</a></div><div class="ttdeci">static constexpr size_t ADBMS_CHIP_COUNT</div><div class="ttdef"><b>Definition</b> adbms_config.h:20</div></div>
 </div><!-- fragment -->
 </div>
@@ -954,7 +954,7 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    <a class="code hl_variable" href="#a6cb3c62b3ead5b846dd2a821774e222e">ADBMS6380_COMMAND_PKT_SIZE</a> + (<a class="code hl_variable" href="adbms__config_8h.html#aa1a279c187a35cbe461f78ef64d4d9c1">ADBMS_CHIP_COUNT</a> * <a class="code hl_variable" href="#af70094c50548a0d38dbe8e28f54a8508">ADBMS6380_SINGLE_DATA_PKT_SIZE</a>)</div>
-<div class="ttc" id="aadbms6380_8h_html_a6cb3c62b3ead5b846dd2a821774e222e"><div class="ttname"><a href="#a6cb3c62b3ead5b846dd2a821774e222e">ADBMS6380_COMMAND_PKT_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_COMMAND_PKT_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:29</div></div>
+<div class="ttc" id="aadbms6380_8h_html_a6cb3c62b3ead5b846dd2a821774e222e"><div class="ttname"><a href="#a6cb3c62b3ead5b846dd2a821774e222e">ADBMS6380_COMMAND_PKT_SIZE</a></div><div class="ttdeci">static constexpr size_t ADBMS6380_COMMAND_PKT_SIZE</div><div class="ttdef"><b>Definition</b> adbms6380.h:34</div></div>
 </div><!-- fragment -->
 </div>
 </div>

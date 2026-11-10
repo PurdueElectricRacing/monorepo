@@ -1,5 +1,6 @@
 var structthermistor__telemetry__data__t =
 [
+    [ "is_board_temp", "structthermistor__telemetry__data__t.html#afe1a92896243d9c3c00da0a948486fc9", null ],
     [ "is_stale", "structthermistor__telemetry__data__t.html#a79bd93c1c85d3a0aa1d0734e5de8ab15", null ],
     [ "last_rx", "structthermistor__telemetry__data__t.html#ab01178d3ffac5ea5b59b1402a5577906", null ],
     [ "module_num", "structthermistor__telemetry__data__t.html#ac480dc0098d5eeca462e5dbffff662e1", null ],
