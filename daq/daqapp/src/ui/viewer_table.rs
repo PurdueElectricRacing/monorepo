@@ -1,4 +1,9 @@
-use crate::{action, app, telemetry, widget_constructor};
+use crate::{action, app, telemetry, ui, widget_constructor};
+
+const STALE_BG_ALPHA: u8 = 25;
+const STALE_BORDER_WIDTH: f32 = 1.0;
+const STALE_BORDER_ALPHA_FACTOR: f32 = 0.5;
+const UNMATCHED_STALE_GAMMA: f32 = 0.6;
 
 pub struct ViewerTable {
     pub title: String,
@@ -59,10 +64,18 @@ impl ViewerTable {
                     continue;
                 }
 
+                let definition = decoded.and_then(|decoded| {
+                    let key = decoded.key();
+                    database?.database.message_by_key(key)
+                });
+                let stale = definition
+                    .is_some_and(|message| message.is_stale(frame.timestamp, view.view_time()));
+
                 if !search.is_empty()
                     && !name.to_lowercase().contains(&search)
                     && !node.to_lowercase().contains(&search)
                     && !bus_name.to_lowercase().contains(&search)
+                    && !(stale && "stale".contains(&search))
                     && !format!("{:03X}", frame.identity)
                         .to_lowercase()
                         .contains(&search)
@@ -74,10 +87,6 @@ impl ViewerTable {
                     continue;
                 }
 
-                let definition = decoded.and_then(|decoded| {
-                    let key = decoded.key();
-                    database?.database.message_by_key(key)
-                });
                 let signals = decoded
                     .map(|d| {
                         d.iter()
@@ -112,6 +121,7 @@ impl ViewerTable {
                         tx_node: node,
                         raw_bytes: &bytes,
                         timestamp: &frame.timestamp.label(),
+                        stale,
                         signals,
                         search: &self.search,
                     }
@@ -131,6 +141,7 @@ struct MessageCard<'a> {
     tx_node: &'a str,
     raw_bytes: &'a str,
     timestamp: &'a str,
+    stale: bool,
     signals: Vec<(&'a str, String)>,
     search: &'a str,
 }
@@ -138,6 +149,8 @@ struct MessageCard<'a> {
 impl MessageCard<'_> {
     fn ui(&self, ui: &mut eframe::egui::Ui) -> Vec<action::AppAction> {
         let mut action_queue = Vec::new();
+        let theme = ui::theme::get_theme(ui.ctx());
+        let error_color = theme.error_color();
 
         // Header (outside card)
         ui.horizontal(|ui| {
@@ -145,10 +158,11 @@ impl MessageCard<'_> {
             let matches_name = search.is_empty()
                 || self.msg_name.to_lowercase().contains(&search)
                 || self.bus_name.to_lowercase().contains(&search);
-            let name_color = if matches_name {
-                ui.visuals().text_color()
-            } else {
-                ui.visuals().weak_text_color()
+            let name_color = match (self.stale, matches_name) {
+                (true, true) => error_color,
+                (true, false) => error_color.gamma_multiply(UNMATCHED_STALE_GAMMA),
+                (false, true) => ui.visuals().text_color(),
+                (false, false) => ui.visuals().weak_text_color(),
             };
 
             ui.label(
@@ -176,6 +190,13 @@ impl MessageCard<'_> {
                     .italics()
                     .color(ui.visuals().weak_text_color()),
             );
+            if self.stale {
+                ui.label(
+                    eframe::egui::RichText::new("STALE")
+                        .strong()
+                        .color(error_color),
+                );
+            }
             ui.with_layout(
                 eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
                 |ui| {
@@ -196,51 +217,65 @@ impl MessageCard<'_> {
             return action_queue;
         }
 
-        eframe::egui::Frame::group(ui.style())
+        let mut frame = eframe::egui::Frame::group(ui.style())
             .fill(ui.visuals().faint_bg_color)
             .corner_radius(eframe::egui::CornerRadius::same(8))
-            .inner_margin(eframe::egui::Margin::symmetric(8, 6))
-            .show(ui, |ui| {
-                ui.vertical(|ui| {
-                    for (i, (sig_name, value)) in self.signals.iter().enumerate() {
-                        ui.horizontal(|ui| {
-                            let search = self.search.to_lowercase();
-                            let matches_signal =
-                                search.is_empty() || sig_name.to_lowercase().contains(&search);
-                            let signal_color = if matches_signal {
-                                ui.visuals().text_color()
-                            } else {
-                                ui.visuals().weak_text_color()
-                            };
+            .inner_margin(eframe::egui::Margin::symmetric(8, 6));
+        if self.stale {
+            frame = frame
+                .fill(eframe::egui::Color32::from_rgba_unmultiplied(
+                    error_color.r(),
+                    error_color.g(),
+                    error_color.b(),
+                    STALE_BG_ALPHA,
+                ))
+                .stroke(eframe::egui::Stroke::new(
+                    STALE_BORDER_WIDTH,
+                    error_color.linear_multiply(STALE_BORDER_ALPHA_FACTOR),
+                ));
+        }
 
-                            ui.label(
-                                eframe::egui::RichText::new(*sig_name)
-                                    .monospace()
-                                    .color(signal_color),
-                            );
-                            ui.with_layout(
-                                eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
-                                |ui| {
-                                    if ui.small_button("📊").clicked() {
-                                        action_queue.push(action::AppAction::SpawnWidget(
-                                            widget_constructor::WidgetConstructor::Scope {
-                                                key: self.key,
-                                                msg_name: self.msg_name.to_string(),
-                                                signal_name: sig_name.to_string(),
-                                            },
-                                        ));
-                                    }
-                                    ui.add_space(8.0);
-                                    ui.label(eframe::egui::RichText::new(value).monospace());
-                                },
-                            );
-                        });
-                        if i < self.signals.len() - 1 {
-                            ui.separator();
-                        }
+        frame.show(ui, |ui| {
+            ui.vertical(|ui| {
+                for (i, (sig_name, value)) in self.signals.iter().enumerate() {
+                    ui.horizontal(|ui| {
+                        let search = self.search.to_lowercase();
+                        let matches_signal =
+                            search.is_empty() || sig_name.to_lowercase().contains(&search);
+                        let signal_color = if matches_signal {
+                            ui.visuals().text_color()
+                        } else {
+                            ui.visuals().weak_text_color()
+                        };
+
+                        ui.label(
+                            eframe::egui::RichText::new(*sig_name)
+                                .monospace()
+                                .color(signal_color),
+                        );
+                        ui.with_layout(
+                            eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
+                            |ui| {
+                                if ui.small_button("📊").clicked() {
+                                    action_queue.push(action::AppAction::SpawnWidget(
+                                        widget_constructor::WidgetConstructor::Scope {
+                                            key: self.key,
+                                            msg_name: self.msg_name.to_string(),
+                                            signal_name: sig_name.to_string(),
+                                        },
+                                    ));
+                                }
+                                ui.add_space(8.0);
+                                ui.label(eframe::egui::RichText::new(value).monospace());
+                            },
+                        );
+                    });
+                    if i < self.signals.len() - 1 {
+                        ui.separator();
                     }
-                });
+                }
             });
+        });
 
         action_queue
     }
