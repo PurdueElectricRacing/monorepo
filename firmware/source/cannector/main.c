@@ -87,7 +87,7 @@ void main() {
     NVIC_EnableIRQ(FDCAN3_IT0_IRQn);
 
     START_HEARTBEAT_TASK();
-    RTOS_START_TASK(usb_tx_periodic);
+    RTOS_START_TASK(usb_periodic);
     RTOS_START_TASK(activity_leds_periodic);
 
     vTaskStartScheduler();

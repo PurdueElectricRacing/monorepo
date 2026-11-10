@@ -55,6 +55,7 @@ static bool usb_rx_dequeue(can_tx_frame_t* frame) {
     return popped;
 }
 
+// RX over USB -> CAN
 static void process_usb_rx_frames(void) {
     can_tx_frame_t rx_frame;
     bool any_received = false;
@@ -103,9 +104,8 @@ static void process_usb_rx_frames(void) {
     }
 }
 
-void usb_periodic(void) {
-    process_usb_rx_frames();
-
+// CAN -> TX over USB
+static void process_usb_tx_frames(void) {
     timestamped_frame_t packet[MAX_FRAMES_PER_PACKET];
     size_t count = 0U;
     while (count < MAX_FRAMES_PER_PACKET && xQueueReceive(can_queue, &packet[count], 0U) == pdTRUE) {
@@ -130,4 +130,9 @@ void usb_periodic(void) {
     __set_PRIMASK(saved_primask);
 
     // Unconfigured/halted batches are discarded
+}
+
+void usb_periodic(void) {
+    process_usb_rx_frames();
+    process_usb_tx_frames();
 }
