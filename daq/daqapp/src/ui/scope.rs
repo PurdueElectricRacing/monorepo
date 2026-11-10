@@ -82,10 +82,8 @@ impl Scope {
                 ui.separator();
                 ui.label(
                     eframe::egui::RichText::new(format!(
-                        "Selected Message: [{}] {} ({}) — pick a signal:",
-                        bus_name,
-                        message.name(),
-                        identity
+                        "Selected Message: [{bus_name}] {} (0x{identity:03X}) — pick a signal:",
+                        message.name()
                     ))
                     .strong(),
                 );
