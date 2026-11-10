@@ -58,11 +58,21 @@ impl BusLoadTracker {
         if active_buses.is_empty() {
             let baud_rate_bps =
                 driver_bps.unwrap_or_else(|| connection::CanBusSpeed::default().to_bps() as u64);
-            return Some(vec![BusLoadReading {
-                bus_id: 0,
-                bus_name: "Bus 0".to_owned(),
-                values: self.get_loads(0, baud_rate_bps, now),
-            }]);
+            let bus_ids: Vec<u8> = if self.frames.is_empty() {
+                vec![0]
+            } else {
+                self.frames.keys().copied().collect()
+            };
+            return Some(
+                bus_ids
+                    .into_iter()
+                    .map(|bus_id| BusLoadReading {
+                        bus_id,
+                        bus_name: format!("Bus {bus_id}"),
+                        values: self.get_loads(bus_id, baud_rate_bps, now),
+                    })
+                    .collect(),
+            );
         }
 
         Some(
