@@ -103,7 +103,7 @@ static void process_usb_rx_frames(void) {
     }
 }
 
-void usb_tx_periodic(void) {
+void usb_periodic(void) {
     process_usb_rx_frames();
 
     timestamped_frame_t packet[MAX_FRAMES_PER_PACKET];
