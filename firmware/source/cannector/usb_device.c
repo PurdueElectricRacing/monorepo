@@ -38,29 +38,42 @@ void usb_rx_enqueue(const can_tx_frame_t* frames, size_t count) {
     __set_PRIMASK(saved_primask);
 }
 
-static bool usb_rx_dequeue(can_tx_frame_t* frame) {
-    bool popped = false;
+static bool usb_rx_peek(can_tx_frame_t* frame, size_t* head_out) {
+    bool has_frame = false;
     uint32_t saved_primask = __get_PRIMASK();
     __disable_irq();
     if (g_usb_rx_queue.count > 0U) {
         *frame = g_usb_rx_queue.frames[g_usb_rx_queue.head];
-        g_usb_rx_queue.head = (g_usb_rx_queue.head + 1U) % USB_RX_QUEUE_CAPACITY;
-        g_usb_rx_queue.count--;
-        popped = true;
+        *head_out = g_usb_rx_queue.head;
+        has_frame = true;
     }
     __set_PRIMASK(saved_primask);
-    return popped;
+    return has_frame;
+}
+
+static void usb_rx_pop(size_t expected_head) {
+    uint32_t saved_primask = __get_PRIMASK();
+    __disable_irq();
+    if (g_usb_rx_queue.count > 0U && g_usb_rx_queue.head == expected_head) {
+        g_usb_rx_queue.head = (g_usb_rx_queue.head + 1U) % USB_RX_QUEUE_CAPACITY;
+        g_usb_rx_queue.count--;
+    }
+    __set_PRIMASK(saved_primask);
 }
 
 // RX over USB -> CAN
 static void process_usb_rx_frames(void) {
     can_tx_frame_t rx_frame = {0};
+    size_t head = 0U;
     bool any_received = false;
     uint32_t now = xTaskGetTickCount();
 
-    while (usb_rx_dequeue(&rx_frame)) {
-        any_received = true;
+    while (usb_rx_peek(&rx_frame, &head)) {
+
+        // Discard frames with invalid DLC
         if (rx_frame.dlc > 8U) {
+            any_received = true;
+            usb_rx_pop(head);
             continue;
         }
 
@@ -77,6 +90,8 @@ static void process_usb_rx_frames(void) {
             bus_led = ACTIVITY_SCAN;
         } else {
             // Discard messages for inactive or unmapped buses
+            any_received = true;
+            usb_rx_pop(head);
             continue;
         }
 
@@ -91,9 +106,15 @@ static void process_usb_rx_frames(void) {
         msg.DLC = rx_frame.dlc;
         memcpy(msg.Data, rx_frame.data, rx_frame.dlc);
 
-        if (PHAL_FDCAN_send(&msg)) {
-            activity_leds_record(bus_led, now);
+        if (!PHAL_FDCAN_send(&msg)) {
+            // Hardware TX FIFO is full
+            // Keep frame queued for the next periodic tick
+            break;
         }
+
+        any_received = true;
+        usb_rx_pop(head);
+        activity_leds_record(bus_led, now);
     }
 
     if (any_received) {
