@@ -36,6 +36,9 @@ void g_bms_periodic(void) {
 This updates cell voltage, thermistor readings, and error flags
 (and all the aggregate statistics) in the `adbms_bms_t g_bms` struct.
 
+`ADBMS_periodic` must run with a period longer than `ADBMS6380_ADAX_ALL_CONV_TIME_MS` (20 ms) to allow
+the chips to complete their ADC conversions for GPIO/thermistor readings.
+
 #### For example
 
 ```c

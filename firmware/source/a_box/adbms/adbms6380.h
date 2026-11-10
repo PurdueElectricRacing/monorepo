@@ -20,6 +20,8 @@
 static constexpr size_t ADBMS6380_CELL_COUNT = 16U;
 // Number of GPIO/aux channels per ADBMS6380 chip
 static constexpr size_t ADBMS6380_GPIO_COUNT = 10U;
+// Worst-case ADAX conversion time for all 18 channels (18 / 0.9 kHz min update rate = 20 ms)
+static constexpr uint32_t ADBMS6380_ADAX_ALL_CONV_TIME_MS = 20U;
 
 static_assert(
     ADBMS_CELL_THERMS_PER_CHIP + ADBMS_BOARD_THERMS_PER_CHIP <= ADBMS6380_GPIO_COUNT,
@@ -264,7 +266,7 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev);
 void ADBMS6380_read_gpio_voltages(adbms6380_t *dev);
 
 /**
- * @brief Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures.
+ * @brief Read all GPIO voltages, start the next ADAX conversion, and convert to cell and onboard temperatures.
  *
  * Populates each chip's @ref gpio_voltages, @ref cell_temps, and @ref board_temp fields.
  *
