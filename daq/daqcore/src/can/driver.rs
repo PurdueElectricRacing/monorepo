@@ -137,6 +137,18 @@ fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .collect()
 }
 
+#[repr(C)]
+#[derive(bytemuck::Pod, bytemuck::Zeroable, Copy, Clone, Debug, PartialEq, Eq)]
+// Matches can_tx_frame_t in firmware/source/cannector/usb_device.h
+struct CannectorTxFrame {
+    can_id: u32,
+    bus_id: u8,
+    dlc: u8,
+    is_extended_id: u8,
+    reserved: u8,
+    data: [u8; 8],
+}
+
 pub struct CannectorDriver {
     handle: rusb::DeviceHandle<rusb::GlobalContext>,
 }
