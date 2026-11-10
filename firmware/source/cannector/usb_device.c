@@ -19,24 +19,21 @@
 #include "usb/usb_control.h"
 
 
-static can_tx_frame_t g_usb_rx_queue[USB_RX_QUEUE_CAPACITY];
-static size_t g_usb_rx_head = 0U;
-static size_t g_usb_rx_tail = 0U;
-static size_t g_usb_rx_count = 0U;
+static usb_rx_queue_t g_usb_rx_queue = {0};
 
 
 void usb_rx_enqueue(const can_tx_frame_t* frames, size_t count) {
     uint32_t saved_primask = __get_PRIMASK();
     __disable_irq();
     for (size_t i = 0U; i < count; ++i) {
-        if (g_usb_rx_count == USB_RX_QUEUE_CAPACITY) {
+        if (g_usb_rx_queue.count == USB_RX_QUEUE_CAPACITY) {
             // Overwrite oldest frame on overflow
-            g_usb_rx_head = (g_usb_rx_head + 1U) % USB_RX_QUEUE_CAPACITY;
-            g_usb_rx_count--;
+            g_usb_rx_queue.head = (g_usb_rx_queue.head + 1U) % USB_RX_QUEUE_CAPACITY;
+            g_usb_rx_queue.count--;
         }
-        g_usb_rx_queue[g_usb_rx_tail] = frames[i];
-        g_usb_rx_tail = (g_usb_rx_tail + 1U) % USB_RX_QUEUE_CAPACITY;
-        g_usb_rx_count++;
+        g_usb_rx_queue.frames[g_usb_rx_queue.tail] = frames[i];
+        g_usb_rx_queue.tail = (g_usb_rx_queue.tail + 1U) % USB_RX_QUEUE_CAPACITY;
+        g_usb_rx_queue.count++;
     }
     __set_PRIMASK(saved_primask);
 }
@@ -45,10 +42,10 @@ static bool usb_rx_dequeue(can_tx_frame_t* frame) {
     bool popped = false;
     uint32_t saved_primask = __get_PRIMASK();
     __disable_irq();
-    if (g_usb_rx_count > 0U) {
-        *frame = g_usb_rx_queue[g_usb_rx_head];
-        g_usb_rx_head = (g_usb_rx_head + 1U) % USB_RX_QUEUE_CAPACITY;
-        g_usb_rx_count--;
+    if (g_usb_rx_queue.count > 0U) {
+        *frame = g_usb_rx_queue.frames[g_usb_rx_queue.head];
+        g_usb_rx_queue.head = (g_usb_rx_queue.head + 1U) % USB_RX_QUEUE_CAPACITY;
+        g_usb_rx_queue.count--;
         popped = true;
     }
     __set_PRIMASK(saved_primask);

@@ -35,6 +35,13 @@ typedef struct {
 static_assert(sizeof(can_tx_frame_t) == 16U);
 static_assert(MAX_FRAMES_PER_PACKET * sizeof(can_tx_frame_t) == PHAL_USB_PACKET_SIZE_BYTES);
 
+typedef struct {
+    can_tx_frame_t frames[USB_RX_QUEUE_CAPACITY];
+    size_t head;
+    size_t tail;
+    size_t count;
+} usb_rx_queue_t;
+
 void usb_rx_enqueue(const can_tx_frame_t* frames, size_t count);
 void usb_periodic(void);
 
