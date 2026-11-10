@@ -60,20 +60,21 @@ impl FrameDecoder {
             .unwrap_or_default()
     }
 
+    /// Return the frame's bus ID, falling back to the primary active bus (or 0)
+    /// when the driver does not report one.
+    pub fn raw_frame_bus(&self, frame: &frame::CanFrame) -> u8 {
+        frame
+            .bus_id
+            .or_else(|| self.active_buses().first().map(|bus| bus.bus_id()))
+            .unwrap_or(0)
+    }
+
     /// Resolve the bus ID for a received frame, returning `None` if the frame
     /// belongs to a bus outside the active selection.
     pub fn resolve_frame_bus(&self, frame: &frame::CanFrame) -> Option<u8> {
+        let bus_id = self.raw_frame_bus(frame);
         let buses = self.active_buses();
-        if buses.is_empty() {
-            return Some(frame.bus_id.unwrap_or(0));
-        }
-        match frame.bus_id {
-            Some(bus_id) => buses
-                .iter()
-                .any(|bus| bus.bus_id() == bus_id)
-                .then_some(bus_id),
-            None => buses.first().map(|bus| bus.bus_id()),
-        }
+        (buses.is_empty() || buses.iter().any(|bus| bus.bus_id() == bus_id)).then_some(bus_id)
     }
 
     pub fn decode(

@@ -239,14 +239,11 @@ fn run_with_connection(
                 Ok(frames) => {
                     got_frames = !frames.is_empty();
                     for frame in frames {
-                        let Some(bus_id) = decoder.resolve_frame_bus(&frame) else {
-                            continue;
-                        };
-                        load.record_frame(bus_id, frame.data.len(), time::Instant::now());
+                        let raw_bus_id = decoder.raw_frame_bus(&frame);
                         // Bus ID is 3 bits so 0-7 supported
-                        if bus_id <= 7
+                        if raw_bus_id <= 7
                             && let Some(logger) = &mut logger
-                            && let Err(error) = logger.log_frame(&frame, bus_id)
+                            && let Err(error) = logger.log_frame(&frame, raw_bus_id)
                         {
                             emit!(can_thread::CanThreadEvent::Diagnostic(error));
                         }
@@ -258,6 +255,11 @@ fn run_with_connection(
                         {
                             emit!(can_thread::CanThreadEvent::FirmwareProgress(progress));
                         }
+
+                        let Some(bus_id) = decoder.resolve_frame_bus(&frame) else {
+                            continue;
+                        };
+                        load.record_frame(bus_id, frame.data.len(), time::Instant::now());
 
                         let frame = decoder.decode(frame, bus_id, crate::time::Time::now());
                         if !updating {
