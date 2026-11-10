@@ -66,6 +66,10 @@ pub enum CanBusSpeed {
 }
 
 impl ConnectionSource {
+    pub fn supports_multi_bus(&self) -> bool {
+        !matches!(self, ConnectionSource::Serial(..))
+    }
+
     pub fn display_name(&self) -> String {
         match self {
             ConnectionSource::Serial(path, speed) => {

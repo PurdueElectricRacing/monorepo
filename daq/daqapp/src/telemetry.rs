@@ -10,7 +10,7 @@ pub struct TelemetryView<'a> {
     // Latest frame for each message before the setpoint
     // (Latest message in the time range start to setpoint)
     pub latest_setpoint_frames:
-        BTreeMap<daqcore::frame::CanIdentity, &'a daqcore::frame::ParsedFrame>,
+        BTreeMap<daqcore::superdbc::message::MessageKey, &'a daqcore::frame::ParsedFrame>,
     pub timeline: &'a daqcore::timeline::Timeline,
     view_time: daqcore::time::Time,
 }
@@ -24,9 +24,7 @@ impl<'a> TelemetryView<'a> {
 
         let mut latest_setpoint_frames = BTreeMap::new();
         for frame in setpoint_frames.iter().rev() {
-            latest_setpoint_frames
-                .entry(frame.identity)
-                .or_insert(frame);
+            latest_setpoint_frames.entry(frame.key()).or_insert(frame);
             if latest_setpoint_frames.len() == cache.latest_map().len() {
                 break;
             }
@@ -90,5 +88,5 @@ pub fn decimate(points: &[[f64; 2]], pixels: usize) -> Vec<[f64; 2]> {
 
 pub struct BusLoadSample {
     pub timestamp: daqcore::time::Time,
-    pub values: [f32; 4],
+    pub buses: Vec<daqcore::can::bus_load::BusLoadReading>,
 }

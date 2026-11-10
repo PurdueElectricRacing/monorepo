@@ -1,3 +1,5 @@
+use crate::app;
+
 /// Shared search state. Definitions stay borrowed from the selected database.
 #[derive(Default)]
 pub struct MessagePickerState {
@@ -8,14 +10,14 @@ impl MessagePickerState {
     pub fn show(
         &mut self,
         ui: &mut eframe::egui::Ui,
-        bus: &daqcore::superdbc::database::Bus,
+        database: &app::DatabaseSelection,
         selected_msg_is_none: bool,
     ) -> Option<daqcore::superdbc::message::MessageKey> {
         ui.horizontal(|ui| {
             ui.label("Search:");
             ui.add(
                 eframe::egui::TextEdit::singleline(&mut self.search_text)
-                    .hint_text("Message name or CAN ID…"),
+                    .hint_text("Message name, CAN ID, or bus…"),
             );
         });
         ui.add_space(8.0);
@@ -34,17 +36,25 @@ impl MessagePickerState {
         let search = self.search_text.to_lowercase();
         let mut found = false;
         let mut picked = None;
-        for message in bus.messages().iter().filter(|message| {
-            search.trim() == "*"
-                || message.name().to_lowercase().contains(&search)
-                || format!("0x{:03x}", message.identity()).contains(&search)
-        }) {
-            found = true;
-            if ui
-                .button(format!("{} (0x{:03X})", message.name(), message.identity()))
-                .clicked()
-            {
-                picked = Some(message.key());
+        let active_buses = database.active_buses();
+        for bus in active_buses {
+            let bus_name_lower = bus.name().to_lowercase();
+            for message in bus.messages().iter().filter(|message| {
+                search.trim() == "*"
+                    || message.name().to_lowercase().contains(&search)
+                    || format!("0x{:03x}", message.identity()).contains(&search)
+                    || bus_name_lower.contains(&search)
+            }) {
+                found = true;
+                let label = format!(
+                    "[{}] {} (0x{:03X})",
+                    bus.name(),
+                    message.name(),
+                    message.identity()
+                );
+                if ui.button(label).clicked() {
+                    picked = Some(message.key());
+                }
             }
         }
         if !found {

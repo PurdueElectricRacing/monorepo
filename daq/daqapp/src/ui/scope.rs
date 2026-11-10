@@ -10,7 +10,7 @@ enum ScopeState {
         selected_msg: daqcore::superdbc::message::MessageKey,
     },
     Configured {
-        identity: daqcore::frame::CanIdentity,
+        key: daqcore::superdbc::message::MessageKey,
         msg_name: String,
         signal_name: String,
     },
@@ -33,7 +33,7 @@ pub struct Scope {
 impl Scope {
     pub fn new(
         instance_num: usize,
-        identity: daqcore::frame::CanIdentity,
+        key: daqcore::superdbc::message::MessageKey,
         msg_name: String,
         signal_name: String,
     ) -> Self {
@@ -41,7 +41,7 @@ impl Scope {
             title: format!("Scope: {signal_name}"),
             instance_num,
             state: ScopeState::Configured {
-                identity,
+                key,
                 msg_name,
                 signal_name,
             },
@@ -61,32 +61,29 @@ impl Scope {
         ui: &mut eframe::egui::Ui,
         database: &app::DatabaseSelection,
     ) -> bool {
-        let Some(bus) = database.bus() else {
-            return false;
-        };
         let state = mem::take(&mut self.state);
 
         let (new_state, just_configured) = match state {
             ScopeState::PickingMessage { mut picker } => {
-                let picked = picker.show(ui, bus, true);
+                let picked = picker.show(ui, database, true);
                 match picked {
                     Some(msg) => (ScopeState::PickingSignal { selected_msg: msg }, false),
                     None => (ScopeState::PickingMessage { picker }, false),
                 }
             }
             ScopeState::PickingSignal { selected_msg } => {
-                let Some(message) = bus.message(selected_msg.identity) else {
+                let Some(message) = database.database.message_by_key(selected_msg) else {
                     self.state = ScopeState::default();
                     return false;
                 };
+                let bus_name = database.bus_name(selected_msg.bus_id);
                 let identity = message.identity();
 
                 ui.separator();
                 ui.label(
                     eframe::egui::RichText::new(format!(
-                        "Selected Message: {} ({}) — pick a signal:",
-                        message.name(),
-                        identity
+                        "Selected Message: [{bus_name}] {} (0x{identity:03X}) — pick a signal:",
+                        message.name()
                     ))
                     .strong(),
                 );
@@ -103,7 +100,7 @@ impl Scope {
                 if let Some(signal_name) = picked_signal {
                     (
                         ScopeState::Configured {
-                            identity,
+                            key: selected_msg,
                             msg_name: message.name().to_owned(),
                             signal_name,
                         },
@@ -154,7 +151,7 @@ impl Scope {
         }
 
         let ScopeState::Configured {
-            identity,
+            key,
             msg_name,
             signal_name,
         } = &self.state
@@ -163,12 +160,14 @@ impl Scope {
         };
 
         let signal = signal_name.clone();
-        let id = *identity;
+        let target_key = *key;
+        let identity = target_key.identity;
+        let bus_name = database.map_or("Unknown", |db| db.bus_name(target_key.bus_id));
         let start = view.timeline.start();
         let duration = view.timeline.end().secs(start).max(0.001);
         let playhead = view.timeline.setpoint().secs(start);
 
-        let points: Vec<[f64; 2]> = scope_frames(view.all_frames, id)
+        let points: Vec<[f64; 2]> = scope_frames(view.all_frames, target_key)
             .filter_map(|frame| {
                 let decoded = frame.decoded.as_ref()?;
                 let value = decoded.signal(&signal)?.physical();
@@ -179,7 +178,7 @@ impl Scope {
         let mut change = false;
         ui.horizontal(|ui| {
             ui.heading(format!(
-                "{}: {msg_name} (0x{identity:03X}) - {signal}",
+                "{}: [{bus_name}] {msg_name} (0x{identity:03X}) - {signal}",
                 self.title
             ));
             change = ui.button("Change signal").clicked();
@@ -240,9 +239,7 @@ impl Scope {
 
 fn scope_frames(
     frames: &[daqcore::frame::ParsedFrame],
-    identity: daqcore::frame::CanIdentity,
+    key: daqcore::superdbc::message::MessageKey,
 ) -> impl Iterator<Item = &daqcore::frame::ParsedFrame> {
-    frames
-        .iter()
-        .filter(move |frame| frame.identity == identity)
+    frames.iter().filter(move |frame| frame.key() == key)
 }

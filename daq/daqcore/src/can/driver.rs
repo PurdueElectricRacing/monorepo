@@ -40,7 +40,7 @@ pub trait Driver {
 
 pub fn create_driver(
     source: &connection::ConnectionSource,
-    bus: Option<&superdbc::database::Bus>,
+    buses: &[&superdbc::database::Bus],
 ) -> DriverResult<Box<dyn Driver>> {
     match source {
         connection::ConnectionSource::Serial(path, speed) => {
@@ -57,9 +57,9 @@ pub fn create_driver(
         connection::ConnectionSource::Cannector => Ok(Box::new(CannectorDriver::new()?)),
         connection::ConnectionSource::Loopback => Ok(Box::new(LoopbackDriver::default())),
         connection::ConnectionSource::Simulated(true) => {
-            let messages = bus.map(|bus| bus.messages().to_vec()).unwrap_or_default();
+            let buses = buses.iter().map(|bus| bus.messages().to_vec()).collect();
             Ok(Box::new(SimulatedDriver {
-                messages,
+                buses,
                 next: time::Instant::now(),
             }))
         }
@@ -131,7 +131,8 @@ fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .map(|bytes| {
             let raw = bytemuck::try_pod_read_unaligned::<log_parse::parse::RawFrame>(bytes)
                 .map_err(|error| DriverError::Read(error.to_string()))?;
-            frame::CanFrame::data(raw.can_identity(), raw.data.to_vec()).map_err(DriverError::Read)
+            frame::CanFrame::data(Some(raw.bus_id()), raw.can_identity(), raw.data.to_vec())
+                .map_err(DriverError::Read)
         })
         .collect()
 }
@@ -184,7 +185,7 @@ impl Driver for CannectorDriver {
 }
 
 struct SimulatedDriver {
-    messages: Vec<superdbc::message::Message>,
+    buses: Vec<Vec<superdbc::message::Message>>,
     next: time::Instant,
 }
 
@@ -201,17 +202,24 @@ impl Driver for SimulatedDriver {
         self.next += time::Duration::from_millis(1);
         let mut rng = rand::rng();
 
-        let messages = &self.messages;
+        let frames: Vec<_> = self
+            .buses
+            .iter()
+            .filter_map(|messages| {
+                let message = messages.choose(&mut rng)?;
+                Some(Self::message_frame(message, &mut rng))
+            })
+            .collect::<DriverResult<_>>()?;
 
-        let Some(message) = messages.choose(&mut rng) else {
-            let identity = rng.random_range(0..=can::STANDARD_ID_MASK);
-            let mut data = vec![0u8; 8];
-            rng.fill_bytes(&mut data);
-            let frame = frame::CanFrame::data(identity, data).map_err(DriverError::Read)?;
-            return Ok(vec![frame]);
-        };
+        if !frames.is_empty() {
+            return Ok(frames);
+        }
 
-        Self::message_frame(message, &mut rng).map(|frame| vec![frame])
+        let identity = rng.random_range(0..=can::STANDARD_ID_MASK);
+        let mut data = vec![0u8; 8];
+        rng.fill_bytes(&mut data);
+        let frame = frame::CanFrame::data(None, identity, data).map_err(DriverError::Read)?;
+        Ok(vec![frame])
     }
 
     fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
@@ -225,6 +233,7 @@ impl SimulatedDriver {
         rng: &mut impl rand::Rng,
     ) -> DriverResult<frame::CanFrame> {
         let identity = message.identity();
+        let bus_id = message.key().bus_id;
         let size = usize::from(message.length_bytes());
 
         if size > 8 {
@@ -242,7 +251,8 @@ impl SimulatedDriver {
             }
         }
 
-        let frame = frame::CanFrame::data(identity, data).map_err(DriverError::Read)?;
+        let frame =
+            frame::CanFrame::data(Some(bus_id), identity, data).map_err(DriverError::Read)?;
 
         Ok(frame)
     }
@@ -366,6 +376,7 @@ mod serial {
                 };
 
                 frame::CanFrame {
+                    bus_id: None,
                     identity,
                     kind,
                     dlc: f.dlc() as u8,
@@ -375,6 +386,7 @@ mod serial {
             slcan::CanFrame::CanFd(f) => {
                 let identity = identity(f.id());
                 frame::CanFrame {
+                    bus_id: None,
                     identity,
                     kind: frame::FrameKind::Fd {
                         bit_rate_switched: f.is_bit_rate_switched(),

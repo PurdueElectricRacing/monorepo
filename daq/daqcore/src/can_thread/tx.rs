@@ -1,4 +1,4 @@
-use crate::frame;
+use crate::{frame, superdbc};
 use std::{collections::BTreeMap, time};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -39,7 +39,7 @@ impl SendAmount {
 
 pub struct AddSendMessage {
     pub amount: SendAmount,
-    pub identity: frame::CanIdentity,
+    pub key: superdbc::message::MessageKey,
     pub is_extended_id: bool,
     pub msg_bytes: Vec<u8>,
 }
@@ -51,7 +51,7 @@ struct Scheduled {
 }
 
 #[derive(Default)]
-pub struct SendTable(BTreeMap<frame::CanIdentity, Scheduled>);
+pub struct SendTable(BTreeMap<superdbc::message::MessageKey, Scheduled>);
 
 impl SendTable {
     pub fn add(&mut self, msg: AddSendMessage) -> Result<(), String> {
@@ -63,10 +63,15 @@ impl SendTable {
             return Err("send count and period must be positive".into());
         }
 
-        let frame = frame::CanFrameTx::data(msg.identity, msg.is_extended_id, msg.msg_bytes)?;
+        let frame = frame::CanFrameTx::data(
+            Some(msg.key.bus_id),
+            msg.key.identity,
+            msg.is_extended_id,
+            msg.msg_bytes,
+        )?;
 
         self.0.insert(
-            msg.identity,
+            msg.key,
             Scheduled {
                 frame,
                 amount: msg.amount,
@@ -76,14 +81,17 @@ impl SendTable {
         Ok(())
     }
 
-    pub fn delete(&mut self, id: frame::CanIdentity) {
-        self.0.remove(&id);
+    pub fn delete(&mut self, key: superdbc::message::MessageKey) {
+        self.0.remove(&key);
     }
 
-    pub fn due(&self, now: time::Instant) -> Vec<frame::CanFrameTx> {
+    pub fn due(
+        &self,
+        now: time::Instant,
+    ) -> Vec<(superdbc::message::MessageKey, frame::CanFrameTx)> {
         self.0
-            .values()
-            .filter(|scheduled| {
+            .iter()
+            .filter(|(_, scheduled)| {
                 let Some(last_sent) = scheduled.sent else {
                     return true;
                 };
@@ -93,19 +101,23 @@ impl SendTable {
 
                 elapsed >= period
             })
-            .map(|scheduled| scheduled.frame.clone())
+            .map(|(key, scheduled)| (*key, scheduled.frame.clone()))
             .collect()
     }
 
-    pub fn commit(&mut self, id: frame::CanIdentity, now: time::Instant) -> Option<SendAmount> {
-        let scheduled = self.0.get_mut(&id)?;
+    pub fn commit(
+        &mut self,
+        key: superdbc::message::MessageKey,
+        now: time::Instant,
+    ) -> Option<SendAmount> {
+        let scheduled = self.0.get_mut(&key)?;
         scheduled.sent = Some(now);
         let amount_left = scheduled.amount.subtract_one();
 
         if let Some(amount) = amount_left {
             scheduled.amount = amount;
         } else {
-            self.0.remove(&id);
+            self.0.remove(&key);
         }
         amount_left
     }

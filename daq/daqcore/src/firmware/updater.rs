@@ -23,7 +23,7 @@ pub struct OutboundFrame {
 impl OutboundFrame {
     /// Convert a bootloader frame to a standard CAN transmit frame.
     pub fn into_can_frame(self) -> Result<frame::CanFrameTx, String> {
-        frame::CanFrameTx::data(self.id, false, self.data)
+        frame::CanFrameTx::data(None, self.id, false, self.data)
     }
 }
 

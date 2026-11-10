@@ -54,6 +54,7 @@ impl ViewerTable {
                 let decoded = frame.decoded.as_ref();
                 let name = decoded.map_or("Error: Unknown", |d| d.name());
                 let node = decoded.map_or("Unparsed", |d| d.tx_node());
+                let bus_name = database.map_or("Unknown", |db| db.bus_name(frame.bus_id));
                 if self.tx_node != "Any" && self.tx_node != node {
                     continue;
                 }
@@ -61,6 +62,7 @@ impl ViewerTable {
                 if !search.is_empty()
                     && !name.to_lowercase().contains(&search)
                     && !node.to_lowercase().contains(&search)
+                    && !bus_name.to_lowercase().contains(&search)
                     && !format!("{:03X}", frame.identity)
                         .to_lowercase()
                         .contains(&search)
@@ -105,7 +107,8 @@ impl ViewerTable {
                 actions.extend(
                     MessageCard {
                         msg_name: name,
-                        identity: frame.identity,
+                        bus_name,
+                        key: frame.key(),
                         tx_node: node,
                         raw_bytes: &bytes,
                         timestamp: &frame.timestamp.label(),
@@ -123,7 +126,8 @@ impl ViewerTable {
 
 struct MessageCard<'a> {
     msg_name: &'a str,
-    identity: daqcore::frame::CanIdentity,
+    bus_name: &'a str,
+    key: daqcore::superdbc::message::MessageKey,
     tx_node: &'a str,
     raw_bytes: &'a str,
     timestamp: &'a str,
@@ -138,7 +142,9 @@ impl MessageCard<'_> {
         // Header (outside card)
         ui.horizontal(|ui| {
             let search = self.search.to_lowercase();
-            let matches_name = search.is_empty() || self.msg_name.to_lowercase().contains(&search);
+            let matches_name = search.is_empty()
+                || self.msg_name.to_lowercase().contains(&search)
+                || self.bus_name.to_lowercase().contains(&search);
             let name_color = if matches_name {
                 ui.visuals().text_color()
             } else {
@@ -147,8 +153,8 @@ impl MessageCard<'_> {
 
             ui.label(
                 eframe::egui::RichText::new(format!(
-                    "{}  (0x{:03X})",
-                    self.msg_name, self.identity
+                    "{}: {}  [0x{:X} | 0x{:03X}]",
+                    self.bus_name, self.msg_name, self.key.bus_id, self.key.identity
                 ))
                 .strong()
                 .size(16.0)
@@ -218,7 +224,7 @@ impl MessageCard<'_> {
                                     if ui.small_button("📊").clicked() {
                                         action_queue.push(action::AppAction::SpawnWidget(
                                             widget_constructor::WidgetConstructor::Scope {
-                                                identity: self.identity,
+                                                key: self.key,
                                                 msg_name: self.msg_name.to_string(),
                                                 signal_name: sig_name.to_string(),
                                             },
