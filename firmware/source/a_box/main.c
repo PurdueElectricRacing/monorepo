@@ -200,6 +200,10 @@ static_assert(BMS_TEMPS_PERIOD_MS == BMS_PERIOD_MS);
 static_assert(BMS_TEMPS_CCAN_PERIOD_MS == BMS_PERIOD_MS);
 static_assert(BMS_PECS_PERIOD_MS == BMS_PERIOD_MS);
 static_assert(BMS_PECS_CCAN_PERIOD_MS == BMS_PERIOD_MS);
+static_assert(
+    BMS_PERIOD_MS > ADBMS6380_ADAX_ALL_CONV_TIME_MS,
+    "BMS period must exceed ADAX conversion time for cross-cycle pipelining"
+);
 void bms_task(void) {
     // IMD
     bool imd_faulted = PHAL_GPIO_read(IMD_STATUS_PORT, IMD_STATUS_PIN) == false;

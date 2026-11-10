@@ -20,6 +20,8 @@
 static constexpr size_t ADBMS6380_CELL_COUNT = 16U;
 // Number of GPIO/aux channels per ADBMS6380 chip
 static constexpr size_t ADBMS6380_GPIO_COUNT = 10U;
+// Worst-case ADAX conversion time for all 18 channels (18 / 0.9 kHz min update rate = 20 ms)
+static constexpr uint32_t ADBMS6380_ADAX_ALL_CONV_TIME_MS = 20U;
 
 static_assert(
     ADBMS_CELL_THERMS_PER_CHIP + ADBMS_BOARD_THERMS_PER_CHIP <= ADBMS6380_GPIO_COUNT,
