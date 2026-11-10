@@ -49,8 +49,6 @@ pub struct DAQApp {
     pub ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
     pub action_queue: Vec<action::AppAction>,
     pub selected_source: Option<daqcore::connection::ConnectionSource>,
-    pub theme: eframe::egui::Style,
-    pub theme_selection: ui::theme::ThemeSelection,
     pub pixels_per_point: Option<f32>,
     pub serial_ports: Vec<serialport::SerialPortInfo>,
     pub cannector_available: bool,
@@ -80,7 +78,6 @@ impl DAQApp {
             selected_source: self.selected_source.clone(),
             selected_speed: self.can_bus_speed,
             udp_port: self.udp_port,
-            theme: self.theme_selection,
             pixels_per_point: self.pixels_per_point,
             log_folder: self.log_folder.clone(),
             window_secs: self.session.timeline().window_secs(),
@@ -94,9 +91,7 @@ impl DAQApp {
         settings: settings::Settings,
         cc: &eframe::CreationContext,
     ) -> Result<Self, Box<dyn error::Error + Send + Sync>> {
-        let theme_selection = settings.theme;
-        let theme_style = theme_selection.get_style();
-        ui::theme::store_theme(&cc.egui_ctx, theme_selection.get_colors());
+        cc.egui_ctx.set_style(ui::colors::style());
 
         egui_extras::install_image_loaders(&cc.egui_ctx);
 
@@ -121,8 +116,6 @@ impl DAQApp {
             can_thread,
             action_queue: Vec::new(),
             selected_source: settings.selected_source.clone(),
-            theme: theme_style,
-            theme_selection,
             pixels_per_point: settings.pixels_per_point,
             serial_ports: util::get_available_serial_ports(),
             cannector_available: util::is_cannector_available(),
@@ -355,12 +348,6 @@ impl DAQApp {
         }
     }
 
-    pub fn toggle_theme(&mut self, ctx: &eframe::egui::Context) {
-        self.theme_selection = self.theme_selection.next();
-        self.theme = self.theme_selection.get_style();
-        ui::theme::store_theme(ctx, self.theme_selection.get_colors());
-    }
-
     // Close the currently active widget in the tile tree
     pub fn close_active_widget(&mut self) {
         let active_tiles = self.tile_tree.active_tiles();
@@ -429,7 +416,6 @@ impl eframe::App for DAQApp {
         if let Some(ppp) = self.pixels_per_point {
             ctx.set_pixels_per_point(ppp);
         }
-        ctx.set_style(self.theme.clone());
 
         // Handle keyboard shortcuts
         self.action_queue
