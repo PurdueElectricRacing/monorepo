@@ -65,7 +65,7 @@ cd daq/daqapp && cargo run
 ```
 
 Running is supported only with `daq/daqapp/` as the working directory so the
-app can find its themes, formatter configuration, and HIL presets. Settings and
+app can find its formatter configuration and HIL presets. Settings and
 logs are also relative to this directory.
 
 ## Development
@@ -85,7 +85,6 @@ The app's source is organized by responsibility:
 - `../daqcore/src/superdbc/` - bus-aware definitions, decoding, and encoding.
 - `../daqcore/src/log_parse/` - recorded-log parsing and correlation.
 - `../daqcore/src/hil/` and `hil_config/` - HIL support and presets
-- `themes/` - user-selectable visual themes.
 
 ### Thread overview
 
