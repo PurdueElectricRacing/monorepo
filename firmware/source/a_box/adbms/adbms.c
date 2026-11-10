@@ -202,9 +202,11 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
                 next_state = ADBMS_STATE_RECOVERING;
                 break;
             }
+            
             read_therms(bms);
-            if (!is_valid_temp(bms->min_cell_temp) || !is_valid_temp(bms->max_cell_temp)
-                || !is_valid_temp(bms->min_board_temp) || !is_valid_temp(bms->max_board_temp)) {
+            bool valid_cell_temps  = is_valid_temp(bms->min_cell_temp)  && is_valid_temp(bms->max_cell_temp);
+            bool valid_board_temps = is_valid_temp(bms->min_board_temp) && is_valid_temp(bms->max_board_temp);
+            if (!valid_cell_temps || !valid_board_temps) {
                 next_state = ADBMS_STATE_RECOVERING;
                 break;
             }
