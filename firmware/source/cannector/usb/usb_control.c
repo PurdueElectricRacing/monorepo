@@ -14,11 +14,11 @@
 
 
 static usb_context_t g_usb_context = {
-    .configured = false,
-    .bulk_in_halted = false,
-    .bulk_out_halted = false,
-    .address = 0U,
-    .pending_address = NO_PENDING_VALUE,
+    .configured            = false,
+    .bulk_in_halted        = false,
+    .bulk_out_halted       = false,
+    .address               = 0U,
+    .pending_address       = NO_PENDING_VALUE,
     .pending_configuration = NO_PENDING_VALUE,
 };
 
