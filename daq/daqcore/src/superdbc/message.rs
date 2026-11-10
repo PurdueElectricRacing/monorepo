@@ -1,7 +1,9 @@
 //! Message identities, validated signal definitions, and presentation metadata.
 
-use crate::{frame, superdbc};
+use crate::{frame, superdbc, time};
 use std::collections::{BTreeMap, HashMap};
+
+const STALE_TIMEOUT_MULTIPLIER: f64 = 2.5;
 
 /// Complete lookup key within one active database version.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -212,6 +214,23 @@ impl Message {
     /// Return the nominal send period in milliseconds, or `None` when unspecified; no sends are scheduled.
     pub fn nominal_period_ms(&self) -> Option<u32> {
         self.nominal_period_ms
+    }
+
+    /// Return the stale timeout in milliseconds (`2.5 * nominal_period_ms`),
+    /// or `None` when the message has no nominal period.
+    pub fn stale_timeout_ms(&self) -> Option<u64> {
+        self.nominal_period_ms.map(|period| (period as f64 * STALE_TIMEOUT_MULTIPLIER).ceil() as u64)
+    }
+
+    /// Return whether a frame received at `last_rx` is stale at `reference_time`.
+    pub fn is_stale(&self, last_rx: time::Time, reference_time: time::Time) -> bool {
+        let Some(timeout_ms) = self.stale_timeout_ms() else {
+            return false;
+        };
+        let elapsed_ms = reference_time
+            .unix_millis()
+            .saturating_sub(last_rx.unix_millis());
+        elapsed_ms > timeout_ms.min(i64::MAX as u64) as i64
     }
 
     /// Return the declared priority (0 through 5); the codec does not schedule or reorder traffic.
