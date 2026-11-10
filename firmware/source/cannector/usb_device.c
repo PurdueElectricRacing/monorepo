@@ -19,6 +19,9 @@
 #include "usb/usb_control.h"
 
 
+static constexpr uint32_t CAN_MAX_STD_ID = 0x7FFU;
+static constexpr uint32_t CAN_MAX_EXT_ID = 0x1FFFFFFFU;
+
 static usb_rx_queue_t g_usb_rx_queue = {0};
 
 
@@ -69,9 +72,11 @@ static void process_usb_rx_frames(void) {
     uint32_t now = xTaskGetTickCount();
 
     while (usb_rx_peek(&rx_frame, &head)) {
+        bool is_extended = (rx_frame.is_extended_id != 0U);
+        uint32_t max_can_id = is_extended ? CAN_MAX_EXT_ID : CAN_MAX_STD_ID;
 
-        // Discard frames with invalid DLC
-        if (rx_frame.dlc > 8U) {
+        // Discard frames with invalid DLC or mismtaching ID type
+        if (rx_frame.dlc > 8U || rx_frame.can_id > max_can_id) {
             any_received = true;
             usb_rx_pop(head);
             continue;
@@ -97,11 +102,11 @@ static void process_usb_rx_frames(void) {
 
         CanMsgTypeDef_t msg = {0};
         msg.Bus = bus;
-        msg.IDE = (rx_frame.is_extended_id != 0U);
+        msg.IDE = is_extended;
         if (msg.IDE) {
-            msg.ExtId = rx_frame.can_id & 0x1FFFFFFFU;
+            msg.ExtId = rx_frame.can_id;
         } else {
-            msg.StdId = (uint16_t)(rx_frame.can_id & 0x7FFU);
+            msg.StdId = (uint16_t)rx_frame.can_id;
         }
         msg.DLC = rx_frame.dlc;
         memcpy(msg.Data, rx_frame.data, rx_frame.dlc);
