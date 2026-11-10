@@ -1,4 +1,9 @@
-use crate::{action, app, telemetry, widget_constructor};
+use crate::{action, app, telemetry, ui, widget_constructor};
+
+const STALE_BACKGROUND_ALPHA: u8 = 25;
+const STALE_BORDER_WIDTH: f32 = 1.0;
+const STALE_BORDER_ALPHA_FACTOR: f32 = 0.5;
+const UNMATCHED_STALE_GAMMA: f32 = 0.6;
 
 pub struct ViewerTable {
     pub title: String,
@@ -59,10 +64,18 @@ impl ViewerTable {
                     continue;
                 }
 
+                let definition = decoded.and_then(|decoded| {
+                    let key = decoded.key();
+                    database?.database.message_by_key(key)
+                });
+                let stale = definition
+                    .is_some_and(|message| message.is_stale(frame.timestamp, view.view_time()));
+
                 if !search.is_empty()
                     && !name.to_lowercase().contains(&search)
                     && !node.to_lowercase().contains(&search)
                     && !bus_name.to_lowercase().contains(&search)
+                    && !(stale && "stale".contains(&search))
                     && !format!("{:03X}", frame.identity)
                         .to_lowercase()
                         .contains(&search)
@@ -74,10 +87,6 @@ impl ViewerTable {
                     continue;
                 }
 
-                let definition = decoded.and_then(|decoded| {
-                    let key = decoded.key();
-                    database?.database.message_by_key(key)
-                });
                 let signals = decoded
                     .map(|d| {
                         d.iter()
@@ -112,6 +121,7 @@ impl ViewerTable {
                         tx_node: node,
                         raw_bytes: &bytes,
                         timestamp: &frame.timestamp.label(),
+                        stale,
                         signals,
                         search: &self.search,
                     }
@@ -131,6 +141,7 @@ struct MessageCard<'a> {
     tx_node: &'a str,
     raw_bytes: &'a str,
     timestamp: &'a str,
+    stale: bool,
     signals: Vec<(&'a str, String)>,
     search: &'a str,
 }
@@ -138,6 +149,8 @@ struct MessageCard<'a> {
 impl MessageCard<'_> {
     fn ui(&self, ui: &mut eframe::egui::Ui) -> Vec<action::AppAction> {
         let mut action_queue = Vec::new();
+        let theme = ui::theme::get_theme(ui.ctx());
+        let error_color = theme.error_color();
 
         // Header (outside card)
         ui.horizontal(|ui| {
@@ -145,7 +158,13 @@ impl MessageCard<'_> {
             let matches_name = search.is_empty()
                 || self.msg_name.to_lowercase().contains(&search)
                 || self.bus_name.to_lowercase().contains(&search);
-            let name_color = if matches_name {
+            let name_color = if self.stale {
+                if matches_name {
+                    error_color
+                } else {
+                    error_color.gamma_multiply(UNMATCHED_STALE_GAMMA)
+                }
+            } else if matches_name {
                 ui.visuals().text_color()
             } else {
                 ui.visuals().weak_text_color()
@@ -176,6 +195,13 @@ impl MessageCard<'_> {
                     .italics()
                     .color(ui.visuals().weak_text_color()),
             );
+            if self.stale {
+                ui.label(
+                    eframe::egui::RichText::new("STALE")
+                        .strong()
+                        .color(error_color),
+                );
+            }
             ui.with_layout(
                 eframe::egui::Layout::right_to_left(eframe::egui::Align::Center),
                 |ui| {
@@ -196,8 +222,29 @@ impl MessageCard<'_> {
             return action_queue;
         }
 
+        let (card_fill, card_stroke) = if self.stale {
+            (
+                eframe::egui::Color32::from_rgba_unmultiplied(
+                    error_color.r(),
+                    error_color.g(),
+                    error_color.b(),
+                    STALE_BACKGROUND_ALPHA,
+                ),
+                eframe::egui::Stroke::new(
+                    STALE_BORDER_WIDTH,
+                    error_color.linear_multiply(STALE_BORDER_ALPHA_FACTOR),
+                ),
+            )
+        } else {
+            (
+                ui.visuals().faint_bg_color,
+                ui.visuals().widgets.noninteractive.bg_stroke,
+            )
+        };
+
         eframe::egui::Frame::group(ui.style())
-            .fill(ui.visuals().faint_bg_color)
+            .fill(card_fill)
+            .stroke(card_stroke)
             .corner_radius(eframe::egui::CornerRadius::same(8))
             .inner_margin(eframe::egui::Margin::symmetric(8, 6))
             .show(ui, |ui| {
