@@ -28,6 +28,8 @@ static constexpr uint8_t ADBMS_RECOVERY_MAX_ATTEMPTS = 4U;
 // and causes a transition to RECOVERING.
 static constexpr float ADBMS_CELL_MIN_VALID_V = 1.0f;
 static constexpr float ADBMS_CELL_MAX_VALID_V = 5.0f;
+static constexpr float ADBMS_TEMP_MIN_VALID_C = -20.0f;
+static constexpr float ADBMS_TEMP_MAX_VALID_C = 100.0f;
 
 static constexpr adbms6380_rega_config_t ADBMS_REGA_CFG = {
     .cth   = 0b110U, // 25.05 mV
@@ -147,6 +149,10 @@ static bool is_valid_voltage(float voltage) {
     return voltage >= ADBMS_CELL_MIN_VALID_V && voltage <= ADBMS_CELL_MAX_VALID_V;
 }
 
+static bool is_valid_temp(float temp) {
+    return temp >= ADBMS_TEMP_MIN_VALID_C && temp <= ADBMS_TEMP_MAX_VALID_C;
+}
+
 void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi) {
     *bms = (adbms_bms_t){0};
     ADBMS6380_init(&bms->dev, spi);
@@ -184,6 +190,7 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
 
             bms->recovery_attempts = 0U; // successful connect
             ADBMS6380_start_adcv(&bms->dev, &ADBMS_ADCV_CFG);
+            ADBMS6380_start_adax(&bms->dev, &ADBMS_ADAX_CFG);
             next_state = ADBMS_STATE_READ_LOOP;
             break;
         }
@@ -195,7 +202,14 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
                 next_state = ADBMS_STATE_RECOVERING;
                 break;
             }
+            
             read_therms(bms);
+            bool valid_cell_temps  = is_valid_temp(bms->min_cell_temp)  && is_valid_temp(bms->max_cell_temp);
+            bool valid_board_temps = is_valid_temp(bms->min_board_temp) && is_valid_temp(bms->max_board_temp);
+            if (!valid_cell_temps || !valid_board_temps) {
+                next_state = ADBMS_STATE_RECOVERING;
+                break;
+            }
 
             calculate_balance_cells(bms, min_voltage_for_balance, min_delta_for_balance);
 
