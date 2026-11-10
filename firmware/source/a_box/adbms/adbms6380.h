@@ -16,10 +16,15 @@
 #include "common/phal_G4/spi/spi.h"
 #include "common/strbuf/strbuf.h"
 
-// Number of cell measurement channels per ADBMS6380 chip.
+// Number of cell measurement channels per ADBMS6380 chip
 static constexpr size_t ADBMS6380_CELL_COUNT = 16U;
-// Number of GPIO/aux channels per ADBMS6380 chip.
+// Number of GPIO/aux channels per ADBMS6380 chip
 static constexpr size_t ADBMS6380_GPIO_COUNT = 10U;
+
+static_assert(
+    ADBMS_CELL_THERMS_PER_CHIP + ADBMS_BOARD_THERMS_PER_CHIP <= ADBMS6380_GPIO_COUNT,
+    "per-chip cell and board thermistor counts must sum to total GPIO count"
+);
 
 // PEC size in bytes for ADBMS6380 commands and data packets. Is 2 bytes for both PEC10 (data) and PEC15 (commands).
 static constexpr size_t ADBMS6380_PEC_SIZE = 2U;
@@ -104,8 +109,10 @@ typedef struct {
     float cell_voltages[ADBMS6380_CELL_COUNT];
     /** Latest GPIO/aux voltage readings for this chip (volts). */
     float gpio_voltages[ADBMS6380_GPIO_COUNT];
-    /** Latest thermistor temperatures for this chip (Celsius). */
-    float therms_temps[ADBMS6380_GPIO_COUNT];
+    /** Latest cell thermistor temperatures for this chip (Celsius). */
+    float cell_temps[ADBMS_CELL_THERMS_PER_CHIP];
+    /** Latest onboard PCB thermistor temperature for this chip (Celsius). */
+    float board_temp;
     /** Cached REGB bytes written to this chip. Used to compare against read-back data. */
     uint8_t regb[ADBMS6380_SINGLE_DATA_RAW_SIZE];
     /** Per-channel discharge enable flags used for balancing on this chip. */
@@ -233,7 +240,7 @@ void ADBMS6380_start_adcv(adbms6380_t *dev, const adbms6380_adcv_config_t *cfg);
 void ADBMS6380_start_adax(adbms6380_t *dev, const adbms6380_adax_config_t *cfg);
 
 /**
- * @brief Read all cell voltages from each chip via RDCVA..RDCVF.
+ * @brief Read all cell voltages from each chip.
  *
  * Converts raw values to volts and populates each chip's @ref cell_voltages array.
  * If any command fails with a PEC error after retries, the successfully read
@@ -245,7 +252,7 @@ void ADBMS6380_start_adax(adbms6380_t *dev, const adbms6380_adax_config_t *cfg);
 void ADBMS6380_read_cell_voltages(adbms6380_t *dev);
 
 /**
- * @brief Read all GPIO/aux voltages from each chip via RDAUXA..RDAUXD.
+ * @brief Read all GPIO/aux voltages from each chip.
  *
  * Converts raw values to volts and populates each chip's @ref gpio_voltages array.
  * If any command fails with a PEC error after retries, the successfully read
@@ -257,9 +264,9 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev);
 void ADBMS6380_read_gpio_voltages(adbms6380_t *dev);
 
 /**
- * @brief Start an ADAX conversion, read all GPIO voltages, and convert to thermistor temperatures.
+ * @brief Start an ADAX conversion, read all GPIO voltages, and convert to cell and onboard temperatures.
  *
- * Populates each chip's @ref gpio_voltages and @ref therms_temps arrays.
+ * Populates each chip's @ref gpio_voltages, @ref cell_temps, and @ref board_temp fields.
  *
  * @param dev Non-null pointer to device state.
  * @param cfg Non-null pointer to ADAX command parameters.

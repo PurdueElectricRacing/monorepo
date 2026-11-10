@@ -103,23 +103,43 @@ static void read_cells(adbms_bms_t *bms) {
 static void read_therms(adbms_bms_t *bms) {
     ADBMS6380_read_temperatures(&bms->dev, &ADBMS_ADAX_CFG);
 
-    // Calculate min/avg/max thermistor temps for overall pack
-    bms->max_therm_temp      = ADBMS_get_therm_temp(bms, 0U, 0U);
-    bms->min_therm_temp      = ADBMS_get_therm_temp(bms, 0U, 0U);
-    float bms_sum_therm_temp = 0.0f;
+    // Calculate min/avg/max cell thermistor temps for overall pack
+    bms->max_cell_temp      = ADBMS_get_cell_temp(bms, 0U, 0U);
+    bms->min_cell_temp      = ADBMS_get_cell_temp(bms, 0U, 0U);
+    float bms_sum_cell_temp = 0.0f;
     for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
-        for (size_t j = 0U; j < ADBMS_THERMISTORS_PER_MODULE; j++) {
-            float val = ADBMS_get_therm_temp(bms, i, j);
-            if (val > bms->max_therm_temp) {
-                bms->max_therm_temp = val;
+        for (size_t j = 0U; j < ADBMS_CELL_THERMS_PER_MODULE; j++) {
+            float val = ADBMS_get_cell_temp(bms, i, j);
+            if (val > bms->max_cell_temp) {
+                bms->max_cell_temp = val;
             }
-            if (val < bms->min_therm_temp) {
-                bms->min_therm_temp = val;
+            if (val < bms->min_cell_temp) {
+                bms->min_cell_temp = val;
             }
-            bms_sum_therm_temp += val;
+            bms_sum_cell_temp += val;
         }
     }
-    bms->avg_therm_temp = bms_sum_therm_temp / (float)(ADBMS_MODULE_COUNT * ADBMS_THERMISTORS_PER_MODULE);
+    size_t total_cell_therms = ADBMS_MODULE_COUNT * ADBMS_CELL_THERMS_PER_MODULE;
+    bms->avg_cell_temp = bms_sum_cell_temp / (float)(total_cell_therms);
+
+    // Calculate min/avg/max onboard PCB thermistor temps across all chips
+    bms->max_board_temp      = ADBMS_get_board_temp(bms, 0U, 0U);
+    bms->min_board_temp      = ADBMS_get_board_temp(bms, 0U, 0U);
+    float bms_sum_board_temp = 0.0f;
+    for (size_t i = 0U; i < ADBMS_MODULE_COUNT; i++) {
+        for (size_t j = 0U; j < ADBMS_BOARD_THERMS_PER_MODULE; j++) {
+            float val = ADBMS_get_board_temp(bms, i, j);
+            if (val > bms->max_board_temp) {
+                bms->max_board_temp = val;
+            }
+            if (val < bms->min_board_temp) {
+                bms->min_board_temp = val;
+            }
+            bms_sum_board_temp += val;
+        }
+    }
+    size_t total_board_therms = ADBMS_MODULE_COUNT * ADBMS_BOARD_THERMS_PER_MODULE;
+    bms->avg_board_temp = bms_sum_board_temp / (float)(total_board_therms);
 }
 
 // Catch corrupted readings

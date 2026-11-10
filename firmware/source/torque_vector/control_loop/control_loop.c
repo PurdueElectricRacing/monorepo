@@ -117,7 +117,7 @@ void control_loop() {
     xVCU.BRAKE_RAW = can_data.pedals.brake / 100.0f;
 
     xVCU.ST_RAW = can_data.LWS_Standard.LWS_ANGLE * UNPACK_COEFF_LWS_STANDARD_LWS_ANGLE * -1;
-    xVCU.VB_RAW = can_data.pack_bms.pack_voltage * UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE;
+    xVCU.VB_RAW = can_data.bms_voltages.pack_voltage * UNPACK_COEFF_BMS_VOLTAGES_PACK_VOLTAGE;
     static constexpr float RPM_TO_RADS = 2.0f * 3.14f / 60.0f;
     xVCU.WM_RAW[0] = can_data.motor_speeds.front_left * RPM_TO_RADS;
     xVCU.WM_RAW[1] = can_data.motor_speeds.front_right * RPM_TO_RADS;

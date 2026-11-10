@@ -4,7 +4,7 @@
     "tx": [
         {
             "message_name": "charge_request",
-            "id_override": "0x802",
+            "id_override": "0x803",
             "description": "Message from DAQ App to A_BOX to request charging",
             "signals": [
                 {
@@ -41,7 +41,10 @@
             "message_name": "elcon_status"
         },
         {
-            "message_name": "pack_bms_ccan"
+            "message_name": "bms_voltages_ccan"
+        },
+        {
+            "message_name": "bms_temps_ccan"
         },
         {
             "message_name": "pack_analog_ccan"

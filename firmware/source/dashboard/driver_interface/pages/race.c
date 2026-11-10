@@ -104,16 +104,20 @@ static inline void update_igbt_telemetry() {
 }
 
 static inline void update_pack_telemetry() {
-    if (can_data.pack_bms.is_stale()) {
+    if (can_data.bms_voltages.is_stale()) {
         NXT_setText(BATT_VOLT, "S");
+    } else {
+        uint16_t scaled_voltage = (uint16_t)(can_data.bms_voltages.pack_voltage * UNPACK_COEFF_BMS_VOLTAGES_PACK_VOLTAGE);
+        NXT_setTextFormatted(BATT_VOLT, "%dV", scaled_voltage);
+    }
+
+    if (can_data.bms_temps.is_stale()) {
         NXT_setFontColor(BATT_TEMP, WHITE);
         NXT_setText(BATT_TEMP, "S");
     } else {
-        uint16_t scaled_voltage = (uint16_t)(can_data.pack_bms.pack_voltage * UNPACK_COEFF_PACK_BMS_PACK_VOLTAGE);
-        uint16_t temp_color = temp_display_color(can_data.pack_bms.max_temp);
-        NXT_setTextFormatted(BATT_VOLT, "%dV", scaled_voltage);
+        uint16_t temp_color = temp_display_color(can_data.bms_temps.max_cell_temp);
         NXT_setFontColor(BATT_TEMP, temp_color);
-        NXT_setTextFormatted(BATT_TEMP, "%dC", can_data.pack_bms.max_temp);
+        NXT_setTextFormatted(BATT_TEMP, "%dC", can_data.bms_temps.max_cell_temp);
     }
 
     if (can_data.pack_analog.is_stale()) {

@@ -408,6 +408,14 @@ void ADBMS6380_read_gpio_voltages(adbms6380_t *dev) {
     }
 }
 
+static float gpio_v_to_r2(float v_out) {
+    // Avoid divide by 0:
+    if (v_out == ADBMS6380_GPIO_VIN_V) {
+        v_out = ADBMS6380_GPIO_VIN_V - ADBMS6380_DIVIDER_EPSILON_V;
+    }
+    return (v_out * ADBMS6380_GPIO_R1_OHM) / (ADBMS6380_GPIO_VIN_V - v_out);
+}
+
 void ADBMS6380_read_temperatures(adbms6380_t *dev, const adbms6380_adax_config_t *cfg) {
     ADBMS6380_start_adax(dev, cfg);
 
@@ -417,17 +425,14 @@ void ADBMS6380_read_temperatures(adbms6380_t *dev, const adbms6380_adax_config_t
     // This is not terrible, but should be fixed later.
     ADBMS6380_read_gpio_voltages(dev);
 
-    // Convert all GPIO voltages to temperatures
-    // GPIO voltage -> R2 in the thermistor divider -> temperature via thermistor curve
+    // Convert GPIO voltages to cell and onboard temperatures
+    // GPIO voltage -> R2 in the thermistor divider -> temperature via respective thermistor curve
     for (size_t i = 0U; i < ADBMS_CHIP_COUNT; i++) {
-        for (size_t j = 0U; j < ADBMS6380_GPIO_COUNT; j++) {
-            float v_out = dev->chips[i].gpio_voltages[j];
-            // Avoid divide by 0:
-            if (v_out == ADBMS6380_GPIO_VIN_V) {
-                v_out = ADBMS6380_GPIO_VIN_V - ADBMS6380_DIVIDER_EPSILON_V;
-            }
-            float r2                      = (v_out * ADBMS6380_GPIO_R1_OHM) / (ADBMS6380_GPIO_VIN_V - v_out);
-            dev->chips[i].therms_temps[j] = thermistor_R_to_T(r2);
+        for (size_t j = 0U; j < ADBMS_CELL_THERMS_PER_CHIP; j++) {
+            float r2                    = gpio_v_to_r2(dev->chips[i].gpio_voltages[j]);
+            dev->chips[i].cell_temps[j] = cell_thermistor_R_to_T(r2);
         }
+        float board_r2           = gpio_v_to_r2(dev->chips[i].gpio_voltages[ADBMS_CELL_THERMS_PER_CHIP]);
+        dev->chips[i].board_temp = board_thermistor_R_to_T(board_r2);
     }
 }
