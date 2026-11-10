@@ -356,6 +356,7 @@ static void handle_bulk_out(void) {
     if (length == 0U || (length % sizeof(can_tx_frame_t)) != 0U) {
         return;
     }
+    usb_rx_enqueue(packet, length / sizeof(can_tx_frame_t));
 }
 
 void PHAL_USB_callback(const PHAL_USB_Event_t *event) {
