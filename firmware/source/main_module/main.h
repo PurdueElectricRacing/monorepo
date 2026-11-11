@@ -8,7 +8,7 @@
  * @author Irving Wang (irvingw@purdue.edu)
  */
 
-#include "adc/adc.h"
+#include "common/phal_G4/gpio/gpio.h"
 
 // VMC is PA3 (ADC1_IN4). VBATT is PA4 (ADC2_IN17). One DMA buffer per ADC.
 typedef struct {
@@ -20,9 +20,6 @@ typedef struct {
     uint16_t vbatt;
 } raw_adc2_values_t;
 extern volatile raw_adc2_values_t raw_adc2_values;
-
-extern PHAL_ADC_Handle_t adc1_handle;
-extern PHAL_ADC_Handle_t adc2_handle;
 
 // Status LEDs
 #define HEARTBEAT_LED_PORT  (GPIOC)

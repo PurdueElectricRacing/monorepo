@@ -12,6 +12,7 @@
 #include "can_library/generated/MAIN_MODULE.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
+#include "common/phal_G4/adc/adc.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/pin_defs/g474ret6.h"
@@ -98,8 +99,8 @@ static_assert(
 
 volatile raw_adc1_values_t raw_adc1_values; // DMA target
 volatile raw_adc2_values_t raw_adc2_values; // DMA target
-PHAL_ADC_Handle_t adc1_handle;
-PHAL_ADC_Handle_t adc2_handle;
+static PHAL_ADC_Handle_t adc1_handle;
+static PHAL_ADC_Handle_t adc2_handle;
 
 extern void HardFault_Handler(void);
 
