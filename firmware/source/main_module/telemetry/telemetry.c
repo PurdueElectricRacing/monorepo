@@ -10,12 +10,21 @@
 #include "can_library/generated/MAIN_MODULE.h"
 #include "can_library/generated/can_version.h"
 #include "common/bootloader/bootloader_common.h"
-#include "common/utils/clamp.h"
+#include "main.h"
 #include "powertrain.h"
-#include "vbatt_vmc/vbatt_vmc.h"
 
-static inline uint16_t pack_hv_voltage(float voltage_v, float coeff) {
-    return (uint16_t)CLAMP(voltage_v * coeff, 0.0f, (float)UINT16_MAX);
+static inline float hv_adc_to_voltage(uint16_t adc_raw) {
+    // Example conversion:
+    // 600V actual => linearly scaled to 2v -> linearly scaled to 4v -> (2.0/3.0) divider to ~2.67v
+    // Full conversion:
+    // V * (1/300) * 2 * (2.0/3.0) * 4095/3.3 = ADC
+    // V = (300) * (1/2) * (3.0/2.0) * (3.3/4095) * ADC
+
+    static constexpr float ADC_TO_HV_VOLTAGE = 300.0f * (1.0f / 2.0f) * (3.0f / 2.0f) * (3.3f / 4095.0f);
+
+    float voltage = adc_raw * ADC_TO_HV_VOLTAGE;
+
+    return voltage;
 }
 
 /**
@@ -32,10 +41,9 @@ void report_telemetry_50hz(void) {
         g_powertrain.rear_right.crit->AMK_ActualSpeed
     );
 
-    CAN_SEND_vbatt_vmc(
-        pack_hv_voltage(vbatt_get_voltage(), PACK_COEFF_VBATT_VMC_VBATT),
-        pack_hv_voltage(vmc_get_voltage(), PACK_COEFF_VBATT_VMC_VMC)
-    );
+    uint16_t vbatt = (uint16_t)(hv_adc_to_voltage(raw_adc2_values.vbatt) * PACK_COEFF_VBATT_VMC_VBATT);
+    uint16_t vmc   = (uint16_t)(hv_adc_to_voltage(raw_adc1_values.vmc) * PACK_COEFF_VBATT_VMC_VMC);
+    CAN_SEND_vbatt_vmc(vbatt, vmc);
 }
 
 static inline bool any_amk_message_stale(AMK_t *amk) {

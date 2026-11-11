@@ -22,7 +22,6 @@
 #include "sdc.h"
 #include "telemetry.h"
 #include "powertrain.h"
-#include "vbatt_vmc/vbatt_vmc.h"
 #include "vehicle_fsm.h"
 
 /* PER HAL Initialization Structures */
