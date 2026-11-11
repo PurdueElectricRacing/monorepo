@@ -19,7 +19,13 @@
 #include "usb/usb_control.h"
 
 
-static usb_rx_queue_t g_usb_rx_queue = {0};
+static usb_rx_queue_t g_usb_rx_queue = {
+    .frames       = {{0}},
+    .head         = 0U,
+    .tail         = 0U,
+    .count        = 0U,
+    .stalled_head = USB_RX_QUEUE_CAPACITY,
+};
 
 
 void usb_rx_enqueue(const can_tx_frame_t* frames, size_t count) {
@@ -109,11 +115,23 @@ static void process_usb_rx_frames(void) {
         memcpy(msg.Data, rx_frame.data, rx_frame.dlc);
 
         if (!PHAL_FDCAN_send(&msg)) {
-            // Hardware TX FIFO is full
-            // Keep frame queued for the next periodic tick
-            break;
+            if (g_usb_rx_queue.stalled_head != head) {
+                // Hardware TX FIFO is full
+                // Let it have 1 tick to drain before dropping the frame
+                g_usb_rx_queue.stalled_head = head;
+                break;
+            }
+            // Still full on the next tick
+            // Likely due to bus down/stuck
+            // Drop so other buses aren't blocked
+            // todo: replace with per peripheral queue and more explicit lifecycle
+            g_usb_rx_queue.stalled_head = USB_RX_QUEUE_CAPACITY;
+            any_received = true;
+            usb_rx_pop(head);
+            continue;
         }
 
+        g_usb_rx_queue.stalled_head = USB_RX_QUEUE_CAPACITY;
         any_received = true;
         usb_rx_pop(head);
         activity_leds_record(bus_led, now);
