@@ -40,7 +40,7 @@ typedef struct {
     size_t head;
     size_t tail;
     size_t count;
-    size_t stalled_head;
+    bool bus_stalled[3];
 } usb_rx_queue_t;
 
 void usb_rx_enqueue(const can_tx_frame_t* frames, size_t count);

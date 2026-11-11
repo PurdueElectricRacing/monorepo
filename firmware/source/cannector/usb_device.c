@@ -20,11 +20,11 @@
 
 
 static usb_rx_queue_t g_usb_rx_queue = {
-    .frames       = {{0}},
-    .head         = 0U,
-    .tail         = 0U,
-    .count        = 0U,
-    .stalled_head = USB_RX_QUEUE_CAPACITY,
+    .frames      = {{0}},
+    .head        = 0U,
+    .tail        = 0U,
+    .count       = 0U,
+    .bus_stalled = {false, false, false},
 };
 
 
@@ -87,15 +87,19 @@ static void process_usb_rx_frames(void) {
 
         FDCAN_GlobalTypeDef *bus = nullptr;
         activity_led_t bus_led = ACTIVITY_VCAN;
+        size_t bus_idx = 0U;
         if (rx_frame.bus_id == VCAN_BUS_ID) {
             bus = FDCAN1;
             bus_led = ACTIVITY_VCAN;
+            bus_idx = 0U;
         } else if (rx_frame.bus_id == g_fdcan2_bus_id) {
             bus = FDCAN2;
             bus_led = ACTIVITY_MCAN;
+            bus_idx = 1U;
         } else if (rx_frame.bus_id == SCAN_BUS_ID) {
             bus = FDCAN3;
             bus_led = ACTIVITY_SCAN;
+            bus_idx = 2U;
         } else {
             // Discard messages for inactive or unmapped buses
             any_received = true;
@@ -115,23 +119,22 @@ static void process_usb_rx_frames(void) {
         memcpy(msg.Data, rx_frame.data, rx_frame.dlc);
 
         if (!PHAL_FDCAN_send(&msg)) {
-            if (g_usb_rx_queue.stalled_head != head) {
+            if (!g_usb_rx_queue.bus_stalled[bus_idx]) {
                 // Hardware TX FIFO is full
-                // Let it have 1 tick to drain before dropping the frame
-                g_usb_rx_queue.stalled_head = head;
+                // Let it have 1 tick to drain before dropping frames for this bus
+                g_usb_rx_queue.bus_stalled[bus_idx] = true;
                 break;
             }
             // Still full on the next tick
             // Likely due to bus down/stuck
             // Drop so other buses aren't blocked
             // todo: replace with per peripheral queue and more explicit lifecycle
-            g_usb_rx_queue.stalled_head = USB_RX_QUEUE_CAPACITY;
             any_received = true;
             usb_rx_pop(head);
             continue;
         }
 
-        g_usb_rx_queue.stalled_head = USB_RX_QUEUE_CAPACITY;
+        g_usb_rx_queue.bus_stalled[bus_idx] = false;
         any_received = true;
         usb_rx_pop(head);
         activity_leds_record(bus_led, now);
