@@ -182,9 +182,17 @@ impl CannectorTxFrame {
         let mut data = [0u8; 8];
         data[..f.data.len()].copy_from_slice(&f.data);
 
+        let bus_id = f.bus_id.unwrap_or_else(|| {
+            log::warn!(
+                "CANnector TX frame (ID 0x{:X}) has no bus_id; defaulting to bus 0 (VCAN)",
+                f.identity
+            );
+            0
+        });
+
         Ok(Self {
             can_id: f.identity,
-            bus_id: f.bus_id.unwrap_or(0),
+            bus_id,
             dlc: f.dlc,
             is_extended_id: u8::from(tx_frame.is_extended_id),
             reserved: 0,
