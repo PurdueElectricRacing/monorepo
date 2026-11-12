@@ -122,6 +122,28 @@
                     "priority": 5
                 },
                 {
+                    "message_name": "vbatt_vmc",
+                    "description": "VBATT and VMC voltages sensed by main module",
+                    "signals": [
+                        {
+                            "signal_name": "vbatt",
+                            "description": "Accumulator-side HV voltage",
+                            "data_type": "uint16_t",
+                            "unit": "V",
+                            "scale": 0.1
+                        },
+                        {
+                            "signal_name": "vmc",
+                            "description": "Motor-controller-side HV voltage",
+                            "data_type": "uint16_t",
+                            "unit": "V",
+                            "scale": 0.1
+                        }
+                    ],
+                    "period_ms": 20,
+                    "priority": 5
+                },
+                {
                     "message_name": "main_version",
                     "description": "Main version",
                     "signals": [

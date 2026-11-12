@@ -10,13 +10,29 @@
 #include "can_library/generated/MAIN_MODULE.h"
 #include "can_library/generated/can_version.h"
 #include "common/bootloader/bootloader_common.h"
+#include "main.h"
 #include "powertrain.h"
+
+static inline float hv_adc_to_voltage(uint16_t adc_raw) {
+    // Example conversion:
+    // 600V actual => linearly scaled to 2v -> linearly scaled to 4v -> (2.0/3.0) divider to ~2.67v
+    // Full conversion:
+    // V * (1/300) * 2 * (2.0/3.0) * 4095/3.3 = ADC
+    // V = (300) * (1/2) * (3.0/2.0) * (3.3/4095) * ADC
+
+    static constexpr float ADC_TO_HV_VOLTAGE = 300.0f * (1.0f / 2.0f) * (3.0f / 2.0f) * (3.3f / 4095.0f);
+
+    float voltage = adc_raw * ADC_TO_HV_VOLTAGE;
+
+    return voltage;
+}
 
 /**
  * @brief Reports telemetry data at 50 Hz rate
- * Includes: AMK-reported motor shaft speeds before gear reduction
+ * Includes: AMK-reported motor shaft speeds before gear reduction, VBATT and VMC HV voltages
  */
 static_assert(MOTOR_SPEEDS_PERIOD_MS == TELEMETRY_50HZ_PERIOD_MS);
+static_assert(VBATT_VMC_PERIOD_MS == TELEMETRY_50HZ_PERIOD_MS);
 void report_telemetry_50hz(void) {
     CAN_SEND_motor_speeds(
         g_powertrain.front_right.crit->AMK_ActualSpeed,
@@ -24,6 +40,10 @@ void report_telemetry_50hz(void) {
         g_powertrain.rear_left.crit->AMK_ActualSpeed,
         g_powertrain.rear_right.crit->AMK_ActualSpeed
     );
+
+    uint16_t vbatt = (uint16_t)(hv_adc_to_voltage(raw_adc2_values.vbatt) * PACK_COEFF_VBATT_VMC_VBATT);
+    uint16_t vmc   = (uint16_t)(hv_adc_to_voltage(raw_adc1_values.vmc) * PACK_COEFF_VBATT_VMC_VMC);
+    CAN_SEND_vbatt_vmc(vbatt, vmc);
 }
 
 static inline bool any_amk_message_stale(AMK_t *amk) {

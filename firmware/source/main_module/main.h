@@ -10,6 +10,17 @@
 
 #include "common/phal_G4/gpio/gpio.h"
 
+// VMC is PA3 (ADC1_IN4). VBATT is PA4 (ADC2_IN17). One DMA buffer per ADC.
+typedef struct {
+    uint16_t vmc;
+} raw_adc1_values_t;
+extern volatile raw_adc1_values_t raw_adc1_values;
+
+typedef struct {
+    uint16_t vbatt;
+} raw_adc2_values_t;
+extern volatile raw_adc2_values_t raw_adc2_values;
+
 // Status LEDs
 #define HEARTBEAT_LED_PORT  (GPIOC)
 #define HEARTBEAT_LED_PIN   (7)
@@ -53,11 +64,12 @@
 #define IMD_STATUS_PIN              (6)
 #define NOT_PRECHARGE_COMPLETE_PORT (GPIOC)
 #define NOT_PRECHARGE_COMPLETE_PIN  (4)
-
-// Analog input status pins
-#define VBATT_ECU_PORT              (GPIOA)
-#define VBATT_ECU_PIN               (4)
-#define VMC_ECU_PORT                (GPIOA)
-#define VMC_ECU_PIN                 (3)
+// PA3 = ADC1_IN4. PA4 = ADC2_IN17 (not an ADC1 channel).
+#define VMC_PORT          (GPIOA)
+#define VMC_PIN           (3)
+#define VMC_ADC_CHANNEL   (4)
+#define VBATT_PORT        (GPIOA)
+#define VBATT_PIN         (4)
+#define VBATT_ADC_CHANNEL (17)
 
 #endif // MAIN_H
