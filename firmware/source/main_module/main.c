@@ -12,6 +12,7 @@
 #include "can_library/generated/MAIN_MODULE.h"
 #include "common/rtos/rtos.h"
 #include "common/heartbeat/heartbeat.h"
+#include "common/phal_G4/adc/adc.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/phal_G4/rcc/rcc.h"
 #include "common/phal_G4/pin_defs/g474ret6.h"
@@ -54,9 +55,9 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_INPUT(IMD_STATUS_PORT, IMD_STATUS_PIN, GPIO_INPUT_OPEN_DRAIN),
     PHAL_GPIO_INIT_INPUT(NOT_PRECHARGE_COMPLETE_PORT, NOT_PRECHARGE_COMPLETE_PIN, GPIO_INPUT_PULL_DOWN),
 
-    // Analog input status pins
-    PHAL_GPIO_INIT_INPUT(VBATT_ECU_PORT, VBATT_ECU_PIN, GPIO_INPUT_OPEN_DRAIN),
-    PHAL_GPIO_INIT_INPUT(VMC_ECU_PORT, VMC_ECU_PIN, GPIO_INPUT_OPEN_DRAIN),
+    // Analog voltage sense
+    PHAL_GPIO_INIT_ANALOG(VBATT_PORT, VBATT_PIN),
+    PHAL_GPIO_INIT_ANALOG(VMC_PORT, VMC_PIN),
 
     // VCAN
     PHAL_PIN_DEFS_FDCAN1_TX_PA12,
@@ -66,6 +67,40 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_TX_PB13,
     PHAL_PIN_DEFS_FDCAN2_RX_PB12
 };
+
+/* ADC Configuration */
+static const PHAL_ADC_ChannelConfig_t adc1_channels[] = {
+    {.channel = VMC_ADC_CHANNEL},
+};
+static const PHAL_ADC_ChannelConfig_t adc2_channels[] = {
+    {.channel = VBATT_ADC_CHANNEL},
+};
+static const PHAL_ADC_Config_t adc1_config = {
+    .instance      = ADC1,
+    .channels      = adc1_channels,
+    .channel_count = sizeof(adc1_channels) / sizeof(adc1_channels[0]),
+};
+static const PHAL_ADC_Config_t adc2_config = {
+    .instance      = ADC2,
+    .channels      = adc2_channels,
+    .channel_count = sizeof(adc2_channels) / sizeof(adc2_channels[0]),
+};
+
+static_assert(
+    (sizeof(raw_adc1_values_t) / sizeof(uint16_t)) ==
+    (sizeof(adc1_channels) / sizeof(adc1_channels[0])),
+    "ADC1 channel config and raw ADC values struct must have the same number of channels"
+);
+static_assert(
+    (sizeof(raw_adc2_values_t) / sizeof(uint16_t)) ==
+    (sizeof(adc2_channels) / sizeof(adc2_channels[0])),
+    "ADC2 channel config and raw ADC values struct must have the same number of channels"
+);
+
+volatile raw_adc1_values_t raw_adc1_values; // DMA target
+volatile raw_adc2_values_t raw_adc2_values; // DMA target
+static PHAL_ADC_Handle_t adc1_handle;
+static PHAL_ADC_Handle_t adc2_handle;
 
 extern void HardFault_Handler(void);
 
@@ -95,6 +130,17 @@ int main(void) {
     powertrain_init();
 
     PHAL_GPIO_write(ECU_SDC_CTRL_PORT, ECU_SDC_CTRL_PIN, true); // set SDC high
+
+    if (!PHAL_ADC_init(&adc1_handle, &adc1_config) ||
+        !PHAL_ADC_init(&adc2_handle, &adc2_config)) {
+        HardFault_Handler();
+    }
+    if (!PHAL_ADC_readDMA(&adc1_handle, (uint16_t *)&raw_adc1_values,
+                          sizeof(raw_adc1_values) / sizeof(uint16_t)) ||
+        !PHAL_ADC_readDMA(&adc2_handle, (uint16_t *)&raw_adc2_values,
+                          sizeof(raw_adc2_values) / sizeof(uint16_t))) {
+        HardFault_Handler();
+    }
 
     START_CAN_TASKS();
     CAN_SEND_main_init(WDG_get_CSR());
