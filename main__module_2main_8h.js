@@ -1,5 +1,7 @@
 var main__module_2main_8h =
 [
+    [ "raw_adc1_values_t", "structraw__adc1__values__t.html", "structraw__adc1__values__t" ],
+    [ "raw_adc2_values_t", "structraw__adc2__values__t.html", "structraw__adc2__values__t" ],
     [ "BMS_STATUS_PIN", "main__module_2main_8h.html#a2ccf20a0edca5b67076eb54df7d1c172", null ],
     [ "BMS_STATUS_PORT", "main__module_2main_8h.html#a978a02c6b709299169ce5ca266b12b3b", null ],
     [ "BRAKE_LIGHT_PIN", "main__module_2main_8h.html#a40511f39470605555d47027fefb4257e", null ],
@@ -32,8 +34,12 @@ var main__module_2main_8h =
     [ "TSAL_GREEN_CTRL_PORT", "main__module_2main_8h.html#a7d7990c640c2b22c788f313e8202c59b", null ],
     [ "TSAL_RED_CTRL_PIN", "main__module_2main_8h.html#a8a6f9b3c2486e5504e9183b0a58a9b76", null ],
     [ "TSAL_RED_CTRL_PORT", "main__module_2main_8h.html#a87eb71f53fcd8696f4c4f9134f8df682", null ],
-    [ "VBATT_ECU_PIN", "main__module_2main_8h.html#ab059c82afea46133e13ec9e230a3910e", null ],
-    [ "VBATT_ECU_PORT", "main__module_2main_8h.html#a7816b6db834084103649f52c1e49b95e", null ],
-    [ "VMC_ECU_PIN", "main__module_2main_8h.html#afb0098d6fc9f1ae08086a5d9afce7a02", null ],
-    [ "VMC_ECU_PORT", "main__module_2main_8h.html#adcfa35b93911e834dacbcc9e90a6cf79", null ]
+    [ "VBATT_ADC_CHANNEL", "main__module_2main_8h.html#a49b5271295c0b89fbc6d9f7f0c3bf8e0", null ],
+    [ "VBATT_PIN", "main__module_2main_8h.html#a1c7f58d3e70a4f1194b50c5b6c1942bc", null ],
+    [ "VBATT_PORT", "main__module_2main_8h.html#a3789fe55a4d0f22bab5cf5bc7d951c57", null ],
+    [ "VMC_ADC_CHANNEL", "main__module_2main_8h.html#af95e3b18df201a5b71368de860417ed1", null ],
+    [ "VMC_PIN", "main__module_2main_8h.html#a5332887edd6876206d6cf1885221662e", null ],
+    [ "VMC_PORT", "main__module_2main_8h.html#a05c760f8f721ff2c5194104f2663dcdd", null ],
+    [ "raw_adc1_values", "main__module_2main_8h.html#a459a3946cf810b4181a32657c4baf0ef", null ],
+    [ "raw_adc2_values", "main__module_2main_8h.html#a3232d72901f67e1ba6bc7b722d6c3499", null ]
 ];

@@ -247,6 +247,8 @@ Functions</h2></td></tr>
 <tr class="separator:a8e3340e4a3ca2d481310df34f23cf7ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29b1cbb2de31574aeab2ccb3eee8de88" id="r_a29b1cbb2de31574aeab2ccb3eee8de88"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29b1cbb2de31574aeab2ccb3eee8de88">CAN_SEND_motor_speeds</a> (int16_t value_front_right, int16_t value_front_left, int16_t value_rear_left, int16_t value_rear_right)</td></tr>
 <tr class="separator:a29b1cbb2de31574aeab2ccb3eee8de88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24987af92325bb82e27b068bacab6d2b" id="r_a24987af92325bb82e27b068bacab6d2b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24987af92325bb82e27b068bacab6d2b">CAN_SEND_vbatt_vmc</a> (uint16_t value_vbatt, uint16_t value_vmc)</td></tr>
+<tr class="separator:a24987af92325bb82e27b068bacab6d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeef7c7296bf1fc904bbbe6c3216b3bf1" id="r_aeef7c7296bf1fc904bbbe6c3216b3bf1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeef7c7296bf1fc904bbbe6c3216b3bf1">CAN_SEND_main_version</a> (uint32_t value_git_hash, uint32_t value_bootloader_git_hash, bool value_bootloadable)</td></tr>
 <tr class="separator:aeef7c7296bf1fc904bbbe6c3216b3bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3f6086393669753392f5360307c2bf9" id="r_ac3f6086393669753392f5360307c2bf9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3f6086393669753392f5360307c2bf9">CAN_SEND_inva_diagnostics</a> (uint32_t value_diagnostic_number, <a class="el" href="can__types_8h.html#ac291c3525eed827f7d9a83133652f860">AMK_state_t</a> value_amk_state, bool value_bError, bool value_InverterOn, bool value_is_any_stale)</td></tr>
@@ -366,6 +368,10 @@ Variables</h2></td></tr>
 <tr class="separator:a3a16649b5c6b6aa634e8398acf8a6e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98f57d831ee87ef5479c87188e56fad3" id="r_a98f57d831ee87ef5479c87188e56fad3"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98f57d831ee87ef5479c87188e56fad3">PACK_COEFF_MOTOR_TEMPS_REAR_RIGHT</a> = 10.0f</td></tr>
 <tr class="separator:a98f57d831ee87ef5479c87188e56fad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12506bf94ae7aba8437d04299673c5a9" id="r_a12506bf94ae7aba8437d04299673c5a9"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12506bf94ae7aba8437d04299673c5a9">PACK_COEFF_VBATT_VMC_VBATT</a> = 10.0f</td></tr>
+<tr class="separator:a12506bf94ae7aba8437d04299673c5a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecf7d831a35d6b122c3384247451881d" id="r_aecf7d831a35d6b122c3384247451881d"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aecf7d831a35d6b122c3384247451881d">PACK_COEFF_VBATT_VMC_VMC</a> = 10.0f</td></tr>
+<tr class="separator:aecf7d831a35d6b122c3384247451881d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cc3168cebc21b033138ae90b755e5a8" id="r_a9cc3168cebc21b033138ae90b755e5a8"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="structcan__data__t.html">can_data_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cc3168cebc21b033138ae90b755e5a8">can_data</a></td></tr>
 <tr class="separator:a9cc3168cebc21b033138ae90b755e5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -1602,6 +1608,45 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a3b8dba56e53546e2d2660f6d1b2cf321_icgraph.svg" width="383" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a24987af92325bb82e27b068bacab6d2b" name="a24987af92325bb82e27b068bacab6d2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24987af92325bb82e27b068bacab6d2b">&#9670;&#160;</a></span>CAN_SEND_vbatt_vmc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_vbatt_vmc </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_vbatt</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_vmc</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a24987af92325bb82e27b068bacab6d2b_cgraph.svg" width="580" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="MAIN__MODULE_8h_a24987af92325bb82e27b068bacab6d2b_icgraph.svg" width="466" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3168,6 +3213,50 @@ Here is the caller graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">float PACK_COEFF_MOTOR_TEMPS_REAR_RIGHT = 10.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a12506bf94ae7aba8437d04299673c5a9" name="a12506bf94ae7aba8437d04299673c5a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12506bf94ae7aba8437d04299673c5a9">&#9670;&#160;</a></span>PACK_COEFF_VBATT_VMC_VBATT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float PACK_COEFF_VBATT_VMC_VBATT = 10.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aecf7d831a35d6b122c3384247451881d" name="aecf7d831a35d6b122c3384247451881d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecf7d831a35d6b122c3384247451881d">&#9670;&#160;</a></span>PACK_COEFF_VBATT_VMC_VMC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float PACK_COEFF_VBATT_VMC_VMC = 10.0f</td>
         </tr>
       </table>
   </td>

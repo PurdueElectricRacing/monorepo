@@ -285,6 +285,7 @@ var hierarchy =
     [ "usart_rx_errors_t", "structusart__rx__errors__t.html", null ],
     [ "usart_tx_errors_t", "structusart__tx__errors__t.html", null ],
     [ "usb_context_t", "structusb__context__t.html", null ],
+    [ "vbatt_vmc_data_t", "structvbatt__vmc__data__t.html", null ],
     [ "vcu_driver_request_data_t", "structvcu__driver__request__data__t.html", null ],
     [ "vcu_settings_data_t", "structvcu__settings__data__t.html", null ],
     [ "vcu_torque_request_data_t", "structvcu__torque__request__data__t.html", null ],

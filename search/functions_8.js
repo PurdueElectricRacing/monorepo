@@ -17,6 +17,7 @@ var searchData=
   ['heartbeat_5ftask_14',['heartbeat_task',['../heartbeat_8c.html#ab2681be62cc27208946c262df62f4a06',1,'heartbeat_task(status_leds_t *leds):&#160;heartbeat.c'],['../heartbeat_8h.html#ab2681be62cc27208946c262df62f4a06',1,'heartbeat_task(status_leds_t *leds):&#160;heartbeat.c']]],
   ['hertz_5ffrom_5fkilohertz_15',['hertz_from_kilohertz',['../dearunits_8h.html#a34c130a509886f190d95fd4ba5afaedb',1,'dearunits.h']]],
   ['hour_5ffrom_5fsecond_16',['hour_from_second',['../dearunits_8h.html#aefb2f8d7b370f8ad7a38fc84c4e7baff',1,'dearunits.h']]],
-  ['hx_5ffan_5foff_17',['hx_fan_off',['../cooling__callbacks_8c.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c']]],
-  ['hx_5ffan_5fon_18',['hx_fan_on',['../cooling__callbacks_8c.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c']]]
+  ['hv_5fadc_5fto_5fvoltage_17',['hv_adc_to_voltage',['../main__module_2telemetry_2telemetry_8c.html#ac1c9aff5306b535060dc2070e0749a6b',1,'telemetry.c']]],
+  ['hx_5ffan_5foff_18',['hx_fan_off',['../cooling__callbacks_8c.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a1abfa031f1eeadde6ab3c3da44ffb455',1,'hx_fan_off(void):&#160;cooling_callbacks.c']]],
+  ['hx_5ffan_5fon_19',['hx_fan_on',['../cooling__callbacks_8c.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c'],['../cooling__callbacks_8h.html#a3d7af8ec7b3820c6e1d8a70d81a539de',1,'hx_fan_on(void):&#160;cooling_callbacks.c']]]
 ];

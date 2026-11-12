@@ -1,68 +1,70 @@
 <map id="firmware/common/phal_G4/dma/dma.h" name="firmware/common/phal_G4/dma/dma.h">
-<area shape="rect" id="Node000001" title="G4 DMA Peripheral public API implementation." alt="" coords="919,5,1071,46"/>
-<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8h.html" title="G4 ADC public API. DMA&#45;only, DMA&#45;first conversions." alt="" coords="460,271,612,312"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="904,40,800,61,745,77,692,96,618,129,591,150,564,184,553,206,545,229,539,271,534,270,540,228,548,203,559,181,587,147,616,125,690,92,743,72,799,56,903,35"/>
-<area shape="rect" id="Node000012" href="$phal__G4_2dma_2dma_8c.html" title="G4 DMA Peripheral public API implementation." alt="" coords="573,183,726,223"/>
-<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="904,39,820,59,778,75,739,96,714,116,693,139,662,184,658,181,689,136,711,112,736,92,776,70,819,54,903,34"/>
-<area shape="rect" id="Node000013" href="$dma__priv_8h.html" title="G4 DMA Peripheral private/register level implementation." alt="" coords="749,94,902,135"/>
-<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="944,56,865,96,863,91,942,51"/>
-<area shape="rect" id="Node000015" href="$phal__G4_2spi_2spi_8c.html" title="G4 SPI." alt="" coords="839,271,991,312"/>
-<area shape="poly" id="edge18_Node000001_Node000015" title=" " alt="" coords="987,62,923,272,918,270,982,60"/>
-<area shape="rect" id="Node000016" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="1165,94,1318,135"/>
-<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="1066,49,1186,91,1184,96,1064,54"/>
-<area shape="rect" id="Node000018" href="$spi__priv_8h.html" title="Internal G4 SPI helpers and DMA configuration macros." alt="" coords="976,183,1128,223"/>
-<area shape="poly" id="edge36_Node000001_Node000018" title=" " alt="" coords="1009,60,1048,181,1043,183,1003,62"/>
-<area shape="rect" id="Node000024" href="$phal__G4_2usart_2usart_8c.html" title=" " alt="" coords="1644,183,1796,223"/>
-<area shape="poly" id="edge37_Node000001_Node000024" title=" " alt="" coords="1087,41,1330,91,1507,137,1655,179,1654,185,1506,142,1329,97,1086,46"/>
-<area shape="rect" id="Node000025" href="$usart__priv_8h.html" title=" " alt="" coords="1644,94,1796,135"/>
-<area shape="poly" id="edge38_Node000001_Node000025" title=" " alt="" coords="1087,35,1644,101,1643,107,1086,40"/>
-<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html" title="G4 ADC public API implementation. All register&#45;level detail lives in adc_priv.c; this file only coord..." alt="" coords="181,449,334,489"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="445,297,403,304,360,316,319,335,285,362,271,382,264,405,259,448,254,448,258,403,267,379,281,358,317,330,358,311,401,299,444,292"/>
-<area shape="rect" id="Node000004" href="$adc__priv_8h.html" title="Private register&#45;level API for the STM32G4 ADC PHAL." alt="" coords="68,360,220,401"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="446,316,221,365,220,360,445,310"/>
-<area shape="rect" id="Node000006" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="951,449,1102,489"/>
-<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="546,326,561,365,573,383,588,399,615,413,652,425,749,443,855,455,951,462,950,467,855,461,748,449,651,430,613,418,585,403,569,387,556,368,541,328"/>
-<area shape="rect" id="Node000007" href="$a__box_2main_8h.html" title="&quot;Abox&quot; node source code" alt="" coords="951,360,1102,401"/>
-<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="628,304,939,357,951,360,950,365,938,363,627,310"/>
-<area shape="rect" id="Node000008" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="390,449,568,489"/>
-<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="528,328,488,449,483,447,522,326"/>
-<area shape="rect" id="Node000009" href="$dashboard_2main_8h.html" title=" " alt="" coords="296,360,473,401"/>
-<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="490,322,420,362,417,357,488,317"/>
-<area shape="rect" id="Node000010" href="$driveline_2main_8c.html" title="&quot;Driveline&quot; node source code" alt="" coords="599,360,764,401"/>
-<area shape="poly" id="edge12_Node000002_Node000010" title=" " alt="" coords="583,318,650,357,647,362,581,322"/>
-<area shape="rect" id="Node000011" href="$pdu_2main_8c.html" title="&quot;PDU&quot; node source code" alt="" coords="788,360,927,401"/>
-<area shape="poly" id="edge13_Node000002_Node000011" title=" " alt="" coords="624,314,788,358,787,363,623,319"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="183,408,233,446,230,450,180,412"/>
-<area shape="rect" id="Node000005" href="$adc__priv_8c.html" title="Register&#45;level implementation of the STM32G4 ADC PHAL." alt="" coords="5,449,158,489"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="123,415,98,450,94,447,119,412"/>
-<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="1030,416,1030,448,1024,448,1024,416"/>
-<area shape="poly" id="edge11_Node000009_Node000008" title=" " alt="" coords="419,409,459,446,456,450,415,413"/>
-<area shape="poly" id="edge16_Node000013_Node000012" title=" " alt="" coords="773,144,690,185,688,180,771,140"/>
-<area shape="rect" id="Node000014" href="$dma__priv_8c.html" title="G4 DMA Peripheral private/register level implementation." alt="" coords="749,183,902,223"/>
-<area shape="poly" id="edge17_Node000013_Node000014" title=" " alt="" coords="828,150,828,182,823,182,823,150"/>
-<area shape="poly" id="edge20_Node000016_Node000015" title=" " alt="" coords="1217,149,1177,193,1142,226,1078,251,992,275,991,270,1076,246,1139,221,1173,190,1213,145"/>
-<area shape="rect" id="Node000017" href="$spi__priv_8c.html" title="G4 SPI Peripheral private/register level implementation." alt="" coords="1015,271,1167,312"/>
-<area shape="poly" id="edge21_Node000016_Node000017" title=" " alt="" coords="1231,150,1212,188,1186,225,1158,252,1127,273,1124,268,1154,248,1182,222,1208,185,1226,148"/>
-<area shape="poly" id="edge22_Node000016_Node000018" title=" " alt="" coords="1186,144,1096,185,1094,180,1184,139"/>
-<area shape="rect" id="Node000019" href="$adbms_8c.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="1396,360,1548,401"/>
-<area shape="poly" id="edge25_Node000016_Node000019" title=" " alt="" coords="1333,134,1436,160,1499,180,1529,199,1551,217,1569,239,1584,270,1590,292,1584,313,1559,342,1527,362,1525,357,1555,338,1579,311,1585,292,1579,272,1564,242,1548,220,1526,203,1496,185,1434,165,1332,139"/>
-<area shape="rect" id="Node000020" href="$adbms_8h.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="1191,271,1342,312"/>
-<area shape="poly" id="edge26_Node000016_Node000020" title=" " alt="" coords="1249,150,1267,271,1261,271,1244,150"/>
-<area shape="rect" id="Node000022" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="1418,271,1569,312"/>
-<area shape="poly" id="edge31_Node000016_Node000022" title=" " alt="" coords="1333,119,1369,126,1406,139,1440,156,1470,181,1484,202,1492,226,1497,271,1492,271,1487,227,1479,204,1466,184,1437,161,1404,143,1368,131,1332,124"/>
-<area shape="rect" id="Node000023" href="$adbms6380_8h.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="1304,183,1456,223"/>
-<area shape="poly" id="edge32_Node000016_Node000023" title=" " alt="" coords="1287,141,1350,180,1347,184,1284,145"/>
-<area shape="poly" id="edge23_Node000018_Node000015" title=" " alt="" coords="1010,234,947,273,944,269,1007,230"/>
-<area shape="poly" id="edge24_Node000018_Node000017" title=" " alt="" coords="1070,237,1085,270,1080,272,1065,239"/>
-<area shape="poly" id="edge29_Node000020_Node000006" title=" " alt="" coords="1307,320,1325,339,1338,359,1344,381,1336,402,1320,415,1298,426,1239,444,1170,456,1103,464,1103,459,1169,451,1237,439,1296,421,1317,411,1331,399,1338,381,1333,362,1320,342,1303,324"/>
-<area shape="poly" id="edge30_Node000020_Node000007" title=" " alt="" coords="1199,320,1082,362,1081,357,1197,315"/>
-<area shape="poly" id="edge27_Node000020_Node000019" title=" " alt="" coords="1328,316,1426,357,1424,362,1326,321"/>
-<area shape="rect" id="Node000021" href="$charging__fsm_8c.html" title="Charger control state machine implementation." alt="" coords="1126,360,1322,401"/>
-<area shape="poly" id="edge28_Node000020_Node000021" title=" " alt="" coords="1253,327,1236,361,1231,358,1248,325"/>
-<area shape="poly" id="edge33_Node000023_Node000019" title=" " alt="" coords="1386,238,1393,274,1408,311,1427,337,1449,358,1445,362,1423,340,1403,313,1388,276,1381,239"/>
-<area shape="poly" id="edge34_Node000023_Node000020" title=" " alt="" coords="1344,235,1294,273,1291,269,1341,231"/>
-<area shape="poly" id="edge35_Node000023_Node000022" title=" " alt="" coords="1419,231,1469,269,1466,273,1416,235"/>
-<area shape="poly" id="edge39_Node000025_Node000024" title=" " alt="" coords="1723,150,1723,182,1718,182,1718,150"/>
-<area shape="rect" id="Node000026" href="$usart__priv_8c.html" title=" " alt="" coords="1820,183,1972,223"/>
-<area shape="poly" id="edge40_Node000025_Node000026" title=" " alt="" coords="1775,140,1858,180,1855,185,1773,144"/>
+<area shape="rect" id="Node000001" title="G4 DMA Peripheral public API implementation." alt="" coords="1343,5,1496,46"/>
+<area shape="rect" id="Node000002" href="$phal__G4_2adc_2adc_8h.html" title="G4 ADC public API. DMA&#45;only, DMA&#45;first conversions." alt="" coords="564,271,717,312"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1328,35,1171,54,1083,72,998,97,899,137,806,187,727,235,670,273,667,269,724,230,804,182,897,133,996,91,1082,67,1170,49,1327,30"/>
+<area shape="rect" id="Node000013" href="$phal__G4_2dma_2dma_8c.html" title="G4 DMA Peripheral public API implementation." alt="" coords="1560,183,1713,223"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="1455,54,1550,133,1612,180,1609,184,1547,137,1452,58"/>
+<area shape="rect" id="Node000014" href="$dma__priv_8h.html" title="G4 DMA Peripheral private/register level implementation." alt="" coords="1560,94,1713,135"/>
+<area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="1484,50,1588,91,1586,96,1482,55"/>
+<area shape="rect" id="Node000016" href="$phal__G4_2spi_2spi_8c.html" title="G4 SPI." alt="" coords="818,271,970,312"/>
+<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="1328,35,1237,48,1134,74,1082,94,1033,118,986,148,945,184,929,205,917,229,901,272,896,270,912,226,925,202,941,181,983,144,1030,114,1080,89,1133,69,1236,43,1327,29"/>
+<area shape="rect" id="Node000017" href="$phal__G4_2spi_2spi_8h.html" title="G4 SPI public API." alt="" coords="1204,94,1357,135"/>
+<area shape="poly" id="edge20_Node000001_Node000017" title=" " alt="" coords="1376,57,1313,96,1311,91,1374,52"/>
+<area shape="rect" id="Node000019" href="$spi__priv_8h.html" title="Internal G4 SPI helpers and DMA configuration macros." alt="" coords="955,183,1108,223"/>
+<area shape="poly" id="edge37_Node000001_Node000019" title=" " alt="" coords="1329,50,1261,70,1194,96,1117,140,1057,184,1054,180,1115,136,1192,92,1260,65,1327,45"/>
+<area shape="rect" id="Node000025" href="$phal__G4_2usart_2usart_8c.html" title=" " alt="" coords="1912,183,2065,223"/>
+<area shape="poly" id="edge38_Node000001_Node000025" title=" " alt="" coords="1511,40,1614,62,1725,91,1848,136,1948,180,1946,184,1846,141,1724,97,1613,67,1510,45"/>
+<area shape="rect" id="Node000026" href="$usart__priv_8h.html" title=" " alt="" coords="1912,94,2065,135"/>
+<area shape="poly" id="edge39_Node000001_Node000026" title=" " alt="" coords="1511,38,1913,99,1912,104,1511,43"/>
+<area shape="rect" id="Node000003" href="$phal__G4_2adc_2adc_8c.html" title="G4 ADC public API implementation. All register&#45;level detail lives in adc_priv.c; this file only coord..." alt="" coords="438,449,590,489"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="619,326,593,362,530,450,526,447,589,358,615,323"/>
+<area shape="rect" id="Node000004" href="$adc__priv_8h.html" title="Private register&#45;level API for the STM32G4 ADC PHAL." alt="" coords="336,360,489,401"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="576,320,466,362,464,357,574,315"/>
+<area shape="rect" id="Node000006" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="1057,449,1208,489"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="714,316,760,335,805,358,831,379,841,389,857,398,907,419,959,435,1057,456,1056,461,958,440,905,424,854,403,838,393,827,383,802,362,757,339,712,320"/>
+<area shape="rect" id="Node000007" href="$a__box_2main_8h.html" title="&quot;Abox&quot; node source code" alt="" coords="1057,360,1208,401"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="732,304,1045,357,1057,360,1056,365,1044,363,732,309"/>
+<area shape="rect" id="Node000008" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="615,449,792,489"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="618,326,601,362,599,381,604,399,627,426,656,446,653,450,623,430,600,402,594,382,596,361,613,323"/>
+<area shape="rect" id="Node000009" href="$dashboard_2main_8h.html" title=" " alt="" coords="615,360,792,401"/>
+<area shape="poly" id="edge10_Node000002_Node000009" title=" " alt="" coords="666,323,691,358,687,361,662,326"/>
+<area shape="rect" id="Node000010" href="$driveline_2main_8c.html" title="&quot;Driveline&quot; node source code" alt="" coords="867,360,1033,401"/>
+<area shape="poly" id="edge12_Node000002_Node000010" title=" " alt="" coords="727,314,880,357,879,362,725,319"/>
+<area shape="rect" id="Node000011" href="$main__module_2main_8c.html" title="&quot;Main Module&quot; node source code" alt="" coords="5,360,151,401"/>
+<area shape="poly" id="edge13_Node000002_Node000011" title=" " alt="" coords="549,306,370,330,162,363,152,365,151,359,162,357,369,324,549,301"/>
+<area shape="rect" id="Node000012" href="$pdu_2main_8c.html" title="&quot;PDU&quot; node source code" alt="" coords="174,360,312,401"/>
+<area shape="poly" id="edge14_Node000002_Node000012" title=" " alt="" coords="550,314,325,363,314,365,312,360,324,357,549,309"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="449,409,493,446,489,450,446,413"/>
+<area shape="rect" id="Node000005" href="$adc__priv_8c.html" title="Register&#45;level implementation of the STM32G4 ADC PHAL." alt="" coords="262,449,414,489"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="388,414,357,450,353,446,384,411"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="1135,416,1135,448,1130,448,1130,416"/>
+<area shape="poly" id="edge11_Node000009_Node000008" title=" " alt="" coords="706,416,706,448,701,448,701,416"/>
+<area shape="poly" id="edge17_Node000014_Node000013" title=" " alt="" coords="1639,150,1639,182,1634,182,1634,150"/>
+<area shape="rect" id="Node000015" href="$dma__priv_8c.html" title="G4 DMA Peripheral private/register level implementation." alt="" coords="1736,183,1889,223"/>
+<area shape="poly" id="edge18_Node000014_Node000015" title=" " alt="" coords="1692,140,1774,180,1772,185,1689,144"/>
+<area shape="poly" id="edge21_Node000017_Node000016" title=" " alt="" coords="1229,145,1165,185,1144,206,1121,226,1057,250,971,274,970,269,1055,245,1118,221,1140,202,1162,181,1227,140"/>
+<area shape="rect" id="Node000018" href="$spi__priv_8c.html" title="G4 SPI Peripheral private/register level implementation." alt="" coords="994,271,1146,312"/>
+<area shape="poly" id="edge22_Node000017_Node000018" title=" " alt="" coords="1252,147,1165,225,1101,273,1098,269,1162,221,1249,143"/>
+<area shape="poly" id="edge23_Node000017_Node000019" title=" " alt="" coords="1211,143,1089,185,1087,180,1209,138"/>
+<area shape="rect" id="Node000020" href="$adbms_8c.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="1502,360,1654,401"/>
+<area shape="poly" id="edge26_Node000017_Node000020" title=" " alt="" coords="1373,135,1426,154,1477,180,1528,218,1546,239,1563,270,1572,293,1577,317,1581,359,1576,360,1572,318,1567,295,1558,272,1541,242,1524,222,1474,185,1424,159,1371,140"/>
+<area shape="rect" id="Node000021" href="$adbms_8h.html" title="Primary logic and interface for ADBMS battery management system driver." alt="" coords="1170,271,1322,312"/>
+<area shape="poly" id="edge27_Node000017_Node000021" title=" " alt="" coords="1277,150,1252,271,1247,270,1271,149"/>
+<area shape="rect" id="Node000023" href="$adbms6380_8c.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="1397,271,1548,312"/>
+<area shape="poly" id="edge32_Node000017_Node000023" title=" " alt="" coords="1373,132,1414,152,1449,181,1463,203,1471,227,1476,271,1471,271,1466,228,1458,205,1445,184,1411,156,1370,137"/>
+<area shape="rect" id="Node000024" href="$adbms6380_8h.html" title="Low level BMS driver specific to ADBMS6380 chip." alt="" coords="1284,183,1435,223"/>
+<area shape="poly" id="edge33_Node000017_Node000024" title=" " alt="" coords="1311,145,1344,180,1340,184,1307,148"/>
+<area shape="poly" id="edge24_Node000019_Node000016" title=" " alt="" coords="989,234,926,273,924,269,986,230"/>
+<area shape="poly" id="edge25_Node000019_Node000018" title=" " alt="" coords="1049,237,1064,270,1059,272,1044,239"/>
+<area shape="poly" id="edge30_Node000021_Node000006" title=" " alt="" coords="1247,328,1239,365,1223,402,1199,430,1170,450,1167,446,1195,426,1218,399,1234,363,1241,327"/>
+<area shape="poly" id="edge31_Node000021_Node000007" title=" " alt="" coords="1210,324,1160,362,1157,357,1207,319"/>
+<area shape="poly" id="edge28_Node000021_Node000020" title=" " alt="" coords="1337,314,1503,357,1502,362,1336,319"/>
+<area shape="rect" id="Node000022" href="$charging__fsm_8c.html" title="Charger control state machine implementation." alt="" coords="1283,360,1478,401"/>
+<area shape="poly" id="edge29_Node000021_Node000022" title=" " alt="" coords="1291,318,1352,357,1349,362,1288,323"/>
+<area shape="poly" id="edge34_Node000024_Node000020" title=" " alt="" coords="1362,239,1368,276,1376,294,1387,310,1405,323,1433,336,1503,358,1501,363,1431,341,1402,328,1383,314,1371,297,1363,278,1357,240"/>
+<area shape="poly" id="edge35_Node000024_Node000021" title=" " alt="" coords="1323,235,1273,273,1270,269,1320,231"/>
+<area shape="poly" id="edge36_Node000024_Node000023" title=" " alt="" coords="1399,231,1449,269,1445,273,1395,235"/>
+<area shape="poly" id="edge40_Node000026_Node000025" title=" " alt="" coords="1991,150,1991,182,1986,182,1986,150"/>
+<area shape="rect" id="Node000027" href="$usart__priv_8c.html" title=" " alt="" coords="2088,183,2241,223"/>
+<area shape="poly" id="edge41_Node000026_Node000027" title=" " alt="" coords="2044,140,2126,180,2124,185,2041,144"/>
 </map>

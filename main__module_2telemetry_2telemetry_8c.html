@@ -109,6 +109,7 @@ $(function(){initNavTree('main__module_2telemetry_2telemetry_8c.html',''); initR
 <code>#include &quot;<a class="el" href="MAIN__MODULE_8h_source.html">can_library/generated/MAIN_MODULE.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="can__version_8h_source.html">can_library/generated/can_version.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="bootloader__common_8h_source.html">common/bootloader/bootloader_common.h</a>&quot;</code><br />
+<code>#include &quot;main.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="powertrain_8h_source.html">powertrain.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for telemetry.c:</div>
@@ -118,8 +119,10 @@ Include dependency graph for telemetry.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ac1c9aff5306b535060dc2070e0749a6b" id="r_ac1c9aff5306b535060dc2070e0749a6b"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1c9aff5306b535060dc2070e0749a6b">hv_adc_to_voltage</a> (uint16_t adc_raw)</td></tr>
+<tr class="separator:ac1c9aff5306b535060dc2070e0749a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14fa998ab27981c4409143eae0bde0e1" id="r_a14fa998ab27981c4409143eae0bde0e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14fa998ab27981c4409143eae0bde0e1">report_telemetry_50hz</a> (void)</td></tr>
-<tr class="memdesc:a14fa998ab27981c4409143eae0bde0e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports telemetry data at 50 Hz rate Includes: AMK-reported motor shaft speeds before gear reduction.  <br /></td></tr>
+<tr class="memdesc:a14fa998ab27981c4409143eae0bde0e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports telemetry data at 50 Hz rate Includes: AMK-reported motor shaft speeds before gear reduction, VBATT and VMC HV voltages.  <br /></td></tr>
 <tr class="separator:a14fa998ab27981c4409143eae0bde0e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e675b11e095a533b972887a23771d5d" id="r_a1e675b11e095a533b972887a23771d5d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e675b11e095a533b972887a23771d5d">any_amk_message_stale</a> (<a class="el" href="structAMK__t.html">AMK_t</a> *amk)</td></tr>
 <tr class="separator:a1e675b11e095a533b972887a23771d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,6 +163,36 @@ Functions</h2></td></tr>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="main__module_2telemetry_2telemetry_8c_a1e675b11e095a533b972887a23771d5d_icgraph.svg" width="466" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ac1c9aff5306b535060dc2070e0749a6b" name="ac1c9aff5306b535060dc2070e0749a6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1c9aff5306b535060dc2070e0749a6b">&#9670;&#160;</a></span>hv_adc_to_voltage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float hv_adc_to_voltage </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>adc_raw</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="main__module_2telemetry_2telemetry_8c_ac1c9aff5306b535060dc2070e0749a6b_icgraph.svg" width="435" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -233,11 +266,11 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Reports telemetry data at 50 Hz rate Includes: AMK-reported motor shaft speeds before gear reduction. </p>
+<p>Reports telemetry data at 50 Hz rate Includes: AMK-reported motor shaft speeds before gear reduction, VBATT and VMC HV voltages. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="main__module_2telemetry_2telemetry_8c_a14fa998ab27981c4409143eae0bde0e1_cgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="main__module_2telemetry_2telemetry_8c_a14fa998ab27981c4409143eae0bde0e1_cgraph.svg" width="100%" height="419"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>

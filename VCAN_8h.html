@@ -245,6 +245,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpack__analog__data__t.html">pack_analog_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvbatt__vmc__data__t.html">vbatt_vmc_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLWS__Standard__data__t.html">LWS_Standard_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structIZZE__angular__rate__data__t.html">IZZE_angular_rate_data_t</a></td></tr>
@@ -746,6 +748,16 @@ Variables</h2></td></tr>
 <tr class="separator:a41196d31472c13e3821788322acdd3bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c15e0357022a7251d574b8d44a4b678" id="r_a2c15e0357022a7251d574b8d44a4b678"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c15e0357022a7251d574b8d44a4b678">PACK_ANALOG_STALE_TIMEOUT_MS</a> = 25</td></tr>
 <tr class="separator:a2c15e0357022a7251d574b8d44a4b678"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0702bf4791a89fe645aec162efc574e" id="r_ae0702bf4791a89fe645aec162efc574e"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0702bf4791a89fe645aec162efc574e">VBATT_VMC_MSG_ID</a> = 0x106</td></tr>
+<tr class="separator:ae0702bf4791a89fe645aec162efc574e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0be368acf7ad2598ce89830d8850fe98" id="r_a0be368acf7ad2598ce89830d8850fe98"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0be368acf7ad2598ce89830d8850fe98">VBATT_VMC_DLC</a> = 4</td></tr>
+<tr class="separator:a0be368acf7ad2598ce89830d8850fe98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade868715c8e750f6354f2fa3ada7ae76" id="r_ade868715c8e750f6354f2fa3ada7ae76"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade868715c8e750f6354f2fa3ada7ae76">VBATT_VMC_LAYOUT_HASH</a> = 0x132601B41A81DD73</td></tr>
+<tr class="separator:ade868715c8e750f6354f2fa3ada7ae76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a8911c282b8e7237bc4e40996871721" id="r_a9a8911c282b8e7237bc4e40996871721"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a8911c282b8e7237bc4e40996871721">VBATT_VMC_PERIOD_MS</a> = 20</td></tr>
+<tr class="separator:a9a8911c282b8e7237bc4e40996871721"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f19458a8dfae35119ac6919e2f05034" id="r_a5f19458a8dfae35119ac6919e2f05034"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f19458a8dfae35119ac6919e2f05034">VBATT_VMC_STALE_TIMEOUT_MS</a> = 50</td></tr>
+<tr class="separator:a5f19458a8dfae35119ac6919e2f05034"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6817a9060b15cb0576310cb570813fb0" id="r_a6817a9060b15cb0576310cb570813fb0"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6817a9060b15cb0576310cb570813fb0">LWS_STANDARD_MSG_ID</a> = 0x2B0</td></tr>
 <tr class="separator:a6817a9060b15cb0576310cb570813fb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2127f9119948105e42d2f9b8b657b5b" id="r_ae2127f9119948105e42d2f9b8b657b5b"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2127f9119948105e42d2f9b8b657b5b">LWS_STANDARD_DLC</a> = 5</td></tr>
@@ -6233,6 +6245,116 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">uint32_t TV_INIT_MSG_ID = 0xA</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0be368acf7ad2598ce89830d8850fe98" name="a0be368acf7ad2598ce89830d8850fe98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0be368acf7ad2598ce89830d8850fe98">&#9670;&#160;</a></span>VBATT_VMC_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t VBATT_VMC_DLC = 4</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ade868715c8e750f6354f2fa3ada7ae76" name="ade868715c8e750f6354f2fa3ada7ae76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade868715c8e750f6354f2fa3ada7ae76">&#9670;&#160;</a></span>VBATT_VMC_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t VBATT_VMC_LAYOUT_HASH = 0x132601B41A81DD73</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae0702bf4791a89fe645aec162efc574e" name="ae0702bf4791a89fe645aec162efc574e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0702bf4791a89fe645aec162efc574e">&#9670;&#160;</a></span>VBATT_VMC_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t VBATT_VMC_MSG_ID = 0x106</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9a8911c282b8e7237bc4e40996871721" name="a9a8911c282b8e7237bc4e40996871721"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a8911c282b8e7237bc4e40996871721">&#9670;&#160;</a></span>VBATT_VMC_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t VBATT_VMC_PERIOD_MS = 20</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f19458a8dfae35119ac6919e2f05034" name="a5f19458a8dfae35119ac6919e2f05034"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f19458a8dfae35119ac6919e2f05034">&#9670;&#160;</a></span>VBATT_VMC_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t VBATT_VMC_STALE_TIMEOUT_MS = 50</td>
         </tr>
       </table>
   </td>
