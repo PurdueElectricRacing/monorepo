@@ -2,9 +2,8 @@
 ### Single Unified Timeline, Columnar Storage, and Multimodal (LiDAR/Video) Evaluation
 
 **Date:** November 12, 2026  
-**Supersedes:** `DaqApp Master Plan v1.drawio.png` and the `SignalSamples` relational schema in `daqcloud_tables.drawio.png`  
-**Context:** Companion architecture specification to `PER_DAQ_Architecture_Decision_Handoff.md`  
-**Step-by-Step Implementation Guide:** [PER_DAQ_Implementation_Roadmap.md](file:///home/millankumar/Documents/PER/daqstuff/monorepo_daqstuff_a/PER_DAQ_Implementation_Roadmap.md)
+**Step-by-Step Implementation Guide:** [PER_DAQ_Implementation_Roadmap.md](file:///home/millankumar/Documents/PER/daqstuff/monorepo_daqstuff_a/PER_DAQ_Implementation_Roadmap.md)  
+**Historical Archive (Out of Date):** Supersedes [`archive/DaqApp Master Plan v1.drawio.png`](file:///home/millankumar/Documents/PER/daqstuff/monorepo_daqstuff_a/archive/DaqApp%20Master%20Plan%20v1.drawio.png), [`archive/PER_DAQ_Architecture_Decision_Handoff.md`](file:///home/millankumar/Documents/PER/daqstuff/monorepo_daqstuff_a/archive/PER_DAQ_Architecture_Decision_Handoff.md), and the `SignalSamples` relational schema in `daqcloud_tables.drawio.png` (which are retained for background context only and are fully out of date).
 
 > [!IMPORTANT]
 > **Zero Attachment to Existing Code:** Any existing crate, module, struct, database migration, or widget in `daq/` (`Session`, `RamCache`, `Timeline`, `TelemetryView`, `log_parse`, `daqcloud`, or hardcoded UI widgets) may be torn down, refactored, or rewritten from scratch to achieve this architecture cleanly without legacy workarounds.
