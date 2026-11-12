@@ -523,7 +523,7 @@
                     "period_ms": 1000
                 },
                 {
-                    "message_name": "abox_can_overflow",
+                    "message_name": "a_box_can_overflow",
                     "description": "count of dropped CAN packets due to queue overflow",
                     "signals": [
                         {
@@ -541,7 +541,7 @@
                     "period_ms": 5000
                 },
                 {
-                    "message_name": "abox_can_tx_actions",
+                    "message_name": "a_box_can_tx_actions",
                     "description": "counts of software actions taken before CAN transmissions",
                     "signals": [
                         {
@@ -559,7 +559,7 @@
                     "period_ms": 5000
                 },
                 {
-                    "message_name": "abox_can_tx_messages",
+                    "message_name": "a_box_can_tx_messages",
                     "description": "counts of CAN packets transmitted",
                     "signals": [
                         {
