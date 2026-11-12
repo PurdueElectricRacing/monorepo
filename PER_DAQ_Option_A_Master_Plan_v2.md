@@ -215,13 +215,16 @@ In the v1 diagram, merging live UDP traffic with historical SQLite data was a ma
 
 ### 4.1 Native Derived Signals & Vectorized Expressions (`daqcore::analysis`)
 
-CAN signals arrive in different messages at different rates (e.g., `vbatt_adc` at 100 Hz vs. `pack_current` at 500 Hz, or `steering_angle` vs. `yaw_rate`). Standard derived channels live in a repo-tracked config (`daq/config/derived_signals.json` or `.toml`), and users can also define custom formulas directly in `daqapp`:
+> **Canonical Signal Naming Standard (`msg_name.sig_name`):**  
+> Because `CANpiler` guarantees globally unique message names across all CAN buses and nodes, all signal references across Parquet partitions, formulas, workspace views (`.daqview.json`), and export presets use the two-part **`msg_name.sig_name`** format (e.g., `imu.accel_y_g`, `shock_pots.fl_mm`, `pack_stats.vbatt_adc`) rather than `bus.node.msg_name.sig_name`. This is significantly simpler and cleaner for subteams to write and read.
+
+CAN signals arrive in different messages at different rates (e.g., `pack_stats.vbatt_adc` at 100 Hz vs. `pack_stats.pack_current` at 500 Hz, or `steering.angle_deg` vs. `imu.yaw_rate_deg_s`). Standard derived channels live in a repo-tracked config (`daq/config/derived_signals.json` or `.toml`), and users can also define custom formulas directly in `daqapp`:
 
 ```json
 {
   "id": "vd.understeer_gradient",
   "label": "Understeer Gradient",
-  "expression": "steering_angle_deg / 4.5 - (1.53 * yaw_rate_deg_s / max(speed_mps, 2.0))",
+  "expression": "steering.angle_deg / 4.5 - (1.53 * imu.yaw_rate_deg_s / max(wheel_speeds.speed_mps, 2.0))",
   "unit": "deg"
 }
 ```
@@ -288,7 +291,7 @@ flowchart LR
   "custom_formulas": [
     {
       "id": "custom.fl_damper_vel_mps",
-      "expression": "derivative(VCAN.MAIN_MODULE.shock_pots.fl_mm / 1000.0, 20)",
+      "expression": "derivative(shock_pots.fl_mm / 1000.0, 20)",
       "unit": "m/s"
     }
   ],
@@ -303,17 +306,17 @@ flowchart LR
       "title": "Suspension & Lat G",
       "x_axis": "utc_time",
       "axes": [
-        { "unit": "mm", "signals": ["VCAN.MAIN_MODULE.shock_pots.fl_mm", "VCAN.MAIN_MODULE.shock_pots.fr_mm"] },
+        { "unit": "mm", "signals": ["shock_pots.fl_mm", "shock_pots.fr_mm"] },
         { "unit": "m/s", "signals": ["custom.fl_damper_vel_mps"] },
-        { "unit": "g", "signals": ["VCAN.MAIN_MODULE.imu.accel_y_g"] }
+        { "unit": "g", "signals": ["imu.accel_y_g"] }
       ]
     },
     "pane_xy_gg": {
       "kind": "XYScatter",
       "title": "Yaw Rate vs Lat Accel",
-      "x_signal": "VCAN.MAIN_MODULE.imu.accel_y_g",
-      "y_signal": "VCAN.MAIN_MODULE.imu.yaw_rate_deg_s",
-      "color_signal": "VCAN.MAIN_MODULE.wheel_speeds.speed_mps"
+      "x_signal": "imu.accel_y_g",
+      "y_signal": "imu.yaw_rate_deg_s",
+      "color_signal": "wheel_speeds.speed_mps"
     }
   }
 }
@@ -342,14 +345,14 @@ Instead, subteam signal bundles are defined in **one repo-tracked JSON file (`da
       "description": "IMU, GPS, steering, wheel speeds, shock pots, brake pressure, and derived roll/heave/power",
       "default_sampling": { "mode": "uniform_grid_hz", "rate_hz": 100.0 },
       "signals": [
-        "VCAN.MAIN_MODULE.imu.*",
-        "VCAN.MAIN_MODULE.gps.*",
-        "VCAN.MAIN_MODULE.shock_pots.*",
-        "VCAN.MAIN_MODULE.steering.angle_deg",
-        "VCAN.MAIN_MODULE.pedals.throttle_pct",
-        "VCAN.MAIN_MODULE.pedals.brake_pressure_front_psi",
-        "VCAN.MAIN_MODULE.pedals.brake_pressure_rear_psi",
-        "VCAN.DRIVELINE.wheel_speeds.*",
+        "imu.*",
+        "gps.*",
+        "shock_pots.*",
+        "steering.angle_deg",
+        "pedals.throttle_pct",
+        "pedals.brake_pressure_front_psi",
+        "pedals.brake_pressure_rear_psi",
+        "wheel_speeds.*",
         "battery.power_w",
         "vd.understeer_gradient"
       ]
@@ -360,11 +363,11 @@ Instead, subteam signal bundles are defined in **one repo-tracked JSON file (`da
       "description": "Ride heights / shock pots, wheel speeds, airspeed/pitot, IMU attitude, and aero load estimates",
       "default_sampling": { "mode": "uniform_grid_hz", "rate_hz": 50.0 },
       "signals": [
-        "VCAN.MAIN_MODULE.shock_pots.*",
-        "VCAN.DRIVELINE.wheel_speeds.*",
-        "VCAN.MAIN_MODULE.imu.accel_x_g",
-        "VCAN.MAIN_MODULE.imu.accel_z_g",
-        "VCAN.MAIN_MODULE.steering.angle_deg",
+        "shock_pots.*",
+        "wheel_speeds.*",
+        "imu.accel_x_g",
+        "imu.accel_z_g",
+        "steering.angle_deg",
         "aero.front_ride_height_mm",
         "aero.rear_ride_height_mm"
       ]
@@ -375,9 +378,10 @@ Instead, subteam signal bundles are defined in **one repo-tracked JSON file (`da
       "description": "Pack voltage/current/power, cell temps, inverter/motor temps, torque request vs actual",
       "default_sampling": { "mode": "uniform_grid_hz", "rate_hz": 50.0 },
       "signals": [
-        "VCAN.A_BOX.pack_stats.*",
-        "VCAN.A_BOX.cell_temps.*",
-        "MCAN.INVERTER.*",
+        "pack_stats.*",
+        "cell_temps.*",
+        "inverter_status.*",
+        "motor_temps.*",
         "battery.voltage_v",
         "battery.power_w"
       ]
@@ -389,7 +393,7 @@ Instead, subteam signal bundles are defined in **one repo-tracked JSON file (`da
 #### 3-Click Export Workflow in `DaqApp` (and `DaqCLI`)
 In `daqapp`, clicking **"Export Data"** opens a fast dialog where the engineer picks:
 1. **Time Range:** `Current Viewport Window [start..end]` **OR** one or more `Event Annotations` (e.g., `"Skidpad Run 1"`, `"Autocross Lap 3"`).
-2. **Preset Bundle:** Check `"Vehicle Dynamics (VD)"` or `"Aero"` (wildcards like `VCAN.MAIN_MODULE.shock_pots.*` and derived formulas expand automatically; users can also check/uncheck extra individual signals).
+2. **Preset Bundle:** Check `"Vehicle Dynamics (VD)"` or `"Aero"` (wildcards like `shock_pots.*` and derived formulas expand automatically; users can also check/uncheck extra individual signals).
 3. **Output Format & Sampling:**
    - **Format:** `Parquet` (recommended for MATLAB `parquetread` & Python), `CSV`, or native `MATLAB (.mat)`.
    - **Sampling:** `Synchronized Timetable (e.g. 100 Hz)` (uses `FormulaEngine`'s interpolation/hold rules so every column shares one clean time vector in MATLAB!) or `Raw Sparse Timestamps`.

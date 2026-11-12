@@ -101,7 +101,7 @@ Currently, `time_correlate_chunk()` in [`correlate.rs`](file:///home/millankumar
 
 ### Step 1.2: Build the Columnar Parquet Pyramid Writer (`daq/daqcore/src/storage/partition_writer.rs`)
 Create a new module `daqcore::storage` that replaces the slow wide CSV generator (`log_parse/table.rs`):
-1. Define a deterministic `SignalId` string format: `"{bus}.{node}.{message}.{signal}"` (e.g., `"VCAN.MAIN_MODULE.imu.accel_y_g"`).
+1. Define a deterministic `SignalId` string format: `"{msg_name}.{sig_name}"` (e.g., `"imu.accel_y_g"`). Because CANpiler guarantees globally unique message names across all CAN buses and nodes, omitting `bus.node.` keeps signal IDs concise and subteam-friendly (while bus/node metadata remains available in SuperDBC for optional filtering).
 2. For each correlated `BootEpoch` (and split into at most 15-minute sub-partitions if a boot epoch is multi-hour):
    - Compute SHA-256 over the source raw `.log` bytes to produce a deterministic `partition_id` (`epoch_{start_utc_ms}_{sha256_prefix}`).
    - **Write `full_res.parquet`:**
@@ -244,7 +244,7 @@ Delete [`session.rs`](file:///home/millankumar/Documents/PER/daqstuff/monorepo_d
 
 ### Step 4.1: Expression Parser & AST Evaluator (`daq/daqcore/src/analysis/expr.rs`)
 1. Implement a recursive-descent parser for mathematical expressions supporting:
-   - Signal references: `VCAN.A_BOX.pack_stats.vbatt_adc` or derived channel IDs like `battery.voltage_v`
+   - Signal references using `msg_name.sig_name` (e.g., `pack_stats.vbatt_adc`) or derived channel IDs like `battery.voltage_v`
    - Arithmetic & comparisons: `+`, `-`, `*`, `/`, `^`, `>`, `<`, `==`
    - Built-in scalar functions: `abs(x)`, `min(a, b)`, `max(a, b)`, `clamp(x, lo, hi)`, `sqrt(x)`, `sin(x)`, `cos(x)`, `atan2(y, x)`
    - Built-in time-series window/calculus functions:
@@ -291,7 +291,7 @@ Migrate all derived signal definitions from [`plot_factory/configs/derived_signa
 
 ### Step 5.2: Build the Unified Signal & Formula Browser (`daq/daqapp/src/ui/signal_browser.rs`)
 Add a collapsible left-hand Signal Browser panel (alongside or inside `sidebar.rs`):
-- Hierarchical tree of `Bus -> Node -> Message -> Signal (with Unit)` + a top-level **`Derived Signals (Formulas)`** folder.
+- Hierarchical tree of `Message -> Signal (with Unit)` (using canonical `msg_name.sig_name` IDs, with optional Bus/Node filter tags from SuperDBC) + a top-level **`Derived Signals (Formulas)`** folder.
 - Instant fuzzy search bar (using `globset` / substring matching across signal names, descriptions, and units).
 - **Drag-and-drop source (`ui.dnd_drag_source`):** Dragging any signal or formula onto a `Scope`, `StateLane`, `XYScatter`, or `GpsPlot` pane adds it to that widget.
 - **"+ New Formula" button:** Opens an inline modal to define a new derived expression (`name`, `expression`, `unit`) with live syntax validation.
@@ -353,7 +353,7 @@ Upgrade [`gps_plot.rs`](file:///home/millankumar/Documents/PER/daqstuff/monorepo
    - **"Workspace Presets"** dropdown populated from `daq/config/workspace_presets.json` (`"VD Handling & Suspension"`, `"Powertrain & Accumulator"`, `"Aero Ride Height"`, `"Trackside Live Debug"`).
 
 ### Step 7.2: Repo-Tracked Signal Export Presets (`daq/config/export_presets.json` & `daqcore::export`)
-1. Create `daq/config/export_presets.json` with subteam presets (`"vd"`, `"aero"`, `"powertrain_thermals"`, `"controls"`, `"raw_all"`), supporting glob patterns (`"VCAN.MAIN_MODULE.shock_pots.*"`) and derived signal IDs (`"battery.power_w"`).
+1. Create `daq/config/export_presets.json` with subteam presets (`"vd"`, `"aero"`, `"powertrain_thermals"`, `"controls"`, `"raw_all"`), supporting `msg_name.sig_name` glob patterns (`"shock_pots.*"`) and derived signal IDs (`"battery.power_w"`).
 2. Implement `daqcore::export::export_dataset()`:
    - Accepts: `range: RangeInclusive<i64>`, `signal_patterns: &[String]`, `sampling_mode: SamplingMode` (`UniformGridHz(f64)` or `SparseRaw`), and `format: ExportFormat` (`Parquet`, `Csv`, `MatlabMat`).
    - Uses `VirtualTimelineRouter` (at `Resolution::FullRes`) + `FormulaEngine` + `align.rs` to materialize the synchronized table and write it to disk.
