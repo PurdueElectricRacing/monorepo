@@ -7,6 +7,7 @@ use rand::RngExt as _;
 use rand::seq::IteratorRandom as _;
 
 const READ_TIMEOUT: time::Duration = time::Duration::from_millis(10);
+const WRITE_TIMEOUT: time::Duration = time::Duration::from_millis(10);
 
 #[derive(Debug)]
 pub enum DriverError {
@@ -137,6 +138,69 @@ fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
         .collect()
 }
 
+#[repr(C)]
+#[derive(bytemuck::Pod, bytemuck::Zeroable, Copy, Clone, Debug, PartialEq, Eq)]
+// Matches can_tx_frame_t in firmware/source/cannector/usb_device.h
+struct CannectorTxFrame {
+    can_id: u32,
+    bus_id: u8,
+    dlc: u8,
+    is_extended_id: u8,
+    reserved: u8,
+    data: [u8; 8],
+}
+
+impl CannectorTxFrame {
+    fn from_tx_frame(tx_frame: frame::CanFrameTx) -> DriverResult<Self> {
+        let f = tx_frame.frame;
+        match f.kind {
+            frame::FrameKind::Data => {}
+            frame::FrameKind::Remote => {
+                return Err(DriverError::Unsupported(
+                    "CANnector remote frame transmission is unsupported".into(),
+                ));
+            }
+            frame::FrameKind::Fd { .. } => {
+                return Err(DriverError::Unsupported(
+                    "CANnector CAN FD transmission is unsupported".into(),
+                ));
+            }
+        }
+
+        let max_id = if tx_frame.is_extended_id {
+            can::EXTENDED_ID_MASK
+        } else {
+            can::STANDARD_ID_MASK
+        };
+        if f.identity > max_id {
+            return Err(DriverError::Write("invalid ID".into()));
+        }
+        if f.data.len() > 8 || usize::from(f.dlc) != f.data.len() {
+            return Err(DriverError::Write("invalid payload".into()));
+        }
+
+        let mut data = [0u8; 8];
+        data[..f.data.len()].copy_from_slice(&f.data);
+
+        let bus_id = f.bus_id.unwrap_or_else(|| {
+            log::warn!(
+                "CANnector TX frame (ID 0x{:X}) has no bus_id; defaulting to bus 0 (VCAN)",
+                f.identity
+            );
+            0
+        });
+
+        Ok(Self {
+            can_id: f.identity,
+            bus_id,
+            dlc: f.dlc,
+            is_extended_id: u8::from(tx_frame.is_extended_id),
+            reserved: 0,
+            data,
+        })
+    }
+}
+
 pub struct CannectorDriver {
     handle: rusb::DeviceHandle<rusb::GlobalContext>,
 }
@@ -147,6 +211,7 @@ impl CannectorDriver {
     const CONFIGURATION: u8 = 1;
     const INTERFACE: u8 = 0;
     const BULK_IN_ENDPOINT: u8 = 0x81;
+    const BULK_OUT_ENDPOINT: u8 = 0x01;
     const PACKET_SIZE: usize = 64; // 4 timestamped frames
 
     fn new() -> DriverResult<Self> {
@@ -177,10 +242,17 @@ impl Driver for CannectorDriver {
         parse_daq_buffer(&buffer[..len])
     }
 
-    fn write_frame(&mut self, _: frame::CanFrameTx) -> DriverResult<()> {
-        Err(DriverError::Unsupported(
-            "CANnector transmission is unsupported".into(),
-        ))
+    fn write_frame(&mut self, tx_frame: frame::CanFrameTx) -> DriverResult<()> {
+        let raw = CannectorTxFrame::from_tx_frame(tx_frame)?;
+        let bytes = bytemuck::bytes_of(&raw);
+        let written = self
+            .handle
+            .write_bulk(Self::BULK_OUT_ENDPOINT, bytes, WRITE_TIMEOUT)
+            .map_err(|error| DriverError::Write(error.to_string()))?;
+        if written != bytes.len() {
+            return Err(DriverError::Write("incomplete USB bulk write".into()));
+        }
+        Ok(())
     }
 }
 

@@ -14,6 +14,9 @@
 static constexpr uint32_t PHAL_FDCAN_MAX_NUM_SID_FILTER = 28;
 static constexpr uint32_t PHAL_FDCAN_MAX_NUM_XID_FILTER = 8;
 
+static constexpr uint32_t PHAL_FDCAN_MAX_STD_ID = 0x7FFU;
+static constexpr uint32_t PHAL_FDCAN_MAX_EXT_ID = 0x1FFFFFFFU;
+
 /**
  * @brief Classic CAN frame
  * 

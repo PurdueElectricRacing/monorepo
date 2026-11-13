@@ -1,22 +1,22 @@
 /**
  * @file usb_control.c
- * @brief Host enumeration and endpoint-zero control transfers (USB ISR context).
- *
- * The HAL owns hardware and packet memory. This module supplies descriptors,
- * validates host requests, and tracks when the CAN data endpoint may be used.
+ * @brief Host enumeration and endpoint-zero control transfers (USB ISR context)
  */
+
 #include "usb_control.h"
 
 #include <string.h>
 
+#include "usb_device.h"
 #include "usb_descriptors.h"
 
 
 static usb_context_t g_usb_context = {
-    .configured = false,
-    .bulk_halted = false,
-    .address = 0U,
-    .pending_address = NO_PENDING_VALUE,
+    .configured            = false,
+    .bulk_in_halted        = false,
+    .bulk_out_halted       = false,
+    .address               = 0U,
+    .pending_address       = NO_PENDING_VALUE,
     .pending_configuration = NO_PENDING_VALUE,
 };
 
@@ -44,11 +44,11 @@ static bool valid_endpoint(uint16_t index) {
     }
 
     // EP0 supports both directions.
-    // Only bulk IN is advertised for application data.
+    // Bulk IN and bulk OUT are advertised for application data.
     if (index == 0U || index == PHAL_USB_ENDPOINT_ADDRESS_IN) {
         return true;
     }
-    return g_usb_context.configured && index == BULK_IN_ADDRESS;
+    return g_usb_context.configured && (index == BULK_IN_ADDRESS || index == BULK_OUT_ADDRESS);
 }
 
 static bool handle_get_descriptor(const PHAL_USB_SetupPacket_t *setup) {
@@ -177,8 +177,12 @@ static bool handle_get_status(const PHAL_USB_SetupPacket_t *setup) {
     // Device status is zero: bus-powered, no remote wakeup. Interface status
     // is also zero. Endpoint status uses bit 0 to report its halt state.
     uint8_t status[2] = {0U, 0U};
-    if (setup->type == PHAL_USB_REQUEST_TYPE_ENDPOINT_IN && setup->index == BULK_IN_ADDRESS) {
-        status[0] = g_usb_context.bulk_halted ? 1U : 0U;
+    if (setup->type == PHAL_USB_REQUEST_TYPE_ENDPOINT_IN) {
+        if (setup->index == BULK_IN_ADDRESS) {
+            status[0] = g_usb_context.bulk_in_halted ? 1U : 0U;
+        } else if (setup->index == BULK_OUT_ADDRESS) {
+            status[0] = g_usb_context.bulk_out_halted ? 1U : 0U;
+        }
     }
     respond(status, sizeof(status), setup->length);
     return true;
@@ -215,7 +219,9 @@ static bool handle_set_interface(const PHAL_USB_SetupPacket_t *setup) {
         is_length_zero
     ) {
         PHAL_USB_clearHalt(PHAL_USB_DATA_ENDPOINT, PHAL_USB_ENDPOINT_DIRECTION_IN);
-        g_usb_context.bulk_halted = false;
+        PHAL_USB_clearHalt(PHAL_USB_DATA_ENDPOINT, PHAL_USB_ENDPOINT_DIRECTION_OUT);
+        g_usb_context.bulk_in_halted = false;
+        g_usb_context.bulk_out_halted = false;
         respond(nullptr, 0U, 0U);
         return true;
     }
@@ -227,19 +233,28 @@ static bool handle_set_interface(const PHAL_USB_SetupPacket_t *setup) {
 static bool handle_endpoint_halt(const PHAL_USB_SetupPacket_t *setup) {
     bool is_endpoint_out = setup->type == PHAL_USB_REQUEST_TYPE_ENDPOINT_OUT;
     bool is_index_bulk_in = setup->index == BULK_IN_ADDRESS;
+    bool is_index_bulk_out = setup->index == BULK_OUT_ADDRESS;
     bool is_value_halt = setup->value == PHAL_USB_FEATURE_ENDPOINT_HALT;
     bool is_length_zero = setup->length == 0U;
     if (is_endpoint_out &&
         g_usb_context.configured &&
-        is_index_bulk_in &&
+        (is_index_bulk_in || is_index_bulk_out) &&
         is_value_halt &&
         is_length_zero
     ) {
-        g_usb_context.bulk_halted = setup->request == PHAL_USB_REQUEST_SET_FEATURE;
-        if (g_usb_context.bulk_halted) {
-            PHAL_USB_stall(PHAL_USB_DATA_ENDPOINT, PHAL_USB_ENDPOINT_DIRECTION_IN);
+        bool halt = setup->request == PHAL_USB_REQUEST_SET_FEATURE;
+        PHAL_USB_EndpointDirection_t direction = is_index_bulk_in
+            ? PHAL_USB_ENDPOINT_DIRECTION_IN
+            : PHAL_USB_ENDPOINT_DIRECTION_OUT;
+        if (is_index_bulk_in) {
+            g_usb_context.bulk_in_halted = halt;
         } else {
-            PHAL_USB_clearHalt(PHAL_USB_DATA_ENDPOINT, PHAL_USB_ENDPOINT_DIRECTION_IN);
+            g_usb_context.bulk_out_halted = halt;
+        }
+        if (halt) {
+            PHAL_USB_stall(PHAL_USB_DATA_ENDPOINT, direction);
+        } else {
+            PHAL_USB_clearHalt(PHAL_USB_DATA_ENDPOINT, direction);
         }
         respond(nullptr, 0U, 0U);
         return true;
@@ -319,10 +334,27 @@ static void handle_control_in(void) {
         // Start each selection with a clean bulk pipe. Value 0 disables traffic;
         // value 1 enables the interface advertised in our configuration descriptor.
         PHAL_USB_clearHalt(PHAL_USB_DATA_ENDPOINT, PHAL_USB_ENDPOINT_DIRECTION_IN);
-        g_usb_context.bulk_halted = false;
+        PHAL_USB_clearHalt(PHAL_USB_DATA_ENDPOINT, PHAL_USB_ENDPOINT_DIRECTION_OUT);
+        g_usb_context.bulk_in_halted = false;
+        g_usb_context.bulk_out_halted = false;
         g_usb_context.configured = g_usb_context.pending_configuration == 1U;
         g_usb_context.pending_configuration = NO_PENDING_VALUE;
     }
+}
+
+static void handle_bulk_out(void) {
+    can_tx_frame_t packet[MAX_FRAMES_PER_PACKET];
+    uint16_t length = 0U;
+    if (!PHAL_USB_read(PHAL_USB_DATA_ENDPOINT, packet, sizeof(packet), &length)) {
+        return;
+    }
+    if (!g_usb_context.configured || g_usb_context.bulk_out_halted) {
+        return;
+    }
+    if (length == 0U || (length % sizeof(can_tx_frame_t)) != 0U) {
+        return;
+    }
+    usb_rx_enqueue(packet, length / sizeof(can_tx_frame_t));
 }
 
 void PHAL_USB_callback(const PHAL_USB_Event_t *event) {
@@ -332,13 +364,18 @@ void PHAL_USB_callback(const PHAL_USB_Event_t *event) {
     // The HAL already restored address zero and endpoints on a bus reset.
     if (!event->transfer) {
         g_usb_context.configured = false;
-        g_usb_context.bulk_halted = false;
+        g_usb_context.bulk_in_halted = false;
+        g_usb_context.bulk_out_halted = false;
         g_usb_context.address = 0U;
         g_usb_context.pending_address = NO_PENDING_VALUE;
         g_usb_context.pending_configuration = NO_PENDING_VALUE;
         return;
     }
     if (event->transfer_data.endpoint != PHAL_USB_CONTROL_ENDPOINT) {
+        if (event->transfer_data.endpoint == PHAL_USB_DATA_ENDPOINT &&
+            event->transfer_data.direction == PHAL_USB_ENDPOINT_DIRECTION_OUT) {
+            handle_bulk_out();
+        }
         return; // Bulk IN completions are retired by the HAL.
     }
     if (event->transfer_data.direction == PHAL_USB_ENDPOINT_DIRECTION_OUT) {
@@ -349,6 +386,6 @@ void PHAL_USB_callback(const PHAL_USB_Event_t *event) {
 }
 
 // The TX task excludes USB interrupts while checking this and submitting data.
-bool usb_data_enabled(void) {
-    return g_usb_context.configured && !g_usb_context.bulk_halted;
+bool usb_bulk_in_enabled(void) {
+    return g_usb_context.configured && !g_usb_context.bulk_in_halted;
 }

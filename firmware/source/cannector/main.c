@@ -47,7 +47,7 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_INPUT(CHARGER_PORT, CHARGER_PIN, GPIO_INPUT_OPEN_DRAIN),
 };
 
-RTOS_DEFINE_TASK(usb_tx_periodic, 1, TASK_PRIORITY_HIGH, STACK_1024);
+RTOS_DEFINE_TASK(usb_periodic, 1, TASK_PRIORITY_HIGH, STACK_1024);
 RTOS_DEFINE_TASK(activity_leds_periodic, 10, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -87,7 +87,7 @@ void main() {
     NVIC_EnableIRQ(FDCAN3_IT0_IRQn);
 
     START_HEARTBEAT_TASK();
-    RTOS_START_TASK(usb_tx_periodic);
+    RTOS_START_TASK(usb_periodic);
     RTOS_START_TASK(activity_leds_periodic);
 
     vTaskStartScheduler();
