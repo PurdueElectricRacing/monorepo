@@ -58,16 +58,20 @@ impl BatteryTemps {
 
         let theme = ui::theme::get_theme(ui.ctx());
 
-        let temperatures = modules
+        let cell_temperatures = modules
             .iter()
-            .flatten()
+            .flat_map(|module| &module[..ui::battery::common::CELL_THERMS_PER_MODULE])
             .map(|cell| cell.temperature)
             .filter(|v| v.is_finite());
-        let temp_min = temperatures.clone().reduce(f64::min).unwrap_or(f64::NAN);
-        let temp_max = temperatures.clone().reduce(f64::max).unwrap_or(f64::NAN);
-        let temp_count = temperatures.clone().count().max(1) as f64;
-        let temp_sum: f64 = temperatures.sum();
-        let temp_avg = temp_sum / temp_count;
+        let temp_min = cell_temperatures.clone().reduce(f64::min).unwrap_or(f64::NAN);
+        let temp_max = cell_temperatures.clone().reduce(f64::max).unwrap_or(f64::NAN);
+        let temp_count = cell_temperatures.clone().count();
+        let temp_sum: f64 = cell_temperatures.sum();
+        let temp_avg = if temp_count > 0 {
+            temp_sum / temp_count as f64
+        } else {
+            f64::NAN
+        };
         let temp_range = temp_max - temp_min;
         let range_color = if temp_range > 10.0 {
             theme.error_color()
@@ -75,6 +79,21 @@ impl BatteryTemps {
             theme.warning_color()
         } else {
             theme.success_color()
+        };
+
+        let board_max = modules
+            .iter()
+            .flat_map(|module| &module[ui::battery::common::CELL_THERMS_PER_MODULE..])
+            .map(|cell| cell.temperature)
+            .filter(|v| v.is_finite())
+            .reduce(f64::max)
+            .unwrap_or(f64::NAN);
+        let board_max_color = if board_max > 60.0 {
+            Some(theme.error_color())
+        } else if board_max > 50.0 {
+            Some(theme.warning_color())
+        } else {
+            None
         };
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
@@ -92,11 +111,11 @@ impl BatteryTemps {
             );
             ui.add_space(4.0);
 
-            ui.columns(4, |cols| {
+            ui.columns(5, |cols| {
                 ui::battery::common::stat_card(
                     &mut cols[0],
                     &theme,
-                    "TEMP MIN",
+                    "CELL MIN",
                     Some(temp_min),
                     "°C",
                     stale,
@@ -105,7 +124,7 @@ impl BatteryTemps {
                 ui::battery::common::stat_card(
                     &mut cols[1],
                     &theme,
-                    "TEMP AVG",
+                    "CELL AVG",
                     Some(temp_avg),
                     "°C",
                     stale,
@@ -114,7 +133,7 @@ impl BatteryTemps {
                 ui::battery::common::stat_card(
                     &mut cols[2],
                     &theme,
-                    "TEMP MAX",
+                    "CELL MAX",
                     Some(temp_max),
                     "°C",
                     stale,
@@ -123,39 +142,58 @@ impl BatteryTemps {
                 ui::battery::common::stat_card(
                     &mut cols[3],
                     &theme,
-                    "TEMP RANGE",
+                    "CELL RANGE",
                     Some(temp_range),
                     "°C",
                     stale,
                     Some(range_color),
+                );
+                ui::battery::common::stat_card(
+                    &mut cols[4],
+                    &theme,
+                    "BOARD MAX",
+                    Some(board_max),
+                    "°C",
+                    stale,
+                    board_max_color,
                 );
             });
 
             ui.add_space(12.0);
 
             for (module_index, module) in modules.iter().enumerate() {
-                let module_sum: f64 = module
+                let (cell_therms, board_therms) =
+                    module.split_at(ui::battery::common::CELL_THERMS_PER_MODULE);
+
+                let module_sum: f64 = cell_therms
                     .iter()
                     .map(|cell| cell.temperature)
                     .filter(|v| v.is_finite())
                     .sum();
-                let module_min = module
+                let module_min = cell_therms
                     .iter()
                     .map(|cell| cell.temperature)
                     .filter(|v| v.is_finite())
                     .reduce(f64::min)
                     .unwrap_or(f64::NAN);
-                let module_max = module
+                let module_max = cell_therms
                     .iter()
                     .map(|cell| cell.temperature)
                     .filter(|v| v.is_finite())
                     .reduce(f64::max)
                     .unwrap_or(f64::NAN);
                 let module_avg = module_sum
-                    / module
+                    / cell_therms
                         .iter()
                         .filter(|cell| cell.temperature.is_finite())
                         .count() as f64;
+
+                let module_board_max = board_therms
+                    .iter()
+                    .map(|cell| cell.temperature)
+                    .filter(|v| v.is_finite())
+                    .reduce(f64::max)
+                    .unwrap_or(f64::NAN);
 
                 eframe::egui::Frame::NONE
                     .fill(theme.panel_color())
@@ -163,7 +201,19 @@ impl BatteryTemps {
                     .inner_margin(eframe::egui::Margin::same(10))
                     .corner_radius(eframe::egui::CornerRadius::same(4))
                     .show(ui, |ui| {
-                        ui.horizontal(|ui| {
+                        let available_width = ui.available_width();
+                        let cell_spacing = ui.spacing().item_spacing.x;
+                        let separator_gap = 10.0_f32;
+                        let total_cols = (ui::battery::common::CELL_THERMS_PER_CHIP
+                            + ui::battery::common::BOARD_THERMS_PER_CHIP)
+                            as f32;
+                        let bar_width = ((available_width
+                            - separator_gap
+                            - cell_spacing * total_cols)
+                            / total_cols)
+                            .max(8.0);
+
+                        let header_resp = ui.horizontal(|ui| {
                             ui.label(
                                 eframe::egui::RichText::new(format!("MODULE {module_index}"))
                                     .size(11.0)
@@ -194,21 +244,72 @@ impl BatteryTemps {
                                 .size(10.0)
                                 .color(theme.text_color().linear_multiply(0.55)),
                             );
+                            ui.label(
+                                eframe::egui::RichText::new(format!(
+                                    "board max {} °C",
+                                    ui::battery::common::reading(module_board_max, 1)
+                                ))
+                                .size(10.0)
+                                .color(theme.text_color().linear_multiply(0.55)),
+                            );
                         });
 
                         ui.add_space(6.0);
 
-                        let available_width = ui.available_width();
-                        let cell_spacing = ui.spacing().item_spacing.x;
-                        let cell_count = ui::battery::common::THERMISTORS_PER_MODULE as f32;
-                        let bar_width =
-                            ((available_width - cell_spacing * cell_count) / cell_count).max(8.0);
+                        let (chip0_cells, chip1_cells) =
+                            cell_therms.split_at(ui::battery::common::CELL_THERMS_PER_CHIP);
+
+                        let mut sep_top = None;
+                        let mut sep_bottom = None;
+                        let mut sep_x = 0.0_f32;
+                        let mut board_center_x = 0.0_f32;
 
                         ui.horizontal(|ui| {
-                            for cell in module.iter() {
+                            for cell in chip0_cells {
                                 temp_bar(ui, &theme, cell, stale, bar_width);
                             }
+                            let (sep_rect, _) = ui.allocate_exact_size(
+                                eframe::egui::Vec2::new(separator_gap, 24.0),
+                                eframe::egui::Sense::hover(),
+                            );
+                            sep_x = sep_rect.center().x;
+                            sep_top = Some(sep_rect.top());
+                            let board_rect =
+                                temp_bar(ui, &theme, &board_therms[0], stale, bar_width);
+                            board_center_x = board_rect.center().x;
                         });
+
+                        ui.add_space(4.0);
+
+                        ui.horizontal(|ui| {
+                            for cell in chip1_cells {
+                                temp_bar(ui, &theme, cell, stale, bar_width);
+                            }
+                            let (sep_rect, _) = ui.allocate_exact_size(
+                                eframe::egui::Vec2::new(separator_gap, 24.0),
+                                eframe::egui::Sense::hover(),
+                            );
+                            sep_bottom = Some(sep_rect.bottom());
+                            temp_bar(ui, &theme, &board_therms[1], stale, bar_width);
+                        });
+
+                        ui.painter().text(
+                            eframe::egui::pos2(board_center_x, header_resp.response.rect.center().y),
+                            eframe::egui::Align2::CENTER_CENTER,
+                            "BOARD",
+                            eframe::egui::FontId::proportional(9.0),
+                            theme.text_color().linear_multiply(0.45),
+                        );
+
+                        if let (Some(top), Some(bottom)) = (sep_top, sep_bottom) {
+                            ui.painter().line_segment(
+                                [
+                                    eframe::egui::pos2(sep_x, top),
+                                    eframe::egui::pos2(sep_x, bottom),
+                                ],
+                                eframe::egui::Stroke::new(1.0_f32, theme.accent_color()),
+                            );
+                        }
                     });
 
                 ui.add_space(6.0);
@@ -225,7 +326,7 @@ fn temp_bar(
     cell: &ThermistorTemperature,
     stale: bool,
     bar_w: f32,
-) {
+) -> eframe::egui::Rect {
     let fill_color = if stale {
         theme.text_color().linear_multiply(0.12)
     } else {
@@ -283,7 +384,10 @@ fn temp_bar(
             eframe::egui::FontId::proportional(11.0),
             text_color,
         );
-    });
+
+        outer_rect
+    })
+    .inner
 }
 
 fn thermistor_sample(
