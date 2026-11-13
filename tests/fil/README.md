@@ -45,25 +45,21 @@ python3 generators/generate.py
 
 ## Build and run
 
-Requirements: built PER firmware, Python 3.11+, Make, CMake, a C++20 Clang
-compiler, and matching `llvm-profdata`. FIL's upstream tests also need
-GoogleTest (CMake can fetch it). Release builds use IPO where supported and
-host CPU tuning; the resulting executable targets the build machine.
+Requirements: built PER firmware, Python 3.11+, Make, CMake, a C++20
+compiler, and GoogleTest (CMake can fetch it). FIL's default build is tuned
+for fast iteration (Ninja and ccache when available, precompiled headers, no
+IPO) and targets the build machine.
 
 ```sh
 python3 firmware/build_firmware.py
 python3 tests/fil/run_tests.py --build
 ```
 
-The build invokes FIL's full `make pgo` workflow: instrumented build, one second
-of six-board network training with strict MMIO and full ADC fidelity, profile
-merge, optimized build, and FIL's own CTest suite. Outputs stay in FIL's ignored
-`build-pgo-generate/` and `build-pgo/` directories, as required by its cleanup
-safety guard. Set `PGO_CXX` and
-`LLVM_PROFDATA` in the environment to select tools from the same LLVM release.
-`CMAKE_BUILD_PARALLEL_LEVEL` controls build concurrency.
+The build invokes FIL's default `make` target, which produces
+`tests/external/fil/build/fil`. Outputs stay in FIL's ignored `build/`
+directory. `CMAKE_BUILD_PARALLEL_LEVEL` controls build concurrency.
 
-Run just the PER scenarios using the existing PGO executable:
+Run just the PER scenarios using the existing FIL executable:
 
 ```sh
 python3 tests/fil/run_tests.py
@@ -79,11 +75,16 @@ expectations. It checks:
 - The vehicle reaches 6 seconds with the ready-to-drive stimulus expectations
   satisfied (initial zero torque commands, later drive commands, and vehicle state).
 
-The `run_tests.yml` GitHub Actions workflow also runs the full PGO build and PER
-scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
-job uses the existing firmware container, installs the PGO tools, and builds
-vehicle firmware before running the tests, independently of host unit tests.
+## VS Code: debug the emulator with cortex-debug
 
-`python3 build_all.py` builds firmware, builds/tests FIL with PGO, then builds
-DAQ and runs the existing host-test workflow. The standalone host-test runner
-remains independent and does not require FIL or prebuilt vehicle firmware.
+`.vscode/launch.json` has `Emulator: <board>` configurations for the six
+vehicle boards, and `.vscode/tasks.json` has the matching `fil debug (<board>)`
+background tasks. Both use the board configs in `tests/fil/boards`, which
+resolve their `firmware/output` ELFs relative to the repository.
+
+## CI/CD
+
+The `run_tests.yml` GitHub Actions workflow also builds FIL and runs the PER
+scenarios on pull requests targeting `master` and pushes to `master`. Its FIL
+job uses the existing firmware container and builds vehicle firmware before
+running the tests, independently of host unit tests.
