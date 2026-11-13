@@ -21,8 +21,6 @@
 // Switch control lines
 #define CTRL1_PORT  (GPIOA)
 #define CTRL1_PIN   (9)
-#define CTRL2_PORT  (GPIOA)
-#define CTRL2_PIN   (8)
 #define CTRL3_PORT  (GPIOC)
 #define CTRL3_PIN   (9)
 #define CTRL4_PORT  (GPIOA)
