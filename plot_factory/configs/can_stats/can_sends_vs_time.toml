@@ -30,7 +30,7 @@ label = "PDU"
 color = "tab:blue"
 
 [[panels.traces]]
-column = "SCAN.TORQUE_VECTOR.torque_vector_tx_messages.tx_sent"
+column = "SCAN.TORQUE_VECTOR.torque_vector_can_tx_messages.tx_sent"
 label = "Torque Vector"
 color = "tab:purple"
 

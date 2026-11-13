@@ -30,6 +30,6 @@ label = "PDU"
 color = "tab:blue"
 
 [[panels.traces]]
-column = "SCAN.TORQUE_VECTOR.torque_vector_tx_actions.enqueue_count"
+column = "SCAN.TORQUE_VECTOR.torque_vector_can_tx_actions.enqueue_count"
 label = "Torque Vector"
 color = "tab:purple"
