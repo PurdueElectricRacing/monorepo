@@ -3,7 +3,7 @@ use std::sync::mpsc;
 
 pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
     ui::timeline::show(app, ctx);
-    app.session.evict();
+    app.evict_history();
     let start = app.session.timeline().start();
     let removed = app
         .bus_load_samples
@@ -22,6 +22,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
             let mut behavior = WorkspaceTileBehavior {
                 view: &view,
                 bus_load: &app.bus_load_samples,
+                task_names: &app.task_names,
                 action_queue: &mut app.action_queue,
                 database: app.database.as_ref(),
                 ui_to_can_tx: app.ui_to_can_tx.clone(),
@@ -37,6 +38,7 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
 struct WorkspaceTileBehavior<'a> {
     view: &'a telemetry::TelemetryView<'a>,
     bus_load: &'a [telemetry::BusLoadSample],
+    task_names: &'a crate::task_names::TaskNames,
     action_queue: &'a mut Vec<action::AppAction>,
     database: Option<&'a app::DatabaseSelection>,
     ui_to_can_tx: mpsc::Sender<daqcore::can_thread::CanThreadCommand>,
@@ -55,6 +57,7 @@ impl egui_tiles::Behavior<widgets::Widget> for WorkspaceTileBehavior<'_> {
             widgets::WidgetContext {
                 view: self.view,
                 bus_load: self.bus_load,
+                task_names: self.task_names,
                 action_queue: self.action_queue,
                 database: self.database,
                 ui_to_can_tx: self.ui_to_can_tx.clone(),
