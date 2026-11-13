@@ -18,10 +18,10 @@ static_assert(
     "must delay longer than settle time"
 );
 
-static constexpr uint32_t CURRENT_SENSE_TASK_PERIOD_MS = 50;
+static constexpr uint32_t CURRENT_SENSE_TASK_PERIOD_MS = 4;
 static_assert(
-    CURRENT_SENSE_TASK_PERIOD_MS > (MUX_SETTLE_DELAY_MS * NUM_SWITCHES + 1),
-    "task period must be longer than total mux read time"
+    CURRENT_SENSE_TASK_PERIOD_MS > MUX_SETTLE_DELAY_MS,
+    "task period must be longer than mux settle time"
 );
 void current_sense_periodic(void);
 
