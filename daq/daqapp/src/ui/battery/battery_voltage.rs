@@ -10,23 +10,10 @@ pub struct CellVoltage {
     pub balancing: bool,
 }
 
-impl Default for CellVoltage {
-    fn default() -> Self {
-        Self {
-            voltage: f64::NAN,
-            balancing: false,
-        }
-    }
-}
-
 impl CellVoltage {
     pub fn color(&self) -> eframe::egui::Color32 {
         if self.balancing {
             return eframe::egui::Color32::from_rgb(33, 150, 243);
-        }
-
-        if !self.voltage.is_finite() {
-            return eframe::egui::Color32::GRAY;
         }
 
         let voltage = self.voltage.clamp(V_MIN, V_MAX);
@@ -43,22 +30,12 @@ impl CellVoltage {
     }
 }
 
+#[derive(Default)]
 struct ChargingVoltageTelemetry {
-    pack_voltage: f64,
-    pack_current: f64,
-    min_cell_voltage: f64,
-    max_cell_voltage: f64,
-}
-
-impl Default for ChargingVoltageTelemetry {
-    fn default() -> Self {
-        Self {
-            pack_voltage: f64::NAN,
-            pack_current: f64::NAN,
-            min_cell_voltage: f64::NAN,
-            max_cell_voltage: f64::NAN,
-        }
-    }
+    pack_voltage: Option<f64>,
+    pack_current: Option<f64>,
+    min_cell_voltage: Option<f64>,
+    max_cell_voltage: Option<f64>,
 }
 
 pub struct BatteryVoltage {
@@ -84,15 +61,11 @@ impl BatteryVoltage {
 
         let theme = ui::theme::get_theme(ui.ctx());
 
-        let pack_sum = charging_telemetry.as_ref().map(|t| t.pack_voltage);
-        let current = charging_telemetry.as_ref().map(|t| t.pack_current);
-        let pack_min = charging_telemetry.as_ref().map(|t| t.min_cell_voltage);
-        let pack_max = charging_telemetry.as_ref().map(|t| t.max_cell_voltage);
-        let pack_delta = if let (Some(min), Some(max)) = (pack_min, pack_max) {
-            Some(max - min)
-        } else {
-            None
-        };
+        let pack_sum = charging_telemetry.pack_voltage;
+        let current = charging_telemetry.pack_current;
+        let pack_min = charging_telemetry.min_cell_voltage;
+        let pack_max = charging_telemetry.max_cell_voltage;
+        let pack_delta = pack_min.zip(pack_max).map(|(min, max)| max - min);
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
@@ -168,35 +141,16 @@ impl BatteryVoltage {
             ui.add_space(12.0);
 
             for (module_index, module) in modules.iter().enumerate() {
-                let module_sum: f64 = module
-                    .iter()
-                    .map(|cell| cell.voltage)
-                    .filter(|v| v.is_finite())
-                    .sum();
-                let module_min = module
-                    .iter()
-                    .map(|cell| cell.voltage)
-                    .filter(|v| v.is_finite())
-                    .reduce(f64::min)
-                    .unwrap_or(f64::NAN);
-                let module_max = module
-                    .iter()
-                    .map(|cell| cell.voltage)
-                    .filter(|v| v.is_finite())
-                    .reduce(f64::max)
-                    .unwrap_or(f64::NAN);
-                let module_delta = if module_min.is_finite() {
-                    module_max - module_min
-                } else {
-                    f64::NAN
-                };
+                let voltages = module.iter().flatten().map(|cell| cell.voltage);
+                let module_min = voltages.clone().reduce(f64::min);
+                let module_max = voltages.clone().reduce(f64::max);
+                let module_sum = module_min.map(|_| voltages.sum::<f64>());
+                let module_delta = module_min.zip(module_max).map(|(min, max)| max - min);
 
-                let delta_color = if module_delta > 0.050 {
-                    theme.error_color()
-                } else if module_delta > 0.020 {
-                    theme.warning_color()
-                } else {
-                    theme.text_color().linear_multiply(0.55)
+                let delta_color = match module_delta {
+                    Some(delta) if delta > 0.050 => theme.error_color(),
+                    Some(delta) if delta > 0.020 => theme.warning_color(),
+                    _ => theme.text_color().linear_multiply(0.55),
                 };
 
                 eframe::egui::Frame::NONE
@@ -260,13 +214,13 @@ impl BatteryVoltage {
 
                         ui.horizontal(|ui| {
                             for cell in chip0_cells {
-                                cell_bar(ui, &theme, cell, stale, bar_width);
+                                cell_bar(ui, &theme, cell.as_ref(), stale, bar_width);
                             }
                         });
                         ui.add_space(4.0);
                         ui.horizontal(|ui| {
                             for cell in chip1_cells {
-                                cell_bar(ui, &theme, cell, stale, bar_width);
+                                cell_bar(ui, &theme, cell.as_ref(), stale, bar_width);
                             }
                         });
                     });
@@ -282,17 +236,19 @@ impl BatteryVoltage {
 fn cell_bar(
     ui: &mut eframe::egui::Ui,
     theme: &ui::theme::ThemeColors,
-    cell: &CellVoltage,
+    cell: Option<&CellVoltage>,
     stale: bool,
     bar_w: f32,
 ) {
     let fill_color = if stale {
         theme.text_color().linear_multiply(0.12)
-    } else {
+    } else if let Some(cell) = cell {
         cell.color()
+    } else {
+        eframe::egui::Color32::GRAY
     };
 
-    let fill_frac = if cell.voltage.is_finite() {
+    let fill_frac = if let Some(cell) = cell {
         ((cell.voltage - V_MIN) / (V_MAX - V_MIN)).clamp(0.0, 1.0) as f32
     } else {
         0.0
@@ -322,10 +278,9 @@ fn cell_bar(
         );
         painter.rect_filled(fill_rect, 2.0, fill_color);
 
-        let text = if stale || !cell.voltage.is_finite() {
-            "—".to_string()
-        } else {
-            format!("{:.2}", cell.voltage)
+        let text = match cell.filter(|_| !stale) {
+            Some(cell) => format!("{:.2}", cell.voltage),
+            None => "—".to_string(),
         };
 
         let text_color = if stale {
@@ -368,9 +323,9 @@ fn cell_sample(frame: &daqcore::frame::ParsedFrame) -> Option<(usize, usize, Cel
 /// Reconstruct multiplexed slots independently; newest frame per CAN ID is insufficient.
 fn cell_voltages(
     frames: &[daqcore::frame::ParsedFrame],
-) -> (Vec<Vec<CellVoltage>>, Option<daqcore::time::Time>) {
+) -> (Vec<Vec<Option<CellVoltage>>>, Option<daqcore::time::Time>) {
     let mut modules = vec![
-        vec![CellVoltage::default(); ui::battery::common::CELLS_PER_MODULE];
+        vec![None; ui::battery::common::CELLS_PER_MODULE];
         ui::battery::common::NUM_MODULES
     ];
     let mut last_update = None;
@@ -379,9 +334,9 @@ fn cell_voltages(
         if let Some((module, cell, value)) = cell_sample(frame)
             && module < ui::battery::common::NUM_MODULES
             && cell < ui::battery::common::CELLS_PER_MODULE
-            && modules[module][cell].voltage.is_nan()
+            && modules[module][cell].is_none()
         {
-            modules[module][cell] = value;
+            modules[module][cell] = Some(value);
             last_update = last_update.max(Some(frame.timestamp));
             filled += 1;
             if filled == ui::battery::common::NUM_MODULES * ui::battery::common::CELLS_PER_MODULE {
@@ -394,11 +349,8 @@ fn cell_voltages(
 
 fn charging_voltages(
     frames: &[daqcore::frame::ParsedFrame],
-) -> (
-    Option<ChargingVoltageTelemetry>,
-    Option<daqcore::time::Time>,
-) {
-    let mut values: Option<ChargingVoltageTelemetry> = None;
+) -> (ChargingVoltageTelemetry, Option<daqcore::time::Time>) {
+    let mut values = ChargingVoltageTelemetry::default();
     let mut last_update = None;
     for frame in frames.iter().rev() {
         let Some(decoded) = &frame.decoded else {
@@ -409,24 +361,23 @@ fn charging_voltages(
             "bms_voltages" | "bms_voltages_ccan" => {
                 for (name, signal) in decoded.iter() {
                     let field = match name {
-                        "pack_voltage" => &mut values.get_or_insert_default().pack_voltage,
-                        "min_cell_voltage" => &mut values.get_or_insert_default().min_cell_voltage,
-                        "max_cell_voltage" => &mut values.get_or_insert_default().max_cell_voltage,
+                        "pack_voltage" => &mut values.pack_voltage,
+                        "min_cell_voltage" => &mut values.min_cell_voltage,
+                        "max_cell_voltage" => &mut values.max_cell_voltage,
                         _ => continue,
                     };
 
-                    if field.is_nan() {
-                        *field = signal.physical();
+                    if field.is_none() {
+                        *field = Some(signal.physical());
                     }
                 }
                 last_update = last_update.max(Some(frame.timestamp));
             }
             "pack_analog" | "pack_analog_ccan" => {
-                if let Some(signal) = decoded.signal("pack_current") {
-                    let field = &mut values.get_or_insert_default().pack_current;
-                    if field.is_nan() {
-                        *field = signal.physical();
-                    }
+                if let Some(signal) = decoded.signal("pack_current")
+                    && values.pack_current.is_none()
+                {
+                    values.pack_current = Some(signal.physical());
                 }
                 last_update = last_update.max(Some(frame.timestamp));
             }

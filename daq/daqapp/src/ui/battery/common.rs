@@ -96,7 +96,7 @@ pub fn stat_card(
                             .color(theme.text_color().linear_multiply(0.25)),
                     );
                 } else {
-                    let text = if let Some(value) = value.filter(|value| value.is_finite()) {
+                    let text = if let Some(value) = value {
                         format!("{value:.2}")
                     } else {
                         "—".to_string()
@@ -118,8 +118,8 @@ pub fn stat_card(
 }
 
 /// Keep unavailable projection values distinct from a measured zero.
-pub fn reading(value: f64, precision: usize) -> String {
-    if value.is_finite() {
+pub fn reading(value: Option<f64>, precision: usize) -> String {
+    if let Some(value) = value {
         format!("{value:.precision$}")
     } else {
         "—".into()
