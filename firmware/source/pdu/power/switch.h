@@ -9,35 +9,9 @@
 #define SWITCH_H
 
 #include "common/phal_G4/gpio/gpio.h"
-#include "can_library/faults_common.h"
+#include "can_library/generated/PDU.h"
 
-typedef enum {
-    SWITCH_SDC = 0,
-    SWITCH_SDC_LOOP,
-    SWITCH_MAIN,
-    SWITCH_DASH,
-    SWITCH_DAQ,
-    SWITCH_ABOX,
-    SWITCH_HV_BOARD,
-    SWITCH_TV,
-    SWITCH_DL_FRONT,
-    SWITCH_DL_REAR,
-    SWITCH_AMK1,
-    SWITCH_AMK2,
-
-    SWITCH_PUMP1,
-    SWITCH_PUMP2,
-    SWITCH_HXFAN,
-    SWITCH_FAN1,
-    SWITCH_FAN2,
-    SWITCH_FAN3,
-    SWITCH_FAN4,
-    SWITCH_FAN5,
-
-    SWITCH_EMETER,
-
-    NUM_SWITCHES
-} switch_id_t;
+static constexpr uint8_t NUM_SWITCHES = SWITCH_ID_EMETER + 1;
 
 typedef enum {
     ANALOG_MUX1 = 0,
