@@ -12,8 +12,8 @@
 
 switch_t g_switches[NUM_SWITCHES] = {
     [SWITCH_SDC] = {
-        .ctrl_port = CTRL2_PORT,
-        .ctrl_pin  = CTRL2_PIN,
+        .ctrl_port = nullptr, // Tied high in hardware, no SW control
+        .ctrl_pin  = 0,
         .mux_id    = ANALOG_MUX1,
         .mux_addr  = 1,
         .fault_id  = FAULT_ID_SDC_SWITCH_FAULT,
