@@ -163,6 +163,9 @@ switch_t g_switches[NUM_SWITCHES] = {
 };
 
 void SWITCH_enable(switch_id_t switch_id) {
+    if (g_switches[switch_id].ctrl_port == nullptr) {
+        return;
+    }
     PHAL_GPIO_write(
         g_switches[switch_id].ctrl_port,
         g_switches[switch_id].ctrl_pin,
@@ -171,6 +174,9 @@ void SWITCH_enable(switch_id_t switch_id) {
 }
 
 void SWITCH_disable(switch_id_t switch_id) {
+    if (g_switches[switch_id].ctrl_port == nullptr) {
+        return;
+    }
     PHAL_GPIO_write(
         g_switches[switch_id].ctrl_port,
         g_switches[switch_id].ctrl_pin,
