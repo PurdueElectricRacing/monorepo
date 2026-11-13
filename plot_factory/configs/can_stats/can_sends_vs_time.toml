@@ -20,6 +20,11 @@ label = "Dashboard"
 color = "tab:orange"
 
 [[panels.traces]]
+column = "SCAN.DRIVELINE.driveline_can_tx_messages.tx_sent"
+label = "Driveline"
+color = "tab:brown"
+
+[[panels.traces]]
 column = "VCAN.MAIN_MODULE.main_can_tx_messages.tx_sent"
 label = "Main Module"
 color = "tab:green"
@@ -46,6 +51,11 @@ color = "tab:red"
 column = "SCAN.DASHBOARD.dash_can_tx_messages.callbacks_sent"
 label = "Dashboard"
 color = "tab:orange"
+
+[[panels.traces]]
+column = "SCAN.DRIVELINE.driveline_can_tx_messages.callbacks_sent"
+label = "Driveline"
+color = "tab:brown"
 
 [[panels.traces]]
 column = "VCAN.MAIN_MODULE.main_can_tx_messages.callbacks_sent"
