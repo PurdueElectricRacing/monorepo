@@ -24,8 +24,8 @@ pub fn is_cannector_available() -> bool {
             .iter()
             .any(|device| match device.device_descriptor() {
                 Ok(desc) => {
-                    desc.vendor_id() == daqcore::can::driver::CannectorDriver::VID
-                        && desc.product_id() == daqcore::can::driver::CannectorDriver::PID
+                    desc.vendor_id() == daqcore::driver::cannector::CannectorDriver::VID
+                        && desc.product_id() == daqcore::driver::cannector::CannectorDriver::PID
                 }
                 Err(err) => {
                     log::warn!("Failed to read USB descriptor: {}", err);

@@ -28,7 +28,7 @@ static usb_rx_queue_t g_usb_rx_queue = {
 };
 
 
-void usb_rx_enqueue(const can_tx_frame_t* frames, size_t count) {
+void usb_rx_enqueue(const cannector_tx_frame_t* frames, size_t count) {
     uint32_t saved_primask = __get_PRIMASK();
     __disable_irq();
     for (size_t i = 0U; i < count; ++i) {
@@ -44,7 +44,7 @@ void usb_rx_enqueue(const can_tx_frame_t* frames, size_t count) {
     __set_PRIMASK(saved_primask);
 }
 
-static bool usb_rx_peek(can_tx_frame_t* frame, size_t* head_out) {
+static bool usb_rx_peek(cannector_tx_frame_t* frame, size_t* head_out) {
     bool has_frame = false;
     uint32_t saved_primask = __get_PRIMASK();
     __disable_irq();
@@ -69,7 +69,7 @@ static void usb_rx_pop(size_t expected_head) {
 
 // RX over USB -> CAN
 static void process_usb_rx_frames(void) {
-    can_tx_frame_t rx_frame = {0};
+    cannector_tx_frame_t rx_frame = {0};
     size_t head = 0U;
     bool any_received = false;
     uint32_t now = xTaskGetTickCount();

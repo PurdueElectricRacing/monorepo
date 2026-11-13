@@ -1,4 +1,4 @@
-use crate::{can, can_thread, hil};
+use crate::{can, can_thread, driver, hil};
 use std::{sync::mpsc, thread, time};
 
 const HIL_UPDATE_INTERVAL: time::Duration = time::Duration::from_millis(50);
@@ -180,7 +180,7 @@ fn run_with_connection(
                         });
                     }
                     Err(error) => {
-                        let unsupported = matches!(error, can::driver::DriverError::Unsupported(_));
+                        let unsupported = matches!(error, driver::DriverError::Unsupported(_));
 
                         emit!(can_thread::CanThreadEvent::SendFailed {
                             key,
@@ -215,7 +215,7 @@ fn run_with_connection(
 
                 let tx_frame = frame.into_can_frame();
                 let result = tx_frame
-                    .map_err(can::driver::DriverError::Write)
+                    .map_err(driver::DriverError::Write)
                     .and_then(|frame| connection.write(frame));
                 if let Err(error) = result {
                     if let Some(mut progress) = firmware.cancel() {
@@ -269,7 +269,7 @@ fn run_with_connection(
                         emit!(can_thread::CanThreadEvent::Frame(frame));
                     }
                 }
-                Err(can::driver::DriverError::Timeout) => {}
+                Err(driver::DriverError::Timeout) => {}
                 Err(error) => {
                     connection.failed(time::Instant::now());
                     emit!(can_thread::CanThreadEvent::ConnectionFailed(

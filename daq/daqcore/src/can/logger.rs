@@ -1,4 +1,4 @@
-use crate::{frame, log_parse};
+use crate::{can, frame, log_parse};
 use chrono::Datelike as _;
 use chrono::Timelike as _;
 use std::{fs, io, path, time};
@@ -18,7 +18,7 @@ struct OpenLogFile {
 pub struct DaqLogger {
     open_file: Option<OpenLogFile>,
     folder_path: path::PathBuf,
-    buffer: Vec<log_parse::parse::RawFrame>,
+    buffer: Vec<log_parse::parse::TimestampedFrame>,
     file_created_at: time::Instant,
     start_time: time::Instant,
     last_flush: time::Instant,
@@ -68,14 +68,14 @@ impl DaqLogger {
             return Ok(());
         }
 
-        if frame.data.len() > 8 {
+        if frame.data.len() > can::CLASSIC_CAN_MAX_BYTES {
             return Err("classic CAN log payload exceeds 8 bytes".into());
         }
 
         // Convert vec to array, fill with 0s
         let data = std::array::from_fn(|i| frame.data.get(i).copied().unwrap_or(0));
 
-        let raw = log_parse::parse::RawFrame::new(
+        let raw = log_parse::parse::TimestampedFrame::new(
             self.start_time.elapsed().as_millis() as u32,
             frame.identity,
             bus_id,
@@ -87,7 +87,7 @@ impl DaqLogger {
         Ok(())
     }
 
-    fn add_frame(&mut self, frame: log_parse::parse::RawFrame) {
+    fn add_frame(&mut self, frame: log_parse::parse::TimestampedFrame) {
         self.buffer.push(frame);
 
         //Flush every 1 second

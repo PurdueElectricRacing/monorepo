@@ -1,4 +1,4 @@
-use crate::{frame, log_parse, superdbc};
+use crate::{can, frame, log_parse, superdbc};
 use std::{fs, io, mem, path};
 
 #[derive(Debug)]
@@ -10,21 +10,21 @@ pub struct ParsedMessage {
 
 #[repr(C)]
 #[derive(bytemuck::Pod, bytemuck::Zeroable, Copy, Clone)]
-// based on definition of timestamped_frame_t in timestamped_frame.h in firmware repo
-pub struct RawFrame {
+// Matches timestamped_frame_t in firmware/common/timestamped_frame/timestamped_frame.h
+pub struct TimestampedFrame {
     pub ticks_ms: u32,
     pub identity: u32,
-    pub data: [u8; 8],
+    pub data: [u8; can::CLASSIC_CAN_MAX_BYTES],
 }
 
-impl RawFrame {
+impl TimestampedFrame {
     /// Encode a classic CAN frame using the timestamped wire/log format.
     /// Return an error on invalid bus ID (only buses 0-7 are supported).
     pub fn new(
         ticks_ms: u32,
         identity: frame::CanIdentity,
         bus_id: u8,
-        data: [u8; 8],
+        data: [u8; can::CLASSIC_CAN_MAX_BYTES],
     ) -> Result<Self, String> {
         if bus_id > 7 {
             return Err(format!(
@@ -77,7 +77,7 @@ fn parse_log_file(
     database: &superdbc::database::Database,
 ) -> io::Result<Vec<ParsedMessage>> {
     let mut content = fs::read(in_file)?;
-    let frame_size = mem::size_of::<RawFrame>();
+    let frame_size = mem::size_of::<TimestampedFrame>();
 
     // add padding zeroes if content length is not multiple of raw frame size
     let mut added_padding = false;
@@ -93,7 +93,7 @@ fn parse_log_file(
         added_padding = true;
     }
 
-    let frames: Vec<RawFrame> = content
+    let frames: Vec<TimestampedFrame> = content
         .chunks_exact(frame_size)
         .map(bytemuck::pod_read_unaligned)
         .collect();
