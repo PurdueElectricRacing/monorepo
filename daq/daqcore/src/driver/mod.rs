@@ -9,8 +9,8 @@ pub mod udp;
 use crate::{connection, frame, log_parse, superdbc};
 use std::{error, fmt, io, mem, time};
 
-pub(crate) const READ_TIMEOUT: time::Duration = time::Duration::from_millis(10);
-pub(crate) const WRITE_TIMEOUT: time::Duration = time::Duration::from_millis(10);
+pub const READ_TIMEOUT: time::Duration = time::Duration::from_millis(10);
+pub const WRITE_TIMEOUT: time::Duration = time::Duration::from_millis(10);
 
 #[derive(Debug)]
 pub enum DriverError {
@@ -65,7 +65,7 @@ pub fn create_driver(
     }
 }
 
-pub(crate) fn io_read(error: io::Error) -> DriverError {
+pub fn io_read(error: io::Error) -> DriverError {
     if matches!(
         error.kind(),
         io::ErrorKind::WouldBlock | io::ErrorKind::TimedOut
@@ -75,7 +75,7 @@ pub(crate) fn io_read(error: io::Error) -> DriverError {
     DriverError::Read(error.to_string())
 }
 
-pub(crate) fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
+pub fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
     const TIMESTAMPED_FRAME_SIZE: usize = mem::size_of::<log_parse::parse::TimestampedFrame>();
 
     if buf.len() < TIMESTAMPED_FRAME_SIZE || !buf.len().is_multiple_of(TIMESTAMPED_FRAME_SIZE) {
