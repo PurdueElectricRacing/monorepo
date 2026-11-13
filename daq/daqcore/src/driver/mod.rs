@@ -76,18 +76,18 @@ pub(crate) fn io_read(error: io::Error) -> DriverError {
 }
 
 pub(crate) fn parse_daq_buffer(buf: &[u8]) -> DriverResult<Vec<frame::CanFrame>> {
-    const RAW_FRAME_SIZE: usize = mem::size_of::<log_parse::parse::RawFrame>();
+    const TIMESTAMPED_FRAME_SIZE: usize = mem::size_of::<log_parse::parse::TimestampedFrame>();
 
-    if buf.len() < RAW_FRAME_SIZE || !buf.len().is_multiple_of(RAW_FRAME_SIZE) {
+    if buf.len() < TIMESTAMPED_FRAME_SIZE || !buf.len().is_multiple_of(TIMESTAMPED_FRAME_SIZE) {
         return Err(DriverError::Read(
             "DAQ packet must contain complete frame records".into(),
         ));
     }
-    buf.as_chunks::<RAW_FRAME_SIZE>()
+    buf.as_chunks::<TIMESTAMPED_FRAME_SIZE>()
         .0
         .iter()
         .map(|bytes| {
-            let raw = bytemuck::try_pod_read_unaligned::<log_parse::parse::RawFrame>(bytes)
+            let raw = bytemuck::try_pod_read_unaligned::<log_parse::parse::TimestampedFrame>(bytes)
                 .map_err(|error| DriverError::Read(error.to_string()))?;
             frame::CanFrame::data(Some(raw.bus_id()), raw.can_identity(), raw.data.to_vec())
                 .map_err(DriverError::Read)

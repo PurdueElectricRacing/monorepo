@@ -18,7 +18,7 @@ struct OpenLogFile {
 pub struct DaqLogger {
     open_file: Option<OpenLogFile>,
     folder_path: path::PathBuf,
-    buffer: Vec<log_parse::parse::RawFrame>,
+    buffer: Vec<log_parse::parse::TimestampedFrame>,
     file_created_at: time::Instant,
     start_time: time::Instant,
     last_flush: time::Instant,
@@ -75,7 +75,7 @@ impl DaqLogger {
         // Convert vec to array, fill with 0s
         let data = std::array::from_fn(|i| frame.data.get(i).copied().unwrap_or(0));
 
-        let raw = log_parse::parse::RawFrame::new(
+        let raw = log_parse::parse::TimestampedFrame::new(
             self.start_time.elapsed().as_millis() as u32,
             frame.identity,
             bus_id,
@@ -87,7 +87,7 @@ impl DaqLogger {
         Ok(())
     }
 
-    fn add_frame(&mut self, frame: log_parse::parse::RawFrame) {
+    fn add_frame(&mut self, frame: log_parse::parse::TimestampedFrame) {
         self.buffer.push(frame);
 
         //Flush every 1 second
