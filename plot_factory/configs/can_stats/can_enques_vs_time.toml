@@ -12,24 +12,24 @@ label = "CAN Message Enqueuings"
 [[panels.traces]]
 column = "SCAN.A_BOX.a_box_can_tx_actions.enqueue_count"
 label = "A Box"
-color = tab:red
+color = "tab:red"
 
 [[panels.traces]]
 column = "SCAN.DASHBOARD.dash_can_tx_actions.enqueue_count"
 label = "Dashboard"
-color = tab:orange
+color = "tab:orange"
 
 [[panels.traces]]
 column = "VCAN.MAIN_MODULE.main_can_tx_actions.enqueue_count"
 label = "Main Module"
-color = tab:green
+color = "tab:green"
 
 [[panels.traces]]
 column = "SCAN.PDU.pdu_can_tx_actions.enqueue_count"
 label = "PDU"
-color = tab:blue
+color = "tab:blue"
 
 [[panels.traces]]
 column = "SCAN.TORQUE_VECTOR.torque_vector_tx_actions.enqueue_count"
 label = "Torque Vector"
-color = tab:purple
+color = "tab:purple"
