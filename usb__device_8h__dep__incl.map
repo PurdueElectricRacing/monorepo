@@ -1,7 +1,9 @@
 <map id="firmware/source/cannector/usb_device.h" name="firmware/source/cannector/usb_device.h">
-<area shape="rect" id="Node000001" title="USB tx thread." alt="" coords="104,5,278,46"/>
+<area shape="rect" id="Node000001" title="Periodic CAN&lt;&#45;&gt;USB forwarding." alt="" coords="204,5,378,46"/>
 <area shape="rect" id="Node000002" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="5,94,180,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,58,117,96,113,92,156,54"/>
-<area shape="rect" id="Node000003" href="$usb__device_8c.html" title="Periodic CAN&#45;to&#45;USB forwarding; enumeration lives in usb/usb_control.c." alt="" coords="204,94,378,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,54,270,92,267,96,224,58"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,55,139,96,137,91,231,50"/>
+<area shape="rect" id="Node000003" href="$usb__control_8c.html" title="Host enumeration and endpoint&#45;zero control transfers (USB ISR context)" alt="" coords="204,94,378,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="294,62,294,94,288,94,288,62"/>
+<area shape="rect" id="Node000004" href="$usb__device_8c.html" title="Periodic CAN&lt;&#45;&gt;USB forwarding." alt="" coords="403,94,577,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="351,50,446,91,444,96,349,55"/>
 </map>

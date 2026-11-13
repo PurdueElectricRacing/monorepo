@@ -1,30 +1,32 @@
 <map id="PHAL_FDCAN_priv_writeTxElement" name="PHAL_FDCAN_priv_writeTxElement">
-<area shape="rect" id="Node000001" title=" " alt="" coords="1402,170,1635,196"/>
-<area shape="rect" id="Node000002" href="$fdcan_8c.html#a60b2ed63ebdff4e98f2eca10a4961dda" title="Queue a frame for transmission." alt="" coords="1210,170,1354,196"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1387,185,1354,185,1354,180,1387,180"/>
-<area shape="rect" id="Node000003" href="$bootloader_8c.html#ac19da133af9137d8db35468a8e1b7af5" title=" " alt="" coords="1050,43,1144,69"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1248,163,1116,71,1119,67,1251,159"/>
-<area shape="rect" id="Node000007" href="$bootloader_8c.html#ac60843a6445f115dfc084962072b15af" title=" " alt="" coords="1042,170,1152,196"/>
-<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="1194,185,1152,185,1152,180,1194,180"/>
-<area shape="rect" id="Node000014" href="$can__tx_8c.html#ab2807e28a1e0280aa5b27c86241c78f9" title=" " alt="" coords="1032,270,1162,296"/>
-<area shape="poly" id="edge20_Node000002_Node000014" title=" " alt="" coords="1244,206,1124,272,1121,267,1241,201"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="1432,234,1665,260"/>
+<area shape="rect" id="Node000002" href="$fdcan_8c.html#a60b2ed63ebdff4e98f2eca10a4961dda" title="Queue a frame for transmission." alt="" coords="1240,234,1384,260"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1417,249,1384,249,1384,244,1417,244"/>
+<area shape="rect" id="Node000003" href="$bootloader_8c.html#ac19da133af9137d8db35468a8e1b7af5" title=" " alt="" coords="1065,43,1159,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1285,225,1125,71,1129,67,1288,221"/>
+<area shape="rect" id="Node000007" href="$bootloader_8c.html#ac60843a6445f115dfc084962072b15af" title=" " alt="" coords="1057,195,1167,221"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="1227,233,1167,221,1168,216,1228,228"/>
+<area shape="rect" id="Node000014" href="$can__tx_8c.html#ab2807e28a1e0280aa5b27c86241c78f9" title=" " alt="" coords="1047,310,1177,336"/>
+<area shape="poly" id="edge20_Node000002_Node000014" title=" " alt="" coords="1263,268,1149,312,1147,307,1261,263"/>
+<area shape="rect" id="Node000016" href="$usb__device_8c.html#abf36b85d6ffb28b4e66e524f959dbef3" title=" " alt="" coords="1032,359,1192,385"/>
+<area shape="poly" id="edge22_Node000002_Node000016" title=" " alt="" coords="1290,273,1247,312,1193,350,1169,361,1167,356,1190,346,1244,308,1286,269"/>
 <area shape="rect" id="Node000004" href="$bootloader_8c.html#a0e6fcac4f931dc8811b83333d9eaa780" title="Configure the node&#45;specific transport and announce readiness." alt="" coords="877,43,939,69"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1034,59,940,59,940,53,1034,53"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1050,59,940,59,940,53,1050,53"/>
 <area shape="rect" id="Node000006" href="$bootloader_8c.html#afbd1b6f14da46bdc0a6e199e0a84aeb2" title="Process every frame currently queued by the FDCAN receive interrupt." alt="" coords="103,94,168,120"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="1034,43,984,33,853,14,722,8,535,8,482,11,428,18,324,42,234,70,168,96,167,91,232,65,323,36,427,13,481,5,535,3,722,3,854,8,985,28,1035,38"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="1050,45,984,33,853,14,796,10,722,8,535,8,482,11,428,18,324,42,234,70,168,96,167,91,232,65,323,36,427,13,481,5,535,3,722,3,796,4,854,9,985,28,1051,40"/>
 <area shape="rect" id="Node000005" href="$bootloader_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,68,55,94"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="862,59,538,59,315,59,240,61,167,67,55,80,55,75,167,62,240,56,315,53,538,53,862,53"/>
 <area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="87,98,54,90,55,85,88,93"/>
-<area shape="poly" id="edge16_Node000007_Node000004" title=" " alt="" coords="1071,161,1031,126,983,90,939,69,941,64,986,86,1034,121,1074,157"/>
-<area shape="poly" id="edge17_Node000007_Node000006" title=" " alt="" coords="1041,167,977,149,898,130,810,115,722,109,535,109,168,109,168,104,535,104,722,104,811,110,899,125,978,144,1043,162"/>
+<area shape="poly" id="edge16_Node000007_Node000004" title=" " alt="" coords="1088,185,1042,138,983,90,939,69,941,64,986,86,1046,134,1092,182"/>
+<area shape="poly" id="edge17_Node000007_Node000006" title=" " alt="" coords="1066,191,1000,166,915,139,819,118,770,112,722,109,535,109,168,109,168,104,535,104,722,104,771,106,820,113,916,134,1002,161,1068,186"/>
 <area shape="rect" id="Node000008" href="$bootloader_8c.html#a973838ef3e1c22ca2fcd449941bf2198" title=" " alt="" coords="663,144,778,170"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="1026,181,778,164,778,158,1027,175"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="1042,200,984,192,778,166,779,161,985,187,1043,195"/>
 <area shape="rect" id="Node000011" href="$bootloader_8c.html#ac2d28de1668a1ef30b63868db0e8516b" title=" " alt="" coords="657,195,784,221"/>
-<area shape="poly" id="edge12_Node000007_Node000011" title=" " alt="" coords="1027,190,785,206,784,201,1026,185"/>
+<area shape="poly" id="edge12_Node000007_Node000011" title=" " alt="" coords="1042,211,784,211,784,205,1042,205"/>
 <area shape="rect" id="Node000012" href="$bootloader_8c.html#a1ee6d33267fac00c9b40a73b2092384d" title=" " alt="" coords="832,246,984,272"/>
-<area shape="poly" id="edge14_Node000007_Node000012" title=" " alt="" coords="1050,204,943,248,941,243,1048,199"/>
-<area shape="rect" id="Node000013" href="$bootloader_8c.html#ac67d8f3c1b3d2c648d6a5ac3489eb654" title=" " alt="" coords="670,270,771,296"/>
-<area shape="poly" id="edge18_Node000007_Node000013" title=" " alt="" coords="1079,210,1040,251,1014,271,985,286,930,301,872,305,818,302,771,296,772,291,818,297,872,300,929,296,983,282,1011,267,1036,248,1075,206"/>
+<area shape="poly" id="edge14_Node000007_Node000012" title=" " alt="" coords="1043,228,963,248,962,243,1042,223"/>
+<area shape="rect" id="Node000013" href="$bootloader_8c.html#ac67d8f3c1b3d2c648d6a5ac3489eb654" title=" " alt="" coords="670,271,771,297"/>
+<area shape="poly" id="edge18_Node000007_Node000013" title=" " alt="" coords="1085,233,1040,263,1013,276,985,287,929,297,871,301,771,294,772,289,871,295,928,292,984,281,1011,271,1037,258,1082,228"/>
 <area shape="rect" id="Node000009" href="$bootloader_8c.html#abf75df907f2cb56139815b8adb7c195e" title=" " alt="" coords="464,183,609,209"/>
 <area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="648,175,601,185,600,180,647,170"/>
 <area shape="rect" id="Node000010" href="$bootloader_8c.html#a3267de5d4f419fad89acf507722d341e" title=" " alt="" coords="216,170,416,196"/>
@@ -32,7 +34,11 @@
 <area shape="poly" id="edge11_Node000010_Node000006" title=" " alt="" coords="269,166,167,122,169,117,271,161"/>
 <area shape="poly" id="edge13_Node000011_Node000009" title=" " alt="" coords="641,205,609,203,609,198,641,200"/>
 <area shape="poly" id="edge15_Node000012_Node000011" title=" " alt="" coords="842,244,770,224,771,219,844,239"/>
-<area shape="poly" id="edge19_Node000013_Node000009" title=" " alt="" coords="676,265,564,212,567,207,678,260"/>
+<area shape="poly" id="edge19_Node000013_Node000009" title=" " alt="" coords="677,266,564,212,567,207,679,262"/>
 <area shape="rect" id="Node000015" href="$can__tx_8c.html#a0a32f054a0f3baae0270d9845d2897e6" title=" " alt="" coords="852,347,964,373"/>
-<area shape="poly" id="edge21_Node000014_Node000015" title=" " alt="" coords="1050,304,943,349,941,344,1048,300"/>
+<area shape="poly" id="edge21_Node000014_Node000015" title=" " alt="" coords="1033,340,965,352,964,347,1032,335"/>
+<area shape="rect" id="Node000017" href="$usb__device_8c.html#aeeff2496b0d785fb69e975f539dedf4c" title=" " alt="" coords="861,396,955,422"/>
+<area shape="poly" id="edge23_Node000016_Node000017" title=" " alt="" coords="1023,391,956,403,955,398,1023,386"/>
+<area shape="rect" id="Node000018" href="$cannector_2main_8c.html#acdef7a1fd863a6d3770c1268cb06add3" title=" " alt="" coords="696,396,745,422"/>
+<area shape="poly" id="edge24_Node000017_Node000018" title=" " alt="" coords="845,412,745,412,745,407,845,407"/>
 </map>

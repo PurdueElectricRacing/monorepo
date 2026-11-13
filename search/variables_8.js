@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['head_0',['head',['../structSPMC__t.html#a819c0967e831284aa97a85f53587e065',1,'SPMC_t']]],
+  ['head_0',['head',['../structusb__rx__queue__t.html#ab3b1bd3e14a5088c17ee7702d4e5dc88',1,'usb_rx_queue_t::head'],['../structSPMC__t.html#a819c0967e831284aa97a85f53587e065',1,'SPMC_t::head']]],
   ['headingaccuracy_1',['headingAccuracy',['../structNAV__PVT__payload__t.html#a13ca1bb0fb9e24bc634c50a2beff9f29',1,'NAV_PVT_payload_t']]],
   ['headingmotion_2',['headingMotion',['../structNAV__PVT__payload__t.html#a0a01e0277ca1229c14df16ac93b10b9f',1,'NAV_PVT_payload_t']]],
   ['headingvehicle_3',['headingVehicle',['../structNAV__PVT__payload__t.html#a5b6902c09ccf11c5e1d06282152c42dd',1,'NAV_PVT_payload_t']]],

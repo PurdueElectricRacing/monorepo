@@ -1,25 +1,22 @@
 <map id="firmware/common/phal_G4/usb/usb.h" name="firmware/common/phal_G4/usb/usb.h">
-<area shape="rect" id="Node000001" title="STM32G4 USB full&#45;speed device API." alt="" coords="307,5,459,46"/>
+<area shape="rect" id="Node000001" title="STM32G4 USB full&#45;speed device API." alt="" coords="369,5,522,46"/>
 <area shape="rect" id="Node000002" href="$usb_8c.html" title="Validation and state for the public STM32G4 USB API." alt="" coords="5,183,158,223"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="292,32,248,39,203,51,160,69,122,96,106,116,96,139,86,183,80,182,91,137,102,113,118,92,157,65,202,46,247,33,291,27"/>
-<area shape="rect" id="Node000003" href="$usb__priv_8h.html" title="Register&#45;level interface used by the STM32G4 USB public layer." alt="" coords="132,94,284,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="331,56,249,96,246,91,328,51"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="354,37,262,57,215,74,171,96,146,116,125,139,94,184,90,181,121,136,143,112,168,92,213,69,260,52,353,32"/>
+<area shape="rect" id="Node000003" href="$usb__priv_8h.html" title="Register&#45;level interface used by the STM32G4 USB public layer." alt="" coords="181,94,334,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="390,55,301,96,299,91,388,50"/>
 <area shape="rect" id="Node000005" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="358,183,533,223"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="361,60,346,97,344,116,349,133,371,160,400,180,397,184,368,164,344,136,339,116,341,95,356,58"/>
-<area shape="rect" id="Node000006" href="$usb__control_8h.html" title="Interface between USB control handling and CAN forwarding." alt="" coords="557,94,731,135"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="457,49,585,91,584,96,456,54"/>
-<area shape="rect" id="Node000009" href="$usb__descriptors_8h.html" title="CANnector&#39;s USB identity, describe the device to the host." alt="" coords="756,94,930,135"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="475,41,743,91,756,94,755,99,742,97,474,47"/>
-<area shape="rect" id="Node000010" href="$usb__device_8h.html" title="USB tx thread." alt="" coords="358,94,533,135"/>
-<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="408,57,433,92,429,95,404,60"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="169,146,112,184,109,180,166,141"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="448,61,448,182,443,182,443,61"/>
+<area shape="rect" id="Node000006" href="$usb__descriptors_8h.html" title="CANnector&#39;s USB identity, describe the device to the host." alt="" coords="737,94,911,135"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="537,45,738,91,737,96,536,50"/>
+<area shape="rect" id="Node000008" href="$usb__device_8h.html" title="Periodic CAN&lt;&#45;&gt;USB forwarding." alt="" coords="520,94,694,135"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="497,51,572,91,569,96,494,56"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="205,144,122,185,120,180,203,140"/>
 <area shape="rect" id="Node000004" href="$usb__priv_8c.html" title="STM32G4 USB register and packet&#45;memory implementation." alt="" coords="181,183,334,223"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="229,147,249,181,244,184,225,150"/>
-<area shape="rect" id="Node000007" href="$usb__control_8c.html" title="Host enumeration and endpoint&#45;zero control transfers (USB ISR context)." alt="" coords="756,183,930,223"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="704,139,799,180,797,185,702,144"/>
-<area shape="rect" id="Node000008" href="$usb__device_8c.html" title="Periodic CAN&#45;to&#45;USB forwarding; enumeration lives in usb/usb_control.c." alt="" coords="557,183,731,223"/>
-<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="647,150,647,182,642,182,642,150"/>
-<area shape="poly" id="edge10_Node000009_Node000007" title=" " alt="" coords="846,150,846,182,840,182,840,150"/>
-<area shape="poly" id="edge12_Node000010_Node000005" title=" " alt="" coords="448,150,448,182,443,182,443,150"/>
-<area shape="poly" id="edge13_Node000010_Node000008" title=" " alt="" coords="505,139,600,180,598,185,503,144"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="260,150,260,182,255,182,255,150"/>
+<area shape="rect" id="Node000007" href="$usb__control_8c.html" title="Host enumeration and endpoint&#45;zero control transfers (USB ISR context)" alt="" coords="756,183,930,223"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="834,149,841,182,836,183,829,150"/>
+<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="558,145,483,185,481,180,556,140"/>
+<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="675,138,790,180,788,185,674,143"/>
+<area shape="rect" id="Node000009" href="$usb__device_8c.html" title="Periodic CAN&lt;&#45;&gt;USB forwarding." alt="" coords="557,183,731,223"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="624,148,638,181,633,183,619,150"/>
 </map>

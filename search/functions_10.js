@@ -239,5 +239,7 @@ var searchData=
   ['preflight_5fled_5fsweep_236',['preflight_led_sweep',['../heartbeat_8c.html#a1d58d4db1dcf0ec5b290850c6ae31f3b',1,'heartbeat.c']]],
   ['prepare_5fcommand_237',['prepare_command',['../adbms6380_8c.html#afcb2720a50ea90439d14a568c8119c32',1,'adbms6380.c']]],
   ['prepare_5fdata_5fpacket_238',['prepare_data_packet',['../adbms6380_8c.html#a3d7ce49113bf9841b4aa4f1e38956ebd',1,'adbms6380.c']]],
-  ['pressure_5ffrom_239',['pressure_from',['../dearunits_8h.html#a7dce494ff1286c07f57a43fbe46c08e5',1,'dearunits.h']]]
+  ['pressure_5ffrom_239',['pressure_from',['../dearunits_8h.html#a7dce494ff1286c07f57a43fbe46c08e5',1,'dearunits.h']]],
+  ['process_5fusb_5frx_5fframes_240',['process_usb_rx_frames',['../usb__device_8c.html#abf36b85d6ffb28b4e66e524f959dbef3',1,'usb_device.c']]],
+  ['process_5fusb_5ftx_5fframes_241',['process_usb_tx_frames',['../usb__device_8c.html#a558a68bd6b5ff14635ab17451b9dc1e7',1,'usb_device.c']]]
 ];

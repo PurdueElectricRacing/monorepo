@@ -110,8 +110,10 @@ $(function(){initNavTree('structusb__context__t.html',''); initResizable(true); 
 Public Attributes</h2></td></tr>
 <tr class="memitem:a470ed771fca23ef88538663cbada4b53" id="r_a470ed771fca23ef88538663cbada4b53"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a470ed771fca23ef88538663cbada4b53">configured</a></td></tr>
 <tr class="separator:a470ed771fca23ef88538663cbada4b53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa74eb53226a77a04dacc8d4776359248" id="r_aa74eb53226a77a04dacc8d4776359248"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa74eb53226a77a04dacc8d4776359248">bulk_halted</a></td></tr>
-<tr class="separator:aa74eb53226a77a04dacc8d4776359248"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaa1b31b39e1de592a80aae7087489d9" id="r_aeaa1b31b39e1de592a80aae7087489d9"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeaa1b31b39e1de592a80aae7087489d9">bulk_in_halted</a></td></tr>
+<tr class="separator:aeaa1b31b39e1de592a80aae7087489d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7115bab71214ee77c78598b82cc25c88" id="r_a7115bab71214ee77c78598b82cc25c88"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7115bab71214ee77c78598b82cc25c88">bulk_out_halted</a></td></tr>
+<tr class="separator:a7115bab71214ee77c78598b82cc25c88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7b35f05514bca4b3a38f5bf0c813bb0" id="r_ac7b35f05514bca4b3a38f5bf0c813bb0"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7b35f05514bca4b3a38f5bf0c813bb0">address</a></td></tr>
 <tr class="separator:ac7b35f05514bca4b3a38f5bf0c813bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a468e1b9a3041ca719a7d890baf29ae8f" id="r_a468e1b9a3041ca719a7d890baf29ae8f"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a468e1b9a3041ca719a7d890baf29ae8f">pending_address</a></td></tr>
@@ -134,14 +136,28 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa74eb53226a77a04dacc8d4776359248" name="aa74eb53226a77a04dacc8d4776359248"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa74eb53226a77a04dacc8d4776359248">&#9670;&#160;</a></span>bulk_halted</h2>
+<a id="aeaa1b31b39e1de592a80aae7087489d9" name="aeaa1b31b39e1de592a80aae7087489d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaa1b31b39e1de592a80aae7087489d9">&#9670;&#160;</a></span>bulk_in_halted</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">volatile bool usb_context_t::bulk_halted</td>
+          <td class="memname">volatile bool usb_context_t::bulk_in_halted</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7115bab71214ee77c78598b82cc25c88" name="a7115bab71214ee77c78598b82cc25c88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7115bab71214ee77c78598b82cc25c88">&#9670;&#160;</a></span>bulk_out_halted</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">volatile bool usb_context_t::bulk_out_halted</td>
         </tr>
       </table>
 </div><div class="memdoc">

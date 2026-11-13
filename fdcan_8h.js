@@ -12,6 +12,8 @@ var fdcan_8h =
     [ "PHAL_FDCAN_setFilters", "fdcan_8h.html#ac89d6a90c4f53644b4189ddb0e1fea18", null ],
     [ "PHAL_FDCAN_txCallback", "fdcan_8h.html#a6dc613665f4dce3d09b2b533423435d3", null ],
     [ "PHAL_FDCAN_txFifoFree", "fdcan_8h.html#a26df92531762951c8f1d6d84493cee1b", null ],
+    [ "PHAL_FDCAN_MAX_EXT_ID", "fdcan_8h.html#a81a817d30345283c01d0d646d65df333", null ],
     [ "PHAL_FDCAN_MAX_NUM_SID_FILTER", "fdcan_8h.html#a510b9be40bbfb85b648899f915e6c0f2", null ],
-    [ "PHAL_FDCAN_MAX_NUM_XID_FILTER", "fdcan_8h.html#ae42be612fd03d2410282785959131634", null ]
+    [ "PHAL_FDCAN_MAX_NUM_XID_FILTER", "fdcan_8h.html#ae42be612fd03d2410282785959131634", null ],
+    [ "PHAL_FDCAN_MAX_STD_ID", "fdcan_8h.html#a24fbc2c39fd7f07325b22f156995069d", null ]
 ];

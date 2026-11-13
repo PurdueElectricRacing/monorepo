@@ -212,6 +212,7 @@ $(function(){initNavTree('globals_u.html',''); initResizable(true); });
 <li>usart_recieve_complete_callback()&#160;:&#160;<a class="el" href="phal__F4_2usart_2usart_8c.html#afd98e1acca0fdcf343db884ea257b819">usart.c</a>, <a class="el" href="phal__F4_2usart_2usart_8h.html#a61341976b0cee71be1b6cf3bc17db4de">usart.h</a></li>
 <li>usart_state&#160;:&#160;<a class="el" href="phal__G4_2usart_2usart_8c.html#a846b6241ed38211c660ec69fe3ec95f4">usart.c</a></li>
 <li>usart_tx_dma_callback()&#160;:&#160;<a class="el" href="phal__G4_2usart_2usart_8c.html#a43e252bd62d3d5e76f2e50ebc399abe5">usart.c</a></li>
+<li>usb_bulk_in_enabled()&#160;:&#160;<a class="el" href="usb__control_8c.html#af480ec9f3b1a12ad2ce0cc1a769bc942">usb_control.c</a>, <a class="el" href="usb__control_8h.html#af480ec9f3b1a12ad2ce0cc1a769bc942">usb_control.h</a></li>
 <li>usb_clear_interrupt_flags()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a0d5abf3e4543ac89b6611ee7a1ae8a16">usb_priv.c</a></li>
 <li>usb_clear_transfer()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a7312b4dfb274b8c4e34c683499ad5e76">usb_priv.c</a></li>
 <li>usb_configure_endpoint()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a1b35d5bd2473c452b714e669014e6b82">usb_priv.c</a></li>
@@ -220,7 +221,6 @@ $(function(){initNavTree('globals_u.html',''); initResizable(true); });
 <li>usb_configure_type_c_sink()&#160;:&#160;<a class="el" href="usb__priv_8c.html#ae5c38a37080513ad9b42fe2ae880ee00">usb_priv.c</a></li>
 <li>usb_copy_from_pma()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a42c22576a1f6dd626e947d9a95ff6433">usb_priv.c</a></li>
 <li>usb_copy_to_pma()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a8cc0caddc361cdd67eaeed0a71762c82">usb_priv.c</a></li>
-<li>usb_data_enabled()&#160;:&#160;<a class="el" href="usb__control_8c.html#abe9c0e5af4436d1693b38a37de472f88">usb_control.c</a>, <a class="el" href="usb__control_8h.html#abe9c0e5af4436d1693b38a37de472f88">usb_control.h</a></li>
 <li>usb_delay()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a24d7e42058ea841bacf7f122f1433161">usb_priv.c</a></li>
 <li>usb_descriptor_word()&#160;:&#160;<a class="el" href="usb__priv_8c.html#ae50319496e974387c6b5a0668b825cb9">usb_priv.c</a></li>
 <li>usb_direction_is_valid()&#160;:&#160;<a class="el" href="usb_8c.html#a313becaab70e94bcd34b00166857720f">usb.c</a></li>
@@ -232,6 +232,7 @@ $(function(){initNavTree('globals_u.html',''); initResizable(true); });
 <li>USB_LED_PIN&#160;:&#160;<a class="el" href="cannector_2main_8h.html#acc754ee45b49c44e11f592ed53205179">main.h</a></li>
 <li>USB_LED_PORT&#160;:&#160;<a class="el" href="cannector_2main_8h.html#aab8e671ce455bca4a75ffd2f047bd33b">main.h</a></li>
 <li>USB_LP_IRQHandler()&#160;:&#160;<a class="el" href="usb_8c.html#ab0abd6916df1318e9dd804cdfc96a56d">usb.c</a></li>
+<li>usb_periodic()&#160;:&#160;<a class="el" href="usb__device_8c.html#aeeff2496b0d785fb69e975f539dedf4c">usb_device.c</a>, <a class="el" href="usb__device_8h.html#aeeff2496b0d785fb69e975f539dedf4c">usb_device.h</a></li>
 <li>usb_pma()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a3b7fce8b1f0de310ffffbe258ad7c6d7">usb_priv.c</a></li>
 <li>USB_PRIV_BTABLE_ENTRY_SIZE_BYTES&#160;:&#160;<a class="el" href="usb__priv_8c.html#a000ab6ef954fda40332c98e5340b0c7f">usb_priv.c</a></li>
 <li>USB_PRIV_BTABLE_OFFSET&#160;:&#160;<a class="el" href="usb__priv_8c.html#a1e2497f838cccd3d4b46eca09fd0b98c">usb_priv.c</a></li>
@@ -268,9 +269,12 @@ $(function(){initNavTree('globals_u.html',''); initResizable(true); });
 <li>USB_PRODUCT_STRING_INDEX&#160;:&#160;<a class="el" href="usb__descriptors_8h.html#af56d8fe62e6a5118bf08849e11b4ba89">usb_descriptors.h</a></li>
 <li>usb_receive_address()&#160;:&#160;<a class="el" href="usb__priv_8c.html#aca373172c04b6704271473559fe35015">usb_priv.c</a></li>
 <li>usb_reset_peripheral()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a1638950182f24a49c6002ae45e9656c0">usb_priv.c</a></li>
+<li>usb_rx_enqueue()&#160;:&#160;<a class="el" href="usb__device_8c.html#aee82f694872db1ea89a70d2757863d6a">usb_device.c</a>, <a class="el" href="usb__device_8h.html#aee82f694872db1ea89a70d2757863d6a">usb_device.h</a></li>
+<li>usb_rx_peek()&#160;:&#160;<a class="el" href="usb__device_8c.html#a27e2ad52ba4a53562bbe7eec5d5919e0">usb_device.c</a></li>
+<li>usb_rx_pop()&#160;:&#160;<a class="el" href="usb__device_8c.html#a972d2e4bef151b2c09ff97e243ff9a64">usb_device.c</a></li>
+<li>USB_RX_QUEUE_CAPACITY&#160;:&#160;<a class="el" href="usb__device_8h.html#ae564b4d33c60bc48fb0e549c702397b7">usb_device.h</a></li>
 <li>usb_set_status()&#160;:&#160;<a class="el" href="usb__priv_8c.html#aeac1c8e012ea840bd62b75d951b16358">usb_priv.c</a></li>
 <li>usb_transmit_address()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a80afa30e860ee2cbe11c0b317bd72e0e">usb_priv.c</a></li>
-<li>usb_tx_periodic()&#160;:&#160;<a class="el" href="usb__device_8c.html#ab07772c7097c38a915f51871f9ac6104">usb_device.c</a>, <a class="el" href="usb__device_8h.html#ab07772c7097c38a915f51871f9ac6104">usb_device.h</a></li>
 <li>USE_FDCAN1&#160;:&#160;<a class="el" href="A__BOX_8h.html#aa6f2e9810d43532cf45597c1d5d527cb">A_BOX.h</a>, <a class="el" href="BL__A__BOX_8h.html#aa6f2e9810d43532cf45597c1d5d527cb">BL_A_BOX.h</a>, <a class="el" href="BL__FRONT__DRIVELINE_8h.html#aa6f2e9810d43532cf45597c1d5d527cb">BL_FRONT_DRIVELINE.h</a>, <a class="el" href="BL__REAR__DRIVELINE_8h.html#aa6f2e9810d43532cf45597c1d5d527cb">BL_REAR_DRIVELINE.h</a>, <a class="el" href="DRIVELINE_8h.html#aa6f2e9810d43532cf45597c1d5d527cb">DRIVELINE.h</a>, <a class="el" href="MAIN__MODULE_8h.html#aa6f2e9810d43532cf45597c1d5d527cb">MAIN_MODULE.h</a>, <a class="el" href="PDU_8h.html#aa6f2e9810d43532cf45597c1d5d527cb">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#aa6f2e9810d43532cf45597c1d5d527cb">TORQUE_VECTOR.h</a></li>
 <li>USE_FDCAN2&#160;:&#160;<a class="el" href="A__BOX_8h.html#a09389f719514180e1356522315f12b33">A_BOX.h</a>, <a class="el" href="BL__DASHBOARD_8h.html#a09389f719514180e1356522315f12b33">BL_DASHBOARD.h</a>, <a class="el" href="BL__MAIN__MODULE_8h.html#a09389f719514180e1356522315f12b33">BL_MAIN_MODULE.h</a>, <a class="el" href="BL__TORQUE__VECTOR_8h.html#a09389f719514180e1356522315f12b33">BL_TORQUE_VECTOR.h</a>, <a class="el" href="DASHBOARD_8h.html#a09389f719514180e1356522315f12b33">DASHBOARD.h</a>, <a class="el" href="G4__TESTING_8h.html#a09389f719514180e1356522315f12b33">G4_TESTING.h</a>, <a class="el" href="MAIN__MODULE_8h.html#a09389f719514180e1356522315f12b33">MAIN_MODULE.h</a>, <a class="el" href="PDU_8h.html#a09389f719514180e1356522315f12b33">PDU.h</a>, <a class="el" href="TORQUE__VECTOR_8h.html#a09389f719514180e1356522315f12b33">TORQUE_VECTOR.h</a></li>
 <li>USE_FDCAN3&#160;:&#160;<a class="el" href="A__BOX_8h.html#a68f162d00f13a607ac12d1142ff42be9">A_BOX.h</a>, <a class="el" href="DASHBOARD_8h.html#a68f162d00f13a607ac12d1142ff42be9">DASHBOARD.h</a></li>

@@ -104,15 +104,16 @@ $(function(){initNavTree('usb__control_8c.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
-<p>Host enumeration and endpoint-zero control transfers (USB ISR context).  
+<p>Host enumeration and endpoint-zero control transfers (USB ISR context)  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="usb__control_8h_source.html">usb_control.h</a>&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="usb__device_8h_source.html">usb_device.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="usb__descriptors_8h_source.html">usb_descriptors.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for usb_control.c:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usb__control_8c__incl.svg" width="355" height="288"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="usb__control_8c__incl.svg" width="100%" height="516"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -145,11 +146,13 @@ Functions</h2></td></tr>
 <tr class="separator:a14f63620c5566929771bd524424f7cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1552b0f1dec62d4d6e8381b8526711fb" id="r_a1552b0f1dec62d4d6e8381b8526711fb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1552b0f1dec62d4d6e8381b8526711fb">handle_control_in</a> (void)</td></tr>
 <tr class="separator:a1552b0f1dec62d4d6e8381b8526711fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55057518c61075f06e9c1d252a441776" id="r_a55057518c61075f06e9c1d252a441776"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55057518c61075f06e9c1d252a441776">handle_bulk_out</a> (void)</td></tr>
+<tr class="separator:a55057518c61075f06e9c1d252a441776"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42f35c4042b4e0d58161e1761be95af5" id="r_a42f35c4042b4e0d58161e1761be95af5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42f35c4042b4e0d58161e1761be95af5">PHAL_USB_callback</a> (const <a class="el" href="structPHAL__USB__Event__t.html">PHAL_USB_Event_t</a> *event)</td></tr>
 <tr class="memdesc:a42f35c4042b4e0d58161e1761be95af5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle USB events.  <br /></td></tr>
 <tr class="separator:a42f35c4042b4e0d58161e1761be95af5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe9c0e5af4436d1693b38a37de472f88" id="r_abe9c0e5af4436d1693b38a37de472f88"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe9c0e5af4436d1693b38a37de472f88">usb_data_enabled</a> (void)</td></tr>
-<tr class="separator:abe9c0e5af4436d1693b38a37de472f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af480ec9f3b1a12ad2ce0cc1a769bc942" id="r_af480ec9f3b1a12ad2ce0cc1a769bc942"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af480ec9f3b1a12ad2ce0cc1a769bc942">usb_bulk_in_enabled</a> (void)</td></tr>
+<tr class="separator:af480ec9f3b1a12ad2ce0cc1a769bc942"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -157,9 +160,43 @@ Variables</h2></td></tr>
 <tr class="separator:a83c92d19112e413da3cc04249ae5101c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Host enumeration and endpoint-zero control transfers (USB ISR context). </p>
-<p>The HAL owns hardware and packet memory. This module supplies descriptors, validates host requests, and tracks when the CAN data endpoint may be used. </p>
+<div class="textblock"><p>Host enumeration and endpoint-zero control transfers (USB ISR context) </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a55057518c61075f06e9c1d252a441776" name="a55057518c61075f06e9c1d252a441776"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55057518c61075f06e9c1d252a441776">&#9670;&#160;</a></span>handle_bulk_out()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void handle_bulk_out </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="usb__control_8c_a55057518c61075f06e9c1d252a441776_cgraph.svg" width="100%" height="514"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="usb__control_8c_a55057518c61075f06e9c1d252a441776_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="a1552b0f1dec62d4d6e8381b8526711fb" name="a1552b0f1dec62d4d6e8381b8526711fb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1552b0f1dec62d4d6e8381b8526711fb">&#9670;&#160;</a></span>handle_control_in()</h2>
 
@@ -660,14 +697,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="abe9c0e5af4436d1693b38a37de472f88" name="abe9c0e5af4436d1693b38a37de472f88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe9c0e5af4436d1693b38a37de472f88">&#9670;&#160;</a></span>usb_data_enabled()</h2>
+<a id="af480ec9f3b1a12ad2ce0cc1a769bc942" name="af480ec9f3b1a12ad2ce0cc1a769bc942"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af480ec9f3b1a12ad2ce0cc1a769bc942">&#9670;&#160;</a></span>usb_bulk_in_enabled()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool usb_data_enabled </td>
+          <td class="memname">bool usb_bulk_in_enabled </td>
           <td>(</td>
           <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -677,7 +714,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usb__control_8c_abe9c0e5af4436d1693b38a37de472f88_icgraph.svg" width="394" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usb__control_8c_af480ec9f3b1a12ad2ce0cc1a769bc942_icgraph.svg" width="600" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -733,10 +770,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    .configured = <span class="keyword">false</span>,</div>
-<div class="line">    .bulk_halted = <span class="keyword">false</span>,</div>
-<div class="line">    .address = 0U,</div>
-<div class="line">    .pending_address = <a class="code hl_variable" href="usb__control_8h.html#a007ec817cfbe7954f14f8dd1f4b3175a">NO_PENDING_VALUE</a>,</div>
+<div class="line">    .configured            = <span class="keyword">false</span>,</div>
+<div class="line">    .bulk_in_halted        = <span class="keyword">false</span>,</div>
+<div class="line">    .bulk_out_halted       = <span class="keyword">false</span>,</div>
+<div class="line">    .address               = 0U,</div>
+<div class="line">    .pending_address       = <a class="code hl_variable" href="usb__control_8h.html#a007ec817cfbe7954f14f8dd1f4b3175a">NO_PENDING_VALUE</a>,</div>
 <div class="line">    .pending_configuration = <a class="code hl_variable" href="usb__control_8h.html#a007ec817cfbe7954f14f8dd1f4b3175a">NO_PENDING_VALUE</a>,</div>
 <div class="line">}</div>
 <div class="ttc" id="ausb__control_8h_html_a007ec817cfbe7954f14f8dd1f4b3175a"><div class="ttname"><a href="usb__control_8h.html#a007ec817cfbe7954f14f8dd1f4b3175a">NO_PENDING_VALUE</a></div><div class="ttdeci">static constexpr uint16_t NO_PENDING_VALUE</div><div class="ttdef"><b>Definition</b> usb_control.h:12</div></div>

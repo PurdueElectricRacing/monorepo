@@ -1,29 +1,31 @@
 <map id="firmware/can_library/generated/SCAN.h" name="firmware/can_library/generated/SCAN.h">
-<area shape="rect" id="Node000001" title="Auto&#45;generated CAN bus definitions for SCAN." alt="" coords="2424,5,2560,46"/>
+<area shape="rect" id="Node000001" title="Auto&#45;generated CAN bus definitions for SCAN." alt="" coords="2522,5,2658,46"/>
 <area shape="rect" id="Node000002" href="$A__BOX_8h.html" title="Auto&#45;generated CAN driver for A_BOX." alt="" coords="363,94,503,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2408,33,503,113,503,107,2408,28"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2507,33,504,113,504,108,2507,28"/>
 <area shape="rect" id="Node000008" href="$BL__FRONT__DRIVELINE_8h.html" title="Auto&#45;generated CAN driver for BL_FRONT_DRIVELINE." alt="" coords="968,94,1210,135"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="2408,31,1905,50,1566,69,1221,97,1210,98,1210,92,1221,91,1566,63,1905,44,2408,26"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="2507,31,2284,36,1966,48,1597,67,1221,97,1210,98,1210,92,1221,91,1597,62,1966,43,2284,31,2507,26"/>
 <area shape="rect" id="Node000009" href="$BL__REAR__DRIVELINE_8h.html" title="Auto&#45;generated CAN driver for BL_REAR_DRIVELINE." alt="" coords="1233,94,1465,135"/>
-<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="2408,33,2007,54,1744,72,1477,97,1465,98,1465,93,1477,91,1743,67,2006,48,2408,28"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="2507,32,2066,52,1774,71,1477,97,1465,98,1465,93,1477,91,1773,65,2066,46,2507,27"/>
 <area shape="rect" id="Node000010" href="$DASHBOARD_8h.html" title="Auto&#45;generated CAN driver for DASHBOARD." alt="" coords="1489,94,1668,135"/>
-<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="2408,38,1669,107,1668,102,2408,32"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="2507,37,1669,108,1668,103,2506,31"/>
 <area shape="rect" id="Node000020" href="$DRIVELINE_8h.html" title="Auto&#45;generated CAN driver for DRIVELINE." alt="" coords="2062,94,2228,135"/>
-<area shape="poly" id="edge24_Node000001_Node000020" title=" " alt="" coords="2409,50,2225,96,2224,91,2408,45"/>
+<area shape="poly" id="edge24_Node000001_Node000020" title=" " alt="" coords="2507,46,2229,100,2228,94,2506,41"/>
 <area shape="rect" id="Node000022" href="$PDU_8h.html" title="Auto&#45;generated CAN driver for PDU." alt="" coords="2325,94,2461,135"/>
-<area shape="poly" id="edge26_Node000001_Node000022" title=" " alt="" coords="2460,58,2417,96,2414,92,2456,54"/>
+<area shape="poly" id="edge26_Node000001_Node000022" title=" " alt="" coords="2533,55,2439,96,2437,91,2531,50"/>
 <area shape="rect" id="Node000025" href="$TORQUE__VECTOR_8h.html" title="Auto&#45;generated CAN driver for TORQUE_VECTOR." alt="" coords="2485,94,2696,135"/>
-<area shape="poly" id="edge29_Node000001_Node000025" title=" " alt="" coords="2527,54,2570,92,2566,96,2524,58"/>
+<area shape="poly" id="edge29_Node000001_Node000025" title=" " alt="" coords="2593,62,2593,94,2588,94,2588,62"/>
 <area shape="rect" id="Node000030" href="$node__defs_8h.html" title=" " alt="" coords="2720,94,2898,135"/>
-<area shape="poly" id="edge34_Node000001_Node000030" title=" " alt="" coords="2575,47,2737,91,2736,96,2574,52"/>
+<area shape="poly" id="edge34_Node000001_Node000030" title=" " alt="" coords="2655,49,2760,91,2758,96,2653,54"/>
 <area shape="rect" id="Node000032" href="$cannector_2can__callback_8c.html" title="CAN callback implementation." alt="" coords="2922,94,3096,135"/>
-<area shape="poly" id="edge36_Node000001_Node000032" title=" " alt="" coords="2575,37,2911,91,2922,93,2921,99,2910,97,2575,42"/>
+<area shape="poly" id="edge36_Node000001_Node000032" title=" " alt="" coords="2674,42,2922,92,2921,98,2673,47"/>
 <area shape="rect" id="Node000033" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="3120,94,3295,135"/>
-<area shape="poly" id="edge37_Node000001_Node000033" title=" " alt="" coords="2576,31,2815,55,3108,91,3120,93,3120,99,3107,97,2815,60,2575,37"/>
-<area shape="rect" id="Node000034" href="$daq_2can__callback_2can__callback_8c.html" title="Timestamped frame producer from the CAN RX callback." alt="" coords="3319,94,3510,135"/>
-<area shape="poly" id="edge38_Node000001_Node000034" title=" " alt="" coords="2575,29,2897,50,3101,68,3307,91,3319,93,3318,98,3306,97,3100,74,2896,56,2575,34"/>
-<area shape="rect" id="Node000035" href="$daq_2main_8c.html" title="&quot;DAQ&quot; node source code" alt="" coords="3534,94,3673,135"/>
-<area shape="poly" id="edge39_Node000001_Node000035" title=" " alt="" coords="2576,25,2749,29,2984,40,3252,60,3523,91,3535,93,3534,99,3522,97,3252,65,2984,45,2749,35,2575,30"/>
+<area shape="poly" id="edge37_Node000001_Node000033" title=" " alt="" coords="2675,34,2873,58,3108,91,3120,93,3119,99,3107,97,2872,63,2674,39"/>
+<area shape="rect" id="Node000034" href="$usb__device_8c.html" title="Periodic CAN&lt;&#45;&gt;USB forwarding." alt="" coords="3319,94,3494,135"/>
+<area shape="poly" id="edge38_Node000001_Node000034" title=" " alt="" coords="2674,30,2955,52,3131,69,3307,91,3319,93,3318,98,3306,97,3130,75,2955,57,2674,35"/>
+<area shape="rect" id="Node000035" href="$daq_2can__callback_2can__callback_8c.html" title="Timestamped frame producer from the CAN RX callback." alt="" coords="3517,94,3709,135"/>
+<area shape="poly" id="edge39_Node000001_Node000035" title=" " alt="" coords="2674,28,3036,48,3269,66,3505,91,3517,93,3517,98,3505,97,3269,72,3035,53,2674,33"/>
+<area shape="rect" id="Node000036" href="$daq_2main_8c.html" title="&quot;DAQ&quot; node source code" alt="" coords="3733,94,3872,135"/>
+<area shape="poly" id="edge40_Node000001_Node000036" title=" " alt="" coords="2674,24,2863,27,3123,37,3420,57,3572,72,3721,91,3733,93,3732,99,3721,97,3572,78,3420,63,3122,43,2862,33,2674,30"/>
 <area shape="rect" id="Node000003" href="$charging__fsm_8c.html" title="Charger control state machine implementation." alt="" coords="293,286,488,327"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="520,125,570,145,593,161,611,181,619,196,622,211,620,225,611,240,586,265,556,283,523,296,489,303,488,298,521,291,554,278,583,261,607,237,615,223,617,211,614,198,607,184,589,165,568,149,518,130"/>
 <area shape="rect" id="Node000004" href="$charging__fsm_8h.html" title="Charger control state machine implementation." alt="" coords="50,190,245,231"/>

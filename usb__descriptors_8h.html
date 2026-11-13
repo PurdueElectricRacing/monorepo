@@ -132,6 +132,8 @@ Variables</h2></td></tr>
 <tr class="separator:ad19fe849dc7f25e325e9087c1893acb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b3c17bf918cef3aa66d8b67557e7242" id="r_a0b3c17bf918cef3aa66d8b67557e7242"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b3c17bf918cef3aa66d8b67557e7242">BULK_IN_ADDRESS</a> = <a class="el" href="usb_8h.html#adaaabf1c2b49fc467d6ccec4b32a0c7b">PHAL_USB_ENDPOINT_ADDRESS_IN</a> | <a class="el" href="usb_8h.html#ac11d5e808a4d0ee4824043c138bed127">PHAL_USB_DATA_ENDPOINT</a></td></tr>
 <tr class="separator:a0b3c17bf918cef3aa66d8b67557e7242"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10c15e99565a4288ab05c288cde24338" id="r_a10c15e99565a4288ab05c288cde24338"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10c15e99565a4288ab05c288cde24338">BULK_OUT_ADDRESS</a> = <a class="el" href="usb_8h.html#ac11d5e808a4d0ee4824043c138bed127">PHAL_USB_DATA_ENDPOINT</a></td></tr>
+<tr class="separator:a10c15e99565a4288ab05c288cde24338"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a645779e5cdbd378fa7e019d75e71ec6b" id="r_a645779e5cdbd378fa7e019d75e71ec6b"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a645779e5cdbd378fa7e019d75e71ec6b">DEVICE_DESCRIPTOR</a> []</td></tr>
 <tr class="separator:a645779e5cdbd378fa7e019d75e71ec6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8507b6118ceb03ea4eb4239870a758fe" id="r_a8507b6118ceb03ea4eb4239870a758fe"><td class="memItemLeft" align="right" valign="top">static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8507b6118ceb03ea4eb4239870a758fe">CONFIGURATION_DESCRIPTOR</a> []</td></tr>
@@ -163,6 +165,28 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a10c15e99565a4288ab05c288cde24338" name="a10c15e99565a4288ab05c288cde24338"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10c15e99565a4288ab05c288cde24338">&#9670;&#160;</a></span>BULK_OUT_ADDRESS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t BULK_OUT_ADDRESS = <a class="el" href="usb_8h.html#ac11d5e808a4d0ee4824043c138bed127">PHAL_USB_DATA_ENDPOINT</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a8507b6118ceb03ea4eb4239870a758fe" name="a8507b6118ceb03ea4eb4239870a758fe"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8507b6118ceb03ea4eb4239870a758fe">&#9670;&#160;</a></span>CONFIGURATION_DESCRIPTOR</h2>
 
@@ -182,7 +206,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Configuration 1 is the CAN-to-USB bridge. Configuration 0 disables it. One interface (0), with one alternate setting (0), advertises one bulk IN endpoint (0x81). </p>
+<p>Configuration 1 is the CAN-to-USB bridge. Configuration 0 disables it. One interface (0), with one alternate setting (0), advertises bulk IN (0x81) and bulk OUT (0x01). </p>
 
 </div>
 </div>

@@ -1,28 +1,31 @@
 <map id="usb_receive_address" name="usb_receive_address">
 <area shape="rect" id="Node000001" title=" " alt="" coords="1223,81,1368,107"/>
-<area shape="rect" id="Node000002" href="$usb__priv_8c.html#a1b35d5bd2473c452b714e669014e6b82" title=" " alt="" coords="1018,56,1175,82"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1208,86,1176,82,1176,76,1208,80"/>
-<area shape="rect" id="Node000010" href="$usb__priv_8c.html#ac8fc2c5988800daa9a8e4fd40ef19dce" title="Copy one completed OUT packet from packet memory and rearm reception." alt="" coords="1037,105,1156,131"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1208,107,1157,114,1156,108,1207,102"/>
-<area shape="rect" id="Node000003" href="$usb__priv_8c.html#a7a65179705ed513c172183fd44417b8a" title=" " alt="" coords="806,56,970,82"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1002,72,971,72,971,66,1002,66"/>
-<area shape="rect" id="Node000004" href="$usb__priv_8c.html#a3b7fdac0fb67607273cf7aabc6f8494f" title="Decode one pending USB interrupt and notify the application." alt="" coords="204,81,384,107"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="791,76,384,93,384,88,790,70"/>
-<area shape="rect" id="Node000007" href="$usb__priv_8c.html#a88feef2613c47bacaa4b3a2a768c8ae4" title="Enable and reset the USB hardware, configure pins and packet memory." alt="" coords="637,5,748,31"/>
-<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="820,54,744,34,746,29,821,49"/>
+<area shape="rect" id="Node000002" href="$usb__priv_8c.html#a1b35d5bd2473c452b714e669014e6b82" title=" " alt="" coords="1018,105,1175,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1208,107,1176,111,1176,106,1207,102"/>
+<area shape="rect" id="Node000010" href="$usb__priv_8c.html#ac8fc2c5988800daa9a8e4fd40ef19dce" title="Copy one completed OUT packet from packet memory and rearm reception." alt="" coords="1037,56,1156,82"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1207,86,1156,79,1157,74,1208,80"/>
+<area shape="rect" id="Node000003" href="$usb__priv_8c.html#a7a65179705ed513c172183fd44417b8a" title=" " alt="" coords="806,105,970,131"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1002,121,971,121,971,116,1002,116"/>
+<area shape="rect" id="Node000004" href="$usb__priv_8c.html#a3b7fdac0fb67607273cf7aabc6f8494f" title="Decode one pending USB interrupt and notify the application." alt="" coords="204,80,384,106"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="790,117,384,99,384,94,791,111"/>
+<area shape="rect" id="Node000007" href="$usb__priv_8c.html#a88feef2613c47bacaa4b3a2a768c8ae4" title="Enable and reset the USB hardware, configure pins and packet memory." alt="" coords="637,156,748,182"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="821,138,746,158,744,153,820,133"/>
 <area shape="rect" id="Node000005" href="$usb_8c.html#a3d29cbfce29da77f8c0e1feb84998aac" title=" " alt="" coords="5,56,156,82"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="188,84,156,80,156,75,188,79"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="188,84,156,80,156,75,188,78"/>
 <area shape="rect" id="Node000006" href="$usb_8c.html#ab0abd6916df1318e9dd804cdfc96a56d" title=" " alt="" coords="6,105,155,131"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="188,109,155,113,154,107,188,103"/>
-<area shape="rect" id="Node000008" href="$usb_8c.html#a06c08ebbf291a1e1f7dca05a6660271d" title="Initialize the USB device hardware and endpoints." alt="" coords="448,5,564,31"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="621,21,564,21,564,16,621,16"/>
-<area shape="rect" id="Node000009" href="$cannector_2main_8c.html#acdef7a1fd863a6d3770c1268cb06add3" title=" " alt="" coords="269,5,318,31"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="432,21,319,21,319,16,432,16"/>
-<area shape="rect" id="Node000011" href="$usb_8c.html#af25d0362dcd989b4805bf062366f2142" title="Consume one host&#45;to&#45;device packet." alt="" coords="826,105,950,131"/>
-<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1021,121,950,121,950,116,1021,116"/>
-<area shape="rect" id="Node000012" href="$usb__control_8c.html#a14f63620c5566929771bd524424f7cb3" title=" " alt="" coords="627,107,758,132"/>
-<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="810,121,758,122,758,116,810,116"/>
-<area shape="rect" id="Node000013" href="$usb__control_8c.html#a42f35c4042b4e0d58161e1761be95af5" title="Handle USB events." alt="" coords="432,107,579,132"/>
-<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="612,122,580,122,580,117,612,117"/>
-<area shape="poly" id="edge13_Node000013_Node000004" title=" " alt="" coords="417,112,384,108,385,102,417,106"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="189,108,155,112,154,107,188,103"/>
+<area shape="rect" id="Node000008" href="$usb_8c.html#a06c08ebbf291a1e1f7dca05a6660271d" title="Initialize the USB device hardware and endpoints." alt="" coords="448,156,564,182"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="621,172,564,172,564,166,621,166"/>
+<area shape="rect" id="Node000009" href="$cannector_2main_8c.html#acdef7a1fd863a6d3770c1268cb06add3" title=" " alt="" coords="269,156,318,182"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="432,172,319,172,319,166,432,166"/>
+<area shape="rect" id="Node000011" href="$usb_8c.html#af25d0362dcd989b4805bf062366f2142" title="Consume one host&#45;to&#45;device packet." alt="" coords="826,55,950,80"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="1021,71,950,71,950,65,1021,66"/>
+<area shape="rect" id="Node000012" href="$usb__control_8c.html#a55057518c61075f06e9c1d252a441776" title=" " alt="" coords="635,5,750,31"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="818,53,746,34,747,29,820,48"/>
+<area shape="rect" id="Node000014" href="$usb__control_8c.html#a14f63620c5566929771bd524424f7cb3" title=" " alt="" coords="627,55,758,80"/>
+<area shape="poly" id="edge14_Node000011_Node000014" title=" " alt="" coords="810,70,758,70,758,65,810,65"/>
+<area shape="rect" id="Node000013" href="$usb__control_8c.html#a42f35c4042b4e0d58161e1761be95af5" title="Handle USB events." alt="" coords="432,55,579,80"/>
+<area shape="poly" id="edge12_Node000012_Node000013" title=" " alt="" coords="627,38,558,57,557,51,626,33"/>
+<area shape="poly" id="edge13_Node000013_Node000004" title=" " alt="" coords="417,81,385,85,384,79,417,75"/>
+<area shape="poly" id="edge15_Node000014_Node000013" title=" " alt="" coords="612,70,580,70,580,65,612,65"/>
 </map>

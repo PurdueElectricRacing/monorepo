@@ -130,6 +130,7 @@ $(function(){initNavTree('globals_func_u.html',''); initResizable(true); });
 <li>usart_handle_irq()&#160;:&#160;<a class="el" href="phal__G4_2usart_2usart_8c.html#a2d95d4283889fd97f020c1cbe8cb4b00">usart.c</a></li>
 <li>usart_recieve_complete_callback()&#160;:&#160;<a class="el" href="phal__F4_2usart_2usart_8c.html#afd98e1acca0fdcf343db884ea257b819">usart.c</a>, <a class="el" href="phal__F4_2usart_2usart_8h.html#a61341976b0cee71be1b6cf3bc17db4de">usart.h</a></li>
 <li>usart_tx_dma_callback()&#160;:&#160;<a class="el" href="phal__G4_2usart_2usart_8c.html#a43e252bd62d3d5e76f2e50ebc399abe5">usart.c</a></li>
+<li>usb_bulk_in_enabled()&#160;:&#160;<a class="el" href="usb__control_8c.html#af480ec9f3b1a12ad2ce0cc1a769bc942">usb_control.c</a>, <a class="el" href="usb__control_8h.html#af480ec9f3b1a12ad2ce0cc1a769bc942">usb_control.h</a></li>
 <li>usb_clear_interrupt_flags()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a0d5abf3e4543ac89b6611ee7a1ae8a16">usb_priv.c</a></li>
 <li>usb_clear_transfer()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a7312b4dfb274b8c4e34c683499ad5e76">usb_priv.c</a></li>
 <li>usb_configure_endpoint()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a1b35d5bd2473c452b714e669014e6b82">usb_priv.c</a></li>
@@ -138,7 +139,6 @@ $(function(){initNavTree('globals_func_u.html',''); initResizable(true); });
 <li>usb_configure_type_c_sink()&#160;:&#160;<a class="el" href="usb__priv_8c.html#ae5c38a37080513ad9b42fe2ae880ee00">usb_priv.c</a></li>
 <li>usb_copy_from_pma()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a42c22576a1f6dd626e947d9a95ff6433">usb_priv.c</a></li>
 <li>usb_copy_to_pma()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a8cc0caddc361cdd67eaeed0a71762c82">usb_priv.c</a></li>
-<li>usb_data_enabled()&#160;:&#160;<a class="el" href="usb__control_8c.html#abe9c0e5af4436d1693b38a37de472f88">usb_control.c</a>, <a class="el" href="usb__control_8h.html#abe9c0e5af4436d1693b38a37de472f88">usb_control.h</a></li>
 <li>usb_delay()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a24d7e42058ea841bacf7f122f1433161">usb_priv.c</a></li>
 <li>usb_descriptor_word()&#160;:&#160;<a class="el" href="usb__priv_8c.html#ae50319496e974387c6b5a0668b825cb9">usb_priv.c</a></li>
 <li>usb_direction_is_valid()&#160;:&#160;<a class="el" href="usb_8c.html#a313becaab70e94bcd34b00166857720f">usb.c</a></li>
@@ -147,6 +147,7 @@ $(function(){initNavTree('globals_func_u.html',''); initResizable(true); });
 <li>usb_endpoint_register()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a34ead234195e6e26e97662c2db3b9dbb">usb_priv.c</a></li>
 <li>USB_HP_IRQHandler()&#160;:&#160;<a class="el" href="usb_8c.html#a3d29cbfce29da77f8c0e1feb84998aac">usb.c</a></li>
 <li>USB_LP_IRQHandler()&#160;:&#160;<a class="el" href="usb_8c.html#ab0abd6916df1318e9dd804cdfc96a56d">usb.c</a></li>
+<li>usb_periodic()&#160;:&#160;<a class="el" href="usb__device_8c.html#aeeff2496b0d785fb69e975f539dedf4c">usb_device.c</a>, <a class="el" href="usb__device_8h.html#aeeff2496b0d785fb69e975f539dedf4c">usb_device.h</a></li>
 <li>usb_pma()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a3b7fce8b1f0de310ffffbe258ad7c6d7">usb_priv.c</a></li>
 <li>USB_PRIV_clearHalt()&#160;:&#160;<a class="el" href="usb__priv_8c.html#af1d8fa52f1c05ec5a597b2f6bfae225b">usb_priv.c</a>, <a class="el" href="usb__priv_8h.html#af1d8fa52f1c05ec5a597b2f6bfae225b">usb_priv.h</a></li>
 <li>USB_PRIV_connect()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a8f4223ca64ff2db2fdecae4d66c0d2ec">usb_priv.c</a>, <a class="el" href="usb__priv_8h.html#a8f4223ca64ff2db2fdecae4d66c0d2ec">usb_priv.h</a></li>
@@ -161,9 +162,11 @@ $(function(){initNavTree('globals_func_u.html',''); initResizable(true); });
 <li>USB_PRIV_write()&#160;:&#160;<a class="el" href="usb__priv_8c.html#ae29a55bc0c87c71b9820e6b8ef9c7780">usb_priv.c</a>, <a class="el" href="usb__priv_8h.html#ae29a55bc0c87c71b9820e6b8ef9c7780">usb_priv.h</a></li>
 <li>usb_receive_address()&#160;:&#160;<a class="el" href="usb__priv_8c.html#aca373172c04b6704271473559fe35015">usb_priv.c</a></li>
 <li>usb_reset_peripheral()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a1638950182f24a49c6002ae45e9656c0">usb_priv.c</a></li>
+<li>usb_rx_enqueue()&#160;:&#160;<a class="el" href="usb__device_8c.html#aee82f694872db1ea89a70d2757863d6a">usb_device.c</a>, <a class="el" href="usb__device_8h.html#aee82f694872db1ea89a70d2757863d6a">usb_device.h</a></li>
+<li>usb_rx_peek()&#160;:&#160;<a class="el" href="usb__device_8c.html#a27e2ad52ba4a53562bbe7eec5d5919e0">usb_device.c</a></li>
+<li>usb_rx_pop()&#160;:&#160;<a class="el" href="usb__device_8c.html#a972d2e4bef151b2c09ff97e243ff9a64">usb_device.c</a></li>
 <li>usb_set_status()&#160;:&#160;<a class="el" href="usb__priv_8c.html#aeac1c8e012ea840bd62b75d951b16358">usb_priv.c</a></li>
 <li>usb_transmit_address()&#160;:&#160;<a class="el" href="usb__priv_8c.html#a80afa30e860ee2cbe11c0b317bd72e0e">usb_priv.c</a></li>
-<li>usb_tx_periodic()&#160;:&#160;<a class="el" href="usb__device_8c.html#ab07772c7097c38a915f51871f9ac6104">usb_device.c</a>, <a class="el" href="usb__device_8h.html#ab07772c7097c38a915f51871f9ac6104">usb_device.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

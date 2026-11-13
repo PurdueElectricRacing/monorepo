@@ -1,5 +1,6 @@
 var usb__control_8c =
 [
+    [ "handle_bulk_out", "usb__control_8c.html#a55057518c61075f06e9c1d252a441776", null ],
     [ "handle_control_in", "usb__control_8c.html#a1552b0f1dec62d4d6e8381b8526711fb", null ],
     [ "handle_control_out", "usb__control_8c.html#a14f63620c5566929771bd524424f7cb3", null ],
     [ "handle_endpoint_halt", "usb__control_8c.html#a5bd52b3c50b00a9fa517695c81f16c13", null ],
@@ -14,7 +15,7 @@ var usb__control_8c =
     [ "PHAL_USB_callback", "usb__control_8c.html#a42f35c4042b4e0d58161e1761be95af5", null ],
     [ "respond", "usb__control_8c.html#a114dfa3b4bd067775f88e3590d237f4b", null ],
     [ "stall_control", "usb__control_8c.html#ae24eaf3990e4ce60f2765bf86eac5bb3", null ],
-    [ "usb_data_enabled", "usb__control_8c.html#abe9c0e5af4436d1693b38a37de472f88", null ],
+    [ "usb_bulk_in_enabled", "usb__control_8c.html#af480ec9f3b1a12ad2ce0cc1a769bc942", null ],
     [ "valid_endpoint", "usb__control_8c.html#aee81ec5968dca95851916ce33f80e2bf", null ],
     [ "g_usb_context", "usb__control_8c.html#a83c92d19112e413da3cc04249ae5101c", null ]
 ];
