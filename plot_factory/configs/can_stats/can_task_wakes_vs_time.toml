@@ -1,0 +1,40 @@
+type = "time_series"
+title = "CAN Send Task Wakes"
+filename = "can_task_wakes_vs_time.png"
+time_column = "real_time"
+width = 12
+height = 8
+forward_fill = true
+
+[[panels]]
+label = "CAN Task Wakes"
+
+[[panels.traces]]
+column = "SCAN.A_BOX.a_box_can_tx_actions.task_wake_count"
+label = "A Box"
+color = "tab:red"
+
+[[panels.traces]]
+column = "SCAN.DASHBOARD.dash_can_tx_actions.task_wake_count"
+label = "Dashboard"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "SCAN.DRIVELINE.driveline_can_tx_actions.task_wake_count"
+label = "Driveline"
+color = "tab:brown"
+
+[[panels.traces]]
+column = "VCAN.MAIN_MODULE.main_can_tx_actions.task_wake_count"
+label = "Main Module"
+color = "tab:green"
+
+[[panels.traces]]
+column = "SCAN.PDU.pdu_can_tx_actions.task_wake_count"
+label = "PDU"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "SCAN.TORQUE_VECTOR.torque_vector_can_tx_actions.task_wake_count"
+label = "Torque Vector"
+color = "tab:purple"

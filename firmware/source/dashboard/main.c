@@ -28,6 +28,7 @@
 #include "lcd.h"
 #include "pedals.h"
 #include "telemetry.h"
+#include "can_reporting.h"
 
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     // On-board LEDs
@@ -119,6 +120,7 @@ RTOS_DEFINE_TASK(driver_interface_periodic, DRIVER_INTERFACE_PERIOD_MS, TASK_PRI
 RTOS_DEFINE_TASK(report_telemetry_25hz, TELEMETRY_25HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(report_telemetry_02hz, TELEMETRY_02HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(lap_timer_periodic, GPS_COORDINATES_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(can_report_periodic, CAN_REPORTING_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 // RTOS_DEFINE_TASK(calibrate_LWS, 0, TASK_PRIORITY_LOW, STACK_512); // ! only enable for calibration
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(sweep_external_leds);
@@ -153,6 +155,7 @@ int main(void) {
     RTOS_START_TASK(report_telemetry_25hz);
     RTOS_START_TASK(report_telemetry_02hz);
     RTOS_START_TASK(lap_timer_periodic);
+    RTOS_START_TASK(can_report_periodic);
     // RTOS_START_TASK(calibrate_LWS); // ! only enable for calibration
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();

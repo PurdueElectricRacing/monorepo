@@ -1,0 +1,73 @@
+type = "time_series"
+title = "CAN Overflows"
+filename = "can_overflows_vs_time.png"
+time_column = "real_time"
+width = 12
+height = 14
+forward_fill = true
+
+[[panels]]
+label = "Recieving packets dropped"
+
+[[panels.traces]]
+column = "SCAN.A_BOX.a_box_can_overflow.rx_overflow"
+label = "A Box"
+color = "tab:red"
+
+[[panels.traces]]
+column = "SCAN.DASHBOARD.dash_can_overflow.rx_overflow"
+label = "Dashboard"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "SCAN.DRIVELINE.driveline_can_overflow.rx_overflow"
+label = "Driveline"
+color = "tab:brown"
+
+[[panels.traces]]
+column = "VCAN.MAIN_MODULE.main_can_overflow.rx_overflow"
+label = "Main Module"
+color = "tab:green"
+
+[[panels.traces]]
+column = "SCAN.PDU.pdu_can_overflow.rx_overflow"
+label = "PDU"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "SCAN.TORQUE_VECTOR.torque_vector_can_overflow.rx_overflow"
+label = "Torque Vector"
+color = "tab:purple"
+
+[[panels]]
+label = "Sending packets dropped"
+
+[[panels.traces]]
+column = "SCAN.A_BOX.a_box_can_overflow.tx_overflow"
+label = "A Box"
+color = "tab:red"
+
+[[panels.traces]]
+column = "SCAN.DASHBOARD.dash_can_overflow.tx_overflow"
+label = "Dashboard"
+color = "tab:orange"
+
+[[panels.traces]]
+column = "SCAN.DRIVELINE.driveline_can_overflow.tx_overflow"
+label = "Driveline"
+color = "tab:brown"
+
+[[panels.traces]]
+column = "VCAN.MAIN_MODULE.main_can_overflow.tx_overflow"
+label = "Main Module"
+color = "tab:green"
+
+[[panels.traces]]
+column = "SCAN.PDU.pdu_can_overflow.tx_overflow"
+label = "PDU"
+color = "tab:blue"
+
+[[panels.traces]]
+column = "SCAN.TORQUE_VECTOR.torque_vector_can_overflow.tx_overflow"
+label = "Torque Vector"
+color = "tab:purple"
