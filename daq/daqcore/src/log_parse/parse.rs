@@ -1,4 +1,4 @@
-use crate::{frame, log_parse, superdbc};
+use crate::{can, frame, log_parse, superdbc};
 use std::{fs, io, mem, path};
 
 #[derive(Debug)]
@@ -14,7 +14,7 @@ pub struct ParsedMessage {
 pub struct RawFrame {
     pub ticks_ms: u32,
     pub identity: u32,
-    pub data: [u8; 8],
+    pub data: [u8; can::CLASSIC_CAN_MAX_BYTES],
 }
 
 impl RawFrame {
@@ -24,7 +24,7 @@ impl RawFrame {
         ticks_ms: u32,
         identity: frame::CanIdentity,
         bus_id: u8,
-        data: [u8; 8],
+        data: [u8; can::CLASSIC_CAN_MAX_BYTES],
     ) -> Result<Self, String> {
         if bus_id > 7 {
             return Err(format!(

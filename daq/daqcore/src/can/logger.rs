@@ -1,4 +1,4 @@
-use crate::{frame, log_parse};
+use crate::{can, frame, log_parse};
 use chrono::Datelike as _;
 use chrono::Timelike as _;
 use std::{fs, io, path, time};
@@ -68,7 +68,7 @@ impl DaqLogger {
             return Ok(());
         }
 
-        if frame.data.len() > 8 {
+        if frame.data.len() > can::CLASSIC_CAN_MAX_BYTES {
             return Err("classic CAN log payload exceeds 8 bytes".into());
         }
 

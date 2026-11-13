@@ -7,7 +7,6 @@ use rand::prelude::IndexedRandom as _;
 use rand::seq::IteratorRandom as _;
 
 const FRAME_INTERVAL: time::Duration = time::Duration::from_millis(1);
-const CLASSIC_CAN_MAX_BYTES: usize = 8;
 
 pub struct SimulatedDriver {
     buses: Vec<Vec<superdbc::message::Message>>,
@@ -31,7 +30,7 @@ impl SimulatedDriver {
         let bus_id = message.key().bus_id;
         let size = usize::from(message.length_bytes());
 
-        if size > CLASSIC_CAN_MAX_BYTES {
+        if size > can::CLASSIC_CAN_MAX_BYTES {
             return Err(driver::DriverError::Timeout);
         }
 
@@ -131,7 +130,7 @@ impl driver::Driver for SimulatedDriver {
         }
 
         let identity = rng.random_range(0..=can::STANDARD_ID_MASK);
-        let mut data = vec![0u8; CLASSIC_CAN_MAX_BYTES];
+        let mut data = vec![0u8; can::CLASSIC_CAN_MAX_BYTES];
         rng.fill_bytes(&mut data);
         let frame =
             frame::CanFrame::data(None, identity, data).map_err(driver::DriverError::Read)?;

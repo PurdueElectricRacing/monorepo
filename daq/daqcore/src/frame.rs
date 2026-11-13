@@ -1,6 +1,6 @@
 //! Transport-neutral frames; owned by the receiving thread until moved to its caller.
 
-use crate::{superdbc, time};
+use crate::{can, superdbc, time};
 
 /// A 11-bit or 29-bit CAN identifier.
 pub type CanIdentity = u32;
@@ -25,7 +25,7 @@ pub struct CanFrame {
 
 impl CanFrame {
     pub fn data(bus_id: Option<u8>, identity: CanIdentity, data: Vec<u8>) -> Result<Self, String> {
-        if data.len() > 8 {
+        if data.len() > can::CLASSIC_CAN_MAX_BYTES {
             return Err("classic CAN payload exceeds 8 bytes".into());
         }
 

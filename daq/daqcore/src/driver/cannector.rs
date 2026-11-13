@@ -1,7 +1,5 @@
 use crate::{can, driver, frame};
 
-const CLASSIC_CAN_MAX_BYTES: usize = 8;
-
 #[repr(C)]
 #[derive(bytemuck::Pod, bytemuck::Zeroable, Copy, Clone, Debug, PartialEq, Eq)]
 // Matches can_tx_frame_t in firmware/source/cannector/usb_device.h
@@ -11,7 +9,7 @@ struct CannectorTxFrame {
     dlc: u8,
     is_extended_id: u8,
     reserved: u8,
-    data: [u8; CLASSIC_CAN_MAX_BYTES],
+    data: [u8; can::CLASSIC_CAN_MAX_BYTES],
 }
 
 impl CannectorTxFrame {
@@ -39,11 +37,13 @@ impl CannectorTxFrame {
         if frame.identity > max_id {
             return Err(driver::DriverError::Write("invalid ID".into()));
         }
-        if frame.data.len() > CLASSIC_CAN_MAX_BYTES || usize::from(frame.dlc) != frame.data.len() {
+        if frame.data.len() > can::CLASSIC_CAN_MAX_BYTES
+            || usize::from(frame.dlc) != frame.data.len()
+        {
             return Err(driver::DriverError::Write("invalid payload".into()));
         }
 
-        let mut data = [0u8; CLASSIC_CAN_MAX_BYTES];
+        let mut data = [0u8; can::CLASSIC_CAN_MAX_BYTES];
         data[..frame.data.len()].copy_from_slice(&frame.data);
 
         let bus_id = frame.bus_id.unwrap_or_else(|| {
