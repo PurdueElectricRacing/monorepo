@@ -2,8 +2,8 @@ var searchData=
 [
   ['can_5fdata_5ft_0',['can_data_t',['../structcan__data__t.html',1,'']]],
   ['can_5fstats_5ft_1',['can_stats_t',['../structcan__stats__t.html',1,'']]],
-  ['can_5ftx_5fframe_5ft_2',['can_tx_frame_t',['../structcan__tx__frame__t.html',1,'']]],
-  ['canmsgtypedef_5ft_3',['CanMsgTypeDef_t',['../structCanMsgTypeDef__t.html',1,'']]],
+  ['canmsgtypedef_5ft_2',['CanMsgTypeDef_t',['../structCanMsgTypeDef__t.html',1,'']]],
+  ['cannector_5ftx_5fframe_5ft_3',['cannector_tx_frame_t',['../structcannector__tx__frame__t.html',1,'']]],
   ['canpiler_5ftest_5fdata_5ft_4',['canpiler_test_data_t',['../structcanpiler__test__data__t.html',1,'']]],
   ['car_5ft_5',['car_t',['../structcar__t.html',1,'']]],
   ['cell_5ftelemetry_5fccan_5fdata_5ft_6',['cell_telemetry_ccan_data_t',['../structcell__telemetry__ccan__data__t.html',1,'']]],

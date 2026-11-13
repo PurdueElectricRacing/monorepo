@@ -123,10 +123,10 @@ Include dependency graph for usb_device.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aee82f694872db1ea89a70d2757863d6a" id="r_aee82f694872db1ea89a70d2757863d6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee82f694872db1ea89a70d2757863d6a">usb_rx_enqueue</a> (const <a class="el" href="structcan__tx__frame__t.html">can_tx_frame_t</a> *frames, size_t count)</td></tr>
-<tr class="separator:aee82f694872db1ea89a70d2757863d6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27e2ad52ba4a53562bbe7eec5d5919e0" id="r_a27e2ad52ba4a53562bbe7eec5d5919e0"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27e2ad52ba4a53562bbe7eec5d5919e0">usb_rx_peek</a> (<a class="el" href="structcan__tx__frame__t.html">can_tx_frame_t</a> *frame, size_t *head_out)</td></tr>
-<tr class="separator:a27e2ad52ba4a53562bbe7eec5d5919e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a898a9197341b95e468c94c797d6e7da0" id="r_a898a9197341b95e468c94c797d6e7da0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a898a9197341b95e468c94c797d6e7da0">usb_rx_enqueue</a> (const <a class="el" href="structcannector__tx__frame__t.html">cannector_tx_frame_t</a> *frames, size_t count)</td></tr>
+<tr class="separator:a898a9197341b95e468c94c797d6e7da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3391f1f183ffc3a8b90fd10431b6660f" id="r_a3391f1f183ffc3a8b90fd10431b6660f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3391f1f183ffc3a8b90fd10431b6660f">usb_rx_peek</a> (<a class="el" href="structcannector__tx__frame__t.html">cannector_tx_frame_t</a> *frame, size_t *head_out)</td></tr>
+<tr class="separator:a3391f1f183ffc3a8b90fd10431b6660f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972d2e4bef151b2c09ff97e243ff9a64" id="r_a972d2e4bef151b2c09ff97e243ff9a64"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a972d2e4bef151b2c09ff97e243ff9a64">usb_rx_pop</a> (size_t expected_head)</td></tr>
 <tr class="separator:a972d2e4bef151b2c09ff97e243ff9a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf36b85d6ffb28b4e66e524f959dbef3" id="r_abf36b85d6ffb28b4e66e524f959dbef3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf36b85d6ffb28b4e66e524f959dbef3">process_usb_rx_frames</a> (void)</td></tr>
@@ -244,8 +244,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aee82f694872db1ea89a70d2757863d6a" name="aee82f694872db1ea89a70d2757863d6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee82f694872db1ea89a70d2757863d6a">&#9670;&#160;</a></span>usb_rx_enqueue()</h2>
+<a id="a898a9197341b95e468c94c797d6e7da0" name="a898a9197341b95e468c94c797d6e7da0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a898a9197341b95e468c94c797d6e7da0">&#9670;&#160;</a></span>usb_rx_enqueue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -253,7 +253,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void usb_rx_enqueue </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structcan__tx__frame__t.html">can_tx_frame_t</a> *</td>          <td class="paramname"><span class="paramname"><em>frames</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="structcannector__tx__frame__t.html">cannector_tx_frame_t</a> *</td>          <td class="paramname"><span class="paramname"><em>frames</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -265,13 +265,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="usb__device_8c_aee82f694872db1ea89a70d2757863d6a_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="usb__device_8c_a898a9197341b95e468c94c797d6e7da0_icgraph.svg" width="100%" height="364"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
 </div>
-<a id="a27e2ad52ba4a53562bbe7eec5d5919e0" name="a27e2ad52ba4a53562bbe7eec5d5919e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27e2ad52ba4a53562bbe7eec5d5919e0">&#9670;&#160;</a></span>usb_rx_peek()</h2>
+<a id="a3391f1f183ffc3a8b90fd10431b6660f" name="a3391f1f183ffc3a8b90fd10431b6660f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3391f1f183ffc3a8b90fd10431b6660f">&#9670;&#160;</a></span>usb_rx_peek()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,7 +282,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static bool usb_rx_peek </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structcan__tx__frame__t.html">can_tx_frame_t</a> *</td>          <td class="paramname"><span class="paramname"><em>frame</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structcannector__tx__frame__t.html">cannector_tx_frame_t</a> *</td>          <td class="paramname"><span class="paramname"><em>frame</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -299,7 +299,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="usb__device_8c_a27e2ad52ba4a53562bbe7eec5d5919e0_icgraph.svg" width="552" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="usb__device_8c_a3391f1f183ffc3a8b90fd10431b6660f_icgraph.svg" width="552" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

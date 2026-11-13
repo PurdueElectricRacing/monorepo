@@ -437,7 +437,7 @@ var searchData=
   ['bulk_5fout_5fhalted_434',['bulk_out_halted',['../structusb__context__t.html#a7115bab71214ee77c78598b82cc25c88',1,'usb_context_t']]],
   ['bus_435',['Bus',['../structCanMsgTypeDef__t.html#a27b82ae932da76206323ac8268b3f1e6',1,'CanMsgTypeDef_t::Bus'],['../structCanMsgTypeDef__t.html#a4aa42f4d25313b588ecb4323723d2ef6',1,'CanMsgTypeDef_t::Bus']]],
   ['bus_20membership_436',['Bus Membership',['../md_docs_2can__graphs.html#autotoc_md88',1,'']]],
-  ['bus_5fid_437',['bus_id',['../structcan__tx__frame__t.html#a0aec407414a210eb3c47bea106e00abe',1,'can_tx_frame_t']]],
+  ['bus_5fid_437',['bus_id',['../structcannector__tx__frame__t.html#a86b45444e590160035f77d7301f476e8',1,'cannector_tx_frame_t']]],
   ['bus_5fstalled_438',['bus_stalled',['../structusb__rx__queue__t.html#a14d2587c2e351794ea275469184bbb07',1,'usb_rx_queue_t']]],
   ['busy_439',['busy',['../structPHAL__ADC__Handle__t.html#a224a675307a5bfd35a864265bed8caf0',1,'PHAL_ADC_Handle_t']]],
   ['button_5fexti_5fconfig_440',['button_exti_config',['../driver__interface_8c.html#ad50689b9adac1ceb68f7ef0b7fd428b0',1,'driver_interface.c']]],

@@ -62,8 +62,8 @@ var searchData=
   ['usb_5fpriv_5fwrite_59',['USB_PRIV_write',['../usb__priv_8c.html#ae29a55bc0c87c71b9820e6b8ef9c7780',1,'USB_PRIV_write(uint8_t endpoint, const void *source, uint16_t length_bytes):&#160;usb_priv.c'],['../usb__priv_8h.html#ae29a55bc0c87c71b9820e6b8ef9c7780',1,'USB_PRIV_write(uint8_t endpoint, const void *source, uint16_t length_bytes):&#160;usb_priv.c']]],
   ['usb_5freceive_5faddress_60',['usb_receive_address',['../usb__priv_8c.html#aca373172c04b6704271473559fe35015',1,'usb_priv.c']]],
   ['usb_5freset_5fperipheral_61',['usb_reset_peripheral',['../usb__priv_8c.html#a1638950182f24a49c6002ae45e9656c0',1,'usb_priv.c']]],
-  ['usb_5frx_5fenqueue_62',['usb_rx_enqueue',['../usb__device_8c.html#aee82f694872db1ea89a70d2757863d6a',1,'usb_rx_enqueue(const can_tx_frame_t *frames, size_t count):&#160;usb_device.c'],['../usb__device_8h.html#aee82f694872db1ea89a70d2757863d6a',1,'usb_rx_enqueue(const can_tx_frame_t *frames, size_t count):&#160;usb_device.c']]],
-  ['usb_5frx_5fpeek_63',['usb_rx_peek',['../usb__device_8c.html#a27e2ad52ba4a53562bbe7eec5d5919e0',1,'usb_device.c']]],
+  ['usb_5frx_5fenqueue_62',['usb_rx_enqueue',['../usb__device_8c.html#a898a9197341b95e468c94c797d6e7da0',1,'usb_rx_enqueue(const cannector_tx_frame_t *frames, size_t count):&#160;usb_device.c'],['../usb__device_8h.html#a898a9197341b95e468c94c797d6e7da0',1,'usb_rx_enqueue(const cannector_tx_frame_t *frames, size_t count):&#160;usb_device.c']]],
+  ['usb_5frx_5fpeek_63',['usb_rx_peek',['../usb__device_8c.html#a3391f1f183ffc3a8b90fd10431b6660f',1,'usb_device.c']]],
   ['usb_5frx_5fpop_64',['usb_rx_pop',['../usb__device_8c.html#a972d2e4bef151b2c09ff97e243ff9a64',1,'usb_device.c']]],
   ['usb_5fset_5fstatus_65',['usb_set_status',['../usb__priv_8c.html#aeac1c8e012ea840bd62b75d951b16358',1,'usb_priv.c']]],
   ['usb_5ftransmit_5faddress_66',['usb_transmit_address',['../usb__priv_8c.html#a80afa30e860ee2cbe11c0b317bd72e0e',1,'usb_priv.c']]]
