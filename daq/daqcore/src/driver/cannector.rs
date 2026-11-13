@@ -2,7 +2,7 @@ use crate::{can, driver, frame};
 
 #[repr(C)]
 #[derive(bytemuck::Pod, bytemuck::Zeroable, Copy, Clone, Debug, PartialEq, Eq)]
-// Matches can_tx_frame_t in firmware/source/cannector/usb_device.h
+// Matches cannector_tx_frame_t in firmware/source/cannector/usb_device.h
 struct CannectorTxFrame {
     can_id: u32,
     bus_id: u8,
