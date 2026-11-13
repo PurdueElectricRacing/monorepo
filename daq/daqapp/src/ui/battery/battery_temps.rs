@@ -37,6 +37,24 @@ impl ThermistorTemperature {
     }
 }
 
+struct BmsTempTelemetry {
+    min_cell_temp: f64,
+    max_cell_temp: f64,
+    avg_cell_temp: f64,
+    max_board_temp: f64,
+}
+
+impl Default for BmsTempTelemetry {
+    fn default() -> Self {
+        Self {
+            min_cell_temp: f64::NAN,
+            max_cell_temp: f64::NAN,
+            avg_cell_temp: f64::NAN,
+            max_board_temp: f64::NAN,
+        }
+    }
+}
+
 pub struct BatteryTemps {
     pub title: String,
 }
@@ -53,48 +71,22 @@ impl BatteryTemps {
         ui: &mut eframe::egui::Ui,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        let (modules, last_update) = thermistor_temperatures(view.setpoint_frames);
-        let (stale, elapsed) = ui::battery::common::sample_age(last_update, view.view_time());
+        let (modules, therm_time) = thermistor_temperatures(view.setpoint_frames);
+        let (bms_telemetry, bms_time) = bms_temps(view.setpoint_frames);
+        let (stale, elapsed) =
+            ui::battery::common::sample_age(therm_time.max(bms_time), view.view_time());
 
         let theme = ui::theme::get_theme(ui.ctx());
 
-        let cell_temperatures = modules
-            .iter()
-            .flat_map(|module| &module[..ui::battery::common::CELL_THERMS_PER_MODULE])
-            .map(|cell| cell.temperature)
-            .filter(|v| v.is_finite());
-        let temp_min = cell_temperatures.clone().reduce(f64::min).unwrap_or(f64::NAN);
-        let temp_max = cell_temperatures.clone().reduce(f64::max).unwrap_or(f64::NAN);
-        let temp_count = cell_temperatures.clone().count();
-        let temp_sum: f64 = cell_temperatures.sum();
-        let temp_avg = if temp_count > 0 {
-            temp_sum / temp_count as f64
-        } else {
-            f64::NAN
-        };
-        let temp_range = temp_max - temp_min;
-        let range_color = if temp_range > 10.0 {
-            theme.error_color()
-        } else if temp_range > 5.0 {
-            theme.warning_color()
-        } else {
-            theme.success_color()
-        };
-
-        let board_max = modules
-            .iter()
-            .flat_map(|module| &module[ui::battery::common::CELL_THERMS_PER_MODULE..])
-            .map(|cell| cell.temperature)
-            .filter(|v| v.is_finite())
-            .reduce(f64::max)
-            .unwrap_or(f64::NAN);
-        let board_max_color = if board_max > 60.0 {
-            Some(theme.error_color())
-        } else if board_max > 50.0 {
-            Some(theme.warning_color())
+        let temp_min = bms_telemetry.as_ref().map(|t| t.min_cell_temp);
+        let temp_avg = bms_telemetry.as_ref().map(|t| t.avg_cell_temp);
+        let temp_max = bms_telemetry.as_ref().map(|t| t.max_cell_temp);
+        let temp_range = if let (Some(min), Some(max)) = (temp_min, temp_max) {
+            Some(max - min)
         } else {
             None
         };
+        let board_max = bms_telemetry.as_ref().map(|t| t.max_board_temp);
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
@@ -116,7 +108,7 @@ impl BatteryTemps {
                     &mut cols[0],
                     &theme,
                     "CELL MIN",
-                    Some(temp_min),
+                    temp_min,
                     "°C",
                     stale,
                     None,
@@ -125,7 +117,7 @@ impl BatteryTemps {
                     &mut cols[1],
                     &theme,
                     "CELL AVG",
-                    Some(temp_avg),
+                    temp_avg,
                     "°C",
                     stale,
                     None,
@@ -134,7 +126,7 @@ impl BatteryTemps {
                     &mut cols[2],
                     &theme,
                     "CELL MAX",
-                    Some(temp_max),
+                    temp_max,
                     "°C",
                     stale,
                     None,
@@ -143,19 +135,35 @@ impl BatteryTemps {
                     &mut cols[3],
                     &theme,
                     "CELL RANGE",
-                    Some(temp_range),
+                    temp_range,
                     "°C",
                     stale,
-                    Some(range_color),
+                    temp_range.map(|range| {
+                        if range > 10.0 {
+                            theme.error_color()
+                        } else if range > 5.0 {
+                            theme.warning_color()
+                        } else {
+                            theme.success_color()
+                        }
+                    }),
                 );
                 ui::battery::common::stat_card(
                     &mut cols[4],
                     &theme,
                     "BOARD MAX",
-                    Some(board_max),
+                    board_max,
                     "°C",
                     stale,
-                    board_max_color,
+                    board_max.and_then(|max| {
+                        if max > 60.0 {
+                            Some(theme.error_color())
+                        } else if max > 50.0 {
+                            Some(theme.warning_color())
+                        } else {
+                            None
+                        }
+                    }),
                 );
             });
 
@@ -436,4 +444,34 @@ fn thermistor_temperatures(
         }
     }
     (modules, last_update)
+}
+
+fn bms_temps(
+    frames: &[daqcore::frame::ParsedFrame],
+) -> (Option<BmsTempTelemetry>, Option<daqcore::time::Time>) {
+    let mut values: Option<BmsTempTelemetry> = None;
+    let mut last_update = None;
+    for frame in frames.iter().rev() {
+        let Some(decoded) = &frame.decoded else {
+            continue;
+        };
+
+        if matches!(decoded.name(), "bms_temps" | "bms_temps_ccan") {
+            for (name, signal) in decoded.iter() {
+                let field = match name {
+                    "min_cell_temp" => &mut values.get_or_insert_default().min_cell_temp,
+                    "max_cell_temp" => &mut values.get_or_insert_default().max_cell_temp,
+                    "avg_cell_temp" => &mut values.get_or_insert_default().avg_cell_temp,
+                    "max_board_temp" => &mut values.get_or_insert_default().max_board_temp,
+                    _ => continue,
+                };
+
+                if field.is_nan() {
+                    *field = signal.physical();
+                }
+            }
+            last_update = last_update.max(Some(frame.timestamp));
+        }
+    }
+    (values, last_update)
 }
