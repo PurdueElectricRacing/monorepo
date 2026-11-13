@@ -6,9 +6,13 @@
  */
 
 #include "current_sense.h"
-#include "switch.h"
 #include "main.h"
+#include "switch.h"
 #include "common/rtos/rtos.h"
+#include "can_library/generated/PDU.h"
+#include "can_library/faults_common.h"
+
+
 
 static void mux_select(mux_id_t mux_id, uint8_t mux_addr) {
     switch(mux_id) {
@@ -28,6 +32,7 @@ static void mux_select(mux_id_t mux_id, uint8_t mux_addr) {
 
 static switch_id_t g_switch_poll_index = 0;
 
+static_assert(SWITCH_CS_PERIOD_MS == CURRENT_SENSE_TASK_PERIOD_MS);
 void current_sense_periodic() {
     switch_t* sw = &g_switches[g_switch_poll_index];
 
@@ -43,6 +48,8 @@ void current_sense_periodic() {
         float current = (adc_value);  // todo resistor divider
         sw->current_ma = current;
     }
+
+    CAN_SEND_switch_cs(g_switch_poll_index, (uint16_t)sw->current_ma);
 
     g_switch_poll_index = (g_switch_poll_index + 1) % NUM_SWITCHES;
 }
