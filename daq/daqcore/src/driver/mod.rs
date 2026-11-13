@@ -53,9 +53,7 @@ pub fn create_driver(
             Ok(Box::new(serial::SerialDriver::new(path, *speed)?))
         }
         connection::ConnectionSource::Udp(port) => Ok(Box::new(udp::UdpDriver::new(*port)?)),
-        connection::ConnectionSource::Cannector => {
-            Ok(Box::new(cannector::CannectorDriver::new()?))
-        }
+        connection::ConnectionSource::Cannector => Ok(Box::new(cannector::CannectorDriver::new()?)),
         connection::ConnectionSource::Loopback => Ok(Box::new(loopback::LoopbackDriver::default())),
         connection::ConnectionSource::Simulated(true) => {
             Ok(Box::new(simulated::SimulatedDriver::new(buses)))

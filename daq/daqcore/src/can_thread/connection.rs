@@ -54,10 +54,7 @@ impl ConnectionManager {
     }
 
     pub fn read(&mut self) -> driver::DriverResult<Vec<frame::CanFrame>> {
-        let driver = self
-            .driver
-            .as_mut()
-            .ok_or(driver::DriverError::Timeout)?;
+        let driver = self.driver.as_mut().ok_or(driver::DriverError::Timeout)?;
 
         driver.read_frames()
     }

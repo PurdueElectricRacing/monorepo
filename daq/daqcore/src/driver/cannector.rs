@@ -80,9 +80,7 @@ impl CannectorDriver {
 
     pub fn new() -> driver::DriverResult<Self> {
         let handle = rusb::open_device_with_vid_pid(Self::VID, Self::PID).ok_or_else(|| {
-            driver::DriverError::ConnectionFailed(
-                "CANnector not found or USB access denied".into(),
-            )
+            driver::DriverError::ConnectionFailed("CANnector not found or USB access denied".into())
         })?;
         let _ = handle.set_auto_detach_kernel_driver(true);
         handle
