@@ -1,8 +1,17 @@
 use crate::ui;
 
 pub const NUM_MODULES: usize = 5;
-pub const CELLS_PER_MODULE: usize = 29;
-pub const THERMISTORS_PER_MODULE: usize = 20;
+pub const CHIPS_PER_MODULE: usize = 2;
+
+pub const CELLS_CHIP_0: usize = 16;
+pub const CELLS_CHIP_1: usize = 13;
+pub const CELLS_PER_MODULE: usize = CELLS_CHIP_0 + CELLS_CHIP_1;
+
+pub const CELL_THERMS_PER_CHIP: usize = 9;
+pub const BOARD_THERMS_PER_CHIP: usize = 1;
+pub const CELL_THERMS_PER_MODULE: usize = CHIPS_PER_MODULE * CELL_THERMS_PER_CHIP;
+pub const BOARD_THERMS_PER_MODULE: usize = CHIPS_PER_MODULE * BOARD_THERMS_PER_CHIP;
+pub const THERMISTORS_PER_MODULE: usize = CELL_THERMS_PER_MODULE + BOARD_THERMS_PER_MODULE;
 
 pub const STALE_TIMEOUT_SECONDS: u64 = 1;
 
