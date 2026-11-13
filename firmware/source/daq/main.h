@@ -16,11 +16,11 @@
 #define HEARTBEAT_LED_PORT  (GPIOB)
 #define HEARTBEAT_LED_PIN   (5)
 #define VCAN_LED_PORT       (GPIOB)
-#define VCAN_LED_PIN        (8)
+#define VCAN_LED_PIN        (7)
 #define MCAN_LED_PORT       (GPIOB)
 #define MCAN_LED_PIN        (9)
 #define SCAN_LED_PORT       (GPIOB)
-#define SCAN_LED_PIN        (7)
+#define SCAN_LED_PIN        (8)
 #define ERROR_LED_PORT      (GPIOB)
 #define ERROR_LED_PIN       (6)
 
