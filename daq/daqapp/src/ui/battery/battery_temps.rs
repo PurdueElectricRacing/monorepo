@@ -4,6 +4,12 @@ const T_MIN: f64 = 15.0;
 const T_MAX: f64 = 45.0;
 const T_NOM: f64 = 25.0;
 
+const T_RANGE_WARN: f64 = 5.0;
+const T_RANGE_ERROR: f64 = 10.0;
+
+const T_BOARD_WARN: f64 = 50.0;
+const T_BOARD_ERROR: f64 = 60.0;
+
 #[derive(Clone)]
 pub struct ThermistorTemperature {
     pub temperature: f64,
@@ -15,10 +21,18 @@ impl ThermistorTemperature {
 
         let hue = if temperature <= T_NOM {
             let t = (temperature - T_MIN) / (T_NOM - T_MIN);
-            util::lerp(120.0, 45.0, t)
+            util::lerp(
+                ui::battery::common::HUE_GREEN,
+                ui::battery::common::HUE_AMBER,
+                t,
+            )
         } else {
             let t = (temperature - T_NOM) / (T_MAX - T_NOM);
-            util::lerp(45.0, 0.0, t)
+            util::lerp(
+                ui::battery::common::HUE_AMBER,
+                ui::battery::common::HUE_RED,
+                t,
+            )
         };
 
         util::hsv_to_color32(hue, 1.0, 1.0)
@@ -113,9 +127,9 @@ impl BatteryTemps {
                     "°C",
                     stale,
                     temp_range.map(|range| {
-                        if range > 10.0 {
+                        if range > T_RANGE_ERROR {
                             theme.error_color()
-                        } else if range > 5.0 {
+                        } else if range > T_RANGE_WARN {
                             theme.warning_color()
                         } else {
                             theme.success_color()
@@ -130,9 +144,9 @@ impl BatteryTemps {
                     "°C",
                     stale,
                     board_max.and_then(|max| {
-                        if max > 60.0 {
+                        if max > T_BOARD_ERROR {
                             Some(theme.error_color())
-                        } else if max > 50.0 {
+                        } else if max > T_BOARD_WARN {
                             Some(theme.warning_color())
                         } else {
                             None

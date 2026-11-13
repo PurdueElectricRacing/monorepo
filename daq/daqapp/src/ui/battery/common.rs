@@ -15,6 +15,10 @@ pub const THERMISTORS_PER_MODULE: usize = CELL_THERMS_PER_MODULE + BOARD_THERMS_
 
 pub const STALE_TIMEOUT_SECONDS: u64 = 1;
 
+pub const HUE_RED: f64 = 0.0;
+pub const HUE_AMBER: f64 = 45.0;
+pub const HUE_GREEN: f64 = 120.0;
+
 pub fn sample_age(
     last_update: Option<daqcore::time::Time>,
     view_time: daqcore::time::Time,

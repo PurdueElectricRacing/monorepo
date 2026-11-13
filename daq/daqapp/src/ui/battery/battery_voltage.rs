@@ -4,6 +4,11 @@ const V_MIN: f64 = 2.7;
 const V_MAX: f64 = 4.2;
 const V_NOM: f64 = 3.6;
 
+const V_DELTA_WARN: f64 = 0.020;
+const V_DELTA_ERROR: f64 = 0.050;
+
+const BALANCING_COLOR: eframe::egui::Color32 = eframe::egui::Color32::from_rgb(33, 150, 243);
+
 #[derive(Clone)]
 pub struct CellVoltage {
     pub voltage: f64,
@@ -13,17 +18,25 @@ pub struct CellVoltage {
 impl CellVoltage {
     pub fn color(&self) -> eframe::egui::Color32 {
         if self.balancing {
-            return eframe::egui::Color32::from_rgb(33, 150, 243);
+            return BALANCING_COLOR;
         }
 
         let voltage = self.voltage.clamp(V_MIN, V_MAX);
 
         let hue = if voltage <= V_NOM {
             let t = (voltage - V_MIN) / (V_NOM - V_MIN);
-            util::lerp(0.0, 45.0, t)
+            util::lerp(
+                ui::battery::common::HUE_RED,
+                ui::battery::common::HUE_AMBER,
+                t,
+            )
         } else {
             let t = (voltage - V_NOM) / (V_MAX - V_NOM);
-            util::lerp(45.0, 120.0, t)
+            util::lerp(
+                ui::battery::common::HUE_AMBER,
+                ui::battery::common::HUE_GREEN,
+                t,
+            )
         };
 
         util::hsv_to_color32(hue, 1.0, 1.0)
@@ -127,9 +140,9 @@ impl BatteryVoltage {
                     "V",
                     stale,
                     pack_delta.map(|delta| {
-                        if delta > 0.050 {
+                        if delta > V_DELTA_ERROR {
                             theme.error_color()
-                        } else if delta > 0.020 {
+                        } else if delta > V_DELTA_WARN {
                             theme.warning_color()
                         } else {
                             theme.success_color()
@@ -148,8 +161,8 @@ impl BatteryVoltage {
                 let module_delta = module_min.zip(module_max).map(|(min, max)| max - min);
 
                 let delta_color = match module_delta {
-                    Some(delta) if delta > 0.050 => theme.error_color(),
-                    Some(delta) if delta > 0.020 => theme.warning_color(),
+                    Some(delta) if delta > V_DELTA_ERROR => theme.error_color(),
+                    Some(delta) if delta > V_DELTA_WARN => theme.warning_color(),
                     _ => theme.text_color().linear_multiply(0.55),
                 };
 
