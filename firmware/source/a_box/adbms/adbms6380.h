@@ -187,8 +187,8 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_
 /**
  * @brief Wake the daisy-chained set of ADBMS6380 devices.
  *
- * Toggles CS with blocking delays on the active direction (or both directions when split)
- * to bring each chip out of sleep/idle.
+ * Toggles CS with blocking delay to bring each chip out of sleep/idle.
+ * If the harness break is already known, wakes only the reachable chips in each direction.
  *
  * @param dev Non-null pointer to device state.
  */
