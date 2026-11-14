@@ -1,17 +1,5 @@
 var daq_2main_8h =
 [
-    [ "CAN1_RX_PIN", "daq_2main_8h.html#aea53d9df7abcf66acc4d3220fd539c74", null ],
-    [ "CAN1_RX_PORT", "daq_2main_8h.html#a772cbf566292a9b7e5f91214f06a0086", null ],
-    [ "CAN1_TX_PIN", "daq_2main_8h.html#a2234e4e3f99eb298fa096d44b235c751", null ],
-    [ "CAN1_TX_PORT", "daq_2main_8h.html#aa728ece1c37094a9423d92c5814fc959", null ],
-    [ "CAN2_RX_PIN", "daq_2main_8h.html#a076491cfe3677ac4a0b6f9e52cd8683a", null ],
-    [ "CAN2_RX_PORT", "daq_2main_8h.html#aa08a5b46c8530d960411cce9d4af2c19", null ],
-    [ "CAN2_TX_PIN", "daq_2main_8h.html#a29e3fccd3fd51c6e2915ec38e474cc8c", null ],
-    [ "CAN2_TX_PORT", "daq_2main_8h.html#a120cc64afc1e1751fa4d304fd1e0f420", null ],
-    [ "CAN3_RX_PIN", "daq_2main_8h.html#a91dd41a39111510e4cf7dc9fcdb985d8", null ],
-    [ "CAN3_RX_PORT", "daq_2main_8h.html#a1c273737715e637aea378c2c41f8fd7e", null ],
-    [ "CAN3_TX_PIN", "daq_2main_8h.html#a99269d7beedd72c928e75b3b45eb1074", null ],
-    [ "CAN3_TX_PORT", "daq_2main_8h.html#a7298042b9bc941cad6a65917fbf2ebc5", null ],
     [ "CONNECTION_LED_PIN", "daq_2main_8h.html#a8437cdc43b488d816a5e56f7b6457b86", null ],
     [ "CONNECTION_LED_PORT", "daq_2main_8h.html#aa5bf4e4a187f66b98a273bb051ec3877", null ],
     [ "ERROR_LED_PIN", "daq_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12", null ],

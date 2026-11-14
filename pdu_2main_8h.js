@@ -31,8 +31,6 @@ var pdu_2main_8h =
     [ "CTRL20_PORT", "pdu_2main_8h.html#a0546cfd5443984b774a242a4e74206fd", null ],
     [ "CTRL21_PIN", "pdu_2main_8h.html#a7e513aec6d17d4491a579aed12bb150e", null ],
     [ "CTRL21_PORT", "pdu_2main_8h.html#a768c8f6ebb918890668a2e35d02e7705", null ],
-    [ "CTRL2_PIN", "pdu_2main_8h.html#a07e3ea032bc66f0ac96547041e2faecf", null ],
-    [ "CTRL2_PORT", "pdu_2main_8h.html#a88abbf8927cb3a0c02230fc87c496eac", null ],
     [ "CTRL3_PIN", "pdu_2main_8h.html#a9a30fe8053bf411d18d9eaec71693706", null ],
     [ "CTRL3_PORT", "pdu_2main_8h.html#ab68cad83ad8202d721f9c5243ab85c63", null ],
     [ "CTRL4_PIN", "pdu_2main_8h.html#a7a7fd72cf1a599225f94b0d403c65e1f", null ],
