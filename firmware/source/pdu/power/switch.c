@@ -9,11 +9,12 @@
 #include "main.h"
 #include "common/phal_G4/gpio/gpio.h"
 #include "common/rtos/rtos.h"
+#include "common/utils/countof.h"
 
 switch_t g_switches[NUM_SWITCHES] = {
     [SWITCH_SDC] = {
-        .ctrl_port = CTRL2_PORT,
-        .ctrl_pin  = CTRL2_PIN,
+        .ctrl_port = nullptr, // Tied high in hardware, no SW control
+        .ctrl_pin  = 0,
         .mux_id    = ANALOG_MUX1,
         .mux_addr  = 1,
         .fault_id  = FAULT_ID_SDC_SWITCH_FAULT,
@@ -163,6 +164,10 @@ switch_t g_switches[NUM_SWITCHES] = {
 };
 
 void SWITCH_enable(switch_id_t switch_id) {
+    if (g_switches[switch_id].ctrl_port == nullptr) {
+        return;
+    }
+
     PHAL_GPIO_write(
         g_switches[switch_id].ctrl_port,
         g_switches[switch_id].ctrl_pin,
@@ -171,6 +176,10 @@ void SWITCH_enable(switch_id_t switch_id) {
 }
 
 void SWITCH_disable(switch_id_t switch_id) {
+    if (g_switches[switch_id].ctrl_port == nullptr) {
+        return;
+    }
+
     PHAL_GPIO_write(
         g_switches[switch_id].ctrl_port,
         g_switches[switch_id].ctrl_pin,
@@ -183,7 +192,7 @@ void SWITCH_disable(switch_id_t switch_id) {
 // and to avoid inrush current
 void SWITCH_enable_all() {
     static constexpr uint32_t SWITCH_ENABLE_DELAY_MS = 100;
-    static const switch_id_t enable_order[NUM_SWITCHES] = {
+    static const switch_id_t enable_order[] = {
         // Left column, top to bottom.
         SWITCH_HXFAN,
         SWITCH_SDC_LOOP,
@@ -193,7 +202,6 @@ void SWITCH_enable_all() {
         SWITCH_TV,
         SWITCH_ABOX,
         SWITCH_DASH,
-        SWITCH_SDC,
         SWITCH_FAN4,
         SWITCH_FAN5,
         // Right column, top to bottom.
@@ -209,7 +217,7 @@ void SWITCH_enable_all() {
         SWITCH_MAIN,
     };
 
-    for (uint32_t i = 0; i < NUM_SWITCHES; i++) {
+    for (uint32_t i = 0; i < countof(enable_order); i++) {
         SWITCH_enable(enable_order[i]);
         RTOS_delay_ms(SWITCH_ENABLE_DELAY_MS);
     }

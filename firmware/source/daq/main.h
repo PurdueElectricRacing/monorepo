@@ -16,11 +16,11 @@
 #define HEARTBEAT_LED_PORT  (GPIOB)
 #define HEARTBEAT_LED_PIN   (5)
 #define VCAN_LED_PORT       (GPIOB)
-#define VCAN_LED_PIN        (8)
+#define VCAN_LED_PIN        (7)
 #define MCAN_LED_PORT       (GPIOB)
 #define MCAN_LED_PIN        (9)
 #define SCAN_LED_PORT       (GPIOB)
-#define SCAN_LED_PIN        (7)
+#define SCAN_LED_PIN        (8)
 #define ERROR_LED_PORT      (GPIOB)
 #define ERROR_LED_PIN       (6)
 
@@ -51,20 +51,6 @@
 #define ETH_RST_PIN   (3)
 #define ETH_nINT_PORT (GPIOC)
 #define ETH_nINT_PIN  (2)
-
-// CAN
-#define CAN1_RX_PORT (GPIOA)
-#define CAN1_RX_PIN  (11)
-#define CAN1_TX_PORT (GPIOA)
-#define CAN1_TX_PIN  (12)
-#define CAN2_RX_PORT (GPIOB)
-#define CAN2_RX_PIN  (12)
-#define CAN2_TX_PORT (GPIOB)
-#define CAN2_TX_PIN  (13)
-#define CAN3_RX_PORT (GPIOA)
-#define CAN3_RX_PIN  (8)
-#define CAN3_TX_PORT (GPIOA)
-#define CAN3_TX_PIN  (15)
 
 // MISC
 #define PWR_LOSS_PORT   (GPIOB)
