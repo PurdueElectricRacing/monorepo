@@ -206,7 +206,7 @@ static inline bool ADBMS_is_break_detected(const adbms_bms_t *bms) {
     return bms->dev.break_detected;
 }
 
-/// Get the broken isoSPI link index (0..ADBMS_CHIP_COUNT for Link 0..N, ADBMS6380_NO_BREAK_INDEX when intact)
+/// Get the broken isoSPI link index (0..ADBMS_CHIP_COUNT or ADBMS6380_NO_BREAK_INDEX when no break)
 static inline uint8_t ADBMS_get_break_index(const adbms_bms_t *bms) {
     return bms->dev.break_index;
 }

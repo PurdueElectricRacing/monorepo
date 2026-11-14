@@ -55,7 +55,7 @@ static constexpr size_t ADBMS6380_SPI_TX_BUFFER_SIZE =
 static constexpr size_t ADBMS6380_SPI_RX_BUFFER_SIZE =
     ADBMS6380_SINGLE_DATA_PKT_SIZE * ADBMS_CHIP_COUNT;
 
-// Sentinel break index reported over CAN when no isoSPI harness break is present.
+// Magic index reported over CAN when no isoSPI harness break is present.
 static constexpr uint8_t ADBMS6380_NO_BREAK_INDEX = 0x0FU;
 
 /**
@@ -166,7 +166,7 @@ typedef struct {
     adbms6380_dir_t primary_dir;
     /** True when a harness break is detected in the isoSPI daisy chain. */
     bool break_detected;
-    /** Broken isoSPI link index (0..ADBMS_CHIP_COUNT for Link 0..N, ADBMS6380_NO_BREAK_INDEX when intact). */
+    /** Broken isoSPI link index (0..ADBMS_CHIP_COUNT or ADBMS6380_NO_BREAK_INDEX when no break). */
     uint8_t break_index;
     /** Number of contiguous chips reachable in the CCW direction (SPI1). */
     uint8_t reachable_ccw;
