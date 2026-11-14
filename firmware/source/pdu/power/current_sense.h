@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include "switch.h"
 
-static constexpr uint32_t MUX_SETTLE_DELAY_MS = 2;
+static constexpr uint32_t MUX_SETTLE_DELAY_MS = 1;
 static constexpr float MUX_SETTLE_TIME_US = 24E-6f; // 24us
 static_assert(
     MUX_SETTLE_DELAY_MS > (MUX_SETTLE_TIME_US * 1000.0f), // todo use dearunits here
