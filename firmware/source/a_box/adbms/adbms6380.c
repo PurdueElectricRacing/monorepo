@@ -340,10 +340,12 @@ static bool update_break_state(adbms6380_t *dev, size_t valid_ccw, size_t valid_
         return true;
     }
 
-    dev->break_detected = true;
-    dev->break_index    = (uint8_t)valid_ccw;
-    dev->reachable_ccw  = (uint8_t)valid_ccw;
-    dev->reachable_cw   = (uint8_t)valid_cw;
+    if (!dev->break_detected) {
+        dev->break_detected = true;
+        dev->break_index    = (uint8_t)valid_ccw;
+        dev->reachable_ccw  = (uint8_t)valid_ccw;
+        dev->reachable_cw   = (uint8_t)valid_cw;
+    }
     return false;
 }
 
@@ -540,11 +542,6 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_
 
 void ADBMS6380_toggle_primary_dir(adbms6380_t *dev) {
     dev->primary_dir = get_opposite_dir(dev->primary_dir);
-}
-
-void ADBMS6380_reset_break_state(adbms6380_t *dev) {
-    dev->reachable_ccw = (uint8_t)ADBMS_CHIP_COUNT;
-    dev->reachable_cw  = (uint8_t)ADBMS_CHIP_COUNT;
 }
 
 void ADBMS6380_wake(adbms6380_t *dev) {

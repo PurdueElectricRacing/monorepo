@@ -194,13 +194,6 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_
 void ADBMS6380_toggle_primary_dir(adbms6380_t *dev);
 
 /**
- * @brief Reset break detection reachable counts so the next connect sequence probes the full chain.
- *
- * @param dev Non-null pointer to device state.
- */
-void ADBMS6380_reset_break_state(adbms6380_t *dev);
-
-/**
  * @brief Wake the daisy-chained set of ADBMS6380 devices.
  *
  * Toggles CS with blocking delays on the active direction (or both directions when split)
