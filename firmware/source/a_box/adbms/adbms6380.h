@@ -162,8 +162,6 @@ typedef struct {
     bool err_rega_pec;
     /** Set when REGB read has an unrecoverable PEC failure. */
     bool err_regb_pec;
-    /** Active primary communication direction when the isoSPI loop is intact. */
-    adbms6380_dir_t primary_dir;
     /** True when a harness break is detected in the isoSPI daisy chain. */
     bool break_detected;
     /** Broken isoSPI link index (0..ADBMS_CHIP_COUNT or ADBMS6380_NO_BREAK_INDEX when no break). */
@@ -185,13 +183,6 @@ typedef struct {
  * @param spi_cw Non-null CW SPI configuration (SPI2).
  */
 void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw);
-
-/**
- * @brief Toggle the primary isoSPI communication direction used when the loop is intact.
- *
- * @param dev Non-null pointer to device state.
- */
-void ADBMS6380_toggle_primary_dir(adbms6380_t *dev);
 
 /**
  * @brief Wake the daisy-chained set of ADBMS6380 devices.

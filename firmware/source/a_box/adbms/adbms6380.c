@@ -87,23 +87,12 @@ static SPI_InitConfig_t *get_spi(const adbms6380_t *dev, adbms6380_dir_t dir) {
     return (dir == ADBMS6380_DIR_CCW) ? dev->spi_ccw : dev->spi_cw;
 }
 
-static adbms6380_dir_t get_opposite_dir(adbms6380_dir_t dir) {
-    return (dir == ADBMS6380_DIR_CCW) ? ADBMS6380_DIR_CW : ADBMS6380_DIR_CCW;
-}
-
 /**
  * @brief Map a daisy-chain response slot index (0 = closest to active SPI port)
  * to the physical chip index (0 = closest to SPI1 / CCW, N-1 = closest to SPI2 / CW).
  */
 static size_t map_slot_to_chip_idx(adbms6380_dir_t dir, size_t slot_idx) {
     return (dir == ADBMS6380_DIR_CCW) ? slot_idx : ((ADBMS_CHIP_COUNT - 1U) - slot_idx);
-}
-
-/**
- * @brief Wait > tBLOCK (10 us max per ADBMS6830B datasheet) before reversing isoSPI port direction.
- */
-static void delay_tblock(void) {
-    RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
 }
 
 static void wake_dir(adbms6380_t *dev, adbms6380_dir_t dir, size_t pulse_count) {
@@ -124,17 +113,12 @@ static void transfer_tx_dir(adbms6380_t *dev, adbms6380_dir_t dir) {
 }
 
 static void broadcast_cmd(adbms6380_t *dev) {
-    if (!dev->break_detected) {
-        transfer_tx_dir(dev, dev->primary_dir);
-        return;
-    }
-
     if (dev->reachable_ccw > 0U) {
         transfer_tx_dir(dev, ADBMS6380_DIR_CCW);
     }
     if (dev->reachable_cw > 0U) {
         if (dev->reachable_ccw > 0U) {
-            delay_tblock();
+            RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
         }
         transfer_tx_dir(dev, ADBMS6380_DIR_CW);
     }
@@ -323,11 +307,11 @@ static size_t read_data_dir_with_retries(
  *         false if one or more chips are unreachable from both ends.
  */
 static bool update_break_state(adbms6380_t *dev, size_t valid_ccw, size_t valid_cw) {
-    if (valid_ccw == ADBMS_CHIP_COUNT && valid_cw == ADBMS_CHIP_COUNT) {
+    if (valid_ccw == ADBMS_CHIP_COUNT) {
         dev->break_detected = false;
         dev->break_index    = ADBMS6380_NO_BREAK_INDEX;
         dev->reachable_ccw  = (uint8_t)ADBMS_CHIP_COUNT;
-        dev->reachable_cw   = (uint8_t)ADBMS_CHIP_COUNT;
+        dev->reachable_cw   = 0U;
         return true;
     }
 
@@ -450,72 +434,42 @@ static void extract_valid_slots(
 }
 
 /**
- * @brief Execute a register-group read command using the active dual-direction strategy:
- * - When intact (!break_detected): reads full chain on primary_dir; if a break is encountered
- *   (valid_pri < N), immediately wakes the opposite port and reads the remaining chips in the same cycle.
- * - When split (break_detected): reads reachable_ccw chips on CCW and reachable_cw chips on CW.
+ * @brief Execute a register-group read command starting in CCW (SPI1) and falling back
+ * to CW (SPI2) for any remaining chips when a break is present.
  */
 static bool read_register_group(
     adbms6380_t *dev,
     const uint8_t command[ADBMS6380_COMMAND_RAW_SIZE],
     extract_slot_fn_t extract_fn,
     size_t cmd_idx,
-    void (*recover_opp_write_fn)(adbms6380_t *dev, adbms6380_dir_t dir),
-    bool probe_both_when_split
+    void (*recover_cw_write_fn)(adbms6380_t *dev, adbms6380_dir_t dir)
 ) {
     strbuf_clear(&dev->tx_strbuf);
     prepare_command(&dev->tx_strbuf, command);
 
+    size_t valid_ccw = read_data_dir_with_retries(dev, ADBMS6380_DIR_CCW, dev->reachable_ccw);
+    extract_valid_slots(dev, ADBMS6380_DIR_CCW, valid_ccw, extract_fn, cmd_idx);
+
+    if (valid_ccw == ADBMS_CHIP_COUNT) {
+        return update_break_state(dev, valid_ccw, 0U);
+    }
+
+    size_t remaining = ADBMS_CHIP_COUNT - valid_ccw;
+    RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
+
     if (!dev->break_detected) {
-        adbms6380_dir_t pri_dir = dev->primary_dir;
-        size_t valid_pri        = read_data_dir_with_retries(dev, pri_dir, ADBMS_CHIP_COUNT);
-        extract_valid_slots(dev, pri_dir, valid_pri, extract_fn, cmd_idx);
-
-        if (valid_pri == ADBMS_CHIP_COUNT) {
-            return true;
-        }
-
-        // Break or fault encountered on primary_dir: immediately fall back to opposite port
-        adbms6380_dir_t opp_dir = get_opposite_dir(pri_dir);
-        size_t remaining        = ADBMS_CHIP_COUNT - valid_pri;
-        delay_tblock();
-        wake_dir(dev, opp_dir, remaining);
-
-        if (recover_opp_write_fn != nullptr) {
-            recover_opp_write_fn(dev, opp_dir);
+        // Newly detected break: wake the CW segment before reading
+        wake_dir(dev, ADBMS6380_DIR_CW, remaining);
+        if (recover_cw_write_fn != nullptr) {
+            recover_cw_write_fn(dev, ADBMS6380_DIR_CW);
             strbuf_clear(&dev->tx_strbuf);
             prepare_command(&dev->tx_strbuf, command);
         }
-
-        size_t valid_opp = read_data_dir_with_retries(dev, opp_dir, remaining);
-        size_t extract_opp = (valid_opp > remaining) ? remaining : valid_opp;
-        extract_valid_slots(dev, opp_dir, extract_opp, extract_fn, cmd_idx);
-
-        size_t valid_ccw = (pri_dir == ADBMS6380_DIR_CCW) ? valid_pri : valid_opp;
-        size_t valid_cw  = (pri_dir == ADBMS6380_DIR_CW) ? valid_pri : valid_opp;
-        return update_break_state(dev, valid_ccw, valid_cw);
     }
 
-    // Already in Split Mode
-    size_t valid_ccw = 0U;
-    size_t valid_cw  = 0U;
-
-    if (dev->reachable_ccw > 0U || probe_both_when_split) {
-        valid_ccw = read_data_dir_with_retries(dev, ADBMS6380_DIR_CCW, dev->reachable_ccw);
-        extract_valid_slots(dev, ADBMS6380_DIR_CCW, valid_ccw, extract_fn, cmd_idx);
-    }
-
-    if (dev->reachable_cw > 0U || probe_both_when_split) {
-        if (dev->reachable_ccw > 0U || probe_both_when_split) {
-            delay_tblock();
-        }
-        valid_cw = read_data_dir_with_retries(dev, ADBMS6380_DIR_CW, dev->reachable_cw);
-        size_t max_cw_extract = (valid_ccw < ADBMS_CHIP_COUNT)
-            ? (ADBMS_CHIP_COUNT - valid_ccw)
-            : 0U;
-        size_t extract_cw = (valid_cw > max_cw_extract) ? max_cw_extract : valid_cw;
-        extract_valid_slots(dev, ADBMS6380_DIR_CW, extract_cw, extract_fn, cmd_idx);
-    }
+    size_t valid_cw   = read_data_dir_with_retries(dev, ADBMS6380_DIR_CW, remaining);
+    size_t extract_cw = (valid_cw > remaining) ? remaining : valid_cw;
+    extract_valid_slots(dev, ADBMS6380_DIR_CW, extract_cw, extract_fn, cmd_idx);
 
     return update_break_state(dev, valid_ccw, valid_cw);
 }
@@ -527,11 +481,10 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_
     set_cs_high(dev->spi_ccw);
     set_cs_high(dev->spi_cw);
 
-    dev->primary_dir    = ADBMS6380_DIR_CCW;
     dev->break_detected = false;
     dev->break_index    = ADBMS6380_NO_BREAK_INDEX;
     dev->reachable_ccw  = (uint8_t)ADBMS_CHIP_COUNT;
-    dev->reachable_cw   = (uint8_t)ADBMS_CHIP_COUNT;
+    dev->reachable_cw   = 0U;
 
     dev->tx_strbuf = (strbuf_t){
         .data    = dev->tx_buf,
@@ -540,16 +493,7 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_
     };
 }
 
-void ADBMS6380_toggle_primary_dir(adbms6380_t *dev) {
-    dev->primary_dir = get_opposite_dir(dev->primary_dir);
-}
-
 void ADBMS6380_wake(adbms6380_t *dev) {
-    if (!dev->break_detected) {
-        wake_dir(dev, dev->primary_dir, ADBMS_CHIP_COUNT);
-        return;
-    }
-
     size_t ccw_pulses = dev->reachable_ccw;
     size_t cw_pulses  = dev->reachable_cw;
     if (ccw_pulses + cw_pulses < ADBMS_CHIP_COUNT) {
@@ -562,7 +506,7 @@ void ADBMS6380_wake(adbms6380_t *dev) {
     }
     if (cw_pulses > 0U) {
         if (ccw_pulses > 0U) {
-            delay_tblock();
+            RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
         }
         wake_dir(dev, ADBMS6380_DIR_CW, cw_pulses);
     }
@@ -570,14 +514,15 @@ void ADBMS6380_wake(adbms6380_t *dev) {
 
 void ADBMS6380_write_rega(adbms6380_t *dev, const adbms6380_rega_config_t *cfg) {
     pack_cfg_rega(dev->rega, cfg);
-    if (!dev->break_detected) {
-        write_rega_dir(dev, dev->primary_dir);
-        return;
+    if (dev->reachable_ccw > 0U) {
+        write_rega_dir(dev, ADBMS6380_DIR_CCW);
     }
-
-    write_rega_dir(dev, ADBMS6380_DIR_CCW);
-    delay_tblock();
-    write_rega_dir(dev, ADBMS6380_DIR_CW);
+    if (dev->reachable_cw > 0U) {
+        if (dev->reachable_ccw > 0U) {
+            RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
+        }
+        write_rega_dir(dev, ADBMS6380_DIR_CW);
+    }
 }
 
 bool ADBMS6380_verify_rega(adbms6380_t *dev) {
@@ -590,8 +535,7 @@ bool ADBMS6380_verify_rega(adbms6380_t *dev) {
         ADBMS6380_CMD_RDCFGA,
         extract_rega_verify_slot,
         0U,
-        write_rega_dir,
-        true
+        write_rega_dir
     );
     dev->err_rega_pec = !all_reached;
     if (!all_reached) {
@@ -606,17 +550,12 @@ void ADBMS6380_write_regb(adbms6380_t *dev, const adbms6380_regb_config_t *cfg) 
         pack_cfg_regb(dev->chips[chip_idx].regb, cfg, dev->chips[chip_idx].is_discharging);
     }
 
-    if (!dev->break_detected) {
-        write_regb_dir(dev, dev->primary_dir);
-        return;
-    }
-
     if (dev->reachable_ccw > 0U) {
         write_regb_dir(dev, ADBMS6380_DIR_CCW);
     }
     if (dev->reachable_cw > 0U) {
         if (dev->reachable_ccw > 0U) {
-            delay_tblock();
+            RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
         }
         write_regb_dir(dev, ADBMS6380_DIR_CW);
     }
@@ -632,8 +571,7 @@ bool ADBMS6380_verify_regb(adbms6380_t *dev) {
         ADBMS6380_CMD_RDCFGB,
         extract_regb_verify_slot,
         0U,
-        write_regb_dir,
-        true
+        write_regb_dir
     );
     dev->err_regb_pec = !all_reached;
     if (!all_reached) {
@@ -684,8 +622,7 @@ void ADBMS6380_read_cell_voltages(adbms6380_t *dev) {
             RDCV_CMDS[cmd_idx],
             extract_cell_voltage_slot,
             cmd_idx,
-            nullptr,
-            false
+            nullptr
         );
         dev->err_cell_voltage_pecs[cmd_idx] = !all_reached;
     }
@@ -698,8 +635,7 @@ void ADBMS6380_read_gpio_voltages(adbms6380_t *dev) {
             RDAUX_CMDS[cmd_idx],
             extract_gpio_voltage_slot,
             cmd_idx,
-            nullptr,
-            false
+            nullptr
         );
         dev->err_gpio_voltage_pecs[cmd_idx] = !all_reached;
     }

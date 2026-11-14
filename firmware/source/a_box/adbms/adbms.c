@@ -228,10 +228,6 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
                 ADBMS6380_start_adax(&bms->dev, &ADBMS_ADAX_CFG);
             }
 
-            if (!bms->dev.break_detected) {
-                ADBMS6380_toggle_primary_dir(&bms->dev);
-            }
-
             next_state = ADBMS_STATE_READ_LOOP;
             break;
         }
@@ -250,9 +246,6 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             uint32_t total_sleep_time = ADBMS_CHIP_SLEEP_CYCLE_MS * (bms->recovery_attempts + 1U);
             if (elapsed_ms >= total_sleep_time) {
                 bms->recovery_attempts++;
-                if (!bms->dev.break_detected) {
-                    ADBMS6380_toggle_primary_dir(&bms->dev);
-                }
                 next_state = ADBMS_STATE_CONNECTING;
             }
 
