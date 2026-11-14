@@ -242,8 +242,8 @@
             "peripheral": "FDCAN3",
             "tx": [
                 {
-                    "message_name": "bms_pecs",
-                    "description": "PEC statuses from BMS",
+                    "message_name": "bms_isospi_status",
+                    "description": "PEC and isoSPI break statuses from BMS",
                     "signals": [
                         {
                             "signal_name": "RDCV_0_PEC",
@@ -294,6 +294,18 @@
                             "signal_name": "RDAUX_3_PEC",
                             "description": "High if the RDAUX (GPIO voltage) group D (3) PEC is invalid",
                             "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "isospi_break_detected",
+                            "description": "High if an isoSPI harness break is detected in the daisy chain",
+                            "data_type": "bool"
+                        },
+                        {
+                            "signal_name": "isospi_break_index",
+                            "description": "Broken isoSPI link index (0..10 for Link 0..10, 15 / 0xF when no break)",
+                            "data_type": "uint8_t",
+                            "min": 0,
+                            "max": 15
                         }
                     ],
                     "priority": 1,
