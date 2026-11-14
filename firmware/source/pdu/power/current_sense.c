@@ -47,12 +47,13 @@ void current_sense_periodic() {
     RTOS_delay_ms(MUX_SETTLE_DELAY_MS); // wait for mux to settle
 
     uint16_t adc_value = (sw->mux_id == ANALOG_MUX1) ? raw_adc2_values.mux1_out : raw_adc2_values.mux2_out;
+    float current_ma = adc_to_current_ma(adc_value);
 
-    bool is_switch_faulted = adc_value >= (uint16_t)SWITCH_FAULT_ADC_THRESHOLD;
+    bool is_switch_faulted = current_ma >= SWITCH_FAULT_CURRENT_THRESHOLD_MA;
     update_fault(sw->fault_id, is_switch_faulted);
     if (!is_switch_faulted) {
         // todo set current to an invalid value
-        sw->current_ma = adc_to_current_ma(adc_value);
+        sw->current_ma = current_ma;
     }
 
     CAN_SEND_switch_cs(g_switch_poll_index, (uint16_t)sw->current_ma);

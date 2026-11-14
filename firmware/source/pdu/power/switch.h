@@ -39,10 +39,10 @@ static constexpr float ADC_VREF_V                 = 3.3f;
 static constexpr float ADC_MAX_COUNTS             = 4095.0f;
 // todo: tune margin
 static constexpr float SWITCH_FAULT_MARGIN        = 0.95f;
-static constexpr float SWITCH_FAULT_ADC_THRESHOLD =
-    SWITCH_FAULT_SENSE_V
-    * SWITCH_SENSE_DIVIDER_GAIN
-    * (ADC_MAX_COUNTS / ADC_VREF_V)
+static constexpr float SWITCH_FAULT_CURRENT_THRESHOLD_MA =
+    (SWITCH_FAULT_SENSE_V / (SWITCH_IMON_R1_OHMS + SWITCH_IMON_R2_OHMS))
+    * SWITCH_CURRENT_SENSE_GAIN
+    * 1000.0f
     * SWITCH_FAULT_MARGIN;
 
 
