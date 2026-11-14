@@ -51,10 +51,7 @@ void current_sense_periodic() {
 
     bool is_switch_faulted = current_ma >= SWITCH_FAULT_CURRENT_THRESHOLD_MA;
     update_fault(sw->fault_id, is_switch_faulted);
-    if (!is_switch_faulted) {
-        // todo set current to an invalid value
-        sw->current_ma = current_ma;
-    }
+    sw->current_ma = is_switch_faulted ? 0.0f : current_ma;
 
     CAN_SEND_switch_cs(g_switch_poll_index, (uint16_t)sw->current_ma);
 
