@@ -30,6 +30,13 @@ static void mux_select(mux_id_t mux_id, uint8_t mux_addr) {
     }
 }
 
+static float adc_to_current_ma(uint16_t adc_value) {
+    float v_adc = (float)adc_value * (ADC_VREF_V / ADC_MAX_COUNTS);
+    float v_imon = v_adc / SWITCH_SENSE_DIVIDER_GAIN;
+    float i_imon = v_imon / (SWITCH_IMON_R1_OHMS + SWITCH_IMON_R2_OHMS);
+    return i_imon * SWITCH_CURRENT_SENSE_GAIN * 1000.0f;
+}
+
 static switch_id_t g_switch_poll_index = 0;
 
 static_assert(SWITCH_CS_PERIOD_MS == CURRENT_SENSE_TASK_PERIOD_MS);
@@ -45,8 +52,7 @@ void current_sense_periodic() {
     update_fault(sw->fault_id, is_switch_faulted);
     if (!is_switch_faulted) {
         // todo set current to an invalid value
-        float current = (adc_value);  // todo resistor divider
-        sw->current_ma = current;
+        sw->current_ma = adc_to_current_ma(adc_value);
     }
 
     CAN_SEND_switch_cs(g_switch_poll_index, (uint16_t)sw->current_ma);
