@@ -30,9 +30,10 @@ static constexpr size_t ADBMS6380_PEC_FAIL_MAX_RETRIES = 3U;
  */
 static constexpr uint32_t ADBMS6380_WAKE_DELAY_MS = 1U;
 
-// Loop iterations for >10 us isoSPI port reversal blocking window (tBLOCK in ADBMS6830B datasheet Table 12).
-// At 170 MHz max SYSCLK on STM32G474, 3400 NOPs is ~20 us.
-static constexpr uint32_t ADBMS6380_TBLOCK_NOP_COUNT = 3'400U;
+/**
+ * @brief Delay in milliseconds when reversing isoSPI port direction (> tBLOCK = 10 us max, < tIDLE = 4.3 ms min).
+ */
+static constexpr uint32_t ADBMS6380_PORT_REVERSE_DELAY_MS = 2U;
 
 // 10kOhm voltage divider on the thermistor input.
 static constexpr float ADBMS6380_GPIO_R1_OHM       = 10'000.0f;
@@ -102,9 +103,7 @@ static size_t map_slot_to_chip_idx(adbms6380_dir_t dir, size_t slot_idx) {
  * @brief Wait > tBLOCK (10 us max per ADBMS6830B datasheet) before reversing isoSPI port direction.
  */
 static void delay_tblock(void) {
-    for (volatile uint32_t i = 0U; i < ADBMS6380_TBLOCK_NOP_COUNT; i++) {
-        __asm__ volatile("nop");
-    }
+    RTOS_delay_ms(ADBMS6380_PORT_REVERSE_DELAY_MS);
 }
 
 static void wake_dir(adbms6380_t *dev, adbms6380_dir_t dir, size_t pulse_count) {
