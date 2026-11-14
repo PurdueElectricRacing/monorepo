@@ -48,7 +48,7 @@ static PHAL_DMA_Handle_t spi1_tx_dma = {
     },
 };
 
-SPI_InitConfig_t bms_spi_config = {
+SPI_InitConfig_t bms_spi1_config = {
     .data_len      = 8,
     .nss_sw        = false, // BMS drive CS pin manually to ensure correct timing
     .nss_gpio_port = SPI1_CS_PORT,
@@ -58,6 +58,39 @@ SPI_InitConfig_t bms_spi_config = {
     .periph        = SPI1,
     .cpol = SPI_CPOL_IDLE_LOW,
     .cpha = SPI_CPHA_FIRST_EDGE,
+    .data_rate     = 500'000, // 500 kHz SPI clock for ADBMS6380
+};
+
+static PHAL_DMA_Handle_t spi2_rx_dma = {
+    .wiring = &SPI2_RX_DMA_WIRING,
+    .params = {
+        .priority  = DMA_PRIORITY_HIGH,
+        .mode      = DMA_MODE_NORMAL,
+        .mem_inc   = true,
+        .tx_isr_en = true,
+    },
+};
+
+static PHAL_DMA_Handle_t spi2_tx_dma = {
+    .wiring = &SPI2_TX_DMA_WIRING,
+    .params = {
+        .priority  = DMA_PRIORITY_HIGH,
+        .mode      = DMA_MODE_NORMAL,
+        .mem_inc   = true,
+        .tx_isr_en = true,
+    },
+};
+
+SPI_InitConfig_t bms_spi2_config = {
+    .data_len      = 8,
+    .nss_sw        = false, // BMS drive CS pin manually to ensure correct timing
+    .nss_gpio_port = SPI2_CS_PORT,
+    .nss_gpio_pin  = SPI2_CS_PIN,
+    .rx_dma        = &spi2_rx_dma,
+    .tx_dma        = &spi2_tx_dma,
+    .periph        = SPI2,
+    .cpol          = SPI_CPOL_IDLE_LOW,
+    .cpha          = SPI_CPHA_FIRST_EDGE,
     .data_rate     = 500'000, // 500 kHz SPI clock for ADBMS6380
 };
 
@@ -161,10 +194,9 @@ int main(void) {
     }
     imd_init();
 
-    PHAL_GPIO_write(SPI2_CS_PORT, SPI2_CS_PIN, true);
-    ADBMS_init(&g_bms, &bms_spi_config);
+    ADBMS_init(&g_bms, &bms_spi1_config, &bms_spi2_config);
 
-    if (!PHAL_SPI_init(&bms_spi_config)) {
+    if (!PHAL_SPI_init(&bms_spi1_config) || !PHAL_SPI_init(&bms_spi2_config)) {
         HardFault_Handler();
     }
 
@@ -200,7 +232,7 @@ int main(void) {
 
 static_assert(BMS_VOLTAGES_PERIOD_MS == BMS_PERIOD_MS);
 static_assert(BMS_TEMPS_PERIOD_MS == BMS_PERIOD_MS);
-static_assert(BMS_PECS_PERIOD_MS == BMS_PERIOD_MS);
+static_assert(BMS_ISOSPI_STATUS_PERIOD_MS == BMS_PERIOD_MS);
 static_assert(BMS_PERIOD_MS > ADBMS6380_ADAX_ALL_CONV_TIME_MS);
 void bms_task(void) {
     // IMD
@@ -243,7 +275,10 @@ void bms_task(void) {
         scaled_avg_board_temp
     );
 
-    CAN_SEND_bms_pecs(
+    bool isospi_break_detected = ADBMS_is_break_detected(&g_bms);
+    uint8_t isospi_break_index = ADBMS_get_break_index(&g_bms);
+
+    CAN_SEND_bms_isospi_status(
         ADBMS_get_cell_voltage_pec_err(&g_bms, 0U),
         ADBMS_get_cell_voltage_pec_err(&g_bms, 1U),
         ADBMS_get_cell_voltage_pec_err(&g_bms, 2U),
@@ -253,7 +288,9 @@ void bms_task(void) {
         ADBMS_get_gpio_voltage_pec_err(&g_bms, 0U),
         ADBMS_get_gpio_voltage_pec_err(&g_bms, 1U),
         ADBMS_get_gpio_voltage_pec_err(&g_bms, 2U),
-        ADBMS_get_gpio_voltage_pec_err(&g_bms, 3U)
+        ADBMS_get_gpio_voltage_pec_err(&g_bms, 3U),
+        isospi_break_detected,
+        isospi_break_index
     );
 
     bool bms_in_fatal = ADBMS_get_state(&g_bms) == ADBMS_STATE_FATAL;

@@ -2,7 +2,7 @@
 A_BOX (short for "accumulator box") is the BMS master. It owns battery telemetry, the BMS shutdown rail (`BMS_SDC_CTRL`), and the charger control state machine. It is a safety-critical board.
 
 ## Notable Files
-- [`main.c`](main.c) / [`main.h`](main.h): Peripheral init (FDCAN1/2, SPI1, ADC1+DMA, GPIO), task startup order, and the `bms_task` periodic that runs ADBMS updates and pack/thermal fault checks.
+- [`main.c`](main.c) / [`main.h`](main.h): Peripheral init (FDCAN1/2/3, SPI1/SPI2, ADC1+DMA, GPIO), task startup order, and the `bms_task` periodic that runs ADBMS updates and pack/thermal fault checks.
 - `CMakeLists.txt`: Build configuration for the A_BOX target.
 - [`adbms/README.md`](adbms/README.md): Canonical ADBMS6380 driver docs (high-level state machine, balancing, command/PEC flow). `g_bms` is shared with `bms_task` and the charger FSM.
 - [`charging_fsm.c`](charging_fsm/charging_fsm.c) / [`charging_fsm.h`](charging_fsm/charging_fsm.h): Charger control FSM (`CHARGING_FSM_PERIOD_MS = 1000`) that clamps charge requests, toggles BMS balancing via `ADBMS_set_balancing_enabled`, and publishes `charging_fsm_internals`.
@@ -10,7 +10,7 @@ A_BOX (short for "accumulator box") is the BMS master. It owns battery telemetry
   - 100 Hz: `pack_analog`, rotating `cell_telemetry`
   - 8 Hz: rotating `thermistor_telemetry`, plus `e_meter_temperature` with the pack thermal summary for the FSAE Energy Meter
   - 0.2 Hz: `abox_version` with `FIRMWARE_GIT_HASH`
-- `bms_task` in [`main.c`](main.c) (5 Hz): `bms_voltages`, `bms_temps`, `bms_pecs`
+- `bms_task` in [`main.c`](main.c) (5 Hz): `bms_voltages`, `bms_temps`, `bms_isospi_status`
 - [`charging_fsm.c`](charging_fsm/charging_fsm.c) (1 Hz on CCAN): `charging_fsm_internals`
 - [`cell_thermistor.c`](thermistor/cell_thermistor.c) / [`board_thermistor.c`](thermistor/board_thermistor.c) / [`thermistor.h`](thermistor/thermistor.h): Datasheet-derived lookup tables and `cell_thermistor_R_to_T()` / `board_thermistor_R_to_T()` helpers used by the ADBMS driver.
 - Fault handling in `bms_task` (in [`main.c`](main.c)): raises `IMD`, `BMS_DISCONNECTED`, pack full/empty, cell under/overvoltage, and pack warm/cold/overtemp faults; `BMS_DISCONNECTED` also drives `BMS_SDC_CTRL`.
