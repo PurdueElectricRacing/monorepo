@@ -302,7 +302,7 @@
                         },
                         {
                             "signal_name": "isospi_break_index",
-                            "description": "Broken isoSPI link index (0..10 for Link 0..10, 15 / 0xF when no break)",
+                            "description": "Broken isoSPI link index (15 when no break)",
                             "data_type": "uint8_t",
                             "min": 0,
                             "max": 15
