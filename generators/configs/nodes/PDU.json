@@ -83,7 +83,7 @@
                         },
                         {
                             "signal_name": "current",
-                            "description": "Switch current in milliamps",
+                            "description": "Switch current in milliamps. 0 if the switch is faulted",
                             "data_type": "uint16_t",
                             "unit": "mA"
                         }
