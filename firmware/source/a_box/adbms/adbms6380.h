@@ -179,8 +179,8 @@ typedef struct {
  * break, and error flags across all chips.
  *
  * @param dev Non-null pointer to device state to initialize.
- * @param spi_ccw Non-null CCW SPI configuration (SPI1).
- * @param spi_cw Non-null CW SPI configuration (SPI2).
+ * @param spi_ccw Non-null CCW SPI configuration.
+ * @param spi_cw Non-null CW SPI configuration.
  */
 void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw);
 
