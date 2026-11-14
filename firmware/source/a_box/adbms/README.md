@@ -15,7 +15,7 @@ as well as error detection via PEC checks.
    adbms_bms_t g_bms = {0};
    ```
 
-2. Configure your CCW (`SPI1`) and CW (`SPI2`) SPI peripherals and GPIOs.
+2. Configure your CCW and CW SPI peripherals and GPIOs.
 Note that the driver expects manual control of the CS lines
 (`nss_sw` must be false in the SPI configs).
 
