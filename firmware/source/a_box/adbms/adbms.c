@@ -250,8 +250,9 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
             uint32_t total_sleep_time = ADBMS_CHIP_SLEEP_CYCLE_MS * (bms->recovery_attempts + 1U);
             if (elapsed_ms >= total_sleep_time) {
                 bms->recovery_attempts++;
-                ADBMS6380_reset_break_state(&bms->dev);
-                ADBMS6380_toggle_primary_dir(&bms->dev);
+                if (!bms->dev.break_detected) {
+                    ADBMS6380_toggle_primary_dir(&bms->dev);
+                }
                 next_state = ADBMS_STATE_CONNECTING;
             }
 
