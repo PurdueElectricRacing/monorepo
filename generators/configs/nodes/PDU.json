@@ -71,6 +71,25 @@
                     ],
                     "period_ms": 1000,
                     "priority": 4
+                },
+                {
+                    "message_name": "switch_cs",
+                    "description": "Individual switch current sense readings",
+                    "signals": [
+                        {
+                            "signal_name": "switch_id",
+                            "description": "Switch being reported",
+                            "data_type": "switch_id_t"
+                        },
+                        {
+                            "signal_name": "current",
+                            "description": "Switch current in milliamps. 0 if the switch is faulted",
+                            "data_type": "uint16_t",
+                            "unit": "mA"
+                        }
+                    ],
+                    "period_ms": 4,
+                    "priority": 5
                 }
             ],
             "rx": []

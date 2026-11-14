@@ -347,6 +347,96 @@
                     "value": 6 
                 }
             ]
+        },
+        {
+            "name": "switch_id_t",
+            "base_type": "uint8_t",
+            "choices": [
+                {
+                    "name": "SDC",
+                    "value": 0
+                },
+                {
+                    "name": "SDC_LOOP",
+                    "value": 1
+                },
+                {
+                    "name": "MAIN",
+                    "value": 2
+                },
+                {
+                    "name": "DASH",
+                    "value": 3
+                },
+                {
+                    "name": "DAQ",
+                    "value": 4
+                },
+                {
+                    "name": "ABOX",
+                    "value": 5
+                },
+                {
+                    "name": "HV_BOARD",
+                    "value": 6
+                },
+                {
+                    "name": "TV",
+                    "value": 7
+                },
+                {
+                    "name": "DL_FRONT",
+                    "value": 8
+                },
+                {
+                    "name": "DL_REAR",
+                    "value": 9
+                },
+                {
+                    "name": "AMK1",
+                    "value": 10
+                },
+                {
+                    "name": "AMK2",
+                    "value": 11
+                },
+                {
+                    "name": "PUMP1",
+                    "value": 12
+                },
+                {
+                    "name": "PUMP2",
+                    "value": 13
+                },
+                {
+                    "name": "HXFAN",
+                    "value": 14
+                },
+                {
+                    "name": "FAN1",
+                    "value": 15
+                },
+                {
+                    "name": "FAN2",
+                    "value": 16
+                },
+                {
+                    "name": "FAN3",
+                    "value": 17
+                },
+                {
+                    "name": "FAN4",
+                    "value": 18
+                },
+                {
+                    "name": "FAN5",
+                    "value": 19
+                },
+                {
+                    "name": "EMETER",
+                    "value": 20
+                }
+            ]
         }
     ]
 }

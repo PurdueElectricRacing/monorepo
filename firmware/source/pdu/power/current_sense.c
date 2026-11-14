@@ -6,9 +6,13 @@
  */
 
 #include "current_sense.h"
-#include "switch.h"
 #include "main.h"
+#include "switch.h"
 #include "common/rtos/rtos.h"
+#include "can_library/generated/PDU.h"
+#include "can_library/faults_common.h"
+
+
 
 static void mux_select(mux_id_t mux_id, uint8_t mux_addr) {
     switch(mux_id) {
@@ -26,23 +30,30 @@ static void mux_select(mux_id_t mux_id, uint8_t mux_addr) {
     }
 }
 
+static float adc_to_current_ma(uint16_t adc_value) {
+    float v_adc = (float)adc_value * (ADC_VREF_V / ADC_MAX_COUNTS);
+    float v_imon = v_adc / SWITCH_SENSE_DIVIDER_GAIN;
+    float i_imon = v_imon / (SWITCH_IMON_R1_OHMS + SWITCH_IMON_R2_OHMS);
+    return i_imon * SWITCH_CURRENT_SENSE_GAIN * 1000.0f;
+}
+
+static switch_id_t g_switch_poll_index = 0;
+
+static_assert(SWITCH_CS_PERIOD_MS == CURRENT_SENSE_TASK_PERIOD_MS);
 void current_sense_periodic() {
-    for (switch_id_t id = 0; id < NUM_SWITCHES; id++) {
-        switch_t *sw = &g_switches[id];
+    switch_t* sw = &g_switches[g_switch_poll_index];
 
-        mux_select(sw->mux_id, sw->mux_addr);
-        RTOS_delay_ms(MUX_SETTLE_DELAY_MS); // wait for mux to settle
+    mux_select(sw->mux_id, sw->mux_addr);
+    RTOS_delay_ms(MUX_SETTLE_DELAY_MS); // wait for mux to settle
 
-        uint16_t adc_value = (sw->mux_id == ANALOG_MUX1) ? raw_adc2_values.mux1_out : raw_adc2_values.mux2_out;
-        
-        bool is_switch_faulted = adc_value >= (uint16_t)SWITCH_FAULT_ADC_THRESHOLD;
-        update_fault(sw->fault_id, is_switch_faulted);
-        if (is_switch_faulted) {
-            continue;
-        }
+    uint16_t adc_value = (sw->mux_id == ANALOG_MUX1) ? raw_adc2_values.mux1_out : raw_adc2_values.mux2_out;
+    float current_ma = adc_to_current_ma(adc_value);
 
-        // todo set current to an invalid value
-        float current = (adc_value);  // todo resistor divider
-        sw->current_ma = current;
-    }
+    bool is_switch_faulted = current_ma >= SWITCH_FAULT_CURRENT_THRESHOLD_MA;
+    update_fault(sw->fault_id, is_switch_faulted);
+    sw->current_ma = is_switch_faulted ? 0.0f : current_ma;
+
+    CAN_SEND_switch_cs(g_switch_poll_index, (uint16_t)sw->current_ma);
+
+    g_switch_poll_index = (g_switch_poll_index + 1) % NUM_SWITCHES;
 }
