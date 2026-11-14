@@ -166,9 +166,9 @@ typedef struct {
     bool break_detected;
     /** Broken isoSPI link index (0..ADBMS_CHIP_COUNT or ADBMS6380_NO_BREAK_INDEX when no break). */
     uint8_t break_index;
-    /** Number of contiguous chips reachable in the CCW direction (SPI1). */
+    /** Number of contiguous chips reachable in the CCW direction. */
     uint8_t reachable_ccw;
-    /** Number of contiguous chips reachable in the CW direction (SPI2). */
+    /** Number of contiguous chips reachable in the CW direction. */
     uint8_t reachable_cw;
 } adbms6380_t;
 
