@@ -2,7 +2,8 @@
 
 Provides a high-level interface for managing `ADBMS6380` battery management chips
 in a dual-direction (reversible) isoSPI daisy chain configuration.
-It handles communication, configuration, measurement collection, single-harness break detection/failover, and balancing
+It handles communication, configuration, measurement collection,
+single harness failure detection/recovery, and balancing
 for multi-module battery packs, supporting cell voltage, thermistor, and GPIO readings
 as well as error detection via PEC checks.
 
