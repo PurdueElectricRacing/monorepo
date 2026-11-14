@@ -9,7 +9,7 @@ const V_DELTA_ERROR: f64 = 0.050;
 
 const BALANCING_COLOR: eframe::egui::Color32 = eframe::egui::Color32::from_rgb(33, 150, 243);
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct CellVoltage {
     pub voltage: f64,
     pub balancing: bool,
@@ -44,7 +44,7 @@ impl CellVoltage {
 }
 
 #[derive(Default)]
-struct ChargingVoltageTelemetry {
+struct BmsVoltageSummary {
     pack_voltage: Option<f64>,
     pack_current: Option<f64>,
     min_cell_voltage: Option<f64>,
@@ -68,16 +68,16 @@ impl BatteryVoltage {
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
         let (modules, cell_time) = cell_voltages(view.setpoint_frames);
-        let (charging_telemetry, charging_time) = charging_voltages(view.setpoint_frames);
+        let (bms_summary, summary_time) = bms_voltage_summary(view.setpoint_frames);
         let (stale, elapsed) =
-            ui::battery::common::sample_age(cell_time.max(charging_time), view.view_time());
+            ui::battery::common::sample_age(cell_time.max(summary_time), view.view_time());
 
         let theme = ui::theme::get_theme(ui.ctx());
 
-        let pack_sum = charging_telemetry.pack_voltage;
-        let current = charging_telemetry.pack_current;
-        let pack_min = charging_telemetry.min_cell_voltage;
-        let pack_max = charging_telemetry.max_cell_voltage;
+        let pack_sum = bms_summary.pack_voltage;
+        let current = bms_summary.pack_current;
+        let pack_min = bms_summary.min_cell_voltage;
+        let pack_max = bms_summary.max_cell_voltage;
         let pack_delta = pack_min.zip(pack_max).map(|(min, max)| max - min);
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
@@ -336,11 +336,13 @@ fn cell_sample(frame: &daqcore::frame::ParsedFrame) -> Option<(usize, usize, Cel
 /// Reconstruct multiplexed slots independently; newest frame per CAN ID is insufficient.
 fn cell_voltages(
     frames: &[daqcore::frame::ParsedFrame],
-) -> (Vec<Vec<Option<CellVoltage>>>, Option<daqcore::time::Time>) {
-    let mut modules = vec![
-        vec![None; ui::battery::common::CELLS_PER_MODULE];
-        ui::battery::common::NUM_MODULES
-    ];
+) -> (
+    [[Option<CellVoltage>; ui::battery::common::CELLS_PER_MODULE];
+        ui::battery::common::NUM_MODULES],
+    Option<daqcore::time::Time>,
+) {
+    let mut modules =
+        [[None; ui::battery::common::CELLS_PER_MODULE]; ui::battery::common::NUM_MODULES];
     let mut last_update = None;
     let mut filled = 0;
     for frame in frames.iter().rev() {
@@ -360,10 +362,10 @@ fn cell_voltages(
     (modules, last_update)
 }
 
-fn charging_voltages(
+fn bms_voltage_summary(
     frames: &[daqcore::frame::ParsedFrame],
-) -> (ChargingVoltageTelemetry, Option<daqcore::time::Time>) {
-    let mut values = ChargingVoltageTelemetry::default();
+) -> (BmsVoltageSummary, Option<daqcore::time::Time>) {
+    let mut values = BmsVoltageSummary::default();
     let mut last_update = None;
     for frame in frames.iter().rev() {
         let Some(decoded) = &frame.decoded else {

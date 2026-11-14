@@ -10,12 +10,12 @@ const T_RANGE_ERROR: f64 = 10.0;
 const T_BOARD_WARN: f64 = 50.0;
 const T_BOARD_ERROR: f64 = 60.0;
 
-#[derive(Clone)]
-pub struct ThermistorTemperature {
+#[derive(Clone, Copy)]
+pub struct ThermistorTemp {
     pub temperature: f64,
 }
 
-impl ThermistorTemperature {
+impl ThermistorTemp {
     pub fn color(&self) -> eframe::egui::Color32 {
         let temperature = self.temperature.clamp(T_MIN, T_MAX);
 
@@ -39,8 +39,14 @@ impl ThermistorTemperature {
     }
 }
 
+#[derive(Clone, Copy, Default)]
+struct ModuleTemps {
+    cell_temps: [Option<ThermistorTemp>; ui::battery::common::CELL_THERMS_PER_MODULE],
+    board_temps: [Option<ThermistorTemp>; ui::battery::common::BOARD_THERMS_PER_MODULE],
+}
+
 #[derive(Default)]
-struct BmsTempTelemetry {
+struct BmsTempSummary {
     min_cell_temp: Option<f64>,
     max_cell_temp: Option<f64>,
     avg_cell_temp: Option<f64>,
@@ -63,18 +69,18 @@ impl BatteryTemps {
         ui: &mut eframe::egui::Ui,
         view: &telemetry::TelemetryView<'_>,
     ) -> egui_tiles::UiResponse {
-        let (modules, therm_time) = thermistor_temperatures(view.setpoint_frames);
-        let (bms_telemetry, bms_time) = bms_temps(view.setpoint_frames);
+        let (modules, therm_time) = module_temperatures(view.setpoint_frames);
+        let (bms_summary, summary_time) = bms_temp_summary(view.setpoint_frames);
         let (stale, elapsed) =
-            ui::battery::common::sample_age(therm_time.max(bms_time), view.view_time());
+            ui::battery::common::sample_age(therm_time.max(summary_time), view.view_time());
 
         let theme = ui::theme::get_theme(ui.ctx());
 
-        let temp_min = bms_telemetry.min_cell_temp;
-        let temp_avg = bms_telemetry.avg_cell_temp;
-        let temp_max = bms_telemetry.max_cell_temp;
+        let temp_min = bms_summary.min_cell_temp;
+        let temp_avg = bms_summary.avg_cell_temp;
+        let temp_max = bms_summary.max_cell_temp;
         let temp_range = temp_min.zip(temp_max).map(|(min, max)| max - min);
-        let board_max = bms_telemetry.max_board_temp;
+        let board_max = bms_summary.max_board_temp;
 
         eframe::egui::ScrollArea::vertical().show(ui, |ui| {
             ui.add_space(4.0);
@@ -158,20 +164,22 @@ impl BatteryTemps {
             ui.add_space(12.0);
 
             for (module_index, module) in modules.iter().enumerate() {
-                let (cell_therms, board_therms) =
-                    module.split_at(ui::battery::common::CELL_THERMS_PER_MODULE);
-
-                let cell_temps = cell_therms.iter().flatten().map(|cell| cell.temperature);
+                let cell_temps = module
+                    .cell_temps
+                    .iter()
+                    .flatten()
+                    .map(|therm| therm.temperature);
                 let module_min = cell_temps.clone().reduce(f64::min);
                 let module_max = cell_temps.clone().reduce(f64::max);
                 let cell_count = cell_temps.clone().count();
                 let module_avg =
                     (cell_count > 0).then(|| cell_temps.sum::<f64>() / cell_count as f64);
 
-                let module_board_max = board_therms
+                let module_board_max = module
+                    .board_temps
                     .iter()
                     .flatten()
-                    .map(|cell| cell.temperature)
+                    .map(|therm| therm.temperature)
                     .reduce(f64::max);
 
                 eframe::egui::Frame::NONE
@@ -235,8 +243,9 @@ impl BatteryTemps {
 
                         ui.add_space(6.0);
 
-                        let (chip0_cells, chip1_cells) =
-                            cell_therms.split_at(ui::battery::common::CELL_THERMS_PER_CHIP);
+                        let (chip0_therms, chip1_therms) = module
+                            .cell_temps
+                            .split_at(ui::battery::common::CELL_THERMS_PER_CHIP);
 
                         let mut sep_top = None;
                         let mut sep_bottom = None;
@@ -244,8 +253,8 @@ impl BatteryTemps {
                         let mut board_center_x = 0.0_f32;
 
                         ui.horizontal(|ui| {
-                            for cell in chip0_cells {
-                                temp_bar(ui, &theme, cell.as_ref(), stale, bar_width);
+                            for therm in chip0_therms {
+                                temp_bar(ui, &theme, therm.as_ref(), stale, bar_width);
                             }
                             let (sep_rect, _) = ui.allocate_exact_size(
                                 eframe::egui::Vec2::new(separator_gap, 24.0),
@@ -253,23 +262,34 @@ impl BatteryTemps {
                             );
                             sep_x = sep_rect.center().x;
                             sep_top = Some(sep_rect.top());
-                            let board_rect =
-                                temp_bar(ui, &theme, board_therms[0].as_ref(), stale, bar_width);
+                            let board_rect = temp_bar(
+                                ui,
+                                &theme,
+                                module.board_temps[0].as_ref(),
+                                stale,
+                                bar_width,
+                            );
                             board_center_x = board_rect.center().x;
                         });
 
                         ui.add_space(4.0);
 
                         ui.horizontal(|ui| {
-                            for cell in chip1_cells {
-                                temp_bar(ui, &theme, cell.as_ref(), stale, bar_width);
+                            for therm in chip1_therms {
+                                temp_bar(ui, &theme, therm.as_ref(), stale, bar_width);
                             }
                             let (sep_rect, _) = ui.allocate_exact_size(
                                 eframe::egui::Vec2::new(separator_gap, 24.0),
                                 eframe::egui::Sense::hover(),
                             );
                             sep_bottom = Some(sep_rect.bottom());
-                            temp_bar(ui, &theme, board_therms[1].as_ref(), stale, bar_width);
+                            temp_bar(
+                                ui,
+                                &theme,
+                                module.board_temps[1].as_ref(),
+                                stale,
+                                bar_width,
+                            );
                         });
 
                         ui.painter().text(
@@ -302,20 +322,20 @@ impl BatteryTemps {
 fn temp_bar(
     ui: &mut eframe::egui::Ui,
     theme: &ui::theme::ThemeColors,
-    cell: Option<&ThermistorTemperature>,
+    therm: Option<&ThermistorTemp>,
     stale: bool,
     bar_w: f32,
 ) -> eframe::egui::Rect {
     let fill_color = if stale {
         theme.text_color().linear_multiply(0.12)
-    } else if let Some(cell) = cell {
-        cell.color()
+    } else if let Some(therm) = therm {
+        therm.color()
     } else {
         eframe::egui::Color32::GRAY
     };
 
-    let fill_frac = if let Some(cell) = cell {
-        ((cell.temperature - T_MIN) / (T_MAX - T_MIN)).clamp(0.0, 1.0) as f32
+    let fill_frac = if let Some(therm) = therm {
+        ((therm.temperature - T_MIN) / (T_MAX - T_MIN)).clamp(0.0, 1.0) as f32
     } else {
         0.0
     };
@@ -344,8 +364,8 @@ fn temp_bar(
         );
         painter.rect_filled(fill_rect, 2.0, fill_color);
 
-        let text = match cell.filter(|_| !stale) {
-            Some(cell) => format!("{:.1}°C", cell.temperature),
+        let text = match therm.filter(|_| !stale) {
+            Some(therm) => format!("{:.1}°C", therm.temperature),
             None => "—".to_string(),
         };
 
@@ -372,7 +392,7 @@ fn temp_bar(
 
 fn thermistor_sample(
     frame: &daqcore::frame::ParsedFrame,
-) -> Option<(usize, usize, ThermistorTemperature)> {
+) -> Option<(usize, usize, ThermistorTemp)> {
     let decoded = frame.decoded.as_ref()?;
     if !matches!(
         decoded.name(),
@@ -384,46 +404,52 @@ fn thermistor_sample(
     let module = decoded.signal("module_num")?.physical().round() as usize;
     let thermistor = decoded.signal("thermistor_num")?.physical().round() as usize;
     let temperature = decoded.signal("temperature")?.physical();
-    let value = ThermistorTemperature { temperature };
+    let value = ThermistorTemp { temperature };
 
     Some((module, thermistor, value))
 }
 
-fn thermistor_temperatures(
+fn module_temperatures(
     frames: &[daqcore::frame::ParsedFrame],
 ) -> (
-    Vec<Vec<Option<ThermistorTemperature>>>,
+    [ModuleTemps; ui::battery::common::NUM_MODULES],
     Option<daqcore::time::Time>,
 ) {
-    let mut modules = vec![
-        vec![None; ui::battery::common::THERMISTORS_PER_MODULE];
-        ui::battery::common::NUM_MODULES
-    ];
+    let mut modules = [ModuleTemps::default(); ui::battery::common::NUM_MODULES];
     let mut last_update = None;
     let mut filled = 0;
     for frame in frames.iter().rev() {
         if let Some((module, thermistor, value)) = thermistor_sample(frame)
             && module < ui::battery::common::NUM_MODULES
             && thermistor < ui::battery::common::THERMISTORS_PER_MODULE
-            && modules[module][thermistor].is_none()
         {
-            modules[module][thermistor] = Some(value);
-            last_update = last_update.max(Some(frame.timestamp));
-            filled += 1;
-            if filled
-                == ui::battery::common::NUM_MODULES * ui::battery::common::THERMISTORS_PER_MODULE
-            {
-                break;
+            let slot = if thermistor < ui::battery::common::CELL_THERMS_PER_MODULE {
+                &mut modules[module].cell_temps[thermistor]
+            } else {
+                &mut modules[module].board_temps
+                    [thermistor - ui::battery::common::CELL_THERMS_PER_MODULE]
+            };
+
+            if slot.is_none() {
+                *slot = Some(value);
+                last_update = last_update.max(Some(frame.timestamp));
+                filled += 1;
+                if filled
+                    == ui::battery::common::NUM_MODULES
+                        * ui::battery::common::THERMISTORS_PER_MODULE
+                {
+                    break;
+                }
             }
         }
     }
     (modules, last_update)
 }
 
-fn bms_temps(
+fn bms_temp_summary(
     frames: &[daqcore::frame::ParsedFrame],
-) -> (BmsTempTelemetry, Option<daqcore::time::Time>) {
-    let mut values = BmsTempTelemetry::default();
+) -> (BmsTempSummary, Option<daqcore::time::Time>) {
+    let mut values = BmsTempSummary::default();
     let mut last_update = None;
     for frame in frames.iter().rev() {
         let Some(decoded) = &frame.decoded else {
