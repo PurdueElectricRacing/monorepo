@@ -62,8 +62,8 @@ static constexpr uint8_t ADBMS6380_NO_BREAK_INDEX = 0x0FU;
  * @brief Communication direction along the reversible isoSPI daisy chain.
  */
 typedef enum : uint8_t {
-    ADBMS6380_DIR_FWD = 0, // SPI1 -> Port A (Chip 0 -> Chip N-1)
-    ADBMS6380_DIR_REV = 1, // SPI2 -> Port B (Chip N-1 -> Chip 0)
+    ADBMS6380_DIR_CCW = 0, // SPI1 (Chip 0 -> Chip N-1)
+    ADBMS6380_DIR_CW  = 1, // SPI2 (Chip N-1 -> Chip 0)
 } adbms6380_dir_t;
 
 /**
@@ -140,10 +140,10 @@ typedef struct {
  * @brief Daisy-chain ADBMS6380 device driver state, SPI transports, buffers, and error flags.
  */
 typedef struct {
-    /** Forward SPI instance (Port A: Chip 0 -> Chip N-1, manual CS control). */
-    SPI_InitConfig_t *spi_fwd;
-    /** Reverse SPI instance (Port B: Chip N-1 -> Chip 0, manual CS control). */
-    SPI_InitConfig_t *spi_rev;
+    /** Counter-clockwise SPI instance (SPI1: Chip 0 -> Chip N-1, manual CS control). */
+    SPI_InitConfig_t *spi_ccw;
+    /** Clockwise SPI instance (SPI2: Chip N-1 -> Chip 0, manual CS control). */
+    SPI_InitConfig_t *spi_cw;
     /** Scratch TX buffer wrapper for command/data packets. */
     strbuf_t tx_strbuf;
     /** Per-chip device state and raw/converted voltage and temperature readings. */
@@ -168,10 +168,10 @@ typedef struct {
     bool break_detected;
     /** Broken isoSPI link index (0..ADBMS_CHIP_COUNT for Link 0..N, ADBMS6380_NO_BREAK_INDEX when intact). */
     uint8_t break_index;
-    /** Number of contiguous chips reachable from the forward SPI port (SPI1). */
-    uint8_t reachable_fwd;
-    /** Number of contiguous chips reachable from the reverse SPI port (SPI2). */
-    uint8_t reachable_rev;
+    /** Number of contiguous chips reachable in the CCW direction (SPI1). */
+    uint8_t reachable_ccw;
+    /** Number of contiguous chips reachable in the CW direction (SPI2). */
+    uint8_t reachable_cw;
 } adbms6380_t;
 
 /**
@@ -181,10 +181,10 @@ typedef struct {
  * break, and error flags across all chips.
  *
  * @param dev Non-null pointer to device state to initialize.
- * @param spi_fwd Non-null forward SPI configuration (Port A / SPI1).
- * @param spi_rev Non-null reverse SPI configuration (Port B / SPI2).
+ * @param spi_ccw Non-null CCW SPI configuration (SPI1).
+ * @param spi_cw Non-null CW SPI configuration (SPI2).
  */
-void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_fwd, SPI_InitConfig_t *spi_rev);
+void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw);
 
 /**
  * @brief Toggle the primary isoSPI communication direction used when the loop is intact.
@@ -194,7 +194,7 @@ void ADBMS6380_init(adbms6380_t *dev, SPI_InitConfig_t *spi_fwd, SPI_InitConfig_
 void ADBMS6380_toggle_primary_dir(adbms6380_t *dev);
 
 /**
- * @brief Reset break detection state so the next connect sequence probes the full chain.
+ * @brief Reset break detection reachable counts so the next connect sequence probes the full chain.
  *
  * @param dev Non-null pointer to device state.
  */
