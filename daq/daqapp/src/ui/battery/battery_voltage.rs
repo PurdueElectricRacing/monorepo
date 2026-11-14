@@ -218,9 +218,9 @@ impl BatteryVoltage {
                         let available_width = ui.available_width();
                         let cell_spacing = ui.spacing().item_spacing.x;
                         let cell_count = ui::battery::common::CELLS_CHIP_0 as f32;
-                        let bar_width =
-                            ((available_width - cell_spacing * (cell_count - 1.0)) / cell_count)
-                                .max(8.0);
+                        let bar_width = ((available_width - cell_spacing * (cell_count - 1.0))
+                            / cell_count)
+                            .max(8.0);
 
                         let (chip0_cells, chip1_cells) =
                             module.split_at(ui::battery::common::CELLS_CHIP_0);

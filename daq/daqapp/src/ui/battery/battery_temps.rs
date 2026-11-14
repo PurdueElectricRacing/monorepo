@@ -194,11 +194,10 @@ impl BatteryTemps {
                         let total_cols = (ui::battery::common::CELL_THERMS_PER_CHIP
                             + ui::battery::common::BOARD_THERMS_PER_CHIP)
                             as f32;
-                        let bar_width = ((available_width
-                            - separator_gap
-                            - cell_spacing * total_cols)
-                            / total_cols)
-                            .max(8.0);
+                        let bar_width =
+                            ((available_width - separator_gap - cell_spacing * total_cols)
+                                / total_cols)
+                                .max(8.0);
 
                         let header_resp = ui.horizontal(|ui| {
                             ui.label(
@@ -283,17 +282,14 @@ impl BatteryTemps {
                                 eframe::egui::Sense::hover(),
                             );
                             sep_bottom = Some(sep_rect.bottom());
-                            temp_bar(
-                                ui,
-                                &theme,
-                                module.board_temps[1].as_ref(),
-                                stale,
-                                bar_width,
-                            );
+                            temp_bar(ui, &theme, module.board_temps[1].as_ref(), stale, bar_width);
                         });
 
                         ui.painter().text(
-                            eframe::egui::pos2(board_center_x, header_resp.response.rect.center().y),
+                            eframe::egui::pos2(
+                                board_center_x,
+                                header_resp.response.rect.center().y,
+                            ),
                             eframe::egui::Align2::CENTER_CENTER,
                             "BOARD",
                             eframe::egui::FontId::proportional(9.0),
