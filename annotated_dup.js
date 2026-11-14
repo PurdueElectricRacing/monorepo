@@ -268,6 +268,7 @@ var annotated_dup =
     [ "status_leds_t", "structstatus__leds__t.html", "structstatus__leds__t" ],
     [ "strbuf_t", "structstrbuf__t.html", "structstrbuf__t" ],
     [ "StrbufTest", "classStrbufTest.html", "classStrbufTest" ],
+    [ "switch_cs_data_t", "structswitch__cs__data__t.html", "structswitch__cs__data__t" ],
     [ "switch_t", "structswitch__t.html", "structswitch__t" ],
     [ "thermistor_telemetry_ccan_data_t", "structthermistor__telemetry__ccan__data__t.html", "structthermistor__telemetry__ccan__data__t" ],
     [ "thermistor_telemetry_data_t", "structthermistor__telemetry__data__t.html", "structthermistor__telemetry__data__t" ],

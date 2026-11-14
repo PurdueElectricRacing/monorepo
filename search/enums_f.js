@@ -8,5 +8,5 @@ var searchData=
   ['spi_5fcpol_5',['SPI_CPOL',['../phal__G4_2spi_2spi_8h.html#a4e5a98687b27cf02a47ed2a539426653',1,'spi.h']]],
   ['spi_5fmode_6',['SPI_Mode',['../phal__G4_2spi_2spi_8h.html#a60a7e3d74577b38aa79ea6983362f942',1,'spi.h']]],
   ['stop_5fbits_5ft_7',['stop_bits_t',['../phal__F4_2usart_2usart_8h.html#a93bf91b4ba41ceb7678694e06b1ac553',1,'usart.h']]],
-  ['switch_5fid_5ft_8',['switch_id_t',['../switch_8h.html#af89bbbc9db3e225538dbfa6fc3d97838',1,'switch.h']]]
+  ['switch_5fid_5ft_8',['switch_id_t',['../can__types_8h.html#a2249dbdac08bb2bb25dc1ceb7d1b2641',1,'can_types.h']]]
 ];

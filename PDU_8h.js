@@ -15,6 +15,7 @@ var PDU_8h =
     [ "CAN_SEND_pdu_fault_sync", "PDU_8h.html#ae708f591718b4d247f28ab7cd0cb78a3", null ],
     [ "CAN_SEND_pdu_init", "PDU_8h.html#a984d4c08c875de80bf03a51eca2fb6ce", null ],
     [ "CAN_SEND_pdu_version", "PDU_8h.html#a16832d8cf99185c8ae2c7a30c7bbb205", null ],
+    [ "CAN_SEND_switch_cs", "PDU_8h.html#ab3edc6cfc0aa19684a755399e31d6118", null ],
     [ "dashboard_fault_event_CALLBACK", "PDU_8h.html#a8bcfce9b94d677f6570b38112209ce37", null ],
     [ "dashboard_fault_sync_CALLBACK", "PDU_8h.html#aba3b7f2fe675ac8c4a9a479d4072d785", null ],
     [ "FDCAN1_init_filters", "PDU_8h.html#a500b6be206fba2002ed925d335a72173", null ],

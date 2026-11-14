@@ -266,6 +266,7 @@ var hierarchy =
     [ "start_button_data_t", "structstart__button__data__t.html", null ],
     [ "status_leds_t", "structstatus__leds__t.html", null ],
     [ "strbuf_t", "structstrbuf__t.html", null ],
+    [ "switch_cs_data_t", "structswitch__cs__data__t.html", null ],
     [ "switch_t", "structswitch__t.html", null ],
     [ "testing::Test", null, [
       [ "BangbangTest", "classBangbangTest.html", null ],

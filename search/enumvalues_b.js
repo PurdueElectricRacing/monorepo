@@ -14,7 +14,6 @@ var searchData=
   ['nav_5frelposned_5fflags_5frel_5fpos_5fvalid_11',['NAV_RELPOSNED_FLAGS_REL_POS_VALID',['../nav__relposned_8h.html#aeba8f34c9ae90ea0404882b5f54d3bf5a876dca308f9ead3e7174bde6c1135d51',1,'nav_relposned.h']]],
   ['num_5ffault_5fprios_12',['NUM_FAULT_PRIOS',['../faults__common_8h.html#a03cf0c7e0fba09e53e6aacd890b3d4eea00b1fe1b6035838201f5ae8c0f20c0d8',1,'faults_common.h']]],
   ['num_5fpages_13',['NUM_PAGES',['../lcd_8h.html#a99a5fddfe71e6e9cd0c559b9a9a41a99acd382a61c55aa2f67b15244ad7cd9618',1,'lcd.h']]],
-  ['num_5fswitches_14',['NUM_SWITCHES',['../switch_8h.html#af89bbbc9db3e225538dbfa6fc3d97838a30feaf3abb229ebb97fce793cbecae56',1,'switch.h']]],
-  ['num_5fusart_15',['NUM_USART',['../phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252a0ac75a5473f51888c304a37948db7419',1,'usart.h']]],
-  ['num_5fvcu_5felements_16',['NUM_VCU_ELEMENTS',['../vcu_8c.html#ade667dee6c3f02f349ff062fc90a0b4ea9fc792121a956f796820aed9a2565d13',1,'vcu.c']]]
+  ['num_5fusart_14',['NUM_USART',['../phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252a0ac75a5473f51888c304a37948db7419',1,'usart.h']]],
+  ['num_5fvcu_5felements_15',['NUM_VCU_ELEMENTS',['../vcu_8c.html#ade667dee6c3f02f349ff062fc90a0b4ea9fc792121a956f796820aed9a2565d13',1,'vcu.c']]]
 ];

@@ -1,146 +1,147 @@
 <map id="firmware/can_library/generated/can_types.h" name="firmware/can_library/generated/can_types.h">
-<area shape="rect" id="Node000001" title="Auto&#45;generated custom types and enums for the CAN library." alt="" coords="2683,5,2838,46"/>
-<area shape="rect" id="Node000002" href="$faults__common_8h.html" title="Event&#45;based FIDR system." alt="" coords="1039,190,1176,231"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2667,30,2471,33,2203,43,1898,63,1742,78,1589,97,1475,114,1387,132,1188,185,1165,192,1163,187,1187,180,1386,127,1474,109,1588,91,1741,73,1897,58,2203,38,2471,28,2667,25"/>
+<area shape="rect" id="Node000001" title="Auto&#45;generated custom types and enums for the CAN library." alt="" coords="2530,5,2685,46"/>
+<area shape="rect" id="Node000002" href="$faults__common_8h.html" title="Event&#45;based FIDR system." alt="" coords="1332,190,1469,231"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2514,33,2214,52,2028,71,1842,97,1740,115,1660,134,1481,185,1459,192,1457,187,1480,180,1659,129,1739,110,1842,91,2028,66,2214,47,2514,28"/>
 <area shape="rect" id="Node000003" href="$fault__data_8h.html" title="Auto&#45;generated global fault definitions and limits." alt="" coords="5,294,159,334"/>
-<area shape="poly" id="edge87_Node000001_Node000003" title=" " alt="" coords="2667,30,2114,32,1322,41,931,49,593,61,347,77,270,86,230,96,202,116,177,139,136,195,108,251,91,294,86,292,103,248,132,192,173,136,198,111,228,92,269,81,346,71,593,56,931,44,1322,36,2114,27,2667,24"/>
-<area shape="rect" id="Node000007" href="$charging__fsm_8c.html" title="Charger control state machine implementation." alt="" coords="255,390,450,431"/>
-<area shape="poly" id="edge88_Node000001_Node000007" title=" " alt="" coords="2667,30,2437,33,2113,43,1740,63,1548,78,1361,97,1274,104,1192,105,1039,98,899,85,770,76,709,76,649,82,591,93,534,112,477,140,421,177,365,226,308,288,301,299,299,312,305,339,319,365,336,388,332,391,315,368,300,341,294,312,296,298,304,285,361,223,418,173,475,135,532,107,590,88,649,76,709,71,770,71,900,80,1039,93,1192,100,1274,98,1360,91,1548,72,1740,57,2113,37,2437,28,2667,25"/>
-<area shape="rect" id="Node000009" href="$driver__interface_8c.html" title="thread to manage driver&#45;facing LCD, buttons, LEDs" alt="" coords="3320,286,3497,342"/>
-<area shape="poly" id="edge91_Node000001_Node000009" title=" " alt="" coords="2854,23,2979,26,3120,35,3188,44,3248,56,3298,72,3333,92,3349,108,3359,125,3366,159,3367,195,3377,238,3397,285,3393,287,3371,239,3362,196,3360,159,3354,127,3345,112,3330,96,3295,77,3247,61,3187,49,3120,41,2979,31,2854,29"/>
-<area shape="rect" id="Node000025" href="$A__BOX_8h.html" title="Auto&#45;generated CAN driver for A_BOX." alt="" coords="3110,190,3251,231"/>
-<area shape="poly" id="edge20_Node000001_Node000025" title=" " alt="" coords="2834,49,2933,92,2965,112,2997,132,3063,163,3125,187,3123,192,3061,168,2994,137,2962,117,2930,96,2832,54"/>
-<area shape="rect" id="Node000029" href="$BL__A__BOX_8h.html" title="Auto&#45;generated CAN driver for BL_A_BOX." alt="" coords="1669,190,1834,231"/>
-<area shape="poly" id="edge28_Node000001_Node000029" title=" " alt="" coords="2668,35,2430,55,2288,73,2147,97,2052,118,1959,144,1808,192,1806,187,1958,139,2051,113,2145,91,2287,67,2430,50,2667,29"/>
-<area shape="rect" id="Node000030" href="$BL__DASHBOARD_8h.html" title="Auto&#45;generated CAN driver for BL_DASHBOARD." alt="" coords="1858,190,2061,231"/>
-<area shape="poly" id="edge29_Node000001_Node000030" title=" " alt="" coords="2667,37,2485,57,2380,74,2276,97,2200,118,2125,144,2004,192,2002,187,2124,139,2198,113,2275,91,2379,69,2484,52,2667,31"/>
-<area shape="rect" id="Node000031" href="$BL__FRONT__DRIVELINE_8h.html" title="Auto&#45;generated CAN driver for BL_FRONT_DRIVELINE." alt="" coords="3589,190,3831,231"/>
-<area shape="poly" id="edge30_Node000001_Node000031" title=" " alt="" coords="2854,26,2969,31,3111,42,3265,61,3419,91,3490,112,3560,138,3672,187,3669,192,3558,143,3488,117,3417,97,3264,67,3110,47,2968,36,2854,31"/>
-<area shape="rect" id="Node000032" href="$BL__MAIN__MODULE_8h.html" title="Auto&#45;generated CAN driver for BL_MAIN_MODULE." alt="" coords="2085,190,2303,231"/>
-<area shape="poly" id="edge31_Node000001_Node000032" title=" " alt="" coords="2668,32,2596,38,2515,50,2431,69,2350,96,2310,117,2273,143,2215,192,2212,188,2269,138,2307,113,2348,92,2429,64,2514,45,2596,33,2667,27"/>
-<area shape="rect" id="Node000033" href="$BL__REAR__DRIVELINE_8h.html" title="Auto&#45;generated CAN driver for BL_REAR_DRIVELINE." alt="" coords="3854,190,4086,231"/>
-<area shape="poly" id="edge32_Node000001_Node000033" title=" " alt="" coords="2854,28,3143,48,3320,66,3498,91,3611,113,3722,139,3904,187,3903,192,3721,144,3610,118,3498,97,3320,72,3142,53,2854,34"/>
-<area shape="rect" id="Node000034" href="$BL__TORQUE__VECTOR_8h.html" title="Auto&#45;generated CAN driver for BL_TORQUE_VECTOR." alt="" coords="2327,183,2493,238"/>
-<area shape="poly" id="edge33_Node000001_Node000034" title=" " alt="" coords="2667,32,2581,38,2491,49,2413,68,2384,81,2365,96,2357,116,2361,138,2372,160,2387,181,2382,184,2367,163,2355,139,2352,115,2361,92,2382,76,2411,63,2490,44,2581,32,2667,27"/>
-<area shape="rect" id="Node000035" href="$CCAN_8h.html" title="Auto&#45;generated CAN bus definitions for CCAN." alt="" coords="2746,94,2882,135"/>
-<area shape="poly" id="edge34_Node000001_Node000035" title=" " alt="" coords="2783,58,2804,92,2800,95,2778,61"/>
-<area shape="rect" id="Node000037" href="$DASHBOARD_8h.html" title="Auto&#45;generated CAN driver for DASHBOARD." alt="" coords="3386,190,3565,231"/>
-<area shape="poly" id="edge37_Node000001_Node000037" title=" " alt="" coords="2854,26,2986,32,3138,43,3278,62,3334,76,3377,92,3406,112,3432,138,3467,188,3463,191,3428,142,3403,116,3374,96,3333,81,3277,68,3137,48,2986,37,2854,32"/>
-<area shape="rect" id="Node000043" href="$DRIVELINE_8h.html" title="Auto&#45;generated CAN driver for DRIVELINE." alt="" coords="4110,190,4275,231"/>
-<area shape="poly" id="edge50_Node000001_Node000043" title=" " alt="" coords="2854,29,3190,49,3401,67,3614,91,3858,128,4099,180,4126,187,4125,192,4097,185,3857,133,3614,97,3401,73,3189,55,2854,34"/>
-<area shape="rect" id="Node000045" href="$G4__TESTING_8h.html" title="Auto&#45;generated CAN driver for G4_TESTING." alt="" coords="4300,190,4477,231"/>
-<area shape="poly" id="edge52_Node000001_Node000045" title=" " alt="" coords="2854,27,3250,47,3505,66,3762,91,4026,127,4288,180,4317,187,4316,192,4287,185,4026,133,3762,97,3504,71,3249,53,2854,33"/>
-<area shape="rect" id="Node000046" href="$MAIN__MODULE_8h.html" title="Auto&#45;generated CAN driver for MAIN_MODULE." alt="" coords="1452,190,1645,231"/>
-<area shape="poly" id="edge53_Node000001_Node000046" title=" " alt="" coords="2668,32,2532,38,2360,50,2169,69,1977,97,1875,118,1774,143,1609,192,1607,187,1772,138,1874,113,1976,91,2168,64,2359,45,2532,33,2668,27"/>
-<area shape="rect" id="Node000049" href="$MCAN_8h.html" title="Auto&#45;generated CAN bus definitions for MCAN." alt="" coords="2375,94,2512,135"/>
-<area shape="poly" id="edge58_Node000001_Node000049" title=" " alt="" coords="2674,53,2513,97,2511,92,2673,48"/>
-<area shape="rect" id="Node000056" href="$PDU_8h.html" title="Auto&#45;generated CAN driver for PDU." alt="" coords="2715,190,2852,231"/>
-<area shape="poly" id="edge61_Node000001_Node000056" title=" " alt="" coords="2746,61,2735,97,2734,116,2737,134,2750,163,2768,188,2764,191,2746,166,2731,135,2728,116,2730,96,2741,59"/>
-<area shape="rect" id="Node000058" href="$SCAN_8h.html" title="Auto&#45;generated CAN bus definitions for SCAN." alt="" coords="3007,94,3144,135"/>
-<area shape="poly" id="edge63_Node000001_Node000058" title=" " alt="" coords="2848,48,3007,92,3006,97,2846,53"/>
-<area shape="rect" id="Node000059" href="$TORQUE__VECTOR_8h.html" title="Auto&#45;generated CAN driver for TORQUE_VECTOR." alt="" coords="2875,190,3086,231"/>
-<area shape="poly" id="edge75_Node000001_Node000059" title=" " alt="" coords="2828,50,2863,69,2896,92,2920,115,2941,142,2972,188,2968,191,2937,145,2916,119,2892,96,2860,73,2825,55"/>
-<area shape="rect" id="Node000067" href="$TEST__CAN_8h.html" title="Auto&#45;generated CAN bus definitions for TEST_CAN." alt="" coords="4266,94,4431,135"/>
-<area shape="poly" id="edge73_Node000001_Node000067" title=" " alt="" coords="2854,26,3423,44,3808,63,4200,91,4266,99,4266,104,4199,97,3808,69,3423,49,2854,31"/>
-<area shape="rect" id="Node000068" href="$VCAN_8h.html" title="Auto&#45;generated CAN bus definitions for VCAN." alt="" coords="2535,94,2672,135"/>
-<area shape="poly" id="edge76_Node000001_Node000068" title=" " alt="" coords="2713,56,2640,96,2638,91,2710,51"/>
-<area shape="rect" id="Node000070" href="$imd__decode_8h.html" title="IMD PWM state decoding and insulation resistance calculation." alt="" coords="3168,94,3319,135"/>
-<area shape="poly" id="edge89_Node000001_Node000070" title=" " alt="" coords="2854,39,3156,91,3168,94,3167,99,3155,97,2853,44"/>
-<area shape="rect" id="Node000072" href="$vehicle__fsm_8h.html" title="Master vehicle state machine implementation." alt="" coords="1200,190,1428,231"/>
-<area shape="poly" id="edge92_Node000001_Node000072" title=" " alt="" coords="2667,31,2502,36,2285,47,2040,66,1793,97,1679,118,1565,143,1381,192,1379,187,1564,138,1677,112,1792,91,2039,61,2284,41,2502,31,2667,26"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1023,216,866,221,655,234,417,255,297,270,178,289,147,296,146,291,178,284,296,265,417,250,655,228,865,216,1023,211"/>
-<area shape="rect" id="Node000005" href="$faults__common_8c.html" title="Event&#45;based FIDR system." alt="" coords="58,390,226,431"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="1024,217,855,223,647,236,448,257,367,272,307,289,263,311,223,338,162,392,159,388,220,334,261,306,305,284,366,267,447,252,646,231,855,218,1024,211"/>
-<area shape="poly" id="edge5_Node000002_Node000007" title=" " alt="" coords="1024,216,840,222,619,235,515,245,426,257,360,271,338,280,325,288,318,299,315,311,317,338,328,365,341,388,336,391,323,367,312,339,310,311,313,297,321,284,336,275,358,266,425,251,514,239,619,230,839,217,1024,211"/>
-<area shape="rect" id="Node000008" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="2520,390,2671,431"/>
-<area shape="poly" id="edge6_Node000002_Node000008" title=" " alt="" coords="1093,246,1084,270,1080,295,1082,319,1093,340,1113,349,1155,357,1294,371,1487,383,1712,391,2177,402,2519,406,2519,411,2177,407,1712,397,1486,388,1293,377,1154,362,1111,354,1090,344,1077,321,1074,295,1079,268,1088,244"/>
-<area shape="poly" id="edge7_Node000002_Node000009" title=" " alt="" coords="1174,233,1188,236,1283,249,1393,258,1649,268,1940,269,2247,265,2555,261,2846,260,3103,266,3213,273,3309,284,3320,285,3319,291,3308,289,3213,278,3102,271,2846,265,2555,266,2247,270,1940,274,1649,273,1393,263,1282,254,1187,241,1173,238"/>
-<area shape="rect" id="Node000010" href="$calibration_8c.html" title="Calibration page implementation." alt="" coords="513,286,691,342"/>
-<area shape="poly" id="edge8_Node000002_Node000010" title=" " alt="" coords="1024,228,874,254,703,289,692,291,691,286,701,284,873,249,1023,223"/>
-<area shape="rect" id="Node000011" href="$lap__timer_8c.html" title="DASHBOARD lap timer task implementations." alt="" coords="3119,294,3296,334"/>
-<area shape="poly" id="edge9_Node000002_Node000011" title=" " alt="" coords="1174,233,1188,236,1274,248,1373,256,1605,266,1868,267,2147,264,2425,261,2688,261,2921,267,3021,274,3108,284,3143,291,3142,296,3107,289,3021,279,2921,273,2688,266,2425,267,2147,270,1868,272,1605,271,1373,262,1273,253,1187,241,1173,238"/>
-<area shape="rect" id="Node000012" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="3557,390,3735,431"/>
-<area shape="poly" id="edge10_Node000002_Node000012" title=" " alt="" coords="1125,244,1156,301,1173,325,1187,340,1230,351,1315,360,1584,373,1948,380,2360,383,3138,383,3412,384,3546,387,3557,389,3556,394,3546,393,3412,389,3138,389,2360,388,1948,385,1584,378,1314,365,1229,356,1185,344,1169,329,1151,304,1120,246"/>
-<area shape="rect" id="Node000013" href="$pedals_8c.html" title="Pedal processing logic." alt="" coords="3356,390,3533,431"/>
-<area shape="poly" id="edge11_Node000002_Node000013" title=" " alt="" coords="1109,246,1111,270,1116,296,1127,320,1143,340,1433,352,2095,371,3356,404,3356,409,2094,376,1433,357,1141,344,1122,323,1111,298,1105,271,1103,246"/>
-<area shape="rect" id="Node000014" href="$main__module_2main_8c.html" title="&quot;Main Module&quot; node source code" alt="" coords="1684,294,1829,334"/>
-<area shape="poly" id="edge12_Node000002_Node000014" title=" " alt="" coords="1176,233,1188,236,1261,249,1323,256,1429,260,1536,264,1599,271,1672,284,1700,291,1699,296,1671,289,1598,276,1536,270,1429,266,1322,261,1260,254,1187,241,1175,238"/>
-<area shape="rect" id="Node000015" href="$powertrain_8c.html" title="Powertrain implementation." alt="" coords="1451,294,1660,334"/>
-<area shape="poly" id="edge13_Node000002_Node000015" title=" " alt="" coords="1179,233,1188,236,1258,252,1313,262,1440,284,1472,291,1471,296,1439,289,1312,267,1257,257,1187,241,1177,238"/>
-<area shape="rect" id="Node000016" href="$sdc_8c.html" title="SDC task implementation." alt="" coords="715,294,860,334"/>
-<area shape="poly" id="edge14_Node000002_Node000016" title=" " alt="" coords="1032,239,850,296,848,291,1030,233"/>
-<area shape="rect" id="Node000017" href="$vehicle__fsm_8c.html" title="Master vehicle state machine implementation." alt="" coords="1198,294,1427,334"/>
-<area shape="poly" id="edge15_Node000002_Node000017" title=" " alt="" coords="1161,236,1274,291,1272,296,1159,240"/>
-<area shape="rect" id="Node000018" href="$pdu_2main_8c.html" title="&quot;PDU&quot; node source code" alt="" coords="1853,294,1991,334"/>
-<area shape="poly" id="edge16_Node000002_Node000018" title=" " alt="" coords="1175,233,1188,236,1286,252,1370,259,1514,260,1658,260,1743,268,1841,284,1868,291,1867,296,1840,289,1742,273,1658,266,1514,265,1370,265,1285,257,1187,241,1174,238"/>
-<area shape="rect" id="Node000019" href="$switch_8h.html" title="switch mappings and control code" alt="" coords="884,294,1022,334"/>
-<area shape="poly" id="edge17_Node000002_Node000019" title=" " alt="" coords="1066,242,984,296,981,291,1063,237"/>
-<area shape="rect" id="Node000023" href="$gps_8c.html" title="GPS RX and parsing thread." alt="" coords="336,294,489,334"/>
-<area shape="poly" id="edge18_Node000002_Node000023" title=" " alt="" coords="1024,220,788,243,644,263,501,289,474,296,472,291,500,284,643,258,787,238,1023,215"/>
-<area shape="rect" id="Node000024" href="$torque__vector_2telemetry_2telemetry_8c.html" title="TORQUE VECTOR telemetry task implementations." alt="" coords="2234,294,2423,334"/>
-<area shape="poly" id="edge19_Node000002_Node000024" title=" " alt="" coords="1175,233,1188,236,1343,259,1476,269,1593,270,1703,266,1814,261,1932,260,2066,266,2222,284,2258,291,2257,296,2222,289,2065,271,1932,265,1814,267,1704,272,1594,275,1476,275,1343,264,1187,241,1174,238"/>
-<area shape="poly" id="edge3_Node000003_Node000005" title=" " alt="" coords="105,346,132,388,127,391,100,349"/>
-<area shape="poly" id="edge21_Node000025_Node000007" title=" " alt="" coords="3111,238,3098,241,3039,248,2963,251,2788,252,2698,254,2615,260,2543,271,2487,289,2472,301,2463,316,2454,331,2436,344,2403,352,2341,359,2143,372,1559,392,917,404,451,411,451,405,917,399,1559,386,2143,367,2340,354,2402,347,2434,340,2450,328,2458,313,2468,298,2485,284,2541,266,2614,255,2698,249,2788,247,2963,246,3038,243,3098,236,3110,233"/>
-<area shape="poly" id="edge26_Node000025_Node000008" title=" " alt="" coords="3110,238,3099,241,3046,250,3000,253,2921,251,2884,251,2846,256,2804,268,2757,289,2740,301,2731,314,2721,328,2706,344,2670,370,2634,392,2632,387,2667,366,2703,340,2717,325,2726,311,2737,297,2754,284,2802,263,2845,251,2884,246,2921,246,3000,248,3046,245,3097,236,3109,233"/>
-<area shape="rect" id="Node000026" href="$charging__fsm_8h.html" title="Charger control state machine implementation." alt="" coords="2498,294,2693,334"/>
-<area shape="poly" id="edge22_Node000025_Node000026" title=" " alt="" coords="3110,238,3099,241,2991,260,2905,268,2820,274,2712,289,2677,296,2676,291,2711,284,2820,269,2905,262,2990,255,3097,236,3109,233"/>
-<area shape="rect" id="Node000027" href="$imd_8c.html" title="ABOX IMD PWM capture and CAN reporting." alt="" coords="2944,294,3095,334"/>
-<area shape="poly" id="edge25_Node000025_Node000027" title=" " alt="" coords="3138,242,3052,296,3049,291,3135,237"/>
-<area shape="rect" id="Node000028" href="$a__box_2telemetry_2telemetry_8c.html" title="ABOX Telemetry task implementations." alt="" coords="2768,294,2919,334"/>
-<area shape="poly" id="edge27_Node000025_Node000028" title=" " alt="" coords="3107,238,3099,241,2932,289,2909,296,2907,291,2931,284,3097,236,3105,233"/>
-<area shape="poly" id="edge23_Node000026_Node000007" title=" " alt="" coords="2504,341,2480,345,2292,362,2045,376,1451,396,864,407,450,411,450,406,864,402,1451,391,2044,371,2292,357,2479,339,2504,335"/>
-<area shape="poly" id="edge24_Node000026_Node000008" title=" " alt="" coords="2598,350,2598,390,2593,390,2593,350"/>
-<area shape="poly" id="edge35_Node000035_Node000025" title=" " alt="" coords="2898,131,3099,180,3122,187,3121,192,3097,185,2897,136"/>
-<area shape="rect" id="Node000036" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="2516,190,2690,231"/>
-<area shape="poly" id="edge36_Node000035_Node000036" title=" " alt="" coords="2757,144,2649,192,2646,187,2755,139"/>
-<area shape="poly" id="edge38_Node000037_Node000009" title=" " alt="" coords="3456,245,3429,287,3424,284,3452,242"/>
-<area shape="poly" id="edge42_Node000037_Node000011" title=" " alt="" coords="3411,239,3260,296,3258,291,3409,234"/>
-<area shape="poly" id="edge43_Node000037_Node000012" title=" " alt="" coords="3567,233,3765,284,3774,299,3776,314,3773,328,3766,343,3740,372,3708,392,3705,387,3737,368,3761,341,3768,326,3771,313,3769,301,3762,288,3566,238"/>
-<area shape="poly" id="edge44_Node000037_Node000013" title=" " alt="" coords="3498,244,3515,291,3518,317,3512,343,3496,370,3474,391,3470,387,3491,367,3508,341,3513,317,3510,292,3493,245"/>
-<area shape="rect" id="Node000038" href="$source_2dashboard_2driver__interface_2pages_2amk_8c.html" title="AMK page implementation." alt="" coords="3876,294,4069,334"/>
-<area shape="poly" id="edge39_Node000037_Node000038" title=" " alt="" coords="3563,232,3579,236,3718,260,3858,284,3891,291,3890,296,3858,289,3717,266,3577,241,3562,238"/>
-<area shape="rect" id="Node000039" href="$race_8c.html" title="Race page implementation." alt="" coords="3759,390,3952,431"/>
-<area shape="poly" id="edge40_Node000037_Node000039" title=" " alt="" coords="3566,233,3579,236,3639,245,3689,247,3736,255,3762,266,3789,284,3813,308,3831,336,3852,388,3848,391,3826,339,3809,311,3786,288,3759,271,3735,260,3689,252,3639,250,3577,241,3565,238"/>
-<area shape="rect" id="Node000040" href="$vcu_8c.html" title="VCU page implementation." alt="" coords="4093,294,4282,334"/>
-<area shape="poly" id="edge41_Node000037_Node000040" title=" " alt="" coords="3561,232,3578,236,3719,254,3829,260,3940,266,4081,284,4115,291,4114,296,4080,289,3940,271,3829,265,3718,260,3578,241,3560,237"/>
-<area shape="rect" id="Node000041" href="$pedals_8h.html" title=" " alt="" coords="3573,294,3751,334"/>
-<area shape="poly" id="edge45_Node000037_Node000041" title=" " alt="" coords="3526,236,3627,291,3625,296,3524,241"/>
-<area shape="rect" id="Node000042" href="$dashboard_2telemetry_2telemetry_8c.html" title="DASHBOARD telemetry task implementations." alt="" coords="4305,294,4483,334"/>
-<area shape="poly" id="edge49_Node000037_Node000042" title=" " alt="" coords="3559,232,3578,236,3687,250,3779,257,3936,259,4094,261,4186,269,4294,284,4328,291,4327,296,4294,289,4186,274,4094,267,3936,265,3778,263,3686,255,3578,241,3558,237"/>
-<area shape="poly" id="edge47_Node000041_Node000012" title=" " alt="" coords="3659,350,3652,390,3647,389,3654,349"/>
-<area shape="poly" id="edge48_Node000041_Node000013" title=" " alt="" coords="3603,344,3491,392,3489,387,3601,339"/>
-<area shape="poly" id="edge46_Node000041_Node000039" title=" " alt="" coords="3717,339,3816,387,3814,392,3715,344"/>
-<area shape="rect" id="Node000044" href="$driveline_2main_8c.html" title="&quot;Driveline&quot; node source code" alt="" coords="4507,294,4673,334"/>
-<area shape="poly" id="edge51_Node000043_Node000044" title=" " alt="" coords="4278,233,4289,236,4496,284,4522,291,4521,296,4495,289,4288,241,4276,238"/>
-<area shape="poly" id="edge54_Node000046_Node000014" title=" " alt="" coords="1604,235,1717,291,1715,296,1601,240"/>
-<area shape="poly" id="edge55_Node000046_Node000015" title=" " alt="" coords="1554,246,1557,293,1551,294,1548,247"/>
-<area shape="poly" id="edge57_Node000046_Node000017" title=" " alt="" coords="1490,240,1359,296,1357,291,1488,235"/>
-<area shape="rect" id="Node000047" href="$main__module_2telemetry_2telemetry_8c.html" title="MAIN MODULE telemetry task implementations." alt="" coords="2016,294,2210,334"/>
-<area shape="poly" id="edge56_Node000046_Node000047" title=" " alt="" coords="1640,232,1657,236,1754,251,1830,260,1907,268,2004,284,2036,291,2035,296,2003,289,1906,273,1830,265,1753,257,1656,241,1639,237"/>
-<area shape="poly" id="edge60_Node000049_Node000036" title=" " alt="" coords="2491,141,2571,187,2568,192,2489,145"/>
-<area shape="poly" id="edge59_Node000049_Node000046" title=" " alt="" coords="2360,121,2050,140,1854,159,1657,185,1623,192,1622,187,1656,180,1853,153,2049,134,2360,116"/>
-<area shape="poly" id="edge62_Node000056_Node000018" title=" " alt="" coords="2715,238,2703,241,2597,258,2507,265,2427,267,2353,265,2278,263,2199,265,2109,272,2004,289,1976,296,1975,291,2003,284,2108,267,2198,259,2278,258,2353,260,2427,261,2507,260,2596,252,2701,236,2714,233"/>
-<area shape="poly" id="edge64_Node000058_Node000025" title=" " alt="" coords="3110,143,3161,188,3157,192,3107,147"/>
-<area shape="poly" id="edge65_Node000058_Node000031" title=" " alt="" coords="3159,132,3277,149,3369,157,3461,165,3577,180,3617,187,3616,192,3576,185,3461,170,3369,163,3276,154,3158,138"/>
-<area shape="poly" id="edge66_Node000058_Node000033" title=" " alt="" coords="3159,132,3263,146,3352,153,3503,157,3653,161,3741,168,3844,180,3885,187,3884,192,3843,185,3740,173,3653,167,3502,163,3351,158,3263,151,3159,138"/>
-<area shape="poly" id="edge72_Node000058_Node000036" title=" " alt="" coords="2992,131,2857,155,2704,185,2675,192,2674,187,2703,180,2856,149,2991,126"/>
-<area shape="poly" id="edge67_Node000058_Node000037" title=" " alt="" coords="3159,133,3391,187,3390,192,3158,138"/>
-<area shape="poly" id="edge68_Node000058_Node000043" title=" " alt="" coords="3159,132,3302,148,3423,154,3630,153,3730,151,3837,152,3957,161,4098,180,4131,187,4129,192,4098,185,3957,166,3837,158,3730,156,3630,158,3423,160,3301,153,3159,138"/>
-<area shape="poly" id="edge69_Node000058_Node000056" title=" " alt="" coords="2999,142,2864,185,2843,192,2841,187,2863,180,2997,137"/>
-<area shape="poly" id="edge70_Node000058_Node000059" title=" " alt="" coords="3047,147,3002,192,2998,188,3043,144"/>
-<area shape="poly" id="edge71_Node000059_Node000024" title=" " alt="" coords="2885,237,2864,241,2746,257,2653,265,2560,272,2442,289,2408,296,2407,291,2442,284,2560,267,2652,259,2745,252,2863,236,2884,232"/>
-<area shape="poly" id="edge74_Node000067_Node000045" title=" " alt="" coords="4365,148,4383,189,4378,191,4360,150"/>
-<area shape="poly" id="edge77_Node000068_Node000025" title=" " alt="" coords="2687,125,2734,132,2837,144,2917,151,2997,161,3099,180,3125,187,3123,192,3097,185,2996,166,2917,156,2836,149,2734,137,2687,131"/>
-<area shape="poly" id="edge78_Node000068_Node000029" title=" " alt="" coords="2520,138,2418,150,2330,156,2181,159,2033,163,1947,170,1846,185,1815,192,1814,187,1846,180,1946,165,2033,157,2181,154,2330,151,2417,145,2519,132"/>
-<area shape="poly" id="edge79_Node000068_Node000030" title=" " alt="" coords="2520,138,2394,154,2295,161,2197,169,2073,185,2038,192,2037,187,2072,180,2196,163,2295,156,2393,149,2519,133"/>
-<area shape="poly" id="edge80_Node000068_Node000032" title=" " alt="" coords="2521,138,2283,192,2282,187,2520,133"/>
-<area shape="poly" id="edge81_Node000068_Node000034" title=" " alt="" coords="2550,144,2467,185,2465,180,2548,139"/>
-<area shape="poly" id="edge86_Node000068_Node000036" title=" " alt="" coords="2606,150,2606,190,2601,190,2601,150"/>
-<area shape="poly" id="edge82_Node000068_Node000037" title=" " alt="" coords="2687,126,2734,132,2883,148,2999,157,3264,180,3385,195,3385,200,3263,185,2998,162,2882,153,2734,137,2686,131"/>
-<area shape="poly" id="edge83_Node000068_Node000046" title=" " alt="" coords="2520,138,2389,153,2277,160,2087,161,1897,162,1787,169,1657,185,1621,192,1620,187,1656,180,1786,164,1897,156,2087,155,2277,154,2389,147,2519,132"/>
-<area shape="poly" id="edge84_Node000068_Node000056" title=" " alt="" coords="2656,140,2747,187,2744,192,2653,145"/>
-<area shape="poly" id="edge85_Node000068_Node000059" title=" " alt="" coords="2687,134,2902,187,2901,192,2686,139"/>
-<area shape="poly" id="edge90_Node000070_Node000027" title=" " alt="" coords="3264,148,3272,170,3276,194,3275,218,3265,240,3085,296,3084,291,3262,236,3270,217,3271,194,3266,171,3259,150"/>
-<area shape="poly" id="edge93_Node000072_Node000014" title=" " alt="" coords="1422,232,1440,236,1556,258,1672,284,1697,291,1696,296,1671,289,1555,263,1439,241,1421,237"/>
-<area shape="poly" id="edge94_Node000072_Node000017" title=" " alt="" coords="1316,247,1316,293,1310,293,1311,247"/>
+<area shape="poly" id="edge88_Node000001_Node000003" title=" " alt="" coords="2514,29,1980,30,1221,38,846,46,524,58,289,75,216,85,179,96,156,116,137,140,122,167,109,195,94,251,86,294,81,293,88,249,104,194,117,165,133,137,152,112,177,92,215,80,289,69,523,53,846,41,1220,33,1980,25,2514,24"/>
+<area shape="rect" id="Node000007" href="$charging__fsm_8c.html" title="Charger control state machine implementation." alt="" coords="1920,390,2116,431"/>
+<area shape="poly" id="edge89_Node000001_Node000007" title=" " alt="" coords="2514,30,2269,32,1921,41,1518,62,1311,77,1109,97,968,114,858,132,610,185,548,195,491,198,392,199,347,204,305,218,264,245,224,288,216,302,213,315,215,328,224,340,242,345,289,351,448,362,943,381,1920,405,1920,410,943,386,448,367,288,356,241,350,220,344,210,330,207,315,211,300,220,285,261,241,303,213,346,199,391,193,491,193,547,190,610,180,857,127,967,109,1108,91,1311,72,1518,56,1921,36,2269,27,2514,24"/>
+<area shape="rect" id="Node000009" href="$driver__interface_8c.html" title="thread to manage driver&#45;facing LCD, buttons, LEDs" alt="" coords="3339,286,3516,342"/>
+<area shape="poly" id="edge92_Node000001_Node000009" title=" " alt="" coords="2701,26,2882,32,3094,44,3280,63,3345,76,3381,92,3400,113,3414,137,3430,190,3435,243,3433,286,3428,286,3429,243,3424,191,3409,139,3395,116,3378,96,3343,81,3279,69,3094,50,2882,38,2701,32"/>
+<area shape="rect" id="Node000022" href="$A__BOX_8h.html" title="Auto&#45;generated CAN driver for A_BOX." alt="" coords="2933,190,3074,231"/>
+<area shape="poly" id="edge20_Node000001_Node000022" title=" " alt="" coords="2701,34,2793,55,2841,71,2886,92,2935,134,2987,188,2984,191,2932,137,2883,96,2839,76,2792,60,2700,40"/>
+<area shape="rect" id="Node000026" href="$BL__A__BOX_8h.html" title="Auto&#45;generated CAN driver for BL_A_BOX." alt="" coords="1493,190,1658,231"/>
+<area shape="poly" id="edge28_Node000001_Node000026" title=" " alt="" coords="2514,37,2292,59,2159,76,2028,97,1926,117,1848,136,1671,185,1645,192,1644,187,1669,180,1847,131,1925,112,2027,91,2159,70,2291,53,2514,31"/>
+<area shape="rect" id="Node000027" href="$BL__DASHBOARD_8h.html" title="Auto&#45;generated CAN driver for BL_DASHBOARD." alt="" coords="1682,190,1885,231"/>
+<area shape="poly" id="edge29_Node000001_Node000027" title=" " alt="" coords="2514,32,2449,38,2377,49,2303,68,2233,96,2220,106,2211,116,2203,127,2189,137,2147,155,2111,165,2046,173,1980,175,1897,185,1865,192,1864,187,1896,180,1980,170,2046,168,2110,160,2145,150,2186,132,2199,123,2207,113,2216,102,2230,92,2301,63,2376,44,2449,33,2514,26"/>
+<area shape="rect" id="Node000028" href="$BL__FRONT__DRIVELINE_8h.html" title="Auto&#45;generated CAN driver for BL_FRONT_DRIVELINE." alt="" coords="3097,190,3339,231"/>
+<area shape="poly" id="edge30_Node000001_Node000028" title=" " alt="" coords="2701,30,2918,52,3023,69,3065,80,3096,92,3131,113,3161,138,3206,188,3202,192,3158,142,3128,117,3094,96,3063,85,3022,75,2918,57,2700,36"/>
+<area shape="rect" id="Node000029" href="$BL__MAIN__MODULE_8h.html" title="Auto&#45;generated CAN driver for BL_MAIN_MODULE." alt="" coords="2304,190,2521,231"/>
+<area shape="poly" id="edge31_Node000001_Node000029" title=" " alt="" coords="2580,59,2501,137,2438,192,2434,188,2498,133,2576,55"/>
+<area shape="rect" id="Node000030" href="$BL__REAR__DRIVELINE_8h.html" title="Auto&#45;generated CAN driver for BL_REAR_DRIVELINE." alt="" coords="3668,190,3899,231"/>
+<area shape="poly" id="edge32_Node000001_Node000030" title=" " alt="" coords="2701,28,3113,50,3332,68,3422,79,3491,91,3563,112,3633,137,3746,187,3744,192,3631,142,3561,117,3489,97,3421,85,3331,74,3113,55,2701,33"/>
+<area shape="rect" id="Node000031" href="$BL__TORQUE__VECTOR_8h.html" title="Auto&#45;generated CAN driver for BL_TORQUE_VECTOR." alt="" coords="2546,183,2711,238"/>
+<area shape="poly" id="edge33_Node000001_Node000031" title=" " alt="" coords="2614,61,2628,182,2623,182,2609,62"/>
+<area shape="rect" id="Node000032" href="$CCAN_8h.html" title="Auto&#45;generated CAN bus definitions for CCAN." alt="" coords="2736,94,2873,135"/>
+<area shape="poly" id="edge34_Node000001_Node000032" title=" " alt="" coords="2667,50,2761,91,2759,96,2665,55"/>
+<area shape="rect" id="Node000034" href="$DASHBOARD_8h.html" title="Auto&#45;generated CAN driver for DASHBOARD." alt="" coords="3464,190,3644,231"/>
+<area shape="poly" id="edge37_Node000001_Node000034" title=" " alt="" coords="2700,23,2879,25,3096,34,3204,42,3302,54,3385,71,3447,92,3479,112,3506,138,3544,188,3540,191,3502,141,3476,116,3445,96,3384,76,3301,60,3203,48,3096,39,2879,30,2700,29"/>
+<area shape="rect" id="Node000040" href="$DRIVELINE_8h.html" title="Auto&#45;generated CAN driver for DRIVELINE." alt="" coords="3923,190,4089,231"/>
+<area shape="poly" id="edge50_Node000001_Node000040" title=" " alt="" coords="2700,25,2865,29,3081,40,3325,60,3570,91,3675,112,3779,138,3947,187,3946,192,3778,143,3674,117,3570,97,3325,65,3081,45,2864,35,2700,30"/>
+<area shape="rect" id="Node000042" href="$G4__TESTING_8h.html" title="Auto&#45;generated CAN driver for G4_TESTING." alt="" coords="4113,190,4291,231"/>
+<area shape="poly" id="edge52_Node000001_Node000042" title=" " alt="" coords="2700,26,2881,31,3125,41,3401,61,3680,91,3805,112,3929,138,4131,187,4130,192,3928,143,3804,117,3679,97,3400,66,3125,47,2881,36,2700,31"/>
+<area shape="rect" id="Node000043" href="$MAIN__MODULE_8h.html" title="Auto&#45;generated CAN driver for MAIN_MODULE." alt="" coords="883,190,1076,231"/>
+<area shape="poly" id="edge53_Node000001_Node000043" title=" " alt="" coords="2515,33,2133,53,1889,71,1642,97,1486,118,1330,144,1074,192,1073,187,1329,139,1485,113,1642,91,1888,66,2133,48,2514,28"/>
+<area shape="rect" id="Node000046" href="$MCAN_8h.html" title="Auto&#45;generated CAN bus definitions for MCAN." alt="" coords="2039,94,2176,135"/>
+<area shape="poly" id="edge58_Node000001_Node000046" title=" " alt="" coords="2514,43,2194,97,2176,100,2175,95,2194,91,2513,38"/>
+<area shape="rect" id="Node000053" href="$PDU_8h.html" title="Auto&#45;generated CAN driver for PDU." alt="" coords="1908,190,2045,231"/>
+<area shape="poly" id="edge61_Node000001_Node000053" title=" " alt="" coords="2514,37,2401,57,2341,74,2283,96,2268,106,2258,116,2248,127,2233,137,2185,157,2147,166,2107,173,2057,185,2035,192,2034,187,2056,180,2106,168,2145,161,2184,152,2230,132,2245,122,2255,112,2265,102,2281,92,2339,69,2400,52,2513,32"/>
+<area shape="rect" id="Node000058" href="$SCAN_8h.html" title="Auto&#45;generated CAN bus definitions for SCAN." alt="" coords="2947,94,3084,135"/>
+<area shape="poly" id="edge64_Node000001_Node000058" title=" " alt="" coords="2701,44,2929,91,2947,95,2946,101,2928,97,2700,49"/>
+<area shape="rect" id="Node000059" href="$TORQUE__VECTOR_8h.html" title="Auto&#45;generated CAN driver for TORQUE_VECTOR." alt="" coords="2068,190,2280,231"/>
+<area shape="poly" id="edge76_Node000001_Node000059" title=" " alt="" coords="2515,44,2428,65,2340,96,2311,115,2284,137,2204,192,2201,187,2280,133,2308,110,2338,92,2427,59,2514,39"/>
+<area shape="rect" id="Node000067" href="$TEST__CAN_8h.html" title="Auto&#45;generated CAN bus definitions for TEST_CAN." alt="" coords="4077,94,4242,135"/>
+<area shape="poly" id="edge74_Node000001_Node000067" title=" " alt="" coords="2701,26,3258,44,3634,63,4017,91,4077,98,4077,103,4016,97,3634,68,3258,49,2701,31"/>
+<area shape="rect" id="Node000068" href="$VCAN_8h.html" title="Auto&#45;generated CAN bus definitions for VCAN." alt="" coords="2351,94,2488,135"/>
+<area shape="poly" id="edge77_Node000001_Node000068" title=" " alt="" coords="2552,55,2463,96,2461,91,2550,50"/>
+<area shape="rect" id="Node000070" href="$imd__decode_8h.html" title="IMD PWM state decoding and insulation resistance calculation." alt="" coords="3216,94,3367,135"/>
+<area shape="poly" id="edge90_Node000001_Node000070" title=" " alt="" coords="2700,35,3152,91,3215,100,3215,105,3151,97,2700,41"/>
+<area shape="rect" id="Node000072" href="$vehicle__fsm_8h.html" title="Master vehicle state machine implementation." alt="" coords="622,190,851,231"/>
+<area shape="poly" id="edge93_Node000001_Node000072" title=" " alt="" coords="2514,31,2310,36,2029,47,1707,67,1381,97,1227,117,1075,143,826,192,825,187,1074,138,1227,112,1380,91,1707,61,2028,42,2310,31,2514,26"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1317,222,1088,241,844,253,654,258,465,266,222,289,160,299,159,294,222,284,464,260,654,252,844,248,1087,236,1317,217"/>
+<area shape="rect" id="Node000005" href="$faults__common_8c.html" title="Event&#45;based FIDR system." alt="" coords="518,390,686,431"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="1318,227,1232,250,1188,267,1148,289,1132,302,1123,316,1114,331,1097,344,1064,357,1020,369,911,387,792,399,686,407,686,402,791,394,910,381,1019,363,1062,352,1094,340,1110,327,1119,314,1128,299,1144,284,1186,262,1231,245,1316,222"/>
+<area shape="poly" id="edge5_Node000002_Node000007" title=" " alt="" coords="1473,233,1481,236,1542,248,1591,252,1638,261,1695,284,1714,298,1726,312,1737,326,1754,340,1794,359,1837,374,1921,394,1920,399,1836,379,1792,364,1751,344,1733,330,1721,316,1710,302,1693,289,1637,266,1590,258,1541,253,1480,241,1471,238"/>
+<area shape="rect" id="Node000008" href="$a__box_2main_8c.html" title="&quot;Abox&quot; node source code" alt="" coords="2438,390,2590,431"/>
+<area shape="poly" id="edge6_Node000002_Node000008" title=" " alt="" coords="1472,233,1481,236,1555,248,1615,250,1674,257,1706,267,1743,284,1761,298,1771,313,1781,327,1798,340,1834,349,1897,359,2074,377,2438,402,2438,408,2074,383,1896,364,1833,355,1796,344,1777,331,1767,316,1757,302,1741,289,1705,272,1673,262,1615,255,1555,253,1480,241,1471,238"/>
+<area shape="poly" id="edge7_Node000002_Node000009" title=" " alt="" coords="1468,233,1481,236,1564,247,1660,256,1883,265,2136,267,2403,264,2924,262,3148,268,3244,274,3328,284,3339,285,3338,291,3327,289,3244,280,3148,273,2924,267,2403,270,2136,272,1883,270,1659,261,1563,253,1480,241,1467,238"/>
+<area shape="rect" id="Node000010" href="$calibration_8c.html" title="Calibration page implementation." alt="" coords="1159,286,1336,342"/>
+<area shape="poly" id="edge8_Node000002_Node000010" title=" " alt="" coords="1360,242,1290,288,1287,284,1357,237"/>
+<area shape="rect" id="Node000011" href="$lap__timer_8c.html" title="DASHBOARD lap timer task implementations." alt="" coords="2963,294,3140,334"/>
+<area shape="poly" id="edge9_Node000002_Node000011" title=" " alt="" coords="1468,233,1481,236,1597,254,1702,267,1891,278,2058,276,2215,267,2371,257,2539,252,2729,259,2836,269,2952,284,2987,291,2986,296,2951,289,2835,274,2729,264,2539,258,2372,262,2215,272,2058,282,1891,284,1702,272,1596,259,1480,241,1467,238"/>
+<area shape="rect" id="Node000012" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="3465,390,3643,431"/>
+<area shape="poly" id="edge10_Node000002_Node000012" title=" " alt="" coords="1468,233,1481,236,1592,247,1732,248,2058,239,2225,236,2382,240,2453,246,2518,255,2575,267,2625,284,2643,297,2654,312,2665,327,2682,340,2747,360,2835,376,2939,388,3052,397,3280,405,3465,407,3465,412,3280,411,3052,402,2938,394,2834,382,2745,365,2679,344,2661,331,2650,315,2640,301,2622,289,2574,272,2517,260,2452,251,2381,246,2225,242,2058,244,1732,254,1592,252,1480,241,1467,238"/>
+<area shape="rect" id="Node000013" href="$pedals_8c.html" title="Pedal processing logic." alt="" coords="4147,390,4324,431"/>
+<area shape="poly" id="edge11_Node000002_Node000013" title=" " alt="" coords="1468,233,1481,236,1596,248,1741,253,2078,251,2251,250,2414,253,2558,264,2619,272,2672,284,2703,297,2725,312,2746,327,2776,339,2841,347,2975,356,3371,374,4147,403,4146,409,3371,380,2974,361,2840,352,2775,345,2744,332,2722,316,2701,301,2671,289,2618,277,2557,269,2414,259,2251,256,2078,257,1741,259,1596,254,1480,241,1467,238"/>
+<area shape="rect" id="Node000014" href="$main__module_2main_8c.html" title="&quot;Main Module&quot; node source code" alt="" coords="235,294,380,334"/>
+<area shape="poly" id="edge12_Node000002_Node000014" title=" " alt="" coords="1317,222,1088,241,891,250,738,252,585,260,496,271,392,289,364,296,362,291,391,284,496,266,585,255,738,247,891,245,1087,236,1317,217"/>
+<area shape="rect" id="Node000015" href="$powertrain_8c.html" title="Powertrain implementation." alt="" coords="875,294,1084,334"/>
+<area shape="poly" id="edge13_Node000002_Node000015" title=" " alt="" coords="1318,234,1062,296,1061,291,1317,229"/>
+<area shape="rect" id="Node000016" href="$sdc_8c.html" title="SDC task implementation." alt="" coords="1360,294,1505,334"/>
+<area shape="poly" id="edge14_Node000002_Node000016" title=" " alt="" coords="1414,245,1429,293,1424,294,1409,246"/>
+<area shape="rect" id="Node000017" href="$vehicle__fsm_8c.html" title="Master vehicle state machine implementation." alt="" coords="622,294,851,334"/>
+<area shape="poly" id="edge15_Node000002_Node000017" title=" " alt="" coords="1317,224,1111,251,864,289,827,296,826,291,863,284,1110,246,1317,219"/>
+<area shape="rect" id="Node000018" href="$pdu_2main_8c.html" title="&quot;PDU&quot; node source code" alt="" coords="1990,294,2128,334"/>
+<area shape="poly" id="edge16_Node000002_Node000018" title=" " alt="" coords="1469,233,1481,236,1556,249,1620,256,1729,260,1839,263,1904,270,1979,284,2005,291,2004,296,1977,289,1903,276,1839,269,1729,265,1619,261,1555,254,1480,241,1468,238"/>
+<area shape="rect" id="Node000019" href="$current__sense_8c.html" title="current sensing" alt="" coords="1809,294,1966,334"/>
+<area shape="poly" id="edge17_Node000002_Node000019" title=" " alt="" coords="1471,233,1481,236,1567,253,1635,261,1704,269,1791,284,1820,291,1818,296,1789,289,1703,274,1635,266,1566,258,1480,241,1470,238"/>
+<area shape="rect" id="Node000020" href="$gps_8c.html" title="GPS RX and parsing thread." alt="" coords="1529,294,1683,334"/>
+<area shape="poly" id="edge18_Node000002_Node000020" title=" " alt="" coords="1455,236,1567,291,1565,296,1452,240"/>
+<area shape="rect" id="Node000021" href="$torque__vector_2telemetry_2telemetry_8c.html" title="TORQUE VECTOR telemetry task implementations." alt="" coords="2153,294,2342,334"/>
+<area shape="poly" id="edge19_Node000002_Node000021" title=" " alt="" coords="1469,233,1481,236,1580,252,1665,261,1810,264,1956,265,2041,271,2141,284,2176,291,2175,296,2140,289,2040,276,1955,270,1810,269,1664,266,1580,258,1480,241,1467,238"/>
+<area shape="poly" id="edge3_Node000003_Node000005" title=" " alt="" coords="165,336,179,339,360,373,518,396,517,401,359,378,177,345,164,341"/>
+<area shape="poly" id="edge21_Node000022_Node000007" title=" " alt="" coords="2934,238,2921,241,2871,248,2807,251,2659,254,2513,263,2452,273,2406,289,2390,301,2381,315,2372,330,2355,344,2297,371,2235,390,2173,401,2117,408,2116,403,2172,396,2233,384,2295,366,2353,340,2368,327,2377,312,2386,297,2403,284,2451,268,2513,258,2659,249,2807,246,2870,242,2920,236,2933,233"/>
+<area shape="poly" id="edge26_Node000022_Node000008" title=" " alt="" coords="2929,239,2776,289,2653,343,2553,392,2551,387,2651,338,2774,284,2927,234"/>
+<area shape="rect" id="Node000023" href="$charging__fsm_8h.html" title="Charger control state machine implementation." alt="" coords="2416,294,2612,334"/>
+<area shape="poly" id="edge22_Node000022_Node000023" title=" " alt="" coords="2931,238,2921,241,2759,276,2613,301,2612,296,2758,271,2920,236,2930,233"/>
+<area shape="rect" id="Node000024" href="$imd_8c.html" title="ABOX IMD PWM capture and CAN reporting." alt="" coords="3164,294,3315,334"/>
+<area shape="poly" id="edge25_Node000022_Node000024" title=" " alt="" coords="3064,235,3195,291,3193,296,3062,240"/>
+<area shape="rect" id="Node000025" href="$a__box_2telemetry_2telemetry_8c.html" title="ABOX Telemetry task implementations." alt="" coords="2788,294,2939,334"/>
+<area shape="poly" id="edge27_Node000022_Node000025" title=" " alt="" coords="2966,242,2892,296,2889,291,2962,238"/>
+<area shape="poly" id="edge23_Node000023_Node000007" title=" " alt="" coords="2416,341,2399,345,2117,396,2116,390,2397,339,2415,336"/>
+<area shape="poly" id="edge24_Node000023_Node000008" title=" " alt="" coords="2517,350,2517,390,2511,390,2511,350"/>
+<area shape="poly" id="edge35_Node000032_Node000022" title=" " alt="" coords="2861,139,2963,187,2961,192,2859,144"/>
+<area shape="rect" id="Node000033" href="$cannector_2main_8c.html" title="&quot;CANnector&quot; node source code" alt="" coords="2735,190,2909,231"/>
+<area shape="poly" id="edge36_Node000032_Node000033" title=" " alt="" coords="2814,149,2821,189,2816,190,2808,150"/>
+<area shape="poly" id="edge38_Node000034_Node000009" title=" " alt="" coords="3520,243,3463,288,3460,284,3516,239"/>
+<area shape="poly" id="edge42_Node000034_Node000011" title=" " alt="" coords="3450,232,3308,257,3152,289,3123,296,3122,291,3151,284,3307,252,3449,226"/>
+<area shape="poly" id="edge43_Node000034_Node000012" title=" " alt="" coords="3557,246,3557,389,3551,389,3551,246"/>
+<area shape="poly" id="edge44_Node000034_Node000013" title=" " alt="" coords="3637,232,3656,236,3710,240,3780,240,3944,237,4026,238,4102,244,4165,259,4191,270,4212,284,4229,308,4238,337,4241,365,4240,389,4235,389,4236,365,4233,338,4225,311,4208,288,4189,275,4164,264,4101,250,4026,243,3944,242,3780,246,3710,246,3655,241,3636,237"/>
+<area shape="rect" id="Node000035" href="$source_2dashboard_2driver__interface_2pages_2amk_8c.html" title="AMK page implementation." alt="" coords="3591,294,3784,334"/>
+<area shape="poly" id="edge39_Node000034_Node000035" title=" " alt="" coords="3593,238,3663,291,3660,296,3590,242"/>
+<area shape="rect" id="Node000036" href="$race_8c.html" title="Race page implementation." alt="" coords="4370,390,4562,431"/>
+<area shape="poly" id="edge40_Node000034_Node000036" title=" " alt="" coords="3636,232,3656,236,3713,239,3810,240,4069,241,4204,244,4324,251,4415,264,4446,273,4465,284,4480,309,4484,338,4481,366,4475,390,4470,389,4476,365,4478,338,4474,311,4461,288,4444,278,4414,269,4323,256,4204,249,4069,246,3810,245,3713,244,3655,241,3635,237"/>
+<area shape="rect" id="Node000037" href="$vcu_8c.html" title="VCU page implementation." alt="" coords="3808,294,3996,334"/>
+<area shape="poly" id="edge41_Node000034_Node000037" title=" " alt="" coords="3637,233,3835,291,3834,296,3635,238"/>
+<area shape="rect" id="Node000038" href="$pedals_8h.html" title=" " alt="" coords="4273,294,4451,334"/>
+<area shape="poly" id="edge45_Node000034_Node000038" title=" " alt="" coords="3637,232,3656,236,3746,249,3823,256,3955,260,4086,264,4164,271,4254,284,4290,291,4289,296,4254,289,4163,277,4086,270,3954,266,3823,261,3745,254,3655,241,3636,237"/>
+<area shape="rect" id="Node000039" href="$dashboard_2telemetry_2telemetry_8c.html" title="DASHBOARD telemetry task implementations." alt="" coords="4020,294,4197,334"/>
+<area shape="poly" id="edge49_Node000034_Node000039" title=" " alt="" coords="3640,232,3656,236,3755,252,3832,260,3910,267,4009,284,4040,291,4038,296,4008,289,3909,273,3832,265,3754,257,3655,241,3639,237"/>
+<area shape="poly" id="edge47_Node000038_Node000012" title=" " alt="" coords="4259,337,4210,345,3898,381,3643,405,3643,399,3898,376,4210,339,4258,332"/>
+<area shape="poly" id="edge48_Node000038_Node000013" title=" " alt="" coords="4325,346,4263,392,4260,388,4322,342"/>
+<area shape="poly" id="edge46_Node000038_Node000036" title=" " alt="" coords="4397,343,4446,388,4443,392,4393,347"/>
+<area shape="rect" id="Node000041" href="$driveline_2main_8c.html" title="&quot;Driveline&quot; node source code" alt="" coords="4526,294,4691,334"/>
+<area shape="poly" id="edge51_Node000040_Node000041" title=" " alt="" coords="4087,232,4102,236,4216,253,4305,260,4394,267,4508,284,4539,291,4538,296,4507,289,4394,272,4304,265,4215,258,4102,241,4086,238"/>
+<area shape="poly" id="edge54_Node000043_Node000014" title=" " alt="" coords="885,237,864,241,731,257,627,262,523,268,392,289,365,296,363,291,391,284,523,263,627,257,731,252,863,236,884,232"/>
+<area shape="poly" id="edge55_Node000043_Node000015" title=" " alt="" coords="982,247,982,293,977,293,977,247"/>
+<area shape="poly" id="edge57_Node000043_Node000017" title=" " alt="" coords="920,239,785,296,783,291,918,235"/>
+<area shape="rect" id="Node000044" href="$main__module_2telemetry_2telemetry_8c.html" title="MAIN MODULE telemetry task implementations." alt="" coords="404,294,598,334"/>
+<area shape="poly" id="edge56_Node000043_Node000044" title=" " alt="" coords="881,237,864,241,737,265,611,289,580,296,579,291,609,284,736,259,863,236,880,232"/>
+<area shape="poly" id="edge60_Node000046_Node000033" title=" " alt="" coords="2191,121,2474,148,2619,165,2724,180,2755,187,2754,192,2723,185,2618,170,2473,153,2191,126"/>
+<area shape="poly" id="edge59_Node000046_Node000043" title=" " alt="" coords="2024,125,1077,204,1076,198,2024,120"/>
+<area shape="poly" id="edge62_Node000053_Node000018" title=" " alt="" coords="2004,241,2046,292,2041,295,2000,245"/>
+<area shape="poly" id="edge63_Node000053_Node000019" title=" " alt="" coords="1951,244,1907,295,1903,292,1947,241"/>
+<area shape="poly" id="edge65_Node000058_Node000022" title=" " alt="" coords="3014,150,3008,190,3003,189,3008,150"/>
+<area shape="poly" id="edge66_Node000058_Node000028" title=" " alt="" coords="3073,139,3177,187,3174,192,3070,144"/>
+<area shape="poly" id="edge67_Node000058_Node000030" title=" " alt="" coords="3099,122,3656,180,3695,187,3694,192,3655,185,3099,127"/>
+<area shape="poly" id="edge73_Node000058_Node000033" title=" " alt="" coords="2962,144,2864,192,2861,187,2960,140"/>
+<area shape="poly" id="edge68_Node000058_Node000034" title=" " alt="" coords="3099,128,3465,191,3464,196,3098,133"/>
+<area shape="poly" id="edge69_Node000058_Node000040" title=" " alt="" coords="3099,122,3204,132,3403,143,3559,146,3714,154,3805,164,3912,180,3943,187,3942,192,3911,185,3804,169,3714,159,3559,151,3403,149,3203,137,3099,127"/>
+<area shape="poly" id="edge70_Node000058_Node000053" title=" " alt="" coords="2932,132,2885,137,2759,147,2652,151,2469,149,2381,150,2287,154,2182,165,2057,185,2030,192,2029,187,2056,180,2181,160,2287,149,2381,144,2469,144,2651,145,2758,142,2884,132,2932,126"/>
+<area shape="poly" id="edge71_Node000058_Node000059" title=" " alt="" coords="2932,131,2885,137,2718,152,2588,158,2458,165,2292,185,2254,192,2253,187,2291,180,2457,160,2587,152,2718,146,2884,132,2931,126"/>
+<area shape="poly" id="edge72_Node000059_Node000021" title=" " alt="" coords="2199,242,2235,292,2231,295,2195,245"/>
+<area shape="poly" id="edge75_Node000067_Node000042" title=" " alt="" coords="4177,148,4196,189,4191,191,4172,150"/>
+<area shape="poly" id="edge78_Node000068_Node000022" title=" " alt="" coords="2503,120,2695,141,2809,158,2921,180,2947,187,2946,192,2920,185,2808,163,2695,146,2503,125"/>
+<area shape="poly" id="edge79_Node000068_Node000026" title=" " alt="" coords="2336,125,1945,159,1670,185,1640,192,1639,187,1670,180,1944,154,2336,120"/>
+<area shape="poly" id="edge80_Node000068_Node000027" title=" " alt="" coords="2336,126,2136,149,1897,185,1863,192,1862,187,1896,180,2135,144,2336,121"/>
+<area shape="poly" id="edge81_Node000068_Node000029" title=" " alt="" coords="2420,150,2417,190,2411,190,2414,150"/>
+<area shape="poly" id="edge82_Node000068_Node000031" title=" " alt="" coords="2478,139,2569,180,2567,185,2476,144"/>
+<area shape="poly" id="edge87_Node000068_Node000033" title=" " alt="" coords="2503,130,2724,180,2751,187,2750,192,2723,185,2502,136"/>
+<area shape="poly" id="edge83_Node000068_Node000034" title=" " alt="" coords="2503,118,2940,148,3352,180,3464,194,3464,199,3351,185,2939,153,2503,124"/>
+<area shape="poly" id="edge84_Node000068_Node000043" title=" " alt="" coords="2336,126,2188,137,1754,162,1321,185,1077,204,1076,198,1320,180,1754,156,2187,132,2336,120"/>
+<area shape="poly" id="edge85_Node000068_Node000053" title=" " alt="" coords="2336,130,2204,153,2057,185,2033,192,2032,187,2056,180,2203,148,2335,125"/>
+<area shape="poly" id="edge86_Node000068_Node000059" title=" " alt="" coords="2355,143,2226,192,2224,187,2353,138"/>
+<area shape="poly" id="edge91_Node000070_Node000024" title=" " alt="" coords="3329,144,3343,162,3354,182,3362,211,3360,224,3354,240,3341,257,3326,273,3290,296,3287,291,3322,269,3337,254,3349,237,3355,223,3356,211,3349,184,3339,164,3325,147"/>
+<area shape="poly" id="edge94_Node000072_Node000014" title=" " alt="" coords="619,237,509,261,392,289,368,296,367,291,391,284,507,255,618,232"/>
+<area shape="poly" id="edge95_Node000072_Node000017" title=" " alt="" coords="739,247,739,293,734,293,734,247"/>
 </map>

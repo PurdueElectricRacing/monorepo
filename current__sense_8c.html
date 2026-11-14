@@ -98,7 +98,8 @@ $(function(){initNavTree('current__sense_8c.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">current_sense.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -106,9 +107,11 @@ $(function(){initNavTree('current__sense_8c.html',''); initResizable(true); });
 <p>current sensing  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="current__sense_8h_source.html">current_sense.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="switch_8h_source.html">switch.h</a>&quot;</code><br />
 <code>#include &quot;main.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="switch_8h_source.html">switch.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="PDU_8h_source.html">can_library/generated/PDU.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="faults__common_8h_source.html">can_library/faults_common.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for current_sense.c:</div>
 <div class="dyncontent">
@@ -119,13 +122,50 @@ Include dependency graph for current_sense.c:</div>
 Functions</h2></td></tr>
 <tr class="memitem:afb0f0e454be1843a7b58b1f33a66b7d2" id="r_afb0f0e454be1843a7b58b1f33a66b7d2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb0f0e454be1843a7b58b1f33a66b7d2">mux_select</a> (<a class="el" href="switch_8h.html#aa55e016d255201563301767d959b94fc">mux_id_t</a> mux_id, uint8_t mux_addr)</td></tr>
 <tr class="separator:afb0f0e454be1843a7b58b1f33a66b7d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a122b9ebec705549e71a13faf92358207" id="r_a122b9ebec705549e71a13faf92358207"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a122b9ebec705549e71a13faf92358207">adc_to_current_ma</a> (uint16_t adc_value)</td></tr>
+<tr class="separator:a122b9ebec705549e71a13faf92358207"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad25eae622b200363d4025160b032c656" id="r_ad25eae622b200363d4025160b032c656"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad25eae622b200363d4025160b032c656">current_sense_periodic</a> ()</td></tr>
 <tr class="separator:ad25eae622b200363d4025160b032c656"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aed9e1c7e0ccbb1cc4c51bc399b4ce907" id="r_aed9e1c7e0ccbb1cc4c51bc399b4ce907"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="can__types_8h.html#a2249dbdac08bb2bb25dc1ceb7d1b2641">switch_id_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed9e1c7e0ccbb1cc4c51bc399b4ce907">g_switch_poll_index</a> = 0</td></tr>
+<tr class="separator:aed9e1c7e0ccbb1cc4c51bc399b4ce907"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>current sensing </p>
 <dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a122b9ebec705549e71a13faf92358207" name="a122b9ebec705549e71a13faf92358207"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a122b9ebec705549e71a13faf92358207">&#9670;&#160;</a></span>adc_to_current_ma()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float adc_to_current_ma </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>adc_value</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="current__sense_8c_a122b9ebec705549e71a13faf92358207_icgraph.svg" width="444" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="ad25eae622b200363d4025160b032c656" name="ad25eae622b200363d4025160b032c656"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad25eae622b200363d4025160b032c656">&#9670;&#160;</a></span>current_sense_periodic()</h2>
 
@@ -143,7 +183,7 @@ Functions</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="current__sense_8c_ad25eae622b200363d4025160b032c656_cgraph.svg" width="514" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="current__sense_8c_ad25eae622b200363d4025160b032c656_cgraph.svg" width="100%" height="493"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -189,6 +229,29 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="current__sense_8c_afb0f0e454be1843a7b58b1f33a66b7d2_icgraph.svg" width="399" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="aed9e1c7e0ccbb1cc4c51bc399b4ce907" name="aed9e1c7e0ccbb1cc4c51bc399b4ce907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed9e1c7e0ccbb1cc4c51bc399b4ce907">&#9670;&#160;</a></span>g_switch_poll_index</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="can__types_8h.html#a2249dbdac08bb2bb25dc1ceb7d1b2641">switch_id_t</a> g_switch_poll_index = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

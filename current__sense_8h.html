@@ -111,7 +111,7 @@ $(function(){initNavTree('current__sense_8h.html',''); initResizable(true); });
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for current_sense.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="current__sense_8h__incl.svg" width="535" height="376"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="current__sense_8h__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -130,9 +130,9 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a325324d0b8d4bb60f03511215946c4c2" id="r_a325324d0b8d4bb60f03511215946c4c2"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a325324d0b8d4bb60f03511215946c4c2">MUX_SETTLE_DELAY_MS</a> = 2</td></tr>
 <tr class="separator:a325324d0b8d4bb60f03511215946c4c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c4c95e2b44cb60befb925cffac659f5" id="r_a9c4c95e2b44cb60befb925cffac659f5"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c4c95e2b44cb60befb925cffac659f5">MUX_SETTLE_TIME</a> = 24E-6f</td></tr>
-<tr class="separator:a9c4c95e2b44cb60befb925cffac659f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05e3dd8002a979fe8b542f3301c6653f" id="r_a05e3dd8002a979fe8b542f3301c6653f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05e3dd8002a979fe8b542f3301c6653f">CURRENT_SENSE_TASK_PERIOD_MS</a> = 50</td></tr>
+<tr class="memitem:a59249a64a8333ec72316fd30b3fc6999" id="r_a59249a64a8333ec72316fd30b3fc6999"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59249a64a8333ec72316fd30b3fc6999">MUX_SETTLE_TIME_US</a> = 24.0f</td></tr>
+<tr class="separator:a59249a64a8333ec72316fd30b3fc6999"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05e3dd8002a979fe8b542f3301c6653f" id="r_a05e3dd8002a979fe8b542f3301c6653f"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05e3dd8002a979fe8b542f3301c6653f">CURRENT_SENSE_TASK_PERIOD_MS</a> = 4</td></tr>
 <tr class="separator:a05e3dd8002a979fe8b542f3301c6653f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -156,7 +156,7 @@ Variables</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="current__sense_8h_a21298c5b01ded3157571096f23ad68a7_cgraph.svg" width="514" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="current__sense_8h_a21298c5b01ded3157571096f23ad68a7_cgraph.svg" width="100%" height="493"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -177,7 +177,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t CURRENT_SENSE_TASK_PERIOD_MS = 50</td>
+          <td class="memname">uint32_t CURRENT_SENSE_TASK_PERIOD_MS = 4</td>
         </tr>
       </table>
   </td>
@@ -211,8 +211,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a9c4c95e2b44cb60befb925cffac659f5" name="a9c4c95e2b44cb60befb925cffac659f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c4c95e2b44cb60befb925cffac659f5">&#9670;&#160;</a></span>MUX_SETTLE_TIME</h2>
+<a id="a59249a64a8333ec72316fd30b3fc6999" name="a59249a64a8333ec72316fd30b3fc6999"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59249a64a8333ec72316fd30b3fc6999">&#9670;&#160;</a></span>MUX_SETTLE_TIME_US</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,7 +221,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float MUX_SETTLE_TIME = 24E-6f</td>
+          <td class="memname">float MUX_SETTLE_TIME_US = 24.0f</td>
         </tr>
       </table>
   </td>

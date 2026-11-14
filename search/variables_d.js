@@ -115,5 +115,5 @@ var searchData=
   ['mux_5fid_112',['mux_id',['../structswitch__t.html#a3d3dfa1cc77a1473af05fb6aeca10a27',1,'switch_t']]],
   ['mux_5frequest_113',['mux_request',['../structPHAL__DMA__Wiring__t.html#aece37e77cec4cf216ed5ee0b16dc95d4',1,'PHAL_DMA_Wiring_t']]],
   ['mux_5fsettle_5fdelay_5fms_114',['MUX_SETTLE_DELAY_MS',['../current__sense_8h.html#a325324d0b8d4bb60f03511215946c4c2',1,'current_sense.h']]],
-  ['mux_5fsettle_5ftime_115',['MUX_SETTLE_TIME',['../current__sense_8h.html#a9c4c95e2b44cb60befb925cffac659f5',1,'current_sense.h']]]
+  ['mux_5fsettle_5ftime_5fus_115',['MUX_SETTLE_TIME_US',['../current__sense_8h.html#a59249a64a8333ec72316fd30b3fc6999',1,'current_sense.h']]]
 ];

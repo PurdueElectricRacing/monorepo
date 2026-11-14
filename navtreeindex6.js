@@ -1,5 +1,11 @@
 var NAVTREEINDEX6 =
 {
+"adc__priv_8h_source.html":[34,0,1,1,9,0,3],
+"adc__test_8c.html":[34,0,1,2,7,0],
+"annotated.html":[33,0],
+"bangbang_8c.html":[34,0,1,1,1,1],
+"bangbang_8c.html#a6e64fa5703d5bbbc0b47d207bd44983c":[34,0,1,1,1,1,0],
+"bangbang_8h.html":[34,0,1,1,1,2],
 "bangbang_8h.html#a237674f6a4b5a022c26ee77593bb8511":[34,0,1,1,1,2,1],
 "bangbang_8h.html#a6e64fa5703d5bbbc0b47d207bd44983c":[34,0,1,1,1,2,2],
 "bangbang_8h_source.html":[34,0,1,1,1,2],
@@ -243,11 +249,5 @@ var NAVTREEINDEX6 =
 "can__init_8c.html":[34,0,1,0,1,0],
 "can__init_8c.html#a8f52e08219489a941feaacbd258da0d2":[34,0,1,0,1,0,2],
 "can__init_8c.html#ac02deb396ce5c9f7ded85fc8263edf2a":[34,0,1,0,1,0,3],
-"can__init_8c.html#ace7de72cc97ae2a35d63c3a4a4772a31":[34,0,1,0,1,0,1],
-"can__init_8c.html#afa2e2d8203b6a59c06640c0df83c43e1":[34,0,1,0,1,0,0],
-"can__router_8h.html":[34,0,1,0,0,7],
-"can__router_8h_source.html":[34,0,1,0,0,7],
-"can__rx_8c.html":[34,0,1,0,1,1],
-"can__rx_8c.html#a17c3ccba85ec0a1100ae04581b8f5d09":[34,0,1,0,1,1,1],
-"can__rx_8c.html#a41290208a3af5ab8710a8eacc7bd76c8":[34,0,1,0,1,1,0]
+"can__init_8c.html#ace7de72cc97ae2a35d63c3a4a4772a31":[34,0,1,0,1,0,1]
 };

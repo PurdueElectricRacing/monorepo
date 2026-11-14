@@ -16,5 +16,6 @@ var searchData=
   ['status_5fleds_5ft_13',['status_leds_t',['../structstatus__leds__t.html',1,'']]],
   ['strbuf_5ft_14',['strbuf_t',['../structstrbuf__t.html',1,'']]],
   ['strbuftest_15',['StrbufTest',['../classStrbufTest.html',1,'']]],
-  ['switch_5ft_16',['switch_t',['../structswitch__t.html',1,'']]]
+  ['switch_5fcs_5fdata_5ft_16',['switch_cs_data_t',['../structswitch__cs__data__t.html',1,'']]],
+  ['switch_5ft_17',['switch_t',['../structswitch__t.html',1,'']]]
 ];

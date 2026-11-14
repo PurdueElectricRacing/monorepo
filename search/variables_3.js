@@ -117,7 +117,7 @@ var searchData=
   ['ctrl_5fport_114',['ctrl_port',['../structswitch__t.html#aefbd296863bdd38a171dfde96d4dac5b',1,'switch_t']]],
   ['ctx_115',['ctx',['../structPHAL__DMA__Callback__t.html#afcf8ae67e70bb30584fc5ca3d01d8bac',1,'PHAL_DMA_Callback_t']]],
   ['curr_5fpage_116',['curr_page',['../lcd_8c.html#af64f99df8657acc696aa097fce871251',1,'curr_page:&#160;lcd.c'],['../lcd_8h.html#af64f99df8657acc696aa097fce871251',1,'curr_page:&#160;lcd.c']]],
-  ['current_117',['current',['../structe__meter__measurement__data__t.html#a32585bdc999f6e0b5bf62d46e128905a',1,'e_meter_measurement_data_t::current'],['../structcanpiler__test__data__t.html#a84357009968a6838947b32c8aa77192e',1,'canpiler_test_data_t::current']]],
+  ['current_117',['current',['../structe__meter__measurement__data__t.html#a32585bdc999f6e0b5bf62d46e128905a',1,'e_meter_measurement_data_t::current'],['../structswitch__cs__data__t.html#a738a164b9c715e1e27b3a53c968b9709',1,'switch_cs_data_t::current'],['../structcanpiler__test__data__t.html#a84357009968a6838947b32c8aa77192e',1,'canpiler_test_data_t::current']]],
   ['current_5findex_118',['current_index',['../structmenu__page__t.html#a82271a2b4009a92268ea984d5d6b53cc',1,'menu_page_t']]],
   ['current_5flimit_119',['current_limit',['../structelcon__command__data__t.html#af601a79873c2ca95e8eee8910d2ef4e0',1,'elcon_command_data_t::current_limit'],['../structcharging__fsm__internals__data__t.html#a720183d81321b383f395b68de320f79f',1,'charging_fsm_internals_data_t::current_limit']]],
   ['current_5fma_120',['current_ma',['../structswitch__t.html#a16f555e33b4c80398797d51faf267fc3',1,'switch_t']]],

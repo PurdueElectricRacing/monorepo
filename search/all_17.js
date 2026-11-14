@@ -60,7 +60,7 @@ var searchData=
   ['num_5felements_57',['num_elements',['../structmenu__page__t.html#af8408d9007e4a01b547ae1f2ddaac0b7',1,'menu_page_t']]],
   ['num_5ffault_5fprios_58',['NUM_FAULT_PRIOS',['../faults__common_8h.html#a03cf0c7e0fba09e53e6aacd890b3d4eea00b1fe1b6035838201f5ae8c0f20c0d8',1,'faults_common.h']]],
   ['num_5fpages_59',['NUM_PAGES',['../lcd_8h.html#a99a5fddfe71e6e9cd0c559b9a9a41a99acd382a61c55aa2f67b15244ad7cd9618',1,'lcd.h']]],
-  ['num_5fswitches_60',['NUM_SWITCHES',['../switch_8h.html#af89bbbc9db3e225538dbfa6fc3d97838a30feaf3abb229ebb97fce793cbecae56',1,'switch.h']]],
+  ['num_5fswitches_60',['NUM_SWITCHES',['../switch_8h.html#ac4242e905789cd31606d773cc9a8e9e9',1,'switch.h']]],
   ['num_5fusart_61',['NUM_USART',['../phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252a0ac75a5473f51888c304a37948db7419',1,'usart.h']]],
   ['num_5fvcu_5felements_62',['NUM_VCU_ELEMENTS',['../vcu_8c.html#ade667dee6c3f02f349ff062fc90a0b4ea9fc792121a956f796820aed9a2565d13',1,'vcu.c']]],
   ['numsatellites_63',['numSatellites',['../structNAV__PVT__payload__t.html#a425dfee9bd9d8043859fab6cf6df3740',1,'NAV_PVT_payload_t']]],
