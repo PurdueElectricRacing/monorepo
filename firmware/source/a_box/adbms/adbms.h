@@ -82,10 +82,10 @@ typedef struct {
  * deasserts CS on both SPI ports, and configures the internal SPI TX/RX buffers.
  *
  * @param bms Non-null pointer to driver state to initialize.
- * @param spi_fwd Non-null forward SPI configuration (Port A / SPI1).
- * @param spi_rev Non-null reverse SPI configuration (Port B / SPI2).
+ * @param spi_ccw Non-null CCW SPI configuration (SPI1).
+ * @param spi_cw Non-null CW SPI configuration (SPI2).
  */
-void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi_fwd, SPI_InitConfig_t *spi_rev);
+void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw);
 
 /**
  * @brief Periodic service routine for connection, measurements, and balancing.

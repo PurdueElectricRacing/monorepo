@@ -153,9 +153,9 @@ static bool is_valid_temp(float temp) {
     return temp >= ADBMS_TEMP_MIN_VALID_C && temp <= ADBMS_TEMP_MAX_VALID_C;
 }
 
-void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi_fwd, SPI_InitConfig_t *spi_rev) {
+void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw) {
     *bms = (adbms_bms_t){0};
-    ADBMS6380_init(&bms->dev, spi_fwd, spi_rev);
+    ADBMS6380_init(&bms->dev, spi_ccw, spi_cw);
 
     bms->recover_start_tick_ms = 0U;
     bms->recovery_attempts     = 0U;

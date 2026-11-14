@@ -48,7 +48,7 @@ static PHAL_DMA_Handle_t spi1_tx_dma = {
     },
 };
 
-SPI_InitConfig_t bms_spi1_config = {
+SPI_InitConfig_t bms_spi_ccw_config = {
     .data_len      = 8,
     .nss_sw        = false, // BMS drive CS pin manually to ensure correct timing
     .nss_gpio_port = SPI1_CS_PORT,
@@ -81,7 +81,7 @@ static PHAL_DMA_Handle_t spi2_tx_dma = {
     },
 };
 
-SPI_InitConfig_t bms_spi2_config = {
+SPI_InitConfig_t bms_spi_cw_config = {
     .data_len      = 8,
     .nss_sw        = false, // BMS drive CS pin manually to ensure correct timing
     .nss_gpio_port = SPI2_CS_PORT,
@@ -193,9 +193,9 @@ int main(void) {
     }
     imd_init();
 
-    ADBMS_init(&g_bms, &bms_spi1_config, &bms_spi2_config);
+    ADBMS_init(&g_bms, &bms_spi_ccw_config, &bms_spi_cw_config);
 
-    if (!PHAL_SPI_init(&bms_spi1_config) || !PHAL_SPI_init(&bms_spi2_config)) {
+    if (!PHAL_SPI_init(&bms_spi_ccw_config) || !PHAL_SPI_init(&bms_spi_cw_config)) {
         HardFault_Handler();
     }
 

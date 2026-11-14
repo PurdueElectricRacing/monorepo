@@ -15,13 +15,13 @@ as well as error detection via PEC checks.
    adbms_bms_t g_bms = {0};
    ```
 
-2. Configure your forward (`SPI1`) and reverse (`SPI2`) SPI peripherals and GPIOs.
+2. Configure your CCW (`SPI1`) and CW (`SPI2`) SPI peripherals and GPIOs.
 Note that the driver expects manual control of the CS lines
 (`nss_sw` must be false in the SPI configs).
 
 3. Initialize the driver in `main` (after GPIO setup):
    ```c
-   ADBMS_init(&g_bms, &bms_spi1_config, &bms_spi2_config);
+   ADBMS_init(&g_bms, &bms_spi_ccw_config, &bms_spi_cw_config);
    ```
 
 ### Periodic Operation
@@ -47,7 +47,7 @@ RTOS_DEFINE_TASK(g_bms_periodic, 200, TASK_PRIORITY_HIGH, 2048);
 int main(void) {
     // ... GPIO and SPI initialization ...
 
-    ADBMS_init(&g_bms, &bms_spi1_config, &bms_spi2_config);
+    ADBMS_init(&g_bms, &bms_spi_ccw_config, &bms_spi_cw_config);
 
     // Create periodic thread
     RTOS_START_TASK(g_bms_periodic);
