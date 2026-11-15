@@ -52,10 +52,10 @@ volatile pedals_data_t pedal_values = {
 
 void pedals_periodic(void) {
     // snapshot ADC values into local memory
-    uint16_t throttle1 = raw_adc_values.throttle1;
-    uint16_t throttle2 = 4095 - raw_adc_values.throttle2; // Invert value for t2 (pull-up resistor)
-    uint16_t regen1    = raw_adc_values.brake1_pressure;  // ! harness flip
-    uint16_t brake1    = raw_adc_values.regen1;
+    uint16_t throttle1 = PHAL_ADC_read(THROTTLE1_PORT, THROTTLE1_PIN);
+    uint16_t throttle2 = 4095 - PHAL_ADC_read(THROTTLE2_PORT, THROTTLE2_PIN); // Invert value for t2 (pull-up resistor)
+    uint16_t regen1    = PHAL_ADC_read(BRAKE1_PRESSURE_PORT, BRAKE1_PRESSURE_PIN);  // ! harness flip
+    uint16_t brake1    = PHAL_ADC_read(REGEN1_PORT, REGEN1_PIN);
 
     // FSAE 2026 T.4.2.10: throttle open/short circuit detection
     update_fault(FAULT_ID_APPS_WIRING_T1, throttle1);

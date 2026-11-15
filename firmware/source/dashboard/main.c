@@ -64,46 +64,20 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN3_RX_PA8,
     PHAL_PIN_DEFS_FDCAN3_TX_PB4,
 
-    // Throttle
-    PHAL_GPIO_INIT_ANALOG(THROTTLE1_PORT, THROTTLE1_PIN),
-    PHAL_GPIO_INIT_ANALOG(THROTTLE2_PORT, THROTTLE2_PIN),
-
-    // Brake
-    PHAL_GPIO_INIT_ANALOG(REGEN1_PORT, REGEN1_PIN),
-    PHAL_GPIO_INIT_ANALOG(REGEN2_PORT, REGEN2_PIN),
-
-    // Brake Pressure
-    PHAL_GPIO_INIT_ANALOG(BRAKE1_PRESSURE_PORT, BRAKE1_PRESSURE_PIN),
-    PHAL_GPIO_INIT_ANALOG(BRAKE2_PRESSURE_PORT, BRAKE2_PRESSURE_PIN),
-
     // LCD
     PHAL_PIN_DEFS_USART1_TX_PA9,
     PHAL_PIN_DEFS_USART1_RX_PA10,
 };
 
 /* ADC Configuration */
-static const PHAL_ADC_ChannelConfig_t adc_channels[] = {
-    {.channel = THROTTLE1_ADC_CHANNEL},
-    {.channel = THROTTLE2_ADC_CHANNEL},
-    {.channel = REGEN1_ADC_CHANNEL},
-    {.channel = REGEN2_ADC_CHANNEL},
-    {.channel = BRAKE1_PRESSURE_ADC_CHANNEL},
-    {.channel = BRAKE2_PRESSURE_ADC_CHANNEL},
+static const PHAL_ADC_InitConfig_t adc_config[] = {
+    PHAL_ADC_INIT(THROTTLE1_PORT, THROTTLE1_PIN),
+    PHAL_ADC_INIT(THROTTLE2_PORT, THROTTLE2_PIN),
+    PHAL_ADC_INIT(REGEN1_PORT, REGEN1_PIN),
+    PHAL_ADC_INIT(REGEN2_PORT, REGEN2_PIN),
+    PHAL_ADC_INIT(BRAKE1_PRESSURE_PORT, BRAKE1_PRESSURE_PIN),
+    PHAL_ADC_INIT(BRAKE2_PRESSURE_PORT, BRAKE2_PRESSURE_PIN),
 };
-static const PHAL_ADC_Config_t adc_config = {
-    .instance      = ADC1,
-    .channels      = adc_channels,
-    .channel_count = sizeof(adc_channels) / sizeof(adc_channels[0]),
-};
-
-static_assert(
-    (sizeof(raw_adc_values_t) / sizeof(uint16_t)) ==
-    (sizeof(adc_channels) / sizeof(adc_channels[0])),
-    "ADC channel config and raw ADC values struct must have the same number of channels"
-);
-
-volatile raw_adc_values_t raw_adc_values; // DMA target
-PHAL_ADC_Handle_t adc_handle;
 
 /* Function Prototypes */
 void sweep_external_leds();
@@ -134,11 +108,7 @@ int main(void) {
     if (false == PHAL_USART_init(LCD_USART, LCD_BAUD_RATE, PHAL_RCC_getAPB2ClockHz())) {
         HardFault_Handler();
     }
-    if (false == PHAL_ADC_init(&adc_handle, &adc_config)) {
-        HardFault_Handler();
-    }
-    if (!PHAL_ADC_readDMA(&adc_handle, (uint16_t *)&raw_adc_values,
-                          sizeof(raw_adc_values) / sizeof(uint16_t))) {
+    if (!PHAL_ADC_init(adc_config, countof(adc_config))) {
         HardFault_Handler();
     }
 

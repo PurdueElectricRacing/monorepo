@@ -51,12 +51,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_OUTPUT(CTRL20_PORT, CTRL20_PIN, GPIO_OUTPUT_LOW_SPEED),
     PHAL_GPIO_INIT_OUTPUT(CTRL21_PORT, CTRL21_PIN, GPIO_OUTPUT_LOW_SPEED),
 
-    // Analog inputs
-    PHAL_GPIO_INIT_ANALOG(LVBATT_VS_PORT, LVBATT_VS_PIN),
-    PHAL_GPIO_INIT_ANALOG(LVBATT_CS_PORT, LVBATT_CS_PIN),
-    PHAL_GPIO_INIT_ANALOG(MUX1_OUT_PORT, MUX1_OUT_PIN),
-    PHAL_GPIO_INIT_ANALOG(MUX2_OUT_PORT, MUX2_OUT_PIN),
-
     // Analog multiplexer controls
     PHAL_GPIO_INIT_OUTPUT(MUX1_CTRL_A_PORT, MUX1_CTRL_A_PIN, GPIO_OUTPUT_LOW_SPEED),
     PHAL_GPIO_INIT_OUTPUT(MUX1_CTRL_B_PORT, MUX1_CTRL_B_PIN, GPIO_OUTPUT_LOW_SPEED),
@@ -75,45 +69,12 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_RX_PB12
 };
 
-// !! ADC PHAL this api sucks
-static const PHAL_ADC_ChannelConfig_t adc1_channels[] = {
-    {.channel = LVBATT_VS_ADC_CHANNEL}
+static const PHAL_ADC_InitConfig_t adc_config[] = {
+    PHAL_ADC_INIT(LVBATT_VS_PORT, LVBATT_VS_PIN),
+    PHAL_ADC_INIT(LVBATT_CS_PORT, LVBATT_CS_PIN),
+    PHAL_ADC_INIT(MUX1_OUT_PORT, MUX1_OUT_PIN),
+    PHAL_ADC_INIT(MUX2_OUT_PORT, MUX2_OUT_PIN),
 };
-
-static const PHAL_ADC_ChannelConfig_t adc2_channels[] = {
-    {.channel = MUX1_OUT_ADC_CHANNEL},
-    {.channel = MUX2_OUT_ADC_CHANNEL}
-};
-
-static const PHAL_ADC_ChannelConfig_t adc3_channels[] = {
-    {.channel = LVBATT_CS_ADC_CHANNEL}
-};
-
-static const PHAL_ADC_Config_t adc1_config = {
-    .instance      = ADC1,
-    .channels      = adc1_channels,
-    .channel_count = sizeof(adc1_channels) / sizeof(adc1_channels[0]),
-};
-
-static const PHAL_ADC_Config_t adc2_config = {
-    .instance      = ADC2,
-    .channels      = adc2_channels,
-    .channel_count = sizeof(adc2_channels) / sizeof(adc2_channels[0]),
-};
-
-static const PHAL_ADC_Config_t adc3_config = {
-    .instance      = ADC3,
-    .channels      = adc3_channels,
-    .channel_count = sizeof(adc3_channels) / sizeof(adc3_channels[0]),
-};
-
-volatile raw_adc1_values_t raw_adc1_values;
-volatile raw_adc2_values_t raw_adc2_values;
-volatile raw_adc3_values_t raw_adc3_values;
-
-static PHAL_ADC_Handle_t adc1_handle;
-static PHAL_ADC_Handle_t adc2_handle;
-static PHAL_ADC_Handle_t adc3_handle;
 
 void HardFault_Handler();
 
@@ -133,12 +94,7 @@ int main() {
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
-    PHAL_ADC_init(&adc1_handle, &adc1_config);
-    PHAL_ADC_init(&adc2_handle, &adc2_config);
-    PHAL_ADC_init(&adc3_handle, &adc3_config);
-    if (!PHAL_ADC_readDMA(&adc1_handle, (uint16_t *)&raw_adc1_values, 1U)
-        || !PHAL_ADC_readDMA(&adc2_handle, (uint16_t *)&raw_adc2_values, 2U)
-        || !PHAL_ADC_readDMA(&adc3_handle, (uint16_t *)&raw_adc3_values, 1U)) {
+    if (!PHAL_ADC_init(adc_config, countof(adc_config))) {
         HardFault_Handler();
     }
 

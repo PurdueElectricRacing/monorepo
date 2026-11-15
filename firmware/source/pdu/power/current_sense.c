@@ -8,6 +8,7 @@
 #include "current_sense.h"
 #include "main.h"
 #include "switch.h"
+#include "common/phal_G4/adc/adc.h"
 #include "common/rtos/rtos.h"
 #include "can_library/generated/PDU.h"
 #include "can_library/faults_common.h"
@@ -46,7 +47,7 @@ void current_sense_periodic() {
     mux_select(sw->mux_id, sw->mux_addr);
     RTOS_delay_ms(MUX_SETTLE_DELAY_MS); // wait for mux to settle
 
-    uint16_t adc_value = (sw->mux_id == ANALOG_MUX1) ? raw_adc2_values.mux1_out : raw_adc2_values.mux2_out;
+    uint16_t adc_value = (sw->mux_id == ANALOG_MUX1) ? PHAL_ADC_read(MUX1_OUT_PORT, MUX1_OUT_PIN) : PHAL_ADC_read(MUX2_OUT_PORT, MUX2_OUT_PIN);
     float current_ma = adc_to_current_ma(adc_value);
 
     bool is_switch_faulted = current_ma >= SWITCH_FAULT_CURRENT_THRESHOLD_MA;

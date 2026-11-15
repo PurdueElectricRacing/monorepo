@@ -190,8 +190,8 @@ static const PHAL_DMA_Wiring_t SPI3_TX_DMA_WIRING = {
 // ADC -------------------------------------------------------------------------
 
 static const PHAL_DMA_Wiring_t ADC1_DMA_WIRING = {
-    .periph      = DMA1,
-    .channel_idx = 1,
+    .periph      = DMA2,
+    .channel_idx = 4,
     .mux_request = DMA_REQUEST_ADC1,
     .periph_reg  = &ADC1->DR,
     .dir         = DMA_PERIPH_TO_MEMORY,
@@ -209,7 +209,7 @@ static const PHAL_DMA_Wiring_t ADC2_DMA_WIRING = {
 
 static const PHAL_DMA_Wiring_t ADC3_DMA_WIRING = {
     .periph      = DMA2,
-    .channel_idx = 2,
+    .channel_idx = 5,
     .mux_request = DMA_REQUEST_ADC3,
     .periph_reg  = &ADC3->DR,
     .dir         = DMA_PERIPH_TO_MEMORY,
@@ -218,7 +218,7 @@ static const PHAL_DMA_Wiring_t ADC3_DMA_WIRING = {
 
 static const PHAL_DMA_Wiring_t ADC4_DMA_WIRING = {
     .periph      = DMA2,
-    .channel_idx = 3,
+    .channel_idx = 6,
     .mux_request = DMA_REQUEST_ADC4,
     .periph_reg  = &ADC4->DR,
     .dir         = DMA_PERIPH_TO_MEMORY,

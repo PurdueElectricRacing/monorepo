@@ -57,10 +57,8 @@
 // Analog current and voltage sense
 #define ISENSE_GPIO_PORT   (GPIOC)
 #define ISENSE_GPIO_PIN    (0)
-#define ISENSE_ADC_CHANNEL (6)
 #define VBATT_GPIO_PORT    (GPIOC)
 #define VBATT_GPIO_PIN     (1)
-#define VBATT_ADC_CHANNEL  (7)
 
 // Input status pins
 #define CHARGER_CONNECTED_PORT      (GPIOA)
@@ -78,14 +76,6 @@
 // BMS SDC control
 #define BMS_SDC_CTRL_PORT (GPIOA)
 #define BMS_SDC_CTRL_PIN  (1)
-
-typedef struct {
-    uint16_t isense_raw;
-    uint16_t vbatt_raw;
-} adc1_dma_buffer_t;
-extern volatile adc1_dma_buffer_t adc1_dma_buffer;
-
-extern PHAL_ADC_Handle_t adc_handle;
 
 extern adbms_bms_t g_bms;
 

@@ -34,87 +34,14 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     // SCAN
     PHAL_PIN_DEFS_FDCAN1_RX_PA11,
     PHAL_PIN_DEFS_FDCAN1_TX_PA12,
-
-    // Shock Pots
-    PHAL_GPIO_INIT_ANALOG(SHOCKPOT_LEFT_GPIO_PORT , SHOCKPOT_LEFT_GPIO_PIN),
-    PHAL_GPIO_INIT_ANALOG(SHOCKPOT_RIGHT_GPIO_PORT, SHOCKPOT_RIGHT_GPIO_PIN),
-
-    //Oil temps
-    PHAL_GPIO_INIT_ANALOG(OIL_TEMP_L_GPIO_Port, OIL_TEMP_L_Pin),
-    PHAL_GPIO_INIT_ANALOG(OIL_TEMP_R_GPIO_Port, OIL_TEMP_R_Pin),
 };
 
-/* ADC Configuration */
-
-// ADC 1
-static const PHAL_ADC_ChannelConfig_t adc1_channels[] = {
-    {.channel = OIL_TEMP_L_ADC_CH},
+static const PHAL_ADC_InitConfig_t adc_config[] = {
+    PHAL_ADC_INIT(SHOCKPOT_LEFT_GPIO_PORT, SHOCKPOT_LEFT_GPIO_PIN),
+    PHAL_ADC_INIT(SHOCKPOT_RIGHT_GPIO_PORT, SHOCKPOT_RIGHT_GPIO_PIN),
+    PHAL_ADC_INIT(OIL_TEMP_L_GPIO_Port, OIL_TEMP_L_Pin),
+    PHAL_ADC_INIT(OIL_TEMP_R_GPIO_Port, OIL_TEMP_R_Pin),
 };
-static const PHAL_ADC_Config_t adc1_config = {
-    .instance      = ADC1,
-    .channels      = adc1_channels,
-    .channel_count = sizeof(adc1_channels) / sizeof(adc1_channels[0]),
-};
-typedef struct {
-    uint16_t oil_temp_left;
-} raw_adc1_values_t;
-volatile raw_adc1_values_t raw_adc1_values;
-static PHAL_ADC_Handle_t adc1_handle;
-
-
-// ADC 2
-static const PHAL_ADC_ChannelConfig_t adc2_channels[] = {
-    {.channel = OIL_TEMP_R_ADC_CH},
-};
-static const PHAL_ADC_Config_t adc2_config = {
-    .instance      = ADC2,
-    .channels      = adc2_channels,
-    .channel_count = sizeof(adc2_channels) / sizeof(adc2_channels[0]),
-};
-typedef struct {
-    uint16_t oil_temp_right;
-} raw_adc2_values_t;
-volatile raw_adc2_values_t raw_adc2_values;
-static PHAL_ADC_Handle_t adc2_handle;
-
-
-// ADC 3
-
-static const PHAL_ADC_ChannelConfig_t adc3_channels[] = {
-    {.channel = SHOCKPOT_LEFT_ADC_CHNL},
-};
-static const PHAL_ADC_Config_t adc3_config = {
-    .instance      = ADC3,
-    .channels      = adc3_channels,
-    .channel_count = sizeof(adc3_channels) / sizeof(adc3_channels[0]),
-};
-typedef struct {
-    uint16_t shock_l;
-} raw_adc3_values_t;
-volatile raw_adc3_values_t raw_adc3_values;
-static PHAL_ADC_Handle_t adc3_handle;
-
-// ADC 4
-
-static const PHAL_ADC_ChannelConfig_t adc4_channels[] = {
-    {.channel = SHOCKPOT_RIGHT_ADC_CHNL},
-};
-static const PHAL_ADC_Config_t adc4_config = {
-    .instance      = ADC4,
-    .channels      = adc4_channels,
-    .channel_count = sizeof(adc4_channels) / sizeof(adc4_channels[0]),
-};
-typedef struct {
-    uint16_t shock_r;
-} raw_adc4_values_t;
-volatile raw_adc4_values_t raw_adc4_values;
-static PHAL_ADC_Handle_t adc4_handle;
-
-
-// note: the raw_*_values structs are the DMA destinations for each ADC's
-// read, so their layout must match the channel order and they must be
-// uint16_t-aligned (a single uint16_t member is both)
-
 
 extern void HardFault_Handler();
 void shockpots_periodic();
@@ -136,22 +63,7 @@ int main(void) {
     if (!PHAL_GPIO_init(gpio_config, countof(gpio_config))) {
         HardFault_Handler();
     }
-    if (false == PHAL_ADC_init(&adc1_handle, &adc1_config)) {
-        HardFault_Handler();
-    }
-    if (false == PHAL_ADC_init(&adc2_handle, &adc2_config)) {
-        HardFault_Handler();
-    }
-    if (false == PHAL_ADC_init(&adc3_handle, &adc3_config)) {
-        HardFault_Handler();
-    }
-    if (false == PHAL_ADC_init(&adc4_handle, &adc4_config)) {
-        HardFault_Handler();
-    }
-    if (!PHAL_ADC_readDMA(&adc1_handle, (uint16_t *)&raw_adc1_values, 1U)
-        || !PHAL_ADC_readDMA(&adc2_handle, (uint16_t *)&raw_adc2_values, 1U)
-        || !PHAL_ADC_readDMA(&adc3_handle, (uint16_t *)&raw_adc3_values, 1U)
-        || !PHAL_ADC_readDMA(&adc4_handle, (uint16_t *)&raw_adc4_values, 1U)) {
+    if (!PHAL_ADC_init(adc_config, countof(adc_config))) {
         HardFault_Handler();
     }
 
@@ -187,8 +99,8 @@ void shockpots_periodic() {
     static constexpr float FIXED_LENGTH_MM = 120.0f + 25.0f; // 120mm shock body + 25mm head
 
     // ! assumes that 4095 is fully compressed and 0 is fully extended
-    uint16_t inverted_shock_l = 4095 - raw_adc3_values.shock_l;
-    uint16_t inverted_shock_r = 4095 - raw_adc4_values.shock_r;
+    uint16_t inverted_shock_l = 4095 - PHAL_ADC_read(SHOCKPOT_LEFT_GPIO_PORT, SHOCKPOT_LEFT_GPIO_PIN);
+    uint16_t inverted_shock_r = 4095 - PHAL_ADC_read(SHOCKPOT_RIGHT_GPIO_PORT, SHOCKPOT_RIGHT_GPIO_PIN);
     float left_travel  = (inverted_shock_l / ADC_MAX) * STROKE_MM;
     float right_travel = (inverted_shock_r / ADC_MAX) * STROKE_MM;
 
@@ -216,8 +128,8 @@ void oil_temps_periodic() {
     static constexpr float ADC_TO_VOLTS = ADC_VREF / ADC_MAX;
     static constexpr float R1           = 220.0f;
 
-    float left_volts  = raw_adc1_values.oil_temp_left * ADC_TO_VOLTS;
-    float right_volts = raw_adc2_values.oil_temp_right * ADC_TO_VOLTS;
+    float left_volts  = PHAL_ADC_read(OIL_TEMP_L_GPIO_Port, OIL_TEMP_L_Pin) * ADC_TO_VOLTS;
+    float right_volts = PHAL_ADC_read(OIL_TEMP_R_GPIO_Port, OIL_TEMP_R_Pin) * ADC_TO_VOLTS;
 
     // R_thermistor = (V_out * R1) / (V_ref - V_out)
     float left_resistance  = (left_volts * R1) / (ADC_VREF - left_volts);
