@@ -13,7 +13,6 @@
 
 #include "stm32g474xx.h"
 
-/// Max pins per ADC sequence
 static constexpr uint8_t PHAL_ADC_MAX_CHANNEL_COUNT = 16U;
 
 /// Returned by PHAL_ADC_read() for an unconfigured pin
