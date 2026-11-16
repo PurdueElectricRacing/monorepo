@@ -288,21 +288,28 @@ bool PHAL_ADC_init(const PHAL_ADC_InitConfig_t config[], size_t config_len) {
 
     uint8_t load[ADC_COUNT] = {0};
 
+    // Ensure pins exist and setup globals
     if (!adc_validate_pins(config, config_len)) {
         return false;
     }
+    
+    // Assign pins with only one possible ADC
     if (!adc_assign_fixed_pins(config, config_len, load)) {
         return false;
     }
+
     adc_assign_flexible_pins(config, config_len, load);
 
     if (!adc_set_pins_analog(config, config_len)) {
         return false;
     }
+
+    // Configure each ADC, enable them, and arms DMA for beginning of conversions
     if (!adc_start_all(config, config_len)) {
         return false;
     }
 
+    // Mark each ADC that was configured as such, allowing a ADC_read
     for (size_t i = 0U; i < config_len; i++) {
         g_pin_states[adc_find_pin_idx(config[i].bank, config[i].pin)].configured = true;
     }
