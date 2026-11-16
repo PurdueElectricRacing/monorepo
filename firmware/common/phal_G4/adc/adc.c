@@ -28,12 +28,6 @@ typedef struct {
 } adc_pin_t;
 
 typedef struct {
-    size_t pin_idx;
-    adc_idx_t adc;
-    uint8_t rank;
-} adc_request_t;
-
-typedef struct {
     bool configured;
     adc_idx_t adc;
     uint8_t rank;
@@ -46,6 +40,8 @@ typedef struct {
         .channel_on = {__VA_ARGS__}                                            \
     }
 
+// References pg. 55 in DS12288 for the ADC mappings
+// References pg. 50 for the pinout to known what pins are available
 static const adc_pin_t ADC_PINS[] = {
     ADC_PIN(GPIOA, 0,  [ADC1_IDX] = 1,  [ADC2_IDX] = 1),
     ADC_PIN(GPIOA, 1,  [ADC1_IDX] = 2,  [ADC2_IDX] = 2),
@@ -83,12 +79,20 @@ static const PHAL_DMA_Wiring_t *const ADC_DMA_WIRINGS[ADC_COUNT] = {
     &ADC4_DMA_WIRING,
 };
 
+// global ADC conversion readings
 static volatile uint16_t g_samples[ADC_COUNT][PHAL_ADC_MAX_CHANNEL_COUNT];
+
+// global dma buffer, one for each ADC to move readings around
 static PHAL_DMA_Handle_t g_dma[ADC_COUNT];
+
+// global state to track whether if pins are used and where its reading is stored
 static adc_pin_state_t g_pin_states[ADC_PIN_COUNT];
+
+// indicate if initialization has already occured or not,
+// trying to re-try init could result in lost sampling data
 static bool g_initialized;
 
-static size_t adc_find_pin(const GPIO_TypeDef *bank, uint8_t pin) {
+static size_t adc_find_pin_idx(const GPIO_TypeDef *bank, uint8_t pin) {
     for (size_t i = 0U; i < ADC_PIN_COUNT; i++) {
         if (ADC_PINS[i].bank == bank && ADC_PINS[i].pin == pin) {
             return i;
@@ -133,55 +137,58 @@ static adc_idx_t adc_least_loaded(const adc_pin_t *pin, const uint8_t load[]) {
     return best;
 }
 
-static bool adc_lookup_pins(
-    const PHAL_ADC_InitConfig_t config[],
-    size_t count,
-    adc_request_t requests[]
-) {
-    bool seen[ADC_PIN_COUNT] = {false};
+static bool adc_validate_pins(const PHAL_ADC_InitConfig_t config[], size_t count) {
+    bool seen[ADC_PIN_COUNT] = {0};
     for (size_t i = 0U; i < count; i++) {
-        size_t pin_idx = adc_find_pin(config[i].bank, config[i].pin);
+        size_t pin_idx = adc_find_pin_idx(config[i].bank, config[i].pin);
         if (pin_idx == ADC_PIN_COUNT || seen[pin_idx]) {
             return false;
         }
-        seen[pin_idx] = true;
-        requests[i]   = (adc_request_t){.pin_idx = pin_idx, .adc = ADC_NONE};
+        seen[pin_idx]         = true;
+        g_pin_states[pin_idx] = (adc_pin_state_t){.adc = ADC_NONE};
     }
     return true;
 }
 
 static bool adc_assign_fixed_pins(
     const PHAL_ADC_InitConfig_t config[],
-    adc_request_t requests[],
     size_t count,
     uint8_t load[]
 ) {
     for (size_t i = 0U; i < count; i++) {
-        const adc_pin_t *pin = &ADC_PINS[requests[i].pin_idx];
+        size_t pin_idx         = adc_find_pin_idx(config[i].bank, config[i].pin);
+        const adc_pin_t *pin   = &ADC_PINS[pin_idx];
+        adc_pin_state_t *state = &g_pin_states[pin_idx];
 
         if (config[i].instance != nullptr) {
             adc_idx_t forced = adc_index_of(config[i].instance);
             if (forced == ADC_NONE || !adc_is_wired(pin, forced)) {
                 return false;
             }
-            requests[i].adc = forced;
+            state->adc = forced;
         } else if (adc_wired_count(pin) == 1U) {
-            requests[i].adc = adc_least_loaded(pin, load);
+            state->adc = adc_least_loaded(pin, load);
         } else {
             continue;
         }
-        load[requests[i].adc]++;
+        load[state->adc]++;
     }
     return true;
 }
 
-static void adc_assign_flexible_pins(adc_request_t requests[], size_t count, uint8_t load[]) {
+static void adc_assign_flexible_pins(
+    const PHAL_ADC_InitConfig_t config[],
+    size_t count,
+    uint8_t load[]
+) {
     for (size_t i = 0U; i < count; i++) {
-        if (requests[i].adc != ADC_NONE) {
+        size_t pin_idx         = adc_find_pin_idx(config[i].bank, config[i].pin);
+        adc_pin_state_t *state = &g_pin_states[pin_idx];
+        if (state->adc != ADC_NONE) {
             continue;
         }
-        requests[i].adc = adc_least_loaded(&ADC_PINS[requests[i].pin_idx], load);
-        load[requests[i].adc]++;
+        state->adc = adc_least_loaded(&ADC_PINS[pin_idx], load);
+        load[state->adc]++;
     }
 }
 
@@ -197,17 +204,19 @@ static bool adc_set_pins_analog(const PHAL_ADC_InitConfig_t config[], size_t cou
 
 static uint8_t adc_build_sequence(
     adc_idx_t adc,
-    adc_request_t requests[],
+    const PHAL_ADC_InitConfig_t config[],
     size_t count,
     uint8_t channels[]
 ) {
     uint8_t channel_count = 0U;
     for (size_t i = 0U; i < count; i++) {
-        if (requests[i].adc != adc) {
+        size_t pin_idx         = adc_find_pin_idx(config[i].bank, config[i].pin);
+        adc_pin_state_t *state = &g_pin_states[pin_idx];
+        if (state->adc != adc) {
             continue;
         }
-        requests[i].rank        = channel_count;
-        channels[channel_count] = ADC_PINS[requests[i].pin_idx].channel_on[adc];
+        state->rank             = channel_count;
+        channels[channel_count] = ADC_PINS[pin_idx].channel_on[adc];
         channel_count++;
     }
     return channel_count;
@@ -249,12 +258,12 @@ static void adc_stop(adc_idx_t adc) {
     PHAL_DMA_deinit(&g_dma[adc]);
 }
 
-static bool adc_start_all(adc_request_t requests[], size_t count) {
+static bool adc_start_all(const PHAL_ADC_InitConfig_t config[], size_t count) {
     bool started[ADC_COUNT] = {false};
 
     for (adc_idx_t adc = ADC1_IDX; adc < ADC_COUNT; adc++) {
         uint8_t channels[PHAL_ADC_MAX_CHANNEL_COUNT];
-        uint8_t channel_count = adc_build_sequence(adc, requests, count, channels);
+        uint8_t channel_count = adc_build_sequence(adc, config, count, channels);
         if (channel_count == 0U) {
             continue;
         }
@@ -273,41 +282,36 @@ static bool adc_start_all(adc_request_t requests[], size_t count) {
 }
 
 bool PHAL_ADC_init(const PHAL_ADC_InitConfig_t config[], size_t config_len) {
-    if (g_initialized || config == nullptr || config_len == 0U || config_len > ADC_PIN_COUNT) {
+    if (g_initialized || config == nullptr || config_len == 0U) {
         return false;
     }
 
-    adc_request_t requests[ADC_PIN_COUNT];
     uint8_t load[ADC_COUNT] = {0};
 
-    if (!adc_lookup_pins(config, config_len, requests)) {
+    if (!adc_validate_pins(config, config_len)) {
         return false;
     }
-    if (!adc_assign_fixed_pins(config, requests, config_len, load)) {
+    if (!adc_assign_fixed_pins(config, config_len, load)) {
         return false;
     }
-    adc_assign_flexible_pins(requests, config_len, load);
+    adc_assign_flexible_pins(config, config_len, load);
 
     if (!adc_set_pins_analog(config, config_len)) {
         return false;
     }
-    if (!adc_start_all(requests, config_len)) {
+    if (!adc_start_all(config, config_len)) {
         return false;
     }
 
     for (size_t i = 0U; i < config_len; i++) {
-        g_pin_states[requests[i].pin_idx] = (adc_pin_state_t){
-            .configured = true,
-            .adc        = requests[i].adc,
-            .rank       = requests[i].rank,
-        };
+        g_pin_states[adc_find_pin_idx(config[i].bank, config[i].pin)].configured = true;
     }
     g_initialized = true;
     return true;
 }
 
 uint16_t PHAL_ADC_read(const GPIO_TypeDef *bank, uint8_t pin) {
-    size_t pin_idx = adc_find_pin(bank, pin);
+    size_t pin_idx = adc_find_pin_idx(bank, pin);
     if (pin_idx == ADC_PIN_COUNT || !g_pin_states[pin_idx].configured) {
         return PHAL_ADC_INVALID_READING;
     }
