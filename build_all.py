@@ -34,9 +34,9 @@ def build() -> None:
         ROOT / "daq",
     )
     build_project(
-	"DAQ workspace tests",
-	["cargo", "test", "--workspace", "--locked"],
-	ROOT / "daq",
+	    "DAQ workspace tests",
+	    ["cargo", "test", "--workspace", "--locked"],
+	    ROOT / "daq",
     
     )
     build_project(
