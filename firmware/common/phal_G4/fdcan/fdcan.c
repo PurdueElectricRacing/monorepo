@@ -10,6 +10,9 @@
 
 #include "common/phal_G4/fdcan/fdcan_priv.h"
 
+#define FDCAN_ECR_TEC_MASK (0x000000FFU) // Bits [7:0]
+
+
 
 void PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate) {
     PHAL_FDCAN_priv_enableClock();
@@ -33,6 +36,7 @@ void PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate)
  
     PHAL_FDCAN_priv_exitConfig(fdcan);
 }
+
 
 bool PHAL_FDCAN_setFilters(FDCAN_GlobalTypeDef *fdcan,
                            const uint32_t *sid_list,
@@ -76,7 +80,23 @@ bool PHAL_FDCAN_send(CanMsgTypeDef_t *msg) {
     return true;
 }
 
+uint32_t PHAL_FDCAN_txErrCounter(FDCAN_GlobalTypeDef *fdcan) {
+    return (uint32_t)(fdcan->ECR & FDCAN_ECR_TEC_Msk);
+}
 
+bool PHAL_FDCAN_isBusOff(FDCAN_GlobalTypeDef *fdcan) {
+    return (fdcan->PSR & FDCAN_PSR_BO) != 0;
+}
+
+bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan) {
+    if (!PHAL_FDCAN_isBusOff(fdcan)) {
+        return false; // Not in bus-off, nothing to do
+    }
+
+    // Clearing INIT tells hardware to start the 129 x 11 recessive bit recovery sequence
+    fdcan->CCCR &= ~FDCAN_CCCR_INIT;
+    return true; // Recovery initiated
+}
 
 [[gnu::always_inline]]
 static inline void fdcan_rxIRQHandler(FDCAN_GlobalTypeDef *fdcan) {
