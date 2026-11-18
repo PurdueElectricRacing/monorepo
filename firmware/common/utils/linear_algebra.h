@@ -12,18 +12,22 @@
 
 #include <math.h>
 
-typedef struct {
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct vector2 {
     float x;
     float y;
 } vector2_t;
 
-typedef struct {
+typedef struct vector3 {
     float x;
     float y;
     float z;
 } vector3_t;
 
-typedef struct {
+typedef struct matrix3x3 {
     float data[3][3];
 } matrix3x3_t;
 
@@ -35,7 +39,8 @@ typedef struct {
  * @return The sum a + b.
  */
 static inline vector2_t vector2_add(const vector2_t a, const vector2_t b) {
-    return (vector2_t){a.x + b.x, a.y + b.y};
+    vector2_t result = {a.x + b.x, a.y + b.y};
+    return result;
 }
 
 /**
@@ -46,7 +51,8 @@ static inline vector2_t vector2_add(const vector2_t a, const vector2_t b) {
  * @return The difference a - b.
  */
 static inline vector2_t vector2_sub(const vector2_t a, const vector2_t b) {
-    return (vector2_t){a.x - b.x, a.y - b.y};
+    vector2_t result = {a.x - b.x, a.y - b.y};
+    return result;
 }
 
 /**
@@ -57,7 +63,8 @@ static inline vector2_t vector2_sub(const vector2_t a, const vector2_t b) {
  * @return The scaled vector.
  */
 static inline vector2_t vector2_scale(const vector2_t vec, const float scalar) {
-    return (vector2_t){vec.x * scalar, vec.y * scalar};
+    vector2_t result = {vec.x * scalar, vec.y * scalar};
+    return result;
 }
 
 /**
@@ -104,13 +111,15 @@ static inline float vector2_magnitude(const vector2_t vec) {
 static inline vector2_t vector2_normalize(const vector2_t vec) {
     float mag = vector2_magnitude(vec);
     if (mag < 0.0001f) {
-        return (vector2_t){0, 0};
+        vector2_t zero = {0, 0};
+        return zero;
     }
 
-    return (vector2_t){
+    vector2_t result = {
         vec.x / mag,
         vec.y / mag
     };
+    return result;
 }
 
 /**
@@ -142,7 +151,8 @@ static inline vector2_t vector2_midpoint(const vector2_t a, const vector2_t b) {
  * @return A vector of equal magnitude perpendicular to vec.
  */
 static inline vector2_t vector2_perpendicular(const vector2_t vec) {
-    return (vector2_t){-vec.y, vec.x};
+    vector2_t result = {-vec.y, vec.x};
+    return result;
 }
 
 /**
@@ -164,14 +174,16 @@ static inline float vector3_magnitude(const vector3_t vec) {
 static inline vector3_t vector3_normalize(const vector3_t vec) {
     float mag = vector3_magnitude(vec);
     if (mag < 0.0001f) {
-        return (vector3_t){0, 0, 0};
+        vector3_t zero = {0, 0, 0};
+        return zero;
     }
     
-    return (vector3_t){
+    vector3_t result = {
         vec.x / mag,
         vec.y / mag,
         vec.z / mag
     };
+    return result;
 }
 
 /**
@@ -207,5 +219,9 @@ static inline matrix3x3_t matrix_multiply_matrix3x3(const matrix3x3_t *a, const 
     }
     return result;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // LINEAR_ALGEBRA_H
