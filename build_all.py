@@ -33,6 +33,12 @@ def build() -> None:
         ["cargo", "build", "--workspace", "--all-targets", "--locked"],
         ROOT / "daq",
     )
+
+    build_project(
+        "DAQ workspace tests",
+        ["cargo", "test", "--workspace", "--locked"],
+        ROOT / "daq",
+    )
     build_project(
         "tests",
         [sys.executable, "tests/run_tests.py"],
