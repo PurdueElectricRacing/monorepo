@@ -1,8 +1,9 @@
 {
     "node_name": "G4_TESTING",
     "busses": {
-        "TEST_CAN": {
-            "peripheral": "FDCAN2",
+        "CCAN":
+            {
+            "peripheral": "FDCAN1",
             "tx": [
                 {
                     "message_name": "IVT_S_command",
@@ -79,8 +80,7 @@
                         }
                     ],
                     "period_ms": 1000,
-                    "priority": 3,
-                    "id_override": "0x4EC"
+                    "priority": 3
                 },
                 {
                     "message_name": "canpiler_test",
@@ -128,6 +128,20 @@
                             "signal_name": "status",
                             "description": "No scale or offset: packed in u8.",
                             "data_type": "uint8_t",
+                            "unit": "none"
+                        }
+                    ],
+                    "period_ms": 100,
+                    "priority": 3
+                },
+                {
+                    "message_name": "tx_errctr",
+                    "description": "sending error counter",
+                    "signals": [
+                        {
+                            "signal_name": "txCounter",
+                            "description": "error counter",
+                            "data_type": "uint32_t",
                             "unit": "none"
                         }
                     ],
