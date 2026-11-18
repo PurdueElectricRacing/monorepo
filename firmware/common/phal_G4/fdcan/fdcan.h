@@ -124,5 +124,14 @@ extern void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg);
  */
 extern void PHAL_FDCAN_txCallback(FDCAN_GlobalTypeDef *fdcan);
 
+// return tx error counter
+uint32_t PHAL_FDCAN_txErrCounter(FDCAN_GlobalTypeDef *fdcan);
+
+// check if FDCAN is in bus-off state
+bool PHAL_FDCAN_isBusOff(FDCAN_GlobalTypeDef *fdcan);
+
+// initiate bus-off recovery
+bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan);
+
 
 #endif // PHAL_G4_FDCAN_H
