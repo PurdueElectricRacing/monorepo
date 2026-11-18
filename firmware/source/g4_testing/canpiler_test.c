@@ -46,7 +46,7 @@ void send_periodic() {
 
 DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(send_periodic, 100, TASK_PRIORITY_NORMAL, 512);
-z
+
 int main() {
     PHAL_RCC_init(PHAL_RCC_HSI_16MHZ);
 
