@@ -1,5 +1,5 @@
 /**
- * @file linear_algebra.c
+ * @file linear_algebra_3.c
  * @brief Basic floating point vector and matrix types and operations
  *
  * Please keep this file minimal and dumb !
@@ -74,4 +74,5 @@ mat3_t mat3_scale(
     }
     return result;
 }
+
 
