@@ -3,10 +3,6 @@
 
 #include "linear_algebra.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 vector2_t test_vector2_add(const vector2_t a, const vector2_t b);
 vector2_t test_vector2_sub(const vector2_t a, const vector2_t b);
 vector2_t test_vector2_scale(const vector2_t vec, const float scalar);
@@ -23,9 +19,5 @@ vector3_t test_vector3_normalize(const vector3_t vec);
 
 vector3_t test_matrix_multiply_vector3(const matrix3x3_t *mat, const vector3_t *in);
 matrix3x3_t test_matrix_multiply_matrix3x3(const matrix3x3_t *a, const matrix3x3_t *b);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // LIN_ALG_TEST_SHIM_H
