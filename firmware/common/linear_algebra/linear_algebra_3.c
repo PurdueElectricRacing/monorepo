@@ -65,6 +65,60 @@ vec3_t vec3_normalize(const vec3_t vec) {
     return vec3_scale(vec, 1.0f / mag);
 }
 
+vec3_t mat3_column(
+    const mat3_t *mat,
+    int col_index
+) {
+    return (vec3_t){
+        mat->data[0][col_index],
+        mat->data[1][col_index],
+        mat->data[2][col_index]
+    };
+}
+
+mat3_t outer_product3(
+    const vec3_t a,
+    const vec3_t b
+) {
+    mat3_t result = {0};
+    result.data[0][0] = a.x * b.x;
+    result.data[0][1] = a.x * b.y;
+    result.data[0][2] = a.x * b.z;
+    result.data[1][0] = a.y * b.x;
+    result.data[1][1] = a.y * b.y;
+    result.data[1][2] = a.y * b.z;
+    result.data[2][0] = a.z * b.x;
+    result.data[2][1] = a.z * b.y;
+    result.data[2][2] = a.z * b.z;
+    return result;
+}
+
+mat3_t mat3_add(
+    const mat3_t *a,
+    const mat3_t *b
+) {
+    mat3_t result = {0};
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result.data[i][j] = a->data[i][j] + b->data[i][j];
+        }
+    }
+    return result;
+}
+
+mat3_t mat3_sub(
+    const mat3_t *a,
+    const mat3_t *b
+) {
+    mat3_t result = {0};
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result.data[i][j] = a->data[i][j] - b->data[i][j];
+        }
+    }
+    return result;
+}
+
 vec3_t mat3_mult_vec3(
     const mat3_t *mat,
     const vec3_t *vec
