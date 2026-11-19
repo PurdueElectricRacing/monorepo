@@ -81,23 +81,25 @@ mat3_t cholesky3(
 ) {
     mat3_t result = {0};
 
-    // diagonal entries
+    // first column
     result.data[0][0] = sqrtf(mat->data[0][0]);
+    result.data[1][0] = mat->data[1][0] / result.data[0][0];
+    result.data[2][0] = mat->data[2][0] / result.data[0][0];
+
+    // second column
     result.data[1][1] = sqrtf(
         mat->data[1][1] - result.data[1][0] * result.data[1][0]
     );
+    result.data[2][1] = (
+        mat->data[2][1] - result.data[2][0] * result.data[1][0]
+    ) / result.data[1][1];
+
+    // third column
     result.data[2][2] = sqrtf(
         mat->data[2][2]
         - result.data[2][0] * result.data[2][0]
         - result.data[2][1] * result.data[2][1]
     );
-
-    // lower triangular entries
-    result.data[1][0] = mat->data[1][0] / result.data[0][0];
-    result.data[2][0] = mat->data[2][0] / result.data[0][0];
-    result.data[2][1] = (
-        mat->data[2][1] - result.data[2][0] * result.data[1][0]
-    ) / result.data[1][1];
 
     return result;
 }
