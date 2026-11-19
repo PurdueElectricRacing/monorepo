@@ -1,0 +1,7 @@
+set(TARGET_NAME SOC_UKF)
+add_library(${TARGET_NAME} INTERFACE)
+
+target_sources(${TARGET_NAME} INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/soc_ukf.c")
+
+target_include_directories(${TARGET_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(${TARGET_NAME} INTERFACE LINEAR_ALGEBRA LERP_LUT)

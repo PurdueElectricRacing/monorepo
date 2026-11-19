@@ -1,8 +1,15 @@
+/**
+ * @file soc_ukf.c
+ * @brief Unscented Kalman filter for state of charge estimation
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #include "soc_ukf.h"
 
 #include <math.h>
 
-#include "../lerp_lut/lerp_lut.h"
+#include "lerp_lut.h"
 
 // todo replace
 // todo add 2d lookup + temperature

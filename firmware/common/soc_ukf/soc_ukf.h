@@ -1,7 +1,14 @@
+/**
+ * @file soc_ukf.h
+ * @brief Unscented Kalman filter for state of charge estimation
+ *
+ * @author Irving Wang (irvingw@purdue.edu)
+ */
+
 #ifndef SOC_UKF_H
 #define SOC_UKF_H
 
-#include "../linear_algebra/linear_algebra.h"
+#include "linear_algebra.h"
 
 constexpr int STATE_SIZE = 3;
 constexpr int NUM_SIGMA_POINTS = 2 * STATE_SIZE + 1; // 2n + 1
@@ -30,7 +37,7 @@ typedef struct {
     vec3_t x; // [SoC, V1, V2]
     mat3_t P; // state covariance
 
-    // constants
+    // constants after init
     mat3_t A; // state transition
     vec3_t B; // control matrix
     mat3_t Q; // process noise covariance
