@@ -85,9 +85,9 @@ var sectionId = 'dynsection-52';
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="linear__algebra_8h.html#a83aa13dae3f1ae7daf0505603258da34" target="_top" xlink:title="Multiply a 3x3 matrix with a 3D vector.">
-<polygon fill="white" stroke="#666666" points="324.12,-19.25 206.12,-19.25 206.12,0 324.12,0 324.12,-19.25"/>
-<text text-anchor="middle" x="265.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">matrix_multiply_vector3</text>
+<g id="a_Node000007"><a xlink:href="matrix3_8c.html#a80ff10f1431a08b5c71a98a8ce491e0f" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="309.12,-19.25 221.12,-19.25 221.12,0 309.12,0 309.12,-19.25"/>
+<text text-anchor="middle" x="265.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">mat3_mult_vec3</text>
 </a>
 </g>
 </g>
@@ -95,8 +95,8 @@ var sectionId = 'dynsection-52';
 <g id="edge6_Node000001_Node000007" class="edge">
 <title>Node1&#45;&gt;Node7</title>
 <g id="a_edge6_Node000001_Node000007"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M153.48,-20.3C167.11,-18.99 181.26,-17.62 194.69,-16.33"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="194.66,-19.85 204.28,-15.4 193.99,-12.88 194.66,-19.85"/>
+<path fill="none" stroke="#63b8ff" d="M153.48,-20.3C172.17,-18.5 191.83,-16.6 209.3,-14.92"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="209.6,-18.4 219.22,-13.96 208.93,-11.44 209.6,-18.4"/>
 </a>
 </g>
 </g>

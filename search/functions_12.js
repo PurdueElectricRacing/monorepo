@@ -68,5 +68,6 @@ var searchData=
   ['switch_5fdisable_65',['SWITCH_disable',['../switch_8c.html#a0330ac3f2698f04048c663f8ef91f692',1,'SWITCH_disable(switch_id_t switch_id):&#160;switch.c'],['../switch_8h.html#a0330ac3f2698f04048c663f8ef91f692',1,'SWITCH_disable(switch_id_t switch_id):&#160;switch.c']]],
   ['switch_5fenable_66',['SWITCH_enable',['../switch_8c.html#a6fad4820fc201f6b1bf302cab284b902',1,'SWITCH_enable(switch_id_t switch_id):&#160;switch.c'],['../switch_8h.html#a6fad4820fc201f6b1bf302cab284b902',1,'SWITCH_enable(switch_id_t switch_id):&#160;switch.c']]],
   ['switch_5fenable_5fall_67',['SWITCH_enable_all',['../switch_8c.html#a8b4bc35239dd1f38c1ad844d03b540fe',1,'SWITCH_enable_all():&#160;switch.c'],['../switch_8h.html#a1413b27bfa66d750d99794f6e2eda670',1,'SWITCH_enable_all(void):&#160;switch.c']]],
-  ['systick_5fhandler_68',['SysTick_Handler',['../bootloader_8c.html#ab5e09814056d617c521549e542639b7e',1,'bootloader.c']]]
+  ['symmetrization3_68',['symmetrization3',['../linear__algebra_8h.html#a6f2dc00798fb38f767600f702dc27b22',1,'symmetrization3(const mat3_t *mat):&#160;matrix3.c'],['../matrix3_8c.html#a6f2dc00798fb38f767600f702dc27b22',1,'symmetrization3(const mat3_t *mat):&#160;matrix3.c']]],
+  ['systick_5fhandler_69',['SysTick_Handler',['../bootloader_8c.html#ab5e09814056d617c521549e542639b7e',1,'bootloader.c']]]
 ];

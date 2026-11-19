@@ -4,7 +4,7 @@ var searchData=
   ['vcu_5fdriver_5frequest_5fdata_5ft_1',['vcu_driver_request_data_t',['../structvcu__driver__request__data__t.html',1,'']]],
   ['vcu_5fsettings_5fdata_5ft_2',['vcu_settings_data_t',['../structvcu__settings__data__t.html',1,'']]],
   ['vcu_5ftorque_5frequest_5fdata_5ft_3',['vcu_torque_request_data_t',['../structvcu__torque__request__data__t.html',1,'']]],
-  ['vector2_4',['vector2',['../structvector2.html',1,'']]],
-  ['vector3_5',['vector3',['../structvector3.html',1,'']]],
+  ['vec3_5ft_4',['vec3_t',['../structvec3__t.html',1,'']]],
+  ['vector2_5',['vector2',['../structvector2.html',1,'']]],
   ['volt_5ft_6',['volt_t',['../structvolt__t.html',1,'']]]
 ];

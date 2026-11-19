@@ -9,5 +9,5 @@ var imu_8c =
     [ "IZZE_acceleration_CALLBACK", "imu_8c.html#a4e2ff3413851866d1385d942698f59e9", null ],
     [ "IZZE_angular_rate_CALLBACK", "imu_8c.html#a033e363e85c9a7712d85b7fb947a94c0", null ],
     [ "imu_data", "imu_8c.html#a531c8f27ae12bb661be20c1a0937ab41", null ],
-    [ "mounting_offset_matrix", "imu_8c.html#ad05791227c5727b377212319c5bc48e4", null ]
+    [ "mounting_offset_matrix", "imu_8c.html#a4fb0cd6a5cc96c6919c2869d2220bf15", null ]
 ];

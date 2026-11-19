@@ -45,7 +45,7 @@ var searchData=
   ['no_5fborder_5fwidth_42',['NO_BORDER_WIDTH',['../menu__system_8c.html#ab1905c9ccf270185a84f5f2389a23c10',1,'menu_system.c']]],
   ['no_5fpending_5fvalue_43',['NO_PENDING_VALUE',['../usb__control_8h.html#a007ec817cfbe7954f14f8dd1f4b3175a',1,'usb_control.h']]],
   ['node_44',['Adding a G4 node',['../md_firmware_2common_2bootloader_2README.html#autotoc_md66',1,'']]],
-  ['node_20communication_45',['Node Communication',['../md_docs_2can__graphs.html#autotoc_md89',1,'']]],
+  ['node_20communication_45',['Node Communication',['../md_docs_2can__graphs.html#autotoc_md91',1,'']]],
   ['node_5fdefs_2eh_46',['node_defs.h',['../node__defs_8h.html',1,'']]],
   ['nodes_47',['nodes',['../md_firmware_2source_2README.html#autotoc_md51',1,'Bench / dev nodes'],['../md_firmware_2source_2README.html#autotoc_md49',1,'Power and sensing nodes'],['../md_firmware_2source_2README.html#autotoc_md48',1,'Vehicle control nodes']]],
   ['noise_5fdetected_48',['noise_detected',['../structusart__rx__errors__t.html#a869bb2f95236126d499d2b3817c821c1',1,'usart_rx_errors_t']]],

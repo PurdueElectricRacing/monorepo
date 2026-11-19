@@ -11,8 +11,5 @@ var searchData=
   ['lerp_5flut_2eh_8',['lerp_lut.h',['../lerp__lut_8h.html',1,'']]],
   ['lerp_5flut_5ftest_2ecpp_9',['lerp_lut_test.cpp',['../lerp__lut__test_8cpp.html',1,'']]],
   ['library_2emd_10',['library.md',['../library_8md.html',1,'']]],
-  ['lin_5falg_5ftest_2ecpp_11',['lin_alg_test.cpp',['../lin__alg__test_8cpp.html',1,'']]],
-  ['lin_5falg_5ftest_5fshim_2ec_12',['lin_alg_test_shim.c',['../lin__alg__test__shim_8c.html',1,'']]],
-  ['lin_5falg_5ftest_5fshim_2eh_13',['lin_alg_test_shim.h',['../lin__alg__test__shim_8h.html',1,'']]],
-  ['linear_5falgebra_2eh_14',['linear_algebra.h',['../linear__algebra_8h.html',1,'']]]
+  ['linear_5falgebra_2eh_11',['linear_algebra.h',['../linear__algebra_8h.html',1,'']]]
 ];

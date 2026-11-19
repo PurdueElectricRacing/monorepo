@@ -1,31 +1,15 @@
-<map id="firmware/common/utils/linear_algebra.h" name="firmware/common/utils/linear_algebra.h">
-<area shape="rect" id="Node000001" title="Linear algebra functions utility header." alt="" coords="265,5,417,46"/>
-<area shape="rect" id="Node000002" href="$geodetic_8h.html" title="Geodetic coordinate utility header." alt="" coords="209,94,361,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="322,61,300,95,295,92,318,58"/>
-<area shape="rect" id="Node000003" href="$lap__timer_8c.html" title="DASHBOARD lap timer task implementations." alt="" coords="20,279,197,320"/>
-<area shape="poly" id="edge15_Node000001_Node000003" title=" " alt="" coords="250,36,182,44,115,56,58,73,37,84,23,96,11,118,9,142,14,167,24,192,57,240,90,277,86,280,52,243,20,195,8,169,3,142,6,116,19,92,34,79,56,68,113,51,182,39,249,31"/>
-<area shape="rect" id="Node000004" href="$lap__timer_8h.html" title="DASHBOARD lap timer task implementations." alt="" coords="232,183,409,223"/>
-<area shape="poly" id="edge16_Node000001_Node000004" title=" " alt="" coords="364,59,377,95,379,116,375,136,361,162,344,184,340,180,357,159,370,134,373,115,372,96,359,60"/>
-<area shape="rect" id="Node000008" href="$geometry_8h.html" title="Planar computational geometry utility header." alt="" coords="33,94,185,135"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="275,54,163,96,161,91,273,49"/>
-<area shape="rect" id="Node000009" href="$orientation_8h.html" title=" " alt="" coords="435,94,588,135"/>
-<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="394,51,474,91,472,96,392,56"/>
-<area shape="rect" id="Node000011" href="$lin__alg__test__shim_8h.html" title=" " alt="" coords="612,94,781,135"/>
-<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="433,47,616,91,615,96,432,52"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="257,148,129,280,126,277,254,144"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="301,148,315,181,310,183,296,150"/>
-<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="264,232,154,281,152,276,262,228"/>
-<area shape="rect" id="Node000005" href="$driver__interface_8c.html" title="thread to manage driver&#45;facing LCD, buttons, LEDs" alt="" coords="640,271,817,327"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="425,223,629,269,641,271,639,277,628,274,424,228"/>
-<area shape="rect" id="Node000006" href="$race_8c.html" title="Race page implementation." alt="" coords="222,279,414,320"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="322,239,321,279,316,278,317,239"/>
-<area shape="rect" id="Node000007" href="$dashboard_2main_8c.html" title="&quot;Dashboard&quot; node source code" alt="" coords="439,279,616,320"/>
-<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="379,228,485,276,483,281,377,233"/>
-<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="111,150,111,278,106,278,106,150"/>
-<area shape="rect" id="Node000010" href="$imu_8c.html" title="IMU calibration and coordinate transformations." alt="" coords="435,183,588,223"/>
-<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="514,150,514,182,509,182,509,150"/>
-<area shape="rect" id="Node000012" href="$lin__alg__test_8cpp.html" title="Linear algebra functions unit tests." alt="" coords="806,183,958,223"/>
-<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="754,139,841,180,839,185,751,144"/>
-<area shape="rect" id="Node000013" href="$lin__alg__test__shim_8c.html" title="Test shim to compile linear_algebra functions as C23." alt="" coords="612,183,781,223"/>
-<area shape="poly" id="edge14_Node000011_Node000013" title=" " alt="" coords="699,150,699,182,694,182,694,150"/>
+<map id="firmware/common/linear_algebra/linear_algebra.h" name="firmware/common/linear_algebra/linear_algebra.h">
+<area shape="rect" id="Node000001" title="Basic floating point vector and matrix types and operations." alt="" coords="371,5,535,46"/>
+<area shape="rect" id="Node000002" href="$matrix3_8c.html" title="Implementation of 3x3 matrix operations." alt="" coords="5,102,165,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="356,52,178,97,152,103,151,98,176,91,355,47"/>
+<area shape="rect" id="Node000003" href="$matrix3__test_8cpp.html" title=" " alt="" coords="189,94,349,150"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="402,56,323,96,321,91,400,51"/>
+<area shape="rect" id="Node000004" href="$vector3__test_8cpp.html" title=" " alt="" coords="373,94,533,150"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="456,61,456,93,450,93,450,61"/>
+<area shape="rect" id="Node000005" href="$vector3_8c.html" title="Implementation of 3D vector operations." alt="" coords="557,102,717,142"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="506,51,600,99,597,103,504,56"/>
+<area shape="rect" id="Node000006" href="$orientation_8h.html" title=" " alt="" coords="741,102,893,142"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="551,47,730,91,754,98,752,103,728,97,550,52"/>
+<area shape="rect" id="Node000007" href="$imu_8c.html" title="IMU calibration and coordinate transformations." alt="" coords="740,198,894,238"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="820,158,820,197,814,197,814,158"/>
 </map>

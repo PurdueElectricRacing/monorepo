@@ -97,7 +97,7 @@ var searchData=
   ['motor_5ftemps_5fmsg_5fid_94',['MOTOR_TEMPS_MSG_ID',['../VCAN_8h.html#a2182a814adb3443e697e446a4e32e9d3',1,'VCAN.h']]],
   ['motor_5ftemps_5fperiod_5fms_95',['MOTOR_TEMPS_PERIOD_MS',['../VCAN_8h.html#a79597f4fb1df520210d14c40f506fab7',1,'VCAN.h']]],
   ['motor_5ftemps_5fstale_5ftimeout_5fms_96',['MOTOR_TEMPS_STALE_TIMEOUT_MS',['../VCAN_8h.html#a0d504917a08e2de4a676ee7ce5e7704b',1,'VCAN.h']]],
-  ['mounting_5foffset_5fmatrix_97',['mounting_offset_matrix',['../imu_8c.html#ad05791227c5727b377212319c5bc48e4',1,'imu.c']]],
+  ['mounting_5foffset_5fmatrix_97',['mounting_offset_matrix',['../imu_8c.html#a4fb0cd6a5cc96c6919c2869d2220bf15',1,'imu.c']]],
   ['move_5fdown_98',['move_down',['../structpage__handler__t.html#a05a4602e47a57aa97d04e9d6a36887c9',1,'page_handler_t']]],
   ['move_5fup_99',['move_up',['../structpage__handler__t.html#a733864a3437eac6774742cbdfff8528d',1,'page_handler_t']]],
   ['msi_5foutput_5frate_5ftarget_5fhz_100',['msi_output_rate_target_hz',['../structClockRateConfig__t.html#a91cd53f101a121f6780767521beab1a4',1,'ClockRateConfig_t']]],

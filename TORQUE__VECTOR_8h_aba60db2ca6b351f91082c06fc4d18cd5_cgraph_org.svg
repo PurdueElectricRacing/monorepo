@@ -332,9 +332,9 @@
 <!-- Node16 -->
 <g id="Node000016" class="node">
 <title>Node16</title>
-<g id="a_Node000016"><a xlink:href="linear__algebra_8h.html#a83aa13dae3f1ae7daf0505603258da34" target="_top" xlink:title="Multiply a 3x3 matrix with a 3D vector.">
-<polygon fill="white" stroke="#666666" points="648.62,-404.25 530.62,-404.25 530.62,-385 648.62,-385 648.62,-404.25"/>
-<text text-anchor="middle" x="589.62" y="-390.75" font-family="Helvetica,sans-Serif" font-size="10.00">matrix_multiply_vector3</text>
+<g id="a_Node000016"><a xlink:href="matrix3_8c.html#a80ff10f1431a08b5c71a98a8ce491e0f" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="633.62,-404.25 545.62,-404.25 545.62,-385 633.62,-385 633.62,-404.25"/>
+<text text-anchor="middle" x="589.62" y="-390.75" font-family="Helvetica,sans-Serif" font-size="10.00">mat3_mult_vec3</text>
 </a>
 </g>
 </g>
@@ -342,8 +342,8 @@
 <g id="edge16_Node000011_Node000016" class="edge">
 <title>Node11&#45;&gt;Node16</title>
 <g id="a_edge16_Node000011_Node000016"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M467.09,-375.73C483.99,-378.36 502.27,-381.2 519.38,-383.86"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="518.52,-387.27 528.94,-385.34 519.59,-380.35 518.52,-387.27"/>
+<path fill="none" stroke="#63b8ff" d="M467.09,-375.73C488.91,-379.12 513.01,-382.87 533.96,-386.13"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="533.33,-389.57 543.74,-387.65 534.4,-382.65 533.33,-389.57"/>
 </a>
 </g>
 </g>
@@ -414,8 +414,8 @@
 <g id="edge22_Node000017_Node000016" class="edge">
 <title>Node17&#45;&gt;Node16</title>
 <g id="a_edge22_Node000017_Node000016"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M477.98,-399.96C491.48,-399.31 505.47,-398.64 518.79,-398"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="518.96,-401.49 528.77,-397.51 518.62,-394.5 518.96,-401.49"/>
+<path fill="none" stroke="#63b8ff" d="M477.98,-399.96C496.67,-399.06 516.33,-398.11 533.8,-397.27"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="533.89,-400.77 543.71,-396.79 533.55,-393.78 533.89,-400.77"/>
 </a>
 </g>
 </g>

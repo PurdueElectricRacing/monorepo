@@ -111,7 +111,7 @@ $(function(){initNavTree('lap__timer_8c.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="DASHBOARD_8h_source.html">can_library/generated/DASHBOARD.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="geodetic_8h_source.html">common/utils/geodetic.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="geometry_8h_source.html">common/utils/geometry.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="linear__algebra_8h_source.html">common/utils/linear_algebra.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="vector2_8h_source.html">common/utils/vector2.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for lap_timer.c:</div>
 <div class="dyncontent">
@@ -120,11 +120,11 @@ Include dependency graph for lap_timer.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a922bb1fc5c4fe5ec8f82bc735890ee69" id="r_a922bb1fc5c4fe5ec8f82bc735890ee69"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a922bb1fc5c4fe5ec8f82bc735890ee69">lap_timer_gps_to_local</a> (int32_t latitude, int32_t longitude)</td></tr>
+<tr class="memitem:a922bb1fc5c4fe5ec8f82bc735890ee69" id="r_a922bb1fc5c4fe5ec8f82bc735890ee69"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="vector2_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a922bb1fc5c4fe5ec8f82bc735890ee69">lap_timer_gps_to_local</a> (int32_t latitude, int32_t longitude)</td></tr>
 <tr class="separator:a922bb1fc5c4fe5ec8f82bc735890ee69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac15d5d84d2d64875ce0d0c0352af35e3" id="r_ac15d5d84d2d64875ce0d0c0352af35e3"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac15d5d84d2d64875ce0d0c0352af35e3">lap_timer_l2_crossed</a> (const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> previous_point, const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> current_point)</td></tr>
+<tr class="memitem:ac15d5d84d2d64875ce0d0c0352af35e3" id="r_ac15d5d84d2d64875ce0d0c0352af35e3"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac15d5d84d2d64875ce0d0c0352af35e3">lap_timer_l2_crossed</a> (const <a class="el" href="vector2_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> previous_point, const <a class="el" href="vector2_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> current_point)</td></tr>
 <tr class="separator:ac15d5d84d2d64875ce0d0c0352af35e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7a6703cd5c082b4d8c98a91ee8cc457" id="r_ad7a6703cd5c082b4d8c98a91ee8cc457"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7a6703cd5c082b4d8c98a91ee8cc457">lap_timer_finish_lap</a> (const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> current_point)</td></tr>
+<tr class="memitem:ad7a6703cd5c082b4d8c98a91ee8cc457" id="r_ad7a6703cd5c082b4d8c98a91ee8cc457"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7a6703cd5c082b4d8c98a91ee8cc457">lap_timer_finish_lap</a> (const <a class="el" href="vector2_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> current_point)</td></tr>
 <tr class="separator:ad7a6703cd5c082b4d8c98a91ee8cc457"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7220f3edbfb4c8e5b3956ab663092676" id="r_a7220f3edbfb4c8e5b3956ab663092676"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7220f3edbfb4c8e5b3956ab663092676">lap_timer_onpress</a> (void)</td></tr>
 <tr class="separator:a7220f3edbfb4c8e5b3956ab663092676"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,7 +202,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static void lap_timer_finish_lap </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>current_point</em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="vector2_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>current_point</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -230,7 +230,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> lap_timer_gps_to_local </td>
+          <td class="memname">static <a class="el" href="vector2_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> lap_timer_gps_to_local </td>
           <td>(</td>
           <td class="paramtype">int32_t</td>          <td class="paramname"><span class="paramname"><em>latitude</em></span>, </td>
         </tr>
@@ -271,12 +271,12 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static bool lap_timer_l2_crossed </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>previous_point</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="vector2_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>previous_point</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>current_point</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="vector2_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>current_point</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
