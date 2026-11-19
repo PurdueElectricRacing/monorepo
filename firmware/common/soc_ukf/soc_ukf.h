@@ -67,6 +67,20 @@ void SOC_UKF_init(soc_ukf_t *ukf) {
     ukf->R = 1e-3f;
 }
 
+void SOC_UKF_mean_weights(
+    const soc_ukf_t *ukf,
+    float mean_weights[NUM_SIGMA_POINTS]
+) {
+    // todo
+}
+
+void SOC_UKF_covariance_weights(
+    const soc_ukf_t *ukf,
+    float covariance_weights[NUM_SIGMA_POINTS]
+) {
+    // todo
+}
+
 void SOC_UKF_sigma_points(
     const soc_ukf_t *ukf,
     vec3_t points[NUM_SIGMA_POINTS]
@@ -94,13 +108,28 @@ void SOC_UKF_sigma_points(
     }
 }
 
-vec3_t SOC_UKF_predict(const soc_ukf_t *ukf, float current) {
-    vec3_t Ax = mat3_mult_vec3(&ukf->A, &ukf->x);
-    vec3_t Bu = vec3_scale(ukf->B, current);
+void SOC_UKF_predict(const soc_ukf_t *ukf, float current) {
+    vec3_t points[NUM_SIGMA_POINTS];
+    SOC_UKF_sigma_points(ukf, points);
 
-    return vec3_add(Ax, Bu);
+    vec3_t predicted_points[NUM_SIGMA_POINTS];
+    for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
+        /*
+        $$
+        \chi_i^- = A\chi_i + BI
+        $$
+        */
+        vec3_t Ax = mat3_mult_vec3(&ukf->A, &points[i]);
+        vec3_t Bu = vec3_scale(ukf->B, current);
+        predicted_points[i] = vec3_add(Ax, Bu);
+    }
+
+    
 }
 
-void SOC_UKF_update(soc_ukf_t *ukf, float voltage) {
+void SOC_UKF_update(
+    soc_ukf_t *ukf,
+    float voltage
+) {
     // todo
 }
