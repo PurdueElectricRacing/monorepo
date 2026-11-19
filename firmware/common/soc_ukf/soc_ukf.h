@@ -2,16 +2,6 @@
 
 #include "../linear_algebra/linear_algebra.h"
 
-typedef struct {
-    vec3_t x; // [SoC, V1, V2]
-    mat3_t A; // state transition
-    vec3_t B; // control matrix
-    mat3_t Q; // process noise covariance
-    mat3_t P; // state covariance
-    float R;  // measurement noise covariance
-    float lambda;
-} soc_ukf_t;
-
 constexpr int STATE_SIZE = 3;
 constexpr int NUM_SIGMA_POINTS = 2 * STATE_SIZE + 1; // 2n + 1
 
@@ -24,6 +14,29 @@ typedef struct {
     float Q;    // Ah
 } cell_params_t;
 
+typedef struct {
+    vec3_t x; // [SoC, V1, V2]
+    mat3_t P; // state covariance
+
+    const mat3_t A; // state transition
+    const vec3_t B; // control matrix
+
+    const mat3_t Q; // process noise covariance
+    const float R;  // measurement noise covariance
+
+    const cell_params_t cell;
+    const float dt;
+
+    const float alpha;
+    const float beta;
+    const float kappa;
+    const float lambda;
+
+    const float mean_weights[NUM_SIGMA_POINTS];
+    const float covariance_weights[NUM_SIGMA_POINTS];
+} soc_ukf_t;
+
+
 // placeholder
 static constexpr cell_params_t RS50_PARAMS = {
     .r0   = 0.015f,
@@ -35,6 +48,30 @@ static constexpr cell_params_t RS50_PARAMS = {
 };
 
 static constexpr float DT = 0.01f;
+
+
+void SOC_UKF_mean_weights(
+    const soc_ukf_t *ukf,
+    float mean_weights[NUM_SIGMA_POINTS]
+) {
+    float scale = STATE_SIZE + ukf->lambda;
+    
+    /*
+    $$
+    W_0^{(m)} = \frac{\lambda}{n+\lambda}
+    $$
+    */
+    mean_weights[0] = ukf->lambda / scale;
+
+    /*
+    $$
+    W_i^{(m)} = \frac{1}{2(n+\lambda)}, \qquad i=1,\ldots,2n
+    $$
+    */
+    for (int i = 1; i < NUM_SIGMA_POINTS; i++) {
+        mean_weights[i] = 1.0f / (2.0f * scale);
+    }
+}
 
 void SOC_UKF_init(soc_ukf_t *ukf) {
     // todo init SOC0 using OCV lookup
@@ -65,18 +102,22 @@ void SOC_UKF_init(soc_ukf_t *ukf) {
     }};
 
     ukf->R = 1e-3f;
-}
 
-void SOC_UKF_mean_weights(
-    const soc_ukf_t *ukf,
-    float mean_weights[NUM_SIGMA_POINTS]
-) {
-    // todo
+    ukf->alpha = 1.0f;
+    ukf->kappa = 0.0f;
+
+    /*
+    $$
+    \lambda = \alpha^2(n + \kappa) - n
+    $$
+    */
+    ukf->lambda = ukf->alpha * ukf->alpha * (STATE_SIZE + ukf->kappa) - STATE_SIZE;
+
+    SOC_UKF_mean_weights(ukf, ukf->mean_weights);
 }
 
 void SOC_UKF_covariance_weights(
-    const soc_ukf_t *ukf,
-    float covariance_weights[NUM_SIGMA_POINTS]
+    const soc_ukf_t *ukf
 ) {
     // todo
 }
@@ -124,7 +165,7 @@ void SOC_UKF_predict(const soc_ukf_t *ukf, float current) {
         predicted_points[i] = vec3_add(Ax, Bu);
     }
 
-    
+
 }
 
 void SOC_UKF_update(
