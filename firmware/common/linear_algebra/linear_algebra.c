@@ -36,15 +36,21 @@ vec3_t vec3_normalize(const vec3_t vec) {
     };
 }
 
-vec3_t mat3_mult_vec3(const mat3_t *mat, const vec3_t *in) {
+vec3_t mat3_mult_vec3(
+    const mat3_t *mat,
+    const vec3_t *vec
+) {
     vec3_t out;
-    out.x = mat->data[0][0] * in->x + mat->data[0][1] * in->y + mat->data[0][2] * in->z;
-    out.y = mat->data[1][0] * in->x + mat->data[1][1] * in->y + mat->data[1][2] * in->z;
-    out.z = mat->data[2][0] * in->x + mat->data[2][1] * in->y + mat->data[2][2] * in->z;
+    out.x = mat->data[0][0] * vec->x + mat->data[0][1] * vec->y + mat->data[0][2] * vec->z;
+    out.y = mat->data[1][0] * vec->x + mat->data[1][1] * vec->y + mat->data[1][2] * vec->z;
+    out.z = mat->data[2][0] * vec->x + mat->data[2][1] * vec->y + mat->data[2][2] * vec->z;
     return out;
 }
 
-mat3_t mat3_mult_mat3(const mat3_t *a, const mat3_t *b) {
+mat3_t mat3_mult(
+    const mat3_t *a,
+    const mat3_t *b
+) {
     mat3_t result;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
@@ -56,7 +62,10 @@ mat3_t mat3_mult_mat3(const mat3_t *a, const mat3_t *b) {
     return result;
 }
 
-mat3_t mat3_mult_scalar(const mat3_t *mat, float scalar) {
+mat3_t mat3_scale(
+    const mat3_t *mat,
+    float scalar
+) {
     mat3_t result;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {

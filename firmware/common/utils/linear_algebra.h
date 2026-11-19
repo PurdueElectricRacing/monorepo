@@ -169,6 +169,6 @@ vector3_t mat3_mult_vec3(const matrix3x3_t *mat, const vector3_t *in);
  * @param b The second input matrix
  * @return The resulting matrix AB.
  */
-matrix3x3_t mat3_mult_mat3(const matrix3x3_t *a, const matrix3x3_t *b);
+matrix3x3_t mat3_mult(const matrix3x3_t *a, const matrix3x3_t *b);
 
 #endif // LINEAR_ALGEBRA_H
