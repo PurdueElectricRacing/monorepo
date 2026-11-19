@@ -183,7 +183,114 @@ void SOC_UKF_predict(
 
 void SOC_UKF_update(
     soc_ukf_t *ukf,
-    float voltage
+    float voltage,
+    float current
 ) {
-    // todo
+    vec3_t points[NUM_SIGMA_POINTS];
+    SOC_UKF_sigma_points(ukf, points);
+
+    float predicted_voltages[NUM_SIGMA_POINTS];
+
+    for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
+        float soc = points[i].x;
+        float ocv = lut_lookup(&OCV_LUT, soc);
+        float v0  = current * ukf->cell.r0;
+        float v1  = points[i].y;
+        float v2  = points[i].z;
+
+        /*
+        $$
+        z_i = V_{\mathrm{OC}}(\mathrm{SOC}_i)
+            - IR_0 - V_{1,i} - V_{2,i}
+        $$
+        */
+        predicted_voltages[i] = ocv - v0 - v1 - v2;
+    }
+
+    /*
+    $$
+    \hat{z} = \sum_{i=0}^{2n} W_i^{(m)} z_i
+    $$
+    */
+    float predicted_voltage = 0.0f;
+
+    for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
+        predicted_voltage += ukf->mean_weights[i] * predicted_voltages[i];
+    }
+
+    /*
+    $$
+    S = R + \sum_{i=0}^{2n} W_i^{(c)}
+        (z_i - \hat{z})^2
+    $$
+    */
+    float innovation_variance = ukf->R;
+
+    for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
+        float voltage_deviation = predicted_voltages[i] - predicted_voltage;
+
+        innovation_variance += ukf->covariance_weights[i]
+            * voltage_deviation * voltage_deviation;
+    }
+
+    /*
+    $$
+    P_{xz} = \sum_{i=0}^{2n} W_i^{(c)}
+        (\chi_i - \hat{x}^{-})(z_i - \hat{z})
+    $$
+    */
+    vec3_t cross_covariance = {0};
+
+    for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
+        vec3_t state_deviation  = vec3_sub(points[i], ukf->x);
+        float voltage_deviation = predicted_voltages[i] - predicted_voltage;
+
+        vec3_t weighted_deviation = vec3_scale(
+            state_deviation,
+            ukf->covariance_weights[i] * voltage_deviation
+        );
+
+        cross_covariance = vec3_add(cross_covariance, weighted_deviation);
+    }
+
+    /*
+    $$
+    K = P_{xz} S^{-1}
+    $$
+    */
+    vec3_t kalman_gain = vec3_scale(
+        cross_covariance,
+        1.0f / innovation_variance
+    );
+
+    /*
+    $$
+    \nu = V_{\mathrm{measured}} - \hat{z}
+    $$
+    */
+    float innovation = voltage - predicted_voltage;
+
+    /*
+    $$
+    \hat{x}^{+} = \hat{x}^{-} + K\nu
+    $$
+    */
+    vec3_t correction = vec3_scale(kalman_gain, innovation);
+    ukf->x            = vec3_add(ukf->x, correction);
+
+    /*
+    $$
+    P^{+} = P^{-} - KSK^T
+    $$
+    */
+    mat3_t gain_outer            = outer_product3(kalman_gain, kalman_gain);
+    mat3_t covariance_correction = mat3_scale(&gain_outer, innovation_variance);
+    mat3_t updated_covariance    = mat3_sub(&ukf->P, &covariance_correction);
+
+    /*
+    $$
+    P^{+} \leftarrow \frac{1}{2}\left(P^{+} + (P^{+})^T\right)
+    $$
+    */
+    ukf->P = symmetrization3(&updated_covariance);
 }

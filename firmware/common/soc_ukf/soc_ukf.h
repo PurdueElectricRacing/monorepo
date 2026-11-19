@@ -75,7 +75,19 @@ void SOC_UKF_init(
     mat3_t P0
 );
 
-void SOC_UKF_predict(soc_ukf_t *ukf, float current);
-void SOC_UKF_update(soc_ukf_t *ukf, float voltage);
+void SOC_UKF_predict(
+    soc_ukf_t *ukf,
+    float current
+);
+
+void SOC_UKF_update(
+    soc_ukf_t *ukf,
+    float voltage,
+    float current
+);
+
+static float GET_SOC(const soc_ukf_t *ukf) {
+    return ukf->x.x;
+}
 
 #endif // SOC_UKF_H
