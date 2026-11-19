@@ -186,3 +186,15 @@ mat3_t cholesky3(
 
     return result;
 }
+
+mat3_t symmetrization3(
+    const mat3_t *mat
+) {
+    mat3_t result = {0};
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result.data[i][j] = (mat->data[i][j] + mat->data[j][i]) / 2.0f;
+        }
+    }
+    return result;
+}
