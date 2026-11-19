@@ -215,30 +215,6 @@
             }
         },
         {
-            "name": "f4_testing",
-            "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/f4_testing/f4_testing.elf",
-            "request": "launch",
-            "type": "cortex-debug",
-            "servertype": "openocd",
-            "device": "STM32F423RHT6",
-            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32F423.svd",
-            "configFiles": [
-                "interface/stlink.cfg",
-                "target/stm32f4x.cfg"
-            ],
-            "debuggerArgs": [
-                "-d",
-                "${workspaceRoot}/firmware/source/f4_testing"
-            ],
-            "preLaunchTask": "build firmware",
-            "runToEntryPoint": "main",
-            "liveWatch": {
-                "enabled": true,
-                "samplesPerSecond": 5
-            }
-        },
-        {
             "name": "g4_testing",
             "cwd": "${workspaceRoot}",
             "executable": "${workspaceRoot}/firmware/output/g4_testing/g4_testing.elf",
