@@ -34,39 +34,57 @@ typedef struct {
 } cell_params_t;
 
 typedef struct {
+    cell_params_t cell;
+    float dt;
+    mat3_t Q;
+    float R;
+    float alpha;
+    float beta;
+    float kappa;
+} soc_ukf_params_t;
+
+typedef struct {
+    // mutating filter state
     vec3_t x; // [SoC, V1, V2]
     mat3_t P; // state covariance
 
-    const mat3_t A; // state transition
-    const vec3_t B; // control matrix
+    // constants
+    mat3_t A; // state transition
+    vec3_t B; // control matrix
+    mat3_t Q; // process noise covariance
+    float R;  // measurement noise covariance
 
-    const mat3_t Q; // process noise covariance
-    const float R;  // measurement noise covariance
+    cell_params_t cell;
+    float dt;
 
-    const cell_params_t cell;
-    const float dt;
+    float lambda;
 
-    const float alpha;
-    const float beta;
-    const float kappa;
-    const float lambda;
-
-    const float mean_weights[NUM_SIGMA_POINTS];
-    const float covariance_weights[NUM_SIGMA_POINTS];
+    float mean_weights[NUM_SIGMA_POINTS];
+    float covariance_weights[NUM_SIGMA_POINTS];
 } soc_ukf_t;
 
 
-// placeholder
-static constexpr cell_params_t RS50_PARAMS = {
-    .r0   = 0.015f,
-    .r1   = 0.015f,
-    .r2   = 0.015f,
-    .tau1 = 100.0f,
-    .tau2 = 1000.0f,
-    .Q    = 5.0f
+// todo fir the real params
+static constexpr soc_ukf_params_t LV_PARAMS = {
+    .cell = {
+        .r0   = 0.015f,
+        .r1   = 0.015f,
+        .r2   = 0.015f,
+        .tau1 = 100.0f,
+        .tau2 = 1000.0f,
+        .Q    = 5.0f,
+    },
+    .dt = 0.01f,
+    .Q = {{
+        {1e-6f, 0.0f,  0.0f},
+        {0.0f,  1e-6f, 0.0f},
+        {0.0f,  0.0f,  1e-6f},
+    }},
+    .R = 1e-3f,
+    .alpha = 1.0f,
+    .beta = 2.0f,
+    .kappa = 0.0f,
 };
-
-static constexpr float DT = 0.01f;
 
 
 void SOC_UKF_mean_weights(
@@ -92,16 +110,39 @@ void SOC_UKF_mean_weights(
     }
 }
 
+void SOC_UKF_covariance_weights(
+    soc_ukf_t *ukf,
+    const soc_ukf_params_t *params
+) {
+    /*
+    $$
+    W_0^{(c)} = W_0^{(m)} + 1 - \alpha^2 + \beta,
+    \qquad W_i^{(c)} = W_i^{(m)} \quad (i > 0)
+    $$
+    */
+    ukf->covariance_weights[0] = ukf->mean_weights[0]
+        + 1.0f - params->alpha * params->alpha + params->beta;
+    for (int i = 1; i < NUM_SIGMA_POINTS; i++) {
+        ukf->covariance_weights[i] = ukf->mean_weights[i];
+    }
+}
+
 void SOC_UKF_init(
     soc_ukf_t *ukf,
+    const soc_ukf_params_t *params,
     vec3_t x0,
     mat3_t P0
 ) {
-    // todo init SOC0 using OCV lookup
-    ukf->x = (vec3_t){0.0f, 0.0f, 0.0f};
+    ukf->x    = x0;
+    ukf->P    = P0;
 
-    float alpha1 = expf(-DT / RS50_PARAMS.tau1);
-    float alpha2 = expf(-DT / RS50_PARAMS.tau2);
+    ukf->cell  = params->cell;
+    ukf->dt    = params->dt;
+    ukf->Q     = params->Q;
+    ukf->R     = params->R;
+
+    float alpha1 = expf(-ukf->dt / ukf->cell.tau1);
+    float alpha2 = expf(-ukf->dt / ukf->cell.tau2);
 
     ukf->A = (mat3_t){{
         {1.0f, 0.0f,   0.0f},
@@ -109,40 +150,23 @@ void SOC_UKF_init(
         {0.0f, 0.0f,   alpha2},
     }};
 
-    float b0 = -DT / (3600.0f * RS50_PARAMS.Q);
+    float b0 = -ukf->dt / (3600.0f * ukf->cell.Q);
 
     ukf->B = (vec3_t){
         b0,
-        1.0f - alpha1,
-        1.0f - alpha2
+        ukf->cell.r1 * (1.0f - alpha1),
+        ukf->cell.r2 * (1.0f - alpha2)
     };
-
-    // todo split into LV and HV params
-    ukf->Q = (mat3_t){{
-        {1e-6f, 0.0f,  0.0f},
-        {0.0f,  1e-6f, 0.0f},
-        {0.0f,  0.0f,  1e-6f},
-    }};
-
-    ukf->R = 1e-3f;
-
-    ukf->alpha = 1.0f;
-    ukf->kappa = 0.0f;
 
     /*
     $$
     \lambda = \alpha^2(n + \kappa) - n
     $$
     */
-    ukf->lambda = ukf->alpha * ukf->alpha * (STATE_SIZE + ukf->kappa) - STATE_SIZE;
+    ukf->lambda = params->alpha * params->alpha * (STATE_SIZE + params->kappa) - STATE_SIZE;
 
     SOC_UKF_mean_weights(ukf, ukf->mean_weights);
-}
-
-void SOC_UKF_covariance_weights(
-    const soc_ukf_t *ukf
-) {
-    // todo
+    SOC_UKF_covariance_weights(ukf, params);
 }
 
 void SOC_UKF_sigma_points(
