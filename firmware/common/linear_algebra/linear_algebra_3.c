@@ -40,18 +40,18 @@ vec3_t mat3_mult_vec3(
     const mat3_t *mat,
     const vec3_t *vec
 ) {
-    vec3_t out;
-    out.x = mat->data[0][0] * vec->x + mat->data[0][1] * vec->y + mat->data[0][2] * vec->z;
-    out.y = mat->data[1][0] * vec->x + mat->data[1][1] * vec->y + mat->data[1][2] * vec->z;
-    out.z = mat->data[2][0] * vec->x + mat->data[2][1] * vec->y + mat->data[2][2] * vec->z;
-    return out;
+    vec3_t result = {0};
+    result.x = mat->data[0][0] * vec->x + mat->data[0][1] * vec->y + mat->data[0][2] * vec->z;
+    result.y = mat->data[1][0] * vec->x + mat->data[1][1] * vec->y + mat->data[1][2] * vec->z;
+    result.z = mat->data[2][0] * vec->x + mat->data[2][1] * vec->y + mat->data[2][2] * vec->z;
+    return result;
 }
 
 mat3_t mat3_mult(
     const mat3_t *a,
     const mat3_t *b
 ) {
-    mat3_t result;
+    mat3_t result = {0};
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             result.data[i][j] = a->data[i][0] * b->data[0][j] +
@@ -66,7 +66,7 @@ mat3_t mat3_scale(
     const mat3_t *mat,
     float scalar
 ) {
-    mat3_t result;
+    mat3_t result = {0};
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             result.data[i][j] = mat->data[i][j] * scalar;
@@ -76,3 +76,12 @@ mat3_t mat3_scale(
 }
 
 
+mat3_t cholesky3(
+    const mat3_t *mat
+) {
+    mat3_t result = {0};
+
+
+
+    return result;
+}
