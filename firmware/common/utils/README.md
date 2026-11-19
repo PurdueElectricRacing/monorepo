@@ -59,16 +59,10 @@ for (size_t i = 0; i < countof(rails); ++i) {
 }
 ```
 
+## `vector2.h`
 
-## `linear_algebra.h`
-Float-only `vector3_t` / `matrix3x3_t` / `euler_angles_t` plus the basic operations needed for IMU/orientation work: magnitude, normalize, matrix-vector and matrix-matrix multiply, and a Tait-Bryan ZYX Euler-to-rotation-matrix helper.
+Provides `vector2_t` and 2D vector arithmetic, dot and cross products, magnitude, normalization, distance, midpoint, and perpendicular operations.
 
-```c
-vector3_t accel = { 0.1f, 0.2f, 9.7f };
-float mag       = vector3_magnitude(accel);          // ~9.71
-vector3_t unit  = vector3_normalize(accel);
+## `orientation.h`
 
-euler_angles_t a = { .roll = 0.0f, .pitch = 0.1f, .yaw = 0.2f };
-matrix3x3_t R   = tait_bryan(a);
-vector3_t world = matrix_multiply_vector3(&R, &accel);
-```
+`DCM_from_euler` converts `euler_angles_t` angles in radians to a `mat3_t` direction cosine matrix using the ZYX rotation sequence.
