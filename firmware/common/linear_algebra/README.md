@@ -1,5 +1,7 @@
 # Linear algebra
 
+Linear algebra with no fancy optimizations or frivolous features.
+
 `vec3_t` provides:
 - addition
 - subtraction
@@ -19,6 +21,20 @@
 
 `cholesky3()` requires an SPD matrix and does not throw
 
+$$
+\text{Result} =
+\begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    1 \\
+    2 \\
+    3
+\end{bmatrix}
+
+$$
 ```c
 mat3_t matrix = {{
     {1, 0, 0},
