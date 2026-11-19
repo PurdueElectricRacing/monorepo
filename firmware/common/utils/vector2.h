@@ -12,7 +12,7 @@
 
 #include <math.h>
 
-typedef struct {
+typedef struct vector2 {
     float x;
     float y;
 } vector2_t;
@@ -25,7 +25,8 @@ typedef struct {
  * @return The sum a + b.
  */
 static inline vector2_t vector2_add(const vector2_t a, const vector2_t b) {
-    return (vector2_t){a.x + b.x, a.y + b.y};
+    vector2_t result = {a.x + b.x, a.y + b.y};
+    return result;
 }
 
 /**
@@ -36,7 +37,8 @@ static inline vector2_t vector2_add(const vector2_t a, const vector2_t b) {
  * @return The difference a - b.
  */
 static inline vector2_t vector2_sub(const vector2_t a, const vector2_t b) {
-    return (vector2_t){a.x - b.x, a.y - b.y};
+    vector2_t result = {a.x - b.x, a.y - b.y};
+    return result;
 }
 
 /**
@@ -47,7 +49,8 @@ static inline vector2_t vector2_sub(const vector2_t a, const vector2_t b) {
  * @return The scaled vector.
  */
 static inline vector2_t vector2_scale(const vector2_t vec, const float scalar) {
-    return (vector2_t){vec.x * scalar, vec.y * scalar};
+    vector2_t result = {vec.x * scalar, vec.y * scalar};
+    return result;
 }
 
 /**
@@ -94,13 +97,15 @@ static inline float vector2_magnitude(const vector2_t vec) {
 static inline vector2_t vector2_normalize(const vector2_t vec) {
     float mag = vector2_magnitude(vec);
     if (mag < 0.0001f) {
-        return (vector2_t){0, 0};
+        vector2_t zero = {0, 0};
+        return zero;
     }
 
-    return (vector2_t){
+    vector2_t result = {
         vec.x / mag,
         vec.y / mag
     };
+    return result;
 }
 
 /**
@@ -132,7 +137,8 @@ static inline vector2_t vector2_midpoint(const vector2_t a, const vector2_t b) {
  * @return A vector of equal magnitude perpendicular to vec.
  */
 static inline vector2_t vector2_perpendicular(const vector2_t vec) {
-    return (vector2_t){-vec.y, vec.x};
+    vector2_t result = {-vec.y, vec.x};
+    return result;
 }
 
 #endif // VECTOR2_H
