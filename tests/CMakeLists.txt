@@ -162,6 +162,11 @@ add_subdirectory(
 )
 
 add_subdirectory(
+    "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/linear_algebra/tests"
+    "${CMAKE_BINARY_DIR}/unit/linear_algebra"
+)
+
+add_subdirectory(
     "${PER_TEST_FIRMWARE_SOURCE_DIR}/common/utils/tests"
     "${CMAKE_BINARY_DIR}/unit/utils"
 )
