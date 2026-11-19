@@ -14,7 +14,7 @@
 
 #include <math.h>
 
-#include "common/utils/linear_algebra.h"
+#include "common/utils/vector2.h"
 #include "common/dearunits/generated/dearunits.h"
 
 // WGS84 mean meters of northing per degree of latitude

@@ -23,6 +23,7 @@ set(COMMON_MODULES
     common/rtos
     common/heartbeat
     common/lerp_lut
+    common/linear_algebra
     common/nextion
     common/phal_F4
     common/phal_G4

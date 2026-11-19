@@ -4,7 +4,7 @@ add_firmware_component(
     BUILD_BOOTLOADABLE
     NAME torque_vector
     LINKER_SCRIPT "STM32G474RETX_FLASH"
-    LIBS "can_node_TORQUE_VECTOR;CMSIS_G474;RTOS_G474;PHAL_G474;BOOTLOADER_COMMON;HEARTBEAT;UBLOX;WATCHDOG"
+    LIBS "can_node_TORQUE_VECTOR;CMSIS_G474;RTOS_G474;PHAL_G474;BOOTLOADER_COMMON;HEARTBEAT;UBLOX;WATCHDOG;LINEAR_ALGEBRA"
 )
 
 # vcu/* is generated from Matlab/Simulink and isn't hand-maintained for conversion warnings.

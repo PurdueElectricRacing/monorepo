@@ -1,7 +1,9 @@
 #ifndef ORIENTATION_H
 #define ORIENTATION_H
 
-#include "linear_algebra.h"
+#include <math.h>
+
+#include "common/linear_algebra/linear_algebra.h"
 
 // ! SAE J670 Z-up convention: X+ forward, Y+ left, Z+ up
 // ! Pitch is rotation around Y, Roll is rotation around X, Yaw is rotation around Z
@@ -18,7 +20,7 @@ typedef struct {
  * @param angles The Euler angles in radians
  * @return a 3x3 DCM representing the rotation
  */
-static inline matrix3x3_t DCM_from_euler(const euler_angles_t angles) {
+static inline mat3_t DCM_from_euler(const euler_angles_t angles) {
     float cos_roll  = cosf(angles.roll);
     float sin_roll  = sinf(angles.roll);
     float cos_pitch = cosf(angles.pitch);
@@ -28,7 +30,7 @@ static inline matrix3x3_t DCM_from_euler(const euler_angles_t angles) {
 
     // ZYX Euler sequence (Yaw -> Pitch -> Roll)
     // R = Rz(yaw) * Ry(pitch) * Rx(roll)
-    matrix3x3_t dcm;
+    mat3_t dcm;
     dcm.data[0][0] = cos_pitch * cos_yaw;
     dcm.data[0][1] = cos_yaw * sin_pitch * sin_roll - cos_roll * sin_yaw;
     dcm.data[0][2] = sin_roll * sin_yaw + cos_roll * cos_yaw * sin_pitch;

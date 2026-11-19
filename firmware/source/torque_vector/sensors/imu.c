@@ -19,7 +19,7 @@ typedef enum {
 } decoupling_state_t;
 
 // static volatile decoupling_state_t decoupling_state = DECOUPLING_STATE_IDLE;
-static matrix3x3_t mounting_offset_matrix = {0};
+static mat3_t mounting_offset_matrix = {0};
 imu_data_t imu_data = {0};
 // static matrix3x3_t calibration_matrix;
 
@@ -98,7 +98,7 @@ void IZZE_angular_rate_CALLBACK(void) {
     //     return;
     // }
 
-    vector3_t raw_data = {
+    vec3_t raw_data = {
         .x = can_data.IZZE_angular_rate.X_axis * UNPACK_COEFF_IZZE_ANGULAR_RATE_X_AXIS,
         .y = can_data.IZZE_angular_rate.Y_axis * UNPACK_COEFF_IZZE_ANGULAR_RATE_Y_AXIS,
         .z = can_data.IZZE_angular_rate.Z_axis * UNPACK_COEFF_IZZE_ANGULAR_RATE_Z_AXIS
@@ -106,7 +106,7 @@ void IZZE_angular_rate_CALLBACK(void) {
 
     // raw_data = matrix_multiply_vector3(&mounting_offset_matrix, &raw_data);
 
-    vector3_t calibrated_data = matrix_multiply_vector3(&mounting_offset_matrix, &raw_data);
+    vec3_t calibrated_data = mat3_mult_vec3(&mounting_offset_matrix, &raw_data);
     imu_data.gyro_x = calibrated_data.x;
     imu_data.gyro_y = calibrated_data.y;
     imu_data.gyro_z = calibrated_data.z;
@@ -123,7 +123,7 @@ void IZZE_angular_rate_CALLBACK(void) {
  * In active mode, applies the decoupling rotation to the raw acceleration data and sends it out as IMU acceleration.
  */
 void IZZE_acceleration_CALLBACK(void) {
-    vector3_t raw_data = {
+    vec3_t raw_data = {
         .x = can_data.IZZE_acceleration.X_axis * UNPACK_COEFF_IZZE_ACCELERATION_X_AXIS,
         .y = can_data.IZZE_acceleration.Y_axis * UNPACK_COEFF_IZZE_ACCELERATION_Y_AXIS,
         .z = can_data.IZZE_acceleration.Z_axis * UNPACK_COEFF_IZZE_ACCELERATION_Z_AXIS
@@ -149,7 +149,7 @@ void IZZE_acceleration_CALLBACK(void) {
     //     return;
     // }
 
-    vector3_t calibrated_data = matrix_multiply_vector3(&mounting_offset_matrix, &raw_data);
+    vec3_t calibrated_data = mat3_mult_vec3(&mounting_offset_matrix, &raw_data);
     imu_data.accel_x = calibrated_data.x;
     imu_data.accel_y = calibrated_data.y;
     imu_data.accel_z = calibrated_data.z;

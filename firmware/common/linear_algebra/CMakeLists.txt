@@ -1,0 +1,9 @@
+set(TARGET_NAME LINEAR_ALGEBRA)
+add_library(${TARGET_NAME} INTERFACE)
+
+target_sources(${TARGET_NAME} INTERFACE
+    "${CMAKE_CURRENT_SOURCE_DIR}/matrix3.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/vector3.c"
+)
+
+target_include_directories(${TARGET_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})

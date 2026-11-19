@@ -35,9 +35,9 @@ add_firmware_unit_test(
 )
 
 add_firmware_unit_test(
-    NAME lin_alg
-    SOURCES "${CMAKE_CURRENT_LIST_DIR}/lin_alg_test_shim.c"
-    TEST_SOURCES "${CMAKE_CURRENT_LIST_DIR}/lin_alg_test.cpp"
+    NAME vector2_test
+    SOURCES "${CMAKE_CURRENT_LIST_DIR}/vector2_test_shim.c"
+    TEST_SOURCES "${CMAKE_CURRENT_LIST_DIR}/vector2_test.cpp"
     INCLUDE_DIRECTORIES
         "${CMAKE_CURRENT_LIST_DIR}"
         "${CMAKE_CURRENT_LIST_DIR}/.."
