@@ -67,6 +67,24 @@ TEST(linear_algebra_test, magnitude_vector2) {
     EXPECT_FLOAT_EQ(test_vector2_magnitude(vector1), 5.f);
 }
 
+TEST(linear_algebra_test, cross_vector2) {
+    EXPECT_FLOAT_EQ(test_vector2_cross({3.f, 4.f}, {2.f, -1.f}), -11.f);
+}
+
+TEST(linear_algebra_test, distance_vector2) {
+    EXPECT_FLOAT_EQ(test_vector2_distance({0.f, 0.f}, {3.f, 4.f}), 5.f);
+}
+
+TEST(linear_algebra_test, midpoint_vector2) {
+    vector2_t expected = {1.f, 2.f};
+    EXPECT_EQ(test_vector2_midpoint({0.f, 0.f}, {2.f, 4.f}), expected);
+}
+
+TEST(linear_algebra_test, perpendicular_vector2) {
+    vector2_t expected = {-2.f, 1.f};
+    EXPECT_EQ(test_vector2_perpendicular({1.f, 2.f}), expected);
+}
+
 TEST(linear_algebra_test, normalize_vector2) {
     vector2_t vector1 = {3.f, 4.f};
     vector2_t norm = test_vector2_normalize(vector1);
