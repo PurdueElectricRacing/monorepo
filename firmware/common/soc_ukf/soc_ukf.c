@@ -13,7 +13,7 @@
 
 // todo replace
 // todo add 2d lookup + temperature
-lut_entry_t ocv_entries[11] = {
+static const lut_entry_t ocv_entries[11] = {
     {0.0f, 3.0f},
     {0.1f, 3.2f},
     {0.2f, 3.4f},
@@ -119,9 +119,9 @@ static void SOC_UKF_sigma_points(
     LL^T = (n + \lambda)P
     $$
     */
-    float scaling_factor = ukf->lambda + 3;
+    float scaling_factor     = ukf->lambda + 3;
     mat3_t scaled_covariance = mat3_scale(&ukf->P, scaling_factor);
-    mat3_t lower = cholesky3(&scaled_covariance);
+    mat3_t lower             = cholesky3(&scaled_covariance);
 
     // $\chi_0 = \hat{x}$
     points[0] = ukf->x;
