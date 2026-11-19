@@ -143,7 +143,7 @@ static inline vector2_t vector2_perpendicular(const vector2_t vec) {
  * @param vec The input vector
  * @return The magnitude of the vector.
  */
-float vector3_magnitude(const vector3_t vec);
+float vec3_mag(const vector3_t vec);
 
 /**
  * @brief Normalize a 3D vector.
@@ -151,7 +151,7 @@ float vector3_magnitude(const vector3_t vec);
  * @param vec The input vector
  * @return The normalized vector.
  */
-vector3_t vector3_normalize(const vector3_t vec);
+vector3_t vec3_normalize(const vector3_t vec);
 
 /**
  * @brief Multiply a 3x3 matrix with a 3D vector.
@@ -160,7 +160,7 @@ vector3_t vector3_normalize(const vector3_t vec);
  * @param in The input vector
  * @return The resulting vector.
  */
-vector3_t matrix_multiply_vector3(const matrix3x3_t *mat, const vector3_t *in);
+vector3_t mat3_mult_vec3(const matrix3x3_t *mat, const vector3_t *in);
 
 /**
  * @brief Multiply a 3x3 matrix with another 3x3 matrix.
@@ -169,6 +169,6 @@ vector3_t matrix_multiply_vector3(const matrix3x3_t *mat, const vector3_t *in);
  * @param b The second input matrix
  * @return The resulting matrix AB.
  */
-matrix3x3_t matrix_multiply_matrix3x3(const matrix3x3_t *a, const matrix3x3_t *b);
+matrix3x3_t mat3_mult_mat3(const matrix3x3_t *a, const matrix3x3_t *b);
 
 #endif // LINEAR_ALGEBRA_H
