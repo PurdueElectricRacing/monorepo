@@ -196,10 +196,14 @@ void SOC_UKF_sigma_points(
     }
 }
 
-void SOC_UKF_predict(const soc_ukf_t *ukf, float current) {
+void SOC_UKF_predict(
+    soc_ukf_t *ukf,
+    float current
+) {
     vec3_t points[NUM_SIGMA_POINTS];
     SOC_UKF_sigma_points(ukf, points);
 
+    vec3_t Bu = vec3_scale(ukf->B, current);
     vec3_t predicted_points[NUM_SIGMA_POINTS];
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
         /*
@@ -207,12 +211,40 @@ void SOC_UKF_predict(const soc_ukf_t *ukf, float current) {
         \chi_i^- = A\chi_i + BI
         $$
         */
-        vec3_t Ax = mat3_mult_vec3(&ukf->A, &points[i]);
-        vec3_t Bu = vec3_scale(ukf->B, current);
+        vec3_t Ax           = mat3_mult_vec3(&ukf->A, &points[i]);
         predicted_points[i] = vec3_add(Ax, Bu);
     }
 
+    /*
+    $$
+    \hat{x}^{-} = \sum_{i=0}^{2n} W_i^{(m)}\chi_i^{-}
+    $$
+    */
+    vec3_t predicted_mean = {0};
+    for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
+        vec3_t weighted_point = vec3_scale(predicted_points[i], ukf->mean_weights[i]);
+        predicted_mean        = vec3_add(predicted_mean, weighted_point);
+    }
 
+    /*
+    $$
+    P^{-} = Q + \sum_{i=0}^{2n} W_i^{(c)}
+    (\chi_i^{-} - \hat{x}^{-})
+    (\chi_i^{-} - \hat{x}^{-})^T
+    $$
+    */
+    mat3_t predicted_covariance = ukf->Q;
+
+    for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
+        vec3_t deviation      = vec3_sub(predicted_points[i], predicted_mean);
+        mat3_t outer          = outer_product3(deviation, deviation);
+        mat3_t weighted_outer = mat3_scale(&outer, ukf->covariance_weights[i]);
+
+        predicted_covariance = mat3_add(&predicted_covariance, &weighted_outer);
+    }
+
+    ukf->x = predicted_mean;
+    ukf->P = symmetrization3(&predicted_covariance);
 }
 
 void SOC_UKF_update(
