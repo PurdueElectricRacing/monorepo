@@ -15,7 +15,7 @@
 #include <stdbool.h>
 
 #include "common/utils/abs.h"
-#include "common/utils/linear_algebra.h"
+#include "common/utils/vector2.h"
 #include "common/utils/max.h"
 #include "common/utils/min.h"
 

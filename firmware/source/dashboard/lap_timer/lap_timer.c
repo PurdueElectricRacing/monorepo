@@ -12,7 +12,7 @@
 #include "can_library/generated/DASHBOARD.h"
 #include "common/utils/geodetic.h"
 #include "common/utils/geometry.h"
-#include "common/utils/linear_algebra.h"
+#include "common/utils/vector2.h"
 
 static lap_timer_context_t lap_timer = {
     .state = LAP_TIMER_STATE_IDLE,

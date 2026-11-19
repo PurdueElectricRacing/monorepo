@@ -1,11 +1,11 @@
-#ifndef LINEAR_ALGEBRA_H
-#define LINEAR_ALGEBRA_H
+#ifndef VECTOR2_H
+#define VECTOR2_H
 
 /**
- * @file linear_algebra.h
- * @brief Linear algebra functions utility header.
+ * @file vector2.h
+ * @brief 2D vector types and operations.
  *
- * Basic floating point vector and matrix types and operations.
+ * Basic floating point 2D vector operations.
  *
  * @author Irving Wang (irvingw@purdue.edu)
  */
@@ -16,8 +16,6 @@ typedef struct {
     float x;
     float y;
 } vector2_t;
-
-
 
 /**
  * @brief Add two 2D vectors.
@@ -137,38 +135,4 @@ static inline vector2_t vector2_perpendicular(const vector2_t vec) {
     return (vector2_t){-vec.y, vec.x};
 }
 
-/**
- * @brief Calculate the magnitude of a 3D vector.
- *
- * @param vec The input vector
- * @return The magnitude of the vector.
- */
-float vec3_mag(const vector3_t vec);
-
-/**
- * @brief Normalize a 3D vector.
- *
- * @param vec The input vector
- * @return The normalized vector.
- */
-vector3_t vec3_normalize(const vector3_t vec);
-
-/**
- * @brief Multiply a 3x3 matrix with a 3D vector.
- *
- * @param mat The input matrix
- * @param in The input vector
- * @return The resulting vector.
- */
-vector3_t mat3_mult_vec3(const matrix3x3_t *mat, const vector3_t *in);
-
-/**
- * @brief Multiply a 3x3 matrix with another 3x3 matrix.
- *
- * @param a The first input matrix
- * @param b The second input matrix
- * @return The resulting matrix AB.
- */
-matrix3x3_t mat3_mult(const matrix3x3_t *a, const matrix3x3_t *b);
-
-#endif // LINEAR_ALGEBRA_H
+#endif // VECTOR2_H
