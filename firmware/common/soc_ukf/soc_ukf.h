@@ -1,9 +1,28 @@
 #include <math.h>
 
 #include "../linear_algebra/linear_algebra.h"
+#include "../lerp_lut/lerp_lut.h"
+#include "../utils/countof.h"
 
 constexpr int STATE_SIZE = 3;
 constexpr int NUM_SIGMA_POINTS = 2 * STATE_SIZE + 1; // 2n + 1
+
+// todo replace
+// todo add 2d lookup + temperature
+lut_entry_t ocv_entries[11] = {
+    {0.0f, 3.0f},
+    {0.1f, 3.2f},
+    {0.2f, 3.4f},
+    {0.3f, 3.6f},
+    {0.4f, 3.8f},
+    {0.5f, 4.0f},
+    {0.6f, 4.1f},
+    {0.7f, 4.2f},
+    {0.8f, 4.3f},
+    {0.9f, 4.4f},
+    {1.0f, 4.5f}
+};
+LERP_LUT_INIT(OCV_LUT, ocv_entries, 11);
 
 typedef struct {
     float r0;   // ohms
@@ -73,7 +92,11 @@ void SOC_UKF_mean_weights(
     }
 }
 
-void SOC_UKF_init(soc_ukf_t *ukf) {
+void SOC_UKF_init(
+    soc_ukf_t *ukf,
+    vec3_t x0,
+    mat3_t P0
+) {
     // todo init SOC0 using OCV lookup
     ukf->x = (vec3_t){0.0f, 0.0f, 0.0f};
 
