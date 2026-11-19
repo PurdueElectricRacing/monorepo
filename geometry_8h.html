@@ -141,13 +141,13 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6e735b8719acb9be09a8055f5a1cdff5" id="r_a6e735b8719acb9be09a8055f5a1cdff5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#aad9b6852c3b76d3070948c0cc7853f5f">winding_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e735b8719acb9be09a8055f5a1cdff5">vector2_winding</a> (const <a class="el" href="structvector2__t.html">vector2_t</a> a, const <a class="el" href="structvector2__t.html">vector2_t</a> b, const <a class="el" href="structvector2__t.html">vector2_t</a> c)</td></tr>
+<tr class="memitem:a6e735b8719acb9be09a8055f5a1cdff5" id="r_a6e735b8719acb9be09a8055f5a1cdff5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="#aad9b6852c3b76d3070948c0cc7853f5f">winding_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e735b8719acb9be09a8055f5a1cdff5">vector2_winding</a> (const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> a, const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> b, const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> c)</td></tr>
 <tr class="memdesc:a6e735b8719acb9be09a8055f5a1cdff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine which way the path a -&gt; b -&gt; c turns.  <br /></td></tr>
 <tr class="separator:a6e735b8719acb9be09a8055f5a1cdff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ab177ab3e51deea97c8fcdcea2c72e4" id="r_a5ab177ab3e51deea97c8fcdcea2c72e4"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ab177ab3e51deea97c8fcdcea2c72e4">segment2_length</a> (const <a class="el" href="structsegment2__t.html">segment2_t</a> segment)</td></tr>
 <tr class="memdesc:a5ab177ab3e51deea97c8fcdcea2c72e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the length of a segment.  <br /></td></tr>
 <tr class="separator:a5ab177ab3e51deea97c8fcdcea2c72e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cba600d217e50fd65869f151466a83e" id="r_a9cba600d217e50fd65869f151466a83e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cba600d217e50fd65869f151466a83e">segment2_contains_bounds</a> (const <a class="el" href="structsegment2__t.html">segment2_t</a> segment, const <a class="el" href="structvector2__t.html">vector2_t</a> point)</td></tr>
+<tr class="memitem:a9cba600d217e50fd65869f151466a83e" id="r_a9cba600d217e50fd65869f151466a83e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cba600d217e50fd65869f151466a83e">segment2_contains_bounds</a> (const <a class="el" href="structsegment2__t.html">segment2_t</a> segment, const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a> point)</td></tr>
 <tr class="memdesc:a9cba600d217e50fd65869f151466a83e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test whether a point falls inside a segment's bounding box.  <br /></td></tr>
 <tr class="separator:a9cba600d217e50fd65869f151466a83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7709673624c807ab7925b7c87f0e00e" id="r_ab7709673624c807ab7925b7c87f0e00e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7709673624c807ab7925b7c87f0e00e">segment2_intersects</a> (const <a class="el" href="structsegment2__t.html">segment2_t</a> a, const <a class="el" href="structsegment2__t.html">segment2_t</a> b)</td></tr>
@@ -164,7 +164,7 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Planar computational geometry utility header. </p>
-<p>Winding and segment intersection tests built on <a class="el" href="structvector2__t.html">vector2_t</a>. All points must live in the same cartesian frame; units are arbitrary but must be consistent.</p>
+<p>Winding and segment intersection tests built on vector2_t. All points must live in the same cartesian frame; units are arbitrary but must be consistent.</p>
 <dl class="section author"><dt>Author</dt><dd>Amruth Nadimpally (<a href="#" onclick="location.href='mai'+'lto:'+'nad'+'im'+'paa'+'@p'+'urd'+'ue'+'.ed'+'u'; return false;">nadim<span class="obfuscator">.nosp@m.</span>paa@<span class="obfuscator">.nosp@m.</span>purdu<span class="obfuscator">.nosp@m.</span>e.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd>
 <dd>
 Aditya Saini (<a href="#" onclick="location.href='mai'+'lto:'+'sai'+'ni'+'91@'+'pu'+'rdu'+'e.'+'edu'; return false;">saini<span class="obfuscator">.nosp@m.</span>91@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
@@ -206,7 +206,7 @@ Aditya Saini (<a href="#" onclick="location.href='mai'+'lto:'+'sai'+'ni'+'91@'+'
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structvector2__t.html">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>point</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>point</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -383,17 +383,17 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static <a class="el" href="#aad9b6852c3b76d3070948c0cc7853f5f">winding_t</a> vector2_winding </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structvector2__t.html">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structvector2__t.html">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
+          <td class="paramtype">const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structvector2__t.html">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>c</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87">vector2_t</a></td>          <td class="paramname"><span class="paramname"><em>c</em></span>&#160;)</td>
         </tr>
       </table>
   </td>

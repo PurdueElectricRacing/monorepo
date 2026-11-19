@@ -1,8 +1,11 @@
 var linear__algebra_8h =
 [
-    [ "vector2_t", "structvector2__t.html", "structvector2__t" ],
-    [ "vector3_t", "structvector3__t.html", "structvector3__t" ],
-    [ "matrix3x3_t", "structmatrix3x3__t.html", "structmatrix3x3__t" ],
+    [ "vector2", "structvector2.html", "structvector2" ],
+    [ "vector3", "structvector3.html", "structvector3" ],
+    [ "matrix3x3", "structmatrix3x3.html", "structmatrix3x3" ],
+    [ "matrix3x3_t", "linear__algebra_8h.html#a2956ee3b3f1b85e4f763a45149fc8efb", null ],
+    [ "vector2_t", "linear__algebra_8h.html#a30967a69337f9b70e834fbc6090d8c87", null ],
+    [ "vector3_t", "linear__algebra_8h.html#ad258f6117baddf51534838356ec5f148", null ],
     [ "matrix_multiply_matrix3x3", "linear__algebra_8h.html#ac4a5a364956f491f1bbc973cac823959", null ],
     [ "matrix_multiply_vector3", "linear__algebra_8h.html#a83aa13dae3f1ae7daf0505603258da34", null ],
     [ "vector2_add", "linear__algebra_8h.html#aa7300726a97d3b54a88218b1d5874f9a", null ],

@@ -7,7 +7,7 @@ var searchData=
   ['main_5fmodule_5ffault_5fsync_5fdata_5ft_4',['main_module_fault_sync_data_t',['../structmain__module__fault__sync__data__t.html',1,'']]],
   ['main_5fversion_5fdata_5ft_5',['main_version_data_t',['../structmain__version__data__t.html',1,'']]],
   ['mark_5fdata_5fdata_5ft_6',['mark_data_data_t',['../structmark__data__data__t.html',1,'']]],
-  ['matrix3x3_5ft_7',['matrix3x3_t',['../structmatrix3x3__t.html',1,'']]],
+  ['matrix3x3_7',['matrix3x3',['../structmatrix3x3.html',1,'']]],
   ['menu_5felement_5ft_8',['menu_element_t',['../structmenu__element__t.html',1,'']]],
   ['menu_5fpage_5ft_9',['menu_page_t',['../structmenu__page__t.html',1,'']]],
   ['meter_5ft_10',['meter_t',['../structmeter__t.html',1,'']]],

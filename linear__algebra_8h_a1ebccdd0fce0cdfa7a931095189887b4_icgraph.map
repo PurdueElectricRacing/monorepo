@@ -1,21 +1,29 @@
 <map id="vector2_sub" name="vector2_sub">
-<area shape="rect" id="Node000001" title="Subtract one 2D vector from another." alt="" coords="848,74,940,100"/>
-<area shape="rect" id="Node000002" href="$geometry_8h.html#ae32f7f124472f409f1355551b885bba0" title="Build the segment perpendicular to a segment through its midpoint." alt="" coords="469,124,632,165"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="835,107,801,115,714,129,633,139,632,134,713,124,799,110,834,102"/>
-<area shape="rect" id="Node000006" href="$linear__algebra_8h.html#a72d10b6160875b23b398cfef9e98a361" title="Distance between two 2D points." alt="" coords="680,25,800,50"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="836,71,782,54,783,48,838,66"/>
-<area shape="rect" id="Node000008" href="$geometry_8h.html#a6e735b8719acb9be09a8055f5a1cdff5" title="Determine which way the path a &#45;&gt; b &#45;&gt; c turns." alt="" coords="682,74,798,100"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="832,90,798,90,798,84,832,84"/>
-<area shape="rect" id="Node000003" href="$lap__timer_8c.html#ac15d5d84d2d64875ce0d0c0352af35e3" title=" " alt="" coords="277,74,421,100"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="462,122,396,103,398,98,463,117"/>
-<area shape="rect" id="Node000004" href="$lap__timer_8c.html#a382636387f4db3d2b08c71b5e7c03f2b" title=" " alt="" coords="103,25,229,50"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="284,72,216,54,217,48,285,67"/>
-<area shape="rect" id="Node000005" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,25,55,50"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="87,40,55,40,55,35,87,35"/>
-<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="677,23,631,15,521,8,410,11,310,20,230,30,229,25,309,15,410,6,521,3,632,10,678,18"/>
-<area shape="rect" id="Node000007" href="$geometry_8h.html#a5ab177ab3e51deea97c8fcdcea2c72e4" title="Calculate the length of a segment." alt="" coords="490,25,611,50"/>
-<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="664,40,611,40,611,35,664,35"/>
-<area shape="rect" id="Node000009" href="$geometry_8h.html#ab7709673624c807ab7925b7c87f0e00e" title="Test whether two segments intersect, including collinear overlap." alt="" coords="479,74,622,100"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="667,90,622,90,622,84,667,84"/>
-<area shape="poly" id="edge10_Node000009_Node000003" title=" " alt="" coords="464,90,422,90,422,84,464,84"/>
+<area shape="rect" id="Node000001" title="Subtract one 2D vector from another." alt="" coords="877,96,969,121"/>
+<area shape="rect" id="Node000002" href="$geometry_8h.html#ae32f7f124472f409f1355551b885bba0" title="Build the segment perpendicular to a segment through its midpoint." alt="" coords="667,5,829,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="884,90,828,60,803,49,805,44,830,55,887,85"/>
+<area shape="rect" id="Node000006" href="$lin__alg__test__shim_8c.html#af5faacf255fc4daad961f3c06621bad0" title=" " alt="" coords="687,70,808,96"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="861,102,808,94,809,89,862,97"/>
+<area shape="rect" id="Node000008" href="$linear__algebra_8h.html#a72d10b6160875b23b398cfef9e98a361" title="Distance between two 2D points." alt="" coords="688,190,808,216"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="885,131,775,192,772,187,883,127"/>
+<area shape="rect" id="Node000012" href="$geometry_8h.html#a6e735b8719acb9be09a8055f5a1cdff5" title="Determine which way the path a &#45;&gt; b &#45;&gt; c turns." alt="" coords="690,120,806,145"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="862,119,806,127,806,122,861,114"/>
+<area shape="rect" id="Node000003" href="$lap__timer_8c.html#ac15d5d84d2d64875ce0d0c0352af35e3" title=" " alt="" coords="277,117,421,142"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="651,28,562,36,515,45,470,58,440,70,412,87,368,119,365,114,409,82,438,66,468,52,514,40,561,31,651,23"/>
+<area shape="rect" id="Node000004" href="$lap__timer_8c.html#a382636387f4db3d2b08c71b5e7c03f2b" title=" " alt="" coords="103,168,229,193"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="286,150,215,170,214,164,284,145"/>
+<area shape="rect" id="Node000005" href="$dashboard_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,168,55,193"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="87,183,55,183,55,178,87,178"/>
+<area shape="rect" id="Node000007" href="$lin__alg__test_8cpp.html#a535142cae366430632fae4996940cadd" title=" " alt="" coords="517,68,571,93"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="671,85,572,83,572,78,672,79"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="672,207,619,207,469,207,341,199,229,189,230,184,341,194,469,202,619,202,672,201"/>
+<area shape="rect" id="Node000009" href="$geometry_8h.html#a5ab177ab3e51deea97c8fcdcea2c72e4" title="Calculate the length of a segment." alt="" coords="484,166,604,192"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="672,197,604,189,605,183,672,191"/>
+<area shape="rect" id="Node000010" href="$lin__alg__test__shim_8c.html#a3c76a57a3f47cf83c25e357d4653eb8d" title=" " alt="" coords="469,268,619,293"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="698,224,581,269,579,264,696,219"/>
+<area shape="rect" id="Node000011" href="$lin__alg__test_8cpp.html#abef0cb539286d10b586f7cbcfb1e9f7f" title=" " alt="" coords="322,268,376,293"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="454,283,377,283,377,278,454,278"/>
+<area shape="rect" id="Node000013" href="$geometry_8h.html#ab7709673624c807ab7925b7c87f0e00e" title="Test whether two segments intersect, including collinear overlap." alt="" coords="473,117,615,142"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="675,134,616,133,616,128,675,129"/>
+<area shape="poly" id="edge14_Node000013_Node000003" title=" " alt="" coords="457,132,422,132,422,127,457,127"/>
 </map>
