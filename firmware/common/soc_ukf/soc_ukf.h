@@ -93,7 +93,7 @@ void SOC_UKF_update(
     float current
 );
 
-static float GET_SOC(const soc_ukf_t *ukf) {
+static inline float GET_SOC(const soc_ukf_t *ukf) {
     return ukf->x.x;
 }
 
