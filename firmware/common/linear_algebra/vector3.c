@@ -9,21 +9,6 @@
 
 #include <math.h>
 
-float vec3_mag(const vec3_t vec) {
-    return sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-}
-
-vec3_t vec3_scale(
-    const vec3_t vec,
-    float scalar
-) {
-    return (vec3_t) {
-        vec.x * scalar,
-        vec.y * scalar,
-        vec.z * scalar
-    };
-}
-
 vec3_t vec3_add(
     const vec3_t a,
     const vec3_t b
@@ -46,6 +31,21 @@ vec3_t vec3_sub(
     };
 }
 
+vec3_t vec3_scale(
+    const vec3_t vec,
+    float scalar
+) {
+    return (vec3_t) {
+        vec.x * scalar,
+        vec.y * scalar,
+        vec.z * scalar
+    };
+}
+
+float vec3_mag(const vec3_t vec) {
+    return sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+}
+
 vec3_t vec3_normalize(const vec3_t vec) {
     float mag = vec3_mag(vec);
     if (mag < 0.0001f) {
@@ -54,4 +54,3 @@ vec3_t vec3_normalize(const vec3_t vec) {
 
     return vec3_scale(vec, 1.0f / mag);
 }
-
