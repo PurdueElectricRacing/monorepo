@@ -2,7 +2,7 @@
  * @file linear_algebra.h
  * @brief Basic floating point vector and matrix types and operations
  *
- * ! Please keep this file minimal and dumb
+ * ! Please keep this library minimal and dumb
  *
  * @author Irving Wang (irvingw@purdue.edu)
  */

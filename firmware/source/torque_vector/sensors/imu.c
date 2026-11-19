@@ -19,7 +19,7 @@ typedef enum {
 } decoupling_state_t;
 
 // static volatile decoupling_state_t decoupling_state = DECOUPLING_STATE_IDLE;
-static matrix3x3_t mounting_offset_matrix = {0};
+static mat3_t mounting_offset_matrix = {0};
 imu_data_t imu_data = {0};
 // static matrix3x3_t calibration_matrix;
 
@@ -106,7 +106,7 @@ void IZZE_angular_rate_CALLBACK(void) {
 
     // raw_data = matrix_multiply_vector3(&mounting_offset_matrix, &raw_data);
 
-    vec3_t calibrated_data = matrix_multiply_vector3(&mounting_offset_matrix, &raw_data);
+    vec3_t calibrated_data = mat3_mult_vec3(&mounting_offset_matrix, &raw_data);
     imu_data.gyro_x = calibrated_data.x;
     imu_data.gyro_y = calibrated_data.y;
     imu_data.gyro_z = calibrated_data.z;
@@ -149,7 +149,7 @@ void IZZE_acceleration_CALLBACK(void) {
     //     return;
     // }
 
-    vec3_t calibrated_data = matrix_multiply_vector3(&mounting_offset_matrix, &raw_data);
+    vec3_t calibrated_data = mat3_mult_vec3(&mounting_offset_matrix, &raw_data);
     imu_data.accel_x = calibrated_data.x;
     imu_data.accel_y = calibrated_data.y;
     imu_data.accel_z = calibrated_data.z;
