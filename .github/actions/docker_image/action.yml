@@ -1,21 +1,46 @@
 name: Build PER CI image
-description: Builds the repo Dockerfile and pushes it to GHCR with caching
+description: Resolves or builds the repo Dockerfile and pushes it to GHCR only when dependencies change
 outputs:
   image:
     description: Fully qualified image reference (name:tag)
-    value: ghcr.io/purdueelectricracing/monorepo/per-firmware:${{ steps.meta.outputs.version }}
+    value: ${{ steps.resolve.outputs.image }}
 runs:
   using: composite
   steps:
-    - uses: docker/setup-buildx-action@v4
+    - id: inputs
+      shell: bash
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+        BASE_REPO: ${{ github.repository }}
+        GITHUB_REF: ${{ github.ref }}
+      run: |
+        set -euo pipefail
+        REPO="ghcr.io/purdueelectricracing/monorepo/per-firmware"
+        HASH="$(sha256sum Dockerfile requirements.txt | sha256sum | cut -c1-12)"
+        TAG="deps-${HASH}"
+        IMAGE="${REPO}:${TAG}"
 
-    - id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ghcr.io/purdueelectricracing/monorepo/per-firmware
-        tags: |
-          type=sha,prefix=sha-
-          type=raw,value=latest,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        CAN_PUSH="false"
+        if [ "$EVENT_NAME" != "pull_request" ] || [ "$HEAD_REPO" = "$BASE_REPO" ]; then
+          CAN_PUSH="true"
+        fi
+
+        IS_MASTER_PUSH="false"
+        TAGS="${IMAGE}"
+        if [ "$EVENT_NAME" = "push" ] && [ "$GITHUB_REF" = "refs/heads/master" ]; then
+          IS_MASTER_PUSH="true"
+          TAGS="${IMAGE},${REPO}:latest"
+        fi
+
+        {
+          echo "repo=${REPO}"
+          echo "tag=${TAG}"
+          echo "image=${IMAGE}"
+          echo "tags=${TAGS}"
+          echo "can_push=${CAN_PUSH}"
+          echo "is_master_push=${IS_MASTER_PUSH}"
+        } >> "$GITHUB_OUTPUT"
 
     - uses: docker/login-action@v3
       with:
@@ -23,12 +48,67 @@ runs:
         username: ${{ github.actor }}
         password: ${{ github.token }}
 
-    - uses: docker/build-push-action@v7
+    - id: check
+      shell: bash
+      env:
+        IMAGE: ${{ steps.inputs.outputs.image }}
+      run: |
+        set -euo pipefail
+        if DIGEST="$(docker buildx imagetools inspect "$IMAGE" --format '{{.Manifest.Digest}}' 2>/dev/null)" && [ -n "$DIGEST" ]; then
+          echo "Found existing CI image: ${IMAGE} (${DIGEST})"
+          echo "exists=true" >> "$GITHUB_OUTPUT"
+          echo "digest=${DIGEST}" >> "$GITHUB_OUTPUT"
+        else
+          echo "CI image ${IMAGE} not found in registry."
+          echo "exists=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Promote existing image to latest on master
+      if: steps.check.outputs.exists == 'true' && steps.inputs.outputs.is_master_push == 'true' && steps.inputs.outputs.can_push == 'true'
+      shell: bash
+      env:
+        IMAGE: ${{ steps.inputs.outputs.image }}
+        REPO: ${{ steps.inputs.outputs.repo }}
+        DEP_DIGEST: ${{ steps.check.outputs.digest }}
+      run: |
+        set -euo pipefail
+        LATEST_DIGEST="$(docker buildx imagetools inspect "${REPO}:latest" --format '{{.Manifest.Digest}}' 2>/dev/null || true)"
+        if [ "$DEP_DIGEST" != "$LATEST_DIGEST" ]; then
+          echo "Updating ${REPO}:latest -> ${IMAGE} (${DEP_DIGEST})"
+          docker buildx imagetools create -t "${REPO}:latest" "$IMAGE"
+        else
+          echo "${REPO}:latest already points to ${DEP_DIGEST}; skipping push."
+        fi
+
+    - name: Set up Docker Buildx
+      if: steps.check.outputs.exists != 'true' && steps.inputs.outputs.can_push == 'true'
+      uses: docker/setup-buildx-action@v4
+
+    - name: Build and push CI image
+      if: steps.check.outputs.exists != 'true' && steps.inputs.outputs.can_push == 'true'
+      uses: docker/build-push-action@v7
       with:
         context: .
         file: Dockerfile
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        tags: ${{ steps.inputs.outputs.tags }}
+        labels: |
+          org.opencontainers.image.source=https://github.com/${{ github.repository }}
         cache-from: type=gha,scope=per-firmware
         cache-to: type=gha,mode=max,scope=per-firmware
+
+    - id: resolve
+      shell: bash
+      env:
+        EXISTS: ${{ steps.check.outputs.exists }}
+        CAN_PUSH: ${{ steps.inputs.outputs.can_push }}
+        IMAGE: ${{ steps.inputs.outputs.image }}
+        REPO: ${{ steps.inputs.outputs.repo }}
+      run: |
+        set -euo pipefail
+        if [ "$EXISTS" != "true" ] && [ "$CAN_PUSH" != "true" ]; then
+          echo "::warning::Fork PR modified Docker dependencies; falling back to ${REPO}:latest"
+          echo "image=${REPO}:latest" >> "$GITHUB_OUTPUT"
+        else
+          echo "image=${IMAGE}" >> "$GITHUB_OUTPUT"
+        fi
