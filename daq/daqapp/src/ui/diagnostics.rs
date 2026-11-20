@@ -15,7 +15,7 @@ struct BoardDiagnostics {
     cpu_util: Option<f32>,
     capacity_exceeded: bool,
     // Retained even when search hides every task, for search matching.
-    tasks: Vec<TaskDiagnostics>,
+    tasks: BTreeMap<u32, TaskDiagnostics>,
     sample_count: Option<u32>,
     task_count: Option<u16>,
 }
@@ -100,7 +100,7 @@ impl Diagnostics {
                 let board_matches = board_name.to_lowercase().contains(&query);
                 let matching_tasks: Vec<_> = board
                     .tasks
-                    .iter()
+                    .values()
                     .filter(|task| {
                         query.is_empty()
                             || board_matches
@@ -139,7 +139,7 @@ impl Diagnostics {
                     .corner_radius(egui::CornerRadius::same(8))
                     .inner_margin(egui::Margin::symmetric(8, 6))
                     .show(ui, |ui| {
-                        egui::Grid::new(format!("board_tasks_{}", board_name))
+                        egui::Grid::new((&self.title, "board_tasks", board_name))
                             .striped(true)
                             .spacing([24.0, 6.0])
                             .show(ui, |ui| {
@@ -183,21 +183,28 @@ impl Diagnostics {
         }
     }
 
-    fn decode_task(msg: &daqcore::superdbc::decode::DecodedMessage) -> Option<TaskDiagnostics> {
-        let expected_name = format!("{}_diag_task", msg.tx_node().to_lowercase());
+    fn matches_diag_message(msg: &daqcore::superdbc::decode::DecodedMessage, suffix: &str) -> bool {
+        msg.name()
+            .strip_suffix(suffix)
+            .is_some_and(|prefix| prefix.eq_ignore_ascii_case(msg.tx_node()))
+    }
 
-        if msg.name() != expected_name {
+    fn decode_task(msg: &daqcore::superdbc::decode::DecodedMessage) -> Option<TaskDiagnostics> {
+        if !Self::matches_diag_message(msg, "_diag_task") {
             return None;
         }
         let task_id = u32::try_from(Self::integer_signal(msg, "task_id")?).ok()?;
         let stack_hwm = u16::try_from(Self::integer_signal(msg, "stack_hwm")?).ok()?;
         let cpu = u8::try_from(Self::integer_signal(msg, "cpu_percent")?).ok()?;
-        let state = u8::try_from(Self::integer_signal(msg, "state")?).ok()?;
-        let state = msg
-            .signal("state")?
+        let state_signal = msg.signal("state")?;
+        let state_raw = match state_signal.raw() {
+            daqcore::superdbc::message::RawValue::Integer(value) => u8::try_from(value).ok()?,
+            _ => return None,
+        };
+        let state = state_signal
             .enum_label()
             .map(str::to_owned)
-            .unwrap_or_else(|| format!("Unknown ({state})"));
+            .unwrap_or_else(|| format!("Unknown ({state_raw})"));
 
         Some(TaskDiagnostics {
             task_id,
@@ -209,9 +216,7 @@ impl Diagnostics {
     }
 
     fn decode_summary(msg: &daqcore::superdbc::decode::DecodedMessage) -> Option<BoardSummary> {
-        let expected_name = format!("{}_diag_summary", msg.tx_node().to_lowercase());
-
-        if msg.name() != expected_name {
+        if !Self::matches_diag_message(msg, "_diag_summary") {
             return None;
         }
 
@@ -266,16 +271,12 @@ impl Diagnostics {
             }
 
             if let Some(task) = task {
-                if let Some(existing) = board.tasks.iter_mut().find(|t| t.task_id == task.task_id) {
-                    *existing = task;
-                } else {
-                    board.tasks.push(task);
-                }
+                board.tasks.insert(task.task_id, task);
             }
         }
 
         for (board_name, board) in &mut boards {
-            for task in &mut board.tasks {
+            for task in board.tasks.values_mut() {
                 if let Some(name) =
                     names.name_at(board_name, task.task_id, view.timeline.setpoint())
                 {

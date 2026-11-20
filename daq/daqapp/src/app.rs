@@ -86,6 +86,10 @@ impl DAQApp {
             }
         }
         self.session.evict();
+        let removed = self
+            .bus_load_samples
+            .partition_point(|sample| sample.timestamp < floor);
+        self.bus_load_samples.drain(..removed);
     }
 
     pub fn reset_session(&mut self) {

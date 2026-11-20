@@ -82,19 +82,11 @@ def task_name_message(node_name: str) -> MessageDeclaration:
 
 def diagnostics_targets(declarations: CanDeclarations) -> list[tuple[str, str]]:
     """Return each opted-in node and the bus its diagnostics messages go on."""
-    targets = []
-    for node in declarations.internal_nodes:
-        bus_name = node.diagnostics_bus
-        if bus_name is None:
-            continue
-        if bus_name not in node.busses:
-            raise ValueError(
-                f"Diagnostics node '{node.node_name}' sets diagnostics_bus "
-                f"'{bus_name}' but is not attached to it; choose one of: "
-                f"{', '.join(node.busses)}"
-            )
-        targets.append((node.node_name, bus_name))
-    return targets
+    return [
+        (node.node_name, node.diagnostics_bus)
+        for node in declarations.internal_nodes
+        if node.diagnostics_bus is not None
+    ]
 
 
 def diagnostics_contribution(declarations: CanDeclarations) -> DeclarationContribution:
