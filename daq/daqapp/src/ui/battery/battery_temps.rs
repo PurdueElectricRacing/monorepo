@@ -390,10 +390,7 @@ fn thermistor_sample(
     frame: &daqcore::frame::ParsedFrame,
 ) -> Option<(usize, usize, ThermistorTemp)> {
     let decoded = frame.decoded.as_ref()?;
-    if !matches!(
-        decoded.name(),
-        "thermistor_telemetry" | "thermistor_telemetry_ccan"
-    ) {
+    if decoded.name() != "thermistor_telemetry" {
         return None;
     }
 
@@ -452,7 +449,7 @@ fn bms_temp_summary(
             continue;
         };
 
-        if matches!(decoded.name(), "bms_temps" | "bms_temps_ccan") {
+        if decoded.name() == "bms_temps" {
             for (name, signal) in decoded.iter() {
                 let field = match name {
                     "min_cell_temp" => &mut values.min_cell_temp,
