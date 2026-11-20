@@ -1,24 +1,24 @@
-#ifndef DIAGNOSTICS_H
-#define DIAGNOSTICS_H
-
 /**
  * @file diagnostics.h
  * @brief Common logger for basic CPU and FreeRTOS task profiling data.
  *
  * @author Patrick McNaughton (pmcnaugh@purdue.edu)
  */
+#ifndef DIAGNOSTICS_H
+#define DIAGNOSTICS_H
+
 #include <stdbool.h>
 #include <stdint.h>
 
 #include "common/rtos/rtos.h"
 #include "task.h"
 
+
 #define DIAGNOSTICS_MAX_TASKS      16
 #define DIAGNOSTICS_TICK_PERIOD_MS 50
-/** Define diagnostics task with FreeRTOS */
+
 #define DEFINE_DIAGNOSTICS_TASK() \
     RTOS_DEFINE_TASK(diagnostics_periodic, DIAGNOSTICS_TICK_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024)
-/** Start previously defined diagnostic task */
 #define START_DIAGNOSTICS_TASK() RTOS_START_TASK(diagnostics_periodic)
 
 /** Snapshot of a task. Contains id, state, name, cpu usage %, if the cpu usage is valid, stack HWM. */
@@ -72,12 +72,8 @@ typedef struct {
 /**
  * @brief Periodically samples task statistics and transmits diagnostics over CAN.
  *
- * Samples all tasks once per second (every 20 ticks at 50 ms), then paces CAN
- * transmission to at most one task (status + name character) per tick and one
- * board summary per cycle.
- *
- * @note CPU utilization requires a previous sample and a valid runtime delta.
- * @note This function should only be called by one task at a time.
+ * Samples all tasks once per second (every 20 ticks at 50 ms)
+ * Sends at most one task (status + name character) per tick and one board summary per cycle.
  */
 void diagnostics_periodic(void);
 
