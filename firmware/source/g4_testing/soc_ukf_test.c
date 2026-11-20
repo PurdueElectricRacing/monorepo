@@ -27,8 +27,9 @@ int main(void) {
     RTOS_START_TASK(soc_estimation_periodic);
     vTaskStartScheduler();
 
-    while (1) {
-    }
+    // Unreachable
+    HardFault_Handler();
+    return 0;
 }
 
 static void soc_estimation_periodic(void) {
