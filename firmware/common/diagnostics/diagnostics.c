@@ -65,6 +65,10 @@ static void save_task_runtimes(UBaseType_t task_count) {
 }
 
 #ifdef DIAGNOSTICS_CAN_ENABLED
+// Pause between task/summary frames and name frames so a full 16-task snapshot
+// (up to 33 frames) does not overflow CAN_TX_QUEUE_LENGTH (32).
+static constexpr uint32_t DIAGNOSTICS_TX_PACE_MS = 10;
+
 static uint8_t encode_cpu_percent(float percent, bool valid) {
     if (!valid || !(percent >= 0.0f && percent <= 100.0f)) {
         return UINT8_MAX;
@@ -143,6 +147,9 @@ void diagnostics_periodic(void) {
         encode_cpu_percent(snapshot->cpu_percent, snapshot->cpu_valid),
         (uint8_t)snapshot->capacity_exceeded
     );
-    send_task_name_characters(snapshot);
+    if (snapshot->task_count > 0) {
+        RTOS_delay_ms(DIAGNOSTICS_TX_PACE_MS);
+        send_task_name_characters(snapshot);
+    }
 #endif
 }
