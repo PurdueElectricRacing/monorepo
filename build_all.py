@@ -33,7 +33,7 @@ def build() -> None:
         ["cargo", "build", "--workspace", "--all-targets", "--locked"],
         ROOT / "daq",
     )
-
+    # new function
     build_project(
         "DAQ workspace tests",
         ["cargo", "test", "--workspace", "--locked"],
