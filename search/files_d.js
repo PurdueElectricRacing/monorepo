@@ -15,5 +15,5 @@ var searchData=
   ['pwm_2eh_12',['pwm.h',['../phal__F4_2pwm_2pwm_8h.html',1,'(Global Namespace)'],['../phal__G4_2pwm_2pwm_8h.html',1,'(Global Namespace)']]],
   ['pwm_5fpriv_2ec_13',['pwm_priv.c',['../pwm__priv_8c.html',1,'']]],
   ['pwm_5fpriv_2eh_14',['pwm_priv.h',['../pwm__priv_8h.html',1,'']]],
-  ['pwm_5ftesting_2ec_15',['pwm_testing.c',['../f4__testing_2pwm__testing_8c.html',1,'(Global Namespace)'],['../g4__testing_2pwm__testing_8c.html',1,'(Global Namespace)']]]
+  ['pwm_5ftesting_2ec_15',['pwm_testing.c',['../pwm__testing_8c.html',1,'']]]
 ];

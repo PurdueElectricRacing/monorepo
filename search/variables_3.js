@@ -71,7 +71,7 @@ var searchData=
   ['cid_5fcrc_68',['CID_CRC',['../structSD__CID.html#aeb0f4e1667fc29797463b10ee79f35e2',1,'SD_CID']]],
   ['cid_5ftab_69',['CID_Tab',['../sdio_8c.html#a11ddf9e2e0081e7746d09f40a9ecdf18',1,'sdio.c']]],
   ['circular_70',['circular',['../structdma__init__t.html#acea8f26e966c16fff425fb473175767b',1,'dma_init_t']]],
-  ['clock_5fconfig_71',['clock_config',['../daq_2main_8c.html#a2e372d6fcb26e99141502c56d908f788',1,'clock_config:&#160;main.c'],['../onboarding__26_8c.html#a2e372d6fcb26e99141502c56d908f788',1,'clock_config:&#160;onboarding_26.c']]],
+  ['clock_5fconfig_71',['clock_config',['../daq_2main_8c.html#a2e372d6fcb26e99141502c56d908f788',1,'main.c']]],
   ['clock_5fhz_72',['clock_hz',['../structPHAL__CAN__bit__timing__t.html#a60dbeaa9bede5c224526b92c6d4263cd',1,'PHAL_CAN_bit_timing_t']]],
   ['clock_5fprescaler_73',['clock_prescaler',['../structADCInitConfig__t.html#a98cfe1ae5295bc565cdc6e83285917b7',1,'ADCInitConfig_t']]],
   ['clock_5fsource_74',['clock_source',['../structClockRateConfig__t.html#aaca9dfb7526b6302669a469f1a1d8092',1,'ClockRateConfig_t']]],
