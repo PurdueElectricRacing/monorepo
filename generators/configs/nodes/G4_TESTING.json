@@ -5,6 +5,46 @@
             "peripheral": "FDCAN2",
             "tx": [
                 {
+                    "message_name": "IVT_S_command",
+                    "description": "IVT-S bench generic configuration command (check data sheet for sequence)",
+                    "signals": [
+                        {
+                            "signal_name": "opcode",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "parameter_1",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "parameter_2",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "parameter_3",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "parameter_4",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "parameter_5",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "parameter_6",
+                            "data_type": "uint8_t"
+                        },
+                        {
+                            "signal_name": "parameter_7",
+                            "data_type": "uint8_t"
+                        }
+                    ],
+                    "priority": 3,
+                    "id_override": "0x411"
+                },
+                {
                     "message_name": "IZZE_IMU_config",
                     "description": "Config message. Power cycle after 10-15 seconds of sending",
                     "byte_order": "big_endian",
