@@ -11,9 +11,7 @@
 #include "common/rtos/rtos.h"
 #include "can_library/generated/diagnostics_can.h"
 
-#ifdef DIAGNOSTICS_CAN_ENABLED
-
-static diagnostics_context_t g_diagnostics_context;
+static diagnostics_context_t g_diagnostics_context = {0};
 
 // Calculates utilization as the percentage of the total_delta that is equal to current_runtime - previous_runtime
 // Returns true if utilization can be calcualted. 
@@ -66,6 +64,7 @@ static void save_task_runtimes(UBaseType_t task_count) {
     g_diagnostics_context.previous_task_count    = task_count;
 }
 
+#ifdef DIAGNOSTICS_CAN_ENABLED
 static uint8_t encode_cpu_percent(float percent, bool valid) {
     if (!valid || !(percent >= 0.0f && percent <= 100.0f)) {
         return UINT8_MAX;
@@ -90,6 +89,7 @@ static void send_task_name_characters(const diagnostics_snapshot_t *snapshot) {
         DIAGNOSTICS_SEND_NAME(task->task_id, index, (uint8_t)task->name[index]);
     }
 }
+#endif // DIAGNOSTICS_CAN_ENABLED
 
 void diagnostics_periodic(void) {
     // returns the number of tasks, reads them into the raw_tasks array, returns 0 if DIAGNOSTICS_MAX_TASKS < number of running tasks
@@ -116,12 +116,14 @@ void diagnostics_periodic(void) {
             raw_task->usStackHighWaterMark * sizeof(StackType_t);
         task->state = raw_task->eCurrentState;
         calculate_task_utilization(raw_task, task, total_delta);
+#ifdef DIAGNOSTICS_CAN_ENABLED
         DIAGNOSTICS_SEND_TASK(
             task->task_id,
             encode_stack_hwm(task->stack_min_free_bytes),
             encode_cpu_percent(task->cpu_usage_percent, task->cpu_usage_valid),
             (uint8_t) task->state
         );
+#endif
 
         // Calculate overall CPU usage
         if (raw_task->xHandle == idle_task && task->cpu_usage_valid) {
@@ -130,8 +132,9 @@ void diagnostics_periodic(void) {
             g_diagnostics_context.snapshot.cpu_valid = true;
         }
     }
+    save_task_runtimes(task_count);
+#ifdef DIAGNOSTICS_CAN_ENABLED
     diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
-    
     uint16_t reported_task_count =
         snapshot->task_count > UINT16_MAX ? UINT16_MAX : (uint16_t) snapshot->task_count;
     DIAGNOSTICS_SEND_SUMMARY(
@@ -140,8 +143,6 @@ void diagnostics_periodic(void) {
         encode_cpu_percent(snapshot->cpu_percent, snapshot->cpu_valid),
         (uint8_t)snapshot->capacity_exceeded
     );
-    save_task_runtimes(task_count);
     send_task_name_characters(snapshot);
+#endif
 }
-
-#endif // DIAGNOSTICS_CAN_ENABLED
