@@ -153,9 +153,9 @@ static bool is_valid_temp(float temp) {
     return temp >= ADBMS_TEMP_MIN_VALID_C && temp <= ADBMS_TEMP_MAX_VALID_C;
 }
 
-void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi) {
+void ADBMS_init(adbms_bms_t *bms, SPI_InitConfig_t *spi_ccw, SPI_InitConfig_t *spi_cw) {
     *bms = (adbms_bms_t){0};
-    ADBMS6380_init(&bms->dev, spi);
+    ADBMS6380_init(&bms->dev, spi_ccw, spi_cw);
 
     bms->recover_start_tick_ms = 0U;
     bms->recovery_attempts     = 0U;
@@ -213,11 +213,19 @@ void ADBMS_periodic(adbms_bms_t *bms, float min_voltage_for_balance, float min_d
 
             calculate_balance_cells(bms, min_voltage_for_balance, min_delta_for_balance);
 
+            bool was_broken = bms->dev.break_detected;
+
             // apply new discharge bits
             ADBMS6380_write_regb(&bms->dev, &ADBMS_REGB_CFG);
             if (!ADBMS6380_verify_regb(&bms->dev)) {
                 next_state = ADBMS_STATE_RECOVERING;
                 break;
+            }
+
+            if (!was_broken && bms->dev.break_detected) {
+                // If a break was detected after read_therms, ensure both segments have active conversions
+                ADBMS6380_start_adcv(&bms->dev, &ADBMS_ADCV_CFG);
+                ADBMS6380_start_adax(&bms->dev, &ADBMS_ADAX_CFG);
             }
 
             next_state = ADBMS_STATE_READ_LOOP;

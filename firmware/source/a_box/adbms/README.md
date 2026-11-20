@@ -1,8 +1,9 @@
 # ADBMS(6380)
 
 Provides a high-level interface for managing `ADBMS6380` battery management chips
-in a single-direction daisy chain configuration.
-It handles communication, configuration, measurement collection, and balancing
+in a dual-direction (reversible) isoSPI daisy chain configuration.
+It handles communication, configuration, measurement collection,
+single harness failure detection/recovery, and balancing
 for multi-module battery packs, supporting cell voltage, thermistor, and GPIO readings
 as well as error detection via PEC checks.
 
@@ -15,13 +16,13 @@ as well as error detection via PEC checks.
    adbms_bms_t g_bms = {0};
    ```
 
-2. Configure your SPI peripheral and GPIOs.
-Note that the driver expects manual control of the CS line
-(`nss_sw` must be false in the SPI config).
+2. Configure your CCW and CW SPI peripherals and GPIOs.
+Note that the driver expects manual control of the CS lines
+(`nss_sw` must be false in the SPI configs).
 
 3. Initialize the driver in `main` (after GPIO setup):
    ```c
-   ADBMS_init(&g_bms, &bms_spi_config);
+   ADBMS_init(&g_bms, &bms_spi_ccw_config, &bms_spi_cw_config);
    ```
 
 ### Periodic Operation
@@ -47,7 +48,7 @@ RTOS_DEFINE_TASK(g_bms_periodic, 200, TASK_PRIORITY_HIGH, 2048);
 int main(void) {
     // ... GPIO and SPI initialization ...
 
-    ADBMS_init(&g_bms, &bms_spi_config);
+    ADBMS_init(&g_bms, &bms_spi_ccw_config, &bms_spi_cw_config);
 
     // Create periodic thread
     RTOS_START_TASK(g_bms_periodic);
@@ -72,6 +73,7 @@ After each periodic call, measurements, statistics, and status can be accessed v
 - `ADBMS_get_min/max/avg_cell_temp(&g_bms)`: Pack-level cell thermistor temperature statistics
 - `ADBMS_get_min/max/avg_board_temp(&g_bms)`: Pack-level onboard PCB temperature statistics
 - `ADBMS_get_state(&g_bms)`: Current `adbms_state_t` (connecting, read loop, recovering, fatal)
+- `ADBMS_is_break_detected(&g_bms)` and `ADBMS_get_break_index(&g_bms)`: Reversible isoSPI harness break detection status and broken link index (`0 .. ADBMS_CHIP_COUNT`, or `ADBMS6380_NO_BREAK_INDEX` when intact)
 - Error flags:
 	- `ADBMS_get_cell_voltage_pec_err(&g_bms, cmd_idx)` and `ADBMS_get_gpio_voltage_pec_err(&g_bms, cmd_idx)`: PEC error flags for cell and GPIO voltage read commands. In the case of a PEC error during reading cell or GPIO voltages (which require multiple read commands), only the specific command that failed will have its PEC error flag set and the rest of the voltages for successful commands will still be updated/valid and the pack-level statistics will be updated based on the new valid readings and the old readings for the failed commands.
 	- Internal register mismatch and PEC flags also also saved in `g_bms.dev`
