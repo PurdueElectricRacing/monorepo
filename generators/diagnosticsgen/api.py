@@ -48,12 +48,12 @@ def board_summary_message(node_name: str) -> MessageDeclaration:
             SignalDeclaration(
                 signal_name="cpu_percent",
                 data_type="uint8_t",
-                description="Whole number CPU pct. util.",
+                description="Whole number CPU pct. util., 255 is invalid",
             ),
             SignalDeclaration(
                 signal_name="capacity_exceeded",
-                data_type="uint8_t",
-                description="1 if task capacity exceeded",
+                data_type="bool",
+                description="True if task capacity exceeded",
             ),
         ], 
     )
