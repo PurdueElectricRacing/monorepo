@@ -11,6 +11,11 @@
 #include "common/rtos/rtos.h"
 #include "can_library/generated/diagnostics_can.h"
 
+// Pause between task/summary frames to try not to overload CAN TX queue
+static constexpr uint32_t DIAGNOSTICS_TX_PACE_MS = 10;
+static constexpr uint8_t DIAGNOSTICS_CPU_INVALID = UINT8_MAX;
+
+
 static diagnostics_context_t g_diagnostics_context = {0};
 
 // Calculates utilization as the percentage of the total_delta that is equal to current_runtime - previous_runtime
@@ -65,11 +70,6 @@ static void save_task_runtimes(UBaseType_t task_count) {
 }
 
 #ifdef DIAGNOSTICS_CAN_ENABLED
-// Pause between task/summary frames and name frames so a full 16-task snapshot
-// (up to 33 frames) does not overflow CAN_TX_QUEUE_LENGTH (32).
-static constexpr uint32_t DIAGNOSTICS_TX_PACE_MS = 10;
-static constexpr uint8_t DIAGNOSTICS_CPU_INVALID = UINT8_MAX;
-
 static diagnostics_task_state_t encode_task_state(eTaskState state) {
     switch (state) {
         case eRunning:
