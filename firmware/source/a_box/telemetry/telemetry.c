@@ -56,15 +56,12 @@ static inline float isense_to_current(uint16_t isense_raw) {
  * Includes: Pack analog stats and cell telemetry
  */
 static_assert(PACK_ANALOG_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
-static_assert(PACK_ANALOG_CCAN_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 static_assert(CELL_TELEMETRY_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
-static_assert(CELL_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 void report_telemetry_100hz(void) {
     uint16_t pack_voltage = (uint16_t)(vbatt_to_voltage(adc1_dma_buffer.vbatt_raw) * PACK_COEFF_PACK_ANALOG_PACK_VOLTAGE);
     int16_t pack_current  = (int16_t)(isense_to_current(adc1_dma_buffer.isense_raw) * PACK_COEFF_PACK_ANALOG_PACK_CURRENT);
 
     CAN_SEND_pack_analog(pack_voltage, pack_current);
-    CAN_SEND_pack_analog_ccan(pack_voltage, pack_current);
 
     // Report cell voltages one at a time
     static uint8_t module_num = 0;
@@ -75,7 +72,6 @@ void report_telemetry_100hz(void) {
     bool is_balancing = ADBMS_is_cell_discharging(&g_bms, module_num, cell_num);
 
     CAN_SEND_cell_telemetry(scaled_cell_voltage, module_num, cell_num, is_balancing);
-    CAN_SEND_cell_telemetry_ccan(scaled_cell_voltage, module_num, cell_num, is_balancing);
 
     cell_num++;
     if (cell_num >= ADBMS_CELLS_PER_MODULE) {
@@ -92,7 +88,6 @@ void report_telemetry_100hz(void) {
  * Includes: Thermal stats and the emeter thermal summary
  */
 static_assert(THERMISTOR_TELEMETRY_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
-static_assert(THERMISTOR_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 static_assert(E_METER_TEMPERATURE_PERIOD_MS == TELEMETRY_8HZ_PERIOD_MS);
 void report_telemetry_8hz(void) {
     // Send the pack thermal summary to the emeter
@@ -123,7 +118,6 @@ void report_telemetry_8hz(void) {
     uint16_t scaled_temperature = (uint16_t)(thermistor_temperature * PACK_COEFF_THERMISTOR_TELEMETRY_TEMPERATURE);
 
     CAN_SEND_thermistor_telemetry(scaled_temperature, module_num, thermistor_num, is_board_temp);
-    CAN_SEND_thermistor_telemetry_ccan(scaled_temperature, module_num, thermistor_num, is_board_temp);
 
     thermistor_num++;
     if (thermistor_num >= ADBMS_THERMISTORS_PER_MODULE) {
