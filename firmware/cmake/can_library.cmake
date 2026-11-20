@@ -27,13 +27,14 @@ endif()
 macro(create_can_node_lib NODE_NAME)
 	set(LIB_NAME "can_node_${NODE_NAME}")
 	
-	# Give each node its own CAN and fault state.
+	# Give each node its own CAN, fault, and diagnostics state.
 	add_library(${LIB_NAME} STATIC 
         ${CAN_LIB_DIR}/source/can_init.c
         ${CAN_LIB_DIR}/source/can_rx.c
         ${CAN_LIB_DIR}/source/can_tx.c
         ${CAN_LIB_DIR}/source/faults_common.c
         ${CAN_GEN_DIR}/fault_data.c
+        ${CMAKE_SOURCE_DIR}/common/diagnostics/diagnostics.c
     )
 
 	# Force use of full include paths relative to project root
