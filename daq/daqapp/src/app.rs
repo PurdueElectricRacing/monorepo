@@ -1,6 +1,5 @@
 use crate::{
-    action, paths, settings, shortcuts, task_names, telemetry, ui, util, widget_ids, widgets,
-    workspace,
+    action, paths, settings, shortcuts, telemetry, ui, util, widget_ids, widgets, workspace,
 };
 use std::{error, mem, path, sync::mpsc};
 
@@ -61,7 +60,6 @@ pub struct DAQApp {
     pub can_bus_speed: daqcore::connection::CanBusSpeed,
     pub udp_port: u16,
     pub session: daqcore::session::Session,
-    pub task_names: task_names::TaskNames,
     pub bus_load_samples: Vec<telemetry::BusLoadSample>,
     pub can_thread: daqcore::can_thread::CanThreadHandle,
     hil_snapshot: daqcore::hil::engine::HilSnapshot,
@@ -71,33 +69,6 @@ pub struct DAQApp {
 }
 
 impl DAQApp {
-    pub fn evict_history(&mut self) {
-        // Task names are fragmented across frames, so keep the pieces that are
-        // about to leave the rolling window before eviction discards them.
-        let floor = self.session.timeline().start();
-        {
-            let cache = self.session.cache();
-            for frame in cache
-                .frames_before(floor, cache.len())
-                .iter()
-                .take_while(|frame| frame.timestamp < floor)
-            {
-                self.task_names.observe(frame);
-            }
-        }
-        self.session.evict();
-        let removed = self
-            .bus_load_samples
-            .partition_point(|sample| sample.timestamp < floor);
-        self.bus_load_samples.drain(..removed);
-    }
-
-    pub fn reset_session(&mut self) {
-        self.session.reset(daqcore::time::Time::now());
-        self.task_names.clear();
-        self.bus_load_samples.clear();
-    }
-
     pub fn save_settings(&self) {
         let settings = settings::Settings {
             superdbc_path: self
@@ -161,7 +132,6 @@ impl DAQApp {
             can_bus_speed: settings.selected_speed,
             udp_port: settings.udp_port,
             session,
-            task_names: task_names::TaskNames::default(),
             bus_load_samples: Vec::new(),
             hil_snapshot: daqcore::hil::engine::HilSnapshot::idle(),
             active_source: None,
@@ -278,7 +248,8 @@ impl DAQApp {
                 return false;
             }
         }
-        self.reset_session();
+        self.session.reset(daqcore::time::Time::now());
+        self.bus_load_samples.clear();
         self.hil_snapshot = daqcore::hil::engine::HilSnapshot::idle();
         self.diagnostic = None;
         for tile in self.tile_tree.tiles.tiles_mut() {
@@ -423,7 +394,8 @@ impl eframe::App for DAQApp {
                 }
                 daqcore::can_thread::CanThreadEvent::SourceSelected(Some(source)) => {
                     if self.active_source.as_ref() != Some(&source) {
-                        self.reset_session();
+                        self.session.reset(daqcore::time::Time::now());
+                        self.bus_load_samples.clear();
                     }
                     self.active_source = Some(source);
                 }
@@ -453,7 +425,7 @@ impl eframe::App for DAQApp {
                 _ => {}
             }
         }
-        self.evict_history();
+        self.session.evict();
         if let Some(ppp) = self.pixels_per_point {
             ctx.set_pixels_per_point(ppp);
         }

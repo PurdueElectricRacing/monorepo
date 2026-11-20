@@ -44,9 +44,8 @@ impl Diagnostics {
         &mut self,
         ui: &mut egui::Ui,
         view: &telemetry::TelemetryView<'_>,
-        task_names: &crate::task_names::TaskNames,
     ) -> egui_tiles::UiResponse {
-        let boards = Self::snapshot(view, task_names);
+        let boards = Self::snapshot(view);
         let cpu_history = Self::cpu_history(view);
         let start = view.timeline.start();
         let duration = view.timeline.end().secs(start).max(0.001);
@@ -243,19 +242,49 @@ impl Diagnostics {
         })
     }
 
-    fn snapshot(
-        view: &telemetry::TelemetryView<'_>,
-        task_names: &crate::task_names::TaskNames,
-    ) -> BTreeMap<String, BoardDiagnostics> {
-        let mut boards = BTreeMap::<String, BoardDiagnostics>::new();
-        let names = task_names.names_at(view.setpoint_frames);
+    fn decode_name_char(
+        msg: &daqcore::superdbc::decode::DecodedMessage,
+    ) -> Option<(u32, usize, u8)> {
+        if !Self::matches_diag_message(msg, "_diag_name") {
+            return None;
+        }
+        let task_id = u32::try_from(Self::integer_signal(msg, "task_id")?).ok()?;
+        let index = usize::try_from(Self::integer_signal(msg, "char_index")?).ok()?;
+        let byte = u8::try_from(Self::integer_signal(msg, "character")?).ok()?;
+        (index < 16).then_some((task_id, index, byte))
+    }
 
-        // Task stats share a CAN identity: keep the latest frame per task ID,
-        // not just the latest message for each board.
+    fn assemble_name(chars: &[Option<u8>; 16]) -> Option<String> {
+        let mut bytes = Vec::new();
+        for slot in chars {
+            let byte = (*slot)?;
+            if byte == 0 {
+                return Some(String::from_utf8_lossy(&bytes).into_owned());
+            }
+            bytes.push(byte);
+        }
+        None
+    }
+
+    fn snapshot(view: &telemetry::TelemetryView<'_>) -> BTreeMap<String, BoardDiagnostics> {
+        let mut boards = BTreeMap::<String, BoardDiagnostics>::new();
+        let mut name_chars = BTreeMap::<String, BTreeMap<u32, [Option<u8>; 16]>>::new();
+
+        // Task stats and name characters share CAN identities: keep the latest
+        // state per task ID across the rolling window up to the setpoint.
         for frame in view.setpoint_frames {
             let Some(message) = &frame.decoded else {
                 continue;
             };
+            if let Some((task_id, index, byte)) = Self::decode_name_char(message) {
+                let chars = name_chars
+                    .entry(message.tx_node().to_owned())
+                    .or_default()
+                    .entry(task_id)
+                    .or_insert([None; 16]);
+                chars[index] = Some(byte);
+                continue;
+            }
             let task = Self::decode_task(message);
             let summary = Self::decode_summary(message);
             if task.is_none() && summary.is_none() {
@@ -276,9 +305,12 @@ impl Diagnostics {
         }
 
         for (board_name, board) in &mut boards {
+            let Some(board_names) = name_chars.get(board_name) else {
+                continue;
+            };
             for task in board.tasks.values_mut() {
-                if let Some(name) =
-                    names.name_at(board_name, task.task_id, view.timeline.setpoint())
+                if let Some(chars) = board_names.get(&task.task_id)
+                    && let Some(name) = Self::assemble_name(chars)
                 {
                     task.name = name;
                 }
