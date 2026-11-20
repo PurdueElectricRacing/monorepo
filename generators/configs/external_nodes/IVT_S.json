@@ -1,0 +1,286 @@
+{
+    "node_name": "IVT_S",
+    "bus_name": "SCAN",
+    "tx": [
+        {
+            "message_name": "ivt_s_current",
+            "description": "Current through the shunt",
+            "byte_order": "big_endian",
+            "signals": [
+                {
+                    "signal_name": "mux_id",
+                    "description": "Result channel number, expected 0",
+                    "data_type": "uint8_t"
+                },
+                {
+                    "signal_name": "message_count",
+                    "description": "Per-channel rolling counter",
+                    "data_type": "uint8_t",
+                    "length": 4
+                },
+                {
+                    "signal_name": "overcurrent",
+                    "description": "Overcurrent signal is active",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "result_warning",
+                    "description": "This result is out of specified range, has reduced precision, or has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "measurement_error",
+                    "description": "Any result has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "system_error",
+                    "description": "Any result has a system error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "current",
+                    "data_type": "int32_t",
+                    "unit": "A",
+                    "scale": 0.001
+                }
+            ],
+            "period_ms": 20,
+            "id_override": "0x521",
+            "priority": 5
+        },
+        {
+            "message_name": "ivt_s_u1",
+            "description": "Voltage at U1 relative to sensor ground",
+            "byte_order": "big_endian",
+            "signals": [
+                {
+                    "signal_name": "mux_id",
+                    "description": "Result channel number, expected 1",
+                    "data_type": "uint8_t"
+                },
+                {
+                    "signal_name": "message_count",
+                    "description": "Per-channel rolling counter",
+                    "data_type": "uint8_t",
+                    "length": 4
+                },
+                {
+                    "signal_name": "overcurrent",
+                    "description": "Overcurrent signal is active",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "result_warning",
+                    "description": "This result is out of specified range, has reduced precision, or has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "measurement_error",
+                    "description": "Any result has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "system_error",
+                    "description": "Any result has a system error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "voltage",
+                    "data_type": "int32_t",
+                    "unit": "V",
+                    "scale": 0.001
+                }
+            ],
+            "period_ms": 60,
+            "id_override": "0x522",
+            "priority": 5
+        },
+        {
+            "message_name": "ivt_s_temperature",
+            "description": "Sensor temperature",
+            "byte_order": "big_endian",
+            "signals": [
+                {
+                    "signal_name": "mux_id",
+                    "description": "Result channel number, expected 4",
+                    "data_type": "uint8_t"
+                },
+                {
+                    "signal_name": "message_count",
+                    "description": "Per-channel rolling counter",
+                    "data_type": "uint8_t",
+                    "length": 4
+                },
+                {
+                    "signal_name": "overcurrent",
+                    "description": "Overcurrent signal is active",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "result_warning",
+                    "description": "This result is out of specified range, has reduced precision, or has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "measurement_error",
+                    "description": "Any result has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "system_error",
+                    "description": "Any result has a system error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "temperature",
+                    "data_type": "int32_t",
+                    "unit": "C",
+                    "scale": 0.1
+                }
+            ],
+            "period_ms": 100,
+            "id_override": "0x525",
+            "priority": 5
+        },
+        {
+            "message_name": "ivt_s_power",
+            "description": "Power calculated from shunt current and U1 voltage",
+            "byte_order": "big_endian",
+            "signals": [
+                {
+                    "signal_name": "mux_id",
+                    "description": "Result channel number, expected 5",
+                    "data_type": "uint8_t"
+                },
+                {
+                    "signal_name": "message_count",
+                    "description": "Per-channel rolling counter",
+                    "data_type": "uint8_t",
+                    "length": 4
+                },
+                {
+                    "signal_name": "overcurrent",
+                    "description": "Overcurrent signal is active",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "result_warning",
+                    "description": "This result is out of specified range, has reduced precision, or has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "measurement_error",
+                    "description": "Any result has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "system_error",
+                    "description": "Any result has a system error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "power",
+                    "data_type": "int32_t",
+                    "unit": "W"
+                }
+            ],
+            "period_ms": 30,
+            "id_override": "0x526",
+            "priority": 5
+        },
+        {
+            "message_name": "ivt_s_charge",
+            "description": "Accumulated charge through the shunt",
+            "byte_order": "big_endian",
+            "signals": [
+                {
+                    "signal_name": "mux_id",
+                    "description": "Result channel number, expected 6",
+                    "data_type": "uint8_t"
+                },
+                {
+                    "signal_name": "message_count",
+                    "description": "Per-channel rolling counter",
+                    "data_type": "uint8_t",
+                    "length": 4
+                },
+                {
+                    "signal_name": "overcurrent",
+                    "description": "Overcurrent signal is active",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "result_warning",
+                    "description": "This result is out of specified range, has reduced precision, or has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "measurement_error",
+                    "description": "Any result has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "system_error",
+                    "description": "Any result has a system error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "charge",
+                    "data_type": "int32_t",
+                    "unit": "As"
+                }
+            ],
+            "period_ms": 30,
+            "id_override": "0x527",
+            "priority": 5
+        },
+        {
+            "message_name": "ivt_s_energy",
+            "description": "Accumulated energy based on shunt current and U1 voltage",
+            "byte_order": "big_endian",
+            "signals": [
+                {
+                    "signal_name": "mux_id",
+                    "description": "Result channel number, expected 7",
+                    "data_type": "uint8_t"
+                },
+                {
+                    "signal_name": "message_count",
+                    "description": "Per-channel rolling counter",
+                    "data_type": "uint8_t",
+                    "length": 4
+                },
+                {
+                    "signal_name": "overcurrent",
+                    "description": "Overcurrent signal is active",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "result_warning",
+                    "description": "This result is out of specified range, has reduced precision, or has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "measurement_error",
+                    "description": "Any result has a measurement error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "system_error",
+                    "description": "Any result has a system error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "energy",
+                    "data_type": "int32_t",
+                    "unit": "Wh"
+                }
+            ],
+            "period_ms": 30,
+            "id_override": "0x528",
+            "priority": 5
+        }
+    ],
+    "rx": []
+}
