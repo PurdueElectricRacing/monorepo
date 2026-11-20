@@ -124,14 +124,37 @@ extern void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg);
  */
 extern void PHAL_FDCAN_txCallback(FDCAN_GlobalTypeDef *fdcan);
 
-// return tx error counter
+/**
+ * @brief send error counter using CAN message
+ *
+ * only in testing
+ *
+ * @param fdcan the peripheral instance
+ */
 uint32_t PHAL_FDCAN_txErrCounter(FDCAN_GlobalTypeDef *fdcan);
 
-// check if FDCAN is in bus-off state
+/**
+ * @brief check if the FDCAN peripheral is in busoff state
+ *
+ * @param fdcan the peripheral instance
+ */
 bool PHAL_FDCAN_isBusOff(FDCAN_GlobalTypeDef *fdcan);
 
-// initiate bus-off recovery
+/**
+ * @brief Recover from busoff state, FDCAN
+ *
+ * @param fdcan the peripheral instance
+ */
 bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan);
+
+/** 
+ * @brief task to be called using RTOS that monitors busoff state
+ * 
+ * resets it if its off
+ *
+ * @param fdcan the peripheral instance
+ */
+void PHAL_FDCAN_busoff_recovery_task(void);
 
 
 #endif // PHAL_G4_FDCAN_H
