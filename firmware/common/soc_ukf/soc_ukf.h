@@ -53,7 +53,7 @@ typedef struct {
 } soc_ukf_t;
 
 
-// todo fir the real params
+// todo fit the real params
 static constexpr soc_ukf_params_t LV_PARAMS = {
     .cell = {
         .r0   = 0.015f,
