@@ -1,5 +1,5 @@
 name: Build PER CI image
-description: Resolves or builds the repo Dockerfile and pushes it to GHCR only when dependencies change
+description: Resolves or builds the repo Dockerfile
 outputs:
   image:
     description: Fully qualified image reference (name:tag)
