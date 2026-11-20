@@ -79,7 +79,8 @@ pub fn show(app: &mut app::DAQApp, ctx: &eframe::egui::Context) {
         }
 
         if ui.button("Clear history").clicked() {
-            app.reset_session();
+            app.session.reset(daqcore::time::Time::now());
+            app.bus_load_samples.clear();
         }
 
         if let Some(error) = &app.diagnostic {

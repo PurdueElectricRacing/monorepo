@@ -6,7 +6,6 @@ mod assets;
 mod paths;
 mod settings;
 mod shortcuts;
-mod task_names;
 mod telemetry;
 mod ui;
 mod util;
