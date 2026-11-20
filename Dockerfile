@@ -3,11 +3,8 @@ FROM ubuntu:26.04
 # prevent apt packages from prompting interactively during the build
 ENV DEBIAN_FRONTEND=noninteractive
 
-# refresh apt
-RUN apt update
-
 # install deps
-RUN apt -y install --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     clang \
     clang-format \
@@ -31,12 +28,12 @@ RUN apt -y install --no-install-recommends \
     llvm \
     make \
     ninja-build \
-    pkg-config
+    pkg-config \
+    python3 \
+    python3-venv \
+    && rm -rf /var/lib/apt/lists/*
 
 # setup python environment
-RUN apt -y install --no-install-recommends \
-    python3 \
-    python3-venv
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV

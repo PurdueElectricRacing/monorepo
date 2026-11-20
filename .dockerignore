@@ -1,0 +1,4 @@
+# Ignore everything by default so Docker only sends files needed by Dockerfile.
+*
+!Dockerfile
+!requirements.txt
