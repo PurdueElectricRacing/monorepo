@@ -28,6 +28,7 @@ set(COMMON_MODULES
     common/phal_F4
     common/phal_G4
     common/sdio
+    common/soc_ukf
     common/strbuf
     common/syscalls
     common/ublox

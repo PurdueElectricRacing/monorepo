@@ -22,3 +22,5 @@ Libraries, drivers, generic data structures, and other utilities.
 - `strbuf` Fixed-size string buffer utilities.
 - `lerp_lut` Lookup-table interpolation utilities.
 - `bangbang` Bang-bang control helper.
+- `linear_algebra` Linear algebra operations.
+- `soc_ukf` State of charge estimation.
