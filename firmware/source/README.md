@@ -15,7 +15,6 @@ Firmware source code for PER's distributed vehicle software. One directory per n
 - `daq` CAN bus logging to SD card and real-time UDP/Ethernet streaming, fed by the in-house lockless SPMC queue.
 
 ## Bench / dev nodes
-- `f4_testing` STM32F4-based bench testing target. Not deployed on the vehicle.
 - `g4_testing` STM32G4-based bench testing target. Not deployed on the vehicle.
 
 ## Torque Path

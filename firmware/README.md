@@ -19,7 +19,7 @@ This directory contains the embedded software for PER vehicle controllers.
 
 Vehicle targets include `main_module`, `dashboard`, `torque_vector`, `pdu`,
 `a_box`, `daq`, and `driveline`. `driveline` produces separate front and rear
-binaries. `f4_testing` and `g4_testing` are bench-testing targets.
+binaries. `g4_testing` is a bench-testing target.
 
 ## G4 bootloader
 

@@ -40,7 +40,6 @@ set(EXTERNAL_MODULES
 )
 
 set(SOURCE_MODULES
-    source/f4_testing
     source/g4_testing
     source/a_box
     source/cannector
