@@ -13,10 +13,11 @@
 #include "common/rtos/rtos.h"
 #include "task.h"
 
-#define DIAGNOSTICS_MAX_TASKS 16
+#define DIAGNOSTICS_MAX_TASKS      16
+#define DIAGNOSTICS_TICK_PERIOD_MS 50
 /** Define diagnostics task with FreeRTOS */
 #define DEFINE_DIAGNOSTICS_TASK() \
-    RTOS_DEFINE_TASK(diagnostics_periodic, 1000, TASK_PRIORITY_LOW, STACK_1024)
+    RTOS_DEFINE_TASK(diagnostics_periodic, DIAGNOSTICS_TICK_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024)
 /** Start previously defined diagnostic task */
 #define START_DIAGNOSTICS_TASK() RTOS_START_TASK(diagnostics_periodic)
 
@@ -65,14 +66,15 @@ typedef struct {
     uint32_t previous_total_runtime;
     UBaseType_t previous_task_count;
     diagnostics_prev_task_time_t prev_task_times[DIAGNOSTICS_MAX_TASKS];
+    uint8_t tick_count;
 } diagnostics_context_t;
 
 /**
- * @brief Samples task statistics and estimates CPU utilization.
+ * @brief Periodically samples task statistics and transmits diagnostics over CAN.
  *
- * Records task IDs, names, states, and stack high-water marks.
- * Calculates each task's CPU utilization from the runtime difference between samples.
- * Overall CPU utilization is calculated as 100% minus the idle task's utilization.
+ * Samples all tasks once per second (every 20 ticks at 50 ms), then paces CAN
+ * transmission to at most one task (status + name character) per tick and one
+ * board summary per cycle.
  *
  * @note CPU utilization requires a previous sample and a valid runtime delta.
  * @note This function should only be called by one task at a time.

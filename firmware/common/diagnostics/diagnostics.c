@@ -11,9 +11,10 @@
 #include "common/rtos/rtos.h"
 #include "can_library/generated/diagnostics_can.h"
 
-// Pause between task/summary frames to try not to overload CAN TX queue
-static constexpr uint32_t DIAGNOSTICS_TX_PACE_MS = 10;
+static constexpr uint8_t DIAGNOSTICS_TICKS_PER_SAMPLE = 20; // 1000 ms / 50 ms
+#ifdef DIAGNOSTICS_CAN_ENABLED
 static constexpr uint8_t DIAGNOSTICS_CPU_INVALID = UINT8_MAX;
+#endif
 
 
 static diagnostics_context_t g_diagnostics_context = {0};
@@ -105,27 +106,42 @@ static uint16_t encode_stack_hwm(uint32_t bytes) {
     return (uint16_t)bytes;
 }
 
-static void send_task_name_characters(void) {
+static void send_task_diagnostics(uint8_t task_index) {
     const diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
-    for (uint32_t i = 0; i < snapshot->task_count; i++) {
-        const diagnostics_task_t *task = &snapshot->tasks[i];
-        // Cycle through each name, including its terminating NUL.
-        uint32_t name_length = (uint32_t)strlen(task->name);
-        uint8_t index        = (uint8_t)((snapshot->sample_count - 1U) % (name_length + 1U));
+    const diagnostics_task_t *task         = &snapshot->tasks[task_index];
 
-        DIAGNOSTICS_SEND_NAME(task->task_id, index, (uint8_t)task->name[index]);
-    }
+    DIAGNOSTICS_SEND_TASK(
+        task->task_id,
+        encode_stack_hwm(task->stack_min_free_bytes),
+        encode_cpu_percent(task->cpu_usage_percent, task->cpu_usage_valid),
+        encode_task_state(task->state)
+    );
+
+    // Cycle through each name, including its terminating NUL.
+    uint32_t name_length = (uint32_t)strlen(task->name);
+    uint8_t char_index   = (uint8_t)((snapshot->sample_count - 1U) % (name_length + 1U));
+    DIAGNOSTICS_SEND_NAME(task->task_id, char_index, (uint8_t)task->name[char_index]);
+}
+
+static void send_summary_diagnostics(void) {
+    const diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
+    DIAGNOSTICS_SEND_SUMMARY(
+        snapshot->sample_count,
+        (uint16_t)snapshot->task_count,
+        encode_cpu_percent(snapshot->cpu_percent, snapshot->cpu_valid),
+        snapshot->capacity_exceeded
+    );
 }
 #endif // DIAGNOSTICS_CAN_ENABLED
 
-void diagnostics_periodic(void) {
+static void sample_diagnostics(void) {
     // returns the number of tasks, reads them into the raw_tasks array, returns 0 if DIAGNOSTICS_MAX_TASKS < number of running tasks
     UBaseType_t task_count = uxTaskGetSystemState(
         g_diagnostics_context.raw_tasks,
         DIAGNOSTICS_MAX_TASKS,
         &g_diagnostics_context.total_runtime
     );
-    // total time delta inbetween diagnostics_periodic function calls
+    // total time delta inbetween samples
     uint32_t total_delta =
         g_diagnostics_context.total_runtime - g_diagnostics_context.previous_total_runtime;
     // used to calculate CPU usage
@@ -145,14 +161,6 @@ void diagnostics_periodic(void) {
             raw_task->usStackHighWaterMark * sizeof(StackType_t);
         task->state = raw_task->eCurrentState;
         calculate_task_utilization(raw_task, task, total_delta);
-#ifdef DIAGNOSTICS_CAN_ENABLED
-        DIAGNOSTICS_SEND_TASK(
-            task->task_id,
-            encode_stack_hwm(task->stack_min_free_bytes),
-            encode_cpu_percent(task->cpu_usage_percent, task->cpu_usage_valid),
-            encode_task_state(task->state)
-        );
-#endif
 
         // Calculate overall CPU usage
         if (raw_task->xHandle == idle_task && task->cpu_usage_valid) {
@@ -161,17 +169,20 @@ void diagnostics_periodic(void) {
         }
     }
     save_task_runtimes(task_count);
+}
+
+void diagnostics_periodic(void) {
+    uint8_t tick = g_diagnostics_context.tick_count;
+    g_diagnostics_context.tick_count = (uint8_t)((tick + 1U) % DIAGNOSTICS_TICKS_PER_SAMPLE);
+
+    if (tick == 0) {
+        sample_diagnostics();
+    }
 #ifdef DIAGNOSTICS_CAN_ENABLED
-    const diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
-    DIAGNOSTICS_SEND_SUMMARY(
-        snapshot->sample_count,
-        (uint16_t)snapshot->task_count,
-        encode_cpu_percent(snapshot->cpu_percent, snapshot->cpu_valid),
-        snapshot->capacity_exceeded
-    );
-    if (snapshot->task_count > 0) {
-        RTOS_delay_ms(DIAGNOSTICS_TX_PACE_MS);
-        send_task_name_characters();
+    if (tick < g_diagnostics_context.snapshot.task_count) {
+        send_task_diagnostics(tick);
+    } else if (tick == DIAGNOSTICS_MAX_TASKS) {
+        send_summary_diagnostics();
     }
 #endif
 }
