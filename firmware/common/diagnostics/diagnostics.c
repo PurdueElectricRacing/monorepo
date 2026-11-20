@@ -67,28 +67,40 @@ static void save_task_runtimes(UBaseType_t task_count) {
 #ifdef DIAGNOSTICS_CAN_ENABLED
 // Pause between task/summary frames and name frames so a full 16-task snapshot
 // (up to 33 frames) does not overflow CAN_TX_QUEUE_LENGTH (32).
-static constexpr uint32_t DIAGNOSTICS_TX_PACE_MS = 10;
+static constexpr uint32_t DIAGNOSTICS_TX_PACE_MS  = 10;
+static constexpr uint8_t DIAGNOSTICS_CPU_INVALID  = UINT8_MAX;
+static constexpr uint8_t DIAGNOSTICS_MAX_NAME_LEN = 16;
+
+static_assert(DIAGNOSTICS_MAX_TASKS <= UINT16_MAX);
+static_assert(configMAX_TASK_NAME_LEN <= DIAGNOSTICS_MAX_NAME_LEN);
+static_assert((uint8_t)eRunning == (uint8_t)DIAGNOSTICS_TASK_STATE_RUNNING);
+static_assert((uint8_t)eReady == (uint8_t)DIAGNOSTICS_TASK_STATE_READY);
+static_assert((uint8_t)eBlocked == (uint8_t)DIAGNOSTICS_TASK_STATE_BLOCKED);
+static_assert((uint8_t)eSuspended == (uint8_t)DIAGNOSTICS_TASK_STATE_SUSPENDED);
+static_assert((uint8_t)eDeleted == (uint8_t)DIAGNOSTICS_TASK_STATE_DELETED);
+static_assert((uint8_t)eInvalid == (uint8_t)DIAGNOSTICS_TASK_STATE_INVALID);
 
 static uint8_t encode_cpu_percent(float percent, bool valid) {
     if (!valid || !(percent >= 0.0f && percent <= 100.0f)) {
-        return UINT8_MAX;
+        return DIAGNOSTICS_CPU_INVALID;
     }
-    return (uint8_t) (percent + 0.5f); // round to nearest percent
+    return (uint8_t)(percent + 0.5f); // round to nearest percent
 }
 
 static uint16_t encode_stack_hwm(uint32_t bytes) {
     if (bytes > UINT16_MAX) {
         return UINT16_MAX;
     }
-    return (uint16_t) bytes;
+    return (uint16_t)bytes;
 }
 
-static void send_task_name_characters(const diagnostics_snapshot_t *snapshot) {
+static void send_task_name_characters(void) {
+    const diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
     for (uint32_t i = 0; i < snapshot->task_count; i++) {
         const diagnostics_task_t *task = &snapshot->tasks[i];
         // Cycle through each name, including its terminating NUL.
-        size_t name_length = strlen(task->name);
-        uint8_t index      = (uint8_t)((snapshot->sample_count - 1U) % (name_length + 1U));
+        uint32_t name_length = (uint32_t)strlen(task->name);
+        uint8_t index        = (uint8_t)((snapshot->sample_count - 1U) % (name_length + 1U));
 
         DIAGNOSTICS_SEND_NAME(task->task_id, index, (uint8_t)task->name[index]);
     }
@@ -125,7 +137,7 @@ void diagnostics_periodic(void) {
             task->task_id,
             encode_stack_hwm(task->stack_min_free_bytes),
             encode_cpu_percent(task->cpu_usage_percent, task->cpu_usage_valid),
-            (uint8_t) task->state
+            (diagnostics_task_state_t)task->state
         );
 #endif
 
@@ -138,18 +150,16 @@ void diagnostics_periodic(void) {
     }
     save_task_runtimes(task_count);
 #ifdef DIAGNOSTICS_CAN_ENABLED
-    diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
-    uint16_t reported_task_count =
-        snapshot->task_count > UINT16_MAX ? UINT16_MAX : (uint16_t) snapshot->task_count;
+    const diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
     DIAGNOSTICS_SEND_SUMMARY(
         snapshot->sample_count,
-        reported_task_count,
+        (uint16_t)snapshot->task_count,
         encode_cpu_percent(snapshot->cpu_percent, snapshot->cpu_valid),
-        (uint8_t)snapshot->capacity_exceeded
+        snapshot->capacity_exceeded
     );
     if (snapshot->task_count > 0) {
         RTOS_delay_ms(DIAGNOSTICS_TX_PACE_MS);
-        send_task_name_characters(snapshot);
+        send_task_name_characters();
     }
 #endif
 }
