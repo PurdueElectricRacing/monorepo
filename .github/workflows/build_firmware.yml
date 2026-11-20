@@ -16,6 +16,10 @@ permissions:
   contents: read
   packages: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
+
 jobs:
   image:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository

@@ -1,34 +1,44 @@
 name: Build PER CI image
-description: Builds the repo Dockerfile and pushes it to GHCR with caching
+description: Resolves or builds the repo Dockerfile
 outputs:
   image:
     description: Fully qualified image reference (name:tag)
-    value: ghcr.io/purdueelectricracing/monorepo/per-firmware:${{ steps.meta.outputs.version }}
+    value: ${{ steps.check.outputs.image }}
 runs:
   using: composite
   steps:
-    - uses: docker/setup-buildx-action@v4
-
-    - id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ghcr.io/purdueelectricracing/monorepo/per-firmware
-        tags: |
-          type=sha,prefix=sha-
-          type=raw,value=latest,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-
     - uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ github.token }}
 
-    - uses: docker/build-push-action@v7
+    - id: check
+      shell: bash
+      run: |
+        REPO="ghcr.io/purdueelectricracing/monorepo/per-firmware"
+        IMAGE="$REPO:deps-${{ hashFiles('Dockerfile', 'requirements.txt') }}"
+        echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+        if docker manifest inspect "$IMAGE" >/dev/null 2>&1; then
+          echo "exists=true" >> "$GITHUB_OUTPUT"
+        fi
+
+    - if: steps.check.outputs.exists != 'true'
+      uses: docker/setup-buildx-action@v4
+
+    - if: steps.check.outputs.exists != 'true'
+      uses: docker/build-push-action@v7
       with:
         context: .
         file: Dockerfile
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        tags: ${{ steps.check.outputs.image }}
         cache-from: type=gha,scope=per-firmware
         cache-to: type=gha,mode=max,scope=per-firmware
+
+    - if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      shell: bash
+      run: |
+        docker buildx imagetools create \
+          -t ghcr.io/purdueelectricracing/monorepo/per-firmware:latest \
+          "${{ steps.check.outputs.image }}"
