@@ -64,7 +64,14 @@ int main() {
     return 0;
 }
 
-
+void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg) {
+    rx_count++;
+    if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) {
+        BaseType_t xHigherPriorityTaskWoken = 0;
+        xQueueSendFromISR(q_can_rx, msg, &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
+}
 
 // static void PHAL_FDCAN_testExtended(void) {
 //     CanMsgTypeDef_t msg;
