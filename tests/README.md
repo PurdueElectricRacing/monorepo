@@ -5,7 +5,7 @@ The host test suite uses GoogleTest and CTest for firmware unit tests.
 Hardware-free vehicle integration tests live in [`fil/`](fil/README.md), using
 FIL from the pinned [`external/fil`](external/fil) submodule. They run separately
 from the host unit tests and require built vehicle firmware. `build_all.py`
-builds FIL with PGO and runs these PER-specific scenarios automatically.
+builds FIL and runs these PER-specific scenarios automatically.
 
 ## Requirements
 
