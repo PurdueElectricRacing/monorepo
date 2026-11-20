@@ -171,6 +171,15 @@ class NodeDeclaration(DeclarationModel):
             raise ValueError("faults must contain unique values")
         return self
 
+    @model_validator(mode="after")
+    def validate_diagnostics_bus(self) -> Self:
+        if self.diagnostics_bus is not None and self.diagnostics_bus not in self.busses:
+            raise ValueError(
+                f"diagnostics_bus '{self.diagnostics_bus}' is not attached to node "
+                f"'{self.node_name}'; choose one of: {', '.join(self.busses)}"
+            )
+        return self
+
 
 class ExternalBusDeclaration(DeclarationModel):
     tx: list[MessageDeclaration] = Field(default_factory=list)

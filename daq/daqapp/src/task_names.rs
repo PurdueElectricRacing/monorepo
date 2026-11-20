@@ -32,8 +32,10 @@ impl TaskNames {
         let Some(message) = &frame.decoded else {
             return;
         };
-        if !message.name().ends_with("_diag_name")
-            || message.name() != format!("{}_diag_name", message.tx_node().to_lowercase())
+        if !message
+            .name()
+            .strip_suffix("_diag_name")
+            .is_some_and(|prefix| prefix.eq_ignore_ascii_case(message.tx_node()))
         {
             return;
         }

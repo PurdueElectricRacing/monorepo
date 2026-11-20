@@ -19,7 +19,7 @@
 #define TEST_DIAGNOSTICS     14
 #define TEST_SOC_UKF         15
 
-// Change this define to set the test compiled
+// Default test when not overridden via CMake (-DG4_TESTING_TEST=...)
 #ifndef G4_TESTING_CHOSEN
 #define G4_TESTING_CHOSEN TEST_BLINKY
 #endif
