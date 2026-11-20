@@ -20,10 +20,12 @@ static diagnostics_context_t g_diagnostics_context = {0};
 
 // Calculates utilization as the percentage of the total_delta that is equal to current_runtime - previous_runtime
 // Returns true if utilization can be calcualted. 
-static bool calculate_utilization(uint32_t current_runtime,
-                                      uint32_t previous_runtime,
-                                      uint32_t total_delta,
-                                      float *cpu_usage) {
+static bool calculate_utilization(
+    uint32_t current_runtime,
+    uint32_t previous_runtime,
+    uint32_t total_delta,
+    float *cpu_usage
+) {
     uint32_t task_delta = current_runtime - previous_runtime;
     if (total_delta > 0 && task_delta <= total_delta) {
         *cpu_usage = 100.0f * (float)(task_delta) / (float)(total_delta);
@@ -47,11 +49,12 @@ static void begin_snapshot(UBaseType_t count) {
 static void calculate_task_utilization(TaskStatus_t *raw_task, diagnostics_task_t *task, uint32_t total_delta) {
         for (UBaseType_t j = 0; j < g_diagnostics_context.previous_task_count; j++) {
             if (g_diagnostics_context.prev_task_times[j].task_id == raw_task->xTaskNumber) {
-                task->cpu_usage_valid =
-                    calculate_utilization(raw_task->ulRunTimeCounter,
-                                              g_diagnostics_context.prev_task_times[j].runtime,
-                                              total_delta,
-                                              &task->cpu_usage_percent);
+                task->cpu_usage_valid = calculate_utilization(
+                    raw_task->ulRunTimeCounter,
+                    g_diagnostics_context.prev_task_times[j].runtime,
+                    total_delta,
+                    &task->cpu_usage_percent
+                );
                 break;
             }
         }
@@ -117,9 +120,11 @@ static void send_task_name_characters(void) {
 
 void diagnostics_periodic(void) {
     // returns the number of tasks, reads them into the raw_tasks array, returns 0 if DIAGNOSTICS_MAX_TASKS < number of running tasks
-    UBaseType_t task_count = uxTaskGetSystemState(g_diagnostics_context.raw_tasks,
-                                                  DIAGNOSTICS_MAX_TASKS,
-                                                  &g_diagnostics_context.total_runtime);
+    UBaseType_t task_count = uxTaskGetSystemState(
+        g_diagnostics_context.raw_tasks,
+        DIAGNOSTICS_MAX_TASKS,
+        &g_diagnostics_context.total_runtime
+    );
     // total time delta inbetween diagnostics_periodic function calls
     uint32_t total_delta =
         g_diagnostics_context.total_runtime - g_diagnostics_context.previous_total_runtime;
@@ -151,8 +156,7 @@ void diagnostics_periodic(void) {
 
         // Calculate overall CPU usage
         if (raw_task->xHandle == idle_task && task->cpu_usage_valid) {
-            g_diagnostics_context.snapshot.cpu_percent =
-                100.0f - task->cpu_usage_percent;
+            g_diagnostics_context.snapshot.cpu_percent = 100.0f - task->cpu_usage_percent;
             g_diagnostics_context.snapshot.cpu_valid = true;
         }
     }
