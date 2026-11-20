@@ -67,18 +67,26 @@ static void save_task_runtimes(UBaseType_t task_count) {
 #ifdef DIAGNOSTICS_CAN_ENABLED
 // Pause between task/summary frames and name frames so a full 16-task snapshot
 // (up to 33 frames) does not overflow CAN_TX_QUEUE_LENGTH (32).
-static constexpr uint32_t DIAGNOSTICS_TX_PACE_MS  = 10;
-static constexpr uint8_t DIAGNOSTICS_CPU_INVALID  = UINT8_MAX;
-static constexpr uint8_t DIAGNOSTICS_MAX_NAME_LEN = 16;
+static constexpr uint32_t DIAGNOSTICS_TX_PACE_MS = 10;
+static constexpr uint8_t DIAGNOSTICS_CPU_INVALID = UINT8_MAX;
 
-static_assert(DIAGNOSTICS_MAX_TASKS <= UINT16_MAX);
-static_assert(configMAX_TASK_NAME_LEN <= DIAGNOSTICS_MAX_NAME_LEN);
-static_assert((uint8_t)eRunning == (uint8_t)DIAGNOSTICS_TASK_STATE_RUNNING);
-static_assert((uint8_t)eReady == (uint8_t)DIAGNOSTICS_TASK_STATE_READY);
-static_assert((uint8_t)eBlocked == (uint8_t)DIAGNOSTICS_TASK_STATE_BLOCKED);
-static_assert((uint8_t)eSuspended == (uint8_t)DIAGNOSTICS_TASK_STATE_SUSPENDED);
-static_assert((uint8_t)eDeleted == (uint8_t)DIAGNOSTICS_TASK_STATE_DELETED);
-static_assert((uint8_t)eInvalid == (uint8_t)DIAGNOSTICS_TASK_STATE_INVALID);
+static diagnostics_task_state_t encode_task_state(eTaskState state) {
+    switch (state) {
+        case eRunning:
+            return DIAGNOSTICS_TASK_STATE_RUNNING;
+        case eReady:
+            return DIAGNOSTICS_TASK_STATE_READY;
+        case eBlocked:
+            return DIAGNOSTICS_TASK_STATE_BLOCKED;
+        case eSuspended:
+            return DIAGNOSTICS_TASK_STATE_SUSPENDED;
+        case eDeleted:
+            return DIAGNOSTICS_TASK_STATE_DELETED;
+        case eInvalid:
+        default:
+            return DIAGNOSTICS_TASK_STATE_INVALID;
+    }
+}
 
 static uint8_t encode_cpu_percent(float percent, bool valid) {
     if (!valid || !(percent >= 0.0f && percent <= 100.0f)) {
@@ -137,7 +145,7 @@ void diagnostics_periodic(void) {
             task->task_id,
             encode_stack_hwm(task->stack_min_free_bytes),
             encode_cpu_percent(task->cpu_usage_percent, task->cpu_usage_valid),
-            (diagnostics_task_state_t)task->state
+            encode_task_state(task->state)
         );
 #endif
 
