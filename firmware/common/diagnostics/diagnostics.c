@@ -11,6 +11,7 @@
 #include "common/rtos/rtos.h"
 #include "can_library/generated/diagnostics_can.h"
 
+#ifdef DIAGNOSTICS_CAN_ENABLED
 
 static diagnostics_context_t g_diagnostics_context;
 
@@ -142,3 +143,5 @@ void diagnostics_periodic(void) {
     save_task_runtimes(task_count);
     send_task_name_characters(snapshot);
 }
+
+#endif // DIAGNOSTICS_CAN_ENABLED
