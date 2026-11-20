@@ -1,0 +1,52 @@
+header:
+  version: 14
+
+# The shared Pi 5 machine includes CM5 device trees.
+# Other CM5 carriers may require their own device tree and boot configuration.
+machine: raspberrypi5
+distro: poky
+
+repos:
+  poky:
+    url: https://git.yoctoproject.org/poky.git
+    branch: scarthgap
+    commit: b2c16f1e69130558574e1363aff944647fa9cd11
+    layers:
+      meta:
+      meta-poky:
+
+  meta-raspberrypi:
+    url: https://github.com/agherzan/meta-raspberrypi.git
+    branch: scarthgap
+    commit: 6ca1f75017cc5d5acdb8bb05634c4bc01fa049fd
+
+  meta-openembedded:
+    url: https://github.com/openembedded/meta-openembedded.git
+    branch: scarthgap
+    commit: b5874ea07d69919d9b40d59f2c2f0bbd24bc3259
+    layers:
+      meta-oe:
+
+  yoctocoupler:
+    layers:
+      torque_vector/yoctocoupler/meta-yoctocoupler:
+
+env:
+  # kas-container callers must forward a supplied key with --runtime-args.
+  YOCTOCOUPLER_SSH_PUBLIC_KEY: null
+
+local_conf_header:
+  yoctocoupler: |
+    INIT_MANAGER = "systemd"
+    # meta-raspberrypi defaults to 6.6; use 6.12 for the RT kernel append.
+    PREFERRED_VERSION_linux-raspberrypi = "6.12.%"
+    PACKAGECONFIG:append:pn-systemd = " networkd resolved"
+    # Keep the appliance headless; D-Bus does not need its X11 autolaunch support.
+    DISTRO_FEATURES:remove = "x11"
+    # Permit only an explicitly supplied public key through BitBake's environment filter.
+    BB_ENV_PASSTHROUGH_ADDITIONS:append = " YOCTOCOUPLER_SSH_PUBLIC_KEY"
+    RPI_EXTRA_CONFIG:append = " \n dtoverlay=pps-gpio,gpiopin=17 \n"
+    # Avoid Raspberry Pi firmware's default one-second pre-kernel delay.
+    BOOT_DELAY = "0"
+    BOOT_DELAY_MS = "0"
+    # Use OpenEmbedded's CPU-affinity-aware defaults instead of a fixed cap.
