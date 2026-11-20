@@ -60,8 +60,8 @@ static_assert(PACK_ANALOG_CCAN_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 static_assert(CELL_TELEMETRY_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 static_assert(CELL_TELEMETRY_CCAN_PERIOD_MS == TELEMETRY_100HZ_PERIOD_MS);
 void report_telemetry_100hz(void) {
-    uint16_t pack_voltage = (uint16_t)(vbatt_to_voltage(adc1_dma_buffer.vbatt_raw) * PACK_COEFF_PACK_ANALOG_PACK_VOLTAGE);
-    int16_t pack_current  = (int16_t)(isense_to_current(adc1_dma_buffer.isense_raw) * PACK_COEFF_PACK_ANALOG_PACK_CURRENT);
+    uint16_t pack_voltage = (uint16_t)(vbatt_to_voltage(PHAL_ADC_read(VBATT_GPIO_PORT, VBATT_GPIO_PIN)) * PACK_COEFF_PACK_ANALOG_PACK_VOLTAGE);
+    int16_t pack_current  = (int16_t)(isense_to_current(PHAL_ADC_read(ISENSE_GPIO_PORT, ISENSE_GPIO_PIN)) * PACK_COEFF_PACK_ANALOG_PACK_CURRENT);
 
     CAN_SEND_pack_analog(pack_voltage, pack_current);
     CAN_SEND_pack_analog_ccan(pack_voltage, pack_current);

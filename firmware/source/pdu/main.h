@@ -63,16 +63,12 @@
 // Analog inputs
 #define LVBATT_VS_PORT        (GPIOA)
 #define LVBATT_VS_PIN         (3)
-#define LVBATT_VS_ADC_CHANNEL (4)
 #define LVBATT_CS_PORT        (GPIOB)
 #define LVBATT_CS_PIN         (0)
-#define LVBATT_CS_ADC_CHANNEL (12)
 #define MUX1_OUT_PORT         (GPIOC)
 #define MUX1_OUT_PIN          (4)
-#define MUX1_OUT_ADC_CHANNEL  (5)
 #define MUX2_OUT_PORT         (GPIOA)
 #define MUX2_OUT_PIN          (4)
-#define MUX2_OUT_ADC_CHANNEL  (17)
 
 // Analog multiplexer controls
 #define MUX1_CTRL_A_PORT (GPIOA)
@@ -89,22 +85,6 @@
 #define MUX2_CTRL_C_PIN  (15)
 #define MUX2_CTRL_D_PORT (GPIOB)
 #define MUX2_CTRL_D_PIN  (5)
-
-typedef struct {
-    uint16_t lvbatt_vs;
-} raw_adc1_values_t;
-extern volatile raw_adc1_values_t raw_adc1_values;
-
-typedef struct {
-    uint16_t mux1_out;
-    uint16_t mux2_out;
-} raw_adc2_values_t;
-extern volatile raw_adc2_values_t raw_adc2_values;
-
-typedef struct {
-    uint16_t lvbatt_cs;
-} raw_adc3_values_t;
-extern volatile raw_adc3_values_t raw_adc3_values;
 
 
 #endif // MAIN_H

@@ -35,7 +35,7 @@ static inline float brake_adc_to_pressure(uint16_t raw_brake_adc) {
 static_assert(BRAKE_PRESSURE_PERIOD_MS == TELEMETRY_25HZ_PERIOD_MS);
 void report_telemetry_25hz(void) {
     // Harness maps brake pressure to regen1.
-    uint16_t brake_pressure = (uint16_t)(brake_adc_to_pressure(raw_adc_values.regen1) * PACK_COEFF_BRAKE_PRESSURE_BRAKE_PRESSURE);
+    uint16_t brake_pressure = (uint16_t)(brake_adc_to_pressure(PHAL_ADC_read(REGEN1_PORT, REGEN1_PIN)) * PACK_COEFF_BRAKE_PRESSURE_BRAKE_PRESSURE);
 
     CAN_SEND_brake_pressure(brake_pressure);
 }
