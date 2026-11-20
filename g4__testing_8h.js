@@ -13,6 +13,7 @@ var g4__testing_8h =
     [ "TEST_GPIO", "g4__testing_8h.html#a2ba3e771b6d22e8f8443d048109e991f", null ],
     [ "TEST_ONBOARDING_2027", "g4__testing_8h.html#a9ab180e1e0e790980c2700d523212541", null ],
     [ "TEST_PWM", "g4__testing_8h.html#a91a16cc33ca4d17845106e8082d84e61", null ],
+    [ "TEST_SOC_UKF", "g4__testing_8h.html#af48ab9598af5cfece5b590282f3cc0f0", null ],
     [ "TEST_SPI", "g4__testing_8h.html#a56a27255240e687884327372399cb508", null ],
     [ "TEST_USART", "g4__testing_8h.html#af34c78aee83aefb9cadaaecefdd0d45b", null ],
     [ "TEST_USB", "g4__testing_8h.html#a33148deb32284e918c9e45f233f28079", null ]

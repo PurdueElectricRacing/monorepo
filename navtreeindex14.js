@@ -1,5 +1,7 @@
 var NAVTREEINDEX14 =
 {
+"gpio__priv_8c.html#adf74462d771e41ca4d8373790d1ea8d7":[34,0,1,1,10,6,2,9],
+"gpio__priv_8h.html":[34,0,1,1,10,6,3],
 "gpio__priv_8h.html#a0717f172fdfcdfee44bb13bb44529460":[34,0,1,1,10,6,3,15],
 "gpio__priv_8h.html#a0d2de10ed6f44098da6c84571d14e87a":[34,0,1,1,10,6,3,9],
 "gpio__priv_8h.html#a0e238c800aa61324f3fb51dad1683319":[34,0,1,1,10,6,3,7],
@@ -247,7 +249,5 @@ var NAVTREEINDEX14 =
 "main__module_2main_8h_source.html":[34,0,1,2,7,6],
 "main__module_2telemetry_2telemetry_8c.html":[34,0,1,2,7,2,0],
 "main__module_2telemetry_2telemetry_8c.html#a14fa998ab27981c4409143eae0bde0e1":[34,0,1,2,7,2,0,4],
-"main__module_2telemetry_2telemetry_8c.html#a1e675b11e095a533b972887a23771d5d":[34,0,1,2,7,2,0,0],
-"main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968":[34,0,1,2,7,2,0,3],
-"main__module_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2":[34,0,1,2,7,2,0,2]
+"main__module_2telemetry_2telemetry_8c.html#a1e675b11e095a533b972887a23771d5d":[34,0,1,2,7,2,0,0]
 };

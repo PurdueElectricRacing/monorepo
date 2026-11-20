@@ -14,6 +14,7 @@ var dir_4d47efa3f286fa89179db6ae5f16d59d =
     [ "main.h", "g4__testing_2main_8h.html", "g4__testing_2main_8h" ],
     [ "onboarding_2027.c", "onboarding__2027_8c.html", null ],
     [ "pwm_testing.c", "pwm__testing_8c.html", null ],
+    [ "soc_ukf_test.c", "soc__ukf__test_8c.html", null ],
     [ "spi_test.c", "spi__test_8c.html", null ],
     [ "usart_test.c", "usart__test_8c.html", null ],
     [ "usb_test.c", "usb__test_8c.html", null ]
