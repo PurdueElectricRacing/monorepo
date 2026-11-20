@@ -18,6 +18,7 @@ concurrency:
 
 jobs:
   image:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     name: CI image
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -67,18 +68,6 @@ jobs:
 
       - name: Fix git ownership
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-
-      - name: Cache Cargo
-        uses: actions/cache@v6
-        with:
-          path: |
-            /opt/cargo/registry
-            /opt/cargo/git
-            daq/target
-          key: ${{ runner.os }}-superdbc-${{ hashFiles('daq/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-superdbc-
-            ${{ runner.os }}-daq-
 
       - name: Generate firmware artifacts and SuperDBC schema
         run: python3 generators/generate.py
@@ -139,7 +128,7 @@ jobs:
 
   clippy:
     name: Clippy (DAQ)
-    needs: [image]
+    needs: [image, build]
     if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     container:
@@ -159,7 +148,6 @@ jobs:
           key: ${{ runner.os }}-clippy-DAQ-${{ hashFiles('daq/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-clippy-DAQ-
-            ${{ runner.os }}-daq-
 
       - name: Check Clippy
         working-directory: daq
