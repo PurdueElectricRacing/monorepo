@@ -141,6 +141,8 @@ Functions</h2></td></tr>
 <tr class="separator:aba60db2ca6b351f91082c06fc4d18cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa74d2751bf997adba50be76251291997" id="r_aa74d2751bf997adba50be76251291997"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa74d2751bf997adba50be76251291997">CAN_init_data</a> (void)</td></tr>
 <tr class="separator:aa74d2751bf997adba50be76251291997"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e03cc080180cb686650bd762c5f6d0e" id="r_a6e03cc080180cb686650bd762c5f6d0e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e03cc080180cb686650bd762c5f6d0e">CAN_SEND_IVT_S_command</a> (uint8_t value_opcode, uint8_t value_parameter_1, uint8_t value_parameter_2, uint8_t value_parameter_3, uint8_t value_parameter_4, uint8_t value_parameter_5, uint8_t value_parameter_6, uint8_t value_parameter_7)</td></tr>
+<tr class="separator:a6e03cc080180cb686650bd762c5f6d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1dd169a014710a024d96f6504fa03fa8" id="r_a1dd169a014710a024d96f6504fa03fa8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dd169a014710a024d96f6504fa03fa8">CAN_SEND_IZZE_IMU_config</a> (uint16_t value_programming_constant, uint16_t value_NEW_CAN_BASE_ID, <a class="el" href="can__types_8h.html#a0fa2eb21105888473f77c19fcc765f33">izze_gyro_scale_t</a> value_gyro_scale, <a class="el" href="can__types_8h.html#af24ee168f1f45392a7283176708bf46f">izze_accel_scale_t</a> value_accel_scale, <a class="el" href="can__types_8h.html#ad285c396350863ac8dcac9fe63d06c0d">izze_output_data_rate_t</a> value_output_data_rate, <a class="el" href="can__types_8h.html#ac53123818bf3c22481006fdf5ae0ceaf">izze_bit_rate_t</a> value_bit_rate)</td></tr>
 <tr class="separator:a1dd169a014710a024d96f6504fa03fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a539b4afe5ea8cb23ea3a1b4628107887" id="r_a539b4afe5ea8cb23ea3a1b4628107887"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a539b4afe5ea8cb23ea3a1b4628107887">CAN_SEND_canpiler_test</a> (uint8_t value_temperature, int16_t value_current, uint16_t value_voltage, uint8_t value_pressure, uint8_t value_status)</td></tr>
@@ -204,7 +206,7 @@ Variables</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="G4__TESTING_8h_a0da956162efe3e0016f181cee58961e6_icgraph.svg" width="440" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="G4__TESTING_8h_a0da956162efe3e0016f181cee58961e6_icgraph.svg" width="440" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -348,6 +350,70 @@ Here is the call graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="G4__TESTING_8h_a539b4afe5ea8cb23ea3a1b4628107887_cgraph.svg" width="594" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a6e03cc080180cb686650bd762c5f6d0e" name="a6e03cc080180cb686650bd762c5f6d0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e03cc080180cb686650bd762c5f6d0e">&#9670;&#160;</a></span>CAN_SEND_IVT_S_command()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_IVT_S_command </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_opcode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_parameter_1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_parameter_2</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_parameter_3</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_parameter_4</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_parameter_5</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_parameter_6</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_parameter_7</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="G4__TESTING_8h_a6e03cc080180cb686650bd762c5f6d0e_cgraph.svg" width="620" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

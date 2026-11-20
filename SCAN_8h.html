@@ -193,6 +193,18 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structe__meter__status__data__t.html">e_meter_status_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structivt__s__current__data__t.html">ivt_s_current_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structivt__s__u1__data__t.html">ivt_s_u1_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structivt__s__temperature__data__t.html">ivt_s_temperature_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structivt__s__power__data__t.html">ivt_s_power_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structivt__s__charge__data__t.html">ivt_s_charge_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structivt__s__energy__data__t.html">ivt_s_energy_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structe__meter__temperature__data__t.html">e_meter_temperature_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -500,6 +512,66 @@ Variables</h2></td></tr>
 <tr class="separator:ad52b2f80390de56e70177dcf8f363103"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab38258b872846e0c17c4bf1738e969b1" id="r_ab38258b872846e0c17c4bf1738e969b1"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab38258b872846e0c17c4bf1738e969b1">E_METER_STATUS_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:ab38258b872846e0c17c4bf1738e969b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fe585a7feb04aac0ec094f6efae5c42" id="r_a2fe585a7feb04aac0ec094f6efae5c42"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fe585a7feb04aac0ec094f6efae5c42">IVT_S_CURRENT_MSG_ID</a> = 0x521</td></tr>
+<tr class="separator:a2fe585a7feb04aac0ec094f6efae5c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e680990f7c480015d782bb355da9018" id="r_a8e680990f7c480015d782bb355da9018"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e680990f7c480015d782bb355da9018">IVT_S_CURRENT_DLC</a> = 6</td></tr>
+<tr class="separator:a8e680990f7c480015d782bb355da9018"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afeba3728da8c4f8f0acb65638dde66a4" id="r_afeba3728da8c4f8f0acb65638dde66a4"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afeba3728da8c4f8f0acb65638dde66a4">IVT_S_CURRENT_LAYOUT_HASH</a> = 0x4A30837C08BA9B46</td></tr>
+<tr class="separator:afeba3728da8c4f8f0acb65638dde66a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13219b8ba8f841669bb8eadcb780f5d8" id="r_a13219b8ba8f841669bb8eadcb780f5d8"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13219b8ba8f841669bb8eadcb780f5d8">IVT_S_CURRENT_PERIOD_MS</a> = 20</td></tr>
+<tr class="separator:a13219b8ba8f841669bb8eadcb780f5d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2da0364c4867345e07a51e0f7af1c3c1" id="r_a2da0364c4867345e07a51e0f7af1c3c1"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2da0364c4867345e07a51e0f7af1c3c1">IVT_S_CURRENT_STALE_TIMEOUT_MS</a> = 50</td></tr>
+<tr class="separator:a2da0364c4867345e07a51e0f7af1c3c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a828c60b0c6e3fcb4e927cebca34b64be" id="r_a828c60b0c6e3fcb4e927cebca34b64be"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a828c60b0c6e3fcb4e927cebca34b64be">IVT_S_U1_MSG_ID</a> = 0x522</td></tr>
+<tr class="separator:a828c60b0c6e3fcb4e927cebca34b64be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3f924ed7212191b186f168312286b33" id="r_ab3f924ed7212191b186f168312286b33"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3f924ed7212191b186f168312286b33">IVT_S_U1_DLC</a> = 6</td></tr>
+<tr class="separator:ab3f924ed7212191b186f168312286b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a367206ea2e8c31a93e9d9b6c68004c2c" id="r_a367206ea2e8c31a93e9d9b6c68004c2c"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a367206ea2e8c31a93e9d9b6c68004c2c">IVT_S_U1_LAYOUT_HASH</a> = 0xA7988EA9CCD49553</td></tr>
+<tr class="separator:a367206ea2e8c31a93e9d9b6c68004c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a840d8946e272019e083f62f4a330fa1c" id="r_a840d8946e272019e083f62f4a330fa1c"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a840d8946e272019e083f62f4a330fa1c">IVT_S_U1_PERIOD_MS</a> = 60</td></tr>
+<tr class="separator:a840d8946e272019e083f62f4a330fa1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c67216b4c98577f5c72c03d5e52ca7b" id="r_a5c67216b4c98577f5c72c03d5e52ca7b"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c67216b4c98577f5c72c03d5e52ca7b">IVT_S_U1_STALE_TIMEOUT_MS</a> = 150</td></tr>
+<tr class="separator:a5c67216b4c98577f5c72c03d5e52ca7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca82ca9d0a807e7c32856ed1ad71ca9d" id="r_aca82ca9d0a807e7c32856ed1ad71ca9d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca82ca9d0a807e7c32856ed1ad71ca9d">IVT_S_TEMPERATURE_MSG_ID</a> = 0x525</td></tr>
+<tr class="separator:aca82ca9d0a807e7c32856ed1ad71ca9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a988035e3126dd73c9bf8a8363264a219" id="r_a988035e3126dd73c9bf8a8363264a219"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a988035e3126dd73c9bf8a8363264a219">IVT_S_TEMPERATURE_DLC</a> = 6</td></tr>
+<tr class="separator:a988035e3126dd73c9bf8a8363264a219"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ce892a66c1e931f9f955885349b5e9d" id="r_a0ce892a66c1e931f9f955885349b5e9d"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ce892a66c1e931f9f955885349b5e9d">IVT_S_TEMPERATURE_LAYOUT_HASH</a> = 0x62BBEF8662856E81</td></tr>
+<tr class="separator:a0ce892a66c1e931f9f955885349b5e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a319f6c0d9b4ed53c017f9cb248b031d4" id="r_a319f6c0d9b4ed53c017f9cb248b031d4"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a319f6c0d9b4ed53c017f9cb248b031d4">IVT_S_TEMPERATURE_PERIOD_MS</a> = 100</td></tr>
+<tr class="separator:a319f6c0d9b4ed53c017f9cb248b031d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20290354deb36817ccd76241f1aa1fb7" id="r_a20290354deb36817ccd76241f1aa1fb7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20290354deb36817ccd76241f1aa1fb7">IVT_S_TEMPERATURE_STALE_TIMEOUT_MS</a> = 250</td></tr>
+<tr class="separator:a20290354deb36817ccd76241f1aa1fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf4a40b899ec374c602860340e692cab" id="r_aaf4a40b899ec374c602860340e692cab"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf4a40b899ec374c602860340e692cab">IVT_S_POWER_MSG_ID</a> = 0x526</td></tr>
+<tr class="separator:aaf4a40b899ec374c602860340e692cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a102e928225103bdcaf05b8692ce7ac2d" id="r_a102e928225103bdcaf05b8692ce7ac2d"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a102e928225103bdcaf05b8692ce7ac2d">IVT_S_POWER_DLC</a> = 6</td></tr>
+<tr class="separator:a102e928225103bdcaf05b8692ce7ac2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad207d718fc49708c459706dcb56d86cb" id="r_ad207d718fc49708c459706dcb56d86cb"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad207d718fc49708c459706dcb56d86cb">IVT_S_POWER_LAYOUT_HASH</a> = 0xA627CB6642BAA5D9</td></tr>
+<tr class="separator:ad207d718fc49708c459706dcb56d86cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefb50e55ea2d511d2dcc4c209cadcbbb" id="r_aefb50e55ea2d511d2dcc4c209cadcbbb"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefb50e55ea2d511d2dcc4c209cadcbbb">IVT_S_POWER_PERIOD_MS</a> = 30</td></tr>
+<tr class="separator:aefb50e55ea2d511d2dcc4c209cadcbbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa531dc0d116e83cb0909c071eb4c65f1" id="r_aa531dc0d116e83cb0909c071eb4c65f1"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa531dc0d116e83cb0909c071eb4c65f1">IVT_S_POWER_STALE_TIMEOUT_MS</a> = 75</td></tr>
+<tr class="separator:aa531dc0d116e83cb0909c071eb4c65f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa990e1f0d3127c2c8fa5f9598dc3eda7" id="r_aa990e1f0d3127c2c8fa5f9598dc3eda7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa990e1f0d3127c2c8fa5f9598dc3eda7">IVT_S_CHARGE_MSG_ID</a> = 0x527</td></tr>
+<tr class="separator:aa990e1f0d3127c2c8fa5f9598dc3eda7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6386de273ff3b5edc5a809eb7825f4de" id="r_a6386de273ff3b5edc5a809eb7825f4de"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6386de273ff3b5edc5a809eb7825f4de">IVT_S_CHARGE_DLC</a> = 6</td></tr>
+<tr class="separator:a6386de273ff3b5edc5a809eb7825f4de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16f01efd3626709c1e8a256cfb8e61fc" id="r_a16f01efd3626709c1e8a256cfb8e61fc"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16f01efd3626709c1e8a256cfb8e61fc">IVT_S_CHARGE_LAYOUT_HASH</a> = 0x56E9300F137E2099</td></tr>
+<tr class="separator:a16f01efd3626709c1e8a256cfb8e61fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47c5506018ae86b38295e9a91ba6b0fd" id="r_a47c5506018ae86b38295e9a91ba6b0fd"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47c5506018ae86b38295e9a91ba6b0fd">IVT_S_CHARGE_PERIOD_MS</a> = 30</td></tr>
+<tr class="separator:a47c5506018ae86b38295e9a91ba6b0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a339492b2e9146c26b31094bdab209f5a" id="r_a339492b2e9146c26b31094bdab209f5a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a339492b2e9146c26b31094bdab209f5a">IVT_S_CHARGE_STALE_TIMEOUT_MS</a> = 75</td></tr>
+<tr class="separator:a339492b2e9146c26b31094bdab209f5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee4377adeb961778a482f2aac8355dd0" id="r_aee4377adeb961778a482f2aac8355dd0"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee4377adeb961778a482f2aac8355dd0">IVT_S_ENERGY_MSG_ID</a> = 0x528</td></tr>
+<tr class="separator:aee4377adeb961778a482f2aac8355dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad087eb7dc070341cc73213a9fc396003" id="r_ad087eb7dc070341cc73213a9fc396003"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad087eb7dc070341cc73213a9fc396003">IVT_S_ENERGY_DLC</a> = 6</td></tr>
+<tr class="separator:ad087eb7dc070341cc73213a9fc396003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b98a2e072b2ffbbb1a5b8f451009217" id="r_a1b98a2e072b2ffbbb1a5b8f451009217"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b98a2e072b2ffbbb1a5b8f451009217">IVT_S_ENERGY_LAYOUT_HASH</a> = 0x949ED3B726F02EAC</td></tr>
+<tr class="separator:a1b98a2e072b2ffbbb1a5b8f451009217"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0237871353cf3b19daad652cabbeec91" id="r_a0237871353cf3b19daad652cabbeec91"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0237871353cf3b19daad652cabbeec91">IVT_S_ENERGY_PERIOD_MS</a> = 30</td></tr>
+<tr class="separator:a0237871353cf3b19daad652cabbeec91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a261e3952563dc3ea96eced156873128c" id="r_a261e3952563dc3ea96eced156873128c"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a261e3952563dc3ea96eced156873128c">IVT_S_ENERGY_STALE_TIMEOUT_MS</a> = 75</td></tr>
+<tr class="separator:a261e3952563dc3ea96eced156873128c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a316a022947aa0fce20f050248b9b896e" id="r_a316a022947aa0fce20f050248b9b896e"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a316a022947aa0fce20f050248b9b896e">E_METER_TEMPERATURE_MSG_ID</a> = 0x60D</td></tr>
 <tr class="separator:a316a022947aa0fce20f050248b9b896e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82f7538ca5dfe4bf48c26a7ab6c1a0dd" id="r_a82f7538ca5dfe4bf48c26a7ab6c1a0dd"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82f7538ca5dfe4bf48c26a7ab6c1a0dd">E_METER_TEMPERATURE_DLC</a> = 8</td></tr>
@@ -3211,6 +3283,666 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">uint32_t IMU_ANGULAR_RATE_STALE_TIMEOUT_MS = 25</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6386de273ff3b5edc5a809eb7825f4de" name="a6386de273ff3b5edc5a809eb7825f4de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6386de273ff3b5edc5a809eb7825f4de">&#9670;&#160;</a></span>IVT_S_CHARGE_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t IVT_S_CHARGE_DLC = 6</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a16f01efd3626709c1e8a256cfb8e61fc" name="a16f01efd3626709c1e8a256cfb8e61fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16f01efd3626709c1e8a256cfb8e61fc">&#9670;&#160;</a></span>IVT_S_CHARGE_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t IVT_S_CHARGE_LAYOUT_HASH = 0x56E9300F137E2099</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa990e1f0d3127c2c8fa5f9598dc3eda7" name="aa990e1f0d3127c2c8fa5f9598dc3eda7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa990e1f0d3127c2c8fa5f9598dc3eda7">&#9670;&#160;</a></span>IVT_S_CHARGE_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_CHARGE_MSG_ID = 0x527</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a47c5506018ae86b38295e9a91ba6b0fd" name="a47c5506018ae86b38295e9a91ba6b0fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47c5506018ae86b38295e9a91ba6b0fd">&#9670;&#160;</a></span>IVT_S_CHARGE_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_CHARGE_PERIOD_MS = 30</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a339492b2e9146c26b31094bdab209f5a" name="a339492b2e9146c26b31094bdab209f5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a339492b2e9146c26b31094bdab209f5a">&#9670;&#160;</a></span>IVT_S_CHARGE_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_CHARGE_STALE_TIMEOUT_MS = 75</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e680990f7c480015d782bb355da9018" name="a8e680990f7c480015d782bb355da9018"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e680990f7c480015d782bb355da9018">&#9670;&#160;</a></span>IVT_S_CURRENT_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t IVT_S_CURRENT_DLC = 6</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afeba3728da8c4f8f0acb65638dde66a4" name="afeba3728da8c4f8f0acb65638dde66a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afeba3728da8c4f8f0acb65638dde66a4">&#9670;&#160;</a></span>IVT_S_CURRENT_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t IVT_S_CURRENT_LAYOUT_HASH = 0x4A30837C08BA9B46</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2fe585a7feb04aac0ec094f6efae5c42" name="a2fe585a7feb04aac0ec094f6efae5c42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fe585a7feb04aac0ec094f6efae5c42">&#9670;&#160;</a></span>IVT_S_CURRENT_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_CURRENT_MSG_ID = 0x521</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a13219b8ba8f841669bb8eadcb780f5d8" name="a13219b8ba8f841669bb8eadcb780f5d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13219b8ba8f841669bb8eadcb780f5d8">&#9670;&#160;</a></span>IVT_S_CURRENT_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_CURRENT_PERIOD_MS = 20</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2da0364c4867345e07a51e0f7af1c3c1" name="a2da0364c4867345e07a51e0f7af1c3c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2da0364c4867345e07a51e0f7af1c3c1">&#9670;&#160;</a></span>IVT_S_CURRENT_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_CURRENT_STALE_TIMEOUT_MS = 50</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad087eb7dc070341cc73213a9fc396003" name="ad087eb7dc070341cc73213a9fc396003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad087eb7dc070341cc73213a9fc396003">&#9670;&#160;</a></span>IVT_S_ENERGY_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t IVT_S_ENERGY_DLC = 6</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b98a2e072b2ffbbb1a5b8f451009217" name="a1b98a2e072b2ffbbb1a5b8f451009217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b98a2e072b2ffbbb1a5b8f451009217">&#9670;&#160;</a></span>IVT_S_ENERGY_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t IVT_S_ENERGY_LAYOUT_HASH = 0x949ED3B726F02EAC</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee4377adeb961778a482f2aac8355dd0" name="aee4377adeb961778a482f2aac8355dd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee4377adeb961778a482f2aac8355dd0">&#9670;&#160;</a></span>IVT_S_ENERGY_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_ENERGY_MSG_ID = 0x528</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0237871353cf3b19daad652cabbeec91" name="a0237871353cf3b19daad652cabbeec91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0237871353cf3b19daad652cabbeec91">&#9670;&#160;</a></span>IVT_S_ENERGY_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_ENERGY_PERIOD_MS = 30</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a261e3952563dc3ea96eced156873128c" name="a261e3952563dc3ea96eced156873128c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a261e3952563dc3ea96eced156873128c">&#9670;&#160;</a></span>IVT_S_ENERGY_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_ENERGY_STALE_TIMEOUT_MS = 75</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a102e928225103bdcaf05b8692ce7ac2d" name="a102e928225103bdcaf05b8692ce7ac2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a102e928225103bdcaf05b8692ce7ac2d">&#9670;&#160;</a></span>IVT_S_POWER_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t IVT_S_POWER_DLC = 6</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad207d718fc49708c459706dcb56d86cb" name="ad207d718fc49708c459706dcb56d86cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad207d718fc49708c459706dcb56d86cb">&#9670;&#160;</a></span>IVT_S_POWER_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t IVT_S_POWER_LAYOUT_HASH = 0xA627CB6642BAA5D9</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaf4a40b899ec374c602860340e692cab" name="aaf4a40b899ec374c602860340e692cab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf4a40b899ec374c602860340e692cab">&#9670;&#160;</a></span>IVT_S_POWER_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_POWER_MSG_ID = 0x526</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aefb50e55ea2d511d2dcc4c209cadcbbb" name="aefb50e55ea2d511d2dcc4c209cadcbbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefb50e55ea2d511d2dcc4c209cadcbbb">&#9670;&#160;</a></span>IVT_S_POWER_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_POWER_PERIOD_MS = 30</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa531dc0d116e83cb0909c071eb4c65f1" name="aa531dc0d116e83cb0909c071eb4c65f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa531dc0d116e83cb0909c071eb4c65f1">&#9670;&#160;</a></span>IVT_S_POWER_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_POWER_STALE_TIMEOUT_MS = 75</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a988035e3126dd73c9bf8a8363264a219" name="a988035e3126dd73c9bf8a8363264a219"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a988035e3126dd73c9bf8a8363264a219">&#9670;&#160;</a></span>IVT_S_TEMPERATURE_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t IVT_S_TEMPERATURE_DLC = 6</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0ce892a66c1e931f9f955885349b5e9d" name="a0ce892a66c1e931f9f955885349b5e9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ce892a66c1e931f9f955885349b5e9d">&#9670;&#160;</a></span>IVT_S_TEMPERATURE_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t IVT_S_TEMPERATURE_LAYOUT_HASH = 0x62BBEF8662856E81</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aca82ca9d0a807e7c32856ed1ad71ca9d" name="aca82ca9d0a807e7c32856ed1ad71ca9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca82ca9d0a807e7c32856ed1ad71ca9d">&#9670;&#160;</a></span>IVT_S_TEMPERATURE_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_TEMPERATURE_MSG_ID = 0x525</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a319f6c0d9b4ed53c017f9cb248b031d4" name="a319f6c0d9b4ed53c017f9cb248b031d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a319f6c0d9b4ed53c017f9cb248b031d4">&#9670;&#160;</a></span>IVT_S_TEMPERATURE_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_TEMPERATURE_PERIOD_MS = 100</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a20290354deb36817ccd76241f1aa1fb7" name="a20290354deb36817ccd76241f1aa1fb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20290354deb36817ccd76241f1aa1fb7">&#9670;&#160;</a></span>IVT_S_TEMPERATURE_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_TEMPERATURE_STALE_TIMEOUT_MS = 250</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab3f924ed7212191b186f168312286b33" name="ab3f924ed7212191b186f168312286b33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3f924ed7212191b186f168312286b33">&#9670;&#160;</a></span>IVT_S_U1_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t IVT_S_U1_DLC = 6</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a367206ea2e8c31a93e9d9b6c68004c2c" name="a367206ea2e8c31a93e9d9b6c68004c2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a367206ea2e8c31a93e9d9b6c68004c2c">&#9670;&#160;</a></span>IVT_S_U1_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t IVT_S_U1_LAYOUT_HASH = 0xA7988EA9CCD49553</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a828c60b0c6e3fcb4e927cebca34b64be" name="a828c60b0c6e3fcb4e927cebca34b64be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a828c60b0c6e3fcb4e927cebca34b64be">&#9670;&#160;</a></span>IVT_S_U1_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_U1_MSG_ID = 0x522</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a840d8946e272019e083f62f4a330fa1c" name="a840d8946e272019e083f62f4a330fa1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a840d8946e272019e083f62f4a330fa1c">&#9670;&#160;</a></span>IVT_S_U1_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_U1_PERIOD_MS = 60</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5c67216b4c98577f5c72c03d5e52ca7b" name="a5c67216b4c98577f5c72c03d5e52ca7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c67216b4c98577f5c72c03d5e52ca7b">&#9670;&#160;</a></span>IVT_S_U1_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_U1_STALE_TIMEOUT_MS = 150</td>
         </tr>
       </table>
   </td>

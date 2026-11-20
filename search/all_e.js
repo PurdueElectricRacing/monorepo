@@ -56,7 +56,7 @@ var searchData=
   ['encode_5fadcv_53',['encode_adcv',['../adbms6380_8c.html#a15e7e7ef8477a33555dcfd0d429fcd57',1,'adbms6380.c']]],
   ['end_54',['end',['../structsegment2__t.html#a1a5964ed780b78276dac6d308db9006f',1,'segment2_t']]],
   ['endpoint_55',['endpoint',['../structPHAL__USB__TransferEvent__t.html#ae35eb5b84240c6933ec592d17f33c6a5',1,'PHAL_USB_TransferEvent_t']]],
-  ['energy_56',['energy',['../structe__meter__status__data__t.html#a16353c2922f4ed7f01562e820dc88a6e',1,'e_meter_status_data_t']]],
+  ['energy_56',['energy',['../structe__meter__status__data__t.html#a16353c2922f4ed7f01562e820dc88a6e',1,'e_meter_status_data_t::energy'],['../structivt__s__energy__data__t.html#ac4d8b95fecdda2f254ae8a3c35db4b40',1,'ivt_s_energy_data_t::energy']]],
   ['energy_5ffrom_57',['energy_from',['../dearunits_8h.html#a32cb56289557b47845dfa6800a715ab2',1,'dearunits.h']]],
   ['enqueue_5fbutton_5faction_58',['enqueue_button_action',['../driver__interface_8c.html#ab206aafdf92ba5f7a37047e68c1c72df',1,'driver_interface.c']]],
   ['entercritical_59',['enterCritical',['../usart__priv_8c.html#a426fc303e25b8516df9cd1a926f628ff',1,'usart_priv.c']]],

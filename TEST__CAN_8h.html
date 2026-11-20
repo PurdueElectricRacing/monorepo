@@ -125,6 +125,8 @@ This graph shows which files directly or indirectly include this file:</div>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcanpiler__test__data__t.html">canpiler_test_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structIVT__S__command__data__t.html">IVT_S_command_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structIZZE__IMU__config__data__t.html">IZZE_IMU_config_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -144,6 +146,12 @@ Variables</h2></td></tr>
 <tr class="separator:a268f99693e9e3d0ae73bf91d0c662c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acad1a18217e7da4be86a1f68fd30cbf2" id="r_acad1a18217e7da4be86a1f68fd30cbf2"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acad1a18217e7da4be86a1f68fd30cbf2">CANPILER_TEST_STALE_TIMEOUT_MS</a> = 250</td></tr>
 <tr class="separator:acad1a18217e7da4be86a1f68fd30cbf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a630219a727949b861cf640304e9d66d0" id="r_a630219a727949b861cf640304e9d66d0"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a630219a727949b861cf640304e9d66d0">IVT_S_COMMAND_MSG_ID</a> = 0x411</td></tr>
+<tr class="separator:a630219a727949b861cf640304e9d66d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac430abcc47e48cda58c46b61a6eea429" id="r_ac430abcc47e48cda58c46b61a6eea429"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac430abcc47e48cda58c46b61a6eea429">IVT_S_COMMAND_DLC</a> = 8</td></tr>
+<tr class="separator:ac430abcc47e48cda58c46b61a6eea429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2061cfc7d4486c66e5af42bcc97e5c8a" id="r_a2061cfc7d4486c66e5af42bcc97e5c8a"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2061cfc7d4486c66e5af42bcc97e5c8a">IVT_S_COMMAND_LAYOUT_HASH</a> = 0x11F92B511B00EF68</td></tr>
+<tr class="separator:a2061cfc7d4486c66e5af42bcc97e5c8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a439565a11315fbe1f4f92d04d0a90088" id="r_a439565a11315fbe1f4f92d04d0a90088"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a439565a11315fbe1f4f92d04d0a90088">IZZE_IMU_CONFIG_MSG_ID</a> = 0x4EC</td></tr>
 <tr class="separator:a439565a11315fbe1f4f92d04d0a90088"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06bf7a0a987a923580560fe12064a06e" id="r_a06bf7a0a987a923580560fe12064a06e"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06bf7a0a987a923580560fe12064a06e">IZZE_IMU_CONFIG_DLC</a> = 8</td></tr>
@@ -259,6 +267,72 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">uint32_t CANPILER_TEST_STALE_TIMEOUT_MS = 250</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac430abcc47e48cda58c46b61a6eea429" name="ac430abcc47e48cda58c46b61a6eea429"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac430abcc47e48cda58c46b61a6eea429">&#9670;&#160;</a></span>IVT_S_COMMAND_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t IVT_S_COMMAND_DLC = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2061cfc7d4486c66e5af42bcc97e5c8a" name="a2061cfc7d4486c66e5af42bcc97e5c8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2061cfc7d4486c66e5af42bcc97e5c8a">&#9670;&#160;</a></span>IVT_S_COMMAND_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t IVT_S_COMMAND_LAYOUT_HASH = 0x11F92B511B00EF68</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a630219a727949b861cf640304e9d66d0" name="a630219a727949b861cf640304e9d66d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a630219a727949b861cf640304e9d66d0">&#9670;&#160;</a></span>IVT_S_COMMAND_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t IVT_S_COMMAND_MSG_ID = 0x411</td>
         </tr>
       </table>
   </td>

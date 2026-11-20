@@ -41,7 +41,14 @@ var searchData=
   ['invd_5fphase_5fi_5fdata_5ft_38',['INVD_PHASE_I_data_t',['../structINVD__PHASE__I__data__t.html',1,'']]],
   ['invd_5fset_5fdata_5ft_39',['INVD_SET_data_t',['../structINVD__SET__data__t.html',1,'']]],
   ['invd_5ftemps_5fdata_5ft_40',['INVD_TEMPS_data_t',['../structINVD__TEMPS__data__t.html',1,'']]],
-  ['izze_5facceleration_5fdata_5ft_41',['IZZE_acceleration_data_t',['../structIZZE__acceleration__data__t.html',1,'']]],
-  ['izze_5fangular_5frate_5fdata_5ft_42',['IZZE_angular_rate_data_t',['../structIZZE__angular__rate__data__t.html',1,'']]],
-  ['izze_5fimu_5fconfig_5fdata_5ft_43',['IZZE_IMU_config_data_t',['../structIZZE__IMU__config__data__t.html',1,'']]]
+  ['ivt_5fs_5fcharge_5fdata_5ft_41',['ivt_s_charge_data_t',['../structivt__s__charge__data__t.html',1,'']]],
+  ['ivt_5fs_5fcommand_5fdata_5ft_42',['IVT_S_command_data_t',['../structIVT__S__command__data__t.html',1,'']]],
+  ['ivt_5fs_5fcurrent_5fdata_5ft_43',['ivt_s_current_data_t',['../structivt__s__current__data__t.html',1,'']]],
+  ['ivt_5fs_5fenergy_5fdata_5ft_44',['ivt_s_energy_data_t',['../structivt__s__energy__data__t.html',1,'']]],
+  ['ivt_5fs_5fpower_5fdata_5ft_45',['ivt_s_power_data_t',['../structivt__s__power__data__t.html',1,'']]],
+  ['ivt_5fs_5ftemperature_5fdata_5ft_46',['ivt_s_temperature_data_t',['../structivt__s__temperature__data__t.html',1,'']]],
+  ['ivt_5fs_5fu1_5fdata_5ft_47',['ivt_s_u1_data_t',['../structivt__s__u1__data__t.html',1,'']]],
+  ['izze_5facceleration_5fdata_5ft_48',['IZZE_acceleration_data_t',['../structIZZE__acceleration__data__t.html',1,'']]],
+  ['izze_5fangular_5frate_5fdata_5ft_49',['IZZE_angular_rate_data_t',['../structIZZE__angular__rate__data__t.html',1,'']]],
+  ['izze_5fimu_5fconfig_5fdata_5ft_50',['IZZE_IMU_config_data_t',['../structIZZE__IMU__config__data__t.html',1,'']]]
 ];

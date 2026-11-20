@@ -85,7 +85,7 @@
 <text text-anchor="middle" x="207.25" y="-689.37" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">SCAN</text>
 </g>
 <!-- node:MAIN_MODULE -->
-<g id="node23" class="node">
+<g id="node24" class="node">
 <title>node:MAIN_MODULE</title>
 <polygon fill="#d5d5d5" stroke="#777777" points="758.5,-340 639.75,-340 639.75,-304 758.5,-304 758.5,-340"/>
 <text text-anchor="middle" x="699.12" y="-316.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">MAIN_MODULE</text>
@@ -99,7 +99,7 @@
 <text text-anchor="middle" x="422" y="-518.15" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">VCAN</text>
 </g>
 <!-- node:PDU -->
-<g id="node24" class="node">
+<g id="node25" class="node">
 <title>node:PDU</title>
 <polygon fill="#d5d5d5" stroke="#777777" points="962.88,-332 908.88,-332 908.88,-296 962.88,-296 962.88,-332"/>
 <text text-anchor="middle" x="935.88" y="-308.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">PDU</text>
@@ -113,7 +113,7 @@
 <text text-anchor="middle" x="511" y="-607.45" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">VCAN</text>
 </g>
 <!-- node:TORQUE_VECTOR -->
-<g id="node25" class="node">
+<g id="node26" class="node">
 <title>node:TORQUE_VECTOR</title>
 <polygon fill="#d5d5d5" stroke="#777777" points="1190.5,-193 1049.25,-193 1049.25,-157 1190.5,-157 1190.5,-193"/>
 <text text-anchor="middle" x="1119.88" y="-169.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">TORQUE_VECTOR</text>
@@ -373,8 +373,14 @@
 <polygon fill="#2f70ad" stroke="#2f70ad" points="698.27,-352.37 696.14,-341.99 691.34,-351.43 698.27,-352.37"/>
 <text text-anchor="middle" x="601.12" y="-543.51" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#333333">MCAN</text>
 </g>
-<!-- node:IZZE_IMU -->
+<!-- node:IVT_S -->
 <g id="node22" class="node">
+<title>node:IVT_S</title>
+<polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="112,-662 57.75,-662 57.75,-626 112,-626 112,-662"/>
+<text text-anchor="middle" x="84.88" y="-638.58" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">IVT_S</text>
+</g>
+<!-- node:IZZE_IMU -->
+<g id="node23" class="node">
 <title>node:IZZE_IMU</title>
 <polygon fill="#d5d5d5" stroke="#777777" stroke-dasharray="5,2" points="975,-38 896.75,-38 896.75,-2 975,-2 975,-38"/>
 <text text-anchor="middle" x="935.88" y="-14.57" font-family="Helvetica,sans-Serif" font-size="14.00" fill="#111111">IZZE_IMU</text>

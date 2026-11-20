@@ -121,5 +121,6 @@ var searchData=
   ['switch_5fsense_5fdivider_5fgain_118',['SWITCH_SENSE_DIVIDER_GAIN',['../switch_8h.html#a939691f64f50fc649d359798c2bda78e',1,'switch.h']]],
   ['sync_5fword_119',['sync_word',['../structubx__header__t.html#a669ff7b3507dff29ec84676a09fb7988',1,'ubx_header_t']]],
   ['sysspecversion_120',['SysSpecVersion',['../structSD__CSD.html#aab56e6f7b3656603520250d072ca806c',1,'SD_CSD']]],
-  ['system_5fclock_5ftarget_5fhz_121',['system_clock_target_hz',['../structClockRateConfig__t.html#a4bcd01af800a1ff65cf10ee4c699dcf9',1,'ClockRateConfig_t']]]
+  ['system_5fclock_5ftarget_5fhz_121',['system_clock_target_hz',['../structClockRateConfig__t.html#a4bcd01af800a1ff65cf10ee4c699dcf9',1,'ClockRateConfig_t']]],
+  ['system_5ferror_122',['system_error',['../structivt__s__current__data__t.html#aeab10e8a1539eb6d8cba22c6c26dc09c',1,'ivt_s_current_data_t::system_error'],['../structivt__s__u1__data__t.html#af713a7b9d067c01b6777e9c9950d95ab',1,'ivt_s_u1_data_t::system_error'],['../structivt__s__temperature__data__t.html#a32f9e15367dd1a594975a5e4aef9e7b1',1,'ivt_s_temperature_data_t::system_error'],['../structivt__s__power__data__t.html#ab426f27b64ebf47789bed7ad9fe63c5a',1,'ivt_s_power_data_t::system_error'],['../structivt__s__charge__data__t.html#a6dc8c2cfba3b2d4c08f67adefc76975b',1,'ivt_s_charge_data_t::system_error'],['../structivt__s__energy__data__t.html#a8079e720b77b03482d9fc89fcf3eeec6',1,'ivt_s_energy_data_t::system_error']]]
 ];

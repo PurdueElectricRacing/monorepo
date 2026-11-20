@@ -7,6 +7,7 @@ var G4__TESTING_8h =
     [ "CAN_init_peripherals", "G4__TESTING_8h.html#aa807ade5b93f6697cfac0ae05b7f5255", null ],
     [ "CAN_rx_dispatcher", "G4__TESTING_8h.html#aba60db2ca6b351f91082c06fc4d18cd5", null ],
     [ "CAN_SEND_canpiler_test", "G4__TESTING_8h.html#a539b4afe5ea8cb23ea3a1b4628107887", null ],
+    [ "CAN_SEND_IVT_S_command", "G4__TESTING_8h.html#a6e03cc080180cb686650bd762c5f6d0e", null ],
     [ "CAN_SEND_IZZE_IMU_config", "G4__TESTING_8h.html#a1dd169a014710a024d96f6504fa03fa8", null ],
     [ "FDCAN2_init_filters", "G4__TESTING_8h.html#a78eb33b279c10bc3c4f9813223091a7a", null ],
     [ "can_data", "G4__TESTING_8h.html#a9cc3168cebc21b033138ae90b755e5a8", null ],

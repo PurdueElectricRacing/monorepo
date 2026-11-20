@@ -560,5 +560,6 @@ var searchData=
   ['system_557',['System',['../md_docs_2setup.html#autotoc_md130',1,'3B.1 Update the System'],['../md_firmware_2can__library_2README.html#autotoc_md158',1,'Fault System']]],
   ['system_20services_558',['System services',['../md_firmware_2common_2README.html#autotoc_md76',1,'']]],
   ['system_5fclock_5ftarget_5fhz_559',['system_clock_target_hz',['../structClockRateConfig__t.html#a4bcd01af800a1ff65cf10ee4c699dcf9',1,'ClockRateConfig_t']]],
-  ['systick_5fhandler_560',['SysTick_Handler',['../bootloader_8c.html#ab5e09814056d617c521549e542639b7e',1,'bootloader.c']]]
+  ['system_5ferror_560',['system_error',['../structivt__s__current__data__t.html#aeab10e8a1539eb6d8cba22c6c26dc09c',1,'ivt_s_current_data_t::system_error'],['../structivt__s__u1__data__t.html#af713a7b9d067c01b6777e9c9950d95ab',1,'ivt_s_u1_data_t::system_error'],['../structivt__s__temperature__data__t.html#a32f9e15367dd1a594975a5e4aef9e7b1',1,'ivt_s_temperature_data_t::system_error'],['../structivt__s__power__data__t.html#ab426f27b64ebf47789bed7ad9fe63c5a',1,'ivt_s_power_data_t::system_error'],['../structivt__s__charge__data__t.html#a6dc8c2cfba3b2d4c08f67adefc76975b',1,'ivt_s_charge_data_t::system_error'],['../structivt__s__energy__data__t.html#a8079e720b77b03482d9fc89fcf3eeec6',1,'ivt_s_energy_data_t::system_error']]],
+  ['systick_5fhandler_561',['SysTick_Handler',['../bootloader_8c.html#ab5e09814056d617c521549e542639b7e',1,'bootloader.c']]]
 ];
