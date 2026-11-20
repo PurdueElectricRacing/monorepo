@@ -1,6 +1,6 @@
 use crate::telemetry;
 use eframe::egui;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 struct TaskDiagnostics {
     task_id: u32,
@@ -130,6 +130,8 @@ impl Diagnostics {
                         egui::Color32::YELLOW,
                         "Task snapshot unavailable: capacity exceeded",
                     );
+                    ui.add_space(12.0);
+                    continue;
                 }
                 ui.add_space(4.0);
 
@@ -268,6 +270,7 @@ impl Diagnostics {
 
     fn snapshot(view: &telemetry::TelemetryView<'_>) -> BTreeMap<String, BoardDiagnostics> {
         let mut boards = BTreeMap::<String, BoardDiagnostics>::new();
+        let mut seen_in_cycle = BTreeMap::<String, BTreeSet<u32>>::new();
         let mut name_chars = BTreeMap::<String, BTreeMap<u32, [Option<u8>; 16]>>::new();
 
         // Task stats and name characters share CAN identities: keep the latest
@@ -290,16 +293,28 @@ impl Diagnostics {
             if task.is_none() && summary.is_none() {
                 continue;
             }
-            let board = boards.entry(message.tx_node().to_owned()).or_default();
+            let board_name = message.tx_node().to_owned();
+            let board = boards.entry(board_name.clone()).or_default();
 
             if let Some(summary) = summary {
                 board.sample_count = Some(summary.sample_count);
                 board.task_count = Some(summary.task_count);
                 board.cpu_util = summary.cpu_util;
                 board.capacity_exceeded = summary.capacity_exceeded;
+
+                let seen = seen_in_cycle.remove(&board_name).unwrap_or_default();
+                if summary.capacity_exceeded {
+                    board.tasks.clear();
+                } else {
+                    board.tasks.retain(|id, _| seen.contains(id));
+                }
             }
 
             if let Some(task) = task {
+                seen_in_cycle
+                    .entry(board_name)
+                    .or_default()
+                    .insert(task.task_id);
                 board.tasks.insert(task.task_id, task);
             }
         }
