@@ -213,6 +213,12 @@ Functions</h2></td></tr>
 <tr class="separator:afe525a03cf44d94006666683e2690c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f360630d4c860622b5d7ed495b092bb" id="r_a4f360630d4c860622b5d7ed495b092bb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f360630d4c860622b5d7ed495b092bb">CAN_SEND_IMU_acceleration</a> (int16_t value_X_axis, int16_t value_Y_axis, int16_t value_Z_axis, int16_t value_temperature)</td></tr>
 <tr class="separator:a4f360630d4c860622b5d7ed495b092bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a230134be517eec6ba8da0457271683d1" id="r_a230134be517eec6ba8da0457271683d1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a230134be517eec6ba8da0457271683d1">CAN_SEND_torque_vector_can_overflow</a> (uint32_t value_rx_overflow, uint32_t value_tx_overflow)</td></tr>
+<tr class="separator:a230134be517eec6ba8da0457271683d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7520296a94f136cc434366fbd06d24c" id="r_ab7520296a94f136cc434366fbd06d24c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7520296a94f136cc434366fbd06d24c">CAN_SEND_torque_vector_can_tx_actions</a> (uint32_t value_enqueue_count, uint32_t value_task_wake_count)</td></tr>
+<tr class="separator:ab7520296a94f136cc434366fbd06d24c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac8f90443fb350899c755ea672a9e05d" id="r_aac8f90443fb350899c755ea672a9e05d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac8f90443fb350899c755ea672a9e05d">CAN_SEND_torque_vector_can_tx_messages</a> (uint32_t value_tx_sent, uint32_t value_tx_callbacks)</td></tr>
+<tr class="separator:aac8f90443fb350899c755ea672a9e05d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71f974c8e4e9ab8d9193fcadcdb05b24" id="r_a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71f974c8e4e9ab8d9193fcadcdb05b24">CAN_SEND_tv_init</a> (uint32_t value_csr)</td></tr>
 <tr class="separator:a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4450e1f3f7253174d7e25c3cc0ce8f78" id="r_a4450e1f3f7253174d7e25c3cc0ce8f78"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4450e1f3f7253174d7e25c3cc0ce8f78">CAN_SEND_gps_time</a> (uint8_t value_year, uint8_t value_month, uint8_t value_day, uint8_t value_hour, uint8_t value_minute, uint8_t value_second, uint16_t value_millisecond)</td></tr>
@@ -452,7 +458,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a90647dbc98bbf7bc6c1e9ef85f4d2f01_icgraph.svg" width="100%" height="487"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a90647dbc98bbf7bc6c1e9ef85f4d2f01_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -853,6 +859,123 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_afe525a03cf44d94006666683e2690c27_icgraph.svg" width="647" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a230134be517eec6ba8da0457271683d1" name="a230134be517eec6ba8da0457271683d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a230134be517eec6ba8da0457271683d1">&#9670;&#160;</a></span>CAN_SEND_torque_vector_can_overflow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_torque_vector_can_overflow </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_rx_overflow</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_tx_overflow</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a230134be517eec6ba8da0457271683d1_cgraph.svg" width="598" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a230134be517eec6ba8da0457271683d1_icgraph.svg" width="386" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ab7520296a94f136cc434366fbd06d24c" name="ab7520296a94f136cc434366fbd06d24c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7520296a94f136cc434366fbd06d24c">&#9670;&#160;</a></span>CAN_SEND_torque_vector_can_tx_actions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_torque_vector_can_tx_actions </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_enqueue_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_wake_count</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_ab7520296a94f136cc434366fbd06d24c_cgraph.svg" width="598" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_ab7520296a94f136cc434366fbd06d24c_icgraph.svg" width="386" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="aac8f90443fb350899c755ea672a9e05d" name="aac8f90443fb350899c755ea672a9e05d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac8f90443fb350899c755ea672a9e05d">&#9670;&#160;</a></span>CAN_SEND_torque_vector_can_tx_messages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_torque_vector_can_tx_messages </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_tx_sent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_tx_callbacks</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_aac8f90443fb350899c755ea672a9e05d_cgraph.svg" width="598" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_aac8f90443fb350899c755ea672a9e05d_icgraph.svg" width="386" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

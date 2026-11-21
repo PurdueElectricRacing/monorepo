@@ -119,6 +119,7 @@ $(function(){initNavTree('pdu_2main_8c.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="heartbeat_8h_source.html">common/heartbeat/heartbeat.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="cooling__fsm_8h_source.html">cooling_fsm.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="current__sense_8h_source.html">current_sense.h</a>&quot;</code><br />
+<code>#include &quot;telemetry.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for main.c:</div>
 <div class="dyncontent">
@@ -139,6 +140,8 @@ Functions</h2></td></tr>
 <tr class="separator:a80fa685f6637d641a5f77e188475d81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bc9944bd0dbe5e9d730f154924bbfda" id="r_a6bc9944bd0dbe5e9d730f154924bbfda"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6bc9944bd0dbe5e9d730f154924bbfda">RTOS_DEFINE_TASK</a> (<a class="el" href="switch_8c.html#a8b4bc35239dd1f38c1ad844d03b540fe">SWITCH_enable_all</a>, 0, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</td></tr>
 <tr class="separator:a6bc9944bd0dbe5e9d730f154924bbfda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82fe837997b54030e3e2773da5e6dba5" id="r_a82fe837997b54030e3e2773da5e6dba5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82fe837997b54030e3e2773da5e6dba5">RTOS_DEFINE_TASK</a> (<a class="el" href="a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2">report_telemetry_02hz</a>, <a class="el" href="a__box_2telemetry_2telemetry_8h.html#a4449d362db0d4b464dc661c0682fbae9">TELEMETRY_02HZ_PERIOD_MS</a>, <a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a>)</td></tr>
+<tr class="separator:a82fe837997b54030e3e2773da5e6dba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11a067a3a0541dc1ed61e5c9bb7591b5" id="r_a11a067a3a0541dc1ed61e5c9bb7591b5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11a067a3a0541dc1ed61e5c9bb7591b5">DEFINE_WATCHDOG_TASK</a> ()</td></tr>
 <tr class="separator:a11a067a3a0541dc1ed61e5c9bb7591b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a845eaf447179a8baf75c69794c49856d" id="r_a845eaf447179a8baf75c69794c49856d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a845eaf447179a8baf75c69794c49856d">DEFINE_HEARTBEAT_TASK</a> (nullptr)</td></tr>
@@ -270,7 +273,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a0433fb1019241ded944636b053b6194a" name="a0433fb1019241ded944636b053b6194a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0433fb1019241ded944636b053b6194a">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0433fb1019241ded944636b053b6194a">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,7 +304,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a80fa685f6637d641a5f77e188475d81e" name="a80fa685f6637d641a5f77e188475d81e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80fa685f6637d641a5f77e188475d81e">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a80fa685f6637d641a5f77e188475d81e">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -332,7 +335,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a029ca396592ecd52550422fe3d5c436a" name="a029ca396592ecd52550422fe3d5c436a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a029ca396592ecd52550422fe3d5c436a">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a029ca396592ecd52550422fe3d5c436a">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,8 +365,39 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a82fe837997b54030e3e2773da5e6dba5" name="a82fe837997b54030e3e2773da5e6dba5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82fe837997b54030e3e2773da5e6dba5">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">RTOS_DEFINE_TASK </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2">report_telemetry_02hz</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="a__box_2telemetry_2telemetry_8h.html#a4449d362db0d4b464dc661c0682fbae9">TELEMETRY_02HZ_PERIOD_MS</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ae705b06e4f237bdce971224dd27bbd0d">STACK_512</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a6bc9944bd0dbe5e9d730f154924bbfda" name="a6bc9944bd0dbe5e9d730f154924bbfda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bc9944bd0dbe5e9d730f154924bbfda">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bc9944bd0dbe5e9d730f154924bbfda">&#9670;&#160;</a></span>RTOS_DEFINE_TASK() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

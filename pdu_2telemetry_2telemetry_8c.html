@@ -102,36 +102,35 @@ $(function(){initNavTree('pdu_2telemetry_2telemetry_8c.html',''); initResizable(
   <div class="headertitle"><div class="title">telemetry.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>PDU telemetry task implementations.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="pdu_2telemetry_2telemetry_8h_source.html">telemetry.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="faults__common_8h_source.html">can_library/faults_common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="PDU_8h_source.html">can_library/generated/PDU.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="VCAN_8h_source.html">can_library/generated/VCAN.h</a>&quot;</code><br />
-<code>#include &quot;main.h&quot;</code><br />
-<code>#include &quot;<a class="el" href="state_8h_source.html">state.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="switches_8h_source.html">switches.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="can__version_8h_source.html">can_library/generated/can_version.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for telemetry.c:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pdu_2telemetry_2telemetry_8c__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pdu_2telemetry_2telemetry_8c__incl.svg" width="100%" height="593"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a9e4124d7d440f39f40b30e81c1a718fc" id="r_a9e4124d7d440f39f40b30e81c1a718fc"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e4124d7d440f39f40b30e81c1a718fc">telemetry_internal_temp_c</a> (uint16_t internal_therm_adc_counts)</td></tr>
-<tr class="separator:a9e4124d7d440f39f40b30e81c1a718fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a060536ea7e5cd1d86b46f7c6aadd69" id="r_a2a060536ea7e5cd1d86b46f7c6aadd69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a060536ea7e5cd1d86b46f7c6aadd69">telemetry_10hz</a> (void)</td></tr>
-<tr class="memdesc:a2a060536ea7e5cd1d86b46f7c6aadd69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports telemetry data at 10 Hz rate Includes: Rail Voltages and Currents.  <br /></td></tr>
-<tr class="separator:a2a060536ea7e5cd1d86b46f7c6aadd69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74034e258280659c81e74c002594b2e2" id="r_a74034e258280659c81e74c002594b2e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74034e258280659c81e74c002594b2e2">report_telemetry_02hz</a> (void)</td></tr>
+<tr class="memdesc:a74034e258280659c81e74c002594b2e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports telemetry data at 0.2 Hz rate Includes: PDU git hash, CAN stats.  <br /></td></tr>
+<tr class="separator:a74034e258280659c81e74c002594b2e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a2a060536ea7e5cd1d86b46f7c6aadd69" name="a2a060536ea7e5cd1d86b46f7c6aadd69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a060536ea7e5cd1d86b46f7c6aadd69">&#9670;&#160;</a></span>telemetry_10hz()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>PDU telemetry task implementations. </p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a74034e258280659c81e74c002594b2e2" name="a74034e258280659c81e74c002594b2e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74034e258280659c81e74c002594b2e2">&#9670;&#160;</a></span>report_telemetry_02hz()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void telemetry_10hz </td>
+          <td class="memname">void report_telemetry_02hz </td>
           <td>(</td>
           <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -139,46 +138,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Reports telemetry data at 10 Hz rate Includes: Rail Voltages and Currents. </p>
+<p>Reports telemetry data at 0.2 Hz rate Includes: PDU git hash, CAN stats. </p>
+<p>Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash, CAN stats. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pdu_2telemetry_2telemetry_8c_a2a060536ea7e5cd1d86b46f7c6aadd69_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="pdu_2telemetry_2telemetry_8c_a2a060536ea7e5cd1d86b46f7c6aadd69_icgraph.svg" width="216" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="a9e4124d7d440f39f40b30e81c1a718fc" name="a9e4124d7d440f39f40b30e81c1a718fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e4124d7d440f39f40b30e81c1a718fc">&#9670;&#160;</a></span>telemetry_internal_temp_c()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static uint16_t telemetry_internal_temp_c </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>internal_therm_adc_counts</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="pdu_2telemetry_2telemetry_8c_a9e4124d7d440f39f40b30e81c1a718fc_icgraph.svg" width="388" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="pdu_2telemetry_2telemetry_8c_a74034e258280659c81e74c002594b2e2_cgraph.svg" width="100%" height="462"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

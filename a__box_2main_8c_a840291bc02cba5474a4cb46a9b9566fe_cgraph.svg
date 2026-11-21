@@ -337,7 +337,7 @@ var sectionId = 'dynsection-4';
 <!-- Node215 -->
 <g id="Node000215" class="node">
 <title>Node215</title>
-<g id="a_Node000215"><a xlink:href="a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" target="_top" xlink:title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash.">
+<g id="a_Node000215"><a xlink:href="a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" target="_top" xlink:title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash, CAN stats.">
 <polygon fill="#fff0f0" stroke="red" points="186.88,-130.25 75.62,-130.25 75.62,-111 186.88,-111 186.88,-130.25"/>
 <text text-anchor="middle" x="131.25" y="-116.75" font-family="Helvetica,sans-Serif" font-size="10.00">report_telemetry_02hz</text>
 </a>
@@ -352,73 +352,73 @@ var sectionId = 'dynsection-4';
 </a>
 </g>
 </g>
-<!-- Node218 -->
-<g id="Node000218" class="node">
-<title>Node218</title>
-<g id="a_Node000218"><a xlink:href="a__box_2telemetry_2telemetry_8c.html#ad17b4787e885938a20f35bd144928f22" target="_top" xlink:title="Reports telemetry data at 100 Hz rate Includes: Pack analog stats and cell telemetry.">
+<!-- Node221 -->
+<g id="Node000221" class="node">
+<title>Node221</title>
+<g id="a_Node000221"><a xlink:href="a__box_2telemetry_2telemetry_8c.html#ad17b4787e885938a20f35bd144928f22" target="_top" xlink:title="Reports telemetry data at 100 Hz rate Includes: Pack analog stats and cell telemetry.">
 <polygon fill="#fff0f0" stroke="red" points="189.5,-93.25 73,-93.25 73,-74 189.5,-74 189.5,-93.25"/>
 <text text-anchor="middle" x="131.25" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">report_telemetry_100hz</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node218 -->
-<g id="edge49_Node000001_Node000218" class="edge">
-<title>Node1&#45;&gt;Node218</title>
-<g id="a_edge49_Node000001_Node000218"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node221 -->
+<g id="edge49_Node000001_Node000221" class="edge">
+<title>Node1&#45;&gt;Node221</title>
+<g id="a_edge49_Node000001_Node000221"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M20.23,-350.72C23.55,-307.95 38.67,-139.61 73,-101.62 73.36,-101.23 73.72,-100.84 74.1,-100.46"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="75.96,-103.44 81.79,-94.6 71.72,-97.88 75.96,-103.44"/>
 </a>
 </g>
 </g>
-<!-- Node226 -->
-<g id="Node000226" class="node">
-<title>Node226</title>
-<g id="a_Node000226"><a xlink:href="a__box_2telemetry_2telemetry_8c.html#ac7b8e9d406934bf5c0130f05ae09c5b4" target="_top" xlink:title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary.">
+<!-- Node229 -->
+<g id="Node000229" class="node">
+<title>Node229</title>
+<g id="a_Node000229"><a xlink:href="a__box_2telemetry_2telemetry_8c.html#ac7b8e9d406934bf5c0130f05ae09c5b4" target="_top" xlink:title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary.">
 <polygon fill="#fff0f0" stroke="red" points="184.25,-1393.25 78.25,-1393.25 78.25,-1374 184.25,-1374 184.25,-1393.25"/>
 <text text-anchor="middle" x="131.25" y="-1379.75" font-family="Helvetica,sans-Serif" font-size="10.00">report_telemetry_8hz</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node226 -->
-<g id="edge50_Node000001_Node000226" class="edge">
-<title>Node1&#45;&gt;Node226</title>
-<g id="a_edge50_Node000001_Node000226"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node229 -->
+<g id="edge50_Node000001_Node000229" class="edge">
+<title>Node1&#45;&gt;Node229</title>
+<g id="a_edge50_Node000001_Node000229"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M20.05,-370.64C23.4,-431.08 42.08,-753.29 73,-1014.62 88.72,-1147.52 116.31,-1306.01 126.41,-1362.42"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="122.95,-1362.97 128.17,-1372.19 129.84,-1361.73 122.95,-1362.97"/>
 </a>
 </g>
 </g>
-<!-- Node230 -->
-<g id="Node000230" class="node">
-<title>Node230</title>
-<g id="a_Node000230"><a xlink:href="watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" target="_top" xlink:title=" ">
+<!-- Node233 -->
+<g id="Node000233" class="node">
+<title>Node233</title>
+<g id="a_Node000233"><a xlink:href="watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="173,-56.25 89.5,-56.25 89.5,-37 173,-37 173,-56.25"/>
 <text text-anchor="middle" x="131.25" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">WDG_get_CSR</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node230 -->
-<g id="edge54_Node000001_Node000230" class="edge">
-<title>Node1&#45;&gt;Node230</title>
-<g id="a_edge54_Node000001_Node000230"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node233 -->
+<g id="edge54_Node000001_Node000233" class="edge">
+<title>Node1&#45;&gt;Node233</title>
+<g id="a_edge54_Node000001_Node000233"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M19.95,-350.59C22.26,-303.95 34.15,-108.7 73,-64.62 74.9,-62.47 77.05,-60.57 79.38,-58.9"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="80.74,-62.15 87.77,-54.23 77.33,-56.03 80.74,-62.15"/>
 </a>
 </g>
 </g>
-<!-- Node231 -->
-<g id="Node000231" class="node">
-<title>Node231</title>
-<g id="a_Node000231"><a xlink:href="watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" target="_top" xlink:title=" ">
+<!-- Node234 -->
+<g id="Node000234" class="node">
+<title>Node234</title>
+<g id="a_Node000234"><a xlink:href="watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="159.88,-19.25 102.62,-19.25 102.62,0 159.88,0 159.88,-19.25"/>
 <text text-anchor="middle" x="131.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">WDG_init</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node231 -->
-<g id="edge55_Node000001_Node000231" class="edge">
-<title>Node1&#45;&gt;Node231</title>
-<g id="a_edge55_Node000001_Node000231"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node234 -->
+<g id="edge55_Node000001_Node000234" class="edge">
+<title>Node1&#45;&gt;Node234</title>
+<g id="a_edge55_Node000001_Node000234"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M19.73,-350.71C21.09,-300.84 29.54,-77.91 73,-27.62 77.94,-21.91 84.68,-17.98 91.81,-15.3"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="92.3,-18.8 100.9,-12.61 90.31,-12.09 92.3,-18.8"/>
 </a>
@@ -975,28 +975,28 @@ var sectionId = 'dynsection-4';
 </a>
 </g>
 </g>
-<!-- Node226&#45;&gt;Node8 -->
-<g id="edge51_Node000226_Node000008" class="edge">
-<title>Node226&#45;&gt;Node8</title>
-<g id="a_edge51_Node000226_Node000008"><a xlink:title=" ">
+<!-- Node229&#45;&gt;Node8 -->
+<g id="edge51_Node000229_Node000008" class="edge">
+<title>Node229&#45;&gt;Node8</title>
+<g id="a_edge51_Node000229_Node000008"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M154.11,-1393.73C172.77,-1402.07 200.48,-1413.76 225.5,-1421.62 231.34,-1423.46 237.47,-1425.19 243.64,-1426.79"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="242.7,-1430.16 253.25,-1429.18 244.38,-1423.37 242.7,-1430.16"/>
 </a>
 </g>
 </g>
-<!-- Node226&#45;&gt;Node13 -->
-<g id="edge52_Node000226_Node000013" class="edge">
-<title>Node226&#45;&gt;Node13</title>
-<g id="a_edge52_Node000226_Node000013"><a xlink:title=" ">
+<!-- Node229&#45;&gt;Node13 -->
+<g id="edge52_Node000229_Node000013" class="edge">
+<title>Node229&#45;&gt;Node13</title>
+<g id="a_edge52_Node000229_Node000013"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M184.63,-1389.38C197.21,-1390.76 210.95,-1392.27 224.49,-1393.76"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="223.97,-1397.22 234.29,-1394.83 224.73,-1390.26 223.97,-1397.22"/>
 </a>
 </g>
 </g>
-<!-- Node226&#45;&gt;Node16 -->
-<g id="edge53_Node000226_Node000016" class="edge">
-<title>Node226&#45;&gt;Node16</title>
-<g id="a_edge53_Node000226_Node000016"><a xlink:title=" ">
+<!-- Node229&#45;&gt;Node16 -->
+<g id="edge53_Node000229_Node000016" class="edge">
+<title>Node229&#45;&gt;Node16</title>
+<g id="a_edge53_Node000229_Node000016"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M184.63,-1378.18C197.57,-1376.83 211.74,-1375.35 225.66,-1373.91"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="225.66,-1377.43 235.24,-1372.91 224.93,-1370.46 225.66,-1377.43"/>
 </a>

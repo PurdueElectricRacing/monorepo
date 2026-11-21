@@ -1,15 +1,21 @@
 <map id="CAN_enqueue_tx_FDCAN1" name="CAN_enqueue_tx_FDCAN1">
-<area shape="rect" id="Node000001" title=" " alt="" coords="689,120,871,146"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="689,195,871,220"/>
 <area shape="rect" id="Node000002" href="$TORQUE__VECTOR_8h.html#a2c9e25bb67dce2c39e27baa8abece5a3" title=" " alt="" coords="443,5,637,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="749,113,700,78,640,46,607,34,608,29,642,41,703,74,752,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="762,183,713,113,679,77,640,46,615,34,617,29,643,41,683,73,718,110,766,180"/>
 <area shape="rect" id="Node000004" href="$TORQUE__VECTOR_8h.html#abe37eb8c0322d854d5fd55adec36b922" title=" " alt="" coords="459,55,621,96"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="708,118,621,98,623,92,709,113"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="750,186,701,148,640,110,615,99,617,94,643,105,704,143,754,182"/>
 <area shape="rect" id="Node000005" href="$TORQUE__VECTOR_8h.html#a31f56bd64c3ad5c0091aa93a8eb59ab0" title=" " alt="" coords="454,120,626,146"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="674,136,626,136,626,130,674,130"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="731,191,641,159,602,149,603,144,642,154,732,186"/>
 <area shape="rect" id="Node000006" href="$TORQUE__VECTOR_8h.html#a4f360630d4c860622b5d7ed495b092bb" title=" " alt="" coords="440,169,641,195"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="699,152,607,171,606,166,698,147"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="674,199,641,195,641,190,674,194"/>
 <area shape="rect" id="Node000009" href="$TORQUE__VECTOR_8h.html#afe525a03cf44d94006666683e2690c27" title=" " alt="" coords="439,219,641,244"/>
-<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="746,157,698,184,642,210,609,221,607,215,640,205,696,179,744,152"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="674,221,642,224,641,219,674,215"/>
+<area shape="rect" id="Node000011" href="$TORQUE__VECTOR_8h.html#a230134be517eec6ba8da0457271683d1" title=" " alt="" coords="451,268,629,309"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="729,228,642,259,608,271,607,265,640,254,728,223"/>
+<area shape="rect" id="Node000013" href="$TORQUE__VECTOR_8h.html#ab7520296a94f136cc434366fbd06d24c" title=" " alt="" coords="451,334,629,374"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="757,233,707,278,643,323,616,336,614,331,640,319,704,274,754,229"/>
+<area shape="rect" id="Node000014" href="$TORQUE__VECTOR_8h.html#aac8f90443fb350899c755ea672a9e05d" title=" " alt="" coords="451,399,629,440"/>
+<area shape="poly" id="edge17_Node000001_Node000014" title=" " alt="" coords="767,235,719,311,684,352,643,388,621,401,618,396,640,384,680,349,715,308,763,233"/>
 <area shape="rect" id="Node000003" href="$torque__vector_2telemetry_2telemetry_8c.html#a3a415946b37ab8a337c020a53dd8e7d1" title="Reports telemetry data at 25HZ rate Includes: GPS coordinates, velocity, speed, heading." alt="" coords="215,63,363,88"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="466,38,349,65,348,59,465,32"/>
 <area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="443,78,364,78,364,73,443,73"/>
@@ -21,4 +27,8 @@
 <area shape="rect" id="Node000010" href="$imu_8c.html#a033e363e85c9a7712d85b7fb947a94c0" title="Finalize the IMU decoupling calibration by deriving the rotation matrix from the accumulated accelero..." alt="" coords="187,219,391,244"/>
 <area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="423,234,391,234,391,229,423,229"/>
 <area shape="poly" id="edge12_Node000010_Node000008" title=" " alt="" coords="171,221,139,218,139,212,171,216"/>
+<area shape="rect" id="Node000012" href="$torque__vector_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports the application hash, bootloader capability, and CAN stats at 0.2 Hz." alt="" coords="215,341,363,367"/>
+<area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="445,316,342,343,341,338,444,311"/>
+<area shape="poly" id="edge16_Node000013_Node000012" title=" " alt="" coords="435,357,363,357,363,352,435,352"/>
+<area shape="poly" id="edge18_Node000014_Node000012" title=" " alt="" coords="444,397,341,370,342,365,445,392"/>
 </map>

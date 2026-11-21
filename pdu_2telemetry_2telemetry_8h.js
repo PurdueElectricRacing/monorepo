@@ -1,5 +1,5 @@
 var pdu_2telemetry_2telemetry_8h =
 [
-    [ "telemetry_10hz", "pdu_2telemetry_2telemetry_8h.html#a2a060536ea7e5cd1d86b46f7c6aadd69", null ],
-    [ "TELEMETRY_10HZ_PERIOD_MS", "pdu_2telemetry_2telemetry_8h.html#a79cbe457f2bc9361b3ae32c3a867f948", null ]
+    [ "report_telemetry_02hz", "pdu_2telemetry_2telemetry_8h.html#a74034e258280659c81e74c002594b2e2", null ],
+    [ "TELEMETRY_02HZ_PERIOD_MS", "pdu_2telemetry_2telemetry_8h.html#a4449d362db0d4b464dc661c0682fbae9", null ]
 ];

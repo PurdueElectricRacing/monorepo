@@ -225,6 +225,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinvd__diagnostics__data__t.html">invd_diagnostics_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmain__can__overflow__data__t.html">main_can_overflow_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmain__can__tx__actions__data__t.html">main_can_tx_actions_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmain__can__tx__messages__data__t.html">main_can_tx_messages_data_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmain__version__data__t.html">main_version_data_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmotor__temps__data__t.html">motor_temps_data_t</a></td></tr>
@@ -648,7 +654,37 @@ Variables</h2></td></tr>
 <tr class="separator:a37781ab181ca4869a21270568cbe784b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49c9dc86ceb0dd89932e74260b5ad643" id="r_a49c9dc86ceb0dd89932e74260b5ad643"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49c9dc86ceb0dd89932e74260b5ad643">INVD_DIAGNOSTICS_STALE_TIMEOUT_MS</a> = 2500</td></tr>
 <tr class="separator:a49c9dc86ceb0dd89932e74260b5ad643"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b5c2a86e3ec0069f0b30b9224af01f5" id="r_a0b5c2a86e3ec0069f0b30b9224af01f5"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b5c2a86e3ec0069f0b30b9224af01f5">MAIN_VERSION_MSG_ID</a> = 0x51</td></tr>
+<tr class="memitem:a5814c792d547c91f0e2c042d408d59e8" id="r_a5814c792d547c91f0e2c042d408d59e8"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5814c792d547c91f0e2c042d408d59e8">MAIN_CAN_OVERFLOW_MSG_ID</a> = 0x51</td></tr>
+<tr class="separator:a5814c792d547c91f0e2c042d408d59e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a560dd6b7730e67cff0011e73f773e459" id="r_a560dd6b7730e67cff0011e73f773e459"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a560dd6b7730e67cff0011e73f773e459">MAIN_CAN_OVERFLOW_DLC</a> = 8</td></tr>
+<tr class="separator:a560dd6b7730e67cff0011e73f773e459"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae72275c3563de1e46326d14c6f2f047b" id="r_ae72275c3563de1e46326d14c6f2f047b"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae72275c3563de1e46326d14c6f2f047b">MAIN_CAN_OVERFLOW_LAYOUT_HASH</a> = 0x01BF3DAA664D6EE2</td></tr>
+<tr class="separator:ae72275c3563de1e46326d14c6f2f047b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3c07005b6d20a43874627255427fda" id="r_a8a3c07005b6d20a43874627255427fda"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a3c07005b6d20a43874627255427fda">MAIN_CAN_OVERFLOW_PERIOD_MS</a> = 5000</td></tr>
+<tr class="separator:a8a3c07005b6d20a43874627255427fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a703060c386e4404f82027afedc47c0d9" id="r_a703060c386e4404f82027afedc47c0d9"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a703060c386e4404f82027afedc47c0d9">MAIN_CAN_OVERFLOW_STALE_TIMEOUT_MS</a> = 12500</td></tr>
+<tr class="separator:a703060c386e4404f82027afedc47c0d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a335ef22ec62c5e699a27e41ac0ad2416" id="r_a335ef22ec62c5e699a27e41ac0ad2416"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a335ef22ec62c5e699a27e41ac0ad2416">MAIN_CAN_TX_ACTIONS_MSG_ID</a> = 0x52</td></tr>
+<tr class="separator:a335ef22ec62c5e699a27e41ac0ad2416"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6466e78a54fa7ad7b39c4f5ebbfd9a8" id="r_ae6466e78a54fa7ad7b39c4f5ebbfd9a8"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6466e78a54fa7ad7b39c4f5ebbfd9a8">MAIN_CAN_TX_ACTIONS_DLC</a> = 8</td></tr>
+<tr class="separator:ae6466e78a54fa7ad7b39c4f5ebbfd9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae27eb8328da8f5137876766ce8b56aab" id="r_ae27eb8328da8f5137876766ce8b56aab"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae27eb8328da8f5137876766ce8b56aab">MAIN_CAN_TX_ACTIONS_LAYOUT_HASH</a> = 0xF833101CB26480B0</td></tr>
+<tr class="separator:ae27eb8328da8f5137876766ce8b56aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa28b10a2733735ab3f6572d88d22bdc" id="r_aaa28b10a2733735ab3f6572d88d22bdc"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa28b10a2733735ab3f6572d88d22bdc">MAIN_CAN_TX_ACTIONS_PERIOD_MS</a> = 5000</td></tr>
+<tr class="separator:aaa28b10a2733735ab3f6572d88d22bdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29c4a929136f9c6a2955348799b7a0db" id="r_a29c4a929136f9c6a2955348799b7a0db"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29c4a929136f9c6a2955348799b7a0db">MAIN_CAN_TX_ACTIONS_STALE_TIMEOUT_MS</a> = 12500</td></tr>
+<tr class="separator:a29c4a929136f9c6a2955348799b7a0db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa96b5aec8c29d19a55bb855d8c43c664" id="r_aa96b5aec8c29d19a55bb855d8c43c664"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa96b5aec8c29d19a55bb855d8c43c664">MAIN_CAN_TX_MESSAGES_MSG_ID</a> = 0x53</td></tr>
+<tr class="separator:aa96b5aec8c29d19a55bb855d8c43c664"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b9564fd9e43987c2d1a30e88233db60" id="r_a5b9564fd9e43987c2d1a30e88233db60"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b9564fd9e43987c2d1a30e88233db60">MAIN_CAN_TX_MESSAGES_DLC</a> = 8</td></tr>
+<tr class="separator:a5b9564fd9e43987c2d1a30e88233db60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7951e36737bfd0b82fe34aeb13cdca64" id="r_a7951e36737bfd0b82fe34aeb13cdca64"><td class="memItemLeft" align="right" valign="top">static constexpr uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7951e36737bfd0b82fe34aeb13cdca64">MAIN_CAN_TX_MESSAGES_LAYOUT_HASH</a> = 0x1CEB661EBB6FA9BB</td></tr>
+<tr class="separator:a7951e36737bfd0b82fe34aeb13cdca64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7572fca09f3d10f24eb727e0f46cd632" id="r_a7572fca09f3d10f24eb727e0f46cd632"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7572fca09f3d10f24eb727e0f46cd632">MAIN_CAN_TX_MESSAGES_PERIOD_MS</a> = 5000</td></tr>
+<tr class="separator:a7572fca09f3d10f24eb727e0f46cd632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee65a72c9ea2416c7dce930bfedd8a86" id="r_aee65a72c9ea2416c7dce930bfedd8a86"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee65a72c9ea2416c7dce930bfedd8a86">MAIN_CAN_TX_MESSAGES_STALE_TIMEOUT_MS</a> = 12500</td></tr>
+<tr class="separator:aee65a72c9ea2416c7dce930bfedd8a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b5c2a86e3ec0069f0b30b9224af01f5" id="r_a0b5c2a86e3ec0069f0b30b9224af01f5"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b5c2a86e3ec0069f0b30b9224af01f5">MAIN_VERSION_MSG_ID</a> = 0x54</td></tr>
 <tr class="separator:a0b5c2a86e3ec0069f0b30b9224af01f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab660b9763b2792a4d61bfd6d7989dbac" id="r_ab660b9763b2792a4d61bfd6d7989dbac"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab660b9763b2792a4d61bfd6d7989dbac">MAIN_VERSION_DLC</a> = 8</td></tr>
 <tr class="separator:ab660b9763b2792a4d61bfd6d7989dbac"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -658,7 +694,7 @@ Variables</h2></td></tr>
 <tr class="separator:a0e6b124a93879270168a0e9d42ee5a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48152fda0dbecc906bb598b3b14b36fb" id="r_a48152fda0dbecc906bb598b3b14b36fb"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48152fda0dbecc906bb598b3b14b36fb">MAIN_VERSION_STALE_TIMEOUT_MS</a> = 12500</td></tr>
 <tr class="separator:a48152fda0dbecc906bb598b3b14b36fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2182a814adb3443e697e446a4e32e9d3" id="r_a2182a814adb3443e697e446a4e32e9d3"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2182a814adb3443e697e446a4e32e9d3">MOTOR_TEMPS_MSG_ID</a> = 0x52</td></tr>
+<tr class="memitem:a2182a814adb3443e697e446a4e32e9d3" id="r_a2182a814adb3443e697e446a4e32e9d3"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2182a814adb3443e697e446a4e32e9d3">MOTOR_TEMPS_MSG_ID</a> = 0x55</td></tr>
 <tr class="separator:a2182a814adb3443e697e446a4e32e9d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae47e182fbac66954802e4a6eaf997251" id="r_ae47e182fbac66954802e4a6eaf997251"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae47e182fbac66954802e4a6eaf997251">MOTOR_TEMPS_DLC</a> = 8</td></tr>
 <tr class="separator:ae47e182fbac66954802e4a6eaf997251"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -668,7 +704,7 @@ Variables</h2></td></tr>
 <tr class="separator:a79597f4fb1df520210d14c40f506fab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d504917a08e2de4a676ee7ce5e7704b" id="r_a0d504917a08e2de4a676ee7ce5e7704b"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d504917a08e2de4a676ee7ce5e7704b">MOTOR_TEMPS_STALE_TIMEOUT_MS</a> = 12500</td></tr>
 <tr class="separator:a0d504917a08e2de4a676ee7ce5e7704b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a354459a2a6af809728821b0b0807b907" id="r_a354459a2a6af809728821b0b0807b907"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a354459a2a6af809728821b0b0807b907">PDU_VERSION_MSG_ID</a> = 0x53</td></tr>
+<tr class="memitem:a354459a2a6af809728821b0b0807b907" id="r_a354459a2a6af809728821b0b0807b907"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a354459a2a6af809728821b0b0807b907">PDU_VERSION_MSG_ID</a> = 0x56</td></tr>
 <tr class="separator:a354459a2a6af809728821b0b0807b907"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adea87017c5d271c229b18c5860b05adf" id="r_adea87017c5d271c229b18c5860b05adf"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adea87017c5d271c229b18c5860b05adf">PDU_VERSION_DLC</a> = 4</td></tr>
 <tr class="separator:adea87017c5d271c229b18c5860b05adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -678,7 +714,7 @@ Variables</h2></td></tr>
 <tr class="separator:a0fd6d99dc8990bf51068862d2f3341d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04cc94fa05edc824a5e54959e3edfa78" id="r_a04cc94fa05edc824a5e54959e3edfa78"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a04cc94fa05edc824a5e54959e3edfa78">PDU_VERSION_STALE_TIMEOUT_MS</a> = 12500</td></tr>
 <tr class="separator:a04cc94fa05edc824a5e54959e3edfa78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4aa1bd1951845e6cb2f08f691e093a6a" id="r_a4aa1bd1951845e6cb2f08f691e093a6a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aa1bd1951845e6cb2f08f691e093a6a">TORQUE_VECTOR_VERSION_MSG_ID</a> = 0x54</td></tr>
+<tr class="memitem:a4aa1bd1951845e6cb2f08f691e093a6a" id="r_a4aa1bd1951845e6cb2f08f691e093a6a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aa1bd1951845e6cb2f08f691e093a6a">TORQUE_VECTOR_VERSION_MSG_ID</a> = 0x57</td></tr>
 <tr class="separator:a4aa1bd1951845e6cb2f08f691e093a6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79cf7f6444cd7e90ddeadd9169afd5b9" id="r_a79cf7f6444cd7e90ddeadd9169afd5b9"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79cf7f6444cd7e90ddeadd9169afd5b9">TORQUE_VECTOR_VERSION_DLC</a> = 8</td></tr>
 <tr class="separator:a79cf7f6444cd7e90ddeadd9169afd5b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -4540,6 +4576,336 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a560dd6b7730e67cff0011e73f773e459" name="a560dd6b7730e67cff0011e73f773e459"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a560dd6b7730e67cff0011e73f773e459">&#9670;&#160;</a></span>MAIN_CAN_OVERFLOW_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t MAIN_CAN_OVERFLOW_DLC = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae72275c3563de1e46326d14c6f2f047b" name="ae72275c3563de1e46326d14c6f2f047b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae72275c3563de1e46326d14c6f2f047b">&#9670;&#160;</a></span>MAIN_CAN_OVERFLOW_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t MAIN_CAN_OVERFLOW_LAYOUT_HASH = 0x01BF3DAA664D6EE2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5814c792d547c91f0e2c042d408d59e8" name="a5814c792d547c91f0e2c042d408d59e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5814c792d547c91f0e2c042d408d59e8">&#9670;&#160;</a></span>MAIN_CAN_OVERFLOW_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MAIN_CAN_OVERFLOW_MSG_ID = 0x51</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8a3c07005b6d20a43874627255427fda" name="a8a3c07005b6d20a43874627255427fda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a3c07005b6d20a43874627255427fda">&#9670;&#160;</a></span>MAIN_CAN_OVERFLOW_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MAIN_CAN_OVERFLOW_PERIOD_MS = 5000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a703060c386e4404f82027afedc47c0d9" name="a703060c386e4404f82027afedc47c0d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a703060c386e4404f82027afedc47c0d9">&#9670;&#160;</a></span>MAIN_CAN_OVERFLOW_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MAIN_CAN_OVERFLOW_STALE_TIMEOUT_MS = 12500</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6466e78a54fa7ad7b39c4f5ebbfd9a8" name="ae6466e78a54fa7ad7b39c4f5ebbfd9a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6466e78a54fa7ad7b39c4f5ebbfd9a8">&#9670;&#160;</a></span>MAIN_CAN_TX_ACTIONS_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t MAIN_CAN_TX_ACTIONS_DLC = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae27eb8328da8f5137876766ce8b56aab" name="ae27eb8328da8f5137876766ce8b56aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae27eb8328da8f5137876766ce8b56aab">&#9670;&#160;</a></span>MAIN_CAN_TX_ACTIONS_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t MAIN_CAN_TX_ACTIONS_LAYOUT_HASH = 0xF833101CB26480B0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a335ef22ec62c5e699a27e41ac0ad2416" name="a335ef22ec62c5e699a27e41ac0ad2416"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a335ef22ec62c5e699a27e41ac0ad2416">&#9670;&#160;</a></span>MAIN_CAN_TX_ACTIONS_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MAIN_CAN_TX_ACTIONS_MSG_ID = 0x52</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa28b10a2733735ab3f6572d88d22bdc" name="aaa28b10a2733735ab3f6572d88d22bdc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa28b10a2733735ab3f6572d88d22bdc">&#9670;&#160;</a></span>MAIN_CAN_TX_ACTIONS_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MAIN_CAN_TX_ACTIONS_PERIOD_MS = 5000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a29c4a929136f9c6a2955348799b7a0db" name="a29c4a929136f9c6a2955348799b7a0db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29c4a929136f9c6a2955348799b7a0db">&#9670;&#160;</a></span>MAIN_CAN_TX_ACTIONS_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MAIN_CAN_TX_ACTIONS_STALE_TIMEOUT_MS = 12500</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5b9564fd9e43987c2d1a30e88233db60" name="a5b9564fd9e43987c2d1a30e88233db60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b9564fd9e43987c2d1a30e88233db60">&#9670;&#160;</a></span>MAIN_CAN_TX_MESSAGES_DLC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t MAIN_CAN_TX_MESSAGES_DLC = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7951e36737bfd0b82fe34aeb13cdca64" name="a7951e36737bfd0b82fe34aeb13cdca64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7951e36737bfd0b82fe34aeb13cdca64">&#9670;&#160;</a></span>MAIN_CAN_TX_MESSAGES_LAYOUT_HASH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t MAIN_CAN_TX_MESSAGES_LAYOUT_HASH = 0x1CEB661EBB6FA9BB</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa96b5aec8c29d19a55bb855d8c43c664" name="aa96b5aec8c29d19a55bb855d8c43c664"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa96b5aec8c29d19a55bb855d8c43c664">&#9670;&#160;</a></span>MAIN_CAN_TX_MESSAGES_MSG_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MAIN_CAN_TX_MESSAGES_MSG_ID = 0x53</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7572fca09f3d10f24eb727e0f46cd632" name="a7572fca09f3d10f24eb727e0f46cd632"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7572fca09f3d10f24eb727e0f46cd632">&#9670;&#160;</a></span>MAIN_CAN_TX_MESSAGES_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MAIN_CAN_TX_MESSAGES_PERIOD_MS = 5000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee65a72c9ea2416c7dce930bfedd8a86" name="aee65a72c9ea2416c7dce930bfedd8a86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee65a72c9ea2416c7dce930bfedd8a86">&#9670;&#160;</a></span>MAIN_CAN_TX_MESSAGES_STALE_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t MAIN_CAN_TX_MESSAGES_STALE_TIMEOUT_MS = 12500</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a74c483e7c17c51ab63570bade774208e" name="a74c483e7c17c51ab63570bade774208e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a74c483e7c17c51ab63570bade774208e">&#9670;&#160;</a></span>MAIN_HB_DLC</h2>
 
@@ -4946,7 +5312,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t MAIN_VERSION_MSG_ID = 0x51</td>
+          <td class="memname">uint32_t MAIN_VERSION_MSG_ID = 0x54</td>
         </tr>
       </table>
   </td>
@@ -5166,7 +5532,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t MOTOR_TEMPS_MSG_ID = 0x52</td>
+          <td class="memname">uint32_t MOTOR_TEMPS_MSG_ID = 0x55</td>
         </tr>
       </table>
   </td>
@@ -5628,7 +5994,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t PDU_VERSION_MSG_ID = 0x53</td>
+          <td class="memname">uint32_t PDU_VERSION_MSG_ID = 0x56</td>
         </tr>
       </table>
   </td>
@@ -6134,7 +6500,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t TORQUE_VECTOR_VERSION_MSG_ID = 0x54</td>
+          <td class="memname">uint32_t TORQUE_VECTOR_VERSION_MSG_ID = 0x57</td>
         </tr>
       </table>
   </td>

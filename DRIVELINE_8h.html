@@ -166,6 +166,18 @@ Functions</h2></td></tr>
 <tr class="separator:aebd27e0bb1425912d635dab0f88623ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4231bec712e3cb5bab7c0145ddf4824" id="r_af4231bec712e3cb5bab7c0145ddf4824"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4231bec712e3cb5bab7c0145ddf4824">CAN_SEND_rear_driveline_version</a> (uint32_t value_git_hash, uint32_t value_bootloader_git_hash, bool value_bootloadable)</td></tr>
 <tr class="separator:af4231bec712e3cb5bab7c0145ddf4824"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cca7b1667fb488508d25cd1a5a48f17" id="r_a5cca7b1667fb488508d25cd1a5a48f17"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5cca7b1667fb488508d25cd1a5a48f17">CAN_SEND_front_driveline_can_overflow</a> (uint32_t value_rx_overflow, uint32_t value_tx_overflow)</td></tr>
+<tr class="separator:a5cca7b1667fb488508d25cd1a5a48f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e7066e0a229174a9a2dab8839fc7c28" id="r_a2e7066e0a229174a9a2dab8839fc7c28"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e7066e0a229174a9a2dab8839fc7c28">CAN_SEND_front_driveline_can_tx_actions</a> (uint32_t value_enqueue_count, uint32_t value_task_wake_count)</td></tr>
+<tr class="separator:a2e7066e0a229174a9a2dab8839fc7c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a223e9298d6aab88163afb378914f909b" id="r_a223e9298d6aab88163afb378914f909b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a223e9298d6aab88163afb378914f909b">CAN_SEND_front_driveline_can_tx_messages</a> (uint32_t value_tx_sent, uint32_t value_tx_callbacks)</td></tr>
+<tr class="separator:a223e9298d6aab88163afb378914f909b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21ff1c03bd9b7524d2f6102fbd9a700f" id="r_a21ff1c03bd9b7524d2f6102fbd9a700f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21ff1c03bd9b7524d2f6102fbd9a700f">CAN_SEND_rear_driveline_can_overflow</a> (uint32_t value_rx_overflow, uint32_t value_tx_overflow)</td></tr>
+<tr class="separator:a21ff1c03bd9b7524d2f6102fbd9a700f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf89d24572e74497e2d6c648c1885537" id="r_acf89d24572e74497e2d6c648c1885537"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf89d24572e74497e2d6c648c1885537">CAN_SEND_rear_driveline_can_tx_actions</a> (uint32_t value_enqueue_count, uint32_t value_task_wake_count)</td></tr>
+<tr class="separator:acf89d24572e74497e2d6c648c1885537"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a739ea9c768fca1cc84d71f10139e1dc7" id="r_a739ea9c768fca1cc84d71f10139e1dc7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a739ea9c768fca1cc84d71f10139e1dc7">CAN_SEND_rear_driveline_can_tx_messages</a> (uint32_t value_tx_sent, uint32_t value_tx_callbacks)</td></tr>
+<tr class="separator:a739ea9c768fca1cc84d71f10139e1dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa807ade5b93f6697cfac0ae05b7f5255" id="r_aa807ade5b93f6697cfac0ae05b7f5255"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa807ade5b93f6697cfac0ae05b7f5255">CAN_init_peripherals</a> (void)</td></tr>
 <tr class="separator:aa807ade5b93f6697cfac0ae05b7f5255"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a500b6be206fba2002ed925d335a72173" id="r_a500b6be206fba2002ed925d335a72173"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a500b6be206fba2002ed925d335a72173">FDCAN1_init_filters</a> ()</td></tr>
@@ -393,6 +405,108 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a5cca7b1667fb488508d25cd1a5a48f17" name="a5cca7b1667fb488508d25cd1a5a48f17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cca7b1667fb488508d25cd1a5a48f17">&#9670;&#160;</a></span>CAN_SEND_front_driveline_can_overflow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_front_driveline_can_overflow </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_rx_overflow</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_tx_overflow</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="DRIVELINE_8h_a5cca7b1667fb488508d25cd1a5a48f17_cgraph.svg" width="600" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a2e7066e0a229174a9a2dab8839fc7c28" name="a2e7066e0a229174a9a2dab8839fc7c28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e7066e0a229174a9a2dab8839fc7c28">&#9670;&#160;</a></span>CAN_SEND_front_driveline_can_tx_actions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_front_driveline_can_tx_actions </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_enqueue_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_wake_count</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="DRIVELINE_8h_a2e7066e0a229174a9a2dab8839fc7c28_cgraph.svg" width="600" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a223e9298d6aab88163afb378914f909b" name="a223e9298d6aab88163afb378914f909b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a223e9298d6aab88163afb378914f909b">&#9670;&#160;</a></span>CAN_SEND_front_driveline_can_tx_messages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_front_driveline_can_tx_messages </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_tx_sent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_tx_callbacks</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="DRIVELINE_8h_a223e9298d6aab88163afb378914f909b_cgraph.svg" width="600" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a1be224142b936d8a2f0c92e654bf9b42" name="a1be224142b936d8a2f0c92e654bf9b42"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1be224142b936d8a2f0c92e654bf9b42">&#9670;&#160;</a></span>CAN_SEND_front_driveline_init()</h2>
 
@@ -531,6 +645,108 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="DRIVELINE_8h_a0d2784725859557d9c5a5dc6003e2015_icgraph.svg" width="482" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a21ff1c03bd9b7524d2f6102fbd9a700f" name="a21ff1c03bd9b7524d2f6102fbd9a700f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21ff1c03bd9b7524d2f6102fbd9a700f">&#9670;&#160;</a></span>CAN_SEND_rear_driveline_can_overflow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_rear_driveline_can_overflow </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_rx_overflow</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_tx_overflow</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="DRIVELINE_8h_a21ff1c03bd9b7524d2f6102fbd9a700f_cgraph.svg" width="596" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="acf89d24572e74497e2d6c648c1885537" name="acf89d24572e74497e2d6c648c1885537"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf89d24572e74497e2d6c648c1885537">&#9670;&#160;</a></span>CAN_SEND_rear_driveline_can_tx_actions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_rear_driveline_can_tx_actions </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_enqueue_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_wake_count</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="DRIVELINE_8h_acf89d24572e74497e2d6c648c1885537_cgraph.svg" width="596" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a739ea9c768fca1cc84d71f10139e1dc7" name="a739ea9c768fca1cc84d71f10139e1dc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a739ea9c768fca1cc84d71f10139e1dc7">&#9670;&#160;</a></span>CAN_SEND_rear_driveline_can_tx_messages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_rear_driveline_can_tx_messages </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_tx_sent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_tx_callbacks</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="DRIVELINE_8h_a739ea9c768fca1cc84d71f10139e1dc7_cgraph.svg" width="596" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

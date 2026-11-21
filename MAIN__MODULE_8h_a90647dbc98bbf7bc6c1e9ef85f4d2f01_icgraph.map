@@ -1,52 +1,61 @@
 <map id="CAN_enqueue_tx_FDCAN1" name="CAN_enqueue_tx_FDCAN1">
-<area shape="rect" id="Node000001" title=" " alt="" coords="546,301,728,327"/>
-<area shape="rect" id="Node000002" href="$MAIN__MODULE_8h.html#a8e3340e4a3ca2d481310df34f23cf7ca" title=" " alt="" coords="318,5,482,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="627,287,612,234,587,168,549,101,525,71,497,44,480,34,482,29,500,40,529,67,553,98,592,166,617,233,632,285"/>
-<area shape="rect" id="Node000004" href="$MAIN__MODULE_8h.html#ac3f6086393669753392f5360307c2bf9" title=" " alt="" coords="302,153,498,179"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="613,291,564,241,532,215,497,193,472,182,474,177,500,188,535,210,567,237,617,288"/>
-<area shape="rect" id="Node000007" href="$MAIN__MODULE_8h.html#a868bb86e9146fa1a0a71b56f2c7058b5" title=" " alt="" coords="302,203,498,228"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="601,295,553,268,497,242,465,232,467,226,499,237,555,263,603,290"/>
-<area shape="rect" id="Node000008" href="$MAIN__MODULE_8h.html#a6144f7035131a19b9b33bd7b14e8ae5a" title=" " alt="" coords="302,252,498,278"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="556,300,465,281,466,276,557,295"/>
-<area shape="rect" id="Node000009" href="$MAIN__MODULE_8h.html#aabf0685d6933f10e58d9171d134b1885" title=" " alt="" coords="302,301,498,327"/>
-<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="531,317,499,317,499,312,531,312"/>
-<area shape="rect" id="Node000010" href="$MAIN__MODULE_8h.html#aba339c1c7f4d7557e12e2c5830314490" title=" " alt="" coords="326,351,474,376"/>
-<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="557,333,466,353,465,347,556,328"/>
-<area shape="rect" id="Node000012" href="$MAIN__MODULE_8h.html#a22712736f646cde540cb15e873617533" title=" " alt="" coords="103,401,254,427"/>
-<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="606,338,557,367,499,391,436,406,371,415,254,420,254,414,370,409,435,401,498,386,555,362,603,334"/>
-<area shape="rect" id="Node000013" href="$MAIN__MODULE_8h.html#ac75a1862b72edecacd4a2f724dc279d1" title=" " alt="" coords="312,451,488,492"/>
-<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="614,340,564,387,500,435,464,453,462,448,497,431,561,383,611,336"/>
-<area shape="rect" id="Node000015" href="$MAIN__MODULE_8h.html#ace712438f8caf190d7d6e5e70f0bd5e9" title=" " alt="" coords="312,516,488,557"/>
-<area shape="poly" id="edge19_Node000001_Node000015" title=" " alt="" coords="625,342,606,379,577,423,542,467,500,506,479,518,476,514,497,501,538,463,573,419,601,376,621,340"/>
-<area shape="rect" id="Node000017" href="$MAIN__MODULE_8h.html#aeef7c7296bf1fc904bbbe6c3216b3bf1" title=" " alt="" coords="312,55,488,80"/>
-<area shape="poly" id="edge21_Node000001_Node000017" title=" " alt="" coords="624,288,607,245,580,192,543,139,521,114,497,94,478,83,481,79,500,89,525,111,547,135,585,189,612,243,629,286"/>
-<area shape="rect" id="Node000018" href="$MAIN__MODULE_8h.html#a29b1cbb2de31574aeab2ccb3eee8de88" title=" " alt="" coords="310,581,491,607"/>
-<area shape="poly" id="edge23_Node000001_Node000018" title=" " alt="" coords="631,343,615,392,589,454,551,517,527,546,500,571,479,583,477,578,497,567,523,542,547,514,584,451,610,390,626,341"/>
-<area shape="rect" id="Node000020" href="$MAIN__MODULE_8h.html#a3b8dba56e53546e2d2660f6d1b2cf321" title=" " alt="" coords="312,104,488,130"/>
-<area shape="poly" id="edge26_Node000001_Node000020" title=" " alt="" coords="620,289,600,255,572,215,537,176,497,143,476,133,478,128,500,139,541,172,576,212,604,252,624,286"/>
-<area shape="rect" id="Node000021" href="$MAIN__MODULE_8h.html#a24987af92325bb82e27b068bacab6d2b" title=" " alt="" coords="320,631,480,656"/>
-<area shape="poly" id="edge28_Node000001_Node000021" title=" " alt="" coords="634,343,621,402,597,477,579,517,557,555,531,591,500,622,482,633,479,628,497,617,527,587,553,552,574,514,592,475,616,400,629,342"/>
-<area shape="rect" id="Node000003" href="$main__module_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: AMK reported motor and IGBT temperatures,..." alt="" coords="104,55,252,80"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="325,38,240,57,239,51,323,32"/>
-<area shape="rect" id="Node000005" href="$main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968" title="Reports telemetry data at 1 Hz rate Includes: AMK diagnostics." alt="" coords="108,252,249,278"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="320,186,303,193,245,223,199,254,196,249,242,219,301,188,318,181"/>
-<area shape="rect" id="Node000006" href="$main__module_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,376,55,402"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="152,290,49,378,45,374,148,286"/>
-<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="325,235,240,254,239,249,323,230"/>
-<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="286,268,249,268,249,262,286,262"/>
-<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="323,300,239,281,240,276,325,295"/>
-<area shape="rect" id="Node000011" href="$vehicle__fsm_8c.html#a17b274e6971a721080e708c8d6eed884" title=" " alt="" coords="107,351,250,376"/>
-<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="311,366,250,366,250,361,311,361"/>
-<area shape="poly" id="edge14_Node000011_Node000006" title=" " alt="" coords="92,381,56,387,55,382,91,376"/>
-<area shape="poly" id="edge16_Node000012_Node000006" title=" " alt="" coords="87,401,55,396,56,390,87,396"/>
-<area shape="rect" id="Node000014" href="$fault__data_8c.html#af975d7425654bc9ee59390f875799b63" title=" " alt="" coords="127,459,230,484"/>
-<area shape="poly" id="edge18_Node000013_Node000014" title=" " alt="" coords="297,474,230,474,230,469,297,469"/>
-<area shape="rect" id="Node000016" href="$fault__data_8c.html#ab067e06d568cd2e1e9aea488c15bab43" title=" " alt="" coords="130,524,227,550"/>
-<area shape="poly" id="edge20_Node000015_Node000016" title=" " alt="" coords="296,540,228,540,228,534,296,534"/>
-<area shape="poly" id="edge22_Node000017_Node000003" title=" " alt="" coords="296,70,253,70,253,65,296,65"/>
-<area shape="rect" id="Node000019" href="$main__module_2telemetry_2telemetry_8c.html#a14fa998ab27981c4409143eae0bde0e1" title="Reports telemetry data at 50 Hz rate Includes: AMK&#45;reported motor shaft speeds before gear reduction,..." alt="" coords="104,581,252,607"/>
-<area shape="poly" id="edge24_Node000018_Node000019" title=" " alt="" coords="294,597,253,597,253,592,294,592"/>
-<area shape="poly" id="edge25_Node000019_Node000006" title=" " alt="" coords="116,576,101,564,71,523,50,477,37,434,31,403,36,401,42,433,55,475,75,520,105,560,119,572"/>
-<area shape="poly" id="edge27_Node000020_Node000003" title=" " alt="" coords="323,103,239,84,240,78,325,97"/>
-<area shape="poly" id="edge29_Node000021_Node000019" title=" " alt="" coords="323,629,239,610,240,605,325,624"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="560,404,742,430"/>
+<area shape="rect" id="Node000002" href="$MAIN__MODULE_8h.html#a8e3340e4a3ca2d481310df34f23cf7ca" title=" " alt="" coords="326,203,489,228"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="634,392,615,357,587,316,552,276,511,242,488,231,490,226,514,237,556,272,591,313,619,354,639,389"/>
+<area shape="rect" id="Node000004" href="$MAIN__MODULE_8h.html#ac3f6086393669753392f5360307c2bf9" title=" " alt="" coords="309,5,505,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="645,389,637,318,615,225,598,175,575,127,546,83,511,44,495,34,498,29,514,40,550,79,580,125,603,173,620,223,642,318,651,388"/>
+<area shape="rect" id="Node000007" href="$MAIN__MODULE_8h.html#a868bb86e9146fa1a0a71b56f2c7058b5" title=" " alt="" coords="309,55,505,80"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="644,389,632,327,609,247,591,205,569,164,543,126,511,94,495,83,497,79,514,89,547,123,574,161,596,202,614,245,637,326,649,388"/>
+<area shape="rect" id="Node000008" href="$MAIN__MODULE_8h.html#a6144f7035131a19b9b33bd7b14e8ae5a" title=" " alt="" coords="309,104,505,130"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="641,389,627,336,602,269,563,200,539,170,511,143,493,132,496,128,514,139,543,166,568,197,607,267,632,334,647,388"/>
+<area shape="rect" id="Node000009" href="$MAIN__MODULE_8h.html#aabf0685d6933f10e58d9171d134b1885" title=" " alt="" coords="309,153,505,179"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="639,390,621,346,595,292,558,238,536,213,511,192,492,182,495,177,514,188,539,210,562,234,599,289,626,344,643,388"/>
+<area shape="rect" id="Node000010" href="$MAIN__MODULE_8h.html#af69f82e2409f06f9005bb7ce0f289d6a" title=" " alt="" coords="302,252,512,278"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="628,394,578,342,546,315,511,293,482,281,484,276,514,288,549,311,582,338,632,390"/>
+<area shape="rect" id="Node000011" href="$MAIN__MODULE_8h.html#af9937a02f4337b1e80be9d5e019b748c" title=" " alt="" coords="321,302,493,342"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="608,400,511,358,476,346,478,340,513,353,610,395"/>
+<area shape="rect" id="Node000012" href="$MAIN__MODULE_8h.html#a23b21fd0ed7629cb962272c4d05da516" title=" " alt="" coords="321,367,493,408"/>
+<area shape="poly" id="edge16_Node000001_Node000012" title=" " alt="" coords="545,407,494,401,494,395,545,401"/>
+<area shape="rect" id="Node000013" href="$MAIN__MODULE_8h.html#aba339c1c7f4d7557e12e2c5830314490" title=" " alt="" coords="333,531,481,556"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="627,442,577,483,546,504,513,522,483,533,481,528,511,517,543,500,574,479,623,438"/>
+<area shape="rect" id="Node000015" href="$MAIN__MODULE_8h.html#a22712736f646cde540cb15e873617533" title=" " alt="" coords="103,581,254,607"/>
+<area shape="poly" id="edge21_Node000001_Node000015" title=" " alt="" coords="637,445,617,475,589,511,554,545,514,571,448,594,380,606,313,609,254,606,255,601,313,604,379,601,447,589,511,566,551,540,585,507,612,472,633,442"/>
+<area shape="rect" id="Node000016" href="$MAIN__MODULE_8h.html#ac75a1862b72edecacd4a2f724dc279d1" title=" " alt="" coords="319,631,495,672"/>
+<area shape="poly" id="edge23_Node000001_Node000016" title=" " alt="" coords="640,445,620,482,592,528,557,574,514,615,483,633,480,628,511,611,553,571,588,525,616,479,635,442"/>
+<area shape="rect" id="Node000018" href="$MAIN__MODULE_8h.html#ace712438f8caf190d7d6e5e70f0bd5e9" title=" " alt="" coords="319,696,495,737"/>
+<area shape="poly" id="edge25_Node000001_Node000018" title=" " alt="" coords="646,446,630,497,604,561,565,628,541,658,514,686,495,698,492,694,511,681,537,655,561,625,599,559,625,495,640,444"/>
+<area shape="rect" id="Node000020" href="$MAIN__MODULE_8h.html#aeef7c7296bf1fc904bbbe6c3216b3bf1" title=" " alt="" coords="319,432,495,458"/>
+<area shape="poly" id="edge27_Node000001_Node000020" title=" " alt="" coords="545,432,496,437,496,432,545,426"/>
+<area shape="rect" id="Node000021" href="$MAIN__MODULE_8h.html#a29b1cbb2de31574aeab2ccb3eee8de88" title=" " alt="" coords="316,761,498,787"/>
+<area shape="poly" id="edge29_Node000001_Node000021" title=" " alt="" coords="649,445,638,509,614,591,597,635,575,677,547,717,514,751,495,763,492,759,511,747,543,713,570,675,592,633,609,589,633,507,644,444"/>
+<area shape="rect" id="Node000023" href="$MAIN__MODULE_8h.html#a3b8dba56e53546e2d2660f6d1b2cf321" title=" " alt="" coords="320,481,495,507"/>
+<area shape="poly" id="edge32_Node000001_Node000023" title=" " alt="" coords="606,438,513,473,474,483,472,478,512,468,604,433"/>
+<area shape="rect" id="Node000024" href="$MAIN__MODULE_8h.html#a24987af92325bb82e27b068bacab6d2b" title=" " alt="" coords="327,811,487,836"/>
+<area shape="poly" id="edge34_Node000001_Node000024" title=" " alt="" coords="651,446,643,518,622,614,604,665,581,715,551,761,514,802,489,817,486,812,511,797,547,758,576,712,599,663,616,612,638,517,646,445"/>
+<area shape="rect" id="Node000003" href="$main__module_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: AMK reported motor and IGBT temperatures,..." alt="" coords="104,343,252,368"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="314,237,303,242,268,265,236,294,191,344,188,341,232,290,265,261,301,237,312,232"/>
+<area shape="rect" id="Node000005" href="$main__module_2telemetry_2telemetry_8c.html#a6d0a75c0aee5808a962691e3973ee968" title="Reports telemetry data at 1 Hz rate Includes: AMK diagnostics." alt="" coords="108,104,249,130"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="321,38,303,45,245,75,199,106,196,101,242,70,301,40,319,33"/>
+<area shape="rect" id="Node000006" href="$main__module_2main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,556,55,582"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="170,145,105,331,38,557,32,555,100,329,164,143"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="330,87,242,106,241,101,329,82"/>
+<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="294,120,250,120,250,114,294,114"/>
+<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="329,152,241,133,242,128,330,147"/>
+<area shape="poly" id="edge13_Node000010_Node000003" title=" " alt="" coords="326,285,303,293,247,318,202,345,199,340,245,314,301,288,325,280"/>
+<area shape="poly" id="edge15_Node000011_Node000003" title=" " alt="" coords="307,339,254,347,253,342,306,334"/>
+<area shape="poly" id="edge17_Node000012_Node000003" title=" " alt="" coords="306,376,253,369,254,363,307,371"/>
+<area shape="rect" id="Node000014" href="$vehicle__fsm_8c.html#a17b274e6971a721080e708c8d6eed884" title=" " alt="" coords="107,531,250,556"/>
+<area shape="poly" id="edge19_Node000013_Node000014" title=" " alt="" coords="317,546,250,546,250,541,317,541"/>
+<area shape="poly" id="edge20_Node000014_Node000006" title=" " alt="" coords="92,561,56,567,55,562,91,556"/>
+<area shape="poly" id="edge22_Node000015_Node000006" title=" " alt="" coords="87,581,55,576,56,570,87,576"/>
+<area shape="rect" id="Node000017" href="$fault__data_8c.html#af975d7425654bc9ee59390f875799b63" title=" " alt="" coords="127,639,230,664"/>
+<area shape="poly" id="edge24_Node000016_Node000017" title=" " alt="" coords="303,654,230,654,230,649,303,649"/>
+<area shape="rect" id="Node000019" href="$fault__data_8c.html#ab067e06d568cd2e1e9aea488c15bab43" title=" " alt="" coords="130,704,227,730"/>
+<area shape="poly" id="edge26_Node000018_Node000019" title=" " alt="" coords="303,720,227,720,227,714,303,714"/>
+<area shape="poly" id="edge28_Node000020_Node000003" title=" " alt="" coords="325,430,301,422,246,397,200,371,203,367,248,392,303,417,327,425"/>
+<area shape="rect" id="Node000022" href="$main__module_2telemetry_2telemetry_8c.html#a14fa998ab27981c4409143eae0bde0e1" title="Reports telemetry data at 50 Hz rate Includes: AMK&#45;reported motor shaft speeds before gear reduction,..." alt="" coords="104,761,252,787"/>
+<area shape="poly" id="edge30_Node000021_Node000022" title=" " alt="" coords="302,777,253,777,253,772,302,772"/>
+<area shape="poly" id="edge31_Node000022_Node000006" title=" " alt="" coords="116,756,101,744,71,703,50,657,37,614,31,583,36,581,42,613,55,655,75,700,105,740,119,752"/>
+<area shape="poly" id="edge33_Node000023_Node000003" title=" " alt="" coords="312,478,301,472,265,449,233,421,188,371,192,367,237,417,268,445,303,468,314,473"/>
+<area shape="poly" id="edge35_Node000024_Node000022" title=" " alt="" coords="329,809,241,790,242,785,330,804"/>
 </map>

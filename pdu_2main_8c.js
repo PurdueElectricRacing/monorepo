@@ -8,6 +8,7 @@ var pdu_2main_8c =
     [ "RTOS_DEFINE_TASK", "pdu_2main_8c.html#a0433fb1019241ded944636b053b6194a", null ],
     [ "RTOS_DEFINE_TASK", "pdu_2main_8c.html#a80fa685f6637d641a5f77e188475d81e", null ],
     [ "RTOS_DEFINE_TASK", "pdu_2main_8c.html#a029ca396592ecd52550422fe3d5c436a", null ],
+    [ "RTOS_DEFINE_TASK", "pdu_2main_8c.html#a82fe837997b54030e3e2773da5e6dba5", null ],
     [ "RTOS_DEFINE_TASK", "pdu_2main_8c.html#a6bc9944bd0dbe5e9d730f154924bbfda", null ],
     [ "adc1_channels", "pdu_2main_8c.html#a855cda75692c284e6b359fc369d129a9", null ],
     [ "adc1_config", "pdu_2main_8c.html#a3c930f9fe2623c01b2a1309966bfb741", null ],
