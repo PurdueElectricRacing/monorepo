@@ -376,9 +376,9 @@
                             "description": "number of packets transmitted since startup"
                         },
                         {
-                            "signal_name": "callbacks_sent",
+                            "signal_name": "tx_callbacks",
                             "data_type": "uint32_t",
-                            "description": "number of callback packets sent since startup"
+                            "description": "number of CAN TX completion ISR callbacks since startup"
                         }
                     ],
                     "priority": 4,
