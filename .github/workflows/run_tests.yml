@@ -34,7 +34,7 @@ jobs:
         uses: ./.github/actions/docker_image
 
   fil_tests:
-    name: FIL PGO and PER integration tests
+    name: FIL and PER integration tests
     needs: [image]
     if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
@@ -54,13 +54,17 @@ jobs:
       - name: Build vehicle firmware
         run: python3 firmware/build_firmware.py
 
-      - name: Build FIL with PGO and run integration tests
-        env:
-          PGO_CXX: clang++
-          LLVM_PROFDATA: llvm-profdata
-          CMAKE_GENERATOR: Ninja
-          CMAKE_BUILD_PARALLEL_LEVEL: "2"
-        run: python3 tests/fil/run_tests.py --build
+      - name: Download FIL release binary
+        run: |
+          # Keep this release tag and checksum in sync with the FIL submodule.
+          curl --fail --silent --show-error --location --retry 3 \
+            --output "$RUNNER_TEMP/fil" \
+            https://github.com/ronakpjain/fil/releases/download/v0.1.0/fil-linux-x86_64
+          printf '%s  %s\n' '55de4374e7d5d73eea86e415d60c497e788b375544cab5be79cd602311ccd5d7' "$RUNNER_TEMP/fil" | sha256sum -c -
+          chmod +x "$RUNNER_TEMP/fil"
+
+      - name: Run FIL integration tests
+        run: python3 tests/fil/run_tests.py --fil "$RUNNER_TEMP/fil"
 
   unit_tests:
     name: Generator and firmware unit tests

@@ -39,7 +39,7 @@ def build() -> None:
         ROOT,
     )
     build_project(
-        "FIL (PGO) and PER firmware integration tests",
+        "FIL and PER firmware integration tests",
         [sys.executable, "tests/fil/run_tests.py", "--build"],
         ROOT,
     )
