@@ -45,7 +45,7 @@ static void SOC_UKF_mean_weights(
 
     /*
     $$
-    W_i^{(m)} = \frac{1}{2(n+\lambda)}, \qquad i=1,\ldots,2n
+    W_i^{(m)} = \frac{1}{2(n+\lambda)} \quad i \neq 0
     $$
     */
     for (int i = 1; i < NUM_SIGMA_POINTS; i++) {
@@ -70,7 +70,7 @@ static void SOC_UKF_covariance_weights(
 
     /*
     $$
-    W_i^{(c)} = W_i^{(m)} \quad (i > 0)
+    W_i^{(c)} = W_i^{(m)} \quad i \neq 0
     $$
     */
     for (int i = 1; i < NUM_SIGMA_POINTS; i++) {
@@ -87,13 +87,13 @@ void SOC_UKF_init(
     ukf->x = x0;
     ukf->P = P0;
 
-    ukf->cell = params->cell;
-    ukf->dt   = params->dt;
-    ukf->Q    = params->Q;
-    ukf->R    = params->R;
+    ukf->ecm = params->ecm;
+    ukf->prediction_dt  = params->prediction_dt;
+    ukf->Q   = params->Q;
+    ukf->R   = params->R;
 
-    float alpha1 = expf(-ukf->dt / ukf->cell.tau1);
-    float alpha2 = expf(-ukf->dt / ukf->cell.tau2);
+    float alpha1 = expf(-ukf->prediction_dt / ukf->ecm.tau1);
+    float alpha2 = expf(-ukf->prediction_dt / ukf->ecm.tau2);
 
     ukf->A = (mat3_t){{
         {1.0f, 0.0f,   0.0f},
@@ -101,12 +101,12 @@ void SOC_UKF_init(
         {0.0f, 0.0f,   alpha2},
     }};
 
-    float b0 = -ukf->dt / (3600.0f * ukf->cell.Q);
+    float b0 = -ukf->prediction_dt / (3600.0f * ukf->ecm.Q);
 
     ukf->B = (vec3_t){
         b0,
-        ukf->cell.r1 * (1.0f - alpha1),
-        ukf->cell.r2 * (1.0f - alpha2)
+        ukf->ecm.r1 * (1.0f - alpha1),
+        ukf->ecm.r2 * (1.0f - alpha2)
     };
 
     /*
@@ -216,7 +216,7 @@ void SOC_UKF_update(
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
         const float soc = points[i].x;
         const float ocv = lut_lookup(&SOC_2_OCV, soc);
-        const float v0  = current * ukf->cell.r0;
+        const float v0  = current * ukf->ecm.r0;
         const float v1  = points[i].y;
         const float v2  = points[i].z;
 
