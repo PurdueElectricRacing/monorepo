@@ -50,4 +50,5 @@ add_firmware_unit_test(
     INCLUDE_DIRECTORIES
         "${CMAKE_CURRENT_LIST_DIR}"
         "${CMAKE_CURRENT_LIST_DIR}/.."
+        "${CMAKE_CURRENT_LIST_DIR}/../../.."
 )
