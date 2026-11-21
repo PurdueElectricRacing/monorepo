@@ -13,8 +13,8 @@
 
 // at 35C
 // todo add 2d lookup + temperature ?
-static constexpr size_t OCV_LUT_SIZE = 11;
-static const lut_entry_t OCV_ENTRIES[OCV_LUT_SIZE] = {
+static constexpr size_t SOC_2_OCV_SIZE = 11;
+static const lut_entry_t SOC_2_OCV_ENTRIES[SOC_2_OCV_SIZE] = {
     {0.0f, 2.811f},
     {0.1f, 3.096f},
     {0.2f, 3.286f},
@@ -28,7 +28,7 @@ static const lut_entry_t OCV_ENTRIES[OCV_LUT_SIZE] = {
     {1.0f, 4.171f}
 };
 
-LERP_LUT_INIT(OCV_LUT, OCV_ENTRIES, OCV_LUT_SIZE);
+LERP_LUT_INIT(SOC_2_OCV, SOC_2_OCV_ENTRIES, SOC_2_OCV_SIZE);
 
 static void SOC_UKF_mean_weights(
     const soc_ukf_t *ukf,
@@ -210,7 +210,7 @@ void SOC_UKF_update(
 
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
         float soc = points[i].x;
-        float ocv = lut_lookup(&OCV_LUT, soc);
+        float ocv = lut_lookup(&SOC_2_OCV, soc);
         float v0  = current * ukf->cell.r0;
         float v1  = points[i].y;
         float v2  = points[i].z;
@@ -231,7 +231,10 @@ void SOC_UKF_update(
     */
     float predicted_voltage = 0.0f;
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
-        predicted_voltage += ukf->mean_weights[i] * predicted_voltages[i];
+        const float Wi = ukf->mean_weights[i];
+        const float zi = predicted_voltages[i];
+
+        predicted_voltage += Wi * zi;
     }
 
     /*
@@ -243,11 +246,11 @@ void SOC_UKF_update(
     float innovation_variance = ukf->R;
 
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
-        float voltage_deviation = predicted_voltages[i] - predicted_voltage;
+        const float Wi      = ukf->covariance_weights[i];
+        const float zi      = predicted_voltages[i];
+        const float z_error = zi - predicted_voltage;
 
-        innovation_variance +=
-            ukf->covariance_weights[i]
-            * voltage_deviation * voltage_deviation;
+        innovation_variance += Wi * z_error * z_error;
     }
 
     /*
