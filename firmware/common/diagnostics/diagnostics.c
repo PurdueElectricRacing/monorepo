@@ -11,7 +11,20 @@
 #include "common/rtos/rtos.h"
 #include "can_library/generated/diagnostics_can.h"
 
-static constexpr uint8_t DIAGNOSTICS_TICKS_PER_SAMPLE = 20; // 1000 ms / 50 ms
+static constexpr uint32_t DIAGNOSTICS_SAMPLE_PERIOD_MS = 1000;
+static constexpr uint8_t DIAGNOSTICS_TICKS_PER_SAMPLE =
+    (uint8_t)(DIAGNOSTICS_SAMPLE_PERIOD_MS / DIAGNOSTICS_TICK_PERIOD_MS);
+
+static_assert(
+    DIAGNOSTICS_SAMPLE_PERIOD_MS % DIAGNOSTICS_TICK_PERIOD_MS == 0,
+    "sample period must be a multiple of tick period"
+);
+// One tick per task plus one for the summary must fit in a sample cycle.
+static_assert(
+    DIAGNOSTICS_MAX_TASKS < DIAGNOSTICS_TICKS_PER_SAMPLE,
+    "summary tick must fall within the sample cycle"
+);
+
 #ifdef DIAGNOSTICS_CAN_ENABLED
 static constexpr uint8_t DIAGNOSTICS_CPU_INVALID = UINT8_MAX;
 #endif
