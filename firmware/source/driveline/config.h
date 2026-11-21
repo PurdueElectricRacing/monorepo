@@ -24,6 +24,9 @@
 #define SEND_OIL_TEMPS CAN_SEND_front_oil_temps
 #define SEND_INIT CAN_SEND_front_driveline_init
 #define SEND_VERSION CAN_SEND_front_driveline_version
+#define SEND_CAN_OVERFLOW CAN_SEND_front_driveline_can_overflow
+#define SEND_CAN_TX_ACTIONS CAN_SEND_front_driveline_can_tx_actions
+#define SEND_CAN_TX_MESSAGES CAN_SEND_front_driveline_can_tx_messages
 #endif
 
 #ifdef IS_REAR_DRIVELINE
@@ -31,6 +34,9 @@
 #define SEND_OIL_TEMPS CAN_SEND_rear_oil_temps
 #define SEND_INIT CAN_SEND_rear_driveline_init
 #define SEND_VERSION CAN_SEND_rear_driveline_version
+#define SEND_CAN_OVERFLOW CAN_SEND_rear_driveline_can_overflow
+#define SEND_CAN_TX_ACTIONS CAN_SEND_rear_driveline_can_tx_actions
+#define SEND_CAN_TX_MESSAGES CAN_SEND_rear_driveline_can_tx_messages
 #endif
 
 #endif // CONFIG_H
