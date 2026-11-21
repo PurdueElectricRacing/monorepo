@@ -7,7 +7,7 @@ height = 14
 forward_fill = true
 
 [[panels]]
-label = "Recieving packets dropped"
+label = "Receiving packets dropped"
 
 [[panels.traces]]
 column = "SCAN.A_BOX.a_box_can_overflow.rx_overflow"
