@@ -9,5 +9,5 @@
 #include "orientation_test_shim.h"
 
 mat3_t test_DCM_from_euler(const euler_angles_t angles) {
-    DCM_from_euler(angles);
+    return DCM_from_euler(angles);
 }

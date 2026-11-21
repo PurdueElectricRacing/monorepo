@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-#include "common/linear_algebra/linear_algebra.h"
+#include "../linear_algebra/linear_algebra.h"
 
 // ! SAE J670 Z-up convention: X+ forward, Y+ left, Z+ up
 // ! Pitch is rotation around Y, Roll is rotation around X, Yaw is rotation around Z
