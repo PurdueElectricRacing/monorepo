@@ -18,8 +18,9 @@
 #define TEST_ONBOARDING_2027 13
 #define TEST_DIAGNOSTICS     14
 #define TEST_SOC_UKF         15
+#define TEST_BUSOFF         16
 
 // Change this define to set the test compiled
-#define G4_TESTING_CHOSEN TEST_BLINKY
+#define G4_TESTING_CHOSEN TEST_BUSOFF
 
 #endif // __G4_TESTING__

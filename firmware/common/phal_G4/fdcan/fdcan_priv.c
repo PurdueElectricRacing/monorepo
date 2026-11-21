@@ -335,7 +335,6 @@ void PHAL_FDCAN_priv_writeTxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t 
 }
  
 bool PHAL_FDCAN_priv_readRxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t *msg) {
-    // RXF0S = Rx FIFO 0 Status register
     // - reports current state of RX FIFO 0
     // F0FL = Fill Level field
     // - how many unread elements are currently sitting in RX FIFO 0
