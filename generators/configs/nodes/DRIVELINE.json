@@ -161,6 +161,114 @@
                     ],
                     "priority": 4,
                     "period_ms": 5000
+                },
+                {
+                    "message_name": "front_driveline_can_overflow",
+                    "description": "count of dropped CAN packets due to queue overflow on front driveline",
+                    "signals": [
+                        {
+                            "signal_name": "rx_overflow",
+                            "data_type": "uint32_t",
+                            "description": "number of received packets dropped due to queue overflow"
+                        },
+                        {
+                            "signal_name": "tx_overflow",
+                            "data_type": "uint32_t",
+                            "description": "number of packets to send dropped due to queue overflow"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
+                },
+                {
+                    "message_name": "front_driveline_can_tx_actions",
+                    "description": "counts of software actions taken before CAN transmissions on front driveline",
+                    "signals": [
+                        {
+                            "signal_name": "enqueue_count",
+                            "data_type": "uint32_t",
+                            "description": "number of packets enqueued to be sent since startup"
+                        },
+                        {
+                            "signal_name": "task_wake_count",
+                            "data_type": "uint32_t",
+                            "description": "number of times the tx task has been called since startup"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
+                },
+                {
+                    "message_name": "front_driveline_can_tx_messages",
+                    "description": "counts of CAN packets transmitted on front driveline",
+                    "signals": [
+                        {
+                            "signal_name": "tx_sent",
+                            "data_type": "uint32_t",
+                            "description": "number of packets transmitted since startup"
+                        },
+                        {
+                            "signal_name": "tx_callbacks",
+                            "data_type": "uint32_t",
+                            "description": "number of CAN TX completion ISR callbacks since startup"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
+                },
+                {
+                    "message_name": "rear_driveline_can_overflow",
+                    "description": "count of dropped CAN packets due to queue overflow on rear driveline",
+                    "signals": [
+                        {
+                            "signal_name": "rx_overflow",
+                            "data_type": "uint32_t",
+                            "description": "number of received packets dropped due to queue overflow"
+                        },
+                        {
+                            "signal_name": "tx_overflow",
+                            "data_type": "uint32_t",
+                            "description": "number of packets to send dropped due to queue overflow"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
+                },
+                {
+                    "message_name": "rear_driveline_can_tx_actions",
+                    "description": "counts of software actions taken before CAN transmissions on rear driveline",
+                    "signals": [
+                        {
+                            "signal_name": "enqueue_count",
+                            "data_type": "uint32_t",
+                            "description": "number of packets enqueued to be sent since startup"
+                        },
+                        {
+                            "signal_name": "task_wake_count",
+                            "data_type": "uint32_t",
+                            "description": "number of times the tx task has been called since startup"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
+                },
+                {
+                    "message_name": "rear_driveline_can_tx_messages",
+                    "description": "counts of CAN packets transmitted on rear driveline",
+                    "signals": [
+                        {
+                            "signal_name": "tx_sent",
+                            "data_type": "uint32_t",
+                            "description": "number of packets transmitted since startup"
+                        },
+                        {
+                            "signal_name": "tx_callbacks",
+                            "data_type": "uint32_t",
+                            "description": "number of CAN TX completion ISR callbacks since startup"
+                        }
+                    ],
+                    "priority": 4,
+                    "period_ms": 5000
                 }
             ],
             "rx": [

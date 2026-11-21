@@ -30,11 +30,17 @@ void report_telemetry_25hz(void) {
 }
 
 /**
- * @brief Reports the application hash and bootloader capability at 0.2 Hz.
+ * @brief Reports the application hash, bootloader capability, and CAN stats at 0.2 Hz.
  */
 static_assert(TORQUE_VECTOR_VERSION_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+static_assert(TORQUE_VECTOR_CAN_OVERFLOW_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+static_assert(TORQUE_VECTOR_CAN_TX_ACTIONS_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+static_assert(TORQUE_VECTOR_CAN_TX_MESSAGES_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
 void report_telemetry_02hz(void) {
     CAN_SEND_torque_vector_version(FIRMWARE_GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
+    CAN_SEND_torque_vector_can_overflow(can_stats.rx_overflow, can_stats.tx_overflow);
+    CAN_SEND_torque_vector_can_tx_actions(can_stats.tx_enqueue_count, can_stats.tx_task_wake_count);
+    CAN_SEND_torque_vector_can_tx_messages(can_stats.tx_sent_count, can_stats.tx_callback_count);
 }
 
 /**
