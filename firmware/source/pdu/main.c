@@ -22,7 +22,6 @@
 /* Module Includes */
 #include "cooling_fsm.h"
 #include "current_sense.h"
-#include "can_reporting.h"
 
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     // Status indicators
@@ -117,6 +116,8 @@ static PHAL_ADC_Handle_t adc2_handle;
 static PHAL_ADC_Handle_t adc3_handle;
 
 void HardFault_Handler();
+static constexpr uint32_t TELEMETRY_02HZ_PERIOD_MS = 5000;
+void report_telemetry_02hz(void);
 
 // Thread Defines
 DEFINE_CAN_TASKS();
@@ -124,7 +125,7 @@ RTOS_DEFINE_TASK(fault_library_periodic, PDU_FAULT_SYNC_PERIOD_MS, TASK_PRIORITY
 RTOS_DEFINE_TASK(cooling_fsm_periodic, COOLING_FSM_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024);
 RTOS_DEFINE_TASK(current_sense_periodic, CURRENT_SENSE_TASK_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(SWITCH_enable_all, 0, TASK_PRIORITY_LOW, STACK_512);
-RTOS_DEFINE_TASK(can_report_periodic, CAN_REPORTING_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(report_telemetry_02hz, TELEMETRY_02HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -158,13 +159,24 @@ int main() {
     RTOS_START_TASK(current_sense_periodic);
     RTOS_START_TASK(cooling_fsm_periodic);
     RTOS_START_TASK(SWITCH_enable_all);
-    RTOS_START_TASK(can_report_periodic);
+    RTOS_START_TASK(report_telemetry_02hz);
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 
     vTaskStartScheduler();
 
     return 0;
+}
+
+static_assert(PDU_VERSION_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+static_assert(PDU_CAN_OVERFLOW_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+static_assert(PDU_CAN_TX_ACTIONS_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+static_assert(PDU_CAN_TX_MESSAGES_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+void report_telemetry_02hz(void) {
+    CAN_SEND_pdu_version(FIRMWARE_GIT_HASH);
+    CAN_SEND_pdu_can_overflow(can_stats.rx_overflow, can_stats.tx_overflow);
+    CAN_SEND_pdu_can_tx_actions(can_stats.tx_enqueue_count, can_stats.tx_task_wake_count);
+    CAN_SEND_pdu_can_tx_messages(can_stats.tx_sent_count, can_stats.tx_callback_count);
 }
 
 void HardFault_Handler() {

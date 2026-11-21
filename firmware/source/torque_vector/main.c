@@ -22,7 +22,6 @@
 #include "control_loop.h"
 #include "sensors.h"
 #include "telemetry.h"
-#include "can_reporting.h"
 
 /* PER HAL Initialization Structures */
 PHAL_GPIO_InitConfig_t gpio_config[] = {
@@ -64,7 +63,6 @@ RTOS_DEFINE_TASK(gps_periodic, GPS_THREAD_PERIOD_MS, TASK_PRIORITY_LOW, STACK_10
 RTOS_DEFINE_TASK(report_telemetry_25hz, TELEMETRY_25HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(report_telemetry_1hz, TELEMETRY_1HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 RTOS_DEFINE_TASK(report_telemetry_02hz, TELEMETRY_02HZ_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
-RTOS_DEFINE_TASK(can_report_periodic, CAN_REPORTING_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -97,7 +95,6 @@ int main(void) {
     RTOS_START_TASK(report_telemetry_25hz);
     RTOS_START_TASK(report_telemetry_1hz);
     RTOS_START_TASK(report_telemetry_02hz);
-    RTOS_START_TASK(can_report_periodic);
     START_HEARTBEAT_TASK();
     START_WATCHDOG_TASK();
 

@@ -106,11 +106,14 @@ void report_telemetry_1hz(void) {
 
 /**
  * @brief Reports telemetry data at 0.2 Hz rate
- * Includes: AMK reported motor and IGBT temperatures, firmware version
+ * Includes: AMK reported motor and IGBT temperatures, firmware version, CAN stats
  */
 static_assert(MOTOR_TEMPS_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
 static_assert(IGBT_TEMPS_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
 static_assert(MAIN_VERSION_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+static_assert(MAIN_CAN_OVERFLOW_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+static_assert(MAIN_CAN_TX_ACTIONS_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
+static_assert(MAIN_CAN_TX_MESSAGES_PERIOD_MS == TELEMETRY_02HZ_PERIOD_MS);
 void report_telemetry_02hz(void) {
     CAN_SEND_motor_temps(
         g_powertrain.front_right.temps->AMK_MotorTemp,
@@ -127,4 +130,7 @@ void report_telemetry_02hz(void) {
     );
 
     CAN_SEND_main_version(FIRMWARE_GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
+    CAN_SEND_main_can_overflow(can_stats.rx_overflow, can_stats.tx_overflow);
+    CAN_SEND_main_can_tx_actions(can_stats.tx_enqueue_count, can_stats.tx_task_wake_count);
+    CAN_SEND_main_can_tx_messages(can_stats.tx_sent_count, can_stats.tx_callback_count);
 }
