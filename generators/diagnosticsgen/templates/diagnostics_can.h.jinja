@@ -1,0 +1,23 @@
+#ifndef DIAGNOSTICS_CAN_H
+#define DIAGNOSTICS_CAN_H
+
+/**
+ * @file diagnostics_can.h
+ * @brief Auto-generated diagnostics CAN send macros for the compiled node.
+ * @note This file is auto-generated. Do not modify manually.
+ */
+
+#include "can_library/generated/can_router.h"
+
+{% if node_names %}
+{% for node_name in node_names %}
+{% if loop.first %}#if{% else %}#elif{% endif %} defined(CAN_NODE_{{ node_name }})
+#define DIAGNOSTICS_CAN_ENABLED
+#define DIAGNOSTICS_SEND_TASK CAN_SEND_{{ node_name | lower }}_diag_task
+#define DIAGNOSTICS_SEND_SUMMARY CAN_SEND_{{ node_name | lower }}_diag_summary
+#define DIAGNOSTICS_SEND_NAME CAN_SEND_{{ node_name | lower }}_diag_name
+{% endfor %}
+#endif
+{% endif %}
+
+#endif // DIAGNOSTICS_CAN_H

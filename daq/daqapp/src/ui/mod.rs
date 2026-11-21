@@ -2,6 +2,7 @@ pub mod battery;
 pub mod bootloader;
 pub mod bus_load;
 pub mod command_palette;
+pub mod diagnostics;
 pub mod dynamics;
 pub mod gg_plot;
 pub mod gps_plot;
