@@ -119,12 +119,12 @@ static PHAL_ADC_Handle_t adc4_handle;
 extern void HardFault_Handler();
 void shockpots_periodic();
 void oil_temps_periodic();
-void version_periodic();
+void report_telemetry_02hz();
 
 DEFINE_CAN_TASKS();
 RTOS_DEFINE_TASK(shockpots_periodic, FRONT_SHOCKPOTS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
 RTOS_DEFINE_TASK(oil_temps_periodic, FRONT_OIL_TEMPS_PERIOD_MS, TASK_PRIORITY_NORMAL, STACK_512);
-RTOS_DEFINE_TASK(version_periodic, FRONT_DRIVELINE_VERSION_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
+RTOS_DEFINE_TASK(report_telemetry_02hz, FRONT_DRIVELINE_VERSION_PERIOD_MS, TASK_PRIORITY_LOW, STACK_512);
 DEFINE_WATCHDOG_TASK();
 DEFINE_HEARTBEAT_TASK(nullptr);
 
@@ -162,7 +162,7 @@ int main(void) {
     SEND_INIT(WDG_get_CSR());
     RTOS_START_TASK(shockpots_periodic);
     RTOS_START_TASK(oil_temps_periodic);
-    RTOS_START_TASK(version_periodic);
+    RTOS_START_TASK(report_telemetry_02hz);
     START_WATCHDOG_TASK();
     START_HEARTBEAT_TASK();
 
@@ -176,8 +176,17 @@ uint16_t left_length_scaled = 0;
 uint16_t right_length_scaled = 0;
 static_assert(FRONT_DRIVELINE_VERSION_PERIOD_MS == 5000U);
 static_assert(REAR_DRIVELINE_VERSION_PERIOD_MS == 5000U);
-void version_periodic() {
+static_assert(FRONT_DRIVELINE_CAN_OVERFLOW_PERIOD_MS == 5000U);
+static_assert(FRONT_DRIVELINE_CAN_TX_ACTIONS_PERIOD_MS == 5000U);
+static_assert(FRONT_DRIVELINE_CAN_TX_MESSAGES_PERIOD_MS == 5000U);
+static_assert(REAR_DRIVELINE_CAN_OVERFLOW_PERIOD_MS == 5000U);
+static_assert(REAR_DRIVELINE_CAN_TX_ACTIONS_PERIOD_MS == 5000U);
+static_assert(REAR_DRIVELINE_CAN_TX_MESSAGES_PERIOD_MS == 5000U);
+void report_telemetry_02hz() {
     SEND_VERSION(FIRMWARE_GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
+    SEND_CAN_OVERFLOW(can_stats.rx_overflow, can_stats.tx_overflow);
+    SEND_CAN_TX_ACTIONS(can_stats.tx_enqueue_count, can_stats.tx_task_wake_count);
+    SEND_CAN_TX_MESSAGES(can_stats.tx_sent_count, can_stats.tx_callback_count);
 }
 
 void shockpots_periodic() {
