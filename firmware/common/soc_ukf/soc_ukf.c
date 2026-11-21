@@ -87,10 +87,10 @@ void SOC_UKF_init(
     ukf->x = x0;
     ukf->P = P0;
 
-    ukf->ecm = params->ecm;
-    ukf->prediction_dt  = params->prediction_dt;
-    ukf->Q   = params->Q;
-    ukf->R   = params->R;
+    ukf->ecm           = params->ecm;
+    ukf->prediction_dt = params->prediction_dt;
+    ukf->Q             = params->Q;
+    ukf->R             = params->R;
 
     float alpha1 = expf(-ukf->prediction_dt / ukf->ecm.tau1);
     float alpha2 = expf(-ukf->prediction_dt / ukf->ecm.tau2);
@@ -266,8 +266,8 @@ void SOC_UKF_update(
     */
     vec3_t cross_covariance = {0};
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
-        const float W_i = ukf->covariance_weights[i];
-        const float z_i = predicted_voltages[i];
+        const float W_i    = ukf->covariance_weights[i];
+        const float z_i    = predicted_voltages[i];
         const vec3_t chi_i = points[i];
 
         vec3_t x_deviation = vec3_sub(chi_i, ukf->x);
