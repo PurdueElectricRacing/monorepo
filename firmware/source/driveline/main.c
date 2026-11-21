@@ -176,14 +176,17 @@ uint16_t left_length_scaled = 0;
 uint16_t right_length_scaled = 0;
 static_assert(FRONT_DRIVELINE_VERSION_PERIOD_MS == 5000U);
 static_assert(REAR_DRIVELINE_VERSION_PERIOD_MS == 5000U);
-static_assert(DRIVELINE_CAN_OVERFLOW_PERIOD_MS == 5000U);
-static_assert(DRIVELINE_CAN_TX_ACTIONS_PERIOD_MS == 5000U);
-static_assert(DRIVELINE_CAN_TX_MESSAGES_PERIOD_MS == 5000U);
+static_assert(FRONT_DRIVELINE_CAN_OVERFLOW_PERIOD_MS == 5000U);
+static_assert(FRONT_DRIVELINE_CAN_TX_ACTIONS_PERIOD_MS == 5000U);
+static_assert(FRONT_DRIVELINE_CAN_TX_MESSAGES_PERIOD_MS == 5000U);
+static_assert(REAR_DRIVELINE_CAN_OVERFLOW_PERIOD_MS == 5000U);
+static_assert(REAR_DRIVELINE_CAN_TX_ACTIONS_PERIOD_MS == 5000U);
+static_assert(REAR_DRIVELINE_CAN_TX_MESSAGES_PERIOD_MS == 5000U);
 void version_periodic() {
     SEND_VERSION(FIRMWARE_GIT_HASH, BL_getGitHash(), APPLICATION_BOOTLOADABLE);
-    CAN_SEND_driveline_can_overflow(can_stats.rx_overflow, can_stats.tx_overflow);
-    CAN_SEND_driveline_can_tx_actions(can_stats.tx_enqueue_count, can_stats.tx_task_wake_count);
-    CAN_SEND_driveline_can_tx_messages(can_stats.tx_sent_count, can_stats.tx_callback_count);
+    SEND_CAN_OVERFLOW(can_stats.rx_overflow, can_stats.tx_overflow);
+    SEND_CAN_TX_ACTIONS(can_stats.tx_enqueue_count, can_stats.tx_task_wake_count);
+    SEND_CAN_TX_MESSAGES(can_stats.tx_sent_count, can_stats.tx_callback_count);
 }
 
 void shockpots_periodic() {
