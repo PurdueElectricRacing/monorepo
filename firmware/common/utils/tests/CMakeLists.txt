@@ -42,3 +42,12 @@ add_firmware_unit_test(
         "${CMAKE_CURRENT_LIST_DIR}"
         "${CMAKE_CURRENT_LIST_DIR}/.."
 )
+
+add_firmware_unit_test(
+    NAME orientation_test
+    SOURCES "${CMAKE_CURRENT_LIST_DIR}/orientation_test_shim.c"
+    TEST_SOURCES "${CMAKE_CURRENT_LIST_DIR}/orientation_test.cpp"
+    INCLUDE_DIRECTORIES
+        "${CMAKE_CURRENT_LIST_DIR}"
+        "${CMAKE_CURRENT_LIST_DIR}/.."
+)
