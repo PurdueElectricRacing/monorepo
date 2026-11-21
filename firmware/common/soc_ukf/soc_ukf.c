@@ -11,22 +11,24 @@
 
 #include "lerp_lut.h"
 
-// todo replace
-// todo add 2d lookup + temperature
-static const lut_entry_t ocv_entries[11] = {
-    {0.0f, 3.0f},
-    {0.1f, 3.2f},
-    {0.2f, 3.4f},
-    {0.3f, 3.6f},
-    {0.4f, 3.8f},
-    {0.5f, 4.0f},
-    {0.6f, 4.1f},
-    {0.7f, 4.2f},
-    {0.8f, 4.3f},
-    {0.9f, 4.4f},
-    {1.0f, 4.5f}
+// at 35C
+// todo add 2d lookup + temperature ?
+static constexpr size_t OCV_LUT_SIZE = 11;
+static const lut_entry_t OCV_ENTRIES[OCV_LUT_SIZE] = {
+    {0.0f, 2.811f},
+    {0.1f, 3.096f},
+    {0.2f, 3.286f},
+    {0.3f, 3.439f},
+    {0.4f, 3.570f},
+    {0.5f, 3.690f},
+    {0.6f, 3.829f},
+    {0.7f, 3.906f},
+    {0.8f, 4.040f},
+    {0.9f, 4.085f},
+    {1.0f, 4.171f}
 };
-LERP_LUT_INIT(OCV_LUT, ocv_entries, 11);
+
+LERP_LUT_INIT(OCV_LUT, OCV_ENTRIES, OCV_LUT_SIZE);
 
 static void SOC_UKF_mean_weights(
     const soc_ukf_t *ukf,
@@ -57,12 +59,20 @@ static void SOC_UKF_covariance_weights(
 ) {
     /*
     $$
-    W_0^{(c)} = W_0^{(m)} + 1 - \alpha^2 + \beta,
-    \qquad W_i^{(c)} = W_i^{(m)} \quad (i > 0)
+    W_0^{(c)} = W_0^{(m)} + 1 - \alpha^2 + \beta
     $$
     */
-    ukf->covariance_weights[0] = ukf->mean_weights[0]
-        + 1.0f - params->alpha * params->alpha + params->beta;
+    ukf->covariance_weights[0] =
+        ukf->mean_weights[0]
+        + 1.0f
+        - params->alpha * params->alpha
+        + params->beta;
+
+    /*
+    $$
+    W_i^{(c)} = W_i^{(m)} \quad (i > 0)
+    $$
+    */
     for (int i = 1; i < NUM_SIGMA_POINTS; i++) {
         ukf->covariance_weights[i] = ukf->mean_weights[i];
     }
@@ -220,7 +230,6 @@ void SOC_UKF_update(
     $$
     */
     float predicted_voltage = 0.0f;
-
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
         predicted_voltage += ukf->mean_weights[i] * predicted_voltages[i];
     }
@@ -236,7 +245,8 @@ void SOC_UKF_update(
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
         float voltage_deviation = predicted_voltages[i] - predicted_voltage;
 
-        innovation_variance += ukf->covariance_weights[i]
+        innovation_variance +=
+            ukf->covariance_weights[i]
             * voltage_deviation * voltage_deviation;
     }
 
