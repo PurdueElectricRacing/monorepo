@@ -151,14 +151,4 @@ bool PHAL_FDCAN_isBusOff(const FDCAN_GlobalTypeDef *fdcan);
  */
 bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan);
 
-/** 
- * @brief task to be called using RTOS that monitors busoff state
- * 
- * resets it if its off
- *
- * @param fdcan the peripheral instance
- */
-void PHAL_FDCAN_busoff_recovery_task(void);
-
-
 #endif // PHAL_G4_FDCAN_H

@@ -80,19 +80,6 @@ uint8_t PHAL_FDCAN_txErrCounter(const FDCAN_GlobalTypeDef *fdcan) {
     return PHAL_FDCAN_priv_readTransmitErrorCounter(fdcan);
 }
 
-void PHAL_FDCAN_busoff_recovery_task(void) {
-    // Check if FDCAN2 is in Bus-Off state (TEC >= 256 or PSR.BO set)
-    if (PHAL_FDCAN_isBusOff(FDCAN1)) {
-        PHAL_FDCAN_recoverBusOff(FDCAN1);
-    }
-    if (PHAL_FDCAN_isBusOff(FDCAN2)) {
-        PHAL_FDCAN_recoverBusOff(FDCAN2);
-    }
-    if (PHAL_FDCAN_isBusOff(FDCAN3)) {
-        PHAL_FDCAN_recoverBusOff(FDCAN3);
-    }
-}
-
 bool PHAL_FDCAN_isBusOff(const FDCAN_GlobalTypeDef *fdcan) {
     return PHAL_FDCAN_priv_readProtocolStatusBusOffFlag(fdcan);
 }
