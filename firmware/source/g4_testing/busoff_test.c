@@ -71,7 +71,7 @@ static void send_periodic(void) {
 
 // Transmit FDCAN1 TX error counter over TEST_CAN (FDCAN2)
 static void send_tx_error_count(void) {
-    uint8_t tx_counter = PHAL_FDCAN_txErrCounter(FDCAN1);
+    uint8_t tx_counter = PHAL_FDCAN_txErrorCounter(FDCAN1);
     CAN_SEND_tx_errctr(tx_counter);
 }
 
