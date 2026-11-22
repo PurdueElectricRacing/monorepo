@@ -40,7 +40,8 @@ int main(void) {
         HardFault_Handler();
     }
 
-    // FDCAN1 is used to induce bus-off; CAN_init() configures FDCAN2 (TEST_CAN) for telemetry
+    // FDCAN1 is used to induce bus-off
+    // CAN_init() configures FDCAN2 (TEST_CAN) for telemetry
     PHAL_FDCAN_init(FDCAN1, FDCAN_BAUD_250K);
 
     CAN_init();
