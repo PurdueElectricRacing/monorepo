@@ -6,15 +6,7 @@
             "tx": [
                 {
                     "message_name": "tv_init",
-                    "description": "TORQUE VECTOR hardware initialized",
-                    "signals": [
-                        {
-                            "signal_name": "csr",
-                            "description": "RCC CSR register",
-                            "data_type": "uint32_t"
-                        }
-                    ],
-                    "priority": 0
+                    "common_message": "node_init"
                 },
                 {
                     "message_name": "gps_time",
@@ -135,26 +127,7 @@
                 },
                 {
                     "message_name": "torque_vector_version",
-                    "description": "Torque Vector version",
-                    "signals": [
-                        {
-                            "signal_name": "git_hash",
-                            "data_type": "uint32_t",
-                            "length": 28,
-                            "display_format": "hex"
-                        },
-                        {
-                            "signal_name": "bootloader_git_hash",
-                            "data_type": "uint32_t",
-                            "length": 28
-                        },
-                        {
-                            "signal_name": "bootloadable",
-                            "data_type": "bool"
-                        }
-                    ],
-                    "period_ms": 5000,
-                    "priority": 4
+                    "common_message": "node_version"
                 }
             ],
             "rx": [
@@ -208,13 +181,13 @@
                             "signal_name": "gps_vel_n",
                             "data_type": "int32_t",
                             "unit": "m/s",
-                            "scale": 1e-3
+                            "scale": 0.001
                         },
                         {
                             "signal_name": "gps_vel_e",
                             "data_type": "int32_t",
                             "unit": "m/s",
-                            "scale": 1e-3
+                            "scale": 0.001
                         }
                     ],
                     "period_ms": 40,
@@ -228,13 +201,13 @@
                             "signal_name": "gps_speed",
                             "data_type": "int32_t",
                             "unit": "m/s",
-                            "scale": 1e-3
+                            "scale": 0.001
                         },
                         {
                             "signal_name": "gps_heading",
                             "data_type": "int32_t",
                             "unit": "deg",
-                            "scale": 1e-5
+                            "scale": 1e-05
                         }
                     ],
                     "period_ms": 40,
@@ -248,13 +221,13 @@
                             "signal_name": "latitude",
                             "data_type": "int32_t",
                             "unit": "deg",
-                            "scale": 1e-7
+                            "scale": 1e-07
                         },
                         {
                             "signal_name": "longitude",
                             "data_type": "int32_t",
                             "unit": "deg",
-                            "scale": 1e-7
+                            "scale": 1e-07
                         }
                     ],
                     "period_ms": 40,
@@ -332,63 +305,24 @@
                 },
                 {
                     "message_name": "torque_vector_can_overflow",
-                    "description": "count of dropped CAN packets due to queue overflow",
-                    "signals": [
-                        {
-                            "signal_name": "rx_overflow",
-                            "data_type": "uint32_t",
-                            "description": "number of received packets dropped due to queue overflow"
-                        },
-                        {
-                            "signal_name": "tx_overflow",
-                            "data_type": "uint32_t",
-                            "description": "number of packets to send dropped due to queue overflow"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 5000
+                    "common_message": "can_overflow"
                 },
                 {
-                    "message_name": "torque_vector_can_tx_actions",
-                    "description": "counts of software actions taken before CAN transmissions",
-                    "signals": [
-                        {
-                            "signal_name": "enqueue_count",
-                            "data_type": "uint32_t",
-                            "description": "number of packets enqueued to be sent since startup"
-                        },
-                        {
-                            "signal_name": "task_wake_count",
-                            "data_type": "uint32_t",
-                            "description": "number of times the tx task has been called since startup"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 5000
+                    "message_name": "torque_vector_diag_task",
+                    "common_message": "diag_task"
                 },
                 {
-                    "message_name": "torque_vector_can_tx_messages",
-                    "description": "counts of CAN packets transmitted",
-                    "signals": [
-                        {
-                            "signal_name": "tx_sent",
-                            "data_type": "uint32_t",
-                            "description": "number of packets transmitted since startup"
-                        },
-                        {
-                            "signal_name": "tx_callbacks",
-                            "data_type": "uint32_t",
-                            "description": "number of CAN TX completion ISR callbacks since startup"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 5000
+                    "message_name": "torque_vector_diag_summary",
+                    "common_message": "diag_summary"
+                },
+                {
+                    "message_name": "torque_vector_diag_name",
+                    "common_message": "diag_name"
                 }
             ],
             "rx": []
         }
     },
-    "diagnostics_bus": "SCAN",
     "fault_library_enabled": true,
     "generate_fault_messages": false,
     "faults": [

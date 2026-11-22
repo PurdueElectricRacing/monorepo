@@ -7,11 +7,11 @@ Author: Irving Wang (irvingw@purdue.edu)
 from __future__ import annotations
 
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import re
 from typing import Annotated, Literal, Self
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Discriminator, Field, Tag, field_validator, model_validator
 
 
 ByteOrder = Literal["little_endian", "big_endian"]
@@ -116,6 +116,65 @@ class MessageDeclaration(DeclarationModel):
         return self
 
 
+class CommonMessageDeclaration(DeclarationModel):
+    name: str
+    description: str
+    signals: list[SignalDeclaration]
+    priority: MessagePriority
+    period_ms: NonNegativeInt = 0
+    byte_order: ByteOrder = "little_endian"
+
+    @model_validator(mode="after")
+    def signal_names_are_unique(self) -> Self:
+        names = [signal.signal_name for signal in self.signals]
+        duplicate = _duplicate_value(names)
+        if duplicate is not None:
+            raise ValueError(f"duplicate signal name '{duplicate}'")
+        return self
+
+
+class CommonMessageDeclarations(DeclarationModel):
+    messages: list[CommonMessageDeclaration]
+
+    @model_validator(mode="after")
+    def message_names_are_unique(self) -> Self:
+        names = [message.name for message in self.messages]
+        duplicate = _duplicate_value(names)
+        if duplicate is not None:
+            raise ValueError(f"duplicate common message name '{duplicate}'")
+        return self
+
+
+class CommonMessageReference(DeclarationModel):
+    common_message: str
+    message_name: str
+    description: str | None = None
+    priority: MessagePriority | None = None
+    period_ms: NonNegativeInt | None = None
+    id_override: str | None = Field(
+        default=None,
+        pattern=r"^0x([0-1]?[0-9a-fA-F]{1,7}|[0-9a-fA-F]{1,7})$",
+    )
+    byte_order: ByteOrder | None = None
+
+
+def _tx_entry_discriminator(value: object) -> str:
+    if isinstance(value, CommonMessageReference):
+        return "common"
+    if isinstance(value, MessageDeclaration):
+        return "inline"
+    if isinstance(value, Mapping) and "common_message" in value:
+        return "common"
+    return "inline"
+
+
+TxEntryDeclaration = Annotated[
+    Annotated[MessageDeclaration, Tag("inline")]
+    | Annotated[CommonMessageReference, Tag("common")],
+    Discriminator(_tx_entry_discriminator),
+]
+
+
 class RxSubscriptionDeclaration(DeclarationModel):
     message_name: str
     callback: bool = False
@@ -123,7 +182,7 @@ class RxSubscriptionDeclaration(DeclarationModel):
 
 class BusAttachmentDeclaration(DeclarationModel):
     peripheral: Peripheral
-    tx: list[MessageDeclaration] = Field(default_factory=list)
+    tx: list[TxEntryDeclaration] = Field(default_factory=list)
     rx: list[RxSubscriptionDeclaration] = Field(default_factory=list)
     accept_all_messages: bool = False
 
@@ -158,8 +217,6 @@ class NodeDeclaration(DeclarationModel):
     fault_library_enabled: bool
     generate_fault_messages: bool = False
     faults: list[FaultDeclaration] = Field(default_factory=list)
-    # Bus a node reports RTOS task profiling on, or None for no diagnostics.
-    diagnostics_bus: str | None = None
 
     @model_validator(mode="after")
     def validate_fault_configuration(self) -> Self:
@@ -171,18 +228,9 @@ class NodeDeclaration(DeclarationModel):
             raise ValueError("faults must contain unique values")
         return self
 
-    @model_validator(mode="after")
-    def validate_diagnostics_bus(self) -> Self:
-        if self.diagnostics_bus is not None and self.diagnostics_bus not in self.busses:
-            raise ValueError(
-                f"diagnostics_bus '{self.diagnostics_bus}' is not attached to node "
-                f"'{self.node_name}'; choose one of: {', '.join(self.busses)}"
-            )
-        return self
-
 
 class ExternalBusDeclaration(DeclarationModel):
-    tx: list[MessageDeclaration] = Field(default_factory=list)
+    tx: list[TxEntryDeclaration] = Field(default_factory=list)
     rx: list[RxSubscriptionDeclaration] = Field(default_factory=list)
 
     @model_validator(mode="after")
@@ -299,3 +347,4 @@ class CanDeclarations:
     custom_types: dict[str, CustomTypeDeclaration]
     internal_nodes: list[NodeDeclaration]
     external_nodes: list[ExternalNodeDeclaration]
+    common_messages: dict[str, CommonMessageDeclaration] = field(default_factory=dict)

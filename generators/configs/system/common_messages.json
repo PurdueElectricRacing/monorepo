@@ -1,0 +1,481 @@
+{
+    "messages": [
+        {
+            "name": "diag_task",
+            "description": "RTOS Task profiling status",
+            "priority": 3,
+            "signals": [
+                {
+                    "signal_name": "task_id",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "stack_hwm",
+                    "data_type": "uint16_t",
+                    "description": "Min free stack bytes"
+                },
+                {
+                    "signal_name": "cpu_percent",
+                    "data_type": "uint8_t",
+                    "description": "CPU Usage Percentage, 255 is invalid"
+                },
+                {
+                    "signal_name": "state",
+                    "data_type": "diagnostics_task_state_t",
+                    "description": "FreeRTOS task state"
+                }
+            ]
+        },
+        {
+            "name": "diag_summary",
+            "description": "Overall CPU and task status",
+            "priority": 3,
+            "period_ms": 1000,
+            "signals": [
+                {
+                    "signal_name": "sample_count",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "task_count",
+                    "data_type": "uint16_t"
+                },
+                {
+                    "signal_name": "cpu_percent",
+                    "data_type": "uint8_t",
+                    "description": "Whole number CPU pct. util., 255 is invalid"
+                },
+                {
+                    "signal_name": "capacity_exceeded",
+                    "data_type": "bool",
+                    "description": "True if task capacity exceeded"
+                }
+            ]
+        },
+        {
+            "name": "diag_name",
+            "description": "Task name character",
+            "priority": 3,
+            "signals": [
+                {
+                    "signal_name": "task_id",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "char_index",
+                    "data_type": "uint8_t"
+                },
+                {
+                    "signal_name": "character",
+                    "data_type": "uint8_t"
+                }
+            ]
+        },
+        {
+            "name": "can_overflow",
+            "description": "count of dropped CAN packets due to queue overflow",
+            "priority": 4,
+            "period_ms": 5000,
+            "signals": [
+                {
+                    "signal_name": "rx_overflow",
+                    "data_type": "uint32_t",
+                    "description": "number of received packets dropped due to queue overflow"
+                },
+                {
+                    "signal_name": "tx_overflow",
+                    "data_type": "uint32_t",
+                    "description": "number of packets to send dropped due to queue overflow"
+                }
+            ]
+        },
+        {
+            "name": "node_version",
+            "description": "Node firmware and bootloader version",
+            "priority": 4,
+            "period_ms": 5000,
+            "signals": [
+                {
+                    "signal_name": "git_hash",
+                    "data_type": "uint32_t",
+                    "length": 28,
+                    "display_format": "hex"
+                },
+                {
+                    "signal_name": "bootloader_git_hash",
+                    "data_type": "uint32_t",
+                    "length": 28
+                },
+                {
+                    "signal_name": "bootloadable",
+                    "data_type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "node_init",
+            "description": "Node hardware initialized",
+            "priority": 0,
+            "signals": [
+                {
+                    "signal_name": "csr",
+                    "description": "RCC CSR register",
+                    "data_type": "uint32_t"
+                }
+            ]
+        },
+        {
+            "name": "bl_resp",
+            "description": "CAN bootloader response",
+            "priority": 0,
+            "signals": [
+                {
+                    "signal_name": "status",
+                    "data_type": "bootloader_status_t"
+                },
+                {
+                    "signal_name": "detail",
+                    "data_type": "uint32_t"
+                }
+            ]
+        },
+        {
+            "name": "bl_info",
+            "description": "CAN bootloader identity and capabilities",
+            "priority": 4,
+            "period_ms": 5000,
+            "signals": [
+                {
+                    "signal_name": "protocol_version",
+                    "data_type": "uint8_t"
+                },
+                {
+                    "signal_name": "git_hash",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "target_id",
+                    "data_type": "bootloader_target_id_t"
+                },
+                {
+                    "signal_name": "flags",
+                    "data_type": "uint8_t"
+                }
+            ]
+        },
+        {
+            "name": "bl_start",
+            "description": "CAN bootloader start command",
+            "priority": 0,
+            "signals": [
+                {
+                    "signal_name": "image_size_bytes",
+                    "data_type": "uint32_t"
+                }
+            ]
+        },
+        {
+            "name": "bl_crc",
+            "description": "CAN bootloader crc command",
+            "priority": 0,
+            "signals": [
+                {
+                    "signal_name": "data",
+                    "data_type": "uint32_t"
+                }
+            ]
+        },
+        {
+            "name": "bl_jump",
+            "description": "CAN bootloader jump command",
+            "priority": 0,
+            "signals": [
+                {
+                    "signal_name": "data",
+                    "data_type": "uint32_t"
+                }
+            ]
+        },
+        {
+            "name": "bl_data",
+            "description": "CAN bootloader firmware word",
+            "priority": 0,
+            "signals": [
+                {
+                    "signal_name": "index",
+                    "data_type": "uint32_t",
+                    "length": 24
+                },
+                {
+                    "signal_name": "data",
+                    "data_type": "uint32_t"
+                }
+            ]
+        },
+        {
+            "name": "amk_set",
+            "description": "Contains control word and setpoints",
+            "priority": 1,
+            "period_ms": 15,
+            "signals": [
+                {
+                    "signal_name": "AMK_Control_bReserve",
+                    "description": "Control word: RESERVED",
+                    "data_type": "uint8_t",
+                    "length": 8
+                },
+                {
+                    "signal_name": "AMK_Control_bInverterOn",
+                    "description": "Control word: controller enable",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Control_bDcOn",
+                    "description": "Control word: HV activation",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Control_bEnable",
+                    "description": "Control word: driver enable",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Control_bErrorReset",
+                    "description": "Control word: remove error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Control_bReserve2",
+                    "description": "Control word: RESERVED",
+                    "data_type": "uint8_t",
+                    "length": 4
+                },
+                {
+                    "signal_name": "AMK_TorqueSetpoint",
+                    "description": "Torque setpoint (percentage of nominal torque)",
+                    "data_type": "int16_t",
+                    "unit": "%",
+                    "scale": 0.1
+                },
+                {
+                    "signal_name": "AMK_PositiveTorqueLimit",
+                    "description": "Positive Torque Limit",
+                    "data_type": "int16_t",
+                    "unit": "Nm",
+                    "scale": 0.1
+                },
+                {
+                    "signal_name": "AMK_NegativeTorqueLimit",
+                    "description": "Negative Torque Limit",
+                    "data_type": "int16_t",
+                    "unit": "Nm",
+                    "scale": 0.1
+                }
+            ]
+        },
+        {
+            "name": "amk_diagnostics",
+            "description": "VCAN diagnostics for AMK inverter",
+            "priority": 4,
+            "period_ms": 1000,
+            "signals": [
+                {
+                    "signal_name": "diagnostic_number",
+                    "description": "AMK diagnostic number",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "amk_state",
+                    "description": "Current inverter state",
+                    "data_type": "AMK_state_t"
+                },
+                {
+                    "signal_name": "bError",
+                    "description": "AMK status error bit",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "InverterOn",
+                    "description": "AMK inverter on status",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "is_any_stale",
+                    "description": "any message from AMK is stale",
+                    "data_type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "amk_crit",
+            "description": "Contains the status word and actual values",
+            "priority": 1,
+            "period_ms": 15,
+            "signals": [
+                {
+                    "signal_name": "AMK_ActualSpeed",
+                    "description": "Actual speed value",
+                    "data_type": "int16_t",
+                    "unit": "rpm"
+                },
+                {
+                    "signal_name": "AMK_ActualTorque",
+                    "description": "Actual torque value",
+                    "data_type": "int16_t",
+                    "unit": "%",
+                    "scale": 0.1
+                },
+                {
+                    "signal_name": "AMK_DisplayOverloadInverter",
+                    "data_type": "uint16_t",
+                    "unit": "%",
+                    "scale": 0.1
+                },
+                {
+                    "signal_name": "AMK_DisplayOverloadMotor",
+                    "data_type": "uint16_t",
+                    "unit": "%",
+                    "scale": 0.1
+                }
+            ]
+        },
+        {
+            "name": "amk_info",
+            "description": "Contains the status word and actual values",
+            "priority": 2,
+            "period_ms": 500,
+            "signals": [
+                {
+                    "signal_name": "AMK_Status_bReserve",
+                    "description": "Status word: RESERVED",
+                    "data_type": "uint8_t",
+                    "length": 8
+                },
+                {
+                    "signal_name": "AMK_Status_bSystemReady",
+                    "description": "Status word: system ready",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Status_bError",
+                    "description": "Status word: error",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Status_bWarn",
+                    "description": "Status word: warning",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Status_bQuitDcOn",
+                    "description": "Status word: HV activation ACK",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Status_bDcOn",
+                    "description": "Status word: HV activation level",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Status_bQuitInverterOn",
+                    "description": "Status word: Controller enable ACK",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Status_bInverterOn",
+                    "description": "Status word: Controller enable level",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_Status_bDerating",
+                    "description": "Status word: torque limit activation",
+                    "data_type": "bool"
+                },
+                {
+                    "signal_name": "AMK_DCBusVoltage",
+                    "description": "Voltage of the DC bus",
+                    "data_type": "uint16_t",
+                    "unit": "V"
+                }
+            ]
+        },
+        {
+            "name": "amk_err_1",
+            "description": "All error information",
+            "priority": 4,
+            "period_ms": 2000,
+            "signals": [
+                {
+                    "signal_name": "AMK_DiagnosticNumber",
+                    "description": "Error number",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "AMK_ErrorInfo1",
+                    "description": "Error info",
+                    "data_type": "uint32_t"
+                }
+            ]
+        },
+        {
+            "name": "amk_err_2",
+            "description": "All error information",
+            "priority": 4,
+            "period_ms": 2000,
+            "signals": [
+                {
+                    "signal_name": "AMK_ErrorInfo2",
+                    "description": "Error info",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "AMK_ErrorInfo3",
+                    "description": "Error info",
+                    "data_type": "uint32_t"
+                }
+            ]
+        },
+        {
+            "name": "amk_temps",
+            "description": "Contains temperatures",
+            "priority": 4,
+            "period_ms": 500,
+            "signals": [
+                {
+                    "signal_name": "AMK_MotorTemp",
+                    "description": "Motor temperature",
+                    "data_type": "int16_t",
+                    "unit": "C",
+                    "scale": 0.1
+                },
+                {
+                    "signal_name": "AMK_InverterTemp",
+                    "description": "Inverter cold plate temperature",
+                    "data_type": "int16_t",
+                    "unit": "C",
+                    "scale": 0.1
+                },
+                {
+                    "signal_name": "AMK_IGBTTemp",
+                    "description": "IGBT temperature",
+                    "data_type": "int16_t",
+                    "unit": "C",
+                    "scale": 0.1
+                }
+            ]
+        },
+        {
+            "name": "amk_phase_i",
+            "description": "All error information",
+            "priority": 4,
+            "period_ms": 250,
+            "signals": [
+                {
+                    "signal_name": "AMK_PhaseUCurrent",
+                    "description": "Phase U Current",
+                    "data_type": "int32_t"
+                }
+            ]
+        }
+    ]
+}

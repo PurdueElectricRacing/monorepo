@@ -9,7 +9,6 @@
 #include <string.h>
 
 #include "common/rtos/rtos.h"
-#include "can_library/generated/diagnostics_can.h"
 
 static constexpr uint32_t DIAGNOSTICS_SAMPLE_PERIOD_MS = 1000;
 static constexpr uint8_t DIAGNOSTICS_TICKS_PER_SAMPLE =
@@ -25,9 +24,7 @@ static_assert(
     "summary tick must fall within the sample cycle"
 );
 
-#ifdef DIAGNOSTICS_CAN_ENABLED
 static constexpr uint8_t DIAGNOSTICS_CPU_INVALID = UINT8_MAX;
-#endif
 
 
 static diagnostics_context_t g_diagnostics_context = {0};
@@ -86,7 +83,6 @@ static void save_task_runtimes(UBaseType_t task_count) {
     g_diagnostics_context.previous_task_count    = task_count;
 }
 
-#ifdef DIAGNOSTICS_CAN_ENABLED
 static diagnostics_task_state_t encode_task_state(eTaskState state) {
     switch (state) {
         case eRunning:
@@ -119,33 +115,39 @@ static uint16_t encode_stack_hwm(uint32_t bytes) {
     return (uint16_t)bytes;
 }
 
-static void send_task_diagnostics(uint8_t task_index) {
+static void send_task_diagnostics(const diagnostics_can_fns_t *can_fns, uint8_t task_index) {
     const diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
     const diagnostics_task_t *task         = &snapshot->tasks[task_index];
 
-    DIAGNOSTICS_SEND_TASK(
-        task->task_id,
-        encode_stack_hwm(task->stack_min_free_bytes),
-        encode_cpu_percent(task->cpu_usage_percent, task->cpu_usage_valid),
-        encode_task_state(task->state)
-    );
+    if (can_fns->send_task != nullptr) {
+        can_fns->send_task(
+            task->task_id,
+            encode_stack_hwm(task->stack_min_free_bytes),
+            encode_cpu_percent(task->cpu_usage_percent, task->cpu_usage_valid),
+            encode_task_state(task->state)
+        );
+    }
 
-    // Cycle through each name, including its terminating NUL.
-    uint32_t name_length = (uint32_t)strlen(task->name);
-    uint8_t char_index   = (uint8_t)((snapshot->sample_count - 1U) % (name_length + 1U));
-    DIAGNOSTICS_SEND_NAME(task->task_id, char_index, (uint8_t)task->name[char_index]);
+    if (can_fns->send_name != nullptr) {
+        // Cycle through each name, including its terminating NUL.
+        uint32_t name_length = (uint32_t)strlen(task->name);
+        uint8_t char_index   = (uint8_t)((snapshot->sample_count - 1U) % (name_length + 1U));
+        can_fns->send_name(task->task_id, char_index, (uint8_t)task->name[char_index]);
+    }
 }
 
-static void send_summary_diagnostics(void) {
+static void send_summary_diagnostics(const diagnostics_can_fns_t *can_fns) {
+    if (can_fns->send_summary == nullptr) {
+        return;
+    }
     const diagnostics_snapshot_t *snapshot = &g_diagnostics_context.snapshot;
-    DIAGNOSTICS_SEND_SUMMARY(
+    can_fns->send_summary(
         snapshot->sample_count,
         (uint16_t)snapshot->task_count,
         encode_cpu_percent(snapshot->cpu_percent, snapshot->cpu_valid),
         snapshot->capacity_exceeded
     );
 }
-#endif // DIAGNOSTICS_CAN_ENABLED
 
 static void sample_diagnostics(void) {
     // returns the number of tasks, reads them into the raw_tasks array, returns 0 if DIAGNOSTICS_MAX_TASKS < number of running tasks
@@ -184,18 +186,18 @@ static void sample_diagnostics(void) {
     save_task_runtimes(task_count);
 }
 
-void diagnostics_periodic(void) {
+void diagnostics_periodic(const diagnostics_can_fns_t *can_fns) {
     uint8_t tick = g_diagnostics_context.tick_count;
     g_diagnostics_context.tick_count = (uint8_t)((tick + 1U) % DIAGNOSTICS_TICKS_PER_SAMPLE);
 
     if (tick == 0) {
         sample_diagnostics();
     }
-#ifdef DIAGNOSTICS_CAN_ENABLED
-    if (tick < g_diagnostics_context.snapshot.task_count) {
-        send_task_diagnostics(tick);
-    } else if (tick == DIAGNOSTICS_MAX_TASKS) {
-        send_summary_diagnostics();
+    if (can_fns != nullptr) {
+        if (tick < g_diagnostics_context.snapshot.task_count) {
+            send_task_diagnostics(can_fns, tick);
+        } else if (tick == DIAGNOSTICS_MAX_TASKS) {
+            send_summary_diagnostics(can_fns);
+        }
     }
-#endif
 }

@@ -16,6 +16,8 @@ from core.config import CONFIG_DIR
 from core.declarations import (
     BusDeclarations,
     CanDeclarations,
+    CommonMessageDeclarations,
+    CommonMessageReference,
     DeclarationModel,
     ExternalNodeDeclaration,
     NodeDeclaration,
@@ -80,6 +82,7 @@ def _validate_references(
     issues: list[DeclarationIssue],
 ) -> None:
     known_buses = set(declarations.buses)
+    known_common_messages = set(declarations.common_messages)
     node_names: dict[str, Path] = {}
 
     for path, node in zip(internal_sources, declarations.internal_nodes):
@@ -92,12 +95,21 @@ def _validate_references(
         else:
             node_names[node.node_name] = path
 
-        for bus_name in node.busses:
+        for bus_name, attachment in node.busses.items():
             if bus_name not in known_buses:
                 issues.append(DeclarationIssue(
                     path, f"busses.{bus_name}",
                     f"unknown bus '{bus_name}'",
                 ))
+            for index, entry in enumerate(attachment.tx):
+                if (
+                    isinstance(entry, CommonMessageReference)
+                    and entry.common_message not in known_common_messages
+                ):
+                    issues.append(DeclarationIssue(
+                        path, f"busses.{bus_name}.tx.{index}.common_message",
+                        f"unknown common message '{entry.common_message}'",
+                    ))
 
     for path, node in zip(external_sources, declarations.external_nodes):
         previous = node_names.get(node.node_name)
@@ -109,13 +121,27 @@ def _validate_references(
         else:
             node_names[node.node_name] = path
 
-        bus_names = node.busses if node.busses is not None else [node.bus_name]
-        for bus_name in bus_names:
+        bus_data_by_name = (
+            node.busses
+            if node.busses is not None
+            else {node.bus_name: node}
+        )
+        for bus_name, bus_data in bus_data_by_name.items():
             if bus_name not in known_buses:
                 field = f"busses.{bus_name}" if node.busses is not None else "bus_name"
                 issues.append(DeclarationIssue(
                     path, field, f"unknown bus '{bus_name}'"
                 ))
+            tx_prefix = f"busses.{bus_name}.tx" if node.busses is not None else "tx"
+            for index, entry in enumerate(bus_data.tx):
+                if (
+                    isinstance(entry, CommonMessageReference)
+                    and entry.common_message not in known_common_messages
+                ):
+                    issues.append(DeclarationIssue(
+                        path, f"{tx_prefix}.{index}.common_message",
+                        f"unknown common message '{entry.common_message}'",
+                    ))
 
 
 def load_declarations(config_dir: Path = CONFIG_DIR) -> CanDeclarations:
@@ -129,6 +155,11 @@ def load_declarations(config_dir: Path = CONFIG_DIR) -> CanDeclarations:
     common_types = _load_model(
         config_dir / "system" / "common_types.json", TypeDeclarations, issues
     )
+    common_messages = _load_model(
+        config_dir / "system" / "common_messages.json",
+        CommonMessageDeclarations,
+        issues,
+    )
     internal_models = [
         (path, model)
         for path in sorted((config_dir / "nodes").glob("*.json"))
@@ -140,13 +171,14 @@ def load_declarations(config_dir: Path = CONFIG_DIR) -> CanDeclarations:
         if (model := _load_model(path, ExternalNodeDeclaration, issues)) is not None
     ]
 
-    if issues or bus_registry is None or common_types is None:
+    if issues or bus_registry is None or common_types is None or common_messages is None:
         _print_issues(issues)
         raise DeclarationValidationError("Declaration validation failed")
 
     declarations = CanDeclarations(
         buses={bus.name: bus for bus in bus_registry.busses},
         custom_types={item.name: item for item in common_types.types},
+        common_messages={item.name: item for item in common_messages.messages},
         internal_nodes=[model for _, model in internal_models],
         external_nodes=[model for _, model in external_models],
     )

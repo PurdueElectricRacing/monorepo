@@ -12,8 +12,16 @@ from decimal import Decimal
 from typing import get_args
 
 from core.declarations import (
-    ByteOrder, CanDeclarations, CustomTypeDeclaration, DisplayFormat, EnumChoiceDeclaration,
-    MessageDeclaration, Number, SignalDeclaration,
+    ByteOrder,
+    CanDeclarations,
+    CommonMessageDeclaration,
+    CustomTypeDeclaration,
+    DisplayFormat,
+    EnumChoiceDeclaration,
+    MessageDeclaration,
+    Number,
+    SignalDeclaration,
+    TxEntryDeclaration,
 )
 from core.contributions import DeclarationContribution, RxDeclaration, TxDeclaration
 from core.utils import (
@@ -42,6 +50,45 @@ class CanCompilationError(ValueError):
     pass
 
 
+def _resolve_tx_entry(
+    entry: TxEntryDeclaration,
+    common_messages: Mapping[str, CommonMessageDeclaration],
+) -> MessageDeclaration:
+    """Expand a common message reference into a concrete MessageDeclaration."""
+    if isinstance(entry, MessageDeclaration):
+        return entry
+    template = common_messages.get(entry.common_message)
+    if template is None:
+        raise ValueError(f"Unknown common message '{entry.common_message}'")
+    kwargs: dict[str, object] = {
+        "message_name": entry.message_name,
+        "description": (
+            entry.description
+            if entry.description is not None
+            else template.description
+        ),
+        "signals": template.signals,
+        "priority": (
+            entry.priority
+            if entry.priority is not None
+            else template.priority
+        ),
+        "period_ms": (
+            entry.period_ms
+            if entry.period_ms is not None
+            else template.period_ms
+        ),
+        "byte_order": (
+            entry.byte_order
+            if entry.byte_order is not None
+            else template.byte_order
+        ),
+    }
+    if entry.id_override is not None:
+        kwargs["id_override"] = entry.id_override
+    return MessageDeclaration(**kwargs)
+
+
 def assemble_source(
     declarations: CanDeclarations,
     contributions: Iterable[DeclarationContribution],
@@ -66,8 +113,12 @@ def assemble_source(
                 )
             )
             tx_messages.extend(
-                TxDeclaration(node.node_name, bus_name, message)
-                for message in attachment.tx
+                TxDeclaration(
+                    node.node_name,
+                    bus_name,
+                    _resolve_tx_entry(entry, declarations.common_messages),
+                )
+                for entry in attachment.tx
             )
             rx_subscriptions.extend(
                 RxDeclaration(node.node_name, bus_name, subscription)
@@ -96,8 +147,12 @@ def assemble_source(
                 )
             )
             tx_messages.extend(
-                TxDeclaration(node.node_name, bus_name, message)
-                for message in bus_data.tx
+                TxDeclaration(
+                    node.node_name,
+                    bus_name,
+                    _resolve_tx_entry(entry, declarations.common_messages),
+                )
+                for entry in bus_data.tx
             )
             rx_subscriptions.extend(
                 RxDeclaration(node.node_name, bus_name, subscription)

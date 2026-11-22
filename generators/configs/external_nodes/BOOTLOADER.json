@@ -3,294 +3,217 @@
     "busses": {
         "VCAN": {
             "tx": [
-        {
-            "message_name": "bl_main_module_start",
-            "description": "CAN bootloader start command for main module",
-            "signals": [
-                {"signal_name": "image_size_bytes", "data_type": "uint32_t"}
+                {
+                    "message_name": "bl_main_module_start",
+                    "common_message": "bl_start",
+                    "id_override": "0x020"
+                },
+                {
+                    "message_name": "bl_main_module_crc",
+                    "common_message": "bl_crc",
+                    "id_override": "0x032"
+                },
+                {
+                    "message_name": "bl_main_module_jump",
+                    "common_message": "bl_jump",
+                    "id_override": "0x038"
+                },
+                {
+                    "message_name": "bl_main_module_data",
+                    "common_message": "bl_data",
+                    "id_override": "0x021"
+                },
+                {
+                    "message_name": "bl_dashboard_start",
+                    "common_message": "bl_start",
+                    "id_override": "0x023"
+                },
+                {
+                    "message_name": "bl_dashboard_crc",
+                    "common_message": "bl_crc",
+                    "id_override": "0x033"
+                },
+                {
+                    "message_name": "bl_dashboard_jump",
+                    "common_message": "bl_jump",
+                    "id_override": "0x039"
+                },
+                {
+                    "message_name": "bl_dashboard_data",
+                    "common_message": "bl_data",
+                    "id_override": "0x024"
+                },
+                {
+                    "message_name": "bl_torque_vector_start",
+                    "common_message": "bl_start",
+                    "id_override": "0x026"
+                },
+                {
+                    "message_name": "bl_torque_vector_crc",
+                    "common_message": "bl_crc",
+                    "id_override": "0x034"
+                },
+                {
+                    "message_name": "bl_torque_vector_jump",
+                    "common_message": "bl_jump",
+                    "id_override": "0x03A"
+                },
+                {
+                    "message_name": "bl_torque_vector_data",
+                    "common_message": "bl_data",
+                    "id_override": "0x027"
+                },
+                {
+                    "message_name": "bl_a_box_start",
+                    "common_message": "bl_start",
+                    "id_override": "0x029"
+                },
+                {
+                    "message_name": "bl_a_box_crc",
+                    "common_message": "bl_crc",
+                    "id_override": "0x035"
+                },
+                {
+                    "message_name": "bl_a_box_jump",
+                    "common_message": "bl_jump",
+                    "id_override": "0x03B"
+                },
+                {
+                    "message_name": "bl_a_box_data",
+                    "common_message": "bl_data",
+                    "id_override": "0x02A"
+                },
+                {
+                    "message_name": "bl_pdu_start",
+                    "common_message": "bl_start",
+                    "id_override": "0x03E"
+                },
+                {
+                    "message_name": "bl_pdu_crc",
+                    "common_message": "bl_crc",
+                    "id_override": "0x041"
+                },
+                {
+                    "message_name": "bl_pdu_jump",
+                    "common_message": "bl_jump",
+                    "id_override": "0x042"
+                },
+                {
+                    "message_name": "bl_pdu_data",
+                    "common_message": "bl_data",
+                    "id_override": "0x03F"
+                }
             ],
-            "id_override": "0x020",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_main_module_crc",
-            "description": "CAN bootloader crc command for main module",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x032",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_main_module_jump",
-            "description": "CAN bootloader jump command for main module",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x038",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_main_module_data",
-            "description": "CAN bootloader firmware word for main module",
-            "signals": [
-                {"signal_name": "index", "data_type": "uint32_t", "length": 24},
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x021",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_dashboard_start",
-            "description": "CAN bootloader start command for dashboard",
-            "signals": [
-                {"signal_name": "image_size_bytes", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x023",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_dashboard_crc",
-            "description": "CAN bootloader crc command for dashboard",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x033",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_dashboard_jump",
-            "description": "CAN bootloader jump command for dashboard",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x039",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_dashboard_data",
-            "description": "CAN bootloader firmware word for dashboard",
-            "signals": [
-                {"signal_name": "index", "data_type": "uint32_t", "length": 24},
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x024",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_torque_vector_start",
-            "description": "CAN bootloader start command for torque vector",
-            "signals": [
-                {"signal_name": "image_size_bytes", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x026",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_torque_vector_crc",
-            "description": "CAN bootloader crc command for torque vector",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x034",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_torque_vector_jump",
-            "description": "CAN bootloader jump command for torque vector",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x03A",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_torque_vector_data",
-            "description": "CAN bootloader firmware word for torque vector",
-            "signals": [
-                {"signal_name": "index", "data_type": "uint32_t", "length": 24},
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x027",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_a_box_start",
-            "description": "CAN bootloader start command for A-Box",
-            "signals": [
-                {"signal_name": "image_size_bytes", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x029",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_a_box_crc",
-            "description": "CAN bootloader crc command for A-Box",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x035",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_a_box_jump",
-            "description": "CAN bootloader jump command for A-Box",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x03B",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_a_box_data",
-            "description": "CAN bootloader firmware word for A-Box",
-            "signals": [
-                {"signal_name": "index", "data_type": "uint32_t", "length": 24},
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x02A",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_pdu_start",
-            "description": "CAN bootloader start command for PDU",
-            "signals": [
-                {"signal_name": "image_size_bytes", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x03E",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_pdu_crc",
-            "description": "CAN bootloader crc command for PDU",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x041",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_pdu_jump",
-            "description": "CAN bootloader jump command for PDU",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x042",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_pdu_data",
-            "description": "CAN bootloader firmware word for PDU",
-            "signals": [
-                {"signal_name": "index", "data_type": "uint32_t", "length": 24},
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x03F",
-            "priority": 0
-        }
-    ],
-    "rx": [
-        {"message_name": "bl_main_module_resp"},
-        {"message_name": "bl_dashboard_resp"},
-        {"message_name": "bl_torque_vector_resp"},
-        {"message_name": "bl_a_box_resp"},
-        {"message_name": "bl_pdu_resp"},
-        {"message_name": "bl_main_module_info"},
-        {"message_name": "bl_dashboard_info"},
-        {"message_name": "bl_torque_vector_info"},
-        {"message_name": "bl_a_box_info"},
-        {"message_name": "bl_pdu_info"},
-        {"message_name": "main_version"},
-        {"message_name": "dash_version"},
-        {"message_name": "torque_vector_version"},
-        {"message_name": "abox_version"},
-        {"message_name": "pdu_version"}
-    ]
+            "rx": [
+                {
+                    "message_name": "bl_main_module_resp"
+                },
+                {
+                    "message_name": "bl_dashboard_resp"
+                },
+                {
+                    "message_name": "bl_torque_vector_resp"
+                },
+                {
+                    "message_name": "bl_a_box_resp"
+                },
+                {
+                    "message_name": "bl_pdu_resp"
+                },
+                {
+                    "message_name": "bl_main_module_info"
+                },
+                {
+                    "message_name": "bl_dashboard_info"
+                },
+                {
+                    "message_name": "bl_torque_vector_info"
+                },
+                {
+                    "message_name": "bl_a_box_info"
+                },
+                {
+                    "message_name": "bl_pdu_info"
+                },
+                {
+                    "message_name": "main_version"
+                },
+                {
+                    "message_name": "dash_version"
+                },
+                {
+                    "message_name": "torque_vector_version"
+                },
+                {
+                    "message_name": "abox_version"
+                },
+                {
+                    "message_name": "pdu_version"
+                }
+            ]
         },
         "SCAN": {
             "tx": [
-        {
-            "message_name": "bl_front_driveline_start",
-            "description": "CAN bootloader start command for front driveline",
-            "signals": [
-                {"signal_name": "image_size_bytes", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x02C",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_front_driveline_crc",
-            "description": "CAN bootloader crc command for front driveline",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x036",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_front_driveline_jump",
-            "description": "CAN bootloader jump command for front driveline",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x03C",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_front_driveline_data",
-            "description": "CAN bootloader firmware word for front driveline",
-            "signals": [
-                {"signal_name": "index", "data_type": "uint32_t", "length": 24},
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x02D",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_rear_driveline_start",
-            "description": "CAN bootloader start command for rear driveline",
-            "signals": [
-                {"signal_name": "image_size_bytes", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x02F",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_rear_driveline_crc",
-            "description": "CAN bootloader crc command for rear driveline",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x037",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_rear_driveline_jump",
-            "description": "CAN bootloader jump command for rear driveline",
-            "signals": [
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x03D",
-            "priority": 0
-        },
-        {
-            "message_name": "bl_rear_driveline_data",
-            "description": "CAN bootloader firmware word for rear driveline",
-            "signals": [
-                {"signal_name": "index", "data_type": "uint32_t", "length": 24},
-                {"signal_name": "data", "data_type": "uint32_t"}
-            ],
-            "id_override": "0x030",
-            "priority": 0
-        }
+                {
+                    "message_name": "bl_front_driveline_start",
+                    "common_message": "bl_start",
+                    "id_override": "0x02C"
+                },
+                {
+                    "message_name": "bl_front_driveline_crc",
+                    "common_message": "bl_crc",
+                    "id_override": "0x036"
+                },
+                {
+                    "message_name": "bl_front_driveline_jump",
+                    "common_message": "bl_jump",
+                    "id_override": "0x03C"
+                },
+                {
+                    "message_name": "bl_front_driveline_data",
+                    "common_message": "bl_data",
+                    "id_override": "0x02D"
+                },
+                {
+                    "message_name": "bl_rear_driveline_start",
+                    "common_message": "bl_start",
+                    "id_override": "0x02F"
+                },
+                {
+                    "message_name": "bl_rear_driveline_crc",
+                    "common_message": "bl_crc",
+                    "id_override": "0x037"
+                },
+                {
+                    "message_name": "bl_rear_driveline_jump",
+                    "common_message": "bl_jump",
+                    "id_override": "0x03D"
+                },
+                {
+                    "message_name": "bl_rear_driveline_data",
+                    "common_message": "bl_data",
+                    "id_override": "0x030"
+                }
             ],
             "rx": [
-        {"message_name": "bl_front_driveline_resp"},
-        {"message_name": "bl_rear_driveline_resp"},
-        {"message_name": "bl_front_driveline_info"},
-        {"message_name": "bl_rear_driveline_info"},
-        {"message_name": "front_driveline_version"},
-        {"message_name": "rear_driveline_version"}
+                {
+                    "message_name": "bl_front_driveline_resp"
+                },
+                {
+                    "message_name": "bl_rear_driveline_resp"
+                },
+                {
+                    "message_name": "bl_front_driveline_info"
+                },
+                {
+                    "message_name": "bl_rear_driveline_info"
+                },
+                {
+                    "message_name": "front_driveline_version"
+                },
+                {
+                    "message_name": "rear_driveline_version"
+                }
             ]
         }
     }
