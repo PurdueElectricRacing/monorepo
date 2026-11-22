@@ -122,13 +122,14 @@ impl FirmwarePackage {
                 manifest.crc_algorithm
             ));
         }
-        const BOARDS: [&str; 6] = [
+        const BOARDS: [&str; 7] = [
             "main_module",
             "dashboard",
             "torque_vector",
             "a_box",
             "front_driveline",
             "rear_driveline",
+            "pdu",
         ];
         let board_names: HashSet<_> = manifest
             .boards
@@ -138,7 +139,7 @@ impl FirmwarePackage {
         if board_names.len() != BOARDS.len()
             || !BOARDS.iter().all(|name| board_names.contains(name))
         {
-            return Err("firmware package must contain all six supported boards".to_string());
+            return Err("firmware package must contain all seven supported boards".to_string());
         }
 
         let root = manifest_path

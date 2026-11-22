@@ -57,4 +57,11 @@ void bl_rear_driveline_start_CALLBACK(void) {
     NVIC_SystemReset();
 #endif
 }
+#elif defined(CAN_NODE_PDU)
+#include "can_library/generated/PDU.h"
+void bl_pdu_start_CALLBACK(void) {
+#if defined(BOOTLOADER_ENABLED)
+    NVIC_SystemReset();
+#endif
+}
 #endif

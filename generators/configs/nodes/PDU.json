@@ -22,9 +22,18 @@
                     "signals": [
                         {
                             "signal_name": "git_hash",
-                            "description": "int representation of git short hash",
                             "data_type": "uint32_t",
+                            "length": 28,
                             "display_format": "hex"
+                        },
+                        {
+                            "signal_name": "bootloader_git_hash",
+                            "data_type": "uint32_t",
+                            "length": 28
+                        },
+                        {
+                            "signal_name": "bootloadable",
+                            "data_type": "bool"
                         }
                     ],
                     "priority": 4,
@@ -43,6 +52,10 @@
                 },
                 {
                     "message_name": "bms_temps"
+                },
+                {
+                    "message_name": "bl_pdu_start",
+                    "callback": true
                 }
             ]
         },

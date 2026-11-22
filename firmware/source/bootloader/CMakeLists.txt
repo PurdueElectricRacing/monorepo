@@ -6,6 +6,7 @@ set(G4_BOOTLOADER_NODES
     torque_vector
     front_driveline
     rear_driveline
+    pdu
 )
 
 foreach(NODE IN LISTS G4_BOOTLOADER_NODES)
@@ -27,4 +28,5 @@ add_custom_target(bootloader.elf DEPENDS
     bootloader_torque_vector.elf
     bootloader_front_driveline.elf
     bootloader_rear_driveline.elf
+    bootloader_pdu.elf
 )

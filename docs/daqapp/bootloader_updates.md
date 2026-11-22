@@ -4,9 +4,9 @@ This guide covers firmware updates from DaqApp. See the
 [resident G4 bootloader guide](../../firmware/source/bootloader/README.md) for
 architecture, protocol, flash layout, and recovery.
 
-The updater supports the six STM32G474 VCAN nodes:
-`main_module`, `dashboard`, `torque_vector`, `a_box`, `front_driveline`, and
-`rear_driveline`.
+The updater supports the seven STM32G474 nodes:
+`main_module`, `dashboard`, `torque_vector`, `a_box`, `front_driveline`,
+`rear_driveline`, and `pdu`.
 
 ## Prepare the firmware package
 
