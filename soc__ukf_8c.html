@@ -117,32 +117,37 @@ Include dependency graph for soc_ukf.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a147e7684e6244421d77d2909e290a08a" id="r_a147e7684e6244421d77d2909e290a08a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a147e7684e6244421d77d2909e290a08a">LERP_LUT_INIT</a> (OCV_LUT, <a class="el" href="#ae3d7b35988629539e6556b36308d7465">ocv_entries</a>, 11)</td></tr>
-<tr class="separator:a147e7684e6244421d77d2909e290a08a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a773c59cbb796d3e6e8f8363df804fb" id="r_a2a773c59cbb796d3e6e8f8363df804fb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a773c59cbb796d3e6e8f8363df804fb">LERP_LUT_INIT</a> (SOC_2_OCV, <a class="el" href="#ac78505c894c90d81e3eaff89c4b61b24">SOC_2_OCV_ENTRIES</a>, <a class="el" href="#a0b3a33307a6cc6d930dbdbaad5e9b3ba">SOC_2_OCV_SIZE</a>)</td></tr>
+<tr class="separator:a2a773c59cbb796d3e6e8f8363df804fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81daf6080cdd1960a74d18e13e650f44" id="r_a81daf6080cdd1960a74d18e13e650f44"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81daf6080cdd1960a74d18e13e650f44">SOC_UKF_mean_weights</a> (const <a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf, float mean_weights[<a class="el" href="soc__ukf_8h.html#a73deeb31a84c74f590548967e118f83c">NUM_SIGMA_POINTS</a>])</td></tr>
 <tr class="separator:a81daf6080cdd1960a74d18e13e650f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14e47bc4c7b950cd5a484eba88e83768" id="r_a14e47bc4c7b950cd5a484eba88e83768"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14e47bc4c7b950cd5a484eba88e83768">SOC_UKF_covariance_weights</a> (<a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf, const <a class="el" href="structsoc__ukf__params__t.html">soc_ukf_params_t</a> *params)</td></tr>
 <tr class="separator:a14e47bc4c7b950cd5a484eba88e83768"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab4effae1fe0b3b59d00e1378edd1722" id="r_aab4effae1fe0b3b59d00e1378edd1722"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab4effae1fe0b3b59d00e1378edd1722">SOC_UKF_init</a> (<a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf, const <a class="el" href="structsoc__ukf__params__t.html">soc_ukf_params_t</a> *params, <a class="el" href="structvec3__t.html">vec3_t</a> x0, <a class="el" href="structmat3__t.html">mat3_t</a> P0)</td></tr>
+<tr class="memdesc:aab4effae1fe0b3b59d00e1378edd1722"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the SoC filter.  <br /></td></tr>
 <tr class="separator:aab4effae1fe0b3b59d00e1378edd1722"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5952f05ce4af433689de098830656756" id="r_a5952f05ce4af433689de098830656756"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5952f05ce4af433689de098830656756">SOC_UKF_sigma_points</a> (const <a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf, <a class="el" href="structvec3__t.html">vec3_t</a> points[<a class="el" href="soc__ukf_8h.html#a73deeb31a84c74f590548967e118f83c">NUM_SIGMA_POINTS</a>])</td></tr>
 <tr class="separator:a5952f05ce4af433689de098830656756"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a042187a5c2a956467c3a4ebc207fd2e2" id="r_a042187a5c2a956467c3a4ebc207fd2e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a042187a5c2a956467c3a4ebc207fd2e2">SOC_UKF_predict</a> (<a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf, float current)</td></tr>
+<tr class="memdesc:a042187a5c2a956467c3a4ebc207fd2e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Predict the next state and covariance.  <br /></td></tr>
 <tr class="separator:a042187a5c2a956467c3a4ebc207fd2e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a44439bd39d1cb464d46c06a1078266" id="r_a0a44439bd39d1cb464d46c06a1078266"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a44439bd39d1cb464d46c06a1078266">SOC_UKF_update</a> (<a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf, float voltage, float current)</td></tr>
+<tr class="memdesc:a0a44439bd39d1cb464d46c06a1078266"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correct the predicted state using measured voltage.  <br /></td></tr>
 <tr class="separator:a0a44439bd39d1cb464d46c06a1078266"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ae3d7b35988629539e6556b36308d7465" id="r_ae3d7b35988629539e6556b36308d7465"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structlut__entry__t.html">lut_entry_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3d7b35988629539e6556b36308d7465">ocv_entries</a> [11]</td></tr>
-<tr class="separator:ae3d7b35988629539e6556b36308d7465"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b3a33307a6cc6d930dbdbaad5e9b3ba" id="r_a0b3a33307a6cc6d930dbdbaad5e9b3ba"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b3a33307a6cc6d930dbdbaad5e9b3ba">SOC_2_OCV_SIZE</a> = 11</td></tr>
+<tr class="separator:a0b3a33307a6cc6d930dbdbaad5e9b3ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac78505c894c90d81e3eaff89c4b61b24" id="r_ac78505c894c90d81e3eaff89c4b61b24"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structlut__entry__t.html">lut_entry_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac78505c894c90d81e3eaff89c4b61b24">SOC_2_OCV_ENTRIES</a> [<a class="el" href="#a0b3a33307a6cc6d930dbdbaad5e9b3ba">SOC_2_OCV_SIZE</a>]</td></tr>
+<tr class="separator:ac78505c894c90d81e3eaff89c4b61b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Unscented Kalman filter for state of charge estimation. </p>
 <dl class="section author"><dt>Author</dt><dd>Irving Wang (<a href="#" onclick="location.href='mai'+'lto:'+'irv'+'in'+'gw@'+'pu'+'rdu'+'e.'+'edu'; return false;">irvin<span class="obfuscator">.nosp@m.</span>gw@p<span class="obfuscator">.nosp@m.</span>urdue<span class="obfuscator">.nosp@m.</span>.edu</a>) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a147e7684e6244421d77d2909e290a08a" name="a147e7684e6244421d77d2909e290a08a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a147e7684e6244421d77d2909e290a08a">&#9670;&#160;</a></span>LERP_LUT_INIT()</h2>
+<a id="a2a773c59cbb796d3e6e8f8363df804fb" name="a2a773c59cbb796d3e6e8f8363df804fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a773c59cbb796d3e6e8f8363df804fb">&#9670;&#160;</a></span>LERP_LUT_INIT()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -150,17 +155,17 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">LERP_LUT_INIT </td>
           <td>(</td>
-          <td class="paramtype">OCV_LUT</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype">SOC_2_OCV</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="#ae3d7b35988629539e6556b36308d7465">ocv_entries</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+          <td class="paramtype"><a class="el" href="#ac78505c894c90d81e3eaff89c4b61b24">SOC_2_OCV_ENTRIES</a></td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">11</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="#a0b3a33307a6cc6d930dbdbaad5e9b3ba">SOC_2_OCV_SIZE</a></td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -229,6 +234,17 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Initialize the SoC filter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ukf</td><td>Filter instance to initialize </td></tr>
+    <tr><td class="paramname">params</td><td>Cell model and filter parameters </td></tr>
+    <tr><td class="paramname">x0</td><td>Initial state [SoC, V1, V2] </td></tr>
+    <tr><td class="paramname">P0</td><td>Initial state covariance ! P0 must be SPD </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -289,6 +305,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Predict the next state and covariance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ukf</td><td>Filter instance </td></tr>
+    <tr><td class="paramname">current</td><td>Equivalent cell current in amps. Positive current = discharge </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -359,6 +384,16 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Correct the predicted state using measured voltage. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ukf</td><td>Filter instance. </td></tr>
+    <tr><td class="paramname">voltage</td><td>Equivalent measured cell terminal voltage </td></tr>
+    <tr><td class="paramname">current</td><td>Cell current in amps Positive current = discharge </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -368,8 +403,8 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="ae3d7b35988629539e6556b36308d7465" name="ae3d7b35988629539e6556b36308d7465"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3d7b35988629539e6556b36308d7465">&#9670;&#160;</a></span>ocv_entries</h2>
+<a id="ac78505c894c90d81e3eaff89c4b61b24" name="ac78505c894c90d81e3eaff89c4b61b24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac78505c894c90d81e3eaff89c4b61b24">&#9670;&#160;</a></span>SOC_2_OCV_ENTRIES</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -378,7 +413,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structlut__entry__t.html">lut_entry_t</a> ocv_entries[11]</td>
+          <td class="memname">const <a class="el" href="structlut__entry__t.html">lut_entry_t</a> SOC_2_OCV_ENTRIES[<a class="el" href="#a0b3a33307a6cc6d930dbdbaad5e9b3ba">SOC_2_OCV_SIZE</a>]</td>
         </tr>
       </table>
   </td>
@@ -388,19 +423,41 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    {0.0f, 3.0f},</div>
-<div class="line">    {0.1f, 3.2f},</div>
-<div class="line">    {0.2f, 3.4f},</div>
-<div class="line">    {0.3f, 3.6f},</div>
-<div class="line">    {0.4f, 3.8f},</div>
-<div class="line">    {0.5f, 4.0f},</div>
-<div class="line">    {0.6f, 4.1f},</div>
-<div class="line">    {0.7f, 4.2f},</div>
-<div class="line">    {0.8f, 4.3f},</div>
-<div class="line">    {0.9f, 4.4f},</div>
-<div class="line">    {1.0f, 4.5f}</div>
+<div class="line">    {0.0f, 2.811f},</div>
+<div class="line">    {0.1f, 3.096f},</div>
+<div class="line">    {0.2f, 3.286f},</div>
+<div class="line">    {0.3f, 3.439f},</div>
+<div class="line">    {0.4f, 3.570f},</div>
+<div class="line">    {0.5f, 3.690f},</div>
+<div class="line">    {0.6f, 3.829f},</div>
+<div class="line">    {0.7f, 3.906f},</div>
+<div class="line">    {0.8f, 4.040f},</div>
+<div class="line">    {0.9f, 4.085f},</div>
+<div class="line">    {1.0f, 4.171f}</div>
 <div class="line">}</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a0b3a33307a6cc6d930dbdbaad5e9b3ba" name="a0b3a33307a6cc6d930dbdbaad5e9b3ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b3a33307a6cc6d930dbdbaad5e9b3ba">&#9670;&#160;</a></span>SOC_2_OCV_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t SOC_2_OCV_SIZE = 11</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
 </div>
 </div>
 </div><!-- contents -->

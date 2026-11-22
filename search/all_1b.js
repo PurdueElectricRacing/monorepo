@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['r_0',['R',['../structsoc__ukf__params__t.html#abcd9fdbcfca9cc778d78e98631267c90',1,'soc_ukf_params_t::R'],['../structsoc__ukf__t.html#a5b904fb61a931dc0d98f23c3fc25cc8a',1,'soc_ukf_t::R']]],
+  ['r_0',['R',['../structsoc__ukf__t.html#a5b904fb61a931dc0d98f23c3fc25cc8a',1,'soc_ukf_t::R'],['../structsoc__ukf__params__t.html#abcd9fdbcfca9cc778d78e98631267c90',1,'soc_ukf_params_t::R']]],
   ['r_1',['r',['../structpVCU__struct.html#a30555f4793a8e3cd7b759ed6035b8699',1,'pVCU_struct']]],
-  ['r0_2',['r0',['../structcell__params__t.html#af999fb1fa440cdd3c72620fe0fb9c7ca',1,'cell_params_t']]],
-  ['r1_3',['r1',['../structcell__params__t.html#a65c03a0fbd8e099b57792b9ea5a6b1ab',1,'cell_params_t']]],
-  ['r2_4',['r2',['../structcell__params__t.html#a86b10b3f77ce76da46f36e3c5d411b57',1,'cell_params_t']]],
+  ['r0_2',['r0',['../structecm__params__t.html#ac16a62b2760db2b9c78e6ea972395e08',1,'ecm_params_t']]],
+  ['r1_3',['r1',['../structecm__params__t.html#a2ce46e3a0cb24d461cec5712cca46ca1',1,'ecm_params_t']]],
+  ['r2_4',['r2',['../structecm__params__t.html#af02b2364cb0b1de62f6c89cc2fe51c60',1,'ecm_params_t']]],
   ['r_5fiso_5',['r_iso',['../structimd__state__data__t.html#a09031c6b7b5ad633d2e1390e4281232b',1,'imd_state_data_t']]],
   ['r_5fiso_5fkohm_6',['r_iso_kohm',['../structimd__measurement__t.html#a3ac2f7d26e8befcaa42c8ec92abb8d95',1,'imd_measurement_t']]],
   ['race_2ec_7',['race.c',['../race_8c.html',1,'']]],

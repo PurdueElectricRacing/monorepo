@@ -1,5 +1,6 @@
 var NAVTREEINDEX31 =
 {
+"syscalls_8c.html":[34,0,1,1,15,0],
 "syscalls_8c.html#a062a5101199c3128edd5170f2575bb10":[34,0,1,1,15,0,6],
 "syscalls_8c.html#a38f8394eee3a086b87ff6d431e1e5343":[34,0,1,1,15,0,10],
 "syscalls_8c.html#a39b9754c96beda392bdb080bc5653e9e":[34,0,1,1,15,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX31 =
 "usb__descriptors_8h.html#a2db9972d92557324a3a49e1a00761d06":[34,0,1,2,2,0,2,5],
 "usb__descriptors_8h.html#a645779e5cdbd378fa7e019d75e71ec6b":[34,0,1,2,2,0,2,3],
 "usb__descriptors_8h.html#a8507b6118ceb03ea4eb4239870a758fe":[34,0,1,2,2,0,2,2],
-"usb__descriptors_8h.html#ac97e116fbc5cf0c6c4bf5e70d7277c2a":[34,0,1,2,2,0,2,6],
-"usb__descriptors_8h.html#ad19fe849dc7f25e325e9087c1893acb8":[34,0,1,2,2,0,2,4]
+"usb__descriptors_8h.html#ac97e116fbc5cf0c6c4bf5e70d7277c2a":[34,0,1,2,2,0,2,6]
 };

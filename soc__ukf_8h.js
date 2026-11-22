@@ -1,8 +1,8 @@
 var soc__ukf_8h =
 [
-    [ "cell_params_t", "structcell__params__t.html", "structcell__params__t" ],
-    [ "soc_ukf_params_t", "structsoc__ukf__params__t.html", "structsoc__ukf__params__t" ],
+    [ "ecm_params_t", "structecm__params__t.html", "structecm__params__t" ],
     [ "soc_ukf_t", "structsoc__ukf__t.html", "structsoc__ukf__t" ],
+    [ "soc_ukf_params_t", "structsoc__ukf__params__t.html", "structsoc__ukf__params__t" ],
     [ "GET_SOC", "soc__ukf_8h.html#a971b65784de6f538f74ae2ec5c009105", null ],
     [ "SOC_UKF_init", "soc__ukf_8h.html#aab4effae1fe0b3b59d00e1378edd1722", null ],
     [ "SOC_UKF_predict", "soc__ukf_8h.html#a042187a5c2a956467c3a4ebc207fd2e2", null ],

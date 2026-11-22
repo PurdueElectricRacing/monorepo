@@ -123,22 +123,26 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcell__params__t.html">cell_params_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsoc__ukf__params__t.html">soc_ukf_params_t</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structecm__params__t.html">ecm_params_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsoc__ukf__params__t.html">soc_ukf_params_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aab4effae1fe0b3b59d00e1378edd1722" id="r_aab4effae1fe0b3b59d00e1378edd1722"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab4effae1fe0b3b59d00e1378edd1722">SOC_UKF_init</a> (<a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf, const <a class="el" href="structsoc__ukf__params__t.html">soc_ukf_params_t</a> *params, <a class="el" href="structvec3__t.html">vec3_t</a> x0, <a class="el" href="structmat3__t.html">mat3_t</a> P0)</td></tr>
+<tr class="memdesc:aab4effae1fe0b3b59d00e1378edd1722"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the SoC filter.  <br /></td></tr>
 <tr class="separator:aab4effae1fe0b3b59d00e1378edd1722"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a042187a5c2a956467c3a4ebc207fd2e2" id="r_a042187a5c2a956467c3a4ebc207fd2e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a042187a5c2a956467c3a4ebc207fd2e2">SOC_UKF_predict</a> (<a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf, float current)</td></tr>
+<tr class="memdesc:a042187a5c2a956467c3a4ebc207fd2e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Predict the next state and covariance.  <br /></td></tr>
 <tr class="separator:a042187a5c2a956467c3a4ebc207fd2e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a44439bd39d1cb464d46c06a1078266" id="r_a0a44439bd39d1cb464d46c06a1078266"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a44439bd39d1cb464d46c06a1078266">SOC_UKF_update</a> (<a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf, float voltage, float current)</td></tr>
+<tr class="memdesc:a0a44439bd39d1cb464d46c06a1078266"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correct the predicted state using measured voltage.  <br /></td></tr>
 <tr class="separator:a0a44439bd39d1cb464d46c06a1078266"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a971b65784de6f538f74ae2ec5c009105" id="r_a971b65784de6f538f74ae2ec5c009105"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a971b65784de6f538f74ae2ec5c009105">GET_SOC</a> (const <a class="el" href="structsoc__ukf__t.html">soc_ukf_t</a> *ukf)</td></tr>
+<tr class="memdesc:a971b65784de6f538f74ae2ec5c009105"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current state of charge estimate.  <br /></td></tr>
 <tr class="separator:a971b65784de6f538f74ae2ec5c009105"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
@@ -177,6 +181,15 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the current state of charge estimate. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ukf</td><td>Filter instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Estimated SoC SoC may be outside of [0.0, 1.0] </dd></dl>
+
 </div>
 </div>
 <a id="aab4effae1fe0b3b59d00e1378edd1722" name="aab4effae1fe0b3b59d00e1378edd1722"></a>
@@ -207,6 +220,17 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Initialize the SoC filter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ukf</td><td>Filter instance to initialize </td></tr>
+    <tr><td class="paramname">params</td><td>Cell model and filter parameters </td></tr>
+    <tr><td class="paramname">x0</td><td>Initial state [SoC, V1, V2] </td></tr>
+    <tr><td class="paramname">P0</td><td>Initial state covariance ! P0 must be SPD </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -233,6 +257,15 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Predict the next state and covariance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ukf</td><td>Filter instance </td></tr>
+    <tr><td class="paramname">current</td><td>Equivalent cell current in amps. Positive current = discharge </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -264,6 +297,16 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Correct the predicted state using measured voltage. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ukf</td><td>Filter instance. </td></tr>
+    <tr><td class="paramname">voltage</td><td>Equivalent measured cell terminal voltage </td></tr>
+    <tr><td class="paramname">current</td><td>Cell current in amps Positive current = discharge </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -293,7 +336,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    .cell = {</div>
+<div class="line">    .ecm = {</div>
 <div class="line">        .r0   = 0.015f,</div>
 <div class="line">        .r1   = 0.015f,</div>
 <div class="line">        .r2   = 0.015f,</div>
@@ -301,7 +344,7 @@ Here is the call graph for this function:</div>
 <div class="line">        .tau2 = 1000.0f,</div>
 <div class="line">        .Q    = 5.0f,</div>
 <div class="line">    },</div>
-<div class="line">    .dt = 0.01f,</div>
+<div class="line">    .prediction_dt = 0.01f,</div>
 <div class="line">    .Q  = {{</div>
 <div class="line">        {1e-6f, 0.0f,  0.0f},</div>
 <div class="line">        {0.0f,  1e-6f, 0.0f},</div>

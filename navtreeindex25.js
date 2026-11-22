@@ -1,5 +1,6 @@
 var NAVTREEINDEX25 =
 {
+"structa__box__can__tx__actions__data__t.html":[33,0,1],
 "structa__box__can__tx__actions__data__t.html#a1c7cedf34791cbe350aef337f495d8e6":[33,0,1,2],
 "structa__box__can__tx__actions__data__t.html#a515d16b9b0c85fa0eb50afcfae29545c":[33,0,1,1],
 "structa__box__can__tx__actions__data__t.html#a971c9c41dab2f5563d39126907a82072":[33,0,1,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX25 =
 "structbl__torque__vector__start__data__t.html":[33,0,60],
 "structbl__torque__vector__start__data__t.html#a081cd74248561acd2225de19553f9ecd":[33,0,60,1],
 "structbl__torque__vector__start__data__t.html#a5c4151a60abc00cded8b4c8750873ac7":[33,0,60,0],
-"structbms__pecs__ccan__data__t.html":[33,0,62],
-"structbms__pecs__ccan__data__t.html#a21d2026d44b089e088c5d7f336ba778b":[33,0,62,5]
+"structbms__pecs__ccan__data__t.html":[33,0,62]
 };

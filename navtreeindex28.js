@@ -1,5 +1,6 @@
 var NAVTREEINDEX28 =
 {
+"structinvd__diagnostics__data__t.html":[33,0,161],
 "structinvd__diagnostics__data__t.html#a24f6847df90788b0f66beeedd3d84e96":[33,0,161,6],
 "structinvd__diagnostics__data__t.html#a4b1d2e248ae819d7ef7de7213862af90":[33,0,161,2],
 "structinvd__diagnostics__data__t.html#a52ae3c7e0ef88a104d4f36cbf7c192fb":[33,0,161,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX28 =
 "structpVCU__struct.html#a6ceb565f9df4c66f1e80ff8f55173c33":[33,0,255,24],
 "structpVCU__struct.html#a707752b8f9e9b867d79abf3d2824c181":[33,0,255,42],
 "structpVCU__struct.html#a739d1bf5aad1b6b2dc2fdcacf0ffef47":[33,0,255,57],
-"structpVCU__struct.html#a76d2e2470ca9a9c33bbb67fc4c066424":[33,0,255,15],
-"structpVCU__struct.html#a77ce3a7dcc583cd4e22b96c100420865":[33,0,255,44]
+"structpVCU__struct.html#a76d2e2470ca9a9c33bbb67fc4c066424":[33,0,255,15]
 };

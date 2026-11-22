@@ -1,5 +1,6 @@
 var NAVTREEINDEX30 =
 {
+"structswitch__t.html#a3d3dfa1cc77a1473af05fb6aeca10a27":[33,0,297,5],
 "structswitch__t.html#ae5cbbb7a9874e5072983c7521ecb59a6":[33,0,297,3],
 "structswitch__t.html#aefbd296863bdd38a171dfde96d4dac5b":[33,0,297,1],
 "structswitch__t.html#af2e20bd9545d9d7362c641ec39024894":[33,0,297,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX30 =
 "switch_8h.html#ac4242e905789cd31606d773cc9a8e9e9":[34,0,1,2,8,1,3,8],
 "switch_8h.html#ae52068ab1eb59e1566befd5397b9c6de":[34,0,1,2,8,1,3,5],
 "switch_8h.html#affcc397fe5accc45327c6f0d2cfd93bb":[34,0,1,2,8,1,3,12],
-"switch_8h_source.html":[34,0,1,2,8,1,3],
-"syscalls_8c.html":[34,0,1,1,15,0]
+"switch_8h_source.html":[34,0,1,2,8,1,3]
 };

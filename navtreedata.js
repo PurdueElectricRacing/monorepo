@@ -285,16 +285,16 @@ var NAVTREEINDEX =
 "phal__G4_2usart_2usart_8h.html#a8ebdece2db12916cdbf6bc22f9ae52de",
 "sd__card_8h.html#acb425a95edaf884fd443c15be109f574a760cb3f2dceb39066fee2d5b4619d4b1",
 "sdio_8h.html#adfcb6043212373c69f3f740732f5d2b2",
-"structINVA__ERR__1__data__t.html#a3528ab4effde8b6c3a39f68a9ea562e1",
-"structNAV__PVT__payload__t.html#a0a01e0277ca1229c14df16ac93b10b9f",
-"structa__box__can__tx__actions__data__t.html#a1c7cedf34791cbe350aef337f495d8e6",
-"structbms__pecs__ccan__data__t.html#a3185ca2735ed1047f1ded0dc2c71fc09",
-"structdashboard__fault__sync__data__t.html#ae5e7ed07f88edb184a04fa0121679fc0",
-"structinvd__diagnostics__data__t.html#a24f6847df90788b0f66beeedd3d84e96",
-"structpVCU__struct.html#a798c2b324814c8071dada2a4966c5364",
-"structswitch__t.html#ae5cbbb7a9874e5072983c7521ecb59a6",
-"syscalls_8c.html#a062a5101199c3128edd5170f2575bb10",
-"usb__descriptors_8h.html#af56d8fe62e6a5118bf08849e11b4ba89"
+"structINVA__ERR__1__data__t.html",
+"structNAV__PVT__payload__t.html#a01f305515dc54d035d90bdff8cb40602",
+"structa__box__can__tx__actions__data__t.html",
+"structbms__pecs__ccan__data__t.html#a21d2026d44b089e088c5d7f336ba778b",
+"structdegrees__per__second__t.html#a717284669f7f92218a67977a687b9302",
+"structinvd__diagnostics__data__t.html",
+"structpVCU__struct.html#a77ce3a7dcc583cd4e22b96c100420865",
+"structswitch__t.html#a3d3dfa1cc77a1473af05fb6aeca10a27",
+"syscalls_8c.html",
+"usb__descriptors_8h.html#ad19fe849dc7f25e325e9087c1893acb8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -31,7 +31,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="soc__ukf_8c.html#a042187a5c2a956467c3a4ebc207fd2e2" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="soc__ukf_8c.html#a042187a5c2a956467c3a4ebc207fd2e2" target="_top" xlink:title="Predict the next state and covariance.">
 <polygon fill="white" stroke="#666666" points="97,-93.25 0,-93.25 0,-74 97,-74 97,-93.25"/>
 <text text-anchor="middle" x="48.5" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">SOC_UKF_predict</text>
 </a>
@@ -49,7 +49,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="soc__ukf_8c.html#a0a44439bd39d1cb464d46c06a1078266" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="soc__ukf_8c.html#a0a44439bd39d1cb464d46c06a1078266" target="_top" xlink:title="Correct the predicted state using measured voltage.">
 <polygon fill="white" stroke="#666666" points="97,-56.25 0,-56.25 0,-37 97,-37 97,-56.25"/>
 <text text-anchor="middle" x="48.5" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">SOC_UKF_update</text>
 </a>
