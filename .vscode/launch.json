@@ -4,7 +4,7 @@
         {
             "name": "Main Module",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/main_module/main_module.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/main_module/main_module.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -28,7 +28,7 @@
         {
             "name": "PDU",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/pdu/pdu.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/pdu/pdu.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -52,7 +52,7 @@
         {
             "name": "Dashboard",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/dashboard/dashboard.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/dashboard/dashboard.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -76,7 +76,7 @@
         {
             "name": "Front Driveline",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/front_driveline/front_driveline.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/front_driveline/front_driveline.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -100,7 +100,7 @@
         {
             "name": "Rear Driveline",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/rear_driveline/rear_driveline.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/rear_driveline/rear_driveline.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -124,7 +124,7 @@
         {
             "name": "Torque Vectoring",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/torque_vector/torque_vector.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/torque_vector/torque_vector.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -148,7 +148,7 @@
         {
             "name": "A_Box",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/a_box/a_box.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/a_box/a_box.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -168,7 +168,7 @@
         {
             "name": "Daq",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/daq/daq.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/daq/daq.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -193,7 +193,7 @@
         {
             "name": "CANnector",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/cannector/cannector.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/cannector/cannector.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -217,7 +217,7 @@
         {
             "name": "g4_testing",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/g4_testing/g4_testing.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/g4_testing/g4_testing.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -241,7 +241,7 @@
         {
             "name": "Bootloader - Main Module",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/bootloader_main_module/bootloader_main_module.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/bootloader_main_module/bootloader_main_module.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -265,7 +265,7 @@
         {
             "name": "Bootloader - PDU",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/bootloader_pdu/bootloader_pdu.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/bootloader_pdu/bootloader_pdu.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -289,7 +289,7 @@
         {
             "name": "Bootloader - Dashboard",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/bootloader_dashboard/bootloader_dashboard.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/bootloader_dashboard/bootloader_dashboard.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -313,7 +313,7 @@
         {
             "name": "Bootloader - Front Driveline",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/bootloader_front_driveline/bootloader_front_driveline.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/bootloader_front_driveline/bootloader_front_driveline.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -337,7 +337,7 @@
         {
             "name": "Bootloader - Rear Driveline",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/bootloader_rear_driveline/bootloader_rear_driveline.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/bootloader_rear_driveline/bootloader_rear_driveline.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -361,7 +361,7 @@
         {
             "name": "Bootloader - Torque Vectoring",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/bootloader_torque_vector/bootloader_torque_vector.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/bootloader_torque_vector/bootloader_torque_vector.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
@@ -385,7 +385,7 @@
         {
             "name": "Bootloader - A_Box",
             "cwd": "${workspaceRoot}",
-            "executable": "${workspaceRoot}/firmware/output/bootloader_a_box/bootloader_a_box.elf",
+            "executable": "${workspaceRoot}/artifacts/firmware/bootloader_a_box/bootloader_a_box.elf",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
