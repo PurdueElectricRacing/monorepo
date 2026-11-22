@@ -11,7 +11,6 @@ A monorepo of all firmware projects, shared libraries, code generation, and off-
 
 
 ## Directory Structure
-- `artifacts/` - Final generated outputs, including `firmware/` and `superdbc/`
 - `daq/`
 	- Desktop app (`daqapp`)
 	- CLI (`daqcli`)
