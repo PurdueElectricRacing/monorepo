@@ -1,5 +1,12 @@
 var NAVTREEINDEX9 =
 {
+"clamp__test__shim_8h.html#a2bbdc127b71bd39fc8fa6c614d91fcbe":[34,0,1,1,18,0,5,7],
+"clamp__test__shim_8h.html#a3b71720e1ff5029c0c15e650a6cba6a6":[34,0,1,1,18,0,5,0],
+"clamp__test__shim_8h.html#a3d213164320a009167b26b1a7c0b627f":[34,0,1,1,18,0,5,4],
+"clamp__test__shim_8h.html#a720c065083ebaa7213673d98ed4dc03d":[34,0,1,1,18,0,5,2],
+"clamp__test__shim_8h.html#a7eca2d0e3894a536e05906892b772743":[34,0,1,1,18,0,5,8],
+"clamp__test__shim_8h.html#aa62cb79c302d58bce476bf5024cf1d17":[34,0,1,1,18,0,5,5],
+"clamp__test__shim_8h.html#ad1c7cdf13f6f1d20a44660ce3a5edac6":[34,0,1,1,18,0,5,1],
 "clamp__test__shim_8h_source.html":[34,0,1,1,18,0,5],
 "classBangbangTest.html":[33,0,26],
 "classBangbangTest.html#a4e952a9dbd16b08ad128965ae9332e38":[33,0,26,1],
@@ -201,7 +208,7 @@ var NAVTREEINDEX9 =
 "crc__priv_8h.html#ac1a6c7dbe0062acdba1f9fe6a482c759":[34,0,1,1,10,1,3,2],
 "crc__priv_8h.html#acbafcab947e4273b7982c026fd3bc1d4":[34,0,1,1,10,1,3,5],
 "crc__priv_8h_source.html":[34,0,1,1,10,1,3],
-"crc__test_8c.html":[34,0,1,2,6,3],
+"crc__test_8c.html":[34,0,1,2,6,4],
 "current__sense_8c.html":[34,0,1,2,8,1,0],
 "current__sense_8c.html#a122b9ebec705549e71a13faf92358207":[34,0,1,2,8,1,0,0],
 "current__sense_8c.html#ad25eae622b200363d4025160b032c656":[34,0,1,2,8,1,0,1],
@@ -242,12 +249,5 @@ var NAVTREEINDEX9 =
 "daq_2main_8c.html#af78f5aa063c0e494dfd902c19e328eca":[34,0,1,2,3,7,10],
 "daq_2main_8c.html#af804c4dd6cea32b842f3c2c1f2631ebd":[34,0,1,2,3,7,11],
 "daq_2main_8c.html#afdc1120bbc54485ac4c735d8f9756743":[34,0,1,2,3,7,16],
-"daq_2main_8h.html":[34,0,1,2,3,8],
-"daq_2main_8h.html#a005f8af8cd6c38ffbc9ef2e854acacd6":[34,0,1,2,3,8,41],
-"daq_2main_8h.html#a00c6b483e0a564a621b5b53c9779ab9c":[34,0,1,2,3,8,34],
-"daq_2main_8h.html#a04ae6aa599b3dd0e13976c6e00c1d485":[34,0,1,2,3,8,14],
-"daq_2main_8h.html#a082fcbe31a8af390ca037a5d70eac72b":[34,0,1,2,3,8,25],
-"daq_2main_8h.html#a1490c3e7f89523f1e04bc3e221815470":[34,0,1,2,3,8,12],
-"daq_2main_8h.html#a16617de3bb2ca54675ae2515d8515e12":[34,0,1,2,3,8,2],
-"daq_2main_8h.html#a2107ae7691edb9a15edccada3ee54a43":[34,0,1,2,3,8,5]
+"daq_2main_8h.html":[34,0,1,2,3,8]
 };

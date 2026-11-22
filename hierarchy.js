@@ -327,6 +327,7 @@ var hierarchy =
     [ "torque_vector_fault_sync_data_t", "structtorque__vector__fault__sync__data__t.html", null ],
     [ "torque_vector_version_data_t", "structtorque__vector__version__data__t.html", null ],
     [ "tv_init_data_t", "structtv__init__data__t.html", null ],
+    [ "tx_errctr_data_t", "structtx__errctr__data__t.html", null ],
     [ "ubx_header_t", "structubx__header__t.html", null ],
     [ "usart_active_transfer_t", "structusart__active__transfer__t.html", null ],
     [ "usart_init_t", "structusart__init__t.html", null ],

@@ -4,6 +4,7 @@ var g4__testing_8h =
     [ "IZZE_IMU_CONFIG", "g4__testing_8h.html#aca08c4804fee3d695d3277c241b784b1", null ],
     [ "TEST_ADC", "g4__testing_8h.html#aaa101e52d770ddd28cf31c5cb5fc7691", null ],
     [ "TEST_BLINKY", "g4__testing_8h.html#a2455bf6a6eb220dc21d497c9354997af", null ],
+    [ "TEST_BUSOFF", "g4__testing_8h.html#a26e7fc300f759d03098ca013c625dcba", null ],
     [ "TEST_CANPILER", "g4__testing_8h.html#a001aa042dc8fa24b816cbf13d20a0779", null ],
     [ "TEST_CRC", "g4__testing_8h.html#a035e6e3a1384beb252cc3372f1b764ba", null ],
     [ "TEST_DIAGNOSTICS", "g4__testing_8h.html#a5915628b95360fda28aac5570f1d95ba", null ],

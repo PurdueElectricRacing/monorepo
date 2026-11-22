@@ -325,6 +325,7 @@ var annotated_dup =
     [ "torque_vector_fault_sync_data_t", "structtorque__vector__fault__sync__data__t.html", "structtorque__vector__fault__sync__data__t" ],
     [ "torque_vector_version_data_t", "structtorque__vector__version__data__t.html", "structtorque__vector__version__data__t" ],
     [ "tv_init_data_t", "structtv__init__data__t.html", "structtv__init__data__t" ],
+    [ "tx_errctr_data_t", "structtx__errctr__data__t.html", "structtx__errctr__data__t" ],
     [ "ubx_header_t", "structubx__header__t.html", "structubx__header__t" ],
     [ "usart_active_transfer_t", "structusart__active__transfer__t.html", "structusart__active__transfer__t" ],
     [ "usart_init_t", "structusart__init__t.html", "structusart__init__t" ],

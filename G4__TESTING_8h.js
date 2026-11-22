@@ -12,6 +12,7 @@ var G4__TESTING_8h =
     [ "CAN_SEND_g4_testing_diag_task", "G4__TESTING_8h.html#aaa6ab36c451b6cd649438b74a009706d", null ],
     [ "CAN_SEND_IVT_S_command", "G4__TESTING_8h.html#a6e03cc080180cb686650bd762c5f6d0e", null ],
     [ "CAN_SEND_IZZE_IMU_config", "G4__TESTING_8h.html#a1dd169a014710a024d96f6504fa03fa8", null ],
+    [ "CAN_SEND_tx_errctr", "G4__TESTING_8h.html#ac07e4a17585c67dd7b582439b3eaaedc", null ],
     [ "FDCAN2_init_filters", "G4__TESTING_8h.html#a78eb33b279c10bc3c4f9813223091a7a", null ],
     [ "can_data", "G4__TESTING_8h.html#a9cc3168cebc21b033138ae90b755e5a8", null ],
     [ "OFFSET_CANPILER_TEST_PRESSURE", "G4__TESTING_8h.html#aa2f439cdf15a38617a044f98ea8d70df", null ],

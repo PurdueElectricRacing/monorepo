@@ -13,5 +13,6 @@ var searchData=
   ['torque_5fvector_5ffault_5fevent_5fdata_5ft_10',['torque_vector_fault_event_data_t',['../structtorque__vector__fault__event__data__t.html',1,'']]],
   ['torque_5fvector_5ffault_5fsync_5fdata_5ft_11',['torque_vector_fault_sync_data_t',['../structtorque__vector__fault__sync__data__t.html',1,'']]],
   ['torque_5fvector_5fversion_5fdata_5ft_12',['torque_vector_version_data_t',['../structtorque__vector__version__data__t.html',1,'']]],
-  ['tv_5finit_5fdata_5ft_13',['tv_init_data_t',['../structtv__init__data__t.html',1,'']]]
+  ['tv_5finit_5fdata_5ft_13',['tv_init_data_t',['../structtv__init__data__t.html',1,'']]],
+  ['tx_5ferrctr_5fdata_5ft_14',['tx_errctr_data_t',['../structtx__errctr__data__t.html',1,'']]]
 ];

@@ -1,0 +1,9 @@
+<map id="PHAL_FDCAN_recoverBusOff" name="PHAL_FDCAN_recoverBusOff">
+<area shape="rect" id="Node000001" title="Initiate bus&#45;off recovery if the peripheral is currently in bus&#45;off." alt="" coords="5,38,205,64"/>
+<area shape="rect" id="Node000002" href="$fdcan_8c.html#a3be9e2c7408dee7506732772466e7e48" title="Check whether the FDCAN peripheral is in the bus&#45;off state." alt="" coords="265,13,431,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,38,249,33,250,39,205,43"/>
+<area shape="rect" id="Node000004" href="$fdcan__priv_8c.html#a37db98e2c3a155242e04c2a787c01fa4" title="Clear the INIT bit in CCCR to initiate bus&#45;off recovery." alt="" coords="253,62,443,88"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="205,58,237,61,237,67,205,64"/>
+<area shape="rect" id="Node000003" href="$fdcan__priv_8c.html#a256bd91a8b46546cd32108920973fd73" title="Check whether the Bus&#45;Off status flag (BO) is set in PSR." alt="" coords="491,5,708,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="431,23,475,23,475,28,431,28"/>
+</map>

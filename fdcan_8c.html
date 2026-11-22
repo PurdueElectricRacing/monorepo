@@ -127,6 +127,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a60b2ed63ebdff4e98f2eca10a4961dda" id="r_a60b2ed63ebdff4e98f2eca10a4961dda"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60b2ed63ebdff4e98f2eca10a4961dda">PHAL_FDCAN_send</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
 <tr class="memdesc:a60b2ed63ebdff4e98f2eca10a4961dda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queue a frame for transmission.  <br /></td></tr>
 <tr class="separator:a60b2ed63ebdff4e98f2eca10a4961dda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59a2611352f62ab5ce5c6629cd066af6" id="r_a59a2611352f62ab5ce5c6629cd066af6"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59a2611352f62ab5ce5c6629cd066af6">PHAL_FDCAN_txErrorCounter</a> (const FDCAN_GlobalTypeDef *fdcan)</td></tr>
+<tr class="memdesc:a59a2611352f62ab5ce5c6629cd066af6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current Transmit Error Counter (TEC) value.  <br /></td></tr>
+<tr class="separator:a59a2611352f62ab5ce5c6629cd066af6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be9e2c7408dee7506732772466e7e48" id="r_a3be9e2c7408dee7506732772466e7e48"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3be9e2c7408dee7506732772466e7e48">PHAL_FDCAN_isBusOff</a> (const FDCAN_GlobalTypeDef *fdcan)</td></tr>
+<tr class="memdesc:a3be9e2c7408dee7506732772466e7e48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the FDCAN peripheral is in the bus-off state.  <br /></td></tr>
+<tr class="separator:a3be9e2c7408dee7506732772466e7e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3971a42fd73021bc14700c235773b083" id="r_a3971a42fd73021bc14700c235773b083"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3971a42fd73021bc14700c235773b083">PHAL_FDCAN_recoverBusOff</a> (FDCAN_GlobalTypeDef *fdcan)</td></tr>
+<tr class="memdesc:a3971a42fd73021bc14700c235773b083"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initiate bus-off recovery if the peripheral is currently in bus-off.  <br /></td></tr>
+<tr class="separator:a3971a42fd73021bc14700c235773b083"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a8e857238176253a85c8588218294d9" id="r_a8a8e857238176253a85c8588218294d9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a8e857238176253a85c8588218294d9">fdcan_rxIRQHandler</a> (FDCAN_GlobalTypeDef *fdcan)</td></tr>
 <tr class="separator:a8a8e857238176253a85c8588218294d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5052ca32048f283fe956f407984fa130" id="r_a5052ca32048f283fe956f407984fa130"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5052ca32048f283fe956f407984fa130">fdcan_txIRQHandler</a> (FDCAN_GlobalTypeDef *fdcan)</td></tr>
@@ -408,6 +417,73 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a3be9e2c7408dee7506732772466e7e48" name="a3be9e2c7408dee7506732772466e7e48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be9e2c7408dee7506732772466e7e48">&#9670;&#160;</a></span>PHAL_FDCAN_isBusOff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PHAL_FDCAN_isBusOff </td>
+          <td>(</td>
+          <td class="paramtype">const FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>fdcan</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check whether the FDCAN peripheral is in the bus-off state. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fdcan</td><td>peripheral instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the peripheral is in bus-off </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a3be9e2c7408dee7506732772466e7e48_cgraph.svg" width="443" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a3be9e2c7408dee7506732772466e7e48_icgraph.svg" width="424" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a3971a42fd73021bc14700c235773b083" name="a3971a42fd73021bc14700c235773b083"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3971a42fd73021bc14700c235773b083">&#9670;&#160;</a></span>PHAL_FDCAN_recoverBusOff()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PHAL_FDCAN_recoverBusOff </td>
+          <td>(</td>
+          <td class="paramtype">FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>fdcan</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initiate bus-off recovery if the peripheral is currently in bus-off. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fdcan</td><td>peripheral instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if bus-off recovery was initiated, false if not in bus-off </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a3971a42fd73021bc14700c235773b083_cgraph.svg" width="100%" height="370"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="a8b126471775c8ec5765594c0c9bbbdff" name="a8b126471775c8ec5765594c0c9bbbdff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b126471775c8ec5765594c0c9bbbdff">&#9670;&#160;</a></span>PHAL_FDCAN_rxCallback()</h2>
 
@@ -566,6 +642,37 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a6dc613665f4dce3d09b2b533423435d3_icgraph.svg" width="596" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a59a2611352f62ab5ce5c6629cd066af6" name="a59a2611352f62ab5ce5c6629cd066af6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59a2611352f62ab5ce5c6629cd066af6">&#9670;&#160;</a></span>PHAL_FDCAN_txErrorCounter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t PHAL_FDCAN_txErrorCounter </td>
+          <td>(</td>
+          <td class="paramtype">const FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>fdcan</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read the current Transmit Error Counter (TEC) value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fdcan</td><td>peripheral instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>current TEC value (0-255) </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="fdcan_8c_a59a2611352f62ab5ce5c6629cd066af6_cgraph.svg" width="478" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

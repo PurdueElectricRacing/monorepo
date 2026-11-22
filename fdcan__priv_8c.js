@@ -1,5 +1,6 @@
 var fdcan__priv_8c =
 [
+    [ "PHAL_FDCAN_priv_clearInit", "fdcan__priv_8c.html#a37db98e2c3a155242e04c2a787c01fa4", null ],
     [ "PHAL_FDCAN_priv_clearReceiveFifo0NewMessageInterruptFlag", "fdcan__priv_8c.html#a71eb27961b47f7df2865cd21f529b15b", null ],
     [ "PHAL_FDCAN_priv_clearTransmitCompleteInterruptFlag", "fdcan__priv_8c.html#ae7a314e6c60ea63ef66e061e99db33f4", null ],
     [ "PHAL_FDCAN_priv_controlConfig", "fdcan__priv_8c.html#a5989bf0267b012b516dea18271539715", null ],
@@ -8,9 +9,11 @@ var fdcan__priv_8c =
     [ "PHAL_FDCAN_priv_exitConfig", "fdcan__priv_8c.html#ab58932032e5748d11d6fbcd04c68a322", null ],
     [ "PHAL_FDCAN_priv_getNBTP", "fdcan__priv_8c.html#a200094d34b232f471ea5c829f0bdee4b", null ],
     [ "PHAL_FDCAN_priv_ramBase", "fdcan__priv_8c.html#ac30a34edfbc6b2742bc45ea2a2931d71", null ],
+    [ "PHAL_FDCAN_priv_readProtocolStatusBusOffFlag", "fdcan__priv_8c.html#a256bd91a8b46546cd32108920973fd73", null ],
     [ "PHAL_FDCAN_priv_readReceiveFifo0NewMessageInterruptFlag", "fdcan__priv_8c.html#affd290321c33910853f7db9992f85f44", null ],
     [ "PHAL_FDCAN_priv_readRxElement", "fdcan__priv_8c.html#a7d7a1cca26ac694c42ace9f38507706e", null ],
     [ "PHAL_FDCAN_priv_readTransmitCompleteInterruptFlag", "fdcan__priv_8c.html#ab6b9bb4a293762bbf3d7c0c52d247da1", null ],
+    [ "PHAL_FDCAN_priv_readTransmitErrorCounter", "fdcan__priv_8c.html#aa455d2b4db3fd53fad176b84bf093063", null ],
     [ "PHAL_FDCAN_priv_readTxFifoQueueStatusFullFlag", "fdcan__priv_8c.html#a36837a6223e460a69bc55e4a70bad751", null ],
     [ "PHAL_FDCAN_priv_setTransmitFifoQueueModeToFifo", "fdcan__priv_8c.html#a843742822e433814e97fe2ef38ae4bc6", null ],
     [ "PHAL_FDCAN_priv_writeExtendedFilters", "fdcan__priv_8c.html#ab9a8c466928d1d76b5af381a357b1a66", null ],

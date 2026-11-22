@@ -4,6 +4,7 @@ var TEST__CAN_8h =
     [ "g4_testing_diag_name_data_t", "structg4__testing__diag__name__data__t.html", "structg4__testing__diag__name__data__t" ],
     [ "g4_testing_diag_summary_data_t", "structg4__testing__diag__summary__data__t.html", "structg4__testing__diag__summary__data__t" ],
     [ "g4_testing_diag_task_data_t", "structg4__testing__diag__task__data__t.html", "structg4__testing__diag__task__data__t" ],
+    [ "tx_errctr_data_t", "structtx__errctr__data__t.html", "structtx__errctr__data__t" ],
     [ "IVT_S_command_data_t", "structIVT__S__command__data__t.html", "structIVT__S__command__data__t" ],
     [ "IZZE_IMU_config_data_t", "structIZZE__IMU__config__data__t.html", "structIZZE__IMU__config__data__t" ],
     [ "CANPILER_TEST_DLC", "TEST__CAN_8h.html#a6a138f313dfb36e943114bcdb0ff641a", null ],
@@ -31,5 +32,10 @@ var TEST__CAN_8h =
     [ "IZZE_IMU_CONFIG_PERIOD_MS", "TEST__CAN_8h.html#a781377247a7fd3bdcef2eaca5d60249f", null ],
     [ "IZZE_IMU_CONFIG_STALE_TIMEOUT_MS", "TEST__CAN_8h.html#aa4132c017f7536438e562ce86d20f7b1", null ],
     [ "TEST_CAN_BAUD_RATE", "TEST__CAN_8h.html#a953a6b35a88c50fb01fdf1ebd2d72619", null ],
-    [ "TEST_CAN_BUS_ID", "TEST__CAN_8h.html#a1efac71017c5e0ce5a3245cbf2a79ed1", null ]
+    [ "TEST_CAN_BUS_ID", "TEST__CAN_8h.html#a1efac71017c5e0ce5a3245cbf2a79ed1", null ],
+    [ "TX_ERRCTR_DLC", "TEST__CAN_8h.html#a87de34e82b66752d7c293fbe392bffcc", null ],
+    [ "TX_ERRCTR_LAYOUT_HASH", "TEST__CAN_8h.html#a651b986760365f9cd9a7f083c31a112a", null ],
+    [ "TX_ERRCTR_MSG_ID", "TEST__CAN_8h.html#a99c24e62778bedee6b9824e782c06fa3", null ],
+    [ "TX_ERRCTR_PERIOD_MS", "TEST__CAN_8h.html#a0bfd9e332a28b176062665abfa417597", null ],
+    [ "TX_ERRCTR_STALE_TIMEOUT_MS", "TEST__CAN_8h.html#a3a3fa0570d09f9383998d70be15e9b87", null ]
 ];

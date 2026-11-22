@@ -423,11 +423,12 @@ var searchData=
   ['bus_20membership_420',['Bus Membership',['../md_docs_2can__graphs.html#autotoc_md89',1,'']]],
   ['bus_5fid_421',['bus_id',['../structcannector__tx__frame__t.html#a86b45444e590160035f77d7301f476e8',1,'cannector_tx_frame_t']]],
   ['bus_5fstalled_422',['bus_stalled',['../structusb__rx__queue__t.html#a14d2587c2e351794ea275469184bbb07',1,'usb_rx_queue_t']]],
-  ['busy_423',['busy',['../structPHAL__ADC__Handle__t.html#a224a675307a5bfd35a864265bed8caf0',1,'PHAL_ADC_Handle_t']]],
-  ['button_5fexti_5fconfig_424',['button_exti_config',['../driver__interface_8c.html#ad50689b9adac1ceb68f7ef0b7fd428b0',1,'driver_interface.c']]],
-  ['button_5fexti_5firq_5fpriority_425',['BUTTON_EXTI_IRQ_PRIORITY',['../driver__interface_8c.html#aded0fb2b3dcc8dc1459eb07e60e0ef2d',1,'driver_interface.c']]],
-  ['buzzer_5fenable_426',['buzzer_enable',['../structcar__t.html#a1ed45443eee3c1f1c8ff8926bdfd89ad',1,'car_t']]],
-  ['buzzer_5fpin_427',['BUZZER_PIN',['../main__module_2main_8h.html#ab61d0981ed42df9e18211b273d22cfcd',1,'main.h']]],
-  ['buzzer_5fport_428',['BUZZER_PORT',['../main__module_2main_8h.html#abf0d28f731e836936a87086ea8b798da',1,'main.h']]],
-  ['buzzer_5fstart_5ftime_429',['buzzer_start_time',['../structcar__t.html#ae1b2cfa00a8296e503bfce011f51e8d5',1,'car_t']]]
+  ['busoff_5ftest_2ec_423',['busoff_test.c',['../busoff__test_8c.html',1,'']]],
+  ['busy_424',['busy',['../structPHAL__ADC__Handle__t.html#a224a675307a5bfd35a864265bed8caf0',1,'PHAL_ADC_Handle_t']]],
+  ['button_5fexti_5fconfig_425',['button_exti_config',['../driver__interface_8c.html#ad50689b9adac1ceb68f7ef0b7fd428b0',1,'driver_interface.c']]],
+  ['button_5fexti_5firq_5fpriority_426',['BUTTON_EXTI_IRQ_PRIORITY',['../driver__interface_8c.html#aded0fb2b3dcc8dc1459eb07e60e0ef2d',1,'driver_interface.c']]],
+  ['buzzer_5fenable_427',['buzzer_enable',['../structcar__t.html#a1ed45443eee3c1f1c8ff8926bdfd89ad',1,'car_t']]],
+  ['buzzer_5fpin_428',['BUZZER_PIN',['../main__module_2main_8h.html#ab61d0981ed42df9e18211b273d22cfcd',1,'main.h']]],
+  ['buzzer_5fport_429',['BUZZER_PORT',['../main__module_2main_8h.html#abf0d28f731e836936a87086ea8b798da',1,'main.h']]],
+  ['buzzer_5fstart_5ftime_430',['buzzer_start_time',['../structcar__t.html#ae1b2cfa00a8296e503bfce011f51e8d5',1,'car_t']]]
 ];

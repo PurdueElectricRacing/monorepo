@@ -2,6 +2,7 @@ var dir_4d47efa3f286fa89179db6ae5f16d59d =
 [
     [ "adc_test.c", "adc__test_8c.html", null ],
     [ "blinky.c", "blinky_8c.html", "blinky_8c" ],
+    [ "busoff_test.c", "busoff__test_8c.html", null ],
     [ "canpiler_test.c", "canpiler__test_8c.html", null ],
     [ "crc_test.c", "crc__test_8c.html", null ],
     [ "diagnostics_test.c", "diagnostics__test_8c.html", null ],

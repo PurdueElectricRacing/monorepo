@@ -182,6 +182,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ae7a314e6c60ea63ef66e061e99db33f4" id="r_ae7a314e6c60ea63ef66e061e99db33f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7a314e6c60ea63ef66e061e99db33f4">PHAL_FDCAN_priv_clearTransmitCompleteInterruptFlag</a> (FDCAN_GlobalTypeDef *fdcan)</td></tr>
 <tr class="memdesc:ae7a314e6c60ea63ef66e061e99db33f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the TX complete interrupt flag.  <br /></td></tr>
 <tr class="separator:ae7a314e6c60ea63ef66e061e99db33f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa455d2b4db3fd53fad176b84bf093063" id="r_aa455d2b4db3fd53fad176b84bf093063"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa455d2b4db3fd53fad176b84bf093063">PHAL_FDCAN_priv_readTransmitErrorCounter</a> (const FDCAN_GlobalTypeDef *fdcan)</td></tr>
+<tr class="memdesc:aa455d2b4db3fd53fad176b84bf093063"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the Transmit Error Counter (TEC) value from ECR (0-255)  <br /></td></tr>
+<tr class="separator:aa455d2b4db3fd53fad176b84bf093063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a256bd91a8b46546cd32108920973fd73" id="r_a256bd91a8b46546cd32108920973fd73"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a256bd91a8b46546cd32108920973fd73">PHAL_FDCAN_priv_readProtocolStatusBusOffFlag</a> (const FDCAN_GlobalTypeDef *fdcan)</td></tr>
+<tr class="memdesc:a256bd91a8b46546cd32108920973fd73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the Bus-Off status flag (BO) is set in PSR.  <br /></td></tr>
+<tr class="separator:a256bd91a8b46546cd32108920973fd73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37db98e2c3a155242e04c2a787c01fa4" id="r_a37db98e2c3a155242e04c2a787c01fa4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37db98e2c3a155242e04c2a787c01fa4">PHAL_FDCAN_priv_clearInit</a> (FDCAN_GlobalTypeDef *fdcan)</td></tr>
+<tr class="memdesc:a37db98e2c3a155242e04c2a787c01fa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the INIT bit in CCCR to initiate bus-off recovery.  <br /></td></tr>
+<tr class="separator:a37db98e2c3a155242e04c2a787c01fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -262,6 +271,30 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a37db98e2c3a155242e04c2a787c01fa4" name="a37db98e2c3a155242e04c2a787c01fa4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37db98e2c3a155242e04c2a787c01fa4">&#9670;&#160;</a></span>PHAL_FDCAN_priv_clearInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PHAL_FDCAN_priv_clearInit </td>
+          <td>(</td>
+          <td class="paramtype">FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>fdcan</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clear the INIT bit in CCCR to initiate bus-off recovery. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="fdcan__priv_8h_a37db98e2c3a155242e04c2a787c01fa4_icgraph.svg" width="448" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a71eb27961b47f7df2865cd21f529b15b" name="a71eb27961b47f7df2865cd21f529b15b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a71eb27961b47f7df2865cd21f529b15b">&#9670;&#160;</a></span>PHAL_FDCAN_priv_clearReceiveFifo0NewMessageInterruptFlag()</h2>
 
@@ -451,6 +484,30 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a256bd91a8b46546cd32108920973fd73" name="a256bd91a8b46546cd32108920973fd73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a256bd91a8b46546cd32108920973fd73">&#9670;&#160;</a></span>PHAL_FDCAN_priv_readProtocolStatusBusOffFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PHAL_FDCAN_priv_readProtocolStatusBusOffFlag </td>
+          <td>(</td>
+          <td class="paramtype">const FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>fdcan</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check whether the Bus-Off status flag (BO) is set in PSR. </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="fdcan__priv_8h_a256bd91a8b46546cd32108920973fd73_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="affd290321c33910853f7db9992f85f44" name="affd290321c33910853f7db9992f85f44"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#affd290321c33910853f7db9992f85f44">&#9670;&#160;</a></span>PHAL_FDCAN_priv_readReceiveFifo0NewMessageInterruptFlag()</h2>
 
@@ -528,6 +585,30 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="fdcan__priv_8h_ab6b9bb4a293762bbf3d7c0c52d247da1_icgraph.svg" width="640" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="aa455d2b4db3fd53fad176b84bf093063" name="aa455d2b4db3fd53fad176b84bf093063"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa455d2b4db3fd53fad176b84bf093063">&#9670;&#160;</a></span>PHAL_FDCAN_priv_readTransmitErrorCounter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t PHAL_FDCAN_priv_readTransmitErrorCounter </td>
+          <td>(</td>
+          <td class="paramtype">const FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>fdcan</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read the Transmit Error Counter (TEC) value from ECR (0-255) </p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="fdcan__priv_8h_aa455d2b4db3fd53fad176b84bf093063_icgraph.svg" width="478" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

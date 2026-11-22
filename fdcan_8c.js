@@ -9,9 +9,12 @@ var fdcan_8c =
     [ "fdcan_rxIRQHandler", "fdcan_8c.html#a8a8e857238176253a85c8588218294d9", null ],
     [ "fdcan_txIRQHandler", "fdcan_8c.html#a5052ca32048f283fe956f407984fa130", null ],
     [ "PHAL_FDCAN_init", "fdcan_8c.html#aba16c779399bc36e855cefa3df29c74d", null ],
+    [ "PHAL_FDCAN_isBusOff", "fdcan_8c.html#a3be9e2c7408dee7506732772466e7e48", null ],
+    [ "PHAL_FDCAN_recoverBusOff", "fdcan_8c.html#a3971a42fd73021bc14700c235773b083", null ],
     [ "PHAL_FDCAN_rxCallback", "fdcan_8c.html#a8b126471775c8ec5765594c0c9bbbdff", null ],
     [ "PHAL_FDCAN_send", "fdcan_8c.html#a60b2ed63ebdff4e98f2eca10a4961dda", null ],
     [ "PHAL_FDCAN_setFilters", "fdcan_8c.html#ac89d6a90c4f53644b4189ddb0e1fea18", null ],
     [ "PHAL_FDCAN_txCallback", "fdcan_8c.html#a6dc613665f4dce3d09b2b533423435d3", null ],
+    [ "PHAL_FDCAN_txErrorCounter", "fdcan_8c.html#a59a2611352f62ab5ce5c6629cd066af6", null ],
     [ "PHAL_FDCAN_txFifoFree", "fdcan_8c.html#a26df92531762951c8f1d6d84493cee1b", null ]
 ];
