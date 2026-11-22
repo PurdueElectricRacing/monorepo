@@ -1,23 +1,24 @@
-#ifndef DIAGNOSTICS_H
-#define DIAGNOSTICS_H
-
 /**
  * @file diagnostics.h
  * @brief Common logger for basic CPU and FreeRTOS task profiling data.
  *
  * @author Patrick McNaughton (pmcnaugh@purdue.edu)
  */
+#ifndef DIAGNOSTICS_H
+#define DIAGNOSTICS_H
+
 #include <stdbool.h>
 #include <stdint.h>
 
 #include "common/rtos/rtos.h"
 #include "task.h"
 
-#define DIAGNOSTICS_MAX_TASKS 16
-/** Define diagnostics task with FreeRTOS */
+
+#define DIAGNOSTICS_MAX_TASKS      16
+#define DIAGNOSTICS_TICK_PERIOD_MS 50
+
 #define DEFINE_DIAGNOSTICS_TASK() \
-    RTOS_DEFINE_TASK(diagnostics_periodic, 1000, TASK_PRIORITY_LOW, STACK_1024)
-/** Start previously defined diagnostic task */
+    RTOS_DEFINE_TASK(diagnostics_periodic, DIAGNOSTICS_TICK_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024)
 #define START_DIAGNOSTICS_TASK() RTOS_START_TASK(diagnostics_periodic)
 
 /** Snapshot of a task. Contains id, state, name, cpu usage %, if the cpu usage is valid, stack HWM. */
@@ -65,17 +66,14 @@ typedef struct {
     uint32_t previous_total_runtime;
     UBaseType_t previous_task_count;
     diagnostics_prev_task_time_t prev_task_times[DIAGNOSTICS_MAX_TASKS];
+    uint8_t tick_count;
 } diagnostics_context_t;
 
 /**
- * @brief Samples task statistics and estimates CPU utilization.
+ * @brief Periodically samples task statistics and transmits diagnostics over CAN.
  *
- * Records task IDs, names, states, and stack high-water marks.
- * Calculates each task's CPU utilization from the runtime difference between samples.
- * Overall CPU utilization is calculated as 100% minus the idle task's utilization.
- *
- * @note CPU utilization requires a previous sample and a valid runtime delta.
- * @note This function should only be called by one task at a time.
+ * Samples all tasks once per second (every 20 ticks at 50 ms)
+ * Sends at most one task (status + name character) per tick and one board summary per cycle.
  */
 void diagnostics_periodic(void);
 
