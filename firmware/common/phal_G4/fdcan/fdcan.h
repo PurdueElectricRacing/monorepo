@@ -124,5 +124,28 @@ extern void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg);
  */
 extern void PHAL_FDCAN_txCallback(FDCAN_GlobalTypeDef *fdcan);
 
+/**
+ * @brief Read the current Transmit Error Counter (TEC) value
+ *
+ * @param fdcan peripheral instance
+ * @return current TEC value (0-255)
+ */
+uint8_t PHAL_FDCAN_txErrorCounter(const FDCAN_GlobalTypeDef *fdcan);
+
+/**
+ * @brief Check whether the FDCAN peripheral is in the bus-off state
+ *
+ * @param fdcan peripheral instance
+ * @return true if the peripheral is in bus-off
+ */
+bool PHAL_FDCAN_isBusOff(const FDCAN_GlobalTypeDef *fdcan);
+
+/**
+ * @brief Initiate bus-off recovery if the peripheral is currently in bus-off
+ *
+ * @param fdcan peripheral instance
+ * @return true if bus-off recovery was initiated, false if not in bus-off
+ */
+bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan);
 
 #endif // PHAL_G4_FDCAN_H

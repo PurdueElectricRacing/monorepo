@@ -76,6 +76,23 @@ bool PHAL_FDCAN_send(CanMsgTypeDef_t *msg) {
     return true;
 }
 
+uint8_t PHAL_FDCAN_txErrorCounter(const FDCAN_GlobalTypeDef *fdcan) {
+    return PHAL_FDCAN_priv_readTransmitErrorCounter(fdcan);
+}
+
+bool PHAL_FDCAN_isBusOff(const FDCAN_GlobalTypeDef *fdcan) {
+    return PHAL_FDCAN_priv_readProtocolStatusBusOffFlag(fdcan);
+}
+
+bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan) {
+    if (!PHAL_FDCAN_isBusOff(fdcan)) {
+        return false;
+    }
+
+    PHAL_FDCAN_priv_clearInit(fdcan);
+    return true;
+}
+
 [[gnu::always_inline]]
 static inline void fdcan_rxIRQHandler(FDCAN_GlobalTypeDef *fdcan) {
     if (!PHAL_FDCAN_priv_readReceiveFifo0NewMessageInterruptFlag(fdcan)) {

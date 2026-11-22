@@ -133,6 +133,20 @@
                     ],
                     "period_ms": 100,
                     "priority": 3
+                },
+                {
+                    "message_name": "tx_errctr",
+                    "description": "FDCAN transmit error counter",
+                    "signals": [
+                        {
+                            "signal_name": "txCounter",
+                            "description": "Transmit error counter (TEC, 0-255)",
+                            "data_type": "uint8_t",
+                            "unit": "none"
+                        }
+                    ],
+                    "period_ms": 100,
+                    "priority": 3
                 }
             ],
             "rx": []

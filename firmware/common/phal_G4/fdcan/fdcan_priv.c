@@ -420,3 +420,24 @@ void PHAL_FDCAN_priv_clearTransmitCompleteInterruptFlag(FDCAN_GlobalTypeDef *fdc
     // Write-1-to-clear the TC (Transmission Completed) flag only
     fdcan->IR = FDCAN_IR_TC;
 }
+
+uint8_t PHAL_FDCAN_priv_readTransmitErrorCounter(const FDCAN_GlobalTypeDef *fdcan) {
+    // ECR = Error Counter Register
+    // TEC = Transmit Error Counter field
+    return (uint8_t)((fdcan->ECR & FDCAN_ECR_TEC_Msk) >> FDCAN_ECR_TEC_Pos);
+}
+
+bool PHAL_FDCAN_priv_readProtocolStatusBusOffFlag(const FDCAN_GlobalTypeDef *fdcan) {
+    // PSR = Protocol Status Register
+    // BO = Bus-Off status bit
+    // - set by hardware when TEC exceeds 255 and the peripheral enters bus-off state
+    return (fdcan->PSR & FDCAN_PSR_BO) != 0;
+}
+
+void PHAL_FDCAN_priv_clearInit(FDCAN_GlobalTypeDef *fdcan) {
+    // CCCR = Communication Controller (CC) Control Register
+    // INIT = Initialization bit
+    // - hardware automatically sets INIT=1 when entering bus-off
+    // - clearing INIT starts the bus-off recovery sequence
+    fdcan->CCCR &= ~FDCAN_CCCR_INIT;
+}
