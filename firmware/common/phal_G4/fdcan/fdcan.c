@@ -76,9 +76,8 @@ bool PHAL_FDCAN_send(CanMsgTypeDef_t *msg) {
     return true;
 }
 
-// this is for testing busoff_test.c
-uint32_t PHAL_FDCAN_txErrCounter(FDCAN_GlobalTypeDef *fdcan) {
-    return (uint32_t)(fdcan->ECR & FDCAN_ECR_TEC_Msk);
+uint8_t PHAL_FDCAN_txErrCounter(const FDCAN_GlobalTypeDef *fdcan) {
+    return PHAL_FDCAN_priv_readTransmitErrorCounter(fdcan);
 }
 
 void PHAL_FDCAN_busoff_recovery_task(void) {
@@ -94,8 +93,8 @@ void PHAL_FDCAN_busoff_recovery_task(void) {
     }
 }
 
-bool PHAL_FDCAN_isBusOff(FDCAN_GlobalTypeDef *fdcan) {
-    return (fdcan->PSR & FDCAN_PSR_BO) != 0;
+bool PHAL_FDCAN_isBusOff(const FDCAN_GlobalTypeDef *fdcan) {
+    return PHAL_FDCAN_priv_readProtocolStatusBusOffFlag(fdcan);
 }
 
 bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan) {
@@ -103,7 +102,7 @@ bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan) {
         return false; // Not in bus-off
     }
 
-    fdcan->CCCR &= ~FDCAN_CCCR_INIT;
+    PHAL_FDCAN_priv_clearInit(fdcan);
     return true; // Recovery initiated
 }
 

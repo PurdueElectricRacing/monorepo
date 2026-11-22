@@ -132,4 +132,13 @@ bool PHAL_FDCAN_priv_readTransmitCompleteInterruptFlag(const FDCAN_GlobalTypeDef
 /// Clear the TX complete interrupt flag
 void PHAL_FDCAN_priv_clearTransmitCompleteInterruptFlag(FDCAN_GlobalTypeDef *fdcan);
 
+/// Read the Transmit Error Counter (TEC) value from ECR (0-255)
+uint8_t PHAL_FDCAN_priv_readTransmitErrorCounter(const FDCAN_GlobalTypeDef *fdcan);
+
+/// Check whether the Bus-Off status flag (BO) is set in PSR
+bool PHAL_FDCAN_priv_readProtocolStatusBusOffFlag(const FDCAN_GlobalTypeDef *fdcan);
+
+/// Clear the INIT bit in CCCR to initiate bus-off recovery
+void PHAL_FDCAN_priv_clearInit(FDCAN_GlobalTypeDef *fdcan);
+
 #endif // PHAL_G4_FDCAN_PRIV_H

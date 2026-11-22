@@ -335,6 +335,7 @@ void PHAL_FDCAN_priv_writeTxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t 
 }
  
 bool PHAL_FDCAN_priv_readRxElement(FDCAN_GlobalTypeDef *fdcan, CanMsgTypeDef_t *msg) {
+    // RXF0S = Rx FIFO 0 Status register
     // - reports current state of RX FIFO 0
     // F0FL = Fill Level field
     // - how many unread elements are currently sitting in RX FIFO 0
@@ -418,4 +419,25 @@ bool PHAL_FDCAN_priv_readTransmitCompleteInterruptFlag(const FDCAN_GlobalTypeDef
 void PHAL_FDCAN_priv_clearTransmitCompleteInterruptFlag(FDCAN_GlobalTypeDef *fdcan) {
     // Write-1-to-clear the TC (Transmission Completed) flag only
     fdcan->IR = FDCAN_IR_TC;
+}
+
+uint8_t PHAL_FDCAN_priv_readTransmitErrorCounter(const FDCAN_GlobalTypeDef *fdcan) {
+    // ECR = Error Counter Register
+    // TEC = Transmit Error Counter field, bits[7:0] (values 0-255)
+    return (uint8_t)((fdcan->ECR & FDCAN_ECR_TEC_Msk) >> FDCAN_ECR_TEC_Pos);
+}
+
+bool PHAL_FDCAN_priv_readProtocolStatusBusOffFlag(const FDCAN_GlobalTypeDef *fdcan) {
+    // PSR = Protocol Status Register
+    // BO = Bus-Off status bit
+    // - set by hardware when TEC exceeds 255 and the peripheral enters bus-off state
+    return (fdcan->PSR & FDCAN_PSR_BO) != 0;
+}
+
+void PHAL_FDCAN_priv_clearInit(FDCAN_GlobalTypeDef *fdcan) {
+    // CCCR = Communication Controller (CC) Control Register
+    // INIT = Initialization bit
+    // - hardware automatically sets INIT=1 when entering bus-off, halting bus activity
+    // - clearing INIT initiates the 129 x 11 consecutive recessive-bit bus-off recovery sequence
+    fdcan->CCCR &= ~FDCAN_CCCR_INIT;
 }

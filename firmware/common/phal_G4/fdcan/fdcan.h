@@ -125,25 +125,29 @@ extern void PHAL_FDCAN_rxCallback(CanMsgTypeDef_t *msg);
 extern void PHAL_FDCAN_txCallback(FDCAN_GlobalTypeDef *fdcan);
 
 /**
- * @brief send error counter using CAN message
+ * @brief Read the current Transmit Error Counter (TEC) value
  *
- * only in testing
- *
- * @param fdcan the peripheral instance
+ * @param fdcan peripheral instance
+ * @return current TEC value (0-255)
  */
-uint32_t PHAL_FDCAN_txErrCounter(FDCAN_GlobalTypeDef *fdcan);
+uint8_t PHAL_FDCAN_txErrCounter(const FDCAN_GlobalTypeDef *fdcan);
 
 /**
- * @brief check if the FDCAN peripheral is in busoff state
+ * @brief Check whether the FDCAN peripheral is in the bus-off state
  *
- * @param fdcan the peripheral instance
+ * @param fdcan peripheral instance
+ * @return true if the peripheral is in bus-off
  */
-bool PHAL_FDCAN_isBusOff(FDCAN_GlobalTypeDef *fdcan);
+bool PHAL_FDCAN_isBusOff(const FDCAN_GlobalTypeDef *fdcan);
 
 /**
- * @brief Recover from busoff state, FDCAN
+ * @brief Initiate bus-off recovery if the peripheral is currently in bus-off
  *
- * @param fdcan the peripheral instance
+ * Clears CCCR.INIT so the peripheral begins the CAN bus-off recovery sequence
+ * (129 occurrences of 11 consecutive recessive bits). Non-blocking.
+ *
+ * @param fdcan peripheral instance
+ * @return true if bus-off recovery was initiated; false if not in bus-off
  */
 bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan);
 
