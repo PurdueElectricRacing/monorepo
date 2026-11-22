@@ -17,3 +17,19 @@ TEST(RescaleTest, signedValues) {
 TEST(RescaleTest, unsignedValues) {
     EXPECT_EQ(test_rescale_unsigned(16, 15, 25, 5, 17), 6);
 }
+
+TEST(RescaleTest, genericSigned) {
+    EXPECT_EQ(test_rescale_generic_signed(7, 0, 10, 0, 100), 70);
+}
+
+TEST(RescaleTest, genericFloat) {
+    EXPECT_FLOAT_EQ(test_rescale_generic_float(2.5f, 0.0f, 5.0f, 0.0f, 1.0f), 0.5f);
+}
+
+TEST(RescaleTest, genericUnsigned) {
+    EXPECT_EQ(test_rescale_generic_unsigned(50u, 0u, 100u, 0u, 200u), 100u);
+}
+
+TEST(RescaleTest, genericDifferentValues) {
+    EXPECT_FLOAT_EQ(test_rescale_generic_float_diffargs(50.f, 5.f, 55u, 5u, 10), 9.5f);
+}

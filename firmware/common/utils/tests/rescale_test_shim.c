@@ -23,3 +23,7 @@ unsigned int test_rescale_generic_unsigned(unsigned int input, unsigned int inpu
 float test_rescale_generic_float(float input, float input_min, float input_max, float output_min, float output_max) {
     return RESCALE(input, input_min, input_max, output_min, output_max);
 }
+
+float test_rescale_generic_float_diffargs(float input, float input_min, unsigned int input_max, unsigned int output_min, signed int output_max) {
+    return RESCALE(input, input_min, input_max, output_min, output_max);
+}
