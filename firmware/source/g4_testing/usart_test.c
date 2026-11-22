@@ -21,8 +21,6 @@
  *   USART3: PC10 (TX) -> PC11 (RX)
  */
 
-void HardFault_Handler(void);
-
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
     PHAL_GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
@@ -367,12 +365,6 @@ void PHAL_USART_rxCallback(PHAL_USART_Idx_t periph, uint16_t len) {
     (void)periph;
     rx_frame_len = len;
     rx_frame_success_count++;
-}
-
-void HardFault_Handler(void) {
-    while (1) {
-        __NOP();
-    }
 }
 
 #endif // G4_TESTING_CHOSEN == TEST_USART

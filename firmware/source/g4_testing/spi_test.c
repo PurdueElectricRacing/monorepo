@@ -12,7 +12,6 @@
 #include "common/utils/countof.h"
 
 // Prototypes
-void HardFault_Handler();
 static void delay_ms(uint32_t ms);
 static bool verify_buffers(const uint8_t *tx, const uint8_t *rx, uint32_t len);
 
@@ -208,12 +207,6 @@ void SysTick_Handler(void) {
 static void delay_ms(uint32_t ms) {
     uint32_t start = ms_ticks;
     while ((ms_ticks - start) < ms);
-}
-
-void HardFault_Handler() {
-    while (1) {
-        __asm__("nop");
-    }
 }
 
 #endif // G4_TESTING_CHOSEN == TEST_SPI

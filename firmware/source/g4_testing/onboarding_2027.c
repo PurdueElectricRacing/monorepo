@@ -16,8 +16,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     // Hmmm... something may go here
 };
 
-void HardFault_Handler();
-
 // Hmmm... something(s) may go here
 
 int main() {
@@ -33,11 +31,5 @@ int main() {
     return 0;
 }
 
-
-void HardFault_Handler() {
-    while (1) {
-        __asm__("nop");
-    }
-}
 
 #endif // G4_TESTING_CHOSEN == TEST_ONBOARDING_2027

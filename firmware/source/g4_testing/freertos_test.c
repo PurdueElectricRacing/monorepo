@@ -25,7 +25,6 @@ static void consumer_task(void);
 static void monitor_task(void);
 
 static void fail(void);
-void HardFault_Handler(void);
 
 RTOS_DEFINE_TASK(startup_task, 1000, TASK_PRIORITY_HIGH,   STACK_512);
 RTOS_DEFINE_TASK(producer_task, 100, TASK_PRIORITY_NORMAL, STACK_512);
@@ -143,12 +142,6 @@ static void fail(void) {
     while (true) {
         PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, 1);
         RTOS_delay_ms(100);
-    }
-}
-
-void HardFault_Handler(void) {
-    while (true) {
-        __asm__("nop");
     }
 }
 

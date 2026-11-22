@@ -18,8 +18,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_TX_PB13
 };
 
-void HardFault_Handler();
-
 /** 
  * @brief Encode and transmit canpiler_test message
  *
@@ -62,12 +60,6 @@ int main() {
     vTaskStartScheduler();
 
     return 0;
-}
-
-void HardFault_Handler() {
-    while (1) {
-        __asm__("nop");
-    }
 }
 
 #endif // G4_TESTING_CHOSEN == TEST_CANPILER

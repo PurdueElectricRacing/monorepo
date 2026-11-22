@@ -9,8 +9,6 @@
 static soc_ukf_t filter;
 volatile float soc_estimate;
 
-void HardFault_Handler();
-
 static void soc_estimation_periodic(void);
 
 RTOS_DEFINE_TASK(soc_estimation_periodic, 10, TASK_PRIORITY_NORMAL, 2048);
@@ -38,12 +36,6 @@ static void soc_estimation_periodic(void) {
     SOC_UKF_predict(&filter, 3.0f);
     SOC_UKF_update(&filter, 4.1f, 3.0f);
     soc_estimate = GET_SOC(&filter);
-}
-
-void HardFault_Handler() {
-    while (1) {
-        __asm__("nop");
-    }
 }
 
 #endif // G4_TESTING_CHOSEN == TEST_SOC_UKF

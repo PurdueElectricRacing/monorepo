@@ -25,8 +25,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_TX_PB13
 };
 
-void HardFault_Handler();
-
 static constexpr uint16_t IZZE_IMU_PROGRAMMING_CONSTANT = 0x7530;
 static constexpr uint16_t NEW_CAN_BASE_ID = 0x4EE;
 static_assert(NEW_CAN_BASE_ID >= 1, "CAN Base ID must be greater than or equal to 1");
@@ -74,15 +72,5 @@ int main() {
 
     return 0;
 }
-
-void HardFault_Handler() {
-    __disable_irq();
-    SysTick->CTRL        = 0;
-    ERROR_LED_PORT->BSRR = (1U << ERROR_LED_PIN);
-    while (1) {
-        __asm__("NOP"); // spin
-    }
-}
-
 
 #endif // G4_TESTING_CHOSEN == IZZE_IMU_CONFIG

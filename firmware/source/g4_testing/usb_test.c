@@ -32,8 +32,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
-void HardFault_Handler(void);
-
 // The device descriptor identifies a vendor-specific USB 2.0 device. Zero
 // string indexes keep this example focused on the requests required to operate.
 static const uint8_t g_device_descriptor[] = {
@@ -257,14 +255,6 @@ int main() {
     // has no polling requirement and can sleep until the next peripheral event.
     while (true) {
         __WFI();
-    }
-}
-
-void HardFault_Handler(void) {
-    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, false);
-    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, true);
-    while (true) {
-        __NOP();
     }
 }
 

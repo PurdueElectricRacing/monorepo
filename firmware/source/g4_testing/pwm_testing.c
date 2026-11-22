@@ -31,8 +31,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_AF(GPIOB, 9, 2, GPIO_OUTPUT_HIGH_SPEED, GPIO_OUTPUT_PUSH_PULL, GPIO_INPUT_OPEN_DRAIN),
 };
 
-void HardFault_Handler(void);
-
 /// Cycle through PWM duty-cycle values every two seconds.
 static void pwm_update_2s(void);
 
@@ -81,15 +79,6 @@ static void pwm_update_2s(void) {
     PHAL_PWM_setPercent(TIM4, 4, duty_cycles[duty_cycle_index]); // PB9
 
     duty_cycle_index = (uint8_t)((duty_cycle_index + 1) % countof(duty_cycles));
-}
-
-void HardFault_Handler(void) {
-    __disable_irq();
-    SysTick->CTRL = 0;
-
-    while(1) {
-        __asm__("nop");
-    }
 }
 
 #endif
