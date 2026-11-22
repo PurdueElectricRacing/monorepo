@@ -76,7 +76,7 @@ bool PHAL_FDCAN_send(CanMsgTypeDef_t *msg) {
     return true;
 }
 
-uint8_t PHAL_FDCAN_txErrCounter(const FDCAN_GlobalTypeDef *fdcan) {
+uint8_t PHAL_FDCAN_txErrorCounter(const FDCAN_GlobalTypeDef *fdcan) {
     return PHAL_FDCAN_priv_readTransmitErrorCounter(fdcan);
 }
 
@@ -86,11 +86,11 @@ bool PHAL_FDCAN_isBusOff(const FDCAN_GlobalTypeDef *fdcan) {
 
 bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan) {
     if (!PHAL_FDCAN_isBusOff(fdcan)) {
-        return false; // Not in bus-off
+        return false;
     }
 
     PHAL_FDCAN_priv_clearInit(fdcan);
-    return true; // Recovery initiated
+    return true;
 }
 
 [[gnu::always_inline]]

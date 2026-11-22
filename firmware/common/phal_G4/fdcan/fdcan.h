@@ -130,7 +130,7 @@ extern void PHAL_FDCAN_txCallback(FDCAN_GlobalTypeDef *fdcan);
  * @param fdcan peripheral instance
  * @return current TEC value (0-255)
  */
-uint8_t PHAL_FDCAN_txErrCounter(const FDCAN_GlobalTypeDef *fdcan);
+uint8_t PHAL_FDCAN_txErrorCounter(const FDCAN_GlobalTypeDef *fdcan);
 
 /**
  * @brief Check whether the FDCAN peripheral is in the bus-off state
