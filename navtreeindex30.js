@@ -1,5 +1,7 @@
 var NAVTREEINDEX30 =
 {
+"structpdu__diag__summary__data__t.html#a10d46bf49bf70d30f1492de3b15d72ed":[33,0,241,5],
+"structpdu__diag__summary__data__t.html#a3baf51d038f9d66020517e52bbb91aca":[33,0,241,1],
 "structpdu__diag__summary__data__t.html#a8c0368bba444fbdd0ecf706ea5fd6c52":[33,0,241,2],
 "structpdu__diag__summary__data__t.html#ae21b00ca4b9e68513f5290b6afda5a90":[33,0,241,3],
 "structpdu__diag__summary__data__t.html#af7bf949a7b5961b46a9ac3432f8702d3":[33,0,241,4],
@@ -247,7 +249,5 @@ var NAVTREEINDEX30 =
 "structtorque__vector__diag__task__data__t.html#ab03a61a6d07c50c8256b435e9c980924":[33,0,320,2],
 "structtorque__vector__diag__task__data__t.html#aeb9d5c261db776c33986f0aef756db1f":[33,0,320,0],
 "structtorque__vector__fault__event__data__t.html":[33,0,321],
-"structtorque__vector__fault__event__data__t.html#a0cebc4d43114a67130303f95f433ce28":[33,0,321,3],
-"structtorque__vector__fault__event__data__t.html#a45e1d52f5cfe128debe1b884e7eac4d0":[33,0,321,1],
-"structtorque__vector__fault__event__data__t.html#a962109b3bc33b946eb95766885e55a72":[33,0,321,2]
+"structtorque__vector__fault__event__data__t.html#a0cebc4d43114a67130303f95f433ce28":[33,0,321,3]
 };

@@ -1,5 +1,7 @@
 var NAVTREEINDEX27 =
 {
+"structcan__stats__t.html":[33,0,70],
+"structcan__stats__t.html#a07cf1c833776e4f3576e5b15756361a8":[33,0,70,1],
 "structcan__stats__t.html#a34c4636b8727a0a0c3ac56e25bccfa8b":[33,0,70,2],
 "structcan__stats__t.html#a8c7d67e58d5479b530837721536972fc":[33,0,70,0],
 "structcan__stats__t.html#ad771286249f481d832cb895bea99f311":[33,0,70,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX27 =
 "structeuler__angles__t.html#a11c885d1265e328d41f48916230bd17c":[33,0,111,2],
 "structeuler__angles__t.html#a27484bbbc2279ad726f80dee91c64ddc":[33,0,111,1],
 "structeuler__angles__t.html#ab530ad6bf1ee511e9e6f27b85637bac8":[33,0,111,0],
-"structfahrenheit__t.html":[33,0,112],
-"structfahrenheit__t.html#ad73bc690a53281f4b8a0ae8dd0106071":[33,0,112,0],
-"structfault__t.html":[33,0,113]
+"structfahrenheit__t.html":[33,0,112]
 };

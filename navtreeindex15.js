@@ -1,5 +1,7 @@
 var NAVTREEINDEX15 =
 {
+"heartbeat_8h.html#a0bcf4de1e57ca5568f188b209f8ee7a5acf3f95fa20b182905677773f66f00f98":[34,0,1,1,5,1,3,1],
+"heartbeat_8h.html#a7734c719f4ed69952e7c2f622eacda52":[34,0,1,1,5,1,5],
 "heartbeat_8h.html#ab2681be62cc27208946c262df62f4a06":[34,0,1,1,5,1,4],
 "heartbeat_8h.html#aba882a54e761d19d12cc40b3a2a91d8b":[34,0,1,1,5,1,6],
 "heartbeat_8h.html#ad40088e79e8c996b0974ded98e470497":[34,0,1,1,5,1,1],
@@ -58,8 +60,8 @@ var NAVTREEINDEX15 =
 "imu_8c.html#a7d318a6a08b0b817d053725e1afd8404a7c6917b2131adec52c176332d06e37fe":[34,0,1,2,9,1,1,0,0],
 "imu_8c.html#a7d318a6a08b0b817d053725e1afd8404ad2fc49fdce80a2312d55eddf54883bbf":[34,0,1,2,9,1,1,0,2],
 "index.html":[],
-"internal__flash_8c.html":[34,0,1,2,6,10],
-"izze__imu__config_8c.html":[34,0,1,2,6,11],
+"internal__flash_8c.html":[34,0,1,2,6,11],
+"izze__imu__config_8c.html":[34,0,1,2,6,12],
 "lap__timer_8c.html":[34,0,1,2,4,2,0],
 "lap__timer_8c.html#a382636387f4db3d2b08c71b5e7c03f2b":[34,0,1,2,4,2,0,6],
 "lap__timer_8c.html#a7220f3edbfb4c8e5b3956ab663092676":[34,0,1,2,4,2,0,5],
@@ -247,7 +249,5 @@ var NAVTREEINDEX15 =
 "max_8h.html#a3ed5e20d1256a173abf606b7f8c19c77":[34,0,1,1,18,6,4],
 "max_8h.html#a4137f1216cf96bf255300343dce9fce7":[34,0,1,1,18,6,0],
 "max_8h.html#a6de9ebab418c589317854c601ee91161":[34,0,1,1,18,6,2],
-"max_8h.html#a7b51a6b86e23114b99a328fe8c64c05a":[34,0,1,1,18,6,5],
-"max_8h.html#ad63987f4fc831534891c747ef1571a8c":[34,0,1,1,18,6,1],
-"max_8h.html#ae8e96ee0247b9194e168c4b12959454e":[34,0,1,1,18,6,3]
+"max_8h.html#a7b51a6b86e23114b99a328fe8c64c05a":[34,0,1,1,18,6,5]
 };

@@ -8,6 +8,7 @@ var dir_4d47efa3f286fa89179db6ae5f16d59d =
     [ "diagnostics_test.c", "diagnostics__test_8c.html", null ],
     [ "fdcan_test.c", "fdcan__test_8c.html", null ],
     [ "freertos_test.c", "freertos__test_8c.html", null ],
+    [ "g4_testing.c", "g4__testing_8c.html", "g4__testing_8c" ],
     [ "g4_testing.h", "g4__testing_8h.html", "g4__testing_8h" ],
     [ "gpio_test.c", "gpio__test_8c.html", null ],
     [ "internal_flash.c", "internal__flash_8c.html", null ],

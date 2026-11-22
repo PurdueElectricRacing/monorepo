@@ -1,6 +1,5 @@
 var blinky_8c =
 [
-    [ "HardFault_Handler", "blinky_8c.html#a2af56a8bf3197b2f06cac4c0b84ffc3e", null ],
     [ "ledblink1", "blinky_8c.html#a26523b6d1f04edb5b46ea0fc23af8e96", null ],
     [ "ledblink2", "blinky_8c.html#af1732b68a532fd4dbaa6e34152c49585", null ],
     [ "ledblink3", "blinky_8c.html#a16a34b44b57ab33a01ec47aad586fae9", null ],

@@ -246,8 +246,8 @@ var NAVTREEINDEX6 =
 "bangbang__test_8cpp.html#af75b50fe7126ba468dfd5cc7b2d8ee44":[34,0,1,1,1,0,0,8],
 "bangbang__test_8cpp.html#af82a713d93408d0c3e5f70688fa8bae0":[34,0,1,1,1,0,0,5],
 "blinky_8c.html":[34,0,1,2,6,1],
-"blinky_8c.html#a0445edd8b78aacc940a1a3848a9b9166":[34,0,1,2,6,1,10],
-"blinky_8c.html#a16a34b44b57ab33a01ec47aad586fae9":[34,0,1,2,6,1,3],
-"blinky_8c.html#a26523b6d1f04edb5b46ea0fc23af8e96":[34,0,1,2,6,1,1],
-"blinky_8c.html#a2af56a8bf3197b2f06cac4c0b84ffc3e":[34,0,1,2,6,1,0]
+"blinky_8c.html#a0445edd8b78aacc940a1a3848a9b9166":[34,0,1,2,6,1,9],
+"blinky_8c.html#a16a34b44b57ab33a01ec47aad586fae9":[34,0,1,2,6,1,2],
+"blinky_8c.html#a26523b6d1f04edb5b46ea0fc23af8e96":[34,0,1,2,6,1,0],
+"blinky_8c.html#a2e02a89f8c56112c1d0e97d5e4de8a8c":[34,0,1,2,6,1,7]
 };

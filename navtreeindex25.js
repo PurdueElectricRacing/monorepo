@@ -1,5 +1,7 @@
 var NAVTREEINDEX25 =
 {
+"structPHAL__USART__state__t.html#a96ea6d157ab360cedf0b58dcb7111373":[33,0,260,2],
+"structPHAL__USART__state__t.html#aa7fb836f3a96b6d7c057eaccf48853d2":[33,0,260,6],
 "structPHAL__USART__state__t.html#ad9e14e9fd77d107ddcc29ce74cef25e7":[33,0,260,3],
 "structPHAL__USB__Event__t.html":[33,0,261],
 "structPHAL__USB__Event__t.html#acf8f86e13695d12810a2c5b44df9775e":[33,0,261,0],
@@ -247,7 +249,5 @@ var NAVTREEINDEX25 =
 "structbl__a__box__crc__data__t.html":[33,0,28],
 "structbl__a__box__crc__data__t.html#a85529e34f607ec03759b00bf1782646b":[33,0,28,0],
 "structbl__a__box__crc__data__t.html#a9ad550673c382efaf1a324e1f9a23784":[33,0,28,1],
-"structbl__a__box__data__data__t.html":[33,0,29],
-"structbl__a__box__data__data__t.html#a5c12159f6dad565c44dc1f9933b95d1a":[33,0,29,0],
-"structbl__a__box__data__data__t.html#a5f55a928f0a762b23f1d04664d5b54dc":[33,0,29,1]
+"structbl__a__box__data__data__t.html":[33,0,29]
 };
