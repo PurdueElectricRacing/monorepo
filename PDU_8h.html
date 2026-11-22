@@ -147,6 +147,8 @@ Functions</h2></td></tr>
 <tr class="separator:a90647dbc98bbf7bc6c1e9ef85f4d2f01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0da956162efe3e0016f181cee58961e6" id="r_a0da956162efe3e0016f181cee58961e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0da956162efe3e0016f181cee58961e6">CAN_enqueue_tx_FDCAN2</a> (<a class="el" href="structCanMsgTypeDef__t.html">CanMsgTypeDef_t</a> *msg)</td></tr>
 <tr class="separator:a0da956162efe3e0016f181cee58961e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4b04ca0ec317ef9da66443419b817ab" id="r_ae4b04ca0ec317ef9da66443419b817ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4b04ca0ec317ef9da66443419b817ab">bl_pdu_start_CALLBACK</a> ()</td></tr>
+<tr class="separator:ae4b04ca0ec317ef9da66443419b817ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa873c4950ddbb6ff735af725068dec4f" id="r_aa873c4950ddbb6ff735af725068dec4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa873c4950ddbb6ff735af725068dec4f">a_box_fault_event_CALLBACK</a> ()</td></tr>
 <tr class="separator:aa873c4950ddbb6ff735af725068dec4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bcfce9b94d677f6570b38112209ce37" id="r_a8bcfce9b94d677f6570b38112209ce37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bcfce9b94d677f6570b38112209ce37">dashboard_fault_event_CALLBACK</a> ()</td></tr>
@@ -201,8 +203,8 @@ Functions</h2></td></tr>
 <tr class="separator:af538057c7ed9ad7be9b7417065930280"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a984d4c08c875de80bf03a51eca2fb6ce" id="r_a984d4c08c875de80bf03a51eca2fb6ce"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a984d4c08c875de80bf03a51eca2fb6ce">CAN_SEND_pdu_init</a> (uint32_t value_csr)</td></tr>
 <tr class="separator:a984d4c08c875de80bf03a51eca2fb6ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16832d8cf99185c8ae2c7a30c7bbb205" id="r_a16832d8cf99185c8ae2c7a30c7bbb205"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16832d8cf99185c8ae2c7a30c7bbb205">CAN_SEND_pdu_version</a> (uint32_t value_git_hash)</td></tr>
-<tr class="separator:a16832d8cf99185c8ae2c7a30c7bbb205"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaab6ef869504751c4e54430cce8fed05" id="r_aaab6ef869504751c4e54430cce8fed05"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaab6ef869504751c4e54430cce8fed05">CAN_SEND_pdu_version</a> (uint32_t value_git_hash, uint32_t value_bootloader_git_hash, bool value_bootloadable)</td></tr>
+<tr class="separator:aaab6ef869504751c4e54430cce8fed05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80badc80d1121e8d450502c72b46f28a" id="r_a80badc80d1121e8d450502c72b46f28a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80badc80d1121e8d450502c72b46f28a">CAN_SEND_pdu_fault_event</a> (<a class="el" href="can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63">fault_id_t</a> value_idx, uint16_t value_val, bool value_state)</td></tr>
 <tr class="separator:a80badc80d1121e8d450502c72b46f28a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae708f591718b4d247f28ab7cd0cb78a3" id="r_ae708f591718b4d247f28ab7cd0cb78a3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae708f591718b4d247f28ab7cd0cb78a3">CAN_SEND_pdu_fault_sync</a> (bool value_SDC_SWITCH_FAULT, bool value_SDC_LOOP_SWITCH_FAULT, bool value_MAIN_SWITCH_FAULT, bool value_DASH_SWITCH_FAULT, bool value_DAQ_SWITCH_FAULT, bool value_ABOX_SWITCH_FAULT, bool value_HV_BOARD_SWITCH_FAULT, bool value_TV_SWITCH_FAULT, bool value_DL_FRONT_SWITCH_FAULT, bool value_DL_REAR_SWITCH_FAULT, bool value_AMK1_SWITCH_FAULT, bool value_AMK2_SWITCH_FAULT, bool value_PUMP1_SWITCH_FAULT, bool value_PUMP2_SWITCH_FAULT, bool value_HXFAN_SWITCH_FAULT, bool value_FAN1_SWITCH_FAULT, bool value_FAN2_SWITCH_FAULT, bool value_FAN3_SWITCH_FAULT, bool value_FAN4_SWITCH_FAULT, bool value_FAN5_SWITCH_FAULT, bool value_EMETER_SWITCH_FAULT)</td></tr>
@@ -325,6 +327,36 @@ Here is the caller graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_ac6ea10a098cfdf4504d664bee642ad9f_icgraph.svg" width="391" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ae4b04ca0ec317ef9da66443419b817ab" name="ae4b04ca0ec317ef9da66443419b817ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4b04ca0ec317ef9da66443419b817ab">&#9670;&#160;</a></span>bl_pdu_start_CALLBACK()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bl_pdu_start_CALLBACK </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_ae4b04ca0ec317ef9da66443419b817ab_icgraph.svg" width="362" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -978,8 +1010,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a16832d8cf99185c8ae2c7a30c7bbb205" name="a16832d8cf99185c8ae2c7a30c7bbb205"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16832d8cf99185c8ae2c7a30c7bbb205">&#9670;&#160;</a></span>CAN_SEND_pdu_version()</h2>
+<a id="aaab6ef869504751c4e54430cce8fed05" name="aaab6ef869504751c4e54430cce8fed05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaab6ef869504751c4e54430cce8fed05">&#9670;&#160;</a></span>CAN_SEND_pdu_version()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -990,8 +1022,17 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">static void CAN_SEND_pdu_version </td>
           <td>(</td>
-          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_git_hash</em></span></td><td>)</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_git_hash</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_bootloader_git_hash</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_bootloadable</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1003,12 +1044,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_a16832d8cf99185c8ae2c7a30c7bbb205_cgraph.svg" width="590" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_aaab6ef869504751c4e54430cce8fed05_cgraph.svg" width="590" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_a16832d8cf99185c8ae2c7a30c7bbb205_icgraph.svg" width="376" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_aaab6ef869504751c4e54430cce8fed05_icgraph.svg" width="376" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

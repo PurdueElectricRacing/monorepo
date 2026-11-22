@@ -20,7 +20,8 @@ var can__types_8h =
       [ "BOOTLOADER_TARGET_ID_A_BOX", "can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421ab7984394ea213ad6bad57daa96babb03", null ],
       [ "BOOTLOADER_TARGET_ID_TORQUE_VECTOR", "can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a6d26600ca9e2472ff058dfc3685bb5f7", null ],
       [ "BOOTLOADER_TARGET_ID_FRONT_DRIVELINE", "can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421a3717143376bd769739b5e27f8402c1d9", null ],
-      [ "BOOTLOADER_TARGET_ID_REAR_DRIVELINE", "can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421ae207abcce6a74e916a12a709e175d9e4", null ]
+      [ "BOOTLOADER_TARGET_ID_REAR_DRIVELINE", "can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421ae207abcce6a74e916a12a709e175d9e4", null ],
+      [ "BOOTLOADER_TARGET_ID_PDU", "can__types_8h.html#a6240b2888266f1d584c0a7bd57f51421ab3a8024326460d2ac19e1e67b23909b3", null ]
     ] ],
     [ "car_state_t", "can__types_8h.html#a284dac8bc8892eb42544f6d4053616de", [
       [ "CAR_STATE_FATAL", "can__types_8h.html#a284dac8bc8892eb42544f6d4053616deac0a0561572cd346f456973749c3d68a3", null ],

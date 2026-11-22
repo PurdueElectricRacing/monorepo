@@ -5,6 +5,7 @@ var dir_4645ab240a6c17698cb502ff9363399d =
     [ "BL_DASHBOARD.h", "BL__DASHBOARD_8h.html", "BL__DASHBOARD_8h" ],
     [ "BL_FRONT_DRIVELINE.h", "BL__FRONT__DRIVELINE_8h.html", "BL__FRONT__DRIVELINE_8h" ],
     [ "BL_MAIN_MODULE.h", "BL__MAIN__MODULE_8h.html", "BL__MAIN__MODULE_8h" ],
+    [ "BL_PDU.h", "BL__PDU_8h.html", "BL__PDU_8h" ],
     [ "BL_REAR_DRIVELINE.h", "BL__REAR__DRIVELINE_8h.html", "BL__REAR__DRIVELINE_8h" ],
     [ "BL_TORQUE_VECTOR.h", "BL__TORQUE__VECTOR_8h.html", "BL__TORQUE__VECTOR_8h" ],
     [ "can_router.h", "can__router_8h.html", null ],
