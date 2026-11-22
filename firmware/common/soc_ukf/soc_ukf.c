@@ -11,22 +11,24 @@
 
 #include "lerp_lut.h"
 
-// todo replace
-// todo add 2d lookup + temperature
-static const lut_entry_t ocv_entries[11] = {
-    {0.0f, 3.0f},
-    {0.1f, 3.2f},
-    {0.2f, 3.4f},
-    {0.3f, 3.6f},
-    {0.4f, 3.8f},
-    {0.5f, 4.0f},
-    {0.6f, 4.1f},
-    {0.7f, 4.2f},
-    {0.8f, 4.3f},
-    {0.9f, 4.4f},
-    {1.0f, 4.5f}
+// at 35C
+// todo add 2d lookup + temperature ?
+static constexpr size_t SOC_2_OCV_SIZE = 11;
+static const lut_entry_t SOC_2_OCV_ENTRIES[SOC_2_OCV_SIZE] = {
+    {0.0f, 2.811f},
+    {0.1f, 3.096f},
+    {0.2f, 3.286f},
+    {0.3f, 3.439f},
+    {0.4f, 3.570f},
+    {0.5f, 3.690f},
+    {0.6f, 3.829f},
+    {0.7f, 3.906f},
+    {0.8f, 4.040f},
+    {0.9f, 4.085f},
+    {1.0f, 4.171f}
 };
-LERP_LUT_INIT(OCV_LUT, ocv_entries, 11);
+
+LERP_LUT_INIT(SOC_2_OCV, SOC_2_OCV_ENTRIES, SOC_2_OCV_SIZE);
 
 static void SOC_UKF_mean_weights(
     const soc_ukf_t *ukf,
@@ -43,7 +45,7 @@ static void SOC_UKF_mean_weights(
 
     /*
     $$
-    W_i^{(m)} = \frac{1}{2(n+\lambda)}, \qquad i=1,\ldots,2n
+    W_i^{(m)} = \frac{1}{2(n+\lambda)} \quad i \neq 0
     $$
     */
     for (int i = 1; i < NUM_SIGMA_POINTS; i++) {
@@ -57,12 +59,20 @@ static void SOC_UKF_covariance_weights(
 ) {
     /*
     $$
-    W_0^{(c)} = W_0^{(m)} + 1 - \alpha^2 + \beta,
-    \qquad W_i^{(c)} = W_i^{(m)} \quad (i > 0)
+    W_0^{(c)} = W_0^{(m)} + 1 - \alpha^2 + \beta
     $$
     */
-    ukf->covariance_weights[0] = ukf->mean_weights[0]
-        + 1.0f - params->alpha * params->alpha + params->beta;
+    ukf->covariance_weights[0] =
+        ukf->mean_weights[0]
+        + 1.0f
+        - params->alpha * params->alpha
+        + params->beta;
+
+    /*
+    $$
+    W_i^{(c)} = W_i^{(m)} \quad i \neq 0
+    $$
+    */
     for (int i = 1; i < NUM_SIGMA_POINTS; i++) {
         ukf->covariance_weights[i] = ukf->mean_weights[i];
     }
@@ -77,13 +87,13 @@ void SOC_UKF_init(
     ukf->x = x0;
     ukf->P = P0;
 
-    ukf->cell = params->cell;
-    ukf->dt   = params->dt;
-    ukf->Q    = params->Q;
-    ukf->R    = params->R;
+    ukf->ecm           = params->ecm;
+    ukf->prediction_dt = params->prediction_dt;
+    ukf->Q             = params->Q;
+    ukf->R             = params->R;
 
-    float alpha1 = expf(-ukf->dt / ukf->cell.tau1);
-    float alpha2 = expf(-ukf->dt / ukf->cell.tau2);
+    float alpha1 = expf(-ukf->prediction_dt / ukf->ecm.tau1);
+    float alpha2 = expf(-ukf->prediction_dt / ukf->ecm.tau2);
 
     ukf->A = (mat3_t){{
         {1.0f, 0.0f,   0.0f},
@@ -91,12 +101,12 @@ void SOC_UKF_init(
         {0.0f, 0.0f,   alpha2},
     }};
 
-    float b0 = -ukf->dt / (3600.0f * ukf->cell.Q);
+    float b0 = -ukf->prediction_dt / (3600.0f * ukf->ecm.Q);
 
     ukf->B = (vec3_t){
         b0,
-        ukf->cell.r1 * (1.0f - alpha1),
-        ukf->cell.r2 * (1.0f - alpha2)
+        ukf->ecm.r1 * (1.0f - alpha1),
+        ukf->ecm.r2 * (1.0f - alpha2)
     };
 
     /*
@@ -163,7 +173,10 @@ void SOC_UKF_predict(
     */
     vec3_t predicted_mean = {0};
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
-        vec3_t weighted_point = vec3_scale(predicted_points[i], ukf->mean_weights[i]);
+        const float W_i    = ukf->mean_weights[i];
+        const vec3_t chi_i = predicted_points[i];
+
+        vec3_t weighted_point = vec3_scale(chi_i, W_i);
         predicted_mean        = vec3_add(predicted_mean, weighted_point);
     }
 
@@ -175,11 +188,13 @@ void SOC_UKF_predict(
     $$
     */
     mat3_t predicted_covariance = ukf->Q;
-
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
-        vec3_t deviation      = vec3_sub(predicted_points[i], predicted_mean);
-        mat3_t outer          = outer_product3(deviation, deviation);
-        mat3_t weighted_outer = mat3_scale(&outer, ukf->covariance_weights[i]);
+        const float W_i    = ukf->covariance_weights[i];
+        const vec3_t chi_i = predicted_points[i];
+
+        vec3_t x_deviation    = vec3_sub(chi_i, predicted_mean);
+        mat3_t outer          = outer_product3(x_deviation, x_deviation);
+        mat3_t weighted_outer = mat3_scale(&outer, W_i);
 
         predicted_covariance = mat3_add(&predicted_covariance, &weighted_outer);
     }
@@ -199,11 +214,11 @@ void SOC_UKF_update(
     float predicted_voltages[NUM_SIGMA_POINTS];
 
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
-        float soc = points[i].x;
-        float ocv = lut_lookup(&OCV_LUT, soc);
-        float v0  = current * ukf->cell.r0;
-        float v1  = points[i].y;
-        float v2  = points[i].z;
+        const float soc = points[i].x;
+        const float ocv = lut_lookup(&SOC_2_OCV, soc);
+        const float v0  = current * ukf->ecm.r0;
+        const float v1  = points[i].y;
+        const float v2  = points[i].z;
 
         /*
         $$
@@ -220,9 +235,11 @@ void SOC_UKF_update(
     $$
     */
     float predicted_voltage = 0.0f;
-
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
-        predicted_voltage += ukf->mean_weights[i] * predicted_voltages[i];
+        const float W_i = ukf->mean_weights[i];
+        const float z_i = predicted_voltages[i];
+
+        predicted_voltage += W_i * z_i;
     }
 
     /*
@@ -232,12 +249,13 @@ void SOC_UKF_update(
     $$
     */
     float innovation_variance = ukf->R;
-
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
-        float voltage_deviation = predicted_voltages[i] - predicted_voltage;
+        const float W_i = ukf->covariance_weights[i];
+        const float z_i = predicted_voltages[i];
 
-        innovation_variance += ukf->covariance_weights[i]
-            * voltage_deviation * voltage_deviation;
+        float z_deviation = z_i - predicted_voltage;
+
+        innovation_variance += W_i * z_deviation * z_deviation;
     }
 
     /*
@@ -247,14 +265,17 @@ void SOC_UKF_update(
     $$
     */
     vec3_t cross_covariance = {0};
-
     for (int i = 0; i < NUM_SIGMA_POINTS; i++) {
-        vec3_t state_deviation  = vec3_sub(points[i], ukf->x);
-        float voltage_deviation = predicted_voltages[i] - predicted_voltage;
+        const float W_i    = ukf->covariance_weights[i];
+        const float z_i    = predicted_voltages[i];
+        const vec3_t chi_i = points[i];
+
+        vec3_t x_deviation = vec3_sub(chi_i, ukf->x);
+        float z_deviation  = z_i - predicted_voltage;
 
         vec3_t weighted_deviation = vec3_scale(
-            state_deviation,
-            ukf->covariance_weights[i] * voltage_deviation
+            x_deviation,
+            W_i * z_deviation
         );
 
         cross_covariance = vec3_add(cross_covariance, weighted_deviation);
