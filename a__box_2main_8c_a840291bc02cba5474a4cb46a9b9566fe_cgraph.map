@@ -1,107 +1,112 @@
 <map id="main" name="main">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,1493,55,1519"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,1347,55,1372"/>
 <area shape="rect" id="Node000002" href="$adbms_8c.html#a2fe87f399de3fa5272ffe1e544846962" title="Initialize the ADBMS driver instance and underlying ADBMS6380 device chain." alt="" coords="134,31,226,56"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="29,1493,32,1240,42,804,51,575,64,369,80,208,89,152,100,116,120,87,144,64,148,68,124,90,105,118,95,153,85,209,69,369,57,575,47,804,37,1240,34,1493"/>
-<area shape="rect" id="Node000006" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="141,647,220,672"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="31,1492,171,687,177,688,36,1493"/>
-<area shape="rect" id="Node000005" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="348,1221,480,1247"/>
-<area shape="poly" id="edge44_Node000001_Node000005" title=" " alt="" coords="31,1492,54,1369,74,1300,87,1274,101,1256,128,1238,157,1225,220,1212,283,1210,340,1216,339,1221,283,1215,220,1217,159,1230,130,1243,104,1260,91,1277,79,1302,59,1370,36,1493"/>
-<area shape="rect" id="Node000086" href="$can__init_8c.html#ace7de72cc97ae2a35d63c3a4a4772a31" title=" " alt="" coords="144,1320,217,1346"/>
-<area shape="poly" id="edge28_Node000001_Node000086" title=" " alt="" coords="31,1492,39,1464,52,1427,72,1388,101,1355,127,1340,130,1345,104,1359,77,1391,57,1429,44,1465,37,1494"/>
-<area shape="rect" id="Node000115" href="$A__BOX_8h.html#a6ca6000d83a48ae976dd499a740f1474" title=" " alt="" coords="105,1369,256,1395"/>
-<area shape="poly" id="edge34_Node000001_Node000115" title=" " alt="" coords="35,1491,60,1449,78,1425,101,1404,107,1400,110,1405,104,1408,82,1428,64,1452,40,1494"/>
-<area shape="rect" id="Node000116" href="$charging__fsm_8c.html#a8dc3e50da5228cd6681c9df3a5db5dd2" title=" " alt="" coords="105,1419,256,1444"/>
-<area shape="poly" id="edge35_Node000001_Node000116" title=" " alt="" coords="45,1491,71,1472,101,1453,113,1448,115,1453,104,1458,74,1476,48,1495"/>
-<area shape="rect" id="Node000128" href="$faults__common_8h.html#af1f330045faf14dff0057e5b9e39a713" title=" " alt="" coords="111,1468,250,1494"/>
-<area shape="poly" id="edge36_Node000001_Node000128" title=" " alt="" coords="55,1499,95,1493,96,1498,56,1505"/>
-<area shape="rect" id="Node000129" href="$a__box_2main_8c.html#a2bffc10d5bd4106753b7c30e86903bea" title=" " alt="" coords="115,1517,246,1543"/>
-<area shape="poly" id="edge37_Node000001_Node000129" title=" " alt="" coords="55,1507,100,1515,99,1520,55,1513"/>
-<area shape="rect" id="Node000130" href="$imd_8c.html#a8e85faef813ea02335ba963b2ffdeb20" title=" " alt="" coords="147,1567,214,1592"/>
-<area shape="poly" id="edge38_Node000001_Node000130" title=" " alt="" coords="49,1517,74,1536,104,1553,133,1565,131,1570,101,1558,71,1540,46,1522"/>
-<area shape="rect" id="Node000132" href="$imd_8c.html#a27a1e852f51f1793ae060eb58571afcb" title=" " alt="" coords="133,1169,228,1195"/>
-<area shape="poly" id="edge39_Node000001_Node000132" title=" " alt="" coords="28,1493,28,1443,36,1369,45,1328,58,1287,76,1248,101,1212,118,1198,121,1202,105,1216,81,1250,63,1289,50,1329,41,1370,34,1443,33,1493"/>
-<area shape="rect" id="Node000139" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="123,1616,238,1642"/>
-<area shape="poly" id="edge41_Node000001_Node000139" title=" " alt="" coords="40,1518,64,1560,82,1583,104,1603,111,1607,108,1611,101,1607,79,1587,60,1563,35,1521"/>
-<area shape="rect" id="Node000184" href="$phal__G4_2adc_2adc_8c.html#a429677cda7cd755ee9c4148b73159e76" title="Start an asynchronous circular&#45;DMA conversion into buffer" alt="" coords="104,1665,256,1691"/>
-<area shape="poly" id="edge42_Node000001_Node000184" title=" " alt="" coords="37,1519,44,1547,57,1583,77,1620,105,1652,108,1655,105,1659,101,1656,73,1623,52,1585,39,1548,31,1520"/>
-<area shape="rect" id="Node000189" href="$phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="120,1715,241,1740"/>
-<area shape="poly" id="edge43_Node000001_Node000189" title=" " alt="" coords="35,1519,39,1555,51,1604,71,1656,86,1680,105,1702,108,1705,105,1709,101,1705,82,1684,67,1659,46,1606,34,1556,30,1520"/>
-<area shape="rect" id="Node000200" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="123,1764,238,1790"/>
-<area shape="poly" id="edge45_Node000001_Node000200" title=" " alt="" coords="34,1519,36,1563,45,1626,54,1659,66,1693,83,1724,105,1751,111,1757,108,1761,101,1755,78,1727,61,1695,48,1661,39,1627,30,1564,28,1520"/>
-<area shape="rect" id="Node000212" href="$phal__F4_2spi_2spi_8c.html#a0a4524eb6715f19d2d2128ad7f410269" title="Initilize SPI peripheral with the configuired structure." alt="" coords="125,1271,236,1296"/>
-<area shape="poly" id="edge46_Node000001_Node000212" title=" " alt="" coords="30,1493,34,1456,45,1406,67,1352,82,1328,101,1306,110,1299,113,1303,105,1309,86,1331,71,1355,51,1407,39,1457,35,1493"/>
-<area shape="rect" id="Node000215" href="$a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash, CAN stats." alt="" coords="106,1813,254,1839"/>
-<area shape="poly" id="edge48_Node000001_Node000215" title=" " alt="" coords="35,1519,58,1664,78,1747,91,1779,105,1801,106,1802,102,1806,101,1804,86,1781,73,1748,52,1665,30,1520"/>
-<area shape="rect" id="Node000221" href="$a__box_2telemetry_2telemetry_8c.html#ad17b4787e885938a20f35bd144928f22" title="Reports telemetry data at 100 Hz rate Includes: Pack analog stats and cell telemetry." alt="" coords="103,1863,258,1888"/>
-<area shape="poly" id="edge49_Node000001_Node000221" title=" " alt="" coords="35,1519,41,1588,55,1687,76,1786,89,1824,105,1850,106,1851,102,1855,101,1853,84,1826,70,1787,49,1688,36,1589,30,1520"/>
-<area shape="rect" id="Node000229" href="$a__box_2telemetry_2telemetry_8c.html#ac7b8e9d406934bf5c0130f05ae09c5b4" title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary." alt="" coords="110,129,251,155"/>
-<area shape="poly" id="edge50_Node000001_Node000229" title=" " alt="" coords="29,1493,51,1164,72,904,100,634,138,364,171,170,177,171,144,364,105,634,78,904,56,1164,35,1493"/>
-<area shape="rect" id="Node000233" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="125,1912,236,1938"/>
-<area shape="poly" id="edge54_Node000001_Node000233" title=" " alt="" coords="35,1519,40,1597,52,1711,73,1825,87,1869,105,1899,113,1906,109,1910,101,1903,82,1871,68,1826,46,1712,34,1597,29,1520"/>
-<area shape="rect" id="Node000234" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="142,1961,218,1987"/>
-<area shape="poly" id="edge55_Node000001_Node000234" title=" " alt="" coords="34,1519,38,1605,49,1734,58,1801,70,1863,86,1914,105,1948,116,1958,129,1964,127,1969,113,1962,101,1952,81,1916,65,1865,53,1802,43,1735,33,1605,29,1520"/>
-<area shape="rect" id="Node000003" href="$adbms6380_8c.html#ad44be82376949cf91d9b4a0216f7ba26" title="Initialize the ADBMS6380 device driver instance, SPI buffers, and CS line." alt="" coords="354,5,474,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="226,36,337,24,338,29,227,41"/>
-<area shape="rect" id="Node000007" href="$adbms_8h.html#a3ee2e22d744f2e7e3a6710af6aca2d8d" title="Get the average onboard PCB temperature across all chips in Celsius." alt="" coords="316,893,512,919"/>
-<area shape="poly" id="edge4_Node000006_Node000007" title=" " alt="" coords="187,672,200,713,224,770,259,830,282,857,308,880,312,883,309,888,304,884,278,861,255,833,219,772,195,715,182,673"/>
-<area shape="rect" id="Node000008" href="$adbms_8h.html#a6e1fad78e5f407e881ae751613b9679b" title="Get the average cell thermistor temperature across all modules in Celsius." alt="" coords="322,55,506,80"/>
-<area shape="poly" id="edge5_Node000006_Node000008" title=" " alt="" coords="180,646,190,538,213,370,230,282,250,201,275,135,289,109,304,90,307,87,310,91,308,93,293,112,280,137,256,203,235,283,219,371,196,539,185,646"/>
-<area shape="rect" id="Node000009" href="$adbms_8h.html#ae867cfd5dfd4bbb8406630813b7306ba" title="Get the average cell voltage across all modules in volts." alt="" coords="328,943,499,968"/>
-<area shape="poly" id="edge6_Node000006_Node000009" title=" " alt="" coords="186,672,196,721,217,791,233,829,254,866,278,900,308,929,316,935,313,940,304,934,274,904,249,869,229,832,212,793,191,723,181,673"/>
-<area shape="rect" id="Node000010" href="$adbms_8h.html#aaeacae70284b52c91b4a0ff0950f7bac" title="Check whether a cell voltage read command failed PEC." alt="" coords="329,992,498,1033"/>
-<area shape="poly" id="edge7_Node000006_Node000010" title=" " alt="" coords="185,672,193,729,213,811,229,856,249,901,276,943,308,979,317,986,314,991,304,983,271,946,245,903,224,858,208,813,188,730,180,673"/>
-<area shape="rect" id="Node000011" href="$adbms_8h.html#a45f191f07396bfe915faa373500b9306" title="Check whether a GPIO voltage read command failed PEC." alt="" coords="327,1058,500,1098"/>
-<area shape="poly" id="edge8_Node000006_Node000011" title=" " alt="" coords="184,672,189,738,206,837,221,892,243,947,271,998,308,1043,316,1050,312,1054,304,1047,267,1001,238,949,216,894,200,839,184,739,179,673"/>
-<area shape="rect" id="Node000012" href="$adbms_8h.html#af08c56c172cb5084064331e3c8dfa6a9" title="Get the maximum onboard PCB temperature across all chips in Celsius." alt="" coords="314,1123,513,1148"/>
-<area shape="poly" id="edge9_Node000006_Node000012" title=" " alt="" coords="186,672,200,760,226,892,243,961,263,1023,284,1074,308,1108,312,1112,308,1116,304,1112,280,1077,258,1025,238,962,221,893,195,761,181,673"/>
-<area shape="rect" id="Node000013" href="$adbms_8h.html#ac23feea83e55e6257895353a2b614dd8" title="Get the maximum cell thermistor temperature across all modules in Celsius." alt="" coords="320,104,507,130"/>
-<area shape="poly" id="edge10_Node000006_Node000013" title=" " alt="" coords="180,646,192,547,216,394,233,314,253,240,277,180,290,157,304,139,306,137,309,141,308,143,294,159,282,182,258,242,238,315,222,395,197,547,186,647"/>
-<area shape="rect" id="Node000014" href="$adbms_8h.html#a849fdc4ff065bcfdd5b778ad53b2a256" title="Get the maximum cell voltage across all modules in volts." alt="" coords="327,203,500,228"/>
-<area shape="poly" id="edge11_Node000006_Node000014" title=" " alt="" coords="178,646,180,574,185,522,194,464,209,403,232,343,263,286,304,238,312,231,316,235,308,241,267,289,236,345,214,405,199,465,190,523,185,575,184,646"/>
-<area shape="rect" id="Node000015" href="$adbms_8h.html#ac3ce06dfe35a7d0d516c67462dd40023" title="Get the minimum onboard PCB temperature across all chips in Celsius." alt="" coords="316,252,512,278"/>
-<area shape="poly" id="edge12_Node000006_Node000015" title=" " alt="" coords="179,646,183,582,200,485,216,431,237,378,267,329,304,287,307,285,310,289,308,291,271,332,242,381,221,433,205,486,189,582,184,646"/>
-<area shape="rect" id="Node000016" href="$adbms_8h.html#ab5d2269c4b2a78ed6c22353246b4ebfd" title="Get the minimum cell thermistor temperature across all modules in Celsius." alt="" coords="322,153,506,179"/>
-<area shape="poly" id="edge13_Node000006_Node000016" title=" " alt="" coords="181,646,194,555,219,417,237,345,256,279,279,225,304,188,307,186,310,190,308,192,284,227,261,281,242,346,225,418,199,556,186,647"/>
-<area shape="rect" id="Node000017" href="$adbms_8h.html#a5e14636e406801b3bb12fd2aa81b11f5" title="Get the minimum cell voltage across all modules in volts." alt="" coords="328,301,499,327"/>
-<area shape="poly" id="edge14_Node000006_Node000017" title=" " alt="" coords="180,646,187,589,206,505,222,459,243,414,270,372,304,336,313,330,316,334,308,340,275,376,248,417,227,461,211,507,192,590,185,647"/>
-<area shape="rect" id="Node000018" href="$adbms_8h.html#a78b7ab5a53ff58a2a0ad67d4da07258a" title="Get the current ADBMS driver state." alt="" coords="349,351,478,376"/>
-<area shape="poly" id="edge15_Node000006_Node000018" title=" " alt="" coords="181,646,191,596,212,526,229,487,249,450,274,415,304,385,333,370,335,375,308,390,278,419,254,453,233,490,217,528,196,598,186,647"/>
-<area shape="rect" id="Node000019" href="$adbms_8h.html#a97180ef109e7503d66e3ebc853c09244" title="Get the sum of all cell voltages across all modules in volts." alt="" coords="326,400,501,426"/>
-<area shape="poly" id="edge16_Node000006_Node000019" title=" " alt="" coords="182,646,195,604,219,547,255,486,278,458,304,435,311,430,314,435,308,439,282,462,259,489,224,549,200,606,187,647"/>
-<area shape="rect" id="Node000020" href="$adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="354,449,474,475"/>
-<area shape="poly" id="edge17_Node000006_Node000020" title=" " alt="" coords="185,645,201,612,226,568,261,522,305,484,337,469,340,474,307,488,265,526,231,571,205,614,190,647"/>
-<area shape="rect" id="Node000071" href="$A__BOX_8h.html#aa529a0524b1ad5840f09d15b75a852c2" title=" " alt="" coords="334,499,493,524"/>
-<area shape="poly" id="edge18_Node000006_Node000071" title=" " alt="" coords="189,645,234,590,267,559,305,533,318,527,321,531,307,538,270,563,238,594,193,648"/>
-<area shape="rect" id="Node000076" href="$A__BOX_8h.html#a10c44a4f3b05ef3b3a77fdf753203575" title=" " alt="" coords="316,548,511,574"/>
-<area shape="poly" id="edge19_Node000006_Node000076" title=" " alt="" coords="198,644,245,613,305,582,323,576,325,581,307,587,248,618,201,648"/>
-<area shape="rect" id="Node000078" href="$A__BOX_8h.html#a07a86e84ff4645004ec5be4a1fd57db2" title=" " alt="" coords="330,597,497,623"/>
-<area shape="poly" id="edge20_Node000006_Node000078" title=" " alt="" coords="219,649,334,624,335,629,220,654"/>
-<area shape="rect" id="Node000080" href="$A__BOX_8h.html#ab612752007740da71271ee42f5a59057" title=" " alt="" coords="312,647,515,672"/>
-<area shape="poly" id="edge21_Node000006_Node000080" title=" " alt="" coords="220,657,297,657,297,662,220,662"/>
-<area shape="rect" id="Node000081" href="$A__BOX_8h.html#a0c6e8c72bca2db31f97157427d7fed57" title=" " alt="" coords="324,696,504,722"/>
-<area shape="poly" id="edge22_Node000006_Node000081" title=" " alt="" coords="220,665,335,690,334,695,219,670"/>
-<area shape="rect" id="Node000082" href="$A__BOX_8h.html#a806f2d2d42422ae75c48bcca609708cb" title=" " alt="" coords="306,745,521,771"/>
-<area shape="poly" id="edge23_Node000006_Node000082" title=" " alt="" coords="201,671,248,701,307,732,325,738,323,743,305,737,245,706,198,675"/>
-<area shape="rect" id="Node000083" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="374,795,454,820"/>
-<area shape="poly" id="edge24_Node000006_Node000083" title=" " alt="" coords="193,671,238,725,270,756,307,781,332,792,359,799,358,804,331,797,305,786,267,760,234,729,189,674"/>
-<area shape="rect" id="Node000084" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="349,1172,478,1198"/>
-<area shape="poly" id="edge25_Node000006_Node000084" title=" " alt="" coords="186,672,198,769,223,916,240,993,259,1063,282,1121,308,1159,336,1176,333,1180,304,1163,278,1123,254,1065,234,994,217,917,193,770,180,673"/>
-<area shape="poly" id="edge26_Node000006_Node000005" title=" " alt="" coords="185,673,196,778,220,940,236,1025,257,1103,281,1166,294,1190,308,1208,334,1225,331,1229,304,1212,289,1193,276,1168,252,1104,231,1026,214,941,191,778,180,673"/>
-<area shape="rect" id="Node000085" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="368,844,460,870"/>
-<area shape="poly" id="edge27_Node000006_Node000085" title=" " alt="" coords="190,672,205,705,231,748,265,793,307,831,329,842,353,849,351,854,327,846,305,835,261,797,226,751,201,707,185,674"/>
-<area shape="rect" id="Node000087" href="$A__BOX_8h.html#aa74d2751bf997adba50be76251291997" title=" " alt="" coords="361,1271,466,1296"/>
-<area shape="poly" id="edge29_Node000086_Node000087" title=" " alt="" coords="217,1323,345,1295,346,1300,218,1328"/>
-<area shape="rect" id="Node000094" href="$can__init_8c.html#a8f52e08219489a941feaacbd258da0d2" title=" " alt="" coords="358,1320,469,1346"/>
-<area shape="poly" id="edge30_Node000086_Node000094" title=" " alt="" coords="217,1330,342,1330,342,1336,217,1336"/>
-<area shape="rect" id="Node000105" href="$can__init_8c.html#ac02deb396ce5c9f7ded85fc8263edf2a" title=" " alt="" coords="363,1369,464,1395"/>
-<area shape="poly" id="edge31_Node000086_Node000105" title=" " alt="" coords="218,1338,348,1366,347,1371,217,1343"/>
-<area shape="rect" id="Node000106" href="$A__BOX_8h.html#aa807ade5b93f6697cfac0ae05b7f5255" title=" " alt="" coords="342,1419,485,1444"/>
-<area shape="poly" id="edge32_Node000086_Node000106" title=" " alt="" coords="219,1338,259,1355,275,1368,284,1381,293,1394,307,1405,328,1415,326,1420,305,1410,289,1397,280,1384,271,1371,257,1359,216,1343"/>
-<area shape="rect" id="Node000113" href="$can__rx_8c.html#a41290208a3af5ab8710a8eacc7bd76c8" title=" " alt="" coords="368,1468,459,1494"/>
-<area shape="poly" id="edge33_Node000086_Node000113" title=" " alt="" coords="218,1335,240,1342,260,1355,271,1368,278,1381,284,1407,290,1432,297,1443,308,1455,329,1467,354,1475,352,1480,327,1472,304,1459,292,1447,285,1434,279,1408,273,1383,267,1371,256,1359,238,1347,216,1340"/>
-<area shape="poly" id="edge40_Node000132_Node000084" title=" " alt="" coords="228,1180,333,1181,333,1187,228,1185"/>
-<area shape="poly" id="edge47_Node000212_Node000005" title=" " alt="" coords="235,1269,334,1248,336,1253,236,1275"/>
-<area shape="poly" id="edge51_Node000229_Node000008" title=" " alt="" coords="210,126,305,89,329,82,331,87,307,94,212,131"/>
-<area shape="poly" id="edge52_Node000229_Node000013" title=" " alt="" coords="251,132,304,126,305,131,252,137"/>
-<area shape="poly" id="edge53_Node000229_Node000016" title=" " alt="" coords="252,147,306,152,306,158,251,152"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="29,1346,33,1117,45,728,54,524,66,340,82,198,90,148,100,116,120,87,144,64,148,68,124,90,105,118,96,149,87,199,72,341,60,524,50,728,38,1117,34,1346"/>
+<area shape="rect" id="Node000006" href="$a__box_2main_8c.html#a78865f7731d4b7186cdc06c8ff03a0e4" title=" " alt="" coords="141,576,220,602"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="31,1346,171,616,176,617,37,1347"/>
+<area shape="rect" id="Node000005" href="$phal__F4_2gpio_2gpio_8h.html#a95bb9df725934f94cb3a2386c467fb2f" title="Write a logic value to an output pin." alt="" coords="340,1123,472,1148"/>
+<area shape="poly" id="edge49_Node000001_Node000005" title=" " alt="" coords="29,1346,32,1308,42,1256,64,1203,80,1179,101,1159,126,1143,153,1131,212,1117,270,1114,324,1118,324,1123,270,1119,212,1122,155,1136,129,1147,104,1163,84,1182,69,1205,48,1258,37,1309,34,1346"/>
+<area shape="rect" id="Node000082" href="$can__init_8c.html#ace7de72cc97ae2a35d63c3a4a4772a31" title=" " alt="" coords="144,1223,217,1248"/>
+<area shape="poly" id="edge30_Node000001_Node000082" title=" " alt="" coords="35,1345,60,1302,78,1278,101,1257,128,1244,130,1248,104,1262,82,1282,64,1305,40,1347"/>
+<area shape="rect" id="Node000111" href="$A__BOX_8h.html#a6ca6000d83a48ae976dd499a740f1474" title=" " alt="" coords="330,1073,481,1099"/>
+<area shape="poly" id="edge37_Node000001_Node000111" title=" " alt="" coords="28,1346,29,1302,37,1239,46,1206,59,1173,77,1143,101,1117,124,1101,150,1088,206,1073,262,1067,316,1069,315,1074,263,1073,207,1078,152,1093,127,1106,104,1122,81,1146,64,1175,51,1207,42,1240,34,1302,33,1347"/>
+<area shape="rect" id="Node000112" href="$charging__fsm_8c.html#a8dc3e50da5228cd6681c9df3a5db5dd2" title=" " alt="" coords="105,1272,256,1298"/>
+<area shape="poly" id="edge40_Node000001_Node000112" title=" " alt="" coords="45,1344,71,1325,101,1306,113,1301,115,1306,104,1311,74,1329,48,1348"/>
+<area shape="rect" id="Node000125" href="$faults__common_8h.html#af1f330045faf14dff0057e5b9e39a713" title=" " alt="" coords="111,1321,250,1347"/>
+<area shape="poly" id="edge41_Node000001_Node000125" title=" " alt="" coords="55,1353,95,1346,96,1351,56,1358"/>
+<area shape="rect" id="Node000126" href="$a__box_2main_8c.html#a2bffc10d5bd4106753b7c30e86903bea" title=" " alt="" coords="115,1371,246,1396"/>
+<area shape="poly" id="edge42_Node000001_Node000126" title=" " alt="" coords="55,1361,100,1368,99,1373,55,1366"/>
+<area shape="rect" id="Node000127" href="$imd_8c.html#a8e85faef813ea02335ba963b2ffdeb20" title=" " alt="" coords="147,1420,214,1446"/>
+<area shape="poly" id="edge43_Node000001_Node000127" title=" " alt="" coords="49,1371,74,1389,104,1406,133,1418,131,1423,101,1411,71,1393,46,1375"/>
+<area shape="rect" id="Node000129" href="$imd_8c.html#a27a1e852f51f1793ae060eb58571afcb" title=" " alt="" coords="133,1021,228,1047"/>
+<area shape="poly" id="edge44_Node000001_Node000129" title=" " alt="" coords="28,1347,28,1296,36,1222,45,1180,58,1139,76,1100,101,1064,118,1050,121,1054,105,1068,81,1102,63,1141,50,1182,41,1222,34,1296,33,1347"/>
+<area shape="rect" id="Node000136" href="$phal__G4_2adc_2adc_8c.html#adf65563b732ce6a236058dc45a5c04a1" title="Configure an ADC instance and its DMA channel." alt="" coords="123,1469,238,1495"/>
+<area shape="poly" id="edge46_Node000001_Node000136" title=" " alt="" coords="40,1371,64,1413,82,1436,104,1456,111,1460,108,1465,101,1460,79,1440,60,1416,35,1374"/>
+<area shape="rect" id="Node000181" href="$phal__G4_2adc_2adc_8c.html#a429677cda7cd755ee9c4148b73159e76" title="Start an asynchronous circular&#45;DMA conversion into buffer" alt="" coords="104,1519,256,1544"/>
+<area shape="poly" id="edge47_Node000001_Node000181" title=" " alt="" coords="37,1372,44,1400,57,1436,77,1473,105,1506,108,1508,105,1513,101,1509,73,1476,52,1438,39,1402,31,1373"/>
+<area shape="rect" id="Node000186" href="$phal__G4_2gpio_2gpio_8c.html#ad81f5aaef34ccf69889ba1f67b32ae2b" title="Initialize a set of GPIO pins from a configuration table." alt="" coords="120,1568,241,1594"/>
+<area shape="poly" id="edge48_Node000001_Node000186" title=" " alt="" coords="35,1372,39,1408,51,1458,71,1510,86,1534,105,1555,108,1558,105,1562,101,1559,82,1537,67,1512,46,1459,34,1409,30,1373"/>
+<area shape="rect" id="Node000197" href="$phal__G4_2rcc_2rcc_8c.html#a2da5f97897f406d973bb5d92c934224b" title="Configure the system, AHB, APB1, and APB2 clocks for a supported clock tree." alt="" coords="123,1617,238,1643"/>
+<area shape="poly" id="edge50_Node000001_Node000197" title=" " alt="" coords="34,1373,36,1417,45,1479,54,1513,66,1546,83,1577,105,1604,111,1610,108,1614,101,1608,78,1580,61,1548,48,1514,39,1480,30,1417,28,1373"/>
+<area shape="rect" id="Node000209" href="$phal__F4_2spi_2spi_8c.html#a0a4524eb6715f19d2d2128ad7f410269" title="Initilize SPI peripheral with the configuired structure." alt="" coords="125,1173,236,1199"/>
+<area shape="poly" id="edge51_Node000001_Node000209" title=" " alt="" coords="31,1345,39,1317,52,1280,72,1242,101,1208,110,1202,113,1206,104,1212,77,1245,57,1282,44,1319,37,1347"/>
+<area shape="rect" id="Node000212" href="$a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash, CAN stats." alt="" coords="106,1667,254,1692"/>
+<area shape="poly" id="edge53_Node000001_Node000212" title=" " alt="" coords="35,1372,58,1517,78,1600,91,1632,105,1654,106,1655,102,1659,101,1657,86,1634,73,1602,52,1518,30,1373"/>
+<area shape="rect" id="Node000218" href="$a__box_2telemetry_2telemetry_8c.html#ad17b4787e885938a20f35bd144928f22" title="Reports telemetry data at 100 Hz rate Includes: Pack analog stats and cell telemetry." alt="" coords="103,1716,258,1742"/>
+<area shape="poly" id="edge54_Node000001_Node000218" title=" " alt="" coords="35,1372,41,1441,55,1541,76,1639,89,1677,105,1703,106,1705,102,1708,101,1706,84,1680,70,1640,49,1542,36,1442,30,1373"/>
+<area shape="rect" id="Node000224" href="$a__box_2telemetry_2telemetry_8c.html#ac7b8e9d406934bf5c0130f05ae09c5b4" title="Reports telemetry data at 8 Hz rate Includes: Thermal stats and the emeter thermal summary." alt="" coords="110,129,251,155"/>
+<area shape="poly" id="edge55_Node000001_Node000224" title=" " alt="" coords="29,1346,50,1045,72,808,100,563,137,336,170,170,176,171,143,337,105,564,77,809,56,1045,35,1347"/>
+<area shape="rect" id="Node000227" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="125,1765,236,1791"/>
+<area shape="poly" id="edge59_Node000001_Node000227" title=" " alt="" coords="35,1373,40,1450,52,1564,73,1678,87,1722,105,1752,113,1760,109,1764,101,1756,82,1725,68,1679,46,1565,34,1451,29,1373"/>
+<area shape="rect" id="Node000228" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="142,1815,218,1840"/>
+<area shape="poly" id="edge60_Node000001_Node000228" title=" " alt="" coords="34,1373,38,1458,49,1588,58,1655,70,1717,86,1767,105,1802,116,1811,129,1818,127,1822,113,1815,101,1805,81,1770,65,1718,53,1656,43,1588,33,1459,29,1373"/>
+<area shape="rect" id="Node000003" href="$adbms6380_8c.html#ad44be82376949cf91d9b4a0216f7ba26" title="Initialize the ADBMS6380 device driver instance, SPI buffers, and CS line." alt="" coords="346,5,466,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="226,36,330,24,330,29,227,41"/>
+<area shape="rect" id="Node000007" href="$adbms_8h.html#a3ee2e22d744f2e7e3a6710af6aca2d8d" title="Get the average onboard PCB temperature across all chips in Celsius." alt="" coords="308,499,504,524"/>
+<area shape="poly" id="edge4_Node000006_Node000007" title=" " alt="" coords="208,573,305,533,327,526,329,531,307,538,210,578"/>
+<area shape="rect" id="Node000008" href="$adbms_8h.html#a6e1fad78e5f407e881ae751613b9679b" title="Get the average cell thermistor temperature across all modules in Celsius." alt="" coords="314,55,498,80"/>
+<area shape="poly" id="edge5_Node000006_Node000008" title=" " alt="" coords="180,575,193,480,218,333,235,257,255,187,278,129,304,90,306,88,310,92,308,93,283,131,260,188,240,258,223,334,198,481,186,576"/>
+<area shape="rect" id="Node000009" href="$adbms_8h.html#ae867cfd5dfd4bbb8406630813b7306ba" title="Get the average cell voltage across all modules in volts." alt="" coords="320,548,491,574"/>
+<area shape="poly" id="edge6_Node000006_Node000009" title=" " alt="" coords="220,581,305,571,305,576,220,587"/>
+<area shape="rect" id="Node000010" href="$adbms_8h.html#aaeacae70284b52c91b4a0ff0950f7bac" title="Check whether a cell voltage read command failed PEC." alt="" coords="321,598,490,638"/>
+<area shape="poly" id="edge7_Node000006_Node000010" title=" " alt="" coords="220,591,306,602,305,608,220,597"/>
+<area shape="rect" id="Node000011" href="$adbms_8h.html#a45f191f07396bfe915faa373500b9306" title="Check whether a GPIO voltage read command failed PEC." alt="" coords="319,663,492,704"/>
+<area shape="poly" id="edge8_Node000006_Node000011" title=" " alt="" coords="208,600,307,648,326,655,324,660,305,653,205,605"/>
+<area shape="rect" id="Node000012" href="$adbms_8h.html#af08c56c172cb5084064331e3c8dfa6a9" title="Get the maximum onboard PCB temperature across all chips in Celsius." alt="" coords="306,728,505,754"/>
+<area shape="poly" id="edge9_Node000006_Node000012" title=" " alt="" coords="193,601,238,656,270,687,307,713,320,720,318,724,305,718,267,691,234,659,189,604"/>
+<area shape="rect" id="Node000013" href="$adbms_8h.html#ac23feea83e55e6257895353a2b614dd8" title="Get the maximum cell thermistor temperature across all modules in Celsius." alt="" coords="312,104,499,130"/>
+<area shape="poly" id="edge10_Node000006_Node000013" title=" " alt="" coords="181,575,195,487,221,356,238,288,258,225,280,174,304,139,306,137,310,141,308,143,285,176,263,227,243,289,226,357,200,488,186,576"/>
+<area shape="rect" id="Node000014" href="$adbms_8h.html#a849fdc4ff065bcfdd5b778ad53b2a256" title="Get the maximum cell voltage across all modules in volts." alt="" coords="319,777,492,803"/>
+<area shape="poly" id="edge11_Node000006_Node000014" title=" " alt="" coords="189,601,205,634,230,679,264,725,308,764,314,768,311,773,304,768,261,729,226,682,200,637,185,603"/>
+<area shape="rect" id="Node000015" href="$adbms_8h.html#ac3ce06dfe35a7d0d516c67462dd40023" title="Get the minimum onboard PCB temperature across all chips in Celsius." alt="" coords="308,827,504,852"/>
+<area shape="poly" id="edge12_Node000006_Node000015" title=" " alt="" coords="187,601,200,643,223,701,259,762,282,790,308,813,312,817,309,821,304,818,278,793,255,765,219,703,195,645,182,603"/>
+<area shape="rect" id="Node000016" href="$adbms_8h.html#ab5d2269c4b2a78ed6c22353246b4ebfd" title="Get the minimum cell thermistor temperature across all modules in Celsius." alt="" coords="314,153,498,179"/>
+<area shape="poly" id="edge13_Node000006_Node000016" title=" " alt="" coords="179,575,182,507,197,403,212,345,235,288,265,235,304,188,307,186,310,190,308,192,269,238,239,290,218,346,202,404,187,507,184,576"/>
+<area shape="rect" id="Node000017" href="$adbms_8h.html#a5e14636e406801b3bb12fd2aa81b11f5" title="Get the minimum cell voltage across all modules in volts." alt="" coords="320,876,491,902"/>
+<area shape="poly" id="edge14_Node000006_Node000017" title=" " alt="" coords="186,602,196,651,217,722,233,761,253,798,278,833,308,863,312,866,308,870,304,867,274,836,249,801,228,763,212,724,191,653,181,603"/>
+<area shape="rect" id="Node000018" href="$adbms_8h.html#a78b7ab5a53ff58a2a0ad67d4da07258a" title="Get the current ADBMS driver state." alt="" coords="341,925,470,951"/>
+<area shape="poly" id="edge15_Node000006_Node000018" title=" " alt="" coords="185,602,192,659,211,743,227,789,248,834,275,876,308,912,328,925,325,929,304,916,270,879,243,837,222,791,206,745,187,660,180,602"/>
+<area shape="rect" id="Node000019" href="$adbms_8h.html#a97180ef109e7503d66e3ebc853c09244" title="Get the sum of all cell voltages across all modules in volts." alt="" coords="318,203,493,228"/>
+<area shape="poly" id="edge16_Node000006_Node000019" title=" " alt="" coords="179,575,185,514,203,423,219,373,240,324,268,277,304,238,307,235,311,239,308,241,273,281,245,326,224,375,208,425,190,515,185,576"/>
+<area shape="rect" id="Node000020" href="$adbms_8c.html#ab54ce393023f40b4bb60ac0e2ede56bf" title="Periodic service routine for connection, measurements, and balancing." alt="" coords="346,252,466,278"/>
+<area shape="poly" id="edge17_Node000006_Node000020" title=" " alt="" coords="180,575,189,522,209,444,225,401,246,359,272,320,304,287,329,272,332,277,308,291,276,324,251,362,230,403,214,445,194,523,186,576"/>
+<area shape="rect" id="Node000071" href="$A__BOX_8h.html#aa529a0524b1ad5840f09d15b75a852c2" title=" " alt="" coords="326,301,485,327"/>
+<area shape="poly" id="edge18_Node000006_Node000071" title=" " alt="" coords="182,575,193,529,216,464,252,395,276,363,304,336,311,331,314,336,308,340,280,367,256,398,220,466,198,530,187,576"/>
+<area shape="rect" id="Node000076" href="$A__BOX_8h.html#a07a86e84ff4645004ec5be4a1fd57db2" title=" " alt="" coords="322,975,489,1000"/>
+<area shape="poly" id="edge20_Node000006_Node000076" title=" " alt="" coords="184,602,189,667,205,764,221,817,242,870,271,919,308,962,311,964,307,968,304,965,267,922,237,873,216,819,200,765,183,667,179,602"/>
+<area shape="rect" id="Node000078" href="$A__BOX_8h.html#a0c6e8c72bca2db31f97157427d7fed57" title=" " alt="" coords="316,351,496,376"/>
+<area shape="poly" id="edge23_Node000006_Node000078" title=" " alt="" coords="183,575,198,537,222,485,258,431,280,407,304,385,310,382,313,386,308,390,283,410,262,435,227,488,202,539,188,576"/>
+<area shape="rect" id="Node000079" href="$faults__common_8h.html#a34304ae5ca942d0605c4f3c030a71eb3" title=" " alt="" coords="366,400,446,426"/>
+<area shape="poly" id="edge26_Node000006_Node000079" title=" " alt="" coords="186,574,230,507,264,468,305,435,327,424,350,417,351,422,328,429,307,439,267,472,234,510,191,577"/>
+<area shape="rect" id="Node000080" href="$phal__F4_2gpio_2gpio_8h.html#ae0248cf81cc1a151853cf4909bd66690" title="Read the state of the input register for the specific GPIO pin." alt="" coords="341,1024,470,1050"/>
+<area shape="poly" id="edge27_Node000006_Node000080" title=" " alt="" coords="184,602,185,674,190,726,199,785,214,846,237,906,267,962,308,1011,328,1024,325,1029,304,1015,263,965,232,908,209,847,194,786,185,727,180,675,178,602"/>
+<area shape="poly" id="edge28_Node000006_Node000005" title=" " alt="" coords="187,602,239,871,275,1026,293,1081,308,1110,327,1123,324,1127,304,1113,288,1083,270,1028,233,872,181,603"/>
+<area shape="rect" id="Node000081" href="$faults__common_8h.html#aa4e183a4c59cfe0ed7f3c02f15ad4171" title=" " alt="" coords="360,449,452,475"/>
+<area shape="poly" id="edge29_Node000006_Node000081" title=" " alt="" coords="192,574,238,529,270,505,305,484,344,470,346,475,307,489,273,509,242,533,196,578"/>
+<area shape="rect" id="Node000073" href="$can__codec_8h.html#ac4a71d75c81b7dee78d6c6b19ace0b97" title=" " alt="" coords="567,639,721,664"/>
+<area shape="poly" id="edge19_Node000071_Node000073" title=" " alt="" coords="487,324,507,336,539,368,565,405,587,444,605,485,629,562,641,622,636,623,624,564,600,487,582,447,561,407,535,371,504,340,485,329"/>
+<area shape="poly" id="edge22_Node000076_Node000073" title=" " alt="" coords="487,972,504,961,534,930,561,895,582,856,599,816,624,739,636,679,641,680,629,740,604,817,587,858,565,897,539,934,507,966,490,976"/>
+<area shape="rect" id="Node000077" href="$A__BOX_8h.html#a90647dbc98bbf7bc6c1e9ef85f4d2f01" title=" " alt="" coords="553,975,735,1000"/>
+<area shape="poly" id="edge21_Node000076_Node000077" title=" " alt="" coords="489,985,538,985,538,990,489,990"/>
+<area shape="poly" id="edge25_Node000078_Node000073" title=" " alt="" coords="489,375,507,385,535,411,559,441,598,507,624,571,639,623,634,624,619,573,593,509,555,444,531,415,504,390,486,379"/>
+<area shape="poly" id="edge24_Node000078_Node000077" title=" " alt="" coords="494,375,507,386,534,421,549,454,555,487,554,520,549,592,549,632,556,676,598,837,636,959,631,960,593,838,551,677,544,632,544,591,549,520,549,488,544,456,529,424,503,389,491,379"/>
+<area shape="rect" id="Node000083" href="$A__BOX_8h.html#aa74d2751bf997adba50be76251291997" title=" " alt="" coords="353,1320,458,1346"/>
+<area shape="poly" id="edge31_Node000082_Node000083" title=" " alt="" coords="218,1240,259,1257,275,1270,284,1283,293,1295,307,1307,339,1320,337,1325,305,1311,289,1299,280,1286,271,1274,257,1262,216,1245"/>
+<area shape="rect" id="Node000090" href="$can__init_8c.html#a8f52e08219489a941feaacbd258da0d2" title=" " alt="" coords="350,1369,461,1395"/>
+<area shape="poly" id="edge32_Node000082_Node000090" title=" " alt="" coords="218,1238,240,1245,260,1257,271,1270,278,1283,284,1309,290,1333,297,1345,308,1356,336,1371,333,1376,304,1360,292,1348,285,1335,279,1310,273,1285,267,1273,256,1262,238,1250,216,1243"/>
+<area shape="rect" id="Node000101" href="$can__init_8c.html#ac02deb396ce5c9f7ded85fc8263edf2a" title=" " alt="" coords="355,1419,456,1444"/>
+<area shape="poly" id="edge33_Node000082_Node000101" title=" " alt="" coords="218,1237,240,1244,260,1258,274,1277,282,1296,284,1334,287,1371,294,1388,308,1406,323,1416,341,1423,339,1428,321,1421,304,1409,289,1391,281,1372,279,1334,276,1297,270,1279,256,1261,238,1249,217,1242"/>
+<area shape="rect" id="Node000102" href="$A__BOX_8h.html#aa807ade5b93f6697cfac0ae05b7f5255" title=" " alt="" coords="334,1172,477,1198"/>
+<area shape="poly" id="edge34_Node000082_Node000102" title=" " alt="" coords="217,1225,330,1199,331,1204,218,1230"/>
+<area shape="rect" id="Node000109" href="$can__rx_8c.html#a41290208a3af5ab8710a8eacc7bd76c8" title=" " alt="" coords="360,1221,451,1247"/>
+<area shape="poly" id="edge35_Node000082_Node000109" title=" " alt="" coords="217,1233,345,1232,345,1237,217,1238"/>
+<area shape="rect" id="Node000110" href="$can__tx_8c.html#a4b594cd4b29fc669fcd91dbf783c47d8" title=" " alt="" coords="360,1271,451,1296"/>
+<area shape="poly" id="edge36_Node000082_Node000110" title=" " alt="" coords="218,1241,346,1268,345,1273,217,1246"/>
+<area shape="poly" id="edge39_Node000111_Node000073" title=" " alt="" coords="480,1075,503,1060,516,1040,532,1002,570,893,633,678,638,680,575,894,537,1004,521,1043,507,1064,482,1079"/>
+<area shape="poly" id="edge38_Node000111_Node000077" title=" " alt="" coords="471,1070,504,1060,560,1034,608,1007,610,1011,562,1039,506,1065,473,1075"/>
+<area shape="poly" id="edge45_Node000129_Node000080" title=" " alt="" coords="228,1032,325,1033,325,1039,228,1037"/>
+<area shape="poly" id="edge52_Node000209_Node000005" title=" " alt="" coords="236,1171,330,1150,331,1155,237,1176"/>
+<area shape="poly" id="edge56_Node000224_Node000008" title=" " alt="" coords="210,126,305,89,328,82,329,87,307,94,212,131"/>
+<area shape="poly" id="edge57_Node000224_Node000013" title=" " alt="" coords="251,132,296,126,297,132,252,137"/>
+<area shape="poly" id="edge58_Node000224_Node000016" title=" " alt="" coords="252,147,298,152,298,157,251,152"/>
 </map>

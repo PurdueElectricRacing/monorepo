@@ -190,18 +190,6 @@ Functions</h2></td></tr>
 <tr class="separator:a1d2c326ec65a3480aa5e0335969bad73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e8d0b3951983e4482e1e0876b77c033" id="r_a8e8d0b3951983e4482e1e0876b77c033"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e8d0b3951983e4482e1e0876b77c033">CAN_SEND_charging_fsm_internals</a> (uint16_t value_voltage_limit, uint16_t value_current_limit, bool value_balancing_status, <a class="el" href="can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2">charging_state_t</a> value_charging_state)</td></tr>
 <tr class="separator:a8e8d0b3951983e4482e1e0876b77c033"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2faa41f77d663e1d6ff85292ccc4adcb" id="r_a2faa41f77d663e1d6ff85292ccc4adcb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2faa41f77d663e1d6ff85292ccc4adcb">CAN_SEND_pack_analog_ccan</a> (uint16_t value_pack_voltage, int16_t value_pack_current)</td></tr>
-<tr class="separator:a2faa41f77d663e1d6ff85292ccc4adcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a806f2d2d42422ae75c48bcca609708cb" id="r_a806f2d2d42422ae75c48bcca609708cb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a806f2d2d42422ae75c48bcca609708cb">CAN_SEND_bms_voltages_ccan</a> (uint16_t value_pack_voltage, uint16_t value_min_cell_voltage, uint16_t value_max_cell_voltage, uint16_t value_avg_cell_voltage)</td></tr>
-<tr class="separator:a806f2d2d42422ae75c48bcca609708cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab612752007740da71271ee42f5a59057" id="r_ab612752007740da71271ee42f5a59057"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab612752007740da71271ee42f5a59057">CAN_SEND_bms_temps_ccan</a> (uint8_t value_min_cell_temp, uint8_t value_max_cell_temp, uint8_t value_avg_cell_temp, uint8_t value_min_board_temp, uint8_t value_max_board_temp, uint8_t value_avg_board_temp)</td></tr>
-<tr class="separator:ab612752007740da71271ee42f5a59057"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10c44a4f3b05ef3b3a77fdf753203575" id="r_a10c44a4f3b05ef3b3a77fdf753203575"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10c44a4f3b05ef3b3a77fdf753203575">CAN_SEND_bms_pecs_ccan</a> (bool value_RDCV_0_PEC, bool value_RDCV_1_PEC, bool value_RDCV_2_PEC, bool value_RDCV_3_PEC, bool value_RDCV_4_PEC, bool value_RDCV_5_PEC, bool value_RDAUX_0_PEC, bool value_RDAUX_1_PEC, bool value_RDAUX_2_PEC, bool value_RDAUX_3_PEC)</td></tr>
-<tr class="separator:a10c44a4f3b05ef3b3a77fdf753203575"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9928fb25e658efd3f7f8ea6d6bd379ca" id="r_a9928fb25e658efd3f7f8ea6d6bd379ca"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9928fb25e658efd3f7f8ea6d6bd379ca">CAN_SEND_cell_telemetry_ccan</a> (uint16_t value_voltage, uint8_t value_module_num, uint8_t value_cell_num, bool value_balance_status)</td></tr>
-<tr class="separator:a9928fb25e658efd3f7f8ea6d6bd379ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ae65b14ea809150bc8a4fb9953b2f2d" id="r_a0ae65b14ea809150bc8a4fb9953b2f2d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ae65b14ea809150bc8a4fb9953b2f2d">CAN_SEND_thermistor_telemetry_ccan</a> (uint16_t value_temperature, uint8_t value_module_num, uint8_t value_thermistor_num, bool value_is_board_temp)</td></tr>
-<tr class="separator:a0ae65b14ea809150bc8a4fb9953b2f2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa529a0524b1ad5840f09d15b75a852c2" id="r_aa529a0524b1ad5840f09d15b75a852c2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa529a0524b1ad5840f09d15b75a852c2">CAN_SEND_bms_pecs</a> (bool value_RDCV_0_PEC, bool value_RDCV_1_PEC, bool value_RDCV_2_PEC, bool value_RDCV_3_PEC, bool value_RDCV_4_PEC, bool value_RDCV_5_PEC, bool value_RDAUX_0_PEC, bool value_RDAUX_1_PEC, bool value_RDAUX_2_PEC, bool value_RDAUX_3_PEC)</td></tr>
 <tr class="separator:aa529a0524b1ad5840f09d15b75a852c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d7fe97284b63e20a8aced5820f70a87" id="r_a6d7fe97284b63e20a8aced5820f70a87"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d7fe97284b63e20a8aced5820f70a87">CAN_SEND_cell_telemetry</a> (uint16_t value_voltage, uint8_t value_module_num, uint8_t value_cell_num, bool value_balance_status)</td></tr>
@@ -251,18 +239,8 @@ Variables</h2></td></tr>
 <tr class="separator:a6377197e93ce540093dee28de47e546f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f55157ac00430805614681f7f5aedc2" id="r_a7f55157ac00430805614681f7f5aedc2"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f55157ac00430805614681f7f5aedc2">PACK_COEFF_BMS_VOLTAGES_AVG_CELL_VOLTAGE</a> = 100.0f</td></tr>
 <tr class="separator:a7f55157ac00430805614681f7f5aedc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ed78917a53ddc12fa8a3ccc37118350" id="r_a4ed78917a53ddc12fa8a3ccc37118350"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ed78917a53ddc12fa8a3ccc37118350">PACK_COEFF_BMS_VOLTAGES_CCAN_PACK_VOLTAGE</a> = 100.0f</td></tr>
-<tr class="separator:a4ed78917a53ddc12fa8a3ccc37118350"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a1fef19ad25477f6082fbaf2a0787a6" id="r_a1a1fef19ad25477f6082fbaf2a0787a6"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a1fef19ad25477f6082fbaf2a0787a6">PACK_COEFF_BMS_VOLTAGES_CCAN_MIN_CELL_VOLTAGE</a> = 100.0f</td></tr>
-<tr class="separator:a1a1fef19ad25477f6082fbaf2a0787a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af94a1d8ac664f0424ace1cae72994c79" id="r_af94a1d8ac664f0424ace1cae72994c79"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af94a1d8ac664f0424ace1cae72994c79">PACK_COEFF_BMS_VOLTAGES_CCAN_MAX_CELL_VOLTAGE</a> = 100.0f</td></tr>
-<tr class="separator:af94a1d8ac664f0424ace1cae72994c79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8dd3808b10290e7c96debbcd4a6452a" id="r_ac8dd3808b10290e7c96debbcd4a6452a"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8dd3808b10290e7c96debbcd4a6452a">PACK_COEFF_BMS_VOLTAGES_CCAN_AVG_CELL_VOLTAGE</a> = 100.0f</td></tr>
-<tr class="separator:ac8dd3808b10290e7c96debbcd4a6452a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a274d116973310e5694d7627754432b45" id="r_a274d116973310e5694d7627754432b45"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a274d116973310e5694d7627754432b45">PACK_COEFF_CELL_TELEMETRY_VOLTAGE</a> = 100.0f</td></tr>
 <tr class="separator:a274d116973310e5694d7627754432b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8fd018f6b57649af1bd6837e8ded91c" id="r_ab8fd018f6b57649af1bd6837e8ded91c"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8fd018f6b57649af1bd6837e8ded91c">PACK_COEFF_CELL_TELEMETRY_CCAN_VOLTAGE</a> = 100.0f</td></tr>
-<tr class="separator:ab8fd018f6b57649af1bd6837e8ded91c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7349f3102d29fd185c170cf3b4865ce" id="r_aa7349f3102d29fd185c170cf3b4865ce"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa7349f3102d29fd185c170cf3b4865ce">UNPACK_COEFF_CHARGE_REQUEST_CHARGE_VOLTAGE</a> = 0.1f</td></tr>
 <tr class="separator:aa7349f3102d29fd185c170cf3b4865ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff8acaa4962849c2a35ec864d7d2e625" id="r_aff8acaa4962849c2a35ec864d7d2e625"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff8acaa4962849c2a35ec864d7d2e625">UNPACK_COEFF_CHARGE_REQUEST_CHARGE_CURRENT</a> = 0.1f</td></tr>
@@ -289,14 +267,8 @@ Variables</h2></td></tr>
 <tr class="separator:ae70cd85d0f1bbe9cdcd135049e9d7b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10d65abc29ad503944bf6cc762b40476" id="r_a10d65abc29ad503944bf6cc762b40476"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10d65abc29ad503944bf6cc762b40476">PACK_COEFF_PACK_ANALOG_PACK_CURRENT</a> = 10.0f</td></tr>
 <tr class="separator:a10d65abc29ad503944bf6cc762b40476"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb9584261fe825018c34cdebe60c49e6" id="r_aeb9584261fe825018c34cdebe60c49e6"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb9584261fe825018c34cdebe60c49e6">PACK_COEFF_PACK_ANALOG_CCAN_PACK_VOLTAGE</a> = 100.0f</td></tr>
-<tr class="separator:aeb9584261fe825018c34cdebe60c49e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f33c29f1dae1fecf0bf33cce2d719a0" id="r_a1f33c29f1dae1fecf0bf33cce2d719a0"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f33c29f1dae1fecf0bf33cce2d719a0">PACK_COEFF_PACK_ANALOG_CCAN_PACK_CURRENT</a> = 10.0f</td></tr>
-<tr class="separator:a1f33c29f1dae1fecf0bf33cce2d719a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a132bfb89985668b5263e2809c0bc47e1" id="r_a132bfb89985668b5263e2809c0bc47e1"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a132bfb89985668b5263e2809c0bc47e1">PACK_COEFF_THERMISTOR_TELEMETRY_TEMPERATURE</a> = 10.0f</td></tr>
 <tr class="separator:a132bfb89985668b5263e2809c0bc47e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2636a9f1c4a4fbe5318c2b009e9834ce" id="r_a2636a9f1c4a4fbe5318c2b009e9834ce"><td class="memItemLeft" align="right" valign="top">static constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2636a9f1c4a4fbe5318c2b009e9834ce">PACK_COEFF_THERMISTOR_TELEMETRY_CCAN_TEMPERATURE</a> = 10.0f</td></tr>
-<tr class="separator:a2636a9f1c4a4fbe5318c2b009e9834ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cc3168cebc21b033138ae90b755e5a8" id="r_a9cc3168cebc21b033138ae90b755e5a8"><td class="memItemLeft" align="right" valign="top">volatile <a class="el" href="structcan__data__t.html">can_data_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cc3168cebc21b033138ae90b755e5a8">can_data</a></td></tr>
 <tr class="separator:a9cc3168cebc21b033138ae90b755e5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -417,7 +389,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a0da956162efe3e0016f181cee58961e6_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a0da956162efe3e0016f181cee58961e6_icgraph.svg" width="100%" height="373"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -956,85 +928,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a10c44a4f3b05ef3b3a77fdf753203575" name="a10c44a4f3b05ef3b3a77fdf753203575"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10c44a4f3b05ef3b3a77fdf753203575">&#9670;&#160;</a></span>CAN_SEND_bms_pecs_ccan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CAN_SEND_bms_pecs_ccan </td>
-          <td>(</td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDCV_0_PEC</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDCV_1_PEC</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDCV_2_PEC</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDCV_3_PEC</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDCV_4_PEC</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDCV_5_PEC</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDAUX_0_PEC</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDAUX_1_PEC</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDAUX_2_PEC</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_RDAUX_3_PEC</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a10c44a4f3b05ef3b3a77fdf753203575_cgraph.svg" width="614" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a10c44a4f3b05ef3b3a77fdf753203575_icgraph.svg" width="430" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
 <a id="a07a86e84ff4645004ec5be4a1fd57db2" name="a07a86e84ff4645004ec5be4a1fd57db2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a07a86e84ff4645004ec5be4a1fd57db2">&#9670;&#160;</a></span>CAN_SEND_bms_temps()</h2>
 
@@ -1094,65 +987,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ab612752007740da71271ee42f5a59057" name="ab612752007740da71271ee42f5a59057"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab612752007740da71271ee42f5a59057">&#9670;&#160;</a></span>CAN_SEND_bms_temps_ccan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CAN_SEND_bms_temps_ccan </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_min_cell_temp</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_max_cell_temp</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_avg_cell_temp</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_min_board_temp</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_max_board_temp</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_avg_board_temp</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_ab612752007740da71271ee42f5a59057_cgraph.svg" width="622" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_ab612752007740da71271ee42f5a59057_icgraph.svg" width="438" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
 <a id="a0c6e8c72bca2db31f97157427d7fed57" name="a0c6e8c72bca2db31f97157427d7fed57"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0c6e8c72bca2db31f97157427d7fed57">&#9670;&#160;</a></span>CAN_SEND_bms_voltages()</h2>
 
@@ -1202,55 +1036,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a806f2d2d42422ae75c48bcca609708cb" name="a806f2d2d42422ae75c48bcca609708cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a806f2d2d42422ae75c48bcca609708cb">&#9670;&#160;</a></span>CAN_SEND_bms_voltages_ccan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CAN_SEND_bms_voltages_ccan </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_pack_voltage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_min_cell_voltage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_max_cell_voltage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_avg_cell_voltage</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a806f2d2d42422ae75c48bcca609708cb_cgraph.svg" width="635" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a806f2d2d42422ae75c48bcca609708cb_icgraph.svg" width="450" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
 <a id="a6d7fe97284b63e20a8aced5820f70a87" name="a6d7fe97284b63e20a8aced5820f70a87"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6d7fe97284b63e20a8aced5820f70a87">&#9670;&#160;</a></span>CAN_SEND_cell_telemetry()</h2>
 
@@ -1296,55 +1081,6 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a6d7fe97284b63e20a8aced5820f70a87_icgraph.svg" width="491" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="a9928fb25e658efd3f7f8ea6d6bd379ca" name="a9928fb25e658efd3f7f8ea6d6bd379ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9928fb25e658efd3f7f8ea6d6bd379ca">&#9670;&#160;</a></span>CAN_SEND_cell_telemetry_ccan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CAN_SEND_cell_telemetry_ccan </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_voltage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_module_num</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_cell_num</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_balance_status</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a9928fb25e658efd3f7f8ea6d6bd379ca_cgraph.svg" width="634" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a9928fb25e658efd3f7f8ea6d6bd379ca_icgraph.svg" width="526" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1574,45 +1310,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a2faa41f77d663e1d6ff85292ccc4adcb" name="a2faa41f77d663e1d6ff85292ccc4adcb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2faa41f77d663e1d6ff85292ccc4adcb">&#9670;&#160;</a></span>CAN_SEND_pack_analog_ccan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CAN_SEND_pack_analog_ccan </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_pack_voltage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int16_t</td>          <td class="paramname"><span class="paramname"><em>value_pack_current</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a2faa41f77d663e1d6ff85292ccc4adcb_cgraph.svg" width="627" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a2faa41f77d663e1d6ff85292ccc4adcb_icgraph.svg" width="519" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
 <a id="ad3a4fee9b6a15d3e7b35044f2adbc6e4" name="ad3a4fee9b6a15d3e7b35044f2adbc6e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad3a4fee9b6a15d3e7b35044f2adbc6e4">&#9670;&#160;</a></span>CAN_SEND_thermistor_telemetry()</h2>
 
@@ -1658,55 +1355,6 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_ad3a4fee9b6a15d3e7b35044f2adbc6e4_icgraph.svg" width="455" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
-<a id="a0ae65b14ea809150bc8a4fb9953b2f2d" name="a0ae65b14ea809150bc8a4fb9953b2f2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ae65b14ea809150bc8a4fb9953b2f2d">&#9670;&#160;</a></span>CAN_SEND_thermistor_telemetry_ccan()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CAN_SEND_thermistor_telemetry_ccan </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_temperature</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_module_num</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_thermistor_num</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_is_board_temp</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a0ae65b14ea809150bc8a4fb9953b2f2d_cgraph.svg" width="578" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a0ae65b14ea809150bc8a4fb9953b2f2d_icgraph.svg" width="455" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2276,94 +1924,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ac8dd3808b10290e7c96debbcd4a6452a" name="ac8dd3808b10290e7c96debbcd4a6452a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8dd3808b10290e7c96debbcd4a6452a">&#9670;&#160;</a></span>PACK_COEFF_BMS_VOLTAGES_CCAN_AVG_CELL_VOLTAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float PACK_COEFF_BMS_VOLTAGES_CCAN_AVG_CELL_VOLTAGE = 100.0f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af94a1d8ac664f0424ace1cae72994c79" name="af94a1d8ac664f0424ace1cae72994c79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af94a1d8ac664f0424ace1cae72994c79">&#9670;&#160;</a></span>PACK_COEFF_BMS_VOLTAGES_CCAN_MAX_CELL_VOLTAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float PACK_COEFF_BMS_VOLTAGES_CCAN_MAX_CELL_VOLTAGE = 100.0f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1a1fef19ad25477f6082fbaf2a0787a6" name="a1a1fef19ad25477f6082fbaf2a0787a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a1fef19ad25477f6082fbaf2a0787a6">&#9670;&#160;</a></span>PACK_COEFF_BMS_VOLTAGES_CCAN_MIN_CELL_VOLTAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float PACK_COEFF_BMS_VOLTAGES_CCAN_MIN_CELL_VOLTAGE = 100.0f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4ed78917a53ddc12fa8a3ccc37118350" name="a4ed78917a53ddc12fa8a3ccc37118350"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ed78917a53ddc12fa8a3ccc37118350">&#9670;&#160;</a></span>PACK_COEFF_BMS_VOLTAGES_CCAN_PACK_VOLTAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float PACK_COEFF_BMS_VOLTAGES_CCAN_PACK_VOLTAGE = 100.0f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a6377197e93ce540093dee28de47e546f" name="a6377197e93ce540093dee28de47e546f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6377197e93ce540093dee28de47e546f">&#9670;&#160;</a></span>PACK_COEFF_BMS_VOLTAGES_MAX_CELL_VOLTAGE</h2>
 
@@ -2419,28 +1979,6 @@ Here is the caller graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">float PACK_COEFF_BMS_VOLTAGES_PACK_VOLTAGE = 100.0f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab8fd018f6b57649af1bd6837e8ded91c" name="ab8fd018f6b57649af1bd6837e8ded91c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab8fd018f6b57649af1bd6837e8ded91c">&#9670;&#160;</a></span>PACK_COEFF_CELL_TELEMETRY_CCAN_VOLTAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float PACK_COEFF_CELL_TELEMETRY_CCAN_VOLTAGE = 100.0f</td>
         </tr>
       </table>
   </td>
@@ -2628,50 +2166,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a1f33c29f1dae1fecf0bf33cce2d719a0" name="a1f33c29f1dae1fecf0bf33cce2d719a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f33c29f1dae1fecf0bf33cce2d719a0">&#9670;&#160;</a></span>PACK_COEFF_PACK_ANALOG_CCAN_PACK_CURRENT</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float PACK_COEFF_PACK_ANALOG_CCAN_PACK_CURRENT = 10.0f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeb9584261fe825018c34cdebe60c49e6" name="aeb9584261fe825018c34cdebe60c49e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb9584261fe825018c34cdebe60c49e6">&#9670;&#160;</a></span>PACK_COEFF_PACK_ANALOG_CCAN_PACK_VOLTAGE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float PACK_COEFF_PACK_ANALOG_CCAN_PACK_VOLTAGE = 100.0f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a10d65abc29ad503944bf6cc762b40476" name="a10d65abc29ad503944bf6cc762b40476"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a10d65abc29ad503944bf6cc762b40476">&#9670;&#160;</a></span>PACK_COEFF_PACK_ANALOG_PACK_CURRENT</h2>
 
@@ -2705,28 +2199,6 @@ Here is the caller graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">float PACK_COEFF_PACK_ANALOG_PACK_VOLTAGE = 100.0f</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2636a9f1c4a4fbe5318c2b009e9834ce" name="a2636a9f1c4a4fbe5318c2b009e9834ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2636a9f1c4a4fbe5318c2b009e9834ce">&#9670;&#160;</a></span>PACK_COEFF_THERMISTOR_TELEMETRY_CCAN_TEMPERATURE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float PACK_COEFF_THERMISTOR_TELEMETRY_CCAN_TEMPERATURE = 10.0f</td>
         </tr>
       </table>
   </td>
