@@ -423,7 +423,7 @@ void PHAL_FDCAN_priv_clearTransmitCompleteInterruptFlag(FDCAN_GlobalTypeDef *fdc
 
 uint8_t PHAL_FDCAN_priv_readTransmitErrorCounter(const FDCAN_GlobalTypeDef *fdcan) {
     // ECR = Error Counter Register
-    // TEC = Transmit Error Counter field, bits[7:0] (values 0-255)
+    // TEC = Transmit Error Counter field
     return (uint8_t)((fdcan->ECR & FDCAN_ECR_TEC_Msk) >> FDCAN_ECR_TEC_Pos);
 }
 
@@ -437,7 +437,7 @@ bool PHAL_FDCAN_priv_readProtocolStatusBusOffFlag(const FDCAN_GlobalTypeDef *fdc
 void PHAL_FDCAN_priv_clearInit(FDCAN_GlobalTypeDef *fdcan) {
     // CCCR = Communication Controller (CC) Control Register
     // INIT = Initialization bit
-    // - hardware automatically sets INIT=1 when entering bus-off, halting bus activity
-    // - clearing INIT initiates the 129 x 11 consecutive recessive-bit bus-off recovery sequence
+    // - hardware automatically sets INIT=1 when entering bus-off
+    // - clearing INIT starts the bus-off recovery sequence
     fdcan->CCCR &= ~FDCAN_CCCR_INIT;
 }
