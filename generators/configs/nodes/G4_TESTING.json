@@ -1,9 +1,8 @@
 {
     "node_name": "G4_TESTING",
     "busses": {
-        "CCAN":
-            {
-            "peripheral": "FDCAN1",
+        "TEST_CAN": {
+            "peripheral": "FDCAN2",
             "tx": [
                 {
                     "message_name": "IVT_S_command",
@@ -80,7 +79,8 @@
                         }
                     ],
                     "period_ms": 1000,
-                    "priority": 3
+                    "priority": 3,
+                    "id_override": "0x4EC"
                 },
                 {
                     "message_name": "canpiler_test",
@@ -136,12 +136,12 @@
                 },
                 {
                     "message_name": "tx_errctr",
-                    "description": "sending error counter",
+                    "description": "FDCAN transmit error counter",
                     "signals": [
                         {
                             "signal_name": "txCounter",
-                            "description": "error counter",
-                            "data_type": "uint32_t",
+                            "description": "Transmit error counter (TEC, 0-255)",
+                            "data_type": "uint8_t",
                             "unit": "none"
                         }
                     ],

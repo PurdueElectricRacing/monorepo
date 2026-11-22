@@ -10,6 +10,7 @@
 
 #include "common/phal_G4/fdcan/fdcan_priv.h"
 
+
 void PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate) {
     PHAL_FDCAN_priv_enableClock();
 
@@ -32,7 +33,6 @@ void PHAL_FDCAN_init(FDCAN_GlobalTypeDef *fdcan, PHAL_FDCAN_BaudRate_t bit_rate)
  
     PHAL_FDCAN_priv_exitConfig(fdcan);
 }
-
 
 bool PHAL_FDCAN_setFilters(FDCAN_GlobalTypeDef *fdcan,
                            const uint32_t *sid_list,
