@@ -263,6 +263,30 @@
             }
         },
         {
+            "name": "Bootloader - PDU",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/firmware/output/bootloader_pdu/bootloader_pdu.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32G474RET6",
+            "svdFile": "${workspaceRoot}/firmware/support/svd/STM32G474.svd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ],
+            "debuggerArgs": [
+                "-d",
+                "${workspaceRoot}/firmware/source/bootloader"
+            ],
+            "preLaunchTask": "build firmware",
+            "runToEntryPoint": "main",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 5
+            }
+        },
+        {
             "name": "Bootloader - Dashboard",
             "cwd": "${workspaceRoot}",
             "executable": "${workspaceRoot}/firmware/output/bootloader_dashboard/bootloader_dashboard.elf",
