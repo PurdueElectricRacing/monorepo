@@ -125,7 +125,7 @@ typedef struct {
  * Samples all tasks once per second (every 20 ticks at 50 ms)
  * Sends at most one task (status + name character) per tick and one board summary per cycle.
  *
- * @param can_fns Optional CAN send callbacks; pass nullptr to sample without transmitting.
+ * @param can_fns CAN send callbacks
  */
 void diagnostics_periodic(const diagnostics_can_fns_t *can_fns);
 
