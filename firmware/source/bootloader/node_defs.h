@@ -35,13 +35,13 @@ typedef struct {
     bootloader_target_id_t target_id;
 } BLTransportConfig_t;
 
-#define APP_MAIN_MODULE 1
-#define APP_DASHBOARD 2
-#define APP_A_BOX 3
-#define APP_TORQUE_VECTOR 4
+#define APP_MAIN_MODULE     1
+#define APP_DASHBOARD       2
+#define APP_A_BOX           3
+#define APP_TORQUE_VECTOR   4
 #define APP_FRONT_DRIVELINE 5
-#define APP_REAR_DRIVELINE 6
-#define APP_PDU 7
+#define APP_REAR_DRIVELINE  6
+#define APP_PDU             7
 
 #if (APP_ID == APP_MAIN_MODULE)
 #define BL_TARGET_ID BOOTLOADER_TARGET_ID_MAIN_MODULE
