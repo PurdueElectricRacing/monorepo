@@ -42,7 +42,6 @@ typedef struct {
     diagnostics_send_name_fn_t send_name;
 } diagnostics_can_fns_t;
 
-// Wrap [[gnu::always_inline]] CAN_SEND_* helpers so they can be passed via function pointers.
 #define DIAGNOSTICS_PRIV_WRAP_SEND_TASK(FN) \
     static void diagnostics_priv_send_task( \
         uint32_t diag_id, uint16_t diag_hwm, uint8_t diag_cpu, diagnostics_task_state_t diag_state \
