@@ -5,10 +5,8 @@ var searchData=
   ['flash_5foperation_5fcontext_5ft_2',['flash_operation_context_t',['../structflash__operation__context__t.html',1,'']]],
   ['foot_5ft_3',['foot_t',['../structfoot__t.html',1,'']]],
   ['front_5fdriveline_5fcan_5foverflow_5fdata_5ft_4',['front_driveline_can_overflow_data_t',['../structfront__driveline__can__overflow__data__t.html',1,'']]],
-  ['front_5fdriveline_5fcan_5ftx_5factions_5fdata_5ft_5',['front_driveline_can_tx_actions_data_t',['../structfront__driveline__can__tx__actions__data__t.html',1,'']]],
-  ['front_5fdriveline_5fcan_5ftx_5fmessages_5fdata_5ft_6',['front_driveline_can_tx_messages_data_t',['../structfront__driveline__can__tx__messages__data__t.html',1,'']]],
-  ['front_5fdriveline_5finit_5fdata_5ft_7',['front_driveline_init_data_t',['../structfront__driveline__init__data__t.html',1,'']]],
-  ['front_5fdriveline_5fversion_5fdata_5ft_8',['front_driveline_version_data_t',['../structfront__driveline__version__data__t.html',1,'']]],
-  ['front_5foil_5ftemps_5fdata_5ft_9',['front_oil_temps_data_t',['../structfront__oil__temps__data__t.html',1,'']]],
-  ['front_5fshockpots_5fdata_5ft_10',['front_shockpots_data_t',['../structfront__shockpots__data__t.html',1,'']]]
+  ['front_5fdriveline_5finit_5fdata_5ft_5',['front_driveline_init_data_t',['../structfront__driveline__init__data__t.html',1,'']]],
+  ['front_5fdriveline_5fversion_5fdata_5ft_6',['front_driveline_version_data_t',['../structfront__driveline__version__data__t.html',1,'']]],
+  ['front_5foil_5ftemps_5fdata_5ft_7',['front_oil_temps_data_t',['../structfront__oil__temps__data__t.html',1,'']]],
+  ['front_5fshockpots_5fdata_5ft_8',['front_shockpots_data_t',['../structfront__shockpots__data__t.html',1,'']]]
 ];

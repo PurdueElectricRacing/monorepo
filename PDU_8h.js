@@ -13,8 +13,6 @@ var PDU_8h =
     [ "CAN_rx_dispatcher", "PDU_8h.html#aba60db2ca6b351f91082c06fc4d18cd5", null ],
     [ "CAN_SEND_cooling_outputs", "PDU_8h.html#a45366166e8de145429fab369e3885bb1", null ],
     [ "CAN_SEND_pdu_can_overflow", "PDU_8h.html#a2a6a48777b1b772c04caf6d2bb0ef25c", null ],
-    [ "CAN_SEND_pdu_can_tx_actions", "PDU_8h.html#a49844b87ad17a781ea49cd0123997efc", null ],
-    [ "CAN_SEND_pdu_can_tx_messages", "PDU_8h.html#a1009465baf6c1d7c34b9a2ec03d66592", null ],
     [ "CAN_SEND_pdu_diag_name", "PDU_8h.html#af538057c7ed9ad7be9b7417065930280", null ],
     [ "CAN_SEND_pdu_diag_summary", "PDU_8h.html#a11062e78a9f91056326e712257935fc4", null ],
     [ "CAN_SEND_pdu_diag_task", "PDU_8h.html#a3548dcc60c41755181f20e317b33c199", null ],

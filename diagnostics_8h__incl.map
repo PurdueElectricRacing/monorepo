@@ -1,23 +1,26 @@
 <map id="firmware/common/diagnostics/diagnostics.h" name="firmware/common/diagnostics/diagnostics.h">
-<area shape="rect" id="Node000001" title="Common logger for basic CPU and FreeRTOS task profiling data." alt="" coords="166,5,361,46"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="100,94,174,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,49,171,88,168,83,231,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,168,69,193"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,48,225,85,187,122,136,150,85,169,83,164,133,145,183,118,222,81,249,45"/>
-<area shape="rect" id="Node000004" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="249,94,382,120"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="279,45,301,79,297,82,274,48"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="562,168,618,193"/>
-<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="307,44,552,158,550,163,305,49"/>
-<area shape="poly" id="edge10_Node000004_Node000003" title=" " alt="" coords="268,123,85,170,83,164,267,118"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="93,168,186,193"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="287,123,184,164,183,159,285,118"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="210,168,258,193"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="304,122,261,159,258,155,300,118"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="282,168,349,193"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="318,120,318,152,313,152,313,120"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="373,168,448,193"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="333,118,384,156,381,160,330,122"/>
-<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="366,118,548,164,546,169,365,123"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="471,168,539,193"/>
-<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="349,118,460,159,458,164,347,123"/>
+<area shape="rect" id="Node000001" title="Common logger for basic CPU and FreeRTOS task profiling data." alt="" coords="129,5,323,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,79,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,49,83,97,80,92,183,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="82,183,146,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,49,167,69,144,95,128,132,120,168,114,166,123,130,140,93,164,65,191,44"/>
+<area shape="rect" id="Node000004" href="$can__types_8h.html" title="Auto&#45;generated custom types and enums for the CAN library." alt="" coords="154,94,298,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="229,47,229,78,223,78,223,47"/>
+<area shape="rect" id="Node000005" href="$rtos_8h.html" title="Wrapper macros for FreeRTOS constructs (tasks, queues, semaphores) to simplify static memory allocati..." alt="" coords="325,102,458,127"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="265,44,356,92,353,96,262,49"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="639,183,696,208"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="314,44,391,65,471,92,561,132,636,172,633,177,559,137,469,96,390,70,313,49"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="200,137,145,175,142,171,197,133"/>
+<area shape="poly" id="edge12_Node000005_Node000003" title=" " alt="" coords="349,130,161,184,160,178,348,125"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="170,183,263,208"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="366,130,258,178,256,174,363,125"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="287,183,336,208"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="381,129,336,173,332,170,377,126"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="360,183,426,208"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="394,128,395,167,390,167,389,128"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="450,183,524,208"/>
+<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="408,126,462,170,459,175,404,130"/>
+<area shape="poly" id="edge10_Node000005_Node000010" title=" " alt="" coords="435,125,625,179,624,184,433,130"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="548,183,616,208"/>
+<area shape="poly" id="edge11_Node000005_Node000011" title=" " alt="" coords="422,125,540,174,538,179,420,130"/>
 </map>

@@ -13,7 +13,6 @@ var dir_4645ab240a6c17698cb502ff9363399d =
     [ "can_version.h", "can__version_8h.html", "can__version_8h" ],
     [ "CCAN.h", "CCAN_8h.html", "CCAN_8h" ],
     [ "DASHBOARD.h", "DASHBOARD_8h.html", "DASHBOARD_8h" ],
-    [ "diagnostics_can.h", "diagnostics__can_8h.html", null ],
     [ "DRIVELINE.h", "DRIVELINE_8h.html", "DRIVELINE_8h" ],
     [ "fault_data.c", "fault__data_8c.html", "fault__data_8c" ],
     [ "fault_data.h", "fault__data_8h.html", "fault__data_8h" ],

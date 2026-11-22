@@ -21,8 +21,6 @@ var MAIN__MODULE_8h =
     [ "CAN_SEND_invd_diagnostics", "MAIN__MODULE_8h.html#aabf0685d6933f10e58d9171d134b1885", null ],
     [ "CAN_SEND_INVD_SET", "MAIN__MODULE_8h.html#a93d1225ac75f03cc7e2c62ad349e043f", null ],
     [ "CAN_SEND_main_can_overflow", "MAIN__MODULE_8h.html#af69f82e2409f06f9005bb7ce0f289d6a", null ],
-    [ "CAN_SEND_main_can_tx_actions", "MAIN__MODULE_8h.html#af9937a02f4337b1e80be9d5e019b748c", null ],
-    [ "CAN_SEND_main_can_tx_messages", "MAIN__MODULE_8h.html#a23b21fd0ed7629cb962272c4d05da516", null ],
     [ "CAN_SEND_main_hb", "MAIN__MODULE_8h.html#aba339c1c7f4d7557e12e2c5830314490", null ],
     [ "CAN_SEND_main_hb_amk", "MAIN__MODULE_8h.html#a63eff556f2a4943ff5fb61175f5e2df7", null ],
     [ "CAN_SEND_main_init", "MAIN__MODULE_8h.html#a22712736f646cde540cb15e873617533", null ],

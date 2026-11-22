@@ -12,8 +12,6 @@ var A__BOX_8h =
     [ "CAN_init_peripherals", "A__BOX_8h.html#aa807ade5b93f6697cfac0ae05b7f5255", null ],
     [ "CAN_rx_dispatcher", "A__BOX_8h.html#aba60db2ca6b351f91082c06fc4d18cd5", null ],
     [ "CAN_SEND_a_box_can_overflow", "A__BOX_8h.html#a1d81aed210cd25b0325cdba7dab91356", null ],
-    [ "CAN_SEND_a_box_can_tx_actions", "A__BOX_8h.html#a98274ad87b020d8dd05d808ef35c39e4", null ],
-    [ "CAN_SEND_a_box_can_tx_messages", "A__BOX_8h.html#afe8339cc4aaefa1b5e43a4ba56d5600c", null ],
     [ "CAN_SEND_a_box_diag_name", "A__BOX_8h.html#a1e72bdf6405e149f98cdd9b5151ea600", null ],
     [ "CAN_SEND_a_box_diag_summary", "A__BOX_8h.html#a2f54266676f09ef58df70486802584a7", null ],
     [ "CAN_SEND_a_box_diag_task", "A__BOX_8h.html#a0cdfe9d3a15d06b19caa6460533089a5", null ],

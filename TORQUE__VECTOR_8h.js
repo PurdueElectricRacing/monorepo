@@ -18,8 +18,6 @@ var TORQUE__VECTOR_8h =
     [ "CAN_SEND_IMU_acceleration", "TORQUE__VECTOR_8h.html#a4f360630d4c860622b5d7ed495b092bb", null ],
     [ "CAN_SEND_IMU_angular_rate", "TORQUE__VECTOR_8h.html#afe525a03cf44d94006666683e2690c27", null ],
     [ "CAN_SEND_torque_vector_can_overflow", "TORQUE__VECTOR_8h.html#a230134be517eec6ba8da0457271683d1", null ],
-    [ "CAN_SEND_torque_vector_can_tx_actions", "TORQUE__VECTOR_8h.html#ab7520296a94f136cc434366fbd06d24c", null ],
-    [ "CAN_SEND_torque_vector_can_tx_messages", "TORQUE__VECTOR_8h.html#aac8f90443fb350899c755ea672a9e05d", null ],
     [ "CAN_SEND_torque_vector_diag_name", "TORQUE__VECTOR_8h.html#ac4baea9a88fffb1c6517ba454428666f", null ],
     [ "CAN_SEND_torque_vector_diag_summary", "TORQUE__VECTOR_8h.html#a168109d4a179465d6f39d4d5cc74ab6f", null ],
     [ "CAN_SEND_torque_vector_diag_task", "TORQUE__VECTOR_8h.html#a48a6c9061e0e80e0602104c078782cf6", null ],

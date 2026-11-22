@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['phal_5fdma_5firqcallbackfn_5ft_0',['PHAL_DMA_IRQCallbackFn_t',['../phal__G4_2dma_2dma_8h.html#a47182eb920187041fc5017b8b848e6d5',1,'dma.h']]],
-  ['ptr_5fint_1',['ptr_int',['../phal__F4_2usart_2usart_8h.html#a44e0b82277af9738fcb79164886954c9',1,'usart.h']]]
+  ['diagnostics_5fsend_5fname_5ffn_5ft_0',['diagnostics_send_name_fn_t',['../diagnostics_8h.html#affb2bad8d96f39c47a4f01da8c1cfe72',1,'diagnostics.h']]],
+  ['diagnostics_5fsend_5fsummary_5ffn_5ft_1',['diagnostics_send_summary_fn_t',['../diagnostics_8h.html#a64e8d48a5ef63e9dffad7a0672741106',1,'diagnostics.h']]],
+  ['diagnostics_5fsend_5ftask_5ffn_5ft_2',['diagnostics_send_task_fn_t',['../diagnostics_8h.html#a70b96eac4637323e7d446b3ce3f1b31c',1,'diagnostics.h']]]
 ];

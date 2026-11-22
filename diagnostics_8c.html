@@ -109,11 +109,10 @@ $(function(){initNavTree('diagnostics_8c.html',''); initResizable(true); });
 <div class="textblock"><code>#include &quot;<a class="el" href="diagnostics_8h_source.html">diagnostics.h</a>&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="diagnostics__can_8h_source.html">can_library/generated/diagnostics_can.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for diagnostics.c:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8c__incl.svg" width="624" height="303"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="diagnostics_8c__incl.svg" width="100%" height="516"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -126,11 +125,21 @@ Functions</h2></td></tr>
 <tr class="separator:a64440a3b8262fa3f789bf025cecdd086"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a493f4098c8b137ad7be00ad6f7ff2740" id="r_a493f4098c8b137ad7be00ad6f7ff2740"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a493f4098c8b137ad7be00ad6f7ff2740">save_task_runtimes</a> (UBaseType_t task_count)</td></tr>
 <tr class="separator:a493f4098c8b137ad7be00ad6f7ff2740"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1a1982b3c1344a95ebdcc84e74cc9c2" id="r_ab1a1982b3c1344a95ebdcc84e74cc9c2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1a1982b3c1344a95ebdcc84e74cc9c2">encode_task_state</a> (eTaskState state)</td></tr>
+<tr class="separator:ab1a1982b3c1344a95ebdcc84e74cc9c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaed8fc7eb51d0af8e480a0487dc20ebd" id="r_aaed8fc7eb51d0af8e480a0487dc20ebd"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaed8fc7eb51d0af8e480a0487dc20ebd">encode_cpu_percent</a> (float percent, bool valid)</td></tr>
+<tr class="separator:aaed8fc7eb51d0af8e480a0487dc20ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70fb8b6aa72018663d3ecd4b24121b10" id="r_a70fb8b6aa72018663d3ecd4b24121b10"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70fb8b6aa72018663d3ecd4b24121b10">encode_stack_hwm</a> (uint32_t bytes)</td></tr>
+<tr class="separator:a70fb8b6aa72018663d3ecd4b24121b10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46d6b111ce365885fc8f2c9600ce93d1" id="r_a46d6b111ce365885fc8f2c9600ce93d1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46d6b111ce365885fc8f2c9600ce93d1">send_task_diagnostics</a> (const <a class="el" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a> *can_fns, uint8_t task_index)</td></tr>
+<tr class="separator:a46d6b111ce365885fc8f2c9600ce93d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a5ad02e1777377e52d0f8274995c0de" id="r_a3a5ad02e1777377e52d0f8274995c0de"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a5ad02e1777377e52d0f8274995c0de">send_summary_diagnostics</a> (const <a class="el" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a> *can_fns)</td></tr>
+<tr class="separator:a3a5ad02e1777377e52d0f8274995c0de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e1a472059a3a007989d0f76b5e1318d" id="r_a7e1a472059a3a007989d0f76b5e1318d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e1a472059a3a007989d0f76b5e1318d">sample_diagnostics</a> (void)</td></tr>
 <tr class="separator:a7e1a472059a3a007989d0f76b5e1318d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af20dbc3bc53b47ce3229ac6f410a8d07" id="r_af20dbc3bc53b47ce3229ac6f410a8d07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a> (void)</td></tr>
-<tr class="memdesc:af20dbc3bc53b47ce3229ac6f410a8d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Periodically samples task statistics and transmits diagnostics over CAN.  <br /></td></tr>
-<tr class="separator:af20dbc3bc53b47ce3229ac6f410a8d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf6e6e7c6e09b252351dc578ca85f332" id="r_abf6e6e7c6e09b252351dc578ca85f332"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf6e6e7c6e09b252351dc578ca85f332">diagnostics_periodic</a> (const <a class="el" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a> *can_fns)</td></tr>
+<tr class="memdesc:abf6e6e7c6e09b252351dc578ca85f332"><td class="mdescLeft">&#160;</td><td class="mdescRight">Periodically samples task statistics and transmits diagnostics over CAN.  <br /></td></tr>
+<tr class="separator:abf6e6e7c6e09b252351dc578ca85f332"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -138,6 +147,8 @@ Variables</h2></td></tr>
 <tr class="separator:a12eb4a382856679577daf4375a38c356"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ae53aa567d65474c705bd84a31aa822" id="r_a2ae53aa567d65474c705bd84a31aa822"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ae53aa567d65474c705bd84a31aa822">DIAGNOSTICS_TICKS_PER_SAMPLE</a></td></tr>
 <tr class="separator:a2ae53aa567d65474c705bd84a31aa822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0c5a8dfa9c9747075baba96012be53b" id="r_ac0c5a8dfa9c9747075baba96012be53b"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac0c5a8dfa9c9747075baba96012be53b">DIAGNOSTICS_CPU_INVALID</a> = UINT8_MAX</td></tr>
+<tr class="separator:ac0c5a8dfa9c9747075baba96012be53b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0e55718597071aab4db35683f996b48" id="r_aa0e55718597071aab4db35683f996b48"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structdiagnostics__context__t.html">diagnostics_context_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0e55718597071aab4db35683f996b48">g_diagnostics_context</a> = {0}</td></tr>
 <tr class="separator:aa0e55718597071aab4db35683f996b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -263,8 +274,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="af20dbc3bc53b47ce3229ac6f410a8d07" name="af20dbc3bc53b47ce3229ac6f410a8d07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af20dbc3bc53b47ce3229ac6f410a8d07">&#9670;&#160;</a></span>diagnostics_periodic()</h2>
+<a id="abf6e6e7c6e09b252351dc578ca85f332" name="abf6e6e7c6e09b252351dc578ca85f332"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf6e6e7c6e09b252351dc578ca85f332">&#9670;&#160;</a></span>diagnostics_periodic()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,18 +283,118 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void diagnostics_periodic </td>
           <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a> *</td>          <td class="paramname"><span class="paramname"><em>can_fns</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Periodically samples task statistics and transmits diagnostics over CAN. </p>
-<p>Samples all tasks once per second (every 20 ticks at 50 ms) Sends at most one task (status + name character) per tick and one board summary per cycle. </p>
+<p>Samples all tasks once per second (every 20 ticks at 50 ms) Sends at most one task (status + name character) per tick and one board summary per cycle.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">can_fns</td><td>CAN send callbacks </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="diagnostics_8c_af20dbc3bc53b47ce3229ac6f410a8d07_cgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="diagnostics_8c_abf6e6e7c6e09b252351dc578ca85f332_cgraph.svg" width="100%" height="512"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
+<a id="aaed8fc7eb51d0af8e480a0487dc20ebd" name="aaed8fc7eb51d0af8e480a0487dc20ebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaed8fc7eb51d0af8e480a0487dc20ebd">&#9670;&#160;</a></span>encode_cpu_percent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint8_t encode_cpu_percent </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>percent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>valid</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8c_aaed8fc7eb51d0af8e480a0487dc20ebd_icgraph.svg" width="570" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a70fb8b6aa72018663d3ecd4b24121b10" name="a70fb8b6aa72018663d3ecd4b24121b10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70fb8b6aa72018663d3ecd4b24121b10">&#9670;&#160;</a></span>encode_stack_hwm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint16_t encode_stack_hwm </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>bytes</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8c_a70fb8b6aa72018663d3ecd4b24121b10_icgraph.svg" width="538" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ab1a1982b3c1344a95ebdcc84e74cc9c2" name="ab1a1982b3c1344a95ebdcc84e74cc9c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1a1982b3c1344a95ebdcc84e74cc9c2">&#9670;&#160;</a></span>encode_task_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a> encode_task_state </td>
+          <td>(</td>
+          <td class="paramtype">eTaskState</td>          <td class="paramname"><span class="paramname"><em>state</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8c_ab1a1982b3c1344a95ebdcc84e74cc9c2_icgraph.svg" width="532" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -353,7 +464,103 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a3a5ad02e1777377e52d0f8274995c0de" name="a3a5ad02e1777377e52d0f8274995c0de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a5ad02e1777377e52d0f8274995c0de">&#9670;&#160;</a></span>send_summary_diagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void send_summary_diagnostics </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a> *</td>          <td class="paramname"><span class="paramname"><em>can_fns</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8c_a3a5ad02e1777377e52d0f8274995c0de_cgraph.svg" width="383" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8c_a3a5ad02e1777377e52d0f8274995c0de_icgraph.svg" width="380" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a46d6b111ce365885fc8f2c9600ce93d1" name="a46d6b111ce365885fc8f2c9600ce93d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46d6b111ce365885fc8f2c9600ce93d1">&#9670;&#160;</a></span>send_task_diagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void send_task_diagnostics </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a> *</td>          <td class="paramname"><span class="paramname"><em>can_fns</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>task_index</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8c_a46d6b111ce365885fc8f2c9600ce93d1_cgraph.svg" width="355" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8c_a46d6b111ce365885fc8f2c9600ce93d1_icgraph.svg" width="352" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="ac0c5a8dfa9c9747075baba96012be53b" name="ac0c5a8dfa9c9747075baba96012be53b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0c5a8dfa9c9747075baba96012be53b">&#9670;&#160;</a></span>DIAGNOSTICS_CPU_INVALID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t DIAGNOSTICS_CPU_INVALID = UINT8_MAX</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a12eb4a382856679577daf4375a38c356" name="a12eb4a382856679577daf4375a38c356"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a12eb4a382856679577daf4375a38c356">&#9670;&#160;</a></span>DIAGNOSTICS_SAMPLE_PERIOD_MS</h2>
 
@@ -397,8 +604,8 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    (uint8_t)(<a class="code hl_variable" href="#a12eb4a382856679577daf4375a38c356">DIAGNOSTICS_SAMPLE_PERIOD_MS</a> / <a class="code hl_define" href="diagnostics_8h.html#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a>)</div>
-<div class="ttc" id="adiagnostics_8c_html_a12eb4a382856679577daf4375a38c356"><div class="ttname"><a href="#a12eb4a382856679577daf4375a38c356">DIAGNOSTICS_SAMPLE_PERIOD_MS</a></div><div class="ttdeci">static constexpr uint32_t DIAGNOSTICS_SAMPLE_PERIOD_MS</div><div class="ttdef"><b>Definition</b> diagnostics.c:14</div></div>
-<div class="ttc" id="adiagnostics_8h_html_a260b0129883bdd2ec8767e113d48583e"><div class="ttname"><a href="diagnostics_8h.html#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a></div><div class="ttdeci">#define DIAGNOSTICS_TICK_PERIOD_MS</div><div class="ttdef"><b>Definition</b> diagnostics.h:18</div></div>
+<div class="ttc" id="adiagnostics_8c_html_a12eb4a382856679577daf4375a38c356"><div class="ttname"><a href="#a12eb4a382856679577daf4375a38c356">DIAGNOSTICS_SAMPLE_PERIOD_MS</a></div><div class="ttdeci">static constexpr uint32_t DIAGNOSTICS_SAMPLE_PERIOD_MS</div><div class="ttdef"><b>Definition</b> diagnostics.c:13</div></div>
+<div class="ttc" id="adiagnostics_8h_html_a260b0129883bdd2ec8767e113d48583e"><div class="ttname"><a href="diagnostics_8h.html#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a></div><div class="ttdeci">#define DIAGNOSTICS_TICK_PERIOD_MS</div><div class="ttdef"><b>Definition</b> diagnostics.h:19</div></div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -100,6 +100,7 @@ $(function(){initNavTree('diagnostics_8h.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">diagnostics.h File Reference</div></div>
 </div><!--header-->
@@ -109,12 +110,13 @@ $(function(){initNavTree('diagnostics_8h.html',''); initResizable(true); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="can__types_8h_source.html">can_library/generated/can_types.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="rtos_8h_source.html">common/rtos/rtos.h</a>&quot;</code><br />
 <code>#include &quot;task.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for diagnostics.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8h__incl.svg" width="624" height="199"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="diagnostics_8h__incl.svg" width="100%" height="460"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -126,6 +128,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdiagnostics__task__t.html">diagnostics_task_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdiagnostics__snapshot__t.html">diagnostics_snapshot_t</a></td></tr>
@@ -142,23 +146,38 @@ Macros</h2></td></tr>
 <tr class="separator:abd1e10f1f5463b0b720a2991adc71f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a260b0129883bdd2ec8767e113d48583e" id="r_a260b0129883bdd2ec8767e113d48583e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a>&#160;&#160;&#160;50</td></tr>
 <tr class="separator:a260b0129883bdd2ec8767e113d48583e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba5e15d85c227ce65fa69614bf65f72c" id="r_aba5e15d85c227ce65fa69614bf65f72c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba5e15d85c227ce65fa69614bf65f72c">DEFINE_DIAGNOSTICS_TASK</a>()</td></tr>
-<tr class="separator:aba5e15d85c227ce65fa69614bf65f72c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73ea96db51949c2ace5c0e19a4d603d7" id="r_a73ea96db51949c2ace5c0e19a4d603d7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73ea96db51949c2ace5c0e19a4d603d7">DIAGNOSTICS_PRIV_WRAP_SEND_TASK</a>(FN)</td></tr>
+<tr class="separator:a73ea96db51949c2ace5c0e19a4d603d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d3c7cd22c5c4625b78ad394fb1843f4" id="r_a4d3c7cd22c5c4625b78ad394fb1843f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d3c7cd22c5c4625b78ad394fb1843f4">DIAGNOSTICS_PRIV_WRAP_SEND_SUMMARY</a>(FN)</td></tr>
+<tr class="separator:a4d3c7cd22c5c4625b78ad394fb1843f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addf3b987435465f8fd7d088a255c9ce2" id="r_addf3b987435465f8fd7d088a255c9ce2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#addf3b987435465f8fd7d088a255c9ce2">DIAGNOSTICS_PRIV_WRAP_SEND_NAME</a>(FN)</td></tr>
+<tr class="separator:addf3b987435465f8fd7d088a255c9ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa89b702d37ab8187eecef23dca6c01cb" id="r_aa89b702d37ab8187eecef23dca6c01cb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa89b702d37ab8187eecef23dca6c01cb">DEFINE_DIAGNOSTICS_TASK</a>(SEND_TASK,  SEND_SUMMARY,  SEND_NAME)</td></tr>
+<tr class="separator:aa89b702d37ab8187eecef23dca6c01cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af715dd2789f421c737a9967f9e7bdf8c" id="r_af715dd2789f421c737a9967f9e7bdf8c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af715dd2789f421c737a9967f9e7bdf8c">START_DIAGNOSTICS_TASK</a>()</td></tr>
 <tr class="separator:af715dd2789f421c737a9967f9e7bdf8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a70b96eac4637323e7d446b3ce3f1b31c" id="r_a70b96eac4637323e7d446b3ce3f1b31c"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70b96eac4637323e7d446b3ce3f1b31c">diagnostics_send_task_fn_t</a>) (uint32_t task_id, uint16_t stack_hwm, uint8_t cpu_percent, <a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a> state)</td></tr>
+<tr class="separator:a70b96eac4637323e7d446b3ce3f1b31c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64e8d48a5ef63e9dffad7a0672741106" id="r_a64e8d48a5ef63e9dffad7a0672741106"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64e8d48a5ef63e9dffad7a0672741106">diagnostics_send_summary_fn_t</a>) (uint32_t sample_count, uint16_t task_count, uint8_t cpu_percent, bool capacity_exceeded)</td></tr>
+<tr class="separator:a64e8d48a5ef63e9dffad7a0672741106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affb2bad8d96f39c47a4f01da8c1cfe72" id="r_affb2bad8d96f39c47a4f01da8c1cfe72"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affb2bad8d96f39c47a4f01da8c1cfe72">diagnostics_send_name_fn_t</a>) (uint32_t task_id, uint8_t char_index, uint8_t character)</td></tr>
+<tr class="separator:affb2bad8d96f39c47a4f01da8c1cfe72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af20dbc3bc53b47ce3229ac6f410a8d07" id="r_af20dbc3bc53b47ce3229ac6f410a8d07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a> (void)</td></tr>
-<tr class="memdesc:af20dbc3bc53b47ce3229ac6f410a8d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Periodically samples task statistics and transmits diagnostics over CAN.  <br /></td></tr>
-<tr class="separator:af20dbc3bc53b47ce3229ac6f410a8d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf6e6e7c6e09b252351dc578ca85f332" id="r_abf6e6e7c6e09b252351dc578ca85f332"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf6e6e7c6e09b252351dc578ca85f332">diagnostics_periodic</a> (const <a class="el" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a> *can_fns)</td></tr>
+<tr class="memdesc:abf6e6e7c6e09b252351dc578ca85f332"><td class="mdescLeft">&#160;</td><td class="mdescRight">Periodically samples task statistics and transmits diagnostics over CAN.  <br /></td></tr>
+<tr class="separator:abf6e6e7c6e09b252351dc578ca85f332"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Common logger for basic CPU and FreeRTOS task profiling data. </p>
 <dl class="section author"><dt>Author</dt><dd>Patrick McNaughton (<a href="#" onclick="location.href='mai'+'lto:'+'pmc'+'na'+'ugh'+'@p'+'urd'+'ue'+'.ed'+'u'; return false;">pmcna<span class="obfuscator">.nosp@m.</span>ugh@<span class="obfuscator">.nosp@m.</span>purdu<span class="obfuscator">.nosp@m.</span>e.ed<span class="obfuscator">.nosp@m.</span>u</a>) </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aba5e15d85c227ce65fa69614bf65f72c" name="aba5e15d85c227ce65fa69614bf65f72c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba5e15d85c227ce65fa69614bf65f72c">&#9670;&#160;</a></span>DEFINE_DIAGNOSTICS_TASK</h2>
+<a id="aa89b702d37ab8187eecef23dca6c01cb" name="aa89b702d37ab8187eecef23dca6c01cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa89b702d37ab8187eecef23dca6c01cb">&#9670;&#160;</a></span>DEFINE_DIAGNOSTICS_TASK</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,17 +185,36 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">#define DEFINE_DIAGNOSTICS_TASK</td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>SEND_TASK</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>SEND_SUMMARY</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>SEND_NAME</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="rtos_8h.html#adba1c306f3b331e572b145519c0afdaf">RTOS_DEFINE_TASK</a>(<a class="code hl_function" href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a>, <a class="code hl_define" href="#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</div>
-<div class="ttc" id="adiagnostics_8h_html_a260b0129883bdd2ec8767e113d48583e"><div class="ttname"><a href="#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a></div><div class="ttdeci">#define DIAGNOSTICS_TICK_PERIOD_MS</div><div class="ttdef"><b>Definition</b> diagnostics.h:18</div></div>
-<div class="ttc" id="adiagnostics_8h_html_af20dbc3bc53b47ce3229ac6f410a8d07"><div class="ttname"><a href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a></div><div class="ttdeci">void diagnostics_periodic(void)</div><div class="ttdoc">Periodically samples task statistics and transmits diagnostics over CAN.</div><div class="ttdef"><b>Definition</b> diagnostics.c:187</div></div>
+<b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="#a73ea96db51949c2ace5c0e19a4d603d7">DIAGNOSTICS_PRIV_WRAP_SEND_TASK</a>(SEND_TASK) \</div>
+<div class="line">    DIAGNOSTICS_PRIV_WRAP_SEND_SUMMARY(SEND_SUMMARY) \</div>
+<div class="line">    DIAGNOSTICS_PRIV_WRAP_SEND_NAME(SEND_NAME) \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a> diagnostics_can_fns = { \</div>
+<div class="line">        .send_task    = diagnostics_priv_send_task, \</div>
+<div class="line">        .send_summary = diagnostics_priv_send_summary, \</div>
+<div class="line">        .send_name    = diagnostics_priv_send_name, \</div>
+<div class="line">    }; \</div>
+<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> diagnostics_task_wrapper(<span class="keywordtype">void</span>) { <a class="code hl_function" href="#abf6e6e7c6e09b252351dc578ca85f332">diagnostics_periodic</a>(&amp;diagnostics_can_fns); } \</div>
+<div class="line">    RTOS_DEFINE_TASK(diagnostics_task_wrapper, <a class="code hl_define" href="#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</div>
+<div class="ttc" id="adiagnostics_8h_html_a260b0129883bdd2ec8767e113d48583e"><div class="ttname"><a href="#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a></div><div class="ttdeci">#define DIAGNOSTICS_TICK_PERIOD_MS</div><div class="ttdef"><b>Definition</b> diagnostics.h:19</div></div>
+<div class="ttc" id="adiagnostics_8h_html_a73ea96db51949c2ace5c0e19a4d603d7"><div class="ttname"><a href="#a73ea96db51949c2ace5c0e19a4d603d7">DIAGNOSTICS_PRIV_WRAP_SEND_TASK</a></div><div class="ttdeci">#define DIAGNOSTICS_PRIV_WRAP_SEND_TASK(FN)</div><div class="ttdef"><b>Definition</b> diagnostics.h:45</div></div>
+<div class="ttc" id="adiagnostics_8h_html_abf6e6e7c6e09b252351dc578ca85f332"><div class="ttname"><a href="#abf6e6e7c6e09b252351dc578ca85f332">diagnostics_periodic</a></div><div class="ttdeci">void diagnostics_periodic(const diagnostics_can_fns_t *can_fns)</div><div class="ttdoc">Periodically samples task statistics and transmits diagnostics over CAN.</div><div class="ttdef"><b>Definition</b> diagnostics.c:189</div></div>
 <div class="ttc" id="artos_8h_html_a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514"><div class="ttname"><a href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></div><div class="ttdeci">@ TASK_PRIORITY_LOW</div><div class="ttdef"><b>Definition</b> rtos.h:34</div></div>
 <div class="ttc" id="artos_8h_html_a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e"><div class="ttname"><a href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a></div><div class="ttdeci">@ STACK_1024</div><div class="ttdef"><b>Definition</b> rtos.h:27</div></div>
-<div class="ttc" id="artos_8h_html_adba1c306f3b331e572b145519c0afdaf"><div class="ttname"><a href="rtos_8h.html#adba1c306f3b331e572b145519c0afdaf">RTOS_DEFINE_TASK</a></div><div class="ttdeci">#define RTOS_DEFINE_TASK(NAME, PERIOD_MS, PRIORITY, STACK_SIZE)</div><div class="ttdoc">Defines a statically allocated periodic FreeRTOS task.</div><div class="ttdef"><b>Definition</b> rtos.h:79</div></div>
+<div class="ttc" id="astructdiagnostics__can__fns__t_html"><div class="ttname"><a href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a></div><div class="ttdef"><b>Definition</b> diagnostics.h:39</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -192,6 +230,67 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+</div>
+</div>
+<a id="addf3b987435465f8fd7d088a255c9ce2" name="addf3b987435465f8fd7d088a255c9ce2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addf3b987435465f8fd7d088a255c9ce2">&#9670;&#160;</a></span>DIAGNOSTICS_PRIV_WRAP_SEND_NAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DIAGNOSTICS_PRIV_WRAP_SEND_NAME</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>FN</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> diagnostics_priv_send_name( \</div>
+<div class="line">        uint32_t diag_id, uint8_t diag_idx, uint8_t diag_ch \</div>
+<div class="line">    ) { FN(diag_id, diag_idx, diag_ch); }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a4d3c7cd22c5c4625b78ad394fb1843f4" name="a4d3c7cd22c5c4625b78ad394fb1843f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d3c7cd22c5c4625b78ad394fb1843f4">&#9670;&#160;</a></span>DIAGNOSTICS_PRIV_WRAP_SEND_SUMMARY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DIAGNOSTICS_PRIV_WRAP_SEND_SUMMARY</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>FN</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> diagnostics_priv_send_summary( \</div>
+<div class="line">        uint32_t diag_samples, uint16_t diag_tasks, uint8_t diag_cpu, <span class="keywordtype">bool</span> diag_exceeded \</div>
+<div class="line">    ) { FN(diag_samples, diag_tasks, diag_cpu, diag_exceeded); }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a73ea96db51949c2ace5c0e19a4d603d7" name="a73ea96db51949c2ace5c0e19a4d603d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73ea96db51949c2ace5c0e19a4d603d7">&#9670;&#160;</a></span>DIAGNOSTICS_PRIV_WRAP_SEND_TASK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DIAGNOSTICS_PRIV_WRAP_SEND_TASK</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>FN</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> diagnostics_priv_send_task( \</div>
+<div class="line">        uint32_t diag_id, uint16_t diag_hwm, uint8_t diag_cpu, <a class="code hl_enumeration" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a> diag_state \</div>
+<div class="line">    ) { FN(diag_id, diag_hwm, diag_cpu, diag_state); }</div>
+<div class="ttc" id="acan__types_8h_html_a6104ec5329b296213fecd43034bab65f"><div class="ttname"><a href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a></div><div class="ttdeci">diagnostics_task_state_t</div><div class="ttdef"><b>Definition</b> can_types.h:80</div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a260b0129883bdd2ec8767e113d48583e" name="a260b0129883bdd2ec8767e113d48583e"></a>
@@ -222,14 +321,57 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d">RTOS_START_TASK</a>(<a class="code hl_function" href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a>)</div>
+<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d">RTOS_START_TASK</a>(diagnostics_task_wrapper)</div>
 <div class="ttc" id="artos_8h_html_a439cda3df5fb52f9ee2c1a8366b7394d"><div class="ttname"><a href="rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d">RTOS_START_TASK</a></div><div class="ttdeci">#define RTOS_START_TASK(NAME)</div><div class="ttdoc">Creates and starts a previously defined task.</div><div class="ttdef"><b>Definition</b> rtos.h:109</div></div>
 </div><!-- fragment -->
 </div>
 </div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="affb2bad8d96f39c47a4f01da8c1cfe72" name="affb2bad8d96f39c47a4f01da8c1cfe72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affb2bad8d96f39c47a4f01da8c1cfe72">&#9670;&#160;</a></span>diagnostics_send_name_fn_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef void(* diagnostics_send_name_fn_t) (uint32_t task_id, uint8_t char_index, uint8_t character)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a64e8d48a5ef63e9dffad7a0672741106" name="a64e8d48a5ef63e9dffad7a0672741106"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64e8d48a5ef63e9dffad7a0672741106">&#9670;&#160;</a></span>diagnostics_send_summary_fn_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef void(* diagnostics_send_summary_fn_t) (uint32_t sample_count, uint16_t task_count, uint8_t cpu_percent, bool capacity_exceeded)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a70b96eac4637323e7d446b3ce3f1b31c" name="a70b96eac4637323e7d446b3ce3f1b31c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70b96eac4637323e7d446b3ce3f1b31c">&#9670;&#160;</a></span>diagnostics_send_task_fn_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef void(* diagnostics_send_task_fn_t) (uint32_t task_id, uint16_t stack_hwm, uint8_t cpu_percent, <a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a> state)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="af20dbc3bc53b47ce3229ac6f410a8d07" name="af20dbc3bc53b47ce3229ac6f410a8d07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af20dbc3bc53b47ce3229ac6f410a8d07">&#9670;&#160;</a></span>diagnostics_periodic()</h2>
+<a id="abf6e6e7c6e09b252351dc578ca85f332" name="abf6e6e7c6e09b252351dc578ca85f332"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf6e6e7c6e09b252351dc578ca85f332">&#9670;&#160;</a></span>diagnostics_periodic()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -237,18 +379,24 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void diagnostics_periodic </td>
           <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structdiagnostics__can__fns__t.html">diagnostics_can_fns_t</a> *</td>          <td class="paramname"><span class="paramname"><em>can_fns</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Periodically samples task statistics and transmits diagnostics over CAN. </p>
-<p>Samples all tasks once per second (every 20 ticks at 50 ms) Sends at most one task (status + name character) per tick and one board summary per cycle. </p>
+<p>Samples all tasks once per second (every 20 ticks at 50 ms) Sends at most one task (status + name character) per tick and one board summary per cycle.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">can_fns</td><td>CAN send callbacks </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="diagnostics_8h_af20dbc3bc53b47ce3229ac6f410a8d07_cgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="diagnostics_8h_abf6e6e7c6e09b252351dc578ca85f332_cgraph.svg" width="100%" height="512"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

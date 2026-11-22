@@ -22,14 +22,14 @@
 <area shape="poly" id="edge50_Node000001_Node000115" title=" " alt="" coords="36,1096,42,1129,54,1171,74,1216,88,1237,104,1255,111,1260,107,1264,101,1259,84,1240,70,1219,49,1173,36,1130,30,1097"/>
 <area shape="rect" id="Node000127" href="$a__box_2telemetry_2telemetry_8c.html#a74034e258280659c81e74c002594b2e2" title="Reports telemetry data at 0.2 Hz rate Includes: ABOX git hash, CAN stats." alt="" coords="106,1317,254,1343"/>
 <area shape="poly" id="edge51_Node000001_Node000127" title=" " alt="" coords="34,1096,37,1137,48,1192,69,1252,85,1280,105,1304,107,1306,103,1310,101,1308,80,1283,64,1255,42,1194,32,1137,29,1097"/>
-<area shape="rect" id="Node000135" href="$switch_8c.html#a0330ac3f2698f04048c663f8ef91f692" title=" " alt="" coords="120,1367,241,1392"/>
-<area shape="poly" id="edge52_Node000001_Node000135" title=" " alt="" coords="33,1097,34,1145,42,1214,50,1251,63,1288,81,1323,105,1354,109,1357,105,1361,101,1357,77,1326,58,1290,45,1253,36,1215,28,1145,28,1097"/>
-<area shape="rect" id="Node000136" href="$switch_8c.html#a8b4bc35239dd1f38c1ad844d03b540fe" title=" " alt="" coords="111,621,250,647"/>
-<area shape="poly" id="edge53_Node000001_Node000136" title=" " alt="" coords="28,1070,30,1010,38,918,60,811,77,758,100,707,121,678,146,655,150,659,126,682,105,710,82,760,65,813,44,919,35,1011,34,1070"/>
-<area shape="rect" id="Node000138" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="125,1416,236,1442"/>
-<area shape="poly" id="edge55_Node000001_Node000138" title=" " alt="" coords="35,1097,42,1161,56,1253,77,1344,90,1379,105,1403,113,1410,109,1414,101,1407,85,1382,72,1346,51,1254,37,1162,30,1097"/>
-<area shape="rect" id="Node000139" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="142,1465,218,1491"/>
-<area shape="poly" id="edge56_Node000001_Node000139" title=" " alt="" coords="35,1097,40,1170,53,1277,74,1383,88,1424,105,1452,128,1468,126,1472,101,1456,83,1427,69,1384,48,1278,35,1170,29,1097"/>
+<area shape="rect" id="Node000133" href="$switch_8c.html#a0330ac3f2698f04048c663f8ef91f692" title=" " alt="" coords="120,1367,241,1392"/>
+<area shape="poly" id="edge52_Node000001_Node000133" title=" " alt="" coords="33,1097,34,1145,42,1214,50,1251,63,1288,81,1323,105,1354,109,1357,105,1361,101,1357,77,1326,58,1290,45,1253,36,1215,28,1145,28,1097"/>
+<area shape="rect" id="Node000134" href="$switch_8c.html#a8b4bc35239dd1f38c1ad844d03b540fe" title=" " alt="" coords="111,621,250,647"/>
+<area shape="poly" id="edge53_Node000001_Node000134" title=" " alt="" coords="28,1070,30,1010,38,918,60,811,77,758,100,707,121,678,146,655,150,659,126,682,105,710,82,760,65,813,44,919,35,1011,34,1070"/>
+<area shape="rect" id="Node000136" href="$watchdog_8c.html#a6a2c1fa78af77115f11c0f47b19480cd" title=" " alt="" coords="125,1416,236,1442"/>
+<area shape="poly" id="edge55_Node000001_Node000136" title=" " alt="" coords="35,1097,42,1161,56,1253,77,1344,90,1379,105,1403,113,1410,109,1414,101,1407,85,1382,72,1346,51,1254,37,1162,30,1097"/>
+<area shape="rect" id="Node000137" href="$watchdog_8c.html#a51d10c4e4d48fbc226b4b17aab1ca5eb" title=" " alt="" coords="142,1465,218,1491"/>
+<area shape="poly" id="edge56_Node000001_Node000137" title=" " alt="" coords="35,1097,40,1170,53,1277,74,1383,88,1424,105,1452,128,1468,126,1472,101,1456,83,1427,69,1384,48,1278,35,1170,29,1097"/>
 <area shape="rect" id="Node000003" href="$A__BOX_8h.html#aa74d2751bf997adba50be76251291997" title=" " alt="" coords="362,5,467,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="189,151,234,97,267,66,305,40,345,25,347,30,307,45,270,70,238,100,193,155"/>
 <area shape="rect" id="Node000010" href="$can__init_8c.html#a8f52e08219489a941feaacbd258da0d2" title=" " alt="" coords="358,55,470,80"/>
@@ -104,5 +104,5 @@
 <area shape="poly" id="edge48_Node000104_Node000105" title=" " alt="" coords="243,1241,260,1254,279,1283,287,1312,287,1341,283,1369,280,1397,281,1424,289,1451,308,1478,310,1479,306,1483,304,1481,284,1453,275,1425,275,1397,278,1368,282,1340,282,1312,274,1285,256,1257,240,1245"/>
 <area shape="rect" id="Node000106" href="$gpio__priv_8c.html#a396ed356814413b8113510a00d0bf88f" title="Set AFR&#39;s field for pin. Caller must have validated pin &lt;= 15." alt="" coords="306,1540,522,1566"/>
 <area shape="poly" id="edge49_Node000104_Node000106" title=" " alt="" coords="243,1241,260,1254,282,1289,290,1325,289,1359,283,1394,277,1428,277,1461,285,1494,308,1527,309,1528,306,1532,304,1531,280,1496,271,1462,272,1427,278,1393,284,1359,285,1325,277,1291,256,1257,240,1245"/>
-<area shape="poly" id="edge54_Node000136_Node000049" title=" " alt="" coords="210,618,305,582,339,573,340,578,307,587,212,623"/>
+<area shape="poly" id="edge54_Node000134_Node000049" title=" " alt="" coords="210,618,305,582,339,573,340,578,307,587,212,623"/>
 </map>
