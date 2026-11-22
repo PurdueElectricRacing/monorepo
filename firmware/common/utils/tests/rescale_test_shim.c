@@ -1,0 +1,14 @@
+#include "rescale_test_shim.h"
+
+float test_rescale_float(float input, float input_min, float input_max, float output_min, float output_max) {
+    rescale_float(input, input_min, input_max, output_min, output_max);
+}
+
+
+signed int test_rescale_signed(signed int input, signed int input_min, signed int input_max, signed int output_min, signed int output_max) {
+    return rescale_signed(signed int input, signed int input_min, signed int input_max, signed int output_min, signed int output_max);
+}
+
+unsigned int test_rescale_unsigned(unsigned int input,unsigned int input_min,unsigned int input_max,unsigned int output_min,unsigned int output_max) {
+    return rescale_unsigned(unsigned int input,unsigned int input_min,unsigned int input_max,unsigned int output_min,unsigned int output_max);
+}
