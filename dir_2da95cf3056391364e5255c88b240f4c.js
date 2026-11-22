@@ -12,6 +12,9 @@ var dir_2da95cf3056391364e5255c88b240f4c =
     [ "min_test.cpp", "min__test_8cpp.html", "min__test_8cpp" ],
     [ "min_test_shim.c", "min__test__shim_8c.html", "min__test__shim_8c" ],
     [ "min_test_shim.h", "min__test__shim_8h.html", "min__test__shim_8h" ],
+    [ "orientation_test.cpp", "orientation__test_8cpp.html", "orientation__test_8cpp" ],
+    [ "orientation_test_shim.c", "orientation__test__shim_8c.html", "orientation__test__shim_8c" ],
+    [ "orientation_test_shim.h", "orientation__test__shim_8h.html", "orientation__test__shim_8h" ],
     [ "vector2_test.cpp", "vector2__test_8cpp.html", "vector2__test_8cpp" ],
     [ "vector2_test_shim.c", "vector2__test__shim_8c.html", "vector2__test__shim_8c" ],
     [ "vector2_test_shim.h", "vector2__test__shim_8h.html", "vector2__test__shim_8h" ]

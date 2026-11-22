@@ -45,13 +45,14 @@ var searchData=
   ['flashgetsector_42',['flashGetSector',['../phal__F4_2flash_2flash_8c.html#a5b02b0840544332af6a1de8991188456',1,'flash.c']]],
   ['flashlock_43',['flashLock',['../phal__F4_2flash_2flash_8c.html#a70928c6a8180eff48e7da7be757d98e7',1,'flash.c']]],
   ['flashunlock_44',['flashUnlock',['../phal__F4_2flash_2flash_8c.html#afc76a39cb34a33ace01538bdd2b3b62d',1,'flash.c']]],
-  ['flush_5finva_45',['flush_inva',['../powertrain_8c.html#aeb6b7b604856470fef999ceb660957bf',1,'powertrain.c']]],
-  ['flush_5finvb_46',['flush_invb',['../powertrain_8c.html#a059575ddd2df3c7c23a2ad1eb3ee564b',1,'powertrain.c']]],
-  ['flush_5finvc_47',['flush_invc',['../powertrain_8c.html#aea7059584fe4855b90d69f0398139819',1,'powertrain.c']]],
-  ['flush_5finvd_48',['flush_invd',['../powertrain_8c.html#a46968c6a8662915c4f3f34dd7086aece',1,'powertrain.c']]],
-  ['foot_5ffrom_5fmeter_49',['foot_from_meter',['../dearunits_8h.html#a3c76450fb588c3fb28c8c0dc1321c2d7',1,'dearunits.h']]],
-  ['force_5ffrom_50',['force_from',['../dearunits_8h.html#aacb1d16c3fa51761baf115486fcc5ea2',1,'dearunits.h']]],
-  ['format_5ftime_5fms_51',['format_time_ms',['../race_8c.html#aaf2d1816e9925ab2fbf217eaf6e4de0e',1,'race.c']]],
-  ['frequency_5ffrom_52',['frequency_from',['../dearunits_8h.html#a74dfd3e6ea8b0acef95cee97ee5ca06c',1,'dearunits.h']]],
-  ['frequency_5fmatches_53',['frequency_matches',['../imd__decode_8c.html#a318673e9307dcc4ba55acc0149f75bdb',1,'imd_decode.c']]]
+  ['floats_5fequal_45',['floats_equal',['../orientation__test_8cpp.html#a6397d58241ab6677471f11ced9f02447',1,'orientation_test.cpp']]],
+  ['flush_5finva_46',['flush_inva',['../powertrain_8c.html#aeb6b7b604856470fef999ceb660957bf',1,'powertrain.c']]],
+  ['flush_5finvb_47',['flush_invb',['../powertrain_8c.html#a059575ddd2df3c7c23a2ad1eb3ee564b',1,'powertrain.c']]],
+  ['flush_5finvc_48',['flush_invc',['../powertrain_8c.html#aea7059584fe4855b90d69f0398139819',1,'powertrain.c']]],
+  ['flush_5finvd_49',['flush_invd',['../powertrain_8c.html#a46968c6a8662915c4f3f34dd7086aece',1,'powertrain.c']]],
+  ['foot_5ffrom_5fmeter_50',['foot_from_meter',['../dearunits_8h.html#a3c76450fb588c3fb28c8c0dc1321c2d7',1,'dearunits.h']]],
+  ['force_5ffrom_51',['force_from',['../dearunits_8h.html#aacb1d16c3fa51761baf115486fcc5ea2',1,'dearunits.h']]],
+  ['format_5ftime_5fms_52',['format_time_ms',['../race_8c.html#aaf2d1816e9925ab2fbf217eaf6e4de0e',1,'race.c']]],
+  ['frequency_5ffrom_53',['frequency_from',['../dearunits_8h.html#a74dfd3e6ea8b0acef95cee97ee5ca06c',1,'dearunits.h']]],
+  ['frequency_5fmatches_54',['frequency_matches',['../imd__decode_8c.html#a318673e9307dcc4ba55acc0149f75bdb',1,'imd_decode.c']]]
 ];

@@ -1,5 +1,14 @@
 var NAVTREEINDEX20 =
 {
+"phal__G4_2usart_2usart_8h.html#a0e754ee2f497cea8b6df31d13e5e1365":[34,0,1,1,10,11,1,2],
+"phal__G4_2usart_2usart_8h.html#a10e1e17882fa5ba6231c2bbb41eff416":[34,0,1,1,10,11,1,4],
+"phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252":[34,0,1,1,10,11,1,0],
+"phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252a0ac75a5473f51888c304a37948db7419":[34,0,1,1,10,11,1,0,3],
+"phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252aa06cec909d6fb92c6d46de77b6632d87":[34,0,1,1,10,11,1,0,2],
+"phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252ab7e94764a65843aacc315dee4d938c3c":[34,0,1,1,10,11,1,0,1],
+"phal__G4_2usart_2usart_8h.html#a5a99a5b20a6e9a0b6aa2a54103a94252af1e9820a41fe92a92e5c09875e0eb087":[34,0,1,1,10,11,1,0,0],
+"phal__G4_2usart_2usart_8h.html#a5d0b5e05b263ee207dfbe7046b43e379":[34,0,1,1,10,11,1,5],
+"phal__G4_2usart_2usart_8h.html#a6a2d7bc858fa90a11e983e615fde1f7c":[34,0,1,1,10,11,1,1],
 "phal__G4_2usart_2usart_8h.html#a8ebdece2db12916cdbf6bc22f9ae52de":[34,0,1,1,10,11,1,6],
 "phal__G4_2usart_2usart_8h.html#acbe9c8a44caaafcaec868d68d69b3766":[34,0,1,1,10,11,1,8],
 "phal__G4_2usart_2usart_8h.html#ad68b1ee17b4dc08e9070bf93e9f20e00":[34,0,1,1,10,11,1,3],
@@ -240,14 +249,5 @@ var NAVTREEINDEX20 =
 "sd__card_8c.html#a9fb994c75ee705a9e3b8a89682183679":[34,0,1,2,3,3,0,10],
 "sd__card_8c.html#aa396c25b76f99d1569bf0b5a674df5ca":[34,0,1,2,3,3,0,1],
 "sd__card_8c.html#ac8e3e1c6c9d36eada7e3938c604a37ad":[34,0,1,2,3,3,0,0],
-"sd__card_8c.html#ae4da6be658e99f386e3130442ad88672":[34,0,1,2,3,3,0,12],
-"sd__card_8c.html#afd6589773df9c2b32f3b1ffcb5e81105":[34,0,1,2,3,3,0,5],
-"sd__card_8h.html":[34,0,1,2,3,3,1],
-"sd__card_8h.html#a1be8d347ac90e89922850113d6c264df":[34,0,1,2,3,3,1,1],
-"sd__card_8h.html#a5baebc8abad93c04f29b9e894166d692":[34,0,1,2,3,3,1,3],
-"sd__card_8h.html#a823960a0f57943634ea0f94d48861d65":[34,0,1,2,3,3,1,2],
-"sd__card_8h.html#acb425a95edaf884fd443c15be109f574":[34,0,1,2,3,3,1,0],
-"sd__card_8h.html#acb425a95edaf884fd443c15be109f574a209ba0ec113397e20696c6cb2d5bc5f8":[34,0,1,2,3,3,1,0,7],
-"sd__card_8h.html#acb425a95edaf884fd443c15be109f574a56c516eb912a5cbc615f1a47718d27fe":[34,0,1,2,3,3,1,0,6],
-"sd__card_8h.html#acb425a95edaf884fd443c15be109f574a56eb5c9dbda5178d288a806c2e47cd71":[34,0,1,2,3,3,1,0,0]
+"sd__card_8c.html#ae4da6be658e99f386e3130442ad88672":[34,0,1,2,3,3,0,12]
 };

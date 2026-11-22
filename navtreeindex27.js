@@ -1,5 +1,14 @@
 var NAVTREEINDEX27 =
 {
+"structdashboard__fault__sync__data__t.html#aa14a45fc6a2bdc37ae49b7c64ddbd902":[33,0,90,6],
+"structdashboard__fault__sync__data__t.html#ac2b76d12991612e5dc3b1ce05e37d0a5":[33,0,90,1],
+"structdashboard__fault__sync__data__t.html#acd25fa1e39f11b29e6842722fb205b9a":[33,0,90,0],
+"structdashboard__fault__sync__data__t.html#ae5e7ed07f88edb184a04fa0121679fc0":[33,0,90,5],
+"structday__t.html":[33,0,91],
+"structday__t.html#a2f0d4034d7c85816ca7fcc893fe46fd3":[33,0,91,0],
+"structdegree__t.html":[33,0,92],
+"structdegree__t.html#a0ec9d0ca83df37726d1bb315fe65b41e":[33,0,92,0],
+"structdegrees__per__second__t.html":[33,0,93],
 "structdegrees__per__second__t.html#a717284669f7f92218a67977a687b9302":[33,0,93,0],
 "structdiagnostics__context__t.html":[33,0,94],
 "structdiagnostics__context__t.html#a32db0832707aec31dfb3899443a3dd4d":[33,0,94,0],
@@ -240,14 +249,5 @@ var NAVTREEINDEX27 =
 "structinvb__diagnostics__data__t.html#a4543d7eb28716c3f00fed3173c17f583":[33,0,145,4],
 "structinvb__diagnostics__data__t.html#a61e142d581bbcdb9a1c5edf8de64bf30":[33,0,145,2],
 "structinvb__diagnostics__data__t.html#a62a10564cbbbb535351e007c7da9baca":[33,0,145,3],
-"structinvb__diagnostics__data__t.html#ab219951596b32c32494808cdfcd9722a":[33,0,145,0],
-"structinvb__diagnostics__data__t.html#afe54b0b98caf45de4ce0f87fbc550772":[33,0,145,1],
-"structinvc__diagnostics__data__t.html":[33,0,153],
-"structinvc__diagnostics__data__t.html#a073a2761b00bdd7273070b676dd3a28d":[33,0,153,0],
-"structinvc__diagnostics__data__t.html#a13170a356168d3c640054b3293a93fb1":[33,0,153,5],
-"structinvc__diagnostics__data__t.html#a592c38ee6b01124deb805dcff74e4b19":[33,0,153,1],
-"structinvc__diagnostics__data__t.html#ae0960f2c69fd5d03d8ff0e899e017bfe":[33,0,153,4],
-"structinvc__diagnostics__data__t.html#aee283a27938cd98d62b9b0edbdfabd4f":[33,0,153,2],
-"structinvc__diagnostics__data__t.html#af0a2d7d702ff06c01a3e4e272733218e":[33,0,153,6],
-"structinvc__diagnostics__data__t.html#af6d7dd304b7c4ae555eb4c2af847806e":[33,0,153,3]
+"structinvb__diagnostics__data__t.html#ab219951596b32c32494808cdfcd9722a":[33,0,145,0]
 };
