@@ -140,6 +140,8 @@ Classes</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:abd1e10f1f5463b0b720a2991adc71f96" id="r_abd1e10f1f5463b0b720a2991adc71f96"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd1e10f1f5463b0b720a2991adc71f96">DIAGNOSTICS_MAX_TASKS</a>&#160;&#160;&#160;16</td></tr>
 <tr class="separator:abd1e10f1f5463b0b720a2991adc71f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a260b0129883bdd2ec8767e113d48583e" id="r_a260b0129883bdd2ec8767e113d48583e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a>&#160;&#160;&#160;50</td></tr>
+<tr class="separator:a260b0129883bdd2ec8767e113d48583e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba5e15d85c227ce65fa69614bf65f72c" id="r_aba5e15d85c227ce65fa69614bf65f72c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba5e15d85c227ce65fa69614bf65f72c">DEFINE_DIAGNOSTICS_TASK</a>()</td></tr>
 <tr class="separator:aba5e15d85c227ce65fa69614bf65f72c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af715dd2789f421c737a9967f9e7bdf8c" id="r_af715dd2789f421c737a9967f9e7bdf8c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af715dd2789f421c737a9967f9e7bdf8c">START_DIAGNOSTICS_TASK</a>()</td></tr>
@@ -148,7 +150,7 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:af20dbc3bc53b47ce3229ac6f410a8d07" id="r_af20dbc3bc53b47ce3229ac6f410a8d07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a> (void)</td></tr>
-<tr class="memdesc:af20dbc3bc53b47ce3229ac6f410a8d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Samples task statistics and estimates CPU utilization.  <br /></td></tr>
+<tr class="memdesc:af20dbc3bc53b47ce3229ac6f410a8d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Periodically samples task statistics and transmits diagnostics over CAN.  <br /></td></tr>
 <tr class="separator:af20dbc3bc53b47ce3229ac6f410a8d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -169,13 +171,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="rtos_8h.html#adba1c306f3b331e572b145519c0afdaf">RTOS_DEFINE_TASK</a>(<a class="code hl_function" href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a>, 1000, <a class="code hl_enumvalue" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</div>
-<div class="ttc" id="adiagnostics_8h_html_af20dbc3bc53b47ce3229ac6f410a8d07"><div class="ttname"><a href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a></div><div class="ttdeci">void diagnostics_periodic(void)</div><div class="ttdoc">Samples task statistics and estimates CPU utilization.</div><div class="ttdef"><b>Definition</b> diagnostics.c:66</div></div>
+<b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="rtos_8h.html#adba1c306f3b331e572b145519c0afdaf">RTOS_DEFINE_TASK</a>(<a class="code hl_function" href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a>, <a class="code hl_define" href="#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a>, <a class="code hl_enumvalue" href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a>)</div>
+<div class="ttc" id="adiagnostics_8h_html_a260b0129883bdd2ec8767e113d48583e"><div class="ttname"><a href="#a260b0129883bdd2ec8767e113d48583e">DIAGNOSTICS_TICK_PERIOD_MS</a></div><div class="ttdeci">#define DIAGNOSTICS_TICK_PERIOD_MS</div><div class="ttdef"><b>Definition</b> diagnostics.h:18</div></div>
+<div class="ttc" id="adiagnostics_8h_html_af20dbc3bc53b47ce3229ac6f410a8d07"><div class="ttname"><a href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a></div><div class="ttdeci">void diagnostics_periodic(void)</div><div class="ttdoc">Periodically samples task statistics and transmits diagnostics over CAN.</div><div class="ttdef"><b>Definition</b> diagnostics.c:187</div></div>
 <div class="ttc" id="artos_8h_html_a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514"><div class="ttname"><a href="rtos_8h.html#a19c0e189abb7e28c6635ead489445064a579ef89a125d8a2c726f2e7f09e30514">TASK_PRIORITY_LOW</a></div><div class="ttdeci">@ TASK_PRIORITY_LOW</div><div class="ttdef"><b>Definition</b> rtos.h:34</div></div>
 <div class="ttc" id="artos_8h_html_a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e"><div class="ttname"><a href="rtos_8h.html#a957d69639fa86650c6d7ebf00f1f1f89ab0d381b18ad3cc4d98b55792abefd67e">STACK_1024</a></div><div class="ttdeci">@ STACK_1024</div><div class="ttdef"><b>Definition</b> rtos.h:27</div></div>
 <div class="ttc" id="artos_8h_html_adba1c306f3b331e572b145519c0afdaf"><div class="ttname"><a href="rtos_8h.html#adba1c306f3b331e572b145519c0afdaf">RTOS_DEFINE_TASK</a></div><div class="ttdeci">#define RTOS_DEFINE_TASK(NAME, PERIOD_MS, PRIORITY, STACK_SIZE)</div><div class="ttdoc">Defines a statically allocated periodic FreeRTOS task.</div><div class="ttdef"><b>Definition</b> rtos.h:79</div></div>
-</div><!-- fragment --><p>Define diagnostics task with FreeRTOS </p>
-
+</div><!-- fragment -->
 </div>
 </div>
 <a id="abd1e10f1f5463b0b720a2991adc71f96" name="abd1e10f1f5463b0b720a2991adc71f96"></a>
@@ -186,6 +188,20 @@ Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define DIAGNOSTICS_MAX_TASKS&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a260b0129883bdd2ec8767e113d48583e" name="a260b0129883bdd2ec8767e113d48583e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a260b0129883bdd2ec8767e113d48583e">&#9670;&#160;</a></span>DIAGNOSTICS_TICK_PERIOD_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DIAGNOSTICS_TICK_PERIOD_MS&#160;&#160;&#160;50</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -208,8 +224,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d">RTOS_START_TASK</a>(<a class="code hl_function" href="#af20dbc3bc53b47ce3229ac6f410a8d07">diagnostics_periodic</a>)</div>
 <div class="ttc" id="artos_8h_html_a439cda3df5fb52f9ee2c1a8366b7394d"><div class="ttname"><a href="rtos_8h.html#a439cda3df5fb52f9ee2c1a8366b7394d">RTOS_START_TASK</a></div><div class="ttdeci">#define RTOS_START_TASK(NAME)</div><div class="ttdoc">Creates and starts a previously defined task.</div><div class="ttdef"><b>Definition</b> rtos.h:109</div></div>
-</div><!-- fragment --><p>Start previously defined diagnostic task </p>
-
+</div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
@@ -228,15 +243,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Samples task statistics and estimates CPU utilization. </p>
-<p>Records task IDs, names, states, and stack high-water marks. Calculates each task's CPU utilization from the runtime difference between samples. Overall CPU utilization is calculated as 100% minus the idle task's utilization.</p>
-<dl class="section note"><dt>Note</dt><dd>CPU utilization requires a previous sample and a valid runtime delta. </dd>
-<dd>
-This function should only be called by one task at a time. </dd></dl>
+<p>Periodically samples task statistics and transmits diagnostics over CAN. </p>
+<p>Samples all tasks once per second (every 20 ticks at 50 ms) Sends at most one task (status + name character) per tick and one board summary per cycle. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="diagnostics_8h_af20dbc3bc53b47ce3229ac6f410a8d07_cgraph.svg" width="547" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="diagnostics_8h_af20dbc3bc53b47ce3229ac6f410a8d07_cgraph.svg" width="100%" height="401"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>

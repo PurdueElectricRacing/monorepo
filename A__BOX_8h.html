@@ -206,6 +206,12 @@ Functions</h2></td></tr>
 <tr class="separator:a98274ad87b020d8dd05d808ef35c39e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe8339cc4aaefa1b5e43a4ba56d5600c" id="r_afe8339cc4aaefa1b5e43a4ba56d5600c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe8339cc4aaefa1b5e43a4ba56d5600c">CAN_SEND_a_box_can_tx_messages</a> (uint32_t value_tx_sent, uint32_t value_tx_callbacks)</td></tr>
 <tr class="separator:afe8339cc4aaefa1b5e43a4ba56d5600c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cdfe9d3a15d06b19caa6460533089a5" id="r_a0cdfe9d3a15d06b19caa6460533089a5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cdfe9d3a15d06b19caa6460533089a5">CAN_SEND_a_box_diag_task</a> (uint32_t value_task_id, uint16_t value_stack_hwm, uint8_t value_cpu_percent, <a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a> value_state)</td></tr>
+<tr class="separator:a0cdfe9d3a15d06b19caa6460533089a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f54266676f09ef58df70486802584a7" id="r_a2f54266676f09ef58df70486802584a7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f54266676f09ef58df70486802584a7">CAN_SEND_a_box_diag_summary</a> (uint32_t value_sample_count, uint16_t value_task_count, uint8_t value_cpu_percent, bool value_capacity_exceeded)</td></tr>
+<tr class="separator:a2f54266676f09ef58df70486802584a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e72bdf6405e149f98cdd9b5151ea600" id="r_a1e72bdf6405e149f98cdd9b5151ea600"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e72bdf6405e149f98cdd9b5151ea600">CAN_SEND_a_box_diag_name</a> (uint32_t value_task_id, uint8_t value_char_index, uint8_t value_character)</td></tr>
+<tr class="separator:a1e72bdf6405e149f98cdd9b5151ea600"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ca6000d83a48ae976dd499a740f1474" id="r_a6ca6000d83a48ae976dd499a740f1474"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ca6000d83a48ae976dd499a740f1474">CAN_SEND_abox_init</a> (uint32_t value_csr)</td></tr>
 <tr class="separator:a6ca6000d83a48ae976dd499a740f1474"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83fc46e5b06a41621822e760d3f5126c" id="r_a83fc46e5b06a41621822e760d3f5126c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83fc46e5b06a41621822e760d3f5126c">CAN_SEND_pack_analog</a> (uint16_t value_pack_voltage, int16_t value_pack_current)</td></tr>
@@ -648,6 +654,133 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_afe8339cc4aaefa1b5e43a4ba56d5600c_icgraph.svg" width="466" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a1e72bdf6405e149f98cdd9b5151ea600" name="a1e72bdf6405e149f98cdd9b5151ea600"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e72bdf6405e149f98cdd9b5151ea600">&#9670;&#160;</a></span>CAN_SEND_a_box_diag_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_a_box_diag_name </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_char_index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_character</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a1e72bdf6405e149f98cdd9b5151ea600_cgraph.svg" width="623" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a2f54266676f09ef58df70486802584a7" name="a2f54266676f09ef58df70486802584a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f54266676f09ef58df70486802584a7">&#9670;&#160;</a></span>CAN_SEND_a_box_diag_summary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_a_box_diag_summary </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_sample_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_task_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_cpu_percent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_capacity_exceeded</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a2f54266676f09ef58df70486802584a7_cgraph.svg" width="584" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a0cdfe9d3a15d06b19caa6460533089a5" name="a0cdfe9d3a15d06b19caa6460533089a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cdfe9d3a15d06b19caa6460533089a5">&#9670;&#160;</a></span>CAN_SEND_a_box_diag_task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_a_box_diag_task </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_stack_hwm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_cpu_percent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a></td>          <td class="paramname"><span class="paramname"><em>value_state</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="A__BOX_8h_a0cdfe9d3a15d06b19caa6460533089a5_cgraph.svg" width="616" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

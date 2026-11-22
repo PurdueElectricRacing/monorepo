@@ -193,6 +193,12 @@ Functions</h2></td></tr>
 <tr class="separator:a49844b87ad17a781ea49cd0123997efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1009465baf6c1d7c34b9a2ec03d66592" id="r_a1009465baf6c1d7c34b9a2ec03d66592"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1009465baf6c1d7c34b9a2ec03d66592">CAN_SEND_pdu_can_tx_messages</a> (uint32_t value_tx_sent, uint32_t value_tx_callbacks)</td></tr>
 <tr class="separator:a1009465baf6c1d7c34b9a2ec03d66592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3548dcc60c41755181f20e317b33c199" id="r_a3548dcc60c41755181f20e317b33c199"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3548dcc60c41755181f20e317b33c199">CAN_SEND_pdu_diag_task</a> (uint32_t value_task_id, uint16_t value_stack_hwm, uint8_t value_cpu_percent, <a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a> value_state)</td></tr>
+<tr class="separator:a3548dcc60c41755181f20e317b33c199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11062e78a9f91056326e712257935fc4" id="r_a11062e78a9f91056326e712257935fc4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11062e78a9f91056326e712257935fc4">CAN_SEND_pdu_diag_summary</a> (uint32_t value_sample_count, uint16_t value_task_count, uint8_t value_cpu_percent, bool value_capacity_exceeded)</td></tr>
+<tr class="separator:a11062e78a9f91056326e712257935fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af538057c7ed9ad7be9b7417065930280" id="r_af538057c7ed9ad7be9b7417065930280"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af538057c7ed9ad7be9b7417065930280">CAN_SEND_pdu_diag_name</a> (uint32_t value_task_id, uint8_t value_char_index, uint8_t value_character)</td></tr>
+<tr class="separator:af538057c7ed9ad7be9b7417065930280"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a984d4c08c875de80bf03a51eca2fb6ce" id="r_a984d4c08c875de80bf03a51eca2fb6ce"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a984d4c08c875de80bf03a51eca2fb6ce">CAN_SEND_pdu_init</a> (uint32_t value_csr)</td></tr>
 <tr class="separator:a984d4c08c875de80bf03a51eca2fb6ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16832d8cf99185c8ae2c7a30c7bbb205" id="r_a16832d8cf99185c8ae2c7a30c7bbb205"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16832d8cf99185c8ae2c7a30c7bbb205">CAN_SEND_pdu_version</a> (uint32_t value_git_hash)</td></tr>
@@ -362,7 +368,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PDU_8h_a0da956162efe3e0016f181cee58961e6_icgraph.svg" width="100%" height="499"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="PDU_8h_a0da956162efe3e0016f181cee58961e6_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -628,6 +634,133 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_a1009465baf6c1d7c34b9a2ec03d66592_icgraph.svg" width="372" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="af538057c7ed9ad7be9b7417065930280" name="af538057c7ed9ad7be9b7417065930280"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af538057c7ed9ad7be9b7417065930280">&#9670;&#160;</a></span>CAN_SEND_pdu_diag_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_pdu_diag_name </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_char_index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_character</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_af538057c7ed9ad7be9b7417065930280_cgraph.svg" width="610" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a11062e78a9f91056326e712257935fc4" name="a11062e78a9f91056326e712257935fc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11062e78a9f91056326e712257935fc4">&#9670;&#160;</a></span>CAN_SEND_pdu_diag_summary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_pdu_diag_summary </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_sample_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_task_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_cpu_percent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_capacity_exceeded</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_a11062e78a9f91056326e712257935fc4_cgraph.svg" width="631" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a3548dcc60c41755181f20e317b33c199" name="a3548dcc60c41755181f20e317b33c199"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3548dcc60c41755181f20e317b33c199">&#9670;&#160;</a></span>CAN_SEND_pdu_diag_task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_pdu_diag_task </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_stack_hwm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_cpu_percent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a></td>          <td class="paramname"><span class="paramname"><em>value_state</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="PDU_8h_a3548dcc60c41755181f20e317b33c199_cgraph.svg" width="603" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

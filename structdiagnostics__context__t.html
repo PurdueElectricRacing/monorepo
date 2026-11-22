@@ -128,10 +128,12 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ae52d3c2420895d9788c9ed1b57cea6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32db0832707aec31dfb3899443a3dd4d" id="r_a32db0832707aec31dfb3899443a3dd4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdiagnostics__prev__task__time__t.html">diagnostics_prev_task_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32db0832707aec31dfb3899443a3dd4d">prev_task_times</a> [<a class="el" href="diagnostics_8h.html#abd1e10f1f5463b0b720a2991adc71f96">DIAGNOSTICS_MAX_TASKS</a>]</td></tr>
 <tr class="separator:a32db0832707aec31dfb3899443a3dd4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a573b8f2efd10a4cc841fd41df9729a53" id="r_a573b8f2efd10a4cc841fd41df9729a53"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a573b8f2efd10a4cc841fd41df9729a53">tick_count</a></td></tr>
+<tr class="separator:a573b8f2efd10a4cc841fd41df9729a53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains all globals used in <a class="el" href="diagnostics_8c.html" title="Common logger for basic CPU and FreeRTOS task profiling data.">diagnostics.c</a>. </p>
-<p>This struct is filled out by <a class="el" href="diagnostics_8c.html#af20dbc3bc53b47ce3229ac6f410a8d07" title="Samples task statistics and estimates CPU utilization.">diagnostics_periodic()</a> Includes all needed variables for performing profiling. </p>
+<p>This struct is filled out by <a class="el" href="diagnostics_8c.html#af20dbc3bc53b47ce3229ac6f410a8d07" title="Periodically samples task statistics and transmits diagnostics over CAN.">diagnostics_periodic()</a> Includes all needed variables for performing profiling. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a32db0832707aec31dfb3899443a3dd4d" name="a32db0832707aec31dfb3899443a3dd4d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a32db0832707aec31dfb3899443a3dd4d">&#9670;&#160;</a></span>prev_task_times</h2>
@@ -197,6 +199,20 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="structdiagnostics__snapshot__t.html">diagnostics_snapshot_t</a> diagnostics_context_t::snapshot</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a573b8f2efd10a4cc841fd41df9729a53" name="a573b8f2efd10a4cc841fd41df9729a53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a573b8f2efd10a4cc841fd41df9729a53">&#9670;&#160;</a></span>tick_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t diagnostics_context_t::tick_count</td>
         </tr>
       </table>
 </div><div class="memdoc">

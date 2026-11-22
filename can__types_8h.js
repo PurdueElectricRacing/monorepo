@@ -35,6 +35,14 @@ var can__types_8h =
       [ "CHARGING_STATE_READY2CHARGE", "can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2a39a9954e92d96cf14a2b1fe88a5f078d", null ],
       [ "CHARGING_STATE_CHARGING", "can__types_8h.html#a65a478ba50ffa7e41f7a559c29a6eee2a881d6aaafdb9f09ab48251a0394e3783", null ]
     ] ],
+    [ "diagnostics_task_state_t", "can__types_8h.html#a6104ec5329b296213fecd43034bab65f", [
+      [ "DIAGNOSTICS_TASK_STATE_RUNNING", "can__types_8h.html#a6104ec5329b296213fecd43034bab65fafd9c0406a8911dd316a82710fe1a0f54", null ],
+      [ "DIAGNOSTICS_TASK_STATE_READY", "can__types_8h.html#a6104ec5329b296213fecd43034bab65fa2d7a310268d428bdf1e376c470b4ac26", null ],
+      [ "DIAGNOSTICS_TASK_STATE_BLOCKED", "can__types_8h.html#a6104ec5329b296213fecd43034bab65faa9defae554d52452548fb9c649329643", null ],
+      [ "DIAGNOSTICS_TASK_STATE_SUSPENDED", "can__types_8h.html#a6104ec5329b296213fecd43034bab65fa0762b5a5a5ea17f7b22bcfcaa23d83ee", null ],
+      [ "DIAGNOSTICS_TASK_STATE_DELETED", "can__types_8h.html#a6104ec5329b296213fecd43034bab65fa16f63bf0cbd8d5d0c3dcdf0e813cd6ae", null ],
+      [ "DIAGNOSTICS_TASK_STATE_INVALID", "can__types_8h.html#a6104ec5329b296213fecd43034bab65fa7728e9ad2ad1e76f9287bd9ae2b8c50d", null ]
+    ] ],
     [ "fault_id_t", "can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63", [
       [ "FAULT_ID_PACK_OVERTEMP", "can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63a1ac20b97abc42914a8dfd9d9dbd10cff", null ],
       [ "FAULT_ID_PACK_WARM", "can__types_8h.html#aaeae5c1fa29868d0578987e428ecfb63a19edb94c80c6f0b9441d4917ce961d99", null ],

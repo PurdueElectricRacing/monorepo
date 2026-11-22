@@ -217,6 +217,12 @@ Functions</h2></td></tr>
 <tr class="separator:afe40772ed6befe92217e2ef9974843f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaec438ab0bc6a8ec4867d966c7f39c4c" id="r_aaec438ab0bc6a8ec4867d966c7f39c4c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaec438ab0bc6a8ec4867d966c7f39c4c">CAN_SEND_mark_data</a> (uint32_t value_os_tick, uint16_t value_mark_index)</td></tr>
 <tr class="separator:aaec438ab0bc6a8ec4867d966c7f39c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a457bdc8d0df9b1ba4de7c92f7fe43e41" id="r_a457bdc8d0df9b1ba4de7c92f7fe43e41"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a457bdc8d0df9b1ba4de7c92f7fe43e41">CAN_SEND_dashboard_diag_task</a> (uint32_t value_task_id, uint16_t value_stack_hwm, uint8_t value_cpu_percent, <a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a> value_state)</td></tr>
+<tr class="separator:a457bdc8d0df9b1ba4de7c92f7fe43e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01a963fce5ffcb3fc643f922a8bb0d39" id="r_a01a963fce5ffcb3fc643f922a8bb0d39"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01a963fce5ffcb3fc643f922a8bb0d39">CAN_SEND_dashboard_diag_summary</a> (uint32_t value_sample_count, uint16_t value_task_count, uint8_t value_cpu_percent, bool value_capacity_exceeded)</td></tr>
+<tr class="separator:a01a963fce5ffcb3fc643f922a8bb0d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a985253a9cfcbeed853b4e56a63030bf5" id="r_a985253a9cfcbeed853b4e56a63030bf5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a985253a9cfcbeed853b4e56a63030bf5">CAN_SEND_dashboard_diag_name</a> (uint32_t value_task_id, uint8_t value_char_index, uint8_t value_character)</td></tr>
+<tr class="separator:a985253a9cfcbeed853b4e56a63030bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbd59e401bb0a994fb66880221f0b106" id="r_acbd59e401bb0a994fb66880221f0b106"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbd59e401bb0a994fb66880221f0b106">CAN_SEND_dash_init</a> (uint32_t value_csr)</td></tr>
 <tr class="separator:acbd59e401bb0a994fb66880221f0b106"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefa6d76fa009e8b19e4882b02e157e2c" id="r_aefa6d76fa009e8b19e4882b02e157e2c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefa6d76fa009e8b19e4882b02e157e2c">CAN_SEND_pedals</a> (uint8_t value_throttle, uint8_t value_regen, uint8_t value_brake)</td></tr>
@@ -442,7 +448,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="DASHBOARD_8h_ae0afd2c16e8c1125c2d62d717a8fc155_icgraph.svg" width="100%" height="499"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="DASHBOARD_8h_ae0afd2c16e8c1125c2d62d717a8fc155_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -778,6 +784,133 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="DASHBOARD_8h_a6b12b430bca3cc7e4ac1f91708a6e2ec_icgraph.svg" width="384" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a985253a9cfcbeed853b4e56a63030bf5" name="a985253a9cfcbeed853b4e56a63030bf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a985253a9cfcbeed853b4e56a63030bf5">&#9670;&#160;</a></span>CAN_SEND_dashboard_diag_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_dashboard_diag_name </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_char_index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_character</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="DASHBOARD_8h_a985253a9cfcbeed853b4e56a63030bf5_cgraph.svg" width="579" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a01a963fce5ffcb3fc643f922a8bb0d39" name="a01a963fce5ffcb3fc643f922a8bb0d39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01a963fce5ffcb3fc643f922a8bb0d39">&#9670;&#160;</a></span>CAN_SEND_dashboard_diag_summary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_dashboard_diag_summary </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_sample_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_task_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_cpu_percent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_capacity_exceeded</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="DASHBOARD_8h_a01a963fce5ffcb3fc643f922a8bb0d39_cgraph.svg" width="579" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a457bdc8d0df9b1ba4de7c92f7fe43e41" name="a457bdc8d0df9b1ba4de7c92f7fe43e41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a457bdc8d0df9b1ba4de7c92f7fe43e41">&#9670;&#160;</a></span>CAN_SEND_dashboard_diag_task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_dashboard_diag_task </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_stack_hwm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_cpu_percent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a></td>          <td class="paramname"><span class="paramname"><em>value_state</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="DASHBOARD_8h_a457bdc8d0df9b1ba4de7c92f7fe43e41_cgraph.svg" width="579" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

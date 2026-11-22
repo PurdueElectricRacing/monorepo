@@ -219,6 +219,12 @@ Functions</h2></td></tr>
 <tr class="separator:ab7520296a94f136cc434366fbd06d24c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac8f90443fb350899c755ea672a9e05d" id="r_aac8f90443fb350899c755ea672a9e05d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac8f90443fb350899c755ea672a9e05d">CAN_SEND_torque_vector_can_tx_messages</a> (uint32_t value_tx_sent, uint32_t value_tx_callbacks)</td></tr>
 <tr class="separator:aac8f90443fb350899c755ea672a9e05d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48a6c9061e0e80e0602104c078782cf6" id="r_a48a6c9061e0e80e0602104c078782cf6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48a6c9061e0e80e0602104c078782cf6">CAN_SEND_torque_vector_diag_task</a> (uint32_t value_task_id, uint16_t value_stack_hwm, uint8_t value_cpu_percent, <a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a> value_state)</td></tr>
+<tr class="separator:a48a6c9061e0e80e0602104c078782cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a168109d4a179465d6f39d4d5cc74ab6f" id="r_a168109d4a179465d6f39d4d5cc74ab6f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a168109d4a179465d6f39d4d5cc74ab6f">CAN_SEND_torque_vector_diag_summary</a> (uint32_t value_sample_count, uint16_t value_task_count, uint8_t value_cpu_percent, bool value_capacity_exceeded)</td></tr>
+<tr class="separator:a168109d4a179465d6f39d4d5cc74ab6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4baea9a88fffb1c6517ba454428666f" id="r_ac4baea9a88fffb1c6517ba454428666f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4baea9a88fffb1c6517ba454428666f">CAN_SEND_torque_vector_diag_name</a> (uint32_t value_task_id, uint8_t value_char_index, uint8_t value_character)</td></tr>
+<tr class="separator:ac4baea9a88fffb1c6517ba454428666f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71f974c8e4e9ab8d9193fcadcdb05b24" id="r_a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71f974c8e4e9ab8d9193fcadcdb05b24">CAN_SEND_tv_init</a> (uint32_t value_csr)</td></tr>
 <tr class="separator:a71f974c8e4e9ab8d9193fcadcdb05b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4450e1f3f7253174d7e25c3cc0ce8f78" id="r_a4450e1f3f7253174d7e25c3cc0ce8f78"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4450e1f3f7253174d7e25c3cc0ce8f78">CAN_SEND_gps_time</a> (uint8_t value_year, uint8_t value_month, uint8_t value_day, uint8_t value_hour, uint8_t value_minute, uint8_t value_second, uint16_t value_millisecond)</td></tr>
@@ -976,6 +982,133 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_aac8f90443fb350899c755ea672a9e05d_icgraph.svg" width="386" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ac4baea9a88fffb1c6517ba454428666f" name="ac4baea9a88fffb1c6517ba454428666f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4baea9a88fffb1c6517ba454428666f">&#9670;&#160;</a></span>CAN_SEND_torque_vector_diag_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_torque_vector_diag_name </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_char_index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_character</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_ac4baea9a88fffb1c6517ba454428666f_cgraph.svg" width="598" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a168109d4a179465d6f39d4d5cc74ab6f" name="a168109d4a179465d6f39d4d5cc74ab6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a168109d4a179465d6f39d4d5cc74ab6f">&#9670;&#160;</a></span>CAN_SEND_torque_vector_diag_summary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_torque_vector_diag_summary </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_sample_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_task_count</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_cpu_percent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>value_capacity_exceeded</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a168109d4a179465d6f39d4d5cc74ab6f_cgraph.svg" width="598" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a48a6c9061e0e80e0602104c078782cf6" name="a48a6c9061e0e80e0602104c078782cf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48a6c9061e0e80e0602104c078782cf6">&#9670;&#160;</a></span>CAN_SEND_torque_vector_diag_task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void CAN_SEND_torque_vector_diag_task </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>value_task_id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t</td>          <td class="paramname"><span class="paramname"><em>value_stack_hwm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>value_cpu_percent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="can__types_8h.html#a6104ec5329b296213fecd43034bab65f">diagnostics_task_state_t</a></td>          <td class="paramname"><span class="paramname"><em>value_state</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="TORQUE__VECTOR_8h_a48a6c9061e0e80e0602104c078782cf6_cgraph.svg" width="598" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
