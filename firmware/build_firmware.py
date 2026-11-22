@@ -24,6 +24,7 @@ BOARD_TARGETS = [
     "a_box",
     "front_driveline",
     "rear_driveline",
+    "pdu",
 ]
 
 PACKAGE_FORMAT = "per-firmware-package-v1"

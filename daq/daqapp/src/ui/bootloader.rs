@@ -732,12 +732,14 @@ impl Bootloader {
                 "abox_version" => ("a_box", true),
                 "front_driveline_version" => ("front_driveline", true),
                 "rear_driveline_version" => ("rear_driveline", true),
+                "pdu_version" => ("pdu", true),
                 "bl_main_module_info" => ("main_module", false),
                 "bl_dashboard_info" => ("dashboard", false),
                 "bl_torque_vector_info" => ("torque_vector", false),
                 "bl_a_box_info" => ("a_box", false),
                 "bl_front_driveline_info" => ("front_driveline", false),
                 "bl_rear_driveline_info" => ("rear_driveline", false),
+                "bl_pdu_info" => ("pdu", false),
                 _ => return,
             };
 
