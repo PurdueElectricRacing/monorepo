@@ -21,6 +21,6 @@
 #define TEST_BUSOFF          16
 
 // Change this define to set the test compiled
-#define G4_TESTING_CHOSEN TEST_BUSOFF
+#define G4_TESTING_CHOSEN TEST_BLINKY
 
 #endif // __G4_TESTING__
