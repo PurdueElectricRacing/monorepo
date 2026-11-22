@@ -110,6 +110,24 @@ Define reusable signal types (enums and aliases) in `configs/system/common_types
 - `base_type`: One of `uint8_t` ... `uint64_t`, `int8_t` ... `int64_t`, `bool`.
 - `choices`: (Optional) Enum choices require explicit values: `[{"name": "READY", "value": 0}]`
 
+## Common Messages
+Define reusable TX message templates in `configs/system/common_messages.json`.
+
+### Template Attributes (`messages[]`)
+- `name`: Unique template identifier referenced by nodes.
+- `description`: Default description inherited by instantiations.
+- `signals`: Signal list shared by every instantiation.
+- `priority`: Default priority `[0-5]`.
+- `period_ms`: Optional default transmission period in milliseconds (default `0`).
+- `byte_order`: Optional default byte order (`little_endian` or `big_endian`).
+
+### Instantiating a Common Message in `tx`
+Any internal or external node `tx` entry may reference a template instead of defining signals inline:
+- `common_message`: Name of a template in `configs/system/common_messages.json`.
+- `message_name`: Concrete CAN message name for this node.
+- `description`, `priority`, `period_ms`, `byte_order`: Optional per-instance overrides.
+- `id_override`: Optional manual CAN ID (`0x...`) for this instance.
+
 ## G4 CAN bootloader
 
 `external_nodes/BOOTLOADER.json` and `nodes/BL_*.json` are the CAN source of
