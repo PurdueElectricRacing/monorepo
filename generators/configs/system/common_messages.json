@@ -90,42 +90,6 @@
             ]
         },
         {
-            "name": "can_tx_actions",
-            "description": "counts of software actions taken before CAN transmissions",
-            "priority": 4,
-            "period_ms": 5000,
-            "signals": [
-                {
-                    "signal_name": "enqueue_count",
-                    "data_type": "uint32_t",
-                    "description": "number of packets enqueued to be sent since startup"
-                },
-                {
-                    "signal_name": "task_wake_count",
-                    "data_type": "uint32_t",
-                    "description": "number of times the tx task has been called since startup"
-                }
-            ]
-        },
-        {
-            "name": "can_tx_messages",
-            "description": "counts of CAN packets transmitted",
-            "priority": 4,
-            "period_ms": 5000,
-            "signals": [
-                {
-                    "signal_name": "tx_sent",
-                    "data_type": "uint32_t",
-                    "description": "number of packets transmitted since startup"
-                },
-                {
-                    "signal_name": "tx_callbacks",
-                    "data_type": "uint32_t",
-                    "description": "number of CAN TX completion ISR callbacks since startup"
-                }
-            ]
-        },
-        {
             "name": "node_version",
             "description": "Node firmware and bootloader version",
             "priority": 4,

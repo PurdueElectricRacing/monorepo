@@ -177,14 +177,6 @@
                     "common_message": "can_overflow"
                 },
                 {
-                    "message_name": "dash_can_tx_actions",
-                    "common_message": "can_tx_actions"
-                },
-                {
-                    "message_name": "dash_can_tx_messages",
-                    "common_message": "can_tx_messages"
-                },
-                {
                     "message_name": "brake_pressure",
                     "description": "brake line hydraulic pressure in PSI",
                     "signals": [
