@@ -41,6 +41,7 @@ typedef struct {
 #define APP_TORQUE_VECTOR 4
 #define APP_FRONT_DRIVELINE 5
 #define APP_REAR_DRIVELINE 6
+#define APP_PDU 7
 
 #if (APP_ID == APP_MAIN_MODULE)
 #define BL_TARGET_ID BOOTLOADER_TARGET_ID_MAIN_MODULE
@@ -160,6 +161,26 @@ typedef struct {
         .response_dlc = BL_REAR_DRIVELINE_RESP_DLC, \
         .info_id = BL_REAR_DRIVELINE_INFO_MSG_ID, \
         .info_dlc = BL_REAR_DRIVELINE_INFO_DLC, \
+        .target_id = BL_TARGET_ID, \
+    }
+#elif (APP_ID == APP_PDU)
+#define BL_TARGET_ID BOOTLOADER_TARGET_ID_PDU
+/* VCAN: FDCAN1 on PA11/PA12. */
+#define BL_TRANSPORT_CONFIG \
+    { \
+        .peripheral = FDCAN1, \
+        .baud_rate = FDCAN_BAUD_500K, \
+        .rx_gpio = PHAL_PIN_DEFS_FDCAN1_RX_PA11, \
+        .tx_gpio = PHAL_PIN_DEFS_FDCAN1_TX_PA12, \
+        .is_extended_id = false, \
+        .start_id = BL_PDU_START_MSG_ID, \
+        .crc_id = BL_PDU_CRC_MSG_ID, \
+        .jump_id = BL_PDU_JUMP_MSG_ID, \
+        .data_id = BL_PDU_DATA_MSG_ID, \
+        .response_id = BL_PDU_RESP_MSG_ID, \
+        .response_dlc = BL_PDU_RESP_DLC, \
+        .info_id = BL_PDU_INFO_MSG_ID, \
+        .info_dlc = BL_PDU_INFO_DLC, \
         .target_id = BL_TARGET_ID, \
     }
 #else
