@@ -1,4 +1,5 @@
 #include "rescale_test_shim.h"
+#include "rescale.h"
 
 float test_rescale_float(float input, float input_min, float input_max, float output_min, float output_max) {
     return rescale_float(input, input_min, input_max, output_min, output_max);
