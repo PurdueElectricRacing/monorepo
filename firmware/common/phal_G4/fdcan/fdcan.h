@@ -143,11 +143,8 @@ bool PHAL_FDCAN_isBusOff(const FDCAN_GlobalTypeDef *fdcan);
 /**
  * @brief Initiate bus-off recovery if the peripheral is currently in bus-off
  *
- * Clears CCCR.INIT so the peripheral begins the CAN bus-off recovery sequence
- * (129 occurrences of 11 consecutive recessive bits). Non-blocking.
- *
  * @param fdcan peripheral instance
- * @return true if bus-off recovery was initiated; false if not in bus-off
+ * @return true if bus-off recovery was initiated, false if not in bus-off
  */
 bool PHAL_FDCAN_recoverBusOff(FDCAN_GlobalTypeDef *fdcan);
 
