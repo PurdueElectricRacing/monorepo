@@ -20,8 +20,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN2_TX_PB13,
 };
 
-void HardFault_Handler(void);
-
 static void send_periodic(void);
 static void send_tx_error_count(void);
 static void induce_fdcan1_error(void);
@@ -94,12 +92,6 @@ static void busoff_recovery_task(void) {
     }
     if (PHAL_FDCAN_isBusOff(FDCAN2)) {
         PHAL_FDCAN_recoverBusOff(FDCAN2);
-    }
-}
-
-void HardFault_Handler(void) {
-    while (1) {
-        __asm__("nop");
     }
 }
 
