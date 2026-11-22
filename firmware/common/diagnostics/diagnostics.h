@@ -42,38 +42,32 @@ typedef struct {
     diagnostics_send_name_fn_t send_name;
 } diagnostics_can_fns_t;
 
+// Wrap [[gnu::always_inline]] CAN_SEND_* helpers so they can be passed via function pointers.
+#define DIAGNOSTICS_PRIV_WRAP_SEND_TASK(FN) \
+    static void diagnostics_priv_send_task( \
+        uint32_t diag_id, uint16_t diag_hwm, uint8_t diag_cpu, diagnostics_task_state_t diag_state \
+    ) { FN(diag_id, diag_hwm, diag_cpu, diag_state); }
+
+#define DIAGNOSTICS_PRIV_WRAP_SEND_SUMMARY(FN) \
+    static void diagnostics_priv_send_summary( \
+        uint32_t diag_samples, uint16_t diag_tasks, uint8_t diag_cpu, bool diag_exceeded \
+    ) { FN(diag_samples, diag_tasks, diag_cpu, diag_exceeded); }
+
+#define DIAGNOSTICS_PRIV_WRAP_SEND_NAME(FN) \
+    static void diagnostics_priv_send_name( \
+        uint32_t diag_id, uint8_t diag_idx, uint8_t diag_ch \
+    ) { FN(diag_id, diag_idx, diag_ch); }
+
 #define DEFINE_DIAGNOSTICS_TASK(SEND_TASK, SEND_SUMMARY, SEND_NAME) \
-    static void diagnostics_send_task_wrapper( \
-        uint32_t diag_task_id, \
-        uint16_t diag_stack_hwm, \
-        uint8_t diag_cpu_percent, \
-        diagnostics_task_state_t diag_state \
-    ) { \
-        SEND_TASK(diag_task_id, diag_stack_hwm, diag_cpu_percent, diag_state); \
-    } \
-    static void diagnostics_send_summary_wrapper( \
-        uint32_t diag_sample_count, \
-        uint16_t diag_task_count, \
-        uint8_t diag_cpu_percent, \
-        bool diag_capacity_exceeded \
-    ) { \
-        SEND_SUMMARY(diag_sample_count, diag_task_count, diag_cpu_percent, diag_capacity_exceeded); \
-    } \
-    static void diagnostics_send_name_wrapper( \
-        uint32_t diag_task_id, \
-        uint8_t diag_char_index, \
-        uint8_t diag_character \
-    ) { \
-        SEND_NAME(diag_task_id, diag_char_index, diag_character); \
-    } \
+    DIAGNOSTICS_PRIV_WRAP_SEND_TASK(SEND_TASK) \
+    DIAGNOSTICS_PRIV_WRAP_SEND_SUMMARY(SEND_SUMMARY) \
+    DIAGNOSTICS_PRIV_WRAP_SEND_NAME(SEND_NAME) \
     static const diagnostics_can_fns_t diagnostics_can_fns = { \
-        .send_task    = diagnostics_send_task_wrapper, \
-        .send_summary = diagnostics_send_summary_wrapper, \
-        .send_name    = diagnostics_send_name_wrapper, \
+        .send_task    = diagnostics_priv_send_task, \
+        .send_summary = diagnostics_priv_send_summary, \
+        .send_name    = diagnostics_priv_send_name, \
     }; \
-    static void diagnostics_task_wrapper(void) { \
-        diagnostics_periodic(&diagnostics_can_fns); \
-    } \
+    static void diagnostics_task_wrapper(void) { diagnostics_periodic(&diagnostics_can_fns); } \
     RTOS_DEFINE_TASK(diagnostics_task_wrapper, DIAGNOSTICS_TICK_PERIOD_MS, TASK_PRIORITY_LOW, STACK_1024)
 
 #define START_DIAGNOSTICS_TASK() RTOS_START_TASK(diagnostics_task_wrapper)
