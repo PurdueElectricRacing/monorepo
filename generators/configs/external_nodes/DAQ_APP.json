@@ -39,24 +39,6 @@
     "rx": [
         {
             "message_name": "elcon_status"
-        },
-        {
-            "message_name": "bms_voltages_ccan"
-        },
-        {
-            "message_name": "bms_temps_ccan"
-        },
-        {
-            "message_name": "pack_analog_ccan"
-        },
-        {
-            "message_name": "cell_telemetry_ccan"
-        },
-        {
-            "message_name": "bms_pecs_ccan"
-        },
-        {
-            "message_name": "thermistor_telemetry_ccan"
         }
     ]
 }

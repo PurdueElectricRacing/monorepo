@@ -195,11 +195,8 @@ int main(void) {
 }
 
 static_assert(BMS_VOLTAGES_PERIOD_MS == BMS_PERIOD_MS);
-static_assert(BMS_VOLTAGES_CCAN_PERIOD_MS == BMS_PERIOD_MS);
 static_assert(BMS_TEMPS_PERIOD_MS == BMS_PERIOD_MS);
-static_assert(BMS_TEMPS_CCAN_PERIOD_MS == BMS_PERIOD_MS);
 static_assert(BMS_PECS_PERIOD_MS == BMS_PERIOD_MS);
-static_assert(BMS_PECS_CCAN_PERIOD_MS == BMS_PERIOD_MS);
 static_assert(BMS_PERIOD_MS > ADBMS6380_ADAX_ALL_CONV_TIME_MS);
 void bms_task(void) {
     // IMD
@@ -226,7 +223,6 @@ void bms_task(void) {
     uint16_t max_cell_voltage = (uint16_t)(max_voltage * PACK_COEFF_BMS_VOLTAGES_MAX_CELL_VOLTAGE);
     uint16_t avg_cell_voltage = (uint16_t)(avg_voltage * PACK_COEFF_BMS_VOLTAGES_AVG_CELL_VOLTAGE);
     CAN_SEND_bms_voltages(pack_voltage, min_cell_voltage, max_cell_voltage, avg_cell_voltage);
-    CAN_SEND_bms_voltages_ccan(pack_voltage, min_cell_voltage, max_cell_voltage, avg_cell_voltage);
 
     uint8_t scaled_min_cell_temp  = (uint8_t)CLAMP(min_cell_temp, 0, UINT8_MAX);
     uint8_t scaled_max_cell_temp  = (uint8_t)CLAMP(max_cell_temp, 0, UINT8_MAX);
@@ -242,28 +238,8 @@ void bms_task(void) {
         scaled_max_board_temp,
         scaled_avg_board_temp
     );
-    CAN_SEND_bms_temps_ccan(
-        scaled_min_cell_temp,
-        scaled_max_cell_temp,
-        scaled_avg_cell_temp,
-        scaled_min_board_temp,
-        scaled_max_board_temp,
-        scaled_avg_board_temp
-    );
 
     CAN_SEND_bms_pecs(
-        ADBMS_get_cell_voltage_pec_err(&g_bms, 0U),
-        ADBMS_get_cell_voltage_pec_err(&g_bms, 1U),
-        ADBMS_get_cell_voltage_pec_err(&g_bms, 2U),
-        ADBMS_get_cell_voltage_pec_err(&g_bms, 3U),
-        ADBMS_get_cell_voltage_pec_err(&g_bms, 4U),
-        ADBMS_get_cell_voltage_pec_err(&g_bms, 5U),
-        ADBMS_get_gpio_voltage_pec_err(&g_bms, 0U),
-        ADBMS_get_gpio_voltage_pec_err(&g_bms, 1U),
-        ADBMS_get_gpio_voltage_pec_err(&g_bms, 2U),
-        ADBMS_get_gpio_voltage_pec_err(&g_bms, 3U)
-    );
-    CAN_SEND_bms_pecs_ccan(
         ADBMS_get_cell_voltage_pec_err(&g_bms, 0U),
         ADBMS_get_cell_voltage_pec_err(&g_bms, 1U),
         ADBMS_get_cell_voltage_pec_err(&g_bms, 2U),

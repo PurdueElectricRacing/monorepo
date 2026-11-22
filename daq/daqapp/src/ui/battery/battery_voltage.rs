@@ -316,7 +316,7 @@ fn cell_bar(
 
 fn cell_sample(frame: &daqcore::frame::ParsedFrame) -> Option<(usize, usize, CellVoltage)> {
     let decoded = frame.decoded.as_ref()?;
-    if !matches!(decoded.name(), "cell_telemetry" | "cell_telemetry_ccan") {
+    if decoded.name() != "cell_telemetry" {
         return None;
     }
 
@@ -373,7 +373,7 @@ fn bms_voltage_summary(
         };
 
         match decoded.name() {
-            "bms_voltages" | "bms_voltages_ccan" => {
+            "bms_voltages" => {
                 for (name, signal) in decoded.iter() {
                     let field = match name {
                         "pack_voltage" => &mut values.pack_voltage,
@@ -388,7 +388,7 @@ fn bms_voltage_summary(
                 }
                 last_update = last_update.max(Some(frame.timestamp));
             }
-            "pack_analog" | "pack_analog_ccan" => {
+            "pack_analog" => {
                 if let Some(signal) = decoded.signal("pack_current")
                     && values.pack_current.is_none()
                 {
