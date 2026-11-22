@@ -6,15 +6,7 @@
             "tx": [
                 {
                     "message_name": "dash_init",
-                    "description": "DASH hardware initialized",
-                    "signals": [
-                        {
-                            "signal_name": "csr",
-                            "description": "RCC CSR register",
-                            "data_type": "uint32_t"
-                        }
-                    ],
-                    "priority": 0
+                    "common_message": "node_init"
                 },
                 {
                     "message_name": "pedals",
@@ -102,26 +94,7 @@
                 },
                 {
                     "message_name": "dash_version",
-                    "description": "Dashboard version",
-                    "signals": [
-                        {
-                            "signal_name": "git_hash",
-                            "data_type": "uint32_t",
-                            "length": 28,
-                            "display_format": "hex"
-                        },
-                        {
-                            "signal_name": "bootloader_git_hash",
-                            "data_type": "uint32_t",
-                            "length": 28
-                        },
-                        {
-                            "signal_name": "bootloadable",
-                            "data_type": "bool"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 5000
+                    "common_message": "node_version"
                 },
                 {
                     "message_name": "LWS_Config",
@@ -201,57 +174,15 @@
             "tx": [
                 {
                     "message_name": "dash_can_overflow",
-                    "description": "count of dropped CAN packets due to queue overflow",
-                    "signals": [
-                        {
-                            "signal_name": "rx_overflow",
-                            "data_type": "uint32_t",
-                            "description": "number of received packets dropped due to queue overflow"
-                        },
-                        {
-                            "signal_name": "tx_overflow",
-                            "data_type": "uint32_t",
-                            "description": "number of packets to send dropped due to queue overflow"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 5000
+                    "common_message": "can_overflow"
                 },
                 {
                     "message_name": "dash_can_tx_actions",
-                    "description": "counts of software actions taken before CAN transmissions",
-                    "signals": [
-                        {
-                            "signal_name": "enqueue_count",
-                            "data_type": "uint32_t",
-                            "description": "number of packets enqueued to be sent since startup"
-                        },
-                        {
-                            "signal_name": "task_wake_count",
-                            "data_type": "uint32_t",
-                            "description": "number of times the tx task has been called since startup"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 5000
+                    "common_message": "can_tx_actions"
                 },
                 {
                     "message_name": "dash_can_tx_messages",
-                    "description": "counts of CAN packets transmitted",
-                    "signals": [
-                        {
-                            "signal_name": "tx_sent",
-                            "data_type": "uint32_t",
-                            "description": "number of packets transmitted since startup"
-                        },
-                        {
-                            "signal_name": "tx_callbacks",
-                            "data_type": "uint32_t",
-                            "description": "number of CAN TX completion ISR callbacks since startup"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 5000
+                    "common_message": "can_tx_messages"
                 },
                 {
                     "message_name": "brake_pressure",
