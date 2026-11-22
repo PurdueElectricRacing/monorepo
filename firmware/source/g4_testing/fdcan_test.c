@@ -18,8 +18,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_PIN_DEFS_FDCAN3_TX_PB4,
 };
 
-void HardFault_Handler();
-
 static void can_tx_100hz(void);
 static void can_rx_1khz(void);
 
@@ -108,12 +106,6 @@ static void can_rx_1khz(void) {
     while (xQueueReceive(q_can_rx, &rx_frame, (TickType_t)0) == pdTRUE) {
         rx_frame_0 = rx_frame;
         ;
-    }
-}
-
-void HardFault_Handler() {
-    while (1) {
-        __asm__("nop");
     }
 }
 

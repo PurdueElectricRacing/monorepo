@@ -16,8 +16,6 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_OUTPUT(LED_ORANGE_PORT, LED_ORANGE_PIN, GPIO_OUTPUT_LOW_SPEED),
 };
 
-void HardFault_Handler();
-
 static void ledblink1(void);
 static void ledblink2(void);
 static void ledblink3(void);
@@ -65,12 +63,6 @@ static void ledblink3(void) {
 
 static void ledblink4(void) {
     PHAL_GPIO_toggle(LED_ORANGE_PORT, LED_ORANGE_PIN);
-}
-
-void HardFault_Handler() {
-    while (1) {
-        __asm__("nop");
-    }
 }
 
 #endif // G4_TESTING_CHOSEN == TEST_BLINKY

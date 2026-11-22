@@ -20,8 +20,6 @@
  * Pairs 2, 3: PHAL_GPIO_toggle
  */
 
-void HardFault_Handler(void);
-
 static constexpr uint32_t NUM_PAIRS = 4;
 static GPIO_TypeDef *const PAIR_BANK          = GPIOC;
 static const uint8_t PAIR_OUT_PIN[NUM_PAIRS]  = {2, 4, 6, 8};
@@ -137,12 +135,6 @@ int main() {
     HardFault_Handler();
 
     return 0;
-}
-
-void HardFault_Handler(void) {
-    while (1) {
-        __asm__("nop");
-    }
 }
 
 #endif // G4_TESTING_CHOSEN == TEST_GPIO

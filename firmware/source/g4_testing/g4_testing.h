@@ -23,4 +23,6 @@
 // Change this define to set the test compiled
 #define G4_TESTING_CHOSEN TEST_BLINKY
 
+void HardFault_Handler(void);
+
 #endif // __G4_TESTING__

@@ -77,8 +77,6 @@ typedef enum {
     ADC_TEST_FAIL,
 } adc_test_result_t;
 
-void HardFault_Handler(void);
-
 static void dac_init(void) {
     RCC->AHB2ENR |= RCC_AHB2ENR_DAC1EN;
     (void)RCC->AHB2ENR;
@@ -190,12 +188,6 @@ int main(void) {
             }
         }
         __NOP();
-    }
-}
-
-void HardFault_Handler(void) {
-    while (1) {
-        __asm__("nop");
     }
 }
 

@@ -9,8 +9,6 @@
 #include "common/utils/countof.h"
 #include "main.h"
 
-void HardFault_Handler();
-
 #define FLASH_TEST_PAGE (FLASH_BASE + (508U * 1024U))
 
 PHAL_GPIO_InitConfig_t gpio_config[] = {
@@ -68,12 +66,6 @@ int main() {
     PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, match ? 0 : 1);
 
     return 0;
-}
-
-void HardFault_Handler() {
-    while (1) {
-        __asm__("nop");
-    }
 }
 
 #endif // G4_TESTING_CHOSEN == TEST_FLASH

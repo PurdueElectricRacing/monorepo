@@ -16,8 +16,6 @@
 
 #define MAX_TASKS 16
 
-void HardFault_Handler();
-
 static void waste_stack(size_t size);
 static void dumb_task(void *argument);
 
@@ -83,12 +81,6 @@ void dumb_task(void *argument) {
             amount = 16;
         task_count = uxTaskGetSystemState(task_snapshots, MAX_TASKS, &total_runtime);
         vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-}
-
-void HardFault_Handler() {
-    while (1) {
-        __asm__("nop");
     }
 }
 #endif

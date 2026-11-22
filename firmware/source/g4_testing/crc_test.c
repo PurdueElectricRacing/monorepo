@@ -9,8 +9,6 @@
 #include "common/utils/countof.h"
 #include "main.h"
 
-void HardFault_Handler(void);
-
 PHAL_GPIO_InitConfig_t gpio_config[] = {
     PHAL_GPIO_INIT_OUTPUT(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_OUTPUT_LOW_SPEED),
     PHAL_GPIO_INIT_OUTPUT(LED_RED_PORT, LED_RED_PIN, GPIO_OUTPUT_LOW_SPEED),
@@ -75,12 +73,6 @@ int main(void) {
    PHAL_GPIO_write(LED_GREEN_PORT, LED_GREEN_PIN, pass ? 1 : 0);
    PHAL_GPIO_write(LED_RED_PORT, LED_RED_PIN, pass ? 0 : 1);
 
-    while (1) {
-        __asm__("nop");
-    }
-}
-
-void HardFault_Handler(void) {
     while (1) {
         __asm__("nop");
     }
