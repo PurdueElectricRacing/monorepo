@@ -10,26 +10,7 @@
                 },
                 {
                     "message_name": "pdu_version",
-                    "description": "PDU version",
-                    "signals": [
-                        {
-                            "signal_name": "git_hash",
-                            "data_type": "uint32_t",
-                            "length": 28,
-                            "display_format": "hex"
-                        },
-                        {
-                            "signal_name": "bootloader_git_hash",
-                            "data_type": "uint32_t",
-                            "length": 28
-                        },
-                        {
-                            "signal_name": "bootloadable",
-                            "data_type": "bool"
-                        }
-                    ],
-                    "priority": 4,
-                    "period_ms": 5000
+                    "common_message": "node_version"
                 }
             ],
             "rx": [
