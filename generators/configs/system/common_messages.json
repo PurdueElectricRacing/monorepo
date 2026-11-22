@@ -1,3 +1,75 @@
 {
-    "messages": []
+    "messages": [
+        {
+            "name": "diag_task",
+            "description": "RTOS Task profiling status",
+            "priority": 3,
+            "signals": [
+                {
+                    "signal_name": "task_id",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "stack_hwm",
+                    "data_type": "uint16_t",
+                    "description": "Min free stack bytes"
+                },
+                {
+                    "signal_name": "cpu_percent",
+                    "data_type": "uint8_t",
+                    "description": "CPU Usage Percentage, 255 is invalid"
+                },
+                {
+                    "signal_name": "state",
+                    "data_type": "diagnostics_task_state_t",
+                    "description": "FreeRTOS task state"
+                }
+            ]
+        },
+        {
+            "name": "diag_summary",
+            "description": "Overall CPU and task status",
+            "priority": 3,
+            "period_ms": 1000,
+            "signals": [
+                {
+                    "signal_name": "sample_count",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "task_count",
+                    "data_type": "uint16_t"
+                },
+                {
+                    "signal_name": "cpu_percent",
+                    "data_type": "uint8_t",
+                    "description": "Whole number CPU pct. util., 255 is invalid"
+                },
+                {
+                    "signal_name": "capacity_exceeded",
+                    "data_type": "bool",
+                    "description": "True if task capacity exceeded"
+                }
+            ]
+        },
+        {
+            "name": "diag_name",
+            "description": "Task name character",
+            "priority": 3,
+            "signals": [
+                {
+                    "signal_name": "task_id",
+                    "data_type": "uint32_t"
+                },
+                {
+                    "signal_name": "char_index",
+                    "data_type": "uint8_t"
+                },
+                {
+                    "signal_name": "character",
+                    "data_type": "uint8_t"
+                }
+            ]
+        }
+    ]
 }

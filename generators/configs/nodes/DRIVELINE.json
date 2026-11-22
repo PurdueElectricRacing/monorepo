@@ -269,6 +269,18 @@
                     ],
                     "priority": 4,
                     "period_ms": 5000
+                },
+                {
+                    "message_name": "driveline_diag_task",
+                    "common_message": "diag_task"
+                },
+                {
+                    "message_name": "driveline_diag_summary",
+                    "common_message": "diag_summary"
+                },
+                {
+                    "message_name": "driveline_diag_name",
+                    "common_message": "diag_name"
                 }
             ],
             "rx": [
@@ -283,6 +295,5 @@
             ]
         }
     },
-    "diagnostics_bus": "SCAN",
     "fault_library_enabled": false
 }

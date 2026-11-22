@@ -34,7 +34,11 @@ PHAL_GPIO_InitConfig_t gpio_config[] = {
 };
 
 DEFINE_CAN_TASKS();
-DEFINE_DIAGNOSTICS_TASK();
+DEFINE_DIAGNOSTICS_TASK(
+    CAN_SEND_g4_testing_diag_task,
+    CAN_SEND_g4_testing_diag_summary,
+    CAN_SEND_g4_testing_diag_name
+);
 RTOS_DEFINE_TASK(dumb_task, 10, TASK_PRIORITY_HIGH, 1024);
 
 int main() {

@@ -11,7 +11,6 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from core.config import (
     CAN_TEMPLATE_DIR,
     DEARUNITS_TEMPLATE_DIR,
-    DIAGNOSTICS_TEMPLATE_DIR,
     FAULT_TEMPLATE_DIR,
 )
 
@@ -64,7 +63,6 @@ def get_jinja_env() -> Environment:
             str(CAN_TEMPLATE_DIR),
             str(FAULT_TEMPLATE_DIR),
             str(DEARUNITS_TEMPLATE_DIR),
-            str(DIAGNOSTICS_TEMPLATE_DIR),
         ]),
         autoescape=select_autoescape(),
         trim_blocks=True,

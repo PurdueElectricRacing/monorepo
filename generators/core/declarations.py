@@ -217,8 +217,6 @@ class NodeDeclaration(DeclarationModel):
     fault_library_enabled: bool
     generate_fault_messages: bool = False
     faults: list[FaultDeclaration] = Field(default_factory=list)
-    # Bus a node reports RTOS task profiling on, or None for no diagnostics.
-    diagnostics_bus: str | None = None
 
     @model_validator(mode="after")
     def validate_fault_configuration(self) -> Self:
@@ -228,15 +226,6 @@ class NodeDeclaration(DeclarationModel):
             )
         if _duplicate_value(self.faults) is not None:
             raise ValueError("faults must contain unique values")
-        return self
-
-    @model_validator(mode="after")
-    def validate_diagnostics_bus(self) -> Self:
-        if self.diagnostics_bus is not None and self.diagnostics_bus not in self.busses:
-            raise ValueError(
-                f"diagnostics_bus '{self.diagnostics_bus}' is not attached to node "
-                f"'{self.node_name}'; choose one of: {', '.join(self.busses)}"
-            )
         return self
 
 

@@ -200,7 +200,10 @@
                             "signal_name": "charger_disable",
                             "description": "0 to enable charging, 1 to disable charging",
                             "data_type": "uint8_t",
-                            "choices": ["ENABLE", "DISABLE"]
+                            "choices": [
+                                "ENABLE",
+                                "DISABLE"
+                            ]
                         },
                         {
                             "signal_name": "reserved1",
@@ -516,12 +519,23 @@
                     ],
                     "priority": 4,
                     "period_ms": 5000
+                },
+                {
+                    "message_name": "a_box_diag_task",
+                    "common_message": "diag_task"
+                },
+                {
+                    "message_name": "a_box_diag_summary",
+                    "common_message": "diag_summary"
+                },
+                {
+                    "message_name": "a_box_diag_name",
+                    "common_message": "diag_name"
                 }
             ],
             "rx": []
         }
     },
-    "diagnostics_bus": "SCAN",
     "fault_library_enabled": true,
     "generate_fault_messages": false,
     "faults": [
